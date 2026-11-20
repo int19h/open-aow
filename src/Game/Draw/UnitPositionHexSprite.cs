@@ -15,7 +15,7 @@ using Aow.Rtl;
 namespace Aow.Game.Draw;
 
 // Position. Index. ImageIndex. Images. Direction
-public partial class UnitPositionHexSprite(CustomNode owner) : SingleHexSprite(owner)
+public class UnitPositionHexSprite(CustomNode owner) : SingleHexSprite(owner)
 {
 
     // AoWTC.pas:5016
@@ -35,8 +35,6 @@ public partial class UnitPositionHexSprite(CustomNode owner) : SingleHexSprite(o
         _index = PersistSupport.UnsignedByte(persister, name: "Index", value: _index);
         _direction = persister.Byte("Direction", value: _direction);
     }
-
-    // AoWTC.pas:5008
 
     // AoWTC.pas:5021
     public override byte GetLevel() => 27;
@@ -93,11 +91,8 @@ public partial class UnitPositionHexSprite(CustomNode owner) : SingleHexSprite(o
     }
 
     // AoWTC.pas:5068
-    public override bool CanPlace(MapContainer map, sbyte hexX, sbyte hexY, sbyte hexLevel) => map.GetField(hexX, hexY, hexLevel).FindOwnedChild(2228483) == null && CombatMap.Current.UnitPositions.ValidatePosition(ref _position, ref _index);
+    public override bool CanPlace(MapContainer map, sbyte hexX, sbyte hexY, sbyte hexLevel) => map.GetField(hexX, hexY, hexLevel).FindOwnedChild(2228483) is null && CombatMap.Current.UnitPositions.ValidatePosition(ref _position, ref _index);
 
     // AoWTC.pas:5026
     public void UpdateImageIndex() => _imageIndex = (_position * 8) + _index;
-
-    // AoWTC.pas:223
-
 }

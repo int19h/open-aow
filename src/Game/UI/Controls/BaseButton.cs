@@ -17,7 +17,7 @@ namespace Aow.Game.UI.Controls;
 // FBorderHeight when it is up), ButtonType (btText: drawn from _imageLibraryButton, btIcon: from
 // _imageLibraryIcon. set by Validate), _imageLibraryButton, _imageLibraryIcon, _imageLibraryIndexUp, _imageLibraryIndexDown, _imageLibraryIndexLit,
 // FPopupMenu, FLit (the mouse is over the button). FChecked is the down state
-public partial class BaseButton(Component owner) : Control(owner)
+public class BaseButton(Component owner) : Control(owner)
 {
     private UIComponentButtonType _buttonType;
     private InterfaceImageLibrary _imageLibraryButton;
@@ -31,44 +31,44 @@ public partial class BaseButton(Component owner) : Control(owner)
     // AoWButton.pas:85
     public override void Validate()
     {
-        if (_imageLibraryButton != null)
+        if (_imageLibraryButton is not null)
         {
             _imageLibraryButton = _imageLibraryButton.CheckImageLibrary(_imageLibraryIndexUp, 3, this);
         }
 
-        if (_imageLibraryButton != null)
+        if (_imageLibraryButton is not null)
         {
             _imageLibraryButton = _imageLibraryButton.CheckImageLibrary(_imageLibraryIndexDown, 3, this);
         }
 
-        if (_imageLibraryButton != null && _imageLibraryIndexLit != _imageLibraryIndexUp)
+        if (_imageLibraryButton is not null && _imageLibraryIndexLit != _imageLibraryIndexUp)
         {
             _imageLibraryButton = _imageLibraryButton.CheckImageLibrary(_imageLibraryIndexLit, 3, this);
         }
 
-        if (_imageLibraryIcon != null)
+        if (_imageLibraryIcon is not null)
         {
             _imageLibraryIcon = _imageLibraryIcon.CheckImageLibrary(_imageLibraryIndexUp, 1, this);
         }
 
-        if (_imageLibraryIcon != null)
+        if (_imageLibraryIcon is not null)
         {
             _imageLibraryIcon = _imageLibraryIcon.CheckImageLibrary(_imageLibraryIndexDown, 1, this);
         }
 
-        if (_imageLibraryIcon != null && _imageLibraryIndexLit != _imageLibraryIndexUp)
+        if (_imageLibraryIcon is not null && _imageLibraryIndexLit != _imageLibraryIndexUp)
         {
             _imageLibraryIcon = _imageLibraryIcon.CheckImageLibrary(_imageLibraryIndexLit, 1, this);
         }
 
-        if (_imageLibraryButton != null)
+        if (_imageLibraryButton is not null)
         {
             _buttonType = UIComponentButtonType.Text;
             Valid = true;
         }
         else
         {
-            if (_imageLibraryIcon != null)
+            if (_imageLibraryIcon is not null)
             {
                 _buttonType = UIComponentButtonType.Icon;
                 Valid = true;
@@ -139,7 +139,7 @@ public partial class BaseButton(Component owner) : Control(owner)
                         _imageLibraryIcon.DrawImage(_imageLibraryIndexDown, rectangle, ref lockedSurface);
                     }
 
-                    if (base.Font != null)
+                    if (base.Font is not null)
                     {
                         base.Font.Color = SelectedColor;
                         int textWidth = base.Font.GetTextWidth(base.Text);
@@ -175,7 +175,7 @@ public partial class BaseButton(Component owner) : Control(owner)
                         }
                     }
 
-                    if (base.Font != null)
+                    if (base.Font is not null)
                     {
                         base.Font.Color = Color;
                         int textWidth = base.Font.GetTextWidth(base.Text);

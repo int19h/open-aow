@@ -22,7 +22,7 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Game.World.Terrain;
 
 // summoning status. caster player. remaining turns. original overlay
-public partial class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
+public class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
 {
 
     // PoisonP.pas:87
@@ -42,8 +42,6 @@ public partial class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObjec
         DaysRemaining = persister.SByte("DaysRemaining", value: DaysRemaining, fallback: -1);
         OriginalOverlay = persister.SByte("OriginalOverlay", value: OriginalOverlay, fallback: -1);
     }
-
-    // PoisonP.pas:78
 
     // PoisonP.pas:255
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
@@ -81,8 +79,7 @@ public partial class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObjec
     // PoisonP.pas:246
     public override void RemoveFromMap()
     {
-        MapLevel level;
-        level = Owner.Owner;
+        MapLevel level = Owner.Owner;
         base.RemoveFromMap();
         UpdateMapFields(level, StoredHexX, StoredHexY);
     }
@@ -124,10 +121,9 @@ public partial class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObjec
     // PoisonP.pas:209
     public override int CanMoveOver(in HexSpriteSenderInfo info)
     {
-        int result = base.Resource.TerrainList.GetTerrain(info.HexNumber) >= 0 && PoisonPlantActive()
+        return base.Resource.TerrainList.GetTerrain(info.HexNumber) >= 0 && PoisonPlantActive()
             ? !CanDoDamage(((MoveControl)info.Sender).Settings.Units) ? 1 : 0
             : 1;
-        return result;
     }
 
     // PoisonP.pas:203
@@ -145,14 +141,12 @@ public partial class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObjec
     // PoisonP.pas:105
     public bool CanDoDamage(UnitUserList units)
     {
-        int i;
-        Troop u;
         bool result = false;
-        i = units.Count;
+        int i = units.Count;
         while (!result && i != 0)
         {
             i -= 1;
-            u = units.GetUnit(i);
+            Troop u = units.GetUnit(i);
             result = !u.GetImmunityTypes().Contains(DamageType.Poison) && !u.GetAbilityEnabled(1);
         }
 
@@ -162,14 +156,9 @@ public partial class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObjec
     // PoisonP.pas:120
     public void TriggerArmyDamage(ArmyHexSprite armyHexSprite)
     {
-        int count;
-        UnitCollection units;
-        ArmyEventLog log;
-        Troop u;
-        int damage;
-        count = 0;
+        int count = 0;
         RandSeed = StrategicMap.Current.Random(16777215);
-        log = new ArmyEventLog(null)
+        ArmyEventLog log = new(null)
         {
             Holder = CreationHolder(),
             ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_poisonPlantDamageText),
@@ -179,14 +168,14 @@ public partial class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObjec
         _ = log.ArmyMessages.Add(poisonPlantDamage);
         log.ArmyIcon = 1;
         log.ArmyView.Setup(armyHexSprite.Army, 255);
-        units = armyHexSprite.Army.Units;
+        UnitCollection units = armyHexSprite.Army.Units;
         for (int i = 0, last = units.Count - 1; i <= last; i++)
         {
-            u = units.GetUnit(i);
+            Troop u = units.GetUnit(i);
             _ = u.AddRef();
             if (!u.GetImmunityTypes().Contains(DamageType.Poison) && !u.GetAbilityEnabled(1))
             {
-                damage = u.ExecuteDamageRole(4, 3, Set<DamageType>.Of(DamageType.Poison));
+                int damage = u.ExecuteDamageRole(4, 3, Set<DamageType>.Of(DamageType.Poison));
                 if (damage > u.GetHitPoints())
                 {
                     damage = u.GetHitPoints();
@@ -237,10 +226,8 @@ public partial class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObjec
     // PoisonP.pas:174
     public void RestoreTerrain()
     {
-        MapField mapField;
-        sbyte originalOverlay;
-        mapField = Owner;
-        originalOverlay = OriginalOverlay;
+        MapField mapField = Owner;
+        sbyte originalOverlay = OriginalOverlay;
         Dispose();
         if (originalOverlay > 0)
         {
@@ -251,11 +238,10 @@ public partial class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObjec
     // PoisonP.pas:186
     public void NewTurn(sbyte player)
     {
-        ArmyHexSprite armyHexSprite;
         if (PoisonPlantActive())
         {
-            armyHexSprite = Owner.GetArmyHexSprite();
-            if (armyHexSprite != null && player == armyHexSprite.Army.Player)
+            ArmyHexSprite armyHexSprite = Owner.GetArmyHexSprite();
+            if (armyHexSprite is not null && player == armyHexSprite.Army.Player)
             {
                 TriggerArmyDamage(armyHexSprite);
             }
@@ -274,11 +260,10 @@ public partial class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObjec
     // PoisonP.pas:267
     public void ShowSummonAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        MapField mapField;
         sbyte hexLevel = animation.GetHexLevel();
         sbyte hexY = animation.GetHexY();
         sbyte hexX = animation.GetHexX();
-        mapField = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
+        MapField mapField = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         if (this == mapField.FindOwnedChild(131998) && GetEngine().AnimationDetail != 0 && animation.FrameCounter == 0)
         {
             bool condition = StrategicMap.Current.SeatedPlayer == animation.Tag;
@@ -312,7 +297,7 @@ public partial class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObjec
 
     private static readonly string s_poisonPlantDamageText = "Poison Plant Damage";
 
-    public new partial class Resource(CustomNode owner) : ImageLibraryTerrainMapObjectResource(owner)
+    public new class Resource(CustomNode owner) : ImageLibraryTerrainMapObjectResource(owner)
     {
 
         // PoisonP.pas:293
@@ -327,9 +312,4 @@ public partial class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObjec
         private static readonly string s_poisonPlantText = "Poison Plant";
 
     }
-
-    // PoisonP.pas:28
-
-    // PoisonP.pas:28
-
 }

@@ -11,7 +11,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class LifeMasteryEnchantment : GlobalEnchantment
+public class LifeMasteryEnchantment : GlobalEnchantment
 {
     // GlobalEnchantmentSpells.pas:1395
     public new const int ClassId = 135967;
@@ -52,7 +52,7 @@ public partial class LifeMasteryEnchantment : GlobalEnchantment
                 string xIsAlreadyActive = AbilityRules.TranslateResourceString(GetEngine(), GameText.IsAlreadyActiveFormat);
                 string name = GetName();
                 reason = DelphiFormat.Format(xIsAlreadyActive, [name]);
-                result = false;
+                return false;
             }
         }
 
@@ -62,11 +62,10 @@ public partial class LifeMasteryEnchantment : GlobalEnchantment
     // GlobalEnchantmentSpells.pas:1412
     public override bool Activate(sbyte player)
     {
-        Player playerLocal;
         _ = base.Activate(player);
         // { Original doubles Death. }
         StrategicMap.Current.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Death);
-        playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
+        Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
         PlayerMagicControl playerMagicControl = playerLocal.MagicControl;
         playerMagicControl.SetActiveEnchantments(playerMagicControl.ActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.LifeMastery));
 
@@ -80,5 +79,4 @@ public partial class LifeMasteryEnchantment : GlobalEnchantment
 
         return true;
     }
-
 }

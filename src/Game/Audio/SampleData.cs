@@ -6,7 +6,7 @@ namespace Aow.Game.Audio;
 
 // FName, FRefCount. The sound data of one wave file, in SampleDataList while it is loaded.
 // Create counts the first reference
-public partial class SampleData : IDisposable
+public class SampleData : IDisposable
 {
     public static SampleDataClass Descriptor { get; } = new("SampleData", Create, Create);
 
@@ -48,18 +48,14 @@ public partial class SampleData : IDisposable
     public int RefCount { get; private set; }
 
     // Sound.pas:60
-    public static SampleData Create(string name) =>
-        ConstructionContext.Create(name, static (context, value) => new SampleData(context, value));
+    public static SampleData Create(string name)
+        => ConstructionContext.Create(name, static (context, value) => new SampleData(context, value));
 
     // Sound.pas:61
-    public static SampleData Create(in WaveFormat format, object data, int size) =>
-        ConstructionContext.Create((format, data, size), static (context, value) =>
+    public static SampleData Create(in WaveFormat format, object data, int size)
+        => ConstructionContext.Create((format, data, size), static (context, value) =>
             new SampleData(context, value.format, value.data, value.size));
 
-    public static Sample CreateSample(SampleData sampleData)
-    {
-        Sample result = AudioHost.SoundSystem?.SampleClass().CreateInstance(sampleData);
-        return result;
-    }
+    public static Sample CreateSample(SampleData sampleData) => AudioHost.SoundSystem?.SampleClass().CreateInstance(sampleData);
 
 }

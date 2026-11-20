@@ -6,7 +6,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Session;
 
-public partial class RaceResourceList : ResourceCollection, IChildList<RaceResource>
+public class RaceResourceList : ResourceCollection, IChildList<RaceResource>
 {
     // The race resource in slot index, read as the original reads the list, without a range check.
     // AcceptsResource admits only a RaceResource, so the cast never fails.
@@ -20,24 +20,17 @@ public partial class RaceResourceList : ResourceCollection, IChildList<RaceResou
     public RaceResourceList(CustomNode owner) : base(owner) => SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, ControlStyleElement.ArrayMode));
 
     // PlayerC.PAS:1896
-    public RaceResource GetRaceResource(int index)
-    {
-        RaceResource result = index < GetCount() && index >= 0 ? this[index] : null;
-        return result;
-    }
+    public RaceResource GetRaceResource(int index) => index < GetCount() && index >= 0 ? this[index] : null;
 
     // PlayerC.PAS:1903
     public int GetMaxRaceIndex()
     {
         int result = Count - 1;
-        while (result > 0 && GetChild(result) == null)
+        while (result > 0 && GetChild(result) is null)
         {
             result -= 1;
         }
 
         return result;
     }
-
-    // intf_P1_09.inc:44
-
 }

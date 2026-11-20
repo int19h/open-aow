@@ -14,7 +14,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Abilities;
 
-public partial class PossessedAbility : PossessAbility
+public class PossessedAbility : PossessAbility
 {
     // AoWAb.PAS:2562
     public PossessedAbility(CustomNode owner, EngineObject holder) : base(owner, holder)
@@ -28,27 +28,23 @@ public partial class PossessedAbility : PossessAbility
     // AoWAb.PAS:2597
     public override bool Expand(AbilityOwner owner)
     {
-        PossessedAbilityData data;
-        bool result = false;
-        data = GetData(owner);
-        if (data == null)
+        PossessedAbilityData data = GetData(owner);
+        if (data is null)
         {
             data = new PossessedAbilityData(null) { Holder = CreationHolder() };
             SetAbility(owner, AbilityId, 1);
             owner.AddAbilityData(data);
-            result = true;
+            return true;
         }
 
-        return result;
+        return false;
     }
 
     // AoWAb.PAS:2612
     public override bool Remove(AbilityOwner owner)
     {
-        PossessedAbilityData data;
-        bool result = true;
-        data = GetData(owner);
-        if (data != null)
+        PossessedAbilityData data = GetData(owner);
+        if (data is not null)
         {
             SetAbility(owner, AbilityId, 0);
             owner.RemoveAbilityData(data);
@@ -58,21 +54,19 @@ public partial class PossessedAbility : PossessAbility
             SetAbility(owner, AbilityId, 0);
         }
 
-        return result;
+        return true;
     }
 
     // AoWAb.PAS:2571
     public override void CombatObjectDestroyed(CombatObject combatObject)
     {
-        Unit newUnit;
-        PossessedAbilityData data;
         if (combatObject is CombatUnit combatUnit)
         {
             combatUnit.SetStatus(combatUnit.Status - Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed));
-            newUnit = new Unit(null) { Holder = CreationHolder() };
+            Unit newUnit = new(null) { Holder = CreationHolder() };
             newUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(152));
-            data = GetData(combatUnit.Troop);
-            if (data != null)
+            PossessedAbilityData data = GetData(combatUnit.Troop);
+            if (data is not null)
             {
                 newUnit.SetExperience(data.SourceExperience);
             }

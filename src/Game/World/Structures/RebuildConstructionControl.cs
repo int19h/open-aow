@@ -9,7 +9,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.World.Structures;
 
 // { Interface declaration run owned by P4. }
-public partial class RebuildConstructionControl(CustomNode owner) : ConstructionControl(owner)
+public class RebuildConstructionControl(CustomNode owner) : ConstructionControl(owner)
 {
 
     // AoWAb.PAS:5404
@@ -20,11 +20,11 @@ public partial class RebuildConstructionControl(CustomNode owner) : Construction
         sbyte y = coordinate36.Y;
         sbyte l = coordinate36.MapLevel;
         Structure result = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<Structure>();
-        if (result != null)
+        if (result is not null)
         {
             if (!result.GetRazed() || result.GetBuilding())
             {
-                result = null;
+                return null;
             }
         }
 
@@ -34,9 +34,8 @@ public partial class RebuildConstructionControl(CustomNode owner) : Construction
     // AoWAb.PAS:5413
     public override void GetInfo(Troop troop, out string text, out int gold, out int days)
     {
-        Structure structure;
-        structure = GetStructure(troop);
-        if (structure != null)
+        Structure structure = GetStructure(troop);
+        if (structure is not null)
         {
             string editName = structure.EditName();
             text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_rebuildFormat), [editName]);
@@ -54,31 +53,23 @@ public partial class RebuildConstructionControl(CustomNode owner) : Construction
     // AoWAb.PAS:5430
     public override bool CanConstruct(Troop troop, ref string reason)
     {
-        bool result;
-        if (GetStructure(troop) != null)
+        if (GetStructure(troop) is not null)
         {
-            result = base.CanConstruct(troop, ref reason);
+            return base.CanConstruct(troop, ref reason);
         }
         else
         {
             reason = AbilityRules.TranslateResourceString(GetEngine(), s_noRazedStructuresText);
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // AoWAb.PAS:5439
     public override bool Construct(Troop troop)
     {
-        bool result;
         string reason = "";
-        result = CanConstruct(troop, ref reason) && GetStructure(troop).Rebuild(troop);
-
-        return result;
+        return CanConstruct(troop, ref reason) && GetStructure(troop).Rebuild(troop);
     }
-
-    // Engine.pas:524
 
     // AoWAb.PAS:5400
     public override int Id() => 1;

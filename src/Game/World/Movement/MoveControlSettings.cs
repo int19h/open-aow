@@ -135,14 +135,14 @@ public partial class MoveControlSettings : EngineObject
     // MoveT.PAS:148
     public void SetSourcePosition(MapCoordinate source) => Source = source;
 
-    public void SetSourcePosition(int x, int y, int level) =>
-        SetSourcePosition(new MapCoordinate((sbyte)x, (sbyte)y, (sbyte)level));
+    public void SetSourcePosition(int x, int y, int level)
+        => SetSourcePosition(new MapCoordinate((sbyte)x, (sbyte)y, (sbyte)level));
 
     // MoveT.PAS:155
     public void SetDestinationPosition(MapCoordinate destination) => Destination = destination;
 
-    public void SetDestinationPosition(int x, int y, int level) =>
-        SetDestinationPosition(new MapCoordinate((sbyte)x, (sbyte)y, (sbyte)level));
+    public void SetDestinationPosition(int x, int y, int level)
+        => SetDestinationPosition(new MapCoordinate((sbyte)x, (sbyte)y, (sbyte)level));
 
     // MoveT.PAS:162
     public void SetupArmy(ArmyHexSprite army, byte selection)
@@ -174,8 +174,6 @@ public partial class MoveControlSettings : EngineObject
     // MoveT.PAS:184
     public void SetupMovePointData(int width, int height, int levelCount)
     {
-        int rowSize;
-        int offset;
         if (width != _width || height != _height || levelCount != _levelCount)
         {
             Clear();
@@ -183,8 +181,8 @@ public partial class MoveControlSettings : EngineObject
             _height = height;
             _levelCount = levelCount;
             _movePointsClear = true;
-            offset = 0;
-            rowSize = width * 4;
+            int offset = 0;
+            int rowSize = width * 4;
             Array.Resize(ref _rowOffsets, height);
             for (int i = 0; i <= height - 1; i++)
             {
@@ -222,11 +220,6 @@ public partial class MoveControlSettings : EngineObject
 
     // MoveT.PAS:238
     public int[] GetMovePointLevelData(int level) => _levelData[level];
-
-    // intf_P5_01.inc:63
-
-    // intf_P5_01.inc:63
-
 }
 
 public enum MoveControlSettingsStatus : byte

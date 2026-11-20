@@ -11,7 +11,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class AirMasteryEnchantment : GlobalEnchantment
+public class AirMasteryEnchantment : GlobalEnchantment
 {
     // GlobalEnchantmentSpells.pas:649
     public new const int ClassId = 135966;
@@ -50,7 +50,7 @@ public partial class AirMasteryEnchantment : GlobalEnchantment
                 string xIsAlreadyActive = AbilityRules.TranslateResourceString(GetEngine(), GameText.IsAlreadyActiveFormat);
                 string name = GetName();
                 reason = DelphiFormat.Format(xIsAlreadyActive, [name]);
-                result = false;
+                return false;
             }
         }
 
@@ -67,5 +67,4 @@ public partial class AirMasteryEnchantment : GlobalEnchantment
         StrategicMap.Current.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Earth);
         return true;
     }
-
 }

@@ -175,6 +175,6 @@ public sealed class TransportProfileTests : FormatsTest
         return node;
     }
 
-    private static byte[] Packet(ObjectNode node, FormatSchema schema) =>
-        GameBoundary.WritePacket(node, classId: 1361, className: "TokenEvent", schema: schema);
+    private static byte[] Packet(ObjectNode node, FormatSchema schema)
+        => GameBoundary.WritePacket(node, classId: 1361, className: "TokenEvent", schema: schema);
 }

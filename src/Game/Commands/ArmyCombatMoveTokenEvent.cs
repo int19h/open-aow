@@ -43,13 +43,13 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
 
         if (_combatMode == ArmyCombatMoveTokenEventMode.SetupHotSeat)
         {
-            result = MoveStatus.Moving;
+            return MoveStatus.Moving;
         }
         else
         {
             if (_combatMode == ArmyCombatMoveTokenEventMode.CancelCombat)
             {
-                result = MoveStatus.Done;
+                return MoveStatus.Done;
             }
             else
             {
@@ -65,11 +65,11 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
                         if (_combatType != CombatType.None)
                         {
                             ExecuteCombat();
-                            result = ArmyHexSprite == null ? MoveStatus.Done : MoveStatus.Moving;
+                            return ArmyHexSprite is null ? MoveStatus.Done : MoveStatus.Moving;
                         }
                         else
                         {
-                            result = MoveStatus.Done;
+                            return MoveStatus.Done;
                         }
                     }
                 }
@@ -88,26 +88,22 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
     // MoveT.PAS:3030
     public override bool Animating()
     {
-        bool result;
-        MapField field;
         if (MoveIndex == 1 && _combatMode != ArmyCombatMoveTokenEventMode.CombatExecuted)
         {
             if (ArmyHexSprite.GetMoveStatus() != -1)
             {
-                field = GetMapField(Path[MoveIndex - 1].Location);
-                result = field.GetPlayer() != -1 ? ArmyHexSprite.GetMoveStatus() < 50 : ArmyHexSprite.GetMoveStatus() < 100;
+                MapField field = GetMapField(Path[MoveIndex - 1].Location);
+                return field.GetPlayer() != -1 ? ArmyHexSprite.GetMoveStatus() < 50 : ArmyHexSprite.GetMoveStatus() < 100;
             }
             else
             {
-                result = false;
+                return false;
             }
         }
         else
         {
-            result = base.Animating();
+            return base.Animating();
         }
-
-        return result;
     }
 
     // MoveT.PAS:3046
@@ -129,17 +125,13 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
     // MoveT.PAS:3061
     public override MoveStatus ExecuteMove()
     {
-        MoveStatus result;
-        MapField field;
-        sbyte player;
-        int direction;
         if (MoveIndex == 1 && _combatMode == ArmyCombatMoveTokenEventMode.Moving)
         {
-            field = GetMapField(Path[0].Location);
-            player = field.GetPlayer();
+            MapField field = GetMapField(Path[0].Location);
+            sbyte player = field.GetPlayer();
             if (player != -1 && player != ArmyHexSprite.Army.Player && !_ignoreDefenders)
             {
-                direction = GetDirection(MoveIndex + 1);
+                int direction = GetDirection(MoveIndex + 1);
                 if (direction == 0)
                 {
                     direction = GetHexDirection(MoveIndex + 1);
@@ -155,19 +147,17 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
                 }
 
                 SetupCombat();
-                result = MoveStatus.Moving;
+                return MoveStatus.Moving;
             }
             else
             {
-                result = base.ExecuteMove();
+                return base.ExecuteMove();
             }
         }
         else
         {
-            result = base.ExecuteMove();
+            return base.ExecuteMove();
         }
-
-        return result;
     }
 
     // MoveT.PAS:2504
@@ -186,22 +176,16 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
             condition = Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace, DiplomaticRelation.Alliance).Contains(diplomaticRelation);
         }
 
-        if (condition)
-        {
-            result = false;
-        }
-
-        return result;
+        return !condition && result;
     }
 
     // MoveT.PAS:2525
     public void RequestCombatTypeCallback(CombatTypeRequestEventLog request)
     {
-        CombatFlowControlTokenEvent flow;
-        ArmyCombatMoveTokenEvent move;
         _combatType = request.CombatType;
         if (request.CreateNewMove)
         {
+            CombatFlowControlTokenEvent flow;
             if (_combatType != CombatType.None)
             {
                 flow = new CombatFlowControlTokenEvent(null)
@@ -234,8 +218,8 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
                         Path.List[1] = Path.List[1] with { MoveCost = 0 };
                     }
 
-                    move = ArmyHexSprite.CreateArmyCombatMoveTokenEvent(ArmyHexSprite, selection: Selection, path: Path, mode: Set<ArmyMoveModeElement>.Of());
-                    if (move != null)
+                    ArmyCombatMoveTokenEvent move = ArmyHexSprite.CreateArmyCombatMoveTokenEvent(ArmyHexSprite, selection: Selection, path: Path, mode: Set<ArmyMoveModeElement>.Of());
+                    if (move is not null)
                     {
                         // { created combat move }
                         move._combatType = request.CombatType;
@@ -271,9 +255,8 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
     // MoveT.PAS:2568
     public void RestoreHotSeatMode()
     {
-        NewTurnEventLog log;
         StrategicMap.Current.SetSeatedPlayer(-1);
-        log = new NewTurnEventLog(null)
+        NewTurnEventLog log = new(null)
         {
             Holder = CreationHolder(),
             TurnPlayer = StrategicMap.Current.CurrentPlayer,
@@ -318,13 +301,8 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
     // MoveT.PAS:2600
     public void SetupCombat()
     {
-        MapField field = default;
-        sbyte player2 = default;
-        Battle combat = default;
         MapFieldMessage message = default;
-        CombatTypeRequestEventLog request = default;
-        NewTurnEventLog log = default;
-        field = GetMapField(Path[0].Location);
+        MapField field = GetMapField(Path[0].Location);
         if (_combatType == CombatType.None)
         {
             if (StrategicMap.Current.RequestCombatType && StrategicMap.Current.ConnectionType == PlayerConnectionType.Local)
@@ -544,7 +522,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
 
         if (_combatMode == ArmyCombatMoveTokenEventMode.RequestingCombatType || (_combatType == CombatType.Tactical && _combatMode == ArmyCombatMoveTokenEventMode.SetupReady))
         {
-            combat = new Battle(null) { Holder = CreationHolder() };
+            Battle combat = new(null) { Holder = CreationHolder() };
             sbyte hexY = ArmyHexSprite.GetHexY();
             sbyte hexLevel = ArmyHexSprite.GetHexLevel();
             sbyte player = field.GetPlayer();
@@ -581,11 +559,12 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
         }
 
         // { Original uses connection type here too. }
+        CombatTypeRequestEventLog request;
         if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Network && _combatMode == ArmyCombatMoveTokenEventMode.RequestingCombatType)
         {
             StrategicMap.Current.DisableTurnTimer();
             StrategicMap.Current.AIExecutor.Lock();
-            player2 = StrategicMap.Current.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType == PlayerType.Human
+            sbyte player2 = StrategicMap.Current.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType == PlayerType.Human
                 ? ArmyHexSprite.Army.Player
                 : field.GetPlayer();
 
@@ -649,6 +628,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
             _combatMode = ArmyCombatMoveTokenEventMode.CancelCombat;
         }
 
+        NewTurnEventLog log;
         if (_combatMode == ArmyCombatMoveTokenEventMode.RequestingCombatType && StrategicMap.Current.RequestCombatType && StrategicMap.Current.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType != PlayerType.Human)
         {
             log = new NewTurnEventLog(null)
@@ -706,20 +686,16 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
     // MoveT.PAS:2801
     public void CombatExecuted(Battle combat)
     {
-        ArmyHexSprite armyHexSprite;
-        Army army;
-        byte selection;
-        MoveArmyTokenEvent move;
-        MapField field;
         if (combat is not FastBattle)
         {
+            ArmyHexSprite armyHexSprite;
             if (Set<CombatResult>.Of(CombatResult.Victory).Contains(combat.CombatResult))
             {
                 armyHexSprite = StrategicMap.Current.MapContainer.GetField(combat.CombatData.AttackerLocation.X, combat.CombatData.AttackerLocation.Y, combat.CombatData.AttackerLocation.MapLevel).GetArmyHexSprite();
-                if (armyHexSprite != null)
+                if (armyHexSprite is not null)
                 {
-                    army = armyHexSprite.Army;
-                    selection = 0;
+                    Army army = armyHexSprite.Army;
+                    byte selection = 0;
                     for (int i = army.Units.Count - 1; i >= 0; i--)
                     {
                         selection = (byte)(selection << 1);
@@ -733,7 +709,8 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
 
                     if (selection != 0)
                     {
-                        field = StrategicMap.Current.MapContainer.GetField(combat.CombatData.Location.X, combat.CombatData.Location.Y, combat.CombatData.Location.MapLevel);
+                        MapField field = StrategicMap.Current.MapContainer.GetField(combat.CombatData.Location.X, combat.CombatData.Location.Y, combat.CombatData.Location.MapLevel);
+                        MoveArmyTokenEvent move;
                         if (field.GetPlayer() == armyHexSprite.Army.Player)
                         {
                             move = CreateArmyMoveMapCoordinateTokenEvent(armyHexSprite, selection, combat.CombatData.Location.X, combat.CombatData.Location.Y, combat.CombatData.Location.MapLevel, MoveAction.Normal);
@@ -746,7 +723,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
                             move = combatMove;
                         }
 
-                        if (move != null)
+                        if (move is not null)
                         {
                             StrategicMap.Current.TokenManager.TokenExecutor.AddSystemEvent(move);
                             _ = move.Release();
@@ -757,7 +734,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
             else
             {
                 armyHexSprite = StrategicMap.Current.MapContainer.GetField(combat.CombatData.AttackerLocation.X, combat.CombatData.AttackerLocation.Y, combat.CombatData.AttackerLocation.MapLevel).GetArmyHexSprite();
-                if (armyHexSprite != null)
+                if (armyHexSprite is not null)
                 {
                     for (int i = armyHexSprite.Army.Units.Count - 1; i >= 0; i--)
                     {
@@ -786,7 +763,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
     // MoveT.PAS:3019
     public MoveStatus ExecuteLastMove()
     {
-        if (GetMapField(Path[MoveIndex - 1].Location).FindOwnedChild(131607) == null)
+        if (GetMapField(Path[MoveIndex - 1].Location).FindOwnedChild(131607) is null)
         {
             MapField mapField = GetMapField(Path[MoveIndex - 1].Location);
             PathStep item = Path[MoveIndex - 1];
@@ -857,11 +834,6 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
         StrategicMap.Current.MoveControl.ProcessMove(moveControlSettings);
         return moveControlSettings;
     }
-
-    // intf_P5_07.inc:816
-
-    // intf_P5_07.inc:816
-
 }
 
 public enum ArmyCombatMoveTokenEventMode : byte

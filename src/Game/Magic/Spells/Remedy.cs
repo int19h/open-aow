@@ -5,7 +5,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class Remedy : UnitSpell
+public class Remedy : UnitSpell
 {
     // UnitSpells.pas:424
     public Remedy(CustomNode owner, EngineObject holder) : base(owner)
@@ -30,11 +30,9 @@ public partial class Remedy : UnitSpell
     // UnitSpells.pas:436
     public override bool ExecuteSpell(Troop source, Troop target, int mana, Span<int> data)
     {
-        bool result;
-        int hitPoints;
         if (ValidTargetUnit(source, target))
         {
-            hitPoints = target.GetHitPoints() + 5;
+            int hitPoints = target.GetHitPoints() + 5;
             if (hitPoints > target.GetHits())
             {
                 hitPoints = target.GetHits();
@@ -47,14 +45,12 @@ public partial class Remedy : UnitSpell
             _ = target.RemoveAbility(53);
             _ = target.RemoveAbility(92);
             _ = target.RemoveAbility(127);
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     private static readonly string s_remedyText = "Remedy";

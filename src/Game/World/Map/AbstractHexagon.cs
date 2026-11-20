@@ -7,7 +7,7 @@ using Aow.Game.Draw;
 namespace Aow.Game.World.Map;
 
 // the base of the terrain hexagons
-public partial class AbstractHexagon(CustomNode owner) : MapObject(owner)
+public class AbstractHexagon(CustomNode owner) : MapObject(owner)
 {
     public new const int ClassId = 65904;
 
@@ -17,25 +17,21 @@ public partial class AbstractHexagon(CustomNode owner) : MapObject(owner)
     // MAPOBJ.PAS:671
     public override int GetShowPriority()
     {
-        int pixelX;
-        int pixelY;
-        pixelX = (Owner.HexX * 32) + 8;
-        pixelY = ((Owner.HexX & 1) * 16) + (Owner.HexY * 32);
+        int pixelX = (Owner.HexX * 32) + 8;
+        int pixelY = ((Owner.HexX & 1) * 16) + (Owner.HexY * 32);
         return pixelX + (pixelY << 13);
     }
 
     // MAPOBJ.PAS:704
     public override void ChangeTerrain(in HexSpriteTerrainInfo message)
     {
-        MapObjectResourceTerrainControl control;
-        MapObjectResource r;
         if (message.HexNumber == 0 && GetTerrain(0) != message.TerrainType)
         {
-            control = Resource.GetTerrainControl();
-            if (control != null)
+            MapObjectResourceTerrainControl control = Resource.GetTerrainControl();
+            if (control is not null)
             {
-                r = control.GetRandomResource(classId: Resource.EngineClass.ClassId, terrainType: message.TerrainType);
-                if (r != null)
+                MapObjectResource r = control.GetRandomResource(classId: Resource.EngineClass.ClassId, terrainType: message.TerrainType);
+                if (r is not null)
                 {
                     SetResource(r);
                     UpdateTransitions();
@@ -87,14 +83,11 @@ public partial class AbstractHexagon(CustomNode owner) : MapObject(owner)
     // MAPOBJ.PAS:733
     public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        bool result;
-        MapField mapField;
-        HexSprite hexSprite;
         if (hexX >= 0 && hexY >= 0 && hexLevel >= 0 && hexX < mapContainer.Width && hexY < mapContainer.Height && hexLevel < mapContainer.LevelCount)
         {
-            mapField = mapContainer.GetField(hexX, hexY, hexLevel);
-            hexSprite = mapField.GetMaxLevelNoneTransparentHexSprite();
-            bool condition = hexSprite == null;
+            MapField mapField = mapContainer.GetField(hexX, hexY, hexLevel);
+            HexSprite hexSprite = mapField.GetMaxLevelNoneTransparentHexSprite();
+            bool condition = hexSprite is null;
             if (!condition)
             {
                 bool test = hexSprite.GetLevel() < 10;
@@ -106,21 +99,18 @@ public partial class AbstractHexagon(CustomNode owner) : MapObject(owner)
                 condition = test && hexSprite is not AbstractBorderHexagon;
             }
 
-            result = condition;
+            return condition;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // MAPOBJ.PAS:750
     public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        HexSprite hexSprite;
-        hexSprite = mapContainer.GetField(hexX, hexY, hexLevel).FindOwnedHexSprite(typeof(AbstractHexagon));
+        HexSprite hexSprite = mapContainer.GetField(hexX, hexY, hexLevel).FindOwnedHexSprite(typeof(AbstractHexagon));
         hexSprite?.Dispose();
 
         bool result = base.PlaceHex(mapContainer, hexX, hexY, hexLevel);
@@ -136,5 +126,4 @@ public partial class AbstractHexagon(CustomNode owner) : MapObject(owner)
     public virtual void UpdateTransitions()
     {
     }
-
 }

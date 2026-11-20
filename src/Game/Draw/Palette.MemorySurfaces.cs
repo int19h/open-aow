@@ -10,7 +10,11 @@ public partial class Palette
         {
             (byte red, byte green, byte blue) = (this[i].Red, this[i].Green, this[i].Blue);
             int next = Math.Abs(red - r) + Math.Abs(green - g) + Math.Abs(blue - b);
-            if (next < distance) { distance = next; best = i; }
+            if (next < distance)
+            {
+                distance = next;
+                best = i;
+            }
         }
         return best;
     }

@@ -9,7 +9,7 @@ using Aow.Game.Units;
 namespace Aow.Game.Magic.Abilities;
 
 // (ability ID, duration, player, enchantment)
-public partial class UnitEnchantmentAbilityData(CustomNode owner) : AbilityData(owner)
+public class UnitEnchantmentAbilityData(CustomNode owner) : AbilityData(owner)
 {
 
     public new const int ClassId = 131756;
@@ -23,12 +23,8 @@ public partial class UnitEnchantmentAbilityData(CustomNode owner) : AbilityData(
     // AoWAb.PAS:567
     public override void Dispose()
     {
-        UnitEnchantment enchantment;
-        enchantment = Enchantment;
-        if (enchantment != null)
-        {
-            enchantment?.Dispose();
-        }
+        UnitEnchantment enchantment = Enchantment;
+        enchantment?.Dispose();
 
         base.Dispose();
     }
@@ -49,16 +45,9 @@ public partial class UnitEnchantmentAbilityData(CustomNode owner) : AbilityData(
     // AoWAb.PAS:582
     public void SetEnchantment(UnitEnchantment enchantment)
     {
-        UnitEnchantment oldEnchantment;
-        oldEnchantment = Enchantment;
-        if (oldEnchantment != null)
-        {
-            oldEnchantment?.Dispose();
-        }
+        UnitEnchantment oldEnchantment = Enchantment;
+        oldEnchantment?.Dispose();
 
         Enchantment = enchantment;
     }
-
-    // intf_P4_02.inc:789
-
 }

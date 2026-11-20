@@ -3,7 +3,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.World.Structures;
 
-public partial class ItemExplorationSiteResource(CustomNode owner) : ExplorationSiteResource(owner)
+public class ItemExplorationSiteResource(CustomNode owner) : ExplorationSiteResource(owner)
 {
 
     // ItemExpS.pas:212

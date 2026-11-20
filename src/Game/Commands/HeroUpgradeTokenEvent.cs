@@ -10,7 +10,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Commands;
 
 // UnitId. Player. statistic upgrades. Abilities
-public partial class HeroUpgradeTokenEvent : TokenEvent
+public class HeroUpgradeTokenEvent : TokenEvent
 {
     public new const int ClassId = 135965;
 
@@ -53,10 +53,9 @@ public partial class HeroUpgradeTokenEvent : TokenEvent
     // Hero.PAS:30
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        Hero hero;
         ExecuteResult result = base.Execute(tokenEvent);
-        hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(UnitId);
-        if (hero != null && hero.GetHitPoints() != 0 && hero.Player == Player)
+        Hero hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(UnitId);
+        if (hero is not null && hero.GetHitPoints() != 0 && hero.Player == Player)
         {
             hero.SetUnitAttack((sbyte)(hero.UnitAttack + Attack));
             hero.SetUnitDefense((sbyte)(hero.UnitDefense + Defense));
@@ -77,7 +76,4 @@ public partial class HeroUpgradeTokenEvent : TokenEvent
         UnitId = hero.UnitId;
         Player = hero.Player;
     }
-
-    // intf_P2_06.inc:62
-
 }

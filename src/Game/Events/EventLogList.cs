@@ -9,7 +9,7 @@ using Aow.Rtl;
 namespace Aow.Game.Events;
 
 // update count, changed callback
-public partial class EventLogList(CustomNode owner) : OwningNode(owner), IChildList<EventLog>
+public class EventLogList(CustomNode owner) : OwningNode(owner), IChildList<EventLog>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an EventLog, so the cast never fails.
@@ -97,7 +97,7 @@ public partial class EventLogList(CustomNode owner) : OwningNode(owner), IChildL
     // EventLog.pas:494
     public void Changed()
     {
-        if (_updateCount == 0 && OnChanged != null)
+        if (_updateCount == 0 && OnChanged is not null)
         {
             OnChanged(this);
         }
@@ -127,6 +127,4 @@ public partial class EventLogList(CustomNode owner) : OwningNode(owner), IChildL
 
     // EventLog.pas:514
     public EventLog FindId(int id) => Logs.FindId(id);
-
-    // Engine.pas:631
 }

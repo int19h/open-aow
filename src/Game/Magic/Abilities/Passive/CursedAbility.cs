@@ -6,7 +6,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // inherited name, ability ID, selection types, ability type, duration mode
-public partial class CursedAbility : DurationAbility
+public class CursedAbility : DurationAbility
 {
     // PassiveAb.pas:981
     public CursedAbility(CustomNode owner, EngineObject holder) : base(owner)
@@ -27,14 +27,10 @@ public partial class CursedAbility : DurationAbility
     // PassiveAb.pas:991
     public override string GetSourceName(AbilityOwner owner)
     {
-        string result;
-        DurationAbilityData data;
-        data = GetData(owner);
-        result = data != null && data.Source == 1
+        DurationAbilityData data = GetData(owner);
+        return data is not null && data.Source == 1
             ? AbilityRules.TranslateResourceString(GetEngine(), GameText.DeathMasteryText)
             : base.GetSourceName(owner);
-
-        return result;
     }
 
     // PassiveAb.pas:1003

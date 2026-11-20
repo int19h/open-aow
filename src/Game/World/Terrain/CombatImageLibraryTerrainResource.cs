@@ -5,7 +5,7 @@ using Aow.Formats.Tree;
 
 namespace Aow.Game.World.Terrain;
 
-public partial class CombatImageLibraryTerrainResource(CustomNode owner) : ImageLibraryTerrainMapObjectResource(owner)
+public class CombatImageLibraryTerrainResource(CustomNode owner) : ImageLibraryTerrainMapObjectResource(owner)
 {
 
     // CombatILTer.pas:175

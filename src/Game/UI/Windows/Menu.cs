@@ -75,10 +75,9 @@ public partial class Menu : GenericWindow
     //   submenus }
     public override void Dispose()
     {
-        int i;
+        int i = 0;
         Menu m;
-        i = 0;
-        if (_ownerMenu != null)
+        if (_ownerMenu is not null)
         {
             try
             {
@@ -100,7 +99,7 @@ public partial class Menu : GenericWindow
         }
 
         i = 0;
-        if (_ownerMenuBar != null)
+        if (_ownerMenuBar is not null)
         {
             try
             {
@@ -136,22 +135,22 @@ public partial class Menu : GenericWindow
     // AOWMenu.pas:159
     public override void Validate()
     {
-        if (ImageLibraryFrame != null)
+        if (ImageLibraryFrame is not null)
         {
             ImageLibraryFrame = ImageLibraryFrame.CheckImageLibrary(ImageLibraryIndexFrame, 8, this);
         }
 
-        if (ImageLibraryTexture != null)
+        if (ImageLibraryTexture is not null)
         {
             ImageLibraryTexture = ImageLibraryTexture.CheckImageLibrary(ImageLibraryIndexTexture, 1, this);
         }
 
-        if (_imageLibraryTextureSelected != null)
+        if (_imageLibraryTextureSelected is not null)
         {
             _imageLibraryTextureSelected = _imageLibraryTextureSelected.CheckImageLibrary(_imageLibraryIndexTSelected, 1, this);
         }
 
-        if (OwnerComponent != null && ImageLibraryFrame != null && ImageLibraryTexture != null && _imageLibraryTextureSelected != null && base.Font != null)
+        if (OwnerComponent is not null && ImageLibraryFrame is not null && ImageLibraryTexture is not null && _imageLibraryTextureSelected is not null && base.Font is not null)
         {
             Valid = true;
         }
@@ -165,8 +164,6 @@ public partial class Menu : GenericWindow
     //   for masked menus }
     public override void SetSize()
     {
-        MenuBar mb;
-        BaseWindow w;
         if (ItemHeight == 0)
         {
             ItemHeight = ImageLibraryFrame[ImageLibraryIndexFrame + 3].Height;
@@ -200,11 +197,11 @@ public partial class Menu : GenericWindow
             SetWinHeightWithoutInvalidate(imageLibraryFrame.Height + (count * ItemHeight) + imageLibraryFrameHeight.Height);
         }
 
-        if (WindowManager != null && _ownerMenuBar != null)
+        if (WindowManager is not null && _ownerMenuBar is not null)
         {
-            mb = _ownerMenuBar;
-            w = mb.Window;
-            if (w != null)
+            MenuBar mb = _ownerMenuBar;
+            BaseWindow w = mb.Window;
+            if (w is not null)
             {
                 int count = mb.Items.Count;
                 SetWinLeftWithoutInvalidate(w.WinLeft + mb.WinLeft + (mb.WinWidth / count * _ownerMenuBar.Selected));
@@ -254,7 +251,7 @@ public partial class Menu : GenericWindow
             FrameBottom = WinHeight - imageLibraryFrameHeight.Height;
         }
 
-        if (DoubleBuffered && BackSurface != null)
+        if (DoubleBuffered && BackSurface is not null)
         {
             _ = BackSurface.Resize(WinWidth, WinHeight);
             if (Masked)
@@ -271,7 +268,6 @@ public partial class Menu : GenericWindow
     //   previous item are hidden and those of the highlighted item are shown beside it }
     public override void Update()
     {
-        Menu m;
         if (Valid && Visible)
         {
             base.Update();
@@ -283,6 +279,7 @@ public partial class Menu : GenericWindow
                 }
                 else
                 {
+                    Menu m;
                     if (Highlighted != _subMenuItem)
                     {
                         for (int i = 0, last = SubMenus.Count - 1; i <= last; i++)
@@ -360,11 +357,11 @@ public partial class Menu : GenericWindow
                 if (Visible)
                 {
                     Highlighted = -1;
-                    if (WindowManager != null && _ownerMenuBar != null)
+                    if (WindowManager is not null && _ownerMenuBar is not null)
                     {
                         MenuBar mb = _ownerMenuBar;
                         BaseWindow w = mb.Window;
-                        if (w != null)
+                        if (w is not null)
                         {
                             int count = mb.Items.Count;
                             SetWinLeftWithoutInvalidate(w.WinLeft + mb.WinLeft + (mb.WinWidth / count * _ownerMenuBar.Selected));
@@ -394,7 +391,7 @@ public partial class Menu : GenericWindow
                 else
                 {
                     MenuBar bar = _ownerMenuBar;
-                    if (bar != null)
+                    if (bar is not null)
                     {
                         bar.Selected = -1;
                         bar.Drawn = false;
@@ -424,7 +421,6 @@ public partial class Menu : GenericWindow
     // { Draw: the frame, the texture, and the items; the highlighted item on the selected texture }
     public override void Draw(LockedSurface lockedSurface)
     {
-        Rect oldClip;
         try
         {
             if (Valid && Visible)
@@ -440,7 +436,7 @@ public partial class Menu : GenericWindow
                 SizedRectangle rectangle2 = new(WinLeft + imageLibraryFrame4.Width, WinTop + imageLibraryFrame3.Height, WinWidth - imageLibraryFrameWidth.Width - imageLibraryFrame2.Width, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
                 ImageLibraryTexture.DrawTiled(ImageLibraryIndexTexture, rectangle2, ref lockedSurface);
                 base.Font.Color = Color;
-                oldClip = lockedSurface.ClipRectangle;
+                Rect oldClip = lockedSurface.ClipRectangle;
                 if (_items.Count > 0)
                 {
                     for (int i = 0, last = _items.Count - 1; i <= last; i++)
@@ -501,19 +497,14 @@ public partial class Menu : GenericWindow
     //   shows its submenus; a click outside hides the menu unless a submenu took it }
     public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        UIComponent c = default;
-        bool show;
-        bool keep;
-        Menu m = default;
         Handled = false;
         Redraw = false;
         SelectedItem = -1;
-        keep = true;
         if (Visible)
         {
             for (int i = Children.Count - 1; i >= 0; i--)
             {
-                c = Children[i];
+                UIComponent c = Children[i];
                 if (!Handled && c.CaptureInput)
                 {
                     c.CheckMouseDown(button, shift, X, Y);
@@ -525,7 +516,8 @@ public partial class Menu : GenericWindow
                 }
             }
 
-            show = Visible;
+            bool show = Visible;
+            Menu m;
             if (X > WinLeft - 1 && X < WinLeft + WinWidth && Y > WinTop - 1 && Y < WinTop + WinHeight)
             {
                 if (!Handled)
@@ -564,6 +556,7 @@ public partial class Menu : GenericWindow
             else
             {
                 show = false;
+                bool keep = true;
                 for (int i = 0, last = SubMenus.Count - 1; i <= last; i++)
                 {
                     m = SubMenus[i];
@@ -632,17 +625,15 @@ public partial class Menu : GenericWindow
     //   the old item are hidden (by the item index into the submenu list: original bug) }
     public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        int oldHighlighted;
-        int i;
         // { Keep the child on the stack and I in a register. }
         Handled = false;
         InResizeArea = true;
         if (Visible)
         {
             Redraw = true;
-            oldHighlighted = Highlighted;
+            int oldHighlighted = Highlighted;
             Cursor = -2;
-            i = Children.Count - 1;
+            int i = Children.Count - 1;
             for (; i >= 0; i -= 1)
             {
                 UIComponent c = Children[i];
@@ -766,12 +757,11 @@ public partial class Menu : GenericWindow
     //   in priority order }
     public virtual void SetMenu(Menu value)
     {
-        int i;
-        int newIndex;
-        Menu m;
         if (value != _ownerMenu)
         {
-            if (_ownerMenu != null)
+            int i;
+            Menu m;
+            if (_ownerMenu is not null)
             {
                 i = 0;
                 while (i < _ownerMenu.SubMenus.Count)
@@ -788,10 +778,10 @@ public partial class Menu : GenericWindow
             }
 
             _ownerMenu = value;
-            if (_ownerMenu != this && _ownerMenu != null)
+            if (_ownerMenu != this && _ownerMenu is not null)
             {
                 i = 0;
-                newIndex = -1;
+                int newIndex = -1;
                 while (i < _ownerMenu.SubMenus.Count)
                 {
                     m = _ownerMenu.SubMenus[i];
@@ -820,12 +810,11 @@ public partial class Menu : GenericWindow
     // { SetMenuBar: the same for the menu list of the menu bar }
     public virtual void SetMenuBar(MenuBar value)
     {
-        int i;
-        int newIndex;
-        Menu m;
         if (value != _ownerMenuBar)
         {
-            if (_ownerMenuBar != null)
+            int i;
+            Menu m;
+            if (_ownerMenuBar is not null)
             {
                 i = 0;
                 while (i < _ownerMenuBar.Menus.Count)
@@ -842,10 +831,10 @@ public partial class Menu : GenericWindow
             }
 
             _ownerMenuBar = value;
-            if (_ownerMenuBar != null)
+            if (_ownerMenuBar is not null)
             {
                 i = 0;
-                newIndex = -1;
+                int newIndex = -1;
                 while (i < _ownerMenuBar.Menus.Count)
                 {
                     m = _ownerMenuBar.Menus[i];

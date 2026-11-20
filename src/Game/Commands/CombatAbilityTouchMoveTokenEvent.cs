@@ -16,7 +16,7 @@ using static Aow.Rtl.RtlHost;
 
 namespace Aow.Game.Commands;
 
-public partial class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : CombatMoveTokenEvent(owner)
+public class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : CombatMoveTokenEvent(owner)
 {
 
     // CombatTE.pas:624
@@ -41,15 +41,13 @@ public partial class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : Combat
     // CombatTE.pas:633
     public override MoveStatus LastMove()
     {
-        Point3D point;
-        int x = default;
-        int y = default;
-        TacticalBattleUnitHexSprite hexSprite;
         MapFieldMessage message = default;
         MoveStatus result = MoveStatus.Moving;
         try
         {
             int i;
+            int x = default;
+            TacticalBattleUnitHexSprite hexSprite;
             switch (Step)
             {
                 case TokenStep.Start:
@@ -99,7 +97,7 @@ public partial class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : Combat
                                 hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(path2.Location.X, path.Location.Y).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
                                 PreviousUnit = hexSprite?.Unit;
 
-                                if (PreviousUnit != null && AbilityId != 117)
+                                if (PreviousUnit is not null && AbilityId != 117)
                                 {
                                     PreviousUnit.UnitHexSprite.SetDirection((byte)(Unit.UnitHexSprite.Direction + 3));
                                     if (PreviousUnit.UnitHexSprite.Direction > 6)
@@ -114,14 +112,14 @@ public partial class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : Combat
                                         PathStep path3 = Path[0];
                                         PathStep path4 = Path[0];
                                         _wall = CombatMap.Current.MapContainer.MapLevels[0].GetField(path4.Location.X, path3.Location.Y).FindOwnedChild<CityWall>(2229508);
-                                        if (_wall == null)
+                                        if (_wall is null)
                                         {
                                             PathStep path5 = Path[0];
                                             PathStep path6 = Path[0];
                                             _wall = CombatMap.Current.MapContainer.MapLevels[0].GetField(path6.Location.X, path5.Location.Y).FindOwnedChild(2229510) as CityWall;
                                         }
 
-                                        if (_wall == null && AbilityId == 117)
+                                        if (_wall is null && AbilityId == 117)
                                         {
                                             result = MoveStatus.Done;
                                         }
@@ -160,7 +158,8 @@ public partial class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : Combat
                 case TokenStep.InitializeStrike:
                     try
                     {
-                        if (PreviousUnit != null)
+                        Point3D point;
+                        if (PreviousUnit is not null)
                         {
                             if (Unit.UnitHexSprite.ActionDone)
                             {
@@ -180,7 +179,7 @@ public partial class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : Combat
                         }
                         else
                         {
-                            if (_wall != null || AbilityId == 65)
+                            if (_wall is not null || AbilityId == 65)
                             {
                                 switch (AbilityId)
                                 {
@@ -221,7 +220,8 @@ public partial class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : Combat
                 case TokenStep.ExecuteStrike:
                     try
                     {
-                        if (_effect == null)
+                        int y = default;
+                        if (_effect is null)
                         {
                             if (!Unit.GetEnabled())
                             {
@@ -244,7 +244,7 @@ public partial class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : Combat
                                                 PathStep path = Path[1];
                                                 HexGeometry.CenterHexNumberToHex(Path[1].Location.X, path.Location.Y, i, ref x, ref y);
                                                 hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(x, y).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
-                                                if (hexSprite == null || hexSprite == Unit.UnitHexSprite)
+                                                if (hexSprite is null || hexSprite == Unit.UnitHexSprite)
                                                 {
                                                     PreviousUnit = null;
                                                 }
@@ -297,7 +297,7 @@ public partial class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : Combat
                                     CombatAction touchAction = AbilityId >= 0
                                         ? GamePack.Current.AbilityControl.GetAbility(AbilityId)?.CreateTouchMoveCombatAction(Unit, target: PreviousUnit)
                                         : null;
-                                    if (touchAction != null)
+                                    if (touchAction is not null)
                                     {
                                         _successful = touchAction.TouchSucceeded;
                                         CombatMap.Current.Combat.ExecuteCombatAction(touchAction);
@@ -320,13 +320,13 @@ public partial class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : Combat
                                     }
                                 }
 
-                                if (!Unit.GetEnabled() || ((AbilityId == 106 || AbilityId == 107) && _successful))
+                                if (!Unit.GetEnabled() || ((AbilityId is 106 or 107) && _successful))
                                 {
                                     result = MoveStatus.Done;
                                 }
                                 else
                                 {
-                                    if (!_successful && PreviousUnit != null && PreviousUnit.GetEnabled() && !PreviousUnit.GetLocked() && CombatObject.MeleeDamageTypes(PreviousUnit) != Set<DamageType>.Of() && PreviousUnit.GetSide() != Unit.GetSide())
+                                    if (!_successful && PreviousUnit is not null && PreviousUnit.GetEnabled() && !PreviousUnit.GetLocked() && CombatObject.MeleeDamageTypes(PreviousUnit) != Set<DamageType>.Of() && PreviousUnit.GetSide() != Unit.GetSide())
                                     {
                                         RandSeed = StrategicMap.Current.Random(16777215);
                                         Strike = CombatObject.CreateStrikeCombatAction(PreviousUnit, Unit, true);
@@ -486,7 +486,4 @@ public partial class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : Combat
 
         return result;
     }
-
-    // intf_P5_07.inc:765
-
 }

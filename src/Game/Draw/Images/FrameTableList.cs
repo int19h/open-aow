@@ -10,7 +10,7 @@ using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Game.Draw.Images;
 
-public partial class FrameTableList : Persistent
+public class FrameTableList : Persistent
 {
     private int _count;
     private int _capacity;
@@ -146,7 +146,6 @@ public partial class FrameTableList : Persistent
     // ImageLib.pas:9412
     public void Exchange(int index1, int index2)
     {
-        int item;
         if (index1 < 0 || index1 >= _count)
         {
             Error("List index out of bounds (%d)", index1);
@@ -157,9 +156,7 @@ public partial class FrameTableList : Persistent
             Error("List index out of bounds (%d)", index2);
         }
 
-        item = List[index1];
-        List[index1] = List[index2];
-        List[index2] = item;
+        (List[index2], List[index1]) = (List[index1], List[index2]);
     }
 
     // ImageLib.pas:9423
@@ -185,12 +182,7 @@ public partial class FrameTableList : Persistent
             result += 1;
         }
 
-        if (result == _count)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == _count ? -1 : result;
     }
 
     // ImageLib.pas:9457
@@ -221,7 +213,6 @@ public partial class FrameTableList : Persistent
     // ImageLib.pas:9472
     public void Move(int currentIndex, int newIndex)
     {
-        int item;
         if (currentIndex != newIndex)
         {
             if (newIndex < 0 || newIndex >= _count)
@@ -229,7 +220,7 @@ public partial class FrameTableList : Persistent
                 Error("List index out of bounds (%d)", newIndex);
             }
 
-            item = Get(currentIndex);
+            int item = Get(currentIndex);
             Delete(currentIndex);
             Insert(newIndex, item);
         }
@@ -262,7 +253,7 @@ public partial class FrameTableList : Persistent
     // ImageLib.pas:9554
     public void Sort(FrameTableSortCompare compare)
     {
-        if (List != null && Count > 0)
+        if (List is not null && Count > 0)
         {
             FrameTableQuickSort(List, 0, Count - 1, compare);
         }
@@ -315,12 +306,7 @@ public partial class FrameTableList : Persistent
             result = $"{result}{IntToStr(List[i])},";
         }
 
-        if (!IsEmpty(result))
-        {
-            result = Copy(result, 1, result.Length - 1);
-        }
-
-        return result;
+        return !IsEmpty(result) ? Copy(result, 1, result.Length - 1) : result;
     }
 
     // ImageLib.pas:9597
@@ -328,10 +314,7 @@ public partial class FrameTableList : Persistent
     //   is 0 }
     public void SetItemString(string value)
     {
-        int i;
-        int n;
-        string s;
-        i = value.Length;
+        int i = value.Length;
         for (; i >= 1; i -= 1)
         {
             if (!Set<byte>.WithBounds(0, 255).With(44).WithRange(48, 57).Contains(Cp1252.Byte(value[i - 1])))
@@ -344,6 +327,7 @@ public partial class FrameTableList : Persistent
         i = Pos(",", value);
         while (!IsEmpty(value))
         {
+            string s;
             if (i != 0)
             {
                 s = Copy(value, 1, i - 1);
@@ -355,7 +339,7 @@ public partial class FrameTableList : Persistent
                 value = "";
             }
 
-            n = !IsEmpty(s) ? StrToInt(s) : 0;
+            int n = !IsEmpty(s) ? StrToInt(s) : 0;
 
             _ = Add(n);
             i = Pos(",", value);
@@ -376,7 +360,6 @@ public partial class FrameTableList : Persistent
 
     private static void FrameTableQuickSort(int[] sortList, int L, int R, FrameTableSortCompare sCompare)
     {
-        int number = 0;
         int number2;
         do
         {
@@ -396,9 +379,7 @@ public partial class FrameTableList : Persistent
                 }
                 if (number2 <= number3)
                 {
-                    number = sortList[number2];
-                    sortList[number2] = sortList[number3];
-                    sortList[number3] = number;
+                    (sortList[number3], sortList[number2]) = (sortList[number2], sortList[number3]);
                     number2++;
                     number3--;
                 }

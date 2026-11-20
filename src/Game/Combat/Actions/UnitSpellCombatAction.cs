@@ -12,7 +12,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Combat.Actions;
 
 // (spell ID, source/target IDs, spell data, mana)
-public partial class UnitSpellCombatAction(CustomNode owner) : CombatAction(owner)
+public class UnitSpellCombatAction(CustomNode owner) : CombatAction(owner)
 {
     public new const int ClassId = 131779;
 
@@ -44,7 +44,4 @@ public partial class UnitSpellCombatAction(CustomNode owner) : CombatAction(owne
         Execute(viewer.Combat);
         return false;
     }
-
-    // intf_P3_02.inc:38
-
 }

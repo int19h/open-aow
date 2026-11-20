@@ -7,7 +7,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Commands;
 
 // mode, player, enchantment ID, value
-public partial class ChangeGlobalMagicTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class ChangeGlobalMagicTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
     public new const int ClassId = 135446;
 
@@ -29,37 +29,23 @@ public partial class ChangeGlobalMagicTokenEvent(CustomNode owner) : TokenEvent(
     // Spells.PAS:2722
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        ExecuteResult result;
-        bool success;
         _ = base.Execute(tokenEvent);
-        success = false;
-        switch (Mode)
+        bool success = Mode switch
         {
-            case ChangeGlobalMagicTokenEventMode.DispelEnchantment:
-                success = StrategicMap.Current.GlobalMagicControl.ExecuteDispelEnchantment((sbyte)PlayerIndex, EnchantmentId);
-                break;
-            case ChangeGlobalMagicTokenEventMode.RemoveEnchantment:
-                success = StrategicMap.Current.GlobalMagicControl.ExecuteRemoveEnchantment((sbyte)PlayerIndex, EnchantmentId);
-                break;
-            default:
-                break;
-        }
-
+            ChangeGlobalMagicTokenEventMode.DispelEnchantment => StrategicMap.Current.GlobalMagicControl.ExecuteDispelEnchantment((sbyte)PlayerIndex, EnchantmentId),
+            ChangeGlobalMagicTokenEventMode.RemoveEnchantment => StrategicMap.Current.GlobalMagicControl.ExecuteRemoveEnchantment((sbyte)PlayerIndex, EnchantmentId),
+            _ => false,
+        };
         if (success)
         {
-            result = ExecuteResult.Done;
+            return ExecuteResult.Done;
         }
         else
         {
             // Original road-construction predicate
-            result = ExecuteResult.DoneHalt;
+            return ExecuteResult.DoneHalt;
         }
-
-        return result;
     }
-
-    // NetworkE.pas:230
-
 }
 
 public enum ChangeGlobalMagicTokenEventMode : byte

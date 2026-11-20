@@ -8,7 +8,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // (ImmunityTypes.)
-public partial class ImmunityAbility : EnhancementAbility
+public class ImmunityAbility : EnhancementAbility
 {
     public Set<DamageType> ImmunityTypes { get; init; }
 
@@ -20,11 +20,7 @@ public partial class ImmunityAbility : EnhancementAbility
     }
 
     // PassiveAb.pas:1440
-    public override Set<MoveType> GetMoveTypes(AbilityOwner owner)
-    {
-        Set<MoveType> result = ImmunityTypes.Contains(DamageType.Fire) ? Set<MoveType>.Of(MoveType.LavaCrossing) : Set<MoveType>.Of();
-        return result;
-    }
+    public override Set<MoveType> GetMoveTypes(AbilityOwner owner) => ImmunityTypes.Contains(DamageType.Fire) ? Set<MoveType>.Of(MoveType.LavaCrossing) : Set<MoveType>.Of();
 
     // PassiveAb.pas:1435
     public override Set<DamageType> GetImmunityTypes(AbilityOwner owner) => ImmunityTypes;

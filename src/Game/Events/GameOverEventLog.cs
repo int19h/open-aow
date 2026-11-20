@@ -37,57 +37,46 @@ public partial class GameOverEventLog(CustomNode owner) : EventLog(owner)
     // EventLog.pas:783
     public override string GetText()
     {
-        string result = "";
         switch (StrategicMap.Current.Players.GetPlayers(Player).GameOverStatus)
         {
             case GameOverStatus.Lost:
                 string name = StrategicMap.Current.Players.GetPlayers(Player).GetName();
-                result = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), s_gameOverDefeatEventLogFormat), [name]);
-                break;
+                return DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), s_gameOverDefeatEventLogFormat), [name]);
             case GameOverStatus.Won:
                 string name2 = StrategicMap.Current.Players.GetPlayers(Player).GetName();
-                result = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), s_gameOverVictoryEventLogFormat), [name2]);
-                break;
+                return DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), s_gameOverVictoryEventLogFormat), [name2]);
             case GameOverStatus.None:
             default:
                 break;
         }
 
-        return result;
+        return "";
     }
 
     // EventLog.pas:794
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
-        bool result = default;
         switch (trigger)
         {
             case ExecuteTrigger.User:
                 if (StrategicMap.Current.SeatedPlayer != Player)
                 {
                     StrategicMap.Current.TriggerExecuteEventLog(this, mode, done);
-                    result = true;
+                    return true;
                 }
                 else
                 {
-                    result = false;
+                    return false;
                 }
-
-                break;
             case ExecuteTrigger.Event:
                 StrategicMap.Current.TriggerExecuteEventLog(this, mode, done);
-                result = true;
-                break;
+                return true;
             case ExecuteTrigger.NewTurn:
                 StrategicMap.Current.TriggerExecuteEventLog(this, mode, done);
-                result = true;
-                break;
+                return true;
             default:
-                result = false;
-                break;
+                return false;
         }
-
-        return result;
     }
 
     // EventLog.pas:791

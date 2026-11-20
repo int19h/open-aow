@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // inherited name, ability ID, selection types, ability type
-public partial class FuryAbility : UnitEnchantmentAbility
+public class FuryAbility : UnitEnchantmentAbility
 {
     // PassiveAb.pas:1160
     public FuryAbility(CustomNode owner, EngineObject holder) : base(owner)

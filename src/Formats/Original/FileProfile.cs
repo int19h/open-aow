@@ -68,8 +68,8 @@ public abstract class FileProfile
     /// The engine image of a root object image: the container the engine writes around it. Only
     /// the profiles whose engine image the game builds without a file take one.
     /// </summary>
-    internal virtual byte[] WrapRootImage(byte[] rootImage, SchemaClass classValue, EncodeContext context) =>
-        throw new NotSupportedException($"Profile {Name} builds no engine image from a tree.");
+    internal virtual byte[] WrapRootImage(byte[] rootImage, SchemaClass classValue, EncodeContext context)
+        => throw new NotSupportedException($"Profile {Name} builds no engine image from a tree.");
 
     /// <summary>
     /// The $container of a document the game writes (own-formats.md 4.2): the container the
@@ -77,8 +77,8 @@ public abstract class FileProfile
     /// </summary>
     internal virtual JsonObject SaveContainer(string? headerName) => NewContainer("none", level: null);
 
-    internal DecodeContext Context(byte[] data, ImportSession session, bool inflated) =>
-        new(data, session.Schema, Engine, Name, session.File, session.Limits, session.LegacyRules) { Nested = session.Nested, Inflated = inflated };
+    internal DecodeContext Context(byte[] data, ImportSession session, bool inflated)
+        => new(data, session.Schema, Engine, Name, session.File, session.Limits, session.LegacyRules) { Nested = session.Nested, Inflated = inflated };
 
     internal JsonObject NewContainer(string compression, int? level)
     {
@@ -292,11 +292,11 @@ public sealed class HsmProfile(string name, string engine, string[] kinds, strin
     /// <summary>The game writes its map and save images in CFS level 2 (TCompressStream.SaveToFile).</summary>
     public const int GameLevel = 2;
 
-    internal override (JsonObject Container, JsonObject Root) ImportImage(byte[] image, ImportSession session) =>
-        ImportPayload(image, NewContainer("cfs", GameLevel), true, session);
+    internal override (JsonObject Container, JsonObject Root) ImportImage(byte[] image, ImportSession session)
+        => ImportPayload(image, NewContainer("cfs", GameLevel), true, session);
 
-    internal (JsonObject Container, JsonObject Root) ImportEnginePayload(byte[] payload, JsonObject container, bool inflated, ImportSession session) =>
-        ImportPayload(payload, container, inflated, session);
+    internal (JsonObject Container, JsonObject Root) ImportEnginePayload(byte[] payload, JsonObject container, bool inflated, ImportSession session)
+        => ImportPayload(payload, container, inflated, session);
 
     internal override byte[] ComparableImage(JsonObject container, byte[] image)
     {
@@ -469,8 +469,8 @@ public sealed class ScenarioSetProfile : FileProfile
         return (container, root);
     }
 
-    internal override JsonObject SaveContainer(string? headerName) =>
-        NewContainer("none", level: null).Add("header", new JsonObject().Add("Name", new JsonString(headerName ?? "")));
+    internal override JsonObject SaveContainer(string? headerName)
+        => NewContainer("none", level: null).Add("header", new JsonObject().Add("Name", new JsonString(headerName ?? "")));
 
     internal override (SchemaClass Class, int Start, int End) RootImage(DecodeContext context)
     {
@@ -615,8 +615,8 @@ public sealed class WrittenObjectProfile(string name, string[] kinds, string roo
         return (container, root);
     }
 
-    internal override (SchemaClass Class, int Start, int End) RootImage(DecodeContext context) =>
-        (context.Schema.Get(RootFamily), ReadTop(context, start: 0, end: context.Data.Length), context.Data.Length);
+    internal override (SchemaClass Class, int Start, int End) RootImage(DecodeContext context)
+        => (context.Schema.Get(RootFamily), ReadTop(context, start: 0, end: context.Data.Length), context.Data.Length);
 
     /// <summary>The image TEngine.WriteEObject writes: the outer table with the root at id 0, then the root.</summary>
     internal override byte[] WrapRootImage(byte[] rootImage, SchemaClass classValue, EncodeContext context)

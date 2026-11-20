@@ -97,23 +97,20 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
     // FastCombatWin.pas:244
     public void DrawParties(int X, int Y, in LockedSurface surface)
     {
-        int pixelX = default;
-        int pixelY = default;
-        int position;
-        Battle combat;
-        CombatObject objectValue;
         if (_viewer.Status.Contains(CombatViewerStatusElement.Initialized))
         {
-            combat = _viewer.Combat;
+            Battle combat = _viewer.Combat;
+            int pixelX = default;
+            int pixelY = default;
             for (int i = 0, last = combat.CombatData.GetCount() - 1; i <= last; i++)
             {
-                objectValue = combat.CombatData.GetObjects(i);
+                CombatObject objectValue = combat.CombatData.GetObjects(i);
                 if (objectValue.Position != 128)
                 {
                     GetPartyPosition((int)(((uint)objectValue.Position) >> 4), ref pixelX, ref pixelY);
                     pixelX = pixelX + X - 15;
                     pixelY = pixelY + Y - 32;
-                    position = objectValue.Position & 15;
+                    int position = objectValue.Position & 15;
                     pixelX += position % 4 * 40;
                     if (position >= 4)
                     {
@@ -130,23 +127,17 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
     // FastCombatWin.pas:270
     public void DrawWalls(int X, int Y, in LockedSurface surface)
     {
-        int image;
-        CombatWall wall;
         bool HasWall(int A, int B)
         {
-            CombatParty pa;
-            CombatParty pb;
-            bool wa;
-            bool wb;
-            pa = _viewer.Combat.CombatData.Parties.GetParty((byte)A);
-            pb = _viewer.Combat.CombatData.Parties.GetParty((byte)B);
-            wa = pa != null && pa.Wall != 0;
-            wb = pb != null && pb.Wall != 0;
+            CombatParty pa = _viewer.Combat.CombatData.Parties.GetParty((byte)A);
+            CombatParty pb = _viewer.Combat.CombatData.Parties.GetParty((byte)B);
+            bool wa = pa is not null && pa.Wall != 0;
+            bool wb = pb is not null && pb.Wall != 0;
             return wa ^ wb;
         }
 
         Y -= 19;
-        image = _viewer.Combat.CombatData.WallType == 2 ? 80 : 60;
+        int image = _viewer.Combat.CombatData.WallType == 2 ? 80 : 60;
 
         if (_viewer.Combat.CombatData.WallBreached)
         {
@@ -216,8 +207,8 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
         CombatData combatData = _viewer.Combat.CombatData;
         if (combatData.WallType != 0)
         {
-            wall = combatData.Wall;
-            if (wall != null)
+            CombatWall wall = combatData.Wall;
+            if (wall is not null)
             {
                 if (HasWall(0, 4))
                 {
@@ -234,11 +225,7 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
     // FastCombatWin.pas:316
     public void DrawCombat(int X, int Y, ref readonly LockedSurface surface)
     {
-        Battle combat;
-        int pixelX = default;
-        int pixelY = default;
-        int glow;
-        combat = _viewer.Combat;
+        Battle combat = _viewer.Combat;
         UpdateShields();
         if (ModeLabel.Text != combat.CombatData.Header)
         {
@@ -254,15 +241,17 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
         _viewer.ShowFightingObjects(_animationFrame, X + 234, Y + 15, surface);
         if (_phase is 2 or 3)
         {
+            int pixelX = default;
+            int pixelY = default;
             for (int i = 0; i <= 7; i++)
             {
-                if (combat.CombatData.Parties.GetParty((byte)i) != null)
+                if (combat.CombatData.Parties.GetParty((byte)i) is not null)
                 {
                     if (combat.CombatData.Parties.GetParty((byte)i).Army.Units.Count == 0)
                     {
                         if (!Set<byte>.WithBounds(0, 255).With(2).With(7).With(8).Contains(_viewer.Logbook.FinalData.CombatResult))
                         {
-                            glow = _phaseFrame / 2;
+                            int glow = _phaseFrame / 2;
                             glow = Math.Abs(((glow + 7) % 15) - 7);
                             GetPartyPosition(i, ref pixelX, ref pixelY);
                             GamePack.Current.CombatImages[glow + 100].ShowClipped(pixelX + X - 10, pixelY + Y - 9, surface);
@@ -276,12 +265,8 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
     // FastCombatWin.pas:340
     public void UpdateShields()
     {
-        CombatData data;
+        CombatData data = _viewer.Combat.CombatData;
         int left;
-        int right;
-        int leftOpacity;
-        int rightOpacity;
-        data = _viewer.Combat.CombatData;
         if (data.Players.GetPlayers(data.AttackerPlayer).Player == 0)
         {
             left = 12;
@@ -292,13 +277,14 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
             left = StrategicMap.Current.Players.GetPlayers(player.Player).PlayerRace;
         }
 
-        leftOpacity = data.CurrentPlayer == 255 || data.Players.GetPlayers((sbyte)data.CurrentPlayer).SideIndex != 0 ? 60 : 100;
+        int leftOpacity = data.CurrentPlayer == 255 || data.Players.GetPlayers((sbyte)data.CurrentPlayer).SideIndex != 0 ? 60 : 100;
 
         if (_phase == 3)
         {
             leftOpacity = 100;
         }
 
+        int right;
         if (data.Players.GetPlayers(data.DefenderPlayer).Player == 0)
         {
             right = 12;
@@ -309,7 +295,7 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
             right = StrategicMap.Current.Players.GetPlayers(player.Player).PlayerRace;
         }
 
-        rightOpacity = data.CurrentPlayer == 255 || data.Players.GetPlayers((sbyte)data.CurrentPlayer).SideIndex != 1 ? 60 : 100;
+        int rightOpacity = data.CurrentPlayer == 255 || data.Players.GetPlayers((sbyte)data.CurrentPlayer).SideIndex != 1 ? 60 : 100;
 
         if (_phase == 3)
         {
@@ -334,12 +320,10 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
     // FastCombatWin.pas:373
     public void FinishDialog()
     {
-        ExecuteDoneEvent done;
-        EventLog log;
         _viewer.Finalize();
         UI.General.Manager.OverlayPriority = 0;
-        done = Done;
-        log = _event;
+        ExecuteDoneEvent done = Done;
+        EventLog log = _event;
         Done = null;
         _event = null;
         done?.Invoke(log);
@@ -406,9 +390,9 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
     // FastCombatWin.pas:424
     public void FCWinUpdate()
     {
-        int image;
         try
         {
+            int image;
             switch (_phase)
             {
                 case 0:
@@ -506,10 +490,9 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
     // FastCombatWin.pas:466
     public void InitialViewClick()
     {
-        CombatViewer viewer;
         UI.General.PlayButtonSound(0);
-        viewer = _viewer;
-        if (viewer != null && viewer.Status.Contains(CombatViewerStatusElement.Initialized))
+        CombatViewer viewer = _viewer;
+        if (viewer is not null && viewer.Status.Contains(CombatViewerStatusElement.Initialized))
         {
             viewer.SetPosition(0);
             SetPhase(1);
@@ -519,10 +502,9 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
     // FastCombatWin.pas:479
     public void FinalViewClick()
     {
-        CombatViewer viewer;
         UI.General.PlayButtonSound(0);
-        viewer = _viewer;
-        if (viewer != null && viewer.Status.Contains(CombatViewerStatusElement.Initialized))
+        CombatViewer viewer = _viewer;
+        if (viewer is not null && viewer.Status.Contains(CombatViewerStatusElement.Initialized))
         {
             viewer.SetPosition(viewer.GetEndPosition() + 1);
             SetPhase(3);
@@ -533,7 +515,7 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
     public void PauseBtnClick()
     {
         UI.General.PlayButtonSound(0);
-        if (_viewer != null && _viewer.Status.Contains(CombatViewerStatusElement.Initialized))
+        if (_viewer is not null && _viewer.Status.Contains(CombatViewerStatusElement.Initialized))
         {
             _viewer.Pause();
         }
@@ -543,7 +525,7 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
     public void PlayBtnClick()
     {
         UI.General.PlayButtonSound(0);
-        if (_viewer != null && _viewer.Status.Contains(CombatViewerStatusElement.Initialized))
+        if (_viewer is not null && _viewer.Status.Contains(CombatViewerStatusElement.Initialized))
         {
             _viewer.Play();
         }
@@ -552,9 +534,8 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
     // FastCombatWin.pas:504
     public void SequencePositionSldChange()
     {
-        CombatViewer viewer;
-        viewer = _viewer;
-        if (viewer != null && viewer.Status.Contains(CombatViewerStatusElement.Initialized))
+        CombatViewer viewer = _viewer;
+        if (viewer is not null && viewer.Status.Contains(CombatViewerStatusElement.Initialized))
         {
             viewer.SetPosition(SequencePositionSlider.Position);
             SetPhase(1);
@@ -604,7 +585,7 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
 
     internal static void ShowCombatEvent(FastBattleWindow dialog, CombatEventLog eventValue, ExecuteDoneEvent done)
     {
-        Assert(dialog._event == null, "", "FastCombatWin.pas", 159);
+        Assert(dialog._event is null, "", "FastCombatWin.pas", 159);
         dialog.UI.General.Manager.OverlayPriority = 49;
         dialog._event = eventValue;
         _ = dialog._event.AddRef();
@@ -616,18 +597,12 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
 
     internal static void InitializeCombatDialog(FastBattleWindow dialog, CombatLogbook logbook)
     {
-        int raceIndex;
-        int partyRace;
-        sbyte playerIndex;
-        Battle combat;
-        CombatParty party;
-        Image image;
         dialog._viewer.Initialize(logbook);
-        combat = dialog._viewer.Combat;
+        Battle combat = dialog._viewer.Combat;
         dialog._animationFrame = 0;
         for (int i = 0; i <= 7; i++)
         {
-            image = i switch
+            Image image = i switch
             {
                 0 => dialog.Party1Background,
                 1 => dialog.Party2Background,
@@ -639,11 +614,11 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
                 7 => dialog.Party2Background,// { Original reuses the second background for the eighth party. }
                 _ => null,
             };
-            party = combat.CombatData.Parties.GetParty((byte)i);
-            if (party != null)
+            CombatParty party = combat.CombatData.Parties.GetParty((byte)i);
+            if (party is not null)
             {
-                playerIndex = combat.CombatData.Players.GetPlayers((sbyte)party.PlayerIndex).Player;
-                partyRace = playerIndex != 0 ? StrategicMap.Current.Players.GetPlayers(playerIndex).PlayerRace : 12;
+                sbyte playerIndex = combat.CombatData.Players.GetPlayers((sbyte)party.PlayerIndex).Player;
+                int partyRace = playerIndex != 0 ? StrategicMap.Current.Players.GetPlayers(playerIndex).PlayerRace : 12;
 
                 image.CurrentImage = partyRace + 21;
                 image.Visible = true;
@@ -657,6 +632,7 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
             }
 
             // { Original refreshes both side labels inside the party loop. }
+            int raceIndex;
             if (combat.CombatData.Players.GetPlayers(combat.CombatData.AttackerPlayer).Player == 0)
             {
                 string independents = dialog.UI.Engine.TranslateResourceString(ScenarioText.IndependentsText);
@@ -698,5 +674,4 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
             dialog.SetPhase(3);
         }
     }
-
 }

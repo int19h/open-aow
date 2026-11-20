@@ -14,7 +14,7 @@ using Aow.Rtl;
 namespace Aow.Game.World.Structures;
 
 // CityEnchantmentId, EnchantmentLocation
-public partial class CityEnchantment : GlobalEnchantment
+public class CityEnchantment : GlobalEnchantment
 {
     // City.pas:2722
     public new const int ClassId = 131820;
@@ -39,21 +39,13 @@ public partial class CityEnchantment : GlobalEnchantment
     public override string GetName() => AbilityRules.TranslateResourceString(GetEngine(), s_cityEnchantmentIdTexts[(int)CityEnchantmentId]);
 
     // City.pas:2739
-    public override MapCoordinate GetLocation()
-    {
-        MapCoordinate result = new(X: EnchantmentLocation.X, Y: EnchantmentLocation.Y, MapLevel: EnchantmentLocation.MapLevel);
-        return result;
-    }
+    public override MapCoordinate GetLocation() => new(X: EnchantmentLocation.X, Y: EnchantmentLocation.Y, MapLevel: EnchantmentLocation.MapLevel);
 
     // City.pas:2767
     public override int GetAIUpkeepPriority()
     {
-        int result;
-        City city;
-        city = GetCity();
-        result = city != null ? city.AICityEnchantmentUpkeepPriority(CityEnchantmentId) : 0;
-
-        return result;
+        City city = GetCity();
+        return city is not null ? city.AICityEnchantmentUpkeepPriority(CityEnchantmentId) : 0;
     }
 
     // City.pas:2746
@@ -67,7 +59,7 @@ public partial class CityEnchantment : GlobalEnchantment
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;

@@ -45,7 +45,7 @@ internal static class Program
         int turns = 0, seed = 123456789, firstDay = 0, day = 0;
         long frames = 0;
         bool tactical = false, ended = false, complete = false;
-        bool traceMovement = false, exerciseItems = false;
+        bool exerciseItems = false;
         int tacticalBattles = 0, globalSpell = 0;
         DirectedInputs? directed = null;
         int viewportWidth = 1600, viewportHeight = 937, animationFps = 30;
@@ -60,6 +60,7 @@ internal static class Program
             string? settings = null;
             string? randomTracePath = null;
             string? fileLogPath = null;
+            bool traceMovement = false;
             for (int i = 0; i < arguments.Length; i++)
             {
                 string Value() => ++i < arguments.Length ? arguments[i] : throw new ArgumentException("missing option value");
@@ -125,7 +126,11 @@ internal static class Program
                     _ = runtimeErrors.Add(detail);
                 }
 
-                if (exceptions.Add(detail)) { trace.WriteLine(detail); trace.Flush(); }
+                if (exceptions.Add(detail))
+                {
+                    trace.WriteLine(detail);
+                    trace.Flush();
+                }
             };
             HeadlessHost host = new(root, output, settings, movementSpeed, input);
             RtlHost.InstallHost(host);
@@ -133,7 +138,11 @@ internal static class Program
             {
                 // own-formats.md 4.2: every open and write at the file boundary, refusals included.
                 StreamWriter log = fileLog = new StreamWriter(fileLogPath, false, new UTF8Encoding(false)) { NewLine = "\n" };
-                FileBoundary.Log = record => { log.WriteLine(record.ToJson()); log.Flush(); };
+                FileBoundary.Log = record =>
+                {
+                    log.WriteLine(record.ToJson());
+                    log.Flush();
+                };
             }
             if (randomTracePath is not null)
             {
@@ -198,7 +207,11 @@ internal static class Program
             {
                 CheckTodos();
                 day = map.Day;
-                if (firstDay == 0) { firstDay = day; directed.Initial(); }
+                if (firstDay == 0)
+                {
+                    firstDay = day;
+                    directed.Initial();
+                }
                 string name = $"day-{day:D2}.asg";
                 host.FilesForRun.AutoSaveTarget = Path.Combine(output, name);
                 control.AutoSave();
@@ -252,7 +265,11 @@ internal static class Program
 
                 map.NewFrame();
                 CheckTodos();
-                if (day != previous) { previous = day; watchdog.Restart(); }
+                if (day != previous)
+                {
+                    previous = day;
+                    watchdog.Restart();
+                }
                 if (watchdog.Elapsed > TimeSpan.FromMinutes(5))
                 {
                     throw new TimeoutException($"no day transition for five minutes at day {map.Day}, frame {frames}");

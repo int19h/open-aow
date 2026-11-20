@@ -24,7 +24,8 @@ public sealed class SysUtilsTests
         }
         foreach ((string? text, int value) in new[] { ("  +42", 42), ("-0", 0), ("$80000000", int.MinValue), ("$abcdef", 0xabcdef), ("00000000", 0), ("0002147483647", int.MaxValue), ("12\0junk", 12), ("$fF\0junk", 255), ("-2147483647", -int.MaxValue) })
         {
-            Assert.Equal(value, StrToInt(text)); Assert.Equal(value, StrToIntDef(text, 91));
+            Assert.Equal(value, StrToInt(text));
+            Assert.Equal(value, StrToIntDef(text, 91));
         }
         // SYSUTILS.PAS:3719 ignores integer precision outside 0..15.
         Assert.Equal("000000000000001", IntToHex(1, 15));
@@ -64,7 +65,8 @@ public sealed class SysUtilsTests
             Assert.Equal(Cp1252.Text((byte)lower), AnsiLowerCase(value));
             Assert.Equal(Cp1252.Text((byte)upper), AnsiUpperCase(value));
         }
-        Assert.Equal("", AnsiUpperCase("")); Assert.Equal("", AnsiLowerCase(""));
+        Assert.Equal("", AnsiUpperCase(""));
+        Assert.Equal("", AnsiLowerCase(""));
         Assert.Equal(128, CompareStr("\xff", "\x7f"));
         Assert.Equal(-2, CompareStr("a", "abc"));
         Assert.Equal(-1, CompareStr("a\0b", "a\0c"));
@@ -76,7 +78,8 @@ public sealed class SysUtilsTests
         Assert.True(AnsiCompareText("ab", "ABC") < 0);
         Assert.Equal("a \0", TrimLeft("\t a \0"));
         Assert.Equal("\0 a", TrimRight("\0 a\t\0"));
-        Assert.Equal("", TrimLeft(" \t")); Assert.Equal("", TrimRight(" \t"));
+        Assert.Equal("", TrimLeft(" \t"));
+        Assert.Equal("", TrimRight(" \t"));
     }
 
     [Fact]
@@ -137,7 +140,8 @@ public sealed class SysUtilsTests
         {
             Clock = new FixedClock();
             double date = EncodeDate(2024, 2, 29), time = EncodeTime(12, 34, 56, 789);
-            Randomize(); Assert.Equal(74096789, RandSeed);
+            Randomize();
+            Assert.Equal(74096789, RandSeed);
             Assert.Equal(0, EncodeDate(1899, 12, 30));
             Assert.Equal(-1, EncodeDate(1899, 12, 29));
             Assert.Equal("2/29/2024 12:34:56 PM", DateTimeToStr(date + time));
@@ -150,7 +154,10 @@ public sealed class SysUtilsTests
                 _ = Assert.Throws<FormatException>(() => EncodeTime(h, m, s, milliseconds));
             }
         }
-        finally { Clock = saved; }
+        finally
+        {
+            Clock = saved;
+        }
         SystemClock system = new();
         Assert.InRange((DateTime.Now - system.Now).Duration(), TimeSpan.Zero, TimeSpan.FromSeconds(1));
         Assert.InRange((DateTime.UtcNow - system.UtcNow).Duration(), TimeSpan.Zero, TimeSpan.FromSeconds(1));

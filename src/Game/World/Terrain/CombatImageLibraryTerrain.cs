@@ -8,7 +8,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Terrain;
 
-public partial class CombatImageLibraryTerrain(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
+public class CombatImageLibraryTerrain(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
 {
 
     // CombatILTer.pas:105
@@ -63,7 +63,7 @@ public partial class CombatImageLibraryTerrain(CustomNode owner) : ImageLibraryT
         if (!Status.Contains(MapObjectStatusElement.Visible))
         {
             base.MakeVisible(visibilityList);
-            if (_shadow != null)
+            if (_shadow is not null)
             {
                 _ = visibilityList.AddSortChild(sortValue: _shadow.GetShowPriority(), child: _shadow);
             }
@@ -94,7 +94,7 @@ public partial class CombatImageLibraryTerrain(CustomNode owner) : ImageLibraryT
     // CombatILTer.pas:118
     public void DestroyShadow()
     {
-        if (_shadow != null)
+        if (_shadow is not null)
         {
             if (GetVisible())
             {
@@ -109,14 +109,14 @@ public partial class CombatImageLibraryTerrain(CustomNode owner) : ImageLibraryT
     // CombatILTer.pas:128
     public void CreateShadow()
     {
-        if (Resource.ImageSequenceList.GetImageSequence(40) != null)
+        if (Resource.ImageSequenceList.GetImageSequence(40) is not null)
         {
-            if (_shadow != null)
+            if (_shadow is not null)
             {
                 DestroyShadow();
             }
 
-            if (StrategicMap.Current == null || StrategicMap.Current.ShowUnitShadows)
+            if (StrategicMap.Current is null || StrategicMap.Current.ShowUnitShadows)
             {
                 _shadow = new CombatImageLibraryTerrainShadow(null)
                 {
@@ -126,5 +126,4 @@ public partial class CombatImageLibraryTerrain(CustomNode owner) : ImageLibraryT
             }
         }
     }
-
 }

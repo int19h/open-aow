@@ -25,7 +25,7 @@ public partial class IsometricHex(CustomNode owner) : AbstractHexagon(owner)
     // IsoHex.pas:204
     public override void Dispose()
     {
-        if (Dynamic != null)
+        if (Dynamic is not null)
         {
             Dynamic?.Dispose();
             Dynamic = null;
@@ -34,12 +34,10 @@ public partial class IsometricHex(CustomNode owner) : AbstractHexagon(owner)
         base.Dispose();
     }
 
-    // IsoHex.pas:198
-
     // IsoHex.pas:224
     public override void Disconnect()
     {
-        if (Dynamic != null)
+        if (Dynamic is not null)
         {
             Dynamic?.Dispose();
             Dynamic = null;
@@ -54,11 +52,10 @@ public partial class IsometricHex(CustomNode owner) : AbstractHexagon(owner)
     // IsoHex.pas:239
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        CustomImageLibrary imageLibrary;
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         pixelX = pixelX - pixelXSurface - 8;
         pixelY -= pixelYSurface;
-        imageLibrary = Resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
+        CustomImageLibrary imageLibrary = Resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
         imageLibrary[(int)(((uint)Sides) >> 6) + 40].Show(pixelX, pixelY, lockedSurface);
         pixelX -= 6;
         pixelY -= 9;
@@ -82,7 +79,4 @@ public partial class IsometricHex(CustomNode owner) : AbstractHexagon(owner)
     public virtual void ShowDynamic(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
     }
-
-    // IsoHex.pas:50
-
 }

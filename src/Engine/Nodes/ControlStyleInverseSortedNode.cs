@@ -4,7 +4,7 @@ using Aow.Rtl;
 namespace Aow.Engine.Nodes;
 
 // _controlStyle
-public partial class ControlStyleInverseSortedNode : InverseSortedNode
+public class ControlStyleInverseSortedNode : InverseSortedNode
 {
     // Engine.pas:1695
     public new const int ClassId = 263;
@@ -18,7 +18,4 @@ public partial class ControlStyleInverseSortedNode : InverseSortedNode
 
     // Engine.pas:1705
     public void SetControlStyle(Set<ControlStyleElement> value) => _controlStyle = value;
-
-    // Engine.pas:963
-
 }

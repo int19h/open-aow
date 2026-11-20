@@ -12,7 +12,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
-public partial class RejuvenateTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
+public class RejuvenateTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
 {
 
     // GlobalTargetSpells.pas:1036
@@ -21,12 +21,11 @@ public partial class RejuvenateTokenEvent(CustomNode owner) : GlobalTargetSpellT
     // GlobalTargetSpells.pas:1044
     public override bool Process(Troop source, int value)
     {
-        TwinkleAnimation twinkle = default;
         _ = base.Process(source, value);
         _ = StrategicMap.Current.ValidateTerrainObservation(source.Player, (sbyte)(byte)Location.X, (sbyte)(byte)Location.Y, (sbyte)(byte)Location.MapLevel, 2);
         if (StrategicMap.Current.TerrainVisible((sbyte)(byte)Location.X, (sbyte)(byte)Location.Y, (sbyte)(byte)Location.MapLevel, 2))
         {
-            twinkle = new TwinkleAnimation(null) { Holder = CreationHolder() };
+            TwinkleAnimation twinkle = new(null) { Holder = CreationHolder() };
             twinkle.Setup(GamePack.Current.SpellControl.GetSpell(41).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), 100, 64, 50, 30);
             _ = StrategicMap.Current.PlaceHex(twinkle, Location.X, Location.Y, Location.MapLevel);
         }
@@ -52,7 +51,4 @@ public partial class RejuvenateTokenEvent(CustomNode owner) : GlobalTargetSpellT
             terrainType = (int)TerrainType.Grass;
         }
     }
-
-    // NetworkE.pas:230
-
 }

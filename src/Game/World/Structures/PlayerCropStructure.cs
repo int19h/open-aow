@@ -14,7 +14,7 @@ using Aow.Rtl;
 namespace Aow.Game.World.Structures;
 
 // Income, ChangingCrops, IncomeSource
-public partial class PlayerCropStructure : PlayerStructure
+public class PlayerCropStructure : PlayerStructure
 {
 
     public PlayerCropStructure(CustomNode owner) : base(owner)
@@ -41,8 +41,6 @@ public partial class PlayerCropStructure : PlayerStructure
         _incomeSource?.Dispose();
     }
 
-    // Crops.pas:270
-
     // Crops.pas:528
     public override void NeighbourTerrainChanged(int hexNumber, in HexSpriteTerrainInfo info)
     {
@@ -66,9 +64,8 @@ public partial class PlayerCropStructure : PlayerStructure
     // Crops.pas:357
     public override void Activate()
     {
-        sbyte player;
         base.Activate();
-        player = Player;
+        sbyte player = Player;
         if (player != -1)
         {
             StrategicMap.Current.Players.GetPlayers(player).RegisterIncomeSource(_incomeSource);
@@ -84,8 +81,7 @@ public partial class PlayerCropStructure : PlayerStructure
     // Crops.pas:372
     public override void Deactivate()
     {
-        sbyte player;
-        player = Player;
+        sbyte player = Player;
         if (player != -1)
         {
             StrategicMap.Current.Players.GetPlayers(player).UnregisterIncomeSource(_incomeSource);
@@ -97,30 +93,25 @@ public partial class PlayerCropStructure : PlayerStructure
     // Crops.pas:560
     public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        MapLevel mapLevel;
-        int i;
-        int hexNumber;
-        int x = default;
-        int y = default;
-        int hexXLocal = default;
-        int hexYLocal = default;
         bool result = base.CanPlace(mapContainer, hexX, hexY, hexLevel);
         if (result && !GetEditMode())
         {
-            mapLevel = mapContainer.GetMapLevel(hexLevel);
-            i = Resource.CropLocations.Count;
+            MapLevel mapLevel = mapContainer.GetMapLevel(hexLevel);
+            int i = Resource.CropLocations.Count;
+            int x = default;
+            int y = default;
             while (result && i != 0)
             {
                 i -= 1;
                 HexGeometry.CenterHexNumberToHex(hexX, hexY, Resource.CropLocations.List[i], ref x, ref y);
-                hexXLocal = x;
-                hexYLocal = y;
-                hexNumber = 0;
+                int hexXLocal = x;
+                int hexYLocal = y;
+                int hexNumber = 0;
                 while (result && hexNumber != 7)
                 {
                     if (hexXLocal >= 0 && hexXLocal < mapLevel.Width && hexYLocal >= 0 && hexYLocal < mapLevel.Height)
                     {
-                        result = mapLevel.GetField(hexXLocal, hexYLocal).FindNoneTransparentHexSprite(typeof(PlayerCropStructure)) == null;
+                        result = mapLevel.GetField(hexXLocal, hexYLocal).FindNoneTransparentHexSprite(typeof(PlayerCropStructure)) is null;
                     }
 
                     hexNumber += 1;
@@ -183,26 +174,24 @@ public partial class PlayerCropStructure : PlayerStructure
     public virtual bool CanPlaceCrop(MapField field)
     {
         bool result;
-        ArmyHexSprite army;
-        HexSprite hexSprite;
         if (!GetRazed())
         {
-            army = field.GetArmyHexSprite();
-            result = army == null || StrategicMap.Current.Players.GetDiplomaticRelation(army.Army.Player, Player) != DiplomaticRelation.War;
+            ArmyHexSprite army = field.GetArmyHexSprite();
+            result = army is null || StrategicMap.Current.Players.GetDiplomaticRelation(army.Army.Player, Player) != DiplomaticRelation.War;
             if (result)
             {
-                hexSprite = field.GetMaxLevelNoneTransparentHexSprite();
-                result = hexSprite == null || hexSprite.GetLevel() < 26;
+                HexSprite hexSprite = field.GetMaxLevelNoneTransparentHexSprite();
+                result = hexSprite is null || hexSprite.GetLevel() < 26;
             }
 
             if (result)
             {
-                result = Set<byte>.WithBounds(0, 255).With(12).WithRange(1, 4).Contains((byte)field.TerrainType) || (field.TerrainType == 5 && GetRace() == 11);
+                return Set<byte>.WithBounds(0, 255).With(12).WithRange(1, 4).Contains((byte)field.TerrainType) || (field.TerrainType == 5 && GetRace() == 11);
             }
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;
@@ -252,11 +241,7 @@ public partial class PlayerCropStructure : PlayerStructure
     }
 
     // Crops.pas:413
-    public virtual sbyte GetRace()
-    {
-        sbyte result = Player > 0 ? StrategicMap.Current.Players.GetPlayers(Player).PlayerRace : (sbyte)-1;
-        return result;
-    }
+    public virtual sbyte GetRace() => Player > 0 ? StrategicMap.Current.Players.GetPlayers(Player).PlayerRace : (sbyte)-1;
 
     // Crops.pas:339
     public virtual void CropsChanged() => UpdateIncome();
@@ -264,10 +249,9 @@ public partial class PlayerCropStructure : PlayerStructure
     // Crops.pas:290
     public virtual void CropTrampled(sbyte player)
     {
-        int race;
         if (player != Player && Player > 0 && player > 0)
         {
-            race = StrategicMap.Current.Players.GetPlayers(Player).PlayerRace;
+            int race = StrategicMap.Current.Players.GetPlayers(Player).PlayerRace;
             int playerRelationValue = StrategicMap.Current.Races.GetRace(race).GetPlayerRelationValue(player);
             StrategicMap.Current.Races.GetRace(race).SetPlayerRelationValue(player, playerRelationValue - -5);
         }
@@ -276,11 +260,10 @@ public partial class PlayerCropStructure : PlayerStructure
     // Crops.pas:302
     public void SetIncome(byte value)
     {
-        sbyte player;
         if (value != Income && Status.Contains(MapObjectStatusElement.Activated))
         {
             Income = value;
-            player = Player;
+            sbyte player = Player;
             if (player != -1)
             {
                 StrategicMap.Current.Players.GetPlayers(player).UpdateIncome();
@@ -291,17 +274,15 @@ public partial class PlayerCropStructure : PlayerStructure
     // Crops.pas:382
     public void UpdateCropSettings()
     {
-        MapLevel mapLevel;
         int x = default;
         int y = default;
-        Crop crop;
-        mapLevel = Owner.Owner;
+        MapLevel mapLevel = Owner.Owner;
         for (int i = Resource.CropLocations.Count - 1; i >= 0; i--)
         {
             HexGeometry.CenterHexNumberToHex(StoredHexX, StoredHexY, Resource.CropLocations.List[i], ref x, ref y);
             if (x >= 0 && mapLevel.Width > x && y >= 0 && mapLevel.Height > y)
             {
-                crop = mapLevel.GetField(x, y).FindOwnedChild<Crop>(131946);
+                Crop crop = mapLevel.GetField(x, y).FindOwnedChild<Crop>(131946);
                 crop?.UpdateSettings();
             }
         }
@@ -310,19 +291,17 @@ public partial class PlayerCropStructure : PlayerStructure
     // Crops.pas:420
     public int GetCropCount()
     {
-        MapLevel mapLevel;
         int x = default;
         int y = default;
-        Crop crop;
         int result = 0;
-        mapLevel = Owner.Owner;
+        MapLevel mapLevel = Owner.Owner;
         for (int i = Resource.CropLocations.Count - 1; i >= 0; i--)
         {
             HexGeometry.CenterHexNumberToHex(StoredHexX, StoredHexY, Resource.CropLocations.List[i], ref x, ref y);
             if (x >= 0 && mapLevel.Width > x && y >= 0 && mapLevel.Height > y)
             {
-                crop = mapLevel.GetField(x, y).FindChild<Crop>(131946);
-                if (crop != null)
+                Crop crop = mapLevel.GetField(x, y).FindChild<Crop>(131946);
+                if (crop is not null)
                 {
                     if (crop.CropOwner == this)
                     {
@@ -338,33 +317,27 @@ public partial class PlayerCropStructure : PlayerStructure
     // Crops.pas:463
     public void SetCropCount(int value)
     {
-        MapLevel mapLevel;
-        int i;
-        Crop.Resource resource;
-        MapField field;
-        int x = default;
-        int y = default;
-        DelphiList<Crop> crops;
-        Crop crop;
-        UInt16List locations;
         if (Status.Contains(MapObjectStatusElement.PlacedOnMap) && !_changingCrops)
         {
             _changingCrops = true;
-            mapLevel = Owner.Owner;
-            crops = new DelphiList<Crop>();
-            locations = new UInt16List();
+            MapLevel mapLevel = Owner.Owner;
+            DelphiList<Crop> crops = new();
+            UInt16List locations = new();
             locations.Assign(Resource.CropLocations);
-            i = locations.Count - 1;
+            int i = locations.Count - 1;
+            int x = default;
+            int y = default;
+            Crop crop;
             for (; i >= 0; i -= 1)
             {
                 HexGeometry.CenterHexNumberToHex(StoredHexX, StoredHexY, locations.List[i], ref x, ref y);
                 if (x >= 0 && x < mapLevel.Width && y >= 0 && y < mapLevel.Height)
                 {
-                    field = mapLevel.GetField(x, y);
+                    MapField field = mapLevel.GetField(x, y);
                     crop = field.FindOwnedChild<Crop>(131946);
-                    if (crop != null || !CanPlaceCrop(field))
+                    if (crop is not null || !CanPlaceCrop(field))
                     {
-                        if (crop != null && crop.CropOwner == this)
+                        if (crop is not null && crop.CropOwner == this)
                         {
                             _ = crops.Add(crop);
                         }
@@ -380,15 +353,15 @@ public partial class PlayerCropStructure : PlayerStructure
 
             if (crops.Count < value)
             {
-                resource = Resource.Engine.HexSpriteSet.MapObjectResourceList.FindChild<Crop.Resource>(131947);
-                if (resource != null)
+                Crop.Resource resource = Resource.Engine.HexSpriteSet.MapObjectResourceList.FindChild<Crop.Resource>(131947);
+                if (resource is not null)
                 {
                     while (crops.Count != value && locations.Count != 0)
                     {
                         i = StrategicMap.Current.Random(locations.Count);
                         HexGeometry.CenterHexNumberToHex(StoredHexX, StoredHexY, locations.List[i], ref x, ref y);
                         crop = resource.PlaceCrop((sbyte)x, (sbyte)y, (sbyte)mapLevel.HexLevel, this);
-                        if (crop != null)
+                        if (crop is not null)
                         {
                             _ = crops.Add(crop);
                             crop.SetCropOwner(this);
@@ -422,22 +395,20 @@ public partial class PlayerCropStructure : PlayerStructure
     // Crops.pas:540
     public void LinkToCrops()
     {
-        MapLevel mapLevel;
         int x = default;
         int y = default;
-        Crop crop;
         if (GetEditMode())
         {
             return;
         }
 
-        mapLevel = Owner.Owner;
+        MapLevel mapLevel = Owner.Owner;
         for (int i = Resource.CropLocations.Count - 1; i >= 0; i--)
         {
             HexGeometry.CenterHexNumberToHex(StoredHexX, StoredHexY, Resource.CropLocations.List[i], ref x, ref y);
             if (x >= 0 && mapLevel.Width > x && y >= 0 && mapLevel.Height > y)
             {
-                crop = mapLevel.GetField(x, y).FindChild<Crop>(131946);
+                Crop crop = mapLevel.GetField(x, y).FindChild<Crop>(131946);
                 crop?.SetCropOwner(this);
             }
         }

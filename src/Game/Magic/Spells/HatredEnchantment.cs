@@ -9,7 +9,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Magic.Spells;
 
 // DaysActive
-public partial class HatredEnchantment : GlobalEnchantment
+public class HatredEnchantment : GlobalEnchantment
 {
     // GlobalEnchantmentSpells.pas:841
     public new const int ClassId = 135957;
@@ -78,5 +78,4 @@ public partial class HatredEnchantment : GlobalEnchantment
             StrategicMap.Current.Races.RelationOffset -= 4;
         }
     }
-
 }

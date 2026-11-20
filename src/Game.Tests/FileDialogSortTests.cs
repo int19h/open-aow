@@ -137,7 +137,7 @@ public sealed class FileDialogSortTests
         }
         finally
         {
-            if (dialog != null)
+            if (dialog is not null)
             {
                 dialog.FileDialogWindowDestroy();
                 dialog.FileList.Dispose();

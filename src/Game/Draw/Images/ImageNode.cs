@@ -5,7 +5,7 @@ using static Aow.Rtl.DelphiMemory;
 
 namespace Aow.Game.Draw.Images;
 
-public partial class ImageNode : LibraryImage, ILibraryImageClass
+public class ImageNode : LibraryImage, ILibraryImageClass
 {
     static int ILibraryImageClass.ClassId => 256;
     static string ILibraryImageClass.Name => "";
@@ -58,11 +58,7 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     public LibraryImage GetImage(int index) => Images[index];
 
     // ImageLib.pas:1335
-    public LibraryImage GetSafeImage(int index)
-    {
-        LibraryImage result = index >= 0 && index < Count ? Images[index] : null;
-        return result;
-    }
+    public LibraryImage GetSafeImage(int index) => index >= 0 && index < Count ? Images[index] : null;
 
     // ImageLib.pas:1343
     public void UpdateDimensions()
@@ -131,8 +127,7 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     // ImageLib.pas:1376
     public void Remove(LibraryImage image)
     {
-        int i;
-        i = Count;
+        int i = Count;
         while (i >= 0 && image != Images[i])
         {
             i -= 1;
@@ -202,10 +197,9 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     // ImageLib.pas:1424
     public override void LoadFromStream(Stream stream)
     {
-        LibraryImage image;
         Clear();
-        image = ImageStreams.ReadImageFromStream(stream, Owner);
-        while (image != null)
+        LibraryImage image = ImageStreams.ReadImageFromStream(stream, Owner);
+        while (image is not null)
         {
             _ = Add(image);
             image = ImageStreams.ReadImageFromStream(stream, Owner);
@@ -215,9 +209,8 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     // ImageLib.pas:1437
     public override void LoadFromStream(Stream stream, Stream dataStream)
     {
-        LibraryImage image;
-        image = ImageStreams.ReadImageFromStream(stream, dataStream, Owner);
-        while (image != null)
+        LibraryImage image = ImageStreams.ReadImageFromStream(stream, dataStream, Owner);
+        while (image is not null)
         {
             _ = Add(image);
             image = ImageStreams.ReadImageFromStream(stream, dataStream, Owner);
@@ -259,9 +252,8 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     // ImageLib.pas:1473
     public override GraphicsResult RemapToPixelFormat(PixelFormat pixelFormatId)
     {
-        int i;
         GraphicsResult result = GraphicsResult.Ok;
-        i = Count;
+        int i = Count;
         while (i != 0 && result == GraphicsResult.Ok)
         {
             i -= 1;
@@ -308,9 +300,9 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:1514
-    public override void ShowDisplayController(Rect? sourceRectangle, Rect? destinationRectangle, int displayController, int bkColor) =>
+    public override void ShowDisplayController(Rect? sourceRectangle, Rect? destinationRectangle, int displayController, int bkColor)
         /* TODO: Implement Windows.WindowFromDC in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     // ImageLib.pas:1550
     public override void Show(int X, int Y, in LockedSurface lockedSurface, in ShowInfo showInfo)
@@ -324,8 +316,7 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     // ImageLib.pas:1557
     public override bool SupportShowMode(ShowMode showMode, PixelFormat pixelFormatId)
     {
-        int i;
-        i = Count;
+        int i = Count;
         bool result = true;
         while (result && i != 0)
         {

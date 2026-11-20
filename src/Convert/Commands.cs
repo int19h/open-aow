@@ -134,8 +134,8 @@ internal static class Commands
     }
 
     /// <summary>Sorted relative paths of every file under a directory.</summary>
-    internal static List<string> Enumerate(string directory) =>
-        [.. Directory.EnumerateFiles(directory, "*", SearchOption.AllDirectories)
+    internal static List<string> Enumerate(string directory)
+        => [.. Directory.EnumerateFiles(directory, "*", SearchOption.AllDirectories)
             .Select(f => Path.GetRelativePath(directory, f))
             .Order(StringComparer.Ordinal)];
 
@@ -294,7 +294,7 @@ internal static class Commands
             Formats.Json.JsonObject document;
             string format;
             IReadOnlyDictionary<string, int> legacyRules;
-            double importMilliseconds, writeMilliseconds, parseMilliseconds = 0;
+            double importMilliseconds, writeMilliseconds, parseMilliseconds;
             byte[] text;
             if (GameFiles.IsGzip(bytes) || GameFiles.IsJsonCandidate(bytes))
             {

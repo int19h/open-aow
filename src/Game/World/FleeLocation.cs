@@ -9,7 +9,7 @@ using Aow.Game.World.Movement;
 
 namespace Aow.Game.World;
 
-public partial class FleeLocation(CustomNode owner) : MapObject(owner)
+public class FleeLocation(CustomNode owner) : MapObject(owner)
 {
 
     // FleeLoc.pas:76
@@ -18,8 +18,6 @@ public partial class FleeLocation(CustomNode owner) : MapObject(owner)
     private bool _highlighted;
     private int _alpha;
     private int _alphaStep;
-
-    // FleeLoc.pas:71
 
     // FleeLoc.pas:82
     public override int GetShowPriority() => 1744830464 + (HexY << 13) + HexX;
@@ -77,13 +75,11 @@ public partial class FleeLocation(CustomNode owner) : MapObject(owner)
     // FleeLoc.pas:93
     public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        EngineObject oldHex;
-        MapField mapField;
         if (!GetEditMode())
         {
-            mapField = mapContainer.GetField(hexX, hexY, hexLevel);
-            oldHex = mapField.FindOwnedChild(132439);
-            if (oldHex != null)
+            MapField mapField = mapContainer.GetField(hexX, hexY, hexLevel);
+            EngineObject oldHex = mapField.FindOwnedChild(132439);
+            if (oldHex is not null)
             {
                 oldHex?.Dispose();
                 _ = GamePack.Current.CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, 0, 1);
@@ -96,15 +92,14 @@ public partial class FleeLocation(CustomNode owner) : MapObject(owner)
     // FleeLoc.pas:132
     public void NewFrame(object sender)
     {
-        bool highlight;
-        highlight = false;
+        bool highlight = false;
         if (CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             highlight = true;
         }
         else
         {
-            if (CombatMap.Current.UnitSelection.GetTacticalBattleUnitHexSprite() != null && CombatMap.Current.UnitSelection.GetTacticalBattleUnitHexSprite().Unit.CombatPlayer == CombatMap.Current.SeatedCombatPlayer && CombatMap.Current.UnitSelection.GetTacticalBattleUnitHexSprite().Unit.CombatPlayer != CombatMap.Current.Combat.CombatData.DefenderPlayer)
+            if (CombatMap.Current.UnitSelection.GetTacticalBattleUnitHexSprite() is not null && CombatMap.Current.UnitSelection.GetTacticalBattleUnitHexSprite().Unit.CombatPlayer == CombatMap.Current.SeatedCombatPlayer && CombatMap.Current.UnitSelection.GetTacticalBattleUnitHexSprite().Unit.CombatPlayer != CombatMap.Current.Combat.CombatData.DefenderPlayer)
             {
                 highlight = true;
             }
@@ -124,7 +119,7 @@ public partial class FleeLocation(CustomNode owner) : MapObject(owner)
         }
     }
 
-    public new partial class Resource(CustomNode owner) : MapObjectResource(owner)
+    public new class Resource(CustomNode owner) : MapObjectResource(owner)
     {
 
         // FleeLoc.pas:163
@@ -137,7 +132,4 @@ public partial class FleeLocation(CustomNode owner) : MapObject(owner)
         public override string ResourceEditName() => "Combat Flee Location";
 
     }
-
-    // FleeLoc.pas:27
-
 }

@@ -10,7 +10,7 @@ using static Aow.Rtl.IntegerObjects;
 
 namespace Aow.Game.Units;
 
-public partial class HeroResourceList : ResourceCollection, IChildList<HeroResource>
+public class HeroResourceList : ResourceCollection, IChildList<HeroResource>
 {
     // The hero resource in slot index, read as the original reads the list, without a range check.
     // AcceptsResource admits only a HeroResource, so the cast never fails.
@@ -24,22 +24,16 @@ public partial class HeroResourceList : ResourceCollection, IChildList<HeroResou
     public HeroResourceList(CustomNode owner) : base(owner) => SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, ControlStyleElement.ArrayMode));
 
     // Hero.PAS:2363
-    public HeroResource GetHeroResource(int index)
-    {
-        HeroResource result = index >= 0 && index < Count ? this[index] : null;
-        return result;
-    }
+    public HeroResource GetHeroResource(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // Hero.PAS:2369
     public DelphiStringList CreateHeroResourceStrings(Set<HeroType> heroTypes)
     {
-        HeroResource resource;
-        DelphiStringList list;
-        list = new DelphiStringList();
+        DelphiStringList list = new();
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            resource = this[i];
-            if (resource != null && (GetEngine().User.Contains(EngineUserElement.Designer) || !resource.Hidden) && heroTypes.Contains(resource.HeroType))
+            HeroResource resource = this[i];
+            if (resource is not null && (GetEngine().User.Contains(EngineUserElement.Designer) || !resource.Hidden) && heroTypes.Contains(resource.HeroType))
             {
                 _ = list.AddObject(resource.Name, IntToObject(i));
             }
@@ -51,14 +45,12 @@ public partial class HeroResourceList : ResourceCollection, IChildList<HeroResou
     // Hero.PAS:2382
     public int Find(int race, HeroType heroType)
     {
-        int i;
-        HeroResource resource;
-        i = 0;
+        int i = 0;
         int result = -1;
         while (i < Count && result == -1)
         {
-            resource = this[i];
-            if (resource != null && race == resource.Race && heroType == resource.HeroType)
+            HeroResource resource = this[i];
+            if (resource is not null && race == resource.Race && heroType == resource.HeroType)
             {
                 result = i;
             }
@@ -68,7 +60,4 @@ public partial class HeroResourceList : ResourceCollection, IChildList<HeroResou
 
         return result;
     }
-
-    // intf_P2_07.inc:353
-
 }

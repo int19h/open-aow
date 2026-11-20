@@ -5,7 +5,7 @@ using Aow.Formats.Tree;
 
 namespace Aow.Game.Session;
 
-public partial class RemotePlayer(CustomNode owner) : EngineObject(owner)
+public class RemotePlayer(CustomNode owner) : EngineObject(owner)
 {
     // AoWSetup.pas:266
     public new const int ClassId = 131682;
@@ -26,5 +26,4 @@ public partial class RemotePlayer(CustomNode owner) : EngineObject(owner)
         MapValidation = persister.Enum("MapValidation", value: MapValidation);
         Version = persister.Int32("Version", value: Version);
     }
-
 }

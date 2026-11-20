@@ -16,11 +16,10 @@ public partial class CityProductionEventLog(CustomNode owner) : ProductionEventL
     // City.pas:3205
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
-        City city;
         if (trigger == ExecuteTrigger.User)
         {
-            city = GetCity();
-            if (city != null && StrategicMap.Current.SeatedPlayer == city.Player)
+            City city = GetCity();
+            if (city is not null && StrategicMap.Current.SeatedPlayer == city.Player)
             {
                 StrategicMap.Current.CenterViewTo(Location.X, Location.Y, Location.MapLevel);
                 StrategicMap.Current.TriggerExecuteEventLog(this, true, done);

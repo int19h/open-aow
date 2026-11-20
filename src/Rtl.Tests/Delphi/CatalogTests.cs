@@ -70,8 +70,15 @@ public sealed class CatalogTests
 
         bool[] results = await Task.WhenAll(Enumerable.Range(0, 2).Select(attempt => Task.Run(() =>
         {
-            try { _ = catalog.Add(99, new object()); return true; }
-            catch (InvalidOperationException) { return false; }
+            try
+            {
+                _ = catalog.Add(99, new object());
+                return true;
+            }
+            catch (InvalidOperationException)
+            {
+                return false;
+            }
         })));
         _ = Assert.Single(results, added => added);
         Assert.Equal(values.Length + 1, catalog.All.Count);

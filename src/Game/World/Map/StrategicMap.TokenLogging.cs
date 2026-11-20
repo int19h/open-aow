@@ -38,7 +38,10 @@ public partial class StrategicMap
 
         try
         {
-            try { _tokenLog = RtlHost.Files.Open($"{GetEngine().StartupDirectory}Debug\\SYNC_LOG{DelphiConversions.IntToStr(PixelFormats.GetElapsedMilliseconds())}.TXT", DelphiStreams.fmCreate); }
+            try
+            {
+                _tokenLog = RtlHost.Files.Open($"{GetEngine().StartupDirectory}Debug\\SYNC_LOG{DelphiConversions.IntToStr(PixelFormats.GetElapsedMilliseconds())}.TXT", DelphiStreams.fmCreate);
+            }
             catch (IOException) { }
             catch (UnauthorizedAccessException) { }
             WriteTokenLog($"Map Session: {MapName}");
@@ -57,7 +60,10 @@ public partial class StrategicMap
             return;
         }
 
-        try { _tokenLog?.Dispose(); }
+        try
+        {
+            _tokenLog?.Dispose();
+        }
         catch (IOException) { }
         _tokenLog = null;
         TokenEventLogging = false;

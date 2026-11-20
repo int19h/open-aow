@@ -39,8 +39,8 @@ public sealed class EngineClass
     };
 
     // The caller supplies the class's base type, so the cast preserves the single runtime check.
-    public T Create<T>(CustomNode owner, EngineObject holder) where T : EngineObject =>
-        (T)CreateInstance(owner, holder: holder);
+    public T Create<T>(CustomNode owner, EngineObject holder) where T : EngineObject
+        => (T)CreateInstance(owner, holder: holder);
 
     public override string ToString() => StorageKey;
 

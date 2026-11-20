@@ -13,7 +13,7 @@ public sealed class NodeChildren(CustomNode node) : IChildCollection
     public bool IsStored(int index)
     {
         EngineObject child = node.GetChild(index);
-        return child != null && child.Owner == node
+        return child is not null && child.Owner == node
             && !child.GetControlStyle().Contains(EngineServices.Shared)
             && child.GetControlStyle().Contains(EngineServices.Stored);
     }

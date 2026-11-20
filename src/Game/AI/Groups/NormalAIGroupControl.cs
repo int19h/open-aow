@@ -8,22 +8,16 @@ using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
-public partial class NormalAIGroupControl(CustomNode owner) : BehaviorAIGroupControl(owner)
+public class NormalAIGroupControl(CustomNode owner) : BehaviorAIGroupControl(owner)
 {
 
     // BehaviorAG.pas:172
     public override void ProcessStates()
     {
-        AIGroupDefenseControl defense;
-        AIGroupTargetFinder finder;
-        AIRecruitmentGroupFinder recruitment;
-        AIProductionLocationFinder production;
-        AIGroupRazeControl raze;
-        AIGroupDefendTargetSelector defend;
         switch (State)
         {
             case 0:
-                defense = new AIGroupDefenseControl(null)
+                AIGroupDefenseControl defense = new(null)
                 {
                     Holder = CreationHolder(),
                     DefendMode = AIGroupDefenseControl.GroupDefendMode.Split
@@ -36,9 +30,9 @@ public partial class NormalAIGroupControl(CustomNode owner) : BehaviorAIGroupCon
                 if (Group.Units.Count > 0)
                 {
                     Targets.Clear();
-                    finder = new AIGroupTargetFinder(null) { Holder = CreationHolder() };
+                    AIGroupTargetFinder finder = new(null) { Holder = CreationHolder() };
                     _ = finder.Setup(this);
-                    if (Group.Transporter == null)
+                    if (Group.Transporter is null)
                     {
                         Troop availableTransporter = FindAvailableTransporter();
                         finder.Selector.SetTransporter(availableTransporter);
@@ -61,7 +55,7 @@ public partial class NormalAIGroupControl(CustomNode owner) : BehaviorAIGroupCon
             case 2:
                 if (Targets.Count != 0)
                 {
-                    recruitment = new AIRecruitmentGroupFinder(null) { Holder = CreationHolder() };
+                    AIRecruitmentGroupFinder recruitment = new(null) { Holder = CreationHolder() };
                     _ = recruitment.Setup(this);
                     ActivatePlugin(recruitment);
                     _ = recruitment.Release();
@@ -77,7 +71,7 @@ public partial class NormalAIGroupControl(CustomNode owner) : BehaviorAIGroupCon
                 if (Targets.Count != 0)
                 {
                     ProductionLocations.Clear();
-                    production = new AIProductionLocationFinder(null) { Holder = CreationHolder() };
+                    AIProductionLocationFinder production = new(null) { Holder = CreationHolder() };
                     _ = production.Setup(this);
                     ActivatePlugin(production);
                     _ = production.Release();
@@ -110,7 +104,7 @@ public partial class NormalAIGroupControl(CustomNode owner) : BehaviorAIGroupCon
             case 5:
                 if (TargetSelector.TargetStatus == AIGroupTargetingStatus.TargetConquered)
                 {
-                    raze = new AIGroupRazeControl(null) { Holder = CreationHolder() };
+                    AIGroupRazeControl raze = new(null) { Holder = CreationHolder() };
                     _ = raze.Setup(this);
                     ActivatePlugin(raze);
                     _ = raze.Release();
@@ -142,14 +136,14 @@ public partial class NormalAIGroupControl(CustomNode owner) : BehaviorAIGroupCon
 
                 break;
             case 10:
-                defend = new AIGroupDefendTargetSelector(null) { Holder = CreationHolder() };
+                AIGroupDefendTargetSelector defend = new(null) { Holder = CreationHolder() };
                 _ = defend.Setup(this);
                 ActivatePlugin(defend);
                 _ = defend.Release();
                 State = 11;
                 break;
             case 11:
-                if (Group.Transporter != null)
+                if (Group.Transporter is not null)
                 {
                     _ = Group.DeleteUnit(Group.Transporter);
                 }

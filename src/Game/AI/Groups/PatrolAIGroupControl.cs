@@ -11,7 +11,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
-public partial class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(owner)
+public class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(owner)
 {
     // Heading 0 is the centre, 1 to 6 the hex sides (fixed-arrays.md, named constant).
     public const int HexDirectionSlotCount = 7;
@@ -49,8 +49,7 @@ public partial class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(own
     // IndependentAG.pas:426
     public override void TargetFoundEvent(AIGroupTargetFinder sender, AIGroupControlTarget target, ref bool searchDone)
     {
-        MapField mapField;
-        mapField = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(target.Location);
+        MapField mapField = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(target.Location);
         if (mapField.GetPlayer() != Group.Player)
         {
             SetupCP(target);
@@ -75,11 +74,6 @@ public partial class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(own
     // IndependentAG.pas:444
     public override void ProcessStates()
     {
-        AIGroupDefenseControl defense;
-        AIRecruitmentGroupFinder recruitment;
-        AIGroupRecruitControl recruit;
-        AIGroupTargetFinder finder;
-        MoveControlSettings settings;
         switch (State)
         {
             case 0:
@@ -88,7 +82,7 @@ public partial class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(own
                     Group.PatrolStrength = StrengthMax;
                 }
 
-                defense = new AIGroupDefenseControl(null)
+                AIGroupDefenseControl defense = new(null)
                 {
                     Holder = CreationHolder(),
                     DefendMode = AIGroupDefenseControl.GroupDefendMode.Wait
@@ -109,7 +103,7 @@ public partial class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(own
                 if (StrengthMax < Group.PatrolStrength)
                 {
                     State += 1;
-                    recruitment = new AIRecruitmentGroupFinder(null) { Holder = CreationHolder() };
+                    AIRecruitmentGroupFinder recruitment = new(null) { Holder = CreationHolder() };
                     _ = recruitment.Setup(this);
                     ActivatePlugin(recruitment);
                     _ = recruitment.Release();
@@ -123,7 +117,7 @@ public partial class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(own
             case 3:
                 if (RecruitmentGroups.Count != 0 && StrengthMax < Group.PatrolStrength)
                 {
-                    recruit = new AIGroupRecruitControl(null) { Holder = CreationHolder() };
+                    AIGroupRecruitControl recruit = new(null) { Holder = CreationHolder() };
                     recruit.Reset();
                     recruit.RecruitStrength = Group.PatrolStrength - StrengthMax;
                     recruit.Mode = AIGroupRecruitControlMode.AutoRecruit;
@@ -134,7 +128,7 @@ public partial class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(own
                 State += 1;
                 break;
             case 4:
-                finder = new AIGroupTargetFinder(null) { Holder = CreationHolder() };
+                AIGroupTargetFinder finder = new(null) { Holder = CreationHolder() };
                 _ = finder.Setup(this);
                 sbyte moves = Army.Moves(Selection);
                 finder.Selector.MovePointsMax = moves;
@@ -172,7 +166,7 @@ public partial class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(own
 
                 break;
             case 7:
-                settings = new MoveControlSettings(null)
+                MoveControlSettings settings = new(null)
                 {
                     Holder = CreationHolder(),
                     Player = Group.Player
@@ -202,29 +196,15 @@ public partial class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(own
     // IndependentAG.pas:324
     public bool ResetPatrolToLocation()
     {
-        bool result = default;
-        int previousHeading = default;
-        int x = default;
-        int y = default;
-        DoubleItemList<MapField> newList = default;
-        PatrolAIGroup group = default;
-        MoveControlSettings settings = default;
-        DelphiList<MapField> fields = default;
         DoubleItemList<MapField>[] lists = new DoubleItemList<MapField>[HexDirectionSlotCount];
         MapFieldMessage message = default;
-        int j = default;
-        int heading = default;
-        int lastHeading = default;
-        MapField mapField = default;
-        ByteList choices = default;
-        DoubleItemList<MapField> selectedList = default;
-        group = Group;
+        PatrolAIGroup group = Group;
         if (group.PatrolFrom.X == -1)
         {
             group.PatrolFrom = Location;
         }
 
-        settings = new MoveControlSettings(null)
+        MoveControlSettings settings = new(null)
         {
             Holder = CreationHolder(),
             Player = group.Player
@@ -237,15 +217,17 @@ public partial class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(own
         settings.Selection = Selection;
         settings.MovePointTable = MovePointTable;
         StrategicMap.Current.MoveControl.ProcessMove(settings);
-        fields = settings.ProcessedMapFields;
+        DelphiList<MapField> fields = settings.ProcessedMapFields;
         for (int i = 0; i < HexDirectionSlotCount; i++)
         {
             DoubleItemList<MapField> doubleItemList = new();
             lists[i] = doubleItemList;
         }
 
-        x = group.PatrolFrom.X;
-        y = group.PatrolFrom.Y;
+        int x = group.PatrolFrom.X;
+        int y = group.PatrolFrom.Y;
+        int heading;
+        MapField mapField;
         for (int i = fields.Count - 1; i >= 0; i--)
         {
             // { Original samples every fourth processed field. }
@@ -269,8 +251,8 @@ public partial class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(own
         message.Param = param;
         for (int i = 1; i < HexDirectionSlotCount; i++)
         {
-            newList = new DoubleItemList<MapField>();
-            j = 0;
+            DoubleItemList<MapField> newList = new();
+            int j = 0;
             while (newList.Count != 30 && j != lists[i].Count)
             {
                 mapField = lists[i].List[j].First;
@@ -298,12 +280,12 @@ public partial class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(own
             _ = lists[0].AddAbility(mapField, 0);
         }
 
-        lastHeading = group.PatrolTo.X != -1
+        int lastHeading = group.PatrolTo.X != -1
             ? HexGeometry.DeltaHexToHexDirection(group.PatrolFrom.X, group.PatrolFrom.Y, group.PatrolTo.X, group.PatrolTo.Y)
             : 0;
 
-        previousHeading = group.PreviousHeading;
-        choices = new ByteList();
+        int previousHeading = group.PreviousHeading;
+        ByteList choices = new();
         for (int i = 0; i < HexDirectionSlotCount; i++)
         {
             if (lists[i].Count != 0 && lastHeading != i && i != previousHeading)
@@ -326,11 +308,12 @@ public partial class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(own
             }
         }
 
+        bool result;
         if (choices.Count != 0)
         {
             group.PreviousHeading = (sbyte)lastHeading;
             heading = choices[StrategicMap.Current.Random(choices.Count)];
-            selectedList = lists[heading];
+            DoubleItemList<MapField> selectedList = lists[heading];
             int random = StrategicMap.Current.Random(selectedList.Count);
             mapField = selectedList.List[random].First;
             MapCoordinate mapCoordinate = mapField.GetMapCoordinate();

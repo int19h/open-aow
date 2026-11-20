@@ -6,22 +6,17 @@ using static Aow.Rtl.DelphiTextCompare;
 namespace Aow.Game.Audio;
 
 // the registered sound system classes
-public partial class SoundSystemList : DelphiList<SoundSystemClass>
+public class SoundSystemList : DelphiList<SoundSystemClass>
 {
     // Sound.pas:1293
     public SoundSystemClass Find(string name)
     {
-        SoundSystemClass result;
-        int i;
-        i = 0;
+        int i = 0;
         while (i != Count && CompareText(name, List[i].Name) != 0)
         {
             i += 1;
         }
 
-        result = i != Count ? List[i] : null;
-
-        return result;
+        return i != Count ? List[i] : null;
     }
-
 }

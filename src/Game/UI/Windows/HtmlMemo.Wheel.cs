@@ -11,7 +11,7 @@ public partial class HtmlMemo
     {
         int left = WinLeft;
         int top = WinTop;
-        if (_window != null)
+        if (_window is not null)
         {
             left += _window.AbsoluteLeft;
             top += _window.AbsoluteTop;
@@ -28,7 +28,7 @@ public partial class HtmlMemo
         }
 
         VerticalScrollBar bar = WheelScrollBar ?? _verticalScrollBar;
-        if (bar == null || !bar.HasWheelRange())
+        if (bar is null || !bar.HasWheelRange())
         {
             return false;
         }

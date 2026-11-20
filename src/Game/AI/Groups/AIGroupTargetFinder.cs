@@ -8,7 +8,7 @@ using Aow.Rtl;
 namespace Aow.Game.AI.Groups;
 
 // control, selector, mode, ranges, step, damage types
-public partial class AIGroupTargetFinder : AIGroupTask
+public class AIGroupTargetFinder : AIGroupTask
 {
     // AIGroup.pas:1889
     public AIGroupTargetFinder(CustomNode owner) : base(owner) => Selector = new AIMoveTargetSelector(null) { Holder = CreationHolder() };
@@ -104,8 +104,7 @@ public partial class AIGroupTargetFinder : AIGroupTask
     // AIGroup.pas:1901
     public void TargetFoundEvent(MoveTarget target, ref bool searchDone)
     {
-        AIGroupControlTarget newTarget;
-        newTarget = new AIGroupControlTarget(null)
+        AIGroupControlTarget newTarget = new(null)
         {
             Holder = CreationHolder(),
             Info = Selector.TargetInfo,
@@ -126,7 +125,4 @@ public partial class AIGroupTargetFinder : AIGroupTask
         _control.TargetFoundEvent(this, newTarget, ref searchDone);
         _ = newTarget.Release();
     }
-
-    // intf_P5_07.inc:301
-
 }

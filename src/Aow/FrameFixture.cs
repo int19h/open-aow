@@ -25,8 +25,8 @@ internal sealed class FrameFixture
 {
     private string? _fileLocalTime;
 
-    internal static DateTime FileStampUtc(DateTime localTime, TimeSpan offset) =>
-        new DateTimeOffset(DateTime.SpecifyKind(localTime, DateTimeKind.Unspecified), offset).UtcDateTime;
+    internal static DateTime FileStampUtc(DateTime localTime, TimeSpan offset)
+        => new DateTimeOffset(DateTime.SpecifyKind(localTime, DateTimeKind.Unspecified), offset).UtcDateTime;
 
     private readonly Dictionary<string, string> _defaults = [with(StringComparer.Ordinal)];
     private readonly Dictionary<string, string> _values = [with(StringComparer.Ordinal)];
@@ -245,7 +245,12 @@ internal sealed class FrameFixture
                     }) + "\n");
                 }
 
-                if (AtTarget()) { complete = true; form.Display.StopUpdateFrameLoop(); return; }
+                if (AtTarget())
+                {
+                    complete = true;
+                    form.Display.StopUpdateFrameLoop();
+                    return;
+                }
                 if (applied < clicks.Count)
                 {
                     Click click = clicks[applied];
@@ -292,7 +297,11 @@ internal sealed class FrameFixture
                                 form.KeyDown((ushort)keyDown, default);
                             }
                         }
-                        else if (click.Key is int key) { byte character = (byte)key; manager.CheckKeyPress(ref character); }
+                        else if (click.Key is int key)
+                        {
+                            byte character = (byte)key;
+                            manager.CheckKeyPress(ref character);
+                        }
                         else
                         {
                             manager.CheckMouseMove(default, inputX, inputY);
@@ -368,11 +377,10 @@ internal sealed class FrameFixture
                 for (int i = 0; i < world.HeroControl.GetCount(); i++)
                 {
                     Hero hero = world.HeroControl.GetHero(i);
-                    sbyte x = -1, y = -1, level = -1;
                     MapCoordinate coordinate1 = hero.GetLocation();
-                    x = coordinate1.X;
-                    y = coordinate1.Y;
-                    level = coordinate1.MapLevel;
+                    sbyte x = coordinate1.X;
+                    sbyte y = coordinate1.Y;
+                    sbyte level = coordinate1.MapLevel;
                     object[] Items(ItemCollection list) => [.. Enumerable.Range(0, list.Count)
                         .Select(index => list.GetItem(index))
                         .OfType<Item>()
@@ -562,8 +570,18 @@ internal sealed class FrameFixture
                 continue;
             }
 
-            if (line == "[[fixture]]") { section = "fixture"; current = [with(StringComparer.Ordinal)]; fixtures.Add(current); continue; }
-            if (line.StartsWith('[')) { section = line.Trim('[', ']'); continue; }
+            if (line == "[[fixture]]")
+            {
+                section = "fixture";
+                current = [with(StringComparer.Ordinal)];
+                fixtures.Add(current);
+                continue;
+            }
+            if (line.StartsWith('['))
+            {
+                section = line.Trim('[', ']');
+                continue;
+            }
             int equals = line.IndexOf('=');
             if (equals < 0)
             {

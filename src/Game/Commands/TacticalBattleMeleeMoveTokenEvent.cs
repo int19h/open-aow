@@ -15,7 +15,7 @@ using static Aow.Rtl.RtlHost;
 
 namespace Aow.Game.Commands;
 
-public partial class TacticalBattleMeleeMoveTokenEvent(CustomNode owner) : CombatMoveTokenEvent(owner)
+public class TacticalBattleMeleeMoveTokenEvent(CustomNode owner) : CombatMoveTokenEvent(owner)
 {
     public new const int ClassId = 2236417;
 
@@ -25,7 +25,6 @@ public partial class TacticalBattleMeleeMoveTokenEvent(CustomNode owner) : Comba
     // CombatTE.pas:454
     public override MoveStatus LastMove()
     {
-        TacticalBattleUnitHexSprite hexSprite;
         MoveStatus result = MoveStatus.Moving;
         try
         {
@@ -54,10 +53,10 @@ public partial class TacticalBattleMeleeMoveTokenEvent(CustomNode owner) : Comba
 
                         PathStep pathY = Path[0];
                         PathStep pathX = Path[0];
-                        hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(pathX.Location.X, pathY.Location.Y).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
+                        TacticalBattleUnitHexSprite hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(pathX.Location.X, pathY.Location.Y).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
                         PreviousUnit = hexSprite?.Unit;
 
-                        if (PreviousUnit == null)
+                        if (PreviousUnit is null)
                         {
                             result = MoveStatus.Done;
                         }
@@ -230,10 +229,7 @@ public partial class TacticalBattleMeleeMoveTokenEvent(CustomNode owner) : Comba
 
             if (result == MoveStatus.Done)
             {
-                if (_meleeRound != null)
-                {
-                    _meleeRound?.Dispose();
-                }
+                _meleeRound?.Dispose();
 
                 _ = (Strike?.Release());
 
@@ -262,8 +258,7 @@ public partial class TacticalBattleMeleeMoveTokenEvent(CustomNode owner) : Comba
     // CombatTE.pas:577
     public void NextStrike()
     {
-        bool locked;
-        locked = true;
+        bool locked = true;
         while (locked && _strikeIndex < _meleeRound.Count)
         {
             _meleeRound.GetMeleeStrike(_strikeIndex, out MeleeRound.Strike strike);
@@ -321,7 +316,4 @@ public partial class TacticalBattleMeleeMoveTokenEvent(CustomNode owner) : Comba
         _strikeIndex++;
         Step = TokenStep.InitializeStrike;
     }
-
-    // intf_P5_07.inc:765
-
 }

@@ -10,7 +10,7 @@ using static Aow.Rtl.IntegerObjects;
 namespace Aow.Engine.Nodes;
 
 // _editors, editor names with ids
-public partial class ResourceEditSettings(CustomNode owner) : ControlStyleObject(owner)
+public class ResourceEditSettings(CustomNode owner) : ControlStyleObject(owner)
 {
 
     // Engine.pas:8662
@@ -19,11 +19,9 @@ public partial class ResourceEditSettings(CustomNode owner) : ControlStyleObject
     // Engine.pas:8677
     internal int GetUniqueEditId()
     {
-        int i;
-        bool found;
         int result = 1;
-        i = 0;
-        found = Editors.Count == 0;
+        int i = 0;
+        bool found = Editors.Count == 0;
         while (!found)
         {
             if (result != ObjectToInt(Editors.Objects[i]))
@@ -51,8 +49,7 @@ public partial class ResourceEditSettings(CustomNode owner) : ControlStyleObject
     // Engine.pas:8667
     public string GetUniqueEditorName(string name)
     {
-        string s;
-        s = name;
+        string s = name;
         while (Editors.IndexOf(s) != -1)
         {
             s = name + IntToStr(Random(268435455));
@@ -64,12 +61,11 @@ public partial class ResourceEditSettings(CustomNode owner) : ControlStyleObject
     // Engine.pas:8700
     public int GetEditId(string name)
     {
+        int i = Editors.IndexOf(name);
         int result;
-        int i;
-        i = Editors.IndexOf(name);
         if (i != -1)
         {
-            result = ObjectToInt(Editors.Objects[i]);
+            return ObjectToInt(Editors.Objects[i]);
         }
         else
         {

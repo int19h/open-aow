@@ -8,7 +8,7 @@ public partial class ComboBox
     // in the same call, which is what Update copies from the bar on the next frame.
     public override bool CheckMouseWheel(int steps, Set<ShiftState> shift, int X, int Y)
     {
-        if (steps == 0 || !_open || _verticalScrollBar == null || !ContainsPoint(X, Y))
+        if (steps == 0 || !_open || _verticalScrollBar is null || !ContainsPoint(X, Y))
         {
             return false;
         }

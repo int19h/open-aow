@@ -7,7 +7,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.AI.Groups;
 
 // children. group control
-public partial class AIGroupControlTargetList(CustomNode owner) : ReferenceNode(owner), IChildList<AIGroupControlTarget>
+public class AIGroupControlTargetList(CustomNode owner) : ReferenceNode(owner), IChildList<AIGroupControlTarget>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AIGroupControlTarget, so the cast never fails.
@@ -40,13 +40,12 @@ public partial class AIGroupControlTargetList(CustomNode owner) : ReferenceNode(
     // AIGroup.pas:721
     public bool Validate()
     {
-        AIGroupControlTarget target;
         bool result = true;
         int count = Count;
         StrategicMap.Current.AIExecutor.UseProcessTime(count * 20);
         for (int i = Count - 1; i >= 0; i--)
         {
-            target = this[i];
+            AIGroupControlTarget target = this[i];
             if (!target.Validate(Control))
             {
                 _ = RemoveChild(target);
@@ -59,9 +58,4 @@ public partial class AIGroupControlTargetList(CustomNode owner) : ReferenceNode(
 
     // AIGroup.pas:739
     public int IndexOfMapCoordinate(MapCoordinate location) => Targets.IndexOfMapCoordinate(location);
-
-    // Engine.pas:631
-
-    // Engine.pas:631
-
 }

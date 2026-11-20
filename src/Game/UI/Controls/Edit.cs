@@ -39,12 +39,12 @@ public partial class Edit(Component owner) : Control(owner)
     // AoWEdit.pas:87
     public override void Validate()
     {
-        if (_imageLibraryEdit != null)
+        if (_imageLibraryEdit is not null)
         {
             _imageLibraryEdit = _imageLibraryEdit.CheckImageLibrary(_imageLibraryIndex, 3, this);
         }
 
-        if (_imageLibraryEdit != null && base.Font != null)
+        if (_imageLibraryEdit is not null && base.Font is not null)
         {
             Valid = true;
         }
@@ -155,13 +155,10 @@ public partial class Edit(Component owner) : Control(owner)
     // AoWEdit.pas:197
     public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        int w = default;
-        int i = default;
-        bool oldRedraw;
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
         MouseDown = false;
-        oldRedraw = Redraw;
+        bool oldRedraw = Redraw;
         if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
             Handled = true;
@@ -190,8 +187,8 @@ public partial class Edit(Component owner) : Control(owner)
                     }
                     else
                     {
-                        i = 0;
-                        w = base.Font.GetTextWidth(Copy(base.Text, FirstChar, i + 1));
+                        int i = 0;
+                        int w = base.Font.GetTextWidth(Copy(base.Text, FirstChar, i + 1));
                         while (X > Window.AbsoluteLeft + WinLeft + BorderWidth + w && base.Text.Length > i + FirstChar - 1)
                         {
                             i += 1;
@@ -257,10 +254,7 @@ public partial class Edit(Component owner) : Control(owner)
     // AoWEdit.pas:289
     public override void CheckKeyPress(ref byte key)
     {
-        byte c = default;
-        bool scroll;
         Handled = Redraw;
-        scroll = true;
         if (Editable && Redraw && Valid && Visible)
         {
             _cursorShown = true;
@@ -286,7 +280,7 @@ public partial class Edit(Component owner) : Control(owner)
                 case >= 14 and <= 31:
                     break;
                 default:
-                    c = key;
+                    byte c = key;
                     if (base.Text.Length < MaxChars || MaxChars == 0)
                     {
                         base.Text = Copy(base.Text, 1, FirstChar + _cursorPosition - 1) + Cp1252.Text(c) + Copy(base.Text, FirstChar + _cursorPosition, base.Text.Length - _cursorPosition - FirstChar + 1);
@@ -298,6 +292,7 @@ public partial class Edit(Component owner) : Control(owner)
                     break;
             }
 
+            bool scroll = true;
             if (scroll)
             {
                 while (base.Font.GetTextWidth(Copy(base.Text, FirstChar, base.Text.Length)) > WinWidth - (2 * BorderWidth) - 1)

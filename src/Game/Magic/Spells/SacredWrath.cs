@@ -10,7 +10,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Spells;
 
 // inherited combat statistics, damage mode
-public partial class SacredWrath : CombatSpell
+public class SacredWrath : CombatSpell
 {
     // CombatSpells.pas:1649
     public SacredWrath(CustomNode owner, EngineObject holder) : base(owner)

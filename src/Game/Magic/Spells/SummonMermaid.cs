@@ -5,7 +5,7 @@ using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class SummonMermaid : SummonSpell
+public class SummonMermaid : SummonSpell
 {
     // SummonSpells.pas:488
     public SummonMermaid(CustomNode owner, EngineObject holder) : base(owner)

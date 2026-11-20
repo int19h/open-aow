@@ -10,7 +10,7 @@ using Aow.Game.Combat;
 namespace Aow.Game.Magic.Abilities;
 
 // (ability ID, commanded combat-unit IDs)
-public partial class CommandAbilityData(CustomNode owner) : AbilityData(owner)
+public class CommandAbilityData(CustomNode owner) : AbilityData(owner)
 {
 
     public new const int ClassId = 131755;
@@ -40,12 +40,11 @@ public partial class CommandAbilityData(CustomNode owner) : AbilityData(owner)
     // AoWAb.PAS:4973
     public int CommandingTargetPriority(Battle combat)
     {
-        CombatObject target;
         int result = 0;
         for (int i = CommandedUnits.Count - 1; i >= 0; i--)
         {
-            target = combat.CombatData.FindId(CommandedUnits.List[i]);
-            if (target != null)
+            CombatObject target = combat.CombatData.FindId(CommandedUnits.List[i]);
+            if (target is not null)
             {
                 result += target.GetTargetPriority();
             }
@@ -57,12 +56,11 @@ public partial class CommandAbilityData(CustomNode owner) : AbilityData(owner)
     // AoWAb.PAS:4985
     public int CommandingTargetStrength(Battle combat)
     {
-        CombatObject target;
         int result = 0;
         for (int i = CommandedUnits.Count - 1; i >= 0; i--)
         {
-            target = combat.CombatData.FindId(CommandedUnits.List[i]);
-            if (target != null)
+            CombatObject target = combat.CombatData.FindId(CommandedUnits.List[i]);
+            if (target is not null)
             {
                 result += target.GetTargetStrength();
             }
@@ -70,7 +68,4 @@ public partial class CommandAbilityData(CustomNode owner) : AbilityData(owner)
 
         return result;
     }
-
-    // intf_P4_02.inc:475
-
 }

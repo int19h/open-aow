@@ -25,7 +25,7 @@ namespace Aow.Game.World.Map;
 
 // TNotifyEvent target passed directly
 // cheat text, mode, lock count
-public partial class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner)
+public class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner)
 {
     private string _cheatText = "";
 
@@ -35,11 +35,6 @@ public partial class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner
     // AoWHSMap.PAS:946
     public virtual void KeyDown(in ushort key, Set<ShiftState> shift)
     {
-        ushort translatedKey;
-        int i;
-        bool prefix;
-        bool complete;
-        CheatTokenEvent cheat;
         if (LockCount != 0)
         {
             return;
@@ -50,7 +45,7 @@ public partial class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner
         switch (Mode)
         {
             case HexSpriteMapKeyboardMode.Default:
-                translatedKey = key;
+                ushort translatedKey = key;
                 switch (GetEngine().Language)
                 {
                     case 3:
@@ -103,13 +98,9 @@ public partial class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner
 
                         break;
                     case 4:
-                        switch (key)
+                        if (key is 65)
                         {
-                            case 65:
-                                translatedKey = 68;
-                                break;
-                            default:
-                                break;
+                            translatedKey = 68;
                         }
 
                         break;
@@ -206,9 +197,9 @@ public partial class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner
                 break;
             case HexSpriteMapKeyboardMode.Cheat:
                 _cheatText += Cp1252.Text((byte)key);
-                i = 10;
-                complete = false;
-                prefix = false;
+                int i = 10;
+                bool complete = false;
+                bool prefix = false;
                 while (i != 0 && !complete)
                 {
                     i -= 1;
@@ -218,7 +209,7 @@ public partial class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner
 
                 if (complete && StrategicMap.Current.SeatedPlayer != -1 && !StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetBusy())
                 {
-                    cheat = new CheatTokenEvent(null)
+                    CheatTokenEvent cheat = new(null)
                     {
                         Holder = CreationHolder(),
                         Player = StrategicMap.Current.SeatedPlayer,
@@ -244,7 +235,7 @@ public partial class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner
         }
 
         string[] commandLine = Environment.GetCommandLineArgs();
-        if (key == 67 && (Set<ShiftState>.Of(ShiftState.Shift, ShiftState.Ctrl) & shift) == Set<ShiftState>.Of(ShiftState.Shift, ShiftState.Ctrl) && commandLine.Length > 1 && CompareText(commandLine[1], "beatrix") == 0 && StrategicMap.Current.ConnectionType != PlayerConnectionType.Network && StrategicMap.Current.ConnectionType != PlayerConnectionType.Email && !GetEngine().Demo)
+        if (key == 67 && (Set<ShiftState>.Of(ShiftState.Shift, ShiftState.Ctrl) & shift) == Set<ShiftState>.Of(ShiftState.Shift, ShiftState.Ctrl) && commandLine.Length > 1 && CompareText(commandLine[1], "beatrix") == 0 && StrategicMap.Current.ConnectionType is not PlayerConnectionType.Network and not PlayerConnectionType.Email && !GetEngine().Demo)
         {
             _ = AudioPlayback.PlaySample("SFX\\ATTACK\\MAGICB02.WAV");
             Mode = HexSpriteMapKeyboardMode.Cheat;
@@ -261,8 +252,7 @@ public partial class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner
     // AoWHSMap.PAS:938
     public void RunDefaultTest()
     {
-        string fileName;
-        fileName = $"autosave{FileBoundary.WriteExtension(DocumentKind.Save)}";
+        string fileName = $"autosave{FileBoundary.WriteExtension(DocumentKind.Save)}";
         // { Original saves the autosave file. }
         GetEngine().SaveHsm($"{GetEngine().StartupDirectory}Save\\{fileName}", null, GameProfile.WorldMap);
     }
@@ -270,11 +260,6 @@ public partial class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner
     private static readonly string s_observeEnabledText = "Observe enabled";
     private static readonly string s_observeDisabledText = "Observe disabled";
     private static readonly ImmutableArray<string> s_cheatNames = ["gold", "mana", "explore", "fog", "spells", "win", "freemove", "towns", "lose", "research"];
-
-    // Engine.pas:524
-
-    // Engine.pas:524
-
 }
 
 public enum HexSpriteMapKeyboardMode : byte

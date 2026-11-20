@@ -55,7 +55,6 @@ public partial class BitList : Persistent
     // Engine.pas:4758
     internal void SetCount(int newCount)
     {
-        int oldCount;
         if (newCount is < 0 or > EngineServices.MaxListSize)
         {
             Error("List count out of bounds (%d)", newCount);
@@ -68,7 +67,7 @@ public partial class BitList : Persistent
 
         if (newCount > _count)
         {
-            oldCount = _count;
+            int oldCount = _count;
             _count = newCount;
             for (int i = oldCount, last = _count - 1; i <= last; i++)
             {
@@ -93,23 +92,17 @@ public partial class BitList : Persistent
             }
         }
 
-        if (!IsEmpty(result))
-        {
-            result = Copy(result, 1, result.Length - 1);
-        }
-
-        return result;
+        return !IsEmpty(result) ? Copy(result, 1, result.Length - 1) : result;
     }
 
     // Engine.pas:4810
     internal void SetItemString(string S)
     {
-        string item;
-        int p;
         Clear();
-        p = Pos(",", S);
+        int p = Pos(",", S);
         while (!IsEmpty(S))
         {
+            string item;
             if (p != 0)
             {
                 item = Copy(S, 1, p - 1);
@@ -225,7 +218,6 @@ public partial class BitList : Persistent
     // Engine.pas:4624
     public void Exchange(int index1, int index2)
     {
-        bool item;
         if (index1 < 0 || index1 >= _count)
         {
             Error("List index out of bounds (%d)", index1);
@@ -236,7 +228,7 @@ public partial class BitList : Persistent
             Error("List index out of bounds (%d)", index2);
         }
 
-        item = Get(index1);
+        bool item = Get(index1);
         Put(index1, Get(index2));
         Put(index2, item);
     }
@@ -264,12 +256,7 @@ public partial class BitList : Persistent
             result += 1;
         }
 
-        if (result == _count)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == _count ? -1 : result;
     }
 
     // Engine.pas:4695
@@ -308,7 +295,6 @@ public partial class BitList : Persistent
     // Engine.pas:4717
     public void Move(int currentIndex, int newIndex)
     {
-        bool item;
         if (currentIndex != newIndex)
         {
             if (newIndex < 0 || newIndex >= _count)
@@ -316,7 +302,7 @@ public partial class BitList : Persistent
                 Error("List index out of bounds (%d)", newIndex);
             }
 
-            item = Get(currentIndex);
+            bool item = Get(currentIndex);
             Delete(currentIndex);
             Insert(newIndex, item);
         }
@@ -350,8 +336,8 @@ public partial class BitList : Persistent
     public bool Compare(BitList list) => list._count == _count && CompareMem(List.Span[..(int)(((uint)(_count + 7)) >> 3)], list.List.Span[..(int)(((uint)(_count + 7)) >> 3)], (int)(((uint)(_count + 7)) >> 3));
 
     /// <summary>The image <c>TBitList.SaveToStream</c> (Engine.pas:4791) writes, the default as its stored byte.</summary>
-    internal BitListImage SaveImage() =>
-        new(_default, _count, List.Span[..(int)(((uint)(_count + 7)) >> 3)].ToArray());
+    internal BitListImage SaveImage()
+        => new(_default, _count, List.Span[..(int)(((uint)(_count + 7)) >> 3)].ToArray());
 
     /// <summary>
     /// <c>TBitList.LoadFromStream</c> (Engine.pas:4782) from a stored image. A default byte other

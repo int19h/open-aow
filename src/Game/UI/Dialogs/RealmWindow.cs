@@ -69,7 +69,6 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     // AoWRealm.pas:238
     public void UpdateIncome()
     {
-        int value;
         Player playerGems = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
         TreasuryLabel.Text = IntToStr(playerGems.Gems);
         int upkeep = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetUpkeep();
@@ -82,7 +81,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         IncomeMemo.Items.Clear();
         IncomeValueMemo.Items.Clear();
         UpkeepValueMemo.Items.Clear();
-        value = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).BaseIncome;
+        int value = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).BaseIncome;
         if (value != 0)
         {
             string externalIncome = UI.Engine.TranslateResourceString(s_externalIncomeText);
@@ -129,8 +128,6 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     // AoWRealm.pas:178
     public void UpdateCities()
     {
-        PlayerStructure structure;
-        City c;
         CityNameList.Items.Clear();
         CityRaceList.Items.Clear();
         CityIncomeList.Items.Clear();
@@ -143,10 +140,10 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         CityEnchantmentList.Items.Clear();
         for (int i = 0, last = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetCount() - 1; i <= last; i++)
         {
-            structure = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetStructure(i);
+            PlayerStructure structure = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetStructure(i);
             if (structure is City found)
             {
-                c = found;
+                City c = found;
                 string name = c.GetName();
                 _ = CityNameList.Items.AddObject(name, c);
                 string raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[c.Race]);
@@ -189,12 +186,11 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     // AoWRealm.pas:309
     public void UpdatePlaces()
     {
-        PlayerStructure place;
         PlaceNameList.Items.Clear();
         PlaceActionList.Items.Clear();
         for (int i = 0, last = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetCount() - 1; i <= last; i++)
         {
-            place = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetStructure(i);
+            PlayerStructure place = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetStructure(i);
             if (place is not City)
             {
                 string editName = place.EditName();
@@ -208,7 +204,6 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     // AoWRealm.pas:283
     public void UpdateHeroes()
     {
-        Troop u;
         HeroNameList.Items.Clear();
         HeroHealthList.Items.Clear();
         HeroLevelList.Items.Clear();
@@ -216,7 +211,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         {
             for (int j = 0, lastJ = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(i).Units.Count - 1; j <= lastJ; j++)
             {
-                u = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(i).Units.GetUnit(j);
+                Troop u = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(i).Units.GetUnit(j);
                 if (u is Hero hero)
                 {
                     Army army = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(i);
@@ -281,11 +276,9 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     // AoWRealm.pas:345
     public void DrawArmyUnit(int column, in Rect drawRectangle, int drawItem, ref LockedSurface lockedSurface)
     {
-        Troop u;
-        Rect oldClip;
         if (column < StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(drawItem).Units.Count)
         {
-            oldClip = lockedSurface.ClipRectangle;
+            Rect oldClip = lockedSurface.ClipRectangle;
             Rect clipRectangle = lockedSurface.ClipRectangle;
             clipRectangle.Left = drawRectangle.Left + 2;
             lockedSurface.ClipRectangle = clipRectangle;
@@ -305,7 +298,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
                 lockedSurface.ClipRectangle = clipRectangle5;
             }
 
-            u = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(drawItem).Units.GetUnit(column);
+            Troop u = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(drawItem).Units.GetUnit(column);
             if ((int)u.GetAlignment() < UI.Graphics.UnitBackgrounds.Count)
             {
                 Units.Alignment alignment = u.GetAlignment();
@@ -412,9 +405,8 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     // AoWRealm.pas:448
     public void T2MorLBDrawItem(in Rect drawRectangle, int drawItem, ref readonly LockedSurface lockedSurface)
     {
-        int icon;
         string text = CityMoraleList.Items[drawItem];
-        icon = (IsEmpty(text) ? (byte)0 : Cp1252.Byte(text[0])) - 48;
+        int icon = (IsEmpty(text) ? (byte)0 : Cp1252.Byte(text[0])) - 48;
         LibraryImage listBoxIcon = UI.Graphics.ListIcons[icon + 9];
         UI.Graphics.ListIcons[icon + 9].ShowClipped(drawRectangle.Left + ((drawRectangle.Right - drawRectangle.Left) / 2) - (listBoxIcon.Width / 2), drawRectangle.Top, lockedSurface);
     }
@@ -422,10 +414,9 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     // AoWRealm.pas:457
     public void CityListMouseDown(ListBox sender, MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        HexSprite sprite;
         if (button == MouseButton.Right && sender.Selected != -1)
         {
-            sprite = CityNameList.Items.Objects[sender.Selected];
+            HexSprite sprite = CityNameList.Items.Objects[sender.Selected];
             sbyte hexLevel = sprite.GetHexLevel();
             sbyte hexY = sprite.GetHexY();
             sbyte hexX = sprite.GetHexX();
@@ -483,10 +474,9 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     // AoWRealm.pas:501
     public void PlacesListMouseDown(ListBox sender, MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        HexSprite sprite;
         if (button == MouseButton.Right && sender.Selected != -1)
         {
-            sprite = PlaceNameList.Items.Objects[sender.Selected];
+            HexSprite sprite = PlaceNameList.Items.Objects[sender.Selected];
             sbyte hexLevel = sprite.GetHexLevel();
             sbyte hexY = sprite.GetHexY();
             sbyte hexX = sprite.GetHexX();
@@ -512,12 +502,10 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     // AoWRealm.pas:522
     public void HeroListMouseDown(ListBox sender, MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        ListBox list;
-        HexSprite sprite;
-        list = sender;
+        ListBox list = sender;
         if (list.Selected != -1)
         {
-            sprite = HeroNameList.Items.Objects[list.Selected].GetArmyHexSprite();
+            HexSprite sprite = HeroNameList.Items.Objects[list.Selected].GetArmyHexSprite();
             sbyte hexLevel = sprite.GetHexLevel();
             sbyte hexY = sprite.GetHexY();
             sbyte hexX = sprite.GetHexX();
@@ -532,9 +520,8 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     // AoWRealm.pas:536
     public void HeroInfoClick()
     {
-        int index;
         UI.General.PlayButtonSound(0);
-        index = HeroNameList.Selected;
+        int index = HeroNameList.Selected;
         if (index != -1)
         {
             // { evaluate the index before the receiver chain }
@@ -568,9 +555,8 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     // AoWRealm.pas:567
     public void T2ActLBDrawItem(in Rect drawRectangle, int drawItem, ref readonly LockedSurface lockedSurface)
     {
-        byte icon;
         string text = CityActionList.Items[drawItem];
-        icon = IsEmpty(text) ? (byte)0 : Cp1252.Byte(text[0]);
+        byte icon = IsEmpty(text) ? (byte)0 : Cp1252.Byte(text[0]);
         if (icon != 45)
         {
             LibraryImage listBoxIcon = UI.Graphics.ListIcons[icon - 23];
@@ -588,9 +574,8 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     // AoWRealm.pas:583
     public void T2RelLBDrawItem(in Rect drawRectangle, int drawItem, ref readonly LockedSurface lockedSurface)
     {
-        int icon;
         string text = CityRelationList.Items[drawItem];
-        icon = (IsEmpty(text) ? (byte)0 : Cp1252.Byte(text[0])) - 48;
+        int icon = (IsEmpty(text) ? (byte)0 : Cp1252.Byte(text[0])) - 48;
         LibraryImage listBoxIcon = UI.Graphics.ListIcons[icon + 14];
         UI.Graphics.ListIcons[icon + 14].ShowClipped(drawRectangle.Left + ((drawRectangle.Right - drawRectangle.Left) / 2) - (listBoxIcon.Width / 2), drawRectangle.Top, lockedSurface);
     }
@@ -621,8 +606,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     // AoWRealm.pas:616
     public void T3NameChange(ListBox sender)
     {
-        ListBox list;
-        list = sender;
+        ListBox list = sender;
         PlaceNameList.Selected = list.Selected;
         PlaceActionList.Selected = list.Selected;
     }
@@ -633,9 +617,8 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     // AoWRealm.pas:630
     public void T2SNameClick(int button)
     {
-        DelphiList<ListBox> lists;
         UI.General.PlayButtonSound(0);
-        lists = new DelphiList<ListBox>();
+        DelphiList<ListBox> lists = new();
         _ = lists.Add(CityNameList);
         _ = lists.Add(CityRaceList);
         _ = lists.Add(CityIncomeList);
@@ -652,9 +635,8 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     // AoWRealm.pas:649
     public void T2SRaceClick(int button)
     {
-        DelphiList<ListBox> lists;
         UI.General.PlayButtonSound(0);
-        lists = new DelphiList<ListBox>();
+        DelphiList<ListBox> lists = new();
         _ = lists.Add(CityRaceList);
         _ = lists.Add(CityNameList);
         _ = lists.Add(CityIncomeList);
@@ -671,9 +653,8 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     // AoWRealm.pas:668
     public void T2SInClick(int button)
     {
-        DelphiList<ListBox> lists;
         UI.General.PlayButtonSound(0);
-        lists = new DelphiList<ListBox>();
+        DelphiList<ListBox> lists = new();
         _ = lists.Add(CityIncomeList);
         _ = lists.Add(CityNameList);
         _ = lists.Add(CityRaceList);
@@ -690,9 +671,8 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     // AoWRealm.pas:687
     public void T2SLvlClick(int button)
     {
-        DelphiList<ListBox> lists;
         UI.General.PlayButtonSound(0);
-        lists = new DelphiList<ListBox>();
+        DelphiList<ListBox> lists = new();
         _ = lists.Add(CityLevelList);
         _ = lists.Add(CityNameList);
         _ = lists.Add(CityRaceList);
@@ -709,9 +689,8 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     // AoWRealm.pas:706
     public void T2SWallClick(int button)
     {
-        DelphiList<ListBox> lists;
         UI.General.PlayButtonSound(0);
-        lists = new DelphiList<ListBox>();
+        DelphiList<ListBox> lists = new();
         _ = lists.Add(CityWallList);
         _ = lists.Add(CityNameList);
         _ = lists.Add(CityRaceList);
@@ -728,9 +707,8 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     // AoWRealm.pas:725
     public void T2SSizeClick(int button)
     {
-        DelphiList<ListBox> lists;
         UI.General.PlayButtonSound(0);
-        lists = new DelphiList<ListBox>();
+        DelphiList<ListBox> lists = new();
         _ = lists.Add(CitySizeList);
         _ = lists.Add(CityNameList);
         _ = lists.Add(CityRaceList);
@@ -747,9 +725,8 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     // AoWRealm.pas:744
     public void T2SRelClick(int button)
     {
-        DelphiList<ListBox> lists;
         UI.General.PlayButtonSound(0);
-        lists = new DelphiList<ListBox>();
+        DelphiList<ListBox> lists = new();
         _ = lists.Add(CityRelationList);
         _ = lists.Add(CityNameList);
         _ = lists.Add(CityRaceList);
@@ -766,9 +743,8 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     // AoWRealm.pas:763
     public void T2SMorClick(int button)
     {
-        DelphiList<ListBox> lists;
         UI.General.PlayButtonSound(0);
-        lists = new DelphiList<ListBox>();
+        DelphiList<ListBox> lists = new();
         _ = lists.Add(CityMoraleList);
         _ = lists.Add(CityNameList);
         _ = lists.Add(CityRaceList);
@@ -785,9 +761,8 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     // AoWRealm.pas:782
     public void T2SActClick(int button)
     {
-        DelphiList<ListBox> lists;
         UI.General.PlayButtonSound(0);
-        lists = new DelphiList<ListBox>();
+        DelphiList<ListBox> lists = new();
         _ = lists.Add(CityActionList);
         _ = lists.Add(CityNameList);
         _ = lists.Add(CityRaceList);
@@ -804,9 +779,8 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     // AoWRealm.pas:801
     public void T2SEncClick(int button)
     {
-        DelphiList<ListBox> lists;
         UI.General.PlayButtonSound(0);
-        lists = new DelphiList<ListBox>();
+        DelphiList<ListBox> lists = new();
         _ = lists.Add(CityEnchantmentList);
         _ = lists.Add(CityNameList);
         _ = lists.Add(CityRaceList);
@@ -823,9 +797,8 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     // AoWRealm.pas:820
     public void T3SNameClick(int button)
     {
-        DelphiList<ListBox> lists;
         UI.General.PlayButtonSound(0);
-        lists = new DelphiList<ListBox>();
+        DelphiList<ListBox> lists = new();
         _ = lists.Add(PlaceNameList);
         _ = lists.Add(PlaceActionList);
         UI.General.SortLists(lists, 0);
@@ -834,8 +807,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     // AoWRealm.pas:831
     public void HeroListChange(ListBox sender)
     {
-        ListBox list;
-        list = sender;
+        ListBox list = sender;
         HeroNameList.Selected = list.Selected;
         HeroHealthList.Selected = list.Selected;
         HeroLevelList.Selected = list.Selected;
@@ -853,15 +825,12 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     // AoWRealm.pas:849
     public void T5HeroInfDraw(LockedSurface lockedSurface)
     {
-        int index;
-        Hero hero;
-        Rect r;
-        index = HeroNameList.Selected;
+        int index = HeroNameList.Selected;
         if (index > -1)
         {
-            hero = HeroHealthList.Items.Objects[index << 0];
-            r = new Rect(HeroHeroInfoPanel.AbsoluteLeft + 1, HeroHeroInfoPanel.AbsoluteTop + 1, HeroHeroInfoPanel.AbsoluteLeft + HeroHeroInfoPanel.WinWidth - 1, HeroHeroInfoPanel.AbsoluteTop + HeroHeroInfoPanel.WinHeight - 1);
-            if (hero.GetFace() != null)
+            Hero hero = HeroHealthList.Items.Objects[index << 0];
+            Rect r = new(HeroHeroInfoPanel.AbsoluteLeft + 1, HeroHeroInfoPanel.AbsoluteTop + 1, HeroHeroInfoPanel.AbsoluteLeft + HeroHeroInfoPanel.WinWidth - 1, HeroHeroInfoPanel.AbsoluteTop + HeroHeroInfoPanel.WinHeight - 1);
+            if (hero.GetFace() is not null)
             {
                 hero.ShowFace(r, lockedSurface);
             }
@@ -882,9 +851,8 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     // AoWRealm.pas:875
     public void T5SNameClick(int button)
     {
-        DelphiList<ListBox> lists;
         UI.General.PlayButtonSound(0);
-        lists = new DelphiList<ListBox>();
+        DelphiList<ListBox> lists = new();
         _ = lists.Add(HeroNameList);
         _ = lists.Add(HeroHealthList);
         _ = lists.Add(HeroLevelList);
@@ -894,9 +862,8 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     // AoWRealm.pas:887
     public void T5SHealthClick(int button)
     {
-        DelphiList<ListBox> lists;
         UI.General.PlayButtonSound(0);
-        lists = new DelphiList<ListBox>();
+        DelphiList<ListBox> lists = new();
         _ = lists.Add(HeroHealthList);
         _ = lists.Add(HeroNameList);
         _ = lists.Add(HeroLevelList);
@@ -906,9 +873,8 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     // AoWRealm.pas:899
     public void T5SLevelClick(int button)
     {
-        DelphiList<ListBox> lists;
         UI.General.PlayButtonSound(0);
-        lists = new DelphiList<ListBox>();
+        DelphiList<ListBox> lists = new();
         _ = lists.Add(HeroLevelList);
         _ = lists.Add(HeroNameList);
         _ = lists.Add(HeroHealthList);
@@ -968,9 +934,8 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     // AoWRealm.pas:951
     public void T3ActivityClick(int button)
     {
-        DelphiList<ListBox> lists;
         UI.General.PlayButtonSound(0);
-        lists = new DelphiList<ListBox>();
+        DelphiList<ListBox> lists = new();
         _ = lists.Add(PlaceActionList);
         _ = lists.Add(PlaceNameList);
         UI.General.SortLists(lists, 1);
@@ -997,7 +962,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     private static int BuildersGuildIncome(sbyte player)
     {
         int number;
-        if (StrategicMap.Current != null)
+        if (StrategicMap.Current is not null)
         {
             Player players = StrategicMap.Current.Players.GetPlayers(player);
             number = 0;
@@ -1021,7 +986,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     private static int CityIncome(sbyte player)
     {
         int number;
-        if (StrategicMap.Current != null)
+        if (StrategicMap.Current is not null)
         {
             Player players = StrategicMap.Current.Players.GetPlayers(player);
             number = 0;
@@ -1045,7 +1010,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     private static int FarmIncome(sbyte player)
     {
         int number;
-        if (StrategicMap.Current != null)
+        if (StrategicMap.Current is not null)
         {
             Player players = StrategicMap.Current.Players.GetPlayers(player);
             number = 0;
@@ -1069,7 +1034,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     private static int MineIncome(sbyte player)
     {
         int number;
-        if (StrategicMap.Current != null)
+        if (StrategicMap.Current is not null)
         {
             Player players = StrategicMap.Current.Players.GetPlayers(player);
             number = 0;

@@ -5,7 +5,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.World;
 
-public partial class MountainMapObject(CustomNode owner) : Hexes.Terrain(owner)
+public class MountainMapObject(CustomNode owner) : Hexes.Terrain(owner)
 {
 
     // Mountain.pas:101
@@ -15,12 +15,7 @@ public partial class MountainMapObject(CustomNode owner) : Hexes.Terrain(owner)
     public override sbyte GetOverlay(int index)
     {
         sbyte result = ((MapObject)this).Resource.TerrainList.Overlay[index];
-        if (result >= 0)
-        {
-            result = 0;
-        }
-
-        return result;
+        return result >= 0 ? (sbyte)0 : result;
     }
 
     // Mountain.pas:110
@@ -29,16 +24,11 @@ public partial class MountainMapObject(CustomNode owner) : Hexes.Terrain(owner)
     // Mountain.pas:136
     public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        int i;
-        bool valid;
-        TerrainList list;
-        MapField mapField;
         int x = default;
         int y = default;
-        HexSprite hexSprite;
-        i = 0;
-        valid = true;
-        list = ((MapObject)this).Resource.TerrainList;
+        int i = 0;
+        bool valid = true;
+        TerrainList list = ((MapObject)this).Resource.TerrainList;
         while (valid && i < list.Count)
         {
             if (list.Terrain[i] >= 0 || list.Overlay[i] >= 0)
@@ -46,11 +36,11 @@ public partial class MountainMapObject(CustomNode owner) : Hexes.Terrain(owner)
                 HexGeometry.CenterHexNumberToHex(hexX, hexY, i, ref x, ref y);
                 if (x >= 0 && y >= 0 && x < mapContainer.Width && y < mapContainer.Height)
                 {
-                    mapField = mapContainer.GetField(x, y, hexLevel);
-                    hexSprite = mapField.GetMaxLevelNoneTransparentHexSprite();
-                    valid = hexSprite != null && hexSprite.EngineClass.ClassId == 131432
+                    MapField mapField = mapContainer.GetField(x, y, hexLevel);
+                    HexSprite hexSprite = mapField.GetMaxLevelNoneTransparentHexSprite();
+                    valid = hexSprite is not null && hexSprite.EngineClass.ClassId == 131432
                         ? ValidMountainOverlap(mapField, list.Overlay[i])
-                        : hexSprite == null || hexSprite.GetLevel() < 10;
+                        : hexSprite is null || hexSprite.GetLevel() < 10;
                 }
             }
 
@@ -63,19 +53,15 @@ public partial class MountainMapObject(CustomNode owner) : Hexes.Terrain(owner)
     // Mountain.pas:113
     public bool ValidMountainOverlap(MapField mapField, sbyte overlay)
     {
-        bool valid;
-        int i;
-        MapObject hexSprite;
-        sbyte otherOverlay;
-        valid = true;
-        i = 0;
+        bool valid = true;
+        int i = 0;
         while (i != mapField.Count && valid)
         {
-            hexSprite = mapField.GetChild<MapObject>(i);
+            MapObject hexSprite = mapField.GetChild<MapObject>(i);
             if (hexSprite.EngineClass.ClassId == 131432)
             {
                 int hexNumberOfHexSprite = mapField.GetHexNumberOfHexSprite(hexSprite);
-                otherOverlay = hexSprite.Resource.TerrainList.Overlay[hexNumberOfHexSprite];
+                sbyte otherOverlay = hexSprite.Resource.TerrainList.Overlay[hexNumberOfHexSprite];
                 valid = !((otherOverlay == 0 && overlay == 0) || (otherOverlay == 1 && overlay == 1));
             }
 
@@ -84,5 +70,4 @@ public partial class MountainMapObject(CustomNode owner) : Hexes.Terrain(owner)
 
         return valid;
     }
-
 }

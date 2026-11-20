@@ -4,7 +4,7 @@ using Aow.Rtl;
 namespace Aow.Game.Audio;
 
 // the wave files TSFXManager found
-public partial class SfxList : DelphiStringList
+public class SfxList : DelphiStringList
 {
 
 }

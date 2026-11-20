@@ -3,7 +3,7 @@
 namespace Aow.Game.World.Map;
 
 // the parameters of a new map (THSMap.CreateNewMap)
-public partial class NewHexSpriteMapSettings
+public class NewHexSpriteMapSettings
 {
 
     public NewHexSpriteMapSettings()
@@ -27,6 +27,4 @@ public partial class NewHexSpriteMapSettings
     public int HexSpriteMapClassId { get; }
     public int MapContainerClassId { get; }
     public int MapLevelClassId { get; }
-    // HSEngine.pas:2802
-
 }

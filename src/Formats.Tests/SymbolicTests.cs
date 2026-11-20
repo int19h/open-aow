@@ -197,8 +197,8 @@ public sealed class SymbolicTests : FormatsTest
         Assert.Contains(kind, error.Message);
     }
 
-    private static byte[] Pilot(SchemaClass classValue, FormatSchema schema, JsonObject document) =>
-        OriginalBackend.Write(DocumentBackend.Read(document, classValue, schema, "game"), classValue, schema, "game");
+    private static byte[] Pilot(SchemaClass classValue, FormatSchema schema, JsonObject document)
+        => OriginalBackend.Write(DocumentBackend.Read(document, classValue, schema, "game"), classValue, schema, "game");
 
     private static List<object> Items(JsonValue value)
     {

@@ -6,14 +6,14 @@ using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.World.Terrain;
 
-public partial class OverlayObject(CustomNode owner) : FixedImageLibraryTerrainMapObject(owner)
+public class OverlayObject(CustomNode owner) : FixedImageLibraryTerrainMapObject(owner)
 {
 
     // OverlayObject.pas:36
     public new const int ClassId = 131228;
 
     // OverlayType
-    public new partial class Resource(CustomNode owner) : FixedImageLibraryTerrainMapObjectResource(owner)
+    public new class Resource(CustomNode owner) : FixedImageLibraryTerrainMapObjectResource(owner)
     {
 
         // OverlayObject.pas:42
@@ -37,5 +37,4 @@ public partial class OverlayObject(CustomNode owner) : FixedImageLibraryTerrainM
         private static readonly string s_overlayObjectText = "Overlay Object";
 
     }
-
 }

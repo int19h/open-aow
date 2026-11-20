@@ -14,7 +14,7 @@ using static Aow.Rtl.DelphiRounding;
 namespace Aow.Game.Draw.Animations;
 
 // sequence, particle count, radius, lifetime, random start delay, mode
-public partial class TwinkleAnimation : Animation
+public class TwinkleAnimation : Animation
 {
     public TwinkleAnimation(CustomNode owner) : base(owner) => AnimationLevel = 28;
 
@@ -25,18 +25,10 @@ public partial class TwinkleAnimation : Animation
     private int _startDelay;
     private Set<TwinkleModeElement> _mode;
 
-    // Animation.pas:532
-
     // Animation.pas:538
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        ImageSequence sequence;
-        int oldSeed;
-        int delay;
-        int radius;
-        int angle;
-        int index;
-        oldSeed = RandSeed;
+        int oldSeed = RandSeed;
         HexGeometry.HexToPixel(Location.X, Location.Y, out int x, out int y);
         pixelXSurface = x - pixelXSurface + 16;
         pixelYSurface = y - pixelYSurface + 16;
@@ -45,9 +37,9 @@ public partial class TwinkleAnimation : Animation
         RandSeed = hexX + StrategicMap.Current.InitialRandomSeed + (hexY * 3);
         for (int i = 0, last = _count - 1; i <= last; i++)
         {
-            radius = Random(_radius);
-            angle = Random(360);
-            delay = Random(_startDelay);
+            int radius = Random(_radius);
+            int angle = Random(360);
+            int delay = Random(_startDelay);
             if (FrameCounter - delay >= 0)
             {
                 if (_mode.Contains(TwinkleModeElement.Expand))
@@ -71,10 +63,10 @@ public partial class TwinkleAnimation : Animation
                 }
 
                 AbilityRules.PolarToCartesian(angle, radius, out int deltaX, out int deltaY);
-                sequence = _imageSequence;
-                while (sequence != null)
+                ImageSequence sequence = _imageSequence;
+                while (sequence is not null)
                 {
-                    index = sequence.GetUnloopedFrameIndex(FrameCounter - delay);
+                    int index = sequence.GetUnloopedFrameIndex(FrameCounter - delay);
                     if (sequence.ImageLibrary.ImageExist(index))
                     {
                         sequence.ImageLibrary[index].Show(pixelXSurface + sequence.OffsetX + deltaX, pixelYSurface + sequence.OffsetY + deltaY, lockedSurface);
@@ -102,7 +94,4 @@ public partial class TwinkleAnimation : Animation
         _startDelay = startDelay;
         _duration = duration;
     }
-
-    // Animation.pas:117
-
 }

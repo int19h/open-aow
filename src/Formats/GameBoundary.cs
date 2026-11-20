@@ -246,8 +246,8 @@ public static class GameBoundary
     /// refusal is the fixed-array codec. Every other export failure still fails the load. A
     /// campaign map keeps this document and nests it. Strict export still refuses it.
     /// </summary>
-    public static bool LacksImage(ConversionException error) =>
-        error.Diagnostic.Code == Codes.Unrepresentable
+    public static bool LacksImage(ConversionException error)
+        => error.Diagnostic.Code == Codes.Unrepresentable
         || (error.Diagnostic.Code == Codes.Range && error.Diagnostic.Message.Contains("does not truncate", StringComparison.Ordinal));
 
     /// <summary>
@@ -351,8 +351,8 @@ public static class GameBoundary
         return profile.WrapRootImage(context: new EncodeContext(schema, engine: classTable, profile: profile.Name, file: null, limits: FormatLimits.Default), rootImage: OriginalBackend.Write(root, classValue: classValue, schema: schema, engine: classTable), classValue: classValue);
     }
 
-    private static WrittenObjectProfile WrittenObject(string className, string classTable) =>
-        new("written-object", kinds: ["written-object"], rootClass: className, engine: classTable);
+    private static WrittenObjectProfile WrittenObject(string className, string classTable)
+        => new("written-object", kinds: ["written-object"], rootClass: className, engine: classTable);
 
     /// <summary>
     /// The image <c>TEngine.StoreEObject</c> writes (<c>rwCreateEObject</c> with id 0). A class id
@@ -361,8 +361,8 @@ public static class GameBoundary
     /// <paramref name="className"/>, under <see cref="TransportProfile"/>. A value that profile
     /// cannot carry is refused with its path and the packet is not written (persistence-tree.md 16).
     /// </summary>
-    public static byte[] WritePacket(ObjectNode? root, int classId, string? className) =>
-        WritePacket(root, classId: classId, className: className, schema: FormatSchema.Current);
+    public static byte[] WritePacket(ObjectNode? root, int classId, string? className)
+        => WritePacket(root, classId: classId, className: className, schema: FormatSchema.Current);
 
     /// <summary>
     /// The packet image of <see cref="WritePacket(ObjectNode?, int, string?)"/> read against
@@ -432,8 +432,8 @@ public static class GameBoundary
     /// ids. A class enlisted in the tactical table uses it. A class enlisted in none uses the
     /// strategic table. Any other class uses the first table it lists.
     /// </summary>
-    public static string PacketClassTable(SchemaClass classValue) =>
-        classValue.Engines.Contains("tactical") ? "tactical"
+    public static string PacketClassTable(SchemaClass classValue)
+        => classValue.Engines.Contains("tactical") ? "tactical"
         : classValue.Engines.Count == 0 ? "game"
         : classValue.Engines[0];
 

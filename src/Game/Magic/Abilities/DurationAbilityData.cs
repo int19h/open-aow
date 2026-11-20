@@ -6,7 +6,7 @@ using Aow.Formats.Tree;
 namespace Aow.Game.Magic.Abilities;
 
 // (duration, player index, ability ID, unresolved Integer)
-public partial class DurationAbilityData(CustomNode owner) : AbilityData(owner)
+public class DurationAbilityData(CustomNode owner) : AbilityData(owner)
 {
     public new const int ClassId = 139266;
 
@@ -27,7 +27,4 @@ public partial class DurationAbilityData(CustomNode owner) : AbilityData(owner)
 
     // AoWAb.PAS:11
     public override int GetAbilityId() => AbilityId;
-
-    // Engine.pas:524
-
 }

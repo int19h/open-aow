@@ -11,7 +11,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Spells;
 
 // Watcher
-public partial class WatcherEnchantment : GlobalEnchantment
+public class WatcherEnchantment : GlobalEnchantment
 {
     public WatcherHexSprite Watcher { get; init; }
 

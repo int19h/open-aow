@@ -5,7 +5,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Abilities;
 
-public partial class EnhancementAbility : AdjustableAbility
+public class EnhancementAbility : AdjustableAbility
 {
 
     // AoWAb.PAS:922

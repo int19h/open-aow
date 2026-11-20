@@ -13,7 +13,7 @@ using Aow.Game.World.Structures;
 namespace Aow.Game.Units;
 
 // Hero
-public partial class HeroPowerSource(CustomNode owner) : PowerSource(owner)
+public class HeroPowerSource(CustomNode owner) : PowerSource(owner)
 {
     public Hero Hero { get; init; }
 
@@ -29,21 +29,17 @@ public partial class HeroPowerSource(CustomNode owner) : PowerSource(owner)
     // Hero.PAS:597
     public override void Select()
     {
-        ArmyHexSprite armyHexSprite;
         MapCoordinate coordinate27 = GetLocation();
         sbyte x = coordinate27.X;
         sbyte y = coordinate27.Y;
         sbyte l = coordinate27.MapLevel;
         if (x != -1)
         {
-            armyHexSprite = StrategicMap.Current.MapContainer.GetField(x, y, l).GetArmyHexSprite();
-            if (armyHexSprite != null)
+            ArmyHexSprite armyHexSprite = StrategicMap.Current.MapContainer.GetField(x, y, l).GetArmyHexSprite();
+            if (armyHexSprite is not null)
             {
                 StrategicMap.Current.Select(armyHexSprite, true);
             }
         }
     }
-
-    // Engine.pas:524
-
 }

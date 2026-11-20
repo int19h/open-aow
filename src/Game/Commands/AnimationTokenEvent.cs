@@ -8,7 +8,7 @@ using Aow.Game.Net;
 namespace Aow.Game.Commands;
 
 // state, animation
-public partial class AnimationTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class AnimationTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
 
     // Animation.pas:388
@@ -28,7 +28,7 @@ public partial class AnimationTokenEvent(CustomNode owner) : TokenEvent(owner)
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
         ExecuteResult result = base.Execute(tokenEvent);
-        if (_animation != null)
+        if (_animation is not null)
         {
             if (_state == AnimationTokenEventState.Idle)
             {
@@ -53,12 +53,12 @@ public partial class AnimationTokenEvent(CustomNode owner) : TokenEvent(owner)
 
             if (_state == AnimationTokenEventState.Done)
             {
-                result = ExecuteResult.Done;
+                return ExecuteResult.Done;
             }
         }
         else
         {
-            result = ExecuteResult.Done;
+            return ExecuteResult.Done;
         }
 
         return result;
@@ -67,14 +67,10 @@ public partial class AnimationTokenEvent(CustomNode owner) : TokenEvent(owner)
     // Animation.pas:393
     public void Initialize(Animation animation)
     {
-        if (_animation != null)
-        {
-            _animation?.Dispose();
-        }
+        _animation?.Dispose();
 
         _animation = animation;
     }
-
 }
 
 public enum AnimationTokenEventState : byte

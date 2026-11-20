@@ -12,7 +12,7 @@ using static Aow.Rtl.DelphiConversions;
 namespace Aow.Game.AI.Groups;
 
 // references, cycles, control, status, state
-public partial class AIGroupTask(CustomNode owner) : EngineObject(owner)
+public class AIGroupTask(CustomNode owner) : EngineObject(owner)
 {
     private int _refCount = 1;
     [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Construction snapshots record this field, and the Delphi field is only written.")]
@@ -76,14 +76,12 @@ public partial class AIGroupTask(CustomNode owner) : EngineObject(owner)
     // AIGroup.pas:1408
     public bool MainProcess()
     {
-        bool busy;
-        int i;
         try
         {
             _processCycles += 1;
             Validate();
-            busy = false;
-            i = 0;
+            bool busy = false;
+            int i = 0;
             while (!busy && State != -1 && (i == 0 || StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 0))
             {
                 i += 1;
@@ -97,7 +95,4 @@ public partial class AIGroupTask(CustomNode owner) : EngineObject(owner)
 
         return State != -1;
     }
-
-    // intf_P5_07.inc:218
-
 }

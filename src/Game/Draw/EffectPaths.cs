@@ -15,7 +15,6 @@ internal static class EffectPaths
 
     internal static void MakeLinePath(int x1, int y1, int x2, int y2, int steps, Point3DList list)
     {
-        Point3D xYZ;
         if (steps < 2)
         {
             steps = 2;
@@ -23,7 +22,7 @@ internal static class EffectPaths
 
         for (int i = 0; i <= steps - 1; i++)
         {
-            xYZ = new Point3D();
+            Point3D xYZ = new();
             list.Add(xYZ);
             xYZ.X = x1 + ((x2 - x1) * i / (steps - 1));
             xYZ.Y = y1 + ((y2 - y1) * i / (steps - 1));
@@ -32,22 +31,17 @@ internal static class EffectPaths
 
     internal static void MakeSwarmPath(int step, int radius, int phase, int angle, int x, int y, SwarmDirection direction, Point3DList list)
     {
-        int total;
-        int b;
-        float radiusLocal;
-        float r;
-        Point3D xYZ;
-        total = 0;
+        int total = 0;
         do
         {
-            radiusLocal = (float)((double)(angle * Math.PI) / 180);
-            b = (phase + angle) % 180;
-            r = b switch
+            float radiusLocal = (float)((double)(angle * Math.PI) / 180);
+            int b = (phase + angle) % 180;
+            float r = b switch
             {
                 >= 0 and <= 89 => (float)((double)((double)((double)b / 90 * ((double)b / 90)) * radius) + radius),
                 _ => (float)((double)((double)((double)(180 - b) / 90 * ((double)(180 - b) / 90)) * radius) + radius),
             };
-            xYZ = new Point3D
+            Point3D xYZ = new()
             {
                 X = Round((double)Math.Sin(radiusLocal) * r) + x,
                 Y = Round((double)Math.Cos(radiusLocal) * r) + y
@@ -83,32 +77,23 @@ internal static class EffectPaths
 
     internal static void MakeLightningPath(int x1, int y1, int x2, int y2, Point3DList list)
     {
-        int hexX;
-        int hexY;
-        int cx;
-        int cy;
-        int length;
-        float angle;
-        float a2;
-        int dist;
-        int seg;
-        cx = x1;
-        cy = y1;
-        angle = GetAngle(x1, y1, x2, y2);
-        a2 = angle;
-        length = Round(Math.Sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1))));
-        dist = 0;
-        seg = Random(15) + 5;
+        int cx = x1;
+        int cy = y1;
+        float angle = GetAngle(x1, y1, x2, y2);
+        float a2 = angle;
+        int length = Round(Math.Sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1))));
+        int dist = 0;
+        int seg = Random(15) + 5;
         while (dist + seg < length)
         {
             a2 = (double)a2 > angle ? (float)((double)angle - double.DegreesToRadians(Random(40) + 40)) : (float)((double)angle + double.DegreesToRadians(Random(40) + 40));
 
             double cos = Math.Cos(angle);
             double mathCos = Math.Cos(a2);
-            hexX = x1 - Round((double)cos * dist) - Round((double)mathCos * seg);
+            int hexX = x1 - Round((double)cos * dist) - Round((double)mathCos * seg);
             double sin = Math.Sin(angle);
             double mathSin = Math.Sin(a2);
-            hexY = y1 - Round((double)sin * dist) - Round((double)mathSin * seg);
+            int hexY = y1 - Round((double)sin * dist) - Round((double)mathSin * seg);
             MakeLinePath(cx, cy, hexX, hexY, seg, list);
             cx = hexX;
             cy = hexY;
@@ -124,20 +109,15 @@ internal static class EffectPaths
 
     internal static void MakeArcPath(int x, int y, int angle, ref float z, in float speed, ref float vz, in float gravity, Point3DList list)
     {
-        float effect;
-        float fy;
-        float deltaX;
-        float deltaY;
-        Point3D xYZ;
-        effect = x;
-        fy = y;
-        deltaX = (float)((double)Math.Cos(angle) * speed);
-        deltaY = (float)((double)Math.Sin(angle) * speed);
+        float effect = x;
+        float fy = y;
+        float deltaX = (float)((double)Math.Cos(angle) * speed);
+        float deltaY = (float)((double)Math.Sin(angle) * speed);
         if ((double)gravity > 0)
         {
             while ((double)z >= 0)
             {
-                xYZ = new Point3D
+                Point3D xYZ = new()
                 {
                     X = Round(effect),
                     Y = Round(fy),
@@ -154,15 +134,10 @@ internal static class EffectPaths
 
     internal static void MakeArcPathXY(short x1, short y1, short x2, short y2, short stepSize, short height, Point3DList list)
     {
-        int i;
-        int steps;
-        int deltaX;
-        int deltaY;
-        Point3D xYZ;
-        i = 0;
-        deltaX = Math.Abs(x2 - x1);
-        deltaY = Math.Abs(y2 - y1);
-        steps = (deltaX + deltaY) / stepSize;
+        int i = 0;
+        int deltaX = Math.Abs(x2 - x1);
+        int deltaY = Math.Abs(y2 - y1);
+        int steps = (deltaX + deltaY) / stepSize;
         if (steps < 2)
         {
             steps = 2;
@@ -170,7 +145,7 @@ internal static class EffectPaths
 
         while (i <= steps)
         {
-            xYZ = new Point3D();
+            Point3D xYZ = new();
             list.Add(xYZ);
             xYZ.X = x1 + ((x2 - x1) * i / steps);
             xYZ.Y = y1 + ((y2 - y1) * i / steps);
@@ -185,13 +160,13 @@ internal static class EffectPaths
         float result = x1 == x2 ? (float)(Math.PI / 2) : (float)Math.Atan((double)(y2 - y1) / (x2 - x1));
         if (x2 > x1)
         {
-            result = (float)((double)result + Math.PI);
+            return (float)((double)result + Math.PI);
         }
         else
         {
             if (y1 < y2 && x2 == x1)
             {
-                result = (float)((double)result + Math.PI);
+                return (float)((double)result + Math.PI);
             }
         }
 
@@ -200,25 +175,21 @@ internal static class EffectPaths
 
     internal static void CreateFire(int chance, int hexX, int hexY, GameEngine engine)
     {
-        CombatFire fire;
-        bool canBurn;
-        CombatImageLibraryTerrain terrain;
-        CityWall wall;
         if (CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).TerrainType != 15)
         {
-            if (CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).FindOwnedChild(2229578) == null)
+            if (CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).FindOwnedChild(2229578) is null)
             {
                 if (StrategicMap.Current.Random(100) < chance)
                 {
-                    canBurn = false;
+                    bool canBurn = false;
                     if (CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).GetDecorationType() is 9 or 1 or 2 or 3)
                     {
                         canBurn = true;
                     }
                     else
                     {
-                        terrain = CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).FindOwnedChild<CombatImageLibraryTerrain>(2228534);
-                        if (terrain != null)
+                        CombatImageLibraryTerrain terrain = CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).FindOwnedChild<CombatImageLibraryTerrain>(2228534);
+                        if (terrain is not null)
                         {
                             if (terrain.GetBurnValue() > 0)
                             {
@@ -226,8 +197,8 @@ internal static class EffectPaths
                             }
                         }
 
-                        wall = CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).FindOwnedChild<CityWall>(2229508);
-                        if (wall != null)
+                        CityWall wall = CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).FindOwnedChild<CityWall>(2229508);
+                        if (wall is not null)
                         {
                             if (wall.WallType == 1)
                             {
@@ -241,7 +212,7 @@ internal static class EffectPaths
 
                     if (canBurn)
                     {
-                        fire = new CombatFire(null) { Holder = engine };
+                        CombatFire fire = new(null) { Holder = engine };
                         if (!CombatMap.Current.PlaceHex(fire, hexX, hexY, 0))
                         {
                             fire?.Dispose();
@@ -251,5 +222,4 @@ internal static class EffectPaths
             }
         }
     }
-
 }

@@ -178,12 +178,12 @@ public sealed class ObjectCastCrashTests
         }
         finally
         {
-            if (control.GetSpell(17) != null)
+            if (control.GetSpell(17) is not null)
             {
                 control.UnregisterSpellId(17);
             }
 
-            if (control.GetSpell(56) != null)
+            if (control.GetSpell(56) is not null)
             {
                 control.UnregisterSpellId(56);
             }

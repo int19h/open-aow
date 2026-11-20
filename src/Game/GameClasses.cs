@@ -92,9 +92,8 @@ internal static class GameClasses
         engine.RegisterEngineClasses([EngineClass.Of<BuildersGuild>(), EngineClass.Of<BuildersGuild.Resource>()]);
         engine.RegisterEngineClasses([EngineClass.Of<ItemExplorationSiteEventLog>()]);
         engine.RegisterEngineClasses([EngineClass.Of<SetupSettings>(), EngineClass.Of<PlayerSetupSettings>(), EngineClass.Of<SetupPackage>(), EngineClass.Of<RemotePlayer>()]);
-        SpellControl spells;
         engine.RegisterEngineClasses([EngineClass.Of<IceStorm>(), EngineClass.Of<DeathStorm>(), EngineClass.Of<DivineStorm>(), EngineClass.Of<FireStorm>(), EngineClass.Of<LightningStorm>(), EngineClass.Of<PestilenceStorm>(), EngineClass.Of<StormSpellTokenEvent>()]);
-        spells = engine.GameSet.SpellControl;
+        SpellControl spells = engine.GameSet.SpellControl;
         spells.RegisterSpell(new FireStormSpell(null, holder: engine));
         spells.RegisterSpell(new DeathStormSpell(null, holder: engine));
         spells.RegisterSpell(new DivineStormSpell(null, holder: engine));
@@ -114,8 +113,7 @@ internal static class GameClasses
         spellControl.RegisterSpell(new AnimateRuins(null, holder: engine));
         engine.RegisterEngineClasses([EngineClass.Of<PowerNode>(), EngineClass.Of<PowerNode.Resource>()]);
         engine.RegisterEngineClasses([EngineClass.Of<ManaCrystals>(), EngineClass.Of<ManaCrystals.Resource>()]);
-        SpellControl control;
-        control = engine.GameSet.SpellControl;
+        SpellControl control = engine.GameSet.SpellControl;
         engine.RegisterEngineClasses([EngineClass.Of<EnchantedRoadsEnchantment>(), EngineClass.Of<GlobalEnchantmentSpellTokenEvent>(), EngineClass.Of<GlobalEnchantmentEventLog>()]);
         engine.RegisterEngineClasses([EngineClass.Of<WaterMasteryEnchantment>(), EngineClass.Of<HatredEnchantment>(), EngineClass.Of<HarmonyEnchantment>(), EngineClass.Of<PowerLeakEnchantment>(), EngineClass.Of<FloodEnchantment>(), EngineClass.Of<AirMasteryEnchantment>()]);
         engine.RegisterEngineClasses([EngineClass.Of<LifeMasteryEnchantment>(), EngineClass.Of<DeathMasteryEnchantment>(), EngineClass.Of<FireMasteryEnchantment>(), EngineClass.Of<EarthMasteryEnchantment>(), EngineClass.Of<SpellWardEnchantment>()]);

@@ -14,7 +14,7 @@ using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class DeathMastery : GlobalEnchantmentSpell
+public class DeathMastery : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:1577
     public DeathMastery(CustomNode owner, EngineObject holder) : base(owner)
@@ -34,15 +34,12 @@ public partial class DeathMastery : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:1618
     public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
         _ = base.ExecuteTokenEvent(eventValue, source, executeCount);
         SpellTargets.NotifySpellSphere(source.Player, MagicSphere.Death);
         MapCoordinate coordinate63 = source.GetLocation();
-        x = coordinate63.X;
-        y = coordinate63.Y;
-        l = coordinate63.MapLevel;
+        sbyte x = coordinate63.X;
+        sbyte y = coordinate63.Y;
+        sbyte l = coordinate63.MapLevel;
         _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
         Animation animation = new(null)
         {
@@ -65,11 +62,6 @@ public partial class DeathMastery : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:1593
     public void ShowAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int x;
-        int y;
-        int speed;
-        int d;
-        int image;
         RandSeed = StrategicMap.Current.Frame - animation.FrameCounter;
         int count = GetEngine().AnimationDetail switch
         {
@@ -79,12 +71,12 @@ public partial class DeathMastery : GlobalEnchantmentSpell
         };
         for (int i = 0; i <= count - 1; i++)
         {
-            x = Random(animation.Tag & 65535);
-            y = Random((int)(((uint)(int)(uint)animation.Tag) >> 16));
-            speed = Random(15) + 5;
-            image = Random(3);
+            int x = Random(animation.Tag & 65535);
+            int y = Random((int)(((uint)(int)(uint)animation.Tag) >> 16));
+            int speed = Random(15) + 5;
+            int image = Random(3);
             // { Preserve the original image/displacement register lifetimes. }
-            d = (animation.FrameCounter - 45) * speed;
+            int d = (animation.FrameCounter - 45) * speed;
             x -= d * 2;
             y += d;
             _ = CastImages.Show(image, lockedSurface.ClipRectangle.Left + x, lockedSurface.ClipRectangle.Top + y, 0, lockedSurface);

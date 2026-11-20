@@ -40,8 +40,8 @@ public sealed class MapNetSoundFailureTests
             throw new InvalidDataException("sample");
         }
 
-        internal static new FailingSample Create(SampleData data) =>
-            ConstructionContext.Create(data, static (context, value) => new FailingSample(context, value));
+        internal static new FailingSample Create(SampleData data)
+            => ConstructionContext.Create(data, static (context, value) => new FailingSample(context, value));
     }
 
     private sealed class Container(GameMap map) : MapContainer(map)
@@ -143,7 +143,11 @@ public sealed class MapNetSoundFailureTests
             data.Release();
             Assert.Equal(0, AudioHost.SampleDataList.Count);
         }
-        finally { AudioHost.SampleList = oldSamples; AudioHost.SampleDataList = oldData; }
+        finally
+        {
+            AudioHost.SampleList = oldSamples;
+            AudioHost.SampleDataList = oldData;
+        }
     }
 
     [Theory]

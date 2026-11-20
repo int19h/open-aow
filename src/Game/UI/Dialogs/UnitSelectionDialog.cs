@@ -38,16 +38,14 @@ public partial class UnitSelectionDialog(UIContext ui) : UIModule(ui)
     // AoWUnitSelDlg.pas:66
     public void DrawUnit(int index, int X, int Y, ref LockedSurface lockedSurface)
     {
-        Rect saveRectangle;
         UnitShowInfo info;
-        LibraryImage image;
-        Units.Alignment alignment;
         if (index < Event.Units.GetCount())
         {
-            saveRectangle = lockedSurface.ClipRectangle;
+            Rect saveRectangle = lockedSurface.ClipRectangle;
             Rect rectangle = new(X + 5, Y + 4, X + 46, Y + 56);
             lockedSurface.ClipRectangle = rectangle;
-            alignment = Event.Units.GetUnit(index).GetAlignment();
+            Units.Alignment alignment = Event.Units.GetUnit(index).GetAlignment();
+            LibraryImage image;
             if ((int)alignment < UI.Graphics.UnitBackgrounds.Count)
             {
                 // { D3 masks the enum index after the original full-byte guard. }
@@ -91,14 +89,13 @@ public partial class UnitSelectionDialog(UIContext ui) : UIModule(ui)
     // AoWUnitSelDlg.pas:186
     public void Execute(UnitSelectionActivation request)
     {
-        Troop u;
         ResetSelection();
         _eventLog = request;
         _ = _eventLog.AddRef();
         Event = request.UnitSelector;
         _ = Event.AddRef();
-        u = StrategicMap.Current.UnitControl.FindUnit(Event.SourceUnitId);
-        if (u != null)
+        Troop u = StrategicMap.Current.UnitControl.FindUnit(Event.SourceUnitId);
+        if (u is not null)
         {
             SourcePanel.Visible = true;
             string name = u.GetName();
@@ -148,7 +145,6 @@ public partial class UnitSelectionDialog(UIContext ui) : UIModule(ui)
     // AoWUnitSelDlg.pas:120
     public void U1Change(CheckBox sender, int slot)
     {
-        string reason = "";
         if (sender.Checked)
         {
             if (!Event.Canceled)
@@ -187,6 +183,7 @@ public partial class UnitSelectionDialog(UIContext ui) : UIModule(ui)
 
         if (Event.Selection != 0)
         {
+            string reason = "";
             SelectionInfoLabel.TextColor = Event.CanSelect(ref reason) ? 0 : 149;
         }
         else
@@ -202,11 +199,10 @@ public partial class UnitSelectionDialog(UIContext ui) : UIModule(ui)
     public void SourceFacePreDraw(LockedSurface lockedSurface)
     {
         Rect r = default;
-        Troop u;
-        if (Event != null)
+        if (Event is not null)
         {
-            u = StrategicMap.Current.UnitControl.FindUnit(Event.SourceUnitId);
-            if (u != null)
+            Troop u = StrategicMap.Current.UnitControl.FindUnit(Event.SourceUnitId);
+            if (u is not null)
             {
                 r.Left = SourceFace.WinLeft + SourcePanel.AbsoluteLeft;
                 r.Right = SourceFace.WinWidth + r.Left;

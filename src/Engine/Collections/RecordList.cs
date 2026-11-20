@@ -173,13 +173,11 @@ public class RecordList<TRecord> : Persistent where TRecord : struct
     private static void QuickSort(Span<TRecord> sortList, int L, int R, RecordSortCompare<TRecord> sCompare)
     {
         int i;
-        int j;
-        TRecord p;
         do
         {
             i = L;
-            j = R;
-            p = sortList[(int)(((uint)(L + R)) >> 1)];
+            int j = R;
+            TRecord p = sortList[(int)(((uint)(L + R)) >> 1)];
             do
             {
                 while (sCompare(sortList[i], p) < 0)

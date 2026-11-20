@@ -71,26 +71,19 @@ public partial class ArmyEventLog : EventLog
     public override string GetText() => ArmyText;
 
     // Army.PAS:174
-    public override int GetLeftIcon()
-    {
-        int result = ArmyView.Player > 0 ? StrategicMap.Current.Players.GetPlayers(ArmyView.Player).PlayerRace : 12;
-        return result;
-    }
+    public override int GetLeftIcon() => ArmyView.Player > 0 ? StrategicMap.Current.Players.GetPlayers(ArmyView.Player).PlayerRace : 12;
 
     // Army.PAS:218
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
-        bool showEvent = default;
-        bool result = false;
         switch (trigger)
         {
             case ExecuteTrigger.User:
                 StrategicMap.Current.TriggerExecuteEventLog(this, false, done);
-                result = true;
-                break;
+                return true;
             case ExecuteTrigger.Event:
             case ExecuteTrigger.NewTurn:
-                showEvent = false;
+                bool showEvent = false;
                 if (StrategicMap.Current.SeatedPlayer == Player || StrategicMap.Current.SeatedPlayer == ArmyView.Player)
                 {
                     showEvent = showEvent || (StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.PartyDamage));
@@ -101,7 +94,7 @@ public partial class ArmyEventLog : EventLog
                 if (showEvent)
                 {
                     StrategicMap.Current.TriggerExecuteEventLog(this, false, done);
-                    result = true;
+                    return true;
                 }
 
                 break;
@@ -109,15 +102,14 @@ public partial class ArmyEventLog : EventLog
                 break;
         }
 
-        return result;
+        return false;
     }
 
     // Army.PAS:248
     public override void ViewLocation()
     {
-        ArmyView army;
-        army = ArmyView;
-        if (army != null && army.Location.X != -1)
+        ArmyView army = ArmyView;
+        if (army is not null && army.Location.X != -1)
         {
             CenterViewTo(army.Location.X, army.Location.Y, army.Location.MapLevel);
         }
@@ -129,9 +121,8 @@ public partial class ArmyEventLog : EventLog
     // Army.PAS:187
     public bool LeaderKilled()
     {
-        int i;
         bool result = false;
-        i = ArmyView.Units.Count;
+        int i = ArmyView.Units.Count;
         while (!result && i != 0)
         {
             i -= 1;
@@ -144,9 +135,8 @@ public partial class ArmyEventLog : EventLog
     // Army.PAS:200
     public bool PartyDestroyed()
     {
-        int i;
         bool result = true;
-        i = ArmyView.Units.Count;
+        int i = ArmyView.Units.Count;
         while (result && i != 0)
         {
             i -= 1;

@@ -7,15 +7,13 @@ using Aow.Game.World.Map;
 namespace Aow.Game.World.Hexes;
 
 // DynamicLevel (26)
-public partial class IsometricHexResource(CustomNode owner) : AbstractHexagonResource(owner)
+public class IsometricHexResource(CustomNode owner) : AbstractHexagonResource(owner)
 {
 
     // IsoHex.pas:268
     public new const int ClassId = 131438;
 
     protected internal byte DynamicLevel { get; protected set; } = 26;
-
-    // IsoHex.pas:262
 
     // IsoHex.pas:302
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
@@ -30,12 +28,11 @@ public partial class IsometricHexResource(CustomNode owner) : AbstractHexagonRes
     // IsoHex.pas:273
     public override MapObject PlaceResourceUser(GameMap map, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        MapField mapField;
-        mapField = map.MapContainer.GetField(hexX, hexY, hexLevel);
+        MapField mapField = map.MapContainer.GetField(hexX, hexY, hexLevel);
         // The lookup finds only IsometricHex, including a hex that derives from it.
         IsometricHex found = mapField.FindOwnedHexSprite<IsometricHex>();
         MapObject result = found;
-        if (found != null)
+        if (found is not null)
         {
             if (found.GetTerrain(0) != TerrainList.GetTerrain(0))
             {
@@ -56,13 +53,10 @@ public partial class IsometricHexResource(CustomNode owner) : AbstractHexagonRes
             if (!map.PlaceHex(result, hexX, hexY, hexLevel))
             {
                 result?.Dispose();
-                result = null;
+                return null;
             }
         }
 
         return result;
     }
-
-    // IsoHex.pas:64
-
 }

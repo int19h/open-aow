@@ -30,5 +30,4 @@ public struct BattleFieldInfo
         info.FriendlyRelations = Set<byte>.WithBounds(0, 7).With(2);
         info.EnemyRelations = Set<byte>.WithBounds(0, 7).With(1).With(3);
     }
-
 }

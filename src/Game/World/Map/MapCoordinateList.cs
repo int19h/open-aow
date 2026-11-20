@@ -5,7 +5,7 @@ namespace Aow.Game.World.Map;
 
 // Engine's value list (Classes.TList adapted to a value type, with a default item for new and
 // out-of-range items) for map locations (TXYLList). Path steps are a PathStepList.
-public partial class MapCoordinateList : DefaultItemList<MapCoordinate>
+public class MapCoordinateList : DefaultItemList<MapCoordinate>
 {
     // HSEngine.pas:1578
     public MapCoordinateList() => Default = MapCoordinate.None;
@@ -22,12 +22,7 @@ public partial class MapCoordinateList : DefaultItemList<MapCoordinate>
             result += 1;
         }
 
-        if (result == Count)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == Count ? -1 : result;
     }
 
     // HSEngine.pas:1709
@@ -39,12 +34,7 @@ public partial class MapCoordinateList : DefaultItemList<MapCoordinate>
             result += 1;
         }
 
-        if (result == Count)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == Count ? -1 : result;
     }
 
     // HSEngine.pas:1815
@@ -59,14 +49,11 @@ public partial class MapCoordinateList : DefaultItemList<MapCoordinate>
     private static void QuickSortMapCoordinate(Span<MapCoordinate> sortList, int L, int R, XYLSortCompare sCompare)
     {
         int i;
-        int j;
-        MapCoordinate p;
-        MapCoordinate t = default;
         do
         {
             i = L;
-            j = R;
-            p = sortList[(int)(((uint)(L + R)) >> 1)];
+            int j = R;
+            MapCoordinate p = sortList[(int)(((uint)(L + R)) >> 1)];
             do
             {
                 while (sCompare(sortList[i], p) < 0)
@@ -81,9 +68,7 @@ public partial class MapCoordinateList : DefaultItemList<MapCoordinate>
 
                 if (i <= j)
                 {
-                    t = sortList[i];
-                    sortList[i] = sortList[j];
-                    sortList[j] = t;
+                    (sortList[j], sortList[i]) = (sortList[i], sortList[j]);
                     i += 1;
                     j -= 1;
                 }
@@ -103,7 +88,6 @@ public partial class MapCoordinateList : DefaultItemList<MapCoordinate>
     // separate array beside it, so the locations keep their order and the result is the same.
     internal static bool LocationsConnected(MapCoordinateList list)
     {
-        bool result = default;
         MapCoordinateList locations;
         bool[] reached;
         void Connect(MapCoordinate mapCoordinate)
@@ -140,6 +124,7 @@ public partial class MapCoordinateList : DefaultItemList<MapCoordinate>
         }
 
         reached = new bool[locations.Count];
+        bool result;
         if (locations.Count > 0)
         {
             if (locations.Count > 1)

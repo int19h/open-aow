@@ -11,7 +11,7 @@ using static Aow.Rtl.DelphiConversions;
 namespace Aow.Game.Combat;
 
 // SideIndex. Opponent. Strength. ConquerCount
-public partial class CombatSide(CustomNode owner) : OwningNode(owner), IChildList<CombatObject>
+public class CombatSide(CustomNode owner) : OwningNode(owner), IChildList<CombatObject>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a CombatObject, so the cast never fails.
@@ -67,11 +67,10 @@ public partial class CombatSide(CustomNode owner) : OwningNode(owner), IChildLis
     // Combat.pas:6026
     public int GetUndestroyedConquerObjects()
     {
-        CombatObject objectValue;
         int result = 0;
         for (int i = Count - 1; i >= 0; i--)
         {
-            objectValue = this[i];
+            CombatObject objectValue = this[i];
             if ((Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed, CombatObjectStatusElement.Fled) & objectValue.Status) == Set<CombatObjectStatusElement>.Of() && objectValue.ControlMode.Contains(CombatObjectControlModeElement.ConquerObject))
             {
                 result += 1;
@@ -84,7 +83,6 @@ public partial class CombatSide(CustomNode owner) : OwningNode(owner), IChildLis
     // Combat.pas:6038
     public void OutputDebugInfo()
     {
-        string s;
         if (SideIndex == 0)
         {
             GetEngine().OutputDebugMessage(DebugChannel.Combat, "--- Combat Side Attacker ---");
@@ -99,7 +97,7 @@ public partial class CombatSide(CustomNode owner) : OwningNode(owner), IChildLis
             string idString = GetObjects(i).IdString();
             int targetPriority = GetObjects(i).GetTargetPriority();
             int targetStrength = GetObjects(i).GetTargetStrength();
-            s = $"({IntToStr(i)}):{idString} (Priority:{IntToStr(targetPriority)}/Strength:{IntToStr(targetStrength)})";
+            string s = $"({IntToStr(i)}):{idString} (Priority:{IntToStr(targetPriority)}/Strength:{IntToStr(targetStrength)})";
             GetEngine().OutputDebugMessage(DebugChannel.Combat, s);
         }
     }
@@ -107,14 +105,12 @@ public partial class CombatSide(CustomNode owner) : OwningNode(owner), IChildLis
     // Combat.pas:6052
     public void UpdateSettings()
     {
-        int n;
-        CombatObject objectValue;
         Strength = 0;
         ConquerCount = 0;
         for (int i = Count - 1; i >= 0; i--)
         {
-            objectValue = this[i];
-            n = objectValue.Targets.Count;
+            CombatObject objectValue = this[i];
+            int n = objectValue.Targets.Count;
             if (n > 0)
             {
                 Strength += objectValue.CombatValue / n;
@@ -126,7 +122,4 @@ public partial class CombatSide(CustomNode owner) : OwningNode(owner), IChildLis
             }
         }
     }
-
-    // intf_P3_01.inc:352
-
 }

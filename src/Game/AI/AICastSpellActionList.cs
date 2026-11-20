@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.AI;
 
-public partial class AICastSpellActionList(CustomNode owner) : OwningNode(owner), IChildList<AICastSpellAction>
+public class AICastSpellActionList(CustomNode owner) : OwningNode(owner), IChildList<AICastSpellAction>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AICastSpellAction.
@@ -22,9 +22,4 @@ public partial class AICastSpellActionList(CustomNode owner) : OwningNode(owner)
     public void SortOnPriority() => SortChildren<AICastSpellAction>(CompareCastSpellPriority);
 
     private static int CompareCastSpellPriority(AICastSpellAction item1, AICastSpellAction item2) => item2.Priority - item1.Priority;
-
-    // Engine.pas:631
-
-    // Engine.pas:631
-
 }

@@ -91,9 +91,21 @@ public sealed partial class EngineFixture
         public IClock Clock { get; } = RtlHost.Clock;
         public string ExecutableName => Path.Combine(GameRoot, "AoW.exe");
         public string GameRoot { get; } = Path.Combine(Path.GetTempPath(), $"open-aow-engine-{Guid.NewGuid():N}");
-        public string CurrentDirectory { get { Record("CurrentDirectory", ""); return _files.CurrentDirectory; } }
 
-        public string ExpandPath(string path) { Record("ExpandPath", path); return Checked(path); }
+        public string CurrentDirectory
+        {
+            get
+            {
+                Record("CurrentDirectory", "");
+                return _files.CurrentDirectory;
+            }
+        }
+
+        public string ExpandPath(string path)
+        {
+            Record("ExpandPath", path);
+            return Checked(path);
+        }
 
         private string Checked(string path)
         {
@@ -102,27 +114,71 @@ public sealed partial class EngineFixture
             return full;
         }
 
-        public bool SetCurrentDirectory(string path) { Record("SetCurrentDirectory", path); return _files.SetCurrentDirectory(Checked(path)); }
+        public bool SetCurrentDirectory(string path)
+        {
+            Record("SetCurrentDirectory", path);
+            return _files.SetCurrentDirectory(Checked(path));
+        }
 
-        public Stream Open(string path, int mode) { Record($"Open:{mode}", path); return _files.Open(Checked(path), mode); }
+        public Stream Open(string path, int mode)
+        {
+            Record($"Open:{mode}", path);
+            return _files.Open(Checked(path), mode);
+        }
 
-        public bool FileExists(string path) { Record("FileExists", path); return _files.FileExists(Checked(path)); }
+        public bool FileExists(string path)
+        {
+            Record("FileExists", path);
+            return _files.FileExists(Checked(path));
+        }
 
-        public bool DirectoryExists(string path) { Record("DirectoryExists", path); return _files.DirectoryExists(Checked(path)); }
+        public bool DirectoryExists(string path)
+        {
+            Record("DirectoryExists", path);
+            return _files.DirectoryExists(Checked(path));
+        }
 
-        public bool DeleteFile(string path) { Record("DeleteFile", path); return _files.DeleteFile(Checked(path)); }
+        public bool DeleteFile(string path)
+        {
+            Record("DeleteFile", path);
+            return _files.DeleteFile(Checked(path));
+        }
 
-        public bool RenameFile(string source, string target) { Record("RenameFile", $"{source} -> {target}"); return _files.RenameFile(Checked(source), Checked(target)); }
+        public bool RenameFile(string source, string target)
+        {
+            Record("RenameFile", $"{source} -> {target}");
+            return _files.RenameFile(Checked(source), Checked(target));
+        }
 
-        public bool CreateDirectory(string path) { Record("CreateDirectory", path); return _files.CreateDirectory(Checked(path)); }
+        public bool CreateDirectory(string path)
+        {
+            Record("CreateDirectory", path);
+            return _files.CreateDirectory(Checked(path));
+        }
 
-        public bool RemoveDirectory(string path) { Record("RemoveDirectory", path); return _files.RemoveDirectory(Checked(path)); }
+        public bool RemoveDirectory(string path)
+        {
+            Record("RemoveDirectory", path);
+            return _files.RemoveDirectory(Checked(path));
+        }
 
-        public int GetAttributes(string path) { Record("GetAttributes", path); return _files.GetAttributes(Checked(path)); }
+        public int GetAttributes(string path)
+        {
+            Record("GetAttributes", path);
+            return _files.GetAttributes(Checked(path));
+        }
 
-        public int SetAttributes(string path, int attributes) { Record($"SetAttributes:{attributes}", path); return _files.SetAttributes(Checked(path), attributes); }
+        public int SetAttributes(string path, int attributes)
+        {
+            Record($"SetAttributes:{attributes}", path);
+            return _files.SetAttributes(Checked(path), attributes);
+        }
 
-        public DateTime? LastWriteTime(string path) { Record("LastWriteTime", path); return _files.LastWriteTime(Checked(path)); }
+        public DateTime? LastWriteTime(string path)
+        {
+            Record("LastWriteTime", path);
+            return _files.LastWriteTime(Checked(path));
+        }
 
         public IEnumerable<RtlFileEntry> Enumerate(string directory)
         {
@@ -142,13 +198,21 @@ public sealed partial class EngineFixture
 
         public void Write(string key, object value) => Record("Settings.Write", $"{key}={value}");
 
-        public int Show(DialogRequest request) { Record("Dialog", request.Text); return request.DefaultResult; }
+        public int Show(DialogRequest request)
+        {
+            Record("Dialog", request.Text);
+            return request.DefaultResult;
+        }
 
         internal void RestoreServices()
         {
-            RtlHost.Files = _previousFiles; RtlHost.Settings = _previousSettings; RtlHost.Dialogs = _previousDialogs;
+            RtlHost.Files = _previousFiles;
+            RtlHost.Settings = _previousSettings;
+            RtlHost.Dialogs = _previousDialogs;
             RtlHost.Shell = _previousShell;
-            RtlHost.Clock = Clock; LegacyApplication.Application.ExeName = _previousExecutable; LegacyApplication.MessageHandler = _previousMessage;
+            RtlHost.Clock = Clock;
+            LegacyApplication.Application.ExeName = _previousExecutable;
+            LegacyApplication.MessageHandler = _previousMessage;
         }
 
         public void Dispose()

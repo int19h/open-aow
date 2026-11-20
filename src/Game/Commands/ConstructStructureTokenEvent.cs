@@ -13,7 +13,7 @@ using Aow.Game.World.Structures;
 
 namespace Aow.Game.Commands;
 
-public partial class ConstructStructureTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class ConstructStructureTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
     public new const int ClassId = 135962;
 
@@ -33,27 +33,20 @@ public partial class ConstructStructureTokenEvent(CustomNode owner) : TokenEvent
     // Structur.PAS:3106
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        Troop troop;
-        StructureConstructionControl control;
-        StructureResource resource;
-        Structure structure;
         string reason = "";
-        ObservableNode owner;
-        MapLevel level;
-        ExecuteResult result = ExecuteResult.DoneHalt;
         _ = base.Execute(tokenEvent);
-        troop = StrategicMap.Current.UnitControl.FindUnit(UnitId);
-        control = GamePack.Current.AbilityControl.GetAbility<ConstructAbility>(125).ConstructionControls.FindId<StructureConstructionControl>(ControlId);
-        if (control != null && troop != null && troop.Player == Player && control.CanConstruct(troop, ref reason))
+        Troop troop = StrategicMap.Current.UnitControl.FindUnit(UnitId);
+        StructureConstructionControl control = GamePack.Current.AbilityControl.GetAbility<ConstructAbility>(125).ConstructionControls.FindId<StructureConstructionControl>(ControlId);
+        if (control is not null && troop is not null && troop.Player == Player && control.CanConstruct(troop, ref reason))
         {
-            resource = control.StructureResource(troop);
-            if (resource != null)
+            StructureResource resource = control.StructureResource(troop);
+            if (resource is not null)
             {
                 MapCoordinate coordinate4 = troop.GetLocation();
                 sbyte x = coordinate4.X;
                 sbyte y = coordinate4.Y;
                 sbyte l = coordinate4.MapLevel;
-                level = StrategicMap.Current.MapContainer.GetMapLevel(l);
+                MapLevel level = StrategicMap.Current.MapContainer.GetMapLevel(l);
                 HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, 0);
                 while (walk.HexNumber < resource.TerrainList.Count)
                 {
@@ -66,24 +59,21 @@ public partial class ConstructStructureTokenEvent(CustomNode owner) : TokenEvent
                 }
 
                 bool locked = troop.Owner is not IHeroHolder;
-                owner = locked ? troop.OwnerUnits.Holder : null;
+                ObservableNode owner = locked ? troop.OwnerUnits.Holder : null;
                 using ObservableNode.UpdateBatch batch = locked ? owner.BeginUpdate() : default;
-                structure = resource.PlaceResourceUser<Structure>(StrategicMap.Current, hexX: x, hexY: y, hexLevel: l);
-                if (structure != null)
+                Structure structure = resource.PlaceResourceUser<Structure>(StrategicMap.Current, hexX: x, hexY: y, hexLevel: l);
+                if (structure is not null)
                 {
                     control.GetInfo(troop, out string text, out int gold, out int days);
                     _ = structure.ExecuteBuild(troop, days);
                     Player players = StrategicMap.Current.Players.GetPlayers(troop.Player);
                     StrategicMap.Current.Players.GetPlayers(troop.Player).SetGems(players.Gems - gold);
                     troop.Killed();
-                    result = ExecuteResult.Done;
+                    return ExecuteResult.Done;
                 }
             }
         }
 
-        return result;
+        return ExecuteResult.DoneHalt;
     }
-
-    // NetworkE.pas:230
-
 }

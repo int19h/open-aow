@@ -9,7 +9,7 @@ using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.World.Map;
 
-public partial class AowHexSpriteMapMouse : GameMapMouse
+public class AowHexSpriteMapMouse : GameMapMouse
 {
 
     public AowHexSpriteMapMouse() : base()
@@ -18,18 +18,14 @@ public partial class AowHexSpriteMapMouse : GameMapMouse
     // AoWHSMap.PAS:1148
     public override int GetCursor()
     {
-        int result;
-        CombatMap combatMap;
-        combatMap = StrategicMap.Current.CombatMap;
-        result = combatMap != null ? combatMap.Mouse.GetCursor() : base.GetCursor();
-
-        return result;
+        CombatMap combatMap = StrategicMap.Current.CombatMap;
+        return combatMap is not null ? combatMap.Mouse.GetCursor() : base.GetCursor();
     }
 
     // AoWHSMap.PAS:1157
     public override void Down(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        if (StrategicMap.Current.CombatMap != null)
+        if (StrategicMap.Current.CombatMap is not null)
         {
             StrategicMap.Current.CombatMap.Mouse.Down(button, shift, X, Y);
         }
@@ -49,7 +45,7 @@ public partial class AowHexSpriteMapMouse : GameMapMouse
     // AoWHSMap.PAS:1167
     public override void Up(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        if (StrategicMap.Current.CombatMap != null)
+        if (StrategicMap.Current.CombatMap is not null)
         {
             StrategicMap.Current.CombatMap.Mouse.Up(button, shift, X, Y);
         }
@@ -62,9 +58,8 @@ public partial class AowHexSpriteMapMouse : GameMapMouse
     // AoWHSMap.PAS:1175
     public override void Move(Set<ShiftState> shift, int X, int Y)
     {
-        CombatMap combatMap;
-        combatMap = StrategicMap.Current.CombatMap;
-        if (combatMap != null)
+        CombatMap combatMap = StrategicMap.Current.CombatMap;
+        if (combatMap is not null)
         {
             combatMap.Mouse.Move(shift, X, Y);
         }
@@ -77,28 +72,25 @@ public partial class AowHexSpriteMapMouse : GameMapMouse
     // AoWHSMap.PAS:1184
     public override void DoubleClick()
     {
-        CombatMap combatMap;
-        bool selectStructure;
-        Structure structure;
-        combatMap = StrategicMap.Current.CombatMap;
-        if (combatMap != null)
+        CombatMap combatMap = StrategicMap.Current.CombatMap;
+        if (combatMap is not null)
         {
             combatMap.Mouse.DoubleClick();
             return;
         }
 
-        selectStructure = Capture == null;
+        bool selectStructure = Capture is null;
         if (Capture == StrategicMap.Current.SelectedArmy)
         {
-            selectStructure = StrategicMap.Current.SelectedArmy.GetArmyHexSprite() != null && StrategicMap.Current.SelectedArmy.MoveSettingsList.Count == 1 && StrategicMap.Current.SelectedArmy.GetArmyHexSprite().HexX == HexX && StrategicMap.Current.SelectedArmy.GetArmyHexSprite().HexY == HexY && StrategicMap.Current.SelectedArmy.GetArmyHexSprite().HexLevel == StrategicMap.Current.ViewMapLevel;
+            selectStructure = StrategicMap.Current.SelectedArmy.GetArmyHexSprite() is not null && StrategicMap.Current.SelectedArmy.MoveSettingsList.Count == 1 && StrategicMap.Current.SelectedArmy.GetArmyHexSprite().HexX == HexX && StrategicMap.Current.SelectedArmy.GetArmyHexSprite().HexY == HexY && StrategicMap.Current.SelectedArmy.GetArmyHexSprite().HexLevel == StrategicMap.Current.ViewMapLevel;
         }
 
         if (selectStructure && HexX != -1)
         {
             int hexY = HexY;
             int hexX = HexX;
-            structure = StrategicMap.Current.MapContainer.GetField(hexX, hexY, StrategicMap.Current.ViewMapLevel).FindNoneTransparentHexSprite<Structure>();
-            if (structure != null && structure.CanDoubleClick())
+            Structure structure = StrategicMap.Current.MapContainer.GetField(hexX, hexY, StrategicMap.Current.ViewMapLevel).FindNoneTransparentHexSprite<Structure>();
+            if (structure is not null && structure.CanDoubleClick())
             {
                 StrategicMap.Current.Selection.UnselectLocation();
                 StrategicMap.Current.Selection.SelectLocationHexSprite(structure);
@@ -107,7 +99,4 @@ public partial class AowHexSpriteMapMouse : GameMapMouse
 
         base.DoubleClick();
     }
-
-    // intf_P1_05.inc:68
-
 }

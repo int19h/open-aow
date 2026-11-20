@@ -134,7 +134,6 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         DataSurface s8 = new(w, h, PixelFormat.Pal8, palette);
         DataSurface s24 = new(w, h, PixelFormat.Rgb24, null!);
         Fnv hash = new();
-        int grabs = 0;
         try
         {
             LockedSurface d555 = default, d565 = default, d8 = default, d24 = default;
@@ -144,7 +143,10 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
             _ = s24.Lock(ref d24);
             Span<ushort> words = System.Runtime.InteropServices.MemoryMarshal.Cast<byte, ushort>(d555.Data.AsSpan(d555.DataIndex, d555.Pitch * h));
             words.Fill(Magenta555);
-            try { source.Show(0, 0, d555); }
+            try
+            {
+                source.Show(0, 0, d555);
+            }
             catch (Exception) { }
             for (int y = 0; y < h; y++)
             {
@@ -169,6 +171,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                 () => new Picture08(null!), () => new RleSprite08(null!), () => new Picture16(null!),
                 () => new Sprite16(null!), () => new RleSprite16(null!), () => new BitMask(null!), () => new Shadow(null!),
             ];
+            int grabs = 0;
             foreach ((string? name, LockedSurface lockedSurface, int key) in sources)
             {
                 foreach (Rect rectangle in rects)
@@ -196,8 +199,15 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                             try
                             {
                                 bool grabbed;
-                                try { grabbed = image.GrabImage(lockedSurface, rectangle, grab); }
-                                catch (Exception error) { hash.Add(error.GetType().Name); grabbed = false; }
+                                try
+                                {
+                                    grabbed = image.GrabImage(lockedSurface, rectangle, grab);
+                                }
+                                catch (Exception error)
+                                {
+                                    hash.Add(error.GetType().Name);
+                                    grabbed = false;
+                                }
                                 hash.Add(grabbed ? 1 : 0);
                                 if (grabbed)
                                 {
@@ -239,10 +249,19 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
             hash.Add(stream.GetBuffer().AsSpan(0, (int)stream.Length));
             stream.Position = 0;
             LibraryImage copy = ImageStreams.ReadImageFromStream(stream, null);
-            try { Pin(copy, hash); }
-            finally { copy.Dispose(); }
+            try
+            {
+                Pin(copy, hash);
+            }
+            finally
+            {
+                copy.Dispose();
+            }
         }
-        catch (Exception error) { hash.Add(error.GetType().Name); }
+        catch (Exception error)
+        {
+            hash.Add(error.GetType().Name);
+        }
     }
 
     // The pixel readers of GFXE on every pixel of small surfaces of each format and width: the
@@ -299,21 +318,33 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                             foreach (Rect rectangle in new[] { whole, inset })
                             {
                                 Rect found = default;
-                                hash.Add(Read(() => { LockedSurface.MinimizeTransparentRectangle(lockedSurface, rectangle, key, out found); return 0; }));
+                                hash.Add(Read(() =>
+                                {
+                                    LockedSurface.MinimizeTransparentRectangle(lockedSurface, rectangle, key, out found);
+                                    return 0;
+                                }));
                                 foreach (int value in new[] { found.Left, found.Top, found.Right, found.Bottom })
                                 {
                                     hash.Add(value);
                                 }
 
                                 found = default;
-                                hash.Add(Read(() => { BitMask.MinimizeInverseTransparentRectangle(lockedSurface, rectangle, key, out found); return 0; }));
+                                hash.Add(Read(() =>
+                                {
+                                    BitMask.MinimizeInverseTransparentRectangle(lockedSurface, rectangle, key, out found);
+                                    return 0;
+                                }));
                                 foreach (int value in new[] { found.Left, found.Top, found.Right, found.Bottom })
                                 {
                                     hash.Add(value);
                                 }
                             }
                             RectangleList? list = null;
-                            hash.Add(Read(() => { list = LibraryImageClass.GetSurfaceRectangles(lockedSurface, key, null); return 0; }));
+                            hash.Add(Read(() =>
+                            {
+                                list = LibraryImageClass.GetSurfaceRectangles(lockedSurface, key, null);
+                                return 0;
+                            }));
                             hash.Add(list?.Count ?? -1);
                             if (list is not null)
                             {
@@ -330,7 +361,10 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                         }
                         _ = surface.Unlock();
                     }
-                    finally { surface.Dispose(); }
+                    finally
+                    {
+                        surface.Dispose();
+                    }
                     entries.Add(new Entry($"{(int)format:X8} {w}", h, hash.Value.ToString("X16")));
                 }
             }
@@ -398,7 +432,10 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     // The value a reader returns, or a code for the exception it raises.
     private static int Read(Func<int> reader)
     {
-        try { return reader(); }
+        try
+        {
+            return reader();
+        }
         catch (Exception error)
         {
             Fnv name = new();
@@ -527,8 +564,14 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
             }
 
             lockedSurface.ClipRectangle = new Rect(1, 1, w - 1, h - 1);
-            try { draw(lockedSurface); }
-            catch (Exception error) { hash.Add(error.GetType().Name); }
+            try
+            {
+                draw(lockedSurface);
+            }
+            catch (Exception error)
+            {
+                hash.Add(error.GetType().Name);
+            }
             hash.Add(pixels);
             _ = surface.Unlock();
         }

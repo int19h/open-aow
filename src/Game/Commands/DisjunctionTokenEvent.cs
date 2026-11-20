@@ -14,7 +14,7 @@ using static Aow.Rtl.DelphiRounding;
 namespace Aow.Game.Commands;
 
 // dispel chance, enchantment ID
-public partial class DisjunctionTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
+public class DisjunctionTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
 {
 
     // GlobalSpells.pas:745
@@ -34,18 +34,15 @@ public partial class DisjunctionTokenEvent(CustomNode owner) : SpellTokenEvent(o
     // GlobalSpells.pas:757
     public override bool Validate(Hero source)
     {
-        int index;
-        int mana;
-        int requiredMana;
         bool result = base.Validate(source);
-        index = StrategicMap.Current.GlobalMagicControl.IndexOfId(EnchantmentId);
+        int index = StrategicMap.Current.GlobalMagicControl.IndexOfId(EnchantmentId);
         result = result && index != -1;
         if (result)
         {
             GlobalEnchantment globalEnchantment = StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(index);
-            mana = StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.Mana + source.CastingProgress;
-            requiredMana = Round((double)(globalEnchantment.DispelMana * 0.02) * DispelChance) + EventMana;
-            result = requiredMana <= mana;
+            int mana = StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.Mana + source.CastingProgress;
+            int requiredMana = Round((double)(globalEnchantment.DispelMana * 0.02) * DispelChance) + EventMana;
+            return requiredMana <= mana;
         }
 
         return result;
@@ -54,23 +51,19 @@ public partial class DisjunctionTokenEvent(CustomNode owner) : SpellTokenEvent(o
     // GlobalSpells.pas:772
     public override bool Process(Troop source, int value)
     {
-        GlobalEnchantment enchantment;
-        int index;
-        TwinkleAnimation twinkle;
-        int mana;
         _ = base.Process(source, value);
-        index = StrategicMap.Current.GlobalMagicControl.IndexOfId(EnchantmentId);
-        enchantment = StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(index);
+        int index = StrategicMap.Current.GlobalMagicControl.IndexOfId(EnchantmentId);
+        GlobalEnchantment enchantment = StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(index);
         MapCoordinate coordinate7 = source.GetLocation();
         sbyte x = coordinate7.X;
         sbyte y = coordinate7.Y;
         sbyte layer = coordinate7.MapLevel;
         _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, layer, 0);
-        twinkle = new TwinkleAnimation(null) { Holder = CreationHolder() };
+        TwinkleAnimation twinkle = new(null) { Holder = CreationHolder() };
         twinkle.Setup(GamePack.Current.SpellControl.GetSpell(51).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Expand, TwinkleModeElement.Explode), EventMana + 50, 192, 50, 30);
         _ = StrategicMap.Current.PlaceHex(twinkle, x, y, layer);
         _ = GamePack.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
-        mana = Round((double)(enchantment.DispelMana * 0.02) * DispelChance);
+        int mana = Round((double)(enchantment.DispelMana * 0.02) * DispelChance);
         Player player = StrategicMap.Current.Players.GetPlayers(source.Player);
         StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.SetMana(player.MagicControl.Mana - mana);
         if (StrategicMap.Current.Random(100) < DispelChance)
@@ -100,9 +93,4 @@ public partial class DisjunctionTokenEvent(CustomNode owner) : SpellTokenEvent(o
     }
 
     private static readonly string s_successfullyDispelledFormat = "%s successfully dispelled";
-
-    // NetworkE.pas:230
-
-    // NetworkE.pas:230
-
 }

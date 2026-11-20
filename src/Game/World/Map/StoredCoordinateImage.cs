@@ -17,15 +17,15 @@ public readonly struct StoredCoordinateImage
 
     public static StoredCoordinateImage FromInt32(int value) => new(value);
 
-    public static StoredCoordinateImage From(MapCoordinate location) =>
-        new((byte)location.X | ((byte)location.Y << 8) | ((byte)location.MapLevel << 16));
+    public static StoredCoordinateImage From(MapCoordinate location)
+        => new((byte)location.X | ((byte)location.Y << 8) | ((byte)location.MapLevel << 16));
 
     public int ToInt32() => _value;
 
     public MapCoordinate Location => new(X: (sbyte)_value, Y: (sbyte)(_value >> 8), MapLevel: (sbyte)(_value >> 16));
 
-    public MapCoordinate ReadCheckedLocation(string memberName) =>
-        (_value & unchecked((int)0xFF00_0000)) != 0
+    public MapCoordinate ReadCheckedLocation(string memberName)
+        => (_value & unchecked((int)0xFF00_0000)) != 0
             ? throw new InvalidOperationException(string.Create(CultureInfo.InvariantCulture, $"{memberName} is {_value}, outside its storage range."))
             : Location;
 }

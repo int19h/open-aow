@@ -12,7 +12,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class CosmeticSurgery : UnitSpell
+public class CosmeticSurgery : UnitSpell
 {
     // UnitSpells.pas:901
     public CosmeticSurgery(CustomNode owner, EngineObject holder) : base(owner)
@@ -47,11 +47,9 @@ public partial class CosmeticSurgery : UnitSpell
     // UnitSpells.pas:946
     public override bool CastSpell(Troop source, UnitUserList targets)
     {
-        bool result;
-        CosmeticSurgerySpellCaster caster;
         if (targets.GetCount() == 1)
         {
-            caster = new CosmeticSurgerySpellCaster(null)
+            CosmeticSurgerySpellCaster caster = new(null)
             {
                 Holder = CreationHolder(),
                 CasterSourceId = source.UnitId,
@@ -62,45 +60,38 @@ public partial class CosmeticSurgery : UnitSpell
 
             StrategicMap.Current.CosmeticSurgeryEventsStore.Raise(caster);
             _ = caster.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // UnitSpells.pas:915
     public override bool ExecuteSpell(Troop source, Troop target, int mana, Span<int> data)
     {
-        bool result;
-        CosmeticSurgeryEnchantment enchantment;
-        bool expanded;
         if (ValidTargetUnit(source, target))
         {
-            expanded = target.GetAbilityEnabled(126) || target.ExpandAbility(126);
+            bool expanded = target.GetAbilityEnabled(126) || target.ExpandAbility(126);
 
             if (expanded)
             {
                 // Ability 126 stores the enchantment its ability builds. Another enchantment fails.
                 // Null stays null and the upkeep write fails on it.
-                enchantment = (CosmeticSurgeryEnchantment)target.GetAbilityData<UnitEnchantmentAbilityData>(126).Enchantment;
+                CosmeticSurgeryEnchantment enchantment = (CosmeticSurgeryEnchantment)target.GetAbilityData<UnitEnchantmentAbilityData>(126).Enchantment;
                 enchantment.SetUpkeep(ManaUpkeep);
                 enchantment.FaceIndex = data[0];
                 enchantment.SetSource(source.Player);
             }
 
             // { Original succeeds even when expansion fails. }
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     private static readonly string s_deformFaceText = "Cosmagic Surgery";

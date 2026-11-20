@@ -149,8 +149,8 @@ public static class StreamExtensions
         stream.WriteTo(file);
     }
 
-    private static int WriteCounted(Stream stream, ReadOnlySpan<byte> buffer, int count) =>
-        count < 0 ? 0 : WriteSpan(stream, buffer[..count]);
+    private static int WriteCounted(Stream stream, ReadOnlySpan<byte> buffer, int count)
+        => count < 0 ? 0 : WriteSpan(stream, buffer[..count]);
 
     private static int WriteSpan(Stream stream, ReadOnlySpan<byte> buffer)
     {

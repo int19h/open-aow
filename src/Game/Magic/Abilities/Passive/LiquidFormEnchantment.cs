@@ -7,7 +7,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // (name, ID, selection types, ability type.)
-public partial class LiquidFormEnchantment : UnitEnchantmentAbility
+public class LiquidFormEnchantment : UnitEnchantmentAbility
 {
     // PassiveAb.pas:1357
     public LiquidFormEnchantment(CustomNode owner, EngineObject holder) : base(owner)

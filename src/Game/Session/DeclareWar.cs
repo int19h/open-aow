@@ -7,7 +7,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Session;
 
 // Kind 0: the source declares war on the target.
-public sealed partial record DeclareWar : DiplomaticProposal
+public sealed record DeclareWar : DiplomaticProposal
 {
     public const byte Kind = 0;
 
@@ -23,8 +23,8 @@ public sealed partial record DeclareWar : DiplomaticProposal
 
     public override int MiddleIcon(DiplomaticAction action) => 0x15;
 
-    public override void DefaultMessage(DiplomaticMessageText text, DiplomaticActionReaction reaction, DiplomaticRelation relation) =>
-        text.Proposing(relation == DiplomaticRelation.Unknown ? 151 : 100);
+    public override void DefaultMessage(DiplomaticMessageText text, DiplomaticActionReaction reaction, DiplomaticRelation relation)
+        => text.Proposing(relation == DiplomaticRelation.Unknown ? 151 : 100);
 
     public override void Sent(DiplomaticAction action)
     {
@@ -40,8 +40,8 @@ public sealed partial record DeclareWar : DiplomaticProposal
         Broadcast(action, -1, action.Target);
     }
 
-    public override void AnswerAI(DiplomaticAction action, sbyte player, DiplomaticRelation relation, ByteList idealPeace, ByteList idealWar) =>
-        action.UpdateAIDiplomaticActionsLog(player);
+    public override void AnswerAI(DiplomaticAction action, sbyte player, DiplomaticRelation relation, ByteList idealPeace, ByteList idealWar)
+        => action.UpdateAIDiplomaticActionsLog(player);
 
     public override int RelationModifier(DiplomaticAction action, sbyte player, sbyte race)
     {

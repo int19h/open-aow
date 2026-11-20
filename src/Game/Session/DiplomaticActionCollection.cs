@@ -37,14 +37,12 @@ public readonly struct DiplomaticActionCollection : IReadOnlyList<DiplomaticActi
     // Diplomacy.pas:1100
     public DiplomaticAction FindLastAction(byte kind, DiplomaticActionReaction reaction, sbyte source, sbyte target, sbyte other)
     {
-        int index;
-        DiplomaticAction candidate;
         DiplomaticAction result = null;
-        index = Count;
-        while (result == null && index != 0)
+        int index = Count;
+        while (result is null && index != 0)
         {
             index -= 1;
-            candidate = this[index];
+            DiplomaticAction candidate = this[index];
             if (candidate.Proposal.ToFields().Kind == kind && candidate.Reaction == reaction && (source == candidate.Source || source == -1) && (candidate.Target == target || target == -1) && (candidate.OtherPlayer == other || other == -1))
             {
                 result = candidate;

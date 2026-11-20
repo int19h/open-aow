@@ -17,7 +17,7 @@ using Aow.Rtl;
 namespace Aow.Game.Draw.Animations;
 
 // storm image library
-public partial class LightningStorm(CustomNode owner) : Storm(owner)
+public class LightningStorm(CustomNode owner) : Storm(owner)
 {
     public new const int ClassId = 135739;
 
@@ -26,9 +26,8 @@ public partial class LightningStorm(CustomNode owner) : Storm(owner)
     // Storms.pas:429
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int frame;
-        frame = FrameCounter % _stormImages.Count;
-        if (_stormImages[frame] != null)
+        int frame = FrameCounter % _stormImages.Count;
+        if (_stormImages[frame] is not null)
         {
             sbyte hexY = GetHexY();
             HexGeometry.HexToPixel(GetHexX(), hexY, out int x, out int y);
@@ -77,24 +76,20 @@ public partial class LightningStorm(CustomNode owner) : Storm(owner)
     // Storms.pas:466
     public override bool UpdateStorm()
     {
-        bool result;
         NewFrame();
-        if (_stormImages.GetSafe(FrameCounter) != null)
+        if (_stormImages.GetSafe(FrameCounter) is not null)
         {
             _ = AudioPlayback.PlaySample("SFX\\ATTACK\\LIGHTNG.WAV");
         }
-
         if (_stormImages.Count == FrameCounter)
         {
             AbilityRules.TriggerStormDamage(mapLevel: GetHexLevel(), y: GetHexY(), storm: StormType.Lightning, x: GetHexX(), innerRadius: 0, outerRadius: 1, player: StrategicMap.Current.CurrentPlayer);
-            result = false;
+            return false;
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // Storms.pas:459
@@ -104,8 +99,6 @@ public partial class LightningStorm(CustomNode owner) : Storm(owner)
         GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "EFFECTS\\LIGHTN.ILB");
         base.FinalizeStorm();
     }
-
-    // Animation.pas:43
 
     // Storms.pas:424
     public override string Name() => AbilityRules.TranslateResourceString(GetEngine(), GameTables.LightningStormText);

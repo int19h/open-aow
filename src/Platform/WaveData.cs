@@ -52,7 +52,11 @@ public sealed record WaveData(int SampleRate, int Channels, float[] Samples)
                     BitsPerSample: BinaryPrimitives.ReadUInt16LittleEndian(chunk[14..]));
                 haveFormat = true;
             }
-            else if (bytes.Slice(at, 4).SequenceEqual("data"u8)) { data = chunk; haveData = true; }
+            else if (bytes.Slice(at, 4).SequenceEqual("data"u8))
+            {
+                data = chunk;
+                haveData = true;
+            }
             offset = next + (length & 1);
         }
         return !haveFormat || !haveData ? throw new InvalidDataException("WAVE needs fmt and data chunks.") : Decode(format, data);

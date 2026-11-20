@@ -8,7 +8,7 @@ namespace Aow.Game.Draw;
 
 // a sprite on one hexagon. _status: bit 1 visible, 2 edit mode, 4 selected, 8 activated (a
 // Byte: the original sets the bits with or/and, which a set with Include does not give)
-public partial class SingleHexSprite(CustomNode owner) : HexSprite(owner)
+public class SingleHexSprite(CustomNode owner) : HexSprite(owner)
 {
     private byte _status;
 
@@ -52,10 +52,9 @@ public partial class SingleHexSprite(CustomNode owner) : HexSprite(owner)
     // HXSPRITE.PAS:721
     public override void Remove()
     {
-        MapField mapField;
-        if (Owner != null)
+        if (Owner is not null)
         {
-            mapField = Owner;
+            MapField mapField = Owner;
             RemoveFromMap();
             if (GetVisible())
             {
@@ -114,19 +113,16 @@ public partial class SingleHexSprite(CustomNode owner) : HexSprite(owner)
     // HXSPRITE.PAS:757
     public virtual bool PlaceHex(MapContainer map, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        bool result;
         if (GetEditMode() || CanPlace(map, hexX, hexY, hexLevel))
         {
             Remove();
             SetOwner(map.GetField(hexX, hexY, hexLevel));
-            result = PlaceOnMap();
+            return PlaceOnMap();
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // HXSPRITE.PAS:699

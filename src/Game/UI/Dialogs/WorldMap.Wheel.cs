@@ -5,7 +5,7 @@ public partial class WorldMap
     public override void Loaded()
     {
         base.Loaded();
-        if (Book != null)
+        if (Book is not null)
         {
             Book.PageBack = BackButton;
             Book.PageForward = NextButton;

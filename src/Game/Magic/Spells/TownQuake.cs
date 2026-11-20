@@ -18,7 +18,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class TownQuake : CityTargetSpell
+public class TownQuake : CityTargetSpell
 {
     // CitySpells.pas:764
     public TownQuake(CustomNode owner, EngineObject holder) : base(owner)
@@ -32,16 +32,14 @@ public partial class TownQuake : CityTargetSpell
     // CitySpells.pas:820
     protected override bool ExecuteTokenEvent(CityTargetSpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        bool result;
         City targetCity;
-        ArmyHSList armies;
         if (executeCount == 0)
         {
             targetCity = eventValue.GetSelectedCity();
             PlayDefaultCityEffects(source, targetCity);
             targetCity.StartTownQuake();
             _ = targetCity.ValidateObservation(source.Player);
-            result = true;
+            return true;
         }
         else
         {
@@ -49,7 +47,7 @@ public partial class TownQuake : CityTargetSpell
             {
                 targetCity = eventValue.GetSelectedCity();
                 targetCity.StopTownQuake();
-                armies = new ArmyHSList(null) { Holder = CreationHolder() };
+                ArmyHSList armies = new(null) { Holder = CreationHolder() };
                 if (StrategicMap.Current.Random(10) < 7)
                 {
                     targetCity.SetWallType(0);
@@ -63,34 +61,26 @@ public partial class TownQuake : CityTargetSpell
 
                 armies?.Dispose();
                 CastingDone(source, eventValue.EventMana);
-                result = false;
+                return false;
             }
             else
             {
-                result = true;
+                return true;
             }
         }
-
-        return result;
     }
 
     // CitySpells.pas:812
     public override bool ValidTargetCity(Troop source, City targetCity)
     {
         bool result = base.ValidTargetCity(source, targetCity);
-        result = result && !targetCity.Enchantments.Contains(CityEnchantmentId.AntiMagicShell);
-
-        return result;
+        return result && !targetCity.Enchantments.Contains(CityEnchantmentId.AntiMagicShell);
     }
 
     // CitySpells.pas:773
     public void TriggerArmyDamage(Troop source, ArmyHexSprite army)
     {
-        ArmyEventLog log;
-        bool damaged;
-        int damage;
-        Troop troop;
-        log = new ArmyEventLog(null)
+        ArmyEventLog log = new(null)
         {
             Holder = CreationHolder(),
             ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_townQuakeDamageText),
@@ -102,11 +92,11 @@ public partial class TownQuake : CityTargetSpell
         log.ArmyView.Setup(army.Army, 255);
         using (army.Army.BeginUpdate())
         {
-            damaged = false;
+            bool damaged = false;
             for (int i = 0, last = army.Army.Units.Count - 1; i <= last; i++)
             {
-                troop = army.Army.Units.GetUnit(i);
-                damage = troop.ExecuteDamageRole(7, 5, Set<DamageType>.Of(DamageType.Physical));
+                Troop troop = army.Army.Units.GetUnit(i);
+                int damage = troop.ExecuteDamageRole(7, 5, Set<DamageType>.Of(DamageType.Physical));
                 if (damage > troop.GetHitPoints())
                 {
                     damage = troop.GetHitPoints();

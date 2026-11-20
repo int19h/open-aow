@@ -5,7 +5,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Terrain;
 
-public partial class CombatFixedImageLibraryTerrain(CustomNode owner) : CombatImageLibraryTerrain(owner)
+public class CombatFixedImageLibraryTerrain(CustomNode owner) : CombatImageLibraryTerrain(owner)
 {
 
     // CombatILTer.pas:191
@@ -14,7 +14,6 @@ public partial class CombatFixedImageLibraryTerrain(CustomNode owner) : CombatIm
     // CombatILTer.pas:197
     public override bool CanChangeTerrain(in HexSpriteSenderInfo info)
     {
-        bool result;
         if (base.Resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
         {
             bool validTerrainType = ValidTerrainType(info.MapField.TerrainType);
@@ -23,14 +22,12 @@ public partial class CombatFixedImageLibraryTerrain(CustomNode owner) : CombatIm
                 validTerrainType = GetMostFrequentMapFieldTerrainType(defaultValue: base.Resource.TerrainList.GetTerrain(info.HexNumber), mapLevel: Owner.Owner, hexX: StoredHexX, hexY: StoredHexY) == info.MapField.TerrainType;
             }
 
-            result = validTerrainType;
+            return validTerrainType;
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // CombatILTer.pas:206
@@ -66,7 +63,7 @@ public partial class CombatFixedImageLibraryTerrain(CustomNode owner) : CombatIm
     // CombatILTer.pas:194
     public override sbyte ForceTerrainType(MapLevel mapLevel, sbyte hexX, sbyte hexY) => -1;
 
-    public new partial class Resource(CustomNode owner) : CombatImageLibraryTerrainResource(owner)
+    public new class Resource(CustomNode owner) : CombatImageLibraryTerrainResource(owner)
     {
 
         // CombatILTer.pas:227
@@ -79,5 +76,4 @@ public partial class CombatFixedImageLibraryTerrain(CustomNode owner) : CombatIm
         public override string ResourceEditName() => "Combat FixedILTerrain";
 
     }
-
 }

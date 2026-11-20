@@ -7,7 +7,7 @@ using static Aow.Rtl.DelphiConversions;
 namespace Aow.Engine;
 
 // a TList of class references
-public partial class EngineObjectClassList : DelphiList<EngineClass>
+public class EngineObjectClassList : DelphiList<EngineClass>
 {
     // Engine.pas:8296
     protected internal EngineClass GetEngineClass(int index) => this[index];
@@ -15,39 +15,29 @@ public partial class EngineObjectClassList : DelphiList<EngineClass>
     // Engine.pas:8301
     public EngineClass FindClass(int classId)
     {
-        EngineClass result;
-        int i;
-        bool found;
-        i = 0;
-        found = false;
+        int i = 0;
+        bool found = false;
         while (!found && i < Count)
         {
             found = classId == this[i].ClassId;
             i += 1;
         }
 
-        result = found ? this[i - 1] : null;
-
-        return result;
+        return found ? this[i - 1] : null;
     }
 
     // Engine.pas:8316
     public int FindClassIndex(int classId)
     {
-        int result;
-        int i;
-        bool found;
-        i = 0;
-        found = false;
+        int i = 0;
+        bool found = false;
         while (!found && i < Count)
         {
             found = classId == this[i].ClassId;
             i += 1;
         }
 
-        result = found ? i - 1 : -1;
-
-        return result;
+        return found ? i - 1 : -1;
     }
 
     // Engine.pas:8331
@@ -60,7 +50,7 @@ public partial class EngineObjectClassList : DelphiList<EngineClass>
     // Engine.pas:8338
     public void RegisterClass(EngineClass classValue)
     {
-        _ = FindClass(classValue.ClassId) == null && classValue.ClassId != 0
+        _ = FindClass(classValue.ClassId) is null && classValue.ClassId != 0
             ? Add(classValue)
             : throw new InvalidOperationException("EObject Class ID double defined!");
     }
@@ -68,8 +58,7 @@ public partial class EngineObjectClassList : DelphiList<EngineClass>
     // Engine.pas:8346
     public void UnregisterClass(EngineClass classValue)
     {
-        int i;
-        i = FindClassIndex(classValue.ClassId);
+        int i = FindClassIndex(classValue.ClassId);
         if (i != -1)
         {
             Delete(i);

@@ -6,7 +6,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Combat.Actions;
 
-public partial class CombatObjectTurnDoneCombatAction(CustomNode owner) : CombatAction(owner)
+public class CombatObjectTurnDoneCombatAction(CustomNode owner) : CombatAction(owner)
 {
     // Combat2.pas:1038
     public new const int ClassId = 131772;
@@ -23,11 +23,18 @@ public partial class CombatObjectTurnDoneCombatAction(CustomNode owner) : Combat
     // Combat2.pas:1047
     public override void Execute(Battle combat)
     {
-        CombatObject objectValue;
-        objectValue = combat.CombatData.FindId(CombatObjectId);
+        CombatObject objectValue = combat.CombatData.FindId(CombatObjectId);
         objectValue.Status += Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.TurnDone);
     }
 
     // intf_P3_02.inc:38
-    public override bool Play(CombatViewer viewer) { if (viewer.Time == 0) { Execute(viewer.Combat); } return viewer.Delay > viewer.Time; }
+    public override bool Play(CombatViewer viewer)
+    {
+        if (viewer.Time == 0)
+        {
+            Execute(viewer.Combat);
+        }
+
+        return viewer.Delay > viewer.Time;
+    }
 }

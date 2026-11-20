@@ -12,7 +12,7 @@ using static Aow.Rtl.DelphiTextCompare;
 namespace Aow.Game.Magic.Spells;
 
 // Removed, RestoreDays, DispelPlayer, TurnsActive, FloodControl
-public partial class FloodEnchantment : GlobalEnchantment
+public class FloodEnchantment : GlobalEnchantment
 {
     // GlobalEnchantmentSpells.pas:1240
     public new const int ClassId = 135960;
@@ -83,14 +83,14 @@ public partial class FloodEnchantment : GlobalEnchantment
         string result = base.GetName();
         if (Removed)
         {
-            result = $"{result} ({LowerCase(DurationText.FormatDaysLeftString(GetEngine(), days: RestoreDays))})";
+            return $"{result} ({LowerCase(DurationText.FormatDaysLeftString(GetEngine(), days: RestoreDays))})";
         }
         else
         {
             if (DaysBeforeActive() != 0)
             {
                 int daysBeforeActive = DaysBeforeActive();
-                result = Format(s_dueInDaysFormat, [result, daysBeforeActive]);
+                return Format(s_dueInDaysFormat, [result, daysBeforeActive]);
             }
         }
 
@@ -98,11 +98,7 @@ public partial class FloodEnchantment : GlobalEnchantment
     }
 
     // GlobalEnchantmentSpells.pas:1276
-    public override int GetUpkeep()
-    {
-        int result = !Removed ? base.GetUpkeep() : 0;
-        return result;
-    }
+    public override int GetUpkeep() => !Removed ? base.GetUpkeep() : 0;
 
     // GlobalEnchantmentSpells.pas:1245
     public override int GetAIUpkeepPriority() => 500;
@@ -110,24 +106,20 @@ public partial class FloodEnchantment : GlobalEnchantment
     // GlobalEnchantmentSpells.pas:1328
     public override bool CanDeactivate(byte player, ref string reason)
     {
-        bool result;
         if (!Removed)
         {
-            result = base.CanDeactivate(player, ref reason);
+            return base.CanDeactivate(player, ref reason);
         }
         else
         {
             reason = Format(AbilityRules.TranslateResourceString(GetEngine(), s_alreadyRemovedFormat), [Name]);
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // GlobalEnchantmentSpells.pas:1338
     public override bool Deactivate(byte player)
     {
-        bool result;
         if (!Removed)
         {
             DispelPlayer = (sbyte)player;
@@ -136,14 +128,12 @@ public partial class FloodEnchantment : GlobalEnchantment
 
             StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.Update();
             StrategicMap.Current.GlobalMagicControl.Update();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // GlobalEnchantmentSpells.pas:1320
@@ -158,10 +148,9 @@ public partial class FloodEnchantment : GlobalEnchantment
     // GlobalEnchantmentSpells.pas:1260
     public int DaysBeforeActive()
     {
-        int result = StrategicMap.Current.PlayMode == PlayMode.Simultaneous && TurnsActive < 2
+        return StrategicMap.Current.PlayMode == PlayMode.Simultaneous && TurnsActive < 2
             ? 2 - TurnsActive
             : StrategicMap.Current.PlayMode == PlayMode.Turn && TurnsActive == 0 ? 1 : 0;
-        return result;
     }
 
     // GlobalEnchantmentSpells.pas:1282

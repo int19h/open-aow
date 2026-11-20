@@ -77,10 +77,10 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             if (negotiateRequestEventLog.Object == NegotiateObject.Army)
             {
                 ArmyHexSprite armyHexSprite = (ArmyHexSprite)StrategicMap.Current.MapContainer.GetField(negotiateRequestEventLog.Hex.X, negotiateRequestEventLog.Hex.Y, negotiateRequestEventLog.Hex.MapLevel).FindOwnedChild(131607);
-                if (armyHexSprite != null)
+                if (armyHexSprite is not null)
                 {
                     byte joinSelection = armyHexSprite.Army.GetJoinSelection(negotiateRequestEventLog.Player);
-                    return armyHexSprite.Army.Hero(joinSelection, RosterTables.AllHeroTypes) == null ? "PartyJoin" : "HeroNegotiation";
+                    return armyHexSprite.Army.Hero(joinSelection, RosterTables.AllHeroTypes) is null ? "PartyJoin" : "HeroNegotiation";
                 }
             }
             return "None";
@@ -107,15 +107,13 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
 
         if (eventValue is PlayerMagicEventLog playerMagicEventLog)
         {
-            switch (playerMagicEventLog.Mode)
+            return playerMagicEventLog.Mode switch
             {
-                case PlayerMagicEventLog.EventMode.SpellResearched: return "SpellResearched";
-                case PlayerMagicEventLog.EventMode.OutOfMana: return "OutOfMana";
-                case PlayerMagicEventLog.EventMode.StartResearch: return "StartResearch";
-                default:
-                    break;
-            }
-            return "None";
+                PlayerMagicEventLog.EventMode.SpellResearched => "SpellResearched",
+                PlayerMagicEventLog.EventMode.OutOfMana => "OutOfMana",
+                PlayerMagicEventLog.EventMode.StartResearch => "StartResearch",
+                _ => "None",
+            };
         }
         if (eventValue is HeroUpgradeEventLog)
         {
@@ -129,7 +127,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
 
         if (eventValue is ArmyInfoEventLog armyInfoEventLog)
         {
-            return armyInfoEventLog.ArmyView.Hero(armyInfoEventLog.Selection, RosterTables.AllHeroTypes) == null ? "ArmyInfo" : "HeroInfo";
+            return armyInfoEventLog.ArmyView.Hero(armyInfoEventLog.Selection, RosterTables.AllHeroTypes) is null ? "ArmyInfo" : "HeroInfo";
         }
         if (eventValue is PrisonersJoinEventLog prisonersJoinEventLog)
         {
@@ -374,7 +372,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         internal void Prisoner(EventLog log, Troop? troop)
         {
             _ = _units.Remove(PrisonerId);
-            if (troop != null)
+            if (troop is not null)
             {
                 _units.Add(key: PrisonerId, value: troop);
             }

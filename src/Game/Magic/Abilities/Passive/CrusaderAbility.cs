@@ -7,7 +7,7 @@ namespace Aow.Game.Magic.Abilities.Passive;
 
 // inherited name, ability ID, selection types, ability type, duration mode. duration data
 // countdown, player index
-public partial class CrusaderAbility : DurationAbility
+public class CrusaderAbility : DurationAbility
 {
     // PassiveAb.pas:703
     public CrusaderAbility(CustomNode owner, EngineObject holder) : base(owner)
@@ -23,11 +23,10 @@ public partial class CrusaderAbility : DurationAbility
     // PassiveAb.pas:724
     public override void NewTurn(AbilityOwner owner, sbyte player)
     {
-        DurationAbilityData data;
         if (DurationMode == DurationMode.Day)
         {
-            data = GetData(owner);
-            if (data != null && data.Duration != 0 && data.PlayerIndex == player)
+            DurationAbilityData data = GetData(owner);
+            if (data is not null && data.Duration != 0 && data.PlayerIndex == player)
             {
                 data.Duration = (byte)(data.Duration - 1);
             }

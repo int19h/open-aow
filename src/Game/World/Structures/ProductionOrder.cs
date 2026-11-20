@@ -11,7 +11,7 @@ using static Aow.Rtl.DelphiTextCompare;
 
 namespace Aow.Game.World.Structures;
 
-public abstract partial record ProductionOrder
+public abstract record ProductionOrder
 {
     private static readonly Catalog<int, Func<int, int, int, ProductionOrder>> s_kinds = new("production order");
 
@@ -20,8 +20,8 @@ public abstract partial record ProductionOrder
 
     // The order the three stored fields name. An id no kind registered reads as UnknownOrder,
     // which writes the three fields back unchanged.
-    public static ProductionOrder FromFields(int kind, int parameter, int groupId) =>
-        s_kinds.TryGet(kind, out Func<int, int, int, ProductionOrder> create) ? create(kind, parameter, groupId) : new UnknownOrder(kind, parameter, groupId);
+    public static ProductionOrder FromFields(int kind, int parameter, int groupId)
+        => s_kinds.TryGet(kind, out Func<int, int, int, ProductionOrder> create) ? create(kind, parameter, groupId) : new UnknownOrder(kind, parameter, groupId);
 
     // Registers the kind of a production id. A second registration of an id throws.
     internal static void Register(int id, Func<int, int, int, ProductionOrder> create) => s_kinds.Add(id, create);

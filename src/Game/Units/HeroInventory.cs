@@ -46,7 +46,7 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
         {
             for (int i = 0, last = Count - 1; i <= last; i++)
             {
-                if (GetChild(i) != null)
+                if (GetChild(i) is not null)
                 {
                     _ = Items[i].Release();
                 }
@@ -57,13 +57,12 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
     // Army.PAS:4546
     public override void Clear()
     {
-        EngineObject child;
         for (int i = Count - 1; i >= 0; i--)
         {
-            if (GetChild(i) != null)
+            if (GetChild(i) is not null)
             {
-                child = Items[i];
-                if (child != null)
+                EngineObject child = Items[i];
+                if (child is not null)
                 {
                     if (child.Owner != this)
                     {
@@ -125,7 +124,7 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
         int result = 0;
         while (result < Items.Count && result != 8)
         {
-            if (GetChild(result) == null)
+            if (GetChild(result) is null)
             {
                 return result;
             }
@@ -139,12 +138,11 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
     // Hero.PAS:307
     public int GetAbilityCount()
     {
-        Item item;
         int result = 0;
         for (int i = 0, last = Items.Count - 1; i <= last; i++)
         {
-            item = Items[i];
-            if (item != null && result < item.GetOwnAbilityCount())
+            Item item = Items[i];
+            if (item is not null && result < item.GetOwnAbilityCount())
             {
                 result = item.GetOwnAbilityCount();
             }
@@ -156,14 +154,13 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
     // Hero.PAS:318
     public AbilityOwner GetSuperlativeEnabledAbilityOwner(int abilityId)
     {
-        Item item;
         AbilityOwner result = null;
         for (int i = 0, last = Items.Count - 1; i <= last; i++)
         {
-            item = Items[i];
-            if (item != null && item.GetOwnAbilityEnabled(abilityId) && item.ItemType == ItemType.Use)
+            Item item = Items[i];
+            if (item is not null && item.GetOwnAbilityEnabled(abilityId) && item.ItemType == ItemType.Use)
             {
-                if (result == null || item.GetOwnAbilityLevel(abilityId) > result.GetOwnAbilityLevel(abilityId))
+                if (result is null || item.GetOwnAbilityLevel(abilityId) > result.GetOwnAbilityLevel(abilityId))
                 {
                     result = item;
                 }
@@ -176,14 +173,12 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
     // Hero.PAS:331
     public bool GetAbilityEnabled(int abilityId)
     {
-        int i;
-        Item item;
         bool result = false;
-        i = 0;
+        int i = 0;
         while (!result && i < Items.Count)
         {
-            item = Items[i];
-            result = item != null && item.ItemType == ItemType.Use && item.GetOwnAbilityEnabled(abilityId);
+            Item item = Items[i];
+            result = item is not null && item.ItemType == ItemType.Use && item.GetOwnAbilityEnabled(abilityId);
             i += 1;
         }
 
@@ -193,14 +188,12 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
     // Hero.PAS:344
     public bool GetAbilitySet(int abilityId)
     {
-        int i;
-        Item item;
         bool result = false;
-        i = 0;
+        int i = 0;
         while (!result && i < Items.Count)
         {
-            item = Items[i];
-            result = item != null && item.ItemType == ItemType.Use && item.GetAbilitySetAt(abilityId);
+            Item item = Items[i];
+            result = item is not null && item.ItemType == ItemType.Use && item.GetAbilitySetAt(abilityId);
             i += 1;
         }
 
@@ -210,14 +203,13 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
     // Hero.PAS:357
     public AbilityOwner GetSuperlativeAbilityOwner(int abilityId)
     {
-        Item item;
         AbilityOwner result = null;
         for (int i = 0, last = Items.Count - 1; i <= last; i++)
         {
-            item = Items[i];
-            if (item != null && item.GetAbilitySetAt(abilityId) && item.ItemType == ItemType.Use)
+            Item item = Items[i];
+            if (item is not null && item.GetAbilitySetAt(abilityId) && item.ItemType == ItemType.Use)
             {
-                if (result == null || item.GetOwnAbilityLevel(abilityId) > result.GetOwnAbilityLevel(abilityId))
+                if (result is null || item.GetOwnAbilityLevel(abilityId) > result.GetOwnAbilityLevel(abilityId))
                 {
                     result = item;
                 }
@@ -230,8 +222,6 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
     // Hero.PAS:370
     public Item GetSlot(HeroItemPosition position)
     {
-        Item result;
-        int i;
         switch (position)
         {
             case HeroItemPosition.InventorySlot1:
@@ -242,17 +232,8 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
             case HeroItemPosition.InventorySlot6:
             case HeroItemPosition.InventorySlot7:
             case HeroItemPosition.InventorySlot8:
-                i = (int)position - (int)HeroItemPosition.InventorySlot1;
-                if (i < Items.Count && i >= 0)
-                {
-                    result = Items.GetItem(i);
-                }
-                else
-                {
-                    return null;
-                }
-
-                break;
+                int i = (int)position - (int)HeroItemPosition.InventorySlot1;
+                return i < Items.Count && i >= 0 ? Items.GetItem(i) : null;
             case HeroItemPosition.AttackSlot:
             case HeroItemPosition.HeadSlot:
             case HeroItemPosition.DefenseSlot:
@@ -262,13 +243,7 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
             case HeroItemPosition.Ground:
             case HeroItemPosition.None:
             default:
-                result = null;
-                break;
+                return null;
         }
-
-        return result;
     }
-
-    // intf_P2_06.inc:8
-
 }

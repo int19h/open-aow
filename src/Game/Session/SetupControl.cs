@@ -26,7 +26,7 @@ using static Aow.Rtl.PointerMemory;
 
 namespace Aow.Game.Session;
 
-public partial class SetupControl : Component
+public class SetupControl : Component
 {
     private readonly GameEngine _engine;
 
@@ -104,8 +104,7 @@ public partial class SetupControl : Component
     // AoWSetup.pas:461
     public void SendPackage(SetupPackage package, int recipient)
     {
-        MemoryStream stream;
-        stream = new MemoryStream();
+        MemoryStream stream = new();
         try
         {
             _engine.StoreEngineObject(stream, package, null);
@@ -122,15 +121,14 @@ public partial class SetupControl : Component
     // AoWSetup.pas:476
     public void SendMessage(int messageId, EngineObject objectValue, int param2, int param1, int recipient)
     {
-        SetupPackage package;
         if (GetRemote())
         {
-            package = new SetupPackage(null)
+            SetupPackage package = new(null)
             {
                 Holder = _engine,
                 MessageId = messageId
             };
-            if (objectValue != null)
+            if (objectValue is not null)
             {
                 package.Data = objectValue.Copy(_engine);
             }
@@ -145,15 +143,14 @@ public partial class SetupControl : Component
     // AoWSetup.pas:492
     public void SendHostMessage(int messageId, EngineObject objectValue, int param2, int param1)
     {
-        SetupPackage package;
         if (GetRemote())
         {
-            package = new SetupPackage(null)
+            SetupPackage package = new(null)
             {
                 Holder = _engine,
                 MessageId = messageId
             };
-            if (objectValue != null)
+            if (objectValue is not null)
             {
                 package.Data = objectValue.Copy(_engine);
             }
@@ -176,15 +173,13 @@ public partial class SetupControl : Component
     // AoWSetup.pas:509
     public void DataReceived(object data, int size, int senderId)
     {
-        EngineObject objectValue = default;
-        MemoryStream stream;
-        stream = new MemoryStream();
+        MemoryStream stream = new();
         stream.SetLength(size);
         Move(BufferBytes(data)[..size], stream.GetBuffer().AsSpan(0, size), size);
         stream.Position = 0;
         try
         {
-            objectValue = _engine.RetrieveEngineObject(stream, null);
+            EngineObject objectValue = _engine.RetrieveEngineObject(stream, null);
             if (objectValue is SetupPackage package)
             {
                 int sizeLocal = (int)stream.Length;
@@ -206,8 +201,7 @@ public partial class SetupControl : Component
     // AoWSetup.pas:530
     public bool ValidateCompatibleVersion(int version)
     {
-        int major;
-        major = (int)(((uint)(_engine.Version & -65536)) >> 16);
+        int major = (int)(((uint)(_engine.Version & -65536)) >> 16);
         version = (int)(((uint)(version & -65536)) >> 16);
         return major == version;
     }
@@ -242,12 +236,10 @@ public partial class SetupControl : Component
     // AoWSetup.pas:556
     public void DisconnectPlayer(int remoteId)
     {
-        int i;
-        int j;
-        i = Settings.RemotePlayers.IndexOfRemoteId(remoteId);
+        int i = Settings.RemotePlayers.IndexOfRemoteId(remoteId);
         if (i != -1)
         {
-            j = Settings.IndexOfRemoteId(remoteId);
+            int j = Settings.IndexOfRemoteId(remoteId);
             if (j != -1)
             {
                 ResetPlayerSettings(j);
@@ -261,8 +253,7 @@ public partial class SetupControl : Component
     // AoWSetup.pas:569
     public void UpdatePlayer(RemotePlayer player)
     {
-        int i;
-        i = Settings.RemotePlayers.IndexOfRemoteId(player.RemoteId);
+        int i = Settings.RemotePlayers.IndexOfRemoteId(player.RemoteId);
         if (i != -1)
         {
             Settings.RemotePlayers.GetPlayers(i).Assign(player, _engine);
@@ -277,26 +268,15 @@ public partial class SetupControl : Component
     // AoWSetup.pas:583
     public bool CanSetHostRemoteId(int remoteId)
     {
-        bool result;
-        int i;
         if (GetHost() && remoteId != Settings.HostRemoteId)
         {
-            i = Settings.RemotePlayers.IndexOfRemoteId(remoteId);
-            if (i != -1)
-            {
-                result = Settings.RemotePlayers.GetPlayers(i).MapValidation == MapValidationInfo.Valid;
-            }
-            else
-            {
-                return false;
-            }
+            int i = Settings.RemotePlayers.IndexOfRemoteId(remoteId);
+            return i != -1 && Settings.RemotePlayers.GetPlayers(i).MapValidation == MapValidationInfo.Valid;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // AoWSetup.pas:594
@@ -317,14 +297,13 @@ public partial class SetupControl : Component
     // AoWSetup.pas:604
     public void ValidateMap()
     {
-        string fileName;
-        MapValidationInfo validation;
         if (!IsEmpty(Settings.MapName) && RemotePlayer.MapValidation != MapValidationInfo.Valid)
         {
+            MapValidationInfo validation;
             if (GamePack.Current.HssCrc == Settings.SetCrc)
             {
                 // The client looks up the host's map by name, its own document first (own-formats.md 2.9).
-                fileName = FileBoundary.ReadName(_engine.StartupDirectory + Settings.MapName);
+                string fileName = FileBoundary.ReadName(_engine.StartupDirectory + Settings.MapName);
                 validation = FileExists(fileName)
                     ? FileBoundary.ImageCrc32(fileName, GameProfile.WorldMap) == Settings.MapCrc
                         ? MapValidationInfo.Valid
@@ -358,7 +337,7 @@ public partial class SetupControl : Component
     // AoWSetup.pas:627
     public void PackageReceived(SetupPackage package, int senderId)
     {
-        int i = default;
+        int i;
         switch (package.MessageId)
         {
             case 1:
@@ -489,48 +468,40 @@ public partial class SetupControl : Component
     // AoWSetup.pas:689
     public bool ValidateSendMap()
     {
-        bool result = default;
-        MemoryStream stream;
-        int i;
-        int remoteId;
-        int j = default;
-        i = Settings.Count;
-        remoteId = 0;
+        int i = Settings.Count;
+        int remoteId = 0;
         while (i != 0 && remoteId == 0)
         {
             i -= 1;
             if (Settings.GetSettings(i).Behavior.PlayerType == 0 && GetRemote() && Settings.GetSettings(i).Behavior.Flags != RemotePlayer.RemoteId)
             {
                 PlayerSetupSettings setting = Settings.GetSettings(i);
-                j = Settings.RemotePlayers.IndexOfRemoteId(setting.Behavior.Flags);
+                int j = Settings.RemotePlayers.IndexOfRemoteId(setting.Behavior.Flags);
                 if (j != -1 && Settings.RemotePlayers.GetPlayers(j).MapValidation == MapValidationInfo.InvalidMap)
                 {
                     remoteId = Settings.GetSettings(i).Behavior.Flags;
                 }
             }
         }
-
         if (remoteId != 0)
         {
             // The host sends the map's engine image, the bytes FMapCRC covers and LoadHSMfromStream
             // reads (own-formats.md 4.1). A document the original image cannot carry has no image.
             // LoadOrRaise refuses it through the packet profile, and this sends nothing.
-            stream = GameEngine.ImageStream(FileBoundary.LoadOrRaise(_engine.StartupDirectory + Settings.MapName, GameProfile.WorldMap));
-            if (OnSendMap != null)
+            MemoryStream stream = GameEngine.ImageStream(FileBoundary.LoadOrRaise(_engine.StartupDirectory + Settings.MapName, GameProfile.WorldMap));
+            if (OnSendMap is not null)
             {
                 int size = (int)stream.Length;
                 OnSendMap(this, stream.GetBuffer(), size, remoteId);
             }
 
             stream?.Dispose();
-            result = false;
+            return false;
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // AoWSetup.pas:715
@@ -576,13 +547,13 @@ public partial class SetupControl : Component
     // AoWSetup.pas:747
     public void MapLoaded()
     {
-        int i = default;
         if (Settings.MapDay != 0 || !Settings.CustomizeLeaders)
         {
             _phase = SetupPhase.Synchronize;
             OnSynchronize?.Invoke(this);
         }
 
+        int i;
         if (GetRemote())
         {
             i = Settings.IndexOfRemoteId(RemotePlayer.RemoteId);
@@ -638,13 +609,10 @@ public partial class SetupControl : Component
     // AoWSetup.pas:777
     public bool CustomizeLeaders()
     {
-        bool found;
-        int i;
-        CustomizeLeaderControl cLC = default;
         _phase = SetupPhase.CustomizeLeaders;
         bool result = false;
-        found = false;
-        i = 0;
+        bool found = false;
+        int i = 0;
         while (!found && i != Settings.Count)
         {
             found = Settings.GetSettings(i).Behavior.PlayerType == 0 && (!GetRemote() || Settings.GetSettings(i).Behavior.Flags == RemotePlayer.RemoteId) && !Settings.GetSettings(i).Status.Contains(PlayerSetupStatusElement.LeaderCustomized);
@@ -656,7 +624,7 @@ public partial class SetupControl : Component
 
         if (found)
         {
-            cLC = new CustomizeLeaderControl(null)
+            CustomizeLeaderControl cLC = new(null)
             {
                 Holder = _engine,
                 SetupControl = this,
@@ -679,7 +647,7 @@ public partial class SetupControl : Component
                 cLC.Mode = Set<LeaderSetupModeElement>.FromMask((cLC.Mode - Set<LeaderSetupModeElement>.Of((LeaderSetupModeElement)1)).Mask);
             }
 
-            if (OnCustomizeLeader != null)
+            if (OnCustomizeLeader is not null)
             {
                 OnCustomizeLeader(this, cLC);
                 result = true;
@@ -720,11 +688,10 @@ public partial class SetupControl : Component
     // AoWSetup.pas:830
     public void ListPlayerCommunicationControlInfo(PlayerCommunicationControl playerCommunicationControl)
     {
-        string s;
         for (int i = 0, last = playerCommunicationControl.Count - 1; i <= last; i++)
         {
             PlayerCommunicationSettings player = playerCommunicationControl.Players[i];
-            s = $"Player ({IntToStr(i)}) at system:{IntToStr(player.SystemId)} CM:";
+            string s = $"Player ({IntToStr(i)}) at system:{IntToStr(player.SystemId)} CM:";
             switch (playerCommunicationControl.Players[i].ConnectionMode)
             {
                 case ConnectionMode.Global:
@@ -747,10 +714,9 @@ public partial class SetupControl : Component
     // AoWSetup.pas:844
     public void RemoveIndependentPlayers()
     {
-        Player player;
         for (int i = StrategicMap.Current.Players.GetCount() - 1; i >= 1; i--)
         {
-            player = StrategicMap.Current.Players.GetPlayers(i);
+            Player player = StrategicMap.Current.Players.GetPlayers(i);
             if (player.PlayerType == PlayerType.Independent)
             {
                 for (int j = player.Structures.GetCount() - 1; j >= 0; j--)
@@ -772,15 +738,11 @@ public partial class SetupControl : Component
     // AoWSetup.pas:847
     public void SetupMap()
     {
-        int index = default;
-        Player playerPlayer = default;
-        RemotePlayerCommunicationControl remotePlayerCommunicationControl = default;
-        LocalPlayerCommunicationControl localPlayerCommunicationControl = default;
         _phase = SetupPhase.SetupMap;
         for (int i = 0, last = Settings.GetCount() - 1; i <= last; i++)
         {
             PlayerSetupSettings settingPlayerId = Settings.GetSettings(i);
-            playerPlayer = StrategicMap.Current.Players.GetPlayers((sbyte)settingPlayerId.PlayerId);
+            Player playerPlayer = StrategicMap.Current.Players.GetPlayers((sbyte)settingPlayerId.PlayerId);
             playerPlayer.PlayerType = (PlayerType)Settings.GetSettings(i).Behavior.PlayerType;
             playerPlayer.Behavior = (PlayerBehavior)Settings.GetSettings(i).BehaviorMode;
             if (Settings.ConnectionType == 2)
@@ -812,7 +774,7 @@ public partial class SetupControl : Component
                 if (Settings.GetSettings(i).Behavior.PlayerType == 0 && (Settings.MapDay != 0 || !Settings.CustomizeLeaders))
                 {
                     PlayerSetupSettings setting = Settings.GetSettings(i);
-                    index = Settings.RemotePlayers.IndexOfRemoteId(setting.Behavior.Flags);
+                    int index = Settings.RemotePlayers.IndexOfRemoteId(setting.Behavior.Flags);
                     if (index != -1)
                     {
                         RemotePlayer player = Settings.RemotePlayers.GetPlayers(index);
@@ -825,7 +787,7 @@ public partial class SetupControl : Component
         StrategicMap.Current.ConnectionType = (PlayerConnectionType)Settings.ConnectionType;
         if (GetRemote())
         {
-            remotePlayerCommunicationControl = new RemotePlayerCommunicationControl(_engine);
+            RemotePlayerCommunicationControl remotePlayerCommunicationControl = new(_engine);
             remotePlayerCommunicationControl.Setup(StrategicMap.Current.Players.GetCount(), RemotePlayer.RemoteId);
             remotePlayerCommunicationControl.SetConnectionMode(0, ConnectionMode.Global);
             remotePlayerCommunicationControl.SetSystemId(0, RemotePlayer.RemoteId);
@@ -859,7 +821,7 @@ public partial class SetupControl : Component
         }
         else
         {
-            localPlayerCommunicationControl = new LocalPlayerCommunicationControl(_engine);
+            LocalPlayerCommunicationControl localPlayerCommunicationControl = new(_engine);
             localPlayerCommunicationControl.Setup(StrategicMap.Current.Players.GetCount());
             localPlayerCommunicationControl.SetConnectionMode(0, ConnectionMode.Global);
             for (int i = 0, last = Settings.GetCount() - 1; i <= last; i++)
@@ -895,7 +857,7 @@ public partial class SetupControl : Component
         StrategicMap.Current.StartingGame = Settings.AlwaysViewTacticalBattle;
         RemoveIndependentPlayers();
         StrategicMap.Current.SetupPlayerControl((PlayMode)Settings.PlayMode, (PlayerConnectionType)Settings.ConnectionType);
-        if (OnSetupMap != null)
+        if (OnSetupMap is not null)
         {
             try
             {
@@ -907,7 +869,7 @@ public partial class SetupControl : Component
         }
 
         Reset();
-        if (OnStart != null)
+        if (OnStart is not null)
         {
             try
             {
@@ -923,11 +885,10 @@ public partial class SetupControl : Component
     public bool ValidateSetupMap()
     {
         bool result;
-        int i;
         if (GetHost())
         {
             result = true;
-            i = Settings.Count;
+            int i = Settings.Count;
             while (result && i != 0)
             {
                 i -= 1;
@@ -945,7 +906,7 @@ public partial class SetupControl : Component
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;
@@ -1056,22 +1017,19 @@ public partial class SetupControl : Component
     // AoWSetup.pas:1289
     public bool UpdatePreferredRaces()
     {
-        int target;
-        int old;
-        int race;
-        bool again;
         Assert(GetHost(), "", "AoWSetup.pas", 1292);
-        again = true;
+        bool again = true;
         bool result = false;
         while (again)
         {
             again = false;
             for (int i = 0, last = Settings.RemotePlayers.Count - 1; i <= last; i++)
             {
-                race = (sbyte)Settings.RemotePlayers.GetPlayers(i).PreferredRace;
+                int race = (sbyte)Settings.RemotePlayers.GetPlayers(i).PreferredRace;
+                int old;
                 if (race != -1)
                 {
-                    target = Settings.IndexOfRace((byte)race);
+                    int target = Settings.IndexOfRace((byte)race);
                     if (target != -1 && Settings.GetSettings(target).Behavior.Flags == 0 && (Settings.GetSettings(target).Status & Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.Fixed, PlayerSetupStatusElement.Forced)) == Set<PlayerSetupStatusElement>.Of())
                     {
                         RemotePlayer playerRemoteId = Settings.RemotePlayers.GetPlayers(i);
@@ -1140,18 +1098,14 @@ public partial class SetupControl : Component
     // AoWSetup.pas:970
     public string ValidatePlayerName(string name)
     {
-        bool done;
-        DelphiStringList list;
-        int i;
-        bool unique;
-        list = new DelphiStringList();
+        DelphiStringList list = new();
         ListAvailablePlayers(list);
-        done = false;
+        bool done = false;
         string result = name;
         while (!done)
         {
-            i = 0;
-            unique = true;
+            int i = 0;
+            bool unique = true;
             while (i != list.Count && unique)
             {
                 unique = CompareText(result, list[i]) != 0;
@@ -1178,10 +1132,8 @@ public partial class SetupControl : Component
     // AoWSetup.pas:995
     public bool PlayerNameToPlayerId(string name, ref SetupPlayerBehavior behavior)
     {
-        int i;
-        byte playerType;
         bool result = false;
-        i = Settings.RemotePlayers.Count;
+        int i = Settings.RemotePlayers.Count;
         while (!result && i != 0)
         {
             i -= 1;
@@ -1195,7 +1147,7 @@ public partial class SetupControl : Component
 
         if (!result)
         {
-            playerType = 0;
+            byte playerType = 0;
             while (!result && playerType <= 7)
             {
                 if (CompareText(name, _engine.TranslateResourceString(GameTables.PlayerTypeTexts[playerType])) == 0)
@@ -1221,14 +1173,10 @@ public partial class SetupControl : Component
     // AoWSetup.pas:1027
     public bool GetPlayerSetupValid()
     {
-        int i;
-        int j;
-        int playerCount;
-        bool human;
-        human = false;
-        playerCount = 0;
+        bool human = false;
+        int playerCount = 0;
         bool result = Settings.Count != 0;
-        i = Settings.Count;
+        int i = Settings.Count;
         while (result && i != 0)
         {
             i -= 1;
@@ -1243,7 +1191,7 @@ public partial class SetupControl : Component
             if (result && Settings.GetSettings(i).Behavior.PlayerType == 0 && GetRemote())
             {
                 PlayerSetupSettings setting = Settings.GetSettings(i);
-                j = Settings.RemotePlayers.IndexOfRemoteId(setting.Behavior.Flags);
+                int j = Settings.RemotePlayers.IndexOfRemoteId(setting.Behavior.Flags);
                 bool condition = j != -1;
                 if (condition)
                 {
@@ -1261,9 +1209,7 @@ public partial class SetupControl : Component
     // AoWSetup.pas:1048
     public bool GetAllMapsValid()
     {
-        int i;
-        int j;
-        i = Settings.Count;
+        int i = Settings.Count;
         bool result = true;
         while (result && i != 0)
         {
@@ -1272,7 +1218,7 @@ public partial class SetupControl : Component
             if (result && Settings.GetSettings(i).Behavior.PlayerType == 0 && GetRemote())
             {
                 PlayerSetupSettings setting = Settings.GetSettings(i);
-                j = Settings.RemotePlayers.IndexOfRemoteId(setting.Behavior.Flags);
+                int j = Settings.RemotePlayers.IndexOfRemoteId(setting.Behavior.Flags);
                 if (j != -1)
                 {
                     result = Settings.RemotePlayers.GetPlayers(j).MapValidation == MapValidationInfo.Valid;
@@ -1286,7 +1232,6 @@ public partial class SetupControl : Component
     // AoWSetup.pas:1064
     public bool PlayerSetupDone()
     {
-        bool result = default;
         if (GetHost() && GetPlayerSetupValid())
         {
             OnPlayerSetupDone?.Invoke(this);
@@ -1298,7 +1243,7 @@ public partial class SetupControl : Component
                     RemotePlayer playerRemoteId = Settings.RemotePlayers.GetPlayers(i);
                     if (Settings.IndexOfRemoteId(playerRemoteId.RemoteId) == -1)
                     {
-                        if (OnEjectPlayer != null)
+                        if (OnEjectPlayer is not null)
                         {
                             RemotePlayer player = Settings.RemotePlayers.GetPlayers(i);
                             OnEjectPlayer(this, player.RemoteId);
@@ -1319,14 +1264,12 @@ public partial class SetupControl : Component
                 SendMap();
             }
 
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // AoWSetup.pas:1085
@@ -1422,11 +1365,9 @@ public partial class SetupControl : Component
     // AoWSetup.pas:1157
     public void SetPlayerId(int index, in SetupPlayerBehavior behavior, bool forced)
     {
-        int i;
-        int playerIndex;
         if (GetHost())
         {
-            playerIndex = index;
+            int playerIndex = index;
             if (Settings.GetSettings(playerIndex).Behavior.PlayerType == behavior.PlayerType && Settings.GetSettings(playerIndex).Behavior.Flags == behavior.Flags)
             {
                 return;
@@ -1437,6 +1378,7 @@ public partial class SetupControl : Component
                 return;
             }
 
+            int i;
             if (!GetRemote() && Settings.PlayMode == 2 && behavior.PlayerType == 0)
             {
                 i = 0;
@@ -1480,13 +1422,12 @@ public partial class SetupControl : Component
     // AoWSetup.pas:1182
     public void SetPlayMode(byte value)
     {
-        bool first;
         if (GetHost() && value != Settings.PlayMode)
         {
             Settings.PlayMode = value;
             if (!GetRemote() && value == 2)
             {
-                first = true;
+                bool first = true;
                 for (int i = 0, last = Settings.Count - 1; i <= last; i++)
                 {
                     if (Settings.GetSettings(i).Behavior.PlayerType == 0)
@@ -1518,12 +1459,8 @@ public partial class SetupControl : Component
     // AoWSetup.pas:1209
     public bool PickMap(string fileName)
     {
-        bool result = default;
-        bool firstHuman = default;
-        PlayerSetupSettings settings = default;
-        StrategicMap preview;
-        preview = _engine.CreatePreviewHsm<StrategicMap>(_engine.StartupDirectory + fileName, profile: GameProfile.WorldMap);
-        if (GetHost() && preview != null && (!_engine.Demo || preview.ShowAllPlayers) && preview.ConnectionType != PlayerConnectionType.Email)
+        StrategicMap preview = _engine.CreatePreviewHsm<StrategicMap>(_engine.StartupDirectory + fileName, profile: GameProfile.WorldMap);
+        if (GetHost() && preview is not null && (!_engine.Demo || preview.ShowAllPlayers) && preview.ConnectionType != PlayerConnectionType.Email)
         {
             _engine.InitializeHexSpriteSet(_engine.StartupDirectory + preview.HssFileName, null);
             Randomize();
@@ -1548,7 +1485,7 @@ public partial class SetupControl : Component
                 Settings.TacticalBattleAvailability = preview.VictoryMode;
             }
 
-            firstHuman = true;
+            bool firstHuman = true;
             RemotePlayer.PreferredRace = 255;
             RemotePlayer.MapValidation = MapValidationInfo.Valid;
             for (int i = 0, last = Settings.RemotePlayers.GetCount() - 1; i <= last; i++)
@@ -1564,7 +1501,7 @@ public partial class SetupControl : Component
                 Player player = preview.Players.GetPlayers(i);
                 if (player.Status != PlayerStatus.Terminated)
                 {
-                    settings = new PlayerSetupSettings(Settings)
+                    PlayerSetupSettings settings = new(Settings)
                     {
                         PlayerId = (byte)i,
                         Race = player.PlayerRace
@@ -1600,31 +1537,27 @@ public partial class SetupControl : Component
 
             UpdateSettings();
             preview?.Dispose();
-            result = true;
+            return true;
         }
         else
         {
             // { Original leaks a rejected preview map. }
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // AoWSetup.pas:1216
     public void EjectPlayer(int remoteId)
     {
-        int i;
-        int j = default;
         if (GetHost() && GetRemote() && remoteId != 0)
         {
-            i = Settings.RemotePlayers.IndexOfRemoteId(remoteId);
+            int i = Settings.RemotePlayers.IndexOfRemoteId(remoteId);
             if (i != -1)
             {
                 Settings.RemotePlayers.GetPlayers(i)?.Dispose();
                 OnEjectPlayer?.Invoke(this, remoteId);
 
-                j = Settings.IndexOfRemoteId(remoteId);
+                int j = Settings.IndexOfRemoteId(remoteId);
                 if (j != -1)
                 {
                     ResetPlayerSettings(j);

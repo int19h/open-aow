@@ -18,8 +18,8 @@ public partial class UIComponent
 
     private static readonly ConditionalWeakTable<UIComponent, WheelLink> s_wheelLinks = [];
 
-    internal static bool PointInside(int X, int Y, int left, int top, int width, int height) =>
-        X > left - 1 && X < left + width && Y > top - 1 && Y < top + height;
+    internal static bool PointInside(int X, int Y, int left, int top, int width, int height)
+        => X > left - 1 && X < left + width && Y > top - 1 && Y < top + height;
 
     public virtual bool ContainsPoint(int X, int Y) => false;
 
@@ -66,7 +66,7 @@ public partial class UIComponent
     // bar, exactly one visible enabled vertical scroll bar among the direct children is used.
     protected bool ScrollOwnedBar(int steps)
     {
-        if (s_wheelLinks.TryGetValue(this, out WheelLink link) && link.Bar != null)
+        if (s_wheelLinks.TryGetValue(this, out WheelLink link) && link.Bar is not null)
         {
             if (!link.Bar._visible || !link.Bar.CaptureInput)
             {
@@ -82,7 +82,7 @@ public partial class UIComponent
         {
             if (Children[i] is VerticalScrollBar candidate && candidate._visible && candidate.CaptureInput)
             {
-                if (bar != null)
+                if (bar is not null)
                 {
                     return false;
                 }
@@ -91,7 +91,7 @@ public partial class UIComponent
             }
         }
 
-        if (bar == null)
+        if (bar is null)
         {
             return false;
         }

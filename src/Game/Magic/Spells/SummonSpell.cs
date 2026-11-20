@@ -15,7 +15,7 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Game.Magic.Spells;
 
 // AIBasePriority, UnitIndices
-public partial class SummonSpell : Spell
+public class SummonSpell : Spell
 {
 
     public int AIBasePriority { get; protected set; }
@@ -39,16 +39,14 @@ public partial class SummonSpell : Spell
     // SummonSpells.pas:288
     public override void AIPrefetchCastSpellActions(Troop source, AICastSpellActionList actions)
     {
-        bool canCast;
-        AICastSpellAction action;
-        string reason = "";
         if (AIBasePriority != -1)
         {
-            canCast = AIRequestCastSpellExpense(upkeep: GetAIUpkeepPriority(), source: source, budget: BaseManaCost, mana: ManaUpkeep);
+            bool canCast = AIRequestCastSpellExpense(upkeep: GetAIUpkeepPriority(), source: source, budget: BaseManaCost, mana: ManaUpkeep);
+            string reason = "";
             canCast = canCast && source.CanCastSpell(SpellId, ref reason);
             if (canCast)
             {
-                action = CreateCastSpellAction();
+                AICastSpellAction action = CreateCastSpellAction();
                 SetupCastSpellAction(source, action);
                 action.Priority = AIBasePriority;
                 action.SetOwner(actions);
@@ -59,57 +57,50 @@ public partial class SummonSpell : Spell
     // SummonSpells.pas:308
     public override bool AIExecuteCastSpellAction(Troop source)
     {
-        bool result;
         string reason = "";
         if (source.CanCastSpell(SpellId, ref reason))
         {
             _ = AICastSpellExpenseMade(upkeep: GetAIUpkeepPriority(), source: source, budget: BaseManaCost, mana: ManaUpkeep);
             if (source.CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
             {
-                result = Activate(source);
+                return Activate(source);
             }
             else
             {
                 if (source.GetCastingSpellId() != SpellId)
                 {
                     _ = source.ExecuteStartCasting(SpellId);
-                    result = true;
+                    return true;
                 }
                 else
                 {
-                    result = true;
+                    return true;
                 }
             }
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // SummonSpells.pas:266
     public override bool Activate(Troop source)
     {
-        bool result;
-        SummonSpellTokenEvent eventValue;
         string reason = "";
         if (CanActivate(source, ref reason))
         {
-            eventValue = new SummonSpellTokenEvent(null) { Holder = CreationHolder() };
+            SummonSpellTokenEvent eventValue = new(null) { Holder = CreationHolder() };
             eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
             SetupSummonSpellTokenEvent(eventValue);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             _ = eventValue.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // SummonSpells.pas:261

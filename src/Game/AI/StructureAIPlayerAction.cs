@@ -9,7 +9,7 @@ using Aow.Game.World.Structures;
 namespace Aow.Game.AI;
 
 // { Interface declaration run owned by P1. }
-public partial class StructureAIPlayerAction(CustomNode owner) : AIPlayerAction(owner)
+public class StructureAIPlayerAction(CustomNode owner) : AIPlayerAction(owner)
 {
 
     public int Phase { get; protected set; }
@@ -26,7 +26,6 @@ public partial class StructureAIPlayerAction(CustomNode owner) : AIPlayerAction(
     // Structur.PAS:3330
     public override bool Activate()
     {
-        bool result;
         _ = base.Activate();
         if (Control.Player.PlayerIndex > 0)
         {
@@ -36,27 +35,23 @@ public partial class StructureAIPlayerAction(CustomNode owner) : AIPlayerAction(
                 _ = _structureIds.Add(structure.StructureId);
             }
 
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Structur.PAS:3344
     public override bool Process()
     {
-        bool waiting;
-        Structure structure;
-        waiting = false;
+        bool waiting = false;
         while (!waiting && _structureIds.Count != 0 && StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 0 && !Control.Player.GetBusy())
         {
             int item = _structureIds[^1];
-            structure = StrategicMap.Current.StructureControl.FindId(item);
-            if (structure != null)
+            Structure structure = StrategicMap.Current.StructureControl.FindId(item);
+            if (structure is not null)
             {
                 waiting = structure.ExecuteAI(Control.Player.PlayerIndex, Phase);
             }
@@ -69,7 +64,4 @@ public partial class StructureAIPlayerAction(CustomNode owner) : AIPlayerAction(
 
         return _structureIds.Count != 0;
     }
-
-    // intf_P1_12.inc:8
-
 }

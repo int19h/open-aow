@@ -14,7 +14,6 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Events;
 
-// { }
 // Logbook
 public partial class CombatEventLog(CustomNode owner) : EventLog(owner)
 {
@@ -27,9 +26,8 @@ public partial class CombatEventLog(CustomNode owner) : EventLog(owner)
     // Combat2.pas:405
     public override void Dispose()
     {
-        CombatLogbook l;
-        l = Logbook;
-        if (l != null)
+        CombatLogbook l = Logbook;
+        if (l is not null)
         {
             _ = l.Release();
             Logbook = null;
@@ -51,40 +49,32 @@ public partial class CombatEventLog(CustomNode owner) : EventLog(owner)
     // Combat2.pas:431
     public override int GetTextColor()
     {
-        int result;
-        CombatData data;
-        data = Logbook.FinalData;
+        CombatData data = Logbook.FinalData;
         if (data.Players.GetPlayers(data.AttackerPlayer).Player != 0)
         {
             CombatPlayer players = data.Players.GetPlayers(data.AttackerPlayer);
             Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(players.Player);
-            result = AbilityRules.RaceColors[fPlayersPlayers.PlayerRace];
+            return AbilityRules.RaceColors[fPlayersPlayers.PlayerRace];
         }
         else
         {
-            result = AbilityRules.RaceColors[12];
+            return AbilityRules.RaceColors[12];
         }
-
-        return result;
     }
 
     // Combat2.pas:440
     public override int GetLeftIcon()
     {
-        int result;
-        CombatData data;
-        data = Logbook.FinalData;
+        CombatData data = Logbook.FinalData;
         if (data.Players.GetPlayers(data.AttackerPlayer).Player != 0)
         {
             CombatPlayer players = data.Players.GetPlayers(data.AttackerPlayer);
-            result = StrategicMap.Current.Players.GetPlayers(players.Player).PlayerRace;
+            return StrategicMap.Current.Players.GetPlayers(players.Player).PlayerRace;
         }
         else
         {
-            result = 12;
+            return 12;
         }
-
-        return result;
     }
 
     // Combat2.pas:449
@@ -93,20 +83,16 @@ public partial class CombatEventLog(CustomNode owner) : EventLog(owner)
     // Combat2.pas:452
     public override int GetRightIcon()
     {
-        int result;
-        CombatData data;
-        data = Logbook.FinalData;
+        CombatData data = Logbook.FinalData;
         if (data.Players.GetPlayers(data.DefenderPlayer).Player != 0)
         {
             CombatPlayer players = data.Players.GetPlayers(data.DefenderPlayer);
-            result = StrategicMap.Current.Players.GetPlayers(players.Player).PlayerRace;
+            return StrategicMap.Current.Players.GetPlayers(players.Player).PlayerRace;
         }
         else
         {
-            result = 12;
+            return 12;
         }
-
-        return result;
     }
 
     // Combat2.pas:467
@@ -120,20 +106,17 @@ public partial class CombatEventLog(CustomNode owner) : EventLog(owner)
     // Combat2.pas:474
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
-        bool showCombat = default;
-        CombatData data = default;
-        bool result = false;
         switch (trigger)
         {
             case ExecuteTrigger.User:
                 StrategicMap.Current.TriggerExecuteEventLog(this, false, done);
-                result = true;
-                break;
+                return true;
             case ExecuteTrigger.Event:
             case ExecuteTrigger.NewTurn:
+                bool showCombat;
                 if (Logbook.InitialData.Players.IndexOfPlayer((byte)StrategicMap.Current.SeatedPlayer) != -1)
                 {
-                    data = Logbook.InitialData;
+                    CombatData data = Logbook.InitialData;
                     showCombat = data.Players.GetPlayers(data.AttackerPlayer).Player == StrategicMap.Current.SeatedPlayer;
                     showCombat = showCombat || (StrategicMap.Current.RequestCombatType && StrategicMap.Current.ConnectionType == PlayerConnectionType.Email && Logbook.InitialData.Players.GetPlayers(Logbook.InitialData.DefenderPlayer).Player == StrategicMap.Current.SeatedPlayer);
                     showCombat = showCombat || (trigger == ExecuteTrigger.Event && StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Combat));
@@ -149,26 +132,23 @@ public partial class CombatEventLog(CustomNode owner) : EventLog(owner)
                 if (showCombat)
                 {
                     StrategicMap.Current.TriggerExecuteEventLog(this, false, done);
-                    result = true;
+                    return true;
                 }
                 else
                 {
-                    result = false;
+                    return false;
                 }
-
-                break;
             default:
                 break;
         }
 
-        return result;
+        return false;
     }
 
     // Combat2.pas:416
     public void SetCombatLogbook(CombatLogbook logbook)
     {
-        CombatLogbook old;
-        old = Logbook;
+        CombatLogbook old = Logbook;
         if (old != logbook)
         {
             _ = (old?.Release());

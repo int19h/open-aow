@@ -14,7 +14,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Spells;
 
 // Width, Height, OriginalTerrain
-public partial class FloodControl(CustomNode owner) : EngineObject(owner)
+public class FloodControl(CustomNode owner) : EngineObject(owner)
 {
 
     public int Width { get; set; }
@@ -69,29 +69,25 @@ public partial class FloodControl(CustomNode owner) : EngineObject(owner)
     // GlobalEnchantmentSpells.pas:1098
     public void Flood()
     {
-        MapLevel mapLevel;
-        HexNumberWalkData walk = default;
+        StrategicMap.Current.LockMapChangedEvent();
+        MapLevel mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(0);
+        // { Original includes the last row when walking neighbouring hexagons. }
         MapField mapField;
         int index;
-        HexSprite roadHexSprite;
-        sbyte terrainType;
-        StrategicMap.Current.LockMapChangedEvent();
-        mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(0);
-        // { Original includes the last row when walking neighbouring hexagons. }
         for (int y = 1, last = mapLevel.Height - 1; y <= last; y++)
         {
             for (int x = 1, lastX = mapLevel.Width - 2; x <= lastX; x++)
             {
                 if (mapLevel.GetField(x, y).TerrainType == 0)
                 {
-                    HexNumberWalkData.InitializeHexNumberWalk(out walk, x, y, 1);
+                    HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, 1);
                     while (walk.Radius == 1)
                     {
                         mapField = mapLevel.GetField(walk.X, walk.Y);
                         if ((!Set<byte>.WithBounds(0, 255).With(0).With(6).With(15).Contains((byte)mapField.TerrainType) && !Set<byte>.WithBounds(0, 255).With(0).With(2).With(7).Contains((byte)mapField.OverlayType)) || (mapField.TerrainType == 0 && mapField.OverlayType == 5))
                         {
                             index = ((Width * walk.Y) + walk.X) * 2;
-                            if (OriginalTerrain[index] == 0 && OriginalTerrain[index + 1] == 0 && mapField.FindNoneTransparentHexSprite(typeof(Structure)) == null)
+                            if (OriginalTerrain[index] == 0 && OriginalTerrain[index + 1] == 0 && mapField.FindNoneTransparentHexSprite(typeof(Structure)) is null)
                             {
                                 sbyte[] originalTerrain = OriginalTerrain;
                                 originalTerrain[index] = mapField.TerrainType;
@@ -103,7 +99,7 @@ public partial class FloodControl(CustomNode owner) : EngineObject(owner)
 
                             if (Set<byte>.WithBounds(0, 255).With(4).With(5).Contains((byte)mapField.OverlayType))
                             {
-                                roadHexSprite = mapField.FindOwnedHexSprite(typeof(AbstractRoad));
+                                HexSprite roadHexSprite = mapField.FindOwnedHexSprite(typeof(AbstractRoad));
                                 roadHexSprite?.Dispose();
                             }
                         }
@@ -122,7 +118,7 @@ public partial class FloodControl(CustomNode owner) : EngineObject(owner)
                 if (OriginalTerrain[index] != 0)
                 {
                     mapField = mapLevel.GetField(x, y);
-                    terrainType = mapField.TerrainType;
+                    sbyte terrainType = mapField.TerrainType;
                     if (terrainType != 0)
                     {
                         mapField.TerrainType = 0;
@@ -141,15 +137,10 @@ public partial class FloodControl(CustomNode owner) : EngineObject(owner)
     // GlobalEnchantmentSpells.pas:1160
     public void Restore()
     {
-        MapObjectResourceList resources;
-        DelphiList<MapObjectResource> candidates;
+        StrategicMap.Current.LockMapChangedEvent();
+        MapLevel mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(0);
         int index;
         MapField mapField;
-        MapLevel mapLevel;
-        sbyte overlay;
-        MapObjectResource resource;
-        StrategicMap.Current.LockMapChangedEvent();
-        mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(0);
         for (int y = 1, last = mapLevel.Height - 1; y <= last; y++)
         {
             index = ((Width * y) + 1) * 2;
@@ -169,14 +160,14 @@ public partial class FloodControl(CustomNode owner) : EngineObject(owner)
             }
         }
 
-        resources = GamePack.Current.MapObjectResourceList;
-        candidates = new DelphiList<MapObjectResource>();
+        MapObjectResourceList resources = GamePack.Current.MapObjectResourceList;
+        DelphiList<MapObjectResource> candidates = new();
         for (int y = 1, last = mapLevel.Height - 1; y <= last; y++)
         {
             index = ((Width * y) + 1) * 2;
             for (int x = 1, lastX = mapLevel.Width - 2; x <= lastX; x++)
             {
-                overlay = OriginalTerrain[index + 1];
+                sbyte overlay = OriginalTerrain[index + 1];
                 if (overlay > 0)
                 {
                     mapField = mapLevel.GetField(x, y);
@@ -189,7 +180,7 @@ public partial class FloodControl(CustomNode owner) : EngineObject(owner)
                         candidates.Clear();
                         for (int i = 0, lastI = resources.Count - 1; i <= lastI; i++)
                         {
-                            resource = resources[i];
+                            MapObjectResource resource = resources[i];
                             if (resource.EngineClass.ClassId == 131431 && resource.TerrainList.UsedTerrain() == 1 && resource.TerrainList.Terrain[0] == mapField.TerrainType && overlay == resource.TerrainList.Overlay[0])
                             {
                                 _ = candidates.Add(resource);
@@ -211,5 +202,4 @@ public partial class FloodControl(CustomNode owner) : EngineObject(owner)
         StrategicMap.Current.UnlockMapChangedEvent();
         StrategicMap.Current.InvalidateMap();
     }
-
 }

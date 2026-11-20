@@ -10,7 +10,7 @@ using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.Session;
 
-public abstract partial record DiplomaticProposal
+public abstract record DiplomaticProposal
 {
     private static readonly Catalog<byte, Func<int, int, DiplomaticProposal>> s_kinds = new("diplomatic proposal");
 
@@ -23,8 +23,8 @@ public abstract partial record DiplomaticProposal
 
     // The proposal the stored kind, gold and mana name. A kind no proposal registered reads as
     // UnknownProposal, which writes the three fields back unchanged.
-    public static DiplomaticProposal FromFields(byte kind, int gold, int mana) =>
-        s_kinds.TryGet(kind, out Func<int, int, DiplomaticProposal> create) ? create(gold, mana) : new UnknownProposal(kind, gold, mana);
+    public static DiplomaticProposal FromFields(byte kind, int gold, int mana)
+        => s_kinds.TryGet(kind, out Func<int, int, DiplomaticProposal> create) ? create(gold, mana) : new UnknownProposal(kind, gold, mana);
 
     // Registers the proposal of a kind. A second registration of a kind throws.
     internal static void Register(byte kind, Func<int, int, DiplomaticProposal> create) => s_kinds.Add(kind, create);
@@ -59,8 +59,8 @@ public abstract partial record DiplomaticProposal
         return lines;
     }
 
-    public virtual bool Equals(DiplomaticProposal other) =>
-        ReferenceEquals(this, other) || (other is not null && EqualityContract == other.EqualityContract && Message.SequenceEqual(other.Message));
+    public virtual bool Equals(DiplomaticProposal other)
+        => ReferenceEquals(this, other) || (other is not null && EqualityContract == other.EqualityContract && Message.SequenceEqual(other.Message));
 
     public override int GetHashCode() => HashCode.Combine(EqualityContract, Message.Count);
 
@@ -142,8 +142,8 @@ public abstract partial record DiplomaticProposal
     }
 
     // The relation of First to Second.
-    protected static DiplomaticRelation Relation(sbyte first, sbyte second) =>
-        StrategicMap.Current.Players.GetDiplomaticRelation((sbyte)(byte)first, (sbyte)(byte)second);
+    protected static DiplomaticRelation Relation(sbyte first, sbyte second)
+        => StrategicMap.Current.Players.GetDiplomaticRelation((sbyte)(byte)first, (sbyte)(byte)second);
 
     // Shows Log at once when Player is seated.
     protected static void ShowTo(EventLog log, sbyte player)

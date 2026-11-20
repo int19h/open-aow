@@ -8,7 +8,7 @@ namespace Aow.Game.World.Map;
 
 // terrain and overlay types by hexagon number, one pair per hexagon (terrain type, overlay
 // type. -2: none). The stream holds the pairs as two signed bytes each.
-public partial class TerrainList : IDisposable
+public class TerrainList : IDisposable
 {
     private int _count;
     private (sbyte Terrain, sbyte Overlay)[] _list = [];
@@ -24,11 +24,7 @@ public partial class TerrainList : IDisposable
     }
 
     // HSEngine.pas:1423
-    public sbyte GetTerrain(int index)
-    {
-        sbyte result = index < _count ? _list[index].Terrain : (sbyte)-2;
-        return result;
-    }
+    public sbyte GetTerrain(int index) => index < _count ? _list[index].Terrain : (sbyte)-2;
 
     // HSEngine.pas:1431
     public void SetTerrain(int index, sbyte value)
@@ -54,11 +50,7 @@ public partial class TerrainList : IDisposable
     }
 
     // HSEngine.pas:1445
-    public sbyte GetOverlay(int index)
-    {
-        sbyte result = index < _count ? _list[index].Overlay : (sbyte)-2;
-        return result;
-    }
+    public sbyte GetOverlay(int index) => index < _count ? _list[index].Overlay : (sbyte)-2;
 
     // HSEngine.pas:1453
     public void SetOverlay(int index, sbyte value)
@@ -72,11 +64,7 @@ public partial class TerrainList : IDisposable
     }
 
     // HSEngine.pas:1459. The pair as one word: the terrain byte low, the overlay byte high.
-    public ushort GetTandO(int index)
-    {
-        ushort result = index < _count ? (ushort)((byte)_list[index].Terrain | ((byte)_list[index].Overlay << 8)) : (ushort)65278;
-        return result;
-    }
+    public ushort GetTandO(int index) => index < _count ? (ushort)((byte)_list[index].Terrain | ((byte)_list[index].Overlay << 8)) : (ushort)65278;
 
     // HSEngine.pas:1467
     public void SetTandO(int index, ushort value)
@@ -126,8 +114,7 @@ public partial class TerrainList : IDisposable
     // HSEngine.pas:1506
     public void Pack()
     {
-        int newCount;
-        newCount = _count;
+        int newCount = _count;
         while (newCount != 0 && GetOverlay(newCount - 1) == -2 && GetTerrain(newCount - 1) == -2)
         {
             newCount -= 1;
@@ -142,20 +129,18 @@ public partial class TerrainList : IDisposable
     // HSEngine.pas:1516
     public UInt16List CreateSurroundingHexNumberTable()
     {
-        int hexNumber;
         int hexX = default;
         int hexY = default;
-        HexNumberWalkData walk = default;
         UInt16List result = new();
         for (int i = 0, last = _count - 1; i <= last; i++)
         {
             if (GetTerrain(i) >= 0)
             {
                 HexGeometry.HexNumberToHex(i, ref hexX, ref hexY);
-                HexNumberWalkData.InitializeHexNumberWalk(out walk, hexX, hexY, 1);
+                HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, 1);
                 while (walk.HexNumber != 7)
                 {
-                    hexNumber = HexGeometry.HexToHexNumber(walk.X, walk.Y);
+                    int hexNumber = HexGeometry.HexToHexNumber(walk.X, walk.Y);
                     if (hexNumber >= _count || (hexNumber < _count && GetTerrain(hexNumber) < 0))
                     {
                         if (result.IndexOf((ushort)hexNumber) == -1)
@@ -175,20 +160,14 @@ public partial class TerrainList : IDisposable
     // HSEngine.pas:1538
     public bool CompareTerrain(TerrainList list, Set<TerrainCompareModeElement> mode)
     {
-        int i;
-        int n;
-        int t1;
-        int t2;
-        int o1;
-        int o2;
         bool result = true;
-        i = 0;
-        n = _count >= list._count ? _count : list._count;
+        int i = 0;
+        int n = _count >= list._count ? _count : list._count;
 
         while (result && i != n)
         {
-            t1 = GetTerrain(i);
-            t2 = list.GetTerrain(i);
+            int t1 = GetTerrain(i);
+            int t2 = list.GetTerrain(i);
             if (!(t1 < 0 && t2 < 0))
             {
                 result = t1 >= 0 && t2 >= 0 && (!mode.Contains(TerrainCompareModeElement.SameTerrainType) || t1 == t2);
@@ -196,8 +175,8 @@ public partial class TerrainList : IDisposable
 
             if (result)
             {
-                o1 = GetOverlay(i);
-                o2 = list.GetOverlay(i);
+                int o1 = GetOverlay(i);
+                int o2 = list.GetOverlay(i);
                 if (!(o1 < 0 && o2 < 0))
                 {
                     result = !mode.Contains(TerrainCompareModeElement.SameOverlayType) || o1 == o2;

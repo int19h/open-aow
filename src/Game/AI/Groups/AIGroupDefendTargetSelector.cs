@@ -15,7 +15,7 @@ using static Aow.Rtl.DelphiRounding;
 namespace Aow.Game.AI.Groups;
 
 // control, selector, targets, mode, path step, radius, damage, factor
-public partial class AIGroupDefendTargetSelector : AIGroupTask
+public class AIGroupDefendTargetSelector : AIGroupTask
 {
     private AIGroupControl _control;
     private readonly AIMoveTargetSelector _selector;
@@ -96,15 +96,12 @@ public partial class AIGroupDefendTargetSelector : AIGroupTask
                     Done();
                 }
 
-                result = false;
-                break;
+                return false;
             case 2:
                 Done();
-                result = false;
-                break;
+                return false;
             default:
-                result = false;
-                break;
+                return false;
         }
 
         return result;
@@ -132,11 +129,10 @@ public partial class AIGroupDefendTargetSelector : AIGroupTask
     public int GetMovePathBattleFieldStrength(MovePath path)
     {
         int result;
-        int i;
-        if (path != null && _pathStep < path.Count)
+        if (path is not null && _pathStep < path.Count)
         {
             result = 0;
-            i = _pathStep;
+            int i = _pathStep;
             BattleFieldInfo.SetupBattleFieldInfo(out BattleFieldInfo info, _control.Group.Player, _control.Group.IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(), _damageTypes);
             info.FriendlyRelations = Set<byte>.WithBounds(0, 7);
             info.Requests += Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents);
@@ -157,7 +153,7 @@ public partial class AIGroupDefendTargetSelector : AIGroupTask
         }
         else
         {
-            result = 0;
+            return 0;
         }
 
         return result;
@@ -166,8 +162,7 @@ public partial class AIGroupDefendTargetSelector : AIGroupTask
     // AGCPlugins.pas:213
     public void TargetFoundEvent(MoveTarget target, ref bool searchDone)
     {
-        AIGroupControlTarget newTarget;
-        newTarget = new AIGroupControlTarget(null)
+        AIGroupControlTarget newTarget = new(null)
         {
             Holder = CreationHolder(),
             Info = _selector.TargetInfo,
@@ -238,5 +233,4 @@ public partial class AIGroupDefendTargetSelector : AIGroupTask
     {
         CalculateMovePathBfs = 0
     }
-
 }

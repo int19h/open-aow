@@ -19,7 +19,7 @@ using Aow.Rtl;
 namespace Aow.Game.World.Structures;
 
 // selection Sfx, description, scanner icon. . other recovered resource fields below
-public partial class StructureResource : FixedImageLibraryTerrainMapObjectResource
+public class StructureResource : FixedImageLibraryTerrainMapObjectResource
 {
     public StructureResource(CustomNode owner) : base(owner)
     {
@@ -82,28 +82,22 @@ public partial class StructureResource : FixedImageLibraryTerrainMapObjectResour
         }
     }
 
-    // Structur.PAS:1892
-
     // Structur.PAS:1917
     public override int ResourceUserClassId() => 131914;
 
     // Structur.PAS:1940
     public virtual void Show(int X, int Y, in LockedSurface lockedSurface, Structure structure)
     {
-        int index;
-        int offset;
-        int frameIndex;
-        ImageSequence sequence;
         if (structure.GetSelected() && (StrategicMap.Current.Frame & 6) == 6)
         {
-            index = structure.ImageIndex;
-            offset = structure.Owner.HexX + (structure.Owner.HexY * 16);
-            if (ImageSequenceList != null)
+            int index = structure.ImageIndex;
+            int offset = structure.Owner.HexX + (structure.Owner.HexY * 16);
+            if (ImageSequenceList is not null)
             {
-                sequence = ImageSequenceList.List[index];
-                while (sequence != null)
+                ImageSequence sequence = ImageSequenceList.List[index];
+                while (sequence is not null)
                 {
-                    frameIndex = sequence.GetFrameIndex(StrategicMap.Current.Frame, offset);
+                    int frameIndex = sequence.GetFrameIndex(StrategicMap.Current.Frame, offset);
                     if (frameIndex != -1)
                     {
                         if (sequence.ImageLibrary[frameIndex].ShowInfo.ShowMode == ShowMode.Opaque)
@@ -126,7 +120,7 @@ public partial class StructureResource : FixedImageLibraryTerrainMapObjectResour
         }
         else
         {
-            if (ImageSequenceList == null)
+            if (ImageSequenceList is null)
             {
                 ImageLibrary[structure.ImageIndex].Show(X, Y, lockedSurface);
             }
@@ -149,8 +143,6 @@ public partial class StructureResource : FixedImageLibraryTerrainMapObjectResour
             }
         }
     }
-
-    // intf_P1_09.inc:200
 
     // Structur.PAS:1914
     public override string ResourceEditName() => "";

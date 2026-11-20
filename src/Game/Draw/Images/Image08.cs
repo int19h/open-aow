@@ -9,7 +9,7 @@ namespace Aow.Game.Draw.Images;
 // the pixels are shown with: the image palette, or the copy remapped to the pixel format of the
 // last surface). RegisterPalette (share the palette through the owner's palette manager) and
 // UnregisterPalette (make a private copy again)
-public partial class Image08(CustomImageLibrary owner) : LibraryImage(owner), ILibraryImageClass
+public class Image08(CustomImageLibrary owner) : LibraryImage(owner), ILibraryImageClass
 {
     static LibraryImage ILibraryImageClass.CreateInstance(CustomImageLibrary owner) => new Image08(owner);
 
@@ -30,7 +30,6 @@ public partial class Image08(CustomImageLibrary owner) : LibraryImage(owner), IL
     // ImageLib.pas:7160
     public override void ReadImageData(Stream stream)
     {
-        int index = default;
         base.ReadImageData(stream);
         stream.ReadExactly(Bytes.Of(ref _ownPalette, 1));
         if (_ownPalette)
@@ -40,6 +39,7 @@ public partial class Image08(CustomImageLibrary owner) : LibraryImage(owner), IL
         }
         else
         {
+            int index = default;
             stream.ReadExactly(Bytes.Of(ref index, 4));
             _imagePalette = Owner.PaletteManager.LinkToPalette(index);
         }
@@ -67,10 +67,9 @@ public partial class Image08(CustomImageLibrary owner) : LibraryImage(owner), IL
     // ImageLib.pas:7189
     public virtual void RegisterPalette()
     {
-        LibraryImagePalette old;
-        if (_ownPalette && _imagePalette != null && Owner != null)
+        if (_ownPalette && _imagePalette is not null && Owner is not null)
         {
-            old = _imagePalette;
+            LibraryImagePalette old = _imagePalette;
             _imagePalette = Owner.PaletteManager.RegisterPalette(_imagePalette.Palette);
             old?.Dispose();
             RemapPaletteValue = _imagePalette.Palette;
@@ -81,10 +80,9 @@ public partial class Image08(CustomImageLibrary owner) : LibraryImage(owner), IL
     // ImageLib.pas:7203
     public virtual void UnregisterPalette()
     {
-        LibraryImagePalette p;
-        if (!_ownPalette && _imagePalette != null)
+        if (!_ownPalette && _imagePalette is not null)
         {
-            p = new LibraryImagePalette();
+            LibraryImagePalette p = new();
             p.Assign(_imagePalette);
             Owner.PaletteManager.UnregisterPalette(_imagePalette.IndexValue);
             _imagePalette = p;
@@ -118,20 +116,16 @@ public partial class Image08(CustomImageLibrary owner) : LibraryImage(owner), IL
     // ImageLib.pas:7237
     public override GraphicsResult RemapToPixelFormat(PixelFormat pixelFormatId)
     {
-        GraphicsResult result;
-        Palette p;
-        p = _imagePalette.RemapPalette(pixelFormatId);
-        if (p != null)
+        Palette p = _imagePalette.RemapPalette(pixelFormatId);
+        if (p is not null)
         {
             RemapPaletteValue = p;
-            result = GraphicsResult.Ok;
+            return GraphicsResult.Ok;
         }
         else
         {
-            result = GraphicsResult.NotSupported;
+            return GraphicsResult.NotSupported;
         }
-
-        return result;
     }
 
     // ImageLib.pas:7251
@@ -140,7 +134,7 @@ public partial class Image08(CustomImageLibrary owner) : LibraryImage(owner), IL
     // ImageLib.pas:7258
     // { ShowDC remaps the palette to pfPAL8 (an original slip: the surface is pfRGB565; ShowOpaque
     //   remaps the palette again when it differs). }
-    public override void ShowDisplayController(Rect? sourceRectangle, Rect? destinationRectangle, int displayController, int bkColor) =>
+    public override void ShowDisplayController(Rect? sourceRectangle, Rect? destinationRectangle, int displayController, int bkColor)
         /* TODO: Implement Windows.WindowFromDC in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 }

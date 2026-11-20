@@ -5,8 +5,8 @@ namespace Aow.Formats.Tests;
 
 public sealed class JsonTests : FormatsTest
 {
-    private static ConversionException Fails(string text) =>
-        Assert.Throws<ConversionException>(() => JsonReader.Parse(Encoding.UTF8.GetBytes(text), "t.json"));
+    private static ConversionException Fails(string text)
+        => Assert.Throws<ConversionException>(() => JsonReader.Parse(Encoding.UTF8.GetBytes(text), "t.json"));
 
     [Fact]
     public void ParsesMembersInOrderWithSpans()

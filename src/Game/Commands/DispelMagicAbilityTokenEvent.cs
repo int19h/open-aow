@@ -12,7 +12,7 @@ using static Aow.Rtl.DelphiConversions;
 namespace Aow.Game.Commands;
 
 // (source unit ID/player, target unit ID/player)
-public partial class DispelMagicAbilityTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class DispelMagicAbilityTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
     public new const int ClassId = 131827;
 
@@ -34,22 +34,12 @@ public partial class DispelMagicAbilityTokenEvent(CustomNode owner) : TokenEvent
     // AoWAb.PAS:4345
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        ExecuteResult result;
-        int count;
-        int mana;
-        DispelMagicAbility ability;
-        EnchantmentList enchantments;
-        Troop source;
-        Troop target;
-        bool success;
-        int chance;
-        ImageSequenceAnimation animation;
         _ = base.Execute(tokenEvent);
-        enchantments = new EnchantmentList(null) { Holder = CreationHolder() };
-        source = StrategicMap.Current.UnitControl.FindUnit(SourceId);
-        target = StrategicMap.Current.UnitControl.FindUnit(TargetId);
-        ability = GamePack.Current.AbilityControl.GetAbility<DispelMagicAbility>(60);
-        success = source != null && (byte)source.Player == SourcePlayer && target != null && (byte)target.Player == TargetPlayer;
+        EnchantmentList enchantments = new(null) { Holder = CreationHolder() };
+        Troop source = StrategicMap.Current.UnitControl.FindUnit(SourceId);
+        Troop target = StrategicMap.Current.UnitControl.FindUnit(TargetId);
+        DispelMagicAbility ability = GamePack.Current.AbilityControl.GetAbility<DispelMagicAbility>(60);
+        bool success = source is not null && (byte)source.Player == SourcePlayer && target is not null && (byte)target.Player == TargetPlayer;
         success = success && ability.GetEnabled(source);
         if (success)
         {
@@ -57,13 +47,14 @@ public partial class DispelMagicAbilityTokenEvent(CustomNode owner) : TokenEvent
             success = enchantments.GetCount() > 0;
         }
 
+        ExecuteResult result;
         if (success)
         {
-            count = 0;
-            mana = ability.GetDispelMana(source);
+            int count = 0;
+            int mana = ability.GetDispelMana(source);
             for (int i = enchantments.GetCount() - 1; i >= 0; i--)
             {
-                chance = enchantments.GetEnchantments(i).DispelChance(mana);
+                int chance = enchantments.GetEnchantments(i).DispelChance(mana);
                 if (chance > StrategicMap.Current.Random(100))
                 {
                     count += 1;
@@ -93,7 +84,7 @@ public partial class DispelMagicAbilityTokenEvent(CustomNode owner) : TokenEvent
             _ = StrategicMap.Current.ValidateObservation((sbyte)SourcePlayer, x, y, l, 0);
             if (StrategicMap.Current.Visible(x, y, l, 0))
             {
-                animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
+                ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
                 animation.SetImageSequence(ability.ImageSequences.GetImageSequence(0));
                 _ = StrategicMap.Current.PlaceHex(animation, x, y, l);
             }
@@ -113,7 +104,4 @@ public partial class DispelMagicAbilityTokenEvent(CustomNode owner) : TokenEvent
         enchantments?.Dispose();
         return result;
     }
-
-    // NetworkE.pas:230
-
 }

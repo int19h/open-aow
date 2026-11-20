@@ -9,7 +9,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class HolyChampion : UnitSpell
+public class HolyChampion : UnitSpell
 {
     // UnitSpells.pas:497
     public HolyChampion(CustomNode owner, EngineObject holder) : base(owner)
@@ -35,26 +35,22 @@ public partial class HolyChampion : UnitSpell
     // UnitSpells.pas:510
     public override bool ExecuteSpell(Troop source, Troop target, int mana, Span<int> data)
     {
-        bool result;
-        UnitEnchantment enchantment;
         if (ValidTargetUnit(source, target))
         {
             if (target.ExpandAbility(160))
             {
-                enchantment = target.GetAbilityData<UnitEnchantmentAbilityData>(160).Enchantment;
+                UnitEnchantment enchantment = target.GetAbilityData<UnitEnchantmentAbilityData>(160).Enchantment;
                 enchantment.SetUpkeep(ManaUpkeep);
                 enchantment.SetSource(source.Player);
                 enchantment.DispelResistance = (sbyte)UnitDispelResistance;
             }
 
             // { Original succeeds even when expansion fails. }
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 }

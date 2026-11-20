@@ -3,7 +3,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class WMCampaignScenarioPageList(CustomNode owner) : OwningNode(owner), IChildList<CampaignScenarioPage>
+public class WMCampaignScenarioPageList(CustomNode owner) : OwningNode(owner), IChildList<CampaignScenarioPage>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a CampaignScenarioPage, so the read never fails.

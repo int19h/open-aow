@@ -5,7 +5,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Structures;
 
-public partial class IncomeSource(CustomNode owner) : EngineObject(owner)
+public class IncomeSource(CustomNode owner) : EngineObject(owner)
 {
 
     // Player.PAS:202

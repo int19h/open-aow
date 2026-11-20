@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.AI.Groups;
 
-public partial class SkirmishAIGroup : BehaviorAIGroup, IAIGroupClass
+public class SkirmishAIGroup : BehaviorAIGroup, IAIGroupClass
 {
     // BehaviorAG.pas:729
     public new const int ClassId = 136294;

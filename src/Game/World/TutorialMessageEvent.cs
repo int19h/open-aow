@@ -13,7 +13,7 @@ using Aow.Rtl;
 namespace Aow.Game.World;
 
 // Message
-public partial class TutorialMessageEvent(CustomNode owner) : FlagEvent(owner)
+public class TutorialMessageEvent(CustomNode owner) : FlagEvent(owner)
 {
 
     // FlagEvents.pas:245
@@ -35,15 +35,12 @@ public partial class TutorialMessageEvent(CustomNode owner) : FlagEvent(owner)
         PersistSupport.Lines(persister, name: "Message", lines: _message);
     }
 
-    // FlagEvents.pas:233
-
     // FlagEvents.pas:256
     public override bool Trigger(sbyte player)
     {
-        TutorialMessageEventLog log;
         if (StrategicMap.Current.SeatedPlayer == player)
         {
-            log = new TutorialMessageEventLog(null, holder: CreationHolder());
+            TutorialMessageEventLog log = new(null, holder: CreationHolder());
             string text = _message.Text;
             log.Message.Text = text;
             StrategicMap.Current.TriggerExecuteEventLog(log, TriggerMode == FlagEventTriggerMode.Instant, null);
@@ -53,7 +50,7 @@ public partial class TutorialMessageEvent(CustomNode owner) : FlagEvent(owner)
         return true;
     }
 
-    public new partial class Resource(CustomNode owner) : FlagEventResource(owner)
+    public new class Resource(CustomNode owner) : FlagEventResource(owner)
     {
 
         // FlagEvents.pas:269
@@ -68,7 +65,4 @@ public partial class TutorialMessageEvent(CustomNode owner) : FlagEvent(owner)
         private static readonly string s_tutorialMessageEventText = "Tutorial Message Event";
 
     }
-
-    // FlagEvents.pas:81
-
 }

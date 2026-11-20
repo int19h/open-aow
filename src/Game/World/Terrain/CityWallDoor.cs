@@ -11,7 +11,7 @@ using Aow.Game.World.Movement;
 
 namespace Aow.Game.World.Terrain;
 
-public partial class CityWallDoor(CustomNode owner) : CityWall(owner)
+public class CityWallDoor(CustomNode owner) : CityWall(owner)
 {
 
     // CityWall.pas:381
@@ -23,8 +23,7 @@ public partial class CityWallDoor(CustomNode owner) : CityWall(owner)
     // CityWall.pas:431
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        TacticalBattleUnitHexSprite combatUnit;
-        if (CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || CombatMap.Current.Combat == null)
+        if (CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || CombatMap.Current.Combat is null)
         {
             base.Show(pixelXSurface, pixelYSurface, lockedSurface);
         }
@@ -32,8 +31,8 @@ public partial class CityWallDoor(CustomNode owner) : CityWall(owner)
         {
             sbyte hexY = GetHexY();
             sbyte hexX = GetHexX();
-            combatUnit = CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
-            if (combatUnit != null)
+            TacticalBattleUnitHexSprite combatUnit = CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
+            if (combatUnit is not null)
             {
                 if (combatUnit.Unit.GetSide() != CombatSideIndex.Defender)
                 {
@@ -45,7 +44,7 @@ public partial class CityWallDoor(CustomNode owner) : CityWall(owner)
             if (!condition)
             {
                 int indexOfPlayer = CombatMap.Current.Combat.CombatData.Players.IndexOfPlayer((byte)CombatMap.Current.CurrentPlayer);
-                condition = CombatMap.Current.Combat.CombatData.Players.GetPlayers((sbyte)indexOfPlayer).SideIndex != 1 && combatUnit == null;
+                condition = CombatMap.Current.Combat.CombatData.Players.GetPlayers((sbyte)indexOfPlayer).SideIndex != 1 && combatUnit is null;
             }
 
             if (condition)
@@ -90,17 +89,16 @@ public partial class CityWallDoor(CustomNode owner) : CityWall(owner)
     // CityWall.pas:409
     public override int CanMoveOver(in HexSpriteSenderInfo info)
     {
-        int result = info.HexNumber == 0
+        return info.HexNumber == 0
             ? HitPoints == 0 || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetSide() == CombatSideIndex.Defender || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(66) || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(36) || ((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.Climbing) || ((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.Wall)
                 ? 1
                 : ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(59)
                     ? 0
                     : ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][8 - MovementTables.FirstOverlay] != 0 ? 1 : 0
             : 1;
-        return result;
     }
 
-    public new partial class Resource(CustomNode owner) : CityWall.Resource(owner)
+    public new class Resource(CustomNode owner) : CityWall.Resource(owner)
     {
 
         // CityWall.pas:451
@@ -113,5 +111,4 @@ public partial class CityWallDoor(CustomNode owner) : CityWall(owner)
         public override string ResourceEditName() => "Combat City Door";
 
     }
-
 }

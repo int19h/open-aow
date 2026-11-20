@@ -13,7 +13,7 @@ using Aow.Game.World.Structures;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class FreezeWater : GlobalTargetSpell
+public class FreezeWater : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:710
     public FreezeWater(CustomNode owner, EngineObject holder) : base(owner)
@@ -30,8 +30,7 @@ public partial class FreezeWater : GlobalTargetSpell
     // { Original Boolean-return ABI; foreign P7 overrides remain procedures. }
     public override void SetupTargetSelection(Troop source, TargetSelectionControl targetSelection)
     {
-        TargetSelectionControl target;
-        target = targetSelection;
+        TargetSelectionControl target = targetSelection;
         base.SetupTargetSelection(source, target);
         target.HexNumbers.Clear();
         for (int i = 0, last = HexGeometry.RadiusToHexNumber(2) - 1; i <= last; i++)
@@ -43,8 +42,7 @@ public partial class FreezeWater : GlobalTargetSpell
     // GlobalTargetSpells.pas:823
     public override bool TargetSelected(Troop source, int X, int Y, int L)
     {
-        FreezeWaterTokenEvent eventValue;
-        eventValue = new FreezeWaterTokenEvent(null) { Holder = CreationHolder() };
+        FreezeWaterTokenEvent eventValue = new(null) { Holder = CreationHolder() };
         eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
         eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
         StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
@@ -60,7 +58,7 @@ public partial class FreezeWater : GlobalTargetSpell
         }
 
         sbyte terrain = field.TerrainType;
-        return (terrain == 0 || terrain == 10) && field.FindNoneTransparentHexSprite(typeof(Structure)) == null && field.GetArmyHexSprite() == null;
+        return (terrain is 0 or 10) && field.FindNoneTransparentHexSprite(typeof(Structure)) is null && field.GetArmyHexSprite() is null;
     }
 
     public override bool ValidTargetSelectionMapField(MapField field)
@@ -71,13 +69,13 @@ public partial class FreezeWater : GlobalTargetSpell
         }
 
         sbyte terrain = field.TerrainType;
-        if ((terrain != 0 && terrain != 10) || field.FindNoneTransparentHexSprite(typeof(Structure)) != null)
+        if ((terrain is not 0 and not 10) || field.FindNoneTransparentHexSprite(typeof(Structure)) is not null)
         {
             return false;
         }
 
         ArmyHexSprite army = field.GetArmyHexSprite();
-        return army == null || !army.VisibleForSeatedPlayer();
+        return army is null || !army.VisibleForSeatedPlayer();
     }
 
     private static readonly string s_freezeWaterText = "Freeze Water";

@@ -45,16 +45,16 @@ public sealed class ResourceShapeTests : FormatsTest
     [InlineData("2", "00000040")]
     [InlineData("0.100000001", "cdcccc3d")]
     [InlineData("""{"$bits":"0000803f"}""", "0000803f")]
-    public void ASingleReadsAnyNumberText(string document, string bits) =>
-        Assert.Equal(bits, System.Convert.ToHexStringLower(Encode("AIPlayerControl", "DefenseStrengthMultiplier", JsonReader.Parse(document))));
+    public void ASingleReadsAnyNumberText(string document, string bits)
+        => Assert.Equal(bits, System.Convert.ToHexStringLower(Encode("AIPlayerControl", "DefenseStrengthMultiplier", JsonReader.Parse(document))));
 
     [Theory]
     [InlineData("\"0.5\"", Codes.Type, "root.DefenseStrengthMultiplier")]
     [InlineData("1e39", Codes.Range, "root.DefenseStrengthMultiplier")]
     [InlineData("""{"$bits":"00"}""", Codes.Type, "root.DefenseStrengthMultiplier.$bits")]
     [InlineData("""{"$bits":"00000000","more":1}""", Codes.UnknownMember, "root.DefenseStrengthMultiplier.more")]
-    public void AMalformedSingleIsRefused(string json, string code, string path) =>
-        Refused("AIPlayerControl", "DefenseStrengthMultiplier", json, code, path);
+    public void AMalformedSingleIsRefused(string json, string code, string path)
+        => Refused("AIPlayerControl", "DefenseStrengthMultiplier", json, code, path);
 
     [Fact]
     public void ATerrainListIsPairs()
@@ -71,8 +71,8 @@ public sealed class ResourceShapeTests : FormatsTest
     [InlineData("[[128,0]]", Codes.Range, "root.TerrainList[0][0]")]
     [InlineData("[[0,\"a\"]]", Codes.Type, "root.TerrainList[0][1]")]
     [InlineData("""{"pairs":[]}""", Codes.Type, "root.TerrainList")]
-    public void AMalformedTerrainListIsRefused(string json, string code, string path) =>
-        Refused("MapObjectResource", "TerrainList", json, code, path);
+    public void AMalformedTerrainListIsRefused(string json, string code, string path)
+        => Refused("MapObjectResource", "TerrainList", json, code, path);
 
     [Fact]
     public void AFloodTerrainGridListsTheChangedHexagons()
@@ -145,8 +145,8 @@ public sealed class ResourceShapeTests : FormatsTest
     [InlineData("""{}""", Codes.MissingMember, "root.ImageLibrary")]
     [InlineData("""{"$ilb":"BElMQg=="}""", Codes.Corrupt, "root.ImageLibrary.$ilb")]
     [InlineData("\"04494c42\"", Codes.Type, "root.ImageLibrary")]
-    public void AMalformedImageLibraryIsRefused(string json, string code, string path) =>
-        Refused("MapObjectResource", "ImageLibrary", json, code, path);
+    public void AMalformedImageLibraryIsRefused(string json, string code, string path)
+        => Refused("MapObjectResource", "ImageLibrary", json, code, path);
 
     [Fact]
     public void AnImageSequenceListStoresLayers()
@@ -182,8 +182,8 @@ public sealed class ResourceShapeTests : FormatsTest
     [InlineData("""[[{"Mode":"RandomFrameTable","Frames":{"default":0,"items":["a"]}}]]""", Codes.Type, "root.ImageSequenceList[0][0].Frames.items[0]")]
     [InlineData("""[5]""", Codes.Type, "root.ImageSequenceList[0]")]
     [InlineData("""[[{"Library":3}]]""", Codes.Type, "root.ImageSequenceList[0][0].Library")]
-    public void AMalformedImageSequenceListIsRefused(string json, string code, string path) =>
-        Refused("MapObjectResource", "ImageSequenceList", json, code, path);
+    public void AMalformedImageSequenceListIsRefused(string json, string code, string path)
+        => Refused("MapObjectResource", "ImageSequenceList", json, code, path);
 
     [Fact]
     public void TheTreeStoresEachResourceShapeOnBothBackends()
@@ -361,11 +361,11 @@ public sealed class ResourceShapeTests : FormatsTest
         return document;
     }
 
-    private static JsonObject Grid(int width, int height) =>
-        new JsonObject().Add("Width", new JsonInteger(width)).Add("Height", new JsonInteger(height));
+    private static JsonObject Grid(int width, int height)
+        => new JsonObject().Add("Width", new JsonInteger(width)).Add("Height", new JsonInteger(height));
 
-    private static SchemaProperty Property(string className, string property) =>
-        s_schema.Get(className).PropertyByName(property) ?? throw new InvalidOperationException($"{className} has no {property}.");
+    private static SchemaProperty Property(string className, string property)
+        => s_schema.Get(className).PropertyByName(property) ?? throw new InvalidOperationException($"{className} has no {property}.");
 
     private static JsonValue Decode(string className, string property, byte[] bytes, JsonObject? owner = null)
     {

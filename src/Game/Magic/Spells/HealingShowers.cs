@@ -11,7 +11,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class HealingShowers : GlobalTargetSpell
+public class HealingShowers : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:2277
     public HealingShowers(CustomNode owner, EngineObject holder) : base(owner)
@@ -27,8 +27,7 @@ public partial class HealingShowers : GlobalTargetSpell
     // GlobalTargetSpells.pas:2295
     public override void SetupTargetSelection(Troop source, TargetSelectionControl targetSelection)
     {
-        TargetSelectionControl target;
-        target = targetSelection;
+        TargetSelectionControl target = targetSelection;
         base.SetupTargetSelection(source, target);
         target.HexNumbers.Clear();
         for (int i = 0, last = HexGeometry.RadiusToHexNumber(2) - 1; i <= last; i++)
@@ -40,8 +39,7 @@ public partial class HealingShowers : GlobalTargetSpell
     // GlobalTargetSpells.pas:2308
     public override bool TargetSelected(Troop source, int X, int Y, int L)
     {
-        HealingShowersTokenEvent eventValue;
-        eventValue = new HealingShowersTokenEvent(null) { Holder = CreationHolder() };
+        HealingShowersTokenEvent eventValue = new(null) { Holder = CreationHolder() };
         eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
         eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
         StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);

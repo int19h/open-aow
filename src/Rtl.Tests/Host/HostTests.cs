@@ -28,7 +28,11 @@ public sealed class HostTests
             Assert.Equal(new RandomTraceEvent("random", 20, integer, 123456789, events[1].After), events[1]);
             Assert.Equal(new RandomTraceEvent("random", null, fraction, events[1].After, after), events[2]);
         }
-        finally { DelphiRandom.RandomTrace = previous; DelphiRandom.RandSeed = seed; }
+        finally
+        {
+            DelphiRandom.RandomTrace = previous;
+            DelphiRandom.RandSeed = seed;
+        }
     }
 
     [Fact]
@@ -49,7 +53,11 @@ public sealed class HostTests
             Assert.Equal(first, DelphiRandom.Random(1000));
             Assert.Equal(next, DelphiRandom.Random(1000));
         }
-        finally { DelphiRandom.RandSeed = seed; DelphiRandom.SuppressRandomize = suppressed; }
+        finally
+        {
+            DelphiRandom.RandSeed = seed;
+            DelphiRandom.SuppressRandomize = suppressed;
+        }
     }
 
     [Theory]
@@ -65,7 +73,10 @@ public sealed class HostTests
             RtlHost.Dialogs = new Defaults();
             Assert.Equal(expected, RtlHost.MessageBox(0, "message", "caption", flags));
         }
-        finally { RtlHost.Dialogs = previous; }
+        finally
+        {
+            RtlHost.Dialogs = previous;
+        }
     }
 
     private sealed class Defaults : IDialogService

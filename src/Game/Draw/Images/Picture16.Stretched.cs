@@ -10,30 +10,14 @@ public partial class Picture16
     {
         Span<int> rowTable;
         Span<int> columnTable;
-        int w;
-        SurfaceView destination;
-        int xPosition;
-        int yPosition;
-        int xStep;
-        int yStep;
-        int sx;
-        int sy;
-        float xScale;
-        float yScale;
-        int h;
-        int l;
-        int t;
-        int rt;
-        int b;
-        int c;
-        int d;
-        w = R.Right - R.Left;
-        h = R.Bottom - R.Top;
+        int w = R.Right - R.Left;
+        int h = R.Bottom - R.Top;
         if (w > 0 && h > 0)
         {
-            xScale = (float)((double)w / DataWidth);
-            yScale = (float)((double)h / Height);
-            l = R.Left;
+            float xScale = (float)((double)w / DataWidth);
+            float yScale = (float)((double)h / Height);
+            int l = R.Left;
+            int sx;
             if (l < lockedSurface.ClipRectangle.Left)
             {
                 sx = lockedSurface.ClipRectangle.Left - l;
@@ -44,7 +28,8 @@ public partial class Picture16
                 sx = 0;
             }
 
-            t = R.Top;
+            int t = R.Top;
+            int sy;
             if (t < lockedSurface.ClipRectangle.Top)
             {
                 sy = lockedSurface.ClipRectangle.Top - t;
@@ -55,14 +40,15 @@ public partial class Picture16
                 sy = 0;
             }
 
-            rt = R.Right;
+            int rt = R.Right;
+            int d;
             if (rt > lockedSurface.ClipRectangle.Right)
             {
                 d = rt - lockedSurface.ClipRectangle.Right;
                 rt -= d;
             }
 
-            b = R.Bottom;
+            int b = R.Bottom;
             if (b > lockedSurface.ClipRectangle.Bottom)
             {
                 d = b - lockedSurface.ClipRectangle.Bottom;
@@ -73,14 +59,15 @@ public partial class Picture16
             h = b - t;
             if (w > 0 && h > 0)
             {
-                destination = lockedSurface.View((l * 2) + (lockedSurface.Pitch * t));
+                SurfaceView destination = lockedSurface.View((l * 2) + (lockedSurface.Pitch * t));
                 // One table of H row offsets followed by W columns, as the original's GetMem.
                 int[] tables = new int[w + h];
                 rowTable = tables.AsSpan(0, h);
                 columnTable = tables.AsSpan(h, w);
-                xStep = DelphiRounding.Round((double)65535 / xScale);
-                xPosition = sx != 0 ? DelphiRounding.Round((double)((double)sx / xScale) * 65535) : 0;
+                int xStep = DelphiRounding.Round((double)65535 / xScale);
+                int xPosition = sx != 0 ? DelphiRounding.Round((double)((double)sx / xScale) * 65535) : 0;
 
+                int c;
                 for (int i = 0; i <= w - 1; i++)
                 {
                     c = (int)(((uint)xPosition) >> 16);
@@ -93,8 +80,8 @@ public partial class Picture16
                     xPosition += xStep;
                 }
 
-                yStep = DelphiRounding.Round((double)65535 / yScale);
-                yPosition = sy != 0 ? DelphiRounding.Round((double)((double)sy / yScale) * 65535) : 0;
+                int yStep = DelphiRounding.Round((double)65535 / yScale);
+                int yPosition = sy != 0 ? DelphiRounding.Round((double)((double)sy / yScale) * 65535) : 0;
 
                 if (!DataLoaded)
                 {
@@ -166,30 +153,14 @@ public partial class Picture16
     {
         Span<int> rowTable;
         Span<int> columnTable;
-        int w;
-        int h;
-        int rt;
-        SurfaceView destination;
-        int xPosition;
-        int yPosition;
-        int xStep;
-        int yStep;
-        int sx;
-        int sy;
-        float xScale;
-        float yScale;
-        int l;
-        int t;
-        int b;
-        int c;
-        int d;
-        w = R.Right - R.Left;
-        h = R.Bottom - R.Top;
+        int w = R.Right - R.Left;
+        int h = R.Bottom - R.Top;
         if (w > 0 && h > 0)
         {
-            xScale = (float)((double)w / DataWidth);
-            yScale = (float)((double)h / Height);
-            l = R.Left;
+            float xScale = (float)((double)w / DataWidth);
+            float yScale = (float)((double)h / Height);
+            int l = R.Left;
+            int sx;
             if (l < lockedSurface.ClipRectangle.Left)
             {
                 sx = lockedSurface.ClipRectangle.Left - l;
@@ -200,7 +171,8 @@ public partial class Picture16
                 sx = 0;
             }
 
-            t = R.Top;
+            int t = R.Top;
+            int sy;
             if (t < lockedSurface.ClipRectangle.Top)
             {
                 sy = lockedSurface.ClipRectangle.Top - t;
@@ -211,14 +183,15 @@ public partial class Picture16
                 sy = 0;
             }
 
-            rt = R.Right;
+            int rt = R.Right;
+            int d;
             if (rt > lockedSurface.ClipRectangle.Right)
             {
                 d = rt - lockedSurface.ClipRectangle.Right;
                 rt -= d;
             }
 
-            b = R.Bottom;
+            int b = R.Bottom;
             if (b > lockedSurface.ClipRectangle.Bottom)
             {
                 d = b - lockedSurface.ClipRectangle.Bottom;
@@ -229,14 +202,15 @@ public partial class Picture16
             h = b - t;
             if (w > 0 && h > 0)
             {
-                destination = lockedSurface.View((l * 2) + (lockedSurface.Pitch * t));
+                SurfaceView destination = lockedSurface.View((l * 2) + (lockedSurface.Pitch * t));
                 // One table of H row offsets followed by W columns, as the original's GetMem.
                 int[] tables = new int[w + h];
                 rowTable = tables.AsSpan(0, h);
                 columnTable = tables.AsSpan(h, w);
-                xStep = DelphiRounding.Round((double)65535 / xScale);
-                xPosition = sx != 0 ? DelphiRounding.Round((double)((double)sx / xScale) * 65535) : 0;
+                int xStep = DelphiRounding.Round((double)65535 / xScale);
+                int xPosition = sx != 0 ? DelphiRounding.Round((double)((double)sx / xScale) * 65535) : 0;
 
+                int c;
                 for (int i = 0; i <= w - 1; i++)
                 {
                     c = (int)(((uint)xPosition) >> 16);
@@ -249,8 +223,8 @@ public partial class Picture16
                     xPosition += xStep;
                 }
 
-                yStep = DelphiRounding.Round((double)65535 / yScale);
-                yPosition = sy != 0 ? DelphiRounding.Round((double)((double)sy / yScale) * 65535) : 0;
+                int yStep = DelphiRounding.Round((double)65535 / yScale);
+                int yPosition = sy != 0 ? DelphiRounding.Round((double)((double)sy / yScale) * 65535) : 0;
 
                 if (!DataLoaded)
                 {

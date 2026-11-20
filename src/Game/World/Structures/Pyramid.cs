@@ -11,7 +11,7 @@ public partial class Pyramid(CustomNode owner) : ItemExplorationSite(owner)
     // Pyramid.pas:34
     public new const int ClassId = 131982;
 
-    public new partial class Resource(CustomNode owner) : ItemExplorationSiteResource(owner)
+    public new class Resource(CustomNode owner) : ItemExplorationSiteResource(owner)
     {
 
         // Pyramid.pas:40
@@ -26,5 +26,4 @@ public partial class Pyramid(CustomNode owner) : ItemExplorationSite(owner)
         private static readonly string s_pyramidText = "Pyramid";
 
     }
-
 }

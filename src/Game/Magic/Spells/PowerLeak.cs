@@ -14,7 +14,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class PowerLeak : GlobalEnchantmentSpell
+public class PowerLeak : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:1036
     public PowerLeak(CustomNode owner, EngineObject holder) : base(owner)
@@ -33,14 +33,13 @@ public partial class PowerLeak : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:1049
     public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        TwinkleAnimation animation;
         _ = base.ExecuteTokenEvent(eventValue, source, executeCount);
         MapCoordinate coordinate74 = source.GetLocation();
         sbyte x = coordinate74.X;
         sbyte y = coordinate74.Y;
         sbyte l = coordinate74.MapLevel;
         _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
-        animation = new TwinkleAnimation(null) { Holder = CreationHolder() };
+        TwinkleAnimation animation = new(null) { Holder = CreationHolder() };
         animation.Setup(GamePack.Current.SpellControl.GetSpell(48).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Implode), 100, 64, 50, 30);
         _ = StrategicMap.Current.PlaceHex(animation, x, y, l);
         _ = CastSounds.Play(0);

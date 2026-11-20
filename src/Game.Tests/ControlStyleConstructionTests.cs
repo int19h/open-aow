@@ -115,9 +115,18 @@ public sealed class ControlStyleConstructionTests
 
         internal List<EngineObject> Members { get; } = [];
 
-        public override int AddChild(EngineObject child) { Members.Add(child); return Members.Count - 1; }
+        public override int AddChild(EngineObject child)
+        {
+            Members.Add(child);
+            return Members.Count - 1;
+        }
 
-        public override int RemoveChild(EngineObject child) { int index = Members.IndexOf(child); _ = Members.Remove(child); return index; }
+        public override int RemoveChild(EngineObject child)
+        {
+            int index = Members.IndexOf(child);
+            _ = Members.Remove(child);
+            return index;
+        }
     }
 
     private sealed class FlagFixture : IDisposable
@@ -194,8 +203,14 @@ public sealed class ControlStyleConstructionTests
             finally
             {
                 GamePack.Current = _previous;
-                try { _manager.Dispose(); }
-                finally { RestoreFiles(); }
+                try
+                {
+                    _manager.Dispose();
+                }
+                finally
+                {
+                    RestoreFiles();
+                }
             }
         }
 
@@ -318,7 +333,10 @@ public sealed class ControlStyleConstructionTests
             File.WriteAllBytes(path, Bytes.Of(ref header, 24).ToArray());
             ImageLibraries.LibraryImageClasses = classes!;
             using FlagFixture fixture = new(loaded: false, directory);
-            using (ImageLibrary library = new(null!)) { _ = Assert.Throws<EndOfStreamException>(() => library.LoadFromFile(path)); }
+            using (ImageLibrary library = new(null!))
+            {
+                _ = Assert.Throws<EndOfStreamException>(() => library.LoadFromFile(path));
+            }
             fixture.Files.OpenedPaths.Clear();
             IOException error = Assert.Throws<IOException>(() => FlagControl.Create(fixture.Owner));
             Assert.Contains("Error loading:", error.Message, StringComparison.Ordinal);

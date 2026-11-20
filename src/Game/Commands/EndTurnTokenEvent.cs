@@ -10,7 +10,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Commands;
 
 // player, day, end-turn mode
-public partial class EndTurnTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class EndTurnTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
     public new const int ClassId = 135425;
 
@@ -30,7 +30,6 @@ public partial class EndTurnTokenEvent(CustomNode owner) : TokenEvent(owner)
     // MoveT.PAS:1915
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        ExecuteResult result;
         _ = base.Execute(tokenEvent);
         if (StrategicMap.Current.Day == Day)
         {
@@ -51,22 +50,15 @@ public partial class EndTurnTokenEvent(CustomNode owner) : TokenEvent(owner)
                 StrategicMap.Current.Players.GetPlayers(Player).SetEndTurn(false);
             }
 
-            result = ExecuteResult.Done;
+            return ExecuteResult.Done;
         }
         else
         {
-            result = ExecuteResult.DoneHalt;
+            return ExecuteResult.DoneHalt;
         }
-
-        return result;
     }
 
     private static readonly string s_finishedTheirTurnText = "finished their turn";
-
-    // NetworkE.pas:230
-
-    // NetworkE.pas:230
-
 }
 
 public enum EndTurnTokenEventMode : byte

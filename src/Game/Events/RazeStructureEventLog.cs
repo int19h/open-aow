@@ -9,7 +9,7 @@ using Aow.Game.World.Structures;
 namespace Aow.Game.Events;
 
 // structure
-public partial class RazeStructureEventLog(CustomNode owner, EngineObject holder) : MessageEventLog(owner, holder)
+public class RazeStructureEventLog(CustomNode owner, EngineObject holder) : MessageEventLog(owner, holder)
 {
     public Structure Structure { get; init; }
 
@@ -20,5 +20,4 @@ public partial class RazeStructureEventLog(CustomNode owner, EngineObject holder
         _ = Structure.RazeWithoutConfirmation(StrategicMap.Current.SeatedPlayer);
         return true;
     }
-
 }

@@ -35,12 +35,7 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
     public override sbyte GetTerrain(int index)
     {
         sbyte result = _resource.TerrainList.GetTerrain(index);
-        if (Status.Contains(MapObjectStatusElement.EditMode) && result >= 0)
-        {
-            result = -1;
-        }
-
-        return result;
+        return Status.Contains(MapObjectStatusElement.EditMode) && result >= 0 ? (sbyte)-1 : result;
     }
 
     // MAPOBJ.PAS:145
@@ -53,12 +48,7 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
     public override sbyte GetOverlay(int index)
     {
         sbyte result = _resource.TerrainList.GetOverlay(index);
-        if (Status.Contains(MapObjectStatusElement.EditMode) && result >= 0)
-        {
-            result = -1;
-        }
-
-        return result;
+        return Status.Contains(MapObjectStatusElement.EditMode) && result >= 0 ? (sbyte)-1 : result;
     }
 
     // MAPOBJ.PAS:162
@@ -95,21 +85,21 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
     // MAPOBJ.PAS:45
     public override sbyte GetHexX()
     {
-        Assert(Owner != null, "Owner not set", "MAPOBJ.PAS", 47);
+        Assert(Owner is not null, "Owner not set", "MAPOBJ.PAS", 47);
         return Owner.HexX;
     }
 
     // MAPOBJ.PAS:51
     public override sbyte GetHexY()
     {
-        Assert(Owner != null, "Owner not set", "MAPOBJ.PAS", 53);
+        Assert(Owner is not null, "Owner not set", "MAPOBJ.PAS", 53);
         return Owner.HexY;
     }
 
     // MAPOBJ.PAS:57
     public override sbyte GetHexLevel()
     {
-        Assert(Owner != null, "Owner not set", "MAPOBJ.PAS", 59);
+        Assert(Owner is not null, "Owner not set", "MAPOBJ.PAS", 59);
         return Owner.HexLevel;
     }
 
@@ -141,7 +131,7 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
-        if (_resource.ImageSequenceList == null)
+        if (_resource.ImageSequenceList is null)
         {
             _resource.ImageLibrary.Get(0).Show(pixelX - pixelXSurface - 8, pixelY - pixelYSurface, lockedSurface);
         }
@@ -178,12 +168,11 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
     // MAPOBJ.PAS:266
     public override void RemoveFromMap()
     {
-        MapField mapField;
         if (Status.Contains(MapObjectStatusElement.PlacedOnMap))
         {
-            if (Owner != null)
+            if (Owner is not null)
             {
-                mapField = Owner;
+                MapField mapField = Owner;
                 Disconnect();
                 if (!mapField.Owner.Map.Status.Contains(HexSpriteMapStatusElement.Destroying))
                 {
@@ -229,12 +218,12 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
             }
             else
             {
-                result = false;
+                return false;
             }
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;
@@ -269,8 +258,7 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
     // MAPOBJ.PAS:291
     public override void Remove()
     {
-        MapField mapField;
-        mapField = Owner;
+        MapField mapField = Owner;
         RemoveFromMap();
         if (GetVisible())
         {
@@ -336,11 +324,7 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
     }
 
     // MAPOBJ.PAS:21
-    public override string EditName()
-    {
-        string result = IsEmpty(_resource.Name) ? _resource.ResourceEditName() : _resource.Name;
-        return result;
-    }
+    public override string EditName() => IsEmpty(_resource.Name) ? _resource.ResourceEditName() : _resource.Name;
 
     // MAPOBJ.PAS:63
     public virtual MapObjectResourceList GetResourceList(GameEngine engine) => engine.HexSpriteSet.MapObjectResourceList;
@@ -351,27 +335,22 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
     // MAPOBJ.PAS:307
     public virtual bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        bool result;
-        HexSprite hexSprite;
-        MapField mapField;
         if (hexX >= 0 && hexY >= 0 && hexLevel >= 0 && hexX < mapContainer.Width && hexY < mapContainer.Height && hexLevel < mapContainer.LevelCount)
         {
-            mapField = mapContainer.GetField(hexX, hexY, hexLevel);
-            hexSprite = mapField.GetMaxLevelNoneTransparentHexSprite();
-            bool condition = hexSprite == null || hexSprite.GetLevel() < 10;
+            MapField mapField = mapContainer.GetField(hexX, hexY, hexLevel);
+            HexSprite hexSprite = mapField.GetMaxLevelNoneTransparentHexSprite();
+            bool condition = hexSprite is null || hexSprite.GetLevel() < 10;
             if (condition)
             {
                 condition = mapField.CanChangeTerrain(overlay: GetOverlay(0), sender: this, terrain: GetTerrain(0));
             }
 
-            result = condition;
+            return condition;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // MAPOBJ.PAS:324
@@ -390,5 +369,4 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
     public int ResourceId { get => GetResourceId(); set => SetResourceId(value); }
     public bool ResourceLinked { get => GetResourceLinked(); set => SetResourceLinked(value); }
     public Set<MapObjectStatusElement> Status { get; protected set; }
-
 }

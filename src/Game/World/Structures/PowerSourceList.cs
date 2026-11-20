@@ -3,7 +3,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.World.Structures;
 
-public partial class PowerSourceList(CustomNode owner) : OwningNode(owner), IChildList<PowerSource>
+public class PowerSourceList(CustomNode owner) : OwningNode(owner), IChildList<PowerSource>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a PowerSource, so the cast never fails.
@@ -15,7 +15,4 @@ public partial class PowerSourceList(CustomNode owner) : OwningNode(owner), IChi
 
     // Spells.PAS:1828
     public PowerSource GetItems(int index) => this[index];
-
-    // Engine.pas:631
-
 }

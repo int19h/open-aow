@@ -6,7 +6,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // inherited name, ability ID, selection types, ability type, duration mode
-public partial class StunnedAbility : DurationAbility
+public class StunnedAbility : DurationAbility
 {
     // PassiveAb.pas:793
     public StunnedAbility(CustomNode owner, EngineObject holder) : base(owner)

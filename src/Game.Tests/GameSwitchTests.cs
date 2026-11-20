@@ -22,8 +22,8 @@ public sealed class GameSwitchTests
 
     private static JsonArray Children(JsonObject value) => (JsonArray)value["Children"]!;
 
-    private static JsonObject Player(JsonObject document, long slot) =>
-        Children((JsonObject)Root(document)["Players"]!).Items.Cast<JsonObject>().Single(p => ((JsonInteger)p["$slot"]!).Value == slot);
+    private static JsonObject Player(JsonObject document, long slot)
+        => Children((JsonObject)Root(document)["Players"]!).Items.Cast<JsonObject>().Single(p => ((JsonInteger)p["$slot"]!).Value == slot);
 
     private static JsonObject Level(JsonObject document) => (JsonObject)Children((JsonObject)Children(Root(document)).Items[0]).Items[0];
 
@@ -104,7 +104,11 @@ public sealed class GameSwitchTests
         byte[] bytes = GameFiles.Write(document);
         File.WriteAllBytes(file, bytes);
         GameEngine engine = EngineFixture.Engine;
-        StrategicMap live = EngineFixture.Configure(new StrategicMap(null!, holder: EngineFixture.Engine), value => { value.Day = 7; value.MapName = "live"; });
+        StrategicMap live = EngineFixture.Configure(new StrategicMap(null!, holder: EngineFixture.Engine), value =>
+        {
+            value.Day = 7;
+            value.MapName = "live";
+        });
         GameMap previous = engine.HexSpriteMap;
         engine.SetHexSpriteMapWithoutCurrentMap(live);
         try
@@ -212,8 +216,8 @@ public sealed class GameSwitchTests
     // in the own format gives the CRC of its original.
     private static JsonArray Groups(JsonObject document) => Children((JsonObject)Root(document)["AIGroupManager"]!);
 
-    private static GameFileResult Prepare(JsonObject document) =>
-        GameBoundary.PrepareLoad(GameFiles.Write(document), "edited.asg", GameProfile.WorldMap, FormatMapping.Validators);
+    private static GameFileResult Prepare(JsonObject document)
+        => GameBoundary.PrepareLoad(GameFiles.Write(document), "edited.asg", GameProfile.WorldMap, FormatMapping.Validators);
 
     // own-formats.md 2.7, allowed class change: the new class's inherited and own fields are
     // validated, and an old field the new class lacks is refused by name, never read again

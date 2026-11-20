@@ -8,7 +8,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Commands;
 
 // player, settings string
-public partial class ChangePlayerSettingsTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class ChangePlayerSettingsTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
     public new const int ClassId = 135974;
 
@@ -29,7 +29,4 @@ public partial class ChangePlayerSettingsTokenEvent(CustomNode owner) : TokenEve
         StrategicMap.Current.Players.GetPlayers(Player).Settings = Settings;
         return ExecuteResult.Done;
     }
-
-    // NetworkE.pas:230
-
 }

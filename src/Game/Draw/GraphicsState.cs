@@ -19,7 +19,7 @@ public static class GraphicsState
         for (int i = 0, last = classes.Length - 1; i <= last; i++)
         {
             string extension = classes[i].Extension;
-            _ = ImageFileClassList.FindClass(extension) == null
+            _ = ImageFileClassList.FindClass(extension) is null
                 ? ImageFileClassList.Add(classes[i])
                 : throw new InvalidOperationException($"ImageFile class with {classes[i].Extension} extension is already registered");
         }
@@ -60,5 +60,4 @@ public static class GraphicsState
         LinearAlphaBlendTable?.Dispose();
         ImageFileClassList?.Dispose();
     }
-
 }

@@ -200,7 +200,10 @@ public sealed class SurfaceRectangleTests
             Assert.Equal(Source(2, 1), sub.View().UInt16(0));
             Assert.Equal(GraphicsResult.Error, source.Lock(ref part, new Rect(1, 1, 5, 3)));
         }
-        finally { source.Dispose(); }
+        finally
+        {
+            source.Dispose();
+        }
     }
 
     // GetPrimarySurfaceRgn returns @FPrimarySurfaceRgn in the original: never nil, the rectangle

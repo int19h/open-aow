@@ -16,7 +16,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class RaiseTerrain : GlobalTargetSpell
+public class RaiseTerrain : GlobalTargetSpell
 {
     public RaiseTerrain(CustomNode owner, EngineObject holder) : base(owner)
     {
@@ -28,8 +28,6 @@ public partial class RaiseTerrain : GlobalTargetSpell
         MagicSphere = MagicSphere.Earth;
         AboveGroundOnly = true;
     }
-
-    // Mountain.pas:327
 
     // Mountain.pas:364
     public override void SetupTargetSelection(Troop source, TargetSelectionControl targetSelection)
@@ -45,8 +43,7 @@ public partial class RaiseTerrain : GlobalTargetSpell
     // Mountain.pas:373
     public override bool TargetSelected(Troop source, int X, int Y, int L)
     {
-        RaiseTerrainTokenEvent eventValue;
-        eventValue = new RaiseTerrainTokenEvent(null) { Holder = CreationHolder() };
+        RaiseTerrainTokenEvent eventValue = new(null) { Holder = CreationHolder() };
         eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
         eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
         StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
@@ -57,13 +54,11 @@ public partial class RaiseTerrain : GlobalTargetSpell
     // Mountain.pas:347
     public override bool ValidTargetSelectionMapField(MapField field)
     {
-        bool valid;
-        ArmyHexSprite army;
-        valid = base.ValidTargetSelectionMapField(field) && !Set<byte>.WithBounds(0, 255).With(0).With(6).With(10).With(13).Contains((byte)field.TerrainType) && !Set<byte>.WithBounds(0, 255).With(0).Contains((byte)field.OverlayType) && field.FindNoneTransparentHexSprite(typeof(Structure)) == null;
+        bool valid = base.ValidTargetSelectionMapField(field) && !Set<byte>.WithBounds(0, 255).With(0).With(6).With(10).With(13).Contains((byte)field.TerrainType) && !Set<byte>.WithBounds(0, 255).With(0).Contains((byte)field.OverlayType) && field.FindNoneTransparentHexSprite(typeof(Structure)) is null;
         if (valid)
         {
-            army = field.GetArmyHexSprite();
-            if (army != null)
+            ArmyHexSprite army = field.GetArmyHexSprite();
+            if (army is not null)
             {
                 valid = !army.VisibleForSeatedPlayer();
             }
@@ -73,12 +68,7 @@ public partial class RaiseTerrain : GlobalTargetSpell
     }
 
     // Mountain.pas:338
-    public override bool ValidTargetMapField(MapField field) => base.ValidTargetMapField(field) && !Set<byte>.WithBounds(0, 255).With(0).With(6).With(10).With(13).Contains((byte)field.TerrainType) && !Set<byte>.WithBounds(0, 255).With(0).Contains((byte)field.OverlayType) && field.FindNoneTransparentHexSprite(typeof(Structure)) == null && field.GetArmyHexSprite() == null;
+    public override bool ValidTargetMapField(MapField field) => base.ValidTargetMapField(field) && !Set<byte>.WithBounds(0, 255).With(0).With(6).With(10).With(13).Contains((byte)field.TerrainType) && !Set<byte>.WithBounds(0, 255).With(0).Contains((byte)field.OverlayType) && field.FindNoneTransparentHexSprite(typeof(Structure)) is null && field.GetArmyHexSprite() is null;
 
     private static readonly string s_raiseTerrainText = "Raise Terrain";
-
-    // Mountain.pas:77
-
-    // Mountain.pas:77
-
 }

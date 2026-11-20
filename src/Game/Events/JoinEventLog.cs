@@ -18,7 +18,7 @@ namespace Aow.Game.Events;
 
 // { Interface declaration run owned by P5. }
 // FirstUnitID, UnitIDs, Location, Selection, JoinIndex, JoinMessage, Gold, JoinMode, Text
-public partial class JoinEventLog(CustomNode owner) : EventLog(owner)
+public class JoinEventLog(CustomNode owner) : EventLog(owner)
 {
 
     public int FirstUnitId { get; set; }
@@ -63,17 +63,15 @@ public partial class JoinEventLog(CustomNode owner) : EventLog(owner)
     // Diplomacy.pas:58
     public virtual bool Validate()
     {
-        int i;
-        Troop troop;
         bool result = true;
-        i = UnitIds.Count;
+        int i = UnitIds.Count;
         while (result && i != 0)
         {
             i -= 1;
             int item = UnitIds[i];
-            troop = StrategicMap.Current.UnitControl.FindUnit(item);
+            Troop troop = StrategicMap.Current.UnitControl.FindUnit(item);
             // { Original behavior: missing and dead units do not invalidate the offer. }
-            if (troop != null && troop.Player == 0)
+            if (troop is not null && troop.Player == 0)
             {
                 MapCoordinate coordinate20 = troop.GetLocation();
                 sbyte locationX = coordinate20.X;
@@ -90,11 +88,10 @@ public partial class JoinEventLog(CustomNode owner) : EventLog(owner)
     // Diplomacy.pas:80
     public virtual void ListJoinUnits(UnitUserList units, out byte selection)
     {
-        Troop troop;
         for (int i = 0, last = UnitIds.Count - 1; i <= last; i++)
         {
             int item = UnitIds[i];
-            troop = StrategicMap.Current.UnitControl.FindUnit(item);
+            Troop troop = StrategicMap.Current.UnitControl.FindUnit(item);
             _ = units.AddUnit(troop);
         }
 
@@ -104,18 +101,16 @@ public partial class JoinEventLog(CustomNode owner) : EventLog(owner)
     // Diplomacy.pas:93
     public virtual bool Accept(ref string errorText)
     {
-        bool result;
         if (StrategicMap.Current.Players.GetPlayers(Player).Gems >= Gold)
         {
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
             errorText = AbilityRules.TranslateResourceString(GetEngine(), GameText.TributeNotEnoughGoldText);
         }
 
-        return result;
+        return false;
     }
 
     // Diplomacy.pas:105
@@ -148,5 +143,4 @@ public partial class JoinEventLog(CustomNode owner) : EventLog(owner)
 
         _location = HexGeometry.PackMapCoordinate(army.Location.X, army.Location.Y, army.Location.MapLevel);
     }
-
 }

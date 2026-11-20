@@ -5,7 +5,7 @@ using Aow.Game.Commands;
 namespace Aow.Game.Net;
 
 // FEvents, FTokenManager, FPlayer, FActive. The token events of one player
-public partial class TokenControl : IDisposable
+public class TokenControl : IDisposable
 {
     private readonly TokenManager _tokenManager;
 
@@ -13,10 +13,9 @@ public partial class TokenControl : IDisposable
     // { Keeps the events sorted on their token counters; an event without one goes to the end }
     public virtual void Add(TokenEvent tokenEvent)
     {
-        int i;
         if (tokenEvent.TokenCounter != -1)
         {
-            i = 0;
+            int i = 0;
             while (i != Events.Count && Events[i].TokenCounter < tokenEvent.TokenCounter)
             {
                 i += 1;
@@ -47,9 +46,6 @@ public partial class TokenControl : IDisposable
     //   sync); a remote player's events are prefetched only when they are complete }
     public virtual bool PrefetchTokenEvents(TokenExecutor executor)
     {
-        bool result;
-        int n;
-        TokenEvent tokenEvent;
         if (Global() || Local())
         {
             if (Events.Count != 0 || !executor.HoldTacticalBattle)
@@ -65,7 +61,7 @@ public partial class TokenControl : IDisposable
                         _ = syncEvent.Release();
                     }
 
-                    tokenEvent = new PassTokenTokenEvent(null) { Holder = _tokenManager.Owner };
+                    TokenEvent tokenEvent = new PassTokenTokenEvent(null) { Holder = _tokenManager.Owner };
                     Events.Add(tokenEvent);
                     _ = tokenEvent.Release();
                 }
@@ -76,18 +72,18 @@ public partial class TokenControl : IDisposable
                 }
 
                 Events.Clear();
-                result = true;
+                return true;
             }
             else
             {
-                result = true;
+                return true;
             }
         }
         else
         {
             if (Remote())
             {
-                n = GetPrefetchableTokenEvents(executor);
+                int n = GetPrefetchableTokenEvents(executor);
                 if (n > 0)
                 {
                     for (int i = 0; i <= n - 1; i++)
@@ -100,20 +96,18 @@ public partial class TokenControl : IDisposable
                         Events.Delete(i);
                     }
 
-                    result = true;
+                    return true;
                 }
                 else
                 {
-                    result = false;
+                    return false;
                 }
             }
             else
             {
-                result = true;
+                return true;
             }
         }
-
-        return result;
     }
 
     // NetworkE.pas:1342
@@ -134,7 +128,7 @@ public partial class TokenControl : IDisposable
         _tokenManager = manager;
         Player = player;
         Active = true;
-        if (_tokenManager != null && _tokenManager.TokenExecutor != null)
+        if (_tokenManager is not null && _tokenManager.TokenExecutor is not null)
         {
             _tokenManager.TokenExecutor.AddTacticalBattle(this);
         }
@@ -166,7 +160,7 @@ public partial class TokenControl : IDisposable
     // NetworkE.pas:1180
     public virtual void Dispose()
     {
-        if (_tokenManager != null && _tokenManager.TokenExecutor != null)
+        if (_tokenManager is not null && _tokenManager.TokenExecutor is not null)
         {
             _tokenManager.TokenExecutor.RemoveTacticalBattle(this);
         }
@@ -209,15 +203,11 @@ public partial class TokenControl : IDisposable
     //   executer's token counter without a gap, up to and including the first TPassTokenTE }
     public int GetPrefetchableTokenEvents(TokenExecutor executor)
     {
-        int result;
-        int i;
-        bool inOrder;
-        bool passToken;
         if (Remote())
         {
-            i = 0;
-            inOrder = true;
-            passToken = false;
+            int i = 0;
+            bool inOrder = true;
+            bool passToken = false;
             while (inOrder && !passToken && i < Events.Count)
             {
                 inOrder = Events[i].TokenCounter == executor.TokenCounter + i;
@@ -225,14 +215,12 @@ public partial class TokenControl : IDisposable
                 i += 1;
             }
 
-            result = inOrder ? i : 0;
+            return inOrder ? i : 0;
         }
         else
         {
-            result = Events.Count;
+            return Events.Count;
         }
-
-        return result;
     }
 
     public TokenEventList Events { get; }

@@ -17,7 +17,7 @@ using static Aow.Rtl.IntegerObjects;
 namespace Aow.Game.Magic.Abilities;
 
 // ability-bit buffer, bit count
-public partial class CustomAbilityList(CustomNode owner) : EngineObject(owner)
+public class CustomAbilityList(CustomNode owner) : EngineObject(owner)
 {
     public byte[] AbilityBits { get; internal set; } = [];
 
@@ -50,7 +50,7 @@ public partial class CustomAbilityList(CustomNode owner) : EngineObject(owner)
 
         for (int index = 0; index < AbilityCount; index++)
         {
-            if (GetAbilitySetAt(index) && GamePack.Current.AbilityControl.GetAbility(index) == null)
+            if (GetAbilitySetAt(index) && GamePack.Current.AbilityControl.GetAbility(index) is null)
             {
                 SetAbilitySet(index, 0);
             }
@@ -70,13 +70,12 @@ public partial class CustomAbilityList(CustomNode owner) : EngineObject(owner)
     // Ability.PAS:1216
     public virtual void ListAbilities(DelphiStringCollection text, Set<AbilitySelectionType> types)
     {
-        Ability ability;
         text.Clear();
         for (int i = 0, last = AbilityCount - 1; i <= last; i++)
         {
             if (GetAbilitySetAt(i))
             {
-                ability = GamePack.Current.AbilityControl.GetAbility(i);
+                Ability ability = GamePack.Current.AbilityControl.GetAbility(i);
                 if ((Set<byte>.FromMask(ability.SelectionTypes.Mask) & Set<byte>.FromMask(types.Mask)) != Set<byte>.WithBounds(0, 15))
                 {
                     _ = text.AddObject(ability.GetName(null), IntToObject(i));
@@ -88,11 +87,9 @@ public partial class CustomAbilityList(CustomNode owner) : EngineObject(owner)
     // Ability.PAS:994
     public void SetAbilityCount(int value)
     {
-        int oldSize;
-        int newSize;
         // Ability.PAS:1119 asserts a bounds predicate that admits every Integer, so no check remains.
-        oldSize = (int)(((uint)(AbilityCount + 7)) >> 3);
-        newSize = (int)(((uint)(value + 7)) >> 3);
+        int oldSize = (int)(((uint)(AbilityCount + 7)) >> 3);
+        int newSize = (int)(((uint)(value + 7)) >> 3);
         if (newSize != oldSize)
         {
             byte[] abilityBits = AbilityBits;
@@ -127,7 +124,7 @@ public partial class CustomAbilityList(CustomNode owner) : EngineObject(owner)
         if (result)
         {
             int abilityCount = GetOwnAbilityCount();
-            result = CompareMem(AbilityBits.AsSpan(0, (int)(((uint)(abilityCount + 7)) >> 3)), source.AbilityBits.AsSpan(0, (int)(((uint)(abilityCount + 7)) >> 3)), (int)(((uint)(abilityCount + 7)) >> 3));
+            return CompareMem(AbilityBits.AsSpan(0, (int)(((uint)(abilityCount + 7)) >> 3)), source.AbilityBits.AsSpan(0, (int)(((uint)(abilityCount + 7)) >> 3)), (int)(((uint)(abilityCount + 7)) >> 3));
         }
 
         return result;
@@ -161,23 +158,17 @@ public partial class CustomAbilityList(CustomNode owner) : EngineObject(owner)
             }
         }
 
-        if (!IsEmpty(result))
-        {
-            result = DelphiStrings.Copy(result, 1, result.Length - 1);
-        }
-
-        return result;
+        return !IsEmpty(result) ? DelphiStrings.Copy(result, 1, result.Length - 1) : result;
     }
 
     // Ability.PAS:1193
     public void SetItemString(string S)
     {
-        string part;
-        int p;
         Clear();
-        p = Pos(",", S);
+        int p = Pos(",", S);
         while (!IsEmpty(S))
         {
+            string part;
             if (p != 0)
             {
                 part = DelphiStrings.Copy(S, 1, p - 1);

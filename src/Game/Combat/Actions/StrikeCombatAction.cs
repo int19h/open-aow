@@ -13,7 +13,7 @@ using Aow.Rtl;
 namespace Aow.Game.Combat.Actions;
 
 // (strike mode)
-public partial class StrikeCombatAction(CustomNode owner) : DamageCombatAction(owner)
+public class StrikeCombatAction(CustomNode owner) : DamageCombatAction(owner)
 {
     public new const int ClassId = 131754;
 
@@ -29,11 +29,8 @@ public partial class StrikeCombatAction(CustomNode owner) : DamageCombatAction(o
     // AoWAb.PAS:1163
     public override void Execute(Battle combat)
     {
-        CombatObject source;
-        CombatObject target;
-        UnitEnchantmentAbilityData data;
-        source = combat.CombatData.FindId(SourceId);
-        target = combat.CombatData.FindId(TargetId);
+        CombatObject source = combat.CombatData.FindId(SourceId);
+        CombatObject target = combat.CombatData.FindId(TargetId);
         DamageDone = (byte)source.DoDamage(target, Damage);
         if (Effects != Set<DamageType>.Of())
         {
@@ -53,7 +50,7 @@ public partial class StrikeCombatAction(CustomNode owner) : DamageCombatAction(o
         if (StrikeMode.Contains(StrikeModeElement.Entangled) && target is CombatUnit entangledTarget)
         {
             _ = GamePack.Current.AbilityControl.GetAbility(94).Expand(entangledTarget.Troop);
-            data = entangledTarget.Troop.GetAbilityData<UnitEnchantmentAbilityData>(94);
+            UnitEnchantmentAbilityData data = entangledTarget.Troop.GetAbilityData<UnitEnchantmentAbilityData>(94);
             data?.EnchantmentPlayerIndex = source.CombatPlayer;
         }
     }
@@ -93,7 +90,4 @@ public partial class StrikeCombatAction(CustomNode owner) : DamageCombatAction(o
             }
         }
     }
-
-    // intf_P3_02.inc:38
-
 }

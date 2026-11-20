@@ -105,15 +105,22 @@ public class Component : Persistent
             }
 
             int i = ComponentIndex, target = Math.Clamp(value, 0, Owner.children.Count - 1);
-            if (i >= 0 && i != target) { Owner.children.RemoveAt(i); Owner.children.Insert(target, this); }
+            if (i >= 0 && i != target)
+            {
+                Owner.children.RemoveAt(i);
+                Owner.children.Insert(target, this);
+            }
         }
     }
 
     // CLASSES.PAS TComponent.InsertComponent.
     public void InsertComponent(Component component)
     {
-        component.ValidateContainer(this); ValidateRename(component, "", component.Name);
-        children.Add(component); component.Owner = this; Notification(component, Operation.Insert);
+        component.ValidateContainer(this);
+        ValidateRename(component, "", component.Name);
+        children.Add(component);
+        component.Owner = this;
+        Notification(component, Operation.Insert);
     }
 
     protected virtual void ValidateContainer(Component container) => container.ValidateInsert(this);
@@ -121,7 +128,13 @@ public class Component : Persistent
     protected virtual void ValidateInsert(Component component) { }
 
     // CLASSES.PAS TComponent.RemoveComponent and Remove.
-    public void RemoveComponent(Component component) { Notification(component, Operation.Remove); component.Owner = null; _ = children.Remove(component); ValidateRename(component, component.Name, ""); }
+    public void RemoveComponent(Component component)
+    {
+        Notification(component, Operation.Remove);
+        component.Owner = null;
+        _ = children.Remove(component);
+        ValidateRename(component, component.Name, "");
+    }
 
     // CLASSES.PAS TComponent.FindComponent.
     public Component? FindComponent(string value) => value.Length == 0 ? null : children.FirstOrDefault(c => DelphiTextCompare.CompareText(c.Name, value) == 0);
@@ -135,7 +148,11 @@ public class Component : Persistent
         }
 
         freeNotifies ??= [];
-        if (!freeNotifies.Contains(component)) { freeNotifies.Add(component); component.FreeNotification(this); }
+        if (!freeNotifies.Contains(component))
+        {
+            freeNotifies.Add(component);
+            component.FreeNotification(this);
+        }
     }
 
     // CLASSES.PAS TComponent.Notification.
@@ -143,7 +160,8 @@ public class Component : Persistent
     {
         if (operation == Operation.Remove && freeNotifies is not null)
         {
-            _ = freeNotifies.Remove(component); if (freeNotifies.Count == 0)
+            _ = freeNotifies.Remove(component);
+            if (freeNotifies.Count == 0)
             {
                 freeNotifies = null;
             }
@@ -174,7 +192,10 @@ public class Component : Persistent
     {
         while (children.Count != 0)
         {
-            Component child = children[^1]; child.Owner = null; children.RemoveAt(children.Count - 1); child.Dispose();
+            Component child = children[^1];
+            child.Owner = null;
+            children.RemoveAt(children.Count - 1);
+            child.Dispose();
         }
     }
 
@@ -190,7 +211,10 @@ public class Component : Persistent
 
             freeNotifies = null;
         }
-        Destroying(); DestroyComponents(); Owner?.RemoveComponent(this); base.Dispose();
+        Destroying();
+        DestroyComponents();
+        Owner?.RemoveComponent(this);
+        base.Dispose();
     }
 
     // CLASSES.PAS TComponent.Loaded, GetNamePath, GetOwner and parent hooks.

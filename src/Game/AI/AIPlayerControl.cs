@@ -88,17 +88,15 @@ public partial class AIPlayerControl : EngineObject
     // AI.pas:120
     public int ListAvailableTransporters(UnitList units)
     {
-        Troop troop;
-        AIGroup group;
         int result = 0;
         Player player = Player;
         for (int i = 0, last = player.Armies.Count - 1; i <= last; i++)
         {
-            troop = player.Armies.GetArmy(i).Transporter(255);
-            if (troop != null)
+            Troop troop = player.Armies.GetArmy(i).Transporter(255);
+            if (troop is not null)
             {
-                group = troop.Group;
-                if (group == null || group.EngineClass.ClassId == 136295)
+                AIGroup group = troop.Group;
+                if (group is null || group.EngineClass.ClassId == 136295)
                 {
                     _ = units.AddUnit(troop);
                     result += 1;
@@ -124,15 +122,13 @@ public partial class AIPlayerControl : EngineObject
     // AI.pas:156
     public void SetupProcessPhase(AIPlayerProcessPhase phase)
     {
-        AIPlayerActionClass actionClass;
-        AIPlayerAction action;
         Actions.Clear();
         for (int i = 0, last = StrategicMap.Current.AIPlayerActionManager.GetCount() - 1; i <= last; i++)
         {
-            actionClass = StrategicMap.Current.AIPlayerActionManager.GetRegisteredClasses(i);
+            AIPlayerActionClass actionClass = StrategicMap.Current.AIPlayerActionManager.GetRegisteredClasses(i);
             if (actionClass.SupportedPhases.Contains(phase))
             {
-                action = actionClass.CreateInstance(null, holder: CreationHolder());
+                AIPlayerAction action = actionClass.CreateInstance(null, holder: CreationHolder());
                 if (action.Setup(this, phase))
                 {
                     action.SetOwner(Actions);
@@ -148,11 +144,7 @@ public partial class AIPlayerControl : EngineObject
     }
 
     // AI.pas:176
-    public int GetProcessCyclesMax()
-    {
-        int result = !Player.SingleProcessCycle ? _processCyclesMax : 1;
-        return result;
-    }
+    public int GetProcessCyclesMax() => !Player.SingleProcessCycle ? _processCyclesMax : 1;
 
     // AI.pas:182
     public void Activate(AIExecutor executor)
@@ -194,36 +186,24 @@ public partial class AIPlayerControl : EngineObject
     // AI.pas:203
     public GroupBehavior GetRandomGroupBehavior()
     {
-        GroupBehavior result;
-        Player player;
-        player = Player;
+        Player player = Player;
         if (Player.PlayerIndex == 0)
         {
             int random = Random(10);
             StrategicMapIndependentAIMode independentAIMode = StrategicMap.Current.GetIndependentAIMode();
-            result = s_independentGroupBehaviorTable[(int)independentAIMode][random];
+            return s_independentGroupBehaviorTable[(int)independentAIMode][random];
         }
         else
         {
             int random = Random(10);
-            result = s_player2GroupBehaviorTable[(int)player.Behavior][random];
+            return s_player2GroupBehaviorTable[(int)player.Behavior][random];
         }
-
-        return result;
     }
 
     // AI.pas:213
     public void UpdateSkirmishGroups()
     {
-        int skirmishCount;
-        int wantedCount;
-        int groupPriority;
-        int unitPriority;
-        AIGroup group;
-        Troop troop;
-        DoubleItemList<Troop> units;
-        DoubleItem<Troop> item;
-        skirmishCount = 0;
+        int skirmishCount = 0;
         for (int i = 0, last = Player.AIGroups.Count - 1; i <= last; i++)
         {
             if (Player.AIGroups.GetGroups(i).EngineClass.ClassId == 136294)
@@ -232,6 +212,7 @@ public partial class AIPlayerControl : EngineObject
             }
         }
 
+        int wantedCount;
         if (StrategicMap.Current.Day > 5)
         {
             wantedCount = Player.AIGroups.Count / 6;
@@ -252,19 +233,20 @@ public partial class AIPlayerControl : EngineObject
 
         if (skirmishCount < wantedCount)
         {
-            units = new DoubleItemList<Troop>();
+            DoubleItemList<Troop> units = new();
+            AIGroup group;
             for (int i = Player.AIGroups.Count - 1; i >= 0; i--)
             {
                 group = Player.AIGroups.GetGroups(i);
                 if (group.TargetType != AIGroupTargetStatus.Execute && group.EngineClass.ClassId != 136281 && group.EngineClass.ClassId != 136294 && group.EngineClass.ClassId != 136273 && group.EngineClass.ClassId != 136275 && group.EngineClass.ClassId != 136295)
                 {
-                    groupPriority = group.GetProcessPriority() * -10;
+                    int groupPriority = group.GetProcessPriority() * -10;
                     for (int j = group.Units.Count - 1; j >= 0; j--)
                     {
-                        troop = group.Units.GetUnit(j);
+                        Troop troop = group.Units.GetUnit(j);
                         if (troop is not Hero)
                         {
-                            unitPriority = troop.GetMoves();
+                            int unitPriority = troop.GetMoves();
                             if (troop.GetMoveTypes().Contains(MoveType.Flying))
                             {
                                 unitPriority += 15;
@@ -280,7 +262,7 @@ public partial class AIPlayerControl : EngineObject
             while (skirmishCount < wantedCount && units.Count != 0)
             {
                 group = StrategicMap.Current.AIGroupManager.CreateGroup(Player.PlayerIndex, 0, GroupBehavior.Skirmish);
-                item = units[0];
+                DoubleItem<Troop> item = units[0];
                 _ = group.AddUnit(item.First);
                 _ = group.Release();
                 skirmishCount += 1;
@@ -308,9 +290,8 @@ public partial class AIPlayerControl : EngineObject
     // AI.pas:278
     public void DeactivateAction()
     {
-        AIPlayerAction action;
-        action = _action;
-        if (action != null)
+        AIPlayerAction action = _action;
+        if (action is not null)
         {
             action.Deactivate();
             _action = null;
@@ -320,7 +301,6 @@ public partial class AIPlayerControl : EngineObject
     // AI.pas:290
     public void ListPeaceWarUnknownPlayers(ByteList peace, ByteList war, ByteList unknown)
     {
-        DiplomaticRelation relation;
         peace.Clear();
         war.Clear();
         _ = peace.Add((byte)Player.PlayerIndex);
@@ -330,7 +310,7 @@ public partial class AIPlayerControl : EngineObject
             {
                 if (StrategicMap.Current.Players.GetPlayers(i).Status == PlayerStatus.Playing)
                 {
-                    relation = StrategicMap.Current.Players.GetDiplomaticRelation(Player.PlayerIndex, (sbyte)i);
+                    DiplomaticRelation relation = StrategicMap.Current.Players.GetDiplomaticRelation(Player.PlayerIndex, (sbyte)i);
                     if (Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace, DiplomaticRelation.Alliance).Contains(relation))
                     {
                         _ = peace.Add((byte)i);
@@ -361,31 +341,23 @@ public partial class AIPlayerControl : EngineObject
     // The original checks player status. Unknown is not cleared before appending.
     public void ListIdealPeaceWarPlayers(ByteList peace, ByteList war)
     {
-        DoubleItemList doubleItemList;
-        DiplomaticRelation relation;
-        int priority;
-        Status raceRelation;
-        int days;
-        int middlePlayer;
-        DiplomaticAction action;
-        DoubleItemList.DoubleItem item;
         peace.Clear();
         war.Clear();
-        doubleItemList = new DoubleItemList();
+        DoubleItemList doubleItemList = new();
         _ = doubleItemList.AddAbility(Player.PlayerIndex, 999);
         for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {
             if (i != Player.PlayerIndex && StrategicMap.Current.Players.GetPlayers(i).Status == PlayerStatus.Playing)
             {
-                priority = 0;
-                relation = StrategicMap.Current.Players.GetDiplomaticRelation(Player.PlayerIndex, (sbyte)i);
+                int priority = 0;
+                DiplomaticRelation relation = StrategicMap.Current.Players.GetDiplomaticRelation(Player.PlayerIndex, (sbyte)i);
                 Player players = StrategicMap.Current.Players.GetPlayers(i);
                 Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Player.PlayerIndex);
-                raceRelation = StrategicMap.Current.Races.GetRace(fPlayersPlayers.PlayerRace).GetDefaultRaceRelation(players.PlayerRace);
-                action = Player.DiplomaticActions.FindLastAction(DeclareWar.Kind, DiplomaticActionReaction.None, (sbyte)i, Player.PlayerIndex, -1);
-                if (action != null)
+                Status raceRelation = StrategicMap.Current.Races.GetRace(fPlayersPlayers.PlayerRace).GetDefaultRaceRelation(players.PlayerRace);
+                DiplomaticAction action = Player.DiplomaticActions.FindLastAction(DeclareWar.Kind, DiplomaticActionReaction.None, (sbyte)i, Player.PlayerIndex, -1);
+                if (action is not null)
                 {
-                    days = StrategicMap.Current.Day - action.Day;
+                    int days = StrategicMap.Current.Day - action.Day;
                     if (days < 30)
                     {
                         priority = days + (priority - 30);
@@ -431,6 +403,7 @@ public partial class AIPlayerControl : EngineObject
         }
 
         doubleItemList.SortDescendingItemB();
+        DoubleItemList.DoubleItem item;
         for (int i = 0, last = (doubleItemList.Count / 2) - 1; i <= last; i++)
         {
             item = doubleItemList[i];
@@ -446,7 +419,7 @@ public partial class AIPlayerControl : EngineObject
         if ((doubleItemList.Count & 1) != 0)
         {
             item = doubleItemList[doubleItemList.Count / 2];
-            middlePlayer = item.First;
+            int middlePlayer = item.First;
             // { The middle player relation is evaluated directly below. }
             Player players = StrategicMap.Current.Players.GetPlayers(middlePlayer);
             Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Player.PlayerIndex);
@@ -463,35 +436,25 @@ public partial class AIPlayerControl : EngineObject
     public bool CanOfferPeace(byte player)
     {
         bool result;
-        ByteList peace;
-        ByteList war;
-        ByteList unknown;
-        ByteList idealPeace;
-        ByteList idealWar;
-        int peaceCount;
-        int warCount;
-        int peaceIndex;
-        int warIndex;
-        int index;
         if (!(Player.DiplomaticRelations.GetHistory((sbyte)player).GetRelationOnDay(0) == DiplomaticRelation.War && Player.DiplomaticRelations.GetDiplomaticRelation((sbyte)player) == DiplomaticRelation.War))
         {
-            idealPeace = new ByteList();
-            idealWar = new ByteList();
-            peace = new ByteList();
-            war = new ByteList();
-            unknown = new ByteList();
+            ByteList idealPeace = new();
+            ByteList idealWar = new();
+            ByteList peace = new();
+            ByteList war = new();
+            ByteList unknown = new();
             ListPeaceWarUnknownPlayers(peace, war, unknown);
             ListIdealPeaceWarPlayers(idealPeace, idealWar);
             _ = war.Remove(player);
             _ = unknown.Remove(player);
             _ = peace.Remove(player);
-            peaceCount = peace.Count;
-            warCount = war.Count;
-            peaceIndex = idealPeace.IndexOf(player);
-            warIndex = idealWar.IndexOf(player);
+            int peaceCount = peace.Count;
+            int warCount = war.Count;
+            int peaceIndex = idealPeace.IndexOf(player);
+            int warIndex = idealWar.IndexOf(player);
             for (int i = 0, last = unknown.Count - 1; i <= last; i++)
             {
-                index = idealPeace.IndexOf(unknown[i]);
+                int index = idealPeace.IndexOf(unknown[i]);
                 if (index != -1)
                 {
                     if (peaceIndex == -1 || index < peaceIndex)
@@ -538,7 +501,7 @@ public partial class AIPlayerControl : EngineObject
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;
@@ -548,35 +511,25 @@ public partial class AIPlayerControl : EngineObject
     public bool CanDeclareWar(byte player)
     {
         bool result;
-        ByteList peace;
-        ByteList war;
-        ByteList unknown;
-        ByteList idealPeace;
-        ByteList idealWar;
-        int peaceCount;
-        int warCount;
-        int peaceIndex;
-        int warIndex;
-        int index;
         if (!(Player.DiplomaticRelations.GetHistory((sbyte)player).GetRelationOnDay(0) == DiplomaticRelation.Peace && Player.DiplomaticRelations.GetDiplomaticRelation((sbyte)player) == DiplomaticRelation.Peace))
         {
-            idealPeace = new ByteList();
-            idealWar = new ByteList();
-            peace = new ByteList();
-            war = new ByteList();
-            unknown = new ByteList();
+            ByteList idealPeace = new();
+            ByteList idealWar = new();
+            ByteList peace = new();
+            ByteList war = new();
+            ByteList unknown = new();
             ListPeaceWarUnknownPlayers(peace, war, unknown);
             ListIdealPeaceWarPlayers(idealPeace, idealWar);
             _ = peace.Remove(player);
             _ = unknown.Remove(player);
             _ = war.Remove(player);
-            peaceCount = peace.Count;
-            warCount = war.Count;
-            peaceIndex = idealPeace.IndexOf(player);
-            warIndex = idealWar.IndexOf(player);
+            int peaceCount = peace.Count;
+            int warCount = war.Count;
+            int peaceIndex = idealPeace.IndexOf(player);
+            int warIndex = idealWar.IndexOf(player);
             for (int i = 0, last = unknown.Count - 1; i <= last; i++)
             {
-                index = idealPeace.IndexOf(unknown[i]);
+                int index = idealPeace.IndexOf(unknown[i]);
                 if (index != -1)
                 {
                     if (peaceIndex == -1 || index < peaceIndex)
@@ -612,7 +565,7 @@ public partial class AIPlayerControl : EngineObject
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;
@@ -636,12 +589,12 @@ public partial class AIPlayerControl : EngineObject
             Status defaultRaceRelation = StrategicMap.Current.Races.GetRace(fPlayersPlayers.PlayerRace).GetDefaultRaceRelation(players.PlayerRace);
             if (Set<Status>.Of(Status.Hostile, Status.Wary).Contains(defaultRaceRelation))
             {
-                result = false;
+                return false;
             }
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;
@@ -649,9 +602,4 @@ public partial class AIPlayerControl : EngineObject
 
     private static readonly ImmutableArray<ImmutableArray<GroupBehavior>> s_player2GroupBehaviorTable = [[GroupBehavior.Normal, GroupBehavior.Normal, GroupBehavior.Normal, GroupBehavior.Normal, GroupBehavior.Normal, GroupBehavior.Normal, GroupBehavior.Normal, GroupBehavior.Normal, GroupBehavior.Normal, GroupBehavior.Normal], [GroupBehavior.Aggressive, GroupBehavior.Aggressive, GroupBehavior.Aggressive, GroupBehavior.Aggressive, GroupBehavior.Aggressive, GroupBehavior.Aggressive, GroupBehavior.Aggressive, GroupBehavior.Aggressive, GroupBehavior.Aggressive, GroupBehavior.Aggressive], [GroupBehavior.Defensive, GroupBehavior.Defensive, GroupBehavior.Defensive, GroupBehavior.Defensive, GroupBehavior.Defensive, GroupBehavior.Defensive, GroupBehavior.Defensive, GroupBehavior.Defensive, GroupBehavior.Defensive, GroupBehavior.Defensive], [GroupBehavior.Expand, GroupBehavior.Expand, GroupBehavior.Expand, GroupBehavior.Expand, GroupBehavior.Expand, GroupBehavior.Expand, GroupBehavior.Expand, GroupBehavior.Expand, GroupBehavior.Expand, GroupBehavior.Expand], [GroupBehavior.Scorch, GroupBehavior.Scorch, GroupBehavior.Scorch, GroupBehavior.Scorch, GroupBehavior.Scorch, GroupBehavior.Scorch, GroupBehavior.Scorch, GroupBehavior.Scorch, GroupBehavior.Scorch, GroupBehavior.Scorch]];
     private static readonly ImmutableArray<ImmutableArray<GroupBehavior>> s_independentGroupBehaviorTable = [[GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive], [GroupBehavior.Patrol, GroupBehavior.Scout, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive], [GroupBehavior.Patrol, GroupBehavior.Patrol, GroupBehavior.Scout, GroupBehavior.Scout, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive], [GroupBehavior.Patrol, GroupBehavior.Patrol, GroupBehavior.Scout, GroupBehavior.Scout, GroupBehavior.Suicidal, GroupBehavior.Suicidal, GroupBehavior.Raid, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive]];
-
-    // intf_P5_06.inc:65
-
-    // intf_P5_06.inc:65
-
 }

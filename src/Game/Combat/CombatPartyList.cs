@@ -8,7 +8,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Combat;
 
-public partial class CombatPartyList(CustomNode owner) : OwningNode(owner), IChildList<CombatParty>
+public class CombatPartyList(CustomNode owner) : OwningNode(owner), IChildList<CombatParty>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a CombatParty, so the cast never fails.
@@ -25,7 +25,7 @@ public partial class CombatPartyList(CustomNode owner) : OwningNode(owner), IChi
     public CombatParty CreateParty(Battle combat, byte position, byte combatPlayer, int X, int Y, int L, Army army)
     {
         CombatParty p;
-        if (GetParty(position) == null)
+        if (GetParty(position) is null)
         {
             p = new CombatParty(null)
             {
@@ -38,7 +38,7 @@ public partial class CombatPartyList(CustomNode owner) : OwningNode(owner), IChi
             p.Army.SetMapCoordinate((sbyte)(byte)X, (sbyte)(byte)Y, (sbyte)L);
             CombatPlayer players = combat.CombatData.Players.GetPlayers((sbyte)combatPlayer);
             p.Army.SetPlayer(players.Player);
-            if (army != null)
+            if (army is not null)
             {
                 p.Army.AssignSettings(army);
             }
@@ -54,18 +54,14 @@ public partial class CombatPartyList(CustomNode owner) : OwningNode(owner), IChi
     }
 
     // Combat2.pas:96
-    public CombatParty GetParty(byte position)
-    {
-        CombatParty result = position < Count ? this[position] : null;
-        return result;
-    }
+    public CombatParty GetParty(byte position) => position < Count ? this[position] : null;
 
     // Combat2.pas:99
     public void Activate(Battle combat)
     {
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            if (GetChild(i) != null)
+            if (GetChild(i) is not null)
             {
                 this[i].Activate(combat);
             }
@@ -77,13 +73,10 @@ public partial class CombatPartyList(CustomNode owner) : OwningNode(owner), IChi
     {
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            if (GetChild(i) != null)
+            if (GetChild(i) is not null)
             {
                 this[i].Deactivate(combat);
             }
         }
     }
-
-    // Engine.pas:631
-
 }

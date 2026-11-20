@@ -28,7 +28,12 @@ public sealed class CoreTests
             Randomize();
             Assert.Equal(retained, RandSeed);
         }
-        finally { RandomizeSeed = null; SuppressRandomize = suppressed; RandSeed = previous; }
+        finally
+        {
+            RandomizeSeed = null;
+            SuppressRandomize = suppressed;
+            RandSeed = previous;
+        }
     }
 
     [Fact]
@@ -218,7 +223,9 @@ public sealed class CoreTests
         Assert.All(image, b => Assert.Equal(255, b));
         large = large.Without(64).Without(128).Without(192);
         large.CopyImageTo(image);
-        Assert.Equal(254, image[8]); Assert.Equal(254, image[16]); Assert.Equal(254, image[24]);
+        Assert.Equal(254, image[8]);
+        Assert.Equal(254, image[16]);
+        Assert.Equal(254, image[24]);
         Assert.Equal(253, large.Count);
         Set<byte> crossing = Set<byte>.WithBounds(60, 80).With(60).With(64).With(79);
         image = new byte[crossing.StorageSize];

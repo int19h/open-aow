@@ -6,7 +6,7 @@ namespace Aow.Game.Net;
 
 // FRefCount, FPlayerCommunicator, FPCSList. The base player communication control: one system,
 // no transport
-public partial class PlayerCommunicationControl : IDisposable
+public class PlayerCommunicationControl : IDisposable
 {
     internal int RefCount { get; private set; }
 
@@ -65,10 +65,9 @@ public partial class PlayerCommunicationControl : IDisposable
     // NetworkE.pas:503
     public PlayerCommunicationSettings GetPlayers(int index)
     {
-        PlayerCommunicationSettings result = index >= 0 && index < PlayerCommunicationSettingsList.Count
+        return index >= 0 && index < PlayerCommunicationSettingsList.Count
             ? PlayerCommunicationSettingsList.Players[index]
             : null;
-        return result;
     }
 
     // NetworkE.pas:511
@@ -112,5 +111,4 @@ public partial class PlayerCommunicationControl : IDisposable
     public PlayersAccessor Players => new(this);
     public PlayerCommunicator PlayerCommunicator { get; private set; }
     public PlayerCommunicationSettingsList PlayerCommunicationSettingsList { get; }
-
 }

@@ -5,7 +5,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Draw.Animations;
 
-public partial class BloodShrineAnimation(CustomNode owner) : Animation(owner)
+public class BloodShrineAnimation(CustomNode owner) : Animation(owner)
 {
 
     // BloodShrine.pas:56
@@ -17,8 +17,6 @@ public partial class BloodShrineAnimation(CustomNode owner) : Animation(owner)
             Dispose();
         }
     }
-
-    // Animation.pas:43
 
     // BloodShrine.pas:53
     public override Set<AnimationControlModeElement> AnimationControlMode() => Set<AnimationControlModeElement>.Of(AnimationControlModeElement.LinkToNewFrame, AnimationControlModeElement.OwnedByMap);

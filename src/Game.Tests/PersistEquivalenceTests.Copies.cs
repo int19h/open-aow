@@ -465,8 +465,18 @@ public sealed partial class PersistEquivalenceTests
         try
         {
             bool copied = AlikeOutcome(
-                () => { DelphiRandom.RandSeed = seed; viaStream = StreamCopy(source); streamSeed = DelphiRandom.RandSeed; },
-                viaPersist: () => { DelphiRandom.RandSeed = seed; viaTree = source.Copy(EngineFixture.Engine); treeSeed = DelphiRandom.RandSeed; },
+                () =>
+                {
+                    DelphiRandom.RandSeed = seed;
+                    viaStream = StreamCopy(source);
+                    streamSeed = DelphiRandom.RandSeed;
+                },
+                viaPersist: () =>
+                {
+                    DelphiRandom.RandSeed = seed;
+                    viaTree = source.Copy(EngineFixture.Engine);
+                    treeSeed = DelphiRandom.RandSeed;
+                },
                 label: $"{label} copy");
             if (!copied)
             {
@@ -490,8 +500,18 @@ public sealed partial class PersistEquivalenceTests
             EngineObject stream = viaStream = other.Copy(EngineFixture.Engine);
             EngineObject tree = viaTree = other.Copy(EngineFixture.Engine);
             bool assigned = AlikeOutcome(
-                () => { DelphiRandom.RandSeed = seed; StreamAssign(stream, source); streamSeed = DelphiRandom.RandSeed; },
-                viaPersist: () => { DelphiRandom.RandSeed = seed; tree.Assign(source, engine: EngineFixture.Engine); treeSeed = DelphiRandom.RandSeed; },
+                () =>
+                {
+                    DelphiRandom.RandSeed = seed;
+                    StreamAssign(stream, source);
+                    streamSeed = DelphiRandom.RandSeed;
+                },
+                viaPersist: () =>
+                {
+                    DelphiRandom.RandSeed = seed;
+                    tree.Assign(source, engine: EngineFixture.Engine);
+                    treeSeed = DelphiRandom.RandSeed;
+                },
                 label: $"{label} assign");
             if (!assigned)
             {
@@ -584,8 +604,8 @@ public sealed partial class PersistEquivalenceTests
     }
 
     // The stream comparison PE-3-h replaced (Engine.pas 2511): the same class and equal images.
-    private static bool StreamCompare(EngineObject left, EngineObject right) =>
-        left.EngineClass.ClassId == right.EngineClass.ClassId && WrittenImage(left).AsSpan().SequenceEqual(WrittenImage(right));
+    private static bool StreamCompare(EngineObject left, EngineObject right)
+        => left.EngineClass.ClassId == right.EngineClass.ClassId && WrittenImage(left).AsSpan().SequenceEqual(WrittenImage(right));
 
     // TEngine.WriteEObject: the object at id 0 of the outer table.
     private static byte[] WrittenImage(EngineObject objectValue)

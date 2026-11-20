@@ -35,11 +35,11 @@ public sealed class LayoutSession
     // VCL sets csLoading and csReading before the reader creates a component. The port sets
     // them right after construction. No constructor body reads ComponentState, so the order is
     // not observable. Loaded clears csLoading.
-    public void BeginRead(Component component) =>
-        component.ComponentState = component.ComponentState.With(ComponentState.Loading).With(ComponentState.Reading);
+    public void BeginRead(Component component)
+        => component.ComponentState = component.ComponentState.With(ComponentState.Loading).With(ComponentState.Reading);
 
-    public void EndRead(Component component) =>
-        component.ComponentState = component.ComponentState.Without(ComponentState.Reading);
+    public void EndRead(Component component)
+        => component.ComponentState = component.ComponentState.Without(ComponentState.Reading);
 
     // The module failure boundary. Application.CreateForm publishes the global before the
     // constructor runs and clears it when the constructor raises, and the failed module is
@@ -57,8 +57,14 @@ public sealed class LayoutSession
         catch (Exception error)
         {
             publish(null);
-            try { module.Dispose(); }
-            catch (Exception cleanup) { throw new AggregateException(error, cleanup); }
+            try
+            {
+                module.Dispose();
+            }
+            catch (Exception cleanup)
+            {
+                throw new AggregateException(error, cleanup);
+            }
             throw;
         }
     }
@@ -85,7 +91,11 @@ public sealed class LayoutSession
         for (int i = 0; i < _pending.Count;)
         {
             Fixup fixup = _pending[i];
-            if (_modules.TryGetValue(fixup.Module, out Component? module)) { fixup.Apply(module); _pending.RemoveAt(i); }
+            if (_modules.TryGetValue(fixup.Module, out Component? module))
+            {
+                fixup.Apply(module);
+                _pending.RemoveAt(i);
+            }
             else
             {
                 i++;
@@ -115,6 +125,8 @@ public sealed class LayoutSession
     public static void ReadImageData(CustomImageLibrary library, byte[] data)
     {
         using MemoryStream stream = new();
-        stream.WriteBuffer(data); stream.Position = 0; library.LoadFromStream(stream);
+        stream.WriteBuffer(data);
+        stream.Position = 0;
+        library.LoadFromStream(stream);
     }
 }

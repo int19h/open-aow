@@ -10,10 +10,8 @@ namespace Aow.Game.Audio;
 
 // _searchPath, _sfx. ExecutePathSearch lists every wave file under a directory (with its
 // subdirectories) relative to the search path
-public partial class SfxManager(Component owner) : Component(owner)
+public class SfxManager(Component owner) : Component(owner)
 {
-    // Sound.pas:407
-
     // Sound.pas:413
     public override void Dispose()
     {
@@ -28,16 +26,14 @@ public partial class SfxManager(Component owner) : Component(owner)
     // Sound.pas:425
     public void ExecutePathSearch(string path)
     {
-        string oldDirectory;
         void Search(string directory)
         {
-            DelphiStringList directories;
             foreach (RtlFileEntry entry in Files.FindEntries($"{SearchPath}{directory}*.{s_sfxExtension}", attributes: 63 & ~16))
             {
                 _ = Sfx.Add(UpperCase(directory + entry.Name));
             }
 
-            directories = new DelphiStringList();
+            DelphiStringList directories = new();
             foreach (RtlFileEntry entry in Files.FindEntries($"{directory}*.*", attributes: 16))
             {
                 if ((entry.Attribute & 16) != 0 && entry.Name != "." && entry.Name != "..")
@@ -61,7 +57,7 @@ public partial class SfxManager(Component owner) : Component(owner)
             SearchPath += "\\";
         }
 
-        oldDirectory = GetCurrentDir();
+        string oldDirectory = GetCurrentDir();
         _ = SetCurrentDir(path);
         Search("");
         _ = SetCurrentDir(oldDirectory);

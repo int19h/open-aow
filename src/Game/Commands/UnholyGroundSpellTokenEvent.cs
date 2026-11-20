@@ -15,7 +15,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
-public partial class UnholyGroundSpellTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
+public class UnholyGroundSpellTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
 {
 
     // UnHolyG.pas:288
@@ -34,26 +34,21 @@ public partial class UnholyGroundSpellTokenEvent(CustomNode owner) : GlobalTarge
     // UnHolyG.pas:293
     public void CreateUnholyGround(Troop source)
     {
-        MapLevel level = default;
         HexNumberWalkData[] walkCell = new HexNumberWalkData[1];
         ref HexNumberWalkData hexNumberWalkData = ref walkCell[0];
-        UnholyGround.Resource resource = default;
-        MapField mapField = default;
-        UnholyGround ground = default;
-        ImageSequenceAnimation animation = default;
         HexNumberWalkData walk = hexNumberWalkData;
-        level = StrategicMap.Current.MapContainer.MapLevels[Location.MapLevel];
+        MapLevel level = StrategicMap.Current.MapContainer.MapLevels[Location.MapLevel];
         HexNumberWalkData.InitializeHexNumberWalk(out hexNumberWalkData, Location.X, Location.Y, 0);
-        resource = GamePack.Current.MapObjectResourceList.FindChild<UnholyGround.Resource>(131986);
+        UnholyGround.Resource resource = GamePack.Current.MapObjectResourceList.FindChild<UnholyGround.Resource>(131986);
         while (walk.Radius <= 1)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
-                mapField = level.GetField(walk.X, walk.Y);
-                if (GamePack.Current.SpellControl.GetSpell<GlobalTargetSpell>(14).ValidTargetMapField(mapField) && mapField.GetArmyHexSprite() == null)
+                MapField mapField = level.GetField(walk.X, walk.Y);
+                if (GamePack.Current.SpellControl.GetSpell<GlobalTargetSpell>(14).ValidTargetMapField(mapField) && mapField.GetArmyHexSprite() is null)
                 {
                     mapField.RestoreTerrain();
-                    ground = resource.CreateResourceUser<UnholyGround>();
+                    UnholyGround ground = resource.CreateResourceUser<UnholyGround>();
                     ground.Duration = (sbyte)(3 + ((StrategicMap.Current.Random(11) - 5) / 5));
                     ground.Player = source.Player;
                     ground.OriginalOverlay = mapField.OverlayType;
@@ -61,7 +56,7 @@ public partial class UnholyGroundSpellTokenEvent(CustomNode owner) : GlobalTarge
                     if (StrategicMap.Current.PlaceHex(ground, walk.X, walk.Y, Location.MapLevel))
                     {
                         ground.Mode = Set<UnholySummoning>.Of(UnholySummoning.Summoning);
-                        animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
+                        ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
                         animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(14).CastImages.ImageSequences[0]);
                         animation.OnShow += ground.ShowSummonAnimation;
                         animation.OnNewFrame += ground.NewFrameSummonAnimation;
@@ -79,7 +74,4 @@ public partial class UnholyGroundSpellTokenEvent(CustomNode owner) : GlobalTarge
             HexNumberWalkData.WalkToNextHexNumber(ref hexNumberWalkData);
         }
     }
-
-    // NetworkE.pas:230
-
 }

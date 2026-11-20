@@ -14,7 +14,7 @@ using Aow.Rtl;
 namespace Aow.Game.Combat;
 
 // WallType. HitPoints. Locked
-public partial class CombatWall : CombatObject
+public class CombatWall : CombatObject
 {
     // Combat.pas:1670
     public new const int ClassId = 131759;
@@ -41,11 +41,9 @@ public partial class CombatWall : CombatObject
     // Combat.pas:1673
     public override int GetTargetPriority()
     {
-        int count;
-        CombatObject objectValue;
         if (TargetPriorityInvalid)
         {
-            count = 0;
+            int count = 0;
             for (int i = TargetedBy.Count - 1; i >= 0; i--)
             {
                 if (TargetedBy.List[i].Second == 0)
@@ -57,7 +55,7 @@ public partial class CombatWall : CombatObject
             TargetPriority = 0;
             for (int i = Combat.Sides[(int)CombatSideIndex.Defender].Count - 1; i >= 0; i--)
             {
-                objectValue = Combat.Sides[(int)CombatSideIndex.Defender].GetObjects(i);
+                CombatObject objectValue = Combat.Sides[(int)CombatSideIndex.Defender].GetObjects(i);
                 TargetPriority += objectValue.IncomingCombatValue - objectValue.IncomingWallCombatValue;
             }
 
@@ -69,11 +67,7 @@ public partial class CombatWall : CombatObject
     }
 
     // Combat.pas:1693
-    public override int GetTargetStrength()
-    {
-        int result = !_locked ? !Combat.CombatData.WallBreached ? 10 : 1 : 0;
-        return result;
-    }
+    public override int GetTargetStrength() => !_locked ? !Combat.CombatData.WallBreached ? 10 : 1 : 0;
 
     // Combat.pas:1752
     public override bool GetLocked() => _locked;
@@ -92,11 +86,7 @@ public partial class CombatWall : CombatObject
     }
 
     // Combat.pas:1740
-    public override sbyte GetHits()
-    {
-        sbyte result = _wallType == 2 ? (sbyte)10 : (sbyte)5;
-        return result;
-    }
+    public override sbyte GetHits() => _wallType == 2 ? (sbyte)10 : (sbyte)5;
 
     // Combat.pas:1743
     public override sbyte GetHitPoints() => (sbyte)_hitPoints;
@@ -170,7 +160,4 @@ public partial class CombatWall : CombatObject
         _hitPoints = (byte)GetHits();
         SetCombatPlayer(combatPlayer);
     }
-
-    // intf_P3_01.inc:316
-
 }

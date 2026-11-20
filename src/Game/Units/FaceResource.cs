@@ -15,7 +15,7 @@ using static Aow.Rtl.DelphiStrings;
 namespace Aow.Game.Units;
 
 // { Interface declaration run owned by P1. }
-public partial class FaceResource(CustomNode owner) : EngineResource(owner)
+public class FaceResource(CustomNode owner) : EngineResource(owner)
 {
     public new const int ClassId = 131696;
     private string _imageLibraryName = "";
@@ -86,7 +86,7 @@ public partial class FaceResource(CustomNode owner) : EngineResource(owner)
     // Ability.PAS:459
     public void ReleaseImageLibrary()
     {
-        if (_imageLibrary != null)
+        if (_imageLibrary is not null)
         {
             if (!IsEmpty(_imageLibraryName))
             {
@@ -117,12 +117,7 @@ public partial class FaceResource(CustomNode owner) : EngineResource(owner)
     // Ability.PAS:503
     public LibraryImage GetFaceImage()
     {
-        LibraryImage result;
-        CustomImageLibrary images;
-        images = _imageLibrary;
-        result = images?[_imageIndex];
-
-        return result;
+        CustomImageLibrary images = _imageLibrary;
+        return images?[_imageIndex];
     }
-
 }

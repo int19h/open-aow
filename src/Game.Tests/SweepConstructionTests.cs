@@ -139,7 +139,11 @@ public sealed class SweepConstructionTests
 
                     string key = $"{current.Name}.{MemberNames.Of(field)}";
                     object? child = field.GetValue(item);
-                    if (MemberNames.Of(field) is "_owner" or "Owner") { fields[key] = child is null ? null : "$owner"; continue; }
+                    if (MemberNames.Of(field) is "_owner" or "Owner")
+                    {
+                        fields[key] = child is null ? null : "$owner";
+                        continue;
+                    }
                     fields[key] = State(child, $"{path}.{key}");
                 }
             }
@@ -395,7 +399,10 @@ public sealed class SweepConstructionTests
 
     private static object? Invoke(Func<object?> action)
     {
-        try { return action(); }
+        try
+        {
+            return action();
+        }
         catch (TargetInvocationException error) when (error.InnerException is not null)
         {
             ExceptionDispatchInfo.Capture(error.InnerException).Throw();
@@ -442,11 +449,20 @@ public sealed class SweepConstructionTests
                     Assert.Same(given, value.Owner);
                     states.Add($"success:{Snapshot(value)}");
                 }
-                catch (Exception error) { states.Add($"failure:{error.GetType().FullName}:{error.Message}"); }
+                catch (Exception error)
+                {
+                    states.Add($"failure:{error.GetType().FullName}:{error.Message}");
+                }
                 finally
                 {
-                    try { value?.Dispose(); }
-                    catch (Exception error) { states.Add($"destroy:{error.GetType().FullName}:{error.Message}"); }
+                    try
+                    {
+                        value?.Dispose();
+                    }
+                    catch (Exception error)
+                    {
+                        states.Add($"destroy:{error.GetType().FullName}:{error.Message}");
+                    }
                 }
                 states.Add($"owner:{owner?.Members.Count ?? 0}");
                 if (owner is not null)
@@ -464,7 +480,10 @@ public sealed class SweepConstructionTests
         using GameEngine engine = new(null);
         EngineClass descriptor = EngineClass.Of(type);
         engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);
-        try { engine.UnregisterEngineClasses([engine.GetEngineClass(descriptor.ClassId)]); }
+        try
+        {
+            engine.UnregisterEngineClasses([engine.GetEngineClass(descriptor.ClassId)]);
+        }
         catch (Exception error) when (PortedExceptions.Is(error)) { }
         engine.RegisterEngineClasses([descriptor]);
         return engine.CreateEngineObject(descriptor.ClassId, owner);
@@ -484,7 +503,9 @@ public sealed class SweepConstructionTests
         {
             ConstructionSnapshot.Check("SweepConstruction", name, Snapshot(value));
         }
-        finally { ((value ?? throw new NullReferenceException()) as IDisposable)?.Dispose(); }
+        finally
+        {
+            ((value ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
+        }
     }
-
 }

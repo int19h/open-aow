@@ -15,7 +15,7 @@ using Aow.Rtl;
 namespace Aow.Game.Units;
 
 // inherited FChildren, UpdateCount
-public partial class UnitList(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, IUnitHolder
+public class UnitList(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, IUnitHolder
 {
     // The troop in slot index, without a range check.
     public Troop this[int index] => Units[index];
@@ -73,21 +73,18 @@ public partial class UnitList(CustomNode owner) : ObservableNode(owner), IChildL
     // Unit.PAS:2167
     public override int AddChild(EngineObject child)
     {
-        int result;
         // The check refuses a child that is not a troop before the troop is read.
         CheckChild(child);
         EngineObject unit = child;
         if (CanAddUnit((Troop)child))
         {
             _ = unit.AddRef();
-            result = base.AddChild(child);
+            return base.AddChild(child);
         }
         else
         {
-            result = -1;
+            return -1;
         }
-
-        return result;
     }
 
     // Unit.PAS:2362
@@ -124,18 +121,16 @@ public partial class UnitList(CustomNode owner) : ObservableNode(owner), IChildL
     // Unit.PAS:2208
     public virtual bool DeleteUnit(Troop troop)
     {
-        bool result;
         if (CanDeleteUnit(troop))
         {
-            result = true;
             troop.SetOwner(null);
         }
         else
         {
-            result = false;
+            return false;
         }
 
-        return result;
+        return true;
     }
 
     // Unit.PAS:2201
@@ -181,7 +176,7 @@ public partial class UnitList(CustomNode owner) : ObservableNode(owner), IChildL
             PlaceChild(index, child: null);
         }
 
-        if (GetChild(index) != null)
+        if (GetChild(index) is not null)
         {
             _ = this[index].Release();
         }
@@ -195,23 +190,13 @@ public partial class UnitList(CustomNode owner) : ObservableNode(owner), IChildL
 
     internal static sbyte UnitsToIndependentRelation(UnitUserList units, sbyte defaultRelation)
     {
-        sbyte result;
-        bool sameRace;
-        bool evil;
-        bool good;
-        bool neutral;
-        int i;
-        int race;
-        Troop troop;
-        Alignment alignmentAlignment;
-        sbyte relation;
-        relation = -1;
-        sameRace = true;
-        i = units.Count;
+        sbyte relation = -1;
+        bool sameRace = true;
+        int i = units.Count;
         while (sameRace && i != 0)
         {
             i -= 1;
-            race = units[i].GetRace();
+            int race = units[i].GetRace();
             if (race != -1 && race != relation)
             {
                 if (relation == -1)
@@ -248,31 +233,27 @@ public partial class UnitList(CustomNode owner) : ObservableNode(owner), IChildL
 
             sameRace = condition;
         }
-
         if (!sameRace)
         {
-            evil = true;
-            good = true;
-            neutral = true;
+            bool evil = true;
+            bool good = true;
+            bool neutral = true;
             i = 0;
             int last = units.Count - 1;
             for (; i <= last; i += 1)
             {
-                troop = units[i];
-                alignmentAlignment = troop.GetAlignment();
+                Troop troop = units[i];
+                Alignment alignmentAlignment = troop.GetAlignment();
                 evil = evil && AlignmentTables.EvilAlignments.Contains(alignmentAlignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Alignment.Evil, Alignment.PureEvil).Contains(alignmentAlignment));
                 good = good && AlignmentTables.GoodAlignments.Contains(alignmentAlignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Alignment.PureGood, Alignment.Good).Contains(alignmentAlignment));
                 neutral = neutral && AlignmentTables.NeutralAlignments.Contains(alignmentAlignment);
             }
 
-            result = good && !evil ? (sbyte)-2 : evil && !good ? (sbyte)-4 : (sbyte)-3;
+            return good && !evil ? (sbyte)-2 : evil && !good ? (sbyte)-4 : (sbyte)-3;
         }
         else
         {
-            result = relation;
+            return relation;
         }
-
-        return result;
     }
-
 }

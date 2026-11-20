@@ -9,7 +9,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Magic.Abilities;
 
-public partial class DispelMagicAbilityUnitSelector(EngineObject creator) : UnitSelector(creator)
+public class DispelMagicAbilityUnitSelector(EngineObject creator) : UnitSelector(creator)
 {
 
     // AoWAb.PAS:4403
@@ -18,18 +18,13 @@ public partial class DispelMagicAbilityUnitSelector(EngineObject creator) : Unit
     // AoWAb.PAS:4407
     public override bool Select()
     {
-        bool result;
-        Troop source;
-        Troop target;
         string error = "";
-        int i;
-        DispelMagicAbilityTokenEvent eventValue;
-        source = StrategicMap.Current.UnitControl.FindUnit(SourceUnitId);
+        Troop source = StrategicMap.Current.UnitControl.FindUnit(SourceUnitId);
         if (CanSelect(ref error) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            i = 0;
-            target = null;
-            while (target == null && i != Units.GetCount())
+            int i = 0;
+            Troop target = null;
+            while (target is null && i != Units.GetCount())
             {
                 if ((Selection & (1 << i)) != 0)
                 {
@@ -39,9 +34,9 @@ public partial class DispelMagicAbilityUnitSelector(EngineObject creator) : Unit
                 i += 1;
             }
 
-            if (target != null)
+            if (target is not null)
             {
-                eventValue = new DispelMagicAbilityTokenEvent(null)
+                DispelMagicAbilityTokenEvent eventValue = new(null)
                 {
                     Holder = Creator.CreationHolder(),
                     SourceId = source.UnitId,
@@ -51,21 +46,16 @@ public partial class DispelMagicAbilityUnitSelector(EngineObject creator) : Unit
                 };
                 StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
                 _ = eventValue.Release();
-                result = true;
+                return true;
             }
             else
             {
-                result = false;
+                return false;
             }
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
-
-    // intf_P1_08.inc:65
-
 }

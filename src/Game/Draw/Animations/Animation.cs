@@ -13,7 +13,7 @@ namespace Aow.Game.Draw.Animations;
 
 // { ot=1 }
 // hex position, display level, state, frame, dimensions, callbacks, tag, map
-public partial class Animation(CustomNode owner) : HexSprite(owner)
+public class Animation(CustomNode owner) : HexSprite(owner)
 {
 
     // Animation.pas:143
@@ -42,10 +42,9 @@ public partial class Animation(CustomNode owner) : HexSprite(owner)
     // Animation.pas:153
     public override Set<ControlStyleElement> GetControlStyle()
     {
-        Set<ControlStyleElement> result = AnimationControlMode().Contains(AnimationControlModeElement.Saveable)
+        return AnimationControlMode().Contains(AnimationControlModeElement.Saveable)
             ? Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad)
             : Set<ControlStyleElement>.Of();
-        return result;
     }
 
     // Animation.pas:276
@@ -56,8 +55,6 @@ public partial class Animation(CustomNode owner) : HexSprite(owner)
         Location = PersistSupport.Coordinate(persister, name: "Location", value: Location, width: CoordinateWidth.Byte);
         FrameCounter = persister.Int32("FrameCounter", value: FrameCounter);
     }
-
-    // Animation.pas:127
 
     // Animation.pas:194
     public override byte GetLevel() => AnimationLevel;
@@ -238,30 +235,23 @@ public partial class Animation(CustomNode owner) : HexSprite(owner)
     public virtual bool ExecuteTokenEvent(AnimationTokenEvent eventValue, TokenExecutor executor) => false;
 
     // Animation.pas:308
-    public virtual bool CanPlace(MapContainer map, sbyte X, sbyte Y, sbyte L)
-    {
-        bool result = X >= 0 && Y >= 0 && L >= 0 && X < map.Width && Y < map.Height && L < map.LevelCount;
-        return result;
-    }
+    public virtual bool CanPlace(MapContainer map, sbyte X, sbyte Y, sbyte L) => X >= 0 && Y >= 0 && L >= 0 && X < map.Width && Y < map.Height && L < map.LevelCount;
 
     // Animation.pas:357
     public virtual bool PlaceHex(MapContainer map, sbyte X, sbyte Y, sbyte L)
     {
-        bool result;
         if (GetEditMode() || CanPlace(map, X, Y, L))
         {
             AnimationMap = map.Map;
             Remove();
             Location = new MapCoordinate(X, Y, L);
             Connect();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Animation.pas:302
@@ -274,7 +264,7 @@ public partial class Animation(CustomNode owner) : HexSprite(owner)
     // Animation.pas:138
     public void DestroyEvent(object sender)
     {
-        if (Owner == null)
+        if (Owner is null)
         {
             Dispose();
         }
@@ -290,8 +280,6 @@ public partial class Animation(CustomNode owner) : HexSprite(owner)
             ? R
             : throw new InvalidOperationException("Cannot change dimensions when object is places");
     }
-
-    // Animation.pas:43
 
     // Animation.pas:159
     public virtual Set<AnimationControlModeElement> AnimationControlMode() => Set<AnimationControlModeElement>.Of(AnimationControlModeElement.LinkToNewFrame, AnimationControlModeElement.FixedVisible, AnimationControlModeElement.LinkToOnDestroy);

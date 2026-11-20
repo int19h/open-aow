@@ -3,24 +3,23 @@
 namespace Aow.Engine.Nodes;
 
 // { Engine.TEInverseSortNode: the same, sorted the other way }
-public partial class InverseSortedNode(CustomNode owner) : SortedNode(owner)
+public class InverseSortedNode(CustomNode owner) : SortedNode(owner)
 {
     public new const int ClassId = 262;
 
     // Engine.pas:1635
     public override int AddSortChild(EngineObject child, int sortValue)
     {
-        int result;
-        int i;
         CheckChild(child);
         if (StoredCount >= Capacity)
         {
             Grow();
         }
 
+        int result;
         if (Sorted)
         {
-            i = StoredCount;
+            int i = StoredCount;
             while (i > 0 && sortValue < Items[i - 1].SortValue)
             {
                 i -= 1;
@@ -103,5 +102,4 @@ public partial class InverseSortedNode(CustomNode owner) : SortedNode(owner)
         }
         while (number < R);
     }
-
 }

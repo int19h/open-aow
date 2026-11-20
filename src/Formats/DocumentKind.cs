@@ -39,16 +39,16 @@ public sealed class DocumentKind
     public static DocumentKind? Find(string name) => All.FirstOrDefault(k => k.Name == name);
 
     /// <summary>The kind whose original or own extension this is, without regard to case.</summary>
-    public static DocumentKind? ForExtension(string? extension) =>
-        All.FirstOrDefault(k => k.HasExtension(extension));
+    public static DocumentKind? ForExtension(string? extension)
+        => All.FirstOrDefault(k => k.HasExtension(extension));
 
     /// <summary>The kind whose original extension this is, without regard to case.</summary>
-    public static DocumentKind? ForOriginalExtension(string? extension) =>
-        All.FirstOrDefault(k => string.Equals(extension, k.OriginalExtension, StringComparison.OrdinalIgnoreCase));
+    public static DocumentKind? ForOriginalExtension(string? extension)
+        => All.FirstOrDefault(k => string.Equals(extension, k.OriginalExtension, StringComparison.OrdinalIgnoreCase));
 
     /// <summary>Whether the extension is this kind's original or own extension.</summary>
-    public bool HasExtension(string? extension, StringComparison comparison = StringComparison.OrdinalIgnoreCase) =>
-        string.Equals(extension, OriginalExtension, comparison) || string.Equals(extension, OwnExtension, comparison);
+    public bool HasExtension(string? extension, StringComparison comparison = StringComparison.OrdinalIgnoreCase)
+        => string.Equals(extension, OriginalExtension, comparison) || string.Equals(extension, OwnExtension, comparison);
 
     /// <summary>Whether the extension is this kind's own extension, without regard to case.</summary>
     public bool IsOwnExtension(string? extension) => string.Equals(extension, OwnExtension, StringComparison.OrdinalIgnoreCase);

@@ -22,41 +22,34 @@ public partial class HeroJoinEventLog(CustomNode owner) : JoinEventLog(owner)
     // Hero.PAS:116
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
-        bool result = default;
-        Hero hero;
-        bool executeNow;
         UnitControl unitControl = StrategicMap.Current.UnitControl;
-        hero = unitControl.FindUnit<Hero>(FirstUnitId);
-        if (hero != null && hero.Player == 0 && hero.OfferToJoin(Player))
+        Hero hero = unitControl.FindUnit<Hero>(FirstUnitId);
+        if (hero is not null && hero.Player == 0 && hero.OfferToJoin(Player))
         {
-            executeNow = trigger == ExecuteTrigger.User;
+            bool executeNow = trigger == ExecuteTrigger.User;
             executeNow = executeNow || (StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.HeroJoin));
             executeNow = executeNow || (StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.HeroJoin));
-            result = executeNow && base.Execute(mode, trigger, done);
+            return executeNow && base.Execute(mode, trigger, done);
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Hero.PAS:148
     public override bool Accept(ref string errorText)
     {
-        NegotiateTokenEvent tokenEvent;
-        Troop u;
         bool result = base.Accept(ref errorText);
         if (result && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
-            u = StrategicMap.Current.UnitControl.FindUnit(FirstUnitId);
+            Troop u = StrategicMap.Current.UnitControl.FindUnit(FirstUnitId);
             MapCoordinate coordinate18 = u.GetLocation();
             sbyte locationX = coordinate18.X;
             sbyte locationY = coordinate18.Y;
             sbyte locationMapLevel = coordinate18.MapLevel;
             MapCoordinate location = new(locationX, locationY, locationMapLevel);
-            tokenEvent = new NegotiateTokenEvent(null)
+            NegotiateTokenEvent tokenEvent = new(null)
             {
                 Holder = CreationHolder(),
                 Player = Player,
@@ -81,26 +74,23 @@ public partial class HeroJoinEventLog(CustomNode owner) : JoinEventLog(owner)
     // dispatched on it).
     public bool ExecuteAI()
     {
-        Hero hero;
-        string errorText = "";
-        bool result = false;
-        hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(FirstUnitId);
-        if (hero != null && hero.Player == 0 && hero.OfferToJoin(Player))
+        Hero hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(FirstUnitId);
+        if (hero is not null && hero.Player == 0 && hero.OfferToJoin(Player))
         {
             Player players = StrategicMap.Current.Players.GetPlayers(Player);
             if (StrategicMap.Current.Players.GetPlayers(Player).AIBudget.RequestBudgetExpense(Gold, 0, players.AIBudget.DefaultBudget, true))
             {
+                string errorText = "";
                 if (Accept(ref errorText))
                 {
                     Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Player);
                     _ = StrategicMap.Current.Players.GetPlayers(Player).AIBudget.BudgetExpenseMade(Gold, 0, fPlayersPlayers.AIBudget.DefaultBudget, AIBudgetManager.ExpenseMode.BudgetThenPool);
                 }
 
-                result = true;
+                return true;
             }
         }
 
-        return result;
+        return false;
     }
-
 }

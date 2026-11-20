@@ -37,12 +37,10 @@ public class DoubleItemList<TA> : RecordList<DoubleItem<TA>> where TA : class
     public int RandomChanceItemB(int bonus)
     {
         int result;
-        int total;
-        int chance;
-        int r;
         if (Count != 0)
         {
-            total = 0;
+            int total = 0;
+            int chance;
             for (int i = Count - 1; i >= 0; i--)
             {
                 chance = List[i].Second + bonus;
@@ -52,7 +50,7 @@ public class DoubleItemList<TA> : RecordList<DoubleItem<TA>> where TA : class
                 }
             }
 
-            r = Random(total);
+            int r = Random(total);
             result = 0;
             total = 0;
             chance = List[0].Second + bonus;
@@ -73,7 +71,7 @@ public class DoubleItemList<TA> : RecordList<DoubleItem<TA>> where TA : class
         }
         else
         {
-            result = -1;
+            return -1;
         }
 
         return result;

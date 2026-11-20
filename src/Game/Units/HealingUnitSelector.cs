@@ -11,7 +11,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Units;
 
-public partial class HealingUnitSelector(EngineObject creator) : UnitSelector(creator)
+public class HealingUnitSelector(EngineObject creator) : UnitSelector(creator)
 {
 
     // AoWAb.PAS:3894
@@ -24,18 +24,13 @@ public partial class HealingUnitSelector(EngineObject creator) : UnitSelector(cr
     // AoWAb.PAS:3904
     public override bool Select()
     {
-        bool result;
-        Troop source;
-        Troop target;
         string error = "";
-        int i;
-        HealingTokenEvent eventValue;
-        source = StrategicMap.Current.UnitControl.FindUnit(SourceUnitId);
+        Troop source = StrategicMap.Current.UnitControl.FindUnit(SourceUnitId);
         if (CanSelect(ref error) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            i = 0;
-            target = null;
-            while (target == null && i != Units.GetCount())
+            int i = 0;
+            Troop target = null;
+            while (target is null && i != Units.GetCount())
             {
                 if ((Selection & (1 << i)) != 0)
                 {
@@ -45,9 +40,9 @@ public partial class HealingUnitSelector(EngineObject creator) : UnitSelector(cr
                 i += 1;
             }
 
-            if (target != null)
+            if (target is not null)
             {
-                eventValue = new HealingTokenEvent(null)
+                HealingTokenEvent eventValue = new(null)
                 {
                     Holder = Creator.CreationHolder(),
                     SourceId = source.UnitId,
@@ -57,21 +52,16 @@ public partial class HealingUnitSelector(EngineObject creator) : UnitSelector(cr
                 };
                 StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
                 _ = eventValue.Release();
-                result = true;
+                return true;
             }
             else
             {
-                result = false;
+                return false;
             }
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
-
-    // intf_P1_08.inc:65
-
 }

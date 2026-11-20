@@ -7,7 +7,7 @@ using static Aow.Rtl.DelphiTextCompare;
 namespace Aow.Game.Draw;
 
 // { The implementation list of image file classes (TList of TImageFileClass). }
-public partial class ImageFileClassList : DelphiList<ImageFileClass>
+public class ImageFileClassList : DelphiList<ImageFileClass>
 {
     // GFXE.pas:941
     internal ImageFileClass GetClasses(int index) => this[index];
@@ -15,9 +15,7 @@ public partial class ImageFileClassList : DelphiList<ImageFileClass>
     // GFXE.pas:949
     public ImageFileClass FindClass(string ext)
     {
-        ImageFileClass result;
-        int i;
-        i = 0;
+        int i = 0;
         if (!IsEmpty(ext) && ext[0] == 46)
         {
             ext = Copy(ext, 2, ext.Length - 1);
@@ -28,8 +26,6 @@ public partial class ImageFileClassList : DelphiList<ImageFileClass>
             i += 1;
         }
 
-        result = i != Count ? List[i] : null;
-
-        return result;
+        return i != Count ? List[i] : null;
     }
 }

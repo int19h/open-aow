@@ -37,33 +37,22 @@ public struct LockedSurface
 
     internal static GraphicsResult BlitSprite16(in LockedSurface source, Rect sourceRectangle, in LockedSurface destination, int X, int Y, int colorKey)
     {
-        GraphicsResult result;
-        int key;
-        SurfaceView s;
-        SurfaceView d;
         if (source.BitCount == 16 && destination.PixelFormatId == source.PixelFormatId)
         {
-            key = PixelFormats.Color2PixelInfo(colorKey, source.PixelFormatId, null);
-            s = source.View((source.Pitch * sourceRectangle.Top) + (sourceRectangle.Left * 2));
-            d = destination.View((destination.Pitch * Y) + (X * 2));
+            int key = PixelFormats.Color2PixelInfo(colorKey, source.PixelFormatId, null);
+            SurfaceView s = source.View((source.Pitch * sourceRectangle.Top) + (sourceRectangle.Left * 2));
+            SurfaceView d = destination.View((destination.Pitch * Y) + (X * 2));
             BlitRects.BlitColorKey16(s, d, sourceRectangle.Right - sourceRectangle.Left, sourceRectangle.Bottom - sourceRectangle.Top, key);
-            result = GraphicsResult.Ok;
+            return GraphicsResult.Ok;
         }
         else
         {
-            result = GraphicsResult.PixelFormatNotSupported;
+            return GraphicsResult.PixelFormatNotSupported;
         }
-
-        return result;
     }
 
     internal static GraphicsResult BlitSurfaceDescriptionRectangleClipped(in LockedSurface source, Rect sourceRectangle, in LockedSurface destination, int X, int Y)
     {
-        GraphicsResult result;
-        int w;
-        int h;
-        SurfaceView s;
-        SurfaceView d;
         if (sourceRectangle.Right > source.ClipRectangle.Right)
         {
             sourceRectangle.Right = source.ClipRectangle.Right;
@@ -81,7 +70,7 @@ public struct LockedSurface
             X = destination.ClipRectangle.Left;
         }
 
-        w = sourceRectangle.Right - sourceRectangle.Left;
+        int w = sourceRectangle.Right - sourceRectangle.Left;
         if (X + w > destination.ClipRectangle.Right)
         {
             w -= X + w - destination.ClipRectangle.Right;
@@ -104,40 +93,31 @@ public struct LockedSurface
             Y = destination.ClipRectangle.Top;
         }
 
-        h = sourceRectangle.Bottom - sourceRectangle.Top;
+        int h = sourceRectangle.Bottom - sourceRectangle.Top;
         if (Y + h > destination.ClipRectangle.Bottom)
         {
             h -= Y + h - destination.ClipRectangle.Bottom;
         }
-
         if (source.PixelFormatId == destination.PixelFormatId)
         {
             if (w > 0 && h > 0)
             {
                 w = (int)(((uint)(source.BitCount * w)) >> 3);
-                s = source.View((source.Pitch * sourceRectangle.Top) + (int)(((uint)(source.BitCount * sourceRectangle.Left)) >> 3));
-                d = destination.View((destination.Pitch * Y) + (int)(((uint)(destination.BitCount * X)) >> 3));
+                SurfaceView s = source.View((source.Pitch * sourceRectangle.Top) + (int)(((uint)(source.BitCount * sourceRectangle.Left)) >> 3));
+                SurfaceView d = destination.View((destination.Pitch * Y) + (int)(((uint)(destination.BitCount * X)) >> 3));
                 BlitRects.BlitRectangle(s, d, w, h);
             }
 
-            result = GraphicsResult.Ok;
+            return GraphicsResult.Ok;
         }
         else
         {
-            result = GraphicsResult.PixelFormatNotSupported;
+            return GraphicsResult.PixelFormatNotSupported;
         }
-
-        return result;
     }
 
     internal static GraphicsResult BlitSpriteClipped16(in LockedSurface source, Rect sourceRectangle, in LockedSurface destination, int X, int Y, int colorKey)
     {
-        GraphicsResult result;
-        int w;
-        int h;
-        SurfaceView s;
-        SurfaceView d;
-        int key;
         if (source.BitCount == 16 && destination.BitCount == 16)
         {
             if (sourceRectangle.Right > source.ClipRectangle.Right)
@@ -157,7 +137,7 @@ public struct LockedSurface
                 X = destination.ClipRectangle.Left;
             }
 
-            w = sourceRectangle.Right - sourceRectangle.Left;
+            int w = sourceRectangle.Right - sourceRectangle.Left;
             if (w + X > destination.ClipRectangle.Right)
             {
                 w -= w + X - destination.ClipRectangle.Right;
@@ -180,7 +160,7 @@ public struct LockedSurface
                 Y = destination.ClipRectangle.Top;
             }
 
-            h = sourceRectangle.Bottom - sourceRectangle.Top;
+            int h = sourceRectangle.Bottom - sourceRectangle.Top;
             if (Y + h > destination.ClipRectangle.Bottom)
             {
                 h -= Y + h - destination.ClipRectangle.Bottom;
@@ -188,22 +168,20 @@ public struct LockedSurface
 
             if (w > 0 && h > 0)
             {
-                key = PixelFormats.Color2PixelInfo(colorKey, source.PixelFormatId, null);
-                s = source.View((source.Pitch * sourceRectangle.Top) + (sourceRectangle.Left * 2));
-                d = destination.View(destination.Pitch * Y);
+                int key = PixelFormats.Color2PixelInfo(colorKey, source.PixelFormatId, null);
+                SurfaceView s = source.View((source.Pitch * sourceRectangle.Top) + (sourceRectangle.Left * 2));
+                SurfaceView d = destination.View(destination.Pitch * Y);
                 X += X;
                 d = d.At(X);
                 BlitRects.BlitColorKey16(s, d, w, h, key);
             }
 
-            result = GraphicsResult.Ok;
+            return GraphicsResult.Ok;
         }
         else
         {
-            result = GraphicsResult.PixelFormatNotSupported;
+            return GraphicsResult.PixelFormatNotSupported;
         }
-
-        return result;
     }
 
     public static void CreateFrom(in LockedSurface source, in Rect R, out LockedSurface destination)
@@ -230,13 +208,10 @@ public struct LockedSurface
     internal static void MinimizeTransparentRectangle(in LockedSurface lockedSurface, in Rect R, int transparentColor, out Rect result)
     {
         LockedSurface lockedSurfaceValue = lockedSurface;
-        bool found;
-        int x;
-        int y;
         Rect rectangle;
         int GetPixel(int X, int Y)
         {
-            int result = lockedSurfaceValue.BitCount switch
+            return lockedSurfaceValue.BitCount switch
             {
                 8 => lockedSurfaceValue.View().Byte(X + (lockedSurfaceValue.Pitch * Y)),
                 16 => lockedSurfaceValue.View().UInt16(X + X + (lockedSurfaceValue.Pitch * Y)),
@@ -244,11 +219,11 @@ public struct LockedSurface
                 32 => (int)lockedSurfaceValue.View().Dword((X * 4) + (lockedSurfaceValue.Pitch * Y)),
                 _ => throw new NotSupportedException("PixelFormat is not supported"),
             };
-            return result;
         }
 
         rectangle = R;
-        found = false;
+        bool found = false;
+        int x;
         while (!found && rectangle.Top < rectangle.Bottom)
         {
             x = rectangle.Left;
@@ -281,6 +256,7 @@ public struct LockedSurface
         }
 
         found = false;
+        int y;
         while (!found && rectangle.Left < rectangle.Right)
         {
             y = rectangle.Top;
@@ -317,9 +293,6 @@ public struct LockedSurface
 
     internal static GraphicsResult RemapSurfacePart(in LockedSurface source, int sourceX, int sourceY, int width, int height, in LockedSurface destination, int destinationX, int destinationY)
     {
-        SurfaceView s;
-        SurfaceView d;
-        GraphicsResult result = GraphicsResult.Ok;
         if (sourceX + width > source.Width)
         {
             width = source.Width - sourceX;
@@ -370,8 +343,8 @@ public struct LockedSurface
 
         if (width > 0 && height > 0)
         {
-            s = source.View((source.Pitch * sourceY) + ((int)(((uint)(source.BitCount + 7)) >> 3) * sourceX));
-            d = destination.View((destination.Pitch * destinationY) + ((int)(((uint)(destination.BitCount + 7)) >> 3) * destinationX));
+            SurfaceView s = source.View((source.Pitch * sourceY) + ((int)(((uint)(source.BitCount + 7)) >> 3) * sourceX));
+            SurfaceView d = destination.View((destination.Pitch * destinationY) + ((int)(((uint)(destination.BitCount + 7)) >> 3) * destinationX));
             switch (source.PixelFormatId)
             {
                 case PixelFormat.Pal8:
@@ -395,8 +368,7 @@ public struct LockedSurface
                         case PixelFormat.Rgb32:
                         case PixelFormat.Xrgb32:
                         default:
-                            result = GraphicsResult.NotSupported;
-                            break;
+                            return GraphicsResult.NotSupported;
                     }
 
                     break;
@@ -422,8 +394,7 @@ public struct LockedSurface
                         case PixelFormat.Bgr24:
                         case PixelFormat.Xrgb32:
                         default:
-                            result = GraphicsResult.NotSupported;
-                            break;
+                            return GraphicsResult.NotSupported;
                     }
 
                     break;
@@ -448,8 +419,7 @@ public struct LockedSurface
                         case PixelFormat.Bgr24:
                         case PixelFormat.Xrgb32:
                         default:
-                            result = GraphicsResult.NotSupported;
-                            break;
+                            return GraphicsResult.NotSupported;
                     }
 
                     break;
@@ -472,8 +442,7 @@ public struct LockedSurface
                         case PixelFormat.Rgb32:
                         case PixelFormat.Xrgb32:
                         default:
-                            result = GraphicsResult.NotSupported;
-                            break;
+                            return GraphicsResult.NotSupported;
                     }
 
                     break;
@@ -496,8 +465,7 @@ public struct LockedSurface
                         case PixelFormat.Bgr24:
                         case PixelFormat.Xrgb32:
                         default:
-                            result = GraphicsResult.NotSupported;
-                            break;
+                            return GraphicsResult.NotSupported;
                     }
 
                     break;
@@ -505,12 +473,10 @@ public struct LockedSurface
                 case PixelFormat.Bgr24:
                 case PixelFormat.Xrgb32:
                 default:
-                    result = GraphicsResult.NotSupported;
-                    break;
+                    return GraphicsResult.NotSupported;
             }
         }
 
-        return result;
+        return GraphicsResult.Ok;
     }
-
 }

@@ -12,7 +12,7 @@ namespace Aow.Game.Units;
 
 // The original's TItemLibrary derives from TItemList. The port's library owns its items as its
 // node children and reads them through Items.
-public partial class ItemLibrary(CustomNode owner) : ObservableNode(owner), IChildList<Item>, IItemHolder
+public class ItemLibrary(CustomNode owner) : ObservableNode(owner), IChildList<Item>, IItemHolder
 {
     /// <summary>The items of this library, in their stored order.</summary>
     public ItemCollection Items => new(this);
@@ -48,7 +48,7 @@ public partial class ItemLibrary(CustomNode owner) : ObservableNode(owner), IChi
         // and null fails at the LibraryId read.
         Item item = (Item)child;
         // { Original checks the world item ID, not the library ID. }
-        if (item.LibraryId <= 0 || Items.FindItem(item.LibraryId) != null)
+        if (item.LibraryId <= 0 || Items.FindItem(item.LibraryId) is not null)
         {
             item.LibraryId = CreateUniqueLibraryId();
         }
@@ -70,7 +70,7 @@ public partial class ItemLibrary(CustomNode owner) : ObservableNode(owner), IChi
         {
             for (int i = 0, last = Count - 1; i <= last; i++)
             {
-                if (GetChild(i) != null)
+                if (GetChild(i) is not null)
                 {
                     _ = Items[i].Release();
                 }
@@ -81,13 +81,12 @@ public partial class ItemLibrary(CustomNode owner) : ObservableNode(owner), IChi
     // Army.PAS:4546
     public override void Clear()
     {
-        EngineObject child;
         for (int i = Count - 1; i >= 0; i--)
         {
-            if (GetChild(i) != null)
+            if (GetChild(i) is not null)
             {
-                child = Items[i];
-                if (child != null)
+                EngineObject child = Items[i];
+                if (child is not null)
                 {
                     if (child.Owner != this)
                     {
@@ -135,12 +134,7 @@ public partial class ItemLibrary(CustomNode owner) : ObservableNode(owner), IChi
     public virtual string GetName()
     {
         string result = Name;
-        if (IsEmpty(result))
-        {
-            result = AbilityRules.TranslateResourceString(GetEngine(), s_systemItemLibraryText);
-        }
-
-        return result;
+        return IsEmpty(result) ? AbilityRules.TranslateResourceString(GetEngine(), s_systemItemLibraryText) : result;
     }
 
     // Army.PAS:4897
@@ -168,8 +162,7 @@ public partial class ItemLibrary(CustomNode owner) : ObservableNode(owner), IChi
     // Army.PAS:4917
     public Item FindLibraryId(int libraryId)
     {
-        int i;
-        i = Items.Count;
+        int i = Items.Count;
         while (i != 0)
         {
             i -= 1;
@@ -185,8 +178,7 @@ public partial class ItemLibrary(CustomNode owner) : ObservableNode(owner), IChi
     // Army.PAS:4946
     public Item CreateItem()
     {
-        Item item;
-        item = new Item(null)
+        Item item = new(null)
         {
             Holder = CreationHolder(),
             LibraryId = CreateUniqueLibraryId(),
@@ -204,9 +196,4 @@ public partial class ItemLibrary(CustomNode owner) : ObservableNode(owner), IChi
     public void SaveToFile(string fileName) => GetEngine().WriteToFile(fileName, this, null, GameProfile.ItemList);
 
     private static readonly string s_systemItemLibraryText = "System";
-
-    // intf_P2_04.inc:118
-
-    // intf_P2_04.inc:118
-
 }

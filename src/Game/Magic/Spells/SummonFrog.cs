@@ -5,7 +5,7 @@ using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class SummonFrog : SummonSpell
+public class SummonFrog : SummonSpell
 {
     // SummonSpells.pas:341
     public SummonFrog(CustomNode owner, EngineObject holder) : base(owner)

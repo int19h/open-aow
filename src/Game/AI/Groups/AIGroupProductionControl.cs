@@ -23,7 +23,7 @@ namespace Aow.Game.AI.Groups;
 // remainder, requested strength, damage types, requested strengths, priority range, multiple,
 // group ID, superiority, move-point priority, allow research, research priority, move types,
 // minimum moves, path-strength factor
-public partial class AIGroupProductionControl : AIGroupTask
+public class AIGroupProductionControl : AIGroupTask
 {
     // AIGroup.pas:2440
     public AIGroupProductionControl(CustomNode owner) : base(owner)
@@ -90,23 +90,20 @@ public partial class AIGroupProductionControl : AIGroupTask
     // AIGroup.pas:2772
     public override bool Process()
     {
-        int index;
-        AIGroupUnitProduction production;
-        bool finished;
         switch (State)
         {
             case 0:
                 if (_control.Group.Productions.Count == 0)
                 {
                     StrategicMap.Current.AIExecutor.UseProcessTime(500);
-                    finished = false;
+                    bool finished = false;
                     _ = _control.ProductionLocations.Validate(_control);
                     while (!Complete && !finished)
                     {
                         UpdateProducibleUnits();
                         if (_producibleUnits.Count != 0)
                         {
-                            index = 0;
+                            int index = 0;
                             while (true)
                             {
                                 bool condition = _producibleUnits.Count > index + 1;
@@ -150,9 +147,9 @@ public partial class AIGroupProductionControl : AIGroupTask
                 {
                     for (int i = 0, last = _control.Group.Productions.Count - 1; i <= last; i++)
                     {
-                        production = new AIGroupUnitProduction(null) { Holder = CreationHolder() };
+                        AIGroupUnitProduction production = new(null) { Holder = CreationHolder() };
                         production.SetU(_control.Group.Productions.GetProductions(i).Control.Settings.Unit);
-                        if (production.Unit != null)
+                        if (production.Unit is not null)
                         {
                             production.Gold = 0;
                             production.Mana = 0;
@@ -162,7 +159,7 @@ public partial class AIGroupProductionControl : AIGroupTask
                             production.SetProductionLocation(_control.ProductionLocations.FindPC(productions.Control));
                             production.Priority = 0;
                             production.Research = false;
-                            if (production.ProductionLocation != null)
+                            if (production.ProductionLocation is not null)
                             {
                                 AddProduction(production);
                             }
@@ -203,10 +200,8 @@ public partial class AIGroupProductionControl : AIGroupTask
     // AIGroup.pas:2476
     public int UnitProductionPriority(Unit unit)
     {
-        bool useful;
-        DamageType d;
         int result = -1;
-        useful = unit.GetMoves() > _movesMin && (unit.GetMoveTypes() & _moveTypes) != Set<MoveType>.Of();
+        bool useful = unit.GetMoves() > _movesMin && (unit.GetMoveTypes() & _moveTypes) != Set<MoveType>.Of();
         useful = useful && unit.GetUnitMoraleValue(_control.Group.Player, _control.Group.IndependentRelation) >= 50;
         if (useful && _control.Group.Player == 0)
         {
@@ -220,7 +215,7 @@ public partial class AIGroupProductionControl : AIGroupTask
             {
                 for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
                 {
-                    d = (DamageType)dOrdinal;
+                    DamageType d = (DamageType)dOrdinal;
                     useful = _remainingStrengths[(int)d] > 0 && unit.GetStrength(d) > 0;
                     // { Original bug: a useful per-type strength returns the initial -1 priority. }
                     if (useful)
@@ -246,7 +241,7 @@ public partial class AIGroupProductionControl : AIGroupTask
         }
         else
         {
-            result = -1;
+            return -1;
         }
 
         return result;
@@ -283,13 +278,12 @@ public partial class AIGroupProductionControl : AIGroupTask
     // AIGroup.pas:2531
     public void UpdateCompletion()
     {
-        DamageType d;
         Complete = _remainingStrength <= 0;
         if (Complete)
         {
             for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
             {
-                d = (DamageType)dOrdinal;
+                DamageType d = (DamageType)dOrdinal;
                 if (_remainingStrengths[(int)d] > 0)
                 {
                     Complete = false;
@@ -311,13 +305,11 @@ public partial class AIGroupProductionControl : AIGroupTask
     // AIGroup.pas:2553
     public bool ExecuteProductions(int groupId)
     {
-        AIGroupUnitProduction production;
-        ProductionControl control;
         bool result = true;
         for (int i = 0, last = Productions.Count - 1; i <= last; i++)
         {
-            production = Productions.GetUnitProductions(i);
-            control = production.ProductionLocation.ProductionControl;
+            AIGroupUnitProduction production = Productions.GetUnitProductions(i);
+            ProductionControl control = production.ProductionLocation.ProductionControl;
             if (!production.Research)
             {
                 int unitResourceIndex = production.Unit.UnitResource.UnitResourceIndex();
@@ -346,7 +338,6 @@ public partial class AIGroupProductionControl : AIGroupTask
     // AIGroup.pas:2581
     public void AddProduction(AIGroupUnitProduction production)
     {
-        DamageType d;
         _ = Productions.AddChild(production);
         _gold += production.Gold;
         _mana += production.Mana;
@@ -355,7 +346,7 @@ public partial class AIGroupProductionControl : AIGroupTask
         _manaUpkeep = _mana + production.ManaUpkeep;
         for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
         {
-            d = (DamageType)dOrdinal;
+            DamageType d = (DamageType)dOrdinal;
             int strength = production.Unit.GetStrength(d);
             _remainingStrengths[(int)d] -= strength;
         }
@@ -373,18 +364,16 @@ public partial class AIGroupProductionControl : AIGroupTask
     // AIGroup.pas:2599
     public void DeleteProduction(int index)
     {
-        AIGroupUnitProduction production;
-        DamageType d;
         if (index >= 0 && index < Productions.Count)
         {
-            production = Productions.GetUnitProductions(index);
+            AIGroupUnitProduction production = Productions.GetUnitProductions(index);
             _gold -= production.Gold;
             _mana -= production.Mana;
             _goldUpkeep -= production.GoldUpkeep;
             _manaUpkeep -= production.ManaUpkeep;
             for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
             {
-                d = (DamageType)dOrdinal;
+                DamageType d = (DamageType)dOrdinal;
                 int strength = production.Unit.GetStrength(d);
                 _remainingStrengths[(int)d] += strength;
             }
@@ -431,18 +420,17 @@ public partial class AIGroupProductionControl : AIGroupTask
     // AIGroup.pas:2662
     public bool ListProducibleUnits(AIGroupProductionLocation location)
     {
-        AIGroupUnitProduction production;
-        int priority;
-        Unit testUnit;
-        Unit newUnit;
         bool result = false;
         if (location.ProductionControl.Status == ProductionControlStatus.Idle)
         {
-            testUnit = new Unit(null) { Holder = CreationHolder() };
+            Unit testUnit = new(null) { Holder = CreationHolder() };
             for (int i = 0, last = location.ProductionControl.UnitProductions.Count - 1; i <= last; i++)
             {
                 if (location.ProductionControl.UnitProductions.GetItem(i).UnitIndex != -1)
                 {
+                    AIGroupUnitProduction production;
+                    int priority;
+                    Unit newUnit;
                     if (location.ProductionControl.UnitProductions.GetItem(i).Researched)
                     {
                         int unitProductionManaUpkeep = location.ProductionControl.UnitProductionManaUpkeep(i);
@@ -519,11 +507,7 @@ public partial class AIGroupProductionControl : AIGroupTask
     }
 
     // AIGroup.pas:2743
-    public bool ValidProductionLocation(AIGroupProductionLocation location)
-    {
-        bool result = location.PathStrength == 0 || _control.Group.Units.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall)) >= Round((double)location.PathStrength * _pathStrengthFactor) || _control.Group.GetMovePointsMin() >= location.MovePoints;
-        return result;
-    }
+    public bool ValidProductionLocation(AIGroupProductionLocation location) => location.PathStrength == 0 || _control.Group.Units.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall)) >= Round((double)location.PathStrength * _pathStrengthFactor) || _control.Group.GetMovePointsMin() >= location.MovePoints;
 
     // AIGroup.pas:2761
     public void UpdateProducibleUnits()
@@ -541,11 +525,6 @@ public partial class AIGroupProductionControl : AIGroupTask
     }
 
     private static int CompareProducibleUnits(AIGroupUnitProduction item1, AIGroupUnitProduction item2) => item2.Priority - item1.Priority;
-
-    // intf_P5_07.inc:537
-
-    // intf_P5_07.inc:537
-
 }
 
 public enum AIGroupProductionControlMode : byte

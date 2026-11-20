@@ -8,7 +8,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Units;
 
-public partial class FaceResourceList : ResourceCollection, IChildList<FaceResource>
+public class FaceResourceList : ResourceCollection, IChildList<FaceResource>
 {
     // The face in slot index, read as the original reads the list, without a range check.
     // AcceptsResource admits only a FaceResource, so the cast never fails.
@@ -24,13 +24,12 @@ public partial class FaceResourceList : ResourceCollection, IChildList<FaceResou
     // Ability.PAS:526
     public int IndexOfFaceImage(LibraryImage image)
     {
-        FaceResource face;
         int result = GetCount();
         while (result != 0)
         {
             result -= 1;
-            face = this[result];
-            if (face != null && face.GetFaceImage() == image)
+            FaceResource face = this[result];
+            if (face is not null && face.GetFaceImage() == image)
             {
                 return result;
             }
@@ -40,18 +39,13 @@ public partial class FaceResourceList : ResourceCollection, IChildList<FaceResou
     }
 
     // Ability.PAS:540
-    public FaceResource GetFaceResource(int index)
-    {
-        FaceResource result = index < Count && index >= 0 ? this[index] : null;
-        return result;
-    }
+    public FaceResource GetFaceResource(int index) => index < Count && index >= 0 ? this[index] : null;
 
     // Ability.PAS:547
     public int PreviousFace(int index)
     {
-        bool developer;
         int result = index;
-        developer = GetEngine().Registry.GetDeveloper();
+        bool developer = GetEngine().Registry.GetDeveloper();
         // { Original assumes the list contains a selectable face. }
         do
         {
@@ -61,16 +55,15 @@ public partial class FaceResourceList : ResourceCollection, IChildList<FaceResou
                 result = Count - 1;
             }
         }
-        while (!(GetChild(result) != null && (developer || !this[result].DeveloperOnly)));
+        while (!(GetChild(result) is not null && (developer || !this[result].DeveloperOnly)));
         return result;
     }
 
     // Ability.PAS:561
     public int NextFace(int index)
     {
-        bool developer;
         int result = index;
-        developer = GetEngine().Registry.GetDeveloper();
+        bool developer = GetEngine().Registry.GetDeveloper();
         // { Original assumes the list contains a selectable face. }
         do
         {
@@ -80,10 +73,7 @@ public partial class FaceResourceList : ResourceCollection, IChildList<FaceResou
                 result = 0;
             }
         }
-        while (!(GetChild(result) != null && (developer || !this[result].DeveloperOnly)));
+        while (!(GetChild(result) is not null && (developer || !this[result].DeveloperOnly)));
         return result;
     }
-
-    // intf_P1_07.inc:27
-
 }

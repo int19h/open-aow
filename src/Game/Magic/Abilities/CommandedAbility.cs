@@ -11,7 +11,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Abilities;
 
-public partial class CommandedAbility : AdjustableAbility
+public class CommandedAbility : AdjustableAbility
 {
     // AoWAb.PAS:5013
     public CommandedAbility(CustomNode owner) : base(owner)
@@ -35,9 +35,8 @@ public partial class CommandedAbility : AdjustableAbility
     // AoWAb.PAS:5032
     public override void CombatObjectDestroyed(CombatObject combatObject)
     {
-        CommandedAbilityData? data;
-        data = GetData(combatObject.GetAbilityOwner());
-        if (data != null && combatObject is CombatUnit combatUnit)
+        CommandedAbilityData? data = GetData(combatObject.GetAbilityOwner());
+        if (data is not null && combatObject is CombatUnit combatUnit)
         {
             GamePack.Current.AbilityControl.GetAbility<CommandAbility>(data.CommandAbilityId).Uncommand(combatUnit);
         }

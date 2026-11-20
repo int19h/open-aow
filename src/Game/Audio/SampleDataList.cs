@@ -6,22 +6,17 @@ using static Aow.Rtl.DelphiTextCompare;
 namespace Aow.Game.Audio;
 
 // the loaded TSampleData
-public partial class SampleDataList : DelphiList<SampleData>
+public class SampleDataList : DelphiList<SampleData>
 {
     // Sound.pas:659
     public SampleData Find(string name)
     {
-        SampleData result;
-        int i;
-        i = 0;
+        int i = 0;
         while (i != Count && CompareText(name, List[i].Name) != 0)
         {
             i += 1;
         }
 
-        result = i != Count ? List[i] : null;
-
-        return result;
+        return i != Count ? List[i] : null;
     }
-
 }

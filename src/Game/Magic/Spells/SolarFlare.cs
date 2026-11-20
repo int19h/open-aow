@@ -10,7 +10,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Spells;
 
 // inherited combat statistics, damage mode
-public partial class SolarFlare : CombatSpell
+public class SolarFlare : CombatSpell
 {
     // CombatSpells.pas:845
     public SolarFlare(CustomNode owner, EngineObject holder) : base(owner)

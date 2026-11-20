@@ -7,7 +7,7 @@ using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.UI.Grids;
 
-public partial class PageTurnControl
+public class PageTurnControl
 {
     private readonly float _scale;
     private float _shade;
@@ -49,34 +49,27 @@ public partial class PageTurnControl
     // PageTurnCtrl.pas:67
     public float GetInverseCos(float value)
     {
-        float result;
         Assert((double)value is >= -1 and <= 1, "", "PageTurnCtrl.pas", 85);
         if ((double)value >= 0)
         {
-            result = _inverseCos[Round((double)value * 511)];
+            return _inverseCos[Round((double)value * 511)];
         }
         else
         {
             double pi = Math.PI;
-            result = (float)((double)pi - _inverseCos[Round((double)-value * 511)]);
+            return (float)((double)pi - _inverseCos[Round((double)-value * 511)]);
         }
-
-        return result;
     }
 
     // PageTurnCtrl.pas:90
     public void GenerateInverseCosTable()
     {
-        float cosValue;
-        float angle;
-        float target;
-        int i;
-        angle = 0;
-        i = 511;
+        float angle = 0;
+        int i = 511;
         while ((double)angle < Math.PI / 2)
         {
-            cosValue = (float)Math.Cos(angle);
-            target = (float)((double)i / 511);
+            float cosValue = (float)Math.Cos(angle);
+            float target = (float)((double)i / 511);
             if ((double)((double)cosValue - target) > 0)
             {
                 _inverseCos[i] = angle;
@@ -93,17 +86,11 @@ public partial class PageTurnControl
     // PageTurnCtrl.pas:119
     public void BlitVerticalScanLine(int sourceX, int destinationX, int destinationY, in LockedSurface destination, int top, int bottom)
     {
-        int sourceY;
-        int height;
-        int y;
-        Span<byte> source;
-        int sourceP;
-        int sourcePitch;
         if (destination.ClipRectangle.Left <= destinationX && destinationX < destination.ClipRectangle.Right)
         {
-            sourceY = top;
-            y = destinationY + top;
-            height = bottom - top;
+            int sourceY = top;
+            int y = destinationY + top;
+            int height = bottom - top;
             if (y < destination.ClipRectangle.Top)
             {
                 height -= destination.ClipRectangle.Top - y;
@@ -119,6 +106,9 @@ public partial class PageTurnControl
             if (height > 0)
             {
                 // The pointers of the original are byte indexes into the surfaces' memory.
+                Span<byte> source;
+                int sourceP;
+                int sourcePitch;
                 if (sourceX < _width * 2)
                 {
                     source = _source1.Data;
@@ -169,7 +159,6 @@ public partial class PageTurnControl
     // PageTurnCtrl.pas:164
     public bool UpdateScene()
     {
-        bool result;
         switch (_mode)
         {
             case PageTurnMode.Left:
@@ -197,8 +186,7 @@ public partial class PageTurnControl
                     }
                 }
 
-                result = (double)_radius >= 1;
-                break;
+                return (double)_radius >= 1;
             case PageTurnMode.Right:
                 _shade = 2;
                 if ((double)_radius < _halfWidth)
@@ -221,8 +209,7 @@ public partial class PageTurnControl
                     }
                 }
 
-                result = _position < _width;
-                break;
+                return _position < _width;
             case PageTurnMode.Open:
                 _position += Speed;
                 if (_position > 180)
@@ -230,8 +217,7 @@ public partial class PageTurnControl
                     _position = 180;
                 }
 
-                result = _position < 180;
-                break;
+                return _position < 180;
             case PageTurnMode.Close:
                 _position -= Speed;
                 if (_position < 0)
@@ -239,39 +225,20 @@ public partial class PageTurnControl
                     _position = 0;
                 }
 
-                result = _position > 0;
-                break;
+                return _position > 0;
             default:
-                result = false;
-                break;
+                return false;
         }
-
-        return result;
     }
 
     // PageTurnCtrl.pas:215
     public void RenderLeftRightScene(int X, int Y, in LockedSurface destination)
     {
-        int originalLength;
-        int offset;
-        int baseX;
-        int span;
-        float step;
-        float angle;
-        float cosValue;
-        float height;
-        float width;
-        float radiusFactor;
-        int arcLength;
-        int sourceBase;
-        int limit;
         Rect r = default;
-        int sourceOffset;
-        int i;
         if ((double)_radius >= 1)
         {
-            height = (float)((double)_shadow * _scale);
-            width = (float)((double)_radius * _scale);
+            float height = (float)((double)_shadow * _scale);
+            float width = (float)((double)_radius * _scale);
             r.Left = _sourceX1;
             r.Top = _sourceY1;
             r.Right = _sourceX1 + _width + _position;
@@ -283,18 +250,20 @@ public partial class PageTurnControl
             r.Bottom = _sourceY2 + _height;
             _ = LockedSurface.BlitSurfaceDescriptionRectangleClipped(_source2, r, destination, X + _width + _position, Y);
             double pi = Math.PI;
-            originalLength = Round((double)((double)pi * _radius) * 0.25);
+            int originalLength = Round((double)((double)pi * _radius) * 0.25);
             double mathPI = Math.PI;
-            arcLength = Round((double)((double)mathPI * _radius) * 0.25);
-            sourceBase = _width + _position;
-            radiusFactor = (float)((double)(2 / Math.PI) * arcLength);
-            baseX = X + _width + _position;
-            span = Round(_shadow);
-            limit = _width - _position;
-            step = (float)((double)1 / _shadow);
-            cosValue = 0;
-            sourceOffset = 0;
-            i = 0;
+            int arcLength = Round((double)((double)mathPI * _radius) * 0.25);
+            int sourceBase = _width + _position;
+            float radiusFactor = (float)((double)(2 / Math.PI) * arcLength);
+            int baseX = X + _width + _position;
+            int span = Round(_shadow);
+            int limit = _width - _position;
+            float step = (float)((double)1 / _shadow);
+            float cosValue = 0;
+            int sourceOffset = 0;
+            int i = 0;
+            int offset;
+            float angle;
             while (sourceOffset < limit && i < span)
             {
                 angle = GetInverseCos(cosValue);
@@ -405,28 +374,25 @@ public partial class PageTurnControl
     // PageTurnCtrl.pas:324
     public void RenderOpenCloseScene(int X, int Y, in LockedSurface destination)
     {
-        int baseX;
-        int height;
-        int width;
-        float step;
-        float sourceX;
-        int offset;
         Rect r = default;
-        int pageWidth;
         r.Left = _sourceX2 + _width;
         r.Top = _sourceY2;
         r.Right = _sourceX2 + (_width * 2);
         r.Bottom = _sourceY2 + _height;
         _ = LockedSurface.BlitSurfaceDescriptionRectangleClipped(_source2, r, destination, X + _width, Y);
         double pi = Math.PI;
-        height = Round((double)Math.Sin((double)(_position * pi) / 180) * _width);
+        int height = Round((double)Math.Sin((double)(_position * pi) / 180) * _width);
         double mathPI = Math.PI;
-        width = Round((double)Math.Cos((double)(_position * mathPI) / 180) * _width);
+        int width = Round((double)Math.Cos((double)(_position * mathPI) / 180) * _width);
+        int baseX;
+        float step;
+        float sourceX;
+        int offset;
         if (width > 0)
         {
             step = (float)((double)_width / width);
             baseX = X + _width;
-            pageWidth = _width;
+            int pageWidth = _width;
             sourceX = pageWidth;
             for (int i = 0; i <= width - 1; i++)
             {
@@ -530,5 +496,4 @@ public partial class PageTurnControl
             height--;
         }
     }
-
 }

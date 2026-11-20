@@ -36,10 +36,9 @@ public partial class TabPanel : Control
     // AoWTabPanel.pas:70
     public override void Dispose()
     {
-        WindowControl p;
         for (int i = 0, last = Panels.Count - 1; i <= last; i++)
         {
-            p = Panels[i];
+            WindowControl p = Panels[i];
             p.DetachMenuBar();
         }
 
@@ -51,17 +50,17 @@ public partial class TabPanel : Control
     // AoWTabPanel.pas:112
     public override void Validate()
     {
-        if (_imageLibraryButton != null)
+        if (_imageLibraryButton is not null)
         {
             _imageLibraryButton = _imageLibraryButton.CheckImageLibrary(_imageLibraryIndexUp, 3, this);
         }
 
-        if (_imageLibraryButton != null)
+        if (_imageLibraryButton is not null)
         {
             _imageLibraryButton = _imageLibraryButton.CheckImageLibrary(_imageLibraryIndexDown, 3, this);
         }
 
-        if (_imageLibraryButton != null && base.Font != null)
+        if (_imageLibraryButton is not null && base.Font is not null)
         {
             Valid = true;
         }
@@ -112,7 +111,7 @@ public partial class TabPanel : Control
                         int fItemsCount = _items.Count;
                         SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft + (WinWidth * i / fItemsCount), Window.AbsoluteTop + WinTop, WinWidth / count, WinHeight);
                         _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexUp, rectangle, ref lockedSurface);
-                        if (base.Font != null)
+                        if (base.Font is not null)
                         {
                             base.Font.Color = SelectedColor;
                             string item = _items[i];
@@ -128,7 +127,7 @@ public partial class TabPanel : Control
                         int fItemsCount = _items.Count;
                         SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft + (WinWidth * i / fItemsCount), Window.AbsoluteTop + WinTop, WinWidth / count, WinHeight);
                         _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexDown, rectangle, ref lockedSurface);
-                        if (base.Font != null)
+                        if (base.Font is not null)
                         {
                             base.Font.Color = Color;
                             string item = _items[i];

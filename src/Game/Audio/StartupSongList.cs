@@ -6,7 +6,7 @@ using Aow.Game.Magic.Abilities;
 namespace Aow.Game.Audio;
 
 // inherited Songs, SongNames
-public partial class StartupSongList : SongList
+public class StartupSongList : SongList
 {
     // AoWHSMap.PAS:1215
     public StartupSongList(CustomNode owner) : base(owner) => Songs.OnChange = OriginalSongsChanged;
@@ -14,10 +14,10 @@ public partial class StartupSongList : SongList
     // AoWHSMap.PAS:1221
     public void OriginalSongsChanged(object sender)
     {
-        string name;
         SongNames.Clear();
         for (int i = Songs.Count - 1; i >= 0; i--)
         {
+            string name;
             try
             {
                 name = AudioPlayback.GetSongName(Songs[i]);
@@ -30,7 +30,4 @@ public partial class StartupSongList : SongList
             SongNames.Insert(0, name);
         }
     }
-
-    // intf_P1_05.inc:194
-
 }

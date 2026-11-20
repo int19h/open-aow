@@ -29,12 +29,12 @@ internal sealed class FrameDiagnostics : IDisposable
         HeadlessHooks.ProcessCost = Cost;
     }
 
-    public static FrameDiagnostics? Start(string output) =>
-        Environment.GetEnvironmentVariable("AOW_FRAME_DIAGNOSTICS") == "1" ? new(output) : null;
+    public static FrameDiagnostics? Start(string output)
+        => Environment.GetEnvironmentVariable("AOW_FRAME_DIAGNOSTICS") == "1" ? new(output) : null;
 
     private void Random(RandomTraceEvent entry)
     {
-        if (entry.Kind == "random" && (StrategicMap.Current is null || StrategicMap.Current is { Day: 1, Frame: <= 1 }))
+        if (entry.Kind == "random" && (StrategicMap.Current is null or { Day: 1, Frame: <= 1 }))
         {
             _writer.WriteLine(JsonSerializer.Serialize(new
             {

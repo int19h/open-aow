@@ -7,7 +7,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
-public partial class RaidAIGroupControl(CustomNode owner) : AIGroupControl(owner)
+public class RaidAIGroupControl(CustomNode owner) : AIGroupControl(owner)
 {
 
     // IndependentAG.pas:589

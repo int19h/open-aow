@@ -15,7 +15,7 @@ public partial class AirNode(CustomNode owner) : ProductionPlace(owner)
     // AirNode.pas:40
     public override MagicSphere GetMagicSphere() => MagicSphere.Air;
 
-    public new partial class Resource : ProductionPlaceResource
+    public new class Resource : ProductionPlaceResource
     {
         public Resource(CustomNode owner) : base(owner)
         {
@@ -28,12 +28,8 @@ public partial class AirNode(CustomNode owner) : ProductionPlace(owner)
         // AirNode.pas:55
         public new const int ClassId = 133455;
 
-        // AirNode.pas:43
-
         // AirNode.pas:58
         public override int ResourceUserClassId() => 133454;
-
-        // AirNode.pas:27
 
         // AirNode.pas:52
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_airNodeText);
@@ -41,5 +37,4 @@ public partial class AirNode(CustomNode owner) : ProductionPlace(owner)
         private static readonly string s_airNodeText = "Air Node";
 
     }
-
 }

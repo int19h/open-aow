@@ -32,11 +32,9 @@ public partial class WizardsTowerDialog(UIContext ui) : UIModule(ui)
     // AoWWizardsTowerDlg.pas:54
     public void ClearEvent()
     {
-        EnterWizardsTowerEventLog eventValue;
-        ExecuteDoneEvent notify;
         Window.Visible = false;
-        notify = OnClose;
-        eventValue = _event;
+        ExecuteDoneEvent notify = OnClose;
+        EnterWizardsTowerEventLog eventValue = _event;
         OnClose = null;
         _event = null;
         notify?.Invoke(eventValue);
@@ -73,19 +71,16 @@ public partial class WizardsTowerDialog(UIContext ui) : UIModule(ui)
     // AoWWizardsTowerDlg.pas:87
     public void SpellIcnDraw(Image sender, LockedSurface lockedSurface)
     {
-        Spell s;
-        int x;
-        int y;
         WizardsTower wizardsTower = _event.Tower;
         if (wizardsTower.SpellId != 0)
         {
-            s = GamePack.Current.SpellControl.GetSpell(wizardsTower.SpellId);
-            if (s != null)
+            Spell s = GamePack.Current.SpellControl.GetSpell(wizardsTower.SpellId);
+            if (s is not null)
             {
-                if (s.CastImages.GetImageSequence(10) != null)
+                if (s.CastImages.GetImageSequence(10) is not null)
                 {
-                    x = sender.Window.AbsoluteLeft;
-                    y = sender.Window.AbsoluteTop;
+                    int x = sender.Window.AbsoluteLeft;
+                    int y = sender.Window.AbsoluteTop;
                     _ = s.CastImages.Show(10, sender.WinLeft + x, sender.WinTop + y, 0, lockedSurface);
                 }
             }
@@ -103,18 +98,16 @@ public partial class WizardsTowerDialog(UIContext ui) : UIModule(ui)
 
     internal static void ShowTower(WizardsTowerDialog dialog, EnterWizardsTowerEventLog eventValue, ExecuteDoneEvent done)
     {
-        WizardsTower tower;
-        Spell spell;
         dialog.OnClose = done;
         dialog._event = eventValue;
         _ = dialog._event.AddRef();
-        tower = dialog._event.Tower;
+        WizardsTower tower = dialog._event.Tower;
         if (tower.SpellId != 0)
         {
             int buyCost = dialog._event.Tower.BuyCost();
             string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.ForGoldFormat), [IntToStr(buyCost)]);
             dialog.PriceLabel.Text = $"{format}.";
-            spell = GamePack.Current.SpellControl.GetSpell(tower.SpellId);
+            Spell spell = GamePack.Current.SpellControl.GetSpell(tower.SpellId);
             dialog.SpellNameLabel.Text = spell.SpellName;
             string magicSphere = dialog.UI.Engine.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere]);
             string level = dialog.UI.Engine.TranslateResourceString(GameText.LevelText);
@@ -137,5 +130,4 @@ public partial class WizardsTowerDialog(UIContext ui) : UIModule(ui)
 
         dialog.Window.Visible = true;
     }
-
 }

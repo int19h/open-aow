@@ -6,7 +6,7 @@ using Aow.Formats.Tree;
 namespace Aow.Game.Session;
 
 // ID. name. map file name
-public partial class CampaignScenario(CustomNode owner) : EngineObject(owner)
+public class CampaignScenario(CustomNode owner) : EngineObject(owner)
 {
     // Diplomacy.pas:2200
     public new const int ClassId = 131588;
@@ -30,7 +30,4 @@ public partial class CampaignScenario(CustomNode owner) : EngineObject(owner)
             FileName = persister.String("FileName", value: FileName);
         }
     }
-
-    // intf_P5_08.inc:71
-
 }

@@ -15,7 +15,7 @@ using Aow.Rtl;
 namespace Aow.Game.World.Terrain;
 
 // Mode, Player, Duration, OriginalOverlay
-public partial class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
+public class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
 {
 
     // Mountain.pas:178
@@ -71,10 +71,8 @@ public partial class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapOb
     // Mountain.pas:189
     public void RestoreTerrain()
     {
-        MapField field;
-        sbyte overlay;
-        field = Owner;
-        overlay = OriginalOverlay;
+        MapField field = Owner;
+        sbyte overlay = OriginalOverlay;
         Dispose();
         if (overlay > 0)
         {
@@ -98,11 +96,10 @@ public partial class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapOb
     // Mountain.pas:228
     public void ShowRaiseTerrainAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        MapField field;
         sbyte hexLevel = animation.GetHexLevel();
         sbyte hexY = animation.GetHexY();
         sbyte hexX = animation.GetHexX();
-        field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
+        MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         // { Original tests the base mountain ID, although this object is raised terrain. }
         if (this == field.FindOwnedChild(131432) && animation.FrameCounter == 0)
         {
@@ -135,7 +132,7 @@ public partial class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapOb
         }
     }
 
-    public new partial class Resource(CustomNode owner) : ImageLibraryTerrainMapObjectResource(owner)
+    public new class Resource(CustomNode owner) : ImageLibraryTerrainMapObjectResource(owner)
     {
 
         // Mountain.pas:249
@@ -150,5 +147,4 @@ public partial class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapOb
         private static readonly string s_raisedMountainText = "Raised Mountain";
 
     }
-
 }

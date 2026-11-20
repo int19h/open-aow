@@ -10,7 +10,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
-public partial class GuardAreaAIGroupControl(CustomNode owner) : AIGroupControl(owner)
+public class GuardAreaAIGroupControl(CustomNode owner) : AIGroupControl(owner)
 {
     public new GuardAreaAIGroup Group => GetGroup<GuardAreaAIGroup>();
 
@@ -72,9 +72,6 @@ public partial class GuardAreaAIGroupControl(CustomNode owner) : AIGroupControl(
     // IndependentAG.pas:205
     public override void ProcessStates()
     {
-        MapField mapField;
-        AIGroupTargetFinder finder;
-        MoveControlSettings settings;
         switch (State)
         {
             case 0:
@@ -83,7 +80,7 @@ public partial class GuardAreaAIGroupControl(CustomNode owner) : AIGroupControl(
                     Group.GuardLocation = Location;
                 }
 
-                finder = new AIGroupTargetFinder(null) { Holder = CreationHolder() };
+                AIGroupTargetFinder finder = new(null) { Holder = CreationHolder() };
                 _ = finder.Setup(this);
                 {
                     finder.Selector.SourceLocation = Group.GuardLocation;
@@ -104,7 +101,7 @@ public partial class GuardAreaAIGroupControl(CustomNode owner) : AIGroupControl(
                 {
                     if (Army.Moves(Selection) != Army.MovePoints(Selection) || Group.GuardLocation != Location)
                     {
-                        settings = new MoveControlSettings(null)
+                        MoveControlSettings settings = new(null)
                         {
                             Holder = CreationHolder(),
                             Player = Army.Player
@@ -150,7 +147,7 @@ public partial class GuardAreaAIGroupControl(CustomNode owner) : AIGroupControl(
             case 2:
                 if (Group.GuardLocation != Location)
                 {
-                    mapField = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Group.GuardLocation);
+                    MapField mapField = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Group.GuardLocation);
                     if (mapField.GetPlayer() == -1 || mapField.GetPlayer() == Group.Player)
                     {
                         SetupME();

@@ -49,8 +49,8 @@ public partial class MoveTokenEvent(CustomNode owner) : TokenEvent(owner)
         }
     }
 
-    private static PathStep Step(int value) =>
-        new(
+    private static PathStep Step(int value)
+        => new(
             Location: new MapCoordinate(
                 X: unchecked((sbyte)(byte)value),
                 Y: unchecked((sbyte)(byte)(value >> 8)),
@@ -60,7 +60,6 @@ public partial class MoveTokenEvent(CustomNode owner) : TokenEvent(owner)
     // MoveT.PAS:2027
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        ExecuteResult result;
         _ = base.Execute(tokenEvent);
         if (_status == MoveStatus.Idle)
         {
@@ -88,37 +87,30 @@ public partial class MoveTokenEvent(CustomNode owner) : TokenEvent(owner)
                 _status = ProcessMove();
             }
         }
-
         if (_status == MoveStatus.Done)
         {
             FinishMove();
-            result = ExecuteResult.Done;
+            return ExecuteResult.Done;
         }
         else
         {
             if (_status == MoveStatus.Failed)
             {
                 FinishMove();
-                result = ExecuteResult.DoneHalt;
+                return ExecuteResult.DoneHalt;
             }
             else
             {
-                result = _status == MoveStatus.Finished ? ExecuteResult.Done : ExecuteResult.Retry;
+                return _status == MoveStatus.Finished ? ExecuteResult.Done : ExecuteResult.Retry;
             }
         }
-
-        return result;
     }
 
     // MoveT.PAS:1970
     public virtual MapField GetMapField(MapCoordinate location) => StrategicMap.Current.MapContainer.GetField(location.X, location.Y, location.MapLevel);
 
     // MoveT.PAS:2019
-    public virtual MoveStatus ProcessMove()
-    {
-        MoveStatus result = MoveIndex == 1 ? LastMove() : MoveIndex > 1 && MoveIndex < Path.Count ? DefaultMove() : MoveStatus.Done;
-        return result;
-    }
+    public virtual MoveStatus ProcessMove() => MoveIndex == 1 ? LastMove() : MoveIndex > 1 && MoveIndex < Path.Count ? DefaultMove() : MoveStatus.Done;
 
     // MoveT.PAS:2004
     public override bool Validate() => true;
@@ -129,11 +121,8 @@ public partial class MoveTokenEvent(CustomNode owner) : TokenEvent(owner)
     // MoveT.PAS:1997
     public virtual MoveStatus Move()
     {
-        MoveStatus result;
         MoveIndex -= 1;
-        result = MoveIndex == 0 ? MoveStatus.Done : MoveStatus.Moving;
-
-        return result;
+        return MoveIndex == 0 ? MoveStatus.Done : MoveStatus.Moving;
     }
 
     // MoveT.PAS:2016
@@ -145,7 +134,6 @@ public partial class MoveTokenEvent(CustomNode owner) : TokenEvent(owner)
     // MoveT.PAS:1975
     public int GetDirection(int index)
     {
-        int result;
         if (index > 0 && index < Path.Count)
         {
             PathStep item = Path[index];
@@ -164,40 +152,32 @@ public partial class MoveTokenEvent(CustomNode owner) : TokenEvent(owner)
                 PathStep item2 = Path[index - 1];
                 PathStep item3 = Path[index - 1];
                 PathStep item4 = Path[index];
-                result = HexGeometry.DeltaHexToHexNumberFast(Path[index].Location.X, item4.Location.Y, item3.Location.X, item2.Location.Y);
+                return HexGeometry.DeltaHexToHexNumberFast(Path[index].Location.X, item4.Location.Y, item3.Location.X, item2.Location.Y);
             }
             else
             {
-                result = 0;
+                return 0;
             }
         }
         else
         {
-            result = 0;
+            return 0;
         }
-
-        return result;
     }
 
     // MoveT.PAS:1989
     public int GetHexDirection(int index)
     {
-        int result;
         if (index > 0 && index < Path.Count)
         {
             PathStep item = Path[index - 1];
             PathStep fPathItem = Path[index - 1];
             PathStep item2 = Path[index];
-            result = HexGeometry.DeltaHexToHexDirection(Path[index].Location.X, item2.Location.Y, fPathItem.Location.X, item.Location.Y);
+            return HexGeometry.DeltaHexToHexDirection(Path[index].Location.X, item2.Location.Y, fPathItem.Location.X, item.Location.Y);
         }
         else
         {
-            result = 0;
+            return 0;
         }
-
-        return result;
     }
-
-    // intf_P5_07.inc:765
-
 }

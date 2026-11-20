@@ -9,7 +9,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Abilities;
 
-public partial class TouchAbility : AdjustableAbility
+public class TouchAbility : AdjustableAbility
 {
     // AoWAb.PAS:1843
     public TouchAbility(CustomNode owner) : base(owner)
@@ -27,18 +27,16 @@ public partial class TouchAbility : AdjustableAbility
     // AoWAb.PAS:1962
     public override void FastBattlePrefetchCombatCommands(FastBattleCommandList commands)
     {
-        CombatObject target;
-        FastBattleCommand command;
         AbilityDamageValues values = default;
         for (int i = 0, last = commands.TargetSide.GetCount() - 1; i <= last; i++)
         {
-            target = commands.TargetSide.GetObjects(i);
+            CombatObject target = commands.TargetSide.GetObjects(i);
             if (target.GetEnabled() && CanTouch(commands.Source, target) && FastBattleValidRoundDistance(commands.Source, target))
             {
                 FastBattleGetDamageValues(commands.Source, target, WallSituation.None, ref values);
                 if (values.SourceDamage != 0)
                 {
-                    command = new FastBattleCommand(AbilityId)
+                    FastBattleCommand command = new(AbilityId)
                     {
                         Target = commands.TargetSide.GetObjects(i),
                         SourceDamageValue = values.SourceDamage,
@@ -56,10 +54,8 @@ public partial class TouchAbility : AdjustableAbility
     // AoWAb.PAS:1860
     public override void GetCombatInfo(AbilityOwner owner, ref AbilityCombatInfo info)
     {
-        sbyte attack;
-        int level;
-        level = GetLevel(owner);
-        attack = GetTouchAttack(level);
+        int level = GetLevel(owner);
+        sbyte attack = GetTouchAttack(level);
         info.Attack = attack;
         if (attack < 0)
         {
@@ -78,34 +74,25 @@ public partial class TouchAbility : AdjustableAbility
     // AoWAb.PAS:1892
     public virtual bool CombatTouchRole(CombatUnit source, CombatObject target)
     {
-        int attack;
         bool result = HitChance.HitRole(source.GetAttack() - target.GetDefense());
-        attack = GetTouchAttack(GetLevel(source.Troop));
-        result = result && attack != -10 && result && HitChance.HitRole(attack - target.GetResistance());
-
-        return result;
+        int attack = GetTouchAttack(GetLevel(source.Troop));
+        return result && attack != -10 && result && HitChance.HitRole(attack - target.GetResistance());
     }
 
     // AoWAb.PAS:1904
     public virtual float CombatTouchRoleProbability(CombatUnit source, CombatObject target)
     {
-        int attack;
         float result = HitChance.HitRoleProbability(source.GetAttack() - target.GetDefense());
-        attack = GetTouchAttack(GetLevel(source.Troop));
-        result = attack != -10 ? (float)((double)result * HitChance.HitRoleProbability(attack - target.GetResistance())) : 0;
-
-        return result;
+        int attack = GetTouchAttack(GetLevel(source.Troop));
+        return attack != -10 ? (float)((double)result * HitChance.HitRoleProbability(attack - target.GetResistance())) : 0;
     }
 
     // AoWAb.PAS:1880
     public virtual float TouchRoleProbability(Troop source, Troop target)
     {
-        int attack;
         float result = HitChance.HitRoleProbability(source.GetAttack() - target.GetDefense());
-        attack = GetTouchAttack(GetLevel(source));
-        result = attack != -10 ? (float)((double)result * HitChance.HitRoleProbability(attack - target.GetResistance())) : 0;
-
-        return result;
+        int attack = GetTouchAttack(GetLevel(source));
+        return attack != -10 ? (float)((double)result * HitChance.HitRoleProbability(attack - target.GetResistance())) : 0;
     }
 
     // AoWAb.PAS:1916
@@ -114,12 +101,7 @@ public partial class TouchAbility : AdjustableAbility
         bool result = source.GetSide() == CombatSideIndex.Defender
             ? !source.FastBattleBehindWall() || !source.FastBattleWallInBetween(target.Position) || target.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing)
             : !target.FastBattleBehindWall() || !source.FastBattleWallInBetween(target.Position) || source.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing);
-        if (source.GetSide() != target.GetSide())
-        {
-            result = result && (!target.GetAbilityEnabled(1) || source.GetAbilityEnabled(1));
-        }
-
-        return result;
+        return source.GetSide() != target.GetSide() ? result && (!target.GetAbilityEnabled(1) || source.GetAbilityEnabled(1)) : result;
     }
 
     // AoWAb.PAS:1937
@@ -128,10 +110,9 @@ public partial class TouchAbility : AdjustableAbility
     // AoWAb.PAS:1947
     public void FastBattleValidateMoveOutsideWall(CombatObject source, CombatObject target)
     {
-        MoveWallCombatAction action;
         if (source.FastBattleBehindWall() && source.FastBattleWallInBetween(target.Position) && !target.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing))
         {
-            action = new MoveWallCombatAction(null)
+            MoveWallCombatAction action = new(null)
             {
                 Holder = CreationHolder(),
                 CombatObjectId = source.Id,

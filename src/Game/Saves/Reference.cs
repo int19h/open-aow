@@ -22,7 +22,7 @@ public sealed class Reference(string member, ReferenceDomain domain) : ContentRu
         }
     }
 
-    internal static FormatDiagnostic Dangling(ContentScope scope, JsonInteger target, DocumentNodePath at, ReferenceDomain domain) =>
-        scope.Context.At(Codes.Reference, $"The {domain.Name} {target.Value} is absent from {scope.RootPath}.{domain.Owner}. Use an existing one.", target, at,
+    internal static FormatDiagnostic Dangling(ContentScope scope, JsonInteger target, DocumentNodePath at, ReferenceDomain domain)
+        => scope.Context.At(Codes.Reference, $"The {domain.Name} {target.Value} is absent from {scope.RootPath}.{domain.Owner}. Use an existing one.", target, at,
             target.Value.ToString(System.Globalization.CultureInfo.InvariantCulture), $"{domain.Name} in {scope.RootPath}.{domain.Owner}");
 }

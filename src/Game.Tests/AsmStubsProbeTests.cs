@@ -51,8 +51,8 @@ public sealed class AsmStubsProbeTests
         [typeof(AccessViolationException)] = "EAccessViolation",
     };
 
-    private static string DelphiName(Exception error) =>
-        s_delphiNames.TryGetValue(error.GetType(), out string? name)
+    private static string DelphiName(Exception error)
+        => s_delphiNames.TryGetValue(error.GetType(), out string? name)
             ? name
             : throw new XunitException($"asm-stubs has no Delphi name for {error.GetType().Name}");
 
@@ -501,8 +501,8 @@ public sealed class AsmStubsProbeTests
         return lines;
     }
 
-    private static void FillLarge(DoubleItemList.DoubleItem[] items, int start, int count, DoubleItemList.DoubleItem value) =>
-        EngineServices.Fill(items.AsSpan(start), count, value);
+    private static void FillLarge(DoubleItemList.DoubleItem[] items, int start, int count, DoubleItemList.DoubleItem value)
+        => EngineServices.Fill(items.AsSpan(start), count, value);
 
     private static void FillA5<T>(Span<T> items) where T : unmanaged => MemoryMarshal.AsBytes(items).Fill(0xA5);
 

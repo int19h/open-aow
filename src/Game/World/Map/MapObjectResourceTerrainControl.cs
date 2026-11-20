@@ -12,7 +12,7 @@ namespace Aow.Game.World.Map;
 // TList of resources per terrain type name of the set (THSSet.TerrainTypes), filled by
 // RegisterResource when a resource is activated. Place and PlaceClass put a random resource of
 // a terrain type on a map field
-public partial class MapObjectResourceTerrainControl(CustomNode owner) : EngineObject(owner)
+public class MapObjectResourceTerrainControl(CustomNode owner) : EngineObject(owner)
 {
 
     // HSEngine.pas:4522
@@ -41,7 +41,7 @@ public partial class MapObjectResourceTerrainControl(CustomNode owner) : EngineO
     // HSEngine.pas:4510
     public override void Clear()
     {
-        if (Resources != null)
+        if (Resources is not null)
         {
             for (int i = Resources.Count - 1; i >= 0; i--)
             {
@@ -65,46 +65,35 @@ public partial class MapObjectResourceTerrainControl(CustomNode owner) : EngineO
     // HSEngine.pas:4585
     public virtual MapObject CreateMapObject(sbyte terrainType)
     {
-        MapObject result;
-        int i;
-        DelphiList<MapObjectResource> list;
-        int count;
-        MapObjectResource r;
-        i = terrainType;
-        list = Resources[i];
-        count = list.Count;
+        int i = terrainType;
+        DelphiList<MapObjectResource> list = Resources[i];
+        int count = list.Count;
         if (count != 0)
         {
             int random = Random(count);
-            r = list.List[random];
-            result = r.CreateResourceUser();
+            MapObjectResource r = list.List[random];
+            return r.CreateResourceUser();
         }
         else
         {
-            result = null;
+            return null;
         }
-
-        return result;
     }
 
     // HSEngine.pas:4604
     public virtual MapObject Place(MapContainer container, sbyte X, sbyte Y, sbyte L, sbyte terrainType)
     {
-        DelphiList<MapObjectResource> list;
-        MapObjectResource r;
-        MapField mapField;
-        MapObject mapObject;
         MapObject result = null;
-        list = Resources[terrainType];
+        DelphiList<MapObjectResource> list = Resources[terrainType];
         if (list.Count != 0)
         {
-            r = null;
-            mapField = container.GetField(X, Y, L);
-            mapObject = mapField.FindOwnedHexSprite<MapObject>(MapObjectClass);
-            if (mapObject != null)
+            MapObjectResource r = null;
+            MapField mapField = container.GetField(X, Y, L);
+            MapObject mapObject = mapField.FindOwnedHexSprite<MapObject>(MapObjectClass);
+            if (mapObject is not null)
             {
                 r = GetRandomResource(terrainType, mapObject.Resource.EngineClass.ClassId);
-                if (r != null)
+                if (r is not null)
                 {
                     mapObject.SetResource(r);
                     mapField.UpdateTerrain();
@@ -112,13 +101,13 @@ public partial class MapObjectResourceTerrainControl(CustomNode owner) : EngineO
                 }
             }
 
-            if (r == null)
+            if (r is null)
             {
                 int random = Random(list.Count);
                 r = list.List[random];
-                if (r != null)
+                if (r is not null)
                 {
-                    result = r.PlaceResourceUser(container.Map, X, Y, L);
+                    return r.PlaceResourceUser(container.Map, X, Y, L);
                 }
             }
         }
@@ -129,19 +118,16 @@ public partial class MapObjectResourceTerrainControl(CustomNode owner) : EngineO
     // HSEngine.pas:4637
     public virtual MapObject PlaceClass(MapContainer container, sbyte X, sbyte Y, sbyte L, sbyte terrainType, int classId)
     {
-        MapObjectResource r;
-        MapField mapField;
-        MapObject mapObject;
         MapObject result = null;
         if (Resources[terrainType].Count != 0)
         {
-            r = null;
-            mapField = container.GetField(X, Y, L);
-            mapObject = mapField.FindOwnedHexSprite<MapObject>(MapObjectClass);
-            if (mapObject != null && mapObject.Resource.EngineClass.ClassId == classId)
+            MapObjectResource r = null;
+            MapField mapField = container.GetField(X, Y, L);
+            MapObject mapObject = mapField.FindOwnedHexSprite<MapObject>(MapObjectClass);
+            if (mapObject is not null && mapObject.Resource.EngineClass.ClassId == classId)
             {
                 r = GetRandomResource(terrainType, mapObject.Resource.EngineClass.ClassId);
-                if (r != null)
+                if (r is not null)
                 {
                     mapObject.SetResource(r);
                     mapField.UpdateTerrain();
@@ -149,12 +135,12 @@ public partial class MapObjectResourceTerrainControl(CustomNode owner) : EngineO
                 }
             }
 
-            if (r == null)
+            if (r is null)
             {
                 r = GetRandomResource(terrainType, classId);
-                if (r != null)
+                if (r is not null)
                 {
-                    result = r.PlaceResourceUser(container.Map, X, Y, L);
+                    return r.PlaceResourceUser(container.Map, X, Y, L);
                 }
             }
         }
@@ -165,15 +151,13 @@ public partial class MapObjectResourceTerrainControl(CustomNode owner) : EngineO
     // HSEngine.pas:4541
     public MapObjectResource GetRandomResource(int terrainType, int classId)
     {
+        DelphiList<MapObjectResource> list = Resources[terrainType];
         MapObjectResource result;
-        DelphiList<MapObjectResource> list;
-        int i;
-        list = Resources[terrainType];
         if (list.Count != 0)
         {
-            i = 0;
+            int i = 0;
             result = null;
-            while (i != Tries && result == null)
+            while (i != Tries && result is null)
             {
                 int random = Random(list.Count);
                 result = list.List[random];
@@ -185,10 +169,10 @@ public partial class MapObjectResourceTerrainControl(CustomNode owner) : EngineO
                 i += 1;
             }
 
-            if (result == null)
+            if (result is null)
             {
                 i = 0;
-                while (i != list.Count && result == null)
+                while (i != list.Count && result is null)
                 {
                     result = list.List[i];
                     if (result.EngineClass.ClassId != classId)
@@ -202,7 +186,7 @@ public partial class MapObjectResourceTerrainControl(CustomNode owner) : EngineO
         }
         else
         {
-            result = null;
+            return null;
         }
 
         return result;
@@ -211,11 +195,10 @@ public partial class MapObjectResourceTerrainControl(CustomNode owner) : EngineO
     // HSEngine.pas:4572
     public void RegisterResource(MapObjectResource resource)
     {
-        sbyte terrainType;
-        terrainType = resource.TerrainList.GetTerrain(0);
+        sbyte terrainType = resource.TerrainList.GetTerrain(0);
         if (terrainType >= 0 && terrainType < Resources.Count)
         {
-            if (Resources[terrainType].IndexOf(resource) != -1 || resource == null)
+            if (Resources[terrainType].IndexOf(resource) != -1 || resource is null)
             {
                 throw new InvalidOperationException("Resource double defined (TMORTerrainControl)");
             }

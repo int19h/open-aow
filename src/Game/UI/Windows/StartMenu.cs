@@ -9,17 +9,16 @@ using static Aow.Rtl.RtlHost;
 namespace Aow.Game.UI.Windows;
 
 // whole-menu image library
-public partial class StartMenu(Component owner) : Menu(owner)
+public class StartMenu(Component owner) : Menu(owner)
 {
 
     // StartMenu.pas:30
     public override void SetSize()
     {
-        WindowManager m;
         base.SetSize();
         SetWinHeightWithoutInvalidate(377);
-        m = WindowManager;
-        if (m != null && OwnerMenuBar != null)
+        WindowManager m = WindowManager;
+        if (m is not null && OwnerMenuBar is not null)
         {
             SetWinTopWithoutInvalidate(m.WinHeight - 393);
         }
@@ -38,7 +37,7 @@ public partial class StartMenu(Component owner) : Menu(owner)
                 Highlighted = -1;
                 SetWinHeightWithoutInvalidate(377);
                 WindowManager m = WindowManager;
-                if (m != null && OwnerMenuBar != null)
+                if (m is not null && OwnerMenuBar is not null)
                 {
                     SetWinTopWithoutInvalidate(m.WinHeight - 393);
                 }
@@ -55,7 +54,7 @@ public partial class StartMenu(Component owner) : Menu(owner)
             else
             {
                 MenuBar b = OwnerMenuBar;
-                if (b != null)
+                if (b is not null)
                 {
                     b.Selected = -1;
                     b.Drawn = false;

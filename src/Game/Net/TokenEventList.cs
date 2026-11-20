@@ -7,7 +7,7 @@ using Aow.Game.Commands;
 namespace Aow.Game.Net;
 
 // FList (stored with id 5), a reference list of token events
-public partial class TokenEventList : EngineObject
+public class TokenEventList : EngineObject
 {
     // NetworkE.pas:995
     public new const int ClassId = ClassIdTokenEventList;
@@ -62,20 +62,14 @@ public partial class TokenEventList : EngineObject
     // NetworkE.pas:1024
     public int FindTokenEvent(int classId)
     {
-        int c;
         int result = 0;
-        c = List.Events.Count;
+        int c = List.Events.Count;
         while (result != c && List.Events[result].EngineClass.ClassId != classId)
         {
             result += 1;
         }
 
-        if (result == c)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == c ? -1 : result;
     }
 
     // NetworkE.pas:1036

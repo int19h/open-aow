@@ -8,7 +8,7 @@ namespace Aow.Game.World.Movement;
 
 // { Interface declaration run owned by P5. }
 // location, origin, move point lines
-public partial class PathFindingStep(CustomNode owner) : EngineObject(owner)
+public class PathFindingStep(CustomNode owner) : EngineObject(owner)
 {
 
     public MapCoordinate Location { get; internal set; } = MapCoordinate.None;
@@ -25,7 +25,4 @@ public partial class PathFindingStep(CustomNode owner) : EngineObject(owner)
 
     // MoveT.PAS:34
     public void AddMovePointLine(int direction, int count) => MovePointLines.AddAbility(direction, count);
-
-    // intf_P5_01.inc:9
-
 }

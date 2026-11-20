@@ -6,7 +6,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // inherited name, ability ID, selection types, ability type, duration mode
-public partial class HolyFear : DurationAbility
+public class HolyFear : DurationAbility
 {
     // PassiveAb.pas:816
     public HolyFear(CustomNode owner, EngineObject holder) : base(owner)
@@ -22,14 +22,11 @@ public partial class HolyFear : DurationAbility
     // PassiveAb.pas:833
     public override string GetSourceName(AbilityOwner owner)
     {
-        string result;
         // { Original assumes the ability data exists. }
         DurationAbilityData durationAbilityData = GetData(owner);
-        result = durationAbilityData.Source == 1
+        return durationAbilityData.Source == 1
             ? AbilityRules.TranslateResourceString(GetEngine(), GameText.LifeMasteryText)
             : base.GetSourceName(owner);
-
-        return result;
     }
 
     // PassiveAb.pas:827

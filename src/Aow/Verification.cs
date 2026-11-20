@@ -29,8 +29,15 @@ internal static class Verification
 
     private static void Throws<T>(Action action, string label) where T : Exception
     {
-        try { action(); }
-        catch (T) { s_assertions++; return; }
+        try
+        {
+            action();
+        }
+        catch (T)
+        {
+            s_assertions++;
+            return;
+        }
         throw new InvalidOperationException($"FAIL: {label}");
     }
 
@@ -141,7 +148,8 @@ internal static class Verification
         Equal(2, sink.Moves.Count, "one leave notification");
         Equal((-1, -1), sink.Moves[^1], "leave coordinates");
         DisplayViewport one = DisplayViewport.Fit(640, 480, 640, 480);
-        mapper.Reset(); sink.ConstructionTrace.Clear();
+        mapper.Reset();
+        sink.ConstructionTrace.Clear();
         mapper.SetModifiers(3 | 192 | 768);
         mapper.Button(1, true, 100, 10, 10, one, sink);
         mapper.Button(1, false, 150, 10, 10, one, sink);
@@ -278,14 +286,20 @@ internal static class Verification
             JsonSettingsStore store = (JsonSettingsStore)RtlHost.Settings;
             store.Write("Software/Classes/AgeOfWondersMap", "ignored");
             Check(store.Read("Software/Classes/AgeOfWondersMap") is null, "association ignored");
-            byte[] original = [1, 2]; store.Write("General/copy", original); original[0] = 9;
-            byte[] read = (byte[])store.Read("General/copy")!; read[0] = 8;
+            byte[] original = [1, 2];
+            store.Write("General/copy", original);
+            original[0] = 9;
+            byte[] read = (byte[])store.Read("General/copy")!;
+            read[0] = 8;
             Equal((byte)1, ((byte[])store.Read("General/copy")!)[0], "binary isolation");
             string json = File.ReadAllText(Path.Combine(directory, "settings.json"));
             Check(json.Contains("rectangle") && json.Contains("boolean") && json.Contains("bytes"), "typed JSON kinds");
             Console.WriteLine($"P3 PASS: {count} settings round-trip through TRegistry, typed JSON, defaults and representative transpiled getters");
         }
-        finally { RtlHost.Settings = oldSettings; }
+        finally
+        {
+            RtlHost.Settings = oldSettings;
+        }
     }
 
     private static void Write(IFileSystem files, string name, string value, int mode = DelphiStreams.fmCreate)
@@ -386,11 +400,17 @@ internal static class Verification
                 Equal(0, RtlHost.Files.FindEntries(@"PLUGINS\*", attributes: DelphiFiles.faDirectory).Count, "missing directory has no synthetic dot entries");
                 Equal(0, missingDirectoryExceptions, "missing directory emits no first chance exception");
             }
-            finally { AppDomain.CurrentDomain.FirstChanceException -= MissingDirectoryException; }
+            finally
+            {
+                AppDomain.CurrentDomain.FirstChanceException -= MissingDirectoryException;
+            }
             Check(DelphiFiles.SetCurrentDir(@"Scenario\Custom"), "shim current directory");
             Equal(Path.Combine(root, "Scenario", "Campaign", "x.hsm"), DelphiPaths.ExpandFileName(@"..\Campaign\x.hsm").ToString(), "shim expansion");
         }
-        finally { RtlHost.Files = old; }
+        finally
+        {
+            RtlHost.Files = old;
+        }
         LayeredFileSystem single = new(root, root);
         Write(single, "temp.txt", "same");
         Check(single.DeleteFile("TEMP.TXT"), "single directory delete");
@@ -402,14 +422,21 @@ internal static class Verification
     {
         FakeClock clock = new();
         FramePacer pacer = new(clock);
-        clock.Elapsed = 10; pacer.Wait(); Equal(33d, clock.Elapsed, "30 fps deadline");
-        clock.Elapsed = 100; pacer.Wait(); Equal(100d, clock.Elapsed, "slow frame no extra wait");
-        clock.Elapsed = 105; pacer.Wait(); Equal(133d, clock.Elapsed, "no catch up burst");
+        clock.Elapsed = 10;
+        pacer.Wait();
+        Equal(33d, clock.Elapsed, "30 fps deadline");
+        clock.Elapsed = 100;
+        pacer.Wait();
+        Equal(100d, clock.Elapsed, "slow frame no extra wait");
+        clock.Elapsed = 105;
+        pacer.Wait();
+        Equal(133d, clock.Elapsed, "no catch up burst");
         SdlClock real = new();
         double start = real.ElapsedMilliseconds;
         real.WaitMilliseconds(3);
         Check(real.ElapsedMilliseconds - start >= 3, "precise monotonic wait");
-        real.WaitMilliseconds(0); real.WaitMilliseconds(1);
+        real.WaitMilliseconds(0);
+        real.WaitMilliseconds(1);
         Throws<ArgumentOutOfRangeException>(() => real.WaitMilliseconds(-1), "negative wait");
         Console.WriteLine("Clock PASS: monotonic waits, yield and pacing without catch up");
     }
@@ -431,7 +458,6 @@ internal static class Verification
                 Equal(new FileInfo(path).Length, stream.Length, $"install open {relative}");
             }
         }
-        int literals = 0;
         if (sourceRoot is not null)
         {
             HashSet<string> candidates = [with(StringComparer.OrdinalIgnoreCase)];
@@ -447,6 +473,7 @@ internal static class Verification
                 }
             }
 
+            int literals = 0;
             foreach (string literal in candidates.Order(StringComparer.Ordinal))
             {
                 string part = literal.Trim('\\', '/').Replace('\\', Path.DirectorySeparatorChar);
@@ -495,17 +522,37 @@ internal static class Verification
         public ushort ReleasedKey { get; private set; }
         public int Doubles { get; private set; }
 
-        public void KeyDown(ushort key, Set<ShiftState> shift) { Keys.Add(key); Shift = shift; }
+        public void KeyDown(ushort key, Set<ShiftState> shift)
+        {
+            Keys.Add(key);
+            Shift = shift;
+        }
 
         public void KeyUp(ushort key, Set<ShiftState> shift) => ReleasedKey = key;
         public void KeyPress(byte value) => Characters.Add(value);
 
-        public void MouseMove(Set<ShiftState> shift, int x, int y) { Moves.Add((x, y)); Shift = shift; }
+        public void MouseMove(Set<ShiftState> shift, int x, int y)
+        {
+            Moves.Add((x, y));
+            Shift = shift;
+        }
 
-        public void MouseDown(MouseButton button, Set<ShiftState> shift, int x, int y) { ConstructionTrace.Add("down"); Shift = shift; }
+        public void MouseDown(MouseButton button, Set<ShiftState> shift, int x, int y)
+        {
+            ConstructionTrace.Add("down");
+            Shift = shift;
+        }
 
-        public void MouseUp(MouseButton button, Set<ShiftState> shift, int x, int y) { ConstructionTrace.Add("up"); Shift = shift; }
+        public void MouseUp(MouseButton button, Set<ShiftState> shift, int x, int y)
+        {
+            ConstructionTrace.Add("up");
+            Shift = shift;
+        }
 
-        public void DoubleClick() { ConstructionTrace.Add("double"); Doubles++; }
+        public void DoubleClick()
+        {
+            ConstructionTrace.Add("double");
+            Doubles++;
+        }
     }
 }

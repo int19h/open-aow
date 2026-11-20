@@ -15,7 +15,7 @@ using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class FireMastery : GlobalEnchantmentSpell
+public class FireMastery : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:1733
     public FireMastery(CustomNode owner, EngineObject holder) : base(owner)
@@ -34,16 +34,12 @@ public partial class FireMastery : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:1792
     public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        bool result = default;
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
         if (executeCount == 0)
         {
             MapCoordinate coordinate66 = source.GetLocation();
-            x = coordinate66.X;
-            y = coordinate66.Y;
-            l = coordinate66.MapLevel;
+            sbyte x = coordinate66.X;
+            sbyte y = coordinate66.Y;
+            sbyte l = coordinate66.MapLevel;
             SpellTargets.NotifySpellSphere(source.Player, MagicSphere.Fire);
             _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
             Animation animation = new(null)
@@ -59,18 +55,15 @@ public partial class FireMastery : GlobalEnchantmentSpell
             _ = CastSounds.Play(0);
             CastingDone(source, eventValue.EventMana);
         }
-
         if (executeCount == 20)
         {
             _ = base.ExecuteTokenEvent(eventValue, source, 0);
-            result = false;
+            return false;
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // GlobalEnchantmentSpells.pas:1746

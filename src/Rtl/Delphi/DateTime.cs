@@ -20,8 +20,14 @@ public static class DelphiDateTime
     // SYSUTILS.PAS EncodeDate and EncodeTime.
     public static double EncodeDate(int year, int month, int day)
     {
-        try { return (new DateTime(year, month, day) - Epoch).TotalDays; }
-        catch (ArgumentOutOfRangeException) { throw new FormatException("Invalid argument to date encode"); }
+        try
+        {
+            return (new DateTime(year, month, day) - Epoch).TotalDays;
+        }
+        catch (ArgumentOutOfRangeException)
+        {
+            throw new FormatException("Invalid argument to date encode");
+        }
     }
 
     public static double EncodeTime(int hour, int minute, int second, int millisecond)
@@ -36,20 +42,31 @@ public static class DelphiDateTime
     {
         long ticks = (long)Math.Round(value * 86400000, MidpointRounding.ToEven);
         int ms = (int)Math.Abs(ticks % 86400000);
-        hour = ms / 3600000; minute = ms / 60000 % 60; second = ms / 1000 % 60; millisecond = ms % 1000;
+        hour = ms / 3600000;
+        minute = ms / 60000 % 60;
+        second = ms / 1000 % 60;
+        millisecond = ms % 1000;
     }
 
     private static void DecodeDate(double value, out int year, out int month, out int day)
     {
         long rounded = (long)Math.Round(value * 86400000, MidpointRounding.ToEven);
         long days = rounded / 86400000;
-        if (days + (Epoch - DateTime.MinValue).Days < 0) { year = month = day = 0; return; }
-        DateTime date = Epoch.AddDays(days); year = date.Year; month = date.Month; day = date.Day;
+        if (days + (Epoch - DateTime.MinValue).Days < 0)
+        {
+            year = month = day = 0;
+            return;
+        }
+        DateTime date = Epoch.AddDays(days);
+        year = date.Year;
+        month = date.Month;
+        day = date.Day;
     }
 
     public static string DateTimeToStr(double value)
     {
-        DecodeDate(value, out int y, out int m, out int d); DecodeTime(value, out int h, out int n, out int s, out int ms);
+        DecodeDate(value, out int y, out int m, out int d);
+        DecodeTime(value, out int h, out int n, out int s, out int ms);
         return new DateTime(y, m, d, h, n, s, ms).ToString("M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
     }
 }

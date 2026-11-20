@@ -6,7 +6,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // inherited name, ability ID, selection types, ability type. duration mode
-public partial class NaturesBlessingAbility : DurationAbility
+public class NaturesBlessingAbility : DurationAbility
 {
     // PassiveAb.pas:514
     public NaturesBlessingAbility(CustomNode owner, EngineObject holder) : base(owner)

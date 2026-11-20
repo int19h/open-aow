@@ -19,7 +19,7 @@ using static Aow.Rtl.DelphiTextCompare;
 namespace Aow.Game.Units;
 
 // SystemLibrary. Libraries
-public partial class HeroLibraryManager : EngineObject
+public class HeroLibraryManager : EngineObject
 {
     // Hero.PAS:2646
     public HeroLibraryManager(CustomNode owner) : base(owner)
@@ -43,7 +43,6 @@ public partial class HeroLibraryManager : EngineObject
     // Hero.PAS:2656
     public override void PersistFields(IPersister persister)
     {
-        string directory;
         base.PersistFields(persister);
         // Under the text-only mode of the translate stream the original visits the system library
         // in place and touches no file.
@@ -53,7 +52,7 @@ public partial class HeroLibraryManager : EngineObject
             return;
         }
 
-        directory = ExtractFilePath(GetEngine().HssFileName);
+        string directory = ExtractFilePath(GetEngine().HssFileName);
         if (persister.Loading)
         {
             ReadUserLibraries();
@@ -75,14 +74,13 @@ public partial class HeroLibraryManager : EngineObject
     // Hero.PAS:2683
     public void ReadUserLibraries()
     {
-        HeroLibrary library;
         _libraries.Clear();
         _ = _libraries.AddChild(SystemLibrary);
         // Both extensions list, and a list present in both forms loads its own document once
         // (own-formats.md 4.2).
         foreach (string listed in FileBoundary.FindDocuments($"{GetEngine().StartupDirectory}User\\", DocumentKind.HeroList))
         {
-            library = new HeroLibrary(null) { Holder = CreationHolder() };
+            HeroLibrary library = new(null) { Holder = CreationHolder() };
             try
             {
                 library.LoadFromFile($"{GetEngine().StartupDirectory}User\\{listed}");
@@ -98,10 +96,9 @@ public partial class HeroLibraryManager : EngineObject
     // Hero.PAS:2703
     public void WriteUserLibraries()
     {
-        HeroLibrary library;
         for (int i = 1, last = _libraries.GetCount() - 1; i <= last; i++)
         {
-            library = GetLibrary(i);
+            HeroLibrary library = GetLibrary(i);
             string name = library.GetName();
             library.SaveToFile($"{GetEngine().StartupDirectory}User\\{name}{FileBoundary.WriteExtension(DocumentKind.HeroList)}");
         }
@@ -129,26 +126,21 @@ public partial class HeroLibraryManager : EngineObject
     // Hero.PAS:2727
     public Hero FindHero(string libraryName, int libraryId)
     {
-        Hero result;
-        int index;
-        index = IndexOfLibraryName(libraryName);
-        result = index != -1 ? _libraries.GetChild<HeroLibrary>(index).FindLibraryId(libraryId) : null;
-
-        return result;
+        int index = IndexOfLibraryName(libraryName);
+        return index != -1 ? _libraries.GetChild<HeroLibrary>(index).FindLibraryId(libraryId) : null;
     }
 
     // Hero.PAS:2735
     public HeroLibrary CreateLibrary(string name)
     {
-        HeroLibrary result;
-        string libraryName;
-        libraryName = name;
+        string libraryName = name;
         // { Original retains the period when stripping the extension. }
         if (Pos(".", libraryName) != 0)
         {
             libraryName = DelphiStrings.Copy(libraryName, 1, Pos(".", libraryName));
         }
 
+        HeroLibrary result;
         if (!IsEmpty(libraryName) && IndexOfLibraryName(libraryName) == -1)
         {
             result = new HeroLibrary(_libraries)
@@ -159,7 +151,7 @@ public partial class HeroLibraryManager : EngineObject
         }
         else
         {
-            result = null;
+            return null;
         }
 
         return result;
@@ -177,7 +169,4 @@ public partial class HeroLibraryManager : EngineObject
             GetLibrary(index)?.Dispose();
         }
     }
-
-    // intf_P2_07.inc:311
-
 }

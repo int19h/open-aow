@@ -3,7 +3,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.Magic.Abilities;
 
-public partial class CharmedAbility : CommandedAbility
+public class CharmedAbility : CommandedAbility
 {
     // AoWAb.PAS:5333
     public CharmedAbility(CustomNode owner, EngineObject holder) : base(owner)

@@ -11,7 +11,7 @@ internal static class CombatAbilityTables
 
     internal static CombatSideIndex GetCombatSide(sbyte attacker, sbyte attackerRelation, sbyte defender, sbyte defenderRelation, sbyte player, sbyte relation)
     {
-        CombatSideIndex result = player != 0 && attacker == 0 && defender == 0
+        return player != 0 && attacker == 0 && defender == 0
             ? CombatSideIndex.Neutral
             : player == attacker && (player != 0 || attackerRelation == relation)
                 ? CombatSideIndex.Attacker
@@ -28,7 +28,5 @@ internal static class CombatAbilityTables
                             : defender != 0 && AbilityRules.DiplomaticRelation(defender, defenderRelation, player, relation) == DiplomaticRelation.Alliance && AbilityRules.DiplomaticRelation(attacker, attackerRelation, player, relation) != DiplomaticRelation.Alliance
                                 ? CombatSideIndex.Defender
                                 : CombatSideIndex.Neutral;
-        return result;
     }
-
 }

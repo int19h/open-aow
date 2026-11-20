@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.Magic;
 
-public partial class EnchantmentList(CustomNode owner) : OwningNode(owner), IChildList<Enchantment>
+public class EnchantmentList(CustomNode owner) : OwningNode(owner), IChildList<Enchantment>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an Enchantment, so the read never fails.
@@ -37,14 +37,7 @@ public partial class EnchantmentList(CustomNode owner) : OwningNode(owner), IChi
     // Spells.PAS:1774
     public Enchantment FindId(int id)
     {
-        Enchantment result;
-        int index;
-        index = IndexOfId(id);
-        result = index != -1 ? this[index] : null;
-
-        return result;
+        int index = IndexOfId(id);
+        return index != -1 ? this[index] : null;
     }
-
-    // Engine.pas:631
-
 }

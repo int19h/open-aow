@@ -33,9 +33,8 @@ public partial class ArmyEventDialog(UIContext ui) : UIModule(ui)
     // AoWArmyEventDlg.pas:113
     public void DrawUnits(int X, int Y, in LockedSurface lockedSurface)
     {
-        int offset;
         ByteList byteList = _units;
-        offset = X - (byteList.Count * 16);
+        int offset = X - (byteList.Count * 16);
         for (int i = 0, last = byteList.Count - 1; i <= last; i++)
         {
             DrawUnit(i, (i * 32) + offset, Y, lockedSurface);
@@ -45,17 +44,15 @@ public partial class ArmyEventDialog(UIContext ui) : UIModule(ui)
     // AoWArmyEventDlg.pas:121
     public void DrawUnit(int index, int X, int Y, LockedSurface lockedSurface)
     {
-        ArmyEventLog eventValue;
-        int frame;
         UnitShowInfo info;
-        eventValue = _event;
+        ArmyEventLog eventValue = _event;
         byte unit = _units[index];
         if (eventValue.DamageValues[unit] != 0)
         {
             // { The original staggers animation by bits of the unit object's address. }
             byte unit2 = _units[index];
             Troop fArmyViewUnit = eventValue.ArmyView.Units.GetUnit(unit2);
-            frame = _frame - FrameFixtureInputs.ArmyStagger(fArmyViewUnit);
+            int frame = _frame - FrameFixtureInputs.ArmyStagger(fArmyViewUnit);
             info = default;
             info.Frame = (int)(((uint)frame) >> 1) - 1;
             info.Direction = 3;
@@ -113,22 +110,19 @@ public partial class ArmyEventDialog(UIContext ui) : UIModule(ui)
     // AoWArmyEventDlg.pas:153
     public void ClearEvent()
     {
-        ArmyEventLog eventValue;
-        ExecuteDoneEvent notify;
-        int resource = default;
         UI.General.Manager.OverlayPriority = 0;
         for (int i = 0, last = _units.Count - 1; i <= last; i++)
         {
             byte unit = _units[i];
-            resource = _event.ArmyView.Units.GetUnit(unit).GetUnitGraphicsResourceIndex();
+            int resource = _event.ArmyView.Units.GetUnit(unit).GetUnitGraphicsResourceIndex();
             if (resource != -1)
             {
                 _ = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(resource).Release();
             }
         }
 
-        notify = OnClose;
-        eventValue = _event;
+        ExecuteDoneEvent notify = OnClose;
+        ArmyEventLog eventValue = _event;
         OnClose = null;
         _event = null;
         notify?.Invoke(eventValue);
@@ -181,25 +175,22 @@ public partial class ArmyEventDialog(UIContext ui) : UIModule(ui)
 
     internal static void ShowArmyEvent(ArmyEventDialog dialog, ArmyEventLog eventValue, ExecuteDoneEvent done)
     {
-        ArmyEventLog log;
-        ArmyView army;
-        int image;
-        Assert(dialog._event == null, "", "AoWArmyEventDlg.pas", 92);
+        Assert(dialog._event is null, "", "AoWArmyEventDlg.pas", 92);
         dialog.OnClose = done;
         dialog._event = eventValue;
         _ = dialog._event.AddRef();
-        log = dialog._event;
+        ArmyEventLog log = dialog._event;
         dialog.DamagePicture.CurrentImage = log.ArmyIcon;
         string text = log.ArmyMessages.Text;
         dialog.EventTextLabel.Text = text;
-        army = log.ArmyView;
+        ArmyView army = log.ArmyView;
         dialog._units.Clear();
         for (int i = 0, last = army.Units.Count - 1; i <= last; i++)
         {
             if (!army.GetUnitConcealedForPlayer(i, StrategicMap.Current.SeatedPlayer) || log.DamageValues[i] != 0)
             {
                 _ = dialog._units.Add((byte)i);
-                image = log.ArmyView.Units.GetUnit(i).GetUnitGraphicsResourceIndex();
+                int image = log.ArmyView.Units.GetUnit(i).GetUnitGraphicsResourceIndex();
                 if (image != -1)
                 {
                     _ = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(image).AddRef();
@@ -210,5 +201,4 @@ public partial class ArmyEventDialog(UIContext ui) : UIModule(ui)
         dialog.ArmyEventWindow.Visible = true;
         dialog._frame = 0;
     }
-
 }

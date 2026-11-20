@@ -28,7 +28,7 @@ namespace Aow.Game.World.Map;
 // filled by the game (TAoWHSSet.Create) and not stored. The game adds the shared resources and
 // controls of the game pack: the combat resources, the unit, hero, item and face resources, the
 // abilities, spells and texts read from the PFS files beside the set.
-public partial class GamePack : EngineNode, IChildList<GamePackChild>
+public class GamePack : EngineNode, IChildList<GamePackChild>
 {
     // Ability.PAS (TAoWHSSet). HSEngine.pas:3394 gives the engine set 66049.
     public new const int ClassId = 131088;
@@ -66,7 +66,6 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
         ImageLibraryManager = new ImageLibraryManager(null);
         SfxManager = new SfxManager(null);
 
-        BitList enabled;
         CombatResources = new MapObjectResourceList(this);
         CombatResources.SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild));
         CombatHexes = new HexControl(this)
@@ -145,7 +144,7 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
         string toadstools = AbilityRules.TranslateResourceString(GetEngine(), s_toadstoolsText);
         _ = DecorationTypes.Add(toadstools);
         PadControl = new PadControl(this);
-        enabled = PadControl.TerrainTypes;
+        BitList enabled = PadControl.TerrainTypes;
         enabled[1] = true;
         enabled[2] = true;
         enabled[3] = true;
@@ -185,7 +184,7 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
         HeroLibraries?.Dispose();
         Status += Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Destroying);
         EngineMessage.InitializeMessage(out EngineMessage message, 66564, this);
-        if (ActivatedEngine != null && ActivatedEngine.ControlNode != null)
+        if (ActivatedEngine is not null && ActivatedEngine.ControlNode is not null)
         {
             ActivatedEngine.ControlNode.MessageProc(ref message, this);
         }
@@ -203,7 +202,7 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
         SfxManager?.Dispose();
         SfxManager = null;
         EngineMessage.InitializeMessage(out message, 66565, this);
-        if (ActivatedEngine != null && ActivatedEngine.ControlNode != null)
+        if (ActivatedEngine is not null && ActivatedEngine.ControlNode is not null)
         {
             ActivatedEngine.ControlNode.MessageProc(ref message, this);
         }
@@ -396,11 +395,10 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
     // Ability.PAS:194
     public override void MainPersist(IPersister persister)
     {
-        string dictionaryFile;
         base.MainPersist(persister);
         if (persister.Loading)
         {
-            dictionaryFile = $"{GetEngine().StartupDirectory}Dict\\Release.mld";
+            string dictionaryFile = $"{GetEngine().StartupDirectory}Dict\\Release.mld";
             GetEngine().TranslateEngineObjectFromFile(this, dictionaryFile);
         }
     }
@@ -408,10 +406,8 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
     // Ability.PAS:91
     public int GetFileCrc(string fileName, bool atEnd)
     {
-        int result;
-        Stream fileStream;
-        result = 0;
-        fileStream = OpenFile(fileName, 0 | 32);
+        int result = 0;
+        Stream fileStream = OpenFile(fileName, 0 | 32);
         try
         {
             if (atEnd)
@@ -435,10 +431,8 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
     // Ability.PAS:109
     public int RetrieveHssCrc()
     {
-        Int32List crCs;
-        string path;
-        crCs = new Int32List();
-        path = ExtractFilePath(GetEngine().HssFileName);
+        Int32List crCs = new();
+        string path = ExtractFilePath(GetEngine().HssFileName);
         // { Original includes ABILITY.PFS twice and does not free CRCs on a read error. }
         _ = crCs.Add(GetFileCrc($"{path}ABILITY.PFS", false));
         _ = crCs.Add(GetFileCrc($"{path}ABILITY.PFS", false));
@@ -459,8 +453,8 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
     }
 
     // intf_P1_10.inc:44
-    public static GamePack Create(CustomNode owner, EngineObject holder) =>
-        ConstructionContext.Create((owner, holder), static (context, value) => new GamePack(context, value.owner, value.holder));
+    public static GamePack Create(CustomNode owner, EngineObject holder)
+        => ConstructionContext.Create((owner, holder), static (context, value) => new GamePack(context, value.owner, value.holder));
 
     private static readonly string s_grassText = "Grass";
 

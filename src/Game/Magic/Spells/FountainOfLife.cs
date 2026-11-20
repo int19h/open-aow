@@ -17,7 +17,7 @@ using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class FountainOfLife : CityEnchantmentSpell
+public class FountainOfLife : CityEnchantmentSpell
 {
     // CitySpells.pas:649
     public FountainOfLife(CustomNode owner, EngineObject holder) : base(owner)
@@ -40,14 +40,11 @@ public partial class FountainOfLife : CityEnchantmentSpell
     // CitySpells.pas:692
     protected override bool ExecuteTokenEvent(CityTargetSpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        bool result = default;
-        City targetCity = default;
-        Animation a = default;
-        result = base.ExecuteTokenEvent(eventValue, source: source, executeCount: executeCount);
+        bool result = base.ExecuteTokenEvent(eventValue, source: source, executeCount: executeCount);
         if (executeCount == 0)
         {
-            targetCity = eventValue.GetSelectedCity();
-            a = new Animation(null)
+            City targetCity = eventValue.GetSelectedCity();
+            Animation a = new(null)
             {
                 Holder = CreationHolder(),
                 AnimationLevel = 27
@@ -64,12 +61,6 @@ public partial class FountainOfLife : CityEnchantmentSpell
     // CitySpells.pas:666
     public void ShowFountain(Animation animation, int X, int Y, in LockedSurface lockedSurface)
     {
-        int deltaX;
-        int vy;
-        int offset;
-        int vx;
-        int t;
-        int deltaY;
         HexGeometry.HexToPixel(animation.Tag & 255, (int)(((uint)animation.Tag) >> 8), out int cx, out int cy);
         cx = cx + 10 - X;
         cy = cy - Y + 10;
@@ -77,15 +68,15 @@ public partial class FountainOfLife : CityEnchantmentSpell
         RandSeed = 0;
         for (int i = 0; i <= 100; i++)
         {
-            vx = Random(100) - 50;
-            vy = Random(5) + 7;
-            offset = Round(vx * 0.1);
-            t = Random(30);
+            int vx = Random(100) - 50;
+            int vy = Random(5) + 7;
+            int offset = Round(vx * 0.1);
+            int t = Random(30);
             if (t < animation.FrameCounter && animation.FrameCounter - t < 90)
             {
                 t = (animation.FrameCounter - t) % 30;
-                deltaX = Round((double)(t * vx) / 30);
-                deltaY = (vy * t) - Round((double)(t * 0.25) * t);
+                int deltaX = Round((double)(t * vx) / 30);
+                int deltaY = (vy * t) - Round((double)(t * 0.25) * t);
                 if (t > 0)
                 {
                     _ = GamePack.Current.SpellControl.GetSpell(52).CastImages.Show(0, cx + deltaX + offset, cy - deltaY, 0, lockedSurface);

@@ -8,7 +8,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Hexes;
 
-public partial class SingleCombatHex(CustomNode owner) : AbstractHexagon(owner)
+public class SingleCombatHex(CustomNode owner) : AbstractHexagon(owner)
 {
 
     // SingleCombatHex.pas:41
@@ -17,18 +17,17 @@ public partial class SingleCombatHex(CustomNode owner) : AbstractHexagon(owner)
     // SingleCombatHex.pas:47
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        ImageSequence sequence;
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int x, out int y);
         x = x - pixelXSurface - 8;
         y -= pixelYSurface;
-        sequence = base.Resource.ImageSequenceList.GetImageSequence(0);
+        ImageSequence sequence = base.Resource.ImageSequenceList.GetImageSequence(0);
         sequence.ImageLibrary.Get(sequence.ImageIndex).Show(x, y, lockedSurface);
     }
 
     // SingleCombatHex.pas:44
     public override MapObjectResourceList GetResourceList(GameEngine engine) => GamePack.Current.CombatResources;
 
-    public new partial class Resource(CustomNode owner) : AbstractHexagonResource(owner)
+    public new class Resource(CustomNode owner) : AbstractHexagonResource(owner)
     {
 
         // SingleCombatHex.pas:59
@@ -57,5 +56,4 @@ public partial class SingleCombatHex(CustomNode owner) : AbstractHexagon(owner)
         public override string ResourceEditName() => "Combat Single Hexagon";
 
     }
-
 }

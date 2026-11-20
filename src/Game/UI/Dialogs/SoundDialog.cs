@@ -136,11 +136,10 @@ public partial class SoundDialog(UIContext ui) : UIModule(ui)
     // AoWSoundDlg.pas:179
     public void FindFiles()
     {
-        string directory;
         SongList.Items.Clear();
         s_songFiles.Clear();
         _ = SetCurrentDir($"{UI.Engine.StartupDirectory}\\Songs");
-        directory = GetCurrentDir();
+        string directory = GetCurrentDir();
         if (Copy(directory, directory.Length, 1) == "\\")
         {
             directory = Copy(directory, 1, directory.Length - 1);
@@ -420,14 +419,14 @@ public partial class SoundDialog(UIContext ui) : UIModule(ui)
 
     private static Set<SoundSystemStatusElement> SoundSystemStatus()
     {
-        return AudioHost.SoundSystem != null
+        return AudioHost.SoundSystem is not null
             ? AudioHost.SoundSystem.Status
             : Set<SoundSystemStatusElement>.Of([]);
     }
 
-    private static bool SetMusicEnabled(bool value) => AudioHost.SoundSystem != null && AudioHost.SoundSystem.SetMusicEnabled(value);
+    private static bool SetMusicEnabled(bool value) => AudioHost.SoundSystem is not null && AudioHost.SoundSystem.SetMusicEnabled(value);
 
-    private static bool SetSfxEnabled(bool value) => AudioHost.SoundSystem != null && AudioHost.SoundSystem.SetSfxEnabled(value);
+    private static bool SetSfxEnabled(bool value) => AudioHost.SoundSystem is not null && AudioHost.SoundSystem.SetSfxEnabled(value);
 
-    private static bool SetSoundSettings(in SoundSettings settings) => AudioHost.SoundSystem != null && AudioHost.SoundSystem.SetSoundSettings(in settings);
+    private static bool SetSoundSettings(in SoundSettings settings) => AudioHost.SoundSystem is not null && AudioHost.SoundSystem.SetSoundSettings(in settings);
 }

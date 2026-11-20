@@ -10,7 +10,7 @@ using Aow.Rtl;
 namespace Aow.Game.Draw;
 
 // signed days remaining, caster player
-public partial class FrozenWaterHexSprite(CustomNode owner) : SingleHexSprite(owner)
+public class FrozenWaterHexSprite(CustomNode owner) : SingleHexSprite(owner)
 {
     public new const int ClassId = 131436;
 
@@ -97,7 +97,4 @@ public partial class FrozenWaterHexSprite(CustomNode owner) : SingleHexSprite(ow
             }
         }
     }
-
-    // Engine.pas:524
-
 }

@@ -156,7 +156,7 @@ public partial class Palette
         }
         else
         {
-            result = GraphicsResult.Ok;
+            return GraphicsResult.Ok;
         }
 
         return result;
@@ -166,9 +166,9 @@ public partial class Palette
     public bool Compare(Palette palette)
     {
         bool result;
-        int i;
         if (palette.PixelFormatId == PixelFormatId)
         {
+            int i;
             switch ((int)PixelFormatId & 31)
             {
                 case 8:
@@ -203,16 +203,14 @@ public partial class Palette
                     break;
                 // Never reached: and 31 leaves 0 for a 32-bit format, as in the original.
                 case 32:
-                    result = Pixels.SequenceEqual(palette.Pixels);
-                    break;
+                    return Pixels.SequenceEqual(palette.Pixels);
                 default:
-                    result = false;
-                    break;
+                    return false;
             }
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;

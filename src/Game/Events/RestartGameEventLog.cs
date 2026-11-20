@@ -5,7 +5,7 @@ using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.Events;
 
-public partial class RestartGameEventLog(CustomNode owner, EngineObject holder) : MessageEventLog(owner, holder)
+public class RestartGameEventLog(CustomNode owner, EngineObject holder) : MessageEventLog(owner, holder)
 {
 
     // Diplomacy.pas:2450
@@ -15,11 +15,7 @@ public partial class RestartGameEventLog(CustomNode owner, EngineObject holder) 
     public override string GetText() => AbilityRules.TranslateResourceString(GetEngine(), s_gameRestartedText);
 
     // Diplomacy.pas:2456
-    public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
-    {
-        bool result = trigger != ExecuteTrigger.NewTurn && base.Execute(mode, trigger, done);
-        return result;
-    }
+    public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done) => trigger != ExecuteTrigger.NewTurn && base.Execute(mode, trigger, done);
 
     private static readonly string s_gameRestartedText = "Game Restarted";
 

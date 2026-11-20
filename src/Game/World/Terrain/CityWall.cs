@@ -18,7 +18,7 @@ using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.World.Terrain;
 
-public partial class CityWall(CustomNode owner) : CombatImageLibraryTerrain(owner)
+public class CityWall(CustomNode owner) : CombatImageLibraryTerrain(owner)
 {
 
     // CityWall.pas:78
@@ -33,20 +33,16 @@ public partial class CityWall(CustomNode owner) : CombatImageLibraryTerrain(owne
     public byte WallType { get; private set; }
 
     // CityWall.pas:133
-    public override sbyte GetOverlay(int index)
-    {
-        sbyte result = index == 0 ? HitPoints == 0 ? (sbyte)6 : (sbyte)8 : base.GetOverlay(index);
-        return result;
-    }
+    public override sbyte GetOverlay(int index) => index == 0 ? HitPoints == 0 ? (sbyte)6 : (sbyte)8 : base.GetOverlay(index);
 
     // CityWall.pas:230
     public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        AbilityCombatInfo abilityInfo = default;
-        SpellCombatInfo spellInfo = default;
         base.MapFieldMessageProc(ref message);
         if (message.HexNumber == 0)
         {
+            AbilityCombatInfo abilityInfo = default;
+            SpellCombatInfo spellInfo = default;
             switch (message.MessageId)
             {
                 case 200704:
@@ -186,28 +182,26 @@ public partial class CityWall(CustomNode owner) : CombatImageLibraryTerrain(owne
     // CityWall.pas:180
     public override int CanMoveOver(in HexSpriteSenderInfo info)
     {
-        int result = info.HexNumber == 0
+        return info.HexNumber == 0
             ? HitPoints == 0 || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(66) || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(36) || ((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.Climbing) || ((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.Wall)
                 ? 1
                 : ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(59)
                     ? 0
                     : ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][8 - MovementTables.FirstOverlay] != 0 ? 1 : 0
             : 1;
-        return result;
     }
 
     // CityWall.pas:81
     public override void Activate()
     {
-        bool razed;
         base.Activate();
         if (!CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            razed = false;
+            bool razed = false;
             _playSound = true;
             MapField field = StrategicMap.Current.MapContainer.GetMapLevel(CombatPlacement.CombatLLocation).GetField(CombatPlacement.CombatXLocation, CombatPlacement.CombatYLocation);
             City city = field.FindNoneTransparentHexSprite<City>();
-            if (city != null)
+            if (city is not null)
             {
                 WallType = city.WallType;
                 razed = city.GetRazed();
@@ -216,7 +210,7 @@ public partial class CityWall(CustomNode owner) : CombatImageLibraryTerrain(owne
             else
             {
                 Tower tower = field.FindNoneTransparentHexSprite<Tower>();
-                if (tower != null)
+                if (tower is not null)
                 {
                     WallType = 1;
                     razed = tower.GetRazed();
@@ -291,8 +285,6 @@ public partial class CityWall(CustomNode owner) : CombatImageLibraryTerrain(owne
     // CityWall.pas:200
     public void SetHitPoints(int value)
     {
-        BattleEffectSprite effect;
-        Point3D point;
         if (value < 0)
         {
             value = 0;
@@ -308,8 +300,8 @@ public partial class CityWall(CustomNode owner) : CombatImageLibraryTerrain(owne
                     _ = AudioPlayback.PlaySample("SFX\\HIT_DEATH\\D_WOODLG.WAV");
                 }
 
-                effect = CombatMap.Current.AddEffect(BattleEffectType.WallSmoke);
-                point = new Point3D();
+                BattleEffectSprite effect = CombatMap.Current.AddEffect(BattleEffectType.WallSmoke);
+                Point3D point = new();
                 effect.Path.Add(point);
                 _ = point.X;
                 _ = point.Y;
@@ -338,8 +330,6 @@ public partial class CityWall(CustomNode owner) : CombatImageLibraryTerrain(owne
 
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        ImageSequence sequence;
-        int imageIndex;
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         pixelXSurface = pixelX - pixelXSurface;
         pixelYSurface = pixelY - pixelYSurface;
@@ -351,11 +341,12 @@ public partial class CityWall(CustomNode owner) : CombatImageLibraryTerrain(owne
             5 or 7 or 12 => 20,
             _ => 0,
         };
-        sequence = base.Resource.ImageSequenceList.GetImageSequence(WallIsIndex[WallType - 1] + terrainOffset + _damageImage);
-        if (sequence != null)
+        ImageSequence sequence = base.Resource.ImageSequenceList.GetImageSequence(WallIsIndex[WallType - 1] + terrainOffset + _damageImage);
+        if (sequence is not null)
         {
             do
             {
+                int imageIndex;
                 switch (sequence.Layer)
                 {
                     case 7:
@@ -385,13 +376,13 @@ public partial class CityWall(CustomNode owner) : CombatImageLibraryTerrain(owne
 
                 sequence = sequence.Next;
             }
-            while (!(sequence == null));
+            while (sequence is not null);
         }
     }
 
     private static ReadOnlySpan<int> WallIsIndex => [30, 0];
 
-    public new partial class Resource(CustomNode owner) : CombatImageLibraryTerrainResource(owner)
+    public new class Resource(CustomNode owner) : CombatImageLibraryTerrainResource(owner)
     {
 
         // CityWall.pas:366

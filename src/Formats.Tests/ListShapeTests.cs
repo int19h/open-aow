@@ -55,8 +55,8 @@ public sealed class ListShapeTests : FormatsTest
     [InlineData("""{"default":false,"count":13,"bits":[],"$reserved":"01"}""", Codes.ReservedMember, "root.VictoryLocations.$reserved")]
     [InlineData("""{"default":false,"count":13,"bits":"0590"}""", Codes.Type, "root.VictoryLocations.bits")]
     [InlineData("""{"default":false,"count":13,"bits":[],"extra":1}""", Codes.UnknownMember, "root.VictoryLocations.extra")]
-    public void AMalformedBitListIsRefused(string json, string code, string path) =>
-        Refused("PlayerStructure", "VictoryLocations", json, code, path);
+    public void AMalformedBitListIsRefused(string json, string code, string path)
+        => Refused("PlayerStructure", "VictoryLocations", json, code, path);
 
     [Fact]
     public void EnumListsStoreNames()
@@ -102,8 +102,8 @@ public sealed class ListShapeTests : FormatsTest
     [InlineData("""{"groups":[3]}""", Codes.Type, "root.Defenders.groups[0]")]
     [InlineData("""{"count":0}""", Codes.MissingMember, "root.Defenders")]
     [InlineData("""{"groups":[],"$slot":1}""", Codes.ReservedMember, "root.Defenders.$slot")]
-    public void AMalformedCollectionIsRefused(string json, string code, string path) =>
-        Refused("StructureResource", "Defenders", json, code, path);
+    public void AMalformedCollectionIsRefused(string json, string code, string path)
+        => Refused("StructureResource", "Defenders", json, code, path);
 
     [Fact]
     public void AMovePathStoresMapCoordinates()
@@ -125,8 +125,8 @@ public sealed class ListShapeTests : FormatsTest
         Assert.Equal("""{"default":"Unknown","items":["Alliance","Unknown"]}""", Compact(Decode("Player", "LegacyNewRelations", [3, 2, 0, 0, 0, 2, 3, 1])));
     }
 
-    private static SchemaProperty Property(string className, string property) =>
-        FormatSchema.Current.Get(className).PropertyByName(property) ?? throw new InvalidOperationException($"{className} has no {property}.");
+    private static SchemaProperty Property(string className, string property)
+        => FormatSchema.Current.Get(className).PropertyByName(property) ?? throw new InvalidOperationException($"{className} has no {property}.");
 
     private static JsonValue Decode(string className, string property, byte[] bytes)
     {

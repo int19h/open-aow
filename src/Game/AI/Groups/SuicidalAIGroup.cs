@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.AI.Groups;
 
-public partial class SuicidalAIGroup : AIGroup, IAIGroupClass
+public class SuicidalAIGroup : AIGroup, IAIGroupClass
 {
     // MainAG.pas:729
     public new const int ClassId = 136276;

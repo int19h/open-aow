@@ -15,7 +15,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
-public partial class PoisonPlantSpellTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
+public class PoisonPlantSpellTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
 {
 
     // PoisonP.pas:303
@@ -34,26 +34,20 @@ public partial class PoisonPlantSpellTokenEvent(CustomNode owner) : GlobalTarget
     // PoisonP.pas:308
     public void CreatePoisonPlant(Troop source)
     {
-        MapLevel level = default;
         HexNumberWalkData hexNumberWalkData = default;
-        PoisonPlant.Resource resource = default;
-        MapField mapField = default;
-        PoisonPlant plant = default;
-        ImageSequenceAnimation animation = default;
-        TwinkleAnimation twinkle = default;
         ref HexNumberWalkData walk = ref hexNumberWalkData;
-        level = StrategicMap.Current.MapContainer.MapLevels[Location.MapLevel];
+        MapLevel level = StrategicMap.Current.MapContainer.MapLevels[Location.MapLevel];
         HexNumberWalkData.InitializeHexNumberWalk(out hexNumberWalkData, Location.X, Location.Y, 0);
-        resource = GamePack.Current.MapObjectResourceList.FindChild<PoisonPlant.Resource>(131999);
+        PoisonPlant.Resource resource = GamePack.Current.MapObjectResourceList.FindChild<PoisonPlant.Resource>(131999);
         while (walk.Radius <= 1)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
-                mapField = level.GetField(walk.X, walk.Y);
-                if (GamePack.Current.SpellControl.GetSpell<GlobalTargetSpell>(12).ValidTargetMapField(mapField) && mapField.GetArmyHexSprite() == null)
+                MapField mapField = level.GetField(walk.X, walk.Y);
+                if (GamePack.Current.SpellControl.GetSpell<GlobalTargetSpell>(12).ValidTargetMapField(mapField) && mapField.GetArmyHexSprite() is null)
                 {
                     mapField.RestoreTerrain();
-                    plant = resource.CreateResourceUser<PoisonPlant>();
+                    PoisonPlant plant = resource.CreateResourceUser<PoisonPlant>();
                     plant.DaysRemaining = (sbyte)(3 + ((StrategicMap.Current.Random(11) - 5) / 5));
                     plant.CasterPlayer = source.Player;
                     plant.OriginalOverlay = mapField.OverlayType;
@@ -61,14 +55,14 @@ public partial class PoisonPlantSpellTokenEvent(CustomNode owner) : GlobalTarget
                     if (StrategicMap.Current.PlaceHex(plant, walk.X, walk.Y, Location.MapLevel))
                     {
                         plant.PlantStatus = Set<PoisonPlantStatusElement>.Of(PoisonPlantStatusElement.Summoning);
-                        animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
+                        ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
                         animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(12).CastImages.ImageSequences[0]);
                         animation.OnShow += plant.ShowSummonAnimation;
                         animation.OnNewFrame += plant.NewFrameSummonAnimation;
                         animation.FrameCounter = -StrategicMap.Current.Random(15);
                         animation.AnimationLevel = 27;
                         _ = StrategicMap.Current.PlaceHex(animation, walk.X, walk.Y, Location.MapLevel);
-                        twinkle = new TwinkleAnimation(null) { Holder = CreationHolder() };
+                        TwinkleAnimation twinkle = new(null) { Holder = CreationHolder() };
                         twinkle.Setup(GamePack.Current.SpellControl.GetSpell(2).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(), 2, 6, Math.Abs(animation.FrameCounter + 5), Math.Abs(animation.FrameCounter + 5) / 2);
                         _ = StrategicMap.Current.PlaceHex(twinkle, walk.X, walk.Y, Location.MapLevel);
                     }
@@ -82,7 +76,4 @@ public partial class PoisonPlantSpellTokenEvent(CustomNode owner) : GlobalTarget
             HexNumberWalkData.WalkToNextHexNumber(ref hexNumberWalkData);
         }
     }
-
-    // NetworkE.pas:230
-
 }

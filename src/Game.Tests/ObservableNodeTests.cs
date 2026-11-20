@@ -173,8 +173,8 @@ public sealed class ObservableNodeTests
 
     private static int Tag(EngineObject? item) => item is Leaf leaf ? leaf.Tag : 0;
 
-    private static EngineObject[] Children(ObservableNode node) =>
-        [.. Enumerable.Range(0, node.Count).Select(node.GetChild)];
+    private static EngineObject[] Children(ObservableNode node)
+        => [.. Enumerable.Range(0, node.Count).Select(node.GetChild)];
 
     private static string[] Calls(params string[] events)
     {
@@ -211,15 +211,15 @@ public sealed class ObservableNodeTests
 
         protected override void OnChange() => Trace.Add("changed");
 
-        private static string Format(ObservableChange change) =>
-            $"{change.Kind}:{change.Index}:{change.NewIndex}:{Label(change.Item)}:{Label(change.Previous)}";
+        private static string Format(ObservableChange change)
+            => $"{change.Kind}:{change.Index}:{change.NewIndex}:{Label(change.Item)}:{Label(change.Previous)}";
 
         private static string Label(EngineObject item) => item is Leaf leaf ? leaf.Tag.ToString() : "-";
     }
 
     private sealed class KeepingNode : RecordingNode
     {
-        public override Set<ControlStyleElement> GetControlStyle() =>
-            base.GetControlStyle() + Set<ControlStyleElement>.Of(EngineServices.KeepIndex);
+        public override Set<ControlStyleElement> GetControlStyle()
+            => base.GetControlStyle() + Set<ControlStyleElement>.Of(EngineServices.KeepIndex);
     }
 }

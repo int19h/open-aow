@@ -42,17 +42,15 @@ public partial class ConstructDialog(UIContext ui) : UIModule(ui)
     // AoWConstructDlg.pas:142
     public void UpdateConstructions()
     {
-        Troop u;
-        ConstructionControl control;
         Window.Drawn = false;
-        u = StrategicMap.Current.UnitControl.FindUnit(_request.UnitId);
+        Troop u = StrategicMap.Current.UnitControl.FindUnit(_request.UnitId);
         ConstructionList.Items.Clear();
         ConstructionCostList.Items.Clear();
         ConstructionTurnsList.Items.Clear();
         ConstructionControlList controls = GamePack.Current.AbilityControl.GetAbility<ConstructAbility>(125).ConstructionControls;
         for (int i = 0, last = controls.Count - 1; i <= last; i++)
         {
-            control = controls.GetConstructionControl(i);
+            ConstructionControl control = controls.GetConstructionControl(i);
             control.GetInfo(u, out string name, out int gold, out int days);
             _ = ConstructionList.Items.AddObject(name, control);
             _ = gold != 0 ? ConstructionCostList.Items.Add(IntToStr(gold)) : ConstructionCostList.Items.Add("-");
@@ -97,9 +95,6 @@ public partial class ConstructDialog(UIContext ui) : UIModule(ui)
     // AoWConstructDlg.pas:77
     public void ConstructBtnClick()
     {
-        string reason = "";
-        ConstructionControl control;
-        Troop u;
         UI.General.PlayButtonSound(0);
         bool condition = ConstructionList.Selected >= 0;
         if (condition)
@@ -110,8 +105,9 @@ public partial class ConstructDialog(UIContext ui) : UIModule(ui)
 
         if (condition)
         {
-            u = StrategicMap.Current.UnitControl.FindUnit(_request.UnitId);
-            control = ConstructionList.Items.Objects[ConstructionList.Selected];
+            Troop u = StrategicMap.Current.UnitControl.FindUnit(_request.UnitId);
+            ConstructionControl control = ConstructionList.Items.Objects[ConstructionList.Selected];
+            string reason = "";
             if (control.CanConstruct(u, ref reason))
             {
                 if (control.Construct(u))

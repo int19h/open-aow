@@ -9,7 +9,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Commands;
 
 // (spell ID, source ID, player, mana)
-public partial class SpellTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class SpellTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
     public new const int ClassId = 135936;
 
@@ -63,7 +63,7 @@ public partial class SpellTokenEvent(CustomNode owner) : TokenEvent(owner)
         _ = base.Execute(executor);
         // ExecuteCount binds tighter than the null test. A non-hero with a later count still reaches Process.
         Troop source = StrategicMap.Current.UnitControl.FindUnit(EventSourceId);
-        return source == null
+        return source is null
             ? ExecuteResult.DoneHalt
             : executor.ExecuteCount == 0 && (source is not Hero hero || !Validate(hero))
             ? ExecuteResult.DoneHalt

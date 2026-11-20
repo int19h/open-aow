@@ -61,8 +61,14 @@ public sealed class EventLogConstructionTests
             DestroyEntries = Math.Max(DestroyEntries, new StackTrace().GetFrames().Count(x => x.GetMethod() is { Name: "Dispose", DeclaringType: { } t } && t == typeof(EngineObject)));
             // Record removal notifications without indexing an empty list.
             _removing++;
-            try { return base.RemoveChild(child); }
-            finally { _removing--; }
+            try
+            {
+                return base.RemoveChild(child);
+            }
+            finally
+            {
+                _removing--;
+            }
         }
     }
 
@@ -128,7 +134,11 @@ public sealed class EventLogConstructionTests
                         using OrderingRecording.Fixture fixture = new(type);
                         if (mapped == 1)
                         {
-                            StrategicMap.Current = EngineFixture.Configure(new StrategicMap(null!, holder: EngineFixture.Engine), value => { value.Day = 7; value.CurrentPlayer = unchecked((sbyte)200); });
+                            StrategicMap.Current = EngineFixture.Configure(new StrategicMap(null!, holder: EngineFixture.Engine), value =>
+                            {
+                                value.Day = 7;
+                                value.CurrentPlayer = unchecked((sbyte)200);
+                            });
                         }
 
                         EventListOwner? owner = owned == 1 ? new EventListOwner() : null;
@@ -140,7 +150,10 @@ public sealed class EventLogConstructionTests
                             Assert.IsType(type, value);
                             state = OrderingRecording.Snapshot(value);
                         }
-                        catch (Exception error) when (error is not XunitException) { state = $"{error.GetType().FullName}:{error.Message}"; }
+                        catch (Exception error) when (error is not XunitException)
+                        {
+                            state = $"{error.GetType().FullName}:{error.Message}";
+                        }
                         Assert.NotNull(value);
                         actual.Add($"{name}.map{mapped}.owner{owned}.route{route}.fail0", JsonSerializer.Serialize(new { State = state, owner?.Observations, owner?.Changes, Count = owner?.GetCount(), owner?.DestroyEntries, (value ?? owner?.Last)?.RefCount }));
                         EngineFixture.Engine.Dictionary = fixture.Dictionary;

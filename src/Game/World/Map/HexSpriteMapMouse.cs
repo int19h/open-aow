@@ -10,7 +10,7 @@ namespace Aow.Game.World.Map;
 // when outside), _button, ButtonUp, ButtonDown, Moved, DoubleClicked, CaptureChanged, _capture
 // (the object that gets the mouse events), FStatus, FCursor, FCursorMode, FIgnoreDown, FShift,
 // FCursorVisible (and are used by the game only)
-public partial class HexSpriteMapMouse : IDisposable
+public class HexSpriteMapMouse : IDisposable
 {
 
     public HexSpriteMapMouse()
@@ -67,8 +67,6 @@ public partial class HexSpriteMapMouse : IDisposable
     private Set<StatusElement> _status;
     private int _cursor;
 
-    // HSEngine.pas:3475
-
     // HSEngine.pas:3486
     public virtual void Dispose()
     {
@@ -88,27 +86,26 @@ public partial class HexSpriteMapMouse : IDisposable
     // HSEngine.pas:3583
     public virtual bool MouseDown()
     {
-        bool result = true;
-        if (_capture == null && GetHexX() != -1)
+        if (_capture is null && GetHexX() != -1)
         {
             if (Button == MouseButton.Left)
             {
                 int pixelY = GetPixelY();
                 int pixelX = GetPixelX();
                 HexSpriteMap.Selection.SelectLocation(pixelX, pixelY, HexSpriteMap.ViewMapLevel);
-                result = false;
+                return false;
             }
             else
             {
                 if (Button == MouseButton.Right && !HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting))
                 {
                     HexSpriteMap.Selection.UnselectLocation();
-                    result = false;
+                    return false;
                 }
             }
         }
 
-        return result;
+        return true;
     }
 
     // HSEngine.pas:3623
@@ -225,12 +222,12 @@ public partial class HexSpriteMapMouse : IDisposable
             result = HexSpriteMap.ViewPixelX + X;
             if (result > HexSpriteMap.GetMaxPixelX() || result < 0)
             {
-                result = -2147483648;
+                return -2147483648;
             }
         }
         else
         {
-            result = -2147483648;
+            return -2147483648;
         }
 
         return result;
@@ -245,12 +242,12 @@ public partial class HexSpriteMapMouse : IDisposable
             result = HexSpriteMap.ViewPixelY + Y;
             if (result > HexSpriteMap.GetMaxPixelY() || result < 0)
             {
-                result = -2147483648;
+                return -2147483648;
             }
         }
         else
         {
-            result = -2147483648;
+            return -2147483648;
         }
 
         return result;
@@ -304,7 +301,7 @@ public partial class HexSpriteMapMouse : IDisposable
         {
             _status += Set<StatusElement>.Of(StatusElement.ChangingCapture);
             _capture = value;
-            if (value == null)
+            if (value is null)
             {
                 _cursor = 0;
             }
@@ -364,5 +361,4 @@ public partial class HexSpriteMapMouse : IDisposable
     {
         ChangingCapture = 0
     }
-
 }

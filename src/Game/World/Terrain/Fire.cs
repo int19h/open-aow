@@ -25,7 +25,7 @@ namespace Aow.Game.World.Terrain;
 
 // { Interface declaration run owned by P1. }
 // Mode, TurnsLeft, Age, _showPriority, Player, ExplosionFrame
-public partial class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
+public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
 {
 
     public new const int ClassId = 132990;
@@ -78,12 +78,7 @@ public partial class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     public override sbyte GetTerrain(int index)
     {
         sbyte result = base.Resource.TerrainList.GetTerrain(index);
-        if (result >= 0)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result >= 0 ? (sbyte)-1 : result;
     }
 
     // Structur.PAS:3417
@@ -99,10 +94,9 @@ public partial class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     // Structur.PAS:3517
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int frame;
         if (_explosionFrame != 0)
         {
-            frame = StrategicMap.Current.Frame - _explosionFrame;
+            int frame = StrategicMap.Current.Frame - _explosionFrame;
             if (frame >= 0 && frame < base.Resource.ImageSequenceList.GetImageSequence(20).GetTotalSequenceFrames())
             {
                 HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int x, out int y);
@@ -138,9 +132,8 @@ public partial class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     // Structur.PAS:3484
     public override void RemoveFromMap()
     {
-        MapField mapField;
-        mapField = Owner;
-        if (mapField != null)
+        MapField mapField = Owner;
+        if (mapField is not null)
         {
             base.RemoveFromMap();
             mapField.UpdateMapField();
@@ -173,24 +166,9 @@ public partial class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     // Structur.PAS:3570
     public override int CanMoveOver(in HexSpriteSenderInfo info)
     {
-        int result;
-        if (base.Resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
-        {
-            if (!CanDoDamage(((MoveControl)info.Sender).Settings.Units))
-            {
-                result = 1;
-            }
-            else
-            {
-                return 0;
-            }
-        }
-        else
-        {
-            result = 1;
-        }
-
-        return result;
+        return base.Resource.TerrainList.GetTerrain(info.HexNumber) >= 0
+            ? !CanDoDamage(((MoveControl)info.Sender).Settings.Units) ? 1 : 0
+            : 1;
     }
 
     // Structur.PAS:3564
@@ -221,7 +199,7 @@ public partial class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner
         if (result)
         {
             int classId = EngineClass.ClassId;
-            result = mapContainer.GetField(hexX, hexY, hexLevel).FindOwnedChild(classId) == null;
+            return mapContainer.GetField(hexX, hexY, hexLevel).FindOwnedChild(classId) is null;
         }
 
         return result;
@@ -237,11 +215,9 @@ public partial class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     // Structur.PAS:3441
     public override sbyte GetMostFrequentMapFieldTerrainType(MapLevel mapLevel, sbyte hexX, sbyte hexY, sbyte defaultValue)
     {
-        TerrainList terrains;
         Span<byte> counts = stackalloc byte[128];
-        sbyte terrainType;
         sbyte result = defaultValue;
-        terrains = base.Resource.TerrainList;
+        TerrainList terrains = base.Resource.TerrainList;
         if (result < 0)
         {
             result = 0;
@@ -253,7 +229,7 @@ public partial class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner
         {
             if (base.Resource.TerrainList.GetTerrain(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
-                terrainType = mapLevel.GetField(walk.X, walk.Y).TerrainType;
+                sbyte terrainType = mapLevel.GetField(walk.X, walk.Y).TerrainType;
                 if (terrainType >= 0)
                 {
                     counts[terrainType] = (byte)(counts[terrainType] + 1);
@@ -271,7 +247,7 @@ public partial class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner
         {
             if (counts[result] == counts[defaultValue])
             {
-                result = defaultValue;
+                return defaultValue;
             }
         }
 
@@ -281,11 +257,10 @@ public partial class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     // Structur.PAS:3422
     public void CalculateShowPriority(MapField mapField)
     {
-        HexSprite hexSprite;
         HexGeometry.HexToPixel(mapField.HexX, mapField.HexY, out int x, out int y);
-        hexSprite = mapField.GetMaxLevelNoneTransparentHexSprite();
+        HexSprite hexSprite = mapField.GetMaxLevelNoneTransparentHexSprite();
         _showPriority = 1744830464 + ((y + 36) << 13) + x + 16;
-        if (hexSprite != this && hexSprite != null)
+        if (hexSprite != this && hexSprite is not null)
         {
             if (hexSprite.GetShowPriority() >= _showPriority)
             {
@@ -297,7 +272,7 @@ public partial class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     // Structur.PAS:3503
     public void SetupExplosion(int delay)
     {
-        if (base.Resource.ImageSequenceList.GetImageSequence(20) != null)
+        if (base.Resource.ImageSequenceList.GetImageSequence(20) is not null)
         {
             _explosionFrame = delay + StrategicMap.Current.Frame;
         }
@@ -318,14 +293,12 @@ public partial class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     // Structur.PAS:3549
     public bool CanDoDamage(UnitUserList units)
     {
-        int i;
-        Troop troop;
         bool result = false;
-        i = units.GetCount();
+        int i = units.GetCount();
         while (!result && i != 0)
         {
             i -= 1;
-            troop = units.GetUnit(i);
+            Troop troop = units.GetUnit(i);
             result = !troop.GetImmunityTypes().Contains(DamageType.Fire);
         }
 
@@ -353,12 +326,9 @@ public partial class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     // Structur.PAS:3627
     public void NewTurnDone()
     {
-        MapLevel mapLevel;
-        int chance;
-        Fire fire;
         if (Age > 0)
         {
-            mapLevel = Owner.Owner;
+            MapLevel mapLevel = Owner.Owner;
             sbyte hexY = GetHexY();
             sbyte hexX = GetHexX();
             HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, 1);
@@ -367,13 +337,13 @@ public partial class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner
                 // { Original excludes the top row when spreading fire. }
                 if (walk.X >= 0 && walk.X < mapLevel.Width && walk.Y > 0 && walk.Y < mapLevel.Height)
                 {
-                    chance = MapField.IgnitionChance(mapLevel.GetField(walk.X, walk.Y));
+                    int chance = MapField.IgnitionChance(mapLevel.GetField(walk.X, walk.Y));
                     if (chance > StrategicMap.Current.Random(1000))
                     {
                         RandSeed = StrategicMap.Current.Random(16777215);
                         sbyte hexLevel = GetHexLevel();
-                        fire = GamePack.Current.FireControl.PlaceFire(walk.X, walk.Y, hexLevel, FireType.Large);
-                        if (fire != null)
+                        Fire fire = GamePack.Current.FireControl.PlaceFire(walk.X, walk.Y, hexLevel, FireType.Large);
+                        if (fire is not null)
                         {
                             fire.Player = Player;
                             fire.TurnsLeft = 3;
@@ -418,7 +388,7 @@ public partial class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     }
 
     // FireType
-    public new partial class Resource(CustomNode owner) : ImageLibraryTerrainMapObjectResource(owner)
+    public new class Resource(CustomNode owner) : ImageLibraryTerrainMapObjectResource(owner)
     {
         public new const int ClassId = 132991;
 
@@ -428,7 +398,7 @@ public partial class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner
         // FireType
         public override void Dispose()
         {
-            if (Engine != null && !GamePack.Current.Status.Contains(HexSpriteSetStatusElement.Destroying))
+            if (Engine is not null && !GamePack.Current.Status.Contains(HexSpriteSetStatusElement.Destroying))
             {
                 GamePack.Current.FireControl.UnregisterFireResource(this);
             }
@@ -460,7 +430,4 @@ public partial class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), GameTables.FireText);
 
     }
-
-    // intf_P1_11.inc:16
-
 }

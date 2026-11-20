@@ -5,7 +5,7 @@ using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.Units;
 
-public partial class UnitSelector : IDisposable
+public class UnitSelector : IDisposable
 {
     // Ability.PAS:575
     public UnitSelector(EngineObject creator)
@@ -44,7 +44,7 @@ public partial class UnitSelector : IDisposable
     // Ability.PAS:662
     public virtual void Setup(Troop source, UnitCollection units)
     {
-        if (source != null)
+        if (source is not null)
         {
             SourceUnitId = source.UnitId;
             Player = source.Player;
@@ -67,18 +67,15 @@ public partial class UnitSelector : IDisposable
     // Ability.PAS:623
     public virtual bool CanSelect(ref string error)
     {
-        bool result;
         if (Selection == 0)
         {
             error = AbilityRules.TranslateResourceString(Creator.GetEngine(), GameText.NoUnitSelectedText);
-            result = false;
+            return false;
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // Ability.PAS:651
@@ -94,9 +91,8 @@ public partial class UnitSelector : IDisposable
     // Ability.PAS:595
     public int Release()
     {
-        int count;
         _references -= 1;
-        count = _references;
+        int count = _references;
         int result = count;
         if (count == 0)
         {
@@ -109,9 +105,8 @@ public partial class UnitSelector : IDisposable
     // Ability.PAS:610
     public int GetSelectionCount()
     {
-        uint bits;
         int result = 0;
-        bits = Selection;
+        uint bits = Selection;
         while ((int)bits != 0)
         {
             if ((((int)bits) & 1) != 0)
@@ -126,7 +121,11 @@ public partial class UnitSelector : IDisposable
     }
 
     // intf_P1_08.inc:65
-    public virtual bool Select() { OnSelect?.Invoke(this); return true; }
+    public virtual bool Select()
+    {
+        OnSelect?.Invoke(this);
+        return true;
+    }
 
     public delegate void NotifyEvent(UnitSelector Selector);
 }

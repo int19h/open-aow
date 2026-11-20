@@ -133,8 +133,8 @@ internal sealed class RunListCodec(int width, ListElement? element = null, strin
         return new Tree.DefaultListNode(width, defense, items);
     }
 
-    private JsonValue Value(long value, DecodeContext? context, DocumentNodePath path) =>
-        Element is null ? new JsonInteger(value) : Element.Write(value, context!, path);
+    private JsonValue Value(long value, DecodeContext? context, DocumentNodePath path)
+        => Element is null ? new JsonInteger(value) : Element.Write(value, context!, path);
 
     private long Read(byte[] data, int at) => width == 1 ? data[at] : BinaryPrimitives.ReadInt32LittleEndian(data.AsSpan(at, 4));
 
@@ -151,8 +151,8 @@ internal sealed class RunListCodec(int width, ListElement? element = null, strin
     }
 
     /// <summary>The default and the items of a stored list.</summary>
-    internal List<long> DecodeRuns(DecodeContext context, int start, int end, ValueSite site, out long defense) =>
-        Parse(context, start, end, site, out defense);
+    internal List<long> DecodeRuns(DecodeContext context, int start, int end, ValueSite site, out long defense)
+        => Parse(context, start, end, site, out defense);
 
     internal List<long> Parse(DecodeContext context, int start, int end, ValueSite site, out long defense)
     {
@@ -282,8 +282,8 @@ internal sealed class RunListCodec(int width, ListElement? element = null, strin
     }
 
     /// <summary>Writes the canonical runs.</summary>
-    internal void EncodeRuns(long defense, List<long> items, ByteBuffer data) =>
-        data.Bytes(Canonical(defense, items));
+    internal void EncodeRuns(long defense, List<long> items, ByteBuffer data)
+        => data.Bytes(Canonical(defense, items));
 }
 
 /// <summary>
@@ -306,11 +306,11 @@ internal sealed class GroupedListCodec(int size, string? domain = null) : Proper
     /// <summary>The reference domain of the values, an annotation only.</summary>
     public string? Domain { get; } = domain;
 
-    internal override void WriteImage(Tree.TreeValue value, EncodeContext context, ByteBuffer data, ImageFrame frame) =>
-        _flat.WriteImage(value, context, data, frame);
+    internal override void WriteImage(Tree.TreeValue value, EncodeContext context, ByteBuffer data, ImageFrame frame)
+        => _flat.WriteImage(value, context, data, frame);
 
-    internal override Tree.TreeValue ReadImage(DecodeContext context, int start, int end, ImageFrame frame) =>
-        _flat.ReadImage(context, start, end, frame);
+    internal override Tree.TreeValue ReadImage(DecodeContext context, int start, int end, ImageFrame frame)
+        => _flat.ReadImage(context, start, end, frame);
 
     internal override JsonValue? WriteTree(Tree.TreeValue value, Tree.DocumentSite site)
     {
@@ -411,7 +411,7 @@ internal sealed class GroupedListCodec(int size, string? domain = null) : Proper
             }
         }
 
-        long Integer(JsonValue item, DocumentNodePath at) => item is JsonInteger n && n.Value >= int.MinValue && n.Value <= int.MaxValue ? n.Value
+        long Integer(JsonValue item, DocumentNodePath at) => item is JsonInteger n && n.Value is >= int.MinValue and <= int.MaxValue ? n.Value
             : throw context.Fail(item is JsonInteger ? Codes.Range : Codes.Type, "A list value is a signed 32-bit integer.", item, at, null, $"{int.MinValue} to {int.MaxValue}");
         long defense = objectValue["default"] is { } stored ? Integer(stored, path.Member("default")) : Empty;
         JsonArray groups = objectValue["groups"] as JsonArray ?? throw context.Fail(Codes.MissingMember, "groups is an array of groups.", objectValue, path);

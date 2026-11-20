@@ -9,14 +9,12 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Draw;
 
-public partial class TacticalBattleItemHexSprite(CustomNode owner) : ItemHexSprite(owner)
+public class TacticalBattleItemHexSprite(CustomNode owner) : ItemHexSprite(owner)
 {
 
     // AoWTC.pas:2586
     public override void Deactivate()
     {
-        ItemHexSprite itemHexSprite;
-        ItemList items;
         Items.ClearChangedHandler();
         if (CombatMap.Current.Combat.ExplorationSite == 1)
         {
@@ -24,7 +22,7 @@ public partial class TacticalBattleItemHexSprite(CustomNode owner) : ItemHexSpri
             // its prisoners there, and the items go to the prisoners' own item list.
             // An item site stores an item list. A dungeon stores a prisoners army.
             // Another object fails. Null stays null.
-            items = CombatMap.Current.Combat.Items switch
+            ItemList items = CombatMap.Current.Combat.Items switch
             {
                 null => null,
                 PrisonersArmy prisoners => prisoners.Items,
@@ -37,8 +35,8 @@ public partial class TacticalBattleItemHexSprite(CustomNode owner) : ItemHexSpri
         }
         else
         {
-            itemHexSprite = StrategicMap.Current.MapContainer.GetField(CombatMap.Current.Combat.CombatData.Location.X, CombatMap.Current.Combat.CombatData.Location.Y, CombatMap.Current.Combat.CombatData.Location.MapLevel).FindOwnedChild<ItemHexSprite>(131697);
-            if (itemHexSprite == null)
+            ItemHexSprite itemHexSprite = StrategicMap.Current.MapContainer.GetField(CombatMap.Current.Combat.CombatData.Location.X, CombatMap.Current.Combat.CombatData.Location.Y, CombatMap.Current.Combat.CombatData.Location.MapLevel).FindOwnedChild<ItemHexSprite>(131697);
+            if (itemHexSprite is null)
             {
                 itemHexSprite = new ItemHexSprite(null) { Holder = CreationHolder() };
                 _ = StrategicMap.Current.PlaceHex(itemHexSprite, CombatMap.Current.Combat.CombatData.Location.X, CombatMap.Current.Combat.CombatData.Location.Y, CombatMap.Current.Combat.CombatData.Location.MapLevel);
@@ -52,7 +50,4 @@ public partial class TacticalBattleItemHexSprite(CustomNode owner) : ItemHexSpri
 
         base.Deactivate();
     }
-
-    // intf_P2_04.inc:216
-
 }

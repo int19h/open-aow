@@ -11,7 +11,7 @@ using static Aow.Rtl.RectRoutines;
 namespace Aow.Game.Draw.Animations;
 
 // sequence, pixel offsets, last frame, loop flag
-public partial class ImageSequenceAnimation(CustomNode owner) : Animation(owner)
+public class ImageSequenceAnimation(CustomNode owner) : Animation(owner)
 {
 
     public ImageSequence ImageSequence { get; private set; }
@@ -20,23 +20,21 @@ public partial class ImageSequenceAnimation(CustomNode owner) : Animation(owner)
     public int FrameCount { get; set; } = -1;
     public bool Looped { get; set; }
 
-    // Animation.pas:424
-
     // Animation.pas:493
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        ImageSequence sequence;
-        int index;
         base.Show(pixelXSurface, pixelYSurface, lockedSurface);
         if (GetHexLevel() == AnimationMap.ViewMapLevel)
         {
             HexGeometry.HexToPixel(Location.X, Location.Y, out int x, out int y);
             pixelXSurface = x - pixelXSurface + 16 + PixelXOffset;
             pixelYSurface = y - pixelYSurface + 16 + PixelYOffset;
+            ImageSequence sequence;
+            int index;
             if (!Looped)
             {
                 sequence = ImageSequence;
-                while (sequence != null)
+                while (sequence is not null)
                 {
                     index = sequence.GetUnloopedFrameIndex(FrameCounter);
                     if (index != -1)
@@ -53,7 +51,7 @@ public partial class ImageSequenceAnimation(CustomNode owner) : Animation(owner)
             else
             {
                 sequence = ImageSequence;
-                while (sequence != null)
+                while (sequence is not null)
                 {
                     index = sequence.GetFrameIndex(0, FrameCounter);
                     if (index != -1)
@@ -80,7 +78,6 @@ public partial class ImageSequenceAnimation(CustomNode owner) : Animation(owner)
     // Animation.pas:432
     public void UpdateDimensions()
     {
-        ImageSequence sequence;
         Rect dimensions = Dimensions;
         dimensions.Left = 0;
         Dimensions = dimensions;
@@ -93,8 +90,8 @@ public partial class ImageSequenceAnimation(CustomNode owner) : Animation(owner)
         Rect dimensions4 = Dimensions;
         dimensions4.Bottom = 0;
         Dimensions = dimensions4;
-        sequence = ImageSequence;
-        while (sequence != null)
+        ImageSequence sequence = ImageSequence;
+        while (sequence is not null)
         {
             sequence.GetDimensions(out Rect r);
             Rect input = Dimensions;
@@ -120,17 +117,15 @@ public partial class ImageSequenceAnimation(CustomNode owner) : Animation(owner)
     // Animation.pas:454
     public void SetImageSequence(ImageSequence sequence)
     {
-        ImageSequence current;
-        int frames;
         ImageSequence = sequence;
         UpdateDimensions();
         if (!Looped)
         {
-            current = ImageSequence;
+            ImageSequence current = ImageSequence;
             FrameCount = -1;
-            while (current != null)
+            while (current is not null)
             {
-                frames = current.GetTotalSequenceFrames();
+                int frames = current.GetTotalSequenceFrames();
                 if (frames > FrameCount)
                 {
                     FrameCount = frames;
@@ -159,7 +154,4 @@ public partial class ImageSequenceAnimation(CustomNode owner) : Animation(owner)
         PixelYOffset = value;
         UpdateDimensions();
     }
-
-    // Animation.pas:98
-
 }

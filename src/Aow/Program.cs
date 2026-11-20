@@ -20,7 +20,11 @@ internal static class Program
             {
                 // own-formats.md 4.2: every open and write at the file boundary, refusals included.
                 StreamWriter log = fileLog = new StreamWriter(Path.GetFullPath(fileLogPath), false, new System.Text.UTF8Encoding(false));
-                Game.Saves.FileBoundary.Log = record => { log.Write($"{record.ToJson()}\n"); log.Flush(); };
+                Game.Saves.FileBoundary.Log = record =>
+                {
+                    log.Write($"{record.ToJson()}\n");
+                    log.Flush();
+                };
             }
             string root = Value(arguments, "--game-root") ?? @"D:\Games\GOG\Age of Wonders";
             if (arguments.Contains("--verify"))
@@ -90,7 +94,11 @@ internal static class Program
             Console.WriteLine($"Title scene: presented {form.Display.PresentedFrames} frames, mute={arguments.Contains("--mute")}");
             return 0;
         }
-        catch (Exception error) { Console.Error.WriteLine(error.ToString()); return 1; }
+        catch (Exception error)
+        {
+            Console.Error.WriteLine(error.ToString());
+            return 1;
+        }
         finally
         {
             Game.Saves.FileBoundary.Log = null;

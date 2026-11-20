@@ -41,5 +41,4 @@ public partial class ItemExplorationSiteEventLog(CustomNode owner) : EventLog(ow
         PersistSupport.Lines(persister, name: "Messages", lines: Messages);
         Title = persister.String("Title", value: Title);
     }
-
 }

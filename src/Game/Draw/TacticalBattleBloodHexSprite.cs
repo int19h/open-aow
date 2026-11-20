@@ -8,7 +8,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Draw;
 
 // Frame. OffsetX. OffsetY
-public partial class TacticalBattleBloodHexSprite(CustomNode owner) : SingleHexSprite(owner)
+public class TacticalBattleBloodHexSprite(CustomNode owner) : SingleHexSprite(owner)
 {
     public new const int ClassId = 2228487;
 
@@ -25,13 +25,11 @@ public partial class TacticalBattleBloodHexSprite(CustomNode owner) : SingleHexS
     // AoWTC.pas:6403
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int frame;
-        ImageSequence sequence;
-        sequence = GamePack.Current.ImageSequences.ImageSequences[4];
+        ImageSequence sequence = GamePack.Current.ImageSequences.ImageSequences[4];
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int x, out int y);
-        if (sequence != null)
+        if (sequence is not null)
         {
-            frame = sequence.GetUnloopedFrameIndex(Frame);
+            int frame = sequence.GetUnloopedFrameIndex(Frame);
             sequence.ImageLibrary[frame].ShowClipped(x - pixelXSurface + OffsetX, y - pixelYSurface + OffsetY, lockedSurface);
         }
     }
@@ -41,7 +39,4 @@ public partial class TacticalBattleBloodHexSprite(CustomNode owner) : SingleHexS
 
     // AoWTC.pas:6383
     public override void Deactivate() => base.Deactivate();
-
-    // Engine.pas:524
-
 }

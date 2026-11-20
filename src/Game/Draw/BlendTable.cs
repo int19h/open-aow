@@ -7,7 +7,7 @@ namespace Aow.Game.Draw;
 
 // FBits, FTable (the bytes of the table, which the original addresses with a pointer into the
 // derived class's own field)
-public partial class BlendTable
+public class BlendTable
 {
 
     // GFXE.pas:741
@@ -49,17 +49,15 @@ public partial class BlendTable
 
     internal static void GenerateIntensityBlendTable(BlendTable table, float intensity)
     {
-        int v;
-        float f;
         if (table is BlendTable5Bit fiveBit)
         {
             for (int i = 0; i <= 31; i++)
             {
                 for (int j = 0; j <= 31; j++)
                 {
-                    f = i == 0 ? 0 : (float)((double)((double)((double)i * intensity) * 1.75) / (i + j));
+                    float f = i == 0 ? 0 : (float)((double)((double)((double)i * intensity) * 1.75) / (i + j));
 
-                    v = Round((double)i * f) + j;
+                    int v = Round((double)i * f) + j;
                     if (v > 31)
                     {
                         v = 31;
@@ -73,16 +71,14 @@ public partial class BlendTable
 
     internal static void GenerateShadowBlendTable(BlendTable table, float shadow)
     {
-        int v;
-        float f;
         if (table is BlendTable5Bit fiveBit)
         {
             for (int i = 0; i <= 31; i++)
             {
                 for (int j = 0; j <= 31; j++)
                 {
-                    f = (float)((double)((31 - i) * ((double)1 / 31)) * shadow);
-                    v = Round((double)((double)1 - f) * j);
+                    float f = (float)((double)((31 - i) * ((double)1 / 31)) * shadow);
+                    int v = Round((double)((double)1 - f) * j);
                     if (v < 0)
                     {
                         v = 0;
@@ -101,14 +97,13 @@ public partial class BlendTable
 
     internal static void GenerateBrightenBlendTable(BlendTable table, float brighten)
     {
-        int v;
         if (table is BlendTable5Bit fiveBit)
         {
             for (int i = 0; i <= 31; i++)
             {
                 for (int j = 0; j <= 31; j++)
                 {
-                    v = Round((double)((double)i * brighten) + ((double)((double)1 - brighten) * j));
+                    int v = Round((double)((double)i * brighten) + ((double)((double)1 - brighten) * j));
                     if (v < j)
                     {
                         v = j;
@@ -122,12 +117,11 @@ public partial class BlendTable
 
     internal static void GenerateLinearAlphaBlendTable(BlendTable table, float alpha)
     {
-        float f;
         if (table is BlendTable5Bit fiveBit)
         {
             for (int i = 0; i <= 31; i++)
             {
-                f = (double)alpha > 0 ? (float)(i / ((double)31 * alpha)) : 1;
+                float f = (double)alpha > 0 ? (float)(i / ((double)31 * alpha)) : 1;
 
                 if ((double)f > 1)
                 {
@@ -145,5 +139,4 @@ public partial class BlendTable
             throw new NotSupportedException("BlendTable format not supported");
         }
     }
-
 }

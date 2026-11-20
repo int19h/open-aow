@@ -22,23 +22,12 @@ public partial class ArmyCombatMoveTokenEvent
             _combatType = CombatType.Tactical;
             HeadlessHooks.TacticalSelections++;
         }
-        CombatResult combatResult = default;
-        MapField field = default;
-        MapField source = default;
-        sbyte defender = default;
-        ArmyHexSprite otherArmyHexSprite = default;
-        ArmyHexSprite armyHexSprite = default;
-        ArmyHexSprite movedArmyHexSprite = default;
-        Battle combat = default;
         MapFieldMessage message = default;
-        UserEventLog log = default;
-        ImageSequenceAnimation animation = default;
-        Troop troop = default;
-        field = GetMapField(Path[0].Location);
-        defender = field.GetPlayer();
-        source = ArmyHexSprite.Owner;
+        MapField field = GetMapField(Path[0].Location);
+        sbyte defender = field.GetPlayer();
+        MapField source = ArmyHexSprite.Owner;
         ArmyHexSprite.SetOwner(null);
-        otherArmyHexSprite = source.GetArmyHexSprite();
+        ArmyHexSprite otherArmyHexSprite = source.GetArmyHexSprite();
         ArmyHexSprite.SetOwner(source);
         for (int i = 0, last = ArmyHexSprite.Army.Units.Count - 1; i <= last; i++)
         {
@@ -56,7 +45,7 @@ public partial class ArmyCombatMoveTokenEvent
             Selection = (byte)(int)(((uint)Selection) >> 1);
         }
 
-        if (otherArmyHexSprite != null)
+        if (otherArmyHexSprite is not null)
         {
             using (ArmyHexSprite.Army.BeginUpdate())
             {
@@ -65,7 +54,7 @@ public partial class ArmyCombatMoveTokenEvent
                 ArmyHexSprite = armyHexSprite2;
                 for (int i = otherArmyHexSprite.Army.Units.Count - 1; i >= 0; i--)
                 {
-                    troop = otherArmyHexSprite.Army.Units.GetUnit(i);
+                    Troop troop = otherArmyHexSprite.Army.Units.GetUnit(i);
                     troop.UnitStatus -= Set<UnitStatusElement>.Of(UnitStatusElement.Moving);
                     _ = ArmyHexSprite.Army.AddUnit(troop);
                 }
@@ -78,7 +67,7 @@ public partial class ArmyCombatMoveTokenEvent
 
         ArmyHexSprite.CancelMove();
         StrategicMap.Current.LockGameOverEvent();
-        combat = _combatType == CombatType.Fast ? StrategicMap.Current.CreateCombat(131760) : StrategicMap.Current.CreateCombat(2228496);
+        Battle combat = _combatType == CombatType.Fast ? StrategicMap.Current.CreateCombat(131760) : StrategicMap.Current.CreateCombat(2228496);
 
         sbyte hexY = ArmyHexSprite.GetHexY();
         sbyte hexLevel = ArmyHexSprite.GetHexLevel();
@@ -109,7 +98,7 @@ public partial class ArmyCombatMoveTokenEvent
 
         combat.Initialize();
         combat.Activate();
-        combatResult = combat.Execute();
+        CombatResult combatResult = combat.Execute();
         _combatMode = ArmyCombatMoveTokenEventMode.CombatExecuted;
         if (combatResult != CombatResult.Busy)
         {
@@ -120,7 +109,7 @@ public partial class ArmyCombatMoveTokenEvent
                 DistributeCombatEvent(combat.Logbook, true);
                 if (StrategicMap.Current.RequestCombatType && StrategicMap.Current.SeatedPlayer == defender)
                 {
-                    log = new UserEventLog(null)
+                    UserEventLog log = new(null)
                     {
                         Holder = CreationHolder(),
                         Data = this
@@ -144,7 +133,7 @@ public partial class ArmyCombatMoveTokenEvent
 
             if (condition)
             {
-                animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
+                ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
                 animation.SetImageSequence(GamePack.Current.ImageSequences.ImageSequences[22]);
                 PathStep item3 = Path[0];
                 PathStep item4 = Path[0];
@@ -155,16 +144,17 @@ public partial class ArmyCombatMoveTokenEvent
             StrategicMap.Current.DestroyCombat();
             StrategicMap.Current.UnlockGameOverEvent();
             ArmyHexSprite = GetMapField(Path[MoveIndex].Location).GetArmyHexSprite();
-            if (ArmyHexSprite != null && Set<CombatResult>.Of(CombatResult.CannotInflictDamage, CombatResult.Undecided, CombatResult.CannotBreachWall, CombatResult.Fled).Contains(combatResult))
+            if (ArmyHexSprite is not null && Set<CombatResult>.Of(CombatResult.CannotInflictDamage, CombatResult.Undecided, CombatResult.CannotBreachWall, CombatResult.Fled).Contains(combatResult))
             {
                 FinishMove();
                 ArmyHexSprite = null;
             }
 
-            if (ArmyHexSprite != null)
+            if (ArmyHexSprite is not null)
             {
                 ArmyHexSprite.CancelMove();
                 bool moved;
+                ArmyHexSprite armyHexSprite;
                 using (ArmyHexSprite.Army.BeginUpdate())
                 {
                     armyHexSprite = new ArmyHexSprite(null) { Holder = CreationHolder() };
@@ -206,7 +196,7 @@ public partial class ArmyCombatMoveTokenEvent
 
                 if (moved)
                 {
-                    movedArmyHexSprite = armyHexSprite;
+                    ArmyHexSprite movedArmyHexSprite = armyHexSprite;
                     ArmyHexSprite = movedArmyHexSprite;
                     movedArmyHexSprite.Army.Mode = movedArmyHexSprite.Army.Mode + Set<ArmyModeElement>.Of(ArmyModeElement.Moving);
                     Selection = 255;

@@ -158,6 +158,6 @@ public sealed class OwnExtensionNameTests : IDisposable
     [InlineData(2, false, ".csm", false)]
     [InlineData(0, false, ".ohsm", false)]
     [InlineData(0, false, ".oahl", false)]
-    public void TheDialogListsBothExtensions(int mode, bool campaign, string extension, bool listed) =>
-        Assert.Equal(listed, FileDialogWindow.ListsFile(mode, campaign, extension));
+    public void TheDialogListsBothExtensions(int mode, bool campaign, string extension, bool listed)
+        => Assert.Equal(listed, FileDialogWindow.ListsFile(mode, campaign, extension));
 }

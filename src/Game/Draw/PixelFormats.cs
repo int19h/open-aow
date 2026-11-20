@@ -22,27 +22,20 @@ public static class PixelFormats
     internal static bool ValidImageFile(string fileName)
     {
         string extractFileExt = ExtractFileExt(fileName);
-        return GraphicsState.ImageFileClassList.FindClass(extractFileExt) != null;
+        return GraphicsState.ImageFileClassList.FindClass(extractFileExt) is not null;
     }
 
     internal static Surface CreateSurfaceFromImageFile(string fileName)
     {
-        Surface result;
-        ImageFileClass c;
         string extractFileExt = ExtractFileExt(fileName);
-        c = GraphicsState.ImageFileClassList.FindClass(extractFileExt);
-        result = c?.CreateSurface(fileName);
-
-        return result;
+        ImageFileClass c = GraphicsState.ImageFileClassList.FindClass(extractFileExt);
+        return c?.CreateSurface(fileName);
     }
 
     internal static PixelFormat MaskToPixelFormatId(int bitCount, int rMask, int gMask, int bMask, int mask)
     {
         Span<byte> order = stackalloc byte[4];
-        bool swapped;
         Span<int> masks = stackalloc int[4];
-        int bits;
-        int t;
         int result = bitCount;
         masks[0] = mask;
         order[3] = 3;
@@ -52,6 +45,7 @@ public static class PixelFormats
         order[1] = 1;
         masks[3] = rMask;
         order[2] = 2;
+        bool swapped;
         do
         {
             swapped = false;
@@ -59,7 +53,7 @@ public static class PixelFormats
             {
                 if (((masks[order[i]] < 0 || masks[order[i + 1]] < masks[order[i]]) && masks[order[i + 1]] > 0) || (masks[order[i]] == 0 && masks[order[i + 1]] != 0))
                 {
-                    t = order[i];
+                    int t = order[i];
                     order[i] = order[i + 1];
                     order[i + 1] = (byte)t;
                     swapped = true;
@@ -74,7 +68,7 @@ public static class PixelFormats
 
         for (int i = 0; i <= 3; i++)
         {
-            bits = 0;
+            int bits = 0;
             while (masks[i] != 0)
             {
                 if ((masks[i] & 1) != 0)
@@ -97,7 +91,7 @@ public static class PixelFormats
 
     internal static string GetErrorMessage(GraphicsResult errorCode)
     {
-        string result = errorCode switch
+        return errorCode switch
         {
             GraphicsResult.Ok => "No ERROR occurred!",
             GraphicsResult.Error => "Undefine ERROR occurred",
@@ -107,16 +101,15 @@ public static class PixelFormats
             GraphicsResult.CannotLock => $"Undocumented Error (Error Code:{IntToStr((int)errorCode)})",
             _ => $"Undocumented Error (Error Code:{IntToStr((int)errorCode)})",
         };
-        return result;
     }
 
     internal static void ForceOptimal16BitPixelFormatId(PixelFormat pixelFormatId) => GraphicsState.ForcedPixelFormatId = pixelFormatId is PixelFormat.Rgb565 or PixelFormat.Rgb555
         ? pixelFormatId
         : PixelFormat.None;
 
-    internal static PixelFormat GetOptimalPixelFormatId(int bitCount) =>
+    internal static PixelFormat GetOptimalPixelFormatId(int bitCount)
         /* TODO: Implement Forms.Width in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     internal static IReadOnlyList<(int Width, int Height)> IntegerScaleSizes(int desktopWidth, int desktopHeight)
     {
@@ -179,5 +172,4 @@ public static class PixelFormats
 
         return GraphicsResult.Ok;
     }
-
 }

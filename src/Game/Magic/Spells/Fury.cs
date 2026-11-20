@@ -10,7 +10,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class Fury : UnitSpell
+public class Fury : UnitSpell
 {
     // UnitSpells.pas:336
     public Fury(CustomNode owner, EngineObject holder) : base(owner)
@@ -46,7 +46,7 @@ public partial class Fury : UnitSpell
         {
             if (StrategicMap.Current.Players.GetPlayers(target.Player).PlayerType != PlayerType.Human && target is Leader)
             {
-                result = false;
+                return false;
             }
         }
 
@@ -56,26 +56,22 @@ public partial class Fury : UnitSpell
     // UnitSpells.pas:350
     public override bool ExecuteSpell(Troop source, Troop target, int mana, Span<int> data)
     {
-        bool result;
-        UnitEnchantment enchantment;
         if (ValidTargetUnit(source, target))
         {
             if (target.ExpandAbility(156))
             {
-                enchantment = target.GetAbilityData<UnitEnchantmentAbilityData>(156).Enchantment;
+                UnitEnchantment enchantment = target.GetAbilityData<UnitEnchantmentAbilityData>(156).Enchantment;
                 enchantment.SetUpkeep(ManaUpkeep);
                 enchantment.SetSource(source.Player);
                 enchantment.DispelResistance = (sbyte)UnitDispelResistance;
             }
 
             // { Original succeeds even when expansion fails. }
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 }

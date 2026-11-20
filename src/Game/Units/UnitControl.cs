@@ -13,7 +13,7 @@ using Aow.Rtl;
 namespace Aow.Game.Units;
 
 // NextUnitId. UnitTable. Units
-public partial class UnitControl(CustomNode owner) : EngineObject(owner)
+public class UnitControl(CustomNode owner) : EngineObject(owner)
 {
 
     private int _nextUnitId = 1;
@@ -58,8 +58,8 @@ public partial class UnitControl(CustomNode owner) : EngineObject(owner)
     public Troop FindUnit(int id) => UnitTable.TryGetValue(id, out Troop found) ? found : null;
 
     // Null when the id is missing or the stored unit is not a T.
-    public T FindUnit<T>(int id) where T : Troop =>
-        UnitTable.TryGetValue(id, out Troop found) && found is T typed ? typed : null;
+    public T FindUnit<T>(int id) where T : Troop
+        => UnitTable.TryGetValue(id, out Troop found) && found is T typed ? typed : null;
 
     // Unit.PAS:39
     public int GetFreeId()
@@ -79,7 +79,6 @@ public partial class UnitControl(CustomNode owner) : EngineObject(owner)
     // Unit.PAS:48
     public void RegisterUnit(Troop troop)
     {
-        Troop existingUnit;
         if (!troop.UnitStatus.Contains(UnitStatusElement.Registered))
         {
             if (troop.UnitId == -1)
@@ -91,12 +90,12 @@ public partial class UnitControl(CustomNode owner) : EngineObject(owner)
             }
             else
             {
-                existingUnit = UnitTable.TryGetValue(troop.UnitId, out Troop found) ? found : null;
+                Troop existingUnit = UnitTable.TryGetValue(troop.UnitId, out Troop found) ? found : null;
                 if (existingUnit != troop)
                 {
                     Units.Add(troop);
                     troop.UnitStatus += Set<UnitStatusElement>.Of(UnitStatusElement.Registered);
-                    if (existingUnit == null)
+                    if (existingUnit is null)
                     {
                         HashTables.Add(UnitTable, key: troop.UnitId, value: troop);
                     }
@@ -139,7 +138,4 @@ public partial class UnitControl(CustomNode owner) : EngineObject(owner)
             _ = Units.Remove(troop);
         }
     }
-
-    // intf_P2_05.inc:21
-
 }

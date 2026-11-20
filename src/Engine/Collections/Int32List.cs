@@ -18,7 +18,7 @@ using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Engine.Collections;
 
-public partial class Int32List : Persistent
+public class Int32List : Persistent
 {
     private int[] _list = [];
     private int _count;
@@ -26,11 +26,7 @@ public partial class Int32List : Persistent
     private int _default;
 
     // Engine.pas:3343
-    public int Get(int index)
-    {
-        int result = index < 0 || index >= _count ? _default : _list[index];
-        return result;
-    }
+    public int Get(int index) => index < 0 || index >= _count ? _default : _list[index];
 
     // Engine.pas:3397
     // AoWE
@@ -94,24 +90,17 @@ public partial class Int32List : Persistent
             result = $"{result}{IntToStr(_list[i])},";
         }
 
-        if (!IsEmpty(result))
-        {
-            result = Copy(result, 1, result.Length - 1);
-        }
-
-        return result;
+        return !IsEmpty(result) ? Copy(result, 1, result.Length - 1) : result;
     }
 
     // Engine.pas:3548
     internal void SetItemString(string S)
     {
-        string item;
-        int p;
-        int v;
         Clear();
-        p = Pos(",", S);
+        int p = Pos(",", S);
         while (!IsEmpty(S))
         {
+            string item;
             if (p != 0)
             {
                 item = Copy(S, 1, p - 1);
@@ -123,7 +112,7 @@ public partial class Int32List : Persistent
                 S = "";
             }
 
-            v = !IsEmpty(item) ? StrToInt(item) : 0;
+            int v = !IsEmpty(item) ? StrToInt(item) : 0;
 
             _ = Add(v);
             p = Pos(",", S);
@@ -195,7 +184,6 @@ public partial class Int32List : Persistent
     // Engine.pas:3321
     public void Exchange(int index1, int index2)
     {
-        int item;
         if (index1 < 0 || index1 >= _count)
         {
             Error("List index out of bounds (%d)", index1);
@@ -206,9 +194,7 @@ public partial class Int32List : Persistent
             Error("List index out of bounds (%d)", index2);
         }
 
-        item = _list[index1];
-        _list[index1] = _list[index2];
-        _list[index2] = item;
+        (_list[index2], _list[index1]) = (_list[index1], _list[index2]);
     }
 
     // Engine.pas:3332
@@ -234,12 +220,7 @@ public partial class Int32List : Persistent
             result += 1;
         }
 
-        if (result == _count)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == _count ? -1 : result;
     }
 
     // Engine.pas:3368
@@ -270,7 +251,6 @@ public partial class Int32List : Persistent
     // Engine.pas:3384
     public void Move(int currentIndex, int newIndex)
     {
-        int item;
         if (currentIndex != newIndex)
         {
             if (newIndex < 0 || newIndex >= _count)
@@ -278,7 +258,7 @@ public partial class Int32List : Persistent
                 Error("List index out of bounds (%d)", newIndex);
             }
 
-            item = Get(currentIndex);
+            int item = Get(currentIndex);
             Delete(currentIndex);
             Insert(newIndex, item);
         }
@@ -366,12 +346,10 @@ public partial class Int32List : Persistent
     public void SaveToStream(Stream stream)
     {
         int i;
-        int run = default;
         int DefaultRun()
         {
-            int j;
             int result = 0;
-            j = i;
+            int j = i;
             while (j < _count && _list[j] == _default)
             {
                 result += 1;
@@ -386,7 +364,7 @@ public partial class Int32List : Persistent
         stream.Write(Bytes.Of(ref _count, 4));
         while (_count != i)
         {
-            run = DefaultRun();
+            int run = DefaultRun();
             if (run > 0)
             {
                 stream.Write(Bytes.Of(ref _default, 4));
@@ -405,12 +383,10 @@ public partial class Int32List : Persistent
     public int RandomChanceItem(int bonus)
     {
         int result;
-        int total;
-        int chance;
-        int r;
         if (_count != 0)
         {
-            total = 0;
+            int total = 0;
+            int chance;
             for (int i = _count - 1; i >= 0; i--)
             {
                 chance = _list[i] + bonus;
@@ -422,7 +398,7 @@ public partial class Int32List : Persistent
                 total += chance;
             }
 
-            r = Random(total);
+            int r = Random(total);
             total = 0;
             result = 0;
             while (total < r)
@@ -439,7 +415,7 @@ public partial class Int32List : Persistent
         }
         else
         {
-            result = -1;
+            return -1;
         }
 
         return result;
@@ -460,14 +436,11 @@ public partial class Int32List : Persistent
     private static void QuickSortInteger(Span<int> sortList, int L, int R, IntegerSortCompare sCompare)
     {
         int i;
-        int j;
-        int p;
-        int t = default;
         do
         {
             i = L;
-            j = R;
-            p = sortList[(int)(((uint)(L + R)) >> 1)];
+            int j = R;
+            int p = sortList[(int)(((uint)(L + R)) >> 1)];
             do
             {
                 while (sCompare(sortList[i], p) < 0)
@@ -482,9 +455,7 @@ public partial class Int32List : Persistent
 
                 if (i <= j)
                 {
-                    t = sortList[i];
-                    sortList[i] = sortList[j];
-                    sortList[j] = t;
+                    (sortList[j], sortList[i]) = (sortList[i], sortList[j]);
                     i += 1;
                     j -= 1;
                 }
@@ -504,17 +475,9 @@ public partial class Int32List : Persistent
 
     internal static int FillWithRandomUnits(Int32List indexes, UnitCollection units, int level, int value, Set<UnitType> types)
     {
-        Unit testUnit;
-        int index;
-        int tries;
-        int i;
-        int difference;
-        int bestIndex;
-        int delta;
-        Unit unit;
         bool CanUse(Unit unit)
         {
-            bool condition = unit.UnitResource != null;
+            bool condition = unit.UnitResource is not null;
             if (condition)
             {
                 condition = types.Contains(unit.GetUnitType());
@@ -523,15 +486,15 @@ public partial class Int32List : Persistent
             return condition && unit.GetUnitLevel() <= level && units.CanAddUnit(unit);
         }
 
-        testUnit = new Unit(null) { Holder = units.Holder };
+        Unit testUnit = new(null) { Holder = units.Holder };
         int result = 0;
-        tries = 50;
         using (units.Holder.BeginUpdate())
         {
+            int tries = 50;
             while (result < value && tries != 0)
             {
                 tries -= 1;
-                index = indexes[Random(indexes.Count)];
+                int index = indexes[Random(indexes.Count)];
                 if (index != -1)
                 {
                     testUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(index));
@@ -539,9 +502,9 @@ public partial class Int32List : Persistent
                     {
                         if (testUnit.GetObtainValue() + result > value)
                         {
-                            bestIndex = index;
-                            i = 20;
-                            difference = Math.Abs(testUnit.GetObtainValue() - (value - result));
+                            int bestIndex = index;
+                            int i = 20;
+                            int difference = Math.Abs(testUnit.GetObtainValue() - (value - result));
                             do
                             {
                                 index = indexes[Random(indexes.Count)];
@@ -550,7 +513,7 @@ public partial class Int32List : Persistent
                                     testUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(index));
                                     if (CanUse(testUnit))
                                     {
-                                        delta = Math.Abs(testUnit.GetObtainValue() - (value - result));
+                                        int delta = Math.Abs(testUnit.GetObtainValue() - (value - result));
                                         if (delta < difference)
                                         {
                                             bestIndex = index;
@@ -565,7 +528,7 @@ public partial class Int32List : Persistent
                             index = bestIndex;
                         }
 
-                        unit = new Unit(null) { Holder = units.Holder };
+                        Unit unit = new(null) { Holder = units.Holder };
                         unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(index));
                         _ = units.AddUnit(unit);
                         result += unit.GetObtainValue();
@@ -574,7 +537,6 @@ public partial class Int32List : Persistent
                     }
                 }
             }
-
         }
         _ = testUnit.Release();
         return result;
@@ -582,16 +544,9 @@ public partial class Int32List : Persistent
 
     internal static int FillWithRandomUnitIndexes(Int32List indexes, Int32List units, int level, int value, Set<UnitType> types, GameEngine engine)
     {
-        Unit testUnit;
-        int index;
-        int tries;
-        int i;
-        int difference;
-        int bestIndex;
-        int delta;
         bool CanUse(Unit unit)
         {
-            bool condition = unit.UnitResource != null;
+            bool condition = unit.UnitResource is not null;
             if (condition)
             {
                 condition = types.Contains(unit.GetUnitType());
@@ -600,13 +555,13 @@ public partial class Int32List : Persistent
             return condition && unit.GetUnitLevel() <= level;
         }
 
-        testUnit = new Unit(null) { Holder = engine };
+        Unit testUnit = new(null) { Holder = engine };
         int result = 0;
-        tries = 50;
+        int tries = 50;
         while (result < value && tries != 0)
         {
             tries -= 1;
-            index = indexes[Random(indexes.Count)];
+            int index = indexes[Random(indexes.Count)];
             if (index != -1)
             {
                 testUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(index));
@@ -614,9 +569,9 @@ public partial class Int32List : Persistent
                 {
                     if (testUnit.GetObtainValue() + result > value)
                     {
-                        bestIndex = index;
-                        i = 20;
-                        difference = Math.Abs(testUnit.GetObtainValue() - (value - result));
+                        int bestIndex = index;
+                        int i = 20;
+                        int difference = Math.Abs(testUnit.GetObtainValue() - (value - result));
                         do
                         {
                             index = indexes[Random(indexes.Count)];
@@ -625,7 +580,7 @@ public partial class Int32List : Persistent
                                 testUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(index));
                                 if (CanUse(testUnit))
                                 {
-                                    delta = Math.Abs(testUnit.GetObtainValue() - (value - result));
+                                    int delta = Math.Abs(testUnit.GetObtainValue() - (value - result));
                                     if (delta < difference)
                                     {
                                         bestIndex = index;

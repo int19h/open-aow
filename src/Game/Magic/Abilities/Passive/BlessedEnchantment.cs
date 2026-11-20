@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // inherited name, ability ID, selection types, ability type
-public partial class BlessedEnchantment : UnitEnchantmentAbility
+public class BlessedEnchantment : UnitEnchantmentAbility
 {
     // PassiveAb.pas:1211
     public BlessedEnchantment(CustomNode owner, EngineObject holder) : base(owner)
@@ -23,14 +23,11 @@ public partial class BlessedEnchantment : UnitEnchantmentAbility
     // PassiveAb.pas:1231
     public override string GetSourceName(AbilityOwner owner)
     {
-        string result;
         // { Original assumes the ability data and enchantment exist. }
         UnitEnchantmentAbilityData unitEnchantmentAbilityData = owner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
-        result = unitEnchantmentAbilityData.Enchantment.Source == -2
+        return unitEnchantmentAbilityData.Enchantment.Source == -2
             ? AbilityRules.TranslateResourceString(GetEngine(), GameText.LifeMasteryText)
             : base.GetSourceName(owner);
-
-        return result;
     }
 
     // PassiveAb.pas:1242

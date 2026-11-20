@@ -17,7 +17,7 @@ namespace Aow.Game.Combat.Actions;
 
 // FDamage. FDamageTypes. FEffects. FDamageTaken. The two damage sets are stored as unaligned
 // packed records (PackedDamageTypes)
-public partial class DamageCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
+public class DamageCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
 {
     // Combat2.pas:774
     public new const int ClassId = 131761;
@@ -40,10 +40,8 @@ public partial class DamageCombatAction(CustomNode owner) : SingleTargetCombatAc
     // Combat2.pas:817
     public override void Execute(Battle combat)
     {
-        CombatObject target;
-        CombatObject source;
-        source = combat.CombatData.FindId(SourceId);
-        target = combat.CombatData.FindId(TargetId);
+        CombatObject source = combat.CombatData.FindId(SourceId);
+        CombatObject target = combat.CombatData.FindId(TargetId);
         if (Damage != 0)
         {
             DamageDone = (byte)source.DoDamage(target, Damage);
@@ -58,16 +56,12 @@ public partial class DamageCombatAction(CustomNode owner) : SingleTargetCombatAc
     // Combat2.pas:826
     public override bool Play(CombatViewer viewer)
     {
-        int hitFrame;
-        int duration;
-        int effectFrames;
-        CombatObject target;
-        hitFrame = viewer.Delay < 5 ? viewer.Delay : 5;
+        int hitFrame = viewer.Delay < 5 ? viewer.Delay : 5;
 
         if (hitFrame == viewer.Time)
         {
             Execute(viewer.Combat);
-            target = viewer.Combat.CombatData.FindId(TargetId);
+            CombatObject target = viewer.Combat.CombatData.FindId(TargetId);
             if (DamageDone != 0)
             {
                 if (!target.Status.Contains(CombatObjectStatusElement.Destroyed))
@@ -81,10 +75,10 @@ public partial class DamageCombatAction(CustomNode owner) : SingleTargetCombatAc
             }
         }
 
-        duration = viewer.Delay * 2;
+        int duration = viewer.Delay * 2;
         if (Effects != Set<DamageType>.Of())
         {
-            effectFrames = DamageEffectsAnimationFrames(Effects) + viewer.Delay;
+            int effectFrames = DamageEffectsAnimationFrames(Effects) + viewer.Delay;
             hitFrame = viewer.Delay * 3;
             if (effectFrames > hitFrame)
             {
@@ -103,14 +97,13 @@ public partial class DamageCombatAction(CustomNode owner) : SingleTargetCombatAc
     // Combat2.pas:848
     public override void ShowObject(CombatViewer viewer, CombatObject objectValue, int frame, int direction, int X, int Y, in LockedSurface surface)
     {
-        int hitFrame;
         if (objectValue.Id == SourceId)
         {
             _ = objectValue.ShowAttackAnimation(viewer.Time, direction, X, Y, surface);
         }
         else
         {
-            hitFrame = viewer.Delay < 5 ? viewer.Delay : 5;
+            int hitFrame = viewer.Delay < 5 ? viewer.Delay : 5;
 
             if (objectValue.Id == TargetId && DamageDone != 0 && hitFrame <= viewer.Time)
             {
@@ -274,9 +267,4 @@ public partial class DamageCombatAction(CustomNode owner) : SingleTargetCombatAc
                 : damageTypes.Contains(DamageType.Wall) ? DamageType.Wall : DamageType.None
             : DamageType.None;
     }
-
-    // intf_P3_02.inc:38
-
-    // intf_P3_02.inc:38
-
 }

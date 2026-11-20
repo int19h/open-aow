@@ -9,17 +9,14 @@ using Aow.Rtl;
 namespace Aow.Game.AI.Groups;
 
 // inherited move control, executer and state
-public partial class DefaultMoveExecutorControl(CustomNode owner) : AIMoveExecutorControl(owner)
+public class DefaultMoveExecutorControl(CustomNode owner) : AIMoveExecutorControl(owner)
 {
 
     // AIGroup.pas:4978
     public override void CalculateMoves()
     {
-        int i;
         AIMoveExecutorArmyList armies;
         AIMoveExecutorMove move;
-        Set<CreateMoveModeElement> mode;
-        bool cannotMove;
         byte moveResult;
         switch (State)
         {
@@ -27,12 +24,12 @@ public partial class DefaultMoveExecutorControl(CustomNode owner) : AIMoveExecut
                 armies = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready));
                 if (armies.Count != 0)
                 {
-                    mode = Executor.Mode.Contains(AIMoveExecutorModeElement.Attack)
+                    Set<CreateMoveModeElement> mode = Executor.Mode.Contains(AIMoveExecutorModeElement.Attack)
                         ? Set<CreateMoveModeElement>.Of(CreateMoveModeElement.Surround)
                         : Set<CreateMoveModeElement>.Of();
 
                     move = CreateMove(armies.GetArmies(0), 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, mode, out moveResult);
-                    if (move != null)
+                    if (move is not null)
                     {
                         if (!Executor.Mode.Contains(AIMoveExecutorModeElement.Simultaneous) || (Executor.Mode.Contains(AIMoveExecutorModeElement.Attack) && moveResult == 2))
                         {
@@ -68,17 +65,14 @@ public partial class DefaultMoveExecutorControl(CustomNode owner) : AIMoveExecut
                 armies?.Dispose();
                 break;
             case 1:
-                i = 0;
-                cannotMove = true;
+                int i = 0;
+                bool cannotMove = true;
                 armies = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready, AIMoveExecutorUnitStatus.Done));
                 while (cannotMove && i != armies.Count)
                 {
                     move = CreateMove(armies.GetArmies(i), 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, Set<CreateMoveModeElement>.Of(CreateMoveModeElement.DoNotQueue, CreateMoveModeElement.Surround), out moveResult);
                     cannotMove = moveResult != 0;
-                    if (move != null)
-                    {
-                        move?.Dispose();
-                    }
+                    move?.Dispose();
 
                     i += 1;
                 }
@@ -87,10 +81,10 @@ public partial class DefaultMoveExecutorControl(CustomNode owner) : AIMoveExecut
                 {
                     i = 0;
                     move = null;
-                    while (move == null && i != armies.Count)
+                    while (move is null && i != armies.Count)
                     {
                         move = CreateMove(armies.GetArmies(i), 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, Set<CreateMoveModeElement>.Of(), out _);
-                        if (move != null)
+                        if (move is not null)
                         {
                             Executor.ExecuteMoves();
                         }

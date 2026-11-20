@@ -7,7 +7,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.World.Movement;
 
 // Path, PathMovePoints, MoveObject, MovePoints, Priority, Selection, MovePosition, Valid
-public partial class MoveSettings(CustomNode owner) : EngineObject(owner)
+public class MoveSettings(CustomNode owner) : EngineObject(owner)
 {
 
     public MovePath Path { get; } = new MovePath();
@@ -30,15 +30,8 @@ public partial class MoveSettings(CustomNode owner) : EngineObject(owner)
     }
 
     // Structur.PAS:4024
-    public MapCoordinate GetMoveLocation()
-    {
-        MapCoordinate result = Path.Count > MovePosition && MovePosition >= 0 ? Path.List[MovePosition].Location : MapCoordinate.None;
-        return result;
-    }
+    public MapCoordinate GetMoveLocation() => Path.Count > MovePosition && MovePosition >= 0 ? Path.List[MovePosition].Location : MapCoordinate.None;
 
     // Structur.PAS:4034
     public int GetMovePrio() => (Path.Count - MovePosition) * _priority;
-
-    // intf_P1_04.inc:197
-
 }

@@ -19,7 +19,7 @@ using static Aow.Rtl.IntegerObjects;
 namespace Aow.Game.Magic.Abilities;
 
 // (AbilityData,)
-public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
+public class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
 {
     public AbilityData AbilityData { get; set; }
 
@@ -58,19 +58,19 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
 
         // Under the translate stream the original takes its read branch, and the stream's empty
         // property table holds no ability bits, so no ability data is visited.
-        if (AbilityData == null || PersistSupport.Translating(persister))
+        if (AbilityData is null || PersistSupport.Translating(persister))
         {
             return;
         }
 
         Int32List stored = new();
-        for (AbilityData data = AbilityData; data != null; data = data.Next)
+        for (AbilityData data = AbilityData; data is not null; data = data.Next)
         {
             _ = stored.Add(data.GetAbilityId());
         }
 
         PersistSupport.Int32List(persister, "AbilityDataIds", stored);
-        for (AbilityData data = AbilityData; data != null; data = data.Next)
+        for (AbilityData data = AbilityData; data is not null; data = data.Next)
         {
             _ = persister.CreatedSlot("AbilityData", slot: data.GetAbilityId(), objectValue: data);
         }
@@ -82,7 +82,7 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     public override void Clear()
     {
         base.Clear();
-        while (AbilityData != null)
+        while (AbilityData is not null)
         {
             RemoveAbilityData(AbilityData);
         }
@@ -111,13 +111,12 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     // Ability.PAS:2004
     public override void ListAbilities(DelphiStringCollection text, Set<AbilitySelectionType> types)
     {
-        Ability ability;
         text.Clear();
         for (int i = 0, last = AbilityCount - 1; i <= last; i++)
         {
             if (GetAbilitySetAt(i))
             {
-                ability = GamePack.Current.AbilityControl.GetAbility(i);
+                Ability ability = GamePack.Current.AbilityControl.GetAbility(i);
                 if ((ability.SelectionTypes & types) != Set<AbilitySelectionType>.Of())
                 {
                     _ = text.AddObject(ability.GetName(this), IntToObject(i));
@@ -197,8 +196,7 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     // Ability.PAS:1678
     public void ValidateOwnerTypeAbilities()
     {
-        Set<AbilitySelectionType> types;
-        types = GetAbilitySelectionTypes();
+        Set<AbilitySelectionType> types = GetAbilitySelectionTypes();
         for (int i = GetOwnAbilityCount() - 1; i >= 0; i--)
         {
             if (GetAbilitySetAt(i) && (GamePack.Current.AbilityControl.GetAbility(i).SelectionTypes & types) == Set<AbilitySelectionType>.Of())
@@ -211,9 +209,8 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     // Ability.PAS:1688
     public AbilityData GetAbilityData(int abilityId)
     {
-        AbilityData data;
-        data = AbilityData;
-        while (data != null && data.GetAbilityId() != abilityId)
+        AbilityData data = AbilityData;
+        while (data is not null && data.GetAbilityId() != abilityId)
         {
             data = data.Next;
         }
@@ -228,8 +225,7 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     // Ability.PAS:1696
     public void AssignAbility(AbilityOwner source)
     {
-        AbilityData data;
-        while (AbilityData != null)
+        while (AbilityData is not null)
         {
             RemoveAbilityData(AbilityData);
         }
@@ -243,8 +239,8 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
             }
         }
 
-        data = source.AbilityData;
-        while (data != null)
+        AbilityData data = source.AbilityData;
+        while (data is not null)
         {
             AddAbilityData(data.Copy<AbilityData>(GetEngine()));
             data = data.Next;
@@ -261,11 +257,9 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     // Ability.PAS:1717
     public void RemoveAbilityData(AbilityData data)
     {
-        AbilityData current;
-        AbilityData previous;
-        current = AbilityData;
-        previous = null;
-        while (current != null && current != data)
+        AbilityData current = AbilityData;
+        AbilityData previous = null;
+        while (current is not null && current != data)
         {
             previous = current;
             current = current.Next;
@@ -274,7 +268,7 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
         if (current == data)
         {
             // { Original dereferences nil when Data is nil. }
-            if (previous != null)
+            if (previous is not null)
             {
                 previous.Next = current.Next;
             }
@@ -290,19 +284,17 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     // Ability.PAS:1736
     public void RemoveAbilityDataId(int abilityId)
     {
-        AbilityData current;
-        AbilityData previous;
-        current = AbilityData;
-        previous = null;
-        while (current != null && current.GetAbilityId() != abilityId)
+        AbilityData current = AbilityData;
+        AbilityData previous = null;
+        while (current is not null && current.GetAbilityId() != abilityId)
         {
             previous = current;
             current = current.Next;
         }
 
-        if (current != null && current.GetAbilityId() == abilityId)
+        if (current is not null && current.GetAbilityId() == abilityId)
         {
-            if (previous != null)
+            if (previous is not null)
             {
                 previous.Next = current.Next;
             }
@@ -318,13 +310,12 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     // Ability.PAS:1818
     public void UpdateDefaultAbilities(AbilityOwner source)
     {
-        AbilityData data;
         for (int i = source.GetOwnAbilityCount() - 1; i >= 0; i--)
         {
             if (source.GetAbilitySetAt(i) && (!GetAbilitySetAt(i) || source.GetOwnAbilityLevel(i) > GetOwnAbilityLevel(i)))
             {
-                data = source.GetAbilityData(i);
-                if (data != null)
+                AbilityData data = source.GetAbilityData(i);
+                if (data is not null)
                 {
                     RemoveAbilityDataId(i);
                     data = data.Copy<AbilityData>(GetEngine());
@@ -612,15 +603,13 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     // Ability.PAS:2018
     public void ListAbilities(DelphiStringCollection text)
     {
-        Ability ability;
-        string name;
         text.Clear();
         for (int i = 0, last = AbilityCount - 1; i <= last; i++)
         {
             if (GetAbilitySetAt(i))
             {
-                ability = GamePack.Current.AbilityControl.GetAbility(i);
-                name = ability.GetName(this);
+                Ability ability = GamePack.Current.AbilityControl.GetAbility(i);
+                string name = ability.GetName(this);
                 if (!IsEmpty(name))
                 {
                     _ = text.AddObject(name, IntToObject(i));
@@ -628,7 +617,4 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
             }
         }
     }
-
-    // intf_P1_06.inc:120
-
 }

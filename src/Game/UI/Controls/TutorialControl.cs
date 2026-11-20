@@ -15,7 +15,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.UI.Controls;
 
 // list of shown message IDs
-public partial class TutorialControl(CustomNode owner) : EngineObject(owner)
+public class TutorialControl(CustomNode owner) : EngineObject(owner)
 {
 
     private readonly Int32List _shownMessages = new();
@@ -37,15 +37,14 @@ public partial class TutorialControl(CustomNode owner) : EngineObject(owner)
     // AoWHSMap.PAS:16
     public void ShowMessage(int id, bool immediate, bool onceOnly)
     {
-        TutorialMessageEventLog log;
-        if (StrategicMap.Current.GameType == GameType.Tutorial && StrategicMap.Current.TextControl.FindId(id) != null)
+        if (StrategicMap.Current.GameType == GameType.Tutorial && StrategicMap.Current.TextControl.FindId(id) is not null)
         {
             if (onceOnly && _shownMessages.IndexOf(id) != -1)
             {
                 return;
             }
 
-            log = new TutorialMessageEventLog(null, holder: CreationHolder());
+            TutorialMessageEventLog log = new(null, holder: CreationHolder());
             TextControlItem idLocal = StrategicMap.Current.TextControl.FindId(id);
             log.Message.Assign(idLocal.Text);
             StrategicMap.Current.TriggerExecuteEventLog(log, immediate, null);
@@ -53,7 +52,4 @@ public partial class TutorialControl(CustomNode owner) : EngineObject(owner)
             _ = _shownMessages.Add(id);
         }
     }
-
-    // intf_P1_05.inc:187
-
 }

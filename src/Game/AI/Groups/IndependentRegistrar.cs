@@ -3,7 +3,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.AI.Groups;
 
-public partial class IndependentRegistrar
+public class IndependentRegistrar
 {
     // IndependentAG.pas:136
     public static void MapLoaded(GameMap sender)

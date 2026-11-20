@@ -15,7 +15,7 @@ public partial class WaterNode(CustomNode owner) : ProductionPlace(owner)
     // WaterNode.pas:40
     public override MagicSphere GetMagicSphere() => MagicSphere.Water;
 
-    public new partial class Resource : ProductionPlaceResource
+    public new class Resource : ProductionPlaceResource
     {
         public Resource(CustomNode owner) : base(owner)
         {
@@ -28,12 +28,8 @@ public partial class WaterNode(CustomNode owner) : ProductionPlace(owner)
         // WaterNode.pas:55
         public new const int ClassId = 132276;
 
-        // WaterNode.pas:43
-
         // WaterNode.pas:58
         public override int ResourceUserClassId() => 132275;
-
-        // WaterNode.pas:27
 
         // WaterNode.pas:52
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_waterNodeText);
@@ -41,5 +37,4 @@ public partial class WaterNode(CustomNode owner) : ProductionPlace(owner)
         private static readonly string s_waterNodeText = "Water Node";
 
     }
-
 }

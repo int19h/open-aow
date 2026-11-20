@@ -40,7 +40,11 @@ internal static unsafe class SdlVerification
             surface.Data = new byte[68 * 24];
             surface.DataIndex = 68 * 23;
             display.Present(surface);
-            surface.Width = 640; surface.Height = 480; surface.Pitch = 1280; surface.Data = new byte[1280 * 480]; surface.DataIndex = 0;
+            surface.Width = 640;
+            surface.Height = 480;
+            surface.Pitch = 1280;
+            surface.Data = new byte[1280 * 480];
+            surface.DataIndex = 0;
             display.Present(surface);
             // Drain resize events from texture size changes before testing the queue.
             display.PumpEvents(sink);
@@ -73,8 +77,15 @@ internal static unsafe class SdlVerification
 
             bool rejected = Task.Run(() =>
             {
-                try { _ = display.ClientSize; return false; }
-                catch (InvalidOperationException) { return true; }
+                try
+                {
+                    _ = display.ClientSize;
+                    return false;
+                }
+                catch (InvalidOperationException)
+                {
+                    return true;
+                }
             }).GetAwaiter().GetResult();
             if (!rejected)
             {
@@ -116,6 +127,10 @@ internal static unsafe class SdlVerification
         public void KeyUp(ushort key, Set<ShiftState> shift) => KeyUps++;
         public void FocusChanged(bool active) => FocusChanges++;
 
-        public bool CloseRequested() { CloseQueries++; return AllowClose; }
+        public bool CloseRequested()
+        {
+            CloseQueries++;
+            return AllowClose;
+        }
     }
 }

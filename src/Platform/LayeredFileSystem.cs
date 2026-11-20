@@ -56,7 +56,11 @@ public sealed class LayeredFileSystem : IFileSystem
             EnsureDirectory(parent);
         }
 
-        if (Directory.Exists(path)) { RejectLink(path); return; }
+        if (Directory.Exists(path))
+        {
+            RejectLink(path);
+            return;
+        }
         _ = Directory.CreateDirectory(path);
     }
 
@@ -130,7 +134,15 @@ public sealed class LayeredFileSystem : IFileSystem
                 continue;
             }
 
-            if (part == "..") { if (parts.Count > 0) { parts.RemoveAt(parts.Count - 1); } continue; }
+            if (part == "..")
+            {
+                if (parts.Count > 0)
+                {
+                    parts.RemoveAt(parts.Count - 1);
+                }
+
+                continue;
+            }
             if (part.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0 || part.Contains(':'))
             {
                 throw new ArgumentException("Invalid path component.");
@@ -272,9 +284,19 @@ public sealed class LayeredFileSystem : IFileSystem
 
     private bool Mutate(Action action)
     {
-        try { action(); return true; }
-        catch (Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException) { return false; }
-        finally { _userListings.Clear(); }
+        try
+        {
+            action();
+            return true;
+        }
+        catch (Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException)
+        {
+            return false;
+        }
+        finally
+        {
+            _userListings.Clear();
+        }
     }
 
     public bool DeleteFile(string path) => Mutate(() =>

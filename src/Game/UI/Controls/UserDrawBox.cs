@@ -9,7 +9,7 @@ namespace Aow.Game.UI.Controls;
 // { The aowUserDrawBox unit of aowInt.dpl: UserDrawBox, an empty control that its owner draws
 //   in OnPreDraw and OnDraw; its mouse events get coordinates relative to the control. }
 // no fields of its own
-public partial class UserDrawBox(Component owner) : Control(owner)
+public class UserDrawBox(Component owner) : Control(owner)
 {
 
     // aowUserDrawBox.pas:34

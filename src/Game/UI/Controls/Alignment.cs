@@ -7,7 +7,7 @@ namespace Aow.Game.UI.Controls;
 // _heightPercent, _leftOffsetPercent, _rightOffsetPercent, _topOffsetPercent, _bottomOffsetPercent,
 // _leftOffset, _rightOffset, _topOffset, _bottomOffset, _alignWidth, _alignHeight. It does not
 // override Assign, so TAoWComponent.SetAlign raises FormatException (original bug)
-public partial class Alignment : Persistent
+public class Alignment : Persistent
 {
     [Published]
     public AlignWidth AlignWidth { get; set; }
@@ -44,5 +44,4 @@ public partial class Alignment : Persistent
 
     [Published]
     public int BottomOffset { get; set; }
-
 }

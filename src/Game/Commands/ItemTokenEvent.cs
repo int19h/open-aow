@@ -8,7 +8,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Commands;
 
 // item ID, action, hero ID
-public partial class ItemTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class ItemTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
     public new const int ClassId = 131698;
 
@@ -31,20 +31,16 @@ public partial class ItemTokenEvent(CustomNode owner) : TokenEvent(owner)
     // Army.PAS:4193
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        ExecuteResult result;
-        bool done;
-        Item item;
-        Hero hero;
         _ = base.Execute(tokenEvent);
-        done = false;
-        item = StrategicMap.Current.ItemControl.FindItem(ItemId);
-        if (item != null)
+        bool done = false;
+        Item item = StrategicMap.Current.ItemControl.FindItem(ItemId);
+        if (item is not null)
         {
             switch (_action)
             {
                 case 0:
-                    hero = StrategicMap.Current.HeroControl.FindId(HeroId);
-                    done = hero != null && item.ExecuteUse(hero);
+                    Hero hero = StrategicMap.Current.HeroControl.FindId(HeroId);
+                    done = hero is not null && item.ExecuteUse(hero);
 
                     break;
                 default:
@@ -52,11 +48,6 @@ public partial class ItemTokenEvent(CustomNode owner) : TokenEvent(owner)
             }
         }
 
-        result = done ? ExecuteResult.Done : ExecuteResult.DoneHalt;
-
-        return result;
+        return done ? ExecuteResult.Done : ExecuteResult.DoneHalt;
     }
-
-    // NetworkE.pas:230
-
 }

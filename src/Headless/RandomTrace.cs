@@ -116,7 +116,11 @@ internal sealed class RandomTrace(string path, Func<long> frame) : IDisposable
             for (int i = Math.Min(frame.GetFileLineNumber() - 1, lines.Length - 1); i >= 0; i--)
             {
                 Match match = Regex.Match(lines[i], @"// (\S+\.pas:\d+)", RegexOptions.IgnoreCase);
-                if (match.Success) { source = match.Groups[1].Value; break; }
+                if (match.Success)
+                {
+                    source = match.Groups[1].Value;
+                    break;
+                }
             }
         }
         _sources[method] = source;

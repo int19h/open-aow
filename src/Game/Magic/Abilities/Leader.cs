@@ -16,7 +16,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Abilities;
 
 // SpherePicksMax. Spheres
-public partial class Leader(CustomNode owner) : Hero(owner)
+public class Leader(CustomNode owner) : Hero(owner)
 {
 
     public new const int ClassId = 131634;
@@ -28,7 +28,7 @@ public partial class Leader(CustomNode owner) : Hero(owner)
     // Hero.PAS:2766
     public override void Dispose()
     {
-        if (StrategicMap.Current != null && StrategicMap.Current.Players.GetPlayers(Player) != null && this == StrategicMap.Current.Players.GetPlayers(Player).Leader)
+        if (StrategicMap.Current is not null && StrategicMap.Current.Players.GetPlayers(Player) is not null && this == StrategicMap.Current.Players.GetPlayers(Player).Leader)
         {
             StrategicMap.Current.Players.GetPlayers(Player).SetLeader(null);
         }
@@ -73,7 +73,7 @@ public partial class Leader(CustomNode owner) : Hero(owner)
     public override void Changed()
     {
         base.Changed();
-        if (StrategicMap.Current != null && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
+        if (StrategicMap.Current is not null && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
         {
             StrategicMap.Current.OnLeaderChangedStore.Raise(this);
         }
@@ -83,11 +83,7 @@ public partial class Leader(CustomNode owner) : Hero(owner)
     public override byte GetUpkeep() => 0;
 
     // Hero.PAS:2886
-    public override int GetPowerGeneration()
-    {
-        int result = GetAbilityEnabled(52) ? (GetAbilityLevel(52) * 5) + 5 : 0;
-        return result;
-    }
+    public override int GetPowerGeneration() => GetAbilityEnabled(52) ? (GetAbilityLevel(52) * 5) + 5 : 0;
 
     // Hero.PAS:2908
     public override void SetPlayer(sbyte player)
@@ -112,14 +108,13 @@ public partial class Leader(CustomNode owner) : Hero(owner)
     // Hero.PAS:2921
     public override bool CanActivate()
     {
-        Leader leader;
         bool result = base.CanActivate();
         if (result)
         {
-            leader = StrategicMap.Current.Players.GetPlayers(Player).Leader;
-            if (leader != null && !CompatibleHero(leader))
+            Leader leader = StrategicMap.Current.Players.GetPlayers(Player).Leader;
+            if (leader is not null && !CompatibleHero(leader))
             {
-                result = false;
+                return false;
             }
         }
 
@@ -129,7 +124,6 @@ public partial class Leader(CustomNode owner) : Hero(owner)
     // Hero.PAS:2932
     public override void Activate()
     {
-        Leader leader;
         LibraryId = -1;
         if (Player == 0)
         {
@@ -137,12 +131,12 @@ public partial class Leader(CustomNode owner) : Hero(owner)
         }
 
         base.Activate();
-        if (StrategicMap.Current.Players.GetPlayers(Player) != null)
+        if (StrategicMap.Current.Players.GetPlayers(Player) is not null)
         {
-            leader = StrategicMap.Current.Players.GetPlayers(Player).Leader;
+            Leader leader = StrategicMap.Current.Players.GetPlayers(Player).Leader;
             if (leader != this)
             {
-                if (leader != null && leader.Owner != null)
+                if (leader is not null && leader.Owner is not null)
                 {
                     try
                     {
@@ -178,7 +172,7 @@ public partial class Leader(CustomNode owner) : Hero(owner)
     // Hero.PAS:2915
     public override void Killed()
     {
-        if (UnitStatus.Contains(UnitStatusElement.Activated) && StrategicMap.Current.Combat == null)
+        if (UnitStatus.Contains(UnitStatusElement.Activated) && StrategicMap.Current.Combat is null)
         {
             StrategicMap.Current.GameOver(Player, GameOverStatus.Lost);
         }
@@ -187,32 +181,12 @@ public partial class Leader(CustomNode owner) : Hero(owner)
     }
 
     // Hero.PAS:2787
-    public override string GetNickname()
-    {
-        string result;
-        if (StrategicMap.Current != null)
-        {
-            if (StrategicMap.Current.GameType != GameType.Campaign)
-            {
-                result = "";
-            }
-            else
-            {
-                return Nickname;
-            }
-        }
-        else
-        {
-            result = "";
-        }
-
-        return result;
-    }
+    public override string GetNickname() => StrategicMap.Current is not null ? StrategicMap.Current.GameType != GameType.Campaign ? "" : Nickname : "";
 
     // Hero.PAS:2795
     public override void SetNickname(string value)
     {
-        if (StrategicMap.Current != null && StrategicMap.Current.GameType == GameType.Campaign)
+        if (StrategicMap.Current is not null && StrategicMap.Current.GameType == GameType.Campaign)
         {
             base.SetNickname(value);
         }
@@ -222,7 +196,7 @@ public partial class Leader(CustomNode owner) : Hero(owner)
     public override void SetHeroResourceIndex(int value)
     {
         base.SetHeroResourceIndex(value);
-        if (HeroResource != null && StrategicMap.Current != null && StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (HeroResource is not null && StrategicMap.Current is not null && StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             HeroName = HeroResource.Name;
         }
@@ -231,13 +205,10 @@ public partial class Leader(CustomNode owner) : Hero(owner)
     // Hero.PAS:2960
     public override void EditDropMessage(ref EngineMessage message)
     {
-        MapLevel level;
-        int l;
-        bool placed;
-        level = message.Param[0].As<MapLevel>();
-        l = message.Data[1];
+        MapLevel level = message.Param[0].As<MapLevel>();
+        int l = message.Data[1];
         HexGeometry.PixelToHex(message.Payload.Int, message.Data[0], out int x, out int y);
-        placed = x >= 0 && y >= 0 && x < level.Width && y < level.Height && Place(x, y, l, Player, Set<UnitPlaceModeElement>.Of()) != null;
+        bool placed = x >= 0 && y >= 0 && x < level.Width && y < level.Height && Place(x, y, l, Player, Set<UnitPlaceModeElement>.Of()) is not null;
 
         message.Result = placed ? 0 : -1;
     }
@@ -259,7 +230,7 @@ public partial class Leader(CustomNode owner) : Hero(owner)
         }
         else
         {
-            result = 4;
+            return 4;
         }
 
         return result;
@@ -282,11 +253,7 @@ public partial class Leader(CustomNode owner) : Hero(owner)
     }
 
     // Hero.PAS:2824
-    public bool CanAddSphere(MagicSphere sphere)
-    {
-        bool result = _spheres.Count < SpherePicksMax && sphere != MagicSphere.Cosmos && (!GetEngine().Demo || GetSpherePicks(sphere) < 2) && GetSpherePicks(sphere) != 4 && (sphere != MagicSphere.Fire || GetSpherePicks(MagicSphere.Water) == 0) && (sphere != MagicSphere.Water || GetSpherePicks(MagicSphere.Fire) == 0) && (sphere != MagicSphere.Life || GetSpherePicks(MagicSphere.Death) == 0) && (sphere != MagicSphere.Death || GetSpherePicks(MagicSphere.Life) == 0) && (sphere != MagicSphere.Earth || GetSpherePicks(MagicSphere.Air) == 0) && (sphere != MagicSphere.Air || GetSpherePicks(MagicSphere.Earth) == 0);
-        return result;
-    }
+    public bool CanAddSphere(MagicSphere sphere) => _spheres.Count < SpherePicksMax && sphere != MagicSphere.Cosmos && (!GetEngine().Demo || GetSpherePicks(sphere) < 2) && GetSpherePicks(sphere) != 4 && (sphere != MagicSphere.Fire || GetSpherePicks(MagicSphere.Water) == 0) && (sphere != MagicSphere.Water || GetSpherePicks(MagicSphere.Fire) == 0) && (sphere != MagicSphere.Life || GetSpherePicks(MagicSphere.Death) == 0) && (sphere != MagicSphere.Death || GetSpherePicks(MagicSphere.Life) == 0) && (sphere != MagicSphere.Earth || GetSpherePicks(MagicSphere.Air) == 0) && (sphere != MagicSphere.Air || GetSpherePicks(MagicSphere.Earth) == 0);
 
     // Hero.PAS:2842
     public bool AddSphere(MagicSphere sphere)
@@ -303,25 +270,21 @@ public partial class Leader(CustomNode owner) : Hero(owner)
     // Hero.PAS:2863
     public bool DeleteSphereIndex(int index)
     {
-        bool result;
         if (index >= 0 && index < _spheres.Count)
         {
             _spheres.Delete(index);
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Hero.PAS:2870
     public bool DeleteSphere(MagicSphere sphere)
     {
-        int i;
-        i = _spheres.Count;
+        int i = _spheres.Count;
         bool result = false;
         while (!result && i != 0)
         {

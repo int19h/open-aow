@@ -12,7 +12,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.AI.Groups;
 
 // hunted unit IDs
-public partial class HuntAIGroup(CustomNode owner) : AIGroup(owner), IAIGroupClass
+public class HuntAIGroup(CustomNode owner) : AIGroup(owner), IAIGroupClass
 {
 
     // AIGroup.pas:1442
@@ -37,22 +37,18 @@ public partial class HuntAIGroup(CustomNode owner) : AIGroup(owner), IAIGroupCla
     // AIGroup.pas:1457
     public override bool HuntingPlayer(sbyte player)
     {
-        int i;
-        Troop troop;
         bool result = false;
-        i = TargetUnitIds.Count;
+        int i = TargetUnitIds.Count;
         while (i != 0)
         {
             i -= 1;
-            troop = StrategicMap.Current.UnitControl.FindUnit(TargetUnitIds.List[i]);
+            Troop troop = StrategicMap.Current.UnitControl.FindUnit(TargetUnitIds.List[i]);
             // { Original bug: each entry overwrites the result, including earlier matches. }
-            result = troop != null && player == troop.Player;
+            result = troop is not null && player == troop.Player;
         }
 
         return result;
     }
-
-    // intf_P5_07.inc:660
 
     // AIGroup.pas:1452
     public override EngineClass GroupControlClass() => EngineClass.Of<HuntAIGroupControl>();

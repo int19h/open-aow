@@ -135,7 +135,11 @@ public sealed class RemainingConstructionTests
 
                     string key = $"{current.Name}.{MemberNames.Of(field)}";
                     object? child = field.GetValue(item);
-                    if (MemberNames.Of(field) is "_owner" or "Owner") { fields[key] = child is null ? null : "$owner"; continue; }
+                    if (MemberNames.Of(field) is "_owner" or "Owner")
+                    {
+                        fields[key] = child is null ? null : "$owner";
+                        continue;
+                    }
                     fields[key] = State(child, $"{path}.{key}");
                 }
             }
@@ -245,7 +249,10 @@ public sealed class RemainingConstructionTests
 
     private static object? Invoke(Func<object?> action)
     {
-        try { return action(); }
+        try
+        {
+            return action();
+        }
         catch (TargetInvocationException error) when (error.InnerException is not null)
         {
             ExceptionDispatchInfo.Capture(error.InnerException).Throw();
@@ -265,7 +272,10 @@ public sealed class RemainingConstructionTests
             using GameEngine engine = new(null!);
             EngineClass meta = EngineClass.Of(type);
             engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);
-            try { engine.UnregisterEngineClasses([engine.GetEngineClass(meta.ClassId)]); }
+            try
+            {
+                engine.UnregisterEngineClasses([engine.GetEngineClass(meta.ClassId)]);
+            }
             catch (Exception error) when (PortedExceptions.Is(error)) { }
             engine.RegisterEngineClasses([EngineClass.Of(type)]);
             return engine.CreateEngineObject(meta.ClassId, owner);
@@ -316,11 +326,20 @@ public sealed class RemainingConstructionTests
 
                     state = $"success:{Snapshot(value)}";
                 }
-                catch (Exception error) { state = $"failure:{error.GetType().FullName}:{error.Message}"; }
+                catch (Exception error)
+                {
+                    state = $"failure:{error.GetType().FullName}:{error.Message}";
+                }
                 finally
                 {
-                    try { (value as IDisposable)?.Dispose(); }
-                    catch (Exception error) { states.Add($"destroy:{error.GetType().FullName}:{error.Message}"); }
+                    try
+                    {
+                        (value as IDisposable)?.Dispose();
+                    }
+                    catch (Exception error)
+                    {
+                        states.Add($"destroy:{error.GetType().FullName}:{error.Message}");
+                    }
                 }
                 states.Add(state);
                 states.Add($"owner:{owner?.Members.Count ?? 0}");

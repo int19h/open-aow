@@ -8,7 +8,7 @@ using Aow.Rtl;
 namespace Aow.Game.Combat;
 
 // Status. Combat. Delay. Speed. Position. Time. Logbook
-public partial class CombatViewer : IDisposable
+public class CombatViewer : IDisposable
 {
     // Combat2.pas:546
     public CombatViewer(EngineObject creator)
@@ -148,10 +148,9 @@ public partial class CombatViewer : IDisposable
     // Combat2.pas:635
     public void Update()
     {
-        bool playing;
         if ((Status & Set<CombatViewerStatusElement>.Of(CombatViewerStatusElement.Initialized, CombatViewerStatusElement.Playing, CombatViewerStatusElement.Paused)) == Set<CombatViewerStatusElement>.Of(CombatViewerStatusElement.Initialized, CombatViewerStatusElement.Playing) && GetEndPosition() != Position)
         {
-            playing = false;
+            bool playing = false;
             if (Position == 0)
             {
                 Time += 1;
@@ -245,7 +244,7 @@ public partial class CombatViewer : IDisposable
     // Combat2.pas:688
     public void DefaultShowFightingObjects(CombatObject source, CombatObject target, int frame, int X, int Y, in LockedSurface surface)
     {
-        if (target != null)
+        if (target is not null)
         {
             if (target.GetSide() == CombatSideIndex.Attacker)
             {
@@ -257,7 +256,7 @@ public partial class CombatViewer : IDisposable
             }
         }
 
-        if (source != null)
+        if (source is not null)
         {
             if (source.GetSide() == CombatSideIndex.Attacker)
             {
@@ -269,7 +268,4 @@ public partial class CombatViewer : IDisposable
             }
         }
     }
-
-    // intf_P3_02.inc:19
-
 }

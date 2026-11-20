@@ -15,9 +15,17 @@ public readonly struct MsgArg : IUnion, IEquatable<MsgArg>
     private readonly object? reference;
     private readonly Case kind;
 
-    public MsgArg(int value) { bits = value; kind = Case.Integer; }
+    public MsgArg(int value)
+    {
+        bits = value;
+        kind = Case.Integer;
+    }
 
-    public MsgArg(object? value) { reference = value; kind = value is null ? Case.None : Case.Object; }
+    public MsgArg(object? value)
+    {
+        reference = value;
+        kind = value is null ? Case.None : Case.Object;
+    }
 
     // The compiler prefers a user-defined conversion to a union conversion. The integer operator
     // keeps a byte or a short on the integer case. A conversion from object is illegal, so the

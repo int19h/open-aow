@@ -41,7 +41,7 @@ namespace Aow.Game.Session;
 // players, seen days, PBEM, emerging hero, participating, initial gold, base income, hero join
 // days, upkeep. end turn, view, password, turn number, base hero level, emerging hero ID,
 // emerge day, highest hero level, settings/description
-public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<PlayerCollection>
+public class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<PlayerCollection>
 {
     // The list that holds the player. AcceptsOwner admits only that list, so the cast never fails.
     public new PlayerCollection Owner { get => GetOwner<PlayerCollection>(); set => SetOwner(value); }
@@ -254,8 +254,6 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     // Player.PAS:315
     public override void Dispose()
     {
-        PlayerStructureList structures;
-        ArmyCollection armies;
         try
         {
             _incomeChangedEventsStore.Clear();
@@ -263,7 +261,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             _upkeepChangedEventsStore.Clear();
             try
             {
-                if (StrategicMap.Current != null && StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
+                if (StrategicMap.Current is not null && StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
                 {
                     Assert(_victoryLocations.Count == 0, "Victory Locations not correctly cleared (TPlayer)", "Player.PAS", 326);
                     Assert(Structures.Count == 0, "Registered Player Structures not correctly cleared (TPlayer)", "Player.PAS", 327);
@@ -271,13 +269,13 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
                 }
                 else
                 {
-                    structures = Structures;
+                    PlayerStructureList structures = Structures;
                     for (int i = structures.Count - 1; i >= 0; i--)
                     {
                         Structures.GetStructure(i).SetPlayer(0);
                     }
 
-                    armies = Armies;
+                    ArmyCollection armies = Armies;
                     for (int i = armies.Count - 1; i >= 0; i--)
                     {
                         Armies.GetArmy(i).SetPlayer(0);
@@ -407,9 +405,6 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     // Player.PAS:1023
     public override void PersistFields(IPersister persister)
     {
-        int x = default;
-        int y = default;
-        int l = default;
         base.PersistFields(persister);
         // The translate stream's mode is read and text only. The original ReadWrite leaves out the
         // settings there, visits and registers the leader, keeps the view, visits the leader setup
@@ -434,7 +429,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             if (persister.Loading || translating)
             {
                 Leader = persister.Created("Leader", objectValue: Leader);
-                if (Leader != null && !persister.Preview)
+                if (Leader is not null && !persister.Preview)
                 {
                     Leader.Player = PlayerIndex;
                     _ = StrategicMap.Current.HeroControl.RegisterHero(Leader);
@@ -450,7 +445,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
         {
             if (StrategicMap.Current.SeatedPlayer == PlayerIndex && StrategicMap.Current.ConnectionType != PlayerConnectionType.Network)
             {
-                StrategicMap.Current.GetViewCenter(out x, out y, out l);
+                StrategicMap.Current.GetViewCenter(out int x, out int y, out int l);
                 View = new MapCoordinate(unchecked((sbyte)(byte)x), unchecked((sbyte)(byte)y), unchecked((sbyte)(byte)l));
                 View = PersistSupport.Coordinate(persister, name: "View", value: View, width: CoordinateWidth.Byte);
             }
@@ -481,7 +476,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
         Behavior = persister.Enum("Behavior", value: Behavior);
         if (PlayerIndex != 0)
         {
-            if (!persister.Loading && !translating && StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Leader != null)
+            if (!persister.Loading && !translating && StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Leader is not null)
             {
                 persister.Object("LeaderSetup", objectValue: Leader);
             }
@@ -572,7 +567,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
                 if (StrategicMap.Current.Day == 1)
                 {
                     View = View with { X = -1 };
-                    if (StrategicMap.Current.GameType != GameType.Campaign && !StrategicMap.Current.FixedLeaders && Leader != null)
+                    if (StrategicMap.Current.GameType != GameType.Campaign && !StrategicMap.Current.FixedLeaders && Leader is not null)
                     {
                         Leader.Owner = null;
                         _ = MagicControl.UnregisterPowerSource(Leader.PowerSource);
@@ -628,8 +623,8 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     public bool GetBusy()
     {
         bool result = _busyCount != 0 || !StrategicMap.Current.TokenManager.PlayerReady(PlayerIndex);
-        result = result || (StrategicMap.Current.Combat == null && StrategicMap.Current.PlayMode == PlayMode.Turn && StrategicMap.Current.CurrentPlayer != PlayerIndex);
-        result = result || (StrategicMap.Current.Combat != null && StrategicMap.Current.Combat.CombatData.Players.GetPlayers((sbyte)StrategicMap.Current.Combat.CombatData.CurrentPlayer).Player != PlayerIndex);
+        result = result || (StrategicMap.Current.Combat is null && StrategicMap.Current.PlayMode == PlayMode.Turn && StrategicMap.Current.CurrentPlayer != PlayerIndex);
+        result = result || (StrategicMap.Current.Combat is not null && StrategicMap.Current.Combat.CombatData.Players.GetPlayers((sbyte)StrategicMap.Current.Combat.CombatData.CurrentPlayer).Player != PlayerIndex);
         result = result || GameOverStatus != GameOverStatus.None || !GetLocal();
         return result || (PlayerType == PlayerType.Human && StrategicMap.Current.GetTurnTimerEnabled() && StrategicMap.Current.GetTurnTimeLeft() <= 0);
     }
@@ -637,18 +632,15 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     // Player.PAS:406
     public int GetSuperiority()
     {
-        int result;
         if (Statistics.TurnInfo.Count != 0)
         {
             int count = Statistics.TurnInfo.Count;
-            result = Statistics.TurnInfo.GetTurnInfo(count - 1).GetSuperiority();
+            return Statistics.TurnInfo.GetTurnInfo(count - 1).GetSuperiority();
         }
         else
         {
-            result = 0;
+            return 0;
         }
-
-        return result;
     }
 
     // Player.PAS:412
@@ -673,16 +665,13 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     // Player.PAS:425
     public void SetGameOverStatus(GameOverStatus value)
     {
-        GameOverEventLog eventValue;
-        PlayerStructureList structures;
-        ArmyCollection armies;
-        Campaign campaign;
         if (value != GameOverStatus && GameOverStatus == GameOverStatus.None)
         {
             GameOverStatus = value;
             StrategicMap.Current.AIExecutor.DeactivatePlayer(PlayerIndex);
             if (StrategicMap.Current.GameType == GameType.Campaign && PlayerType == PlayerType.Human)
             {
+                Campaign campaign;
                 if (GameOverStatus == GameOverStatus.Lost)
                 {
                     StrategicMap.Current.GameResult = StrategicMapGameResult.Failed;
@@ -704,13 +693,13 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             {
                 BeginUpdate();
                 MagicControl.RemoveEnchantments();
-                structures = Structures;
+                PlayerStructureList structures = Structures;
                 for (int i = structures.Count - 1; i >= 0; i--)
                 {
                     Structures.GetStructure(i).SetPlayer(0);
                 }
 
-                armies = Armies;
+                ArmyCollection armies = Armies;
                 for (int i = armies.Count - 1; i >= 0; i--)
                 {
                     Armies.GetArmy(i).SetPlayer(0);
@@ -722,7 +711,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
                 StrategicMap.Current.Players.Update();
             }
 
-            eventValue = new GameOverEventLog(null)
+            GameOverEventLog eventValue = new(null)
             {
                 Holder = CreationHolder(),
                 Player = PlayerIndex
@@ -754,11 +743,9 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     // Player.PAS:484
     public bool Surrender()
     {
-        bool result;
-        GameOverTokenEvent tokenEvent;
         if (!GetBusy() && GameOverStatus == GameOverStatus.None)
         {
-            tokenEvent = new GameOverTokenEvent(null)
+            GameOverTokenEvent tokenEvent = new(null)
             {
                 Holder = CreationHolder(),
                 Player = PlayerIndex,
@@ -766,24 +753,20 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             };
             StrategicMap.Current.TokenManager.GetTokenControl(PlayerIndex).AddEvent(tokenEvent);
             _ = tokenEvent.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Player.PAS:499
     public bool Win()
     {
-        bool result;
-        GameOverTokenEvent tokenEvent;
         if (!GetBusy() && GameOverStatus == GameOverStatus.None)
         {
-            tokenEvent = new GameOverTokenEvent(null)
+            GameOverTokenEvent tokenEvent = new(null)
             {
                 Holder = CreationHolder(),
                 Player = PlayerIndex,
@@ -791,25 +774,23 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             };
             StrategicMap.Current.TokenManager.GetTokenControl(PlayerIndex).AddEvent(tokenEvent);
             _ = tokenEvent.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Player.PAS:515
     public bool Validate(DelphiStringCollection errors)
     {
         bool result;
-        string s;
-        string leaderName;
         if (PlayerIndex > 0)
         {
             result = true;
+            string s;
+            string leaderName;
             if (Leader.GetSphereCount() != StrategicMap.Current.SphereCount)
             {
                 string raceNames = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNames[PlayerRace]);
@@ -819,7 +800,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
                 result = false;
             }
 
-            if (Leader.Owner == null)
+            if (Leader.Owner is null)
             {
                 string raceNamesText = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNames[PlayerRace]);
                 leaderName = AbilityRules.Format(s_leaderFormat, [raceNamesText]);
@@ -839,7 +820,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
         else
         {
             // { Original reports unassigned skill points without failing validation. }
-            result = true;
+            return true;
         }
 
         return result;
@@ -1007,7 +988,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
         string result;
         if (PlayerIndex != 0)
         {
-            if (Leader != null)
+            if (Leader is not null)
             {
                 result = Leader.HeroName;
                 if (!IsEmpty(Leader.GetNickname()))
@@ -1023,12 +1004,12 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
 
             if (IsEmpty(result))
             {
-                result = $"{AbilityRules.TranslateResourceString(GetEngine(), s_playerText)} {IntToStr(PlayerIndex)}";
+                return $"{AbilityRules.TranslateResourceString(GetEngine(), s_playerText)} {IntToStr(PlayerIndex)}";
             }
         }
         else
         {
-            result = AbilityRules.TranslateResourceString(GetEngine(), GameTables.IndependentsText);
+            return AbilityRules.TranslateResourceString(GetEngine(), GameTables.IndependentsText);
         }
 
         return result;
@@ -1037,19 +1018,16 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     // Player.PAS:663
     public string GetNameWithRace()
     {
-        string result;
         if (PlayerIndex != 0)
         {
             string name = GetName();
             string raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNamesPluralTexts[PlayerRace]);
-            result = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_playerNameWithRaceFormat), [name, raceNamesPlural]);
+            return AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_playerNameWithRaceFormat), [name, raceNamesPlural]);
         }
         else
         {
-            result = GetName();
+            return GetName();
         }
-
-        return result;
     }
 
     // Player.PAS:671
@@ -1057,7 +1035,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     {
         if (PlayerIndex != 0)
         {
-            if (Leader != null)
+            if (Leader is not null)
             {
                 Leader.HeroName = value;
                 Leader.SetNickname("");
@@ -1070,41 +1048,27 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     }
 
     // Player.PAS:682
-    public LibraryImage GetFace()
-    {
-        LibraryImage result = Leader?.GetFace();
-        return result;
-    }
+    public LibraryImage GetFace() => Leader?.GetFace();
 
     // Player.PAS:688
     public int GetHeroCountMax()
     {
-        int result;
-        int strength;
-        int maximum;
         int count = Statistics.TurnInfo.Count;
-        strength = Statistics.TurnInfo.GetTurnInfo(count - 1).ArmyStrength;
-        result = strength < 10
+        int strength = Statistics.TurnInfo.GetTurnInfo(count - 1).ArmyStrength;
+        int result = strength < 10
             ? 1
             : strength < 40 ? 2 : strength < 80 ? 3 : strength < 120 ? 4 : strength < 200 ? 5 : ((strength - 200) / 100) + 5;
 
-        maximum = StrategicMap.Current.HeroCountMax;
-        if (maximum < result)
-        {
-            result = maximum;
-        }
-
-        return result;
+        int maximum = StrategicMap.Current.HeroCountMax;
+        return maximum < result ? maximum : result;
     }
 
     // Player.PAS:703
     public int GetIdealHeroJoinDay()
     {
-        int average;
-        int maximum;
         int result = _lastHeroJoinDay;
-        average = StrategicMap.Current.Players.GetAverageHeroCount();
-        maximum = StrategicMap.Current.Players.GetMaxHeroCount();
+        int average = StrategicMap.Current.Players.GetAverageHeroCount();
+        int maximum = StrategicMap.Current.Players.GetMaxHeroCount();
         if (maximum > average && Heroes.Count == maximum)
         {
             result += 15;
@@ -1127,12 +1091,9 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     // Player.PAS:717
     public int GetIdealHeroEmergeDay()
     {
-        int average;
-        int maximum;
-        int earliest;
         int result = GetIdealHeroJoinDay();
-        average = StrategicMap.Current.Players.GetAverageHeroCount();
-        maximum = StrategicMap.Current.Players.GetMaxHeroCount();
+        int average = StrategicMap.Current.Players.GetAverageHeroCount();
+        int maximum = StrategicMap.Current.Players.GetMaxHeroCount();
         if (maximum > average && Heroes.Count == maximum)
         {
             result += 15;
@@ -1149,13 +1110,8 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             }
         }
 
-        earliest = _lastHeroEmergeDay + 5;
-        if (earliest > result)
-        {
-            result = earliest;
-        }
-
-        return result;
+        int earliest = _lastHeroEmergeDay + 5;
+        return earliest > result ? earliest : result;
     }
 
     // Player.PAS:733
@@ -1164,24 +1120,18 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     // Player.PAS:738
     public void MakeHeroEmerge(HeroEmergeMode mode)
     {
-        int chance = default;
-        DoubleItemList<Hero> heroes;
-        HeroEmergeEventLog log;
-        MapCoordinateList locations;
-        Structure structure;
-        DoubleItem<Hero> doubleItem;
+        DoubleItemList<Hero> heroes = new();
         int i;
         Hero hero;
-        heroes = new DoubleItemList<Hero>();
         if (mode == HeroEmergeMode.Normal)
         {
             i = StrategicMap.Current.HeroControl.GetCount() - 1;
             for (; i >= 0; i -= 1)
             {
                 hero = StrategicMap.Current.HeroControl.GetHero(i);
-                if (!hero.HeroStatus.Contains(HeroStatusElement.Died) && hero.Player <= 0 && hero.Owner == null && hero.CanJoin(PlayerIndex))
+                if (!hero.HeroStatus.Contains(HeroStatusElement.Died) && hero.Player <= 0 && hero.Owner is null && hero.CanJoin(PlayerIndex))
                 {
-                    chance = GetHeroJoinChance(hero.GetLevel());
+                    int chance = GetHeroJoinChance(hero.GetLevel());
                     if (chance > 0 && hero.JoinAmount(PlayerIndex) < Gems)
                     {
                         _ = heroes.AddAbility(hero, chance * chance);
@@ -1197,7 +1147,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
                 for (; i >= 0; i -= 1)
                 {
                     hero = StrategicMap.Current.HeroControl.GetHero(i);
-                    if (!hero.HeroStatus.Contains(HeroStatusElement.Died) && hero.Player <= 0 && hero.Owner == null && hero.GetAbilityEnabled(52) && hero.GetLevel() >= 2 && hero.GetLevel() <= 3)
+                    if (!hero.HeroStatus.Contains(HeroStatusElement.Died) && hero.Player <= 0 && hero.Owner is null && hero.GetAbilityEnabled(52) && hero.GetLevel() >= 2 && hero.GetLevel() <= 3)
                     {
                         Status playerRelation = StrategicMap.Current.Races.GetRace(hero.Race).GetPlayerRelation(PlayerIndex);
                         if (Set<Status>.Of(Session.Status.Polite, Session.Status.Friendly).Contains(playerRelation) && hero.JoinAmount(PlayerIndex) < Gems)
@@ -1212,8 +1162,9 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
 
         if (heroes.Count != 0)
         {
-            locations = new MapCoordinateList();
+            MapCoordinateList locations = new();
             i = Structures.Count - 1;
+            Structure structure;
             for (; i >= 0; i -= 1)
             {
                 structure = Structures.GetStructure(i);
@@ -1228,7 +1179,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
                 _lastHeroEmergeDay = StrategicMap.Current.Day;
                 RandSeed = StrategicMap.Current.Random(1048575);
                 i = heroes.RandomChanceItemB(0);
-                doubleItem = heroes[i];
+                DoubleItem<Hero> doubleItem = heroes[i];
                 hero = doubleItem.First;
                 i = StrategicMap.Current.Random(locations.Count);
                 EmergingHeroId = hero.UnitId;
@@ -1240,9 +1191,9 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
                 MapCoordinate item3 = locations[i];
                 MapCoordinate item4 = locations[i];
                 structure = StrategicMap.Current.MapContainer.GetField(item4.X, item3.Y, item2.MapLevel).FindNoneTransparentHexSprite<Structure>();
-                log = new HeroEmergeEventLog(null) { Holder = CreationHolder() };
+                HeroEmergeEventLog log = new(null) { Holder = CreationHolder() };
                 log.Setup(hero, PlayerIndex, HeroEmergeEventLog.HeroJoinMode.Emerged);
-                log.LocationName = structure != null
+                log.LocationName = structure is not null
                     ? structure.GetName()
                     : AbilityRules.TranslateResourceString(GetEngine(), GameTables.UnknownText);
 
@@ -1264,7 +1215,6 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     // Player.PAS:812
     public void UpdateHeroJoin()
     {
-        int days;
         for (int i = Heroes.Count - 1; i >= 0; i--)
         {
             if (Heroes.GetHero(i).GetLevel() > _highestHeroLevel)
@@ -1290,7 +1240,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
         }
 
         EmergingHeroId = 0;
-        days = GetIdealHeroEmergeDay() - StrategicMap.Current.Day;
+        int days = GetIdealHeroEmergeDay() - StrategicMap.Current.Day;
         if (StrategicMap.Current.Day == 1 && Heroes.Count == 1 && !StrategicMap.Current.FixedLeaders)
         {
             MakeHeroEmerge(HeroEmergeMode.FirstHero);
@@ -1309,20 +1259,19 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     // Player.PAS:836
     public int GetHeroJoinChance(int level)
     {
+        int maximum = GetHeroJoinLevelMax();
         int result;
-        int maximum;
-        maximum = GetHeroJoinLevelMax();
         if (level <= maximum)
         {
             result = Round((double)((double)(maximum + 2) / (level + 2)) * 20);
             if (result > 40)
             {
-                result = 40;
+                return 40;
             }
         }
         else
         {
-            result = 0;
+            return 0;
         }
 
         return result;
@@ -1331,10 +1280,9 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     // Player.PAS:849
     public int GetHeroJoinLevelMax()
     {
-        int days;
         int result = BaseHeroJoinLevel;
         int idealHeroJoinDay = GetIdealHeroJoinDay();
-        days = StrategicMap.Current.Day - idealHeroJoinDay;
+        int days = StrategicMap.Current.Day - idealHeroJoinDay;
         if (days > 0)
         {
             result += days / 5;
@@ -1349,28 +1297,20 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             }
         }
 
-        if (result < 3 && !StrategicMap.Current.FixedLeaders && StrategicMap.Current.Day == 1)
-        {
-            result = 3;
-        }
-
-        return result;
+        return result < 3 && !StrategicMap.Current.FixedLeaders && StrategicMap.Current.Day == 1 ? 3 : result;
     }
 
     // Player.PAS:865
     public void ValidateLeader()
     {
-        int faceIndex;
-        int resourceIndex;
-        HeroType heroType;
-        string name;
-        if (StrategicMap.Current != null && PlayerIndex != 0)
+        if (StrategicMap.Current is not null && PlayerIndex != 0)
         {
-            heroType = HeroType.HeroLeader;
-            if (Leader != null && Leader.GetHeroType() != heroType)
+            HeroType heroType = HeroType.HeroLeader;
+            int resourceIndex;
+            if (Leader is not null && Leader.GetHeroType() != heroType)
             {
-                name = Leader.HeroName;
-                faceIndex = Leader.FaceIndex;
+                string name = Leader.HeroName;
+                int faceIndex = Leader.FaceIndex;
                 Leader.Deactivate();
                 resourceIndex = GamePack.Current.HeroResources.Find(PlayerRace, heroType);
                 Leader.SetHeroResourceIndex(resourceIndex);
@@ -1380,7 +1320,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             }
             else
             {
-                if (Leader == null)
+                if (Leader is null)
                 {
                     resourceIndex = GamePack.Current.HeroResources.Find(PlayerRace, heroType);
                     if (resourceIndex != -1)
@@ -1393,7 +1333,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
                 }
                 else
                 {
-                    if (Leader != null && !StrategicMap.Current.FixedLeaders && StrategicMap.Current.GameType != GameType.Campaign && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+                    if (Leader is not null && !StrategicMap.Current.FixedLeaders && StrategicMap.Current.GameType != GameType.Campaign && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
                     {
                         Leader.Owner = null;
                     }
@@ -1443,10 +1383,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     // Player.PAS:928
     public void UpdateTurnInfo()
     {
-        TurnInfoItem info;
-        Army army;
-        Troop troop;
-        info = new TurnInfoItem(Statistics.TurnInfo);
+        TurnInfoItem info = new(Statistics.TurnInfo);
         if (GameOverStatus != GameOverStatus.Lost)
         {
             info.Gold = Gems;
@@ -1455,10 +1392,10 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             info.Heroes = (byte)Heroes.Count;
             for (int i = 0, last = Armies.Count - 1; i <= last; i++)
             {
-                army = Armies.GetArmy(i);
+                Army army = Armies.GetArmy(i);
                 for (int j = army.Units.Count - 1; j >= 0; j--)
                 {
-                    troop = army.Units.GetUnit(j);
+                    Troop troop = army.Units.GetUnit(j);
                     if (info.ArmyStrength < 1073741823)
                     {
                         int strengthMax = troop.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
@@ -1498,18 +1435,10 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     }
 
     // Player.PAS:1108
-    public int GetFirstDaySeen(sbyte player)
-    {
-        int result = player != PlayerIndex ? player < FirstDaySeen.Count ? FirstDaySeen[player] : -1 : 0;
-        return result;
-    }
+    public int GetFirstDaySeen(sbyte player) => player != PlayerIndex ? player < FirstDaySeen.Count ? FirstDaySeen[player] : -1 : 0;
 
     // Player.PAS:1116
-    public int GetLastDaySeen(sbyte player)
-    {
-        int result = player != PlayerIndex ? player < _lastDaySeen.Count ? _lastDaySeen[player] : -1 : StrategicMap.Current.Day;
-        return result;
-    }
+    public int GetLastDaySeen(sbyte player) => player != PlayerIndex ? player < _lastDaySeen.Count ? _lastDaySeen[player] : -1 : StrategicMap.Current.Day;
 
     // Player.PAS:1124
     public void PlayerSeen(sbyte player)
@@ -1545,20 +1474,16 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     // Player.PAS:1146
     public bool GetLocal()
     {
-        bool result;
-        PlayerCommunicationControl control;
-        control = StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl;
-        if (control != null)
+        PlayerCommunicationControl control = StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl;
+        if (control is not null)
         {
             PlayerCommunicationSettings players = control.GetPlayers(PlayerIndex);
-            result = Set<ConnectionMode>.Of(ConnectionMode.Local, ConnectionMode.Global).Contains(players.ConnectionMode);
+            return Set<ConnectionMode>.Of(ConnectionMode.Local, ConnectionMode.Global).Contains(players.ConnectionMode);
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // Player.PAS:1159
@@ -1622,7 +1547,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
         }
         else
         {
-            result = null;
+            return null;
         }
 
         return result;
@@ -1631,12 +1556,9 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     // Player.PAS:1203
     public bool DiplomaticActionAlreadySend(byte kind, sbyte target, sbyte other)
     {
-        EventLogbook logbook;
-        int i;
-        DiplomaticAction item;
-        logbook = StrategicMap.Current.Players.GetPlayers(target).EventLogbook;
+        EventLogbook logbook = StrategicMap.Current.Players.GetPlayers(target).EventLogbook;
         bool result = false;
-        i = logbook.GetCount();
+        int i = logbook.GetCount();
         while (!result && i != 0)
         {
             i -= 1;
@@ -1644,7 +1566,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             {
                 if (logbook.GetLogs(i) is DiplomaticActionEventLog diplomatic)
                 {
-                    item = diplomatic.Action;
+                    DiplomaticAction item = diplomatic.Action;
                     result = item.Proposal.ToFields().Kind == kind && item.Source == PlayerIndex && item.Target == target && (other == -1 || item.OtherPlayer == other);
                 }
             }
@@ -1657,16 +1579,15 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     public int ListDiplomaticActions(sbyte player, DiplomaticActionList actions)
     {
         int count;
-        DiplomaticRelation relation;
-        DiplomaticAction action;
         if (player != PlayerIndex && GetFirstDaySeen(player) != -1)
         {
             count = actions.Count;
-            relation = StrategicMap.Current.Players.GetDiplomaticRelation(player, PlayerIndex);
+            DiplomaticRelation relation = StrategicMap.Current.Players.GetDiplomaticRelation(player, PlayerIndex);
+            DiplomaticAction action;
             if (PlayerType == PlayerType.Human && StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
             {
                 action = CreateDiplomaticAction(new SendMessage(), player, -1);
-                if (action != null)
+                if (action is not null)
                 {
                     _ = actions.AddChild(action);
                     _ = action.Release();
@@ -1676,7 +1597,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             if (Set<DiplomaticRelation>.Of(DiplomaticRelation.War, DiplomaticRelation.Unknown).Contains(relation) && !DiplomaticActionAlreadySend(OfferPeace.Kind, player, -1))
             {
                 action = CreateDiplomaticAction(new OfferPeace(), player, -1);
-                if (action != null)
+                if (action is not null)
                 {
                     _ = actions.AddChild(action);
                     _ = action.Release();
@@ -1686,7 +1607,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             if (relation is not DiplomaticRelation.War and not DiplomaticRelation.Alliance)
             {
                 action = CreateDiplomaticAction(new DeclareWar(), player, -1);
-                if (action != null)
+                if (action is not null)
                 {
                     _ = actions.AddChild(action);
                     _ = action.Release();
@@ -1696,7 +1617,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             if (Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace).Contains(relation) && !DiplomaticActionAlreadySend(ProposeAlliance.Kind, player, -1))
             {
                 action = CreateDiplomaticAction(new ProposeAlliance(), player, -1);
-                if (action != null)
+                if (action is not null)
                 {
                     _ = actions.AddChild(action);
                     _ = action.Release();
@@ -1706,7 +1627,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             if (Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace, DiplomaticRelation.Unknown).Contains(relation) && !DiplomaticActionAlreadySend(ThreatenToAttack.Kind, player, -1))
             {
                 action = CreateDiplomaticAction(new ThreatenToAttack(), player, -1);
-                if (action != null)
+                if (action is not null)
                 {
                     _ = actions.AddChild(action);
                     _ = action.Release();
@@ -1714,7 +1635,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             }
 
             action = CreateDiplomaticAction(new MakeTribute(), player, -1);
-            if (action != null)
+            if (action is not null)
             {
                 _ = actions.AddChild(action);
                 _ = action.Release();
@@ -1723,7 +1644,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             if (Set<DiplomaticRelation>.Of(DiplomaticRelation.Alliance).Contains(relation))
             {
                 action = CreateDiplomaticAction(new BreakAlliance(), player, -1);
-                if (action != null)
+                if (action is not null)
                 {
                     _ = actions.AddChild(action);
                     _ = action.Release();
@@ -1744,7 +1665,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
                     if (condition)
                     {
                         action = CreateDiplomaticAction(new SuggestWarDeclaration(), player, (sbyte)i);
-                        if (action != null)
+                        if (action is not null)
                         {
                             _ = actions.AddChild(action);
                             _ = action.Release();
@@ -1760,7 +1681,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
                     if (!DiplomaticActionAlreadySend(SuggestAllianceBreak.Kind, player, (sbyte)i) && StrategicMap.Current.Players.GetPlayers(PlayerIndex).GetFirstDaySeen((sbyte)i) != -1 && StrategicMap.Current.Players.GetPlayers(player).GetFirstDaySeen((sbyte)i) != -1 && StrategicMap.Current.Players.GetDiplomaticRelation(player, (sbyte)i) == DiplomaticRelation.Alliance)
                     {
                         action = CreateDiplomaticAction(new SuggestAllianceBreak(), player, (sbyte)i);
-                        if (action != null)
+                        if (action is not null)
                         {
                             _ = actions.AddChild(action);
                             _ = action.Release();
@@ -1778,7 +1699,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
                         if (StrategicMap.Current.Players.GetPlayers(PlayerIndex).GetFirstDaySeen((sbyte)i) != -1 && StrategicMap.Current.Players.GetPlayers(player).GetFirstDaySeen((sbyte)i) != -1 && StrategicMap.Current.Players.GetPlayers(i).GetFirstDaySeen(player) != -1)
                         {
                             action = CreateDiplomaticAction(new ImpersonatedMessage(), player, (sbyte)i);
-                            if (action != null)
+                            if (action is not null)
                             {
                                 _ = actions.AddChild(action);
                                 _ = action.Release();
@@ -1801,29 +1722,24 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     // Player.PAS:1348
     public bool ValidAttackRelation(sbyte player, sbyte independentRelation)
     {
-        bool result;
         Assert(PlayerIndex != 0, "", "Player.PAS", 1390);
         if (Set<PlayerType>.Of(PlayerType.Cpu1, PlayerType.Cpu2, PlayerType.Cpu3, PlayerType.Cpu4, PlayerType.Cpu5).Contains(PlayerType))
         {
-            result = AIValidAttackPlayers[player];
+            return AIValidAttackPlayers[player];
         }
         else
         {
             DiplomaticRelation diplomaticRelation = AbilityRules.DiplomaticRelation(PlayerIndex, 0, player, independentRelation);
-            result = Set<DiplomaticRelation>.Of(DiplomaticRelation.War, DiplomaticRelation.Unknown).Contains(diplomaticRelation);
+            return Set<DiplomaticRelation>.Of(DiplomaticRelation.War, DiplomaticRelation.Unknown).Contains(diplomaticRelation);
         }
-
-        return result;
     }
 
     // Player.PAS:1398
     public bool ChangePlayerSettings(string settings, string error)
     {
-        bool result;
-        ChangePlayerSettingsTokenEvent eventValue;
         if (!GetBusy())
         {
-            eventValue = new ChangePlayerSettingsTokenEvent(null)
+            ChangePlayerSettingsTokenEvent eventValue = new(null)
             {
                 Holder = CreationHolder(),
                 Player = PlayerIndex,
@@ -1831,14 +1747,12 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             };
             StrategicMap.Current.TokenManager.GetTokenControl(PlayerIndex).AddEvent(eventValue);
             _ = eventValue.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     private static readonly string s_playerText = "Player";
@@ -1856,7 +1770,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     }
 
     // Kind 4: the source threatens to attack the target.
-    public sealed partial record ThreatenToAttack : DiplomaticProposal
+    public sealed record ThreatenToAttack : DiplomaticProposal
     {
         public const byte Kind = 4;
 
@@ -1870,8 +1784,8 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
 
         public override string LogText(DiplomaticAction action) => AbilityRules.TranslateResourceString(action.GetEngine(), ThreatText);
 
-        public override void DefaultMessage(DiplomaticMessageText text, DiplomaticActionReaction reaction, DiplomaticRelation relation) =>
-            text.Proposing(112);
+        public override void DefaultMessage(DiplomaticMessageText text, DiplomaticActionReaction reaction, DiplomaticRelation relation)
+            => text.Proposing(112);
 
         public override void Sent(DiplomaticAction action) => Deliver(action);
 
@@ -1880,7 +1794,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     }
 
     // Kind 5: the source pays the target a tribute.
-    public sealed partial record MakeTribute(int Gold = 0, int Mana = 0) : OfferProposal(Gold, Mana)
+    public sealed record MakeTribute(int Gold = 0, int Mana = 0) : OfferProposal(Gold, Mana)
     {
         public const byte Kind = 5;
 
@@ -1898,8 +1812,8 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
 
         public override string LoggedSample => "SFX\\EVENTS\\MESSAGE2.WAV";
 
-        public override void DefaultMessage(DiplomaticMessageText text, DiplomaticActionReaction reaction, DiplomaticRelation relation) =>
-            text.Exchange(reaction, 118, 133, 136);
+        public override void DefaultMessage(DiplomaticMessageText text, DiplomaticActionReaction reaction, DiplomaticRelation relation)
+            => text.Exchange(reaction, 118, 133, 136);
 
         public override bool CanSend(DiplomaticAction action, ref string errorText)
         {
@@ -1933,7 +1847,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
 
     // Kind 7: the source writes to the target in the name of the other player, offered between human
     // players to a source of race 5 whose hero emerges (Player.PAS:1226).
-    public sealed partial record ImpersonatedMessage : DiplomaticProposal
+    public sealed record ImpersonatedMessage : DiplomaticProposal
     {
         public const byte Kind = 7;
 
@@ -1957,7 +1871,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     }
 
     // Kind 8: the source asks the target to end its alliance with the other player.
-    public sealed partial record SuggestAllianceBreak(int Gold = 0, int Mana = 0) : OfferProposal(Gold, Mana)
+    public sealed record SuggestAllianceBreak(int Gold = 0, int Mana = 0) : OfferProposal(Gold, Mana)
     {
         public const byte Kind = 8;
 
@@ -1977,13 +1891,13 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             return Outcome(action, AbilityRules.TranslateResourceString(action.GetEngine(), BreakAllianceSuggestionText), subject, AcceptedLine(subject, engine: action.GetEngine()), "");
         }
 
-        public override void DefaultMessage(DiplomaticMessageText text, DiplomaticActionReaction reaction, DiplomaticRelation relation) =>
-            text.Exchange(reaction, 160, 139, 142, true);
+        public override void DefaultMessage(DiplomaticMessageText text, DiplomaticActionReaction reaction, DiplomaticRelation relation)
+            => text.Exchange(reaction, 160, 139, 142, true);
 
         public override void Sent(DiplomaticAction action) => Deliver(action);
 
-        public override bool LapsesUnanswered(DiplomaticAction action) =>
-            Relation(action.Target, action.OtherPlayer) != DiplomaticRelation.Alliance;
+        public override bool LapsesUnanswered(DiplomaticAction action)
+            => Relation(action.Target, action.OtherPlayer) != DiplomaticRelation.Alliance;
 
         public override void Accepted(DiplomaticAction action)
         {
@@ -1991,7 +1905,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             {
                 StrategicMap.Current.Players.SetDiplomaticRelation((sbyte)(byte)action.Target, (sbyte)(byte)action.OtherPlayer, DiplomaticRelation.Peace);
                 DiplomaticAction broken = StrategicMap.Current.Players.GetPlayers(action.Target).CreateDiplomaticAction(new BreakAlliance(), action.OtherPlayer, -1);
-                if (broken != null)
+                if (broken is not null)
                 {
                     Broadcast(broken, action.Source, action.OtherPlayer);
                     _ = broken.Release();
@@ -2001,8 +1915,8 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             ReturnToSource(action);
         }
 
-        public override DiplomaticActionReaction RejectReaction(DiplomaticAction action) =>
-            Relation(action.Target, action.OtherPlayer) == DiplomaticRelation.Alliance ? DiplomaticActionReaction.Reject : DiplomaticActionReaction.Ignore;
+        public override DiplomaticActionReaction RejectReaction(DiplomaticAction action)
+            => Relation(action.Target, action.OtherPlayer) == DiplomaticRelation.Alliance ? DiplomaticActionReaction.Reject : DiplomaticActionReaction.Ignore;
 
         public override void AnswerAI(DiplomaticAction action, sbyte player, DiplomaticRelation relation, ByteList idealPeace, ByteList idealWar)
         {
@@ -2012,8 +1926,8 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
                 : action.Reject(errorText);
         }
 
-        public override int RelationModifier(DiplomaticAction action, sbyte player, sbyte race) =>
-            player == action.Target && Relation(action.Target, action.OtherPlayer) == DiplomaticRelation.Alliance
+        public override int RelationModifier(DiplomaticAction action, sbyte player, sbyte race)
+            => player == action.Target && Relation(action.Target, action.OtherPlayer) == DiplomaticRelation.Alliance
                 ? RaceModifier(action.OtherPlayer, race, -40)
                 : 0;
 
@@ -2023,7 +1937,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     }
 
     // Kind 9: the source asks the target to declare war on the other player.
-    public sealed partial record SuggestWarDeclaration(int Gold = 0, int Mana = 0) : OfferProposal(Gold, Mana)
+    public sealed record SuggestWarDeclaration(int Gold = 0, int Mana = 0) : OfferProposal(Gold, Mana)
     {
         public const byte Kind = 9;
 
@@ -2043,16 +1957,16 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             return Outcome(action, AbilityRules.TranslateResourceString(action.GetEngine(), DeclareWarSuggestionText), subject, AcceptedLine(subject, engine: action.GetEngine()), "");
         }
 
-        public override int MiddleIcon(DiplomaticAction action) =>
-            action.Reaction == DiplomaticActionReaction.Accept ? 0x15 : 0x16;
+        public override int MiddleIcon(DiplomaticAction action)
+            => action.Reaction == DiplomaticActionReaction.Accept ? 0x15 : 0x16;
 
-        public override void DefaultMessage(DiplomaticMessageText text, DiplomaticActionReaction reaction, DiplomaticRelation relation) =>
-            text.Exchange(reaction, 157, 145, 148, true);
+        public override void DefaultMessage(DiplomaticMessageText text, DiplomaticActionReaction reaction, DiplomaticRelation relation)
+            => text.Exchange(reaction, 157, 145, 148, true);
 
         public override void Sent(DiplomaticAction action) => Deliver(action);
 
-        public override bool LapsesUnanswered(DiplomaticAction action) =>
-            Relation(action.Target, action.OtherPlayer) != DiplomaticRelation.War;
+        public override bool LapsesUnanswered(DiplomaticAction action)
+            => Relation(action.Target, action.OtherPlayer) != DiplomaticRelation.War;
 
         public override void Accepted(DiplomaticAction action)
         {
@@ -2061,7 +1975,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
                 StrategicMap.Current.Players.GetPlayers(action.OtherPlayer).PlayerSeen((sbyte)(byte)action.Target);
                 StrategicMap.Current.Players.SetDiplomaticRelation((sbyte)(byte)action.Target, (sbyte)(byte)action.OtherPlayer, DiplomaticRelation.War);
                 DiplomaticAction war = StrategicMap.Current.Players.GetPlayers(action.Target).CreateDiplomaticAction(new DeclareWar(), action.OtherPlayer, -1);
-                if (war != null)
+                if (war is not null)
                 {
                     Broadcast(war, action.Source, action.OtherPlayer);
                     _ = war.Release();
@@ -2071,8 +1985,8 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             ReturnToSource(action);
         }
 
-        public override DiplomaticActionReaction RejectReaction(DiplomaticAction action) =>
-            Relation(action.Target, action.OtherPlayer) != DiplomaticRelation.War ? DiplomaticActionReaction.Reject : DiplomaticActionReaction.Ignore;
+        public override DiplomaticActionReaction RejectReaction(DiplomaticAction action)
+            => Relation(action.Target, action.OtherPlayer) != DiplomaticRelation.War ? DiplomaticActionReaction.Reject : DiplomaticActionReaction.Ignore;
 
         public override void AnswerAI(DiplomaticAction action, sbyte player, DiplomaticRelation relation, ByteList idealPeace, ByteList idealWar)
         {
@@ -2101,11 +2015,6 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
 
         internal static string DeclareWarSuggestionText { get; } = "Declare war suggestion";
     }
-
-    // intf_P1_03.inc:248
-
-    // intf_P1_03.inc:248
-
 }
 
 public enum PlayerBehavior : byte

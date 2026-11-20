@@ -13,7 +13,7 @@ using Aow.Rtl;
 namespace Aow.Game.World;
 
 // HelpFileName, Message
-public partial class FlagMessageEvent(CustomNode owner) : FlagEvent(owner)
+public class FlagMessageEvent(CustomNode owner) : FlagEvent(owner)
 {
 
     // FlagEvents.pas:192
@@ -37,15 +37,12 @@ public partial class FlagMessageEvent(CustomNode owner) : FlagEvent(owner)
         _helpFileName = persister.String("HelpFileName", value: _helpFileName);
     }
 
-    // FlagEvents.pas:180
-
     // FlagEvents.pas:204
     public override bool Trigger(sbyte player)
     {
-        FlagMessageEventLog log;
         if (StrategicMap.Current.SeatedPlayer == player)
         {
-            log = new FlagMessageEventLog(null, holder: CreationHolder())
+            FlagMessageEventLog log = new(null, holder: CreationHolder())
             {
                 HelpFileName = _helpFileName
             };
@@ -58,7 +55,7 @@ public partial class FlagMessageEvent(CustomNode owner) : FlagEvent(owner)
         return true;
     }
 
-    public new partial class Resource(CustomNode owner) : FlagEventResource(owner)
+    public new class Resource(CustomNode owner) : FlagEventResource(owner)
     {
 
         // FlagEvents.pas:218
@@ -73,7 +70,4 @@ public partial class FlagMessageEvent(CustomNode owner) : FlagEvent(owner)
         private static readonly string s_flagMessageEventText = "Flag Message Event";
 
     }
-
-    // FlagEvents.pas:62
-
 }

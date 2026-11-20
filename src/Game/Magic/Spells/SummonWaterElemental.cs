@@ -5,7 +5,7 @@ using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class SummonWaterElemental : SummonSpell
+public class SummonWaterElemental : SummonSpell
 {
     // SummonSpells.pas:405
     public SummonWaterElemental(CustomNode owner, EngineObject holder) : base(owner)

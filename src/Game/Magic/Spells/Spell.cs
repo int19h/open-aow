@@ -24,7 +24,7 @@ namespace Aow.Game.Magic.Spells;
 
 // (name, control types, spell ID, base mana cost, sphere, level, type, text, sounds, images.
 // remain unresolved Integers)
-public partial class Spell : EngineObject
+public class Spell : EngineObject
 {
 
     // Spells.PAS:10
@@ -80,13 +80,12 @@ public partial class Spell : EngineObject
     // Spells.PAS:224
     public virtual void PlayDefaultCastEffects(sbyte player, sbyte X, sbyte Y, sbyte layer)
     {
-        ImageSequenceAnimation animation;
         if (StrategicMap.Current.Visible(X, Y, layer, 0))
         {
             _ = StrategicMap.Current.ValidateObservation(player, X, Y, layer, 0);
-            if (GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(0) != null)
+            if (GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(0) is not null)
             {
-                animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
+                ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
                 animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(0));
                 _ = StrategicMap.Current.PlaceHex(animation, X, Y, layer);
             }
@@ -115,48 +114,42 @@ public partial class Spell : EngineObject
     // Spells.PAS:43
     public virtual bool CanActivate(Troop source, ref string messageText)
     {
-        bool result;
         if (SpellType == SpellType.Global)
         {
             if (StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.SpellWard))
             {
                 messageText = AbilityRules.TranslateResourceString(GetEngine(), GameText.CannotCastGlobalEnchantmentWhenSpellWardIsActiveText);
-                result = false;
+                return false;
             }
             else
             {
-                result = true;
+                return true;
             }
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     public bool CanActivateStatic(Troop source, ref string messageText)
     {
-        bool result;
         if (SpellType == SpellType.Global)
         {
             if (StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.SpellWard))
             {
                 messageText = AbilityRules.TranslateResourceString(GetEngine(), GameText.CannotCastGlobalEnchantmentWhenSpellWardIsActiveText);
-                result = false;
+                return false;
             }
             else
             {
-                result = true;
+                return true;
             }
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // Spells.PAS:54
@@ -199,12 +192,10 @@ public partial class Spell : EngineObject
     // Spells.PAS:90
     public virtual bool ActivateCombat(Troop source)
     {
-        bool result;
-        CombatSpellCaster caster;
         string reason = "";
         if (CanActivateCombat(source, ref reason))
         {
-            caster = new CombatSpellCaster(null)
+            CombatSpellCaster caster = new(null)
             {
                 Holder = CreationHolder(),
                 CombatCasterSpellId = SpellId,
@@ -212,22 +203,20 @@ public partial class Spell : EngineObject
             };
             StrategicMap.Current.CombatMap.CombatStartedEventsStore.Raise(caster);
             _ = caster.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Spells.PAS:158
     public virtual CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana) => default;
 
     // The caller names the action this spell builds. Another action class throws. Null stays null.
-    public TAction CreateCombatAction<TAction>(CombatObject source, CombatObject target, bool chargeMana) where TAction : CombatAction =>
-        (TAction)CreateCombatAction(source, target: target, chargeMana: chargeMana);
+    public TAction CreateCombatAction<TAction>(CombatObject source, CombatObject target, bool chargeMana) where TAction : CombatAction
+        => (TAction)CreateCombatAction(source, target: target, chargeMana: chargeMana);
 
     // Spells.PAS:178
     public virtual int GetCombatDamageValue(CombatObject source, CombatObject target) => 0;
@@ -287,8 +276,6 @@ public partial class Spell : EngineObject
     // Spells.PAS:371
     public bool AIRequestCastSpellExpense(Troop source, int budget, int mana, int upkeep)
     {
-        bool result;
-        AIBudgetManager manager;
         if (upkeep > 0)
         {
             mana -= StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.AIRequestOverrideUpkeep(Round(upkeep * 0.8));
@@ -298,50 +285,60 @@ public partial class Spell : EngineObject
             }
         }
 
-        manager = StrategicMap.Current.Players.GetPlayers(source.Player).AIBudget;
-        result = StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.GetCheatEnabled() || manager.RequestBudgetExpense(0, budget, 0, mana, manager.DefaultBudget, 1 != 0);
-
-        return result;
+        AIBudgetManager manager = StrategicMap.Current.Players.GetPlayers(source.Player).AIBudget;
+        return StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.GetCheatEnabled() || manager.RequestBudgetExpense(0, budget, 0, mana, manager.DefaultBudget, 1 != 0);
     }
 
     // Spells.PAS:396
     public bool AICastSpellExpenseMade(Troop source, int budget, int mana, int upkeep)
     {
-        bool result;
-        AIBudgetManager manager;
         if (AIRequestCastSpellExpense(source, budget, mana, upkeep))
         {
-            manager = StrategicMap.Current.Players.GetPlayers(source.Player).AIBudget;
-            result = StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.GetCheatEnabled() || manager.BudgetExpenseMade(0, budget, 0, mana, manager.DefaultBudget, (AIBudgetManager.ExpenseMode)2);
+            AIBudgetManager manager = StrategicMap.Current.Players.GetPlayers(source.Player).AIBudget;
+            return StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.GetCheatEnabled() || manager.BudgetExpenseMade(0, budget, 0, mana, manager.DefaultBudget, (AIBudgetManager.ExpenseMode)2);
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
-    public virtual bool CanActivateCombat(Troop source, ref string reason) => StrategicMap.Current.Combat != null;
+    public virtual bool CanActivateCombat(Troop source, ref string reason) => StrategicMap.Current.Combat is not null;
 
     public virtual void GetCombatInfo(Troop source, ref SpellCombatInfo info)
     {
-        info.Attack = 0; info.Damage = 0; info.DamageTypes = default;
-        info.RepeatCount = 1; info.Range = 0; info.Radius = 0; info.TargetTypes = default;
+        info.Attack = 0;
+        info.Damage = 0;
+        info.DamageTypes = default;
+        info.RepeatCount = 1;
+        info.Range = 0;
+        info.Radius = 0;
+        info.TargetTypes = default;
     }
 
     public virtual AICastSpellAction CreateCastSpellAction()
     {
         AICastSpellAction action = new(null) { Holder = CreationHolder() };
         // TEObject.Create only calls SetOwner. It bypasses descendant constructor bodies.
-        try { action.SetOwner(null); } catch { action.Dispose(); throw; }
+        try
+        {
+            action.SetOwner(null);
+        }
+        catch
+        {
+            action.Dispose();
+            throw;
+        }
         return action;
     }
 
     public virtual void SetupCastSpellAction(Troop source, AICastSpellAction action)
-    { action.SpellId = SpellId; action.SourceUnitId = source.UnitId; }
+    {
+        action.SpellId = SpellId;
+        action.SourceUnitId = source.UnitId;
+    }
 
     // Spells.PAS:215. The casting view aliases the combat unit's hero.
-    public void CombatSpellCast(CombatUnit source) =>
-        CombatCastingDone(source, source.Troop.CastingMana(this));
+    public void CombatSpellCast(CombatUnit source)
+        => CombatCastingDone(source, source.Troop.CastingMana(this));
 }

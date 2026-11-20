@@ -4,7 +4,7 @@
 namespace Aow.Game.Draw;
 
 // FTables, Lookup (101 tables, indexed by percentage)
-public partial class LookupBlendTableCollection100 : IDisposable
+public class LookupBlendTableCollection100 : IDisposable
 {
 
     // { ImageLib's blitters read Lookup directly; adding lines here moves the Asserts below }
@@ -33,21 +33,17 @@ public partial class LookupBlendTableCollection100 : IDisposable
     // GFXE.pas:9698
     public bool GenerateLookupTables(int bits, GenerateBlendTableProc proc, int count)
     {
-        bool result;
-        BlendTable t;
-        float v;
-        int j;
         Clear();
         if (bits == 5 && count > 0)
         {
             for (int i = 0; i <= count - 1; i++)
             {
-                t = bits switch
+                BlendTable t = bits switch
                 {
                     5 => new BlendTable5Bit(),
                     _ => null,
                 };
-                v = count != 1 ? (float)((double)i / (count - 1)) : (float)0.5;
+                float v = count != 1 ? (float)((double)i / (count - 1)) : (float)0.5;
 
                 proc(t, v);
                 Tables.Add(t);
@@ -55,7 +51,7 @@ public partial class LookupBlendTableCollection100 : IDisposable
 
             for (int i = 0; i <= 100; i++)
             {
-                j = i * count / 100;
+                int j = i * count / 100;
                 if (j == count)
                 {
                     j = count - 1;
@@ -65,14 +61,12 @@ public partial class LookupBlendTableCollection100 : IDisposable
                 Lookup[i] = blendTable;
             }
 
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     public BlendTableList Tables { get; }

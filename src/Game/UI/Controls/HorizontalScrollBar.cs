@@ -247,12 +247,11 @@ public partial class HorizontalScrollBar(Component owner) : ScrollBar(owner)
     //   (original) }
     public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        int oldPosition;
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
         if (Visible && X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
-            oldPosition = Position;
+            int oldPosition = Position;
             Handled = true;
             if (button == MouseButton.Left)
             {

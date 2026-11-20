@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.AI.Groups;
 
-public partial class FortifyAIGroup : AIGroup, IAIGroupClass
+public class FortifyAIGroup : AIGroup, IAIGroupClass
 {
     // MainAG.pas:247
     public new const int ClassId = 136281;

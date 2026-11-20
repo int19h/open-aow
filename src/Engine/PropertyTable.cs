@@ -5,7 +5,7 @@ using Aow.Rtl;
 
 namespace Aow.Engine;
 
-public partial class PropertyTable : IDisposable
+public class PropertyTable : IDisposable
 {
     private Item[] _items = [];
     private int _capacity;
@@ -69,9 +69,8 @@ public partial class PropertyTable : IDisposable
     // Engine.pas:2291
     public int FindOffset(int id)
     {
+        int i = _nextIndex;
         int result;
-        int i;
-        i = _nextIndex;
         if (i >= Count || _items[i].Id != id)
         {
             i = First;
@@ -99,24 +98,20 @@ public partial class PropertyTable : IDisposable
     // Engine.pas:2315
     public bool PropertyExist(int id)
     {
-        bool result;
-        int i;
         if (id <= _maxId)
         {
-            i = First;
+            int i = First;
             while (i < Count && _items[i].Id != id)
             {
                 i += 1;
             }
 
-            result = i != Count;
+            return i != Count;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // The smallest stored offset of the current table above an offset, or -1. A stored value runs
@@ -164,10 +159,7 @@ public partial class PropertyTable : IDisposable
     public void LoadFromStream(Stream stream)
     {
         int longCount = default;
-        int id = default;
-        int offset = default;
         byte shortCount = default;
-        ushort pair = default;
         stream.ReadExactly(Bytes.Of(ref shortCount, 1));
         if ((shortCount & 128) != 0)
         {
@@ -181,6 +173,7 @@ public partial class PropertyTable : IDisposable
 
         if (shortCount != 0)
         {
+            ushort pair = default;
             for (int ordinal = 0, last = shortCount - 1; ordinal <= last; ordinal++)
             {
                 stream.ReadExactly(Bytes.Of(ref pair, 2));
@@ -190,6 +183,8 @@ public partial class PropertyTable : IDisposable
 
         if (longCount != 0)
         {
+            int id = default;
+            int offset = default;
             for (int ordinal = 0, last = longCount - 1; ordinal <= last; ordinal++)
             {
                 stream.ReadExactly(Bytes.Of(ref id, 4));
@@ -202,12 +197,8 @@ public partial class PropertyTable : IDisposable
     // Engine.pas:2391
     public void SaveToStream(Stream stream)
     {
-        int longCount;
-        byte shortCount;
-        byte marker;
-        int pair = default;
-        longCount = 0;
-        shortCount = 0;
+        int longCount = 0;
+        byte shortCount = 0;
         for (int i = First, last = Count - 1; i <= last; i++)
         {
             if (_items[i].Id <= 127 && _items[i].Offset <= 255)
@@ -222,7 +213,7 @@ public partial class PropertyTable : IDisposable
 
         if (longCount != 0)
         {
-            marker = (byte)(shortCount | 128);
+            byte marker = (byte)(shortCount | 128);
             stream.Write(Bytes.Of(ref marker, 1));
             stream.Write(Bytes.Of(ref longCount, 4));
         }
@@ -237,7 +228,7 @@ public partial class PropertyTable : IDisposable
             {
                 if (_items[i].Id <= 127 && _items[i].Offset <= 255)
                 {
-                    pair = _items[i].Id + (_items[i].Offset << 8);
+                    int pair = _items[i].Id + (_items[i].Offset << 8);
                     stream.Write(Bytes.Of(ref pair, 2));
                 }
             }

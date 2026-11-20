@@ -8,7 +8,7 @@ using Aow.Game.Units;
 namespace Aow.Game.World.Structures;
 
 // { ot=1 }
-public partial class DefendersArmy(CustomNode owner) : Army(owner)
+public class DefendersArmy(CustomNode owner) : Army(owner)
 {
 
     // ExploreS.pas:71
@@ -17,7 +17,4 @@ public partial class DefendersArmy(CustomNode owner) : Army(owner)
         bool result = base.CanAddUnit(troop);
         return result && !troop.GetTransporter() && troop.ValidTerrain(1, 4);
     }
-
-    // intf_P2_07.inc:445
-
 }

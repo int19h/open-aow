@@ -4,7 +4,7 @@ using Aow.Rtl;
 namespace Aow.Game.Draw;
 
 // an image file format, all class functions
-public partial class ImageFile : IImageFileClass
+public class ImageFile : IImageFileClass
 {
     // GFXE.pas:693
     public static string Name => throw AbstractErrorException.Create("Abstract Error");

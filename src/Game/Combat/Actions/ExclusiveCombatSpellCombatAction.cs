@@ -9,7 +9,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Combat.Actions;
 
 // source ID, target ID, casting mana, success, spell ID
-public partial class ExclusiveCombatSpellCombatAction(CustomNode owner) : CombatAction(owner)
+public class ExclusiveCombatSpellCombatAction(CustomNode owner) : CombatAction(owner)
 {
     public byte SourceId { get; set; }
     public byte TargetId { get; set; }
@@ -31,10 +31,9 @@ public partial class ExclusiveCombatSpellCombatAction(CustomNode owner) : Combat
     // CombatSpells.pas:512
     public override void Execute(Battle combat)
     {
-        CombatObject source;
         if (ManaCost != 0 && combat.Status.Contains(CombatStatusElement.Executing))
         {
-            source = combat.CombatData.FindId(SourceId);
+            CombatObject source = combat.CombatData.FindId(SourceId);
             GamePack.Current.SpellControl.GetSpell(SpellId).CombatCastingDone(source, ManaCost);
         }
     }

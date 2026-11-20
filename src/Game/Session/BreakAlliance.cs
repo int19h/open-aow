@@ -6,7 +6,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Session;
 
 // Kind 6: the source ends its alliance with the target.
-public sealed partial record BreakAlliance : DiplomaticProposal
+public sealed record BreakAlliance : DiplomaticProposal
 {
     public const byte Kind = 6;
 
@@ -20,8 +20,8 @@ public sealed partial record BreakAlliance : DiplomaticProposal
 
     public override string LogText(DiplomaticAction action) => AbilityRules.TranslateResourceString(action.GetEngine(), AllianceBrokenText);
 
-    public override void DefaultMessage(DiplomaticMessageText text, DiplomaticActionReaction reaction, DiplomaticRelation relation) =>
-        text.Proposing(109);
+    public override void DefaultMessage(DiplomaticMessageText text, DiplomaticActionReaction reaction, DiplomaticRelation relation)
+        => text.Proposing(109);
 
     public override void Sent(DiplomaticAction action)
     {
@@ -36,8 +36,8 @@ public sealed partial record BreakAlliance : DiplomaticProposal
         Broadcast(action, -1, action.Target);
     }
 
-    public override int RelationModifier(DiplomaticAction action, sbyte player, sbyte race) =>
-        player == action.Source && Relation(action.Source, action.Target) == DiplomaticRelation.Alliance
+    public override int RelationModifier(DiplomaticAction action, sbyte player, sbyte race)
+        => player == action.Source && Relation(action.Source, action.Target) == DiplomaticRelation.Alliance
             ? RaceModifier(action.Target, race, -40)
             : 0;
 

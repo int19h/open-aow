@@ -47,21 +47,17 @@ public readonly struct ItemCollection : IReadOnlyList<Item>
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     // Army.PAS:4587
-    public Item GetItem(int index)
-    {
-        Item result = index >= 0 && index < Count ? this[index] : null;
-        return result;
-    }
+    public Item GetItem(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // Army.PAS:4570
     public Item FindItem(int itemId)
     {
         Item result = null;
         int i = 0;
-        while (i != Count && result == null)
+        while (i != Count && result is null)
         {
             Item item = this[i];
-            if (item != null && itemId == item.ItemId)
+            if (item is not null && itemId == item.ItemId)
             {
                 result = item;
             }
@@ -84,11 +80,10 @@ public readonly struct ItemCollection : IReadOnlyList<Item>
     // Army.PAS:4622
     public void RegisterItems()
     {
-        Item item;
         for (int i = Count - 1; i >= 0; i--)
         {
-            item = this[i];
-            if (item != null && !item.Status.Contains(ItemStatusElement.Registered))
+            Item item = this[i];
+            if (item is not null && !item.Status.Contains(ItemStatusElement.Registered))
             {
                 StrategicMap.Current.ItemControl.RegisterItem(item);
             }

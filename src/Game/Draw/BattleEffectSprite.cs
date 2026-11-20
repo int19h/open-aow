@@ -51,8 +51,6 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
         base.Dispose();
     }
 
-    // AoWTC.pas:5214
-
     // AoWTC.pas:5239
     public override int GetShowPriority() => 1811939328;
 
@@ -76,15 +74,6 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
     {
         BattleEffectSprite effect;
         int j = default;
-        ImageSequence sequence;
-        Point3DList newPath;
-        int k = default;
-        float z = default;
-        float speed;
-        float vz = default;
-        float gravity;
-        BattleEffectSprite effect2;
-        TacticalBattleUnitHexSprite unitHexSprite;
         MapFieldMessage message = default;
         void MakeCloud(int count, int radius)
         {
@@ -125,13 +114,13 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
             }
             else
             {
-                if (CombatMap.Current.MapContainer.MapLevels[0].Field[i, j].OverlayType != 8 && CombatMap.Current.MapContainer.MapLevels[0].Field[i, j].FindOwnedChild(2229508) == null && CombatMap.Current.MapContainer.MapLevels[0].Field[i, j].FindOwnedChild(2229510) == null)
+                if (CombatMap.Current.MapContainer.MapLevels[0].Field[i, j].OverlayType != 8 && CombatMap.Current.MapContainer.MapLevels[0].Field[i, j].FindOwnedChild(2229508) is null && CombatMap.Current.MapContainer.MapLevels[0].Field[i, j].FindOwnedChild(2229510) is null)
                 {
                     effect = CombatMap.Current.AddEffect(BattleEffectType.HitGround);
                 }
             }
 
-            if (effect != null)
+            if (effect is not null)
             {
                 Point3D xyz = new();
                 effect.Path.Add(xyz);
@@ -157,6 +146,12 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                 Frame += 1;
                 int x;
                 int y;
+                ImageSequence sequence;
+                int k = default;
+                float z;
+                float speed;
+                float vz;
+                float gravity;
                 switch (EffectType)
                 {
                     case BattleEffectType.Arrow:
@@ -206,7 +201,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
 
                             Frame = Path.Count - 1;
                             Done = true;
-                            if (Target == null)
+                            if (Target is null)
                             {
                                 MakeImpact();
                             }
@@ -258,7 +253,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
 
                             Frame = Path.Count - 1;
                             Done = true;
-                            if (Target == null)
+                            if (Target is null)
                             {
                                 MakeImpact();
                             }
@@ -305,7 +300,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                             ? GamePack.Current.SpellControl.GetSpell(SpellIndex).CastImages.ImageSequences[2]
                             : GamePack.Current.AbilityControl.GetAbility(AbilityIndex).ImageSequences.ImageSequences[2];
 
-                        if (sequence != null)
+                        if (sequence is not null)
                         {
                             int totalSequenceFrames = sequence.GetTotalSequenceFrames();
                             if (Frame >= totalSequenceFrames - 1)
@@ -325,7 +320,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                             ? GamePack.Current.SpellControl.GetSpell(SpellIndex).CastImages.ImageSequences[1]
                             : GamePack.Current.AbilityControl.GetAbility(AbilityIndex).ImageSequences.ImageSequences[1];
 
-                        if (sequence != null)
+                        if (sequence is not null)
                         {
                             int totalSequenceFrames = sequence.GetTotalSequenceFrames();
                             if (Frame >= totalSequenceFrames - 1)
@@ -360,7 +355,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                         {
                             if (CombatMap.Current.PlaySounds)
                             {
-                                _ = Target != null && AbilityIndex == 52
+                                _ = Target is not null && AbilityIndex == 52
                                     ? GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1)
                                     : GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
                             }
@@ -726,7 +721,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                             k = 1;
                                             for (; k <= 10; k += 1)
                                             {
-                                                effect2 = CombatMap.Current.AddEffect(BattleEffectType.GeyserWater);
+                                                BattleEffectSprite effect2 = CombatMap.Current.AddEffect(BattleEffectType.GeyserWater);
                                                 effect2.AbilityIndex = AbilityIndex;
                                                 effect2.SpellIndex = SpellIndex;
                                                 int count7 = effect.Path.Count;
@@ -827,7 +822,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                 int count7 = Path.Count;
                                 if (Frame >= count7 + 20)
                                 {
-                                    if (Target != null && Target.GetEnabled())
+                                    if (Target is not null && Target.GetEnabled())
                                     {
                                         if (CombatMap.Current.PlaySounds)
                                         {
@@ -858,7 +853,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                             : GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(0);
                                     }
 
-                                    if (Target != null && Target.GetEnabled())
+                                    if (Target is not null && Target.GetEnabled())
                                     {
                                         int count8 = Path.Count;
                                         if (Frame - 20 < count8 && Frame >= 20)
@@ -1152,12 +1147,12 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                     HexGeometry.CenterHexNumberToHex(TargetX, TargetY, (Frame - 50) / 5, ref j, ref k);
                                     // { Original swaps the converted hex coordinates. }
                                     HexGeometry.HexToPixel(j, k, out x, out y);
-                                    unitHexSprite = CombatMap.Current.MapContainer.MapLevels[0].Field[j, k].FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
-                                    effect.Target = unitHexSprite != null && unitHexSprite.Unit.GetSide() != Target.GetSide()
+                                    TacticalBattleUnitHexSprite unitHexSprite = CombatMap.Current.MapContainer.MapLevels[0].Field[j, k].FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
+                                    effect.Target = unitHexSprite is not null && unitHexSprite.Unit.GetSide() != Target.GetSide()
                                         ? unitHexSprite.Unit
                                         : null;
 
-                                    if (effect.Target != null)
+                                    if (effect.Target is not null)
                                     {
                                         int random6 = Random(3);
                                         int count7 = effect.Path.Count;
@@ -1215,7 +1210,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
 
                         break;
                     case BattleEffectType.Chain:
-                        newPath = new Point3DList();
+                        Point3DList newPath = new();
                         i = 0;
                         j = 0;
                         k = 0;
@@ -1302,7 +1297,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                             ? GamePack.Current.SpellControl.GetSpell(SpellIndex).CastImages.ImageSequences[0]
                             : GamePack.Current.AbilityControl.GetAbility(AbilityIndex).ImageSequences.ImageSequences[0];
 
-                        if (sequence != null)
+                        if (sequence is not null)
                         {
                             int totalSequenceFrames = sequence.GetTotalSequenceFrames();
                             if (Frame >= totalSequenceFrames - 1)
@@ -1329,7 +1324,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                             ? GamePack.Current.SpellControl.GetSpell(SpellIndex).CastImages.ImageSequences[1]
                             : GamePack.Current.AbilityControl.GetAbility(AbilityIndex).ImageSequences.ImageSequences[1];
 
-                        if (sequence == null)
+                        if (sequence is null)
                         {
                             Frame = -1;
                         }
@@ -1337,7 +1332,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                         break;
                     case BattleEffectType.FBExplosion:
                         sequence = GamePack.Current.SpellControl.GetSpell(SpellIndex).CastImages.ImageSequences[1];
-                        if (sequence != null)
+                        if (sequence is not null)
                         {
                             int totalSequenceFrames = sequence.GetTotalSequenceFrames();
                             if (Frame >= totalSequenceFrames - 1)
@@ -1416,7 +1411,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                         break;
                     case BattleEffectType.WallSmoke:
                         sequence = GamePack.Current.ImageSequences.ImageSequences[5];
-                        if (sequence == null)
+                        if (sequence is null)
                         {
                             Frame = -1;
                         }
@@ -1433,7 +1428,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                         break;
                     case BattleEffectType.HitGround:
                         sequence = GamePack.Current.ImageSequences.ImageSequences[9];
-                        if (sequence == null)
+                        if (sequence is null)
                         {
                             Frame = -1;
                         }
@@ -1450,7 +1445,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                         break;
                     case BattleEffectType.HitWater:
                         sequence = GamePack.Current.ImageSequences.ImageSequences[10];
-                        if (sequence == null)
+                        if (sequence is null)
                         {
                             Frame = -1;
                         }
@@ -1468,7 +1463,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                     case BattleEffectType.Blood:
                         Point3D pathZ2 = Path[0];
                         sequence = GamePack.Current.ImageSequences.ImageSequences[pathZ2.Z];
-                        if (sequence == null)
+                        if (sequence is null)
                         {
                             Frame = -1;
                         }
@@ -1550,7 +1545,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                             ? GamePack.Current.SpellControl.GetSpell(SpellIndex).CastImages.ImageSequences[0]
                             : GamePack.Current.AbilityControl.GetAbility(AbilityIndex).ImageSequences.ImageSequences[0];
 
-                        if (sequence != null)
+                        if (sequence is not null)
                         {
                             int totalSequenceFrames = sequence.GetTotalSequenceFrames();
                             if (Frame >= totalSequenceFrames - 1)
@@ -1645,13 +1640,9 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
 
                         break;
                     case BattleEffectType.Resurrect:
-                        switch (Frame)
+                        if (Frame is 100)
                         {
-                            case 100:
-                                Frame = -1;
-                                break;
-                            default:
-                                break;
+                            Frame = -1;
                         }
 
                         break;
@@ -1668,7 +1659,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                         {
                             case 150:
                                 Frame = -1;
-                                if (Target != null && Target.GetEnabled())
+                                if (Target is not null && Target.GetEnabled())
                                 {
                                     if (CombatMap.Current.PlaySounds)
                                     {
@@ -1681,7 +1672,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                     Target.UnitHexSprite.Busy = false;
                                 }
 
-                                if (Target != null && Target.Troop.GetMoveTypes().Contains(MoveType.Flying))
+                                if (Target is not null && Target.Troop.GetMoveTypes().Contains(MoveType.Flying))
                                 {
                                     Target = null;
                                 }
@@ -1695,7 +1686,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                         : GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(0);
                                 }
 
-                                if (Target != null && Target.GetEnabled())
+                                if (Target is not null && Target.GetEnabled())
                                 {
                                     int random = Random(2);
                                     Target.UnitHexSprite.OffsetY = random + -(Frame * 3 / 2) - 1;
@@ -1724,7 +1715,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
 
                                 break;
                             case >= 125 and <= 149:
-                                if (Target != null && Target.GetEnabled())
+                                if (Target is not null && Target.GetEnabled())
                                 {
                                     Target.UnitHexSprite.OffsetY = (Frame - 150) * 6;
                                     Target.UnitHexSprite.SetDirection((byte)((Frame % 6) + 1));
@@ -1758,7 +1749,4 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
             _ = MessageBox(0, "Error during NewFrame", NullTerminatedText($"Error - fxHS {IntToStr(AbilityIndex)} {IntToStr(SpellIndex)}"), 0);
         }
     }
-
-    // AoWTC.pas:196
-
 }

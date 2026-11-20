@@ -11,7 +11,7 @@ using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.World.Hexes;
 
-public partial class CombatHex(CustomNode owner) : AbstractHexagon(owner)
+public class CombatHex(CustomNode owner) : AbstractHexagon(owner)
 {
     public new const int ClassId = 2229504;
 
@@ -65,13 +65,12 @@ public partial class CombatHex(CustomNode owner) : AbstractHexagon(owner)
     // CombatHex.pas:148
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        CustomImageLibrary images;
         if (Owner.OverlayType != 4)
         {
             HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
             pixelX = pixelX - pixelXSurface - 8;
             pixelY -= pixelYSurface;
-            images = base.Resource.ImageSequenceList.GetImageSequence(0).ImageLibrary;
+            CustomImageLibrary images = base.Resource.ImageSequenceList.GetImageSequence(0).ImageLibrary;
             images[_imageVariant].Show(pixelX, pixelY, lockedSurface);
             images = GetResource<Resource>().TransitionLibrary;
             for (int side = 1; side <= 3; side++)
@@ -106,19 +105,15 @@ public partial class CombatHex(CustomNode owner) : AbstractHexagon(owner)
     // CombatHex.pas:76
     public void UpdateTransition(byte side)
     {
-        MapLevel mapLevel;
-        int imageIndex;
-        sbyte neighbourTerrain;
-        sbyte terrainType;
         int x = default;
         int y = default;
-        mapLevel = Owner.Owner;
+        MapLevel mapLevel = Owner.Owner;
         HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, TransitionNeighbours[side - 1], ref x, ref y);
         if (x >= 0 && y >= 0 && x < mapLevel.Width && y < mapLevel.Height)
         {
-            neighbourTerrain = mapLevel.GetField(x, y).TerrainType;
-            terrainType = base.Resource.TerrainList.GetTerrain(0);
-            imageIndex = -1;
+            sbyte neighbourTerrain = mapLevel.GetField(x, y).TerrainType;
+            sbyte terrainType = base.Resource.TerrainList.GetTerrain(0);
+            int imageIndex = -1;
             if (neighbourTerrain != terrainType && neighbourTerrain != 7)
             {
                 if (terrainType == 0)
@@ -196,7 +191,7 @@ public partial class CombatHex(CustomNode owner) : AbstractHexagon(owner)
             if (imageIndex != -1)
             {
                 imageIndex = (Random(2) * 3) + (imageIndex * 6) + (side - 1);
-                _transitions[side - 1] = GetResource<Resource>().TransitionLibrary.GetSafe(imageIndex) != null ? (byte)imageIndex : (byte)255;
+                _transitions[side - 1] = GetResource<Resource>().TransitionLibrary.GetSafe(imageIndex) is not null ? (byte)imageIndex : (byte)255;
             }
             else
             {
@@ -207,7 +202,7 @@ public partial class CombatHex(CustomNode owner) : AbstractHexagon(owner)
 
     private static ReadOnlySpan<byte> TransitionNeighbours => [6, 1, 2];
 
-    public new partial class Resource(CustomNode owner) : AbstractHexagonResource(owner)
+    public new class Resource(CustomNode owner) : AbstractHexagonResource(owner)
     {
         public new const int ClassId = 2229505;
 
@@ -243,7 +238,7 @@ public partial class CombatHex(CustomNode owner) : AbstractHexagon(owner)
         public override LibraryImage GetCellImage()
         {
             LibraryImage result = null;
-            if (ImageSequenceList != null && ImageSequenceList.Count > 0 && ImageSequenceList.GetImageSequence(0) != null)
+            if (ImageSequenceList is not null && ImageSequenceList.Count > 0 && ImageSequenceList.GetImageSequence(0) is not null)
             {
                 result = ImageSequenceList.GetImageSequence(0).ImageLibrary[10];
             }
@@ -263,5 +258,4 @@ public partial class CombatHex(CustomNode owner) : AbstractHexagon(owner)
         public override string ResourceEditName() => "Combat Hexagon";
 
     }
-
 }

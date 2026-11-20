@@ -7,7 +7,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Combat.Actions;
 
 // spell ID, mana cost charged after execution
-public partial class DispelMagicSpellCombatAction(CustomNode owner) : DispelMagicCombatAction(owner)
+public class DispelMagicSpellCombatAction(CustomNode owner) : DispelMagicCombatAction(owner)
 {
     // UnitSpells.pas:975
     public new const int ClassId = 131793;
@@ -26,16 +26,14 @@ public partial class DispelMagicSpellCombatAction(CustomNode owner) : DispelMagi
     // UnitSpells.pas:987
     public override void Execute(Battle combat)
     {
-        CombatUnit source;
         base.Execute(combat);
         if (ManaCost != 0 && combat.Status.Contains(CombatStatusElement.Executing))
         {
-            if (GamePack.Current.SpellControl.GetSpell(SpellId) != null)
+            if (GamePack.Current.SpellControl.GetSpell(SpellId) is not null)
             {
-                source = combat.CombatData.FindId<CombatUnit>(SourceId);
+                CombatUnit source = combat.CombatData.FindId<CombatUnit>(SourceId);
                 GamePack.Current.SpellControl.GetSpell(SpellId).CastingDone(source.Troop, ManaCost);
             }
         }
     }
-
 }

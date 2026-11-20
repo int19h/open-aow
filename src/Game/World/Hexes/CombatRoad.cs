@@ -9,7 +9,7 @@ using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.World.Hexes;
 
-public partial class CombatRoad(CustomNode owner) : AbstractRoad(owner)
+public class CombatRoad(CustomNode owner) : AbstractRoad(owner)
 {
 
     // CombatRoad.pas:51
@@ -30,11 +30,10 @@ public partial class CombatRoad(CustomNode owner) : AbstractRoad(owner)
     // CombatRoad.pas:113
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        CustomImageLibrary images;
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int x, out int y);
         x = x - pixelXSurface - 8;
         y -= pixelYSurface;
-        images = base.Resource.ImageSequenceList.GetImageSequence(0).ImageLibrary;
+        CustomImageLibrary images = base.Resource.ImageSequenceList.GetImageSequence(0).ImageLibrary;
         images.Get(_images[0]).Show(x, y, lockedSurface);
         for (int i = 1; i <= 6; i++)
         {
@@ -57,19 +56,13 @@ public partial class CombatRoad(CustomNode owner) : AbstractRoad(owner)
     public override MapObjectResourceList GetResourceList(GameEngine engine) => GamePack.Current.CombatResources;
 
     // CombatRoad.pas:57
-    public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
-    {
-        bool result = hexX >= 0 && hexY >= 0 && hexLevel >= 0 && hexX < mapContainer.Width && hexY < mapContainer.Height && hexLevel < mapContainer.LevelCount && !(mapContainer.GetField(hexX, hexY, hexLevel).OverlayType == 4 || mapContainer.GetField(hexX, hexY, hexLevel).TerrainType == 15);
-        return result;
-    }
+    public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel) => hexX >= 0 && hexY >= 0 && hexLevel >= 0 && hexX < mapContainer.Width && hexY < mapContainer.Height && hexLevel < mapContainer.LevelCount && !(mapContainer.GetField(hexX, hexY, hexLevel).OverlayType == 4 || mapContainer.GetField(hexX, hexY, hexLevel).TerrainType == 15);
 
     // CombatRoad.pas:66
     public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        HexSprite oldRoad;
-        MapField mapField;
-        mapField = mapContainer.GetField(hexX, hexY, hexLevel);
-        oldRoad = mapField.FindHexSprite(typeof(AbstractRoad));
+        MapField mapField = mapContainer.GetField(hexX, hexY, hexLevel);
+        HexSprite oldRoad = mapField.FindHexSprite(typeof(AbstractRoad));
         oldRoad?.Dispose();
 
         return base.PlaceHex(mapContainer, hexX, hexY, hexLevel);
@@ -87,15 +80,13 @@ public partial class CombatRoad(CustomNode owner) : AbstractRoad(owner)
     // CombatRoad.pas:77
     public void UpdateTransition(byte hexNumber)
     {
-        MapLevel mapLevel;
-        sbyte overlay;
         int x = default;
         int y = default;
-        mapLevel = Owner.Owner;
+        MapLevel mapLevel = Owner.Owner;
         HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, hexNumber, ref x, ref y);
         if (x >= 0 && y >= 0 && x < mapLevel.Width && y < mapLevel.Height)
         {
-            overlay = mapLevel.GetField(x, y).OverlayType;
+            sbyte overlay = mapLevel.GetField(x, y).OverlayType;
             if (overlay != 4)
             {
                 switch (hexNumber)
@@ -132,7 +123,7 @@ public partial class CombatRoad(CustomNode owner) : AbstractRoad(owner)
         }
     }
 
-    public new partial class Resource(CustomNode owner) : AbstractRoadResource(owner)
+    public new class Resource(CustomNode owner) : AbstractRoadResource(owner)
     {
 
         // CombatRoad.pas:133
@@ -152,7 +143,7 @@ public partial class CombatRoad(CustomNode owner) : AbstractRoad(owner)
         public override LibraryImage GetCellImage()
         {
             LibraryImage result = null;
-            if (ImageSequenceList != null && ImageSequenceList.Count > 0 && ImageSequenceList.GetImageSequence(0) != null)
+            if (ImageSequenceList is not null && ImageSequenceList.Count > 0 && ImageSequenceList.GetImageSequence(0) is not null)
             {
                 result = ImageSequenceList.GetImageSequence(0).ImageLibrary.Get(10);
             }
@@ -172,5 +163,4 @@ public partial class CombatRoad(CustomNode owner) : AbstractRoad(owner)
         public override string ResourceEditName() => "Combat Road";
 
     }
-
 }

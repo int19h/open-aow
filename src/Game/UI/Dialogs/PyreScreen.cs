@@ -47,7 +47,7 @@ public partial class PyreScreen(UIContext ui) : UIModule(ui)
     // AOWPyreScrn.pas:114
     public void ClearFire()
     {
-        if (_animation != null)
+        if (_animation is not null)
         {
             (_animation as IDisposable)?.Dispose();
             _animation = null;
@@ -109,7 +109,7 @@ public partial class PyreScreen(UIContext ui) : UIModule(ui)
     public void LeaderFaceFrPreDraw(LockedSurface lockedSurface)
     {
         Rect r = default;
-        if (StrategicMap.Current != null)
+        if (StrategicMap.Current is not null)
         {
             r.Left = DeadPanel.AbsoluteLeft + LeaderFaceFrame.WinLeft + 45;
             r.Right = r.Left + 103;
@@ -139,12 +139,8 @@ public partial class PyreScreen(UIContext ui) : UIModule(ui)
     // AOWPyreScrn.pas:77
     public void PyreAnimationDraw(LockedSurface lockedSurface)
     {
-        int x;
-        int y;
-        int frame;
-        string text;
-        x = PyreAnimationView.WinWidth / 2;
-        y = PyreAnimationView.WinHeight + 20 - (_animationFrame / 2);
+        int x = PyreAnimationView.WinWidth / 2;
+        int y = PyreAnimationView.WinHeight + 20 - (_animationFrame / 2);
         if (y < 400)
         {
             y = 400;
@@ -152,10 +148,11 @@ public partial class PyreScreen(UIContext ui) : UIModule(ui)
 
         y += DeadPanel.AbsoluteTop;
         x += DeadPanel.AbsoluteLeft;
+        string text;
         switch (StrategicMap.Current.Players.GetPlayers(GameOverEvent.Player).GameOverStatus)
         {
             case GameOverStatus.Lost:
-                frame = _animationFrame / 3 % 9;
+                int frame = _animationFrame / 3 % 9;
                 if (UI.Engine.Demo)
                 {
                     frame = 0;
@@ -222,7 +219,7 @@ public partial class PyreScreen(UIContext ui) : UIModule(ui)
             window.Controls[i].Checked = condition;
         }
 
-        if (window.UI.Engine.Campaign != null && StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GameOverStatus == GameOverStatus.Lost)
+        if (window.UI.Engine.Campaign is not null && StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GameOverStatus == GameOverStatus.Lost)
         {
             string replay = window.UI.Engine.TranslateResourceString(s_replayText);
             window.ContinueButton.Text = replay;
@@ -240,11 +237,10 @@ public partial class PyreScreen(UIContext ui) : UIModule(ui)
 
     internal static void ClearPyre(PyreScreen dialog)
     {
-        if (dialog._animation != null)
+        if (dialog._animation is not null)
         {
             (dialog._animation as IDisposable)?.Dispose();
             dialog._animation = null;
         }
     }
-
 }

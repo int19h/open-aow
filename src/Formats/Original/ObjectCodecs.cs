@@ -53,8 +53,8 @@ internal sealed partial class FixedObjectCodec(string className) : PropertyCodec
             : (int)id;
     }
 
-    internal override void EncodeElement(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site) =>
-        ObjectImage.Encode(context, (JsonObject)value, context.Schema.Get(ClassName), data, site.Path, "$slot");
+    internal override void EncodeElement(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site)
+        => ObjectImage.Encode(context, (JsonObject)value, context.Schema.Get(ClassName), data, site.Path, "$slot");
 
     /// <summary>The first version whose items of a fixed dynamic member state their slot.</summary>
     internal const int SlotVersion = 5;
@@ -223,8 +223,8 @@ internal sealed partial class CreatedObjectCodec(string? family) : PropertyCodec
             : (int)id;
     }
 
-    internal override void EncodeElement(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site) =>
-        EncodeCreated(context, (JsonObject)value, data, site, family, site.Property.SlotBase is not null);
+    internal override void EncodeElement(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site)
+        => EncodeCreated(context, (JsonObject)value, data, site, family, site.Property.SlotBase is not null);
 }
 
 /// <summary>
@@ -421,11 +421,11 @@ internal sealed partial class CampaignMapCodec : PropertyCodec
 {
     private static HsmProfile Nested => (HsmProfile)FileProfile.Find("world-hsm")!;
 
-    internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site) =>
-        throw new InvalidOperationException("The campaign map stores two entries.");
+    internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
+        => throw new InvalidOperationException("The campaign map stores two entries.");
 
-    internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site) =>
-        throw new InvalidOperationException("The campaign map stores two entries.");
+    internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site)
+        => throw new InvalidOperationException("The campaign map stores two entries.");
 
     internal override JsonValue DecodePair(DecodeContext context, (int Start, int End)? first, (int Start, int End)? second, ValueSite site)
     {

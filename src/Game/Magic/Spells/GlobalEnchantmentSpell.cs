@@ -11,7 +11,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Magic.Spells;
 
 // AIBasePriority
-public partial class GlobalEnchantmentSpell(CustomNode owner) : Spell(owner)
+public class GlobalEnchantmentSpell(CustomNode owner) : Spell(owner)
 {
 
     public int AIBasePriority { get; protected set; } = -1;
@@ -31,7 +31,6 @@ public partial class GlobalEnchantmentSpell(CustomNode owner) : Spell(owner)
     // GlobalEnchantmentSpells.pas:494
     public override void AIPrefetchCastSpellActions(Troop source, AICastSpellActionList actions)
     {
-        AICastSpellAction action;
         bool aiCanCastSpell = AICanCastSpell(source);
         if (aiCanCastSpell)
         {
@@ -40,7 +39,7 @@ public partial class GlobalEnchantmentSpell(CustomNode owner) : Spell(owner)
 
         if (aiCanCastSpell)
         {
-            action = CreateCastSpellAction();
+            AICastSpellAction action = CreateCastSpellAction();
             SetupCastSpellAction(source, action);
             action.Priority = AIBasePriority;
             action.SetOwner(actions);
@@ -50,47 +49,43 @@ public partial class GlobalEnchantmentSpell(CustomNode owner) : Spell(owner)
     // GlobalEnchantmentSpells.pas:507
     public override bool AIExecuteCastSpellAction(Troop source)
     {
-        bool result;
-        string reason = "";
         if (AICanCastSpell(source))
         {
             _ = AICastSpellExpenseMade(upkeep: AIUpkeepPriority(), source: source, budget: BaseManaCost, mana: ManaUpkeep);
+            string reason = "";
             if (source.CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
             {
-                result = Activate(source);
+                return Activate(source);
             }
             else
             {
                 if (source.GetCastingSpellId() != SpellId)
                 {
                     _ = source.ExecuteStartCasting(SpellId);
-                    result = true;
+                    return true;
                 }
                 else
                 {
-                    result = true;
+                    return true;
                 }
             }
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // GlobalEnchantmentSpells.pas:435
     public override bool CanActivate(Troop source, ref string messageText)
     {
-        GlobalEnchantment enchantment;
         bool result = base.CanActivate(source, ref messageText);
         if (result)
         {
             if (!StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.SpellWard))
             {
-                enchantment = CreateEnchantment();
-                if (enchantment != null)
+                GlobalEnchantment enchantment = CreateEnchantment();
+                if (enchantment is not null)
                 {
                     SetupEnchantment(source, enchantment);
                     result = enchantment.CanCast(source.Player, ref messageText);
@@ -110,25 +105,21 @@ public partial class GlobalEnchantmentSpell(CustomNode owner) : Spell(owner)
     // GlobalEnchantmentSpells.pas:458
     public override bool Activate(Troop source)
     {
-        bool result;
-        GlobalEnchantmentSpellTokenEvent eventValue;
         string reason = "";
         if (CanActivate(source, ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            eventValue = new GlobalEnchantmentSpellTokenEvent(null) { Holder = CreationHolder() };
+            GlobalEnchantmentSpellTokenEvent eventValue = new(null) { Holder = CreationHolder() };
             eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
             eventValue.Enchantment = CreateEnchantment();
             SetupEnchantment(source, eventValue.Enchantment);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             _ = eventValue.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // GlobalEnchantmentSpells.pas:476
@@ -148,9 +139,8 @@ public partial class GlobalEnchantmentSpell(CustomNode owner) : Spell(owner)
     // GlobalEnchantmentSpells.pas:484
     public int AIUpkeepPriority()
     {
-        GlobalEnchantment enchantment;
         // { Original creates the base enchantment here. }
-        enchantment = new GlobalEnchantment(null) { Holder = CreationHolder() };
+        GlobalEnchantment enchantment = new(null) { Holder = CreationHolder() };
         int result = enchantment.GetAIUpkeepPriority();
         _ = enchantment.Release();
         return result;

@@ -9,7 +9,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class FireAura : UnitSpell
+public class FireAura : UnitSpell
 {
     // UnitSpells.pas:616
     public FireAura(CustomNode owner, EngineObject holder) : base(owner)
@@ -45,26 +45,22 @@ public partial class FireAura : UnitSpell
     // UnitSpells.pas:636
     public override bool ExecuteSpell(Troop source, Troop target, int mana, Span<int> data)
     {
-        bool result;
-        UnitEnchantment enchantment;
         if (ValidTargetUnit(source, target))
         {
             if (target.ExpandAbility(163))
             {
-                enchantment = target.GetAbilityData<UnitEnchantmentAbilityData>(163).Enchantment;
+                UnitEnchantment enchantment = target.GetAbilityData<UnitEnchantmentAbilityData>(163).Enchantment;
                 enchantment.SetUpkeep(ManaUpkeep);
                 enchantment.SetSource(source.Player);
                 enchantment.DispelResistance = (sbyte)UnitDispelResistance;
             }
 
             // { Original succeeds even when expansion fails. }
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 }

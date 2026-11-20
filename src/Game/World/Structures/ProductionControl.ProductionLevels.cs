@@ -21,7 +21,7 @@ public partial class ProductionControl
             }
 
             UnitResource resource = GamePack.Current.UnitResources.GetUnitResource(production.UnitIndex);
-            if (resource != null && result < resource.Level)
+            if (resource is not null && result < resource.Level)
             {
                 result = resource.Level;
             }

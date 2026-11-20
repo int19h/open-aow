@@ -9,7 +9,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // inherited name, ability ID, selection types, ability type
-public partial class SlowEnchantmentAbility : UnitEnchantmentAbility
+public class SlowEnchantmentAbility : UnitEnchantmentAbility
 {
     // PassiveAb.pas:601
     public SlowEnchantmentAbility(CustomNode owner, EngineObject holder) : base(owner)

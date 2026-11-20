@@ -8,7 +8,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.World;
 
-public partial class CenterViewLocation(CustomNode owner) : MapObject(owner)
+public class CenterViewLocation(CustomNode owner) : MapObject(owner)
 {
 
     // CenterViewLoc.pas:46
@@ -29,10 +29,7 @@ public partial class CenterViewLocation(CustomNode owner) : MapObject(owner)
         base.Activate();
         if (!GetEditMode())
         {
-            if (CombatMap.Current.CenterViewLocation != null)
-            {
-                CombatMap.Current.CenterViewLocation?.Dispose();
-            }
+            CombatMap.Current.CenterViewLocation?.Dispose();
 
             CombatMap.Current.CenterViewLocation = this;
         }
@@ -63,14 +60,12 @@ public partial class CenterViewLocation(CustomNode owner) : MapObject(owner)
     // CenterViewLoc.pas:58
     public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel) => base.PlaceHex(mapContainer, hexX, hexY, hexLevel);
 
-    public new partial class Resource : MapObjectResource
+    public new class Resource : MapObjectResource
     {
         public Resource(CustomNode owner) : base(owner) => SetLevel(27);
 
         // CenterViewLoc.pas:91
         public new const int ClassId = 2233641;
-
-        // CenterViewLoc.pas:85
 
         // CenterViewLoc.pas:102
         public override int ResourceUserClassId() => 2233640;
@@ -78,11 +73,8 @@ public partial class CenterViewLocation(CustomNode owner) : MapObject(owner)
         // CenterViewLoc.pas:94
         public override void SetLevel(byte value) => base.SetLevel(27);
 
-        // CenterViewLoc.pas:34
-
         // CenterViewLoc.pas:99
         public override string ResourceEditName() => "Center View Location";
 
     }
-
 }

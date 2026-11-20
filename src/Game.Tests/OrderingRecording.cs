@@ -85,7 +85,10 @@ internal static class OrderingRecording
             Engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);
             foreach (EngineClass? descriptor in EngineClass.All.Where(x => x.Type == type))
             {
-                try { Engine.UnregisterEngineClasses([Engine.GetEngineClass(descriptor.ClassId)]); }
+                try
+                {
+                    Engine.UnregisterEngineClasses([Engine.GetEngineClass(descriptor.ClassId)]);
+                }
                 catch (Exception error) when (PortedExceptions.Is(error)) { }
                 Engine.RegisterEngineClasses([descriptor]);
             }
@@ -175,7 +178,11 @@ internal static class OrderingRecording
 
                     string key = $"{current.Name}.{MemberNames.Of(field)}";
                     object? child = field.GetValue(item);
-                    if (MemberNames.Of(field) is "_owner" or "Owner") { fields[key] = child is null ? null : "$owner"; continue; }
+                    if (MemberNames.Of(field) is "_owner" or "Owner")
+                    {
+                        fields[key] = child is null ? null : "$owner";
+                        continue;
+                    }
                     fields[key] = State(child, $"{path}.{key}");
                 }
             }

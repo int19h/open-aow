@@ -3,7 +3,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.Combat;
 
-public partial class CombatPlayerList(CustomNode owner) : OwningNode(owner), IChildList<CombatPlayer>
+public class CombatPlayerList(CustomNode owner) : OwningNode(owner), IChildList<CombatPlayer>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a CombatPlayer, so the cast never fails.
@@ -38,12 +38,11 @@ public partial class CombatPlayerList(CustomNode owner) : OwningNode(owner), ICh
     // Combat2.pas:146
     public int IndexOf(byte player, byte relation)
     {
-        CombatPlayer p;
         int result = Count;
         while (result != 0)
         {
             result -= 1;
-            p = this[result];
+            CombatPlayer p = this[result];
             if ((sbyte)player == p.Player && p.IndependentRelation == relation)
             {
                 return result;
@@ -55,7 +54,4 @@ public partial class CombatPlayerList(CustomNode owner) : OwningNode(owner), ICh
 
     // Combat2.pas:159
     public void Delete(int index) => GetPlayers((sbyte)index)?.Dispose();
-
-    // intf_P3_02.inc:212
-
 }

@@ -9,7 +9,7 @@ namespace Aow.Engine.Nodes;
 
 // FEngine, FControlStyle. A node that knows its engine: message $20000008
 // (TEngine.ActivateEObject) carries the engine in the message
-public partial class EngineNode : OwningNode
+public class EngineNode : OwningNode
 {
     // Engine.pas:8257
     public new const int ClassId = 259;
@@ -55,6 +55,4 @@ public partial class EngineNode : OwningNode
 
         base.MessageProc(ref message, sender);
     }
-
-    // Engine.pas:855
 }

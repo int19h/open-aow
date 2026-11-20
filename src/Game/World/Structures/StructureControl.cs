@@ -7,7 +7,7 @@ using static Aow.Rtl.DelphiAssert;
 
 namespace Aow.Game.World.Structures;
 
-public partial class StructureControl : EngineObject
+public class StructureControl : EngineObject
 {
     // Structur.PAS:3220
     // (structures, next ID, city count)
@@ -38,11 +38,7 @@ public partial class StructureControl : EngineObject
     }
 
     // Structur.PAS:3233
-    public Structure GetStructure(int index)
-    {
-        Structure result = index >= 0 && index < GetCount() ? _structures.GetChild<Structure>(index) : null;
-        return result;
-    }
+    public Structure GetStructure(int index) => index >= 0 && index < GetCount() ? _structures.GetChild<Structure>(index) : null;
 
     // Structur.PAS:3240
     public int GetCount() => _structures.GetCount();
@@ -90,12 +86,8 @@ public partial class StructureControl : EngineObject
     // Structur.PAS:3272
     public Structure FindId(int id)
     {
-        Structure result;
-        int index;
-        index = IndexOfId(id);
-        result = index != -1 ? _structures.GetChild<Structure>(index) : null;
-
-        return result;
+        int index = IndexOfId(id);
+        return index != -1 ? _structures.GetChild<Structure>(index) : null;
     }
 
     // Structur.PAS:3281
@@ -126,7 +118,4 @@ public partial class StructureControl : EngineObject
 
     // Structur.PAS:3312
     public void Activate() => CityCount = 0;
-
-    // intf_P1_09.inc:166
-
 }

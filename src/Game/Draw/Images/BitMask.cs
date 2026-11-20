@@ -11,7 +11,7 @@ namespace Aow.Game.Draw.Images;
 // a mask of one bit per pixel (ClassID $13), shown as white pixels. _pitch (bytes per row,
 // whole dwords), FMaskData (rows of dwords, the first pixel in the high bit), FMaskLeft,
 // FMaskTop, FMaskWidth, FMaskHeight (the rectangle of the mask in the data rectangle)
-public partial class BitMask(CustomImageLibrary owner) : LibraryImage(owner), ILibraryImageClass
+public class BitMask(CustomImageLibrary owner) : LibraryImage(owner), ILibraryImageClass
 {
     static int ILibraryImageClass.ClassId => 19;
     static string ILibraryImageClass.Name => "Bit Mask";
@@ -54,8 +54,7 @@ public partial class BitMask(CustomImageLibrary owner) : LibraryImage(owner), IL
     // ImageLib.pas:4676
     public override void SetWidth(int value)
     {
-        int w;
-        w = Xshift + MaskLeft + MaskWidth;
+        int w = Xshift + MaskLeft + MaskWidth;
         if (value < w)
         {
             value = w;
@@ -67,8 +66,7 @@ public partial class BitMask(CustomImageLibrary owner) : LibraryImage(owner), IL
     // ImageLib.pas:4685
     public override void SetHeight(int value)
     {
-        int h;
-        h = Yshift + MaskTop + MaskHeight;
+        int h = Yshift + MaskTop + MaskHeight;
         if (value < h)
         {
             value = h;
@@ -149,10 +147,6 @@ public partial class BitMask(CustomImageLibrary owner) : LibraryImage(owner), IL
         int bits;
         int bitCount;
         int offset;
-        int transparentColor;
-        int left;
-        int top;
-        int bottom;
         void AddBit(bool bit)
         {
             bits <<= 1;
@@ -181,7 +175,6 @@ public partial class BitMask(CustomImageLibrary owner) : LibraryImage(owner), IL
         }
 
         Clear();
-        bool result = true;
         DataLoaded = true;
         bits = 0;
         bitCount = 0;
@@ -191,7 +184,7 @@ public partial class BitMask(CustomImageLibrary owner) : LibraryImage(owner), IL
         SetHeightWithoutOverrides(DataHeight);
         FileName = ExtractFileName(grabInfo.FileName);
         FileIndex = grabInfo.FileIndex;
-        transparentColor = grabInfo.TransparentPixel;
+        int transparentColor = grabInfo.TransparentPixel;
         // CreateGrabInfo builds the nested grab info. Another grab info fails. Null stays null.
         GrabInfo maskGrab = (GrabInfo)grabInfo;
         Rect minRectangle;
@@ -204,12 +197,12 @@ public partial class BitMask(CustomImageLibrary owner) : LibraryImage(owner), IL
             MinimizeInverseTransparentRectangle(lockedSurface, R, transparentColor, out minRectangle);
         }
 
-        left = minRectangle.Left;
+        int left = minRectangle.Left;
         MaskLeft = left - R.Left;
-        top = minRectangle.Top;
+        int top = minRectangle.Top;
         MaskTop = top - R.Top;
         MaskWidth = minRectangle.Right - left;
-        bottom = minRectangle.Bottom;
+        int bottom = minRectangle.Bottom;
         MaskHeight = bottom - top;
         AllocateMaskData(MaskWidth, MaskHeight);
         for (int y = top; y <= bottom - 1; y++)
@@ -226,14 +219,14 @@ public partial class BitMask(CustomImageLibrary owner) : LibraryImage(owner), IL
             FlushBits();
         }
 
-        return result;
+        return true;
     }
 
     // ImageLib.pas:4827
     // { ShowDC clears the surface to gray, not to BkColor. }
-    public override void ShowDisplayController(Rect? sourceRectangle, Rect? destinationRectangle, int displayController, int bkColor) =>
+    public override void ShowDisplayController(Rect? sourceRectangle, Rect? destinationRectangle, int displayController, int bkColor)
         /* TODO: Implement Windows.WindowFromDC in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     // ImageLib.pas:4861
     public override void ShowOpaque(int X, int Y, in LockedSurface lockedSurface)
@@ -363,7 +356,7 @@ public partial class BitMask(CustomImageLibrary owner) : LibraryImage(owner), IL
     private static void ShowBitMask16(int X, int Y, in LockedSurface lockedSurface, ReadOnlySpan<byte> data, int width, int height) => Blit.ShowBitMask16(X, Y, lockedSurface.View(), data, width, height);
 
     // Inverse (grab the non-transparent rectangle with MinimizeInvTransparentRect)
-    public partial class GrabInfo : Images.GrabInfo
+    public class GrabInfo : Images.GrabInfo
     {
         public static new GrabInfoClass Descriptor { get; } = new("BitMask.GrabInfo", static () => new GrabInfo());
 

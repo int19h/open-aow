@@ -663,5 +663,4 @@ public partial class PopupWindows : ILayoutModule
         tcEndMenu.ImageLibraryTextureSelected = UI.Graphics.Menus;
         tcEndMenu.Font = UI.Fonts.Age10;
     }
-
 }

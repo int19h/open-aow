@@ -131,7 +131,11 @@ public partial class MapLevel
                 step = _count / divisor;
             }
         }
-        if (final) { progress.Percent = 100; Map.NotifyProgress(progress); }
+        if (final)
+        {
+            progress.Percent = 100;
+            Map.NotifyProgress(progress);
+        }
     }
 
     public void DestroyHexSprite() => VisitFields(MapProgressType.Destroying, 10, 10, f => f.DestroyHexSprite(), false);

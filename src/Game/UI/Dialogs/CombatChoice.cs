@@ -29,11 +29,9 @@ public partial class CombatChoice(UIContext ui) : UIModule(ui)
     // TCFCDlg.pas:119
     public void Finish()
     {
-        NotifyEvent<object> done;
-        CombatTypeRequestEventLog request;
         UI.General.Manager.OverlayPriority = 0;
-        done = OnDone;
-        request = _request;
+        NotifyEvent<object> done = OnDone;
+        CombatTypeRequestEventLog request = _request;
         OnDone = null;
         _request = null;
         done?.Invoke(request);
@@ -97,12 +95,9 @@ public partial class CombatChoice(UIContext ui) : UIModule(ui)
     // TCFCDlg.pas:88
     public void MapViewDraw(UserDrawBox sender, LockedSurface lockedSurface)
     {
-        Rect r;
-        int w;
-        int h;
-        r = new Rect(Window.WinLeft + sender.WinLeft, Window.WinTop + sender.WinTop, Window.WinLeft + sender.WinLeft + sender.WinWidth, Window.WinTop + sender.WinTop + sender.WinHeight);
-        w = r.Right - r.Left;
-        h = r.Bottom - r.Top;
+        Rect r = new(Window.WinLeft + sender.WinLeft, Window.WinTop + sender.WinTop, Window.WinLeft + sender.WinLeft + sender.WinWidth, Window.WinTop + sender.WinTop + sender.WinHeight);
+        int w = r.Right - r.Left;
+        int h = r.Bottom - r.Top;
         HexGeometry.HexToPixel(_request.Location.X, _request.Location.Y, out int x, out int y);
         x = x + 16 - (int)(((uint)w) >> 1);
         y = y + 16 - (int)(((uint)h) >> 1);
@@ -198,5 +193,4 @@ public partial class CombatChoice(UIContext ui) : UIModule(ui)
             StrategicMap.Current.TutorialControl.ShowMessage(61, true, true);
         }
     }
-
 }

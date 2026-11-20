@@ -5,7 +5,7 @@ using Aow.Rtl;
 namespace Aow.Game.Combat;
 
 // source, source side, target side, combat, command list
-public partial class FastBattleCommandList : IDisposable
+public class FastBattleCommandList : IDisposable
 {
     // AIGroup.pas:6716
     public FastBattleCommandList(CombatObject source, FastBattle combat, CombatSide side)
@@ -62,9 +62,4 @@ public partial class FastBattleCommandList : IDisposable
     public void Sort() => _commands.Sort(CompareFastBattleCommands);
 
     private static int CompareFastBattleCommands(FastBattleCommand item1, FastBattleCommand item2) => item2.ExpectedDamageValue - item1.ExpectedDamageValue;
-
-    // intf_P5_05.inc:23
-
-    // intf_P5_05.inc:23
-
 }

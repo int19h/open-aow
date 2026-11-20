@@ -8,7 +8,7 @@ using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class PestilenceStormSpell : StormSpell
+public class PestilenceStormSpell : StormSpell
 {
     // Storms.pas:999
     public PestilenceStormSpell(CustomNode owner, EngineObject holder) : base(owner)

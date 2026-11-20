@@ -18,7 +18,7 @@ using static Aow.Rtl.DelphiTextCompare;
 
 namespace Aow.Game.Magic.Abilities;
 
-public partial class HealingAbility : TouchAbility
+public class HealingAbility : TouchAbility
 {
     // AoWAb.PAS:3616
     public HealingAbility(CustomNode owner, EngineObject holder) : base(owner)
@@ -33,29 +33,25 @@ public partial class HealingAbility : TouchAbility
     // AoWAb.PAS:3663
     public override string GetName(AbilityOwner owner)
     {
-        string result;
-        if (owner == null || GetEnabled(owner))
+        if (owner is null || GetEnabled(owner))
         {
-            result = AbilityName;
+            return AbilityName;
         }
         else
         {
             string used = AbilityRules.TranslateResourceString(GetEngine(), GameText.UsedText);
-            result = $"{AbilityName} ({LowerCase(used)})";
+            return $"{AbilityName} ({LowerCase(used)})";
         }
-
-        return result;
     }
 
     // AoWAb.PAS:3640
     public override bool GetEnabled(AbilityOwner owner)
     {
-        HealingAbilityData data;
         bool result = owner.GetAbilitySetAt(AbilityId);
         if (result)
         {
-            data = GetData(owner);
-            result = data == null || data.Enabled;
+            HealingAbilityData data = GetData(owner);
+            return data is null || data.Enabled;
         }
 
         return result;
@@ -67,18 +63,16 @@ public partial class HealingAbility : TouchAbility
     // AoWAb.PAS:3801
     public override void FastBattlePrefetchCombatCommands(FastBattleCommandList commands)
     {
-        CombatObject target;
-        FastBattleCommand command;
         AbilityDamageValues values = default;
         for (int i = 0, last = commands.SourceSide.GetCount() - 1; i <= last; i++)
         {
-            target = commands.SourceSide.GetObjects(i);
+            CombatObject target = commands.SourceSide.GetObjects(i);
             if (target.GetEnabled() && CanTouch(commands.Source, target))
             {
                 FastBattleGetDamageValues(commands.Source, target, WallSituation.None, ref values);
                 if (values.SourceDamage != 0)
                 {
-                    command = new FastBattleCommand(AbilityId)
+                    FastBattleCommand command = new(AbilityId)
                     {
                         Target = target,
                         SourceDamageValue = values.SourceDamage,
@@ -95,11 +89,9 @@ public partial class HealingAbility : TouchAbility
     // AoWAb.PAS:3789
     public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand command)
     {
-        CombatObject target;
-        HealingCombatAction action;
-        target = command.Target;
+        CombatObject target = command.Target;
         FastBattleValidateMoveOutsideWall(source, target);
-        action = CreateHealingCombatAction(source, target);
+        HealingCombatAction action = CreateHealingCombatAction(source, target);
         source.Combat.ExecuteCombatAction(action);
         _ = action.Release();
         return true;
@@ -117,23 +109,20 @@ public partial class HealingAbility : TouchAbility
     // AoWAb.PAS:3827
     public override bool Activate(AbilityOwner owner, ref string reason)
     {
-        bool result;
-        UnitSelectionActivation info;
-        HealingUnitSelector selector;
         if (CanActivate(owner, ref reason))
         {
             Troop troop = owner as Troop;
-            info = new UnitSelectionActivation(null)
+            UnitSelectionActivation info = new(null)
             {
                 Holder = CreationHolder(),
                 AbilityId = AbilityId,
-                UnitId = troop != null ? troop.UnitId : 0
+                UnitId = troop is not null ? troop.UnitId : 0
             };
 
-            selector = new HealingUnitSelector(this);
+            HealingUnitSelector selector = new(this);
             string healing = AbilityRules.TranslateResourceString(GetEngine(), s_healingText);
             selector.Caption = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.SelectUnitFormat), [healing]);
-            if (troop != null)
+            if (troop is not null)
             {
                 if (troop.Owner is IHeroHolder)
                 {
@@ -150,14 +139,12 @@ public partial class HealingAbility : TouchAbility
             // { Original omits Selector.Release here. }
             StrategicMap.Current.OnActivateAbilityStore.Raise(info);
             _ = info.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // AoWAb.PAS:3670
@@ -175,10 +162,9 @@ public partial class HealingAbility : TouchAbility
     // AoWAb.PAS:3707
     public override int GetDamageValue(Troop attacker, Troop defender)
     {
-        int result;
         if (!defender.GetImmunityTypes().Contains(DamageType.None))
         {
-            result = defender.GetHits() - defender.GetHitPoints();
+            int result = defender.GetHits() - defender.GetHitPoints();
             if (result > 5)
             {
                 result = 5;
@@ -221,10 +207,9 @@ public partial class HealingAbility : TouchAbility
     // AoWAb.PAS:3738
     public override void FastBattleGetDamageValues(CombatObject attacker, CombatObject defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
-        int hitPoints;
         if (wallSituation == WallSituation.None && CanTouch(attacker, defender))
         {
-            hitPoints = GetHealHitPoints(defender);
+            int hitPoints = GetHealHitPoints(defender);
             damageValues.SourceCost = hitPoints;
             damageValues.SourceDamage = hitPoints * 100;
             damageValues.TargetDamage = 0;
@@ -252,12 +237,9 @@ public partial class HealingAbility : TouchAbility
     public override bool CanTouch(CombatObject source, CombatObject target)
     {
         bool result = base.CanTouch(source, target);
-        if (result)
-        {
-            result = source is CombatUnit && target is CombatUnit targetUnit && Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(targetUnit.Troop.GetUnitType()) && (target.GetHits() != target.GetHitPoints() || target.GetAbilityEnabled(96) || target.GetAbilityEnabled(53) || target.GetAbilityEnabled(108));
-        }
-
-        return result;
+        return result
+            ? source is CombatUnit && target is CombatUnit targetUnit && Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(targetUnit.Troop.GetUnitType()) && (target.GetHits() != target.GetHitPoints() || target.GetAbilityEnabled(96) || target.GetAbilityEnabled(53) || target.GetAbilityEnabled(108))
+            : result;
     }
 
     // AoWAb.PAS:3685
@@ -267,7 +249,7 @@ public partial class HealingAbility : TouchAbility
         if (result)
         {
             UnitType unitType = target.GetUnitType();
-            result = Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(unitType) && (target.GetHits() != target.GetHitPoints() || target.GetAbilityEnabled(96) || target.GetAbilityEnabled(53) || target.GetAbilityEnabled(108));
+            return Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(unitType) && (target.GetHits() != target.GetHitPoints() || target.GetAbilityEnabled(96) || target.GetAbilityEnabled(53) || target.GetAbilityEnabled(108));
         }
 
         return result;
@@ -276,9 +258,8 @@ public partial class HealingAbility : TouchAbility
     // AoWAb.PAS:3628
     public void SetEnabled(AbilityOwner owner, bool enabled)
     {
-        HealingAbilityData data;
-        data = GetData(owner);
-        if (data == null)
+        HealingAbilityData data = GetData(owner);
+        if (data is null)
         {
             data = new HealingAbilityData(null) { Holder = CreationHolder() };
             owner.AddAbilityData(data);
@@ -291,17 +272,12 @@ public partial class HealingAbility : TouchAbility
     public int GetHealHitPoints(CombatObject target)
     {
         int result = target.GetHits() - target.GetHitPoints();
-        if (result > 5)
-        {
-            result = 5;
-        }
-
-        return result;
+        return result > 5 ? 5 : result;
     }
 
     // AoWAb.PAS:3680. The ranged event already drew its random value.
-    public override CombatAction CreateRangedCombatAction(CombatUnit source, CombatUnit target) =>
-        CreateHealingCombatAction(source, target: target);
+    public override CombatAction CreateRangedCombatAction(CombatUnit source, CombatUnit target)
+        => CreateHealingCombatAction(source, target: target);
 
     // Draws the random value the touch event used to draw, then builds the action.
     public override CombatAction CreateTouchMoveCombatAction(CombatUnit source, CombatUnit target)
@@ -320,11 +296,10 @@ public partial class HealingAbility : TouchAbility
     // AoWAb.PAS:3760
     public bool HealUnit(Troop troop)
     {
-        int hitPoints;
         bool result = false;
         if (troop.GetHits() != troop.GetHitPoints())
         {
-            hitPoints = troop.GetHits() - troop.GetHitPoints();
+            int hitPoints = troop.GetHits() - troop.GetHitPoints();
             if (hitPoints > 5)
             {
                 hitPoints = 5;

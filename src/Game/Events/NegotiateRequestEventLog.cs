@@ -32,12 +32,8 @@ public partial class NegotiateRequestEventLog(CustomNode owner) : JoinEventLog(o
     // Diplomacy.pas:270
     public override void Dispose()
     {
-        ArmyId id;
-        id = ArmyId;
-        if (id != null)
-        {
-            id?.Dispose();
-        }
+        ArmyId id = ArmyId;
+        id?.Dispose();
 
         base.Dispose();
     }
@@ -57,7 +53,6 @@ public partial class NegotiateRequestEventLog(CustomNode owner) : JoinEventLog(o
     // Diplomacy.pas:320
     public override bool Accept(ref string errorText)
     {
-        NegotiateTokenEvent tokenEvent;
         bool result = base.Accept(ref errorText);
         if (result)
         {
@@ -66,13 +61,13 @@ public partial class NegotiateRequestEventLog(CustomNode owner) : JoinEventLog(o
                 return result;
             }
 
-            tokenEvent = CreateNegotiateTokenEvent();
+            NegotiateTokenEvent tokenEvent = CreateNegotiateTokenEvent();
             tokenEvent.Gold = Gold;
             tokenEvent.Offer = NegotiateTokenEvent.NegotiateOffer.OfferBribe;
             tokenEvent.Result = NegotiateTokenEvent.NegotiateResult.Accept;
             StrategicMap.Current.TokenManager.TokenControls[Player].AddEvent(tokenEvent);
             _ = tokenEvent.Release();
-            result = true;
+            return true;
         }
 
         return result;
@@ -84,7 +79,6 @@ public partial class NegotiateRequestEventLog(CustomNode owner) : JoinEventLog(o
     // Diplomacy.pas:339
     public override bool Reject(ref string errorText)
     {
-        NegotiateTokenEvent tokenEvent;
         bool result = base.Reject(ref errorText);
         if (result)
         {
@@ -93,13 +87,13 @@ public partial class NegotiateRequestEventLog(CustomNode owner) : JoinEventLog(o
                 return result;
             }
 
-            tokenEvent = CreateNegotiateTokenEvent();
+            NegotiateTokenEvent tokenEvent = CreateNegotiateTokenEvent();
             tokenEvent.Gold = 0;
             tokenEvent.Offer = NegotiateTokenEvent.NegotiateOffer.ForceOffer;
             tokenEvent.Result = NegotiateTokenEvent.NegotiateResult.Reject;
             StrategicMap.Current.TokenManager.TokenControls[Player].AddEvent(tokenEvent);
             _ = tokenEvent.Release();
-            result = true;
+            return true;
         }
 
         return result;
@@ -108,17 +102,15 @@ public partial class NegotiateRequestEventLog(CustomNode owner) : JoinEventLog(o
     // Diplomacy.pas:296
     public virtual NegotiateTokenEvent CreateNegotiateTokenEvent()
     {
-        NegotiateTokenEvent eventValue;
-        ArmyId id;
-        eventValue = new NegotiateTokenEvent(null)
+        NegotiateTokenEvent eventValue = new(null)
         {
             Holder = CreationHolder(),
             Player = Player,
             Object = Object,
             Location = new MapCoordinate(unchecked((sbyte)(byte)Hex.X), unchecked((sbyte)(byte)Hex.Y), unchecked((sbyte)(byte)Hex.MapLevel))
         };
-        id = ArmyId;
-        if (id != null)
+        ArmyId id = ArmyId;
+        if (id is not null)
         {
             eventValue.ArmyId = id.Copy<ArmyId>(GetEngine());
             eventValue.MovePoints = MovePoints;

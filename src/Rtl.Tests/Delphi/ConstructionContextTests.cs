@@ -45,7 +45,10 @@ public sealed class ConstructionContextTests
                     throw new Construct("base");
                 }
             }
-            finally { trace.Fact("base_unwind", "done"); }
+            finally
+            {
+                trace.Fact("base_unwind", "done");
+            }
         }
 
         public virtual void Dispose() => ConstructionTrace.Number("base_destroy", _baseValue);
@@ -66,7 +69,10 @@ public sealed class ConstructionContextTests
                     throw new Construct("middle");
                 }
             }
-            finally { trace.Fact("middle_unwind", "done"); }
+            finally
+            {
+                trace.Fact("middle_unwind", "done");
+            }
         }
 
         public override void Dispose()
@@ -91,7 +97,10 @@ public sealed class ConstructionContextTests
                     throw new Construct("leaf");
                 }
             }
-            finally { trace.Fact("leaf_unwind", "done"); }
+            finally
+            {
+                trace.Fact("leaf_unwind", "done");
+            }
         }
 
         internal static Leaf New(ConstructionTrace trace, int failAt) => ConstructionContext.Create(context => new Leaf(context, trace, failAt));
@@ -134,8 +143,14 @@ public sealed class ConstructionContextTests
         private Parent(ConstructionContext context, ConstructionTrace trace) : base(context, trace)
         {
             trace.Fact("parent_body", "enter");
-            try { _child = Leaf.New(trace, 2); }
-            finally { trace.Number("parent_unwind_child_nil", _child is null ? 1 : 0); }
+            try
+            {
+                _child = Leaf.New(trace, 2);
+            }
+            finally
+            {
+                trace.Number("parent_unwind_child_nil", _child is null ? 1 : 0);
+            }
         }
 
         internal static Parent New(ConstructionTrace trace) => ConstructionContext.Create(context => new Parent(context, trace));
@@ -217,22 +232,43 @@ public sealed class ConstructionContextTests
         {
             trace.Number("chain_case", failAt);
             Leaf? objectValue = null;
-            try { objectValue = Leaf.New(trace, failAt); }
-            catch (Construct e) { trace.Fact("chain_exception", e.Message); }
+            try
+            {
+                objectValue = Leaf.New(trace, failAt);
+            }
+            catch (Construct e)
+            {
+                trace.Fact("chain_exception", e.Message);
+            }
             trace.Number("chain_result_nil", objectValue is null ? 1 : 0);
         }
         List<object> owner = [];
         Owned? owned = null;
-        try { owned = Owned.New(trace, owner); }
-        catch (Construct e) { trace.Fact("owner_exception", e.Message); }
+        try
+        {
+            owned = Owned.New(trace, owner);
+        }
+        catch (Construct e)
+        {
+            trace.Fact("owner_exception", e.Message);
+        }
         trace.Number("owner_after", owner.Count);
         trace.Number("owner_result_nil", owned is null ? 1 : 0);
         Parent? parent = null;
-        try { parent = Parent.New(trace); }
-        catch (Construct e) { trace.Fact("parent_exception", e.Message); }
+        try
+        {
+            parent = Parent.New(trace);
+        }
+        catch (Construct e)
+        {
+            trace.Fact("parent_exception", e.Message);
+        }
         trace.Number("parent_result_nil", parent is null ? 1 : 0);
         Throwing? throwing = null;
-        try { throwing = Throwing.New(trace); }
+        try
+        {
+            throwing = Throwing.New(trace);
+        }
         catch (Cleanup e)
         {
             trace.Fact("throwing_exception_class", e.GetType().Name);
@@ -243,11 +279,20 @@ public sealed class ConstructionContextTests
         PlainLeaf plain = PlainLeaf.New(trace);
         try
         {
-            try { plain.Reenter(); }
-            catch (Construct e) { trace.Fact("plain_exception", e.Message); }
+            try
+            {
+                plain.Reenter();
+            }
+            catch (Construct e)
+            {
+                trace.Fact("plain_exception", e.Message);
+            }
             trace.Number("plain_after", plain.Value);
         }
-        finally { plain?.Dispose(); }
+        finally
+        {
+            plain?.Dispose();
+        }
         Assert.Equal(62, trace.Facts.Count);
         trace.Facts.Add($"end {trace.Facts.Count}");
         Assert.Equal(Oracle.Split('\n'), trace.Facts);

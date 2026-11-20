@@ -46,8 +46,6 @@ public partial class PowerNode : PlayerStructure
         State = persister.Set("State", value: State);
     }
 
-    // PowerNode.pas:51
-
     // PowerNode.pas:131
     public override void Activate()
     {
@@ -98,13 +96,12 @@ public partial class PowerNode : PlayerStructure
     // PowerNode.pas:96
     public override void UpdateAITarget(in AITargetInfo info, ref AITargetData data)
     {
-        int p;
         switch (info.Mode)
         {
             case AITargetMode.Attack:
                 if (info.Player != Player && !GetRazed())
                 {
-                    p = data.Priority;
+                    int p = data.Priority;
                     if (Player == 0)
                     {
                         p = 50;
@@ -172,19 +169,14 @@ public partial class PowerNode : PlayerStructure
     }
 
     // PowerNode.pas:67
-    public override int GetPower()
-    {
-        int result = !GetRazed() && !GetBuilding() ? 10 : 0;
-        return result;
-    }
+    public override int GetPower() => !GetRazed() && !GetBuilding() ? 10 : 0;
 
     // PowerNode.pas:145
     public override string GetCombatEventText(Battle combat)
     {
-        string result = combat.CombatResult is CombatResult.Victory or CombatResult.NoDefenders
+        return combat.CombatResult is CombatResult.Victory or CombatResult.NoDefenders
             ? AbilityRules.TranslateResourceString(GetEngine(), s_powerNodeBattleWonText)
             : "";
-        return result;
     }
 
     private static readonly string s_generatingPowerFormat = "Generating %s power";
@@ -195,7 +187,7 @@ public partial class PowerNode : PlayerStructure
         Razed = 0
     }
 
-    public new partial class Resource : PlayerStructureResource
+    public new class Resource : PlayerStructureResource
     {
         public Resource(CustomNode owner) : base(owner)
         {
@@ -210,12 +202,8 @@ public partial class PowerNode : PlayerStructure
         // PowerNode.pas:166
         public new const int ClassId = 131483;
 
-        // PowerNode.pas:152
-
         // PowerNode.pas:169
         public override int ResourceUserClassId() => 131482;
-
-        // PowerNode.pas:41
 
         // PowerNode.pas:163
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_powerNodeText);
@@ -223,9 +211,4 @@ public partial class PowerNode : PlayerStructure
         private static readonly string s_powerNodeText = "Power Node";
 
     }
-
-    // PowerNode.pas:25
-
-    // PowerNode.pas:25
-
 }

@@ -5,7 +5,7 @@ using Aow.Game.Combat.Actions;
 
 namespace Aow.Game.Combat;
 
-public partial class CombatActionList(CustomNode owner) : ReferenceNode(owner), IChildList<CombatAction>
+public class CombatActionList(CustomNode owner) : ReferenceNode(owner), IChildList<CombatAction>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a CombatAction, so the cast never fails.
@@ -20,7 +20,4 @@ public partial class CombatActionList(CustomNode owner) : ReferenceNode(owner), 
 
     // Combat2.pas:729
     public CombatAction GetCombatActions(int index) => Actions.GetCombatActions(index);
-
-    // Engine.pas:631
-
 }

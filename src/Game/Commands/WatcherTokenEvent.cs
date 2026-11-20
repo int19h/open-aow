@@ -10,7 +10,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Commands;
 
-public partial class WatcherTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
+public class WatcherTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
 {
 
     // GlobalTargetSpells.pas:1476
@@ -19,10 +19,9 @@ public partial class WatcherTokenEvent(CustomNode owner) : GlobalTargetSpellToke
     // GlobalTargetSpells.pas:1479
     public override bool Process(Troop source, int value)
     {
-        WatcherHexSprite watcher;
         _ = base.Process(source, value);
         PlayDefaultEffects(Location.X, Location.Y, Location.MapLevel);
-        watcher = new WatcherHexSprite(null) { Holder = CreationHolder() };
+        WatcherHexSprite watcher = new(null) { Holder = CreationHolder() };
         watcher.Enchantment.PlayerIndex = source.Player;
         Spell spell = GamePack.Current.SpellControl.GetSpell(57);
         watcher.Enchantment.EnchantmentManaUpkeep = spell.ManaUpkeep;
@@ -36,7 +35,4 @@ public partial class WatcherTokenEvent(CustomNode owner) : GlobalTargetSpellToke
         GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, fSpellControlSpell.BaseManaCost);
         return false;
     }
-
-    // NetworkE.pas:230
-
 }

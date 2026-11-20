@@ -73,7 +73,7 @@ public partial class GameEngine : OwningNode
             return;
         }
 
-        if (_hexSpriteMap != null)
+        if (_hexSpriteMap is not null)
         {
             _hexSpriteMap?.Dispose();
             SetHexSpriteMap(null);
@@ -129,9 +129,8 @@ public partial class GameEngine : OwningNode
     // HSEngine.pas:5137
     public virtual GameMap CreatePreviewHsm(string fileName, GameProfile profile)
     {
-        string fullName;
         GameMap result = null;
-        fullName = ExpandFileName(fileName);
+        string fullName = ExpandFileName(fileName);
         GameFileTree tree = FileBoundary.Open(fullName, profile: profile, operation: "preview");
         if (tree == null)
         {
@@ -172,7 +171,7 @@ public partial class GameEngine : OwningNode
     // stored class of the map.
     public virtual void SaveHsm(string fileName, ProgressEvent progress, GameProfile profile)
     {
-        if (_hexSpriteMap != null)
+        if (_hexSpriteMap is not null)
         {
             Status += Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.SavingHsm);
             try
@@ -200,11 +199,9 @@ public partial class GameEngine : OwningNode
         DelphiStringList files;
         void Search(string directory)
         {
-            DelphiStringList directories;
-            HssHeader header = default;
             foreach (RtlFileEntry entry in Files.FindEntries(directory + mask, attributes: 63 & ~16))
             {
-                header = default;
+                HssHeader header = default;
                 // An own scenario set lists the 52-byte header of its validated image, or the header
                 // taken from the document when that image cannot carry the set (own-formats.md 4.1).
                 byte[] head = FileBoundary.ListingHeader(directory + entry.Name, GameProfile.ScenarioSet, 52);
@@ -219,7 +216,7 @@ public partial class GameEngine : OwningNode
                 }
             }
 
-            directories = new DelphiStringList();
+            DelphiStringList directories = new();
             foreach (RtlFileEntry entry in Files.FindEntries($"{directory}*.*", attributes: 16))
             {
                 if ((entry.Attribute & 16) != 0 && entry.Name != "." && entry.Name != "..")
@@ -247,7 +244,6 @@ public partial class GameEngine : OwningNode
     // document.
     public void LoadHss(string fileName, bool edit, ProgressEvent progress, GameProfile profile)
     {
-        EngineMessage message = default;
         GameFileTree tree = FileBoundary.OpenOrRaise(ExpandFileName(fileName), profile: profile);
         HexSpriteSet.Clear();
         HssFileName = ExpandFileName(fileName);
@@ -256,7 +252,7 @@ public partial class GameEngine : OwningNode
         {
             ReadTree(tree, objectValue: HexSpriteSet, progress: progress);
             ActivateEngineObject(HexSpriteSet);
-            EngineMessage.InitializeMessage(out message, 65556, this);
+            EngineMessage.InitializeMessage(out EngineMessage message, 65556, this);
             HexSpriteSet.MessageProc(ref message, this);
             ControlNode.MessageProc(ref message, this);
             _onHssLoadedStore.Raise(this);
@@ -273,7 +269,7 @@ public partial class GameEngine : OwningNode
     public void SaveHss(string fileName, ProgressEvent progress, GameProfile profile)
     {
         HssHeader header = default;
-        if (HexSpriteSet != null)
+        if (HexSpriteSet is not null)
         {
             header.Name = HexSpriteSet.Name;
             HssFileName = ExpandFileName(fileName);
@@ -298,7 +294,7 @@ public partial class GameEngine : OwningNode
             return;
         }
 
-        if (_hexSpriteMap != null)
+        if (_hexSpriteMap is not null)
         {
             _hexSpriteMap?.Dispose();
             SetHexSpriteMap(null);
@@ -331,9 +327,8 @@ public partial class GameEngine : OwningNode
     // HSEngine.pas:5171
     public GameMap LoadHsmMap(string fileName, bool edit, ProgressEvent progress, GameProfile profile)
     {
-        string fullName;
         GameMap result = null;
-        fullName = ExpandFileName(fileName);
+        string fullName = ExpandFileName(fileName);
         GameFileTree tree = FileBoundary.Open(fullName, profile: profile);
         if (tree == null)
         {
@@ -384,8 +379,7 @@ public partial class GameEngine : OwningNode
     // is read through the document backend, which keeps port-only state. A network map is an image.
     public void LoadHsmFromStream(Stream stream, bool edit, ProgressEvent progress)
     {
-        CompressStream cStream;
-        if (_hexSpriteMap != null)
+        if (_hexSpriteMap is not null)
         {
             _hexSpriteMap?.Dispose();
             SetHexSpriteMap(null);
@@ -393,7 +387,7 @@ public partial class GameEngine : OwningNode
 
         try
         {
-            cStream = new CompressStream();
+            CompressStream cStream = new();
             try
             {
                 cStream.LoadFromStream(stream);
@@ -440,7 +434,7 @@ public partial class GameEngine : OwningNode
     // the map and keeps the port-only members.
     public void SaveHsmToStream(Stream stream, ProgressEvent progress)
     {
-        if (_hexSpriteMap == null)
+        if (_hexSpriteMap is null)
         {
             return;
         }
@@ -478,8 +472,8 @@ public partial class GameEngine : OwningNode
     }
 
     // An own document is not an HSM image. CompressStream leaves those bytes unchanged.
-    private static bool IsOwnMapDocument(byte[] payload) =>
-        GameFiles.IsGzip(payload) || GameFiles.IsJsonCandidate(payload);
+    private static bool IsOwnMapDocument(byte[] payload)
+        => GameFiles.IsGzip(payload) || GameFiles.IsJsonCandidate(payload);
 
     private static GameFileTree ReadOwnMap(byte[] payload)
     {
@@ -494,15 +488,14 @@ public partial class GameEngine : OwningNode
     // first (own-formats.md 2.9).
     public void InitializeHexSpriteSet(string fileName, ProgressEvent progress)
     {
-        EngineMessage message = default;
         fileName = FileBoundary.ReadName(fileName);
-        if (HexSpriteSet == null || CompareText(fileName, HssFileName) != 0)
+        if (HexSpriteSet is null || CompareText(fileName, HssFileName) != 0)
         {
             LoadHss(fileName, false, progress, GameProfile.ScenarioSet);
         }
         else
         {
-            EngineMessage.InitializeMessage(out message, 65557, this);
+            EngineMessage.InitializeMessage(out EngineMessage message, 65557, this);
             HexSpriteSet.MessageProc(ref message, this);
         }
     }
@@ -510,7 +503,7 @@ public partial class GameEngine : OwningNode
     // HSEngine.pas:5354
     public GameMap NewHsm(int classId)
     {
-        if (_hexSpriteMap != null)
+        if (_hexSpriteMap is not null)
         {
             _hexSpriteMap?.Dispose();
             SetHexSpriteMap(null);
@@ -555,5 +548,4 @@ public partial class GameEngine : OwningNode
         add => _onHssCloseStore.Add(value);
         remove => _onHssCloseStore.Remove(value);
     }
-
 }

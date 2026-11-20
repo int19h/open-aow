@@ -11,7 +11,7 @@ namespace Aow.Game.Draw.Images;
 // the image sequences of the indices, each the first layer of a chain (nil for none). FLinked
 // (the sequences are linked to their libraries), FILManager, FImageLibrary (the library of the
 // sequences without a library name)
-public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomImageLibrary imageLibrary) : DelphiList<ImageSequence>
+public class ImageSequenceList(ImageLibraryManager aILManager, CustomImageLibrary imageLibrary) : DelphiList<ImageSequence>
 {
 
     // { HSEngine's TMapObjectResource.MsgProc writes FILManager directly }
@@ -30,18 +30,13 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
         string result = "";
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            if (List[i] != null)
+            if (List[i] is not null)
             {
                 result = $"{result}{IntToStr(i)},";
             }
         }
 
-        if (!IsEmpty(result))
-        {
-            result = Copy(result, 1, result.Length - 1);
-        }
-
-        return result;
+        return !IsEmpty(result) ? Copy(result, 1, result.Length - 1) : result;
     }
 
     // ImageLib.pas:8928
@@ -49,7 +44,7 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
     {
         for (int i = Count - 1; i >= 0; i--)
         {
-            if (List[i] != null)
+            if (List[i] is not null)
             {
                 ((List[i] ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
             }
@@ -62,7 +57,7 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
     public ImageSequence GetLayerImageSequence(int index, int layer)
     {
         ImageSequence result = index < Count ? List[index] : null;
-        while (result != null && layer != result.Layer)
+        while (result is not null && layer != result.Layer)
         {
             result = result.Next;
         }
@@ -75,7 +70,7 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
     public int ReduceCount()
     {
         int result = Count - 1;
-        while (result >= 0 && List[result] == null)
+        while (result >= 0 && List[result] is null)
         {
             Delete(result);
             result -= 1;
@@ -110,7 +105,7 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
         DestroyItems();
         foreach (IReadOnlyList<SequenceLayer> layers in entries)
         {
-            if (layers != null)
+            if (layers is not null)
             {
                 ImageSequence sequence = new(this);
                 sequence.LoadLayers(layers, index: 0);
@@ -130,21 +125,17 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
     }
 
     // ImageLib.pas:9001
-    public void SaveToIniFile(string section, IniFile iniFile) =>
+    public void SaveToIniFile(string section, IniFile iniFile)
         /* TODO: Implement IniFiles.WriteString in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     // ImageLib.pas:9016
-    public void LoadFromIniFile(string section, IniFile iniFile) =>
+    public void LoadFromIniFile(string section, IniFile iniFile)
         /* TODO: Implement IniFiles.ReadString in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     // ImageLib.pas:9044
-    public ImageSequence GetImageSequence(int index)
-    {
-        ImageSequence result = index >= 0 && index < Count ? List[index] : null;
-        return result;
-    }
+    public ImageSequence GetImageSequence(int index) => index >= 0 && index < Count ? List[index] : null;
 
     // ImageLib.pas:9052
     public void SetImageSequence(int index, ImageSequence value)
@@ -154,7 +145,7 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
             _ = Add(null);
         }
 
-        if (List[index] != null)
+        if (List[index] is not null)
         {
             ((List[index] ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
         }
@@ -165,11 +156,10 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
     // ImageLib.pas:9059
     public int GetSubCount(int index)
     {
-        ImageSequence sequence;
         int result = 0;
-        sequence = index < Count ? List[index] : null;
+        ImageSequence sequence = index < Count ? List[index] : null;
 
-        while (sequence != null)
+        while (sequence is not null)
         {
             sequence = sequence.Next;
             result += 1;
@@ -182,9 +172,8 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
     // { Original bug: a Sequence that is not in the chain runs past its end (nil dereference). }
     public int IndexOfSub(int index, ImageSequence sequence)
     {
-        ImageSequence s;
         int result = 0;
-        s = index < Count ? List[index] : null;
+        ImageSequence s = index < Count ? List[index] : null;
 
         while (s != sequence)
         {
@@ -192,23 +181,16 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
             result += 1;
         }
 
-        if (s == null)
-        {
-            result = -1;
-        }
-
-        return result;
+        return s is null ? -1 : result;
     }
 
     // ImageLib.pas:9093
     public ImageSequence GetSubImageSequence(int index, int subIndex)
     {
-        ImageSequence result;
-        int i;
-        i = 0;
-        result = index < Count ? List[index] : null;
+        int i = 0;
+        ImageSequence result = index < Count ? List[index] : null;
 
-        while (result != null && i != subIndex)
+        while (result is not null && i != subIndex)
         {
             result = result.Next;
             i += 1;
@@ -222,22 +204,20 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
     //   only detected after the first link, not at the head of the chain. }
     public void Add(int index, ImageSequence sequence)
     {
-        ImageSequence s;
-        ImageSequence previous;
-        s = index < Count ? List[index] : null;
+        ImageSequence s = index < Count ? List[index] : null;
 
-        if (s != null)
+        if (s is not null)
         {
-            previous = null;
-            while (s != null && s.Layer < sequence.Layer)
+            ImageSequence previous = null;
+            while (s is not null && s.Layer < sequence.Layer)
             {
                 previous = s;
                 s = s.Next;
             }
 
-            if (previous != null)
+            if (previous is not null)
             {
-                if (s != null && sequence.Layer == s.Layer)
+                if (s is not null && sequence.Layer == s.Layer)
                 {
                     throw new InvalidOperationException("Layer does already exist");
                 }
@@ -261,21 +241,19 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
     // { Takes Sequence out of the chain of Index (it is not freed) }
     public void Delete(int index, ImageSequence sequence)
     {
-        ImageSequence s;
-        ImageSequence previous;
         if (index < Count)
         {
-            previous = null;
-            s = List[index];
-            while (s != null && s != sequence)
+            ImageSequence previous = null;
+            ImageSequence s = List[index];
+            while (s is not null && s != sequence)
             {
                 previous = s;
                 s = s.Next;
             }
 
-            if (s != null && s == sequence)
+            if (s is not null && s == sequence)
             {
-                if (previous != null)
+                if (previous is not null)
                 {
                     previous.Next = s.Next;
                 }
@@ -292,14 +270,13 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
     // ImageLib.pas:9169
     public void LinkToImageLibrary()
     {
-        ImageSequence sequence;
         if (!Linked)
         {
             Linked = true;
             for (int i = 0, last = Count - 1; i <= last; i++)
             {
-                sequence = List[i];
-                while (sequence != null)
+                ImageSequence sequence = List[i];
+                while (sequence is not null)
                 {
                     sequence.LinkToImageLibrary();
                     sequence = sequence.Next;
@@ -311,14 +288,13 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
     // ImageLib.pas:9189
     public void ReleaseImageLibrary()
     {
-        ImageSequence sequence;
         if (Linked)
         {
             Linked = false;
             for (int i = 0, last = Count - 1; i <= last; i++)
             {
-                sequence = List[i];
-                while (sequence != null)
+                ImageSequence sequence = List[i];
+                while (sequence is not null)
                 {
                     sequence.ReleaseImageLibrary();
                     sequence = sequence.Next;
@@ -330,14 +306,12 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
     // ImageLib.pas:9209
     public bool Animating()
     {
-        int i;
-        ImageSequence sequence;
         bool result = false;
-        i = 0;
+        int i = 0;
         while (i != Count && !result)
         {
-            sequence = List[i];
-            while (sequence != null && !result)
+            ImageSequence sequence = List[i];
+            while (sequence is not null && !result)
             {
                 result = sequence.SequenceMode != SequenceMode.None;
                 sequence = sequence.Next;
@@ -352,14 +326,12 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
     // ImageLib.pas:9228
     public LibraryImage GetPreviewImage()
     {
-        int i;
-        ImageSequence sequence;
         LibraryImage result = null;
-        i = 0;
-        while (i != Count && result == null)
+        int i = 0;
+        while (i != Count && result is null)
         {
-            sequence = List[i];
-            while (sequence != null && result == null)
+            ImageSequence sequence = List[i];
+            while (sequence is not null && result is null)
             {
                 result = sequence.GetPreviewImage();
                 sequence = sequence.Next;
@@ -374,13 +346,12 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
     // ImageLib.pas:9247
     public void GetDimensions(int index, out Rect R)
     {
-        ImageSequence sequence;
         // The out value is assigned before its members are written.
         R = default;
         if (index < Count && index >= 0)
         {
-            sequence = List[index];
-            while (sequence != null)
+            ImageSequence sequence = List[index];
+            while (sequence is not null)
             {
                 sequence.GetDimensions(out Rect sr);
                 _ = UnionRect(out R, R, sr);
@@ -394,15 +365,13 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
     //   image for Frame }
     public bool Show(int index, int X, int Y, int frame, in LockedSurface lockedSurface)
     {
-        ImageSequence sequence;
-        int i;
         bool result = false;
         if (index < Count)
         {
-            sequence = List[index];
-            while (sequence != null)
+            ImageSequence sequence = List[index];
+            while (sequence is not null)
             {
-                i = sequence.GetUnloopedFrameIndex(frame);
+                int i = sequence.GetUnloopedFrameIndex(frame);
                 if (i != -1)
                 {
                     result = true;
@@ -422,15 +391,13 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
     // ImageLib.pas:9293
     public int GetFramesCount(int index)
     {
-        ImageSequence sequence;
-        int n;
         int result = 0;
         if (index < Count)
         {
-            sequence = List[index];
-            while (sequence != null)
+            ImageSequence sequence = List[index];
+            while (sequence is not null)
             {
-                n = sequence.GetTotalSequenceFrames();
+                int n = sequence.GetTotalSequenceFrames();
                 if (n > result)
                 {
                     result = n;
@@ -446,14 +413,12 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
     // ImageLib.pas:9311
     public void ShowLooped(int index, int X, int Y, int frame, in LockedSurface lockedSurface)
     {
-        ImageSequence sequence;
-        int i;
         if (index < Count)
         {
-            sequence = List[index];
-            while (sequence != null)
+            ImageSequence sequence = List[index];
+            while (sequence is not null)
             {
-                i = sequence.GetFrameIndex(frame, 0);
+                int i = sequence.GetFrameIndex(frame, 0);
                 if (i != -1)
                 {
                     if (sequence.ImageLibrary.ImageExist(i))
@@ -470,14 +435,12 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
     // ImageLib.pas:9330
     public void ShowLooped(int index, int X, int Y, int frame, int offset, in LockedSurface lockedSurface)
     {
-        ImageSequence sequence;
-        int i;
         if (index < Count)
         {
-            sequence = List[index];
-            while (sequence != null)
+            ImageSequence sequence = List[index];
+            while (sequence is not null)
             {
-                i = sequence.GetFrameIndex(frame, offset);
+                int i = sequence.GetFrameIndex(frame, offset);
                 if (i != -1)
                 {
                     if (sequence.ImageLibrary.ImageExist(i))

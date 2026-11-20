@@ -6,7 +6,7 @@ using Aow.Formats.Tree;
 namespace Aow.Game.Magic.Abilities;
 
 // (source experience)
-public partial class PossessedAbilityData(CustomNode owner) : AbilityData(owner)
+public class PossessedAbilityData(CustomNode owner) : AbilityData(owner)
 {
     public new const int ClassId = 131797;
 
@@ -21,7 +21,4 @@ public partial class PossessedAbilityData(CustomNode owner) : AbilityData(owner)
 
     // AoWAb.PAS:2551
     public override int GetAbilityId() => 107;
-
-    // Engine.pas:524
-
 }

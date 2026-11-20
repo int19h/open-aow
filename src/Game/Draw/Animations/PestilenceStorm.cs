@@ -16,7 +16,7 @@ using Aow.Rtl;
 namespace Aow.Game.Draw.Animations;
 
 // poison cloud resource
-public partial class PestilenceStorm(CustomNode owner) : Storm(owner)
+public class PestilenceStorm(CustomNode owner) : Storm(owner)
 {
     public new const int ClassId = 135745;
 
@@ -25,20 +25,17 @@ public partial class PestilenceStorm(CustomNode owner) : Storm(owner)
     // Storms.pas:644
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int frame;
-        int blend;
-        ImageSequence sequence;
         sbyte hexY = GetHexY();
         HexGeometry.HexToPixel(GetHexX(), hexY, out int x, out int y);
         x = x - pixelXSurface + 8;
         y -= pixelYSurface;
-        sequence = _cloudResource.ImageSequenceList.ImageSequences[0];
-        while (sequence != null)
+        ImageSequence sequence = _cloudResource.ImageSequenceList.ImageSequences[0];
+        while (sequence is not null)
         {
-            frame = sequence.GetUnloopedFrameIndex(FrameCounter);
+            int frame = sequence.GetUnloopedFrameIndex(FrameCounter);
             if (frame != -1 && sequence.ImageLibrary.ImageExist(frame))
             {
-                blend = sequence.GetTotalSequenceFrames();
+                int blend = sequence.GetTotalSequenceFrames();
                 blend = blend != 0 ? FrameCounter * 100 / blend : 100;
 
                 sequence.ImageLibrary[frame].ShowBlended(x + sequence.OffsetX, y + sequence.OffsetY, lockedSurface, GraphicsState.ShadowBlendTable.LookupTables[blend]);
@@ -85,22 +82,17 @@ public partial class PestilenceStorm(CustomNode owner) : Storm(owner)
     // Storms.pas:690
     public override bool UpdateStorm()
     {
-        bool result;
-        ImageSequence sequence;
-        int frame;
-        PoisonCloud cloud;
         NewFrame();
-        sequence = _cloudResource.ImageSequenceList.ImageSequences[0];
-        frame = -1;
-        while (sequence != null && frame == -1)
+        ImageSequence sequence = _cloudResource.ImageSequenceList.ImageSequences[0];
+        int frame = -1;
+        while (sequence is not null && frame == -1)
         {
             frame = sequence.GetUnloopedFrameIndex(FrameCounter);
             sequence = sequence.Next;
         }
-
         if (frame == -1)
         {
-            cloud = _cloudResource.CreateResourceUser<PoisonCloud>();
+            PoisonCloud cloud = _cloudResource.CreateResourceUser<PoisonCloud>();
             cloud.TurnsRemaining = 3;
             cloud.Player = StrategicMap.Current.CurrentPlayer;
             sbyte hexLevel = GetHexLevel();
@@ -115,20 +107,16 @@ public partial class PestilenceStorm(CustomNode owner) : Storm(owner)
                 cloud?.Dispose();
             }
 
-            result = false;
+            return false;
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // Storms.pas:685
     public override void FinalizeStorm() => base.FinalizeStorm();
-
-    // Animation.pas:43
 
     // Storms.pas:639
     public override string Name() => AbilityRules.TranslateResourceString(GetEngine(), GameTables.PestilenceStormText);

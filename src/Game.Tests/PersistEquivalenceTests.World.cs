@@ -112,8 +112,8 @@ public sealed partial class PersistEquivalenceTests
         Assert.True(tree.ValueEquals(TreeWriter.Write(loaded, Factory)));
     }
 
-    private static List<int> ChildSlots(ObjectNode tree) =>
-        [.. tree.Members.Where(member => member.Name == "Children").SelectMany(member => ((ChildListNode)member.Value).Children).Select(child => child.Slot ?? -1)];
+    private static List<int> ChildSlots(ObjectNode tree)
+        => [.. tree.Members.Where(member => member.Name == "Children").SelectMany(member => ((ChildListNode)member.Value).Children).Select(child => child.Slot ?? -1)];
 
     // Sign.ReadWrite stores TextSeen only when a map is current and is not a network map. A
     // network map's write leaves it out, and both loads leave a stored one unread.

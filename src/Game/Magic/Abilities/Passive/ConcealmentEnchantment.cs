@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // (name, ID, selection types, ability type.)
-public partial class ConcealmentEnchantment : UnitEnchantmentAbility
+public class ConcealmentEnchantment : UnitEnchantmentAbility
 {
     // PassiveAb.pas:1287
     public ConcealmentEnchantment(CustomNode owner, EngineObject holder) : base(owner)

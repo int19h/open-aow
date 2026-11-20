@@ -11,7 +11,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class Hatred : GlobalEnchantmentSpell
+public class Hatred : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:889
     public Hatred(CustomNode owner, EngineObject holder) : base(owner)

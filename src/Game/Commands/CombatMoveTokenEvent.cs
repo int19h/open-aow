@@ -18,7 +18,7 @@ using static Aow.Rtl.RtlHost;
 
 namespace Aow.Game.Commands;
 
-public partial class CombatMoveTokenEvent(CustomNode owner) : MoveTokenEvent(owner)
+public class CombatMoveTokenEvent(CustomNode owner) : MoveTokenEvent(owner)
 {
 
     // CombatTE.pas:206
@@ -40,10 +40,7 @@ public partial class CombatMoveTokenEvent(CustomNode owner) : MoveTokenEvent(own
     // CombatTE.pas:214
     public override void Dispose()
     {
-        if (_objects != null)
-        {
-            _objects?.Clear();
-        }
+        _objects?.Clear();
 
         base.Dispose();
     }
@@ -54,49 +51,40 @@ public partial class CombatMoveTokenEvent(CustomNode owner) : MoveTokenEvent(own
     // CombatTE.pas:234
     public override bool Validate()
     {
-        bool result;
-        MapField mapField;
-        int index;
-        TacticalBattleUnitHexSprite hexSprite;
         _ = base.Validate();
-        index = Path.Count - 1;
-        mapField = GetMapField(Path[index].Location);
-        hexSprite = mapField.FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
-        if (hexSprite != null)
+        int index = Path.Count - 1;
+        MapField mapField = GetMapField(Path[index].Location);
+        TacticalBattleUnitHexSprite hexSprite = mapField.FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
+        if (hexSprite is not null)
         {
             _objects = [];
             Unit = hexSprite.Unit;
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // CombatTE.pas:299
     public override MoveStatus DefaultMove()
     {
         MapField mapField;
-        int direction;
         void CheckFreeStrike()
         {
-            int hexNumber = default;
-            int hexX = default;
-            int hexY = default;
-            TacticalBattleUnitHexSprite hexSprite = default;
-            if (Unit.GetEnabled() && _freeStrikeUnit == null)
+            if (Unit.GetEnabled() && _freeStrikeUnit is null)
             {
                 mapField = Unit.UnitHexSprite.Owner;
-                hexNumber = _neighbour + 1;
+                int hexNumber = _neighbour + 1;
+                int hexX = default;
+                int hexY = default;
                 while (hexNumber <= 6)
                 {
                     sbyte yhx = Unit.UnitHexSprite.HexY;
                     HexGeometry.CenterHexNumberToHex(Unit.UnitHexSprite.HexX, yhx, hexNumber, ref hexX, ref hexY);
-                    hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(hexX, hexY).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
-                    if (hexSprite != null && PreviousUnit != hexSprite.Unit && hexSprite.Unit.GetEnabled() && !hexSprite.Unit.GetLocked() && CombatObject.MeleeDamageTypes(hexSprite.Unit) != Set<DamageType>.Of() && hexSprite.Unit.GetSide() != Unit.GetSide() && hexSprite.Action == TacticalBattleUnitHexSprite.SpriteAction.Move && hexSprite.Unit.GetAbilityEnabled(1) == Unit.GetAbilityEnabled(1))
+                    TacticalBattleUnitHexSprite hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(hexX, hexY).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
+                    if (hexSprite is not null && PreviousUnit != hexSprite.Unit && hexSprite.Unit.GetEnabled() && !hexSprite.Unit.GetLocked() && CombatObject.MeleeDamageTypes(hexSprite.Unit) != Set<DamageType>.Of() && hexSprite.Unit.GetSide() != Unit.GetSide() && hexSprite.Action == TacticalBattleUnitHexSprite.SpriteAction.Move && hexSprite.Unit.GetAbilityEnabled(1) == Unit.GetAbilityEnabled(1))
                     {
                         _neighbour = (sbyte)hexNumber;
                         _freeStrikeUnit = hexSprite.Unit;
@@ -110,7 +98,7 @@ public partial class CombatMoveTokenEvent(CustomNode owner) : MoveTokenEvent(own
                             }
                         }
 
-                        if (_freeStrikeUnit != null)
+                        if (_freeStrikeUnit is not null)
                         {
                             hexNumber = 6;
                             Step = TokenStep.Start;
@@ -120,7 +108,7 @@ public partial class CombatMoveTokenEvent(CustomNode owner) : MoveTokenEvent(own
                     hexNumber++;
                 }
 
-                if (_freeStrikeUnit == null)
+                if (_freeStrikeUnit is null)
                 {
                     _neighbour = 0;
                 }
@@ -134,7 +122,7 @@ public partial class CombatMoveTokenEvent(CustomNode owner) : MoveTokenEvent(own
         MoveStatus result = MoveStatus.Moving;
         try
         {
-            if (_freeStrikeUnit != null)
+            if (_freeStrikeUnit is not null)
             {
                 result = MoveStatus.Moving;
                 switch (Step)
@@ -319,7 +307,7 @@ public partial class CombatMoveTokenEvent(CustomNode owner) : MoveTokenEvent(own
                                 CombatMap.Current.MakeVisible(hexX, hexY, 0, 3);
                             }
 
-                            direction = GetDirection(MoveIndex);
+                            int direction = GetDirection(MoveIndex);
                             mapField = GetMapField(Path[MoveIndex - 1].Location);
                             if (mapField.GetPlayer() == -1)
                             {
@@ -372,10 +360,8 @@ public partial class CombatMoveTokenEvent(CustomNode owner) : MoveTokenEvent(own
     // CombatTE.pas:220
     public virtual bool Setup(TacticalBattleUnit unitObject, MovePath path)
     {
-        bool result;
-        int startIndex;
         Path.Clear();
-        startIndex = path.MovePointsToPosition(unitObject.MovePoints);
+        int startIndex = path.MovePointsToPosition(unitObject.MovePoints);
         if (startIndex != path.Count - 1)
         {
             for (int i = startIndex, last = path.Count - 1; i <= last; i++)
@@ -384,27 +370,22 @@ public partial class CombatMoveTokenEvent(CustomNode owner) : MoveTokenEvent(own
                 _ = Path.Add(pathLocal);
             }
 
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // CombatTE.pas:253
     public MoveStatus ExecuteDefaultMove()
     {
-        MoveStatus result;
-        MapField newField;
-        MapField oldField;
-        Rect r;
         _ = Move();
-        oldField = Unit.UnitHexSprite.Owner;
-        newField = GetMapField(Path[MoveIndex].Location);
+        MapField oldField = Unit.UnitHexSprite.Owner;
+        MapField newField = GetMapField(Path[MoveIndex].Location);
         _ = Unit.UnitHexSprite.MoveTo(newField, 0);
+        MoveStatus result;
         if (newField.FindChildIndex(Unit.UnitHexSprite) != -1)
         {
             result = ProcessMove();
@@ -412,17 +393,17 @@ public partial class CombatMoveTokenEvent(CustomNode owner) : MoveTokenEvent(own
             Unit.MovedTo(oldField, newField, path.MoveCost);
             Rect rectangle = new(oldField.HexX, oldField.HexY, oldField.HexX + 1, oldField.HexY + 1);
             CombatMap.Current.TriggerMapChangedEvent(rectangle, 0);
-            if (MoveIndex == 0 && newField.FindChild(2229544) != null && Unit.CombatPlayer != CombatMap.Current.Combat.CombatData.DefenderPlayer)
+            if (MoveIndex == 0 && newField.FindChild(2229544) is not null && Unit.CombatPlayer != CombatMap.Current.Combat.CombatData.DefenderPlayer)
             {
                 Unit.SetStatus(Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Fled));
                 sbyte hexY = Unit.UnitHexSprite.HexY;
                 sbyte hexX = Unit.UnitHexSprite.HexX;
                 sbyte fUnitHexSpriteHexY = Unit.UnitHexSprite.HexY;
-                r = new Rect(Unit.UnitHexSprite.HexX, fUnitHexSpriteHexY, hexX + 1, hexY + 1);
+                Rect r = new(Unit.UnitHexSprite.HexX, fUnitHexSpriteHexY, hexX + 1, hexY + 1);
                 Unit.UnitHexSprite?.Dispose();
                 CombatMap.Current.TriggerMapChangedEvent(r, 0);
                 Unit.UnitHexSprite = null;
-                result = MoveStatus.Done;
+                return MoveStatus.Done;
             }
             else
             {
@@ -457,7 +438,7 @@ public partial class CombatMoveTokenEvent(CustomNode owner) : MoveTokenEvent(own
         else
         {
             Unit.UnitHexSprite = null;
-            result = MoveStatus.Done;
+            return MoveStatus.Done;
         }
 
         return result;
@@ -467,7 +448,4 @@ public partial class CombatMoveTokenEvent(CustomNode owner) : MoveTokenEvent(own
     {
         Start = 0, End = 1, FirstStrike = 2, InitializeStrike = 3, ExecuteStrike = 4, EndStrike = 5, ExecuteEndStrike = 6, StepUp = 7, DelayStrike = 8
     }
-
-    // intf_P5_07.inc:765
-
 }

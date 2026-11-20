@@ -12,7 +12,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Spells;
 
 // inherited spell ID, combat statistics, damage mode
-public partial class WindsOfFury : CombatSpell
+public class WindsOfFury : CombatSpell
 {
     // CombatSpells.pas:1889
     public WindsOfFury(CustomNode owner, EngineObject holder) : base(owner)
@@ -33,8 +33,7 @@ public partial class WindsOfFury : CombatSpell
     // CombatSpells.pas:1904
     public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
-        CombatSpellCombatAction action;
-        action = new CombatSpellCombatAction(null)
+        CombatSpellCombatAction action = new(null)
         {
             Holder = CreationHolder(),
             SpellId = SpellId

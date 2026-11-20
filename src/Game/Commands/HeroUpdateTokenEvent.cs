@@ -10,7 +10,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Commands;
 
 // UnitId. Mode. ItemId (also spell ID). Parameter
-public partial class HeroUpdateTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class HeroUpdateTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
     public new const int ClassId = 135429;
 
@@ -32,11 +32,9 @@ public partial class HeroUpdateTokenEvent(CustomNode owner) : TokenEvent(owner)
     // Hero.PAS:2291
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        ExecuteResult result;
-        bool success;
-        success = false;
+        bool success = false;
         Troop troop = StrategicMap.Current.UnitControl.FindUnit(UnitId);
-        if (troop == null)
+        if (troop is null)
         {
             // A missing id is a nil hero. The original reads FPlayer and faults.
             // ExecuteTokenEvent catches the fault, shows the message and returns erDone.
@@ -44,7 +42,7 @@ public partial class HeroUpdateTokenEvent(CustomNode owner) : TokenEvent(owner)
             _ = troop.Player;
         }
 
-        if (troop is Hero hero && ((StrategicMap.Current.Combat == null && StrategicMap.Current.CurrentPlayer == hero.Player) || (StrategicMap.Current.Combat != null && StrategicMap.Current.Combat.CombatData.Players.GetPlayers((sbyte)StrategicMap.Current.Combat.CombatData.CurrentPlayer).Player == hero.Player)))
+        if (troop is Hero hero && ((StrategicMap.Current.Combat is null && StrategicMap.Current.CurrentPlayer == hero.Player) || (StrategicMap.Current.Combat is not null && StrategicMap.Current.Combat.CombatData.Players.GetPlayers((sbyte)StrategicMap.Current.Combat.CombatData.CurrentPlayer).Player == hero.Player)))
         {
             switch (Mode)
             {
@@ -65,13 +63,8 @@ public partial class HeroUpdateTokenEvent(CustomNode owner) : TokenEvent(owner)
             }
         }
 
-        result = success ? ExecuteResult.Done : ExecuteResult.DoneHalt;
-
-        return result;
+        return success ? ExecuteResult.Done : ExecuteResult.DoneHalt;
     }
-
-    // NetworkE.pas:230
-
 }
 
 public enum HeroUpdateTokenEventMode : byte

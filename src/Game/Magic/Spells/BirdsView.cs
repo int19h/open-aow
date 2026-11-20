@@ -12,7 +12,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Magic.Spells;
 
 // inherited name, spell ID, mana, sphere, level, spell type
-public partial class BirdsView : Spell
+public class BirdsView : Spell
 {
     // GlobalSpells.pas:489
     public BirdsView(CustomNode owner, EngineObject holder) : base(owner)
@@ -61,7 +61,7 @@ public partial class BirdsView : Spell
             if (layer != 0)
             {
                 messageText = AbilityRules.TranslateResourceString(GetEngine(), GameText.CannotCastSpellInUndergroundText);
-                result = false;
+                return false;
             }
         }
 
@@ -71,24 +71,20 @@ public partial class BirdsView : Spell
     // GlobalSpells.pas:534
     public override bool Activate(Troop source)
     {
-        bool result;
         string reason = "";
-        SpellTokenEvent eventValue;
         _ = base.Activate(source);
         if (CanActivate(source, ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            eventValue = new SpellTokenEvent(null) { Holder = CreationHolder() };
+            SpellTokenEvent eventValue = new(null) { Holder = CreationHolder() };
             eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             _ = eventValue.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     private static readonly string s_birdsViewText = "Bird's View";

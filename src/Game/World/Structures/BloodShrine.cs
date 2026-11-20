@@ -12,13 +12,11 @@ using Aow.Rtl;
 
 namespace Aow.Game.World.Structures;
 
-public partial class BloodShrine(CustomNode owner) : Structure(owner)
+public class BloodShrine(CustomNode owner) : Structure(owner)
 {
 
     // BloodShrine.pas:65
     public new const int ClassId = 131376;
-
-    // BloodShrine.pas:62
 
     // BloodShrine.pas:103
     public override void ArmyPlaced(ArmyHexSprite placedArmy)
@@ -39,12 +37,9 @@ public partial class BloodShrine(CustomNode owner) : Structure(owner)
     // BloodShrine.pas:77
     public void ExecuteBloodlust(ArmyHexSprite armyHexSprite)
     {
-        Troop troop = default;
-        Rect r = default;
-        BloodShrineAnimation animation = default;
         for (int i = 0, last = armyHexSprite.Army.Units.Count - 1; i <= last; i++)
         {
-            troop = armyHexSprite.Army.Units.GetUnit(i);
+            Troop troop = armyHexSprite.Army.Units.GetUnit(i);
             _ = GamePack.Current.AbilityControl.GetAbility(168).Expand(troop);
         }
 
@@ -67,8 +62,8 @@ public partial class BloodShrine(CustomNode owner) : Structure(owner)
         sbyte hexX2 = GetHexX();
         if (StrategicMap.Current.Visible(hexX2, hexY2, hexLevel2, 0))
         {
-            animation = new BloodShrineAnimation(null) { Holder = CreationHolder() };
-            r = new Rect(-16, -8, 32, 40);
+            BloodShrineAnimation animation = new(null) { Holder = CreationHolder() };
+            Rect r = new(-16, -8, 32, 40);
             animation.SetDimensions(r);
             animation.AnimationLevel = 27;
             animation.OnShow += ShowBlessingAnimation;
@@ -79,7 +74,7 @@ public partial class BloodShrine(CustomNode owner) : Structure(owner)
         }
     }
 
-    public new partial class Resource : StructureResource
+    public new class Resource : StructureResource
     {
         public Resource(CustomNode owner) : base(owner)
         {
@@ -90,12 +85,8 @@ public partial class BloodShrine(CustomNode owner) : Structure(owner)
         // BloodShrine.pas:116
         public new const int ClassId = 131377;
 
-        // BloodShrine.pas:109
-
         // BloodShrine.pas:122
         public override int ResourceUserClassId() => 131376;
-
-        // BloodShrine.pas:36
 
         // BloodShrine.pas:119
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_bloodShrineText);
@@ -103,7 +94,4 @@ public partial class BloodShrine(CustomNode owner) : Structure(owner)
         private static readonly string s_bloodShrineText = "Blood Shrine";
 
     }
-
-    // BloodShrine.pas:26
-
 }

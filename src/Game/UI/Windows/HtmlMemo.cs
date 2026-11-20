@@ -84,15 +84,6 @@ public partial class HtmlMemo : BaseWindow
         ChangeInfo ci;
         int h;
         int lineIndex;
-        IntegerParseMode state;
-        int last2;
-        int textStart;
-        int textEnd;
-        int tagStart;
-        byte c;
-        ReadOnlySpan<byte> text;
-        string s;
-        int v;
         void NewLine()
         {
             _ = _lines.Add("");
@@ -102,19 +93,13 @@ public partial class HtmlMemo : BaseWindow
 
         void AddText(string s)
         {
-            int tw;
-            int w;
-            int start;
-            string word;
-            int i;
-            int length;
-            if (Font != null)
+            if (Font is not null)
             {
-                i = 0;
-                start = 0;
-                length = s.Length;
+                int i = 0;
+                int start = 0;
+                int length = s.Length;
                 string line = _lines[lineIndex];
-                w = Font.GetTextWidth(line) + (BorderWidth * 2) + _scrollWidth;
+                int w = Font.GetTextWidth(line) + (BorderWidth * 2) + _scrollWidth;
                 while (i < length)
                 {
                     if (s[i - 1] == 32 || i == length - 1)
@@ -124,8 +109,8 @@ public partial class HtmlMemo : BaseWindow
                             i += 1;
                         }
 
-                        word = Copy(s, start + 1, i - start);
-                        tw = Font.GetTextWidth(word);
+                        string word = Copy(s, start + 1, i - start);
+                        int tw = Font.GetTextWidth(word);
                         if (w + tw > WinWidth)
                         {
                             NewLine();
@@ -150,8 +135,7 @@ public partial class HtmlMemo : BaseWindow
 
         void NewChange()
         {
-            ChangeInfo n;
-            n = new ChangeInfo
+            ChangeInfo n = new()
             {
                 Height = ci.Height,
                 Color = ci.Color,
@@ -165,6 +149,7 @@ public partial class HtmlMemo : BaseWindow
             ci = n;
         }
 
+        IntegerParseMode state;
         void ParseTag(string tag)
         {
             tag = UpperCase(tag);
@@ -247,7 +232,7 @@ public partial class HtmlMemo : BaseWindow
         }
 
         _scrollWidth = 0;
-        if (_verticalScrollBar != null)
+        if (_verticalScrollBar is not null)
         {
             _scrollWidth = _verticalScrollBar.WinWidth;
             _verticalScrollBar.Position = _topItem;
@@ -281,14 +266,14 @@ public partial class HtmlMemo : BaseWindow
             for (int i = 0, last = _items.Count - 1; i <= last; i++)
             {
                 string item = NullTerminatedText(_items[i]);
-                text = Cp1252.Encode(item);
-                last2 = text.Length - 1;
-                textStart = 0;
-                textEnd = -1;
-                tagStart = 0;
+                ReadOnlySpan<byte> text = Cp1252.Encode(item);
+                int last2 = text.Length - 1;
+                int textStart = 0;
+                int textEnd = -1;
+                int tagStart = 0;
                 for (int j = 0; j <= last2; j++)
                 {
-                    c = text[j];
+                    byte c = text[j];
                     switch (state)
                     {
                         case IntegerParseMode.None:
@@ -391,7 +376,7 @@ public partial class HtmlMemo : BaseWindow
                                     ci.Color = 0;
                                     for (int k = 0; k <= 5; k++)
                                     {
-                                        v = text[tagStart + k];
+                                        int v = text[tagStart + k];
                                         v = v < 58 ? v - 48 : v - 55;
 
                                         ci.Color = (ci.Color << 4) + v;
@@ -445,7 +430,7 @@ public partial class HtmlMemo : BaseWindow
                         case IntegerParseMode.Align:
                             if (Set<byte>.WithBounds(0, 255).With(32).With(62).Contains(c))
                             {
-                                s = UpperCase(Copy(item, tagStart + 1, j - tagStart));
+                                string s = UpperCase(Copy(item, tagStart + 1, j - tagStart));
                                 string line = _lines[lineIndex];
                                 ci.Position = line.Length;
                                 ci.Line = lineIndex;
@@ -569,7 +554,7 @@ public partial class HtmlMemo : BaseWindow
 
         SurfaceValid = false;
         _backDrawn = false;
-        if (_verticalScrollBar != null)
+        if (_verticalScrollBar is not null)
         {
             if (_window != _verticalScrollBar.Window)
             {
@@ -597,10 +582,9 @@ public partial class HtmlMemo : BaseWindow
     // { Update follows the scroll bar; a masked memo asks its owner to redraw it under the text }
     public override void Update()
     {
-        Rect r;
         if (Visible)
         {
-            if (_verticalScrollBar != null && _lines.Count > 0)
+            if (_verticalScrollBar is not null && _lines.Count > 0)
             {
                 if (_verticalScrollBar.Position != _topItem)
                 {
@@ -619,7 +603,7 @@ public partial class HtmlMemo : BaseWindow
         base.Update();
         if (Visible && Masked && !SurfaceValid)
         {
-            r = OwnerComponent.OwnerComponent.OwnerComponent == null
+            Rect r = OwnerComponent.OwnerComponent.OwnerComponent is null
                 ? new Rect(WinLeft, WinTop, WinLeft + WinWidth - 1, WinTop + WinHeight - 1)
                 : new Rect(OwnerComponent.WindowRelativeLeft + WinLeft, OwnerComponent.WindowRelativeTop + WinTop, OwnerComponent.WindowRelativeLeft + WinLeft + WinWidth - 1, OwnerComponent.WindowRelativeTop + WinTop + WinHeight - 1);
 
@@ -649,18 +633,15 @@ public partial class HtmlMemo : BaseWindow
     //   of the window (or the whole visible part) from it }
     public override void Draw(LockedSurface lockedSurface)
     {
-        int oldLeft;
-        int oldTop;
-        LockedSurface backSurfaceDescription = default;
         try
         {
             if (Valid && Visible)
             {
-                oldLeft = WinLeft;
-                oldTop = WinTop;
+                int oldLeft = WinLeft;
+                int oldTop = WinTop;
                 SetWinLeftWithoutInvalidate(0);
                 SetWinTopWithoutInvalidate(0);
-                if (BackSurface != null)
+                if (BackSurface is not null)
                 {
                     if (BackSurface.PixelFormatId != lockedSurface.PixelFormatId)
                     {
@@ -669,12 +650,13 @@ public partial class HtmlMemo : BaseWindow
                     }
                 }
 
-                if (BackSurface == null)
+                if (BackSurface is null)
                 {
                     BackSurface = new DataSurface(_textWidth, _textHeight, lockedSurface.PixelFormatId, null);
                     _backDrawn = false;
                 }
 
+                LockedSurface backSurfaceDescription = default;
                 if (!_backDrawn)
                 {
                     if (_images.Count <= ImageLibraryIndexTexture)
@@ -933,12 +915,10 @@ public partial class HtmlMemo : BaseWindow
     //   the first time }
     public bool LoadFont(string fileName)
     {
-        ImageLibraryFont font;
-        int i;
         fileName = ExtractFilePath(LegacyApplication.Application.ExeName) + fileName;
-        font = null;
-        i = 0;
-        while (i < _fonts.Count && font == null)
+        ImageLibraryFont font = null;
+        int i = 0;
+        while (i < _fonts.Count && font is null)
         {
             if (_fonts[i].FileName == fileName)
             {
@@ -948,7 +928,7 @@ public partial class HtmlMemo : BaseWindow
             i += 1;
         }
 
-        if (font == null && FileExists(fileName))
+        if (font is null && FileExists(fileName))
         {
             font = new ImageLibraryFont(this)
             {
@@ -958,12 +938,12 @@ public partial class HtmlMemo : BaseWindow
             _fonts.Add(font);
         }
 
-        if (font != null)
+        if (font is not null)
         {
             Font = font;
         }
 
-        return font != null;
+        return font is not null;
     }
 
     public DelphiStringList Items { get => _items; set => SetFStrings(value); }
@@ -1064,7 +1044,7 @@ public partial class HtmlMemo : BaseWindow
 
     // a style change in the text. FHeight (the line height), FColor, FFont (the font file, '' for
     // the current font), FAlign, FPos (the character of the line where it starts), FLine, FSpacing
-    public partial class ChangeInfo
+    public class ChangeInfo
     {
         public int Height { get; set; }
         public int Color { get; set; }

@@ -39,7 +39,11 @@ public sealed class PreInheritedTests
 
         internal Leaf(ConstructionContext? context, CustomNode? owner) : base(context, owner) => s_events.Add("leaf body");
 
-        private static int InitializeField() { s_events.Add("leaf field"); return 1; }
+        private static int InitializeField()
+        {
+            s_events.Add("leaf field");
+            return 1;
+        }
 
         private protected sealed override void InitializeBeforeInherited()
         {
@@ -88,6 +92,9 @@ public sealed class PreInheritedTests
             Assert.Equal(guarded ? 1 : 0, s_destroyed);
             Assert.Equal(guarded ? ["leaf field", "hook", "destroy"] : ["leaf field", "hook"], s_events);
         }
-        finally { s_fail = false; }
+        finally
+        {
+            s_fail = false;
+        }
     }
 }

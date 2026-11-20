@@ -9,7 +9,7 @@ using Aow.Game.UI.Dialogs;
 namespace Aow.Game.Session;
 
 // image library, path text, description, position, paths, pages, map kind
-public partial class WorldMapCampaignScenario : CampaignScenario
+public class WorldMapCampaignScenario : CampaignScenario
 {
     // AoWVideoDlg.pas:304
     public new const int ClassId = 2248705;
@@ -74,5 +74,4 @@ public partial class WorldMapCampaignScenario : CampaignScenario
             Default = -1
         };
     }
-
 }

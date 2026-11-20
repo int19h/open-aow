@@ -11,7 +11,7 @@ using Aow.Game.Units;
 namespace Aow.Game.World.Structures;
 
 // costs, turns left, upkeep, turns total, player, group, unit, unit production
-public partial class ProductionSettings(CustomNode owner) : EngineObject(owner)
+public class ProductionSettings(CustomNode owner) : EngineObject(owner)
 {
     public int Gold { get; set; }
     public int Mana { get; set; }
@@ -50,7 +50,6 @@ public partial class ProductionSettings(CustomNode owner) : EngineObject(owner)
     // Structur.PAS:135
     public override void Clear()
     {
-        Troop u;
         TurnsLeft = 0;
         Gold = 0;
         Mana = 0;
@@ -58,14 +57,11 @@ public partial class ProductionSettings(CustomNode owner) : EngineObject(owner)
         Player = 0;
         GroupId = 0;
         UnitProductionIndex = -1;
-        u = Unit;
-        if (u != null)
+        Troop u = Unit;
+        if (u is not null)
         {
             _ = u.Release();
             Unit = null;
         }
     }
-
-    // Engine.pas:524
-
 }

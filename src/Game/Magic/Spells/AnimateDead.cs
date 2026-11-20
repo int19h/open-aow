@@ -12,7 +12,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Spells;
 
 // inherited spell ID, combat statistics, damage mode
-public partial class AnimateDead : CombatSpell
+public class AnimateDead : CombatSpell
 {
     // CombatSpells.pas:2046
     public AnimateDead(CustomNode owner, EngineObject holder) : base(owner)
@@ -33,8 +33,7 @@ public partial class AnimateDead : CombatSpell
     // CombatSpells.pas:2079
     public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
-        AnimateDeadCombatAction action;
-        action = new AnimateDeadCombatAction(null)
+        AnimateDeadCombatAction action = new(null)
         {
             Holder = CreationHolder(),
             SourceId = source.Id,

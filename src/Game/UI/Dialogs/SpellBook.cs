@@ -150,11 +150,9 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
     // AoWSpellBook.pas:393
     public void FinishDialog()
     {
-        ExecuteDoneEvent done;
-        PlayerMagicEventLog eventValue;
         _ = AudioPlayback.PlaySample("SFX\\INT\\BOOKCLSE.WAV");
-        done = Done;
-        eventValue = _event;
+        ExecuteDoneEvent done = Done;
+        PlayerMagicEventLog eventValue = _event;
         Done = null;
         _event = null;
         done?.Invoke(eventValue);
@@ -169,18 +167,15 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
     // AoWSpellBook.pas:405
     public bool ValidateHero()
     {
-        bool result;
-        if (_activation != null)
+        if (_activation is not null)
         {
             _hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(_activation.UnitId);
-            result = _hero != null && !_hero.UnitStatus.Contains(UnitStatusElement.Killed);
+            return _hero is not null && !_hero.UnitStatus.Contains(UnitStatusElement.Killed);
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // AoWSpellBook.pas:427
@@ -233,7 +228,6 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
     // AoWSpellBook.pas:582
     public void UpdateSpellPages()
     {
-        Spell spellSpell;
         if (ValidateHero())
         {
             switch (Mode)
@@ -296,7 +290,7 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
                 }
             }
 
-            spellSpell = _spells.GetSpell(Page * 8);
+            Spell spellSpell = _spells.GetSpell(Page * 8);
             ShowSpellEntry(spellSpell, Spell1Panel, Spell1Button, Spell1SpellLabel, Spell1ClassLabel, Spell1CostLabel, Spell1Memo, Spell1Icon);
             spellSpell = _spells.GetSpell((Page * 8) + 1);
             ShowSpellEntry(spellSpell, Spell2Panel, Spell2Button, Spell2SpellLabel, Spell2ClassLabel, Spell2CostLabel, Spell2Memo, Spell2Icon);
@@ -334,19 +328,14 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
     // AoWSpellBook.pas:691
     public void UpdateInfoPages()
     {
-        sbyte player2;
-        Leader leader;
-        Button button;
-        PlayerMagicControl control;
-        Spell spell;
         if (ValidateHero())
         {
-            player2 = Mode == 1 ? CombatMap.Current.SeatedPlayer : StrategicMap.Current.SeatedPlayer;
+            sbyte player2 = Mode == 1 ? CombatMap.Current.SeatedPlayer : StrategicMap.Current.SeatedPlayer;
 
-            leader = StrategicMap.Current.Players.GetPlayers(player2).Leader;
+            Leader leader = StrategicMap.Current.Players.GetPlayers(player2).Leader;
             for (int i = 0; i <= 6; i++)
             {
-                button = i switch
+                Button button = i switch
                 {
                     0 => Sphere1Button,
                     1 => Sphere2Button,
@@ -414,6 +403,7 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
             int netPowerToResearch = StrategicMap.Current.Players.GetPlayers(player2).MagicControl.GetNetPowerToResearch();
             string researchPoints = UI.Engine.TranslateResourceString(s_researchPointsText);
             ResearchPointsLabel.Text = $"{researchPoints}: {IntToStr(netPowerToResearch)}";
+            Spell spell;
             if (Set<byte>.WithBounds(0, 255).With(2).With(3).Contains(Mode))
             {
                 CurrentPointsLabel.Text = "";
@@ -421,7 +411,7 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
                 SpellBookLabel.Visible = false;
                 ResearchBookLabel.Visible = true;
                 CastingPage.Visible = false;
-                control = StrategicMap.Current.Players.GetPlayers(player2).MagicControl;
+                PlayerMagicControl control = StrategicMap.Current.Players.GetPlayers(player2).MagicControl;
                 if (control.ResearchSpellId != 0)
                 {
                     ResearchPanel.Visible = true;
@@ -544,10 +534,7 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
     // AoWSpellBook.pas:638
     public void ShowSpellEntry(Spell spell, Panel panel, Button button, Label name, Label spellClass, Label cost, Memo memo, Image icon)
     {
-        string reason = "";
-        int turns;
-        PlayerMagicControl control;
-        if (spell != null)
+        if (spell is not null)
         {
             panel.Visible = true;
             name.Text = spell.SpellName;
@@ -579,7 +566,7 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
             }
 
             memo.Items = spell.SpellText;
-            if (_hero == null)
+            if (_hero is null)
             {
                 cost.Text = AbilityRules.Format(UI.Engine.TranslateResourceString(s_costFormat), [spell.BaseManaCost]);
             }
@@ -589,6 +576,7 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
                 cost.Text = AbilityRules.Format(UI.Engine.TranslateResourceString(s_costFormat), [castingMana]);
             }
 
+            string reason = "";
             if ((Mode == 0 && (!spell.SpellControlTypes.Contains(SpellControlTypeElement.Global) || _hero.Casting())) || (Mode == 1 && (!spell.SpellControlTypes.Contains(SpellControlTypeElement.Combat) || _hero.Casting() || !_hero.CanCastSpellInstantly(spell.SpellId, spell.BaseManaCost, ref reason))) || (Mode == 2 && StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ResearchSpellId != 0))
             {
                 memo.TextColor = 5000268;
@@ -614,6 +602,7 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
                 cost.Text = $"{cost.Text} {format}";
             }
 
+            int turns;
             if (Set<byte>.WithBounds(0, 255).With(0).With(1).Contains(Mode))
             {
                 turns = _hero.CastingTurns(spell);
@@ -627,7 +616,7 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
             {
                 if (Mode is 2 or 3)
                 {
-                    control = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl;
+                    PlayerMagicControl control = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl;
                     turns = control.ResearchTurns(control.GetNetPowerToResearch(), spell.ResearchCost);
                     if (turns < 999)
                     {
@@ -651,16 +640,16 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
     // AoWSpellBook.pas:455
     public void SelectSpell(Spell spell)
     {
-        string reason = "";
         if (ValidateHero())
         {
+            string reason = "";
             switch (Mode)
             {
                 case 2:
                 case 3:
                     if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ResearchSpell(spell.SpellId))
                     {
-                        if (_event == null || _event.Mode != PlayerMagicEventLog.EventMode.StartResearch)
+                        if (_event is null || _event.Mode != PlayerMagicEventLog.EventMode.StartResearch)
                         {
                             Mode = 2;
                             InfoBtnClick();
@@ -731,7 +720,7 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
     // AoWSpellBook.pas:421
     public void UnitChanged(Troop U)
     {
-        if (Book.Visible && (U == null || (Set<byte>.WithBounds(0, 255).With(0).With(1).Contains(Mode) && U == _hero)))
+        if (Book.Visible && (U is null || (Set<byte>.WithBounds(0, 255).With(0).With(1).Contains(Mode) && U == _hero)))
         {
             UpdateSpellPages();
             UpdateInfoPages();
@@ -930,7 +919,7 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
     // AoWSpellBook.pas:214
     public void CancelClick()
     {
-        if (StrategicMap.Current.CombatMap != null && UI.General.CombatUnit != null)
+        if (StrategicMap.Current.CombatMap is not null && UI.General.CombatUnit is not null)
         {
             _ = UI.General.CombatUnit.SelectAbility(-1);
         }
@@ -962,17 +951,14 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
     // AoWSpellBook.pas:236
     public void SpellIconDraw(Image sender, LockedSurface lockedSurface, int slot)
     {
-        int index;
-        int x;
-        int y;
-        index = (Page * 8) + slot;
+        int index = (Page * 8) + slot;
         if (index >= 0 && index < _spells.GetCount())
         {
-            if (_spells.GetSpell(index).CastImages.GetImageSequence(10) != null)
+            if (_spells.GetSpell(index).CastImages.GetImageSequence(10) is not null)
             {
                 Image image = sender;
-                x = image.Window.AbsoluteLeft;
-                y = image.Window.AbsoluteTop;
+                int x = image.Window.AbsoluteLeft;
+                int y = image.Window.AbsoluteTop;
                 _ = _spells.GetSpell(index).CastImages.Show(10, image.WinLeft + x, image.WinTop + y, 0, lockedSurface);
             }
         }
@@ -1053,13 +1039,13 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
     // AoWSpellBook.pas:295
     public void CastingBtnClick()
     {
-        string reason = "";
         UI.General.PlayButtonSound(0);
         if (ValidateHero())
         {
             switch (Mode)
             {
                 case 0:
+                    string reason = "";
                     if (_hero.CastSpell(_hero.CastingSpellId, ref reason))
                     {
                         Book.Visible = false;
@@ -1092,8 +1078,7 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
     // AoWSpellBook.pas:315
     public void FaceDraw(Image sender, LockedSurface lockedSurface)
     {
-        Rect r;
-        r = new Rect(LeftInfoPage.AbsoluteLeft + sender.WinLeft, LeftInfoPage.AbsoluteTop + sender.WinTop, LeftInfoPage.AbsoluteLeft + sender.WinLeft + sender.WinWidth, LeftInfoPage.AbsoluteTop + sender.WinTop + sender.WinHeight);
+        Rect r = new(LeftInfoPage.AbsoluteLeft + sender.WinLeft, LeftInfoPage.AbsoluteTop + sender.WinTop, LeftInfoPage.AbsoluteLeft + sender.WinLeft + sender.WinWidth, LeftInfoPage.AbsoluteTop + sender.WinTop + sender.WinHeight);
 
         _hero.GetFace().ShowStretched(r, lockedSurface);
     }
@@ -1101,18 +1086,16 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
     // AoWSpellBook.pas:325
     public void ResearchIcnDraw(Control sender, LockedSurface lockedSurface)
     {
-        Spell spell;
-        int x;
         Player player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
-        spell = GamePack.Current.SpellControl.GetSpell(player.MagicControl.ResearchSpellId);
-        if (spell == null && Mode == 3)
+        Spell spell = GamePack.Current.SpellControl.GetSpell(player.MagicControl.ResearchSpellId);
+        if (spell is null && Mode == 3)
         {
             spell = GamePack.Current.SpellControl.GetSpell(_researchedSpell);
         }
 
-        if (spell != null)
+        if (spell is not null)
         {
-            x = sender.Window.AbsoluteLeft;
+            int x = sender.Window.AbsoluteLeft;
             _ = spell.CastImages.Show(10, sender.WinLeft + x, sender.Window.AbsoluteTop + sender.WinTop, 0, lockedSurface);
         }
     }
@@ -1120,16 +1103,14 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
     // AoWSpellBook.pas:337
     public void CastingIcnDraw(Control sender, LockedSurface lockedSurface)
     {
-        Spell spell;
-        int x;
-        if (_hero != null)
+        if (_hero is not null)
         {
             if (_hero.Casting())
             {
-                spell = GamePack.Current.SpellControl.GetSpell(_hero.CastingSpellId);
-                if (spell != null)
+                Spell spell = GamePack.Current.SpellControl.GetSpell(_hero.CastingSpellId);
+                if (spell is not null)
                 {
-                    x = sender.Window.AbsoluteLeft;
+                    int x = sender.Window.AbsoluteLeft;
                     _ = spell.CastImages.Show(10, sender.WinLeft + x, sender.Window.AbsoluteTop + sender.WinTop, 0, lockedSurface);
                 }
             }
@@ -1139,11 +1120,10 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
     // AoWSpellBook.pas:352
     public void CancelResearchBtnClick()
     {
-        PlayerMagicControl control;
         UI.General.PlayButtonSound(0);
         if (ValidateHero())
         {
-            control = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl;
+            PlayerMagicControl control = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl;
             if (control.ResearchSpellId != 0)
             {
                 _ = control.ResearchSpell(0);
@@ -1178,7 +1158,7 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
     {
         if (key == 27)
         {
-            if (StrategicMap.Current.CombatMap != null && UI.General.CombatUnit != null)
+            if (StrategicMap.Current.CombatMap is not null && UI.General.CombatUnit is not null)
             {
                 _ = UI.General.CombatUnit.SelectAbility(-1);
             }

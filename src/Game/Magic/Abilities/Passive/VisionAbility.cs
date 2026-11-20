@@ -6,7 +6,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // inherited name, ability ID, selection types, ability type. maximum level, level costs
-public partial class VisionAbility : MultiLevelAbility
+public class VisionAbility : MultiLevelAbility
 {
     // PassiveAb.pas:461
     public VisionAbility(CustomNode owner) : base(owner)
@@ -23,29 +23,15 @@ public partial class VisionAbility : MultiLevelAbility
     // PassiveAb.pas:473
     public override string GetLevelName(int level)
     {
-        string result = "";
-        switch (level)
+        return level switch
         {
-            case 0:
-                result = AbilityRules.TranslateResourceString(GetEngine(), s_visionText);
-                break;
-            case 1:
-                result = $"{AbilityRules.TranslateResourceString(GetEngine(), s_visionText)} I";
-                break;
-            case 2:
-                result = $"{AbilityRules.TranslateResourceString(GetEngine(), s_visionText)} II";
-                break;
-            case 3:
-                result = $"{AbilityRules.TranslateResourceString(GetEngine(), s_visionText)} III";
-                break;
-            case 4:
-                result = $"{AbilityRules.TranslateResourceString(GetEngine(), s_visionText)} IV";
-                break;
-            default:
-                break;
-        }
-
-        return result;
+            0 => AbilityRules.TranslateResourceString(GetEngine(), s_visionText),
+            1 => $"{AbilityRules.TranslateResourceString(GetEngine(), s_visionText)} I",
+            2 => $"{AbilityRules.TranslateResourceString(GetEngine(), s_visionText)} II",
+            3 => $"{AbilityRules.TranslateResourceString(GetEngine(), s_visionText)} III",
+            4 => $"{AbilityRules.TranslateResourceString(GetEngine(), s_visionText)} IV",
+            _ => "",
+        };
     }
 
     private static readonly string s_visionText = "Vision";

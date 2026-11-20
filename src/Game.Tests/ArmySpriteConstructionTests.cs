@@ -71,8 +71,8 @@ public sealed class ArmySpriteConstructionTests
     // the storage streams write and read them through the tree, and a set the tree loads carries
     // explicit bounds where a constructed set has the default ones.
     // Both bound the same members and compare equal, so the snapshots leave the bounds out.
-    private static string WithoutSetBounds(string snapshot) =>
-        Regex.Replace(snapshot, pattern: @"""Set\\u00601\.(bounded|high|low)"":[^,}]*,?", replacement: "");
+    private static string WithoutSetBounds(string snapshot)
+        => Regex.Replace(snapshot, pattern: @"""Set\\u00601\.(bounded|high|low)"":[^,}]*,?", replacement: "");
 
     [Fact]
     public void SavedArmyReturnsThroughCreateEngineObject()

@@ -7,7 +7,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Events;
 
 // location
-public partial class LocationTextEventLog(CustomNode owner) : TextEventLog(owner)
+public class LocationTextEventLog(CustomNode owner) : TextEventLog(owner)
 {
 
     // EventLog.pas:728
@@ -40,7 +40,7 @@ public partial class LocationTextEventLog(CustomNode owner) : TextEventLog(owner
     // EventLog.pas:737
     public void SetLocation(MapCoordinate location) => Location = location;
 
-    public void SetLocation(sbyte x, sbyte y, sbyte level) =>
-        SetLocation(new MapCoordinate(x, y, level));
+    public void SetLocation(sbyte x, sbyte y, sbyte level)
+        => SetLocation(new MapCoordinate(x, y, level));
 
 }

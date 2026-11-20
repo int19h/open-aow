@@ -9,7 +9,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.AI.Groups;
 
-public partial class PassiveAIGroup : AIGroup, IAIGroupClass
+public class PassiveAIGroup : AIGroup, IAIGroupClass
 {
     // MainAG.pas:129
     public new const int ClassId = 136280;
@@ -31,17 +31,15 @@ public partial class PassiveAIGroup : AIGroup, IAIGroupClass
     // MainAG.pas:147
     public override bool GetRecruitableUnits(AIGroup recruiter, UnitUserList units, UnitUserList recruitable)
     {
-        GroupDefenseSelector selector;
-        Troop troop;
         MapCoordinate location = GetLocation();
         bool result = false;
-        selector = new GroupDefenseSelector(this);
+        GroupDefenseSelector selector = new(this);
         _ = selector.Execute(this, location.X, location.Y, location.MapLevel, units);
         if (selector.Defenders.Count != 0)
         {
             for (int i = units.Count - 1; i >= 0; i--)
             {
-                troop = units.GetUnit(i);
+                Troop troop = units.GetUnit(i);
                 if (selector.Defenders.IndexOf(troop) == -1)
                 {
                     _ = recruitable.AddUnit(troop);

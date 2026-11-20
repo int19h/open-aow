@@ -6,7 +6,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // inherited name, ability ID, selection types, ability type, duration mode
-public partial class VertigoAbility : DurationAbility
+public class VertigoAbility : DurationAbility
 {
     // PassiveAb.pas:952
     public VertigoAbility(CustomNode owner, EngineObject holder) : base(owner)

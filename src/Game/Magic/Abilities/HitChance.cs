@@ -27,8 +27,7 @@ internal static class HitChance
 
     internal static float HitRoleProbability(int attackDefense)
     {
-        int chance;
-        chance = (attackDefense * 10) + 50;
+        int chance = (attackDefense * 10) + 50;
         if (chance < 10)
         {
             chance = 10;
@@ -50,12 +49,7 @@ internal static class HitChance
             result = 1;
         }
 
-        if (result > 100)
-        {
-            result = 100;
-        }
-
-        return result;
+        return result > 100 ? 100 : result;
     }
 
     internal static void ShowHitPercent(int x, int y, in LockedSurface surface, int percent)
@@ -75,5 +69,4 @@ internal static class HitChance
 
         GamePack.Current.CombatImages[1].Show(x + 20, y + 54, lockedSurface);
     }
-
 }

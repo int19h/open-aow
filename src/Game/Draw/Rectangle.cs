@@ -4,7 +4,7 @@ using Aow.Rtl;
 namespace Aow.Game.Draw;
 
 // Bounds
-public partial class Rectangle
+public class Rectangle
 {
     public Rect Bounds { get; }
 

@@ -6,7 +6,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class Bless : UnitSpell
+public class Bless : UnitSpell
 {
     // UnitSpells.pas:790
     public Bless(CustomNode owner, EngineObject holder) : base(owner)
@@ -34,27 +34,23 @@ public partial class Bless : UnitSpell
     // UnitSpells.pas:805
     public override bool ExecuteSpell(Troop source, Troop target, int mana, Span<int> data)
     {
-        bool result;
-        UnitEnchantment enchantment;
         if (ValidTargetUnit(source, target))
         {
             if (target.ExpandAbility(158))
             {
-                enchantment = target.GetAbilityData<UnitEnchantmentAbilityData>(158).Enchantment;
+                UnitEnchantment enchantment = target.GetAbilityData<UnitEnchantmentAbilityData>(158).Enchantment;
                 enchantment.SetUpkeep(ManaUpkeep);
                 enchantment.SetSource(source.Player);
                 enchantment.DispelResistance = (sbyte)UnitDispelResistance;
             }
 
             // { Original succeeds even when expansion fails. }
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     private static readonly string s_blessText = "Bless";

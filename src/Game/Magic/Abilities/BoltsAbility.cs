@@ -5,7 +5,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Abilities;
 
-public partial class BoltsAbility : RangedAttackAbility
+public class BoltsAbility : RangedAttackAbility
 {
     // AoWAb.PAS:4844
     public BoltsAbility(CustomNode owner) : base(owner)

@@ -21,10 +21,8 @@ public partial class CityRebelDialog(UIContext ui) : UIModule(ui)
     // AoWCityRebelDlg.pas:49
     public void ClearEvent()
     {
-        CityRebellionEventLog eventValue;
-        ExecuteDoneEvent notify;
-        notify = OnClose;
-        eventValue = _event;
+        ExecuteDoneEvent notify = OnClose;
+        CityRebellionEventLog eventValue = _event;
         OnClose = null;
         _event = null;
         notify?.Invoke(eventValue);
@@ -67,5 +65,4 @@ public partial class CityRebelDialog(UIContext ui) : UIModule(ui)
         dialog.CityNameLabel.Text = dialog._event.CityName;
         dialog.RebelWindow.Visible = true;
     }
-
 }

@@ -354,8 +354,8 @@ public sealed class OwnershipTroopTests
         Assert.Equal(new object[] { third, null, second, first }, ((IOwner)list).Children.Cast<object>());
         list.MoveChild(3, target: 1);
         Assert.Equal(new object[] { third, first, null, second }, ((IOwner)list).Children.Cast<object>());
-        list.SortChildren((left, right) => (left == null ? 0 : left == first ? 1 : left == second ? 2 : 3)
-            - (right == null ? 0 : right == first ? 1 : right == second ? 2 : 3));
+        list.SortChildren((left, right) => (left is null ? 0 : left == first ? 1 : left == second ? 2 : 3)
+            - (right is null ? 0 : right == first ? 1 : right == second ? 2 : 3));
         Assert.Equal(new object[] { null, first, second, third }, ((IOwner)list).Children.Cast<object>());
         Assert.Equal(0, list.DropChild(null));
         Assert.Equal(new object[] { first, second, third }, ((IOwner)list).Children.Cast<object>());

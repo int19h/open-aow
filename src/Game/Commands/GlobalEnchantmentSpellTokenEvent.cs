@@ -8,7 +8,7 @@ using Aow.Game.Magic.Abilities;
 namespace Aow.Game.Commands;
 
 // Enchantment
-public partial class GlobalEnchantmentSpellTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
+public class GlobalEnchantmentSpellTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
 {
 
     // GlobalEnchantmentSpells.pas:389
@@ -42,7 +42,4 @@ public partial class GlobalEnchantmentSpellTokenEvent(CustomNode owner) : SpellT
 
     // GlobalEnchantmentSpells.pas:408
     public override bool Process(Troop source, int value) => base.Process(source, value);
-
-    // NetworkE.pas:230
-
 }

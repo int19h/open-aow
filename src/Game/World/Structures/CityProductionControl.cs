@@ -33,15 +33,10 @@ public partial class CityProductionControl(CustomNode owner) : ProductionControl
     // City.pas:675
     public override bool UnitProduced()
     {
-        City city;
-        bool valid;
-        int count;
-        MapLevel level;
-        CityProductionEventLog log;
-        city = City;
-        valid = false;
-        count = city.GetTerrainCount();
-        level = city.Owner.Owner;
+        City city = City;
+        bool valid = false;
+        int count = city.GetTerrainCount();
+        MapLevel level = city.Owner.Owner;
         sbyte hexY = city.GetHexY();
         sbyte hexX = city.GetHexX();
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, 0);
@@ -50,7 +45,7 @@ public partial class CityProductionControl(CustomNode owner) : ProductionControl
             if (city.Resource.TerrainList.Terrain[walk.HexNumber] >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
                 sbyte hexLevel = city.GetHexLevel();
-                valid = Settings.Unit.Place(walk.X, walk.Y, hexLevel, city.Player, Set<UnitPlaceModeElement>.Of()) != null;
+                valid = Settings.Unit.Place(walk.X, walk.Y, hexLevel, city.Player, Set<UnitPlaceModeElement>.Of()) is not null;
             }
 
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
@@ -61,10 +56,10 @@ public partial class CityProductionControl(CustomNode owner) : ProductionControl
             sbyte hexLevel = city.GetHexLevel();
             sbyte cityHexY = city.GetHexY();
             sbyte cityHexX = city.GetHexX();
-            valid = Settings.Unit.Place(cityHexX, cityHexY, hexLevel, city.Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea)) != null;
+            valid = Settings.Unit.Place(cityHexX, cityHexY, hexLevel, city.Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea)) is not null;
         }
 
-        log = new CityProductionEventLog(null)
+        CityProductionEventLog log = new(null)
         {
             Holder = CreationHolder(),
             Player = city.Player
@@ -81,11 +76,9 @@ public partial class CityProductionControl(CustomNode owner) : ProductionControl
     // City.pas:658
     public override void UnitResearched()
     {
-        City city;
-        CityProductionEventLog log;
         base.UnitResearched();
-        city = City;
-        log = new CityProductionEventLog(null)
+        City city = City;
+        CityProductionEventLog log = new(null)
         {
             Holder = CreationHolder(),
             Player = city.Player
@@ -113,7 +106,7 @@ public partial class CityProductionControl(CustomNode owner) : ProductionControl
     public override Unit CreateUnitProduction(int index)
     {
         Unit result = base.CreateUnitProduction(index);
-        if (result != null && City.Enchantments.Contains(CityEnchantmentId.Warmonger))
+        if (result is not null && City.Enchantments.Contains(CityEnchantmentId.Warmonger))
         {
             result.SetRank(Unit.Rank.Silver);
         }
@@ -124,19 +117,10 @@ public partial class CityProductionControl(CustomNode owner) : ProductionControl
     // City.pas:710
     public override int UnitProductionTime(int index)
     {
-        int unitIndex;
-        unitIndex = UnitProductions.GetItem(index).UnitIndex;
+        int unitIndex = UnitProductions.GetItem(index).UnitIndex;
         UnitResource unitResource = GamePack.Current.UnitResources.GetUnitResource(unitIndex);
         int size = City.GetSize();
         int result = unitResource.Level - (size / 2) + 1;
-        if (result < 1)
-        {
-            result = 1;
-        }
-
-        return result;
+        return result < 1 ? 1 : result;
     }
-
-    // intf_P1_02.inc:120
-
 }

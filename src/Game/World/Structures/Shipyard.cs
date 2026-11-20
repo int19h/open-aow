@@ -17,7 +17,7 @@ public partial class Shipyard(CustomNode owner) : ProductionPlace(owner)
     // Shipyard.pas:52
     public override int GetBaseIncome() => 0;
 
-    public new partial class Resource : ProductionPlaceResource
+    public new class Resource : ProductionPlaceResource
     {
         public Resource(CustomNode owner) : base(owner)
         {
@@ -30,16 +30,11 @@ public partial class Shipyard(CustomNode owner) : ProductionPlace(owner)
         // Shipyard.pas:72
         public new const int ClassId = 132287;
 
-        // Shipyard.pas:60
-
         // Shipyard.pas:75
         public override int ResourceUserClassId() => 132286;
-
-        // Shipyard.pas:29
 
         // Shipyard.pas:69
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), GameText.ShipyardText);
 
     }
-
 }

@@ -7,7 +7,7 @@ using Aow.Rtl;
 namespace Aow.Game.World.Map;
 
 // inherits the children list
-public partial class TextControl(CustomNode owner) : OwningNode(owner), IChildList<TextControlItem>
+public class TextControl(CustomNode owner) : OwningNode(owner), IChildList<TextControlItem>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a TextControlItem, so the cast never fails.
@@ -18,16 +18,12 @@ public partial class TextControl(CustomNode owner) : OwningNode(owner), IChildLi
     int IChildSink<TextControlItem>.AddChild(TextControlItem child) => AddChild(child);
 
     // Structur.PAS:4419
-    public TextControlItem GetItem(int index)
-    {
-        TextControlItem result = index >= 0 && index < Count ? this[index] : null;
-        return result;
-    }
+    public TextControlItem GetItem(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // Structur.PAS:4426
     public void Delete(int index)
     {
-        if (GetItem(index) != null)
+        if (GetItem(index) is not null)
         {
             GetItem(index)?.Dispose();
         }
@@ -39,10 +35,9 @@ public partial class TextControl(CustomNode owner) : OwningNode(owner), IChildLi
     // Structur.PAS:4436
     public TextControlItem FindId(int id)
     {
-        int i;
-        i = Count;
+        int i = Count;
         TextControlItem result = null;
-        while (result == null && i != 0)
+        while (result is null && i != 0)
         {
             i -= 1;
             if (this[i].Id == id)
@@ -63,10 +58,9 @@ public partial class TextControl(CustomNode owner) : OwningNode(owner), IChildLi
     // Structur.PAS:4468
     public void RetrieveText(int id, DelphiStringCollection text)
     {
-        TextControlItem item;
         text.Clear();
-        item = FindId(id);
-        if (item != null)
+        TextControlItem item = FindId(id);
+        if (item is not null)
         {
             text.Text = item.Text.Text;
         }
@@ -81,9 +75,4 @@ public partial class TextControl(CustomNode owner) : OwningNode(owner), IChildLi
         }
         return number;
     }
-
-    // Engine.pas:631
-
-    // Engine.pas:631
-
 }

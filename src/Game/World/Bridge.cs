@@ -11,15 +11,13 @@ namespace Aow.Game.World;
 // { The Bridge unit of HSEPack.dpl: a bridge over water (TBridge, ClassID $20174, an overlay at level
 //   10) whose image is chosen from the roads and shores around it (TBridgeResource, ClassID $20175). }
 // FTransitions (two bits per side HN 1.6: 0 none, 1 a road, 2 the shore the bridge reaches)
-public partial class Bridge(CustomNode owner) : AbstractRoad(owner)
+public class Bridge(CustomNode owner) : AbstractRoad(owner)
 {
 
     // Bridge.pas:48
     public new const int ClassId = 131444;
 
     private ushort _transitions;
-
-    // Bridge.pas:43
 
     // Bridge.pas:53
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
@@ -33,10 +31,8 @@ public partial class Bridge(CustomNode owner) : AbstractRoad(owner)
     //   is updated. }
     public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        MapField mapField;
-        HexSprite oldRoad;
-        mapField = mapContainer.GetField(hexX, hexY, hexLevel);
-        oldRoad = mapField.FindHexSprite(typeof(AbstractRoad));
+        MapField mapField = mapContainer.GetField(hexX, hexY, hexLevel);
+        HexSprite oldRoad = mapField.FindHexSprite(typeof(AbstractRoad));
         oldRoad?.Dispose();
 
         _ = Owner;
@@ -54,34 +50,22 @@ public partial class Bridge(CustomNode owner) : AbstractRoad(owner)
     public override void UpdateTransitions()
     {
         Span<byte> sides = stackalloc byte[6];
-        int transitions;
-        int maxDistance;
-        int maxSide;
-        bool hasRoad;
-        bool inShore;
         int hexX = default;
         int hexY = default;
-        int shores;
-        sbyte terrainType;
-        MapLevel level;
-        int start;
-        int distance;
-        MapField mapField;
-        bool isShore;
-        transitions = 0;
-        level = Owner.Owner;
-        shores = 0;
-        inShore = false;
+        int transitions = 0;
+        MapLevel level = Owner.Owner;
+        int shores = 0;
+        bool inShore = false;
         for (int hexNumber = 1; hexNumber <= 6; hexNumber++)
         {
             HexGeometry.HexNumberToHex(hexNumber, ref hexX, ref hexY);
             HexGeometry.TranslateHex(0, 0, Owner.HexX, Owner.HexY, hexX, hexY, out hexX, out hexY);
             if (hexX >= 0 && hexY >= 0 && level.Width > hexX && level.Height > hexY)
             {
-                mapField = level.GetField(hexX, hexY);
-                terrainType = mapField.TerrainType;
-                hasRoad = mapField.FindHexSprite(typeof(AbstractRoad)) != null;
-                isShore = terrainType != 0 && base.Resource.TerrainList.GetTerrain(0) != terrainType && mapField.FindHexSprite(typeof(BorderHex)) == null;
+                MapField mapField = level.GetField(hexX, hexY);
+                sbyte terrainType = mapField.TerrainType;
+                bool hasRoad = mapField.FindHexSprite(typeof(AbstractRoad)) is not null;
+                bool isShore = terrainType != 0 && base.Resource.TerrainList.GetTerrain(0) != terrainType && mapField.FindHexSprite(typeof(BorderHex)) is null;
                 if (hasRoad)
                 {
                     sides[hexNumber - 1] = 1;
@@ -127,7 +111,7 @@ public partial class Bridge(CustomNode owner) : AbstractRoad(owner)
         }
 
         // { the side the bridge starts from: a road, else the first side without water }
-        start = 1;
+        int start = 1;
         while (start <= 6 && sides[start - 1] != 1)
         {
             start += 1;
@@ -177,15 +161,15 @@ public partial class Bridge(CustomNode owner) : AbstractRoad(owner)
             // { of every shore keep the side farthest from the start }
             for (int shore = 3; shore <= shores + 2; shore++)
             {
-                maxDistance = 0;
-                maxSide = 0;
+                int maxSide = 0;
                 if (shore != sides[start - 1] || shores == 1)
                 {
+                    int maxDistance = 0;
                     for (int hexNumber = 1; hexNumber <= 6; hexNumber++)
                     {
                         if (shore == sides[hexNumber - 1])
                         {
-                            distance = Math.Abs(hexNumber - start);
+                            int distance = Math.Abs(hexNumber - start);
                             if (distance > 3)
                             {
                                 distance = Math.Abs(distance - 6);
@@ -222,14 +206,12 @@ public partial class Bridge(CustomNode owner) : AbstractRoad(owner)
         _transitions = (ushort)transitions;
     }
 
-    public new partial class Resource : AbstractRoadResource
+    public new class Resource : AbstractRoadResource
     {
         public Resource(CustomNode owner) : base(owner) => SetLevel(10);
 
         // Bridge.pas:205
         public new const int ClassId = 131445;
-
-        // Bridge.pas:189
 
         // Bridge.pas:195
         public override int ResourceUserClassId() => 131444;
@@ -237,10 +219,8 @@ public partial class Bridge(CustomNode owner) : AbstractRoad(owner)
         // Bridge.pas:210
         public void Show(int pixelX, int pixelY, in LockedSurface lockedSurface, Bridge bridge)
         {
-            int transitions;
-            int baseValue;
-            transitions = bridge._transitions;
-            baseValue = 1;
+            int transitions = bridge._transitions;
+            int baseValue = 1;
             ImageLibrary[baseValue + 18].Show(pixelX, pixelY, lockedSurface);
             if ((transitions & 3) != 0)
             {
@@ -316,11 +296,7 @@ public partial class Bridge(CustomNode owner) : AbstractRoad(owner)
         }
 
         // Bridge.pas:253
-        public override EditorClass Editor()
-        {
-            EditorClass result = Engine.Editors.FindEditor(131445) ?? base.Editor();
-            return result;
-        }
+        public override EditorClass Editor() => Engine.Editors.FindEditor(131445) ?? base.Editor();
 
         // Bridge.pas:259
         public override void MessageProc(ref EngineMessage message, EngineObject sender)
@@ -331,13 +307,8 @@ public partial class Bridge(CustomNode owner) : AbstractRoad(owner)
             }
         }
 
-        // Bridge.pas:28
-
         // Bridge.pas:200
         public override string ResourceEditName() => HexText.BridgeText;
 
     }
-
-    // Bridge.pas:18
-
 }

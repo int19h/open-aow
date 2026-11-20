@@ -7,7 +7,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Structures;
 
-public partial class ConstructionControl(CustomNode owner) : EngineObject(owner)
+public class ConstructionControl(CustomNode owner) : EngineObject(owner)
 {
 
     // AoWAb.PAS:5494
@@ -21,19 +21,16 @@ public partial class ConstructionControl(CustomNode owner) : EngineObject(owner)
     // AoWAb.PAS:5500
     public virtual bool CanConstruct(Troop troop, ref string reason)
     {
-        bool result;
         GetInfo(troop, out _, out int gold, out _);
         if (StrategicMap.Current.Players.GetPlayers(troop.Player).Gems < gold)
         {
             reason = AbilityRules.TranslateResourceString(GetEngine(), s_notEnoughGoldText);
-            result = false;
+            return false;
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // AoWAb.PAS:5513

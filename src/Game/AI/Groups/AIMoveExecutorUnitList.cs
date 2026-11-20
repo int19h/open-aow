@@ -7,7 +7,7 @@ using Aow.Game.Magic.Abilities;
 namespace Aow.Game.AI.Groups;
 
 // children
-public partial class AIMoveExecutorUnitList(CustomNode owner) : OwningNode(owner), IChildList<AIMoveExecutorUnit>
+public class AIMoveExecutorUnitList(CustomNode owner) : OwningNode(owner), IChildList<AIMoveExecutorUnit>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AIMoveExecutorUnit.
@@ -71,8 +71,7 @@ public partial class AIMoveExecutorUnitList(CustomNode owner) : OwningNode(owner
     // AIGroup.pas:4366
     public byte ValidateSelection(byte selection)
     {
-        int n;
-        n = Count;
+        int n = Count;
         if (n > 8)
         {
             n = 8;
@@ -102,22 +101,20 @@ public partial class AIMoveExecutorUnitList(CustomNode owner) : OwningNode(owner
     // AIGroup.pas:4386
     public AIMoveExecutorUnit Transporter(byte selection)
     {
-        AIMoveExecutorUnit result = null;
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
             if ((selection & 1) != 0)
             {
                 if (this[i].Troop.GetTransporter())
                 {
-                    result = this[i];
-                    break;
+                    return this[i];
                 }
             }
 
             selection = (byte)(int)(((uint)selection) >> 1);
         }
 
-        return result;
+        return null;
     }
 
     // AIGroup.pas:4403
@@ -161,7 +158,4 @@ public partial class AIMoveExecutorUnitList(CustomNode owner) : OwningNode(owner
             selection = (byte)(int)(((uint)selection) >> 1);
         }
     }
-
-    // Engine.pas:631
-
 }

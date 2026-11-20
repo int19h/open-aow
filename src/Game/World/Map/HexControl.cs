@@ -4,6 +4,6 @@ using Aow.Engine.Nodes;
 namespace Aow.Game.World.Map;
 
 // the hexagon resources of a set
-public partial class HexControl(CustomNode owner) : MapObjectResourceTerrainControl(owner)
+public class HexControl(CustomNode owner) : MapObjectResourceTerrainControl(owner)
 {
 }

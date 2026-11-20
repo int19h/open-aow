@@ -13,7 +13,7 @@ using Aow.Rtl;
 namespace Aow.Game.AI;
 
 // control, selector, mode, range, step, target range
-public partial class AIProductionLocationFinder : AIGroupTask
+public class AIProductionLocationFinder : AIGroupTask
 {
     // AIGroup.pas:2303
     public AIProductionLocationFinder(CustomNode owner) : base(owner) => Selector = new AIMoveTargetSelector(null) { Holder = CreationHolder() };
@@ -95,12 +95,10 @@ public partial class AIProductionLocationFinder : AIGroupTask
     // AIGroup.pas:2320
     public void ProductionLocationFoundEvent(MoveTarget target, ref bool searchDone)
     {
-        AIGroupProductionLocation location;
-        ProductionControl control;
-        control = StrategicMap.Current.MapContainer.GetField(target.Location.X, target.Location.Y, target.Location.MapLevel).GetProductionControl();
+        ProductionControl control = StrategicMap.Current.MapContainer.GetField(target.Location.X, target.Location.Y, target.Location.MapLevel).GetProductionControl();
         if (_control.ProductionLocations.IndexOfPC(control) == -1)
         {
-            location = new AIGroupProductionLocation(null)
+            AIGroupProductionLocation location = new(null)
             {
                 Holder = CreationHolder(),
                 ProductionControl = control,
@@ -133,7 +131,4 @@ public partial class AIProductionLocationFinder : AIGroupTask
     {
         CalculateMovePathBfs = 0
     }
-
-    // intf_P5_07.inc:459
-
 }

@@ -11,7 +11,7 @@ using static Aow.Rtl.DelphiRounding;
 namespace Aow.Game.Magic.Spells;
 
 // inherited combat statistics, damage mode
-public partial class Ooze : CombatSpell
+public class Ooze : CombatSpell
 {
     // CombatSpells.pas:1619
     public Ooze(CustomNode owner, EngineObject holder) : base(owner)

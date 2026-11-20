@@ -4,7 +4,7 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Game.Units;
 
 // CollectionSize. Units
-public partial class UnitIndexListCollection : IDisposable
+public class UnitIndexListCollection : IDisposable
 {
     // Unit.PAS:2413
     public UnitIndexListCollection()
@@ -24,11 +24,9 @@ public partial class UnitIndexListCollection : IDisposable
     // Unit.PAS:2432
     public int GetCollectionCount(int index)
     {
-        int i;
-        int last;
         int result = 0;
-        i = index * _collectionSize;
-        last = _collectionSize + i;
+        int i = index * _collectionSize;
+        int last = _collectionSize + i;
         if (last > Units.Count)
         {
             last = Units.Count;
@@ -52,33 +50,26 @@ public partial class UnitIndexListCollection : IDisposable
     // Unit.PAS:2454
     public bool AddUnit(int collection, int unitIndex)
     {
-        bool result;
-        int n;
-        n = GetCollectionCount(collection);
+        int n = GetCollectionCount(collection);
         if (n < _collectionSize)
         {
             Units[n + (collection * _collectionSize)] = unitIndex;
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Unit.PAS:2466
     public void DeleteUnit(int collection, int index)
     {
-        int n;
-        int offset;
-        int unitIndex;
-        n = GetCollectionCount(collection);
+        int n = GetCollectionCount(collection);
         if (index < n)
         {
-            offset = collection * _collectionSize;
-            unitIndex = offset + index;
+            int offset = collection * _collectionSize;
+            int unitIndex = offset + index;
             Units.Delete(unitIndex);
             Units.Insert(offset + n - 1, -1);
         }
@@ -87,9 +78,8 @@ public partial class UnitIndexListCollection : IDisposable
     // Unit.PAS:2477
     public int GetRandomCollection()
     {
+        int tries = 10;
         int index;
-        int tries;
-        tries = 10;
         do
         {
             index = Random(GetCount());
@@ -112,7 +102,4 @@ public partial class UnitIndexListCollection : IDisposable
 
         return index;
     }
-
-    // intf_P2_05.inc:377
-
 }

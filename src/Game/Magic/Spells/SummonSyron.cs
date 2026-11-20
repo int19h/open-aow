@@ -5,7 +5,7 @@ using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class SummonSyron : SummonSpell
+public class SummonSyron : SummonSpell
 {
     // SummonSpells.pas:328
     public SummonSyron(CustomNode owner, EngineObject holder) : base(owner)

@@ -9,25 +9,22 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Combat.Actions;
 
-public partial class TurnUndeadCombatAction(CustomNode owner) : DamageCombatAction(owner)
+public class TurnUndeadCombatAction(CustomNode owner) : DamageCombatAction(owner)
 {
     public new const int ClassId = 131769;
 
     // AoWAb.PAS:3088
     public override void Execute(Battle combat)
     {
-        CombatUnit source;
-        CombatUnit target;
-        UnitEnchantmentAbilityData data;
         base.Execute(combat);
         if (Damage != 0)
         {
-            source = combat.CombatData.FindId<CombatUnit>(SourceId);
-            target = combat.CombatData.FindId<CombatUnit>(TargetId);
+            CombatUnit source = combat.CombatData.FindId<CombatUnit>(SourceId);
+            CombatUnit target = combat.CombatData.FindId<CombatUnit>(TargetId);
             if (!target.Status.Contains(CombatObjectStatusElement.Destroyed))
             {
                 _ = GamePack.Current.AbilityControl.GetAbility(34).Expand(target.Troop);
-                data = target.Troop.GetAbilityData<UnitEnchantmentAbilityData>(34);
+                UnitEnchantmentAbilityData data = target.Troop.GetAbilityData<UnitEnchantmentAbilityData>(34);
 
                 data?.EnchantmentPlayerIndex = source.CombatPlayer;
             }
@@ -60,7 +57,4 @@ public partial class TurnUndeadCombatAction(CustomNode owner) : DamageCombatActi
     public bool GetSuccessful() => Damage != 0;
 
     public override bool TouchSucceeded => GetSuccessful();
-
-    // intf_P3_02.inc:38
-
 }

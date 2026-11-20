@@ -10,7 +10,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Spells;
 
 // Cloud
-public partial class SmokeCloudEnchantment : GlobalEnchantment
+public class SmokeCloudEnchantment : GlobalEnchantment
 {
     // SmokeCloud.pas:99
     public new const int ClassId = 135748;

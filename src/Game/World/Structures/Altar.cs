@@ -59,10 +59,10 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
     // Altar.pas:78
     public override ExecuteResult ExecuteTokenEvent(StructureTokenEvent tokenEvent, TokenExecutor executor)
     {
-        string reason = "";
         ExecuteResult result = base.ExecuteTokenEvent(tokenEvent, executor);
         if (tokenEvent.Action == 0)
         {
+            string reason = "";
             if (executor.ExecuteCount == 0 && CanTarget(ref reason))
             {
                 _storm = CreateStorm();
@@ -73,7 +73,7 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
                 _storm.InitializeStorm(Player, (sbyte)(tokenEvent.Param & 255), (sbyte)(((int)(((uint)tokenEvent.Param) >> 8)) & 255), (sbyte)(((int)(((uint)tokenEvent.Param) >> 16)) & 255));
             }
 
-            if (_storm != null)
+            if (_storm is not null)
             {
                 if (!_storm.UpdateStorm())
                 {
@@ -85,12 +85,12 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
                 }
                 else
                 {
-                    result = ExecuteResult.Retry;
+                    return ExecuteResult.Retry;
                 }
             }
             else
             {
-                result = ExecuteResult.DoneHalt;
+                return ExecuteResult.DoneHalt;
             }
         }
 
@@ -110,33 +110,28 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
     // Altar.pas:70
     public override string GetCurrentActivityText()
     {
-        string result;
         if (GetRechargeDays() != RechargeDays)
         {
             string formatDaysLeftString = DurationText.FormatDaysLeftString(GetEngine(), days: GetRechargeDays() - RechargeDays);
-            result = $"{AbilityRules.TranslateResourceString(GetEngine(), s_chargingText)} ({formatDaysLeftString})";
+            return $"{AbilityRules.TranslateResourceString(GetEngine(), s_chargingText)} ({formatDaysLeftString})";
         }
         else
         {
-            result = AbilityRules.TranslateResourceString(GetEngine(), s_readyText);
+            return AbilityRules.TranslateResourceString(GetEngine(), s_readyText);
         }
-
-        return result;
     }
 
     // Altar.pas:259
     public override bool ExecuteAI(sbyte player, int phase)
     {
-        Storm storm;
-        int value;
-        if (player == Player && (phase == 1 || phase == 2))
+        if (player == Player && (phase is 1 or 2))
         {
-            storm = CreateStorm();
+            Storm storm = CreateStorm();
             sbyte hexLevel = GetHexLevel();
             sbyte hexY = GetHexY();
             if (storm.GetBestTarget(player, GetHexX(), hexY, hexLevel, 12, out MapCoordinate target, out StormDamageInfo damage))
             {
-                value = damage.EnemyDamage - damage.FriendlyDamage;
+                int value = damage.EnemyDamage - damage.FriendlyDamage;
                 if (value > TargetMana() * 0.75)
                 {
                     Player playerAIBudget = StrategicMap.Current.Players.GetPlayers(player);
@@ -195,25 +190,21 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
     // Altar.pas:110
     public virtual bool StormTargetSelected(sbyte X, sbyte Y, sbyte L)
     {
-        bool result;
         string reason = "";
-        StructureTokenEvent eventValue;
         if (CanTarget(ref reason) && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
-            eventValue = CreateTokenEvent();
+            StructureTokenEvent eventValue = CreateTokenEvent();
             SetupTokenEvent(eventValue);
             eventValue.Param = X + (Y << 8) + (L << 16);
             eventValue.Action = 0;
             StrategicMap.Current.TokenManager.GetTokenControl(Player).AddEvent(eventValue);
             _ = eventValue.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Altar.pas:212
@@ -222,28 +213,24 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
     // Altar.pas:153
     public virtual bool CanTarget(ref string reason)
     {
-        bool result;
         if (TargetMana() <= StrategicMap.Current.Players.GetPlayers(Player).MagicControl.Mana)
         {
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
             reason = AbilityRules.TranslateResourceString(GetEngine(), GameText.NotEnoughManaText);
         }
 
-        return result;
+        return false;
     }
 
     // Altar.pas:164
     public virtual bool Target()
     {
-        bool result = default;
-        TargetSelectionControl selection = default;
         string reason = "";
-        selection = StrategicMap.Current.TargetSelection;
-        if (!GetRazed() && Player >= 0 && TargetMana() <= StrategicMap.Current.Players.GetPlayers(Player).MagicControl.Mana && CanTarget(ref reason) && _storm == null)
+        TargetSelectionControl selection = StrategicMap.Current.TargetSelection;
+        if (!GetRazed() && Player >= 0 && TargetMana() <= StrategicMap.Current.Players.GetPlayers(Player).MagicControl.Mana && CanTarget(ref reason) && _storm is null)
         {
             selection.Initialize(this);
             selection.TargetMode += Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
@@ -261,33 +248,29 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
             selection.ValidTargetImage = GetMiddleBorderImage();
             selection.InvalidTargetImage = GetBottomBorderImage();
             selection.Activate();
-            result = true;
             Update();
         }
         else
         {
             // { Original reports success even when targeting cannot start. }
-            result = true;
+            return true;
         }
 
-        return result;
+        return true;
     }
 
     // Altar.pas:202
     public virtual bool CancelTargeting()
     {
-        bool result;
         if (GetTargeting())
         {
             StrategicMap.Current.TargetSelection.Deactivate();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Altar.pas:215

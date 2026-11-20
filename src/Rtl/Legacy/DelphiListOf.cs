@@ -27,8 +27,16 @@ public class DelphiList<T> : IDisposable where T : class
     // CLASSES.PAS TList.Get and TList.Put.
     public T? this[int index]
     {
-        get { DelphiListCore.Check(index, count); return items[index]; }
-        set { DelphiListCore.Check(index, count); items[index] = value; }
+        get
+        {
+            DelphiListCore.Check(index, count);
+            return items[index];
+        }
+        set
+        {
+            DelphiListCore.Check(index, count);
+            items[index] = value;
+        }
     }
 
     // CLASSES.PAS TList.Grow.
@@ -89,7 +97,11 @@ public class DelphiList<T> : IDisposable where T : class
     public T? Last() => this[count - 1];
 
     // CLASSES.PAS TList.Clear.
-    public void Clear() { Count = 0; Capacity = 0; }
+    public void Clear()
+    {
+        Count = 0;
+        Capacity = 0;
+    }
 
     // CLASSES.PAS TList.Pack.
     public void Pack() => DelphiListCore.Pack(items, ref count);

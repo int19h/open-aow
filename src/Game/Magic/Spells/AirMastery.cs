@@ -14,7 +14,7 @@ using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class AirMastery : GlobalEnchantmentSpell
+public class AirMastery : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:688
     public AirMastery(CustomNode owner, EngineObject holder) : base(owner)
@@ -34,18 +34,14 @@ public partial class AirMastery : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:727
     public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        sbyte x = default;
-        sbyte y = default;
-        sbyte l = default;
-        Animation animation = default;
         _ = base.ExecuteTokenEvent(eventValue, source, executeCount);
         SpellTargets.NotifySpellSphere(source.Player, MagicSphere.Air);
         MapCoordinate coordinate50 = source.GetLocation();
-        x = coordinate50.X;
-        y = coordinate50.Y;
-        l = coordinate50.MapLevel;
+        sbyte x = coordinate50.X;
+        sbyte y = coordinate50.Y;
+        sbyte l = coordinate50.MapLevel;
         _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
-        animation = new Animation(null)
+        Animation animation = new(null)
         {
             Holder = CreationHolder(),
             AnimationLevel = 28
@@ -65,15 +61,10 @@ public partial class AirMastery : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:701
     public void ShowAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int count;
-        int x;
-        int y;
-        int speed;
-        int image;
         if (StrategicMap.Current.ViewMapLevel == 0)
         {
             RandSeed = StrategicMap.Current.Frame - animation.FrameCounter;
-            count = (int)GetEngine().AnimationDetail switch
+            int count = (int)GetEngine().AnimationDetail switch
             {
                 0 => 5,
                 2 => 20,
@@ -81,10 +72,10 @@ public partial class AirMastery : GlobalEnchantmentSpell
             };
             for (int i = 0; i <= count - 1; i++)
             {
-                x = Random(animation.Tag & 65535);
-                y = Random((int)(((uint)(int)(uint)animation.Tag) >> 16));
-                speed = Random(15) + 5;
-                image = Random(3);
+                int x = Random(animation.Tag & 65535);
+                int y = Random((int)(((uint)(int)(uint)animation.Tag) >> 16));
+                int speed = Random(15) + 5;
+                int image = Random(3);
                 x += (animation.FrameCounter - 45) * speed * 2;
                 y -= (animation.FrameCounter - 45) * speed;
                 _ = CastImages.Show(image, lockedSurface.ClipRectangle.Left + x, lockedSurface.ClipRectangle.Top + y, 0, lockedSurface);

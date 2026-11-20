@@ -12,7 +12,7 @@ using static Aow.Rtl.LegacyApplication;
 namespace Aow.Game.AI.Groups;
 
 // units, path, points, moves, source, destination
-public partial class AIMoveExecutorMove(CustomNode owner) : AIMoveExecutorUnitList(owner)
+public class AIMoveExecutorMove(CustomNode owner) : AIMoveExecutorUnitList(owner)
 {
 
     public MovePath Path { get; private set; } = new MovePath();
@@ -25,7 +25,7 @@ public partial class AIMoveExecutorMove(CustomNode owner) : AIMoveExecutorUnitLi
     public override void Dispose()
     {
         // { Original retains this empty exception frame when the path is already nil. }
-        if (Path == null)
+        if (Path is null)
         {
             try
             {
@@ -71,31 +71,24 @@ public partial class AIMoveExecutorMove(CustomNode owner) : AIMoveExecutorUnitLi
     // AIGroup.pas:4484
     public bool RetrieveArmy(out ArmyHexSprite army, out byte selection)
     {
-        bool result;
-        int index;
         army = StrategicMap.Current.MapContainer.GetField(Source.X, Source.Y, Source.MapLevel).GetArmyHexSprite();
-        if (army != null)
+        if (army is not null)
         {
             selection = 0;
             for (int i = Count - 1; i >= 0; i--)
             {
                 AIMoveExecutorUnit units = GetUnits(i);
-                index = army.Army.FindChildIndex(units.Troop);
+                int index = army.Army.FindChildIndex(units.Troop);
                 selection = index != -1 ? (byte)(selection | (1 << index)) : throw new KeyNotFoundException("Unit missing!");
             }
 
-            result = true;
+            return true;
         }
         else
         {
             selection = 0;
             army = null;
-            result = false;
+            return false;
         }
-
-        return result;
     }
-
-    // intf_P5_06.inc:347
-
 }

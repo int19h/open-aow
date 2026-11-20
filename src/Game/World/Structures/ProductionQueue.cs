@@ -5,7 +5,7 @@ using Aow.Engine.Nodes;
 namespace Aow.Game.World.Structures;
 
 // production control
-public partial class ProductionQueue(CustomNode owner) : OwningNode(owner), IChildList<ProductionItem>
+public class ProductionQueue(CustomNode owner) : OwningNode(owner), IChildList<ProductionItem>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a ProductionItem, so the cast never fails.
@@ -18,11 +18,7 @@ public partial class ProductionQueue(CustomNode owner) : OwningNode(owner), IChi
     public ProductionControl ProductionControl { get; init; }
 
     // Structur.PAS:83
-    public ProductionItem GetItem(int index)
-    {
-        ProductionItem result = index >= 0 && index < Count ? this[index] : null;
-        return result;
-    }
+    public ProductionItem GetItem(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // Structur.PAS:89
     public int IndexOfId(int id)
@@ -43,12 +39,11 @@ public partial class ProductionQueue(CustomNode owner) : OwningNode(owner), IChi
     // Structur.PAS:100
     public int IndexOf(ProductionOrder order)
     {
-        ProductionItem item;
         int result = Count;
         while (result != 0)
         {
             result -= 1;
-            item = this[result];
+            ProductionItem item = this[result];
             if (item.Order == order)
             {
                 return result;
@@ -57,7 +52,4 @@ public partial class ProductionQueue(CustomNode owner) : OwningNode(owner), IChi
 
         return -1;
     }
-
-    // Engine.pas:631
-
 }

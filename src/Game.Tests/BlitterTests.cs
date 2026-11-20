@@ -188,11 +188,26 @@ public sealed class BlitterTests
         public void Run(byte[] buffer, Action call)
         {
             bool fault = false;
-            try { call(); }
-            catch (IndexOutOfRangeException) { fault = true; }
-            catch (ArgumentOutOfRangeException) { fault = true; }
-            catch (NullReferenceException) { fault = true; }
-            catch (AccessViolationException) { fault = true; }
+            try
+            {
+                call();
+            }
+            catch (IndexOutOfRangeException)
+            {
+                fault = true;
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                fault = true;
+            }
+            catch (NullReferenceException)
+            {
+                fault = true;
+            }
+            catch (AccessViolationException)
+            {
+                fault = true;
+            }
             Add(buffer, fault);
         }
 
@@ -518,9 +533,15 @@ public sealed class BlitterTests
                 if (random.Next(3) == 0)
                 {
                     int run = 1 + random.Next(Math.Min(width - x, 5));
-                    words.Add(0); words.Add((ushort)(run * 2)); x += run;
+                    words.Add(0);
+                    words.Add((ushort)(run * 2));
+                    x += run;
                 }
-                else { words.Add((ushort)(1 + random.Next(0xFFFF))); x++; }
+                else
+                {
+                    words.Add((ushort)(1 + random.Next(0xFFFF)));
+                    x++;
+                }
             }
             data.AddRange(BitConverter.GetBytes(4 + (words.Count * 2)));
             foreach (ushort word in words)
@@ -549,9 +570,15 @@ public sealed class BlitterTests
                 if (random.Next(3) == 0)
                 {
                     int run = 1 + random.Next(Math.Min(width - x, 5));
-                    data.Add(255); data.Add((byte)run); x += run;
+                    data.Add(255);
+                    data.Add((byte)run);
+                    x += run;
                 }
-                else { data.Add((byte)random.Next(255)); x++; }
+                else
+                {
+                    data.Add((byte)random.Next(255));
+                    x++;
+                }
             }
         }
         return [.. data];

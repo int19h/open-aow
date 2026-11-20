@@ -5,7 +5,7 @@ using Aow.Formats.Tree;
 namespace Aow.Game.Net;
 
 // _connectionMode (stored with id 5), _systemId (id 6). One per player
-public partial class PlayerCommunicationSettings(CustomNode owner) : EngineObject(owner)
+public class PlayerCommunicationSettings(CustomNode owner) : EngineObject(owner)
 {
 
     // NetworkE.pas:452
@@ -18,5 +18,4 @@ public partial class PlayerCommunicationSettings(CustomNode owner) : EngineObjec
 
     public ConnectionMode ConnectionMode { get; set; }
     public int SystemId { get; set; }
-
 }

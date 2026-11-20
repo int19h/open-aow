@@ -12,7 +12,7 @@ namespace Aow.Game.Units;
 
 // The original's THeroLibrary derives from THeroList. The port's library holds its heroes as
 // references in its node children and reads them through Heroes.
-public partial class HeroLibrary(CustomNode owner) : Engine.Nodes.ReferenceNode(owner), IChildList<Hero>, IHeroHolder
+public class HeroLibrary(CustomNode owner) : Engine.Nodes.ReferenceNode(owner), IChildList<Hero>, IHeroHolder
 {
     /// <summary>The heroes of this library, in their stored order.</summary>
     public HeroCollection Heroes => new(this);
@@ -43,7 +43,7 @@ public partial class HeroLibrary(CustomNode owner) : Engine.Nodes.ReferenceNode(
         // CheckChild refuses a non-hero. The cast names the child the library id is written on.
         Hero hero = (Hero)child;
         // { Original checks unit IDs rather than library IDs for a collision. }
-        if (hero.LibraryId == 0 || Heroes.FindHero(hero.LibraryId) != null)
+        if (hero.LibraryId == 0 || Heroes.FindHero(hero.LibraryId) is not null)
         {
             hero.LibraryId = CreateUniqueLibraryId();
         }
@@ -77,8 +77,7 @@ public partial class HeroLibrary(CustomNode owner) : Engine.Nodes.ReferenceNode(
     // Hero.PAS:2602
     public Hero CreateHero()
     {
-        Hero hero;
-        hero = new Hero(null) { Holder = CreationHolder() };
+        Hero hero = new(null) { Holder = CreationHolder() };
         hero.SetHeroResourceIndex(0);
         hero.LibraryId = CreateUniqueLibraryId();
         hero.LibraryName = LibraryName;
@@ -91,19 +90,13 @@ public partial class HeroLibrary(CustomNode owner) : Engine.Nodes.ReferenceNode(
     public string GetName()
     {
         string result = LibraryName;
-        if (IsEmpty(result))
-        {
-            result = AbilityRules.TranslateResourceString(GetEngine(), GameText.SystemText);
-        }
-
-        return result;
+        return IsEmpty(result) ? AbilityRules.TranslateResourceString(GetEngine(), GameText.SystemText) : result;
     }
 
     // Hero.PAS:2620
     public Hero FindLibraryId(int id)
     {
-        int i;
-        i = Heroes.Count;
+        int i = Heroes.Count;
         while (i != 0)
         {
             i -= 1;
@@ -121,7 +114,4 @@ public partial class HeroLibrary(CustomNode owner) : Engine.Nodes.ReferenceNode(
 
     // Hero.PAS:2636
     public void SaveToFile(string fileName) => GetEngine().WriteToFile(fileName, this, null, GameProfile.HeroList);
-
-    // Engine.pas:631
-
 }

@@ -61,8 +61,8 @@ internal sealed class ProbeLines(string name)
         },
     };
 
-    internal string DelphiName(Exception error) =>
-        s_delphiNames.TryGetValue(name, out Dictionary<Type, string>? table)
+    internal string DelphiName(Exception error)
+        => s_delphiNames.TryGetValue(name, out Dictionary<Type, string>? table)
         && table.TryGetValue(error.GetType(), out string? delphi)
             ? delphi
             : throw new Xunit.Sdk.XunitException($"{name} has no Delphi name for {error.GetType().Name}");
@@ -313,7 +313,8 @@ public sealed class ProbeTests(ITestOutputHelper output)
         probe.Fact("smallint_plus_max", unchecked((short)(t + 1)));
         t = -32768;
         probe.Fact("smallint_dec_min", unchecked(--t));
-        b = 255; w = 65535;
+        b = 255;
+        w = 65535;
         probe.Fact("byte_promote_add", b + b);
         probe.Fact("word_promote_add", w + w);
         probe.Fact("byte_promote_sub", 0 - b);
@@ -328,7 +329,8 @@ public sealed class ProbeTests(ITestOutputHelper output)
             probe.Fact($"exact_div_sign_{k}", i / j);
             probe.Fact($"exact_mod_sign_{k}", i % j);
         }
-        i = 0; j = -2;
+        i = 0;
+        j = -2;
         probe.Fact("div_zero_neg2", i / j);
         probe.Fact("mod_zero_neg2", i % j);
         i = -1;
@@ -337,7 +339,8 @@ public sealed class ProbeTests(ITestOutputHelper output)
             probe.Fact($"shr_neg1_{n}", (int)((uint)i >> n));
             probe.Fact($"shl_neg1_{n}", i << n);
         }
-        s = -1; t = -1;
+        s = -1;
+        t = -1;
         probe.Fact("shortint_shr_neg1_1", (int)((uint)s >> 1));
         probe.Fact("smallint_shr_neg1_1", (int)((uint)t >> 1));
         probe.Fact("byte_shl_8", b << 8);

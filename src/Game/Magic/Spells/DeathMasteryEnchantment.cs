@@ -12,7 +12,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class DeathMasteryEnchantment : GlobalEnchantment
+public class DeathMasteryEnchantment : GlobalEnchantment
 {
     // GlobalEnchantmentSpells.pas:1483
     public new const int ClassId = 135968;
@@ -69,7 +69,7 @@ public partial class DeathMasteryEnchantment : GlobalEnchantment
                 string xIsAlreadyActive = AbilityRules.TranslateResourceString(GetEngine(), GameText.IsAlreadyActiveFormat);
                 string name = GetName();
                 reason = DelphiFormat.Format(xIsAlreadyActive, [name]);
-                result = false;
+                return false;
             }
         }
 
@@ -90,18 +90,12 @@ public partial class DeathMasteryEnchantment : GlobalEnchantment
     // GlobalEnchantmentSpells.pas:1522
     public void NewTurn(sbyte player)
     {
-        int index;
-        byte[] flags;
-        int mask;
-        MapLevel mapLevel;
-        HexNumberWalkData walk = default;
-        bool border;
-        flags = [];
-        mask = MapField.ExploredFlag(player);
+        byte[] flags = [];
+        int mask = MapField.ExploredFlag(player);
         for (int l = 0, last = StrategicMap.Current.MapContainer.LevelCount - 1; l <= last; l++)
         {
-            mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(l);
-            index = 0;
+            MapLevel mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(l);
+            int index = 0;
             Array.Resize(ref flags, mapLevel.Width * mapLevel.Height);
             Array.Clear(flags);
             for (int y = 1, lastY = mapLevel.Height - 1; y <= lastY; y++)
@@ -110,8 +104,8 @@ public partial class DeathMasteryEnchantment : GlobalEnchantment
                 {
                     if ((mapLevel.GetField(x, y).FieldFlags & mask) != 0)
                     {
-                        border = false;
-                        HexNumberWalkData.InitializeHexNumberWalk(out walk, x, y, 1);
+                        bool border = false;
+                        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, 1);
                         while (walk.Radius == 1 && !border)
                         {
                             if (walk.X >= 0 && walk.X < mapLevel.Width && walk.Y >= 0 && walk.Y < mapLevel.Height)
@@ -150,5 +144,4 @@ public partial class DeathMasteryEnchantment : GlobalEnchantment
         StrategicMap.Current.UpdateVisibility();
         Array.Resize(ref flags, 0);
     }
-
 }

@@ -8,26 +8,21 @@ using static Aow.Rtl.LegacyApplication;
 namespace Aow.Game.Units;
 
 // inherited List, Count, Default
-public partial class UnitIndexList : Int32List
+public class UnitIndexList : Int32List
 {
     // UnitRes.PAS:219
     public UnitIndexList() => Default = -1;
 
     // UnitRes.PAS:225
-    public int GetUnitIndex(int index)
-    {
-        int result = index < 0 || index >= Count ? Default : List[index];
-        return result;
-    }
+    public int GetUnitIndex(int index) => index < 0 || index >= Count ? Default : List[index];
 
     // UnitRes.PAS:231
     public void VerifyUnits(bool showErrors)
     {
-        int u;
         for (int i = Count - 1; i >= 0; i--)
         {
-            u = List[i];
-            if (u != -1 && GamePack.Current.UnitResources.GetUnitResource(u) == null)
+            int u = List[i];
+            if (u != -1 && GamePack.Current.UnitResources.GetUnitResource(u) is null)
             {
                 if (showErrors)
                 {
@@ -54,7 +49,7 @@ public partial class UnitIndexList : Int32List
     // UnitRes.PAS:262
     public void SortUnits()
     {
-        if (GamePack.Current != null)
+        if (GamePack.Current is not null)
         {
             Pack();
             try
@@ -75,9 +70,4 @@ public partial class UnitIndexList : Int32List
         UnitResource unitResource2 = GamePack.Current.UnitResources.GetUnitResource(item1);
         return unitResource.Level - unitResource2.Level;
     }
-
-    // intf_P2_05.inc:364
-
-    // intf_P2_05.inc:364
-
 }

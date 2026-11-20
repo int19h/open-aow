@@ -6,7 +6,7 @@ using Aow.Rtl;
 namespace Aow.Game.World.Map;
 
 // selection rectangle, events
-public partial class GameMapMouse : HexSpriteMapMouse
+public class GameMapMouse : HexSpriteMapMouse
 {
     public GameMapMouse() : base()
     {
@@ -35,7 +35,7 @@ public partial class GameMapMouse : HexSpriteMapMouse
     public override void Down(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         base.Down(button, shift, X, Y);
-        if (Capture == null && !HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (Capture is null && !HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             StartRectangleSelection(HexSpriteMap.ViewPixelX + X - 2, HexSpriteMap.ViewPixelY + Y - 3);
         }
@@ -45,7 +45,7 @@ public partial class GameMapMouse : HexSpriteMapMouse
     public override void Up(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         base.Up(button, shift, X, Y);
-        if (Capture == null && SelectionRectangle.Left != -1)
+        if (Capture is null && SelectionRectangle.Left != -1)
         {
             if (X != -1 && Y != -1)
             {
@@ -62,7 +62,7 @@ public partial class GameMapMouse : HexSpriteMapMouse
     public override void Move(Set<ShiftState> shift, int X, int Y)
     {
         base.Move(shift, X, Y);
-        if (Capture == null)
+        if (Capture is null)
         {
             UpdateRectangleSelection(HexSpriteMap.ViewPixelX + X - 2, HexSpriteMap.ViewPixelY + Y - 3);
         }
@@ -86,11 +86,7 @@ public partial class GameMapMouse : HexSpriteMapMouse
     }
 
     // AoWHSMap.PAS:1071
-    public bool GetSelectingRectangle()
-    {
-        bool result = SelectionRectangle.Left != -1 && (SelectionRectangle.Left != SelectionRectangle.Right || SelectionRectangle.Top != SelectionRectangle.Bottom);
-        return result;
-    }
+    public bool GetSelectingRectangle() => SelectionRectangle.Left != -1 && (SelectionRectangle.Left != SelectionRectangle.Right || SelectionRectangle.Top != SelectionRectangle.Bottom);
 
     // AoWHSMap.PAS:1079
     public void StartRectangleSelection(int pixelX, int pixelY)
@@ -172,7 +168,4 @@ public partial class GameMapMouse : HexSpriteMapMouse
         RectangleSelectEventsStore.Raise(this);
         ResetRectangleSelection();
     }
-
-    // intf_P1_05.inc:68
-
 }

@@ -13,7 +13,7 @@ namespace Aow.Game.Draw.Images;
 // TSprite16). The data is FSpriteHeight rows. a row is a word with its size in bytes (the
 // header included), a zero word, then pixels and skips (the color key and the size of the skip
 // in bytes), padded with the color key to a dword
-public partial class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILibraryImageClass
+public class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILibraryImageClass
 {
     static int ILibraryImageClass.ClassId => 17;
     static string ILibraryImageClass.Name => "RLE Sprite (16bpp)";
@@ -54,8 +54,7 @@ public partial class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILi
     // ImageLib.pas:2910
     public override void SetWidth(int value)
     {
-        int w;
-        w = Xshift + _spriteX + _spriteWidth;
+        int w = Xshift + _spriteX + _spriteWidth;
         if (value < w)
         {
             value = w;
@@ -67,8 +66,7 @@ public partial class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILi
     // ImageLib.pas:2919
     public override void SetHeight(int value)
     {
-        int w;
-        w = Yshift + _spriteY + _spriteHeight;
+        int w = Yshift + _spriteY + _spriteHeight;
         if (value < w)
         {
             value = w;
@@ -141,7 +139,6 @@ public partial class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILi
     // ImageLib.pas:2986
     public override GraphicsResult RemapToPixelFormat(PixelFormat pixelFormatId)
     {
-        GraphicsResult result = GraphicsResult.Ok;
         if (pixelFormatId != PixelFormatId)
         {
             switch (pixelFormatId)
@@ -162,16 +159,15 @@ public partial class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILi
                 case PixelFormat.Rgb32:
                 case PixelFormat.Xrgb32:
                 default:
-                    result = GraphicsResult.NotSupported;
-                    break;
+                    return GraphicsResult.NotSupported;
             }
         }
 
-        return result;
+        return GraphicsResult.Ok;
     }
 
     // ImageLib.pas:3006
-    public override bool SupportShowMode(ShowMode showMode, PixelFormat pixelFormatId) => (pixelFormatId == PixelFormat.None || pixelFormatId == PixelFormat.Rgb565 || pixelFormatId == PixelFormat.Rgb555) && Set<ShowMode>.Of(ShowMode.Opaque, ShowMode.Transparent).Contains(showMode);
+    public override bool SupportShowMode(ShowMode showMode, PixelFormat pixelFormatId) => (pixelFormatId is PixelFormat.None or PixelFormat.Rgb565 or PixelFormat.Rgb555) && Set<ShowMode>.Of(ShowMode.Opaque, ShowMode.Transparent).Contains(showMode);
 
     // ImageLib.pas:3012
     public override void ShowOpaque(int X, int Y, in LockedSurface lockedSurface)
@@ -291,12 +287,7 @@ public partial class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILi
     public override bool GrabImage(in LockedSurface lockedSurface, in Rect R, GrabInfo grabInfo)
     {
         int position;
-        int rowStart;
-        int skip;
-        DataSurface surface;
-        LockedSurface lSD = default;
         Rect gr = default;
-        int c;
         void AddWord(ushort W)
         {
             if (DataSize <= position)
@@ -308,6 +299,7 @@ public partial class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILi
             position += 2;
         }
 
+        int rowStart;
         void StartRow()
         {
             rowStart = position;
@@ -315,6 +307,7 @@ public partial class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILi
             AddWord(0);
         }
 
+        int skip;
         void FlushSkip()
         {
             if (skip != 0)
@@ -340,13 +333,12 @@ public partial class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILi
                 AddWord((ushort)_colorKey);
             }
         }
-
-        bool result = true;
         try
         {
-            surface = null;
+            DataSurface surface = null;
             try
             {
+                LockedSurface lSD = default;
                 if (lockedSurface.BitCount != 16)
                 {
                     surface = new DataSurface(R.Right - R.Left, R.Bottom - R.Top, PixelFormat.Rgb565, null);
@@ -394,7 +386,7 @@ public partial class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILi
                     StartRow();
                     for (int x = mr.Left, lastX = mr.Right - 1; x <= lastX; x++)
                     {
-                        c = lSD.View().UInt16(row + x + x);
+                        int c = lSD.View().UInt16(row + x + x);
                         if (c != _colorKey)
                         {
                             FlushSkip();
@@ -420,10 +412,10 @@ public partial class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILi
         catch
         {
             ReleaseDiscardableImageData();
-            result = false;
+            return false;
         }
 
-        return result;
+        return true;
     }
 
     private static void RemapRle565To555(Span<byte> data, int height, int colorKey) => Blit.RemapRle565To555(data, height, colorKey);

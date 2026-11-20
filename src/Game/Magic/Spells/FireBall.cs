@@ -10,7 +10,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Spells;
 
 // inherited combat statistics, damage mode
-public partial class FireBall : CombatSpell
+public class FireBall : CombatSpell
 {
     // CombatSpells.pas:1489
     public FireBall(CustomNode owner, EngineObject holder) : base(owner)

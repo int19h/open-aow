@@ -196,6 +196,9 @@ public sealed class EngineLeafConstructionTests
                 default: Assert.Fail("Missing helper assertion"); break;
             }
         }
-        finally { ((value ?? throw new NullReferenceException()) as IDisposable)?.Dispose(); }
+        finally
+        {
+            ((value ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
+        }
     }
 }

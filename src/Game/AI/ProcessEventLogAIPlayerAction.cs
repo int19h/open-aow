@@ -10,7 +10,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.AI;
 
 // log index
-public partial class ProcessEventLogAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPlayerActionClass
+public class ProcessEventLogAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPlayerActionClass
 {
 
     private int _logIndex = -1;
@@ -18,9 +18,7 @@ public partial class ProcessEventLogAIPlayerAction(CustomNode owner) : AIPlayerA
     // AI.pas:1626
     public override bool Process()
     {
-        bool done;
-        EventLog log;
-        done = false;
+        bool done = false;
         while (!Control.Player.GetBusy() && !done)
         {
             if (_logIndex == -1)
@@ -35,7 +33,7 @@ public partial class ProcessEventLogAIPlayerAction(CustomNode owner) : AIPlayerA
             int count = Control.Player.EventLogbook.GetCount();
             if (_logIndex < count)
             {
-                log = Control.Player.EventLogbook.GetLogs(_logIndex);
+                EventLog log = Control.Player.EventLogbook.GetLogs(_logIndex);
                 log.ExecuteAI(Control.Player.PlayerIndex);
             }
             else
@@ -46,8 +44,6 @@ public partial class ProcessEventLogAIPlayerAction(CustomNode owner) : AIPlayerA
 
         return !done;
     }
-
-    // intf_P5_06.inc:662
 
     // AI.pas:1621
     public static new int Priority => 999;

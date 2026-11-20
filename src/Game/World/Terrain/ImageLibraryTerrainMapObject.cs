@@ -13,7 +13,7 @@ namespace Aow.Game.World.Terrain;
 //   variant that keeps its terrain type and updates the map terrain instead
 //   (TFixedILTerrainMO, $20188; TFixedILTerrainMOR, $20189). }
 // _imageIndex, _terrainType
-public partial class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMapObject(owner)
+public class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMapObject(owner)
 {
 
     // ILTer.pas:79
@@ -23,20 +23,11 @@ public partial class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMa
     public override sbyte GetTerrain(int index)
     {
         sbyte result = Resource.TerrainList.GetTerrain(index);
-        if (result >= 0)
-        {
-            result = TerrainType;
-        }
-
-        return result;
+        return result >= 0 ? TerrainType : result;
     }
 
     // ILTer.pas:131
-    public override bool CanChangeTerrain(in HexSpriteSenderInfo info)
-    {
-        bool result = Resource.TerrainList.GetTerrain(info.HexNumber) < 0 || GetMostFrequentMapFieldTerrainType(Owner.Owner, StoredHexX, StoredHexY, TerrainType) == info.MapField.TerrainType;
-        return result;
-    }
+    public override bool CanChangeTerrain(in HexSpriteSenderInfo info) => Resource.TerrainList.GetTerrain(info.HexNumber) < 0 || GetMostFrequentMapFieldTerrainType(Owner.Owner, StoredHexX, StoredHexY, TerrainType) == info.MapField.TerrainType;
 
     // ILTer.pas:152
     public override void ChangeTerrain(in HexSpriteTerrainInfo info)
@@ -76,7 +67,7 @@ public partial class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMa
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         HexGeometry.HexToPixel(StoredHexX, StoredHexY, out int pixelX, out int pixelY);
-        if (Resource.ImageSequenceList == null)
+        if (Resource.ImageSequenceList is null)
         {
             // The offsets live on the multi-hex resource. Another resource throws, as the old cast did.
             MultiHexMapObjectResource placed = GetResource<MultiHexMapObjectResource>();
@@ -114,24 +105,18 @@ public partial class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMa
     // ILTer.pas:196
     public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        bool canPlaceHere;
-        int count;
-        sbyte terrainType;
-        sbyte overlay;
-        HexSprite hexSprite;
-        TerrainList terrainList;
-        canPlaceHere = true;
-        count = Resource.TerrainList.Count;
+        bool canPlaceHere = true;
+        int count = Resource.TerrainList.Count;
         TerrainType = GetValidTerrainType(mapContainer.GetMapLevel(hexLevel), hexX, hexY);
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, 0);
         while (canPlaceHere && walk.HexNumber < count)
         {
-            terrainType = GetTerrain(walk.HexNumber);
-            overlay = GetOverlay(walk.HexNumber);
+            sbyte terrainType = GetTerrain(walk.HexNumber);
+            sbyte overlay = GetOverlay(walk.HexNumber);
             if ((terrainType >= 0 || overlay >= 0) && walk.X >= 0 && walk.Y >= 0 && walk.X < mapContainer.Width && walk.Y < mapContainer.Height)
             {
-                hexSprite = mapContainer.GetField(walk.X, walk.Y, hexLevel).GetMaxLevelNoneTransparentHexSprite();
-                canPlaceHere = hexSprite == null || CanPlaceOnHexSprite(hexSprite);
+                HexSprite hexSprite = mapContainer.GetField(walk.X, walk.Y, hexLevel).GetMaxLevelNoneTransparentHexSprite();
+                canPlaceHere = hexSprite is null || CanPlaceOnHexSprite(hexSprite);
             }
 
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
@@ -139,7 +124,7 @@ public partial class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMa
 
         if (canPlaceHere)
         {
-            terrainList = new TerrainList();
+            TerrainList terrainList = new();
             terrainList.Assign(Resource.TerrainList);
             for (int i = 0, last = terrainList.Count - 1; i <= last; i++)
             {
@@ -174,7 +159,7 @@ public partial class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMa
                         OverrideTerrain();
                     }
 
-                    result = true;
+                    return true;
                 }
             }
         }
@@ -185,21 +170,16 @@ public partial class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMa
     // ILTer.pas:89
     public virtual bool ValidTerrainType(int terrainType)
     {
-        bool result;
-        int index;
-        ImageSequenceList sequences;
         if (terrainType >= 0)
         {
-            index = GetTerrainTypeImage(terrainType);
-            sequences = Resource.ImageSequenceList;
-            result = sequences == null ? Resource.ImageLibrary.ImageExist(index) : sequences.GetImageSequence(index) != null;
+            int index = GetTerrainTypeImage(terrainType);
+            ImageSequenceList sequences = Resource.ImageSequenceList;
+            return sequences is null ? Resource.ImageLibrary.ImageExist(index) : sequences.GetImageSequence(index) is not null;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // ILTer.pas:126
@@ -211,7 +191,6 @@ public partial class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMa
     // ILTer.pas:107
     public virtual sbyte GetValidTerrainType(MapLevel mapLevel, sbyte hexX, sbyte hexY)
     {
-        int count;
         sbyte result = GetMostFrequentMapFieldTerrainType(mapLevel, hexX, hexY, -1);
         if (!ValidTerrainType(result))
         {
@@ -221,7 +200,7 @@ public partial class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMa
                 if (!ValidTerrainType(result))
                 {
                     result = 0;
-                    count = Resource.Engine.HexSpriteSet.TerrainTypes.Count;
+                    int count = Resource.Engine.HexSpriteSet.TerrainTypes.Count;
                     while (result < count && !ValidTerrainType(result))
                     {
                         result = (sbyte)(result + 1);
@@ -229,7 +208,7 @@ public partial class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMa
 
                     if (result == count)
                     {
-                        result = -1;
+                        return -1;
                     }
                 }
             }
@@ -240,7 +219,4 @@ public partial class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMa
 
     public int ImageIndex { get; set; }
     public sbyte TerrainType { get; protected set; } = -1;
-
-    // ILTer.pas:20
-
 }

@@ -14,7 +14,7 @@ namespace Aow.Game.Events;
 
 // { Interface declaration run owned by P1. }
 // reason, disconnected player
-public partial class PlayerConnectionEventLog(CustomNode owner, EngineObject holder) : MessageEventLog(owner, holder)
+public class PlayerConnectionEventLog(CustomNode owner, EngineObject holder) : MessageEventLog(owner, holder)
 {
     private byte _reason;
     private sbyte _disconnectedPlayer;
@@ -22,8 +22,7 @@ public partial class PlayerConnectionEventLog(CustomNode owner, EngineObject hol
     // PlayerC.PAS:1714
     public override bool Yes()
     {
-        SaveGameEventLog log = default;
-        log = new SaveGameEventLog(null, holder: CreationHolder())
+        SaveGameEventLog log = new(null, holder: CreationHolder())
         {
             DefaultName = "",
             Directory = $"{GetEngine().StartupDirectory}Save\\"
@@ -91,7 +90,7 @@ public partial class PlayerConnectionEventLog(CustomNode owner, EngineObject hol
     {
         if (!IsEmpty(log.FileName))
         {
-            if (GetEngine().Campaign != null)
+            if (GetEngine().Campaign is not null)
             {
                 GetEngine().SaveCampaign(log.FileName);
             }

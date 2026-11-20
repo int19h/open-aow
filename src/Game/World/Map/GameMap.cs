@@ -99,7 +99,7 @@ public partial class GameMap : OwningNode
 
     protected void RaiseProgress(EngineObject sender, string message, int progression) => OnProgress?.Invoke(sender, message, progression);
 
-    protected bool HasProgressHandlers => OnProgress != null;
+    protected bool HasProgressHandlers => OnProgress is not null;
 
     internal void SetProgressHandler(Engine.ProgressEvent handler) => OnProgress = handler;
 
@@ -384,7 +384,7 @@ public partial class GameMap : OwningNode
     // { Tests OnCenterView instead of OnViewLevel (original slip). }
     public virtual void ViewLevel(int hexLevel)
     {
-        if (OnCenterView != null && hexLevel < MapContainer.LevelCount)
+        if (OnCenterView is not null && hexLevel < MapContainer.LevelCount)
         {
             OnViewLevel(hexLevel);
         }
@@ -415,7 +415,6 @@ public partial class GameMap : OwningNode
     // HSMAP.PAS:543
     public virtual bool CreateNewMap(NewHexSpriteMapSettings settings)
     {
-        bool result = default;
         Clear();
         try
         {
@@ -424,7 +423,6 @@ public partial class GameMap : OwningNode
             MapContainer = Engine.CreateEngineObject<MapContainer>(settings.MapContainerClassId, owner: this);
             Engine.ActivateEngineObject(MapContainer);
             MapContainer.New(settings);
-            result = true;
             InitializeNewMap();
             Activate();
         }
@@ -434,7 +432,7 @@ public partial class GameMap : OwningNode
             throw;
         }
 
-        return result;
+        return true;
     }
 
     // HSMAP.PAS:284
@@ -442,16 +440,13 @@ public partial class GameMap : OwningNode
     //   into its Left (original slip). }
     public virtual int ChangeTerrain(EngineObject mapObject, int X, int Y, int L, int radius, int terrainType)
     {
-        SByteList list;
-        int count;
-        MapField mapField;
         Rect r = default;
-        MapLevel mapLevel;
         LockTerrainChangedEvent();
-        list = new SByteList();
-        mapLevel = MapContainer.GetMapLevel(L);
-        count = 0;
+        SByteList list = new();
+        MapLevel mapLevel = MapContainer.GetMapLevel(L);
+        int count = 0;
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, 0);
+        MapField mapField;
         while (walk.Radius <= radius)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
@@ -530,32 +525,24 @@ public partial class GameMap : OwningNode
     // HSMAP.PAS:357
     public virtual int ChangeTerrain(EngineObject mapObject, int X, int Y, int L, int radius, ChangeTerrainProc changeTerrainProc, TerrainChangedProc terrainChangedProc)
     {
-        int result;
-        SByteList orgList;
-        SByteList newList;
-        BitList changed;
-        int count;
-        sbyte terrainType = default;
-        sbyte overlayType = default;
-        MapField mapField;
         Rect r = default;
-        MapLevel mapLevel;
-        if (changeTerrainProc != null)
+        if (changeTerrainProc is not null)
         {
             LockTerrainChangedEvent();
-            orgList = new SByteList();
-            newList = new SByteList();
-            changed = new BitList();
-            mapLevel = MapContainer.GetMapLevel(L);
-            count = 0;
+            SByteList orgList = new();
+            SByteList newList = new();
+            BitList changed = new();
+            MapLevel mapLevel = MapContainer.GetMapLevel(L);
+            int count = 0;
             HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, 0);
+            MapField mapField;
             while (walk.Radius <= radius)
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
                 {
                     mapField = mapLevel.GetField(walk.X, walk.Y);
-                    terrainType = mapField.TerrainType;
-                    overlayType = mapField.OverlayType;
+                    sbyte terrainType = mapField.TerrainType;
+                    sbyte overlayType = mapField.OverlayType;
                     orgList[walk.HexNumber * 2] = terrainType;
                     orgList[(walk.HexNumber * 2) + 1] = overlayType;
                     changeTerrainProc(mapField, ref terrainType, overlayType);
@@ -643,34 +630,28 @@ public partial class GameMap : OwningNode
                 NotifyTerrainChanged(r, (sbyte)L);
             }
 
-            result = count;
+            return count;
         }
         else
         {
-            result = 0;
+            return 0;
         }
-
-        return result;
     }
 
     // AoWHSMap.PAS:810 shows the explored fields only.
     public virtual void UpdateStaticScene()
     {
-        MapLevel level;
-        int maxX;
-        int maxY;
-        MapField field;
         if (ExplorationEnabled && SeatedPlayer != -1 && !Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             ResetVisibleStaticHexSprite();
-            maxX = ViewHexX + ViewWidthHex - 1;
-            maxY = ViewHexY + ViewHeightHex - 1;
-            level = MapContainer.GetMapLevel(ViewMapLevel);
+            int maxX = ViewHexX + ViewWidthHex - 1;
+            int maxY = ViewHexY + ViewHeightHex - 1;
+            MapLevel level = MapContainer.GetMapLevel(ViewMapLevel);
             for (int x = ViewHexX; x <= maxX; x++)
             {
                 for (int y = maxY, last = ViewHexY; y >= last; y--)
                 {
-                    field = level.GetField(x, y);
+                    MapField field = level.GetField(x, y);
                     if (field.GetExplored(SeatedPlayer))
                     {
                         field.CopyStaticVisibleHexSprite(StaticVisibleHexSprite);
@@ -690,13 +671,10 @@ public partial class GameMap : OwningNode
     // HSMAP.PAS:669 shows every field of the view, explored or not.
     private void UpdateWholeStaticScene()
     {
-        int maxX;
-        int maxY;
-        MapLevel mapLevel;
         ResetVisibleStaticHexSprite();
-        maxX = ViewHexX + ViewWidthHex - 1;
-        maxY = ViewHexY + ViewHeightHex - 1;
-        mapLevel = MapContainer.GetMapLevel(ViewMapLevel);
+        int maxX = ViewHexX + ViewWidthHex - 1;
+        int maxY = ViewHexY + ViewHeightHex - 1;
+        MapLevel mapLevel = MapContainer.GetMapLevel(ViewMapLevel);
         for (int x = ViewHexX; x <= maxX; x++)
         {
             for (int y = maxY, last = ViewHexY; y >= last; y--)
@@ -717,23 +695,19 @@ public partial class GameMap : OwningNode
     // AoWHSMap.PAS:833 shows the explored fields only.
     public virtual void UpdateDynamicScene()
     {
-        MapLevel level;
-        int maxX;
-        int maxY;
-        MapField field;
         if (ExplorationEnabled && !Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             ResetVisibleDynamicHexSprite();
-            maxX = ViewHexX + ViewWidthHex - 1;
-            maxY = ViewHexY + ViewHeightHex - 1;
-            level = MapContainer.GetMapLevel(ViewMapLevel);
+            int maxX = ViewHexX + ViewWidthHex - 1;
+            int maxY = ViewHexY + ViewHeightHex - 1;
+            MapLevel level = MapContainer.GetMapLevel(ViewMapLevel);
             if (SeatedPlayer != -1)
             {
                 for (int x = ViewHexX; x <= maxX; x++)
                 {
                     for (int y = maxY, last = ViewHexY; y >= last; y--)
                     {
-                        field = level.GetField(x, y);
+                        MapField field = level.GetField(x, y);
                         if (field.GetExplored(SeatedPlayer))
                         {
                             field.CopyDynamicVisibleHexSprite(DynamicVisibleHexSprite);
@@ -760,13 +734,10 @@ public partial class GameMap : OwningNode
     // HSMAP.PAS:687 shows every field of the view, explored or not.
     private void UpdateWholeDynamicScene()
     {
-        int maxX;
-        int maxY;
-        MapLevel mapLevel;
         ResetVisibleDynamicHexSprite();
-        maxX = ViewHexX + ViewWidthHex - 1;
-        maxY = ViewHexY + ViewHeightHex - 1;
-        mapLevel = MapContainer.GetMapLevel(ViewMapLevel);
+        int maxX = ViewHexX + ViewWidthHex - 1;
+        int maxY = ViewHexY + ViewHeightHex - 1;
+        MapLevel mapLevel = MapContainer.GetMapLevel(ViewMapLevel);
         for (int x = ViewHexX; x <= maxX; x++)
         {
             for (int y = maxY, last = ViewHexY; y >= last; y--)
@@ -831,9 +802,8 @@ public partial class GameMap : OwningNode
     // HSMAP.PAS:157
     public void TerrainChangedRadius(sbyte X, sbyte Y, sbyte L, int radius)
     {
-        MapLevel mapLevel;
         Rect r = default;
-        mapLevel = MapContainer.GetMapLevel(L);
+        MapLevel mapLevel = MapContainer.GetMapLevel(L);
         r.Left = X - radius;
         if (r.Left < 0)
         {
@@ -917,11 +887,10 @@ public partial class GameMap : OwningNode
     // HSMAP.PAS:459
     public void ClearTerrain(int X, int Y, int L, int radius, int terrainType)
     {
-        MapLevel mapLevel;
         MapFieldMessage message = default;
         Rect r = default;
         LockTerrainChangedEvent();
-        mapLevel = MapContainer.GetMapLevel(L);
+        MapLevel mapLevel = MapContainer.GetMapLevel(L);
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, 0);
         message.MessageId = 16;
         while (walk.Radius <= radius)
@@ -983,7 +952,6 @@ public partial class GameMap : OwningNode
     // HSMAP.PAS:585
     public bool SetViewPort(int pixelX, int pixelY, int lHitPoints, int width, int height)
     {
-        bool result;
         if (pixelX != ViewPixelX || pixelY != ViewPixelY || lHitPoints != ViewMapLevel || width != ViewWidth || height != ViewHeight)
         {
             ClearViewPort();
@@ -1018,15 +986,14 @@ public partial class GameMap : OwningNode
             ViewHeightHex = y2 - y1 + 1;
             ViewHexX = x1;
             ViewHexY = y1;
-            result = true;
             ViewPortChangedEventsStore.Raise(this);
         }
         else
         {
-            result = false;
+            return false;
         }
 
-        return result;
+        return true;
     }
 
     // HSMAP.PAS:619
@@ -1225,7 +1192,6 @@ public partial class GameMap : OwningNode
     // AoWHSMap.PAS:785
     public virtual void UpdateHexSelector()
     {
-        HexSprite hexSprite;
         if (_hexSelectorVisible)
         {
             _selectorX = (sbyte)Mouse.HexX;
@@ -1233,8 +1199,8 @@ public partial class GameMap : OwningNode
             if (_selectorX != -1 && _selectorY != -1)
             {
                 HexGeometry.HexToPixel(_selectorX, _selectorY, out int pixelX, out int pixelY);
-                hexSprite = MapContainer.GetField(_selectorX, _selectorY, ViewMapLevel).GetMaxLevelNoneTransparentHexSprite();
-                if (hexSprite != null)
+                HexSprite hexSprite = MapContainer.GetField(_selectorX, _selectorY, ViewMapLevel).GetMaxLevelNoneTransparentHexSprite();
+                if (hexSprite is not null)
                 {
                     if (hexSprite.GetShowPriority() > 1744830464)
                     {
@@ -1300,22 +1266,20 @@ public partial class GameMap : OwningNode
     // AoWHSMap.PAS:878
     public virtual ItemList GetHeroItemsOnGround(Hero hero)
     {
-        ItemHexSprite items;
-        ItemList result = null;
         MapCoordinate coordinate31 = hero.GetLocation();
         sbyte x = coordinate31.X;
         sbyte y = coordinate31.Y;
         sbyte l = coordinate31.MapLevel;
         if (x != -1)
         {
-            items = StrategicMap.Current.MapContainer.GetField(x, y, l).FindOwnedChild<ItemHexSprite>(131697);
-            if (items != null)
+            ItemHexSprite items = StrategicMap.Current.MapContainer.GetField(x, y, l).FindOwnedChild<ItemHexSprite>(131697);
+            if (items is not null)
             {
-                result = items.Items;
+                return items.Items;
             }
         }
 
-        return result;
+        return null;
     }
 
     // AoWHSMap.PAS:578
@@ -1357,8 +1321,7 @@ public partial class GameMap : OwningNode
     // AoWHSMap.PAS:420
     public void PlayCenterAnimation(sbyte X, sbyte Y, sbyte L)
     {
-        ImageSequenceAnimation animation;
-        animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
+        ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
         animation.SetImageSequence(GamePack.Current.ImageSequences.GetImageSequence(11));
         _ = PlaceHex(animation, X, Y, L);
         _ = AudioPlayback.PlaySample("SFX\\INT\\CENTER.WAV");
@@ -1387,8 +1350,7 @@ public partial class GameMap : OwningNode
     public void MapChangedRadius(int X, int Y, int L, int radius)
     {
         Rect r = default;
-        MapLevel level;
-        level = MapContainer.GetMapLevel(L);
+        MapLevel level = MapContainer.GetMapLevel(L);
         r.Left = X - radius;
         if (r.Left < 0)
         {
@@ -1466,8 +1428,7 @@ public partial class GameMap : OwningNode
     public void ScannerIconsChangedRadius(int hexX, int hexY, int hexLevel, int radius)
     {
         Rect r = default;
-        MapLevel level;
-        level = MapContainer.GetMapLevel(hexLevel);
+        MapLevel level = MapContainer.GetMapLevel(hexLevel);
         r.Left = hexX - radius;
         if (r.Left < 0)
         {
@@ -1600,7 +1561,7 @@ public partial class GameMap : OwningNode
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;
@@ -1610,9 +1571,8 @@ public partial class GameMap : OwningNode
     public Set<FogExplorationChangedElement> UnFogExploreArea(int X, int Y, int level, sbyte player, int range)
     {
         Set<FogExplorationChangedElement> result = default;
-        int radius;
         // { Preserve the original assertion diagnostic, independent of the build path. }
-        radius = range;
+        int radius = range;
         if (radius > 15)
         {
             /* TODO: Implement the inline assembly operation. */
@@ -1681,10 +1641,9 @@ public partial class GameMap : OwningNode
     // AoWHSMap.PAS:892
     public void DrawSelectionRectangle(int pixelXSurface, int pixelYSurface, in Rect R, in LockedSurface lockedSurface)
     {
-        int color;
-        color = 2134015;
         if (R.Left > 0 && R.Top > 0 && pixelXSurface < R.Right && pixelYSurface < R.Bottom && R.Right < ViewWidth + pixelXSurface && R.Bottom < ViewHeight + pixelYSurface)
         {
+            int color = 2134015;
             DrawLine(R.Left - pixelXSurface, R.Top - pixelYSurface, R.Right - pixelXSurface, R.Top - pixelYSurface, color, lockedSurface);
             DrawLine(R.Right - pixelXSurface, R.Top - pixelYSurface, R.Right - pixelXSurface, R.Bottom - pixelYSurface, color, lockedSurface);
             DrawLine(R.Right - pixelXSurface, R.Bottom - pixelYSurface, R.Left - pixelXSurface, R.Bottom - pixelYSurface, color, lockedSurface);

@@ -24,24 +24,24 @@ public partial class Gauge(Component owner) : Control(owner)
     // AOWGauge.pas:75
     public override void Validate()
     {
-        if (_imageLibraryTextureNormal != null)
+        if (_imageLibraryTextureNormal is not null)
         {
             _imageLibraryTextureNormal = _imageLibraryTextureNormal.CheckImageLibrary(_imageLibraryIndexTNormal, 1, this);
         }
 
-        if (_imageLibraryTextureSelected != null)
+        if (_imageLibraryTextureSelected is not null)
         {
             _imageLibraryTextureSelected = _imageLibraryTextureSelected.CheckImageLibrary(_imageLibraryIndexTSelected, 1, this);
         }
 
-        if (_imageLibraryTextureNormal != null && _imageLibraryTextureSelected != null)
+        if (_imageLibraryTextureNormal is not null && _imageLibraryTextureSelected is not null)
         {
-            if (_imageLibraryFrame != null)
+            if (_imageLibraryFrame is not null)
             {
                 _imageLibraryFrame = _imageLibraryFrame.CheckImageLibrary(ImageLibraryIndexFrame, 8, this);
             }
 
-            _style = _imageLibraryFrame != null ? GaugeType.Normal : GaugeType.Borderless;
+            _style = _imageLibraryFrame is not null ? GaugeType.Normal : GaugeType.Borderless;
 
             Valid = true;
         }

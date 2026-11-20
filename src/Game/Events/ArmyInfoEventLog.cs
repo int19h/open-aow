@@ -67,20 +67,18 @@ public partial class ArmyInfoEventLog : EventLog
     // Army.PAS:297
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
-        bool result = false;
         if (Triggers.Contains(trigger))
         {
             switch (trigger)
             {
                 case ExecuteTrigger.User:
                     StrategicMap.Current.TriggerExecuteEventLog(this, false, done);
-                    result = true;
-                    break;
+                    return true;
                 case ExecuteTrigger.NewTurn:
                     if (StrategicMap.Current.SeatedPlayer == Player || StrategicMap.Current.SeatedPlayer == ArmyView.Player)
                     {
                         StrategicMap.Current.TriggerExecuteEventLog(this, false, done);
-                        result = true;
+                        return true;
                     }
 
                     break;
@@ -88,7 +86,7 @@ public partial class ArmyInfoEventLog : EventLog
                     if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Local && (StrategicMap.Current.SeatedPlayer == Player || StrategicMap.Current.SeatedPlayer == ArmyView.Player))
                     {
                         StrategicMap.Current.TriggerExecuteEventLog(this, false, done);
-                        result = true;
+                        return true;
                     }
                     else
                     {
@@ -101,15 +99,14 @@ public partial class ArmyInfoEventLog : EventLog
             }
         }
 
-        return result;
+        return false;
     }
 
     // Army.PAS:290
     public override void ViewLocation()
     {
-        ArmyView army;
-        army = ArmyView;
-        if (army != null && army.Location.X != -1)
+        ArmyView army = ArmyView;
+        if (army is not null && army.Location.X != -1)
         {
             CenterViewTo(army.Location.X, army.Location.Y, army.Location.MapLevel);
         }

@@ -5,14 +5,13 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Terrain;
 
-public partial class FixedImageLibraryTerrainMapObject(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
+public class FixedImageLibraryTerrainMapObject(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
 {
     public new const int ClassId = 131464;
 
     // ILTer.pas:295
     public override bool CanChangeTerrain(in HexSpriteSenderInfo info)
     {
-        bool result;
         if (Resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
         {
             bool validTerrainType = ValidTerrainType(info.MapField.TerrainType);
@@ -21,14 +20,12 @@ public partial class FixedImageLibraryTerrainMapObject(CustomNode owner) : Image
                 validTerrainType = GetMostFrequentMapFieldTerrainType(defaultValue: Resource.TerrainList.GetTerrain(info.HexNumber), mapLevel: Owner.Owner, hexX: StoredHexX, hexY: StoredHexY) == info.MapField.TerrainType;
             }
 
-            result = validTerrainType;
+            return validTerrainType;
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // ILTer.pas:305

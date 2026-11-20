@@ -6,7 +6,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class EnchantWeapon : UnitSpell
+public class EnchantWeapon : UnitSpell
 {
     // UnitSpells.pas:296
     public EnchantWeapon(CustomNode owner, EngineObject holder) : base(owner)
@@ -34,27 +34,23 @@ public partial class EnchantWeapon : UnitSpell
     // UnitSpells.pas:311
     public override bool ExecuteSpell(Troop source, Troop target, int mana, Span<int> data)
     {
-        bool result;
-        UnitEnchantment enchantment;
         if (ValidTargetUnit(source, target))
         {
             if (target.ExpandAbility(154))
             {
-                enchantment = target.GetAbilityData<UnitEnchantmentAbilityData>(154).Enchantment;
+                UnitEnchantment enchantment = target.GetAbilityData<UnitEnchantmentAbilityData>(154).Enchantment;
                 enchantment.SetUpkeep(ManaUpkeep);
                 enchantment.SetSource(source.Player);
                 enchantment.DispelResistance = (sbyte)UnitDispelResistance;
             }
 
             // { Original succeeds even when expansion fails. }
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     private static readonly string s_enchantWeaponText = "Enchant Weapon";

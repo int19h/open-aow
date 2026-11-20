@@ -67,9 +67,8 @@ public partial class CombatData : EngineObject
     // Combat2.pas:212
     public bool GetSideLeaderInvolved(byte side)
     {
-        int i;
         bool result = false;
-        i = InvolvedLeaders.Count;
+        int i = InvolvedLeaders.Count;
         while (!result && i != 0)
         {
             i -= 1;
@@ -106,8 +105,7 @@ public partial class CombatData : EngineObject
     // Combat2.pas:253
     public CombatObject FindId(int id)
     {
-        int i;
-        i = CombatObjects.Count;
+        int i = CombatObjects.Count;
         while (i != 0)
         {
             i -= 1;
@@ -126,10 +124,9 @@ public partial class CombatData : EngineObject
     // Combat2.pas:269
     public CombatObject FindPosition(byte position)
     {
-        int i;
         CombatObject result = null;
-        i = CombatObjects.Count;
-        while (i != 0 && result == null)
+        int i = CombatObjects.Count;
+        while (i != 0 && result is null)
         {
             i -= 1;
             if (position == CombatObjects.GetChild<CombatObject>(i).Position)
@@ -144,10 +141,7 @@ public partial class CombatData : EngineObject
     // Combat2.pas:282
     public void AddObject(CombatObject combatObject)
     {
-        Assert(FindId(combatObject.Id) == null && FindPosition(combatObject.Position) == null, "CombatObject Position/ID double defined", "Combat2.pas", 284);
+        Assert(FindId(combatObject.Id) is null && FindPosition(combatObject.Position) is null, "CombatObject Position/ID double defined", "Combat2.pas", 284);
         combatObject.SetOwner(CombatObjects);
     }
-
-    // intf_P3_02.inc:252
-
 }

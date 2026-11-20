@@ -35,8 +35,8 @@ public sealed class Catalog<TKey, TValue>(string kind) where TKey : notnull wher
     public TValue this[TKey key] => TryGet(key, out TValue? value) ? value
         : throw new InvalidOperationException($"Absent {kind} key: {key}.");
 
-    public bool TryGet(TKey key, [MaybeNullWhen(false)] out TValue value) =>
-        Volatile.Read(ref _snapshot).Entries.TryGetValue(key, out value);
+    public bool TryGet(TKey key, [MaybeNullWhen(false)] out TValue value)
+        => Volatile.Read(ref _snapshot).Entries.TryGetValue(key, out value);
 
     public IReadOnlyList<TValue> All => Volatile.Read(ref _snapshot).All;
 }

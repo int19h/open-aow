@@ -6,7 +6,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // inherited name, ability ID, selection types, ability type, duration mode
-public partial class PanickedAbility : DurationAbility
+public class PanickedAbility : DurationAbility
 {
     // PassiveAb.pas:874
     public PanickedAbility(CustomNode owner, EngineObject holder) : base(owner)

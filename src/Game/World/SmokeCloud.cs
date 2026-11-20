@@ -17,7 +17,7 @@ namespace Aow.Game.World;
 
 // Player, TurnsRemaining, Drifting, Direction, Updated, VisibleForSeatedPlayer,
 // Enchantment
-public partial class SmokeCloud : MultiHexMapObject
+public class SmokeCloud : MultiHexMapObject
 {
     public SmokeCloud(CustomNode owner) : base(owner)
     {
@@ -60,8 +60,6 @@ public partial class SmokeCloud : MultiHexMapObject
         _direction = persister.Byte("Direction", value: _direction);
         persister.Object("Enchantment", objectValue: Enchantment);
     }
-
-    // SmokeCloud.pas:172
 
     // SmokeCloud.pas:373
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
@@ -113,8 +111,7 @@ public partial class SmokeCloud : MultiHexMapObject
     // SmokeCloud.pas:272
     public override void RemoveFromMap()
     {
-        MapLevel level;
-        level = Owner.Owner;
+        MapLevel level = Owner.Owner;
         base.RemoveFromMap();
         UpdateMapFields(level, StoredHexX, StoredHexY);
     }
@@ -186,36 +183,29 @@ public partial class SmokeCloud : MultiHexMapObject
     // SmokeCloud.pas:193
     public override bool CanSelect(int pixelX, int pixelY)
     {
-        bool result;
-        int hexNumber;
         if (base.Resource.Engine.HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             HexGeometry.PixelToHex(pixelX, pixelY, out int hexX, out int hexY);
-            hexNumber = HexGeometry.DeltaHexToHexNumber(Owner.HexX, Owner.HexY, hexX, hexY);
-            result = hexNumber < base.Resource.TerrainList.Count && base.Resource.TerrainList.Terrain[hexNumber] >= -1;
+            int hexNumber = HexGeometry.DeltaHexToHexNumber(Owner.HexX, Owner.HexY, hexX, hexY);
+            return hexNumber < base.Resource.TerrainList.Count && base.Resource.TerrainList.Terrain[hexNumber] >= -1;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // SmokeCloud.pas:216
     public void UpdateConcealment(sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        MapLevel level;
-        MapField mapField;
-        ArmyHexSprite armyHexSprite;
-        level = StrategicMap.Current.MapContainer.MapLevels[hexLevel];
+        MapLevel level = StrategicMap.Current.MapContainer.MapLevels[hexLevel];
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, 0);
         while (base.Resource.TerrainList.Count > walk.HexNumber)
         {
             if (base.Resource.TerrainList.Terrain[walk.HexNumber] >= -1 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && level.Height > walk.Y)
             {
-                mapField = level.GetField(walk.X, walk.Y);
-                armyHexSprite = mapField.GetArmyHexSprite();
+                MapField mapField = level.GetField(walk.X, walk.Y);
+                ArmyHexSprite armyHexSprite = mapField.GetArmyHexSprite();
                 armyHexSprite?.Army.Update();
             }
 
@@ -226,11 +216,10 @@ public partial class SmokeCloud : MultiHexMapObject
     // SmokeCloud.pas:253
     public void UpdateVisibleForSeatedPlayer()
     {
-        bool visible;
         sbyte hexLevel = GetHexLevel();
         sbyte hexY = GetHexY();
         sbyte hexX = GetHexX();
-        visible = StrategicMap.Current.Visible(hexX, hexY, hexLevel, 3) || Enchantment.PlayerIndex == StrategicMap.Current.SeatedPlayer;
+        bool visible = StrategicMap.Current.Visible(hexX, hexY, hexLevel, 3) || Enchantment.PlayerIndex == StrategicMap.Current.SeatedPlayer;
         if (_visibleForSeatedPlayer ^ visible)
         {
             _visibleForSeatedPlayer = visible;
@@ -243,8 +232,7 @@ public partial class SmokeCloud : MultiHexMapObject
     {
         int hexX = default;
         int hexY = default;
-        MapLevel level;
-        level = Owner.Owner;
+        MapLevel level = Owner.Owner;
         sbyte yhx = GetHexY();
         HexGeometry.CenterHexNumberToHex(GetHexX(), yhx, direction, ref hexX, ref hexY);
         HexGeometry.CenterHexNumberToHex(hexX, hexY, direction, ref hexX, ref hexY);
@@ -254,13 +242,6 @@ public partial class SmokeCloud : MultiHexMapObject
     // SmokeCloud.pas:317
     public void UpdateCloud()
     {
-        int hexX = default;
-        int hexY = default;
-        ByteList directions;
-        bool valid;
-        int direction;
-        int tries;
-        int hexLevel;
         if (TurnsRemaining != 1)
         {
             _updated = true;
@@ -271,9 +252,9 @@ public partial class SmokeCloud : MultiHexMapObject
 
             if (Drifting)
             {
-                direction = 0;
-                directions = new ByteList();
-                valid = false;
+                int direction = 0;
+                ByteList directions = new();
+                bool valid = false;
                 _ = directions.Add(_direction);
                 _ = _direction != 1 ? directions.Add((byte)(_direction - 1)) : directions.Add(6);
 
@@ -292,7 +273,7 @@ public partial class SmokeCloud : MultiHexMapObject
                 directions?.Dispose();
                 if (!valid)
                 {
-                    tries = 20;
+                    int tries = 20;
                     while (!valid && tries != 0)
                     {
                         direction = StrategicMap.Current.Random(6) + 1;
@@ -304,8 +285,10 @@ public partial class SmokeCloud : MultiHexMapObject
                 if (valid)
                 {
                     _direction = (byte)direction;
-                    hexLevel = GetHexLevel();
+                    int hexLevel = GetHexLevel();
                     sbyte yhx = GetHexY();
+                    int hexX = default;
+                    int hexY = default;
                     HexGeometry.CenterHexNumberToHex(GetHexX(), yhx, direction, ref hexX, ref hexY);
                     HexGeometry.CenterHexNumberToHex(hexX, hexY, direction, ref hexX, ref hexY);
                     Disconnect();
@@ -324,7 +307,7 @@ public partial class SmokeCloud : MultiHexMapObject
         }
     }
 
-    public new partial class Resource(CustomNode owner) : MultiHexMapObjectResource(owner)
+    public new class Resource(CustomNode owner) : MultiHexMapObjectResource(owner)
     {
 
         // SmokeCloud.pas:385
@@ -337,7 +320,4 @@ public partial class SmokeCloud : MultiHexMapObject
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), GameText.SmokeCloudText);
 
     }
-
-    // SmokeCloud.pas:43
-
 }

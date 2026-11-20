@@ -6,7 +6,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // inherited name, ability ID, selection types, ability type
-public partial class HolyChampionAbility : EnhancementAbility
+public class HolyChampionAbility : EnhancementAbility
 {
     // PassiveAb.pas:484
     public HolyChampionAbility(CustomNode owner, EngineObject holder) : base(owner)
@@ -21,11 +21,6 @@ public partial class HolyChampionAbility : EnhancementAbility
     public override bool CanExpand(AbilityOwner owner)
     {
         bool result = base.CanExpand(owner);
-        if (result && owner is Troop troop)
-        {
-            result = AlignmentTables.PureGoodAlignments.Contains(troop.GetAlignment());
-        }
-
-        return result;
+        return result && owner is Troop troop ? AlignmentTables.PureGoodAlignments.Contains(troop.GetAlignment()) : result;
     }
 }

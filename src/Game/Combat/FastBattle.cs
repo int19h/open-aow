@@ -11,7 +11,7 @@ using static Aow.Rtl.DelphiConversions;
 namespace Aow.Game.Combat;
 
 // wall siege object count
-public partial class FastBattle(CustomNode owner) : Battle(owner)
+public class FastBattle(CustomNode owner) : Battle(owner)
 {
     // AIGroup.pas:7128
     public new const int ClassId = 131760;
@@ -27,15 +27,14 @@ public partial class FastBattle(CustomNode owner) : Battle(owner)
     // AIGroup.pas:7310
     public override CombatResult Execute()
     {
-        string header;
-        CombatSide side;
         _ = base.Execute();
         CombatResult = CombatResult.Busy;
+        string header;
         if (ValidateWallBreaching())
         {
             if (Sides[(int)CombatSideIndex.Defender].GetUndestroyedConquerObjects() != 0)
             {
-                side = Sides[(int)CombatSideIndex.Defender];
+                CombatSide side = Sides[(int)CombatSideIndex.Defender];
                 if (side.Count > side.ConquerCount)
                 {
                     while (!Terminated)
@@ -90,14 +89,12 @@ public partial class FastBattle(CustomNode owner) : Battle(owner)
     // AIGroup.pas:7144
     public int GetRoundDistanceMax()
     {
-        int i;
-        CombatObject objectValue;
         int result = 0;
-        i = CombatData.GetCount();
+        int i = CombatData.GetCount();
         while (i != 0)
         {
             i -= 1;
-            objectValue = CombatData.GetObjects(i);
+            CombatObject objectValue = CombatData.GetObjects(i);
             if (objectValue.GetEnabled())
             {
                 if (result < objectValue.FastBattleRoundDistance())
@@ -113,12 +110,9 @@ public partial class FastBattle(CustomNode owner) : Battle(owner)
     // AIGroup.pas:7208
     public bool AttackerCanCrushWall()
     {
-        CombatSide side;
-        int i;
-        bool canCrush;
-        side = Sides[(int)CombatSideIndex.Attacker];
-        i = side.Count;
-        canCrush = false;
+        CombatSide side = Sides[(int)CombatSideIndex.Attacker];
+        int i = side.Count;
+        bool canCrush = false;
         while (i != 0 && !canCrush)
         {
             i -= 1;
@@ -131,10 +125,8 @@ public partial class FastBattle(CustomNode owner) : Battle(owner)
     // AIGroup.pas:7226
     public int GetAttackerBallisticCombatValue()
     {
-        int combatValue;
-        CombatSide side;
-        combatValue = 0;
-        side = Sides[(int)CombatSideIndex.Attacker];
+        int combatValue = 0;
+        CombatSide side = Sides[(int)CombatSideIndex.Attacker];
         for (int i = 0, last = side.Count - 1; i <= last; i++)
         {
             if (!side.GetObjects(i).Status.Contains(CombatObjectStatusElement.Destroyed) && side.GetObjects(i).SupportCombatMode(Set<CombatMode>.Of(CombatMode.MediumRange, CombatMode.LongRange)))
@@ -149,10 +141,8 @@ public partial class FastBattle(CustomNode owner) : Battle(owner)
     // AIGroup.pas:7241
     public int GetDefenderBallisticCombatValue()
     {
-        int combatValue;
-        CombatSide side;
-        combatValue = 0;
-        side = Sides[(int)CombatSideIndex.Defender];
+        int combatValue = 0;
+        CombatSide side = Sides[(int)CombatSideIndex.Defender];
         for (int i = 0, last = side.Count - 1; i <= last; i++)
         {
             if (!side.GetObjects(i).Status.Contains(CombatObjectStatusElement.Destroyed) && side.GetObjects(i).SupportCombatMode(Set<CombatMode>.Of(CombatMode.MediumRange, CombatMode.LongRange)))
@@ -167,50 +157,41 @@ public partial class FastBattle(CustomNode owner) : Battle(owner)
     // AIGroup.pas:7256
     public bool ValidateWallBreaching()
     {
-        bool result;
-        CombatWall wall;
-        wall = CombatData.Wall;
-        if (wall != null && !wall.Status.Contains(CombatObjectStatusElement.Destroyed) && WallSiegeObjectCount == 0)
+        CombatWall wall = CombatData.Wall;
+        if (wall is not null && !wall.Status.Contains(CombatObjectStatusElement.Destroyed) && WallSiegeObjectCount == 0)
         {
             CombatResult = CombatResult.CannotBreachWall;
-            result = false;
+            return false;
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // AIGroup.pas:7268
     public void ExecuteCombatRound()
     {
-        bool idle;
-        int i;
-        int moveCost;
-        CombatObjectList objects;
-        CombatObject objectValue;
         NewRound();
-        idle = true;
-        objects = new CombatObjectList();
+        bool idle = true;
+        CombatObjectList objects = new();
         int round = GetRound();
         SetLogbookHeader(AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_roundFormat), [IntToStr(round)]));
         for (int playerIndex = 0, last = CombatData.TurnOrder.Count - 1; playerIndex <= last; playerIndex++)
         {
             NewTurn(CombatData.TurnOrder[playerIndex]);
             objects.Clear();
-            i = CombatData.GetCount() - 1;
+            int i = CombatData.GetCount() - 1;
             for (; i >= 0; i -= 1)
             {
-                objectValue = CombatData.GetObjects(i);
+                CombatObject objectValue = CombatData.GetObjects(i);
                 if (objectValue.CombatPlayer == (sbyte)CombatData.CurrentPlayer && objectValue.GetEnabled() && !objectValue.GetLocked() && !objectValue.Status.Contains(CombatObjectStatusElement.TurnDone))
                 {
                     _ = objects.Add(objectValue);
                 }
             }
 
-            moveCost = 0;
+            int moveCost = 0;
             do
             {
                 i = objects.Count;
@@ -244,9 +225,4 @@ public partial class FastBattle(CustomNode owner) : Battle(owner)
     }
 
     private static readonly string s_roundFormat = "Round: %s";
-
-    // intf_P5_07.inc:1073
-
-    // intf_P5_07.inc:1073
-
 }

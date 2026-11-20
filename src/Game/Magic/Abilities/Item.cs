@@ -25,7 +25,7 @@ namespace Aow.Game.Magic.Abilities;
 
 // ID, owner name, status, references, library ID, library name, value, name, type, spell ID,
 // description, graphics index, hidden, availability, attack, defense, damage, resistance
-public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner>
+public class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner>
 {
     [SuppressMessage("Style", "IDE0290", Justification = "Item.SetOwner calls AddRef and Release around AddChild. The count starts at 0, so Release reaches 0 and Dispose runs, and the constructor then stores 1. ItemLibrary.cs:51 reads LibraryId during that AddChild and stamps an id when the id is not positive, and the constructor then stores -1.")]
     public Item(CustomNode owner) : base(owner)
@@ -40,8 +40,8 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
 
     // An item lies in an item list, a hero's inventory, the items a hero wears or an item
     // library. AcceptsOwner admits only those.
-    protected sealed override bool AcceptsOwner(CustomNode owner) =>
-        owner is ItemList or HeroInventory or HeroItems or ItemLibrary;
+    protected sealed override bool AcceptsOwner(CustomNode owner)
+        => owner is ItemList or HeroInventory or HeroItems or ItemLibrary;
 
     ItemOwner IOwned<ItemOwner>.Owner => ItemOwner.Of(Owner);
 
@@ -99,7 +99,7 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
             _ = (Owner?.RemoveChild(this));
 
             SetOwnerWithoutNotify(owner);
-            if (Owner != null)
+            if (Owner is not null)
             {
                 if (Owner.AddChild(this) == -1)
                 {
@@ -165,9 +165,8 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
     // Army.PAS:4232
     public override int Release()
     {
-        int count;
         RefCount -= 1;
-        count = RefCount;
+        int count = RefCount;
         int result = count;
         if (count == 0)
         {
@@ -193,7 +192,7 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
     {
         _ = AddRef();
         base.SetArrayOwner(owner, index);
-        if (Owner != null)
+        if (Owner is not null)
         {
             _ = AddRef();
         }
@@ -208,7 +207,7 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
     // Army.PAS:4402
     public override Set<AbilitySelectionType> GetAbilitySelectionTypes()
     {
-        Set<AbilitySelectionType> result = ItemType switch
+        return ItemType switch
         {
             ItemType.Head => Set<AbilitySelectionType>.Of(AbilitySelectionType.HeadItem),
             ItemType.Torso => Set<AbilitySelectionType>.Of(AbilitySelectionType.TorsoItem),
@@ -218,7 +217,6 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
             ItemType.Use => Set<AbilitySelectionType>.Of(AbilitySelectionType.UseItem),
             ItemType.Scroll or _ => Set<AbilitySelectionType>.Of(),
         };
-        return result;
     }
 
     // Army.PAS:4345
@@ -238,7 +236,7 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
         {
             if (StrategicMap.Current.Players.GetPlayers(hero.Player).MagicControl.Spells.IndexOf(_spellId) == -1)
             {
-                result = true;
+                return true;
             }
             else
             {
@@ -259,12 +257,10 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
     // Army.PAS:4296
     public virtual bool Use(Hero hero)
     {
-        bool result;
         string reason = "";
-        ItemTokenEvent eventValue;
         if (CanUse(hero, ref reason) && !StrategicMap.Current.Players.GetPlayers(hero.Player).GetBusy())
         {
-            eventValue = new ItemTokenEvent(null)
+            ItemTokenEvent eventValue = new(null)
             {
                 Holder = CreationHolder(),
                 ItemId = ItemId,
@@ -272,14 +268,12 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
             };
             StrategicMap.Current.TokenManager.GetTokenControl(hero.Player).AddEvent(eventValue);
             _ = eventValue.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Army.PAS:4255
@@ -287,7 +281,6 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
     {
         string reason = "";
         // { Original reports success even when CanUse rejects the item. }
-        bool result = true;
         if (CanUse(hero, ref reason))
         {
             switch (ItemType)
@@ -316,15 +309,14 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
             }
         }
 
-        return result;
+        return true;
     }
 
     // Army.PAS:4418
     public virtual void Show(int X, int Y, in LockedSurface surface)
     {
-        ItemGraphics graphics;
-        graphics = GamePack.Current.ItemGraphicsResources.GetItemGraphics(_itemGraphicsIndex);
-        if (graphics != null)
+        ItemGraphics graphics = GamePack.Current.ItemGraphicsResources.GetItemGraphics(_itemGraphicsIndex);
+        if (graphics is not null)
         {
             _ = graphics.AddRef();
             graphics.GetItemImage().Show(X, Y, surface);
@@ -364,10 +356,9 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
     // Army.PAS:4356
     public LibraryImage GetImage()
     {
+        ItemGraphics graphics = GamePack.Current.ItemGraphicsResources.GetItemGraphics(_itemGraphicsIndex);
         LibraryImage result;
-        ItemGraphics graphics;
-        graphics = GamePack.Current.ItemGraphicsResources.GetItemGraphics(_itemGraphicsIndex);
-        if (graphics != null)
+        if (graphics is not null)
         {
             _ = graphics.AddRef();
             result = graphics.GetItemImage();
@@ -375,7 +366,7 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
         }
         else
         {
-            result = null;
+            return null;
         }
 
         return result;
@@ -393,7 +384,7 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
             result = LibraryName;
             if (IsEmpty(result))
             {
-                result = AbilityRules.TranslateResourceString(GetEngine(), s_itemSystemLibraryText);
+                return AbilityRules.TranslateResourceString(GetEngine(), s_itemSystemLibraryText);
             }
         }
 
@@ -403,21 +394,19 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
     // Army.PAS:4381
     public void UpdateFromLibrary()
     {
-        int id;
-        Item item;
         if (LibraryId != -1)
         {
-            item = GamePack.Current.ItemLibraries.FindItem(LibraryName, LibraryId);
-            if (item != null)
+            Item item = GamePack.Current.ItemLibraries.FindItem(LibraryName, LibraryId);
+            if (item is not null)
             {
-                id = ItemId;
+                int id = ItemId;
                 Assign(item, GetEngine());
                 ItemId = id;
                 Changed();
             }
             else
             {
-                if (Owner == null)
+                if (Owner is null)
                 {
                     Dispose();
                 }
@@ -435,33 +424,26 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
     // Army.PAS:4430
     public void SetItemType(ItemType value)
     {
-        ItemType itemType;
         Attack = 0;
         Defense = 0;
         Resistance = 0;
         Damage = 0;
-        itemType = value;
+        ItemType itemType = value;
         ItemType = itemType;
         _itemGraphicsIndex = GamePack.Current.ItemGraphicsResources.FindItemTypeGraphics(itemType);
         base.Clear();
     }
 
     // Army.PAS:4443
-    public int GetObtainValue()
-    {
-        int result = _obtainValue > 10 ? _obtainValue : 10;
-        return result;
-    }
+    public int GetObtainValue() => _obtainValue > 10 ? _obtainValue : 10;
 
     // Army.PAS:4474
     public bool PlaceOnMap(GameMap map, sbyte x, sbyte y, sbyte level)
     {
-        bool result;
-        ItemHexSprite hexSprite;
         if (x >= 0 && y >= 0 && level >= 0 && x < map.MapContainer.Width && y < map.MapContainer.Height && level < map.MapContainer.LevelCount && map.MapContainer.GetField(x, y, level).TerrainType != 15)
         {
-            hexSprite = map.MapContainer.GetField(x, y, level).FindOwnedChild<ItemHexSprite>(131697);
-            if (hexSprite == null)
+            ItemHexSprite hexSprite = map.MapContainer.GetField(x, y, level).FindOwnedChild<ItemHexSprite>(131697);
+            if (hexSprite is null)
             {
                 hexSprite = new ItemHexSprite(null) { Holder = CreationHolder() };
                 if (!map.PlaceHex(hexSprite, x, y, level))
@@ -471,33 +453,26 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
                 }
             }
 
-            if (hexSprite != null)
+            if (hexSprite is not null)
             {
                 SetOwner(hexSprite.Items);
-                result = true;
+                return true;
             }
             else
             {
-                result = false;
+                return false;
             }
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     private static readonly string s_itemSpellResearchedFormat = "%s researched";
     private static readonly string s_itemSpellAlreadyResearchedFormat = "%s already researched";
     private static readonly string s_itemNotUsableText = "This is not an usable item";
     private static readonly string s_itemSystemLibraryText = "System";
-
-    // intf_P2_04.inc:84
-
-    // intf_P2_04.inc:84
-
 }
 
 public enum ItemAvailability : byte

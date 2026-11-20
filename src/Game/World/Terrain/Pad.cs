@@ -6,26 +6,20 @@ using Aow.Game.World.Map;
 namespace Aow.Game.World.Terrain;
 
 // PadActive
-public partial class Pad(CustomNode owner) : FixedImageLibraryTerrainMapObject(owner)
+public class Pad(CustomNode owner) : FixedImageLibraryTerrainMapObject(owner)
 {
 
     // Pad.pas:52
     public new const int ClassId = 131334;
 
-    // Pad.pas:46
-
     // Pad.pas:55
     public override bool CanSelect(int pixelX, int pixelY) => false;
 
     // Pad.pas:58
-    public override sbyte ForceTerrainType(MapLevel mapLevel, sbyte hexX, sbyte hexY)
-    {
-        sbyte result = mapLevel.HexLevel != 0 ? (sbyte)12 : (sbyte)-1;
-        return result;
-    }
+    public override sbyte ForceTerrainType(MapLevel mapLevel, sbyte hexX, sbyte hexY) => mapLevel.HexLevel != 0 ? (sbyte)12 : (sbyte)-1;
 
     // PadSize
-    public new partial class Resource : FixedImageLibraryTerrainMapObjectResource
+    public new class Resource : FixedImageLibraryTerrainMapObjectResource
     {
         public Resource(CustomNode owner) : base(owner) => SetLevel(10);
 
@@ -37,7 +31,7 @@ public partial class Pad(CustomNode owner) : FixedImageLibraryTerrainMapObject(o
         // Pad.pas:69
         public override void Dispose()
         {
-            if (Engine != null && !Engine.HexSpriteSet.Status.Contains(HexSpriteSetStatusElement.Destroying))
+            if (Engine is not null && !Engine.HexSpriteSet.Status.Contains(HexSpriteSetStatusElement.Destroying))
             {
                 Engine.HexSpriteSet.PadControl.UnregisterPadResource(this, _padSize);
             }
@@ -45,14 +39,8 @@ public partial class Pad(CustomNode owner) : FixedImageLibraryTerrainMapObject(o
             base.Dispose();
         }
 
-        // Pad.pas:63
-
         // Pad.pas:101
-        public override EditorClass Editor()
-        {
-            EditorClass result = Engine.Editors.FindEditor(131335) ?? base.Editor();
-            return result;
-        }
+        public override EditorClass Editor() => Engine.Editors.FindEditor(131335) ?? base.Editor();
 
         // Pad.pas:95
         public override void MessageProc(ref EngineMessage message, EngineObject sender)
@@ -82,13 +70,8 @@ public partial class Pad(CustomNode owner) : FixedImageLibraryTerrainMapObject(o
             Engine.HexSpriteSet.PadControl.RegisterPadResource(this, _padSize);
         }
 
-        // Pad.pas:32
-
         // Pad.pas:79
         public override string ResourceEditName() => "Pad";
 
     }
-
-    // Pad.pas:20
-
 }

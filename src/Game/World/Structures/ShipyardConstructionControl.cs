@@ -9,7 +9,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.World.Structures;
 
-public partial class ShipyardConstructionControl(CustomNode owner) : StructureConstructionControl(owner)
+public class ShipyardConstructionControl(CustomNode owner) : StructureConstructionControl(owner)
 {
 
     // Shipyard.pas:93
@@ -24,7 +24,6 @@ public partial class ShipyardConstructionControl(CustomNode owner) : StructureCo
     // Shipyard.pas:100
     public override bool ValidateLocation(Troop troop, ref string reason)
     {
-        MapLevel mapLevel;
         bool result = base.ValidateLocation(troop, ref reason);
         if (result)
         {
@@ -33,7 +32,7 @@ public partial class ShipyardConstructionControl(CustomNode owner) : StructureCo
             sbyte x = coordinate37.X;
             sbyte y = coordinate37.Y;
             sbyte l = coordinate37.MapLevel;
-            mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(l);
+            MapLevel mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(l);
             HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, 0);
             while (walk.HexNumber < 7 && !result)
             {
@@ -58,16 +57,13 @@ public partial class ShipyardConstructionControl(CustomNode owner) : StructureCo
     // Shipyard.pas:81
     public override StructureResource StructureResource(Troop troop)
     {
-        StructureResource result;
         MapCoordinate coordinate38 = troop.GetLocation();
         _ = coordinate38.X;
         _ = coordinate38.Y;
         sbyte l = coordinate38.MapLevel;
-        result = l == 0
+        return l == 0
             ? GamePack.Current.MapObjectResourceList.FindResource<StructureResource>(60)
             : GamePack.Current.MapObjectResourceList.FindResource<StructureResource>(107);
-
-        return result;
     }
 
     // Shipyard.pas:78

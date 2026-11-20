@@ -15,8 +15,8 @@ namespace Aow.Formats.Original;
 /// </summary>
 internal static class CaseCodec
 {
-    private static ConversionException Missing(SchemaClass classValue, SchemaMapping mapping, string? file, long offset, DocumentNodePath path) =>
-        new(new FormatDiagnostic(Codes.Mapping, $"Class {classValue.Name} needs its unit mapping {mapping.Name}, which Aow.Game registers.")
+    private static ConversionException Missing(SchemaClass classValue, SchemaMapping mapping, string? file, long offset, DocumentNodePath path)
+        => new(new FormatDiagnostic(Codes.Mapping, $"Class {classValue.Name} needs its unit mapping {mapping.Name}, which Aow.Game registers.")
         { File = file, Offset = offset, Path = path.ToString() });
 
     /// <summary>The number a stored discriminator or field holds: an integer, or little-endian record bytes.</summary>

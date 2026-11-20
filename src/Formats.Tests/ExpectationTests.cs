@@ -40,8 +40,8 @@ public sealed class ExpectationTests : FormatsTest, IDisposable
         return path;
     }
 
-    private static SortedDictionary<string, (int, List<string>)> Rules(params string[] files) =>
-        new(StringComparer.Ordinal) { ["LEGACY_VALLEY01_SPRITE"] = (files.Length, files.ToList()) };
+    private static SortedDictionary<string, (int, List<string>)> Rules(params string[] files)
+        => new(StringComparer.Ordinal) { ["LEGACY_VALLEY01_SPRITE"] = (files.Length, files.ToList()) };
 
     [Fact]
     public void MatchingCountsHaveNoDrift()

@@ -20,8 +20,6 @@ public partial class BattleEffectSprite
     {
         LockedSurface lockedSurfaceValue = lockedSurface;
         ImageSequence sequence;
-        int index;
-        ImageSequence firstSequence;
         void SelectSequence(int number)
         {
             sequence = AbilityIndex == 52
@@ -29,9 +27,11 @@ public partial class BattleEffectSprite
                 : GamePack.Current.AbilityControl.GetAbility(AbilityIndex).ImageSequences.ImageSequences[number];
         }
 
+        int index;
+        ImageSequence firstSequence;
         void SelectFrame()
         {
-            if (sequence != null)
+            if (sequence is not null)
             {
                 index = sequence.GetUnloopedFrameIndex(Frame);
             }
@@ -41,8 +41,7 @@ public partial class BattleEffectSprite
 
         void SelectDamageSequence()
         {
-            int n = default;
-            n = EffectType switch
+            int n = EffectType switch
             {
                 BattleEffectType.DamLightning => 40,
                 BattleEffectType.DamFire => 41,
@@ -57,7 +56,7 @@ public partial class BattleEffectSprite
 
         void ShowMovingLoop()
         {
-            while (sequence != null)
+            while (sequence is not null)
             {
                 index = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                 if (index != -1 && sequence.ImageLibrary.ImageExist(index))
@@ -74,7 +73,7 @@ public partial class BattleEffectSprite
 
         void ShowSecondaryFrame()
         {
-            while (sequence != null)
+            while (sequence is not null)
             {
                 index = sequence.GetUnloopedFrameIndex(Variant);
                 if (index != -1 && sequence.ImageLibrary.ImageExist(index))
@@ -91,14 +90,12 @@ public partial class BattleEffectSprite
 
         void ShowTrail()
         {
-            int lastFrame = default;
-            int half = default;
-            if (sequence != null)
+            if (sequence is not null)
             {
-                lastFrame = sequence.GetTotalSequenceFrames() - 1;
+                int lastFrame = sequence.GetTotalSequenceFrames() - 1;
                 for (int n = 0; n <= lastFrame; n++)
                 {
-                    half = n / 2;
+                    int half = n / 2;
                     bool condition = Frame - 9 + half + 5 > -1;
                     if (condition)
                     {
@@ -137,7 +134,7 @@ public partial class BattleEffectSprite
 
         void ShowRay()
         {
-            if (sequence != null)
+            if (sequence is not null)
             {
                 for (int n = 0, last = Frame; n <= last; n++)
                 {
@@ -155,8 +152,6 @@ public partial class BattleEffectSprite
 
         void ShowFrostBeam()
         {
-            int n = default;
-            int alpha = default;
             switch (Frame)
             {
                 case >= 0 and <= 1999:
@@ -167,11 +162,12 @@ public partial class BattleEffectSprite
                     break;
             }
 
-            if (sequence != null)
+            if (sequence is not null)
             {
-                n = 0;
+                int n = 0;
                 while (n <= Frame && n < Path.Count)
                 {
+                    int alpha;
                     switch (Frame)
                     {
                         case >= 0 and <= 1999:
@@ -222,7 +218,7 @@ public partial class BattleEffectSprite
 
         void ShowAtStart()
         {
-            while (sequence != null)
+            while (sequence is not null)
             {
                 index = sequence.GetUnloopedFrameIndex(Frame);
                 if (index != -1 && sequence.ImageLibrary.ImageExist(index))
@@ -238,7 +234,7 @@ public partial class BattleEffectSprite
 
         void ShowAtStartLooped()
         {
-            while (sequence != null)
+            while (sequence is not null)
             {
                 index = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                 if (index != -1 && sequence.ImageLibrary.ImageExist(index))
@@ -254,7 +250,7 @@ public partial class BattleEffectSprite
 
         void ShowScreen()
         {
-            while (sequence != null)
+            while (sequence is not null)
             {
                 if (index != -1 && sequence.ImageLibrary.ImageExist(index))
                 {
@@ -273,14 +269,13 @@ public partial class BattleEffectSprite
 
         void ShowScreenSwarm()
         {
-            int alpha = default;
-            alpha = ((100 - Path[Frame].Z) / 2) - FrameFixtureInputs.ShimmerOffset(this, Frame);
+            int alpha = ((100 - Path[Frame].Z) / 2) - FrameFixtureInputs.ShimmerOffset(this, Frame);
             if (alpha < 0)
             {
                 alpha = 0;
             }
 
-            while (sequence != null)
+            while (sequence is not null)
             {
                 index = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                 if (index != -1 && sequence.ImageLibrary.ImageExist(index))
@@ -301,9 +296,8 @@ public partial class BattleEffectSprite
 
         void ShowParticle(bool shadow)
         {
-            int alpha = default;
             int count = Path.Count;
-            alpha = 100 - (Frame * 100 / count) - FrameFixtureInputs.ShimmerOffset(this, Frame);
+            int alpha = 100 - (Frame * 100 / count) - FrameFixtureInputs.ShimmerOffset(this, Frame);
             if (alpha < 0)
             {
                 alpha = 0;
@@ -319,7 +313,7 @@ public partial class BattleEffectSprite
                 alpha = 100;
             }
 
-            while (sequence != null)
+            while (sequence is not null)
             {
                 // { Original uses the object address rather than the current frame. }
                 index = sequence.GetUnloopedFrameIndex(FrameFixtureInputs.PhaseModulo(this, 3));
@@ -363,10 +357,10 @@ public partial class BattleEffectSprite
 
         void FinishSequence()
         {
-            bool condition = firstSequence == null;
+            bool condition = firstSequence is null;
             if (!condition)
             {
-                bool test = firstSequence != null;
+                bool test = firstSequence is not null;
                 if (test)
                 {
                     int totalSequenceFrames = firstSequence.GetTotalSequenceFrames();
@@ -438,7 +432,7 @@ public partial class BattleEffectSprite
                         break;
                     case BattleEffectType.FBExplosion:
                         SelectSequence(1);
-                        if (sequence != null)
+                        if (sequence is not null)
                         {
                             SelectFrame();
                             ShowAtStart();
@@ -448,7 +442,7 @@ public partial class BattleEffectSprite
                         break;
                     case BattleEffectType.SFOverlay:
                         SelectSequence(2);
-                        if (sequence != null)
+                        if (sequence is not null)
                         {
                             index = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                             ShowAtStart();
@@ -504,7 +498,7 @@ public partial class BattleEffectSprite
                         if (Set<byte>.WithBounds(0, 255).WithRange(5, 6).Contains((byte)Frame))
                         {
                             SelectSequence(2);
-                            while (sequence != null)
+                            while (sequence is not null)
                             {
                                 index = sequence.GetUnloopedFrameIndex(0);
                                 if (index != -1 && sequence.ImageLibrary.ImageExist(index))
@@ -529,7 +523,7 @@ public partial class BattleEffectSprite
                         }
 
                         SelectSequence(1);
-                        if (sequence != null)
+                        if (sequence is not null)
                         {
                             SelectFrame();
                             ShowAtStart();

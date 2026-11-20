@@ -3,7 +3,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.AI.Groups;
 
-public partial class GroupControl(CustomNode owner) : EngineObject(owner)
+public class GroupControl(CustomNode owner) : EngineObject(owner)
 {
 
     // AIGroup.pas:1565

@@ -327,16 +327,19 @@ dotnet_diagnostic.IDE0410.severity = warning
 dotnet_diagnostic.IDE1005.severity = warning
 # IDE2000 is clean on the code of 2026-11-15.
 dotnet_diagnostic.IDE2000.severity = warning
-# IDE2001 raises to warning in newline fix group (experimental newline rules, after the format groups).
-dotnet_diagnostic.IDE2001.severity = suggestion
-# IDE2002 raises to warning in newline fix group (experimental newline rules, after the format groups).
-dotnet_diagnostic.IDE2002.severity = suggestion
+# IDE2001 is clean after the tidy pass (#318). The rule reports nothing unless its option is false.
+csharp_style_allow_embedded_statements_on_same_line_experimental = false
+dotnet_diagnostic.IDE2001.severity = warning
+# IDE2002 is clean after the tidy pass (#318). The rule reports nothing unless its option is false.
+csharp_style_allow_blank_lines_between_consecutive_braces_experimental = false
+dotnet_diagnostic.IDE2002.severity = warning
 # IDE2004 is clean on the code of 2026-11-15.
 dotnet_diagnostic.IDE2004.severity = warning
 # IDE2005 is clean on the code of 2026-11-15.
 dotnet_diagnostic.IDE2005.severity = warning
-# IDE2006 raises to warning in newline fix group (experimental newline rules, after the format groups).
-dotnet_diagnostic.IDE2006.severity = suggestion
+# IDE2006 is clean after the tidy pass (#318). The rule reports nothing unless its option is false.
+csharp_style_allow_blank_line_after_token_in_arrow_expression_clause_experimental = false
+dotnet_diagnostic.IDE2006.severity = warning
 
 # Exclusions. Severity none. The reason for each one is in style1-status.md, as
 # amended by the decisions of 2026-11-15 (IDE2003 stays off).

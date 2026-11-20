@@ -15,7 +15,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Grids;
 
-public partial class MapControl : Component
+public class MapControl : Component
 {
     private readonly GameEngine _engine;
 
@@ -115,11 +115,11 @@ public partial class MapControl : Component
     // MapCtrl.pas:186
     public override void Dispose()
     {
-        if (_engine != null)
+        if (_engine is not null)
         {
             _engine.HexSpriteMapLoaded -= ActivateHsm;
             _engine.HexSpriteMapClosing -= DeactivateHsm;
-            if (StrategicMap.Current != null)
+            if (StrategicMap.Current is not null)
             {
                 ReleaseHsm();
             }
@@ -134,11 +134,11 @@ public partial class MapControl : Component
         // The engine of the dialog module that owns the control, as the original read the
         // engine global.
         _engine = (owner as UIModule)?.UI.Engine;
-        if (_engine != null)
+        if (_engine is not null)
         {
             _engine.HexSpriteMapLoaded += ActivateHsm;
             _engine.HexSpriteMapClosing += DeactivateHsm;
-            if (StrategicMap.Current != null)
+            if (StrategicMap.Current is not null)
             {
                 LinkToHsm();
             }
@@ -264,7 +264,7 @@ public partial class MapControl : Component
     public void DoubleClick(object sender)
     {
         HexSprite hexSprite;
-        if (OnArmyDoubleClick != null)
+        if (OnArmyDoubleClick is not null)
         {
             hexSprite = StrategicMap.Current.Selection.FindClass(typeof(ArmyHexSprite));
             if (hexSprite is ArmyHexSprite armyHexSprite)
@@ -273,7 +273,7 @@ public partial class MapControl : Component
             }
         }
 
-        if (OnStructureDoubleClick != null)
+        if (OnStructureDoubleClick is not null)
         {
             hexSprite = StrategicMap.Current.Selection.FindClass(typeof(Structure));
             if (hexSprite is Structure structure)
@@ -288,7 +288,7 @@ public partial class MapControl : Component
     {
         try
         {
-            if (OnMapChanged != null)
+            if (OnMapChanged is not null)
             {
                 MapChangedInfo info = sender.Info;
                 OnMapChanged(in info);
@@ -306,7 +306,7 @@ public partial class MapControl : Component
     {
         try
         {
-            if (OnScannerIconsChanged != null)
+            if (OnScannerIconsChanged is not null)
             {
                 MapChangedInfo info = sender.Info;
                 OnScannerIconsChanged(in info);
@@ -335,21 +335,20 @@ public partial class MapControl : Component
     // MapCtrl.pas:324
     public void SelectHexSprite(object sender)
     {
-        HexSpriteSelection selection;
         try
         {
-            selection = StrategicMap.Current.Selection;
-            if (OnArmySelected != null && selection.EventHexSprite is ArmyHexSprite armyHexSprite && StrategicMap.Current.SelectedArmy.GetArmyHexSprite() != null)
+            HexSpriteSelection selection = StrategicMap.Current.Selection;
+            if (OnArmySelected is not null && selection.EventHexSprite is ArmyHexSprite armyHexSprite && StrategicMap.Current.SelectedArmy.GetArmyHexSprite() is not null)
             {
                 OnArmySelected(armyHexSprite.Army);
             }
 
-            if (OnStructureSelected != null && selection.EventHexSprite is Structure structure)
+            if (OnStructureSelected is not null && selection.EventHexSprite is Structure structure)
             {
                 OnStructureSelected(structure);
             }
 
-            if (OnItemsSelected != null && selection.EventHexSprite is ItemHexSprite item)
+            if (OnItemsSelected is not null && selection.EventHexSprite is ItemHexSprite item)
             {
                 OnItemsSelected(item);
             }
@@ -363,21 +362,20 @@ public partial class MapControl : Component
     // MapCtrl.pas:337
     public void DeselectHexSprite(object sender)
     {
-        HexSpriteSelection selection;
         try
         {
-            selection = StrategicMap.Current.Selection;
-            if (OnArmyDeselected != null && selection.EventHexSprite is ArmyHexSprite armyHexSprite)
+            HexSpriteSelection selection = StrategicMap.Current.Selection;
+            if (OnArmyDeselected is not null && selection.EventHexSprite is ArmyHexSprite armyHexSprite)
             {
                 OnArmyDeselected(armyHexSprite.Army);
             }
 
-            if (OnStructureDeselected != null && selection.EventHexSprite is Structure structure)
+            if (OnStructureDeselected is not null && selection.EventHexSprite is Structure structure)
             {
                 OnStructureDeselected(structure);
             }
 
-            if (OnItemsDeselected != null && selection.EventHexSprite is ItemHexSprite item)
+            if (OnItemsDeselected is not null && selection.EventHexSprite is ItemHexSprite item)
             {
                 OnItemsDeselected(item);
             }
@@ -432,7 +430,7 @@ public partial class MapControl : Component
     {
         try
         {
-            if (OnEndTurn != null)
+            if (OnEndTurn is not null)
             {
                 Player listed = StrategicMap.Current.Players.GetPlayers(player);
                 OnEndTurn(player, !listed.SingleProcessCycle);
@@ -527,7 +525,7 @@ public partial class MapControl : Component
     {
         try
         {
-            if (OnShowMessage != null)
+            if (OnShowMessage is not null)
             {
                 ShowMessageInfo info = sender.Info;
                 OnShowMessage(in info);
@@ -753,7 +751,7 @@ public partial class MapControl : Component
     {
         try
         {
-            if (OnTargetSelectionChange != null && control != null && (((int)StrategicMap.Current.TargetSelection.TargetMode.Image) & 8) != 0)
+            if (OnTargetSelectionChange is not null && control is not null && (((int)StrategicMap.Current.TargetSelection.TargetMode.Image) & 8) != 0)
             {
                 OnTargetSelectionChange(control, control.Change);
             }

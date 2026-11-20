@@ -130,8 +130,16 @@ public sealed class UIConstructionTests
 
                     string key = $"{current.Name}.{MemberNames.Of(field)}";
                     object? child = field.GetValue(item);
-                    if (MemberNames.Of(field) is "_owner" or "Owner") { fields[key] = child is null ? null : "$owner"; continue; }
-                    if (child is UIContext) { fields[key] = child.GetType().FullName; continue; }
+                    if (MemberNames.Of(field) is "_owner" or "Owner")
+                    {
+                        fields[key] = child is null ? null : "$owner";
+                        continue;
+                    }
+                    if (child is UIContext)
+                    {
+                        fields[key] = child.GetType().FullName;
+                        continue;
+                    }
                     fields[key] = MemberNames.Of(field) is "_engine" or "Engine" or "_hexSpriteEngine" or "HexSpriteEngine" or "FGameEngine" ? child?.GetType().FullName : State(child, $"{path}.{key}");
                 }
             }
@@ -324,11 +332,20 @@ public sealed class UIConstructionTests
                 Assert.Same(owner, value.Owner);
                 states.Add($"success:{Snapshot(value)}");
             }
-            catch (Exception error) { states.Add($"failure:{error.GetType().FullName}:{error.Message}"); }
+            catch (Exception error)
+            {
+                states.Add($"failure:{error.GetType().FullName}:{error.Message}");
+            }
             finally
             {
-                try { value?.Dispose(); }
-                catch (Exception error) { states.Add($"destroy:{error.GetType().FullName}:{error.Message}"); }
+                try
+                {
+                    value?.Dispose();
+                }
+                catch (Exception error)
+                {
+                    states.Add($"destroy:{error.GetType().FullName}:{error.Message}");
+                }
             }
             states.Add($"owner:{owner?.ComponentCount ?? 0}");
             if (owner is not null)

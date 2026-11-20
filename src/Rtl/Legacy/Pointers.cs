@@ -111,7 +111,11 @@ public struct Ptr<T> : IEquatable<Ptr<T>>, IPointerBox
         return result;
     }
 
-    public static Ptr<T> operator +(Ptr<T> pointer, int offset) { pointer.Index += offset; return pointer; }
+    public static Ptr<T> operator +(Ptr<T> pointer, int offset)
+    {
+        pointer.Index += offset;
+        return pointer;
+    }
 
     public static Ptr<T> operator -(Ptr<T> pointer, int offset) => pointer + -offset;
 

@@ -13,21 +13,18 @@ public partial class Troop
 {
     public virtual int Show(int X, int Y, in LockedSurface lockedSurface, in UnitShowInfo info)
     {
-        ImageSequence sequence;
-        int frame;
-        int totalFrames;
-        int resourceIndex;
         int result = 0;
-        resourceIndex = GetUnitGraphicsResourceIndex();
+        int resourceIndex = GetUnitGraphicsResourceIndex();
         _ = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(resourceIndex).AddRef();
         if (info.Animation != UnitAnimation.None)
         {
-            sequence = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(resourceIndex).Sequences.List[((int)info.Animation * 6) + info.Direction - 1];
-            if (sequence != null)
+            ImageSequence sequence = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(resourceIndex).Sequences.List[((int)info.Animation * 6) + info.Direction - 1];
+            if (sequence is not null)
             {
+                int frame;
                 if (!info.Looped)
                 {
-                    totalFrames = sequence.GetTotalSequenceFrames();
+                    int totalFrames = sequence.GetTotalSequenceFrames();
                     frame = sequence.GetUnloopedFrameIndex(info.Frame);
                     if (frame >= 0)
                     {
@@ -55,7 +52,7 @@ public partial class Troop
                 }
 
                 sequence = sequence.Next;
-                while (sequence != null)
+                while (sequence is not null)
                 {
                     frame = sequence.GetFrameIndex(info.Frame, 0);
                     if (frame >= 0)

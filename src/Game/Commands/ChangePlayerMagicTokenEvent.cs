@@ -8,7 +8,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Commands;
 
 // (mode, player, values)
-public partial class ChangePlayerMagicTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class ChangePlayerMagicTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
     public new const int ClassId = 135445;
 
@@ -30,12 +30,9 @@ public partial class ChangePlayerMagicTokenEvent(CustomNode owner) : TokenEvent(
     // Spells.PAS:2456
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        ExecuteResult result;
-        bool success;
-        PlayerMagicControl magic;
         _ = base.Execute(tokenEvent);
-        success = false;
-        magic = StrategicMap.Current.Players.GetPlayers((sbyte)PlayerIndex).MagicControl;
+        bool success = false;
+        PlayerMagicControl magic = StrategicMap.Current.Players.GetPlayers((sbyte)PlayerIndex).MagicControl;
         switch (Mode)
         {
             case ChangePlayerMagicTokenEventMode.DispelEnchantment:
@@ -51,13 +48,8 @@ public partial class ChangePlayerMagicTokenEvent(CustomNode owner) : TokenEvent(
                 break;
         }
 
-        result = success ? ExecuteResult.Done : ExecuteResult.DoneHalt;
-
-        return result;
+        return success ? ExecuteResult.Done : ExecuteResult.DoneHalt;
     }
-
-    // NetworkE.pas:230
-
 }
 
 public enum ChangePlayerMagicTokenEventMode : byte

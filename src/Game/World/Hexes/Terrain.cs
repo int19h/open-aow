@@ -8,7 +8,7 @@ using Aow.Game.World.Terrain;
 
 namespace Aow.Game.World.Hexes;
 
-public partial class Terrain(CustomNode owner) : TerrainMapObject(owner)
+public class Terrain(CustomNode owner) : TerrainMapObject(owner)
 {
 
     // AoWTer.pas:89
@@ -58,16 +58,14 @@ public partial class Terrain(CustomNode owner) : TerrainMapObject(owner)
     // AoWTer.pas:67
     public void ValidateDeadTreeRegrow()
     {
-        TerrainMapObjectResource r;
-        MapField oldOwner;
-        if (Owner.FindOwnedChild(132990) == null)
+        if (Owner.FindOwnedChild(132990) is null)
         {
             if (StrategicMap.Current.Random(20) == 0)
             {
-                r = FindCompatibleResource(base.Resource.TerrainType, 1, 0);
-                if (r != null)
+                TerrainMapObjectResource r = FindCompatibleResource(base.Resource.TerrainType, 1, 0);
+                if (r is not null)
                 {
-                    oldOwner = Owner;
+                    MapField oldOwner = Owner;
                     RemoveFromMap();
                     SetResource(r);
                     Owner = oldOwner;
@@ -92,7 +90,7 @@ public partial class Terrain(CustomNode owner) : TerrainMapObject(owner)
         }
 
         TerrainMapObjectResource resource = FindCompatibleResource(base.Resource.TerrainType, 3, 3);
-        if (resource == null)
+        if (resource is null)
         {
             return;
         }
@@ -112,7 +110,7 @@ public partial class Terrain(CustomNode owner) : TerrainMapObject(owner)
     }
 
     // MapFieldResponse (stream id 20)
-    public new partial class Resource(CustomNode owner) : TerrainMapObjectResource(owner)
+    public new class Resource(CustomNode owner) : TerrainMapObjectResource(owner)
     {
         public int MapFieldResponse { get; private set; }
 

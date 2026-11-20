@@ -81,8 +81,7 @@ public partial class HexSpriteSelection(CustomNode owner) : ControlStyleNode(own
     // HSEngine.pas:3711
     public void Unselect(HexSprite hexSprite)
     {
-        int i;
-        i = IndexOfChild(hexSprite);
+        int i = IndexOfChild(hexSprite);
         _ = LocationHexSprite.Remove(hexSprite);
         if (i != -1)
         {
@@ -119,13 +118,11 @@ public partial class HexSpriteSelection(CustomNode owner) : ControlStyleNode(own
     // HSEngine.pas:3740
     public HexSprite FindClass(Type classValue)
     {
-        HexSprite hexSprite;
-        int i;
         HexSprite result = null;
-        i = 0;
-        while (i != Count && result == null)
+        int i = 0;
+        while (i != Count && result is null)
         {
-            hexSprite = this[i];
+            HexSprite hexSprite = this[i];
             if (classValue.IsInstanceOfType(hexSprite))
             {
                 result = this[i];
@@ -178,5 +175,4 @@ public partial class HexSpriteSelection(CustomNode owner) : ControlStyleNode(own
     }
 
     public HexSprite EventHexSprite { get; private set; }
-
 }

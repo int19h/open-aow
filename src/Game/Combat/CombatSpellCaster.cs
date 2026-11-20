@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 namespace Aow.Game.Combat;
 
 // (spell ID, source ID, refcount)
-public partial class CombatSpellCaster(CustomNode owner) : EngineObject(owner)
+public class CombatSpellCaster(CustomNode owner) : EngineObject(owner)
 {
     public int CombatCasterSpellId { get; init; }
     public int CombatCasterSourceId { get; init; }
@@ -21,11 +21,9 @@ public partial class CombatSpellCaster(CustomNode owner) : EngineObject(owner)
     // Spells.PAS:803
     public override int Release()
     {
-        int count;
-        int releasedCount;
         _combatCasterRefCount -= 1;
-        count = _combatCasterRefCount;
-        releasedCount = count;
+        int count = _combatCasterRefCount;
+        int releasedCount = count;
         if (count == 0)
         {
             Dispose();
@@ -33,7 +31,4 @@ public partial class CombatSpellCaster(CustomNode owner) : EngineObject(owner)
 
         return releasedCount;
     }
-
-    // intf_P4_02.inc:1012
-
 }

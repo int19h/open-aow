@@ -4,7 +4,7 @@ using Aow.Graphics;
 namespace Aow.Game.Draw.Images;
 
 // a bit mask shown as a shadow, darkening the 16 bit surface under the set bits (ClassID $14)
-public partial class Shadow(CustomImageLibrary owner) : BitMask(owner), ILibraryImageClass
+public class Shadow(CustomImageLibrary owner) : BitMask(owner), ILibraryImageClass
 {
     static int ILibraryImageClass.ClassId => 20;
     static string ILibraryImageClass.Name => "Shadow";
@@ -13,7 +13,7 @@ public partial class Shadow(CustomImageLibrary owner) : BitMask(owner), ILibrary
 
     // ImageLib.pas:5106
     // { SupportShowMode asks TLibraryImage, which supports nothing. }
-    public override bool SupportShowMode(ShowMode showMode, PixelFormat pixelFormatId) => (pixelFormatId == PixelFormat.Rgb565 || pixelFormatId == PixelFormat.Rgb555) && base.SupportShowMode(showMode, pixelFormatId);
+    public override bool SupportShowMode(ShowMode showMode, PixelFormat pixelFormatId) => (pixelFormatId is PixelFormat.Rgb565 or PixelFormat.Rgb555) && base.SupportShowMode(showMode, pixelFormatId);
 
     // ImageLib.pas:5122
     public override void ShowOpaque(int X, int Y, in LockedSurface lockedSurface)

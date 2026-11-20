@@ -47,7 +47,7 @@ public sealed class MemoryProbeTests
 
         probe.Fact("maximum_score", ObjectToInt(list[0]));
         list[0] = IntToObject(0);
-        probe.Fact("zero_is_nil", Ord(list[0] == null));
+        probe.Fact("zero_is_nil", Ord(list[0] is null));
         list[0] = stored;
         probe.Fact("object_identity", Ord(ObjectToInt(list[0]) == ObjectToInt(stored)));
         probe.Fact("object_recovered", Ord(ReferenceEquals(list[0], stored)));
@@ -94,10 +94,10 @@ public sealed class MemoryProbeTests
         items[2] = item;
         Ptr<object?>.Fill(items + 1, 2, null);
         probe.Fact("first", Ord(items[0] == item));
-        probe.Fact("second", Ord(items[1] == null));
-        probe.Fact("third", Ord(items[2] == null));
+        probe.Fact("second", Ord(items[1] is null));
+        probe.Fact("third", Ord(items[2] is null));
         Ptr<object?>.Fill(items, 3, null);
-        probe.Fact("root", Ord(items[0] == null && items[1] == null && items[2] == null));
+        probe.Fact("root", Ord(items[0] is null && items[1] is null && items[2] is null));
         probe.End();
     }
 }

@@ -250,7 +250,7 @@ public sealed class ResourcePayloadTests
         List<int> indices = [];
         for (int i = 0; i < list.Count; i++)
         {
-            for (ImageSequence sequence = list.GetImageSequence(i); sequence != null; sequence = sequence.Next)
+            for (ImageSequence sequence = list.GetImageSequence(i); sequence is not null; sequence = sequence.Next)
             {
                 indices.Add(sequence.ImageIndex);
             }

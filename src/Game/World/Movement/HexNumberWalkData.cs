@@ -64,5 +64,4 @@ public struct HexNumberWalkData
         walk.Y = hexY - radius;
         walk.Step = 0;
     }
-
 }

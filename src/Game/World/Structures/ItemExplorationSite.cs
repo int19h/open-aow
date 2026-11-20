@@ -17,7 +17,7 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Game.World.Structures;
 
 // ItemCount, Items
-public partial class ItemExplorationSite : ExplorationSite
+public class ItemExplorationSite : ExplorationSite
 {
     public ItemExplorationSite(CustomNode owner) : base(owner)
     {
@@ -47,8 +47,6 @@ public partial class ItemExplorationSite : ExplorationSite
         persister.Object("Items", objectValue: _items);
         _itemCount = persister.RawByte("ItemCount", value: _itemCount);
     }
-
-    // ItemExpS.pas:88
 
     // ItemExpS.pas:114
     public override void Activate()
@@ -83,13 +81,10 @@ public partial class ItemExplorationSite : ExplorationSite
     // ItemExpS.pas:152
     public override void ExecuteSearchDone(CombatType combatType, CombatResult combatResult)
     {
-        ArmyHexSprite army;
-        ItemExplorationSiteEventLog log;
-        Item item = default;
         if (Set<CombatResult>.Of(CombatResult.Victory, CombatResult.NoDefenders).Contains(combatResult))
         {
-            army = Owner.GetArmyHexSprite();
-            log = new ItemExplorationSiteEventLog(null)
+            ArmyHexSprite army = Owner.GetArmyHexSprite();
+            ItemExplorationSiteEventLog log = new(null)
             {
                 Holder = CreationHolder(),
                 Player = army.Army.Player,
@@ -98,7 +93,7 @@ public partial class ItemExplorationSite : ExplorationSite
             };
             for (int i = _items.Count - 1; i >= 0; i--)
             {
-                item = _items.GetItem(i);
+                Item item = _items.GetItem(i);
                 _ = log.ItemIds.Add(item.ItemId);
                 _ = item.PlaceOnMap(level: GetHexLevel(), y: GetHexY(), x: GetHexX(), map: StrategicMap.Current);
             }
@@ -117,7 +112,6 @@ public partial class ItemExplorationSite : ExplorationSite
     // ItemExpS.pas:130
     public virtual void Generate()
     {
-        Item item;
         if (_itemCount != 0)
         {
             RandSeed = StrategicMap.Current.Random(16777215);
@@ -129,7 +123,7 @@ public partial class ItemExplorationSite : ExplorationSite
             _items.Clear();
             for (int itemOrdinal = 1, last = _itemCount; itemOrdinal <= last; itemOrdinal++)
             {
-                item = StrategicMap.Current.ItemControl.GenerateItem(s_itAll, 0, 65535);
+                Item item = StrategicMap.Current.ItemControl.GenerateItem(s_itAll, 0, 65535);
                 item?.Owner = _items;
             }
         }
@@ -138,9 +132,4 @@ public partial class ItemExplorationSite : ExplorationSite
     private static readonly string s_itemsExploredFormat = "\"From the %s\",\"you recovered the following items:\"";
     private static readonly string s_itemsFoundText = "Items Found";
     private static readonly Set<ItemType> s_itAll = Set<ItemType>.FromMask(127uL);
-
-    // ItemExpS.pas:32
-
-    // ItemExpS.pas:32
-
 }

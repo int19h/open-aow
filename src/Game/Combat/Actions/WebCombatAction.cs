@@ -9,7 +9,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Combat.Actions;
 
 // (successful)
-public partial class WebCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
+public class WebCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
 {
     public new const int ClassId = 131768;
 
@@ -27,10 +27,9 @@ public partial class WebCombatAction(CustomNode owner) : SingleTargetCombatActio
     // AoWAb.PAS:2778
     public override void Execute(Battle combat)
     {
-        CombatUnit target;
         if (Successful)
         {
-            target = combat.CombatData.FindId<CombatUnit>(TargetId);
+            CombatUnit target = combat.CombatData.FindId<CombatUnit>(TargetId);
             _ = GamePack.Current.AbilityControl.GetAbility(97).Expand(target.Troop);
         }
     }
@@ -68,7 +67,4 @@ public partial class WebCombatAction(CustomNode owner) : SingleTargetCombatActio
         TargetId = targetId;
         Successful = successful;
     }
-
-    // intf_P3_02.inc:38
-
 }

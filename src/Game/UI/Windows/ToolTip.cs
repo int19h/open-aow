@@ -15,7 +15,7 @@ namespace Aow.Game.UI.Windows;
 // FShowing, FControlRect (the control on the screen. the tip shows at its bottom right),
 // FItemIndex, FItemRect (the line being drawn, for OnDrawItem), FLines (Items broken into lines
 // that fit)
-public partial class ToolTip : GenericWindow
+public class ToolTip : GenericWindow
 {
     private readonly DelphiStringList _items;
     [Published]
@@ -48,17 +48,17 @@ public partial class ToolTip : GenericWindow
     // AOWToolTip.pas:79
     public override void Validate()
     {
-        if (ImageLibraryFrame != null)
+        if (ImageLibraryFrame is not null)
         {
             ImageLibraryFrame = ImageLibraryFrame.CheckImageLibrary(ImageLibraryIndexFrame, 8, this);
         }
 
-        if (ImageLibraryTexture != null)
+        if (ImageLibraryTexture is not null)
         {
             ImageLibraryTexture = ImageLibraryTexture.CheckImageLibrary(ImageLibraryIndexTexture, 1, this);
         }
 
-        if (OwnerComponent != null && ImageLibraryFrame != null && ImageLibraryTexture != null && base.Font != null)
+        if (OwnerComponent is not null && ImageLibraryFrame is not null && ImageLibraryTexture is not null && base.Font is not null)
         {
             Valid = true;
         }
@@ -74,10 +74,6 @@ public partial class ToolTip : GenericWindow
     //   top left corner twice (original bugs). }
     public override void SetSize()
     {
-        int i;
-        int w;
-        bool moved;
-        bool done;
         if (OwnerItem != 0)
         {
             SetWinWidthWithoutInvalidate(OwnerItem);
@@ -106,7 +102,7 @@ public partial class ToolTip : GenericWindow
         }
 
         _lines.Clear();
-        i = 0;
+        int i = 0;
         int last = _items.Count - 1;
         for (; i <= last; i += 1)
         {
@@ -119,8 +115,8 @@ public partial class ToolTip : GenericWindow
             i = 0;
             while (i < _lines.Count)
             {
-                moved = false;
-                done = true;
+                bool moved = false;
+                bool done = true;
                 while (true)
                 {
                     bool notDone = !done;
@@ -181,7 +177,7 @@ public partial class ToolTip : GenericWindow
             int count = _lines.Count;
             SetWinHeightWithoutInvalidate(imageLibraryFrame5.Height + imageLibraryFrame6.Height + (BorderHeight * 2) + (count * ItemHeight));
             string line6 = _lines[0];
-            w = base.Font.GetTextWidth(line6);
+            int w = base.Font.GetTextWidth(line6);
             LibraryImage imageLibraryFrame7 = ImageLibraryFrame[ImageLibraryIndexFrame];
             LibraryImage imageLibraryFrame8 = ImageLibraryFrame[ImageLibraryIndexFrame + 2];
             if (w < WinWidth - imageLibraryFrame7.Width - imageLibraryFrame8.Width - (BorderWidth * 2))
@@ -225,8 +221,7 @@ public partial class ToolTip : GenericWindow
     // AOWToolTip.pas:162
     public override void Update()
     {
-        bool b;
-        b = DoubleBuffered;
+        bool b = DoubleBuffered;
         DoubleBuffered = false;
         base.Update();
         DoubleBuffered = b;
@@ -275,7 +270,6 @@ public partial class ToolTip : GenericWindow
     // AOWToolTip.pas:223
     public override void Draw(LockedSurface lockedSurface)
     {
-        Rect oldClip;
         try
         {
             if (Valid && Visible)
@@ -291,7 +285,7 @@ public partial class ToolTip : GenericWindow
                 SizedRectangle rectangle2 = new(WinLeft + imageLibraryFrame4.Width, WinTop + imageLibraryFrame3.Height, WinWidth - imageLibraryFrameWidth.Width - imageLibraryFrame2.Width, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
                 ImageLibraryTexture.DrawTiled(ImageLibraryIndexTexture, rectangle2, ref lockedSurface);
                 base.Font.Color = Color;
-                oldClip = lockedSurface.ClipRectangle;
+                Rect oldClip = lockedSurface.ClipRectangle;
                 if (_lines.Count > 0)
                 {
                     for (int i = 0, last = _lines.Count - 1; i <= last; i++)

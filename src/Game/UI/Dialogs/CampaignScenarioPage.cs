@@ -8,7 +8,7 @@ using Aow.Rtl;
 namespace Aow.Game.UI.Dialogs;
 
 // image library, image index, heading, text
-public partial class CampaignScenarioPage(CustomNode owner) : EngineObject(owner)
+public class CampaignScenarioPage(CustomNode owner) : EngineObject(owner)
 {
 
     // AoWVideoDlg.pas:264

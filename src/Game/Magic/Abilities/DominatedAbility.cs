@@ -3,7 +3,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.Magic.Abilities;
 
-public partial class DominatedAbility : CommandedAbility
+public class DominatedAbility : CommandedAbility
 {
     // AoWAb.PAS:5315
     public DominatedAbility(CustomNode owner, EngineObject holder) : base(owner)

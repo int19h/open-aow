@@ -10,7 +10,7 @@ using static Aow.Rtl.DelphiAssert;
 namespace Aow.Engine.Nodes;
 
 // Engine.TEChangeNotifyNode (16 bytes): +8 FChildren, FUpdateCount. Changed on child changes
-public partial class ObservableNode(CustomNode owner) : CustomNode(owner)
+public class ObservableNode(CustomNode owner) : CustomNode(owner)
 {
 
     // Engine.pas:7246
@@ -32,13 +32,12 @@ public partial class ObservableNode(CustomNode owner) : CustomNode(owner)
     // Engine.pas:7220
     public override void Clear()
     {
-        int i;
+        int i = Count - 1;
         EngineObject c;
-        i = Count - 1;
         for (; i >= 0; i -= 1)
         {
             c = _children.List[i];
-            if (c != null && c.Owner == this)
+            if (c is not null && c.Owner == this)
             {
                 if (!c.GetControlStyle().Contains(EngineServices.Shared))
                 {
@@ -55,7 +54,7 @@ public partial class ObservableNode(CustomNode owner) : CustomNode(owner)
         for (; i >= 0; i -= 1)
         {
             c = _children.List[i];
-            if (c != null)
+            if (c is not null)
             {
                 if (!(c.Owner == this && c.GetControlStyle().Contains(EngineServices.Shared)))
                 {
@@ -65,7 +64,7 @@ public partial class ObservableNode(CustomNode owner) : CustomNode(owner)
         }
 
         i = _children.Count - 1;
-        while (i >= 0 && _children.List[i] == null)
+        while (i >= 0 && _children.List[i] is null)
         {
             _children.Delete(i);
             i -= 1;
@@ -138,9 +137,9 @@ public partial class ObservableNode(CustomNode owner) : CustomNode(owner)
 
         internal UpdateBatch(ObservableNode node) => _node = node;
 
-        public void Dispose() =>
+        public void Dispose()
             // A default batch leaves the field null. The units project compiles this file with nullable off.
-            _node?.EndUpdate();
+            => _node?.EndUpdate();
     }
 
     // Engine.pas:7284
@@ -865,7 +864,7 @@ public partial class ObservableNode(CustomNode owner) : CustomNode(owner)
                 {
                     for (int i = children.Count - 1; i >= 0; i--)
                     {
-                        if (children.List[i] != null)
+                        if (children.List[i] is not null)
                         {
                             EngineObject node = children.List[i];
                             if (node.GetLastMessage() != message.Sequence)
@@ -880,7 +879,7 @@ public partial class ObservableNode(CustomNode owner) : CustomNode(owner)
                 {
                     for (int i = children.Count - 1; i >= 0; i--)
                     {
-                        if (children.List[i] != null)
+                        if (children.List[i] is not null)
                         {
                             EngineObject node = children[i];
                             if (node.GetLastMessage() != message.Sequence && node.Owner == this)
@@ -898,7 +897,7 @@ public partial class ObservableNode(CustomNode owner) : CustomNode(owner)
                 {
                     for (int i = children.Count - 1; i >= 0; i--)
                     {
-                        if (children.List[i] != null)
+                        if (children.List[i] is not null)
                         {
                             EngineObject node = children.List[i];
                             node.MessageProc(ref message, this);
@@ -909,7 +908,7 @@ public partial class ObservableNode(CustomNode owner) : CustomNode(owner)
                 {
                     for (int i = children.Count - 1; i >= 0; i--)
                     {
-                        if (children.List[i] != null)
+                        if (children.List[i] is not null)
                         {
                             EngineObject node = children[i];
                             if (node.Owner == this)
@@ -1016,23 +1015,17 @@ public partial class ObservableNode(CustomNode owner) : CustomNode(owner)
     // Engine.pas:8099
     public override EngineObject FindChild(int classId)
     {
-        EngineObject result;
-        int i;
-        bool found;
-        EngineObject c;
-        i = 0;
-        found = false;
-        c = null;
+        int i = 0;
+        bool found = false;
+        EngineObject c = null;
         while (!found && i < _children.Count)
         {
             c = _children.List[i];
-            found = c != null && classId == c.EngineClass.ClassId;
+            found = c is not null && classId == c.EngineClass.ClassId;
             i += 1;
         }
 
-        result = found ? c : null;
-
-        return result;
+        return found ? c : null;
     }
 
     // Engine.pas:8117
@@ -1107,7 +1100,4 @@ public partial class ObservableNode(CustomNode owner) : CustomNode(owner)
 
         _children.List[index] = child;
     }
-
-    // Engine.pas:680
-
 }

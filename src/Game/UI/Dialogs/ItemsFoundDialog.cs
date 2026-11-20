@@ -33,28 +33,24 @@ public partial class ItemsFoundDialog(UIContext ui) : UIModule(ui)
     // AoWItemsFoundDlg.pas:80
     public Hero GetHero()
     {
-        ArmyHexSprite army;
-        Hero result = null;
-        if (_event != null)
+        if (_event is not null)
         {
-            army = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(_event.Location).GetArmyHexSprite();
-            if (army != null && army.Army.Player == StrategicMap.Current.SeatedPlayer)
+            ArmyHexSprite army = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(_event.Location).GetArmyHexSprite();
+            if (army is not null && army.Army.Player == StrategicMap.Current.SeatedPlayer)
             {
-                result = army.Army.Hero(255, RosterTables.AllHeroTypes);
+                return army.Army.Hero(255, RosterTables.AllHeroTypes);
             }
         }
 
-        return result;
+        return null;
     }
 
     // AoWItemsFoundDlg.pas:66
     public void Finish()
     {
-        ExecuteDoneEvent done;
-        ItemExplorationSiteEventLog eventValue;
         Window.Visible = false;
-        done = OnDone;
-        eventValue = _event;
+        ExecuteDoneEvent done = OnDone;
+        ItemExplorationSiteEventLog eventValue = _event;
         OnDone = null;
         _event = null;
         done?.Invoke(eventValue);
@@ -79,15 +75,13 @@ public partial class ItemsFoundDialog(UIContext ui) : UIModule(ui)
     // AoWItemsFoundDlg.pas:95
     public void Gnd3Draw(CheckBox sender, LockedSurface lockedSurface, int slot)
     {
-        ItemExplorationSiteEventLog eventValue;
-        Item item;
-        eventValue = _event;
-        if (eventValue != null)
+        ItemExplorationSiteEventLog eventValue = _event;
+        if (eventValue is not null)
         {
             if (slot + _itemOffset < eventValue.ItemIds.Count)
             {
                 int itemId = _event.ItemIds[slot + _itemOffset];
-                item = StrategicMap.Current.ItemControl.FindItem(itemId);
+                Item item = StrategicMap.Current.ItemControl.FindItem(itemId);
                 item?.Show(Window.WinLeft + sender.WinLeft, Window.WinTop + sender.WinTop, lockedSurface);
             }
         }
@@ -96,21 +90,19 @@ public partial class ItemsFoundDialog(UIContext ui) : UIModule(ui)
     // AoWItemsFoundDlg.pas:110
     public void PickupBtnClick()
     {
-        Hero hero;
-        TutorialMessageEventLog eventValue;
-        hero = GetHero();
-        if (hero != null)
+        Hero hero = GetHero();
+        if (hero is not null)
         {
             UI.General.SelectedUnit = hero;
             UI.UnitWindow.ShowUnit();
             UI.UnitWindow.UnitTabs.Selected = 2;
             if (StrategicMap.Current.GameType == GameType.Tutorial)
             {
-                eventValue = new TutorialMessageEventLog(null, holder: UI.Engine)
+                TutorialMessageEventLog eventValue = new(null, holder: UI.Engine)
                 {
                     HelpFileName = UI.Engine.TranslateResourceString(GameText.TutorialText)
                 };
-                if (StrategicMap.Current.TextControl.FindId(55) != null)
+                if (StrategicMap.Current.TextControl.FindId(55) is not null)
                 {
                     TextControlItem id = StrategicMap.Current.TextControl.FindId(55);
                     eventValue.Message.Assign(id.Text);
@@ -127,17 +119,15 @@ public partial class ItemsFoundDialog(UIContext ui) : UIModule(ui)
     // AoWItemsFoundDlg.pas:136
     public void Gnd3MouseDown(CheckBox sender, MouseButton button, Set<ShiftState> shift, int X, int Y, int slot)
     {
-        Item item;
-        CheckBox box;
-        box = sender;
+        CheckBox box = sender;
         if (button == MouseButton.Right)
         {
             box.PopupMenu = null;
             if (_itemOffset + slot < _event.ItemIds.Count)
             {
                 int itemId = _event.ItemIds[_itemOffset + slot];
-                item = StrategicMap.Current.ItemControl.FindItem(itemId);
-                if (item != null)
+                Item item = StrategicMap.Current.ItemControl.FindItem(itemId);
+                if (item is not null)
                 {
                     box.PopupMenu = UI.ItemBanner.BannerMenu;
                     ItemBanner.ItemId = item.ItemId;
@@ -177,18 +167,17 @@ public partial class ItemsFoundDialog(UIContext ui) : UIModule(ui)
 
     internal static void ShowItemsFound(ItemsFoundDialog dialog, ItemExplorationSiteEventLog eventValue, ExecuteDoneEvent done)
     {
-        ItemExplorationSiteEventLog log;
         dialog.Reset();
         dialog.OnDone = done;
         dialog._event = eventValue;
         _ = dialog._event.AddRef();
-        log = dialog._event;
+        ItemExplorationSiteEventLog log = dialog._event;
         dialog.TitleLabel.Text = log.Title;
         string text = log.Messages.Text;
         dialog.MessageMemo.Items.Text = text;
         dialog.LeftButton.Visible = log.ItemIds.Count > 5;
         dialog.RightButton.Visible = log.ItemIds.Count > 5;
-        if (dialog.GetHero() == null)
+        if (dialog.GetHero() is null)
         {
             dialog.OKPanel.Visible = true;
         }
@@ -201,5 +190,4 @@ public partial class ItemsFoundDialog(UIContext ui) : UIModule(ui)
         dialog.Window.Drawn = false;
         dialog.Window.Visible = true;
     }
-
 }

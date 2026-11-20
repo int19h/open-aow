@@ -14,7 +14,7 @@ using Aow.Rtl;
 namespace Aow.Game.AI;
 
 // control, selector, range, step, target range, mode
-public partial class AIRecruitmentGroupFinder : AIGroupTask
+public class AIRecruitmentGroupFinder : AIGroupTask
 {
     // AIGroup.pas:1981
     public AIRecruitmentGroupFinder(CustomNode owner) : base(owner) => _selector = new AIMoveTargetSelector(null) { Holder = CreationHolder() };
@@ -85,18 +85,15 @@ public partial class AIRecruitmentGroupFinder : AIGroupTask
     // AIGroup.pas:1998
     public void RecruitGroupFoundEvent(MoveTarget target, ref bool searchDone)
     {
-        ArmyHexSprite armyHexSprite;
-        Troop troop;
-        AIRecruitmentGroup group;
-        armyHexSprite = StrategicMap.Current.MapContainer.GetField(target.Location.X, target.Location.Y, target.Location.MapLevel).GetArmyHexSprite();
-        if (armyHexSprite != null)
+        ArmyHexSprite armyHexSprite = StrategicMap.Current.MapContainer.GetField(target.Location.X, target.Location.Y, target.Location.MapLevel).GetArmyHexSprite();
+        if (armyHexSprite is not null)
         {
             for (int i = armyHexSprite.Army.Units.Count - 1; i >= 0; i--)
             {
-                troop = armyHexSprite.Army.Units.GetUnit(i);
-                if (troop.Group != null && troop.Group.Leader == troop && troop.Group != _control.Group)
+                Troop troop = armyHexSprite.Army.Units.GetUnit(i);
+                if (troop.Group is not null && troop.Group.Leader == troop && troop.Group != _control.Group)
                 {
-                    group = new AIRecruitmentGroup(null) { Holder = CreationHolder() };
+                    AIRecruitmentGroup group = new(null) { Holder = CreationHolder() };
                     group.SetGroup(troop.Group);
                     group.Location = target.Location;
                     group.MovePoints = target.MovePoints;
@@ -128,7 +125,4 @@ public partial class AIRecruitmentGroupFinder : AIGroupTask
     {
         CalculateMovePathBfs = 0
     }
-
-    // intf_P5_07.inc:356
-
 }

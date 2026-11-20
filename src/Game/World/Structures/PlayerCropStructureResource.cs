@@ -8,7 +8,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.World.Structures;
 
 // CropLocations
-public partial class PlayerCropStructureResource(CustomNode owner) : PlayerStructureResource(owner)
+public class PlayerCropStructureResource(CustomNode owner) : PlayerStructureResource(owner)
 {
 
     // Crops.pas:599
@@ -30,10 +30,7 @@ public partial class PlayerCropStructureResource(CustomNode owner) : PlayerStruc
         base.MessageProc(ref message, sender);
         if (message.MessageId == 536870920)
         {
-            if (CropLocations != null)
-            {
-                CropLocations?.Dispose();
-            }
+            CropLocations?.Dispose();
 
             CropLocations = TerrainList.CreateSurroundingHexNumberTable();
         }

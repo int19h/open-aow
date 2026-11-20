@@ -13,18 +13,14 @@ using static Aow.Rtl.Heap;
 
 namespace Aow.Engine.Collections;
 
-public partial class ByteList : Persistent
+public class ByteList : Persistent
 {
     private byte[] _list = [];
     private int _count;
     private int _capacity;
 
     // Engine.pas:3678
-    internal byte Get(int index)
-    {
-        byte result = index < 0 || index >= _count ? Default : _list[index];
-        return result;
-    }
+    internal byte Get(int index) => index < 0 || index >= _count ? Default : _list[index];
 
     // Engine.pas:3732
     internal void Put(int index, byte item)
@@ -87,24 +83,17 @@ public partial class ByteList : Persistent
             result = $"{result}{IntToStr(_list[i])},";
         }
 
-        if (!IsEmpty(result))
-        {
-            result = Copy(result, 1, result.Length - 1);
-        }
-
-        return result;
+        return !IsEmpty(result) ? Copy(result, 1, result.Length - 1) : result;
     }
 
     // Engine.pas:3894
     internal void SetItemString(string S)
     {
-        string item;
-        int p;
-        int v;
         Clear();
-        p = Pos(",", S);
+        int p = Pos(",", S);
         while (!IsEmpty(S))
         {
+            string item;
             if (p != 0)
             {
                 item = Copy(S, 1, p - 1);
@@ -116,7 +105,7 @@ public partial class ByteList : Persistent
                 S = "";
             }
 
-            v = !IsEmpty(item) ? StrToInt(item) : 0;
+            int v = !IsEmpty(item) ? StrToInt(item) : 0;
 
             if (v > 255)
             {
@@ -193,7 +182,6 @@ public partial class ByteList : Persistent
     // Engine.pas:3656
     public void Exchange(int index1, int index2)
     {
-        byte item;
         if (index1 < 0 || index1 >= _count)
         {
             Error("List index out of bounds (%d)", index1);
@@ -204,9 +192,7 @@ public partial class ByteList : Persistent
             Error("List index out of bounds (%d)", index2);
         }
 
-        item = _list[index1];
-        _list[index1] = _list[index2];
-        _list[index2] = item;
+        (_list[index2], _list[index1]) = (_list[index1], _list[index2]);
     }
 
     // Engine.pas:3667
@@ -232,12 +218,7 @@ public partial class ByteList : Persistent
             result += 1;
         }
 
-        if (result == _count)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == _count ? -1 : result;
     }
 
     // Engine.pas:3703
@@ -268,7 +249,6 @@ public partial class ByteList : Persistent
     // Engine.pas:3719
     public void Move(int currentIndex, int newIndex)
     {
-        byte item;
         if (currentIndex != newIndex)
         {
             if (newIndex < 0 || newIndex >= _count)
@@ -276,7 +256,7 @@ public partial class ByteList : Persistent
                 Error("List index out of bounds (%d)", newIndex);
             }
 
-            item = Get(currentIndex);
+            byte item = Get(currentIndex);
             Delete(currentIndex);
             Insert(newIndex, item);
         }
@@ -322,12 +302,10 @@ public partial class ByteList : Persistent
     public int RandomChanceItem(int bonus)
     {
         int result;
-        int total;
-        int chance;
-        int r;
         if (_count != 0)
         {
-            total = 0;
+            int total = 0;
+            int chance;
             for (int i = _count - 1; i >= 0; i--)
             {
                 chance = _list[i] + bonus;
@@ -339,7 +317,7 @@ public partial class ByteList : Persistent
                 total += chance;
             }
 
-            r = Random(total);
+            int r = Random(total);
             total = 0;
             result = 0;
             while (total < r)
@@ -356,7 +334,7 @@ public partial class ByteList : Persistent
         }
         else
         {
-            result = -1;
+            return -1;
         }
 
         return result;
@@ -376,7 +354,6 @@ public partial class ByteList : Persistent
 
     private static void QuickSortByte(Span<byte> sortList, int L, int R, ByteSortCompare sCompare)
     {
-        byte b = 0;
         int number;
         do
         {
@@ -396,9 +373,7 @@ public partial class ByteList : Persistent
                 }
                 if (number <= number2)
                 {
-                    b = sortList[number];
-                    sortList[number] = sortList[number2];
-                    sortList[number2] = b;
+                    (sortList[number2], sortList[number]) = (sortList[number], sortList[number2]);
                     number++;
                     number2--;
                 }

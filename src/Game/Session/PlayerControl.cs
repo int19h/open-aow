@@ -26,7 +26,7 @@ using static Aow.Rtl.DelphiStrings;
 namespace Aow.Game.Session;
 
 // exit callback, exit mode, password, disconnected-player list, sync warning shown
-public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
+public class PlayerControl(CustomNode owner) : EngineObject(owner)
 {
 
     private ExitGameCallBack _exitCallback;
@@ -38,7 +38,7 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
     // PlayerC.PAS:7
     public override void Dispose()
     {
-        if (StrategicMap.Current != null && StrategicMap.Current.TokenManager != null)
+        if (StrategicMap.Current is not null && StrategicMap.Current.TokenManager is not null)
         {
             TokenExecutor tokenExecutor = StrategicMap.Current.TokenManager.TokenExecutor;
             tokenExecutor.ClearGetSyncValueHandler();
@@ -59,15 +59,12 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
     // PlayerC.PAS:76
     public virtual void NewDay()
     {
-        EngineMessage message = default;
-        TextEventLog log = default;
-        MessageEventLog messageLog;
         StrategicMap.Current.Day += 1;
         StrategicMap.Current.Players.BeginUpdate();
         StrategicMap.Current.LockRelationsChanged();
         for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {
-            log = new NewDayEventLog(null)
+            TextEventLog log = new NewDayEventLog(null)
             {
                 Holder = CreationHolder(),
                 Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_newDayFormat), [StrategicMap.Current.Day])
@@ -102,7 +99,7 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
 
         try
         {
-            EngineMessage.InitializeMessage(out message, 537001985, this);
+            EngineMessage.InitializeMessage(out EngineMessage message, 537001985, this);
             StrategicMap.Current.SendMessage(ref message, this);
         }
         catch
@@ -119,7 +116,7 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
 
         if (StrategicMap.Current.DayLimit == StrategicMap.Current.Day)
         {
-            messageLog = new MessageEventLog(null, holder: CreationHolder())
+            MessageEventLog messageLog = new(null, holder: CreationHolder())
             {
                 Title = AbilityRules.TranslateResourceString(GetEngine(), GameText.InfoText),
                 Buttons = MessageEventLogButtons.Ok,
@@ -242,10 +239,9 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
     // PlayerC.PAS:19
     public virtual void Setup()
     {
-        LocalPlayerCommunicationControl playerCommunicationControl = default;
         if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Network && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            if (StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl == null)
+            if (StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl is null)
             {
                 throw new InvalidOperationException("Please setup DirectPlayPCC");
             }
@@ -256,9 +252,9 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
         }
         else
         {
-            if ((StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || Set<PlayerConnectionType>.Of(PlayerConnectionType.Local, PlayerConnectionType.Email).Contains(StrategicMap.Current.ConnectionType)) && StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl == null)
+            if ((StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || Set<PlayerConnectionType>.Of(PlayerConnectionType.Local, PlayerConnectionType.Email).Contains(StrategicMap.Current.ConnectionType)) && StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl is null)
             {
-                playerCommunicationControl = new LocalPlayerCommunicationControl(this);
+                LocalPlayerCommunicationControl playerCommunicationControl = new(this);
                 playerCommunicationControl.Setup(StrategicMap.Current.Players.Count);
                 for (int i = 0, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
                 {
@@ -368,9 +364,9 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
     // PlayerC.PAS:388
     public virtual void ExitGame(ExitGameMode mode, ExitGameCallBack done)
     {
-        MessageEventLog log = default;
-        if (StrategicMap.Current.Combat == null)
+        if (StrategicMap.Current.Combat is null)
         {
+            MessageEventLog log;
             if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Network && StrategicMap.Current.GameStatus != StrategicMapGameStatus.Terminated && StrategicMap.Current.GameType != GameType.Tutorial && StrategicMap.Current.Players.LocalPlayers.Count > 1)
             {
                 if (StrategicMap.Current.PlayMode == PlayMode.Simultaneous || StrategicMap.Current.CurrentPlayer == StrategicMap.Current.SeatedPlayer)
@@ -408,7 +404,7 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
             {
                 if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Modified) && StrategicMap.Current.GameStatus != StrategicMapGameStatus.Terminated && StrategicMap.Current.GameType != GameType.Tutorial)
                 {
-                    if (!(_exitCallback != null))
+                    if (_exitCallback is null)
                     {
                         if (mode != ExitGameMode.Reload)
                         {
@@ -419,7 +415,7 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
                                 Title = AbilityRules.TranslateResourceString(GetEngine(), ConfirmText),
                                 Buttons = MessageEventLogButtons.YesNoCancel
                             };
-                            if (GetEngine().Campaign == null && !IsEmpty(StrategicMap.Current.FileName) && !DocumentKind.Map.HasExtension(ExtractFileExt(StrategicMap.Current.FileName)))
+                            if (GetEngine().Campaign is null && !IsEmpty(StrategicMap.Current.FileName) && !DocumentKind.Map.HasExtension(ExtractFileExt(StrategicMap.Current.FileName)))
                             {
                                 log.Layout = MessageEventLogLayout.Normal;
                                 // The message names the file the save writes (own-formats.md 4.2).
@@ -429,7 +425,7 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
                             }
                             else
                             {
-                                if (GetEngine().Campaign != null && !IsEmpty(GetEngine().Campaign.FileName) && !DocumentKind.CampaignMap.HasExtension(ExtractFileExt(StrategicMap.Current.FileName)))
+                                if (GetEngine().Campaign is not null && !IsEmpty(GetEngine().Campaign.FileName) && !DocumentKind.CampaignMap.HasExtension(ExtractFileExt(StrategicMap.Current.FileName)))
                                 {
                                     // { Original tests the map extension when saving a campaign. }
                                     log.Layout = MessageEventLogLayout.Normal;
@@ -473,13 +469,12 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
     // PlayerC.PAS:153
     public virtual void EndTurn(sbyte player)
     {
-        Player p;
         StrategicMap.Current.LockRelationsChanged();
         if (player == StrategicMap.Current.SeatedPlayer)
         {
-            p = StrategicMap.Current.Players.GetPlayers(player);
+            Player p = StrategicMap.Current.Players.GetPlayers(player);
             p.SetEndTurn(true);
-            if (p != null)
+            if (p is not null)
             {
                 StrategicMap.Current.GetViewCenter(out int x, out int y, out int l);
                 p.View = new MapCoordinate(unchecked((sbyte)(byte)x), unchecked((sbyte)(byte)y), unchecked((sbyte)(byte)l));
@@ -507,17 +502,14 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
     // PlayerC.PAS:518
     public virtual void ValidateDisconnectedPlayers()
     {
-        int player;
-        int count;
-        PlayerConnectionEventLog log;
         for (int i = _disconnectedPlayers.Count - 1; i >= 0; i--)
         {
-            player = _disconnectedPlayers[i].First;
+            int player = _disconnectedPlayers[i].First;
             if (StrategicMap.Current.Players.GetPlayers(player).GameOverStatus == GameOverStatus.None)
             {
                 if (StrategicMap.Current.TokenManager.PlayerReady(StrategicMap.Current.CurrentPlayer) && StrategicMap.Current.TokenManager.TokenExecutor.ActiveTacticalBattle.Count == 0)
                 {
-                    count = _disconnectedPlayers[i].Second;
+                    int count = _disconnectedPlayers[i].Second;
                     if (count > 0)
                     {
                         count -= 1;
@@ -526,7 +518,7 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
 
                     if (count == 0)
                     {
-                        log = new PlayerConnectionEventLog(null, holder: CreationHolder());
+                        PlayerConnectionEventLog log = new(null, holder: CreationHolder());
                         log.Setup((sbyte)player, 2);
                         StrategicMap.Current.TriggerExecuteEventLog(log, false, null);
                         _ = log.Release();
@@ -544,8 +536,7 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
     // PlayerC.PAS:556
     public virtual void ConnectionLost()
     {
-        PlayerConnectionEventLog log;
-        log = new PlayerConnectionEventLog(null, holder: CreationHolder());
+        PlayerConnectionEventLog log = new(null, holder: CreationHolder());
         log.Setup(-1, 2);
         StrategicMap.Current.TriggerExecuteEventLog(log, false, null);
         _ = log.Release();
@@ -560,14 +551,13 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
     // PlayerC.PAS:54
     public void OutOfSync(object sender)
     {
-        PlayerConnectionEventLog log;
         if (StrategicMap.Current.TokenManager.TokenExecutor.ActiveTacticalBattle.Active)
         {
             if (!_outOfSyncShown)
             {
-                log = new PlayerConnectionEventLog(null, holder: CreationHolder());
+                PlayerConnectionEventLog log = new(null, holder: CreationHolder());
                 log.Setup(-1, 3);
-                StrategicMap.Current.TriggerExecuteEventLog(log, StrategicMap.Current.Combat != null, null);
+                StrategicMap.Current.TriggerExecuteEventLog(log, StrategicMap.Current.Combat is not null, null);
                 _ = log.Release();
                 _outOfSyncShown = true;
             }
@@ -581,14 +571,11 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
     // PlayerC.PAS:295
     public void ListPlayerInfo(DelphiStringCollection strings)
     {
-        int race;
-        string text;
-        PlayerCommunicationControl playerCommunicationControl;
-        playerCommunicationControl = StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl;
+        PlayerCommunicationControl playerCommunicationControl = StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl;
         for (int i = 0, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {
-            text = $"Player {IntToStr(i)}";
-            race = StrategicMap.Current.Players.GetPlayers(i).PlayerRace;
+            string text = $"Player {IntToStr(i)}";
+            int race = StrategicMap.Current.Players.GetPlayers(i).PlayerRace;
             if (race != -1)
             {
                 string raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNamesPluralTexts[race]);
@@ -607,7 +594,7 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
     {
         if (!IsEmpty(log.FileName))
         {
-            if (GetEngine().Campaign != null)
+            if (GetEngine().Campaign is not null)
             {
                 GetEngine().SaveCampaign(log.FileName);
             }
@@ -630,12 +617,11 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
     // PlayerC.PAS:326
     public void SaveGameOnExitCallback(MessageEventLog log)
     {
-        SaveGameEventLog saveLog = default;
         if (log.PressedButton == PressedEventLogButton.Yes)
         {
-            if ((GetEngine().Campaign == null && (IsEmpty(StrategicMap.Current.FileName) || DocumentKind.Map.HasExtension(ExtractFileExt(StrategicMap.Current.FileName)))) || (GetEngine().Campaign != null && (IsEmpty(GetEngine().Campaign.FileName) || DocumentKind.CampaignMap.HasExtension(ExtractFileExt(StrategicMap.Current.FileName)))))
+            if ((GetEngine().Campaign is null && (IsEmpty(StrategicMap.Current.FileName) || DocumentKind.Map.HasExtension(ExtractFileExt(StrategicMap.Current.FileName)))) || (GetEngine().Campaign is not null && (IsEmpty(GetEngine().Campaign.FileName) || DocumentKind.CampaignMap.HasExtension(ExtractFileExt(StrategicMap.Current.FileName)))))
             {
-                saveLog = new SaveGameEventLog(null, holder: CreationHolder());
+                SaveGameEventLog saveLog = new(null, holder: CreationHolder());
                 if (!IsEmpty(StrategicMap.Current.FileName))
                 {
                     saveLog.DefaultName = ExtractFileName(StrategicMap.Current.FileName);
@@ -658,7 +644,7 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
                 GameEngine engine = GetEngine();
                 // The save writes the own sibling of an original's name, which stays untouched
                 // (own-formats.md 4.2).
-                if (engine.Campaign != null)
+                if (engine.Campaign is not null)
                 {
                     engine.SaveCampaign(FileBoundary.WriteName(engine.Campaign.FileName));
                 }
@@ -697,12 +683,11 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
     // PlayerC.PAS:372
     public void ExitNetworkGameCallback(MessageEventLog log)
     {
-        TerminatePlayerTokenEvent tokenEvent;
         if (log.PressedButton == PressedEventLogButton.Yes)
         {
             if (StrategicMap.Current.PlayMode == PlayMode.Simultaneous || StrategicMap.Current.CurrentPlayer == StrategicMap.Current.SeatedPlayer)
             {
-                tokenEvent = new TerminatePlayerTokenEvent(null)
+                TerminatePlayerTokenEvent tokenEvent = new(null)
                 {
                     Holder = CreationHolder(),
                     Player = StrategicMap.Current.SeatedPlayer,
@@ -718,10 +703,9 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
     // PlayerC.PAS:471
     public void PasswordTryAgainCallback(MessageEventLog log)
     {
-        PasswordEventLog passwordLog = default;
         if (log.PressedButton == PressedEventLogButton.Yes)
         {
-            passwordLog = new PasswordEventLog(null, holder: CreationHolder());
+            PasswordEventLog passwordLog = new(null, holder: CreationHolder());
             StrategicMap.Current.TriggerTypedExecuteEventLog(passwordLog, false, ValidatePasswordCallback);
             _ = passwordLog.Release();
         }
@@ -734,12 +718,10 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
     // PlayerC.PAS:484
     public void ValidatePasswordCallback(PasswordEventLog log)
     {
-        string password = "";
-        MessageEventLog messageLog = default;
-        password = AbilityRules.Encode(log.Password);
+        string password = AbilityRules.Encode(log.Password);
         if (log.PressedButton != PressedEventLogButton.Ok || password != _password)
         {
-            messageLog = new MessageEventLog(null, holder: CreationHolder())
+            MessageEventLog messageLog = new(null, holder: CreationHolder())
             {
                 Title = AbilityRules.TranslateResourceString(GetEngine(), GameText.WarningText),
                 Buttons = MessageEventLogButtons.YesNo
@@ -761,14 +743,13 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
     // PlayerC.PAS:504
     public void ValidatePassword(string password)
     {
-        PasswordEventLog log = default;
         if (StrategicMap.Current.SeatedPlayer != -1)
         {
             SetSeatedPlayer(-1);
         }
 
         _password = password;
-        log = new PasswordEventLog(null, holder: CreationHolder());
+        PasswordEventLog log = new(null, holder: CreationHolder());
         StrategicMap.Current.TriggerTypedExecuteEventLog(log, false, ValidatePasswordCallback);
         _ = log.Release();
     }
@@ -794,9 +775,4 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
     private static readonly string s_doYouWantToSaveThisGameText = "Do you want to save this game?";
     private static readonly string s_passwordFailedText = "Password failed!";
     private static readonly string s_doYouWantToTryAgainText = "Do you want to try again?";
-
-    // intf_P1_04.inc:26
-
-    // intf_P1_04.inc:26
-
 }

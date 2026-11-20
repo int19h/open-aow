@@ -27,20 +27,19 @@ public partial class Arena(CustomNode owner) : Structure(owner)
     // Arena.pas:135
     public override ExecuteResult ExecuteTokenEvent(StructureTokenEvent tokenEvent, TokenExecutor executor)
     {
-        Troop troop;
-        string errorText = "";
         ExecuteResult result = base.ExecuteTokenEvent(tokenEvent, executor);
         if (tokenEvent.Action == 1)
         {
             // Arena.CreateTokenEvent constructs ArenaTokenEvent for Arena actions.
             ArenaTokenEvent arenaTokenEvent = (ArenaTokenEvent)tokenEvent;
+            string errorText = "";
             if (CanTrainUnits((sbyte)tokenEvent.Param, arenaTokenEvent.UnitIds, ref errorText))
             {
                 for (int i = 0, last = arenaTokenEvent.UnitIds.Count - 1; i <= last; i++)
                 {
                     int unitId = arenaTokenEvent.UnitIds[i];
-                    troop = StrategicMap.Current.UnitControl.FindUnit(unitId);
-                    if (troop != null)
+                    Troop troop = StrategicMap.Current.UnitControl.FindUnit(unitId);
+                    if (troop is not null)
                     {
                         Player player = StrategicMap.Current.Players.GetPlayers(tokenEvent.Param);
                         int unitTrainCost = UnitTrainCost(troop);
@@ -74,16 +73,13 @@ public partial class Arena(CustomNode owner) : Structure(owner)
     // Arena.pas:101
     public int UnitTrainCost(Troop troop)
     {
-        int result;
         if (troop is Hero)
         {
             // { The original rejects heroes, although ExecuteTrainUnit supports them. }
             return -1;
         }
 
-        result = troop is Unit unitLocal && unitLocal.GetRank() != Unit.Rank.Gold ? (unitLocal.GetNextLevelExperience() - troop.GetExperience()) * 5 : -1;
-
-        return result;
+        return troop is Unit unitLocal && unitLocal.GetRank() != Unit.Rank.Gold ? (unitLocal.GetNextLevelExperience() - troop.GetExperience()) * 5 : -1;
     }
 
     // Arena.pas:116
@@ -110,23 +106,19 @@ public partial class Arena(CustomNode owner) : Structure(owner)
     public bool CanTrainUnits(sbyte player, Int32List units, ref string errorText)
     {
         bool result;
-        int total;
-        int i;
-        int cost;
-        Troop troop;
         if (units.Count != 0)
         {
-            total = 0;
-            i = units.Count;
+            int total = 0;
+            int i = units.Count;
             result = true;
             while (result && i != 0)
             {
                 i -= 1;
                 int unit = units[i];
-                troop = StrategicMap.Current.UnitControl.FindUnit(unit);
-                if (troop != null)
+                Troop troop = StrategicMap.Current.UnitControl.FindUnit(unit);
+                if (troop is not null)
                 {
-                    cost = UnitTrainCost(troop);
+                    int cost = UnitTrainCost(troop);
                     if (cost != -1)
                     {
                         total += cost;
@@ -146,7 +138,7 @@ public partial class Arena(CustomNode owner) : Structure(owner)
             {
                 if (StrategicMap.Current.Players.GetPlayers(player).Gems >= total)
                 {
-                    result = true;
+                    return true;
                 }
                 else
                 {
@@ -167,53 +159,42 @@ public partial class Arena(CustomNode owner) : Structure(owner)
     // Arena.pas:194
     public bool TrainUnits(sbyte player, Int32List units, out string errorText)
     {
-        bool result;
-        ArenaTokenEvent tokenEvent;
         errorText = "";
         if (CanTrainUnits(player, units, ref errorText) && !StrategicMap.Current.Players.GetPlayers(player).GetBusy())
         {
-            tokenEvent = CreateTokenEvent();
+            ArenaTokenEvent tokenEvent = CreateTokenEvent();
             SetupTokenEvent(tokenEvent);
             tokenEvent.UnitIds.Assign(units);
             tokenEvent.Param = player;
             tokenEvent.Action = 1;
             StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(tokenEvent);
             _ = tokenEvent.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Arena.pas:215
     public bool CanEnter(sbyte player)
     {
-        bool result;
-        ArmyHexSprite army;
-        army = Owner.GetArmyHexSprite();
-        result = army != null && army.Army.Player == player;
-
-        return result;
+        ArmyHexSprite army = Owner.GetArmyHexSprite();
+        return army is not null && army.Army.Player == player;
     }
 
     // Arena.pas:223
     public bool Enter()
     {
-        bool result = default;
-        EnterArenaEventLog log;
-        ArmyHexSprite army;
         if (CanEnter(StrategicMap.Current.SeatedPlayer))
         {
-            log = new EnterArenaEventLog(null)
+            EnterArenaEventLog log = new(null)
             {
                 Holder = CreationHolder(),
                 Arena = this
             };
-            army = Owner.GetArmyHexSprite();
+            ArmyHexSprite army = Owner.GetArmyHexSprite();
             for (int i = 0, last = army.Army.Units.Count - 1; i <= last; i++)
             {
                 Troop troop = army.Army.Units.GetUnit(i);
@@ -226,32 +207,26 @@ public partial class Arena(CustomNode owner) : Structure(owner)
 
             _ = log.Execute(true, ExecuteTrigger.User, null);
             _ = log.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     private static readonly string s_oneUnitTrainedText = "1 unit trained";
     private static readonly string s_unitsTrainedFormat = "%s units trained";
 
-    public new partial class Resource : StructureResource
+    public new class Resource : StructureResource
     {
         public Resource(CustomNode owner) : base(owner) => CastsShadow = true;
 
         // Arena.pas:253
         public new const int ClassId = 133277;
 
-        // Arena.pas:244
-
         // Arena.pas:256
         public override int ResourceUserClassId() => 133276;
-
-        // Arena.pas:45
 
         // Arena.pas:250
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_arenaText);
@@ -259,5 +234,4 @@ public partial class Arena(CustomNode owner) : Structure(owner)
         private static readonly string s_arenaText = "Arena";
 
     }
-
 }

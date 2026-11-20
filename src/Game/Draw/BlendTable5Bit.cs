@@ -23,5 +23,4 @@ public partial class BlendTable5Bit : BlendTable
         result.Assign(this);
         return result;
     }
-
 }

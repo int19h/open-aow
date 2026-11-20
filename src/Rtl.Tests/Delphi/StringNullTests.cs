@@ -31,14 +31,34 @@ public sealed class StringNullTests
             () => Cp1252.Compare(null, ""), () => Cp1252.Compare("", null),
             () => Cp1252.Comparer.Compare(null, ""), () => Cp1252.Comparer.Compare("", null),
             () => { Assert.Equal(actual: Cp1252.Normalize(null), expected: ""); },
-            () => { FormatArg value = (string?)null; Assert.True(value is string text && text.Length == 0); },
+            () =>
+            {
+                FormatArg value = (string?)null;
+                Assert.True(value is string text && text.Length == 0);
+            },
             () => DelphiStrings.Length(null), () => DelphiStrings.IsEmpty(null),
             () => DelphiStrings.Copy(null, 1, 1), () => DelphiStrings.Delete(null, 1, 1),
             () => DelphiStrings.Insert(null, "", 1), () => DelphiStrings.Insert("", null, 1),
-            () => { string value = null!; DelphiStrings.Delete(ref value, 1, 1); },
-            () => { string value = null!; DelphiStrings.Insert("", ref value, 1); },
-            () => { string value = ""; DelphiStrings.Insert(null, ref value, 1); },
-            () => { string value = null!; DelphiStrings.SetLength(ref value, 1); },
+            () =>
+            {
+                string value = null!;
+                DelphiStrings.Delete(ref value, 1, 1);
+            },
+            () =>
+            {
+                string value = null!;
+                DelphiStrings.Insert("", ref value, 1);
+            },
+            () =>
+            {
+                string value = "";
+                DelphiStrings.Insert(null, ref value, 1);
+            },
+            () =>
+            {
+                string value = null!;
+                DelphiStrings.SetLength(ref value, 1);
+            },
             () => DelphiStrings.Pos(null, ""), () => DelphiStrings.Pos("", null),
             () => DelphiStrings.AnsiPos(null, ""), () => DelphiStrings.AnsiPos("", null),
             () => DelphiStrings.Resized(null, 1), () => PCharStrings.NullTerminatedText(null),

@@ -8,7 +8,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // inherited name, ability ID, selection types, ability type
-public partial class EntangledAbility : UnitEnchantmentAbility
+public class EntangledAbility : UnitEnchantmentAbility
 {
     // PassiveAb.pas:620
     public EntangledAbility(CustomNode owner, EngineObject holder) : base(owner)

@@ -18,7 +18,7 @@ using static Aow.Rtl.DelphiRounding;
 namespace Aow.Game.Commands;
 
 // angle, animation, selected army identity
-public partial class VortexTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
+public class VortexTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
 {
 
     // GlobalTargetSpells.pas:1905
@@ -46,14 +46,6 @@ public partial class VortexTokenEvent(CustomNode owner) : GlobalTargetSpellToken
     // GlobalTargetSpells.pas:1991
     public override bool Process(Troop source, int value)
     {
-        bool result = default;
-        Animation animation = default;
-        ArmyEventLog log = default;
-        byte selection = default;
-        bool damaged = default;
-        int damage = default;
-        ArmyHexSprite army = default;
-        Troop troopObject = default;
         if (value == 0)
         {
             _angle = 0;
@@ -65,7 +57,7 @@ public partial class VortexTokenEvent(CustomNode owner) : GlobalTargetSpellToken
                 _ = GamePack.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
             }
 
-            animation = new Animation(null) { Holder = CreationHolder() };
+            Animation animation = new(null) { Holder = CreationHolder() };
             _animation = animation;
             animation.AnimationLevel = 27;
             animation.OnShow += ShowAnimation;
@@ -73,12 +65,13 @@ public partial class VortexTokenEvent(CustomNode owner) : GlobalTargetSpellToken
             animation.Tag = (StrategicMap.Current.ViewWidth & 65535) | (StrategicMap.Current.ViewHeight << 16);
             animation.Activate();
         }
-
         if (value == 80)
         {
-            if (ArmyId != null && ArmyId.RetrieveArmy(ref army, ref selection))
+            byte selection = default;
+            ArmyHexSprite army = default;
+            if (ArmyId is not null && ArmyId.RetrieveArmy(ref army, ref selection))
             {
-                log = new ArmyEventLog(null)
+                ArmyEventLog log = new(null)
                 {
                     Holder = CreationHolder(),
                     ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_vortexDamageText),
@@ -90,10 +83,11 @@ public partial class VortexTokenEvent(CustomNode owner) : GlobalTargetSpellToken
                 log.ArmyView.Setup(army.Army, 255);
                 using (army.Army.BeginUpdate())
                 {
-                    damaged = false;
+                    bool damaged = false;
                     for (int i = 0, last = army.Army.Units.Count - 1; i <= last; i++)
                     {
-                        troopObject = army.Army.Units.GetUnit(i);
+                        Troop troopObject = army.Army.Units.GetUnit(i);
+                        int damage;
                         if (!troopObject.GetMoveTypes().Contains(MoveType.Flying))
                         {
                             damage = troopObject.GetAbilityEnabled(2) ? 7 : troopObject.GetAbilityEnabled(23) ? 10 : 0;
@@ -132,27 +126,17 @@ public partial class VortexTokenEvent(CustomNode owner) : GlobalTargetSpellToken
             }
 
             _animation?.Dispose();
-            result = false;
+            return false;
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // GlobalTargetSpells.pas:1945
     public void ShowAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int xShift;
-        int height;
-        int x;
-        int y;
-        float angle;
-        int direction;
-        int radius;
-        int count;
         if (StrategicMap.Current.ViewMapLevel == Location.MapLevel)
         {
             HexGeometry.HexToPixel(Location.X, Location.Y, out int pixelX, out int pixelY);
@@ -162,22 +146,22 @@ public partial class VortexTokenEvent(CustomNode owner) : GlobalTargetSpellToken
             RandSeed = StrategicMap.Current.InitialRandomSeed;
             for (int i = 0; i <= 200; i++)
             {
-                direction = Random(360);
+                int direction = Random(360);
                 if (animation.FrameCounter >= (int)(((uint)(200 - i)) >> 2) && animation.FrameCounter <= (int)(((uint)i) >> 4) + 68)
                 {
-                    radius = Round((double)((double)2.997 - Math.Log((double)(i * 19 * 0.005) + 1)) * 35) + 18;
-                    height = -16;
-                    xShift = 16;
+                    int radius = Round((double)((double)2.997 - Math.Log((double)(i * 19 * 0.005) + 1)) * 35) + 18;
+                    int height = -16;
+                    int xShift = 16;
                     double pi = Math.PI;
-                    angle = (float)((double)(-(direction + _angle) * pi) / 180);
-                    count = GetEngine().AnimationDetail == 0
+                    float angle = (float)((double)(-(direction + _angle) * pi) / 180);
+                    int count = GetEngine().AnimationDetail == 0
                         ? 1
                         : GetEngine().AnimationDetail == 1 ? (int)(((uint)(200 - i)) >> 5) : (int)(((uint)(200 - i)) >> 4);
 
                     for (int j = count; j >= 0; j--)
                     {
-                        x = Round((double)Math.Cos(angle) * radius) + xShift;
-                        y = Round((double)((double)Math.Sin(angle) * radius) / 1.75) + height;
+                        int x = Round((double)Math.Cos(angle) * radius) + xShift;
+                        int y = Round((double)((double)Math.Sin(angle) * radius) / 1.75) + height;
                         _ = GamePack.Current.SpellControl.GetSpell(70).CastImages.Show(0, pixelX + x, pixelY - y, 0, lockedSurface);
                         angle = (float)((double)0.035 + angle);
                     }
@@ -187,7 +171,7 @@ public partial class VortexTokenEvent(CustomNode owner) : GlobalTargetSpellToken
     }
 
     // GlobalTargetSpells.pas:242
-    public override bool Validate(Hero source) => base.Validate(source) && (ArmyId == null || ArmyId.Valid());
+    public override bool Validate(Hero source) => base.Validate(source) && (ArmyId is null || ArmyId.Valid());
 
     private static readonly string s_vortexDamageText = "Vortex Damage";
 }

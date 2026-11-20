@@ -10,7 +10,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Spells;
 
 // inherited spell ID, combat statistics, damage mode
-public partial class SacrificialFlame : CombatSpell
+public class SacrificialFlame : CombatSpell
 {
     // CombatSpells.pas:1934
     public SacrificialFlame(CustomNode owner, EngineObject holder) : base(owner)

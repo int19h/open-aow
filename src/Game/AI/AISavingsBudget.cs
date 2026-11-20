@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 namespace Aow.Game.AI;
 
 // Uses TAIBudget fields
-public partial class AISavingsBudget : AIBudget
+public class AISavingsBudget : AIBudget
 {
     // AI.pas:2189
     public new const int ClassId = 131741;
@@ -17,7 +17,4 @@ public partial class AISavingsBudget : AIBudget
         DayGoldMax = 25;
         DayManaMax = 15;
     }
-
-    // intf_P5_06.inc:555
-
 }

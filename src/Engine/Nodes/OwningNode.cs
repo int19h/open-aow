@@ -5,7 +5,7 @@ using Aow.Rtl;
 namespace Aow.Engine.Nodes;
 
 // _children
-public partial class OwningNode : CustomNode
+public class OwningNode : CustomNode
 {
     // Engine.pas:2861
     public new const int ClassId = 256;
@@ -22,13 +22,12 @@ public partial class OwningNode : CustomNode
     // Engine.pas:2833
     public override void Clear()
     {
-        int i;
+        int i = Count - 1;
         EngineObject c;
-        i = Count - 1;
         for (; i >= 0; i -= 1)
         {
             c = _children.List[i];
-            if (c != null && c.Owner == this)
+            if (c is not null && c.Owner == this)
             {
                 if (!c.GetControlStyle().Contains(EngineServices.Shared))
                 {
@@ -47,7 +46,7 @@ public partial class OwningNode : CustomNode
             for (; i >= 0; i -= 1)
             {
                 c = _children.List[i];
-                if (c != null)
+                if (c is not null)
                 {
                     if (!(c.Owner == this && c.GetControlStyle().Contains(EngineServices.Shared)))
                     {
@@ -57,7 +56,7 @@ public partial class OwningNode : CustomNode
             }
 
             i = _children.Count - 1;
-            while (i >= 0 && _children.List[i] == null)
+            while (i >= 0 && _children.List[i] is null)
             {
                 _children.Delete(i);
                 i -= 1;
@@ -77,7 +76,7 @@ public partial class OwningNode : CustomNode
             _ = _children.Add(null);
         }
 
-        if (_children.List[index] != null && _children.List[index].Owner == this)
+        if (_children.List[index] is not null && _children.List[index].Owner == this)
         {
             (_children.List[index] ?? throw new NullReferenceException()).Dispose();
         }
@@ -91,14 +90,13 @@ public partial class OwningNode : CustomNode
     // Engine.pas:2819
     public override void DestroyAllChildren()
     {
-        EngineObject c;
         Clear();
         if (_children.Count != 0)
         {
             for (int i = _children.Count - 1; i >= 0; i--)
             {
-                c = _children.List[i];
-                if (c != null && c.Owner == this)
+                EngineObject c = _children.List[i];
+                if (c is not null && c.Owner == this)
                 {
                     c.Dispose();
                 }
@@ -118,7 +116,7 @@ public partial class OwningNode : CustomNode
                 {
                     for (int i = children.Count - 1; i >= 0; i--)
                     {
-                        if (children.List[i] != null)
+                        if (children.List[i] is not null)
                         {
                             EngineObject node = children.List[i];
                             if (node.GetLastMessage() != message.Sequence)
@@ -133,7 +131,7 @@ public partial class OwningNode : CustomNode
                 {
                     for (int i = children.Count - 1; i >= 0; i--)
                     {
-                        if (children.List[i] != null)
+                        if (children.List[i] is not null)
                         {
                             EngineObject node = children[i];
                             if (node.GetLastMessage() != message.Sequence && node.Owner == this)
@@ -151,7 +149,7 @@ public partial class OwningNode : CustomNode
                 {
                     for (int i = children.Count - 1; i >= 0; i--)
                     {
-                        if (children.List[i] != null)
+                        if (children.List[i] is not null)
                         {
                             EngineObject node = children.List[i];
                             node.MessageProc(ref message, this);
@@ -162,7 +160,7 @@ public partial class OwningNode : CustomNode
                 {
                     for (int i = children.Count - 1; i >= 0; i--)
                     {
-                        if (children.List[i] != null)
+                        if (children.List[i] is not null)
                         {
                             EngineObject node = children[i];
                             if (node.Owner == this)
@@ -242,7 +240,7 @@ public partial class OwningNode : CustomNode
         }
         else
         {
-            result = _children.Remove(child);
+            return _children.Remove(child);
         }
 
         return result;
@@ -267,23 +265,17 @@ public partial class OwningNode : CustomNode
     // Engine.pas:2998
     public override EngineObject FindChild(int classId)
     {
-        EngineObject result;
-        int i;
-        bool found;
-        EngineObject c;
-        i = 0;
-        found = false;
-        c = null;
+        int i = 0;
+        bool found = false;
+        EngineObject c = null;
         while (!found && i < _children.Count)
         {
             c = _children.List[i];
-            found = c != null && classId == c.EngineClass.ClassId;
+            found = c is not null && classId == c.EngineClass.ClassId;
             i += 1;
         }
 
-        result = found ? c : null;
-
-        return result;
+        return found ? c : null;
     }
 
     // Engine.pas:3016
@@ -308,11 +300,10 @@ public partial class OwningNode : CustomNode
     // Engine.pas:3022
     public void DestroyEObjects(int classId)
     {
-        EngineObject c;
         for (int i = _children.Count - 1; i >= 0; i--)
         {
-            c = _children.List[i];
-            if (c != null && classId == c.EngineClass.ClassId && c.Owner == this)
+            EngineObject c = _children.List[i];
+            if (c is not null && classId == c.EngineClass.ClassId && c.Owner == this)
             {
                 c.Dispose();
             }
@@ -377,6 +368,4 @@ public partial class OwningNode : CustomNode
 
         _children.List[index] = child;
     }
-
-    // Engine.pas:631
 }

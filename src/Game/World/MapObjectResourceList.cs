@@ -7,7 +7,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.World;
 
-public partial class MapObjectResourceList(CustomNode owner) : ResourceCollection(owner), IChildList<MapObjectResource>
+public class MapObjectResourceList(CustomNode owner) : ResourceCollection(owner), IChildList<MapObjectResource>
 {
     // The map object resource in slot index, read as the original reads the list, without a range check.
     // AcceptsResource admits only a MapObjectResource, so the cast never fails.
@@ -23,7 +23,6 @@ public partial class MapObjectResourceList(CustomNode owner) : ResourceCollectio
     // MAPOBJ.PAS:646
     public bool FindMapObjectResource(int classId, TerrainList terrainList, Set<TerrainCompareModeElement> mode, DelphiList<MapObjectResource> list)
     {
-        MapObjectResource r;
         int[] iCell = new int[1];
         ref int i = ref iCell[0];
         // { Preserve the original stack locals. }
@@ -32,10 +31,10 @@ public partial class MapObjectResourceList(CustomNode owner) : ResourceCollectio
         int last = Count - 1;
         for (; i <= last; i += 1)
         {
-            r = this[i];
+            MapObjectResource r = this[i];
             if (r.EngineClass.ClassId == classId)
             {
-                if (terrainList == null || r.TerrainList.CompareTerrain(terrainList, mode))
+                if (terrainList is null || r.TerrainList.CompareTerrain(terrainList, mode))
                 {
                     result = true;
                     _ = list.Add(r);

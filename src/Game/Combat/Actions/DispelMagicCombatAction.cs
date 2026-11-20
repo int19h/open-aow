@@ -14,7 +14,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Combat.Actions;
 
 // (dispelled enchantment IDs)
-public partial class DispelMagicCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
+public class DispelMagicCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
 {
 
     public Int32List EnchantmentIds { get; } = new Int32List();
@@ -36,22 +36,17 @@ public partial class DispelMagicCombatAction(CustomNode owner) : SingleTargetCom
     // AoWAb.PAS:3951
     public override void Execute(Battle combat)
     {
-        EnchantmentList enchantments;
-        CombatObject source;
-        CombatObject target;
-        Enchantment enchantment;
-        bool wasSummoned;
-        source = combat.CombatData.FindId(SourceId);
-        target = combat.CombatData.FindId(TargetId);
+        CombatObject source = combat.CombatData.FindId(SourceId);
+        CombatObject target = combat.CombatData.FindId(TargetId);
         if (source is CombatUnit && target is CombatUnit targetUnit)
         {
-            enchantments = new EnchantmentList(null) { Holder = CreationHolder() };
+            EnchantmentList enchantments = new(null) { Holder = CreationHolder() };
             targetUnit.Troop.ListEnchantments(enchantments);
-            wasSummoned = targetUnit.Troop.GetAbilityEnabled(155);
+            bool wasSummoned = targetUnit.Troop.GetAbilityEnabled(155);
 
             for (int i = EnchantmentIds.Count - 1; i >= 0; i--)
             {
-                enchantment = enchantments.FindId(EnchantmentIds[i]);
+                Enchantment enchantment = enchantments.FindId(EnchantmentIds[i]);
                 _ = (enchantment?.Dispel());
             }
 
@@ -93,17 +88,15 @@ public partial class DispelMagicCombatAction(CustomNode owner) : SingleTargetCom
     // AoWAb.PAS:3994
     public void Generate(CombatObject source, CombatObject target, int dispelMana)
     {
-        EnchantmentList enchantmentList;
-        int chance;
         SourceId = source.Id;
         TargetId = target.Id;
         if (source is CombatUnit && target is CombatUnit generateTarget)
         {
-            enchantmentList = new EnchantmentList(null) { Holder = CreationHolder() };
+            EnchantmentList enchantmentList = new(null) { Holder = CreationHolder() };
             generateTarget.Troop.ListEnchantments(enchantmentList);
             for (int i = enchantmentList.GetCount() - 1; i >= 0; i--)
             {
-                chance = enchantmentList.GetEnchantments(i).DispelChance(dispelMana);
+                int chance = enchantmentList.GetEnchantments(i).DispelChance(dispelMana);
                 if (chance > StrategicMap.Current.Random(100))
                 {
                     Enchantment enchantments = enchantmentList.GetEnchantments(i);
@@ -114,7 +107,4 @@ public partial class DispelMagicCombatAction(CustomNode owner) : SingleTargetCom
             enchantmentList?.Dispose();
         }
     }
-
-    // intf_P4_02.inc:660
-
 }

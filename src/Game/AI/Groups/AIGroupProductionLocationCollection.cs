@@ -62,12 +62,8 @@ public readonly struct AIGroupProductionLocationCollection : IReadOnlyList<AIGro
     // AIGroup.pas:945
     public AIGroupProductionLocation FindPC(ProductionControl control)
     {
-        AIGroupProductionLocation result;
-        int index;
-        index = IndexOfPC(control);
-        result = index != -1 ? this[index] : null;
-
-        return result;
+        int index = IndexOfPC(control);
+        return index != -1 ? this[index] : null;
     }
 
     private static int CompareMovePoints(AIGroupProductionLocation item1, AIGroupProductionLocation item2) => item2.MovePoints - item1.MovePoints;

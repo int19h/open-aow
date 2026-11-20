@@ -219,8 +219,8 @@ public sealed partial class PersistEquivalenceTests
         return data;
     }
 
-    private static bool PacketFamily(Type type) =>
-        type.Assembly == typeof(TokenEvent).Assembly && !type.IsAbstract && (
+    private static bool PacketFamily(Type type)
+        => type.Assembly == typeof(TokenEvent).Assembly && !type.IsAbstract && (
             typeof(TokenEvent).IsAssignableFrom(type)
             || type == typeof(DataPackage)
             || type == typeof(TokenPackage)

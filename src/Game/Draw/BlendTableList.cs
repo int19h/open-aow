@@ -2,7 +2,7 @@
 namespace Aow.Game.Draw;
 
 // _list
-public partial class BlendTableList : IDisposable
+public class BlendTableList : IDisposable
 {
     private readonly List<BlendTable> _list;
 

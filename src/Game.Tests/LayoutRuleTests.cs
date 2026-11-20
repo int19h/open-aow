@@ -23,8 +23,8 @@ public sealed class LayoutRuleTests
         "Aow.Engine.PropertyTable._items",
     ];
 
-    private static IEnumerable<Type> ProductTypes() =>
-        s_productAssemblies.SelectMany(name => Assembly.Load(new AssemblyName(name)).GetTypes())
+    private static IEnumerable<Type> ProductTypes()
+        => s_productAssemblies.SelectMany(name => Assembly.Load(new AssemblyName(name)).GetTypes())
             .Where(type => !type.IsDefined(typeof(CompilerGeneratedAttribute), inherit: false) && !(type.FullName ?? type.Name).Contains('<'));
 
     private static string Name(Type type) => (type.FullName ?? type.Name).Replace('+', '.');

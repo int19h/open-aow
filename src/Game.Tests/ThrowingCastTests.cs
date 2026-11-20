@@ -152,7 +152,7 @@ public sealed class ThrowingCastTests
         ExecuteResult? later = null;
         Exception error = Record.Exception(() => later = spell.Execute(executor));
         Assert.IsNotType<InvalidCastException>(error);
-        if (error == null)
+        if (error is null)
         {
             Assert.NotEqual(ExecuteResult.DoneHalt, later);
         }

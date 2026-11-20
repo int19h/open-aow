@@ -3,7 +3,7 @@
 namespace Aow.Game.Combat;
 
 // PathIndex. Chance
-public partial class RangedObstacle
+public class RangedObstacle
 {
     public int PathIndex { get; init; }
     public int Chance { get; set; }

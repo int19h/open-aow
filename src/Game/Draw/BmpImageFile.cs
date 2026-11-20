@@ -3,7 +3,7 @@
 namespace Aow.Game.Draw;
 
 // the Windows bitmap file format
-public partial class BmpImageFile : ImageFile, IImageFileClass
+public class BmpImageFile : ImageFile, IImageFileClass
 {
     // GFXE.pas:9043
     public static new string Extension => "BMP";

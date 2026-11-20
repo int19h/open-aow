@@ -17,7 +17,7 @@ namespace Aow.Game.Combat;
 
 // count, capacity, strikes, combat objects, cached damage values, units, strike counts,
 // attacker/defender damage types
-public partial class MeleeRound(EngineObject creator) : IDisposable
+public class MeleeRound(EngineObject creator) : IDisposable
 {
 
     // The node that created this round. It and the nodes it creates reach the engine through it.
@@ -91,17 +91,14 @@ public partial class MeleeRound(EngineObject creator) : IDisposable
     // AoWAb.PAS:1531
     public void CalculateUnitStrikes(CombatSideIndex firstSide)
     {
-        int attackerCount;
-        int defenderCount;
-        CombatSideIndex side;
-        Troop source;
-        Troop target;
-        side = firstSide;
-        attackerCount = 0;
-        defenderCount = 0;
+        CombatSideIndex side = firstSide;
+        int attackerCount = 0;
+        int defenderCount = 0;
         SetCount(_attackerStrikes + _defenderStrikes);
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
+            Troop source;
+            Troop target;
             if (side == CombatSideIndex.Attacker)
             {
                 source = _attackerUnit;
@@ -211,7 +208,6 @@ public partial class MeleeRound(EngineObject creator) : IDisposable
     // AoWAb.PAS:1614
     public void CalculateUnit(Troop attacker, Troop defender)
     {
-        CombatSideIndex side;
         Reset();
         _attackerUnit = attacker;
         _defenderUnit = defender;
@@ -232,7 +228,7 @@ public partial class MeleeRound(EngineObject creator) : IDisposable
         _defenderDamageTypes = GamePack.Current.AbilityControl.GetAbility<StrikeAbility>(21).GetDamageTypes(defender);
         _defenderStrikes = _defenderDamageTypes != Set<DamageType>.Of() ? 2 : 0;
 
-        side = _defenderUnit.GetAbilityEnabled(116) && !_attackerUnit.GetAbilityEnabled(116) && _defenderStrikes != 0
+        CombatSideIndex side = _defenderUnit.GetAbilityEnabled(116) && !_attackerUnit.GetAbilityEnabled(116) && _defenderStrikes != 0
             ? CombatSideIndex.Defender
             : CombatSideIndex.Attacker;
 
@@ -242,17 +238,14 @@ public partial class MeleeRound(EngineObject creator) : IDisposable
     // AoWAb.PAS:1642
     public void CalculateStrikes(CombatSideIndex firstSide)
     {
-        int attackerCount;
-        int defenderCount;
-        CombatSideIndex side;
-        CombatObject source;
-        CombatObject target;
-        side = firstSide;
-        attackerCount = 0;
-        defenderCount = 0;
+        CombatSideIndex side = firstSide;
+        int attackerCount = 0;
+        int defenderCount = 0;
         SetCount(_attackerStrikes + _defenderStrikes);
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
+            CombatObject source;
+            CombatObject target;
             if (side == CombatSideIndex.Attacker)
             {
                 source = _attacker;
@@ -347,7 +340,6 @@ public partial class MeleeRound(EngineObject creator) : IDisposable
     // AoWAb.PAS:1711
     public void Calculate(CombatObject attacker, CombatObject defender)
     {
-        CombatSideIndex side;
         Reset();
         _attacker = attacker;
         _defender = defender;
@@ -368,7 +360,7 @@ public partial class MeleeRound(EngineObject creator) : IDisposable
         _defenderDamageTypes = CombatObject.MeleeDamageTypes(defender);
         _defenderStrikes = _defenderDamageTypes != Set<DamageType>.Of() && !defender.GetLocked() ? 2 : 0;
 
-        side = defender.GetAbilityEnabled(116) && !attacker.GetAbilityEnabled(116) && _defenderStrikes != 0
+        CombatSideIndex side = defender.GetAbilityEnabled(116) && !attacker.GetAbilityEnabled(116) && _defenderStrikes != 0
             ? CombatSideIndex.Defender
             : CombatSideIndex.Attacker;
 
@@ -441,16 +433,13 @@ public partial class MeleeRound(EngineObject creator) : IDisposable
     // AoWAb.PAS:1786
     public void CalculateDamageValue()
     {
-        int i;
-        int lifeStealingDamageValue;
-        bool lifeStealing;
-        CombatObject source;
         _attackerDamageValue = 0;
         _defenderDamageValue = 0;
-        i = 0;
-        lifeStealingDamageValue = 0;
-        source = _attacker;
-        if (source != null)
+        int i = 0;
+        int lifeStealingDamageValue = 0;
+        CombatObject source = _attacker;
+        bool lifeStealing;
+        if (source is not null)
         {
             lifeStealing = source.GetAbilityEnabled(118);
             if (lifeStealing && _defender is CombatUnit defender && defender.Troop.GetUnitType() == UnitType.Machine)
@@ -544,9 +533,4 @@ public partial class MeleeRound(EngineObject creator) : IDisposable
         public int DamageValue { get; internal set; }
         public CombatSideIndex Side { get; internal set; }
     }
-
-    // intf_P4_02.inc:123
-
-    // intf_P4_02.inc:123
-
 }

@@ -9,7 +9,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Magic.Spells;
 
 // inherited name, spell ID, mana, sphere, level, type, sounds, images
-public partial class Disjunction : Spell
+public class Disjunction : Spell
 {
     // GlobalSpells.pas:931
     public Disjunction(CustomNode owner, EngineObject holder) : base(owner)
@@ -26,10 +26,8 @@ public partial class Disjunction : Spell
     // GlobalSpells.pas:942
     public override bool CanActivate(Troop source, ref string messageText)
     {
-        bool result;
-        int count;
         string reason = "";
-        count = 0;
+        int count = 0;
         for (int i = 0, last = StrategicMap.Current.GlobalMagicControl.Enchantments.Count - 1; i <= last; i++)
         {
             if (StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(i).PlayerIndex != source.Player && StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(i).VisibleForPlayer(source.Player) && StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(i).CanDispel(source.Player, ref reason))
@@ -37,29 +35,24 @@ public partial class Disjunction : Spell
                 count += 1;
             }
         }
-
         if (count == 0)
         {
             messageText = AbilityRules.TranslateResourceString(GetEngine(), s_noGlobalOpponentEnchantmentsActiveText);
-            result = false;
+            return false;
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // GlobalSpells.pas:962
     public override bool Activate(Troop source)
     {
-        bool result;
         string reason = "";
-        DisjunctionSpellCaster caster;
         if (CanActivate(source, ref reason))
         {
-            caster = new DisjunctionSpellCaster(null)
+            DisjunctionSpellCaster caster = new(null)
             {
                 Holder = CreationHolder(),
                 CasterSpellId = SpellId,
@@ -67,14 +60,12 @@ public partial class Disjunction : Spell
             };
             StrategicMap.Current.CosmeticSurgeryEventsStore.Raise(caster);
             _ = caster.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     private static readonly string s_disjunctionText = "Disjunction";

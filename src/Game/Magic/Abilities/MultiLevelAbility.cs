@@ -8,7 +8,7 @@ using static Aow.Rtl.DelphiConversions;
 namespace Aow.Game.Magic.Abilities;
 
 // (max level, level costs)
-public partial class MultiLevelAbility(CustomNode owner) : AdjustableAbility(owner)
+public class MultiLevelAbility(CustomNode owner) : AdjustableAbility(owner)
 {
 
     public int MaxLevel { get; protected set; } = 4;
@@ -32,8 +32,8 @@ public partial class MultiLevelAbility(CustomNode owner) : AdjustableAbility(own
 
     protected virtual MultiLevelAbilityData CreateData() => AbilityDataClass().Create<MultiLevelAbilityData>(null, holder: CreationHolder());
 
-    public override int GetLevel(AbilityOwner owner) => owner == null ? 0 : GetData(owner)?.Level ?? 0;
-    public override int GetInherentLevel(AbilityOwner owner) => owner == null ? 0 : GetData(owner)?.Level ?? 0;
+    public override int GetLevel(AbilityOwner owner) => owner is null ? 0 : GetData(owner)?.Level ?? 0;
+    public override int GetInherentLevel(AbilityOwner owner) => owner is null ? 0 : GetData(owner)?.Level ?? 0;
     public override string GetName(AbilityOwner owner) => GetLevelName(GetLevel(owner));
     public override string ExpandName(AbilityOwner owner) => GetLevelName(GetLevel(owner) + 1);
 
@@ -60,7 +60,7 @@ public partial class MultiLevelAbility(CustomNode owner) : AdjustableAbility(own
     public override bool Expand(AbilityOwner owner)
     {
         MultiLevelAbilityData data = GetData(owner);
-        if (data == null)
+        if (data is null)
         {
             data = CreateData();
             data.LevelAbilityId = (ushort)AbilityId;
@@ -81,8 +81,16 @@ public partial class MultiLevelAbility(CustomNode owner) : AdjustableAbility(own
     public override bool Remove(AbilityOwner owner)
     {
         MultiLevelAbilityData data = GetData(owner);
-        if (data == null) { SetAbility(owner, AbilityId, 0); return false; }
-        if (data.Level == 1) { SetAbility(owner, AbilityId, 0); owner.RemoveAbilityData(data); }
+        if (data is null)
+        {
+            SetAbility(owner, AbilityId, 0);
+            return false;
+        }
+        if (data.Level == 1)
+        {
+            SetAbility(owner, AbilityId, 0);
+            owner.RemoveAbilityData(data);
+        }
         else
         {
             data.Level = (byte)(data.Level - 1);

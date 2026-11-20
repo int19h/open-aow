@@ -8,7 +8,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // (MoveTypes.)
-public partial class MovementAbility : AdjustableAbility
+public class MovementAbility : AdjustableAbility
 {
     public Set<MoveType> MoveTypes { get; init; }
 
@@ -26,9 +26,8 @@ public partial class MovementAbility : AdjustableAbility
     // PassiveAb.pas:1422
     public override Set<WallCombatFeaturesElement> GetWallCombatFeatures(AbilityOwner owner)
     {
-        Set<WallCombatFeaturesElement> result = AbilityId == 1
+        return AbilityId == 1
             ? Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallPassing, WallCombatFeaturesElement.Participate)
             : Set<WallCombatFeaturesElement>.Of();
-        return result;
     }
 }

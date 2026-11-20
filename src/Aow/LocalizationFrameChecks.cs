@@ -148,9 +148,17 @@ internal static class LocalizationFrameChecks
                         throw new InvalidOperationException("English Undead rendering differs");
                     }
                 }
-                finally { _ = left.Unlock(); _ = right.Unlock(); }
+                finally
+                {
+                    _ = left.Unlock();
+                    _ = right.Unlock();
+                }
             }
-            finally { left?.Dispose(); right?.Dispose(); }
+            finally
+            {
+                left?.Dispose();
+                right?.Dispose();
+            }
         }
         Console.WriteLine($"Localization frames: language {language}, Undead(plural) = {undead}, {germanBytes.Count} German extended bytes scanned across {fonts.Length} fonts");
     }

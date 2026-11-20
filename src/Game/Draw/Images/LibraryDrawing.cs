@@ -5,18 +5,17 @@ namespace Aow.Game.Draw.Images;
 
 internal static class LibraryDrawing
 {
-    internal static void BlitLibraryImage(Canvas canvas, LibraryImage image, Rect rectangle, BlitMode mode, int scaleX, int scaleY, int bkColor, int color, bool selected, ref readonly Rect drawRectangle) =>
+    internal static void BlitLibraryImage(Canvas canvas, LibraryImage image, Rect rectangle, BlitMode mode, int scaleX, int scaleY, int bkColor, int color, bool selected, ref readonly Rect drawRectangle)
         /* TODO: Implement Windows.SetStretchBltMode in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
-    internal static void Register() =>
+    internal static void Register()
         /* TODO: Implement DsgnIntf.RegisterComponentEditor in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     internal static void WriteStringToStream(string S, Stream stream)
     {
-        int l;
-        l = S.Length;
+        int l = S.Length;
         stream.Write(Bytes.Of(ref l, 4));
         stream.Write(Cp1252.Encode(S).AsSpan()[..l]);
     }
@@ -38,8 +37,8 @@ internal static class LibraryDrawing
         S = Cp1252.Decode(buffer);
     }
 
-    internal static void DrawFocusFrame(int displayController, Rect R, bool focused, int color) =>
+    internal static void DrawFocusFrame(int displayController, Rect R, bool focused, int color)
         /* TODO: Implement Windows.CreateSolidBrush in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
 }

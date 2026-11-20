@@ -12,7 +12,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.World.Structures;
 
 // Size
-public partial class Resource : PlayerCropStructureResource
+public class Resource : PlayerCropStructureResource
 {
     public Resource(CustomNode owner) : base(owner) => Razeable = true;
 
@@ -20,8 +20,6 @@ public partial class Resource : PlayerCropStructureResource
     public new const int ClassId = 131337;
 
     public byte Size { get; private set; }
-
-    // City.pas:2622
 
     // City.pas:2669
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
@@ -39,16 +37,13 @@ public partial class Resource : PlayerCropStructureResource
     // City.pas:2643
     public void ShowCity(int X, int Y, in LockedSurface lockedSurface, City city)
     {
-        int dX;
-        int dY;
-        LibraryImage image;
-        dX = ImageOffsetX + X;
-        dY = Y;
+        int dX = ImageOffsetX + X;
+        int dY = Y;
         dY += ImageOffsetY;
-        image = city.WallBackImage;
+        LibraryImage image = city.WallBackImage;
         image?.Show(dX, dY, lockedSurface);
 
-        if (city.CityImage != null)
+        if (city.CityImage is not null)
         {
             // { Original blinks the selected city from frame bits. }
             if (city.GetSelected() && (StrategicMap.Current.Frame & 6) == 6)
@@ -77,8 +72,6 @@ public partial class Resource : PlayerCropStructureResource
             }
         }
     }
-
-    // City.pas:262
 
     // City.pas:2633
     public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_cityText);

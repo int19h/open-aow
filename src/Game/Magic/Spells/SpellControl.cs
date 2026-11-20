@@ -15,7 +15,7 @@ using static Aow.Rtl.IntegerObjects;
 namespace Aow.Game.Magic.Spells;
 
 // (registered-spell list)
-public partial class SpellControl(CustomNode owner) : EngineObject(owner)
+public class SpellControl(CustomNode owner) : EngineObject(owner)
 {
 
     public List<Spell> RegisteredSpells { get; init; } = [];
@@ -35,7 +35,7 @@ public partial class SpellControl(CustomNode owner) : EngineObject(owner)
         base.PersistFields(persister);
         for (int i = 0, last = RegisteredSpells.Count - 1; i <= last; i++)
         {
-            if (RegisteredSpells[i] != null)
+            if (RegisteredSpells[i] is not null)
             {
                 persister.ObjectSlot("RegisteredSpells", slot: i, objectValue: RegisteredSpells[i]);
             }
@@ -50,25 +50,20 @@ public partial class SpellControl(CustomNode owner) : EngineObject(owner)
     // Spells.PAS:601
     public Spell GetSpell(int index)
     {
-        Spell result;
-        Spell p;
         if (index < 0)
         {
             // { Preserve the original assertion diagnostic. }
             Assert(false, "Invalid SpellID", "D:\\AoWDev\\AoWE\\inc\\Spells.PAS", 54989);
         }
-
         if (index < RegisteredSpells.Count)
         {
-            p = RegisteredSpells[index];
-            result = p;
+            Spell p = RegisteredSpells[index];
+            return p;
         }
         else
         {
-            result = null;
+            return null;
         }
-
-        return result;
     }
 
     // RegisterSpell stores exactly one instance per id and refuses a second registration. The caller names
@@ -79,11 +74,10 @@ public partial class SpellControl(CustomNode owner) : EngineObject(owner)
     // Spells.PAS:610
     public void RegisterSpell(Spell spell)
     {
-        int id;
-        id = spell.SpellId;
+        int id = spell.SpellId;
         if (id != 0)
         {
-            if (id < RegisteredSpells.Count && RegisteredSpells[id] != null)
+            if (id < RegisteredSpells.Count && RegisteredSpells[id] is not null)
             {
                 throw new InvalidOperationException($"Spell already registered ({IntToStr(id)})");
             }
@@ -105,8 +99,7 @@ public partial class SpellControl(CustomNode owner) : EngineObject(owner)
     // Spells.PAS:627
     public void UnregisterSpell(Spell spell)
     {
-        int id;
-        id = spell.SpellId;
+        int id = spell.SpellId;
         if (id != 0)
         {
             if (id < 0 || id >= RegisteredSpells.Count || RegisteredSpells[id] != spell)
@@ -114,7 +107,7 @@ public partial class SpellControl(CustomNode owner) : EngineObject(owner)
                 throw new InvalidOperationException($"Cannot Unregister Spell ({IntToStr(id)})");
             }
 
-            if (RegisteredSpells[id] != null)
+            if (RegisteredSpells[id] is not null)
             {
                 spell.CastImages.ReleaseImageLibrary();
                 RegisteredSpells[id]?.Dispose();
@@ -130,7 +123,7 @@ public partial class SpellControl(CustomNode owner) : EngineObject(owner)
     // Spells.PAS:646
     public void UnregisterSpellId(int spellId)
     {
-        if (RegisteredSpells[spellId] != null)
+        if (RegisteredSpells[spellId] is not null)
         {
             UnregisterSpell(RegisteredSpells[spellId]);
         }
@@ -141,7 +134,7 @@ public partial class SpellControl(CustomNode owner) : EngineObject(owner)
     {
         for (int i = RegisteredSpells.Count - 1; i >= 0; i--)
         {
-            if (RegisteredSpells[i] != null)
+            if (RegisteredSpells[i] is not null)
             {
                 UnregisterSpell(RegisteredSpells[i]);
             }
@@ -154,7 +147,7 @@ public partial class SpellControl(CustomNode owner) : EngineObject(owner)
         spellStrings.Clear();
         for (int i = 0, last = RegisteredSpells.Count - 1; i <= last; i++)
         {
-            if (RegisteredSpells[i] != null && spheres.Contains(RegisteredSpells[i].MagicSphere))
+            if (RegisteredSpells[i] is not null && spheres.Contains(RegisteredSpells[i].MagicSphere))
             {
                 _ = spellStrings.AddObject(RegisteredSpells[i].SpellName, IntToObject(i));
             }
@@ -164,25 +157,19 @@ public partial class SpellControl(CustomNode owner) : EngineObject(owner)
     // Spells.PAS:674
     public int GetRandomSpell(int minLevel, int maxLevel, Set<MagicSphere> spheres)
     {
-        int result;
-        Int32List candidates;
-        Spell spell;
-        candidates = new Int32List();
+        Int32List candidates = new();
         for (int i = RegisteredSpells.Count - 1; i >= 0; i--)
         {
-            spell = RegisteredSpells[i];
-            if (spell != null && spheres.Contains(spell.MagicSphere) && spell.SpellLevel >= minLevel && spell.SpellLevel <= maxLevel)
+            Spell spell = RegisteredSpells[i];
+            if (spell is not null && spheres.Contains(spell.MagicSphere) && spell.SpellLevel >= minLevel && spell.SpellLevel <= maxLevel)
             {
                 _ = candidates.Add(i);
             }
         }
 
-        result = candidates.Count != 0 ? candidates[StrategicMap.Current.Random(candidates.Count)] : 0;
+        int result = candidates.Count != 0 ? candidates[StrategicMap.Current.Random(candidates.Count)] : 0;
 
         candidates?.Dispose();
         return result;
     }
-
-    // intf_P4_02.inc:947
-
 }

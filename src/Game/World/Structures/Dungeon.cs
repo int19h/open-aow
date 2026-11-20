@@ -54,8 +54,6 @@ public partial class Dungeon : ExplorationSite
         _prisonersMode = persister.Enum("PrisonersMode", value: _prisonersMode);
     }
 
-    // Dungeon.pas:95
-
     // Dungeon.pas:249
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
@@ -84,7 +82,7 @@ public partial class Dungeon : ExplorationSite
         if (tokenEvent.Action == 1)
         {
             LiberatePrisoners((sbyte)tokenEvent.Param);
-            result = ExecuteResult.Done;
+            return ExecuteResult.Done;
         }
 
         return result;
@@ -113,12 +111,10 @@ public partial class Dungeon : ExplorationSite
     // Dungeon.pas:127
     public override void ExecuteSearchDone(CombatType combatType, CombatResult combatResult)
     {
-        ArmyHexSprite army;
-        PrisonersJoinEventLog log;
         if (Set<CombatResult>.Of(CombatResult.Victory, CombatResult.NoDefenders).Contains(combatResult))
         {
-            army = Owner.GetArmyHexSprite();
-            log = new PrisonersJoinEventLog(null)
+            ArmyHexSprite army = Owner.GetArmyHexSprite();
+            PrisonersJoinEventLog log = new(null)
             {
                 Holder = CreationHolder(),
                 Location = new MapCoordinate(GetHexX(), GetHexY(), GetHexLevel()),
@@ -153,20 +149,17 @@ public partial class Dungeon : ExplorationSite
     // Dungeon.pas:156
     public void GeneratePrisoners()
     {
-        int collection;
-        UnitIndexList list;
-        UnitIndexListCollection collections;
         RandSeed = StrategicMap.Current.DefendersSeed;
         if (_prisonersMode == DungeonPrisonersMode.Random)
         {
             _prisonersMode = (DungeonPrisonersMode)(Random(3) + 1);
         }
 
-        collection = GetResource<Resource>().PrisonerCollections.GetRandomCollection();
+        int collection = GetResource<Resource>().PrisonerCollections.GetRandomCollection();
         if (collection != -1)
         {
-            list = new UnitIndexList();
-            collections = GetResource<Resource>().PrisonerCollections;
+            UnitIndexList list = new();
+            UnitIndexListCollection collections = GetResource<Resource>().PrisonerCollections;
             for (int i = collections.GetCollectionCount(collection) - 1; i >= 0; i--)
             {
                 _ = list.Add(collections.GetU(collection, i));
@@ -180,11 +173,7 @@ public partial class Dungeon : ExplorationSite
     // Dungeon.pas:178
     public void LiberatePrisoners(sbyte player)
     {
-        LocationTextEventLog locationLog;
-        ArmyInfoEventLog armyLog;
-        Hero hero;
-        ArmyHexSprite army;
-        locationLog = new LocationTextEventLog(null)
+        LocationTextEventLog locationLog = new(null)
         {
             Holder = CreationHolder(),
             Player = GetPlayer()
@@ -194,7 +183,7 @@ public partial class Dungeon : ExplorationSite
         locationLog.SetLocation(level: GetHexLevel(), y: GetHexY(), x: GetHexX());
         EventLog.DistributeLocationEventLog(y: GetHexY(), level: GetHexLevel(), log: locationLog, player: player, x: GetHexX(), execute: false);
         _ = locationLog.Release();
-        armyLog = new ArmyInfoEventLog(null) { Holder = CreationHolder() };
+        ArmyInfoEventLog armyLog = new(null) { Holder = CreationHolder() };
         armyLog.ArmyView.Setup(Prisoners, 255);
         sbyte hexX = GetHexX();
         armyLog.ArmyView.Location = armyLog.ArmyView.Location with { X = hexX };
@@ -206,8 +195,8 @@ public partial class Dungeon : ExplorationSite
         armyLog.Player = GetPlayer();
         armyLog.Title = AbilityRules.TranslateResourceString(GetEngine(), PrisonerLiberationText);
         armyLog.Description = "";
-        hero = Prisoners.Hero(255, Set<HeroType>.Of(HeroType.Hero));
-        if (hero == null)
+        Hero hero = Prisoners.Hero(255, Set<HeroType>.Of(HeroType.Hero));
+        if (hero is null)
         {
             if (Prisoners.Units.Count == 1)
             {
@@ -235,7 +224,7 @@ public partial class Dungeon : ExplorationSite
         }
         EventLog.DistributeLocationEventLog(y: GetHexY(), level: GetHexLevel(), log: armyLog, player: -1, x: GetHexX(), execute: false);
         _ = armyLog.Release();
-        army = new ArmyHexSprite(null) { Holder = CreationHolder() };
+        ArmyHexSprite army = new(null) { Holder = CreationHolder() };
         using (army.Army.BeginUpdate())
         {
             army.Army.SetPlayer(player);
@@ -259,7 +248,7 @@ public partial class Dungeon : ExplorationSite
     private static readonly string s_prisonersLiberatedFormat = "%s prisoners liberated";
 
     // PrisonerCollections
-    public new partial class Resource(CustomNode owner) : ExplorationSiteResource(owner)
+    public new class Resource(CustomNode owner) : ExplorationSiteResource(owner)
     {
 
         // Dungeon.pas:280
@@ -281,12 +270,8 @@ public partial class Dungeon : ExplorationSite
             PersistSupport.UnitIndexListCollection(persister, name: "PrisonerCollections", collection: PrisonerCollections);
         }
 
-        // Dungeon.pas:265
-
         // Dungeon.pas:283
         public override int ResourceUserClassId() => 131882;
-
-        // Dungeon.pas:53
 
         // Dungeon.pas:277
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_dungeonText);
@@ -294,11 +279,6 @@ public partial class Dungeon : ExplorationSite
         private static readonly string s_dungeonText = "Dungeon";
 
     }
-
-    // Dungeon.pas:33
-
-    // Dungeon.pas:33
-
 }
 
 public enum DungeonPrisonersMode : byte

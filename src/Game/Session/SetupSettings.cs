@@ -8,7 +8,7 @@ namespace Aow.Game.Session;
 
 // CRCs, day, play mode, victory, independent AI, seed, limits, players, connection, tactical
 // combat, email game name
-public partial class SetupSettings : OwningNode, IChildList<PlayerSetupSettings>
+public class SetupSettings : OwningNode, IChildList<PlayerSetupSettings>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a PlayerSetupSettings, so the cast never fails.
@@ -104,18 +104,13 @@ public partial class SetupSettings : OwningNode, IChildList<PlayerSetupSettings>
     }
 
     // AoWSetup.pas:359
-    public PlayerSetupSettings GetSettings(int index)
-    {
-        PlayerSetupSettings result = index >= 0 && index < Count ? this[index] : null;
-        return result;
-    }
+    public PlayerSetupSettings GetSettings(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // AoWSetup.pas:366
     public int IndexOfPlayer(byte player)
     {
-        int i;
         int result = -1;
-        i = 0;
+        int i = 0;
         while (result == -1 && i != Count)
         {
             if (this[i].PlayerId == player)
@@ -132,9 +127,8 @@ public partial class SetupSettings : OwningNode, IChildList<PlayerSetupSettings>
     // AoWSetup.pas:378
     public int IndexOfRemoteId(int remoteId)
     {
-        int i;
         int result = -1;
-        i = 0;
+        int i = 0;
         while (result == -1 && i != Count)
         {
             if (this[i].Behavior.Flags == remoteId)
@@ -151,9 +145,8 @@ public partial class SetupSettings : OwningNode, IChildList<PlayerSetupSettings>
     // AoWSetup.pas:390
     public int IndexOfRace(byte race)
     {
-        int i;
         int result = -1;
-        i = 0;
+        int i = 0;
         while (result == -1 && i != Count)
         {
             if (race == (byte)this[i].Race)
@@ -166,5 +159,4 @@ public partial class SetupSettings : OwningNode, IChildList<PlayerSetupSettings>
 
         return result;
     }
-
 }

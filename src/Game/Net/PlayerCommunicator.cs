@@ -8,7 +8,7 @@ using Aow.Rtl;
 namespace Aow.Game.Net;
 
 // _engine, Received, _receivedPackage, SendStream, ReceiveStream, _playerCommunicationControl, Processed
-public partial class PlayerCommunicator(CustomNode owner) : EngineObject(owner)
+public class PlayerCommunicator(CustomNode owner) : EngineObject(owner)
 {
 
     internal EventStore<PlayerCommunicator> OnReceiveStore { get; } = new();
@@ -33,12 +33,12 @@ public partial class PlayerCommunicator(CustomNode owner) : EngineObject(owner)
     // NetworkE.pas:629
     public virtual bool ActivatePlayerCommunicationControl(PlayerCommunicationControl playerCommunicationControl)
     {
-        bool result;
         PlayerCommunicationControl?.Release();
         PlayerCommunicationControl = null;
 
         PlayerCommunicationControl = playerCommunicationControl;
-        if (PlayerCommunicationControl != null)
+        bool result;
+        if (PlayerCommunicationControl is not null)
         {
             PlayerCommunicationControl.AddRef();
             result = PlayerCommunicationControl.Activate(this);
@@ -50,7 +50,7 @@ public partial class PlayerCommunicator(CustomNode owner) : EngineObject(owner)
         }
         else
         {
-            result = true;
+            return true;
         }
 
         return result;
@@ -82,15 +82,13 @@ public partial class PlayerCommunicator(CustomNode owner) : EngineObject(owner)
     // NetworkE.pas:658
     public bool ReceiveDataPackage()
     {
-        bool result = default;
-        EngineObject objectValue = default;
         ReceiveStream.Clear();
         ReceiveStream.Position = 0;
         if (PlayerCommunicationControl.ReceivePackageData(ReceiveStream))
         {
             try
             {
-                objectValue = Engine.RetrieveEngineObject(ReceiveStream, null);
+                EngineObject objectValue = Engine.RetrieveEngineObject(ReceiveStream, null);
                 if (objectValue is DataPackage received)
                 {
                     ReceivedPackage = received;
@@ -107,14 +105,12 @@ public partial class PlayerCommunicator(CustomNode owner) : EngineObject(owner)
             }
 
             ReceivedPackage = null;
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // NetworkE.pas:685
@@ -144,5 +140,4 @@ public partial class PlayerCommunicator(CustomNode owner) : EngineObject(owner)
         add => OnProcessStore.Add(value);
         remove => OnProcessStore.Remove(value);
     }
-
 }

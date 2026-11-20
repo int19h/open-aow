@@ -7,7 +7,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // inherited name, ability ID, selection types, ability type
-public partial class PassWallAbility : AdjustableAbility
+public class PassWallAbility : AdjustableAbility
 {
     // PassiveAb.pas:937
     public PassWallAbility(CustomNode owner, EngineObject holder) : base(owner)

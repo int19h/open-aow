@@ -95,7 +95,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
     // AoWProdScreen.pas:590
     public void FreePreview()
     {
-        if (_preview != null)
+        if (_preview is not null)
         {
             _preview?.Dispose();
             _preview = null;
@@ -117,8 +117,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
     // AoWProdScreen.pas:608
     public void LoadUnitImages(int index)
     {
-        int graphics;
-        graphics = GamePack.Current.UnitResources.GetUnitResource(index).UnitGraphicsResourceIndex;
+        int graphics = GamePack.Current.UnitResources.GetUnitResource(index).UnitGraphicsResourceIndex;
         _ = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(graphics).AddRef();
         _ = _images.Add(graphics);
     }
@@ -255,7 +254,6 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
     // AoWProdScreen.pas:729
     public void SelectProduction(int index)
     {
-        Unit u;
         if (_mode != 1)
         {
             SetMode(1);
@@ -274,8 +272,8 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
         switch (_productionIndex)
         {
             case >= 0 and <= 3:
-                u = _place.ProductionControl.CreateUnitProduction(_productionIndex);
-                if (u != null)
+                Unit u = _place.ProductionControl.CreateUnitProduction(_productionIndex);
+                if (u is not null)
                 {
                     UnitPanel.Visible = true;
                     sbyte attack = u.GetAttack();
@@ -397,7 +395,6 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
     // AoWProdScreen.pas:832
     public void UpdateInfo()
     {
-        string reason;
         IncomeHeader.Items.Clear();
         string name = _place.GetName();
         StructureNameLabel.Text = name;
@@ -522,7 +519,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
             {
                 if (_place.ProductionControl.Status == ProductionControlStatus.Waiting)
                 {
-                    reason = "";
+                    string reason = "";
                     string nameProgressive = _place.ProductionControl.Queue.GetItem(0).GetNameProgressive();
                     ActiveActionLabel.Text = nameProgressive;
                     ProductionItem queue = _place.ProductionControl.Queue.GetItem(0);
@@ -559,9 +556,6 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
     // AoWProdScreen.pas:180
     public void ShowPlace(ProductionPlace place)
     {
-        ArmyHexSprite army;
-        RandomBattleMapGenerator generator;
-        HexSprite center;
         Reset();
         _place = place;
         UpdateInfo();
@@ -574,13 +568,13 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
         }
 
         FreePreview();
-        generator = new RandomBattleMapGenerator(UI.Engine);
+        RandomBattleMapGenerator generator = new(UI.Engine);
         sbyte hexLevel = _place.GetHexLevel();
         sbyte hexY = _place.GetHexY();
         _preview = generator.RandomMap(null, _place.GetHexX(), hexY, hexLevel);
         generator?.Dispose();
-        army = _place.Owner.GetArmyHexSprite();
-        if (army != null)
+        ArmyHexSprite army = _place.Owner.GetArmyHexSprite();
+        if (army is not null)
         {
             for (int i = 0, last = army.Army.Units.Count - 1; i <= last; i++)
             {
@@ -590,8 +584,8 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
 
         int baseIncome = _place.GetBaseIncome();
         Action5CheckBox.CaptureInput = baseIncome != 0;
-        center = _preview.CenterViewLocation;
-        if (center != null)
+        HexSprite center = _preview.CenterViewLocation;
+        if (center is not null)
         {
             sbyte fCenterViewLocationHexY = _preview.CenterViewLocation.GetHexY();
             HexGeometry.HexToPixel(center.GetHexX(), fCenterViewLocationHexY, out _viewX, out _viewY);
@@ -639,14 +633,12 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
     public void ActivityPreDraw(CheckBox sender, LockedSurface lockedSurface, int slot)
     {
         UnitShowInfo info = default;
-        Rect r;
-        Unit u;
-        r = new Rect(ActivityPanel2.AbsoluteLeft + sender.WinLeft, ActivityPanel2.AbsoluteTop + sender.WinTop, ActivityPanel2.AbsoluteLeft + sender.WinLeft + sender.WinWidth, ActivityPanel2.AbsoluteTop + sender.WinTop + sender.WinHeight);
+        Rect r = new(ActivityPanel2.AbsoluteLeft + sender.WinLeft, ActivityPanel2.AbsoluteTop + sender.WinTop, ActivityPanel2.AbsoluteLeft + sender.WinLeft + sender.WinWidth, ActivityPanel2.AbsoluteTop + sender.WinTop + sender.WinHeight);
         switch (slot)
         {
             case >= 0 and <= 3:
-                u = _place.ProductionControl.CreateUnitProduction(slot);
-                if (u != null)
+                Unit u = _place.ProductionControl.CreateUnitProduction(slot);
+                if (u is not null)
                 {
                     info.Direction = 3;
                     info.Overlays = Set<UnitOverlayModesElement>.Of();
@@ -699,7 +691,6 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
     // AoWProdScreen.pas:299
     public void MainBtn1Click()
     {
-        string reason = "";
         switch (_mode)
         {
             case 0:
@@ -707,6 +698,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
                 SelectDefaultAction();
                 break;
             case 1:
+                string reason = "";
                 switch (_productionIndex)
                 {
                     case >= 0 and <= 3:
@@ -863,12 +855,10 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
     // AoWProdScreen.pas:389
     public void UFaceDraw(UserDrawBox sender, LockedSurface lockedSurface)
     {
-        Unit u;
-        Rect r;
-        u = _place.ProductionControl.CreateUnitProduction(_productionIndex);
-        if (u != null)
+        Unit u = _place.ProductionControl.CreateUnitProduction(_productionIndex);
+        if (u is not null)
         {
-            r = new Rect(UnitPictureFramePanel.AbsoluteLeft + sender.WinLeft + 2, UnitPictureFramePanel.AbsoluteTop + sender.WinTop + 2, UnitPictureFramePanel.AbsoluteLeft + sender.WinLeft + sender.WinWidth - 4, UnitPictureFramePanel.AbsoluteTop + sender.WinTop + sender.WinHeight - 2);
+            Rect r = new(UnitPictureFramePanel.AbsoluteLeft + sender.WinLeft + 2, UnitPictureFramePanel.AbsoluteTop + sender.WinTop + 2, UnitPictureFramePanel.AbsoluteLeft + sender.WinLeft + sender.WinWidth - 4, UnitPictureFramePanel.AbsoluteTop + sender.WinTop + sender.WinHeight - 2);
             u.ShowFace(r, lockedSurface);
             _ = u.Release();
         }
@@ -929,7 +919,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
         if (slot <= 3)
         {
             UnitProduction unitProduction = _place.ProductionControl.UnitProductions.GetItem(slot);
-            sender.CaptureInput = unitProduction != null;
+            sender.CaptureInput = unitProduction is not null;
         }
     }
 
@@ -940,18 +930,16 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
     public void CurrentActionImageDraw(Image sender, LockedSurface lockedSurface)
     {
         UnitShowInfo info = default;
-        Rect r;
-        Unit u;
         if (_place.ProductionControl.Queue.GetCount() != 0)
         {
-            if (_place.ProductionControl.Queue.GetItem(0).Order.UnitProductionIndex != null)
+            if (_place.ProductionControl.Queue.GetItem(0).Order.UnitProductionIndex is not null)
             {
-                r = new Rect(ActiveActionPanel.AbsoluteLeft + sender.WinLeft, ActiveActionPanel.AbsoluteTop + sender.WinTop, ActiveActionPanel.AbsoluteLeft + sender.WinLeft + sender.WinWidth, ActiveActionPanel.AbsoluteTop + sender.WinTop + sender.WinHeight);
+                Rect r = new(ActiveActionPanel.AbsoluteLeft + sender.WinLeft, ActiveActionPanel.AbsoluteTop + sender.WinTop, ActiveActionPanel.AbsoluteLeft + sender.WinLeft + sender.WinWidth, ActiveActionPanel.AbsoluteTop + sender.WinTop + sender.WinHeight);
                 ProductionPlaceControl productionPlaceControl = _place.ProductionControl;
-                if (productionPlaceControl.UnitProductions.GetItem(productionPlaceControl.Settings.UnitProductionIndex) != null)
+                if (productionPlaceControl.UnitProductions.GetItem(productionPlaceControl.Settings.UnitProductionIndex) is not null)
                 {
-                    u = _place.ProductionControl.CreateUnitProduction(_place.ProductionControl.Settings.UnitProductionIndex);
-                    if (u != null)
+                    Unit u = _place.ProductionControl.CreateUnitProduction(_place.ProductionControl.Settings.UnitProductionIndex);
+                    if (u is not null)
                     {
                         info.Direction = 3;
                         info.Overlays = Set<UnitOverlayModesElement>.Of();
@@ -969,16 +957,12 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
     // AoWProdScreen.pas:483
     public void MapViewDraw(UserDrawBox sender, LockedSurface lockedSurface)
     {
-        Rect r;
-        int w;
-        int h;
-        int width;
-        if (_preview != null)
+        if (_preview is not null)
         {
-            r = new Rect(Window.WinLeft + sender.WinLeft, Window.WinTop + sender.WinTop, Window.WinLeft + sender.WinLeft + sender.WinWidth, Window.WinTop + sender.WinTop + sender.WinHeight);
-            width = r.Right - r.Left;
-            w = width;
-            h = r.Bottom - r.Top;
+            Rect r = new(Window.WinLeft + sender.WinLeft, Window.WinTop + sender.WinTop, Window.WinLeft + sender.WinLeft + sender.WinWidth, Window.WinTop + sender.WinTop + sender.WinHeight);
+            int width = r.Right - r.Left;
+            int w = width;
+            int h = r.Bottom - r.Top;
             int maxPixelX = _preview.GetMaxPixelX();
             if (_viewX + w + 16 > maxPixelX)
             {
@@ -1044,8 +1028,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
     // AoWProdScreen.pas:521
     public void MapViewUpdate()
     {
-        CombatMap preview;
-        preview = _preview;
+        CombatMap preview = _preview;
         preview?.NewFrame();
 
         MapView.Drawn = MapView.Drawn && (StrategicMap.Current.Frame & 1) != 0;
@@ -1057,12 +1040,11 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
     // AoWProdScreen.pas:535
     public void UAbilitiesLBMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        Ability a;
         if (button == MouseButton.Right && UnitAbilitiesList.Selected > -1)
         {
             object objectValue = UnitAbilitiesList.Items.Objects[UnitAbilitiesList.Selected];
-            a = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
-            if (a != null)
+            Ability a = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
+            if (a is not null)
             {
                 InfoBanner.SetInfoBanner(caption: a.GetName(null), banner: UI.InfoBanner, description: a.Description);
             }
@@ -1072,11 +1054,8 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
     // AoWProdScreen.pas:546
     public void PPrevClick()
     {
-        int start;
-        int index;
-        PlayerStructure s;
-        start = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.FindChildIndex(_place);
-        index = start;
+        int start = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.FindChildIndex(_place);
+        int index = start;
         index -= 1;
         if (index < 0)
         {
@@ -1085,7 +1064,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
 
         while (index != start)
         {
-            s = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetStructure(index);
+            PlayerStructure s = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetStructure(index);
             if (s is ProductionPlace place && place.GetMagicSphere() == MagicSphere.None)
             {
                 index = start + 1;
@@ -1103,11 +1082,8 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
     // AoWProdScreen.pas:568
     public void PNextClick()
     {
-        int start;
-        int index;
-        PlayerStructure s;
-        start = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.FindChildIndex(_place);
-        index = start + 1;
+        int start = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.FindChildIndex(_place);
+        int index = start + 1;
         if (index >= StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetCount())
         {
             index = 0;
@@ -1115,7 +1091,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
 
         while (index != start)
         {
-            s = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetStructure(index);
+            PlayerStructure s = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetStructure(index);
             if (s is ProductionPlace place && place.GetMagicSphere() == MagicSphere.None)
             {
                 index = start - 1;

@@ -24,7 +24,7 @@ public partial class TacticalBattle
                 RestorePlayerConnection(World.Map.StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl, player);
             }
         }
-        if (CombatMap.Current != null)
+        if (CombatMap.Current is not null)
         {
             CombatMap.Current.UnitSelection.Clear();
             CombatMap.Current.SelectEventsStore.Raise(this);

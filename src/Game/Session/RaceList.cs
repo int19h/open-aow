@@ -11,7 +11,7 @@ using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.Session;
 
-public partial class RaceList : ControlStyleNode, IChildList<Race>
+public class RaceList : ControlStyleNode, IChildList<Race>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a Race, so the cast never fails.
@@ -27,11 +27,7 @@ public partial class RaceList : ControlStyleNode, IChildList<Race>
     public int RelationOffset { get; set; }
 
     // Ability.PAS:379
-    public Race GetRace(int index)
-    {
-        Race result = index >= 0 && index < Count ? this[index] : null;
-        return result;
-    }
+    public Race GetRace(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // Ability.PAS:385
     public int GetEnabledRaces()
@@ -39,7 +35,7 @@ public partial class RaceList : ControlStyleNode, IChildList<Race>
         int result = 0;
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            if (GetChild(i) != null && this[i].Enabled)
+            if (GetChild(i) is not null && this[i].Enabled)
             {
                 result += 1;
             }
@@ -51,17 +47,16 @@ public partial class RaceList : ControlStyleNode, IChildList<Race>
     // Ability.PAS:394
     public sbyte GetRandomRace()
     {
-        sbyte result;
-        DelphiList<Race> races;
-        races = new DelphiList<Race>();
+        DelphiList<Race> races = new();
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            if (GetChild(i) != null && this[i].Enabled)
+            if (GetChild(i) is not null && this[i].Enabled)
             {
                 _ = races.Add(this[i]);
             }
         }
 
+        sbyte result;
         if (races.Count != 0)
         {
             int random = Random(races.Count);
@@ -81,7 +76,7 @@ public partial class RaceList : ControlStyleNode, IChildList<Race>
     {
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            if (GetChild(i) != null)
+            if (GetChild(i) is not null)
             {
                 this[i].ResetPlayerRelations();
             }
@@ -93,7 +88,7 @@ public partial class RaceList : ControlStyleNode, IChildList<Race>
     {
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            if (GetChild(i) != null)
+            if (GetChild(i) is not null)
             {
                 this[i].ResetDefaultRaceRelations();
             }
@@ -103,14 +98,13 @@ public partial class RaceList : ControlStyleNode, IChildList<Race>
     // Ability.PAS:423
     public void Update()
     {
-        Race race;
         for (int i = 0, last = GamePack.Current.RaceResources.GetCount() - 1; i <= last; i++)
         {
-            if (GamePack.Current.RaceResources.GetRaceResource(i) != null)
+            if (GamePack.Current.RaceResources.GetRaceResource(i) is not null)
             {
-                if (GetRace(i) == null)
+                if (GetRace(i) is null)
                 {
-                    race = new Race(null)
+                    Race race = new(null)
                     {
                         Holder = CreationHolder(),
                         RaceIndex = (sbyte)i

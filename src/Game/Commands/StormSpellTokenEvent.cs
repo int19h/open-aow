@@ -11,7 +11,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Commands;
 
 // storm, X, Y, layer
-public partial class StormSpellTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
+public class StormSpellTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
 {
 
     // Storms.pas:730
@@ -31,7 +31,6 @@ public partial class StormSpellTokenEvent(CustomNode owner) : SpellTokenEvent(ow
     // Storms.pas:743
     public override bool Process(Troop source, int value)
     {
-        bool result;
         _ = base.Process(source, value);
         if (value == 0)
         {
@@ -39,22 +38,16 @@ public partial class StormSpellTokenEvent(CustomNode owner) : SpellTokenEvent(ow
             _storm.InitializeStorm(source.Player, Location.X, Location.Y, Location.MapLevel);
             GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, EventMana);
         }
-
         if (!_storm.UpdateStorm())
         {
             _storm.FinalizeStorm();
             _storm?.Dispose();
             _storm = null;
-            result = false;
+            return false;
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
-
-    // NetworkE.pas:230
-
 }

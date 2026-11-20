@@ -14,7 +14,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class Flood : GlobalEnchantmentSpell
+public class Flood : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:1356
     public Flood(CustomNode owner, EngineObject holder) : base(owner)
@@ -31,14 +31,13 @@ public partial class Flood : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:1370
     public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        TwinkleAnimation twinkle;
         _ = base.ExecuteTokenEvent(eventValue, source, executeCount);
         MapCoordinate coordinate67 = source.GetLocation();
         sbyte x = coordinate67.X;
         sbyte y = coordinate67.Y;
         sbyte l = coordinate67.MapLevel;
         _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
-        twinkle = new TwinkleAnimation(null) { Holder = CreationHolder() };
+        TwinkleAnimation twinkle = new(null) { Holder = CreationHolder() };
         twinkle.Setup(GamePack.Current.SpellControl.GetSpell(50).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), 50, 64, 50, 30);
         _ = StrategicMap.Current.PlaceHex(twinkle, x, y, l);
         _ = CastSounds.Play(0);

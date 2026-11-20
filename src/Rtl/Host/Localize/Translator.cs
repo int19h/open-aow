@@ -38,7 +38,10 @@ public static class TranslatorProperties
                     _ = strings.Add(value);
                 }
             }
-            finally { strings.EndUpdate(); }
+            finally
+            {
+                strings.EndUpdate();
+            }
         }, true);
     }
 
@@ -172,7 +175,11 @@ public class IvCustomTranslator(Component? owner = null) : Component(owner)
         {
             int marker = DelphiStrings.Pos("<eol>", value), lineFeed = DelphiStrings.Pos("\n", value);
             int end = marker != 0 && (lineFeed == 0 || marker < lineFeed) ? marker : lineFeed;
-            if (end == 0) { result.Add(value); break; }
+            if (end == 0)
+            {
+                result.Add(value);
+                break;
+            }
             result.Add(DelphiStrings.Copy(value, 1, end - 1));
             int skip = end == marker ? 5 : 1;
             value = DelphiStrings.Copy(value, end + skip, value.Length - end - skip + 1);

@@ -8,7 +8,7 @@ using Aow.Rtl;
 namespace Aow.Game.World.Structures;
 
 // Production id 12: build the city's next wall.
-public sealed partial record Fortify : ProductionOrder
+public sealed record Fortify : ProductionOrder
 {
     public const int Kind = 12;
 
@@ -16,16 +16,16 @@ public sealed partial record Fortify : ProductionOrder
 
     public override CityAction CityAction => CityAction.Fortify;
 
-    public override string Name(ProductionControl control) =>
-        control.ProductionCity() != null ? AbilityRules.TranslateResourceString(control.GetEngine(), GameText.FortifyText) : base.Name(control);
+    public override string Name(ProductionControl control)
+        => control.ProductionCity() is not null ? AbilityRules.TranslateResourceString(control.GetEngine(), GameText.FortifyText) : base.Name(control);
 
-    public override string NameProgressive(ProductionControl control) =>
-        control.ProductionCity() != null ? AbilityRules.TranslateResourceString(control.GetEngine(), s_fortifyingText) : base.NameProgressive(control);
+    public override string NameProgressive(ProductionControl control)
+        => control.ProductionCity() is not null ? AbilityRules.TranslateResourceString(control.GetEngine(), s_fortifyingText) : base.NameProgressive(control);
 
     public override bool CanExecute(ProductionControl control, ref string reason)
     {
         City city = control.ProductionCity();
-        if (city == null)
+        if (city is null)
         {
             return base.CanExecute(control, ref reason);
         }
@@ -42,7 +42,7 @@ public sealed partial record Fortify : ProductionOrder
     public override void Executed(ProductionControl control)
     {
         City city = control.ProductionCity();
-        if (city == null)
+        if (city is null)
         {
             return;
         }
@@ -59,7 +59,7 @@ public sealed partial record Fortify : ProductionOrder
     public override void Completed(ProductionControl control)
     {
         City city = control.ProductionCity();
-        if (city == null)
+        if (city is null)
         {
             return;
         }
@@ -84,7 +84,7 @@ public sealed partial record Fortify : ProductionOrder
         control.EndUpdate();
     }
 
-    public override bool Loopable(ProductionControl control) => control.ProductionCity() == null;
+    public override bool Loopable(ProductionControl control) => control.ProductionCity() is null;
 
     public override int ActivityImage(City city) => city.WallType == 0 ? 41 : 42;
 

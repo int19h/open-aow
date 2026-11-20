@@ -5,7 +5,7 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Engine.Nodes;
 
 // resources with unique ids
-public partial class ResourceCollection(CustomNode owner) : EngineNode(owner), IChildList<EngineResource>
+public class ResourceCollection(CustomNode owner) : EngineNode(owner), IChildList<EngineResource>
 {
     public new const int ClassId = 1025;
 
@@ -32,20 +32,15 @@ public partial class ResourceCollection(CustomNode owner) : EngineNode(owner), I
     // Engine.pas:8582
     public EngineResource FindResource(int id)
     {
-        EngineResource result;
-        int i;
-        bool found;
-        found = false;
-        i = 0;
+        bool found = false;
+        int i = 0;
         while (!found && i != Count)
         {
-            found = GetChild(i) != null && id == this[i].ResourceId;
+            found = GetChild(i) is not null && id == this[i].ResourceId;
             i += 1;
         }
 
-        result = found ? this[i - 1] : null;
-
-        return result;
+        return found ? this[i - 1] : null;
     }
 
     // The id selects the resource. A resource of another class throws, the same way the call site did.
@@ -54,32 +49,28 @@ public partial class ResourceCollection(CustomNode owner) : EngineNode(owner), I
     // Engine.pas:8600
     public void ValidateResourceId(int index)
     {
-        int id;
-        int newId;
-        int tries;
-        bool found;
         if (index < Count)
         {
-            id = GetResource(index).ResourceId;
+            int id = GetResource(index).ResourceId;
             EngineResource resource = GetResource(index);
             resource.ResourceId ^= 65535;
 
-            if (FindResource(id) != null)
+            if (FindResource(id) is not null)
             {
-                tries = 10;
-                found = false;
-                newId = 0;
+                int tries = 10;
+                bool found = false;
+                int newId = 0;
                 while (tries > 0 && !found)
                 {
                     newId = Random(268435455);
-                    found = FindResource(newId) == null;
+                    found = FindResource(newId) is null;
                     tries -= 1;
                 }
 
                 while (!found)
                 {
                     newId = tries;
-                    found = FindResource(newId) == null;
+                    found = FindResource(newId) is null;
                     tries += 1;
                 }
 
@@ -91,5 +82,4 @@ public partial class ResourceCollection(CustomNode owner) : EngineNode(owner), I
             }
         }
     }
-
 }

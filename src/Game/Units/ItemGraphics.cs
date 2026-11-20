@@ -16,7 +16,7 @@ using static Aow.Rtl.DelphiStrings;
 namespace Aow.Game.Units;
 
 // library name, image index, item type, library, references, hidden
-public partial class ItemGraphics(CustomNode owner) : EngineResource(owner)
+public class ItemGraphics(CustomNode owner) : EngineResource(owner)
 {
     public new const int ClassId = 131689;
 
@@ -70,9 +70,8 @@ public partial class ItemGraphics(CustomNode owner) : EngineResource(owner)
     // Army.PAS:5152
     public override LibraryImage GetCellImage()
     {
-        LibraryImage image;
         _ = AddRef();
-        image = _imageLibrary[ImageIndex];
+        LibraryImage image = _imageLibrary[ImageIndex];
         _ = Release();
         return image;
     }
@@ -92,7 +91,7 @@ public partial class ItemGraphics(CustomNode owner) : EngineResource(owner)
     // Army.PAS:5116
     public void ReleaseImageLibrary()
     {
-        if (_imageLibrary != null)
+        if (_imageLibrary is not null)
         {
             if (!IsEmpty(ImageLibraryName))
             {
@@ -120,10 +119,6 @@ public partial class ItemGraphics(CustomNode owner) : EngineResource(owner)
     }
 
     // Army.PAS:5161
-    public LibraryImage GetItemImage()
-    {
-        LibraryImage result = _imageLibrary?[ImageIndex];
-        return result;
-    }
+    public LibraryImage GetItemImage() => _imageLibrary?[ImageIndex];
 
 }

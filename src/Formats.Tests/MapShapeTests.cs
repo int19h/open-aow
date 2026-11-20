@@ -378,8 +378,8 @@ public sealed class MapShapeTests : FormatsTest
         return level;
     }
 
-    private static string Describe(LevelProbe level, bool storedOnly) =>
-        level.Width + "x" + level.Height + "@" + level.HexLevel + ":" + string.Join("|", level.Fields.Select(field =>
+    private static string Describe(LevelProbe level, bool storedOnly)
+        => level.Width + "x" + level.Height + "@" + level.HexLevel + ":" + string.Join("|", level.Fields.Select(field =>
             $"{field.Flags}[{string.Join(",", field.Sprites.Where(sprite => !storedOnly || !sprite.Shared).Select(sprite => $"{sprite.DaysRemaining}/{sprite.CasterPlayer}"))}]"));
 
     private static string Compact(JsonValue value) => Encoding.UTF8.GetString(JsonWriter.ToUtf8(value)).Replace(" ", "").Replace("\n", "");

@@ -88,7 +88,7 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     // UnitHS.PAS:232
     public override sbyte GetHexLevel()
     {
-        Assert(Owner != null, "Onwer isn't defined", "UnitHS.PAS", 557);
+        Assert(Owner is not null, "Onwer isn't defined", "UnitHS.PAS", 557);
         return Owner.HexLevel;
     }
 
@@ -104,12 +104,10 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     // UnitHS.PAS:692
     public override void Connect()
     {
-        MapField field;
-        MapLevel level;
         CalculateShowPriority();
-        field = Owner;
+        MapField field = Owner;
         _ = field.RemoveChild(this);
-        level = field.Owner;
+        MapLevel level = field.Owner;
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, field.HexX, field.HexY, 0);
         while (walk.Radius <= 1)
         {
@@ -126,12 +124,10 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     // UnitHS.PAS:716
     public override void Disconnect()
     {
-        MapField field;
-        MapLevel level;
-        if (Owner != null)
+        if (Owner is not null)
         {
-            field = Owner;
-            level = field.Owner;
+            MapField field = Owner;
+            MapLevel level = field.Owner;
             HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, field.HexX, field.HexY, 0);
             while (walk.Radius <= 1)
             {
@@ -166,10 +162,9 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     // UnitHS.PAS:751
     public override void RemoveFromMap()
     {
-        MapField field;
-        if (Owner != null)
+        if (Owner is not null)
         {
-            field = Owner;
+            MapField field = Owner;
             if (Moving())
             {
                 CancelMove();
@@ -191,8 +186,7 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     // UnitHS.PAS:779
     public override void Remove()
     {
-        MapField field;
-        field = Owner;
+        MapField field = Owner;
         RemoveFromMap();
         if (GetVisible())
         {
@@ -246,7 +240,7 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
             Status = (byte)(Status | 1);
             _ = visibilityList.AddSortChild(this, _showPriority);
             // { Read Shadow directly. }
-            if (_shadow != null)
+            if (_shadow is not null)
             {
                 _ = visibilityList.AddSortChild(sortValue: _shadow.GetShowPriority(), child: _shadow);
             }
@@ -256,18 +250,15 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     // UnitHS.PAS:613
     public override bool CanSelect(int pixelX, int pixelY)
     {
-        bool result;
         if (!Moving())
         {
             HexGeometry.PixelToHex(pixelX, pixelY, out int x, out int y);
-            result = Owner.HexX == x && Owner.HexY == y;
+            return Owner.HexX == x && Owner.HexY == y;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // UnitHS.PAS:560
@@ -283,11 +274,9 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     // UnitHS.PAS:627
     public virtual void CalculateShowPriority()
     {
-        MapField field;
-        HexSprite hexSprite;
         int x = default;
         int y = default;
-        field = Owner;
+        MapField field = Owner;
         if (Moving() && Set<byte>.WithBounds(0, 255).WithRange(3, 5).Contains(Direction))
         {
             HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, Direction, ref x, ref y);
@@ -299,9 +288,9 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
             HexGeometry.HexToPixel(field.HexX, field.HexY, out x, out y);
         }
 
-        hexSprite = field.GetMaxLevelNoneTransparentHexSprite();
+        HexSprite hexSprite = field.GetMaxLevelNoneTransparentHexSprite();
         _showPriority = 1744830464 + ((y + 34 + 6) << 13) + x + 16;
-        if (hexSprite != this && hexSprite != null && hexSprite.GetShowPriority() >= _showPriority)
+        if (hexSprite != this && hexSprite is not null && hexSprite.GetShowPriority() >= _showPriority)
         {
             _showPriority = hexSprite.GetShowPriority() + 2;
         }
@@ -313,7 +302,7 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     // UnitHS.PAS:766
     public virtual bool MoveTo(MapField field, int moveCost)
     {
-        if (Owner != null)
+        if (Owner is not null)
         {
             RemoveFromMap();
         }
@@ -330,12 +319,10 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     // UnitHS.PAS:793
     public virtual bool PlaceHex(MapContainer map, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        MapField field;
-        bool success;
-        field = map.GetField(hexX, hexY, hexLevel);
+        MapField field = map.GetField(hexX, hexY, hexLevel);
         SetOwnerWithoutNotify(field);
         CalculateShowPriority();
-        success = PlaceOnMap();
+        bool success = PlaceOnMap();
         _ = field.RemoveChild(this);
         SetOwnerWithoutNotify(null);
         SetOwner(field);
@@ -368,29 +355,20 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     // UnitHS.PAS:974
     public virtual int GetMoveSteps()
     {
-        int result;
-        switch (UnitGraphicsResource.MoveAnimationSpeed)
+        return UnitGraphicsResource.MoveAnimationSpeed switch
         {
-            case 0:
-                return 12;
-            case 1:
-                return 10;
-            case 2:
-                return 8;
-            case 3:
-                return 6;
-            default:
-                result = 8;
-                break;
-        }
-
-        return result;
+            0 => 12,
+            1 => 10,
+            2 => 8,
+            3 => 6,
+            _ => 8,
+        };
     }
 
     // UnitHS.PAS:176
     public void CreateShadow()
     {
-        if (_shadow != null)
+        if (_shadow is not null)
         {
             DestroyShadow();
         }
@@ -408,7 +386,7 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     // UnitHS.PAS:185
     public void DestroyShadow()
     {
-        if (_shadow != null)
+        if (_shadow is not null)
         {
             if (GetVisible())
             {
@@ -421,18 +399,16 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     }
 
     // UnitHS.PAS:584
-    public int GetUnitGraphicsResourceIndex() => UnitGraphicsResource != null ? UnitGraphicsResource.GetIndex() : -1;
+    public int GetUnitGraphicsResourceIndex() => UnitGraphicsResource is not null ? UnitGraphicsResource.GetIndex() : -1;
 
     // UnitHS.PAS:594
     public void SetUnitGraphicsResourceIndex(int value)
     {
-        UnitGraphicsResource resource;
-        UnitGraphicsResource old;
         // { This eliminated copy preserves the original saved registers. }
-        resource = UnitGraphicsResource;
-        if (resource == null || value != resource.GetIndex())
+        UnitGraphicsResource resource = UnitGraphicsResource;
+        if (resource is null || value != resource.GetIndex())
         {
-            old = UnitGraphicsResource;
+            UnitGraphicsResource old = UnitGraphicsResource;
             _ = (old?.Release());
 
             resource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(value);
@@ -458,26 +434,23 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     // UnitHS.PAS:920
     public sbyte GetMoveStatus()
     {
-        sbyte result;
         if (MoveStep >= 0)
         {
             int moveSteps = GetMoveSteps();
             if (MoveStep < moveSteps)
             {
                 int moveSteps2 = GetMoveSteps();
-                result = (sbyte)Round((double)(MoveStep * 100) / moveSteps2);
+                return (sbyte)Round((double)(MoveStep * 100) / moveSteps2);
             }
             else
             {
-                result = 100;
+                return 100;
             }
         }
         else
         {
-            result = -1;
+            return -1;
         }
-
-        return result;
     }
 
     // UnitHS.PAS:929
@@ -502,7 +475,6 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     // UnitHS.PAS:940
     public sbyte MoveNext()
     {
-        sbyte result;
         if (MoveStep >= 0)
         {
             Status = (byte)(Status & 247);
@@ -511,19 +483,17 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
             {
                 MoveStep = (sbyte)(MoveStep + 1);
                 int moveSteps2 = GetMoveSteps();
-                result = (sbyte)Round((double)(MoveStep * 100) / moveSteps2);
+                return (sbyte)Round((double)(MoveStep * 100) / moveSteps2);
             }
             else
             {
-                result = 100;
+                return 100;
             }
         }
         else
         {
-            result = -1;
+            return -1;
         }
-
-        return result;
     }
 
     // UnitHS.PAS:956
@@ -541,7 +511,4 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
             Status = (byte)(Status & 231);
         }
     }
-
-    // intf_P2_03.inc:74
-
 }

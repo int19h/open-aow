@@ -39,7 +39,7 @@ public partial class SetupEvents(UIContext ui) : UIModule(ui)
         UI.ChatWindow.PlayerList.Items.Clear();
         string allPlayers = UI.Engine.TranslateResourceString(s_allPlayersText);
         _ = UI.ChatWindow.PlayerList.Items.AddObject(allPlayers, null);
-        if (StrategicMap.Current != null)
+        if (StrategicMap.Current is not null)
         {
             for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
             {
@@ -77,9 +77,9 @@ public partial class SetupEvents(UIContext ui) : UIModule(ui)
     }
 
     // aowSetupEvents.pas:102
-    public void SetupControlSendMap(SetupControl control, object data, int size, int recipient) =>
+    public void SetupControlSendMap(SetupControl control, object data, int size, int recipient)
         /* TODO: Implement aowDPlayComp.Players in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     // aowSetupEvents.pas:111
     public void DPlayFileStartMessage(int id, string name, int size, in byte response)
@@ -91,9 +91,9 @@ public partial class SetupEvents(UIContext ui) : UIModule(ui)
     }
 
     // aowSetupEvents.pas:119
-    public void DPlayFileDoneMessage(int id, GDFile fileData) =>
+    public void DPlayFileDoneMessage(int id, GDFile fileData)
         /* TODO: Implement aowDPlayComp.FData in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     // aowSetupEvents.pas:125
     public void DPlayFileProgressMessage(int id, int position, int size)
@@ -123,9 +123,9 @@ public partial class SetupEvents(UIContext ui) : UIModule(ui)
     }
 
     // aowSetupEvents.pas:150
-    public void DPlayMessageTimeout(GDMessage message) =>
+    public void DPlayMessageTimeout(GDMessage message)
         /* TODO: Implement aowDPlayComp.FToID in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     // aowSetupEvents.pas:170
     public void DPlayEjected()
@@ -195,17 +195,17 @@ public partial class SetupEvents(UIContext ui) : UIModule(ui)
     }
 
     // aowSetupEvents.pas:220
-    public bool SetupControlSendData(object data, int size, int recipient) =>
+    public bool SetupControlSendData(object data, int size, int recipient)
         /* TODO: Implement aowDPlayComp.SendMessage in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     // aowSetupEvents.pas:225
     public void SetupControlSettingChanged() => ScenarioSetup.UpdateScenarioSetup(UI.ScenarioSetup);
 
     // aowSetupEvents.pas:228
-    public void SetupControlEjectPlayer(SetupControl control, int remoteId) =>
+    public void SetupControlEjectPlayer(SetupControl control, int remoteId)
         /* TODO: Implement aowDPlayComp.EjectPlayer in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     // aowSetupEvents.pas:231
     public void DPlayMessage(object data, in int size, in int toId, in int fromId)
@@ -215,7 +215,7 @@ public partial class SetupEvents(UIContext ui) : UIModule(ui)
             SetupControl.DataReceived(data, size, fromId);
         }
 
-        if (StrategicMap.Current != null && StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated))
+        if (StrategicMap.Current is not null && StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated))
         {
             if (StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl is RemotePlayerCommunicationControl remote)
             {
@@ -236,14 +236,14 @@ public partial class SetupEvents(UIContext ui) : UIModule(ui)
     }
 
     // aowSetupEvents.pas:249
-    public void SetupControlIncompatibleVersion(SetupControl control, int major, int minor) =>
+    public void SetupControlIncompatibleVersion(SetupControl control, int major, int minor)
         /* TODO: Implement aowDPlayComp.CloseSession in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     // aowSetupEvents.pas:263
-    public void DPlaySessionLost() =>
+    public void DPlaySessionLost()
         /* TODO: Implement aowDPlayComp.DisConnect in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     // aowSetupEvents.pas:282
     public void SetupControlSendingMaps()
@@ -261,8 +261,7 @@ public partial class SetupEvents(UIContext ui) : UIModule(ui)
     // aowSetupEvents.pas:299
     public void DPlayDestroyPlayer(int id, int numberPlayers)
     {
-        sbyte player;
-        if (UI.ScenarioSetup.SetupControl != null)
+        if (UI.ScenarioSetup.SetupControl is not null)
         {
             if (UI.ScenarioSetup.SetupControl.GetHost())
             {
@@ -270,12 +269,12 @@ public partial class SetupEvents(UIContext ui) : UIModule(ui)
             }
         }
 
-        if (StrategicMap.Current != null && StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl != null)
+        if (StrategicMap.Current is not null && StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl is not null)
         {
-            player = (sbyte)StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.IndexOfSystemId(id);
+            sbyte player = (sbyte)StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.IndexOfSystemId(id);
             if (player != -1)
             {
-                if (StrategicMap.Current.Players.GetPlayers(player) != null)
+                if (StrategicMap.Current.Players.GetPlayers(player) is not null)
                 {
                     if (StrategicMap.Current.Players.GetPlayers(player).Status == PlayerStatus.Playing)
                     {
@@ -298,8 +297,8 @@ public partial class SetupEvents(UIContext ui) : UIModule(ui)
 
     private static readonly string s_warningText = "Warning";
 
-    internal static bool StartLobby(SetupEvents events) =>
+    internal static bool StartLobby(SetupEvents events)
         /* TODO: Implement aowDPlayComp.CheckLobby in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
 }

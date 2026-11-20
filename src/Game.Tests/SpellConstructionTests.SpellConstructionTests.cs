@@ -135,8 +135,15 @@ public sealed partial class SpellConstructionTests
     private static GameEngine RegisteredEngine(Type type)
     {
         GameEngine engine = new(null);
-        try { engine.RegisterEngineClasses([EngineClass.Of(type)]); }
-        catch { engine.Dispose(); throw; }
+        try
+        {
+            engine.RegisterEngineClasses([EngineClass.Of(type)]);
+        }
+        catch
+        {
+            engine.Dispose();
+            throw;
+        }
         return engine;
     }
 
@@ -172,7 +179,10 @@ public sealed partial class SpellConstructionTests
 
         if (route == 3)
         {
-            try { return (EngineObject)meta.GetType().GetMethod("CreateInstance", [typeof(CustomNode), typeof(EngineObject)])!.Invoke(meta, [owner, EngineFixture.Engine])!; }
+            try
+            {
+                return (EngineObject)meta.GetType().GetMethod("CreateInstance", [typeof(CustomNode), typeof(EngineObject)])!.Invoke(meta, [owner, EngineFixture.Engine])!;
+            }
             catch (TargetInvocationException error) when (error.InnerException is not null)
             {
                 ExceptionDispatchInfo.Capture(error.InnerException).Throw();
@@ -189,7 +199,10 @@ public sealed partial class SpellConstructionTests
         {
             return engine.CreateEngineObject(meta.ClassId, owner);
         }
-        finally { engine.Dispose(); }
+        finally
+        {
+            engine.Dispose();
+        }
     }
 
     public static IEnumerable<object[]> Classes => ConstructionSnapshot.Keys("SpellConstruction").Select(name => new object[] { name });

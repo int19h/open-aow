@@ -23,5 +23,4 @@ public partial class SmtpEventLog(CustomNode owner) : EventLog(owner)
         Message?.Dispose();
         base.Dispose();
     }
-
 }

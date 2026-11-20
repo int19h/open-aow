@@ -6,7 +6,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Events;
 
 // inherited text
-public partial class NewDayEventLog(CustomNode owner) : TextEventLog(owner)
+public class NewDayEventLog(CustomNode owner) : TextEventLog(owner)
 {
 
     // EventLog.pas:809
@@ -23,5 +23,4 @@ public partial class NewDayEventLog(CustomNode owner) : TextEventLog(owner)
             base.PlayLoggedSfx(logbook);
         }
     }
-
 }

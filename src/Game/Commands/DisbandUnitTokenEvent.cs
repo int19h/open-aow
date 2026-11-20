@@ -15,7 +15,7 @@ using Aow.Rtl;
 namespace Aow.Game.Commands;
 
 // unit ID, player
-public partial class DisbandUnitTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class DisbandUnitTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
     public new const int ClassId = 135447;
 
@@ -33,14 +33,8 @@ public partial class DisbandUnitTokenEvent(CustomNode owner) : TokenEvent(owner)
     // MoveT.PAS:3539
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        Troop troop;
-        PlayerStructure structure;
-        ArmyHexSprite armyHexSprite;
-        GroupBehavior behavior;
-        int i;
-        int n;
-        troop = StrategicMap.Current.UnitControl.FindUnit(UnitId);
-        if (troop != null && troop.Player == Player)
+        Troop troop = StrategicMap.Current.UnitControl.FindUnit(UnitId);
+        if (troop is not null && troop.Player == Player)
         {
             _ = troop.AddRef();
             if (troop.GetRace() == 5 && troop.Player > 0 && StrategicMap.Current.Players.GetPlayers(troop.Player).PlayerRace == 5 && (troop.GetAbilityEnabled(162) || troop.GetAbilityEnabled(164) || troop.GetAbilityEnabled(165)))
@@ -54,8 +48,9 @@ public partial class DisbandUnitTokenEvent(CustomNode owner) : TokenEvent(owner)
                 sbyte x = coordinate5.X;
                 sbyte y = coordinate5.Y;
                 sbyte l = coordinate5.MapLevel;
-                structure = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<PlayerStructure>();
-                if (troop.Owner is not Army || troop.Owner.Count > 1 || (structure != null && structure.Player > 0))
+                PlayerStructure structure = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<PlayerStructure>();
+                ArmyHexSprite armyHexSprite;
+                if (troop.Owner is not Army || troop.Owner.Count > 1 || (structure is not null && structure.Player > 0))
                 {
                     MapCoordinate coordinate6 = troop.GetLocation();
                     x = coordinate6.X;
@@ -70,12 +65,12 @@ public partial class DisbandUnitTokenEvent(CustomNode owner) : TokenEvent(owner)
                     armyHexSprite = troop.ArmyOwner.GetArmyHexSprite();
                 }
 
-                if (armyHexSprite != null)
+                if (armyHexSprite is not null)
                 {
-                    n = StrategicMap.Current.Random(10);
-                    behavior = n == 0 ? GroupBehavior.GuardArea : n < 7 ? GroupBehavior.Scout : GroupBehavior.Raid;
+                    int n = StrategicMap.Current.Random(10);
+                    GroupBehavior behavior = n == 0 ? GroupBehavior.GuardArea : n < 7 ? GroupBehavior.Scout : GroupBehavior.Raid;
 
-                    i = armyHexSprite.Army.Units.IndexOfBehavior(behavior);
+                    int i = armyHexSprite.Army.Units.IndexOfBehavior(behavior);
                     if (i == -1)
                     {
                         int indexOf = armyHexSprite.Army.Units.IndexOf(troop);
@@ -106,7 +101,4 @@ public partial class DisbandUnitTokenEvent(CustomNode owner) : TokenEvent(owner)
 
         return ExecuteResult.Done;
     }
-
-    // NetworkE.pas:230
-
 }

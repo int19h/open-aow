@@ -9,7 +9,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Combat.Actions;
 
 // (successful)
-public partial class InvokeDeathCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
+public class InvokeDeathCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
 {
     public new const int ClassId = 131780;
 
@@ -27,12 +27,10 @@ public partial class InvokeDeathCombatAction(CustomNode owner) : SingleTargetCom
     // AoWAb.PAS:3420
     public override void Execute(Battle combat)
     {
-        CombatObject source;
-        CombatObject target;
         if (Successful)
         {
-            source = combat.CombatData.FindId(SourceId);
-            target = combat.CombatData.FindId(TargetId);
+            CombatObject source = combat.CombatData.FindId(SourceId);
+            CombatObject target = combat.CombatData.FindId(TargetId);
             _ = source.DoDamage(target, target.GetHitPoints());
         }
     }
@@ -70,7 +68,4 @@ public partial class InvokeDeathCombatAction(CustomNode owner) : SingleTargetCom
         TargetId = targetId;
         Successful = successful;
     }
-
-    // intf_P3_02.inc:38
-
 }

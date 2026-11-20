@@ -11,7 +11,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class EarthMasteryEnchantment : GlobalEnchantment
+public class EarthMasteryEnchantment : GlobalEnchantment
 {
     // GlobalEnchantmentSpells.pas:1828
     public new const int ClassId = 135970;
@@ -31,9 +31,8 @@ public partial class EarthMasteryEnchantment : GlobalEnchantment
     // GlobalEnchantmentSpells.pas:1861
     public override bool Deactivate(byte player)
     {
-        Player playerLocal;
         _ = base.Deactivate(player);
-        playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
+        Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
         PlayerMagicControl playerMagicControl = playerLocal.MagicControl;
         playerMagicControl.SetActiveEnchantments(playerMagicControl.ActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.EarthMastery));
 
@@ -59,7 +58,7 @@ public partial class EarthMasteryEnchantment : GlobalEnchantment
             if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.EarthMastery))
             {
                 reason = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.IsAlreadyActiveFormat), [Name]);
-                result = false;
+                return false;
             }
         }
 
@@ -69,11 +68,10 @@ public partial class EarthMasteryEnchantment : GlobalEnchantment
     // GlobalEnchantmentSpells.pas:1845
     public override bool Activate(sbyte player)
     {
-        Player playerLocal;
         _ = base.Activate(player);
         // { Original doubles Air. }
         StrategicMap.Current.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Air);
-        playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
+        Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
         PlayerMagicControl playerMagicControl = playerLocal.MagicControl;
         playerMagicControl.SetActiveEnchantments(playerMagicControl.ActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.EarthMastery));
 
@@ -87,5 +85,4 @@ public partial class EarthMasteryEnchantment : GlobalEnchantment
 
         return true;
     }
-
 }

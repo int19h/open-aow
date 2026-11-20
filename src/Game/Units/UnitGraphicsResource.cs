@@ -21,7 +21,7 @@ namespace Aow.Game.Units;
 // { Interface declaration run owned by P2. }
 // Name. FaceIndex. FaceImageLibrary. FaceImageLibraryName. Sequences. RefCount. flags.
 // SfxLibraries
-public partial class UnitGraphicsResource : EngineResource
+public class UnitGraphicsResource : EngineResource
 {
     public new const int ClassId = 131600;
 
@@ -110,7 +110,7 @@ public partial class UnitGraphicsResource : EngineResource
     public override int Release()
     {
         _refCount -= 1;
-        if (_refCount == 0 && !GamePack.Current.Status.Contains(HexSpriteSetStatusElement.Editting) && (StrategicMap.Current == null || !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting)))
+        if (_refCount == 0 && !GamePack.Current.Status.Contains(HexSpriteSetStatusElement.Editting) && (StrategicMap.Current is null || !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting)))
         {
             ReleaseImageLibrary();
         }
@@ -131,9 +131,8 @@ public partial class UnitGraphicsResource : EngineResource
     // UnitHS.PAS:88
     public override LibraryImage GetCellImage()
     {
-        LibraryImage result;
         _ = AddRef();
-        result = Sequences.GetImageSequence(2)?.GetPreviewImage() ?? Sequences.GetPreviewImage();
+        LibraryImage result = Sequences.GetImageSequence(2)?.GetPreviewImage() ?? Sequences.GetPreviewImage();
         _ = Release();
         return result;
     }
@@ -155,7 +154,7 @@ public partial class UnitGraphicsResource : EngineResource
     public void ReleaseImageLibrary()
     {
         Sequences.ReleaseImageLibrary();
-        if (_faceImageLibrary != null)
+        if (_faceImageLibrary is not null)
         {
             if (!IsEmpty(_faceImageLibraryName))
             {
@@ -185,9 +184,8 @@ public partial class UnitGraphicsResource : EngineResource
     // UnitHS.PAS:80
     public LibraryImage GetFaceImage()
     {
-        LibraryImage result;
         _ = AddRef();
-        result = _faceImageLibrary?.GetSafe(_faceIndex);
+        LibraryImage result = _faceImageLibrary?.GetSafe(_faceIndex);
 
         _ = Release();
         return result;
@@ -196,13 +194,11 @@ public partial class UnitGraphicsResource : EngineResource
     // UnitHS.PAS:97
     public void Show(int direction, int X, int Y, in LockedSurface lockedSurface)
     {
-        ImageSequence sequence;
-        int index;
         _ = AddRef();
-        sequence = Sequences.List[direction - 1];
-        while (sequence != null)
+        ImageSequence sequence = Sequences.List[direction - 1];
+        while (sequence is not null)
         {
-            index = sequence.GetFrameIndex(1, 0);
+            int index = sequence.GetFrameIndex(1, 0);
             if (index != -1)
             {
                 sequence.ImageLibrary[index].Show(X, Y, lockedSurface);
@@ -216,7 +212,4 @@ public partial class UnitGraphicsResource : EngineResource
 
     // UnitHS.PAS:112
     public int GetIndex() => EditIndex;
-
-    // intf_P2_03.inc:22
-
 }

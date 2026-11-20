@@ -8,7 +8,7 @@ namespace Aow.Game.Net;
 
 // FLocalSystemID, FPackageDataList, FOnSendData. The control of a network game: the transport
 // sends through OnSendData and hands what arrives to DataReceived
-public partial class RemotePlayerCommunicationControl(EngineObject creator) : PlayerCommunicationControl(creator)
+public class RemotePlayerCommunicationControl(EngineObject creator) : PlayerCommunicationControl(creator)
 {
 
     private int _localSystemId;
@@ -24,15 +24,12 @@ public partial class RemotePlayerCommunicationControl(EngineObject creator) : Pl
     // { The number of different system IDs among the players }
     public override int GetSystemCount()
     {
-        int j;
-        int id;
-        bool unique;
         int result = 0;
         for (int i = 0, last = PlayerCommunicationSettingsList.Count - 1; i <= last; i++)
         {
-            id = PlayerCommunicationSettingsList.Players[i].SystemId;
-            unique = true;
-            j = 0;
+            int id = PlayerCommunicationSettingsList.Players[i].SystemId;
+            bool unique = true;
+            int j = 0;
             while (j != i && unique)
             {
                 unique = id != PlayerCommunicationSettingsList.Players[j].SystemId;
@@ -54,21 +51,18 @@ public partial class RemotePlayerCommunicationControl(EngineObject creator) : Pl
     // NetworkE.pas:824
     public override bool ReceivePackageData(MemoryStream stream)
     {
-        bool result;
         if (PackageDataList.Count != 0)
         {
             stream.SetLength(PackageDataList.PackageData[0].Length);
             int size = (int)stream.Length;
             Move(PackageDataList.PackageData[0].GetBuffer().AsSpan(0, size), stream.GetBuffer().AsSpan(0, size), size);
             PackageDataList.Delete(0);
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // NetworkE.pas:852
@@ -76,10 +70,9 @@ public partial class RemotePlayerCommunicationControl(EngineObject creator) : Pl
     //   for every player or for a player on this system is also received here. }
     public override bool SendPackageData(int player, MemoryStream stream)
     {
-        bool result;
         int systemId = player == NetworkSession.AllPlayers ? 0 : PlayerCommunicationSettingsList.Players[player].SystemId;
 
-        result = systemId == _localSystemId || SendData(size: (int)stream.Length, data: stream.GetBuffer(), systemId: systemId);
+        bool result = systemId == _localSystemId || SendData(size: (int)stream.Length, data: stream.GetBuffer(), systemId: systemId);
 
         if (player == NetworkSession.AllPlayers || systemId == _localSystemId)
         {
@@ -116,10 +109,6 @@ public partial class RemotePlayerCommunicationControl(EngineObject creator) : Pl
     public void DataReceived(object data, int size, int systemId) => PackageDataList.AddData(data, size);
 
     // NetworkE.pas:842
-    public bool SendData(object data, int size, int systemId)
-    {
-        bool result = OnSendData != null && OnSendData(data, size, systemId);
-        return result;
-    }
+    public bool SendData(object data, int size, int systemId) => OnSendData is not null && OnSendData(data, size, systemId);
 
 }

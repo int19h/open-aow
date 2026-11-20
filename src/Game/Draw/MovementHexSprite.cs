@@ -5,7 +5,7 @@ using Aow.Game.World.Movement;
 
 namespace Aow.Game.Draw;
 
-public partial class MovementHexSprite(CustomNode owner) : SingleHexSprite(owner)
+public class MovementHexSprite(CustomNode owner) : SingleHexSprite(owner)
 {
 
     // FleeLoc.pas:172
@@ -30,7 +30,4 @@ public partial class MovementHexSprite(CustomNode owner) : SingleHexSprite(owner
             moveResult.Done = true;
         }
     }
-
-    // Engine.pas:524
-
 }

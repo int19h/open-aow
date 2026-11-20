@@ -11,7 +11,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Abilities;
 
 // (construction controls)
-public partial class ConstructAbility : AdjustableAbility
+public class ConstructAbility : AdjustableAbility
 {
     // AoWAb.PAS:5537
     public ConstructAbility(CustomNode owner, EngineObject holder) : base(owner)
@@ -39,18 +39,14 @@ public partial class ConstructAbility : AdjustableAbility
     public override Set<AbilityControlTypeElement> GetControlType(AbilityOwner owner) => Set<AbilityControlTypeElement>.Of(AbilityControlTypeElement.Action);
 
     // AoWAb.PAS:5555
-    public override bool CanActivate(AbilityOwner owner, ref string reason)
-    {
-        bool result = owner is Troop;
-        return result;
-    }
+    public override bool CanActivate(AbilityOwner owner, ref string reason) => owner is Troop;
 
     // AoWAb.PAS:5560
     public void RegisterConstructionControl(ConstructionControl control)
     {
         // { Pass the control ID directly without retaining a local. }
         int id = control.Id();
-        if (ConstructionControls.FindId(id) != null)
+        if (ConstructionControls.FindId(id) is not null)
         {
             throw new InvalidOperationException("Construction Control ID already used");
         }

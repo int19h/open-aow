@@ -45,9 +45,8 @@ public readonly struct AIRecruitmentGroupCollection : IReadOnlyList<AIRecruitmen
     // AIGroup.pas:861
     public bool UnitExists(Troop troop)
     {
-        int index;
         bool result = false;
-        index = Count;
+        int index = Count;
         while (!result && index != 0)
         {
             index -= 1;
@@ -60,10 +59,9 @@ public readonly struct AIRecruitmentGroupCollection : IReadOnlyList<AIRecruitmen
     // AIGroup.pas:874
     public AIRecruitmentGroup FindUnit(Troop troop)
     {
-        int index;
         AIRecruitmentGroup result = null;
-        index = Count;
-        while (result == null && index != 0)
+        int index = Count;
+        while (result is null && index != 0)
         {
             index -= 1;
             if (this[index].Group.Units.IndexOf(troop) != -1)

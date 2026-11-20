@@ -21,9 +21,9 @@ public partial class IsometricHex
             {
                 MapField neighbour = level.GetField(walk.X, walk.Y);
                 HexSprite sprite = neighbour.FindOwnedHexSprite(peer);
-                bool peerFound = sprite != null;
+                bool peerFound = sprite is not null;
                 sprite ??= neighbour.FindOwnedHexSprite(typeof(BorderHex));
-                if (sprite == null)
+                if (sprite is null)
                 {
                     OpenSides |= (byte)(1 << (walk.HexNumber - 1));
                     if (water)
@@ -42,7 +42,7 @@ public partial class IsometricHex
         {
             Dynamic ??= new DynamicIsometricHex(this);
         }
-        else if (Dynamic != null)
+        else if (Dynamic is not null)
         {
             Dynamic?.Dispose();
             Dynamic = null;

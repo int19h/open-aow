@@ -11,7 +11,7 @@ using Aow.Game.World.Movement;
 
 namespace Aow.Game.World;
 
-public partial class CombatObstacle(CustomNode owner) : MultiHexMapObject(owner)
+public class CombatObstacle(CustomNode owner) : MultiHexMapObject(owner)
 {
 
     // CombatObstacle.pas:94
@@ -45,8 +45,7 @@ public partial class CombatObstacle(CustomNode owner) : MultiHexMapObject(owner)
     // CombatObstacle.pas:116
     public override void RemoveFromMap()
     {
-        MapLevel mapLevel;
-        mapLevel = Owner.Owner;
+        MapLevel mapLevel = Owner.Owner;
         base.RemoveFromMap();
         UpdateMapFields(mapLevel, StoredHexX, StoredHexY);
     }
@@ -96,12 +95,12 @@ public partial class CombatObstacle(CustomNode owner) : MultiHexMapObject(owner)
         if (!Status.Contains(MapObjectStatusElement.Visible))
         {
             base.MakeVisible(visibilityList);
-            if (_shadow != null)
+            if (_shadow is not null)
             {
                 _ = visibilityList.AddSortChild(sortValue: _shadow.GetShowPriority(), child: _shadow);
             }
 
-            if (_overlay != null)
+            if (_overlay is not null)
             {
                 _ = visibilityList.AddSortChild(sortValue: _overlay.GetShowPriority(), child: _overlay);
             }
@@ -120,14 +119,14 @@ public partial class CombatObstacle(CustomNode owner) : MultiHexMapObject(owner)
     // CombatObstacle.pas:125
     public void CreateShadow()
     {
-        if (base.Resource.ImageSequenceList.GetImageSequence(40) != null)
+        if (base.Resource.ImageSequenceList.GetImageSequence(40) is not null)
         {
-            if (_shadow != null)
+            if (_shadow is not null)
             {
                 DestroyShadow();
             }
 
-            if (StrategicMap.Current == null || StrategicMap.Current.ShowUnitShadows)
+            if (StrategicMap.Current is null || StrategicMap.Current.ShowUnitShadows)
             {
                 _shadow = new CombatObstacleShadow(null)
                 {
@@ -141,7 +140,7 @@ public partial class CombatObstacle(CustomNode owner) : MultiHexMapObject(owner)
     // CombatObstacle.pas:138
     public void DestroyShadow()
     {
-        if (_shadow != null)
+        if (_shadow is not null)
         {
             if (GetVisible())
             {
@@ -156,14 +155,14 @@ public partial class CombatObstacle(CustomNode owner) : MultiHexMapObject(owner)
     // CombatObstacle.pas:148
     public void CreateOverlay()
     {
-        if (base.Resource.ImageSequenceList.GetImageSequence(41) != null)
+        if (base.Resource.ImageSequenceList.GetImageSequence(41) is not null)
         {
-            if (_overlay != null)
+            if (_overlay is not null)
             {
                 DestroyOverlay();
             }
 
-            if (StrategicMap.Current == null || StrategicMap.Current.ShowUnitShadows)
+            if (StrategicMap.Current is null || StrategicMap.Current.ShowUnitShadows)
             {
                 _overlay = new CombatObstacleOverlay(null)
                 {
@@ -177,7 +176,7 @@ public partial class CombatObstacle(CustomNode owner) : MultiHexMapObject(owner)
     // CombatObstacle.pas:161
     public void DestroyOverlay()
     {
-        if (_overlay != null)
+        if (_overlay is not null)
         {
             if (GetVisible())
             {
@@ -207,7 +206,7 @@ public partial class CombatObstacle(CustomNode owner) : MultiHexMapObject(owner)
         base.Resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 41, (uint)(Owner.HexX + (Owner.HexY << 4)));
     }
 
-    public new partial class Resource(CustomNode owner) : MultiHexMapObjectResource(owner)
+    public new class Resource(CustomNode owner) : MultiHexMapObjectResource(owner)
     {
 
         // CombatObstacle.pas:239
@@ -220,5 +219,4 @@ public partial class CombatObstacle(CustomNode owner) : MultiHexMapObject(owner)
         public override string ResourceEditName() => $"Combat {AbilityRules.TranslateResourceString(GetEngine(), GameText.ObstacleText)}";
 
     }
-
 }

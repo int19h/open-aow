@@ -6,7 +6,7 @@ using Aow.Game.World.Structures;
 namespace Aow.Game.AI.Groups;
 
 // children
-public partial class AIGroupProductionLocationList(CustomNode owner) : ReferenceNode(owner), IChildList<AIGroupProductionLocation>
+public class AIGroupProductionLocationList(CustomNode owner) : ReferenceNode(owner), IChildList<AIGroupProductionLocation>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AIGroupProductionLocation, so the cast never fails.
@@ -40,11 +40,10 @@ public partial class AIGroupProductionLocationList(CustomNode owner) : Reference
     // AIGroup.pas:956
     public bool Validate(AIGroupControl control)
     {
-        AIGroupProductionLocation location;
         bool result = true;
         for (int i = Count - 1; i >= 0; i--)
         {
-            location = this[i];
+            AIGroupProductionLocation location = this[i];
             if (!location.Validate(control))
             {
                 _ = RemoveChild(location);
@@ -54,9 +53,4 @@ public partial class AIGroupProductionLocationList(CustomNode owner) : Reference
 
         return result;
     }
-
-    // Engine.pas:631
-
-    // Engine.pas:631
-
 }

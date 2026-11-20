@@ -47,13 +47,10 @@ public partial class InterfaceImageLibrary(Component owner) : ImageLibrary(owner
     //   the bottom right corner }
     public void DrawFrame(int index, in SizedRectangle area, ref LockedSurface lockedSurface)
     {
-        int clipRight;
-        int clipBottom;
-        Rect oldClip;
-        oldClip = lockedSurface.ClipRectangle;
-        clipRight = area.Left + area.Width > lockedSurface.ClipRectangle.Right ? lockedSurface.ClipRectangle.Right : area.Left + area.Width;
+        Rect oldClip = lockedSurface.ClipRectangle;
+        int clipRight = area.Left + area.Width > lockedSurface.ClipRectangle.Right ? lockedSurface.ClipRectangle.Right : area.Left + area.Width;
 
-        clipBottom = area.Top + area.Height > lockedSurface.ClipRectangle.Bottom ? lockedSurface.ClipRectangle.Bottom : area.Top + area.Height;
+        int clipBottom = area.Top + area.Height > lockedSurface.ClipRectangle.Bottom ? lockedSurface.ClipRectangle.Bottom : area.Top + area.Height;
 
         Rect rectangle = new(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, clipRight, clipBottom);
         lockedSurface.ClipRectangle = rectangle;
@@ -116,13 +113,10 @@ public partial class InterfaceImageLibrary(Component owner) : ImageLibrary(owner
     // { DrawILT tiles image Index over R }
     public void DrawTiled(int index, in SizedRectangle area, ref LockedSurface lockedSurface)
     {
-        int clipRight;
-        int clipBottom;
-        Rect oldClip;
-        oldClip = lockedSurface.ClipRectangle;
-        clipRight = area.Left + area.Width > lockedSurface.ClipRectangle.Right ? lockedSurface.ClipRectangle.Right : area.Left + area.Width;
+        Rect oldClip = lockedSurface.ClipRectangle;
+        int clipRight = area.Left + area.Width > lockedSurface.ClipRectangle.Right ? lockedSurface.ClipRectangle.Right : area.Left + area.Width;
 
-        clipBottom = area.Top + area.Height > lockedSurface.ClipRectangle.Bottom ? lockedSurface.ClipRectangle.Bottom : area.Top + area.Height;
+        int clipBottom = area.Top + area.Height > lockedSurface.ClipRectangle.Bottom ? lockedSurface.ClipRectangle.Bottom : area.Top + area.Height;
 
         Rect rectangle = new(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, clipRight, clipBottom);
         lockedSurface.ClipRectangle = rectangle;
@@ -157,13 +151,10 @@ public partial class InterfaceImageLibrary(Component owner) : ImageLibrary(owner
     // { DrawILI draws image Index at the top left corner of R, clipped to R }
     public void DrawImage(int index, in SizedRectangle area, ref LockedSurface lockedSurface)
     {
-        int clipRight;
-        int clipBottom;
-        Rect oldClip;
-        oldClip = lockedSurface.ClipRectangle;
-        clipRight = area.Left + area.Width > lockedSurface.ClipRectangle.Right ? lockedSurface.ClipRectangle.Right : area.Left + area.Width;
+        Rect oldClip = lockedSurface.ClipRectangle;
+        int clipRight = area.Left + area.Width > lockedSurface.ClipRectangle.Right ? lockedSurface.ClipRectangle.Right : area.Left + area.Width;
 
-        clipBottom = area.Top + area.Height > lockedSurface.ClipRectangle.Bottom ? lockedSurface.ClipRectangle.Bottom : area.Top + area.Height;
+        int clipBottom = area.Top + area.Height > lockedSurface.ClipRectangle.Bottom ? lockedSurface.ClipRectangle.Bottom : area.Top + area.Height;
 
         Rect rectangle = new(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, clipRight, clipBottom);
         lockedSurface.ClipRectangle = rectangle;
@@ -176,13 +167,10 @@ public partial class InterfaceImageLibrary(Component owner) : ImageLibrary(owner
     //   +2 the right end }
     public void DrawHorizontalStrip(int index, in SizedRectangle area, ref LockedSurface lockedSurface)
     {
-        int clipRight;
-        int clipBottom;
-        Rect oldClip;
-        oldClip = lockedSurface.ClipRectangle;
-        clipRight = area.Left + area.Width > lockedSurface.ClipRectangle.Right ? lockedSurface.ClipRectangle.Right : area.Left + area.Width;
+        Rect oldClip = lockedSurface.ClipRectangle;
+        int clipRight = area.Left + area.Width > lockedSurface.ClipRectangle.Right ? lockedSurface.ClipRectangle.Right : area.Left + area.Width;
 
-        clipBottom = area.Top + area.Height > lockedSurface.ClipRectangle.Bottom ? lockedSurface.ClipRectangle.Bottom : area.Top + area.Height;
+        int clipBottom = area.Top + area.Height > lockedSurface.ClipRectangle.Bottom ? lockedSurface.ClipRectangle.Bottom : area.Top + area.Height;
 
         Rect rectangle = new(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, clipRight, clipBottom);
         lockedSurface.ClipRectangle = rectangle;
@@ -215,13 +203,10 @@ public partial class InterfaceImageLibrary(Component owner) : ImageLibrary(owner
     //   the bottom end }
     public void DrawVerticalStrip(int index, in SizedRectangle area, ref LockedSurface lockedSurface)
     {
-        int clipRight;
-        int clipBottom;
-        Rect oldClip;
-        oldClip = lockedSurface.ClipRectangle;
-        clipRight = area.Left + area.Width > lockedSurface.ClipRectangle.Right ? lockedSurface.ClipRectangle.Right : area.Left + area.Width;
+        Rect oldClip = lockedSurface.ClipRectangle;
+        int clipRight = area.Left + area.Width > lockedSurface.ClipRectangle.Right ? lockedSurface.ClipRectangle.Right : area.Left + area.Width;
 
-        clipBottom = area.Top + area.Height > lockedSurface.ClipRectangle.Bottom ? lockedSurface.ClipRectangle.Bottom : area.Top + area.Height;
+        int clipBottom = area.Top + area.Height > lockedSurface.ClipRectangle.Bottom ? lockedSurface.ClipRectangle.Bottom : area.Top + area.Height;
 
         Rect rectangle = new(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, clipRight, clipBottom);
         lockedSurface.ClipRectangle = rectangle;

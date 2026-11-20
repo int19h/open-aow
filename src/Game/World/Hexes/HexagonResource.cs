@@ -10,7 +10,7 @@ using Aow.Rtl;
 namespace Aow.Game.World.Hexes;
 
 // TransitionLibrary (HexTrans.ILB)
-public partial class HexagonResource : AbstractHexagonResource
+public class HexagonResource : AbstractHexagonResource
 {
     public HexagonResource(CustomNode owner) : base(owner) => SetLevel(0);
 
@@ -18,8 +18,6 @@ public partial class HexagonResource : AbstractHexagonResource
     public new const int ClassId = 131411;
 
     protected internal CustomImageLibrary TransitionLibrary { get; private set; }
-
-    // Hexagon.pas:83
 
     // Hexagon.pas:99
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
@@ -42,12 +40,11 @@ public partial class HexagonResource : AbstractHexagonResource
     // Hexagon.pas:112
     public override MapObject PlaceResourceUser(GameMap map, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        MapField mapField;
-        mapField = map.MapContainer.GetField(hexX, hexY, hexLevel);
+        MapField mapField = map.MapContainer.GetField(hexX, hexY, hexLevel);
         // The resource user class (131410) registers only Hex.
         Hex found = mapField.FindOwnedChild<Hex>(ResourceUserClassId());
         MapObject result = found;
-        if (found != null)
+        if (found is not null)
         {
             if (found.GetTerrain(0) != TerrainList.GetTerrain(0))
             {
@@ -68,7 +65,7 @@ public partial class HexagonResource : AbstractHexagonResource
             if (!result.PlaceHex(map.MapContainer, hexX, hexY, hexLevel))
             {
                 result?.Dispose();
-                result = null;
+                return null;
             }
         }
 
@@ -78,11 +75,10 @@ public partial class HexagonResource : AbstractHexagonResource
     // Hexagon.pas:141
     public void Show(int pixelX, int pixelY, in LockedSurface lockedSurface, Hex hex)
     {
-        byte sides;
         ImageLibrary[0].Show(pixelX, pixelY, lockedSurface);
         if ((hex.TransitionSides & 7) != 0)
         {
-            sides = hex.TransitionSides;
+            byte sides = hex.TransitionSides;
             if ((sides & 2) != 0)
             {
                 if ((sides & 16) != 0)
@@ -120,8 +116,6 @@ public partial class HexagonResource : AbstractHexagonResource
             }
         }
     }
-
-    // Hexagon.pas:32
 
     // Hexagon.pas:107
     public override string ResourceEditName() => s_hexText;

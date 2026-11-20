@@ -23,12 +23,7 @@ public class PathStepList : DefaultItemList<PathStep>
             result += 1;
         }
 
-        if (result == Count)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == Count ? -1 : result;
     }
 
     // HSEngine.pas:1828
@@ -62,13 +57,11 @@ public class PathStepList : DefaultItemList<PathStep>
     public void SaveToStream(Stream stream)
     {
         int i;
-        int run = default;
         int count = Count;
         int DefaultRun()
         {
-            int j;
             int result = 0;
-            j = i;
+            int j = i;
             while (j < Count && List[j] == Default)
             {
                 result += 1;
@@ -83,7 +76,7 @@ public class PathStepList : DefaultItemList<PathStep>
         stream.Write(Bytes.Of(ref count, 4));
         while (Count != i)
         {
-            run = DefaultRun();
+            int run = DefaultRun();
             if (run > 0)
             {
                 WriteStep(stream, Default);

@@ -102,8 +102,8 @@ public sealed class ObjectLifetimeTests
     {
         SpellControl control = GamePack.Current.SpellControl;
         EarthMastery spell = new(null, holder: EngineFixture.Engine);
-        WeakReference particle;
         control.RegisterSpell(spell);
+        WeakReference particle;
         try
         {
             Assert.Null(control.GetSpell(64).CastImages.GetImageSequence(0));

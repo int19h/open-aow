@@ -27,7 +27,7 @@ namespace Aow.Game.Session;
 // (next ID, cheat, player, updates, external mana/power, external source, mana, spheres,
 // research percentage, spells, research spell, points, enchantments, power sources, enchantment
 // sets, changed events)
-public partial class PlayerMagicControl : EngineObject
+public class PlayerMagicControl : EngineObject
 {
 
     // Spells.PAS:1908
@@ -36,13 +36,11 @@ public partial class PlayerMagicControl : EngineObject
     // power sources, active/enemy enchantments, change events
     public PlayerMagicControl(CustomNode owner) : base(owner)
     {
-        ExternalPowerSource source;
-
         Spells = new Int32List();
         _changedEventsStore = new();
         Enchantments = new EnchantmentList(null) { Holder = CreationHolder() };
         PowerSources = new PowerSourceList(null) { Holder = CreationHolder() };
-        source = new ExternalPowerSource(null) { Holder = CreationHolder() };
+        ExternalPowerSource source = new(null) { Holder = CreationHolder() };
         _externalPowerSource = source;
         source.ExternalPowerControl = this;
         _ = PowerSources.AddChild(source);
@@ -149,11 +147,7 @@ public partial class PlayerMagicControl : EngineObject
     }
 
     // Spells.PAS:1962
-    public bool GetCheatEnabled()
-    {
-        bool result = Player.PlayerType == PlayerType.Human && CheatEnabled;
-        return result;
-    }
+    public bool GetCheatEnabled() => Player.PlayerType == PlayerType.Human && CheatEnabled;
 
     // Spells.PAS:1967
     public void SetActiveEnchantments(Set<PlayerEnchantmentType> value)
@@ -171,7 +165,6 @@ public partial class PlayerMagicControl : EngineObject
     // Spells.PAS:1976
     public void UpdateEnemyEnchantments()
     {
-        PlayerMagicControl magic;
         EnemyEnchantments = Set<PlayerEnchantmentType>.Of();
         for (int i = StrategicMap.Current.Players.GetCount() - 1; i >= 1; i--)
         {
@@ -179,7 +172,7 @@ public partial class PlayerMagicControl : EngineObject
             {
                 if (StrategicMap.Current.Players.GetPlayers(i).DiplomaticRelations.GetDiplomaticRelation(Player.PlayerIndex) == DiplomaticRelation.War)
                 {
-                    magic = StrategicMap.Current.Players.GetPlayers(i).MagicControl;
+                    PlayerMagicControl magic = StrategicMap.Current.Players.GetPlayers(i).MagicControl;
                     if (magic.ActiveEnchantments.Contains(PlayerEnchantmentType.WaterMastery))
                     {
                         EnemyEnchantments += Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.WaterMastery);
@@ -255,13 +248,10 @@ public partial class PlayerMagicControl : EngineObject
     // Spells.PAS:2023
     public void OutOfMana(int mana)
     {
-        int i;
-        int index;
-        PlayerMagicEventLog log;
         while (mana > 0 && Enchantments.GetCount() != 0)
         {
-            i = Enchantments.GetCount();
-            index = i - 1;
+            int i = Enchantments.GetCount();
+            int index = i - 1;
             while (i != 0)
             {
                 i -= 1;
@@ -276,7 +266,7 @@ public partial class PlayerMagicControl : EngineObject
             if (index != -1)
             {
                 mana -= Enchantments.GetEnchantments(index).Upkeep;
-                log = new PlayerMagicEventLog(null)
+                PlayerMagicEventLog log = new(null)
                 {
                     Holder = CreationHolder(),
                     Player = Player.PlayerIndex,
@@ -312,14 +302,10 @@ public partial class PlayerMagicControl : EngineObject
     // Spells.PAS:2056
     public bool ValidateEnchantmentsUpkeep()
     {
-        bool result;
-        int balance;
         int manaIncome = GetManaIncome();
         int manaUpkeep = GetManaUpkeep();
-        balance = Mana + manaIncome - manaUpkeep;
-        result = balance >= 0 || GetManaUpkeep() == 0;
-
-        return result;
+        int balance = Mana + manaIncome - manaUpkeep;
+        return balance >= 0 || GetManaUpkeep() == 0;
     }
 
     // Spells.PAS:2064
@@ -342,22 +328,17 @@ public partial class PlayerMagicControl : EngineObject
     // Spells.PAS:2074
     public void NewTurn()
     {
-        SpellType kind = default;
-        Int32List candidates = default;
-        int index = default;
-        Spell spell = default;
-        PlayerMagicEventLog log;
         if (StrategicMap.Current.Day == 1 && Player.PlayerIndex != 0 && (StrategicMap.Current.GameType != GameType.Campaign || Spells.Count == 0))
         {
-            candidates = new Int32List();
+            Int32List candidates = new();
             for (int kindOrdinal = (int)(SpellType)0; kindOrdinal <= (int)(SpellType)2; kindOrdinal++)
             {
-                kind = (SpellType)kindOrdinal;
+                SpellType kind = (SpellType)kindOrdinal;
                 candidates.Clear();
                 for (int i = 0, last = GamePack.Current.SpellControl.GetCount() - 1; i <= last; i++)
                 {
-                    spell = GamePack.Current.SpellControl.GetSpell(i);
-                    if (spell != null && Spells.IndexOf(i) == -1 && spell.SpellType == kind && (spell.MagicSphere == MagicSphere.Cosmos || Player.Leader.GetSpherePicks(spell.MagicSphere) > 0) && spell.SpellLevel == 1)
+                    Spell spell = GamePack.Current.SpellControl.GetSpell(i);
+                    if (spell is not null && Spells.IndexOf(i) == -1 && spell.SpellType == kind && (spell.MagicSphere == MagicSphere.Cosmos || Player.Leader.GetSpherePicks(spell.MagicSphere) > 0) && spell.SpellLevel == 1)
                     {
                         _ = candidates.Add(i);
                     }
@@ -365,7 +346,7 @@ public partial class PlayerMagicControl : EngineObject
 
                 if (candidates.Count > 0)
                 {
-                    index = StrategicMap.Current.Random(candidates.Count);
+                    int index = StrategicMap.Current.Random(candidates.Count);
                     int item = candidates[index];
                     _ = Spells.Add(item);
                 }
@@ -387,7 +368,7 @@ public partial class PlayerMagicControl : EngineObject
                         Mana += Math.Abs(ResearchPointsLeft);
                     }
 
-                    log = new PlayerMagicEventLog(null)
+                    PlayerMagicEventLog log = new(null)
                     {
                         Holder = CreationHolder(),
                         Player = Player.PlayerIndex,
@@ -443,12 +424,9 @@ public partial class PlayerMagicControl : EngineObject
     public int GetNetPower()
     {
         int result = GetPower();
-        if (StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.PowerLeak))
-        {
-            result = (result + 1) / 2;
-        }
-
-        return result;
+        return StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.PowerLeak)
+            ? (result + 1) / 2
+            : result;
     }
 
     // Spells.PAS:2151
@@ -458,17 +436,13 @@ public partial class PlayerMagicControl : EngineObject
         switch (Player.PlayerType)
         {
             case PlayerType.Cpu2:
-                result = Round(result * 1.25);
-                break;
+                return Round(result * 1.25);
             case PlayerType.Cpu3:
-                result = Round(result * 1.5);
-                break;
+                return Round(result * 1.5);
             case PlayerType.Cpu4:
-                result = Round(result * 1.75);
-                break;
+                return Round(result * 1.75);
             case PlayerType.Cpu5:
-                result = Round((double)result * 2);
-                break;
+                return Round((double)result * 2);
             case PlayerType.Human:
             case PlayerType.Cpu1:
             case PlayerType.Independent:
@@ -497,7 +471,7 @@ public partial class PlayerMagicControl : EngineObject
         }
         else
         {
-            result = 999;
+            return 999;
         }
 
         return result;
@@ -509,24 +483,21 @@ public partial class PlayerMagicControl : EngineObject
     // Spells.PAS:2176
     public bool ValidResearchSpell(Spell spell)
     {
-        bool result;
         Span<int> counts = stackalloc int[4];
-        int level;
-        Spell known;
         if (Player.Leader.GetSpherePicks(spell.MagicSphere) >= spell.SpellLevel && Spells.IndexOf(spell.SpellId) == -1)
         {
             counts.Clear();
             for (int i = Spells.Count - 1; i >= 0; i--)
             {
                 int item = Spells[i];
-                known = GamePack.Current.SpellControl.GetSpell(item);
+                Spell known = GamePack.Current.SpellControl.GetSpell(item);
                 if (known.SpellLevel > 0 && known.GetEnabled() && spell.MagicSphere == known.MagicSphere)
                 {
                     counts[known.SpellLevel - 1] += 1;
                 }
             }
 
-            level = 1;
+            int level = 1;
             while (counts[level - 1] >= 2 && level < 4)
             {
                 level += 1;
@@ -537,24 +508,21 @@ public partial class PlayerMagicControl : EngineObject
                 level = 2;
             }
 
-            result = level >= spell.SpellLevel;
+            return level >= spell.SpellLevel;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Spells.PAS:2199
     public void ListResearchSpells(SpellList list, Set<SpellType> spellTypes)
     {
-        Spell spell;
         for (int i = 0, last = GamePack.Current.SpellControl.GetCount() - 1; i <= last; i++)
         {
-            spell = GamePack.Current.SpellControl.GetSpell(i);
-            if (spell != null && spellTypes.Contains(spell.SpellType) && ValidResearchSpell(spell))
+            Spell spell = GamePack.Current.SpellControl.GetSpell(i);
+            if (spell is not null && spellTypes.Contains(spell.SpellType) && ValidResearchSpell(spell))
             {
                 list.Add(spell);
             }
@@ -570,7 +538,7 @@ public partial class PlayerMagicControl : EngineObject
             for (int i = 0, last = GamePack.Current.SpellControl.GetCount() - 1; i <= last; i++)
             {
                 spell = GamePack.Current.SpellControl.GetSpell(i);
-                if (spell != null && spell.GetEnabled() && spellTypes.Contains(spell.SpellType))
+                if (spell is not null && spell.GetEnabled() && spellTypes.Contains(spell.SpellType))
                 {
                     list.Add(spell);
                 }
@@ -582,7 +550,7 @@ public partial class PlayerMagicControl : EngineObject
             {
                 int item = Spells[i];
                 spell = GamePack.Current.SpellControl.GetSpell(item);
-                if (spell != null && spell.GetEnabled() && spellTypes.Contains(spell.SpellType))
+                if (spell is not null && spell.GetEnabled() && spellTypes.Contains(spell.SpellType))
                 {
                     list.Add(spell);
                 }
@@ -663,20 +631,17 @@ public partial class PlayerMagicControl : EngineObject
     // Spells.PAS:2275
     public bool RegisterEnchantment(Enchantment enchantment)
     {
-        bool result;
         if (Enchantments.IndexOfChild(enchantment) == -1)
         {
             _ = Enchantments.AddChild(enchantment);
             ValidateEnchantmentId(enchantment);
             Update();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Spells.PAS:2286
@@ -694,19 +659,16 @@ public partial class PlayerMagicControl : EngineObject
     // Spells.PAS:2291
     public bool RegisterPowerSource(PowerSource source)
     {
-        bool result;
         if (PowerSources.FindChildIndex(source) == -1)
         {
             _ = PowerSources.AddChild(source);
             Update();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Spells.PAS:2301
@@ -724,43 +686,33 @@ public partial class PlayerMagicControl : EngineObject
     // Spells.PAS:2306
     public ChangePlayerMagicTokenEvent CreateChangeMagicTokenEvent()
     {
-        ChangePlayerMagicTokenEvent result = new(null)
+        return new(null)
         {
             Holder = CreationHolder(),
             PlayerIndex = (byte)Player.PlayerIndex
         };
-        return result;
     }
 
     // Spells.PAS:2311
-    public bool ExecuteDispelEnchantment(int index)
-    {
-        bool result = index < Enchantments.GetCount() && Enchantments.GetEnchantments(index).Dispel();
-        return result;
-    }
+    public bool ExecuteDispelEnchantment(int index) => index < Enchantments.GetCount() && Enchantments.GetEnchantments(index).Dispel();
 
     // Spells.PAS:2316
     public bool DispelEnchantment(Enchantment enchantment)
     {
-        bool result;
-        int index;
-        ChangePlayerMagicTokenEvent eventValue;
-        index = Enchantments.IndexOfChild(enchantment);
+        int index = Enchantments.IndexOfChild(enchantment);
         if (!Player.GetBusy() && index != -1)
         {
-            eventValue = CreateChangeMagicTokenEvent();
+            ChangePlayerMagicTokenEvent eventValue = CreateChangeMagicTokenEvent();
             eventValue.Mode = ChangePlayerMagicTokenEventMode.DispelEnchantment;
             eventValue.Value = index;
             StrategicMap.Current.TokenManager.GetTokenControl(Player.PlayerIndex).AddEvent(eventValue);
             _ = eventValue.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Spells.PAS:2333
@@ -774,76 +726,63 @@ public partial class PlayerMagicControl : EngineObject
     // Spells.PAS:2339
     public bool ChangePowerSettings(int percentage)
     {
-        bool result;
-        ChangePlayerMagicTokenEvent eventValue;
         if (!Player.GetBusy())
         {
             if (percentage != ResearchPercentage)
             {
-                eventValue = CreateChangeMagicTokenEvent();
+                ChangePlayerMagicTokenEvent eventValue = CreateChangeMagicTokenEvent();
                 eventValue.Mode = ChangePlayerMagicTokenEventMode.ChangePowerSettings;
                 eventValue.Value = percentage;
                 StrategicMap.Current.TokenManager.GetTokenControl(Player.PlayerIndex).AddEvent(eventValue);
                 _ = eventValue.Release();
             }
 
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Spells.PAS:2357
     public bool ExecuteResearchSpell(int spellId)
     {
-        bool result;
         if (Spells.IndexOf(spellId) == -1 && spellId != ResearchSpellId)
         {
             ResearchSpellId = spellId;
             ResearchPointsLeft = spellId != 0 ? GamePack.Current.SpellControl.GetSpell(spellId).ResearchCost : 0;
 
             Update();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Spells.PAS:2369
     public bool ResearchSpell(int spellId)
     {
-        bool result;
-        ChangePlayerMagicTokenEvent eventValue;
         if (!Player.GetBusy())
         {
-            eventValue = CreateChangeMagicTokenEvent();
+            ChangePlayerMagicTokenEvent eventValue = CreateChangeMagicTokenEvent();
             eventValue.Mode = ChangePlayerMagicTokenEventMode.ResearchSpell;
             eventValue.Value = spellId;
             StrategicMap.Current.TokenManager.GetTokenControl(Player.PlayerIndex).AddEvent(eventValue);
             _ = eventValue.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Spells.PAS:2384
     public int AIRequestOverrideUpkeep(int priority)
     {
-        GlobalEnchantment enchantment;
-        GlobalMagicControl globalControl;
         int result = 0;
         for (int i = 0, last = Enchantments.GetCount() - 1; i <= last; i++)
         {
@@ -854,10 +793,10 @@ public partial class PlayerMagicControl : EngineObject
         }
 
         // { Original bug: this estimate also counts global enchantments owned by other players. }
-        globalControl = StrategicMap.Current.GlobalMagicControl;
+        GlobalMagicControl globalControl = StrategicMap.Current.GlobalMagicControl;
         for (int i = globalControl.Enchantments.GetCount() - 1; i >= 0; i--)
         {
-            enchantment = StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(i);
+            GlobalEnchantment enchantment = StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(i);
             if (priority >= enchantment.GetAIUpkeepPriority())
             {
                 result += enchantment.GetUpkeep();
@@ -913,7 +852,7 @@ public partial class PlayerMagicControl : EngineObject
             {
                 UpkeepCandidate item = list[0];
                 total += item.Upkeep;
-                if (item.Enchantment != null)
+                if (item.Enchantment is not null)
                 {
                     _ = ExecuteDispelEnchantment(Enchantments.IndexOfChild(item.Enchantment));
                 }

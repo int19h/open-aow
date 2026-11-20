@@ -13,15 +13,13 @@ using Aow.Game.World.Structures;
 namespace Aow.Game.World.Terrain;
 
 // CropOwner
-public partial class Crop(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
+public class Crop(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
 {
 
     // Crops.pas:119
     public new const int ClassId = 131946;
 
     public PlayerCropStructure CropOwner { get; private set; }
-
-    // Crops.pas:109
 
     // Crops.pas:151
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
@@ -36,7 +34,6 @@ public partial class Crop(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     // Crops.pas:203
     public override void TerrainChanged(in HexSpriteTerrainInfo info)
     {
-        HexSprite hexSprite;
         if (info.HexNumber != 0)
         {
             return;
@@ -48,8 +45,8 @@ public partial class Crop(CustomNode owner) : ImageLibraryTerrainMapObject(owner
             {
                 TerrainType = info.TerrainType;
                 ImageIndex = GetTerrainTypeImage(info.TerrainType);
-                hexSprite = info.MapField.GetMaxLevelNoneTransparentHexSprite();
-                if ((hexSprite != null && hexSprite.GetLevel() > GetLevel() && hexSprite is not AbstractRoad) || (info.OverlayType >= 0 && info.OverlayType != 4))
+                HexSprite hexSprite = info.MapField.GetMaxLevelNoneTransparentHexSprite();
+                if ((hexSprite is not null && hexSprite.GetLevel() > GetLevel() && hexSprite is not AbstractRoad) || (info.OverlayType is >= 0 and not 4))
                 {
                     Dispose();
                 }
@@ -89,7 +86,7 @@ public partial class Crop(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     // Crops.pas:189
     public override void Deactivate()
     {
-        if (CropOwner != null && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
+        if (CropOwner is not null && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
         {
             PlayerCropStructure playerCropStructure = CropOwner;
             CropOwner = null;
@@ -105,18 +102,16 @@ public partial class Crop(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     // Crops.pas:234
     public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        MapField field;
-        HexSprite hexSprite;
-        field = mapContainer.GetField(hexX, hexY, hexLevel);
-        hexSprite = field.GetMaxLevelNoneTransparentHexSprite();
-        return field.FindOwnedHexSprite(typeof(Fire)) == null && (hexSprite == null || hexSprite.GetLevel() < 10 || hexSprite is AbstractRoad);
+        MapField field = mapContainer.GetField(hexX, hexY, hexLevel);
+        HexSprite hexSprite = field.GetMaxLevelNoneTransparentHexSprite();
+        return field.FindOwnedHexSprite(typeof(Fire)) is null && (hexSprite is null || hexSprite.GetLevel() < 10 || hexSprite is AbstractRoad);
     }
 
     // Crops.pas:228
     public override int GetTerrainTypeImage(int terrainType)
     {
         int result = terrainType;
-        if (CropOwner != null && CropOwner.GetRace() == 11)
+        if (CropOwner is not null && CropOwner.GetRace() == 11)
         {
             result += 30;
         }
@@ -134,8 +129,7 @@ public partial class Crop(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     // Crops.pas:128
     public void UpdateSettings()
     {
-        int index;
-        index = GetTerrainTypeImage(TerrainType);
+        int index = GetTerrainTypeImage(TerrainType);
         ImageIndex = index;
         if (!base.Resource.ImageLibrary.ImageExist(index))
         {
@@ -146,11 +140,9 @@ public partial class Crop(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     // Crops.pas:136
     public void EndTurn(sbyte player)
     {
-        sbyte playerIndex;
-        ArmyHexSprite army;
-        army = Owner.GetArmyHexSprite();
-        playerIndex = player;
-        if (army != null && army.Army.Player == playerIndex && CropOwner.Player > 0 && playerIndex != CropOwner.Player)
+        ArmyHexSprite army = Owner.GetArmyHexSprite();
+        sbyte playerIndex = player;
+        if (army is not null && army.Army.Player == playerIndex && CropOwner.Player > 0 && playerIndex != CropOwner.Player)
         {
             if (StrategicMap.Current.Players.GetDiplomaticRelation(CropOwner.Player, playerIndex) == DiplomaticRelation.War)
             {
@@ -163,12 +155,10 @@ public partial class Crop(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     // Crops.pas:163
     public void LinkToCropOwner()
     {
-        PlayerCropStructure found;
-        MapLevel mapLevel;
-        found = null;
-        mapLevel = Owner.Owner;
+        PlayerCropStructure found = null;
+        MapLevel mapLevel = Owner.Owner;
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, StoredHexX, StoredHexY, 1);
-        while (walk.Radius <= 1 && found == null)
+        while (walk.Radius <= 1 && found is null)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
@@ -181,7 +171,7 @@ public partial class Crop(CustomNode owner) : ImageLibraryTerrainMapObject(owner
         SetCropOwner(found);
     }
 
-    public new partial class Resource(CustomNode owner) : ImageLibraryTerrainMapObjectResource(owner)
+    public new class Resource(CustomNode owner) : ImageLibraryTerrainMapObjectResource(owner)
     {
 
         // Crops.pas:245
@@ -203,7 +193,7 @@ public partial class Crop(CustomNode owner) : ImageLibraryTerrainMapObject(owner
             if (!StrategicMap.Current.PlaceHex(result, X, Y, L))
             {
                 result?.Dispose();
-                result = null;
+                return null;
             }
 
             return result;
@@ -215,7 +205,4 @@ public partial class Crop(CustomNode owner) : ImageLibraryTerrainMapObject(owner
         private static readonly string s_cropText = "Crops";
 
     }
-
-    // Crops.pas:68
-
 }

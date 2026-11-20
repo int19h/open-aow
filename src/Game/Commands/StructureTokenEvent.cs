@@ -12,7 +12,7 @@ using static Aow.Rtl.DelphiAssert;
 
 namespace Aow.Game.Commands;
 
-public partial class StructureTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class StructureTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
     public new const int ClassId = 135440;
 
@@ -45,43 +45,32 @@ public partial class StructureTokenEvent(CustomNode owner) : TokenEvent(owner)
     // Structur.PAS:3077
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        ExecuteResult result = tokenEvent.ExecuteCount != 0 || Validate()
+        return tokenEvent.ExecuteCount != 0 || Validate()
             ? StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindOwnedChild<Structure>(_structureClassId).ExecuteTokenEvent(this, tokenEvent)
             : ExecuteResult.DoneHalt;
-        return result;
     }
 
     // Structur.PAS:3065
     public override bool Validate()
     {
-        bool result;
-        Structure structure;
-        MapField mapField;
-        mapField = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
-        structure = mapField.FindOwnedChild<Structure>(_structureClassId);
-        result = structure != null && structure.EngineClass.ClassId == _structureClassId && mapField.GetPlayer() == Player;
-
-        return result;
+        MapField mapField = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
+        Structure structure = mapField.FindOwnedChild<Structure>(_structureClassId);
+        return structure is not null && structure.EngineClass.ClassId == _structureClassId && mapField.GetPlayer() == Player;
     }
 
     // Structur.PAS:2537
     public void Initialize(int classId, sbyte x, sbyte y, sbyte mapLevel)
     {
-        MapField mapField;
-        Structure structure;
         {
             Location = Location with { X = x };
             Location = Location with { Y = y };
         }
         Location = Location with { MapLevel = mapLevel };
-        mapField = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
-        structure = mapField.FindOwnedChild<Structure>(classId);
+        MapField mapField = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
+        Structure structure = mapField.FindOwnedChild<Structure>(classId);
         Assert(classId == structure.EngineClass.ClassId, "Invalid position (StructureTE)", "Structur.PAS", 3045);
         _structureClassId = classId;
         _razed = structure.GetRazed();
         Player = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).GetPlayer();
     }
-
-    // NetworkE.pas:230
-
 }

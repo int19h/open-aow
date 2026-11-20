@@ -11,7 +11,7 @@ using static Aow.Rtl.IntegerObjects;
 namespace Aow.Game.Events;
 
 // events, player, next ID
-public partial class EventLogbook : EngineObject
+public class EventLogbook : EngineObject
 {
     // EventLog.pas:532
     public new const int ClassId = 131808;
@@ -77,7 +77,7 @@ public partial class EventLogbook : EngineObject
     public int CreateUniqueId()
     {
         _nextId += 1;
-        while (FindId(_nextId) != null)
+        while (FindId(_nextId) is not null)
         {
             _nextId += 1;
             if (_nextId > 16777215)
@@ -106,12 +106,7 @@ public partial class EventLogbook : EngineObject
             result += 1;
         }
 
-        if (result == _events.Count)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == _events.Count ? -1 : result;
     }
 
     // EventLog.pas:587
@@ -123,12 +118,7 @@ public partial class EventLogbook : EngineObject
             result += 1;
         }
 
-        if (result == _events.Count)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == _events.Count ? -1 : result;
     }
 
     // EventLog.pas:600

@@ -14,15 +14,15 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Units;
 
 // (unit ID, ability ID)
-public partial class UnitEnchantment : Enchantment
+public class UnitEnchantment : Enchantment
 {
     public new const int ClassId = 135951;
 
     // AoWAb.PAS:785
-    public UnitEnchantment(CustomNode owner) : base(null) =>
+    public UnitEnchantment(CustomNode owner) : base(null)
         // { Original ignores the supplied owner. }
 
-        Source = -1;
+        => Source = -1;
 
     public int UnitId { get; set; }
     public int EnchantmentAbilityId { get; set; }
@@ -38,69 +38,52 @@ public partial class UnitEnchantment : Enchantment
     // AoWAb.PAS:804
     public override string GetName()
     {
-        string result;
-        Troop source;
-        if (StrategicMap.Current != null)
+        if (StrategicMap.Current is not null)
         {
-            source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
-            result = source != null
+            Troop source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
+            return source is not null
                 ? GamePack.Current.AbilityControl.GetAbility(EnchantmentAbilityId).GetName(source)
                 : GamePack.Current.AbilityControl.GetAbility(EnchantmentAbilityId).GetName(null);
         }
         else
         {
-            result = GamePack.Current.AbilityControl.GetAbility(EnchantmentAbilityId).GetName(null);
+            return GamePack.Current.AbilityControl.GetAbility(EnchantmentAbilityId).GetName(null);
         }
-
-        return result;
     }
 
     // AoWAb.PAS:831
     public override string GetBinding()
     {
-        string result;
-        Troop source;
-        source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
-        result = source != null ? source.GetName() : "";
-
-        return result;
+        Troop source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
+        return source is not null ? source.GetName() : "";
     }
 
     // AoWAb.PAS:820
     public override int GetAIUpkeepPriority()
     {
-        int result;
-        Troop source;
-        source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
-        result = source != null
+        Troop source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
+        return source is not null
             ? GamePack.Current.AbilityControl.GetAbility<UnitEnchantmentAbility>(EnchantmentAbilityId).GetAIUpkeepPriority(source)
             : 0;
-
-        return result;
     }
 
     // AoWAb.PAS:859
     public override MapCoordinate GetLocation()
     {
         Troop source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
-        return source != null ? source.GetLocation() : MapCoordinate.None;
+        return source is not null ? source.GetLocation() : MapCoordinate.None;
     }
 
     // AoWAb.PAS:874
     public override bool Dispel()
     {
-        bool result;
-        Troop source;
-        source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
-        result = source != null && source.RemoveAbility(EnchantmentAbilityId);
-
-        return result;
+        Troop source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
+        return source is not null && source.RemoveAbility(EnchantmentAbilityId);
     }
 
     // AoWAb.PAS:842
     public override void Select()
     {
-        ArmyHexSprite armyHexSprite;
         MapCoordinate coordinate28 = GetLocation();
         sbyte hexX = coordinate28.X;
         sbyte hexY = coordinate28.Y;
@@ -109,8 +92,8 @@ public partial class UnitEnchantment : Enchantment
         {
             if (StrategicMap.Current.Visible(hexX, hexY, hexLevel, 0))
             {
-                armyHexSprite = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel).GetArmyHexSprite();
-                if (armyHexSprite != null)
+                ArmyHexSprite armyHexSprite = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel).GetArmyHexSprite();
+                if (armyHexSprite is not null)
                 {
                     StrategicMap.Current.Select(armyHexSprite, true);
                 }
@@ -123,7 +106,4 @@ public partial class UnitEnchantment : Enchantment
             }
         }
     }
-
-    // intf_P4_02.inc:770
-
 }

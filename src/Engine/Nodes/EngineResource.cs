@@ -10,7 +10,7 @@ namespace Aow.Engine.Nodes;
 
 // FResourceList, FResourceID, FEditID (the edit id of the resource grid that placed it),
 // FEditIndex (its cell in that grid). all three integers are persisted (ids 1.3)
-public partial class EngineResource(CustomNode owner) : EngineObject(owner)
+public class EngineResource(CustomNode owner) : EngineObject(owner)
 {
     public new const int ClassId = 1024;
 
@@ -51,12 +51,8 @@ public partial class EngineResource(CustomNode owner) : EngineObject(owner)
     // Engine.pas:8555
     public virtual EngineObject CreateResourceUser()
     {
-        EngineObject result;
-        int userClassId;
-        userClassId = ResourceUserClassId();
-        result = userClassId != 0 ? GetEngine().CreateEngineObject(userClassId, null) : null;
-
-        return result;
+        int userClassId = ResourceUserClassId();
+        return userClassId != 0 ? GetEngine().CreateEngineObject(userClassId, null) : null;
     }
 
     // The caller names the user class ResourceUserClassId registers. Another class throws. A zero

@@ -10,7 +10,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Commands;
 
 // (unit IDs, players)
-public partial class HealingTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class HealingTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
     public new const int ClassId = 131826;
 
@@ -32,17 +32,12 @@ public partial class HealingTokenEvent(CustomNode owner) : TokenEvent(owner)
     // AoWAb.PAS:3861
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        ExecuteResult result;
-        Troop source;
-        Troop target;
-        HealingAbility ability;
-        ImageSequenceAnimation animation;
         _ = base.Execute(tokenEvent);
-        source = StrategicMap.Current.UnitControl.FindUnit(SourceId);
-        target = StrategicMap.Current.UnitControl.FindUnit(TargetId);
-        if (source != null && (byte)source.Player == SourcePlayer && target != null && (byte)target.Player == TargetPlayer)
+        Troop source = StrategicMap.Current.UnitControl.FindUnit(SourceId);
+        Troop target = StrategicMap.Current.UnitControl.FindUnit(TargetId);
+        if (source is not null && (byte)source.Player == SourcePlayer && target is not null && (byte)target.Player == TargetPlayer)
         {
-            ability = GamePack.Current.AbilityControl.GetAbility<HealingAbility>(47);
+            HealingAbility ability = GamePack.Current.AbilityControl.GetAbility<HealingAbility>(47);
             if (ability.GetEnabled(source))
             {
                 ability.SetEnabled(source, false);
@@ -54,7 +49,7 @@ public partial class HealingTokenEvent(CustomNode owner) : TokenEvent(owner)
                 _ = StrategicMap.Current.ValidateObservation((sbyte)SourcePlayer, x, y, l, 0);
                 if (StrategicMap.Current.Visible(x, y, l, 0))
                 {
-                    animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
+                    ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
                     animation.SetImageSequence(ability.ImageSequences.GetImageSequence(0));
                     _ = StrategicMap.Current.PlaceHex(animation, x, y, l);
                 }
@@ -65,16 +60,11 @@ public partial class HealingTokenEvent(CustomNode owner) : TokenEvent(owner)
                 }
             }
 
-            result = ExecuteResult.Done;
+            return ExecuteResult.Done;
         }
         else
         {
-            result = ExecuteResult.DoneHalt;
+            return ExecuteResult.DoneHalt;
         }
-
-        return result;
     }
-
-    // NetworkE.pas:230
-
 }

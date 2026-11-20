@@ -29,11 +29,9 @@ public partial class MessageDialog(UIContext ui) : UIModule(ui)
     // AoWMessageDlg.pas:68
     public void FinishDialog()
     {
-        ExecuteDoneEvent done;
-        MessageEventLog log;
         Window.Visible = false;
-        done = Done;
-        log = _event;
+        ExecuteDoneEvent done = Done;
+        MessageEventLog log = _event;
         Done = null;
         _event = null;
         done?.Invoke(log);
@@ -65,7 +63,7 @@ public partial class MessageDialog(UIContext ui) : UIModule(ui)
     // AoWMessageDlg.pas:98
     public void OKBtnClick()
     {
-        if (_event != null)
+        if (_event is not null)
         {
             if (!_event.Ok())
             {
@@ -119,12 +117,11 @@ public partial class MessageDialog(UIContext ui) : UIModule(ui)
 
     internal static void ShowMessageEvent(MessageDialog dialog, MessageEventLog eventValue, ExecuteDoneEvent done)
     {
-        MessageEventLog log;
         ResetMessageDialog(dialog);
         dialog.Done = done;
         dialog._event = eventValue;
         _ = dialog._event.AddRef();
-        log = dialog._event;
+        MessageEventLog log = dialog._event;
         dialog.TitleLabel.Text = log.Title;
         switch (log.Layout)
         {
@@ -168,5 +165,4 @@ public partial class MessageDialog(UIContext ui) : UIModule(ui)
 
         dialog.Window.Visible = true;
     }
-
 }

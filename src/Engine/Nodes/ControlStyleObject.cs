@@ -7,7 +7,7 @@ using Aow.Rtl;
 namespace Aow.Engine.Nodes;
 
 // ControlStyle
-public partial class ControlStyleObject : EngineObject
+public class ControlStyleObject : EngineObject
 {
     // Engine.pas:8228
     public new const int ClassId = 81;

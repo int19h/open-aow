@@ -13,21 +13,17 @@ internal static class TacticalTables
 {
     internal static ushort GetMeleeDirectionIndex(int X, int deltaX, int deltaY)
     {
-        ushort result = 1;
         switch (deltaY)
         {
             case -1:
                 switch (deltaX)
                 {
                     case -1:
-                        result = 3;
-                        break;
+                        return 3;
                     case 0:
-                        result = 4;
-                        break;
+                        return 4;
                     case 1:
-                        result = 5;
-                        break;
+                        return 5;
                     default:
                         break;
                 }
@@ -37,13 +33,9 @@ internal static class TacticalTables
                 switch (deltaX)
                 {
                     case -1:
-                        result = X / 2 * 2 == X ? (ushort)3 : (ushort)2;
-
-                        break;
+                        return X / 2 * 2 == X ? (ushort)3 : (ushort)2;
                     case 1:
-                        result = X / 2 * 2 == X ? (ushort)5 : (ushort)6;
-
-                        break;
+                        return X / 2 * 2 == X ? (ushort)5 : (ushort)6;
                     default:
                         break;
                 }
@@ -53,14 +45,11 @@ internal static class TacticalTables
                 switch (deltaX)
                 {
                     case -1:
-                        result = 2;
-                        break;
+                        return 2;
                     case 0:
-                        result = 1;
-                        break;
+                        return 1;
                     case 1:
-                        result = 6;
-                        break;
+                        return 6;
                     default:
                         break;
                 }
@@ -70,7 +59,7 @@ internal static class TacticalTables
                 break;
         }
 
-        return result;
+        return 1;
     }
 
     internal static ReadOnlySpan<int> TacticalBattleAttack => [0, 0];
@@ -215,17 +204,8 @@ internal static class TacticalTables
     [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The Delphi signature keeps unusedHeight on purpose.")]
     internal static void MakeRangedPath(CombatSideIndex side, short speed, short arc, short unusedHeight, short x1, short y1, short x2, short y2, short offsetX, short offsetY, bool includeUnits, Point3DList path, DelphiList<RangedObstacle> obstacles)
     {
-        int i;
-        int a;
-        int b;
         int hexX = default;
         int hexY = default;
-        int steps;
-        Point3D point;
-        float height;
-        RangedObstacle obstacle;
-        TacticalBattleUnitHexSprite unitHexSprite;
-        CityWall wall;
         path.Clear();
         obstacles.Clear();
         HexGeometry.HexToPixel(x1, y1, out int x, out int y);
@@ -234,15 +214,16 @@ internal static class TacticalTables
         y += 13;
         lastX = lastX + 13 + offsetX;
         lastY = lastY + 13 + offsetY;
-        i = 0;
-        a = Math.Abs(x2 - x1);
-        b = Math.Abs(y2 - y1);
-        steps = (a + b) * 100 / speed;
+        int i = 0;
+        int a = Math.Abs(x2 - x1);
+        int b = Math.Abs(y2 - y1);
+        int steps = (a + b) * 100 / speed;
         if (steps < 2)
         {
             steps = 2;
         }
 
+        Point3D point;
         while (i <= steps)
         {
             point = new Point3D();
@@ -258,7 +239,7 @@ internal static class TacticalTables
             }
             else
             {
-                height = a * steps * arc / 10;
+                float height = a * steps * arc / 10;
                 point.Z = Round(Math.Sqrt(height)) - (steps * 10 / arc);
             }
 
@@ -294,24 +275,24 @@ internal static class TacticalTables
                     else
                     {
                         a = HexGeometry.DeltaHexToRadius(x, y, startX, startY);
-                        unitHexSprite = !includeUnits
+                        TacticalBattleUnitHexSprite unitHexSprite = !includeUnits
                             ? null
                             : CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
 
-                        wall = CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild<CityWall>(2229508);
-                        if (wall == null && side == CombatSideIndex.Attacker)
+                        CityWall wall = CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild<CityWall>(2229508);
+                        if (wall is null && side == CombatSideIndex.Attacker)
                         {
                             wall = CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild(2229510) as CityWall;
                         }
 
                         if (a == 1)
                         {
-                            if (unitHexSprite != null && unitHexSprite.Unit.GetSide() != side)
+                            if (unitHexSprite is not null && unitHexSprite.Unit.GetSide() != side)
                             {
                                 steps = 1;
                             }
 
-                            if (wall != null && wall.HitPoints > 0 && side == CombatSideIndex.Attacker)
+                            if (wall is not null && wall.HitPoints > 0 && side == CombatSideIndex.Attacker)
                             {
                                 steps = 4;
                             }
@@ -320,12 +301,12 @@ internal static class TacticalTables
                         {
                             if (a > 1)
                             {
-                                if (unitHexSprite != null)
+                                if (unitHexSprite is not null)
                                 {
                                     steps = 1;
                                 }
 
-                                if (wall == null)
+                                if (wall is null)
                                 {
                                     if (CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].OverlayType == 8)
                                     {
@@ -344,14 +325,14 @@ internal static class TacticalTables
                                         {
                                             wall = null;
                                             b = 1;
-                                            while (wall == null && b < 7)
+                                            while (wall is null && b < 7)
                                             {
                                                 HexGeometry.CenterHexNumberToHex(startX, startY, b, ref hexX, ref hexY);
                                                 wall = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild<CityWall>(2229508) ?? CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2229510) as CityWall;
                                                 b += 1;
                                             }
 
-                                            if (wall == null)
+                                            if (wall is null)
                                             {
                                                 steps = 2;
                                             }
@@ -398,6 +379,7 @@ internal static class TacticalTables
 
                     if (a > 0)
                     {
+                        RangedObstacle obstacle;
                         if (x != lastX || y != lastY)
                         {
                             obstacle = new RangedObstacle
@@ -432,5 +414,4 @@ internal static class TacticalTables
             }
         }
     }
-
 }

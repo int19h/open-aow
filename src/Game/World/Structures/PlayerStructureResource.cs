@@ -8,7 +8,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Structures;
 
-public partial class PlayerStructureResource(CustomNode owner) : StructureResource(owner)
+public class PlayerStructureResource(CustomNode owner) : StructureResource(owner)
 {
 
     public new const int ClassId = 131917;
@@ -50,7 +50,7 @@ public partial class PlayerStructureResource(CustomNode owner) : StructureResour
     {
         // The user class is a player structure (131916) or one of its kinds. Another class throws.
         PlayerStructure result = PlaceCreatedUser<PlayerStructure>(hexSpriteMap, hexX, hexY, hexLevel);
-        if (result != null && StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (result is not null && StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             result.SetPlayer(StrategicMap.Current.EditorPlayer);
         }
@@ -89,7 +89,4 @@ public partial class PlayerStructureResource(CustomNode owner) : StructureResour
 
     // Structur.PAS:2462
     public void ActivateMessage() => FlagControl = Engine.HexSpriteSet.FlagControl;
-
-    // intf_P1_09.inc:300
-
 }

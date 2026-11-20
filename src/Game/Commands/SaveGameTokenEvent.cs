@@ -11,7 +11,7 @@ using static Aow.Rtl.DelphiPaths;
 namespace Aow.Game.Commands;
 
 // save filename
-public partial class SaveGameTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class SaveGameTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
     public new const int ClassId = 135444;
 
@@ -27,7 +27,6 @@ public partial class SaveGameTokenEvent(CustomNode owner) : TokenEvent(owner)
     // MoveT.PAS:1854
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        ExecuteResult result = default;
         _ = base.Execute(tokenEvent);
         if (StrategicMap.Current.SeatedPlayer == tokenEvent.ActiveTacticalBattleIndex)
         {
@@ -36,7 +35,7 @@ public partial class SaveGameTokenEvent(CustomNode owner) : TokenEvent(owner)
                 string fileName = ExtractFileName(FileName);
                 string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_savingGameFormat), [fileName]);
                 StrategicMap.Current.ShowMessage(format);
-                result = ExecuteResult.Retry;
+                return ExecuteResult.Retry;
             }
             else
             {
@@ -46,7 +45,7 @@ public partial class SaveGameTokenEvent(CustomNode owner) : TokenEvent(owner)
                 try
                 {
                     StrategicMap.Current.DisableTurnTimer();
-                    if (GetEngine().Campaign != null)
+                    if (GetEngine().Campaign is not null)
                     {
                         GetEngine().SaveCampaign(FileName);
                         GetEngine().Campaign.FileName = FileName;
@@ -66,22 +65,15 @@ public partial class SaveGameTokenEvent(CustomNode owner) : TokenEvent(owner)
                     StrategicMap.Current.ShowMessage(formattedText);
                 }
 
-                result = ExecuteResult.Done;
+                return ExecuteResult.Done;
             }
         }
         else
         {
-            result = ExecuteResult.Done;
+            return ExecuteResult.Done;
         }
-
-        return result;
     }
 
     private static readonly string s_savingGameFormat = "saving: %s";
     private static readonly string s_errorSavingFormat = "Error saving: %s";
-
-    // NetworkE.pas:230
-
-    // NetworkE.pas:230
-
 }

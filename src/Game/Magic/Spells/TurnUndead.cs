@@ -14,7 +14,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Spells;
 
 // inherited combat statistics, damage mode
-public partial class TurnUndead : CombatSpell
+public class TurnUndead : CombatSpell
 {
     // CombatSpells.pas:888
     public TurnUndead(CustomNode owner, EngineObject holder) : base(owner)
@@ -36,8 +36,7 @@ public partial class TurnUndead : CombatSpell
     // CombatSpells.pas:905
     public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
-        TurnUndeadSpellCombatAction action;
-        action = new TurnUndeadSpellCombatAction(null)
+        TurnUndeadSpellCombatAction action = new(null)
         {
             Holder = CreationHolder(),
             SpellId = SpellId,

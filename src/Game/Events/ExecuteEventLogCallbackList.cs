@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 namespace Aow.Game.Events;
 
 // list of -byte callback records
-public partial class ExecuteEventLogCallbackList : IDisposable
+public class ExecuteEventLogCallbackList : IDisposable
 {
     private readonly List<ExecuteEventLogInfo> _list = [];
 
@@ -40,6 +40,4 @@ public partial class ExecuteEventLogCallbackList : IDisposable
             _list.RemoveAt(index);
         }
     }
-
-    // EventLog.pas:133
 }

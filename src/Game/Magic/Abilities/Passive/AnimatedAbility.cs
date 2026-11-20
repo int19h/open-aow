@@ -6,7 +6,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // inherited name, ability ID, selection types, ability type
-public partial class AnimatedAbility : AdjustableAbility
+public class AnimatedAbility : AdjustableAbility
 {
     // PassiveAb.pas:902
     public AnimatedAbility(CustomNode owner, EngineObject holder) : base(owner)

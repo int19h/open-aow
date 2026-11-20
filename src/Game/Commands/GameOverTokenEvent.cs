@@ -8,7 +8,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Commands;
 
-public partial class GameOverTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class GameOverTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
     public new const int ClassId = 135441;
 
@@ -29,7 +29,4 @@ public partial class GameOverTokenEvent(CustomNode owner) : TokenEvent(owner)
         StrategicMap.Current.PlayerControl.GameOver(Player, GameOverStatus);
         return ExecuteResult.Done;
     }
-
-    // NetworkE.pas:230
-
 }

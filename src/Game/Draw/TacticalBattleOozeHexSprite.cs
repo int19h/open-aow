@@ -10,7 +10,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Draw;
 
 // Inherited single-hexagon sprite layout
-public partial class TacticalBattleOozeHexSprite(CustomNode owner) : SingleHexSprite(owner)
+public class TacticalBattleOozeHexSprite(CustomNode owner) : SingleHexSprite(owner)
 {
 
     // AoWTC.pas:4092
@@ -28,7 +28,6 @@ public partial class TacticalBattleOozeHexSprite(CustomNode owner) : SingleHexSp
     // AoWTC.pas:4102
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int frame;
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int x, out int y);
         pixelXSurface = x - pixelXSurface - 16;
         pixelYSurface = y - 48 - pixelYSurface;
@@ -38,9 +37,9 @@ public partial class TacticalBattleOozeHexSprite(CustomNode owner) : SingleHexSp
             12 => GamePack.Current.ImageSequences.ImageSequences[27],
             _ => GamePack.Current.ImageSequences.ImageSequences[25],
         };
-        while (sequence != null)
+        while (sequence is not null)
         {
-            frame = sequence.GetUnloopedFrameIndex(FrameFixtureInputs.PhaseModulo(divisor: sequence.GetTotalSequenceFrames(), instance: this));
+            int frame = sequence.GetUnloopedFrameIndex(FrameFixtureInputs.PhaseModulo(divisor: sequence.GetTotalSequenceFrames(), instance: this));
             if (frame != -1)
             {
                 sequence.ImageLibrary[frame].Show(pixelXSurface, pixelYSurface, lockedSurface);
@@ -57,7 +56,4 @@ public partial class TacticalBattleOozeHexSprite(CustomNode owner) : SingleHexSp
         Owner.UpdateTerrain();
         return result;
     }
-
-    // Engine.pas:524
-
 }

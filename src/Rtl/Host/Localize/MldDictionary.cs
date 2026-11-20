@@ -75,7 +75,11 @@ public sealed class MldDictionary
         int localeCount = reader.UInt16();
         _ = reader.Offset();
         int infoSize = reader.UInt16(), infoOffset = reader.Offset();
-        if (Version == 1) { infoSize = 0; infoOffset = 0; }
+        if (Version == 1)
+        {
+            infoSize = 0;
+            infoOffset = 0;
+        }
         if (languageCount == 0)
         {
             throw new InvalidDataException("MLD has no native language");

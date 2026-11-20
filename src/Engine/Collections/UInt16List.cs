@@ -11,7 +11,7 @@ using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Engine.Collections;
 
-public partial class UInt16List : Persistent
+public class UInt16List : Persistent
 {
     private ushort[] _list = [];
     private int _count;
@@ -19,11 +19,7 @@ public partial class UInt16List : Persistent
     private ushort _default;
 
     // Engine.pas:4336
-    internal ushort Get(int index)
-    {
-        ushort result = index < 0 || index >= _count ? _default : _list[index];
-        return result;
-    }
+    internal ushort Get(int index) => index < 0 || index >= _count ? _default : _list[index];
 
     // Engine.pas:4390
     internal void Put(int index, ushort item)
@@ -142,7 +138,6 @@ public partial class UInt16List : Persistent
     // Engine.pas:4314
     public void Exchange(int index1, int index2)
     {
-        ushort item;
         if (index1 < 0 || index1 >= _count)
         {
             Error("List index out of bounds (%d)", index1);
@@ -153,9 +148,7 @@ public partial class UInt16List : Persistent
             Error("List index out of bounds (%d)", index2);
         }
 
-        item = _list[index1];
-        _list[index1] = _list[index2];
-        _list[index2] = item;
+        (_list[index2], _list[index1]) = (_list[index1], _list[index2]);
     }
 
     // Engine.pas:4325
@@ -181,12 +174,7 @@ public partial class UInt16List : Persistent
             result += 1;
         }
 
-        if (result == _count)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == _count ? -1 : result;
     }
 
     // Engine.pas:4361
@@ -217,7 +205,6 @@ public partial class UInt16List : Persistent
     // Engine.pas:4377
     public void Move(int currentIndex, int newIndex)
     {
-        ushort item;
         if (currentIndex != newIndex)
         {
             if (newIndex < 0 || newIndex >= _count)
@@ -225,7 +212,7 @@ public partial class UInt16List : Persistent
                 Error("List index out of bounds (%d)", newIndex);
             }
 
-            item = Get(currentIndex);
+            ushort item = Get(currentIndex);
             Delete(currentIndex);
             Insert(newIndex, item);
         }
@@ -296,13 +283,10 @@ public partial class UInt16List : Persistent
     public void SaveToStream(Stream stream)
     {
         int i;
-        int run;
-        ushort b = default;
         int DefaultRun()
         {
-            int j;
             int result = 0;
-            j = i;
+            int j = i;
             while (j < _count && _list[j] == _default)
             {
                 result += 1;
@@ -317,9 +301,10 @@ public partial class UInt16List : Persistent
         stream.Write(Bytes.Of(ref _count, 4));
         while (_count != i)
         {
-            run = DefaultRun();
+            int run = DefaultRun();
             if (run > 0)
             {
+                ushort b;
                 while (run > 65535)
                 {
                     b = 65535;
@@ -347,12 +332,10 @@ public partial class UInt16List : Persistent
     public int RandomChanceItem(int bonus)
     {
         int result;
-        int total;
-        int chance;
-        int r;
         if (_count != 0)
         {
-            total = 0;
+            int total = 0;
+            int chance;
             for (int i = _count - 1; i >= 0; i--)
             {
                 chance = _list[i] + bonus;
@@ -364,7 +347,7 @@ public partial class UInt16List : Persistent
                 total += chance;
             }
 
-            r = Random(total);
+            int r = Random(total);
             total = 0;
             result = 0;
             while (total < r)
@@ -381,7 +364,7 @@ public partial class UInt16List : Persistent
         }
         else
         {
-            result = -1;
+            return -1;
         }
 
         return result;
@@ -400,7 +383,6 @@ public partial class UInt16List : Persistent
 
     private static void QuickSortWord(Span<ushort> sortList, int L, int R, WordSortCompare sCompare)
     {
-        ushort number = 0;
         int number2;
         do
         {
@@ -420,9 +402,7 @@ public partial class UInt16List : Persistent
                 }
                 if (number2 <= number3)
                 {
-                    number = sortList[number2];
-                    sortList[number2] = sortList[number3];
-                    sortList[number3] = number;
+                    (sortList[number3], sortList[number2]) = (sortList[number2], sortList[number3]);
                     number2++;
                     number3--;
                 }

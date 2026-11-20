@@ -4,8 +4,8 @@ namespace Aow.Rtl;
 
 public static class PCharStrings
 {
-    public static string SetString(Ptr<byte> source, int length) =>
-        length <= 0
+    public static string SetString(Ptr<byte> source, int length)
+        => length <= 0
             ? ""
             : source.IsNull
                 ? Resized("", length)

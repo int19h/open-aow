@@ -8,7 +8,7 @@ using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class LightningStormSpell : StormSpell
+public class LightningStormSpell : StormSpell
 {
     // Storms.pas:1014
     public LightningStormSpell(CustomNode owner, EngineObject holder) : base(owner)

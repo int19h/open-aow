@@ -8,19 +8,16 @@ using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Engine.Storage;
 
-public partial class TranslateTextStream(GameEngine engine) : TranslateVisit(engine)
+public class TranslateTextStream(GameEngine engine) : TranslateVisit(engine)
 {
     public IvDictionary FDictionary { get; set; }
 
     // Army.PAS:5614
     public override void TranslateStrings(DelphiStringCollection lines)
     {
-        string text;
-        int endOfLine;
-        int lineFeed;
         if (lines.Count != 0)
         {
-            text = "";
+            string text = "";
             for (int i = 0, last = lines.Count - 1; i <= last; i++)
             {
                 text += lines[i];
@@ -34,8 +31,8 @@ public partial class TranslateTextStream(GameEngine engine) : TranslateVisit(eng
             lines.Clear();
             do
             {
-                endOfLine = Pos("<eol>", text);
-                lineFeed = Pos("\n", text);
+                int endOfLine = Pos("<eol>", text);
+                int lineFeed = Pos("\n", text);
                 if ((endOfLine < lineFeed || lineFeed == 0) && endOfLine != 0)
                 {
                     _ = lines.Add(Copy(text, 1, endOfLine - 1));

@@ -10,6 +10,6 @@ public partial class GameSettings
         return byDate;
     }
 
-    internal void SetFileDialogSortByDate(bool byDate) =>
-        Boolean("OpenAoW", "File Dialog Sort By Date", ref byDate, ReadWriteMode.Write);
+    internal void SetFileDialogSortByDate(bool byDate)
+        => Boolean("OpenAoW", "File Dialog Sort By Date", ref byDate, ReadWriteMode.Write);
 }

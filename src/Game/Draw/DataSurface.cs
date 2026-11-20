@@ -59,8 +59,6 @@ public partial class DataSurface : Surface
     {
         LockedSurface lockedSurface = default;
         Rect rr = default;
-        int w;
-        int h;
         GraphicsResult result = surface.Lock(ref lockedSurface);
         if (result.IsSuccess())
         {
@@ -77,8 +75,8 @@ public partial class DataSurface : Surface
                     R = rr;
                 }
 
-                w = R.Value.Right - R.Value.Left;
-                h = R.Value.Bottom - R.Value.Top;
+                int w = R.Value.Right - R.Value.Left;
+                int h = R.Value.Bottom - R.Value.Top;
                 if (w > 0 && h > 0)
                 {
                     _ = Resize(w, h);
@@ -94,7 +92,7 @@ public partial class DataSurface : Surface
             }
 
             _ = surface.Unlock();
-            result = GraphicsResult.Ok;
+            return GraphicsResult.Ok;
         }
 
         return result;
@@ -103,7 +101,7 @@ public partial class DataSurface : Surface
     // GFXE.pas:12485
     public void SetPalette(Palette palette)
     {
-        if (palette != null)
+        if (palette is not null)
         {
             _palette ??= new Palette();
 
@@ -118,8 +116,6 @@ public partial class DataSurface : Surface
     // GFXE.pas:12499
     public override GraphicsResult Resize(int width, int height)
     {
-        GraphicsResult result;
-        int size;
         if (width != _width || height != _height)
         {
             _width = width;
@@ -129,20 +125,17 @@ public partial class DataSurface : Surface
             // no effect on pixels, so the port's data is the array from its first byte. The 7
             // bytes stay after the last row: the 24-bit pixel readers read 4 bytes at the last
             // pixel, which the original's slack absorbs.
-            size = (Pitch * _height) + 7;
+            int size = (Pitch * _height) + 7;
             Data = MemorySurfaces.Reallocate(Data, size);
-            result = GraphicsResult.Ok;
+            return GraphicsResult.Ok;
         }
         else
         {
-            result = GraphicsResult.Ok;
+            return GraphicsResult.Ok;
         }
-
-        return result;
     }
 
     public byte[] Data { get; private set; }
     public int Pitch { get; private set; }
     public Palette Palette { get => _palette; set => SetPalette(value); }
-
 }

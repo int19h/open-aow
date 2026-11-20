@@ -6,7 +6,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Units;
 
 // adjacent armies
-public partial class AdjacentArmyList(CustomNode owner) : OwningNode(owner), IChildList<AdjacentArmy>
+public class AdjacentArmyList(CustomNode owner) : OwningNode(owner), IChildList<AdjacentArmy>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AdjacentArmy, so the cast never fails.
@@ -38,13 +38,11 @@ public partial class AdjacentArmyList(CustomNode owner) : OwningNode(owner), ICh
     // AIGroup.pas:5088
     public int GetSlowestArmy()
     {
-        float maxDays;
-        float days;
-        maxDays = -1;
+        float maxDays = -1;
         int result = -1;
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            days = GetAdjacentArmies(i).GetMovementDays();
+            float days = GetAdjacentArmies(i).GetMovementDays();
             if ((double)days > maxDays)
             {
                 result = i;
@@ -58,8 +56,7 @@ public partial class AdjacentArmyList(CustomNode owner) : OwningNode(owner), ICh
     // AIGroup.pas:5106
     public bool GetAdjacent()
     {
-        MapCoordinateList locations;
-        locations = new MapCoordinateList();
+        MapCoordinateList locations = new();
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
             _ = locations.Add(GetAdjacentArmies(i).Location);
@@ -69,7 +66,4 @@ public partial class AdjacentArmyList(CustomNode owner) : OwningNode(owner), ICh
         locations?.Dispose();
         return result;
     }
-
-    // Engine.pas:631
-
 }

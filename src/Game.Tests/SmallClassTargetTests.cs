@@ -31,9 +31,17 @@ public sealed class SmallClassTargetTests
             base.Activate(executor);
         }
 
-        public override void Deactivate() { log.Add("deactivate"); base.Deactivate(); }
+        public override void Deactivate()
+        {
+            log.Add("deactivate");
+            base.Deactivate();
+        }
 
-        public override void Dispose() { log.Add("destroy"); base.Dispose(); }
+        public override void Dispose()
+        {
+            log.Add("destroy");
+            base.Dispose();
+        }
     }
 
     [Fact]

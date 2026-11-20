@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.World.Map;
 
-public partial class AbstractRoadResource(CustomNode owner) : MapObjectResource(owner)
+public class AbstractRoadResource(CustomNode owner) : MapObjectResource(owner)
 {
 
     // MAPOBJ.PAS:874
@@ -32,7 +32,7 @@ public partial class AbstractRoadResource(CustomNode owner) : MapObjectResource(
         if (!hexSpriteMap.Place(result, pixelX, pixelY, hexLevel))
         {
             result?.Dispose();
-            result = null;
+            return null;
         }
 
         return result;

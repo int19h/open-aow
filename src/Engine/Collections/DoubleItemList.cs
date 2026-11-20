@@ -9,18 +9,14 @@ using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Engine.Collections;
 
-public partial class DoubleItemList : Persistent
+public class DoubleItemList : Persistent
 {
     private DoubleItem[] _list = [];
     private int _count;
     private int _capacity;
 
     // Engine.pas:5140
-    internal DoubleItem Get(int index)
-    {
-        DoubleItem result = index < 0 || index >= _count ? Default : _list[index];
-        return result;
-    }
+    internal DoubleItem Get(int index) => index < 0 || index >= _count ? Default : _list[index];
 
     // Engine.pas:5208
     internal void Put(int index, DoubleItem item)
@@ -153,7 +149,6 @@ public partial class DoubleItemList : Persistent
     // Engine.pas:5118
     public void Exchange(int index1, int index2)
     {
-        DoubleItem item;
         if (index1 < 0 || index1 >= _count)
         {
             Error("List index out of bounds (%d)", index1);
@@ -164,9 +159,7 @@ public partial class DoubleItemList : Persistent
             Error("List index out of bounds (%d)", index2);
         }
 
-        item = _list[index1];
-        _list[index1] = _list[index2];
-        _list[index2] = item;
+        (_list[index2], _list[index1]) = (_list[index1], _list[index2]);
     }
 
     // Engine.pas:5129
@@ -192,12 +185,7 @@ public partial class DoubleItemList : Persistent
             result += 1;
         }
 
-        if (result == _count)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == _count ? -1 : result;
     }
 
     // Engine.pas:5165
@@ -209,12 +197,7 @@ public partial class DoubleItemList : Persistent
             result += 1;
         }
 
-        if (result == _count)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == _count ? -1 : result;
     }
 
     // Engine.pas:5172
@@ -226,12 +209,7 @@ public partial class DoubleItemList : Persistent
             result += 1;
         }
 
-        if (result == _count)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == _count ? -1 : result;
     }
 
     // Engine.pas:5179
@@ -262,7 +240,6 @@ public partial class DoubleItemList : Persistent
     // Engine.pas:5195
     public void Move(int currentIndex, int newIndex)
     {
-        DoubleItem item;
         if (currentIndex != newIndex)
         {
             if (newIndex < 0 || newIndex >= _count)
@@ -270,7 +247,7 @@ public partial class DoubleItemList : Persistent
                 Error("List index out of bounds (%d)", newIndex);
             }
 
-            item = Get(currentIndex);
+            DoubleItem item = Get(currentIndex);
             Delete(currentIndex);
             Insert(newIndex, item);
         }
@@ -328,12 +305,10 @@ public partial class DoubleItemList : Persistent
     public int RandomChanceItemA(int bonus)
     {
         int result;
-        int total;
-        int chance;
-        int r;
         if (_count != 0)
         {
-            total = 0;
+            int total = 0;
+            int chance;
             for (int i = _count - 1; i >= 0; i--)
             {
                 chance = _list[i].First + bonus;
@@ -345,7 +320,7 @@ public partial class DoubleItemList : Persistent
                 total += chance;
             }
 
-            r = Random(total);
+            int r = Random(total);
             total = 0;
             result = 0;
             while (total < r)
@@ -362,7 +337,7 @@ public partial class DoubleItemList : Persistent
         }
         else
         {
-            result = -1;
+            return -1;
         }
 
         return result;
@@ -372,12 +347,10 @@ public partial class DoubleItemList : Persistent
     public int RandomChanceItemB(int bonus)
     {
         int result;
-        int total;
-        int chance;
-        int r;
         if (_count != 0)
         {
-            total = 0;
+            int total = 0;
+            int chance;
             for (int i = _count - 1; i >= 0; i--)
             {
                 chance = _list[i].Second + bonus;
@@ -387,7 +360,7 @@ public partial class DoubleItemList : Persistent
                 }
             }
 
-            r = Random(total);
+            int r = Random(total);
             result = 0;
             total = 0;
             chance = _list[0].Second + bonus;
@@ -408,7 +381,7 @@ public partial class DoubleItemList : Persistent
         }
         else
         {
-            result = -1;
+            return -1;
         }
 
         return result;
@@ -427,7 +400,6 @@ public partial class DoubleItemList : Persistent
 
     private static void QuickSortDoubleItem(Span<DoubleItem> sortList, int L, int R, DoubleItemSortCompare sCompare)
     {
-        DoubleItem doubleItem = default;
         int number;
         do
         {
@@ -447,9 +419,7 @@ public partial class DoubleItemList : Persistent
                 }
                 if (number <= number2)
                 {
-                    doubleItem = sortList[number];
-                    sortList[number] = sortList[number2];
-                    sortList[number2] = doubleItem;
+                    (sortList[number2], sortList[number]) = (sortList[number], sortList[number2]);
                     number++;
                     number2--;
                 }

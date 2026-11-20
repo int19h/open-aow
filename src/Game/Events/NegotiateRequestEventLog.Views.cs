@@ -18,10 +18,10 @@ public partial class NegotiateRequestEventLog
         if (Object == NegotiateObject.Army)
         {
             ArmyHexSprite armyHexSprite = World.Map.StrategicMap.Current.MapContainer.GetField(Hex.X, Hex.Y, Hex.MapLevel).GetArmyHexSprite();
-            if (armyHexSprite != null)
+            if (armyHexSprite is not null)
             {
                 byte joinSelection = armyHexSprite.Army.GetJoinSelection(Player);
-                return armyHexSprite.Army.Hero(joinSelection, RosterTables.AllHeroTypes) == null ? EventView.PartyJoin : EventView.HeroNegotiation;
+                return armyHexSprite.Army.Hero(joinSelection, RosterTables.AllHeroTypes) is null ? EventView.PartyJoin : EventView.HeroNegotiation;
             }
         }
 

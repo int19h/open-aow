@@ -5,7 +5,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Draw.Animations;
 
-public partial class SpringOfLifeAnimation(CustomNode owner) : Animation(owner)
+public class SpringOfLifeAnimation(CustomNode owner) : Animation(owner)
 {
 
     // Spring.pas:64
@@ -17,8 +17,6 @@ public partial class SpringOfLifeAnimation(CustomNode owner) : Animation(owner)
             Dispose();
         }
     }
-
-    // Animation.pas:43
 
     // Spring.pas:59
     public override Set<AnimationControlModeElement> AnimationControlMode() => s_springMode;

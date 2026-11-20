@@ -16,7 +16,7 @@ namespace Aow.Game.Session;
 
 // { Interface declaration run owned by P1. }
 // race, defaults, player relations, enabled
-public partial class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceList>, IOwnedSink<RaceList>
+public class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceList>, IOwnedSink<RaceList>
 {
 
     // The race list the race belongs to. AcceptsOwner admits only a RaceList, so the cast never fails.
@@ -49,13 +49,13 @@ public partial class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceLi
     // Ability.PAS:343
     public override void PersistFields(IPersister persister)
     {
-        bool enabled = default;
         base.PersistFields(persister);
         RaceIndex = PersistSupport.UnsignedByte(persister, name: "RaceIndex", value: RaceIndex);
         PersistSupport.Int32List(persister, name: "PlayerRelations", list: _playerRelations);
         if (persister.Loading)
         {
             // { Original leaves this local uninitialized if property 4 is absent. }
+            bool enabled = default;
             enabled = persister.Boolean("Enabled", value: enabled);
             SetEnabled(enabled);
         }
@@ -86,10 +86,8 @@ public partial class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceLi
     // Ability.PAS:229
     public int GetRelationValue(sbyte race)
     {
-        int result;
-        int player;
-        player = StrategicMap.Current.Players.RaceToPlayer(race);
-        result = player == -1 ? StatusToStatusValue((Status)DefaultRelations[race]) : _playerRelations[player - 1];
+        int player = StrategicMap.Current.Players.RaceToPlayer(race);
+        int result = player == -1 ? StatusToStatusValue((Status)DefaultRelations[race]) : _playerRelations[player - 1];
 
         return result + Owner.RelationOffset;
     }
@@ -97,14 +95,10 @@ public partial class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceLi
     // Ability.PAS:239
     public Status GetRelation(sbyte race)
     {
-        Status result;
-        int player;
-        player = StrategicMap.Current.Players.RaceToPlayer(race);
-        result = player == -1
+        int player = StrategicMap.Current.Players.RaceToPlayer(race);
+        return player == -1
             ? StatusValueToStatus(StatusToStatusValue((Status)DefaultRelations[race]) + StrategicMap.Current.Races.RelationOffset)
             : StatusValueToStatus(_playerRelations[player - 1] + StrategicMap.Current.Races.RelationOffset);
-
-        return result;
     }
 
     // Ability.PAS:249
@@ -119,23 +113,14 @@ public partial class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceLi
     }
 
     // Ability.PAS:259
-    public int GetPlayerRelationValue(sbyte player)
-    {
-        int result = player > 0 ? _playerRelations[player - 1] + StrategicMap.Current.Races.RelationOffset : 50;
-        return result;
-    }
+    public int GetPlayerRelationValue(sbyte player) => player > 0 ? _playerRelations[player - 1] + StrategicMap.Current.Races.RelationOffset : 50;
 
     // Ability.PAS:265
-    public Status GetPlayerRelation(sbyte player)
-    {
-        Status result = player > 0 ? StatusValueToStatus(_playerRelations[player - 1] + StrategicMap.Current.Races.RelationOffset) : Status.Neutral;
-        return result;
-    }
+    public Status GetPlayerRelation(sbyte player) => player > 0 ? StatusValueToStatus(_playerRelations[player - 1] + StrategicMap.Current.Races.RelationOffset) : Status.Neutral;
 
     // Ability.PAS:271
     public void NewDay()
     {
-        int defaultValue;
         if (StrategicMap.Current.Day != 1)
         {
             if ((StrategicMap.Current.GlobalMagicControl.ActiveEnchantments & Set<GlobalEnchantmentType>.Of(GlobalEnchantmentType.Hatred, GlobalEnchantmentType.Harmony)) == Set<GlobalEnchantmentType>.Of())
@@ -143,7 +128,7 @@ public partial class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceLi
                 for (int i = 0, last = _playerRelations.Count - 1; i <= last; i++)
                 {
                     Player players = StrategicMap.Current.Players.GetPlayers(i + 1);
-                    defaultValue = StatusToStatusValue((Status)DefaultRelations[players.PlayerRace]);
+                    int defaultValue = StatusToStatusValue((Status)DefaultRelations[players.PlayerRace]);
                     if (_playerRelations[i] > defaultValue)
                     {
                         int item = _playerRelations[i];
@@ -173,11 +158,7 @@ public partial class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceLi
     }
 
     // Ability.PAS:298
-    public Status GetDefaultRaceRelation(sbyte race)
-    {
-        Status result = race >= 0 && race < DefaultRelations.Count ? (Status)DefaultRelations[race] : Status.Neutral;
-        return result;
-    }
+    public Status GetDefaultRaceRelation(sbyte race) => race >= 0 && race < DefaultRelations.Count ? (Status)DefaultRelations[race] : Status.Neutral;
 
     // Ability.PAS:308
     public void ResetDefaultRaceRelations()
@@ -216,7 +197,7 @@ public partial class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceLi
     {
         if (value != Enabled)
         {
-            if (GamePack.Current.RaceResources.GetRaceResource(RaceIndex) != null)
+            if (GamePack.Current.RaceResources.GetRaceResource(RaceIndex) is not null)
             {
                 _ = value
                     ? GamePack.Current.RaceResources.GetRaceResource(RaceIndex).AddRef()
@@ -231,42 +212,34 @@ public partial class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceLi
 
     private static int StatusToStatusValue(Status status)
     {
-        int result;
         switch ((int)status)
         {
             case 0:
-                result = 10;
-                break;
+                return 10;
             case 1:
-                result = 30;
-                break;
+                return 30;
             case 2:
-                result = 50;
-                break;
+                return 50;
             case 3:
-                result = 70;
-                break;
+                return 70;
             case 4:
-                result = 90;
-                break;
+                return 90;
             default:
-                result = 50;
                 _ = new ArgumentException("Invalid TStatus Value");
                 break;
         }
-        return result;
+        return 50;
     }
 
     internal static Status StatusValueToStatus(int value)
     {
-        Status result;
         if (value <= 20)
         {
-            result = Status.Hostile;
+            return Status.Hostile;
         }
         else if (value > 80)
         {
-            result = Status.Friendly;
+            return Status.Friendly;
         }
         else
         {
@@ -292,8 +265,7 @@ public partial class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceLi
                 case 38:
                 case 39:
                 case 40:
-                    result = Status.Wary;
-                    break;
+                    return Status.Wary;
                 case 41:
                 case 42:
                 case 43:
@@ -314,8 +286,7 @@ public partial class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceLi
                 case 58:
                 case 59:
                 case 60:
-                    result = Status.Neutral;
-                    break;
+                    return Status.Neutral;
                 case 61:
                 case 62:
                 case 63:
@@ -336,19 +307,12 @@ public partial class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceLi
                 case 78:
                 case 79:
                 case 80:
-                    result = Status.Polite;
-                    break;
+                    return Status.Polite;
                 default:
-                    result = Status.Neutral;
                     _ = new ArgumentException("Invalid StatusValue");
                     break;
             }
         }
-        return result;
+        return Status.Neutral;
     }
-
-    // intf_P1_03.inc:13
-
-    // intf_P1_03.inc:13
-
 }

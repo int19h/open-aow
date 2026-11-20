@@ -5,7 +5,7 @@ using Aow.Engine.Nodes;
 namespace Aow.Game.Draw;
 
 // UnitHexSprite
-public partial class UnitShadowHexSprite(CustomNode owner) : HexSprite(owner)
+public class UnitShadowHexSprite(CustomNode owner) : HexSprite(owner)
 {
     public UnitHexSprite UnitHexSprite { get; init; }
 

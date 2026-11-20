@@ -31,9 +31,9 @@ public partial class ChatWindow(UIContext ui) : UIModule(ui)
     }
 
     // AOWChatWin.pas:53
-    public void ChatEditReturn() =>
+    public void ChatEditReturn()
         /* TODO: Implement aowDPlayComp.PlayerName in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     // AOWChatWin.pas:67
     public void ChatWinResize()
@@ -70,11 +70,10 @@ public partial class ChatWindow(UIContext ui) : UIModule(ui)
     // AOWChatWin.pas:97
     public void PlayerListPreDrawItem(in Rect drawRectangle, int drawItem, in LockedSurface lockedSurface)
     {
-        sbyte player2;
         if (drawItem != 0)
         {
             object objectValue = PlayerList.Items.Objects[drawItem];
-            player2 = (sbyte)StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.IndexOfSystemId(ObjectToInt(objectValue));
+            sbyte player2 = (sbyte)StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.IndexOfSystemId(ObjectToInt(objectValue));
             // { Original leaves player zero without a race color. }
             if (player2 > 0 && player2 < StrategicMap.Current.Players.Count)
             {

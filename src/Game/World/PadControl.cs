@@ -13,7 +13,7 @@ namespace Aow.Game.World;
 
 // { Interface declaration run owned by P5. }
 // pad resources, terrain types
-public partial class PadControl : ControlStyleObject
+public class PadControl : ControlStyleObject
 {
     public List<MapObjectResource> PadResources { get; }
     public BitList TerrainTypes { get; }
@@ -35,11 +35,7 @@ public partial class PadControl : ControlStyleObject
     }
 
     // MoveT.PAS:3629
-    public MapObjectResource GetPadResource(int size)
-    {
-        MapObjectResource result = size < PadResources.Count ? PadResources[size] : null;
-        return result;
-    }
+    public MapObjectResource GetPadResource(int size) => size < PadResources.Count ? PadResources[size] : null;
 
     // MoveT.PAS:3635
     public void SetPadResource(int size, MapObjectResource resource)
@@ -55,7 +51,7 @@ public partial class PadControl : ControlStyleObject
     // MoveT.PAS:3641
     public void RegisterPadResource(MapObjectResource resource, int size)
     {
-        if (GetPadResource(size) == null)
+        if (GetPadResource(size) is null)
         {
             SetPadResource(size, resource);
         }
@@ -73,19 +69,17 @@ public partial class PadControl : ControlStyleObject
     // MoveT.PAS:3651
     public bool CanPlacePad(sbyte X, sbyte Y, sbyte L, int size)
     {
+        MapObjectResource resource = GetPadResource(size);
         bool result;
-        MapObjectResource resource;
-        ImageLibraryTerrainMapObject pad;
-        resource = GetPadResource(size);
-        if (resource != null)
+        if (resource is not null)
         {
-            pad = resource.CreateResourceUser<ImageLibraryTerrainMapObject>();
+            ImageLibraryTerrainMapObject pad = resource.CreateResourceUser<ImageLibraryTerrainMapObject>();
             result = pad.CanPlace(StrategicMap.Current.MapContainer, X, Y, L);
             pad?.Dispose();
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;
@@ -94,11 +88,7 @@ public partial class PadControl : ControlStyleObject
     // MoveT.PAS:3666
     public ImageLibraryTerrainMapObject PlacePad(sbyte X, sbyte Y, sbyte L, int size)
     {
-        ImageLibraryTerrainMapObject result;
-        MapObjectResource resource;
-        resource = GetPadResource(size);
-        result = resource?.PlaceResourceUser<ImageLibraryTerrainMapObject>(StrategicMap.Current, X, Y, L);
-
-        return result;
+        MapObjectResource resource = GetPadResource(size);
+        return resource?.PlaceResourceUser<ImageLibraryTerrainMapObject>(StrategicMap.Current, X, Y, L);
     }
 }

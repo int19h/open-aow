@@ -6,7 +6,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Units;
 
-public partial class UnitProductionList(CustomNode owner) : OwningNode(owner), IChildList<UnitProduction>
+public class UnitProductionList(CustomNode owner) : OwningNode(owner), IChildList<UnitProduction>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an UnitProduction, so the cast never fails.
@@ -17,11 +17,7 @@ public partial class UnitProductionList(CustomNode owner) : OwningNode(owner), I
     int IChildSink<UnitProduction>.AddChild(UnitProduction child) => AddChild(child);
 
     // Structur.PAS:14
-    public UnitProduction GetItem(int index)
-    {
-        UnitProduction result = index >= 0 && index < Count ? this[index] : null;
-        return result;
-    }
+    public UnitProduction GetItem(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // Structur.PAS:20
     public void Add(int unitIndex, bool researched)
@@ -55,8 +51,8 @@ public partial class UnitProductionList(CustomNode owner) : OwningNode(owner), I
     private static int CompareUnitProductionLevel(UnitProduction item1, UnitProduction item2)
     {
         UnitProduction unitProduction = item1;
-        int number = (GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex) != null) ? (GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).Level * 2) : 0;
-        int number2 = (GamePack.Current.UnitResources.GetUnitResource(item2.UnitIndex) != null) ? (GamePack.Current.UnitResources.GetUnitResource(item2.UnitIndex).Level * 2) : 0;
+        int number = (GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex) is not null) ? (GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).Level * 2) : 0;
+        int number2 = (GamePack.Current.UnitResources.GetUnitResource(item2.UnitIndex) is not null) ? (GamePack.Current.UnitResources.GetUnitResource(item2.UnitIndex).Level * 2) : 0;
         int number3 = number - number2;
         if (number3 == 0)
         {
@@ -64,9 +60,4 @@ public partial class UnitProductionList(CustomNode owner) : OwningNode(owner), I
         }
         return number3;
     }
-
-    // Engine.pas:631
-
-    // Engine.pas:631
-
 }

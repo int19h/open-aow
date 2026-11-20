@@ -53,7 +53,11 @@ public partial class CustomDisplay
 
     private int _cursor;
 
-    internal void SetCursor(int value) { _cursor = value; Host?.ShowSystemCursor(value != -1); }
+    internal void SetCursor(int value)
+    {
+        _cursor = value;
+        Host?.ShowSystemCursor(value != -1);
+    }
 
     internal int GetCursor() => _cursor;
     public override void Loaded() => base.Loaded();
@@ -77,7 +81,11 @@ public partial class CustomDisplay
     public virtual void ShowError(string message) => LegacyApplication.ShowMessage(message);
     public virtual void StopUpdateFrameLoop() => Status = Status.Without(FrameLoopActive);
 
-    public virtual void PauseFrameUpdateLoop() { _pauseCount++; Status = Status.With(FrameLoopPaused); }
+    public virtual void PauseFrameUpdateLoop()
+    {
+        _pauseCount++;
+        Status = Status.With(FrameLoopPaused);
+    }
 
     public virtual void ResumeFrameUpdateLoop()
     {
@@ -121,7 +129,10 @@ public partial class CustomDisplay
                 Host.PumpEvents(EventSink);
             }
         }
-        finally { StopUpdateFrameLoop(); }
+        finally
+        {
+            StopUpdateFrameLoop();
+        }
     }
 
     public virtual int GetMouseButton() => MouseButtons.Contains(ShiftState.Left) ? 1 : MouseButtons.Contains(ShiftState.Right) ? 2 : 0;
@@ -239,6 +250,9 @@ public partial class CustomDisplay
             Resize();
             return DisplayControllerError.Ok;
         }
-        finally { ResumeFrameUpdateLoop(); }
+        finally
+        {
+            ResumeFrameUpdateLoop();
+        }
     }
 }

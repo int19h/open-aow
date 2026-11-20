@@ -11,13 +11,10 @@ using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
-public partial class ArmyDefaultMoveTokenEvent(CustomNode owner) : MoveArmyTokenEvent(owner)
+public class ArmyDefaultMoveTokenEvent(CustomNode owner) : MoveArmyTokenEvent(owner)
 {
     public new const int ClassId = 135428;
 
     // MoveT.PAS:2394
     public override bool Setup(ArmyHexSprite armyHexSprite, byte selection, MovePath path, Set<ArmyMoveModeElement> mode) => base.Setup(armyHexSprite, selection, path, mode);
-
-    // intf_P5_07.inc:816
-
 }

@@ -6,7 +6,7 @@ using Aow.Formats.Tree;
 namespace Aow.Game.Magic.Abilities;
 
 // (ability ID, commander ID, command ability ID, original combat player)
-public partial class CommandedAbilityData(CustomNode owner) : AbilityData(owner)
+public class CommandedAbilityData(CustomNode owner) : AbilityData(owner)
 {
     public new const int ClassId = 131757;
 

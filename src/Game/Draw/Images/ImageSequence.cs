@@ -14,7 +14,7 @@ namespace Aow.Game.Draw.Images;
 // image - 1), FSequenceMode, FFrameTable (the image indices of smFrameTable and
 // smRndFrameTable), FImageIndex (the image of smNone, the random start of smRandom and
 // smRndFrameTable), _offsetX, _offsetY, _lastFrame, _speedCount, _frameCounter
-public partial class ImageSequence(ImageSequenceList owner) : IDisposable
+public class ImageSequence(ImageSequenceList owner) : IDisposable
 {
     private byte _layer;
     private string _imageLibraryName = "";
@@ -40,7 +40,7 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
     // ImageLib.pas:8613
     internal void SetSequenceMode(SequenceMode value)
     {
-        if (Set<SequenceMode>.Of(SequenceMode.FrameTable, SequenceMode.RandomFrameTable).Contains(value) && FrameTable == null)
+        if (Set<SequenceMode>.Of(SequenceMode.FrameTable, SequenceMode.RandomFrameTable).Contains(value) && FrameTable is null)
         {
             FrameTable = new FrameTableList();
         }
@@ -59,9 +59,8 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
     // ImageLib.pas:8567
     public ImageSequence Copy(ImageSequenceList owner)
     {
-        ImageSequence result = default;
-        MemoryStream stream;
-        stream = new MemoryStream();
+        MemoryStream stream = new();
+        ImageSequence result;
         try
         {
             result = new ImageSequence(owner);
@@ -81,11 +80,10 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
     public LibraryImage GetPreviewImage()
     {
         LibraryImage result;
-        int i;
-        if (this != null)
+        if (this is not null)
         {
             result = null;
-            if (FrameTable != null && FrameTable.Count != 0)
+            if (FrameTable is not null && FrameTable.Count != 0)
             {
                 result = ImageLibrary.GetSafe(FrameTable.List[0]);
             }
@@ -95,10 +93,10 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
                 result = ImageLibrary.GetSafe(_imageIndex);
             }
 
-            if (result == null)
+            if (result is null)
             {
-                i = 0;
-                while (i != ImageLibrary.Count && result == null)
+                int i = 0;
+                while (i != ImageLibrary.Count && result is null)
                 {
                     result = ImageLibrary[i];
                     i += 1;
@@ -107,7 +105,7 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
         }
         else
         {
-            result = null;
+            return null;
         }
 
         return result;
@@ -116,12 +114,12 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
     // ImageLib.pas:8620
     public void GetDimensions(out Rect R)
     {
-        LibraryImage image;
         // The out value is assigned before its members are written.
         R = default;
-        if (ImageLibrary != null)
+        if (ImageLibrary is not null)
         {
             Rect ir;
+            LibraryImage image;
             switch (_sequenceMode)
             {
                 case SequenceMode.FrameTable:
@@ -131,7 +129,7 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
                         {
                             int item = FrameTable[i];
                             image = ImageLibrary.GetSafe(item);
-                            if (image != null)
+                            if (image is not null)
                             {
                                 image.GetVisualDimensions(out ir);
                                 _ = UnionRect(out R, R, ir);
@@ -147,7 +145,7 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
                         for (int i = 0, last = ImageLibrary.Count - 1; i <= last; i++)
                         {
                             image = ImageLibrary.GetSafe(i);
-                            if (image != null)
+                            if (image is not null)
                             {
                                 image.GetVisualDimensions(out ir);
                                 _ = UnionRect(out R, R, ir);
@@ -175,14 +173,13 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
     // ImageLib.pas:8666
     public int GetTotalSequenceFrames()
     {
-        int result = _sequenceMode switch
+        return _sequenceMode switch
         {
             SequenceMode.FrameTable => FrameTable.Count * (_sequenceSpeed + 1),
             SequenceMode.Up => ImageLibrary.Count * (_sequenceSpeed + 1),
             SequenceMode.UpDown => ImageLibrary.Count * (_sequenceSpeed + 1) * 2,
             SequenceMode.None or SequenceMode.Random or SequenceMode.RandomFrameTable or _ => _sequenceSpeed + 1,
         };
-        return result;
     }
 
     // ImageLib.pas:8677
@@ -215,14 +212,12 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
                         if (FrameTable.Count != 0)
                         {
                             result %= FrameTable.Count;
-                            result = FrameTable.List[result];
+                            return FrameTable.List[result];
                         }
                         else
                         {
-                            result = -1;
+                            return -1;
                         }
-
-                        break;
                     case SequenceMode.Up:
                         if (frame != _lastFrame)
                         {
@@ -259,8 +254,7 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
                         }
 
                         result = (_frameCounter + offset) % ((ImageLibrary.Count - 1) * 2);
-                        result = Math.Abs(result - (ImageLibrary.Count - 2));
-                        break;
+                        return Math.Abs(result - (ImageLibrary.Count - 2));
                     case SequenceMode.RandomFrameTable:
                         if (frame != _lastFrame && frame % (_sequenceSpeed + 1) == 0)
                         {
@@ -268,9 +262,7 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
                             _lastFrame = frame;
                         }
 
-                        result = FrameTable.Count != 0 ? FrameTable.List[(_imageIndex + offset) % FrameTable.Count] : -1;
-
-                        break;
+                        return FrameTable.Count != 0 ? FrameTable.List[(_imageIndex + offset) % FrameTable.Count] : -1;
                     case SequenceMode.Random:
                         if (frame != _lastFrame && frame % (_sequenceSpeed + 1) == 0)
                         {
@@ -278,22 +270,20 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
                             _lastFrame = frame;
                         }
 
-                        result = (_imageIndex + offset) % ImageLibrary.Count;
-                        break;
+                        return (_imageIndex + offset) % ImageLibrary.Count;
                     case SequenceMode.None:
                     default:
-                        result = -1;
-                        break;
+                        return -1;
                 }
             }
             else
             {
-                result = _imageIndex;
+                return _imageIndex;
             }
         }
         else
         {
-            result = -1;
+            return -1;
         }
 
         return result;
@@ -311,30 +301,24 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
                 {
                     case SequenceMode.FrameTable:
                         result = frame / (_sequenceSpeed + 1);
-                        result = result < FrameTable.Count ? FrameTable.List[result] : -1;
-
-                        break;
+                        return result < FrameTable.Count ? FrameTable.List[result] : -1;
                     case SequenceMode.Up:
                         result = frame / (_sequenceSpeed + 1);
                         if (result >= ImageLibrary.Count)
                         {
-                            result = -1;
+                            return -1;
                         }
 
                         break;
                     case SequenceMode.UpDown:
-                        result = -1;
-                        break;
+                        return -1;
                     case SequenceMode.RandomFrameTable:
-                        result = -1;
-                        break;
+                        return -1;
                     case SequenceMode.Random:
-                        result = -1;
-                        break;
+                        return -1;
                     case SequenceMode.None:
                     default:
-                        result = -1;
-                        break;
+                        return -1;
                 }
             }
             else
@@ -344,7 +328,7 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
         }
         else
         {
-            result = -1;
+            return -1;
         }
 
         return result;
@@ -353,7 +337,7 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
     // ImageLib.pas:8803
     public void LinkToImageLibrary()
     {
-        if (ImageLibrary != null)
+        if (ImageLibrary is not null)
         {
             ReleaseImageLibrary();
         }
@@ -366,7 +350,7 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
     // ImageLib.pas:8812
     public void ReleaseImageLibrary()
     {
-        if (ImageLibrary != null)
+        if (ImageLibrary is not null)
         {
             if (!IsEmpty(_imageLibraryName))
             {
@@ -380,7 +364,6 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
     // ImageLib.pas:8822
     public void SaveToStream(Stream stream)
     {
-        bool hasNext;
         LibraryDrawing.WriteStringToStream(_imageLibraryName, stream);
         stream.Write(Bytes.Of(ref _layer, 1));
         stream.Write(Bytes.Of(ref _sequenceSpeed, 1));
@@ -393,7 +376,7 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
             FrameTable.SaveToStream(stream);
         }
 
-        hasNext = Next != null;
+        bool hasNext = Next is not null;
         stream.Write(Bytes.Of(ref hasNext, 1));
         if (hasNext)
         {
@@ -433,7 +416,7 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
     internal List<SequenceLayer> SaveLayers()
     {
         List<SequenceLayer> layers = [];
-        for (ImageSequence sequence = this; sequence != null; sequence = sequence.Next)
+        for (ImageSequence sequence = this; sequence is not null; sequence = sequence.Next)
         {
             FrameTable frames = null;
             if (Set<SequenceMode>.Of(SequenceMode.FrameTable, SequenceMode.RandomFrameTable).Contains(sequence._sequenceMode))
@@ -489,14 +472,14 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
     }
 
     // ImageLib.pas:8865
-    public void SaveToIniFile(string section, IniFile iniFile) =>
+    public void SaveToIniFile(string section, IniFile iniFile)
         /* TODO: Implement IniFiles.WriteString in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     // ImageLib.pas:8880
-    public void LoadFromIniFile(string section, IniFile iniFile) =>
+    public void LoadFromIniFile(string section, IniFile iniFile)
         /* TODO: Implement IniFiles.ReadString in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     public ImageSequenceList Owner { get; } = owner;
     public byte Layer { get => _layer; set => _layer = value; }
@@ -514,15 +497,13 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
     internal static void BlitImageSequence(ImageSequence sequence, int X, int Y, in Rect R, int frame, int bkColor)
     {
         LockedSurface lockedSurface = default;
-        Dib16Surface surface;
-        int index;
-        surface = new Dib16Surface(R.Right - R.Left, R.Bottom - R.Top, PixelFormat.Rgb565);
+        Dib16Surface surface = new(R.Right - R.Left, R.Bottom - R.Top, PixelFormat.Rgb565);
         _ = surface.Clear(bkColor);
         _ = surface.Lock(ref lockedSurface);
-        while (sequence != null)
+        while (sequence is not null)
         {
-            index = sequence.GetUnloopedFrameIndex(frame);
-            if (index != -1 && sequence.ImageLibrary != null && sequence.ImageLibrary.GetSafe(index) != null)
+            int index = sequence.GetUnloopedFrameIndex(frame);
+            if (index != -1 && sequence.ImageLibrary is not null && sequence.ImageLibrary.GetSafe(index) is not null)
             {
                 sequence.ImageLibrary[index].Show(X + sequence._offsetX, Y + sequence._offsetY, lockedSurface);
             }
@@ -535,5 +516,4 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
         throw new NotImplementedException();
         surface?.Dispose();
     }
-
 }

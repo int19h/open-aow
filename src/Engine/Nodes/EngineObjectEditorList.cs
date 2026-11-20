@@ -5,7 +5,7 @@ namespace Aow.Engine.Nodes;
 
 // { Engine.TEObjectEditorList: the editor descriptors an engine registers, one per editor class id
 //   (an EditorClass per editor class since 9.4-4, a list of editor metaclasses before) }
-public partial class EngineObjectEditorList
+public class EngineObjectEditorList
 {
     private readonly List<EditorClass> _list = [];
 
@@ -15,7 +15,7 @@ public partial class EngineObjectEditorList
     // Engine.pas:8356
     public void RegisterClass(EditorClass classValue)
     {
-        if (FindEditor(classValue.EditorClassId) == null)
+        if (FindEditor(classValue.EditorClassId) is null)
         {
             _list.Add(classValue);
         }
@@ -28,16 +28,12 @@ public partial class EngineObjectEditorList
     // Engine.pas:8364
     public EditorClass FindEditor(int classId)
     {
-        EditorClass result;
-        int i;
-        i = 0;
+        int i = 0;
         while (i != Count && classId != _list[i].EditorClassId)
         {
             i += 1;
         }
 
-        result = i != Count ? _list[i] : null;
-
-        return result;
+        return i != Count ? _list[i] : null;
     }
 }

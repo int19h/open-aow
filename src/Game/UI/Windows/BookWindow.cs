@@ -26,12 +26,8 @@ public partial class BookWindow(Component owner) : Window(owner)
     // AoWBookWindow.pas:50
     public override void Dispose()
     {
-        Surface s;
-        s = _pageSurface;
-        if (s != null)
-        {
-            s?.Dispose();
-        }
+        Surface s = _pageSurface;
+        s?.Dispose();
 
         base.Dispose();
     }
@@ -55,14 +51,13 @@ public partial class BookWindow(Component owner) : Window(owner)
     // AoWBookWindow.pas:59
     public override void SetVisible(bool value)
     {
-        Surface s;
         if (value != Visible)
         {
             Animating = false;
             if (FreeSurfaceOnHide)
             {
-                s = _pageSurface;
-                if (s != null)
+                Surface s = _pageSurface;
+                if (s is not null)
                 {
                     s?.Dispose();
                     _pageSurface = null;
@@ -126,13 +121,12 @@ public partial class BookWindow(Component owner) : Window(owner)
     // AoWBookWindow.pas:92
     public void StartAnimation(PageTurnMode mode)
     {
-        LockedSurface source = default;
-        LockedSurface destination = default;
-        Rect r;
-        if (BackSurface != null && _pageSurface != null)
+        if (BackSurface is not null && _pageSurface is not null)
         {
-            r = new Rect(0, 0, WinWidth, WinHeight);
+            Rect r = new(0, 0, WinWidth, WinHeight);
+            LockedSurface source = default;
             _ = BackSurface.Lock(ref source);
+            LockedSurface destination = default;
             _ = _pageSurface.Lock(ref destination);
             _ = LockedSurface.BlitSurfaceDescriptionRectangleClipped(source, r, destination, 0, 0);
             _ = _pageSurface.Unlock();

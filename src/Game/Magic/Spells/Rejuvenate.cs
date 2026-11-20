@@ -13,7 +13,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class Rejuvenate : GlobalTargetSpell
+public class Rejuvenate : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:1074
     public Rejuvenate(CustomNode owner, EngineObject holder) : base(owner)
@@ -30,8 +30,7 @@ public partial class Rejuvenate : GlobalTargetSpell
     // GlobalTargetSpells.pas:1095
     public override void SetupTargetSelection(Troop source, TargetSelectionControl targetSelection)
     {
-        TargetSelectionControl target;
-        target = targetSelection;
+        TargetSelectionControl target = targetSelection;
         base.SetupTargetSelection(source, target);
         target.HexNumbers.Clear();
         for (int i = 0, last = HexGeometry.RadiusToHexNumber(3) - 1; i <= last; i++)
@@ -43,8 +42,7 @@ public partial class Rejuvenate : GlobalTargetSpell
     // GlobalTargetSpells.pas:1107
     public override bool TargetSelected(Troop source, int X, int Y, int L)
     {
-        RejuvenateTokenEvent eventValue;
-        eventValue = new RejuvenateTokenEvent(null) { Holder = CreationHolder() };
+        RejuvenateTokenEvent eventValue = new(null) { Holder = CreationHolder() };
         eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
         eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
         StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);

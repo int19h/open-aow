@@ -12,7 +12,7 @@ namespace Aow.Game.Draw.Images;
 // transparent pixels), FData (the encoded rows: per row a length dword, then the opaque pixels
 // and, for a transparent run, the transparent index and the run length), FRLELeft, FRLETop,
 // FRLEWidth, FRLEHeight (the rectangle of the encoded pixels in the data rectangle)
-public partial class RleSprite08(CustomImageLibrary owner) : Image08(owner), ILibraryImageClass
+public class RleSprite08(CustomImageLibrary owner) : Image08(owner), ILibraryImageClass
 {
     static int ILibraryImageClass.ClassId => 2;
     static string ILibraryImageClass.Name => "RLE Sprite (08bpp)";
@@ -65,8 +65,7 @@ public partial class RleSprite08(CustomImageLibrary owner) : Image08(owner), ILi
     // ImageLib.pas:7535
     public override void SetWidth(int value)
     {
-        int w;
-        w = Xshift + RleLeft + RleWidth;
+        int w = Xshift + RleLeft + RleWidth;
         if (value < w)
         {
             value = w;
@@ -78,8 +77,7 @@ public partial class RleSprite08(CustomImageLibrary owner) : Image08(owner), ILi
     // ImageLib.pas:7544
     public override void SetHeight(int value)
     {
-        int h;
-        h = Yshift + RleTop + RleHeight;
+        int h = Yshift + RleTop + RleHeight;
         if (value < h)
         {
             value = h;
@@ -155,7 +153,7 @@ public partial class RleSprite08(CustomImageLibrary owner) : Image08(owner), ILi
     }
 
     // ImageLib.pas:7596
-    public override bool SupportShowMode(ShowMode showMode, PixelFormat pixelFormatId) => (pixelFormatId == PixelFormat.None || pixelFormatId == PixelFormat.Rgb555 || pixelFormatId == PixelFormat.Rgb565) && showMode == ShowMode.Opaque;
+    public override bool SupportShowMode(ShowMode showMode, PixelFormat pixelFormatId) => (pixelFormatId is PixelFormat.None or PixelFormat.Rgb555 or PixelFormat.Rgb565) && showMode == ShowMode.Opaque;
 
     // ImageLib.pas:7602
     public override void ShowOpaque(int X, int Y, in LockedSurface lockedSurface)
@@ -241,16 +239,7 @@ public partial class RleSprite08(CustomImageLibrary owner) : Image08(owner), ILi
     //   byte reallocates). Temp is never created. }
     public override bool GrabImage(in LockedSurface lockedSurface, in Rect R, GrabInfo grabInfo)
     {
-        bool result;
         int position;
-        int lineStart;
-        int count;
-        object temporary;
-        int line;
-        int b;
-        int left;
-        int top;
-        int bottom;
         void AddByte(byte B)
         {
             if (DataSize <= position)
@@ -262,6 +251,7 @@ public partial class RleSprite08(CustomImageLibrary owner) : Image08(owner), ILi
             position += 1;
         }
 
+        int lineStart;
         void StartLine()
         {
             lineStart = position;
@@ -271,6 +261,7 @@ public partial class RleSprite08(CustomImageLibrary owner) : Image08(owner), ILi
             AddByte(0);
         }
 
+        int count;
         void FlushTransparent()
         {
             while (count != 0)
@@ -299,13 +290,10 @@ public partial class RleSprite08(CustomImageLibrary owner) : Image08(owner), ILi
 
             BinaryPrimitives.WriteUInt16LittleEndian(Data.AsSpan(lineStart, 2), (ushort)(position - lineStart));
         }
-
         if (lockedSurface.BitCount == 8)
         {
-            result = true;
             try
             {
-                temporary = null;
                 try
                 {
                     _transparentColor = grabInfo.TransparentPixel;
@@ -320,21 +308,21 @@ public partial class RleSprite08(CustomImageLibrary owner) : Image08(owner), ILi
                     position = 0;
                     count = 0;
                     LockedSurface.MinimizeTransparentRectangle(lockedSurface, R, _transparentColor, out Rect minRectangle);
-                    left = minRectangle.Left;
+                    int left = minRectangle.Left;
                     RleLeft = left - R.Left;
-                    top = minRectangle.Top;
+                    int top = minRectangle.Top;
                     RleTop = top - R.Top;
                     RleWidth = minRectangle.Right - left;
-                    bottom = minRectangle.Bottom;
+                    int bottom = minRectangle.Bottom;
                     RleHeight = bottom - top;
                     for (int y = top; y <= bottom - 1; y++)
                     {
                         // Line is the byte index of row Y in the surface's memory.
-                        line = lockedSurface.DataIndex + (lockedSurface.Pitch * y);
+                        int line = lockedSurface.DataIndex + (lockedSurface.Pitch * y);
                         StartLine();
                         for (int x = minRectangle.Left, last = minRectangle.Right - 1; x <= last; x++)
                         {
-                            b = lockedSurface.Data[line + x];
+                            int b = lockedSurface.Data[line + x];
                             if (b != _transparentColor)
                             {
                                 FlushTransparent();
@@ -355,7 +343,8 @@ public partial class RleSprite08(CustomImageLibrary owner) : Image08(owner), ILi
                 }
                 finally
                 {
-                    if (temporary != null)
+                    object temporary = null;
+                    if (temporary is not null)
                     {
                         ((temporary ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
                     }
@@ -364,15 +353,15 @@ public partial class RleSprite08(CustomImageLibrary owner) : Image08(owner), ILi
             catch
             {
                 ReleaseDiscardableImageData();
-                result = false;
+                return false;
             }
         }
         else
         {
-            result = false;
+            return false;
         }
 
-        return result;
+        return true;
     }
 
     private static void ShowRle08(int X, int Y, in LockedSurface lockedSurface, ReadOnlySpan<byte> data, int width, int height, byte colorKey) => Blit.ShowRle08(X, Y, lockedSurface.View(), data, width, height, colorKey);

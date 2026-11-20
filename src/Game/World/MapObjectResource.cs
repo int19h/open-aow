@@ -16,7 +16,7 @@ namespace Aow.Game.World;
 // the resource of map objects. FEngine (set by the engine activation message),
 // _showPriorityOffset (id 4), _imageLibrary (id 8), _imageSequenceList (nil without complex
 // images. ids 9, 10), _terrainList (id 7), _level (id 5), _name (id 6)
-public partial class MapObjectResource : EngineResource
+public class MapObjectResource : EngineResource
 {
     public new const int ClassId = 65876;
 
@@ -34,10 +34,7 @@ public partial class MapObjectResource : EngineResource
     {
         TerrainList?.Dispose();
         ImageLibrary?.Dispose();
-        if (ImageSequenceList != null)
-        {
-            ImageSequenceList?.Dispose();
-        }
+        ImageSequenceList?.Dispose();
 
         base.Dispose();
     }
@@ -74,7 +71,7 @@ public partial class MapObjectResource : EngineResource
         }
         else
         {
-            complex = ImageSequenceList != null;
+            complex = ImageSequenceList is not null;
             complex = persister.Boolean("Complex", value: complex);
         }
 
@@ -84,8 +81,6 @@ public partial class MapObjectResource : EngineResource
         }
     }
 
-    // MAPOBJ.PAS:383
-
     // MAPOBJ.PAS:620
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
@@ -93,7 +88,7 @@ public partial class MapObjectResource : EngineResource
         if (message.MessageId == 536870920)
         {
             Engine = message.Payload.As<GameEngine>();
-            if (ImageSequenceList != null)
+            if (ImageSequenceList is not null)
             {
                 ImageSequenceList.ImageLibraryManager = Engine.HexSpriteSet.ImageLibraryManager;
                 ImageSequenceList.LinkToImageLibrary();
@@ -118,21 +113,15 @@ public partial class MapObjectResource : EngineResource
     // MAPOBJ.PAS:450
     public override LibraryImage GetCellImage()
     {
-        int i;
-        i = 0;
+        int i = 0;
         LibraryImage result = null;
-        while (i != ImageLibrary.Count && result == null)
+        while (i != ImageLibrary.Count && result is null)
         {
             result = ImageLibrary.Get(i);
             i += 1;
         }
 
-        if (result == null && ImageSequenceList != null)
-        {
-            result = ImageSequenceList.GetPreviewImage();
-        }
-
-        return result;
+        return result is null && ImageSequenceList is not null ? ImageSequenceList.GetPreviewImage() : result;
     }
 
     // MAPOBJ.PAS:465
@@ -149,7 +138,7 @@ public partial class MapObjectResource : EngineResource
         }
 
         MapObject mapObject = Engine.CreateEngineObject<MapObject>(id, owner: null);
-        if (mapObject != null)
+        if (mapObject is not null)
         {
             mapObject.SetResource(this);
             mapObject.SetResourceLinked(true);
@@ -161,26 +150,23 @@ public partial class MapObjectResource : EngineResource
     // MAPOBJ.PAS:420
     public override void Draw(Canvas canvas, Rect rectangle, BlitMode mode, int scaleX, int scaleY, int bkColor, int color)
     {
-        int i;
-        LibraryImage image;
-        ImageSequence sequence;
         Rect drawRectangle = default;
-        i = 0;
-        image = null;
-        while (i != ImageLibrary.Count && image == null)
+        int i = 0;
+        LibraryImage image = null;
+        while (i != ImageLibrary.Count && image is null)
         {
             image = ImageLibrary.Get(i);
             i += 1;
         }
 
-        if (image == null && ImageSequenceList != null)
+        if (image is null && ImageSequenceList is not null)
         {
             i = 0;
-            sequence = null;
-            while (i != ImageSequenceList.Count && sequence == null)
+            ImageSequence sequence = null;
+            while (i != ImageSequenceList.Count && sequence is null)
             {
                 sequence = ImageSequenceList.GetImageSequence(i);
-                if (sequence == null)
+                if (sequence is null)
                 {
                     i += 1;
                 }
@@ -216,7 +202,7 @@ public partial class MapObjectResource : EngineResource
         if (!hexSpriteMap.Place(result, pixelX, pixelY, hexLevel))
         {
             result?.Dispose();
-            result = null;
+            return null;
         }
 
         return result;
@@ -242,13 +228,11 @@ public partial class MapObjectResource : EngineResource
     // MAPOBJ.PAS:507
     public void ShowComplexImage(int X, int Y, in LockedSurface lockedSurface, int index, uint offset)
     {
-        ImageSequence sequence;
-        int frame;
-        sequence = index < ImageSequenceList.Count ? ImageSequenceList.List[index] : null;
+        ImageSequence sequence = index < ImageSequenceList.Count ? ImageSequenceList.List[index] : null;
 
-        while (sequence != null)
+        while (sequence is not null)
         {
-            frame = sequence.GetFrameIndex(Engine.HexSpriteMap.Frame, (int)offset);
+            int frame = sequence.GetFrameIndex(Engine.HexSpriteMap.Frame, (int)offset);
             if (frame != -1)
             {
                 sequence.ImageLibrary.Get(frame).Show(X + sequence.OffsetX, Y + sequence.OffsetY, lockedSurface);
@@ -278,17 +262,12 @@ public partial class MapObjectResource : EngineResource
     //   the drop point with its users, clearing the terrain first when Param[2] = 1 }
     public void EditDropMessage(ref EngineMessage message)
     {
-        MapLevel mapLevel;
-        int hexLevel;
-        int radius;
-        bool clear;
-        bool placed;
-        placed = true;
-        mapLevel = message.Param[0].As<MapLevel>();
-        hexLevel = message.Data[1];
-        radius = message.Param[1].Int;
+        bool placed = true;
+        MapLevel mapLevel = message.Param[0].As<MapLevel>();
+        int hexLevel = message.Data[1];
+        int radius = message.Param[1].Int;
         HexGeometry.PixelToHex(message.Payload.Int, message.Data[0], out int hexX, out int hexY);
-        clear = message.Param[2].Int == 1;
+        bool clear = message.Param[2].Int == 1;
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, 0);
         while (walk.Radius <= radius)
         {
@@ -299,7 +278,7 @@ public partial class MapObjectResource : EngineResource
                     ClearTerrain(walk.X, walk.Y, hexLevel);
                 }
 
-                placed = placed && PlaceResourceUser(Engine.HexSpriteMap, (sbyte)walk.X, (sbyte)walk.Y, (sbyte)hexLevel) != null;
+                placed = placed && PlaceResourceUser(Engine.HexSpriteMap, (sbyte)walk.X, (sbyte)walk.Y, (sbyte)hexLevel) is not null;
             }
 
             HexNumberWalkData.WalkToNextHexNumber(ref walk);

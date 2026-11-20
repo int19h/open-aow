@@ -16,7 +16,7 @@ using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.World.Hexes;
 
-public partial class CombatTerrain(CustomNode owner) : TerrainMapObject(owner)
+public class CombatTerrain(CustomNode owner) : TerrainMapObject(owner)
 {
 
     // CombatTerrain.pas:82
@@ -51,8 +51,7 @@ public partial class CombatTerrain(CustomNode owner) : TerrainMapObject(owner)
     // CombatTerrain.pas:275
     public override void RemoveFromMap()
     {
-        MapLevel mapLevel;
-        mapLevel = Owner.Owner;
+        MapLevel mapLevel = Owner.Owner;
         base.RemoveFromMap();
         UpdateMapFields(mapLevel, StoredHexX, StoredHexY);
     }
@@ -60,13 +59,13 @@ public partial class CombatTerrain(CustomNode owner) : TerrainMapObject(owner)
     // CombatTerrain.pas:149
     public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        AbilityCombatInfo abilityInfo = default;
-        SpellCombatInfo spellInfo = default;
         base.MapFieldMessageProc(ref message);
         if (message.HexNumber == 0)
         {
             if (Set<byte>.WithBounds(0, 255).WithRange(1, 3).Contains((byte)base.Resource.DecorationType))
             {
+                AbilityCombatInfo abilityInfo = default;
+                SpellCombatInfo spellInfo = default;
                 switch (message.MessageId)
                 {
                     case 200704:
@@ -225,7 +224,7 @@ public partial class CombatTerrain(CustomNode owner) : TerrainMapObject(owner)
         if (!Status.Contains(MapObjectStatusElement.Visible))
         {
             base.MakeVisible(visibilityList);
-            if (_shadow != null)
+            if (_shadow is not null)
             {
                 _ = visibilityList.AddSortChild(sortValue: _shadow.GetShowPriority(), child: _shadow);
             }
@@ -241,7 +240,7 @@ public partial class CombatTerrain(CustomNode owner) : TerrainMapObject(owner)
     // CombatTerrain.pas:96
     public void DestroyShadow()
     {
-        if (_shadow != null)
+        if (_shadow is not null)
         {
             if (GetVisible())
             {
@@ -256,14 +255,14 @@ public partial class CombatTerrain(CustomNode owner) : TerrainMapObject(owner)
     // CombatTerrain.pas:111
     public void CreateShadow()
     {
-        if (base.Resource.ImageSequenceList.GetImageSequence(40) != null)
+        if (base.Resource.ImageSequenceList.GetImageSequence(40) is not null)
         {
-            if (_shadow != null)
+            if (_shadow is not null)
             {
                 DestroyShadow();
             }
 
-            if (StrategicMap.Current == null || StrategicMap.Current.ShowUnitShadows)
+            if (StrategicMap.Current is null || StrategicMap.Current.ShowUnitShadows)
             {
                 _shadow = new CombatTerrainShadow(null)
                 {
@@ -288,7 +287,7 @@ public partial class CombatTerrain(CustomNode owner) : TerrainMapObject(owner)
         base.Resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 40, (uint)(Owner.HexX + (Owner.HexY << 4)));
     }
 
-    public new partial class Resource(CustomNode owner) : TerrainMapObjectResource(owner)
+    public new class Resource(CustomNode owner) : TerrainMapObjectResource(owner)
     {
 
         // CombatTerrain.pas:301
@@ -318,5 +317,4 @@ public partial class CombatTerrain(CustomNode owner) : TerrainMapObject(owner)
         public override string ResourceEditName() => "Combat Terrain";
 
     }
-
 }

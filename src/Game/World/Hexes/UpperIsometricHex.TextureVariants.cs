@@ -11,13 +11,11 @@ public partial class UpperIsometricHex
 {
     public override void ShowDynamic(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        CustomImageLibrary imageLibrary;
-        int variant;
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         pixelX = pixelX - pixelXSurface - 8;
         pixelY -= pixelYSurface;
-        imageLibrary = base.Resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
-        variant = FrameFixtureInputs.TextureVariant(this);
+        CustomImageLibrary imageLibrary = base.Resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
+        int variant = FrameFixtureInputs.TextureVariant(this);
         if (variant == 3)
         {
             variant = 0;

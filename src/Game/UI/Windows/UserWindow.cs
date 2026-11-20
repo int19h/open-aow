@@ -7,7 +7,7 @@ using Aow.Rtl;
 namespace Aow.Game.UI.Windows;
 
 // extended drawing event
-public partial class UserWindow(Component owner) : Window(owner)
+public class UserWindow(Component owner) : Window(owner)
 {
     [Published]
     public event DrawSurfaceExEvent OnCustomDrawSurface;
@@ -15,8 +15,7 @@ public partial class UserWindow(Component owner) : Window(owner)
     // AowUserWindow.pas:29
     public override void DrawSurface(Surface surface)
     {
-        bool handled;
-        handled = false;
+        bool handled = false;
         OnCustomDrawSurface?.Invoke(surface, out handled);
 
         if (!handled)

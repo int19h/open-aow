@@ -15,11 +15,10 @@ public partial class ProductionPlaceEventLog(CustomNode owner) : ProductionEvent
     // PrdPlace.pas:744
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
-        ProductionPlace place;
         if (trigger == ExecuteTrigger.User)
         {
-            place = GetProductionPlace();
-            if (place != null && StrategicMap.Current.SeatedPlayer == place.Player)
+            ProductionPlace place = GetProductionPlace();
+            if (place is not null && StrategicMap.Current.SeatedPlayer == place.Player)
             {
                 StrategicMap.Current.CenterViewTo(Location.X, Location.Y, Location.MapLevel);
                 StrategicMap.Current.TriggerExecuteEventLog(this, true, done);

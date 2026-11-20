@@ -11,7 +11,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Magic.Spells;
 
 // replacement face index, target unit ID
-public partial class CosmeticSurgerySpellCaster(CustomNode owner) : SpellCaster(owner)
+public class CosmeticSurgerySpellCaster(CustomNode owner) : SpellCaster(owner)
 {
     public int FaceIndex { get; set; }
     public int TargetUnitId { get; init; }
@@ -22,17 +22,13 @@ public partial class CosmeticSurgerySpellCaster(CustomNode owner) : SpellCaster(
     // UnitSpells.pas:875
     public override bool Cast()
     {
-        bool result;
-        Troop source;
-        Troop target;
-        UnitSpellTokenEvent eventValue;
         string reason = "";
         GamePack.Current.SpellControl.GetSpell<UnitSpell>(59).ResetTargetSelection();
-        source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
-        target = StrategicMap.Current.UnitControl.FindUnit(TargetUnitId);
-        if (source != null && target != null && CanCast(ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
+        Troop source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
+        Troop target = StrategicMap.Current.UnitControl.FindUnit(TargetUnitId);
+        if (source is not null && target is not null && CanCast(ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            eventValue = new UnitSpellTokenEvent(null) { Holder = CreationHolder() };
+            UnitSpellTokenEvent eventValue = new(null) { Holder = CreationHolder() };
             Spell spell = GamePack.Current.SpellControl.GetSpell(59);
             eventValue.Initialize(CasterSpellId, source, null, spell.BaseManaCost);
             _ = eventValue.TargetUnitIds.Add(TargetUnitId);
@@ -40,14 +36,11 @@ public partial class CosmeticSurgerySpellCaster(CustomNode owner) : SpellCaster(
             eventValue.TargetPlayer = (byte)target.Player;
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             _ = eventValue.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
-
 }

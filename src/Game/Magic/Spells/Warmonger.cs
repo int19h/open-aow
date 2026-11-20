@@ -8,7 +8,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class Warmonger : CityEnchantmentSpell
+public class Warmonger : CityEnchantmentSpell
 {
     // CitySpells.pas:751
     public Warmonger(CustomNode owner, EngineObject holder) : base(owner)

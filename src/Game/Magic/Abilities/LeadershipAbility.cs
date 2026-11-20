@@ -5,7 +5,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.Magic.Abilities;
 
-public partial class LeadershipAbility : MultiLevelAbility
+public class LeadershipAbility : MultiLevelAbility
 {
     // AoWAb.PAS:965
     public LeadershipAbility(CustomNode owner) : base(owner)
@@ -18,78 +18,50 @@ public partial class LeadershipAbility : MultiLevelAbility
     // AoWAb.PAS:1002
     public override sbyte GetAttack(AbilityOwner owner)
     {
-        sbyte result;
-        int level;
-        level = GetLevel(owner);
-        result = level != 0 ? LeadershipAttack[level] : (sbyte)0;
-
-        return result;
+        int level = GetLevel(owner);
+        return level != 0 ? LeadershipAttack[level] : (sbyte)0;
     }
 
     // AoWAb.PAS:1013
     public override sbyte GetDefense(AbilityOwner owner)
     {
-        sbyte result;
-        int level;
-        level = GetLevel(owner);
-        result = level != 0 ? LeadershipDefense[level] : (sbyte)0;
-
-        return result;
+        int level = GetLevel(owner);
+        return level != 0 ? LeadershipDefense[level] : (sbyte)0;
     }
 
     // AoWAb.PAS:978
     public override int GetLevel(AbilityOwner owner)
     {
-        int result;
-        LeadershipAbilityData data;
-        if (owner != null)
+        if (owner is not null)
         {
-            data = GetData(owner);
-            if (data != null)
-            {
-                result = data.ExternalLevel > data.Level ? data.ExternalLevel : data.Level;
-            }
-            else
-            {
-                return 0;
-            }
+            LeadershipAbilityData data = GetData(owner);
+            return data is not null ? data.ExternalLevel > data.Level ? data.ExternalLevel : data.Level : 0;
         }
         else
         {
-            result = 0;
+            return 0;
         }
-
-        return result;
     }
 
     // AoWAb.PAS:1067
     public override string GetSourceName(AbilityOwner owner)
     {
-        string result;
-        LeadershipAbilityData data;
-        data = GetData(owner);
-        result = data != null && data.ExternalLevel > data.Level ? data.ExternalSource : owner.GetOwnerName();
-
-        return result;
+        LeadershipAbilityData data = GetData(owner);
+        return data is not null && data.ExternalLevel > data.Level ? data.ExternalSource : owner.GetOwnerName();
     }
 
     // AoWAb.PAS:1078
     public override bool GetInherent(AbilityOwner owner)
     {
-        LeadershipAbilityData data;
-        data = GetData(owner);
-        return data != null && data.Level > 0;
+        LeadershipAbilityData data = GetData(owner);
+        return data is not null && data.Level > 0;
     }
 
     // AoWAb.PAS:1086
     public override bool CanExpand(AbilityOwner owner)
     {
-        bool result;
-        LeadershipAbilityData data;
-        data = GetData(owner);
-        result = data == null || data.Level < MaxLevel;
-
-        return result;
+        LeadershipAbilityData data = GetData(owner);
+        return data is null || data.Level < MaxLevel;
     }
 
     // AoWAb.PAS:1097
@@ -98,9 +70,8 @@ public partial class LeadershipAbility : MultiLevelAbility
     // AoWAb.PAS:1024
     public void SetExternalSource(AbilityOwner owner, byte level, string sourceName)
     {
-        LeadershipAbilityData data;
-        data = GetData(owner);
-        if (data == null)
+        LeadershipAbilityData data = GetData(owner);
+        if (data is null)
         {
             SetAbility(owner, AbilityId, 1);
             data = new LeadershipAbilityData(null)
@@ -128,9 +99,8 @@ public partial class LeadershipAbility : MultiLevelAbility
     // AoWAb.PAS:1047
     public void ResetExternalSource(AbilityOwner owner)
     {
-        LeadershipAbilityData data;
-        data = GetData(owner);
-        if (data != null)
+        LeadershipAbilityData data = GetData(owner);
+        if (data is not null)
         {
             if (data.Level != 0)
             {

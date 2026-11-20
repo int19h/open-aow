@@ -37,7 +37,6 @@ public partial class Image(Component owner) : Control(owner)
     // AoWImage.pas:145
     public override void Update()
     {
-        int i;
         if (Visible && _animate)
         {
             if (_frameCount > 0)
@@ -47,7 +46,7 @@ public partial class Image(Component owner) : Control(owner)
             else
             {
                 _frameCount = AnimationFrameDelay;
-                i = _currentImage + 1;
+                int i = _currentImage + 1;
                 if (i > _animationEnd)
                 {
                     i = _animationStart;

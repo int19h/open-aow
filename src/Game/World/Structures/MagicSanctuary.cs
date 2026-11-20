@@ -10,7 +10,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.World.Structures;
 
 // OverlayHexSprite
-public partial class MagicSanctuary : Structure
+public class MagicSanctuary : Structure
 {
     public MagicSanctuary(CustomNode owner) : base(owner)
     {
@@ -33,8 +33,6 @@ public partial class MagicSanctuary : Structure
         _overlayHexSprite?.Dispose();
         base.Dispose();
     }
-
-    // MagicSanctuary.pas:110
 
     // MagicSanctuary.pas:136
     public override void MapFieldMessageProc(ref MapFieldMessage message)
@@ -68,7 +66,7 @@ public partial class MagicSanctuary : Structure
         _overlayHexSprite.FadeUp();
     }
 
-    public new partial class Resource : StructureResource
+    public new class Resource : StructureResource
     {
         public Resource(CustomNode owner) : base(owner)
         {
@@ -80,12 +78,8 @@ public partial class MagicSanctuary : Structure
         // MagicSanctuary.pas:160
         public new const int ClassId = 133275;
 
-        // MagicSanctuary.pas:149
-
         // MagicSanctuary.pas:163
         public override int ResourceUserClassId() => 133274;
-
-        // MagicSanctuary.pas:43
 
         // MagicSanctuary.pas:157
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_magicSanctuaryText);
@@ -93,7 +87,4 @@ public partial class MagicSanctuary : Structure
         private static readonly string s_magicSanctuaryText = "Magic Sanctuary";
 
     }
-
-    // MagicSanctuary.pas:33
-
 }

@@ -61,15 +61,14 @@ public partial class ItemHexSprite : SingleHexSprite
     // Army.PAS:5240
     public override int GetShowPriority()
     {
-        HexSprite hexSprite;
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         int result = 1744830464 + ((pixelY + 33) << 13) + pixelX + 16;
-        hexSprite = Owner.GetMaxLevelNoneTransparentHexSprite();
-        if (hexSprite != this && hexSprite != null)
+        HexSprite hexSprite = Owner.GetMaxLevelNoneTransparentHexSprite();
+        if (hexSprite != this && hexSprite is not null)
         {
             if (result <= hexSprite.GetShowPriority())
             {
-                result = hexSprite.GetShowPriority() + 1;
+                return hexSprite.GetShowPriority() + 1;
             }
         }
 
@@ -97,11 +96,7 @@ public partial class ItemHexSprite : SingleHexSprite
     public override void Deactivate() => base.Deactivate();
 
     // Army.PAS:5260
-    public override bool CanSelect(int pixelX, int pixelY)
-    {
-        bool result = Owner.FogCount != 0 || !StrategicMap.Current.FogEnabled;
-        return result;
-    }
+    public override bool CanSelect(int pixelX, int pixelY) => Owner.FogCount != 0 || !StrategicMap.Current.FogEnabled;
 
     // Army.PAS:5255
     public override string EditName() => AbilityRules.TranslateResourceString(GetEngine(), s_itemBagText);
@@ -125,8 +120,6 @@ public partial class ItemHexSprite : SingleHexSprite
     // Army.PAS:5302
     public void GenerateItems()
     {
-        byte i = default;
-        Item item = default;
         if (_generateMode != ItemHexSpriteGenerateMode.UserDefined)
         {
             RandSeed = StrategicMap.Current.Random(16777215);
@@ -139,8 +132,8 @@ public partial class ItemHexSprite : SingleHexSprite
             Items.Clear();
             for (int iOrdinal = 1, last = (int)_generateMode; iOrdinal <= last; iOrdinal++)
             {
-                i = (byte)iOrdinal;
-                item = StrategicMap.Current.ItemControl.GenerateItem(Set<ItemType>.Of(ItemType.Head, ItemType.Torso, ItemType.Attack, ItemType.Defense, ItemType.Ring, ItemType.Use), 0, 65535);
+                byte i = (byte)iOrdinal;
+                Item item = StrategicMap.Current.ItemControl.GenerateItem(Set<ItemType>.Of(ItemType.Head, ItemType.Torso, ItemType.Attack, ItemType.Defense, ItemType.Ring, ItemType.Use), 0, 65535);
                 item?.SetOwner(Items);
             }
 
@@ -150,11 +143,6 @@ public partial class ItemHexSprite : SingleHexSprite
     }
 
     private static readonly string s_itemBagText = "Item Bag";
-
-    // intf_P2_04.inc:216
-
-    // intf_P2_04.inc:216
-
 }
 
 public enum ItemHexSpriteGenerateMode : byte

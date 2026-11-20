@@ -10,7 +10,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Spells;
 
 // inherited combat statistics, damage mode
-public partial class FrostBeams : CombatSpell
+public class FrostBeams : CombatSpell
 {
     // CombatSpells.pas:1553
     public FrostBeams(CustomNode owner, EngineObject holder) : base(owner)

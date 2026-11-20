@@ -6,7 +6,7 @@ using Aow.Game.World;
 
 namespace Aow.Game.Draw;
 
-public partial class CombatObstacleOverlay(CustomNode owner) : HexSprite(owner)
+public class CombatObstacleOverlay(CustomNode owner) : HexSprite(owner)
 {
     public CombatObstacle Obstacle { get; init; }
 
@@ -15,7 +15,4 @@ public partial class CombatObstacleOverlay(CustomNode owner) : HexSprite(owner)
 
     // CombatObstacle.pas:89
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface) => Obstacle.ShowOverlay(pixelXSurface, pixelYSurface, lockedSurface);
-
-    // Engine.pas:524
-
 }

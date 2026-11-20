@@ -57,7 +57,7 @@ public partial class CustomDisplay : Component
     // DisplayC.pas:1397
     internal void SetBufferingScheme(BufferingScheme value)
     {
-        if (ActiveDisplayController == null)
+        if (ActiveDisplayController is null)
         {
             _bufferingScheme = value;
         }
@@ -148,14 +148,13 @@ public partial class CustomDisplay : Component
     // DisplayC.pas:1541
     public virtual DisplayController GetDisplayController(int index)
     {
-        DisplayController result = index switch
+        return index switch
         {
             -1 => ActiveDisplayController,
             0 => PrimaryDisplayController,
             1 => SecondaryDisplayController,
             _ => null,
         };
-        return result;
     }
 
     // DisplayC.pas:1361
@@ -170,7 +169,7 @@ public partial class CustomDisplay : Component
     {
         _backSurfaceWidth = width;
         _backSurfaceHeight = height;
-        if (!ComponentState.Contains(Rtl.ComponentState.Designing) && ActiveDisplayController != null && _bufferingScheme != BufferingScheme.Single)
+        if (!ComponentState.Contains(Rtl.ComponentState.Designing) && ActiveDisplayController is not null && _bufferingScheme != BufferingScheme.Single)
         {
             if (ActiveDisplayController.GetSurface(1).Width != width || ActiveDisplayController.GetSurface(1).Height != height)
             {
@@ -198,7 +197,7 @@ public partial class CustomDisplay : Component
         try
         {
             result = DisplayControllerError.Ok;
-            if (ActiveDisplayController != null && ActiveDisplayController.GetStatus().Contains(DisplayControllerStatusElement.Visible))
+            if (ActiveDisplayController is not null && ActiveDisplayController.GetStatus().Contains(DisplayControllerStatusElement.Visible))
             {
                 OnBlitSurface?.Invoke(this);
 
@@ -241,7 +240,7 @@ public partial class CustomDisplay : Component
     {
         OnHide?.Invoke(this);
 
-        if (ActiveDisplayController != null && !ComponentState.Contains(Rtl.ComponentState.Designing))
+        if (ActiveDisplayController is not null && !ComponentState.Contains(Rtl.ComponentState.Designing))
         {
             _ = ActiveDisplayController.Hide();
         }
@@ -250,7 +249,7 @@ public partial class CustomDisplay : Component
     // DisplayC.pas:1661
     public void Show()
     {
-        if (ActiveDisplayController != null && !ComponentState.Contains(Rtl.ComponentState.Designing))
+        if (ActiveDisplayController is not null && !ComponentState.Contains(Rtl.ComponentState.Designing))
         {
             _ = ActiveDisplayController.Show();
         }
@@ -259,16 +258,12 @@ public partial class CustomDisplay : Component
     }
 
     // DisplayC.pas:1669
-    public DisplayControllerError SupportDisplayController(DisplayController displayController)
-    {
-        DisplayControllerError result = displayController != null ? displayController.SupportDisplayMode(this) : DisplayControllerError.NotSupported;
-        return result;
-    }
+    public DisplayControllerError SupportDisplayController(DisplayController displayController) => displayController is not null ? displayController.SupportDisplayMode(this) : DisplayControllerError.NotSupported;
 
     // DisplayC.pas:1755
     public DisplayControllerError DeactivateDisplayController()
     {
-        if (ActiveDisplayController != null && ActiveDisplayController.GetStatus().Contains(DisplayControllerStatusElement.Activated))
+        if (ActiveDisplayController is not null && ActiveDisplayController.GetStatus().Contains(DisplayControllerStatusElement.Activated))
         {
             OnDeactivateDisplayController?.Invoke(this, ActiveDisplayController);
 

@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.Session;
 
-public partial class AoWCampaignScenarioList(CustomNode owner) : OwningNode(owner), IChildList<CampaignScenario>
+public class AoWCampaignScenarioList(CustomNode owner) : OwningNode(owner), IChildList<CampaignScenario>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a CampaignScenario, so the cast never fails.
@@ -18,11 +18,7 @@ public partial class AoWCampaignScenarioList(CustomNode owner) : OwningNode(owne
     public T GetScenario<T>(int index) where T : CampaignScenario => index >= 0 && index < Count ? GetChild<T>(index) : null;
 
     // Diplomacy.pas:2214
-    public CampaignScenario GetScenario(int index)
-    {
-        CampaignScenario result = index >= 0 && index < Count ? this[index] : null;
-        return result;
-    }
+    public CampaignScenario GetScenario(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // Diplomacy.pas:2221
     public int CreateUniqueId()
@@ -55,14 +51,7 @@ public partial class AoWCampaignScenarioList(CustomNode owner) : OwningNode(owne
     // Diplomacy.pas:2238
     public CampaignScenario FindId(int id)
     {
-        CampaignScenario result;
-        int index;
-        index = IndexOfId(id);
-        result = index != -1 ? this[index] : null;
-
-        return result;
+        int index = IndexOfId(id);
+        return index != -1 ? this[index] : null;
     }
-
-    // Engine.pas:631
-
 }

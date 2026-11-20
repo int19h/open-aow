@@ -7,7 +7,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // inherited name, ability ID, selection types, ability type, duration mode
-public partial class BurningAbility : DurationAbility
+public class BurningAbility : DurationAbility
 {
     // PassiveAb.pas:756
     public BurningAbility(CustomNode owner, EngineObject holder) : base(owner)
@@ -23,9 +23,8 @@ public partial class BurningAbility : DurationAbility
     // PassiveAb.pas:773
     public override void NewCombatTurn(CombatObject combatObject, sbyte player)
     {
-        DurationAbilityData data;
-        data = GetData(combatObject.GetAbilityOwner());
-        if (data != null)
+        DurationAbilityData data = GetData(combatObject.GetAbilityOwner());
+        if (data is not null)
         {
             if (data.Duration != 0 && data.PlayerIndex == player)
             {

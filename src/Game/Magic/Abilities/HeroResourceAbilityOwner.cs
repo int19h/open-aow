@@ -5,12 +5,9 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Abilities;
 
-public partial class HeroResourceAbilityOwner(CustomNode owner) : AbilityOwner(owner)
+public class HeroResourceAbilityOwner(CustomNode owner) : AbilityOwner(owner)
 {
 
     // Army.PAS:6128
     public override Set<AbilitySelectionType> GetAbilitySelectionTypes() => Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.Editor);
-
-    // intf_P1_06.inc:120
-
 }

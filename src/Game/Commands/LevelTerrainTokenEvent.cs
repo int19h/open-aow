@@ -10,7 +10,7 @@ using Aow.Game.World.Movement;
 
 namespace Aow.Game.Commands;
 
-public partial class LevelTerrainTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
+public class LevelTerrainTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
 {
 
     // GlobalTargetSpells.pas:940
@@ -30,16 +30,14 @@ public partial class LevelTerrainTokenEvent(CustomNode owner) : GlobalTargetSpel
     // GlobalTargetSpells.pas:943
     public void LevelTerrain()
     {
-        MapLevel level;
-        MapField mapField;
-        level = StrategicMap.Current.MapContainer.MapLevels[Location.MapLevel];
+        MapLevel level = StrategicMap.Current.MapContainer.MapLevels[Location.MapLevel];
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, Location.X, Location.Y, 0);
         while (walk.Radius <= 1)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
-                mapField = level.Field[walk.X, walk.Y];
-                if (((GlobalTargetSpell)(object)GamePack.Current.SpellControl.GetSpell(18)).ValidTargetMapField(mapField) && mapField.GetArmyHexSprite() == null)
+                MapField mapField = level.Field[walk.X, walk.Y];
+                if (((GlobalTargetSpell)(object)GamePack.Current.SpellControl.GetSpell(18)).ValidTargetMapField(mapField) && mapField.GetArmyHexSprite() is null)
                 {
                     StrategicMap.Current.ClearTerrain(walk.X, walk.Y, Location.MapLevel, 0, -1);
                     if (mapField.TerrainType == (int)TerrainType.Earth)
@@ -52,7 +50,4 @@ public partial class LevelTerrainTokenEvent(CustomNode owner) : GlobalTargetSpel
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
     }
-
-    // NetworkE.pas:230
-
 }

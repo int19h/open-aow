@@ -3,7 +3,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.Combat.Actions;
 
-public partial class NewCombatRoundCombatAction(CustomNode owner) : CombatAction(owner)
+public class NewCombatRoundCombatAction(CustomNode owner) : CombatAction(owner)
 {
     // Combat2.pas:1009
     public new const int ClassId = 131771;
@@ -21,5 +21,13 @@ public partial class NewCombatRoundCombatAction(CustomNode owner) : CombatAction
     }
 
     // intf_P3_02.inc:38
-    public override bool Play(CombatViewer viewer) { if (viewer.Time == 0) { Execute(viewer.Combat); } return viewer.Delay > viewer.Time; }
+    public override bool Play(CombatViewer viewer)
+    {
+        if (viewer.Time == 0)
+        {
+            Execute(viewer.Combat);
+        }
+
+        return viewer.Delay > viewer.Time;
+    }
 }

@@ -86,10 +86,9 @@ public partial class WorldMap(UIContext ui) : UIModule(ui)
     // AoWWorldMap.pas:157
     public void UpdateCampaignState()
     {
-        int index = default;
-        StrategicMap preview = default;
-        if (GetCampaign() != null)
+        if (GetCampaign() is not null)
         {
+            int index;
             switch (GetCampaign().State)
             {
                 case 0:
@@ -388,8 +387,8 @@ public partial class WorldMap(UIContext ui) : UIModule(ui)
                 case 4:
                     WorldMapCampaign campaign27 = GetCampaign();
                     WorldMapCampaignScenario campaignScenario11 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign27.NextScenarioId);
-                    preview = UI.Engine.CreatePreviewHsm<StrategicMap>(FileBoundary.ReadName($"{UI.Engine.StartupDirectory}Scenario\\Campaign\\{campaignScenario11.FileName}"), profile: GameProfile.WorldMap);
-                    if (preview != null)
+                    StrategicMap preview = UI.Engine.CreatePreviewHsm<StrategicMap>(FileBoundary.ReadName($"{UI.Engine.StartupDirectory}Scenario\\Campaign\\{campaignScenario11.FileName}"), profile: GameProfile.WorldMap);
+                    if (preview is not null)
                     {
                         index = preview.Players.IndexOfPlayerType(PlayerType.Human);
                         bool test = index != -1 && GetCampaign().RaceHistory.Count > 0;
@@ -553,11 +552,9 @@ public partial class WorldMap(UIContext ui) : UIModule(ui)
     // AoWWorldMap.pas:404
     public void ShowSpheres()
     {
-        int picks = default;
-        LeaderSetupControl control = default;
         WorldPanel.Visible = false;
-        picks = GetCampaign().TransferSettings.Leader.SpherePicksMax;
-        control = new LeaderSetupControl(null) { Holder = UI.Engine };
+        int picks = GetCampaign().TransferSettings.Leader.SpherePicksMax;
+        LeaderSetupControl control = new(null) { Holder = UI.Engine };
         WorldMapCampaign campaign = GetCampaign();
         control.Leader.Assign(campaign.TransferSettings.Leader, UI.Engine);
         control.Leader.SetSpherePicksMax((byte)(picks + 2));
@@ -579,11 +576,10 @@ public partial class WorldMap(UIContext ui) : UIModule(ui)
     // AoWWorldMap.pas:386
     public void SpheresDone(LeaderSetupControl sender)
     {
-        Leader leader;
         LeaderSetupControl leaderSetupControl = sender;
         if (leaderSetupControl.Status == LeaderSetupControl.LeaderSetupStatus.Done)
         {
-            leader = leaderSetupControl.OriginalLeader.Copy<Leader>(UI.Engine);
+            Leader leader = leaderSetupControl.OriginalLeader.Copy<Leader>(UI.Engine);
             for (int i = GetCampaign().TransferSettings.Leader.GetSphereCount(), last = leader.GetSphereCount() - 1; i <= last; i++)
             {
                 MagicSphere sphere = leader.GetSpheres(i);
@@ -600,10 +596,8 @@ public partial class WorldMap(UIContext ui) : UIModule(ui)
     // AoWWorldMap.pas:428
     public void BookClosed()
     {
-        NotifyEvent<object> done;
-        EngineObject context;
-        done = OnBookClosed;
-        context = BookContext;
+        NotifyEvent<object> done = OnBookClosed;
+        EngineObject context = BookContext;
         OnBookClosed = null;
         BookContext = null;
         done?.Invoke(context);
@@ -626,11 +620,10 @@ public partial class WorldMap(UIContext ui) : UIModule(ui)
     // AoWWorldMap.pas:151
     public void ShowCampaignHistory()
     {
-        WorldMapCampaignScenario scenario;
         GetCampaign().State = 10;
         GetCampaign().Page = 0;
         WorldMapCampaign campaign = GetCampaign();
-        scenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign.CurrentScenarioId);
+        WorldMapCampaignScenario scenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign.CurrentScenarioId);
         while (true)
         {
             bool condition = scenario.IntroPages.Count > GetCampaign().Page + 2;
@@ -691,9 +684,6 @@ public partial class WorldMap(UIContext ui) : UIModule(ui)
     // AoWWorldMap.pas:471
     public void WorldPnlUpdate()
     {
-        int frame;
-        int startIndex;
-        int endIndex;
         if (WorldPanel.Visible && !Book.Visible)
         {
             Path1Image.Drawn = false;
@@ -705,7 +695,7 @@ public partial class WorldMap(UIContext ui) : UIModule(ui)
             if (_pathDelay < 1)
             {
                 _pathDelay = 5;
-                frame = 1 - _pathFrame;
+                int frame = 1 - _pathFrame;
                 _pathFrame = frame;
                 WorldMapCampaign campaign = GetCampaign();
                 Path1Image.CurrentImage = (campaign.Faction * 3) + frame + 2;
@@ -773,10 +763,10 @@ public partial class WorldMap(UIContext ui) : UIModule(ui)
                     _descriptionHandled = true;
                     WorldMapCampaign campaign = GetCampaign();
                     int path = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign.CurrentScenarioId).Paths[3];
-                    startIndex = GetCampaign().Scenarios.IndexOfId(path);
+                    int startIndex = GetCampaign().Scenarios.IndexOfId(path);
                     WorldMapCampaign campaign2 = GetCampaign();
                     int path2 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign2.NextScenarioId).Paths[3];
-                    endIndex = GetCampaign().Scenarios.IndexOfId(path2);
+                    int endIndex = GetCampaign().Scenarios.IndexOfId(path2);
                     if (startIndex != -1 && endIndex != -1)
                     {
                         WorldMapCampaignScenario campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), endIndex);
@@ -939,12 +929,11 @@ public partial class WorldMap(UIContext ui) : UIModule(ui)
     // AoWWorldMap.pas:643
     public void Path1MouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        int index;
         if (GetCampaign().State == 1)
         {
             WorldMapCampaign campaign = GetCampaign();
             int path = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign.CurrentScenarioId).Paths[0];
-            index = GetCampaign().Scenarios.IndexOfId(path);
+            int index = GetCampaign().Scenarios.IndexOfId(path);
             WorldMapCampaignScenario campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
             if (DescriptionLabel.Text != campaignScenario.PathDescription)
             {
@@ -960,12 +949,11 @@ public partial class WorldMap(UIContext ui) : UIModule(ui)
     // AoWWorldMap.pas:661
     public void Path2MouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        int index;
         if (GetCampaign().State == 1)
         {
             WorldMapCampaign campaign = GetCampaign();
             int path = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign.CurrentScenarioId).Paths[1];
-            index = GetCampaign().Scenarios.IndexOfId(path);
+            int index = GetCampaign().Scenarios.IndexOfId(path);
             WorldMapCampaignScenario campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
             if (DescriptionLabel.Text != campaignScenario.PathDescription)
             {
@@ -981,12 +969,11 @@ public partial class WorldMap(UIContext ui) : UIModule(ui)
     // AoWWorldMap.pas:679
     public void Path3MouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        int index;
         if (GetCampaign().State == 1)
         {
             WorldMapCampaign campaign = GetCampaign();
             int path = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign.CurrentScenarioId).Paths[2];
-            index = GetCampaign().Scenarios.IndexOfId(path);
+            int index = GetCampaign().Scenarios.IndexOfId(path);
             WorldMapCampaignScenario campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
             if (DescriptionLabel.Text != campaignScenario.PathDescription)
             {
@@ -1050,7 +1037,6 @@ public partial class WorldMap(UIContext ui) : UIModule(ui)
     // AoWWorldMap.pas:733
     public void BookWinUpdate()
     {
-        Rect r;
         switch (BookAction)
         {
             case 3:
@@ -1079,7 +1065,7 @@ public partial class WorldMap(UIContext ui) : UIModule(ui)
 
         if (BookStartButton.Visible != s_bookStartVisible)
         {
-            r = new Rect(Book.WinLeft + BookStartButton.WinLeft, Book.WinTop + BookStartButton.WinTop, Book.WinLeft + BookStartButton.WinLeft + BookStartButton.WinWidth, Book.WinTop + BookStartButton.WinTop + BookStartButton.WinHeight);
+            Rect r = new(Book.WinLeft + BookStartButton.WinLeft, Book.WinTop + BookStartButton.WinTop, Book.WinLeft + BookStartButton.WinLeft + BookStartButton.WinWidth, Book.WinTop + BookStartButton.WinTop + BookStartButton.WinHeight);
             UI.General.Manager.AddDrawRectangle(ref r, Book);
             s_bookStartVisible = BookStartButton.Visible;
         }
@@ -1148,8 +1134,7 @@ public partial class WorldMap(UIContext ui) : UIModule(ui)
     // AoWWorldMap.pas:806
     public void Ally1PnlPreDraw(LockedSurface surface)
     {
-        Rect r;
-        r = new Rect(InfoPanel.AbsoluteLeft + Ally1Frame.WinLeft, InfoPanel.AbsoluteTop + Ally1Frame.WinTop, InfoPanel.AbsoluteLeft + Ally1Frame.WinLeft + Ally1Frame.WinWidth, InfoPanel.AbsoluteTop + Ally1Frame.WinTop + Ally1Frame.WinHeight);
+        Rect r = new(InfoPanel.AbsoluteLeft + Ally1Frame.WinLeft, InfoPanel.AbsoluteTop + Ally1Frame.WinTop, InfoPanel.AbsoluteLeft + Ally1Frame.WinLeft + Ally1Frame.WinWidth, InfoPanel.AbsoluteTop + Ally1Frame.WinTop + Ally1Frame.WinHeight);
         if (GetCampaign().RaceHistory.Count > 0)
         {
             byte raceHistory = GetCampaign().RaceHistory[0];
@@ -1160,8 +1145,7 @@ public partial class WorldMap(UIContext ui) : UIModule(ui)
     // AoWWorldMap.pas:818
     public void Ally2PnlPreDraw(LockedSurface surface)
     {
-        Rect r;
-        r = new Rect(InfoPanel.AbsoluteLeft + Ally2Frame.WinLeft, InfoPanel.AbsoluteTop + Ally2Frame.WinTop, InfoPanel.AbsoluteLeft + Ally2Frame.WinLeft + Ally2Frame.WinWidth, InfoPanel.AbsoluteTop + Ally2Frame.WinTop + Ally2Frame.WinHeight);
+        Rect r = new(InfoPanel.AbsoluteLeft + Ally2Frame.WinLeft, InfoPanel.AbsoluteTop + Ally2Frame.WinTop, InfoPanel.AbsoluteLeft + Ally2Frame.WinLeft + Ally2Frame.WinWidth, InfoPanel.AbsoluteTop + Ally2Frame.WinTop + Ally2Frame.WinHeight);
         if (GetCampaign().RaceHistory.Count > 1)
         {
             byte raceHistory = GetCampaign().RaceHistory[1];
@@ -1172,8 +1156,7 @@ public partial class WorldMap(UIContext ui) : UIModule(ui)
     // AoWWorldMap.pas:830
     public void Ally3PnlPreDraw(LockedSurface surface)
     {
-        Rect r;
-        r = new Rect(InfoPanel.AbsoluteLeft + Ally3Frame.WinLeft, InfoPanel.AbsoluteTop + Ally3Frame.WinTop, InfoPanel.AbsoluteLeft + Ally3Frame.WinLeft + Ally3Frame.WinWidth, InfoPanel.AbsoluteTop + Ally3Frame.WinTop + Ally3Frame.WinHeight);
+        Rect r = new(InfoPanel.AbsoluteLeft + Ally3Frame.WinLeft, InfoPanel.AbsoluteTop + Ally3Frame.WinTop, InfoPanel.AbsoluteLeft + Ally3Frame.WinLeft + Ally3Frame.WinWidth, InfoPanel.AbsoluteTop + Ally3Frame.WinTop + Ally3Frame.WinHeight);
         if (GetCampaign().RaceHistory.Count > 2)
         {
             byte raceHistory = GetCampaign().RaceHistory[2];
@@ -1184,8 +1167,7 @@ public partial class WorldMap(UIContext ui) : UIModule(ui)
     // AoWWorldMap.pas:842
     public void HeroPnlPreDraw(LockedSurface surface)
     {
-        Rect r;
-        r = new Rect(InfoPanel.AbsoluteLeft + HeroFrame.WinLeft, InfoPanel.AbsoluteTop + HeroFrame.WinTop, InfoPanel.AbsoluteLeft + HeroFrame.WinLeft + HeroFrame.WinWidth, InfoPanel.AbsoluteTop + HeroFrame.WinTop + HeroFrame.WinHeight);
+        Rect r = new(InfoPanel.AbsoluteLeft + HeroFrame.WinLeft, InfoPanel.AbsoluteTop + HeroFrame.WinTop, InfoPanel.AbsoluteLeft + HeroFrame.WinLeft + HeroFrame.WinWidth, InfoPanel.AbsoluteTop + HeroFrame.WinTop + HeroFrame.WinHeight);
         GetCampaign().TransferSettings.Leader?.ShowFace(r, surface);
     }
 
@@ -1229,7 +1211,6 @@ public partial class WorldMap(UIContext ui) : UIModule(ui)
 
     internal static void ShowCampaignMap(WorldMap dialog)
     {
-        string song = "";
         dialog.ResetCampaign();
         dialog.UI.Engine.CloseHsm(null);
         dialog.UI.TitleWindow.MainWindow.Visible = true;
@@ -1242,6 +1223,7 @@ public partial class WorldMap(UIContext ui) : UIModule(ui)
         _ = AudioHost.SongPlayer.Stop(false);
         _ = SetCurrentDir(dialog.UI.Engine.StartupDirectory);
         WorldMapCampaign campaign = dialog.GetCampaign();
+        string song;
         if (IsEmpty(WorldMapCampaign.GetCampaignScenario(dialog.GetCampaign(), campaign.CurrentScenarioId).ImageLibrary))
         {
             song = "Songs\\Title.IT";
@@ -1259,5 +1241,4 @@ public partial class WorldMap(UIContext ui) : UIModule(ui)
         dialog.EnemyPawnImage.CurrentImage = 8 - campaign3.Faction;
         dialog.UpdateCampaignState();
     }
-
 }

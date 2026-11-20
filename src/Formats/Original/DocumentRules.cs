@@ -256,8 +256,8 @@ internal sealed partial class FixedObjectCodec
         ImageTree.WriteBody(node, context.Schema.Get(ClassName), context, data, frame.Path, false);
     }
 
-    internal override TreeValue ReadImage(DecodeContext context, int start, int end, ImageFrame frame) =>
-        ImageTree.ReadBody(context, start, end, context.Schema.Get(ClassName), frame.Path, null, null);
+    internal override TreeValue ReadImage(DecodeContext context, int start, int end, ImageFrame frame)
+        => ImageTree.ReadBody(context, start, end, context.Schema.Get(ClassName), frame.Path, null, null);
 
     internal override JsonValue? WriteTree(TreeValue value, DocumentSite site)
     {
@@ -456,8 +456,8 @@ internal sealed partial class CreatedObjectCodec
         ImageTree.WriteBody(node, shape?.Shape ?? classValue, context, data, frame.Path, true);
     }
 
-    internal override TreeValue ReadImage(DecodeContext context, int start, int end, ImageFrame frame) =>
-        ReadCreated(context, start, end, frame, null);
+    internal override TreeValue ReadImage(DecodeContext context, int start, int end, ImageFrame frame)
+        => ReadCreated(context, start, end, frame, null);
 
     // A keyed member's entry stores the same image as a created object. Its id less the slot base is the slot.
     internal override void WriteSlotsImage(TreeValue value, EncodeContext context, ObjectWriter writer, ImageFrame frame)
@@ -761,12 +761,12 @@ internal sealed partial class CreatedObjectCodec
 
     // A legacy shape (schema legacyShapes) stores a class under another property set where its
     // context names it, as the image side reads it. The document keeps the class name.
-    private static SchemaClass Shape(DocumentSite site, SchemaClass classValue) =>
-        site.Property is { } property ? site.Schema.LegacyShape($"{property.Owner.Name}.{property.Name}", classValue.Name)?.Shape ?? classValue : classValue;
+    private static SchemaClass Shape(DocumentSite site, SchemaClass classValue)
+        => site.Property is { } property ? site.Schema.LegacyShape($"{property.Owner.Name}.{property.Name}", classValue.Name)?.Shape ?? classValue : classValue;
 
     // The family check does not apply to a class the legacy shape names, as on the image side.
-    private string? LegacyFamily(DocumentSite site, string className) =>
-        site.Property is { } property && site.Schema.LegacyShape($"{property.Owner.Name}.{property.Name}", className) is not null ? null : Family;
+    private string? LegacyFamily(DocumentSite site, string className)
+        => site.Property is { } property && site.Schema.LegacyShape($"{property.Owner.Name}.{property.Name}", className) is not null ? null : Family;
 
     private TreeValue ReadCreated(DecodeContext context, int start, int end, ImageFrame frame, int? slot)
     {
@@ -1011,11 +1011,11 @@ internal sealed class ListCodec(PropertyCodec element, bool storesList) : Proper
 
     internal override bool AcceptsList(int version) => storesList;
 
-    internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site) =>
-        throw new InvalidOperationException("A list has no image.");
+    internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
+        => throw new InvalidOperationException("A list has no image.");
 
-    internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site) =>
-        throw new InvalidOperationException("A list has no image.");
+    internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site)
+        => throw new InvalidOperationException("A list has no image.");
 
     internal override JsonValue? WriteTree(TreeValue value, DocumentSite site)
     {
@@ -1081,11 +1081,11 @@ internal sealed class RecordCodec(JsonObject source, FormatSchema schema, string
             return (name, Create(f, schema, $"{path}.{name}"));
         })];
 
-    internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site) =>
-        throw new InvalidOperationException("A record has no image.");
+    internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
+        => throw new InvalidOperationException("A record has no image.");
 
-    internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site) =>
-        throw new InvalidOperationException("A record has no image.");
+    internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site)
+        => throw new InvalidOperationException("A record has no image.");
 
     internal override JsonValue? WriteTree(TreeValue value, DocumentSite site)
     {

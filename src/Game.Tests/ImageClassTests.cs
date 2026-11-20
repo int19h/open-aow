@@ -63,7 +63,9 @@ public sealed class ImageClassTests
                 if (image is Image08 indexed)
                 {
                     Palette palette = new();
-                    { indexed.CreateLibraryImagePalette(palette); }
+                    {
+                        indexed.CreateLibraryImagePalette(palette);
+                    }
                 }
                 source.SetImage(i, image);
             }

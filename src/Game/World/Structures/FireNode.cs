@@ -15,7 +15,7 @@ public partial class FireNode(CustomNode owner) : ProductionPlace(owner)
     // FireNode.pas:39
     public override MagicSphere GetMagicSphere() => MagicSphere.Fire;
 
-    public new partial class Resource : ProductionPlaceResource
+    public new class Resource : ProductionPlaceResource
     {
         public Resource(CustomNode owner) : base(owner)
         {
@@ -27,12 +27,8 @@ public partial class FireNode(CustomNode owner) : ProductionPlace(owner)
         // FireNode.pas:53
         public new const int ClassId = 132063;
 
-        // FireNode.pas:42
-
         // FireNode.pas:56
         public override int ResourceUserClassId() => 132062;
-
-        // FireNode.pas:26
 
         // FireNode.pas:50
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_fireNodeText);
@@ -40,5 +36,4 @@ public partial class FireNode(CustomNode owner) : ProductionPlace(owner)
         private static readonly string s_fireNodeText = "Fire Node";
 
     }
-
 }

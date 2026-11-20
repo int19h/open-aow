@@ -18,7 +18,7 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Game.Combat;
 
 // MovePoints. UnitHexSprite. PositionIndex. PositionGroup. CanFlee. DeathMethod
-public partial class TacticalBattleUnit(CustomNode owner) : CombatUnit(owner)
+public class TacticalBattleUnit(CustomNode owner) : CombatUnit(owner)
 {
     public int MovePoints { get; set; }
     public TacticalBattleUnitHexSprite UnitHexSprite { get; set; }
@@ -43,31 +43,20 @@ public partial class TacticalBattleUnit(CustomNode owner) : CombatUnit(owner)
     // AoWTC.pas:2629
     public override int ExecuteDamage(int damage)
     {
-        TacticalBattleCorpseHexSprite corpse;
-        ImageSequence sequence;
-        BattleEffectSprite effect;
-        float speed;
-        float vz = default;
-        float gravity;
-        float z = default;
-        Rect r;
         void MakeBlood()
         {
-            int count;
-            int x2 = default;
-            int y2 = default;
-            int direction;
-            TacticalBattleBloodHexSprite blood;
-            if (GetEnabled() && UnitHexSprite != null && Troop.GetBloodType() != BloodType.None)
+            if (GetEnabled() && UnitHexSprite is not null && Troop.GetBloodType() != BloodType.None)
             {
                 sbyte hitPoints = GetHitPoints();
-                count = damage >= hitPoints && (GetAbilityEnabled(131) || DeathMethod == TacticalBattleUnitDeathMethod.Explode)
+                int count = damage >= hitPoints && (GetAbilityEnabled(131) || DeathMethod == TacticalBattleUnitDeathMethod.Explode)
                     ? Random(5) + 10
                     : Random(damage + 7) - 4;
 
+                int x2 = default;
+                int y2 = default;
                 while (count > 0)
                 {
-                    direction = Random(12);
+                    int direction = Random(12);
                     if (direction > 6)
                     {
                         direction = 0;
@@ -77,7 +66,7 @@ public partial class TacticalBattleUnit(CustomNode owner) : CombatUnit(owner)
                     HexGeometry.CenterHexNumberToHex(UnitHexSprite.GetHexX(), hexY, direction, ref x2, ref y2);
                     if (CombatMap.Current.MapContainer.MapLevels[0].Field[x2, y2].TerrainType is not 0 and not 9)
                     {
-                        blood = new TacticalBattleBloodHexSprite(CombatMap.Current.MapContainer.MapLevels[0].Field[x2, y2]);
+                        TacticalBattleBloodHexSprite blood = new(CombatMap.Current.MapContainer.MapLevels[0].Field[x2, y2]);
                         blood.Activate();
                         blood.OffsetX = Random(32) - 32;
                         blood.OffsetY = Random(32) - 32;
@@ -93,14 +82,14 @@ public partial class TacticalBattleUnit(CustomNode owner) : CombatUnit(owner)
         int result = base.ExecuteDamage(damage);
         if (!GetEnabled())
         {
-            if (UnitHexSprite != null)
+            if (UnitHexSprite is not null)
             {
                 if (GetAbilityEnabled(131))
                 {
                     MakeHitBlood(this, 100);
                     for (int i = 0; i <= 9; i++)
                     {
-                        effect = CombatMap.Current.AddEffect(BattleEffectType.DecayComet);
+                        BattleEffectSprite effect = CombatMap.Current.AddEffect(BattleEffectType.DecayComet);
                         effect.AbilityIndex = 52;
                         effect.SpellIndex = 106;
                         sbyte hexY = UnitHexSprite.GetHexY();
@@ -115,10 +104,10 @@ public partial class TacticalBattleUnit(CustomNode owner) : CombatUnit(owner)
                         effect.Path = path3;
                         for (int j = 0; j <= 10; j++)
                         {
-                            speed = (float)((Random(50) + 50) * 0.05);
-                            gravity = (float)1.5;
-                            vz = (float)((Random(25) + 25) * 0.05);
-                            z = 0;
+                            float speed = (float)((Random(50) + 50) * 0.05);
+                            float gravity = (float)1.5;
+                            float vz = (float)((Random(25) + 25) * 0.05);
+                            float z = 0;
                             int count = effect.Path.Count;
                             Point3D path = effect.Path[count - 1];
                             int fPathCount = effect.Path.Count;
@@ -147,12 +136,12 @@ public partial class TacticalBattleUnit(CustomNode owner) : CombatUnit(owner)
                     {
                         sbyte fUnitHexSpriteHexY = UnitHexSprite.GetHexY();
                         sbyte fUnitHexSpriteHexX = UnitHexSprite.GetHexX();
-                        corpse = new TacticalBattleCorpseHexSprite(CombatMap.Current.MapContainer.MapLevels[0].Field[fUnitHexSpriteHexX, fUnitHexSpriteHexY])
+                        TacticalBattleCorpseHexSprite corpse = new(CombatMap.Current.MapContainer.MapLevels[0].Field[fUnitHexSpriteHexX, fUnitHexSpriteHexY])
                         {
                             UnitGraphics = UnitHexSprite.UnitGraphicsResource
                         };
-                        sequence = corpse.UnitGraphics.Sequences.ImageSequences[30];
-                        if (sequence != null)
+                        ImageSequence sequence = corpse.UnitGraphics.Sequences.ImageSequences[30];
+                        if (sequence is not null)
                         {
                             corpse.Frame = Random(sequence.GetTotalSequenceFrames());
                         }
@@ -202,7 +191,7 @@ public partial class TacticalBattleUnit(CustomNode owner) : CombatUnit(owner)
                 sbyte hexY2 = UnitHexSprite.GetHexY();
                 sbyte hexX2 = UnitHexSprite.GetHexX();
                 sbyte hexY3 = UnitHexSprite.GetHexY();
-                r = new Rect(UnitHexSprite.GetHexX(), hexY3, hexX2 + 1, hexY2 + 1);
+                Rect r = new(UnitHexSprite.GetHexX(), hexY3, hexX2 + 1, hexY2 + 1);
                 UnitHexSprite?.Dispose();
                 UnitHexSprite = null;
                 CombatMap.Current.TriggerMapChangedEvent(r, 0);
@@ -210,7 +199,7 @@ public partial class TacticalBattleUnit(CustomNode owner) : CombatUnit(owner)
         }
         else
         {
-            if (UnitHexSprite != null)
+            if (UnitHexSprite is not null)
             {
                 int unitGraphicsResourceIndex = Troop.GetUnitGraphicsResourceIndex();
                 UnitHexSprite.SetUnitGraphicsResourceIndex(unitGraphicsResourceIndex);
@@ -257,10 +246,8 @@ public partial class TacticalBattleUnit(CustomNode owner) : CombatUnit(owner)
 
     internal static void MakeHitBlood(TacticalBattleUnit unitObject, int damage)
     {
-        BattleEffectSprite effect;
-        Point3D point;
-        effect = CombatMap.Current.AddEffect(BattleEffectType.Blood);
-        point = new Point3D();
+        BattleEffectSprite effect = CombatMap.Current.AddEffect(BattleEffectType.Blood);
+        Point3D point = new();
         effect.Path.Add(point);
         switch (damage)
         {
@@ -310,18 +297,13 @@ public partial class TacticalBattleUnit(CustomNode owner) : CombatUnit(owner)
 
     internal static bool MoveCombatUnit(TacticalBattleUnit unitObject, MovePath path)
     {
-        int movePoints;
-        int cost;
-        int index;
-        CombatMoveTokenEvent eventValue;
-        MovePath newPath;
         bool result = false;
         sbyte player = unitObject.GetPlayer();
         if (StrategicMap.Current.TokenManager.PlayerReady(player) && path.Count > 1)
         {
-            movePoints = unitObject.MovePoints;
-            cost = 0;
-            index = path.Count;
+            int movePoints = unitObject.MovePoints;
+            int cost = 0;
+            int index = path.Count;
             while (index != 0 && cost <= movePoints)
             {
                 index--;
@@ -335,14 +317,14 @@ public partial class TacticalBattleUnit(CustomNode owner) : CombatUnit(owner)
 
             if (index < path.Count - 1)
             {
-                newPath = new MovePath();
+                MovePath newPath = new();
                 for (int i = index, last = path.Count - 1; i <= last; i++)
                 {
                     _ = newPath.Add(path[i]);
                 }
 
-                eventValue = CreateCombatMoveTokenEvent(unitObject, newPath);
-                if (eventValue != null)
+                CombatMoveTokenEvent eventValue = CreateCombatMoveTokenEvent(unitObject, newPath);
+                if (eventValue is not null)
                 {
                     sbyte unitObjectPlayer = unitObject.GetPlayer();
                     StrategicMap.Current.TokenManager.GetTokenControl(unitObjectPlayer).AddEvent(eventValue);
@@ -356,11 +338,6 @@ public partial class TacticalBattleUnit(CustomNode owner) : CombatUnit(owner)
 
         return result;
     }
-
-    // intf_P3_01.inc:244
-
-    // intf_P3_01.inc:244
-
 }
 
 public enum TacticalBattleUnitDeathMethod : byte

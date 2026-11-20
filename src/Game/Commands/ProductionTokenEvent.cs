@@ -10,7 +10,7 @@ using Aow.Game.World.Structures;
 namespace Aow.Game.Commands;
 
 // location/player, command, item, queue, index
-public partial class ProductionTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class ProductionTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
     public new const int ClassId = 131736;
 
@@ -26,7 +26,7 @@ public partial class ProductionTokenEvent(CustomNode owner) : TokenEvent(owner)
     // { Original leaves the upkeep fields unchanged. }
     public override void Dispose()
     {
-        if (Item != null)
+        if (Item is not null)
         {
             Item?.Dispose();
             Item = null;
@@ -52,14 +52,7 @@ public partial class ProductionTokenEvent(CustomNode owner) : TokenEvent(owner)
     // Structur.PAS:182
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        ExecuteResult result;
-        ProductionControl control;
-        control = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).GetProductionControl();
-        result = control != null ? control.ExecuteProductionTokenEvent(this) : ExecuteResult.DoneHalt;
-
-        return result;
+        ProductionControl control = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).GetProductionControl();
+        return control is not null ? control.ExecuteProductionTokenEvent(this) : ExecuteResult.DoneHalt;
     }
-
-    // NetworkE.pas:230
-
 }

@@ -42,7 +42,7 @@ public static class AbilityRules
         }
         else
         {
-            result = 0;
+            return 0;
         }
 
         return result;
@@ -51,11 +51,9 @@ public static class AbilityRules
     internal static int ExpectedDamage(int damage, int attackDefense)
     {
         int result;
-        int threshold;
-        int correction;
         if (damage > 0)
         {
-            threshold = 10 - (attackDefense * 2);
+            int threshold = 10 - (attackDefense * 2);
             if (threshold > 18)
             {
                 result = damage;
@@ -74,7 +72,7 @@ public static class AbilityRules
                 {
                     result = damage + 1 + (18 - threshold) + (int)(((uint)(((damage - 1) * (18 - threshold)) + 1)) >> 1);
                     threshold = -threshold;
-                    correction = (int)(((uint)((((damage - 1) * threshold * threshold) + threshold + 19) / (threshold + 19))) >> 1);
+                    int correction = (int)(((uint)((((damage - 1) * threshold * threshold) + threshold + 19) / (threshold + 19))) >> 1);
                     threshold = correction + threshold + 1;
                     result -= threshold;
                 }
@@ -84,7 +82,7 @@ public static class AbilityRules
         }
         else
         {
-            result = 0;
+            return 0;
         }
 
         return result;
@@ -92,25 +90,23 @@ public static class AbilityRules
 
     internal static int ExecuteDamageRole(int damage, int attackDefense)
     {
-        int result;
-        int roll;
         if (damage > 0)
         {
-            roll = Random(20);
+            int roll = Random(20);
             if (roll <= 1)
             {
-                result = 0;
+                return 0;
             }
             else
             {
                 if (roll >= 18)
                 {
-                    result = damage;
+                    return damage;
                 }
                 else
                 {
                     attackDefense = 10 - (attackDefense * 2);
-                    result = roll >= attackDefense && attackDefense < 18
+                    return roll >= attackDefense && attackDefense < 18
                         ? ((((damage - 1) * (roll - attackDefense)) + (int)(((uint)(18 - attackDefense)) >> 1)) / (18 - attackDefense)) + 1
                         : 0;
                 }
@@ -118,10 +114,8 @@ public static class AbilityRules
         }
         else
         {
-            result = 0;
+            return 0;
         }
-
-        return result;
     }
 
     internal static int DamageValueToDamageEvaluation(int sourceDamageValue, int targetDamageValue, CombatObject source, CombatObject target)
@@ -141,7 +135,7 @@ public static class AbilityRules
         }
         else
         {
-            result = sourceDamageValue + -99999 - (source.GetTargetPriority() * targetDamageValue);
+            return sourceDamageValue + -99999 - (source.GetTargetPriority() * targetDamageValue);
         }
 
         return result;
@@ -149,23 +143,18 @@ public static class AbilityRules
 
     internal static int StatisticsToMaxDamage(int damage, Set<DamageType> damageTypes, Set<DamageType> immunityTypes, Set<DamageType> protectionTypes)
     {
-        int result;
         damageTypes -= immunityTypes;
-        result = damageTypes != Set<DamageType>.Of()
+        return damageTypes != Set<DamageType>.Of()
             ? damageTypes - protectionTypes == Set<DamageType>.Of() ? (int)(((uint)(damage + 1)) >> 1) : damage
             : 0;
-
-        return result;
     }
 
     [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The Delphi damage calculation signature keeps resistance.")]
     internal static int StatisticsToLimitedDamageValue(int attack, int damage, Set<DamageType> damageTypes, int maximum, int defense, int resistance, Set<DamageType> immunityTypes, Set<DamageType> protectionTypes)
     {
-        int result;
-        int limit;
-        int limit100;
-        limit = maximum;
+        int limit = maximum;
         damageTypes -= immunityTypes;
+        int result;
         if (damageTypes != Set<DamageType>.Of())
         {
             attack -= defense;
@@ -175,15 +164,15 @@ public static class AbilityRules
             }
 
             result = ExpectedDamageCapped(damage, attack, limit);
-            limit100 = limit * 100;
+            int limit100 = limit * 100;
             if (result > limit100)
             {
-                result = limit100;
+                return limit100;
             }
         }
         else
         {
-            result = 0;
+            return 0;
         }
 
         return result;
@@ -191,12 +180,9 @@ public static class AbilityRules
 
     internal static int RoadConstructionCost(sbyte player, MovePath path, int movePoints)
     {
-        int i;
-        int points;
-        MapField field;
         int result = 0;
-        i = path.Count;
-        points = 0;
+        int i = path.Count;
+        int points = 0;
         while (i != 0 && points <= movePoints)
         {
             i -= 1;
@@ -204,7 +190,7 @@ public static class AbilityRules
             if (points <= movePoints)
             {
                 PathStep item = path[i];
-                field = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(item.Location);
+                MapField field = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(item.Location);
                 if (CanConstructRoad(player, field))
                 {
                     result += 10;
@@ -217,17 +203,14 @@ public static class AbilityRules
 
     internal static string Format(string S, params ReadOnlySpan<FormatArg> arguments)
     {
-        string result;
         try
         {
-            result = DelphiFormat.Format(S, arguments);
+            return DelphiFormat.Format(S, arguments);
         }
         catch
         {
-            result = S;
+            return S;
         }
-
-        return result;
     }
 
     internal static void ShowDamageIcon(GameEngine engine, int x, int y, in LockedSurface surface, int damage, DamageType damageType)
@@ -245,62 +228,50 @@ public static class AbilityRules
 
     internal static int MoraleToMoraleValue(int value)
     {
-        int result;
         switch (value & 127)
         {
             case 0:
-                result = 10;
-                break;
+                return 10;
             case 1:
-                result = 30;
-                break;
+                return 30;
             case 2:
-                result = 50;
-                break;
+                return 50;
             case 3:
-                result = 70;
-                break;
+                return 70;
             case 4:
-                result = 90;
-                break;
+                return 90;
             default:
-                result = 50;
                 // { Original leaks the exception without raising it. }
                 _ = new ArgumentException("Invalid TMoral Value");
                 break;
         }
 
-        return result;
+        return 50;
     }
 
     internal static Troop.Morale MoraleValueToMorale(int value)
     {
-        Troop.Morale result;
         if (value <= 20)
         {
-            result = Troop.Morale.Terrible;
+            return Troop.Morale.Terrible;
         }
         else
         {
             if (value > 80)
             {
-                result = Troop.Morale.High;
+                return Troop.Morale.High;
             }
             else
             {
                 switch (value)
                 {
                     case >= 21 and <= 40:
-                        result = Troop.Morale.Poor;
-                        break;
+                        return Troop.Morale.Poor;
                     case >= 41 and <= 60:
-                        result = Troop.Morale.Ok;
-                        break;
+                        return Troop.Morale.Ok;
                     case >= 61 and <= 80:
-                        result = Troop.Morale.Good;
-                        break;
+                        return Troop.Morale.Good;
                     default:
-                        result = Troop.Morale.Ok;
                         // { Original leaks the exception without raising it. }
                         _ = new ArgumentException("Invalid MoralValue");
                         break;
@@ -308,61 +279,50 @@ public static class AbilityRules
             }
         }
 
-        return result;
+        return Troop.Morale.Ok;
     }
 
-    internal static Status AlignmentsToStatus(Set<Alignment> A, Set<Alignment> B)
-    {
-        Status result = A == B ? Status.Friendly : (A & B) == Set<Alignment>.Of() ? Status.Hostile : Status.Neutral;
-        return result;
-    }
+    internal static Status AlignmentsToStatus(Set<Alignment> A, Set<Alignment> B) => A == B ? Status.Friendly : (A & B) == Set<Alignment>.Of() ? Status.Hostile : Status.Neutral;
 
     [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The stubbed Delphi AlignmentsToInt32 signature keeps alignments.")]
     internal static int AlignmentsToInt32(Set<Alignment> alignments)
     {
-        int result;
         /* TODO: Implement cell or array backing for this address. */
         throw new NotImplementedException();
+        int result;
         return result;
     }
 
     [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The stubbed Delphi ToAlignments signature keeps value.")]
     internal static Set<Alignment> ToAlignments(int value)
     {
-        Set<Alignment> result;
         /* TODO: Implement cell or array backing for this address. */
         throw new NotImplementedException();
+        Set<Alignment> result;
         return result;
     }
 
     internal static int PlaceRandomUnits(int X, int Y, int L, sbyte player, UnitIndexList units, int level, int value, Set<UnitType> types, GameEngine engine)
     {
-        int index;
-        int tries;
-        int difference;
-        int bestIndex;
-        int i;
-        int delta;
-        Unit unit;
         int result = 0;
-        tries = 50;
         if (units.Count != 0)
         {
+            int tries = 50;
             while (result < value && tries != 0)
             {
                 tries -= 1;
-                index = units[Random(units.Count)];
+                int index = units[Random(units.Count)];
                 if (index != -1 && types.Contains(GamePack.Current.UnitResources.GetUnitResource(index).UnitType) && GamePack.Current.UnitResources.GetUnitResource(index).GetObtainValue() + result > value && GamePack.Current.UnitResources.GetUnitResource(index).Level <= level)
                 {
-                    bestIndex = index;
-                    i = 20;
-                    difference = Math.Abs(GamePack.Current.UnitResources.GetUnitResource(index).GetObtainValue() - (value - result));
+                    int bestIndex = index;
+                    int i = 20;
+                    int difference = Math.Abs(GamePack.Current.UnitResources.GetUnitResource(index).GetObtainValue() - (value - result));
                     do
                     {
                         index = units[Random(units.Count)];
                         if (index != -1 && types.Contains(GamePack.Current.UnitResources.GetUnitResource(index).UnitType))
                         {
-                            delta = Math.Abs(GamePack.Current.UnitResources.GetUnitResource(index).GetObtainValue() - (value - result));
+                            int delta = Math.Abs(GamePack.Current.UnitResources.GetUnitResource(index).GetObtainValue() - (value - result));
                             if (delta < difference)
                             {
                                 difference = delta;
@@ -378,9 +338,9 @@ public static class AbilityRules
 
                 if (index != -1 && types.Contains(GamePack.Current.UnitResources.GetUnitResource(index).UnitType) && GamePack.Current.UnitResources.GetUnitResource(index).Level <= level)
                 {
-                    unit = new Unit(null) { Holder = engine };
+                    Unit unit = new(null) { Holder = engine };
                     unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(index));
-                    if (unit.Place(X, Y, L, player, Set<UnitPlaceModeElement>.Of()) != null)
+                    if (unit.Place(X, Y, L, player, Set<UnitPlaceModeElement>.Of()) is not null)
                     {
                         result += unit.GetObtainValue();
                         tries = 50;
@@ -396,7 +356,7 @@ public static class AbilityRules
 
     internal static Alignment IndependentRelationToAlignment(sbyte relation)
     {
-        Alignment result = relation < 0
+        return relation < 0
             ? relation switch
             {
                 -2 => Alignment.Good,
@@ -405,81 +365,68 @@ public static class AbilityRules
                 _ => Alignment.Neutral,
             }
             : GamePack.Current.RaceResources.GetRaceResource(relation).GetAlignment();
-        return result;
     }
 
     internal static DiplomaticRelation DiplomaticRelation(sbyte player, sbyte independentRelation, sbyte otherPlayer, sbyte otherIndependentRelation)
     {
-        DiplomaticRelation result;
-        sbyte race;
-        sbyte otherRace;
-        Alignment alignment;
-        Alignment otherAlignment;
         if (player == 0 || otherPlayer == 0)
         {
-            race = player != 0
+            sbyte race = player != 0
                 ? StrategicMap.Current.Players.GetPlayers(player).PlayerRace
                 : independentRelation >= 0 ? independentRelation : (sbyte)-1;
 
-            otherRace = otherPlayer != 0
+            sbyte otherRace = otherPlayer != 0
                 ? StrategicMap.Current.Players.GetPlayers(otherPlayer).PlayerRace
                 : otherIndependentRelation >= 0 ? otherIndependentRelation : (sbyte)-1;
 
             if (race == -1 || otherRace == -1)
             {
-                alignment = race != -1
+                Alignment alignment = race != -1
                     ? GamePack.Current.RaceResources.GetRaceResource(race).GetAlignment()
                     : IndependentRelationToAlignment(independentRelation);
 
-                otherAlignment = otherRace != -1
+                Alignment otherAlignment = otherRace != -1
                     ? GamePack.Current.RaceResources.GetRaceResource(otherRace).GetAlignment()
                     : IndependentRelationToAlignment(otherIndependentRelation);
 
-                result = AlignmentTables.AlignmentToDiplomaticRelation(alignment, otherAlignment);
+                return AlignmentTables.AlignmentToDiplomaticRelation(alignment, otherAlignment);
             }
             else
             {
-                result = AlignmentTables.StatusToDiplomaticRelation(StrategicMap.Current.Races.GetRace(race).GetRelation(otherRace));
+                return AlignmentTables.StatusToDiplomaticRelation(StrategicMap.Current.Races.GetRace(race).GetRelation(otherRace));
             }
         }
         else
         {
-            result = player != otherPlayer
+            return player != otherPlayer
                 ? StrategicMap.Current.Players.GetDiplomaticRelation(player, otherPlayer)
                 : Session.DiplomaticRelation.Alliance;
         }
-
-        return result;
     }
 
     internal static bool ValidAttackRelation(sbyte player, sbyte independentRelation, sbyte targetPlayer, sbyte targetRace)
     {
-        bool result;
-        DiplomaticRelation relation;
         if (player == 0)
         {
             if (targetPlayer != 0)
             {
-                relation = DiplomaticRelation(player, independentRelation, targetPlayer, targetRace);
-                result = Set<DiplomaticRelation>.Of(Session.DiplomaticRelation.War, Session.DiplomaticRelation.Unknown).Contains(relation);
+                DiplomaticRelation relation = DiplomaticRelation(player, independentRelation, targetPlayer, targetRace);
+                return Set<DiplomaticRelation>.Of(Session.DiplomaticRelation.War, Session.DiplomaticRelation.Unknown).Contains(relation);
             }
             else
             {
-                result = false;
+                return false;
             }
         }
         else
         {
-            result = StrategicMap.Current.Players.GetPlayers(player).ValidAttackRelation(targetPlayer, targetRace);
+            return StrategicMap.Current.Players.GetPlayers(player).ValidAttackRelation(targetPlayer, targetRace);
         }
-
-        return result;
     }
 
     internal static void PolarToCartesian(int degrees, int radius, out int X, out int Y)
     {
-        float radians;
-        radians = (float)((double)(degrees * Math.PI) / 180);
+        float radians = (float)((double)(degrees * Math.PI) / 180);
         X = Round((double)Math.Cos(radians) * radius);
         Y = Round((double)Math.Sin(radians) * radius);
     }
@@ -497,11 +444,10 @@ public static class AbilityRules
 
     internal static Set<DamageType> InvertDamageTypes(Set<DamageType> types)
     {
-        DamageType damageType;
         Set<DamageType> result = Set<DamageType>.Of();
         for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)
         {
-            damageType = (DamageType)damageTypeOrdinal;
+            DamageType damageType = (DamageType)damageTypeOrdinal;
             if (!types.Contains(damageType))
             {
                 result += Set<DamageType>.Of(damageType);
@@ -514,19 +460,12 @@ public static class AbilityRules
     internal static int GetMovePathBattleFieldStrength(sbyte player, sbyte independentRelation, MovePath movePath, int targetRange, int range, int step, GameEngine engine)
     {
         int result;
-        UnitUserList units;
-        int i;
-        int j;
-        int distance;
-        MapLevel level;
-        MapField field;
-        ArmyHexSprite army;
-        if (movePath != null && movePath.Count > 0)
+        if (movePath is not null && movePath.Count > 0)
         {
-            distance = Round(range * 0.5);
+            int distance = Round(range * 0.5);
             result = 0;
-            i = movePath.Count - 1;
-            units = null;
+            int i = movePath.Count - 1;
+            UnitUserList units = null;
             if (movePath.Count - targetRange < i)
             {
                 i = movePath.Count - targetRange;
@@ -539,7 +478,7 @@ public static class AbilityRules
             {
                 units = new UnitUserList(null) { Holder = engine };
                 PathStep item = movePath[^1];
-                level = StrategicMap.Current.MapContainer.MapLevels[item.Location.MapLevel];
+                MapLevel level = StrategicMap.Current.MapContainer.MapLevels[item.Location.MapLevel];
                 PathStep movePathItem = movePath[^1];
                 PathStep item2 = movePath[^1];
                 HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, item2.Location.X, movePathItem.Location.Y, 0);
@@ -547,11 +486,11 @@ public static class AbilityRules
                 {
                     if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                     {
-                        field = level.GetField(walk.X, walk.Y);
+                        MapField field = level.GetField(walk.X, walk.Y);
                         if ((field.FieldFlags & MapField.BattleFieldInfoFlag) != 0)
                         {
-                            army = field.GetArmyHexSprite();
-                            if (army != null && army.Army.Player != player)
+                            ArmyHexSprite army = field.GetArmyHexSprite();
+                            if (army is not null && army.Army.Player != player)
                             {
                                 _ = units.AddUnits(army.Army.Units);
                             }
@@ -576,7 +515,7 @@ public static class AbilityRules
                     result = info.Strength;
                 }
 
-                j = i;
+                int j = i;
                 while (true)
                 {
                     bool condition = j >= 0;
@@ -622,16 +561,13 @@ public static class AbilityRules
                 i = j;
             }
 
-            if (units != null)
-            {
-                units?.Dispose();
-            }
+            units?.Dispose();
 
             StrategicMap.Current.AIExecutor.UseProcessTime(50);
         }
         else
         {
-            result = 0;
+            return 0;
         }
 
         return result;
@@ -639,8 +575,7 @@ public static class AbilityRules
 
     internal static EnhancementAbility CreateEnhancementAbility(int id, string name, Set<AbilitySelectionType> selectionTypes, GameEngine engine)
     {
-        EnhancementAbility ability;
-        ability = new EnhancementAbility(null)
+        EnhancementAbility ability = new(null)
         {
             Holder = engine,
             AbilityId = id,
@@ -674,8 +609,7 @@ public static class AbilityRules
 
     internal static bool EndPlayerTurn(sbyte player, GameEngine engine)
     {
-        EndTurnTokenEvent eventValue;
-        eventValue = new EndTurnTokenEvent(null)
+        EndTurnTokenEvent eventValue = new(null)
         {
             Holder = engine,
             Player = player,
@@ -703,7 +637,7 @@ public static class AbilityRules
         result = result && Set<byte>.WithBounds(0, 255).WithRange(1, 5).Contains((byte)field.TerrainType);
         result = result && !Set<byte>.WithBounds(0, 255).With(0).With(2).With(4).With(5).Contains((byte)field.OverlayType);
         // Original shared helper
-        return result && field.FindNoneTransparentHexSprite(typeof(Structure)) == null;
+        return result && field.FindNoneTransparentHexSprite(typeof(Structure)) is null;
     }
 
     public static void RetrieveStormDamageInfo(sbyte player, StormType storm, sbyte x, sbyte y,
@@ -741,7 +675,10 @@ public static class AbilityRules
                 HexNumberWalkData.WalkToNextHexNumber(ref walk);
             }
         }
-        finally { info = query.Info; }
+        finally
+        {
+            info = query.Info;
+        }
     }
 
     internal static Set<MoveType> ToMoveTypes(int value) => Set<MoveType>.FromMask((byte)value);
@@ -751,8 +688,7 @@ public static class AbilityRules
     internal static void TriggerStormDamage(StormType storm, sbyte x, sbyte y, sbyte mapLevel, sbyte innerRadius, sbyte outerRadius, sbyte player)
     {
         MapFieldMessage message = default;
-        MapLevel level;
-        level = StrategicMap.Current.MapContainer.MapLevels[mapLevel];
+        MapLevel level = StrategicMap.Current.MapContainer.MapLevels[mapLevel];
         message.MessageId = 4432;
         MapFieldMessageParameters param = message.Param;
         param[0] = (int)storm;
@@ -774,5 +710,4 @@ public static class AbilityRules
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
     }
-
 }

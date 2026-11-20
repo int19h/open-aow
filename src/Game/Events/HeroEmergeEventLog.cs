@@ -41,19 +41,17 @@ public partial class HeroEmergeEventLog(CustomNode owner) : EventLog(owner)
     // Hero.PAS:254
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
-        bool result = default;
-        HeroJoinEventLog log;
-        Hero hero = default;
-        log = CreateHeroJoinEventLog();
-        if (log != null)
+        HeroJoinEventLog log = CreateHeroJoinEventLog();
+        bool result;
+        if (log is not null)
         {
             result = log.Execute(mode, trigger, done);
             _ = log.Release();
         }
         else
         {
-            hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(UnitId);
-            if (hero != null)
+            Hero hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(UnitId);
+            if (hero is not null)
             {
                 if (hero.Player == Player)
                 {
@@ -67,7 +65,7 @@ public partial class HeroEmergeEventLog(CustomNode owner) : EventLog(owner)
                 }
             }
 
-            result = false;
+            return false;
         }
 
         return result;
@@ -76,9 +74,8 @@ public partial class HeroEmergeEventLog(CustomNode owner) : EventLog(owner)
     // Hero.PAS:203
     public override void ViewLocation()
     {
-        Troop u;
-        u = StrategicMap.Current.UnitControl.FindUnit(UnitId);
-        if (u != null)
+        Troop u = StrategicMap.Current.UnitControl.FindUnit(UnitId);
+        if (u is not null)
         {
             MapCoordinate coordinate17 = u.GetLocation();
             sbyte x = coordinate17.X;
@@ -94,12 +91,11 @@ public partial class HeroEmergeEventLog(CustomNode owner) : EventLog(owner)
     // Hero.PAS:175
     public void Setup(Hero hero, sbyte player, HeroJoinMode mode)
     {
-        string name;
         Player = player;
         UnitId = hero.UnitId;
         _emergeDay = StrategicMap.Current.Day;
         _mode = mode;
-        name = hero.HeroName;
+        string name = hero.HeroName;
         if (!IsEmpty(hero.GetNickname()))
         {
             _ = $"{name} {hero.GetNickname()}";
@@ -112,10 +108,9 @@ public partial class HeroEmergeEventLog(CustomNode owner) : EventLog(owner)
     // Hero.PAS:214
     public HeroJoinEventLog CreateHeroJoinEventLog()
     {
+        Hero hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(UnitId);
         HeroJoinEventLog result;
-        Hero hero;
-        hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(UnitId);
-        if (hero != null && hero.Player == 0 && hero.OfferToJoin(Player) && hero.ArmyOwner is { } army)
+        if (hero is not null && hero.Player == 0 && hero.OfferToJoin(Player) && hero.ArmyOwner is { } army)
         {
             result = new HeroJoinEventLog(null)
             {
@@ -142,7 +137,7 @@ public partial class HeroEmergeEventLog(CustomNode owner) : EventLog(owner)
         }
         else
         {
-            result = null;
+            return null;
         }
 
         return result;
@@ -151,17 +146,16 @@ public partial class HeroEmergeEventLog(CustomNode owner) : EventLog(owner)
     // Hero.PAS:242
     public bool ExecuteAI()
     {
+        HeroJoinEventLog log = CreateHeroJoinEventLog();
         bool result;
-        HeroJoinEventLog log;
-        log = CreateHeroJoinEventLog();
-        if (log != null)
+        if (log is not null)
         {
             result = log.ExecuteAI();
             _ = log.Release();
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;
@@ -177,5 +171,4 @@ public partial class HeroEmergeEventLog(CustomNode owner) : EventLog(owner)
     {
         Emerged = 0, Resurrected = 1
     }
-
 }

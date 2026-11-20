@@ -19,7 +19,7 @@ using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Game.Session;
 
-public partial class SimultaneousPlayerControl(CustomNode owner) : PlayerControl(owner)
+public class SimultaneousPlayerControl(CustomNode owner) : PlayerControl(owner)
 {
     public new const int ClassId = 131665;
 
@@ -43,8 +43,6 @@ public partial class SimultaneousPlayerControl(CustomNode owner) : PlayerControl
     // PlayerC.PAS:1258
     public override void NewTurn(sbyte player)
     {
-        ShowBookEventLog log;
-        SpellList spells = default;
         if (player == StrategicMap.Current.SeatedPlayer)
         {
             if (StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
@@ -53,14 +51,14 @@ public partial class SimultaneousPlayerControl(CustomNode owner) : PlayerControl
                 {
                     if (StrategicMap.Current.GameType == GameType.Custom)
                     {
-                        log = new ShowBookEventLog(null) { Holder = CreationHolder() };
+                        ShowBookEventLog log = new(null) { Holder = CreationHolder() };
                         StrategicMap.Current.TriggerExecuteEventLog(log, false, null);
                         _ = log.Release();
                     }
 
                     if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.ResearchSpellId == 0)
                     {
-                        spells = new SpellList();
+                        SpellList spells = new();
                         StrategicMap.Current.Players.GetPlayers(player).MagicControl.ListResearchSpells(spells, Set<SpellType>.Of(SpellType.Combat, SpellType.Unit, SpellType.Global));
                         if (spells.GetCount() > 0)
                         {
@@ -119,7 +117,6 @@ public partial class SimultaneousPlayerControl(CustomNode owner) : PlayerControl
     // PlayerC.PAS:1364
     public override void StartNewMap()
     {
-        NewTurnEventLog log = default;
         base.StartNewMap();
         StrategicMap.Current.ShowIndependentMoves = false;
         for (int i = 0, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
@@ -138,7 +135,7 @@ public partial class SimultaneousPlayerControl(CustomNode owner) : PlayerControl
         Assert(StrategicMap.Current.SeatedPlayer != 0, "", "PlayerC.PAS", 1584);
         StrategicMap.Current.ResetSeatedPlayerView();
         StrategicMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(StrategicMap.Current.CurrentPlayer);
-        log = new NewTurnEventLog(null)
+        NewTurnEventLog log = new(null)
         {
             Holder = CreationHolder(),
             TurnPlayer = StrategicMap.Current.SeatedPlayer,
@@ -207,13 +204,10 @@ public partial class SimultaneousPlayerControl(CustomNode owner) : PlayerControl
     // PlayerC.PAS:1305
     public override void EndTurn(sbyte player)
     {
-        int i;
-        bool allDone;
-        EndTurnEventLog log;
         EngineMessage message = default;
         StrategicMap.Current.Players.GetPlayers(player).SetEndTurn(true);
-        allDone = true;
-        i = 1;
+        bool allDone = true;
+        int i = 1;
         while (allDone && i != StrategicMap.Current.Players.Count)
         {
             allDone = StrategicMap.Current.Players.GetPlayers(i).Status != PlayerStatus.Playing || StrategicMap.Current.Players.GetPlayers(i).SingleProcessCycle;
@@ -239,7 +233,7 @@ public partial class SimultaneousPlayerControl(CustomNode owner) : PlayerControl
                         StrategicMap.Current.AIExecutor.DeactivatePlayer((sbyte)i);
                     }
 
-                    log = new EndTurnEventLog(null) { Holder = CreationHolder() };
+                    EndTurnEventLog log = new(null) { Holder = CreationHolder() };
                     StrategicMap.Current.Players.GetPlayers(i).EventLogbook.AddEvent(log);
                     _ = log.Release();
                 }
@@ -268,8 +262,6 @@ public partial class SimultaneousPlayerControl(CustomNode owner) : PlayerControl
     // PlayerC.PAS:1603
     public void ContinueLoadedMap()
     {
-        NewTurnEventLog log = default;
-        Player player = default;
         StrategicMap.Current.ShowIndependentMoves = false;
         byte item = StrategicMap.Current.Players.LocalHumanPlayers[0];
         StrategicMap.Current.SetSeatedPlayer((sbyte)item);
@@ -277,7 +269,7 @@ public partial class SimultaneousPlayerControl(CustomNode owner) : PlayerControl
         StrategicMap.Current.ResetSeatedPlayerView();
         for (int i = 0, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {
-            player = StrategicMap.Current.Players.GetPlayers(i);
+            Player player = StrategicMap.Current.Players.GetPlayers(i);
             if (player.Status == PlayerStatus.Playing && player.PlayerType != PlayerType.Human)
             {
                 _ = StrategicMap.Current.AIExecutor.ActivatePlayer((sbyte)i);
@@ -293,7 +285,7 @@ public partial class SimultaneousPlayerControl(CustomNode owner) : PlayerControl
         }
 
         StrategicMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(StrategicMap.Current.CurrentPlayer);
-        log = new NewTurnEventLog(null)
+        NewTurnEventLog log = new(null)
         {
             Holder = CreationHolder(),
             TurnPlayer = StrategicMap.Current.SeatedPlayer,
@@ -316,9 +308,4 @@ public partial class SimultaneousPlayerControl(CustomNode owner) : PlayerControl
 
     private static readonly string s_letGameBeginText = "Let the game begin";
     private static readonly string s_gameContinuesText = "The game continues";
-
-    // intf_P1_04.inc:26
-
-    // intf_P1_04.inc:26
-
 }

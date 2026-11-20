@@ -13,13 +13,6 @@ public partial class WaterHex
 {
     public override void ShowDynamic(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int x;
-        int y;
-        CustomImageLibrary imageLibrary;
-        int variant;
-        ImageSequence sequence;
-        int image;
-        bool showing;
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         pixelX = pixelX - pixelXSurface - 8;
         pixelY -= pixelYSurface;
@@ -29,7 +22,7 @@ public partial class WaterHex
             _animationFrame = (sbyte)(_animationFrame + 1);
             if (_animationFrame >= 0)
             {
-                showing = false;
+                bool showing = false;
                 if (_animationFrame == 0)
                 {
                     // { Original tests the Flood enchantment. }
@@ -44,10 +37,10 @@ public partial class WaterHex
 
                 if (_animationIndex < ((MapObject)this).Resource.ImageSequenceList.Count)
                 {
-                    sequence = ((MapObject)this).Resource.ImageSequenceList.List[_animationIndex];
-                    while (sequence != null)
+                    ImageSequence sequence = ((MapObject)this).Resource.ImageSequenceList.List[_animationIndex];
+                    while (sequence is not null)
                     {
-                        image = sequence.GetUnloopedFrameIndex(_animationFrame);
+                        int image = sequence.GetUnloopedFrameIndex(_animationFrame);
                         if (image != -1)
                         {
                             showing = true;
@@ -69,8 +62,8 @@ public partial class WaterHex
         }
 
         base.ShowDynamic(pixelXSurface, pixelYSurface, lockedSurface);
-        imageLibrary = ((MapObject)this).Resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
-        variant = FrameFixtureInputs.TextureVariant(this);
+        CustomImageLibrary imageLibrary = ((MapObject)this).Resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
+        int variant = FrameFixtureInputs.TextureVariant(this);
         if (variant == 3)
         {
             variant = 0;
@@ -78,8 +71,8 @@ public partial class WaterHex
 
         if (OpenSides != 0)
         {
-            x = pixelX - 19;
-            y = pixelY - 32;
+            int x = pixelX - 19;
+            int y = pixelY - 32;
             if ((OpenSides & 1) != 0)
             {
                 if ((OpenSides & 35) == 35)
@@ -206,5 +199,4 @@ public partial class WaterHex
             }
         }
     }
-
 }

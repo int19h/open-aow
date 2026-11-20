@@ -21,7 +21,7 @@ using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class Anarchy : CityTargetSpell
+public class Anarchy : CityTargetSpell
 {
     // CitySpells.pas:849
     public Anarchy(CustomNode owner, EngineObject holder) : base(owner)
@@ -35,14 +35,11 @@ public partial class Anarchy : CityTargetSpell
     // CitySpells.pas:875
     protected override bool ExecuteTokenEvent(CityTargetSpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        bool result = default;
-        City targetCity = default;
-        LocationTextEventLog log = default;
-        ImageSequenceAnimation a = default;
+        City targetCity;
         if (executeCount == 0)
         {
             targetCity = eventValue.GetSelectedCity();
-            log = new LocationTextEventLog(null)
+            LocationTextEventLog log = new(null)
             {
                 Holder = CreationHolder(),
                 Player = source.Player,
@@ -53,9 +50,9 @@ public partial class Anarchy : CityTargetSpell
             _ = log.Release();
             PlayDefaultCityEffects(source, targetCity);
             _ = targetCity.ValidateObservation(source.Player);
-            if (targetCity.Resource.ImageSequenceList.ImageSequences[16] != null)
+            if (targetCity.Resource.ImageSequenceList.ImageSequences[16] is not null)
             {
-                a = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
+                ImageSequenceAnimation a = new(null) { Holder = CreationHolder() };
                 a.SetImageSequence(targetCity.Resource.ImageSequenceList.ImageSequences[16]);
                 a.SetPixelXOffset(a.PixelXOffset - 16);
                 a.SetPixelYOffset(a.PixelYOffset - 16);
@@ -68,7 +65,7 @@ public partial class Anarchy : CityTargetSpell
                 _ = StrategicMap.Current.PlaceHex(a, hexX, targetCityHexY, targetCityHexLevel);
             }
 
-            result = true;
+            return true;
         }
         else
         {
@@ -77,24 +74,20 @@ public partial class Anarchy : CityTargetSpell
                 targetCity = eventValue.GetSelectedCity();
                 targetCity.ExecuteAnarchy();
                 CastingDone(source, eventValue.EventMana);
-                result = false;
+                return false;
             }
             else
             {
-                result = true;
+                return true;
             }
         }
-
-        return result;
     }
 
     // CitySpells.pas:858
     public override bool ValidTargetCity(Troop source, City targetCity)
     {
         bool result = base.ValidTargetCity(source, targetCity);
-        result = result && targetCity.Player != 0 && !targetCity.Enchantments.Contains(CityEnchantmentId.AntiMagicShell);
-
-        return result;
+        return result && targetCity.Player != 0 && !targetCity.Enchantments.Contains(CityEnchantmentId.AntiMagicShell);
     }
 
     // CitySpells.pas:867

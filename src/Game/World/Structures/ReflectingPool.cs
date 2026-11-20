@@ -22,8 +22,6 @@ public partial class ReflectingPool(CustomNode owner) : PlayerStructure(owner)
     // ReflectingPool.pas:80
     public override void PersistFields(IPersister persister) => base.PersistFields(persister);
 
-    // ReflectingPool.pas:52
-
     // ReflectingPool.pas:241
     public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
@@ -99,28 +97,24 @@ public partial class ReflectingPool(CustomNode owner) : PlayerStructure(owner)
     public override int VisibilityRange()
     {
         int result = 8;
-        if (GetHexLevel() != 0 || (Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 8) != 0))
-        {
-            result = (int)(((uint)(result + 1)) >> 1);
-        }
-
-        return result;
+        return GetHexLevel() != 0 || (Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 8) != 0)
+            ? (int)(((uint)(result + 1)) >> 1)
+            : result;
     }
 
     // ReflectingPool.pas:185
     public override void UpdateUnfog()
     {
-        int range;
-        int x = default;
-        int y = default;
         if (Status.Contains(MapObjectStatusElement.PlacedOnMap))
         {
-            range = Status.Contains(MapObjectStatusElement.Activated) && StrategicMap.Current.SeatedPlayer != -1
+            int range = Status.Contains(MapObjectStatusElement.Activated) && StrategicMap.Current.SeatedPlayer != -1
                 ? PoolVisionPlayer(StrategicMap.Current.SeatedPlayer) ? VisibilityRange() : 0
                 : 0;
 
             if (range != UnfogRange)
             {
+                int x = default;
+                int y = default;
                 if (UnfogRange != 0)
                 {
                     for (int i = 0, last = base.Resource.TerrainList.Count - 1; i <= last; i++)
@@ -152,10 +146,10 @@ public partial class ReflectingPool(CustomNode owner) : PlayerStructure(owner)
     // ReflectingPool.pas:157
     public override void UpdateExploration()
     {
-        int x = default;
-        int y = default;
         if (Status.Contains(MapObjectStatusElement.PlacedOnMap))
         {
+            int x = default;
+            int y = default;
             for (int p = 1, last = StrategicMap.Current.Players.Count - 1; p <= last; p++)
             {
                 if (PoolVisionPlayer((sbyte)p))
@@ -193,21 +187,19 @@ public partial class ReflectingPool(CustomNode owner) : PlayerStructure(owner)
     // ReflectingPool.pas:99
     public void NewFrame(object sender)
     {
-        PlayerStructureList list = default;
-        PlayerStructure pool = default;
         if (StrategicMap.Current.SeatedPlayer == Player)
         {
             _centerFrame += 1;
             if (_centerFrame % 8 == 0)
             {
-                list = new PlayerStructureList(null) { Holder = CreationHolder() };
+                PlayerStructureList list = new(null) { Holder = CreationHolder() };
                 ListReflectingPools(list);
                 _ = list.RemoveChild(this);
                 list.SortStable(ComparePools);
                 int count = list.Count;
                 if (_centerFrame / 8 < count)
                 {
-                    pool = list.GetStructure(_centerFrame / 8);
+                    PlayerStructure pool = list.GetStructure(_centerFrame / 8);
                     sbyte hexLevel = pool.GetHexLevel();
                     sbyte hexY = pool.GetHexY();
                     sbyte hexX = pool.GetHexX();
@@ -252,10 +244,9 @@ public partial class ReflectingPool(CustomNode owner) : PlayerStructure(owner)
     // ReflectingPool.pas:171
     public void UpdateReflectingPoolsExploration()
     {
-        Player player;
         for (int p = StrategicMap.Current.Players.Count - 1; p >= 0; p--)
         {
-            player = StrategicMap.Current.Players.GetPlayers(p);
+            Player player = StrategicMap.Current.Players.GetPlayers(p);
             for (int i = player.KnownStructures.Count - 1; i >= 0; i--)
             {
                 player.KnownStructures.GetStructure(i).UpdateExploration();
@@ -267,11 +258,10 @@ public partial class ReflectingPool(CustomNode owner) : PlayerStructure(owner)
     // ReflectingPool.pas:217
     public bool PoolVisionPlayer(sbyte player)
     {
-        int p;
         bool result = StrategicMap.Current.Players.GetPlayers(player).KnownStructures.Count != 0;
         if (!result)
         {
-            p = StrategicMap.Current.Players.Count;
+            int p = StrategicMap.Current.Players.Count;
             while (p > 1 && !result)
             {
                 p -= 1;
@@ -297,7 +287,7 @@ public partial class ReflectingPool(CustomNode owner) : PlayerStructure(owner)
 
     internal static int ComparePools(object item1, object item2) => 0;
 
-    public new partial class Resource : PlayerStructureResource
+    public new class Resource : PlayerStructureResource
     {
         public Resource(CustomNode owner) : base(owner)
         {
@@ -310,12 +300,8 @@ public partial class ReflectingPool(CustomNode owner) : PlayerStructure(owner)
         // ReflectingPool.pas:266
         public new const int ClassId = 132671;
 
-        // ReflectingPool.pas:254
-
         // ReflectingPool.pas:269
         public override int ResourceUserClassId() => 132670;
-
-        // ReflectingPool.pas:42
 
         // ReflectingPool.pas:263
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_reflectingPoolText);
@@ -323,9 +309,4 @@ public partial class ReflectingPool(CustomNode owner) : PlayerStructure(owner)
         private static readonly string s_reflectingPoolText = "Reflecting Pool";
 
     }
-
-    // ReflectingPool.pas:20
-
-    // ReflectingPool.pas:20
-
 }

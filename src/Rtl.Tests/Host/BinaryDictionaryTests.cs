@@ -15,16 +15,27 @@ public sealed class BinaryDictionaryTests
             using (BinaryWriter writer = new(stream))
             {
                 WriteHeader(writer, 4);
-                void Text(byte[] bytes) { writer.Write((ushort)bytes.Length); writer.Write(bytes); }
+                void Text(byte[] bytes)
+                {
+                    writer.Write((ushort)bytes.Length);
+                    writer.Write(bytes);
+                }
                 void Entry(string source, string form, string english, string german)
                 {
-                    Text(Encoding.ASCII.GetBytes(source)); Text(Encoding.ASCII.GetBytes(form)); Text([]);
-                    Text(Encoding.ASCII.GetBytes(english)); Text(Encoding.ASCII.GetBytes(german));
+                    Text(Encoding.ASCII.GetBytes(source));
+                    Text(Encoding.ASCII.GetBytes(form));
+                    Text([]);
+                    Text(Encoding.ASCII.GetBytes(english));
+                    Text(Encoding.ASCII.GetBytes(german));
                 }
                 Entry("item(plural)", "", "items", "Dinge");
                 Entry("item(plural)", "SomeForm", "context only", "Kontext");
                 Entry("unchanged", "", "", "");
-                Text([0x63, 0x61, 0x66, 0xe9]); Text([]); Text([]); Text([0x74, 0x65, 0x61]); Text([]);
+                Text([0x63, 0x61, 0x66, 0xe9]);
+                Text([]);
+                Text([]);
+                Text([0x74, 0x65, 0x61]);
+                Text([]);
             }
             IvBinaryDictionary dictionary = new() { FileName = path };
             dictionary.SetLanguage(1);
@@ -41,7 +52,10 @@ public sealed class BinaryDictionaryTests
             dictionary.Close();
             Assert.Equal("item(plural)", dictionary.Translate("item(plural)"));
         }
-        finally { File.Delete(path); }
+        finally
+        {
+            File.Delete(path);
+        }
     }
 
     [Fact]
@@ -59,7 +73,10 @@ public sealed class BinaryDictionaryTests
             IvBinaryDictionary dictionary = new() { FileName = path };
             _ = Assert.Throws<InvalidDataException>(dictionary.Open);
         }
-        finally { File.Delete(path); }
+        finally
+        {
+            File.Delete(path);
+        }
     }
 
     private static void WriteHeader(BinaryWriter writer, ushort count)

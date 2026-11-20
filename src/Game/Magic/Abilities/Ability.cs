@@ -26,7 +26,7 @@ namespace Aow.Game.Magic.Abilities;
 
 // name, ID, description, cost, Sfx library, image sequences, selection types. Procedure
 // return-ABI adapters preserve unmarked overrides in other packages
-public partial class Ability : EngineObject
+public class Ability : EngineObject
 {
 
     // Ability.PAS:1238
@@ -125,15 +125,13 @@ public partial class Ability : EngineObject
     // { Original leaves Reserved untouched. }
     public virtual bool FastBattleValidRoundDistance(CombatObject source, CombatObject target)
     {
-        int distance;
-        bool value;
-        distance = source.Combat.GetRoundDistance();
+        int distance = source.Combat.GetRoundDistance();
         if (source.GetMoves() >= 32)
         {
             distance += 2;
         }
 
-        value = distance >= target.FastBattleRoundDistance();
+        bool value = distance >= target.FastBattleRoundDistance();
         if (value && source is CombatUnit sourceUnit && sourceUnit.Troop is Hero)
         {
             value = value && ((((byte)source.Status.Image) & 16) != 0 || source.FastBattleRoundDistance() <= source.Combat.GetRoundDistance() + 2);
@@ -154,8 +152,8 @@ public partial class Ability : EngineObject
     // family override this. The event's ability id names a ranged attack otherwise, and the type
     // system does not carry that, so this cast stays. Another ability fails it, the same failure the
     // old ranged attack lookup made.
-    public virtual CombatAction CreateRangedCombatAction(CombatUnit source, CombatUnit target) =>
-        ((RangedAttackAbility)this).CreateRangedAttackCombatAction(source, target: target, attackPenalty: 0);
+    public virtual CombatAction CreateRangedCombatAction(CombatUnit source, CombatUnit target)
+        => ((RangedAttackAbility)this).CreateRangedAttackCombatAction(source, target: target, attackPenalty: 0);
 
     // A touch ability builds its action here and draws its random value where the touch event drew it.
     // Any other ability does nothing.
@@ -181,12 +179,10 @@ public partial class Ability : EngineObject
     // Ability.PAS:1606
     public virtual bool Activate(AbilityOwner owner, ref string reason)
     {
-        bool result;
-        AbilityActivation info;
         // { The original reports successful activation after releasing the notification. }
         if (CanActivate(owner, ref reason))
         {
-            info = new AbilityActivation(null)
+            AbilityActivation info = new(null)
             {
                 Holder = CreationHolder(),
                 AbilityId = AbilityId,
@@ -195,14 +191,12 @@ public partial class Ability : EngineObject
 
             StrategicMap.Current.OnActivateAbilityStore.Raise(info);
             _ = info.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Ability.PAS:1624
@@ -215,11 +209,9 @@ public partial class Ability : EngineObject
     // Ability.PAS:1637
     public virtual bool ActivateCombat(AbilityOwner owner, out string reason)
     {
-        bool result;
-        AbilityActivation info;
         if (CanActivateCombat(owner, out reason))
         {
-            info = new AbilityActivation(null)
+            AbilityActivation info = new(null)
             {
                 Holder = CreationHolder(),
                 AbilityId = AbilityId,
@@ -228,14 +220,12 @@ public partial class Ability : EngineObject
 
             StrategicMap.Current.CombatMap.AbilityActivatedEventsStore.Raise(info);
             _ = info.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Ability.PAS:1560
@@ -319,11 +309,6 @@ public partial class Ability : EngineObject
     // Ability.PAS:1492
     public virtual void ListInfo(DelphiStringCollection text, Set<AbilityInfoModeElement> mode)
     {
-        AbilityCombatInfo info = default;
-        Set<DamageType> types = default;
-        int strength = default;
-        string damageNames;
-        DamageType damageType;
         _ = text.Add($"Name: {GetName(null)}");
         _ = text.Add("-------------------------------------------------");
         if (mode.Contains(AbilityInfoModeElement.Id))
@@ -367,6 +352,7 @@ public partial class Ability : EngineObject
 
         if (mode.Contains(AbilityInfoModeElement.Statistics))
         {
+            AbilityCombatInfo info = default;
             GetCombatInfo(null, ref info);
             if (info.Attack != -1)
             {
@@ -385,10 +371,10 @@ public partial class Ability : EngineObject
 
             if (info.DamageTypes != Set<DamageType>.Of())
             {
-                damageNames = "";
+                string damageNames = "";
                 for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)
                 {
-                    damageType = (DamageType)damageTypeOrdinal;
+                    DamageType damageType = (DamageType)damageTypeOrdinal;
                     if (info.DamageTypes.Contains(damageType))
                     {
                         if (!IsEmpty(damageNames))
@@ -406,6 +392,8 @@ public partial class Ability : EngineObject
 
         if (mode.Contains(AbilityInfoModeElement.Strength))
         {
+            Set<DamageType> types = default;
+            int strength = default;
             GetOffensiveStrength(null, ref strength, ref types);
             if (strength != 0)
             {

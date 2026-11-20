@@ -19,7 +19,7 @@ using static Aow.Rtl.DelphiRounding;
 namespace Aow.Game.Commands;
 
 // angle, animation, selected army identity
-public partial class TornadoTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
+public class TornadoTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
 {
 
     // GlobalTargetSpells.pas:1559
@@ -47,19 +47,6 @@ public partial class TornadoTokenEvent(CustomNode owner) : GlobalTargetSpellToke
     // GlobalTargetSpells.pas:1660
     public override bool Process(Troop source, int value)
     {
-        bool result = default;
-        UnitUserList movedUnits = default;
-        byte owner = default;
-        byte selection = default;
-        MapCoordinate location = default;
-        int chance = default;
-        bool exposed = default;
-        ArmyHexSprite army = default;
-        Troop troopObject = default;
-        MapField mapField = default;
-        ArmyEventLog log = default;
-        ImageSequenceAnimation animation = default;
-        ArmyHexSprite placed = default;
         if (value == 0)
         {
             _angle = 0;
@@ -82,20 +69,22 @@ public partial class TornadoTokenEvent(CustomNode owner) : GlobalTargetSpellToke
             _animation.Tag = (StrategicMap.Current.ViewWidth & 65535) | (StrategicMap.Current.ViewHeight << 16);
             _animation.Activate();
         }
-
         if (value == 80)
         {
-            mapField = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
-            if (ArmyId != null && !mapField.GetMagicShieldActive())
+            MapField mapField = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
+            if (ArmyId is not null && !mapField.GetMagicShieldActive())
             {
+                byte selection = default;
+                ArmyHexSprite army = default;
                 _ = ArmyId.RetrieveArmy(ref army, ref selection);
-                exposed = !(Set<byte>.WithBounds(0, 255).With(1).Contains((byte)mapField.OverlayType) || mapField.FindNoneTransparentHexSprite(typeof(Structure)) != null);
+                bool exposed = !(Set<byte>.WithBounds(0, 255).With(1).Contains((byte)mapField.OverlayType) || mapField.FindNoneTransparentHexSprite(typeof(Structure)) is not null);
+                Troop troopObject;
                 for (int i = 0, last = army.Army.Units.Count - 1; i <= last; i++)
                 {
                     if ((selection & (1 << i)) != 0)
                     {
                         troopObject = army.Army.Units.GetUnit(i);
-                        chance = troopObject.GetUnitLevel() switch
+                        int chance = troopObject.GetUnitLevel() switch
                         {
                             1 => 90,
                             2 => 70,
@@ -115,14 +104,14 @@ public partial class TornadoTokenEvent(CustomNode owner) : GlobalTargetSpellToke
                     }
                 }
 
-                if (army.Army.Transporter(255) != null)
+                if (army.Army.Transporter(255) is not null)
                 {
-                    selection = army.Army.Transporter(selection) != null ? (byte)255 : (byte)0;
+                    selection = army.Army.Transporter(selection) is not null ? (byte)255 : (byte)0;
                 }
 
                 if (selection != 0)
                 {
-                    log = new ArmyEventLog(null)
+                    ArmyEventLog log = new(null)
                     {
                         Holder = CreationHolder(),
                         Player = source.Player
@@ -135,7 +124,7 @@ public partial class TornadoTokenEvent(CustomNode owner) : GlobalTargetSpellToke
                     log.ArmyView.Setup(army.Army, selection);
                     EventLog.DistributeLocationEventLog(y: army.HexY, x: army.HexX, log: log, player: (sbyte)EventPlayerIndex, level: army.HexLevel, execute: true);
                     _ = log.Release();
-                    location = GamePack.Current.SpellControl.GetSpell<Tornado>(68).CalculateWarpLocation(army, selection);
+                    MapCoordinate location = GamePack.Current.SpellControl.GetSpell<Tornado>(68).CalculateWarpLocation(army, selection);
                     if (location != MapCoordinate.None)
                     {
                         if (source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(Location.X, Location.Y, Location.MapLevel, 2))
@@ -143,9 +132,10 @@ public partial class TornadoTokenEvent(CustomNode owner) : GlobalTargetSpellToke
                             _ = GamePack.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(1);
                         }
 
+                        ImageSequenceAnimation animation;
                         if (StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.VisibleForPlayer(Location.X, Location.Y, Location.MapLevel, StrategicMap.Current.SeatedPlayer))
                         {
-                            if (GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[1] != null)
+                            if (GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[1] is not null)
                             {
                                 animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                                 animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[1]);
@@ -155,7 +145,7 @@ public partial class TornadoTokenEvent(CustomNode owner) : GlobalTargetSpellToke
 
                         if (StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.VisibleForPlayer(location.X, location.Y, location.MapLevel, StrategicMap.Current.SeatedPlayer))
                         {
-                            if (GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[1] != null)
+                            if (GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[1] is not null)
                             {
                                 animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                                 animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[1]);
@@ -163,8 +153,8 @@ public partial class TornadoTokenEvent(CustomNode owner) : GlobalTargetSpellToke
                             }
                         }
 
-                        movedUnits = new UnitUserList(null) { Holder = CreationHolder() };
-                        owner = (byte)army.Army.Player;
+                        UnitUserList movedUnits = new(null) { Holder = CreationHolder() };
+                        byte owner = (byte)army.Army.Player;
                         mapField = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(location);
                         if (army.Army.ValidateSelection(255) != selection)
                         {
@@ -174,7 +164,7 @@ public partial class TornadoTokenEvent(CustomNode owner) : GlobalTargetSpellToke
                                 {
                                     troopObject = army.Army.Units.GetUnit(i);
                                     _ = movedUnits.AddUnit(troopObject);
-                                    placed = troopObject.Place(location.X, location.Y, location.MapLevel, (sbyte)(byte)army.Army.Player, Set<UnitPlaceModeElement>.Of());
+                                    ArmyHexSprite placed = troopObject.Place(location.X, location.Y, location.MapLevel, (sbyte)(byte)army.Army.Player, Set<UnitPlaceModeElement>.Of());
                                     placed?.Army.UpdateExploration();
                                 }
                             }
@@ -200,27 +190,17 @@ public partial class TornadoTokenEvent(CustomNode owner) : GlobalTargetSpellToke
             }
 
             _animation?.Dispose();
-            result = false;
+            return false;
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // GlobalTargetSpells.pas:1599
     public void ShowAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int xShift;
-        int height;
-        int x;
-        int y;
-        float angle;
-        int direction;
-        int radius;
-        int last;
         if (StrategicMap.Current.ViewMapLevel == Location.MapLevel)
         {
             HexGeometry.HexToPixel(Location.X, Location.Y, out int pixelX, out int pixelY);
@@ -230,22 +210,22 @@ public partial class TornadoTokenEvent(CustomNode owner) : GlobalTargetSpellToke
             RandSeed = StrategicMap.Current.InitialRandomSeed;
             for (int i = 0; i <= 200; i++)
             {
-                direction = Random(360);
+                int direction = Random(360);
                 if (animation.FrameCounter >= (int)(((uint)i) >> 2) && animation.FrameCounter <= (int)(((uint)i) >> 4) + 68)
                 {
-                    radius = Round((double)((double)2.997 - Math.Log((double)(i * 19 * 0.005) + 1)) * 35) + 7;
-                    height = 200 - i - 16;
-                    xShift = Round((double)((double)Math.Sin((double)(_animation.FrameCounter * 0.1) + (i * 0.02)) * (200 - i)) * 0.25) + 16;
+                    int radius = Round((double)((double)2.997 - Math.Log((double)(i * 19 * 0.005) + 1)) * 35) + 7;
+                    int height = 200 - i - 16;
+                    int xShift = Round((double)((double)Math.Sin((double)(_animation.FrameCounter * 0.1) + (i * 0.02)) * (200 - i)) * 0.25) + 16;
                     double pi = Math.PI;
-                    angle = (float)((double)((direction + _angle) * pi) / 180);
-                    last = GetEngine().AnimationDetail == 0
+                    float angle = (float)((double)((direction + _angle) * pi) / 180);
+                    int last = GetEngine().AnimationDetail == 0
                         ? 1
                         : GetEngine().AnimationDetail == 1 ? (int)(((uint)(200 - i)) >> 5) : (int)(((uint)(200 - i)) >> 4);
 
                     for (int count = last; count >= 0; count--)
                     {
-                        x = Round((double)Math.Cos(angle) * radius) + xShift;
-                        y = Round((double)((double)Math.Sin(angle) * radius) * 0.5) + height;
+                        int x = Round((double)Math.Cos(angle) * radius) + xShift;
+                        int y = Round((double)((double)Math.Sin(angle) * radius) * 0.5) + height;
                         _ = GamePack.Current.SpellControl.GetSpell(68).CastImages.Show(0, pixelX + x, pixelY - y, 0, lockedSurface);
                         angle = (float)((double)0.035 + angle);
                     }
@@ -255,5 +235,5 @@ public partial class TornadoTokenEvent(CustomNode owner) : GlobalTargetSpellToke
     }
 
     // GlobalTargetSpells.pas:215
-    public override bool Validate(Hero source) => base.Validate(source) && (ArmyId == null || ArmyId.Valid());
+    public override bool Validate(Hero source) => base.Validate(source) && (ArmyId is null || ArmyId.Valid());
 }

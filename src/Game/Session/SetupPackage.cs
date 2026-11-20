@@ -5,7 +5,7 @@ using Aow.Formats.Tree;
 
 namespace Aow.Game.Session;
 
-public partial class SetupPackage(CustomNode owner) : EngineObject(owner)
+public class SetupPackage(CustomNode owner) : EngineObject(owner)
 {
     // AoWSetup.pas:254
     public new const int ClassId = 131681;
@@ -18,12 +18,8 @@ public partial class SetupPackage(CustomNode owner) : EngineObject(owner)
     // AoWSetup.pas:245
     public override void Dispose()
     {
-        EngineObject data;
-        data = Data;
-        if (data != null)
-        {
-            data?.Dispose();
-        }
+        EngineObject data = Data;
+        data?.Dispose();
 
         base.Dispose();
     }

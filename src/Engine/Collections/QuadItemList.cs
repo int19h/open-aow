@@ -8,18 +8,14 @@ using static Aow.Rtl.DelphiFormat;
 
 namespace Aow.Engine.Collections;
 
-public partial class QuadItemList : Persistent
+public class QuadItemList : Persistent
 {
     private QuadInteger[] _list = [];
     private int _count;
     private int _capacity;
 
     // Engine.pas:5538
-    internal QuadInteger Get(int index)
-    {
-        QuadInteger result = index < 0 || index >= _count ? Default : _list[index];
-        return result;
-    }
+    internal QuadInteger Get(int index) => index < 0 || index >= _count ? Default : _list[index];
 
     // Engine.pas:5621
     internal void Put(int index, QuadInteger item)
@@ -152,7 +148,6 @@ public partial class QuadItemList : Persistent
     // Engine.pas:5516
     public void Exchange(int index1, int index2)
     {
-        QuadInteger item;
         if (index1 < 0 || index1 >= _count)
         {
             Error("List index out of bounds (%d)", index1);
@@ -163,9 +158,7 @@ public partial class QuadItemList : Persistent
             Error("List index out of bounds (%d)", index2);
         }
 
-        item = _list[index1];
-        _list[index1] = _list[index2];
-        _list[index2] = item;
+        (_list[index2], _list[index1]) = (_list[index1], _list[index2]);
     }
 
     // Engine.pas:5527
@@ -191,12 +184,7 @@ public partial class QuadItemList : Persistent
             result += 1;
         }
 
-        if (result == _count)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == _count ? -1 : result;
     }
 
     // Engine.pas:5564
@@ -208,12 +196,7 @@ public partial class QuadItemList : Persistent
             result += 1;
         }
 
-        if (result == _count)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == _count ? -1 : result;
     }
 
     // Engine.pas:5571
@@ -225,12 +208,7 @@ public partial class QuadItemList : Persistent
             result += 1;
         }
 
-        if (result == _count)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == _count ? -1 : result;
     }
 
     // Engine.pas:5578
@@ -242,12 +220,7 @@ public partial class QuadItemList : Persistent
             result += 1;
         }
 
-        if (result == _count)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == _count ? -1 : result;
     }
 
     // Engine.pas:5585
@@ -259,12 +232,7 @@ public partial class QuadItemList : Persistent
             result += 1;
         }
 
-        if (result == _count)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == _count ? -1 : result;
     }
 
     // Engine.pas:5592
@@ -295,7 +263,6 @@ public partial class QuadItemList : Persistent
     // Engine.pas:5608
     public void Move(int currentIndex, int newIndex)
     {
-        QuadInteger item;
         if (currentIndex != newIndex)
         {
             if (newIndex < 0 || newIndex >= _count)
@@ -303,7 +270,7 @@ public partial class QuadItemList : Persistent
                 Error("List index out of bounds (%d)", newIndex);
             }
 
-            item = Get(currentIndex);
+            QuadInteger item = Get(currentIndex);
             Delete(currentIndex);
             Insert(newIndex, item);
         }
@@ -382,7 +349,6 @@ public partial class QuadItemList : Persistent
 
     private static void QuickSortQuadItem(Span<QuadInteger> sortList, int L, int R, QuadItemSortCompare sCompare)
     {
-        QuadInteger quadInteger = default;
         int number;
         do
         {
@@ -402,9 +368,7 @@ public partial class QuadItemList : Persistent
                 }
                 if (number <= number2)
                 {
-                    quadInteger = sortList[number];
-                    sortList[number] = sortList[number2];
-                    sortList[number2] = quadInteger;
+                    (sortList[number2], sortList[number]) = (sortList[number], sortList[number2]);
                     number++;
                     number2--;
                 }

@@ -6,7 +6,7 @@ using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.Units;
 
-public partial class UnitSelectionActivation(CustomNode owner) : AbilityActivation(owner)
+public class UnitSelectionActivation(CustomNode owner) : AbilityActivation(owner)
 {
 
     public UnitSelector UnitSelector { get; private set; }
@@ -14,9 +14,8 @@ public partial class UnitSelectionActivation(CustomNode owner) : AbilityActivati
     // Ability.PAS:696
     public override void Dispose()
     {
-        UnitSelector selector;
-        selector = UnitSelector;
-        if (selector != null)
+        UnitSelector selector = UnitSelector;
+        if (selector is not null)
         {
             _ = selector.Release();
             UnitSelector = null;
@@ -28,8 +27,7 @@ public partial class UnitSelectionActivation(CustomNode owner) : AbilityActivati
     // Ability.PAS:709
     public void SetUnitSelector(UnitSelector value)
     {
-        UnitSelector old;
-        old = UnitSelector;
+        UnitSelector old = UnitSelector;
         if (old != value)
         {
             _ = (old?.Release());
@@ -39,7 +37,4 @@ public partial class UnitSelectionActivation(CustomNode owner) : AbilityActivati
             _ = (old?.AddRef());
         }
     }
-
-    // intf_P1_08.inc:76
-
 }

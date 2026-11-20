@@ -7,7 +7,7 @@ namespace Aow.Game.Commands;
 
 // FSyncValue (stored with id), the sync value of the system that sent it. another value on
 // execution triggers OnSyncError
-public partial class SyncTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class SyncTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
     public new const int ClassId = ClassIdSyncTokenEvent;
 

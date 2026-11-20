@@ -26,5 +26,4 @@ public struct EngineMessage
         message.Sender = sender;
         message.Result = -1;
     }
-
 }

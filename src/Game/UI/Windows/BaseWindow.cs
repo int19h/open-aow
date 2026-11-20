@@ -14,7 +14,7 @@ namespace Aow.Game.UI.Windows;
 //   windows above it and to its owner. }
 // Fields: FBuffer (freed by TAOWGenericWindow.Destroy), FFreeSurfaceOnHide, FWinManager,
 // OnShow, OnHide
-public partial class BaseWindow(Component owner) : WindowControl(owner)
+public class BaseWindow(Component owner) : WindowControl(owner)
 {
     public object Buffer { get; }
 
@@ -37,12 +37,11 @@ public partial class BaseWindow(Component owner) : WindowControl(owner)
     // AoWBaseWin.pas:56
     public override void InvalidateRectangle(int index, ref Rect rectangle, UIComponent sender)
     {
-        UIComponent c;
         if (index > -1 && Valid && Visible)
         {
             for (int i = index, last = Children.Count - 1; i <= last; i++)
             {
-                c = Children[i];
+                UIComponent c = Children[i];
                 if (c.Valid && c.Visible && rectangle.Right >= c.WinLeft && c.WinLeft + c.WinWidth >= rectangle.Left && rectangle.Bottom >= c.WinTop && c.WinTop + c.WinHeight >= rectangle.Top && c != sender)
                 {
                     if (c is BaseWindow)
@@ -87,7 +86,7 @@ public partial class BaseWindow(Component owner) : WindowControl(owner)
                 Hidden = true;
                 OnHide?.Invoke(this);
 
-                if (FreeSurfaceOnHide && BackSurface != null)
+                if (FreeSurfaceOnHide && BackSurface is not null)
                 {
                     BackSurface?.Dispose();
                     BackSurface = null;
@@ -134,17 +133,14 @@ public partial class BaseWindow(Component owner) : WindowControl(owner)
     //   one. A window without a back surface draws itself and its controls straight into Surface. }
     public override void DrawSurface(Surface surface)
     {
-        int oldLeft;
-        int oldTop;
-        bool locked;
         LockedSurface lockedSurface = default;
-        Rect r = default;
         try
         {
             if (Valid && Visible)
             {
-                oldLeft = WinLeft;
-                oldTop = WinTop;
+                int oldLeft = WinLeft;
+                int oldTop = WinTop;
+                bool locked;
                 try
                 {
                     if (DoubleBuffered)
@@ -168,6 +164,7 @@ public partial class BaseWindow(Component owner) : WindowControl(owner)
                 if (locked)
                 {
                     DirtyRectangle d;
+                    Rect r;
                     try
                     {
                         if (!Drawn)
@@ -350,19 +347,16 @@ public partial class BaseWindow(Component owner) : WindowControl(owner)
     //   copies it into SurfDesc, masked with FMaskColor for a masked window. }
     public override void DrawTo(LockedSurface lockedSurface)
     {
-        int oldLeft;
-        int oldTop;
-        bool ok;
-        LockedSurface destinationSurfaceDescription = default;
         try
         {
-            oldLeft = WinLeft;
-            oldTop = WinTop;
-            ok = true;
+            int oldLeft = WinLeft;
+            int oldTop = WinTop;
+            bool ok = true;
+            LockedSurface destinationSurfaceDescription = default;
             if (DoubleBuffered)
             {
                 destinationSurfaceDescription = lockedSurface;
-                if (BackSurface == null)
+                if (BackSurface is null)
                 {
                     BackSurface = new DataSurface(WinWidth, WinHeight, lockedSurface.PixelFormatId, null);
                     if (Masked)
@@ -392,7 +386,7 @@ public partial class BaseWindow(Component owner) : WindowControl(owner)
                     }
                 }
 
-                if (BackSurface != null)
+                if (BackSurface is not null)
                 {
                     SetWinLeftWithoutInvalidate(0);
                     SetWinTopWithoutInvalidate(0);

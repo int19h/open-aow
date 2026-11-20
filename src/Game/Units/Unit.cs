@@ -19,7 +19,7 @@ using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.Units;
 
-public partial class Unit(CustomNode owner) : Troop(owner)
+public class Unit(CustomNode owner) : Troop(owner)
 {
     public new const int ClassId = 131603;
     private byte _experience;
@@ -48,14 +48,14 @@ public partial class Unit(CustomNode owner) : Troop(owner)
             short resourceIndex = unchecked((short)persister.UInt16("UnitResourceIndex", value: 0));
             UnitResource resource = GamePack.Current.UnitResources.GetUnitResource(resourceIndex);
             UnitResource = resource;
-            if (resource == null)
+            if (resource is null)
             {
                 throw new KeyNotFoundException($"unit resource missing ({IntToStr(resourceIndex)})");
             }
         }
         else
         {
-            short resourceIndex = UnitResource != null ? (short)UnitResource.UnitResourceIndex() : (short)-1;
+            short resourceIndex = UnitResource is not null ? (short)UnitResource.UnitResourceIndex() : (short)-1;
             _ = persister.UInt16("UnitResourceIndex", value: unchecked((ushort)resourceIndex));
         }
     }
@@ -110,12 +110,7 @@ public partial class Unit(CustomNode owner) : Troop(owner)
             result = 1;
         }
 
-        if (result > 10)
-        {
-            result = 10;
-        }
-
-        return result;
+        return result > 10 ? (sbyte)10 : result;
     }
 
     // Unit.PAS:2035
@@ -129,12 +124,7 @@ public partial class Unit(CustomNode owner) : Troop(owner)
             result = 1;
         }
 
-        if (result > 10)
-        {
-            result = 10;
-        }
-
-        return result;
+        return result > 10 ? (sbyte)10 : result;
     }
 
     // Unit.PAS:2043
@@ -147,12 +137,7 @@ public partial class Unit(CustomNode owner) : Troop(owner)
             result = 1;
         }
 
-        if (result > 10)
-        {
-            result = 10;
-        }
-
-        return result;
+        return result > 10 ? (sbyte)10 : result;
     }
 
     // Unit.PAS:2051
@@ -166,12 +151,7 @@ public partial class Unit(CustomNode owner) : Troop(owner)
             result = 1;
         }
 
-        if (result > 10)
-        {
-            result = 10;
-        }
-
-        return result;
+        return result > 10 ? (sbyte)10 : result;
     }
 
     // Unit.PAS:2075
@@ -226,17 +206,13 @@ public partial class Unit(CustomNode owner) : Troop(owner)
     // Unit.PAS:1972
     public override LibraryImage GetFace()
     {
-        LibraryImage result;
-        int faceIndex;
         if (!GetAbilityEnabled(126))
         {
             return GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(UnitResource.UnitGraphicsResourceIndex).GetFaceImage();
         }
 
-        faceIndex = ((CosmeticSurgeryEnchantment)(object)GetAbilityData<UnitEnchantmentAbilityData>(126).Enchantment).FaceIndex;
-        result = GamePack.Current.FaceResources.GetFaceResource(faceIndex)?.GetCellImage();
-
-        return result;
+        int faceIndex = ((CosmeticSurgeryEnchantment)(object)GetAbilityData<UnitEnchantmentAbilityData>(126).Enchantment).FaceIndex;
+        return GamePack.Current.FaceResources.GetFaceResource(faceIndex)?.GetCellImage();
     }
 
     // Unit.PAS:1917
@@ -252,12 +228,7 @@ public partial class Unit(CustomNode owner) : Troop(owner)
     public override byte GetTransportCapacity()
     {
         byte result = (byte)GetAbilityLevel(50);
-        if (result < UnitResource.GetTransportCapacity())
-        {
-            result = UnitResource.GetTransportCapacity();
-        }
-
-        return result;
+        return result < UnitResource.GetTransportCapacity() ? UnitResource.GetTransportCapacity() : result;
     }
 
     // Unit.PAS:2088
@@ -278,14 +249,13 @@ public partial class Unit(CustomNode owner) : Troop(owner)
     // Unit.PAS:2120
     public override void NewDay()
     {
-        Rank rank;
         base.NewDay();
         if (StrategicMap.Current.Day == 1)
         {
             SetAbilityCount(0);
             for (int rankOrdinal = (int)Rank.None, last = (int)GetRank(); rankOrdinal <= last; rankOrdinal++)
             {
-                rank = (Rank)rankOrdinal;
+                Rank rank = (Rank)rankOrdinal;
                 UpdateDefaultAbilities(UnitResource.Abilities[(int)rank]);
             }
         }
@@ -297,22 +267,19 @@ public partial class Unit(CustomNode owner) : Troop(owner)
     // Unit.PAS:1988
     public override void SetExperience(int value)
     {
-        Rank oldRank;
-        Rank newRank;
-        Rank rank;
-        oldRank = GetRank();
+        Rank oldRank = GetRank();
         if (value > 255)
         {
             value = 255;
         }
 
         _experience = (byte)value;
-        newRank = GetRank();
+        Rank newRank = GetRank();
         if (oldRank != newRank)
         {
             for (int rankOrdinal = (int)(Rank)((int)oldRank + 1); rankOrdinal <= (int)newRank; rankOrdinal++)
             {
-                rank = (Rank)rankOrdinal;
+                Rank rank = (Rank)rankOrdinal;
                 UpdateDefaultAbilities(UnitResource.Abilities[(int)rank]);
             }
         }
@@ -323,26 +290,8 @@ public partial class Unit(CustomNode owner) : Troop(owner)
     // Unit.PAS:2002
     public override int GetNextLevelExperience()
     {
-        int result;
-        int level;
-        level = UnitResource.Level;
-        if (_experience >= level * 2)
-        {
-            if (_experience >= level * 6)
-            {
-                result = 0;
-            }
-            else
-            {
-                return level * 6;
-            }
-        }
-        else
-        {
-            result = level * 2;
-        }
-
-        return result;
+        int level = UnitResource.Level;
+        return _experience >= level * 2 ? _experience >= level * 6 ? 0 : level * 6 : level * 2;
     }
 
     // Unit.PAS:2000
@@ -357,7 +306,7 @@ public partial class Unit(CustomNode owner) : Troop(owner)
     // Unit.PAS:2110
     public override void Activate()
     {
-        if (UnitResource != null)
+        if (UnitResource is not null)
         {
             base.Activate();
             return;
@@ -406,27 +355,7 @@ public partial class Unit(CustomNode owner) : Troop(owner)
     }
 
     // Unit.PAS:2009
-    public Rank GetRank()
-    {
-        Rank result;
-        if (_experience >= UnitResource.Level * 2)
-        {
-            if (_experience >= UnitResource.Level * 6)
-            {
-                result = Rank.Gold;
-            }
-            else
-            {
-                return Rank.Silver;
-            }
-        }
-        else
-        {
-            result = Rank.None;
-        }
-
-        return result;
-    }
+    public Rank GetRank() => _experience >= UnitResource.Level * 2 ? _experience >= UnitResource.Level * 6 ? Rank.Gold : Rank.Silver : Rank.None;
 
     // Unit.PAS:2016
     public void SetRank(Rank value)
@@ -453,17 +382,16 @@ public partial class Unit(CustomNode owner) : Troop(owner)
     // Unit.PAS:2090
     public void SetUnitResource(UnitResource resource)
     {
-        Rank rank;
         if (resource != UnitResource)
         {
             base.Clear();
             UnitResource = resource;
-            if (UnitResource != null)
+            if (UnitResource is not null)
             {
                 _ = UpdateMoraleValue();
                 for (int rankOrdinal = (int)Rank.None, last = (int)GetRank(); rankOrdinal <= last; rankOrdinal++)
                 {
-                    rank = (Rank)rankOrdinal;
+                    Rank rank = (Rank)rankOrdinal;
                     UpdateDefaultAbilities(UnitResource.Abilities[(int)rank]);
                 }
 
@@ -477,5 +405,4 @@ public partial class Unit(CustomNode owner) : Troop(owner)
     {
         None = 0, Silver = 1, Gold = 2
     }
-
 }

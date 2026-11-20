@@ -228,18 +228,15 @@ public partial class General(UIContext ui) : UIModule(ui)
     // AoWWinMan.pas:123
     public void SortLists(DelphiList<ListBox> lists, byte order)
     {
-        ListBox l;
-        int j;
-        int insertAt;
-        int valueI;
-        int valueJ;
-        l = lists[0];
+        ListBox l = lists[0];
         for (int i = 1, last = l.Items.Count - 1; i <= last; i++)
         {
-            j = i - 1;
-            insertAt = -1;
+            int j = i - 1;
+            int insertAt = -1;
             while (j > -1)
             {
+                int valueI;
+                int valueJ;
                 switch (order)
                 {
                     case 0:
@@ -349,7 +346,7 @@ public partial class General(UIContext ui) : UIModule(ui)
     public int IndexOfUnit(Troop U)
     {
         int result = -1;
-        if (SelectedUnits[0] > -1 && UnitList != null)
+        if (SelectedUnits[0] > -1 && UnitList is not null)
         {
             for (int i = 0; i <= 7; i++)
             {
@@ -369,7 +366,6 @@ public partial class General(UIContext ui) : UIModule(ui)
     // AoWWinMan.pas:100
     public void BuildAbilities()
     {
-        CombatAbilityRef a;
         ActiveAbilityCount = 0;
         for (int i = 0, last = Abilities.Count - 1; i <= last; i++)
         {
@@ -381,7 +377,7 @@ public partial class General(UIContext ui) : UIModule(ui)
         {
             if (SelectedUnit.GetAbilityEnabled(i))
             {
-                a = new CombatAbilityRef
+                CombatAbilityRef a = new()
                 {
                     Ability = i
                 };
@@ -442,18 +438,13 @@ public partial class General(UIContext ui) : UIModule(ui)
             result = 16;
         }
 
-        if ((moveTypes & Set<MoveType>.Of(MoveType.Flying)) == Set<MoveType>.Of(MoveType.Flying))
-        {
-            result = 18;
-        }
-
-        return result;
+        return (moveTypes & Set<MoveType>.Of(MoveType.Flying)) == Set<MoveType>.Of(MoveType.Flying) ? 18 : result;
     }
 
     // AoWWinMan.pas:185
     public int SphereToImage(MagicSphere sphere)
     {
-        int result = sphere switch
+        return sphere switch
         {
             MagicSphere.Life => 27,
             MagicSphere.Death => 30,
@@ -462,7 +453,6 @@ public partial class General(UIContext ui) : UIModule(ui)
             MagicSphere.Water => 39,
             MagicSphere.Cosmos or MagicSphere.Fire or MagicSphere.Secret or MagicSphere.None or _ => 42,
         };
-        return result;
     }
 
     // AoWWinMan.pas:216
@@ -501,9 +491,9 @@ public partial class General(UIContext ui) : UIModule(ui)
             : (UI.General.Manager.WinHeight - UI.TaskBar.TaskWindow.WinHeight) / 2;
 
         scanner.WinWidth = scanner.WinHeight * 200 / 216;
-        if (StrategicMap.Current != null)
+        if (StrategicMap.Current is not null)
         {
-            scanner.Visible = StrategicMap.Current.CombatMap == null && UI.MapWindow.MainWindow.Visible;
+            scanner.Visible = StrategicMap.Current.CombatMap is null && UI.MapWindow.MainWindow.Visible;
         }
 
         Window playerInfo = UI.PlayerInfoWindow.MainWindow;
@@ -513,9 +503,9 @@ public partial class General(UIContext ui) : UIModule(ui)
 
         playerInfo.WinWidth = scanner.WinWidth;
         playerInfo.WinHeight = scanner.WinHeight;
-        if (StrategicMap.Current != null)
+        if (StrategicMap.Current is not null)
         {
-            playerInfo.Visible = StrategicMap.Current.CombatMap == null && UI.MapWindow.MainWindow.Visible;
+            playerInfo.Visible = StrategicMap.Current.CombatMap is null && UI.MapWindow.MainWindow.Visible;
         }
 
         Window controls = UI.ControlWindow.MainWindow;
@@ -596,9 +586,9 @@ public partial class General(UIContext ui) : UIModule(ui)
 
         tacticalBattleScanner.WinHeight = (UI.General.Manager.WinHeight - UI.TaskBar.TaskWindow.WinHeight) * 170 / 432;
         tacticalBattleScanner.WinWidth = tacticalBattleScanner.WinHeight * 150 / 170;
-        if (StrategicMap.Current != null)
+        if (StrategicMap.Current is not null)
         {
-            tacticalBattleScanner.Visible = StrategicMap.Current.CombatMap != null && UI.MapWindow.MainWindow.Visible;
+            tacticalBattleScanner.Visible = StrategicMap.Current.CombatMap is not null && UI.MapWindow.MainWindow.Visible;
         }
 
         Window tacticalBattleUnit = UI.CombatUnitInfo.MainWindow;
@@ -624,9 +614,9 @@ public partial class General(UIContext ui) : UIModule(ui)
         UI.MapWindow.MapAlignWidth = AlignWidth.Both;
         Rect rectangle2 = new(0, 0, tacticalBattleScanner.WinWidth, UI.TaskBar.TaskWindow.WinHeight);
         UI.MapWindow.MapRectangle = rectangle2;
-        if (StrategicMap.Current != null)
+        if (StrategicMap.Current is not null)
         {
-            UI.MapWindow.MainWindow.Alignment.RightOffset = StrategicMap.Current.CombatMap == null
+            UI.MapWindow.MainWindow.Alignment.RightOffset = StrategicMap.Current.CombatMap is null
                 ? scanner.WinWidth
                 : tacticalBattleScanner.WinWidth;
         }
@@ -646,13 +636,12 @@ public partial class General(UIContext ui) : UIModule(ui)
     // AoWWinMan.pas:351
     public void ManagerKeyDown(in ushort key, Set<ShiftState> shift)
     {
-        Player player;
-        string s;
         if (UI.Engine.Debug)
         {
-            if (StrategicMap.Current != null && (StrategicMap.Current.PlayMode != PlayMode.Simultaneous || StrategicMap.Current.Players.LocalPlayers.Count == 1) && Set<byte>.WithBounds(0, 255).WithRange(49, 57).Contains((byte)key) && CombatMap.Current == null && StrategicMap.Current.Players.GetCount() > key - 48 && UI.Engine.Registry.GetDebugMode())
+            string s;
+            if (StrategicMap.Current is not null && (StrategicMap.Current.PlayMode != PlayMode.Simultaneous || StrategicMap.Current.Players.LocalPlayers.Count == 1) && Set<byte>.WithBounds(0, 255).WithRange(49, 57).Contains((byte)key) && CombatMap.Current is null && StrategicMap.Current.Players.GetCount() > key - 48 && UI.Engine.Registry.GetDebugMode())
             {
-                player = StrategicMap.Current.Players.GetPlayers(key - 48);
+                Player player = StrategicMap.Current.Players.GetPlayers(key - 48);
                 player.PlayerType = player.PlayerType == PlayerType.Cpu5 ? PlayerType.Human : (PlayerType)((int)player.PlayerType + 1);
 
                 string playerType = UI.Engine.TranslateResourceString(GameTables.PlayerTypeTexts[(int)player.PlayerType]);
@@ -868,7 +857,7 @@ public partial class General(UIContext ui) : UIModule(ui)
 
     internal static void LoadGame(General controller, string name)
     {
-        if (StrategicMap.Current != null)
+        if (StrategicMap.Current is not null)
         {
             controller.UI.Engine.CloseHsm(null);
         }
@@ -889,7 +878,7 @@ public partial class General(UIContext ui) : UIModule(ui)
         AudioHost.SongPlayer.Songs.Clear();
         AudioPlayback.FadeMusicVolume(0, 1);
         controller.UI.Engine.LoadHsm(name, false, (_, message, progression) => controller.MapProgress(message, progression), GameProfile.WorldMap);
-        if (controller.UI.Engine.Demo && StrategicMap.Current != null && !StrategicMap.Current.ShowAllPlayers)
+        if (controller.UI.Engine.Demo && StrategicMap.Current is not null && !StrategicMap.Current.ShowAllPlayers)
         {
             controller.ReturnToTitle();
         }
@@ -926,7 +915,7 @@ public partial class General(UIContext ui) : UIModule(ui)
         DelphiStringList menu = controller.UI.PopupWindows.OverviewsMenu.Items;
         menu.Clear();
         _ = menu.Add(controller.UI.Engine.TranslateResourceString(LayerText.BackgroundText));
-        if (controller.UI.Engine.Campaign != null)
+        if (controller.UI.Engine.Campaign is not null)
         {
             _ = menu.Add(controller.UI.Engine.TranslateResourceString(LayerText.CampaignText));
         }
@@ -1006,5 +995,4 @@ public partial class General(UIContext ui) : UIModule(ui)
         controller.UI.TaskBar.ChatFlash = 0;
         controller.UI.VideoDialog.SetSceneSize(controller.UI.VideoDialog.DisplayWidth, controller.UI.VideoDialog.DisplayHeight);
     }
-
 }

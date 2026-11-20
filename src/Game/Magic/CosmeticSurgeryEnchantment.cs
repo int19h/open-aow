@@ -11,7 +11,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Magic;
 
-public partial class CosmeticSurgeryEnchantment(CustomNode owner) : UnitEnchantment(owner)
+public class CosmeticSurgeryEnchantment(CustomNode owner) : UnitEnchantment(owner)
 {
     public new const int ClassId = 135964;
 
@@ -27,13 +27,9 @@ public partial class CosmeticSurgeryEnchantment(CustomNode owner) : UnitEnchantm
     // AoWAb.PAS:901
     public override string GetName()
     {
-        Troop source;
-        source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
+        Troop source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
         // { Original supplies an argument to the unformatted 'Cosmagic Surgery' text. }
         string name = source.GetName();
         return AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CosmeticSurgeryText), [name]);
     }
-
-    // intf_P4_02.inc:846
-
 }

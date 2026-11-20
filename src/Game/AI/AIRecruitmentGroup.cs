@@ -7,7 +7,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.AI;
 
 // references, location, group, moves, transporter, path strength
-public partial class AIRecruitmentGroup(CustomNode owner) : EngineObject(owner), IOwned<AIRecruitmentGroupList>, IOwnedSink<AIRecruitmentGroupList>
+public class AIRecruitmentGroup(CustomNode owner) : EngineObject(owner), IOwned<AIRecruitmentGroupList>, IOwnedSink<AIRecruitmentGroupList>
 {
     // A reference list holds the recruitment group and owns it only while the list saves or loads it, and
     // nothing else owns it. AcceptsOwner admits only that list.
@@ -55,25 +55,21 @@ public partial class AIRecruitmentGroup(CustomNode owner) : EngineObject(owner),
     // AIGroup.pas:788
     public virtual bool Validate(AIGroupControl control)
     {
-        bool result;
         if (Group.Units.Count != 0)
         {
             MapCoordinate location = Group.GetLocation();
-            result = location.X == Location.X && location.Y == Location.Y && location.MapLevel == Location.MapLevel && Group.Player == control.Group.Player;
+            return location.X == Location.X && location.Y == Location.Y && location.MapLevel == Location.MapLevel && Group.Player == control.Group.Player;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // AIGroup.pas:775
     public void SetGroup(AIGroup group)
     {
-        AIGroup oldGroup;
-        oldGroup = Group;
+        AIGroup oldGroup = Group;
         if (oldGroup != group)
         {
             _ = (oldGroup?.Release());
@@ -82,7 +78,4 @@ public partial class AIRecruitmentGroup(CustomNode owner) : EngineObject(owner),
             _ = (Group?.AddRef());
         }
     }
-
-    // intf_P5_07.inc:159
-
 }

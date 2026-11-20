@@ -17,7 +17,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic;
 
 // (ID, references, status, mode, dispel mana, type, player, name, upkeep)
-public partial class GlobalEnchantment(CustomNode owner) : EngineObject(owner)
+public class GlobalEnchantment(CustomNode owner) : EngineObject(owner)
 {
     public int EnchantmentId { get; set; }
 
@@ -54,9 +54,8 @@ public partial class GlobalEnchantment(CustomNode owner) : EngineObject(owner)
     // Spells.PAS:2482
     public override int Release()
     {
-        int count;
         _refCount -= 1;
-        count = _refCount;
+        int count = _refCount;
         int result = count;
         if (count == 0)
         {
@@ -73,11 +72,7 @@ public partial class GlobalEnchantment(CustomNode owner) : EngineObject(owner)
     public virtual int GetUpkeep() => EnchantmentManaUpkeep;
 
     // Spells.PAS:2490
-    public virtual MapCoordinate GetLocation()
-    {
-        MapCoordinate result = MapCoordinate.None;
-        return result;
-    }
+    public virtual MapCoordinate GetLocation() => MapCoordinate.None;
 
     // Spells.PAS:2488
     public virtual int GetAIUpkeepPriority() => 0;
@@ -111,19 +106,16 @@ public partial class GlobalEnchantment(CustomNode owner) : EngineObject(owner)
     // Spells.PAS:2536
     public virtual bool CanActivate(sbyte player, ref string reason)
     {
-        bool result;
         if (EnchantmentType != GlobalEnchantmentType.None && StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(EnchantmentType))
         {
             reason = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.IsAlreadyActiveFormat), [Name]);
-            result = false;
+            return false;
         }
         else
         {
             reason = "";
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // Spells.PAS:2550
@@ -159,13 +151,12 @@ public partial class GlobalEnchantment(CustomNode owner) : EngineObject(owner)
     {
         bool result;
         string reason = "";
-        GlobalEnchantmentEventLog log;
         if (CanCast(player, ref reason))
         {
             result = Activate(player);
             if (result)
             {
-                log = new GlobalEnchantmentEventLog(null)
+                GlobalEnchantmentEventLog log = new(null)
                 {
                     Holder = CreationHolder(),
                     EnchantmentPlayer = player,
@@ -178,7 +169,7 @@ public partial class GlobalEnchantment(CustomNode owner) : EngineObject(owner)
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;
@@ -192,17 +183,15 @@ public partial class GlobalEnchantment(CustomNode owner) : EngineObject(owner)
     {
         bool result;
         string reason = "";
-        MapCoordinate location;
-        GlobalEnchantmentEventLog log;
         if (CanDispel((sbyte)player, ref reason))
         {
             _ = AddRef();
-            location = GetLocation();
+            MapCoordinate location = GetLocation();
             for (int i = 1, last = StrategicMap.Current.Players.GetCount() - 1; i <= last; i++)
             {
                 if (VisibleForPlayer((sbyte)i))
                 {
-                    log = new GlobalEnchantmentEventLog(null)
+                    GlobalEnchantmentEventLog log = new(null)
                     {
                         Holder = CreationHolder(),
                         Player = (sbyte)player,
@@ -221,35 +210,29 @@ public partial class GlobalEnchantment(CustomNode owner) : EngineObject(owner)
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;
     }
 
     // Spells.PAS:2626
-    public virtual bool CanRemove(sbyte player, ref string reason)
-    {
-        bool result = player == PlayerIndex && CanDeactivate((byte)PlayerIndex, ref reason);
-        return result;
-    }
+    public virtual bool CanRemove(sbyte player, ref string reason) => player == PlayerIndex && CanDeactivate((byte)PlayerIndex, ref reason);
 
     // Spells.PAS:2631
     public virtual bool Remove(byte player)
     {
         bool result;
         string reason = "";
-        MapCoordinate location;
-        GlobalEnchantmentEventLog log;
         if (CanRemove((sbyte)player, ref reason))
         {
             _ = AddRef();
-            location = GetLocation();
+            MapCoordinate location = GetLocation();
             for (int i = 1, last = StrategicMap.Current.Players.GetCount() - 1; i <= last; i++)
             {
                 if (VisibleForPlayer((sbyte)i))
                 {
-                    log = new GlobalEnchantmentEventLog(null)
+                    GlobalEnchantmentEventLog log = new(null)
                     {
                         Holder = CreationHolder(),
                         Player = PlayerIndex,
@@ -268,7 +251,7 @@ public partial class GlobalEnchantment(CustomNode owner) : EngineObject(owner)
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;
@@ -277,26 +260,21 @@ public partial class GlobalEnchantment(CustomNode owner) : EngineObject(owner)
     // Spells.PAS:2507
     public virtual bool VisibleForPlayer(sbyte player)
     {
-        bool result;
-        MapCoordinate location;
         if (!EnchantmentMode.Contains(GlobalEnchantmentModeElement.TrueGlobal) && player != PlayerIndex)
         {
-            location = GetLocation();
-            result = location.X != -1 && StrategicMap.Current.VisibleForPlayer(location.X, location.Y, location.MapLevel, player);
+            MapCoordinate location = GetLocation();
+            return location.X != -1 && StrategicMap.Current.VisibleForPlayer(location.X, location.Y, location.MapLevel, player);
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // Spells.PAS:2492
     public virtual void CenterToLocation()
     {
-        MapCoordinate location;
-        location = GetLocation();
+        MapCoordinate location = GetLocation();
         if (location.X != -1)
         {
             StrategicMap.Current.CenterViewTo(location.X, location.Y, location.MapLevel);
@@ -313,9 +291,4 @@ public partial class GlobalEnchantment(CustomNode owner) : EngineObject(owner)
     }
 
     private static readonly string s_dispelledFormat = "%s dispelled";
-
-    // intf_P4_01.inc:194
-
-    // intf_P4_01.inc:194
-
 }

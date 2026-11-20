@@ -7,14 +7,12 @@ public partial class HexSpriteSelection
 {
     public bool CanSelectLocation(int pixelX, int pixelY, int lHitPoints)
     {
-        bool result;
-        MapField mapField;
-        int i;
         HexGeometry.PixelToHex(pixelX, pixelY, out int hexX, out int hexY);
+        bool result;
         if (hexX >= 0 && Owner.MapContainer.Width > hexX && Owner.MapContainer.Height > hexY && hexY >= 0)
         {
-            mapField = Owner.MapContainer.GetField(hexX, hexY, lHitPoints);
-            i = mapField.Count;
+            MapField mapField = Owner.MapContainer.GetField(hexX, hexY, lHitPoints);
+            int i = mapField.Count;
             result = false;
             while (!result && i != 0)
             {
@@ -24,7 +22,7 @@ public partial class HexSpriteSelection
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;
@@ -32,21 +30,17 @@ public partial class HexSpriteSelection
 
     public void SelectLocation(int pixelX, int pixelY, int lHitPoints)
     {
-        int n;
-        MapField mapField;
-        HexSprite hexSprite;
-        int i;
         HexGeometry.PixelToHex(pixelX, pixelY, out int hexX, out int hexY);
-        mapField = Owner.MapContainer.GetField(hexX, hexY, lHitPoints);
-        i = FindLocationHexSpriteIndex(mapField) - 1;
-        hexSprite = null;
+        MapField mapField = Owner.MapContainer.GetField(hexX, hexY, lHitPoints);
+        int i = FindLocationHexSpriteIndex(mapField) - 1;
+        HexSprite hexSprite = null;
         if (i < 0)
         {
             i = mapField.Count - 1;
         }
 
-        n = mapField.Count;
-        while (n != 0 && hexSprite == null)
+        int n = mapField.Count;
+        while (n != 0 && hexSprite is null)
         {
             hexSprite = mapField.HexSpriteList[i];
             if (!hexSprite.CanSelect(pixelX, pixelY))
@@ -62,7 +56,7 @@ public partial class HexSpriteSelection
             }
         }
 
-        if (hexSprite != null)
+        if (hexSprite is not null)
         {
             if (LocationHexSprite.IndexOf(hexSprite) == -1)
             {
@@ -74,16 +68,14 @@ public partial class HexSpriteSelection
 
     public int FindLocationHexSpriteIndex(MapField mapField)
     {
-        int i;
-        HexSprite hexSprite;
         int result = -1;
         if (LocationHexSprite.Count != 0)
         {
-            i = 0;
+            int i = 0;
             HexGeometry.HexToPixel(mapField.HexX, mapField.HexY, out int pixelX, out int pixelY);
             while (result == -1 && i != mapField.Count)
             {
-                hexSprite = mapField.HexSpriteList[i];
+                HexSprite hexSprite = mapField.HexSpriteList[i];
                 if (hexSprite.CanSelect(pixelX, pixelY))
                 {
                     if (LocationHexSprite.IndexOf(hexSprite) != -1)

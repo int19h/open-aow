@@ -9,7 +9,7 @@ namespace Aow.Game.Draw.Images;
 // an opaque 8 bit picture (ClassID 1). FPitch (of the rows: a multiple of 4 below 32 pixels, of
 // 8 from 32 on), FBuffer (the rows from its first byte. The original's FBits, FBuffer aligned to
 // 8 bytes, is FBuffer itself in the port)
-public partial class Picture08(CustomImageLibrary owner) : Image08(owner), ILibraryImageClass
+public class Picture08(CustomImageLibrary owner) : Image08(owner), ILibraryImageClass
 {
     static int ILibraryImageClass.ClassId => 1;
     static string ILibraryImageClass.Name => "Picture (08bpp)";
@@ -69,18 +69,17 @@ public partial class Picture08(CustomImageLibrary owner) : Image08(owner), ILibr
     }
 
     // ImageLib.pas:7331
-    public override bool SupportShowMode(ShowMode showMode, PixelFormat pixelFormatId) => (pixelFormatId == PixelFormat.None || pixelFormatId == PixelFormat.Pal8 || pixelFormatId == PixelFormat.Rgb555 || pixelFormatId == PixelFormat.Rgb565) && showMode == ShowMode.Opaque;
+    public override bool SupportShowMode(ShowMode showMode, PixelFormat pixelFormatId) => (pixelFormatId is PixelFormat.None or PixelFormat.Pal8 or PixelFormat.Rgb555 or PixelFormat.Rgb565) && showMode == ShowMode.Opaque;
 
     // ImageLib.pas:7337
     public void AllocateDiscardableImageData(int width, int height)
     {
-        int size;
         _pitch = width < 32 ? (width + 3) & ~3 : (width + 7) & ~7;
 
         // The original allocates 7 bytes more than the rows and aligns its pixel pointer to 8 for
         // MMX. The alignment has no effect on pixels, so the rows start at the first byte and the
         // 7 bytes stay after the last row (graphics.md 6.8).
-        size = (_pitch * height) + 7;
+        int size = (_pitch * height) + 7;
         _buffer = MemorySurfaces.Reallocate(_buffer, size);
     }
 
@@ -121,11 +120,9 @@ public partial class Picture08(CustomImageLibrary owner) : Image08(owner), ILibr
     // ImageLib.pas:7389
     public override bool GrabImage(in LockedSurface lockedSurface, in Rect R, GrabInfo grabInfo)
     {
-        bool result;
         try
         {
             Clear();
-            result = true;
             DataLoaded = true;
             DataWidth = R.Right - R.Left;
             DataHeight = R.Bottom - R.Top;
@@ -143,23 +140,23 @@ public partial class Picture08(CustomImageLibrary owner) : Image08(owner), ILibr
                 }
 
                 CreateLibraryImagePalette(lockedSurface.Palette);
-                if (Owner != null)
+                if (Owner is not null)
                 {
                     RegisterPalette();
                 }
             }
             else
             {
-                result = false;
+                return false;
             }
         }
         catch
         {
             ReleaseDiscardableImageData();
-            result = false;
+            return false;
         }
 
-        return result;
+        return true;
     }
 
     public override void ShowOpaque(int x, int y, in LockedSurface lockedSurface)

@@ -114,17 +114,17 @@ public sealed class CoordinateTests : FormatsTest
         return node;
     }
 
-    private static JsonObject WriteDocument(string className, ObjectNode node) =>
-        DocumentBackend.Write(node, classValue: Sample.Get(className), schema: Sample, engine: "game");
+    private static JsonObject WriteDocument(string className, ObjectNode node)
+        => DocumentBackend.Write(node, classValue: Sample.Get(className), schema: Sample, engine: "game");
 
-    private static ObjectNode ReadDocument(string className, string json) =>
-        DocumentBackend.Read((JsonObject)JsonReader.Parse(System.Text.Encoding.UTF8.GetBytes(json), "coordinate.json"), classValue: Sample.Get(className), schema: Sample, engine: "game");
+    private static ObjectNode ReadDocument(string className, string json)
+        => DocumentBackend.Read((JsonObject)JsonReader.Parse(System.Text.Encoding.UTF8.GetBytes(json), "coordinate.json"), classValue: Sample.Get(className), schema: Sample, engine: "game");
 
-    private static byte[] WriteImage(string className, ObjectNode node) =>
-        OriginalBackend.Write(node, classValue: Sample.Get(className), schema: Sample, engine: "game");
+    private static byte[] WriteImage(string className, ObjectNode node)
+        => OriginalBackend.Write(node, classValue: Sample.Get(className), schema: Sample, engine: "game");
 
-    private static ObjectNode ReadImage(string className, byte[] image) =>
-        OriginalBackend.Read(image, classValue: Sample.Get(className), schema: Sample, engine: "game");
+    private static ObjectNode ReadImage(string className, byte[] image)
+        => OriginalBackend.Read(image, classValue: Sample.Get(className), schema: Sample, engine: "game");
 
     private static int IndexOf(byte[] image, byte[] pattern)
     {
@@ -134,7 +134,11 @@ public sealed class CoordinateTests : FormatsTest
             bool match = true;
             for (int j = 0; j < pattern.Length; j++)
             {
-                if (image[i + j] != pattern[j]) { match = false; break; }
+                if (image[i + j] != pattern[j])
+                {
+                    match = false;
+                    break;
+                }
             }
 
             if (!match)

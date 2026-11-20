@@ -17,7 +17,7 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Game.Magic.Spells;
 
 // inherited name, ID, mana, sphere, level, spell type
-public partial class WarpParty : Spell
+public class WarpParty : Spell
 {
     // GlobalSpells.pas:632
     public WarpParty(CustomNode owner, EngineObject holder) : base(owner)
@@ -34,10 +34,9 @@ public partial class WarpParty : Spell
     // GlobalSpells.pas:719
     public override bool Activate(Troop source)
     {
-        bool result;
         string reason = "";
-        WarpPartyTokenEvent eventValue;
         _ = base.Activate(source);
+        bool result;
         if (CanActivate(source, ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             // Without an army the source has no party to move.
@@ -46,7 +45,7 @@ public partial class WarpParty : Spell
                 return false;
             }
 
-            eventValue = new WarpPartyTokenEvent(null) { Holder = CreationHolder() };
+            WarpPartyTokenEvent eventValue = new(null) { Holder = CreationHolder() };
             eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
             eventValue.ArmyId = armyOwner.CreateId(255);
             MapCoordinate warpLocation = CalculateWarpLocation(armyOwner.GetArmyHexSprite());
@@ -66,7 +65,7 @@ public partial class WarpParty : Spell
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;
@@ -75,10 +74,9 @@ public partial class WarpParty : Spell
     // GlobalSpells.pas:643
     public bool ValidTarget(ArmyHexSprite army, sbyte X, sbyte Y, sbyte layer)
     {
-        MapField field;
         MapFieldMessage message = default;
-        field = StrategicMap.Current.MapContainer.GetField(X, Y, layer);
-        bool result = field.GetArmyHexSprite() == null && field.GetPlayer() == -1;
+        MapField field = StrategicMap.Current.MapContainer.GetField(X, Y, layer);
+        bool result = field.GetArmyHexSprite() is null && field.GetPlayer() == -1;
         if (result)
         {
             message.MessageId = 4384;
@@ -87,7 +85,7 @@ public partial class WarpParty : Spell
             message.Param = param;
             message.Result = 0;
             field.SendMapFieldMessage(ref message);
-            result = message.Result.Int == 0 && army.Army.CanPlace(X, Y, layer);
+            return message.Result.Int == 0 && army.Army.CanPlace(X, Y, layer);
         }
 
         return result;
@@ -96,18 +94,14 @@ public partial class WarpParty : Spell
     // GlobalSpells.pas:660
     public MapCoordinate CalculateWarpLocation(ArmyHexSprite army)
     {
-        DelphiList<MapField> candidates;
         MapFieldMessage message = default;
-        MapLevel level;
-        MapField field;
-        int i;
-        bool found;
-        candidates = new DelphiList<MapField>();
+        DelphiList<MapField> candidates = new();
         army.Army.CreateMovePointTable(255, out MovePointTable table);
         sbyte hexY = army.HexY;
         sbyte hexX = army.HexX;
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, 10);
-        level = StrategicMap.Current.MapContainer.MapLevels[army.HexLevel];
+        MapLevel level = StrategicMap.Current.MapContainer.MapLevels[army.HexLevel];
+        MapField field;
         while (walk.Radius < 20)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -146,13 +140,13 @@ public partial class WarpParty : Spell
             }
         }
 
-        found = false;
+        bool found = false;
         MapCoordinate result = MapCoordinate.None;
         while (candidates.Count != 0 && !found)
         {
-            i = Random(candidates.Count);
+            int i = Random(candidates.Count);
             field = candidates[i];
-            if (field.GetArmyHexSprite() == null && field.GetPlayer() == -1)
+            if (field.GetArmyHexSprite() is null && field.GetPlayer() == -1)
             {
                 message.MessageId = 4384;
                 MapFieldMessageParameters param = message.Param;

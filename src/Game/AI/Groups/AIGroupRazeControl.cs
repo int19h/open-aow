@@ -16,7 +16,7 @@ namespace Aow.Game.AI.Groups;
 
 // { ot=1 }
 // fields control, mode, damage types, structure factor, city factor
-public partial class AIGroupRazeControl(CustomNode owner) : AIGroupTask(owner)
+public class AIGroupRazeControl(CustomNode owner) : AIGroupTask(owner)
 {
     private AIGroupControl _control;
 
@@ -38,16 +38,14 @@ public partial class AIGroupRazeControl(CustomNode owner) : AIGroupTask(owner)
     // AGCPlugins.pas:133
     public override bool Process()
     {
-        bool result;
-        Structure structure;
         if (State == 0)
         {
-            structure = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(_control.Location).FindNoneTransparentHexSprite<Structure>();
-            if (structure != null && structure.GetRazeable())
+            Structure structure = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(_control.Location).FindNoneTransparentHexSprite<Structure>();
+            if (structure is not null && structure.GetRazeable())
             {
                 BattleFieldInfo.SetupBattleFieldInfo(out BattleFieldInfo info, _control.Group.Player, _control.Group.IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnoreIndependents), _damageTypes);
                 StrategicMap.Current.RetrieveBattleFieldInfo(_control.Location.X, _control.Location.Y, _control.Location.MapLevel, 15, ref info);
-                result = structure is City city ? ValidateRazeCity(city, info) : ValidateRazeStructure(structure, info);
+                bool result = structure is City city ? ValidateRazeCity(city, info) : ValidateRazeStructure(structure, info);
 
                 if (result)
                 {
@@ -100,7 +98,7 @@ public partial class AIGroupRazeControl(CustomNode owner) : AIGroupTask(owner)
 
                 if (Mode.Contains(AIGroupRazeControlModeElement.CannotDefend))
                 {
-                    result = result || Round((double)info.FriendlyStrength * CityStrengthFactor) < info.Strength;
+                    return result || Round((double)info.FriendlyStrength * CityStrengthFactor) < info.Strength;
                 }
 
                 break;
@@ -108,8 +106,7 @@ public partial class AIGroupRazeControl(CustomNode owner) : AIGroupTask(owner)
             case Session.Status.Polite:
             case Session.Status.Friendly:
             default:
-                result = Mode.Contains(AIGroupRazeControlModeElement.Always);
-                break;
+                return Mode.Contains(AIGroupRazeControlModeElement.Always);
         }
 
         return result;
@@ -124,14 +121,6 @@ public partial class AIGroupRazeControl(CustomNode owner) : AIGroupTask(owner)
             result = true;
         }
 
-        if (Mode.Contains(AIGroupRazeControlModeElement.CannotDefend) && Round((double)info.FriendlyStrength * _structureStrengthFactor) < info.Strength)
-        {
-            result = true;
-        }
-
-        return result;
+        return (Mode.Contains(AIGroupRazeControlModeElement.CannotDefend) && Round((double)info.FriendlyStrength * _structureStrengthFactor) < info.Strength) || result;
     }
-
-    // intf_P5_07.inc:218
-
 }

@@ -11,7 +11,7 @@ using static Aow.Rtl.RtlHost;
 namespace Aow.Game.Audio;
 
 // FSongs, FSongNames (the titles, from the files). An engine object with a list of music files
-public partial class SongList : EngineObject
+public class SongList : EngineObject
 {
     // Sound.pas:801
     public new const int ClassId = 2162692;
@@ -60,8 +60,6 @@ public partial class SongList : EngineObject
         }
     }
 
-    // Sound.pas:786
-
     // Sound.pas:794
     public override void Dispose()
     {
@@ -73,13 +71,12 @@ public partial class SongList : EngineObject
     // Sound.pas:832
     public void Search(string path, string ext)
     {
-        string fullPath;
         if (path[^1] != 92)
         {
             path += "\\";
         }
 
-        fullPath = AudioHost.BaseSoundEnginePath + path;
+        string fullPath = AudioHost.BaseSoundEnginePath + path;
         _songs.BeginUpdate();
         foreach (RtlFileEntry entry in Files.FindEntries($"{fullPath}*.{ext}", attributes: 63 & ~16))
         {
@@ -91,5 +88,4 @@ public partial class SongList : EngineObject
 
     public DelphiStringList Songs { get => _songs; set => SetSongs(value); }
     public DelphiStringList SongNames { get; }
-
 }

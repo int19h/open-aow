@@ -122,11 +122,11 @@ internal sealed class CoordinateCodec : PropertyCodec
         return node;
     }
 
-    internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site) =>
-        throw new InvalidOperationException("A coordinate is stored as one entry per part.");
+    internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
+        => throw new InvalidOperationException("A coordinate is stored as one entry per part.");
 
-    internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site) =>
-        throw new InvalidOperationException("A coordinate is stored as one entry per part.");
+    internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site)
+        => throw new InvalidOperationException("A coordinate is stored as one entry per part.");
 
     internal override void EncodeMember(EncodeContext context, JsonValue value, ObjectWriter writer, ValueSite site)
     {

@@ -19,17 +19,6 @@ public partial class TacticalBattleUnitHexSprite
 {
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        ImageSequence sequence;
-        int index;
-        int deltaX = default;
-        int deltaY = default;
-        double progress;
-        int hexX = default;
-        int hexY = default;
-        int flyingOffset;
-        int race;
-        CityWall wall;
-        CityWall nextWall;
         LockedSurface lockedSurfaceLocal;
         try
         {
@@ -41,6 +30,7 @@ public partial class TacticalBattleUnitHexSprite
             HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int x, out int y);
             pixelXSurface = x - pixelXSurface + OffsetX;
             pixelYSurface = y - pixelYSurface - 8 + OffsetY;
+            int race;
             if (Unit.GetPlayer() > 0)
             {
                 sbyte player = Unit.GetPlayer();
@@ -51,14 +41,15 @@ public partial class TacticalBattleUnitHexSprite
                 race = 32;
             }
 
-            flyingOffset = Unit.GetAbilityEnabled(1) ? -8 : 0;
+            int flyingOffset = Unit.GetAbilityEnabled(1) ? -8 : 0;
 
+            int hexX = default;
             if (Unit.GetAbilityEnabled(36))
             {
-                wall = Owner.FindOwnedChild<CityWall>(2229508) ?? Owner.FindOwnedChild(2229510) as CityWall;
+                CityWall wall = Owner.FindOwnedChild<CityWall>(2229508) ?? Owner.FindOwnedChild(2229510) as CityWall;
                 if (MoveStep == -1)
                 {
-                    if (wall != null && wall.HitPoints > 0)
+                    if (wall is not null && wall.HitPoints > 0)
                     {
                         pixelYSurface -= 32;
                     }
@@ -66,14 +57,15 @@ public partial class TacticalBattleUnitHexSprite
                 else
                 {
                     sbyte yhx = GetHexY();
+                    int hexY = default;
                     HexGeometry.CenterHexNumberToHex(GetHexX(), yhx, Direction, ref hexX, ref hexY);
-                    nextWall = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild<CityWall>(2229508) ?? CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2229510) as CityWall;
+                    CityWall nextWall = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild<CityWall>(2229508) ?? CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2229510) as CityWall;
                     int moveSteps = GetMoveSteps();
                     if (MoveStep < moveSteps / 2)
                     {
-                        if (wall != null && wall.HitPoints > 0)
+                        if (wall is not null && wall.HitPoints > 0)
                         {
-                            if (nextWall != null && nextWall.HitPoints > 0)
+                            if (nextWall is not null && nextWall.HitPoints > 0)
                             {
                                 pixelYSurface -= 32;
                             }
@@ -87,9 +79,9 @@ public partial class TacticalBattleUnitHexSprite
                     }
                     else
                     {
-                        if (nextWall != null && nextWall.HitPoints > 0)
+                        if (nextWall is not null && nextWall.HitPoints > 0)
                         {
-                            if (wall != null && wall.HitPoints > 0)
+                            if (wall is not null && wall.HitPoints > 0)
                             {
                                 pixelYSurface -= 32;
                             }
@@ -103,6 +95,8 @@ public partial class TacticalBattleUnitHexSprite
                 }
             }
 
+            ImageSequence sequence;
+            int index;
             switch (Action)
             {
                 case SpriteAction.Move:
@@ -110,9 +104,11 @@ public partial class TacticalBattleUnitHexSprite
                 case SpriteAction.FreeStruck:
                     if (Action == SpriteAction.Move && MoveStep != -1)
                     {
+                        int deltaX = default;
+                        int deltaY = default;
                         HexGeometry.HexNumberToPixel(Direction, ref deltaX, ref deltaY);
                         int moveSteps = GetMoveSteps();
-                        progress = (double)MoveStep / moveSteps;
+                        double progress = (double)MoveStep / moveSteps;
                         pixelXSurface += Round(deltaX * progress);
                         pixelYSurface += Round(deltaY * progress);
                         sequence = UnitGraphicsResource.Sequences.ImageSequences[Direction + 5];
@@ -122,7 +118,7 @@ public partial class TacticalBattleUnitHexSprite
                         sequence = UnitGraphicsResource.Sequences.ImageSequences[Direction - 1];
                     }
 
-                    while (sequence != null)
+                    while (sequence is not null)
                     {
                         index = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                         if (index != -1)
@@ -139,9 +135,9 @@ public partial class TacticalBattleUnitHexSprite
                 case SpriteAction.Ability:
                 case SpriteAction.BreathAttack:
                     sequence = UnitGraphicsResource.Sequences.ImageSequences[Direction + 11];
-                    if (sequence != null)
+                    if (sequence is not null)
                     {
-                        while (sequence != null)
+                        while (sequence is not null)
                         {
                             index = sequence.GetUnloopedFrameIndex(ActionFrame);
                             if (index != -1)
@@ -156,9 +152,9 @@ public partial class TacticalBattleUnitHexSprite
                     break;
                 case SpriteAction.Hit:
                     sequence = UnitGraphicsResource.Sequences.ImageSequences[Direction + 17];
-                    if (sequence != null)
+                    if (sequence is not null)
                     {
-                        while (sequence != null)
+                        while (sequence is not null)
                         {
                             index = sequence.GetUnloopedFrameIndex(ActionFrame);
                             if (index != -1)
@@ -174,9 +170,9 @@ public partial class TacticalBattleUnitHexSprite
                 case SpriteAction.StepUp:
                 case SpriteAction.StepBack:
                     sequence = UnitGraphicsResource.Sequences.ImageSequences[Direction + 5];
-                    if (sequence != null)
+                    if (sequence is not null)
                     {
-                        while (sequence != null)
+                        while (sequence is not null)
                         {
                             index = sequence.GetFrameIndex(StrategicMap.Current.Frame + ActionFrame, FrameFixtureInputs.AnimationOffset(this));
                             if (index != -1)
@@ -192,9 +188,9 @@ public partial class TacticalBattleUnitHexSprite
                 case SpriteAction.RoundAttack:
                 case SpriteAction.RoundAttackHit:
                     sequence = GamePack.Current.ImageSequences.ImageSequences[Direction + 15];
-                    if (sequence != null)
+                    if (sequence is not null)
                     {
-                        while (sequence != null)
+                        while (sequence is not null)
                         {
                             index = sequence.GetUnloopedFrameIndex(ActionFrame);
                             if (index != -1)
@@ -235,7 +231,7 @@ public partial class TacticalBattleUnitHexSprite
                 if (Unit.GetAbilityEnabled(StatusAbilities[hexX]))
                 {
                     sequence = GamePack.Current.AbilityControl.GetAbility(StatusAbilities[hexX]).ImageSequences.ImageSequences[0];
-                    while (sequence != null)
+                    while (sequence is not null)
                     {
                         index = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                         if (index != -1)
@@ -298,28 +294,25 @@ public partial class TacticalBattleUnitHexSprite
 
     public override void ShowShadow(int X, int Y, in LockedSurface lockedSurface)
     {
-        ImageSequence sequence;
-        float progress;
-        int index;
-        int deltaX = default;
-        int deltaY = default;
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         X = pixelX - X + OffsetX;
         Y = Busy ? pixelY - Y - 8 : pixelY - Y - 8 + OffsetY;
 
         if (MoveStep != -1)
         {
+            int deltaX = default;
+            int deltaY = default;
             HexGeometry.HexNumberToPixel(Direction, ref deltaX, ref deltaY);
             int moveSteps = GetMoveSteps();
-            progress = (float)((double)MoveStep / moveSteps);
+            float progress = (float)((double)MoveStep / moveSteps);
             X += Round((double)deltaX * progress);
             Y += Round((double)deltaY * progress);
         }
 
-        sequence = UnitGraphicsResource.Sequences.ImageSequences[Direction + 23];
-        while (sequence != null)
+        ImageSequence sequence = UnitGraphicsResource.Sequences.ImageSequences[Direction + 23];
+        while (sequence is not null)
         {
-            index = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+            int index = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
             if (index != -1)
             {
                 sequence.ImageLibrary[index].Show(X + sequence.OffsetX, Y + sequence.OffsetY, lockedSurface);
@@ -331,7 +324,6 @@ public partial class TacticalBattleUnitHexSprite
 
     public void NewFrame(object sender)
     {
-        ImageSequence sequence;
         if (ActionDone)
         {
             SetAction(SpriteAction.Move);
@@ -358,6 +350,7 @@ public partial class TacticalBattleUnitHexSprite
             }
         }
 
+        ImageSequence sequence;
         switch (Action)
         {
             case SpriteAction.StepUp:
@@ -417,7 +410,7 @@ public partial class TacticalBattleUnitHexSprite
             case SpriteAction.MeleeMiss:
             case SpriteAction.Ability:
                 sequence = UnitGraphicsResource.Sequences.ImageSequences[Direction + 11];
-                if (sequence != null)
+                if (sequence is not null)
                 {
                     ActionFrame = (short)(ActionFrame + 1);
                     int totalSequenceFrames = sequence.GetTotalSequenceFrames();
@@ -431,7 +424,7 @@ public partial class TacticalBattleUnitHexSprite
                 break;
             case SpriteAction.BreathAttack:
                 sequence = UnitGraphicsResource.Sequences.ImageSequences[Direction + 11];
-                if (sequence != null)
+                if (sequence is not null)
                 {
                     int totalSequenceFrames = sequence.GetTotalSequenceFrames();
                     if (ActionFrame < totalSequenceFrames - 1)
@@ -447,7 +440,7 @@ public partial class TacticalBattleUnitHexSprite
                 break;
             case SpriteAction.Hit:
                 sequence = UnitGraphicsResource.Sequences.ImageSequences[Direction + 17];
-                if (sequence != null)
+                if (sequence is not null)
                 {
                     ActionFrame = (short)(ActionFrame + 1);
                     int totalSequenceFrames = sequence.GetTotalSequenceFrames();
@@ -462,7 +455,7 @@ public partial class TacticalBattleUnitHexSprite
             case SpriteAction.RoundAttack:
             case SpriteAction.RoundAttackHit:
                 sequence = GamePack.Current.ImageSequences.ImageSequences[Direction + 16];
-                if (sequence != null)
+                if (sequence is not null)
                 {
                     ActionFrame = (short)(ActionFrame + 1);
                     int totalSequenceFrames = sequence.GetTotalSequenceFrames();
@@ -491,7 +484,7 @@ public partial class TacticalBattleUnitHexSprite
                 if (MoveStep != -1)
                 {
                     sequence = UnitGraphicsResource.Sequences.ImageSequences[Direction + 5];
-                    if (sequence != null && sequence.SpeedCount == sequence.SequenceSpeed && CombatMap.Current.PlaySounds)
+                    if (sequence is not null && sequence.SpeedCount == sequence.SequenceSpeed && CombatMap.Current.PlaySounds)
                     {
                         int frameIndex = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                         _ = UnitGraphicsResource.SfxLibraries[1].Play(frameIndex % 100);

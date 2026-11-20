@@ -7,7 +7,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Combat.Actions;
 
-public partial class MindDecayCombatAction(CustomNode owner) : ExclusiveCombatSpellCombatAction(owner)
+public class MindDecayCombatAction(CustomNode owner) : ExclusiveCombatSpellCombatAction(owner)
 {
     // CombatSpells.pas:1162
     public new const int ClassId = 131787;
@@ -15,13 +15,11 @@ public partial class MindDecayCombatAction(CustomNode owner) : ExclusiveCombatSp
     // CombatSpells.pas:1168
     public override void Execute(Battle combat)
     {
-        CombatObject source;
-        CombatUnit target;
         base.Execute(combat);
         if (Succeeded)
         {
-            source = combat.CombatData.FindId(SourceId);
-            target = combat.CombatData.FindId<CombatUnit>(TargetId);
+            CombatObject source = combat.CombatData.FindId(SourceId);
+            CombatUnit target = combat.CombatData.FindId<CombatUnit>(TargetId);
             source.SetExperience(source.GetExperience() + target.GetLevel());
             for (int i = 0; i <= 2; i++)
             {
@@ -37,5 +35,4 @@ public partial class MindDecayCombatAction(CustomNode owner) : ExclusiveCombatSp
             target.SetCombatPlayer((byte)source.CombatPlayer);
         }
     }
-
 }

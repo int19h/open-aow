@@ -8,7 +8,7 @@ using Aow.Rtl;
 namespace Aow.Game.Commands;
 
 // events, simultaneous
-public partial class MultiMoveTokenEvent : TokenEvent
+public class MultiMoveTokenEvent : TokenEvent
 {
     public new const int ClassId = 135442;
 
@@ -41,11 +41,9 @@ public partial class MultiMoveTokenEvent : TokenEvent
     // MoveT.PAS:3309
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        TokenEventList events;
+        TokenEventList events = Events;
         bool valid;
-        ExecuteResult moveResult;
         int i;
-        events = Events;
         if (tokenEvent.ExecuteCount == 0)
         {
             i = events.Count;
@@ -62,6 +60,7 @@ public partial class MultiMoveTokenEvent : TokenEvent
             valid = true;
         }
 
+        ExecuteResult moveResult;
         if (valid)
         {
             if (Simultaneous)
@@ -94,7 +93,4 @@ public partial class MultiMoveTokenEvent : TokenEvent
 
         return moveResult;
     }
-
-    // intf_P5_07.inc:788
-
 }

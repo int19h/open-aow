@@ -11,7 +11,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Combat.Actions;
 
 // (ability ID, success)
-public partial class CommandCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
+public class CommandCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
 {
     public new const int ClassId = 131763;
 
@@ -31,12 +31,10 @@ public partial class CommandCombatAction(CustomNode owner) : SingleTargetCombatA
     // AoWAb.PAS:5063
     public override void Execute(Battle combat)
     {
-        CombatUnit source;
-        CombatUnit target;
         if (Successful)
         {
-            source = combat.CombatData.FindId<CombatUnit>(SourceId);
-            target = combat.CombatData.FindId<CombatUnit>(TargetId);
+            CombatUnit source = combat.CombatData.FindId<CombatUnit>(SourceId);
+            CombatUnit target = combat.CombatData.FindId<CombatUnit>(TargetId);
             source.SetExperience(source.GetExperience() + target.GetLevel());
             for (int i = 0; i <= 2; i++)
             {
@@ -88,7 +86,4 @@ public partial class CommandCombatAction(CustomNode owner) : SingleTargetCombatA
         TargetId = targetId;
         Successful = successful;
     }
-
-    // intf_P3_02.inc:38
-
 }

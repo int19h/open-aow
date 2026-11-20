@@ -41,31 +41,26 @@ public partial class PlayerMagicEventLog(CustomNode owner) : EventLog(owner)
     // Spells.PAS:1892
     public override string GetText()
     {
-        string result = "";
         switch (Mode)
         {
             case EventMode.SpellResearched:
                 Spell spell = GamePack.Current.SpellControl.GetSpell(SpellId);
-                result = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_researchedFormat), [spell.SpellName]);
-                break;
+                return AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_researchedFormat), [spell.SpellName]);
             case EventMode.OutOfMana:
-                result = StrategicMap.Current.SeatedPlayer == Player
+                return StrategicMap.Current.SeatedPlayer == Player
                     ? AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_removedOutOfManaFormat), [EnchantmentName])
                     : AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.RemovedFormat), [EnchantmentName]);
-
-                break;
             case EventMode.StartResearch:
             default:
                 break;
         }
 
-        return result;
+        return "";
     }
 
     // Spells.PAS:1874
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
-        bool result = default;
         bool show = Mode switch
         {
             EventMode.OutOfMana => trigger == ExecuteTrigger.User,
@@ -75,16 +70,13 @@ public partial class PlayerMagicEventLog(CustomNode owner) : EventLog(owner)
             EventMode.StartResearch => true,
             _ => false,
         };
-        result = show && base.Execute(mode, trigger, done);
-
-        return result;
+        return show && base.Execute(mode, trigger, done);
     }
 
     // Spells.PAS:1863
     public override void ViewLocation()
     {
-        sbyte x;
-        x = Location.X;
+        sbyte x = Location.X;
         if (x != -1)
         {
             StrategicMap.Current.CenterViewTo(x, Location.Y, Location.MapLevel);
@@ -99,5 +91,4 @@ public partial class PlayerMagicEventLog(CustomNode owner) : EventLog(owner)
     {
         SpellResearched = 0, OutOfMana = 1, StartResearch = 2
     }
-
 }

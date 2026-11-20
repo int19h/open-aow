@@ -128,7 +128,7 @@ public sealed class TypedEventTests(TypedEventTests.Host host) : IClassFixture<T
         ImageLibraries.BaseImageLibraryPath = EngineFixture.Root + Path.DirectorySeparatorChar;
         SoundSystem system = AudioHost.SoundSystem;
         bool muted = false;
-        if (system != null && system.SfxEnabled)
+        if (system is not null && system.SfxEnabled)
         {
             _ = system.SetSfxEnabled(false);
             muted = true;
@@ -225,7 +225,9 @@ public sealed class TypedEventTests(TypedEventTests.Host host) : IClassFixture<T
         Button other = new(owner);
         Button? seen = null;
         void handler(Button sender, MouseButton mouseButton, Set<ShiftState> shift, int x, int y) => seen = sender;
-        void stranger(Button sender, MouseButton mouseButton, Set<ShiftState> shift, int x, int y) { }
+        void stranger(Button sender, MouseButton mouseButton, Set<ShiftState> shift, int x, int y)
+        {
+        }
         button.OnMouseDown += handler;
         button.OnMouseDown -= stranger;
         other.OnMouseDown -= handler;
@@ -236,23 +238,23 @@ public sealed class TypedEventTests(TypedEventTests.Host host) : IClassFixture<T
     }
 
     // The base events, raised and read the way their declaring classes raise them.
-    private static void Change(UIComponent component) =>
-        EventFields.Handler<NotifyEvent<UIComponent>>(component, declaring: typeof(UIComponent), name: nameof(UIComponent.OnChange))!(component);
+    private static void Change(UIComponent component)
+        => EventFields.Handler<NotifyEvent<UIComponent>>(component, declaring: typeof(UIComponent), name: nameof(UIComponent.OnChange))!(component);
 
-    private static void Click(Button button) =>
-        EventFields.Handler<NotifyEvent<Button>>(button, declaring: typeof(Button), name: nameof(Button.OnClick))!(button);
+    private static void Click(Button button)
+        => EventFields.Handler<NotifyEvent<Button>>(button, declaring: typeof(Button), name: nameof(Button.OnClick))!(button);
 
-    private static void DoubleClick(ListBox list) =>
-        EventFields.Handler<NotifyEvent<ListBox>>(list, declaring: typeof(ListBox), name: nameof(ListBox.OnDoubleClick))!(list);
+    private static void DoubleClick(ListBox list)
+        => EventFields.Handler<NotifyEvent<ListBox>>(list, declaring: typeof(ListBox), name: nameof(ListBox.OnDoubleClick))!(list);
 
-    private static MouseEvent<UIComponent>? MouseDownHandler(UIComponent component) =>
-        EventFields.Handler<MouseEvent<UIComponent>>(component, declaring: typeof(UIComponent), name: nameof(UIComponent.OnMouseDown));
+    private static MouseEvent<UIComponent>? MouseDownHandler(UIComponent component)
+        => EventFields.Handler<MouseEvent<UIComponent>>(component, declaring: typeof(UIComponent), name: nameof(UIComponent.OnMouseDown));
 
-    private static void MouseDown(UIComponent component, UIComponent sender) =>
-        MouseDownHandler(component)!(sender, MouseButton.Left, default, 1, 2);
+    private static void MouseDown(UIComponent component, UIComponent sender)
+        => MouseDownHandler(component)!(sender, MouseButton.Left, default, 1, 2);
 
-    private static KeyPressEvent<UIComponent>? KeyPressHandler(UIComponent component) =>
-        EventFields.Handler<KeyPressEvent<UIComponent>>(component, declaring: typeof(UIComponent), name: nameof(UIComponent.OnKeyPress));
+    private static KeyPressEvent<UIComponent>? KeyPressHandler(UIComponent component)
+        => EventFields.Handler<KeyPressEvent<UIComponent>>(component, declaring: typeof(UIComponent), name: nameof(UIComponent.OnKeyPress));
 
     private static T Load<T>(LayoutSession session, T module, Action<T?> publish) where T : Component, ILayoutModule
     {

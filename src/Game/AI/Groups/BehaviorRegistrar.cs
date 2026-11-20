@@ -4,7 +4,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.AI.Groups;
 
-public partial class BehaviorRegistrar
+public class BehaviorRegistrar
 {
     // BehaviorAG.pas:136
     public static void MapLoaded(GameMap sender)

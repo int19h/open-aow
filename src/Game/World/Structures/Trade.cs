@@ -7,7 +7,7 @@ namespace Aow.Game.World.Structures;
 // Production id 10: trade for a turn, in a city or a production place. TurnsTotal is 1 for a
 // queued trade and -1 for the default one (City.pas:1475, PrdPlace.pas:511). Both controls
 // trade alike, a power node names it after the power it channels.
-public sealed partial record Trade(int TurnsTotal) : ProductionOrder
+public sealed record Trade(int TurnsTotal) : ProductionOrder
 {
     public const int Kind = 10;
 

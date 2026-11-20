@@ -51,7 +51,13 @@ public static class CaseMappings
 
     private static string? Stored(string name)
     {
-        try { return NameTable.ResolveStored(name); }
-        catch (InvalidOperationException) { return null; }
+        try
+        {
+            return NameTable.ResolveStored(name);
+        }
+        catch (InvalidOperationException)
+        {
+            return null;
+        }
     }
 }

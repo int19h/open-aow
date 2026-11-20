@@ -16,7 +16,7 @@ using Aow.Rtl;
 namespace Aow.Game.Combat.Actions;
 
 // (possession succeeded)
-public partial class PossessCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
+public class PossessCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
 {
     public new const int ClassId = 131765;
 
@@ -34,16 +34,10 @@ public partial class PossessCombatAction(CustomNode owner) : SingleTargetCombatA
     // AoWAb.PAS:2484
     public override void Execute(Battle combat)
     {
-        CombatUnit source;
-        CombatUnit target;
-        Troop newUnit;
-        Troop oldUnit;
-        PossessedAbilityData data;
-        int experience;
         if (Successful)
         {
-            source = combat.CombatData.FindId<CombatUnit>(SourceId);
-            target = combat.CombatData.FindId<CombatUnit>(TargetId);
+            CombatUnit source = combat.CombatData.FindId<CombatUnit>(SourceId);
+            CombatUnit target = combat.CombatData.FindId<CombatUnit>(TargetId);
             for (int i = 0; i <= 2; i++)
             {
                 GamePack.Current.AbilityControl.GetAbility<CommandAbility>(AbilityRules.CommandAbilityIds[i]).ResetCommandedUnits(target);
@@ -54,11 +48,11 @@ public partial class PossessCombatAction(CustomNode owner) : SingleTargetCombatA
                 GamePack.Current.AbilityControl.GetAbility<CommandAbility>(AbilityRules.CommandAbilityIds[i]).Uncommand(target);
             }
 
-            newUnit = target.Troop;
+            Troop newUnit = target.Troop;
             _ = newUnit.AddRef();
             target.SetUnit(null);
             target.DestroyObject();
-            oldUnit = source.Troop;
+            Troop oldUnit = source.Troop;
             _ = oldUnit.AddRef();
             oldUnit.Killed();
             oldUnit.SetOwner(null);
@@ -69,10 +63,12 @@ public partial class PossessCombatAction(CustomNode owner) : SingleTargetCombatA
             }
 
             _ = GamePack.Current.AbilityControl.GetAbility(107).Expand(source.Troop);
+            PossessedAbilityData data;
+            int experience;
             if (oldUnit.GetAbilityEnabled(107))
             {
                 data = GamePack.Current.AbilityControl.GetAbility<PossessedAbility>(107).GetData(oldUnit);
-                experience = data != null ? data.SourceExperience : 0;
+                experience = data is not null ? data.SourceExperience : 0;
             }
             else
             {
@@ -120,7 +116,4 @@ public partial class PossessCombatAction(CustomNode owner) : SingleTargetCombatA
         TargetId = targetId;
         Successful = successful;
     }
-
-    // intf_P3_02.inc:38
-
 }

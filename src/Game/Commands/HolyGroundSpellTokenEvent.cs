@@ -15,7 +15,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
-public partial class HolyGroundSpellTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
+public class HolyGroundSpellTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
 {
 
     // HolyG.pas:282
@@ -34,25 +34,20 @@ public partial class HolyGroundSpellTokenEvent(CustomNode owner) : GlobalTargetS
     // HolyG.pas:285
     public void CreateHolyGround(Troop caster)
     {
-        MapLevel level = default;
-        HolyGround.Resource resource = default;
-        MapField field = default;
-        HolyGround ground = default;
-        ImageSequenceAnimation animation = default;
-        level = StrategicMap.Current.MapContainer.GetMapLevel(Location.MapLevel);
+        MapLevel level = StrategicMap.Current.MapContainer.GetMapLevel(Location.MapLevel);
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, Location.X, Location.Y, 0);
-        resource = GamePack.Current.MapObjectResourceList.FindChild<HolyGround.Resource>(131988);
+        HolyGround.Resource resource = GamePack.Current.MapObjectResourceList.FindChild<HolyGround.Resource>(131988);
         while (walk.Radius <= 1)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
-                field = level.Field[walk.X, walk.Y];
+                MapField field = level.Field[walk.X, walk.Y];
                 if (GamePack.Current.SpellControl.GetSpell<GlobalTargetSpell>(13).ValidTargetMapField(field))
                 {
-                    if (field.GetArmyHexSprite() == null)
+                    if (field.GetArmyHexSprite() is null)
                     {
                         field.RestoreTerrain();
-                        ground = resource.CreateResourceUser<HolyGround>();
+                        HolyGround ground = resource.CreateResourceUser<HolyGround>();
                         ground.Duration = (sbyte)(((StrategicMap.Current.Random(11) - 5) / 5) + 3);
                         ground.Player = caster.Player;
                         ground.OriginalOverlay = field.OverlayType;
@@ -60,7 +55,7 @@ public partial class HolyGroundSpellTokenEvent(CustomNode owner) : GlobalTargetS
                         if (StrategicMap.Current.PlaceHex(ground, walk.X, walk.Y, Location.MapLevel))
                         {
                             ground.Mode = Set<HolySummoning>.Of(HolySummoning.Summoning);
-                            animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
+                            ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
                             animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(13).CastImages.ImageSequences[0]);
                             animation.OnShow += ground.ShowSummonAnimation;
                             animation.OnNewFrame += ground.NewFrameSummonAnimation;
@@ -79,7 +74,4 @@ public partial class HolyGroundSpellTokenEvent(CustomNode owner) : GlobalTargetS
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
     }
-
-    // NetworkE.pas:230
-
 }

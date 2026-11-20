@@ -4,7 +4,7 @@ using Aow.Rtl;
 namespace Aow.Game.Combat;
 
 // dirty flag. FStrength (ten Integers indexed by TDamageType)
-public partial class CombatPredictorSide : CombatPredictorUnitList
+public class CombatPredictorSide : CombatPredictorUnitList
 {
     public byte[] UnitRemovedFlags { get; } = new byte[4];
     public int[] Strength { get; } = new int[10];
@@ -18,11 +18,10 @@ public partial class CombatPredictorSide : CombatPredictorUnitList
     // CombatPredictor.pas:284
     public int GetStrengthMax(Set<DamageType> damageTypes)
     {
-        DamageType d;
         int result = 0;
         for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
         {
-            d = (DamageType)dOrdinal;
+            DamageType d = (DamageType)dOrdinal;
             if (damageTypes.Contains(d) && result < Strength[(int)d])
             {
                 result = Strength[(int)d];
@@ -31,7 +30,4 @@ public partial class CombatPredictorSide : CombatPredictorUnitList
 
         return result;
     }
-
-    // System.pas:111
-
 }

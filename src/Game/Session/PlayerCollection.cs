@@ -123,8 +123,7 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     // Player.PAS:1484
     public int GetActivePlayers()
     {
-        int i;
-        i = 1;
+        int i = 1;
         int result = 0;
         // { Original tests the active count, not the index, and can run past the list. }
         while (result != Count)
@@ -161,23 +160,17 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     }
 
     // Player.PAS:1552
-    public Player GetPlayers(int index)
-    {
-        Player result = index >= 0 && index < Count ? this[index] : null;
-        return result;
-    }
+    public Player GetPlayers(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // Player.PAS:1559
     public bool GetActivePlayersAllied()
     {
-        int i;
-        int j;
         bool result = true;
-        i = ActivePlayers.Count;
+        int i = ActivePlayers.Count;
         while (result && i != 0)
         {
             i -= 1;
-            j = ActivePlayers.Count;
+            int j = ActivePlayers.Count;
             while (result && j != 0)
             {
                 j -= 1;
@@ -195,13 +188,11 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     // Player.PAS:1577
     public int GetAverageHeroLevel()
     {
-        int count;
-        Player player;
-        count = 0;
+        int count = 0;
         int result = 0;
         for (int i = 1, last = Count - 1; i <= last; i++)
         {
-            player = GetChildInRange<Player>(i);
+            Player player = GetChildInRange<Player>(i);
             for (int j = player.Heroes.Count - 1; j >= 0; j--)
             {
                 result += player.Heroes.GetHero(j).GetLevel();
@@ -209,9 +200,7 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
             }
         }
 
-        result = count != 0 ? result / count : 0;
-
-        return result;
+        return count != 0 ? result / count : 0;
     }
 
     // Player.PAS:1597
@@ -247,9 +236,8 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     // Player.PAS:1622
     public int RaceToPlayer(sbyte race)
     {
-        int i;
         int result = -1;
-        i = 1;
+        int i = 1;
         // { Original uses <> Count and assumes at least the independent player exists. }
         while (result == -1 && i != Count)
         {
@@ -267,7 +255,6 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     // Player.PAS:1636
     public void SetNumberOfPlayers(byte value)
     {
-        Player player;
         if (value < 2)
         {
             value = 2;
@@ -280,7 +267,7 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
 
         while (Count <= value)
         {
-            player = new Player(null) { Holder = CreationHolder() };
+            Player player = new(null) { Holder = CreationHolder() };
             player.SetPlayerIndex((sbyte)Count);
             if (Count == 0)
             {
@@ -302,14 +289,9 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     // Player.PAS:1657
     public void ValidateRaces(RaceList races)
     {
-        Int32List available;
-        Int32List invalid;
-        int i;
-        int index;
-        int defaultRace;
-        available = new Int32List();
-        invalid = new Int32List();
-        i = 0;
+        Int32List available = new();
+        Int32List invalid = new();
+        int i = 0;
         int last = races.Count - 1;
         for (; i <= last; i += 1)
         {
@@ -323,7 +305,7 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
         int limit = Count - 1;
         for (; i <= limit; i += 1)
         {
-            index = available.IndexOf(this[i].PlayerRace);
+            int index = available.IndexOf(this[i].PlayerRace);
             if (index == -1)
             {
                 _ = invalid.Add(i);
@@ -335,12 +317,12 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
         }
 
         i = 0;
-        defaultRace = -1;
+        int defaultRace = -1;
         while (i != GamePack.Current.RaceResources.Count && defaultRace == -1)
         {
-            if (GamePack.Current.RaceResources.GetRaceResource(i) != null)
+            if (GamePack.Current.RaceResources.GetRaceResource(i) is not null)
             {
-                if (races == null || races.GetRace(i).Enabled)
+                if (races is null || races.GetRace(i).Enabled)
                 {
                     defaultRace = i;
                 }
@@ -372,20 +354,15 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     // Player.PAS:1691
     public int VerifyRaces(RaceList races)
     {
-        int result;
-        bool valid;
-        int i;
-        int j;
-        Player player;
-        valid = true;
-        i = 1;
+        bool valid = true;
+        int i = 1;
         while (valid && i < Count)
         {
-            player = this[i];
+            Player player = this[i];
             valid = player.PlayerRace != -1 && races.GetRace(player.PlayerRace).Enabled;
             if (valid)
             {
-                j = 1;
+                int j = 1;
                 while (valid && j != Count)
                 {
                     valid = j == i || GetPlayers(j).PlayerRace != player.PlayerRace;
@@ -399,24 +376,19 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
             }
         }
 
-        result = valid ? 0 : i;
-
-        return result;
+        return valid ? 0 : i;
     }
 
     // Player.PAS:1718
     public sbyte GetSuperiorPlayer()
     {
-        int maximum;
-        int bestPlayer;
-        int value;
-        maximum = 0;
-        bestPlayer = -1;
+        int maximum = 0;
+        int bestPlayer = -1;
         for (int i = 1, last = Count - 1; i <= last; i++)
         {
             if (GetPlayers(i).Status == PlayerStatus.Playing)
             {
-                value = GetPlayers(i).GetSuperiority();
+                int value = GetPlayers(i).GetSuperiority();
                 if (value > maximum)
                 {
                     maximum = value;

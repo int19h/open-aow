@@ -11,7 +11,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Commands;
 
-public partial class TerminatePlayerTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class TerminatePlayerTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
     public new const int ClassId = 131836;
 
@@ -30,7 +30,6 @@ public partial class TerminatePlayerTokenEvent(CustomNode owner) : TokenEvent(ow
     // MoveT.PAS:3255
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        MessageEventLog log = default;
         StrategicMap.Current.Players.GetPlayers(Player).PlayerType = PlayerType.Cpu3;
         RemotePlayerCommunicationControl remotePlayerCommunicationControl = (RemotePlayerCommunicationControl)StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl;
         remotePlayerCommunicationControl.SetConnectionMode(Player, ConnectionMode.Global);
@@ -44,7 +43,7 @@ public partial class TerminatePlayerTokenEvent(CustomNode owner) : TokenEvent(ow
         StrategicMap.Current.Players.Update();
         if (StrategicMap.Current.SeatedPlayer != Player)
         {
-            log = new MessageEventLog(null, holder: CreationHolder())
+            MessageEventLog log = new(null, holder: CreationHolder())
             {
                 Buttons = MessageEventLogButtons.Ok,
                 Layout = MessageEventLogLayout.Normal
@@ -66,9 +65,4 @@ public partial class TerminatePlayerTokenEvent(CustomNode owner) : TokenEvent(ow
     }
 
     private static readonly string s_leftGameFormat = "%s left the game!";
-
-    // NetworkE.pas:230
-
-    // NetworkE.pas:230
-
 }

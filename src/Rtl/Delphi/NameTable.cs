@@ -292,8 +292,8 @@ public static class NameTable
         }
     }
 
-    private static Type Definition(Type type) =>
-        type.IsGenericType && !type.IsGenericTypeDefinition ? type.GetGenericTypeDefinition() : type;
+    private static Type Definition(Type type)
+        => type.IsGenericType && !type.IsGenericTypeDefinition ? type.GetGenericTypeDefinition() : type;
 
     private static string SimpleName(Type type) => type.Name.TrimStart('@');
 

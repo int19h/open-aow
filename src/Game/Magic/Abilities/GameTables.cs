@@ -199,5 +199,4 @@ public static class GameTables
         SpellTypeTexts[(int)SpellType.Global] = GlobalText;
         InitializeMorePathsRelations();
     }
-
 }

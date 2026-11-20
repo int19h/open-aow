@@ -39,7 +39,7 @@ public partial class MapField
     {
         try
         {
-            if (sprite == null)
+            if (sprite is null)
             {
                 throw new ArgumentException("No nil HS allowed in TMapField");
             }
@@ -108,7 +108,10 @@ public partial class MapField
             }
             else
             {
-                try { throw new ArgumentException($"Invalid StaticCount ({sprite.GetType().Name})"); }
+                try
+                {
+                    throw new ArgumentException($"Invalid StaticCount ({sprite.GetType().Name})");
+                }
                 catch { }
             }
         }
@@ -328,7 +331,11 @@ public partial class MapField
     public void TerrainChanged()
     {
         Set<MapFieldStatusElement> locked = Set<MapFieldStatusElement>.Of(MapFieldStatusElement.TerrainLocked);
-        if (Status.Contains(MapFieldStatusElement.TerrainLocked)) { Status += locked; return; }
+        if (Status.Contains(MapFieldStatusElement.TerrainLocked))
+        {
+            Status += locked;
+            return;
+        }
         Status += locked;
         HexSpriteTerrainInfo info = new() { MapField = this, TerrainType = TerrainType, OverlayType = OverlayType };
         for (int i = StoredCount - 1; i >= 0; i--)

@@ -3,7 +3,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.AI.Groups;
 
-public partial class BehaviorAIGroup(CustomNode owner) : AIGroup(owner)
+public class BehaviorAIGroup(CustomNode owner) : AIGroup(owner)
 {
 
     // BehaviorAG.pas:137

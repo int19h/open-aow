@@ -78,9 +78,25 @@ public sealed unsafe class TrackerSong : IDisposable
         }
     }
 
-    public int Order { get { Check(); return GetOrder(_module); } set { Check(); _ = SetOrder(_module, value, 0); } }
+    public int Order
+    {
+        get
+        {
+            Check();
+            return GetOrder(_module);
+        }
+        set
+        {
+            Check();
+            _ = SetOrder(_module, value, 0);
+        }
+    }
 
-    public void SetLoop(bool loop) { Check(); _ = SetRepeat(_module, loop ? -1 : 0); }
+    public void SetLoop(bool loop)
+    {
+        Check();
+        _ = SetRepeat(_module, loop ? -1 : 0);
+    }
 
     public int Render(int rate, Span<float> stereo)
     {
@@ -101,7 +117,14 @@ public sealed unsafe class TrackerSong : IDisposable
 
     private void Check() => ObjectDisposedException.ThrowIf(_module == 0, this);
 
-    public void Dispose() { if (_module != 0) { Destroy(_module); _module = 0; } }
+    public void Dispose()
+    {
+        if (_module != 0)
+        {
+            Destroy(_module);
+            _module = 0;
+        }
+    }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)] private delegate void LogCallback(nint message, nint user);
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)] private delegate int ErrorCallback(int error, nint user);

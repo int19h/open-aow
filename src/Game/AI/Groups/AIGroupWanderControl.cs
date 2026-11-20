@@ -12,7 +12,7 @@ using static Aow.Rtl.DelphiRounding;
 namespace Aow.Game.AI.Groups;
 
 // mode, move limit, move settings, control
-public partial class AIGroupWanderControl : AIGroupTask
+public class AIGroupWanderControl : AIGroupTask
 {
     public int MovePointsMax { get; set; }
 
@@ -40,18 +40,10 @@ public partial class AIGroupWanderControl : AIGroupTask
     // AGCPlugins.pas:329
     public override bool Process()
     {
-        bool result = default;
-        AIGroupControl control = default;
-        MoveControlSettings settings = default;
-        DoubleItemList<MapField> fields = default;
-        MapField field = default;
-        int i = default;
-        int targetWeight = default;
-        MapCoordinate location = default;
         switch (State)
         {
             case 0:
-                control = _control;
+                AIGroupControl control = _control;
                 _moveSettings.Reset();
                 {
                     _moveSettings.Player = control.Group.Player;
@@ -78,11 +70,12 @@ public partial class AIGroupWanderControl : AIGroupTask
                         : 1;
                 }
 
-                result = false;
-                break;
+                return false;
             case 1:
-                settings = _moveSettings;
-                fields = new DoubleItemList<MapField>();
+                MoveControlSettings settings = _moveSettings;
+                DoubleItemList<MapField> fields = new();
+                MapField field;
+                int i;
                 if (settings.ProcessedMapFields.Count > 40)
                 {
                     i = settings.ProcessedMapFields.Count - 1;
@@ -116,7 +109,7 @@ public partial class AIGroupWanderControl : AIGroupTask
                     fields.Sort(CompareWanderFields);
                     field = null;
                     i = 0;
-                    while (fields.Count != 0 && field == null)
+                    while (fields.Count != 0 && field is null)
                     {
                         i = StrategicMap.Current.Random(Round(fields.Count * 0.1) + 1);
                         field = fields[i].First;
@@ -127,11 +120,11 @@ public partial class AIGroupWanderControl : AIGroupTask
                         }
                     }
 
-                    if (field != null)
+                    if (field is not null)
                     {
                         // { Original reads the list item before GetXYL. }
-                        targetWeight = fields[i].Second;
-                        location = field.GetMapCoordinate();
+                        int targetWeight = fields[i].Second;
+                        MapCoordinate location = field.GetMapCoordinate();
                         _ = _control.Group.SetupTarget(location, targetWeight, AIGroupTargetStatus.Execute, 1, -1, 0, 0);
                         State += 1;
                     }
@@ -148,8 +141,7 @@ public partial class AIGroupWanderControl : AIGroupTask
                     Done();
                 }
 
-                result = false;
-                break;
+                return false;
             case 2:
                 {
                     AIGroupControl aiGroupControl = _control;
@@ -159,18 +151,13 @@ public partial class AIGroupWanderControl : AIGroupTask
                 }
 
                 State += 1;
-                result = false;
-                break;
+                return false;
             case 3:
                 Done();
-                result = false;
-                break;
+                return false;
             default:
-                result = false;
-                break;
+                return false;
         }
-
-        return result;
     }
 
     // AGCPlugins.pas:309
@@ -193,5 +180,4 @@ public partial class AIGroupWanderControl : AIGroupTask
     {
         TransportersAllowed = 0
     }
-
 }

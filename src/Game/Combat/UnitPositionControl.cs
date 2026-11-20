@@ -9,7 +9,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Combat;
 
 // Positions: the unit positions, eight per army position, each with the direction the unit faces
-public partial class UnitPositionControl : EngineObject
+public class UnitPositionControl : EngineObject
 {
     public DefaultItemList<UnitPosition> Positions { get; private set; }
 
@@ -27,17 +27,15 @@ public partial class UnitPositionControl : EngineObject
     // AoWTC.pas:4990
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        UnitPositionHexSprite hexSprite;
-        int l;
         base.MessageProc(ref message, sender);
         if (message.MessageId == 65541)
         {
-            l = message.Data[1];
+            int l = message.Data[1];
             HexGeometry.PixelToHex(message.Payload.Int, message.Data[0], out int x, out int y);
             if (CombatMap.Current.MapContainer.GetField(x, y, l).TerrainType != 15)
             {
-                hexSprite = CombatMap.Current.MapContainer.GetField(x, y, l).FindOwnedChild<UnitPositionHexSprite>(2228483);
-                if (hexSprite == null)
+                UnitPositionHexSprite hexSprite = CombatMap.Current.MapContainer.GetField(x, y, l).FindOwnedChild<UnitPositionHexSprite>(2228483);
+                if (hexSprite is null)
                 {
                     hexSprite = new UnitPositionHexSprite(null) { Holder = CreationHolder() };
                     if (!CombatMap.Current.PlaceHex(hexSprite, x, y, l))
@@ -47,7 +45,7 @@ public partial class UnitPositionControl : EngineObject
                     }
                 }
 
-                if (hexSprite != null)
+                if (hexSprite is not null)
                 {
                 }
             }
@@ -106,5 +104,4 @@ public partial class UnitPositionControl : EngineObject
 
         return result;
     }
-
 }

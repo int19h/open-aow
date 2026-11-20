@@ -63,8 +63,14 @@ public sealed class CombatMapConstructionTests
                         {
                             value = Assert.IsType<CombatMap>(OrderingRecording.Create(typeof(CombatMap), owner, route, fixture.Engine));
                         }
-                        catch (Exception error) when (error is not XunitException) { caught = error; }
-                        finally { GamePack.Current = set; }
+                        catch (Exception error) when (error is not XunitException)
+                        {
+                            caught = error;
+                        }
+                        finally
+                        {
+                            GamePack.Current = set;
+                        }
                         Assert.Equal(failure == 0, value is not null);
                         CombatMap published = CombatMap.Current;
                         Assert.NotNull(published);
@@ -133,6 +139,9 @@ public sealed class CombatMapConstructionTests
                 Assert.True(JsonNode.DeepEquals(baseline, pair.Value), $"{pair.Key}\n{pair.Value}");
             }
         }
-        finally { CombatMap.Current = previous; }
+        finally
+        {
+            CombatMap.Current = previous;
+        }
     }
 }

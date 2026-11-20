@@ -12,7 +12,7 @@ namespace Aow.Game.Net;
 // _activeTacticalBattle, _prefetchTacticalBattle, _activeTacticalBattleIndex, Events, TacticalBattleList, _tokenCounter, _round,
 // _executeCount, _state, EventsExecuted, TacticalBattleActivating, OnSyncError, OnGetSyncValue,
 // OnExecuteTokenEvent, _executing, _lockCount, SystemEvents, _holdTacticalBattle, TokenManager
-public partial class TokenExecutor : IDisposable
+public class TokenExecutor : IDisposable
 {
     internal TokenEventList Events { get; }
     internal List<TokenControl> TacticalBattleList { get; }
@@ -37,7 +37,7 @@ public partial class TokenExecutor : IDisposable
 
     internal void RaiseSyncError(object sender) => OnSyncError?.Invoke(sender);
 
-    internal bool HasSyncErrorHandlers => OnSyncError != null;
+    internal bool HasSyncErrorHandlers => OnSyncError is not null;
 
     internal void SetSyncErrorHandler(NotifyEvent<object> handler) => OnSyncError = handler;
 
@@ -62,10 +62,10 @@ public partial class TokenExecutor : IDisposable
     // NetworkE.pas:1429
     public virtual ExecuteResult ExecuteTokenEvent(TokenEvent tokenEvent)
     {
-        ExecuteResult result = default;
         Executing = true;
         OnExecuteTokenEvent?.Invoke(tokenEvent);
 
+        ExecuteResult result;
         try
         {
             result = tokenEvent.Execute(this);
@@ -108,7 +108,7 @@ public partial class TokenExecutor : IDisposable
     public int GetSyncValue()
     {
         int result;
-        if (OnGetSyncValue != null)
+        if (OnGetSyncValue is not null)
         {
             OnGetSyncValue(out result);
         }
@@ -163,27 +163,20 @@ public partial class TokenExecutor : IDisposable
     }
 
     // NetworkE.pas:1444
-    public TokenEvent GetExecutingTokenEvent()
-    {
-        TokenEvent result = State.Contains(TokenExecutorState.Executing) && Events.Count != 0 ? Events[0] : null;
-        return result;
-    }
+    public TokenEvent GetExecutingTokenEvent() => State.Contains(TokenExecutorState.Executing) && Events.Count != 0 ? Events[0] : null;
 
     // NetworkE.pas:1452
     public bool InsertExecuteEvent(TokenEvent tokenEvent)
     {
-        bool result;
         if (State.Contains(TokenExecutorState.Executing))
         {
             Events.Add(tokenEvent);
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // NetworkE.pas:1463
@@ -215,8 +208,7 @@ public partial class TokenExecutor : IDisposable
     // { The next active token control after the current one; a wrap starts the next round }
     public void ActivateNextTacticalBattle()
     {
-        int n;
-        n = 0;
+        int n = 0;
         while (true)
         {
             ActiveTacticalBattleIndex += 1;
@@ -252,8 +244,6 @@ public partial class TokenExecutor : IDisposable
     // { The system events run between the token controls' events; True while some remain }
     public bool ProcessSystemTokenEvents()
     {
-        bool result;
-        ExecuteResult r;
         if (!State.Contains(TokenExecutorState.Executing) && SystemEvents.Count > 0 && _lockCount == 0)
         {
             if (SystemEvents[0].TokenCounter == -1)
@@ -262,7 +252,7 @@ public partial class TokenExecutor : IDisposable
                 SystemEvents[0].TokenCounter = TokenCounter;
             }
 
-            r = ExecuteTokenEvent(SystemEvents[0]);
+            ExecuteResult r = ExecuteTokenEvent(SystemEvents[0]);
             if (r is ExecuteResult.Done or ExecuteResult.DoneHalt)
             {
                 SystemEvents.Delete(0);
@@ -270,14 +260,12 @@ public partial class TokenExecutor : IDisposable
                 ExecuteCount = 0;
             }
 
-            result = SystemEvents.Count != 0;
+            return SystemEvents.Count != 0;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // NetworkE.pas:1543
@@ -288,14 +276,11 @@ public partial class TokenExecutor : IDisposable
     //   control, for at most one round of token controls }
     public void Process()
     {
-        int i;
-        bool prefetched;
-        ExecuteResult r;
-        if (ActiveTacticalBattle != null && !ProcessSystemTokenEvents())
+        if (ActiveTacticalBattle is not null && !ProcessSystemTokenEvents())
         {
-            i = 0;
-            prefetched = true;
-            r = ExecuteResult.Done;
+            int i = 0;
+            bool prefetched = true;
+            ExecuteResult r = ExecuteResult.Done;
             while (_lockCount == 0 && prefetched && r == ExecuteResult.Done && i < TacticalBattleList.Count)
             {
                 if (!State.Contains(TokenExecutorState.Executing))

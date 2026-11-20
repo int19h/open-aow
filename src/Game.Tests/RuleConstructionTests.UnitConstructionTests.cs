@@ -51,7 +51,10 @@ public sealed partial class RuleConstructionTests
         {
             using GameEngine engine = new(null);
             engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);
-            try { engine.UnregisterEngineClasses([engine.GetEngineClass(meta.ClassId)]); }
+            try
+            {
+                engine.UnregisterEngineClasses([engine.GetEngineClass(meta.ClassId)]);
+            }
             catch (Exception error) when (PortedExceptions.Is(error)) { }
             engine.RegisterEngineClasses([EngineClass.Of(type)]);
             return (Troop)engine.CreateEngineObject(meta.ClassId, owner);
@@ -101,7 +104,10 @@ public sealed partial class RuleConstructionTests
             }
             ConstructionSnapshot.Check("UnitConstruction", name, string.Join("\n", states));
         }
-        finally { StrategicMap.Current = previous; }
+        finally
+        {
+            StrategicMap.Current = previous;
+        }
     }
 
     [Theory]
@@ -111,7 +117,12 @@ public sealed partial class RuleConstructionTests
         StrategicMap previousMap = StrategicMap.Current;
         GamePack previousSet = GamePack.Current;
         StrategicMap.Current = null;
-        GamePack set = EngineFixture.Configure(GamePack.Create(null, holder: EngineFixture.Engine), value => { value.UnitResources = new UnitResourceList(null) { Holder = EngineFixture.Engine }; value.HeroResources = new HeroResourceList(null) { Holder = EngineFixture.Engine }; value.AbilityControl = new AbilityControl(null) { Holder = EngineFixture.Engine }; });
+        GamePack set = EngineFixture.Configure(GamePack.Create(null, holder: EngineFixture.Engine), value =>
+        {
+            value.UnitResources = new UnitResourceList(null) { Holder = EngineFixture.Engine };
+            value.HeroResources = new HeroResourceList(null) { Holder = EngineFixture.Engine };
+            value.AbilityControl = new AbilityControl(null) { Holder = EngineFixture.Engine };
+        });
         GamePack.Current = set;
         Type type = TypeNamed(name);
         EngineClass meta = EngineClass.Of(type);
@@ -122,7 +133,10 @@ public sealed partial class RuleConstructionTests
         try
         {
             engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);
-            try { engine.UnregisterEngineClasses([engine.GetEngineClass(meta.ClassId)]); }
+            try
+            {
+                engine.UnregisterEngineClasses([engine.GetEngineClass(meta.ClassId)]);
+            }
             catch (Exception error) when (PortedExceptions.Is(error)) { }
             engine.RegisterEngineClasses([EngineClass.Of(type)]);
             if (source is Unit unit)
@@ -169,16 +183,36 @@ public sealed partial class RuleConstructionTests
 
     private sealed class ObservedUnit(CustomNode owner) : Troop(owner)
     {
-        public override int AddRef() { int result = base.AddRef(); s_refcountOwner.Events.Add($"add:{result}"); return result; }
+        public override int AddRef()
+        {
+            int result = base.AddRef();
+            s_refcountOwner.Events.Add($"add:{result}");
+            return result;
+        }
 
-        public override int Release() { int result = base.Release(); s_refcountOwner.Events.Add($"release:{result}"); return result; }
+        public override int Release()
+        {
+            int result = base.Release();
+            s_refcountOwner.Events.Add($"release:{result}");
+            return result;
+        }
     }
 
     private sealed class ObservedHero(CustomNode owner) : Hero(owner)
     {
-        public override int AddRef() { int result = base.AddRef(); s_refcountOwner.Events.Add($"add:{result}"); return result; }
+        public override int AddRef()
+        {
+            int result = base.AddRef();
+            s_refcountOwner.Events.Add($"add:{result}");
+            return result;
+        }
 
-        public override int Release() { int result = base.Release(); s_refcountOwner.Events.Add($"release:{result}"); return result; }
+        public override int Release()
+        {
+            int result = base.Release();
+            s_refcountOwner.Events.Add($"release:{result}");
+            return result;
+        }
     }
 
     [Theory]
@@ -202,6 +236,10 @@ public sealed partial class RuleConstructionTests
             value.Dispose();
             Assert.Empty(owner.Members);
         }
-        finally { s_refcountOwner = null; StrategicMap.Current = previous; }
+        finally
+        {
+            s_refcountOwner = null;
+            StrategicMap.Current = previous;
+        }
     }
 }

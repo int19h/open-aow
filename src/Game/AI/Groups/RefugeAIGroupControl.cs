@@ -3,6 +3,6 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.AI.Groups;
 
-public partial class RefugeAIGroupControl(CustomNode owner) : AIGroupControl(owner)
+public class RefugeAIGroupControl(CustomNode owner) : AIGroupControl(owner)
 {
 }

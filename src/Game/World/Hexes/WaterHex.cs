@@ -27,8 +27,6 @@ public partial class WaterHex : LowerIsometricHex
 
     public byte[] ShoreTerrain { get; } = new byte[6];
 
-    // AoWHex.pas:268
-
     // AoWHex.pas:48
     // AoWHex.pas:315. The base texture includes an owner-address phase.
     public override void Show(int xSurface, int ySurface, in LockedSurface surface)
@@ -61,19 +59,15 @@ public partial class WaterHex : LowerIsometricHex
     public override void UpdateTransitions() => UpdateTransitionCore(typeof(LowerIsometricHex), true,
         (hexNumber, terrain) => ShoreTerrain[hexNumber - 1] = (byte)terrain);
 
-    public new partial class Resource : LowerIsometricHex.Resource
+    public new class Resource : LowerIsometricHex.Resource
     {
         public Resource(CustomNode owner) : base(owner) => DynamicLevel = 23;
 
         // AoWHex.pas:452
         public new const int ClassId = 132926;
 
-        // AoWHex.pas:446
-
         // AoWHex.pas:458
         public override int ResourceUserClassId() => 132925;
-
-        // AoWHex.pas:58
 
         // AoWHex.pas:455
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_waterHexText);

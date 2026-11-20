@@ -10,7 +10,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Spells;
 
 // inherited combat statistics, damage mode
-public partial class Vaporize : CombatSpell
+public class Vaporize : CombatSpell
 {
     // CombatSpells.pas:1570
     public Vaporize(CustomNode owner, EngineObject holder) : base(owner)

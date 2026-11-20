@@ -12,7 +12,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Spells;
 
 // inherited combat statistics, damage mode
-public partial class Slow : CombatSpell
+public class Slow : CombatSpell
 {
     // CombatSpells.pas:1284
     public Slow(CustomNode owner, EngineObject holder) : base(owner)
@@ -33,8 +33,7 @@ public partial class Slow : CombatSpell
     // CombatSpells.pas:1313
     public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
-        SlowCombatAction action;
-        action = new SlowCombatAction(null)
+        SlowCombatAction action = new(null)
         {
             Holder = CreationHolder(),
             SourceId = source.Id,

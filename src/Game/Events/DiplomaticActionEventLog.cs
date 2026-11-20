@@ -25,9 +25,8 @@ public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner
     // Diplomacy.pas:1170
     public override void Dispose()
     {
-        DiplomaticAction action;
-        action = Action;
-        if (action != null)
+        DiplomaticAction action = Action;
+        if (action is not null)
         {
             _ = action.Release();
             Action = null;
@@ -56,7 +55,6 @@ public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner
     // Diplomacy.pas:1228
     public override int GetTextColor()
     {
-        int result;
         int race;
         if (Action.Proposal.SignedAsOtherPlayer)
         {
@@ -69,7 +67,7 @@ public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner
 
             race = condition ? StrategicMap.Current.Players.GetPlayers(Action.OtherPlayer).PlayerRace : 12;
 
-            result = RaceColors[race];
+            return RaceColors[race];
         }
         else
         {
@@ -84,7 +82,7 @@ public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner
 
                 race = condition ? StrategicMap.Current.Players.GetPlayers(Action.Target).PlayerRace : 12;
 
-                result = RaceColors[race];
+                return RaceColors[race];
             }
             else
             {
@@ -99,7 +97,7 @@ public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner
 
                     race = condition ? StrategicMap.Current.Players.GetPlayers(Action.Source).PlayerRace : 12;
 
-                    result = RaceColors[race];
+                    return RaceColors[race];
                 }
                 else
                 {
@@ -112,20 +110,16 @@ public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner
 
                     race = condition ? StrategicMap.Current.Players.GetPlayers(Action.Target).PlayerRace : 12;
 
-                    result = RaceColors[race];
+                    return RaceColors[race];
                 }
             }
         }
-
-        return result;
     }
 
     // Diplomacy.pas:1333
     public override int GetLeftIcon()
     {
-        int result;
-        DiplomaticAction action;
-        action = Action;
+        DiplomaticAction action = Action;
         if (!action.Proposal.SignedAsOtherPlayer)
         {
             bool condition = action.Source > 0;
@@ -135,7 +129,7 @@ public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner
                 condition = action.Source < count;
             }
 
-            result = condition ? StrategicMap.Current.Players.GetPlayers(action.Source).PlayerRace : -1;
+            return condition ? StrategicMap.Current.Players.GetPlayers(action.Source).PlayerRace : -1;
         }
         else
         {
@@ -146,19 +140,15 @@ public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner
                 condition = action.OtherPlayer < count;
             }
 
-            result = condition ? StrategicMap.Current.Players.GetPlayers(action.OtherPlayer).PlayerRace : -1;
+            return condition ? StrategicMap.Current.Players.GetPlayers(action.OtherPlayer).PlayerRace : -1;
         }
-
-        return result;
     }
 
     // Diplomacy.pas:1379
     // { DCC32 folds JMP-to-RET; keep the original branch over the 11-byte arms. }
     public override int GetRightIcon()
     {
-        int result;
-        DiplomaticAction action;
-        action = Action;
+        DiplomaticAction action = Action;
         bool condition = action.Target > 0;
         if (condition)
         {
@@ -166,9 +156,7 @@ public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner
             condition = action.Target < count;
         }
 
-        result = condition ? StrategicMap.Current.Players.GetPlayers(action.Target).PlayerRace : -1;
-
-        return result;
+        return condition ? StrategicMap.Current.Players.GetPlayers(action.Target).PlayerRace : -1;
     }
 
     // Diplomacy.pas:1225
@@ -180,18 +168,15 @@ public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner
     // Diplomacy.pas:1217
     public override void NotifyLogged(EventLogbook logbook)
     {
-        DiplomaticAction action;
         base.NotifyLogged(logbook);
-        action = Action;
+        DiplomaticAction action = Action;
         action?.EventLogId = Id;
     }
 
     // Diplomacy.pas:1414
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
-        bool result = default;
-        bool show;
-        show = trigger == ExecuteTrigger.User;
+        bool show = trigger == ExecuteTrigger.User;
         if (StrategicMap.Current.SeatedPlayer == Action.Target || StrategicMap.Current.SeatedPlayer == Action.Source)
         {
             show = show || (StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Diplomacy) && trigger == ExecuteTrigger.NewTurn);
@@ -202,21 +187,18 @@ public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner
         if (show)
         {
             StrategicMap.Current.TriggerExecuteEventLog(this, mode, done);
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Diplomacy.pas:1188
     public void SetDiplomaticAction(DiplomaticAction action)
     {
-        DiplomaticAction old;
-        old = Action;
+        DiplomaticAction old = Action;
         if (old != action)
         {
             _ = (old?.Release());
@@ -247,5 +229,4 @@ public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner
         StrategicMap.Current.TriggerExecuteEventLog(log, immediate, done);
         return true;
     }
-
 }

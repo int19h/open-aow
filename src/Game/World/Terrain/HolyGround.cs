@@ -22,7 +22,7 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Game.World.Terrain;
 
 // Mode, Player, Duration, OriginalOverlay
-public partial class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
+public class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
 {
 
     // HolyG.pas:92
@@ -79,8 +79,7 @@ public partial class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject
     // HolyG.pas:193
     public override void RemoveFromMap()
     {
-        MapLevel level;
-        level = Owner.Owner;
+        MapLevel level = Owner.Owner;
         base.RemoveFromMap();
         UpdateMapFields(level, StoredHexX, StoredHexY);
     }
@@ -125,24 +124,9 @@ public partial class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject
     // HolyG.pas:209
     public override int CanMoveOver(in HexSpriteSenderInfo info)
     {
-        int result;
-        if (base.Resource.TerrainList.Terrain[info.HexNumber] >= 0)
-        {
-            if (!CanDoDamage(((MoveControl)info.Sender).Settings.Units.Units))
-            {
-                result = 1;
-            }
-            else
-            {
-                return 0;
-            }
-        }
-        else
-        {
-            result = 1;
-        }
-
-        return result;
+        return base.Resource.TerrainList.Terrain[info.HexNumber] >= 0
+            ? !CanDoDamage(((MoveControl)info.Sender).Settings.Units.Units) ? 1 : 0
+            : 1;
     }
 
     // HolyG.pas:181
@@ -157,13 +141,9 @@ public partial class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject
     // HolyG.pas:95
     public void TriggerArmyDamage(ArmyHexSprite army)
     {
-        ArmyEventLog log;
-        int damage;
-        int damaged;
-        Troop troop;
-        damaged = 0;
+        int damaged = 0;
         RandSeed = StrategicMap.Current.Random(16777215);
-        log = new ArmyEventLog(null)
+        ArmyEventLog log = new(null)
         {
             Holder = CreationHolder(),
             ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_holyGroundDamageText)
@@ -176,7 +156,7 @@ public partial class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject
         Army armyLocal = army.Army;
         for (int i = 0, last = armyLocal.Units.Count - 1; i <= last; i++)
         {
-            troop = armyLocal.Units.GetUnit(i);
+            Troop troop = armyLocal.Units.GetUnit(i);
             bool condition = troop.GetAlignment() != Alignment.None;
             if (condition)
             {
@@ -186,7 +166,7 @@ public partial class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject
 
             if (condition && !troop.GetAbilityEnabled(1))
             {
-                damage = troop.ExecuteDamageRole(3, 4, Set<DamageType>.Of(DamageType.Holy));
+                int damage = troop.ExecuteDamageRole(3, 4, Set<DamageType>.Of(DamageType.Holy));
                 if (damage > troop.GetHitPoints())
                 {
                     damage = troop.GetHitPoints();
@@ -230,10 +210,8 @@ public partial class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject
     // HolyG.pas:144
     public void RestoreTerrain()
     {
-        MapField field;
-        sbyte overlay;
-        field = Owner;
-        overlay = OriginalOverlay;
+        MapField field = Owner;
+        sbyte overlay = OriginalOverlay;
         Dispose();
         if (overlay > 0)
         {
@@ -244,9 +222,8 @@ public partial class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject
     // HolyG.pas:154
     public void NewTurn(sbyte player)
     {
-        ArmyHexSprite army;
-        army = Owner.GetArmyHexSprite();
-        if (army != null && player == army.Army.Player)
+        ArmyHexSprite army = Owner.GetArmyHexSprite();
+        if (army is not null && player == army.Army.Player)
         {
             TriggerArmyDamage(army);
         }
@@ -264,14 +241,12 @@ public partial class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject
     // HolyG.pas:166
     public bool CanDoDamage(UnitCollection units)
     {
-        int i;
-        Troop troop;
         bool result = false;
-        i = units.Count;
+        int i = units.Count;
         while (!result && i != 0)
         {
             i -= 1;
-            troop = units.GetUnit(i);
+            Troop troop = units.GetUnit(i);
             bool condition = !troop.GetImmunityTypes().Contains(DamageType.Holy) && troop.GetAlignment() != Alignment.None;
             if (condition)
             {
@@ -288,11 +263,10 @@ public partial class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject
     // HolyG.pas:254
     public void ShowSummonAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        MapField field;
         sbyte hexLevel = animation.GetHexLevel();
         sbyte hexY = animation.GetHexY();
         sbyte hexX = animation.GetHexX();
-        field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
+        MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         if (this == field.FindOwnedChild(131987) && GetEngine().AnimationDetail != 0 && animation.FrameCounter == 0)
         {
             bool condition = StrategicMap.Current.SeatedPlayer == animation.Tag;
@@ -326,7 +300,7 @@ public partial class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject
 
     private static readonly string s_holyGroundDamageText = "Holy Ground Damage";
 
-    public new partial class Resource(CustomNode owner) : ImageLibraryTerrainMapObjectResource(owner)
+    public new class Resource(CustomNode owner) : ImageLibraryTerrainMapObjectResource(owner)
     {
 
         // HolyG.pas:276
@@ -341,5 +315,4 @@ public partial class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject
         private static readonly string s_holyGroundText = "Holy Ground";
 
     }
-
 }

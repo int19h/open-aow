@@ -9,7 +9,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.AI.Groups;
 
 // guard location
-public partial class GuardAreaAIGroup : AIGroup, IAIGroupClass
+public class GuardAreaAIGroup : AIGroup, IAIGroupClass
 {
     // IndependentAG.pas:161
     public new const int ClassId = 136273;

@@ -144,13 +144,12 @@ public readonly struct UnitCollection : IReadOnlyList<Troop>
     // Unit.PAS:2231
     public int IndexOfBehavior(GroupBehavior behavior)
     {
-        AIGroup group;
         int result = Count;
         while (result != 0)
         {
             result -= 1;
-            group = this[result].Group;
-            if (group != null && group.GroupClass.Behavior == behavior)
+            AIGroup group = this[result].Group;
+            if (group is not null && group.GroupClass.Behavior == behavior)
             {
                 return result;
             }
@@ -178,13 +177,12 @@ public readonly struct UnitCollection : IReadOnlyList<Troop>
     // Unit.PAS:2253
     public int IndexOfGroupId(int id)
     {
-        AIGroup group;
         int result = Count;
         while (result != 0)
         {
             result -= 1;
-            group = this[result].Group;
-            if (group != null && group.GroupId == id)
+            AIGroup group = this[result].Group;
+            if (group is not null && group.GroupId == id)
             {
                 return result;
             }
@@ -196,13 +194,11 @@ public readonly struct UnitCollection : IReadOnlyList<Troop>
     // Unit.PAS:2265
     public Troop FindId(int id)
     {
-        Troop result;
-        int i;
-        i = Count;
+        int i = Count;
         while (i != 0)
         {
             i -= 1;
-            result = this[i];
+            Troop result = this[i];
             if (result.UnitId == id)
             {
                 return result;
@@ -213,16 +209,14 @@ public readonly struct UnitCollection : IReadOnlyList<Troop>
     }
 
     // Unit.PAS:2277
-    public Troop GetUnit(int index) =>
+    public Troop GetUnit(int index)
         // { Original accepts negative indexes and reads the backing array directly. }
-        index < Count ? this[index] : null;
+        => index < Count ? this[index] : null;
 
     private static int CompareUnits(Troop item1, Troop item2)
     {
-        int s1;
-        int s2;
         Troop troop = item1;
-        s1 = troop.GetUnitLevel();
+        int s1 = troop.GetUnitLevel();
         if (troop.GetTransporter())
         {
             s1 += 500;
@@ -238,7 +232,7 @@ public readonly struct UnitCollection : IReadOnlyList<Troop>
         }
 
         Troop troop2 = item2;
-        s2 = troop2.GetUnitLevel();
+        int s2 = troop2.GetUnitLevel();
         if (troop2.GetTransporter())
         {
             s2 += 500;
@@ -268,7 +262,7 @@ public readonly struct UnitCollection : IReadOnlyList<Troop>
             result = item2.GetUnitGraphicsResourceIndex() - item1.GetUnitGraphicsResourceIndex();
             if (result == 0)
             {
-                result = item2.UnitId - item1.UnitId;
+                return item2.UnitId - item1.UnitId;
             }
         }
 

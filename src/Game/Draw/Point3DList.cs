@@ -5,7 +5,7 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Game.Draw;
 
 // FList, the owned points
-public partial class Point3DList : IDisposable
+public class Point3DList : IDisposable
 {
 
     private readonly List<Point3D> _list;
@@ -42,11 +42,7 @@ public partial class Point3DList : IDisposable
     public void Delete(int index) => _list.RemoveAt(index);
 
     // aowFX.pas:128
-    public Point3D GetXYZ(int index)
-    {
-        Point3D result = index >= 0 && index < _list.Count ? _list[index] : null;
-        return result;
-    }
+    public Point3D GetXYZ(int index) => index >= 0 && index < _list.Count ? _list[index] : null;
 
     // aowFX.pas:136
     public int GetCount() => _list.Count;
@@ -57,18 +53,13 @@ public partial class Point3DList : IDisposable
 
     internal static void ScatterPath(Point3DList list)
     {
-        int rx;
-        int ry;
-        int deltaX;
-        int deltaY;
-        Point3D xYZ;
-        deltaX = 0;
-        deltaY = 0;
+        int deltaX = 0;
+        int deltaY = 0;
         for (int i = 1, last = list.Count - 2; i <= last; i++)
         {
-            xYZ = list[i];
-            rx = Random(3);
-            ry = Random(3);
+            Point3D xYZ = list[i];
+            int rx = Random(3);
+            int ry = Random(3);
             if (rx - deltaX > 1)
             {
                 rx = deltaX + 1;
@@ -95,5 +86,4 @@ public partial class Point3DList : IDisposable
             deltaY = ry;
         }
     }
-
 }

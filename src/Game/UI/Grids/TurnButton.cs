@@ -28,7 +28,7 @@ public partial class TurnButton(Component owner) : Control(owner)
     // TurnButton.pas:60
     public override void Validate()
     {
-        if (_imageLibrary != null)
+        if (_imageLibrary is not null)
         {
             Valid = true;
         }

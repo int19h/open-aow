@@ -29,9 +29,8 @@ public partial class PowerDialog(UIContext ui) : UIModule(ui)
     // AoWPowerDlg.pas:70
     public void Execute()
     {
-        PlayerMagicControl control;
         Window.Visible = true;
-        control = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl;
+        PlayerMagicControl control = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl;
         PowerSlider.Position = control.ResearchPercentage;
         int netPower = control.GetNetPower();
         PowerLabel.Text = IntToStr(netPower);
@@ -41,21 +40,15 @@ public partial class PowerDialog(UIContext ui) : UIModule(ui)
     // AoWPowerDlg.pas:80
     public void UpdatePower()
     {
-        int upkeep;
-        int turns;
-        int spellId;
-        int pointsLeft;
-        int manaPower;
-        int researchPower;
-        manaPower = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.GetNetPower();
-        pointsLeft = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ResearchPointsLeft;
-        upkeep = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.GetManaUpkeep();
-        spellId = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ResearchSpellId;
-        researchPower = Round((double)(PowerSlider.Position * manaPower) / 100);
+        int manaPower = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.GetNetPower();
+        int pointsLeft = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ResearchPointsLeft;
+        int upkeep = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.GetManaUpkeep();
+        int spellId = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ResearchSpellId;
+        int researchPower = Round((double)(PowerSlider.Position * manaPower) / 100);
         manaPower -= researchPower;
         if (spellId != 0)
         {
-            turns = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ResearchTurns(researchPower, pointsLeft);
+            int turns = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ResearchTurns(researchPower, pointsLeft);
             Spell spell = GamePack.Current.SpellControl.GetSpell(spellId);
             SpellNameLabel.Text = spell.SpellName;
             string formatTurnsString = FormatTurnsString(UI.Engine, turns: turns);
@@ -97,24 +90,18 @@ public partial class PowerDialog(UIContext ui) : UIModule(ui)
     // AoWPowerDlg.pas:115
     public void PAManaDraw(Image sender, LockedSurface lockedSurface)
     {
-        int x;
-        int y;
-        int intensity;
-        x = sender.Window.AbsoluteLeft;
-        y = sender.Window.AbsoluteTop;
-        intensity = Round((double)((100 - PowerSlider.Position) * 50) / 100);
+        int x = sender.Window.AbsoluteLeft;
+        int y = sender.Window.AbsoluteTop;
+        int intensity = Round((double)((100 - PowerSlider.Position) * 50) / 100);
         UI.Graphics.MiscArt[7].ShowBlended(sender.WinLeft + x, sender.WinTop + y, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[intensity]);
     }
 
     // AoWPowerDlg.pas:128
     public void PAResDraw(Image sender, LockedSurface lockedSurface)
     {
-        int x;
-        int y;
-        int intensity;
-        x = sender.Window.AbsoluteLeft;
-        y = sender.Window.AbsoluteTop;
-        intensity = Round((double)(PowerSlider.Position * 50) / 100);
+        int x = sender.Window.AbsoluteLeft;
+        int y = sender.Window.AbsoluteTop;
+        int intensity = Round((double)(PowerSlider.Position * 50) / 100);
         UI.Graphics.MiscArt[8].ShowBlended(sender.WinLeft + x, sender.WinTop + y, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[intensity]);
     }
 

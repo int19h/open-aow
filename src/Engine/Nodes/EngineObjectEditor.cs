@@ -19,5 +19,4 @@ public partial class EngineObjectEditor(CustomNode owner) : EngineObject(owner),
     {
         Edit = 0, Cut = 1, Copy = 2, Paste = 3, Delete = 4
     }
-
 }

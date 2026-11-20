@@ -34,5 +34,4 @@ public partial class InfoBanner(UIContext ui) : UIModule(ui)
         string text = description.Text;
         banner.InfoMemo.Items.Text = text;
     }
-
 }

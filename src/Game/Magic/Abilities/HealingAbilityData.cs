@@ -6,7 +6,7 @@ using Aow.Formats.Tree;
 namespace Aow.Game.Magic.Abilities;
 
 // (enabled)
-public partial class HealingAbilityData(CustomNode owner) : AbilityData(owner)
+public class HealingAbilityData(CustomNode owner) : AbilityData(owner)
 {
     public new const int ClassId = 131758;
 
@@ -21,7 +21,4 @@ public partial class HealingAbilityData(CustomNode owner) : AbilityData(owner)
 
     // AoWAb.PAS:3607
     public override int GetAbilityId() => 47;
-
-    // Engine.pas:524
-
 }

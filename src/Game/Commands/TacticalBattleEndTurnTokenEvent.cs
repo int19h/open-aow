@@ -12,7 +12,7 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Game.Commands;
 
 // { ot=1 }
-public partial class TacticalBattleEndTurnTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class TacticalBattleEndTurnTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
 
     // CombatTE.pas:175
@@ -21,12 +21,10 @@ public partial class TacticalBattleEndTurnTokenEvent(CustomNode owner) : TokenEv
     // CombatTE.pas:178
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        int turnIndex;
-        bool found;
         _ = base.Execute(tokenEvent);
         RandSeed = StrategicMap.Current.Random(16777215);
-        turnIndex = CombatMap.Current.Combat.CombatData.TurnOrder.IndexOf((byte)CombatMap.Current.CurrentCombatPlayer);
-        found = false;
+        int turnIndex = CombatMap.Current.Combat.CombatData.TurnOrder.IndexOf((byte)CombatMap.Current.CurrentCombatPlayer);
+        bool found = false;
         while (!found)
         {
             turnIndex++;
@@ -57,7 +55,4 @@ public partial class TacticalBattleEndTurnTokenEvent(CustomNode owner) : TokenEv
         CombatMap.Current.NewTurn((sbyte)turnOrder2);
         return ExecuteResult.Done;
     }
-
-    // NetworkE.pas:230
-
 }

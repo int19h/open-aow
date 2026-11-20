@@ -8,7 +8,7 @@ using Aow.Game.Magic.Abilities;
 namespace Aow.Game.Units;
 
 // { ot=1 } The prisoners of a dungeon, and the items its combat leaves on the battlefield.
-public partial class PrisonersArmy : Army
+public class PrisonersArmy : Army
 {
     public PrisonersArmy(CustomNode owner) : base(owner) => Items = new ItemList(null) { Holder = CreationHolder() };
 
@@ -32,8 +32,6 @@ public partial class PrisonersArmy : Army
         bool result = base.CanAddUnit(troop);
         return result && !troop.GetTransporter() && troop.ValidTerrain(1, 4);
     }
-
-    // intf_P2_07.inc:445
 
     // An empty list is not state. A load still reads the member, and absence leaves the list empty.
     public override void PersistFields(IPersister persister)

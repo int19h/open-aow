@@ -29,7 +29,6 @@ public partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
     // AoWPInfoWin.pas:173
     public void UpdatePlayer()
     {
-        int raceIndex;
         if (StrategicMap.Current.SeatedPlayer > -1)
         {
             string name = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetName();
@@ -43,7 +42,7 @@ public partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
 
             string day = UI.Engine.TranslateResourceString(GameText.DayText);
             UI.PlayerInfoWindow.TurnLabel.Text = $"{day} {IntToStr(StrategicMap.Current.Day)}";
-            raceIndex = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).PlayerRace;
+            int raceIndex = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).PlayerRace;
             if (raceIndex == -1)
             {
                 raceIndex = 12;
@@ -95,15 +94,12 @@ public partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
     // AoWPInfoWin.pas:85
     public void EventListDrawItem(in Rect drawRectangle, int drawItem, ref readonly LockedSurface lockedSurface)
     {
-        int leftIcon;
-        int middleIcon;
-        int rightIcon;
         object objectValue = EventList.Items.Objects[drawItem];
-        leftIcon = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook.GetLogs(ObjectToInt(objectValue)).GetLeftIcon();
+        int leftIcon = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook.GetLogs(ObjectToInt(objectValue)).GetLeftIcon();
         object objectValue2 = EventList.Items.Objects[drawItem];
-        middleIcon = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook.GetLogs(ObjectToInt(objectValue2)).GetMiddleIcon();
+        int middleIcon = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook.GetLogs(ObjectToInt(objectValue2)).GetMiddleIcon();
         object objectValue3 = EventList.Items.Objects[drawItem];
-        rightIcon = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook.GetLogs(ObjectToInt(objectValue3)).GetRightIcon();
+        int rightIcon = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook.GetLogs(ObjectToInt(objectValue3)).GetRightIcon();
         if (leftIcon > -1)
         {
             if (middleIcon == -1)
@@ -149,7 +145,7 @@ public partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
     public void CenterButtonClick()
     {
         UI.General.PlayButtonSound(0);
-        if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Leader != null)
+        if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Leader is not null)
         {
             StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetLeaderLocation(out sbyte x, out sbyte y, out sbyte l);
             if (x > -1)
@@ -166,10 +162,9 @@ public partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
     // AoWPInfoWin.pas:137
     public void FaceFrDraw(LockedSurface lockedSurface)
     {
-        Rect r;
         if (StrategicMap.Current.SeatedPlayer > -1)
         {
-            r = new Rect(FaceFrame.AbsoluteLeft + 3, FaceFrame.AbsoluteTop + 3, FaceFrame.AbsoluteLeft + FaceFrame.WinWidth - 3, FaceFrame.AbsoluteTop + FaceFrame.WinHeight - 3);
+            Rect r = new(FaceFrame.AbsoluteLeft + 3, FaceFrame.AbsoluteTop + 3, FaceFrame.AbsoluteLeft + FaceFrame.WinWidth - 3, FaceFrame.AbsoluteTop + FaceFrame.WinHeight - 3);
             StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetFace()?.ShowStretched(r, lockedSurface);
         }
     }
@@ -177,7 +172,7 @@ public partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
     // AoWPInfoWin.pas:149
     public void FaceFrMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Leader != null)
+        if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Leader is not null)
         {
             StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetLeaderLocation(out sbyte hexX, out _, out _);
             if (hexX > -1)

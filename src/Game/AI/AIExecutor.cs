@@ -50,65 +50,48 @@ public partial class AIExecutor(CustomNode owner) : EngineObject(owner)
     // AI.pas:575
     public bool RequestProcessTime(int time)
     {
-        bool result;
-        int used;
         switch (_processTimeMode)
         {
             case AIExecutorProcessTimeMode.Static:
-                used = _processTimeUsed;
-                result = used == 0 || time <= _processTime - used;
-
-                break;
+                int used = _processTimeUsed;
+                return used == 0 || time <= _processTime - used;
             case AIExecutorProcessTimeMode.Dynamic:
-                result = _processTimeUsed == 0 || time < GetProcessTimeLeft();
-
-                break;
+                return _processTimeUsed == 0 || time < GetProcessTimeLeft();
             default:
-                result = false;
-                break;
+                return false;
         }
-
-        return result;
     }
 
     // AI.pas:593
     public int GetProcessTimeLeft()
     {
-        int result;
         switch (_processTimeMode)
         {
             case AIExecutorProcessTimeMode.Static:
-                result = _processTime - _processTimeUsed;
-                break;
+                return _processTime - _processTimeUsed;
             case AIExecutorProcessTimeMode.Dynamic:
                 // { Original behavior: the millisecond delta is multiplied by 1000. }
                 int elapsedMilliseconds = PixelFormats.GetElapsedMilliseconds();
-                result = _processTime - ((elapsedMilliseconds - _processStarted) * 1000);
-                break;
+                return _processTime - ((elapsedMilliseconds - _processStarted) * 1000);
             default:
-                result = -1;
-                break;
+                return -1;
         }
-
-        return result;
     }
 
     // AI.pas:603
     public int GetProcessTimeElapsed()
     {
-        int result = _processTimeMode switch
+        return _processTimeMode switch
         {
             AIExecutorProcessTimeMode.Static => _processTimeUsed,
             AIExecutorProcessTimeMode.Dynamic => (PixelFormats.GetElapsedMilliseconds() - _processStarted) * 1000,
             _ => -1,
         };
-        return result;
     }
 
     // AI.pas:617
     public bool ActivatePlayer(sbyte player)
     {
-        bool result;
         if (_players.IndexOf((byte)player) == -1)
         {
             _ = _players.Add((byte)player);
@@ -119,14 +102,12 @@ public partial class AIExecutor(CustomNode owner) : EngineObject(owner)
                 Player = player;
             }
 
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // AI.pas:630
@@ -150,7 +131,7 @@ public partial class AIExecutor(CustomNode owner) : EngineObject(owner)
         if (Status.Contains(AIExecutorStatusElement.Enabled) && StrategicMap.Current.PlayMode == PlayMode.Simultaneous)
         {
             _tokenControlDone = true;
-            if (StrategicMap.Current.CurrentPlayer == 0 && StrategicMap.Current.CombatMap == null)
+            if (StrategicMap.Current.CurrentPlayer == 0 && StrategicMap.Current.CombatMap is null)
             {
                 CaptureTokenCycles(5);
             }
@@ -188,9 +169,6 @@ public partial class AIExecutor(CustomNode owner) : EngineObject(owner)
     // AI.pas:952
     public void Process()
     {
-        bool done;
-        int i;
-        int index;
         if (Status.Contains(AIExecutorStatusElement.Enabled) && LockCount == 0)
         {
             Status += Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.Executing);
@@ -215,8 +193,8 @@ public partial class AIExecutor(CustomNode owner) : EngineObject(owner)
                         if (Status.Contains(AIExecutorStatusElement.TokenLocked))
                         {
                             ProcessCycles += 1;
-                            done = false;
-                            i = 0;
+                            bool done = false;
+                            int i = 0;
                             while (!done && GetProcessTimeLeft() > 0 && Status.Contains(AIExecutorStatusElement.Enabled) && i < _players.Count)
                             {
                                 done = StrategicMap.Current.Players.GetPlayers(Player).AIControl.Process(this, _tokenControlDone);
@@ -233,7 +211,7 @@ public partial class AIExecutor(CustomNode owner) : EngineObject(owner)
                                 _tokenControlDone = false;
                                 if (!done || StrategicMap.Current.Players.GetPlayers(Player).AIControl.GetProcessCyclesMax() <= _playerProcessCycles)
                                 {
-                                    index = _players.IndexOf((byte)Player);
+                                    int index = _players.IndexOf((byte)Player);
                                     index += 1;
                                     _playerProcessCycles = 0;
                                     // { Original behavior: Index = Count is not wrapped here. }
@@ -268,9 +246,6 @@ public partial class AIExecutor(CustomNode owner) : EngineObject(owner)
             Status -= Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.Executing);
         }
     }
-
-    // intf_P5_06.inc:108
-
 }
 
 public enum AIExecutorProcessTimeMode : byte

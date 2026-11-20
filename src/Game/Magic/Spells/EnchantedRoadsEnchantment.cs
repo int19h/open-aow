@@ -11,7 +11,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class EnchantedRoadsEnchantment : GlobalEnchantment
+public class EnchantedRoadsEnchantment : GlobalEnchantment
 {
     // GlobalEnchantmentSpells.pas:535
     public new const int ClassId = 135955;
@@ -46,7 +46,7 @@ public partial class EnchantedRoadsEnchantment : GlobalEnchantment
             string xIsAlreadyActive = AbilityRules.TranslateResourceString(GetEngine(), GameText.IsAlreadyActiveFormat);
             string name = GetName();
             reason = DelphiFormat.Format(xIsAlreadyActive, [name]);
-            result = false;
+            return false;
         }
 
         return result;
@@ -60,5 +60,4 @@ public partial class EnchantedRoadsEnchantment : GlobalEnchantment
         StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.EnchantedRoads));
         return true;
     }
-
 }

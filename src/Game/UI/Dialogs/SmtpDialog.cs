@@ -28,9 +28,9 @@ public partial class SmtpDialog(UIContext ui) : UIModule(ui)
     private bool _finished;
 
     // AoWSMTPDlg.pas:115
-    public void FinishDialog() =>
+    public void FinishDialog()
         /* TODO: Implement Classes.Destroy in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     // AoWSMTPDlg.pas:134
     public void ResetProgress()
@@ -46,9 +46,9 @@ public partial class SmtpDialog(UIContext ui) : UIModule(ui)
     }
 
     // AoWSMTPDlg.pas:145
-    public void StartSending() =>
+    public void StartSending()
         /* TODO: Implement Classes.Create in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     // AoWSMTPDlg.pas:161
     public void DlgHide() => FinishDialog();
@@ -148,5 +148,4 @@ public partial class SmtpDialog(UIContext ui) : UIModule(ui)
             dialog.Window.Visible = true;
         }
     }
-
 }

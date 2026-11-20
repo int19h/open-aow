@@ -24,7 +24,7 @@ namespace Aow.Game.Session;
 // leader. heroes. items. units. research percentage. spells. research spell ID. research points
 // left. selected heroes/items/units. gold/mana. spheres. points max. gold max. mana max. points
 // left
-public partial class CampaignTransferSettings : EngineObject
+public class CampaignTransferSettings : EngineObject
 {
     // Diplomacy.pas:1736
     public CampaignTransferSettings(CustomNode owner) : base(owner)
@@ -124,14 +124,10 @@ public partial class CampaignTransferSettings : EngineObject
     // Diplomacy.pas:1804
     public void GenerateTransferUnits(UnitUserList units)
     {
-        int index;
-        int maxUnits;
         Span<int> levelCounts = stackalloc int[4];
-        DelphiList<Troop> candidates;
-        Troop troop;
         Units.Clear();
-        candidates = new DelphiList<Troop>();
-        maxUnits = 10;
+        DelphiList<Troop> candidates = new();
+        int maxUnits = 10;
         levelCounts[1 - 1] = 8;
         levelCounts[2 - 1] = 4;
         levelCounts[3 - 1] = 1;
@@ -144,7 +140,7 @@ public partial class CampaignTransferSettings : EngineObject
                 candidates.Clear();
                 for (int i = 0, last = units.Count - 1; i <= last; i++)
                 {
-                    troop = units.GetUnit(i);
+                    Troop troop = units.GetUnit(i);
                     if (troop.GetUnitLevel() == level && Units.IndexOf(troop) == -1)
                     {
                         _ = candidates.Add(troop);
@@ -154,7 +150,7 @@ public partial class CampaignTransferSettings : EngineObject
                 // { Original bug: the per-level quota is tested but never decremented. }
                 while (levelCounts[level - 1] != 0 && candidates.Count != 0 && Units.Count != maxUnits)
                 {
-                    index = Random(candidates.Count);
+                    int index = Random(candidates.Count);
                     Troop abstractUnit = candidates[index];
                     _ = Units.AddUnit(abstractUnit);
                     candidates.Delete(index);
@@ -168,26 +164,21 @@ public partial class CampaignTransferSettings : EngineObject
     // Diplomacy.pas:1842
     public void Retrieve()
     {
-        UnitUserList units;
-        sbyte player;
-        Troop troop;
-        Troop newUnit;
-        Hero hero;
-        Item item;
-        Item copyItem;
         Clear();
-        if (StrategicMap.Current != null)
+        if (StrategicMap.Current is not null)
         {
-            units = new UnitUserList(null) { Holder = CreationHolder() };
-            player = (sbyte)StrategicMap.Current.Players.LocalPlayers[0];
+            UnitUserList units = new(null) { Holder = CreationHolder() };
+            sbyte player = (sbyte)StrategicMap.Current.Players.LocalPlayers[0];
             Leader = StrategicMap.Current.Players.GetPlayers(player).Leader.Copy<Leader>(GetEngine());
             Leader.RemoveEnchantments();
             Leader.RemoveHandicaps();
             _ = Leader.ExecuteCancelCasting();
+            Item item;
+            Item copyItem;
             for (int j = Leader.Inventory.Items.Count - 1; j >= 0; j--)
             {
                 item = Leader.Inventory.Items.GetItem(j);
-                if (item != null)
+                if (item is not null)
                 {
                     copyItem = item.Copy<Item>(GetEngine());
                     copyItem.SetOwner(Items);
@@ -200,7 +191,7 @@ public partial class CampaignTransferSettings : EngineObject
             for (int j = Leader.HeroItems.Items.Count - 1; j >= 0; j--)
             {
                 item = Leader.HeroItems.Items.GetItem(j);
-                if (item != null)
+                if (item is not null)
                 {
                     copyItem = item.Copy<Item>(GetEngine());
                     copyItem.SetOwner(Items);
@@ -212,12 +203,12 @@ public partial class CampaignTransferSettings : EngineObject
             Leader.HeroItems.Clear();
             for (int i = 0, last = StrategicMap.Current.UnitControl.GetCount() - 1; i <= last; i++)
             {
-                troop = StrategicMap.Current.UnitControl.GetUnit(i);
+                Troop troop = StrategicMap.Current.UnitControl.GetUnit(i);
                 if (troop.Player == player && troop.GetUnitType() != UnitType.Machine && (troop.GetMoveTypes() & Set<MoveType>.Of(MoveType.Walking, MoveType.Flying)) != Set<MoveType>.Of() && troop is not Magic.Abilities.Leader && !troop.GetAbilityEnabled(155))
                 {
                     if (troop is Hero)
                     {
-                        hero = troop.Copy<Hero>(GetEngine());
+                        Hero hero = troop.Copy<Hero>(GetEngine());
                         hero.SetOwner(Heroes);
                         hero.RemoveEnchantments();
                         hero.RemoveHandicaps();
@@ -225,7 +216,7 @@ public partial class CampaignTransferSettings : EngineObject
                         for (int j = hero.Inventory.Items.Count - 1; j >= 0; j--)
                         {
                             item = hero.Inventory.Items.GetItem(j);
-                            if (item != null)
+                            if (item is not null)
                             {
                                 copyItem = item.Copy<Item>(GetEngine());
                                 copyItem.SetOwner(Items);
@@ -238,7 +229,7 @@ public partial class CampaignTransferSettings : EngineObject
                         for (int j = hero.HeroItems.Items.Count - 1; j >= 0; j--)
                         {
                             item = hero.HeroItems.Items.GetItem(j);
-                            if (item != null)
+                            if (item is not null)
                             {
                                 copyItem = item.Copy<Item>(GetEngine());
                                 copyItem.SetOwner(Items);
@@ -252,7 +243,7 @@ public partial class CampaignTransferSettings : EngineObject
                     }
                     else
                     {
-                        newUnit = troop.Copy<Troop>(GetEngine());
+                        Troop newUnit = troop.Copy<Troop>(GetEngine());
                         newUnit.RemoveEnchantments();
                         newUnit.RemoveHandicaps();
                         _ = units.AddUnit(newUnit);
@@ -287,119 +278,100 @@ public partial class CampaignTransferSettings : EngineObject
     // Diplomacy.pas:1955
     public bool AddItem(int index)
     {
-        bool result;
         if (index >= 0 && index < Items.Count && SelectedItems.IndexOf(index) == -1 && Items.GetItem(index).GetCampaignTransferPoints() <= TransferPointsLeft)
         {
             int campaignTransferPoints = Items.GetItem(index).GetCampaignTransferPoints();
             TransferPointsLeft -= campaignTransferPoints;
             _ = SelectedItems.Add(index);
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Diplomacy.pas:1968
     public bool DeleteItem(int index)
     {
-        bool result;
         if (SelectedItems.Remove(index) != -1)
         {
             int campaignTransferPoints = Items.GetItem(index).GetCampaignTransferPoints();
             TransferPointsLeft += campaignTransferPoints;
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Diplomacy.pas:1978
     public bool AddHero(int index)
     {
-        bool result;
         if (index >= 0 && index < Heroes.Count && SelectedHeroes.IndexOf(index) == -1 && Heroes.GetHero(index).GetCampaignTransferPoints() <= TransferPointsLeft)
         {
             int campaignTransferPoints = Heroes.GetHero(index).GetCampaignTransferPoints();
             TransferPointsLeft -= campaignTransferPoints;
             _ = SelectedHeroes.Add(index);
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Diplomacy.pas:1991
     public bool DeleteHero(int index)
     {
-        bool result;
         if (SelectedHeroes.Remove(index) != -1)
         {
             int campaignTransferPoints = Heroes.GetHero(index).GetCampaignTransferPoints();
             TransferPointsLeft += campaignTransferPoints;
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Diplomacy.pas:2001
     public bool AddUnit(int index)
     {
-        bool result;
         if (index >= 0 && index < Units.Count && SelectedUnits.IndexOf(index) == -1 && Units.GetUnit(index).GetCampaignTransferPoints() <= TransferPointsLeft)
         {
             int campaignTransferPoints = Units.GetUnit(index).GetCampaignTransferPoints();
             TransferPointsLeft -= campaignTransferPoints;
             _ = SelectedUnits.Add(index);
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Diplomacy.pas:2014
     public bool DeleteUnit(int index)
     {
-        bool result;
         if (SelectedUnits.Remove(index) != -1)
         {
             int campaignTransferPoints = Units.GetUnit(index).GetCampaignTransferPoints();
             TransferPointsLeft += campaignTransferPoints;
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Diplomacy.pas:2024
     public void SetSelectedTransferGold(int value)
     {
-        int max;
-        max = SelectedTransferGold + TransferPointsLeft;
+        int max = SelectedTransferGold + TransferPointsLeft;
         if (max > TransferGoldMax)
         {
             max = TransferGoldMax;
@@ -417,8 +389,7 @@ public partial class CampaignTransferSettings : EngineObject
     // Diplomacy.pas:2034
     public void SetSelectedTransferMana(int value)
     {
-        int max;
-        max = SelectedTransferMana + TransferPointsLeft;
+        int max = SelectedTransferMana + TransferPointsLeft;
         if (max > TransferManaMax)
         {
             max = TransferManaMax;
@@ -436,9 +407,8 @@ public partial class CampaignTransferSettings : EngineObject
     // Diplomacy.pas:2044
     public void SetupSelection(string fileName)
     {
-        StrategicMap map;
         ClearSelection();
-        map = GetEngine().CreatePreviewHsm<StrategicMap>(fileName, profile: GameProfile.WorldMap);
+        StrategicMap map = GetEngine().CreatePreviewHsm<StrategicMap>(fileName, profile: GameProfile.WorldMap);
         TransferPointsMax = map.CampaignSettings.TransferPointsMax;
         if (GetEngine().Campaign.DifficultyLevel == CampaignDifficultyLevel.Easy)
         {
@@ -459,15 +429,13 @@ public partial class CampaignTransferSettings : EngineObject
     // Diplomacy.pas:2065
     public void AutoSelect()
     {
-        int points = default;
-        bool done = default;
-        QuadItemList candidates = default;
         ClearSelection();
-        candidates = new QuadItemList();
-        done = false;
+        QuadItemList candidates = new();
+        bool done = false;
         while (!done)
         {
             candidates.Clear();
+            int points;
             for (int i = 0, last = Heroes.Count - 1; i <= last; i++)
             {
                 if (SelectedHeroes.IndexOf(i) == -1)
@@ -536,16 +504,11 @@ public partial class CampaignTransferSettings : EngineObject
     // Diplomacy.pas:2109
     public void ExecuteSelection()
     {
-        sbyte player;
-        Leader leader;
-        Troop troop;
-        Hero hero;
-        Item itemItem;
-        if (StrategicMap.Current != null)
+        if (StrategicMap.Current is not null)
         {
             StrategicMap.Current.SynchronizeBegin();
             StrategicMap.Current.Players.Update();
-            player = (sbyte)(StrategicMap.Current.Players.Count - 1);
+            sbyte player = (sbyte)(StrategicMap.Current.Players.Count - 1);
             while (player > 1 && StrategicMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human)
             {
                 player = (sbyte)(player - 1);
@@ -563,12 +526,13 @@ public partial class CampaignTransferSettings : EngineObject
             players.InitialGold += SelectedTransferGold;
             Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(player);
             fPlayersPlayers.MagicControl.ExternalMana += SelectedTransferMana;
-            leader = StrategicMap.Current.Players.GetPlayers(player).Leader;
+            Leader leader = StrategicMap.Current.Players.GetPlayers(player).Leader;
             MapCoordinate coordinate23 = leader.GetLocation();
             sbyte x = coordinate23.X;
             sbyte y = coordinate23.Y;
             sbyte l = coordinate23.MapLevel;
-            if (Leader != null)
+            Item itemItem;
+            if (Leader is not null)
             {
                 leader.Deactivate();
                 leader.Assign(Leader, GetEngine());
@@ -603,7 +567,7 @@ public partial class CampaignTransferSettings : EngineObject
             for (int i = SelectedUnits.Count - 1; i >= 0; i--)
             {
                 int item = SelectedUnits[i];
-                troop = Units.GetUnit(item).Copy<Troop>(GetEngine());
+                Troop troop = Units.GetUnit(item).Copy<Troop>(GetEngine());
                 troop.UnitId = -1;
                 _ = troop.Place(x, y, l, player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
                 _ = troop.Release();
@@ -612,7 +576,7 @@ public partial class CampaignTransferSettings : EngineObject
             for (int i = SelectedHeroes.Count - 1; i >= 0; i--)
             {
                 int item = SelectedHeroes[i];
-                hero = Heroes.GetHero(item).Copy<Hero>(GetEngine());
+                Hero hero = Heroes.GetHero(item).Copy<Hero>(GetEngine());
                 for (int j = SelectedItems.Count - 1; j >= 0; j--)
                 {
                     int fSelectedItemsItem = SelectedItems[j];
@@ -651,9 +615,4 @@ public partial class CampaignTransferSettings : EngineObject
     }
 
     private static int CompareCampaignTransfer(in QuadItemList.QuadInteger item1, in QuadItemList.QuadInteger item2) => item2.Third - item1.Third;
-
-    // intf_P5_08.inc:43
-
-    // intf_P5_08.inc:43
-
 }

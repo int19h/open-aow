@@ -74,7 +74,7 @@ public partial class PopupWindows(UIContext ui) : UIModule(ui)
                 ShowInformationBook(UI.WorldMap, null, null);
                 break;
             case 1:
-                if (UI.Engine.Campaign != null)
+                if (UI.Engine.Campaign is not null)
                 {
                     UI.WorldMap.ShowCampaignHistory();
                 }

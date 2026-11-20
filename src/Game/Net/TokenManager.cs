@@ -4,7 +4,7 @@ namespace Aow.Game.Net;
 
 // _tokenExecutor, _tokenPackageDistributor, _owner, _tokenControls (one per player, nil for a
 // free slot), OnMessage
-public partial class TokenManager : IDisposable
+public class TokenManager : IDisposable
 {
 
     public TokenManager(GameEngine owner)
@@ -51,8 +51,7 @@ public partial class TokenManager : IDisposable
     //   are not being executed }
     public virtual bool PlayerReady(int player)
     {
-        bool result;
-        if (player < _tokenControls.Count && _tokenControls[player] != null)
+        if (player < _tokenControls.Count && _tokenControls[player] is not null)
         {
             bool condition = TokenExecutor.SystemEvents.Count != 0 || _tokenControls[player].GetCount() != 0;
             if (!condition)
@@ -61,20 +60,18 @@ public partial class TokenManager : IDisposable
                 condition = TokenExecutor.PrefetchTacticalBattle == item && TokenExecutor.State.Contains(TokenExecutorState.Executing);
             }
 
-            result = !condition;
+            return !condition;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // NetworkE.pas:1663
     public virtual void CreatePlayer(int player)
     {
-        if (player >= _tokenControls.Count || _tokenControls[player] == null)
+        if (player >= _tokenControls.Count || _tokenControls[player] is null)
         {
             while (player >= _tokenControls.Count)
             {
@@ -89,7 +86,7 @@ public partial class TokenManager : IDisposable
     // NetworkE.pas:1673
     public virtual void DeletePlayer(int player)
     {
-        if (player < _tokenControls.Count && _tokenControls[player] != null)
+        if (player < _tokenControls.Count && _tokenControls[player] is not null)
         {
             (_tokenControls[player] as IDisposable)?.Dispose();
             _tokenControls[player] = null;
@@ -101,7 +98,7 @@ public partial class TokenManager : IDisposable
     {
         while (_tokenControls.Count != 0)
         {
-            if (_tokenControls[^1] != null)
+            if (_tokenControls[^1] is not null)
             {
                 (_tokenControls[^1] as IDisposable)?.Dispose();
             }
@@ -125,11 +122,7 @@ public partial class TokenManager : IDisposable
     public int GetCount() => _tokenControls.Count;
 
     // NetworkE.pas:1710
-    public TokenControl GetTokenControl(int player)
-    {
-        TokenControl result = player < _tokenControls.Count ? _tokenControls[player] : null;
-        return result;
-    }
+    public TokenControl GetTokenControl(int player) => player < _tokenControls.Count ? _tokenControls[player] : null;
 
     // NetworkE.pas:1718
     public void TriggerMessage(string message) => OnMessage?.Invoke(this, message);

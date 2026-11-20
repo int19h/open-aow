@@ -9,7 +9,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Combat;
 
-public partial class CombatParty : EngineObject
+public class CombatParty : EngineObject
 {
     // Combat2.pas:47
     public new const int ClassId = 131746;
@@ -53,7 +53,4 @@ public partial class CombatParty : EngineObject
     public void Deactivate(Battle combat)
     {
     }
-
-    // intf_P3_02.inc:180
-
 }

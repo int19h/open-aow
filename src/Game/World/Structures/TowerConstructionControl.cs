@@ -8,7 +8,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.World.Structures;
 
-public partial class TowerConstructionControl(CustomNode owner) : StructureConstructionControl(owner)
+public class TowerConstructionControl(CustomNode owner) : StructureConstructionControl(owner)
 {
 
     // Tower.pas:139
@@ -23,23 +23,21 @@ public partial class TowerConstructionControl(CustomNode owner) : StructureConst
     // Tower.pas:146
     public override bool CanConstruct(Troop troop, ref string reason)
     {
-        bool result;
         MapCoordinate coordinate40 = troop.GetLocation();
         _ = coordinate40.X;
         _ = coordinate40.Y;
         sbyte hexLevel = coordinate40.MapLevel;
         if (hexLevel == 0)
         {
-            result = base.CanConstruct(troop, ref reason);
+            return base.CanConstruct(troop, ref reason);
         }
         else
         {
-            result = false;
             string tower = AbilityRules.TranslateResourceString(GetEngine(), GameText.TowerText);
             reason = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), s_cannotBuildInUndergroundFormat), [tower]);
         }
 
-        return result;
+        return false;
     }
 
     // Tower.pas:133

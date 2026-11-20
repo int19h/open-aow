@@ -41,7 +41,7 @@ public partial class City
             {
                 RaceResource race = GamePack.Current.RaceResources.GetRaceResource(Race);
                 int size = GetResource<Resource>().Size;
-                if (race != null)
+                if (race is not null)
                 {
                     CityImage = race.GetCityImage(size, terrain, field.HexLevel);
                 }
@@ -64,9 +64,18 @@ public partial class City
                 WallFrontImage = images[index];
                 WallBackImage = images[index + 1];
             }
-            else { WallBackImage = null; WallFrontImage = null; }
+            else
+            {
+                WallBackImage = null;
+                WallFrontImage = null;
+            }
         }
-        else { CityImage = null; WallBackImage = null; WallFrontImage = null; }
+        else
+        {
+            CityImage = null;
+            WallBackImage = null;
+            WallFrontImage = null;
+        }
         UpdateFlagId();
     }
 }

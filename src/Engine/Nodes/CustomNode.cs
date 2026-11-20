@@ -11,7 +11,7 @@ namespace Aow.Engine.Nodes;
 
 // children through an abstract list interface. Message ids carry flags: $10000000 deliver once
 // per Seq, $20000000 owned children only, $40000000 do not forward to children
-public abstract partial class CustomNode : EngineObject, IOwner
+public abstract class CustomNode : EngineObject, IOwner
 {
 
     // Engine.pas:2430
@@ -35,13 +35,13 @@ public abstract partial class CustomNode : EngineObject, IOwner
     // Engine.pas:2626
     public override void Clear()
     {
-        EngineObject c;
         if (Count != 0)
         {
+            EngineObject c;
             for (int i = Count - 1; i >= 0; i--)
             {
                 c = Children[i];
-                if (c != null && c.Owner == this)
+                if (c is not null && c.Owner == this)
                 {
                     if (!c.GetControlStyle().Contains(EngineServices.Shared))
                     {
@@ -57,7 +57,7 @@ public abstract partial class CustomNode : EngineObject, IOwner
             for (int i = Count - 1; i >= 0; i--)
             {
                 c = Children[i];
-                if (c != null)
+                if (c is not null)
                 {
                     if (!(c.Owner == this && c.GetControlStyle().Contains(EngineServices.Shared)))
                     {
@@ -107,7 +107,7 @@ public abstract partial class CustomNode : EngineObject, IOwner
         for (int i = Count - 1; i >= 0; i--)
         {
             c = Children[i];
-            if (c != null && c.Owner == this)
+            if (c is not null && c.Owner == this)
             {
                 c.Dispose();
             }
@@ -118,7 +118,7 @@ public abstract partial class CustomNode : EngineObject, IOwner
             for (int i = Count - 1; i >= 0; i--)
             {
                 c = Children[i];
-                if (c != null)
+                if (c is not null)
                 {
                     _ = RemoveChild(c);
                 }
@@ -146,7 +146,7 @@ public abstract partial class CustomNode : EngineObject, IOwner
                 for (int i = Count - 1; i >= 0; i--)
                 {
                     c = Children[i];
-                    if (c != null && c.GetLastMessage() != message.Sequence)
+                    if (c is not null && c.GetLastMessage() != message.Sequence)
                     {
                         c.SetLastMessage(message.Sequence);
                         c.MessageProc(ref message, this);
@@ -158,7 +158,7 @@ public abstract partial class CustomNode : EngineObject, IOwner
                 for (int i = Count - 1; i >= 0; i--)
                 {
                     c = Children[i];
-                    if (c != null && c.GetLastMessage() != message.Sequence && c.Owner == this)
+                    if (c is not null && c.GetLastMessage() != message.Sequence && c.Owner == this)
                     {
                         c.SetLastMessage(message.Sequence);
                         c.MessageProc(ref message, this);
@@ -181,7 +181,7 @@ public abstract partial class CustomNode : EngineObject, IOwner
                 for (int i = Count - 1; i >= 0; i--)
                 {
                     c = Children[i];
-                    if (c != null && c.Owner == this)
+                    if (c is not null && c.Owner == this)
                     {
                         c.MessageProc(ref message, this);
                     }
@@ -200,13 +200,11 @@ public abstract partial class CustomNode : EngineObject, IOwner
     // { The original tests Result before the child-count call. }
     public virtual int DestroyChildren(int classId)
     {
-        EngineObject c;
-        int n;
-        n = 0;
+        int n = 0;
         for (int i = Count - 1; i >= 0; i--)
         {
-            c = Children[i];
-            if (c != null && c.EngineClass.ClassId == classId)
+            EngineObject c = Children[i];
+            if (c is not null && c.EngineClass.ClassId == classId)
             {
                 c.Dispose();
                 n += 1;
@@ -219,12 +217,11 @@ public abstract partial class CustomNode : EngineObject, IOwner
     // Engine.pas:2768
     public virtual EngineObject FindChildInTree(int classId)
     {
-        int i;
         EngineObject result = FindChild(classId);
-        if (result == null)
+        if (result is null)
         {
-            i = 0;
-            while (result == null && i < Count)
+            int i = 0;
+            while (result is null && i < Count)
             {
                 if (Children[i] is CustomNode child)
                 {
@@ -241,23 +238,17 @@ public abstract partial class CustomNode : EngineObject, IOwner
     // Engine.pas:2726
     public virtual EngineObject FindChild(int classId)
     {
-        EngineObject result;
-        int i;
-        bool found;
-        EngineObject c;
-        i = 0;
-        found = false;
-        c = null;
+        int i = 0;
+        bool found = false;
+        EngineObject c = null;
         while (!found && i < Count)
         {
             c = Children[i];
-            found = c != null && c.EngineClass.ClassId == classId;
+            found = c is not null && c.EngineClass.ClassId == classId;
             i += 1;
         }
 
-        result = found ? c : null;
-
-        return result;
+        return found ? c : null;
     }
 
     // The class id selects the child. A child of another class throws, the same way the call site did.
@@ -266,23 +257,17 @@ public abstract partial class CustomNode : EngineObject, IOwner
     // Engine.pas:2744
     public virtual EngineObject FindOwnedChild(int classId)
     {
-        EngineObject result;
-        int i;
-        bool found;
-        EngineObject c;
-        i = 0;
-        found = false;
-        c = null;
+        int i = 0;
+        bool found = false;
+        EngineObject c = null;
         while (!found && i < Count)
         {
             c = Children[i];
-            found = c != null && c.Owner == this && classId == c.EngineClass.ClassId;
+            found = c is not null && c.Owner == this && classId == c.EngineClass.ClassId;
             i += 1;
         }
 
-        result = found ? c : null;
-
-        return result;
+        return found ? c : null;
     }
 
     // The class id selects the child. A child of another class throws, the same way the call site did.
@@ -340,7 +325,7 @@ public abstract partial class CustomNode : EngineObject, IOwner
 
     protected void CheckChild(EngineObject child)
     {
-        if (child != null && !AcceptsChild(child))
+        if (child is not null && !AcceptsChild(child))
         {
             throw new ArgumentException($"{GetType().Name} does not take a child of type {child.GetType().Name}.", nameof(child));
         }

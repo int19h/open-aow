@@ -69,8 +69,6 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
         FieldFlags = (flags & ~0xFFFF) | persister.UInt16("FieldFlags", (ushort)flags);
     }
 
-    // HSEngine.pas:1898
-
     // HSEngine.pas:1943
     public override EngineObject GetChild(int index) => index >= StoredCount
         ? throw new IndexOutOfRangeException("Index out of bounds")
@@ -102,33 +100,25 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     // HSEngine.pas:2154
     public override EngineObject FindChild(int classId)
     {
-        EngineObject result;
-        int i;
-        i = 0;
+        int i = 0;
         while (i < StoredCount && _hexSpriteList[i].EngineClass.ClassId != classId)
         {
             i += 1;
         }
 
-        result = i < StoredCount ? _hexSpriteList[i] : (EngineObject)null;
-
-        return result;
+        return i < StoredCount ? _hexSpriteList[i] : (EngineObject)null;
     }
 
     // HSEngine.pas:2211
     public override EngineObject FindOwnedChild(int classId)
     {
-        EngineObject result;
-        int i;
-        i = 0;
+        int i = 0;
         while (i < StoredCount && !(_hexSpriteList[i].EngineClass.ClassId == classId && _hexSpriteList[i].Owner == this))
         {
             i += 1;
         }
 
-        result = i < StoredCount ? _hexSpriteList[i] : (EngineObject)null;
-
-        return result;
+        return i < StoredCount ? _hexSpriteList[i] : (EngineObject)null;
     }
 
     // HSEngine.pas:1938
@@ -140,17 +130,13 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     // HSEngine.pas:2163
     public HexSprite FindHexSprite(Type classValue)
     {
-        HexSprite result;
-        int i;
-        i = 0;
+        int i = 0;
         while (i < StoredCount && !classValue.IsInstanceOfType(_hexSpriteList[i]))
         {
             i += 1;
         }
 
-        result = i < StoredCount ? _hexSpriteList[i] : null;
-
-        return result;
+        return i < StoredCount ? _hexSpriteList[i] : null;
     }
 
     // The kind selects the sprite. A sprite of another kind throws, the same way the call site did.
@@ -165,13 +151,11 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     // HSEngine.pas:2172
     public HexSprite FindOwnedHexSprite(Type classValue)
     {
-        int i;
-        HexSprite hexSprite;
-        i = 0;
+        int i = 0;
         HexSprite result = null;
-        while (i < StoredCount && result == null)
+        while (i < StoredCount && result is null)
         {
-            hexSprite = _hexSpriteList[i];
+            HexSprite hexSprite = _hexSpriteList[i];
             if (classValue.IsInstanceOfType(hexSprite) && hexSprite.Owner == this)
             {
                 result = hexSprite;
@@ -227,16 +211,13 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     //   never used. }
     public void DestroyLevelHexSprite(int minLevel, int maxLevel)
     {
-        bool done;
-        int i;
-        int level;
         HexGeometry.HexToPixel(Location.X, Location.Y, out _, out _);
-        i = StoredCount - 1;
+        int i = StoredCount - 1;
         // { Preserve the original stack slot. }
-        done = false;
+        bool done = false;
         while (!done && i >= 0)
         {
-            level = _hexSpriteList[i].GetLevel();
+            int level = _hexSpriteList[i].GetLevel();
             if (level <= maxLevel)
             {
                 if (level >= minLevel)
@@ -456,21 +437,18 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     // AoWHSMap.PAS:90
     public sbyte GetPlayer()
     {
-        sbyte result;
         MapFieldMessage message = default;
         if ((FieldFlags & OwnerFlag) != 0)
         {
             message.MessageId = 4352;
             message.Result = -1;
             SendMapFieldMessage(ref message);
-            result = (sbyte)message.Result.Int;
+            return (sbyte)message.Result.Int;
         }
         else
         {
-            result = -1;
+            return -1;
         }
-
-        return result;
     }
 
     // AoWHSMap.PAS:103
@@ -621,7 +599,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     internal static int IgnitionChance(MapField mapField)
     {
         int result;
-        if (Set<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)mapField.TerrainType) && mapField.FindOwnedChild(132990) == null && !mapField.GetMagicShieldActive())
+        if (Set<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)mapField.TerrainType) && mapField.FindOwnedChild(132990) is null && !mapField.GetMagicShieldActive())
         {
             result = mapField.OverlayType == 1
                 ? mapField.TerrainType == 3 ? 40 : mapField.TerrainType == 2 ? 80 : 60
@@ -629,10 +607,10 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
                     ? mapField.TerrainType == 3 ? 10 : mapField.TerrainType == 2 ? 30 : 20
                     : mapField.TerrainType == 3 ? 1 : 5;
 
-            if (mapField.FindNoneTransparentHexSprite(typeof(Structure)) != null)
+            if (mapField.FindNoneTransparentHexSprite(typeof(Structure)) is not null)
             {
                 result += 5;
-                if (StrategicMap.Current != null && StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.FireMastery))
+                if (StrategicMap.Current is not null && StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.FireMastery))
                 {
                     result += 5;
                 }
@@ -640,12 +618,12 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
 
             if (result < 0)
             {
-                result = 0;
+                return 0;
             }
         }
         else
         {
-            result = 0;
+            return 0;
         }
 
         return result;

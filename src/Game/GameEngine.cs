@@ -140,7 +140,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     {
         try
         {
-            if (_hexSpriteMap != null)
+            if (_hexSpriteMap is not null)
             {
                 _hexSpriteMap.SetProgressHandler(progress);
                 OnHsmCloseStore.Raise(_hexSpriteMap);
@@ -160,8 +160,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     // Army.PAS:5648
     public void TranslateEngineObject(EngineObject objectValue, IvDictionary dictionary)
     {
-        TranslateTextStream stream;
-        stream = new TranslateTextStream(this)
+        TranslateTextStream stream = new(this)
         {
             FDictionary = dictionary
         };
@@ -178,10 +177,9 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     // Army.PAS:5660
     public void TranslateEngineObjectFromFile(EngineObject objectValue, string fileName)
     {
-        IvBinaryDictionary dictionary;
         if (FileExists(fileName))
         {
-            dictionary = new IvBinaryDictionary();
+            IvBinaryDictionary dictionary = new();
             try
             {
                 dictionary.FileName = fileName;
@@ -221,11 +219,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     }
 
     // Army.PAS:5741
-    public string TranslateResourceString(string S)
-    {
-        string result = Dictionary.Language > 0 ? Dictionary.Translate(S) : CompareText(S, s_undeadPluralText) == 0 ? s_undeadText : S;
-        return result;
-    }
+    public string TranslateResourceString(string S) => Dictionary.Language > 0 ? Dictionary.Translate(S) : CompareText(S, s_undeadPluralText) == 0 ? s_undeadText : S;
 
     // Army.PAS:5915
     public int GetMajorVersion() => ((int)(((uint)Version) >> 24)) & 255;
@@ -234,24 +228,14 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     public int GetMinorVersion()
     {
         int result = ((int)(((uint)Version) >> 16)) & 255;
-        if (result > 99)
-        {
-            result = 99;
-        }
-
-        return result;
+        return result > 99 ? 99 : result;
     }
 
     // Army.PAS:5924
     public int GetBuildNumber()
     {
         int result = Version & 65535;
-        if (result > 9999)
-        {
-            result = 9999;
-        }
-
-        return result;
+        return result > 9999 ? 9999 : result;
     }
 
     // Army.PAS:5930
@@ -293,9 +277,8 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     // Army.PAS:5941
     public string GetVersionString()
     {
-        int version;
         string result = $"{IntToStr(GetMajorVersion())}.";
-        version = GetMinorVersion();
+        int version = GetMinorVersion();
         result = version < 10 ? $"{result}0{IntToStr(version)}." : $"{result}{IntToStr(version)}.";
 
         version = GetBuildNumber();
@@ -320,16 +303,11 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     // Army.PAS:5983
     public bool RegisteredVersion()
     {
-        bool result = default;
-        bool registered = default;
-        MemoryStream memory;
-        Stream fileStream;
-        string name = "";
         try
         {
-            memory = new MemoryStream();
+            MemoryStream memory = new();
             // { Original leaks Mem if opening or loading the file raises. }
-            fileStream = OpenFile($"{StartupDirectory}RELEASE\\GENERAL.PFS", 0 | 32);
+            Stream fileStream = OpenFile($"{StartupDirectory}RELEASE\\GENERAL.PFS", 0 | 32);
             try
             {
                 memory.LoadFromStream(fileStream);
@@ -342,9 +320,11 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
             try
             {
                 memory.Position = 0;
+                bool registered = default;
                 _ = memory.Read(Bytes.Of(ref registered, 1));
+                string name = "";
                 StringFromStream(ref name, memory);
-                result = registered;
+                return registered;
             }
             finally
             {
@@ -353,28 +333,24 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
         }
         catch
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // Army.PAS:6008
     public string RegisteredTo()
     {
-        string result = "";
-        bool registered = default;
-        MemoryStream memory;
-        string name = "";
         try
         {
-            memory = new MemoryStream();
+            MemoryStream memory = new();
             try
             {
                 memory.LoadFromFile($"{StartupDirectory}RELEASE\\GENERAL.PFS");
+                bool registered = default;
                 _ = memory.Read(Bytes.Of(ref registered, 1));
+                string name = "";
                 StringFromStream(ref name, memory);
-                result = AbilityRules.Encode(name);
+                return AbilityRules.Encode(name);
             }
             finally
             {
@@ -383,10 +359,8 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
         }
         catch
         {
-            result = "";
+            return "";
         }
-
-        return result;
     }
 
     // Army.PAS:6026
@@ -394,12 +368,10 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     {
         static string RegistrationCode(string text)
         {
-            int value;
-            string hex;
             string result = "";
             if (text.Length >= 4)
             {
-                value = 0;
+                int value = 0;
                 for (int i = 1; i <= text.Length; i++)
                 {
                     value += Cp1252.Byte(text[i - 1]);
@@ -407,7 +379,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
 
                 for (int i = 1; i <= 4; i++)
                 {
-                    hex = IntToHex((Cp1252.Byte(text[i - 1]) * value) + i, 6);
+                    string hex = IntToHex((Cp1252.Byte(text[i - 1]) * value) + i, 6);
                     result += hex[^1].ToString();
                     value += Cp1252.Byte(hex[^1]) + Cp1252.Byte(hex[0]);
                 }
@@ -422,7 +394,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     // Army.PAS:6050
     public void CloseCampaign()
     {
-        if (Campaign != null)
+        if (Campaign is not null)
         {
             Campaign?.Dispose();
             Campaign = null;
@@ -432,7 +404,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     // Army.PAS:6059
     public void LoadCampaignMap(Engine.ProgressEvent progress)
     {
-        if (Campaign != null && Campaign.Stream != null)
+        if (Campaign is not null && Campaign.Stream is not null)
         {
             CloseHsm(null);
             LoadHsmFromStream(Campaign.Stream, false, progress);
@@ -456,10 +428,10 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     // Army.PAS:6076
     public void SaveCampaign(string fileName)
     {
-        if (Campaign != null)
+        if (Campaign is not null)
         {
             Campaign.Stream.Clear();
-            if (_gameMap != null)
+            if (_gameMap is not null)
             {
                 SaveHsmToStream(Campaign.Stream, null);
             }
@@ -544,8 +516,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
 
     private static void UnregisterCoreSpells(GameEngine engine)
     {
-        SpellControl control;
-        control = engine.GameSet.SpellControl;
+        SpellControl control = engine.GameSet.SpellControl;
         engine.UnregisterEngineClasses([EngineClass.Of<SpellTokenEvent>()]);
         engine.UnregisterEngineClasses([EngineClass.Of<SpellCastEventLog>()]);
         engine.UnregisterEngineClasses([EngineClass.Of<UnitSpellTokenEvent>(), EngineClass.Of<UnitSpellCombatAction>()]);
@@ -665,8 +636,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The Delphi signature keeps enchantment and the original ignores it.")]
     private RangedAttackAbility CreateRangedAttack(int id, string name, sbyte attack, sbyte damage, sbyte repeats, RangedAttackAbility.CombatRange range, Set<DamageType> damageTypes, int enchantment)
     {
-        RangedAttackAbility ability;
-        ability = new RangedAttackAbility(null)
+        RangedAttackAbility ability = new(null)
         {
             Holder = this,
             AbilityId = id,
@@ -684,8 +654,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The Delphi signature keeps enchantment and the original ignores it.")]
     private BoltsAbility CreateBolts(int id, string name, int attack, sbyte damage, DamageType damageType, int enchantment)
     {
-        BoltsAbility ability;
-        ability = new BoltsAbility(null)
+        BoltsAbility ability = new(null)
         {
             Holder = this,
             AbilityId = id,
@@ -701,8 +670,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The Delphi signature keeps enchantment and the original ignores it.")]
     private BreathAbility CreateBreath(int id, string name, DamageType damageType, int enchantment)
     {
-        BreathAbility ability;
-        ability = new BreathAbility(null)
+        BreathAbility ability = new(null)
         {
             Holder = this,
             AbilityId = id,
@@ -715,8 +683,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
 
     private StrikeEnhancementAbility CreateStrikeEnhancement(int id, string name, Set<AbilitySelectionType> selection)
     {
-        StrikeEnhancementAbility ability;
-        ability = new StrikeEnhancementAbility(null)
+        StrikeEnhancementAbility ability = new(null)
         {
             Holder = this,
             SelectionTypes = selection,
@@ -810,7 +777,6 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
 
     private static void InitializeMovePoints()
     {
-        int points;
         foreach (ref MovePointTable table in MovementTables.MovePointTables.AsSpan())
         {
             table.Fill(-1);
@@ -822,7 +788,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
             {
                 for (int terrain = 0; terrain <= 15; terrain++)
                 {
-                    points = 127;
+                    int points = 127;
                     for (int moveType = 0; moveType <= 7; moveType++)
                     {
                         if ((mask & MoveBits[moveType]) != 0 && s_movementTemplates[moveType][terrain][overlay - MovementTables.FirstOverlay] != -1 && s_movementTemplates[moveType][terrain][overlay - MovementTables.FirstOverlay] < points)
@@ -930,8 +896,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
 
     internal static void UnregisterCombatSpells(GameEngine engine)
     {
-        SpellControl control;
-        control = engine.GameSet.SpellControl;
+        SpellControl control = engine.GameSet.SpellControl;
         engine.UnregisterEngineClasses([EngineClass.Of<CombatSpellCombatAction>(), EngineClass.Of<FastBattleTerrorCombatAction>(), EngineClass.Of<TacticalBattleTerrorCombatAction>(), EngineClass.Of<RecallSpiritCombatAction>(), EngineClass.Of<AnimateDeadCombatAction>(), EngineClass.Of<FastBattleHighPrayerCombatAction>(), EngineClass.Of<TacticalBattleHighPrayerCombatAction>(), EngineClass.Of<EntangleSpellCombatAction>(), EngineClass.Of<MindDecayCombatAction>(), EngineClass.Of<TurnUndeadSpellCombatAction>(), EngineClass.Of<SlowCombatAction>()]);
         control.UnregisterSpellId(100);
         control.UnregisterSpellId(101);
@@ -967,8 +932,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
 
     internal static void UnregisterGlobalSpells(GameEngine engine)
     {
-        SpellControl control;
-        control = engine.GameSet.SpellControl;
+        SpellControl control = engine.GameSet.SpellControl;
         engine.UnregisterEngineClasses([EngineClass.Of<WarpPartyTokenEvent>(), EngineClass.Of<DisjunctionTokenEvent>()]);
         control.UnregisterSpellId(1);
         control.UnregisterSpellId(2);
@@ -982,8 +946,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
 
     internal static void UnregisterGlobalEnchantmentSpells(GameEngine engine)
     {
-        SpellControl control;
-        control = engine.GameSet.SpellControl;
+        SpellControl control = engine.GameSet.SpellControl;
         control.UnregisterSpellId(44);
         control.UnregisterSpellId(46);
         control.UnregisterSpellId(47);
@@ -1003,8 +966,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
 
     internal static void UnregisterGlobalTargetSpells(GameEngine engine)
     {
-        SpellControl control;
-        control = engine.GameSet.SpellControl;
+        SpellControl control = engine.GameSet.SpellControl;
         control.UnregisterSpellId(10);
         control.UnregisterSpellId(11);
         control.UnregisterSpellId(18);
@@ -1019,8 +981,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
 
     internal static void UnregisterSummonSpells(GameEngine engine)
     {
-        SpellControl control;
-        control = engine.GameSet.SpellControl;
+        SpellControl control = engine.GameSet.SpellControl;
         engine.UnregisterEngineClasses([EngineClass.Of<SummonSpellTokenEvent>()]);
         control.UnregisterSpellId(24);
         control.UnregisterSpellId(22);
@@ -1039,8 +1000,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
 
     internal static void UnregisterUnitSpells(GameEngine engine)
     {
-        SpellControl control;
-        control = engine.GameSet.SpellControl;
+        SpellControl control = engine.GameSet.SpellControl;
         control.UnregisterSpellId(8);
         control.UnregisterSpellId(15);
         control.UnregisterSpellId(17);
@@ -1073,5 +1033,4 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
         engine.UnregisterEngineClasses([EngineClass.Of<UnholyGround>(), EngineClass.Of<UnholyGround.Resource>(), EngineClass.Of<UnholyGroundSpellTokenEvent>()]);
         engine.GameSet.SpellControl.UnregisterSpellId(14);
     }
-
 }

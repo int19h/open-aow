@@ -10,7 +10,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
-public partial class ScoutAIGroupControl(CustomNode owner) : AIGroupControl(owner)
+public class ScoutAIGroupControl(CustomNode owner) : AIGroupControl(owner)
 {
 
     // IndependentAG.pas:671
@@ -58,8 +58,6 @@ public partial class ScoutAIGroupControl(CustomNode owner) : AIGroupControl(owne
     // IndependentAG.pas:680
     public override void ProcessStates()
     {
-        AIGroupTargetFinder finder;
-        AIGroupWanderControl wander;
         switch (State)
         {
             case 0:
@@ -72,7 +70,7 @@ public partial class ScoutAIGroupControl(CustomNode owner) : AIGroupControl(owne
 
                 if (condition)
                 {
-                    finder = new AIGroupTargetFinder(null) { Holder = CreationHolder() };
+                    AIGroupTargetFinder finder = new(null) { Holder = CreationHolder() };
                     _ = finder.Setup(this);
                     int movePointsMin = Group.GetMovePointsMin();
                     finder.Selector.MovePointsMax = movePointsMin;
@@ -104,7 +102,7 @@ public partial class ScoutAIGroupControl(CustomNode owner) : AIGroupControl(owne
 
                 break;
             case 2:
-                wander = new AIGroupWanderControl(null) { Holder = CreationHolder() };
+                AIGroupWanderControl wander = new(null) { Holder = CreationHolder() };
                 _ = wander.Setup(this);
                 wander.MovePointsMax = 125;
                 ActivatePlugin(wander);

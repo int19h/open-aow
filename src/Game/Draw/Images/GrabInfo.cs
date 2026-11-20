@@ -4,7 +4,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Draw.Images;
 
-public partial class GrabInfo
+public class GrabInfo
 {
     public static GrabInfoClass Descriptor { get; } = new("GrabInfo", static () => new GrabInfo());
 
@@ -58,9 +58,8 @@ public partial class GrabInfo
     // ImageLib.pas:9652
     public virtual GrabInfo Copy()
     {
-        GrabInfo result = default;
-        MemoryStream stream;
-        stream = new MemoryStream();
+        MemoryStream stream = new();
+        GrabInfo result;
         try
         {
             SaveToStream(stream);
@@ -75,5 +74,4 @@ public partial class GrabInfo
 
         return result;
     }
-
 }

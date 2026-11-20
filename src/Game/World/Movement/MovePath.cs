@@ -2,7 +2,7 @@
 namespace Aow.Game.World.Movement;
 
 // inherited steps and count. each step carries the move points spent entering its location
-public partial class MovePath : PathStepList
+public class MovePath : PathStepList
 {
     // Structur.PAS:3981
     // inherited locations and count
@@ -25,7 +25,7 @@ public partial class MovePath : PathStepList
         }
         else
         {
-            result = Count - 1;
+            return Count - 1;
         }
 
         return result;
@@ -45,7 +45,4 @@ public partial class MovePath : PathStepList
 
     // Structur.PAS:4004
     public int GetMovePoints() => PositionToMovePoints(0);
-
-    // HSEngine.pas:1279
-
 }

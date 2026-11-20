@@ -47,8 +47,8 @@ public sealed class StructureViewTests(ITestOutputHelper output)
 
     private sealed record State(bool Owned, bool Debug, bool Building, bool Razed, bool War)
     {
-        public override string ToString() =>
-            $"{(Owned ? "owned" : "other")}{(Debug ? ",debug" : "")}{(Building ? ",building" : "")}{(Razed ? ",razed" : "")}{(War ? ",war" : "")}";
+        public override string ToString()
+            => $"{(Owned ? "owned" : "other")}{(Debug ? ",debug" : "")}{(Building ? ",building" : "")}{(Razed ? ",razed" : "")}{(War ? ",war" : "")}";
     }
 
     private static bool Razeable(Type type) => type.GetMethod(nameof(Structure.GetRazed)).DeclaringType != typeof(Structure);
@@ -285,8 +285,8 @@ public sealed class StructureViewTests(ITestOutputHelper output)
 
     private static string Declaring(Type type, string method) => type.GetMethod(method).DeclaringType.Name;
 
-    private static string Observed(StructureView view, Type type, string method, ArmyOwner owner, int queries, bool cancelled) =>
-        view != StructureView.None ? view.Name
+    private static string Observed(StructureView view, Type type, string method, ArmyOwner owner, int queries, bool cancelled)
+        => view != StructureView.None ? view.Name
         : owner.ArmyQueries > queries || cancelled ? $"Action({Declaring(type, method)})"
         : "None";
 
@@ -476,7 +476,10 @@ public sealed class StructureViewTests(ITestOutputHelper output)
                 output.WriteLine($"{type.Name} ({EngineClass.Of(type).ClassId}): {string.Join(" ", names)}");
             }
         }
-        finally { DelphiRandom.RandSeed = previousSeed; }
+        finally
+        {
+            DelphiRandom.RandSeed = previousSeed;
+        }
         Assert.Empty(mismatches);
     }
 

@@ -14,7 +14,7 @@ using Aow.Rtl;
 namespace Aow.Game.Units;
 
 // items, change events, update lock, item change events, last ID, status
-public partial class ItemControl(CustomNode owner) : EngineObject(owner)
+public class ItemControl(CustomNode owner) : EngineObject(owner)
 {
 
     private readonly List<Item> _items = [];
@@ -78,7 +78,7 @@ public partial class ItemControl(CustomNode owner) : EngineObject(owner)
             do
             {
                 item = persister.CreatedSlot<Item>("Items", slot: slot, objectValue: null);
-                if (item != null)
+                if (item is not null)
                 {
                     ValidateItem(item);
                     _items.Add(item);
@@ -87,14 +87,14 @@ public partial class ItemControl(CustomNode owner) : EngineObject(owner)
 
                 slot += 1;
             }
-            while (item != null);
+            while (item is not null);
             return;
         }
 
         int next = 0;
         for (int i = 0; i < _items.Count; i++)
         {
-            if (_items[i].Owner == null)
+            if (_items[i].Owner is null)
             {
                 _ = persister.CreatedSlot("Items", slot: next, objectValue: _items[i]);
                 next += 1;
@@ -111,8 +111,7 @@ public partial class ItemControl(CustomNode owner) : EngineObject(owner)
     // Army.PAS:4717
     public Item FindItem(int itemId)
     {
-        int i;
-        i = _items.Count;
+        int i = _items.Count;
         while (i != 0)
         {
             i -= 1;
@@ -175,7 +174,7 @@ public partial class ItemControl(CustomNode owner) : EngineObject(owner)
     // Army.PAS:4766
     public void ValidateItem(Item item)
     {
-        if (FindItem(item.ItemId) != null)
+        if (FindItem(item.ItemId) is not null)
         {
             item.ItemId = CreateUniqueId();
         }
@@ -196,11 +195,10 @@ public partial class ItemControl(CustomNode owner) : EngineObject(owner)
     // Army.PAS:4779
     public void RegisterItem(Item item)
     {
-        Item existing;
         if (!item.Status.Contains(ItemStatusElement.Registered))
         {
-            existing = FindItem(item.ItemId);
-            if (existing != null && existing.Compare(item, GetEngine()) && existing.RefCount == 1)
+            Item existing = FindItem(item.ItemId);
+            if (existing is not null && existing.Compare(item, GetEngine()) && existing.RefCount == 1)
             {
                 UnregisterItem(existing);
             }
@@ -233,17 +231,13 @@ public partial class ItemControl(CustomNode owner) : EngineObject(owner)
     // Army.PAS:4807
     public Item GenerateItem(Set<ItemType> types, int minValue, int maxValue)
     {
-        Item result;
-        DoubleItemList<Item> list;
-        int value;
-        Item item;
-        list = new DoubleItemList<Item>();
+        DoubleItemList<Item> list = new();
         for (int i = 0, last = GetCount() - 1; i <= last; i++)
         {
-            item = _items[i];
+            Item item = _items[i];
             if (item.RefCount == 1 && types.Contains(item.ItemType))
             {
-                value = item.GetObtainValue();
+                int value = item.GetObtainValue();
                 if (value >= minValue && value <= maxValue)
                 {
                     _ = list.AddAbility(item, (int)item.Availability);
@@ -251,7 +245,7 @@ public partial class ItemControl(CustomNode owner) : EngineObject(owner)
             }
         }
 
-        result = list.Count != 0 ? list[list.RandomChanceItemB(1)].First : null;
+        Item result = list.Count != 0 ? list[list.RandomChanceItemB(1)].First : null;
 
         list?.Dispose();
         return result;
@@ -260,16 +254,9 @@ public partial class ItemControl(CustomNode owner) : EngineObject(owner)
     // Army.PAS:4826
     public int GenerateItems(Set<ItemType> types, CustomNode owner, int value)
     {
-        DoubleItemList<Item> list;
-        int difference;
-        int attempts;
-        int itemValue;
-        int distance;
-        bool done;
-        Item item;
-        Item candidate;
         int result = 0;
-        list = new DoubleItemList<Item>();
+        DoubleItemList<Item> list = new();
+        Item item;
         for (int i = 0, last = GetCount() - 1; i <= last; i++)
         {
             item = _items[i];
@@ -279,19 +266,19 @@ public partial class ItemControl(CustomNode owner) : EngineObject(owner)
             }
         }
 
-        done = false;
+        bool done = false;
         while (!done && list.Count != 0)
         {
-            candidate = list[list.RandomChanceItemB(1)].First;
-            itemValue = candidate.GetObtainValue();
+            Item candidate = list[list.RandomChanceItemB(1)].First;
+            int itemValue = candidate.GetObtainValue();
             if (itemValue > value)
             {
-                attempts = 10;
-                difference = Math.Abs(itemValue - value);
+                int attempts = 10;
+                int difference = Math.Abs(itemValue - value);
                 do
                 {
                     item = list[list.RandomChanceItemB(1)].First;
-                    distance = Math.Abs(item.GetObtainValue() - value);
+                    int distance = Math.Abs(item.GetObtainValue() - value);
                     if (distance < difference)
                     {
                         difference = distance;
@@ -308,7 +295,7 @@ public partial class ItemControl(CustomNode owner) : EngineObject(owner)
                 }
             }
 
-            if (candidate != null)
+            if (candidate is not null)
             {
                 candidate.SetOwner(owner);
                 list.Delete(list.IndexOfItemA(candidate));
@@ -351,7 +338,4 @@ public partial class ItemControl(CustomNode owner) : EngineObject(owner)
     {
         Activated = 0
     }
-
-    // intf_P2_04.inc:182
-
 }

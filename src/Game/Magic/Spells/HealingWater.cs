@@ -5,7 +5,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class HealingWater : UnitSpell
+public class HealingWater : UnitSpell
 {
     // UnitSpells.pas:467
     public HealingWater(CustomNode owner, EngineObject holder) : base(owner)
@@ -30,19 +30,16 @@ public partial class HealingWater : UnitSpell
     // UnitSpells.pas:479
     public override bool ExecuteSpell(Troop source, Troop target, int mana, Span<int> data)
     {
-        bool result;
         if (ValidTargetUnit(source, target))
         {
             _ = target.RemoveAbility(127);
             target.SetHitPoints(target.GetHits());
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     private static readonly string s_healingWaterText = "Healing Water";

@@ -19,19 +19,17 @@ namespace Aow.Game.Units;
 
 // Name. Race. Champion. Nickname. unit statistics. Abilities[rank]. TransportCapacity.
 // Description. ObtainValue. size. blood
-public partial class UnitResource : TroopResource
+public class UnitResource : TroopResource
 {
     public new const int ClassId = 131602;
 
     // UnitRes.PAS:73
     public UnitResource(CustomNode owner) : base(owner)
     {
-        Unit.Rank rank;
-
         Description = new DelphiStringList();
         for (int rankOrdinal = (int)(Unit.Rank)0; rankOrdinal <= (int)(Unit.Rank)2; rankOrdinal++)
         {
-            rank = (Unit.Rank)rankOrdinal;
+            Unit.Rank rank = (Unit.Rank)rankOrdinal;
             UnitResourceAbilityOwner unitResourceAbilityOwner = new(null) { Holder = CreationHolder() };
             AbilityOwnerArray3 abilities = Abilities;
             abilities[(int)rank] = unitResourceAbilityOwner;
@@ -80,11 +78,10 @@ public partial class UnitResource : TroopResource
     // UnitRes.PAS:92
     public override void Dispose()
     {
-        Unit.Rank rank;
         Description?.Dispose();
         for (int rankOrdinal = (int)(Unit.Rank)0; rankOrdinal <= (int)(Unit.Rank)2; rankOrdinal++)
         {
-            rank = (Unit.Rank)rankOrdinal;
+            Unit.Rank rank = (Unit.Rank)rankOrdinal;
             Abilities[(int)rank]?.Dispose();
         }
 
@@ -94,7 +91,6 @@ public partial class UnitResource : TroopResource
     // UnitRes.PAS:156
     public override void PersistFields(IPersister persister)
     {
-        Unit.Rank rank;
         base.PersistFields(persister);
         _name = persister.String("Name", value: _name);
         _nickname = persister.String("Nickname", value: _nickname);
@@ -123,7 +119,7 @@ public partial class UnitResource : TroopResource
         {
             for (int rankOrdinal = (int)(Unit.Rank)0; rankOrdinal <= (int)(Unit.Rank)2; rankOrdinal++)
             {
-                rank = (Unit.Rank)rankOrdinal;
+                Unit.Rank rank = (Unit.Rank)rankOrdinal;
                 Abilities[(int)rank].ValidateOwnerTypeAbilities();
             }
         }
@@ -137,7 +133,7 @@ public partial class UnitResource : TroopResource
     public override EngineObject CreateResourceUser()
     {
         EngineObject result = base.CreateResourceUser();
-        if (result != null)
+        if (result is not null)
         {
             // The resource user class registers only UnitHexSprite. Another class fails. Null stays
             // null and this write is skipped.
@@ -151,7 +147,6 @@ public partial class UnitResource : TroopResource
     public override bool DropUnit(int hexX, int hexY, int hexLevel)
     {
         sbyte player;
-        Unit unit;
         if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             player = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel).GetPlayer();
@@ -165,9 +160,9 @@ public partial class UnitResource : TroopResource
             player = -1;
         }
 
-        unit = new Unit(null) { Holder = CreationHolder() };
+        Unit unit = new(null) { Holder = CreationHolder() };
         unit.SetUnitResource(this);
-        bool result = unit.Place(hexX, hexY, hexLevel, player, Set<UnitPlaceModeElement>.Of()) != null;
+        bool result = unit.Place(hexX, hexY, hexLevel, player, Set<UnitPlaceModeElement>.Of()) is not null;
         _ = unit.Release();
         return result;
     }
@@ -182,12 +177,7 @@ public partial class UnitResource : TroopResource
     public byte GetTransportCapacity()
     {
         byte result = (byte)GamePack.Current.AbilityControl.GetAbility(50).GetLevel(Abilities[(int)Unit.Rank.None]);
-        if (result < _transportCapacity)
-        {
-            result = _transportCapacity;
-        }
-
-        return result;
+        return result < _transportCapacity ? _transportCapacity : result;
     }
 
     // UnitRes.PAS:118
@@ -203,14 +193,6 @@ public partial class UnitResource : TroopResource
     public string GetUnitName()
     {
         string result = _name;
-        if (!IsEmpty(_nickname))
-        {
-            result = $"{result} {_nickname}";
-        }
-
-        return result;
+        return !IsEmpty(_nickname) ? $"{result} {_nickname}" : result;
     }
-
-    // intf_P2_05.inc:243
-
 }
