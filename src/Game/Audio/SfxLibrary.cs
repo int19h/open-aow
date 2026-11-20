@@ -18,28 +18,20 @@ public partial class SfxLibrary(CustomNode owner) : OwningNode(owner), IChildLis
     public new const int ClassId = 2162691;
 
     // Sound.pas:1088
-    public SfxSequence GetSfxSequence(int index)
-    {
-        SfxSequence result = index >= 0 && index < Count ? this[index] : null;
-        return result;
-    }
+    public SfxSequence GetSfxSequence(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // Sound.pas:1096
     public Sample Play(int id)
     {
         SfxSequence s = Find(id);
-        Sample result = s?.Play();
-
-        return result;
+        return s?.Play();
     }
 
     // Sound.pas:1107
     public Sample Play(int id, int volume, bool looped, int delay, SamplePanning panning, SampleCallBack callback)
     {
         SfxSequence s = Find(id);
-        Sample result = s?.Play(volume, looped, delay, panning, callback);
-
-        return result;
+        return s?.Play(volume, looped, delay, panning, callback);
     }
 
     // Sound.pas:1119

@@ -38,7 +38,6 @@ public partial class SelfDestructAbility : TouchAbility
     // AoWAb.PAS:2145
     public override int GetDamageValue(Troop attacker, Troop defender)
     {
-        int result;
         if (CanTouchUnit(attacker, defender))
         {
             sbyte hitPoints = defender.GetHitPoints();
@@ -46,14 +45,12 @@ public partial class SelfDestructAbility : TouchAbility
             sbyte resistance = defender.GetResistance();
             Set<DamageType> immunityTypes = defender.GetImmunityTypes();
             Set<DamageType> protectionTypes = defender.GetProtectionTypes();
-            result = AbilityRules.StatisticsToLimitedDamageValue(8, 6, Set<DamageType>.Of(DamageType.Fire, DamageType.Wall), hitPoints, defense, resistance, immunityTypes, protectionTypes);
+            return AbilityRules.StatisticsToLimitedDamageValue(8, 6, Set<DamageType>.Of(DamageType.Fire, DamageType.Wall), hitPoints, defense, resistance, immunityTypes, protectionTypes);
         }
         else
         {
-            result = 0;
+            return 0;
         }
-
-        return result;
     }
 
     // AoWAb.PAS:2154
@@ -136,24 +133,9 @@ public partial class SelfDestructAbility : TouchAbility
     // AoWAb.PAS:2235
     public override bool CanTouch(CombatObject source, CombatObject target)
     {
-        bool result;
-        if (source.GetSide() == CombatSideIndex.Defender)
-        {
-            if (source.FastBattleBehindWall() && source.FastBattleWallInBetween(target.Position))
-            {
-                result = target.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing);
-            }
-            else
-            {
-                return true;
-            }
-        }
-        else
-        {
-            result = !target.FastBattleBehindWall() || !source.FastBattleWallInBetween(target.Position) || source.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing);
-        }
-
-        return result;
+        return source.GetSide() == CombatSideIndex.Defender
+            ? !source.FastBattleBehindWall() || !source.FastBattleWallInBetween(target.Position) || target.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing)
+            : !target.FastBattleBehindWall() || !source.FastBattleWallInBetween(target.Position) || source.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing);
     }
 
     // AoWAb.PAS:2257

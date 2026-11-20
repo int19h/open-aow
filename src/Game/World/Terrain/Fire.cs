@@ -78,12 +78,7 @@ public partial class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     public override sbyte GetTerrain(int index)
     {
         sbyte result = base.Resource.TerrainList.GetTerrain(index);
-        if (result >= 0)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result >= 0 ? (sbyte)-1 : result;
     }
 
     // Structur.PAS:3417
@@ -171,24 +166,9 @@ public partial class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     // Structur.PAS:3570
     public override int CanMoveOver(in HexSpriteSenderInfo info)
     {
-        int result;
-        if (base.Resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
-        {
-            if (!CanDoDamage(((MoveControl)info.Sender).Settings.Units))
-            {
-                result = 1;
-            }
-            else
-            {
-                return 0;
-            }
-        }
-        else
-        {
-            result = 1;
-        }
-
-        return result;
+        return base.Resource.TerrainList.GetTerrain(info.HexNumber) >= 0
+            ? !CanDoDamage(((MoveControl)info.Sender).Settings.Units) ? 1 : 0
+            : 1;
     }
 
     // Structur.PAS:3564
@@ -219,7 +199,7 @@ public partial class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner
         if (result)
         {
             int classId = EngineClass.ClassId;
-            result = mapContainer.GetField(hexX, hexY, hexLevel).FindOwnedChild(classId) is null;
+            return mapContainer.GetField(hexX, hexY, hexLevel).FindOwnedChild(classId) is null;
         }
 
         return result;
@@ -267,7 +247,7 @@ public partial class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner
         {
             if (counts[result] == counts[defaultValue])
             {
-                result = defaultValue;
+                return defaultValue;
             }
         }
 

@@ -67,7 +67,7 @@ public partial class HexagonResource : AbstractHexagonResource
             if (!result.PlaceHex(map.MapContainer, hexX, hexY, hexLevel))
             {
                 result?.Dispose();
-                result = null;
+                return null;
             }
         }
 

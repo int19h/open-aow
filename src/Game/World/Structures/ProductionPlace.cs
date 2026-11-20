@@ -203,10 +203,9 @@ public partial class ProductionPlace : PlayerStructure
     // PrdPlace.pas:434
     public override string GetCurrentActivityText()
     {
-        string result;
         if (ProductionControl.Queue.Count == 0)
         {
-            result = Player > 0
+            return Player > 0
                 ? GetMagicSphere() != MagicSphere.None
                     ? GetPower() != 0 ? AbilityRules.TranslateResourceString(GetEngine(), GameText.GeneratingExtraPowerText) : "-"
                     : GetBaseIncome() != 0
@@ -217,10 +216,8 @@ public partial class ProductionPlace : PlayerStructure
         else
         {
             ProductionItem queue = ProductionControl.Queue.GetItem(0);
-            result = ProductionControl.GetProductionNameProgressive(queue);
+            return ProductionControl.GetProductionNameProgressive(queue);
         }
-
-        return result;
     }
 
     // PrdPlace.pas:607
@@ -299,11 +296,7 @@ public partial class ProductionPlace : PlayerStructure
     }
 
     // PrdPlace.pas:294
-    public override bool CanDoubleClick()
-    {
-        bool result = StrategicMap.Current.SeatedPlayer == Player && GetMagicSphere() == MagicSphere.None;
-        return result;
-    }
+    public override bool CanDoubleClick() => StrategicMap.Current.SeatedPlayer == Player && GetMagicSphere() == MagicSphere.None;
 
     // PrdPlace.pas:586
     public override void SetPlayer(sbyte player)
@@ -374,14 +367,12 @@ public partial class ProductionPlace : PlayerStructure
         {
             MagicSphere magicSphere = GetMagicSphere();
             result = StrategicMap.Current.Players.GetPlayers(Player).Leader.GetSpherePicks(magicSphere);
-            result = result != 0 ? (result * 5) + 10 : 0;
+            return result != 0 ? (result * 5) + 10 : 0;
         }
         else
         {
-            result = 0;
+            return 0;
         }
-
-        return result;
     }
 
     // PrdPlace.pas:543
@@ -450,11 +441,7 @@ public partial class ProductionPlace : PlayerStructure
     }
 
     // PrdPlace.pas:369
-    public virtual int GetBaseIncome()
-    {
-        int result = RazedState != 1 && !GetBuilding() ? 10 : 0;
-        return result;
-    }
+    public virtual int GetBaseIncome() => RazedState != 1 && !GetBuilding() ? 10 : 0;
 
     // PrdPlace.pas:303
     public virtual MagicSphere GetMagicSphere() => MagicSphere.None;
@@ -576,32 +563,29 @@ public partial class ProductionPlace : PlayerStructure
     // PrdPlace.pas:499
     public bool CanTrade(bool queue, ref string reason)
     {
-        bool result;
         if (GetMagicSphere() != MagicSphere.None)
         {
             MagicSphere magicSphere = GetMagicSphere();
             if (StrategicMap.Current.Players.GetPlayers(Player).Leader.GetSpherePicks(magicSphere) > 0)
             {
-                result = true;
+                return true;
             }
             else
             {
-                result = false;
                 reason = AbilityRules.TranslateResourceString(GetEngine(), s_youCannotChannelPowerFromThisNodeText);
             }
         }
         else
         {
-            result = GetBaseIncome() != 0;
+            return GetBaseIncome() != 0;
         }
 
-        return result;
+        return false;
     }
 
     // PrdPlace.pas:511
     public bool Trade(bool queue)
     {
-        bool result;
         string reason = "";
         if (CanTrade(queue, ref reason) && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
@@ -613,14 +597,12 @@ public partial class ProductionPlace : PlayerStructure
 
             _ = ProductionControl.Produce(item, queue);
             item?.Dispose();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // PrdPlace.pas:671

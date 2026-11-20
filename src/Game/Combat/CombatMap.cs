@@ -360,18 +360,17 @@ public partial class CombatMap : GameMap
     {
         sbyte y = default;
         sbyte l = default;
-        ItemList result = null;
         GetUnitLocation(hero, out sbyte x, ref y, ref l);
         if (x > -1)
         {
             ItemHexSprite hexSprite = MapContainer.GetField(x, y, l).FindOwnedChild<ItemHexSprite>(131697);
             if (hexSprite is not null)
             {
-                result = hexSprite.Items;
+                return hexSprite.Items;
             }
         }
 
-        return result;
+        return null;
     }
 
     // AoWTC.pas:2243
@@ -726,10 +725,9 @@ public partial class CombatMap : GameMap
 
     private TacticalBattleEndTurnTokenEvent CreateTacticalBattleEndTurnTokenEvent(sbyte player)
     {
-        TacticalBattleEndTurnTokenEvent result = player != -1 && StrategicMap.Current.TokenManager.PlayerReady(player)
+        return player != -1 && StrategicMap.Current.TokenManager.PlayerReady(player)
             ? new TacticalBattleEndTurnTokenEvent(null) { Holder = CreationHolder() }
             : null;
-        return result;
     }
 
     internal static void PlaceOverviewUnit(CombatMap map, Troop unit, int position, int index)

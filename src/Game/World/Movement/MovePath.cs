@@ -25,7 +25,7 @@ public partial class MovePath : PathStepList
         }
         else
         {
-            result = Count - 1;
+            return Count - 1;
         }
 
         return result;

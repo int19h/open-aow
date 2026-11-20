@@ -19,51 +19,35 @@ public partial class LeadershipAbility : MultiLevelAbility
     public override sbyte GetAttack(AbilityOwner owner)
     {
         int level = GetLevel(owner);
-        sbyte result = level != 0 ? LeadershipAttack[level] : (sbyte)0;
-
-        return result;
+        return level != 0 ? LeadershipAttack[level] : (sbyte)0;
     }
 
     // AoWAb.PAS:1013
     public override sbyte GetDefense(AbilityOwner owner)
     {
         int level = GetLevel(owner);
-        sbyte result = level != 0 ? LeadershipDefense[level] : (sbyte)0;
-
-        return result;
+        return level != 0 ? LeadershipDefense[level] : (sbyte)0;
     }
 
     // AoWAb.PAS:978
     public override int GetLevel(AbilityOwner owner)
     {
-        int result;
         if (owner is not null)
         {
             LeadershipAbilityData data = GetData(owner);
-            if (data is not null)
-            {
-                result = data.ExternalLevel > data.Level ? data.ExternalLevel : data.Level;
-            }
-            else
-            {
-                return 0;
-            }
+            return data is not null ? data.ExternalLevel > data.Level ? data.ExternalLevel : data.Level : 0;
         }
         else
         {
-            result = 0;
+            return 0;
         }
-
-        return result;
     }
 
     // AoWAb.PAS:1067
     public override string GetSourceName(AbilityOwner owner)
     {
         LeadershipAbilityData data = GetData(owner);
-        string result = data is not null && data.ExternalLevel > data.Level ? data.ExternalSource : owner.GetOwnerName();
-
-        return result;
+        return data is not null && data.ExternalLevel > data.Level ? data.ExternalSource : owner.GetOwnerName();
     }
 
     // AoWAb.PAS:1078
@@ -77,9 +61,7 @@ public partial class LeadershipAbility : MultiLevelAbility
     public override bool CanExpand(AbilityOwner owner)
     {
         LeadershipAbilityData data = GetData(owner);
-        bool result = data is null || data.Level < MaxLevel;
-
-        return result;
+        return data is null || data.Level < MaxLevel;
     }
 
     // AoWAb.PAS:1097

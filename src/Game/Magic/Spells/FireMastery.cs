@@ -55,19 +55,15 @@ public partial class FireMastery : GlobalEnchantmentSpell
             _ = CastSounds.Play(0);
             CastingDone(source, eventValue.EventMana);
         }
-
-        bool result;
         if (executeCount == 20)
         {
             _ = base.ExecuteTokenEvent(eventValue, source, 0);
-            result = false;
+            return false;
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // GlobalEnchantmentSpells.pas:1746

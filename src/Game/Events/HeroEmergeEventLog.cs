@@ -65,7 +65,7 @@ public partial class HeroEmergeEventLog(CustomNode owner) : EventLog(owner)
                 }
             }
 
-            result = false;
+            return false;
         }
 
         return result;
@@ -137,7 +137,7 @@ public partial class HeroEmergeEventLog(CustomNode owner) : EventLog(owner)
         }
         else
         {
-            result = null;
+            return null;
         }
 
         return result;
@@ -155,7 +155,7 @@ public partial class HeroEmergeEventLog(CustomNode owner) : EventLog(owner)
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;

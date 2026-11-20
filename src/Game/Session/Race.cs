@@ -96,11 +96,9 @@ public partial class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceLi
     public Status GetRelation(sbyte race)
     {
         int player = StrategicMap.Current.Players.RaceToPlayer(race);
-        Status result = player == -1
+        return player == -1
             ? StatusValueToStatus(StatusToStatusValue((Status)DefaultRelations[race]) + StrategicMap.Current.Races.RelationOffset)
             : StatusValueToStatus(_playerRelations[player - 1] + StrategicMap.Current.Races.RelationOffset);
-
-        return result;
     }
 
     // Ability.PAS:249
@@ -115,18 +113,10 @@ public partial class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceLi
     }
 
     // Ability.PAS:259
-    public int GetPlayerRelationValue(sbyte player)
-    {
-        int result = player > 0 ? _playerRelations[player - 1] + StrategicMap.Current.Races.RelationOffset : 50;
-        return result;
-    }
+    public int GetPlayerRelationValue(sbyte player) => player > 0 ? _playerRelations[player - 1] + StrategicMap.Current.Races.RelationOffset : 50;
 
     // Ability.PAS:265
-    public Status GetPlayerRelation(sbyte player)
-    {
-        Status result = player > 0 ? StatusValueToStatus(_playerRelations[player - 1] + StrategicMap.Current.Races.RelationOffset) : Status.Neutral;
-        return result;
-    }
+    public Status GetPlayerRelation(sbyte player) => player > 0 ? StatusValueToStatus(_playerRelations[player - 1] + StrategicMap.Current.Races.RelationOffset) : Status.Neutral;
 
     // Ability.PAS:271
     public void NewDay()
@@ -168,11 +158,7 @@ public partial class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceLi
     }
 
     // Ability.PAS:298
-    public Status GetDefaultRaceRelation(sbyte race)
-    {
-        Status result = race >= 0 && race < DefaultRelations.Count ? (Status)DefaultRelations[race] : Status.Neutral;
-        return result;
-    }
+    public Status GetDefaultRaceRelation(sbyte race) => race >= 0 && race < DefaultRelations.Count ? (Status)DefaultRelations[race] : Status.Neutral;
 
     // Ability.PAS:308
     public void ResetDefaultRaceRelations()
@@ -226,42 +212,34 @@ public partial class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceLi
 
     private static int StatusToStatusValue(Status status)
     {
-        int result;
         switch ((int)status)
         {
             case 0:
-                result = 10;
-                break;
+                return 10;
             case 1:
-                result = 30;
-                break;
+                return 30;
             case 2:
-                result = 50;
-                break;
+                return 50;
             case 3:
-                result = 70;
-                break;
+                return 70;
             case 4:
-                result = 90;
-                break;
+                return 90;
             default:
-                result = 50;
                 _ = new ArgumentException("Invalid TStatus Value");
                 break;
         }
-        return result;
+        return 50;
     }
 
     internal static Status StatusValueToStatus(int value)
     {
-        Status result;
         if (value <= 20)
         {
-            result = Status.Hostile;
+            return Status.Hostile;
         }
         else if (value > 80)
         {
-            result = Status.Friendly;
+            return Status.Friendly;
         }
         else
         {
@@ -287,8 +265,7 @@ public partial class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceLi
                 case 38:
                 case 39:
                 case 40:
-                    result = Status.Wary;
-                    break;
+                    return Status.Wary;
                 case 41:
                 case 42:
                 case 43:
@@ -309,8 +286,7 @@ public partial class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceLi
                 case 58:
                 case 59:
                 case 60:
-                    result = Status.Neutral;
-                    break;
+                    return Status.Neutral;
                 case 61:
                 case 62:
                 case 63:
@@ -331,15 +307,13 @@ public partial class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceLi
                 case 78:
                 case 79:
                 case 80:
-                    result = Status.Polite;
-                    break;
+                    return Status.Polite;
                 default:
-                    result = Status.Neutral;
                     _ = new ArgumentException("Invalid StatusValue");
                     break;
             }
         }
-        return result;
+        return Status.Neutral;
     }
 
     // intf_P1_03.inc:13

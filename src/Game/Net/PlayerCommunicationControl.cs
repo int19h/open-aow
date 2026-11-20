@@ -65,10 +65,9 @@ public partial class PlayerCommunicationControl : IDisposable
     // NetworkE.pas:503
     public PlayerCommunicationSettings GetPlayers(int index)
     {
-        PlayerCommunicationSettings result = index >= 0 && index < PlayerCommunicationSettingsList.Count
+        return index >= 0 && index < PlayerCommunicationSettingsList.Count
             ? PlayerCommunicationSettingsList.Players[index]
             : null;
-        return result;
     }
 
     // NetworkE.pas:511

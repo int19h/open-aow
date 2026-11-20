@@ -249,12 +249,11 @@ public partial class PlayerStructure(CustomNode owner) : Structure(owner)
     // Structur.PAS:2313
     public override int CanMoveOver(in HexSpriteSenderInfo info)
     {
-        int result = Resource.TerrainList.Terrain[info.HexNumber] >= 0 && (!GetRazed() || GetBuilding())
+        return Resource.TerrainList.Terrain[info.HexNumber] >= 0 && (!GetRazed() || GetBuilding())
             ? Player == 0
                 ? ((MoveControl)info.Sender).Player == Player || !Resource.Claimed ? 1 : 0
                 : ((MoveControl)info.Sender).Player == Player || Player == -1 ? 1 : 0
             : 1;
-        return result;
     }
 
     // Structur.PAS:2285
@@ -480,12 +479,12 @@ public partial class PlayerStructure(CustomNode owner) : Structure(owner)
             result = 6;
             if (GetHexLevel() != 0 || (Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 8) != 0))
             {
-                result = (int)(((uint)(result + 1)) >> 1);
+                return (int)(((uint)(result + 1)) >> 1);
             }
         }
         else
         {
-            result = 4;
+            return 4;
         }
 
         return result;
@@ -572,21 +571,20 @@ public partial class PlayerStructure(CustomNode owner) : Structure(owner)
     // Structur.PAS:2115
     public virtual string GetCombatEventText(Battle combat)
     {
-        string result = "";
         if (!GetRazed())
         {
             if (combat.CombatResult is CombatResult.Victory or CombatResult.NoDefenders)
             {
                 string editName = EditName();
-                result = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.StructureCapturedFormat), [editName]);
+                return AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.StructureCapturedFormat), [editName]);
             }
             else
             {
-                result = "";
+                return "";
             }
         }
 
-        return result;
+        return "";
     }
 
     // Structur.PAS:2094
@@ -610,10 +608,9 @@ public partial class PlayerStructure(CustomNode owner) : Structure(owner)
     // Structur.PAS:2363
     public virtual MoveAction GetMoveAction(sbyte player, MoveAction action)
     {
-        MoveAction result = player != Player && !GetRazed() && (Player != 0 || Resource.Claimed)
+        return player != Player && !GetRazed() && (Player != 0 || Resource.Claimed)
             ? MoveAction.Attack
             : action;
-        return result;
     }
 
     // Structur.PAS:2349

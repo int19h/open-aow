@@ -685,8 +685,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
                     GroupControl.SetupME();
                     GroupControl.ExecuteME(_target.Location.X, _target.Location.Y, _target.Location.MapLevel);
                     State = 21;
-                    result = true;
-                    break;
+                    return true;
                 case 40:
                     NoTargetsFound();
                     Done();
@@ -697,7 +696,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
         }
         else
         {
-            result = true;
+            return true;
         }
 
         return result;
@@ -922,12 +921,12 @@ public partial class AIGroupTargetSelector : AIGroupTask
             {
                 int movesMin = GroupControl.Group.GetMovesMin();
                 int days = (target.MovePoints - 1) / movesMin;
-                result = (float)((double)result + Round((double)days * MoveDayFactor));
+                return (float)((double)result + Round((double)days * MoveDayFactor));
             }
         }
         else
         {
-            result = 0;
+            return 0;
         }
 
         return result;
@@ -952,7 +951,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
         }
         else
         {
-            result = 0;
+            return 0;
         }
 
         return result;
@@ -989,12 +988,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
             ? Round((double)target.PathStrength * CurrentPathStrengthFactor)
             : Round((double)target.PathStrength * PathStrengthFactor);
 
-        if (result < pathStrength)
-        {
-            result = pathStrength;
-        }
-
-        return result;
+        return result < pathStrength ? pathStrength : result;
     }
 
     // AIGroup.pas:3349
@@ -1085,14 +1079,12 @@ public partial class AIGroupTargetSelector : AIGroupTask
                 condition = GroupControl.Group.RequestTargetExpense(targetGold + targetTargetGold, targetMana + targetTargetMana);
             }
 
-            result = condition;
+            return condition;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // AIGroup.pas:3441

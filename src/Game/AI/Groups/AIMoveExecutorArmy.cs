@@ -98,12 +98,7 @@ public partial class AIMoveExecutorArmy(CustomNode owner) : AIMoveExecutorUnitLi
             selection = (byte)(int)(((uint)selection) >> 1);
         }
 
-        if (result == 65535)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == 65535 ? -1 : result;
     }
 
     // AIGroup.pas:4613
@@ -123,12 +118,7 @@ public partial class AIMoveExecutorArmy(CustomNode owner) : AIMoveExecutorUnitLi
             selection = (byte)(int)(((uint)selection) >> 1);
         }
 
-        if (result == 65535)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == 65535 ? -1 : result;
     }
 
     // AIGroup.pas:4627
@@ -151,12 +141,7 @@ public partial class AIMoveExecutorArmy(CustomNode owner) : AIMoveExecutorUnitLi
             }
         }
 
-        if (all)
-        {
-            result = selection;
-        }
-
-        return result;
+        return all ? selection : result;
     }
 
     // Engine.pas:631

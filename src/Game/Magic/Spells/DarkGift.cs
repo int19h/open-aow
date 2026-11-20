@@ -34,7 +34,6 @@ public partial class DarkGift : UnitSpell
     // UnitSpells.pas:845
     public override bool ExecuteSpell(Troop source, Troop target, int mana, Span<int> data)
     {
-        bool result;
         if (ValidTargetUnit(source, target))
         {
             if (target.ExpandAbility(169))
@@ -46,13 +45,11 @@ public partial class DarkGift : UnitSpell
             }
 
             // { Original succeeds even when expansion fails. }
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 }

@@ -30,7 +30,6 @@ public partial class Remedy : UnitSpell
     // UnitSpells.pas:436
     public override bool ExecuteSpell(Troop source, Troop target, int mana, Span<int> data)
     {
-        bool result;
         if (ValidTargetUnit(source, target))
         {
             int hitPoints = target.GetHitPoints() + 5;
@@ -46,14 +45,12 @@ public partial class Remedy : UnitSpell
             _ = target.RemoveAbility(53);
             _ = target.RemoveAbility(92);
             _ = target.RemoveAbility(127);
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     private static readonly string s_remedyText = "Remedy";

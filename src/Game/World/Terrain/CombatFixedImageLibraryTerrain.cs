@@ -14,7 +14,6 @@ public partial class CombatFixedImageLibraryTerrain(CustomNode owner) : CombatIm
     // CombatILTer.pas:197
     public override bool CanChangeTerrain(in HexSpriteSenderInfo info)
     {
-        bool result;
         if (base.Resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
         {
             bool validTerrainType = ValidTerrainType(info.MapField.TerrainType);
@@ -23,14 +22,12 @@ public partial class CombatFixedImageLibraryTerrain(CustomNode owner) : CombatIm
                 validTerrainType = GetMostFrequentMapFieldTerrainType(defaultValue: base.Resource.TerrainList.GetTerrain(info.HexNumber), mapLevel: Owner.Owner, hexX: StoredHexX, hexY: StoredHexY) == info.MapField.TerrainType;
             }
 
-            result = validTerrainType;
+            return validTerrainType;
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // CombatILTer.pas:206

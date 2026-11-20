@@ -58,11 +58,7 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     public LibraryImage GetImage(int index) => Images[index];
 
     // ImageLib.pas:1335
-    public LibraryImage GetSafeImage(int index)
-    {
-        LibraryImage result = index >= 0 && index < Count ? Images[index] : null;
-        return result;
-    }
+    public LibraryImage GetSafeImage(int index) => index >= 0 && index < Count ? Images[index] : null;
 
     // ImageLib.pas:1343
     public void UpdateDimensions()

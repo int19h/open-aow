@@ -130,21 +130,18 @@ public partial class Crusade : Spell
     {
         string reason = "";
         _ = base.Activate(source);
-        bool result;
         if (CanActivate(source, ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             SpellTokenEvent eventValue = new(null) { Holder = CreationHolder() };
             eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             _ = eventValue.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // GlobalSpells.pas:1313
@@ -158,7 +155,6 @@ public partial class Crusade : Spell
         sbyte layer = coordinate62.MapLevel;
         int radiusToHexNumber = HexGeometry.RadiusToHexNumber(5);
         HexGeometry.CenterHexNumberToHex(hexNumber: StrategicMap.Current.Random(radiusToHexNumber), hexX: x, hexY: y, newHexX: ref targetX, newHexY: ref targetY);
-        bool result;
         if (party.Place((sbyte)targetX, (sbyte)targetY, layer, Set<ArmyPlaceModeElement>.Of(ArmyPlaceModeElement.Safe, ArmyPlaceModeElement.ScanArea)))
         {
             party.Activate();
@@ -181,14 +177,12 @@ public partial class Crusade : Spell
                 }
             }
 
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     private static readonly string s_crusadeText = "Crusade";

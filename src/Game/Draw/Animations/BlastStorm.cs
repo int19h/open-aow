@@ -115,19 +115,15 @@ public partial class BlastStorm(CustomNode owner) : Storm(owner)
                 }
             }
         }
-
-        bool result;
         if (_stormImages.Count == FrameCounter)
         {
             AbilityRules.TriggerStormDamage(mapLevel: GetHexLevel(), y: GetHexY(), x: GetHexX(), storm: StormType(), innerRadius: 0, outerRadius: 4, player: StrategicMap.Current.CurrentPlayer);
-            result = false;
+            return false;
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // Storms.pas:331

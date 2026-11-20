@@ -119,10 +119,6 @@ public partial class ItemGraphics(CustomNode owner) : EngineResource(owner)
     }
 
     // Army.PAS:5161
-    public LibraryImage GetItemImage()
-    {
-        LibraryImage result = _imageLibrary?[ImageIndex];
-        return result;
-    }
+    public LibraryImage GetItemImage() => _imageLibrary?[ImageIndex];
 
 }

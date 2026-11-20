@@ -33,23 +33,22 @@ public partial class HeroUpgradeEventLog(CustomNode owner) : EventLog(owner)
     // Hero.PAS:66
     public override string GetText()
     {
-        string result = "";
         Hero hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(UnitId);
         if (hero is not null)
         {
             if (NewLevel - OldLevel == 1)
             {
                 string name = hero.GetName();
-                result = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_madeLevelFormat), [name]);
+                return AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_madeLevelFormat), [name]);
             }
             else
             {
                 string name = hero.GetName();
-                result = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_madeLevelsFormat), [name, (NewLevel - OldLevel)]);
+                return AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_madeLevelsFormat), [name, (NewLevel - OldLevel)]);
             }
         }
 
-        return result;
+        return "";
     }
 
     // Hero.PAS:76
@@ -57,7 +56,6 @@ public partial class HeroUpgradeEventLog(CustomNode owner) : EventLog(owner)
     {
         UnitControl unitControl = StrategicMap.Current.UnitControl;
         Hero hero = unitControl.FindUnit<Hero>(UnitId);
-        bool result;
         if (hero is not null && StrategicMap.Current.SeatedPlayer == hero.Player)
         {
             if (hero.UpgradePending)
@@ -65,7 +63,7 @@ public partial class HeroUpgradeEventLog(CustomNode owner) : EventLog(owner)
                 bool executeNow = trigger == ExecuteTrigger.User;
                 executeNow = executeNow || (StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.HeroUpgrade));
                 executeNow = executeNow || (StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.HeroUpgrade));
-                result = executeNow && base.Execute(mode, trigger, done);
+                return executeNow && base.Execute(mode, trigger, done);
             }
             else
             {
@@ -80,15 +78,13 @@ public partial class HeroUpgradeEventLog(CustomNode owner) : EventLog(owner)
                     StrategicMap.Current.ShowWarning(canOnlyUpgradeOnTheDayALevelIsMade);
                 }
 
-                result = false;
+                return false;
             }
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Hero.PAS:102

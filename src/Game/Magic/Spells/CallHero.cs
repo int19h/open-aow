@@ -131,7 +131,6 @@ public partial class CallHero : Spell
     // GlobalSpells.pas:1195
     public override bool Activate(Troop source)
     {
-        bool result;
         string reason = "";
         if (CanActivate(source, ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
@@ -139,14 +138,12 @@ public partial class CallHero : Spell
             eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             _ = eventValue.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // GlobalSpells.pas:1212

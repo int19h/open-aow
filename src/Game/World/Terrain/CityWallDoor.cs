@@ -89,14 +89,13 @@ public partial class CityWallDoor(CustomNode owner) : CityWall(owner)
     // CityWall.pas:409
     public override int CanMoveOver(in HexSpriteSenderInfo info)
     {
-        int result = info.HexNumber == 0
+        return info.HexNumber == 0
             ? HitPoints == 0 || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetSide() == CombatSideIndex.Defender || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(66) || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(36) || ((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.Climbing) || ((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.Wall)
                 ? 1
                 : ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(59)
                     ? 0
                     : ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][8 - MovementTables.FirstOverlay] != 0 ? 1 : 0
             : 1;
-        return result;
     }
 
     public new partial class Resource(CustomNode owner) : CityWall.Resource(owner)

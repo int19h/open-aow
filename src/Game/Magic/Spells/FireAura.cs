@@ -45,7 +45,6 @@ public partial class FireAura : UnitSpell
     // UnitSpells.pas:636
     public override bool ExecuteSpell(Troop source, Troop target, int mana, Span<int> data)
     {
-        bool result;
         if (ValidTargetUnit(source, target))
         {
             if (target.ExpandAbility(163))
@@ -57,13 +56,11 @@ public partial class FireAura : UnitSpell
             }
 
             // { Original succeeds even when expansion fails. }
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 }

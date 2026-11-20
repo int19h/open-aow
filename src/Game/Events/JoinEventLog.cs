@@ -101,18 +101,16 @@ public partial class JoinEventLog(CustomNode owner) : EventLog(owner)
     // Diplomacy.pas:93
     public virtual bool Accept(ref string errorText)
     {
-        bool result;
         if (StrategicMap.Current.Players.GetPlayers(Player).Gems >= Gold)
         {
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
             errorText = AbilityRules.TranslateResourceString(GetEngine(), GameText.TributeNotEnoughGoldText);
         }
 
-        return result;
+        return false;
     }
 
     // Diplomacy.pas:105

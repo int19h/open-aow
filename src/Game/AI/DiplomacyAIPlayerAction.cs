@@ -32,7 +32,6 @@ public partial class DiplomacyAIPlayerAction(CustomNode owner) : AIPlayerAction(
     public override bool Process()
     {
         _ = base.Process();
-        bool result;
         if (Control.Player.PlayerIndex != 0)
         {
             while (true)
@@ -63,14 +62,12 @@ public partial class DiplomacyAIPlayerAction(CustomNode owner) : AIPlayerAction(
             }
 
             int count3 = StrategicMap.Current.Players.Count;
-            result = _nextPlayer < count3;
+            return _nextPlayer < count3;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Diplomacy.pas:1552
@@ -78,18 +75,15 @@ public partial class DiplomacyAIPlayerAction(CustomNode owner) : AIPlayerAction(
     {
         sbyte player = Control.Player.PlayerIndex;
         DiplomaticAction last = StrategicMap.Current.Players.GetPlayers(player).DiplomaticActions.FindLastAction(action.ToFields().Kind, DiplomaticActionReaction.None, player, target, other);
-        DiplomaticAction result = last is null || StrategicMap.Current.Day - last.Day >= minDays
+        return last is null || StrategicMap.Current.Day - last.Day >= minDays
             ? StrategicMap.Current.Players.GetPlayers(player).CreateDiplomaticAction(action, target, other)
             : null;
-
-        return result;
     }
 
     // Diplomacy.pas:1563
     public bool ExecuteDiplomacy(sbyte player)
     {
         // { Original bug: the result remains False even when an action is sent. }
-        bool result = false;
         DiplomaticAction action = null;
         sbyte source = Control.Player.PlayerIndex;
         ByteList idealPeace = new();
@@ -227,7 +221,7 @@ public partial class DiplomacyAIPlayerAction(CustomNode owner) : AIPlayerAction(
         unknown?.Dispose();
         idealPeace?.Dispose();
         idealWar?.Dispose();
-        return result;
+        return false;
     }
 
     // Diplomacy.pas:1670

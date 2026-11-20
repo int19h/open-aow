@@ -34,7 +34,6 @@ public partial class Bless : UnitSpell
     // UnitSpells.pas:805
     public override bool ExecuteSpell(Troop source, Troop target, int mana, Span<int> data)
     {
-        bool result;
         if (ValidTargetUnit(source, target))
         {
             if (target.ExpandAbility(158))
@@ -46,14 +45,12 @@ public partial class Bless : UnitSpell
             }
 
             // { Original succeeds even when expansion fails. }
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     private static readonly string s_blessText = "Bless";

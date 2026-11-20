@@ -81,28 +81,23 @@ public partial class EmailGameControl : EngineObject
     public EmailGame FindEmailGame(EmailGame game)
     {
         int index = _games.IndexOfUniqueLocalId(game.UniqueLocalId);
-        EmailGame result = index != -1 && game.UniqueId != 0 && _games.GetEmailGames(index).UniqueId == game.UniqueId
+        return index != -1 && game.UniqueId != 0 && _games.GetEmailGames(index).UniqueId == game.UniqueId
             ? _games.GetEmailGames(index)
             : null;
-
-        return result;
     }
 
     // Diplomacy.pas:2535
     public bool EmailGameRestarted(EmailGame game)
     {
-        bool result;
         if (game.SecurityId != 0)
         {
             EmailGame localGame = FindEmailGame(game);
-            result = localGame is null || game.SecurityId != localGame.SecurityId;
+            return localGame is null || game.SecurityId != localGame.SecurityId;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Diplomacy.pas:2546
@@ -112,21 +107,18 @@ public partial class EmailGameControl : EngineObject
     public bool UpdateGame(EmailGame game)
     {
         EmailGame localGame = FindEmailGame(game);
-        bool result;
         if (localGame is not null)
         {
             localGame.LastDay = game.LastDay;
             localGame.SecurityId = GenerateSecurityId();
             game.SecurityId = localGame.SecurityId;
             Save();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Diplomacy.pas:2564
@@ -236,7 +228,6 @@ public partial class EmailGameControl : EngineObject
 
     private static int GetFileCrc32(string fileName)
     {
-        int result;
         MemoryStream value = new();
         try
         {
@@ -244,7 +235,7 @@ public partial class EmailGameControl : EngineObject
             try
             {
                 StreamExtensions.LoadFromStream(value, value2);
-                result = EngineServices.GetCrc32(size: (int)value.Length, buffer: (ReadOnlySpan<byte>)value.GetBuffer());
+                return EngineServices.GetCrc32(size: (int)value.Length, buffer: (ReadOnlySpan<byte>)value.GetBuffer());
             }
             finally
             {
@@ -255,7 +246,6 @@ public partial class EmailGameControl : EngineObject
         {
             value?.Dispose();
         }
-        return result;
     }
 
     // intf_P5_04.inc:29

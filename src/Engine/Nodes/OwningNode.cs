@@ -240,7 +240,7 @@ public partial class OwningNode : CustomNode
         }
         else
         {
-            result = _children.Remove(child);
+            return _children.Remove(child);
         }
 
         return result;
@@ -275,9 +275,7 @@ public partial class OwningNode : CustomNode
             i += 1;
         }
 
-        EngineObject result = found ? c : null;
-
-        return result;
+        return found ? c : null;
     }
 
     // Engine.pas:3016

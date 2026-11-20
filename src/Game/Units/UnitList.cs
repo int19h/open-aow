@@ -76,18 +76,15 @@ public partial class UnitList(CustomNode owner) : ObservableNode(owner), IChildL
         // The check refuses a child that is not a troop before the troop is read.
         CheckChild(child);
         EngineObject unit = child;
-        int result;
         if (CanAddUnit((Troop)child))
         {
             _ = unit.AddRef();
-            result = base.AddChild(child);
+            return base.AddChild(child);
         }
         else
         {
-            result = -1;
+            return -1;
         }
-
-        return result;
     }
 
     // Unit.PAS:2362
@@ -124,18 +121,16 @@ public partial class UnitList(CustomNode owner) : ObservableNode(owner), IChildL
     // Unit.PAS:2208
     public virtual bool DeleteUnit(Troop troop)
     {
-        bool result;
         if (CanDeleteUnit(troop))
         {
-            result = true;
             troop.SetOwner(null);
         }
         else
         {
-            result = false;
+            return false;
         }
 
-        return result;
+        return true;
     }
 
     // Unit.PAS:2201
@@ -238,8 +233,6 @@ public partial class UnitList(CustomNode owner) : ObservableNode(owner), IChildL
 
             sameRace = condition;
         }
-
-        sbyte result;
         if (!sameRace)
         {
             bool evil = true;
@@ -256,14 +249,12 @@ public partial class UnitList(CustomNode owner) : ObservableNode(owner), IChildL
                 neutral = neutral && AlignmentTables.NeutralAlignments.Contains(alignmentAlignment);
             }
 
-            result = good && !evil ? (sbyte)-2 : evil && !good ? (sbyte)-4 : (sbyte)-3;
+            return good && !evil ? (sbyte)-2 : evil && !good ? (sbyte)-4 : (sbyte)-3;
         }
         else
         {
-            result = relation;
+            return relation;
         }
-
-        return result;
     }
 
 }

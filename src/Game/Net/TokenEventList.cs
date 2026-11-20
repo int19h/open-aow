@@ -69,12 +69,7 @@ public partial class TokenEventList : EngineObject
             result += 1;
         }
 
-        if (result == c)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == c ? -1 : result;
     }
 
     // NetworkE.pas:1036

@@ -215,20 +215,17 @@ public partial class HeroControl : EngineObject
     // Hero.PAS:2515
     public bool RegisterHero(Hero hero)
     {
-        bool result;
         if (!hero.Registered)
         {
             hero.Registered = true;
             _ = _heroes.AddChild(hero);
             NotifyChanged();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Hero.PAS:2522
@@ -266,9 +263,7 @@ public partial class HeroControl : EngineObject
             }
         }
 
-        result = count != 0 ? result / count : 0;
-
-        return result;
+        return count != 0 ? result / count : 0;
     }
 
     // Hero.PAS:2545

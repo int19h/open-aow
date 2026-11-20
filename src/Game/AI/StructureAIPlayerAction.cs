@@ -27,7 +27,6 @@ public partial class StructureAIPlayerAction(CustomNode owner) : AIPlayerAction(
     public override bool Activate()
     {
         _ = base.Activate();
-        bool result;
         if (Control.Player.PlayerIndex > 0)
         {
             for (int i = 0, last = StrategicMap.Current.StructureControl.GetCount() - 1; i <= last; i++)
@@ -36,14 +35,12 @@ public partial class StructureAIPlayerAction(CustomNode owner) : AIPlayerAction(
                 _ = _structureIds.Add(structure.StructureId);
             }
 
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Structur.PAS:3344

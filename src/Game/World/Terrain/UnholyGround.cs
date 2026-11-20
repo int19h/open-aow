@@ -124,24 +124,9 @@ public partial class UnholyGround(CustomNode owner) : ImageLibraryTerrainMapObje
     // UnHolyG.pas:212
     public override int CanMoveOver(in HexSpriteSenderInfo info)
     {
-        int result;
-        if (base.Resource.TerrainList.Terrain[info.HexNumber] >= 0)
-        {
-            if (!CanDoDamage(((MoveControl)info.Sender).Settings.Units.Units))
-            {
-                result = 1;
-            }
-            else
-            {
-                return 0;
-            }
-        }
-        else
-        {
-            result = 1;
-        }
-
-        return result;
+        return base.Resource.TerrainList.Terrain[info.HexNumber] >= 0
+            ? !CanDoDamage(((MoveControl)info.Sender).Settings.Units.Units) ? 1 : 0
+            : 1;
     }
 
     // UnHolyG.pas:184

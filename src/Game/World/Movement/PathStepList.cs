@@ -23,12 +23,7 @@ public class PathStepList : DefaultItemList<PathStep>
             result += 1;
         }
 
-        if (result == Count)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == Count ? -1 : result;
     }
 
     // HSEngine.pas:1828

@@ -72,17 +72,17 @@ public partial class StormSpell : Spell
                 if (source.GetCastingSpellId() != SpellId)
                 {
                     _ = source.ExecuteStartCasting(SpellId);
-                    result = true;
+                    return true;
                 }
                 else
                 {
-                    result = true;
+                    return true;
                 }
             }
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;
@@ -113,7 +113,6 @@ public partial class StormSpell : Spell
     {
         string reason = "";
         _ = base.Activate(source);
-        bool result;
         if (CanActivate(source, ref reason))
         {
             _source = source;
@@ -139,14 +138,12 @@ public partial class StormSpell : Spell
             selection.InvalidTargetImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[22].GetPreviewImage();
             selection.Activate();
             _targetStorm.UpdateTargetSelection(StrategicMap.Current.TargetSelection);
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Storms.pas:156
@@ -155,7 +152,6 @@ public partial class StormSpell : Spell
     // Storms.pas:768
     public virtual bool ExecuteStormSpell(Troop source, sbyte X, sbyte Y, sbyte L)
     {
-        bool result;
         if (!StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             StormSpellTokenEvent tokenEvent = new(null) { Holder = CreationHolder() };
@@ -163,14 +159,12 @@ public partial class StormSpell : Spell
             tokenEvent.Location = new MapCoordinate(X, Y, L);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(tokenEvent);
             _ = tokenEvent.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Storms.pas:860
@@ -202,7 +196,7 @@ public partial class StormSpell : Spell
         }
         else
         {
-            result = -1;
+            return -1;
         }
 
         return result;

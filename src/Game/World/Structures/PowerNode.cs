@@ -171,19 +171,14 @@ public partial class PowerNode : PlayerStructure
     }
 
     // PowerNode.pas:67
-    public override int GetPower()
-    {
-        int result = !GetRazed() && !GetBuilding() ? 10 : 0;
-        return result;
-    }
+    public override int GetPower() => !GetRazed() && !GetBuilding() ? 10 : 0;
 
     // PowerNode.pas:145
     public override string GetCombatEventText(Battle combat)
     {
-        string result = combat.CombatResult is CombatResult.Victory or CombatResult.NoDefenders
+        return combat.CombatResult is CombatResult.Victory or CombatResult.NoDefenders
             ? AbilityRules.TranslateResourceString(GetEngine(), s_powerNodeBattleWonText)
             : "";
-        return result;
     }
 
     private static readonly string s_generatingPowerFormat = "Generating %s power";

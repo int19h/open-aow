@@ -58,7 +58,7 @@ public partial class WorldMapCampaign(CustomNode owner) : Campaign(owner)
         }
         else
         {
-            result = base.GetAutoSaveFileName(auto);
+            return base.GetAutoSaveFileName(auto);
         }
 
         return result;

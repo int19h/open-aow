@@ -16,11 +16,7 @@ public partial class DoubleItemList : Persistent
     private int _capacity;
 
     // Engine.pas:5140
-    internal DoubleItem Get(int index)
-    {
-        DoubleItem result = index < 0 || index >= _count ? Default : _list[index];
-        return result;
-    }
+    internal DoubleItem Get(int index) => index < 0 || index >= _count ? Default : _list[index];
 
     // Engine.pas:5208
     internal void Put(int index, DoubleItem item)
@@ -189,12 +185,7 @@ public partial class DoubleItemList : Persistent
             result += 1;
         }
 
-        if (result == _count)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == _count ? -1 : result;
     }
 
     // Engine.pas:5165
@@ -206,12 +197,7 @@ public partial class DoubleItemList : Persistent
             result += 1;
         }
 
-        if (result == _count)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == _count ? -1 : result;
     }
 
     // Engine.pas:5172
@@ -223,12 +209,7 @@ public partial class DoubleItemList : Persistent
             result += 1;
         }
 
-        if (result == _count)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == _count ? -1 : result;
     }
 
     // Engine.pas:5179
@@ -356,7 +337,7 @@ public partial class DoubleItemList : Persistent
         }
         else
         {
-            result = -1;
+            return -1;
         }
 
         return result;
@@ -400,7 +381,7 @@ public partial class DoubleItemList : Persistent
         }
         else
         {
-            result = -1;
+            return -1;
         }
 
         return result;

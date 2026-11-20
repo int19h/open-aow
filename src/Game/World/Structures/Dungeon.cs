@@ -84,7 +84,7 @@ public partial class Dungeon : ExplorationSite
         if (tokenEvent.Action == 1)
         {
             LiberatePrisoners((sbyte)tokenEvent.Param);
-            result = ExecuteResult.Done;
+            return ExecuteResult.Done;
         }
 
         return result;

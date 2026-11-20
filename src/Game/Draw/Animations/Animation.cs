@@ -42,10 +42,9 @@ public partial class Animation(CustomNode owner) : HexSprite(owner)
     // Animation.pas:153
     public override Set<ControlStyleElement> GetControlStyle()
     {
-        Set<ControlStyleElement> result = AnimationControlMode().Contains(AnimationControlModeElement.Saveable)
+        return AnimationControlMode().Contains(AnimationControlModeElement.Saveable)
             ? Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad)
             : Set<ControlStyleElement>.Of();
-        return result;
     }
 
     // Animation.pas:276
@@ -238,30 +237,23 @@ public partial class Animation(CustomNode owner) : HexSprite(owner)
     public virtual bool ExecuteTokenEvent(AnimationTokenEvent eventValue, TokenExecutor executor) => false;
 
     // Animation.pas:308
-    public virtual bool CanPlace(MapContainer map, sbyte X, sbyte Y, sbyte L)
-    {
-        bool result = X >= 0 && Y >= 0 && L >= 0 && X < map.Width && Y < map.Height && L < map.LevelCount;
-        return result;
-    }
+    public virtual bool CanPlace(MapContainer map, sbyte X, sbyte Y, sbyte L) => X >= 0 && Y >= 0 && L >= 0 && X < map.Width && Y < map.Height && L < map.LevelCount;
 
     // Animation.pas:357
     public virtual bool PlaceHex(MapContainer map, sbyte X, sbyte Y, sbyte L)
     {
-        bool result;
         if (GetEditMode() || CanPlace(map, X, Y, L))
         {
             AnimationMap = map.Map;
             Remove();
             Location = new MapCoordinate(X, Y, L);
             Connect();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Animation.pas:302

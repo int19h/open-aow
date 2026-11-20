@@ -92,7 +92,6 @@ public partial class ImageLibraryManagerList(ImageLibraryManager owner) : Delphi
     {
         fileName = UpperCase(fileName);
         _ = HashTable.TryGetValue(fileName, out ImageLibraryManagerObject objectValue);
-        CustomImageLibrary result;
         if (objectValue is not null)
         {
             objectValue.RefCount += 1;
@@ -112,14 +111,12 @@ public partial class ImageLibraryManagerList(ImageLibraryManager owner) : Delphi
                 }
             }
 
-            result = objectValue.ImageLibrary;
+            return objectValue.ImageLibrary;
         }
         else
         {
-            result = null;
+            return null;
         }
-
-        return result;
     }
 
     // ImageLib.pas:8213
@@ -127,7 +124,6 @@ public partial class ImageLibraryManagerList(ImageLibraryManager owner) : Delphi
     {
         fileName = UpperCase(fileName);
         _ = HashTable.TryGetValue(fileName, out ImageLibraryManagerObject objectValue);
-        bool result;
         if (objectValue is not null)
         {
             objectValue.RefCount -= 1;
@@ -136,14 +132,12 @@ public partial class ImageLibraryManagerList(ImageLibraryManager owner) : Delphi
                 objectValue.ImageLibrary.ReleaseDiscardableImageData();
             }
 
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // ImageLib.pas:8229

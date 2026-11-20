@@ -55,7 +55,6 @@ public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner
     // Diplomacy.pas:1228
     public override int GetTextColor()
     {
-        int result;
         int race;
         if (Action.Proposal.SignedAsOtherPlayer)
         {
@@ -68,7 +67,7 @@ public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner
 
             race = condition ? StrategicMap.Current.Players.GetPlayers(Action.OtherPlayer).PlayerRace : 12;
 
-            result = RaceColors[race];
+            return RaceColors[race];
         }
         else
         {
@@ -83,7 +82,7 @@ public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner
 
                 race = condition ? StrategicMap.Current.Players.GetPlayers(Action.Target).PlayerRace : 12;
 
-                result = RaceColors[race];
+                return RaceColors[race];
             }
             else
             {
@@ -98,7 +97,7 @@ public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner
 
                     race = condition ? StrategicMap.Current.Players.GetPlayers(Action.Source).PlayerRace : 12;
 
-                    result = RaceColors[race];
+                    return RaceColors[race];
                 }
                 else
                 {
@@ -111,19 +110,16 @@ public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner
 
                     race = condition ? StrategicMap.Current.Players.GetPlayers(Action.Target).PlayerRace : 12;
 
-                    result = RaceColors[race];
+                    return RaceColors[race];
                 }
             }
         }
-
-        return result;
     }
 
     // Diplomacy.pas:1333
     public override int GetLeftIcon()
     {
         DiplomaticAction action = Action;
-        int result;
         if (!action.Proposal.SignedAsOtherPlayer)
         {
             bool condition = action.Source > 0;
@@ -133,7 +129,7 @@ public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner
                 condition = action.Source < count;
             }
 
-            result = condition ? StrategicMap.Current.Players.GetPlayers(action.Source).PlayerRace : -1;
+            return condition ? StrategicMap.Current.Players.GetPlayers(action.Source).PlayerRace : -1;
         }
         else
         {
@@ -144,10 +140,8 @@ public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner
                 condition = action.OtherPlayer < count;
             }
 
-            result = condition ? StrategicMap.Current.Players.GetPlayers(action.OtherPlayer).PlayerRace : -1;
+            return condition ? StrategicMap.Current.Players.GetPlayers(action.OtherPlayer).PlayerRace : -1;
         }
-
-        return result;
     }
 
     // Diplomacy.pas:1379
@@ -162,9 +156,7 @@ public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner
             condition = action.Target < count;
         }
 
-        int result = condition ? StrategicMap.Current.Players.GetPlayers(action.Target).PlayerRace : -1;
-
-        return result;
+        return condition ? StrategicMap.Current.Players.GetPlayers(action.Target).PlayerRace : -1;
     }
 
     // Diplomacy.pas:1225
@@ -192,18 +184,15 @@ public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner
         }
 
         show = show && (trigger == ExecuteTrigger.User || Action.Reaction != DiplomaticActionReaction.Ignore);
-        bool result;
         if (show)
         {
             StrategicMap.Current.TriggerExecuteEventLog(this, mode, done);
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Diplomacy.pas:1188

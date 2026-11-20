@@ -47,7 +47,7 @@ public partial class WarpPartyTokenEvent(CustomNode owner) : SpellTokenEvent(own
             byte selection = default;
             ArmyHexSprite army = default;
             _ = ArmyId.RetrieveArmy(ref army, ref selection);
-            result = GamePack.Current.SpellControl.GetSpell<WarpParty>(EventSpellId).ValidTarget(army, WarpLocation.X, WarpLocation.Y, WarpLocation.MapLevel);
+            return GamePack.Current.SpellControl.GetSpell<WarpParty>(EventSpellId).ValidTarget(army, WarpLocation.X, WarpLocation.Y, WarpLocation.MapLevel);
         }
 
         return result;

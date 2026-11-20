@@ -175,7 +175,7 @@ internal static class PixelRemap
                 throw new NotSupportedException("Source PixelFormat not supported");
         }
 
-        int result = destinationPixelFormatId switch
+        return destinationPixelFormatId switch
         {
             PixelFormat.Pal8 => destinationPalette is not null
                                 ? destinationPalette.GetNearestColor(r + (g << 8) + (b << 16))
@@ -190,7 +190,6 @@ internal static class PixelRemap
             PixelFormat.Xrgb32 => throw new NotSupportedException("Destination PixelFormat not supported"),
             _ => throw new NotSupportedException("Destination PixelFormat not supported"),
         };
-        return result;
     }
 
     internal static void RemapSurface08To555(SurfaceView source, SurfaceView destination, int width, int height, Palette palette) =>

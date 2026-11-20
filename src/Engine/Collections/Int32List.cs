@@ -26,11 +26,7 @@ public partial class Int32List : Persistent
     private int _default;
 
     // Engine.pas:3343
-    public int Get(int index)
-    {
-        int result = index < 0 || index >= _count ? _default : _list[index];
-        return result;
-    }
+    public int Get(int index) => index < 0 || index >= _count ? _default : _list[index];
 
     // Engine.pas:3397
     // AoWE
@@ -94,12 +90,7 @@ public partial class Int32List : Persistent
             result = $"{result}{IntToStr(_list[i])},";
         }
 
-        if (!IsEmpty(result))
-        {
-            result = Copy(result, 1, result.Length - 1);
-        }
-
-        return result;
+        return !IsEmpty(result) ? Copy(result, 1, result.Length - 1) : result;
     }
 
     // Engine.pas:3548
@@ -229,12 +220,7 @@ public partial class Int32List : Persistent
             result += 1;
         }
 
-        if (result == _count)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == _count ? -1 : result;
     }
 
     // Engine.pas:3368
@@ -429,7 +415,7 @@ public partial class Int32List : Persistent
         }
         else
         {
-            result = -1;
+            return -1;
         }
 
         return result;

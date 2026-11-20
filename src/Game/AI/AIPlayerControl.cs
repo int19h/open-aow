@@ -144,11 +144,7 @@ public partial class AIPlayerControl : EngineObject
     }
 
     // AI.pas:176
-    public int GetProcessCyclesMax()
-    {
-        int result = !Player.SingleProcessCycle ? _processCyclesMax : 1;
-        return result;
-    }
+    public int GetProcessCyclesMax() => !Player.SingleProcessCycle ? _processCyclesMax : 1;
 
     // AI.pas:182
     public void Activate(AIExecutor executor)
@@ -191,20 +187,17 @@ public partial class AIPlayerControl : EngineObject
     public GroupBehavior GetRandomGroupBehavior()
     {
         Player player = Player;
-        GroupBehavior result;
         if (Player.PlayerIndex == 0)
         {
             int random = Random(10);
             StrategicMapIndependentAIMode independentAIMode = StrategicMap.Current.GetIndependentAIMode();
-            result = s_independentGroupBehaviorTable[(int)independentAIMode][random];
+            return s_independentGroupBehaviorTable[(int)independentAIMode][random];
         }
         else
         {
             int random = Random(10);
-            result = s_player2GroupBehaviorTable[(int)player.Behavior][random];
+            return s_player2GroupBehaviorTable[(int)player.Behavior][random];
         }
-
-        return result;
     }
 
     // AI.pas:213
@@ -508,7 +501,7 @@ public partial class AIPlayerControl : EngineObject
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;
@@ -572,7 +565,7 @@ public partial class AIPlayerControl : EngineObject
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;
@@ -596,12 +589,12 @@ public partial class AIPlayerControl : EngineObject
             Status defaultRaceRelation = StrategicMap.Current.Races.GetRace(fPlayersPlayers.PlayerRace).GetDefaultRaceRelation(players.PlayerRace);
             if (Set<Status>.Of(Status.Hostile, Status.Wary).Contains(defaultRaceRelation))
             {
-                result = false;
+                return false;
             }
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;

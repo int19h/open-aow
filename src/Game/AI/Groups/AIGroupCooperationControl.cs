@@ -202,7 +202,6 @@ public partial class AIGroupCooperationControl : AIGroupTask
     // AIGroup.pas:2958
     public bool ValidCooperationGroup(AIRecruitmentGroup group)
     {
-        bool result;
         MapCoordinate[] locationCell = new MapCoordinate[1];
         ref MapCoordinate location = ref locationCell[0];
         if (group.Group.TransporterId == -1 && ((group.Group.TargetLocation == _target.Location && group.Group.TargetType == AIGroupTargetStatus.Setup) || Set<AIGroupTargetStatus>.Of(AIGroupTargetStatus.None, AIGroupTargetStatus.Idle).Contains(group.Group.TargetType)) && group.Group.CooperateWithGroup(_control.Group, _target))
@@ -240,24 +239,22 @@ public partial class AIGroupCooperationControl : AIGroupTask
                         moves = otherMoves;
                     }
 
-                    result = moves >= group.MovePoints;
+                    return moves >= group.MovePoints;
                 }
                 else
                 {
-                    result = true;
+                    return true;
                 }
             }
             else
             {
-                result = true;
+                return true;
             }
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // AIGroup.pas:2998

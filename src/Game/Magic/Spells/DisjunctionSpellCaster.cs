@@ -37,7 +37,7 @@ public partial class DisjunctionSpellCaster(CustomNode owner) : SpellCaster(owne
                         int mana = GetMana();
                         if (StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.Mana + hero.CastingProgress >= spell.BaseManaCost + mana)
                         {
-                            result = true;
+                            return true;
                         }
                         else
                         {
@@ -48,7 +48,7 @@ public partial class DisjunctionSpellCaster(CustomNode owner) : SpellCaster(owne
                 }
                 else
                 {
-                    result = true;
+                    return true;
                 }
             }
             else
@@ -59,7 +59,7 @@ public partial class DisjunctionSpellCaster(CustomNode owner) : SpellCaster(owne
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;
@@ -68,7 +68,6 @@ public partial class DisjunctionSpellCaster(CustomNode owner) : SpellCaster(owne
     // GlobalSpells.pas:901
     public override bool Cast()
     {
-        bool result;
         string reason = "";
         if (CanCast(ref reason))
         {
@@ -82,20 +81,19 @@ public partial class DisjunctionSpellCaster(CustomNode owner) : SpellCaster(owne
                 eventValue.DispelChance = DispelChance;
                 StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
                 _ = eventValue.Release();
-                result = true;
+                return true;
             }
             else
             {
-                result = false;
+                return false;
             }
         }
         else
         {
-            result = false;
             StrategicMap.Current.ShowMessage(reason);
         }
 
-        return result;
+        return false;
     }
 
     // GlobalSpells.pas:812
@@ -105,18 +103,14 @@ public partial class DisjunctionSpellCaster(CustomNode owner) : SpellCaster(owne
     public GlobalEnchantment SelectedEnchantment()
     {
         int index = StrategicMap.Current.GlobalMagicControl.IndexOfId(EnchantmentId);
-        GlobalEnchantment result = index != -1 ? StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(index) : null;
-
-        return result;
+        return index != -1 ? StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(index) : null;
     }
 
     // GlobalSpells.pas:828
     public int GetMana()
     {
         GlobalEnchantment enchantment = SelectedEnchantment();
-        int result = enchantment is not null ? Round((double)(enchantment.DispelMana * 0.02) * DispelChance) : -1;
-
-        return result;
+        return enchantment is not null ? Round((double)(enchantment.DispelMana * 0.02) * DispelChance) : -1;
     }
 
     // GlobalSpells.pas:839
@@ -141,7 +135,6 @@ public partial class DisjunctionSpellCaster(CustomNode owner) : SpellCaster(owne
     public bool GetEnoughMana()
     {
         // FPlayer is on TAbstractUnit. FCastingProgress is on THero, so only that read tests for a hero.
-        bool result = false;
         Troop source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
         if (SelectedEnchantment() is not null)
         {
@@ -154,17 +147,17 @@ public partial class DisjunctionSpellCaster(CustomNode owner) : SpellCaster(owne
                     int mana = GetMana();
                     if (mana2 >= spell.BaseManaCost + mana)
                     {
-                        result = true;
+                        return true;
                     }
                 }
             }
             else
             {
-                result = true;
+                return true;
             }
         }
 
-        return result;
+        return false;
     }
 
     internal static string CannotDispelWhenSpellWardIsActiveText { get; } = "Cannot dispel when Spell Ward is active";

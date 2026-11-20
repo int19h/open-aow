@@ -19,11 +19,7 @@ public partial class UInt16List : Persistent
     private ushort _default;
 
     // Engine.pas:4336
-    internal ushort Get(int index)
-    {
-        ushort result = index < 0 || index >= _count ? _default : _list[index];
-        return result;
-    }
+    internal ushort Get(int index) => index < 0 || index >= _count ? _default : _list[index];
 
     // Engine.pas:4390
     internal void Put(int index, ushort item)
@@ -178,12 +174,7 @@ public partial class UInt16List : Persistent
             result += 1;
         }
 
-        if (result == _count)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == _count ? -1 : result;
     }
 
     // Engine.pas:4361
@@ -373,7 +364,7 @@ public partial class UInt16List : Persistent
         }
         else
         {
-            result = -1;
+            return -1;
         }
 
         return result;

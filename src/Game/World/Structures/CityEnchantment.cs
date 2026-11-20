@@ -39,19 +39,13 @@ public partial class CityEnchantment : GlobalEnchantment
     public override string GetName() => AbilityRules.TranslateResourceString(GetEngine(), s_cityEnchantmentIdTexts[(int)CityEnchantmentId]);
 
     // City.pas:2739
-    public override MapCoordinate GetLocation()
-    {
-        MapCoordinate result = new(X: EnchantmentLocation.X, Y: EnchantmentLocation.Y, MapLevel: EnchantmentLocation.MapLevel);
-        return result;
-    }
+    public override MapCoordinate GetLocation() => new(X: EnchantmentLocation.X, Y: EnchantmentLocation.Y, MapLevel: EnchantmentLocation.MapLevel);
 
     // City.pas:2767
     public override int GetAIUpkeepPriority()
     {
         City city = GetCity();
-        int result = city is not null ? city.AICityEnchantmentUpkeepPriority(CityEnchantmentId) : 0;
-
-        return result;
+        return city is not null ? city.AICityEnchantmentUpkeepPriority(CityEnchantmentId) : 0;
     }
 
     // City.pas:2746
@@ -65,7 +59,7 @@ public partial class CityEnchantment : GlobalEnchantment
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;

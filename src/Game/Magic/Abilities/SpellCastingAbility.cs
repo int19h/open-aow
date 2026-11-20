@@ -92,11 +92,7 @@ public partial class SpellCastingAbility : MultiLevelAbility
     }
 
     // AoWAb.PAS:4479
-    public override bool CanActivate(AbilityOwner owner, ref string reason)
-    {
-        bool result = owner is Hero;
-        return result;
-    }
+    public override bool CanActivate(AbilityOwner owner, ref string reason) => owner is Hero;
 
     // AoWAb.PAS:4465
     public override bool Expand(AbilityOwner owner)
@@ -183,7 +179,7 @@ public partial class SpellCastingAbility : MultiLevelAbility
     // AoWAb.PAS:4452
     public override string GetLevelName(int level)
     {
-        string result = level switch
+        return level switch
         {
             0 => AbilityRules.TranslateResourceString(GetEngine(), s_spellCastingText),
             1 => $"{AbilityRules.TranslateResourceString(GetEngine(), s_spellCastingText)} I",
@@ -193,8 +189,6 @@ public partial class SpellCastingAbility : MultiLevelAbility
             5 => $"{AbilityRules.TranslateResourceString(GetEngine(), s_spellCastingText)} V",
             _ => "",
         };
-
-        return result;
     }
 
     // AoWAb.PAS:4488
@@ -228,7 +222,7 @@ public partial class SpellCastingAbility : MultiLevelAbility
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;
@@ -257,7 +251,7 @@ public partial class SpellCastingAbility : MultiLevelAbility
 
             // { Original divides by zero when the opponent strength is zero. }
             float ratio = (float)((double)sourceStrength / targetStrength);
-            result = ((double)ratio < 1.5 && troop.GetCastingSpellId() == 0) || (double)ratio < 1 || (double)((double)source.GetHitPoints() * ratio) < 7;
+            return ((double)ratio < 1.5 && troop.GetCastingSpellId() == 0) || (double)ratio < 1 || (double)((double)source.GetHitPoints() * ratio) < 7;
         }
 
         return result;

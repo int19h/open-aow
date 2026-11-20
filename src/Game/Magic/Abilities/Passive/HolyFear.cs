@@ -24,11 +24,9 @@ public partial class HolyFear : DurationAbility
     {
         // { Original assumes the ability data exists. }
         DurationAbilityData durationAbilityData = GetData(owner);
-        string result = durationAbilityData.Source == 1
+        return durationAbilityData.Source == 1
             ? AbilityRules.TranslateResourceString(GetEngine(), GameText.LifeMasteryText)
             : base.GetSourceName(owner);
-
-        return result;
     }
 
     // PassiveAb.pas:827

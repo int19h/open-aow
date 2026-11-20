@@ -276,8 +276,6 @@ public partial class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<M
         {
             maxYEven = y;
         }
-
-        bool result;
         if (maxX >= 0 && map.Width > minX && (maxYEven >= 0 || maxYOdd >= 0) && (map.Height > minYEven || map.Height > minYOdd))
         {
             if (minX < 0)
@@ -355,14 +353,12 @@ public partial class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<M
             }
 
             _ = Owner.SetHexNumberOfHexSprite(this, 0);
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // HXSPRITE.PAS:295
@@ -500,8 +496,6 @@ public partial class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<M
         {
             maxYEven = y;
         }
-
-        bool result;
         if (maxX >= 0 && map.Width > minX && (maxYEven >= 0 || maxYOdd >= 0) && (map.Height > minYEven || map.Height > minYOdd))
         {
             if (minX < 0)
@@ -574,14 +568,12 @@ public partial class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<M
                 }
             }
 
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // HXSPRITE.PAS:431

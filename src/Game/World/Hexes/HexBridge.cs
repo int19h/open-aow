@@ -35,11 +35,7 @@ public partial class HexBridge(CustomNode owner) : AbstractRoad(owner)
     // HxBridge.pas:69
 
     // HxBridge.pas:100
-    public override sbyte GetTerrain(int index)
-    {
-        sbyte result = index == 0 ? _terrain : (sbyte)-2;
-        return result;
-    }
+    public override sbyte GetTerrain(int index) => index == 0 ? _terrain : (sbyte)-2;
 
     // HxBridge.pas:89
     public override byte GetLevel() => 26;
@@ -239,7 +235,6 @@ public partial class HexBridge(CustomNode owner) : AbstractRoad(owner)
     {
         int hexX = default;
         int hexY = default;
-        bool result = false;
         MapLevel level = mapField.Owner;
         HexGeometry.CenterHexNumberToHex(mapField.HexX, mapField.HexY, direction + 1, ref hexX, ref hexY);
         if (hexX >= 0 && hexY >= 0 && hexX < level.Width && hexY < level.Height)
@@ -249,12 +244,12 @@ public partial class HexBridge(CustomNode owner) : AbstractRoad(owner)
                 HexGeometry.CenterHexNumberToHex(mapField.HexX, mapField.HexY, direction + 4, ref hexX, ref hexY);
                 if (hexX >= 0 && hexY >= 0 && hexX < level.Width && hexY < level.Height)
                 {
-                    result = Land(level.GetField(hexX, hexY).TerrainType);
+                    return Land(level.GetField(hexX, hexY).TerrainType);
                 }
             }
         }
 
-        return result;
+        return false;
     }
 
     // HxBridge.pas:246

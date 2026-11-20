@@ -222,7 +222,6 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
     // Hero.PAS:370
     public Item GetSlot(HeroItemPosition position)
     {
-        Item result;
         switch (position)
         {
             case HeroItemPosition.InventorySlot1:
@@ -234,16 +233,7 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
             case HeroItemPosition.InventorySlot7:
             case HeroItemPosition.InventorySlot8:
                 int i = (int)position - (int)HeroItemPosition.InventorySlot1;
-                if (i < Items.Count && i >= 0)
-                {
-                    result = Items.GetItem(i);
-                }
-                else
-                {
-                    return null;
-                }
-
-                break;
+                return i < Items.Count && i >= 0 ? Items.GetItem(i) : null;
             case HeroItemPosition.AttackSlot:
             case HeroItemPosition.HeadSlot:
             case HeroItemPosition.DefenseSlot:
@@ -253,11 +243,8 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
             case HeroItemPosition.Ground:
             case HeroItemPosition.None:
             default:
-                result = null;
-                break;
+                return null;
         }
-
-        return result;
     }
 
     // intf_P2_06.inc:8

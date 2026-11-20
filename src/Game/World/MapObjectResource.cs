@@ -123,12 +123,7 @@ public partial class MapObjectResource : EngineResource
             i += 1;
         }
 
-        if (result is null && ImageSequenceList is not null)
-        {
-            result = ImageSequenceList.GetPreviewImage();
-        }
-
-        return result;
+        return result is null && ImageSequenceList is not null ? ImageSequenceList.GetPreviewImage() : result;
     }
 
     // MAPOBJ.PAS:465
@@ -209,7 +204,7 @@ public partial class MapObjectResource : EngineResource
         if (!hexSpriteMap.Place(result, pixelX, pixelY, hexLevel))
         {
             result?.Dispose();
-            result = null;
+            return null;
         }
 
         return result;

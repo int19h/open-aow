@@ -1025,9 +1025,7 @@ public partial class ObservableNode(CustomNode owner) : CustomNode(owner)
             i += 1;
         }
 
-        EngineObject result = found ? c : null;
-
-        return result;
+        return found ? c : null;
     }
 
     // Engine.pas:8117

@@ -71,20 +71,17 @@ public partial class FireMasteryEnchantment : GlobalEnchantment
     // GlobalEnchantmentSpells.pas:1653
     public override bool CanActivate(sbyte player, ref string reason)
     {
-        bool result;
         if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.FireMastery))
         {
             string xIsAlreadyActive = AbilityRules.TranslateResourceString(GetEngine(), GameText.IsAlreadyActiveFormat);
             string name = GetName();
             reason = Format(xIsAlreadyActive, [name]);
-            result = false;
+            return false;
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // GlobalEnchantmentSpells.pas:1663

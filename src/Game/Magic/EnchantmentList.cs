@@ -38,9 +38,7 @@ public partial class EnchantmentList(CustomNode owner) : OwningNode(owner), IChi
     public Enchantment FindId(int id)
     {
         int index = IndexOfId(id);
-        Enchantment result = index != -1 ? this[index] : null;
-
-        return result;
+        return index != -1 ? this[index] : null;
     }
 
     // Engine.pas:631

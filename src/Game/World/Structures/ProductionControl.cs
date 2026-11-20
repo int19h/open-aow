@@ -78,19 +78,17 @@ public partial class ProductionControl : EngineObject
     // Structur.PAS:261
     public virtual int CancelProductionReturnGold()
     {
-        int result = Status == ProductionControlStatus.Producing
+        return Status == ProductionControlStatus.Producing
             ? Settings.TurnsTotal != 0 ? Round((double)(Settings.TurnsLeft * Settings.Gold) / Settings.TurnsTotal) : 0
             : 0;
-        return result;
     }
 
     // Structur.PAS:270
     public virtual int CancelProductionReturnMana()
     {
-        int result = Status == ProductionControlStatus.Producing
+        return Status == ProductionControlStatus.Producing
             ? Settings.TurnsTotal != 0 ? Round((double)(Settings.TurnsLeft * Settings.Mana) / Settings.TurnsTotal) : 0
             : 0;
-        return result;
     }
 
     // Structur.PAS:295
@@ -138,7 +136,6 @@ public partial class ProductionControl : EngineObject
     // Structur.PAS:497
     public virtual bool ExecuteAIResearch(int index)
     {
-        bool result;
         if (!UnitProductions.GetItem(index).Researched)
         {
             ExecuteDeleteProductions();
@@ -149,20 +146,17 @@ public partial class ProductionControl : EngineObject
             };
             ExecuteAddProduction(item);
             item?.Dispose();
-            result = true;
+            return true;
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // Structur.PAS:392
     public virtual bool ExecuteProduction(ProductionItem item)
     {
-        bool result;
         string reason = "";
         if (CanExecuteProduction(item, ref reason))
         {
@@ -172,15 +166,13 @@ public partial class ProductionControl : EngineObject
             item.Order.Execute(this);
             EndUpdate();
             item.Order.Executed(this);
-            result = true;
+            return true;
         }
         else
         {
             Status = ProductionControlStatus.Waiting;
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Structur.PAS:450
@@ -234,7 +226,6 @@ public partial class ProductionControl : EngineObject
     // Structur.PAS:514
     public virtual ExecuteResult ExecuteProductionTokenEvent(ProductionTokenEvent eventValue)
     {
-        ExecuteResult result;
         switch (eventValue.Command)
         {
             case 0:
@@ -245,36 +236,30 @@ public partial class ProductionControl : EngineObject
                 }
 
                 ExecuteAddProduction(eventValue.Item);
-                result = ExecuteResult.Done;
                 EndUpdate();
                 break;
             case 1:
                 ExecuteDeleteProduction(eventValue.Index);
-                result = ExecuteResult.Done;
-                break;
+                return ExecuteResult.Done;
             case 2:
                 ExecuteDeleteProductions();
-                result = ExecuteResult.Done;
-                break;
+                return ExecuteResult.Done;
             case 3:
                 if (Queue.Count != 0 && Status == ProductionControlStatus.Waiting)
                 {
                     _ = ExecuteProduction(Queue.GetItem(0));
                 }
 
-                result = ExecuteResult.Done;
-                break;
+                return ExecuteResult.Done;
             case 4:
                 LoopQueue = eventValue.Index == 1;
                 Update();
-                result = ExecuteResult.Done;
-                break;
+                return ExecuteResult.Done;
             default:
-                result = ExecuteResult.Done;
-                break;
+                return ExecuteResult.Done;
         }
 
-        return result;
+        return ExecuteResult.Done;
     }
 
     // Structur.PAS:551
@@ -340,20 +325,17 @@ public partial class ProductionControl : EngineObject
     // Structur.PAS:564
     public virtual Unit CreateUnitProduction(int index)
     {
-        Unit result;
         if (UnitProductions.GetItem(index) is not null)
         {
             Unit unit = new(null) { Holder = CreationHolder() };
             UnitProduction unitProduction = UnitProductions.GetItem(index);
             unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex));
-            result = unit;
+            return unit;
         }
         else
         {
-            result = null;
+            return null;
         }
-
-        return result;
     }
 
     // Structur.PAS:225
@@ -428,8 +410,6 @@ public partial class ProductionControl : EngineObject
             sbyte player = GetPlayer();
             condition = !StrategicMap.Current.Players.GetPlayers(player).GetBusy();
         }
-
-        bool result;
         if (condition)
         {
             ProductionTokenEvent eventValue = CreateProductionTokenEvent();
@@ -438,14 +418,12 @@ public partial class ProductionControl : EngineObject
             sbyte player = GetPlayer();
             StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
             _ = eventValue.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Structur.PAS:726
@@ -457,8 +435,6 @@ public partial class ProductionControl : EngineObject
             sbyte player = GetPlayer();
             condition = !StrategicMap.Current.Players.GetPlayers(player).GetBusy();
         }
-
-        bool result;
         if (condition)
         {
             ProductionTokenEvent eventValue = CreateProductionTokenEvent();
@@ -466,14 +442,12 @@ public partial class ProductionControl : EngineObject
             sbyte player = GetPlayer();
             StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
             _ = eventValue.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Structur.PAS:840
@@ -522,8 +496,6 @@ public partial class ProductionControl : EngineObject
             sbyte player = GetPlayer();
             condition = !StrategicMap.Current.Players.GetPlayers(player).GetBusy();
         }
-
-        bool result;
         if (condition)
         {
             ProductionTokenEvent eventValue = CreateProductionTokenEvent();
@@ -538,14 +510,12 @@ public partial class ProductionControl : EngineObject
             sbyte player = GetPlayer();
             StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
             _ = eventValue.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Structur.PAS:631
@@ -571,18 +541,16 @@ public partial class ProductionControl : EngineObject
     // Structur.PAS:660
     public virtual bool CanResearchUnit(int index, bool queue, ref string reason)
     {
-        bool result;
         if (!queue || Queue.IndexOf(new ResearchSpell(index)) == -1)
         {
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
             reason = AbilityRules.TranslateResourceString(GetEngine(), s_actionAlreadyQueuedText);
         }
 
-        return result;
+        return false;
     }
 
     // Structur.PAS:670
@@ -595,8 +563,6 @@ public partial class ProductionControl : EngineObject
             sbyte player = GetPlayer();
             condition = !StrategicMap.Current.Players.GetPlayers(player).GetBusy();
         }
-
-        bool result;
         if (condition)
         {
             ProductionTokenEvent eventValue = CreateProductionTokenEvent();
@@ -612,14 +578,12 @@ public partial class ProductionControl : EngineObject
             StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
             _ = eventValue.Release();
             // { Original returns False after successfully queueing research. }
-            result = false;
+            return false;
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // Structur.PAS:210
@@ -668,7 +632,6 @@ public partial class ProductionControl : EngineObject
     // Structur.PAS:693
     public bool Produce(ProductionItem item, bool queue)
     {
-        bool result;
         sbyte player = GetPlayer();
         if (!StrategicMap.Current.Players.GetPlayers(player).GetBusy())
         {
@@ -680,14 +643,12 @@ public partial class ProductionControl : EngineObject
             StrategicMap.Current.TokenManager.GetTokenControl(player2).AddEvent(eventValue);
             _ = eventValue.Release();
             // { Original returns False after successfully queueing production. }
-            result = false;
+            return false;
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // Structur.PAS:741
@@ -699,8 +660,6 @@ public partial class ProductionControl : EngineObject
             sbyte player = GetPlayer();
             condition = !StrategicMap.Current.Players.GetPlayers(player).GetBusy();
         }
-
-        bool result;
         if (condition)
         {
             if (CanExecuteProduction(Queue.GetItem(0), ref reason))
@@ -710,19 +669,17 @@ public partial class ProductionControl : EngineObject
                 sbyte player = GetPlayer();
                 StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
                 _ = eventValue.Release();
-                result = true;
+                return true;
             }
             else
             {
-                result = false;
+                return false;
             }
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Structur.PAS:760
@@ -734,8 +691,6 @@ public partial class ProductionControl : EngineObject
             sbyte player = GetPlayer();
             condition = !StrategicMap.Current.Players.GetPlayers(player).GetBusy();
         }
-
-        bool result;
         if (condition)
         {
             ProductionTokenEvent eventValue = CreateProductionTokenEvent();
@@ -745,14 +700,12 @@ public partial class ProductionControl : EngineObject
             sbyte player = GetPlayer();
             StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
             _ = eventValue.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Structur.PAS:793

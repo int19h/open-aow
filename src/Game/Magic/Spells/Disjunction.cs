@@ -35,25 +35,20 @@ public partial class Disjunction : Spell
                 count += 1;
             }
         }
-
-        bool result;
         if (count == 0)
         {
             messageText = AbilityRules.TranslateResourceString(GetEngine(), s_noGlobalOpponentEnchantmentsActiveText);
-            result = false;
+            return false;
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // GlobalSpells.pas:962
     public override bool Activate(Troop source)
     {
-        bool result;
         string reason = "";
         if (CanActivate(source, ref reason))
         {
@@ -65,14 +60,12 @@ public partial class Disjunction : Spell
             };
             StrategicMap.Current.CosmeticSurgeryEventsStore.Raise(caster);
             _ = caster.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     private static readonly string s_disjunctionText = "Disjunction";

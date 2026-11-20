@@ -22,12 +22,7 @@ public partial class MapCoordinateList : DefaultItemList<MapCoordinate>
             result += 1;
         }
 
-        if (result == Count)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == Count ? -1 : result;
     }
 
     // HSEngine.pas:1709
@@ -39,12 +34,7 @@ public partial class MapCoordinateList : DefaultItemList<MapCoordinate>
             result += 1;
         }
 
-        if (result == Count)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == Count ? -1 : result;
     }
 
     // HSEngine.pas:1815

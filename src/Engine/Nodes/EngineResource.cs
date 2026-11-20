@@ -52,9 +52,7 @@ public partial class EngineResource(CustomNode owner) : EngineObject(owner)
     public virtual EngineObject CreateResourceUser()
     {
         int userClassId = ResourceUserClassId();
-        EngineObject result = userClassId != 0 ? GetEngine().CreateEngineObject(userClassId, null) : null;
-
-        return result;
+        return userClassId != 0 ? GetEngine().CreateEngineObject(userClassId, null) : null;
     }
 
     // The caller names the user class ResourceUserClassId registers. Another class throws. A zero

@@ -57,40 +57,36 @@ public partial class SummonSpell : Spell
     // SummonSpells.pas:308
     public override bool AIExecuteCastSpellAction(Troop source)
     {
-        bool result;
         string reason = "";
         if (source.CanCastSpell(SpellId, ref reason))
         {
             _ = AICastSpellExpenseMade(upkeep: GetAIUpkeepPriority(), source: source, budget: BaseManaCost, mana: ManaUpkeep);
             if (source.CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
             {
-                result = Activate(source);
+                return Activate(source);
             }
             else
             {
                 if (source.GetCastingSpellId() != SpellId)
                 {
                     _ = source.ExecuteStartCasting(SpellId);
-                    result = true;
+                    return true;
                 }
                 else
                 {
-                    result = true;
+                    return true;
                 }
             }
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // SummonSpells.pas:266
     public override bool Activate(Troop source)
     {
-        bool result;
         string reason = "";
         if (CanActivate(source, ref reason))
         {
@@ -99,14 +95,12 @@ public partial class SummonSpell : Spell
             SetupSummonSpellTokenEvent(eventValue);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             _ = eventValue.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // SummonSpells.pas:261

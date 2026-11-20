@@ -40,9 +40,7 @@ public partial class ResourceCollection(CustomNode owner) : EngineNode(owner), I
             i += 1;
         }
 
-        EngineResource result = found ? this[i - 1] : null;
-
-        return result;
+        return found ? this[i - 1] : null;
     }
 
     // The id selects the resource. A resource of another class throws, the same way the call site did.

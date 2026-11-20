@@ -20,7 +20,7 @@ public static class ImageStreams
         }
         else
         {
-            result = null;
+            return null;
         }
 
         return result;
@@ -39,7 +39,7 @@ public static class ImageStreams
         }
         else
         {
-            result = null;
+            return null;
         }
 
         return result;

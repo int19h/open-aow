@@ -66,19 +66,15 @@ public partial class AbstractRoad(CustomNode owner) : MapObject(owner)
             sbyte terrain = Resource.TerrainList.GetTerrain(0);
             condition = fieldValue.TerrainType == terrain;
         }
-
-        bool result;
         if (condition)
         {
             HexSprite hexSprite = mapContainer.GetField(hexX, hexY, hexLevel).GetMaxLevelNoneTransparentHexSprite();
-            result = hexSprite is null || hexSprite.GetLevel() < 10 || hexSprite is AbstractRoad;
+            return hexSprite is null || hexSprite.GetLevel() < 10 || hexSprite is AbstractRoad;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // MAPOBJ.PAS:819

@@ -292,7 +292,7 @@ public partial class SelectedArmy(EngineObject creator) : MoveSelector(creator)
         {
             if (field.GetPlayer() != -1 && field.GetPlayer() != GetArmyHexSprite().Army.Player)
             {
-                result = false;
+                return false;
             }
         }
 
@@ -432,18 +432,10 @@ public partial class SelectedArmy(EngineObject creator) : MoveSelector(creator)
     }
 
     // Army.PAS:3600
-    public ArmyHexSprite GetArmyHexSprite()
-    {
-        ArmyHexSprite result = CurrentMove != -1 ? (ArmyHexSprite)MoveSettingsList.GetMoveSettings(CurrentMove).MoveObject : null;
-        return result;
-    }
+    public ArmyHexSprite GetArmyHexSprite() => CurrentMove != -1 ? (ArmyHexSprite)MoveSettingsList.GetMoveSettings(CurrentMove).MoveObject : null;
 
     // Army.PAS:3607
-    public byte GetSelection()
-    {
-        byte result = CurrentMove != -1 ? (byte)MoveSettingsList.GetMoveSettings(CurrentMove).Selection : (byte)0;
-        return result;
-    }
+    public byte GetSelection() => CurrentMove != -1 ? (byte)MoveSettingsList.GetMoveSettings(CurrentMove).Selection : (byte)0;
 
     // Army.PAS:3614
     public void SetSelection(byte selection)
@@ -473,18 +465,15 @@ public partial class SelectedArmy(EngineObject creator) : MoveSelector(creator)
     // Army.PAS:3634
     public Set<MoveType> GetMoveTypes()
     {
-        Set<MoveType> result;
         if (CurrentMove != -1)
         {
             MoveSettings moveSettings = MoveSettingsList.GetMoveSettings(CurrentMove);
-            result = ((ArmyHexSprite)MoveSettingsList.GetMoveSettings(CurrentMove).MoveObject).Army.MoveTypes((byte)moveSettings.Selection);
+            return ((ArmyHexSprite)MoveSettingsList.GetMoveSettings(CurrentMove).MoveObject).Army.MoveTypes((byte)moveSettings.Selection);
         }
         else
         {
-            result = Set<MoveType>.Of();
+            return Set<MoveType>.Of();
         }
-
-        return result;
     }
 
     // Army.PAS:3647

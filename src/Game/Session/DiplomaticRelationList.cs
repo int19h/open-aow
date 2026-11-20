@@ -10,11 +10,7 @@ public partial class DiplomaticRelationList : ByteList
     public DiplomaticRelationList() => Default = (int)DiplomaticRelation.Unknown;
 
     // Player.PAS:17
-    public DiplomaticRelation GetDiplomaticRelation(int index)
-    {
-        DiplomaticRelation result = index < Count ? (DiplomaticRelation)List[index] : DiplomaticRelation.Unknown;
-        return result;
-    }
+    public DiplomaticRelation GetDiplomaticRelation(int index) => index < Count ? (DiplomaticRelation)List[index] : DiplomaticRelation.Unknown;
 
     // Player.PAS:23
     public void SetDiplomaticRelation(int index, DiplomaticRelation value) => this[index] = (byte)(int)value;

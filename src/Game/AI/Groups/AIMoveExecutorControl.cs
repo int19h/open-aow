@@ -281,12 +281,7 @@ public partial class AIMoveExecutorControl : EngineObject
             }
         }
 
-        if (!allowed)
-        {
-            result = 0;
-        }
-
-        return result;
+        return !allowed ? (byte)0 : result;
     }
 
     // AIGroup.pas:4952

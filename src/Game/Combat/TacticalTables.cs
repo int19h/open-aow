@@ -13,21 +13,17 @@ internal static class TacticalTables
 {
     internal static ushort GetMeleeDirectionIndex(int X, int deltaX, int deltaY)
     {
-        ushort result = 1;
         switch (deltaY)
         {
             case -1:
                 switch (deltaX)
                 {
                     case -1:
-                        result = 3;
-                        break;
+                        return 3;
                     case 0:
-                        result = 4;
-                        break;
+                        return 4;
                     case 1:
-                        result = 5;
-                        break;
+                        return 5;
                     default:
                         break;
                 }
@@ -37,13 +33,9 @@ internal static class TacticalTables
                 switch (deltaX)
                 {
                     case -1:
-                        result = X / 2 * 2 == X ? (ushort)3 : (ushort)2;
-
-                        break;
+                        return X / 2 * 2 == X ? (ushort)3 : (ushort)2;
                     case 1:
-                        result = X / 2 * 2 == X ? (ushort)5 : (ushort)6;
-
-                        break;
+                        return X / 2 * 2 == X ? (ushort)5 : (ushort)6;
                     default:
                         break;
                 }
@@ -53,14 +45,11 @@ internal static class TacticalTables
                 switch (deltaX)
                 {
                     case -1:
-                        result = 2;
-                        break;
+                        return 2;
                     case 0:
-                        result = 1;
-                        break;
+                        return 1;
                     case 1:
-                        result = 6;
-                        break;
+                        return 6;
                     default:
                         break;
                 }
@@ -70,7 +59,7 @@ internal static class TacticalTables
                 break;
         }
 
-        return result;
+        return 1;
     }
 
     internal static ReadOnlySpan<int> TacticalBattleAttack => [0, 0];

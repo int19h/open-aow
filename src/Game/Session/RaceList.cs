@@ -27,11 +27,7 @@ public partial class RaceList : ControlStyleNode, IChildList<Race>
     public int RelationOffset { get; set; }
 
     // Ability.PAS:379
-    public Race GetRace(int index)
-    {
-        Race result = index >= 0 && index < Count ? this[index] : null;
-        return result;
-    }
+    public Race GetRace(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // Ability.PAS:385
     public int GetEnabledRaces()

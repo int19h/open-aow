@@ -39,11 +39,7 @@ public partial class ConstructAbility : AdjustableAbility
     public override Set<AbilityControlTypeElement> GetControlType(AbilityOwner owner) => Set<AbilityControlTypeElement>.Of(AbilityControlTypeElement.Action);
 
     // AoWAb.PAS:5555
-    public override bool CanActivate(AbilityOwner owner, ref string reason)
-    {
-        bool result = owner is Troop;
-        return result;
-    }
+    public override bool CanActivate(AbilityOwner owner, ref string reason) => owner is Troop;
 
     // AoWAb.PAS:5560
     public void RegisterConstructionControl(ConstructionControl control)

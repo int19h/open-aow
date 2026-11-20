@@ -134,7 +134,7 @@ public partial class SongPlayer : IDisposable
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;
@@ -163,7 +163,7 @@ public partial class SongPlayer : IDisposable
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;
@@ -181,7 +181,7 @@ public partial class SongPlayer : IDisposable
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;

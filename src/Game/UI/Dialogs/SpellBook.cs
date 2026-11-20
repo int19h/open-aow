@@ -167,18 +167,15 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
     // AoWSpellBook.pas:405
     public bool ValidateHero()
     {
-        bool result;
         if (_activation is not null)
         {
             _hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(_activation.UnitId);
-            result = _hero is not null && !_hero.UnitStatus.Contains(UnitStatusElement.Killed);
+            return _hero is not null && !_hero.UnitStatus.Contains(UnitStatusElement.Killed);
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // AoWSpellBook.pas:427

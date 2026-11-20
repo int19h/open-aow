@@ -72,7 +72,6 @@ public partial class AIMoveExecutorMove(CustomNode owner) : AIMoveExecutorUnitLi
     public bool RetrieveArmy(out ArmyHexSprite army, out byte selection)
     {
         army = StrategicMap.Current.MapContainer.GetField(Source.X, Source.Y, Source.MapLevel).GetArmyHexSprite();
-        bool result;
         if (army is not null)
         {
             selection = 0;
@@ -83,16 +82,14 @@ public partial class AIMoveExecutorMove(CustomNode owner) : AIMoveExecutorUnitLi
                 selection = index != -1 ? (byte)(selection | (1 << index)) : throw new KeyNotFoundException("Unit missing!");
             }
 
-            result = true;
+            return true;
         }
         else
         {
             selection = 0;
             army = null;
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // intf_P5_06.inc:347

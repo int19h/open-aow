@@ -131,7 +131,6 @@ public partial class AIGroupControl : EngineObject
     // AIGroup.pas:1266
     public virtual bool Validate()
     {
-        bool result;
         if (!Group.Status.Contains(AIGroupStatusElement.Done))
         {
             MapCoordinate coordinate97 = Group.GetLocation();
@@ -148,19 +147,17 @@ public partial class AIGroupControl : EngineObject
                 Army = army;
                 Selection = selection;
                 UpdateGroupChanges();
-                result = true;
+                return true;
             }
             else
             {
-                result = false;
+                return false;
             }
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // AIGroup.pas:1246
@@ -363,21 +360,18 @@ public partial class AIGroupControl : EngineObject
     public bool RetrieveGroupArmy(sbyte X, sbyte Y, sbyte L, out Army army, out byte selection)
     {
         ArmyHexSprite armyHexSprite = StrategicMap.Current.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
-        bool result;
         if (armyHexSprite is not null)
         {
             army = armyHexSprite.Army;
             selection = armyHexSprite.Army.GetGroupSelection(Group.GroupId);
-            result = true;
+            return true;
         }
         else
         {
             selection = 0;
             army = null;
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // AIGroup.pas:1059
@@ -485,7 +479,6 @@ public partial class AIGroupControl : EngineObject
     public bool Process(bool looped)
     {
         _processCycles += 1;
-        bool result;
         if (Validate())
         {
             try
@@ -516,15 +509,13 @@ public partial class AIGroupControl : EngineObject
                 Done();
             }
 
-            result = !Group.Status.Contains(AIGroupStatusElement.Done);
+            return !Group.Status.Contains(AIGroupStatusElement.Done);
         }
         else
         {
             Done();
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // AIGroup.pas:1323

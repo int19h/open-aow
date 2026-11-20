@@ -184,19 +184,16 @@ public partial class MultiHexMapObject(CustomNode owner) : MapObject(owner)
     // MAPOBJ.PAS:1122
     public override bool CanSelect(int pixelX, int pixelY)
     {
-        bool result;
         if (Resource.Engine.HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             HexGeometry.PixelToHex(pixelX, pixelY, out int hexX, out int hexY);
             int hexNumber = HexGeometry.DeltaHexToHexNumber(Owner.HexX, Owner.HexY, hexX, hexY);
-            result = hexNumber < Resource.TerrainList.Count && (Resource.TerrainList.GetTerrain(hexNumber) >= 0 || Resource.TerrainList.GetOverlay(hexNumber) >= 0);
+            return hexNumber < Resource.TerrainList.Count && (Resource.TerrainList.GetTerrain(hexNumber) >= 0 || Resource.TerrainList.GetOverlay(hexNumber) >= 0);
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // MAPOBJ.PAS:1096
@@ -287,12 +284,7 @@ public partial class MultiHexMapObject(CustomNode owner) : MapObject(owner)
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
 
-        if (defaultValue >= 0 && counts[result] == counts[defaultValue])
-        {
-            result = defaultValue;
-        }
-
-        return result;
+        return defaultValue >= 0 && counts[result] == counts[defaultValue] ? defaultValue : result;
     }
 
     // MAPOBJ.PAS:1059

@@ -121,27 +121,7 @@ public partial class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
     }
 
     // PoisonC.pas:119
-    public override int CanMoveOver(in HexSpriteSenderInfo info)
-    {
-        int result;
-        if (base.Resource.TerrainList.Terrain[info.HexNumber] >= -1)
-        {
-            if (!CanDoDamage(((MoveControl)info.Sender).Settings.Units))
-            {
-                result = 1;
-            }
-            else
-            {
-                return 0;
-            }
-        }
-        else
-        {
-            result = 1;
-        }
-
-        return result;
-    }
+    public override int CanMoveOver(in HexSpriteSenderInfo info) => base.Resource.TerrainList.Terrain[info.HexNumber] >= -1 ? !CanDoDamage(((MoveControl)info.Sender).Settings.Units) ? 1 : 0 : 1;
 
     // PoisonC.pas:198
     public override void Activate()
@@ -165,19 +145,16 @@ public partial class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
     // PoisonC.pas:70
     public override bool CanSelect(int pixelX, int pixelY)
     {
-        bool result;
         if (base.Resource.Engine.HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             HexGeometry.PixelToHex(pixelX, pixelY, out int hexX, out int hexY);
             int hexNumber = HexGeometry.DeltaHexToHexNumber(Owner.HexX, Owner.HexY, hexX, hexY);
-            result = hexNumber < base.Resource.TerrainList.Count && base.Resource.TerrainList.Terrain[hexNumber] >= -1;
+            return hexNumber < base.Resource.TerrainList.Count && base.Resource.TerrainList.Terrain[hexNumber] >= -1;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // PoisonC.pas:95

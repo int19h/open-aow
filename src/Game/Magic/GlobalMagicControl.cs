@@ -244,15 +244,12 @@ public partial class GlobalMagicControl : EngineObject
     public bool ExecuteDispelEnchantment(sbyte player, int enchantmentId)
     {
         int index = IndexOfId(enchantmentId);
-        bool result = index != -1 && Enchantments.GetEnchantments(index).Dispel((byte)player);
-
-        return result;
+        return index != -1 && Enchantments.GetEnchantments(index).Dispel((byte)player);
     }
 
     // Spells.PAS:2712
     public bool DispelEnchantment(sbyte player, GlobalEnchantment enchantment)
     {
-        bool result;
         if (!StrategicMap.Current.Players.GetPlayers(player).GetBusy() && IndexOfId(enchantment.EnchantmentId) != -1)
         {
             string reason = "";
@@ -264,7 +261,7 @@ public partial class GlobalMagicControl : EngineObject
                 eventValue.PlayerIndex = (byte)player;
                 StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
                 _ = eventValue.Release();
-                result = true;
+                return true;
             }
             else
             {
@@ -273,30 +270,25 @@ public partial class GlobalMagicControl : EngineObject
                     StrategicMap.Current.ShowWarning(reason);
                 }
 
-                result = false;
+                return false;
             }
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Spells.PAS:2714
     public bool ExecuteRemoveEnchantment(sbyte player, int enchantmentId)
     {
         int index = IndexOfId(enchantmentId);
-        bool result = index != -1 && Enchantments.GetEnchantments(index).Remove((byte)player);
-
-        return result;
+        return index != -1 && Enchantments.GetEnchantments(index).Remove((byte)player);
     }
 
     // Spells.PAS:2716
     public bool RemoveEnchantment(sbyte player, GlobalEnchantment enchantment)
     {
-        bool result;
         if (!StrategicMap.Current.Players.GetPlayers(player).GetBusy() && IndexOfId(enchantment.EnchantmentId) != -1)
         {
             string reason = "";
@@ -308,7 +300,7 @@ public partial class GlobalMagicControl : EngineObject
                 eventValue.PlayerIndex = (byte)player;
                 StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
                 _ = eventValue.Release();
-                result = true;
+                return true;
             }
             else
             {
@@ -317,15 +309,13 @@ public partial class GlobalMagicControl : EngineObject
                     StrategicMap.Current.ShowWarning(reason);
                 }
 
-                result = false;
+                return false;
             }
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // intf_P4_01.inc:258

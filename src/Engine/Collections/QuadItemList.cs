@@ -15,11 +15,7 @@ public partial class QuadItemList : Persistent
     private int _capacity;
 
     // Engine.pas:5538
-    internal QuadInteger Get(int index)
-    {
-        QuadInteger result = index < 0 || index >= _count ? Default : _list[index];
-        return result;
-    }
+    internal QuadInteger Get(int index) => index < 0 || index >= _count ? Default : _list[index];
 
     // Engine.pas:5621
     internal void Put(int index, QuadInteger item)
@@ -188,12 +184,7 @@ public partial class QuadItemList : Persistent
             result += 1;
         }
 
-        if (result == _count)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == _count ? -1 : result;
     }
 
     // Engine.pas:5564
@@ -205,12 +196,7 @@ public partial class QuadItemList : Persistent
             result += 1;
         }
 
-        if (result == _count)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == _count ? -1 : result;
     }
 
     // Engine.pas:5571
@@ -222,12 +208,7 @@ public partial class QuadItemList : Persistent
             result += 1;
         }
 
-        if (result == _count)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == _count ? -1 : result;
     }
 
     // Engine.pas:5578
@@ -239,12 +220,7 @@ public partial class QuadItemList : Persistent
             result += 1;
         }
 
-        if (result == _count)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == _count ? -1 : result;
     }
 
     // Engine.pas:5585
@@ -256,12 +232,7 @@ public partial class QuadItemList : Persistent
             result += 1;
         }
 
-        if (result == _count)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == _count ? -1 : result;
     }
 
     // Engine.pas:5592

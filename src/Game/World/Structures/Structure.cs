@@ -128,24 +128,14 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
     public override sbyte GetTerrain(int index)
     {
         sbyte result = Resource.TerrainList.Terrain[index];
-        if (result >= 0)
-        {
-            result = TerrainType;
-        }
-
-        return result;
+        return result >= 0 ? TerrainType : result;
     }
 
     // Structur.PAS:1275
     public override sbyte GetOverlay(int index)
     {
         sbyte result = Resource.TerrainList.Terrain[index];
-        if (result >= 0)
-        {
-            result = 7;
-        }
-
-        return result;
+        return result >= 0 ? (sbyte)7 : result;
     }
 
     // Structur.PAS:1287
@@ -327,19 +317,16 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
     // Structur.PAS:1184
     public override bool CanSelect(int pixelX, int pixelY)
     {
-        bool result;
         if (!StrategicMap.Current.FogEnabled || !Fogged)
         {
             HexGeometry.PixelToHex(pixelX, pixelY, out int x, out int y);
             int hexNumber = HexGeometry.DeltaHexToHexNumber(Owner.HexX, Owner.HexY, x, y);
-            result = hexNumber < Resource.TerrainList.Count && (Resource.TerrainList.Terrain[hexNumber] >= 0 || Resource.TerrainList.Overlay[hexNumber] >= 0);
+            return hexNumber < Resource.TerrainList.Count && (Resource.TerrainList.Terrain[hexNumber] >= 0 || Resource.TerrainList.Overlay[hexNumber] >= 0);
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Structur.PAS:1206
@@ -358,16 +345,14 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
     // Structur.PAS:1308
     public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        bool result = Resource.TerrainBound
+        return Resource.TerrainBound
             ? GamePack.Current.PadControl.CanPlacePad(hexX, hexY, hexLevel, Resource.FlagType)
             : base.CanPlace(mapContainer, hexX, hexY, hexLevel);
-        return result;
     }
 
     // Structur.PAS:1315
     public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        bool result;
         if (GetEditMode() || CanPlace(mapContainer, hexX, hexY, hexLevel))
         {
             if (Resource.TerrainBound)
@@ -381,24 +366,22 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
                         TerrainType = pad.TerrainType;
                     }
 
-                    result = base.PlaceHex(mapContainer, hexX, hexY, hexLevel);
+                    return base.PlaceHex(mapContainer, hexX, hexY, hexLevel);
                 }
                 else
                 {
-                    result = false;
+                    return false;
                 }
             }
             else
             {
-                result = base.PlaceHex(mapContainer, hexX, hexY, hexLevel);
+                return base.PlaceHex(mapContainer, hexX, hexY, hexLevel);
             }
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Structur.PAS:1292
@@ -407,50 +390,39 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
     // Structur.PAS:1053
     public override int GetTerrainTypeImage(int terrainType)
     {
-        int result = GetRazed()
+        return GetRazed()
             ? terrainType == 3 ? 23 : terrainType == 5 ? 24 : 22
             : GetBuilding() ? terrainType == 3 ? 26 : terrainType == 5 ? 27 : 25 : base.GetTerrainTypeImage(terrainType);
-        return result;
     }
 
     // Structur.PAS:1159
-    public override sbyte ForceTerrainType(MapLevel mapLevel, sbyte hexX, sbyte hexY)
-    {
-        sbyte result = mapLevel.HexLevel != 0 ? (sbyte)12 : (sbyte)-1;
-        return result;
-    }
+    public override sbyte ForceTerrainType(MapLevel mapLevel, sbyte hexX, sbyte hexY) => mapLevel.HexLevel != 0 ? (sbyte)12 : (sbyte)-1;
 
     // Structur.PAS:1239
     public virtual LibraryImage GetTopBorderImage()
     {
         ImageSequenceList sequences = Resource.ImageSequenceList;
-        LibraryImage result = sequences is not null
+        return sequences is not null
             ? sequences.GetImageSequence(30) is not null ? Resource.ImageSequenceList.GetImageSequence(30).GetPreviewImage() : null
             : Resource.ImageLibrary.GetSafe(30);
-
-        return result;
     }
 
     // Structur.PAS:1251
     public virtual LibraryImage GetMiddleBorderImage()
     {
         ImageSequenceList sequences = Resource.ImageSequenceList;
-        LibraryImage result = sequences is not null
+        return sequences is not null
             ? sequences.GetImageSequence(31) is not null ? Resource.ImageSequenceList.GetImageSequence(31).GetPreviewImage() : null
             : Resource.ImageLibrary.GetSafe(31);
-
-        return result;
     }
 
     // Structur.PAS:1263
     public virtual LibraryImage GetBottomBorderImage()
     {
         ImageSequenceList sequences = Resource.ImageSequenceList;
-        LibraryImage result = sequences is not null
+        return sequences is not null
             ? sequences.GetImageSequence(32) is not null ? Resource.ImageSequenceList.GetImageSequence(32).GetPreviewImage() : null
             : Resource.ImageLibrary.GetSafe(32);
-
-        return result;
     }
 
     // Structur.PAS:1174
@@ -473,7 +445,6 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
     // Structur.PAS:1844
     public virtual bool RazeWithoutConfirmation(sbyte player)
     {
-        bool result;
         string reason = "";
         if (CanRaze(player, ref reason) && !StrategicMap.Current.Players.GetPlayers(player).GetBusy())
         {
@@ -483,14 +454,12 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
             eventValue.Param = player;
             StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
             _ = eventValue.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Structur.PAS:1755
@@ -520,10 +489,9 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
     // Structur.PAS:1140
     public virtual ExecuteResult ExecuteTokenEvent(StructureTokenEvent tokenEvent, TokenExecutor executor)
     {
-        ExecuteResult result;
         if (tokenEvent.Action == -1)
         {
-            result = ExecuteRaze((sbyte)tokenEvent.Param) ? ExecuteResult.Done : ExecuteResult.DoneHalt;
+            return ExecuteRaze((sbyte)tokenEvent.Param) ? ExecuteResult.Done : ExecuteResult.DoneHalt;
         }
         else
         {
@@ -533,20 +501,18 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
                 if (troop is not null && ExecuteRebuild(troop))
                 {
                     troop.Killed();
-                    result = ExecuteResult.Done;
+                    return ExecuteResult.Done;
                 }
                 else
                 {
-                    result = ExecuteResult.DoneHalt;
+                    return ExecuteResult.DoneHalt;
                 }
             }
             else
             {
-                result = ExecuteResult.DoneHalt;
+                return ExecuteResult.DoneHalt;
             }
         }
-
-        return result;
     }
 
     // Structur.PAS:1505
@@ -671,7 +637,6 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
     // Structur.PAS:1383
     public virtual bool ExecuteRebuild(Troop troop)
     {
-        bool result;
         string reason = "";
         if (CanRebuild(troop, ref reason))
         {
@@ -682,14 +647,12 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
             BuildingPlayer = troop.Player;
             _ = ValidateObservation(troop.Player);
             ImageIndex = GetTerrainTypeImage(TerrainType);
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Structur.PAS:1400
@@ -767,7 +730,6 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
     // Structur.PAS:1801
     public virtual bool ExecuteRaze(sbyte player)
     {
-        bool result;
         string reason = "";
         if (CanRaze(player, ref reason))
         {
@@ -814,14 +776,12 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
             SetRazed(true);
             _ = PlaceRazeDefenders(player);
             EndUpdate();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Structur.PAS:1169
@@ -964,7 +924,6 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
     // Structur.PAS:1439
     public virtual bool CanRebuild(Troop troop, ref string reason)
     {
-        bool result;
         if (GetRazed())
         {
             if (!GetBuilding())
@@ -972,31 +931,28 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
                 GetRebuildInfo(out int cost, out _);
                 if (StrategicMap.Current.Players.GetPlayers(troop.Player).Gems >= cost)
                 {
-                    result = true;
+                    return true;
                 }
                 else
                 {
                     reason = AbilityRules.TranslateResourceString(GetEngine(), GameText.NotEnoughGoldText);
-                    result = false;
+                    return false;
                 }
             }
             else
             {
-                result = false;
+                return false;
             }
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Structur.PAS:1458
     public virtual bool Rebuild(Troop troop)
     {
-        bool result;
         string reason = "";
         if (CanRebuild(troop, ref reason) && !StrategicMap.Current.Players.GetPlayers(troop.Player).GetBusy())
         {
@@ -1006,20 +962,17 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
             eventValue.Param = troop.UnitId;
             StrategicMap.Current.TokenManager.GetTokenControl(troop.Player).AddEvent(eventValue);
             _ = eventValue.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Structur.PAS:1862
     public virtual bool Raze(sbyte player)
     {
-        bool result;
         string reason = "";
         if (CanRaze(player, ref reason) && !StrategicMap.Current.Players.GetPlayers(player).GetBusy())
         {
@@ -1037,19 +990,17 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
                 _ = log.Message.Add(translatedText);
                 _ = log.Execute(true, ExecuteTrigger.User, null);
                 _ = log.Release();
-                result = true;
+                return true;
             }
             else
             {
-                result = RazeWithoutConfirmation(player);
+                return RazeWithoutConfirmation(player);
             }
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Structur.PAS:1708
@@ -1089,7 +1040,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;
@@ -1186,7 +1137,6 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
     // Structur.PAS:1655
     public bool ShowBorderImage(LockedSurface lockedSurface, Rect R)
     {
-        bool result = false;
         if (GetTopBorderImage() is not null)
         {
             if (lockedSurface.ClipRectangle.Right > R.Right)
@@ -1224,11 +1174,11 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
                     topImage.Show(R.Left, R.Top, lockedSurface);
                 }
 
-                result = true;
+                return true;
             }
         }
 
-        return result;
+        return false;
     }
 
     // Structur.PAS:1688

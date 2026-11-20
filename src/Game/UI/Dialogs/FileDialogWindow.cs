@@ -752,14 +752,13 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
 
     internal static int CompareFileDates(string s1, string s2, object o1, object o2)
     {
-        int result = o1 is null && o2 is null
+        return o1 is null && o2 is null
             ? CompareText(s1, s2)
             : o1 is null
                 ? -1
                 : o2 is null
                     ? 1
                     : (double)((FileTime)o2).Time > ((FileTime)o1).Time ? 1 : (double)((FileTime)o2).Time < ((FileTime)o1).Time ? -1 : 0;
-        return result;
     }
 
     private static void LoadCampaign(General controller, string name)

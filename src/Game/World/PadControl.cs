@@ -35,11 +35,7 @@ public partial class PadControl : ControlStyleObject
     }
 
     // MoveT.PAS:3629
-    public MapObjectResource GetPadResource(int size)
-    {
-        MapObjectResource result = size < PadResources.Count ? PadResources[size] : null;
-        return result;
-    }
+    public MapObjectResource GetPadResource(int size) => size < PadResources.Count ? PadResources[size] : null;
 
     // MoveT.PAS:3635
     public void SetPadResource(int size, MapObjectResource resource)
@@ -83,7 +79,7 @@ public partial class PadControl : ControlStyleObject
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;
@@ -93,8 +89,6 @@ public partial class PadControl : ControlStyleObject
     public ImageLibraryTerrainMapObject PlacePad(sbyte X, sbyte Y, sbyte L, int size)
     {
         MapObjectResource resource = GetPadResource(size);
-        ImageLibraryTerrainMapObject result = resource?.PlaceResourceUser<ImageLibraryTerrainMapObject>(StrategicMap.Current, X, Y, L);
-
-        return result;
+        return resource?.PlaceResourceUser<ImageLibraryTerrainMapObject>(StrategicMap.Current, X, Y, L);
     }
 }

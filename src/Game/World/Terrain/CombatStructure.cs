@@ -31,11 +31,7 @@ public partial class CombatStructure : CombatFixedImageLibraryTerrain
     // CombatStructure.pas:51
 
     // CombatStructure.pas:229
-    public override sbyte GetOverlay(int index)
-    {
-        sbyte result = ((MapObject)this).Resource.TerrainList.GetTerrain(index) >= 0 ? HitPoints == 0 ? (sbyte)6 : (sbyte)8 : (sbyte)-1;
-        return result;
-    }
+    public override sbyte GetOverlay(int index) => ((MapObject)this).Resource.TerrainList.GetTerrain(index) >= 0 ? HitPoints == 0 ? (sbyte)6 : (sbyte)8 : (sbyte)-1;
 
     // CombatStructure.pas:104
     public override void MapFieldMessageProc(ref MapFieldMessage message)
@@ -219,11 +215,7 @@ public partial class CombatStructure : CombatFixedImageLibraryTerrain
     public override bool ValidTerrainType(int terrainType) => true;
 
     // CombatStructure.pas:237
-    public override int GetTerrainTypeImage(int terrainType)
-    {
-        int result = terrainType == 3 ? 20 : Set<byte>.WithBounds(0, 255).With(5).With(12).Contains((byte)terrainType) ? 40 : 0;
-        return result;
-    }
+    public override int GetTerrainTypeImage(int terrainType) => terrainType == 3 ? 20 : Set<byte>.WithBounds(0, 255).With(5).With(12).Contains((byte)terrainType) ? 40 : 0;
 
     // CombatStructure.pas:244
     public override void ShowShadow(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)

@@ -34,7 +34,6 @@ public partial class LookupBlendTableCollection100 : IDisposable
     public bool GenerateLookupTables(int bits, GenerateBlendTableProc proc, int count)
     {
         Clear();
-        bool result;
         if (bits == 5 && count > 0)
         {
             for (int i = 0; i <= count - 1; i++)
@@ -62,14 +61,12 @@ public partial class LookupBlendTableCollection100 : IDisposable
                 Lookup[i] = blendTable;
             }
 
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     public BlendTableList Tables { get; }

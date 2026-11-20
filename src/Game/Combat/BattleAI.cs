@@ -133,7 +133,7 @@ public partial class BattleAI(EngineObject creator) : IDisposable
             result = false;
             if (_side == CombatSideIndex.Defender && CombatMap.Current.Combat.CombatData.WallType != 0 && !CombatMap.Current.Combat.CombatData.WallBreached)
             {
-                result = true;
+                return true;
             }
             else
             {
@@ -175,13 +175,13 @@ public partial class BattleAI(EngineObject creator) : IDisposable
 
                 if (empty > 1)
                 {
-                    result = true;
+                    return true;
                 }
             }
         }
         else
         {
-            result = true;
+            return true;
         }
 
         return result;
@@ -193,7 +193,7 @@ public partial class BattleAI(EngineObject creator) : IDisposable
         int result;
         if (unit.Troop is not Hero || (_units.Count == 1 && _side == CombatSideIndex.Defender))
         {
-            result = 0;
+            return 0;
         }
         else
         {
@@ -451,12 +451,7 @@ public partial class BattleAI(EngineObject creator) : IDisposable
             result = 1000000;
         }
 
-        if (result < -1000000)
-        {
-            result = -1000000;
-        }
-
-        return result;
+        return result < -1000000 ? -1000000 : result;
     }
 
     // AoWTC.pas:980
@@ -659,7 +654,6 @@ public partial class BattleAI(EngineObject creator) : IDisposable
     // AoWTC.pas:1084
     public int EvalPath(ref int value, CombatObject ignore, int ability, int spell, int x1, int y1, int x2, int y2, bool hitWalls, TacticalBattleUnit U, object ignoreWall)
     {
-        int result;
         BattleEffectType effect = ability == 52 ? TacticalTables.SpellTypes[spell] : TacticalTables.AbilityTypes[ability];
         switch (effect)
         {
@@ -726,8 +720,7 @@ public partial class BattleAI(EngineObject creator) : IDisposable
                 }
 
                 obstacles?.Dispose();
-                result = original - value;
-                break;
+                return original - value;
             case BattleEffectType.None:
             case BattleEffectType.Touch:
             case BattleEffectType.Effect:
@@ -772,11 +765,8 @@ public partial class BattleAI(EngineObject creator) : IDisposable
             case BattleEffectType.SacFire:
             case BattleEffectType.BreathDam:
             default:
-                result = 0;
-                break;
+                return 0;
         }
-
-        return result;
     }
 
     // AoWTC.pas:1130

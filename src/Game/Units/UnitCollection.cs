@@ -262,7 +262,7 @@ public readonly struct UnitCollection : IReadOnlyList<Troop>
             result = item2.GetUnitGraphicsResourceIndex() - item1.GetUnitGraphicsResourceIndex();
             if (result == 0)
             {
-                result = item2.UnitId - item1.UnitId;
+                return item2.UnitId - item1.UnitId;
             }
         }
 

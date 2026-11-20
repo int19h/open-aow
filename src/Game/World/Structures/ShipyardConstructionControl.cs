@@ -61,11 +61,9 @@ public partial class ShipyardConstructionControl(CustomNode owner) : StructureCo
         _ = coordinate38.X;
         _ = coordinate38.Y;
         sbyte l = coordinate38.MapLevel;
-        StructureResource result = l == 0
+        return l == 0
             ? GamePack.Current.MapObjectResourceList.FindResource<StructureResource>(60)
             : GamePack.Current.MapObjectResourceList.FindResource<StructureResource>(107);
-
-        return result;
     }
 
     // Shipyard.pas:78

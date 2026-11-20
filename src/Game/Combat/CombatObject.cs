@@ -415,7 +415,7 @@ public partial class CombatObject(CustomNode owner) : EngineObject(owner)
         }
         else
         {
-            result = 0;
+            return 0;
         }
 
         return result;
@@ -459,7 +459,7 @@ public partial class CombatObject(CustomNode owner) : EngineObject(owner)
             result = AbilityRules.ExecuteDamageRole(damage, attackLocal);
             if (types - GetProtectionTypes() == Set<DamageType>.Of())
             {
-                result = (result + 1) / 2;
+                return (result + 1) / 2;
             }
         }
 
@@ -478,7 +478,7 @@ public partial class CombatObject(CustomNode owner) : EngineObject(owner)
             result = AbilityRules.ExecuteDamageRole(damage, attackLocal);
             if (types - GetProtectionTypes() == Set<DamageType>.Of())
             {
-                result = (result + 1) / 2;
+                return (result + 1) / 2;
             }
         }
 
@@ -659,49 +659,39 @@ public partial class CombatObject(CustomNode owner) : EngineObject(owner)
     public CombatSideIndex GetSide()
     {
         sbyte player = CombatPlayer;
-        CombatSideIndex result = player != -1 ? (CombatSideIndex)Combat.CombatData.Players.GetPlayers(player).SideIndex : CombatSideIndex.Neutral;
-
-        return result;
+        return player != -1 ? (CombatSideIndex)Combat.CombatData.Players.GetPlayers(player).SideIndex : CombatSideIndex.Neutral;
     }
 
     // Combat.pas:5645
     public CombatSideIndex GetOpponentSide()
     {
         sbyte player = CombatPlayer;
-        CombatSideIndex result = player != -1 ? (CombatSideIndex)(Combat.CombatData.Players.GetPlayers(player).SideIndex ^ 1) : CombatSideIndex.Neutral;
-
-        return result;
+        return player != -1 ? (CombatSideIndex)(Combat.CombatData.Players.GetPlayers(player).SideIndex ^ 1) : CombatSideIndex.Neutral;
     }
 
     // Combat.pas:5797
     public sbyte GetPlayer()
     {
         byte player = (byte)CombatPlayer;
-        sbyte result = player != 255 ? Combat.CombatData.Players.GetPlayers((sbyte)player).Player : (sbyte)-1;
-
-        return result;
+        return player != 255 ? Combat.CombatData.Players.GetPlayers((sbyte)player).Player : (sbyte)-1;
     }
 
     // Combat.pas:5805
     public sbyte GetPlayerIndependentRelation()
     {
         byte player = (byte)CombatPlayer;
-        sbyte result = player != 255 ? (sbyte)Combat.CombatData.Players.GetPlayers((sbyte)player).IndependentRelation : (sbyte)-1;
-
-        return result;
+        return player != 255 ? (sbyte)Combat.CombatData.Players.GetPlayers((sbyte)player).IndependentRelation : (sbyte)-1;
     }
 
     internal static Set<DamageType> MeleeDamageTypes(CombatObject source)
     {
-        Set<DamageType> result = source is CombatUnit sourceUnit
+        return source is CombatUnit sourceUnit
             ? GamePack.Current.AbilityControl.GetAbility<StrikeAbility>(21).GetDamageTypes(sourceUnit.Troop)
             : Set<DamageType>.Of();
-        return result;
     }
 
     internal static int StrikeDamageValue(CombatObject source, CombatObject target)
     {
-        int result;
         if (source.GetAbilityEnabled(21))
         {
             sbyte attack = source.GetAttack();
@@ -739,14 +729,12 @@ public partial class CombatObject(CustomNode owner) : EngineObject(owner)
                 damage = (sbyte)(damage + 3);
             }
 
-            result = AbilityRules.StatisticsToLimitedDamageValue(attack, damage, types, target.GetHitPoints(), target.GetDefense(), target.GetResistance(), target.GetImmunityTypes(), target.GetProtectionTypes());
+            return AbilityRules.StatisticsToLimitedDamageValue(attack, damage, types, target.GetHitPoints(), target.GetDefense(), target.GetResistance(), target.GetImmunityTypes(), target.GetProtectionTypes());
         }
         else
         {
-            result = 0;
+            return 0;
         }
-
-        return result;
     }
 
     internal static StrikeCombatAction CreateStrikeCombatAction(CombatObject source, CombatObject target, bool defensive)
@@ -795,7 +783,7 @@ public partial class CombatObject(CustomNode owner) : EngineObject(owner)
         }
         else
         {
-            result = null;
+            return null;
         }
 
         return result;

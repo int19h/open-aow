@@ -179,7 +179,6 @@ public partial class Ability : EngineObject
     // Ability.PAS:1606
     public virtual bool Activate(AbilityOwner owner, ref string reason)
     {
-        bool result;
         // { The original reports successful activation after releasing the notification. }
         if (CanActivate(owner, ref reason))
         {
@@ -192,14 +191,12 @@ public partial class Ability : EngineObject
 
             StrategicMap.Current.OnActivateAbilityStore.Raise(info);
             _ = info.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Ability.PAS:1624
@@ -212,7 +209,6 @@ public partial class Ability : EngineObject
     // Ability.PAS:1637
     public virtual bool ActivateCombat(AbilityOwner owner, out string reason)
     {
-        bool result;
         if (CanActivateCombat(owner, out reason))
         {
             AbilityActivation info = new(null)
@@ -224,14 +220,12 @@ public partial class Ability : EngineObject
 
             StrategicMap.Current.CombatMap.AbilityActivatedEventsStore.Raise(info);
             _ = info.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Ability.PAS:1560

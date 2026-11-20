@@ -117,18 +117,15 @@ public partial class Image08(CustomImageLibrary owner) : LibraryImage(owner), IL
     public override GraphicsResult RemapToPixelFormat(PixelFormat pixelFormatId)
     {
         Palette p = _imagePalette.RemapPalette(pixelFormatId);
-        GraphicsResult result;
         if (p is not null)
         {
             RemapPaletteValue = p;
-            result = GraphicsResult.Ok;
+            return GraphicsResult.Ok;
         }
         else
         {
-            result = GraphicsResult.NotSupported;
+            return GraphicsResult.NotSupported;
         }
-
-        return result;
     }
 
     // ImageLib.pas:7251

@@ -54,11 +54,7 @@ public partial class CombatPartyList(CustomNode owner) : OwningNode(owner), IChi
     }
 
     // Combat2.pas:96
-    public CombatParty GetParty(byte position)
-    {
-        CombatParty result = position < Count ? this[position] : null;
-        return result;
-    }
+    public CombatParty GetParty(byte position) => position < Count ? this[position] : null;
 
     // Combat2.pas:99
     public void Activate(Battle combat)

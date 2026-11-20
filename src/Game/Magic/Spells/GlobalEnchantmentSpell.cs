@@ -49,34 +49,31 @@ public partial class GlobalEnchantmentSpell(CustomNode owner) : Spell(owner)
     // GlobalEnchantmentSpells.pas:507
     public override bool AIExecuteCastSpellAction(Troop source)
     {
-        bool result;
         if (AICanCastSpell(source))
         {
             _ = AICastSpellExpenseMade(upkeep: AIUpkeepPriority(), source: source, budget: BaseManaCost, mana: ManaUpkeep);
             string reason = "";
             if (source.CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
             {
-                result = Activate(source);
+                return Activate(source);
             }
             else
             {
                 if (source.GetCastingSpellId() != SpellId)
                 {
                     _ = source.ExecuteStartCasting(SpellId);
-                    result = true;
+                    return true;
                 }
                 else
                 {
-                    result = true;
+                    return true;
                 }
             }
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // GlobalEnchantmentSpells.pas:435
@@ -108,7 +105,6 @@ public partial class GlobalEnchantmentSpell(CustomNode owner) : Spell(owner)
     // GlobalEnchantmentSpells.pas:458
     public override bool Activate(Troop source)
     {
-        bool result;
         string reason = "";
         if (CanActivate(source, ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
@@ -118,14 +114,12 @@ public partial class GlobalEnchantmentSpell(CustomNode owner) : Spell(owner)
             SetupEnchantment(source, eventValue.Enchantment);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             _ = eventValue.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // GlobalEnchantmentSpells.pas:476

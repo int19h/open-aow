@@ -68,7 +68,7 @@ public partial class ItemHexSprite : SingleHexSprite
         {
             if (result <= hexSprite.GetShowPriority())
             {
-                result = hexSprite.GetShowPriority() + 1;
+                return hexSprite.GetShowPriority() + 1;
             }
         }
 
@@ -96,11 +96,7 @@ public partial class ItemHexSprite : SingleHexSprite
     public override void Deactivate() => base.Deactivate();
 
     // Army.PAS:5260
-    public override bool CanSelect(int pixelX, int pixelY)
-    {
-        bool result = Owner.FogCount != 0 || !StrategicMap.Current.FogEnabled;
-        return result;
-    }
+    public override bool CanSelect(int pixelX, int pixelY) => Owner.FogCount != 0 || !StrategicMap.Current.FogEnabled;
 
     // Army.PAS:5255
     public override string EditName() => AbilityRules.TranslateResourceString(GetEngine(), s_itemBagText);

@@ -50,64 +50,48 @@ public partial class AIExecutor(CustomNode owner) : EngineObject(owner)
     // AI.pas:575
     public bool RequestProcessTime(int time)
     {
-        bool result;
         switch (_processTimeMode)
         {
             case AIExecutorProcessTimeMode.Static:
                 int used = _processTimeUsed;
-                result = used == 0 || time <= _processTime - used;
-
-                break;
+                return used == 0 || time <= _processTime - used;
             case AIExecutorProcessTimeMode.Dynamic:
-                result = _processTimeUsed == 0 || time < GetProcessTimeLeft();
-
-                break;
+                return _processTimeUsed == 0 || time < GetProcessTimeLeft();
             default:
-                result = false;
-                break;
+                return false;
         }
-
-        return result;
     }
 
     // AI.pas:593
     public int GetProcessTimeLeft()
     {
-        int result;
         switch (_processTimeMode)
         {
             case AIExecutorProcessTimeMode.Static:
-                result = _processTime - _processTimeUsed;
-                break;
+                return _processTime - _processTimeUsed;
             case AIExecutorProcessTimeMode.Dynamic:
                 // { Original behavior: the millisecond delta is multiplied by 1000. }
                 int elapsedMilliseconds = PixelFormats.GetElapsedMilliseconds();
-                result = _processTime - ((elapsedMilliseconds - _processStarted) * 1000);
-                break;
+                return _processTime - ((elapsedMilliseconds - _processStarted) * 1000);
             default:
-                result = -1;
-                break;
+                return -1;
         }
-
-        return result;
     }
 
     // AI.pas:603
     public int GetProcessTimeElapsed()
     {
-        int result = _processTimeMode switch
+        return _processTimeMode switch
         {
             AIExecutorProcessTimeMode.Static => _processTimeUsed,
             AIExecutorProcessTimeMode.Dynamic => (PixelFormats.GetElapsedMilliseconds() - _processStarted) * 1000,
             _ => -1,
         };
-        return result;
     }
 
     // AI.pas:617
     public bool ActivatePlayer(sbyte player)
     {
-        bool result;
         if (_players.IndexOf((byte)player) == -1)
         {
             _ = _players.Add((byte)player);
@@ -118,14 +102,12 @@ public partial class AIExecutor(CustomNode owner) : EngineObject(owner)
                 Player = player;
             }
 
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // AI.pas:630

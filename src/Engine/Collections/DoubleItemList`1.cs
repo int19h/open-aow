@@ -71,7 +71,7 @@ public class DoubleItemList<TA> : RecordList<DoubleItem<TA>> where TA : class
         }
         else
         {
-            result = -1;
+            return -1;
         }
 
         return result;

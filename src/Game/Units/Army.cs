@@ -255,7 +255,7 @@ public partial class Army(CustomNode owner) : ObservableNode(owner), IChildList<
         }
         else
         {
-            result = -1;
+            return -1;
         }
 
         return result;
@@ -299,23 +299,19 @@ public partial class Army(CustomNode owner) : ObservableNode(owner), IChildList<
 
             if (result && troop.GetTransporter())
             {
-                result = !hasTransporter && troop.GetTransportCapacity() >= Units.Count;
+                return !hasTransporter && troop.GetTransportCapacity() >= Units.Count;
             }
         }
         else
         {
-            result = true;
+            return true;
         }
 
         return result;
     }
 
     // Army.PAS:1836
-    public virtual bool CanDeleteUnit(Troop troop)
-    {
-        bool result = IndexOfTransporter(255) == -1 || !troop.GetTransporter() || UnitsInTransporter() == 0;
-        return result;
-    }
+    public virtual bool CanDeleteUnit(Troop troop) => IndexOfTransporter(255) == -1 || !troop.GetTransporter() || UnitsInTransporter() == 0;
 
     // Army.PAS:1868
     public bool AddUnit(Troop troop)
@@ -346,18 +342,16 @@ public partial class Army(CustomNode owner) : ObservableNode(owner), IChildList<
     // Unit.PAS:2208
     public bool DeleteUnit(Troop troop)
     {
-        bool result;
         if (CanDeleteUnit(troop))
         {
-            result = true;
             troop.SetOwner(null);
         }
         else
         {
-            result = false;
+            return false;
         }
 
-        return result;
+        return true;
     }
 
     // Army.PAS:1269
@@ -395,7 +389,7 @@ public partial class Army(CustomNode owner) : ObservableNode(owner), IChildList<
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;
@@ -516,9 +510,7 @@ public partial class Army(CustomNode owner) : ObservableNode(owner), IChildList<
             selection = (byte)(int)(((uint)selection) >> 1);
         }
 
-        int result = i != Units.Count ? Units[i].UnitId : 0;
-
-        return result;
+        return i != Units.Count ? Units[i].UnitId : 0;
     }
 
     // Army.PAS:423
@@ -547,12 +539,7 @@ public partial class Army(CustomNode owner) : ObservableNode(owner), IChildList<
             i += 1;
         }
 
-        if (!found || different)
-        {
-            result = null;
-        }
-
-        return result;
+        return !found || different ? null : result;
     }
 
     // Army.PAS:445
@@ -589,9 +576,7 @@ public partial class Army(CustomNode owner) : ObservableNode(owner), IChildList<
     public GroupBehavior GetBehavior(byte selection)
     {
         AIGroup group = GetGroup(selection);
-        GroupBehavior result = group is not null ? group.GroupClass.Behavior : GroupBehavior.None;
-
-        return result;
+        return group is not null ? group.GroupClass.Behavior : GroupBehavior.None;
     }
 
     // Army.PAS:473
@@ -742,9 +727,7 @@ public partial class Army(CustomNode owner) : ObservableNode(owner), IChildList<
         sbyte x = coordinate26.X;
         sbyte y = coordinate26.Y;
         sbyte l = coordinate26.MapLevel;
-        ArmyHexSprite result = x != -1 ? StrategicMap.Current.MapContainer.GetField(x, y, l).GetArmyHexSprite() : null;
-
-        return result;
+        return x != -1 ? StrategicMap.Current.MapContainer.GetField(x, y, l).GetArmyHexSprite() : null;
     }
 
     // Army.PAS:591
@@ -858,12 +841,7 @@ public partial class Army(CustomNode owner) : ObservableNode(owner), IChildList<
             selection = (byte)(int)(((uint)selection) >> 1);
         }
 
-        if (!same)
-        {
-            result = -1;
-        }
-
-        return result;
+        return !same ? -1 : result;
     }
 
     // Army.PAS:666
@@ -1218,7 +1196,7 @@ public partial class Army(CustomNode owner) : ObservableNode(owner), IChildList<
         if (IndexOfTransporter(255) != -1 && (UnitsInTransporter() & ~selection) != 0 && Transporter(selection) is not null)
         {
             Troop transporter = Transporter(255);
-            result = (byte)(result & ~(1 << IndexOfChild(transporter)));
+            return (byte)(result & ~(1 << IndexOfChild(transporter)));
         }
 
         return result;
@@ -1241,9 +1219,7 @@ public partial class Army(CustomNode owner) : ObservableNode(owner), IChildList<
     public bool GetUnitsConcealedForPlayer(byte selection, sbyte player)
     {
         selection = ValidateSelection(selection);
-        bool result = selection == (ConcealedUnits & selection) && GetConcealedForPlayer(player);
-
-        return result;
+        return selection == (ConcealedUnits & selection) && GetConcealedForPlayer(player);
     }
 
     // Army.PAS:1298
@@ -1348,7 +1324,7 @@ public partial class Army(CustomNode owner) : ObservableNode(owner), IChildList<
         sbyte result;
         if (transport is not null)
         {
-            result = transport.GetMovePoints();
+            return transport.GetMovePoints();
         }
         else
         {
@@ -1371,7 +1347,7 @@ public partial class Army(CustomNode owner) : ObservableNode(owner), IChildList<
             }
             else
             {
-                result = 0;
+                return 0;
             }
         }
 
@@ -1385,7 +1361,7 @@ public partial class Army(CustomNode owner) : ObservableNode(owner), IChildList<
         sbyte result;
         if (transport is not null)
         {
-            result = transport.GetMoves();
+            return transport.GetMoves();
         }
         else
         {
@@ -1408,7 +1384,7 @@ public partial class Army(CustomNode owner) : ObservableNode(owner), IChildList<
             }
             else
             {
-                result = 0;
+                return 0;
             }
         }
 
@@ -1422,7 +1398,7 @@ public partial class Army(CustomNode owner) : ObservableNode(owner), IChildList<
         Set<MoveType> result;
         if (transport is not null)
         {
-            result = transport.GetMoveTypes();
+            return transport.GetMoveTypes();
         }
         else
         {
@@ -1499,7 +1475,7 @@ public partial class Army(CustomNode owner) : ObservableNode(owner), IChildList<
         }
         else
         {
-            result = transport.GetMoveTypes();
+            return transport.GetMoveTypes();
         }
 
         return result;
@@ -1586,7 +1562,7 @@ public partial class Army(CustomNode owner) : ObservableNode(owner), IChildList<
         }
         else
         {
-            result = transport.ValidTerrain(terrainType, overlayType);
+            return transport.ValidTerrain(terrainType, overlayType);
         }
 
         return result;
@@ -1609,7 +1585,7 @@ public partial class Army(CustomNode owner) : ObservableNode(owner), IChildList<
         }
         else
         {
-            result = transport.ValidTerrain(terrainType, overlayType);
+            return transport.ValidTerrain(terrainType, overlayType);
         }
 
         return result;
@@ -1788,7 +1764,7 @@ public partial class Army(CustomNode owner) : ObservableNode(owner), IChildList<
         }
         else
         {
-            result = 0;
+            return 0;
         }
 
         return result;
@@ -1903,8 +1879,6 @@ public partial class Army(CustomNode owner) : ObservableNode(owner), IChildList<
         {
             transportCount += 1;
         }
-
-        AddUnitsResult result;
         if (transportCount <= 1)
         {
             if (transportCount == 1)
@@ -1923,7 +1897,7 @@ public partial class Army(CustomNode owner) : ObservableNode(owner), IChildList<
                     }
                 }
 
-                result = units.Count + Units.Count <= transport.GetTransportCapacity() + 1 ? AddUnitsResult.Ok : AddUnitsResult.TooManyUnits;
+                return units.Count + Units.Count <= transport.GetTransportCapacity() + 1 ? AddUnitsResult.Ok : AddUnitsResult.TooManyUnits;
             }
             else
             {
@@ -1939,20 +1913,18 @@ public partial class Army(CustomNode owner) : ObservableNode(owner), IChildList<
                         }
                     }
 
-                    result = i != units.Count ? AddUnitsResult.InvalidMoveType : AddUnitsResult.Ok;
+                    return i != units.Count ? AddUnitsResult.InvalidMoveType : AddUnitsResult.Ok;
                 }
                 else
                 {
-                    result = AddUnitsResult.TooManyUnits;
+                    return AddUnitsResult.TooManyUnits;
                 }
             }
         }
         else
         {
-            result = AddUnitsResult.MultipleTransporters;
+            return AddUnitsResult.MultipleTransporters;
         }
-
-        return result;
     }
 
     // Army.PAS:1782
@@ -2117,18 +2089,18 @@ public partial class Army(CustomNode owner) : ObservableNode(owner), IChildList<
                     {
                         result.Army.Kill(255);
                         result?.Dispose();
-                        result = null;
+                        return null;
                     }
                 }
                 else
                 {
-                    result = null;
+                    return null;
                 }
             }
             catch
             {
                 // { Original suppresses placement failures without releasing a partly built army. }
-                result = null;
+                return null;
             }
 
             return result;
@@ -2583,15 +2555,13 @@ public partial class Army(CustomNode owner) : ObservableNode(owner), IChildList<
                     }
                 }
 
-                result = Units.Count != 0;
+                return Units.Count != 0;
             }
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // Army.PAS:2230
@@ -2644,27 +2614,26 @@ public partial class Army(CustomNode owner) : ObservableNode(owner), IChildList<
     // Army.PAS:2288
     public MoveAction GetMoveAction(sbyte player)
     {
-        MoveAction result = MoveAction.Normal;
         if (player != Player)
         {
             if (StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
             {
                 if (!Status.Contains(ArmyStatusElement.FullyConcealed))
                 {
-                    result = Player == 0 && GetJoinSelection(player) != 0 ? MoveAction.Negotiate : MoveAction.Attack;
+                    return Player == 0 && GetJoinSelection(player) != 0 ? MoveAction.Negotiate : MoveAction.Attack;
                 }
             }
             else
             {
-                result = Player == 0 && GetJoinSelection(player) != 0 ? MoveAction.Negotiate : MoveAction.Attack;
+                return Player == 0 && GetJoinSelection(player) != 0 ? MoveAction.Negotiate : MoveAction.Attack;
             }
         }
         else
         {
-            result = MoveAction.Combine;
+            return MoveAction.Combine;
         }
 
-        return result;
+        return MoveAction.Normal;
     }
 
     // Army.PAS:2306
@@ -2688,13 +2657,13 @@ public partial class Army(CustomNode owner) : ObservableNode(owner), IChildList<
             {
                 if (result != ValidateSelection(255))
                 {
-                    result = 0;
+                    return 0;
                 }
             }
         }
         else
         {
-            result = 0;
+            return 0;
         }
 
         return result;
@@ -2703,7 +2672,6 @@ public partial class Army(CustomNode owner) : ObservableNode(owner), IChildList<
     // Army.PAS:2324
     public byte GetJoinSelection(sbyte player)
     {
-        byte result = 0;
         if (player > 0)
         {
             bool wantsJoin = false;
@@ -2716,11 +2684,11 @@ public partial class Army(CustomNode owner) : ObservableNode(owner), IChildList<
 
             if (wantsJoin)
             {
-                result = GetCanJoinSelection(player);
+                return GetCanJoinSelection(player);
             }
         }
 
-        return result;
+        return 0;
     }
 
     // Army.PAS:2341
@@ -2743,22 +2711,20 @@ public partial class Army(CustomNode owner) : ObservableNode(owner), IChildList<
     // Army.PAS:2353
     public bool IncomingNegotiateRequest(NegotiateRequestEventLog log)
     {
-        bool result = false;
         if (Player == 0)
         {
             log.SetupJoinArmy(this, log.Player, JoinMode.Default);
             log.Object = NegotiateObject.Army;
             log.Text = AbilityRules.TranslateResourceString(GetEngine(), s_partyJoinHeaderText);
-            result = log.Selection != 0;
+            return log.Selection != 0;
         }
 
-        return result;
+        return false;
     }
 
     // Army.PAS:2365
     public bool IncomingNegotiateOffer(NegotiateTokenEvent offer)
     {
-        bool result;
         if (offer.Object == NegotiateObject.Army)
         {
             if (offer.Result == NegotiateTokenEvent.NegotiateResult.Accept)
@@ -2889,14 +2855,12 @@ public partial class Army(CustomNode owner) : ObservableNode(owner), IChildList<
                 }
             }
 
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Army.PAS:2468
@@ -3171,18 +3135,15 @@ public partial class Army(CustomNode owner) : ObservableNode(owner), IChildList<
         int maxCount = ownTransporter is not null ? ownTransporter.GetTransportCapacity() + 1 : 8;
 
         i += Units.Count;
-        bool result;
         if (i <= maxCount)
         {
             Troop otherTransporter = army.Transporter(selection);
-            result = otherTransporter is null || (i <= otherTransporter.GetTransportCapacity() + 1 && ownTransporter is null);
+            return otherTransporter is null || (i <= otherTransporter.GetTransportCapacity() + 1 && ownTransporter is null);
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // intf_P2_07.inc:445

@@ -177,12 +177,7 @@ public partial class UnitResource : TroopResource
     public byte GetTransportCapacity()
     {
         byte result = (byte)GamePack.Current.AbilityControl.GetAbility(50).GetLevel(Abilities[(int)Unit.Rank.None]);
-        if (result < _transportCapacity)
-        {
-            result = _transportCapacity;
-        }
-
-        return result;
+        return result < _transportCapacity ? _transportCapacity : result;
     }
 
     // UnitRes.PAS:118
@@ -198,12 +193,7 @@ public partial class UnitResource : TroopResource
     public string GetUnitName()
     {
         string result = _name;
-        if (!IsEmpty(_nickname))
-        {
-            result = $"{result} {_nickname}";
-        }
-
-        return result;
+        return !IsEmpty(_nickname) ? $"{result} {_nickname}" : result;
     }
 
     // intf_P2_05.inc:243

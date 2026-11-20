@@ -282,12 +282,7 @@ public partial class Hero : Troop
             result = 1;
         }
 
-        if (result > 10)
-        {
-            result = 10;
-        }
-
-        return result;
+        return result > 10 ? (sbyte)10 : result;
     }
 
     // Hero.PAS:1448
@@ -313,12 +308,7 @@ public partial class Hero : Troop
             result = 1;
         }
 
-        if (result > 10)
-        {
-            result = 10;
-        }
-
-        return result;
+        return result > 10 ? (sbyte)10 : result;
     }
 
     // Hero.PAS:1467
@@ -342,12 +332,7 @@ public partial class Hero : Troop
             result = 1;
         }
 
-        if (result > 10)
-        {
-            result = 10;
-        }
-
-        return result;
+        return result > 10 ? (sbyte)10 : result;
     }
 
     // Hero.PAS:1486
@@ -373,12 +358,7 @@ public partial class Hero : Troop
             result = 1;
         }
 
-        if (result > 10)
-        {
-            result = 10;
-        }
-
-        return result;
+        return result > 10 ? (sbyte)10 : result;
     }
 
     // Hero.PAS:1502
@@ -390,12 +370,7 @@ public partial class Hero : Troop
             result = 1;
         }
 
-        if (result > 30)
-        {
-            result = 30;
-        }
-
-        return result;
+        return result > 30 ? (sbyte)30 : result;
     }
 
     // Hero.PAS:1509
@@ -407,12 +382,7 @@ public partial class Hero : Troop
             result = 1;
         }
 
-        if (result > 50)
-        {
-            result = 50;
-        }
-
-        return result;
+        return result > 50 ? (sbyte)50 : result;
     }
 
     // Hero.PAS:842
@@ -473,19 +443,16 @@ public partial class Hero : Troop
     // Hero.PAS:1596
     public override LibraryImage GetFace()
     {
-        LibraryImage result;
         if (!GetAbilityEnabled(126))
         {
             FaceResource resource = GamePack.Current.FaceResources.GetFaceResource(FaceIndex);
-            result = resource?.GetCellImage();
+            return resource?.GetCellImage();
         }
         else
         {
             int index = ((CosmeticSurgeryEnchantment)GetAbilityData<UnitEnchantmentAbilityData>(126).Enchantment).FaceIndex;
-            result = GamePack.Current.FaceResources.GetFaceResource(index).GetCellImage();
+            return GamePack.Current.FaceResources.GetFaceResource(index).GetCellImage();
         }
-
-        return result;
     }
 
     // Hero.PAS:821
@@ -494,28 +461,21 @@ public partial class Hero : Troop
     // Hero.PAS:862
     public override Alignment GetAlignment()
     {
-        Alignment result;
         if (GetAbilityEnabled(107))
         {
-            result = Alignment.PureEvil;
+            return Alignment.PureEvil;
         }
         else
         {
             sbyte race = Race;
-            result = GamePack.Current.RaceResources.GetRaceResource(race) is not null
+            return GamePack.Current.RaceResources.GetRaceResource(race) is not null
                 ? GamePack.Current.RaceResources.GetRaceResource(race).GetAlignment()
                 : HeroResource.Alignment;
         }
-
-        return result;
     }
 
     // Hero.PAS:1538
-    public override LibraryImage GetPreviewImage()
-    {
-        LibraryImage result = HeroResource?.GetPreviewImage();
-        return result;
-    }
+    public override LibraryImage GetPreviewImage() => HeroResource?.GetPreviewImage();
 
     // Hero.PAS:732
     public override UnitGender GetGender() => _gender;
@@ -534,11 +494,7 @@ public partial class Hero : Troop
     }
 
     // Hero.PAS:1522
-    public override sbyte GetCastingPointsMax()
-    {
-        sbyte result = GetAbilityEnabled(52) ? (sbyte)(GetAbilityLevel(52) * 10) : (sbyte)0;
-        return result;
-    }
+    public override sbyte GetCastingPointsMax() => GetAbilityEnabled(52) ? (sbyte)(GetAbilityLevel(52) * 10) : (sbyte)0;
 
     // Hero.PAS:1528
     public override sbyte GetCastingPoints() => CastingPoints;
@@ -556,11 +512,7 @@ public partial class Hero : Troop
     }
 
     // Hero.PAS:1516
-    public override int GetPowerGeneration()
-    {
-        int result = GetAbilityEnabled(52) ? GetAbilityLevel(52) * 5 : 0;
-        return result;
-    }
+    public override int GetPowerGeneration() => GetAbilityEnabled(52) ? GetAbilityLevel(52) * 5 : 0;
 
     // Hero.PAS:738
     public override void NewDay()
@@ -651,12 +603,7 @@ public partial class Hero : Troop
         }
 
         count = Inventory.GetAbilityCount();
-        if (count > result)
-        {
-            result = count;
-        }
-
-        return result;
+        return count > result ? count : result;
     }
 
     // Hero.PAS:1028
@@ -680,9 +627,7 @@ public partial class Hero : Troop
     {
         int level = GetLevel();
         int maximum = GetLevelMax();
-        int result = level < maximum ? LevelToExperience(level + 1) : LevelToExperience(level);
-
-        return result;
+        return level < maximum ? LevelToExperience(level + 1) : LevelToExperience(level);
     }
 
     // Hero.PAS:729
@@ -726,7 +671,7 @@ public partial class Hero : Troop
         if (result && !Registered && UnitId != -1)
         {
             Hero hero = StrategicMap.Current.HeroControl.FindId(UnitId);
-            result = hero is null || hero == this || (hero.Owner is null && CompatibleHero(hero));
+            return hero is null || hero == this || (hero.Owner is null && CompatibleHero(hero));
         }
 
         return result;
@@ -833,13 +778,13 @@ public partial class Hero : Troop
 
                 if (condition)
                 {
-                    result = result && playerLocal.Heroes.Count < playerLocal.GetHeroCountMax() && GetLevel() <= playerLocal.GetHeroJoinLevelMax();
+                    return result && playerLocal.Heroes.Count < playerLocal.GetHeroCountMax() && GetLevel() <= playerLocal.GetHeroJoinLevelMax();
                 }
             }
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;
@@ -864,17 +809,17 @@ public partial class Hero : Troop
                 }
                 else
                 {
-                    result = true;
+                    return true;
                 }
             }
             else
             {
-                result = player == EmergedToPlayer();
+                return player == EmergedToPlayer();
             }
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;
@@ -990,12 +935,7 @@ public partial class Hero : Troop
     public string GetLibraryName()
     {
         string result = LibraryName;
-        if (IsEmpty(result))
-        {
-            result = AbilityRules.TranslateResourceString(GetEngine(), GameText.SystemText);
-        }
-
-        return result;
+        return IsEmpty(result) ? AbilityRules.TranslateResourceString(GetEngine(), GameText.SystemText) : result;
     }
 
     // Hero.PAS:656
@@ -1092,19 +1032,16 @@ public partial class Hero : Troop
     // Hero.PAS:1006
     public int GetSkillPoints()
     {
-        int result;
         if (StrategicMap.Current is not null && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             int usedSkillPoints = UsedSkillPoints();
-            result = (Level * 10) + 15 - usedSkillPoints - _usedSkillPoints;
+            return (Level * 10) + 15 - usedSkillPoints - _usedSkillPoints;
         }
         else
         {
             int usedSkillPoints = UsedSkillPoints();
-            result = (Level * 10) + 15 - usedSkillPoints;
+            return (Level * 10) + 15 - usedSkillPoints;
         }
-
-        return result;
     }
 
     // Hero.PAS:1013
@@ -1119,7 +1056,7 @@ public partial class Hero : Troop
             int maximum = StrategicMap.Current.CampaignSettings.HeroLevelMax;
             if (maximum < result)
             {
-                result = maximum;
+                return maximum;
             }
         }
 
@@ -1683,54 +1620,46 @@ public partial class Hero : Troop
     // Hero.PAS:1708
     public HeroUpdateTokenEvent CreateHeroUpdateTokenEvent()
     {
-        HeroUpdateTokenEvent result = new(null)
+        return new(null)
         {
             Holder = CreationHolder(),
             UnitId = UnitId
         };
-        return result;
     }
 
     // Hero.PAS:1714
     public ItemList GetItemsOnGround()
     {
         CombatMap map = StrategicMap.Current.CombatMap;
-        ItemList result = map is not null ? map.GetHeroItemsOnGround(this) : StrategicMap.Current.GetHeroItemsOnGround(this);
-
-        return result;
+        return map is not null ? map.GetHeroItemsOnGround(this) : StrategicMap.Current.GetHeroItemsOnGround(this);
     }
 
     // Hero.PAS:1722
     public bool CanUseItem(int itemId, ref string reason)
     {
         Item item = StrategicMap.Current.ItemControl.FindItem(itemId);
-        bool result;
         if (item is not null)
         {
-            result = item.CanUse(this, ref reason);
+            return item.CanUse(this, ref reason);
         }
         else
         {
-            result = false;
             reason = "";
         }
 
-        return result;
+        return false;
     }
 
     // Hero.PAS:1734
     public bool UseItem(int itemId)
     {
         Item item = StrategicMap.Current.ItemControl.FindItem(itemId);
-        bool result = item is not null && item.Use(this);
-
-        return result;
+        return item is not null && item.Use(this);
     }
 
     // Hero.PAS:1742
     public bool CanPlaceItem(int itemId, HeroItemPosition position)
     {
-        bool result = false;
         Item item = StrategicMap.Current.ItemControl.FindItem(itemId);
         if (item is not null)
         {
@@ -1744,40 +1673,38 @@ public partial class Hero : Troop
             sbyte imageLibrary = coordinate44.MapLevel;
             if (StrategicMap.Current.CombatMap is not null || (x == ix && y == iy && l == imageLibrary))
             {
-                result = Set<HeroItemPosition>.Of().WithRange(HeroItemPosition.AttackSlot, HeroItemPosition.RightRingSlot).Contains(position)
+                return Set<HeroItemPosition>.Of().WithRange(HeroItemPosition.AttackSlot, HeroItemPosition.RightRingSlot).Contains(position)
                     ? HeroItems.CanPlaceItem(item, position)
                     : !Set<HeroItemPosition>.Of().WithRange(HeroItemPosition.InventorySlot1, HeroItemPosition.InventorySlot8).Contains(position) || Inventory.GetSlot(position) is null;
             }
         }
 
-        return result;
+        return false;
     }
 
     // Hero.PAS:1758
     public bool CanSwapItem(int itemId1, int itemId2)
     {
-        bool result = true;
         Item item1 = StrategicMap.Current.ItemControl.FindItem(itemId1);
         Item item2 = StrategicMap.Current.ItemControl.FindItem(itemId2);
         if (item1 is not null && item2 is not null && item1 != item2)
         {
             if (HeroItems == item1.Owner || HeroItems == item2.Owner)
             {
-                result = item1.ItemType == item2.ItemType;
+                return item1.ItemType == item2.ItemType;
             }
         }
         else
         {
-            result = false;
+            return false;
         }
 
-        return result;
+        return true;
     }
 
     // Hero.PAS:1772
     public bool SwapItem(int itemId1, int itemId2)
     {
-        bool result;
         if (CanSwapItem(itemId1, itemId2) && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
             HeroUpdateTokenEvent tokenEvent = CreateHeroUpdateTokenEvent();
@@ -1786,20 +1713,17 @@ public partial class Hero : Troop
             tokenEvent.Parameter = itemId2;
             StrategicMap.Current.TokenManager.GetTokenControl(Player).AddEvent(tokenEvent);
             _ = tokenEvent.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Hero.PAS:1788
     public bool PlaceItem(int itemId, HeroItemPosition position)
     {
-        bool result;
         if (CanPlaceItem(itemId, position) && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
             HeroUpdateTokenEvent tokenEvent = CreateHeroUpdateTokenEvent();
@@ -1808,20 +1732,17 @@ public partial class Hero : Troop
             tokenEvent.Parameter = (int)position;
             StrategicMap.Current.TokenManager.GetTokenControl(Player).AddEvent(tokenEvent);
             _ = tokenEvent.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Hero.PAS:1804
     public bool ExecuteSwapItem(int itemId1, int itemId2)
     {
-        bool result;
         if (CanSwapItem(itemId1, itemId2))
         {
             Item item1 = StrategicMap.Current.ItemControl.FindItem(itemId1);
@@ -1857,25 +1778,22 @@ public partial class Hero : Troop
 
             }
             Changed();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Hero.PAS:1831
     public bool AutoPlaceItem(Item item)
     {
-        bool result = false;
         HeroItemPosition position = HeroItems.GetItemTypePosition(item.ItemType);
         if (HeroItems.CanPlaceItem(item, position))
         {
             _ = HeroItems.PlaceItem(item, position);
-            result = true;
+            return true;
         }
         else
         {
@@ -1883,17 +1801,16 @@ public partial class Hero : Troop
             if (slot != -1)
             {
                 item.SetArrayOwner(Inventory, slot);
-                result = true;
+                return true;
             }
         }
 
-        return result;
+        return false;
     }
 
     // Hero.PAS:1852
     public bool ExecutePlaceItem(int itemId, HeroItemPosition position)
     {
-        bool result;
         if (CanPlaceItem(itemId, position))
         {
             Item item = StrategicMap.Current.ItemControl.FindItem(itemId);
@@ -1937,14 +1854,12 @@ public partial class Hero : Troop
                     break;
             }
 
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Hero.PAS:1876
@@ -1958,7 +1873,6 @@ public partial class Hero : Troop
         Spell spell = GamePack.Current.SpellControl.GetSpell(spellId);
         Player players = StrategicMap.Current.Players.GetPlayers(Player);
         int castingMana = CastingMana(spell);
-        bool result;
         if (players.MagicControl.Mana >= castingMana && CastingMana(spell) > CastingPoints)
         {
             CastingProgress = CastingMana(spell);
@@ -1974,14 +1888,12 @@ public partial class Hero : Troop
 
             CastingSpellId = spellId;
             Changed();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Hero.PAS:1898
@@ -2000,7 +1912,6 @@ public partial class Hero : Troop
     // Hero.PAS:1907
     public bool ExecuteCancelCasting()
     {
-        bool result;
         if (CastingSpellId != 0)
         {
             RemoveCastingReadyEventLog();
@@ -2014,14 +1925,12 @@ public partial class Hero : Troop
             CastingManaValue = 0;
             CastingProgress = 0;
             Changed();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Hero.PAS:1925
@@ -2072,7 +1981,7 @@ public partial class Hero : Troop
         }
         else
         {
-            result = 0;
+            return 0;
         }
 
         return result;
@@ -2102,12 +2011,12 @@ public partial class Hero : Troop
             }
             else
             {
-                result = 0;
+                return 0;
             }
         }
         else
         {
-            result = -1;
+            return -1;
         }
 
         return result;
@@ -2116,25 +2025,23 @@ public partial class Hero : Troop
     // Hero.PAS:2136
     public override bool CanCastSpellInstantly(int spellId, int mana, ref string reason)
     {
-        bool result;
         if (!StrategicMap.Current.Players.GetPlayers(Player).MagicControl.GetCheatEnabled())
         {
             if (mana <= CastingPoints || (spellId == CastingSpellId && Casting() && CastingReady()))
             {
-                result = CanCastSpell(spellId, ref reason);
+                return CanCastSpell(spellId, ref reason);
             }
             else
             {
-                result = false;
                 reason = AbilityRules.TranslateResourceString(GetEngine(), GameText.NotEnoughChannelingPointsText);
             }
         }
         else
         {
-            result = true;
+            return true;
         }
 
-        return result;
+        return false;
     }
 
     // Hero.PAS:2149
@@ -2148,7 +2055,7 @@ public partial class Hero : Troop
             int castingMana = CastingMana(spell);
             if (players.MagicControl.Mana >= castingMana || StrategicMap.Current.Players.GetPlayers(Player).MagicControl.GetCheatEnabled())
             {
-                result = spell.CanActivate(this, ref reason);
+                return spell.CanActivate(this, ref reason);
             }
             else
             {
@@ -2162,7 +2069,7 @@ public partial class Hero : Troop
             if (result && GamePack.Current.SpellControl.GetSpell(spellId).SpellType == SpellType.Global && StrategicMap.Current.CombatMap is not null)
             {
                 reason = AbilityRules.TranslateResourceString(GetEngine(), s_cannotCastSpellInCombatText);
-                result = false;
+                return false;
             }
         }
 
@@ -2172,7 +2079,6 @@ public partial class Hero : Troop
     // Hero.PAS:2176
     public bool CastSpell(int spellId, ref string reason)
     {
-        bool result;
         if (CanCastSpell(spellId, ref reason))
         {
             Spell spell;
@@ -2181,7 +2087,7 @@ public partial class Hero : Troop
                 spell = GamePack.Current.SpellControl.GetSpell(spellId);
                 if (CastingMana(spell) <= CastingPoints || StrategicMap.Current.Players.GetPlayers(Player).MagicControl.GetCheatEnabled())
                 {
-                    result = spell.CanActivate(this, ref reason) && spell.Activate(this);
+                    return spell.CanActivate(this, ref reason) && spell.Activate(this);
                 }
                 else
                 {
@@ -2196,17 +2102,16 @@ public partial class Hero : Troop
                             tokenEvent.ItemId = spellId;
                             StrategicMap.Current.TokenManager.GetTokenControl(Player).AddEvent(tokenEvent);
                             _ = tokenEvent.Release();
-                            result = true;
+                            return true;
                         }
                         else
                         {
-                            result = false;
                             reason = AbilityRules.TranslateResourceString(GetEngine(), GameText.NotEnoughManaText);
                         }
                     }
                     else
                     {
-                        result = false;
+                        return false;
                     }
                 }
             }
@@ -2215,20 +2120,20 @@ public partial class Hero : Troop
                 if (CastingReady())
                 {
                     spell = GamePack.Current.SpellControl.GetSpell(spellId);
-                    result = spell.CanActivate(this, ref reason) && spell.Activate(this);
+                    return spell.CanActivate(this, ref reason) && spell.Activate(this);
                 }
                 else
                 {
-                    result = true;
+                    return true;
                 }
             }
         }
         else
         {
-            result = false;
+            return false;
         }
 
-        return result;
+        return false;
     }
 
     // Hero.PAS:2220
@@ -2245,7 +2150,7 @@ public partial class Hero : Troop
                 int castingMana = CastingMana(spell);
                 if (players.MagicControl.Mana >= castingMana || StrategicMap.Current.Players.GetPlayers(Player).MagicControl.GetCheatEnabled())
                 {
-                    result = spell.CanActivateCombat(this, ref reason);
+                    return spell.CanActivateCombat(this, ref reason);
                 }
                 else
                 {
@@ -2262,7 +2167,7 @@ public partial class Hero : Troop
         else
         {
             spell = GamePack.Current.SpellControl.GetSpell(spellId);
-            result = Set<SpellType>.Of(SpellType.Combat, SpellType.Unit).Contains(spell.SpellType) && CanCastSpellInstantly(spellId, CastingMana(spell), ref reason);
+            return Set<SpellType>.Of(SpellType.Combat, SpellType.Unit).Contains(spell.SpellType) && CanCastSpellInstantly(spellId, CastingMana(spell), ref reason);
         }
 
         return result;
@@ -2272,15 +2177,12 @@ public partial class Hero : Troop
     public bool CastCombatSpell(int spellId, ref string reason)
     {
         Spell spell = GamePack.Current.SpellControl.GetSpell(spellId);
-        bool result = CanCastCombatSpell(spellId, ref reason) && spell.CanActivateCombat(this, ref reason) && spell.ActivateCombat(this);
-
-        return result;
+        return CanCastCombatSpell(spellId, ref reason) && spell.CanActivateCombat(this, ref reason) && spell.ActivateCombat(this);
     }
 
     // Hero.PAS:2264
     public bool CancelCasting()
     {
-        bool result;
         // { Original tests -1 although zero is the idle spell ID. }
         if (CastingSpellId != -1 && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
@@ -2288,14 +2190,12 @@ public partial class Hero : Troop
             tokenEvent.Mode = HeroUpdateTokenEventMode.CancelCasting;
             StrategicMap.Current.TokenManager.GetTokenControl(Player).AddEvent(tokenEvent);
             _ = tokenEvent.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     private static readonly string s_castingInProgressFormat = "Casting %s...";

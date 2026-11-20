@@ -38,40 +38,33 @@ public partial class UnitEnchantment : Enchantment
     // AoWAb.PAS:804
     public override string GetName()
     {
-        string result;
         if (StrategicMap.Current is not null)
         {
             Troop source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
-            result = source is not null
+            return source is not null
                 ? GamePack.Current.AbilityControl.GetAbility(EnchantmentAbilityId).GetName(source)
                 : GamePack.Current.AbilityControl.GetAbility(EnchantmentAbilityId).GetName(null);
         }
         else
         {
-            result = GamePack.Current.AbilityControl.GetAbility(EnchantmentAbilityId).GetName(null);
+            return GamePack.Current.AbilityControl.GetAbility(EnchantmentAbilityId).GetName(null);
         }
-
-        return result;
     }
 
     // AoWAb.PAS:831
     public override string GetBinding()
     {
         Troop source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
-        string result = source is not null ? source.GetName() : "";
-
-        return result;
+        return source is not null ? source.GetName() : "";
     }
 
     // AoWAb.PAS:820
     public override int GetAIUpkeepPriority()
     {
         Troop source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
-        int result = source is not null
+        return source is not null
             ? GamePack.Current.AbilityControl.GetAbility<UnitEnchantmentAbility>(EnchantmentAbilityId).GetAIUpkeepPriority(source)
             : 0;
-
-        return result;
     }
 
     // AoWAb.PAS:859
@@ -85,9 +78,7 @@ public partial class UnitEnchantment : Enchantment
     public override bool Dispel()
     {
         Troop source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
-        bool result = source is not null && source.RemoveAbility(EnchantmentAbilityId);
-
-        return result;
+        return source is not null && source.RemoveAbility(EnchantmentAbilityId);
     }
 
     // AoWAb.PAS:842

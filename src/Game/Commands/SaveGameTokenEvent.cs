@@ -28,7 +28,6 @@ public partial class SaveGameTokenEvent(CustomNode owner) : TokenEvent(owner)
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
         _ = base.Execute(tokenEvent);
-        ExecuteResult result;
         if (StrategicMap.Current.SeatedPlayer == tokenEvent.ActiveTacticalBattleIndex)
         {
             if (tokenEvent.ExecuteCount == 0)
@@ -36,7 +35,7 @@ public partial class SaveGameTokenEvent(CustomNode owner) : TokenEvent(owner)
                 string fileName = ExtractFileName(FileName);
                 string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_savingGameFormat), [fileName]);
                 StrategicMap.Current.ShowMessage(format);
-                result = ExecuteResult.Retry;
+                return ExecuteResult.Retry;
             }
             else
             {
@@ -66,15 +65,13 @@ public partial class SaveGameTokenEvent(CustomNode owner) : TokenEvent(owner)
                     StrategicMap.Current.ShowMessage(formattedText);
                 }
 
-                result = ExecuteResult.Done;
+                return ExecuteResult.Done;
             }
         }
         else
         {
-            result = ExecuteResult.Done;
+            return ExecuteResult.Done;
         }
-
-        return result;
     }
 
     private static readonly string s_savingGameFormat = "saving: %s";

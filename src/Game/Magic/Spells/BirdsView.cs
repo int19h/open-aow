@@ -61,7 +61,7 @@ public partial class BirdsView : Spell
             if (layer != 0)
             {
                 messageText = AbilityRules.TranslateResourceString(GetEngine(), GameText.CannotCastSpellInUndergroundText);
-                result = false;
+                return false;
             }
         }
 
@@ -73,21 +73,18 @@ public partial class BirdsView : Spell
     {
         string reason = "";
         _ = base.Activate(source);
-        bool result;
         if (CanActivate(source, ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             SpellTokenEvent eventValue = new(null) { Holder = CreationHolder() };
             eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             _ = eventValue.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     private static readonly string s_birdsViewText = "Bird's View";

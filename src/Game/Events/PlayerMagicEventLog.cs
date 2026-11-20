@@ -41,25 +41,21 @@ public partial class PlayerMagicEventLog(CustomNode owner) : EventLog(owner)
     // Spells.PAS:1892
     public override string GetText()
     {
-        string result = "";
         switch (Mode)
         {
             case EventMode.SpellResearched:
                 Spell spell = GamePack.Current.SpellControl.GetSpell(SpellId);
-                result = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_researchedFormat), [spell.SpellName]);
-                break;
+                return AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_researchedFormat), [spell.SpellName]);
             case EventMode.OutOfMana:
-                result = StrategicMap.Current.SeatedPlayer == Player
+                return StrategicMap.Current.SeatedPlayer == Player
                     ? AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_removedOutOfManaFormat), [EnchantmentName])
                     : AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.RemovedFormat), [EnchantmentName]);
-
-                break;
             case EventMode.StartResearch:
             default:
                 break;
         }
 
-        return result;
+        return "";
     }
 
     // Spells.PAS:1874
@@ -74,9 +70,7 @@ public partial class PlayerMagicEventLog(CustomNode owner) : EventLog(owner)
             EventMode.StartResearch => true,
             _ => false,
         };
-        bool result = show && base.Execute(mode, trigger, done);
-
-        return result;
+        return show && base.Execute(mode, trigger, done);
     }
 
     // Spells.PAS:1863

@@ -127,11 +127,7 @@ public partial class Road(CustomNode owner) : AbstractRoad(owner)
         }
 
         // Road.pas:171
-        public override EditorClass Editor()
-        {
-            EditorClass result = Engine.Editors.FindEditor(131429) ?? base.Editor();
-            return result;
-        }
+        public override EditorClass Editor() => Engine.Editors.FindEditor(131429) ?? base.Editor();
 
         // Road.pas:131
         public override string ResourceEditName() => "Road";

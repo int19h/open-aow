@@ -19,11 +19,9 @@ public partial class FireProtectionEnchantment : UnitEnchantmentAbility
     {
         // { Original assumes the ability data and enchantment exist. }
         UnitEnchantmentAbilityData unitEnchantmentAbilityData = owner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
-        string result = unitEnchantmentAbilityData.Enchantment.Source == -2
+        return unitEnchantmentAbilityData.Enchantment.Source == -2
             ? AbilityRules.TranslateResourceString(GetEngine(), GameText.FireMasteryText)
             : base.GetSourceName(owner);
-
-        return result;
     }
 
     internal static string FireProtectionText { get; } = "Fire Protection";

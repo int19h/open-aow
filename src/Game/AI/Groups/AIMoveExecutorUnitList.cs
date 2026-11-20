@@ -101,22 +101,20 @@ public partial class AIMoveExecutorUnitList(CustomNode owner) : OwningNode(owner
     // AIGroup.pas:4386
     public AIMoveExecutorUnit Transporter(byte selection)
     {
-        AIMoveExecutorUnit result = null;
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
             if ((selection & 1) != 0)
             {
                 if (this[i].Troop.GetTransporter())
                 {
-                    result = this[i];
-                    break;
+                    return this[i];
                 }
             }
 
             selection = (byte)(int)(((uint)selection) >> 1);
         }
 
-        return result;
+        return null;
     }
 
     // AIGroup.pas:4403

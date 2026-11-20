@@ -39,11 +39,7 @@ public partial class FaceResourceList : ResourceCollection, IChildList<FaceResou
     }
 
     // Ability.PAS:540
-    public FaceResource GetFaceResource(int index)
-    {
-        FaceResource result = index < Count && index >= 0 ? this[index] : null;
-        return result;
-    }
+    public FaceResource GetFaceResource(int index) => index < Count && index >= 0 ? this[index] : null;
 
     // Ability.PAS:547
     public int PreviousFace(int index)

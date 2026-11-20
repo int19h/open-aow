@@ -55,19 +55,16 @@ public partial class CombatMoveTokenEvent(CustomNode owner) : MoveTokenEvent(own
         int index = Path.Count - 1;
         MapField mapField = GetMapField(Path[index].Location);
         TacticalBattleUnitHexSprite hexSprite = mapField.FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
-        bool result;
         if (hexSprite is not null)
         {
             _objects = [];
             Unit = hexSprite.Unit;
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // CombatTE.pas:299
@@ -365,7 +362,6 @@ public partial class CombatMoveTokenEvent(CustomNode owner) : MoveTokenEvent(own
     {
         Path.Clear();
         int startIndex = path.MovePointsToPosition(unitObject.MovePoints);
-        bool result;
         if (startIndex != path.Count - 1)
         {
             for (int i = startIndex, last = path.Count - 1; i <= last; i++)
@@ -374,14 +370,12 @@ public partial class CombatMoveTokenEvent(CustomNode owner) : MoveTokenEvent(own
                 _ = Path.Add(pathLocal);
             }
 
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // CombatTE.pas:253
@@ -409,7 +403,7 @@ public partial class CombatMoveTokenEvent(CustomNode owner) : MoveTokenEvent(own
                 Unit.UnitHexSprite?.Dispose();
                 CombatMap.Current.TriggerMapChangedEvent(r, 0);
                 Unit.UnitHexSprite = null;
-                result = MoveStatus.Done;
+                return MoveStatus.Done;
             }
             else
             {
@@ -444,7 +438,7 @@ public partial class CombatMoveTokenEvent(CustomNode owner) : MoveTokenEvent(own
         else
         {
             Unit.UnitHexSprite = null;
-            result = MoveStatus.Done;
+            return MoveStatus.Done;
         }
 
         return result;

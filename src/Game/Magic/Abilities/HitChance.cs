@@ -49,12 +49,7 @@ internal static class HitChance
             result = 1;
         }
 
-        if (result > 100)
-        {
-            result = 100;
-        }
-
-        return result;
+        return result > 100 ? 100 : result;
     }
 
     internal static void ShowHitPercent(int x, int y, in LockedSurface surface, int percent)

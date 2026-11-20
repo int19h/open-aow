@@ -49,7 +49,7 @@ public partial class UnitSpellCaster : SpellCaster
                     {
                         if (mana <= StrategicMap.Current.Players.GetPlayers(hero.Player).MagicControl.Mana)
                         {
-                            result = true;
+                            return true;
                         }
                         else
                         {
@@ -65,7 +65,7 @@ public partial class UnitSpellCaster : SpellCaster
                 }
                 else
                 {
-                    result = true;
+                    return true;
                 }
             }
             else
@@ -76,7 +76,7 @@ public partial class UnitSpellCaster : SpellCaster
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;
@@ -106,12 +106,12 @@ public partial class UnitSpellCaster : SpellCaster
             }
             else
             {
-                result = true;
+                return true;
             }
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;
@@ -139,9 +139,7 @@ public partial class UnitSpellCaster : SpellCaster
     public bool Valid()
     {
         Troop source = StrategicMap.Current.UnitControl.FindUnit<Troop>(CasterSourceId);
-        bool result = source is not null && (((byte)source.UnitStatus.Image) & 16) == 0;
-
-        return result;
+        return source is not null && (((byte)source.UnitStatus.Image) & 16) == 0;
     }
 
     // intf_P4_02.inc:1038

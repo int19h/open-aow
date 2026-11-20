@@ -51,37 +51,31 @@ public partial class CombatEventLog(CustomNode owner) : EventLog(owner)
     public override int GetTextColor()
     {
         CombatData data = Logbook.FinalData;
-        int result;
         if (data.Players.GetPlayers(data.AttackerPlayer).Player != 0)
         {
             CombatPlayer players = data.Players.GetPlayers(data.AttackerPlayer);
             Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(players.Player);
-            result = AbilityRules.RaceColors[fPlayersPlayers.PlayerRace];
+            return AbilityRules.RaceColors[fPlayersPlayers.PlayerRace];
         }
         else
         {
-            result = AbilityRules.RaceColors[12];
+            return AbilityRules.RaceColors[12];
         }
-
-        return result;
     }
 
     // Combat2.pas:440
     public override int GetLeftIcon()
     {
         CombatData data = Logbook.FinalData;
-        int result;
         if (data.Players.GetPlayers(data.AttackerPlayer).Player != 0)
         {
             CombatPlayer players = data.Players.GetPlayers(data.AttackerPlayer);
-            result = StrategicMap.Current.Players.GetPlayers(players.Player).PlayerRace;
+            return StrategicMap.Current.Players.GetPlayers(players.Player).PlayerRace;
         }
         else
         {
-            result = 12;
+            return 12;
         }
-
-        return result;
     }
 
     // Combat2.pas:449
@@ -91,18 +85,15 @@ public partial class CombatEventLog(CustomNode owner) : EventLog(owner)
     public override int GetRightIcon()
     {
         CombatData data = Logbook.FinalData;
-        int result;
         if (data.Players.GetPlayers(data.DefenderPlayer).Player != 0)
         {
             CombatPlayer players = data.Players.GetPlayers(data.DefenderPlayer);
-            result = StrategicMap.Current.Players.GetPlayers(players.Player).PlayerRace;
+            return StrategicMap.Current.Players.GetPlayers(players.Player).PlayerRace;
         }
         else
         {
-            result = 12;
+            return 12;
         }
-
-        return result;
     }
 
     // Combat2.pas:467
@@ -116,13 +107,11 @@ public partial class CombatEventLog(CustomNode owner) : EventLog(owner)
     // Combat2.pas:474
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
-        bool result = false;
         switch (trigger)
         {
             case ExecuteTrigger.User:
                 StrategicMap.Current.TriggerExecuteEventLog(this, false, done);
-                result = true;
-                break;
+                return true;
             case ExecuteTrigger.Event:
             case ExecuteTrigger.NewTurn:
                 bool showCombat;
@@ -144,19 +133,17 @@ public partial class CombatEventLog(CustomNode owner) : EventLog(owner)
                 if (showCombat)
                 {
                     StrategicMap.Current.TriggerExecuteEventLog(this, false, done);
-                    result = true;
+                    return true;
                 }
                 else
                 {
-                    result = false;
+                    return false;
                 }
-
-                break;
             default:
                 break;
         }
 
-        return result;
+        return false;
     }
 
     // Combat2.pas:416

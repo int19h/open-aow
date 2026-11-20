@@ -188,12 +188,12 @@ public partial class PlayerCropStructure : PlayerStructure
 
             if (result)
             {
-                result = Set<byte>.WithBounds(0, 255).With(12).WithRange(1, 4).Contains((byte)field.TerrainType) || (field.TerrainType == 5 && GetRace() == 11);
+                return Set<byte>.WithBounds(0, 255).With(12).WithRange(1, 4).Contains((byte)field.TerrainType) || (field.TerrainType == 5 && GetRace() == 11);
             }
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;
@@ -243,11 +243,7 @@ public partial class PlayerCropStructure : PlayerStructure
     }
 
     // Crops.pas:413
-    public virtual sbyte GetRace()
-    {
-        sbyte result = Player > 0 ? StrategicMap.Current.Players.GetPlayers(Player).PlayerRace : (sbyte)-1;
-        return result;
-    }
+    public virtual sbyte GetRace() => Player > 0 ? StrategicMap.Current.Players.GetPlayers(Player).PlayerRace : (sbyte)-1;
 
     // Crops.pas:339
     public virtual void CropsChanged() => UpdateIncome();

@@ -127,9 +127,7 @@ public partial class HeroLibraryManager : EngineObject
     public Hero FindHero(string libraryName, int libraryId)
     {
         int index = IndexOfLibraryName(libraryName);
-        Hero result = index != -1 ? _libraries.GetChild<HeroLibrary>(index).FindLibraryId(libraryId) : null;
-
-        return result;
+        return index != -1 ? _libraries.GetChild<HeroLibrary>(index).FindLibraryId(libraryId) : null;
     }
 
     // Hero.PAS:2735
@@ -153,7 +151,7 @@ public partial class HeroLibraryManager : EngineObject
         }
         else
         {
-            result = null;
+            return null;
         }
 
         return result;

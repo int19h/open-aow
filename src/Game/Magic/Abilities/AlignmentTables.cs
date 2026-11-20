@@ -11,14 +11,13 @@ internal static class AlignmentTables
 
     internal static sbyte AlignmentToIndependentRelation(Alignment alignment)
     {
-        sbyte result = alignment switch
+        return alignment switch
         {
             Alignment.PureGood or Alignment.Good => -2,
             Alignment.Evil or Alignment.PureEvil => -4,
             Alignment.PureNeutral or Alignment.Neutral => -3,
             Alignment.None or _ => -1,
         };
-        return result;
     }
 
     internal static ImmutableArray<ImmutableArray<sbyte>> AlignmentStatusValues { get; } = [[100, 90, 30, 40, 10, 0, 50], [90, 90, 40, 50, 10, 10, 50], [30, 40, 70, 50, 40, 30, 50], [40, 50, 50, 50, 50, 40, 50], [10, 10, 40, 50, 90, 90, 50], [0, 10, 30, 40, 90, 100, 50], [50, 50, 50, 50, 50, 50, 50]];
@@ -27,7 +26,7 @@ internal static class AlignmentTables
 
     internal static DiplomaticRelation AlignmentToDiplomaticRelation(Alignment A, Alignment B)
     {
-        DiplomaticRelation result = Set<Alignment>.Of(Alignment.PureGood, Alignment.Good).Contains(A)
+        return Set<Alignment>.Of(Alignment.PureGood, Alignment.Good).Contains(A)
             ? Set<Alignment>.Of(Alignment.PureGood, Alignment.Good).Contains(B)
                 ? DiplomaticRelation.Peace
                 : Set<Alignment>.Of(Alignment.PureNeutral, Alignment.Neutral, Alignment.None).Contains(B)
@@ -40,19 +39,17 @@ internal static class AlignmentTables
                         ? DiplomaticRelation.Unknown
                         : DiplomaticRelation.War
                 : A == Alignment.PureNeutral && B == Alignment.PureNeutral ? DiplomaticRelation.Peace : DiplomaticRelation.Unknown;
-        return result;
     }
 
     internal static DiplomaticRelation StatusToDiplomaticRelation(Status status)
     {
-        DiplomaticRelation result = status switch
+        return status switch
         {
             Status.Polite or Status.Friendly => DiplomaticRelation.Peace,
             Status.Neutral => DiplomaticRelation.Unknown,
             Status.Hostile or Status.Wary => DiplomaticRelation.War,
             _ => DiplomaticRelation.Unknown,
         };
-        return result;
     }
 
     internal static Set<Alignment> PureGoodAlignments { get; } = Set<Alignment>.FromMask(67UL);

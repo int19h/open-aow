@@ -160,12 +160,7 @@ public class DefaultItemList<TItem> : Persistent where TItem : struct, IEquatabl
             result += 1;
         }
 
-        if (result == _count)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == _count ? -1 : result;
     }
 
     // HSEngine.pas:1717

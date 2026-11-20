@@ -430,7 +430,6 @@ public partial class AIBudgetManager : EngineObject
     // AI.pas:2010
     public bool ProductionExpenseMade(int gold, int goldUpkeep, int mana, int manaUpkeep)
     {
-        bool result;
         if (RequestProductionExpense(gold, goldUpkeep, mana, manaUpkeep))
         {
             if (gold < 0)
@@ -459,14 +458,12 @@ public partial class AIBudgetManager : EngineObject
             ManaUpkeep -= manaUpkeep;
             ProductionGoldUpkeep += goldUpkeep;
             ProductionManaUpkeep += manaUpkeep;
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // AI.pas:2029
@@ -492,7 +489,6 @@ public partial class AIBudgetManager : EngineObject
     // AI.pas:2049
     public bool BudgetExpenseMade(int gold, int mana, AIBudget budget, ExpenseMode mode)
     {
-        bool result;
         if (RequestBudgetExpense(gold, mana, budget, mode != ExpenseMode.Budget))
         {
             if (gold < 0)
@@ -576,14 +572,12 @@ public partial class AIBudgetManager : EngineObject
                 }
             }
 
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // AI.pas:2113
@@ -644,7 +638,7 @@ public partial class AIBudgetManager : EngineObject
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;
@@ -656,7 +650,6 @@ public partial class AIBudgetManager : EngineObject
     // AI.pas:2144
     public bool ExpenseMade(int gold, int mana)
     {
-        bool result;
         if (RequestExpense(gold, mana))
         {
             if (gold < 0)
@@ -671,14 +664,12 @@ public partial class AIBudgetManager : EngineObject
 
             Gold -= gold;
             Mana -= mana;
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // AI.pas:2157

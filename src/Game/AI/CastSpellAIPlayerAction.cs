@@ -68,7 +68,6 @@ public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
     public override bool Process()
     {
         Player player = Control.Player;
-        bool result;
         if (player.PlayerIndex != 0)
         {
             while (_state != -1 && StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 0 && !player.GetBusy())
@@ -76,14 +75,12 @@ public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
                 ProcessStates();
             }
 
-            result = _state != -1;
+            return _state != -1;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Spells.PAS:1581

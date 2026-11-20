@@ -187,12 +187,7 @@ public sealed class ProductionOrderTests
     private static bool OldLoopable(int id, bool city)
     {
         bool result = id != 2;
-        if (city && OldCityAction(id) is CityAction.Migrate or CityAction.Loot or CityAction.Fortify or CityAction.Upgrade)
-        {
-            result = false;
-        }
-
-        return result;
+        return (!city || OldCityAction(id) is not CityAction.Migrate and not CityAction.Loot and not CityAction.Fortify and not CityAction.Upgrade) && result;
     }
 
     // Structur.PAS:834 and City.pas:595 LockQueueProduction.
@@ -256,11 +251,11 @@ public sealed class ProductionOrderTests
         {
             switch (OldCityAction(id))
             {
-                case CityAction.Trade: result = AbilityRules.TranslateResourceString(EngineFixture.Engine, GameText.ProduceMerchandiseText); break;
-                case CityAction.Upgrade: result = AbilityRules.TranslateResourceString(EngineFixture.Engine, GameText.UpgradeText); break;
-                case CityAction.Migrate: result = DelphiFormat.Format(AbilityRules.TranslateResourceString(EngineFixture.Engine, Migrate.MigrateFormat), [AbilityRules.TranslateResourceString(EngineFixture.Engine, GameTables.RaceNamesPluralTexts[parameter])]); break;
-                case CityAction.Loot: result = AbilityRules.TranslateResourceString(EngineFixture.Engine, GameText.LootText); break;
-                case CityAction.Fortify: result = AbilityRules.TranslateResourceString(EngineFixture.Engine, GameText.FortifyText); break;
+                case CityAction.Trade: return AbilityRules.TranslateResourceString(EngineFixture.Engine, GameText.ProduceMerchandiseText);
+                case CityAction.Upgrade: return AbilityRules.TranslateResourceString(EngineFixture.Engine, GameText.UpgradeText);
+                case CityAction.Migrate: return DelphiFormat.Format(AbilityRules.TranslateResourceString(EngineFixture.Engine, Migrate.MigrateFormat), [AbilityRules.TranslateResourceString(EngineFixture.Engine, GameTables.RaceNamesPluralTexts[parameter])]);
+                case CityAction.Loot: return AbilityRules.TranslateResourceString(EngineFixture.Engine, GameText.LootText);
+                case CityAction.Fortify: return AbilityRules.TranslateResourceString(EngineFixture.Engine, GameText.FortifyText);
                 case CityAction.None:
                     break;
                 case CityAction.Raze:
@@ -275,7 +270,7 @@ public sealed class ProductionOrderTests
         }
         else if (id == 10)
         {
-            result = AbilityRules.TranslateResourceString(EngineFixture.Engine, sphere != MagicSphere.None ? Trade.GenerateExtraPowerText : GameText.ProduceMerchandiseText);
+            return AbilityRules.TranslateResourceString(EngineFixture.Engine, sphere != MagicSphere.None ? Trade.GenerateExtraPowerText : GameText.ProduceMerchandiseText);
         }
         return result;
     }

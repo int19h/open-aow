@@ -76,9 +76,7 @@ public partial class TouchAbility : AdjustableAbility
     {
         bool result = HitChance.HitRole(source.GetAttack() - target.GetDefense());
         int attack = GetTouchAttack(GetLevel(source.Troop));
-        result = result && attack != -10 && result && HitChance.HitRole(attack - target.GetResistance());
-
-        return result;
+        return result && attack != -10 && result && HitChance.HitRole(attack - target.GetResistance());
     }
 
     // AoWAb.PAS:1904
@@ -86,9 +84,7 @@ public partial class TouchAbility : AdjustableAbility
     {
         float result = HitChance.HitRoleProbability(source.GetAttack() - target.GetDefense());
         int attack = GetTouchAttack(GetLevel(source.Troop));
-        result = attack != -10 ? (float)((double)result * HitChance.HitRoleProbability(attack - target.GetResistance())) : 0;
-
-        return result;
+        return attack != -10 ? (float)((double)result * HitChance.HitRoleProbability(attack - target.GetResistance())) : 0;
     }
 
     // AoWAb.PAS:1880
@@ -96,9 +92,7 @@ public partial class TouchAbility : AdjustableAbility
     {
         float result = HitChance.HitRoleProbability(source.GetAttack() - target.GetDefense());
         int attack = GetTouchAttack(GetLevel(source));
-        result = attack != -10 ? (float)((double)result * HitChance.HitRoleProbability(attack - target.GetResistance())) : 0;
-
-        return result;
+        return attack != -10 ? (float)((double)result * HitChance.HitRoleProbability(attack - target.GetResistance())) : 0;
     }
 
     // AoWAb.PAS:1916
@@ -107,12 +101,7 @@ public partial class TouchAbility : AdjustableAbility
         bool result = source.GetSide() == CombatSideIndex.Defender
             ? !source.FastBattleBehindWall() || !source.FastBattleWallInBetween(target.Position) || target.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing)
             : !target.FastBattleBehindWall() || !source.FastBattleWallInBetween(target.Position) || source.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing);
-        if (source.GetSide() != target.GetSide())
-        {
-            result = result && (!target.GetAbilityEnabled(1) || source.GetAbilityEnabled(1));
-        }
-
-        return result;
+        return source.GetSide() != target.GetSide() ? result && (!target.GetAbilityEnabled(1) || source.GetAbilityEnabled(1)) : result;
     }
 
     // AoWAb.PAS:1937

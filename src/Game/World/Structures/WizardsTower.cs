@@ -147,11 +147,7 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
     public override bool CanDoubleClick() => CanEnter(StrategicMap.Current.SeatedPlayer);
 
     // WizardsTower.pas:99
-    public bool ValidAITarget(sbyte player)
-    {
-        bool result = player > 0 && !GetRazed() && SpellId != 0 && StrategicMap.Current.Players.GetPlayers(player).MagicControl.Spells.IndexOf(SpellId) == -1 && GamePack.Current.SpellControl.GetSpell(SpellId).CastDuration > 0;
-        return result;
-    }
+    public bool ValidAITarget(sbyte player) => player > 0 && !GetRazed() && SpellId != 0 && StrategicMap.Current.Players.GetPlayers(player).MagicControl.Spells.IndexOf(SpellId) == -1 && GamePack.Current.SpellControl.GetSpell(SpellId).CastDuration > 0;
 
     // WizardsTower.pas:163
     public void GenerateSettings() => SpellId = GamePack.Current.SpellControl.GetRandomSpell(_spellLevel, _spellLevel, _magicSpheres);
@@ -160,15 +156,12 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
     public bool CanEnter(sbyte player)
     {
         ArmyHexSprite armyHexSprite = Owner.GetArmyHexSprite();
-        bool result = armyHexSprite is not null && armyHexSprite.Army.Player == player;
-
-        return result;
+        return armyHexSprite is not null && armyHexSprite.Army.Player == player;
     }
 
     // WizardsTower.pas:182
     public bool Enter()
     {
-        bool result;
         if (CanEnter(StrategicMap.Current.SeatedPlayer))
         {
             EnterWizardsTowerEventLog log = new(null)
@@ -178,22 +171,16 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
             };
             _ = log.Execute(true, ExecuteTrigger.User, null);
             _ = log.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // WizardsTower.pas:215
-    public int BuyCost()
-    {
-        int result = SpellId != 0 ? GamePack.Current.SpellControl.GetSpell(SpellId).ResearchCost : -1;
-        return result;
-    }
+    public int BuyCost() => SpellId != 0 ? GamePack.Current.SpellControl.GetSpell(SpellId).ResearchCost : -1;
 
     // WizardsTower.pas:221
     public bool CanBuy(sbyte player, ref string reason)
@@ -207,7 +194,7 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
                 int buyCost = BuyCost();
                 if (playerLocal.Gems >= buyCost)
                 {
-                    result = true;
+                    return true;
                 }
                 else
                 {
@@ -223,7 +210,7 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;
@@ -233,7 +220,6 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
     public bool Buy(sbyte player, out string reason)
     {
         reason = "";
-        bool result;
         if (CanBuy(player, ref reason) && !StrategicMap.Current.Players.GetPlayers(player).GetBusy())
         {
             StructureTokenEvent tokenEvent = CreateTokenEvent();
@@ -242,14 +228,12 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
             tokenEvent.Param = player;
             StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(tokenEvent);
             _ = tokenEvent.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     private static readonly string s_spellIsAlreadyResearchedText = "Spell already researched";

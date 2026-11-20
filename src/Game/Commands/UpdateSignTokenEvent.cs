@@ -41,20 +41,17 @@ public partial class UpdateSignTokenEvent(CustomNode owner) : TokenEvent(owner)
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
         Sign sign = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindOwnedChild<Sign>(131330);
-        ExecuteResult result;
         if (sign is not null)
         {
             sign.SetText(Text);
             sign.TextSeen.Clear();
             sign.TextSeen[StrategicMap.Current.CurrentPlayer] = true;
-            result = ExecuteResult.Done;
+            return ExecuteResult.Done;
         }
         else
         {
-            result = ExecuteResult.DoneHalt;
+            return ExecuteResult.DoneHalt;
         }
-
-        return result;
     }
 
     // Sign.pas:54

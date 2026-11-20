@@ -118,9 +118,7 @@ public partial class FaceResource(CustomNode owner) : EngineResource(owner)
     public LibraryImage GetFaceImage()
     {
         CustomImageLibrary images = _imageLibrary;
-        LibraryImage result = images?[_imageIndex];
-
-        return result;
+        return images?[_imageIndex];
     }
 
 }

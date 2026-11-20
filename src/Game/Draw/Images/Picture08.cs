@@ -120,11 +120,9 @@ public partial class Picture08(CustomImageLibrary owner) : Image08(owner), ILibr
     // ImageLib.pas:7389
     public override bool GrabImage(in LockedSurface lockedSurface, in Rect R, GrabInfo grabInfo)
     {
-        bool result;
         try
         {
             Clear();
-            result = true;
             DataLoaded = true;
             DataWidth = R.Right - R.Left;
             DataHeight = R.Bottom - R.Top;
@@ -149,16 +147,16 @@ public partial class Picture08(CustomImageLibrary owner) : Image08(owner), ILibr
             }
             else
             {
-                result = false;
+                return false;
             }
         }
         catch
         {
             ReleaseDiscardableImageData();
-            result = false;
+            return false;
         }
 
-        return result;
+        return true;
     }
 
     public override void ShowOpaque(int x, int y, in LockedSurface lockedSurface)

@@ -83,11 +83,7 @@ public partial class Leader(CustomNode owner) : Hero(owner)
     public override byte GetUpkeep() => 0;
 
     // Hero.PAS:2886
-    public override int GetPowerGeneration()
-    {
-        int result = GetAbilityEnabled(52) ? (GetAbilityLevel(52) * 5) + 5 : 0;
-        return result;
-    }
+    public override int GetPowerGeneration() => GetAbilityEnabled(52) ? (GetAbilityLevel(52) * 5) + 5 : 0;
 
     // Hero.PAS:2908
     public override void SetPlayer(sbyte player)
@@ -118,7 +114,7 @@ public partial class Leader(CustomNode owner) : Hero(owner)
             Leader leader = StrategicMap.Current.Players.GetPlayers(Player).Leader;
             if (leader is not null && !CompatibleHero(leader))
             {
-                result = false;
+                return false;
             }
         }
 
@@ -185,27 +181,7 @@ public partial class Leader(CustomNode owner) : Hero(owner)
     }
 
     // Hero.PAS:2787
-    public override string GetNickname()
-    {
-        string result;
-        if (StrategicMap.Current is not null)
-        {
-            if (StrategicMap.Current.GameType != GameType.Campaign)
-            {
-                result = "";
-            }
-            else
-            {
-                return Nickname;
-            }
-        }
-        else
-        {
-            result = "";
-        }
-
-        return result;
-    }
+    public override string GetNickname() => StrategicMap.Current is not null ? StrategicMap.Current.GameType != GameType.Campaign ? "" : Nickname : "";
 
     // Hero.PAS:2795
     public override void SetNickname(string value)
@@ -254,7 +230,7 @@ public partial class Leader(CustomNode owner) : Hero(owner)
         }
         else
         {
-            result = 4;
+            return 4;
         }
 
         return result;
@@ -277,11 +253,7 @@ public partial class Leader(CustomNode owner) : Hero(owner)
     }
 
     // Hero.PAS:2824
-    public bool CanAddSphere(MagicSphere sphere)
-    {
-        bool result = _spheres.Count < SpherePicksMax && sphere != MagicSphere.Cosmos && (!GetEngine().Demo || GetSpherePicks(sphere) < 2) && GetSpherePicks(sphere) != 4 && (sphere != MagicSphere.Fire || GetSpherePicks(MagicSphere.Water) == 0) && (sphere != MagicSphere.Water || GetSpherePicks(MagicSphere.Fire) == 0) && (sphere != MagicSphere.Life || GetSpherePicks(MagicSphere.Death) == 0) && (sphere != MagicSphere.Death || GetSpherePicks(MagicSphere.Life) == 0) && (sphere != MagicSphere.Earth || GetSpherePicks(MagicSphere.Air) == 0) && (sphere != MagicSphere.Air || GetSpherePicks(MagicSphere.Earth) == 0);
-        return result;
-    }
+    public bool CanAddSphere(MagicSphere sphere) => _spheres.Count < SpherePicksMax && sphere != MagicSphere.Cosmos && (!GetEngine().Demo || GetSpherePicks(sphere) < 2) && GetSpherePicks(sphere) != 4 && (sphere != MagicSphere.Fire || GetSpherePicks(MagicSphere.Water) == 0) && (sphere != MagicSphere.Water || GetSpherePicks(MagicSphere.Fire) == 0) && (sphere != MagicSphere.Life || GetSpherePicks(MagicSphere.Death) == 0) && (sphere != MagicSphere.Death || GetSpherePicks(MagicSphere.Life) == 0) && (sphere != MagicSphere.Earth || GetSpherePicks(MagicSphere.Air) == 0) && (sphere != MagicSphere.Air || GetSpherePicks(MagicSphere.Earth) == 0);
 
     // Hero.PAS:2842
     public bool AddSphere(MagicSphere sphere)
@@ -298,18 +270,15 @@ public partial class Leader(CustomNode owner) : Hero(owner)
     // Hero.PAS:2863
     public bool DeleteSphereIndex(int index)
     {
-        bool result;
         if (index >= 0 && index < _spheres.Count)
         {
             _spheres.Delete(index);
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Hero.PAS:2870

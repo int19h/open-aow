@@ -659,19 +659,17 @@ public partial class CombatUnitSelectionControl : MoveSelector
     // AoWTC.pas:2763
     public TacticalBattleUnitHexSprite GetTacticalBattleUnitHexSprite()
     {
-        TacticalBattleUnitHexSprite result = CurrentMove != -1
+        return CurrentMove != -1
             ? (TacticalBattleUnitHexSprite)MoveSettingsList.GetMoveSettings(CurrentMove).MoveObject
             : null;
-        return result;
     }
 
     // AoWTC.pas:2770
     public Set<MoveType> GetMoveTypes()
     {
-        Set<MoveType> result = CurrentMove != -1
+        return CurrentMove != -1
             ? ((TacticalBattleUnitHexSprite)MoveSettingsList.GetMoveSettings(CurrentMove).MoveObject).Unit.Troop.GetMoveTypes()
             : Set<MoveType>.Of();
-        return result;
     }
 
     // AoWTC.pas:2777

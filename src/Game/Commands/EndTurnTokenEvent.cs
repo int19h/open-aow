@@ -31,7 +31,6 @@ public partial class EndTurnTokenEvent(CustomNode owner) : TokenEvent(owner)
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
         _ = base.Execute(tokenEvent);
-        ExecuteResult result;
         if (StrategicMap.Current.Day == Day)
         {
             if (Mode == EndTurnTokenEventMode.EndTurn && !StrategicMap.Current.Players.GetPlayers(Player).SingleProcessCycle)
@@ -51,14 +50,12 @@ public partial class EndTurnTokenEvent(CustomNode owner) : TokenEvent(owner)
                 StrategicMap.Current.Players.GetPlayers(Player).SetEndTurn(false);
             }
 
-            result = ExecuteResult.Done;
+            return ExecuteResult.Done;
         }
         else
         {
-            result = ExecuteResult.DoneHalt;
+            return ExecuteResult.DoneHalt;
         }
-
-        return result;
     }
 
     private static readonly string s_finishedTheirTurnText = "finished their turn";

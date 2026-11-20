@@ -19,11 +19,7 @@ public partial class SByteList : Persistent
     private sbyte _default;
 
     // Engine.pas:4025
-    internal sbyte Get(int index)
-    {
-        sbyte result = index < 0 || index >= _count ? _default : _list[index];
-        return result;
-    }
+    internal sbyte Get(int index) => index < 0 || index >= _count ? _default : _list[index];
 
     // Engine.pas:4079
     internal void Put(int index, sbyte item)
@@ -178,12 +174,7 @@ public partial class SByteList : Persistent
             result += 1;
         }
 
-        if (result == _count)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == _count ? -1 : result;
     }
 
     // Engine.pas:4050
@@ -372,7 +363,7 @@ public partial class SByteList : Persistent
         }
         else
         {
-            result = -1;
+            return -1;
         }
 
         return result;

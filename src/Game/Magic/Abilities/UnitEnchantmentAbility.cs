@@ -42,7 +42,7 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
                         byte duration = GetDuration(owner);
                         sbyte totalDuration = GetTotalDuration();
                         string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.DurationDaysFormat), [IntToStr(duration), IntToStr(totalDuration)]);
-                        result = $"{result} {format}";
+                        return $"{result} {format}";
                     }
 
                     break;
@@ -50,22 +50,19 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
                     byte duration2 = GetDuration(owner);
                     sbyte totalDuration2 = GetTotalDuration();
                     string formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.DurationCombatTurnFormat), [IntToStr(duration2), IntToStr(totalDuration2)]);
-                    result = $"{base.GetName(owner)} {formattedText}";
-                    break;
+                    return $"{base.GetName(owner)} {formattedText}";
                 case DurationMode.EntireCombat:
                     string name = base.GetName(owner);
                     string durationEntireCombat = AbilityRules.TranslateResourceString(GetEngine(), GameText.DurationEntireCombatText);
-                    result = $"{name} {durationEntireCombat}";
-                    break;
+                    return $"{name} {durationEntireCombat}";
                 case DurationMode.None:
                 default:
-                    result = base.GetName(owner);
-                    break;
+                    return base.GetName(owner);
             }
         }
         else
         {
-            result = base.GetName(owner);
+            return base.GetName(owner);
         }
 
         return result;
@@ -74,13 +71,12 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
     // AoWAb.PAS:637
     public override string GetSourceName(AbilityOwner owner)
     {
-        string result;
         if (StrategicMap.Current is not null)
         {
             UnitEnchantmentAbilityData data = owner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
             Troop source = StrategicMap.Current.UnitControl.FindUnit(data.Enchantment.UnitId);
             // { Original also reports player zero as unknown. }
-            result = data.Enchantment.Source <= 0
+            return data.Enchantment.Source <= 0
                 ? AbilityRules.TranslateResourceString(GetEngine(), GameTables.UnknownText)
                 : source is not null && source.Player == data.Enchantment.Source
                     ? AbilityRules.TranslateResourceString(GetEngine(), s_manaText)
@@ -88,10 +84,8 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
         }
         else
         {
-            result = AbilityRules.TranslateResourceString(GetEngine(), GameTables.UnknownText);
+            return AbilityRules.TranslateResourceString(GetEngine(), GameTables.UnknownText);
         }
-
-        return result;
     }
 
     // AoWAb.PAS:735
@@ -127,8 +121,6 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
             Assert(false, "Assertion failure", "D:\\AoWDev\\AoWE\\inc\\AoWAb.PAS", 46175);
             return false;
         }
-
-        bool result = false;
         UnitEnchantmentAbilityData data = owner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
         if (data is null)
         {
@@ -150,20 +142,19 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
             enchantment.UnitId = troop.UnitId;
             SetAbility(owner, AbilityId, 1);
             owner.AddAbilityData(data);
-            result = true;
+            return true;
         }
         else
         {
             data.EnchantmentDuration = GetTotalDuration();
         }
 
-        return result;
+        return false;
     }
 
     // AoWAb.PAS:694
     public override bool Remove(AbilityOwner owner)
     {
-        bool result = true;
         UnitEnchantmentAbilityData data = owner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
         if (data is not null)
         {
@@ -178,10 +169,10 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
         else
         {
             SetAbility(owner, AbilityId, 0);
-            result = false;
+            return false;
         }
 
-        return result;
+        return true;
     }
 
     // AoWAb.PAS:756
@@ -231,9 +222,7 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
     public virtual byte GetDuration(AbilityOwner owner)
     {
         UnitEnchantmentAbilityData data = owner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
-        byte result = data is not null ? (byte)data.EnchantmentDuration : (byte)0;
-
-        return result;
+        return data is not null ? (byte)data.EnchantmentDuration : (byte)0;
     }
 
     // AoWAb.PAS:608

@@ -29,9 +29,7 @@ public static class PixelFormats
     {
         string extractFileExt = ExtractFileExt(fileName);
         ImageFileClass c = GraphicsState.ImageFileClassList.FindClass(extractFileExt);
-        Surface result = c?.CreateSurface(fileName);
-
-        return result;
+        return c?.CreateSurface(fileName);
     }
 
     internal static PixelFormat MaskToPixelFormatId(int bitCount, int rMask, int gMask, int bMask, int mask)
@@ -93,7 +91,7 @@ public static class PixelFormats
 
     internal static string GetErrorMessage(GraphicsResult errorCode)
     {
-        string result = errorCode switch
+        return errorCode switch
         {
             GraphicsResult.Ok => "No ERROR occurred!",
             GraphicsResult.Error => "Undefine ERROR occurred",
@@ -103,7 +101,6 @@ public static class PixelFormats
             GraphicsResult.CannotLock => $"Undocumented Error (Error Code:{IntToStr((int)errorCode)})",
             _ => $"Undocumented Error (Error Code:{IntToStr((int)errorCode)})",
         };
-        return result;
     }
 
     internal static void ForceOptimal16BitPixelFormatId(PixelFormat pixelFormatId) => GraphicsState.ForcedPixelFormatId = pixelFormatId is PixelFormat.Rgb565 or PixelFormat.Rgb555

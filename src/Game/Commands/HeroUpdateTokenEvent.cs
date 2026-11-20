@@ -63,9 +63,7 @@ public partial class HeroUpdateTokenEvent(CustomNode owner) : TokenEvent(owner)
             }
         }
 
-        ExecuteResult result = success ? ExecuteResult.Done : ExecuteResult.DoneHalt;
-
-        return result;
+        return success ? ExecuteResult.Done : ExecuteResult.DoneHalt;
     }
 
     // NetworkE.pas:230

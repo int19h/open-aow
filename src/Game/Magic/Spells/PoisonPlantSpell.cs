@@ -65,7 +65,7 @@ public partial class PoisonPlantSpell : GlobalTargetSpell
             ArmyHexSprite armyHexSprite = field.GetArmyHexSprite();
             if (armyHexSprite is not null)
             {
-                result = !armyHexSprite.VisibleForSeatedPlayer();
+                return !armyHexSprite.VisibleForSeatedPlayer();
             }
         }
 

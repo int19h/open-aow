@@ -25,11 +25,9 @@ public partial class GlobalEnchantmentEventLog(CustomNode owner) : LocationTextE
     public override int GetLeftIcon()
     {
         sbyte player = EnchantmentPlayer;
-        int result = player > 0 && StrategicMap.Current.Players.GetCount() > player
+        return player > 0 && StrategicMap.Current.Players.GetCount() > player
             ? StrategicMap.Current.Players.GetPlayers(EnchantmentPlayer).PlayerRace
             : 12;
-
-        return result;
     }
 
 }

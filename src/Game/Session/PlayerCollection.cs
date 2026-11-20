@@ -160,11 +160,7 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     }
 
     // Player.PAS:1552
-    public Player GetPlayers(int index)
-    {
-        Player result = index >= 0 && index < Count ? this[index] : null;
-        return result;
-    }
+    public Player GetPlayers(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // Player.PAS:1559
     public bool GetActivePlayersAllied()
@@ -204,9 +200,7 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
             }
         }
 
-        result = count != 0 ? result / count : 0;
-
-        return result;
+        return count != 0 ? result / count : 0;
     }
 
     // Player.PAS:1597
@@ -382,9 +376,7 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
             }
         }
 
-        int result = valid ? 0 : i;
-
-        return result;
+        return valid ? 0 : i;
     }
 
     // Player.PAS:1718

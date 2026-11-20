@@ -172,8 +172,6 @@ public partial class AIMoveControl : EngineObject
         {
             lastGap = 1;
         }
-
-        bool result;
         if (gaps != 0)
         {
             PathStep item = path[firstGap + 1];
@@ -184,15 +182,14 @@ public partial class AIMoveControl : EngineObject
             Settings.ArrivalPoint = item2.Location;
             PathStep item3 = path[lastGap];
             Settings.TransportDestination = item3.Location;
-            result = true;
             _multipleTransportGaps = gaps > 1;
         }
         else
         {
-            result = false;
+            return false;
         }
 
-        return result;
+        return true;
     }
 
     // AIGroup.pas:4037
@@ -372,7 +369,6 @@ public partial class AIMoveControl : EngineObject
         _pathSettings.ArmyHexSprite = Settings.ArmyHexSprite;
         _pathSettings.Selection = Settings.Selection;
         _pathSettings.Mode = Settings.MoveMode;
-        bool result;
         if (Settings.Transporter is null)
         {
             _mode = AIMoveControlMode.CanMove;
@@ -390,7 +386,7 @@ public partial class AIMoveControl : EngineObject
                 _state = 1;
             }
 
-            result = true;
+            return true;
         }
         else
         {
@@ -410,10 +406,8 @@ public partial class AIMoveControl : EngineObject
                 _state = 1;
             }
 
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // AIGroup.pas:4191

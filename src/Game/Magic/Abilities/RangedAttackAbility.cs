@@ -33,10 +33,9 @@ public partial class RangedAttackAbility : AdjustableAbility
     // AoWAb.PAS:4698
     public override Set<WallCombatFeaturesElement> GetWallCombatFeatures(AbilityOwner owner)
     {
-        Set<WallCombatFeaturesElement> result = GetDamageTypesRangedAttack(owner).Contains(DamageType.Wall)
+        return GetDamageTypesRangedAttack(owner).Contains(DamageType.Wall)
             ? Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallBreaching, WallCombatFeaturesElement.Participate)
             : Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.Participate);
-        return result;
     }
 
     // AoWAb.PAS:4659
@@ -234,14 +233,11 @@ public partial class RangedAttackAbility : AdjustableAbility
             switch (owner.GetOwnAbilityLevel(32))
             {
                 case 2:
-                    result = (sbyte)(result + 1);
-                    break;
+                    return (sbyte)(result + 1);
                 case 3:
-                    result = (sbyte)(result + 1);
-                    break;
+                    return (sbyte)(result + 1);
                 case 4:
-                    result = (sbyte)(result + 2);
-                    break;
+                    return (sbyte)(result + 2);
                 default:
                     break;
             }
@@ -259,17 +255,13 @@ public partial class RangedAttackAbility : AdjustableAbility
             switch (owner.GetOwnAbilityLevel(32))
             {
                 case 1:
-                    result = (sbyte)(result + 1);
-                    break;
+                    return (sbyte)(result + 1);
                 case 2:
-                    result = (sbyte)(result + 1);
-                    break;
+                    return (sbyte)(result + 1);
                 case 3:
-                    result = (sbyte)(result + 2);
-                    break;
+                    return (sbyte)(result + 2);
                 case 4:
-                    result = (sbyte)(result + 2);
-                    break;
+                    return (sbyte)(result + 2);
                 default:
                     break;
             }

@@ -66,7 +66,6 @@ public partial class MultiWindow(UIContext ui) : UIModule(ui)
     // AOWMultiWin.pas:385
     public bool ValidateEmail()
     {
-        bool result;
         if (IsEmpty(UI.Engine.Registry.GetLocalEmailAddress()))
         {
             MessageDialog.ResetMessageDialog(UI.MessageDialog);
@@ -75,14 +74,12 @@ public partial class MultiWindow(UIContext ui) : UIModule(ui)
             _ = UI.MessageDialog.MessageMemo.Items.Add(pleaseSetupEmailSettingsFirst);
             UI.MessageDialog.OKPanel.Visible = true;
             UI.MessageDialog.Window.Visible = true;
-            result = false;
+            return false;
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // AOWMultiWin.pas:103

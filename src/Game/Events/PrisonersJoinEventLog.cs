@@ -23,7 +23,6 @@ public partial class PrisonersJoinEventLog(CustomNode owner) : JoinEventLog(owne
     public override bool Accept(ref string errorText)
     {
         Dungeon dungeon = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindOwnedChild<Dungeon>(131882);
-        bool result;
         if (dungeon is not null && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
             StructureTokenEvent tokenEvent = dungeon.CreateTokenEvent();
@@ -32,14 +31,12 @@ public partial class PrisonersJoinEventLog(CustomNode owner) : JoinEventLog(owne
             tokenEvent.Action = 1;
             StrategicMap.Current.TokenManager.GetTokenControl(Player).AddEvent(tokenEvent);
             _ = tokenEvent.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Dungeon.pas:311

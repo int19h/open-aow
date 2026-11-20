@@ -207,7 +207,7 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
     // Army.PAS:4402
     public override Set<AbilitySelectionType> GetAbilitySelectionTypes()
     {
-        Set<AbilitySelectionType> result = ItemType switch
+        return ItemType switch
         {
             ItemType.Head => Set<AbilitySelectionType>.Of(AbilitySelectionType.HeadItem),
             ItemType.Torso => Set<AbilitySelectionType>.Of(AbilitySelectionType.TorsoItem),
@@ -217,7 +217,6 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
             ItemType.Use => Set<AbilitySelectionType>.Of(AbilitySelectionType.UseItem),
             ItemType.Scroll or _ => Set<AbilitySelectionType>.Of(),
         };
-        return result;
     }
 
     // Army.PAS:4345
@@ -237,7 +236,7 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
         {
             if (StrategicMap.Current.Players.GetPlayers(hero.Player).MagicControl.Spells.IndexOf(_spellId) == -1)
             {
-                result = true;
+                return true;
             }
             else
             {
@@ -258,7 +257,6 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
     // Army.PAS:4296
     public virtual bool Use(Hero hero)
     {
-        bool result;
         string reason = "";
         if (CanUse(hero, ref reason) && !StrategicMap.Current.Players.GetPlayers(hero.Player).GetBusy())
         {
@@ -270,14 +268,12 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
             };
             StrategicMap.Current.TokenManager.GetTokenControl(hero.Player).AddEvent(eventValue);
             _ = eventValue.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Army.PAS:4255
@@ -285,7 +281,6 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
     {
         string reason = "";
         // { Original reports success even when CanUse rejects the item. }
-        bool result = true;
         if (CanUse(hero, ref reason))
         {
             switch (ItemType)
@@ -314,7 +309,7 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
             }
         }
 
-        return result;
+        return true;
     }
 
     // Army.PAS:4418
@@ -371,7 +366,7 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
         }
         else
         {
-            result = null;
+            return null;
         }
 
         return result;
@@ -389,7 +384,7 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
             result = LibraryName;
             if (IsEmpty(result))
             {
-                result = AbilityRules.TranslateResourceString(GetEngine(), s_itemSystemLibraryText);
+                return AbilityRules.TranslateResourceString(GetEngine(), s_itemSystemLibraryText);
             }
         }
 
@@ -440,16 +435,11 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
     }
 
     // Army.PAS:4443
-    public int GetObtainValue()
-    {
-        int result = _obtainValue > 10 ? _obtainValue : 10;
-        return result;
-    }
+    public int GetObtainValue() => _obtainValue > 10 ? _obtainValue : 10;
 
     // Army.PAS:4474
     public bool PlaceOnMap(GameMap map, sbyte x, sbyte y, sbyte level)
     {
-        bool result;
         if (x >= 0 && y >= 0 && level >= 0 && x < map.MapContainer.Width && y < map.MapContainer.Height && level < map.MapContainer.LevelCount && map.MapContainer.GetField(x, y, level).TerrainType != 15)
         {
             ItemHexSprite hexSprite = map.MapContainer.GetField(x, y, level).FindOwnedChild<ItemHexSprite>(131697);
@@ -466,19 +456,17 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
             if (hexSprite is not null)
             {
                 SetOwner(hexSprite.Items);
-                result = true;
+                return true;
             }
             else
             {
-                result = false;
+                return false;
             }
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     private static readonly string s_itemSpellResearchedFormat = "%s researched";

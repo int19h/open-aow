@@ -55,21 +55,18 @@ public partial class GlobalTargetSpell : Spell
     {
         string messageText = "";
         _ = base.Activate(source);
-        bool result;
         if (CanActivate(source, ref messageText))
         {
             _casterId = source.UnitId;
             _casterPlayer = source.Player;
             SetupTargetSelection(source, StrategicMap.Current.TargetSelection);
             StrategicMap.Current.TargetSelection.Activate();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // GlobalTargetSpells.pas:445
@@ -180,21 +177,18 @@ public partial class GlobalTargetSpell : Spell
     {
         string messageText = "";
         _ = spell.ActivateStatic(caster);
-        bool result;
         if (spell.CanActivate(caster, ref messageText))
         {
             spell._casterId = caster.UnitId;
             spell._casterPlayer = caster.Player;
             spell.SetupTargetSelection(caster, StrategicMap.Current.TargetSelection);
             StrategicMap.Current.TargetSelection.Activate();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
 }

@@ -35,7 +35,6 @@ public partial class Watcher : GlobalTargetSpell
     // GlobalTargetSpells.pas:1506
     public override bool TargetSelected(Troop source, int X, int Y, int L)
     {
-        bool result;
         if (!StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             WatcherTokenEvent eventValue = new(null) { Holder = CreationHolder() };
@@ -44,14 +43,12 @@ public partial class Watcher : GlobalTargetSpell
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             // Original queues through AddEvent
             _ = eventValue.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     private static readonly string s_watcherText = "Watcher";

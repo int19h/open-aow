@@ -229,7 +229,7 @@ public partial class CombatPredictor : IDisposable
         }
         catch
         {
-            result = false;
+            return false;
         }
 
         return result;

@@ -36,25 +36,15 @@ public partial class TurnUndeadAbility : TouchAbility
     // AoWAb.PAS:3146
     public override int GetLevel(AbilityOwner owner)
     {
-        int result;
         if (owner is not null)
         {
             MultiLevelAbilityData data = GetData(owner);
-            if (data is not null)
-            {
-                result = data.Level;
-            }
-            else
-            {
-                return 0;
-            }
+            return data is not null ? data.Level : 0;
         }
         else
         {
-            result = 0;
+            return 0;
         }
-
-        return result;
     }
 
     // AoWAb.PAS:3213
@@ -92,9 +82,7 @@ public partial class TurnUndeadAbility : TouchAbility
     public override int ExpandCost(AbilityOwner owner)
     {
         int result = GetLevel(owner);
-        result = result < 4 ? 5 : 0;
-
-        return result;
+        return result < 4 ? 5 : 0;
     }
 
     // AoWAb.PAS:3195
@@ -115,7 +103,7 @@ public partial class TurnUndeadAbility : TouchAbility
             };
             SetAbility(owner, AbilityId, 1);
             owner.AddAbilityData(data);
-            result = true;
+            return true;
         }
         else
         {
@@ -132,7 +120,6 @@ public partial class TurnUndeadAbility : TouchAbility
     // AoWAb.PAS:3238
     public override bool Remove(AbilityOwner owner)
     {
-        bool result = true;
         MultiLevelAbilityData data = GetData(owner);
         if (data is not null)
         {
@@ -149,27 +136,24 @@ public partial class TurnUndeadAbility : TouchAbility
         else
         {
             SetAbility(owner, AbilityId, 0);
-            result = false;
+            return false;
         }
 
-        return result;
+        return true;
     }
 
     // AoWAb.PAS:3293
     public override int GetDamageValue(Troop attacker, Troop defender)
     {
-        int result;
         if (CanTouchUnit(attacker, defender) && !defender.GetImmunityTypes().Contains(DamageType.None))
         {
             float probability = TouchRoleProbability(attacker, defender);
-            result = Round((double)((double)defender.GetHitPoints() * probability) * 100);
+            return Round((double)((double)defender.GetHitPoints() * probability) * 100);
         }
         else
         {
-            result = 0;
+            return 0;
         }
-
-        return result;
     }
 
     // AoWAb.PAS:3305
@@ -255,7 +239,7 @@ public partial class TurnUndeadAbility : TouchAbility
     // AoWAb.PAS:3260
     public override sbyte GetTouchAttack(int level)
     {
-        sbyte result = level switch
+        return level switch
         {
             1 => 4,
             2 => 5,
@@ -263,19 +247,15 @@ public partial class TurnUndeadAbility : TouchAbility
             4 => 7,
             _ => 4,
         };
-        return result;
     }
 
     // AoWAb.PAS:3137
     public override bool CanTouch(CombatObject source, CombatObject target)
     {
         bool result = base.CanTouch(source, target);
-        if (result)
-        {
-            result = source is CombatUnit && target is CombatUnit targetUnit && Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(targetUnit.Troop.GetUnitType()) && ((ushort)targetUnit.Troop.GetRace() == 11 || targetUnit.Troop.GetAbilityEnabled(129));
-        }
-
-        return result;
+        return result
+            ? source is CombatUnit && target is CombatUnit targetUnit && Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(targetUnit.Troop.GetUnitType()) && ((ushort)targetUnit.Troop.GetRace() == 11 || targetUnit.Troop.GetAbilityEnabled(129))
+            : result;
     }
 
     // AoWAb.PAS:3130
@@ -285,7 +265,7 @@ public partial class TurnUndeadAbility : TouchAbility
         if (result)
         {
             UnitType unitType = target.GetUnitType();
-            result = Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(unitType) && ((ushort)target.GetRace() == 11 || target.GetAbilityEnabled(129));
+            return Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(unitType) && ((ushort)target.GetRace() == 11 || target.GetAbilityEnabled(129));
         }
 
         return result;
@@ -294,7 +274,7 @@ public partial class TurnUndeadAbility : TouchAbility
     // AoWAb.PAS:3181
     public string GetLevelName(int level)
     {
-        string result = level switch
+        return level switch
         {
             0 => AbilityRules.TranslateResourceString(GetEngine(), GameText.TurnUndeadText),
             1 => $"{AbilityRules.TranslateResourceString(GetEngine(), GameText.TurnUndeadText)} I",
@@ -303,14 +283,12 @@ public partial class TurnUndeadAbility : TouchAbility
             4 => $"{AbilityRules.TranslateResourceString(GetEngine(), GameText.TurnUndeadText)} IV",
             _ => "",
         };
-
-        return result;
     }
 
     // AoWAb.PAS:3271
     public sbyte GetTurnUndeadDamage(int level)
     {
-        sbyte result = level switch
+        return level switch
         {
             1 => 4,
             2 => 5,
@@ -318,7 +296,6 @@ public partial class TurnUndeadAbility : TouchAbility
             4 => 7,
             _ => 0,
         };
-        return result;
     }
 
     // AoWAb.PAS:3356. Draws the random value the touch event used to draw, then builds the action.

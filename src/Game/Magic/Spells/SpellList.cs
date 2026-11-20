@@ -16,11 +16,7 @@ public partial class SpellList : IDisposable
     public virtual void Dispose() => _spells?.Dispose();
 
     // Spells.PAS:705
-    public Spell GetSpell(int index)
-    {
-        Spell result = index >= 0 && index < GetCount() ? _spells[index] : null;
-        return result;
-    }
+    public Spell GetSpell(int index) => index >= 0 && index < GetCount() ? _spells[index] : null;
 
     // Spells.PAS:712
     public int GetCount() => _spells.Count;

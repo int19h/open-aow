@@ -81,19 +81,15 @@ public partial class LightningStorm(CustomNode owner) : Storm(owner)
         {
             _ = AudioPlayback.PlaySample("SFX\\ATTACK\\LIGHTNG.WAV");
         }
-
-        bool result;
         if (_stormImages.Count == FrameCounter)
         {
             AbilityRules.TriggerStormDamage(mapLevel: GetHexLevel(), y: GetHexY(), storm: StormType.Lightning, x: GetHexX(), innerRadius: 0, outerRadius: 1, player: StrategicMap.Current.CurrentPlayer);
-            result = false;
+            return false;
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // Storms.pas:459

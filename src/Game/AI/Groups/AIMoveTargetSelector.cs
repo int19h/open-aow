@@ -462,20 +462,17 @@ public partial class AIMoveTargetSelector : EngineObject
     // AIGroup.pas:6690
     public bool Search(AIGroupControl control)
     {
-        bool result;
         if (TargetInfo.Player != -1 && OnTargetFound is not null && SourceLocation != MapCoordinate.None && (MovePointsMax > 0 || (MovePointsMin > 0 && _transporter is not null)))
         {
             _state = MovePointsMax > 0 ? 0 : 10;
             _control = control;
             Status = AIMoveTargetSelectorStatus.Searching;
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     private static int ListMovementGaps(StrategicMap map, MovePath path, MovePointTable table, Int32List starts, Int32List ends)

@@ -31,21 +31,18 @@ public partial class CityTargetSpell : Spell
     // CitySpells.pas:377
     public override bool Activate(Troop source)
     {
-        bool result;
         string reason = "";
         if (CanActivate(source, ref reason))
         {
             _sourceId = source.UnitId;
             SetupTargetSelection(source, StrategicMap.Current.TargetSelection);
             StrategicMap.Current.TargetSelection.Activate();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // CitySpells.pas:288
@@ -187,7 +184,7 @@ public partial class CityTargetSpell : Spell
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;
@@ -205,7 +202,7 @@ public partial class CityTargetSpell : Spell
             sbyte y = coordinate59.Y;
             sbyte l = coordinate59.MapLevel;
             City found = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<City>();
-            result = targetCity != found;
+            return targetCity != found;
         }
 
         return result;

@@ -142,12 +142,11 @@ public partial class CombatUnit : CombatObject
     // Combat.pas:1450
     public override int GetTargetWallCombatValue(CombatObject target)
     {
-        int result = target is CombatUnit targetUnit && !target.Status.Contains(CombatObjectStatusElement.Destroyed)
+        return target is CombatUnit targetUnit && !target.Status.Contains(CombatObjectStatusElement.Destroyed)
             ? Combat.CombatData.Players.GetPlayers(CombatPlayer).SideIndex == 1
                 ? Troop.GetCombatValue(targetUnit.Troop, 1)
                 : Troop.GetCombatValue(targetUnit.Troop, 2)
             : 0;
-        return result;
     }
 
     // Combat.pas:1554
@@ -203,24 +202,10 @@ public partial class CombatUnit : CombatObject
     public override Set<DamageType> GetProtectionTypes() => Troop.GetProtectionTypes();
 
     // Combat.pas:1282
-    public override sbyte GetHits()
-    {
-        sbyte result = Troop is not null ? Troop.GetHits() : (sbyte)0;
-        // { Direct field test retains the receiver. }
-        // { No cast temporary. }
-
-        return result;
-    }
+    public override sbyte GetHits() => Troop is not null ? Troop.GetHits() : (sbyte)0;// { Direct field test retains the receiver. }// { No cast temporary. }
 
     // Combat.pas:1289
-    public override sbyte GetHitPoints()
-    {
-        sbyte result = Troop is not null ? Troop.GetHitPoints() : (sbyte)0;
-        // { Direct field test retains the receiver. }
-        // { No cast temporary. }
-
-        return result;
-    }
+    public override sbyte GetHitPoints() => Troop is not null ? Troop.GetHitPoints() : (sbyte)0;// { Direct field test retains the receiver. }// { No cast temporary. }
 
     // Combat.pas:1296
     public override void SetHitPoints(byte value) =>
@@ -255,23 +240,19 @@ public partial class CombatUnit : CombatObject
 
             if (Combat.ExplorationSite == 1 && !Troop.GetAbilityEnabled(39))
             {
-                result = (result + 1) / 2;
+                return (result + 1) / 2;
             }
         }
         else
         {
-            result = 0;
+            return 0;
         }
 
         return result;
     }
 
     // Combat.pas:1266
-    public override bool GetAbilityEnabled(int abilityId)
-    {
-        bool result = Troop is not null && Troop.GetAbilityEnabled(abilityId);
-        return result;
-    }
+    public override bool GetAbilityEnabled(int abilityId) => Troop is not null && Troop.GetAbilityEnabled(abilityId);
 
     // Combat.pas:1271
     public override void SetAbilityEnabled(int abilityId, bool enabled) => Troop.SetAbilitySet(abilityId, (byte)(enabled ? 1 : 0));
@@ -280,11 +261,7 @@ public partial class CombatUnit : CombatObject
     public override int GetAbilityLevel(int abilityId) => Troop.GetAbilityLevel(abilityId);
 
     // Combat.pas:1277
-    public override int GetAbilityCount()
-    {
-        int result = Troop is not null ? Troop.GetAbilityCount() : 0;
-        return result;
-    }
+    public override int GetAbilityCount() => Troop is not null ? Troop.GetAbilityCount() : 0;
 
     // Combat.pas:1263
     public override AbilityOwner GetAbilityOwner() => Troop;
@@ -414,7 +391,7 @@ public partial class CombatUnit : CombatObject
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;
@@ -504,7 +481,6 @@ public partial class CombatUnit : CombatObject
     // Combat.pas:1628
     public override int ShowAttackAnimation(int frame, int direction, int X, int Y, in LockedSurface surface)
     {
-        int result;
         UnitShowInfo info = default;
         // { Direct field receiver. }
         if (Troop is not null)
@@ -514,20 +490,17 @@ public partial class CombatUnit : CombatObject
             info.Animation = UnitAnimation.Attack;
             info.Frame = frame;
             info.Looped = false;
-            result = Troop.Show(X, Y, surface, info);
+            return Troop.Show(X, Y, surface, info);
         }
         else
         {
-            result = -1;
+            return -1;
         }
-
-        return result;
     }
 
     // Combat.pas:1644
     public override int ShowHitAnimation(int frame, int direction, int X, int Y, in LockedSurface surface)
     {
-        int result;
         UnitShowInfo info = default;
         // { Direct field receiver. }
         if (Troop is not null)
@@ -537,14 +510,12 @@ public partial class CombatUnit : CombatObject
             info.Animation = UnitAnimation.Hit;
             info.Frame = frame;
             info.Looped = false;
-            result = Troop.Show(X, Y, surface, info);
+            return Troop.Show(X, Y, surface, info);
         }
         else
         {
-            result = -1;
+            return -1;
         }
-
-        return result;
     }
 
     // Combat.pas:1159
@@ -619,14 +590,12 @@ public partial class CombatUnit : CombatObject
         if (Troop is not null)
         {
             string name = Troop.GetName();
-            result = $"{result}({IntToStr(Position)})={name}";
+            return $"{result}({IntToStr(Position)})={name}";
         }
         else
         {
-            result = $"{result}({IntToStr(Position)})";
+            return $"{result}({IntToStr(Position)})";
         }
-
-        return result;
     }
 
     // Combat.pas:1358

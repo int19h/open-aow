@@ -20,7 +20,6 @@ public partial class DispelMagicAbilityUnitSelector(EngineObject creator) : Unit
     {
         string error = "";
         Troop source = StrategicMap.Current.UnitControl.FindUnit(SourceUnitId);
-        bool result;
         if (CanSelect(ref error) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             int i = 0;
@@ -47,19 +46,17 @@ public partial class DispelMagicAbilityUnitSelector(EngineObject creator) : Unit
                 };
                 StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
                 _ = eventValue.Release();
-                result = true;
+                return true;
             }
             else
             {
-                result = false;
+                return false;
             }
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // intf_P1_08.inc:65

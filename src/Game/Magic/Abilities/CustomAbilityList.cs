@@ -124,7 +124,7 @@ public partial class CustomAbilityList(CustomNode owner) : EngineObject(owner)
         if (result)
         {
             int abilityCount = GetOwnAbilityCount();
-            result = CompareMem(AbilityBits.AsSpan(0, (int)(((uint)(abilityCount + 7)) >> 3)), source.AbilityBits.AsSpan(0, (int)(((uint)(abilityCount + 7)) >> 3)), (int)(((uint)(abilityCount + 7)) >> 3));
+            return CompareMem(AbilityBits.AsSpan(0, (int)(((uint)(abilityCount + 7)) >> 3)), source.AbilityBits.AsSpan(0, (int)(((uint)(abilityCount + 7)) >> 3)), (int)(((uint)(abilityCount + 7)) >> 3));
         }
 
         return result;
@@ -158,12 +158,7 @@ public partial class CustomAbilityList(CustomNode owner) : EngineObject(owner)
             }
         }
 
-        if (!IsEmpty(result))
-        {
-            result = DelphiStrings.Copy(result, 1, result.Length - 1);
-        }
-
-        return result;
+        return !IsEmpty(result) ? DelphiStrings.Copy(result, 1, result.Length - 1) : result;
     }
 
     // Ability.PAS:1193

@@ -38,21 +38,17 @@ public partial class StormSpellTokenEvent(CustomNode owner) : SpellTokenEvent(ow
             _storm.InitializeStorm(source.Player, Location.X, Location.Y, Location.MapLevel);
             GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, EventMana);
         }
-
-        bool result;
         if (!_storm.UpdateStorm())
         {
             _storm.FinalizeStorm();
             _storm?.Dispose();
             _storm = null;
-            result = false;
+            return false;
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // NetworkE.pas:230

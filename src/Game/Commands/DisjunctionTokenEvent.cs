@@ -42,7 +42,7 @@ public partial class DisjunctionTokenEvent(CustomNode owner) : SpellTokenEvent(o
             GlobalEnchantment globalEnchantment = StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(index);
             int mana = StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.Mana + source.CastingProgress;
             int requiredMana = Round((double)(globalEnchantment.DispelMana * 0.02) * DispelChance) + EventMana;
-            result = requiredMana <= mana;
+            return requiredMana <= mana;
         }
 
         return result;

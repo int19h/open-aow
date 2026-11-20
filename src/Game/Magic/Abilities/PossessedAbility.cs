@@ -28,23 +28,21 @@ public partial class PossessedAbility : PossessAbility
     // AoWAb.PAS:2597
     public override bool Expand(AbilityOwner owner)
     {
-        bool result = false;
         PossessedAbilityData data = GetData(owner);
         if (data is null)
         {
             data = new PossessedAbilityData(null) { Holder = CreationHolder() };
             SetAbility(owner, AbilityId, 1);
             owner.AddAbilityData(data);
-            result = true;
+            return true;
         }
 
-        return result;
+        return false;
     }
 
     // AoWAb.PAS:2612
     public override bool Remove(AbilityOwner owner)
     {
-        bool result = true;
         PossessedAbilityData data = GetData(owner);
         if (data is not null)
         {
@@ -56,7 +54,7 @@ public partial class PossessedAbility : PossessAbility
             SetAbility(owner, AbilityId, 0);
         }
 
-        return result;
+        return true;
     }
 
     // AoWAb.PAS:2571

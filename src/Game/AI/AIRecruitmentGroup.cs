@@ -55,18 +55,15 @@ public partial class AIRecruitmentGroup(CustomNode owner) : EngineObject(owner),
     // AIGroup.pas:788
     public virtual bool Validate(AIGroupControl control)
     {
-        bool result;
         if (Group.Units.Count != 0)
         {
             MapCoordinate location = Group.GetLocation();
-            result = location.X == Location.X && location.Y == Location.Y && location.MapLevel == Location.MapLevel && Group.Player == control.Group.Player;
+            return location.X == Location.X && location.Y == Location.Y && location.MapLevel == Location.MapLevel && Group.Player == control.Group.Player;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // AIGroup.pas:775

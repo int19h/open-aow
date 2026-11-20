@@ -93,12 +93,12 @@ public partial class Tower(CustomNode owner) : PlayerStructure(owner)
             result = 12;
             if (GetHexLevel() != 0 || (Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 8) != 0))
             {
-                result = (int)(((uint)(result + 1)) >> 1);
+                return (int)(((uint)(result + 1)) >> 1);
             }
         }
         else
         {
-            result = 4;
+            return 4;
         }
 
         return result;

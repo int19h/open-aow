@@ -16,7 +16,6 @@ public partial class EndTurnAIPlayerAction(CustomNode owner) : AIPlayerAction(ow
     // AI.pas:1032
     public override bool Process()
     {
-        bool result;
         if (!Control.Player.SingleProcessCycle)
         {
             EndTurnTokenEvent eventValue = new(null)
@@ -28,14 +27,12 @@ public partial class EndTurnAIPlayerAction(CustomNode owner) : AIPlayerAction(ow
             };
             StrategicMap.Current.TokenManager.GetTokenControl(Control.Player.PlayerIndex).AddEvent(eventValue);
             _ = eventValue.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // AI.pas:1029

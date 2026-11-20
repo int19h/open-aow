@@ -27,19 +27,17 @@ public partial class TowerConstructionControl(CustomNode owner) : StructureConst
         _ = coordinate40.X;
         _ = coordinate40.Y;
         sbyte hexLevel = coordinate40.MapLevel;
-        bool result;
         if (hexLevel == 0)
         {
-            result = base.CanConstruct(troop, ref reason);
+            return base.CanConstruct(troop, ref reason);
         }
         else
         {
-            result = false;
             string tower = AbilityRules.TranslateResourceString(GetEngine(), GameText.TowerText);
             reason = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), s_cannotBuildInUndergroundFormat), [tower]);
         }
 
-        return result;
+        return false;
     }
 
     // Tower.pas:133

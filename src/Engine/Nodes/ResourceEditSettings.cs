@@ -65,7 +65,7 @@ public partial class ResourceEditSettings(CustomNode owner) : ControlStyleObject
         int result;
         if (i != -1)
         {
-            result = ObjectToInt(Editors.Objects[i]);
+            return ObjectToInt(Editors.Objects[i]);
         }
         else
         {

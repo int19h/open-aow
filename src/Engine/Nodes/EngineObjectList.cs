@@ -20,9 +20,7 @@ public partial class EngineObjectList : DelphiList<EngineObject>
             i += 1;
         }
 
-        EngineObject result = found ? List[i - 1] : null;
-
-        return result;
+        return found ? List[i - 1] : null;
     }
 
     // Engine.pas:7161
@@ -36,9 +34,7 @@ public partial class EngineObjectList : DelphiList<EngineObject>
             i += 1;
         }
 
-        int result = found ? i - 1 : -1;
-
-        return result;
+        return found ? i - 1 : -1;
     }
 
     // Engine.pas:7176. The original tests List^[Count], one past the end, where it means List^[I].

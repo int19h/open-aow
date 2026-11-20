@@ -648,7 +648,6 @@ public partial class GameSettings : DelphiRegistry
     public int GetEmailGamesCrc()
     {
         string s = "";
-        int result = 0;
         String("General", "Serial number", ref s, ReadWriteMode.Read);
         try
         {
@@ -663,17 +662,17 @@ public partial class GameSettings : DelphiRegistry
                     s = Copy(s, 1, p - 1);
                     if (!IsEmpty(s))
                     {
-                        result = HexToInt(s);
+                        return HexToInt(s);
                     }
                 }
             }
         }
         catch
         {
-            result = 0;
+            return 0;
         }
 
-        return result;
+        return 0;
     }
 
     // AoWReg.pas:783

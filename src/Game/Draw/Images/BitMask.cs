@@ -175,7 +175,6 @@ public partial class BitMask(CustomImageLibrary owner) : LibraryImage(owner), IL
         }
 
         Clear();
-        bool result = true;
         DataLoaded = true;
         bits = 0;
         bitCount = 0;
@@ -220,7 +219,7 @@ public partial class BitMask(CustomImageLibrary owner) : LibraryImage(owner), IL
             FlushBits();
         }
 
-        return result;
+        return true;
     }
 
     // ImageLib.pas:4827

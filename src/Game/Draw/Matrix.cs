@@ -32,7 +32,7 @@ public partial class Matrix : IDisposable
             result = Data[X + (Y * Width)];
             if (result > 2)
             {
-                result = 2;
+                return 2;
             }
         }
         else

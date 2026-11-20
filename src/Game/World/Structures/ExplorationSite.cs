@@ -75,47 +75,36 @@ public partial class ExplorationSite : Structure
     // ExploreS.pas:217
     public override bool CanSelect(int pixelX, int pixelY)
     {
-        bool result;
         if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             HexGeometry.PixelToHex(pixelX, pixelY, out int hexX, out int hexY);
-            result = Owner.HexX == hexX && Owner.HexY == hexY && base.CanSelect(pixelX, pixelY);
+            return Owner.HexX == hexX && Owner.HexY == hexY && base.CanSelect(pixelX, pixelY);
         }
         else
         {
-            result = base.CanSelect(pixelX, pixelY);
+            return base.CanSelect(pixelX, pixelY);
         }
-
-        return result;
     }
 
     // ExploreS.pas:96
     public override int GetTerrainTypeImage(int terrainType)
     {
-        int result;
         if (!GetExplored() || StrategicMap.Current.Day == 0)
         {
-            result = terrainType;
+            return terrainType;
         }
         else
         {
             int image = terrainType + 100;
-            result = Resource.ImageSequenceList.ImageSequences[image << 0] is not null ? image : terrainType;
+            return Resource.ImageSequenceList.ImageSequences[image << 0] is not null ? image : terrainType;
         }
-
-        return result;
     }
 
     // ExploreS.pas:209
     public override ExecuteResult ExecuteTokenEvent(StructureTokenEvent tokenEvent, TokenExecutor executor)
     {
         ExecuteResult result = base.ExecuteTokenEvent(tokenEvent, executor);
-        if (tokenEvent.Action == 0)
-        {
-            result = ExecuteSearch((CombatType)tokenEvent.Param) ? ExecuteResult.Done : ExecuteResult.DoneHalt;
-        }
-
-        return result;
+        return tokenEvent.Action == 0 ? ExecuteSearch((CombatType)tokenEvent.Param) ? ExecuteResult.Done : ExecuteResult.DoneHalt : result;
     }
 
     // ExploreS.pas:326
@@ -166,7 +155,6 @@ public partial class ExplorationSite : Structure
     public virtual bool ExecuteSearch(CombatType combatType)
     {
         ArmyHexSprite armyHexSprite = Owner.GetArmyHexSprite();
-        bool result;
         if (armyHexSprite is not null && CanSearch(armyHexSprite.Army.Player))
         {
             sbyte player = armyHexSprite.Army.Player;
@@ -230,21 +218,18 @@ public partial class ExplorationSite : Structure
                 }
             }
 
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // ExploreS.pas:258
     public virtual bool Search()
     {
         ArmyHexSprite armyHexSprite = Owner.GetArmyHexSprite();
-        bool result;
         if (armyHexSprite is not null && CanSearch(armyHexSprite.Army.Player))
         {
             PlayerCollection playerList = StrategicMap.Current.Players;
@@ -258,7 +243,7 @@ public partial class ExplorationSite : Structure
                 request.DefenderPlayer = 0;
                 StrategicMap.Current.TriggerTypedExecuteEventLog(request, true, RequestCombatTypeCallback);
                 _ = request.Release();
-                result = true;
+                return true;
             }
             else
             {
@@ -270,20 +255,18 @@ public partial class ExplorationSite : Structure
                     tokenEvent.Param = 1;
                     StrategicMap.Current.TokenManager.GetTokenControl(tokenEvent.Player).AddEvent(tokenEvent);
                     _ = tokenEvent.Release();
-                    result = true;
+                    return true;
                 }
                 else
                 {
-                    result = false;
+                    return false;
                 }
             }
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // ExploreS.pas:113
@@ -330,25 +313,15 @@ public partial class ExplorationSite : Structure
     // ExploreS.pas:246
     public bool CanSearch(sbyte player)
     {
-        bool result;
         if (!GetExplored())
         {
             ArmyHexSprite armyHexSprite = Owner.GetArmyHexSprite();
-            if (armyHexSprite is null || armyHexSprite.Army.Player != player)
-            {
-                result = false;
-            }
-            else
-            {
-                return true;
-            }
+            return armyHexSprite is not null && armyHexSprite.Army.Player == player;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // ExploreS.pas:300

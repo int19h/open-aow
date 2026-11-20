@@ -632,18 +632,15 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     // Player.PAS:406
     public int GetSuperiority()
     {
-        int result;
         if (Statistics.TurnInfo.Count != 0)
         {
             int count = Statistics.TurnInfo.Count;
-            result = Statistics.TurnInfo.GetTurnInfo(count - 1).GetSuperiority();
+            return Statistics.TurnInfo.GetTurnInfo(count - 1).GetSuperiority();
         }
         else
         {
-            result = 0;
+            return 0;
         }
-
-        return result;
     }
 
     // Player.PAS:412
@@ -746,7 +743,6 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     // Player.PAS:484
     public bool Surrender()
     {
-        bool result;
         if (!GetBusy() && GameOverStatus == GameOverStatus.None)
         {
             GameOverTokenEvent tokenEvent = new(null)
@@ -757,20 +753,17 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             };
             StrategicMap.Current.TokenManager.GetTokenControl(PlayerIndex).AddEvent(tokenEvent);
             _ = tokenEvent.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Player.PAS:499
     public bool Win()
     {
-        bool result;
         if (!GetBusy() && GameOverStatus == GameOverStatus.None)
         {
             GameOverTokenEvent tokenEvent = new(null)
@@ -781,14 +774,12 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             };
             StrategicMap.Current.TokenManager.GetTokenControl(PlayerIndex).AddEvent(tokenEvent);
             _ = tokenEvent.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Player.PAS:515
@@ -829,7 +820,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
         else
         {
             // { Original reports unassigned skill points without failing validation. }
-            result = true;
+            return true;
         }
 
         return result;
@@ -1013,12 +1004,12 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
 
             if (IsEmpty(result))
             {
-                result = $"{AbilityRules.TranslateResourceString(GetEngine(), s_playerText)} {IntToStr(PlayerIndex)}";
+                return $"{AbilityRules.TranslateResourceString(GetEngine(), s_playerText)} {IntToStr(PlayerIndex)}";
             }
         }
         else
         {
-            result = AbilityRules.TranslateResourceString(GetEngine(), GameTables.IndependentsText);
+            return AbilityRules.TranslateResourceString(GetEngine(), GameTables.IndependentsText);
         }
 
         return result;
@@ -1027,19 +1018,16 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     // Player.PAS:663
     public string GetNameWithRace()
     {
-        string result;
         if (PlayerIndex != 0)
         {
             string name = GetName();
             string raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNamesPluralTexts[PlayerRace]);
-            result = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_playerNameWithRaceFormat), [name, raceNamesPlural]);
+            return AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_playerNameWithRaceFormat), [name, raceNamesPlural]);
         }
         else
         {
-            result = GetName();
+            return GetName();
         }
-
-        return result;
     }
 
     // Player.PAS:671
@@ -1060,11 +1048,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     }
 
     // Player.PAS:682
-    public LibraryImage GetFace()
-    {
-        LibraryImage result = Leader?.GetFace();
-        return result;
-    }
+    public LibraryImage GetFace() => Leader?.GetFace();
 
     // Player.PAS:688
     public int GetHeroCountMax()
@@ -1076,12 +1060,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             : strength < 40 ? 2 : strength < 80 ? 3 : strength < 120 ? 4 : strength < 200 ? 5 : ((strength - 200) / 100) + 5;
 
         int maximum = StrategicMap.Current.HeroCountMax;
-        if (maximum < result)
-        {
-            result = maximum;
-        }
-
-        return result;
+        return maximum < result ? maximum : result;
     }
 
     // Player.PAS:703
@@ -1132,12 +1111,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
         }
 
         int earliest = _lastHeroEmergeDay + 5;
-        if (earliest > result)
-        {
-            result = earliest;
-        }
-
-        return result;
+        return earliest > result ? earliest : result;
     }
 
     // Player.PAS:733
@@ -1292,12 +1266,12 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             result = Round((double)((double)(maximum + 2) / (level + 2)) * 20);
             if (result > 40)
             {
-                result = 40;
+                return 40;
             }
         }
         else
         {
-            result = 0;
+            return 0;
         }
 
         return result;
@@ -1323,12 +1297,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             }
         }
 
-        if (result < 3 && !StrategicMap.Current.FixedLeaders && StrategicMap.Current.Day == 1)
-        {
-            result = 3;
-        }
-
-        return result;
+        return result < 3 && !StrategicMap.Current.FixedLeaders && StrategicMap.Current.Day == 1 ? 3 : result;
     }
 
     // Player.PAS:865
@@ -1466,18 +1435,10 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     }
 
     // Player.PAS:1108
-    public int GetFirstDaySeen(sbyte player)
-    {
-        int result = player != PlayerIndex ? player < FirstDaySeen.Count ? FirstDaySeen[player] : -1 : 0;
-        return result;
-    }
+    public int GetFirstDaySeen(sbyte player) => player != PlayerIndex ? player < FirstDaySeen.Count ? FirstDaySeen[player] : -1 : 0;
 
     // Player.PAS:1116
-    public int GetLastDaySeen(sbyte player)
-    {
-        int result = player != PlayerIndex ? player < _lastDaySeen.Count ? _lastDaySeen[player] : -1 : StrategicMap.Current.Day;
-        return result;
-    }
+    public int GetLastDaySeen(sbyte player) => player != PlayerIndex ? player < _lastDaySeen.Count ? _lastDaySeen[player] : -1 : StrategicMap.Current.Day;
 
     // Player.PAS:1124
     public void PlayerSeen(sbyte player)
@@ -1514,18 +1475,15 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     public bool GetLocal()
     {
         PlayerCommunicationControl control = StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl;
-        bool result;
         if (control is not null)
         {
             PlayerCommunicationSettings players = control.GetPlayers(PlayerIndex);
-            result = Set<ConnectionMode>.Of(ConnectionMode.Local, ConnectionMode.Global).Contains(players.ConnectionMode);
+            return Set<ConnectionMode>.Of(ConnectionMode.Local, ConnectionMode.Global).Contains(players.ConnectionMode);
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // Player.PAS:1159
@@ -1589,7 +1547,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
         }
         else
         {
-            result = null;
+            return null;
         }
 
         return result;
@@ -1765,24 +1723,20 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     public bool ValidAttackRelation(sbyte player, sbyte independentRelation)
     {
         Assert(PlayerIndex != 0, "", "Player.PAS", 1390);
-        bool result;
         if (Set<PlayerType>.Of(PlayerType.Cpu1, PlayerType.Cpu2, PlayerType.Cpu3, PlayerType.Cpu4, PlayerType.Cpu5).Contains(PlayerType))
         {
-            result = AIValidAttackPlayers[player];
+            return AIValidAttackPlayers[player];
         }
         else
         {
             DiplomaticRelation diplomaticRelation = AbilityRules.DiplomaticRelation(PlayerIndex, 0, player, independentRelation);
-            result = Set<DiplomaticRelation>.Of(DiplomaticRelation.War, DiplomaticRelation.Unknown).Contains(diplomaticRelation);
+            return Set<DiplomaticRelation>.Of(DiplomaticRelation.War, DiplomaticRelation.Unknown).Contains(diplomaticRelation);
         }
-
-        return result;
     }
 
     // Player.PAS:1398
     public bool ChangePlayerSettings(string settings, string error)
     {
-        bool result;
         if (!GetBusy())
         {
             ChangePlayerSettingsTokenEvent eventValue = new(null)
@@ -1793,14 +1747,12 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             };
             StrategicMap.Current.TokenManager.GetTokenControl(PlayerIndex).AddEvent(eventValue);
             _ = eventValue.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     private static readonly string s_playerText = "Player";

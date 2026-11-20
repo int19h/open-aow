@@ -18,11 +18,7 @@ public partial class AoWCampaignScenarioList(CustomNode owner) : OwningNode(owne
     public T GetScenario<T>(int index) where T : CampaignScenario => index >= 0 && index < Count ? GetChild<T>(index) : null;
 
     // Diplomacy.pas:2214
-    public CampaignScenario GetScenario(int index)
-    {
-        CampaignScenario result = index >= 0 && index < Count ? this[index] : null;
-        return result;
-    }
+    public CampaignScenario GetScenario(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // Diplomacy.pas:2221
     public int CreateUniqueId()
@@ -56,9 +52,7 @@ public partial class AoWCampaignScenarioList(CustomNode owner) : OwningNode(owne
     public CampaignScenario FindId(int id)
     {
         int index = IndexOfId(id);
-        CampaignScenario result = index != -1 ? this[index] : null;
-
-        return result;
+        return index != -1 ? this[index] : null;
     }
 
     // Engine.pas:631

@@ -26,7 +26,6 @@ public partial class CosmeticSurgerySpellCaster(CustomNode owner) : SpellCaster(
         GamePack.Current.SpellControl.GetSpell<UnitSpell>(59).ResetTargetSelection();
         Troop source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
         Troop target = StrategicMap.Current.UnitControl.FindUnit(TargetUnitId);
-        bool result;
         if (source is not null && target is not null && CanCast(ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             UnitSpellTokenEvent eventValue = new(null) { Holder = CreationHolder() };
@@ -37,14 +36,12 @@ public partial class CosmeticSurgerySpellCaster(CustomNode owner) : SpellCaster(
             eventValue.TargetPlayer = (byte)target.Player;
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             _ = eventValue.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
 }

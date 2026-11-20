@@ -71,10 +71,9 @@ internal static class CombatEvents
 
     internal static TacticalBattleEndTurnTokenEvent CreateTacticalBattleCancelEndTurnTokenEvent(sbyte player, GameEngine engine)
     {
-        TacticalBattleEndTurnTokenEvent result = !StrategicMap.Current.Players.GetPlayers(player).GetBusy()
+        return !StrategicMap.Current.Players.GetPlayers(player).GetBusy()
             ? new TacticalBattleEndTurnTokenEvent(null) { Holder = engine }
             : null;
-        return result;
     }
 
 }

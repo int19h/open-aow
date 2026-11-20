@@ -20,11 +20,7 @@ public partial class UnitResourceList : ResourceCollection, IChildList<UnitResou
     public UnitResourceList(CustomNode owner) : base(owner) => SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, ControlStyleElement.ArrayMode));
 
     // UnitRes.PAS:212
-    public UnitResource GetUnitResource(int index)
-    {
-        UnitResource result = index >= 0 && index < Count ? this[index] : null;
-        return result;
-    }
+    public UnitResource GetUnitResource(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // intf_P2_05.inc:260
 

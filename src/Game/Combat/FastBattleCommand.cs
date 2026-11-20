@@ -21,12 +21,7 @@ public partial record class FastBattleCommand
     public virtual string GetName()
     {
         string result = GamePack.Current.AbilityControl.GetAbility(AbilityId).GetName(null);
-        if (Target is not null)
-        {
-            result = $"{result} on {Target.IdString()}";
-        }
-
-        return result;
+        return Target is not null ? $"{result} on {Target.IdString()}" : result;
     }
 
     // intf_P5_05.inc:10

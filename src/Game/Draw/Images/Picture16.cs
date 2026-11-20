@@ -193,7 +193,7 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
         catch
         {
             ReleaseDiscardableImageData();
-            result = false;
+            return false;
         }
 
         return result;
@@ -202,7 +202,6 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
     // ImageLib.pas:2329
     public override GraphicsResult RemapToPixelFormat(PixelFormat pixelFormatId)
     {
-        GraphicsResult result = GraphicsResult.Ok;
         if (pixelFormatId != PixelFormatId)
         {
             switch (pixelFormatId)
@@ -223,12 +222,11 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
                 case PixelFormat.Rgb32:
                 case PixelFormat.Xrgb32:
                 default:
-                    result = GraphicsResult.NotSupported;
-                    break;
+                    return GraphicsResult.NotSupported;
             }
         }
 
-        return result;
+        return GraphicsResult.Ok;
     }
 
     // ImageLib.pas:2349

@@ -53,14 +53,13 @@ public partial class ImageLibraryFont(Component owner) : CustomImageLibrary(owne
     // ImageLib.pas:6367
     public int GetTextWidth(string text)
     {
-        int result = CharCase switch
+        return CharCase switch
         {
             EditCharCase.Normal => TextWidth(text),
             EditCharCase.LowerCase => TextWidth(LowerCase(text)),
             EditCharCase.UpperCase => TextWidth(UpperCase(text)),
             _ => 0,
         };
-        return result;
     }
 
     // ImageLib.pas:6378

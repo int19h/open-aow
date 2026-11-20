@@ -40,7 +40,6 @@ public partial class AIGroupWanderControl : AIGroupTask
     // AGCPlugins.pas:329
     public override bool Process()
     {
-        bool result;
         switch (State)
         {
             case 0:
@@ -71,8 +70,7 @@ public partial class AIGroupWanderControl : AIGroupTask
                         : 1;
                 }
 
-                result = false;
-                break;
+                return false;
             case 1:
                 MoveControlSettings settings = _moveSettings;
                 DoubleItemList<MapField> fields = new();
@@ -143,8 +141,7 @@ public partial class AIGroupWanderControl : AIGroupTask
                     Done();
                 }
 
-                result = false;
-                break;
+                return false;
             case 2:
                 {
                     AIGroupControl aiGroupControl = _control;
@@ -154,18 +151,13 @@ public partial class AIGroupWanderControl : AIGroupTask
                 }
 
                 State += 1;
-                result = false;
-                break;
+                return false;
             case 3:
                 Done();
-                result = false;
-                break;
+                return false;
             default:
-                result = false;
-                break;
+                return false;
         }
-
-        return result;
     }
 
     // AGCPlugins.pas:309

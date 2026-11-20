@@ -92,7 +92,7 @@ public partial class DataSurface : Surface
             }
 
             _ = surface.Unlock();
-            result = GraphicsResult.Ok;
+            return GraphicsResult.Ok;
         }
 
         return result;
@@ -116,7 +116,6 @@ public partial class DataSurface : Surface
     // GFXE.pas:12499
     public override GraphicsResult Resize(int width, int height)
     {
-        GraphicsResult result;
         if (width != _width || height != _height)
         {
             _width = width;
@@ -128,14 +127,12 @@ public partial class DataSurface : Surface
             // pixel, which the original's slack absorbs.
             int size = (Pitch * _height) + 7;
             Data = MemorySurfaces.Reallocate(Data, size);
-            result = GraphicsResult.Ok;
+            return GraphicsResult.Ok;
         }
         else
         {
-            result = GraphicsResult.Ok;
+            return GraphicsResult.Ok;
         }
-
-        return result;
     }
 
     public byte[] Data { get; private set; }

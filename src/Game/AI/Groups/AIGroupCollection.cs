@@ -39,11 +39,7 @@ public readonly struct AIGroupCollection : IReadOnlyList<AIGroup>
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     // AIGroup.pas:526
-    public AIGroup GetGroups(int index)
-    {
-        AIGroup result = index >= 0 && index < Count ? this[index] : null;
-        return result;
-    }
+    public AIGroup GetGroups(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // AIGroup.pas:533
     public int IndexOfId(int id)
@@ -65,9 +61,7 @@ public readonly struct AIGroupCollection : IReadOnlyList<AIGroup>
     public AIGroup FindId(int id)
     {
         int index = IndexOfId(id);
-        AIGroup result = index != -1 ? this[index] : null;
-
-        return result;
+        return index != -1 ? this[index] : null;
     }
 
     // AIGroup.pas:559

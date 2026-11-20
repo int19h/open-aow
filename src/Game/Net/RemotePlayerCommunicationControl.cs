@@ -51,21 +51,18 @@ public partial class RemotePlayerCommunicationControl(EngineObject creator) : Pl
     // NetworkE.pas:824
     public override bool ReceivePackageData(MemoryStream stream)
     {
-        bool result;
         if (PackageDataList.Count != 0)
         {
             stream.SetLength(PackageDataList.PackageData[0].Length);
             int size = (int)stream.Length;
             Move(PackageDataList.PackageData[0].GetBuffer().AsSpan(0, size), stream.GetBuffer().AsSpan(0, size), size);
             PackageDataList.Delete(0);
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // NetworkE.pas:852
@@ -112,10 +109,6 @@ public partial class RemotePlayerCommunicationControl(EngineObject creator) : Pl
     public void DataReceived(object data, int size, int systemId) => PackageDataList.AddData(data, size);
 
     // NetworkE.pas:842
-    public bool SendData(object data, int size, int systemId)
-    {
-        bool result = OnSendData is not null && OnSendData(data, size, systemId);
-        return result;
-    }
+    public bool SendData(object data, int size, int systemId) => OnSendData is not null && OnSendData(data, size, systemId);
 
 }

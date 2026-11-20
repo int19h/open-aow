@@ -24,11 +24,7 @@ public partial class HeroResourceList : ResourceCollection, IChildList<HeroResou
     public HeroResourceList(CustomNode owner) : base(owner) => SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, ControlStyleElement.ArrayMode));
 
     // Hero.PAS:2363
-    public HeroResource GetHeroResource(int index)
-    {
-        HeroResource result = index >= 0 && index < Count ? this[index] : null;
-        return result;
-    }
+    public HeroResource GetHeroResource(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // Hero.PAS:2369
     public DelphiStringList CreateHeroResourceStrings(Set<HeroType> heroTypes)

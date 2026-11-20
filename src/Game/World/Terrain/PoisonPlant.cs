@@ -123,10 +123,9 @@ public partial class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObjec
     // PoisonP.pas:209
     public override int CanMoveOver(in HexSpriteSenderInfo info)
     {
-        int result = base.Resource.TerrainList.GetTerrain(info.HexNumber) >= 0 && PoisonPlantActive()
+        return base.Resource.TerrainList.GetTerrain(info.HexNumber) >= 0 && PoisonPlantActive()
             ? !CanDoDamage(((MoveControl)info.Sender).Settings.Units) ? 1 : 0
             : 1;
-        return result;
     }
 
     // PoisonP.pas:203

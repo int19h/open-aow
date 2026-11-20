@@ -219,11 +219,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     }
 
     // Army.PAS:5741
-    public string TranslateResourceString(string S)
-    {
-        string result = Dictionary.Language > 0 ? Dictionary.Translate(S) : CompareText(S, s_undeadPluralText) == 0 ? s_undeadText : S;
-        return result;
-    }
+    public string TranslateResourceString(string S) => Dictionary.Language > 0 ? Dictionary.Translate(S) : CompareText(S, s_undeadPluralText) == 0 ? s_undeadText : S;
 
     // Army.PAS:5915
     public int GetMajorVersion() => ((int)(((uint)Version) >> 24)) & 255;
@@ -232,24 +228,14 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     public int GetMinorVersion()
     {
         int result = ((int)(((uint)Version) >> 16)) & 255;
-        if (result > 99)
-        {
-            result = 99;
-        }
-
-        return result;
+        return result > 99 ? 99 : result;
     }
 
     // Army.PAS:5924
     public int GetBuildNumber()
     {
         int result = Version & 65535;
-        if (result > 9999)
-        {
-            result = 9999;
-        }
-
-        return result;
+        return result > 9999 ? 9999 : result;
     }
 
     // Army.PAS:5930
@@ -317,7 +303,6 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     // Army.PAS:5983
     public bool RegisteredVersion()
     {
-        bool result;
         try
         {
             MemoryStream memory = new();
@@ -339,7 +324,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
                 _ = memory.Read(Bytes.Of(ref registered, 1));
                 string name = "";
                 StringFromStream(ref name, memory);
-                result = registered;
+                return registered;
             }
             finally
             {
@@ -348,16 +333,13 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
         }
         catch
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // Army.PAS:6008
     public string RegisteredTo()
     {
-        string result;
         try
         {
             MemoryStream memory = new();
@@ -368,7 +350,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
                 _ = memory.Read(Bytes.Of(ref registered, 1));
                 string name = "";
                 StringFromStream(ref name, memory);
-                result = AbilityRules.Encode(name);
+                return AbilityRules.Encode(name);
             }
             finally
             {
@@ -377,10 +359,8 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
         }
         catch
         {
-            result = "";
+            return "";
         }
-
-        return result;
     }
 
     // Army.PAS:6026

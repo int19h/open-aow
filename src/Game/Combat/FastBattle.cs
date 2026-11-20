@@ -158,18 +158,15 @@ public partial class FastBattle(CustomNode owner) : Battle(owner)
     public bool ValidateWallBreaching()
     {
         CombatWall wall = CombatData.Wall;
-        bool result;
         if (wall is not null && !wall.Status.Contains(CombatObjectStatusElement.Destroyed) && WallSiegeObjectCount == 0)
         {
             CombatResult = CombatResult.CannotBreachWall;
-            result = false;
+            return false;
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // AIGroup.pas:7268

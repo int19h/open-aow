@@ -98,7 +98,7 @@ public partial class AIGroupRazeControl(CustomNode owner) : AIGroupTask(owner)
 
                 if (Mode.Contains(AIGroupRazeControlModeElement.CannotDefend))
                 {
-                    result = result || Round((double)info.FriendlyStrength * CityStrengthFactor) < info.Strength;
+                    return result || Round((double)info.FriendlyStrength * CityStrengthFactor) < info.Strength;
                 }
 
                 break;
@@ -106,8 +106,7 @@ public partial class AIGroupRazeControl(CustomNode owner) : AIGroupTask(owner)
             case Session.Status.Polite:
             case Session.Status.Friendly:
             default:
-                result = Mode.Contains(AIGroupRazeControlModeElement.Always);
-                break;
+                return Mode.Contains(AIGroupRazeControlModeElement.Always);
         }
 
         return result;
@@ -122,12 +121,7 @@ public partial class AIGroupRazeControl(CustomNode owner) : AIGroupTask(owner)
             result = true;
         }
 
-        if (Mode.Contains(AIGroupRazeControlModeElement.CannotDefend) && Round((double)info.FriendlyStrength * _structureStrengthFactor) < info.Strength)
-        {
-            result = true;
-        }
-
-        return result;
+        return (Mode.Contains(AIGroupRazeControlModeElement.CannotDefend) && Round((double)info.FriendlyStrength * _structureStrengthFactor) < info.Strength) || result;
     }
 
     // intf_P5_07.inc:218

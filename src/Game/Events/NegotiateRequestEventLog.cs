@@ -67,7 +67,7 @@ public partial class NegotiateRequestEventLog(CustomNode owner) : JoinEventLog(o
             tokenEvent.Result = NegotiateTokenEvent.NegotiateResult.Accept;
             StrategicMap.Current.TokenManager.TokenControls[Player].AddEvent(tokenEvent);
             _ = tokenEvent.Release();
-            result = true;
+            return true;
         }
 
         return result;
@@ -93,7 +93,7 @@ public partial class NegotiateRequestEventLog(CustomNode owner) : JoinEventLog(o
             tokenEvent.Result = NegotiateTokenEvent.NegotiateResult.Reject;
             StrategicMap.Current.TokenManager.TokenControls[Player].AddEvent(tokenEvent);
             _ = tokenEvent.Release();
-            result = true;
+            return true;
         }
 
         return result;

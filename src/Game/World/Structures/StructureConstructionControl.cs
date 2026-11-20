@@ -23,7 +23,6 @@ public partial class StructureConstructionControl(CustomNode owner) : Constructi
     // Structur.PAS:3201
     public override bool Construct(Troop troop)
     {
-        bool result;
         string reason = "";
         if (CanConstruct(troop, ref reason) && !StrategicMap.Current.Players.GetPlayers(troop.Player).GetBusy())
         {
@@ -36,14 +35,12 @@ public partial class StructureConstructionControl(CustomNode owner) : Constructi
             };
             StrategicMap.Current.TokenManager.GetTokenControl(troop.Player).AddEvent(eventValue);
             _ = eventValue.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Structur.PAS:3162

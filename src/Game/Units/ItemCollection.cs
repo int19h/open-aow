@@ -47,11 +47,7 @@ public readonly struct ItemCollection : IReadOnlyList<Item>
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     // Army.PAS:4587
-    public Item GetItem(int index)
-    {
-        Item result = index >= 0 && index < Count ? this[index] : null;
-        return result;
-    }
+    public Item GetItem(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // Army.PAS:4570
     public Item FindItem(int itemId)

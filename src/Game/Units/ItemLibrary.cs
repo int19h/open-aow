@@ -134,12 +134,7 @@ public partial class ItemLibrary(CustomNode owner) : ObservableNode(owner), IChi
     public virtual string GetName()
     {
         string result = Name;
-        if (IsEmpty(result))
-        {
-            result = AbilityRules.TranslateResourceString(GetEngine(), s_systemItemLibraryText);
-        }
-
-        return result;
+        return IsEmpty(result) ? AbilityRules.TranslateResourceString(GetEngine(), s_systemItemLibraryText) : result;
     }
 
     // Army.PAS:4897

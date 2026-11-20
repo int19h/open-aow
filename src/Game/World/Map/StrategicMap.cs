@@ -886,18 +886,15 @@ public partial class StrategicMap : GameMap
     // AoWHSMap.PAS:2315
     public override bool AddMapLevel()
     {
-        bool result;
         if (MapContainer.LevelCount < 3 && MapContainer.AddLevel(131091))
         {
             InitializeMapLevel((sbyte)(MapContainer.LevelCount - 1));
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // AoWHSMap.PAS:2654
@@ -1146,11 +1143,7 @@ public partial class StrategicMap : GameMap
     public void SynchronizeEnd() => _synchronizeCount -= 1;
 
     // AoWHSMap.PAS:1486
-    public bool GetSynchronized()
-    {
-        bool result = _synchronizeCount != 0 || TokenManager.TokenExecutor.Executing || Status.Contains(HexSpriteMapStatusElement.Editting);
-        return result;
-    }
+    public bool GetSynchronized() => _synchronizeCount != 0 || TokenManager.TokenExecutor.Executing || Status.Contains(HexSpriteMapStatusElement.Editting);
 
     // AoWHSMap.PAS:1509
     public void PlayerDisconnected(sbyte player) => PlayerControl.PlayerDisconnected(player);
@@ -1162,18 +1155,14 @@ public partial class StrategicMap : GameMap
     public StrategicMapIndependentAIMode GetIndependentAIMode()
     {
         StrategicMapIndependentAIMode result = _independentAIMode;
-        if (!Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.FireMastery))
-        {
-            result = result == StrategicMapIndependentAIMode.Off ? StrategicMapIndependentAIMode.Normal : StrategicMapIndependentAIMode.Aggressive;
-        }
-
-        return result;
+        return !Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.FireMastery)
+            ? result == StrategicMapIndependentAIMode.Off ? StrategicMapIndependentAIMode.Normal : StrategicMapIndependentAIMode.Aggressive
+            : result;
     }
 
     // AoWHSMap.PAS:1534
     public bool SaveGame(string fileName)
     {
-        bool result;
         if (Current.SeatedPlayer != -1)
         {
             SaveGameTokenEvent eventValue = new(null)
@@ -1183,14 +1172,12 @@ public partial class StrategicMap : GameMap
             };
             Current.TokenManager.GetTokenControl(Current.SeatedPlayer).AddEvent(eventValue);
             _ = eventValue.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // AoWHSMap.PAS:1559
@@ -1317,7 +1304,7 @@ public partial class StrategicMap : GameMap
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;
@@ -1903,7 +1890,6 @@ public partial class StrategicMap : GameMap
     {
         MapFieldMessage message = default;
         MapLevel mapLevel = MapContainer.GetMapLevel(level);
-        bool result;
         if (player >= 0)
         {
             message.MessageId = 4362;
@@ -1929,14 +1915,12 @@ public partial class StrategicMap : GameMap
                 HexNumberWalkData.WalkToNextHexNumber(ref walk);
             }
 
-            result = message.Result.Int != 0;
+            return message.Result.Int != 0;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // AoWHSMap.PAS:2434
@@ -1944,7 +1928,6 @@ public partial class StrategicMap : GameMap
     {
         MapFieldMessage message = default;
         MapLevel mapLevel = MapContainer.GetMapLevel(L);
-        bool result;
         if (!ExplorationEnabled || mapLevel.GetField(X, Y).GetExplored(player))
         {
             if (FogEnabled)
@@ -1974,25 +1957,23 @@ public partial class StrategicMap : GameMap
                         HexNumberWalkData.WalkToNextHexNumber(ref walk);
                     }
 
-                    result = message.Result.Int == 0;
+                    return message.Result.Int == 0;
                 }
                 else
                 {
                     MapField fieldValue = Current.MapContainer.GetField(X, Y, L);
-                    result = fieldValue.FogCount == 0;
+                    return fieldValue.FogCount == 0;
                 }
             }
             else
             {
-                result = false;
+                return false;
             }
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // AoWHSMap.PAS:2474
@@ -2183,12 +2164,12 @@ public partial class StrategicMap : GameMap
             else
             {
                 LegacyApplication.ShowMessage("Invalid AoWHSMap.Random use");
-                result = 0;
+                return 0;
             }
         }
         else
         {
-            result = DelphiRandom.Random(range);
+            return DelphiRandom.Random(range);
         }
 
         return result;
@@ -2217,18 +2198,10 @@ public partial class StrategicMap : GameMap
     }
 
     // AoWHSMap.PAS:2749
-    public bool EndTurn()
-    {
-        bool result = SeatedPlayer != -1 && (!RequestCombatType || _executeEventLogCallBacks.GetCount() == 0) && TryEndPlayerTurn(SeatedPlayer);
-        return result;
-    }
+    public bool EndTurn() => SeatedPlayer != -1 && (!RequestCombatType || _executeEventLogCallBacks.GetCount() == 0) && TryEndPlayerTurn(SeatedPlayer);
 
     // AoWHSMap.PAS:2777
-    public bool CancelEndTurn()
-    {
-        bool result = SeatedPlayer != -1 && CancelPlayerTurn(SeatedPlayer);
-        return result;
-    }
+    public bool CancelEndTurn() => SeatedPlayer != -1 && CancelPlayerTurn(SeatedPlayer);
 
     // AoWHSMap.PAS:2784
     public void LockUpdateVisibility() => _updateVisibilityLockCount += 1;
@@ -2655,15 +2628,10 @@ public partial class StrategicMap : GameMap
 
     private static readonly string s_destroyingLevelText = "Destroying Level ";
 
-    private bool TryEndPlayerTurn(sbyte player)
-    {
-        bool result = player != -1 && !Current.Players.GetPlayers(player).GetBusy() && !Current.Players.GetPlayers(player).SingleProcessCycle && AbilityRules.EndPlayerTurn(player, engine: GetEngine());
-        return result;
-    }
+    private bool TryEndPlayerTurn(sbyte player) => player != -1 && !Current.Players.GetPlayers(player).GetBusy() && !Current.Players.GetPlayers(player).SingleProcessCycle && AbilityRules.EndPlayerTurn(player, engine: GetEngine());
 
     private bool CancelPlayerTurn(sbyte player)
     {
-        bool result;
         if (!Current.Players.GetPlayers(player).GetBusy() && Current.Players.GetPlayers(player).SingleProcessCycle)
         {
             EndTurnTokenEvent eventValue = new(null)
@@ -2675,14 +2643,12 @@ public partial class StrategicMap : GameMap
             };
             Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
             _ = eventValue.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     private static readonly string s_oneMomentPleaseText = "One moment please...";

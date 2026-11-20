@@ -34,8 +34,6 @@ public partial class EngineObjectEditorList
             i += 1;
         }
 
-        EditorClass result = i != Count ? _list[i] : null;
-
-        return result;
+        return i != Count ? _list[i] : null;
     }
 }

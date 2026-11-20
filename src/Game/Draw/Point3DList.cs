@@ -42,11 +42,7 @@ public partial class Point3DList : IDisposable
     public void Delete(int index) => _list.RemoveAt(index);
 
     // aowFX.pas:128
-    public Point3D GetXYZ(int index)
-    {
-        Point3D result = index >= 0 && index < _list.Count ? _list[index] : null;
-        return result;
-    }
+    public Point3D GetXYZ(int index) => index >= 0 && index < _list.Count ? _list[index] : null;
 
     // aowFX.pas:136
     public int GetCount() => _list.Count;

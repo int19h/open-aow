@@ -60,7 +60,6 @@ public partial class UnitSpell : Spell
     // Spells.PAS:1466
     public override bool AIExecuteCastSpellAction(Troop source)
     {
-        bool result;
         string reason = "";
         if (source.CanCastSpell(SpellId, ref reason))
         {
@@ -71,7 +70,7 @@ public partial class UnitSpell : Spell
                 Troop target = default;
                 if (source.Owner is IHeroHolder)
                 {
-                    result = false;
+                    return false;
                 }
                 else if (AIRetrieveOptimalTargetUnit(source, source.OwnerUnits, ref target, ref priority))
                 {
@@ -81,11 +80,11 @@ public partial class UnitSpell : Spell
                     _ = eventValue.TargetUnitIds.Add(target.UnitId);
                     StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
                     _ = eventValue.Release();
-                    result = true;
+                    return true;
                 }
                 else
                 {
-                    result = false;
+                    return false;
                 }
             }
             else
@@ -93,20 +92,18 @@ public partial class UnitSpell : Spell
                 if (source.GetCastingSpellId() != SpellId)
                 {
                     _ = source.ExecuteStartCasting(SpellId);
-                    result = true;
+                    return true;
                 }
                 else
                 {
-                    result = true;
+                    return true;
                 }
             }
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Spells.PAS:1355
@@ -114,7 +111,6 @@ public partial class UnitSpell : Spell
     {
         string reason = "";
         _ = base.Activate(source);
-        bool result;
         if (CanActivate(source, ref reason))
         {
             if (TargetRange == 0)
@@ -139,27 +135,20 @@ public partial class UnitSpell : Spell
                 StrategicMap.Current.TargetSelection.Activate();
             }
 
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Spells.PAS:1379
-    public override bool CanActivateCombat(Troop source, ref string reason)
-    {
-        bool result = SpellControlTypes.Contains(SpellControlTypeElement.Combat) && base.CanActivateCombat(source, ref reason);
-        return result;
-    }
+    public override bool CanActivateCombat(Troop source, ref string reason) => SpellControlTypes.Contains(SpellControlTypeElement.Combat) && base.CanActivateCombat(source, ref reason);
 
     // Spells.PAS:1385
     public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
-        CombatAction result;
         if (SpellControlTypes.Contains(SpellControlTypeElement.Combat))
         {
             UnitSpellCombatAction action = new(null)
@@ -174,14 +163,12 @@ public partial class UnitSpell : Spell
                 action.Mana = BaseManaCost;
             }
 
-            result = action;
+            return action;
         }
         else
         {
-            result = null;
+            return null;
         }
-
-        return result;
     }
 
     // Spells.PAS:1218
@@ -244,21 +231,18 @@ public partial class UnitSpell : Spell
     public virtual bool CastSpell(Troop source, UnitUserList targets)
     {
         ResetTargetSelection();
-        bool result;
         if (!StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             UnitSpellTokenEvent eventValue = new(null) { Holder = CreationHolder() };
             eventValue.Initialize(mana: source.CastingMana(this), spellId: SpellId, source: source, targets: targets);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             _ = eventValue.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Spells.PAS:1344
@@ -279,7 +263,7 @@ public partial class UnitSpell : Spell
     // Spells.PAS:1400
     public virtual UnitSpellCombatAction CreateCombatAction(CombatObject source, CombatObject target, int mana)
     {
-        UnitSpellCombatAction result = SpellControlTypes.Contains(SpellControlTypeElement.Combat)
+        return SpellControlTypes.Contains(SpellControlTypeElement.Combat)
             ? new UnitSpellCombatAction(null)
             {
                 Holder = CreationHolder(),
@@ -288,7 +272,6 @@ public partial class UnitSpell : Spell
                 TargetId = target.Id
             }
             : null;
-        return result;
     }
 
     // Spells.PAS:1411

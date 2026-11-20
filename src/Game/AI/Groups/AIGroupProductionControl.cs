@@ -241,7 +241,7 @@ public partial class AIGroupProductionControl : AIGroupTask
         }
         else
         {
-            result = -1;
+            return -1;
         }
 
         return result;
@@ -507,11 +507,7 @@ public partial class AIGroupProductionControl : AIGroupTask
     }
 
     // AIGroup.pas:2743
-    public bool ValidProductionLocation(AIGroupProductionLocation location)
-    {
-        bool result = location.PathStrength == 0 || _control.Group.Units.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall)) >= Round((double)location.PathStrength * _pathStrengthFactor) || _control.Group.GetMovePointsMin() >= location.MovePoints;
-        return result;
-    }
+    public bool ValidProductionLocation(AIGroupProductionLocation location) => location.PathStrength == 0 || _control.Group.Units.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall)) >= Round((double)location.PathStrength * _pathStrengthFactor) || _control.Group.GetMovePointsMin() >= location.MovePoints;
 
     // AIGroup.pas:2761
     public void UpdateProducibleUnits()

@@ -28,11 +28,9 @@ public partial class CursedAbility : DurationAbility
     public override string GetSourceName(AbilityOwner owner)
     {
         DurationAbilityData data = GetData(owner);
-        string result = data is not null && data.Source == 1
+        return data is not null && data.Source == 1
             ? AbilityRules.TranslateResourceString(GetEngine(), GameText.DeathMasteryText)
             : base.GetSourceName(owner);
-
-        return result;
     }
 
     // PassiveAb.pas:1003

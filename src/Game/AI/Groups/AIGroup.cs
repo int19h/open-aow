@@ -401,9 +401,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     public virtual bool DefendLocation(MapCoordinate location, DefensePriority priority)
     {
         MapCoordinate groupLocation = GetLocation();
-        bool result = location.MapLevel == groupLocation.MapLevel && HexGeometry.DeltaHexToRadius(location.X, location.Y, groupLocation.X, groupLocation.Y) <= 1;
-
-        return result;
+        return location.MapLevel == groupLocation.MapLevel && HexGeometry.DeltaHexToRadius(location.X, location.Y, groupLocation.X, groupLocation.Y) <= 1;
     }
 
     // AIGroup.pas:459
@@ -517,7 +515,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;

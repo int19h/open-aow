@@ -158,7 +158,7 @@ public partial class AIGroupRecruitControl : AIGroupTask
 
                 if (!result && Superiority != -1)
                 {
-                    result = (_control.CombatPredictor.Usefullness(troop) & 8388608) != 0;
+                    return (_control.CombatPredictor.Usefullness(troop) & 8388608) != 0;
                 }
             }
         }
@@ -250,14 +250,14 @@ public partial class AIGroupRecruitControl : AIGroupTask
             result = group.Group.Units.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall)) >= Round((double)group.PathStrength * _pathStrengthFactor);
             if (!result)
             {
-                result = Mode != AIGroupRecruitControlMode.ForceRecruit
+                return Mode != AIGroupRecruitControlMode.ForceRecruit
                     ? group.Group.GetMovePointsMin() >= group.MovePoints
                     : group.Group.GetMovePointsMin() + 20 >= group.MovePoints;
             }
         }
         else
         {
-            result = true;
+            return true;
         }
 
         return result;

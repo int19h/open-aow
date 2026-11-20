@@ -32,7 +32,6 @@ public partial class FreeMovement : UnitSpell
     // UnitSpells.pas:399
     public override bool ExecuteSpell(Troop source, Troop target, int mana, Span<int> data)
     {
-        bool result;
         if (ValidTargetUnit(source, target))
         {
             if (target.ExpandAbility(157))
@@ -44,13 +43,11 @@ public partial class FreeMovement : UnitSpell
             }
 
             // { Original succeeds even when expansion fails. }
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 }

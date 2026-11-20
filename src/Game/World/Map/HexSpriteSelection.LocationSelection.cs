@@ -22,7 +22,7 @@ public partial class HexSpriteSelection
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;

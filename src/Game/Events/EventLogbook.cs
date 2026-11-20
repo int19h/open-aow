@@ -106,12 +106,7 @@ public partial class EventLogbook : EngineObject
             result += 1;
         }
 
-        if (result == _events.Count)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == _events.Count ? -1 : result;
     }
 
     // EventLog.pas:587
@@ -123,12 +118,7 @@ public partial class EventLogbook : EngineObject
             result += 1;
         }
 
-        if (result == _events.Count)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == _events.Count ? -1 : result;
     }
 
     // EventLog.pas:600

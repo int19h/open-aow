@@ -154,7 +154,6 @@ public partial class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibra
     // ImageLib.pas:4364
     public override GraphicsResult RemapToPixelFormat(PixelFormat pixelFormatId)
     {
-        GraphicsResult result = GraphicsResult.Ok;
         if (pixelFormatId != PixelFormatId)
         {
             switch (pixelFormatId)
@@ -177,12 +176,11 @@ public partial class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibra
                 case PixelFormat.Rgb32:
                 case PixelFormat.Xrgb32:
                 default:
-                    result = GraphicsResult.NotSupported;
-                    break;
+                    return GraphicsResult.NotSupported;
             }
         }
 
-        return result;
+        return GraphicsResult.Ok;
     }
 
     // ImageLib.pas:4386
@@ -463,7 +461,6 @@ public partial class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibra
     {
         Rect gr = default;
         // { Absolute views preserve frame slots and the separate GR coordinate reads. }
-        bool result = true;
         try
         {
             DataSurface surface = null;
@@ -528,10 +525,10 @@ public partial class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibra
         catch
         {
             ReleaseDiscardableImageData();
-            result = false;
+            return false;
         }
 
-        return result;
+        return true;
     }
 
     private static void BlendColorKey555(SurfaceView source, SurfaceView destination, int width, int height, int colorKey, ReadOnlySpan<byte> table) => Blit.BlendColorKey555(source, destination, width, height, colorKey, table);

@@ -416,7 +416,6 @@ public partial class GameMap : OwningNode
     public virtual bool CreateNewMap(NewHexSpriteMapSettings settings)
     {
         Clear();
-        bool result;
         try
         {
             SetHssFileName(settings.HssFileName);
@@ -424,7 +423,6 @@ public partial class GameMap : OwningNode
             MapContainer = Engine.CreateEngineObject<MapContainer>(settings.MapContainerClassId, owner: this);
             Engine.ActivateEngineObject(MapContainer);
             MapContainer.New(settings);
-            result = true;
             InitializeNewMap();
             Activate();
         }
@@ -434,7 +432,7 @@ public partial class GameMap : OwningNode
             throw;
         }
 
-        return result;
+        return true;
     }
 
     // HSMAP.PAS:284
@@ -527,7 +525,6 @@ public partial class GameMap : OwningNode
     // HSMAP.PAS:357
     public virtual int ChangeTerrain(EngineObject mapObject, int X, int Y, int L, int radius, ChangeTerrainProc changeTerrainProc, TerrainChangedProc terrainChangedProc)
     {
-        int result;
         Rect r = default;
         if (changeTerrainProc is not null)
         {
@@ -633,14 +630,12 @@ public partial class GameMap : OwningNode
                 NotifyTerrainChanged(r, (sbyte)L);
             }
 
-            result = count;
+            return count;
         }
         else
         {
-            result = 0;
+            return 0;
         }
-
-        return result;
     }
 
     // AoWHSMap.PAS:810 shows the explored fields only.
@@ -957,7 +952,6 @@ public partial class GameMap : OwningNode
     // HSMAP.PAS:585
     public bool SetViewPort(int pixelX, int pixelY, int lHitPoints, int width, int height)
     {
-        bool result;
         if (pixelX != ViewPixelX || pixelY != ViewPixelY || lHitPoints != ViewMapLevel || width != ViewWidth || height != ViewHeight)
         {
             ClearViewPort();
@@ -992,15 +986,14 @@ public partial class GameMap : OwningNode
             ViewHeightHex = y2 - y1 + 1;
             ViewHexX = x1;
             ViewHexY = y1;
-            result = true;
             ViewPortChangedEventsStore.Raise(this);
         }
         else
         {
-            result = false;
+            return false;
         }
 
-        return result;
+        return true;
     }
 
     // HSMAP.PAS:619
@@ -1273,7 +1266,6 @@ public partial class GameMap : OwningNode
     // AoWHSMap.PAS:878
     public virtual ItemList GetHeroItemsOnGround(Hero hero)
     {
-        ItemList result = null;
         MapCoordinate coordinate31 = hero.GetLocation();
         sbyte x = coordinate31.X;
         sbyte y = coordinate31.Y;
@@ -1283,11 +1275,11 @@ public partial class GameMap : OwningNode
             ItemHexSprite items = StrategicMap.Current.MapContainer.GetField(x, y, l).FindOwnedChild<ItemHexSprite>(131697);
             if (items is not null)
             {
-                result = items.Items;
+                return items.Items;
             }
         }
 
-        return result;
+        return null;
     }
 
     // AoWHSMap.PAS:578
@@ -1569,7 +1561,7 @@ public partial class GameMap : OwningNode
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;

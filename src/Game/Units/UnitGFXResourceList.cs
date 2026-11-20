@@ -22,11 +22,7 @@ public partial class UnitGFXResourceList : ResourceCollection, IChildList<UnitGr
     public UnitGFXResourceList(CustomNode owner) : base(owner) => SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, EngineServices.KeepIndex));
 
     // UnitHS.PAS:138
-    public UnitGraphicsResource GetUnitGraphicsResource(int index)
-    {
-        UnitGraphicsResource result = index >= 0 && index < Count ? this[index] : null;
-        return result;
-    }
+    public UnitGraphicsResource GetUnitGraphicsResource(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // UnitHS.PAS:144
     public void CreateUnitGraphicsSelectionList(DelphiStringCollection list)

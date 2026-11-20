@@ -83,7 +83,6 @@ public partial class AbstractHexagon(CustomNode owner) : MapObject(owner)
     // MAPOBJ.PAS:733
     public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        bool result;
         if (hexX >= 0 && hexY >= 0 && hexLevel >= 0 && hexX < mapContainer.Width && hexY < mapContainer.Height && hexLevel < mapContainer.LevelCount)
         {
             MapField mapField = mapContainer.GetField(hexX, hexY, hexLevel);
@@ -100,14 +99,12 @@ public partial class AbstractHexagon(CustomNode owner) : MapObject(owner)
                 condition = test && hexSprite is not AbstractBorderHexagon;
             }
 
-            result = condition;
+            return condition;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // MAPOBJ.PAS:750

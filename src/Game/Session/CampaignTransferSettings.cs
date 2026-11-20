@@ -278,112 +278,94 @@ public partial class CampaignTransferSettings : EngineObject
     // Diplomacy.pas:1955
     public bool AddItem(int index)
     {
-        bool result;
         if (index >= 0 && index < Items.Count && SelectedItems.IndexOf(index) == -1 && Items.GetItem(index).GetCampaignTransferPoints() <= TransferPointsLeft)
         {
             int campaignTransferPoints = Items.GetItem(index).GetCampaignTransferPoints();
             TransferPointsLeft -= campaignTransferPoints;
             _ = SelectedItems.Add(index);
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Diplomacy.pas:1968
     public bool DeleteItem(int index)
     {
-        bool result;
         if (SelectedItems.Remove(index) != -1)
         {
             int campaignTransferPoints = Items.GetItem(index).GetCampaignTransferPoints();
             TransferPointsLeft += campaignTransferPoints;
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Diplomacy.pas:1978
     public bool AddHero(int index)
     {
-        bool result;
         if (index >= 0 && index < Heroes.Count && SelectedHeroes.IndexOf(index) == -1 && Heroes.GetHero(index).GetCampaignTransferPoints() <= TransferPointsLeft)
         {
             int campaignTransferPoints = Heroes.GetHero(index).GetCampaignTransferPoints();
             TransferPointsLeft -= campaignTransferPoints;
             _ = SelectedHeroes.Add(index);
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Diplomacy.pas:1991
     public bool DeleteHero(int index)
     {
-        bool result;
         if (SelectedHeroes.Remove(index) != -1)
         {
             int campaignTransferPoints = Heroes.GetHero(index).GetCampaignTransferPoints();
             TransferPointsLeft += campaignTransferPoints;
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Diplomacy.pas:2001
     public bool AddUnit(int index)
     {
-        bool result;
         if (index >= 0 && index < Units.Count && SelectedUnits.IndexOf(index) == -1 && Units.GetUnit(index).GetCampaignTransferPoints() <= TransferPointsLeft)
         {
             int campaignTransferPoints = Units.GetUnit(index).GetCampaignTransferPoints();
             TransferPointsLeft -= campaignTransferPoints;
             _ = SelectedUnits.Add(index);
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Diplomacy.pas:2014
     public bool DeleteUnit(int index)
     {
-        bool result;
         if (SelectedUnits.Remove(index) != -1)
         {
             int campaignTransferPoints = Units.GetUnit(index).GetCampaignTransferPoints();
             TransferPointsLeft += campaignTransferPoints;
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Diplomacy.pas:2024

@@ -33,17 +33,16 @@ public partial class ItemsFoundDialog(UIContext ui) : UIModule(ui)
     // AoWItemsFoundDlg.pas:80
     public Hero GetHero()
     {
-        Hero result = null;
         if (_event is not null)
         {
             ArmyHexSprite army = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(_event.Location).GetArmyHexSprite();
             if (army is not null && army.Army.Player == StrategicMap.Current.SeatedPlayer)
             {
-                result = army.Army.Hero(255, RosterTables.AllHeroTypes);
+                return army.Army.Hero(255, RosterTables.AllHeroTypes);
             }
         }
 
-        return result;
+        return null;
     }
 
     // AoWItemsFoundDlg.pas:66

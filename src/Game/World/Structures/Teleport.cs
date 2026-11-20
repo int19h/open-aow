@@ -109,18 +109,15 @@ public partial class Teleport(CustomNode owner) : Structure(owner)
     // Teleport.pas:279
     public override bool ValidateMap(DelphiStringCollection messages)
     {
-        bool result;
         if (Destination.X == 0 || Destination.Y == 0)
         {
             _ = messages.Add($"{AbilityRules.TranslateResourceString(GetEngine(), GameText.WarningText)}: {AbilityRules.TranslateResourceString(GetEngine(), s_invalidLocationSpecifiedText)}");
-            result = false;
+            return false;
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // Teleport.pas:145
@@ -140,7 +137,6 @@ public partial class Teleport(CustomNode owner) : Structure(owner)
     // Teleport.pas:185
     public bool CanTeleportArmy(ArmyHexSprite armyHexSprite)
     {
-        bool result = false;
         if (Destination.MapLevel >= 0 && Destination.MapLevel < StrategicMap.Current.MapContainer.LevelCount && Destination.X >= 0 && Destination.X < StrategicMap.Current.MapContainer.Width && Destination.Y >= 0 && Destination.Y < StrategicMap.Current.MapContainer.Height)
         {
             MapField field = StrategicMap.Current.MapContainer.GetField(Destination.X, Destination.Y, Destination.MapLevel);
@@ -148,16 +144,11 @@ public partial class Teleport(CustomNode owner) : Structure(owner)
             {
                 ArmyHexSprite otherArmy = field.GetArmyHexSprite();
                 // { Original rejects a same-player army when CanAddUnits succeeds. }
-                if (otherArmy is not null && (byte)armyHexSprite.Army.Player == (byte)otherArmy.Army.Player && otherArmy.Army.CanAddUnits(armyHexSprite.Army.Units) != 0)
-                {
-                    return result;
-                }
-
-                result = true;
+                return otherArmy is null || (byte)armyHexSprite.Army.Player != (byte)otherArmy.Army.Player || otherArmy.Army.CanAddUnits(armyHexSprite.Army.Units) == 0;
             }
         }
 
-        return result;
+        return false;
     }
 
     // Teleport.pas:208
@@ -240,12 +231,12 @@ public partial class Teleport(CustomNode owner) : Structure(owner)
             }
             else
             {
-                result = false;
+                return false;
             }
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;

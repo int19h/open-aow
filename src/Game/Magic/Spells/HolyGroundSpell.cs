@@ -65,7 +65,7 @@ public partial class HolyGroundSpell : GlobalTargetSpell
             ArmyHexSprite army = field.GetArmyHexSprite();
             if (army is not null)
             {
-                result = !army.VisibleForSeatedPlayer();
+                return !army.VisibleForSeatedPlayer();
             }
         }
 

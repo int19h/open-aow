@@ -68,19 +68,16 @@ public partial class MapObjectResourceTerrainControl(CustomNode owner) : EngineO
         int i = terrainType;
         DelphiList<MapObjectResource> list = Resources[i];
         int count = list.Count;
-        MapObject result;
         if (count != 0)
         {
             int random = Random(count);
             MapObjectResource r = list.List[random];
-            result = r.CreateResourceUser();
+            return r.CreateResourceUser();
         }
         else
         {
-            result = null;
+            return null;
         }
-
-        return result;
     }
 
     // HSEngine.pas:4604
@@ -110,7 +107,7 @@ public partial class MapObjectResourceTerrainControl(CustomNode owner) : EngineO
                 r = list.List[random];
                 if (r is not null)
                 {
-                    result = r.PlaceResourceUser(container.Map, X, Y, L);
+                    return r.PlaceResourceUser(container.Map, X, Y, L);
                 }
             }
         }
@@ -143,7 +140,7 @@ public partial class MapObjectResourceTerrainControl(CustomNode owner) : EngineO
                 r = GetRandomResource(terrainType, classId);
                 if (r is not null)
                 {
-                    result = r.PlaceResourceUser(container.Map, X, Y, L);
+                    return r.PlaceResourceUser(container.Map, X, Y, L);
                 }
             }
         }
@@ -189,7 +186,7 @@ public partial class MapObjectResourceTerrainControl(CustomNode owner) : EngineO
         }
         else
         {
-            result = null;
+            return null;
         }
 
         return result;

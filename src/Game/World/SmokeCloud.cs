@@ -185,19 +185,16 @@ public partial class SmokeCloud : MultiHexMapObject
     // SmokeCloud.pas:193
     public override bool CanSelect(int pixelX, int pixelY)
     {
-        bool result;
         if (base.Resource.Engine.HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             HexGeometry.PixelToHex(pixelX, pixelY, out int hexX, out int hexY);
             int hexNumber = HexGeometry.DeltaHexToHexNumber(Owner.HexX, Owner.HexY, hexX, hexY);
-            result = hexNumber < base.Resource.TerrainList.Count && base.Resource.TerrainList.Terrain[hexNumber] >= -1;
+            return hexNumber < base.Resource.TerrainList.Count && base.Resource.TerrainList.Terrain[hexNumber] >= -1;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // SmokeCloud.pas:216

@@ -55,19 +55,15 @@ public partial class SpellControl(CustomNode owner) : EngineObject(owner)
             // { Preserve the original assertion diagnostic. }
             Assert(false, "Invalid SpellID", "D:\\AoWDev\\AoWE\\inc\\Spells.PAS", 54989);
         }
-
-        Spell result;
         if (index < RegisteredSpells.Count)
         {
             Spell p = RegisteredSpells[index];
-            result = p;
+            return p;
         }
         else
         {
-            result = null;
+            return null;
         }
-
-        return result;
     }
 
     // RegisterSpell stores exactly one instance per id and refuses a second registration. The caller names

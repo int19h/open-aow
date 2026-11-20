@@ -438,18 +438,13 @@ public partial class General(UIContext ui) : UIModule(ui)
             result = 16;
         }
 
-        if ((moveTypes & Set<MoveType>.Of(MoveType.Flying)) == Set<MoveType>.Of(MoveType.Flying))
-        {
-            result = 18;
-        }
-
-        return result;
+        return (moveTypes & Set<MoveType>.Of(MoveType.Flying)) == Set<MoveType>.Of(MoveType.Flying) ? 18 : result;
     }
 
     // AoWWinMan.pas:185
     public int SphereToImage(MagicSphere sphere)
     {
-        int result = sphere switch
+        return sphere switch
         {
             MagicSphere.Life => 27,
             MagicSphere.Death => 30,
@@ -458,7 +453,6 @@ public partial class General(UIContext ui) : UIModule(ui)
             MagicSphere.Water => 39,
             MagicSphere.Cosmos or MagicSphere.Fire or MagicSphere.Secret or MagicSphere.None or _ => 42,
         };
-        return result;
     }
 
     // AoWWinMan.pas:216

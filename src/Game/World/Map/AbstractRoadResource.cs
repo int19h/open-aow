@@ -32,7 +32,7 @@ public partial class AbstractRoadResource(CustomNode owner) : MapObjectResource(
         if (!hexSpriteMap.Place(result, pixelX, pixelY, hexLevel))
         {
             result?.Dispose();
-            result = null;
+            return null;
         }
 
         return result;

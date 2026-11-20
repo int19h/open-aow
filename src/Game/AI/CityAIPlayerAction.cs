@@ -122,7 +122,7 @@ public partial class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner
                 contains = Set<CityAction>.Of(CityAction.Produce).Contains(cityActiveAction) && city.Production.Settings.TurnsLeft == city.Production.Settings.TurnsTotal;
             }
 
-            result = contains;
+            return contains;
         }
 
         return result;
@@ -268,7 +268,7 @@ public partial class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner
                 contains = Set<CityAction>.Of(CityAction.Produce).Contains(cityActiveAction) && city.Production.Settings.TurnsLeft == city.Production.Settings.TurnsTotal;
             }
 
-            result = contains;
+            return contains;
         }
 
         return result;
@@ -278,9 +278,7 @@ public partial class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner
     public bool ValidUpgradeBudgetCity(City city)
     {
         int level = city.Production.GetProduceUnitLevelMax();
-        bool result = city.GetSize() > city.UpgradeLevel && level == city.UpgradeLevel;
-
-        return result;
+        return city.GetSize() > city.UpgradeLevel && level == city.UpgradeLevel;
     }
 
     // City.pas:2928
@@ -386,7 +384,7 @@ public partial class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner
                 contains = Set<CityAction>.Of(CityAction.Produce).Contains(cityActiveAction) && city.Production.Settings.TurnsLeft == city.Production.Settings.TurnsTotal;
             }
 
-            result = contains;
+            return contains;
         }
 
         return result;

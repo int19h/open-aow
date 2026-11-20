@@ -41,11 +41,7 @@ public readonly struct HeroCollection : IReadOnlyList<Hero>
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     // Hero.PAS:2407
-    public Hero GetHero(int index)
-    {
-        Hero result = index >= 0 && index < Count ? this[index] : null;
-        return result;
-    }
+    public Hero GetHero(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // Hero.PAS:2395
     public Hero FindHero(int id)

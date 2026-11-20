@@ -82,7 +82,7 @@ public partial class AIGroupManager(CustomNode owner) : OwningNode(owner), IChil
         }
         else
         {
-            result = null;
+            return null;
         }
 
         return result;

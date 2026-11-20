@@ -322,9 +322,7 @@ public partial class HeroItems : ObservableNode, IChildList<Item>, IItemHolder
     public Item GetPositionItem(HeroItemPosition position)
     {
         int index = ((int)position) & 127;
-        Item result = index < Items.Count ? Items[index] : null;
-
-        return result;
+        return index < Items.Count ? Items[index] : null;
     }
 
     // Hero.PAS:558
@@ -339,18 +337,15 @@ public partial class HeroItems : ObservableNode, IChildList<Item>, IItemHolder
     // Hero.PAS:577
     public bool PlaceItem(Item item, HeroItemPosition position)
     {
-        bool result;
         if (CanPlaceItem(item, position))
         {
             item.SetArrayOwner(this, (int)position);
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     private static ReadOnlySpan<ItemType> PositionItemTypes => [

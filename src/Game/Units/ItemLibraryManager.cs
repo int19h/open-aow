@@ -126,9 +126,7 @@ public partial class ItemLibraryManager : EngineObject
     public Item FindItem(string libraryName, int libraryId)
     {
         int index = IndexOfLibraryName(libraryName);
-        Item result = index != -1 ? Libraries.GetChild<ItemLibrary>(index).FindLibraryId(libraryId) : null;
-
-        return result;
+        return index != -1 ? Libraries.GetChild<ItemLibrary>(index).FindLibraryId(libraryId) : null;
     }
 
     // Army.PAS:5068
@@ -153,7 +151,7 @@ public partial class ItemLibraryManager : EngineObject
         }
         else
         {
-            result = null;
+            return null;
         }
 
         return result;

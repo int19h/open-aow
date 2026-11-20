@@ -99,18 +99,15 @@ public partial class CommandAbility : TouchAbility
     // AoWAb.PAS:5194
     public override int GetDamageValue(Troop attacker, Troop defender)
     {
-        int result;
         if (CanTouchUnit(attacker, defender))
         {
             float probability = TouchRoleProbability(attacker, defender);
-            result = Round((double)(defender.GetHitPoints() * 200) * probability);
+            return Round((double)(defender.GetHitPoints() * 200) * probability);
         }
         else
         {
-            result = 0;
+            return 0;
         }
-
-        return result;
     }
 
     // AoWAb.PAS:5213
@@ -191,11 +188,7 @@ public partial class CommandAbility : TouchAbility
     public override bool CanTouch(CombatObject source, CombatObject target) => base.CanTouch(source, target) && source is CombatUnit && target is CombatUnit targetUnit && targetUnit.Troop.GetUnitType() != UnitType.Machine && !target.GetAbilityEnabled(107);
 
     // AoWAb.PAS:5184
-    public override bool CanTouchUnit(Troop source, Troop target)
-    {
-        bool result = base.CanTouchUnit(source, target) && target.GetUnitType() != UnitType.Machine;
-        return result;
-    }
+    public override bool CanTouchUnit(Troop source, Troop target) => base.CanTouchUnit(source, target) && target.GetUnitType() != UnitType.Machine;
 
     // AoWAb.PAS:5110
     public virtual void Command(CombatUnit source, CombatUnit target)

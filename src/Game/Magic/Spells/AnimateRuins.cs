@@ -36,7 +36,6 @@ public partial class AnimateRuins : CityTargetSpell
     // CitySpells.pas:938
     protected override bool ExecuteTokenEvent(CityTargetSpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        bool result;
         City targetCity;
         if (executeCount == 0)
         {
@@ -66,7 +65,7 @@ public partial class AnimateRuins : CityTargetSpell
                 _ = StrategicMap.Current.PlaceHex(a, targetCityHexX, hexY2, hexLevel2);
             }
 
-            result = true;
+            return true;
         }
         else
         {
@@ -89,15 +88,13 @@ public partial class AnimateRuins : CityTargetSpell
                 }
 
                 CastingDone(source, eventValue.EventMana);
-                result = false;
+                return false;
             }
             else
             {
-                result = true;
+                return true;
             }
         }
-
-        return result;
     }
 
     // CitySpells.pas:924

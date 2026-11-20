@@ -24,7 +24,7 @@ public partial class RebuildConstructionControl(CustomNode owner) : Construction
         {
             if (!result.GetRazed() || result.GetBuilding())
             {
-                result = null;
+                return null;
             }
         }
 
@@ -53,27 +53,22 @@ public partial class RebuildConstructionControl(CustomNode owner) : Construction
     // AoWAb.PAS:5430
     public override bool CanConstruct(Troop troop, ref string reason)
     {
-        bool result;
         if (GetStructure(troop) is not null)
         {
-            result = base.CanConstruct(troop, ref reason);
+            return base.CanConstruct(troop, ref reason);
         }
         else
         {
             reason = AbilityRules.TranslateResourceString(GetEngine(), s_noRazedStructuresText);
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // AoWAb.PAS:5439
     public override bool Construct(Troop troop)
     {
         string reason = "";
-        bool result = CanConstruct(troop, ref reason) && GetStructure(troop).Rebuild(troop);
-
-        return result;
+        return CanConstruct(troop, ref reason) && GetStructure(troop).Rebuild(troop);
     }
 
     // Engine.pas:524

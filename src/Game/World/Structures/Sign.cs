@@ -86,7 +86,6 @@ public partial class Sign(CustomNode owner) : Structure(owner)
     // Sign.pas:134
     public bool ChangeText(int player, DelphiStringCollection text)
     {
-        bool result;
         if (!StrategicMap.Current.Players.GetPlayers(player).GetBusy() && CanChangeText())
         {
             UpdateSignTokenEvent eventValue = new(null)
@@ -97,14 +96,12 @@ public partial class Sign(CustomNode owner) : Structure(owner)
             eventValue.Text.Assign(text);
             StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
             _ = eventValue.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     public new partial class Resource : StructureResource

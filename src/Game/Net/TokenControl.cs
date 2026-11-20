@@ -46,7 +46,6 @@ public partial class TokenControl : IDisposable
     //   sync); a remote player's events are prefetched only when they are complete }
     public virtual bool PrefetchTokenEvents(TokenExecutor executor)
     {
-        bool result;
         if (Global() || Local())
         {
             if (Events.Count != 0 || !executor.HoldTacticalBattle)
@@ -73,11 +72,11 @@ public partial class TokenControl : IDisposable
                 }
 
                 Events.Clear();
-                result = true;
+                return true;
             }
             else
             {
-                result = true;
+                return true;
             }
         }
         else
@@ -97,20 +96,18 @@ public partial class TokenControl : IDisposable
                         Events.Delete(i);
                     }
 
-                    result = true;
+                    return true;
                 }
                 else
                 {
-                    result = false;
+                    return false;
                 }
             }
             else
             {
-                result = true;
+                return true;
             }
         }
-
-        return result;
     }
 
     // NetworkE.pas:1342
@@ -206,7 +203,6 @@ public partial class TokenControl : IDisposable
     //   executer's token counter without a gap, up to and including the first TPassTokenTE }
     public int GetPrefetchableTokenEvents(TokenExecutor executor)
     {
-        int result;
         if (Remote())
         {
             int i = 0;
@@ -219,14 +215,12 @@ public partial class TokenControl : IDisposable
                 i += 1;
             }
 
-            result = inOrder ? i : 0;
+            return inOrder ? i : 0;
         }
         else
         {
-            result = Events.Count;
+            return Events.Count;
         }
-
-        return result;
     }
 
     public TokenEventList Events { get; }

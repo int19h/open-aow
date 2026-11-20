@@ -18,11 +18,7 @@ public partial class TextControl(CustomNode owner) : OwningNode(owner), IChildLi
     int IChildSink<TextControlItem>.AddChild(TextControlItem child) => AddChild(child);
 
     // Structur.PAS:4419
-    public TextControlItem GetItem(int index)
-    {
-        TextControlItem result = index >= 0 && index < Count ? this[index] : null;
-        return result;
-    }
+    public TextControlItem GetItem(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // Structur.PAS:4426
     public void Delete(int index)

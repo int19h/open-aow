@@ -455,7 +455,6 @@ public partial class GameEngine : OwningNode
     // Engine.pas:9061
     public bool ReadFromFileCrc(string fileName, EngineObject objectValue, Engine.ProgressEvent progress, string classTable = "game")
     {
-        bool result = false;
         MemoryStream m = new();
         Stream f = OpenFile(fileName, 0 | 32);
         try
@@ -478,7 +477,7 @@ public partial class GameEngine : OwningNode
                 if (condition)
                 {
                     ReadObjectImage(m.GetBuffer().AsSpan(length: (int)m.Length - 8, start: 4).ToArray(), objectValue: objectValue, progress: progress, classTable: classTable);
-                    result = true;
+                    return true;
                 }
             }
         }
@@ -488,7 +487,7 @@ public partial class GameEngine : OwningNode
             m?.Dispose();
         }
 
-        return result;
+        return false;
     }
 
     // The image TEngine.WriteEObject writes for an object (Engine.pas:8895): the tree of the object

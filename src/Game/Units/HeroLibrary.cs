@@ -90,12 +90,7 @@ public partial class HeroLibrary(CustomNode owner) : Engine.Nodes.ReferenceNode(
     public string GetName()
     {
         string result = LibraryName;
-        if (IsEmpty(result))
-        {
-            result = AbilityRules.TranslateResourceString(GetEngine(), GameText.SystemText);
-        }
-
-        return result;
+        return IsEmpty(result) ? AbilityRules.TranslateResourceString(GetEngine(), GameText.SystemText) : result;
     }
 
     // Hero.PAS:2620

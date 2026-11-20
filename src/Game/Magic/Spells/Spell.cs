@@ -114,48 +114,42 @@ public partial class Spell : EngineObject
     // Spells.PAS:43
     public virtual bool CanActivate(Troop source, ref string messageText)
     {
-        bool result;
         if (SpellType == SpellType.Global)
         {
             if (StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.SpellWard))
             {
                 messageText = AbilityRules.TranslateResourceString(GetEngine(), GameText.CannotCastGlobalEnchantmentWhenSpellWardIsActiveText);
-                result = false;
+                return false;
             }
             else
             {
-                result = true;
+                return true;
             }
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     public bool CanActivateStatic(Troop source, ref string messageText)
     {
-        bool result;
         if (SpellType == SpellType.Global)
         {
             if (StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.SpellWard))
             {
                 messageText = AbilityRules.TranslateResourceString(GetEngine(), GameText.CannotCastGlobalEnchantmentWhenSpellWardIsActiveText);
-                result = false;
+                return false;
             }
             else
             {
-                result = true;
+                return true;
             }
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // Spells.PAS:54
@@ -198,7 +192,6 @@ public partial class Spell : EngineObject
     // Spells.PAS:90
     public virtual bool ActivateCombat(Troop source)
     {
-        bool result;
         string reason = "";
         if (CanActivateCombat(source, ref reason))
         {
@@ -210,14 +203,12 @@ public partial class Spell : EngineObject
             };
             StrategicMap.Current.CombatMap.CombatStartedEventsStore.Raise(caster);
             _ = caster.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Spells.PAS:158
@@ -295,26 +286,21 @@ public partial class Spell : EngineObject
         }
 
         AIBudgetManager manager = StrategicMap.Current.Players.GetPlayers(source.Player).AIBudget;
-        bool result = StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.GetCheatEnabled() || manager.RequestBudgetExpense(0, budget, 0, mana, manager.DefaultBudget, 1 != 0);
-
-        return result;
+        return StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.GetCheatEnabled() || manager.RequestBudgetExpense(0, budget, 0, mana, manager.DefaultBudget, 1 != 0);
     }
 
     // Spells.PAS:396
     public bool AICastSpellExpenseMade(Troop source, int budget, int mana, int upkeep)
     {
-        bool result;
         if (AIRequestCastSpellExpense(source, budget, mana, upkeep))
         {
             AIBudgetManager manager = StrategicMap.Current.Players.GetPlayers(source.Player).AIBudget;
-            result = StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.GetCheatEnabled() || manager.BudgetExpenseMade(0, budget, 0, mana, manager.DefaultBudget, (AIBudgetManager.ExpenseMode)2);
+            return StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.GetCheatEnabled() || manager.BudgetExpenseMade(0, budget, 0, mana, manager.DefaultBudget, (AIBudgetManager.ExpenseMode)2);
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     public virtual bool CanActivateCombat(Troop source, ref string reason) => StrategicMap.Current.Combat is not null;

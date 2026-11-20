@@ -43,13 +43,13 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
 
         if (_combatMode == ArmyCombatMoveTokenEventMode.SetupHotSeat)
         {
-            result = MoveStatus.Moving;
+            return MoveStatus.Moving;
         }
         else
         {
             if (_combatMode == ArmyCombatMoveTokenEventMode.CancelCombat)
             {
-                result = MoveStatus.Done;
+                return MoveStatus.Done;
             }
             else
             {
@@ -65,11 +65,11 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
                         if (_combatType != CombatType.None)
                         {
                             ExecuteCombat();
-                            result = ArmyHexSprite is null ? MoveStatus.Done : MoveStatus.Moving;
+                            return ArmyHexSprite is null ? MoveStatus.Done : MoveStatus.Moving;
                         }
                         else
                         {
-                            result = MoveStatus.Done;
+                            return MoveStatus.Done;
                         }
                     }
                 }
@@ -88,25 +88,22 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
     // MoveT.PAS:3030
     public override bool Animating()
     {
-        bool result;
         if (MoveIndex == 1 && _combatMode != ArmyCombatMoveTokenEventMode.CombatExecuted)
         {
             if (ArmyHexSprite.GetMoveStatus() != -1)
             {
                 MapField field = GetMapField(Path[MoveIndex - 1].Location);
-                result = field.GetPlayer() != -1 ? ArmyHexSprite.GetMoveStatus() < 50 : ArmyHexSprite.GetMoveStatus() < 100;
+                return field.GetPlayer() != -1 ? ArmyHexSprite.GetMoveStatus() < 50 : ArmyHexSprite.GetMoveStatus() < 100;
             }
             else
             {
-                result = false;
+                return false;
             }
         }
         else
         {
-            result = base.Animating();
+            return base.Animating();
         }
-
-        return result;
     }
 
     // MoveT.PAS:3046
@@ -128,7 +125,6 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
     // MoveT.PAS:3061
     public override MoveStatus ExecuteMove()
     {
-        MoveStatus result;
         if (MoveIndex == 1 && _combatMode == ArmyCombatMoveTokenEventMode.Moving)
         {
             MapField field = GetMapField(Path[0].Location);
@@ -151,19 +147,17 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
                 }
 
                 SetupCombat();
-                result = MoveStatus.Moving;
+                return MoveStatus.Moving;
             }
             else
             {
-                result = base.ExecuteMove();
+                return base.ExecuteMove();
             }
         }
         else
         {
-            result = base.ExecuteMove();
+            return base.ExecuteMove();
         }
-
-        return result;
     }
 
     // MoveT.PAS:2504
@@ -182,12 +176,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
             condition = Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace, DiplomaticRelation.Alliance).Contains(diplomaticRelation);
         }
 
-        if (condition)
-        {
-            result = false;
-        }
-
-        return result;
+        return !condition && result;
     }
 
     // MoveT.PAS:2525

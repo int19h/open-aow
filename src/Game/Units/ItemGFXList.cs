@@ -21,11 +21,7 @@ public partial class ItemGFXList : ResourceCollection, IChildList<ItemGraphics>
     public ItemGFXList(CustomNode owner) : base(owner) => SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, ControlStyleElement.ArrayMode));
 
     // Army.PAS:5182
-    public ItemGraphics GetItemGraphics(int index)
-    {
-        ItemGraphics result = index >= 0 && index < Count ? this[index] : null;
-        return result;
-    }
+    public ItemGraphics GetItemGraphics(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // Army.PAS:5189
     public int FindItemTypeGraphics(ItemType itemType)

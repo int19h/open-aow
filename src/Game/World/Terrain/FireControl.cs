@@ -48,7 +48,7 @@ public partial class FireControl : IDisposable
             if (!StrategicMap.Current.PlaceHex(fire, X, Y, L))
             {
                 fire?.Dispose();
-                result = null;
+                return null;
             }
             else
             {
@@ -58,7 +58,7 @@ public partial class FireControl : IDisposable
         }
         else
         {
-            result = null;
+            return null;
         }
 
         return result;

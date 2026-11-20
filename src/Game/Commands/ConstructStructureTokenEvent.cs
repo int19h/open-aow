@@ -34,7 +34,6 @@ public partial class ConstructStructureTokenEvent(CustomNode owner) : TokenEvent
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
         string reason = "";
-        ExecuteResult result = ExecuteResult.DoneHalt;
         _ = base.Execute(tokenEvent);
         Troop troop = StrategicMap.Current.UnitControl.FindUnit(UnitId);
         StructureConstructionControl control = GamePack.Current.AbilityControl.GetAbility<ConstructAbility>(125).ConstructionControls.FindId<StructureConstructionControl>(ControlId);
@@ -70,12 +69,12 @@ public partial class ConstructStructureTokenEvent(CustomNode owner) : TokenEvent
                     Player players = StrategicMap.Current.Players.GetPlayers(troop.Player);
                     StrategicMap.Current.Players.GetPlayers(troop.Player).SetGems(players.Gems - gold);
                     troop.Killed();
-                    result = ExecuteResult.Done;
+                    return ExecuteResult.Done;
                 }
             }
         }
 
-        return result;
+        return ExecuteResult.DoneHalt;
     }
 
     // NetworkE.pas:230

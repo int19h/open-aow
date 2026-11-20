@@ -203,12 +203,11 @@ public partial class Battle : EngineObject
     // Combat.pas:6163
     public virtual CombatUnit CreateCombatUnit()
     {
-        CombatUnit result = new FastBattleUnit(null)
+        return new FastBattleUnit(null)
         {
             Holder = CreationHolder(),
             Id = CreateUniqueCombatObjectId()
         };
-        return result;
     }
 
     // Combat.pas:6289
@@ -461,7 +460,6 @@ public partial class Battle : EngineObject
     // AIGroup.pas:7180
     public bool GetWallInBetween(byte source, byte target)
     {
-        bool result;
         if ((source & 15) <= 7 && (target & 15) <= 7 && CombatData.Wall is not null && !CombatData.Wall.Status.Contains(CombatObjectStatusElement.Destroyed))
         {
             source = (byte)(int)(((uint)source) >> 4);
@@ -470,28 +468,25 @@ public partial class Battle : EngineObject
             {
                 CombatParty party = CombatData.Parties.GetParty(source);
                 CombatParty fPartiesParty = CombatData.Parties.GetParty(target);
-                result = (party.Wall != 0) ^ (fPartiesParty.Wall != 0);
+                return (party.Wall != 0) ^ (fPartiesParty.Wall != 0);
             }
             else
             {
-                result = false;
+                return false;
             }
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // AIGroup.pas:7195
     public WallSituation GetWallSituation(CombatObject source, CombatObject target)
     {
-        WallSituation result = GetWallInBetween(source.Position, target.Position)
+        return GetWallInBetween(source.Position, target.Position)
             ? source.GetSide() == CombatSideIndex.Defender ? WallSituation.Source : WallSituation.Target
             : WallSituation.None;
-        return result;
     }
 
     // { }
@@ -645,11 +640,9 @@ public partial class Battle : EngineObject
     public byte GetPartyPosition(int X, int Y, int layer)
     {
         CombatData data = CombatData;
-        byte result = layer == data.Location.MapLevel && HexGeometry.DeltaHexToRadius(data.Location.X, data.Location.Y, X, Y) <= 1
+        return layer == data.Location.MapLevel && HexGeometry.DeltaHexToRadius(data.Location.X, data.Location.Y, X, Y) <= 1
             ? (byte)HexGeometry.DeltaHexToHexNumberFast(data.Location.X, data.Location.Y, X, Y)
             : (byte)7;
-
-        return result;
     }
 
     // Combat.pas:6292

@@ -35,7 +35,6 @@ public partial class HolyChampion : UnitSpell
     // UnitSpells.pas:510
     public override bool ExecuteSpell(Troop source, Troop target, int mana, Span<int> data)
     {
-        bool result;
         if (ValidTargetUnit(source, target))
         {
             if (target.ExpandAbility(160))
@@ -47,13 +46,11 @@ public partial class HolyChampion : UnitSpell
             }
 
             // { Original succeeds even when expansion fails. }
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 }

@@ -88,45 +88,26 @@ public partial class ProductionPlaceControl(CustomNode owner) : ProductionContro
     }
 
     // PrdPlace.pas:139
-    public override int UnitProductionGold(int index)
-    {
-        int result = ProductionPlace.GetMagicSphere() != Magic.MagicSphere.None ? 0 : base.UnitProductionGold(index);
-        return result;
-    }
+    public override int UnitProductionGold(int index) => ProductionPlace.GetMagicSphere() != Magic.MagicSphere.None ? 0 : base.UnitProductionGold(index);
 
     // PrdPlace.pas:145
-    public override int UnitProductionMana(int index)
-    {
-        int result = ProductionPlace.GetMagicSphere() != Magic.MagicSphere.None ? base.UnitProductionGold(index) : 0;
-        // { The original uses the gold production cost as the node's mana cost. }
-
-        return result;
-    }
+    public override int UnitProductionMana(int index) => ProductionPlace.GetMagicSphere() != Magic.MagicSphere.None ? base.UnitProductionGold(index) : 0;// { The original uses the gold production cost as the node's mana cost. }
 
     // PrdPlace.pas:152
-    public override int UnitProductionGoldUpkeep(int index)
-    {
-        int result = ProductionPlace.GetMagicSphere() != Magic.MagicSphere.None ? 0 : base.UnitProductionMana(index);
-        // { The original uses the inherited mana production cost for gold upkeep. }
-
-        return result;
-    }
+    public override int UnitProductionGoldUpkeep(int index) => ProductionPlace.GetMagicSphere() != Magic.MagicSphere.None ? 0 : base.UnitProductionMana(index);// { The original uses the inherited mana production cost for gold upkeep. }
 
     // PrdPlace.pas:159
     public override int UnitProductionManaUpkeep(int index)
     {
-        int result;
         if (ProductionPlace.GetMagicSphere() != Magic.MagicSphere.None)
         {
             UnitProduction unitProduction = UnitProductions.GetItem(index);
-            result = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).Level * 5;
+            return GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).Level * 5;
         }
         else
         {
-            result = 0;
+            return 0;
         }
-
-        return result;
     }
 
     // PrdPlace.pas:121
@@ -151,7 +132,7 @@ public partial class ProductionPlaceControl(CustomNode owner) : ProductionContro
             result -= picks / 2;
             if (result < 1)
             {
-                result = 1;
+                return 1;
             }
         }
 

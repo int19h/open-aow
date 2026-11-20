@@ -290,11 +290,8 @@ public partial class RleSprite08(CustomImageLibrary owner) : Image08(owner), ILi
 
             BinaryPrimitives.WriteUInt16LittleEndian(Data.AsSpan(lineStart, 2), (ushort)(position - lineStart));
         }
-
-        bool result;
         if (lockedSurface.BitCount == 8)
         {
-            result = true;
             try
             {
                 try
@@ -356,15 +353,15 @@ public partial class RleSprite08(CustomImageLibrary owner) : Image08(owner), ILi
             catch
             {
                 ReleaseDiscardableImageData();
-                result = false;
+                return false;
             }
         }
         else
         {
-            result = false;
+            return false;
         }
 
-        return result;
+        return true;
     }
 
     private static void ShowRle08(int X, int Y, in LockedSurface lockedSurface, ReadOnlySpan<byte> data, int width, int height, byte colorKey) => Blit.ShowRle08(X, Y, lockedSurface.View(), data, width, height, colorKey);

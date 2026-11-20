@@ -215,7 +215,7 @@ public partial class DiplomaticAction(CustomNode owner) : EngineObject(owner), I
         {
             if (StrategicMap.Current.Players.GetPlayers(Source).MagicControl.Mana >= mana)
             {
-                result = Proposal.CanSend(this, ref errorText);
+                return Proposal.CanSend(this, ref errorText);
             }
             else
             {
@@ -235,7 +235,6 @@ public partial class DiplomaticAction(CustomNode owner) : EngineObject(owner), I
     // Diplomacy.pas:1081
     public virtual bool Send(ref string errorText)
     {
-        bool result;
         if (CanSend(ref errorText) && !StrategicMap.Current.Players.GetPlayers(Source).GetBusy())
         {
             Day = StrategicMap.Current.Day;
@@ -244,14 +243,12 @@ public partial class DiplomaticAction(CustomNode owner) : EngineObject(owner), I
             tokenEvent.Operation = 0;
             StrategicMap.Current.TokenManager.TokenControls[Source].AddEvent(tokenEvent);
             _ = tokenEvent.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Diplomacy.pas:920
@@ -260,7 +257,6 @@ public partial class DiplomaticAction(CustomNode owner) : EngineObject(owner), I
     // Diplomacy.pas:923
     public virtual bool Accept(string errorText)
     {
-        bool result;
         if (CanAccept(errorText) && !StrategicMap.Current.Players.GetPlayers(Target).GetBusy())
         {
             DiplomaticActionTokenEvent tokenEvent = new(null) { Holder = CreationHolder() };
@@ -268,14 +264,12 @@ public partial class DiplomaticAction(CustomNode owner) : EngineObject(owner), I
             tokenEvent.Operation = 1;
             StrategicMap.Current.TokenManager.TokenControls[Target].AddEvent(tokenEvent);
             _ = tokenEvent.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Diplomacy.pas:974
@@ -284,7 +278,6 @@ public partial class DiplomaticAction(CustomNode owner) : EngineObject(owner), I
     // Diplomacy.pas:977
     public virtual bool Reject(string errorText)
     {
-        bool result;
         if (CanReject(errorText) && !StrategicMap.Current.Players.GetPlayers(Target).GetBusy())
         {
             DiplomaticActionTokenEvent tokenEvent = new(null) { Holder = CreationHolder() };
@@ -292,14 +285,12 @@ public partial class DiplomaticAction(CustomNode owner) : EngineObject(owner), I
             tokenEvent.Operation = 2;
             StrategicMap.Current.TokenManager.TokenControls[Target].AddEvent(tokenEvent);
             _ = tokenEvent.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Diplomacy.pas:505

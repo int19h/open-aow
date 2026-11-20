@@ -139,7 +139,6 @@ public partial class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILi
     // ImageLib.pas:2986
     public override GraphicsResult RemapToPixelFormat(PixelFormat pixelFormatId)
     {
-        GraphicsResult result = GraphicsResult.Ok;
         if (pixelFormatId != PixelFormatId)
         {
             switch (pixelFormatId)
@@ -160,12 +159,11 @@ public partial class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILi
                 case PixelFormat.Rgb32:
                 case PixelFormat.Xrgb32:
                 default:
-                    result = GraphicsResult.NotSupported;
-                    break;
+                    return GraphicsResult.NotSupported;
             }
         }
 
-        return result;
+        return GraphicsResult.Ok;
     }
 
     // ImageLib.pas:3006
@@ -335,8 +333,6 @@ public partial class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILi
                 AddWord((ushort)_colorKey);
             }
         }
-
-        bool result = true;
         try
         {
             DataSurface surface = null;
@@ -416,10 +412,10 @@ public partial class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILi
         catch
         {
             ReleaseDiscardableImageData();
-            result = false;
+            return false;
         }
 
-        return result;
+        return true;
     }
 
     private static void RemapRle565To555(Span<byte> data, int height, int colorKey) => Blit.RemapRle565To555(data, height, colorKey);

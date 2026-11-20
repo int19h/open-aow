@@ -51,18 +51,15 @@ public partial class InvokeDeathAbility : TouchAbility
     // AoWAb.PAS:3464
     public override int GetDamageValue(Troop attacker, Troop defender)
     {
-        int result;
         if ((!defender.GetAbilityEnabled(1) || attacker.GetAbilityEnabled(1)) && !defender.GetImmunityTypes().Contains(DamageType.None))
         {
             float probability = TouchRoleProbability(attacker, defender);
-            result = Round((double)((double)defender.GetHitPoints() * probability) * 100);
+            return Round((double)((double)defender.GetHitPoints() * probability) * 100);
         }
         else
         {
-            result = 0;
+            return 0;
         }
-
-        return result;
     }
 
     // AoWAb.PAS:3476
@@ -143,12 +140,9 @@ public partial class InvokeDeathAbility : TouchAbility
     public override bool CanTouch(CombatObject source, CombatObject target)
     {
         bool result = base.CanTouch(source, target);
-        if (result)
-        {
-            result = target is CombatUnit targetUnit && Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(targetUnit.Troop.GetUnitType()) && (ushort)targetUnit.Troop.GetRace() != 11 && !targetUnit.Troop.GetAbilityEnabled(129);
-        }
-
-        return result;
+        return result
+            ? target is CombatUnit targetUnit && Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(targetUnit.Troop.GetUnitType()) && (ushort)targetUnit.Troop.GetRace() != 11 && !targetUnit.Troop.GetAbilityEnabled(129)
+            : result;
     }
 
     // AoWAb.PAS:3554
@@ -158,7 +152,7 @@ public partial class InvokeDeathAbility : TouchAbility
         if (result)
         {
             UnitType unitType = target.GetUnitType();
-            result = Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(unitType) && (ushort)target.GetRace() != 11 && !target.GetAbilityEnabled(129);
+            return Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(unitType) && (ushort)target.GetRace() != 11 && !target.GetAbilityEnabled(129);
         }
 
         return result;

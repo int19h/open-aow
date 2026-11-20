@@ -178,19 +178,14 @@ public partial class Mine : PlayerStructure
     }
 
     // Mine.pas:85
-    public override int GetIncome()
-    {
-        int result = !GetRazed() && !GetBuilding() ? 10 : 0;
-        return result;
-    }
+    public override int GetIncome() => !GetRazed() && !GetBuilding() ? 10 : 0;
 
     // Mine.pas:178
     public override string GetCombatEventText(Battle combat)
     {
-        string result = combat.CombatResult is CombatResult.Victory or CombatResult.NoDefenders
+        return combat.CombatResult is CombatResult.Victory or CombatResult.NoDefenders
             ? AbilityRules.TranslateResourceString(GetEngine(), s_mineBattleWonText)
             : "";
-        return result;
     }
 
     // Mine.pas:25

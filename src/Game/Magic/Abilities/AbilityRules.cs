@@ -42,7 +42,7 @@ public static class AbilityRules
         }
         else
         {
-            result = 0;
+            return 0;
         }
 
         return result;
@@ -82,7 +82,7 @@ public static class AbilityRules
         }
         else
         {
-            result = 0;
+            return 0;
         }
 
         return result;
@@ -90,24 +90,23 @@ public static class AbilityRules
 
     internal static int ExecuteDamageRole(int damage, int attackDefense)
     {
-        int result;
         if (damage > 0)
         {
             int roll = Random(20);
             if (roll <= 1)
             {
-                result = 0;
+                return 0;
             }
             else
             {
                 if (roll >= 18)
                 {
-                    result = damage;
+                    return damage;
                 }
                 else
                 {
                     attackDefense = 10 - (attackDefense * 2);
-                    result = roll >= attackDefense && attackDefense < 18
+                    return roll >= attackDefense && attackDefense < 18
                         ? ((((damage - 1) * (roll - attackDefense)) + (int)(((uint)(18 - attackDefense)) >> 1)) / (18 - attackDefense)) + 1
                         : 0;
                 }
@@ -115,10 +114,8 @@ public static class AbilityRules
         }
         else
         {
-            result = 0;
+            return 0;
         }
-
-        return result;
     }
 
     internal static int DamageValueToDamageEvaluation(int sourceDamageValue, int targetDamageValue, CombatObject source, CombatObject target)
@@ -138,7 +135,7 @@ public static class AbilityRules
         }
         else
         {
-            result = sourceDamageValue + -99999 - (source.GetTargetPriority() * targetDamageValue);
+            return sourceDamageValue + -99999 - (source.GetTargetPriority() * targetDamageValue);
         }
 
         return result;
@@ -147,11 +144,9 @@ public static class AbilityRules
     internal static int StatisticsToMaxDamage(int damage, Set<DamageType> damageTypes, Set<DamageType> immunityTypes, Set<DamageType> protectionTypes)
     {
         damageTypes -= immunityTypes;
-        int result = damageTypes != Set<DamageType>.Of()
+        return damageTypes != Set<DamageType>.Of()
             ? damageTypes - protectionTypes == Set<DamageType>.Of() ? (int)(((uint)(damage + 1)) >> 1) : damage
             : 0;
-
-        return result;
     }
 
     [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The Delphi damage calculation signature keeps resistance.")]
@@ -172,12 +167,12 @@ public static class AbilityRules
             int limit100 = limit * 100;
             if (result > limit100)
             {
-                result = limit100;
+                return limit100;
             }
         }
         else
         {
-            result = 0;
+            return 0;
         }
 
         return result;
@@ -208,17 +203,14 @@ public static class AbilityRules
 
     internal static string Format(string S, params ReadOnlySpan<FormatArg> arguments)
     {
-        string result;
         try
         {
-            result = DelphiFormat.Format(S, arguments);
+            return DelphiFormat.Format(S, arguments);
         }
         catch
         {
-            result = S;
+            return S;
         }
-
-        return result;
     }
 
     internal static void ShowDamageIcon(GameEngine engine, int x, int y, in LockedSurface surface, int damage, DamageType damageType)
@@ -236,62 +228,50 @@ public static class AbilityRules
 
     internal static int MoraleToMoraleValue(int value)
     {
-        int result;
         switch (value & 127)
         {
             case 0:
-                result = 10;
-                break;
+                return 10;
             case 1:
-                result = 30;
-                break;
+                return 30;
             case 2:
-                result = 50;
-                break;
+                return 50;
             case 3:
-                result = 70;
-                break;
+                return 70;
             case 4:
-                result = 90;
-                break;
+                return 90;
             default:
-                result = 50;
                 // { Original leaks the exception without raising it. }
                 _ = new ArgumentException("Invalid TMoral Value");
                 break;
         }
 
-        return result;
+        return 50;
     }
 
     internal static Troop.Morale MoraleValueToMorale(int value)
     {
-        Troop.Morale result;
         if (value <= 20)
         {
-            result = Troop.Morale.Terrible;
+            return Troop.Morale.Terrible;
         }
         else
         {
             if (value > 80)
             {
-                result = Troop.Morale.High;
+                return Troop.Morale.High;
             }
             else
             {
                 switch (value)
                 {
                     case >= 21 and <= 40:
-                        result = Troop.Morale.Poor;
-                        break;
+                        return Troop.Morale.Poor;
                     case >= 41 and <= 60:
-                        result = Troop.Morale.Ok;
-                        break;
+                        return Troop.Morale.Ok;
                     case >= 61 and <= 80:
-                        result = Troop.Morale.Good;
-                        break;
+                        return Troop.Morale.Good;
                     default:
-                        result = Troop.Morale.Ok;
                         // { Original leaks the exception without raising it. }
                         _ = new ArgumentException("Invalid MoralValue");
                         break;
@@ -299,14 +279,10 @@ public static class AbilityRules
             }
         }
 
-        return result;
+        return Troop.Morale.Ok;
     }
 
-    internal static Status AlignmentsToStatus(Set<Alignment> A, Set<Alignment> B)
-    {
-        Status result = A == B ? Status.Friendly : (A & B) == Set<Alignment>.Of() ? Status.Hostile : Status.Neutral;
-        return result;
-    }
+    internal static Status AlignmentsToStatus(Set<Alignment> A, Set<Alignment> B) => A == B ? Status.Friendly : (A & B) == Set<Alignment>.Of() ? Status.Hostile : Status.Neutral;
 
     [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The stubbed Delphi AlignmentsToInt32 signature keeps alignments.")]
     internal static int AlignmentsToInt32(Set<Alignment> alignments)
@@ -380,7 +356,7 @@ public static class AbilityRules
 
     internal static Alignment IndependentRelationToAlignment(sbyte relation)
     {
-        Alignment result = relation < 0
+        return relation < 0
             ? relation switch
             {
                 -2 => Alignment.Good,
@@ -389,12 +365,10 @@ public static class AbilityRules
                 _ => Alignment.Neutral,
             }
             : GamePack.Current.RaceResources.GetRaceResource(relation).GetAlignment();
-        return result;
     }
 
     internal static DiplomaticRelation DiplomaticRelation(sbyte player, sbyte independentRelation, sbyte otherPlayer, sbyte otherIndependentRelation)
     {
-        DiplomaticRelation result;
         if (player == 0 || otherPlayer == 0)
         {
             sbyte race = player != 0
@@ -415,44 +389,39 @@ public static class AbilityRules
                     ? GamePack.Current.RaceResources.GetRaceResource(otherRace).GetAlignment()
                     : IndependentRelationToAlignment(otherIndependentRelation);
 
-                result = AlignmentTables.AlignmentToDiplomaticRelation(alignment, otherAlignment);
+                return AlignmentTables.AlignmentToDiplomaticRelation(alignment, otherAlignment);
             }
             else
             {
-                result = AlignmentTables.StatusToDiplomaticRelation(StrategicMap.Current.Races.GetRace(race).GetRelation(otherRace));
+                return AlignmentTables.StatusToDiplomaticRelation(StrategicMap.Current.Races.GetRace(race).GetRelation(otherRace));
             }
         }
         else
         {
-            result = player != otherPlayer
+            return player != otherPlayer
                 ? StrategicMap.Current.Players.GetDiplomaticRelation(player, otherPlayer)
                 : Session.DiplomaticRelation.Alliance;
         }
-
-        return result;
     }
 
     internal static bool ValidAttackRelation(sbyte player, sbyte independentRelation, sbyte targetPlayer, sbyte targetRace)
     {
-        bool result;
         if (player == 0)
         {
             if (targetPlayer != 0)
             {
                 DiplomaticRelation relation = DiplomaticRelation(player, independentRelation, targetPlayer, targetRace);
-                result = Set<DiplomaticRelation>.Of(Session.DiplomaticRelation.War, Session.DiplomaticRelation.Unknown).Contains(relation);
+                return Set<DiplomaticRelation>.Of(Session.DiplomaticRelation.War, Session.DiplomaticRelation.Unknown).Contains(relation);
             }
             else
             {
-                result = false;
+                return false;
             }
         }
         else
         {
-            result = StrategicMap.Current.Players.GetPlayers(player).ValidAttackRelation(targetPlayer, targetRace);
+            return StrategicMap.Current.Players.GetPlayers(player).ValidAttackRelation(targetPlayer, targetRace);
         }
-
-        return result;
     }
 
     internal static void PolarToCartesian(int degrees, int radius, out int X, out int Y)
@@ -598,7 +567,7 @@ public static class AbilityRules
         }
         else
         {
-            result = 0;
+            return 0;
         }
 
         return result;

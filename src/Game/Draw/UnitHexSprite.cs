@@ -250,18 +250,15 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     // UnitHS.PAS:613
     public override bool CanSelect(int pixelX, int pixelY)
     {
-        bool result;
         if (!Moving())
         {
             HexGeometry.PixelToHex(pixelX, pixelY, out int x, out int y);
-            result = Owner.HexX == x && Owner.HexY == y;
+            return Owner.HexX == x && Owner.HexY == y;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // UnitHS.PAS:560
@@ -358,23 +355,14 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     // UnitHS.PAS:974
     public virtual int GetMoveSteps()
     {
-        int result;
-        switch (UnitGraphicsResource.MoveAnimationSpeed)
+        return UnitGraphicsResource.MoveAnimationSpeed switch
         {
-            case 0:
-                return 12;
-            case 1:
-                return 10;
-            case 2:
-                return 8;
-            case 3:
-                return 6;
-            default:
-                result = 8;
-                break;
-        }
-
-        return result;
+            0 => 12,
+            1 => 10,
+            2 => 8,
+            3 => 6,
+            _ => 8,
+        };
     }
 
     // UnitHS.PAS:176
@@ -446,26 +434,23 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     // UnitHS.PAS:920
     public sbyte GetMoveStatus()
     {
-        sbyte result;
         if (MoveStep >= 0)
         {
             int moveSteps = GetMoveSteps();
             if (MoveStep < moveSteps)
             {
                 int moveSteps2 = GetMoveSteps();
-                result = (sbyte)Round((double)(MoveStep * 100) / moveSteps2);
+                return (sbyte)Round((double)(MoveStep * 100) / moveSteps2);
             }
             else
             {
-                result = 100;
+                return 100;
             }
         }
         else
         {
-            result = -1;
+            return -1;
         }
-
-        return result;
     }
 
     // UnitHS.PAS:929
@@ -490,7 +475,6 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     // UnitHS.PAS:940
     public sbyte MoveNext()
     {
-        sbyte result;
         if (MoveStep >= 0)
         {
             Status = (byte)(Status & 247);
@@ -499,19 +483,17 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
             {
                 MoveStep = (sbyte)(MoveStep + 1);
                 int moveSteps2 = GetMoveSteps();
-                result = (sbyte)Round((double)(MoveStep * 100) / moveSteps2);
+                return (sbyte)Round((double)(MoveStep * 100) / moveSteps2);
             }
             else
             {
-                result = 100;
+                return 100;
             }
         }
         else
         {
-            result = -1;
+            return -1;
         }
-
-        return result;
     }
 
     // UnitHS.PAS:956

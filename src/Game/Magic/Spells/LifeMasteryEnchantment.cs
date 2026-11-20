@@ -52,7 +52,7 @@ public partial class LifeMasteryEnchantment : GlobalEnchantment
                 string xIsAlreadyActive = AbilityRules.TranslateResourceString(GetEngine(), GameText.IsAlreadyActiveFormat);
                 string name = GetName();
                 reason = DelphiFormat.Format(xIsAlreadyActive, [name]);
-                result = false;
+                return false;
             }
         }
 

@@ -19,9 +19,7 @@ public partial class AowHexSpriteMapMouse : GameMapMouse
     public override int GetCursor()
     {
         CombatMap combatMap = StrategicMap.Current.CombatMap;
-        int result = combatMap is not null ? combatMap.Mouse.GetCursor() : base.GetCursor();
-
-        return result;
+        return combatMap is not null ? combatMap.Mouse.GetCursor() : base.GetCursor();
     }
 
     // AoWHSMap.PAS:1157

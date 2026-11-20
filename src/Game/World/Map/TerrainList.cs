@@ -24,11 +24,7 @@ public partial class TerrainList : IDisposable
     }
 
     // HSEngine.pas:1423
-    public sbyte GetTerrain(int index)
-    {
-        sbyte result = index < _count ? _list[index].Terrain : (sbyte)-2;
-        return result;
-    }
+    public sbyte GetTerrain(int index) => index < _count ? _list[index].Terrain : (sbyte)-2;
 
     // HSEngine.pas:1431
     public void SetTerrain(int index, sbyte value)
@@ -54,11 +50,7 @@ public partial class TerrainList : IDisposable
     }
 
     // HSEngine.pas:1445
-    public sbyte GetOverlay(int index)
-    {
-        sbyte result = index < _count ? _list[index].Overlay : (sbyte)-2;
-        return result;
-    }
+    public sbyte GetOverlay(int index) => index < _count ? _list[index].Overlay : (sbyte)-2;
 
     // HSEngine.pas:1453
     public void SetOverlay(int index, sbyte value)
@@ -72,11 +64,7 @@ public partial class TerrainList : IDisposable
     }
 
     // HSEngine.pas:1459. The pair as one word: the terrain byte low, the overlay byte high.
-    public ushort GetTandO(int index)
-    {
-        ushort result = index < _count ? (ushort)((byte)_list[index].Terrain | ((byte)_list[index].Overlay << 8)) : (ushort)65278;
-        return result;
-    }
+    public ushort GetTandO(int index) => index < _count ? (ushort)((byte)_list[index].Terrain | ((byte)_list[index].Overlay << 8)) : (ushort)65278;
 
     // HSEngine.pas:1467
     public void SetTandO(int index, ushort value)

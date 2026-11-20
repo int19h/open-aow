@@ -105,9 +105,7 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
             condition = Player < count;
         }
 
-        int result = condition ? StrategicMap.Current.Players.GetPlayers(Player).PlayerRace : 12;
-
-        return result;
+        return condition ? StrategicMap.Current.Players.GetPlayers(Player).PlayerRace : 12;
     }
 
     // EventLog.pas:393
@@ -137,11 +135,10 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
     // EventLog.pas:403
     public virtual bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
-        bool result;
         if (trigger == ExecuteTrigger.User || ((trigger == ExecuteTrigger.Event || (trigger == ExecuteTrigger.NewTurn && StrategicMap.Current.RequestCombatType)) && StrategicMap.Current.SeatedPlayer == Player))
         {
             StrategicMap.Current.TriggerExecuteEventLog(this, mode, done);
-            result = true;
+            return true;
         }
         else
         {
@@ -150,10 +147,8 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
                 _ = AudioPlayback.PlaySample("SFX\\EVENTS\\NEWEVENT.WAV");
             }
 
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // EventLog.pas:432

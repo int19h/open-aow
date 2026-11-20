@@ -23,9 +23,7 @@ public partial class EngineObjectClassList : DelphiList<EngineClass>
             i += 1;
         }
 
-        EngineClass result = found ? this[i - 1] : null;
-
-        return result;
+        return found ? this[i - 1] : null;
     }
 
     // Engine.pas:8316
@@ -39,9 +37,7 @@ public partial class EngineObjectClassList : DelphiList<EngineClass>
             i += 1;
         }
 
-        int result = found ? i - 1 : -1;
-
-        return result;
+        return found ? i - 1 : -1;
     }
 
     // Engine.pas:8331

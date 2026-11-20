@@ -98,7 +98,6 @@ public partial class PropertyTable : IDisposable
     // Engine.pas:2315
     public bool PropertyExist(int id)
     {
-        bool result;
         if (id <= _maxId)
         {
             int i = First;
@@ -107,14 +106,12 @@ public partial class PropertyTable : IDisposable
                 i += 1;
             }
 
-            result = i != Count;
+            return i != Count;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // The smallest stored offset of the current table above an offset, or -1. A stored value runs

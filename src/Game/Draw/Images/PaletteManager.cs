@@ -87,8 +87,6 @@ public partial class PaletteManager : IDisposable
             i -= 1;
             found = palette.Compare(Palettes[i].Palette);
         }
-
-        LibraryImagePalette result;
         if (!found)
         {
             LibraryImagePalette p = new();
@@ -96,16 +94,14 @@ public partial class PaletteManager : IDisposable
             p.IndexValue = Palettes.Count;
             p.RefCount = 1;
             Palettes.Add(p);
-            result = p;
+            return p;
         }
         else
         {
             LibraryImagePalette libraryImagePalette = Palettes[i];
             libraryImagePalette.RefCount += 1;
-            result = Palettes[i];
+            return Palettes[i];
         }
-
-        return result;
     }
 
     // ImageLib.pas:7068

@@ -160,13 +160,13 @@ internal static class EffectPaths
         float result = x1 == x2 ? (float)(Math.PI / 2) : (float)Math.Atan((double)(y2 - y1) / (x2 - x1));
         if (x2 > x1)
         {
-            result = (float)((double)result + Math.PI);
+            return (float)((double)result + Math.PI);
         }
         else
         {
             if (y1 < y2 && x2 == x1)
             {
-                result = (float)((double)result + Math.PI);
+                return (float)((double)result + Math.PI);
             }
         }
 

@@ -20,11 +20,7 @@ public partial class TerrainMapObject(CustomNode owner) : MultiHexMapObject(owne
     // Terrain.pas:60
 
     // Terrain.pas:179
-    public override bool CanChangeTerrain(in HexSpriteSenderInfo info)
-    {
-        bool result = this == info.Sender || Resource.TerrainList.GetTerrain(info.HexNumber) < 0 || (GetMostFrequentMapFieldTerrainType(defaultValue: Resource.TerrainList.GetTerrain(info.HexNumber), mapLevel: Owner.Owner, hexX: StoredHexX, hexY: StoredHexY) == info.MapField.TerrainType && CanChangeOwnTerrain(info.HexNumber));
-        return result;
-    }
+    public override bool CanChangeTerrain(in HexSpriteSenderInfo info) => this == info.Sender || Resource.TerrainList.GetTerrain(info.HexNumber) < 0 || (GetMostFrequentMapFieldTerrainType(defaultValue: Resource.TerrainList.GetTerrain(info.HexNumber), mapLevel: Owner.Owner, hexX: StoredHexX, hexY: StoredHexY) == info.MapField.TerrainType && CanChangeOwnTerrain(info.HexNumber));
 
     // Terrain.pas:195
     public override void ChangeTerrain(in HexSpriteTerrainInfo info)

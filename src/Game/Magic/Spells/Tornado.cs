@@ -38,7 +38,6 @@ public partial class Tornado : GlobalTargetSpell
     // GlobalTargetSpells.pas:1865
     public override bool TargetSelected(Troop source, int X, int Y, int L)
     {
-        bool result;
         if (!StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             TornadoTokenEvent eventValue = new(null) { Holder = CreationHolder() };
@@ -53,14 +52,12 @@ public partial class Tornado : GlobalTargetSpell
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             // Original queues through AddEvent
             _ = eventValue.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // GlobalTargetSpells.pas:1806
@@ -77,7 +74,7 @@ public partial class Tornado : GlobalTargetSpell
             message.Param = param;
             message.Result = 0;
             mapField.SendMapFieldMessage(ref message);
-            result = message.Result.Int == 0 && army.Army.CanPlace(X, Y, layer);
+            return message.Result.Int == 0 && army.Army.CanPlace(X, Y, layer);
         }
 
         return result;

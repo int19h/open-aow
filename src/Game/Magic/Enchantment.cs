@@ -76,7 +76,6 @@ public partial class Enchantment(CustomNode owner) : EngineObject(owner)
     // Spells.PAS:1706
     public virtual bool CenterToLocation()
     {
-        bool result;
         MapCoordinate coordinate22 = GetLocation();
         sbyte x = coordinate22.X;
         sbyte y = coordinate22.Y;
@@ -95,14 +94,12 @@ public partial class Enchantment(CustomNode owner) : EngineObject(owner)
                 StrategicMap.Current.ShowMessage(format);
             }
 
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Spells.PAS:1751
@@ -120,12 +117,7 @@ public partial class Enchantment(CustomNode owner) : EngineObject(owner)
             result = 10;
         }
 
-        if (result > 90)
-        {
-            result = 90;
-        }
-
-        return result;
+        return result > 90 ? 90 : result;
     }
 
     private static readonly string s_undefinedText = "Undefined";

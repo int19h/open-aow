@@ -83,12 +83,12 @@ internal static class RosterTables
             }
             else
             {
-                result = -1;
+                return -1;
             }
         }
         else
         {
-            result = -1;
+            return -1;
         }
 
         return result;

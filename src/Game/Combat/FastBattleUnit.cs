@@ -381,9 +381,7 @@ public partial class FastBattleUnit(CustomNode owner) : CombatUnit(owner)
         if (GetSide() == CombatSideIndex.Defender && !State.Contains(FastBattleUnitStateElement.OutsideWall))
         {
             byte position = Position;
-            bool result = (position & 15) <= 7 && (int)(((uint)position) >> 4) <= 7 && Combat.CombatData.Parties.GetParty((byte)(int)(((uint)position) >> 4)).Wall != 0 && !Combat.CombatData.Wall.Status.Contains(CombatObjectStatusElement.Destroyed);
-
-            return result;
+            return (position & 15) <= 7 && (int)(((uint)position) >> 4) <= 7 && Combat.CombatData.Parties.GetParty((byte)(int)(((uint)position) >> 4)).Wall != 0 && !Combat.CombatData.Wall.Status.Contains(CombatObjectStatusElement.Destroyed);
         }
 
         return false;

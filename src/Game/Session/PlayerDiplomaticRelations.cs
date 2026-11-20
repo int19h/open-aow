@@ -86,11 +86,7 @@ public partial class PlayerDiplomaticRelations : EngineObject
     }
 
     // Player.PAS:100
-    public DiplomaticRelation GetDiplomaticRelation(sbyte player)
-    {
-        DiplomaticRelation result = player < _relations.Count ? (DiplomaticRelation)_relations.List[player] : DiplomaticRelation.Unknown;
-        return result;
-    }
+    public DiplomaticRelation GetDiplomaticRelation(sbyte player) => player < _relations.Count ? (DiplomaticRelation)_relations.List[player] : DiplomaticRelation.Unknown;
 
     // Player.PAS:107
     public void SetDiplomaticRelation(sbyte player, DiplomaticRelation value)

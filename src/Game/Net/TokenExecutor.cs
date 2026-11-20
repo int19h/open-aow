@@ -163,27 +163,20 @@ public partial class TokenExecutor : IDisposable
     }
 
     // NetworkE.pas:1444
-    public TokenEvent GetExecutingTokenEvent()
-    {
-        TokenEvent result = State.Contains(TokenExecutorState.Executing) && Events.Count != 0 ? Events[0] : null;
-        return result;
-    }
+    public TokenEvent GetExecutingTokenEvent() => State.Contains(TokenExecutorState.Executing) && Events.Count != 0 ? Events[0] : null;
 
     // NetworkE.pas:1452
     public bool InsertExecuteEvent(TokenEvent tokenEvent)
     {
-        bool result;
         if (State.Contains(TokenExecutorState.Executing))
         {
             Events.Add(tokenEvent);
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // NetworkE.pas:1463
@@ -251,7 +244,6 @@ public partial class TokenExecutor : IDisposable
     // { The system events run between the token controls' events; True while some remain }
     public bool ProcessSystemTokenEvents()
     {
-        bool result;
         if (!State.Contains(TokenExecutorState.Executing) && SystemEvents.Count > 0 && _lockCount == 0)
         {
             if (SystemEvents[0].TokenCounter == -1)
@@ -268,14 +260,12 @@ public partial class TokenExecutor : IDisposable
                 ExecuteCount = 0;
             }
 
-            result = SystemEvents.Count != 0;
+            return SystemEvents.Count != 0;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // NetworkE.pas:1543

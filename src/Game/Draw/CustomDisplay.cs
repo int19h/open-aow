@@ -148,14 +148,13 @@ public partial class CustomDisplay : Component
     // DisplayC.pas:1541
     public virtual DisplayController GetDisplayController(int index)
     {
-        DisplayController result = index switch
+        return index switch
         {
             -1 => ActiveDisplayController,
             0 => PrimaryDisplayController,
             1 => SecondaryDisplayController,
             _ => null,
         };
-        return result;
     }
 
     // DisplayC.pas:1361
@@ -259,11 +258,7 @@ public partial class CustomDisplay : Component
     }
 
     // DisplayC.pas:1669
-    public DisplayControllerError SupportDisplayController(DisplayController displayController)
-    {
-        DisplayControllerError result = displayController is not null ? displayController.SupportDisplayMode(this) : DisplayControllerError.NotSupported;
-        return result;
-    }
+    public DisplayControllerError SupportDisplayController(DisplayController displayController) => displayController is not null ? displayController.SupportDisplayMode(this) : DisplayControllerError.NotSupported;
 
     // DisplayC.pas:1755
     public DisplayControllerError DeactivateDisplayController()

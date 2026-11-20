@@ -36,19 +36,15 @@ public partial class ChangeGlobalMagicTokenEvent(CustomNode owner) : TokenEvent(
             ChangeGlobalMagicTokenEventMode.RemoveEnchantment => StrategicMap.Current.GlobalMagicControl.ExecuteRemoveEnchantment((sbyte)PlayerIndex, EnchantmentId),
             _ => false,
         };
-
-        ExecuteResult result;
         if (success)
         {
-            result = ExecuteResult.Done;
+            return ExecuteResult.Done;
         }
         else
         {
             // Original road-construction predicate
-            result = ExecuteResult.DoneHalt;
+            return ExecuteResult.DoneHalt;
         }
-
-        return result;
     }
 
     // NetworkE.pas:230

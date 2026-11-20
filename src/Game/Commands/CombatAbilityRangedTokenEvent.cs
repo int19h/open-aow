@@ -1964,12 +1964,7 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
             result = (ushort)(12 - result);
         }
 
-        if (deltaX < 0 && result > 0)
-        {
-            result = (ushort)(24 - result);
-        }
-
-        return result;
+        return deltaX < 0 && result > 0 ? (ushort)(24 - result) : result;
     }
 
     // NetworkE.pas:230

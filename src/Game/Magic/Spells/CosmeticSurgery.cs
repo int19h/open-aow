@@ -47,7 +47,6 @@ public partial class CosmeticSurgery : UnitSpell
     // UnitSpells.pas:946
     public override bool CastSpell(Troop source, UnitUserList targets)
     {
-        bool result;
         if (targets.GetCount() == 1)
         {
             CosmeticSurgerySpellCaster caster = new(null)
@@ -61,20 +60,17 @@ public partial class CosmeticSurgery : UnitSpell
 
             StrategicMap.Current.CosmeticSurgeryEventsStore.Raise(caster);
             _ = caster.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // UnitSpells.pas:915
     public override bool ExecuteSpell(Troop source, Troop target, int mana, Span<int> data)
     {
-        bool result;
         if (ValidTargetUnit(source, target))
         {
             bool expanded = target.GetAbilityEnabled(126) || target.ExpandAbility(126);
@@ -90,14 +86,12 @@ public partial class CosmeticSurgery : UnitSpell
             }
 
             // { Original succeeds even when expansion fails. }
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     private static readonly string s_deformFaceText = "Cosmagic Surgery";

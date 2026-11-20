@@ -51,18 +51,15 @@ public partial class UnitIndexListCollection : IDisposable
     public bool AddUnit(int collection, int unitIndex)
     {
         int n = GetCollectionCount(collection);
-        bool result;
         if (n < _collectionSize)
         {
             Units[n + (collection * _collectionSize)] = unitIndex;
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Unit.PAS:2466

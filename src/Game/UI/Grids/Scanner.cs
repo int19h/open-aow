@@ -382,10 +382,9 @@ public partial class Scanner(Component owner) : Control(owner)
     // Scanner.pas:217
     public byte GetTerrain(int X, int Y)
     {
-        byte result = StrategicMap.Current.CombatMap is not null
+        return StrategicMap.Current.CombatMap is not null
             ? (byte)Level.GetField(X + 8, Y + 6).TerrainType
             : (byte)Level.GetField(X + 6, Y + 6).TerrainType;
-        return result;
     }
 
     // Scanner.pas:223
@@ -396,7 +395,7 @@ public partial class Scanner(Component owner) : Control(owner)
     // Scanner.pas:226
     public int GetOverlay(int X, int Y)
     {
-        int result = StrategicMap.Current.CombatMap is not null
+        return StrategicMap.Current.CombatMap is not null
             ? Level.GetField(X + 8, Y + 6).GetDecorationType() switch
             {
                 1 or 2 or 3 or 9 => 1,
@@ -408,7 +407,6 @@ public partial class Scanner(Component owner) : Control(owner)
                 _ => Level.GetField(X + 8, Y + 6).OverlayType,
             }
             : Level.GetField(X + 6, Y + 6).OverlayType;
-        return result;
     }
 
     // Scanner.pas:243
@@ -423,11 +421,9 @@ public partial class Scanner(Component owner) : Control(owner)
 
         MapField field = StrategicMap.Current.CombatMap is not null ? Level.GetField(X + 8, Y + 6) : Level.GetField(X + 6, Y + 6);
 
-        byte result = _map.ExplorationEnabled
+        return _map.ExplorationEnabled
             ? field.GetExplored(_map.SeatedPlayer) ? _map.FogEnabled ? field.FogCount == 0 ? (byte)2 : (byte)1 : (byte)1 : (byte)0
             : _map.FogEnabled ? field.FogCount == 0 ? (byte)2 : (byte)1 : (byte)1;
-
-        return result;
     }
 
     // Scanner.pas:277
@@ -438,10 +434,9 @@ public partial class Scanner(Component owner) : Control(owner)
     // Scanner.pas:280
     public int GetObject(int X, int Y)
     {
-        int result = StrategicMap.Current.CombatMap is not null
+        return StrategicMap.Current.CombatMap is not null
             ? Level.GetField(X + 8, Y + 6).GetScannerIcon()
             : Level.GetField(X + 6, Y + 6).GetScannerIcon();
-        return result;
     }
 
     // Scanner.pas:287

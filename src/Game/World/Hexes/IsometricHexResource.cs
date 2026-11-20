@@ -55,7 +55,7 @@ public partial class IsometricHexResource(CustomNode owner) : AbstractHexagonRes
             if (!map.PlaceHex(result, hexX, hexY, hexLevel))
             {
                 result?.Dispose();
-                result = null;
+                return null;
             }
         }
 

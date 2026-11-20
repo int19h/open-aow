@@ -50,7 +50,7 @@ public partial class PlayerCommunicator(CustomNode owner) : EngineObject(owner)
         }
         else
         {
-            result = true;
+            return true;
         }
 
         return result;
@@ -84,7 +84,6 @@ public partial class PlayerCommunicator(CustomNode owner) : EngineObject(owner)
     {
         ReceiveStream.Clear();
         ReceiveStream.Position = 0;
-        bool result;
         if (PlayerCommunicationControl.ReceivePackageData(ReceiveStream))
         {
             try
@@ -106,14 +105,12 @@ public partial class PlayerCommunicator(CustomNode owner) : EngineObject(owner)
             }
 
             ReceivedPackage = null;
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // NetworkE.pas:685

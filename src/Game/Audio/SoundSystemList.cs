@@ -17,9 +17,7 @@ public partial class SoundSystemList : DelphiList<SoundSystemClass>
             i += 1;
         }
 
-        SoundSystemClass result = i != Count ? List[i] : null;
-
-        return result;
+        return i != Count ? List[i] : null;
     }
 
 }

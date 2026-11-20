@@ -211,7 +211,7 @@ public partial class RaceResource(CustomNode owner) : EngineResource(owner)
 
             if (ImageLibrary.ImageExist(index))
             {
-                result = ImageLibrary[index];
+                return ImageLibrary[index];
             }
         }
 
@@ -221,12 +221,9 @@ public partial class RaceResource(CustomNode owner) : EngineResource(owner)
     // PlayerC.PAS:1875
     public Alignment GetAlignment()
     {
-        if (Alignments == AlignmentTables.PureGoodAlignments)
-        {
-            return Alignment.PureGood;
-        }
-
-        Alignment result = Alignments == AlignmentTables.GoodAlignments
+        return Alignments == AlignmentTables.PureGoodAlignments
+            ? Alignment.PureGood
+            : Alignments == AlignmentTables.GoodAlignments
             ? Alignment.Good
             : Alignments == AlignmentTables.NeutralAlignments
                 ? Alignment.Neutral
@@ -235,8 +232,6 @@ public partial class RaceResource(CustomNode owner) : EngineResource(owner)
                     : Alignments == AlignmentTables.PureEvilAlignments
                         ? Alignment.PureEvil
                         : Alignments == s_pureNeutralAlignments ? Alignment.PureNeutral : Alignment.None;
-
-        return result;
     }
 
     // intf_P1_09.inc:24

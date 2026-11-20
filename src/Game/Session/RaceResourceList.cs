@@ -20,11 +20,7 @@ public partial class RaceResourceList : ResourceCollection, IChildList<RaceResou
     public RaceResourceList(CustomNode owner) : base(owner) => SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, ControlStyleElement.ArrayMode));
 
     // PlayerC.PAS:1896
-    public RaceResource GetRaceResource(int index)
-    {
-        RaceResource result = index < GetCount() && index >= 0 ? this[index] : null;
-        return result;
-    }
+    public RaceResource GetRaceResource(int index) => index < GetCount() && index >= 0 ? this[index] : null;
 
     // PlayerC.PAS:1903
     public int GetMaxRaceIndex()

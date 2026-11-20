@@ -105,7 +105,7 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
         }
         else
         {
-            result = null;
+            return null;
         }
 
         return result;
@@ -173,14 +173,13 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
     // ImageLib.pas:8666
     public int GetTotalSequenceFrames()
     {
-        int result = _sequenceMode switch
+        return _sequenceMode switch
         {
             SequenceMode.FrameTable => FrameTable.Count * (_sequenceSpeed + 1),
             SequenceMode.Up => ImageLibrary.Count * (_sequenceSpeed + 1),
             SequenceMode.UpDown => ImageLibrary.Count * (_sequenceSpeed + 1) * 2,
             SequenceMode.None or SequenceMode.Random or SequenceMode.RandomFrameTable or _ => _sequenceSpeed + 1,
         };
-        return result;
     }
 
     // ImageLib.pas:8677
@@ -213,14 +212,12 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
                         if (FrameTable.Count != 0)
                         {
                             result %= FrameTable.Count;
-                            result = FrameTable.List[result];
+                            return FrameTable.List[result];
                         }
                         else
                         {
-                            result = -1;
+                            return -1;
                         }
-
-                        break;
                     case SequenceMode.Up:
                         if (frame != _lastFrame)
                         {
@@ -257,8 +254,7 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
                         }
 
                         result = (_frameCounter + offset) % ((ImageLibrary.Count - 1) * 2);
-                        result = Math.Abs(result - (ImageLibrary.Count - 2));
-                        break;
+                        return Math.Abs(result - (ImageLibrary.Count - 2));
                     case SequenceMode.RandomFrameTable:
                         if (frame != _lastFrame && frame % (_sequenceSpeed + 1) == 0)
                         {
@@ -266,9 +262,7 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
                             _lastFrame = frame;
                         }
 
-                        result = FrameTable.Count != 0 ? FrameTable.List[(_imageIndex + offset) % FrameTable.Count] : -1;
-
-                        break;
+                        return FrameTable.Count != 0 ? FrameTable.List[(_imageIndex + offset) % FrameTable.Count] : -1;
                     case SequenceMode.Random:
                         if (frame != _lastFrame && frame % (_sequenceSpeed + 1) == 0)
                         {
@@ -276,22 +270,20 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
                             _lastFrame = frame;
                         }
 
-                        result = (_imageIndex + offset) % ImageLibrary.Count;
-                        break;
+                        return (_imageIndex + offset) % ImageLibrary.Count;
                     case SequenceMode.None:
                     default:
-                        result = -1;
-                        break;
+                        return -1;
                 }
             }
             else
             {
-                result = _imageIndex;
+                return _imageIndex;
             }
         }
         else
         {
-            result = -1;
+            return -1;
         }
 
         return result;
@@ -309,30 +301,24 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
                 {
                     case SequenceMode.FrameTable:
                         result = frame / (_sequenceSpeed + 1);
-                        result = result < FrameTable.Count ? FrameTable.List[result] : -1;
-
-                        break;
+                        return result < FrameTable.Count ? FrameTable.List[result] : -1;
                     case SequenceMode.Up:
                         result = frame / (_sequenceSpeed + 1);
                         if (result >= ImageLibrary.Count)
                         {
-                            result = -1;
+                            return -1;
                         }
 
                         break;
                     case SequenceMode.UpDown:
-                        result = -1;
-                        break;
+                        return -1;
                     case SequenceMode.RandomFrameTable:
-                        result = -1;
-                        break;
+                        return -1;
                     case SequenceMode.Random:
-                        result = -1;
-                        break;
+                        return -1;
                     case SequenceMode.None:
                     default:
-                        result = -1;
-                        break;
+                        return -1;
                 }
             }
             else
@@ -342,7 +328,7 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
         }
         else
         {
-            result = -1;
+            return -1;
         }
 
         return result;

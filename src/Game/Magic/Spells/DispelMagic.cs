@@ -111,7 +111,7 @@ public partial class DispelMagic : UnitSpell
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;

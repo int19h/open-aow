@@ -32,7 +32,6 @@ public partial class WindWalking : UnitSpell
     // UnitSpells.pas:715
     public override bool ExecuteSpell(Troop source, Troop target, int mana, Span<int> data)
     {
-        bool result;
         if (ValidTargetUnit(source, target))
         {
             if (target.ExpandAbility(165))
@@ -44,13 +43,11 @@ public partial class WindWalking : UnitSpell
             }
 
             // { Original succeeds even when expansion fails. }
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 }

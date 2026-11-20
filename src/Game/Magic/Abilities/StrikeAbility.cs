@@ -129,18 +129,15 @@ public partial class StrikeAbility : AdjustableAbility
     // AoWAb.PAS:1297
     public override int GetDamageValue(Troop attacker, Troop defender)
     {
-        int result;
         if (!defender.GetAbilityEnabled(1) || attacker.GetAbilityEnabled(1))
         {
             MeleeRound.CalculateUnit(attacker, defender);
-            result = MeleeRound.GetAttackerDamageValue();
+            return MeleeRound.GetAttackerDamageValue();
         }
         else
         {
-            result = 0;
+            return 0;
         }
-
-        return result;
     }
 
     // AoWAb.PAS:1308
@@ -291,7 +288,7 @@ public partial class StrikeAbility : AdjustableAbility
         }
         else
         {
-            result = Set<DamageType>.Of();
+            return Set<DamageType>.Of();
         }
 
         return result;

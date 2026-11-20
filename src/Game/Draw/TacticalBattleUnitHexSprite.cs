@@ -538,19 +538,13 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
         {
             case GameSettings.MovementSpeed.Fast:
                 result = base.GetMoveSteps();
-                result = result > 8 ? result - 4 : 4;
-
-                break;
+                return result > 8 ? result - 4 : 4;
             case GameSettings.MovementSpeed.Turbo:
-                result = 2;
-                break;
+                return 2;
             case GameSettings.MovementSpeed.Normal:
             default:
-                result = base.GetMoveSteps();
-                break;
+                return base.GetMoveSteps();
         }
-
-        return result;
     }
 
     // AoWTC.pas:3351
@@ -563,7 +557,6 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
     // AoWTC.pas:3804
     public bool MeleeMoveTacticalBattle(MovePath path)
     {
-        bool result = false;
         sbyte player = Unit.GetPlayer();
         if (StrategicMap.Current.TokenManager.PlayerReady(player) && path.Count > 1)
         {
@@ -573,11 +566,11 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
                 sbyte fUnitPlayer = Unit.GetPlayer();
                 StrategicMap.Current.TokenManager.GetTokenControl(fUnitPlayer).AddEvent(tokenEvent);
                 _ = tokenEvent.Release();
-                result = true;
+                return true;
             }
         }
 
-        return result;
+        return false;
     }
 
     // AoWTC.pas:3836
@@ -833,7 +826,6 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
     // AoWTC.pas:3935
     public bool AbilityTouchMoveTacticalBattle(MovePath path)
     {
-        bool result = false;
         sbyte player = Unit.GetPlayer();
         if (StrategicMap.Current.TokenManager.PlayerReady(player) && path.Count > 0)
         {
@@ -845,7 +837,7 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
                     sbyte fUnitPlayer = Unit.GetPlayer();
                     StrategicMap.Current.TokenManager.GetTokenControl(fUnitPlayer).AddEvent(tokenEvent);
                     _ = tokenEvent.Release();
-                    result = true;
+                    return true;
                 }
             }
             else
@@ -860,13 +852,12 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
             }
         }
 
-        return result;
+        return false;
     }
 
     // AoWTC.pas:3952
     public bool AbilityRangedTacticalBattle(ushort X, ushort Y)
     {
-        bool result = false;
         sbyte player = Unit.GetPlayer();
         if (StrategicMap.Current.TokenManager.PlayerReady(player))
         {
@@ -876,11 +867,11 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
                 sbyte fUnitPlayer = Unit.GetPlayer();
                 StrategicMap.Current.TokenManager.GetTokenControl(fUnitPlayer).AddEvent(tokenEvent);
                 _ = tokenEvent.Release();
-                result = true;
+                return true;
             }
         }
 
-        return result;
+        return false;
     }
 
     private static ReadOnlySpan<int> StatusAbilities => [149, 150, 48, 92, 93, 94, 95, 96, 97, 98, 107, 163, 127, 34];

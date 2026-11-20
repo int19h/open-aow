@@ -27,37 +27,32 @@ public partial class BuildRoadsControl(CustomNode owner) : ConstructionControl(o
         _ = coordinate29.X;
         _ = coordinate29.Y;
         sbyte l = coordinate29.MapLevel;
-        bool result;
         if (l == 0)
         {
-            result = base.CanConstruct(troop, ref reason);
+            return base.CanConstruct(troop, ref reason);
         }
         else
         {
-            result = false;
             string roads = AbilityRules.TranslateResourceString(GetEngine(), s_roadsText);
             reason = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_cannotBuildUndergroundFormat), [roads]);
         }
 
-        return result;
+        return false;
     }
 
     // AoWAb.PAS:5476
     public override bool Construct(Troop troop)
     {
-        bool result;
         string reason = "";
         if (CanConstruct(troop, ref reason))
         {
             StrategicMap.Current.SelectedArmy.SelectBuildRoad(troop);
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // intf_P4_03.inc:16

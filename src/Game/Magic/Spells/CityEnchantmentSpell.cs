@@ -86,33 +86,30 @@ public partial class CityEnchantmentSpell(CustomNode owner) : CityTargetSpell(ow
         sbyte y = coordinate57.Y;
         sbyte l = coordinate57.MapLevel;
         City targetCity = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<City>();
-        bool result;
         if (targetCity is not null && ValidTargetCity(source, targetCity) && source.CanCastSpell(SpellId, ref reason))
         {
             _ = AICastSpellExpenseMade(source, BaseManaCost, ManaUpkeep, AIBudget);
             if (source.CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
             {
-                result = TargetSelected(source, x, y, l);
+                return TargetSelected(source, x, y, l);
             }
             else
             {
                 if (source.GetCastingSpellId() != SpellId)
                 {
                     _ = source.ExecuteStartCasting(SpellId);
-                    result = true;
+                    return true;
                 }
                 else
                 {
-                    result = true;
+                    return true;
                 }
             }
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // CitySpells.pas:570

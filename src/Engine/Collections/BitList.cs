@@ -92,12 +92,7 @@ public partial class BitList : Persistent
             }
         }
 
-        if (!IsEmpty(result))
-        {
-            result = Copy(result, 1, result.Length - 1);
-        }
-
-        return result;
+        return !IsEmpty(result) ? Copy(result, 1, result.Length - 1) : result;
     }
 
     // Engine.pas:4810
@@ -261,12 +256,7 @@ public partial class BitList : Persistent
             result += 1;
         }
 
-        if (result == _count)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == _count ? -1 : result;
     }
 
     // Engine.pas:4695

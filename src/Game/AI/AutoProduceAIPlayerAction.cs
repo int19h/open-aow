@@ -177,7 +177,6 @@ public partial class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerActio
     // AI.pas:1243
     public bool ExecuteProduce(ProductionControl control, int index)
     {
-        bool result = false;
         if (Control.Player.ProductionControls.IndexOf(control) != -1 && control.Status == ProductionControlStatus.Idle)
         {
             int gold = control.UnitProductionGold(index);
@@ -197,19 +196,18 @@ public partial class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerActio
                         _ = Control.Player.AIBudget.ProductionExpenseMade(unitProductionGold, unitProductionGoldUpkeep, unitProductionMana, unitProductionManaUpkeep);
                         _goldUpkeep -= goldUpkeep;
                         _manaUpkeep -= manaUpkeep;
-                        result = true;
+                        return true;
                     }
                 }
             }
         }
 
-        return result;
+        return false;
     }
 
     // AI.pas:1269
     public bool ExecuteResearch(ProductionControl control, int index)
     {
-        bool result = false;
         if (Control.Player.ProductionControls.IndexOf(control) != -1 && control.Status == ProductionControlStatus.Idle)
         {
             // { Original behavior: affordability uses production prices for research. }
@@ -222,12 +220,12 @@ public partial class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerActio
                     int unitResearchMana = control.UnitResearchMana(index);
                     int unitResearchGold = control.UnitResearchGold(index);
                     _ = Control.Player.AIBudget.ExpenseMade(unitResearchGold, unitResearchMana);
-                    result = true;
+                    return true;
                 }
             }
         }
 
-        return result;
+        return false;
     }
 
     // AI.pas:1290
@@ -244,12 +242,12 @@ public partial class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerActio
             _ = unit.Release();
             if (result <= 0)
             {
-                result = -1;
+                return -1;
             }
         }
         else
         {
-            result = -1;
+            return -1;
         }
 
         return result;

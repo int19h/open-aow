@@ -318,7 +318,7 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
     // AoWCityScreen.pas:904
     public int ActivityImage(CityAction action)
     {
-        int result = action switch
+        return action switch
         {
             CityAction.Trade => 40,
             CityAction.Upgrade => 43,
@@ -330,7 +330,6 @@ public partial class CityScreen(UIContext ui) : UIModule(ui)
             CityAction.Research => 5,
             CityAction.None or _ => 40,
         };
-        return result;
     }
 
     // AoWCityScreen.pas:919

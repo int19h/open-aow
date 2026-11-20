@@ -53,9 +53,7 @@ public partial class ProductionTokenEvent(CustomNode owner) : TokenEvent(owner)
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
         ProductionControl control = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).GetProductionControl();
-        ExecuteResult result = control is not null ? control.ExecuteProductionTokenEvent(this) : ExecuteResult.DoneHalt;
-
-        return result;
+        return control is not null ? control.ExecuteProductionTokenEvent(this) : ExecuteResult.DoneHalt;
     }
 
     // NetworkE.pas:230

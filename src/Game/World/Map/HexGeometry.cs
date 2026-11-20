@@ -12,27 +12,20 @@ public static class HexGeometry
         y = (v - h) >> 1;
     }
 
-    internal static int RadiusToHexNumber(int radius)
-    {
-        int result = radius <= 10 ? RadiusToHexNumberTable[radius] : ((radius - 1) * radius * 3) + 1;
-        return result;
-    }
+    internal static int RadiusToHexNumber(int radius) => radius <= 10 ? RadiusToHexNumberTable[radius] : ((radius - 1) * radius * 3) + 1;
 
     internal static int InverseHexNumber(int hexNumber)
     {
-        int result;
         if (hexNumber < 37)
         {
-            result = InverseHexNumberTable[hexNumber];
+            return InverseHexNumberTable[hexNumber];
         }
         else
         {
             int r = ((int)Math.Sqrt(((hexNumber - 1) * 12) + 9) + 3) / 6;
             int n = r * 6;
-            result = ((hexNumber - ((r - 1) * r * 3) - 1 + (int)(((uint)n) >> 1)) % n) + ((r - 1) * r * 3) + 1;
+            return ((hexNumber - ((r - 1) * r * 3) - 1 + (int)(((uint)n) >> 1)) % n) + ((r - 1) * r * 3) + 1;
         }
-
-        return result;
     }
 
     internal static void CenterHexNumberToHex(int hexX, int hexY, int hexNumber, ref int newHexX, ref int newHexY)
@@ -167,18 +160,15 @@ public static class HexGeometry
 
     internal static int HexNumberToRadius(int hexNumber)
     {
-        int result;
         if (hexNumber < 37)
         {
-            result = HexNumberToRadiusTable[hexNumber];
+            return HexNumberToRadiusTable[hexNumber];
         }
         else
         {
             // { the original lacks the "div 6" of InvHN and HNtoHX here }
-            result = (int)Math.Sqrt(((hexNumber - 1) * 12) + 9) + 3;
+            return (int)Math.Sqrt(((hexNumber - 1) * 12) + 9) + 3;
         }
-
-        return result;
     }
 
     internal static void HexNumberToHex(int hexNumber, ref int hexX, ref int hexY)
@@ -264,7 +254,7 @@ public static class HexGeometry
         if (dY >= dX)
         {
             bool up = (dX & 1) != 0 && ((!((x1 & 1) != 0) && y1 < y2) || (!((x2 & 1) != 0) && y2 < y1));
-            result = up ? (int)(((uint)(dX + 1)) >> 1) + dY : (int)(((uint)dX) >> 1) + dY;
+            return up ? (int)(((uint)(dX + 1)) >> 1) + dY : (int)(((uint)dX) >> 1) + dY;
         }
         else
         {
@@ -292,7 +282,7 @@ public static class HexGeometry
         if (dY >= dX)
         {
             bool up = (dX & 1) != 0 && (hexY > 0 || (!((hexX & 1) != 0) && hexY < 0));
-            result = up ? (int)(((uint)(dX + 1)) >> 1) + dY : (int)(((uint)dX) >> 1) + dY;
+            return up ? (int)(((uint)(dX + 1)) >> 1) + dY : (int)(((uint)dX) >> 1) + dY;
         }
         else
         {
@@ -321,7 +311,6 @@ public static class HexGeometry
     internal static int HexToHexNumber(int hexX, int hexY)
     {
         int r = HexToRadius(hexX, hexY);
-        int result;
         if (r != 0)
         {
             HexToHV(hexX, hexY, out int h, out int v);
@@ -377,14 +366,12 @@ public static class HexGeometry
                 }
             }
 
-            result = position + ((r - 1) * r * 3) + 1 + (side * r);
+            return position + ((r - 1) * r * 3) + 1 + (side * r);
         }
         else
         {
-            result = 0;
+            return 0;
         }
-
-        return result;
     }
 
     internal static int DeltaHexToHexNumber(int x1, int y1, int x2, int y2)
@@ -395,10 +382,9 @@ public static class HexGeometry
 
     internal static int DeltaHexToHexNumberFast(int x1, int y1, int x2, int y2)
     {
-        int result = x1 == x2
+        return x1 == x2
             ? y2 < y1 ? 1 : y2 > y1 ? 4 : 0
             : !((x1 & 1) != 0) ? x2 < x1 ? y2 < y1 ? 6 : 5 : y2 < y1 ? 2 : 3 : x2 < x1 ? y2 > y1 ? 5 : 6 : y2 > y1 ? 3 : 2;
-        return result;
     }
 
     internal static void HexToPixel(int hexX, int hexY, out int pixelX, out int pixelY)
@@ -410,11 +396,9 @@ public static class HexGeometry
     internal static int HexToHexDirection(int hexX, int hexY)
     {
         int h = HexToH(hexX, hexY);
-        int result = h > 0
+        return h > 0
             ? hexX < 0 ? 6 : HexToV(hexX, hexY) < 0 ? 1 : 2
             : h < 0 ? hexX > 0 ? 3 : HexToV(hexX, hexY) > 0 ? 4 : 5 : hexX < 0 ? 6 : hexX > 0 ? 3 : 0;
-
-        return result;
     }
 
     internal static int DeltaHexToHexDirection(int x1, int y1, int x2, int y2)

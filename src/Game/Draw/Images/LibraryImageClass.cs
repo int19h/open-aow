@@ -123,7 +123,6 @@ public sealed class LibraryImageClass
         return rectangleList;
         Rectangle FindRectangle(int X, int Y)
         {
-            Rectangle result = null;
             int k = 1;
             for (; GetPixel(X + k, Y) == transparentColor && GetPixel(X + k, Y + 1) != transparentColor && X + k < lockedSurface.Width - 1; k++)
             {
@@ -145,11 +144,11 @@ public sealed class LibraryImageClass
                     }
                     if (flag)
                     {
-                        result = new Rectangle(X + 1, Y + 1, X + k, Y + l);
+                        return new Rectangle(X + 1, Y + 1, X + k, Y + l);
                     }
                 }
             }
-            return result;
+            return null;
         }
         int GetPixel(int X, int Y)
         {

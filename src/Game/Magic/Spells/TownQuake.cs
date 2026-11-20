@@ -32,7 +32,6 @@ public partial class TownQuake : CityTargetSpell
     // CitySpells.pas:820
     protected override bool ExecuteTokenEvent(CityTargetSpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        bool result;
         City targetCity;
         if (executeCount == 0)
         {
@@ -40,7 +39,7 @@ public partial class TownQuake : CityTargetSpell
             PlayDefaultCityEffects(source, targetCity);
             targetCity.StartTownQuake();
             _ = targetCity.ValidateObservation(source.Player);
-            result = true;
+            return true;
         }
         else
         {
@@ -62,24 +61,20 @@ public partial class TownQuake : CityTargetSpell
 
                 armies?.Dispose();
                 CastingDone(source, eventValue.EventMana);
-                result = false;
+                return false;
             }
             else
             {
-                result = true;
+                return true;
             }
         }
-
-        return result;
     }
 
     // CitySpells.pas:812
     public override bool ValidTargetCity(Troop source, City targetCity)
     {
         bool result = base.ValidTargetCity(source, targetCity);
-        result = result && !targetCity.Enchantments.Contains(CityEnchantmentId.AntiMagicShell);
-
-        return result;
+        return result && !targetCity.Enchantments.Contains(CityEnchantmentId.AntiMagicShell);
     }
 
     // CitySpells.pas:773

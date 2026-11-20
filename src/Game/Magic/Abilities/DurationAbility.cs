@@ -32,7 +32,7 @@ public partial class DurationAbility(CustomNode owner) : AdjustableAbility(owner
                         byte duration = GetDuration(owner);
                         int totalDuration = GetTotalDuration();
                         string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.DurationDaysFormat), [IntToStr(duration), IntToStr(totalDuration)]);
-                        result = $"{result} {format}";
+                        return $"{result} {format}";
                     }
 
                     break;
@@ -40,13 +40,11 @@ public partial class DurationAbility(CustomNode owner) : AdjustableAbility(owner
                     byte duration2 = GetDuration(owner);
                     int totalDuration2 = GetTotalDuration();
                     string formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.DurationCombatTurnFormat), [IntToStr(duration2), IntToStr(totalDuration2)]);
-                    result = $"{base.GetName(owner)} {formattedText}";
-                    break;
+                    return $"{base.GetName(owner)} {formattedText}";
                 case DurationMode.EntireCombat:
                     string name = base.GetName(owner);
                     string durationEntireCombat = AbilityRules.TranslateResourceString(GetEngine(), GameText.DurationEntireCombatText);
-                    result = $"{name} {durationEntireCombat}";
-                    break;
+                    return $"{name} {durationEntireCombat}";
                 case DurationMode.None:
                 default:
                     break;
@@ -55,7 +53,7 @@ public partial class DurationAbility(CustomNode owner) : AdjustableAbility(owner
         else
         {
             // { Original leaves the string untouched for dmNone and a nonnil owner. }
-            result = base.GetName(owner);
+            return base.GetName(owner);
         }
 
         return result;
@@ -109,7 +107,7 @@ public partial class DurationAbility(CustomNode owner) : AdjustableAbility(owner
             };
             SetAbility(owner, AbilityId, 1);
             owner.AddAbilityData(data);
-            result = true;
+            return true;
         }
         else
         {
@@ -167,9 +165,7 @@ public partial class DurationAbility(CustomNode owner) : AdjustableAbility(owner
     public virtual byte GetDuration(AbilityOwner abilityOwner)
     {
         DurationAbilityData data = GetData(abilityOwner);
-        byte result = data is not null ? data.Duration : (byte)0;
-
-        return result;
+        return data is not null ? data.Duration : (byte)0;
     }
 
     // AoWAb.PAS:35

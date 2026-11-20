@@ -30,52 +30,45 @@ public partial class ArmyNegotiateMoveTokenEvent(CustomNode owner) : MoveArmyTok
     // MoveT.PAS:2442
     public override bool Animating()
     {
-        bool result;
         if (MoveIndex == 1)
         {
             if (ArmyHexSprite.GetMoveStatus() != -1)
             {
                 // { Process the negotiate or ordinary move animation. }
                 // { Evaluate the map field directly. }
-                result = GetMapField(Path[0].Location).GetMoveAction(ArmyHexSprite.Army.Player) == MoveAction.Negotiate
+                return GetMapField(Path[0].Location).GetMoveAction(ArmyHexSprite.Army.Player) == MoveAction.Negotiate
                     ? ArmyHexSprite.GetMoveStatus() < 50
                     : ArmyHexSprite.GetMoveStatus() < 100;
             }
             else
             {
-                result = false;
+                return false;
             }
         }
         else
         {
-            result = base.Animating();
+            return base.Animating();
         }
-
-        return result;
     }
 
     // MoveT.PAS:2407
     public override bool CanMoveNext()
     {
-        bool result;
         if (MoveIndex == 1)
         {
             // { Evaluate the map field directly. }
-            result = GetMapField(Path[0].Location).GetMoveAction(ArmyHexSprite.Army.Player) == MoveAction.Negotiate || base.CanMoveNext();
+            return GetMapField(Path[0].Location).GetMoveAction(ArmyHexSprite.Army.Player) == MoveAction.Negotiate || base.CanMoveNext();
         }
         else
         {
             // { Otherwise retain the successful negotiation test. }
-            result = base.CanMoveNext();
+            return base.CanMoveNext();
         }
-
-        return result;
     }
 
     // MoveT.PAS:2419
     public override MoveStatus ExecuteMove()
     {
-        MoveStatus result;
         if (MoveIndex == 1)
         {
             MapField field = GetMapField(Path[0].Location);
@@ -101,19 +94,17 @@ public partial class ArmyNegotiateMoveTokenEvent(CustomNode owner) : MoveArmyTok
                 PathStep item2 = Path[0];
                 PathStep item3 = Path[0];
                 NegotiateArmy(ArmyHexSprite.Army.Player, ArmyHexSprite, Selection, item.Location.X, fPathItem.Location.Y, item2.Location.MapLevel, item3.MoveCost);
-                result = MoveStatus.Done;
+                return MoveStatus.Done;
             }
             else
             {
-                result = base.ExecuteMove();
+                return base.ExecuteMove();
             }
         }
         else
         {
-            result = base.ExecuteMove();
+            return base.ExecuteMove();
         }
-
-        return result;
     }
 
     private static void NegotiateArmy(sbyte player, ArmyHexSprite armyHexSprite, byte selection, sbyte X, sbyte Y, sbyte L, int movePoints)

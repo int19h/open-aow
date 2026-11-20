@@ -69,20 +69,17 @@ public partial class CustomImageLibrary : Component
     // ImageLib.pas:9723
     internal string GetFullFileName()
     {
-        string result;
         if (!IsEmpty(_fileName))
         {
             string path = ImageLibraries.BaseImageLibraryPath;
 
             string drive = ExtractFileDrive(_fileName);
-            result = IsEmpty(drive) || drive == ExtractFileDrive(path) ? ExpandFileName(path + _fileName) : _fileName;
+            return IsEmpty(drive) || drive == ExtractFileDrive(path) ? ExpandFileName(path + _fileName) : _fileName;
         }
         else
         {
-            result = "";
+            return "";
         }
-
-        return result;
     }
 
     // ImageLib.pas:9743
@@ -517,12 +514,12 @@ public partial class CustomImageLibrary : Component
             if (!result)
             {
                 int r = Images[index].Reference;
-                result = r >= 0 && r < _count && Images[r].Image is not null;
+                return r >= 0 && r < _count && Images[r].Image is not null;
             }
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;
@@ -648,12 +645,7 @@ public partial class CustomImageLibrary : Component
             result += 1;
         }
 
-        if (result == _count)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == _count ? -1 : result;
     }
 
     // ImageLib.pas:10218
@@ -673,7 +665,7 @@ public partial class CustomImageLibrary : Component
         }
         else
         {
-            result = null;
+            return null;
         }
 
         return result;
@@ -751,9 +743,7 @@ public partial class CustomImageLibrary : Component
     public int GetSubCount(int index)
     {
         LibraryImage image = GetSafe(index);
-        int result = image is ImageNode node ? node.Count : image is not null ? 1 : -1;
-
-        return result;
+        return image is ImageNode node ? node.Count : image is not null ? 1 : -1;
     }
 
     // ImageLib.pas:10291
@@ -769,20 +759,16 @@ public partial class CustomImageLibrary : Component
             }
         }
 
-        LibraryImage result = image is ImageNode node ? node.Images[subIndex] : image is not null && subIndex == 0 ? image : null;
-
-        return result;
+        return image is ImageNode node ? node.Images[subIndex] : image is not null && subIndex == 0 ? image : null;
     }
 
     // ImageLib.pas:10314
     public LibraryImage GetSafeSub(int index, int subIndex)
     {
         LibraryImage image = GetSafe(index);
-        LibraryImage result = image is ImageNode node
+        return image is ImageNode node
             ? node.GetSafeImage(subIndex)
             : image is not null && subIndex == 0 ? image : null;
-
-        return result;
     }
 
     // ImageLib.pas:10332
@@ -808,7 +794,7 @@ public partial class CustomImageLibrary : Component
             }
             else
             {
-                result = null;
+                return null;
             }
         }
         else if (result is not null)
@@ -821,7 +807,7 @@ public partial class CustomImageLibrary : Component
             }
             else
             {
-                result = null;
+                return null;
             }
         }
 
@@ -927,16 +913,16 @@ public partial class CustomImageLibrary : Component
                 old?.Dispose();
                 Images[index].Image = null;
                 SetModified(true);
-                result = 0;
+                return 0;
             }
             else
             {
-                result = -1;
+                return -1;
             }
         }
         else
         {
-            result = -1;
+            return -1;
         }
 
         return result;
@@ -946,9 +932,7 @@ public partial class CustomImageLibrary : Component
     public int IndexOfSub(int index, LibraryImage image)
     {
         LibraryImage old = Images[index].Image;
-        int result = old is ImageNode node ? node.IndexOf(image) : old is not null && old == image ? 0 : -1;
-
-        return result;
+        return old is ImageNode node ? node.IndexOf(image) : old is not null && old == image ? 0 : -1;
     }
 
     // ImageLib.pas:10483
@@ -1004,9 +988,7 @@ public partial class CustomImageLibrary : Component
     public bool SubImageExist(int index, int subIndex)
     {
         LibraryImage image = Images[index].Image;
-        bool result = image is not null && subIndex >= 0 && (image is ImageNode node ? subIndex < node.Count : subIndex == 0);
-
-        return result;
+        return image is not null && subIndex >= 0 && (image is ImageNode node ? subIndex < node.Count : subIndex == 0);
     }
 
     public int Count { get => _count; set => SetCount(value); }

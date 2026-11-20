@@ -123,19 +123,15 @@ public partial class HealingShowersTokenEvent(CustomNode owner) : GlobalTargetSp
                 _ = GamePack.Current.AbilityControl.GetAbility(47).SfxLibrary.Play(0);
             }
         }
-
-        bool result;
         if (value == 80)
         {
             _animation?.Dispose();
-            result = false;
+            return false;
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // GlobalTargetSpells.pas:2141

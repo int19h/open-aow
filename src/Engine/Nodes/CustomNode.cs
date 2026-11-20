@@ -248,9 +248,7 @@ public abstract partial class CustomNode : EngineObject, IOwner
             i += 1;
         }
 
-        EngineObject result = found ? c : null;
-
-        return result;
+        return found ? c : null;
     }
 
     // The class id selects the child. A child of another class throws, the same way the call site did.
@@ -269,9 +267,7 @@ public abstract partial class CustomNode : EngineObject, IOwner
             i += 1;
         }
 
-        EngineObject result = found ? c : null;
-
-        return result;
+        return found ? c : null;
     }
 
     // The class id selects the child. A child of another class throws, the same way the call site did.

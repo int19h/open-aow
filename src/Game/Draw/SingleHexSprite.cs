@@ -113,19 +113,16 @@ public partial class SingleHexSprite(CustomNode owner) : HexSprite(owner)
     // HXSPRITE.PAS:757
     public virtual bool PlaceHex(MapContainer map, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        bool result;
         if (GetEditMode() || CanPlace(map, hexX, hexY, hexLevel))
         {
             Remove();
             SetOwner(map.GetField(hexX, hexY, hexLevel));
-            result = PlaceOnMap();
+            return PlaceOnMap();
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // HXSPRITE.PAS:699

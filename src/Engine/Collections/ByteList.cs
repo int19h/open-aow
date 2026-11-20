@@ -20,11 +20,7 @@ public partial class ByteList : Persistent
     private int _capacity;
 
     // Engine.pas:3678
-    internal byte Get(int index)
-    {
-        byte result = index < 0 || index >= _count ? Default : _list[index];
-        return result;
-    }
+    internal byte Get(int index) => index < 0 || index >= _count ? Default : _list[index];
 
     // Engine.pas:3732
     internal void Put(int index, byte item)
@@ -87,12 +83,7 @@ public partial class ByteList : Persistent
             result = $"{result}{IntToStr(_list[i])},";
         }
 
-        if (!IsEmpty(result))
-        {
-            result = Copy(result, 1, result.Length - 1);
-        }
-
-        return result;
+        return !IsEmpty(result) ? Copy(result, 1, result.Length - 1) : result;
     }
 
     // Engine.pas:3894
@@ -227,12 +218,7 @@ public partial class ByteList : Persistent
             result += 1;
         }
 
-        if (result == _count)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result == _count ? -1 : result;
     }
 
     // Engine.pas:3703
@@ -348,7 +334,7 @@ public partial class ByteList : Persistent
         }
         else
         {
-            result = -1;
+            return -1;
         }
 
         return result;

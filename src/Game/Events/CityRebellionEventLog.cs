@@ -40,9 +40,7 @@ public partial class CityRebellionEventLog(CustomNode owner) : EventLog(owner)
         bool showEvent = trigger == ExecuteTrigger.User;
         showEvent = showEvent || (StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Rebellion));
         showEvent = showEvent || (StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.Rebellion));
-        bool result = showEvent && base.Execute(mode, trigger, done);
-
-        return result;
+        return showEvent && base.Execute(mode, trigger, done);
     }
 
     // City.pas:2694

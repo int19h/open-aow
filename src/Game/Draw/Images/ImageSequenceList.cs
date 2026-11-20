@@ -36,12 +36,7 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
             }
         }
 
-        if (!IsEmpty(result))
-        {
-            result = Copy(result, 1, result.Length - 1);
-        }
-
-        return result;
+        return !IsEmpty(result) ? Copy(result, 1, result.Length - 1) : result;
     }
 
     // ImageLib.pas:8928
@@ -140,11 +135,7 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
         throw new NotImplementedException();
 
     // ImageLib.pas:9044
-    public ImageSequence GetImageSequence(int index)
-    {
-        ImageSequence result = index >= 0 && index < Count ? List[index] : null;
-        return result;
-    }
+    public ImageSequence GetImageSequence(int index) => index >= 0 && index < Count ? List[index] : null;
 
     // ImageLib.pas:9052
     public void SetImageSequence(int index, ImageSequence value)
@@ -190,12 +181,7 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
             result += 1;
         }
 
-        if (s is null)
-        {
-            result = -1;
-        }
-
-        return result;
+        return s is null ? -1 : result;
     }
 
     // ImageLib.pas:9093

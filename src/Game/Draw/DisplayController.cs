@@ -124,7 +124,7 @@ public partial class DisplayController(Component owner) : Component(owner)
         }
         else
         {
-            result = DisplayControllerError.Failed;
+            return DisplayControllerError.Failed;
         }
 
         return result;
@@ -159,11 +159,7 @@ public partial class DisplayController(Component owner) : Component(owner)
     public virtual Matrix GetInverseMatrix() => _inverseMatrix;
 
     // DisplayC.pas:639
-    public virtual int GetSurfaceCount()
-    {
-        int result = GetDisplay() is null ? 0 : (int)GetDisplay().BufferingScheme;
-        return result;
-    }
+    public virtual int GetSurfaceCount() => GetDisplay() is null ? 0 : (int)GetDisplay().BufferingScheme;
 
     // DisplayC.pas:647
     public virtual DisplayControllerError BlitSurface(int index)
@@ -179,12 +175,7 @@ public partial class DisplayController(Component owner) : Component(owner)
         Rect? primarySurfaceRegion = GetPrimarySurfaceRegion();
         Surface surface = GetSurface(0);
         DisplayControllerError result = (DisplayControllerError)GetSurface(index).BlitStretch(surface, default, primarySurfaceRegion);
-        if (result.IsSuccess())
-        {
-            result = DisplayControllerError.NoFlip;
-        }
-
-        return result;
+        return result.IsSuccess() ? DisplayControllerError.NoFlip : result;
     }
 
     // DisplayC.pas:660
@@ -217,41 +208,35 @@ public partial class DisplayController(Component owner) : Component(owner)
     // DisplayC.pas:734
     public virtual DisplayControllerError Activate(CustomDisplay display)
     {
-        DisplayControllerError result;
         if (!Status.Contains(DisplayControllerStatusElement.Activated))
         {
             _display = display;
             Status += Set<DisplayControllerStatusElement>.Of(DisplayControllerStatusElement.Activated);
             _display.CurrentFrameRate = _display.FrameRate;
             InvalidateAll();
-            result = DisplayControllerError.Ok;
+            return DisplayControllerError.Ok;
         }
         else
         {
-            result = DisplayControllerError.Activated;
+            return DisplayControllerError.Activated;
         }
-
-        return result;
     }
 
     // DisplayC.pas:748
     public virtual DisplayControllerError Deactivate()
     {
-        DisplayControllerError result;
         if (Status.Contains(DisplayControllerStatusElement.Activated))
         {
             Status -= Set<DisplayControllerStatusElement>.Of(DisplayControllerStatusElement.Activated);
             _ = (_display?.DeactivateDisplayController());
-
-            result = DisplayControllerError.Ok;
             _display = null;
         }
         else
         {
-            result = DisplayControllerError.NotActivated;
+            return DisplayControllerError.NotActivated;
         }
 
-        return result;
+        return DisplayControllerError.Ok;
     }
 
     // DisplayC.pas:762
@@ -330,7 +315,6 @@ public partial class DisplayController(Component owner) : Component(owner)
     {
         // P and Q are indexes into Matrix.FData.
         int p = X + (matrix.Width * Y);
-        int result;
         if (matrix.Data[p] != 0)
         {
             int h1 = 0;
@@ -392,19 +376,17 @@ public partial class DisplayController(Component owner) : Component(owner)
             {
                 bw = w2;
                 bh = h2;
-                result = size2;
+                return size2;
             }
             else
             {
-                result = size1;
+                return size1;
             }
         }
         else
         {
-            result = 0;
+            return 0;
         }
-
-        return result;
     }
 
     // DisplayC.pas:964

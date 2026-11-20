@@ -7,26 +7,23 @@ internal static class DurationText
 {
     internal static string FormatTurnsLeftString(GameEngine engine, int turns)
     {
-        string result = turns == 1
+        return turns == 1
             ? AbilityRules.Format(engine.TranslateResourceString(GameText.TurnLeftFormat), [(byte)49])
             : AbilityRules.Format(engine.TranslateResourceString(GameText.TurnsLeftFormat), [IntToStr(turns)]);
-        return result;
     }
 
     internal static string FormatDaysString(GameEngine engine, int days)
     {
-        string result = days == 1
+        return days == 1
             ? AbilityRules.Format(engine.TranslateResourceString(GameText.DayFormat), [(byte)49])
             : AbilityRules.Format(engine.TranslateResourceString(GameText.DaysFormat), [IntToStr(days)]);
-        return result;
     }
 
     internal static string FormatDaysLeftString(GameEngine engine, int days)
     {
-        string result = days == 1
+        return days == 1
             ? AbilityRules.Format(engine.TranslateResourceString(GameText.DayLeftFormat), [(byte)49])
             : AbilityRules.Format(engine.TranslateResourceString(GameText.DaysLeftFormat), [IntToStr(days)]);
-        return result;
     }
 
 }

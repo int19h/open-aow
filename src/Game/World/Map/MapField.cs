@@ -108,9 +108,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
             i += 1;
         }
 
-        EngineObject result = i < StoredCount ? _hexSpriteList[i] : (EngineObject)null;
-
-        return result;
+        return i < StoredCount ? _hexSpriteList[i] : (EngineObject)null;
     }
 
     // HSEngine.pas:2211
@@ -122,9 +120,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
             i += 1;
         }
 
-        EngineObject result = i < StoredCount ? _hexSpriteList[i] : (EngineObject)null;
-
-        return result;
+        return i < StoredCount ? _hexSpriteList[i] : (EngineObject)null;
     }
 
     // HSEngine.pas:1938
@@ -142,9 +138,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
             i += 1;
         }
 
-        HexSprite result = i < StoredCount ? _hexSpriteList[i] : null;
-
-        return result;
+        return i < StoredCount ? _hexSpriteList[i] : null;
     }
 
     // The kind selects the sprite. A sprite of another kind throws, the same way the call site did.
@@ -445,21 +439,18 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     // AoWHSMap.PAS:90
     public sbyte GetPlayer()
     {
-        sbyte result;
         MapFieldMessage message = default;
         if ((FieldFlags & OwnerFlag) != 0)
         {
             message.MessageId = 4352;
             message.Result = -1;
             SendMapFieldMessage(ref message);
-            result = (sbyte)message.Result.Int;
+            return (sbyte)message.Result.Int;
         }
         else
         {
-            result = -1;
+            return -1;
         }
-
-        return result;
     }
 
     // AoWHSMap.PAS:103
@@ -629,12 +620,12 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
 
             if (result < 0)
             {
-                result = 0;
+                return 0;
             }
         }
         else
         {
-            result = 0;
+            return 0;
         }
 
         return result;

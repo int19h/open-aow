@@ -20,21 +20,18 @@ public partial class LocalPlayerCommunicationControl(EngineObject creator) : Pla
     // NetworkE.pas:724
     public override bool ReceivePackageData(MemoryStream stream)
     {
-        bool result;
         if (PackageDataList.Count != 0)
         {
             stream.SetLength(PackageDataList.PackageData[0].Length);
             int size = (int)stream.Length;
             Move(PackageDataList.PackageData[0].GetBuffer().AsSpan(0, size), stream.GetBuffer().AsSpan(0, size), size);
             PackageDataList.Delete(0);
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // NetworkE.pas:737

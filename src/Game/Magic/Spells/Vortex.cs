@@ -37,7 +37,6 @@ public partial class Vortex : GlobalTargetSpell
     // GlobalTargetSpells.pas:2100
     public override bool TargetSelected(Troop source, int X, int Y, int L)
     {
-        bool result;
         if (!StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             VortexTokenEvent eventValue = new(null) { Holder = CreationHolder() };
@@ -52,31 +51,26 @@ public partial class Vortex : GlobalTargetSpell
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             // Original queues through AddEvent
             _ = eventValue.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // GlobalTargetSpells.pas:2077
     public override bool ValidTargetSelection(TargetSelectionControl targetSelection)
     {
-        bool result;
         if (targetSelection.Target.X != -1)
         {
             MapField mapField = StrategicMap.Current.MapContainer.MapLevels[targetSelection.Target.MapLevel].GetField(targetSelection.Target.X, targetSelection.Target.Y);
-            result = Set<byte>.WithBounds(0, 255).With(0).With(10).Contains((byte)mapField.TerrainType);
+            return Set<byte>.WithBounds(0, 255).With(0).With(10).Contains((byte)mapField.TerrainType);
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // GlobalTargetSpells.pas:2088

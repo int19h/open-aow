@@ -38,7 +38,6 @@ public static class AudioPlayback
 
     public static bool InitializeSoundSystem(string name, in SoundSettings settings)
     {
-        bool result = true;
         SoundSystemClass c = IsEmpty(name) ? AudioHost.SoundSystems.Count != 0 ? AudioHost.SoundSystems[0] : null : AudioHost.SoundSystems.Find(name);
 
         if (c is not null)
@@ -53,15 +52,15 @@ public static class AudioPlayback
             {
                 AudioHost.SoundSystem?.Dispose();
                 AudioHost.SoundSystem = null;
-                result = false;
+                return false;
             }
         }
         else
         {
-            result = false;
+            return false;
         }
 
-        return result;
+        return true;
     }
 
     public static void ReleaseSoundSystem()
@@ -81,29 +80,13 @@ public static class AudioPlayback
 
     internal static void SetSfxVolume(int volume) => AudioHost.SoundSystem?.SetSfxVolume(volume);
 
-    internal static int GetSfxVolume()
-    {
-        int result = AudioHost.SoundSystem is not null ? AudioHost.SoundSystem.GetSfxVolume() : -1;
-        return result;
-    }
+    internal static int GetSfxVolume() => AudioHost.SoundSystem is not null ? AudioHost.SoundSystem.GetSfxVolume() : -1;
 
-    internal static bool GetSfxEnabled()
-    {
-        bool result = AudioHost.SoundSystem is not null && AudioHost.SoundSystem.GetSfxEnabled();
-        return result;
-    }
+    internal static bool GetSfxEnabled() => AudioHost.SoundSystem is not null && AudioHost.SoundSystem.GetSfxEnabled();
 
-    internal static SoundSettings GetSoundSettings()
-    {
-        SoundSettings result = AudioHost.SoundSystem is not null ? AudioHost.SoundSystem.GetSoundSettings() : default;
-        return result;
-    }
+    internal static SoundSettings GetSoundSettings() => AudioHost.SoundSystem is not null ? AudioHost.SoundSystem.GetSoundSettings() : default;
 
-    internal static SongStatus BackupSongStatus()
-    {
-        SongStatus result = AudioHost.SoundSystem?.BackupSongStatus();
-        return result;
-    }
+    internal static SongStatus BackupSongStatus() => AudioHost.SoundSystem?.BackupSongStatus();
 
     internal static string GetSongName(string fileName)
     {
@@ -118,14 +101,14 @@ public static class AudioPlayback
             {
                 _ = stream.Seek(4, SeekOrigin.Begin);
                 stream.ReadExactly(title);
-                result = StrPasBuffer(title);
+                return StrPasBuffer(title);
             }
             else
             {
                 if (ext == ".S3M")
                 {
                     stream.ReadExactly(title);
-                    result = StrPasBuffer(title);
+                    return StrPasBuffer(title);
                 }
                 else
                 {
@@ -133,7 +116,7 @@ public static class AudioPlayback
                     int p = Pos(".", result);
                     if (p != 0)
                     {
-                        result = Copy(result, 1, p - 1);
+                        return Copy(result, 1, p - 1);
                     }
                 }
             }
@@ -163,17 +146,9 @@ public static class AudioPlayback
 
     internal static void SetMusicVolume(int volume) => AudioHost.SoundSystem?.SetMusicVolume(volume);
 
-    internal static int GetMusicVolume()
-    {
-        int result = AudioHost.SoundSystem is not null ? AudioHost.SoundSystem.GetMusicVolume() : -1;
-        return result;
-    }
+    internal static int GetMusicVolume() => AudioHost.SoundSystem is not null ? AudioHost.SoundSystem.GetMusicVolume() : -1;
 
-    internal static bool GetMusicEnabled()
-    {
-        bool result = AudioHost.SoundSystem is not null && AudioHost.SoundSystem.GetMusicEnabled();
-        return result;
-    }
+    internal static bool GetMusicEnabled() => AudioHost.SoundSystem is not null && AudioHost.SoundSystem.GetMusicEnabled();
 
     internal static Sample PlaySample(string name)
     {
@@ -198,12 +173,12 @@ public static class AudioPlayback
             }
             catch
             {
-                result = null;
+                return null;
             }
         }
         else
         {
-            result = null;
+            return null;
         }
 
         return result;
@@ -237,39 +212,23 @@ public static class AudioPlayback
             }
             catch
             {
-                result = null;
+                return null;
             }
         }
         else
         {
-            result = null;
+            return null;
         }
 
         return result;
     }
 
-    internal static bool PlaySong(string fileName)
-    {
-        bool result = AudioHost.SoundSystem is not null && AudioHost.SoundSystem.PlaySong(fileName);
-        return result;
-    }
+    internal static bool PlaySong(string fileName) => AudioHost.SoundSystem is not null && AudioHost.SoundSystem.PlaySong(fileName);
 
-    internal static bool PlaySong(string fileName, int fadeOut, int fadeIn, bool loop)
-    {
-        bool result = AudioHost.SoundSystem is not null && AudioHost.SoundSystem.PlaySong(fileName, fadeOut, fadeIn, loop);
-        return result;
-    }
+    internal static bool PlaySong(string fileName, int fadeOut, int fadeIn, bool loop) => AudioHost.SoundSystem is not null && AudioHost.SoundSystem.PlaySong(fileName, fadeOut, fadeIn, loop);
 
-    internal static SampleData CreateSampleData(string name)
-    {
-        SampleData result = AudioHost.SoundSystem?.SampleDataClass().CreateInstance(name);
-        return result;
-    }
+    internal static SampleData CreateSampleData(string name) => AudioHost.SoundSystem?.SampleDataClass().CreateInstance(name);
 
-    public static SampleData CreateSampleData(ReadOnlySpan<WaveFormat> format, object data, int size)
-    {
-        SampleData result = AudioHost.SoundSystem?.SampleDataClass().CreateInstance(format[0], data, size);
-        return result;
-    }
+    public static SampleData CreateSampleData(ReadOnlySpan<WaveFormat> format, object data, int size) => AudioHost.SoundSystem?.SampleDataClass().CreateInstance(format[0], data, size);
 
 }

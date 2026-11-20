@@ -50,18 +50,15 @@ public partial class PageTurnControl
     public float GetInverseCos(float value)
     {
         Assert((double)value is >= -1 and <= 1, "", "PageTurnCtrl.pas", 85);
-        float result;
         if ((double)value >= 0)
         {
-            result = _inverseCos[Round((double)value * 511)];
+            return _inverseCos[Round((double)value * 511)];
         }
         else
         {
             double pi = Math.PI;
-            result = (float)((double)pi - _inverseCos[Round((double)-value * 511)]);
+            return (float)((double)pi - _inverseCos[Round((double)-value * 511)]);
         }
-
-        return result;
     }
 
     // PageTurnCtrl.pas:90
@@ -162,7 +159,6 @@ public partial class PageTurnControl
     // PageTurnCtrl.pas:164
     public bool UpdateScene()
     {
-        bool result;
         switch (_mode)
         {
             case PageTurnMode.Left:
@@ -190,8 +186,7 @@ public partial class PageTurnControl
                     }
                 }
 
-                result = (double)_radius >= 1;
-                break;
+                return (double)_radius >= 1;
             case PageTurnMode.Right:
                 _shade = 2;
                 if ((double)_radius < _halfWidth)
@@ -214,8 +209,7 @@ public partial class PageTurnControl
                     }
                 }
 
-                result = _position < _width;
-                break;
+                return _position < _width;
             case PageTurnMode.Open:
                 _position += Speed;
                 if (_position > 180)
@@ -223,8 +217,7 @@ public partial class PageTurnControl
                     _position = 180;
                 }
 
-                result = _position < 180;
-                break;
+                return _position < 180;
             case PageTurnMode.Close:
                 _position -= Speed;
                 if (_position < 0)
@@ -232,14 +225,10 @@ public partial class PageTurnControl
                     _position = 0;
                 }
 
-                result = _position > 0;
-                break;
+                return _position > 0;
             default:
-                result = false;
-                break;
+                return false;
         }
-
-        return result;
     }
 
     // PageTurnCtrl.pas:215

@@ -71,22 +71,16 @@ public partial class ArmyEventLog : EventLog
     public override string GetText() => ArmyText;
 
     // Army.PAS:174
-    public override int GetLeftIcon()
-    {
-        int result = ArmyView.Player > 0 ? StrategicMap.Current.Players.GetPlayers(ArmyView.Player).PlayerRace : 12;
-        return result;
-    }
+    public override int GetLeftIcon() => ArmyView.Player > 0 ? StrategicMap.Current.Players.GetPlayers(ArmyView.Player).PlayerRace : 12;
 
     // Army.PAS:218
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
-        bool result = false;
         switch (trigger)
         {
             case ExecuteTrigger.User:
                 StrategicMap.Current.TriggerExecuteEventLog(this, false, done);
-                result = true;
-                break;
+                return true;
             case ExecuteTrigger.Event:
             case ExecuteTrigger.NewTurn:
                 bool showEvent = false;
@@ -100,7 +94,7 @@ public partial class ArmyEventLog : EventLog
                 if (showEvent)
                 {
                     StrategicMap.Current.TriggerExecuteEventLog(this, false, done);
-                    result = true;
+                    return true;
                 }
 
                 break;
@@ -108,7 +102,7 @@ public partial class ArmyEventLog : EventLog
                 break;
         }
 
-        return result;
+        return false;
     }
 
     // Army.PAS:248

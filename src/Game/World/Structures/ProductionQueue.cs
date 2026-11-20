@@ -18,11 +18,7 @@ public partial class ProductionQueue(CustomNode owner) : OwningNode(owner), IChi
     public ProductionControl ProductionControl { get; init; }
 
     // Structur.PAS:83
-    public ProductionItem GetItem(int index)
-    {
-        ProductionItem result = index >= 0 && index < Count ? this[index] : null;
-        return result;
-    }
+    public ProductionItem GetItem(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // Structur.PAS:89
     public int IndexOfId(int id)

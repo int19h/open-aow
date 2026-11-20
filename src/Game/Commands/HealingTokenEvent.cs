@@ -35,7 +35,6 @@ public partial class HealingTokenEvent(CustomNode owner) : TokenEvent(owner)
         _ = base.Execute(tokenEvent);
         Troop source = StrategicMap.Current.UnitControl.FindUnit(SourceId);
         Troop target = StrategicMap.Current.UnitControl.FindUnit(TargetId);
-        ExecuteResult result;
         if (source is not null && (byte)source.Player == SourcePlayer && target is not null && (byte)target.Player == TargetPlayer)
         {
             HealingAbility ability = GamePack.Current.AbilityControl.GetAbility<HealingAbility>(47);
@@ -61,14 +60,12 @@ public partial class HealingTokenEvent(CustomNode owner) : TokenEvent(owner)
                 }
             }
 
-            result = ExecuteResult.Done;
+            return ExecuteResult.Done;
         }
         else
         {
-            result = ExecuteResult.DoneHalt;
+            return ExecuteResult.DoneHalt;
         }
-
-        return result;
     }
 
     // NetworkE.pas:230

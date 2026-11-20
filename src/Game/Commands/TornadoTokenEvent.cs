@@ -69,8 +69,6 @@ public partial class TornadoTokenEvent(CustomNode owner) : GlobalTargetSpellToke
             _animation.Tag = (StrategicMap.Current.ViewWidth & 65535) | (StrategicMap.Current.ViewHeight << 16);
             _animation.Activate();
         }
-
-        bool result;
         if (value == 80)
         {
             MapField mapField = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
@@ -192,14 +190,12 @@ public partial class TornadoTokenEvent(CustomNode owner) : GlobalTargetSpellToke
             }
 
             _animation?.Dispose();
-            result = false;
+            return false;
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // GlobalTargetSpells.pas:1599

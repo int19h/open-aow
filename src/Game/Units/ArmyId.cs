@@ -48,12 +48,12 @@ public partial class ArmyId(CustomNode owner) : EngineObject(owner)
             }
             else
             {
-                result = false;
+                return false;
             }
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;

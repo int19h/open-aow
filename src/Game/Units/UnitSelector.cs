@@ -67,18 +67,15 @@ public partial class UnitSelector : IDisposable
     // Ability.PAS:623
     public virtual bool CanSelect(ref string error)
     {
-        bool result;
         if (Selection == 0)
         {
             error = AbilityRules.TranslateResourceString(Creator.GetEngine(), GameText.NoUnitSelectedText);
-            result = false;
+            return false;
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // Ability.PAS:651

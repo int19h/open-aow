@@ -373,12 +373,12 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
 
             if (!found)
             {
-                result = -1;
+                return -1;
             }
         }
         else
         {
-            result = -1;
+            return -1;
         }
 
         return result;

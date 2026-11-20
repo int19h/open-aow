@@ -96,15 +96,12 @@ public partial class AIGroupDefendTargetSelector : AIGroupTask
                     Done();
                 }
 
-                result = false;
-                break;
+                return false;
             case 2:
                 Done();
-                result = false;
-                break;
+                return false;
             default:
-                result = false;
-                break;
+                return false;
         }
 
         return result;
@@ -156,7 +153,7 @@ public partial class AIGroupDefendTargetSelector : AIGroupTask
         }
         else
         {
-            result = 0;
+            return 0;
         }
 
         return result;

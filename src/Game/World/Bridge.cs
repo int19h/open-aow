@@ -300,11 +300,7 @@ public partial class Bridge(CustomNode owner) : AbstractRoad(owner)
         }
 
         // Bridge.pas:253
-        public override EditorClass Editor()
-        {
-            EditorClass result = Engine.Editors.FindEditor(131445) ?? base.Editor();
-            return result;
-        }
+        public override EditorClass Editor() => Engine.Editors.FindEditor(131445) ?? base.Editor();
 
         // Bridge.pas:259
         public override void MessageProc(ref EngineMessage message, EngineObject sender)

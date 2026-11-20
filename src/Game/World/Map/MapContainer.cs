@@ -117,7 +117,6 @@ public partial class MapContainer(CustomNode owner) : OwningNode(owner), IChildL
     public virtual bool AddLevel(int classId)
     {
         EngineClass levelClass = _engine.GetEngineClass(classId);
-        bool result;
         if (levelClass is not null)
         {
             MapLevel level = levelClass.Create<MapLevel>(this, holder: CreationHolder());
@@ -125,14 +124,12 @@ public partial class MapContainer(CustomNode owner) : OwningNode(owner), IChildL
             _engine.ActivateEngineObject(level);
             level.CreateMapFieldList(Width, Height);
             LevelCount += 1;
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // HSEngine.pas:3277

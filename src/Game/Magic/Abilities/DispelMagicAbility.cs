@@ -34,24 +34,20 @@ public partial class DispelMagicAbility : TouchAbility
     public override string GetName(AbilityOwner owner)
     {
         string result = GetLevelName(GetLevel(owner));
-        if (owner is not null && !GetEnabled(owner))
-        {
-            result = $"{result} ({LowerCase(AbilityRules.TranslateResourceString(GetEngine(), GameText.UsedText))})";
-        }
-
-        return result;
+        return owner is not null && !GetEnabled(owner)
+            ? $"{result} ({LowerCase(AbilityRules.TranslateResourceString(GetEngine(), GameText.UsedText))})"
+            : result;
     }
 
     // AoWAb.PAS:4096
     public override int GetLevel(AbilityOwner owner)
     {
-        int result;
         if (owner is not null)
         {
             if (owner.GetAbilitySetAt(60))
             {
                 DispelMagicAbilityData data = GetData(owner);
-                result = data is not null ? data.Level : 1;
+                return data is not null ? data.Level : 1;
             }
             else
             {
@@ -60,10 +56,8 @@ public partial class DispelMagicAbility : TouchAbility
         }
         else
         {
-            result = 0;
+            return 0;
         }
-
-        return result;
     }
 
     // AoWAb.PAS:4064
@@ -73,7 +67,7 @@ public partial class DispelMagicAbility : TouchAbility
         if (result)
         {
             DispelMagicAbilityData data = GetData(owner);
-            result = data is null || data.Enabled;
+            return data is null || data.Enabled;
         }
 
         return result;
@@ -143,7 +137,6 @@ public partial class DispelMagicAbility : TouchAbility
     // AoWAb.PAS:4311
     public override bool Activate(AbilityOwner owner, ref string reason)
     {
-        bool result;
         if (CanActivate(owner, ref reason))
         {
             Troop troop = owner as Troop;
@@ -174,14 +167,12 @@ public partial class DispelMagicAbility : TouchAbility
             _ = selector.Release();
             StrategicMap.Current.OnActivateAbilityStore.Raise(info);
             _ = info.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // AoWAb.PAS:4139
@@ -208,7 +199,7 @@ public partial class DispelMagicAbility : TouchAbility
             };
             SetAbility(owner, AbilityId, 1);
             owner.AddAbilityData(data);
-            result = true;
+            return true;
         }
         else
         {
@@ -230,7 +221,6 @@ public partial class DispelMagicAbility : TouchAbility
     // AoWAb.PAS:4175
     public override bool Remove(AbilityOwner owner)
     {
-        bool result = true;
         DispelMagicAbilityData data = GetData(owner);
         if (data is not null)
         {
@@ -247,10 +237,10 @@ public partial class DispelMagicAbility : TouchAbility
         else
         {
             SetAbility(owner, AbilityId, 0);
-            result = false;
+            return false;
         }
 
-        return result;
+        return true;
     }
 
     // AoWAb.PAS:4209
@@ -333,12 +323,9 @@ public partial class DispelMagicAbility : TouchAbility
     public override bool CanTouch(CombatObject source, CombatObject target)
     {
         bool result = base.CanTouch(source, target);
-        if (result)
-        {
-            result = source is CombatUnit && target is CombatUnit targetUnit && targetUnit.Troop.CanDispelEnchantment(source.GetPlayer());
-        }
-
-        return result;
+        return result
+            ? source is CombatUnit && target is CombatUnit targetUnit && targetUnit.Troop.CanDispelEnchantment(source.GetPlayer())
+            : result;
     }
 
     // AoWAb.PAS:4197
@@ -363,7 +350,7 @@ public partial class DispelMagicAbility : TouchAbility
     // AoWAb.PAS:4116
     public string GetLevelName(int level)
     {
-        string result = level switch
+        return level switch
         {
             0 => AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicText),
             1 => $"{AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicText)} I",
@@ -371,8 +358,6 @@ public partial class DispelMagicAbility : TouchAbility
             3 => $"{AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicText)} III",
             _ => "",
         };
-
-        return result;
     }
 
     // AoWAb.PAS:4301. The ranged event already drew its random value.

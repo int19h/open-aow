@@ -33,11 +33,7 @@ public partial class CityWall(CustomNode owner) : CombatImageLibraryTerrain(owne
     public byte WallType { get; private set; }
 
     // CityWall.pas:133
-    public override sbyte GetOverlay(int index)
-    {
-        sbyte result = index == 0 ? HitPoints == 0 ? (sbyte)6 : (sbyte)8 : base.GetOverlay(index);
-        return result;
-    }
+    public override sbyte GetOverlay(int index) => index == 0 ? HitPoints == 0 ? (sbyte)6 : (sbyte)8 : base.GetOverlay(index);
 
     // CityWall.pas:230
     public override void MapFieldMessageProc(ref MapFieldMessage message)
@@ -186,14 +182,13 @@ public partial class CityWall(CustomNode owner) : CombatImageLibraryTerrain(owne
     // CityWall.pas:180
     public override int CanMoveOver(in HexSpriteSenderInfo info)
     {
-        int result = info.HexNumber == 0
+        return info.HexNumber == 0
             ? HitPoints == 0 || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(66) || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(36) || ((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.Climbing) || ((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.Wall)
                 ? 1
                 : ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(59)
                     ? 0
                     : ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][8 - MovementTables.FirstOverlay] != 0 ? 1 : 0
             : 1;
-        return result;
     }
 
     // CityWall.pas:81

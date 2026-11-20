@@ -25,9 +25,7 @@ public partial class SynchronizeDialog(UIContext ui) : UIModule(ui)
     public PlayerSetupSettings GetPlayerSetup()
     {
         int index = UI.SetupEvents.SetupControl.Settings.IndexOfRemoteId(UI.SetupEvents.SetupControl.RemotePlayer.RemoteId);
-        PlayerSetupSettings result = index != -1 ? UI.SetupEvents.SetupControl.Settings.GetSettings(index) : null;
-
-        return result;
+        return index != -1 ? UI.SetupEvents.SetupControl.Settings.GetSettings(index) : null;
     }
 
     // AoWSyncDlg.pas:54

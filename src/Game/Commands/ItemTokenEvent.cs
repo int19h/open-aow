@@ -48,9 +48,7 @@ public partial class ItemTokenEvent(CustomNode owner) : TokenEvent(owner)
             }
         }
 
-        ExecuteResult result = done ? ExecuteResult.Done : ExecuteResult.DoneHalt;
-
-        return result;
+        return done ? ExecuteResult.Done : ExecuteResult.DoneHalt;
     }
 
     // NetworkE.pas:230

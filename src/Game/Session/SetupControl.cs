@@ -268,25 +268,15 @@ public partial class SetupControl : Component
     // AoWSetup.pas:583
     public bool CanSetHostRemoteId(int remoteId)
     {
-        bool result;
         if (GetHost() && remoteId != Settings.HostRemoteId)
         {
             int i = Settings.RemotePlayers.IndexOfRemoteId(remoteId);
-            if (i != -1)
-            {
-                result = Settings.RemotePlayers.GetPlayers(i).MapValidation == MapValidationInfo.Valid;
-            }
-            else
-            {
-                return false;
-            }
+            return i != -1 && Settings.RemotePlayers.GetPlayers(i).MapValidation == MapValidationInfo.Valid;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // AoWSetup.pas:594
@@ -493,8 +483,6 @@ public partial class SetupControl : Component
                 }
             }
         }
-
-        bool result;
         if (remoteId != 0)
         {
             // The host sends the map's engine image, the bytes FMapCRC covers and LoadHSMfromStream
@@ -508,14 +496,12 @@ public partial class SetupControl : Component
             }
 
             stream?.Dispose();
-            result = false;
+            return false;
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // AoWSetup.pas:715
@@ -920,7 +906,7 @@ public partial class SetupControl : Component
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;
@@ -1246,7 +1232,6 @@ public partial class SetupControl : Component
     // AoWSetup.pas:1064
     public bool PlayerSetupDone()
     {
-        bool result;
         if (GetHost() && GetPlayerSetupValid())
         {
             OnPlayerSetupDone?.Invoke(this);
@@ -1279,14 +1264,12 @@ public partial class SetupControl : Component
                 SendMap();
             }
 
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // AoWSetup.pas:1085
@@ -1477,7 +1460,6 @@ public partial class SetupControl : Component
     public bool PickMap(string fileName)
     {
         StrategicMap preview = _engine.CreatePreviewHsm<StrategicMap>(_engine.StartupDirectory + fileName, profile: GameProfile.WorldMap);
-        bool result;
         if (GetHost() && preview is not null && (!_engine.Demo || preview.ShowAllPlayers) && preview.ConnectionType != PlayerConnectionType.Email)
         {
             _engine.InitializeHexSpriteSet(_engine.StartupDirectory + preview.HssFileName, null);
@@ -1555,15 +1537,13 @@ public partial class SetupControl : Component
 
             UpdateSettings();
             preview?.Dispose();
-            result = true;
+            return true;
         }
         else
         {
             // { Original leaks a rejected preview map. }
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // AoWSetup.pas:1216

@@ -195,7 +195,7 @@ public partial class Crop(CustomNode owner) : ImageLibraryTerrainMapObject(owner
             if (!StrategicMap.Current.PlaceHex(result, X, Y, L))
             {
                 result?.Dispose();
-                result = null;
+                return null;
             }
 
             return result;

@@ -26,8 +26,6 @@ public partial class ImageFileClassList : DelphiList<ImageFileClass>
             i += 1;
         }
 
-        ImageFileClass result = i != Count ? List[i] : null;
-
-        return result;
+        return i != Count ? List[i] : null;
     }
 }

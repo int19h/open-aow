@@ -45,8 +45,7 @@ public readonly struct EventLogCollection : IReadOnlyList<EventLog>
             index -= 1;
             if (this[index].Id == id)
             {
-                result = this[index];
-                break;
+                return this[index];
             }
         }
 

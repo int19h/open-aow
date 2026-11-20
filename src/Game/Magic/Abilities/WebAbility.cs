@@ -49,18 +49,15 @@ public partial class WebAbility : TouchAbility
     // AoWAb.PAS:2842
     public override int GetDamageValue(Troop attacker, Troop defender)
     {
-        int result;
         if ((!defender.GetAbilityEnabled(1) || attacker.GetAbilityEnabled(1)) && !defender.GetImmunityTypes().Contains(DamageType.None))
         {
             float probability = TouchRoleProbability(attacker, defender);
-            result = Round((double)((double)defender.GetHitPoints() * probability) * 100);
+            return Round((double)((double)defender.GetHitPoints() * probability) * 100);
         }
         else
         {
-            result = 0;
+            return 0;
         }
-
-        return result;
     }
 
     // AoWAb.PAS:2855

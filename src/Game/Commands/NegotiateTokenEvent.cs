@@ -103,9 +103,7 @@ public partial class NegotiateTokenEvent(CustomNode owner) : TokenEvent(owner)
             result = true;
         }
 
-        result = result && Location.X != -1 && (byte)StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).GetPlayer() == _ownerPlayer;
-
-        return result;
+        return result && Location.X != -1 && (byte)StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).GetPlayer() == _ownerPlayer;
     }
 
     // Diplomacy.pas:192

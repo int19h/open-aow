@@ -238,11 +238,7 @@ public partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
     }
 
     // AoWHeroUpgradeDlg.pas:212
-    public bool CanAddAbility(int abilityId)
-    {
-        bool result = GamePack.Current.AbilityControl.GetAbility(abilityId).CanExpand(_editedHero) && GamePack.Current.AbilityControl.GetAbility(abilityId).ExpandCost(_editedHero) <= _editedHero.GetSkillPoints();
-        return result;
-    }
+    public bool CanAddAbility(int abilityId) => GamePack.Current.AbilityControl.GetAbility(abilityId).CanExpand(_editedHero) && GamePack.Current.AbilityControl.GetAbility(abilityId).ExpandCost(_editedHero) <= _editedHero.GetSkillPoints();
 
     // AoWHeroUpgradeDlg.pas:302
     public void CloseClick()

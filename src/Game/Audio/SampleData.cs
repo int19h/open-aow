@@ -56,10 +56,6 @@ public partial class SampleData : IDisposable
         ConstructionContext.Create((format, data, size), static (context, value) =>
             new SampleData(context, value.format, value.data, value.size));
 
-    public static Sample CreateSample(SampleData sampleData)
-    {
-        Sample result = AudioHost.SoundSystem?.SampleClass().CreateInstance(sampleData);
-        return result;
-    }
+    public static Sample CreateSample(SampleData sampleData) => AudioHost.SoundSystem?.SampleClass().CreateInstance(sampleData);
 
 }

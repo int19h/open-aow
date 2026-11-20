@@ -23,7 +23,7 @@ public partial class VisionAbility : MultiLevelAbility
     // PassiveAb.pas:473
     public override string GetLevelName(int level)
     {
-        string result = level switch
+        return level switch
         {
             0 => AbilityRules.TranslateResourceString(GetEngine(), s_visionText),
             1 => $"{AbilityRules.TranslateResourceString(GetEngine(), s_visionText)} I",
@@ -32,8 +32,6 @@ public partial class VisionAbility : MultiLevelAbility
             4 => $"{AbilityRules.TranslateResourceString(GetEngine(), s_visionText)} IV",
             _ => "",
         };
-
-        return result;
     }
 
     private static readonly string s_visionText = "Vision";

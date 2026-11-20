@@ -272,7 +272,6 @@ public partial class WindowControl(Component owner) : UIComponent(owner)
     // lost.
     public bool VerifyBackSurface(Surface surface)
     {
-        bool result = false;
         if (DoubleBuffered)
         {
             if (BackSurface is not null)
@@ -293,11 +292,11 @@ public partial class WindowControl(Component owner) : UIComponent(owner)
                     _ = BackSurface.Clear(MaskColor);
                 }
 
-                result = true;
+                return true;
             }
         }
 
-        return result;
+        return false;
     }
 
     public new event NotifyEvent<WindowControl> OnChange

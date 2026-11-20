@@ -65,8 +65,6 @@ public partial class VortexTokenEvent(CustomNode owner) : GlobalTargetSpellToken
             animation.Tag = (StrategicMap.Current.ViewWidth & 65535) | (StrategicMap.Current.ViewHeight << 16);
             animation.Activate();
         }
-
-        bool result;
         if (value == 80)
         {
             byte selection = default;
@@ -128,14 +126,12 @@ public partial class VortexTokenEvent(CustomNode owner) : GlobalTargetSpellToken
             }
 
             _animation?.Dispose();
-            result = false;
+            return false;
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // GlobalTargetSpells.pas:1945

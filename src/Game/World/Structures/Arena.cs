@@ -79,9 +79,7 @@ public partial class Arena(CustomNode owner) : Structure(owner)
             return -1;
         }
 
-        int result = troop is Unit unitLocal && unitLocal.GetRank() != Unit.Rank.Gold ? (unitLocal.GetNextLevelExperience() - troop.GetExperience()) * 5 : -1;
-
-        return result;
+        return troop is Unit unitLocal && unitLocal.GetRank() != Unit.Rank.Gold ? (unitLocal.GetNextLevelExperience() - troop.GetExperience()) * 5 : -1;
     }
 
     // Arena.pas:116
@@ -140,7 +138,7 @@ public partial class Arena(CustomNode owner) : Structure(owner)
             {
                 if (StrategicMap.Current.Players.GetPlayers(player).Gems >= total)
                 {
-                    result = true;
+                    return true;
                 }
                 else
                 {
@@ -162,7 +160,6 @@ public partial class Arena(CustomNode owner) : Structure(owner)
     public bool TrainUnits(sbyte player, Int32List units, out string errorText)
     {
         errorText = "";
-        bool result;
         if (CanTrainUnits(player, units, ref errorText) && !StrategicMap.Current.Players.GetPlayers(player).GetBusy())
         {
             ArenaTokenEvent tokenEvent = CreateTokenEvent();
@@ -172,29 +169,24 @@ public partial class Arena(CustomNode owner) : Structure(owner)
             tokenEvent.Action = 1;
             StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(tokenEvent);
             _ = tokenEvent.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Arena.pas:215
     public bool CanEnter(sbyte player)
     {
         ArmyHexSprite army = Owner.GetArmyHexSprite();
-        bool result = army is not null && army.Army.Player == player;
-
-        return result;
+        return army is not null && army.Army.Player == player;
     }
 
     // Arena.pas:223
     public bool Enter()
     {
-        bool result;
         if (CanEnter(StrategicMap.Current.SeatedPlayer))
         {
             EnterArenaEventLog log = new(null)
@@ -215,14 +207,12 @@ public partial class Arena(CustomNode owner) : Structure(owner)
 
             _ = log.Execute(true, ExecuteTrigger.User, null);
             _ = log.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     private static readonly string s_oneUnitTrainedText = "1 unit trained";

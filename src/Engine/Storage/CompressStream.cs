@@ -60,7 +60,6 @@ public partial class CompressStream : MemoryStream
     public int SaveToStream(Stream stream, Level level)
     {
         Position = 0;
-        int result = 100;
         int startSize = (int)stream.Length;
         stream.Write(CompressMagic);
         stream.Write(Bytes.Of(ref level, 1));
@@ -70,7 +69,7 @@ public partial class CompressStream : MemoryStream
             try
             {
                 _ = c.CopyFrom(this, 0);
-                result = Round((double)(1 - ((double)(stream.Length - startSize) / Length)) * 100);
+                return Round((double)(1 - ((double)(stream.Length - startSize) / Length)) * 100);
             }
             finally
             {
@@ -82,7 +81,7 @@ public partial class CompressStream : MemoryStream
             _ = stream.CopyFrom(this, 0);
         }
 
-        return result;
+        return 100;
     }
 
     // Engine.pas:1776
@@ -92,17 +91,14 @@ public partial class CompressStream : MemoryStream
     public int SaveToFile(string fileName, Level level)
     {
         Stream f = OpenFile(fileName, 65535);
-        int result;
         try
         {
-            result = SaveToStream(f, level);
+            return SaveToStream(f, level);
         }
         finally
         {
             f?.Dispose();
         }
-
-        return result;
     }
 
     // Engine.pas:1793

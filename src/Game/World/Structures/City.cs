@@ -387,7 +387,7 @@ public partial class City : PlayerCropStructure
         {
             int index = 42;
             ImageSequenceList sequences = Resource.ImageSequenceList;
-            result = sequences is not null
+            return sequences is not null
                 ? sequences.GetImageSequence(index) is not null ? Resource.ImageSequenceList.GetImageSequence(index).GetPreviewImage() : null
                 : null;
         }
@@ -409,7 +409,7 @@ public partial class City : PlayerCropStructure
         {
             int index = 43;
             ImageSequenceList sequences = Resource.ImageSequenceList;
-            result = sequences is not null
+            return sequences is not null
                 ? sequences.GetImageSequence(index) is not null ? Resource.ImageSequenceList.GetImageSequence(index).GetPreviewImage() : null
                 : null;
         }
@@ -431,7 +431,7 @@ public partial class City : PlayerCropStructure
         {
             int index = 44;
             ImageSequenceList sequences = Resource.ImageSequenceList;
-            result = sequences is not null
+            return sequences is not null
                 ? sequences.GetImageSequence(index) is not null ? Resource.ImageSequenceList.GetImageSequence(index).GetPreviewImage() : null
                 : null;
         }
@@ -489,7 +489,6 @@ public partial class City : PlayerCropStructure
     // City.pas:1134
     public override bool GetDefenseRequirements(sbyte player, ref DefenseRequirements requirements)
     {
-        bool result;
         if ((Mode & Set<ModeElement>.Of(ModeElement.WarMode, ModeElement.Razed)) == Set<ModeElement>.Of())
         {
             BattleFieldInfo.SetupBattleFieldInfo(out BattleFieldInfo info, player, 0, Set<BattleFieldInfoRequestsElement>.Of(), AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
@@ -520,14 +519,12 @@ public partial class City : PlayerCropStructure
                 requirements.Strength = maximum;
             }
 
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // City.pas:1123
@@ -552,12 +549,12 @@ public partial class City : PlayerCropStructure
 
             if (condition)
             {
-                result = DefensePriority.High;
+                return DefensePriority.High;
             }
         }
         else
         {
-            result = DefensePriority.None;
+            return DefensePriority.None;
         }
 
         return result;
@@ -678,18 +675,15 @@ public partial class City : PlayerCropStructure
     // City.pas:2611
     public override string GetCurrentActivityText()
     {
-        string result;
         if (Production.Queue.Count == 0)
         {
-            result = AbilityRules.TranslateResourceString(GetEngine(), GameText.ProducingMerchandiseText);
+            return AbilityRules.TranslateResourceString(GetEngine(), GameText.ProducingMerchandiseText);
         }
         else
         {
             ProductionItem queue = Production.Queue.GetItem(0);
-            result = Production.GetProductionNameProgressive(queue);
+            return Production.GetProductionNameProgressive(queue);
         }
-
-        return result;
     }
 
     // City.pas:876
@@ -699,7 +693,7 @@ public partial class City : PlayerCropStructure
         if (CompareText(b: AbilityRules.TranslateResourceString(GetEngine(), s_noNameText), a: Name) == 0 || IsEmpty(Name))
         {
             _ = messages.Add($"{AbilityRules.TranslateResourceString(GetEngine(), s_cityWarningText)}: {AbilityRules.TranslateResourceString(GetEngine(), s_noNameSpecifiedText)}");
-            result = false;
+            return false;
         }
 
         return result;
@@ -875,12 +869,9 @@ public partial class City : PlayerCropStructure
     public override int VisibilityRange()
     {
         int result = 6;
-        if (GetHexLevel() != 0 || (Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 8) != 0))
-        {
-            result = (int)(((uint)(result + 1)) >> 1);
-        }
-
-        return result;
+        return GetHexLevel() != 0 || (Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 8) != 0)
+            ? (int)(((uint)(result + 1)) >> 1)
+            : result;
     }
 
     // City.pas:2225
@@ -898,14 +889,13 @@ public partial class City : PlayerCropStructure
     // City.pas:2214
     public override string GetCombatEventText(Battle combat)
     {
-        string result = "";
         if (!GetRazed())
         {
             if (combat.CombatResult is CombatResult.Victory or CombatResult.NoDefenders)
             {
                 string cityBattleWon = AbilityRules.TranslateResourceString(GetEngine(), s_cityBattleWonFormat);
                 string name = GetName();
-                result = Format(cityBattleWon, [name]);
+                return Format(cityBattleWon, [name]);
             }
             else
             {
@@ -913,7 +903,7 @@ public partial class City : PlayerCropStructure
                 {
                     string cityBattleLost = AbilityRules.TranslateResourceString(GetEngine(), s_cityBattleLostFormat);
                     string name = GetName();
-                    result = Format(cityBattleLost, [name]);
+                    return Format(cityBattleLost, [name]);
                 }
                 else
                 {
@@ -921,13 +911,13 @@ public partial class City : PlayerCropStructure
                     {
                         string cityBattleDrawn = AbilityRules.TranslateResourceString(GetEngine(), s_cityBattleDrawnFormat);
                         string name = GetName();
-                        result = Format(cityBattleDrawn, [name]);
+                        return Format(cityBattleDrawn, [name]);
                     }
                 }
             }
         }
 
-        return result;
+        return "";
     }
 
     // City.pas:1062
@@ -956,14 +946,14 @@ public partial class City : PlayerCropStructure
         {
             if (Set<MoveAction>.Of(MoveAction.Normal, MoveAction.Attack).Contains(action) && !GetRazed() && !Mode.Contains(ModeElement.WarMode))
             {
-                result = JoinAmount(player) != -1 ? MoveAction.Negotiate : MoveAction.Attack;
+                return JoinAmount(player) != -1 ? MoveAction.Negotiate : MoveAction.Attack;
             }
         }
         else
         {
             if (Player != player && Player != -1)
             {
-                result = MoveAction.Attack;
+                return MoveAction.Attack;
             }
         }
 
@@ -1165,7 +1155,7 @@ public partial class City : PlayerCropStructure
     // City.pas:924
     public int AICityEnchantmentUpkeepPriority(CityEnchantmentId id)
     {
-        int result = id switch
+        return id switch
         {
             CityEnchantmentId.FountainOfLife => (GetSize() * 25) + 600,
             CityEnchantmentId.GoldRush => (GetSize() * 25) + 600,
@@ -1173,7 +1163,6 @@ public partial class City : PlayerCropStructure
             CityEnchantmentId.Warmonger => (GetSize() * 25) + 600,
             _ => 0,
         };
-        return result;
     }
 
     // City.pas:935
@@ -1513,25 +1502,21 @@ public partial class City : PlayerCropStructure
                 }
             }
         }
-
-        bool result;
         if (level < GetSize())
         {
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
             reason = AbilityRules.TranslateResourceString(GetEngine(), s_maxUpgradeLevelReachedText);
         }
 
-        return result;
+        return false;
     }
 
     // City.pas:1371
     public bool Upgrade(bool queue)
     {
-        bool result;
         string reason = "";
         if (CanUpgrade(queue, ref reason) && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
@@ -1542,36 +1527,28 @@ public partial class City : PlayerCropStructure
             };
             _ = Production.Produce(item, queue);
             item?.Dispose();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // City.pas:1386
     public int FortifyCost()
     {
-        int result;
         switch (WallType)
         {
             case 0:
                 int size = GetSize();
-                result = WoodWallPrices[size - 1];
-                break;
+                return WoodWallPrices[size - 1];
             case 1:
                 int size2 = GetSize();
-                result = StoneWallPrices[size2 - 1];
-                break;
+                return StoneWallPrices[size2 - 1];
             default:
-                result = -1;
-                break;
+                return -1;
         }
-
-        return result;
     }
 
     // City.pas:1395
@@ -1592,25 +1569,21 @@ public partial class City : PlayerCropStructure
                 }
             }
         }
-
-        bool result;
         if (level != 2)
         {
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
             reason = AbilityRules.TranslateResourceString(GetEngine(), s_maxFortifyLevelReachedText);
         }
 
-        return result;
+        return false;
     }
 
     // City.pas:1415
     public bool Fortify(bool queue)
     {
-        bool result;
         string reason = "";
         if (CanFortify(queue, ref reason) && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
@@ -1621,14 +1594,12 @@ public partial class City : PlayerCropStructure
             };
             _ = Production.Produce(item, queue);
             item?.Dispose();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // City.pas:1430
@@ -1661,7 +1632,6 @@ public partial class City : PlayerCropStructure
     // City.pas:1475
     public bool Trade(bool queue)
     {
-        bool result;
         string reason = "";
         if (CanTrade(queue, reason) && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
@@ -1673,14 +1643,12 @@ public partial class City : PlayerCropStructure
 
             _ = Production.Produce(item, queue);
             item?.Dispose();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // City.pas:1491
@@ -1692,7 +1660,6 @@ public partial class City : PlayerCropStructure
     // City.pas:1499
     public bool Loot()
     {
-        bool result;
         string reason = "";
         if (CanLoot(reason) && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
@@ -1703,20 +1670,17 @@ public partial class City : PlayerCropStructure
             };
             _ = Production.Produce(item, false);
             item?.Dispose();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // City.pas:1514
     public int MigrationTime(sbyte race)
     {
-        int result;
         string reason = "";
         if (CanMigrate(race, reason))
         {
@@ -1739,19 +1703,17 @@ public partial class City : PlayerCropStructure
                     HexNumberWalkData.WalkToNextHexNumber(ref walk);
                 }
 
-                result = radius != -1 ? (radius / 10) + 3 : 5;
+                return radius != -1 ? (radius / 10) + 3 : 5;
             }
             else
             {
-                result = 0;
+                return 0;
             }
         }
         else
         {
-            result = -1;
+            return -1;
         }
-
-        return result;
     }
 
     // City.pas:1544
@@ -1771,7 +1733,7 @@ public partial class City : PlayerCropStructure
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;
@@ -1780,7 +1742,6 @@ public partial class City : PlayerCropStructure
     // City.pas:1561
     public bool Migrate(sbyte race)
     {
-        bool result;
         string reason = "";
         if (CanMigrate(race, reason) && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
@@ -1791,21 +1752,19 @@ public partial class City : PlayerCropStructure
             };
             _ = Production.Produce(item, false);
             item?.Dispose();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // City.pas:1577
     public MigrationItem CreateMigrationItem(sbyte race)
     {
         string reason = "";
-        MigrationItem result = CanMigrate(race, reason)
+        return CanMigrate(race, reason)
             ? new MigrationItem(null)
             {
                 Holder = CreationHolder(),
@@ -1814,8 +1773,6 @@ public partial class City : PlayerCropStructure
                 Relation = StrategicMap.Current.Races.GetRace(race).GetPlayerRelation(Player)
             }
             : null;
-
-        return result;
     }
 
     // City.pas:1589
@@ -2023,7 +1980,6 @@ public partial class City : PlayerCropStructure
     // City.pas:1861
     public CivilStatus GetCivilStatus()
     {
-        CivilStatus result;
         if (Player != 0 && !Mode.Contains(ModeElement.WarMode))
         {
             Status relation = Mode.Contains(ModeElement.Anarchy)
@@ -2121,7 +2077,7 @@ public partial class City : PlayerCropStructure
                 }
 
                 predictor?.Dispose();
-                result = value < -30
+                return value < -30
                     ? CivilStatus.Unruly
                     : value < -10
                         ? CivilStatus.Unrest
@@ -2137,15 +2093,13 @@ public partial class City : PlayerCropStructure
             }
             else
             {
-                result = CivilStatus.Stable;
+                return CivilStatus.Stable;
             }
         }
         else
         {
-            result = CivilStatus.Stable;
+            return CivilStatus.Stable;
         }
-
-        return result;
     }
 
     // City.pas:2034
@@ -2234,7 +2188,7 @@ public partial class City : PlayerCropStructure
         {
             int size2 = GetSize();
             int size3 = GetSize();
-            result = result + WoodWallPrices[size2 - 1] + StoneWallPrices[size3 - 1];
+            return result + WoodWallPrices[size2 - 1] + StoneWallPrices[size3 - 1];
         }
 
         return result;
@@ -2286,7 +2240,6 @@ public partial class City : PlayerCropStructure
     // City.pas:2282
     public bool IncomingNegotiateRequest(NegotiateRequestEventLog request)
     {
-        bool result;
         if (Player == 0 && !Mode.Contains(ModeElement.WarMode))
         {
             int amount = JoinAmount(request.Player);
@@ -2307,25 +2260,22 @@ public partial class City : PlayerCropStructure
                     request.JoinMessage.Text = format;
                 }
 
-                result = true;
+                return true;
             }
             else
             {
-                result = false;
+                return false;
             }
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // City.pas:2302
     public bool IncomingNegotiateOffer(NegotiateTokenEvent offer)
     {
-        bool result;
         if (offer.Object == NegotiateObject.City)
         {
             int amount = JoinAmount(offer.Player);
@@ -2368,14 +2318,12 @@ public partial class City : PlayerCropStructure
                 offer.Reject();
             }
 
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // City.pas:2334
@@ -2461,7 +2409,7 @@ public partial class City : PlayerCropStructure
     private LibraryImage GetCityActionImage(ProductionOrder order, int row, bool hasRace, int image, int undergroundImage)
     {
         int? sequence = order?.CitySequence(this, row);
-        LibraryImage result = sequence is int index
+        return sequence is int index
             ? Resource.ImageSequenceList is not null && index != -1
                 ? Resource.ImageSequenceList.GetImageSequence(index)?.GetPreviewImage()
                 : null
@@ -2470,8 +2418,6 @@ public partial class City : PlayerCropStructure
                     ? GamePack.Current.RaceResources.GetRaceResource(Race).ImageLibrary.GetSafe(image)
                     : GamePack.Current.RaceResources.GetRaceResource(Race).ImageLibrary.GetSafe(undergroundImage)
                 : null;
-
-        return result;
     }
 
     // City.pas:138

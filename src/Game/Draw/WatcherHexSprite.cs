@@ -345,7 +345,7 @@ public partial class WatcherHexSprite : SingleHexSprite
         if (HexLevel != 0 || (Enchantment.PlayerIndex > 0 && StrategicMap.Current.Players.GetPlayers(Enchantment.PlayerIndex).MagicControl.EnemyEnchantments.Contains(PlayerEnchantmentType.WaterMastery)))
         {
             result += 1;
-            result = (int)(((uint)result) >> 1);
+            return (int)(((uint)result) >> 1);
         }
 
         return result;

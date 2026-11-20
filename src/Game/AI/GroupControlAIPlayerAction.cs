@@ -27,7 +27,6 @@ public partial class GroupControlAIPlayerAction(CustomNode owner) : AIPlayerActi
     public override bool Process()
     {
         _groupProcessCycles += 1;
-        bool result;
         try
         {
             bool busy = false;
@@ -68,14 +67,12 @@ public partial class GroupControlAIPlayerAction(CustomNode owner) : AIPlayerActi
                 }
             }
 
-            result = !done;
+            return !done;
         }
         catch
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // AI.pas:1063

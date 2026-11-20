@@ -77,23 +77,13 @@ internal static class StringSorting
     internal static int CompareAscending(string s1, string s2, object o1, object o2)
     {
         int result = CompareText(s1, s2);
-        if (result == 0)
-        {
-            result = s1.Length - s2.Length;
-        }
-
-        return result;
+        return result == 0 ? s1.Length - s2.Length : result;
     }
 
     internal static int CompareDescending(string s1, string s2, object o1, object o2)
     {
         int result = CompareText(s2, s1);
-        if (result == 0)
-        {
-            result = s2.Length - s1.Length;
-        }
-
-        return result;
+        return result == 0 ? s2.Length - s1.Length : result;
     }
 
     internal static int CompareNumericalAscending(string s1, string s2, object o1, object o2)

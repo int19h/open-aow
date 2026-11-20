@@ -53,12 +53,12 @@ public partial class AnimationTokenEvent(CustomNode owner) : TokenEvent(owner)
 
             if (_state == AnimationTokenEventState.Done)
             {
-                result = ExecuteResult.Done;
+                return ExecuteResult.Done;
             }
         }
         else
         {
-            result = ExecuteResult.Done;
+            return ExecuteResult.Done;
         }
 
         return result;

@@ -73,12 +73,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
     public override sbyte GetOverlay(int index)
     {
         sbyte result = base.Resource.TerrainList.Terrain[index];
-        if (result >= 0)
-        {
-            result = -1;
-        }
-
-        return result;
+        return result >= 0 ? (sbyte)-1 : result;
     }
 
     // Cave.pas:257
@@ -189,43 +184,36 @@ public partial class Cave(CustomNode owner) : Structure(owner)
     }
 
     // Cave.pas:199
-    public override int GetTerrainTypeImage(int terrainType)
-    {
-        int result = Entrance == CaveEntrance.Down ? terrainType : terrainType + 30;
-        return result;
-    }
+    public override int GetTerrainTypeImage(int terrainType) => Entrance == CaveEntrance.Down ? terrainType : terrainType + 30;
 
     // Cave.pas:163
     public override LibraryImage GetTopBorderImage()
     {
-        LibraryImage result = Entrance == CaveEntrance.Up
+        return Entrance == CaveEntrance.Up
             ? base.Resource.ImageSequenceList is not null && base.Resource.ImageSequenceList.ImageSequences[33] is not null
                 ? base.Resource.ImageSequenceList.ImageSequences[33].GetPreviewImage()
                 : null
             : base.GetTopBorderImage();
-        return result;
     }
 
     // Cave.pas:175
     public override LibraryImage GetMiddleBorderImage()
     {
-        LibraryImage result = Entrance == CaveEntrance.Up
+        return Entrance == CaveEntrance.Up
             ? base.Resource.ImageSequenceList is not null && base.Resource.ImageSequenceList.ImageSequences[34] is not null
                 ? base.Resource.ImageSequenceList.ImageSequences[34].GetPreviewImage()
                 : null
             : base.GetMiddleBorderImage();
-        return result;
     }
 
     // Cave.pas:187
     public override LibraryImage GetBottomBorderImage()
     {
-        LibraryImage result = Entrance == CaveEntrance.Up
+        return Entrance == CaveEntrance.Up
             ? base.Resource.ImageSequenceList is not null && base.Resource.ImageSequenceList.ImageSequences[35] is not null
                 ? base.Resource.ImageSequenceList.ImageSequences[35].GetPreviewImage()
                 : null
             : base.GetBottomBorderImage();
-        return result;
     }
 
     // Cave.pas:412
@@ -374,7 +362,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;
@@ -383,7 +371,6 @@ public partial class Cave(CustomNode owner) : Structure(owner)
     // Cave.pas:388
     public bool Enter(sbyte player)
     {
-        bool result;
         if (CanEnter(player))
         {
             ArmyHexSprite armyHexSprite = Owner.GetArmyHexSprite();
@@ -398,19 +385,17 @@ public partial class Cave(CustomNode owner) : Structure(owner)
                 log.Buttons = MessageEventLogButtons.YesNo;
                 _ = log.Execute(true, ExecuteTrigger.User, null);
                 _ = log.Release();
-                result = true;
+                return true;
             }
             else
             {
-                result = Enter();
+                return Enter();
             }
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     private static readonly string s_splitOnEnterCaveWarningText = "Entering the cave will split your party. Do you wish to continue?";

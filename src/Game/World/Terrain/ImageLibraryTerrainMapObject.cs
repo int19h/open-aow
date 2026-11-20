@@ -23,20 +23,11 @@ public partial class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMa
     public override sbyte GetTerrain(int index)
     {
         sbyte result = Resource.TerrainList.GetTerrain(index);
-        if (result >= 0)
-        {
-            result = TerrainType;
-        }
-
-        return result;
+        return result >= 0 ? TerrainType : result;
     }
 
     // ILTer.pas:131
-    public override bool CanChangeTerrain(in HexSpriteSenderInfo info)
-    {
-        bool result = Resource.TerrainList.GetTerrain(info.HexNumber) < 0 || GetMostFrequentMapFieldTerrainType(Owner.Owner, StoredHexX, StoredHexY, TerrainType) == info.MapField.TerrainType;
-        return result;
-    }
+    public override bool CanChangeTerrain(in HexSpriteSenderInfo info) => Resource.TerrainList.GetTerrain(info.HexNumber) < 0 || GetMostFrequentMapFieldTerrainType(Owner.Owner, StoredHexX, StoredHexY, TerrainType) == info.MapField.TerrainType;
 
     // ILTer.pas:152
     public override void ChangeTerrain(in HexSpriteTerrainInfo info)
@@ -168,7 +159,7 @@ public partial class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMa
                         OverrideTerrain();
                     }
 
-                    result = true;
+                    return true;
                 }
             }
         }
@@ -179,19 +170,16 @@ public partial class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMa
     // ILTer.pas:89
     public virtual bool ValidTerrainType(int terrainType)
     {
-        bool result;
         if (terrainType >= 0)
         {
             int index = GetTerrainTypeImage(terrainType);
             ImageSequenceList sequences = Resource.ImageSequenceList;
-            result = sequences is null ? Resource.ImageLibrary.ImageExist(index) : sequences.GetImageSequence(index) is not null;
+            return sequences is null ? Resource.ImageLibrary.ImageExist(index) : sequences.GetImageSequence(index) is not null;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // ILTer.pas:126
@@ -220,7 +208,7 @@ public partial class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMa
 
                     if (result == count)
                     {
-                        result = -1;
+                        return -1;
                     }
                 }
             }

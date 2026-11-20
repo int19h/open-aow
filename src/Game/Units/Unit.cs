@@ -110,12 +110,7 @@ public partial class Unit(CustomNode owner) : Troop(owner)
             result = 1;
         }
 
-        if (result > 10)
-        {
-            result = 10;
-        }
-
-        return result;
+        return result > 10 ? (sbyte)10 : result;
     }
 
     // Unit.PAS:2035
@@ -129,12 +124,7 @@ public partial class Unit(CustomNode owner) : Troop(owner)
             result = 1;
         }
 
-        if (result > 10)
-        {
-            result = 10;
-        }
-
-        return result;
+        return result > 10 ? (sbyte)10 : result;
     }
 
     // Unit.PAS:2043
@@ -147,12 +137,7 @@ public partial class Unit(CustomNode owner) : Troop(owner)
             result = 1;
         }
 
-        if (result > 10)
-        {
-            result = 10;
-        }
-
-        return result;
+        return result > 10 ? (sbyte)10 : result;
     }
 
     // Unit.PAS:2051
@@ -166,12 +151,7 @@ public partial class Unit(CustomNode owner) : Troop(owner)
             result = 1;
         }
 
-        if (result > 10)
-        {
-            result = 10;
-        }
-
-        return result;
+        return result > 10 ? (sbyte)10 : result;
     }
 
     // Unit.PAS:2075
@@ -232,9 +212,7 @@ public partial class Unit(CustomNode owner) : Troop(owner)
         }
 
         int faceIndex = ((CosmeticSurgeryEnchantment)(object)GetAbilityData<UnitEnchantmentAbilityData>(126).Enchantment).FaceIndex;
-        LibraryImage result = GamePack.Current.FaceResources.GetFaceResource(faceIndex)?.GetCellImage();
-
-        return result;
+        return GamePack.Current.FaceResources.GetFaceResource(faceIndex)?.GetCellImage();
     }
 
     // Unit.PAS:1917
@@ -250,12 +228,7 @@ public partial class Unit(CustomNode owner) : Troop(owner)
     public override byte GetTransportCapacity()
     {
         byte result = (byte)GetAbilityLevel(50);
-        if (result < UnitResource.GetTransportCapacity())
-        {
-            result = UnitResource.GetTransportCapacity();
-        }
-
-        return result;
+        return result < UnitResource.GetTransportCapacity() ? UnitResource.GetTransportCapacity() : result;
     }
 
     // Unit.PAS:2088
@@ -318,24 +291,7 @@ public partial class Unit(CustomNode owner) : Troop(owner)
     public override int GetNextLevelExperience()
     {
         int level = UnitResource.Level;
-        int result;
-        if (_experience >= level * 2)
-        {
-            if (_experience >= level * 6)
-            {
-                result = 0;
-            }
-            else
-            {
-                return level * 6;
-            }
-        }
-        else
-        {
-            result = level * 2;
-        }
-
-        return result;
+        return _experience >= level * 2 ? _experience >= level * 6 ? 0 : level * 6 : level * 2;
     }
 
     // Unit.PAS:2000
@@ -399,27 +355,7 @@ public partial class Unit(CustomNode owner) : Troop(owner)
     }
 
     // Unit.PAS:2009
-    public Rank GetRank()
-    {
-        Rank result;
-        if (_experience >= UnitResource.Level * 2)
-        {
-            if (_experience >= UnitResource.Level * 6)
-            {
-                result = Rank.Gold;
-            }
-            else
-            {
-                return Rank.Silver;
-            }
-        }
-        else
-        {
-            result = Rank.None;
-        }
-
-        return result;
-    }
+    public Rank GetRank() => _experience >= UnitResource.Level * 2 ? _experience >= UnitResource.Level * 6 ? Rank.Gold : Rank.Silver : Rank.None;
 
     // Unit.PAS:2016
     public void SetRank(Rank value)

@@ -35,12 +35,7 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
     public override sbyte GetTerrain(int index)
     {
         sbyte result = _resource.TerrainList.GetTerrain(index);
-        if (Status.Contains(MapObjectStatusElement.EditMode) && result >= 0)
-        {
-            result = -1;
-        }
-
-        return result;
+        return Status.Contains(MapObjectStatusElement.EditMode) && result >= 0 ? (sbyte)-1 : result;
     }
 
     // MAPOBJ.PAS:145
@@ -53,12 +48,7 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
     public override sbyte GetOverlay(int index)
     {
         sbyte result = _resource.TerrainList.GetOverlay(index);
-        if (Status.Contains(MapObjectStatusElement.EditMode) && result >= 0)
-        {
-            result = -1;
-        }
-
-        return result;
+        return Status.Contains(MapObjectStatusElement.EditMode) && result >= 0 ? (sbyte)-1 : result;
     }
 
     // MAPOBJ.PAS:162
@@ -228,12 +218,12 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
             }
             else
             {
-                result = false;
+                return false;
             }
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;
@@ -334,11 +324,7 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
     }
 
     // MAPOBJ.PAS:21
-    public override string EditName()
-    {
-        string result = IsEmpty(_resource.Name) ? _resource.ResourceEditName() : _resource.Name;
-        return result;
-    }
+    public override string EditName() => IsEmpty(_resource.Name) ? _resource.ResourceEditName() : _resource.Name;
 
     // MAPOBJ.PAS:63
     public virtual MapObjectResourceList GetResourceList(GameEngine engine) => engine.HexSpriteSet.MapObjectResourceList;
@@ -349,7 +335,6 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
     // MAPOBJ.PAS:307
     public virtual bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        bool result;
         if (hexX >= 0 && hexY >= 0 && hexLevel >= 0 && hexX < mapContainer.Width && hexY < mapContainer.Height && hexLevel < mapContainer.LevelCount)
         {
             MapField mapField = mapContainer.GetField(hexX, hexY, hexLevel);
@@ -360,14 +345,12 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
                 condition = mapField.CanChangeTerrain(overlay: GetOverlay(0), sender: this, terrain: GetTerrain(0));
             }
 
-            result = condition;
+            return condition;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // MAPOBJ.PAS:324

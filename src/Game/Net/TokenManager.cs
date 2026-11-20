@@ -51,7 +51,6 @@ public partial class TokenManager : IDisposable
     //   are not being executed }
     public virtual bool PlayerReady(int player)
     {
-        bool result;
         if (player < _tokenControls.Count && _tokenControls[player] is not null)
         {
             bool condition = TokenExecutor.SystemEvents.Count != 0 || _tokenControls[player].GetCount() != 0;
@@ -61,14 +60,12 @@ public partial class TokenManager : IDisposable
                 condition = TokenExecutor.PrefetchTacticalBattle == item && TokenExecutor.State.Contains(TokenExecutorState.Executing);
             }
 
-            result = !condition;
+            return !condition;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // NetworkE.pas:1663
@@ -125,11 +122,7 @@ public partial class TokenManager : IDisposable
     public int GetCount() => _tokenControls.Count;
 
     // NetworkE.pas:1710
-    public TokenControl GetTokenControl(int player)
-    {
-        TokenControl result = player < _tokenControls.Count ? _tokenControls[player] : null;
-        return result;
-    }
+    public TokenControl GetTokenControl(int player) => player < _tokenControls.Count ? _tokenControls[player] : null;
 
     // NetworkE.pas:1718
     public void TriggerMessage(string message) => OnMessage?.Invoke(this, message);

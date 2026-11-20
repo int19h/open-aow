@@ -26,20 +26,17 @@ public partial class AdjacentArmy(CustomNode owner) : EngineObject(owner)
     // AIGroup.pas:5057
     public float GetMovementDays()
     {
-        float result;
         if (Moves != 0)
         {
             int points = Path.GetMovePoints();
-            result = points > MovePoints
+            return points > MovePoints
                 ? (float)((double)((double)(points - MovePoints) / Moves) + 1)
                 : points != 0 ? (float)((double)points / MovePoints) : 0;
         }
         else
         {
-            result = 99;
+            return 99;
         }
-
-        return result;
     }
 
     // intf_P5_06.inc:394

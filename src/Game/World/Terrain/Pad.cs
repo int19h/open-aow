@@ -18,11 +18,7 @@ public partial class Pad(CustomNode owner) : FixedImageLibraryTerrainMapObject(o
     public override bool CanSelect(int pixelX, int pixelY) => false;
 
     // Pad.pas:58
-    public override sbyte ForceTerrainType(MapLevel mapLevel, sbyte hexX, sbyte hexY)
-    {
-        sbyte result = mapLevel.HexLevel != 0 ? (sbyte)12 : (sbyte)-1;
-        return result;
-    }
+    public override sbyte ForceTerrainType(MapLevel mapLevel, sbyte hexX, sbyte hexY) => mapLevel.HexLevel != 0 ? (sbyte)12 : (sbyte)-1;
 
     // PadSize
     public new partial class Resource : FixedImageLibraryTerrainMapObjectResource
@@ -48,11 +44,7 @@ public partial class Pad(CustomNode owner) : FixedImageLibraryTerrainMapObject(o
         // Pad.pas:63
 
         // Pad.pas:101
-        public override EditorClass Editor()
-        {
-            EditorClass result = Engine.Editors.FindEditor(131335) ?? base.Editor();
-            return result;
-        }
+        public override EditorClass Editor() => Engine.Editors.FindEditor(131335) ?? base.Editor();
 
         // Pad.pas:95
         public override void MessageProc(ref EngineMessage message, EngineObject sender)

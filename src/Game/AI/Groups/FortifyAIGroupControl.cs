@@ -498,10 +498,9 @@ public partial class FortifyAIGroupControl : AIGroupControl
     // MainAG.pas:268
     public City FortifyCity()
     {
-        City result = _fortifyLocation != MapCoordinate.None
+        return _fortifyLocation != MapCoordinate.None
             ? StrategicMap.Current.MapContainer.GetFieldMapCoordinate(_fortifyLocation).FindNoneTransparentHexSprite<City>()
             : null;
-        return result;
     }
 
     // MainAG.pas:287

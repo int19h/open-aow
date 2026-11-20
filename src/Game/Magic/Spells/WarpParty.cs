@@ -65,7 +65,7 @@ public partial class WarpParty : Spell
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;
@@ -85,7 +85,7 @@ public partial class WarpParty : Spell
             message.Param = param;
             message.Result = 0;
             field.SendMapFieldMessage(ref message);
-            result = message.Result.Int == 0 && army.Army.CanPlace(X, Y, layer);
+            return message.Result.Int == 0 && army.Army.CanPlace(X, Y, layer);
         }
 
         return result;

@@ -27,10 +27,9 @@ public partial class LibraryImagePalette : Persistent
     // ImageLib.pas:7107
     public Palette RemapPalette(PixelFormat pixelFormatId)
     {
-        Palette result;
         if (pixelFormatId == Palette.PixelFormatId)
         {
-            result = Palette;
+            return Palette;
         }
         else
         {
@@ -43,10 +42,8 @@ public partial class LibraryImagePalette : Persistent
                 _ = RemapPaletteValue.Remap(pixelFormatId);
             }
 
-            result = RemapPaletteValue;
+            return RemapPaletteValue;
         }
-
-        return result;
     }
 
     // ImageLib.pas:7124

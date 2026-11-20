@@ -167,11 +167,11 @@ public partial class TownGate : CityTargetSpell
                 townGateEvent.ArmyId = id;
                 MapCoordinate packMapCoordinate = HexGeometry.PackMapCoordinate((sbyte)walk.X, (sbyte)walk.Y, (sbyte)L);
                 townGateEvent.TeleportLocation = packMapCoordinate;
-                result = true;
+                return true;
             }
             else
             {
-                result = false;
+                return false;
             }
         }
 
@@ -188,7 +188,7 @@ public partial class TownGate : CityTargetSpell
         {
             result = army.Army.ValidTerrain(selection, field.TerrainType, field.OverlayType);
             // { CanAddUnitSelection returns arOK (zero) when the destination accepts the selection. }
-            result = result && (field.GetArmyHexSprite() is null || field.GetArmyHexSprite().Army.CanAddUnitSelection(army.Army.Units, selection) == AddUnitsResult.Ok);
+            return result && (field.GetArmyHexSprite() is null || field.GetArmyHexSprite().Army.CanAddUnitSelection(army.Army.Units, selection) == AddUnitsResult.Ok);
         }
 
         return result;

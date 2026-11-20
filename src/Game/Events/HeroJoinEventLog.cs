@@ -24,20 +24,17 @@ public partial class HeroJoinEventLog(CustomNode owner) : JoinEventLog(owner)
     {
         UnitControl unitControl = StrategicMap.Current.UnitControl;
         Hero hero = unitControl.FindUnit<Hero>(FirstUnitId);
-        bool result;
         if (hero is not null && hero.Player == 0 && hero.OfferToJoin(Player))
         {
             bool executeNow = trigger == ExecuteTrigger.User;
             executeNow = executeNow || (StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.HeroJoin));
             executeNow = executeNow || (StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.HeroJoin));
-            result = executeNow && base.Execute(mode, trigger, done);
+            return executeNow && base.Execute(mode, trigger, done);
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Hero.PAS:148
@@ -77,7 +74,6 @@ public partial class HeroJoinEventLog(CustomNode owner) : JoinEventLog(owner)
     // dispatched on it).
     public bool ExecuteAI()
     {
-        bool result = false;
         Hero hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(FirstUnitId);
         if (hero is not null && hero.Player == 0 && hero.OfferToJoin(Player))
         {
@@ -91,11 +87,11 @@ public partial class HeroJoinEventLog(CustomNode owner) : JoinEventLog(owner)
                     _ = StrategicMap.Current.Players.GetPlayers(Player).AIBudget.BudgetExpenseMade(Gold, 0, fPlayersPlayers.AIBudget.DefaultBudget, AIBudgetManager.ExpenseMode.BudgetThenPool);
                 }
 
-                result = true;
+                return true;
             }
         }
 
-        return result;
+        return false;
     }
 
 }

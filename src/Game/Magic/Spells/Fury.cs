@@ -46,7 +46,7 @@ public partial class Fury : UnitSpell
         {
             if (StrategicMap.Current.Players.GetPlayers(target.Player).PlayerType != PlayerType.Human && target is Leader)
             {
-                result = false;
+                return false;
             }
         }
 
@@ -56,7 +56,6 @@ public partial class Fury : UnitSpell
     // UnitSpells.pas:350
     public override bool ExecuteSpell(Troop source, Troop target, int mana, Span<int> data)
     {
-        bool result;
         if (ValidTargetUnit(source, target))
         {
             if (target.ExpandAbility(156))
@@ -68,13 +67,11 @@ public partial class Fury : UnitSpell
             }
 
             // { Original succeeds even when expansion fails. }
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 }

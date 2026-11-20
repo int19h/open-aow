@@ -53,8 +53,6 @@ public partial class AnimateHero : Spell
                 _ = CastSounds.Play(0);
             }
         }
-
-        bool result;
         if (executeCount == 20)
         {
             HeroList heroes = new(null) { Holder = CreationHolder() };
@@ -119,14 +117,12 @@ public partial class AnimateHero : Spell
 
             CastingDone(source, eventValue.EventMana);
             heroes?.Dispose();
-            result = false;
+            return false;
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // GlobalSpells.pas:1166
@@ -134,21 +130,18 @@ public partial class AnimateHero : Spell
     {
         string reason = "";
         _ = base.Activate(source);
-        bool result;
         if (CanActivate(source, ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             SpellTokenEvent eventValue = new(null) { Holder = CreationHolder() };
             eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             _ = eventValue.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     private static readonly string s_animateHeroText = "Animate Hero";

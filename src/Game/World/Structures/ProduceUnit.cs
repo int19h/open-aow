@@ -55,7 +55,7 @@ public sealed record ProduceUnit(int Index, int GroupId) : ProductionOrder
             Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(control.GetPlayer());
             if (control.UnitProductionMana(Index) <= fPlayersPlayers.MagicControl.Mana)
             {
-                result = true;
+                return true;
             }
             else
             {

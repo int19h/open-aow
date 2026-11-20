@@ -99,12 +99,9 @@ public partial class ReflectingPool(CustomNode owner) : PlayerStructure(owner)
     public override int VisibilityRange()
     {
         int result = 8;
-        if (GetHexLevel() != 0 || (Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 8) != 0))
-        {
-            result = (int)(((uint)(result + 1)) >> 1);
-        }
-
-        return result;
+        return GetHexLevel() != 0 || (Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 8) != 0)
+            ? (int)(((uint)(result + 1)) >> 1)
+            : result;
     }
 
     // ReflectingPool.pas:185

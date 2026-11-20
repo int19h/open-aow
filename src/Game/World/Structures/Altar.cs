@@ -85,12 +85,12 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
                 }
                 else
                 {
-                    result = ExecuteResult.Retry;
+                    return ExecuteResult.Retry;
                 }
             }
             else
             {
-                result = ExecuteResult.DoneHalt;
+                return ExecuteResult.DoneHalt;
             }
         }
 
@@ -110,18 +110,15 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
     // Altar.pas:70
     public override string GetCurrentActivityText()
     {
-        string result;
         if (GetRechargeDays() != RechargeDays)
         {
             string formatDaysLeftString = DurationText.FormatDaysLeftString(GetEngine(), days: GetRechargeDays() - RechargeDays);
-            result = $"{AbilityRules.TranslateResourceString(GetEngine(), s_chargingText)} ({formatDaysLeftString})";
+            return $"{AbilityRules.TranslateResourceString(GetEngine(), s_chargingText)} ({formatDaysLeftString})";
         }
         else
         {
-            result = AbilityRules.TranslateResourceString(GetEngine(), s_readyText);
+            return AbilityRules.TranslateResourceString(GetEngine(), s_readyText);
         }
-
-        return result;
     }
 
     // Altar.pas:259
@@ -193,7 +190,6 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
     // Altar.pas:110
     public virtual bool StormTargetSelected(sbyte X, sbyte Y, sbyte L)
     {
-        bool result;
         string reason = "";
         if (CanTarget(ref reason) && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
@@ -203,14 +199,12 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
             eventValue.Action = 0;
             StrategicMap.Current.TokenManager.GetTokenControl(Player).AddEvent(eventValue);
             _ = eventValue.Release();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Altar.pas:212
@@ -219,18 +213,16 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
     // Altar.pas:153
     public virtual bool CanTarget(ref string reason)
     {
-        bool result;
         if (TargetMana() <= StrategicMap.Current.Players.GetPlayers(Player).MagicControl.Mana)
         {
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
             reason = AbilityRules.TranslateResourceString(GetEngine(), GameText.NotEnoughManaText);
         }
 
-        return result;
+        return false;
     }
 
     // Altar.pas:164
@@ -238,7 +230,6 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
     {
         string reason = "";
         TargetSelectionControl selection = StrategicMap.Current.TargetSelection;
-        bool result;
         if (!GetRazed() && Player >= 0 && TargetMana() <= StrategicMap.Current.Players.GetPlayers(Player).MagicControl.Mana && CanTarget(ref reason) && _storm is null)
         {
             selection.Initialize(this);
@@ -257,33 +248,29 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
             selection.ValidTargetImage = GetMiddleBorderImage();
             selection.InvalidTargetImage = GetBottomBorderImage();
             selection.Activate();
-            result = true;
             Update();
         }
         else
         {
             // { Original reports success even when targeting cannot start. }
-            result = true;
+            return true;
         }
 
-        return result;
+        return true;
     }
 
     // Altar.pas:202
     public virtual bool CancelTargeting()
     {
-        bool result;
         if (GetTargeting())
         {
             StrategicMap.Current.TargetSelection.Deactivate();
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // Altar.pas:215

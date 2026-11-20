@@ -17,11 +17,7 @@ public partial class UnitProductionList(CustomNode owner) : OwningNode(owner), I
     int IChildSink<UnitProduction>.AddChild(UnitProduction child) => AddChild(child);
 
     // Structur.PAS:14
-    public UnitProduction GetItem(int index)
-    {
-        UnitProduction result = index >= 0 && index < Count ? this[index] : null;
-        return result;
-    }
+    public UnitProduction GetItem(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // Structur.PAS:20
     public void Add(int unitIndex, bool researched)

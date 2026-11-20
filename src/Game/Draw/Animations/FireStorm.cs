@@ -110,9 +110,7 @@ public partial class FireStorm(CustomNode owner) : Storm(owner)
             }
         }
 
-        bool result = frame != -1;
-
-        return result;
+        return frame != -1;
     }
 
     // Storms.pas:559

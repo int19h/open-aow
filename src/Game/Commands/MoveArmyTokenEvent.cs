@@ -221,17 +221,16 @@ public partial class MoveArmyTokenEvent(CustomNode owner) : MoveTokenEvent(owner
     // MoveT.PAS:2368
     public override MoveStatus DefaultMove()
     {
-        MoveStatus result;
         if (!ArmyHexSprite.Moving())
         {
             if (CanMoveNext())
             {
                 SetupNextMove();
-                result = !Animating() ? ExecuteMove() : MoveStatus.Moving;
+                return !Animating() ? ExecuteMove() : MoveStatus.Moving;
             }
             else
             {
-                result = MoveStatus.Failed;
+                return MoveStatus.Failed;
             }
         }
         else
@@ -253,15 +252,13 @@ public partial class MoveArmyTokenEvent(CustomNode owner) : MoveTokenEvent(owner
                     ArmyHexSprite.PlayMoveSfx();
                 }
 
-                result = !Animating() ? ExecuteMove() : MoveStatus.Moving;
+                return !Animating() ? ExecuteMove() : MoveStatus.Moving;
             }
             else
             {
-                result = MoveStatus.Failed;
+                return MoveStatus.Failed;
             }
         }
-
-        return result;
     }
 
     // MoveT.PAS:2304
@@ -348,7 +345,6 @@ public partial class MoveArmyTokenEvent(CustomNode owner) : MoveTokenEvent(owner
         MapField field = GetMapField(Path[MoveIndex].Location);
         PathStep item = Path[MoveIndex];
         _ = ArmyHexSprite.MoveTo(field, item.MoveCost);
-        MoveStatus result;
         if (field.FindChildIndex(ArmyHexSprite) != -1)
         {
             int direction = GetDirection(MoveIndex + 1);
@@ -371,15 +367,13 @@ public partial class MoveArmyTokenEvent(CustomNode owner) : MoveTokenEvent(owner
                 _ = ConstructRoad(ArmyHexSprite.Army.Player, field);
             }
 
-            result = ProcessMove();
+            return ProcessMove();
         }
         else
         {
             ArmyHexSprite = null;
-            result = MoveStatus.Done;
+            return MoveStatus.Done;
         }
-
-        return result;
     }
 
     // MoveT.PAS:2108
@@ -388,7 +382,6 @@ public partial class MoveArmyTokenEvent(CustomNode owner) : MoveTokenEvent(owner
         Path.Clear();
         int first = path.MovePointsToPosition(armyHexSprite.Army.MovePoints(selection));
         int last2 = path.Count - 1;
-        bool result;
         if (last2 > first)
         {
             for (int i = first; i <= last2; i++)
@@ -413,14 +406,12 @@ public partial class MoveArmyTokenEvent(CustomNode owner) : MoveTokenEvent(owner
             }
 
             Destination = new MapCoordinate(ArmyHexSprite.Army.Destination.X, ArmyHexSprite.Army.Destination.Y, ArmyHexSprite.Army.Destination.MapLevel);
-            result = true;
+            return true;
         }
         else
         {
-            result = false;
+            return false;
         }
-
-        return result;
     }
 
     // MoveT.PAS:2259
@@ -431,7 +422,7 @@ public partial class MoveArmyTokenEvent(CustomNode owner) : MoveTokenEvent(owner
         if (result && StrategicMap.Current.TokenManager.TokenExecutor.GetExecutingTokenEvent() is MultiMoveTokenEvent eventValue && eventValue.Simultaneous)
         {
             visible = this == eventValue.Events[0];
-            result = visible;
+            return visible;
         }
 
         return result;
@@ -449,12 +440,12 @@ public partial class MoveArmyTokenEvent(CustomNode owner) : MoveTokenEvent(owner
             result = StrategicMap.Current.Visible(item2.Location.X, fPathItem.Location.Y, item.Location.MapLevel, 0);
             if (result && ArmyHexSprite.Army.Status.Contains(ArmyStatusElement.FullyConcealed))
             {
-                result = false;
+                return false;
             }
         }
         else
         {
-            result = false;
+            return false;
         }
 
         return result;

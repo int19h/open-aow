@@ -35,7 +35,6 @@ public partial class Anarchy : CityTargetSpell
     // CitySpells.pas:875
     protected override bool ExecuteTokenEvent(CityTargetSpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        bool result;
         City targetCity;
         if (executeCount == 0)
         {
@@ -66,7 +65,7 @@ public partial class Anarchy : CityTargetSpell
                 _ = StrategicMap.Current.PlaceHex(a, hexX, targetCityHexY, targetCityHexLevel);
             }
 
-            result = true;
+            return true;
         }
         else
         {
@@ -75,24 +74,20 @@ public partial class Anarchy : CityTargetSpell
                 targetCity = eventValue.GetSelectedCity();
                 targetCity.ExecuteAnarchy();
                 CastingDone(source, eventValue.EventMana);
-                result = false;
+                return false;
             }
             else
             {
-                result = true;
+                return true;
             }
         }
-
-        return result;
     }
 
     // CitySpells.pas:858
     public override bool ValidTargetCity(Troop source, City targetCity)
     {
         bool result = base.ValidTargetCity(source, targetCity);
-        result = result && targetCity.Player != 0 && !targetCity.Enchantments.Contains(CityEnchantmentId.AntiMagicShell);
-
-        return result;
+        return result && targetCity.Player != 0 && !targetCity.Enchantments.Contains(CityEnchantmentId.AntiMagicShell);
     }
 
     // CitySpells.pas:867

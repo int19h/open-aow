@@ -7,10 +7,6 @@ public partial class SongStatus
 {
     public string FileName { get; protected internal set; } = "";
 
-    internal static bool RestoreSongStatus(SongStatus status)
-    {
-        bool result = AudioHost.SoundSystem is not null && AudioHost.SoundSystem.RestoreSongStatus(status);
-        return result;
-    }
+    internal static bool RestoreSongStatus(SongStatus status) => AudioHost.SoundSystem is not null && AudioHost.SoundSystem.RestoreSongStatus(status);
 
 }

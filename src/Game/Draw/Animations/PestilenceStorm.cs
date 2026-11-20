@@ -90,8 +90,6 @@ public partial class PestilenceStorm(CustomNode owner) : Storm(owner)
             frame = sequence.GetUnloopedFrameIndex(FrameCounter);
             sequence = sequence.Next;
         }
-
-        bool result;
         if (frame == -1)
         {
             PoisonCloud cloud = _cloudResource.CreateResourceUser<PoisonCloud>();
@@ -109,14 +107,12 @@ public partial class PestilenceStorm(CustomNode owner) : Storm(owner)
                 cloud?.Dispose();
             }
 
-            result = false;
+            return false;
         }
         else
         {
-            result = true;
+            return true;
         }
-
-        return result;
     }
 
     // Storms.pas:685

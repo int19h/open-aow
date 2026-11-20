@@ -15,12 +15,7 @@ public partial class MountainMapObject(CustomNode owner) : Hexes.Terrain(owner)
     public override sbyte GetOverlay(int index)
     {
         sbyte result = ((MapObject)this).Resource.TerrainList.Overlay[index];
-        if (result >= 0)
-        {
-            result = 0;
-        }
-
-        return result;
+        return result >= 0 ? (sbyte)0 : result;
     }
 
     // Mountain.pas:110
