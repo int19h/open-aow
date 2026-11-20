@@ -41,7 +41,7 @@ public sealed class MldDictionary
             return;
         }
 
-        using Stream stream = RtlHost.Files.Open(path, DelphiStreams.fmOpenRead);
+        using Stream stream = RtlHost.Files.Open(path, mode: DelphiStreams.fmOpenRead);
         Read(stream);
         _fileName = path;
     }
@@ -53,7 +53,7 @@ public sealed class MldDictionary
         stream.CopyTo(copy);
         Reader reader = new(copy.ToArray());
         byte[] bytes = reader.Data;
-        if (bytes.Length < 42 || !bytes.AsSpan(0, 3).SequenceEqual("MLD"u8))
+        if (bytes.Length < 42 || !bytes.AsSpan(0, length: 3).SequenceEqual("MLD"u8))
         {
             throw new InvalidDataException("Invalid MLD header");
         }
@@ -127,8 +127,8 @@ public sealed class MldDictionary
                 padding = end - reader.Position;
                 reader.Seek(end);
             }
-            languages[i] = new(start, block, primary, isoLanguage, sub, country, allSubs,
-                countries, charset, codePage, options, english, native, extra, extraByte, padding);
+            languages[i] = new(start, BlockSize: block, PrimaryLanguageId: primary, isoLanguage, SubLanguageId: sub, IsoCountry: country, allSubs,
+                AllCountries: countries, CharacterSetType: charset, codePage, options, EnglishName: english, NativeName: native, ExtraString: extra, extraByte, padding);
             coverage.Add((start, reader.Position));
         }
         reader.Seek(entryOffset);
@@ -145,7 +145,7 @@ public sealed class MldDictionary
                 translations[j] = reader.Text();
             }
 
-            entries[i] = new(i, start, native, form, component, Array.AsReadOnly(translations));
+            entries[i] = new(i, Offset: start, native, form, component, Translations: Array.AsReadOnly(translations));
         }
         coverage.Add((entryOffset, reader.Position));
         MldInfo? info = null;
@@ -172,7 +172,7 @@ public sealed class MldDictionary
                 throw new InvalidDataException("MLD info size differs from header");
             }
 
-            info = new(infoOffset, description, owner, Array.AsReadOnly(users), timestamp);
+            info = new(infoOffset, description, owner, Users: Array.AsReadOnly(users), timestamp);
             coverage.Add((infoOffset, reader.Position));
         }
         int consumed = 0;
@@ -272,13 +272,13 @@ public sealed class MldDictionary
         return translated.Length == 0 ? source : translated;
     }
 
-    public string Translate(string source) => source.Length == 0 ? source : Translation(source, Find(source));
+    public string Translate(string source) => source.Length == 0 ? source : Translation(source, entry: Find(source));
 
     public string TranslateContext(string source, string form, string component)
     {
         return source.Length == 0 || ContextCode == 0
             ? Translate(source)
-            : Translation(source, Search(key: $"{source}\u007F{(ContextCode is 1 or 3 ? form : "")}{(ContextCode is 1 or 2 ? component : "")}", entries: _contextual, selector: Key) ?? Find(source));
+            : Translation(source, entry: Search(key: $"{source}\u007F{(ContextCode is 1 or 3 ? form : "")}{(ContextCode is 1 or 2 ? component : "")}", entries: _contextual, selector: Key) ?? Find(source));
     }
 
     private sealed class Reader(byte[] data)
@@ -305,7 +305,7 @@ public sealed class MldDictionary
                 throw new InvalidDataException("Truncated MLD data");
             }
 
-            Span<byte> span = Data.AsSpan(Position, count);
+            Span<byte> span = Data.AsSpan(Position, length: count);
             Position += count;
             return span;
         }
@@ -329,7 +329,7 @@ public sealed class MldDictionary
                 return Cp1252.Decode(raw.ToArray());
             }
 
-            UnicodeEncoding encoding = new(!LittleEndian, false, true);
+            UnicodeEncoding encoding = new(!LittleEndian, byteOrderMark: false, throwOnInvalidBytes: true);
             return Cp1252.Normalize(encoding.GetString(raw));
         }
     }

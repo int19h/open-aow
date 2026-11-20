@@ -14,7 +14,7 @@ public class GoldRush : CityEnchantmentSpell
     public GoldRush(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.GoldRushText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.GoldRushText);
         SpellId = 53;
         CityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Own);
         BaseManaCost = 1;

@@ -8,7 +8,7 @@ public static class DelphiTextCompare
     private static string Map(string? value, Func<char, char> map)
     {
         value = RequireString(value);
-        return string.Create(value.Length, (value, map), (chars, state) =>
+        return string.Create(value.Length, state: (value, map), (chars, state) =>
         {
             for (int i = 0; i < chars.Length; i++)
             {
@@ -17,7 +17,7 @@ public static class DelphiTextCompare
         });
     }
 
-    public static string UpperCase(string? value) => Map(value, UpCase);
+    public static string UpperCase(string? value) => Map(value, map: UpCase);
     public static string LowerCase(string? value) => Map(value, c => c is >= 'A' and <= 'Z' ? (char)(c + 32) : c);
     public static string AnsiLowerCase(string? value) => Map(value, c => Cp1252.IsMapped(c) ? Cp1252.Char(Fold1252(Cp1252.Byte(c))) : c);
 
@@ -48,8 +48,8 @@ public static class DelphiTextCompare
     }
 
     public static int CompareStr(string? a, string? b) => Cp1252.Compare(a, b);
-    public static int CompareText(string? a, string? b) => CompareBytes(a, b, UpCase);
-    public static int AnsiCompareStr(string? a, string? b) => CompareBytes(a, b, CollationByte);
+    public static int CompareText(string? a, string? b) => CompareBytes(a, b, map: UpCase);
+    public static int AnsiCompareStr(string? a, string? b) => CompareBytes(a, b, map: CollationByte);
     public static int AnsiCompareText(string? a, string? b) => CompareBytes(a, b, c => CollationByte(Fold1252(c)));
 
     internal static byte Fold1252(byte c) => c switch

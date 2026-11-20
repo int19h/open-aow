@@ -55,12 +55,12 @@ public class CheatTokenEvent(CustomNode owner) : TokenEvent(owner)
                 StrategicMap.Current.SetExplorationEnabled(!StrategicMap.Current.ExplorationEnabled);
                 if (StrategicMap.Current.ExplorationEnabled)
                 {
-                    string explorationEnabled = AbilityRules.TranslateResourceString(GetEngine(), s_explorationEnabledText);
+                    string explorationEnabled = AbilityRules.TranslateResourceString(GetEngine(), S: s_explorationEnabledText);
                     StrategicMap.Current.ShowMessage(explorationEnabled);
                 }
                 else
                 {
-                    string explorationDisabled = AbilityRules.TranslateResourceString(GetEngine(), s_explorationDisabledText);
+                    string explorationDisabled = AbilityRules.TranslateResourceString(GetEngine(), S: s_explorationDisabledText);
                     StrategicMap.Current.ShowMessage(explorationDisabled);
                 }
 
@@ -69,12 +69,12 @@ public class CheatTokenEvent(CustomNode owner) : TokenEvent(owner)
                 StrategicMap.Current.SetFogEnabled(!StrategicMap.Current.FogEnabled);
                 if (StrategicMap.Current.FogEnabled)
                 {
-                    string fogEnabled = AbilityRules.TranslateResourceString(GetEngine(), s_fogEnabledText);
+                    string fogEnabled = AbilityRules.TranslateResourceString(GetEngine(), S: s_fogEnabledText);
                     StrategicMap.Current.ShowMessage(fogEnabled);
                 }
                 else
                 {
-                    string fogDisabled = AbilityRules.TranslateResourceString(GetEngine(), s_fogDisabledText);
+                    string fogDisabled = AbilityRules.TranslateResourceString(GetEngine(), S: s_fogDisabledText);
                     StrategicMap.Current.ShowMessage(fogDisabled);
                 }
 
@@ -84,12 +84,12 @@ public class CheatTokenEvent(CustomNode owner) : TokenEvent(owner)
                 StrategicMap.Current.Players.GetPlayers(Player).MagicControl.CheatEnabled = !cheatEnabled;
                 if (StrategicMap.Current.Players.GetPlayers(Player).MagicControl.GetCheatEnabled())
                 {
-                    string spellCheatEnabled = AbilityRules.TranslateResourceString(GetEngine(), s_spellCheatEnabledText);
+                    string spellCheatEnabled = AbilityRules.TranslateResourceString(GetEngine(), S: s_spellCheatEnabledText);
                     StrategicMap.Current.ShowMessage(spellCheatEnabled);
                 }
                 else
                 {
-                    string spellCheatDisabled = AbilityRules.TranslateResourceString(GetEngine(), s_spellCheatDisabledText);
+                    string spellCheatDisabled = AbilityRules.TranslateResourceString(GetEngine(), S: s_spellCheatDisabledText);
                     StrategicMap.Current.ShowMessage(spellCheatDisabled);
                 }
 
@@ -103,18 +103,18 @@ public class CheatTokenEvent(CustomNode owner) : TokenEvent(owner)
 
                 break;
             case 5:
-                StrategicMap.Current.PlayerControl.GameOver(Player, GameOverStatus.Won);
+                StrategicMap.Current.PlayerControl.GameOver(Player, status: GameOverStatus.Won);
                 break;
             case 6:
                 StrategicMap.Current.UnlimitedMoves = !StrategicMap.Current.UnlimitedMoves;
                 if (StrategicMap.Current.UnlimitedMoves)
                 {
-                    string freeMovementEnabled = AbilityRules.TranslateResourceString(GetEngine(), s_freeMovementEnabledText);
+                    string freeMovementEnabled = AbilityRules.TranslateResourceString(GetEngine(), S: s_freeMovementEnabledText);
                     StrategicMap.Current.ShowMessage(freeMovementEnabled);
                 }
                 else
                 {
-                    string freeMovementDisabled = AbilityRules.TranslateResourceString(GetEngine(), s_freeMovementDisabledText);
+                    string freeMovementDisabled = AbilityRules.TranslateResourceString(GetEngine(), S: s_freeMovementDisabledText);
                     StrategicMap.Current.ShowMessage(freeMovementDisabled);
                 }
 
@@ -132,7 +132,7 @@ public class CheatTokenEvent(CustomNode owner) : TokenEvent(owner)
 
                 break;
             case 8:
-                StrategicMap.Current.PlayerControl.GameOver(Player, GameOverStatus.Lost);
+                StrategicMap.Current.PlayerControl.GameOver(Player, status: GameOverStatus.Lost);
                 break;
             case 9:
                 {
@@ -141,7 +141,7 @@ public class CheatTokenEvent(CustomNode owner) : TokenEvent(owner)
                         StrategicMap.Current.Players.GetPlayers(i).MagicControl.Spells.Clear();
                         for (int j = 1, lastJ = GamePack.Current.SpellControl.GetCount() - 1; j <= lastJ; j++)
                         {
-                            if (GamePack.Current.SpellControl.GetSpell(j) is not null)
+                            if (GamePack.Current.SpellControl[j] is not null)
                             {
                                 _ = StrategicMap.Current.Players.GetPlayers(i).MagicControl.Spells.Add(j);
                             }

@@ -30,7 +30,7 @@ public class PrisonersArmy : Army
     public override bool CanAddUnit(Troop troop)
     {
         bool result = base.CanAddUnit(troop);
-        return result && !troop.GetTransporter() && troop.ValidTerrain(1, 4);
+        return result && !troop.GetTransporter() && troop.ValidTerrain(1, overlayType: 4);
     }
 
     // An empty list is not state. A load still reads the member, and absence leaves the list empty.

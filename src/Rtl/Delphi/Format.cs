@@ -47,7 +47,7 @@ public static class DelphiFormat
                     i++;
                 }
 
-                width = ReadNumber(text, ref i, args, ref next);
+                width = ReadNumber(text, position: ref i, args, ref next);
                 if (i >= text.Length)
                 {
                     return result.ToString();
@@ -65,7 +65,7 @@ public static class DelphiFormat
             if (i < text.Length && text[i] == '.')
             {
                 i++;
-                precision = ReadNumber(text, ref i, args, ref next);
+                precision = ReadNumber(text, position: ref i, args, ref next);
             }
             if (i >= text.Length)
             {
@@ -83,7 +83,7 @@ public static class DelphiFormat
                 int value when conversion is 'D' or 'U' or 'X' => FormatInteger(conversion, value, precision),
                 string value when conversion == 'S' => Truncate(value, precision),
                 char value when conversion == 'S' => value.ToString(),
-                PointerArg value when conversion == 'P' => value.Value.ToString("X8", CultureInfo.InvariantCulture),
+                PointerArg value when conversion == 'P' => value.Value.ToString("X8", provider: CultureInfo.InvariantCulture),
                 int or bool or char or double or string or object or PointerArg or null => throw Mismatch(conversion, start),
             };
             _ = result.Append(left ? output.PadRight(Math.Max(0, width)) : output.PadLeft(Math.Max(0, width)));
@@ -110,10 +110,10 @@ public static class DelphiFormat
     private static string FormatInteger(char conversion, int value, int precision)
     {
         string output = conversion == 'D' ? value.ToString(CultureInfo.InvariantCulture)
-            : unchecked((uint)value).ToString(conversion == 'X' ? "X" : "D", CultureInfo.InvariantCulture);
+            : unchecked((uint)value).ToString(conversion == 'X' ? "X" : "D", provider: CultureInfo.InvariantCulture);
         if (precision is > 0 and < 16)
         {
-            output = output.StartsWith('-') ? $"-{output[1..].PadLeft(precision, '0')}" : output.PadLeft(precision, '0');
+            output = output.StartsWith('-') ? $"-{output[1..].PadLeft(precision, paddingChar: '0')}" : output.PadLeft(precision, paddingChar: '0');
         }
 
         return output;

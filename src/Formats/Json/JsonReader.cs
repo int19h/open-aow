@@ -31,7 +31,7 @@ public sealed class JsonReader
     /// <summary>Decodes strict UTF-8 and parses it. The bytes are never retried as another format.</summary>
     public static JsonValue Parse(ReadOnlySpan<byte> utf8, string? file = null, bool decompressed = false, FormatLimits? limits = null)
     {
-        UTF8Encoding encoding = new(false, true);
+        UTF8Encoding encoding = new(false, throwOnInvalidBytes: true);
         string text;
         try
         {
@@ -39,7 +39,7 @@ public sealed class JsonReader
         }
         catch (DecoderFallbackException error)
         {
-            throw new ConversionException(new FormatDiagnostic(Codes.Utf8, "The document is not valid UTF-8.")
+            throw new ConversionException(new FormatDiagnostic(Codes.Utf8, Message: "The document is not valid UTF-8.")
             {
                 File = file,
                 Offset = error.Index,
@@ -51,7 +51,7 @@ public sealed class JsonReader
 
     public static JsonValue Parse(string text, string? file = null, bool decompressed = false, FormatLimits? limits = null)
     {
-        JsonReader reader = new(text, file, decompressed, limits ?? FormatLimits.Default);
+        JsonReader reader = new(text, file, decompressed, limits: limits ?? FormatLimits.Default);
         if (reader.Peek() == '\uFEFF')
         {
             reader._position++;
@@ -60,10 +60,10 @@ public sealed class JsonReader
         reader.SkipWhitespace();
         JsonValue value = reader.ReadValue(0);
         reader.SkipWhitespace();
-        return reader._position < text.Length ? throw reader.Error(Codes.Syntax, "Content follows the document value.") : value;
+        return reader._position < text.Length ? throw reader.Error(Codes.Syntax, message: "Content follows the document value.") : value;
     }
 
-    private TextSpan Here => new(_position, _line, ColumnAt(_position));
+    private TextSpan Here => new(_position, _line, Column: ColumnAt(_position));
 
     private int _cacheOffset;
     private int _cacheColumn = 1;
@@ -126,7 +126,7 @@ public sealed class JsonReader
     {
         if (++_nodes > _limits.Nodes)
         {
-            throw Error(Codes.Limit, "The document has too many values.", span, null, $"at most {_limits.Nodes} values");
+            throw Error(Codes.Limit, message: "The document has too many values.", span, value: null, constraint: $"at most {_limits.Nodes} values");
         }
     }
 
@@ -134,7 +134,7 @@ public sealed class JsonReader
     {
         if (_position >= _text.Length)
         {
-            throw Error(Codes.Syntax, "The document ends where a value is expected.");
+            throw Error(Codes.Syntax, message: "The document ends where a value is expected.");
         }
 
         TextSpan span = Here;
@@ -165,7 +165,7 @@ public sealed class JsonReader
                 value = new JsonNull();
                 break;
             default:
-                value = c is '-' or (>= '0' and <= '9') ? ReadNumber() : throw Error(Codes.Syntax, $"Unexpected character '{Printable(c)}'.");
+                value = c is '-' or (>= '0' and <= '9') ? ReadNumber() : throw Error(Codes.Syntax, message: $"Unexpected character '{Printable(c)}'.");
 
                 break;
         }
@@ -177,9 +177,9 @@ public sealed class JsonReader
 
     private void Expect(string word)
     {
-        if (string.CompareOrdinal(_text, _position, word, 0, word.Length) != 0)
+        if (string.CompareOrdinal(_text, _position, word, indexB: 0, word.Length) != 0)
         {
-            throw Error(Codes.Syntax, $"Unexpected text, '{word}' or another value expected.");
+            throw Error(Codes.Syntax, message: $"Unexpected text, '{word}' or another value expected.");
         }
 
         _position += word.Length;
@@ -189,7 +189,7 @@ public sealed class JsonReader
     {
         if (depth > _limits.Depth)
         {
-            throw Error(Codes.Limit, "The document nests too deeply.", null, null, $"depth at most {_limits.Depth}");
+            throw Error(Codes.Limit, message: "The document nests too deeply.", span: null, value: null, constraint: $"depth at most {_limits.Depth}");
         }
     }
 
@@ -210,21 +210,21 @@ public sealed class JsonReader
             SkipWhitespace();
             if (Peek() != '"')
             {
-                throw Error(Codes.Syntax, Peek() == '}' ? "A trailing comma precedes '}'." : "A member name is expected.");
+                throw Error(Codes.Syntax, message: Peek() == '}' ? "A trailing comma precedes '}'." : "A member name is expected.");
             }
 
             TextSpan nameSpan = Here;
             string name = ReadString();
             if (names.TryGetValue(name, out TextSpan first))
             {
-                throw Error(Codes.Duplicate, $"Member \"{name}\" is declared twice, first at {first.Line}:{first.Column}.", nameSpan, name);
+                throw Error(Codes.Duplicate, message: $"Member \"{name}\" is declared twice, first at {first.Line}:{first.Column}.", span: nameSpan, value: name);
             }
 
             names.Add(name, nameSpan);
             SkipWhitespace();
             if (Peek() != ':')
             {
-                throw Error(Codes.Syntax, "':' is expected after a member name.");
+                throw Error(Codes.Syntax, message: "':' is expected after a member name.");
             }
 
             _position++;
@@ -233,7 +233,7 @@ public sealed class JsonReader
             result.Members.Add(new JsonMember(name, value) { NameSpan = nameSpan });
             if (result.Members.Count > _limits.CollectionItems)
             {
-                throw Error(Codes.Limit, "An object has too many members.", nameSpan, null, $"at most {_limits.CollectionItems} members");
+                throw Error(Codes.Limit, message: "An object has too many members.", span: nameSpan, value: null, constraint: $"at most {_limits.CollectionItems} members");
             }
 
             SkipWhitespace();
@@ -247,7 +247,7 @@ public sealed class JsonReader
             if (c != ',')
             {
                 _position--;
-                throw Error(Codes.Syntax, "',' or '}' is expected.");
+                throw Error(Codes.Syntax, message: "',' or '}' is expected.");
             }
         }
     }
@@ -268,13 +268,13 @@ public sealed class JsonReader
             SkipWhitespace();
             if (Peek() == ']')
             {
-                throw Error(Codes.Syntax, "A trailing comma precedes ']'.");
+                throw Error(Codes.Syntax, message: "A trailing comma precedes ']'.");
             }
 
             result.Items.Add(ReadValue(depth));
             if (result.Items.Count > _limits.CollectionItems)
             {
-                throw Error(Codes.Limit, "An array has too many items.", null, null, $"at most {_limits.CollectionItems} items");
+                throw Error(Codes.Limit, message: "An array has too many items.", span: null, value: null, constraint: $"at most {_limits.CollectionItems} items");
             }
 
             SkipWhitespace();
@@ -288,7 +288,7 @@ public sealed class JsonReader
             if (c != ',')
             {
                 _position--;
-                throw Error(Codes.Syntax, "',' or ']' is expected.");
+                throw Error(Codes.Syntax, message: "',' or ']' is expected.");
             }
         }
     }
@@ -302,7 +302,7 @@ public sealed class JsonReader
         {
             if (_position >= _text.Length)
             {
-                throw Error(Codes.Syntax, "The string is not closed.", start);
+                throw Error(Codes.Syntax, message: "The string is not closed.", span: start);
             }
 
             char c = _text[_position];
@@ -313,7 +313,7 @@ public sealed class JsonReader
             }
             if (c < ' ')
             {
-                throw Error(Codes.Syntax, "A control character in a string is not escaped.");
+                throw Error(Codes.Syntax, message: "A control character in a string is not escaped.");
             }
 
             if (c == '\\')
@@ -332,17 +332,17 @@ public sealed class JsonReader
                     case 'r': _ = builder.Append('\r'); break;
                     case 't': _ = builder.Append('\t'); break;
                     case 'u':
-                        if (_position + 4 > _text.Length || !int.TryParse(_text.AsSpan(_position, 4), NumberStyles.AllowHexSpecifier, CultureInfo.InvariantCulture, out int code))
+                        if (_position + 4 > _text.Length || !int.TryParse(_text.AsSpan(_position, length: 4), style: NumberStyles.AllowHexSpecifier, provider: CultureInfo.InvariantCulture, result: out int code))
                         {
                             _position -= 2;
-                            throw Error(Codes.Syntax, "A \\u escape needs four hexadecimal digits.");
+                            throw Error(Codes.Syntax, message: "A \\u escape needs four hexadecimal digits.");
                         }
                         _position += 4;
                         _ = builder.Append((char)code);
                         break;
                     default:
                         _position -= 2;
-                        throw Error(Codes.Syntax, "Unknown escape sequence.");
+                        throw Error(Codes.Syntax, message: "Unknown escape sequence.");
                 }
             }
             else
@@ -352,7 +352,7 @@ public sealed class JsonReader
             }
             if (builder.Length > _limits.StringBytes)
             {
-                throw Error(Codes.Limit, "A string is too long.", start, null, $"at most {_limits.StringBytes} characters");
+                throw Error(Codes.Limit, message: "A string is too long.", span: start, value: null, constraint: $"at most {_limits.StringBytes} characters");
             }
         }
         string result = builder.ToString();
@@ -364,7 +364,7 @@ public sealed class JsonReader
             }
             else if (char.IsSurrogate(result[i]))
             {
-                throw Error(Codes.Surrogate, "A string holds an unpaired surrogate.", start);
+                throw Error(Codes.Surrogate, message: "A string holds an unpaired surrogate.", span: start);
             }
         }
         return result;
@@ -392,7 +392,7 @@ public sealed class JsonReader
         }
         else
         {
-            throw Error(Codes.Syntax, "A digit is expected.", start);
+            throw Error(Codes.Syntax, message: "A digit is expected.", span: start);
         }
 
         if (Peek() is '.' or 'e' or 'E')
@@ -403,7 +403,7 @@ public sealed class JsonReader
                 _position++;
                 if (Peek() is not (>= '0' and <= '9'))
                 {
-                    throw Error(Codes.Number, "A digit is expected after the decimal point.", start, _text[begin.._position]);
+                    throw Error(Codes.Number, message: "A digit is expected after the decimal point.", span: start, value: _text[begin.._position]);
                 }
 
                 while (Peek() is >= '0' and <= '9')
@@ -421,7 +421,7 @@ public sealed class JsonReader
 
                 if (Peek() is not (>= '0' and <= '9'))
                 {
-                    throw Error(Codes.Number, "A digit is expected in the exponent.", start, _text[begin.._position]);
+                    throw Error(Codes.Number, message: "A digit is expected in the exponent.", span: start, value: _text[begin.._position]);
                 }
 
                 while (Peek() is >= '0' and <= '9')
@@ -431,9 +431,9 @@ public sealed class JsonReader
             }
             return new JsonNumber(_text[begin.._position]);
         }
-        ReadOnlySpan<char> digits = _text.AsSpan(begin, _position - begin);
-        return !long.TryParse(digits, NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out long value)
-            ? throw Error(Codes.Range, "The integer is outside the 64-bit range.", start, digits.ToString())
+        ReadOnlySpan<char> digits = _text.AsSpan(begin, length: _position - begin);
+        return !long.TryParse(digits, style: NumberStyles.AllowLeadingSign, provider: CultureInfo.InvariantCulture, result: out long value)
+            ? throw Error(Codes.Range, message: "The integer is outside the 64-bit range.", span: start, value: digits.ToString())
             : (JsonValue)new JsonInteger(value);
     }
 }

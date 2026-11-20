@@ -55,7 +55,7 @@ public class IceStorm(CustomNode owner) : BlastStorm(owner)
             if (ice is null)
             {
                 ice = new FrozenWaterHexSprite(null) { Holder = CreationHolder() };
-                _ = StrategicMap.Current.PlaceHex(ice, mapField.HexX, mapField.HexY, mapField.HexLevel);
+                _ = StrategicMap.Current.PlaceHex(ice, mapField.HexX, mapField.HexY, L: mapField.HexLevel);
             }
 
             ice.DaysRemaining = (sbyte)(3 + ((StrategicMap.Current.Random(11) - 5) / 5));
@@ -70,6 +70,6 @@ public class IceStorm(CustomNode owner) : BlastStorm(owner)
     public override StormType StormType() => Magic.Spells.StormType.Ice;
 
     // Storms.pas:368
-    public override string Name() => AbilityRules.TranslateResourceString(GetEngine(), GameTables.IceStormText);
+    public override string Name() => AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.IceStormText);
 
 }

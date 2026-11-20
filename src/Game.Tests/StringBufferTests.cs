@@ -32,7 +32,7 @@ public sealed class StringBufferTests
     [InlineData(2)]
     public void StringReadersKeepEveryByteAndIndependentAliases(int shape)
     {
-        byte[] bytes = [.. Enumerable.Range(0, 256).Select(i => (byte)i)];
+        byte[] bytes = [.. Enumerable.Range(0, count: 256).Select(i => (byte)i)];
         using MemoryStream stream = Input(bytes.Length, bytes);
         string text = "old", alias = text;
         Read(shape, ref text, stream);
@@ -44,7 +44,7 @@ public sealed class StringBufferTests
     [Fact]
     public void ShortStringFromStreamKeepsTheResizedTail()
     {
-        using MemoryStream stream = Input(6, [0, 0x80, 0xFF]);
+        using MemoryStream stream = Input(6, bytes: [0, 0x80, 0xFF]);
         string text = "seedtail";
         GameEngine.StringFromStream(ref text, stream);
         Assert.Equal(new byte[] { 0, 0x80, 0xFF, 100, 116, 97 }, Cp1252.Encode(text).ToArray());
@@ -54,7 +54,7 @@ public sealed class StringBufferTests
     [InlineData(2)]
     public void ShortStringBodiesThrowAndKeepTheResize(int shape)
     {
-        using MemoryStream stream = Input(6, [0, 0x80, 0xFF]);
+        using MemoryStream stream = Input(6, bytes: [0, 0x80, 0xFF]);
         string text = "seedtail";
         _ = Assert.Throws<EndOfStreamException>(() => Read(shape, ref text, stream));
         Assert.Equal("seedta"u8.ToArray(), Cp1252.Encode(text).ToArray());
@@ -65,7 +65,7 @@ public sealed class StringBufferTests
     [InlineData(2)]
     public void NegativeLengthsKeepTheRangeErrorAndOutput(int shape)
     {
-        using MemoryStream stream = Input(-1, []);
+        using MemoryStream stream = Input(-1, bytes: []);
         string text = "old";
         _ = Assert.Throws<ArgumentOutOfRangeException>(() => Read(shape, ref text, stream));
         Assert.Equal("old", text);
@@ -96,7 +96,7 @@ public sealed class StringBufferTests
     [InlineData(2)]
     public void FailingReadsPublishOnlyTheResize(int shape)
     {
-        using MemoryStream input = Input(6, []);
+        using MemoryStream input = Input(6, bytes: []);
         using FailingBodyStream stream = new() { BodyPosition = (int)input.Length };
         stream.Write(input.ToArray());
         stream.Position = 0;

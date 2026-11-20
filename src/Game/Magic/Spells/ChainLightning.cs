@@ -16,7 +16,7 @@ public class ChainLightning : CombatSpell
     public ChainLightning(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_chainLightningText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_chainLightningText);
         SpellId = 107;
         SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 6;

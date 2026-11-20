@@ -27,7 +27,7 @@ public class CenterViewLocation(CustomNode owner) : MapObject(owner)
     public override void Activate()
     {
         base.Activate();
-        if (!GetEditMode())
+        if (!EditMode)
         {
             CombatMap.Current.CenterViewLocation?.Dispose();
 
@@ -39,7 +39,7 @@ public class CenterViewLocation(CustomNode owner) : MapObject(owner)
     public override void Deactivate()
     {
         base.Deactivate();
-        if (!GetEditMode())
+        if (!EditMode)
         {
             if (CombatMap.Current.CenterViewLocation == this)
             {

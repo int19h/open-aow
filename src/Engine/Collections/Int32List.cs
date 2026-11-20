@@ -34,7 +34,7 @@ public class Int32List : Persistent
     {
         if (index < 0)
         {
-            Error("List index out of bounds (%d)", index);
+            Error("List index out of bounds (%d)", data: index);
         }
 
         if (index >= _count)
@@ -50,12 +50,12 @@ public class Int32List : Persistent
     {
         if (newCapacity < _count || newCapacity > EngineServices.MaxListSize)
         {
-            Error("List capacity out of bounds (%d)", newCapacity);
+            Error("List capacity out of bounds (%d)", data: newCapacity);
         }
 
         if (newCapacity != _capacity)
         {
-            Array.Resize(ref _list, newCapacity);
+            Array.Resize(ref _list, newSize: newCapacity);
             _capacity = newCapacity;
         }
     }
@@ -65,7 +65,7 @@ public class Int32List : Persistent
     {
         if (newCount is < 0 or > EngineServices.MaxListSize)
         {
-            Error("List count out of bounds (%d)", newCount);
+            Error("List count out of bounds (%d)", data: newCount);
         }
 
         if (newCount > _capacity)
@@ -75,7 +75,7 @@ public class Int32List : Persistent
 
         if (newCount > _count)
         {
-            FillInteger(_list.AsSpan(_count), newCount - _count, _default);
+            FillInteger(_list.AsSpan(_count), count: newCount - _count, value: _default);
         }
 
         _count = newCount;
@@ -90,21 +90,21 @@ public class Int32List : Persistent
             result = $"{result}{IntToStr(_list[i])},";
         }
 
-        return !IsEmpty(result) ? Copy(result, 1, result.Length - 1) : result;
+        return !IsEmpty(result) ? Copy(result, index: 1, count: result.Length - 1) : result;
     }
 
     // Engine.pas:3548
     internal void SetItemString(string S)
     {
         Clear();
-        int p = Pos(",", S);
+        int p = Pos(",", haystack: S);
         while (!IsEmpty(S))
         {
             string item;
             if (p != 0)
             {
-                item = Copy(S, 1, p - 1);
-                S = DelphiStrings.Delete(S, 1, p);
+                item = Copy(S, index: 1, count: p - 1);
+                S = DelphiStrings.Delete(S, index: 1, count: p);
             }
             else
             {
@@ -115,7 +115,7 @@ public class Int32List : Persistent
             int v = !IsEmpty(item) ? StrToInt(item) : 0;
 
             _ = Add(v);
-            p = Pos(",", S);
+            p = Pos(",", haystack: S);
         }
     }
 
@@ -136,7 +136,7 @@ public class Int32List : Persistent
         {
             _count = int32List._count;
             SetCapacity(int32List._count);
-            Array.Copy(int32List._list, 0, _list, 0, _count);
+            Array.Copy(int32List._list, sourceIndex: 0, destinationArray: _list, destinationIndex: 0, length: _count);
             _default = int32List._default;
         }
         else
@@ -171,13 +171,13 @@ public class Int32List : Persistent
     {
         if (index < 0 || index >= _count)
         {
-            Error("List index out of bounds (%d)", index);
+            Error("List index out of bounds (%d)", data: index);
         }
 
         _count -= 1;
         if (index < _count)
         {
-            Array.Copy(_list, index + 1, _list, index, _count - index);
+            Array.Copy(_list, sourceIndex: index + 1, destinationArray: _list, destinationIndex: index, length: _count - index);
         }
     }
 
@@ -186,12 +186,12 @@ public class Int32List : Persistent
     {
         if (index1 < 0 || index1 >= _count)
         {
-            Error("List index out of bounds (%d)", index1);
+            Error("List index out of bounds (%d)", data: index1);
         }
 
         if (index2 < 0 || index2 >= _count)
         {
-            Error("List index out of bounds (%d)", index2);
+            Error("List index out of bounds (%d)", data: index2);
         }
 
         (_list[index2], _list[index1]) = (_list[index1], _list[index2]);
@@ -228,7 +228,7 @@ public class Int32List : Persistent
     {
         if (index < 0 || index > _count)
         {
-            Error("List index out of bounds (%d)", index);
+            Error("List index out of bounds (%d)", data: index);
         }
 
         if (_count == _capacity)
@@ -238,7 +238,7 @@ public class Int32List : Persistent
 
         if (index < _count)
         {
-            Array.Copy(_list, index, _list, index + 1, _count - index);
+            Array.Copy(_list, sourceIndex: index, destinationArray: _list, destinationIndex: index + 1, length: _count - index);
         }
 
         _list[index] = item;
@@ -255,7 +255,7 @@ public class Int32List : Persistent
         {
             if (newIndex < 0 || newIndex >= _count)
             {
-                Error("List index out of bounds (%d)", newIndex);
+                Error("List index out of bounds (%d)", data: newIndex);
             }
 
             int item = Get(currentIndex);
@@ -293,7 +293,7 @@ public class Int32List : Persistent
     {
         if (_list.Length != 0 && Count > 0)
         {
-            QuickSortInteger(_list, 0, Count - 1, compare);
+            QuickSortInteger(_list, L: 0, R: Count - 1, sCompare: compare);
         }
     }
 
@@ -315,7 +315,7 @@ public class Int32List : Persistent
     }
 
     // Engine.pas:3471
-    public bool Compare(Int32List list) => list._count == _count && _list.AsSpan(0, _count).SequenceEqual(list._list.AsSpan(0, _count));
+    public bool Compare(Int32List list) => list._count == _count && _list.AsSpan(0, length: _count).SequenceEqual(list._list.AsSpan(0, length: _count));
 
     // Engine.pas:3478
     public void LoadFromStream(Stream stream)
@@ -324,15 +324,15 @@ public class Int32List : Persistent
         int item = default;
         int run = default;
         Clear();
-        stream.ReadExactly(Bytes.Of(ref _default, 4));
-        stream.ReadExactly(Bytes.Of(ref count, 4));
+        stream.ReadExactly(Bytes.Of(ref _default, count: 4));
+        stream.ReadExactly(Bytes.Of(ref count, count: 4));
         SetCapacity(count);
         while (count != _count)
         {
-            stream.ReadExactly(Bytes.Of(ref item, 4));
+            stream.ReadExactly(Bytes.Of(ref item, count: 4));
             if (item == _default)
             {
-                stream.ReadExactly(Bytes.Of(ref run, 4));
+                stream.ReadExactly(Bytes.Of(ref run, count: 4));
                 SetCount(_count + run);
             }
             else
@@ -360,20 +360,20 @@ public class Int32List : Persistent
         }
 
         i = 0;
-        stream.Write(Bytes.Of(ref _default, 4));
-        stream.Write(Bytes.Of(ref _count, 4));
+        stream.Write(Bytes.Of(ref _default, count: 4));
+        stream.Write(Bytes.Of(ref _count, count: 4));
         while (_count != i)
         {
             int run = DefaultRun();
             if (run > 0)
             {
-                stream.Write(Bytes.Of(ref _default, 4));
-                stream.Write(Bytes.Of(ref run, 4));
+                stream.Write(Bytes.Of(ref _default, count: 4));
+                stream.Write(Bytes.Of(ref run, count: 4));
                 i += run;
             }
             else
             {
-                stream.Write(MemoryMarshal.AsBytes(_list.AsSpan(i, 1)));
+                stream.Write(MemoryMarshal.AsBytes(_list.AsSpan(i, length: 1)));
                 i += 1;
             }
         }
@@ -425,13 +425,13 @@ public class Int32List : Persistent
     public int Count { get => _count; set => SetCount(value); }
     public int Default { get => _default; set => _default = value; }
 
-    public int this[int index] { get => Get(index); set => Put(index, value); }
+    public int this[int index] { get => Get(index); set => Put(index, item: value); }
 
     public string ItemString { get => GetItemString(); set => SetItemString(value); }
     public int[] List => _list;
 
     // Engine.pas:3310
-    protected internal static void Error(string message, int data) => throw new ArgumentOutOfRangeException(paramName: null, Format(message, [data]));
+    protected internal static void Error(string message, int data) => throw new ArgumentOutOfRangeException(paramName: null, message: Format(message, args: [data]));
 
     private static void QuickSortInteger(Span<int> sortList, int L, int R, IntegerSortCompare sCompare)
     {
@@ -440,7 +440,7 @@ public class Int32List : Persistent
         {
             i = L;
             int j = R;
-            int p = sortList[(int)(((uint)(L + R)) >> 1)];
+            int p = sortList[(L + R) >>> 1];
             do
             {
                 while (sCompare(sortList[i], p) < 0)
@@ -463,7 +463,7 @@ public class Int32List : Persistent
             while (!(i > j));
             if (L < j)
             {
-                QuickSortInteger(sortList, L, j, sCompare);
+                QuickSortInteger(sortList, L, R: j, sCompare);
             }
 
             L = i;
@@ -483,7 +483,7 @@ public class Int32List : Persistent
                 condition = types.Contains(unit.GetUnitType());
             }
 
-            return condition && unit.GetUnitLevel() <= level && units.CanAddUnit(unit);
+            return condition && unit.UnitLevel <= level && units.CanAddUnit(unit);
         }
 
         Unit testUnit = new(null) { Holder = units.Holder };
@@ -552,7 +552,7 @@ public class Int32List : Persistent
                 condition = types.Contains(unit.GetUnitType());
             }
 
-            return condition && unit.GetUnitLevel() <= level;
+            return condition && unit.UnitLevel <= level;
         }
 
         Unit testUnit = new(null) { Holder = engine };

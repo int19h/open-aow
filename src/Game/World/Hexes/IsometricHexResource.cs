@@ -50,7 +50,7 @@ public class IsometricHexResource(CustomNode owner) : AbstractHexagonResource(ow
         else
         {
             result = CreateResourceUser();
-            if (!map.PlaceHex(result, hexX, hexY, hexLevel))
+            if (!map.PlaceHex(result, hexX, hexY, L: hexLevel))
             {
                 result?.Dispose();
                 return null;

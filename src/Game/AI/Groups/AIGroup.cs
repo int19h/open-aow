@@ -462,9 +462,9 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         int result = 50;
         for (int i = Units.Count - 1; i >= 0; i--)
         {
-            if (result > Units.GetUnit(i).GetMoves())
+            if (result > Units.GetUnit(i).Moves)
             {
-                result = Units.GetUnit(i).GetMoves();
+                result = Units.GetUnit(i).Moves;
             }
         }
 
@@ -483,7 +483,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     {
         if (GoldBudget > 0 || ManaBudget > 0)
         {
-            _ = StrategicMap.Current.Players.GetPlayers(Player).AIBudget.ReturnExpense(GoldBudget, ManaBudget);
+            _ = StrategicMap.Current.Players.GetPlayers(Player).AIBudget.ReturnExpense(GoldBudget, mana: ManaBudget);
             GoldBudget = 0;
             ManaBudget = 0;
         }
@@ -495,7 +495,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         int g = gold - GoldBudget;
         int m = mana - ManaBudget;
         Player players = StrategicMap.Current.Players.GetPlayers(Player);
-        return StrategicMap.Current.Players.GetPlayers(Player).AIBudget.RequestBudgetExpense(g, m, players.AIBudget.DefaultBudget, true);
+        return StrategicMap.Current.Players.GetPlayers(Player).AIBudget.RequestBudgetExpense(g, mana: m, budget: players.AIBudget.DefaultBudget, usePool: true);
     }
 
     // AIGroup.pas:243
@@ -506,7 +506,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         {
             ReturnTargetExpense();
             Player players = StrategicMap.Current.Players.GetPlayers(Player);
-            result = StrategicMap.Current.Players.GetPlayers(Player).AIBudget.BudgetExpenseMade(gold, mana, players.AIBudget.DefaultBudget, AIBudgetManager.ExpenseMode.PoolThenBudget);
+            result = StrategicMap.Current.Players.GetPlayers(Player).AIBudget.BudgetExpenseMade(gold, mana, budget: players.AIBudget.DefaultBudget, mode: AIBudgetManager.ExpenseMode.PoolThenBudget);
             if (result)
             {
                 GoldBudget = gold;
@@ -580,7 +580,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
                 int movePointsMin = GetMovePointsMin();
                 TargetMovePoints -= movePointsMin;
             }
-            result = MakeTargetExpense(mana: target.GetTargetMana(), gold: target.GetTargetGold());
+            result = MakeTargetExpense(mana: target.TargetMana, gold: target.TargetGold);
         }
         else
         {
@@ -681,7 +681,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     // AIGroup.pas:475
     public void Activate()
     {
-        Assert(!Status.Contains(AIGroupStatusElement.Activated), "", "AIGroup.pas", 479);
+        Assert(!Status.Contains(AIGroupStatusElement.Activated), message: "", file: "AIGroup.pas", line: 479);
         Status += Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Activated);
         sbyte player = Player;
         if (player != -1)
@@ -690,7 +690,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         }
 
         Leader = Units.FindId(LeaderId);
-        Assert(Transporter is not null || TransporterId == -1, "", "AIGroup.pas", 485);
+        Assert(Transporter is not null || TransporterId == -1, message: "", file: "AIGroup.pas", line: 485);
     }
 
     // AIGroup.pas:488
@@ -699,7 +699,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         if (!Status.Contains(AIGroupStatusElement.Activated))
         {
             // { Preserve the original assertion diagnostic. }
-            Assert(false, "Assertion failure", "D:\\AoWDev\\AoWE\\inc\\AIGroup.pas", 24094);
+            Assert(false, message: "Assertion failure", file: "D:\\AoWDev\\AoWE\\inc\\AIGroup.pas", line: 24094);
         }
 
         Status -= Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Activated);

@@ -101,8 +101,8 @@ public sealed partial class PersistEquivalenceTests
         Check("ControlStyleObject", bits);
         Check("ResourceEditSettings", new ResourceEditSettings(null) { Holder = EngineFixture.Engine });
         ResourceEditSettings editors = new(null) { Holder = EngineFixture.Engine, ControlStyle = Set<ControlStyleElement>.FromMask(0) };
-        _ = editors.Editors.AddObject("", IntegerObjects.IntToObject(0));
-        _ = editors.Editors.AddObject("Gate", IntegerObjects.IntToObject(4));
+        _ = editors.Editors.AddObject("", item: IntegerObjects.IntToObject(0));
+        _ = editors.Editors.AddObject("Gate", item: IntegerObjects.IntToObject(4));
         Check("ResourceEditSettings", editors);
     }
 
@@ -209,8 +209,8 @@ public sealed partial class PersistEquivalenceTests
         try
         {
             Load(viaReadWrite, image);
-            TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, engine), fromImage, Factory);
-            TreeReader.Read(DocumentBackend.Read(document, classValue, s_schema, engine), fromDocument, Factory);
+            TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, engine), objectValue: fromImage, Factory);
+            TreeReader.Read(DocumentBackend.Read(document, classValue, s_schema, engine), objectValue: fromDocument, Factory);
             Assert.Equal(streamMap.Reports, imageMap.Reports);
             Assert.Equal(streamMap.Reports, documentMap.Reports);
             // 15 fields report one tenth each, after the report at 0.
@@ -223,14 +223,14 @@ public sealed partial class PersistEquivalenceTests
             Assert.Same(EngineFixture.Engine, fromImage.GetEngine());
             int streamSaved = streamMap.Reports.Count;
             byte[] rewritten = Image(viaReadWrite);
-            EqualBytes(rewritten, Image(fromImage), $"{className} original read");
-            EqualBytes(rewritten, Image(fromDocument), $"{className} document read");
+            EqualBytes(rewritten, Image(fromImage), label: $"{className} original read");
+            EqualBytes(rewritten, Image(fromDocument), label: $"{className} document read");
             int treeSaved = imageMap.Reports.Count;
             ObjectNode tree = TreeWriter.Write(fromImage, Factory);
             Assert.Equal(streamMap.Reports[streamSaved..], imageMap.Reports[treeSaved..]);
             Assert.Equal((MapProgressType.Saving, 0), imageMap.Reports[treeSaved]);
-            EqualJson(PilotImage.Decode(rewritten, className, engine), DocumentBackend.Write(tree, classValue, s_schema, engine), $"{className} write");
-            EqualBytes(rewritten, OriginalBackend.Write(tree, classValue, s_schema, engine), $"{className} original");
+            EqualJson(PilotImage.Decode(rewritten, className, engine), DocumentBackend.Write(tree, classValue, s_schema, engine), label: $"{className} write");
+            EqualBytes(rewritten, OriginalBackend.Write(tree, classValue, s_schema, engine), label: $"{className} original");
         }
         finally
         {
@@ -248,17 +248,17 @@ public sealed partial class PersistEquivalenceTests
     public void AnAbsentGridLeavesTheLevelEmpty()
     {
         SchemaClass classValue = s_schema.Get("MapLevel");
-        byte[] image = PilotImage.Encode((JsonObject)JsonReader.Parse("""{"Width":2,"Height":1,"HexLevel":1}"""u8, "level.json"), className: "MapLevel");
+        byte[] image = PilotImage.Encode((JsonObject)JsonReader.Parse("""{"Width":2,"Height":1,"HexLevel":1}"""u8, file: "level.json"), className: "MapLevel");
         (MapLevel viaReadWrite, ProgressMap streamMap) = NewLevel("MapLevel");
         (MapLevel fromImage, ProgressMap imageMap) = NewLevel("MapLevel");
         try
         {
             Load(viaReadWrite, image);
-            TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), fromImage, Factory);
+            TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, engine: "game"), objectValue: fromImage, Factory);
             Assert.Equal(streamMap.Reports, imageMap.Reports);
             Assert.Equal(2, fromImage.GetCount());
             Assert.Equal(0, fromImage.GetField(1, 0).GetCount());
-            EqualBytes(Image(viaReadWrite), Image(fromImage), "absent grid");
+            EqualBytes(Image(viaReadWrite), Image(fromImage), label: "absent grid");
         }
         finally
         {
@@ -271,7 +271,7 @@ public sealed partial class PersistEquivalenceTests
     public void ASpriteWhosePersistThrowsIsDroppedUnlessTheHandlerStops()
     {
         SchemaClass classValue = s_schema.Get("MapLevel");
-        byte[] image = PilotImage.Encode(LevelDocument(width: 2, height: 1), "MapLevel");
+        byte[] image = PilotImage.Encode(LevelDocument(width: 2, height: 1), className: "MapLevel");
         EngineClass descriptor = EngineClass.Of<FrozenWaterHexSprite>();
         bool added = Register<FrozenWaterHexSprite>();
         Delegate previous = EngineClassCreation.Substitute(descriptor, next: (Func<CustomNode, EngineObject>)(static owner => new ThrowingFrozenWater(owner)));
@@ -282,10 +282,10 @@ public sealed partial class PersistEquivalenceTests
             try
             {
                 Load(continued, image);
-                TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), continuedTree, Factory);
+                TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, engine: "game"), objectValue: continuedTree, Factory);
                 Assert.Equal(0, continued.GetField(1, 0).GetCount());
                 Assert.Equal(0, continuedTree.GetField(1, 0).GetCount());
-                EqualBytes(Image(continued), Image(continuedTree), "dropped sprites");
+                EqualBytes(Image(continued), Image(continuedTree), label: "dropped sprites");
             }
             finally
             {
@@ -299,7 +299,7 @@ public sealed partial class PersistEquivalenceTests
                 InvalidOperationException streamError = Assert.Throws<InvalidOperationException>(() =>
                     Load(stopped, image, static (_, out cont) => cont = false));
                 InvalidOperationException treeError = Assert.Throws<InvalidOperationException>(() =>
-                    TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), stoppedTree, Factory,
+                    TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, engine: "game"), objectValue: stoppedTree, Factory,
                         static (_, out cont) => cont = false));
                 Assert.Equal("frozen water failed", streamError.Message);
                 Assert.Equal("frozen water failed", treeError.Message);
@@ -580,18 +580,18 @@ public sealed partial class PersistEquivalenceTests
     public void ByteRunListsMatchTheConverter()
     {
         Check("CommandAbilityData", Commanding(defaultValue: 0));
-        Check("CommandAbilityData", Commanding(defaultValue: 0, [.. Enumerable.Repeat((byte)0, 255)]));
-        Check("CommandAbilityData", Commanding(defaultValue: 0, [.. Enumerable.Repeat((byte)0, 256)]));
-        Check("CommandAbilityData", Commanding(defaultValue: 0, [.. Enumerable.Repeat((byte)0, 300), 1, .. Enumerable.Repeat((byte)0, 600)]));
-        Check("CommandAbilityData", Commanding(defaultValue: 255, [255, 254, 255, 255, 0]));
-        Check("CommandAbilityData", Commanding(defaultValue: 7, [.. Enumerable.Repeat((byte)7, 511)]));
+        Check("CommandAbilityData", Commanding(defaultValue: 0, items: [.. Enumerable.Repeat((byte)0, count: 255)]));
+        Check("CommandAbilityData", Commanding(defaultValue: 0, items: [.. Enumerable.Repeat((byte)0, count: 256)]));
+        Check("CommandAbilityData", Commanding(defaultValue: 0, items: [.. Enumerable.Repeat((byte)0, count: 300), 1, .. Enumerable.Repeat((byte)0, count: 600)]));
+        Check("CommandAbilityData", Commanding(defaultValue: 255, items: [255, 254, 255, 255, 0]));
+        Check("CommandAbilityData", Commanding(defaultValue: 7, items: [.. Enumerable.Repeat((byte)7, count: 511)]));
         // The relation list resets its default to Unknown after a load on both paths, so the
         // loaded image differs from the converter's encode of the written document.
         WithDestroyingMap(_ =>
         {
             PlayerDiplomaticRelations relations = new(null) { Holder = EngineFixture.Engine };
-            relations.SetDiplomaticRelation(3, DiplomaticRelation.War);
-            relations.SetDiplomaticRelation(1, DiplomaticRelation.Alliance);
+            relations.SetDiplomaticRelation(3, value: DiplomaticRelation.War);
+            relations.SetDiplomaticRelation(1, value: DiplomaticRelation.Alliance);
             Check("PlayerDiplomaticRelations", relations, converterRead: false);
         });
     }
@@ -599,10 +599,10 @@ public sealed partial class PersistEquivalenceTests
     [Fact]
     public void AByteRunOver255SplitsAsTheWriterSplitsIt()
     {
-        using CommandAbilityData source = Commanding(defaultValue: 0, [.. Enumerable.Repeat((byte)0, 300)]);
+        using CommandAbilityData source = Commanding(defaultValue: 0, items: [.. Enumerable.Repeat((byte)0, count: 300)]);
         byte[] image = OriginalBackend.Write(classValue: s_schema.Get("CommandAbilityData"), node: TreeWriter.Write(source, Factory), schema: s_schema, engine: "game");
         Assert.Equal(Image(source), image);
-        JsonObject stored = (JsonObject)PilotImage.Decode(image, "CommandAbilityData")["CommandedUnits"];
+        JsonObject stored = (JsonObject)PilotImage.Decode(image, className: "CommandAbilityData")["CommandedUnits"];
         Assert.Equal(300, ((JsonArray)stored["items"]).Items.Count);
         // The default, the count 300, then a run of 255 and a run of 45.
         byte[] runs = [0, 44, 1, 0, 0, 0, 255, 0, 45];
@@ -613,17 +613,17 @@ public sealed partial class PersistEquivalenceTests
     public void AnAbsentRunListLeavesTheListAsItWas()
     {
         SchemaClass classValue = s_schema.Get("ItemExplorationSiteEventLog");
-        byte[] image = PilotImage.Encode(new JsonObject(), "ItemExplorationSiteEventLog");
+        byte[] image = PilotImage.Encode(new JsonObject(), className: "ItemExplorationSiteEventLog");
         using ItemExplorationSiteEventLog viaReadWrite = ExplorationLog(defaultValue: 5, 5, 6, 5);
         Load(viaReadWrite, image);
         using ItemExplorationSiteEventLog viaImage = ExplorationLog(defaultValue: 5, 5, 6, 5);
-        TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), viaImage, Factory);
+        TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, engine: "game"), objectValue: viaImage, Factory);
         using ItemExplorationSiteEventLog viaDocument = ExplorationLog(defaultValue: 5, 5, 6, 5);
-        TreeReader.Read(DocumentBackend.Read(new JsonObject(), classValue, s_schema, "game"), viaDocument, Factory);
+        TreeReader.Read(DocumentBackend.Read(new JsonObject(), classValue, s_schema, engine: "game"), objectValue: viaDocument, Factory);
         Assert.Equal(5, viaReadWrite.ItemIds.Default);
         Assert.Equal(3, viaReadWrite.ItemIds.Count);
-        EqualBytes(Image(viaReadWrite), Image(viaImage), "absent list original read");
-        EqualBytes(Image(viaReadWrite), Image(viaDocument), "absent list document read");
+        EqualBytes(Image(viaReadWrite), Image(viaImage), label: "absent list original read");
+        EqualBytes(Image(viaReadWrite), Image(viaDocument), label: "absent list document read");
     }
 
     [Fact]
@@ -635,23 +635,23 @@ public sealed partial class PersistEquivalenceTests
         _ = source.Units.Add(-1);
         _ = source.Units.Add(-1);
         using ItemExplorationSiteEventLog expected = ExplorationLog(defaultValue: -1, 4, -1, -1);
-        byte[] image = OriginalBackend.Write(TreeWriter.Write(source, Factory), classValue, s_schema, "game");
-        EqualBytes(Image(expected), image, "unit index list original");
+        byte[] image = OriginalBackend.Write(TreeWriter.Write(source, Factory), classValue, s_schema, engine: "game");
+        EqualBytes(Image(expected), image, label: "unit index list original");
         UnitIndexProbe loaded = new();
         loaded.Units.Default = 0;
-        TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), loaded, Factory);
+        TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, engine: "game"), objectValue: loaded, Factory);
         Assert.Equal(-1, loaded.Units.Default);
-        Assert.Equal([4, -1, -1], loaded.Units.List.AsSpan(0, loaded.Units.Count).ToArray());
+        Assert.Equal([4, -1, -1], loaded.Units.List.AsSpan(0, length: loaded.Units.Count).ToArray());
         UnitIndexProbe other = new();
         other.Units.Default = 3;
         _ = other.Units.Add(3);
-        byte[] otherImage = OriginalBackend.Write(TreeWriter.Write(other, Factory), classValue, s_schema, "game");
+        byte[] otherImage = OriginalBackend.Write(TreeWriter.Write(other, Factory), classValue, s_schema, engine: "game");
         UnitIndexProbe reloaded = new();
-        TreeReader.Read(OriginalBackend.Read(otherImage, classValue, s_schema, "game"), reloaded, Factory);
+        TreeReader.Read(OriginalBackend.Read(otherImage, classValue, s_schema, engine: "game"), objectValue: reloaded, Factory);
         Assert.Equal(3, reloaded.Units.Default);
         UnitIndexProbe untouched = new();
         _ = untouched.Units.Add(8);
-        TreeReader.Read(new ObjectNode(null, null), untouched, Factory);
+        TreeReader.Read(new ObjectNode(null, slot: null), objectValue: untouched, Factory);
         Assert.Equal(-1, untouched.Units.Default);
         Assert.Equal(1, untouched.Units.Count);
     }
@@ -667,17 +667,17 @@ public sealed partial class PersistEquivalenceTests
     public void AbilityDataLoadsFollowTheStoredIds()
     {
         using Item source = AbilityItem(withData: true);
-        JsonObject document = PilotImage.Decode(Image(source), "Item");
+        JsonObject document = PilotImage.Decode(Image(source), className: "Item");
         // AbilityDataIds names slot 33 and an absent slot 99, and leaves the stored slot 47 unread.
         JsonArray ids = (JsonArray)((JsonObject)document["AbilityDataIds"])["items"];
         ids.Items.Clear();
         ids.Items.Add(new JsonInteger(33));
         ids.Items.Add(new JsonInteger(99));
         SameLoad("Item", document);
-        JsonObject noBits = PilotImage.Decode(Image(source), "Item");
+        JsonObject noBits = PilotImage.Decode(Image(source), className: "Item");
         // ReadWrite tests the ability bits (property 3), not the count.
         Assert.True(noBits.Remove("AbilityBits"));
-        SameLoad("Item", noBits);
+        SameLoad("Item", document: noBits);
     }
 
     [Fact]
@@ -698,15 +698,15 @@ public sealed partial class PersistEquivalenceTests
         control.RegisterItem(PlainItem(itemId: 5, name: "Sword"));
         control.RegisterItem(PlainItem(itemId: 9, name: "Shield"));
         control.RegisterItem(PlainItem(itemId: 11, name: "Ring"));
-        JsonObject document = PilotImage.Decode(Image(control), "ItemControl");
+        JsonObject document = PilotImage.Decode(Image(control), className: "ItemControl");
         JsonArray items = (JsonArray)document["Items"];
         // Slots 0 and 2 stay. Both loads stop at the gap at slot 1.
         items.Items.RemoveAt(1);
         SameLoad("ItemControl", document);
-        JsonObject nil = PilotImage.Decode(Image(control), "ItemControl");
+        JsonObject nil = PilotImage.Decode(Image(control), className: "ItemControl");
         JsonArray first = (JsonArray)nil["Items"];
         first.Items[0] = new JsonObject().Add("$class", new JsonNull()).Add("$slot", new JsonInteger(0));
-        SameLoad("ItemControl", nil);
+        SameLoad("ItemControl", document: nil);
     }
 
     private static ItemExplorationSiteEventLog ExplorationLog(int defaultValue, params int[] items)
@@ -768,11 +768,11 @@ public sealed partial class PersistEquivalenceTests
         try
         {
             Load(viaReadWrite, image);
-            TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), viaImage, Factory);
-            TreeReader.Read(DocumentBackend.Read(document, classValue, s_schema, "game"), viaDocument, Factory);
+            TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, engine: "game"), objectValue: viaImage, Factory);
+            TreeReader.Read(DocumentBackend.Read(document, classValue, s_schema, engine: "game"), objectValue: viaDocument, Factory);
             byte[] expected = Image(viaReadWrite);
-            EqualBytes(expected, Image(viaImage), $"{className} original load");
-            EqualBytes(expected, Image(viaDocument), $"{className} document load");
+            EqualBytes(expected, Image(viaImage), label: $"{className} original load");
+            EqualBytes(expected, Image(viaDocument), label: $"{className} document load");
         }
         finally
         {
@@ -837,10 +837,10 @@ public sealed partial class PersistEquivalenceTests
         SchemaClass classValue = s_schema.Get("UnitSpellCombatAction");
         ObjectNode tree = TreeWriter.Write(spell, Factory);
         ListNode list = (ListNode)tree.Find("SpellData");
-        list.Items.Add(new IntegerNode(4, true, 1));
-        JsonObject document = DocumentBackend.Write(tree, classValue, s_schema, "game");
+        list.Items.Add(new IntegerNode(4, signed: true, value: 1));
+        JsonObject document = DocumentBackend.Write(tree, classValue, s_schema, engine: "game");
         Assert.Equal(3, ((JsonArray)document["SpellData"]).Items.Count);
-        ConversionException error = Assert.Throws<ConversionException>(() => OriginalBackend.Write(tree, classValue, s_schema, "game"));
+        ConversionException error = Assert.Throws<ConversionException>(() => OriginalBackend.Write(tree, classValue, s_schema, engine: "game"));
         Assert.Equal(Codes.Range, error.Diagnostic.Code);
         Assert.Equal("root.SpellData", error.Diagnostic.Path);
         Assert.Contains("holds at most 2", error.Diagnostic.Message);
@@ -860,7 +860,7 @@ public sealed partial class PersistEquivalenceTests
                 UserMode = Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard)
             };
             SchemaClass classValue = s_schema.Get("Army");
-            JsonObject document = DocumentBackend.Write(TreeWriter.Write(army, Factory), classValue, s_schema, "game");
+            JsonObject document = DocumentBackend.Write(TreeWriter.Write(army, Factory), classValue, s_schema, engine: "game");
             Assert.Null(document.Find("Destination"));
             Assert.Null(document.Find("UserMode"));
             Check("Army", army);
@@ -879,7 +879,7 @@ public sealed partial class PersistEquivalenceTests
             Army viaReadWrite = (Army)Factory.Create("Army");
             try
             {
-                TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), viaPersist, Factory);
+                TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, engine: "game"), objectValue: viaPersist, Factory);
                 Load(viaReadWrite, image);
                 Assert.Equal(3, viaPersist.Destination.X);
                 Assert.Equal(4, viaPersist.Destination.Y);
@@ -889,7 +889,7 @@ public sealed partial class PersistEquivalenceTests
                 Assert.Equal(4, viaReadWrite.Destination.Y);
                 Assert.Equal(1, viaReadWrite.Destination.MapLevel);
                 Assert.True(viaReadWrite.UserMode.Contains(ArmyUserModeElement.Guard));
-                EqualBytes(Image(viaPersist), Image(viaReadWrite), "Army network load");
+                EqualBytes(Image(viaPersist), Image(viaReadWrite), label: "Army network load");
             }
             finally
             {
@@ -916,13 +916,13 @@ public sealed partial class PersistEquivalenceTests
             Army viaReadWrite = (Army)Factory.Create("Army");
             try
             {
-                TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), viaPersist, Factory);
+                TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, engine: "game"), objectValue: viaPersist, Factory);
                 Load(viaReadWrite, image);
                 Assert.False(viaPersist.Mode.Contains(ArmyModeElement.Moving));
                 Assert.False(viaReadWrite.Mode.Contains(ArmyModeElement.Moving));
                 Assert.True(viaPersist.Mode.Contains(ArmyModeElement.FixedBehavior));
                 Assert.True(viaReadWrite.Mode.Contains(ArmyModeElement.FixedBehavior));
-                EqualBytes(Image(viaPersist), Image(viaReadWrite), "Army moving");
+                EqualBytes(Image(viaPersist), Image(viaReadWrite), label: "Army moving");
             }
             finally
             {
@@ -1088,9 +1088,9 @@ public sealed partial class PersistEquivalenceTests
             placed.Add(PlaceAbility(3));
             CustomAbilityList list = new(null) { Holder = EngineFixture.Engine };
             list.SetAbilityCount(8);
-            list.SetAbilitySet(0, 1);
-            list.SetAbilitySet(1, 1);
-            list.SetAbilitySet(3, 1);
+            list.SetAbilitySet(0, value: 1);
+            list.SetAbilitySet(1, value: 1);
+            list.SetAbilitySet(3, value: 1);
             Check("CustomAbilityList", list);
         }
         finally
@@ -1113,35 +1113,35 @@ public sealed partial class PersistEquivalenceTests
         {
             placed = PlaceAbility(0);
             list.SetAbilityCount(3);
-            list.SetAbilitySet(0, 1);
-            list.SetAbilitySet(1, 1);
+            list.SetAbilitySet(0, value: 1);
+            list.SetAbilitySet(1, value: 1);
             byte[] abilityBits = list.AbilityBits;
             abilityBits[0] |= 0xF0;
             list.AbilityBits = abilityBits;
             byte[] image = Image(list);
-            list.SetAbilitySet(1, 1);
+            list.SetAbilitySet(1, value: 1);
             SchemaClass classValue = s_schema.Get("CustomAbilityList");
             ObjectNode tree = TreeWriter.Write(list, Factory);
-            JsonObject expected = PilotImage.Decode(image, "CustomAbilityList");
-            EqualJson(expected, DocumentBackend.Write(tree, classValue, s_schema, "game"), "missing bit write");
-            EqualBytes(image, OriginalBackend.Write(tree, classValue, s_schema, "game"), "missing bit original");
-            EqualBytes(PilotImage.Encode(expected, "CustomAbilityList"), image, "missing bit converter");
+            JsonObject expected = PilotImage.Decode(image, className: "CustomAbilityList");
+            EqualJson(expected, DocumentBackend.Write(tree, classValue, s_schema, engine: "game"), label: "missing bit write");
+            EqualBytes(image, OriginalBackend.Write(tree, classValue, s_schema, engine: "game"), label: "missing bit original");
+            EqualBytes(PilotImage.Encode(expected, className: "CustomAbilityList"), image, label: "missing bit converter");
             CustomAbilityList viaReadWrite = (CustomAbilityList)Blank("CustomAbilityList");
             CustomAbilityList viaTree = (CustomAbilityList)Blank("CustomAbilityList");
             CustomAbilityList fromDocument = (CustomAbilityList)Blank("CustomAbilityList");
             try
             {
                 Load(viaReadWrite, image);
-                TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), viaTree, Factory);
-                TreeReader.Read(DocumentBackend.Read(expected, classValue, s_schema, "game"), fromDocument, Factory);
+                TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, engine: "game"), objectValue: viaTree, Factory);
+                TreeReader.Read(DocumentBackend.Read(expected, classValue, s_schema, engine: "game"), objectValue: fromDocument, Factory);
                 Assert.True(viaReadWrite.GetAbilitySetAt(0));
                 Assert.False(viaReadWrite.GetAbilitySetAt(1));
                 Assert.Equal(0xF0, viaReadWrite.AbilityBits[0] & 0xF0);
                 Assert.True(viaTree.GetAbilitySetAt(0));
                 Assert.False(viaTree.GetAbilitySetAt(1));
                 Assert.Equal(0xF0, viaTree.AbilityBits[0] & 0xF0);
-                EqualBytes(Image(viaReadWrite), Image(viaTree), "missing bit loads");
-                EqualBytes(Image(viaReadWrite), Image(fromDocument), "missing bit document");
+                EqualBytes(Image(viaReadWrite), Image(viaTree), label: "missing bit loads");
+                EqualBytes(Image(viaReadWrite), Image(fromDocument), label: "missing bit document");
             }
             finally
             {
@@ -1184,10 +1184,10 @@ public sealed partial class PersistEquivalenceTests
             try
             {
                 Load(continued, image);
-                TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), continuedTree, Factory);
+                TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, engine: "game"), objectValue: continuedTree, Factory);
                 Assert.Equal(0, continued.Enchantments.GetCount());
                 Assert.Equal(0, continuedTree.Enchantments.GetCount());
-                EqualBytes(Image(continued), Image(continuedTree), "dropped child");
+                EqualBytes(Image(continued), Image(continuedTree), label: "dropped child");
             }
             finally
             {
@@ -1201,7 +1201,7 @@ public sealed partial class PersistEquivalenceTests
                 InvalidOperationException streamError = Assert.Throws<InvalidOperationException>(() =>
                     Load(stopped, image, static (_, out cont) => cont = false));
                 InvalidOperationException treeError = Assert.Throws<InvalidOperationException>(() =>
-                    TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), stoppedTree, Factory,
+                    TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, engine: "game"), objectValue: stoppedTree, Factory,
                         static (_, out cont) => cont = false));
                 Assert.Equal("hatred failed", streamError.Message);
                 Assert.Equal("hatred failed", treeError.Message);
@@ -1242,7 +1242,7 @@ public sealed partial class PersistEquivalenceTests
         try
         {
             Load(continued, image);
-            TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), continuedTree, Factory);
+            TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, engine: "game"), objectValue: continuedTree, Factory);
             Assert.Same(continuedList, continued.Enchantments);
             Assert.Same(continuedTreeList, continuedTree.Enchantments);
             Assert.Equal(9, continued.NextEnchantmentId);
@@ -1269,7 +1269,7 @@ public sealed partial class PersistEquivalenceTests
             InvalidOperationException streamError = Assert.Throws<InvalidOperationException>(() =>
                 Load(stopped, image, static (_, out cont) => cont = false));
             InvalidOperationException treeError = Assert.Throws<InvalidOperationException>(() =>
-                TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), stoppedTree, Factory,
+                TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, engine: "game"), objectValue: stoppedTree, Factory,
                     static (_, out cont) => cont = false));
             Assert.Equal("enchantments failed", streamError.Message);
             Assert.Equal("enchantments failed", treeError.Message);
@@ -1303,29 +1303,29 @@ public sealed partial class PersistEquivalenceTests
         BehaviorProbe probe = new() { Behavior = behavior };
         SchemaClass classValue = s_schema.Get("PlayerSetupSettings");
         ObjectNode tree = TreeWriter.Write(probe, Factory);
-        JsonObject stored = (JsonObject)DocumentBackend.Write(tree, classValue, s_schema, "game")["Behavior"];
+        JsonObject stored = (JsonObject)DocumentBackend.Write(tree, classValue, s_schema, engine: "game")["Behavior"];
         Assert.Equal(["PlayerType", "Flags"], stored.Members.Select(member => member.Name).ToList());
         Assert.Equal(2, ((JsonInteger)stored["PlayerType"]).Value);
         Assert.Equal(9, ((JsonInteger)stored["Flags"]).Value);
-        byte[] imageBytes = OriginalBackend.Write(tree, classValue, s_schema, "game");
+        byte[] imageBytes = OriginalBackend.Write(tree, classValue, s_schema, engine: "game");
         // Put nonzero padding bytes into the stored 8-byte behavior record and verify load ignores them.
         byte[] withPadding = [.. imageBytes];
         withPadding[3 + 1] = 0x01;
         withPadding[3 + 2] = 0x00;
         withPadding[3 + 3] = 0x02;
-        ObjectNode back = OriginalBackend.Read(withPadding, classValue, s_schema, "game");
+        ObjectNode back = OriginalBackend.Read(withPadding, classValue, s_schema, engine: "game");
         BehaviorProbe loaded = new();
-        TreeReader.Read(back, loaded, Factory);
+        TreeReader.Read(back, objectValue: loaded, Factory);
         Assert.Equal(behavior, loaded.Behavior);
-        Assert.Equal(imageBytes, OriginalBackend.Write(back, classValue, s_schema, "game"));
-        Assert.Equal(["PlayerType", "Flags"], ((JsonObject)PilotImage.Decode(withPadding, "PlayerSetupSettings")["Behavior"]).Members.Select(member => member.Name).ToList());
+        Assert.Equal(imageBytes, OriginalBackend.Write(back, classValue, s_schema, engine: "game"));
+        Assert.Equal(["PlayerType", "Flags"], ((JsonObject)PilotImage.Decode(withPadding, className: "PlayerSetupSettings")["Behavior"]).Members.Select(member => member.Name).ToList());
 
         using PlayerSetupSettings settings = new(null) { Holder = EngineFixture.Engine };
         settings.Behavior = behavior;
         settings.OriginalBehavior = behavior with { PlayerType = 5 };
         byte[] image = Image(settings);
-        JsonObject document = PilotImage.Decode(image, "PlayerSetupSettings");
-        EqualJson(new JsonObject().Add("Behavior", stored), new JsonObject().Add("Behavior", document["Behavior"]), "PlayerSetupSettings behavior");
+        JsonObject document = PilotImage.Decode(image, className: "PlayerSetupSettings");
+        EqualJson(new JsonObject().Add("Behavior", stored), new JsonObject().Add("Behavior", document["Behavior"]), label: "PlayerSetupSettings behavior");
         Assert.Equal(["PlayerType", "Flags"], ((JsonObject)document["OriginalBehavior"]).Members.Select(member => member.Name).ToList());
         using PlayerSetupSettings read = new(null) { Holder = EngineFixture.Engine };
         Load(read, image);
@@ -1345,11 +1345,11 @@ public sealed partial class PersistEquivalenceTests
             placed = PlaceAbility(0);
             using AbilityOwner target = new(null) { Holder = EngineFixture.Engine };
             using AbilityOwner source = new(null) { Holder = EngineFixture.Engine };
-            target.SetAbilitySet(0, 1);
-            target.SetAbilitySet(7, 1);
+            target.SetAbilitySet(0, value: 1);
+            target.SetAbilitySet(7, value: 1);
             Assert.Equal(8, target.AbilityCount);
             source.SetAbilityCount(1);
-            source.SetAbilitySet(0, 1);
+            source.SetAbilitySet(0, value: 1);
             target.AssignAbility(source);
             Assert.Equal(1, target.AbilityCount);
             Assert.False(target.GetAbilitySetAt(7));
@@ -1357,12 +1357,12 @@ public sealed partial class PersistEquivalenceTests
             Assert.False(target.CompareAbility(source));
 
             SchemaClass classValue = s_schema.Get("CustomAbilityList");
-            JsonObject document = DocumentBackend.Write(TreeWriter.Write(target, Factory), classValue, s_schema, "game");
+            JsonObject document = DocumentBackend.Write(TreeWriter.Write(target, Factory), classValue, s_schema, engine: "game");
             JsonArray storedBits = (JsonArray)document["AbilityBits"];
             Assert.Equal([0L, 7L], storedBits.Items.Select(item => ((JsonInteger)item).Value).ToList());
 
             using AbilityOwner reloaded = new(null) { Holder = EngineFixture.Engine };
-            TreeReader.Read(DocumentBackend.Read(document, classValue, s_schema, "game"), reloaded, Factory);
+            TreeReader.Read(DocumentBackend.Read(document, classValue, s_schema, engine: "game"), objectValue: reloaded, Factory);
             Assert.Equal(1, reloaded.AbilityCount);
             Assert.Equal(0x81, reloaded.AbilityBits[0]);
             Assert.True(reloaded.CompareAbility(target));
@@ -1394,7 +1394,7 @@ public sealed partial class PersistEquivalenceTests
         bool champion2 = loaded.Champion;
         Assert.Equal(2, Unsafe.As<bool, byte>(ref champion2));
         loaded.Champion = champion2;
-        EqualBytes(image, Image(loaded), "champion 02");
+        EqualBytes(image, Image(loaded), label: "champion 02");
     }
 
     [Fact]
@@ -1490,18 +1490,18 @@ public sealed partial class PersistEquivalenceTests
             byte[] image = Image(list);
             Assert.Same(list, owned.Owner);
             Assert.Same(other, elsewhere.Owner);
-            JsonObject expected = PilotImage.Decode(image, "CombatActionList");
+            JsonObject expected = PilotImage.Decode(image, className: "CombatActionList");
             Assert.Equal(2, ((JsonArray)expected["Children"]).Items.Count);
-            EqualJson(expected, DocumentBackend.Write(tree, classValue, s_schema, "game"), "reference list write");
-            EqualBytes(image, OriginalBackend.Write(tree, classValue, s_schema, "game"), "reference list original");
+            EqualJson(expected, DocumentBackend.Write(tree, classValue, s_schema, engine: "game"), label: "reference list write");
+            EqualBytes(image, OriginalBackend.Write(tree, classValue, s_schema, engine: "game"), label: "reference list original");
             CombatActionList viaReadWrite = (CombatActionList)Blank("CombatActionList");
             CombatActionList fromDocument = (CombatActionList)Blank("CombatActionList");
             CombatActionList fromImage = (CombatActionList)Blank("CombatActionList");
             try
             {
                 Load(viaReadWrite, image);
-                TreeReader.Read(DocumentBackend.Read(expected, classValue, s_schema, "game"), fromDocument, Factory);
-                TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), fromImage, Factory);
+                TreeReader.Read(DocumentBackend.Read(expected, classValue, s_schema, engine: "game"), objectValue: fromDocument, Factory);
+                TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, engine: "game"), objectValue: fromImage, Factory);
                 foreach (CombatActionList loaded in new[] { viaReadWrite, fromDocument, fromImage })
                 {
                     Assert.Equal(2, loaded.Count);
@@ -1511,8 +1511,8 @@ public sealed partial class PersistEquivalenceTests
                         Assert.Equal(1, loaded[index].RefCount);
                     }
                 }
-                EqualBytes(Image(viaReadWrite), Image(fromDocument), "reference list document read");
-                EqualBytes(Image(viaReadWrite), Image(fromImage), "reference list original read");
+                EqualBytes(Image(viaReadWrite), Image(fromDocument), label: "reference list document read");
+                EqualBytes(Image(viaReadWrite), Image(fromImage), label: "reference list original read");
             }
             finally
             {
@@ -1535,7 +1535,7 @@ public sealed partial class PersistEquivalenceTests
     {
         CustomAbilityList list = new(null) { Holder = EngineFixture.Engine };
         list.SetAbilityCount(8);
-        list.SetAbilitySet(5, 1);
+        list.SetAbilitySet(5, value: 1);
         SchemaClass classValue = s_schema.Get("CustomAbilityList");
         byte[] image = Image(list);
         CustomAbilityList preview = (CustomAbilityList)Blank("CustomAbilityList");
@@ -1543,9 +1543,9 @@ public sealed partial class PersistEquivalenceTests
         CustomAbilityList full = (CustomAbilityList)Blank("CustomAbilityList");
         try
         {
-            TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), preview, Factory, preview: true);
-            TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), previewTree, Factory, preview: true);
-            TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), full, Factory);
+            TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, engine: "game"), objectValue: preview, Factory, preview: true);
+            TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, engine: "game"), objectValue: previewTree, Factory, preview: true);
+            TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, engine: "game"), objectValue: full, Factory);
             Assert.True(preview.GetAbilitySetAt(5));
             Assert.True(previewTree.GetAbilitySetAt(5));
             Assert.False(full.GetAbilitySetAt(5));
@@ -1570,7 +1570,7 @@ public sealed partial class PersistEquivalenceTests
         Assert.NotNull(tree.Find("Items"));
         Assert.Null(TreeWriter.Write(control, Factory, preview: true).Find("Items"));
         using ItemControl loaded = (ItemControl)Blank("ItemControl");
-        TreeReader.Read(tree, loaded, Factory, preview: true);
+        TreeReader.Read(tree, objectValue: loaded, Factory, preview: true);
         Assert.Equal(0, loaded.GetCount());
     }
 
@@ -1596,22 +1596,22 @@ public sealed partial class PersistEquivalenceTests
             byte[] image = Image(objectValue);
             JsonObject expected = PilotImage.Decode(image, className);
             ObjectNode tree = TreeWriter.Write(objectValue, Factory);
-            EqualJson(actual: DocumentBackend.Write(tree, classValue, s_schema, "game"), expected: expected, label: $"{className} write");
-            EqualBytes(image, OriginalBackend.Write(tree, classValue, s_schema, "game"), $"{className} original");
+            EqualJson(actual: DocumentBackend.Write(tree, classValue, s_schema, engine: "game"), expected: expected, label: $"{className} write");
+            EqualBytes(image, OriginalBackend.Write(tree, classValue, s_schema, engine: "game"), label: $"{className} original");
             viaReadWrite = Blank(className);
             Load(viaReadWrite, image);
             byte[] read = Image(viaReadWrite);
             loaded = Blank(className);
-            TreeReader.Read(DocumentBackend.Read(expected, classValue, s_schema, "game"), loaded, Factory);
+            TreeReader.Read(DocumentBackend.Read(expected, classValue, s_schema, engine: "game"), objectValue: loaded, Factory);
             if (converterRead)
             {
-                EqualBytes(PilotImage.Encode(expected, className), Image(loaded), $"{className} converter read");
+                EqualBytes(PilotImage.Encode(expected, className), Image(loaded), label: $"{className} converter read");
             }
 
-            EqualBytes(read, Image(loaded), $"{className} read");
+            EqualBytes(read, Image(loaded), label: $"{className} read");
             fromImage = Blank(className);
-            TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), fromImage, Factory);
-            EqualBytes(read, Image(fromImage), $"{className} original read");
+            TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, engine: "game"), objectValue: fromImage, Factory);
+            EqualBytes(read, Image(fromImage), label: $"{className} original read");
         }
         finally
         {
@@ -1692,7 +1692,7 @@ public sealed partial class PersistEquivalenceTests
     {
         public UnitIndexList Units { get; } = new();
 
-        public void Persist(IPersister persister) => PersistSupport.UnitIndexList(persister, "ItemIds", Units);
+        public void Persist(IPersister persister) => PersistSupport.UnitIndexList(persister, name: "ItemIds", list: Units);
     }
 
     private static byte[] Image(EngineObject objectValue)

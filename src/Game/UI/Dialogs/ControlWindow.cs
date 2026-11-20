@@ -99,7 +99,7 @@ public partial class ControlWindow(UIContext ui) : UIModule(ui)
 
                 LibraryImage previewImage = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[index]).GetPreviewImage();
                 LibraryImage previewImage2 = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[index]).GetPreviewImage();
-                _ = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[index]).Show(R.Left + ((R.Right - R.Left - previewImage2.Width) / 2), R.Top + ((R.Bottom - R.Top - previewImage.Height) / 2), lockedSurface, UI.General.UnitShowInfo);
+                _ = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[index]).Show(R.Left + ((R.Right - R.Left - previewImage2.Width) / 2), R.Top + ((R.Bottom - R.Top - previewImage.Height) / 2), lockedSurface, info: UI.General.UnitShowInfo);
             }
         }
     }
@@ -204,7 +204,7 @@ public partial class ControlWindow(UIContext ui) : UIModule(ui)
     // AOWControlWin.pas:375
     public void CheckEnd()
     {
-        _selection = StrategicMap.Current.SelectedArmy.GetSelection();
+        _selection = StrategicMap.Current.SelectedArmy.Selection;
         Unit1CheckBox.Checked = UI.General.SelectedUnits[0] != -1 && (_selection & (1 << UI.General.SelectedUnits[0])) == 0;
         Unit2CheckBox.Checked = UI.General.SelectedUnits[1] != -1 && (_selection & (1 << UI.General.SelectedUnits[1])) == 0;
         Unit3CheckBox.Checked = UI.General.SelectedUnits[2] != -1 && (_selection & (1 << UI.General.SelectedUnits[2])) == 0;
@@ -229,15 +229,15 @@ public partial class ControlWindow(UIContext ui) : UIModule(ui)
 
         Unit8Frame.ImageLibraryIndexFrame = Unit8CheckBox.Checked ? 26 : 12;
 
-        byte selection = StrategicMap.Current.SelectedArmy.GetSelection();
+        byte selection = StrategicMap.Current.SelectedArmy.Selection;
         Set<MoveType> partyMove = UI.General.UnitList.GetPartyMoves(selection);
         int moveTypesToInt32 = UI.General.MoveTypesToInt32(partyMove);
         MoveIcon.CurrentImage = moveTypesToInt32;
-        byte fSelectedArmySelection = StrategicMap.Current.SelectedArmy.GetSelection();
+        byte fSelectedArmySelection = StrategicMap.Current.SelectedArmy.Selection;
         sbyte movePoints = UI.General.UnitList.MovePoints(fSelectedArmySelection);
         MovesLabel.Text = IntToStr(movePoints);
-        byte selection2 = StrategicMap.Current.SelectedArmy.GetSelection();
-        Army.PartyStatus partyStatus = StrategicMap.Current.SelectedArmy.GetArmyHexSprite().Army.GetPartyStatus(selection2);
+        byte selection2 = StrategicMap.Current.SelectedArmy.Selection;
+        Army.PartyStatus partyStatus = StrategicMap.Current.SelectedArmy.ArmyHexSprite.Army.GetPartyStatus(selection2);
         string partyStatusText = UI.Engine.TranslateResourceString(s_partyStatusTexts[(int)partyStatus]);
         PartyStatusLabel.Text = partyStatusText;
     }
@@ -261,7 +261,7 @@ public partial class ControlWindow(UIContext ui) : UIModule(ui)
         StrategicMap.Current.CenterViewTo(army.Location.X, army.Location.Y, army.Location.MapLevel);
 
         Army army2 = UI.General.UnitList;
-        StrategicMap.Current.PlayCenterAnimation(army2.Location.X, army2.Location.Y, army2.Location.MapLevel);
+        StrategicMap.Current.PlayCenterAnimation(army2.Location.X, army2.Location.Y, L: army2.Location.MapLevel);
     }
 
     // AOWControlWin.pas:422
@@ -272,7 +272,7 @@ public partial class ControlWindow(UIContext ui) : UIModule(ui)
             UIComponent component = sender;
             Rect saveRectangle = lockedSurface.ClipRectangle;
             Rect rectangle = new(component.OwnerComponent.WinLeft + component.WinLeft + 4, component.OwnerComponent.WinTop + component.WinTop + 3, component.OwnerComponent.WinLeft + component.WinLeft + component.WinWidth - 3, component.OwnerComponent.WinTop + component.WinTop + component.WinHeight - 7);
-            DrawUnit(slot, rectangle, ref lockedSurface);
+            DrawUnit(slot, R: rectangle, ref lockedSurface);
             lockedSurface.ClipRectangle = saveRectangle;
         }
     }

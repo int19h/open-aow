@@ -15,7 +15,7 @@ public class CustomFixedVisibleHexSprite(CustomNode owner) : FixedVisibleHexSpri
     public override int GetShowPriority() => _showPriority;
 
     // HXSPRITE.PAS:805
-    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface) => OnShow?.Invoke(pixelXSurface, pixelYSurface, lockedSurface);
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface) => OnShow?.Invoke(pixelXSurface, pixelYSurface, SurfaceDesc: lockedSurface);
 
     public new int ShowPriority { get => GetShowPriority(); set => _showPriority = value; }
 

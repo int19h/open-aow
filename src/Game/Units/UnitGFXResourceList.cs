@@ -32,7 +32,7 @@ public class UnitGFXResourceList : ResourceCollection, IChildList<UnitGraphicsRe
         {
             if (GetChild(i) is not null)
             {
-                _ = list.AddObject(this[i].Name, IntToObject(i));
+                _ = list.AddObject(this[i].Name, item: IntToObject(i));
             }
         }
     }

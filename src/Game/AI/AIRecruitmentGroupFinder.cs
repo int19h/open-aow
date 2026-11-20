@@ -34,7 +34,7 @@ public class AIRecruitmentGroupFinder : AIGroupTask
     }
 
     // AIGroup.pas:1993
-    public override bool GetBusy() => _selector.Status == AIMoveTargetSelectorStatus.Searching;
+    public override bool Busy => _selector.Status == AIMoveTargetSelectorStatus.Searching;
 
     // AIGroup.pas:2051
     public override bool Activate(AIGroupControl control)

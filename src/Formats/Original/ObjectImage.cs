@@ -41,7 +41,7 @@ internal sealed class ObjectWriter
 
     public void End()
     {
-        Items.Add(new EncodedItem(_id, _start, Data.Length - _start, _property, _element));
+        Items.Add(new EncodedItem(_id, _start, Length: Data.Length - _start, _property, _element));
         _start = -1;
     }
 }
@@ -76,20 +76,20 @@ internal static class ObjectImage
             {
                 if (!seen.TryAdd(e.Id, e))
                 {
-                    throw context.Fail(Codes.Duplicate, $"Property {e.Id} of class {classValue.Name} is stored twice.", start, path);
+                    throw context.Fail(Codes.Duplicate, message: $"Property {e.Id} of class {classValue.Name} is stored twice.", offset: start, path);
                 }
 
                 continue;
             }
 
             SchemaProperty prop = classValue.PropertyById(e.Id)
-                ?? throw context.Fail(Codes.UnknownProperty, $"Class {classValue.Name} has no property {e.Id}.", db + e.Offset, path, e.Id.ToString(CultureInfo.InvariantCulture));
+                ?? throw context.Fail(Codes.UnknownProperty, message: $"Class {classValue.Name} has no property {e.Id}.", offset: db + e.Offset, path, value: e.Id.ToString(CultureInfo.InvariantCulture));
             if (!seen.TryAdd(e.Id, e))
             {
-                throw context.Fail(Codes.Duplicate, $"{(prop.IsDynamic ? "Dynamic id" : "Property")} {e.Id} of class {classValue.Name} is stored twice.", start, path);
+                throw context.Fail(Codes.Duplicate, message: $"{(prop.IsDynamic ? "Dynamic id" : "Property")} {e.Id} of class {classValue.Name} is stored twice.", offset: start, path);
             }
 
-            slots.Add(new Slot(e, prop));
+            slots.Add(new Slot(e, property: prop));
         }
 
         // Each value runs to the next stored offset, including offsets of skipped ids. Booleans have no bytes.
@@ -104,12 +104,12 @@ internal static class ObjectImage
             }
             else
             {
-                int next = Array.BinarySearch(boundaries, s.Entry.Offset);
+                int next = Array.BinarySearch(boundaries, value: s.Entry.Offset);
                 s.End = db + (next + 1 < boundaries.Length ? boundaries[next + 1] : length);
                 nonZeroAt[s.Entry.Offset] = nonZeroAt.GetValueOrDefault(s.Entry.Offset) + 1;
                 if (nonZeroAt[s.Entry.Offset] > 1)
                 {
-                    throw context.Fail(Codes.Layout, $"Two valued properties of class {classValue.Name} share offset {s.Entry.Offset}.", s.Start, path);
+                    throw context.Fail(Codes.Layout, message: $"Two valued properties of class {classValue.Name} share offset {s.Entry.Offset}.", offset: s.Start, path);
                 }
             }
         }
@@ -138,7 +138,7 @@ internal static class ObjectImage
             if (prop.IsDynamic)
             {
                 JsonArray array = new();
-                context.CheckItems(list.Count, start, memberPath);
+                context.CheckItems(list.Count, offset: start, path: memberPath);
                 for (int k = 0; k < list.Count; k++)
                 {
                     Slot s = list[k];
@@ -156,14 +156,14 @@ internal static class ObjectImage
                 }
 
                 ValueSite site = new() { Property = prop, Id = prop.Id!.Value, Path = memberPath, Owner = target };
-                value = prop.Codec.DecodeGroup(context, images, site);
+                value = prop.Codec.DecodeGroup(context, entries: images, site);
             }
             else if (prop.DataId is int dataId)
             {
                 Slot? first = list.FirstOrDefault(s => s.Entry.Id == prop.Id);
                 Slot? second = list.FirstOrDefault(s => s.Entry.Id == dataId);
                 ValueSite site = new() { Property = prop, Id = prop.Id!.Value, Path = memberPath, Owner = target };
-                value = prop.Codec.DecodePair(context, first is null ? null : (first.Start, first.End), second is null ? null : (second.Start, second.End), site);
+                value = prop.Codec.DecodePair(context, first: first is null ? null : (first.Start, first.End), second: second is null ? null : (second.Start, second.End), site);
             }
             else
             {
@@ -177,7 +177,7 @@ internal static class ObjectImage
         // A mapped class shows its case.
         if (classValue.Mapping is { } mapping)
         {
-            CaseCodec.ToDocument(context, classValue, mapping, target, path, start);
+            CaseCodec.ToDocument(context, classValue, mapping, target, path, offset: start);
         }
 
         context.Leave();
@@ -190,13 +190,13 @@ internal static class ObjectImage
         {
             if (m.Name.StartsWith('$'))
             {
-                if (Array.IndexOf(reserved, m.Name) >= 0)
+                if (Array.IndexOf(reserved, value: m.Name) >= 0)
                 {
                     continue;
                 }
 
                 throw new ConversionException(new FormatDiagnostic(Codes.ReservedMember,
-                    Reserved.IsKnown(m.Name) ? $"Reserved member \"{m.Name}\" is not allowed here." : $"Unknown reserved member \"{m.Name}\".")
+                    Message: Reserved.IsKnown(m.Name) ? $"Reserved member \"{m.Name}\" is not allowed here." : $"Unknown reserved member \"{m.Name}\".")
                 {
                     File = context.File,
                     Span = m.NameSpan,
@@ -206,7 +206,7 @@ internal static class ObjectImage
             }
             if (classValue.PropertyByName(m.Name) is null)
             {
-                throw new ConversionException(new FormatDiagnostic(Codes.UnknownMember, $"Class {classValue.Name} has no member \"{m.Name}\".")
+                throw new ConversionException(new FormatDiagnostic(Codes.UnknownMember, Message: $"Class {classValue.Name} has no member \"{m.Name}\".")
                 {
                     File = context.File,
                     Span = m.NameSpan,
@@ -236,36 +236,36 @@ internal static class ObjectImage
             }
 
             DocumentNodePath memberPath = path.Member(prop.Name);
-            if (!TransportProfile.Carries(context.Profile, prop))
+            if (!TransportProfile.Carries(context.Profile, property: prop))
             {
-                throw TransportProfile.Unrepresentable(context, classValue, prop, memberPath);
+                throw TransportProfile.Unrepresentable(context, classValue, property: prop, path: memberPath);
             }
 
             if (prop.IsDynamic)
             {
                 if (member.Value is not JsonArray array)
                 {
-                    throw context.Fail(Codes.Type, $"{prop.Name} is an array.", member.Value, memberPath);
+                    throw context.Fail(Codes.Type, message: $"{prop.Name} is an array.", at: member.Value, path: memberPath);
                 }
 
                 if (array.Items.Count > context.Limits.CollectionItems)
                 {
-                    throw context.Fail(Codes.Limit, "A collection has too many items.", array, memberPath, null, $"at most {context.Limits.CollectionItems} items");
+                    throw context.Fail(Codes.Limit, message: "A collection has too many items.", at: array, path: memberPath, value: null, constraint: $"at most {context.Limits.CollectionItems} items");
                 }
 
                 HashSet<int> slots = [];
                 for (int k = 0; k < array.Items.Count; k++)
                 {
                     DocumentNodePath itemPath = memberPath.Item(k);
-                    int id = prop.Codec.ElementId(context, array.Items[k], prop, k, itemPath);
+                    int id = prop.Codec.ElementId(context, value: array.Items[k], property: prop, index: k, path: itemPath);
                     if (!slots.Add(id))
                     {
-                        throw context.Fail(Codes.Slot, $"Slot {id - (prop.SlotBase ?? 0)} of {prop.Name} is declared twice.", array.Items[k], itemPath);
+                        throw context.Fail(Codes.Slot, message: $"Slot {id - (prop.SlotBase ?? 0)} of {prop.Name} is declared twice.", at: array.Items[k], path: itemPath);
                     }
 
                     ValueSite site = new() { Property = prop, Id = id, Path = itemPath, Owner = objectValue };
-                    writer.Begin(id, prop, k);
-                    prop.Codec.EncodeElement(context, array.Items[k], writer.Data, site);
+                    writer.Begin(id, prop, elementIndex: k);
+                    prop.Codec.EncodeElement(context, value: array.Items[k], writer.Data, site);
                     writer.End();
                 }
             }
@@ -298,5 +298,5 @@ public static class Reserved
 {
     public static string[] Order { get; } = ["$format", "$version", "$kind", "$container", "$mods", "$class", "$case", "$slot", "$ext", "$padding", "$bits", "$ilb", "$text"];
 
-    public static bool IsKnown(string name) => Array.IndexOf(Order, name) >= 0;
+    public static bool IsKnown(string name) => Array.IndexOf(Order, value: name) >= 0;
 }

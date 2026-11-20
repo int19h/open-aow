@@ -28,7 +28,7 @@ public class DefaultMoveExecutorControl(CustomNode owner) : AIMoveExecutorContro
                         ? Set<CreateMoveModeElement>.Of(CreateMoveModeElement.Surround)
                         : Set<CreateMoveModeElement>.Of();
 
-                    move = CreateMove(armies.GetArmies(0), 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, mode, out moveResult);
+                    move = CreateMove(armies.GetArmies(0), selection: 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, mode, out moveResult);
                     if (move is not null)
                     {
                         if (!Executor.Mode.Contains(AIMoveExecutorModeElement.Simultaneous) || (Executor.Mode.Contains(AIMoveExecutorModeElement.Attack) && moveResult == 2))
@@ -38,7 +38,7 @@ public class DefaultMoveExecutorControl(CustomNode owner) : AIMoveExecutorContro
                     }
                     else
                     {
-                        armies.GetArmies(0).SetStatus(255, AIMoveExecutorUnitStatus.Done);
+                        armies.GetArmies(0).SetStatus(255, status: AIMoveExecutorUnitStatus.Done);
                     }
                 }
                 else
@@ -70,7 +70,7 @@ public class DefaultMoveExecutorControl(CustomNode owner) : AIMoveExecutorContro
                 armies = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready, AIMoveExecutorUnitStatus.Done));
                 while (cannotMove && i != armies.Count)
                 {
-                    move = CreateMove(armies.GetArmies(i), 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, Set<CreateMoveModeElement>.Of(CreateMoveModeElement.DoNotQueue, CreateMoveModeElement.Surround), out moveResult);
+                    move = CreateMove(armies.GetArmies(i), selection: 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, mode: Set<CreateMoveModeElement>.Of(CreateMoveModeElement.DoNotQueue, CreateMoveModeElement.Surround), out moveResult);
                     cannotMove = moveResult != 0;
                     move?.Dispose();
 
@@ -83,7 +83,7 @@ public class DefaultMoveExecutorControl(CustomNode owner) : AIMoveExecutorContro
                     move = null;
                     while (move is null && i != armies.Count)
                     {
-                        move = CreateMove(armies.GetArmies(i), 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, Set<CreateMoveModeElement>.Of(), out _);
+                        move = CreateMove(armies.GetArmies(i), selection: 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, mode: Set<CreateMoveModeElement>.Of(), moveResult: out _);
                         if (move is not null)
                         {
                             Executor.ExecuteMoves();

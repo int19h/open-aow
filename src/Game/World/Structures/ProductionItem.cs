@@ -19,7 +19,7 @@ public class ProductionItem(CustomNode owner) : EngineObject(owner), IOwned<Prod
 
     public new const int ClassId = 131735;
 
-    public ProductionOrder Order { get; set; } = new UnknownOrder(0, 0, 0);
+    public ProductionOrder Order { get; set; } = new UnknownOrder(0, Parameter: 0, GroupId: 0);
 
     // Structur.PAS:63
     public override void PersistFields(IPersister persister)
@@ -41,7 +41,7 @@ public class ProductionItem(CustomNode owner) : EngineObject(owner), IOwned<Prod
     {
         return Owner is not null
             ? Owner.ProductionControl.GetProductionName(this)
-            : AbilityRules.TranslateResourceString(GetEngine(), GameTables.UnknownText);
+            : AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.UnknownText);
     }
 
     // Structur.PAS:77
@@ -49,6 +49,6 @@ public class ProductionItem(CustomNode owner) : EngineObject(owner), IOwned<Prod
     {
         return Owner is not null
             ? Owner.ProductionControl.GetProductionNameProgressive(this)
-            : AbilityRules.TranslateResourceString(GetEngine(), GameTables.UnknownText);
+            : AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.UnknownText);
     }
 }

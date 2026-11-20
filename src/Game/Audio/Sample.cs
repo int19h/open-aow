@@ -18,22 +18,28 @@ public class Sample : IDisposable
     protected internal virtual bool GetPlaying() => Delay != 0;
 
     // Sound.pas:81
-    protected internal virtual int GetVolume() => throw AbstractErrorException.Create("Abstract Error");
-
-    // Sound.pas:82
-    protected internal virtual void SetVolume(int value) => throw AbstractErrorException.Create("Abstract Error");
+    public virtual int Volume
+    {
+        get => throw AbstractErrorException.Create("Abstract Error");
+        // Sound.pas:82
+        set => throw AbstractErrorException.Create("Abstract Error");
+    }
 
     // Sound.pas:83
-    protected internal virtual bool GetLooped() => throw AbstractErrorException.Create("Abstract Error");
-
-    // Sound.pas:84
-    protected internal virtual void SetLooped(bool value) => throw AbstractErrorException.Create("Abstract Error");
+    public virtual bool Looped
+    {
+        get => throw AbstractErrorException.Create("Abstract Error");
+        // Sound.pas:84
+        set => throw AbstractErrorException.Create("Abstract Error");
+    }
 
     // Sound.pas:85
-    protected internal virtual SamplePanning GetPanning() => throw AbstractErrorException.Create("Abstract Error");
-
-    // Sound.pas:86
-    protected internal virtual void SetPanning(SamplePanning value) => throw AbstractErrorException.Create("Abstract Error");
+    public virtual SamplePanning Panning
+    {
+        get => throw AbstractErrorException.Create("Abstract Error");
+        // Sound.pas:86
+        set => throw AbstractErrorException.Create("Abstract Error");
+    }
 
     // Sound.pas:761
     // { Called every tick (ProcessSound): a delayed sample counts down and plays, a finished one that
@@ -52,7 +58,7 @@ public class Sample : IDisposable
             }
             else
             {
-                if (!GetLooped())
+                if (!Looped)
                 {
                     Dispose();
                 }
@@ -82,7 +88,7 @@ public class Sample : IDisposable
     // Sound.pas:735
     public virtual void Dispose()
     {
-        Callback?.Invoke(this, SampleCallbackMode.Done);
+        Callback?.Invoke(this, Mode: SampleCallbackMode.Done);
 
         SampleData?.Release();
 
@@ -108,13 +114,10 @@ public class Sample : IDisposable
     public int Delay { get; set; }
     public Set<StatusElement> Status { get; private set; }
     public bool Playing => GetPlaying();
-    public int Volume { get => GetVolume(); set => SetVolume(value); }
-    public bool Looped { get => GetLooped(); set => SetLooped(value); }
-    public SamplePanning Panning { get => GetPanning(); set => SetPanning(value); }
 
     // Sound.pas:89
     public static Sample Create(SampleData data)
-        => ConstructionContext.Create(data, static (context, value) => new Sample(context, value));
+        => ConstructionContext.Create(data, static (context, value) => new Sample(context, sampleData: value));
 
     public enum StatusElement : byte
     {

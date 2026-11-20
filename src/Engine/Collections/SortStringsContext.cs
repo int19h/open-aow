@@ -18,7 +18,7 @@ public struct SortStringsContext
         {
             i = L;
             int j = R;
-            int m = (int)(((uint)(L + R)) >> 1);
+            int m = (L + R) >>> 1;
             string p = context.Strings[m];
             object po = context.Strings.Objects[m];
             do
@@ -49,7 +49,7 @@ public struct SortStringsContext
 
                 if (i <= j)
                 {
-                    context.Strings.Exchange(i, j);
+                    context.Strings.Exchange(i, second: j);
                     context.ExchangeProc?.Invoke(context.ExchangeData, i, j);
 
                     i += 1;
@@ -59,7 +59,7 @@ public struct SortStringsContext
             while (!(i > j));
             if (L < j)
             {
-                QuickSortStrings(ref context, L, j);
+                QuickSortStrings(ref context, L, R: j);
             }
 
             L = i;

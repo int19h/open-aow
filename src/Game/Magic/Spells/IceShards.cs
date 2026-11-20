@@ -16,7 +16,7 @@ public class IceShards : CombatSpell
     public IceShards(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_iceShardsText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_iceShardsText);
         SpellId = 119;
         SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 6;

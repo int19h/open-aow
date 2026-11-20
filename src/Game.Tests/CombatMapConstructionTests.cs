@@ -71,7 +71,7 @@ public sealed class CombatMapConstructionTests
                         {
                             GamePack.Current = set;
                         }
-                        Assert.Equal(failure == 0, value is not null);
+                        Assert.Equal(failure == 0, actual: value is not null);
                         CombatMap published = CombatMap.Current;
                         Assert.NotNull(published);
                         if (owner is not null)
@@ -96,7 +96,7 @@ public sealed class CombatMapConstructionTests
                             Assert.Same(value, published);
                             CombatMapMouse mouse = Assert.IsType<CombatMapMouse>(value!.Mouse);
                             Assert.Equal(256, mouse.CursorMode);
-                            Assert.All(Enumerable.Range(0, 8), i => Assert.Equal(2, value.PositionStatus[i]));
+                            Assert.All(Enumerable.Range(0, count: 8), i => Assert.Equal(2, value.PositionStatus[i]));
                             Assert.Contains("RectangleSelectEvent", record["FieldGraph"]!.ToJsonString());
                             value.SetOwner(null!);
                             value.Dispose();
@@ -106,7 +106,7 @@ public sealed class CombatMapConstructionTests
                         else
                         {
                             Assert.Equal(plain ? 0 : 1, destroyEntries);
-                            Assert.IsType(plain && failure == 1 ? typeof(InvalidDataException) : typeof(NullReferenceException), caught);
+                            Assert.IsType(plain && failure == 1 ? typeof(InvalidDataException) : typeof(NullReferenceException), @object: caught);
                             owner?.Members.Clear();
                         }
                     }
@@ -116,8 +116,8 @@ public sealed class CombatMapConstructionTests
             string? target = Environment.GetEnvironmentVariable("AOW_COMBAT_MAP_RECORD");
             if (target is not null)
             {
-                Assert.False(plain, "Regenerate on the base commit before constructor edits.");
-                File.WriteAllText(target, $"{actual.ToJsonString(new JsonSerializerOptions { WriteIndented = true }).Replace("\r\n", "\n", StringComparison.Ordinal)}\n", new UTF8Encoding(false));
+                Assert.False(plain, userMessage: "Regenerate on the base commit before constructor edits.");
+                File.WriteAllText(target, contents: $"{actual.ToJsonString(new JsonSerializerOptions { WriteIndented = true }).Replace("\r\n", "\n", comparisonType: StringComparison.Ordinal)}\n", encoding: new UTF8Encoding(false));
                 return;
             }
             using Stream stream = typeof(CombatMapConstructionTests).Assembly.GetManifestResourceStream("Aow.Game.Tests.CombatMapConstructionSnapshot.json")!;
@@ -126,17 +126,17 @@ public sealed class CombatMapConstructionTests
             foreach (KeyValuePair<string, JsonNode?> pair in actual)
             {
                 JsonNode baseline = expected[pair.Key]!.DeepClone();
-                if (plain && !pair.Key.StartsWith("failure0", StringComparison.Ordinal))
+                if (plain && !pair.Key.StartsWith("failure0", comparisonType: StringComparison.Ordinal))
                 {
                     // D1 accepts no destructor on fixture-only failures. Owner errors now survive.
                     baseline["DestroyEntries"] = 0;
-                    if (pair.Key.StartsWith("failure1", StringComparison.Ordinal))
+                    if (pair.Key.StartsWith("failure1", comparisonType: StringComparison.Ordinal))
                     {
                         baseline["ExceptionType"] = typeof(InvalidDataException).FullName;
                         baseline["ExceptionMessage"] = "owner rejects after insertion";
                     }
                 }
-                Assert.True(JsonNode.DeepEquals(baseline, pair.Value), $"{pair.Key}\n{pair.Value}");
+                Assert.True(JsonNode.DeepEquals(baseline, pair.Value), userMessage: $"{pair.Key}\n{pair.Value}");
             }
         }
         finally

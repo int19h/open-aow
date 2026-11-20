@@ -15,11 +15,11 @@ public sealed record Migrate(int Race) : ProductionOrder
     public override CityAction CityAction => CityAction.Migrate;
 
     public override string Name(ProductionControl control) => control.ProductionCity() is not null
-        ? DelphiFormat.Format(AbilityRules.TranslateResourceString(control.GetEngine(), MigrateFormat), [AbilityRules.TranslateResourceString(control.GetEngine(), GameTables.RaceNamesPluralTexts[Race])])
+        ? DelphiFormat.Format(AbilityRules.TranslateResourceString(control.GetEngine(), S: MigrateFormat), args: [AbilityRules.TranslateResourceString(control.GetEngine(), S: GameTables.RaceNamesPluralTexts[Race])])
         : base.Name(control);
 
     public override string NameProgressive(ProductionControl control) => control.ProductionCity() is not null
-        ? DelphiFormat.Format(AbilityRules.TranslateResourceString(control.GetEngine(), s_migratingFormat), [AbilityRules.TranslateResourceString(control.GetEngine(), GameTables.RaceNamesPluralTexts[Race])])
+        ? DelphiFormat.Format(AbilityRules.TranslateResourceString(control.GetEngine(), S: s_migratingFormat), args: [AbilityRules.TranslateResourceString(control.GetEngine(), S: GameTables.RaceNamesPluralTexts[Race])])
         : base.NameProgressive(control);
 
     public override bool CanExecute(ProductionControl control, ref string reason)
@@ -40,7 +40,7 @@ public sealed record Migrate(int Race) : ProductionOrder
         control.Settings.TurnsLeft = control.Settings.TurnsTotal;
         control.Settings.Player = control.GetPlayer();
         control.Status = ProductionControlStatus.Producing;
-        ChangeRelation(control, city, -15);
+        ChangeRelation(control, city, change: -15);
     }
 
     public override void Completed(ProductionControl control)
@@ -52,10 +52,10 @@ public sealed record Migrate(int Race) : ProductionOrder
         }
 
         control.BeginUpdate();
-        string raceNamesPlural = AbilityRules.TranslateResourceString(control.GetEngine(), GameTables.RaceNamesPluralTexts[Race]);
-        Log(control, city, DelphiFormat.Format(AbilityRules.TranslateResourceString(control.GetEngine(), s_cityMigratedToFormat), [city.GetName(), raceNamesPlural]));
+        string raceNamesPlural = AbilityRules.TranslateResourceString(control.GetEngine(), S: GameTables.RaceNamesPluralTexts[Race]);
+        Log(control, city, text: DelphiFormat.Format(AbilityRules.TranslateResourceString(control.GetEngine(), S: s_cityMigratedToFormat), args: [city.GetName(), raceNamesPlural]));
         city.SetRace((sbyte)Race);
-        ChangeRelation(control, city, 10);
+        ChangeRelation(control, city, change: 10);
         control.UnitProductions.Clear();
         city.SetUpgradeLevel(city.UpgradeLevel);
         control.ProductionDone();
@@ -67,7 +67,7 @@ public sealed record Migrate(int Race) : ProductionOrder
         City city = control.ProductionCity();
         if (city is not null)
         {
-            ChangeRelation(control, city, control.Settings.TurnsLeft == control.Settings.TurnsTotal ? 15 : 10);
+            ChangeRelation(control, city, change: control.Settings.TurnsLeft == control.Settings.TurnsTotal ? 15 : 10);
         }
     }
 

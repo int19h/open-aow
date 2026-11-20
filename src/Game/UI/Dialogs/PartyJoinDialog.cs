@@ -79,17 +79,17 @@ public partial class PartyJoinDialog(UIContext ui) : UIModule(ui)
             if ((int)alignment < UI.Graphics.UnitBackgrounds.Count)
             {
                 LibraryImage image = UI.Graphics.UnitBackgrounds[(int)alignment];
-                image.ShowClipped(x - (image.Width / 2), y - (image.Height / 2), surface);
+                image.ShowClipped(x - (image.Width / 2), y - (image.Height / 2), lockedSurface: surface);
             }
 
             info = default;
             info.Direction = 3;
             info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
-            _ = _units.GetUnit(index).Show(x - 33, y - 35, surface, info);
-            if ((((int)(((uint)_selection) >> index)) & 1) == 0)
+            _ = _units.GetUnit(index).Show(x - 33, y - 35, lockedSurface: surface, info);
+            if (((_selection >>> index) & 1) == 0)
             {
                 LibraryImage image = UI.Graphics.UnitBackgrounds[7];
-                image.ShowClipped(x - (image.Width / 2), y - (image.Height / 2), surface);
+                image.ShowClipped(x - (image.Width / 2), y - (image.Height / 2), lockedSurface: surface);
             }
 
             surface.ClipRectangle = oldClip;
@@ -168,7 +168,7 @@ public partial class PartyJoinDialog(UIContext ui) : UIModule(ui)
             r.Right = FaceFrame.WinWidth + r.Left;
             r.Top = FaceFrame.WinTop + Window.WinTop;
             r.Bottom = FaceFrame.WinHeight + r.Top;
-            _faceUnit?.GetFace()?.ShowStretched(r, surface);
+            _faceUnit?.GetFace()?.ShowStretched(r, lockedSurface: surface);
         }
     }
 
@@ -254,7 +254,7 @@ public partial class PartyJoinDialog(UIContext ui) : UIModule(ui)
         string cancel = dialog.UI.Engine.TranslateResourceString(GameText.CancelText);
         dialog.RightButton.Text = cancel;
         UpdatePartyJoin(dialog);
-        StrategicMap.Current.TutorialControl.ShowMessage(70, true, true);
+        StrategicMap.Current.TutorialControl.ShowMessage(70, immediate: true, onceOnly: true);
     }
 
     internal static void ShowPrisonersJoin(PartyJoinDialog dialog, PrisonersJoinEventLog eventValue, ExecuteDoneEvent done)

@@ -12,7 +12,7 @@ public class WaterWalking : UnitSpell
     public WaterWalking(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.WaterWalkingText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.WaterWalkingText);
         SpellId = 42;
         BaseManaCost = 5;
         SpellLevel = 2;

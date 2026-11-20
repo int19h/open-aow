@@ -11,7 +11,7 @@ public class PlayerCommunicationControl : IDisposable
     internal int RefCount { get; private set; }
 
     // NetworkE.pas:549
-    public virtual int GetLocalSystemId() => 1;
+    public virtual int LocalSystemId => 1;
 
     // NetworkE.pas:532
     public virtual int GetSystemCount() => 1;

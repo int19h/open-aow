@@ -24,7 +24,7 @@ public class LocalPlayerCommunicationControl(EngineObject creator) : PlayerCommu
         {
             stream.SetLength(PackageDataList.PackageData[0].Length);
             int size = (int)stream.Length;
-            Move(PackageDataList.PackageData[0].GetBuffer().AsSpan(0, size), stream.GetBuffer().AsSpan(0, size), size);
+            Move(PackageDataList.PackageData[0].GetBuffer().AsSpan(0, length: size), destination: stream.GetBuffer().AsSpan(0, length: size), count: size);
             PackageDataList.Delete(0);
             return true;
         }
@@ -57,7 +57,7 @@ public class LocalPlayerCommunicationControl(EngineObject creator) : PlayerCommu
         _ = base.Setup(count);
         for (int i = PlayerCommunicationSettingsList.Count - 1; i >= 0; i--)
         {
-            int localSystemId = GetLocalSystemId();
+            int localSystemId = LocalSystemId;
             PlayerCommunicationSettingsList.Players[i].SystemId = localSystemId;
         }
     }

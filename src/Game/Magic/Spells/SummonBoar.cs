@@ -11,7 +11,7 @@ public class SummonBoar : SummonSpell
     public SummonBoar(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_summonBoarText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_summonBoarText);
         SpellId = 31;
         BaseManaCost = 5;
         SpellLevel = 1;

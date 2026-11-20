@@ -36,7 +36,7 @@ public class FrozenWaterHexSprite(CustomNode owner) : SingleHexSprite(owner)
     }
 
     // Structur.PAS:4482
-    public override byte GetLevel() => 28;
+    public override byte Level => 28;
 
     // Structur.PAS:4503
     public override void TerrainChanged(in HexSpriteTerrainInfo info)
@@ -58,7 +58,7 @@ public class FrozenWaterHexSprite(CustomNode owner) : SingleHexSprite(owner)
         sbyte hexX = HexX;
         sbyte hexY2 = HexY;
         sbyte hexY3 = HexY;
-        GamePack.Current.ImageSequences.ShowLooped(70, x, y, StrategicMap.Current.Frame, hexX + hexY2 + (hexY3 * 2), lockedSurface);
+        GamePack.Current.ImageSequences.ShowLooped(70, x, y, StrategicMap.Current.Frame, offset: hexX + hexY2 + (hexY3 * 2), lockedSurface);
     }
 
     // Structur.PAS:4494
@@ -68,7 +68,7 @@ public class FrozenWaterHexSprite(CustomNode owner) : SingleHexSprite(owner)
         {
             sbyte hexY = HexY;
             sbyte hexX = HexX;
-            _ = StrategicMap.Current.ChangeTerrain(this, hexX, hexY, HexLevel, 0, 0);
+            _ = StrategicMap.Current.ChangeTerrain(this, hexX, hexY, L: HexLevel, radius: 0, terrainType: 0);
         }
         else
         {
@@ -76,7 +76,7 @@ public class FrozenWaterHexSprite(CustomNode owner) : SingleHexSprite(owner)
             {
                 sbyte hexY = HexY;
                 sbyte hexX = HexX;
-                _ = StrategicMap.Current.ChangeTerrain(this, hexX, hexY, HexLevel, 0, 10);
+                _ = StrategicMap.Current.ChangeTerrain(this, hexX, hexY, L: HexLevel, radius: 0, terrainType: 10);
             }
             else
             {

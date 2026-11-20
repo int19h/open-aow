@@ -39,8 +39,8 @@ public sealed class ImageFileClass
     public GraphicsResult LoadToSurfaceDescription(string fileName, ref readonly LockedSurface surface, int x, int y) => _loadToSurfaceDescription(fileName, in surface, x, y);
 
     public static ImageFileClass Register<T>() where T : ImageFile, IImageFileClass
-        => s_catalog.Add(typeof(T), new ImageFileClass(typeof(T), static () => T.Name, static () => T.Extension,
-            static () => T.Description, T.GetPixelFormatId, T.CreateSurface, T.LoadToSurfaceDescription));
+        => s_catalog.Add(typeof(T), new ImageFileClass(typeof(T), getName: static () => T.Name, getExtension: static () => T.Extension,
+            getDescription: static () => T.Description, T.GetPixelFormatId, T.CreateSurface, T.LoadToSurfaceDescription));
 
     public static ImageFileClass Of<T>() where T : ImageFile, IImageFileClass => s_catalog[typeof(T)];
     public static ImageFileClass Of(Type type) => s_catalog[type];

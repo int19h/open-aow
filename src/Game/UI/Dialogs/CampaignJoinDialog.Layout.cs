@@ -177,7 +177,7 @@ public partial class CampaignJoinDialog : ILayoutModule
         DefaultFacePanel = new Panel(this);
         session.BeginRead(DefaultFacePanel);
         DefaultFacePanel.Name = "DefaultFacePnl";
-        DefaultFacePanel.OnMouseDown += (_, _, _, _, _) => DefaultFacePnlMouseDown(default, default, default, default, default);
+        DefaultFacePanel.OnMouseDown += (_, _, _, _, _) => DefaultFacePnlMouseDown(default, button: default, shift: default, default, default);
         DefaultFacePanel.OnDraw += (_, surface) => DefaultFacePnlDraw(surface);
         DefaultFacePanel.Priority = 0;
         DefaultFacePanel.WinLeft = 62;
@@ -259,9 +259,9 @@ public partial class CampaignJoinDialog : ILayoutModule
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";
-        translator.TargetsData.Add(new TranslationTarget("", "Items", 0));
-        translator.TargetsData.Add(new TranslationTarget("", "Text", 0));
-        translator.TargetsData.Add(new TranslationTarget("", "ToolTipText", 0));
+        translator.TargetsData.Add(new TranslationTarget("", PropertyName: "Items", Options: 0));
+        translator.TargetsData.Add(new TranslationTarget("", PropertyName: "Text", Options: 0));
+        translator.TargetsData.Add(new TranslationTarget("", PropertyName: "ToolTipText", Options: 0));
         session.EndRead(translator);
         session.EndRead(this);
         LeaderTypePanel.Window = CharacterGenerationPanel;

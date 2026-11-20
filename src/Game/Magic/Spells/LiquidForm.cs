@@ -15,7 +15,7 @@ public class LiquidForm : UnitSpell
     public LiquidForm(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.LiquidFormText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.LiquidFormText);
         SpellId = 49;
         BaseManaCost = 5;
         SpellLevel = 3;
@@ -30,9 +30,9 @@ public class LiquidForm : UnitSpell
     public override void PlayDefaultCastEffects(sbyte player, sbyte X, sbyte Y, sbyte layer)
     {
         base.PlayDefaultCastEffects(player, X, Y, layer);
-        if (player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(X, Y, layer, 0))
+        if (player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(X, Y, L: layer, radius: 0))
         {
-            _ = GamePack.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(1);
+            _ = GamePack.Current.SpellControl[SpellId].CastSounds.Play(1);
         }
     }
 

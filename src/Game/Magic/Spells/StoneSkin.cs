@@ -12,7 +12,7 @@ public class StoneSkin : UnitSpell
     public StoneSkin(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.StoneSkinText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.StoneSkinText);
         SpellId = 17;
         BaseManaCost = 5;
         SpellLevel = 1;

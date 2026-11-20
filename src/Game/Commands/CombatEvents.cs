@@ -27,7 +27,7 @@ internal static class CombatEvents
 
                 float z = 0;
                 Point3DList path = effect.Path;
-                EffectPaths.MakeArcPath(X, Y, i * 360 / count, ref z, speed, ref vz, gravity, path);
+                EffectPaths.MakeArcPath(X, Y, angle: i * 360 / count, ref z, speed, ref vz, gravity, list: path);
                 effect.Path = path;
             }
         }

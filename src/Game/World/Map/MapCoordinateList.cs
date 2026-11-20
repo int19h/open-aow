@@ -42,7 +42,7 @@ public class MapCoordinateList : DefaultItemList<MapCoordinate>
     {
         if (List.Length != 0 && Count > 0)
         {
-            QuickSortMapCoordinate(List, 0, Count - 1, compare);
+            QuickSortMapCoordinate(List, L: 0, R: Count - 1, sCompare: compare);
         }
     }
 
@@ -53,7 +53,7 @@ public class MapCoordinateList : DefaultItemList<MapCoordinate>
         {
             i = L;
             int j = R;
-            MapCoordinate p = sortList[(int)(((uint)(L + R)) >> 1)];
+            MapCoordinate p = sortList[(L + R) >>> 1];
             do
             {
                 while (sCompare(sortList[i], p) < 0)
@@ -76,7 +76,7 @@ public class MapCoordinateList : DefaultItemList<MapCoordinate>
             while (!(i > j));
             if (L < j)
             {
-                QuickSortMapCoordinate(sortList, L, j, sCompare);
+                QuickSortMapCoordinate(sortList, L, R: j, sCompare);
             }
 
             L = i;
@@ -92,7 +92,7 @@ public class MapCoordinateList : DefaultItemList<MapCoordinate>
         bool[] reached;
         void Connect(MapCoordinate mapCoordinate)
         {
-            HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, mapCoordinate.X, mapCoordinate.Y, 1);
+            HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, mapCoordinate.X, mapCoordinate.Y, radius: 1);
             while (walk.Radius <= 1)
             {
                 for (int i = 0, last = locations.Count - 1; i <= last; i++)

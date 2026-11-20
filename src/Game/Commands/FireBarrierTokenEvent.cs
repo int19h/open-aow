@@ -22,8 +22,8 @@ public class FireBarrierTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEve
     {
         _ = base.Process(source, value);
         CreateFireBarrier();
-        Spell spell = GamePack.Current.SpellControl.GetSpell(EventSpellId);
-        GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, spell.BaseManaCost);
+        Spell spell = GamePack.Current.SpellControl[EventSpellId];
+        GamePack.Current.SpellControl[EventSpellId].CastingDone(source, mana: spell.BaseManaCost);
         return false;
     }
 
@@ -32,20 +32,20 @@ public class FireBarrierTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEve
     {
         RandSeed = StrategicMap.Current.Random(16777215);
         MapLevel level = StrategicMap.Current.MapContainer.MapLevels[Location.MapLevel];
-        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, Location.X, Location.Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, Location.X, Location.Y, radius: 0);
         while (walk.Radius <= 1)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
                 MapField mapField = level.Field[walk.X, walk.Y];
-                if (((GlobalTargetSpell)(object)GamePack.Current.SpellControl.GetSpell(11)).ValidTargetMapField(mapField) && mapField.GetArmyHexSprite() is null)
+                if (((GlobalTargetSpell)(object)GamePack.Current.SpellControl[11]).ValidTargetMapField(mapField) && mapField.GetArmyHexSprite() is null)
                 {
-                    Fire fire = GamePack.Current.FireControl.PlaceFire(walk.X, walk.Y, Location.MapLevel, FireType.Large);
+                    Fire fire = GamePack.Current.FireControl.PlaceFire(walk.X, walk.Y, L: Location.MapLevel, fireType: FireType.Large);
                     if (fire is not null)
                     {
                         fire.SetupExplosion(Random(35));
                         fire.TurnsLeft = 3;
-                        fire.Player = GetSource().Player;
+                        fire.Player = Source.Player;
                     }
                 }
             }

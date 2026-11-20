@@ -23,7 +23,7 @@ public class FountainOfLife : CityEnchantmentSpell
     public FountainOfLife(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.FountainOfLifeText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.FountainOfLifeText);
         SpellId = 52;
         CityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Own);
         BaseManaCost = 1;
@@ -51,7 +51,7 @@ public class FountainOfLife : CityEnchantmentSpell
             };
             a.OnShow += ShowFountain;
             a.AnimationMap = StrategicMap.Current;
-            a.Tag = (int)(((uint)(int)targetCity.GetHexX()) | ((uint)(targetCity.GetHexY() << 8)));
+            a.Tag = (int)(((uint)(int)targetCity.HexX) | ((uint)(targetCity.HexY << 8)));
             a.Activate();
         }
 
@@ -61,7 +61,7 @@ public class FountainOfLife : CityEnchantmentSpell
     // CitySpells.pas:666
     public void ShowFountain(Animation animation, int X, int Y, in LockedSurface lockedSurface)
     {
-        HexGeometry.HexToPixel(animation.Tag & 255, (int)(((uint)animation.Tag) >> 8), out int cx, out int cy);
+        HexGeometry.HexToPixel(animation.Tag & 255, animation.Tag >>> 8, out int cx, out int cy);
         cx = cx + 10 - X;
         cy = cy - Y + 10;
         // { Original resets the process-wide random seed for every draw. }
@@ -79,7 +79,7 @@ public class FountainOfLife : CityEnchantmentSpell
                 int deltaY = (vy * t) - Round((double)(t * 0.25) * t);
                 if (t > 0)
                 {
-                    _ = GamePack.Current.SpellControl.GetSpell(52).CastImages.Show(0, cx + deltaX + offset, cy - deltaY, 0, lockedSurface);
+                    _ = GamePack.Current.SpellControl[52].CastImages.Show(0, cx + deltaX + offset, cy - deltaY, frame: 0, lockedSurface);
                 }
             }
         }

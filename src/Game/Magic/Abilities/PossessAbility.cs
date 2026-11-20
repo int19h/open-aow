@@ -23,7 +23,7 @@ public class PossessAbility : TouchAbility
     {
         Holder = holder;
         AbilityId = 106;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_possessText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_possessText);
         SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit);
     }
 
@@ -36,7 +36,7 @@ public class PossessAbility : TouchAbility
         source.Combat.ExecuteCombatAction(action);
         if (!action.Successful)
         {
-            StrikeCombatAction strike = CombatObject.CreateStrikeCombatAction(target, source, true);
+            StrikeCombatAction strike = CombatObject.CreateStrikeCombatAction(target, target: source, defensive: true);
             if (strike is not null)
             {
                 source.Combat.ExecuteCombatAction(strike);
@@ -51,9 +51,9 @@ public class PossessAbility : TouchAbility
     // AoWAb.PAS:2673
     public override int GetDamageValue(Troop attacker, Troop defender)
     {
-        if (CanTouchUnit(attacker, defender) && !defender.GetImmunityTypes().Contains(DamageType.None))
+        if (CanTouchUnit(attacker, target: defender) && !defender.GetImmunityTypes().Contains(DamageType.None))
         {
-            float probability = TouchRoleProbability(attacker, defender);
+            float probability = TouchRoleProbability(attacker, target: defender);
             return Round((double)((double)defender.GetHitPoints() * probability) * 200);
         }
         else
@@ -65,9 +65,9 @@ public class PossessAbility : TouchAbility
     // AoWAb.PAS:2686
     public override void GetDamageValues(Troop attacker, Troop defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
-        if (wallSituation == WallSituation.None && CanTouchUnit(attacker, defender) && !defender.GetImmunityTypes().Contains(DamageType.None))
+        if (wallSituation == WallSituation.None && CanTouchUnit(attacker, target: defender) && !defender.GetImmunityTypes().Contains(DamageType.None))
         {
-            float probability = TouchRoleProbability(attacker, defender);
+            float probability = TouchRoleProbability(attacker, target: defender);
             sbyte hitPoints = defender.GetHitPoints();
             damageValues.SourceDamage = Round((double)((double)hitPoints * probability) * 200);
             if (attacker.GetAbilityEnabled(106))
@@ -106,12 +106,12 @@ public class PossessAbility : TouchAbility
     // AoWAb.PAS:2711
     public override void FastBattleGetDamageValues(CombatObject attacker, CombatObject defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
-        if (wallSituation == WallSituation.None && CanTouch(attacker, defender) && attacker is CombatUnit attackerUnit)
+        if (wallSituation == WallSituation.None && CanTouch(attacker, target: defender) && attacker is CombatUnit attackerUnit)
         {
-            float probability = CombatTouchRoleProbability(attackerUnit, defender);
-            sbyte hitPoints = defender.GetHitPoints();
+            float probability = CombatTouchRoleProbability(attackerUnit, target: defender);
+            sbyte hitPoints = defender.HitPoints;
             damageValues.SourceDamage = Round((double)((double)hitPoints * probability) * 200);
-            sbyte defenderHitPoints = defender.GetHitPoints();
+            sbyte defenderHitPoints = defender.HitPoints;
             damageValues.SourceCost = defenderHitPoints * 2;
             if (attacker.GetAbilityEnabled(106))
             {
@@ -119,7 +119,7 @@ public class PossessAbility : TouchAbility
             }
             else
             {
-                sbyte attackerHitPoints = attacker.GetHitPoints();
+                sbyte attackerHitPoints = attacker.HitPoints;
                 damageValues.TargetDamage = Round((double)((double)attackerHitPoints * probability) * 100);
             }
 

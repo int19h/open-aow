@@ -108,7 +108,7 @@ public class ImageLibraryManager : Component
             if (result is null)
             {
                 result = new ImageLibrary(null);
-                _ = OwnedList.AddImageLibraryManagerObject(fileName, result);
+                _ = OwnedList.AddImageLibraryManagerObject(fileName, imageLibrary: result);
             }
         }
 

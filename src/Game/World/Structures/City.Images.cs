@@ -43,7 +43,7 @@ public partial class City
                 int size = GetResource<Resource>().Size;
                 if (race is not null)
                 {
-                    CityImage = race.GetCityImage(size, terrain, field.HexLevel);
+                    CityImage = race.GetCityImage(size, terrain, level: field.HexLevel);
                 }
 
                 CityImage ??= images[images.ImageExist(offset) ? offset : 0];

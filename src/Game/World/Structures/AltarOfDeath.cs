@@ -25,7 +25,7 @@ public class AltarOfDeath(CustomNode owner) : Altar(owner)
         public override int ResourceUserClassId() => 131637;
 
         // AltDeath.pas:49
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_altarOfDeathText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_altarOfDeathText);
 
         private static readonly string s_altarOfDeathText = "Altar of Death";
 

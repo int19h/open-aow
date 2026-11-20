@@ -65,10 +65,10 @@ public class LibraryImage : Persistent, ILibraryImageClass
     public virtual Palette GetPalette() => null;
 
     // ImageLib.pas:1888
-    public virtual Palette GetRemapPalette() => null;
+    public virtual Palette RemapPalette => null;
 
     // ImageLib.pas:1893
-    public virtual bool GetTransparent() => false;
+    public virtual bool Transparent => false;
 
     // ImageLib.pas:1656
     public virtual void SetReloadingEnabled(bool value)
@@ -84,7 +84,7 @@ public class LibraryImage : Persistent, ILibraryImageClass
     // ImageLib.pas:1991
     public virtual void SetDefaultShowInfo(ShowInfo value)
     {
-        if (SupportShowMode(value.ShowMode, 0))
+        if (SupportShowMode(value.ShowMode, pixelFormatId: 0))
         {
             ShowInfoValue = value;
         }
@@ -108,24 +108,24 @@ public class LibraryImage : Persistent, ILibraryImageClass
     // ImageLib.pas:1702
     public virtual void ReadImageData(Stream stream)
     {
-        stream.ReadExactly(Bytes.Of(ref _version, 1));
+        stream.ReadExactly(Bytes.Of(ref _version, count: 1));
         LibraryDrawing.ReadStringFromStream(ref _fileName, stream);
-        stream.ReadExactly(Bytes.Of(ref _dataWidth, 4));
-        stream.ReadExactly(Bytes.Of(ref _dataHeight, 4));
-        stream.ReadExactly(Bytes.Of(ref _xshift, 4));
-        stream.ReadExactly(Bytes.Of(ref _yshift, 4));
-        stream.ReadExactly(Bytes.Of(ref _fileIndex, 4));
-        stream.ReadExactly(Bytes.Of(ref _loadMode, 1));
-        stream.ReadExactly(Bytes.Of(ref _dataSize, 4));
+        stream.ReadExactly(Bytes.Of(ref _dataWidth, count: 4));
+        stream.ReadExactly(Bytes.Of(ref _dataHeight, count: 4));
+        stream.ReadExactly(Bytes.Of(ref _xshift, count: 4));
+        stream.ReadExactly(Bytes.Of(ref _yshift, count: 4));
+        stream.ReadExactly(Bytes.Of(ref _fileIndex, count: 4));
+        stream.ReadExactly(Bytes.Of(ref _loadMode, count: 1));
+        stream.ReadExactly(Bytes.Of(ref _dataSize, count: 4));
         if (_version > 0)
         {
             if (_version >= 2)
             {
-                stream.ReadExactly(Bytes.Of(ref _dataPosition, 4));
+                stream.ReadExactly(Bytes.Of(ref _dataPosition, count: 4));
             }
 
-            stream.ReadExactly(Bytes.Of(ref _width, 4));
-            stream.ReadExactly(Bytes.Of(ref _height, 4));
+            stream.ReadExactly(Bytes.Of(ref _width, count: 4));
+            stream.ReadExactly(Bytes.Of(ref _height, count: 4));
         }
         else
         {
@@ -136,7 +136,7 @@ public class LibraryImage : Persistent, ILibraryImageClass
         if (_version >= 3)
         {
             ShowInfo showInfoValue = ShowInfoValue;
-            _ = showInfoValue.ReadImage(stream, false);
+            _ = showInfoValue.ReadImage(stream, exact: false);
             ShowInfoValue = showInfoValue;
         }
     }
@@ -145,20 +145,20 @@ public class LibraryImage : Persistent, ILibraryImageClass
     public virtual void WriteImageData(Stream stream)
     {
         byte v = ClassVersion();
-        stream.Write(Bytes.Of(ref v, 1));
+        stream.Write(Bytes.Of(ref v, count: 1));
         LibraryDrawing.WriteStringToStream(_fileName, stream);
-        stream.Write(Bytes.Of(ref _dataWidth, 4));
-        stream.Write(Bytes.Of(ref _dataHeight, 4));
-        stream.Write(Bytes.Of(ref _xshift, 4));
-        stream.Write(Bytes.Of(ref _yshift, 4));
-        stream.Write(Bytes.Of(ref _fileIndex, 4));
-        stream.Write(Bytes.Of(ref _loadMode, 1));
-        stream.Write(Bytes.Of(ref _dataSize, 4));
-        stream.Write(Bytes.Of(ref _dataPosition, 4));
-        stream.Write(Bytes.Of(ref _width, 4));
-        stream.Write(Bytes.Of(ref _height, 4));
+        stream.Write(Bytes.Of(ref _dataWidth, count: 4));
+        stream.Write(Bytes.Of(ref _dataHeight, count: 4));
+        stream.Write(Bytes.Of(ref _xshift, count: 4));
+        stream.Write(Bytes.Of(ref _yshift, count: 4));
+        stream.Write(Bytes.Of(ref _fileIndex, count: 4));
+        stream.Write(Bytes.Of(ref _loadMode, count: 1));
+        stream.Write(Bytes.Of(ref _dataSize, count: 4));
+        stream.Write(Bytes.Of(ref _dataPosition, count: 4));
+        stream.Write(Bytes.Of(ref _width, count: 4));
+        stream.Write(Bytes.Of(ref _height, count: 4));
         ShowInfo showInfoValue = ShowInfoValue;
-        _ = showInfoValue.WriteImage(stream, false);
+        _ = showInfoValue.WriteImage(stream, exact: false);
         ShowInfoValue = showInfoValue;
     }
 
@@ -181,7 +181,7 @@ public class LibraryImage : Persistent, ILibraryImageClass
             Stream stream = new FastLoadFileStream(_owner.LoadedFileName);
             try
             {
-                _ = stream.Seek(_dataPosition + _owner.DataOffset, SeekOrigin.Begin);
+                _ = stream.Seek(_dataPosition + _owner.DataOffset, origin: SeekOrigin.Begin);
                 ReadDiscardableImageData(stream);
                 DataLoaded = true;
             }
@@ -285,7 +285,7 @@ public class LibraryImage : Persistent, ILibraryImageClass
     public virtual string Info()
     {
         string result = $"{Name()} {IntToStr(_width)}x{IntToStr(_height)}";
-        if (GetTransparent())
+        if (Transparent)
         {
             result += " Transparent";
         }
@@ -350,7 +350,7 @@ public class LibraryImage : Persistent, ILibraryImageClass
             }
             else
             {
-                _ = stream.Seek(_dataSize, SeekOrigin.Current);
+                _ = stream.Seek(_dataSize, origin: SeekOrigin.Current);
                 _reloadingEnabled = true;
             }
         }
@@ -401,19 +401,19 @@ public class LibraryImage : Persistent, ILibraryImageClass
 
                         break;
                     case BlendMode.Alpha:
-                        ShowBlended(X, Y, lockedSurface, GraphicsState.AlphaBlendTable.Lookup[ShowInfoValue.Blend.Percentage]);
+                        ShowBlended(X, Y, lockedSurface, table: GraphicsState.AlphaBlendTable.Lookup[ShowInfoValue.Blend.Percentage]);
                         break;
                     case BlendMode.Brighten:
-                        ShowBlended(X, Y, lockedSurface, GraphicsState.BrightenBlendTable.Lookup[ShowInfoValue.Blend.Percentage]);
+                        ShowBlended(X, Y, lockedSurface, table: GraphicsState.BrightenBlendTable.Lookup[ShowInfoValue.Blend.Percentage]);
                         break;
                     case BlendMode.Intensity:
-                        ShowBlended(X, Y, lockedSurface, GraphicsState.IntensityBlendTable.Lookup[ShowInfoValue.Blend.Percentage]);
+                        ShowBlended(X, Y, lockedSurface, table: GraphicsState.IntensityBlendTable.Lookup[ShowInfoValue.Blend.Percentage]);
                         break;
                     case BlendMode.Shadow:
-                        ShowBlended(X, Y, lockedSurface, GraphicsState.ShadowBlendTable.Lookup[ShowInfoValue.Blend.Percentage]);
+                        ShowBlended(X, Y, lockedSurface, table: GraphicsState.ShadowBlendTable.Lookup[ShowInfoValue.Blend.Percentage]);
                         break;
                     case BlendMode.LinearAlpha:
-                        ShowBlended(X, Y, lockedSurface, GraphicsState.LinearAlphaBlendTable.Lookup[ShowInfoValue.Blend.Percentage]);
+                        ShowBlended(X, Y, lockedSurface, table: GraphicsState.LinearAlphaBlendTable.Lookup[ShowInfoValue.Blend.Percentage]);
                         break;
                     default:
                         break;
@@ -444,19 +444,19 @@ public class LibraryImage : Persistent, ILibraryImageClass
 
                         break;
                     case BlendMode.Alpha:
-                        ShowBlendedStretched(r, lockedSurface, GraphicsState.AlphaBlendTable.Lookup[ShowInfoValue.Blend.Percentage]);
+                        ShowBlendedStretched(r, lockedSurface, table: GraphicsState.AlphaBlendTable.Lookup[ShowInfoValue.Blend.Percentage]);
                         break;
                     case BlendMode.Brighten:
-                        ShowBlendedStretched(r, lockedSurface, GraphicsState.BrightenBlendTable.Lookup[ShowInfoValue.Blend.Percentage]);
+                        ShowBlendedStretched(r, lockedSurface, table: GraphicsState.BrightenBlendTable.Lookup[ShowInfoValue.Blend.Percentage]);
                         break;
                     case BlendMode.Intensity:
-                        ShowBlendedStretched(r, lockedSurface, GraphicsState.IntensityBlendTable.Lookup[ShowInfoValue.Blend.Percentage]);
+                        ShowBlendedStretched(r, lockedSurface, table: GraphicsState.IntensityBlendTable.Lookup[ShowInfoValue.Blend.Percentage]);
                         break;
                     case BlendMode.Shadow:
-                        ShowBlendedStretched(r, lockedSurface, GraphicsState.ShadowBlendTable.Lookup[ShowInfoValue.Blend.Percentage]);
+                        ShowBlendedStretched(r, lockedSurface, table: GraphicsState.ShadowBlendTable.Lookup[ShowInfoValue.Blend.Percentage]);
                         break;
                     case BlendMode.LinearAlpha:
-                        ShowBlendedStretched(r, lockedSurface, GraphicsState.LinearAlphaBlendTable.Lookup[ShowInfoValue.Blend.Percentage]);
+                        ShowBlendedStretched(r, lockedSurface, table: GraphicsState.LinearAlphaBlendTable.Lookup[ShowInfoValue.Blend.Percentage]);
                         break;
                     default:
                         break;
@@ -518,16 +518,16 @@ public class LibraryImage : Persistent, ILibraryImageClass
 
                         break;
                     case BlendMode.Alpha:
-                        ShowBlended(X, Y, lockedSurface, GraphicsState.AlphaBlendTable.Lookup[showInfo.Blend.Percentage]);
+                        ShowBlended(X, Y, lockedSurface, table: GraphicsState.AlphaBlendTable.Lookup[showInfo.Blend.Percentage]);
                         break;
                     case BlendMode.Brighten:
-                        ShowBlended(X, Y, lockedSurface, GraphicsState.BrightenBlendTable.Lookup[showInfo.Blend.Percentage]);
+                        ShowBlended(X, Y, lockedSurface, table: GraphicsState.BrightenBlendTable.Lookup[showInfo.Blend.Percentage]);
                         break;
                     case BlendMode.Intensity:
-                        ShowBlended(X, Y, lockedSurface, GraphicsState.IntensityBlendTable.Lookup[showInfo.Blend.Percentage]);
+                        ShowBlended(X, Y, lockedSurface, table: GraphicsState.IntensityBlendTable.Lookup[showInfo.Blend.Percentage]);
                         break;
                     case BlendMode.Shadow:
-                        ShowBlended(X, Y, lockedSurface, GraphicsState.ShadowBlendTable.Lookup[showInfo.Blend.Percentage]);
+                        ShowBlended(X, Y, lockedSurface, table: GraphicsState.ShadowBlendTable.Lookup[showInfo.Blend.Percentage]);
                         break;
                     case BlendMode.LinearAlpha:
                     default:
@@ -599,8 +599,6 @@ public class LibraryImage : Persistent, ILibraryImageClass
     public int FileIndex { get => _fileIndex; set => _fileIndex = value; }
     public ShowInfo ShowInfo { get => ShowInfoValue; set => SetDefaultShowInfo(value); }
     public Palette Palette => GetPalette();
-    public Palette RemapPalette => GetRemapPalette();
-    public bool Transparent => GetTransparent();
 
     public static void WriteImageToStream(LibraryImage image, Stream stream)
     {
@@ -608,13 +606,13 @@ public class LibraryImage : Persistent, ILibraryImageClass
         if (image is not null)
         {
             id = image.ImageClass.ClassId;
-            stream.Write(Bytes.Of(ref id, 4));
+            stream.Write(Bytes.Of(ref id, count: 4));
             image.SaveToStream(stream);
         }
         else
         {
             id = 0;
-            stream.Write(Bytes.Of(ref id, 4));
+            stream.Write(Bytes.Of(ref id, count: 4));
         }
     }
 
@@ -624,13 +622,13 @@ public class LibraryImage : Persistent, ILibraryImageClass
         if (image is not null)
         {
             id = image.ImageClass.ClassId;
-            stream.Write(Bytes.Of(ref id, 4));
+            stream.Write(Bytes.Of(ref id, count: 4));
             image.SaveToStream(stream, dataStream);
         }
         else
         {
             id = 0;
-            stream.Write(Bytes.Of(ref id, 4));
+            stream.Write(Bytes.Of(ref id, count: 4));
         }
     }
 }

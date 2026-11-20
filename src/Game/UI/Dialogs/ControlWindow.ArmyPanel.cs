@@ -56,7 +56,7 @@ public partial class ControlWindow
         {
             PartyMovesPanel.Visible = false;
             PartyInfoPanel.Visible = true;
-            PartyInfoLabel.Text = AbilityRules.Format(UI.Engine.TranslateResourceString(s_partyOwnerFormat), [UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[StrategicMap.Current.Players.GetPlayers(army.Player).PlayerRace])]);
+            PartyInfoLabel.Text = AbilityRules.Format(UI.Engine.TranslateResourceString(s_partyOwnerFormat), arguments: [UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[StrategicMap.Current.Players.GetPlayers(army.Player).PlayerRace])]);
             PartyControlPanel.Visible = false;
         }
         else

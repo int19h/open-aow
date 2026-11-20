@@ -39,12 +39,12 @@ public partial class HeroUpgradeEventLog(CustomNode owner) : EventLog(owner)
             if (NewLevel - OldLevel == 1)
             {
                 string name = hero.GetName();
-                return AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_madeLevelFormat), [name]);
+                return AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_madeLevelFormat), arguments: [name]);
             }
             else
             {
                 string name = hero.GetName();
-                return AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_madeLevelsFormat), [name, (NewLevel - OldLevel)]);
+                return AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_madeLevelsFormat), arguments: [name, (NewLevel - OldLevel)]);
             }
         }
 
@@ -69,12 +69,12 @@ public partial class HeroUpgradeEventLog(CustomNode owner) : EventLog(owner)
             {
                 if (StrategicMap.Current.Players.GetPlayers(hero.Player).Day == UpgradeDay)
                 {
-                    string canOnlyUpgradeHeroOnce = AbilityRules.TranslateResourceString(GetEngine(), s_canOnlyUpgradeHeroOnceText);
+                    string canOnlyUpgradeHeroOnce = AbilityRules.TranslateResourceString(GetEngine(), S: s_canOnlyUpgradeHeroOnceText);
                     StrategicMap.Current.ShowWarning(canOnlyUpgradeHeroOnce);
                 }
                 else
                 {
-                    string canOnlyUpgradeOnTheDayALevelIsMade = AbilityRules.TranslateResourceString(GetEngine(), s_canOnlyUpgradeOnDayLevelIsMadeText);
+                    string canOnlyUpgradeOnTheDayALevelIsMade = AbilityRules.TranslateResourceString(GetEngine(), S: s_canOnlyUpgradeOnDayLevelIsMadeText);
                     StrategicMap.Current.ShowWarning(canOnlyUpgradeOnTheDayALevelIsMade);
                 }
 

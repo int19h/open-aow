@@ -10,7 +10,7 @@ public class CharmedAbility : CommandedAbility
     {
         Holder = holder;
         AbilityId = 149;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_charmedText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_charmedText);
     }
 
     private static readonly string s_charmedText = "Charmed";

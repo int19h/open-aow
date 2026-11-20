@@ -18,7 +18,7 @@ public class WindsOfFury : CombatSpell
     public WindsOfFury(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_windsOfFuryText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_windsOfFuryText);
         SpellId = 126;
         SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 8;
@@ -40,7 +40,7 @@ public class WindsOfFury : CombatSpell
         };
         if (target.GetAbilityEnabled(1) || target.GetAbilityEnabled(59))
         {
-            action.Generate(source, target, (sbyte)(CombatInfo.Attack + 2), CombatInfo.Damage, CombatInfo.DamageTypes);
+            action.Generate(source, target, attack: (sbyte)(CombatInfo.Attack + 2), CombatInfo.Damage, CombatInfo.DamageTypes);
         }
         else
         {

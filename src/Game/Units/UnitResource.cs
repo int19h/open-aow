@@ -162,7 +162,7 @@ public class UnitResource : TroopResource
 
         Unit unit = new(null) { Holder = CreationHolder() };
         unit.SetUnitResource(this);
-        bool result = unit.Place(hexX, hexY, hexLevel, player, Set<UnitPlaceModeElement>.Of()) is not null;
+        bool result = unit.Place(hexX, hexY, L: hexLevel, player, mode: Set<UnitPlaceModeElement>.Of()) is not null;
         _ = unit.Release();
         return result;
     }
@@ -176,7 +176,7 @@ public class UnitResource : TroopResource
     // UnitRes.PAS:111
     public byte GetTransportCapacity()
     {
-        byte result = (byte)GamePack.Current.AbilityControl.GetAbility(50).GetLevel(Abilities[(int)Unit.Rank.None]);
+        byte result = (byte)GamePack.Current.AbilityControl[50].GetLevel(Abilities[(int)Unit.Rank.None]);
         return result < _transportCapacity ? _transportCapacity : result;
     }
 

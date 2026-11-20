@@ -30,6 +30,6 @@ public class DeathStorm(CustomNode owner) : BlastStorm(owner)
     public override StormType StormType() => Magic.Spells.StormType.Death;
 
     // Storms.pas:497
-    public override string Name() => AbilityRules.TranslateResourceString(GetEngine(), GameTables.DeathStormText);
+    public override string Name() => AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.DeathStormText);
 
 }

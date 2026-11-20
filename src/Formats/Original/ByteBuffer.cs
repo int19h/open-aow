@@ -20,12 +20,12 @@ public sealed class ByteBuffer(int capacity = 64)
             long size = Math.Max((long)_buffer.Length * 2, (long)Length + count);
             if (size > Array.MaxLength)
             {
-                throw new ConversionException(new FormatDiagnostic(Codes.Limit, "An encoded image exceeds the largest buffer."));
+                throw new ConversionException(new FormatDiagnostic(Codes.Limit, Message: "An encoded image exceeds the largest buffer."));
             }
 
-            Array.Resize(ref _buffer, (int)size);
+            Array.Resize(ref _buffer, newSize: (int)size);
         }
-        Span<byte> span = _buffer.AsSpan(Length, count);
+        Span<byte> span = _buffer.AsSpan(Length, length: count);
         Length += count;
         return span;
     }
@@ -41,7 +41,7 @@ public sealed class ByteBuffer(int capacity = 64)
     public void Zeros(int count) => Grow(count).Clear();
 
     /// <summary>Overwrites four bytes already written.</summary>
-    public void PatchInt32(int at, int value) => BinaryPrimitives.WriteInt32LittleEndian(_buffer.AsSpan(at, 4), value);
+    public void PatchInt32(int at, int value) => BinaryPrimitives.WriteInt32LittleEndian(_buffer.AsSpan(at, length: 4), value);
 
     public void Clear() => Length = 0;
 }

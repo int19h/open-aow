@@ -46,8 +46,8 @@ public static class TreeWriter
 {
     public static ObjectNode Write(IPersistable objectValue, IPersistableFactory factory, bool preview = false)
     {
-        ObjectNode node = new(null, null);
-        MemberPersister persister = new(node, false, factory, DocumentNodePath.Root, preview: preview);
+        ObjectNode node = new(null, slot: null);
+        MemberPersister persister = new(node, loading: false, factory, path: DocumentNodePath.Root, preview: preview);
         objectValue.Persist(persister);
         return node;
     }
@@ -66,7 +66,7 @@ public static class TreeWriter
         }
         catch (Exception)
         {
-            return new ObjectNode(null, null);
+            return new ObjectNode(null, slot: null);
         }
     }
 }
@@ -80,7 +80,7 @@ public static class TreeReader
 {
     public static void Read(ObjectNode node, IPersistable objectValue, IPersistableFactory factory, LoadErrorHandler? onError = null, bool preview = false)
     {
-        MemberPersister persister = new(node, true, factory, DocumentNodePath.Root, new LoadErrorPolicy(onError), preview: preview);
+        MemberPersister persister = new(node, loading: true, factory, path: DocumentNodePath.Root, errors: new LoadErrorPolicy(onError), preview: preview);
         objectValue.Persist(persister);
         persister.Finish();
     }
@@ -158,12 +158,12 @@ internal sealed class MemberPersister : IPersister
     private Dictionary<string, SlotListNode?>? _slotMembers;
 
     public MemberPersister(ObjectNode node, bool loading, IPersistableFactory factory, DocumentNodePath path, LoadErrorPolicy? errors = null, bool preview = false)
-        : this(node.Members, loading ? null : node.Add, loading, factory, path, errors, preview)
+        : this(node.Members, add: loading ? null : node.Add, loading, factory, path, errors, preview)
     {
     }
 
     public MemberPersister(RecordNode node, bool loading, IPersistableFactory factory, DocumentNodePath path, LoadErrorPolicy? errors = null, bool preview = false)
-        : this(node.Members, loading ? null : node.Add, loading, factory, path, errors, preview)
+        : this(node.Members, add: loading ? null : node.Add, loading, factory, path, errors, preview)
     {
     }
 
@@ -195,28 +195,28 @@ internal sealed class MemberPersister : IPersister
         {
             if (_consumed is null || !_consumed.Contains(name))
             {
-                throw TreeErrors.Fail(Codes.Required, $"Member \"{name}\" was not read.", _path.Member(name));
+                throw TreeErrors.Fail(Codes.Required, message: $"Member \"{name}\" was not read.", path: _path.Member(name));
             }
         }
     }
 
     public int Int32(string name, int value, int fallback = 0)
-        => (int)Integer(name, value, fallback, 4, true);
+        => (int)Integer(name, current: value, fallback, width: 4, signed: true);
 
     public byte Byte(string name, byte value, byte fallback = 0)
-        => (byte)Integer(name, value, fallback, 1, false);
+        => (byte)Integer(name, current: value, fallback, width: 1, signed: false);
 
     public sbyte SByte(string name, sbyte value, sbyte fallback = 0)
-        => (sbyte)Integer(name, value, fallback, 1, true);
+        => (sbyte)Integer(name, current: value, fallback, width: 1, signed: true);
 
     public ushort UInt16(string name, ushort value, ushort fallback = 0)
-        => (ushort)Integer(name, value, fallback, 2, false);
+        => (ushort)Integer(name, current: value, fallback, width: 2, signed: false);
 
     public short Int16(string name, short value, short fallback = 0)
-        => (short)Integer(name, value, fallback, 2, true);
+        => (short)Integer(name, current: value, fallback, width: 2, signed: true);
 
     public uint UInt32(string name, uint value, uint fallback = 0)
-        => (uint)Integer(name, value, fallback, 4, false);
+        => (uint)Integer(name, current: value, fallback, width: 4, signed: false);
 
     public TEnum Enum<TEnum>(string name, TEnum value, TEnum fallback = default) where TEnum : struct, Enum
     {
@@ -227,11 +227,11 @@ internal sealed class MemberPersister : IPersister
             TreeValue? found = Take(name);
             return found is null
                 ? fallback
-                : found is not EnumNode node || !NameTable.Names(typeof(TEnum), node.TypeName) || node.Width != width || node.Signed != signed
-                ? throw Type(name, $"a {typeName}")
+                : found is not EnumNode node || !NameTable.Names(typeof(TEnum), name: node.TypeName) || node.Width != width || node.Signed != signed
+                ? throw Type(name, expected: $"a {typeName}")
                 : (TEnum)System.Enum.ToObject(typeof(TEnum), node.Value);
         }
-        Store(name, new EnumNode(typeName, width, signed, Convert.ToInt64(value)));
+        Store(name, new EnumNode(typeName, width, signed, value: Convert.ToInt64(value)));
         return value;
     }
 
@@ -249,8 +249,8 @@ internal sealed class MemberPersister : IPersister
             TreeValue? found = Take(name);
             return found is null
                 ? value
-                : found is not SetNode node || !NameTable.Names(typeof(E), node.TypeName) || node.Width != width
-                ? throw Type(name, $"a set of {typeName}")
+                : found is not SetNode node || !NameTable.Names(typeof(E), name: node.TypeName) || node.Width != width
+                ? throw Type(name, expected: $"a set of {typeName}")
                 : Rtl.Set<E>.FromMask(node.Mask);
         }
         Span<byte> image = stackalloc byte[width];
@@ -273,7 +273,7 @@ internal sealed class MemberPersister : IPersister
             {
                 null => false,
                 BooleanNode node => node.Value,
-                _ => throw Type(name, "a boolean"),
+                _ => throw Type(name, expected: "a boolean"),
             };
         }
         if (value)
@@ -292,7 +292,7 @@ internal sealed class MemberPersister : IPersister
             {
                 null => "",
                 StringNode node => node.Value,
-                _ => throw Type(name, "a string"),
+                _ => throw Type(name, expected: "a string"),
             };
         }
         if (!string.IsNullOrEmpty(value))
@@ -316,7 +316,7 @@ internal sealed class MemberPersister : IPersister
 
             if (found is not LinesNode node)
             {
-                throw Type(name, "lines");
+                throw Type(name, expected: "lines");
             }
 
             foreach (string line in node.Lines ?? Split(node.RawText ?? ""))
@@ -346,7 +346,7 @@ internal sealed class MemberPersister : IPersister
 
             if (found is not LinesWithValuesNode node)
             {
-                throw Type(name, "lines with objects");
+                throw Type(name, expected: "lines with objects");
             }
 
             foreach (string line in node.Lines ?? Split(node.RawText ?? ""))
@@ -356,7 +356,7 @@ internal sealed class MemberPersister : IPersister
 
             if (lines.Count != node.Objects.Count)
             {
-                throw TreeErrors.Fail(Codes.Corrupt, $"The text has {lines.Count} lines and {node.Objects.Count} object values.", _path.Member(name));
+                throw TreeErrors.Fail(Codes.Corrupt, message: $"The text has {lines.Count} lines and {node.Objects.Count} object values.", path: _path.Member(name));
             }
 
             foreach (int item in node.Objects)
@@ -373,10 +373,10 @@ internal sealed class MemberPersister : IPersister
 
         if (lines.Count != objects.Count)
         {
-            throw TreeErrors.Fail(Codes.Corrupt, $"The text has {lines.Count} lines and {objects.Count} object values.", _path.Member(name));
+            throw TreeErrors.Fail(Codes.Corrupt, message: $"The text has {lines.Count} lines and {objects.Count} object values.", path: _path.Member(name));
         }
 
-        Store(name, LinesWithValuesNode.FromLines(lines is List<string> list ? list : [.. lines], objects is List<int> ids ? ids : [.. objects]));
+        Store(name, LinesWithValuesNode.FromLines(lines is List<string> list ? list : [.. lines], objects: objects is List<int> ids ? ids : [.. objects]));
     }
 
     public void Bytes(string name, Span<byte> data)
@@ -391,12 +391,12 @@ internal sealed class MemberPersister : IPersister
 
             if (found is not BytesNode node)
             {
-                throw Type(name, "bytes");
+                throw Type(name, expected: "bytes");
             }
 
             if (node.Data.Length != data.Length)
             {
-                throw TreeErrors.Fail(Codes.Range, $"{name} holds exactly {data.Length} bytes.", _path.Member(name), value: node.Data.Length.ToString(System.Globalization.CultureInfo.InvariantCulture), constraint: $"{data.Length} bytes");
+                throw TreeErrors.Fail(Codes.Range, message: $"{name} holds exactly {data.Length} bytes.", path: _path.Member(name), value: node.Data.Length.ToString(System.Globalization.CultureInfo.InvariantCulture), constraint: $"{data.Length} bytes");
             }
 
             node.Data.CopyTo(data);
@@ -410,11 +410,11 @@ internal sealed class MemberPersister : IPersister
         Store(name, new BytesNode(data.ToArray()));
     }
 
-    public int RawInt32(string name, int value) => (int)RawInteger(name, value, 4, true);
+    public int RawInt32(string name, int value) => (int)RawInteger(name, current: value, width: 4, signed: true);
 
-    public byte RawByte(string name, byte value) => (byte)RawInteger(name, value, 1, false);
+    public byte RawByte(string name, byte value) => (byte)RawInteger(name, current: value, width: 1, signed: false);
 
-    public sbyte RawSByte(string name, sbyte value) => (sbyte)RawInteger(name, value, 1, true);
+    public sbyte RawSByte(string name, sbyte value) => (sbyte)RawInteger(name, current: value, width: 1, signed: true);
 
     // The bool keeps its stored byte, so a byte other than 0 or 1 loads as that byte and saves back.
     public bool RawBool(string name, bool value)
@@ -431,7 +431,7 @@ internal sealed class MemberPersister : IPersister
                 ? node.Value ? (byte)1 : (byte)0
                 : found is IntegerNode { Width: 1, Signed: false } number && number.Value is >= 0 and <= 255
                     ? (byte)number.Value
-                    : throw Type(name, "a boolean");
+                    : throw Type(name, expected: "a boolean");
             return Unsafe.As<byte, bool>(ref loaded);
         }
         byte stored = Unsafe.As<bool, byte>(ref value);
@@ -441,7 +441,7 @@ internal sealed class MemberPersister : IPersister
         }
         else
         {
-            Store(name, new IntegerNode(1, false, stored));
+            Store(name, new IntegerNode(1, signed: false, value: stored));
         }
 
         return value;
@@ -452,12 +452,12 @@ internal sealed class MemberPersister : IPersister
         int length = count < 0 ? -1 : (count + 7) >> 3;
         if (length < 0)
         {
-            throw TreeErrors.Fail(Codes.Range, $"{name} has a negative count.", _path.Member(name), value: count.ToString(System.Globalization.CultureInfo.InvariantCulture));
+            throw TreeErrors.Fail(Codes.Range, message: $"{name} has a negative count.", path: _path.Member(name), value: count.ToString(System.Globalization.CultureInfo.InvariantCulture));
         }
 
         if (bits.Length != length)
         {
-            throw TreeErrors.Fail(Codes.Range, string.Create(System.Globalization.CultureInfo.InvariantCulture, $"{name} holds exactly {length} bytes."), _path.Member(name), value: bits.Length.ToString(System.Globalization.CultureInfo.InvariantCulture), constraint: string.Create(System.Globalization.CultureInfo.InvariantCulture, $"{length} bytes"));
+            throw TreeErrors.Fail(Codes.Range, message: string.Create(System.Globalization.CultureInfo.InvariantCulture, handler: $"{name} holds exactly {length} bytes."), path: _path.Member(name), value: bits.Length.ToString(System.Globalization.CultureInfo.InvariantCulture), constraint: string.Create(System.Globalization.CultureInfo.InvariantCulture, handler: $"{length} bytes"));
         }
 
         if (Loading)
@@ -467,7 +467,7 @@ internal sealed class MemberPersister : IPersister
             {
                 if (found is not null)
                 {
-                    throw Type(name, "omitted when the count is zero");
+                    throw Type(name, expected: "omitted when the count is zero");
                 }
 
                 return;
@@ -479,7 +479,7 @@ internal sealed class MemberPersister : IPersister
 
             if (found is not BitArrayNode node || node.Count != count)
             {
-                throw Type(name, "a bit array");
+                throw Type(name, expected: "a bit array");
             }
 
             bits.Clear();
@@ -488,7 +488,7 @@ internal sealed class MemberPersister : IPersister
             {
                 if ((uint)index >= (uint)storedBits)
                 {
-                    throw TreeErrors.Fail(Codes.Range, $"{name} is outside its storage range.", _path.Member(name), value: index.ToString(System.Globalization.CultureInfo.InvariantCulture));
+                    throw TreeErrors.Fail(Codes.Range, message: $"{name} is outside its storage range.", path: _path.Member(name), value: index.ToString(System.Globalization.CultureInfo.InvariantCulture));
                 }
 
                 bits[index >> 3] |= (byte)(1 << (index & 7));
@@ -511,7 +511,7 @@ internal sealed class MemberPersister : IPersister
             }
         }
 
-        Store(name, new BitArrayNode(count, [.. indices]));
+        Store(name, new BitArrayNode(count, indices: [.. indices]));
     }
 
     public BitListImage? BitList(string name, BitListImage value)
@@ -526,7 +526,7 @@ internal sealed class MemberPersister : IPersister
 
             if (found is not BitListNode node)
             {
-                throw Type(name, "a bit list");
+                throw Type(name, expected: "a bit list");
             }
 
             byte[] bits = new byte[(node.Count + 7) >> 3];
@@ -544,7 +544,7 @@ internal sealed class MemberPersister : IPersister
         }
         if (value.Count < 0 || value.Bits.Length != (value.Count + 7L) >> 3)
         {
-            throw TreeErrors.Fail(Codes.Range, string.Create(System.Globalization.CultureInfo.InvariantCulture, $"{name} of {value.Count} bits holds {(value.Count + 7L) >> 3} bytes."), _path.Member(name));
+            throw TreeErrors.Fail(Codes.Range, message: string.Create(System.Globalization.CultureInfo.InvariantCulture, handler: $"{name} of {value.Count} bits holds {(value.Count + 7L) >> 3} bytes."), path: _path.Member(name));
         }
 
         List<int> indices = [];
@@ -565,7 +565,7 @@ internal sealed class MemberPersister : IPersister
         if (Loading)
         {
             TreeValue? found = Take(name);
-            return found is null ? value : found is not SingleNode node ? throw Type(name, "a single") : node.Value;
+            return found is null ? value : found is not SingleNode node ? throw Type(name, expected: "a single") : node.Value;
         }
         Store(name, new SingleNode(BitConverter.SingleToInt32Bits(value)));
         return value;
@@ -576,7 +576,7 @@ internal sealed class MemberPersister : IPersister
         if (Loading)
         {
             TreeValue? found = Take(name);
-            return found is null ? null : found is not BytesNode node ? throw Type(name, "bytes") : node.Data;
+            return found is null ? null : found is not BytesNode node ? throw Type(name, expected: "bytes") : node.Data;
         }
         Store(name, new BytesNode(data));
         return data;
@@ -594,7 +594,7 @@ internal sealed class MemberPersister : IPersister
 
             if (found is not PairListNode node)
             {
-                throw Type(name, "pairs of signed bytes");
+                throw Type(name, expected: "pairs of signed bytes");
             }
 
             pairs.Clear();
@@ -621,7 +621,7 @@ internal sealed class MemberPersister : IPersister
 
             if (found is not ImageSequenceListNode node)
             {
-                throw Type(name, "an image sequence list");
+                throw Type(name, expected: "an image sequence list");
             }
 
             entries.Clear();
@@ -641,14 +641,14 @@ internal sealed class MemberPersister : IPersister
 
             if (layers.Count == 0)
             {
-                throw TreeErrors.Fail(Codes.Type, $"A sequence of {name} has at least one layer.", at.Item(i));
+                throw TreeErrors.Fail(Codes.Type, message: $"A sequence of {name} has at least one layer.", path: at.Item(i));
             }
 
             for (int k = 0; k < layers.Count; k++)
             {
                 if ((layers[k].Frames is not null) != SequenceLayer.HasFrameTable(layers[k].Mode))
                 {
-                    throw TreeErrors.Fail(Codes.Type, "A layer stores a frame table exactly when its mode is FrameTable or RandomFrameTable.", at.Item(i).Item(k));
+                    throw TreeErrors.Fail(Codes.Type, message: "A layer stores a frame table exactly when its mode is FrameTable or RandomFrameTable.", path: at.Item(i).Item(k));
                 }
             }
         }
@@ -660,8 +660,8 @@ internal sealed class MemberPersister : IPersister
         if (Loading)
         {
             TreeValue? found = Take(name);
-            ObjectNode nested = found is null ? new ObjectNode(null, null) : found is ObjectNode node ? node : throw Type(name, "an object");
-            MemberPersister child = new(nested, true, Factory, _path.Member(name), _errors, preview: Preview);
+            ObjectNode nested = found is null ? new ObjectNode(null, slot: null) : found is ObjectNode node ? node : throw Type(name, expected: "an object");
+            MemberPersister child = new(nested, loading: true, Factory, path: _path.Member(name), _errors, preview: Preview);
             // rwEObject wraps the main visit and leaves the caller's instance in place.
             try
             {
@@ -677,8 +677,8 @@ internal sealed class MemberPersister : IPersister
             }
             return;
         }
-        ObjectNode written = new(null, null);
-        objectValue.Persist(new MemberPersister(written, false, Factory, _path.Member(name), _errors, preview: Preview));
+        ObjectNode written = new(null, slot: null);
+        objectValue.Persist(new MemberPersister(written, loading: false, Factory, path: _path.Member(name), _errors, preview: Preview));
         Store(name, written);
     }
 
@@ -690,16 +690,16 @@ internal sealed class MemberPersister : IPersister
             return found is null or NullNode
                 ? null
                 : found is not ObjectNode node || node.ClassName is not string className
-                ? throw Type(name, "a created object")
-                : Create(node, className, _path.Member(name));
+                ? throw Type(name, expected: "a created object")
+                : Create(node, className, at: _path.Member(name));
         }
         if (objectValue is null)
         {
             Store(name, NullNode.Instance);
             return null;
         }
-        ObjectNode written = new(Factory.ClassName(objectValue), null);
-        objectValue.Persist(new MemberPersister(written, false, Factory, _path.Member(name), _errors, preview: Preview));
+        ObjectNode written = new(Factory.ClassName(objectValue), slot: null);
+        objectValue.Persist(new MemberPersister(written, loading: false, Factory, path: _path.Member(name), _errors, preview: Preview));
         Store(name, written);
         return objectValue;
     }
@@ -708,7 +708,7 @@ internal sealed class MemberPersister : IPersister
     {
         IPersistable? box = Created(name, (IPersistable?)objectValue);
         return box is not null and not T
-            ? throw TreeErrors.Fail(Codes.ClassFamily, $"Created class {Factory.ClassName(box)} is not a {typeof(T).Name}.", _path.Member(name), value: Factory.ClassName(box), constraint: typeof(T).Name)
+            ? throw TreeErrors.Fail(Codes.ClassFamily, message: $"Created class {Factory.ClassName(box)} is not a {typeof(T).Name}.", path: _path.Member(name), value: Factory.ClassName(box), constraint: typeof(T).Name)
             : (T?)box;
     }
 
@@ -717,7 +717,7 @@ internal sealed class MemberPersister : IPersister
         DocumentNodePath at = _path.Member(name).Item(slot);
         if (slot < 0)
         {
-            throw TreeErrors.Fail(Codes.Range, $"A slot of {name} is negative.", at, value: slot.ToString(System.Globalization.CultureInfo.InvariantCulture));
+            throw TreeErrors.Fail(Codes.Range, message: $"A slot of {name} is negative.", path: at, value: slot.ToString(System.Globalization.CultureInfo.InvariantCulture));
         }
 
         _slotMembers ??= [with(StringComparer.Ordinal)];
@@ -728,7 +728,7 @@ internal sealed class MemberPersister : IPersister
                 TreeValue? found = Take(name);
                 if (found is not null and not SlotListNode)
                 {
-                    throw Type(name, "created objects at slots");
+                    throw Type(name, expected: "created objects at slots");
                 }
 
                 stored = (SlotListNode?)found;
@@ -738,7 +738,7 @@ internal sealed class MemberPersister : IPersister
             return value is null or NullNode
                 ? null
                 : value is not ObjectNode node || node.ClassName is not string className
-                ? throw TreeErrors.Fail(Codes.Type, $"A slot of {name} is a created object.", at)
+                ? throw TreeErrors.Fail(Codes.Type, message: $"A slot of {name} is a created object.", path: at)
                 : Create(node, className, at);
         }
         if (!_slotMembers.TryGetValue(name, out SlotListNode? list) || list is null)
@@ -749,25 +749,25 @@ internal sealed class MemberPersister : IPersister
         }
         if (list.Find(slot) is not null)
         {
-            throw TreeErrors.Fail(Codes.Slot, string.Create(System.Globalization.CultureInfo.InvariantCulture, $"Slot {slot} of {name} is stored twice."), at);
+            throw TreeErrors.Fail(Codes.Slot, message: string.Create(System.Globalization.CultureInfo.InvariantCulture, handler: $"Slot {slot} of {name} is stored twice."), path: at);
         }
 
         if (objectValue is null)
         {
-            list.Add(slot, NullNode.Instance);
+            list.Add(slot, value: NullNode.Instance);
             return null;
         }
         ObjectNode written = new(Factory.ClassName(objectValue), slot);
         objectValue.Persist(new MemberPersister(written, loading: false, factory: Factory, path: at, errors: _errors, preview: Preview));
-        list.Add(slot, written);
+        list.Add(slot, value: written);
         return objectValue;
     }
 
     public T? CreatedSlot<T>(string name, int slot, T? objectValue) where T : class, IPersistable
     {
-        IPersistable? box = CreatedSlot(name, slot, (IPersistable?)objectValue);
+        IPersistable? box = CreatedSlot(name, slot, objectValue: (IPersistable?)objectValue);
         return box is not null and not T
-            ? throw TreeErrors.Fail(Codes.ClassFamily, $"Created class {Factory.ClassName(box)} is not a {typeof(T).Name}.", _path.Member(name).Item(slot), value: Factory.ClassName(box), constraint: typeof(T).Name)
+            ? throw TreeErrors.Fail(Codes.ClassFamily, message: $"Created class {Factory.ClassName(box)} is not a {typeof(T).Name}.", path: _path.Member(name).Item(slot), value: Factory.ClassName(box), constraint: typeof(T).Name)
             : (T?)box;
     }
 
@@ -776,7 +776,7 @@ internal sealed class MemberPersister : IPersister
         DocumentNodePath at = _path.Member(name).Item(slot);
         if (slot < 0)
         {
-            throw TreeErrors.Fail(Codes.Range, $"A slot of {name} is negative.", at, value: slot.ToString(System.Globalization.CultureInfo.InvariantCulture));
+            throw TreeErrors.Fail(Codes.Range, message: $"A slot of {name} is negative.", path: at, value: slot.ToString(System.Globalization.CultureInfo.InvariantCulture));
         }
 
         _slotMembers ??= [with(StringComparer.Ordinal)];
@@ -787,7 +787,7 @@ internal sealed class MemberPersister : IPersister
                 TreeValue? found = Take(name);
                 if (found is not null and not SlotListNode)
                 {
-                    throw Type(name, "fixed objects at slots");
+                    throw Type(name, expected: "fixed objects at slots");
                 }
 
                 stored = (SlotListNode?)found;
@@ -801,7 +801,7 @@ internal sealed class MemberPersister : IPersister
 
             if (value is not ObjectNode { ClassName: null } node)
             {
-                throw TreeErrors.Fail(Codes.Type, $"A slot of {name} is a fixed object.", at);
+                throw TreeErrors.Fail(Codes.Type, message: $"A slot of {name} is a fixed object.", path: at);
             }
 
             MemberPersister reader = new(node, loading: true, factory: Factory, path: at, errors: _errors, preview: Preview);
@@ -828,12 +828,12 @@ internal sealed class MemberPersister : IPersister
         }
         if (list.Find(slot) is not null)
         {
-            throw TreeErrors.Fail(Codes.Slot, string.Create(System.Globalization.CultureInfo.InvariantCulture, $"Slot {slot} of {name} is stored twice."), at);
+            throw TreeErrors.Fail(Codes.Slot, message: string.Create(System.Globalization.CultureInfo.InvariantCulture, handler: $"Slot {slot} of {name} is stored twice."), path: at);
         }
 
         ObjectNode written = new(null, slot);
         objectValue.Persist(new MemberPersister(written, loading: false, factory: Factory, path: at, errors: _errors, preview: Preview));
-        list.Add(slot, written);
+        list.Add(slot, value: written);
     }
 
     public void Skip(string name)
@@ -856,7 +856,7 @@ internal sealed class MemberPersister : IPersister
 
             if (found is not DefaultListNode { Width: 4 } node)
             {
-                throw Type(name, "a list of 32-bit integers with a default");
+                throw Type(name, expected: "a list of 32-bit integers with a default");
             }
 
             items.Clear();
@@ -873,7 +873,7 @@ internal sealed class MemberPersister : IPersister
             values[i] = items[i];
         }
 
-        Store(name, new DefaultListNode(4, defaultValue, values));
+        Store(name, new DefaultListNode(4, defaultValue, items: values));
         return defaultValue;
     }
 
@@ -889,7 +889,7 @@ internal sealed class MemberPersister : IPersister
 
             if (found is not DefaultListNode { Width: 1 } node)
             {
-                throw Type(name, "a list of bytes with a default");
+                throw Type(name, expected: "a list of bytes with a default");
             }
 
             items.Clear();
@@ -906,7 +906,7 @@ internal sealed class MemberPersister : IPersister
             values[i] = items[i];
         }
 
-        Store(name, new DefaultListNode(1, defaultValue, values));
+        Store(name, new DefaultListNode(1, defaultValue, items: values));
         return defaultValue;
     }
 
@@ -915,12 +915,12 @@ internal sealed class MemberPersister : IPersister
         if (Loading)
         {
             TreeValue? found = Take(name);
-            IReadOnlyList<ObjectNode> list = found is null ? [] : found is ChildListNode node ? node.Children : throw Type(name, "children");
+            IReadOnlyList<ObjectNode> list = found is null ? [] : found is ChildListNode node ? node.Children : throw Type(name, expected: "children");
             foreach (ObjectNode child in list)
             {
                 if (child.ClassName is not string className || child.Slot is not int slot)
                 {
-                    throw TreeErrors.Fail(Codes.MissingMember, "A child needs a class and a slot.", _path.Member(name));
+                    throw TreeErrors.Fail(Codes.MissingMember, message: "A child needs a class and a slot.", path: _path.Member(name));
                 }
 
                 IPersistable? created = null;
@@ -928,10 +928,10 @@ internal sealed class MemberPersister : IPersister
                 {
                     created = Factory.Create(className);
                     children.Attach(created);
-                    MemberPersister reader = new(child, true, Factory, _path.Member(name).Item(slot), _errors, preview: Preview);
+                    MemberPersister reader = new(child, loading: true, Factory, path: _path.Member(name).Item(slot), _errors, preview: Preview);
                     created.Persist(reader);
                     reader.Finish();
-                    children.Place(slot, created);
+                    children.Place(slot, child: created);
                 }
                 catch (Exception error)
                 {
@@ -956,9 +956,9 @@ internal sealed class MemberPersister : IPersister
                 continue;
             }
 
-            IPersistable child = children.Get(i) ?? throw TreeErrors.Fail(Codes.Corrupt, "A stored child is missing.", _path.Member(name).Item(i));
-            ObjectNode node = new(Factory.ClassName(child), children.Slot(i));
-            child.Persist(new MemberPersister(node, false, Factory, _path.Member(name).Item(children.Slot(i)), _errors, preview: Preview));
+            IPersistable child = children.Get(i) ?? throw TreeErrors.Fail(Codes.Corrupt, message: "A stored child is missing.", path: _path.Member(name).Item(i));
+            ObjectNode node = new(Factory.ClassName(child), slot: children.Slot(i));
+            child.Persist(new MemberPersister(node, loading: false, Factory, path: _path.Member(name).Item(children.Slot(i)), _errors, preview: Preview));
             written.Add(node);
         }
         Store(name, new ChildListNode(written));
@@ -969,7 +969,7 @@ internal sealed class MemberPersister : IPersister
         DocumentNodePath at = _path.Member(name);
         if (width < 0 || height < 0 || (long)width * height != fields.Count)
         {
-            throw TreeErrors.Fail(Codes.Dimensions, $"{name} holds {fields.Count} fields for a {width} by {height} grid.", at,
+            throw TreeErrors.Fail(Codes.Dimensions, message: $"{name} holds {fields.Count} fields for a {width} by {height} grid.", path: at,
                 value: fields.Count.ToString(System.Globalization.CultureInfo.InvariantCulture), constraint: $"{(long)width * height} fields");
         }
 
@@ -983,19 +983,19 @@ internal sealed class MemberPersister : IPersister
 
             if (found is not GridNode node)
             {
-                throw Type(name, "a grid of fields");
+                throw Type(name, expected: "a grid of fields");
             }
 
             if (node.Width != width || node.Height != height)
             {
-                throw TreeErrors.Fail(Codes.Dimensions, $"{name} is a {node.Width} by {node.Height} grid and the object is {width} by {height}.", at,
+                throw TreeErrors.Fail(Codes.Dimensions, message: $"{name} is a {node.Width} by {node.Height} grid and the object is {width} by {height}.", path: at,
                     value: $"{node.Width} by {node.Height}", constraint: $"{width} by {height}");
             }
 
             for (int i = 0; i < fields.Count; i++)
             {
                 // The original object read wraps the main visit and leaves the field in place.
-                MemberPersister reader = new(node.Fields[i], loading: true, factory: Factory, path: FieldPath(at, i, width), errors: _errors, preview: Preview);
+                MemberPersister reader = new(node.Fields[i], loading: true, factory: Factory, path: FieldPath(at, index: i, width), errors: _errors, preview: Preview);
                 try
                 {
                     fields[i].Persist(reader);
@@ -1015,18 +1015,18 @@ internal sealed class MemberPersister : IPersister
         ObjectNode[] written = new ObjectNode[fields.Count];
         for (int i = 0; i < fields.Count; i++)
         {
-            ObjectNode field = new(null, null);
-            fields[i].Persist(new MemberPersister(field, loading: false, factory: Factory, path: FieldPath(at, i, width), errors: _errors, preview: Preview));
+            ObjectNode field = new(null, slot: null);
+            fields[i].Persist(new MemberPersister(field, loading: false, factory: Factory, path: FieldPath(at, index: i, width), errors: _errors, preview: Preview));
             written[i] = field;
             visited?.Invoke(i);
         }
-        Store(name, new GridNode(width, height, written));
+        Store(name, new GridNode(width, height, fields: written));
     }
 
     // The field at an index sits at [y][x] of the document's rows.
     private static DocumentNodePath FieldPath(DocumentNodePath grid, int index, int width)
     {
-        int y = Math.DivRem(index, width, out int x);
+        int y = Math.DivRem(index, width, result: out int x);
         return grid.Item(y).Item(x);
     }
 
@@ -1043,7 +1043,7 @@ internal sealed class MemberPersister : IPersister
 
             if (found is not SequenceNode node)
             {
-                throw Type(name, "a sequence of created objects");
+                throw Type(name, expected: "a sequence of created objects");
             }
 
             for (int k = 0; k < node.Items.Count; k++)
@@ -1056,7 +1056,7 @@ internal sealed class MemberPersister : IPersister
 
                 if (node.Items[k] is not ObjectNode { ClassName: string className } item)
                 {
-                    throw TreeErrors.Fail(Codes.Type, $"An item of {name} is a created object.", at.Item(k));
+                    throw TreeErrors.Fail(Codes.Type, message: $"An item of {name} is a created object.", path: at.Item(k));
                 }
 
                 IPersistable? created = null;
@@ -1067,7 +1067,7 @@ internal sealed class MemberPersister : IPersister
                     MemberPersister reader = new(item, loading: true, factory: Factory, path: at.Item(k), errors: _errors, preview: Preview);
                     created.Persist(reader);
                     reader.Finish();
-                    items.Place(k, created);
+                    items.Place(k, child: created);
                 }
                 catch (Exception error)
                 {
@@ -1092,9 +1092,9 @@ internal sealed class MemberPersister : IPersister
                 continue;
             }
 
-            IPersistable item = items.Get(i) ?? throw TreeErrors.Fail(Codes.Corrupt, "A stored item is missing.", at.Item(i));
+            IPersistable item = items.Get(i) ?? throw TreeErrors.Fail(Codes.Corrupt, message: "A stored item is missing.", path: at.Item(i));
             written ??= [];
-            ObjectNode node = new(Factory.ClassName(item), null);
+            ObjectNode node = new(Factory.ClassName(item), slot: null);
             item.Persist(new MemberPersister(node, loading: false, factory: Factory, path: at.Item(written.Count), errors: _errors, preview: Preview));
             written.Add(node);
         }
@@ -1112,7 +1112,7 @@ internal sealed class MemberPersister : IPersister
             return found is null
                 ? []
                 : found is not NestedDocumentNode node || node.Profile != profile
-                ? throw Type(name, $"a nested {profile} document")
+                ? throw Type(name, expected: $"a nested {profile} document")
                 : node.Image;
         }
         if (image.Length != 0)
@@ -1132,9 +1132,9 @@ internal sealed class MemberPersister : IPersister
                 ? fallback
                 : found is ReferenceNode reference
                 ? reference.Domain != domain
-                    ? throw TreeErrors.Fail(Codes.Reference, $"Reference \"{name}\" is in domain {reference.Domain}.", _path.Member(name), value: reference.Domain, constraint: domain)
+                    ? throw TreeErrors.Fail(Codes.Reference, message: $"Reference \"{name}\" is in domain {reference.Domain}.", path: _path.Member(name), value: reference.Domain, constraint: domain)
                     : reference.Key
-                : found is IntegerNode integer && integer.Width == 4 && integer.Signed ? (int)integer.Value : throw Type(name, "a reference");
+                : found is IntegerNode integer && integer.Width == 4 && integer.Signed ? (int)integer.Value : throw Type(name, expected: "a reference");
         }
         if (key != fallback)
         {
@@ -1149,14 +1149,14 @@ internal sealed class MemberPersister : IPersister
         if (Loading)
         {
             TreeValue? found = Take(name);
-            RecordNode record = found is null ? new RecordNode() : found is RecordNode node ? node : throw Type(name, "a record");
-            MemberPersister child = new(record, true, Factory, _path.Member(name), _errors, preview: Preview);
+            RecordNode record = found is null ? new RecordNode() : found is RecordNode node ? node : throw Type(name, expected: "a record");
+            MemberPersister child = new(record, loading: true, Factory, path: _path.Member(name), _errors, preview: Preview);
             body(child);
             child.Finish();
             return;
         }
         RecordNode written = new();
-        body(new MemberPersister(written, false, Factory, _path.Member(name), _errors, preview: Preview));
+        body(new MemberPersister(written, loading: false, Factory, path: _path.Member(name), _errors, preview: Preview));
         Store(name, written);
     }
 
@@ -1173,13 +1173,13 @@ internal sealed class MemberPersister : IPersister
 
             if (found is not ListNode list)
             {
-                throw Type(name, "a list");
+                throw Type(name, expected: "a list");
             }
 
             for (int i = 0; i < list.Items.Count; i++)
             {
-                ItemSlot slot = new(list.Items[i], true, Factory, _path.Member(name).Item(i), _errors, preview: Preview);
-                T value = transfer(slot, default!);
+                ItemSlot slot = new(list.Items[i], loading: true, Factory, path: _path.Member(name).Item(i), _errors, preview: Preview);
+                T value = transfer(slot, value: default!);
                 _ = slot.Finish();
                 items.Add(value);
             }
@@ -1193,8 +1193,8 @@ internal sealed class MemberPersister : IPersister
         ListNode written = new();
         for (int i = 0; i < items.Count; i++)
         {
-            ItemSlot slot = new(null, false, Factory, _path.Member(name).Item(i), _errors, preview: Preview);
-            items[i] = transfer(slot, items[i]);
+            ItemSlot slot = new(null, loading: false, Factory, path: _path.Member(name).Item(i), _errors, preview: Preview);
+            items[i] = transfer(slot, value: items[i]);
             written.Items.Add(slot.Finish());
         }
         Store(name, written);
@@ -1209,11 +1209,11 @@ internal sealed class MemberPersister : IPersister
                 ? fallback
                 : found is IntegerNode node && node.Width == width && node.Signed == signed
                 ? node.Value
-                : found is ReferenceNode reference && width == 4 && signed ? reference.Key : throw Type(name, "an integer");
+                : found is ReferenceNode reference && width == 4 && signed ? reference.Key : throw Type(name, expected: "an integer");
         }
         if (current != fallback)
         {
-            Store(name, new IntegerNode(width, signed, current));
+            Store(name, new IntegerNode(width, signed, value: current));
         }
 
         return current;
@@ -1236,7 +1236,7 @@ internal sealed class MemberPersister : IPersister
     {
         _consumed ??= [with(StringComparer.Ordinal)];
         return !_consumed.Add(name)
-            ? throw TreeErrors.Fail(Codes.Duplicate, $"Member \"{name}\" is read twice.", _path.Member(name))
+            ? throw TreeErrors.Fail(Codes.Duplicate, message: $"Member \"{name}\" is read twice.", path: _path.Member(name))
             : Find(name);
     }
 
@@ -1244,14 +1244,14 @@ internal sealed class MemberPersister : IPersister
     {
         if (Find(name) is not null)
         {
-            throw TreeErrors.Fail(Codes.Duplicate, $"Member \"{name}\" is stored twice.", _path.Member(name));
+            throw TreeErrors.Fail(Codes.Duplicate, message: $"Member \"{name}\" is stored twice.", path: _path.Member(name));
         }
 
         _add!(name, value);
     }
 
     private ConversionException Type(string name, string expected)
-        => TreeErrors.Fail(Codes.Type, $"{name} is {expected}.", _path.Member(name));
+        => TreeErrors.Fail(Codes.Type, message: $"{name} is {expected}.", path: _path.Member(name));
 
     private long RawInteger(string name, long current, int width, bool signed)
     {
@@ -1260,9 +1260,9 @@ internal sealed class MemberPersister : IPersister
             TreeValue? found = Take(name);
             return found is null
                 ? current
-                : found is IntegerNode node && node.Width == width && node.Signed == signed ? node.Value : throw Type(name, "an integer");
+                : found is IntegerNode node && node.Width == width && node.Signed == signed ? node.Value : throw Type(name, expected: "an integer");
         }
-        Store(name, new IntegerNode(width, signed, current));
+        Store(name, new IntegerNode(width, signed, value: current));
         return current;
     }
 
@@ -1338,29 +1338,29 @@ internal sealed class ItemSlot(TreeValue? loaded, bool loading, IPersistableFact
 
     public TreeValue Finish()
         => !_used
-            ? throw TreeErrors.Fail(Codes.MissingMember, "A list item stores one value.", _path)
+            ? throw TreeErrors.Fail(Codes.MissingMember, message: "A list item stores one value.", _path)
             : _loading
                 ? _loaded!
                 : _stored!;
 
-    public int Int32(int value) => (int)Integer(value, 4, true);
+    public int Int32(int value) => (int)Integer(value, width: 4, signed: true);
 
-    public byte Byte(byte value) => (byte)Integer(value, 1, false);
+    public byte Byte(byte value) => (byte)Integer(value, width: 1, signed: false);
 
-    public sbyte SByte(sbyte value) => (sbyte)Integer(value, 1, true);
+    public sbyte SByte(sbyte value) => (sbyte)Integer(value, width: 1, signed: true);
 
-    public ushort UInt16(ushort value) => (ushort)Integer(value, 2, false);
+    public ushort UInt16(ushort value) => (ushort)Integer(value, width: 2, signed: false);
 
-    public short Int16(short value) => (short)Integer(value, 2, true);
+    public short Int16(short value) => (short)Integer(value, width: 2, signed: true);
 
-    public uint UInt32(uint value) => (uint)Integer(value, 4, false);
+    public uint UInt32(uint value) => (uint)Integer(value, width: 4, signed: false);
 
     public bool Boolean(bool value)
     {
         Use();
         if (_loading)
         {
-            return _loaded is not BooleanNode node ? throw TreeErrors.Fail(Codes.Type, "A list item is a boolean.", _path) : node.Value;
+            return _loaded is not BooleanNode node ? throw TreeErrors.Fail(Codes.Type, message: "A list item is a boolean.", _path) : node.Value;
         }
         _stored = new BooleanNode(value);
         return value;
@@ -1371,7 +1371,7 @@ internal sealed class ItemSlot(TreeValue? loaded, bool loading, IPersistableFact
         Use();
         if (_loading)
         {
-            return _loaded is not StringNode node ? throw TreeErrors.Fail(Codes.Type, "A list item is a string.", _path) : node.Value;
+            return _loaded is not StringNode node ? throw TreeErrors.Fail(Codes.Type, message: "A list item is a string.", _path) : node.Value;
         }
         // A null item stores as empty and stays null in the list, as the ref call left it.
         _stored = new StringNode(value ?? "");
@@ -1385,16 +1385,16 @@ internal sealed class ItemSlot(TreeValue? loaded, bool loading, IPersistableFact
         {
             if (_loaded is not RecordNode node)
             {
-                throw TreeErrors.Fail(Codes.Type, "A list item is a record.", _path);
+                throw TreeErrors.Fail(Codes.Type, message: "A list item is a record.", _path);
             }
 
-            MemberPersister child = new(node, true, _factory, _path, _errors, preview: _preview);
+            MemberPersister child = new(node, loading: true, _factory, _path, _errors, preview: _preview);
             body(child);
             child.Finish();
             return;
         }
         RecordNode written = new();
-        body(new MemberPersister(written, false, _factory, _path, _errors, preview: _preview));
+        body(new MemberPersister(written, loading: false, _factory, _path, _errors, preview: _preview));
         _stored = written;
     }
 
@@ -1410,14 +1410,14 @@ internal sealed class ItemSlot(TreeValue? loaded, bool loading, IPersistableFact
 
             if (_loaded is not ObjectNode node || node.ClassName is not string className)
             {
-                throw TreeErrors.Fail(Codes.Type, "A list item is an object.", _path);
+                throw TreeErrors.Fail(Codes.Type, message: "A list item is an object.", _path);
             }
 
             IPersistable? created = null;
             try
             {
                 created = _factory.Create(className);
-                MemberPersister child = new(node, true, _factory, _path, _errors, preview: _preview);
+                MemberPersister child = new(node, loading: true, _factory, _path, _errors, preview: _preview);
                 created.Persist(child);
                 child.Finish();
                 return created;
@@ -1442,8 +1442,8 @@ internal sealed class ItemSlot(TreeValue? loaded, bool loading, IPersistableFact
             _stored = NullNode.Instance;
             return null;
         }
-        ObjectNode written = new(_factory.ClassName(value), null);
-        value.Persist(new MemberPersister(written, false, _factory, _path, _errors, preview: _preview));
+        ObjectNode written = new(_factory.ClassName(value), slot: null);
+        value.Persist(new MemberPersister(written, loading: false, _factory, _path, _errors, preview: _preview));
         _stored = written;
         return value;
     }
@@ -1454,10 +1454,10 @@ internal sealed class ItemSlot(TreeValue? loaded, bool loading, IPersistableFact
         if (_loading)
         {
             return _loaded is not IntegerNode node || node.Width != width || node.Signed != signed
-                ? throw TreeErrors.Fail(Codes.Type, "A list item is an integer.", _path)
+                ? throw TreeErrors.Fail(Codes.Type, message: "A list item is an integer.", _path)
                 : node.Value;
         }
-        _stored = new IntegerNode(width, signed, current);
+        _stored = new IntegerNode(width, signed, value: current);
         return current;
     }
 
@@ -1465,7 +1465,7 @@ internal sealed class ItemSlot(TreeValue? loaded, bool loading, IPersistableFact
     {
         if (_used)
         {
-            throw TreeErrors.Fail(Codes.Duplicate, "A list item stores one value.", _path);
+            throw TreeErrors.Fail(Codes.Duplicate, message: "A list item stores one value.", _path);
         }
 
         _used = true;

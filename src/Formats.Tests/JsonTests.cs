@@ -6,14 +6,14 @@ namespace Aow.Formats.Tests;
 public sealed class JsonTests : FormatsTest
 {
     private static ConversionException Fails(string text)
-        => Assert.Throws<ConversionException>(() => JsonReader.Parse(Encoding.UTF8.GetBytes(text), "t.json"));
+        => Assert.Throws<ConversionException>(() => JsonReader.Parse(Encoding.UTF8.GetBytes(text), file: "t.json"));
 
     [Fact]
     public void ParsesMembersInOrderWithSpans()
     {
         JsonObject value = (JsonObject)JsonReader.Parse("{\n  \"b\": 1,\n  \"a\": [true, null, \"x\"]\n}");
         Assert.Equal(["b", "a"], value.Members.Select(m => m.Name));
-        Assert.Equal(new TextSpan(9, 2, 8), value.Members[0].Value.Span);
+        Assert.Equal(new TextSpan(9, Line: 2, Column: 8), value.Members[0].Value.Span);
         JsonArray array = (JsonArray)value["a"]!;
         Assert.Equal(3, array.Items.Count);
         Assert.Equal(3, array.Items[2].Span.Line);
@@ -82,7 +82,7 @@ public sealed class JsonTests : FormatsTest
     public void LimitsAreLocated()
     {
         FormatLimits limits = new() { Depth = 2 };
-        ConversionException error = Assert.Throws<ConversionException>(() => JsonReader.Parse("{\"a\": {\"b\": {}}}", null, false, limits));
+        ConversionException error = Assert.Throws<ConversionException>(() => JsonReader.Parse("{\"a\": {\"b\": {}}}", file: null, decompressed: false, limits));
         Assert.Equal(Codes.Limit, error.Diagnostic.Code);
         Assert.Equal(13, error.Diagnostic.Span.Column);
     }
@@ -133,20 +133,20 @@ public sealed class JsonTests : FormatsTest
         Assert.NotEqual(0xEF, bytes[0]);
         Assert.Equal((byte)'\n', bytes[^1]);
         Assert.NotEqual((byte)'\n', bytes[^2]);
-        Assert.DoesNotContain((byte)'\r', bytes);
+        Assert.DoesNotContain((byte)'\r', collection: bytes);
     }
 
     [Fact]
     public void DiagnosticTextHasFileLineColumnCodeAndPath()
     {
-        FormatDiagnostic d = new(Codes.Reference, "Leader id 17 is absent from root.Leaders.")
+        FormatDiagnostic d = new(Codes.Reference, Message: "Leader id 17 is absent from root.Leaders.")
         {
             File = "Save/edited.asg",
-            Span = new TextSpan(0, 42, 19),
+            Span = new TextSpan(0, Line: 42, Column: 19),
             Path = "root.Players[1].LeaderId",
         };
         Assert.Equal("Save/edited.asg:42:19 E_REFERENCE root.Players[1].LeaderId\nLeader id 17 is absent from root.Leaders.", d.ToString());
-        FormatDiagnostic binary = new(Codes.Corrupt, "Bad.") { File = "a.hsm", Offset = 0x41565, Profile = "world-hsm", Path = "root" };
+        FormatDiagnostic binary = new(Codes.Corrupt, Message: "Bad.") { File = "a.hsm", Offset = 0x41565, Profile = "world-hsm", Path = "root" };
         Assert.Equal("a.hsm:0x41565 E_CORRUPT root [world-hsm]\nBad.", binary.ToString());
     }
 }

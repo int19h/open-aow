@@ -210,7 +210,7 @@ public class CombatMapControl : Component
         {
             if (OnUnitChanged is not null)
             {
-                TacticalBattleUnitHexSprite tacticalBattleUnitHexSprite = CombatMap.Current.UnitSelection.GetTacticalBattleUnitHexSprite();
+                TacticalBattleUnitHexSprite tacticalBattleUnitHexSprite = CombatMap.Current.UnitSelection.TacticalBattleUnitHexSprite;
                 OnUnitChanged(tacticalBattleUnitHexSprite);
             }
         }
@@ -375,7 +375,7 @@ public class CombatMapControl : Component
 
             ExecuteEventLogInfo info = sender is ExecuteEventLogNotification notification
                 ? notification.Info : ReadLegacyRecord<ExecuteEventLogInfo>(sender);
-            OnExecuteEventLog(info.Log, info.Done);
+            OnExecuteEventLog(info.Log, ExecuteDoneEvent: info.Done);
         }
         catch
         {

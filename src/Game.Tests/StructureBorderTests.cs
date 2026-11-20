@@ -22,14 +22,14 @@ public sealed class StructureBorderTests
 
     private static LibraryImage Grab(ImageLibrary library, int height, int color)
     {
-        Dib16Surface surface = new(Width, height, PixelFormat.Rgb565);
+        Dib16Surface surface = new(Width, height, pixelFormatId: PixelFormat.Rgb565);
         GrabInfo grab = new() { FileName = "border.bmp", FindRectangles = false };
         try
         {
             Assert.Equal(GraphicsResult.Ok, surface.Clear(color));
             LockedSurface lockedSurface = default;
             Assert.Equal(GraphicsResult.Ok, surface.Lock(ref lockedSurface));
-            Assert.Equal(GraphicsResult.Ok, LibraryImageClass.Of<Picture16>().GrabImages(lockedSurface, grab, library, null));
+            Assert.Equal(GraphicsResult.Ok, LibraryImageClass.Of<Picture16>().GrabImages(lockedSurface, grabInfo: grab, imageLibrary: library, onProgress: null));
             return library[^1];
         }
         finally
@@ -41,7 +41,7 @@ public sealed class StructureBorderTests
 
     private static int Pixel(int color)
     {
-        Dib16Surface surface = new(1, 1, PixelFormat.Rgb565);
+        Dib16Surface surface = new(1, 1, pixelFormatId: PixelFormat.Rgb565);
         LockedSurface lockedSurface = default;
         _ = surface.Clear(color);
         _ = surface.Lock(ref lockedSurface);
@@ -59,17 +59,17 @@ public sealed class StructureBorderTests
         // fourth tile paints rows 1 and 2, so three iterations leave them blank.
         const int height = 20;
         ImageLibrary library = new(null!);
-        Dib16Surface target = new(Width, height, PixelFormat.Rgb565);
+        Dib16Surface target = new(Width, height, pixelFormatId: PixelFormat.Rgb565);
         List<LibraryImageClass> previousClasses = ImageLibraries.LibraryImageClasses;
         ImageLibraries.LibraryImageClasses = [];
         ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<Picture16>()]);
         try
         {
-            BorderStructure structure = new(Grab(library, 1, TopColor), middle: Grab(library, 4, MiddleColor), bottom: Grab(library, 5, BottomColor));
+            BorderStructure structure = new(Grab(library, height: 1, color: TopColor), middle: Grab(library, height: 4, color: MiddleColor), bottom: Grab(library, height: 5, color: BottomColor));
             LockedSurface lockedSurface = default;
             Assert.Equal(GraphicsResult.Ok, target.Clear(0));
             Assert.Equal(GraphicsResult.Ok, target.Lock(ref lockedSurface));
-            Assert.True(structure.ShowBorderImage(lockedSurface, new Rect(0, 0, Width, height)));
+            Assert.True(structure.ShowBorderImage(lockedSurface, R: new Rect(0, 0, Width, height)));
             int[] rows = new int[height];
             for (int y = 0; y < height; y++)
             {
@@ -81,9 +81,9 @@ public sealed class StructureBorderTests
             Assert.Equal(14, rows.Count(row => row == Pixel(MiddleColor)));
             Assert.Equal(5, rows.Count(row => row == Pixel(BottomColor)));
             int[] expected = [
-                .. Enumerable.Repeat(Pixel(TopColor), 1),
-                .. Enumerable.Repeat(Pixel(MiddleColor), 14),
-                .. Enumerable.Repeat(Pixel(BottomColor), 5)];
+                .. Enumerable.Repeat(Pixel(TopColor), count: 1),
+                .. Enumerable.Repeat(Pixel(MiddleColor), count: 14),
+                .. Enumerable.Repeat(Pixel(BottomColor), count: 5)];
             Assert.Equal(expected, rows);
         }
         finally

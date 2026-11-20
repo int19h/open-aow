@@ -43,7 +43,7 @@ public class FastBattleCommandList : IDisposable
     }
 
     // AIGroup.pas:6742
-    public FastBattleCommand GetCommands(int index) => _commands.List[index];
+    public FastBattleCommand this[int index] => _commands.List[index];
 
     // AIGroup.pas:6747
     public int GetCount() => _commands.Count;

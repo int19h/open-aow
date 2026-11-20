@@ -21,7 +21,7 @@ public class FastBattleTerrorCombatAction(CustomNode owner) : MultiTargetCombatS
         {
             byte targetId = TargetIds[i];
             CombatUnit target = combat.CombatData.FindId<CombatUnit>(targetId);
-            _ = GamePack.Current.AbilityControl.GetAbility(108).Expand(target.Troop);
+            _ = GamePack.Current.AbilityControl[108].Expand(target.Troop);
         }
     }
 
@@ -31,7 +31,7 @@ public class FastBattleTerrorCombatAction(CustomNode owner) : MultiTargetCombatS
         SpellId = 105;
         SourceId = source.Id;
         Battle combat = source.Combat;
-        CombatSideIndex opponentSide = source.GetOpponentSide();
+        CombatSideIndex opponentSide = source.OpponentSide;
         CombatSide side = combat.Sides[(int)opponentSide];
 
         for (int i = side.GetCount() - 1; i >= 0; i--)

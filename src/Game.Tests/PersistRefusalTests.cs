@@ -31,7 +31,7 @@ public sealed class PersistRefusalTests
             }
         }
         found.Sort(static (a, b) => string.CompareOrdinal(a, b));
-        Assert.True(found.Count == 0, $"Still refused: {string.Join(", ", found)}");
+        Assert.True(found.Count == 0, userMessage: $"Still refused: {string.Join(", ", values: found)}");
         Assert.Null(EngineObject.TreePersistenceRefusal(typeof(Enchantment)));
         Assert.Null(EngineObject.TreePersistenceRefusal(typeof(ObservableNode)));
         Assert.Null(EngineObject.TreePersistenceRefusal(typeof(UnitList)));

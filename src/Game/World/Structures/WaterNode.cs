@@ -32,7 +32,7 @@ public partial class WaterNode(CustomNode owner) : ProductionPlace(owner)
         public override int ResourceUserClassId() => 132275;
 
         // WaterNode.pas:52
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_waterNodeText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_waterNodeText);
 
         private static readonly string s_waterNodeText = "Water Node";
 

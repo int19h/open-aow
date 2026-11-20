@@ -96,26 +96,29 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
     }
 
     // EventLog.pas:386
-    public virtual int GetLeftIcon()
+    public virtual int LeftIcon
     {
-        bool condition = Player > 0;
-        if (condition)
+        get
         {
-            int count = StrategicMap.Current.Players.GetCount();
-            condition = Player < count;
-        }
+            bool condition = Player > 0;
+            if (condition)
+            {
+                int count = StrategicMap.Current.Players.GetCount();
+                condition = Player < count;
+            }
 
-        return condition ? StrategicMap.Current.Players.GetPlayers(Player).PlayerRace : 12;
+            return condition ? StrategicMap.Current.Players.GetPlayers(Player).PlayerRace : 12;
+        }
     }
 
     // EventLog.pas:393
-    public virtual int GetMiddleIcon() => -1;
+    public virtual int MiddleIcon => -1;
 
     // EventLog.pas:398
-    public virtual int GetRightIcon() => -1;
+    public virtual int RightIcon => -1;
 
     // EventLog.pas:366
-    public virtual bool GetVisible() => true;
+    public virtual bool Visible => true;
 
     // EventLog.pas:425
     public virtual MapCoordinate GetLocation() => MapCoordinate.None;
@@ -137,7 +140,7 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
     {
         if (trigger == ExecuteTrigger.User || ((trigger == ExecuteTrigger.Event || (trigger == ExecuteTrigger.NewTurn && StrategicMap.Current.RequestCombatType)) && StrategicMap.Current.SeatedPlayer == Player))
         {
-            StrategicMap.Current.TriggerExecuteEventLog(this, mode, done);
+            StrategicMap.Current.TriggerExecuteEventLog(this, immediate: mode, done);
             return true;
         }
         else
@@ -183,7 +186,7 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
                 player.EventLogbook.AddEvent(copyLog);
                 if (i == StrategicMap.Current.SeatedPlayer && execute)
                 {
-                    _ = copyLog.Execute(false, ExecuteTrigger.Event, null);
+                    _ = copyLog.Execute(false, trigger: ExecuteTrigger.Event, done: null);
                 }
 
                 _ = copyLog.Release();
@@ -196,13 +199,13 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
         for (int i = 0, last = StrategicMap.Current.Players.GetCount() - 1; i <= last; i++)
         {
             Player targetPlayer = StrategicMap.Current.Players.GetPlayers(i);
-            if (targetPlayer.Status == PlayerStatus.Playing && (i == player || !StrategicMap.Current.FoggedForPlayer(x, y, level, (sbyte)i)))
+            if (targetPlayer.Status == PlayerStatus.Playing && (i == player || !StrategicMap.Current.FoggedForPlayer(x, y, L: level, player: (sbyte)i)))
             {
                 EventLog copyLog = log.Copy<EventLog>(log.GetEngine());
                 targetPlayer.EventLogbook.AddEvent(copyLog);
                 if (i == StrategicMap.Current.SeatedPlayer && StrategicMap.Current.Players.GetPlayers(i).PlayerType == PlayerType.Human && execute)
                 {
-                    _ = copyLog.Execute(false, ExecuteTrigger.Event, null);
+                    _ = copyLog.Execute(false, trigger: ExecuteTrigger.Event, done: null);
                 }
 
                 _ = copyLog.Release();

@@ -25,7 +25,7 @@ public partial class City
         string stem = "0";
         for (int i = 1; i <= 6; i += 1)
         {
-            if (site.NeighborHolds(i, typeof(City)))
+            if (site.NeighborHolds(i, kind: typeof(City)))
             {
                 stem += IntToStr(i);
                 site.FixTag(i);

@@ -71,7 +71,7 @@ public partial class ArmyEventLog : EventLog
     public override string GetText() => ArmyText;
 
     // Army.PAS:174
-    public override int GetLeftIcon() => ArmyView.Player > 0 ? StrategicMap.Current.Players.GetPlayers(ArmyView.Player).PlayerRace : 12;
+    public override int LeftIcon => ArmyView.Player > 0 ? StrategicMap.Current.Players.GetPlayers(ArmyView.Player).PlayerRace : 12;
 
     // Army.PAS:218
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
@@ -79,7 +79,7 @@ public partial class ArmyEventLog : EventLog
         switch (trigger)
         {
             case ExecuteTrigger.User:
-                StrategicMap.Current.TriggerExecuteEventLog(this, false, done);
+                StrategicMap.Current.TriggerExecuteEventLog(this, immediate: false, done);
                 return true;
             case ExecuteTrigger.Event:
             case ExecuteTrigger.NewTurn:
@@ -93,7 +93,7 @@ public partial class ArmyEventLog : EventLog
                 showEvent = showEvent || _gameOver;
                 if (showEvent)
                 {
-                    StrategicMap.Current.TriggerExecuteEventLog(this, false, done);
+                    StrategicMap.Current.TriggerExecuteEventLog(this, immediate: false, done);
                     return true;
                 }
 
@@ -111,12 +111,12 @@ public partial class ArmyEventLog : EventLog
         ArmyView army = ArmyView;
         if (army is not null && army.Location.X != -1)
         {
-            CenterViewTo(army.Location.X, army.Location.Y, army.Location.MapLevel);
+            CenterViewTo(army.Location.X, army.Location.Y, L: army.Location.MapLevel);
         }
     }
 
     // Army.PAS:181
-    public void SetArmyView(ArmyView value) => ArmyView.Assign(value, GetEngine());
+    public void SetArmyView(ArmyView value) => ArmyView.Assign(value, engine: GetEngine());
 
     // Army.PAS:187
     public bool LeaderKilled()

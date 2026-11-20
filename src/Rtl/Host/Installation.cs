@@ -24,7 +24,7 @@ public static class RtlHost
         WritesOwnExtensions = host.WritesOwnExtensions;
         Shell = host.Shell;
         Application.ExeName = host.ExecutableName;
-        MessageHandler = message => host.Dialogs.Show(new(message, "", 0, 1));
+        MessageHandler = message => host.Dialogs.Show(new(message, Caption: "", Flags: 0, DefaultResult: 1));
     }
 
     public static void OpenUrl(string url) => (Shell ?? throw new InvalidOperationException($"No shell service opens {url}")).OpenUrl(url);
@@ -41,6 +41,6 @@ public static class RtlHost
             _ => [1]
         };
         int selected = Math.Min((flags >> 8) & 3, buttons.Length - 1);
-        return (Dialogs ?? throw new InvalidOperationException(text)).Show(new(text, caption, flags, buttons[selected]));
+        return (Dialogs ?? throw new InvalidOperationException(text)).Show(new(text, caption, flags, DefaultResult: buttons[selected]));
     }
 }

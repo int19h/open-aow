@@ -18,7 +18,7 @@ public class Slow : CombatSpell
     public Slow(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.SlowText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.SlowText);
         SpellId = 110;
         SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 9;

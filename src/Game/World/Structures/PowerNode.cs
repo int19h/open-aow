@@ -90,7 +90,7 @@ public partial class PowerNode : PlayerStructure
     public override string GetCurrentActivityText()
     {
         int power = GetPower();
-        return Format(AbilityRules.TranslateResourceString(GetEngine(), s_generatingPowerFormat), [IntToStr(power)]);
+        return Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_generatingPowerFormat), args: [IntToStr(power)]);
     }
 
     // PowerNode.pas:96
@@ -108,7 +108,7 @@ public partial class PowerNode : PlayerStructure
                     }
                     else
                     {
-                        if (AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, Player, 0))
+                        if (AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, targetPlayer: Player, targetRace: 0))
                         {
                             p = 50 - (StrategicMap.Current.Players.GetPlayers(info.Player).Income / 2);
                             if (p < 25)
@@ -169,13 +169,13 @@ public partial class PowerNode : PlayerStructure
     }
 
     // PowerNode.pas:67
-    public override int GetPower() => !GetRazed() && !GetBuilding() ? 10 : 0;
+    public override int GetPower() => !GetRazed() && !Building ? 10 : 0;
 
     // PowerNode.pas:145
     public override string GetCombatEventText(Battle combat)
     {
         return combat.CombatResult is CombatResult.Victory or CombatResult.NoDefenders
-            ? AbilityRules.TranslateResourceString(GetEngine(), s_powerNodeBattleWonText)
+            ? AbilityRules.TranslateResourceString(GetEngine(), S: s_powerNodeBattleWonText)
             : "";
     }
 
@@ -206,7 +206,7 @@ public partial class PowerNode : PlayerStructure
         public override int ResourceUserClassId() => 131482;
 
         // PowerNode.pas:163
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_powerNodeText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_powerNodeText);
 
         private static readonly string s_powerNodeText = "Power Node";
 

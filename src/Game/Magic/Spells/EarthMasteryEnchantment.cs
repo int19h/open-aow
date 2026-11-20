@@ -20,7 +20,7 @@ public class EarthMasteryEnchantment : GlobalEnchantment
     public EarthMasteryEnchantment(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        Name = AbilityRules.TranslateResourceString(GetEngine(), GameText.EarthMasteryText);
+        Name = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.EarthMasteryText);
         EnchantmentType = GlobalEnchantmentType.None;
         DispelMana = 175;
     }
@@ -57,7 +57,7 @@ public class EarthMasteryEnchantment : GlobalEnchantment
         {
             if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.EarthMastery))
             {
-                reason = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.IsAlreadyActiveFormat), [Name]);
+                reason = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.IsAlreadyActiveFormat), args: [Name]);
                 return false;
             }
         }

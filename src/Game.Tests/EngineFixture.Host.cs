@@ -61,7 +61,7 @@ public sealed partial class EngineFixture
 
             if (fault == "dictionary")
             {
-                File.WriteAllBytes(Path.Combine(GameRoot, "Dict", "ResStr.mld"), [0]);
+                File.WriteAllBytes(Path.Combine(GameRoot, "Dict", "ResStr.mld"), bytes: [0]);
             }
 
             _ = _files.SetCurrentDirectory(GameRoot);
@@ -71,8 +71,8 @@ public sealed partial class EngineFixture
             LocalizationRuntime.StartupDirectory = "";
         }
 
-        internal string Relative(string value) => value.Replace(GameRoot, "$root", StringComparison.OrdinalIgnoreCase).Replace('\\', '/');
-        internal Entry Event(string call, string argument, string[]? destroy = null) => new(call, Relative(argument), GamePack.Current is not null, destroy ?? []);
+        internal string Relative(string value) => value.Replace(GameRoot, "$root", comparisonType: StringComparison.OrdinalIgnoreCase).Replace('\\', '/');
+        internal Entry Event(string call, string argument, string[]? destroy = null) => new(call, Argument: Relative(argument), Set: GamePack.Current is not null, DestroyFrames: destroy ?? []);
         private void Record(string call, string argument) => Events.Add(Event(call, argument));
 
         internal JsonObject State() => new()
@@ -96,111 +96,111 @@ public sealed partial class EngineFixture
         {
             get
             {
-                Record("CurrentDirectory", "");
+                Record("CurrentDirectory", argument: "");
                 return _files.CurrentDirectory;
             }
         }
 
         public string ExpandPath(string path)
         {
-            Record("ExpandPath", path);
+            Record("ExpandPath", argument: path);
             return Checked(path);
         }
 
         private string Checked(string path)
         {
             string full = _files.ExpandPath(path);
-            Assert.True(full.Equals(GameRoot, StringComparison.OrdinalIgnoreCase) || full.StartsWith(GameRoot + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase), $"Startup escaped temporary root: {full}");
+            Assert.True(full.Equals(GameRoot, comparisonType: StringComparison.OrdinalIgnoreCase) || full.StartsWith(GameRoot + Path.DirectorySeparatorChar, comparisonType: StringComparison.OrdinalIgnoreCase), userMessage: $"Startup escaped temporary root: {full}");
             return full;
         }
 
         public bool SetCurrentDirectory(string path)
         {
-            Record("SetCurrentDirectory", path);
+            Record("SetCurrentDirectory", argument: path);
             return _files.SetCurrentDirectory(Checked(path));
         }
 
         public Stream Open(string path, int mode)
         {
-            Record($"Open:{mode}", path);
+            Record($"Open:{mode}", argument: path);
             return _files.Open(Checked(path), mode);
         }
 
         public bool FileExists(string path)
         {
-            Record("FileExists", path);
+            Record("FileExists", argument: path);
             return _files.FileExists(Checked(path));
         }
 
         public bool DirectoryExists(string path)
         {
-            Record("DirectoryExists", path);
+            Record("DirectoryExists", argument: path);
             return _files.DirectoryExists(Checked(path));
         }
 
         public bool DeleteFile(string path)
         {
-            Record("DeleteFile", path);
+            Record("DeleteFile", argument: path);
             return _files.DeleteFile(Checked(path));
         }
 
         public bool RenameFile(string source, string target)
         {
-            Record("RenameFile", $"{source} -> {target}");
-            return _files.RenameFile(Checked(source), Checked(target));
+            Record("RenameFile", argument: $"{source} -> {target}");
+            return _files.RenameFile(Checked(source), target: Checked(target));
         }
 
         public bool CreateDirectory(string path)
         {
-            Record("CreateDirectory", path);
+            Record("CreateDirectory", argument: path);
             return _files.CreateDirectory(Checked(path));
         }
 
         public bool RemoveDirectory(string path)
         {
-            Record("RemoveDirectory", path);
+            Record("RemoveDirectory", argument: path);
             return _files.RemoveDirectory(Checked(path));
         }
 
         public int GetAttributes(string path)
         {
-            Record("GetAttributes", path);
+            Record("GetAttributes", argument: path);
             return _files.GetAttributes(Checked(path));
         }
 
         public int SetAttributes(string path, int attributes)
         {
-            Record($"SetAttributes:{attributes}", path);
+            Record($"SetAttributes:{attributes}", argument: path);
             return _files.SetAttributes(Checked(path), attributes);
         }
 
         public DateTime? LastWriteTime(string path)
         {
-            Record("LastWriteTime", path);
+            Record("LastWriteTime", argument: path);
             return _files.LastWriteTime(Checked(path));
         }
 
         public IEnumerable<RtlFileEntry> Enumerate(string directory)
         {
-            Record("Enumerate", directory);
-            return _fault == "images" && Checked(directory).TrimEnd('\\', '/').Equals(Path.Combine(GameRoot, "IMAGES"), StringComparison.OrdinalIgnoreCase)
+            Record("Enumerate", argument: directory);
+            return _fault == "images" && Checked(directory).TrimEnd('\\', '/').Equals(Path.Combine(GameRoot, "IMAGES"), comparisonType: StringComparison.OrdinalIgnoreCase)
                 ? throw new InvalidDataException("injected IMAGES search failure")
                 : [.. _files.Enumerate(Checked(directory))];
         }
 
         public object? Read(string key)
         {
-            Record("Settings.Read", key);
-            return _fault == "debug" && key.EndsWith("\\Debug Mode", StringComparison.Ordinal)
+            Record("Settings.Read", argument: key);
+            return _fault == "debug" && key.EndsWith("\\Debug Mode", comparisonType: StringComparison.Ordinal)
                 ? throw new InvalidDataException("injected debug-mode settings failure")
                 : null;
         }
 
-        public void Write(string key, object value) => Record("Settings.Write", $"{key}={value}");
+        public void Write(string key, object value) => Record("Settings.Write", argument: $"{key}={value}");
 
         public int Show(DialogRequest request)
         {
-            Record("Dialog", request.Text);
+            Record("Dialog", argument: request.Text);
             return request.DefaultResult;
         }
 
@@ -224,7 +224,7 @@ public sealed partial class EngineFixture
 
             LocalizationRuntime.StartupDirectory = _previousLocalization;
             RestoreServices();
-            Directory.Delete(GameRoot, true);
+            Directory.Delete(GameRoot, recursive: true);
         }
     }
 }

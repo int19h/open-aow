@@ -36,14 +36,14 @@ public class PathStepList : DefaultItemList<PathStep>
         int run = default;
         Clear();
         Default = ReadStep(stream);
-        stream.ReadExactly(Bytes.Of(ref count, 4));
+        stream.ReadExactly(Bytes.Of(ref count, count: 4));
         SetCapacity(count);
         while (count != Count)
         {
             PathStep item = ReadStep(stream);
             if (item == Default)
             {
-                stream.ReadExactly(Bytes.Of(ref run, 4));
+                stream.ReadExactly(Bytes.Of(ref run, count: 4));
                 SetCount(Count + run);
             }
             else
@@ -72,20 +72,20 @@ public class PathStepList : DefaultItemList<PathStep>
         }
 
         i = 0;
-        WriteStep(stream, Default);
-        stream.Write(Bytes.Of(ref count, 4));
+        WriteStep(stream, step: Default);
+        stream.Write(Bytes.Of(ref count, count: 4));
         while (Count != i)
         {
             int run = DefaultRun();
             if (run > 0)
             {
-                WriteStep(stream, Default);
-                stream.Write(Bytes.Of(ref run, 4));
+                WriteStep(stream, step: Default);
+                stream.Write(Bytes.Of(ref run, count: 4));
                 i += run;
             }
             else
             {
-                WriteStep(stream, List[i]);
+                WriteStep(stream, step: List[i]);
                 i += 1;
             }
         }

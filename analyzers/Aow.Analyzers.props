@@ -1,0 +1,13 @@
+<Project>
+  <!-- Loads the OpenAoW analyzers (README.md beside this file) into the importing project.
+       The product's Directory.Build.props imports it for every product project. A project of the
+       private repository imports it from $(ProductRoot)/analyzers. A project sets
+       UseAowAnalyzers to false to leave them out: the analyzer project itself, which cannot load
+       its own output, and its tests, which reference it as an assembly and an analyzer at once. -->
+  <ItemGroup Condition="'$(UseAowAnalyzers)' != 'false'">
+    <ProjectReference Include="$(MSBuildThisFileDirectory)Aow.Analyzers.csproj"
+                      OutputItemType="Analyzer"
+                      ReferenceOutputAssembly="false"
+                      PrivateAssets="all" />
+  </ItemGroup>
+</Project>

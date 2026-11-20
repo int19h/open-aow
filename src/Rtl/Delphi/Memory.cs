@@ -13,7 +13,7 @@ public static class DelphiMemory
 
         if (count > source.Length || count > destination.Length)
         {
-            throw new ArgumentOutOfRangeException(paramName: null, "Move exceeds the buffer");
+            throw new ArgumentOutOfRangeException(paramName: null, message: "Move exceeds the buffer");
         }
 
         source[..count].CopyTo(destination);
@@ -31,7 +31,7 @@ public static class DelphiMemory
         }
 
         T[] result = new T[count];
-        array?.AsSpan(0, Math.Min(array.Length, count)).CopyTo(result);
+        array?.AsSpan(0, length: Math.Min(array.Length, count)).CopyTo(result);
 
         return result;
     }
@@ -45,7 +45,7 @@ public static class DelphiMemory
             return;
         }
 
-        source.AsSpan(sourceIndex, count).CopyTo(destination.AsSpan(destinationIndex, count));
+        source.AsSpan(sourceIndex, length: count).CopyTo(destination.AsSpan(destinationIndex, length: count));
     }
 
     // FillChar(A[Index], Count * SizeOf(T), 0) of records held in an array. A count of 0 or less
@@ -57,14 +57,14 @@ public static class DelphiMemory
             return;
         }
 
-        array.AsSpan(index, count).Clear();
+        array.AsSpan(index, length: count).Clear();
     }
 
     public static void FillChar(Span<byte> destination, int count, byte value)
     {
         if (count > destination.Length)
         {
-            throw new ArgumentOutOfRangeException(paramName: null, "FillChar exceeds the buffer");
+            throw new ArgumentOutOfRangeException(paramName: null, message: "FillChar exceeds the buffer");
         }
 
         if (count > 0)
@@ -76,7 +76,7 @@ public static class DelphiMemory
     public static bool CompareMem(ReadOnlySpan<byte> a, ReadOnlySpan<byte> b, int count)
     {
         return count > a.Length || count > b.Length
-            ? throw new ArgumentOutOfRangeException(paramName: null, "CompareMem exceeds the buffer")
+            ? throw new ArgumentOutOfRangeException(paramName: null, message: "CompareMem exceeds the buffer")
             : count <= 0 || a[..count].SequenceEqual(b[..count]);
     }
 }

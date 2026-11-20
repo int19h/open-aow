@@ -35,7 +35,7 @@ public class CommandedAbility : AdjustableAbility
     // AoWAb.PAS:5032
     public override void CombatObjectDestroyed(CombatObject combatObject)
     {
-        CommandedAbilityData? data = GetData(combatObject.GetAbilityOwner());
+        CommandedAbilityData? data = GetData(combatObject.AbilityOwner);
         if (data is not null && combatObject is CombatUnit combatUnit)
         {
             GamePack.Current.AbilityControl.GetAbility<CommandAbility>(data.CommandAbilityId).Uncommand(combatUnit);
@@ -43,7 +43,7 @@ public class CommandedAbility : AdjustableAbility
     }
 
     // AoWAb.PAS:5028
-    public override void CombatDone(CombatObject combatObject) => Remove(combatObject.GetAbilityOwner());
+    public override void CombatDone(CombatObject combatObject) => Remove(combatObject.AbilityOwner);
 
     // AoWAb.PAS:5019
     public override EngineClass AbilityDataClass() => s_commandedDataClass;

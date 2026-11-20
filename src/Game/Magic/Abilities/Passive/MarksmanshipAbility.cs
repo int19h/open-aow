@@ -12,7 +12,7 @@ public class MarksmanshipAbility : MultiLevelAbility
     public MarksmanshipAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_marksmanshipText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_marksmanshipText);
         AbilityType = AbilityType.Enhancement;
         AbilityId = 32;
         SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.HeadItem, AbilitySelectionType.TorsoItem, AbilitySelectionType.DefenseItem, AbilitySelectionType.RingItem, AbilitySelectionType.Editor);
@@ -28,11 +28,11 @@ public class MarksmanshipAbility : MultiLevelAbility
     {
         return level switch
         {
-            0 => AbilityRules.TranslateResourceString(GetEngine(), s_marksmanshipText),
-            1 => $"{AbilityRules.TranslateResourceString(GetEngine(), s_marksmanshipText)} I",
-            2 => $"{AbilityRules.TranslateResourceString(GetEngine(), s_marksmanshipText)} II",
-            3 => $"{AbilityRules.TranslateResourceString(GetEngine(), s_marksmanshipText)} III",
-            4 => $"{AbilityRules.TranslateResourceString(GetEngine(), s_marksmanshipText)} IV",
+            0 => AbilityRules.TranslateResourceString(GetEngine(), S: s_marksmanshipText),
+            1 => $"{AbilityRules.TranslateResourceString(GetEngine(), S: s_marksmanshipText)} I",
+            2 => $"{AbilityRules.TranslateResourceString(GetEngine(), S: s_marksmanshipText)} II",
+            3 => $"{AbilityRules.TranslateResourceString(GetEngine(), S: s_marksmanshipText)} III",
+            4 => $"{AbilityRules.TranslateResourceString(GetEngine(), S: s_marksmanshipText)} IV",
             _ => "",
         };
     }

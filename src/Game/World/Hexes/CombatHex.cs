@@ -25,17 +25,17 @@ public class CombatHex(CustomNode owner) : AbstractHexagon(owner)
         {
             if (message.TerrainType != 14)
             {
-                sbyte hexLevel = GetHexLevel();
-                sbyte hexY = GetHexY();
-                sbyte hexX = GetHexX();
-                _ = base.Resource.Engine.HexSpriteSet.CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, hexLevel, message.TerrainType);
+                sbyte hexLevel = HexLevel;
+                sbyte hexY = HexY;
+                sbyte hexX = HexX;
+                _ = base.Resource.Engine.HexSpriteSet.CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, L: hexLevel, message.TerrainType);
             }
             else
             {
-                sbyte hexLevel = GetHexLevel();
-                sbyte hexY = GetHexY();
-                sbyte hexX = GetHexX();
-                _ = base.Resource.Engine.HexSpriteSet.CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, hexLevel, 0);
+                sbyte hexLevel = HexLevel;
+                sbyte hexY = HexY;
+                sbyte hexX = HexX;
+                _ = base.Resource.Engine.HexSpriteSet.CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, L: hexLevel, terrainType: 0);
             }
         }
     }
@@ -108,7 +108,7 @@ public class CombatHex(CustomNode owner) : AbstractHexagon(owner)
         int x = default;
         int y = default;
         MapLevel mapLevel = Owner.Owner;
-        HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, TransitionNeighbours[side - 1], ref x, ref y);
+        HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, hexNumber: TransitionNeighbours[side - 1], ref x, ref y);
         if (x >= 0 && y >= 0 && x < mapLevel.Width && y < mapLevel.Height)
         {
             sbyte neighbourTerrain = mapLevel.GetField(x, y).TerrainType;
@@ -230,7 +230,7 @@ public class CombatHex(CustomNode owner) : AbstractHexagon(owner)
 
             if (message.MessageId == 536870920)
             {
-                TransitionLibrary = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TCombat\\Base_Hex\\CTransHx.ILB");
+                TransitionLibrary = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: "TCombat\\Base_Hex\\CTransHx.ILB");
             }
         }
 
@@ -252,7 +252,7 @@ public class CombatHex(CustomNode owner) : AbstractHexagon(owner)
         public override int ResourceUserClassId() => 2229504;
 
         // CombatHex.pas:191
-        public override HexControl GetHexControl() => Engine.HexSpriteSet.CombatHexes;
+        public override HexControl HexControl => Engine.HexSpriteSet.CombatHexes;
 
         // CombatHex.pas:188
         public override string ResourceEditName() => "Combat Hexagon";

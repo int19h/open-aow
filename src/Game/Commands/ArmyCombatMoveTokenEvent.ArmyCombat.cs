@@ -42,7 +42,7 @@ public partial class ArmyCombatMoveTokenEvent
                 ArmyHexSprite.Army.Units.GetUnit(i).UnitStatus = unit.UnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Moving);
             }
 
-            Selection = (byte)(int)(((uint)Selection) >> 1);
+            Selection = (byte)(Selection >>> 1);
         }
 
         if (otherArmyHexSprite is not null)
@@ -69,15 +69,15 @@ public partial class ArmyCombatMoveTokenEvent
         StrategicMap.Current.LockGameOverEvent();
         Battle combat = _combatType == CombatType.Fast ? StrategicMap.Current.CreateCombat(131760) : StrategicMap.Current.CreateCombat(2228496);
 
-        sbyte hexY = ArmyHexSprite.GetHexY();
-        sbyte hexLevel = ArmyHexSprite.GetHexLevel();
+        sbyte hexY = ArmyHexSprite.HexY;
+        sbyte hexLevel = ArmyHexSprite.HexLevel;
         sbyte player = field.GetPlayer();
         byte independentRelation = field.GetIndependentRelation();
         PathStep item = Path[0];
         PathStep fPathItem = Path[0];
         PathStep item2 = Path[0];
-        sbyte hexX = ArmyHexSprite.GetHexX();
-        _ = combat.Setup((byte)ArmyHexSprite.Army.Player, (byte)ArmyHexSprite.Army.IndependentRelation, hexX, hexY, hexLevel, (byte)player, independentRelation, item.Location.X, fPathItem.Location.Y, item2.Location.MapLevel, _combatType == CombatType.Fast);
+        sbyte hexX = ArmyHexSprite.HexX;
+        _ = combat.Setup((byte)ArmyHexSprite.Army.Player, attackerRelation: (byte)ArmyHexSprite.Army.IndependentRelation, hexX, hexY, attackerL: hexLevel, defenderPlayer: (byte)player, defenderRelation: independentRelation, item.Location.X, fPathItem.Location.Y, L: item2.Location.MapLevel, logActions: _combatType == CombatType.Fast);
         combat.SetExecutedHandler(CombatExecuted);
         message.MessageId = 4359;
         MapFieldMessageParameters param = message.Param;
@@ -90,10 +90,10 @@ public partial class ArmyCombatMoveTokenEvent
         field.SendMapFieldMessage(ref message);
         if (message.Result.Int == 0)
         {
-            sbyte fArmyHexSpriteHexLevel = ArmyHexSprite.GetHexLevel();
-            sbyte fArmyHexSpriteHexY = ArmyHexSprite.GetHexY();
-            sbyte fArmyHexSpriteHexX = ArmyHexSprite.GetHexX();
-            combat.InitializeDefaultArmies(ArmyHexSprite.Army, fArmyHexSpriteHexX, fArmyHexSpriteHexY, fArmyHexSpriteHexLevel);
+            sbyte fArmyHexSpriteHexLevel = ArmyHexSprite.HexLevel;
+            sbyte fArmyHexSpriteHexY = ArmyHexSprite.HexY;
+            sbyte fArmyHexSpriteHexX = ArmyHexSprite.HexX;
+            combat.InitializeDefaultArmies(ArmyHexSprite.Army, fArmyHexSpriteHexX, fArmyHexSpriteHexY, L: fArmyHexSpriteHexLevel);
         }
 
         combat.Initialize();
@@ -106,7 +106,7 @@ public partial class ArmyCombatMoveTokenEvent
             combat.Finalize();
             if (combat is FastBattle)
             {
-                DistributeCombatEvent(combat.Logbook, true);
+                DistributeCombatEvent(combat.Logbook, execute: true);
                 if (StrategicMap.Current.RequestCombatType && StrategicMap.Current.SeatedPlayer == defender)
                 {
                     UserEventLog log = new(null)
@@ -114,7 +114,7 @@ public partial class ArmyCombatMoveTokenEvent
                         Holder = CreationHolder(),
                         Data = this
                     };
-                    StrategicMap.Current.TriggerExecuteEventLog(log, false, RestoreHotSeatModeCallback);
+                    StrategicMap.Current.TriggerExecuteEventLog(log, immediate: false, done: RestoreHotSeatModeCallback);
                     _ = log.Release();
                     StrategicMap.Current.AIExecutor.Lock();
                     StrategicMap.Current.LockGameOverEvent();
@@ -128,7 +128,7 @@ public partial class ArmyCombatMoveTokenEvent
                 PathStep item3 = Path[0];
                 PathStep item4 = Path[0];
                 PathStep item5 = Path[0];
-                condition = StrategicMap.Current.VisibleForPlayer(item5.Location.X, item4.Location.Y, item3.Location.MapLevel, StrategicMap.Current.SeatedPlayer);
+                condition = StrategicMap.Current.VisibleForPlayer(item5.Location.X, item4.Location.Y, item3.Location.MapLevel, player: StrategicMap.Current.SeatedPlayer);
             }
 
             if (condition)
@@ -138,7 +138,7 @@ public partial class ArmyCombatMoveTokenEvent
                 PathStep item3 = Path[0];
                 PathStep item4 = Path[0];
                 PathStep item5 = Path[0];
-                _ = StrategicMap.Current.PlaceHex(animation, item5.Location.X, item4.Location.Y, item3.Location.MapLevel);
+                _ = StrategicMap.Current.PlaceHex(animation, item5.Location.X, item4.Location.Y, L: item3.Location.MapLevel);
             }
 
             StrategicMap.Current.DestroyCombat();
@@ -181,7 +181,7 @@ public partial class ArmyCombatMoveTokenEvent
                         PathStep item3 = Path[MoveIndex];
                         PathStep item4 = Path[MoveIndex];
                         PathStep item5 = Path[MoveIndex];
-                        _ = armyHexSprite.PlacePrivate(StrategicMap.Current.MapContainer, item5.Location.X, item4.Location.Y, item3.Location.MapLevel);
+                        _ = armyHexSprite.PlacePrivate(StrategicMap.Current.MapContainer, item5.Location.X, item4.Location.Y, L: item3.Location.MapLevel);
                         if (ArmyHexSprite.GetSelected())
                         {
                             StrategicMap.Current.Selection.UnselectLocation();
@@ -203,7 +203,7 @@ public partial class ArmyCombatMoveTokenEvent
                     if (Set<CombatResult>.Of(CombatResult.Victory, CombatResult.NoDefenders).Contains(combatResult) || base.CanMoveNext())
                     {
                         int direction = GetDirection(MoveIndex);
-                        _ = ArmyHexSprite.MoveFirst(direction, false);
+                        _ = ArmyHexSprite.MoveFirst(direction, instant: false);
                         ArmyHexSprite.SetMoveStatus(50);
                     }
                     else

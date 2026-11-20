@@ -98,14 +98,14 @@ public class UnitSpellTokenEvent : SpellTokenEvent
             sbyte x = coordinate14.X;
             sbyte y = coordinate14.Y;
             sbyte l = coordinate14.MapLevel;
-            GamePack.Current.SpellControl.GetSpell(EventSpellId).PlayDefaultCastEffects(source.Player, x, y, l);
+            GamePack.Current.SpellControl[EventSpellId].PlayDefaultCastEffects(source.Player, x, y, layer: l);
             for (int i = 0, last = _targetUnits.GetCount() - 1; i <= last; i++)
             {
                 Troop target = _targetUnits.GetUnit(i);
                 _ = target.AddRef();
-                if (GamePack.Current.SpellControl.GetSpell<UnitSpell>(EventSpellId).ExecuteSpell(source, target, EventMana, SpellData))
+                if (GamePack.Current.SpellControl.GetSpell<UnitSpell>(EventSpellId).ExecuteSpell(source, target, mana: EventMana, data: SpellData))
                 {
-                    GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, EventMana);
+                    GamePack.Current.SpellControl[EventSpellId].CastingDone(source, mana: EventMana);
                     target.Changed();
                 }
 

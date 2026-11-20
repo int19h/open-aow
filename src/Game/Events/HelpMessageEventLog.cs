@@ -15,7 +15,7 @@ public partial class HelpMessageEventLog : EventLog
     {
         Holder = holder;
         Message = new DelphiStringList();
-        HelpFileName = AbilityRules.TranslateResourceString(GetEngine(), s_helpText);
+        HelpFileName = AbilityRules.TranslateResourceString(GetEngine(), S: s_helpText);
         Mode = 0;
     }
 

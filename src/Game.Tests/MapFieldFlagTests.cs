@@ -11,7 +11,7 @@ public sealed class MapFieldFlagTests
     private static byte ByteOf(int flags, int index)
     {
         Span<byte> bytes = stackalloc byte[4];
-        BinaryPrimitives.WriteInt32LittleEndian(bytes, flags);
+        BinaryPrimitives.WriteInt32LittleEndian(bytes, value: flags);
         return bytes[index];
     }
 

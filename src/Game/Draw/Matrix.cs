@@ -37,7 +37,7 @@ public class Matrix : IDisposable
         }
         else
         {
-            throw new ArgumentOutOfRangeException(paramName: null, "TMatrix out of bounds (DCTypes)");
+            throw new ArgumentOutOfRangeException(paramName: null, message: "TMatrix out of bounds (DCTypes)");
         }
 
         return result;

@@ -17,7 +17,7 @@ public class ConstructAbility : AdjustableAbility
     public ConstructAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_constructText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_constructText);
         AbilityId = 125;
         AbilityType = AbilityType.Enhancement;
         SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit);

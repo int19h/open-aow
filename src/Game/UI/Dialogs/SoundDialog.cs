@@ -140,16 +140,16 @@ public partial class SoundDialog(UIContext ui) : UIModule(ui)
         s_songFiles.Clear();
         _ = SetCurrentDir($"{UI.Engine.StartupDirectory}\\Songs");
         string directory = GetCurrentDir();
-        if (Copy(directory, directory.Length, 1) == "\\")
+        if (Copy(directory, index: directory.Length, count: 1) == "\\")
         {
-            directory = Copy(directory, 1, directory.Length - 1);
+            directory = Copy(directory, index: 1, count: directory.Length - 1);
         }
 
         foreach (RtlFileEntry entry in Files.FindEntries($"{directory}\\*.*", attributes: 16))
         {
             if (entry.Name is not "." and not "..")
             {
-                if (UpperCase(Copy(entry.Name, entry.Name.Length - 3, 4)) == ".S3M" || UpperCase(Copy(entry.Name, entry.Name.Length - 2, 3)) == ".IT")
+                if (UpperCase(Copy(entry.Name, index: entry.Name.Length - 3, count: 4)) == ".S3M" || UpperCase(Copy(entry.Name, index: entry.Name.Length - 2, count: 3)) == ".IT")
                 {
                     _ = s_songFiles.Add($"Songs\\{entry.Name}");
                     string songName = AudioPlayback.GetSongName($"Songs\\{entry.Name}");
@@ -158,7 +158,7 @@ public partial class SoundDialog(UIContext ui) : UIModule(ui)
             }
         }
 
-        StringSorting.SortStringsAscending(SongList.Items, [s_songFiles]);
+        StringSorting.SortStringsAscending(SongList.Items, linkedStrings: [s_songFiles]);
         SongList.Selected = -1;
         SongList.ListOffset = 0;
         SongScrollBar.Position = 0;

@@ -17,10 +17,10 @@ public sealed record Fortify : ProductionOrder
     public override CityAction CityAction => CityAction.Fortify;
 
     public override string Name(ProductionControl control)
-        => control.ProductionCity() is not null ? AbilityRules.TranslateResourceString(control.GetEngine(), GameText.FortifyText) : base.Name(control);
+        => control.ProductionCity() is not null ? AbilityRules.TranslateResourceString(control.GetEngine(), S: GameText.FortifyText) : base.Name(control);
 
     public override string NameProgressive(ProductionControl control)
-        => control.ProductionCity() is not null ? AbilityRules.TranslateResourceString(control.GetEngine(), s_fortifyingText) : base.NameProgressive(control);
+        => control.ProductionCity() is not null ? AbilityRules.TranslateResourceString(control.GetEngine(), S: s_fortifyingText) : base.NameProgressive(control);
 
     public override bool CanExecute(ProductionControl control, ref string reason)
     {
@@ -35,7 +35,7 @@ public sealed record Fortify : ProductionOrder
             return true;
         }
 
-        reason = AbilityRules.TranslateResourceString(control.GetEngine(), GameText.NotEnoughGoldText);
+        reason = AbilityRules.TranslateResourceString(control.GetEngine(), S: GameText.NotEnoughGoldText);
         return false;
     }
 
@@ -77,9 +77,9 @@ public sealed record Fortify : ProductionOrder
                 break;
         }
 
-        Log(control, city, DelphiFormat.Format(AbilityRules.TranslateResourceString(control.GetEngine(), s_cityFortifiedFormat), [city.GetName()]));
+        Log(control, city, text: DelphiFormat.Format(AbilityRules.TranslateResourceString(control.GetEngine(), S: s_cityFortifiedFormat), args: [city.GetName()]));
         city.UpdateImages();
-        ChangeRelation(control, city, 5);
+        ChangeRelation(control, city, change: 5);
         control.ProductionDone();
         control.EndUpdate();
     }

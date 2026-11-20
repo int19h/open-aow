@@ -31,7 +31,7 @@ public class IsometricCombatHex(CustomNode owner) : UpperIsometricHex(owner)
             variant = 0;
         }
 
-        imageLibrary[(int)(((uint)Sides) >> 6) + 40].Show(pixelX, pixelY, lockedSurface);
+        imageLibrary[(Sides >>> 6) + 40].Show(pixelX, pixelY, lockedSurface);
         if (OpenSides != 0)
         {
             pixelY -= 38;
@@ -151,7 +151,7 @@ public class IsometricCombatHex(CustomNode owner) : UpperIsometricHex(owner)
         public override int ResourceUserClassId() => 2229514;
 
         // IsoCombatHex.pas:117
-        public override HexControl GetHexControl() => Engine.HexSpriteSet.CombatHexes;
+        public override HexControl HexControl => Engine.HexSpriteSet.CombatHexes;
 
         // IsoCombatHex.pas:111
         public override string ResourceEditName() => "Combat ISO-Hex";

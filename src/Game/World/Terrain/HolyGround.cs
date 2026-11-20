@@ -68,8 +68,8 @@ public class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         bool result = base.PlaceOnMap();
         if (result)
         {
-            sbyte hexY = GetHexY();
-            sbyte hexX = GetHexX();
+            sbyte hexY = HexY;
+            sbyte hexX = HexX;
             UpdateMapFields(Owner.Owner, hexX, hexY);
         }
 
@@ -146,13 +146,13 @@ public class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         ArmyEventLog log = new(null)
         {
             Holder = CreationHolder(),
-            ArmyText = AbilityRules.TranslateResourceString(GetEngine(), s_holyGroundDamageText)
+            ArmyText = AbilityRules.TranslateResourceString(GetEngine(), S: s_holyGroundDamageText)
         };
-        string holyGroundDamage = AbilityRules.TranslateResourceString(GetEngine(), s_holyGroundDamageText);
+        string holyGroundDamage = AbilityRules.TranslateResourceString(GetEngine(), S: s_holyGroundDamageText);
         _ = log.ArmyMessages.Add(holyGroundDamage);
         log.ArmyIcon = 2;
         log.Player = army.Army.Player;
-        log.ArmyView.Setup(army.Army, 255);
+        log.ArmyView.Setup(army.Army, selection: 255);
         Army armyLocal = army.Army;
         for (int i = 0, last = armyLocal.Units.Count - 1; i <= last; i++)
         {
@@ -166,7 +166,7 @@ public class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
 
             if (condition && !troop.GetAbilityEnabled(1))
             {
-                int damage = troop.ExecuteDamageRole(3, 4, Set<DamageType>.Of(DamageType.Holy));
+                int damage = troop.ExecuteDamageRole(3, damage: 4, damageTypes: Set<DamageType>.Of(DamageType.Holy));
                 if (damage > troop.GetHitPoints())
                 {
                     damage = troop.GetHitPoints();
@@ -191,7 +191,7 @@ public class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         log.ValidateGameOver();
         if (damaged != 0)
         {
-            EventLog.DistributeLocationEventLog(y: GetHexY(), level: GetHexLevel(), x: GetHexX(), log: log, player: log.Player, execute: true);
+            EventLog.DistributeLocationEventLog(y: HexY, level: HexLevel, x: HexX, log: log, player: log.Player, execute: true);
         }
 
         _ = log.Release();
@@ -215,7 +215,7 @@ public class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         Dispose();
         if (overlay > 0)
         {
-            StrategicMap.Current.PlaceTerrain(field.HexX, field.HexY, field.HexLevel, field.TerrainType, overlay);
+            StrategicMap.Current.PlaceTerrain(field.HexX, field.HexY, L: field.HexLevel, field.TerrainType, overlayType: overlay);
         }
     }
 
@@ -263,24 +263,24 @@ public class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     // HolyG.pas:254
     public void ShowSummonAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        sbyte hexLevel = animation.GetHexLevel();
-        sbyte hexY = animation.GetHexY();
-        sbyte hexX = animation.GetHexX();
+        sbyte hexLevel = animation.HexLevel;
+        sbyte hexY = animation.HexY;
+        sbyte hexX = animation.HexX;
         MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         if (this == field.FindOwnedChild(131987) && GetEngine().AnimationDetail != 0 && animation.FrameCounter == 0)
         {
             bool condition = StrategicMap.Current.SeatedPlayer == animation.Tag;
             if (!condition)
             {
-                sbyte hexLevel2 = GetHexLevel();
-                sbyte hexY2 = GetHexY();
-                sbyte hexX2 = GetHexX();
-                condition = StrategicMap.Current.WatchingTerrain(hexX2, hexY2, hexLevel2, 0);
+                sbyte hexLevel2 = HexLevel;
+                sbyte hexY2 = HexY;
+                sbyte hexX2 = HexX;
+                condition = StrategicMap.Current.WatchingTerrain(hexX2, hexY2, L: hexLevel2, radius: 0);
             }
 
             if (condition)
             {
-                _ = GamePack.Current.SpellControl.GetSpell(13).CastSounds.Play(0);
+                _ = GamePack.Current.SpellControl[13].CastSounds.Play(0);
             }
         }
     }
@@ -288,9 +288,9 @@ public class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     // HolyG.pas:265
     public void NewFrameSummonAnimation(Animation animation, int frameCounter)
     {
-        sbyte hexLevel = animation.GetHexLevel();
-        sbyte hexY = animation.GetHexY();
-        sbyte hexX = animation.GetHexX();
+        sbyte hexLevel = animation.HexLevel;
+        sbyte hexY = animation.HexY;
+        sbyte hexX = animation.HexX;
         MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         if (this == field.FindOwnedChild(131987) && frameCounter == 9)
         {
@@ -310,7 +310,7 @@ public class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         public override int ResourceUserClassId() => 131987;
 
         // HolyG.pas:273
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_holyGroundText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_holyGroundText);
 
         private static readonly string s_holyGroundText = "Holy Ground";
 

@@ -43,7 +43,7 @@ public class TutorialMessageEvent(CustomNode owner) : FlagEvent(owner)
             TutorialMessageEventLog log = new(null, holder: CreationHolder());
             string text = _message.Text;
             log.Message.Text = text;
-            StrategicMap.Current.TriggerExecuteEventLog(log, TriggerMode == FlagEventTriggerMode.Instant, null);
+            StrategicMap.Current.TriggerExecuteEventLog(log, immediate: TriggerMode == FlagEventTriggerMode.Instant, done: null);
             _ = log.Release();
         }
 
@@ -60,7 +60,7 @@ public class TutorialMessageEvent(CustomNode owner) : FlagEvent(owner)
         public override int ResourceUserClassId() => 132459;
 
         // FlagEvents.pas:274
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_tutorialMessageEventText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_tutorialMessageEventText);
 
         private static readonly string s_tutorialMessageEventText = "Tutorial Message Event";
 

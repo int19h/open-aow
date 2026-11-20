@@ -20,7 +20,7 @@ public class EnchantedRoadsEnchantment : GlobalEnchantment
     public EnchantedRoadsEnchantment(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        Name = AbilityRules.TranslateResourceString(GetEngine(), GameText.EnchantedRoadsText);
+        Name = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.EnchantedRoadsText);
         EnchantmentType = GlobalEnchantmentType.None;
         DispelMana = 50;
     }
@@ -43,9 +43,9 @@ public class EnchantedRoadsEnchantment : GlobalEnchantment
         bool result = base.CanActivate(player, ref reason);
         if (result && StrategicMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.EnchantedRoads))
         {
-            string xIsAlreadyActive = AbilityRules.TranslateResourceString(GetEngine(), GameText.IsAlreadyActiveFormat);
+            string xIsAlreadyActive = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.IsAlreadyActiveFormat);
             string name = GetName();
-            reason = DelphiFormat.Format(xIsAlreadyActive, [name]);
+            reason = DelphiFormat.Format(xIsAlreadyActive, args: [name]);
             return false;
         }
 

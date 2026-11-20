@@ -46,9 +46,9 @@ public partial class ImageLibraryFont
         {
             LibraryImagePalette palette = PaletteManager.Palettes[0];
             palette.Palette[_fontColorPaletteIndex] =
-                new((uint)PixelFormats.Color2PixelInfo(value, palette.Palette.PixelFormatId, null));
+                new((uint)PixelFormats.Color2PixelInfo(value, palette.Palette.PixelFormatId, palette: null));
             palette.RemapPaletteValue?[_fontColorPaletteIndex] =
-                    new((uint)PixelFormats.Color2PixelInfo(value, palette.RemapPaletteValue.PixelFormatId, null));
+                    new((uint)PixelFormats.Color2PixelInfo(value, palette.RemapPaletteValue.PixelFormatId, palette: null));
         }
         _color = value;
     }

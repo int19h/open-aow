@@ -84,11 +84,11 @@ public class HeroResource : TroopResource
     public int UsedSkillPoints()
     {
         int result = (Attack * 5) + (Defense * 5) + (Damage * 10) + (Resistance * 5) + (Hits * 5) + (Moves * 2);
-        for (int i = Abilities.GetOwnAbilityCount() - 1; i >= 0; i--)
+        for (int i = Abilities.OwnAbilityCount - 1; i >= 0; i--)
         {
             if (Abilities.GetAbilitySetAt(i))
             {
-                result += GamePack.Current.AbilityControl.GetAbility(i).GetSkillPoints(Abilities);
+                result += GamePack.Current.AbilityControl[i].GetSkillPoints(Abilities);
             }
         }
 

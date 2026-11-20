@@ -33,7 +33,7 @@ public sealed class MapNetSoundFailureTests
 
     private sealed class FailingSample : Sample
     {
-        private FailingSample(ConstructionContext context, SampleData data) : base(context, data)
+        private FailingSample(ConstructionContext context, SampleData data) : base(context, sampleData: data)
         {
             Assert.Equal(2, data.RefCount);
             Assert.Equal(1, AudioHost.SampleList.Count);
@@ -41,7 +41,7 @@ public sealed class MapNetSoundFailureTests
         }
 
         internal static new FailingSample Create(SampleData data)
-            => ConstructionContext.Create(data, static (context, value) => new FailingSample(context, value));
+            => ConstructionContext.Create(data, static (context, value) => new FailingSample(context, data: value));
     }
 
     private sealed class Container(GameMap map) : MapContainer(map)
@@ -115,7 +115,7 @@ public sealed class MapNetSoundFailureTests
             SoundOwner owner = new();
             EngineFixture.ContainerOwner container = new(owner);
             MapLevel level = Assert.IsAssignableFrom<MapLevel>(descriptor.CreateInstance(container, holder: EngineFixture.Engine));
-            Assert.IsType(descriptor.Type, level);
+            Assert.IsType(descriptor.Type, @object: level);
             Assert.Same(level, Assert.Single(owner.Members));
             Assert.Same(container, level.Owner);
             Assert.Equal(0, level.Count);
@@ -166,7 +166,7 @@ public sealed class MapNetSoundFailureTests
         string path = Path.Combine(AppContext.BaseDirectory, "9.3b-8-corrupt.wav");
         if (corrupt)
         {
-            File.WriteAllBytes(path, [1, 2, 3]);
+            File.WriteAllBytes(path, bytes: [1, 2, 3]);
         }
         else
         {
@@ -174,7 +174,7 @@ public sealed class MapNetSoundFailureTests
         }
 
         AudioHost.BaseSoundEnginePath = "";
-        ObservingFiles files = new(oldFiles, path);
+        ObservingFiles files = new(oldFiles, name: path);
         RtlHost.Files = files;
         try
         {

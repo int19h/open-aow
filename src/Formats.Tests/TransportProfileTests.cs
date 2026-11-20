@@ -31,7 +31,7 @@ public sealed class TransportProfileTests : FormatsTest
         ]}
         """;
 
-    private static FormatSchema Sample { get; } = FormatSchema.Load(Encoding.UTF8.GetBytes(SampleSchema), "packet.json");
+    private static FormatSchema Sample { get; } = FormatSchema.Load(Encoding.UTF8.GetBytes(SampleSchema), file: "packet.json");
 
     [Fact]
     public void ATokenEventWithPortStateIsRefusedOnTheLegacyPacketAndKeptOnTheDocument()

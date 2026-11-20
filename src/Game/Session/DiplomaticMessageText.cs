@@ -15,8 +15,8 @@ public sealed class DiplomaticMessageText(TextControl textControl, int alignment
     {
         textControl.RetrieveText(alignment + number, text);
         text.Text = aboutOther
-            ? AbilityRules.Format(text.Text, [sourceRace, targetRace, otherRace])
-            : AbilityRules.Format(text.Text, [sourceRace, targetRace]);
+            ? AbilityRules.Format(text.Text, arguments: [sourceRace, targetRace, otherRace])
+            : AbilityRules.Format(text.Text, arguments: [sourceRace, targetRace]);
     }
 
     // Text Number of the alignment row, the target's races first.
@@ -24,8 +24,8 @@ public sealed class DiplomaticMessageText(TextControl textControl, int alignment
     {
         textControl.RetrieveText(alignment + number, text);
         text.Text = aboutOther
-            ? AbilityRules.Format(text.Text, [targetRace, sourceRace, otherRace])
-            : AbilityRules.Format(text.Text, [targetRace, sourceRace]);
+            ? AbilityRules.Format(text.Text, arguments: [targetRace, sourceRace, otherRace])
+            : AbilityRules.Format(text.Text, arguments: [targetRace, sourceRace]);
     }
 
     // The proposal's text while unanswered, the reply's once accepted or rejected, none once ignored.

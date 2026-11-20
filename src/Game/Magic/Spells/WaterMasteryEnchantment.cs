@@ -20,7 +20,7 @@ public class WaterMasteryEnchantment : GlobalEnchantment
     public WaterMasteryEnchantment(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        Name = AbilityRules.TranslateResourceString(GetEngine(), GameText.WaterMasteryText);
+        Name = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.WaterMasteryText);
         EnchantmentType = GlobalEnchantmentType.None;
         DispelMana = 175;
     }
@@ -48,9 +48,9 @@ public class WaterMasteryEnchantment : GlobalEnchantment
         {
             if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.WaterMastery))
             {
-                string xIsAlreadyActive = AbilityRules.TranslateResourceString(GetEngine(), GameText.IsAlreadyActiveFormat);
+                string xIsAlreadyActive = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.IsAlreadyActiveFormat);
                 string name = GetName();
-                reason = DelphiFormat.Format(xIsAlreadyActive, [name]);
+                reason = DelphiFormat.Format(xIsAlreadyActive, args: [name]);
                 return false;
             }
         }

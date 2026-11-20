@@ -51,14 +51,14 @@ public partial class VideoDialog(UIContext ui) : UIModule(ui)
     {
         DisplayModesList.Items.Clear();
         string desktopWindow = UI.Engine.TranslateResourceString(s_desktopWindowText);
-        _ = DisplayModesList.Items.AddObject(desktopWindow, IntToObject(-1));
+        _ = DisplayModesList.Items.AddObject(desktopWindow, item: IntToObject(-1));
         for (int i = 0, last = _displayModes.Count - 1; i <= last; i++)
         {
             DisplayModeItem mode = _displayModes.Items[i];
             if (mode.Width >= 640 && mode.Height >= 480)
             {
                 string fullScreen = UI.Engine.TranslateResourceString(s_fullScreenText);
-                _ = DisplayModesList.Items.AddObject($"{fullScreen}:{IntToStr(mode.Width)}x{IntToStr(mode.Height)}", IntToObject(i));
+                _ = DisplayModesList.Items.AddObject($"{fullScreen}:{IntToStr(mode.Width)}x{IntToStr(mode.Height)}", item: IntToObject(i));
             }
         }
 
@@ -76,7 +76,7 @@ public partial class VideoDialog(UIContext ui) : UIModule(ui)
     public void VideoDialogCreate()
     {
         _displayModes = new DisplayModeList();
-        ListDisplayModes(_displayModes, 0, 0, 16);
+        ListDisplayModes(_displayModes, 0, 0, pixelFormatId: 16);
     }
 
     // AoWVideoDlg.pas:201
@@ -164,7 +164,7 @@ public partial class VideoDialog(UIContext ui) : UIModule(ui)
             if ((width == 0 || width == sizeWidth) && (height == 0 || height == sizeHeight) &&
                 (pixelFormatId is 0 or 16 or (int)PixelFormat.Rgb555))
             {
-                list.Add(sizeWidth, sizeHeight, PixelFormat.Rgb555);
+                list.Add(sizeWidth, sizeHeight, pixelFormatId: PixelFormat.Rgb555);
             }
         }
     }

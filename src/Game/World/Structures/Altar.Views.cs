@@ -8,7 +8,7 @@ public partial class Altar
     // Starts targeting a storm, or cancels the targeting under way.
     public override StructureView InfoButton(sbyte viewer)
     {
-        if (!GetTargeting())
+        if (!Targeting)
         {
             string reason = "";
             if (CanTarget(ref reason))

@@ -13,7 +13,7 @@ public class LiquidFormEnchantment : UnitEnchantmentAbility
     public LiquidFormEnchantment(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), GameText.LiquidFormText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.LiquidFormText);
         AbilityId = 166;
     }
 
@@ -45,7 +45,7 @@ public class LiquidFormEnchantment : UnitEnchantmentAbility
             return 0;
         }
 
-        int result = troop.GetUnitLevel() + 300;
+        int result = troop.UnitLevel + 300;
         if (troop is Leader)
         {
             result += 50;

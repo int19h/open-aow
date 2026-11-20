@@ -61,7 +61,7 @@ internal sealed class RandomTrace(string path, Func<long> frame) : IDisposable
 
     public void Rounding(double value, int result, int singleResult)
     {
-        StackFrame? caller = new StackTrace(1, true).GetFrames()
+        StackFrame? caller = new StackTrace(1, fNeedFileInfo: true).GetFrames()
             .FirstOrDefault(f => f.GetMethod()?.DeclaringType?.Assembly.GetName().Name == "Aow.Game");
         _writer.WriteLine(JsonSerializer.Serialize(new
         {
@@ -77,7 +77,7 @@ internal sealed class RandomTrace(string path, Func<long> frame) : IDisposable
 
     public void Record(RandomTraceEvent entry)
     {
-        StackFrame[] stack = [.. new StackTrace(1, true).GetFrames().Where(f => f.GetMethod()?.DeclaringType?.Assembly.GetName().Name == "Aow.Game")];
+        StackFrame[] stack = [.. new StackTrace(1, fNeedFileInfo: true).GetFrames().Where(f => f.GetMethod()?.DeclaringType?.Assembly.GetName().Name == "Aow.Game")];
         bool map = stack.FirstOrDefault()?.GetMethod() is { Name: "Random", DeclaringType.Name: nameof(StrategicMap) };
         StackFrame? caller = stack.Skip(map ? 1 : 0).FirstOrDefault();
         _writer.WriteLine(JsonSerializer.Serialize(new
@@ -115,7 +115,7 @@ internal sealed class RandomTrace(string path, Func<long> frame) : IDisposable
             string[] lines = File.ReadAllLines(file);
             for (int i = Math.Min(frame.GetFileLineNumber() - 1, lines.Length - 1); i >= 0; i--)
             {
-                Match match = Regex.Match(lines[i], @"// (\S+\.pas:\d+)", RegexOptions.IgnoreCase);
+                Match match = Regex.Match(lines[i], pattern: @"// (\S+\.pas:\d+)", options: RegexOptions.IgnoreCase);
                 if (match.Success)
                 {
                     source = match.Groups[1].Value;

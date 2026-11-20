@@ -30,20 +30,20 @@ public class DurationAbility(CustomNode owner) : AdjustableAbility(owner)
                     if (GetDuration(owner) != 0)
                     {
                         byte duration = GetDuration(owner);
-                        int totalDuration = GetTotalDuration();
-                        string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.DurationDaysFormat), [IntToStr(duration), IntToStr(totalDuration)]);
+                        int totalDuration = TotalDuration;
+                        string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.DurationDaysFormat), arguments: [IntToStr(duration), IntToStr(totalDuration)]);
                         return $"{result} {format}";
                     }
 
                     break;
                 case DurationMode.CombatTurn:
                     byte duration2 = GetDuration(owner);
-                    int totalDuration2 = GetTotalDuration();
-                    string formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.DurationCombatTurnFormat), [IntToStr(duration2), IntToStr(totalDuration2)]);
+                    int totalDuration2 = TotalDuration;
+                    string formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.DurationCombatTurnFormat), arguments: [IntToStr(duration2), IntToStr(totalDuration2)]);
                     return $"{base.GetName(owner)} {formattedText}";
                 case DurationMode.EntireCombat:
                     string name = base.GetName(owner);
-                    string durationEntireCombat = AbilityRules.TranslateResourceString(GetEngine(), GameText.DurationEntireCombatText);
+                    string durationEntireCombat = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.DurationEntireCombatText);
                     return $"{name} {durationEntireCombat}";
                 case DurationMode.None:
                 default:
@@ -103,18 +103,18 @@ public class DurationAbility(CustomNode owner) : AdjustableAbility(owner)
             {
                 Holder = CreationHolder(),
                 AbilityId = (ushort)AbilityId,
-                Duration = (byte)GetTotalDuration()
+                Duration = (byte)TotalDuration
             };
-            SetAbility(owner, AbilityId, 1);
+            SetAbility(owner, index: AbilityId, value: 1);
             owner.AddAbilityData(data);
             return true;
         }
         else
         {
-            if (GetTotalDuration() > data.Duration)
+            if (TotalDuration > data.Duration)
             {
                 result = true;
-                data.Duration = (byte)GetTotalDuration();
+                data.Duration = (byte)TotalDuration;
             }
         }
 
@@ -126,7 +126,7 @@ public class DurationAbility(CustomNode owner) : AdjustableAbility(owner)
     {
         if (DurationMode == DurationMode.CombatTurn)
         {
-            DurationAbilityData data = GetData(combatObject.GetAbilityOwner());
+            DurationAbilityData data = GetData(combatObject.AbilityOwner);
             if (data is not null)
             {
                 if (data.Duration != 0 && data.PlayerIndex == player)
@@ -134,13 +134,13 @@ public class DurationAbility(CustomNode owner) : AdjustableAbility(owner)
                     data.Duration = (byte)(data.Duration - 1);
                     if (data.Duration == 0)
                     {
-                        _ = combatObject.GetAbilityOwner().RemoveAbility(AbilityId);
+                        _ = combatObject.AbilityOwner.RemoveAbility(AbilityId);
                     }
                 }
             }
             else
             {
-                _ = combatObject.GetAbilityOwner().RemoveAbility(AbilityId);
+                _ = combatObject.AbilityOwner.RemoveAbility(AbilityId);
             }
         }
     }
@@ -152,7 +152,7 @@ public class DurationAbility(CustomNode owner) : AdjustableAbility(owner)
         {
             case DurationMode.CombatTurn:
             case DurationMode.EntireCombat:
-                _ = combatObject.GetAbilityOwner().RemoveAbility(AbilityId);
+                _ = combatObject.AbilityOwner.RemoveAbility(AbilityId);
                 break;
             case DurationMode.None:
             case DurationMode.Day:
@@ -169,7 +169,7 @@ public class DurationAbility(CustomNode owner) : AdjustableAbility(owner)
     }
 
     // AoWAb.PAS:35
-    public virtual int GetTotalDuration() => 3;
+    public virtual int TotalDuration => 3;
 
     // AoWAb.PAS:30
     public override EngineClass AbilityDataClass() => EngineClass.Of<DurationAbilityData>();
@@ -179,7 +179,7 @@ public class DurationAbility(CustomNode owner) : AdjustableAbility(owner)
     public override bool Remove(AbilityOwner owner)
     {
         AbilityData data = owner.GetAbilityData(AbilityId);
-        SetAbility(owner, AbilityId, 0);
+        SetAbility(owner, index: AbilityId, value: 0);
         if (data is null)
         {
             return false;

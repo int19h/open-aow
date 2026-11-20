@@ -17,10 +17,10 @@ public sealed record Upgrade : ProductionOrder
     public override CityAction CityAction => CityAction.Upgrade;
 
     public override string Name(ProductionControl control)
-        => control.ProductionCity() is not null ? AbilityRules.TranslateResourceString(control.GetEngine(), GameText.UpgradeText) : base.Name(control);
+        => control.ProductionCity() is not null ? AbilityRules.TranslateResourceString(control.GetEngine(), S: GameText.UpgradeText) : base.Name(control);
 
     public override string NameProgressive(ProductionControl control)
-        => control.ProductionCity() is not null ? AbilityRules.TranslateResourceString(control.GetEngine(), s_upgradingText) : base.NameProgressive(control);
+        => control.ProductionCity() is not null ? AbilityRules.TranslateResourceString(control.GetEngine(), S: s_upgradingText) : base.NameProgressive(control);
 
     public override bool CanExecute(ProductionControl control, ref string reason)
     {
@@ -35,7 +35,7 @@ public sealed record Upgrade : ProductionOrder
             return true;
         }
 
-        reason = AbilityRules.TranslateResourceString(control.GetEngine(), GameText.NotEnoughGoldText);
+        reason = AbilityRules.TranslateResourceString(control.GetEngine(), S: GameText.NotEnoughGoldText);
         return false;
     }
 
@@ -66,9 +66,9 @@ public sealed record Upgrade : ProductionOrder
 
         control.BeginUpdate();
         city.SetUpgradeLevel((byte)(city.UpgradeLevel + 1));
-        ChangeRelation(control, city, 5);
+        ChangeRelation(control, city, change: 5);
         control.ProductionDone();
-        Log(control, city, DelphiFormat.Format(AbilityRules.TranslateResourceString(control.GetEngine(), s_upgradedFormat), [city.GetName()]));
+        Log(control, city, text: DelphiFormat.Format(AbilityRules.TranslateResourceString(control.GetEngine(), S: s_upgradedFormat), args: [city.GetName()]));
         control.EndUpdate();
     }
 

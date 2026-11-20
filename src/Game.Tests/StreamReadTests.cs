@@ -12,7 +12,7 @@ public sealed class StreamReadTests
     {
         string text = "old";
         using MemoryStream textStream = new([1, 2]);
-        _ = Assert.Throws<EndOfStreamException>(() => GameEngine.StringFromStream(ref text, textStream));
+        _ = Assert.Throws<EndOfStreamException>(() => GameEngine.StringFromStream(ref text, stream: textStream));
         Assert.Equal("old", text);
 
         using CompressStream compressed = new();

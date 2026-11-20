@@ -13,7 +13,7 @@ public class WallClimbingAbility : AdjustableAbility
     public WallClimbingAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_wallClimbingText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_wallClimbingText);
         AbilityId = 36;
         SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.HeadItem, AbilitySelectionType.TorsoItem, AbilitySelectionType.DefenseItem, AbilitySelectionType.RingItem, AbilitySelectionType.Editor);
     }

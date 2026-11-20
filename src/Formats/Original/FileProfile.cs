@@ -22,12 +22,12 @@ public abstract class FileProfile
 
     public static IReadOnlyList<FileProfile> All { get; } =
     [
-        new HsmProfile("world-hsm", "game", ["save", "map", "campaign-map"], "StrategicMap"),
-        new HsmProfile("tactical-hsm", "tactical", ["map"], "CombatMap"),
+        new HsmProfile("world-hsm", engine: "game", kinds: ["save", "map", "campaign-map"], rootFamily: "StrategicMap"),
+        new HsmProfile("tactical-hsm", engine: "tactical", kinds: ["map"], rootFamily: "CombatMap"),
         new StoredObjectProfile(),
         new ScenarioSetProfile(),
-        new WrittenObjectProfile("hero-list", ["hero-list"], "HeroLibrary"),
-        new WrittenObjectProfile("item-list", ["item-list"], "ItemLibrary"),
+        new WrittenObjectProfile("hero-list", kinds: ["hero-list"], rootClass: "HeroLibrary"),
+        new WrittenObjectProfile("item-list", kinds: ["item-list"], rootClass: "ItemLibrary"),
     ];
 
     /// <summary>The names of the document kinds (DocumentKind.All), which own the extensions.</summary>
@@ -78,7 +78,7 @@ public abstract class FileProfile
     internal virtual JsonObject SaveContainer(string? headerName) => NewContainer("none", level: null);
 
     internal DecodeContext Context(byte[] data, ImportSession session, bool inflated)
-        => new(data, session.Schema, Engine, Name, session.File, session.Limits, session.LegacyRules) { Nested = session.Nested, Inflated = inflated };
+        => new(data, session.Schema, Engine, profile: Name, session.File, session.Limits, session.LegacyRules) { Nested = session.Nested, Inflated = inflated };
 
     internal JsonObject NewContainer(string compression, int? level)
     {
@@ -94,16 +94,16 @@ public abstract class FileProfile
     /// <summary>Reads the outer table of a stored image: one entry, id 0, the root.</summary>
     internal static int ReadTop(DecodeContext context, int start, int end)
     {
-        PropertyTable table = PropertyTable.Read(context, start, end, DocumentNodePath.Envelope);
+        PropertyTable table = PropertyTable.Read(context, start, end, path: DocumentNodePath.Envelope);
         return table.Entries.Count != 1 || table.Entries[0].Id != 0
-            ? throw context.Fail(Codes.Corrupt, "The stored image holds other properties than the root, id 0.", start, DocumentNodePath.Envelope)
+            ? throw context.Fail(Codes.Corrupt, message: "The stored image holds other properties than the root, id 0.", offset: start, path: DocumentNodePath.Envelope)
             : table.DataBase + table.Entries[0].Offset;
     }
 
     internal static void WriteTop(EncodeContext context, byte[] root, ByteBuffer output)
     {
         ObjectWriter writer = new();
-        writer.Begin(0, null);
+        writer.Begin(0, prop: null);
         writer.Data.Bytes(root);
         writer.End();
         ObjectImage.Place(context, writer: writer, path: DocumentNodePath.Envelope, output: output);
@@ -118,7 +118,7 @@ public abstract class FileProfile
             _ = root.Add("$class", new JsonString(classValue.Name));
         }
 
-        ObjectImage.Decode(context, start, end, classValue, DocumentNodePath.Root, root);
+        ObjectImage.Decode(context, start, end, classValue, path: DocumentNodePath.Root, target: root);
         return root;
     }
 
@@ -127,19 +127,19 @@ public abstract class FileProfile
         if (!RootHasClass)
         {
             return root.Find("$class") is { } m
-                ? throw context.Fail(Codes.ReservedMember, $"The {Name} root has a fixed class and no $class.", m.Value, DocumentNodePath.Root.Member("$class"))
+                ? throw context.Fail(Codes.ReservedMember, message: $"The {Name} root has a fixed class and no $class.", at: m.Value, path: DocumentNodePath.Root.Member("$class"))
                 : context.Schema.Get(RootFamily);
         }
         if (root["$class"] is not JsonString name)
         {
-            throw context.Fail(Codes.MissingMember, "The root needs $class.", root, DocumentNodePath.Root);
+            throw context.Fail(Codes.MissingMember, message: "The root needs $class.", at: root, path: DocumentNodePath.Root);
         }
 
-        SchemaClass classValue = context.Schema.Find(name.Value) ?? throw context.Fail(Codes.UnknownClass, $"Unknown class {name.Value}.", name, DocumentNodePath.Root.Member("$class"), name.Value);
-        return classValue.Id is not int id || context.Schema.Resolve(Engine, id) != classValue
-            ? throw context.Fail(Codes.UnknownClass, $"Class {classValue.Name} is not in the {Engine} engine table.", name, DocumentNodePath.Root.Member("$class"), classValue.Name)
+        SchemaClass classValue = context.Schema.Find(name.Value) ?? throw context.Fail(Codes.UnknownClass, message: $"Unknown class {name.Value}.", at: name, path: DocumentNodePath.Root.Member("$class"), name.Value);
+        return classValue.Id is not int id || context.Schema.Resolve(Engine, classId: id) != classValue
+            ? throw context.Fail(Codes.UnknownClass, message: $"Class {classValue.Name} is not in the {Engine} engine table.", at: name, path: DocumentNodePath.Root.Member("$class"), value: classValue.Name)
             : !classValue.InheritsFrom(RootFamily)
-            ? throw context.Fail(Codes.ClassFamily, $"Class {classValue.Name} is not a {RootFamily} root for profile {Name}.", name, DocumentNodePath.Root.Member("$class"), classValue.Name, RootFamily)
+            ? throw context.Fail(Codes.ClassFamily, message: $"Class {classValue.Name} is not a {RootFamily} root for profile {Name}.", at: name, path: DocumentNodePath.Root.Member("$class"), value: classValue.Name, constraint: RootFamily)
             : classValue;
     }
 
@@ -147,10 +147,10 @@ public abstract class FileProfile
     {
         foreach (JsonMember m in container.Members)
         {
-            if (Array.IndexOf(allowed, m.Name) < 0)
+            if (Array.IndexOf(allowed, value: m.Name) < 0)
             {
                 throw new ConversionException(new FormatDiagnostic(m.Name.StartsWith('$') ? Codes.ReservedMember : Codes.UnknownMember,
-                    $"$container has no member \"{m.Name}\".")
+                    Message: $"$container has no member \"{m.Name}\".")
                 { File = context.File, Span = m.NameSpan, Path = $"$container.{m.Name}" });
             }
         }
@@ -160,13 +160,13 @@ public abstract class FileProfile
     {
         level = 0;
         string compression = container["compression"] is JsonString c ? c.Value
-            : throw context.Fail(Codes.MissingMember, "$container needs compression.", container, DocumentNodePath.Named("$container"));
+            : throw context.Fail(Codes.MissingMember, message: "$container needs compression.", at: container, path: DocumentNodePath.Named("$container"));
         JsonValue? levelValue = container["level"];
         if (compression == "cfs")
         {
             if (levelValue is not JsonInteger { Value: >= 0 and <= 3 } l)
             {
-                throw context.Fail(Codes.Range, "A CFS container needs level 0, 1, 2 or 3.", levelValue ?? container, DocumentNodePath.Named("$container.level"));
+                throw context.Fail(Codes.Range, message: "A CFS container needs level 0, 1, 2 or 3.", at: levelValue ?? container, path: DocumentNodePath.Named("$container.level"));
             }
 
             level = (int)l.Value;
@@ -175,12 +175,12 @@ public abstract class FileProfile
         {
             if (levelValue is not null)
             {
-                throw context.Fail(Codes.UnknownMember, "level exists only for CFS.", levelValue, DocumentNodePath.Named("$container.level"));
+                throw context.Fail(Codes.UnknownMember, message: "level exists only for CFS.", at: levelValue, path: DocumentNodePath.Named("$container.level"));
             }
         }
         else
         {
-            throw context.Fail(Codes.Range, "compression is cfs or none.", c, DocumentNodePath.Named("$container.compression"), compression);
+            throw context.Fail(Codes.Range, message: "compression is cfs or none.", at: c, path: DocumentNodePath.Named("$container.compression"), value: compression);
         }
 
         return compression;
@@ -217,10 +217,10 @@ public sealed class HsmProfile(string name, string engine, string[] kinds, strin
             return file;
         }
 
-        byte[] inflated = Cfs.Inflate(file.AsSpan(5), limits.DecompressedBytes, m => new ConversionException(new FormatDiagnostic(Codes.Compression, m)));
+        byte[] inflated = Cfs.Inflate(file.AsSpan(5), limit: limits.DecompressedBytes, m => new ConversionException(new FormatDiagnostic(Codes.Compression, Message: m)));
         byte[] result = new byte[5 + inflated.Length];
-        file.AsSpan(0, 5).CopyTo(result);
-        inflated.CopyTo(result, 5);
+        file.AsSpan(0, length: 5).CopyTo(result);
+        inflated.CopyTo(result, index: 5);
         return result;
     }
 
@@ -238,7 +238,7 @@ public sealed class HsmProfile(string name, string engine, string[] kinds, strin
             {
                 try
                 {
-                    head = Cfs.InflatePrefix(file.AsSpan(5), 16);
+                    head = Cfs.InflatePrefix(file.AsSpan(5), count: 16);
                 }
                 catch (InvalidDataException)
                 {
@@ -251,9 +251,9 @@ public sealed class HsmProfile(string name, string engine, string[] kinds, strin
             head = file[..Math.Min(file.Length, 16)];
         }
 
-        return head.Length < 16 || !head.AsSpan(4, 4).SequenceEqual(Magic)
+        return head.Length < 16 || !head.AsSpan(4, length: 4).SequenceEqual(Magic)
             ? null
-            : BinaryPrimitives.ReadInt32LittleEndian(head.AsSpan(12, 4));
+            : BinaryPrimitives.ReadInt32LittleEndian(head.AsSpan(12, length: 4));
     }
 
     internal override (JsonObject Container, JsonObject Root) Import(byte[] file, ImportSession session)
@@ -266,7 +266,7 @@ public sealed class HsmProfile(string name, string engine, string[] kinds, strin
             int level = file[4];
             if (level > 3)
             {
-                throw new ConversionException(new FormatDiagnostic(Codes.Compression, $"CFS level {level} is not 0, 1, 2 or 3.") { File = session.File, Offset = 4, Profile = Name });
+                throw new ConversionException(new FormatDiagnostic(Codes.Compression, Message: $"CFS level {level} is not 0, 1, 2 or 3.") { File = session.File, Offset = 4, Profile = Name });
             }
 
             container = NewContainer("cfs", level);
@@ -276,14 +276,14 @@ public sealed class HsmProfile(string name, string engine, string[] kinds, strin
             }
             else
             {
-                payload = Cfs.Inflate(file.AsSpan(5), session.Limits.DecompressedBytes,
-                    m => new ConversionException(new FormatDiagnostic(Codes.Compression, m) { File = session.File, Offset = 5, Profile = Name }));
+                payload = Cfs.Inflate(file.AsSpan(5), limit: session.Limits.DecompressedBytes,
+                    m => new ConversionException(new FormatDiagnostic(Codes.Compression, Message: m) { File = session.File, Offset = 5, Profile = Name }));
                 inflated = true;
             }
         }
         else
         {
-            container = NewContainer("none", null);
+            container = NewContainer("none", level: null);
             payload = file;
         }
         return ImportPayload(payload, container, inflated, session);
@@ -293,7 +293,7 @@ public sealed class HsmProfile(string name, string engine, string[] kinds, strin
     public const int GameLevel = 2;
 
     internal override (JsonObject Container, JsonObject Root) ImportImage(byte[] image, ImportSession session)
-        => ImportPayload(image, NewContainer("cfs", GameLevel), true, session);
+        => ImportPayload(image, container: NewContainer("cfs", level: GameLevel), inflated: true, session);
 
     internal (JsonObject Container, JsonObject Root) ImportEnginePayload(byte[] payload, JsonObject container, bool inflated, ImportSession session)
         => ImportPayload(payload, container, inflated, session);
@@ -308,11 +308,11 @@ public sealed class HsmProfile(string name, string engine, string[] kinds, strin
         byte[] result = new byte[5 + image.Length];
         Cfs.Magic.CopyTo(result);
         result[4] = (byte)level.Value;
-        image.CopyTo(result, 5);
+        image.CopyTo(result, index: 5);
         return result;
     }
 
-    internal override byte[] ExportImage(JsonObject container, JsonValue root, EncodeContext context) => ExportPayload(container, root, context, out _, out _);
+    internal override byte[] ExportImage(JsonObject container, JsonValue root, EncodeContext context) => ExportPayload(container, root, context, compression: out _, level: out _);
 
     internal override (SchemaClass Class, int Start, int End) RootImage(DecodeContext context)
     {
@@ -323,7 +323,7 @@ public sealed class HsmProfile(string name, string engine, string[] kinds, strin
         }
 
         int size = context.Int32(0);
-        if (!payload.AsSpan(4, 4).SequenceEqual(Magic))
+        if (!payload.AsSpan(4, length: 4).SequenceEqual(Magic))
         {
             throw context.Fail(Codes.Format, message: "The HSM header has no HSM magic.", offset: 4);
         }
@@ -358,18 +358,18 @@ public sealed class HsmProfile(string name, string engine, string[] kinds, strin
         DecodeContext context = Context(payload, session, inflated);
         if (payload.Length < 16)
         {
-            throw context.Fail(Codes.Truncated, "The HSM header is truncated.", 0);
+            throw context.Fail(Codes.Truncated, message: "The HSM header is truncated.", offset: 0);
         }
 
         int size = context.Int32(0);
-        if (!payload.AsSpan(4, 4).SequenceEqual(Magic))
+        if (!payload.AsSpan(4, length: 4).SequenceEqual(Magic))
         {
-            throw context.Fail(Codes.Format, "The HSM header has no HSM magic.", 4);
+            throw context.Fail(Codes.Format, message: "The HSM header has no HSM magic.", offset: 4);
         }
 
         if (size < 16 || size > payload.Length)
         {
-            throw context.Fail(Codes.Corrupt, "The HSM header size is outside the payload.", 0, null, size.ToString(CultureInfo.InvariantCulture), $"16 to {payload.Length}");
+            throw context.Fail(Codes.Corrupt, message: "The HSM header size is outside the payload.", offset: 0, path: null, value: size.ToString(CultureInfo.InvariantCulture), constraint: $"16 to {payload.Length}");
         }
 
         // Bytes 8..11 of THSMHeader are always 0 in 1.36 and never read (HSEngine.pas:5298-5327).
@@ -377,13 +377,13 @@ public sealed class HsmProfile(string name, string engine, string[] kinds, strin
         int classId = context.Int32(12);
 
         SchemaClass classValue = session.Schema.Resolve(Engine, classId)
-            ?? throw context.Fail(Codes.UnknownClass, $"Root class id {classId} is not in the {Engine} engine table.", 12, DocumentNodePath.Root, classId.ToString(CultureInfo.InvariantCulture));
+            ?? throw context.Fail(Codes.UnknownClass, message: $"Root class id {classId} is not in the {Engine} engine table.", offset: 12, path: DocumentNodePath.Root, value: classId.ToString(CultureInfo.InvariantCulture));
         if (!classValue.InheritsFrom(RootFamily))
         {
-            throw context.Fail(Codes.ClassFamily, $"Root class {classValue.Name} is not a {RootFamily}.", 12, DocumentNodePath.Root, classValue.Name, RootFamily);
+            throw context.Fail(Codes.ClassFamily, message: $"Root class {classValue.Name} is not a {RootFamily}.", offset: 12, path: DocumentNodePath.Root, value: classValue.Name, constraint: RootFamily);
         }
 
-        JsonObject root = DecodeRoot(start: ReadTop(context, size, payload.Length), context: context, end: payload.Length, classValue: classValue);
+        JsonObject root = DecodeRoot(start: ReadTop(context, start: size, end: payload.Length), context: context, end: payload.Length, classValue: classValue);
         return (container, root);
     }
 
@@ -393,10 +393,10 @@ public sealed class HsmProfile(string name, string engine, string[] kinds, strin
         compression = CompressionOf(context, container, out level);
         if (root is not JsonObject rootObject)
         {
-            throw context.Fail(Codes.Type, "root is an object.", root, DocumentNodePath.Root);
+            throw context.Fail(Codes.Type, message: "root is an object.", at: root, path: DocumentNodePath.Root);
         }
 
-        SchemaClass classValue = RootClass(context, rootObject);
+        SchemaClass classValue = RootClass(context, root: rootObject);
         ByteBuffer output = new(1 << 16);
         output.Int32(16);
         output.Bytes(Magic);
@@ -404,7 +404,7 @@ public sealed class HsmProfile(string name, string engine, string[] kinds, strin
         output.Int32(classValue.Id!.Value);
 
         ByteBuffer body = new(1 << 16);
-        ObjectImage.Encode(context, rootObject, classValue, body, DocumentNodePath.Root, "$class");
+        ObjectImage.Encode(context, objectValue: rootObject, classValue, output: body, path: DocumentNodePath.Root, "$class");
         WriteTop(context, root: body.ToArray(), output: output);
         return output.ToArray();
     }
@@ -431,41 +431,41 @@ public sealed class ScenarioSetProfile : FileProfile
 
     internal override (JsonObject Container, JsonObject Root) Import(byte[] file, ImportSession session)
     {
-        DecodeContext context = Context(file, session, false);
+        DecodeContext context = Context(file, session, inflated: false);
         if (file.Length < HeaderSize + 4)
         {
-            throw context.Fail(Codes.Truncated, "The scenario set header is truncated.", 0);
+            throw context.Fail(Codes.Truncated, message: "The scenario set header is truncated.", offset: 0);
         }
 
-        if (!file.AsSpan(4, 5).SequenceEqual(Id))
+        if (!file.AsSpan(4, length: 5).SequenceEqual(Id))
         {
-            throw context.Fail(Codes.Format, "The scenario set header has no HSS identifier.", 4);
+            throw context.Fail(Codes.Format, message: "The scenario set header has no HSS identifier.", offset: 4);
         }
 
         int size = context.Int32(0);
         if (size < HeaderSize || size > file.Length - 4)
         {
-            throw context.Fail(Codes.Corrupt, "The scenario set header size is outside the file.", 0, null, size.ToString(CultureInfo.InvariantCulture), $"{HeaderSize} to {file.Length - 4}");
+            throw context.Fail(Codes.Corrupt, message: "The scenario set header size is outside the file.", offset: 0, path: null, value: size.ToString(CultureInfo.InvariantCulture), constraint: $"{HeaderSize} to {file.Length - 4}");
         }
 
         uint stored = BinaryPrimitives.ReadUInt32LittleEndian(file.AsSpan(file.Length - 4));
-        uint actual = Crc32.Compute(file.AsSpan(0, file.Length - 4));
+        uint actual = Crc32.Compute(file.AsSpan(0, length: file.Length - 4));
         if (stored != actual)
         {
-            throw context.Fail(Codes.Checksum, "The scenario set checksum does not match its contents.", file.Length - 4, null, stored.ToString("x8", CultureInfo.InvariantCulture), actual.ToString("x8", CultureInfo.InvariantCulture));
+            throw context.Fail(Codes.Checksum, message: "The scenario set checksum does not match its contents.", offset: file.Length - 4, path: null, value: stored.ToString("x8", provider: CultureInfo.InvariantCulture), constraint: actual.ToString("x8", provider: CultureInfo.InvariantCulture));
         }
 
         int nameLength = file[9];
         if (nameLength > 40)
         {
-            throw context.Fail(Codes.Corrupt, "The scenario set name is longer than 40 bytes.", 9);
+            throw context.Fail(Codes.Corrupt, message: "The scenario set name is longer than 40 bytes.", offset: 9);
         }
 
         // Bytes 10+nameLength..51 are uninitialized stack tail and alignment padding from SaveHSS
         // (HSEngine.pas:5060-5076), and any bytes from 52 to Size are skipped by LoadHSS (:5043).
-        JsonObject container = NewContainer("none", null);
-        _ = container.Add("header", new JsonObject().Add("Name", new JsonString(TextCodec.Decode(file.AsSpan(10, nameLength)))));
-        JsonObject root = DecodeRoot(start: ReadTop(context, size, file.Length - 4), context: context, end: file.Length - 4, classValue: session.Schema.Get(RootFamily));
+        JsonObject container = NewContainer("none", level: null);
+        _ = container.Add("header", new JsonObject().Add("Name", new JsonString(TextCodec.Decode(file.AsSpan(10, length: nameLength)))));
+        JsonObject root = DecodeRoot(start: ReadTop(context, start: size, end: file.Length - 4), context: context, end: file.Length - 4, classValue: session.Schema.Get(RootFamily));
         return (container, root);
     }
 
@@ -488,47 +488,47 @@ public sealed class ScenarioSetProfile : FileProfile
     internal override byte[] Export(JsonObject container, JsonValue root, EncodeContext context)
     {
         CheckContainer(context, container, "profile", "compression", "header");
-        if (CompressionOf(context, container, out _) != "none")
+        if (CompressionOf(context, container, level: out _) != "none")
         {
-            throw context.Fail(Codes.Range, "A scenario set is not compressed.", container["compression"], DocumentNodePath.Named("$container.compression"));
+            throw context.Fail(Codes.Range, message: "A scenario set is not compressed.", at: container["compression"], path: DocumentNodePath.Named("$container.compression"));
         }
 
-        JsonObject header = container["header"] as JsonObject ?? throw context.Fail(Codes.MissingMember, "A scenario set needs header.Name.", container, DocumentNodePath.Named("$container"));
+        JsonObject header = container["header"] as JsonObject ?? throw context.Fail(Codes.MissingMember, message: "A scenario set needs header.Name.", at: container, path: DocumentNodePath.Named("$container"));
         foreach (JsonMember m in header.Members)
         {
             if (m.Name != "Name")
             {
-                throw context.Fail(Codes.UnknownMember, $"The scenario set header has no member \"{m.Name}\".", m.Value, DocumentNodePath.Named($"$container.header.{m.Name}"));
+                throw context.Fail(Codes.UnknownMember, message: $"The scenario set header has no member \"{m.Name}\".", at: m.Value, path: DocumentNodePath.Named($"$container.header.{m.Name}"));
             }
         }
 
         if (header["Name"] is not JsonString name)
         {
-            throw context.Fail(Codes.MissingMember, "header.Name is a string.", header, DocumentNodePath.Named("$container.header"));
+            throw context.Fail(Codes.MissingMember, message: "header.Name is a string.", at: header, path: DocumentNodePath.Named("$container.header"));
         }
 
-        byte[] nameBytes = TextCodec.Encode(context, name.Value, name, DocumentNodePath.Named("$container.header.Name"));
+        byte[] nameBytes = TextCodec.Encode(context, text: name.Value, at: name, path: DocumentNodePath.Named("$container.header.Name"));
         if (nameBytes.Length > 40)
         {
-            throw context.Fail(Codes.Range, "The scenario set name holds at most 40 characters.", name, DocumentNodePath.Named("$container.header.Name"));
+            throw context.Fail(Codes.Range, message: "The scenario set name holds at most 40 characters.", at: name, path: DocumentNodePath.Named("$container.header.Name"));
         }
 
         if (root is not JsonObject rootObject)
         {
-            throw context.Fail(Codes.Type, "root is an object.", root, DocumentNodePath.Root);
+            throw context.Fail(Codes.Type, message: "root is an object.", at: root, path: DocumentNodePath.Root);
         }
 
-        SchemaClass classValue = RootClass(context, rootObject);
+        SchemaClass classValue = RootClass(context, root: rootObject);
         byte[] head = new byte[HeaderSize];
-        BinaryPrimitives.WriteInt32LittleEndian(head, HeaderSize);
+        BinaryPrimitives.WriteInt32LittleEndian(head, value: HeaderSize);
         Id.CopyTo(head.AsSpan(4));
         head[9] = (byte)nameBytes.Length;
-        nameBytes.CopyTo(head, 10);
+        nameBytes.CopyTo(head, index: 10);
 
         ByteBuffer output = new(1 << 20);
         output.Bytes(head);
         ByteBuffer body = new(1 << 20);
-        ObjectImage.Encode(context, rootObject, classValue, body, DocumentNodePath.Root);
+        ObjectImage.Encode(context, objectValue: rootObject, classValue, output: body, path: DocumentNodePath.Root);
         WriteTop(context, root: body.ToArray(), output: output);
         output.Int32((int)Crc32.Compute(output.Span));
         return output.ToArray();
@@ -546,19 +546,19 @@ public sealed class StoredObjectProfile : FileProfile
 
     internal override (JsonObject Container, JsonObject Root) Import(byte[] file, ImportSession session)
     {
-        DecodeContext context = Context(file, session, false);
-        JsonObject container = NewContainer("none", null);
-        int start = ReadTop(context, 0, file.Length);
-        context.Need(start, 4, file.Length, DocumentNodePath.Root, "root class id");
+        DecodeContext context = Context(file, session, inflated: false);
+        JsonObject container = NewContainer("none", level: null);
+        int start = ReadTop(context, start: 0, end: file.Length);
+        context.Need(start, count: 4, end: file.Length, path: DocumentNodePath.Root, what: "root class id");
         int classId = context.Int32(start);
         SchemaClass classValue = session.Schema.Resolve(Engine, classId)
-            ?? throw context.Fail(Codes.UnknownClass, $"Root class id {classId} is not in the {Engine} engine table.", start, DocumentNodePath.Root, classId.ToString(CultureInfo.InvariantCulture));
+            ?? throw context.Fail(Codes.UnknownClass, message: $"Root class id {classId} is not in the {Engine} engine table.", offset: start, path: DocumentNodePath.Root, value: classId.ToString(CultureInfo.InvariantCulture));
         if (!classValue.InheritsFrom(RootFamily))
         {
-            throw context.Fail(Codes.ClassFamily, $"Root class {classValue.Name} is not a {RootFamily}.", start, DocumentNodePath.Root, classValue.Name, RootFamily);
+            throw context.Fail(Codes.ClassFamily, message: $"Root class {classValue.Name} is not a {RootFamily}.", offset: start, path: DocumentNodePath.Root, value: classValue.Name, constraint: RootFamily);
         }
 
-        JsonObject root = DecodeRoot(context, start + 4, file.Length, classValue);
+        JsonObject root = DecodeRoot(context, start: start + 4, end: file.Length, classValue);
         return (container, root);
     }
 
@@ -575,20 +575,20 @@ public sealed class StoredObjectProfile : FileProfile
     internal override byte[] Export(JsonObject container, JsonValue root, EncodeContext context)
     {
         CheckContainer(context, container, "profile", "compression");
-        if (CompressionOf(context, container, out _) != "none")
+        if (CompressionOf(context, container, level: out _) != "none")
         {
-            throw context.Fail(Codes.Range, "A campaign is not compressed.", container["compression"], DocumentNodePath.Named("$container.compression"));
+            throw context.Fail(Codes.Range, message: "A campaign is not compressed.", at: container["compression"], path: DocumentNodePath.Named("$container.compression"));
         }
 
         if (root is not JsonObject rootObject)
         {
-            throw context.Fail(Codes.Type, "root is an object.", root, DocumentNodePath.Root);
+            throw context.Fail(Codes.Type, message: "root is an object.", at: root, path: DocumentNodePath.Root);
         }
 
-        SchemaClass classValue = RootClass(context, rootObject);
+        SchemaClass classValue = RootClass(context, root: rootObject);
         ByteBuffer body = new(1 << 16);
         body.Int32(classValue.Id!.Value);
-        ObjectImage.Encode(context, rootObject, classValue, body, DocumentNodePath.Root, "$class");
+        ObjectImage.Encode(context, objectValue: rootObject, classValue, output: body, path: DocumentNodePath.Root, "$class");
         ByteBuffer output = new(1 << 16);
         WriteTop(context, root: body.ToArray(), output: output);
         return output.ToArray();
@@ -609,9 +609,9 @@ public sealed class WrittenObjectProfile(string name, string[] kinds, string roo
 
     internal override (JsonObject Container, JsonObject Root) Import(byte[] file, ImportSession session)
     {
-        DecodeContext context = Context(file, session, false);
-        JsonObject container = NewContainer("none", null);
-        JsonObject root = DecodeRoot(start: ReadTop(context, 0, file.Length), context: context, end: file.Length, classValue: session.Schema.Get(RootFamily));
+        DecodeContext context = Context(file, session, inflated: false);
+        JsonObject container = NewContainer("none", level: null);
+        JsonObject root = DecodeRoot(start: ReadTop(context, start: 0, end: file.Length), context: context, end: file.Length, classValue: session.Schema.Get(RootFamily));
         return (container, root);
     }
 
@@ -629,19 +629,19 @@ public sealed class WrittenObjectProfile(string name, string[] kinds, string roo
     internal override byte[] Export(JsonObject container, JsonValue root, EncodeContext context)
     {
         CheckContainer(context, container, "profile", "compression");
-        if (CompressionOf(context, container, out _) != "none")
+        if (CompressionOf(context, container, level: out _) != "none")
         {
-            throw context.Fail(Codes.Range, $"A {Name} is not compressed.", container["compression"], DocumentNodePath.Named("$container.compression"));
+            throw context.Fail(Codes.Range, message: $"A {Name} is not compressed.", at: container["compression"], path: DocumentNodePath.Named("$container.compression"));
         }
 
         if (root is not JsonObject rootObject)
         {
-            throw context.Fail(Codes.Type, "root is an object.", root, DocumentNodePath.Root);
+            throw context.Fail(Codes.Type, message: "root is an object.", at: root, path: DocumentNodePath.Root);
         }
 
-        SchemaClass classValue = RootClass(context, rootObject);
+        SchemaClass classValue = RootClass(context, root: rootObject);
         ByteBuffer body = new(1 << 12);
-        ObjectImage.Encode(context, rootObject, classValue, body, DocumentNodePath.Root);
+        ObjectImage.Encode(context, objectValue: rootObject, classValue, output: body, path: DocumentNodePath.Root);
         ByteBuffer output = new(1 << 12);
         WriteTop(context, root: body.ToArray(), output: output);
         return output.ToArray();

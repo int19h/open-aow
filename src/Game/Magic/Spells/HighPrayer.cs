@@ -18,7 +18,7 @@ public class HighPrayer : CombatSpell
     public HighPrayer(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_highPrayerText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_highPrayerText);
         SpellId = 102;
         SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 6;
@@ -53,7 +53,7 @@ public class HighPrayer : CombatSpell
     // CombatSpells.pas:1104
     public override void TacticalBattleGetDamageValues(CombatObject source, CombatObject target, ref AbilityDamageValues values)
     {
-        int healing = target.GetHits() - target.GetHitPoints();
+        int healing = target.GetHits() - target.HitPoints;
         if (healing > 5)
         {
             healing = 5;
@@ -82,14 +82,14 @@ public class HighPrayer : CombatSpell
     public override void FastBattlePrefetchCombatCommands(FastBattleCommandList commands)
     {
         int value = 0;
-        CombatSideIndex side = commands.Source.GetSide();
+        CombatSideIndex side = commands.Source.Side;
         CombatSide combatSide = commands.Combat.Sides[(int)side];
         for (int i = combatSide.GetCount() - 1; i >= 0; i--)
         {
             CombatObject target = combatSide.GetObjects(i);
             if (target.CombatValue != 0 && target is CombatUnit)
             {
-                value += AbilityRules.DamageValueToDamageEvaluation((target.GetHits() - target.GetHitPoints()) * 100, 0, commands.Source, target);
+                value += AbilityRules.DamageValueToDamageEvaluation((target.GetHits() - target.HitPoints) * 100, targetDamageValue: 0, commands.Source, target);
             }
         }
 
@@ -125,14 +125,14 @@ public class HighPrayer : CombatSpell
     public override void FastBattleGetDamageValues(CombatObject source, CombatObject target, WallSituation wallSituation, ref AbilityDamageValues values)
     {
         int value = 0;
-        CombatSideIndex side = source.GetSide();
+        CombatSideIndex side = source.Side;
         CombatSide combatSide = source.Combat.Sides[(int)side];
         for (int i = combatSide.GetCount() - 1; i >= 0; i--)
         {
             CombatObject ally = combatSide.GetObjects(i);
             if (ally.CombatValue != 0 && ally is CombatUnit)
             {
-                int healing = ally.GetHits() - ally.GetHitPoints();
+                int healing = ally.GetHits() - ally.HitPoints;
                 if (healing > 5)
                 {
                     healing = 5;

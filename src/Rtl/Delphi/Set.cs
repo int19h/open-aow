@@ -63,7 +63,7 @@ public readonly struct Set<E> : IEquatable<Set<E>> where E : unmanaged
     private static int Ordinal(E value)
     {
         long number = Convert.ToInt64(value);
-        return number is < 0 or > 255 ? throw new ArgumentOutOfRangeException(paramName: null, "Set ordinal outside 0..255") : (int)number;
+        return number is < 0 or > 255 ? throw new ArgumentOutOfRangeException(paramName: null, message: "Set ordinal outside 0..255") : (int)number;
     }
 
     private ulong Word(int index) => index switch { 0 => a, 1 => b, 2 => c, 3 => d, _ => 0 };
@@ -71,8 +71,8 @@ public readonly struct Set<E> : IEquatable<Set<E>> where E : unmanaged
     public static Set<E> WithBounds(int low, int high)
     {
         return low < 0 || high > 255 || low > high
-            ? throw new ArgumentOutOfRangeException(paramName: null, "Invalid set bounds")
-            : new(0, 0, 0, 0, low, high);
+            ? throw new ArgumentOutOfRangeException(paramName: null, message: "Invalid set bounds")
+            : new(0, 0, c: 0, d: 0, low, high);
     }
 
     public static Set<E> Of(params E[] values)
@@ -82,7 +82,7 @@ public readonly struct Set<E> : IEquatable<Set<E>> where E : unmanaged
         {
             if (Ordinal(value) > 63)
             {
-                throw new ArgumentOutOfRangeException(paramName: null, "Implicit set ordinal exceeds 63");
+                throw new ArgumentOutOfRangeException(paramName: null, message: "Implicit set ordinal exceeds 63");
             }
 
             result = result.With(value);
@@ -90,7 +90,7 @@ public readonly struct Set<E> : IEquatable<Set<E>> where E : unmanaged
         return result;
     }
 
-    public static Set<E> FromMask(ulong mask) => new(mask, 0, 0, 0, DefaultBounds.Low, DefaultBounds.High);
+    public static Set<E> FromMask(ulong mask) => new(mask, 0, c: 0, d: 0, DefaultBounds.Low, DefaultBounds.High);
     public static Set<E> Range(E lo, E hi) => default(Set<E>).WithRange(lo, hi);
 
     public Set<E> WithRange(E lo, E hi)
@@ -98,13 +98,13 @@ public readonly struct Set<E> : IEquatable<Set<E>> where E : unmanaged
         int first = Ordinal(lo), last = Ordinal(hi);
         if (!bounded && (first > 63 || last > 63))
         {
-            throw new ArgumentOutOfRangeException(paramName: null, "Implicit set ordinal exceeds 63");
+            throw new ArgumentOutOfRangeException(paramName: null, message: "Implicit set ordinal exceeds 63");
         }
 
         Set<E> result = this;
         for (int i = first; i <= last; i++)
         {
-            result = result.SetBit(i, true);
+            result = result.SetBit(i, present: true);
         }
 
         return result;
@@ -114,13 +114,13 @@ public readonly struct Set<E> : IEquatable<Set<E>> where E : unmanaged
     {
         if (ordinal < Low || ordinal > High)
         {
-            throw new ArgumentOutOfRangeException(paramName: null, "Ordinal outside declared set bounds");
+            throw new ArgumentOutOfRangeException(paramName: null, message: "Ordinal outside declared set bounds");
         }
 
         ulong bit = 1UL << (ordinal % 64);
         ulong change = present ? Word(ordinal / 64) | bit : Word(ordinal / 64) & ~bit;
         return new(ordinal < 64 ? change : a, ordinal is >= 64 and < 128 ? change : b,
-            ordinal is >= 128 and < 192 ? change : c, ordinal >= 192 ? change : d, Low, High);
+            c: ordinal is >= 128 and < 192 ? change : c, d: ordinal >= 192 ? change : d, Low, High);
     }
 
     public bool Contains(E value)
@@ -133,11 +133,11 @@ public readonly struct Set<E> : IEquatable<Set<E>> where E : unmanaged
     {
         int ordinal = Ordinal(value);
         return !bounded && ordinal > 63
-            ? throw new ArgumentOutOfRangeException(paramName: null, "Implicit set ordinal exceeds 63")
-            : SetBit(ordinal, true);
+            ? throw new ArgumentOutOfRangeException(paramName: null, message: "Implicit set ordinal exceeds 63")
+            : SetBit(ordinal, present: true);
     }
 
-    public Set<E> Without(E value) => SetBit(Ordinal(value), false);
+    public Set<E> Without(E value) => SetBit(Ordinal(value), present: false);
     public bool IsSubsetOf(Set<E> other) => ((a & ~other.a) | (b & ~other.b) | (c & ~other.c) | (d & ~other.d)) == 0;
 
     public bool IsEmpty => (a | b | c | d) == 0;
@@ -147,7 +147,7 @@ public readonly struct Set<E> : IEquatable<Set<E>> where E : unmanaged
     {
         if (destination.Length < StorageSize)
         {
-            throw new ArgumentOutOfRangeException(paramName: null, "Set image buffer is too small");
+            throw new ArgumentOutOfRangeException(paramName: null, message: "Set image buffer is too small");
         }
 
         for (int i = 0; i < StorageSize; i++)
@@ -157,9 +157,9 @@ public readonly struct Set<E> : IEquatable<Set<E>> where E : unmanaged
         }
     }
 
-    public static Set<E> operator +(Set<E> x, Set<E> y) => new(x.a | y.a, x.b | y.b, x.c | y.c, x.d | y.d, Math.Min(x.Low, y.Low), Math.Max(x.High, y.High));
-    public static Set<E> operator -(Set<E> x, Set<E> y) => new(x.a & ~y.a, x.b & ~y.b, x.c & ~y.c, x.d & ~y.d, x.Low, x.High);
-    public static Set<E> operator &(Set<E> x, Set<E> y) => new(x.a & y.a, x.b & y.b, x.c & y.c, x.d & y.d, x.Low, x.High);
+    public static Set<E> operator +(Set<E> x, Set<E> y) => new(x.a | y.a, x.b | y.b, c: x.c | y.c, d: x.d | y.d, Math.Min(x.Low, y.Low), Math.Max(x.High, y.High));
+    public static Set<E> operator -(Set<E> x, Set<E> y) => new(x.a & ~y.a, x.b & ~y.b, c: x.c & ~y.c, d: x.d & ~y.d, x.Low, x.High);
+    public static Set<E> operator &(Set<E> x, Set<E> y) => new(x.a & y.a, x.b & y.b, c: x.c & y.c, d: x.d & y.d, x.Low, x.High);
     public bool Equals(Set<E> other) => a == other.a && b == other.b && c == other.c && d == other.d;
     public override bool Equals(object? obj) => obj is Set<E> other && Equals(other);
     public override int GetHashCode() => HashCode.Combine(a, b, c, d);

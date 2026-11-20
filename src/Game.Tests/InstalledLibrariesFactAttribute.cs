@@ -8,9 +8,9 @@ public sealed class InstalledLibrariesFactAttribute : FactAttribute
 
     public InstalledLibrariesFactAttribute()
     {
-        if (Folders.Any(folder => !Directory.Exists(folder) || !Directory.EnumerateFiles(folder, "*.ILB", SearchOption.AllDirectories).Any()))
+        if (Folders.Any(folder => !Directory.Exists(folder) || !Directory.EnumerateFiles(folder, searchPattern: "*.ILB", searchOption: SearchOption.AllDirectories).Any()))
         {
-            Skip = $"Installed image libraries are absent: {string.Join(", ", Folders)}. Set AOW_GAME_ROOT to the game installation.";
+            Skip = $"Installed image libraries are absent: {string.Join(", ", value: Folders)}. Set AOW_GAME_ROOT to the game installation.";
         }
     }
 }

@@ -18,15 +18,15 @@ internal static class MovementTables
     internal static MoveArmyTokenEvent MoveArmyMapCoordinate(sbyte player, ArmyHexSprite army, byte selection, sbyte X, sbyte Y, sbyte L, MoveAction action, bool force)
     {
         MoveControlSettings settings = new(null) { Holder = army };
-        sbyte hexLevel = army.GetHexLevel();
-        sbyte hexY = army.GetHexY();
-        settings.SetSourcePosition(army.GetHexX(), hexY, hexLevel);
+        sbyte hexLevel = army.HexLevel;
+        sbyte hexY = army.HexY;
+        settings.SetSourcePosition(army.HexX, hexY, hexLevel);
         settings.Player = army.Army.Player;
         settings.ArmyHexSprite = army;
         settings.Selection = selection;
         settings.SetDestinationPosition(X, Y, L);
         _ = settings.MovePointTable;
-        army.Army.CreateMovePointTable(selection, out MovePointTable movePointTable);
+        army.Army.CreateMovePointTable(selection, table: out MovePointTable movePointTable);
         settings.MovePointTable = movePointTable;
         StrategicMap.Current.MoveControl.ProcessMove(settings);
         MoveArmyTokenEvent result;
@@ -34,7 +34,7 @@ internal static class MovementTables
         {
             if ((force || StrategicMap.Current.TokenManager.PlayerReady(player)) && settings.Path.Count > 1)
             {
-                result = ArmyHexSprite.CreateArmyMoveTokenEvent(army, selection, settings.Path, action, Set<ArmyMoveModeElement>.Of());
+                result = ArmyHexSprite.CreateArmyMoveTokenEvent(army, selection, settings.Path, action, mode: Set<ArmyMoveModeElement>.Of());
                 if (result is not null)
                 {
                     StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(result);

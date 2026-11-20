@@ -21,7 +21,7 @@ public class DeathMastery : GlobalEnchantmentSpell
     {
         Holder = holder;
         SpellType = SpellType.Global;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.DeathMasteryText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.DeathMasteryText);
         SpellId = 62;
         BaseManaCost = 1;
         SpellLevel = 4;
@@ -35,12 +35,12 @@ public class DeathMastery : GlobalEnchantmentSpell
     public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
         _ = base.ExecuteTokenEvent(eventValue, source, executeCount);
-        SpellTargets.NotifySpellSphere(source.Player, MagicSphere.Death);
+        SpellTargets.NotifySpellSphere(source.Player, sphere: MagicSphere.Death);
         MapCoordinate coordinate63 = source.GetLocation();
         sbyte x = coordinate63.X;
         sbyte y = coordinate63.Y;
         sbyte l = coordinate63.MapLevel;
-        _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
+        _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, radius: 0);
         Animation animation = new(null)
         {
             Holder = CreationHolder(),
@@ -52,7 +52,7 @@ public class DeathMastery : GlobalEnchantmentSpell
         animation.Activate();
 
         _ = CastSounds.Play(0);
-        CastingDone(source, eventValue.EventMana);
+        CastingDone(source, mana: eventValue.EventMana);
         return false;
     }
 
@@ -72,14 +72,14 @@ public class DeathMastery : GlobalEnchantmentSpell
         for (int i = 0; i <= count - 1; i++)
         {
             int x = Random(animation.Tag & 65535);
-            int y = Random((int)(((uint)(int)(uint)animation.Tag) >> 16));
+            int y = Random((int)(uint)animation.Tag >>> 16);
             int speed = Random(15) + 5;
             int image = Random(3);
             // { Preserve the original image/displacement register lifetimes. }
             int d = (animation.FrameCounter - 45) * speed;
             x -= d * 2;
             y += d;
-            _ = CastImages.Show(image, lockedSurface.ClipRectangle.Left + x, lockedSurface.ClipRectangle.Top + y, 0, lockedSurface);
+            _ = CastImages.Show(image, lockedSurface.ClipRectangle.Left + x, lockedSurface.ClipRectangle.Top + y, frame: 0, lockedSurface);
         }
 
         if (animation.FrameCounter == 90)

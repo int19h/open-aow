@@ -78,13 +78,13 @@ public partial class HeroJoinEventLog(CustomNode owner) : JoinEventLog(owner)
         if (hero is not null && hero.Player == 0 && hero.OfferToJoin(Player))
         {
             Player players = StrategicMap.Current.Players.GetPlayers(Player);
-            if (StrategicMap.Current.Players.GetPlayers(Player).AIBudget.RequestBudgetExpense(Gold, 0, players.AIBudget.DefaultBudget, true))
+            if (StrategicMap.Current.Players.GetPlayers(Player).AIBudget.RequestBudgetExpense(Gold, mana: 0, budget: players.AIBudget.DefaultBudget, usePool: true))
             {
                 string errorText = "";
                 if (Accept(ref errorText))
                 {
                     Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Player);
-                    _ = StrategicMap.Current.Players.GetPlayers(Player).AIBudget.BudgetExpenseMade(Gold, 0, fPlayersPlayers.AIBudget.DefaultBudget, AIBudgetManager.ExpenseMode.BudgetThenPool);
+                    _ = StrategicMap.Current.Players.GetPlayers(Player).AIBudget.BudgetExpenseMade(Gold, mana: 0, budget: fPlayersPlayers.AIBudget.DefaultBudget, mode: AIBudgetManager.ExpenseMode.BudgetThenPool);
                 }
 
                 return true;

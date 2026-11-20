@@ -23,7 +23,7 @@ public class PackageDataList : IDisposable
     public int GetCount() => _list.Count;
 
     // NetworkE.pas:888
-    public MemoryStream GetPackageData(int index) => _list[index];
+    public MemoryStream this[int index] => _list[index];
 
     // NetworkE.pas:893
     public void Clear()
@@ -42,7 +42,7 @@ public class PackageDataList : IDisposable
         MemoryStream s = new();
         s.SetLength(stream.Length);
         int size = (int)s.Length;
-        Move(stream.GetBuffer().AsSpan(0, size), s.GetBuffer().AsSpan(0, size), size);
+        Move(stream.GetBuffer().AsSpan(0, length: size), destination: s.GetBuffer().AsSpan(0, length: size), count: size);
         _list.Add(s);
     }
 
@@ -51,7 +51,7 @@ public class PackageDataList : IDisposable
     {
         MemoryStream s = new();
         s.SetLength(size);
-        Move(BufferBytes(data)[..size], s.GetBuffer().AsSpan(0, size), size);
+        Move(BufferBytes(data)[..size], destination: s.GetBuffer().AsSpan(0, length: size), count: size);
         _list.Add(s);
     }
 
@@ -61,8 +61,8 @@ public class PackageDataList : IDisposable
         MemoryStream s = new();
         s.SetLength(stream.Length);
         int size = (int)s.Length;
-        Move(stream.GetBuffer().AsSpan(0, size), s.GetBuffer().AsSpan(0, size), size);
-        _list.Insert(index, s);
+        Move(stream.GetBuffer().AsSpan(0, length: size), destination: s.GetBuffer().AsSpan(0, length: size), count: size);
+        _list.Insert(index, item: s);
     }
 
     // NetworkE.pas:935
@@ -76,7 +76,7 @@ public class PackageDataList : IDisposable
 
     public sealed class PackageDataAccessor(PackageDataList target)
     {
-        public MemoryStream this[int index] => target.GetPackageData(index);
+        public MemoryStream this[int index] => target[index];
     }
 
     public PackageDataAccessor PackageData => new(this);

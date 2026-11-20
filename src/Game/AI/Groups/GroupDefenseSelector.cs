@@ -97,7 +97,7 @@ public class GroupDefenseSelector : IDisposable
     {
         if (DefenseLocation == MapCoordinate.None || mapField.FindOwnedHexSprite(typeof(Structure)) is not null)
         {
-            MapCoordinate mapCoordinate = mapField.GetMapCoordinate();
+            MapCoordinate mapCoordinate = mapField.MapCoordinate;
             DefenseLocation = mapCoordinate;
         }
     }
@@ -110,7 +110,7 @@ public class GroupDefenseSelector : IDisposable
         MapLevel level = StrategicMap.Current.MapContainer.GetMapLevel(L);
         DefenseLocation = MapCoordinate.None;
         UnitUserList candidates = new(null) { Holder = Creator.CreationHolder() };
-        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, radius: 0);
         int i;
         while (walk.Radius <= 1 && Defenders.Count != group.Units.Count)
         {
@@ -118,12 +118,12 @@ public class GroupDefenseSelector : IDisposable
             if (mapField.GetPlayer() == group.Player)
             {
                 candidates.Clear();
-                mapField.GetDefenseRequirements(group.Player, out strengths);
+                mapField.GetDefenseRequirements(group.Player, requirements: out strengths);
                 Array10<int> openedStrengths = strengths.DamageStrengths;
                 if (!EnoughStrength(openedStrengths))
                 {
                     UpdateDefenseLocation(mapField);
-                    _ = GetDefenders(group.Player, (sbyte)walk.X, (sbyte)walk.Y, L, candidates);
+                    _ = GetDefenders(group.Player, (sbyte)walk.X, (sbyte)walk.Y, L, units: candidates);
                     s_defenseSortGroupId = group.GroupId;
                     s_defenseSortUnits = units;
                     candidates.SortChildren<Troop>(CompareDefenseUnits);
@@ -171,7 +171,7 @@ public class GroupDefenseSelector : IDisposable
                         }
 
                         troop = candidates.GetUnit(i);
-                        if (Defenders.IndexOfChild(troop) == -1 && UsefulUnit(troop, required))
+                        if (Defenders.IndexOfChild(troop) == -1 && UsefulUnit(troop, strengths: required))
                         {
                             _ = Defenders.AddUnit(troop);
                             for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)

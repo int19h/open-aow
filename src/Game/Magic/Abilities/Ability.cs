@@ -34,7 +34,7 @@ public class Ability : EngineObject
     {
         Description = new DelphiStringList();
         SfxLibrary = new SfxLibrary(null) { Holder = CreationHolder() };
-        ImageSequences = new ImageSequenceList(GamePack.Current.ImageLibraryManager, null);
+        ImageSequences = new ImageSequenceList(GamePack.Current.ImageLibraryManager, imageLibrary: null);
     }
 
     public string AbilityName { get; set; } = "";
@@ -74,7 +74,7 @@ public class Ability : EngineObject
     }
 
     // Ability.PAS:1477
-    public virtual bool GetHidden() => false;
+    public virtual bool Hidden => false;
 
     // Ability.PAS:1563
     public virtual AbilityType GetAbilityType() => 0;
@@ -125,8 +125,8 @@ public class Ability : EngineObject
     // { Original leaves Reserved untouched. }
     public virtual bool FastBattleValidRoundDistance(CombatObject source, CombatObject target)
     {
-        int distance = source.Combat.GetRoundDistance();
-        if (source.GetMoves() >= 32)
+        int distance = source.Combat.RoundDistance;
+        if (source.Moves >= 32)
         {
             distance += 2;
         }
@@ -134,7 +134,7 @@ public class Ability : EngineObject
         bool value = distance >= target.FastBattleRoundDistance();
         if (value && source is CombatUnit sourceUnit && sourceUnit.Troop is Hero)
         {
-            value = value && ((((byte)source.Status.Image) & 16) != 0 || source.FastBattleRoundDistance() <= source.Combat.GetRoundDistance() + 2);
+            value = value && ((((byte)source.Status.Image) & 16) != 0 || source.FastBattleRoundDistance() <= source.Combat.RoundDistance + 2);
         }
 
         return value;
@@ -239,7 +239,7 @@ public class Ability : EngineObject
     // Ability.PAS:1382
     public virtual bool Expand(AbilityOwner owner)
     {
-        owner.SetAbilitySet(AbilityId, 1);
+        owner.SetAbilitySet(AbilityId, value: 1);
         return true;
     }
 
@@ -276,18 +276,18 @@ public class Ability : EngineObject
     public virtual int FastBattleGetDamageValue(CombatObject source, CombatObject target, bool defensive)
     {
         AbilityDamageValues values = default;
-        FastBattleGetDamageValues(source, target, (WallSituation)(defensive ? 1 : 0), ref values);
+        FastBattleGetDamageValues(source, defender: target, wallSituation: (WallSituation)(defensive ? 1 : 0), damageValues: ref values);
         return values.SourceDamage;
     }
 
     // Ability.PAS:1320
-    public virtual void TacticalBattleGetDamageValues(CombatObject attacker, CombatObject defender, ref AbilityDamageValues damageValues) => FastBattleGetDamageValues(attacker, defender, WallSituation.None, ref damageValues);
+    public virtual void TacticalBattleGetDamageValues(CombatObject attacker, CombatObject defender, ref AbilityDamageValues damageValues) => FastBattleGetDamageValues(attacker, defender, wallSituation: WallSituation.None, ref damageValues);
 
     // Ability.PAS:1324
     public virtual int TacticalBattleGetDamageValue(CombatObject source, CombatObject target)
     {
         AbilityDamageValues values = default;
-        TacticalBattleGetDamageValues(source, target, ref values);
+        TacticalBattleGetDamageValues(source, defender: target, damageValues: ref values);
         return values.SourceDamage;
     }
 
@@ -317,7 +317,7 @@ public class Ability : EngineObject
         }
 
         AbilityType abilityType = GetAbilityType();
-        _ = text.Add($"Type: {AbilityRules.TranslateResourceString(GetEngine(), GameTables.AbilityTypeTexts[(int)abilityType])}");
+        _ = text.Add($"Type: {AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.AbilityTypeTexts[(int)abilityType])}");
         if (GetAttack(null) != 0)
         {
             _ = text.Add($"Attack modifier: {IntToStr(GetAttack(null))}");
@@ -347,7 +347,7 @@ public class Ability : EngineObject
         if (GetCombatMode(null) != CombatMode.None)
         {
             CombatMode combatMode = GetCombatMode(null);
-            _ = text.Add($"Combat mode: {AbilityRules.TranslateResourceString(GetEngine(), s_combatModeTexts[(int)combatMode])}");
+            _ = text.Add($"Combat mode: {AbilityRules.TranslateResourceString(GetEngine(), S: s_combatModeTexts[(int)combatMode])}");
         }
 
         if (mode.Contains(AbilityInfoModeElement.Statistics))
@@ -382,7 +382,7 @@ public class Ability : EngineObject
                             damageNames += ",";
                         }
 
-                        damageNames += AbilityRules.TranslateResourceString(GetEngine(), s_damageTypeTexts[(int)damageType]);
+                        damageNames += AbilityRules.TranslateResourceString(GetEngine(), S: s_damageTypeTexts[(int)damageType]);
                     }
                 }
 
@@ -414,7 +414,7 @@ public class Ability : EngineObject
 
     // Ability.PAS:1252
     // class receiver
-    public void ShowInfo(AbilityOwner owner, ImageLibraryFont font, int X, int Y, in LockedSurface surface) => font.SetText(X, Y, GetName(owner), surface);
+    public void ShowInfo(AbilityOwner owner, ImageLibraryFont font, int X, int Y, in LockedSurface surface) => font.SetText(X, Y, text: GetName(owner), lockedSurface: surface);
 
     // Ability.PAS:1260
     public void SetAbility(AbilityOwner owner, int index, byte value) => owner.SetAbilitySet(index, value);
@@ -432,7 +432,7 @@ public class Ability : EngineObject
             return false;
         }
 
-        owner.SetAbilitySet(AbilityId, 0);
+        owner.SetAbilitySet(AbilityId, value: 0);
         return true;
     }
 

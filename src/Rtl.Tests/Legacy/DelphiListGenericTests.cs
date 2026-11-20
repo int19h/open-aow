@@ -82,7 +82,7 @@ public sealed class DelphiListGenericTests
         {
             foreach (int n in new[] { 1, 2, 3, 4, 5, 7, 8, 9, 16, 17, 32 })
             {
-                Keyed[] keys = [.. Enumerable.Range(0, n).Select(i => new Keyed(i, pattern switch { 0 => 0, 1 => i % 3, _ => (n - i) % 5 }))];
+                Keyed[] keys = [.. Enumerable.Range(0, count: n).Select(i => new Keyed(i, key: pattern switch { 0 => 0, 1 => i % 3, _ => (n - i) % 5 }))];
                 DelphiList<Keyed> sorted = new();
                 foreach (Keyed key in keys)
                 {
@@ -111,7 +111,7 @@ public sealed class DelphiListGenericTests
     {
         foreach (int n in new[] { 1, 2, 5, 9, 17, 32 })
         {
-            Keyed[] keys = [.. Enumerable.Range(0, n).Select(i => new DerivedKeyed(i, (n - i) % 5))];
+            Keyed[] keys = [.. Enumerable.Range(0, count: n).Select(i => new DerivedKeyed(i, key: (n - i) % 5))];
             DelphiList<Keyed> plain = new();
             DelphiList<Keyed> narrowed = new();
             foreach (Keyed key in keys)
@@ -201,9 +201,9 @@ public sealed class DelphiListGenericTests
         empty.Count = 3;
         Assert.Null(empty[1]);
         Assert.Null(empty[2]);
-        empty.Move(-1, -1);
-        empty.Exchange(0, 0);
-        empty.Move(0, 2);
+        empty.Move(-1, target: -1);
+        empty.Exchange(0, second: 0);
+        empty.Move(0, target: 2);
         Assert.Equal([null, null, a], empty.List.Take(3));
     }
 }

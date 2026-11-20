@@ -93,7 +93,7 @@ public class ArmyNegotiateMoveTokenEvent(CustomNode owner) : MoveArmyTokenEvent(
                 PathStep fPathItem = Path[0];
                 PathStep item2 = Path[0];
                 PathStep item3 = Path[0];
-                NegotiateArmy(ArmyHexSprite.Army.Player, ArmyHexSprite, Selection, item.Location.X, fPathItem.Location.Y, item2.Location.MapLevel, item3.MoveCost);
+                NegotiateArmy(ArmyHexSprite.Army.Player, ArmyHexSprite, Selection, item.Location.X, fPathItem.Location.Y, L: item2.Location.MapLevel, movePoints: item3.MoveCost);
                 return MoveStatus.Done;
             }
             else
@@ -133,7 +133,7 @@ public class ArmyNegotiateMoveTokenEvent(CustomNode owner) : MoveArmyTokenEvent(
                 StrategicMap.Current.MapContainer.GetField(X, Y, L).SendMapFieldMessage(ref message);
                 if (message.Param[1].Int != 0)
                 {
-                    _ = negotiateRequestEventLog.Execute(mode: true, ExecuteTrigger.Event, null);
+                    _ = negotiateRequestEventLog.Execute(mode: true, trigger: ExecuteTrigger.Event, done: null);
                 }
                 _ = negotiateRequestEventLog.Release();
             }

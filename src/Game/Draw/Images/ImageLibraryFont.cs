@@ -93,10 +93,10 @@ public partial class ImageLibraryFont(Component owner) : CustomImageLibrary(owne
                 ShowText(X, Y, text, lockedSurface);
                 break;
             case EditCharCase.LowerCase:
-                ShowText(X, Y, LowerCase(text), lockedSurface);
+                ShowText(X, Y, text: LowerCase(text), lockedSurface);
                 break;
             case EditCharCase.UpperCase:
-                ShowText(X, Y, UpperCase(text), lockedSurface);
+                ShowText(X, Y, text: UpperCase(text), lockedSurface);
                 break;
             default:
                 break;
@@ -110,18 +110,18 @@ public partial class ImageLibraryFont(Component owner) : CustomImageLibrary(owne
         switch (CharCase)
         {
             case EditCharCase.Normal:
-                X -= (int)(((uint)TextWidth(text)) >> 1);
+                X -= TextWidth(text) >>> 1;
                 ShowText(X, Y, text, lockedSurface);
                 break;
             case EditCharCase.LowerCase:
                 s = LowerCase(text);
-                X -= (int)(((uint)TextWidth(s)) >> 1);
-                ShowText(X, Y, s, lockedSurface);
+                X -= TextWidth(s) >>> 1;
+                ShowText(X, Y, text: s, lockedSurface);
                 break;
             case EditCharCase.UpperCase:
                 s = UpperCase(text);
-                X -= (int)(((uint)TextWidth(s)) >> 1);
-                ShowText(X, Y, s, lockedSurface);
+                X -= TextWidth(s) >>> 1;
+                ShowText(X, Y, text: s, lockedSurface);
                 break;
             default:
                 break;
@@ -139,7 +139,7 @@ public partial class ImageLibraryFont(Component owner) : CustomImageLibrary(owne
         };
         if (mode.Contains(SetTextModeElement.Center))
         {
-            X -= (int)(((uint)TextWidth(s)) >> 1);
+            X -= TextWidth(s) >>> 1;
         }
 
         for (int i = 1; i <= s.Length; i++)

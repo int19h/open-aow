@@ -14,7 +14,7 @@ public class ExternalPowerSource(CustomNode owner) : PowerSource(owner)
     public PlayerMagicControl ExternalPowerControl { get; set; }
 
     // Spells.PAS:1835
-    public override string Name() => AbilityRules.TranslateResourceString(GetEngine(), s_externalPowerText);
+    public override string Name() => AbilityRules.TranslateResourceString(GetEngine(), S: s_externalPowerText);
 
     // Engine.pas:524
     public override int Power() => ExternalPowerControl.ExternalPower;

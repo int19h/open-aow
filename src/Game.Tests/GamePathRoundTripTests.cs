@@ -151,7 +151,7 @@ public sealed class GamePathRoundTripTests : IDisposable
         try
         {
             Engine.LoadHsm(source, edit: true, progress: null, profile: GameProfile.TacticalMap);
-            Assert.True(Engine.HexSpriteMap is CombatMap, FileBoundary.LastFailure?.ToString());
+            Assert.True(Engine.HexSpriteMap is CombatMap, userMessage: FileBoundary.LastFailure?.ToString());
             Engine.SaveHsm(file, progress: null, profile: GameProfile.TacticalMap);
             Assert.Equal(constructed, ReadBack(file));
             Engine.LoadHsm(file, edit: true, progress: null, profile: GameProfile.TacticalMap);

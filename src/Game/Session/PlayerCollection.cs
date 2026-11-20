@@ -43,7 +43,7 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     {
         // Assign's source is EngineObject. This override copies a player collection, and the cast stays.
         PlayerCollection other = (PlayerCollection)source;
-        SetNumberOfPlayers(other.GetNumberOfPlayers());
+        SetNumberOfPlayers(other.NumberOfPlayers);
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
             Player players = other.GetPlayers(i);
@@ -61,7 +61,7 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
             {
                 if (GetPlayers(i).Status == PlayerStatus.Playing)
                 {
-                    if (relations.Contains(GetDiplomaticRelation(player, (sbyte)i)))
+                    if (relations.Contains(GetDiplomaticRelation(player, otherPlayer: (sbyte)i)))
                     {
                         result += 1;
                     }
@@ -96,8 +96,8 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
                 }
             }
 
-            this[player].DiplomaticRelations.SetDiplomaticRelation(otherPlayer, relation);
-            this[otherPlayer].DiplomaticRelations.SetDiplomaticRelation(player, relation);
+            this[player].DiplomaticRelations.SetDiplomaticRelation(otherPlayer, value: relation);
+            this[otherPlayer].DiplomaticRelations.SetDiplomaticRelation(player, value: relation);
             if (relation == DiplomaticRelation.War)
             {
                 this[player].AIValidAttackPlayers[otherPlayer] = true;
@@ -177,7 +177,7 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
                 if (j != i)
                 {
                     byte item = ActivePlayers[i];
-                    result = GetDiplomaticRelation((sbyte)ActivePlayers[j], (sbyte)item) == DiplomaticRelation.Alliance;
+                    result = GetDiplomaticRelation((sbyte)ActivePlayers[j], otherPlayer: (sbyte)item) == DiplomaticRelation.Alliance;
                 }
             }
         }
@@ -231,7 +231,7 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     }
 
     // Player.PAS:1617
-    public byte GetNumberOfPlayers() => (byte)(Count - 1);
+    public byte NumberOfPlayers => (byte)(Count - 1);
 
     // Player.PAS:1622
     public int RaceToPlayer(sbyte race)
@@ -275,7 +275,7 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
             }
 
             player.PlayerRace = (sbyte)(Count - 1);
-            player.SetArrayOwner(this, Count);
+            player.SetArrayOwner(this, index: Count);
         }
 
         while (Count > value + 1)
@@ -388,7 +388,7 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
         {
             if (GetPlayers(i).Status == PlayerStatus.Playing)
             {
-                int value = GetPlayers(i).GetSuperiority();
+                int value = GetPlayers(i).Superiority;
                 if (value > maximum)
                 {
                     maximum = value;

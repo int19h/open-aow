@@ -59,7 +59,7 @@ public class AIMoveExecutorArmy(CustomNode owner) : AIMoveExecutorUnitList(owner
                     armySelection = index != -1 ? (byte)(armySelection | (1 << index)) : throw new KeyNotFoundException("Unit missing!");
                 }
 
-                selection = (byte)(int)(((uint)selection) >> 1);
+                selection = (byte)(selection >>> 1);
             }
         }
         else
@@ -89,13 +89,13 @@ public class AIMoveExecutorArmy(CustomNode owner) : AIMoveExecutorUnitList(owner
         {
             if ((selection & 1) != 0)
             {
-                if (result > GetUnits(i).Troop.GetMoves())
+                if (result > GetUnits(i).Troop.Moves)
                 {
-                    result = GetUnits(i).Troop.GetMoves();
+                    result = GetUnits(i).Troop.Moves;
                 }
             }
 
-            selection = (byte)(int)(((uint)selection) >> 1);
+            selection = (byte)(selection >>> 1);
         }
 
         return result == 65535 ? -1 : result;
@@ -115,7 +115,7 @@ public class AIMoveExecutorArmy(CustomNode owner) : AIMoveExecutorUnitList(owner
                 }
             }
 
-            selection = (byte)(int)(((uint)selection) >> 1);
+            selection = (byte)(selection >>> 1);
         }
 
         return result == 65535 ? -1 : result;

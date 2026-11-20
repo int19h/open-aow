@@ -27,15 +27,15 @@ public sealed class PanelCoordinatesTests
         Place(manager, owner: null, left: 0, top: 0, width: 640, height: 480);
 
         Window window = new(null) { DoubleBuffered = false };
-        Place(window, manager, 100, 50, 400, 350, priority: 1);
+        Place(window, owner: manager, 100, 50, 400, 350, priority: 1);
         window.Validate();
 
         Panel panel = new(null);
-        Place(panel, window, 20, 30, 220, 180);
+        Place(panel, owner: window, 20, 30, 220, 180);
         panel.Validate();
 
         Panel nested = new(null);
-        Place(nested, panel, 15, 25, 100, 80);
+        Place(nested, owner: panel, 15, 25, 100, 80);
         nested.Validate();
 
         List<(int WinLeft, int WinTop)> observedPanelCoords = [];
@@ -47,7 +47,7 @@ public sealed class PanelCoordinatesTests
         (int AbsLeft, int AbsTop)? nestedDrawObserved = null;
 
         UserDrawBox box = new(null);
-        Place(box, panel, 7, 9, 40, 30, priority: 1);
+        Place(box, owner: panel, 7, 9, 40, 30, priority: 1);
         box.OnMouseDown += (sender, _, _, x, y) =>
         {
             observedPanelCoords.Add((panel.WinLeft, panel.WinTop));
@@ -70,7 +70,7 @@ public sealed class PanelCoordinatesTests
         };
 
         UserDrawBox nestedBox = new(null);
-        Place(nestedBox, nested, 3, 4, 20, 20);
+        Place(nestedBox, owner: nested, 3, 4, 20, 20);
         nestedBox.OnDraw += (sender, _) =>
         {
             observedNestedCoords.Add((nested.WinLeft, nested.WinTop));
@@ -78,7 +78,7 @@ public sealed class PanelCoordinatesTests
         };
 
         ListBox list = new(null) { VisibleRows = 2 };
-        Place(list, panel, 60, 10, 80, 40);
+        Place(list, owner: panel, 60, 10, 80, 40);
         for (int i = 0; i < 6; i++)
         {
             _ = list.Items.Add($"item{i}");
@@ -102,7 +102,7 @@ public sealed class PanelCoordinatesTests
         Assert.Equal(1, list.FirstShownItem);
         list.Valid = false;
 
-        using DataSurface surface = new(640, 480, PixelFormat.Rgb555, null);
+        using DataSurface surface = new(640, 480, pixelFormatId: PixelFormat.Rgb555, palette: null);
         LockedSurface lockedSurface = default;
         Assert.Equal(GraphicsResult.Ok, surface.Lock(ref lockedSurface));
         try

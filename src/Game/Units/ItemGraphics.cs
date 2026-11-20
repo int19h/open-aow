@@ -84,7 +84,7 @@ public class ItemGraphics(CustomNode owner) : EngineResource(owner)
     {
         ReleaseImageLibrary();
         _imageLibrary = !IsEmpty(ImageLibraryName)
-            ? GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), ImageLibraryName)
+            ? GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: ImageLibraryName)
             : null;
     }
 
@@ -95,7 +95,7 @@ public class ItemGraphics(CustomNode owner) : EngineResource(owner)
         {
             if (!IsEmpty(ImageLibraryName))
             {
-                GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), ImageLibraryName);
+                GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: ImageLibraryName);
             }
 
             _imageLibrary = null;
@@ -107,18 +107,18 @@ public class ItemGraphics(CustomNode owner) : EngineResource(owner)
     {
         if (!IsEmpty(ImageLibraryName))
         {
-            GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), ImageLibraryName);
+            GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: ImageLibraryName);
             _imageLibrary = null;
         }
 
         ImageLibraryName = value;
         if (!IsEmpty(ImageLibraryName) && _refCount != 0)
         {
-            _imageLibrary = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), ImageLibraryName);
+            _imageLibrary = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: ImageLibraryName);
         }
     }
 
     // Army.PAS:5161
-    public LibraryImage GetItemImage() => _imageLibrary?[ImageIndex];
+    public LibraryImage ItemImage => _imageLibrary?[ImageIndex];
 
 }

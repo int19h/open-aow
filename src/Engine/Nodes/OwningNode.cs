@@ -119,10 +119,10 @@ public class OwningNode : CustomNode
                         if (children.List[i] is not null)
                         {
                             EngineObject node = children.List[i];
-                            if (node.GetLastMessage() != message.Sequence)
+                            if (node.LastMessage != message.Sequence)
                             {
-                                node.SetLastMessage(message.Sequence);
-                                node.MessageProc(ref message, this);
+                                node.LastMessage = message.Sequence;
+                                node.MessageProc(ref message, sender: this);
                             }
                         }
                     }
@@ -134,10 +134,10 @@ public class OwningNode : CustomNode
                         if (children.List[i] is not null)
                         {
                             EngineObject node = children[i];
-                            if (node.GetLastMessage() != message.Sequence && node.Owner == this)
+                            if (node.LastMessage != message.Sequence && node.Owner == this)
                             {
-                                node.SetLastMessage(message.Sequence);
-                                node.MessageProc(ref message, this);
+                                node.LastMessage = message.Sequence;
+                                node.MessageProc(ref message, sender: this);
                             }
                         }
                     }
@@ -152,7 +152,7 @@ public class OwningNode : CustomNode
                         if (children.List[i] is not null)
                         {
                             EngineObject node = children.List[i];
-                            node.MessageProc(ref message, this);
+                            node.MessageProc(ref message, sender: this);
                         }
                     }
                 }
@@ -165,7 +165,7 @@ public class OwningNode : CustomNode
                             EngineObject node = children[i];
                             if (node.Owner == this)
                             {
-                                node.MessageProc(ref message, this);
+                                node.MessageProc(ref message, sender: this);
                             }
                         }
                     }
@@ -181,10 +181,10 @@ public class OwningNode : CustomNode
                     for (int i = children.Count - 1; i >= 0; i--)
                     {
                         EngineObject node = children.List[i];
-                        if (node.GetLastMessage() != message.Sequence)
+                        if (node.LastMessage != message.Sequence)
                         {
-                            node.SetLastMessage(message.Sequence);
-                            node.MessageProc(ref message, this);
+                            node.LastMessage = message.Sequence;
+                            node.MessageProc(ref message, sender: this);
                         }
                     }
                 }
@@ -193,10 +193,10 @@ public class OwningNode : CustomNode
                     for (int i = children.Count - 1; i >= 0; i--)
                     {
                         EngineObject node = children[i];
-                        if (node.GetLastMessage() != message.Sequence && node.Owner == this)
+                        if (node.LastMessage != message.Sequence && node.Owner == this)
                         {
-                            node.SetLastMessage(message.Sequence);
-                            node.MessageProc(ref message, this);
+                            node.LastMessage = message.Sequence;
+                            node.MessageProc(ref message, sender: this);
                         }
                     }
                 }
@@ -208,7 +208,7 @@ public class OwningNode : CustomNode
                     for (int i = children.Count - 1; i >= 0; i--)
                     {
                         EngineObject node = children.List[i];
-                        node.MessageProc(ref message, this);
+                        node.MessageProc(ref message, sender: this);
                     }
                 }
                 else
@@ -218,7 +218,7 @@ public class OwningNode : CustomNode
                         EngineObject node = children[i];
                         if (node.Owner == this)
                         {
-                            node.MessageProc(ref message, this);
+                            node.MessageProc(ref message, sender: this);
                         }
                     }
                 }
@@ -259,7 +259,7 @@ public class OwningNode : CustomNode
     public void InsertChild(int index, EngineObject child)
     {
         CheckChild(child);
-        _children.Insert(index, child);
+        _children.Insert(index, item: child);
     }
 
     // Engine.pas:2998

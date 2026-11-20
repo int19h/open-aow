@@ -62,7 +62,7 @@ public class PadControl : ControlStyleObject
     {
         if (resource == GetPadResource(size))
         {
-            SetPadResource(size, null);
+            SetPadResource(size, resource: null);
         }
     }
 

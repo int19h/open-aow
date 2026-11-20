@@ -36,10 +36,10 @@ public abstract record ProductionOrder
     public virtual int? UnitProductionIndex => null;
 
     // The queue line (Structur.PAS:840).
-    public virtual string Name(ProductionControl control) => AbilityRules.TranslateResourceString(control.GetEngine(), GameTables.UnknownText);
+    public virtual string Name(ProductionControl control) => AbilityRules.TranslateResourceString(control.GetEngine(), S: GameTables.UnknownText);
 
     // The line of the running order (Structur.PAS:865).
-    public virtual string NameProgressive(ProductionControl control) => AbilityRules.TranslateResourceString(control.GetEngine(), GameTables.UnknownText);
+    public virtual string NameProgressive(ProductionControl control) => AbilityRules.TranslateResourceString(control.GetEngine(), S: GameTables.UnknownText);
 
     // Whether Control can start the order now, with the reason when it cannot (Structur.PAS:361).
     public virtual bool CanExecute(ProductionControl control, ref string reason)
@@ -101,7 +101,7 @@ public abstract record ProductionOrder
     {
         if (control.Status == ProductionControlStatus.Waiting)
         {
-            reason = $"({LowerCase(AbilityRules.TranslateResourceString(control.GetEngine(), s_waitingText))})";
+            reason = $"({LowerCase(AbilityRules.TranslateResourceString(control.GetEngine(), S: s_waitingText))})";
         }
     }
 
@@ -109,7 +109,7 @@ public abstract record ProductionOrder
     protected static void ChangeRelation(ProductionControl control, City city, int change)
     {
         int playerRelationValue = StrategicMap.Current.Races.GetRace(city.Race).GetPlayerRelationValue(control.GetPlayer());
-        StrategicMap.Current.Races.GetRace(city.Race).SetPlayerRelationValue(control.GetPlayer(), playerRelationValue + change);
+        StrategicMap.Current.Races.GetRace(city.Race).SetPlayerRelationValue(control.GetPlayer(), value: playerRelationValue + change);
     }
 
     // Adds Text at City to the logbook of the control's player.
@@ -121,7 +121,7 @@ public abstract record ProductionOrder
             Player = control.GetPlayer(),
             Text = text
         };
-        eventValue.SetLocation(level: city.GetHexLevel(), y: city.GetHexY(), x: city.GetHexX());
+        eventValue.SetLocation(level: city.HexLevel, y: city.HexY, x: city.HexX);
         StrategicMap.Current.Players.GetPlayers(eventValue.Player).EventLogbook.AddEvent(eventValue);
         _ = eventValue.Release();
     }

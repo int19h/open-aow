@@ -18,7 +18,7 @@ public class BirdsView : Spell
     public BirdsView(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_birdsViewText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_birdsViewText);
         SpellId = 2;
         SpellType = SpellType.Global;
         BaseManaCost = 5;
@@ -30,7 +30,7 @@ public class BirdsView : Spell
     public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
         _ = base.ExecuteTokenEvent(eventValue, source, executeCount);
-        CastingDone(source, eventValue.EventMana);
+        CastingDone(source, mana: eventValue.EventMana);
         MapCoordinate coordinate53 = source.GetLocation();
         sbyte x = coordinate53.X;
         sbyte y = coordinate53.Y;
@@ -38,15 +38,15 @@ public class BirdsView : Spell
         if (StrategicMap.Current.SeatedPlayer == source.Player)
         {
             BirdsViewHexSprite birdsViewHexSprite = new(null) { Holder = CreationHolder() };
-            birdsViewHexSprite.StartAnimation(x, y, layer, 14);
+            birdsViewHexSprite.StartAnimation(x, y, layer, radius: 14);
         }
 
-        _ = StrategicMap.Current.ExploreArea(x, y, layer, source.Player, 14);
+        _ = StrategicMap.Current.ExploreArea(x, y, layer, source.Player, range: 14);
         return false;
     }
 
     // GlobalSpells.pas:500
-    public override bool GetEnabled() => StrategicMap.Current.ExplorationEnabled;
+    public override bool Enabled => StrategicMap.Current.ExplorationEnabled;
 
     // GlobalSpells.pas:518
     public override bool CanActivate(Troop source, ref string messageText)
@@ -60,7 +60,7 @@ public class BirdsView : Spell
             sbyte layer = coordinate54.MapLevel;
             if (layer != 0)
             {
-                messageText = AbilityRules.TranslateResourceString(GetEngine(), GameText.CannotCastSpellInUndergroundText);
+                messageText = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CannotCastSpellInUndergroundText);
                 return false;
             }
         }
@@ -73,10 +73,10 @@ public class BirdsView : Spell
     {
         string reason = "";
         _ = base.Activate(source);
-        if (CanActivate(source, ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
+        if (CanActivate(source, messageText: ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             SpellTokenEvent eventValue = new(null) { Holder = CreationHolder() };
-            eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
+            eventValue.Initialize(SpellId, playerIndex: (byte)source.Player, sourceId: source.UnitId, mana: BaseManaCost);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             _ = eventValue.Release();
             return true;

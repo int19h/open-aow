@@ -105,23 +105,23 @@ public sealed class UIConstructionTests
             }
             if (item is Array array)
             {
-                return array.Cast<object?>().Select((x, i) => State(x, $"{path}[{i}]")).ToArray();
+                return array.Cast<object?>().Select((x, i) => State(x, path: $"{path}[{i}]")).ToArray();
             }
 
             if (InlineArrays.Elements(item) is { } elements)
             {
-                return elements.Select((x, i) => State(x, $"{path}[{i}]")).ToArray();
+                return elements.Select((x, i) => State(x, path: $"{path}[{i}]")).ToArray();
             }
 
             if (item is IList list)
             {
-                return list.Cast<object?>().Select((x, i) => State(x, $"{path}[{i}]")).ToArray();
+                return list.Cast<object?>().Select((x, i) => State(x, path: $"{path}[{i}]")).ToArray();
             }
 
             SortedDictionary<string, object?> fields = new(StringComparer.Ordinal) { ["$type"] = type.FullName };
             for (Type? current = type; current is not null && current != typeof(object) && current != typeof(object); current = current.BaseType)
             {
-                foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, StringComparer.Ordinal))
+                foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(MemberNames.Of, comparer: StringComparer.Ordinal))
                 {
                     if (MemberNames.Of(field) is "_engineClass" or "EngineClass" or "Holder" or "Creator")
                     {
@@ -140,13 +140,13 @@ public sealed class UIConstructionTests
                         fields[key] = child.GetType().FullName;
                         continue;
                     }
-                    fields[key] = MemberNames.Of(field) is "_engine" or "Engine" or "_hexSpriteEngine" or "HexSpriteEngine" or "FGameEngine" ? child?.GetType().FullName : State(child, $"{path}.{key}");
+                    fields[key] = MemberNames.Of(field) is "_engine" or "Engine" or "_hexSpriteEngine" or "HexSpriteEngine" or "FGameEngine" ? child?.GetType().FullName : State(child, path: $"{path}.{key}");
                 }
             }
 
             return fields;
         }
-        return JsonSerializer.Serialize(State(value, "$"));
+        return JsonSerializer.Serialize(State(value, path: "$"));
     }
 
     private static readonly string[] s_names =
@@ -302,9 +302,9 @@ public sealed class UIConstructionTests
                 return (Component)constructor.Invoke([owner]);
             }
 
-            MethodInfo? factory = type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, [typeof(Component)]);
+            MethodInfo? factory = type.GetMethod("Create", bindingAttr: BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, types: [typeof(Component)]);
             return factory is not null
-                ? (Component)factory.Invoke(null, [owner])!
+                ? (Component)factory.Invoke(null, parameters: [owner])!
                 : throw new InvalidOperationException($"{type.FullName} has no completed owner entry.");
         }
         catch (TargetInvocationException error) when (error.InnerException is not null)
@@ -328,7 +328,7 @@ public sealed class UIConstructionTests
             try
             {
                 value = Direct(type, owner);
-                Assert.IsType(type, value);
+                Assert.IsType(type, @object: value);
                 Assert.Same(owner, value.Owner);
                 states.Add($"success:{Snapshot(value)}");
             }
@@ -354,7 +354,7 @@ public sealed class UIConstructionTests
             }
 
             states.Add($"subscriptions:{EngineFixture.Engine.OnHsmLoadedStore.Count}:{EngineFixture.Engine.OnHsmCloseStore.Count}");
-            ConstructionSnapshot.Check(actual: string.Join("\n", states), key: $"{name}.owner{owned}", name: "UiConstruction");
+            ConstructionSnapshot.Check(actual: string.Join("\n", values: states), key: $"{name}.owner{owned}", name: "UiConstruction");
         }
     }
 }

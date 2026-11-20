@@ -135,7 +135,7 @@ public class AIMoveExecutor : EngineObject
         sbyte locationMapLevel = coordinate103.MapLevel;
         MapCoordinate location = new(locationX, locationY, locationMapLevel);
         AIMoveExecutorUnit unitEntry = new(null) { Holder = CreationHolder() };
-        unitEntry.Initialize(troop, location.X, location.Y, location.MapLevel);
+        unitEntry.Initialize(troop, location.X, location.Y, L: location.MapLevel);
         unitEntry.Owner = Units;
         return unitEntry;
     }
@@ -159,7 +159,7 @@ public class AIMoveExecutor : EngineObject
                 _ = AddUnit(army.Army.Units.GetUnit(i));
             }
 
-            selection = (byte)(int)(((uint)selection) >> 1);
+            selection = (byte)(selection >>> 1);
         }
     }
 
@@ -183,7 +183,7 @@ public class AIMoveExecutor : EngineObject
         sbyte locationMapLevel = coordinate104.MapLevel;
         MapCoordinate location = new(locationX, locationY, locationMapLevel);
         Transporter = new AIMoveExecutorUnit(null) { Holder = CreationHolder() };
-        Transporter.Initialize(troop, location.X, location.Y, location.MapLevel);
+        Transporter.Initialize(troop, location.X, location.Y, L: location.MapLevel);
     }
 
     // AIGroup.pas:6077
@@ -350,7 +350,7 @@ public class AIMoveExecutor : EngineObject
                     {
                         ArmyDefaultMoveTokenEvent move = new(null) { Holder = CreationHolder() };
                         AIMoveExecutorMove moves = Moves.GetMoves(i);
-                        if (!move.Setup(army, selection, moves.Path, Set<ArmyMoveModeElement>.Of()))
+                        if (!move.Setup(army, selection, moves.Path, mode: Set<ArmyMoveModeElement>.Of()))
                         {
                             throw new InvalidOperationException("FAILURE: TAIMoveExecuter.ExecuteMoves");
                         }
@@ -403,7 +403,7 @@ public class AIMoveExecutor : EngineObject
                     DeactivateMoveExecutorControl();
                 }
 
-                timeLeft = StrategicMap.Current.AIExecutor.GetProcessTimeLeft();
+                timeLeft = StrategicMap.Current.AIExecutor.ProcessTimeLeft;
             }
 
             if (Control is null && ControlQueue.Count != 0 && Status == AIMoveExecutorStatus.Busy)
@@ -551,7 +551,7 @@ public class AIMoveExecutor : EngineObject
             AIMoveExecutorArmyList aiMoveExecutorArmyList = CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Idle));
             for (int i = 0, last = aiMoveExecutorArmyList.Count - 1; i <= last; i++)
             {
-                aiMoveExecutorArmyList.GetArmies(i).SetStatus(255, AIMoveExecutorUnitStatus.Ready);
+                aiMoveExecutorArmyList.GetArmies(i).SetStatus(255, status: AIMoveExecutorUnitStatus.Ready);
             }
 
             if (aiMoveExecutorArmyList.Count != 0)

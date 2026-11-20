@@ -6,10 +6,10 @@ public static class DelphiRounding
 
     public static int Round(double value)
     {
-        int result = ToInteger(Math.Round(value, MidpointRounding.ToEven));
+        int result = ToInteger(Math.Round(value, mode: MidpointRounding.ToEven));
         if (TraceRound is { } record && double.IsFinite(value) && value is >= int.MinValue and <= int.MaxValue)
         {
-            double roundedSingle = Math.Round((double)(float)value, MidpointRounding.ToEven);
+            double roundedSingle = Math.Round((double)(float)value, mode: MidpointRounding.ToEven);
             if (roundedSingle is >= int.MinValue and <= int.MaxValue && result != (int)roundedSingle)
             {
                 record(value, result, (int)roundedSingle);

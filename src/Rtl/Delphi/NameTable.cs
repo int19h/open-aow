@@ -47,7 +47,7 @@ public static class NameTable
     {
         ArgumentNullException.ThrowIfNull(enumType);
         ArgumentNullException.ThrowIfNull(member);
-        return TryMember(enumType, member, out string? current) ? current : member;
+        return TryMember(enumType, text: member, member: out string? current) ? current : member;
     }
 
     // The Delphi name of the type a stored name names: the first row of its current name, the name
@@ -209,7 +209,7 @@ public static class NameTable
         }
 
         parts.Reverse();
-        string nested = string.Join('.', parts);
+        string nested = string.Join('.', values: parts);
         return type.Namespace is { Length: > 0 } ns ? $"{ns}.{nested}" : nested;
     }
 
@@ -245,7 +245,7 @@ public static class NameTable
 
         using Stream stream = typeof(NameTable).Assembly.GetManifestResourceStream("Aow.Rtl.names.csv")
             ?? throw new InvalidOperationException("The name table is missing.");
-        using StreamReader reader = new(stream, Encoding.UTF8);
+        using StreamReader reader = new(stream, encoding: Encoding.UTF8);
         s_product = Table.Parse(reader.ReadToEnd());
         return s_product;
     }
@@ -306,7 +306,7 @@ public static class NameTable
         }
 
         parts.Reverse();
-        return string.Join('.', parts);
+        return string.Join('.', values: parts);
     }
 
     private static string Simple(string qualified)
@@ -373,7 +373,7 @@ public static class NameTable
                     throw new InvalidOperationException("A member row has no stored name.");
                 }
 
-                rows.Add(new NameRow(parts[0], parts[1], parts[2], storedName));
+                rows.Add(new NameRow(parts[0], Delphi: parts[1], Current: parts[2], Stored: storedName));
             }
             return !header ? throw new InvalidOperationException("The name table header is missing.") : Index(rows);
         }
@@ -414,7 +414,7 @@ public static class NameTable
                 }
                 if (begin && c == '#')
                 {
-                    int end = normalized.IndexOf('\n', i);
+                    int end = normalized.IndexOf('\n', startIndex: i);
                     i = end < 0 ? normalized.Length - 1 : end;
                     continue;
                 }
@@ -480,7 +480,7 @@ public static class NameTable
                     // The three engine classes share one current name and keep their Delphi names.
                     if (row.Kind == "type" && typeByCurrent.ContainsKey(row.Current))
                     {
-                        Add(typeByDelphi, row.Delphi, row);
+                        Add(typeByDelphi, key: row.Delphi, row);
                         continue;
                     }
                     throw new InvalidOperationException($"The name table repeats {row.Current}.");
@@ -488,7 +488,7 @@ public static class NameTable
                 if (row.Kind == "type")
                 {
                     typeByCurrent.Add(row.Current, row);
-                    Add(typeByDelphi, row.Delphi, row);
+                    Add(typeByDelphi, key: row.Delphi, row);
                     continue;
                 }
                 if (row.Kind != "member")
@@ -525,7 +525,7 @@ public static class NameTable
                     continue;
                 }
 
-                Add(typeByStored, storedByCurrent[row.Current], row);
+                Add(typeByStored, key: storedByCurrent[row.Current], row);
             }
             return new Table
             {
@@ -633,7 +633,7 @@ public static class NameTable
                         continue;
                     }
 
-                    stored[member] = Qualify(member, group.Key, stored, names);
+                    stored[member] = Qualify(member, baseStored: group.Key, stored, names);
                     _ = pinned.Add(member);
                 }
             }
@@ -682,7 +682,7 @@ public static class NameTable
 
         private static string? Owner(string name, HashSet<string> names)
         {
-            for (int dot = name.LastIndexOf('.'); dot > 0; dot = name.LastIndexOf('.', dot - 1))
+            for (int dot = name.LastIndexOf('.'); dot > 0; dot = name.LastIndexOf('.', startIndex: dot - 1))
             {
                 if (names.Contains(name[..dot]))
                 {
@@ -716,7 +716,7 @@ public static class NameTable
             int start = parts.Length - 1;
             for (int i = 1; i <= parts.Length; i++)
             {
-                if (!names.Contains(string.Join('.', parts[..i])))
+                if (!names.Contains(string.Join('.', value: parts[..i])))
                 {
                     continue;
                 }
@@ -724,7 +724,7 @@ public static class NameTable
                 start = i - 1;
                 break;
             }
-            return start <= 0 ? "" : string.Join('.', parts[..start]);
+            return start <= 0 ? "" : string.Join('.', value: parts[..start]);
         }
 
         private static void Add(Dictionary<string, List<NameRow>> index, string key, NameRow row)

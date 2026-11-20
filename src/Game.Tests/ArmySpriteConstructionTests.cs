@@ -48,7 +48,7 @@ public sealed class ArmySpriteConstructionTests
                 int destroyEntries = 0;
                 try
                 {
-                    value = Assert.IsType<ArmyHexSprite>(OrderingRecording.Create(typeof(ArmyHexSprite), EngineFixture.OwnerFor(typeof(ArmyHexSprite), owner!), route, fixture.Engine));
+                    value = Assert.IsType<ArmyHexSprite>(OrderingRecording.Create(typeof(ArmyHexSprite), owner: EngineFixture.OwnerFor(typeof(ArmyHexSprite), recorder: owner!), route, fixture.Engine));
                     state = OrderingRecording.Snapshot(value);
                 }
                 catch (Exception error) when (error is not XunitException)
@@ -87,7 +87,7 @@ public sealed class ArmySpriteConstructionTests
             FormatSchema schema = FormatSchema.Current;
             SchemaClass classValue = schema.Get(factory.ClassName(source));
             byte[] image = OriginalBackend.Write(TreeWriter.Write(source, factory: factory), classValue: classValue, schema: schema, engine: "game");
-            loaded = fixture.Engine.CreateEngineObject(ArmyHexSprite.ClassId, null!);
+            loaded = fixture.Engine.CreateEngineObject(ArmyHexSprite.ClassId, owner: null!);
             TreeReader.Read(OriginalBackend.Read(image, classValue: classValue, schema: schema, engine: "game"), objectValue: loaded, factory: factory);
             _ = Assert.IsType<ArmyHexSprite>(loaded);
             Assert.Equal(WithoutSetBounds(OrderingRecording.Snapshot(source)), WithoutSetBounds(OrderingRecording.Snapshot(loaded)));

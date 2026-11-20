@@ -45,12 +45,12 @@ public partial class WindowManager : UIComponent
     {
         if (_backgroundTexture is not null)
         {
-            _backgroundTexture = _backgroundTexture.CheckImageLibrary(_imageLibraryIndexTBack, 1, this);
+            _backgroundTexture = _backgroundTexture.CheckImageLibrary(_imageLibraryIndexTBack, count: 1, sender: this);
         }
 
         if (_foregroundTexture is not null)
         {
-            _foregroundTexture = _foregroundTexture.CheckImageLibrary(_imageLibraryIndexTFore, 1, this);
+            _foregroundTexture = _foregroundTexture.CheckImageLibrary(_imageLibraryIndexTFore, count: 1, sender: this);
         }
 
         if (_backgroundTexture is not null)
@@ -87,7 +87,7 @@ public partial class WindowManager : UIComponent
         }
         catch
         {
-            _ = MessageBox(0, "Exception during Update", $"Error - {Name}", 0);
+            _ = MessageBox(0, text: "Exception during Update", caption: $"Error - {Name}", flags: 0);
         }
     }
 
@@ -110,11 +110,11 @@ public partial class WindowManager : UIComponent
                         if (c.DoubleBuffered)
                         {
                             Rect r = new(rectangle.Left - c.WinLeft, rectangle.Top - c.WinTop, rectangle.Right - c.WinLeft, rectangle.Bottom - c.WinTop);
-                            c.AddBlitRectangle(ref r, c);
+                            c.AddBlitRectangle(ref r, sender: c);
                         }
                         else
                         {
-                            c.AddDrawRectangle(ref rectangle, c);
+                            c.AddDrawRectangle(ref rectangle, sender: c);
                         }
                     }
                 }
@@ -164,7 +164,7 @@ public partial class WindowManager : UIComponent
                             {
                                 c.Hidden = false;
                                 r = new Rect(c.WinLeft, c.WinTop, c.WinLeft + c.WinWidth, c.WinTop + c.WinHeight);
-                                AddDrawRectangle(ref r, c);
+                                AddDrawRectangle(ref r, sender: c);
                             }
                             else
                             {
@@ -179,16 +179,16 @@ public partial class WindowManager : UIComponent
                                         if (c.Masked)
                                         {
                                             r = new Rect(c.BackRectangle.Left, c.BackRectangle.Top, c.WinLeft + c.FrameLeft, c.BackRectangle.Top + c.BackRectangle.Height);
-                                            AddDrawRectangle(ref r, c);
+                                            AddDrawRectangle(ref r, sender: c);
                                             r = new Rect(c.BackRectangle.Left, c.BackRectangle.Top, c.BackRectangle.Left + c.BackRectangle.Width, c.BackRectangle.Top + c.FrameBottom);
-                                            AddDrawRectangle(ref r, c);
+                                            AddDrawRectangle(ref r, sender: c);
                                             r = new Rect(c.BackRectangle.Left, c.BackRectangle.Top + c.FrameBottom, c.BackRectangle.Left + c.BackRectangle.Width, c.BackRectangle.Top + c.BackRectangle.Height);
-                                            AddDrawRectangle(ref r, c);
+                                            AddDrawRectangle(ref r, sender: c);
                                         }
                                         else
                                         {
                                             r = new Rect(c.BackRectangle.Left, c.BackRectangle.Top, c.WinLeft, c.BackRectangle.Top + c.BackRectangle.Height);
-                                            AddDrawRectangle(ref r, c);
+                                            AddDrawRectangle(ref r, sender: c);
                                         }
                                     }
 
@@ -197,16 +197,16 @@ public partial class WindowManager : UIComponent
                                         if (c.Masked)
                                         {
                                             r = new Rect(c.BackRectangle.Left, c.BackRectangle.Top, c.BackRectangle.Left + c.BackRectangle.Width, c.WinTop + c.FrameTop);
-                                            AddDrawRectangle(ref r, c);
+                                            AddDrawRectangle(ref r, sender: c);
                                             r = new Rect(c.BackRectangle.Left, c.BackRectangle.Top, c.BackRectangle.Left + c.FrameLeft, c.BackRectangle.Top + c.BackRectangle.Height);
-                                            AddDrawRectangle(ref r, c);
+                                            AddDrawRectangle(ref r, sender: c);
                                             r = new Rect(c.BackRectangle.Left + c.FrameRight, c.BackRectangle.Top, c.BackRectangle.Left + c.BackRectangle.Width, c.BackRectangle.Top + c.BackRectangle.Height);
-                                            AddDrawRectangle(ref r, c);
+                                            AddDrawRectangle(ref r, sender: c);
                                         }
                                         else
                                         {
                                             r = new Rect(c.BackRectangle.Left, c.BackRectangle.Top, c.BackRectangle.Left + c.BackRectangle.Width, c.WinTop);
-                                            AddDrawRectangle(ref r, c);
+                                            AddDrawRectangle(ref r, sender: c);
                                         }
                                     }
 
@@ -215,16 +215,16 @@ public partial class WindowManager : UIComponent
                                         if (c.Masked)
                                         {
                                             r = new Rect(c.WinLeft + c.FrameRight, c.BackRectangle.Top, c.BackRectangle.Left + c.BackRectangle.Width, c.BackRectangle.Top + c.BackRectangle.Height);
-                                            AddDrawRectangle(ref r, c);
+                                            AddDrawRectangle(ref r, sender: c);
                                             r = new Rect(c.BackRectangle.Left, c.BackRectangle.Top, c.BackRectangle.Left + c.BackRectangle.Width, c.BackRectangle.Top + c.FrameBottom);
-                                            AddDrawRectangle(ref r, c);
+                                            AddDrawRectangle(ref r, sender: c);
                                             r = new Rect(c.BackRectangle.Left, c.BackRectangle.Top + c.FrameBottom, c.BackRectangle.Left + c.BackRectangle.Width, c.BackRectangle.Top + c.BackRectangle.Height);
-                                            AddDrawRectangle(ref r, c);
+                                            AddDrawRectangle(ref r, sender: c);
                                         }
                                         else
                                         {
                                             r = new Rect(c.WinLeft + c.WinWidth, c.BackRectangle.Top, c.BackRectangle.Left + c.BackRectangle.Width, c.BackRectangle.Top + c.BackRectangle.Height);
-                                            AddDrawRectangle(ref r, c);
+                                            AddDrawRectangle(ref r, sender: c);
                                         }
                                     }
 
@@ -233,16 +233,16 @@ public partial class WindowManager : UIComponent
                                         if (c.Masked)
                                         {
                                             r = new Rect(c.BackRectangle.Left, c.WinTop + c.FrameTop, c.BackRectangle.Left + c.BackRectangle.Width, c.BackRectangle.Top + c.BackRectangle.Height);
-                                            AddDrawRectangle(ref r, c);
+                                            AddDrawRectangle(ref r, sender: c);
                                             r = new Rect(c.BackRectangle.Left, c.BackRectangle.Top, c.BackRectangle.Left + c.FrameLeft, c.BackRectangle.Top + c.BackRectangle.Height);
-                                            AddDrawRectangle(ref r, c);
+                                            AddDrawRectangle(ref r, sender: c);
                                             r = new Rect(c.BackRectangle.Left + c.FrameRight, c.BackRectangle.Top, c.BackRectangle.Left + c.BackRectangle.Width, c.BackRectangle.Top + c.BackRectangle.Height);
-                                            AddDrawRectangle(ref r, c);
+                                            AddDrawRectangle(ref r, sender: c);
                                         }
                                         else
                                         {
                                             r = new Rect(c.BackRectangle.Left, c.WinTop + c.WinHeight, c.BackRectangle.Left + c.BackRectangle.Width, c.BackRectangle.Top + c.BackRectangle.Height);
-                                            AddDrawRectangle(ref r, c);
+                                            AddDrawRectangle(ref r, sender: c);
                                         }
                                     }
                                 }
@@ -263,7 +263,7 @@ public partial class WindowManager : UIComponent
                     if (DrawOverlay && _overlayPriority > 0)
                     {
                         SizedRectangle rectangle = new(WinLeft, WinTop, WinWidth, WinHeight);
-                        _foregroundTexture.DrawTiled(_imageLibraryIndexTFore, rectangle, ref lockedSurface);
+                        _foregroundTexture.DrawTiled(_imageLibraryIndexTFore, area: rectangle, ref lockedSurface);
                     }
 
                     _ = surface.Unlock();
@@ -316,11 +316,11 @@ public partial class WindowManager : UIComponent
                         if (DrawOverlay && _overlayPriority > 0)
                         {
                             SizedRectangle rectangle2 = new(WinLeft, WinTop, WinWidth, WinHeight);
-                            _foregroundTexture.DrawTiled(_imageLibraryIndexTFore, rectangle2, ref lockedSurface);
+                            _foregroundTexture.DrawTiled(_imageLibraryIndexTFore, area: rectangle2, ref lockedSurface);
                         }
 
                         Rect rectangle9 = d.Rectangle;
-                        InvalidateRectangle(0, ref rectangle9, null);
+                        InvalidateRectangle(0, rectangle: ref rectangle9, sender: null);
                         d.Rectangle = rectangle9;
                     }
 
@@ -346,7 +346,7 @@ public partial class WindowManager : UIComponent
                     if (!wasValid || !c.SurfaceValid)
                     {
                         r = new Rect(c.WinLeft, c.WinTop, c.WinLeft + c.WinWidth, c.WinTop + c.WinHeight);
-                        AddBlitRectangle(ref r, c);
+                        AddBlitRectangle(ref r, sender: c);
                     }
 
                     c.Drawn = true;
@@ -355,7 +355,7 @@ public partial class WindowManager : UIComponent
                     {
                         d = BlitList[j];
                         Rect rectangle10 = d.Rectangle;
-                        InvalidateRectangle(i + 1, ref rectangle10, null);
+                        InvalidateRectangle(i + 1, rectangle: ref rectangle10, sender: null);
                         d.Rectangle = rectangle10;
                     }
 
@@ -403,7 +403,7 @@ public partial class WindowManager : UIComponent
                                 Rect rectangle = new(d.Rectangle.Left, d.Rectangle.Top, d.Rectangle.Right, d.Rectangle.Bottom);
                                 lockedSurface.ClipRectangle = rectangle;
                                 SizedRectangle rectangle2 = new(WinLeft, WinTop, WinWidth, WinHeight);
-                                _foregroundTexture.DrawTiled(_imageLibraryIndexTFore, rectangle2, ref lockedSurface);
+                                _foregroundTexture.DrawTiled(_imageLibraryIndexTFore, area: rectangle2, ref lockedSurface);
                             }
 
                             _ = surface.Unlock();
@@ -420,7 +420,7 @@ public partial class WindowManager : UIComponent
         }
         catch
         {
-            _ = MessageBox(0, "Exception during DrawSurface", $"Error - {Name}", 0);
+            _ = MessageBox(0, text: "Exception during DrawSurface", caption: $"Error - {Name}", flags: 0);
         }
     }
 
@@ -442,7 +442,7 @@ public partial class WindowManager : UIComponent
 
         _overlayPriority = _newOverlayPriority;
         SizedRectangle rectangle = new(WinLeft, WinTop, WinWidth, WinHeight);
-        _backgroundTexture.DrawTiled(_imageLibraryIndexTBack, rectangle, ref lockedSurface);
+        _backgroundTexture.DrawTiled(_imageLibraryIndexTBack, area: rectangle, ref lockedSurface);
     }
 
     // AOWWinManager.pas:449

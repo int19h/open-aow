@@ -28,8 +28,8 @@ public class RaiseTerrainTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEv
     {
         _ = base.Process(source, value);
         RaiseTerrain(source);
-        _ = StrategicMap.Current.ValidateTerrainObservation(source.Player, Location.X, Location.Y, Location.MapLevel, 1);
-        GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, EventMana);
+        _ = StrategicMap.Current.ValidateTerrainObservation(source.Player, Location.X, Location.Y, L: Location.MapLevel, radius: 1);
+        GamePack.Current.SpellControl[EventSpellId].CastingDone(source, mana: EventMana);
         return false;
     }
 
@@ -38,7 +38,7 @@ public class RaiseTerrainTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEv
     {
         MapObjectResourceList resources = GamePack.Current.MapObjectResourceList;
         MapLevel level = StrategicMap.Current.MapContainer.MapLevels[Location.MapLevel];
-        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, Location.X, Location.Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, Location.X, Location.Y, radius: 0);
         while (walk.Radius <= 1)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -63,16 +63,16 @@ public class RaiseTerrainTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEv
                         mountain.Duration = (sbyte)(((StrategicMap.Current.Random(11) - 5) / 5) + 3);
                         mountain.Player = caster.Player;
                         mountain.OriginalOverlay = field.OverlayType;
-                        StrategicMap.Current.ClearTerrain(walk.X, walk.Y, Location.MapLevel, 0, -1);
-                        if (StrategicMap.Current.PlaceHex(mountain, walk.X, walk.Y, Location.MapLevel))
+                        StrategicMap.Current.ClearTerrain(walk.X, walk.Y, L: Location.MapLevel, radius: 0, terrainType: -1);
+                        if (StrategicMap.Current.PlaceHex(mountain, walk.X, walk.Y, L: Location.MapLevel))
                         {
                             mountain.Mode += Set<RaisedMountainMode>.Of(RaisedMountainMode.Raising);
                             ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
-                            animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(19).CastImages.ImageSequences[0]);
+                            animation.SetImageSequence(GamePack.Current.SpellControl[19].CastImages.ImageSequences[0]);
                             animation.OnShow += mountain.ShowRaiseTerrainAnimation;
                             animation.OnNewFrame += mountain.NewFrameRaiseTerrainAnimation;
                             animation.FrameCounter = -StrategicMap.Current.Random(15);
-                            _ = StrategicMap.Current.PlaceHex(animation, walk.X, walk.Y, Location.MapLevel);
+                            _ = StrategicMap.Current.PlaceHex(animation, walk.X, walk.Y, L: Location.MapLevel);
                         }
                     }
                 }

@@ -20,10 +20,10 @@ public class LevelTerrainTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEv
     public override bool Process(Troop source, int value)
     {
         _ = base.Process(source, value);
-        PlayDefaultEffects(Location.X, Location.Y, Location.MapLevel);
+        PlayDefaultEffects(Location.X, Location.Y, layer: Location.MapLevel);
         LevelTerrain();
-        Spell spell = GamePack.Current.SpellControl.GetSpell(EventSpellId);
-        GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, spell.BaseManaCost);
+        Spell spell = GamePack.Current.SpellControl[EventSpellId];
+        GamePack.Current.SpellControl[EventSpellId].CastingDone(source, mana: spell.BaseManaCost);
         return false;
     }
 
@@ -31,18 +31,18 @@ public class LevelTerrainTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEv
     public void LevelTerrain()
     {
         MapLevel level = StrategicMap.Current.MapContainer.MapLevels[Location.MapLevel];
-        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, Location.X, Location.Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, Location.X, Location.Y, radius: 0);
         while (walk.Radius <= 1)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
                 MapField mapField = level.Field[walk.X, walk.Y];
-                if (((GlobalTargetSpell)(object)GamePack.Current.SpellControl.GetSpell(18)).ValidTargetMapField(mapField) && mapField.GetArmyHexSprite() is null)
+                if (((GlobalTargetSpell)(object)GamePack.Current.SpellControl[18]).ValidTargetMapField(mapField) && mapField.GetArmyHexSprite() is null)
                 {
-                    StrategicMap.Current.ClearTerrain(walk.X, walk.Y, Location.MapLevel, 0, -1);
+                    StrategicMap.Current.ClearTerrain(walk.X, walk.Y, L: Location.MapLevel, radius: 0, terrainType: -1);
                     if (mapField.TerrainType == (int)TerrainType.Earth)
                     {
-                        _ = StrategicMap.Current.ChangeTerrain(null, walk.X, walk.Y, Location.MapLevel, 0, (int)TerrainType.Dirt);
+                        _ = StrategicMap.Current.ChangeTerrain(null, walk.X, walk.Y, L: Location.MapLevel, radius: 0, terrainType: (int)TerrainType.Dirt);
                     }
                 }
             }

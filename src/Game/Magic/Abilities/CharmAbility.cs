@@ -14,7 +14,7 @@ public class CharmAbility : CommandAbility
     {
         Holder = holder;
         AbilityId = 148;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_charmText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_charmText);
         CommandedAbilityId = 149;
     }
 

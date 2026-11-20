@@ -13,7 +13,7 @@ public partial class WallCrushingAbility
         CombatObject target = command.Target;
         if (target.GetEnabled())
         {
-            DamageCombatAction action = CreateDamageCombatAction(source, target, 6, 6, Set<DamageType>.Of(DamageType.Wall));
+            DamageCombatAction action = CreateDamageCombatAction(source, target, attack: 6, damage: 6, damageTypes: Set<DamageType>.Of(DamageType.Wall));
             source.Combat.ExecuteCombatAction(action);
             _ = action.Release();
         }

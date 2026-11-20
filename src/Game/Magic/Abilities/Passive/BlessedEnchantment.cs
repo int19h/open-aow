@@ -10,7 +10,7 @@ public class BlessedEnchantment : UnitEnchantmentAbility
     public BlessedEnchantment(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_blessedText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_blessedText);
         AbilityId = 158;
     }
 
@@ -26,7 +26,7 @@ public class BlessedEnchantment : UnitEnchantmentAbility
         // { Original assumes the ability data and enchantment exist. }
         UnitEnchantmentAbilityData unitEnchantmentAbilityData = owner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
         return unitEnchantmentAbilityData.Enchantment.Source == -2
-            ? AbilityRules.TranslateResourceString(GetEngine(), GameText.LifeMasteryText)
+            ? AbilityRules.TranslateResourceString(GetEngine(), S: GameText.LifeMasteryText)
             : base.GetSourceName(owner);
     }
 
@@ -38,7 +38,7 @@ public class BlessedEnchantment : UnitEnchantmentAbility
             return 0;
         }
 
-        int result = troop.GetUnitLevel() + 200;
+        int result = troop.UnitLevel + 200;
         if (troop is Leader)
         {
             result += 50;

@@ -57,7 +57,7 @@ public class DisbandUnitTokenEvent(CustomNode owner) : TokenEvent(owner)
                     y = coordinate6.Y;
                     l = coordinate6.MapLevel;
                     troop.SetOwner(null);
-                    armyHexSprite = troop.Place(x, y, l, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
+                    armyHexSprite = troop.Place(x, y, l, player: 0, mode: Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
                 }
                 else
                 {

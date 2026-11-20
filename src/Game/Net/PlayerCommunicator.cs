@@ -88,7 +88,7 @@ public class PlayerCommunicator(CustomNode owner) : EngineObject(owner)
         {
             try
             {
-                EngineObject objectValue = Engine.RetrieveEngineObject(ReceiveStream, null);
+                EngineObject objectValue = Engine.RetrieveEngineObject(ReceiveStream, progress: null);
                 if (objectValue is DataPackage received)
                 {
                     ReceivedPackage = received;
@@ -119,9 +119,9 @@ public class PlayerCommunicator(CustomNode owner) : EngineObject(owner)
         package.Sender = sender;
         package.Receiver = receiver;
         SendStream.Clear();
-        Engine.StoreEngineObject(SendStream, package, null);
+        Engine.StoreEngineObject(SendStream, objectValue: package, progress: null);
         SendStream.Position = 0;
-        return PlayerCommunicationControl.SendPackageData(receiver, SendStream);
+        return PlayerCommunicationControl.SendPackageData(receiver, stream: SendStream);
     }
 
     public GameEngine Engine { get; init; }

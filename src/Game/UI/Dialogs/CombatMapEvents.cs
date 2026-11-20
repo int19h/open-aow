@@ -135,7 +135,7 @@ public partial class CombatMapEvents(UIContext ui) : UIModule(ui)
                     sbyte hits = u.GetHits();
                     UI.CombatUnitInfo.TargetHitsLabel.Text = $"{IntToStr(hitPoints)}/{IntToStr(hits)}";
                     sbyte movePoints = u.GetMovePoints();
-                    sbyte moves = u.GetMoves();
+                    sbyte moves = u.Moves;
                     UI.CombatUnitInfo.TargetMovesLabel.Text = $"{IntToStr(movePoints)}/{IntToStr(moves)}";
                     sbyte attack = u.GetAttack();
                     UI.CombatUnitInfo.TargetAttackLabel.Text = IntToStr(attack);
@@ -283,7 +283,7 @@ public partial class CombatMapEvents(UIContext ui) : UIModule(ui)
                     sbyte hitPoints = fTroop.GetHitPoints();
                     sbyte hits = fTroop.GetHits();
                     window.UnitHitsLabel.Text = $"{IntToStr(hitPoints)}/{IntToStr(hits)}";
-                    sbyte moves = fTroop.GetMoves();
+                    sbyte moves = fTroop.Moves;
                     window.UnitMovesLabel.Text = $"{IntToStr(window.UI.General.CombatUnit.Unit.MovePoints)}/{IntToStr(moves)}";
                     sbyte attack = fTroop.GetAttack();
                     window.UnitAttackLabel.Text = IntToStr(attack);
@@ -296,7 +296,7 @@ public partial class CombatMapEvents(UIContext ui) : UIModule(ui)
                     Set<MoveType> moveTypes = fTroop.GetMoveTypes();
                     int current = window.UI.General.MoveTypesToInt32(moveTypes);
                     window.UnitMovesIcon.SetCurrent(current);
-                    window.UI.General.CombatUnit.ListAbilities((DelphiStringCollection)(object)window.UnitAbilityList.Items, null, null);
+                    window.UI.General.CombatUnit.ListAbilities((DelphiStringCollection)(object)window.UnitAbilityList.Items, types: null, sources: null);
                     window.UnitAbilityList.Selected = -1;
                     window.UnitAbilityList.HoverItem = -1;
                     window.UnitAbilityList.ListOffset = 0;
@@ -307,8 +307,8 @@ public partial class CombatMapEvents(UIContext ui) : UIModule(ui)
                     window.CombatAbilityPanel.Visible = true;
                     window.TargetSelectPanel.Visible = false;
                     SpellCombatInfo info = default;
-                    GamePack.Current.SpellControl.GetSpell(window.UI.General.CombatUnit.SelectedSpell).GetCombatInfo(window.UI.General.CombatUnit.Unit.Troop, ref info);
-                    Spell spell = GamePack.Current.SpellControl.GetSpell(window.UI.General.CombatUnit.SelectedSpell);
+                    GamePack.Current.SpellControl[window.UI.General.CombatUnit.SelectedSpell].GetCombatInfo(window.UI.General.CombatUnit.Unit.Troop, ref info);
+                    Spell spell = GamePack.Current.SpellControl[window.UI.General.CombatUnit.SelectedSpell];
                     window.AbilityNameLabel.Text = spell.SpellName;
                     window.AbilityAttackLabel.Text = info.Attack > 0 ? IntToStr(info.Attack) : "-";
                     window.AbilityDamageLabel.Text = info.Damage > 0 ? IntToStr(info.Damage) : "-";
@@ -374,8 +374,8 @@ public partial class CombatMapEvents(UIContext ui) : UIModule(ui)
                     window.CombatAbilityPanel.Visible = true;
                     window.TargetSelectPanel.Visible = false;
                     AbilityCombatInfo abilityCombatInfo = default;
-                    GamePack.Current.AbilityControl.GetAbility(window.UI.General.CombatUnit.SelectedAbility).GetCombatInfo(window.UI.General.CombatUnit.Unit.Troop, ref abilityCombatInfo);
-                    string name = GamePack.Current.AbilityControl.GetAbility(window.UI.General.CombatUnit.SelectedAbility).GetName(window.UI.General.CombatUnit.Unit.Troop);
+                    GamePack.Current.AbilityControl[window.UI.General.CombatUnit.SelectedAbility].GetCombatInfo(window.UI.General.CombatUnit.Unit.Troop, info: ref abilityCombatInfo);
+                    string name = GamePack.Current.AbilityControl[window.UI.General.CombatUnit.SelectedAbility].GetName(window.UI.General.CombatUnit.Unit.Troop);
                     window.AbilityNameLabel.Text = name;
                     window.AbilityAttackLabel.Text = abilityCombatInfo.Attack > 0 ? IntToStr(abilityCombatInfo.Attack) : "-";
                     window.AbilityDamageLabel.Text = abilityCombatInfo.Damage > 0 ? IntToStr(abilityCombatInfo.Damage) : "-";

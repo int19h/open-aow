@@ -12,9 +12,9 @@ public sealed record SendMessage : DiplomaticProposal
 
     public override ProposalView View => ProposalView.Message;
 
-    public override string Name(DiplomaticAction action) => AbilityRules.TranslateResourceString(action.GetEngine(), SendMessageText);
+    public override string Name(DiplomaticAction action) => AbilityRules.TranslateResourceString(action.GetEngine(), S: SendMessageText);
 
-    public override string LogText(DiplomaticAction action) => AbilityRules.TranslateResourceString(action.GetEngine(), GameText.DiplomaticMessageText);
+    public override string LogText(DiplomaticAction action) => AbilityRules.TranslateResourceString(action.GetEngine(), S: GameText.DiplomaticMessageText);
 
     public override void Sent(DiplomaticAction action) => Deliver(action);
 

@@ -42,7 +42,7 @@ public sealed class EnginePersistableFactory(GameEngine engine, ProgressEvent? p
         // holds at that id (TEngine.GetEClass). A class that keeps its parent's id, such as a
         // tactical battle unit, comes back as the class the table holds there.
         return !Engine.ClassTable.TryGetValue(engineClass.ClassId, out EngineClass? registered) || registered is null
-            ? throw new KeyNotFoundException(string.Create(CultureInfo.InvariantCulture, $"Unregistered E-ClassID found ({engineClass.ClassId})"))
+            ? throw new KeyNotFoundException(string.Create(CultureInfo.InvariantCulture, handler: $"Unregistered E-ClassID found ({engineClass.ClassId})"))
             : (IPersistable)registered.CreateInstance(null!, holder: Engine);
     }
 

@@ -35,7 +35,7 @@ public class CommandCombatAction(CustomNode owner) : SingleTargetCombatAction(ow
         {
             CombatUnit source = combat.CombatData.FindId<CombatUnit>(SourceId);
             CombatUnit target = combat.CombatData.FindId<CombatUnit>(TargetId);
-            source.SetExperience(source.GetExperience() + target.GetLevel());
+            source.SetExperience(source.Experience + target.Level);
             for (int i = 0; i <= 2; i++)
             {
                 GamePack.Current.AbilityControl.GetAbility<CommandAbility>(AbilityRules.CommandAbilityIds[i]).ResetCommandedUnits(target);
@@ -46,7 +46,7 @@ public class CommandCombatAction(CustomNode owner) : SingleTargetCombatAction(ow
                 GamePack.Current.AbilityControl.GetAbility<CommandAbility>(AbilityRules.CommandAbilityIds[i]).Uncommand(target);
             }
 
-            if (source.GetSide() != target.GetSide())
+            if (source.Side != target.Side)
             {
                 GamePack.Current.AbilityControl.GetAbility<CommandAbility>(AbilityId).Command(source, target);
             }
@@ -58,7 +58,7 @@ public class CommandCombatAction(CustomNode owner) : SingleTargetCombatAction(ow
     {
         if (viewer.Time == 0)
         {
-            _ = GamePack.Current.AbilityControl.GetAbility(AbilityId).SfxLibrary.Play(0);
+            _ = GamePack.Current.AbilityControl[AbilityId].SfxLibrary.Play(0);
         }
 
         if (viewer.Delay == viewer.Time)
@@ -75,7 +75,7 @@ public class CommandCombatAction(CustomNode owner) : SingleTargetCombatAction(ow
         base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
         if (objectValue.Id == SourceId)
         {
-            _ = GamePack.Current.AbilityControl.GetAbility(AbilityId).ImageSequences.Show(0, X + 32, Y + 32, viewer.Time, surface);
+            _ = GamePack.Current.AbilityControl[AbilityId].ImageSequences.Show(0, X + 32, Y + 32, frame: viewer.Time, lockedSurface: surface);
         }
     }
 

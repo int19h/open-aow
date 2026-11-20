@@ -67,7 +67,7 @@ public class TroopResource(CustomNode owner) : EngineResource(owner)
     {
         MapContainer map = message.Param[0].As<MapContainer>();
         int hexLevel = message.Data[1];
-        HexGeometry.PixelToHex(message.Payload.Int, message.Data[0], out int hexX, out int hexY);
+        HexGeometry.PixelToHex(message.Payload.Int, vertical: message.Data[0], out int hexX, out int hexY);
         message.Result = hexX >= 0 && hexY >= 0 && hexX < map.Width && hexY < map.Height && DropUnit(hexX, hexY, hexLevel) ? 0 : -1;
     }
 

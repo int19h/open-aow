@@ -14,7 +14,7 @@ public static class DelphiStrings
         value = RequireString(value);
         return index < 1 || index > value.Length
             ? throw new IndexOutOfRangeException("String index out of bounds")
-            : string.Create(value.Length, (value, index, character), (chars, state) =>
+            : string.Create(value.Length, state: (value, index, character), (chars, state) =>
         {
             state.value.AsSpan().CopyTo(chars);
             chars[state.index - 1] = state.character;
@@ -25,11 +25,11 @@ public static class DelphiStrings
     {
         if (length < 0)
         {
-            throw new ArgumentOutOfRangeException(paramName: null, "Negative string length");
+            throw new ArgumentOutOfRangeException(paramName: null, message: "Negative string length");
         }
 
         value = RequireString(value);
-        return length <= value.Length ? value[..length] : value.PadRight(length, '\0');
+        return length <= value.Length ? value[..length] : value.PadRight(length, paddingChar: '\0');
     }
 
     public static string Copy(string? value, int index, int count)
@@ -37,14 +37,14 @@ public static class DelphiStrings
         value = RequireString(value);
         index = Math.Max(1, index);
         return index > value.Length || count <= 0 ? ""
-            : value.Substring(index - 1, Math.Min(count, value.Length - index + 1));
+            : value.Substring(index - 1, length: Math.Min(count, value.Length - index + 1));
     }
 
     public static string Delete(string? value, int index, int count)
     {
         value = RequireString(value);
         return index < 1 || index > value.Length || count <= 0 ? value
-            : value.Remove(index - 1, Math.Min(count, value.Length - index + 1));
+            : value.Remove(index - 1, count: Math.Min(count, value.Length - index + 1));
     }
 
     public static void Delete(ref string value, int index, int count) => value = Delete(value, index, count);
@@ -94,6 +94,6 @@ public static class DelphiStrings
     public static string Trim(string? value) => TrimLeft(TrimRight(value));
     public static string QuotedStr(string? value) => $"'{RequireString(value).Replace("'", "''")}'";
     public static string StringOfChar(byte character, int count) => StringOfChar(Cp1252.Char(character), count);
-    public static string StringOfChar(char character, int count) => new(character, Math.Max(0, count));
-    public static int AnsiPos(string? needle, string? value) => Pos(needle, value);
+    public static string StringOfChar(char character, int count) => new(character, count: Math.Max(0, count));
+    public static int AnsiPos(string? needle, string? value) => Pos(needle, haystack: value);
 }

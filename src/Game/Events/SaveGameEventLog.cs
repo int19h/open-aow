@@ -14,7 +14,7 @@ public partial class SaveGameEventLog : EventLog
     public SaveGameEventLog(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        Title = AbilityRules.TranslateResourceString(GetEngine(), GameText.SaveText);
+        Title = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.SaveText);
         Mode = Set<SaveGameEventLogModeElement>.Of();
     }
 

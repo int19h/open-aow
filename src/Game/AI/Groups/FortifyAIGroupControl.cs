@@ -91,7 +91,7 @@ public class FortifyAIGroupControl : AIGroupControl
 
                 if (i < Targets.Count)
                 {
-                    int surroundingEnemyStrength = GetSurroundingEnemyStrength(Targets.GetTargets(i).Location, 70);
+                    int surroundingEnemyStrength = GetSurroundingEnemyStrength(Targets.GetTargets(i).Location, radius: 70);
                     Targets.GetTargets(i).DataA = surroundingEnemyStrength;
                     AIGroupControlTarget target = Targets.GetTargets(i);
                     Targets.GetTargets(i).Status = target.Status + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Done);
@@ -120,14 +120,14 @@ public class FortifyAIGroupControl : AIGroupControl
                         if (excess > 0)
                         {
                             AIGroupControlTarget target = Targets.GetTargets(i);
-                            target.DataB -= (int)(((uint)excess) >> 4);
+                            target.DataB -= excess >>> 4;
                         }
 
                         excess = Targets.GetTargets(i).PathStrength;
                         if (excess > 0)
                         {
                             AIGroupControlTarget target = Targets.GetTargets(i);
-                            target.DataB -= (int)(((uint)excess) >> 3);
+                            target.DataB -= excess >>> 3;
                         }
 
                         if (Targets.GetTargets(i).Location != Location)
@@ -166,8 +166,8 @@ public class FortifyAIGroupControl : AIGroupControl
                 break;
             case 3:
                 _enemyStrength = _fortifyLocation == MapCoordinate.None
-                    ? GetSurroundingEnemyStrength(Location, 70)
-                    : GetSurroundingEnemyStrength(_fortifyLocation, 70);
+                    ? GetSurroundingEnemyStrength(Location, radius: 70)
+                    : GetSurroundingEnemyStrength(_fortifyLocation, radius: 70);
 
                 UpdateRequiredStrength();
                 State += 1;
@@ -280,7 +280,7 @@ public class FortifyAIGroupControl : AIGroupControl
                     if (_fortifyLocation != MapCoordinate.None)
                     {
                         SetupME();
-                        ExecuteME(_fortifyLocation.X, _fortifyLocation.Y, _fortifyLocation.MapLevel);
+                        ExecuteME(_fortifyLocation.X, _fortifyLocation.Y, L: _fortifyLocation.MapLevel);
                     }
 
                     State = 20;
@@ -289,7 +289,7 @@ public class FortifyAIGroupControl : AIGroupControl
                 break;
             case 13:
                 city = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Location).FindNoneTransparentHexSprite<City>();
-                if (city is not null && city.GetActiveAction() == CityAction.Migrate)
+                if (city is not null && city.ActiveAction == CityAction.Migrate)
                 {
                     defense = new AIGroupDefenseControl(null)
                     {
@@ -347,7 +347,7 @@ public class FortifyAIGroupControl : AIGroupControl
                     if (_fortifyLocation != MapCoordinate.None && !Set<AIGroupTargetingStatus>.Of(AIGroupTargetingStatus.SettingUpTarget, AIGroupTargetingStatus.ExecutingTarget).Contains(_targetSelector.TargetStatus))
                     {
                         SetupME();
-                        ExecuteME(_fortifyLocation.X, _fortifyLocation.Y, _fortifyLocation.MapLevel);
+                        ExecuteME(_fortifyLocation.X, _fortifyLocation.Y, L: _fortifyLocation.MapLevel);
                     }
 
                     State = 20;
@@ -358,7 +358,7 @@ public class FortifyAIGroupControl : AIGroupControl
                 if (StrengthMax >= _enemyStrength)
                 {
                     city = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Location).FindNoneTransparentHexSprite<City>();
-                    if (city is not null && city.GetActiveAction() == CityAction.Migrate)
+                    if (city is not null && city.ActiveAction == CityAction.Migrate)
                     {
                         defense = new AIGroupDefenseControl(null)
                         {
@@ -377,19 +377,19 @@ public class FortifyAIGroupControl : AIGroupControl
                 if (_fortifyLocation == MapCoordinate.None)
                 {
                     SetupME();
-                    ExecuteME(Location.X, Location.Y, Location.MapLevel);
+                    ExecuteME(Location.X, Location.Y, L: Location.MapLevel);
                 }
                 else
                 {
                     SetupME();
-                    ExecuteME(_fortifyLocation.X, _fortifyLocation.Y, _fortifyLocation.MapLevel);
+                    ExecuteME(_fortifyLocation.X, _fortifyLocation.Y, L: _fortifyLocation.MapLevel);
                 }
 
                 State = 20;
                 break;
             case 19:
                 SetupME();
-                ExecuteME(Location.X, Location.Y, Location.MapLevel);
+                ExecuteME(Location.X, Location.Y, L: Location.MapLevel);
                 State = 20;
                 break;
             case 20:
@@ -410,12 +410,12 @@ public class FortifyAIGroupControl : AIGroupControl
                     if (city.WallType == 0)
                     {
                         int fortifyCost = city.FortifyCost();
-                        if (StrategicMap.Current.Players.GetPlayers(Group.Player).AIBudget.RequestExpense(fortifyCost, 0))
+                        if (StrategicMap.Current.Players.GetPlayers(Group.Player).AIBudget.RequestExpense(fortifyCost, mana: 0))
                         {
                             if (city.Fortify(false))
                             {
                                 int aCityFortifyCost = city.FortifyCost();
-                                _ = StrategicMap.Current.Players.GetPlayers(Group.Player).AIBudget.ExpenseMade(aCityFortifyCost, 0);
+                                _ = StrategicMap.Current.Players.GetPlayers(Group.Player).AIBudget.ExpenseMade(aCityFortifyCost, mana: 0);
                             }
                         }
                     }
@@ -424,12 +424,12 @@ public class FortifyAIGroupControl : AIGroupControl
                         if (city.WallType == 1 && StrategicMap.Current.Day > 29)
                         {
                             int fortifyCost = city.FortifyCost();
-                            if (StrategicMap.Current.Players.GetPlayers(Group.Player).AIBudget.RequestExpense(fortifyCost, 0))
+                            if (StrategicMap.Current.Players.GetPlayers(Group.Player).AIBudget.RequestExpense(fortifyCost, mana: 0))
                             {
                                 if (city.Fortify(false))
                                 {
                                     int aCityFortifyCost = city.FortifyCost();
-                                    _ = StrategicMap.Current.Players.GetPlayers(Group.Player).AIBudget.ExpenseMade(aCityFortifyCost, 0);
+                                    _ = StrategicMap.Current.Players.GetPlayers(Group.Player).AIBudget.ExpenseMade(aCityFortifyCost, mana: 0);
                                 }
                             }
                         }
@@ -522,7 +522,7 @@ public class FortifyAIGroupControl : AIGroupControl
         int moveTypesToInt32 = MovementTables.MoveTypesToInt32(Set<MoveType>.Of(MoveType.Flying));
         settings.MovePointTable = MovementTables.MovePointTables[moveTypesToInt32];
         StrategicMap.Current.MoveControl.ProcessMove(settings);
-        BattleFieldInfo.SetupBattleFieldInfo(out BattleFieldInfo info, Group.Player, Group.IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents), AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+        BattleFieldInfo.SetupBattleFieldInfo(out BattleFieldInfo info, Group.Player, relation: Group.IndependentRelation, requests: Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents), damageTypes: AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
         info.FriendlyRelations = Set<byte>.WithBounds(0, 7);
         query.Info = info;
         message.MessageId = 4360;
@@ -573,7 +573,7 @@ public class FortifyAIGroupControl : AIGroupControl
         if (statistics.TurnInfo.Count > 0)
         {
             int count = statistics.TurnInfo.Count;
-            strength = (int)(((uint)statistics.TurnInfo.GetTurnInfo(count - 1).ArmyStrength) >> 1);
+            strength = statistics.TurnInfo.GetTurnInfo(count - 1).ArmyStrength >>> 1;
             if (strength < _requiredStrength)
             {
                 _requiredStrength = strength;
@@ -625,7 +625,7 @@ public class FortifyAIGroupControl : AIGroupControl
 
             if (passive.Count != 0)
             {
-                AIGroup group = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, Group.IndependentRelation, GroupBehavior.Passive);
+                AIGroup group = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, relation: Group.IndependentRelation, behavior: GroupBehavior.Passive);
                 _ = group.AddUnits(passive.Units);
                 _ = group.Release();
             }

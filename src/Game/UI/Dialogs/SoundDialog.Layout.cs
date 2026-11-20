@@ -351,7 +351,7 @@ public partial class SoundDialog : ILayoutModule
         PlayList.OnChange += _ => PlayLBChange();
         PlayList.OnDoubleClick += _ => PlayBtnClick();
         PlayList.Selected = -1;
-        PlayList.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => PlayLBDrawItem(drawRectangle, drawItem, in surface);
+        PlayList.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => PlayLBDrawItem(drawRectangle, index: drawItem, lockedSurface: in surface);
         PlayList.TextColor = 9415072;
         PlayList.TextSelectedColor = 0;
         PlayList.ImageLibraryIndexFrame = 113;
@@ -1542,9 +1542,9 @@ public partial class SoundDialog : ILayoutModule
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";
-        translator.TargetsData.Add(new TranslationTarget("", "Items", 0));
-        translator.TargetsData.Add(new TranslationTarget("", "Text", 0));
-        translator.TargetsData.Add(new TranslationTarget("", "ToolTipText", 0));
+        translator.TargetsData.Add(new TranslationTarget("", PropertyName: "Items", Options: 0));
+        translator.TargetsData.Add(new TranslationTarget("", PropertyName: "Text", Options: 0));
+        translator.TargetsData.Add(new TranslationTarget("", PropertyName: "ToolTipText", Options: 0));
         session.EndRead(translator);
         session.EndRead(this);
         closeBut.Window = Window;

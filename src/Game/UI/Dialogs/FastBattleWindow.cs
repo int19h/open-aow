@@ -107,7 +107,7 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
                 CombatObject objectValue = combat.CombatData.GetObjects(i);
                 if (objectValue.Position != 128)
                 {
-                    GetPartyPosition((int)(((uint)objectValue.Position) >> 4), ref pixelX, ref pixelY);
+                    GetPartyPosition(objectValue.Position >>> 4, ref pixelX, ref pixelY);
                     pixelX = pixelX + X - 15;
                     pixelY = pixelY + Y - 32;
                     int position = objectValue.Position & 15;
@@ -118,7 +118,7 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
                     }
 
                     CombatObject combatObject = combat.CombatData.GetObjects(i);
-                    _viewer.ShowFieldObject(combatObject, _animationFrame, 3, pixelX, pixelY, surface);
+                    _viewer.ShowFieldObject(combatObject, frame: _animationFrame, direction: 3, pixelX, pixelY, surface);
                 }
             }
         }
@@ -146,62 +146,62 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
 
         if (HasWall(1, 6))
         {
-            GamePack.Current.CombatImages[image].Show(X + 180, Y + 218 - 50, surface);
+            GamePack.Current.CombatImages[image].Show(X + 180, Y + 218 - 50, lockedSurface: surface);
         }
 
         if (HasWall(1, 2))
         {
-            GamePack.Current.CombatImages[image].Show(X + 372, Y + 218 - 50, surface);
+            GamePack.Current.CombatImages[image].Show(X + 372, Y + 218 - 50, lockedSurface: surface);
         }
 
         if (HasWall(0, 1))
         {
-            GamePack.Current.CombatImages[image + 4].Show(X + 180, Y + 218, surface);
+            GamePack.Current.CombatImages[image + 4].Show(X + 180, Y + 218, lockedSurface: surface);
         }
 
         if (HasWall(0, 6))
         {
-            GamePack.Current.CombatImages[image + 5].Show(X + 180, Y + 218, surface);
+            GamePack.Current.CombatImages[image + 5].Show(X + 180, Y + 218, lockedSurface: surface);
         }
 
         if (HasWall(0, 2))
         {
-            GamePack.Current.CombatImages[image + 5].Show(X + 372, Y + 218, surface);
+            GamePack.Current.CombatImages[image + 5].Show(X + 372, Y + 218, lockedSurface: surface);
         }
 
         if (HasWall(5, 6))
         {
-            GamePack.Current.CombatImages[image + 3].Show(X + 0, Y + 275, surface);
+            GamePack.Current.CombatImages[image + 3].Show(X + 0, Y + 275, lockedSurface: surface);
         }
 
         if (HasWall(2, 3))
         {
-            GamePack.Current.CombatImages[image + 2].Show(X + 374, Y + 275, surface);
+            GamePack.Current.CombatImages[image + 2].Show(X + 374, Y + 275, lockedSurface: surface);
         }
 
         if (HasWall(0, 5))
         {
-            GamePack.Current.CombatImages[image + 5].Show(X + 180, Y + 275, surface);
+            GamePack.Current.CombatImages[image + 5].Show(X + 180, Y + 275, lockedSurface: surface);
         }
 
         if (HasWall(0, 3))
         {
-            GamePack.Current.CombatImages[image + 5].Show(X + 372, Y + 275, surface);
+            GamePack.Current.CombatImages[image + 5].Show(X + 372, Y + 275, lockedSurface: surface);
         }
 
         if (HasWall(0, 4))
         {
-            GamePack.Current.CombatImages[image + 4].Show(X + 180, Y + 332, surface);
+            GamePack.Current.CombatImages[image + 4].Show(X + 180, Y + 332, lockedSurface: surface);
         }
 
         if (HasWall(4, 5))
         {
-            GamePack.Current.CombatImages[image + 1].Show(X + 180, Y + 342, surface);
+            GamePack.Current.CombatImages[image + 1].Show(X + 180, Y + 342, lockedSurface: surface);
         }
 
         if (HasWall(4, 3))
         {
-            GamePack.Current.CombatImages[image + 1].Show(X + 372, Y + 342, surface);
+            GamePack.Current.CombatImages[image + 1].Show(X + 372, Y + 342, lockedSurface: surface);
         }
 
         CombatData combatData = _viewer.Combat.CombatData;
@@ -212,11 +212,11 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
             {
                 if (HasWall(0, 4))
                 {
-                    HitChance.ShowHitPercent(percent: HitChance.HitPointsToHitPercent(hits: wall.GetHits(), hitPoints: wall.GetHitPoints()), x: X + 250, y: Y + 332 - 45, surface: surface);
+                    HitChance.ShowHitPercent(percent: HitChance.HitPointsToHitPercent(hits: wall.GetHits(), hitPoints: wall.HitPoints), x: X + 250, y: Y + 332 - 45, surface: surface);
                 }
                 else
                 {
-                    HitChance.ShowHitPercent(percent: HitChance.HitPointsToHitPercent(hits: wall.GetHits(), hitPoints: wall.GetHitPoints()), x: X + 250, y: Y + 218 - 45, surface: surface);
+                    HitChance.ShowHitPercent(percent: HitChance.HitPointsToHitPercent(hits: wall.GetHits(), hitPoints: wall.HitPoints), x: X + 250, y: Y + 218 - 45, surface: surface);
                 }
             }
         }
@@ -254,7 +254,7 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
                             int glow = _phaseFrame / 2;
                             glow = Math.Abs(((glow + 7) % 15) - 7);
                             GetPartyPosition(i, ref pixelX, ref pixelY);
-                            GamePack.Current.CombatImages[glow + 100].ShowClipped(pixelX + X - 10, pixelY + Y - 9, surface);
+                            GamePack.Current.CombatImages[glow + 100].ShowClipped(pixelX + X - 10, pixelY + Y - 9, lockedSurface: surface);
                         }
                     }
                 }
@@ -377,7 +377,7 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
                 Rect clipRectangle = lockedSurface.ClipRectangle;
                 clipRectangle.Top = MainWindow.WinTop + 24;
                 lockedSurface.ClipRectangle = clipRectangle;
-                DrawCombat(MainWindow.WinLeft + 10, MainWindow.WinTop + 10, in lockedSurface);
+                DrawCombat(MainWindow.WinLeft + 10, MainWindow.WinTop + 10, surface: in lockedSurface);
                 _ = surface.Unlock();
             }
         }
@@ -432,7 +432,7 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
                     }
 
                     {
-                        int endPosition = _viewer.GetEndPosition();
+                        int endPosition = _viewer.EndPosition;
                         if (_viewer.Position >= endPosition)
                         {
                             SetPhase(2);
@@ -506,7 +506,7 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
         CombatViewer viewer = _viewer;
         if (viewer is not null && viewer.Status.Contains(CombatViewerStatusElement.Initialized))
         {
-            viewer.SetPosition(viewer.GetEndPosition() + 1);
+            viewer.SetPosition(viewer.EndPosition + 1);
             SetPhase(3);
         }
     }
@@ -550,11 +550,11 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
     {
         if (_leftOpacity == 100)
         {
-            UI.Graphics.Shields[_leftShield].Show(MainWindow.WinLeft + sender.WinLeft, MainWindow.WinTop + sender.WinTop, surface);
+            UI.Graphics.Shields[_leftShield].Show(MainWindow.WinLeft + sender.WinLeft, MainWindow.WinTop + sender.WinTop, lockedSurface: surface);
         }
         else
         {
-            UI.Graphics.Shields[_leftShield].ShowBlended(MainWindow.WinLeft + sender.WinLeft, MainWindow.WinTop + sender.WinTop, surface, GraphicsState.AlphaBlendTable.LookupTables[_leftOpacity]);
+            UI.Graphics.Shields[_leftShield].ShowBlended(MainWindow.WinLeft + sender.WinLeft, MainWindow.WinTop + sender.WinTop, lockedSurface: surface, table: GraphicsState.AlphaBlendTable.LookupTables[_leftOpacity]);
         }
     }
 
@@ -563,11 +563,11 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
     {
         if (_rightOpacity == 100)
         {
-            UI.Graphics.Shields[_rightShield].Show(MainWindow.WinLeft + sender.WinLeft, MainWindow.WinTop + sender.WinTop, surface);
+            UI.Graphics.Shields[_rightShield].Show(MainWindow.WinLeft + sender.WinLeft, MainWindow.WinTop + sender.WinTop, lockedSurface: surface);
         }
         else
         {
-            UI.Graphics.Shields[_rightShield].ShowBlended(MainWindow.WinLeft + sender.WinLeft, MainWindow.WinTop + sender.WinTop, surface, GraphicsState.AlphaBlendTable.LookupTables[_rightOpacity]);
+            UI.Graphics.Shields[_rightShield].ShowBlended(MainWindow.WinLeft + sender.WinLeft, MainWindow.WinTop + sender.WinTop, lockedSurface: surface, table: GraphicsState.AlphaBlendTable.LookupTables[_rightOpacity]);
         }
     }
 
@@ -585,7 +585,7 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
 
     internal static void ShowCombatEvent(FastBattleWindow dialog, CombatEventLog eventValue, ExecuteDoneEvent done)
     {
-        Assert(dialog._event is null, "", "FastCombatWin.pas", 159);
+        Assert(dialog._event is null, message: "", file: "FastCombatWin.pas", line: 159);
         dialog.UI.General.Manager.OverlayPriority = 49;
         dialog._event = eventValue;
         _ = dialog._event.AddRef();
@@ -662,10 +662,10 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
 
         dialog._viewer.Play();
         dialog.MainWindow.Drawn = false;
-        int endPosition = dialog._viewer.GetEndPosition();
+        int endPosition = dialog._viewer.EndPosition;
         dialog.SequencePositionSlider.Max = endPosition;
         dialog.SequenceSpeedSlider.Position = 20 - dialog._viewer.Delay;
-        if (dialog._viewer.GetEndPosition() != -1)
+        if (dialog._viewer.EndPosition != -1)
         {
             dialog.SetPhase(0);
         }

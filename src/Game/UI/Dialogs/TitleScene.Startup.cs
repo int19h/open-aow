@@ -20,8 +20,8 @@ public partial class TitleScene
         }
         UI.General.Manager.OverlayPriority = 0;
         TitleSceneImages.LoadDiscardableImageData();
-        UI.VideoDialog.SetSceneSize(640, 480);
-        VideoDialog.SetVideoMode(UI.VideoDialog, VideoDialog.ScreenMode.Title);
+        UI.VideoDialog.SetSceneSize(640, H: 480);
+        VideoDialog.SetVideoMode(UI.VideoDialog, fullScreen: VideoDialog.ScreenMode.Title);
         UI.VideoDialog.ApplyMode();
         GameHost.MainForm.Display.SetFrameRate(30);
         GameHost.MainForm.DisplayController.UseVerticalBlank = true;
@@ -73,7 +73,7 @@ public partial class TitleScene
 
                     break;
                 case 2:
-                    LoadGame(UI.General, FileBoundary.ReadName($"{UI.Engine.StartupDirectory}Scenario\\Custom\\TUTORIAL.HSM"));
+                    LoadGame(UI.General, fileName: FileBoundary.ReadName($"{UI.Engine.StartupDirectory}Scenario\\Custom\\TUTORIAL.HSM"));
                     if (StrategicMap.Current is { } map)
                     {
                         map.FixedLeaders = true;

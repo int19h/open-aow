@@ -13,21 +13,21 @@ public static class Cfs
     /// <summary>Inflates a zlib stream, refusing more than the limit before allocating it.</summary>
     public static byte[] Inflate(ReadOnlySpan<byte> zlib, long limit, Func<string, Exception> fail)
     {
-        using MemoryStream input = new(zlib.ToArray(), false);
-        using ZLibStream z = new(input, CompressionMode.Decompress);
+        using MemoryStream input = new(zlib.ToArray(), writable: false);
+        using ZLibStream z = new(input, mode: CompressionMode.Decompress);
         using MemoryStream output = new();
         byte[] buffer = new byte[81920];
         try
         {
             int read;
-            while ((read = z.Read(buffer, 0, buffer.Length)) > 0)
+            while ((read = z.Read(buffer, offset: 0, count: buffer.Length)) > 0)
             {
                 if (output.Length + read > limit)
                 {
                     throw fail($"The inflated payload exceeds {limit} bytes.");
                 }
 
-                output.Write(buffer, 0, read);
+                output.Write(buffer, offset: 0, count: read);
             }
         }
         catch (InvalidDataException error)
@@ -40,11 +40,11 @@ public static class Cfs
     /// <summary>Inflates at most count leading bytes.</summary>
     public static byte[] InflatePrefix(ReadOnlySpan<byte> zlib, int count)
     {
-        using MemoryStream input = new(zlib.ToArray(), false);
-        using ZLibStream z = new(input, CompressionMode.Decompress);
+        using MemoryStream input = new(zlib.ToArray(), writable: false);
+        using ZLibStream z = new(input, mode: CompressionMode.Decompress);
         byte[] buffer = new byte[count];
         int total = 0, read;
-        while (total < count && (read = z.Read(buffer, total, count - total)) > 0)
+        while (total < count && (read = z.Read(buffer, offset: total, count: count - total)) > 0)
         {
             total += read;
         }
@@ -55,12 +55,12 @@ public static class Cfs
     public static byte[] Deflate(ReadOnlySpan<byte> payload, int level)
     {
         using MemoryStream output = new();
-        using (ZLibStream z = new(output, level switch
+        using (ZLibStream z = new(output, compressionLevel: level switch
         {
             1 => CompressionLevel.Fastest,
             3 => CompressionLevel.SmallestSize,
             _ => CompressionLevel.Optimal,
-        }, true))
+        }, leaveOpen: true))
         {
             z.Write(payload);
         }
@@ -75,7 +75,7 @@ public static class Cfs
         byte[] result = new byte[5 + body.Length];
         Magic.CopyTo(result);
         result[4] = (byte)level;
-        body.CopyTo(result, 5);
+        body.CopyTo(result, index: 5);
         return result;
     }
 }

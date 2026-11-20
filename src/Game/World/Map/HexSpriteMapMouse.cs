@@ -86,13 +86,13 @@ public class HexSpriteMapMouse : IDisposable
     // HSEngine.pas:3583
     public virtual bool MouseDown()
     {
-        if (_capture is null && GetHexX() != -1)
+        if (_capture is null && HexX != -1)
         {
             if (Button == MouseButton.Left)
             {
-                int pixelY = GetPixelY();
-                int pixelX = GetPixelX();
-                HexSpriteMap.Selection.SelectLocation(pixelX, pixelY, HexSpriteMap.ViewMapLevel);
+                int pixelY = PixelY;
+                int pixelX = PixelX;
+                HexSpriteMap.Selection.SelectLocation(pixelX, pixelY, lHitPoints: HexSpriteMap.ViewMapLevel);
                 return false;
             }
             else
@@ -174,7 +174,7 @@ public class HexSpriteMapMouse : IDisposable
     {
         // Port extension: a view wider or taller than the map takes scene points past MaxXhp or MaxYhp.
         // GetXhp and GetYhp still test the map coordinates.
-        if (X >= 0 && Y >= 0 && X <= Math.Max(HexSpriteMap.GetMaxPixelX(), HexSpriteMap.ViewWidth) && Y <= Math.Max(HexSpriteMap.GetMaxPixelY(), HexSpriteMap.ViewHeight))
+        if (X >= 0 && Y >= 0 && X <= Math.Max(HexSpriteMap.MaxPixelX, HexSpriteMap.ViewWidth) && Y <= Math.Max(HexSpriteMap.MaxPixelY, HexSpriteMap.ViewHeight))
         {
             this.X = X;
             this.Y = Y;
@@ -194,7 +194,7 @@ public class HexSpriteMapMouse : IDisposable
     // HSEngine.pas:3672
     public virtual void DoubleClick()
     {
-        if (GetPixelX() != -2147483648)
+        if (PixelX != -2147483648)
         {
             if (MouseDoubleClick())
             {
@@ -214,84 +214,96 @@ public class HexSpriteMapMouse : IDisposable
     }
 
     // HSEngine.pas:3515
-    public int GetPixelX()
+    public int PixelX
     {
-        int result;
-        if (X != -2147483648)
+        get
         {
-            result = HexSpriteMap.ViewPixelX + X;
-            if (result > HexSpriteMap.GetMaxPixelX() || result < 0)
+            int result;
+            if (X != -2147483648)
+            {
+                result = HexSpriteMap.ViewPixelX + X;
+                if (result > HexSpriteMap.MaxPixelX || result < 0)
+                {
+                    return -2147483648;
+                }
+            }
+            else
             {
                 return -2147483648;
             }
-        }
-        else
-        {
-            return -2147483648;
-        }
 
-        return result;
+            return result;
+        }
     }
 
     // HSEngine.pas:3527
-    public int GetPixelY()
+    public int PixelY
     {
-        int result;
-        if (Y != -2147483648)
+        get
         {
-            result = HexSpriteMap.ViewPixelY + Y;
-            if (result > HexSpriteMap.GetMaxPixelY() || result < 0)
+            int result;
+            if (Y != -2147483648)
+            {
+                result = HexSpriteMap.ViewPixelY + Y;
+                if (result > HexSpriteMap.MaxPixelY || result < 0)
+                {
+                    return -2147483648;
+                }
+            }
+            else
             {
                 return -2147483648;
             }
-        }
-        else
-        {
-            return -2147483648;
-        }
 
-        return result;
+            return result;
+        }
     }
 
     // HSEngine.pas:3540
     // { Both GetXhx and GetYhx test the result against the width and the height of the map. }
-    public int GetHexX()
+    public int HexX
     {
-        int result;
-        if (X != -2147483648)
+        get
         {
-            HexGeometry.PixelToHex(HexSpriteMap.ViewPixelX + X, 0, out result, out _);
-            if (result < 0 || HexSpriteMap.MapContainer.Width <= result || HexSpriteMap.MapContainer.Height <= result)
+            int result;
+            if (X != -2147483648)
+            {
+                HexGeometry.PixelToHex(HexSpriteMap.ViewPixelX + X, vertical: 0, out result, out _);
+                if (result < 0 || HexSpriteMap.MapContainer.Width <= result || HexSpriteMap.MapContainer.Height <= result)
+                {
+                    result = -1;
+                }
+            }
+            else
             {
                 result = -1;
             }
-        }
-        else
-        {
-            result = -1;
-        }
 
-        return result;
+            return result;
+        }
     }
 
     // HSEngine.pas:3555
-    public int GetHexY()
+    public int HexY
     {
-        int result;
-        if (Y != -2147483648)
+        get
         {
-            HexGeometry.PixelToHex(HexSpriteMap.ViewPixelX + X, HexSpriteMap.ViewPixelY + Y, out _, out result);
-            if (result < 0 || HexSpriteMap.MapContainer.Width <= result || HexSpriteMap.MapContainer.Height <= result)
+            int result;
+            if (Y != -2147483648)
+            {
+                HexGeometry.PixelToHex(HexSpriteMap.ViewPixelX + X, vertical: HexSpriteMap.ViewPixelY + Y, out _, out result);
+                if (result < 0 || HexSpriteMap.MapContainer.Width <= result || HexSpriteMap.MapContainer.Height <= result)
+                {
+                    result = -1;
+                }
+            }
+            else
             {
                 result = -1;
             }
-        }
-        else
-        {
-            result = -1;
-        }
 
-        return result;
+            return result;
+        }
     }
 
     // HSEngine.pas:3570
@@ -314,10 +326,6 @@ public class HexSpriteMapMouse : IDisposable
     public GameMap HexSpriteMap { get; internal set; }
     public int X { get; private set; }
     public int Y { get; private set; }
-    public int PixelX => GetPixelX();
-    public int PixelY => GetPixelY();
-    public int HexX => GetHexX();
-    public int HexY => GetHexY();
     public MouseButton Button { get; private set; }
     public Set<ShiftState> Shift { get; private set; }
 

@@ -35,7 +35,7 @@ public partial class SynchronizeDialog(UIContext ui) : UIModule(ui)
         if (settings is not null)
         {
             Rect r = new(Window.WinLeft + 188, Window.WinTop + 40, Window.WinLeft + 188 + 103, Window.WinTop + 40 + 128);
-            settings.Leader.ShowFace(r, surface);
+            settings.Leader.ShowFace(r, lockedSurface: surface);
         }
     }
 

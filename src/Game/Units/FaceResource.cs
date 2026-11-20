@@ -79,7 +79,7 @@ public class FaceResource(CustomNode owner) : EngineResource(owner)
     {
         ReleaseImageLibrary();
         _imageLibrary = !IsEmpty(_imageLibraryName)
-            ? GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), _imageLibraryName)
+            ? GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: _imageLibraryName)
             : null;
     }
 
@@ -90,7 +90,7 @@ public class FaceResource(CustomNode owner) : EngineResource(owner)
         {
             if (!IsEmpty(_imageLibraryName))
             {
-                GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), _imageLibraryName);
+                GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: _imageLibraryName);
             }
 
             _imageLibrary = null;
@@ -103,21 +103,24 @@ public class FaceResource(CustomNode owner) : EngineResource(owner)
         if (!IsEmpty(_imageLibraryName))
         {
             // { Original releases the old name even when this resource has no references. }
-            GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), _imageLibraryName);
+            GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: _imageLibraryName);
             _imageLibrary = null;
         }
 
         _imageLibraryName = value;
         if (!IsEmpty(_imageLibraryName) && _references != 0)
         {
-            _imageLibrary = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), _imageLibraryName);
+            _imageLibrary = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: _imageLibraryName);
         }
     }
 
     // Ability.PAS:503
-    public LibraryImage GetFaceImage()
+    public LibraryImage FaceImage
     {
-        CustomImageLibrary images = _imageLibrary;
-        return images?[_imageIndex];
+        get
+        {
+            CustomImageLibrary images = _imageLibrary;
+            return images?[_imageIndex];
+        }
     }
 }

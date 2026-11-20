@@ -37,7 +37,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     // HSEngine.pas:1907
     public override void Dispose()
     {
-        Array.Resize(ref _hexSpriteList, 0);
+        Array.Resize(ref _hexSpriteList, newSize: 0);
         StoredCount = 0;
     }
 
@@ -64,7 +64,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     // as the original's text branch visits the children.
     public override void PersistFields(IPersister persister)
     {
-        persister.CreatedSequence("HexSpriteList", new NodeChildren(this));
+        persister.CreatedSequence("HexSpriteList", items: new NodeChildren(this));
         int flags = FieldFlags;
         FieldFlags = (flags & ~0xFFFF) | persister.UInt16("FieldFlags", (ushort)flags);
     }
@@ -95,7 +95,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
 
     // HSEngine.pas:2221
     // The list stores hex sprites, so the override's EngineObject child always is one.
-    public override int AddChild(EngineObject child) => AddHexSprite((HexSprite)child, 0);
+    public override int AddChild(EngineObject child) => AddHexSprite((HexSprite)child, hexNumber: 0);
 
     // HSEngine.pas:2154
     public override EngineObject FindChild(int classId)
@@ -122,7 +122,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     }
 
     // HSEngine.pas:1938
-    public MapCoordinate GetMapCoordinate() => Location;
+    public MapCoordinate MapCoordinate => Location;
 
     // HSEngine.pas:1955
     public int HexSpriteListDataSize() => (Capacity << 2) + ((Capacity + 3) & 252);
@@ -192,7 +192,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
         byte last = StaticCount;
         for (int i = StoredCount - 1; i >= last; i--)
         {
-            _hexSpriteList[i].SetVisible(false);
+            _hexSpriteList[i].Visible = false;
         }
     }
 
@@ -201,7 +201,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     {
         for (int i = StaticCount - 1; i >= 0; i--)
         {
-            _hexSpriteList[i].SetVisible(false);
+            _hexSpriteList[i].Visible = false;
         }
     }
 
@@ -217,7 +217,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
         bool done = false;
         while (!done && i >= 0)
         {
-            int level = _hexSpriteList[i].GetLevel();
+            int level = _hexSpriteList[i].Level;
             if (level <= maxLevel)
             {
                 if (level >= minLevel)
@@ -285,7 +285,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
         info.MapField = this;
         info.TerrainType = TerrainType;
         info.OverlayType = OverlayType;
-        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, Location.X, Location.Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, Location.X, Location.Y, radius: 0);
         for (int i = 1; i <= 6; i++)
         {
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
@@ -315,7 +315,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
             for (int i = StoredCount - 1; i >= 0; i--)
             {
                 HexSprite sprite = _hexSpriteList[i];
-                if (sprite.GetLastMessage() == message.Sequence)
+                if (sprite.LastMessage == message.Sequence)
                 {
                     continue;
                 }
@@ -325,15 +325,15 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
                     continue;
                 }
 
-                sprite.SetLastMessage(message.Sequence);
-                sprite.MessageProc(ref message, this);
+                sprite.LastMessage = message.Sequence;
+                sprite.MessageProc(ref message, sender: this);
             }
         }
         else if ((message.MessageId & 0x20000000) == 0)
         {
             for (int i = Count - 1; i >= 0; i--)
             {
-                _hexSpriteList[i].MessageProc(ref message, this);
+                _hexSpriteList[i].MessageProc(ref message, sender: this);
             }
         }
         else
@@ -348,7 +348,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
             {
                 if (s_sendMessageList[i].Owner == this)
                 {
-                    s_sendMessageList[i].MessageProc(ref message, this);
+                    s_sendMessageList[i].MessageProc(ref message, sender: this);
                 }
             }
         }
@@ -580,7 +580,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
         return count == 0 || ((uint)FieldFlags & (1u << (count - 1))) != 0;
     }
 
-    public void SetExplored(int player, bool value) => SetExploredRaw(player, value ? 1 : 0);
+    public void SetExplored(int player, bool value) => SetExploredRaw(player, value: value ? 1 : 0);
 
     // The original tests ECX, including the bits above the Boolean byte.
     public void SetExploredRaw(int player, int value)

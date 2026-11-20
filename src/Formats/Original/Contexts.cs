@@ -36,7 +36,7 @@ public sealed class DecodeContext
     public bool Inflated { get; init; }
 
     public ConversionException Fail(string code, string message, long offset, DocumentNodePath? path = null, string? value = null, string? constraint = null)
-        => new(new FormatDiagnostic(code, Nested is null ? message : $"{message} In the nested image of {Nested}.")
+        => new(new FormatDiagnostic(code, Message: Nested is null ? message : $"{message} In the nested image of {Nested}.")
         {
             File = File,
             Offset = offset,
@@ -51,22 +51,22 @@ public sealed class DecodeContext
     {
         if (count < 0 || start < 0 || (long)start + count > end)
         {
-            throw Fail(Codes.Truncated, $"The {what} runs past the end of its value.", start, path);
+            throw Fail(Codes.Truncated, message: $"The {what} runs past the end of its value.", offset: start, path);
         }
     }
 
-    public int Int32(int at) => BinaryPrimitives.ReadInt32LittleEndian(Data.AsSpan(at, 4));
+    public int Int32(int at) => BinaryPrimitives.ReadInt32LittleEndian(Data.AsSpan(at, length: 4));
 
     public void Enter(int offset, DocumentNodePath path)
     {
         if (++_nodes > Limits.Nodes)
         {
-            throw Fail(Codes.Limit, "The image decodes to too many objects.", offset, path, null, $"at most {Limits.Nodes} decoded objects");
+            throw Fail(Codes.Limit, message: "The image decodes to too many objects.", offset, path, value: null, constraint: $"at most {Limits.Nodes} decoded objects");
         }
 
         if (++_depth > Limits.Depth)
         {
-            throw Fail(Codes.Limit, "The image nests objects too deeply.", offset, path, null, $"depth at most {Limits.Depth}");
+            throw Fail(Codes.Limit, message: "The image nests objects too deeply.", offset, path, value: null, constraint: $"depth at most {Limits.Depth}");
         }
     }
 
@@ -76,7 +76,7 @@ public sealed class DecodeContext
     {
         if (count > Limits.CollectionItems)
         {
-            throw Fail(Codes.Limit, "A collection has too many items.", offset, path, count.ToString(System.Globalization.CultureInfo.InvariantCulture), $"at most {Limits.CollectionItems} items");
+            throw Fail(Codes.Limit, message: "A collection has too many items.", offset, path, value: count.ToString(System.Globalization.CultureInfo.InvariantCulture), constraint: $"at most {Limits.CollectionItems} items");
         }
     }
 }
@@ -115,7 +115,7 @@ public sealed class EncodeContext
     {
         if (++_depth > Limits.Depth)
         {
-            throw Fail(Codes.Limit, "The document nests objects too deeply.", at, path, null, $"depth at most {Limits.Depth}");
+            throw Fail(Codes.Limit, message: "The document nests objects too deeply.", at, path, value: null, constraint: $"depth at most {Limits.Depth}");
         }
     }
 
@@ -137,7 +137,7 @@ public sealed class PropertyTable
     public static PropertyTable Read(DecodeContext context, int start, int end, DocumentNodePath path)
     {
         byte[] data = context.Data;
-        context.Need(start, 1, end, path, "property table");
+        context.Need(start, count: 1, end, path, what: "property table");
         int at = start;
         int shortCount = data[at++];
         int longCount = 0;
@@ -145,31 +145,31 @@ public sealed class PropertyTable
         if ((shortCount & 0x80) != 0)
         {
             shortCount &= 0x7F;
-            context.Need(at, 4, end, path, "property table");
+            context.Need(at, count: 4, end, path, what: "property table");
             longCount = context.Int32(at);
             at += 4;
             marker = true;
             if (longCount < 0)
             {
-                throw context.Fail(Codes.Corrupt, "A property table has a negative long entry count.", start, path, longCount.ToString(System.Globalization.CultureInfo.InvariantCulture));
+                throw context.Fail(Codes.Corrupt, message: "A property table has a negative long entry count.", offset: start, path, value: longCount.ToString(System.Globalization.CultureInfo.InvariantCulture));
             }
         }
-        context.CheckItems(shortCount + longCount, start, path);
+        context.CheckItems(shortCount + longCount, offset: start, path);
         long tableEnd = at + (2L * shortCount) + (8L * longCount);
         if (tableEnd > end)
         {
-            throw context.Fail(Codes.Truncated, "A property table runs past the end of its object.", start, path);
+            throw context.Fail(Codes.Truncated, message: "A property table runs past the end of its object.", offset: start, path);
         }
 
         List<TableEntry> entries = [with(shortCount + longCount)];
         for (int i = 0; i < shortCount; i++, at += 2)
         {
-            entries.Add(new TableEntry(data[at], data[at + 1], false, i));
+            entries.Add(new TableEntry(data[at], Offset: data[at + 1], Long: false, Index: i));
         }
 
         for (int i = 0; i < longCount; i++, at += 8)
         {
-            entries.Add(new TableEntry(context.Int32(at), context.Int32(at + 4), true, shortCount + i));
+            entries.Add(new TableEntry(context.Int32(at), Offset: context.Int32(at + 4), Long: true, Index: shortCount + i));
         }
 
         int length = end - at;
@@ -177,7 +177,7 @@ public sealed class PropertyTable
         {
             if (e.Offset < 0 || e.Offset > length)
             {
-                throw context.Fail(Codes.Corrupt, $"Property {e.Id} has an offset outside its object.", start, path, e.Offset.ToString(System.Globalization.CultureInfo.InvariantCulture), $"0 to {length}");
+                throw context.Fail(Codes.Corrupt, message: $"Property {e.Id} has an offset outside its object.", offset: start, path, value: e.Offset.ToString(System.Globalization.CultureInfo.InvariantCulture), constraint: $"0 to {length}");
             }
         }
 
@@ -204,7 +204,7 @@ public sealed class PropertyTable
 
         if (shortCount > 127)
         {
-            throw context.Fail(Codes.Unrepresentable, "An object has more short property entries than the original table can count.", null, path, shortCount.ToString(System.Globalization.CultureInfo.InvariantCulture), "at most 127 short entries");
+            throw context.Fail(Codes.Unrepresentable, message: "An object has more short property entries than the original table can count.", at: null, path, value: shortCount.ToString(System.Globalization.CultureInfo.InvariantCulture), constraint: "at most 127 short entries");
         }
 
         if (longCount != 0)

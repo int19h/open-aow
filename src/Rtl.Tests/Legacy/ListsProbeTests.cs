@@ -17,21 +17,21 @@ public sealed class ListsProbeTests
     {
         ProbeLines p = new("lists");
         DelphiList<Item> l = new();
-        Item[] items = [.. Enumerable.Range(0, 257).Select(i => new Item(i, i % 3))];
+        Item[] items = [.. Enumerable.Range(0, count: 257).Select(i => new Item(i, key: i % 3))];
         void State(string tag)
         {
-            p.Fact($"{tag}_count", l.Count);
-            p.Fact($"{tag}_capacity", l.Capacity);
+            p.Fact($"{tag}_count", value: l.Count);
+            p.Fact($"{tag}_capacity", value: l.Capacity);
             for (int i = 0; i < l.Count; i++)
             {
-                p.Fact($"{tag}_item_{i}", l[i] is Item item ? item.Id : "nil");
+                p.Fact($"{tag}_item_{i}", value: l[i] is Item item ? item.Id : "nil");
             }
         }
-        p.Fact("growth_initial_capacity", l.Capacity);
+        p.Fact("growth_initial_capacity", value: l.Capacity);
         for (int i = 0; i < 140; i++)
         {
-            p.Fact($"growth_add_index_{i}", l.Add(items[i]));
-            p.Fact($"growth_capacity_{i}", l.Capacity);
+            p.Fact($"growth_add_index_{i}", value: l.Add(items[i]));
+            p.Fact($"growth_capacity_{i}", value: l.Capacity);
         }
         l.Clear();
         State("clear");
@@ -41,16 +41,16 @@ public sealed class ListsProbeTests
         }
 
         State("filled_four");
-        l.Insert(0, items[4]);
+        l.Insert(0, item: items[4]);
         State("insert_start");
-        l.Insert(3, items[5]);
+        l.Insert(3, item: items[5]);
         State("insert_middle");
-        l.Insert(l.Count, items[6]);
+        l.Insert(l.Count, item: items[6]);
         State("insert_end");
-        p.Fact("indexof_present", l.IndexOf(items[5]));
-        p.Fact("indexof_absent", l.IndexOf(items[99]));
-        p.Fact("indexof_nil_absent", l.IndexOf(null));
-        l.Exchange(0, l.Count - 1);
+        p.Fact("indexof_present", value: l.IndexOf(items[5]));
+        p.Fact("indexof_absent", value: l.IndexOf(items[99]));
+        p.Fact("indexof_nil_absent", value: l.IndexOf(null));
+        l.Exchange(0, second: l.Count - 1);
         State("exchange");
         l.Delete(2);
         State("delete_middle");
@@ -59,27 +59,27 @@ public sealed class ListsProbeTests
         l.Delete(l.Count - 1);
         State("delete_last");
         _ = l.Add(null);
-        l.Insert(1, null);
+        l.Insert(1, item: null);
         _ = l.Add(items[1]);
         State("nil_entries");
-        p.Fact("indexof_nil", l.IndexOf(null));
+        p.Fact("indexof_nil", value: l.IndexOf(null));
         l.Pack();
         State("pack");
-        p.Fact("remove_present", l.Remove(items[1]));
+        p.Fact("remove_present", value: l.Remove(items[1]));
         State("remove");
-        p.Fact("remove_absent", l.Remove(items[99]));
-        l.Move(0, l.Count - 1);
+        p.Fact("remove_absent", value: l.Remove(items[99]));
+        l.Move(0, target: l.Count - 1);
         State("move");
-        p.Fact("first_identity", l.First()!.Id);
-        p.Fact("last_identity", l.Last()!.Id);
+        p.Fact("first_identity", value: l.First()!.Id);
+        p.Fact("last_identity", value: l.Last()!.Id);
         l.Capacity = l.Count;
         State("capacity_exact");
         _ = l.Expand();
         State("expand_full");
         _ = l.Expand();
         State("expand_spare");
-        p.Fact("delete_outside", p.Thrown(() => l.Delete(l.Count)));
-        p.Fact("insert_outside", p.Thrown(() => l.Insert(-1, null)));
+        p.Fact("delete_outside", value: p.Thrown(() => l.Delete(l.Count)));
+        p.Fact("insert_outside", value: p.Thrown(() => l.Insert(-1, item: null)));
         foreach (int capacity in new[] { 8, 64 })
         {
             l.Clear();
@@ -105,76 +105,76 @@ public sealed class ListsProbeTests
                 l.Sort((a, b) => a!.Key - b!.Key);
                 for (int i = 0; i < n; i++)
                 {
-                    p.Fact($"sort_{pattern}_{n}_id_{i}", l[i]!.Id);
-                    p.Fact($"sort_{pattern}_{n}_key_{i}", l[i]!.Key);
+                    p.Fact($"sort_{pattern}_{n}_id_{i}", value: l[i]!.Id);
+                    p.Fact($"sort_{pattern}_{n}_key_{i}", value: l[i]!.Key);
                 }
-                p.Fact($"sort_{pattern}_{n}_count", l.Count);
+                p.Fact($"sort_{pattern}_{n}_count", value: l.Count);
             }
         }
 
         DelphiStringList sl = new();
         void StringState(string tag)
         {
-            p.Fact($"{tag}_count", sl.Count);
+            p.Fact($"{tag}_count", value: sl.Count);
             for (int i = 0; i < sl.Count; i++)
             {
-                p.Fact($"{tag}_text_{i}", $"[{sl[i]}]");
-                p.Fact($"{tag}_object_{i}", (sl.Objects[i] as ObjectId)?.Id ?? 0);
+                p.Fact($"{tag}_text_{i}", value: $"[{sl[i]}]");
+                p.Fact($"{tag}_object_{i}", value: (sl.Objects[i] as ObjectId)?.Id ?? 0);
             }
         }
         void Add(string tag, string s, int id)
         {
             try
             {
-                p.Fact($"{tag}_index", sl.AddObject(s, new ObjectId(id)));
+                p.Fact($"{tag}_index", value: sl.AddObject(s, item: new ObjectId(id)));
             }
             catch (Exception e)
             {
-                p.Fact($"{tag}_error", p.DelphiName(e));
+                p.Fact($"{tag}_error", value: p.DelphiName(e));
             }
             StringState(tag);
         }
         void Lookup(string tag, string s)
         {
-            p.Fact($"{tag}_found", Ord(sl.Find(s, out int at)));
-            p.Fact($"{tag}_insertion_index", at);
-            p.Fact($"{tag}_indexof", sl.IndexOf(s));
+            p.Fact($"{tag}_found", value: Ord(sl.Find(s, index: out int at)));
+            p.Fact($"{tag}_insertion_index", value: at);
+            p.Fact($"{tag}_indexof", value: sl.IndexOf(s));
         }
-        p.Fact("default_sorted", Ord(sl.Sorted));
-        p.Fact("default_duplicates", (int)sl.Duplicates);
+        p.Fact("default_sorted", value: Ord(sl.Sorted));
+        p.Fact("default_duplicates", value: (int)sl.Duplicates);
         for (int d = 0; d < 3; d++)
         {
             sl.Sorted = false;
             sl.Clear();
             sl.Duplicates = (Duplicates)d;
-            Add($"unsorted_{d}_z", "zeta", 1);
-            Add($"unsorted_{d}_b", "Beta", 2);
-            Add($"unsorted_{d}_a", "alpha", 3);
-            Add($"unsorted_{d}_duplicate", "ALPHA", 4);
-            Lookup($"unsorted_{d}_lookup", "Alpha");
-            Lookup($"unsorted_{d}_missing", "delta");
+            Add($"unsorted_{d}_z", s: "zeta", id: 1);
+            Add($"unsorted_{d}_b", s: "Beta", id: 2);
+            Add($"unsorted_{d}_a", s: "alpha", id: 3);
+            Add($"unsorted_{d}_duplicate", s: "ALPHA", id: 4);
+            Lookup($"unsorted_{d}_lookup", s: "Alpha");
+            Lookup($"unsorted_{d}_missing", s: "delta");
             sl.Sorted = true;
             StringState($"enabled_sorted_{d}");
-            Lookup($"enabled_{d}_lookup", "alpha");
+            Lookup($"enabled_{d}_lookup", s: "alpha");
             sl.Clear();
-            Add($"sorted_{d}_z", "zeta", 1);
-            Add($"sorted_{d}_b", "Beta", 2);
-            Add($"sorted_{d}_a", "alpha", 3);
-            Add($"sorted_{d}_duplicate", "ALPHA", 4);
-            Add($"sorted_{d}_same", "alpha", 5);
-            Add($"sorted_{d}_empty", "", 6);
-            Add($"sorted_{d}_prefix", "alp", 7);
-            Lookup($"sorted_{d}_lookup", "Alpha");
-            Lookup($"sorted_{d}_before", "!");
-            Lookup($"sorted_{d}_between", "delta");
-            Lookup($"sorted_{d}_after", "zzzz");
-            Lookup($"sorted_{d}_empty_lookup", "");
-            p.Fact($"sorted_{d}_insert_error", p.Thrown(() => sl.Insert(0, "illegal")));
+            Add($"sorted_{d}_z", s: "zeta", id: 1);
+            Add($"sorted_{d}_b", s: "Beta", id: 2);
+            Add($"sorted_{d}_a", s: "alpha", id: 3);
+            Add($"sorted_{d}_duplicate", s: "ALPHA", id: 4);
+            Add($"sorted_{d}_same", s: "alpha", id: 5);
+            Add($"sorted_{d}_empty", s: "", id: 6);
+            Add($"sorted_{d}_prefix", s: "alp", id: 7);
+            Lookup($"sorted_{d}_lookup", s: "Alpha");
+            Lookup($"sorted_{d}_before", s: "!");
+            Lookup($"sorted_{d}_between", s: "delta");
+            Lookup($"sorted_{d}_after", s: "zzzz");
+            Lookup($"sorted_{d}_empty_lookup", s: "");
+            p.Fact($"sorted_{d}_insert_error", value: p.Thrown(() => sl.Insert(0, value: "illegal")));
         }
         sl.Clear();
-        p.Fact("empty_find", Ord(sl.Find("absent", out int index)));
-        p.Fact("empty_find_index", index);
-        p.Fact("empty_indexof", sl.IndexOf("absent"));
+        p.Fact("empty_find", value: Ord(sl.Find("absent", out int index)));
+        p.Fact("empty_find_index", value: index);
+        p.Fact("empty_indexof", value: sl.IndexOf("absent"));
         p.End();
     }
 }

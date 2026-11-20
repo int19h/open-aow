@@ -13,9 +13,9 @@ public sealed class GraphicsBoundaryTests
     public void ShortStringImagesTruncateAndRetainTheUnusedTail()
     {
         byte[] image = [0, 0xA5, 0xA5, 0xA5];
-        ShortStrings.WriteShortString(image, "ABCDE");
+        ShortStrings.WriteShortString(image, value: "ABCDE");
         Assert.Equal(new byte[] { 3, 65, 66, 67 }, image);
-        ShortStrings.WriteShortString(image, "X");
+        ShortStrings.WriteShortString(image, value: "X");
         Assert.Equal(new byte[] { 1, 88, 66, 67 }, image);
         Assert.Equal("X", ShortStrings.ReadShortString(image));
     }

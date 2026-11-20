@@ -49,7 +49,7 @@ public sealed class WallCrushingFastBattleTests
         OwningNode objects = combat.CombatData.CombatObjects;
         Attacker source = new(objects) { Combat = combat, Id = 1 };
         RecordingWall wall = new(objects) { Combat = combat };
-        wall.Setup(2, 2, 1);
+        wall.Setup(2, wallType: 2, combatPlayer: 1);
         return (combat, source, wall);
     }
 
@@ -60,7 +60,7 @@ public sealed class WallCrushingFastBattleTests
         (Battle? combat, Attacker? source, RecordingWall? wall) = Build();
         WallCrushingAbility ability = new(null, holder: EngineFixture.Engine);
         FastBattleCommand command = new(117) { Target = wall };
-        Assert.Equal(10, wall.GetHitPoints());
+        Assert.Equal(10, wall.HitPoints);
         int seed = DelphiRandom.RandSeed;
         try
         {
@@ -85,7 +85,7 @@ public sealed class WallCrushingFastBattleTests
         Assert.Equal(4, action.DamageDone);
         Assert.Equal(Set<DamageType>.Of(DamageType.Wall), action.DamageTypes);
         Assert.Equal(Set<DamageType>.Of(), action.Effects);
-        Assert.Equal(6, wall.GetHitPoints());
+        Assert.Equal(6, wall.HitPoints);
         Assert.True(wall.Status.Contains(CombatObjectStatusElement.Damaged));
     }
 
@@ -99,6 +99,6 @@ public sealed class WallCrushingFastBattleTests
         Assert.True(ability.FastBattleExecuteCombatCommand(command: new FastBattleCommand(117) { Target = wall }, source: source));
         Assert.Empty(wall.Rolls);
         Assert.Equal(0, combat.Logbook.Actions.Count);
-        Assert.Equal(10, wall.GetHitPoints());
+        Assert.Equal(10, wall.HitPoints);
     }
 }

@@ -10,7 +10,7 @@ public class FuryAbility : UnitEnchantmentAbility
     public FuryAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), GameText.FuryText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.FuryText);
         AbilityId = 156;
     }
 
@@ -28,7 +28,7 @@ public class FuryAbility : UnitEnchantmentAbility
             return 0;
         }
 
-        int result = troop.GetUnitLevel() + 200;
+        int result = troop.UnitLevel + 200;
         if (troop is Leader)
         {
             result -= 50;

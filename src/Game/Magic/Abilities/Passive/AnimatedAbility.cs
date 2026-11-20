@@ -12,7 +12,7 @@ public class AnimatedAbility : AdjustableAbility
     public AnimatedAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_animatedText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_animatedText);
         AbilityId = 129;
         AbilityType = AbilityType.Handicap;
         SelectionTypes = Set<AbilitySelectionType>.Of();

@@ -43,17 +43,17 @@ public partial class AIMoveExecutorControl : EngineObject
     public virtual AIMoveExecutorMove CreateMove(AIMoveExecutorArmy army, byte selection, sbyte x, sbyte y, sbyte mapLevel, Set<CreateMoveModeElement> mode, out byte moveResult)
     {
         AIMoveExecutorMove move = null;
-        army.RetrieveArmy(selection, out ArmyHexSprite armyHexSprite, out byte armySelection);
+        army.RetrieveArmy(selection, army: out ArmyHexSprite armyHexSprite, out byte armySelection);
         MoveControlSettings settings = new(null) { Holder = CreationHolder() };
         int points;
         if (mode.Contains(CreateMoveModeElement.SurroundNearest))
         {
             settings.MovePointsMax = army.MovePoints(255);
-            settings.SetupArmy(armyHexSprite, armySelection);
+            settings.SetupArmy(armyHexSprite, selection: armySelection);
             StrategicMap.Current.MoveControl.ProcessMove(settings);
             MapLevel level = StrategicMap.Current.MapContainer.GetMapLevel(mapLevel);
             RecordList<SurroundCandidate> candidates = new();
-            HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, 1);
+            HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, radius: 1);
             while (walk.Radius <= 1)
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -79,7 +79,7 @@ public partial class AIMoveExecutorControl : EngineObject
                 x = location.X;
                 y = location.Y;
                 mapLevel = location.MapLevel;
-                StrategicMap.Current.MoveControl.CalculatePath(settings, settings.Path, x, y, mapLevel);
+                StrategicMap.Current.MoveControl.CalculatePath(settings, settings.Path, x, y, L: mapLevel);
             }
 
             candidates?.Dispose();
@@ -87,7 +87,7 @@ public partial class AIMoveExecutorControl : EngineObject
         else
         {
             settings.MovePointsMax = Executor.MovePointsMax;
-            settings.SetupArmy(armyHexSprite, armySelection);
+            settings.SetupArmy(armyHexSprite, selection: armySelection);
             settings.SetDestinationPosition(x, y, mapLevel);
             StrategicMap.Current.MoveControl.ProcessMove(settings);
         }
@@ -98,7 +98,7 @@ public partial class AIMoveExecutorControl : EngineObject
             int position = settings.Path.MovePointsToPosition(points);
             if (!mode.Contains(CreateMoveModeElement.Surround) && settings.Path[position].Location.X == Executor.Destination.X && settings.Path[position].Location.Y == Executor.Destination.Y && settings.Path[position].Location.MapLevel == Executor.Destination.MapLevel)
             {
-                army.SetMoveResult(selection, 2);
+                army.SetMoveResult(selection, moveResult: 2);
             }
 
             moveResult = position == 0 ? (byte)2 : (byte)0;
@@ -144,7 +144,7 @@ public partial class AIMoveExecutorControl : EngineObject
 
                     move.MovePoints = points;
                     move.Moves = armyHexSprite.Army.Moves(armySelection);
-                    move.Source = new MapCoordinate(armyHexSprite.GetHexX(), armyHexSprite.GetHexY(), armyHexSprite.GetHexLevel());
+                    move.Source = new MapCoordinate(armyHexSprite.HexX, armyHexSprite.HexY, armyHexSprite.HexLevel);
                     move.Destination = new MapCoordinate(x, y, mapLevel);
                     if (!mode.Contains(CreateMoveModeElement.DoNotQueue))
                     {
@@ -160,8 +160,8 @@ public partial class AIMoveExecutorControl : EngineObject
 
             if (Executor.Destination.X == settings.Source.X && Executor.Destination.Y == settings.Source.Y && Executor.Destination.MapLevel == settings.Source.MapLevel)
             {
-                army.SetMoveResult(selection, 2);
-                army.SetStatus(selection, AIMoveExecutorUnitStatus.Done);
+                army.SetMoveResult(selection, moveResult: 2);
+                army.SetStatus(selection, status: AIMoveExecutorUnitStatus.Done);
             }
         }
 
@@ -314,7 +314,7 @@ public partial class AIMoveExecutorControl : EngineObject
         while (MoveControl.Status != AIMoveControlStatus.Processing && timeLeft > 0 && Executor.Status == AIMoveExecutorStatus.Busy && Executor.State == 0 && State != -1)
         {
             CalculateMoves();
-            timeLeft = StrategicMap.Current.AIExecutor.GetProcessTimeLeft();
+            timeLeft = StrategicMap.Current.AIExecutor.ProcessTimeLeft;
         }
 
         return State != -1;

@@ -12,7 +12,7 @@ public class VertigoAbility : DurationAbility
     public VertigoAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_vertigoText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_vertigoText);
         AbilityId = 98;
         AbilityType = AbilityType.Handicap;
         DurationMode = DurationMode.Day;
@@ -26,7 +26,7 @@ public class VertigoAbility : DurationAbility
     public override sbyte GetDefense(AbilityOwner owner) => -2;
 
     // PassiveAb.pas:963
-    public override int GetTotalDuration() => 3;
+    public override int TotalDuration => 3;
 
     private static readonly string s_vertigoText = "Vertigo";
 }

@@ -29,8 +29,8 @@ public partial class Image
         if (_imageLibrary is not null)
         {
             _imageLibrary = _animate
-                ? _imageLibrary.CheckImageLibrary(_animationStart, _animationEnd + 1 - _animationStart, this)
-                : _imageLibrary.CheckImageLibrary(_currentImage, 1, this);
+                ? _imageLibrary.CheckImageLibrary(_animationStart, count: _animationEnd + 1 - _animationStart, sender: this)
+                : _imageLibrary.CheckImageLibrary(_currentImage, count: 1, sender: this);
         }
 
         if (_imageLibrary is not null)
@@ -50,15 +50,15 @@ public partial class Image
                 return;
             }
 
-            RaisePreDraw(this, surface);
+            RaisePreDraw(this, surfDesc: surface);
             SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft,
                 Window.AbsoluteTop + WinTop, WinWidth, WinHeight);
-            _imageLibrary.DrawTiled(_currentImage, rectangle, ref surface);
-            RaiseDraw(this, surface);
+            _imageLibrary.DrawTiled(_currentImage, area: rectangle, lockedSurface: ref surface);
+            RaiseDraw(this, surfDesc: surface);
         }
         catch
         {
-            _ = RtlHost.MessageBox(0, "Exception during Draw", $"Error - {Name}", 0);
+            _ = RtlHost.MessageBox(0, text: "Exception during Draw", caption: $"Error - {Name}", flags: 0);
         }
     }
 }

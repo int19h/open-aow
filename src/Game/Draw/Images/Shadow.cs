@@ -24,10 +24,10 @@ public class Shadow(CustomImageLibrary owner) : BitMask(owner), ILibraryImageCla
             switch (lockedSurface.PixelFormatId)
             {
                 case PixelFormat.Rgb565:
-                    ShowShadow565(X + Xshift + MaskLeft, Y + Yshift + MaskTop, lockedSurface, MaskData, MaskWidth, MaskHeight);
+                    ShowShadow565(X + Xshift + MaskLeft, Y + Yshift + MaskTop, lockedSurface, data: MaskData, MaskWidth, MaskHeight);
                     break;
                 case PixelFormat.Rgb555:
-                    ShowShadow555(X + Xshift + MaskLeft, Y + Yshift + MaskTop, lockedSurface, MaskData, MaskWidth, MaskHeight);
+                    ShowShadow555(X + Xshift + MaskLeft, Y + Yshift + MaskTop, lockedSurface, data: MaskData, MaskWidth, MaskHeight);
                     break;
                 case PixelFormat.None:
                 case PixelFormat.Pal8:
@@ -50,10 +50,10 @@ public class Shadow(CustomImageLibrary owner) : BitMask(owner), ILibraryImageCla
             switch (lockedSurface.PixelFormatId)
             {
                 case PixelFormat.Rgb565:
-                    ShowShadow565(X + Xshift + MaskLeft, Y + Yshift + MaskTop, lockedSurface, MaskData, MaskWidth, MaskHeight);
+                    ShowShadow565(X + Xshift + MaskLeft, Y + Yshift + MaskTop, lockedSurface, data: MaskData, MaskWidth, MaskHeight);
                     break;
                 case PixelFormat.Rgb555:
-                    ShowShadow555(X + Xshift + MaskLeft, Y + Yshift + MaskTop, lockedSurface, MaskData, MaskWidth, MaskHeight);
+                    ShowShadow555(X + Xshift + MaskLeft, Y + Yshift + MaskTop, lockedSurface, data: MaskData, MaskWidth, MaskHeight);
                     break;
                 case PixelFormat.None:
                 case PixelFormat.Pal8:
@@ -68,8 +68,8 @@ public class Shadow(CustomImageLibrary owner) : BitMask(owner), ILibraryImageCla
         }
     }
 
-    private static void ShowShadow565(int X, int Y, in LockedSurface lockedSurface, ReadOnlySpan<byte> data, int width, int height) => Blit.ShowShadow565(X, Y, lockedSurface.View(), data, width, height);
+    private static void ShowShadow565(int X, int Y, in LockedSurface lockedSurface, ReadOnlySpan<byte> data, int width, int height) => Blit.ShowShadow565(X, Y, destination: lockedSurface.View(), data, w: width, h: height);
 
-    private static void ShowShadow555(int X, int Y, in LockedSurface lockedSurface, ReadOnlySpan<byte> data, int width, int height) => Blit.ShowShadow555(X, Y, lockedSurface.View(), data, width, height);
+    private static void ShowShadow555(int X, int Y, in LockedSurface lockedSurface, ReadOnlySpan<byte> data, int width, int height) => Blit.ShowShadow555(X, Y, destination: lockedSurface.View(), data, w: width, h: height);
 
 }

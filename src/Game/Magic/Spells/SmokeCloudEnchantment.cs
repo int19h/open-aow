@@ -25,7 +25,7 @@ public class SmokeCloudEnchantment : GlobalEnchantment
     }
 
     // SmokeCloud.pas:102
-    public override string GetName() => GamePack.Current.SpellControl.GetSpell(74).SpellName;
+    public override string GetName() => GamePack.Current.SpellControl[74].SpellName;
 
     // SmokeCloud.pas:156
     public override bool VisibleForPlayer(sbyte player)
@@ -35,7 +35,7 @@ public class SmokeCloudEnchantment : GlobalEnchantment
         ref HexNumberWalkData walk = ref hexNumberWalkData;
         sbyte hexY = Cloud.HexY;
         sbyte hexX = Cloud.HexX;
-        HexNumberWalkData.InitializeHexNumberWalk(out hexNumberWalkData, hexX, hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out hexNumberWalkData, hexX, hexY, radius: 0);
         while (!result && walk.Radius <= 3)
         {
             result = StrategicMap.Current.VisibleForPlayer(walk.X, walk.Y, Cloud.HexLevel, player);
@@ -46,7 +46,7 @@ public class SmokeCloudEnchantment : GlobalEnchantment
     }
 
     // The unused fourth byte in the original register result has no defined value.
-    public override MapCoordinate GetLocation() => new() { X = Cloud.GetHexX(), Y = Cloud.GetHexY(), MapLevel = Cloud.GetHexLevel() };
+    public override MapCoordinate GetLocation() => new() { X = Cloud.HexX, Y = Cloud.HexY, MapLevel = Cloud.HexLevel };
 
     public override bool Deactivate(byte player)
     {

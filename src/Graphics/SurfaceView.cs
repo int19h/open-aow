@@ -25,7 +25,7 @@ public readonly ref struct SurfaceView
     }
 
     // The view moved by a byte offset, as `Pointer(Integer(P) + Offset)`.
-    public SurfaceView At(int offset) => new(Memory, Start + offset, Pitch, Clip);
+    public SurfaceView At(int offset) => new(Memory, start: Start + offset, Pitch, Clip);
 
     public SurfaceView WithPitch(int pitch) => new(Memory, Start, pitch, Clip);
 
@@ -46,25 +46,25 @@ public readonly ref struct SurfaceView
         int index = Start + (y * Pitch);
         return index < 0
             ? throw new IndexOutOfRangeException()
-            : index >= Memory.Length ? [] : Memory.Slice(index, Math.Min(count, Memory.Length - index));
+            : index >= Memory.Length ? [] : Memory.Slice(index, length: Math.Min(count, Memory.Length - index));
     }
 
     // The `count` bytes at a byte offset from the first pixel of row 0. Bytes past either end of
     // the block raise ArgumentOutOfRangeException, as the pointer's span did.
-    public Span<byte> Bytes(int offset, int count) => Memory.Slice(Start + offset, count);
+    public Span<byte> Bytes(int offset, int count) => Memory.Slice(Start + offset, length: count);
 
     // The byte, word and dword at a byte offset from the first pixel of row 0, little-endian. The
     // indexer raises IndexOutOfRangeException outside the block, the readers and writers raise
     // ArgumentOutOfRangeException, as the pointer's element and span did.
     public ref byte this[int offset] => ref Memory[Start + offset];
 
-    public byte Byte(int offset) => Memory.Slice(Start + offset, 1)[0];
+    public byte Byte(int offset) => Memory.Slice(Start + offset, length: 1)[0];
 
-    public ushort UInt16(int offset) => BinaryPrimitives.ReadUInt16LittleEndian(Memory.Slice(Start + offset, 2));
+    public ushort UInt16(int offset) => BinaryPrimitives.ReadUInt16LittleEndian(Memory.Slice(Start + offset, length: 2));
 
-    public void UInt16(int offset, int value) => BinaryPrimitives.WriteUInt16LittleEndian(Memory.Slice(Start + offset, 2), unchecked((ushort)value));
+    public void UInt16(int offset, int value) => BinaryPrimitives.WriteUInt16LittleEndian(Memory.Slice(Start + offset, length: 2), value: unchecked((ushort)value));
 
-    public uint Dword(int offset) => BinaryPrimitives.ReadUInt32LittleEndian(Memory.Slice(Start + offset, 4));
+    public uint Dword(int offset) => BinaryPrimitives.ReadUInt32LittleEndian(Memory.Slice(Start + offset, length: 4));
 
-    public void Dword(int offset, uint value) => BinaryPrimitives.WriteUInt32LittleEndian(Memory.Slice(Start + offset, 4), value);
+    public void Dword(int offset, uint value) => BinaryPrimitives.WriteUInt32LittleEndian(Memory.Slice(Start + offset, length: 4), value);
 }

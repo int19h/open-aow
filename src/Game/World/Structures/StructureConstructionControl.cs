@@ -53,7 +53,7 @@ public class StructureConstructionControl(CustomNode owner) : ConstructionContro
         sbyte y = coordinate39.Y;
         sbyte l = coordinate39.MapLevel;
         MapLevel level = StrategicMap.Current.MapContainer.GetMapLevel(l);
-        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, radius: 0);
         while (resource.TerrainList.Count > walk.HexNumber && result)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -77,7 +77,7 @@ public class StructureConstructionControl(CustomNode owner) : ConstructionContro
 
         if (!result)
         {
-            reason = AbilityRules.TranslateResourceString(GetEngine(), s_cannotBuildOnCurrentLocationText);
+            reason = AbilityRules.TranslateResourceString(GetEngine(), S: s_cannotBuildOnCurrentLocationText);
         }
 
         return result;

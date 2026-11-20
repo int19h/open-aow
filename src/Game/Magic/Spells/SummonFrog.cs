@@ -11,7 +11,7 @@ public class SummonFrog : SummonSpell
     public SummonFrog(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_summonFrogText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_summonFrogText);
         SpellId = 22;
         BaseManaCost = 5;
         SpellLevel = 1;

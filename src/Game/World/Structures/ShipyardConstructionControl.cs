@@ -15,8 +15,8 @@ public class ShipyardConstructionControl(CustomNode owner) : StructureConstructi
     // Shipyard.pas:93
     public override void GetInfo(Troop troop, out string text, out int gold, out int days)
     {
-        string shipyard = AbilityRules.TranslateResourceString(GetEngine(), GameText.ShipyardText);
-        text = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.BuildFormat), [shipyard]);
+        string shipyard = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.ShipyardText);
+        text = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.BuildFormat), args: [shipyard]);
         gold = 50;
         days = 2;
     }
@@ -33,7 +33,7 @@ public class ShipyardConstructionControl(CustomNode owner) : StructureConstructi
             sbyte y = coordinate37.Y;
             sbyte l = coordinate37.MapLevel;
             MapLevel mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(l);
-            HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, 0);
+            HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, radius: 0);
             while (walk.HexNumber < 7 && !result)
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
@@ -47,7 +47,7 @@ public class ShipyardConstructionControl(CustomNode owner) : StructureConstructi
 
             if (!result)
             {
-                reason = AbilityRules.TranslateResourceString(GetEngine(), s_canOnlyBuildNextToWaterText);
+                reason = AbilityRules.TranslateResourceString(GetEngine(), S: s_canOnlyBuildNextToWaterText);
             }
         }
 

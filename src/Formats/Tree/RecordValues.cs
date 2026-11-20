@@ -21,7 +21,7 @@ public static class RecordValues
             throw new InvalidOperationException($"{typeof(T).Name} is not a stored image. A record moves through its [StoredLayout] image.");
         }
 
-        RecordTypeInfo info = RecordCatalog.Require(RecordTypeInfo.StoredName(typeof(T)), null, name);
+        RecordTypeInfo info = RecordCatalog.Require(RecordTypeInfo.StoredName(typeof(T)), file: null, path: name);
         byte[] image = new byte[Unsafe.SizeOf<T>()];
         MemoryMarshal.Write(image, in value);
         if (image.Length < info.Size)
@@ -31,7 +31,7 @@ public static class RecordValues
 
         if (info.BareSet)
         {
-            ((SetRecordField)info.Fields[0]).TransferNamed(persister, name, image.AsSpan(info.Fields[0].Offset, info.Fields[0].Size));
+            ((SetRecordField)info.Fields[0]).TransferNamed(persister, name, image: image.AsSpan(info.Fields[0].Offset, length: info.Fields[0].Size));
         }
         else if (persister.Loading)
         {
@@ -50,7 +50,7 @@ public static class RecordValues
     {
         foreach (RecordFieldInfo field in info.Fields)
         {
-            field.Transfer(persister, image.Slice(field.Offset, field.Size));
+            field.Transfer(persister, image: image.Slice(field.Offset, length: field.Size));
         }
     }
 }

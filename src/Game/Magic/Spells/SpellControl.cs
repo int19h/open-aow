@@ -48,28 +48,31 @@ public class SpellControl(CustomNode owner) : EngineObject(owner)
     public int GetCount() => RegisteredSpells.Count;
 
     // Spells.PAS:601
-    public Spell GetSpell(int index)
+    public Spell this[int index]
     {
-        if (index < 0)
+        get
         {
-            // { Preserve the original assertion diagnostic. }
-            Assert(false, "Invalid SpellID", "D:\\AoWDev\\AoWE\\inc\\Spells.PAS", 54989);
-        }
-        if (index < RegisteredSpells.Count)
-        {
-            Spell p = RegisteredSpells[index];
-            return p;
-        }
-        else
-        {
-            return null;
+            if (index < 0)
+            {
+                // { Preserve the original assertion diagnostic. }
+                Assert(false, message: "Invalid SpellID", file: "D:\\AoWDev\\AoWE\\inc\\Spells.PAS", line: 54989);
+            }
+            if (index < RegisteredSpells.Count)
+            {
+                Spell p = RegisteredSpells[index];
+                return p;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 
     // RegisterSpell stores exactly one instance per id and refuses a second registration. The caller names
     // the kind registered at that id. Another class throws InvalidCastException. An id past the list returns
     // null, as GetSpell does.
-    public T GetSpell<T>(int index) where T : Spell => (T)GetSpell(index);
+    public T GetSpell<T>(int index) where T : Spell => (T)this[index];
 
     // Spells.PAS:610
     public void RegisterSpell(Spell spell)
@@ -149,7 +152,7 @@ public class SpellControl(CustomNode owner) : EngineObject(owner)
         {
             if (RegisteredSpells[i] is not null && spheres.Contains(RegisteredSpells[i].MagicSphere))
             {
-                _ = spellStrings.AddObject(RegisteredSpells[i].SpellName, IntToObject(i));
+                _ = spellStrings.AddObject(RegisteredSpells[i].SpellName, item: IntToObject(i));
             }
         }
     }

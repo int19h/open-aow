@@ -18,7 +18,7 @@ public class RemotePlayerCommunicationControl(EngineObject creator) : PlayerComm
     public event SendDataEvent OnSendData;
 
     // NetworkE.pas:819
-    public override int GetLocalSystemId() => _localSystemId;
+    public override int LocalSystemId => _localSystemId;
 
     // NetworkE.pas:782
     // { The number of different system IDs among the players }
@@ -55,7 +55,7 @@ public class RemotePlayerCommunicationControl(EngineObject creator) : PlayerComm
         {
             stream.SetLength(PackageDataList.PackageData[0].Length);
             int size = (int)stream.Length;
-            Move(PackageDataList.PackageData[0].GetBuffer().AsSpan(0, size), stream.GetBuffer().AsSpan(0, size), size);
+            Move(PackageDataList.PackageData[0].GetBuffer().AsSpan(0, length: size), destination: stream.GetBuffer().AsSpan(0, length: size), count: size);
             PackageDataList.Delete(0);
             return true;
         }

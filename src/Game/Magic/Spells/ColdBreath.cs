@@ -16,7 +16,7 @@ public class ColdBreath : CombatSpell
     public ColdBreath(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_coldBreathText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_coldBreathText);
         SpellId = 108;
         SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 6;

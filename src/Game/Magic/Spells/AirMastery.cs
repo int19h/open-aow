@@ -20,7 +20,7 @@ public class AirMastery : GlobalEnchantmentSpell
     public AirMastery(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.AirMasteryText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.AirMasteryText);
         SpellId = 60;
         SpellType = SpellType.Global;
         BaseManaCost = 1;
@@ -35,12 +35,12 @@ public class AirMastery : GlobalEnchantmentSpell
     public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
         _ = base.ExecuteTokenEvent(eventValue, source, executeCount);
-        SpellTargets.NotifySpellSphere(source.Player, MagicSphere.Air);
+        SpellTargets.NotifySpellSphere(source.Player, sphere: MagicSphere.Air);
         MapCoordinate coordinate50 = source.GetLocation();
         sbyte x = coordinate50.X;
         sbyte y = coordinate50.Y;
         sbyte l = coordinate50.MapLevel;
-        _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
+        _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, radius: 0);
         Animation animation = new(null)
         {
             Holder = CreationHolder(),
@@ -50,8 +50,8 @@ public class AirMastery : GlobalEnchantmentSpell
         animation.AnimationMap = StrategicMap.Current;
         animation.Tag = (StrategicMap.Current.ViewWidth & 65535) | (StrategicMap.Current.ViewHeight << 16);
         animation.Activate();
-        _ = GamePack.Current.SpellControl.GetSpell(60).CastSounds.Play(0);
-        CastingDone(source, eventValue.EventMana);
+        _ = GamePack.Current.SpellControl[60].CastSounds.Play(0);
+        CastingDone(source, mana: eventValue.EventMana);
         return false;
     }
 
@@ -73,12 +73,12 @@ public class AirMastery : GlobalEnchantmentSpell
             for (int i = 0; i <= count - 1; i++)
             {
                 int x = Random(animation.Tag & 65535);
-                int y = Random((int)(((uint)(int)(uint)animation.Tag) >> 16));
+                int y = Random((int)(uint)animation.Tag >>> 16);
                 int speed = Random(15) + 5;
                 int image = Random(3);
                 x += (animation.FrameCounter - 45) * speed * 2;
                 y -= (animation.FrameCounter - 45) * speed;
-                _ = CastImages.Show(image, lockedSurface.ClipRectangle.Left + x, lockedSurface.ClipRectangle.Top + y, 0, lockedSurface);
+                _ = CastImages.Show(image, lockedSurface.ClipRectangle.Left + x, lockedSurface.ClipRectangle.Top + y, frame: 0, lockedSurface);
             }
         }
 

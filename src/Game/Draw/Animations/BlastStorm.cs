@@ -25,17 +25,17 @@ public class BlastStorm(CustomNode owner) : Storm(owner)
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         int frame = FrameCounter % _stormImages.Count;
-        sbyte hexY = GetHexY();
-        HexGeometry.HexToPixel(GetHexX(), hexY, out int x, out int y);
+        sbyte hexY = HexY;
+        HexGeometry.HexToPixel(HexX, hexY, out int x, out int y);
         LibraryImage stormImageWidth = _stormImages[frame];
-        x = x - (int)(((uint)stormImageWidth.Width) >> 1) + 10;
+        x = x - (stormImageWidth.Width >>> 1) + 10;
         LibraryImage stormImageHeight = _stormImages[frame];
-        y = y - (int)(((uint)stormImageHeight.Height) >> 1) - 42;
+        y = y - (stormImageHeight.Height >>> 1) - 42;
         _stormImages[frame].Show(x - pixelXSurface, y - pixelYSurface, lockedSurface);
     }
 
     // Storms.pas:358
-    public override void GetTargetDamageInfo(sbyte player, sbyte X, sbyte Y, sbyte L, ref StormDamageInfo info) => AbilityRules.RetrieveStormDamageInfo(player, StormType(), X, Y, L, 0, 4, out info);
+    public override void GetTargetDamageInfo(sbyte player, sbyte X, sbyte Y, sbyte L, ref StormDamageInfo info) => AbilityRules.RetrieveStormDamageInfo(player, storm: StormType(), X, Y, L, innerRadius: 0, outerRadius: 4, out info);
 
     // Storms.pas:349
     public override void UpdateTargetSelection(TargetSelectionControl selection)
@@ -54,19 +54,19 @@ public class BlastStorm(CustomNode owner) : Storm(owner)
         Rect r = default;
         base.InitializeStorm(player, X, Y, L);
         string stormFileName = StormFileName();
-        _stormImages = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), stormFileName);
-        if (GetVisible())
+        _stormImages = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: stormFileName);
+        if (Visible)
         {
             _stormImages.LoadDiscardableImageData();
         }
 
-        r.Left = -(int)(((uint)_stormImages[0].Width) >> 1);
-        r.Right = (int)(((uint)_stormImages[0].Width) >> 1);
-        r.Top = -(int)(((uint)_stormImages[0].Height) >> 1);
-        r.Bottom = (int)(((uint)_stormImages[0].Height) >> 1);
+        r.Left = -(_stormImages[0].Width >>> 1);
+        r.Right = _stormImages[0].Width >>> 1;
+        r.Top = -(_stormImages[0].Height >>> 1);
+        r.Bottom = _stormImages[0].Height >>> 1;
         SetDimensions(r);
-        _ = StrategicMap.Current.ValidateTerrainObservation(StrategicMap.Current.CurrentPlayer, X, Y, L, 4);
-        if (StrategicMap.Current.CurrentPlayer == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.TerrainVisible(X, Y, L, 4))
+        _ = StrategicMap.Current.ValidateTerrainObservation(StrategicMap.Current.CurrentPlayer, X, Y, L, radius: 4);
+        if (StrategicMap.Current.CurrentPlayer == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.TerrainVisible(X, Y, L, radius: 4))
         {
             _ = AudioPlayback.PlaySample("SFX\\ATTACK\\STORMBIG.WAV");
         }
@@ -80,44 +80,44 @@ public class BlastStorm(CustomNode owner) : Storm(owner)
         NewFrame();
         if (FrameCounter == 8)
         {
-            sbyte hexLevel = GetHexLevel();
-            sbyte hexY = GetHexY();
-            sbyte hexX = GetHexX();
-            _ = StrategicMap.Current.ChangeTerrain(null, hexX, hexY, hexLevel, 1, ChangeStormTerrain, StormTerrainChanged);
+            sbyte hexLevel = HexLevel;
+            sbyte hexY = HexY;
+            sbyte hexX = HexX;
+            _ = StrategicMap.Current.ChangeTerrain(null, hexX, hexY, L: hexLevel, radius: 1, changeTerrainProc: ChangeStormTerrain, terrainChangedProc: StormTerrainChanged);
         }
         else
         {
             if (FrameCounter == 12)
             {
-                sbyte hexLevel = GetHexLevel();
-                sbyte hexY = GetHexY();
-                sbyte hexX = GetHexX();
-                _ = StrategicMap.Current.ChangeTerrain(null, hexX, hexY, hexLevel, 2, ChangeStormTerrain, StormTerrainChanged);
+                sbyte hexLevel = HexLevel;
+                sbyte hexY = HexY;
+                sbyte hexX = HexX;
+                _ = StrategicMap.Current.ChangeTerrain(null, hexX, hexY, L: hexLevel, radius: 2, changeTerrainProc: ChangeStormTerrain, terrainChangedProc: StormTerrainChanged);
             }
             else
             {
                 if (FrameCounter == 18)
                 {
-                    sbyte hexLevel = GetHexLevel();
-                    sbyte hexY = GetHexY();
-                    sbyte hexX = GetHexX();
-                    _ = StrategicMap.Current.ChangeTerrain(null, hexX, hexY, hexLevel, 3, ChangeStormTerrain, StormTerrainChanged);
+                    sbyte hexLevel = HexLevel;
+                    sbyte hexY = HexY;
+                    sbyte hexX = HexX;
+                    _ = StrategicMap.Current.ChangeTerrain(null, hexX, hexY, L: hexLevel, radius: 3, changeTerrainProc: ChangeStormTerrain, terrainChangedProc: StormTerrainChanged);
                 }
                 else
                 {
                     if (FrameCounter == 22)
                     {
-                        sbyte hexLevel = GetHexLevel();
-                        sbyte hexY = GetHexY();
-                        sbyte hexX = GetHexX();
-                        _ = StrategicMap.Current.ChangeTerrain(null, hexX, hexY, hexLevel, 4, ChangeStormTerrain, StormTerrainChanged);
+                        sbyte hexLevel = HexLevel;
+                        sbyte hexY = HexY;
+                        sbyte hexX = HexX;
+                        _ = StrategicMap.Current.ChangeTerrain(null, hexX, hexY, L: hexLevel, radius: 4, changeTerrainProc: ChangeStormTerrain, terrainChangedProc: StormTerrainChanged);
                     }
                 }
             }
         }
         if (_stormImages.Count == FrameCounter)
         {
-            AbilityRules.TriggerStormDamage(mapLevel: GetHexLevel(), y: GetHexY(), x: GetHexX(), storm: StormType(), innerRadius: 0, outerRadius: 4, player: StrategicMap.Current.CurrentPlayer);
+            AbilityRules.TriggerStormDamage(mapLevel: HexLevel, y: HexY, x: HexX, storm: StormType(), innerRadius: 0, outerRadius: 4, player: StrategicMap.Current.CurrentPlayer);
             return false;
         }
         else
@@ -131,7 +131,7 @@ public class BlastStorm(CustomNode owner) : Storm(owner)
     {
         _stormImages.ReleaseDiscardableImageData();
         string stormFileName = StormFileName();
-        GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), stormFileName);
+        GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: stormFileName);
         base.FinalizeStorm();
     }
 

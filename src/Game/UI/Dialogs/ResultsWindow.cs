@@ -112,10 +112,10 @@ public partial class ResultsWindow(UIContext ui) : UIModule(ui)
                     _maxStructures = stats.TurnInfo.GetTurnInfo(j).Structures;
                 }
 
-                int superiority = stats.TurnInfo.GetTurnInfo(j).GetSuperiority();
+                int superiority = stats.TurnInfo.GetTurnInfo(j).Superiority;
                 if (_maxStrength < superiority)
                 {
-                    _maxStrength = stats.TurnInfo.GetTurnInfo(j).GetSuperiority();
+                    _maxStrength = stats.TurnInfo.GetTurnInfo(j).Superiority;
                 }
             }
         }
@@ -136,32 +136,32 @@ public partial class ResultsWindow(UIContext ui) : UIModule(ui)
         {
             if (GoldCheckBox.Checked)
             {
-                DrawGold((sbyte)Players[i], bounds, surface);
+                DrawGold((sbyte)Players[i], R: bounds, surface);
             }
 
             if (ManaCheckBox.Checked)
             {
-                DrawMana((sbyte)Players[i], bounds, surface);
+                DrawMana((sbyte)Players[i], R: bounds, surface);
             }
 
             if (HeroesCheckBox.Checked)
             {
-                DrawHeroes((sbyte)Players[i], bounds, surface);
+                DrawHeroes((sbyte)Players[i], R: bounds, surface);
             }
 
             if (StructuresCheckBox.Checked)
             {
-                DrawStructures((sbyte)Players[i], bounds, surface);
+                DrawStructures((sbyte)Players[i], R: bounds, surface);
             }
 
             if (ArmiesCheckBox.Checked)
             {
-                DrawArmies((sbyte)Players[i], bounds, surface);
+                DrawArmies((sbyte)Players[i], R: bounds, surface);
             }
 
             if (StrengthCheckBox.Checked)
             {
-                DrawStrength((sbyte)Players[i], bounds, surface);
+                DrawStrength((sbyte)Players[i], R: bounds, surface);
             }
         }
     }
@@ -190,7 +190,7 @@ public partial class ResultsWindow(UIContext ui) : UIModule(ui)
                 // { Original advances from the rounded previous x coordinate. }
                 x2 = Round((double)x1 + xStep);
                 y2 = Round((double)nextY * yStep);
-                DrawImageLine(image, x1 + R.Left, R.Bottom - y1, R.Left + x2, R.Bottom - y2, 1, surface);
+                DrawImageLine(image, x1 + R.Left, R.Bottom - y1, R.Left + x2, R.Bottom - y2, spacing: 1, lockedSurface: surface);
                 lastY = nextY;
             }
 
@@ -203,7 +203,7 @@ public partial class ResultsWindow(UIContext ui) : UIModule(ui)
                 // { Original repeats the rounding and discards its result. }
                 _ = Round((double)lastY * yStep);
                 y2 = nextY;
-                DrawImageLine(image, x1 + R.Left, R.Bottom - y1, R.Left + x2, R.Bottom - y2, 1, surface);
+                DrawImageLine(image, x1 + R.Left, R.Bottom - y1, R.Left + x2, R.Bottom - y2, spacing: 1, lockedSurface: surface);
             }
         }
     }
@@ -219,7 +219,7 @@ public partial class ResultsWindow(UIContext ui) : UIModule(ui)
         }
 
         Player playerLocal = StrategicMap.Current.Players.GetPlayers(player);
-        DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, _maxTurns, _maxGold, R, surface);
+        DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, turns: _maxTurns, maximum: _maxGold, R, surface);
         values?.Dispose();
         KeyMaximumLabel.Text = IntToStr(_maxGold);
     }
@@ -235,7 +235,7 @@ public partial class ResultsWindow(UIContext ui) : UIModule(ui)
         }
 
         Player playerLocal = StrategicMap.Current.Players.GetPlayers(player);
-        DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, _maxTurns, _maxMana, R, surface);
+        DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, turns: _maxTurns, maximum: _maxMana, R, surface);
         values?.Dispose();
         KeyMaximumLabel.Text = IntToStr(_maxMana);
     }
@@ -251,7 +251,7 @@ public partial class ResultsWindow(UIContext ui) : UIModule(ui)
         }
 
         Player playerLocal = StrategicMap.Current.Players.GetPlayers(player);
-        DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, _maxTurns, _maxHeroes, R, surface);
+        DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, turns: _maxTurns, maximum: _maxHeroes, R, surface);
         values?.Dispose();
         KeyMaximumLabel.Text = IntToStr(_maxHeroes);
     }
@@ -267,7 +267,7 @@ public partial class ResultsWindow(UIContext ui) : UIModule(ui)
         }
 
         Player playerLocal = StrategicMap.Current.Players.GetPlayers(player);
-        DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, _maxTurns, _maxArmies, R, surface);
+        DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, turns: _maxTurns, maximum: _maxArmies, R, surface);
         values?.Dispose();
         KeyMaximumLabel.Text = IntToStr(_maxArmies);
     }
@@ -283,7 +283,7 @@ public partial class ResultsWindow(UIContext ui) : UIModule(ui)
         }
 
         Player playerLocal = StrategicMap.Current.Players.GetPlayers(player);
-        DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, _maxTurns, _maxStructures, R, surface);
+        DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, turns: _maxTurns, maximum: _maxStructures, R, surface);
         values?.Dispose();
         KeyMaximumLabel.Text = IntToStr(_maxStructures);
     }
@@ -295,11 +295,11 @@ public partial class ResultsWindow(UIContext ui) : UIModule(ui)
         TurnInfo info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
         for (int i = 0, last = info.GetCount() - 1; i <= last; i++)
         {
-            _ = values.Add(info.GetTurnInfo(i).GetSuperiority());
+            _ = values.Add(info.GetTurnInfo(i).Superiority);
         }
 
         Player playerLocal = StrategicMap.Current.Players.GetPlayers(player);
-        DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, _maxTurns, _maxStrength, R, surface);
+        DrawGraph(UI.Graphics.EndScene[playerLocal.PlayerRace + 13], values, turns: _maxTurns, maximum: _maxStrength, R, surface);
         values?.Dispose();
         // { Original strength graph labels the structures maximum. }
         KeyMaximumLabel.Text = IntToStr(_maxStructures);
@@ -339,7 +339,7 @@ public partial class ResultsWindow(UIContext ui) : UIModule(ui)
         FinishPyre(UI.PyreScreen);
         UI.General.PlayButtonSound(0);
         UI.ResultsWindow.ResultsPanel.Visible = false;
-        AudioPlayback.FadeMusicVolume(UI.SoundDialog.MusicVolumeSlider.Position, 2);
+        AudioPlayback.FadeMusicVolume(UI.SoundDialog.MusicVolumeSlider.Position, speed: 2);
         if (StrategicMap.Current.GameStatus == StrategicMapGameStatus.Terminated)
         {
             if (UI.Engine.Campaign is null)
@@ -354,7 +354,7 @@ public partial class ResultsWindow(UIContext ui) : UIModule(ui)
         else
         {
             UI.TitleWindow.MainWindow.Visible = false;
-            VideoDialog.SetVideoMode(UI.VideoDialog, VideoDialog.ScreenMode.Game);
+            VideoDialog.SetVideoMode(UI.VideoDialog, fullScreen: VideoDialog.ScreenMode.Game);
             UI.VideoDialog.ApplyMode();
         }
     }
@@ -389,12 +389,12 @@ public partial class ResultsWindow(UIContext ui) : UIModule(ui)
             if (StrategicMap.Current.Players.GetPlayers(player).GetFace() is not null)
             {
                 byte player2 = Players[slot];
-                StrategicMap.Current.Players.GetPlayers(player2).Leader.ShowFace(r, surface);
+                StrategicMap.Current.Players.GetPlayers(player2).Leader.ShowFace(r, lockedSurface: surface);
             }
 
             byte player3 = Players[slot];
             Player playerPlayerRace = StrategicMap.Current.Players.GetPlayers(player3);
-            UI.Graphics.RelationWindow[playerPlayerRace.PlayerRace + 16].ShowClipped(component.WinLeft + ResultsPanel.AbsoluteLeft, component.WinTop + ResultsPanel.AbsoluteTop, surface);
+            UI.Graphics.RelationWindow[playerPlayerRace.PlayerRace + 16].ShowClipped(component.WinLeft + ResultsPanel.AbsoluteLeft, component.WinTop + ResultsPanel.AbsoluteTop, lockedSurface: surface);
         }
     }
 

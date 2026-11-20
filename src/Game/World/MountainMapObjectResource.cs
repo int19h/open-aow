@@ -15,6 +15,6 @@ public class MountainMapObjectResource(CustomNode owner) : Hexes.Terrain.Resourc
     public override int ResourceUserClassId() => 131432;
 
     // Mountain.pas:172
-    public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), GameText.MountainText);
+    public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: GameText.MountainText);
 
 }

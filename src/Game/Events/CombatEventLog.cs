@@ -63,35 +63,41 @@ public partial class CombatEventLog(CustomNode owner) : EventLog(owner)
     }
 
     // Combat2.pas:440
-    public override int GetLeftIcon()
+    public override int LeftIcon
     {
-        CombatData data = Logbook.FinalData;
-        if (data.Players.GetPlayers(data.AttackerPlayer).Player != 0)
+        get
         {
-            CombatPlayer players = data.Players.GetPlayers(data.AttackerPlayer);
-            return StrategicMap.Current.Players.GetPlayers(players.Player).PlayerRace;
-        }
-        else
-        {
-            return 12;
+            CombatData data = Logbook.FinalData;
+            if (data.Players.GetPlayers(data.AttackerPlayer).Player != 0)
+            {
+                CombatPlayer players = data.Players.GetPlayers(data.AttackerPlayer);
+                return StrategicMap.Current.Players.GetPlayers(players.Player).PlayerRace;
+            }
+            else
+            {
+                return 12;
+            }
         }
     }
 
     // Combat2.pas:449
-    public override int GetMiddleIcon() => 13;
+    public override int MiddleIcon => 13;
 
     // Combat2.pas:452
-    public override int GetRightIcon()
+    public override int RightIcon
     {
-        CombatData data = Logbook.FinalData;
-        if (data.Players.GetPlayers(data.DefenderPlayer).Player != 0)
+        get
         {
-            CombatPlayer players = data.Players.GetPlayers(data.DefenderPlayer);
-            return StrategicMap.Current.Players.GetPlayers(players.Player).PlayerRace;
-        }
-        else
-        {
-            return 12;
+            CombatData data = Logbook.FinalData;
+            if (data.Players.GetPlayers(data.DefenderPlayer).Player != 0)
+            {
+                CombatPlayer players = data.Players.GetPlayers(data.DefenderPlayer);
+                return StrategicMap.Current.Players.GetPlayers(players.Player).PlayerRace;
+            }
+            else
+            {
+                return 12;
+            }
         }
     }
 
@@ -109,7 +115,7 @@ public partial class CombatEventLog(CustomNode owner) : EventLog(owner)
         switch (trigger)
         {
             case ExecuteTrigger.User:
-                StrategicMap.Current.TriggerExecuteEventLog(this, false, done);
+                StrategicMap.Current.TriggerExecuteEventLog(this, immediate: false, done);
                 return true;
             case ExecuteTrigger.Event:
             case ExecuteTrigger.NewTurn:
@@ -131,7 +137,7 @@ public partial class CombatEventLog(CustomNode owner) : EventLog(owner)
                 showCombat = showCombat || Logbook.PlayerEliminated;
                 if (showCombat)
                 {
-                    StrategicMap.Current.TriggerExecuteEventLog(this, false, done);
+                    StrategicMap.Current.TriggerExecuteEventLog(this, immediate: false, done);
                     return true;
                 }
                 else
@@ -161,6 +167,6 @@ public partial class CombatEventLog(CustomNode owner) : EventLog(owner)
     public override void ViewLocation()
     {
         CombatData data = Logbook.FinalData;
-        CenterViewTo(data.Location.X, data.Location.Y, data.Location.MapLevel);
+        CenterViewTo(data.Location.X, data.Location.Y, L: data.Location.MapLevel);
     }
 }

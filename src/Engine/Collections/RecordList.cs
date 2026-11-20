@@ -18,7 +18,7 @@ public class RecordList<TRecord> : Persistent where TRecord : struct
     {
         if (index < 0)
         {
-            Error("List index out of bounds (%d)", index);
+            Error("List index out of bounds (%d)", data: index);
         }
 
         if (index >= _count)
@@ -33,12 +33,12 @@ public class RecordList<TRecord> : Persistent where TRecord : struct
     {
         if (newCapacity < _count || newCapacity > EngineServices.MaxListSize)
         {
-            Error("List capacity out of bounds (%d)", newCapacity);
+            Error("List capacity out of bounds (%d)", data: newCapacity);
         }
 
         if (newCapacity != _capacity)
         {
-            Array.Resize(ref _list, newCapacity);
+            Array.Resize(ref _list, newSize: newCapacity);
             _capacity = newCapacity;
         }
     }
@@ -47,7 +47,7 @@ public class RecordList<TRecord> : Persistent where TRecord : struct
     {
         if (newCount is < 0 or > EngineServices.MaxListSize)
         {
-            Error("List count out of bounds (%d)", newCount);
+            Error("List count out of bounds (%d)", data: newCount);
         }
 
         if (newCount > _capacity)
@@ -57,11 +57,11 @@ public class RecordList<TRecord> : Persistent where TRecord : struct
 
         if (newCount > _count)
         {
-            Array.Clear(_list, _count, newCount - _count);
+            Array.Clear(_list, index: _count, length: newCount - _count);
         }
         else
         {
-            Array.Clear(_list, newCount, _count - newCount);
+            Array.Clear(_list, index: newCount, length: _count - newCount);
         }
 
         _count = newCount;
@@ -85,7 +85,7 @@ public class RecordList<TRecord> : Persistent where TRecord : struct
         {
             Clear();
             SetCapacity(list._count);
-            Array.Copy(list._list, _list, list._count);
+            Array.Copy(list._list, destinationArray: _list, length: list._count);
             _count = list._count;
         }
         else
@@ -117,11 +117,11 @@ public class RecordList<TRecord> : Persistent where TRecord : struct
     {
         if (index < 0 || index >= _count)
         {
-            Error("List index out of bounds (%d)", index);
+            Error("List index out of bounds (%d)", data: index);
         }
 
         _count -= 1;
-        Array.Copy(_list, index + 1, _list, index, _count - index);
+        Array.Copy(_list, sourceIndex: index + 1, destinationArray: _list, destinationIndex: index, length: _count - index);
         _list[_count] = default;
     }
 
@@ -129,12 +129,12 @@ public class RecordList<TRecord> : Persistent where TRecord : struct
     {
         if (index1 < 0 || index1 >= _count)
         {
-            Error("List index out of bounds (%d)", index1);
+            Error("List index out of bounds (%d)", data: index1);
         }
 
         if (index2 < 0 || index2 >= _count)
         {
-            Error("List index out of bounds (%d)", index2);
+            Error("List index out of bounds (%d)", data: index2);
         }
 
         (_list[index1], _list[index2]) = (_list[index2], _list[index1]);
@@ -146,7 +146,7 @@ public class RecordList<TRecord> : Persistent where TRecord : struct
     {
         if (index < 0 || index > _count)
         {
-            Error("List index out of bounds (%d)", index);
+            Error("List index out of bounds (%d)", data: index);
         }
 
         if (_count == _capacity)
@@ -154,7 +154,7 @@ public class RecordList<TRecord> : Persistent where TRecord : struct
             Grow();
         }
 
-        Array.Copy(_list, index, _list, index + 1, _count - index);
+        Array.Copy(_list, sourceIndex: index, destinationArray: _list, destinationIndex: index + 1, length: _count - index);
         _list[index] = item;
         _count += 1;
     }
@@ -165,7 +165,7 @@ public class RecordList<TRecord> : Persistent where TRecord : struct
     {
         if (_count > 0)
         {
-            QuickSort(_list, 0, _count - 1, compare);
+            QuickSort(_list, L: 0, R: _count - 1, sCompare: compare);
         }
     }
 
@@ -177,7 +177,7 @@ public class RecordList<TRecord> : Persistent where TRecord : struct
         {
             i = L;
             int j = R;
-            TRecord p = sortList[(int)(((uint)(L + R)) >> 1)];
+            TRecord p = sortList[(L + R) >>> 1];
             do
             {
                 while (sCompare(sortList[i], p) < 0)
@@ -200,7 +200,7 @@ public class RecordList<TRecord> : Persistent where TRecord : struct
             while (!(i > j));
             if (L < j)
             {
-                QuickSort(sortList, L, j, sCompare);
+                QuickSort(sortList, L, R: j, sCompare);
             }
 
             L = i;
@@ -211,11 +211,11 @@ public class RecordList<TRecord> : Persistent where TRecord : struct
     public int Capacity { get => _capacity; set => SetCapacity(value); }
     public int Count { get => _count; set => SetCount(value); }
 
-    public TRecord this[int index] { get => Get(index); set => Put(index, value); }
+    public TRecord this[int index] { get => Get(index); set => Put(index, item: value); }
 
     public TRecord[] List => _list;
 
-    protected internal static void Error(string message, int data) => throw new ArgumentOutOfRangeException(paramName: null, DelphiFormat.Format(message, [data]));
+    protected internal static void Error(string message, int data) => throw new ArgumentOutOfRangeException(paramName: null, message: DelphiFormat.Format(message, args: [data]));
 
     // The record lists above with an object column. Engine.pas stored Integer(Object) in column A of a
     // TDoubleItemList or TQuadItemList and cast it back on read. These lists keep the reference itself,

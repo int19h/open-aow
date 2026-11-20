@@ -40,7 +40,7 @@ public class SongList : EngineObject
             try
             {
                 string songName = AudioPlayback.GetSongName(_songs[i]);
-                SongNames.Insert(0, songName);
+                SongNames.Insert(0, value: songName);
             }
             catch
             {

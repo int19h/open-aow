@@ -10,7 +10,7 @@ internal static class MemberNames
     private const BindingFlags Instance = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
 
     internal static string Of(FieldInfo field)
-        => field.Name is ['<', .. var rest] && rest.IndexOf(">k__BackingField", StringComparison.Ordinal) is int end and >= 0
+        => field.Name is ['<', .. var rest] && rest.IndexOf(">k__BackingField", comparisonType: StringComparison.Ordinal) is int end and >= 0
             ? rest[..end]
             : field.Name;
 
@@ -19,7 +19,7 @@ internal static class MemberNames
     {
         for (; type is not null; type = type.BaseType)
         {
-            if ((type.GetField(name, flags | BindingFlags.DeclaredOnly) ?? type.GetField($"<{name}>k__BackingField", flags | BindingFlags.DeclaredOnly)) is { } field)
+            if ((type.GetField(name, bindingAttr: flags | BindingFlags.DeclaredOnly) ?? type.GetField($"<{name}>k__BackingField", bindingAttr: flags | BindingFlags.DeclaredOnly)) is { } field)
             {
                 return field;
             }

@@ -8,31 +8,33 @@ public partial class MapObject
 {
     private int _unlinkedResourceId;
 
-    protected internal int GetResourceId() => GetResourceLinked() ? _resource.ResourceId : _unlinkedResourceId;
-
-    protected internal void SetResourceId(int value)
+    public int ResourceId
     {
-        if (GetResourceLinked())
+        get => ResourceLinked ? _resource.ResourceId : _unlinkedResourceId;
+        set
         {
-            throw new InvalidOperationException("Cannot set ResourceID when resource is linked!");
-        }
+            if (ResourceLinked)
+            {
+                throw new InvalidOperationException("Cannot set ResourceID when resource is linked!");
+            }
 
-        _unlinkedResourceId = value;
-        _resource = null;
+            _unlinkedResourceId = value;
+            _resource = null;
+        }
     }
 
     public virtual bool LinkToResource(GameEngine engine)
     {
-        if (!GetResourceLinked())
+        if (!ResourceLinked)
         {
             MapObjectResource resource = GetResourceList(engine).FindResource<MapObjectResource>(_unlinkedResourceId);
             if (resource is not null)
             {
                 _resource = resource;
-                SetResourceLinked(true);
+                ResourceLinked = true;
             }
         }
-        return GetResourceLinked();
+        return ResourceLinked;
     }
 
     public override void PersistFields(IPersister persister)
@@ -45,18 +47,18 @@ public partial class MapObject
 
         if (persister.Loading)
         {
-            SetResourceLinked(false);
+            ResourceLinked = false;
             _unlinkedResourceId = persister.Int32("ResourceId", value: _unlinkedResourceId);
             _resource = null;
             _ = LinkToResource(PersistSupport.Engine(persister));
-            if (!GetResourceLinked())
+            if (!ResourceLinked)
             {
                 throw new MapObjectResourceMissingException($"Resource Missing {GetType().Name} {_unlinkedResourceId}");
             }
         }
         else
         {
-            int id = GetResourceId();
+            int id = ResourceId;
             _ = persister.Int32("ResourceId", value: id);
         }
     }

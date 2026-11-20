@@ -107,7 +107,7 @@ public class JoinEventLog(CustomNode owner) : EventLog(owner)
         }
         else
         {
-            errorText = AbilityRules.TranslateResourceString(GetEngine(), GameText.TributeNotEnoughGoldText);
+            errorText = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.TributeNotEnoughGoldText);
         }
 
         return false;
@@ -134,7 +134,7 @@ public class JoinEventLog(CustomNode owner) : EventLog(owner)
             {
                 FirstUnitId = army.Units.GetUnit(i).UnitId;
                 int selectionCount = army.SelectionCount(Selection);
-                army.Units.GetUnit(i).GetJoinMessage(player, selectionCount - 1, Gold, joinMode, JoinMessage);
+                army.Units.GetUnit(i).GetJoinMessage(player, count: selectionCount - 1, amount: Gold, mode: joinMode, messages: JoinMessage);
             }
 
             Troop troop = army.Units.GetUnit(i);

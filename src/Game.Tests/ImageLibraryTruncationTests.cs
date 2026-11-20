@@ -11,10 +11,10 @@ public sealed class ImageLibraryTruncationTests
     private static byte[] Header(float version, int indexEnd = 24)
     {
         byte[] bytes = new byte[24];
-        _ = BitConverter.TryWriteBytes(bytes.AsSpan(8), version);
-        _ = BitConverter.TryWriteBytes(bytes.AsSpan(12), 24);
-        _ = BitConverter.TryWriteBytes(bytes.AsSpan(16), indexEnd);
-        _ = BitConverter.TryWriteBytes(bytes.AsSpan(20), indexEnd);
+        _ = BitConverter.TryWriteBytes(bytes.AsSpan(8), value: version);
+        _ = BitConverter.TryWriteBytes(bytes.AsSpan(12), value: 24);
+        _ = BitConverter.TryWriteBytes(bytes.AsSpan(16), value: indexEnd);
+        _ = BitConverter.TryWriteBytes(bytes.AsSpan(20), value: indexEnd);
         return bytes;
     }
 
@@ -26,7 +26,7 @@ public sealed class ImageLibraryTruncationTests
         // The four zero bytes are the palette count, so the index read sees the two bytes after them.
         yield return new object[] { "version 3 index cut short", Header(3).Concat(new byte[] { 0, 0, 0, 0, 0, 0 }).ToArray() };
         // A complete version 4 file whose index region holds only the palette count and no terminator.
-        yield return new object[] { "version 4 index without terminator", Header(4, 28).Concat(new byte[] { 0, 0, 0, 0 }).ToArray() };
+        yield return new object[] { "version 4 index without terminator", Header(4, indexEnd: 28).Concat(new byte[] { 0, 0, 0, 0 }).ToArray() };
     }
 
     [Theory]
@@ -43,7 +43,7 @@ public sealed class ImageLibraryTruncationTests
             stream.WriteBuffer(contents);
             stream.Position = 0;
             Task load = Task.Run(() => library.LoadFromStream(stream));
-            Assert.True(((IAsyncResult)load).AsyncWaitHandle.WaitOne(s_hangTimeout), $"{name}: the load did not end within {s_hangTimeout}");
+            Assert.True(((IAsyncResult)load).AsyncWaitHandle.WaitOne(s_hangTimeout), userMessage: $"{name}: the load did not end within {s_hangTimeout}");
             _ = Assert.IsType<EndOfStreamException>(load.Exception?.InnerException);
             Assert.Equal(0, library.Count);
         }

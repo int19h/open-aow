@@ -155,12 +155,12 @@ public partial class EmailGameSettingsDialog(UIContext ui) : UIModule(ui)
         PlayerScrollBar.Max = count - 1;
         PlayerScrollBar.NumberVisible = 6;
         PlayerPanel.Drawn = false;
-        UpdatePlayer(PlayerScrollBar.Position, PlayerLabel1, EmailAddressEdit1);
-        UpdatePlayer(PlayerScrollBar.Position + 1, PlayerLabel2, EmailAddressEdit2);
-        UpdatePlayer(PlayerScrollBar.Position + 2, PlayerLabel3, EmailAddressEdit3);
-        UpdatePlayer(PlayerScrollBar.Position + 3, PlayerLabel4, EmailAddressEdit4);
-        UpdatePlayer(PlayerScrollBar.Position + 4, PlayerLabel5, EmailAddressEdit5);
-        UpdatePlayer(PlayerScrollBar.Position + 5, PlayerLabel6, EmailAddressEdit6);
+        UpdatePlayer(PlayerScrollBar.Position, nameLabel: PlayerLabel1, emailEdit: EmailAddressEdit1);
+        UpdatePlayer(PlayerScrollBar.Position + 1, nameLabel: PlayerLabel2, emailEdit: EmailAddressEdit2);
+        UpdatePlayer(PlayerScrollBar.Position + 2, nameLabel: PlayerLabel3, emailEdit: EmailAddressEdit3);
+        UpdatePlayer(PlayerScrollBar.Position + 3, nameLabel: PlayerLabel4, emailEdit: EmailAddressEdit4);
+        UpdatePlayer(PlayerScrollBar.Position + 4, nameLabel: PlayerLabel5, emailEdit: EmailAddressEdit5);
+        UpdatePlayer(PlayerScrollBar.Position + 5, nameLabel: PlayerLabel6, emailEdit: EmailAddressEdit6);
     }
 
     // AoWEmailGameSettingsDlg.pas:199
@@ -200,7 +200,7 @@ public partial class EmailGameSettingsDialog(UIContext ui) : UIModule(ui)
             {
                 PlayerSetupSettings setting = c.Settings.GetSettings(i);
                 string localEmailAddress = UI.Engine.Registry.GetLocalEmailAddress();
-                _ = EmailAddresses.AddObject(localEmailAddress, IntToObject(setting.Race));
+                _ = EmailAddresses.AddObject(localEmailAddress, item: IntToObject(setting.Race));
             }
         }
 

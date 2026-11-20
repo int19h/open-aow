@@ -30,7 +30,7 @@ public class WebCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
         if (Successful)
         {
             CombatUnit target = combat.CombatData.FindId<CombatUnit>(TargetId);
-            _ = GamePack.Current.AbilityControl.GetAbility(97).Expand(target.Troop);
+            _ = GamePack.Current.AbilityControl[97].Expand(target.Troop);
         }
     }
 
@@ -39,7 +39,7 @@ public class WebCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
     {
         if (viewer.Time == 0)
         {
-            _ = GamePack.Current.AbilityControl.GetAbility(27).SfxLibrary.Play(0);
+            _ = GamePack.Current.AbilityControl[27].SfxLibrary.Play(0);
         }
 
         if (viewer.Delay == viewer.Time)
@@ -56,7 +56,7 @@ public class WebCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
         base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
         if (objectValue.Id == TargetId)
         {
-            _ = GamePack.Current.AbilityControl.GetAbility(27).ImageSequences.Show(0, X + 32, Y + 32, viewer.Time, surface);
+            _ = GamePack.Current.AbilityControl[27].ImageSequences.Show(0, X + 32, Y + 32, frame: viewer.Time, lockedSurface: surface);
         }
     }
 

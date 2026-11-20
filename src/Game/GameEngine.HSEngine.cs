@@ -204,7 +204,7 @@ public partial class GameEngine : OwningNode
                 HssHeader header = default;
                 // An own scenario set lists the 52-byte header of its validated image, or the header
                 // taken from the document when that image cannot carry the set (own-formats.md 4.1).
-                byte[] head = FileBoundary.ListingHeader(directory + entry.Name, GameProfile.ScenarioSet, 52);
+                byte[] head = FileBoundary.ListingHeader(directory + entry.Name, profile: GameProfile.ScenarioSet, count: 52);
                 if (head.Length == 52)
                 {
                     header = MemoryMarshal.Read<HssHeader>(head);
@@ -252,9 +252,9 @@ public partial class GameEngine : OwningNode
         {
             ReadTree(tree, objectValue: HexSpriteSet, progress: progress);
             ActivateEngineObject(HexSpriteSet);
-            EngineMessage.InitializeMessage(out EngineMessage message, 65556, this);
-            HexSpriteSet.MessageProc(ref message, this);
-            ControlNode.MessageProc(ref message, this);
+            EngineMessage.InitializeMessage(out EngineMessage message, messageId: 65556, sender: this);
+            HexSpriteSet.MessageProc(ref message, sender: this);
+            ControlNode.MessageProc(ref message, sender: this);
             _onHssLoadedStore.Raise(this);
         }
         finally
@@ -479,7 +479,7 @@ public partial class GameEngine : OwningNode
     {
         GameFileResult prepared = GameBoundary.PrepareLoad(payload, fileName: null, use: GameProfile.WorldMap, validators: FormatMapping.Validators);
         return !prepared.Succeeded
-            ? throw new ConversionException(prepared.Report.Error ?? new FormatDiagnostic(Codes.Format, "The campaign map document was refused."))
+            ? throw new ConversionException(prepared.Report.Error ?? new FormatDiagnostic(Codes.Format, Message: "The campaign map document was refused."))
             : GameBoundary.ReadTree(prepared, use: GameProfile.WorldMap);
     }
 
@@ -491,12 +491,12 @@ public partial class GameEngine : OwningNode
         fileName = FileBoundary.ReadName(fileName);
         if (HexSpriteSet is null || CompareText(fileName, HssFileName) != 0)
         {
-            LoadHss(fileName, false, progress, GameProfile.ScenarioSet);
+            LoadHss(fileName, edit: false, progress, profile: GameProfile.ScenarioSet);
         }
         else
         {
-            EngineMessage.InitializeMessage(out EngineMessage message, 65557, this);
-            HexSpriteSet.MessageProc(ref message, this);
+            EngineMessage.InitializeMessage(out EngineMessage message, messageId: 65557, sender: this);
+            HexSpriteSet.MessageProc(ref message, sender: this);
         }
     }
 

@@ -12,7 +12,7 @@ public class HighPrayerBlessingAbility : DurationAbility
     public HighPrayerBlessingAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_highPrayerBlessingText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_highPrayerBlessingText);
         AbilityId = 100;
         AbilityType = AbilityType.Enhancement;
         DurationMode = DurationMode.EntireCombat;

@@ -17,7 +17,7 @@ public sealed class OriginalComparisonTests : FormatsTest
     public void LayoutReservedMemberIsRefusedEverywhere()
     {
         // On a root object.
-        JsonObject rootDoc = Envelope("hero-list", "hero-list", new JsonObject().Add("$layout", new JsonObject()));
+        JsonObject rootDoc = Envelope("hero-list", profile: "hero-list", root: new JsonObject().Add("$layout", new JsonObject()));
         ConversionException rootError = Assert.Throws<ConversionException>(() => GameFiles.Export(rootDoc));
         Assert.Equal(Codes.ReservedMember, rootError.Diagnostic.Code);
         Assert.Equal("root.$layout", rootError.Diagnostic.Path);
@@ -42,7 +42,7 @@ public sealed class OriginalComparisonTests : FormatsTest
             .Add("$container", new JsonObject().Add("profile", new JsonString("world-hsm")).Add("compression", new JsonString("none")))
             .Add("$layout", new JsonObject())
             .Add("root", new JsonObject().Add("$class", new JsonString("StrategicMap")));
-        JsonObject campaignDoc = Envelope("campaign-save", "campaign", new JsonObject()
+        JsonObject campaignDoc = Envelope("campaign-save", profile: "campaign", root: new JsonObject()
             .Add("$class", new JsonString("Campaign"))
             .Add("Map", nestedMap));
         ConversionException mapError = Assert.Throws<ConversionException>(() => GameFiles.Export(campaignDoc));
@@ -92,14 +92,14 @@ public sealed class OriginalComparisonTests : FormatsTest
         byte[] file = hsm.ToArray();
 
         FileProfile profile = FileProfile.Find("world-hsm")!;
-        ImportResult imported = GameFiles.Import(file, profile, "map");
+        ImportResult imported = GameFiles.Import(file, profile, kind: "map");
         JsonObject root = (JsonObject)imported.Document["root"]!;
         Assert.Equal(7, ((JsonInteger)root["Day"]!).Value);
         Assert.Equal(99, ((JsonInteger)root["DefendersSeed"]!).Value);
         Assert.Null(root.Find("UnknownProperty57"));
 
         // Tree reader skips id 57 too, keeping Day and DefendersSeed intact.
-        ObjectNode tree = OriginalBackend.Read(rootImage, mapClass, Schema, "game");
+        ObjectNode tree = OriginalBackend.Read(rootImage, classValue: mapClass, Schema, engine: "game");
         Assert.Equal(7, ((IntegerNode)tree.Find("Day")!).Value);
         Assert.Equal(99, ((IntegerNode)tree.Find("DefendersSeed")!).Value);
         Assert.Null(tree.Find("UnknownProperty57"));
@@ -129,9 +129,9 @@ public sealed class OriginalComparisonTests : FormatsTest
         badHsm.Int32(mapClass.Id!.Value);
         badHsm.Bytes([1, 0, 0]);
         badHsm.Bytes(badRoot);
-        ConversionException convError = Assert.Throws<ConversionException>(() => GameFiles.Import(badHsm.ToArray(), profile, "map"));
+        ConversionException convError = Assert.Throws<ConversionException>(() => GameFiles.Import(badHsm.ToArray(), profile, kind: "map"));
         Assert.Equal(Codes.UnknownProperty, convError.Diagnostic.Code);
-        ConversionException treeError = Assert.Throws<ConversionException>(() => OriginalBackend.Read(badRoot, mapClass, Schema, "game"));
+        ConversionException treeError = Assert.Throws<ConversionException>(() => OriginalBackend.Read(badRoot, classValue: mapClass, Schema, engine: "game"));
         Assert.Equal(Codes.UnknownProperty, treeError.Diagnostic.Code);
     }
 
@@ -142,8 +142,8 @@ public sealed class OriginalComparisonTests : FormatsTest
 
         // Wrap ILB inside a MapObjectResource in a written-object profile.
         byte[] resourceImage = WrapMapObjectResourceIlb(ilb);
-        WrittenObjectProfile profile = new("pfs", ["pfs"], "MapObjectResource", "game");
-        ImportResult imported = GameFiles.Import(resourceImage, profile, "pfs");
+        WrittenObjectProfile profile = new("pfs", kinds: ["pfs"], rootClass: "MapObjectResource", engine: "game");
+        ImportResult imported = GameFiles.Import(resourceImage, profile, kind: "pfs");
         JsonObject root = (JsonObject)imported.Document["root"]!;
         JsonObject ilbJson = (JsonObject)root["ImageLibrary"]!;
         byte[] decodedIlb = System.Convert.FromBase64String(((JsonString)ilbJson["$ilb"]!).Value);
@@ -155,7 +155,7 @@ public sealed class OriginalComparisonTests : FormatsTest
         byte[] exported = profile.Export(
             container: (JsonObject)imported.Document["$container"]!,
             root: root,
-            context: new EncodeContext(Schema, profile.Engine, profile.Name, file: null, limits: FormatLimits.Default));
+            context: new EncodeContext(Schema, profile.Engine, profile: profile.Name, file: null, limits: FormatLimits.Default));
         OriginalComparisonResult comparison = GameFiles.CompareG1(resourceImage, exported: exported, profile: profile, document: imported.Document, kind: "pfs");
         Assert.Equal(OriginalMatchKind.Masked, comparison.Kind);
         Assert.Equal(3, comparison.MaskedBytesByRule[OriginalComparison.RuleIlbHeaderPadding]);
@@ -175,7 +175,7 @@ public sealed class OriginalComparisonTests : FormatsTest
     {
         FileProfile profile = FileProfile.Find("scenario-set")!;
         byte[] clean = BuildMinimalHss(name: "Test", tailNonZero: false);
-        ImportResult imported = GameFiles.Import(clean, profile, "scenario-set");
+        ImportResult imported = GameFiles.Import(clean, profile, kind: "scenario-set");
         byte[] exported = GameFiles.Export(imported.Document).Bytes;
         Assert.Equal(OriginalMatchKind.Exact, GameFiles.CompareG1(clean, exported: exported, profile: profile, document: imported.Document, kind: "scenario-set").Kind);
 
@@ -188,7 +188,7 @@ public sealed class OriginalComparisonTests : FormatsTest
 
         // Nonzero header tail masks hss-header-tail (38 bytes for 4-char name) and file-crc (4 bytes).
         byte[] dirty = BuildMinimalHss(name: "Test", tailNonZero: true);
-        ImportResult dirtyImported = GameFiles.Import(dirty, profile, "scenario-set");
+        ImportResult dirtyImported = GameFiles.Import(dirty, profile, kind: "scenario-set");
         byte[] dirtyExported = GameFiles.Export(dirtyImported.Document).Bytes;
         OriginalComparisonResult masked = GameFiles.CompareG1(dirty, exported: dirtyExported, profile: profile, document: dirtyImported.Document, kind: "scenario-set");
         Assert.Equal(OriginalMatchKind.Masked, masked.Kind);
@@ -214,7 +214,7 @@ public sealed class OriginalComparisonTests : FormatsTest
         byte[] file = orig.ToArray();
 
         FileProfile profile = FileProfile.Find("hero-list")!;
-        ImportResult imported = GameFiles.Import(file, profile, "hero-list");
+        ImportResult imported = GameFiles.Import(file, profile, kind: "hero-list");
         byte[] exported = GameFiles.Export(imported.Document).Bytes;
         OriginalComparisonResult masked = GameFiles.CompareG1(file, exported: exported, profile: profile, document: imported.Document, kind: "hero-list");
         Assert.Equal(OriginalMatchKind.Masked, masked.Kind);
@@ -237,11 +237,11 @@ public sealed class OriginalComparisonTests : FormatsTest
     private static byte[] BuildMinimalHss(string name, bool tailNonZero)
     {
         byte[] head = new byte[52];
-        BinaryPrimitives.WriteInt32LittleEndian(head, 52);
+        BinaryPrimitives.WriteInt32LittleEndian(head, value: 52);
         "\u0004HSS\0"u8.CopyTo(head.AsSpan(4));
         byte[] nameBytes = System.Text.Encoding.ASCII.GetBytes(name);
         head[9] = (byte)nameBytes.Length;
-        nameBytes.CopyTo(head, 10);
+        nameBytes.CopyTo(head, index: 10);
         if (tailNonZero)
         {
             head[51] = 0xAB;
@@ -308,8 +308,8 @@ public sealed class OriginalComparisonTests : FormatsTest
         buf.Int32(-1); // terminator
 
         int total = buf.Length;
-        buf.PatchInt32(indexEndAt, total);
-        buf.PatchInt32(sizeAt, total);
+        buf.PatchInt32(indexEndAt, value: total);
+        buf.PatchInt32(sizeAt, value: total);
         return buf.ToArray();
     }
 }

@@ -16,14 +16,14 @@ public sealed record class DocumentNodePath
         _index = index;
     }
 
-    public static DocumentNodePath Root { get; } = new(null, "root", -1);
-    public static DocumentNodePath Envelope { get; } = new(null, "$", -1);
+    public static DocumentNodePath Root { get; } = new(null, name: "root", index: -1);
+    public static DocumentNodePath Envelope { get; } = new(null, name: "$", index: -1);
 
-    public static DocumentNodePath Named(string name) => new(null, name, -1);
+    public static DocumentNodePath Named(string name) => new(null, name, index: -1);
 
-    public DocumentNodePath Member(string member) => new(this, member, -1);
+    public DocumentNodePath Member(string member) => new(this, name: member, index: -1);
 
-    public DocumentNodePath Item(int item) => new(this, null, item);
+    public DocumentNodePath Item(int item) => new(this, name: null, index: item);
 
     public override string ToString()
     {

@@ -21,7 +21,7 @@ public class RoundAttackAbility : TouchAbility
         Holder = holder;
         AbilityId = 114;
         AbilityType = AbilityType.Combat;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_roundAttackText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_roundAttackText);
     }
 
     // AoWAb.PAS:2404
@@ -48,7 +48,7 @@ public class RoundAttackAbility : TouchAbility
             }
         }
 
-        StrikeCombatAction action = CombatObject.CreateStrikeCombatAction(source, target, false);
+        StrikeCombatAction action = CombatObject.CreateStrikeCombatAction(source, target, defensive: false);
         if (action is not null)
         {
             combat.ExecuteCombatAction(action);
@@ -56,11 +56,11 @@ public class RoundAttackAbility : TouchAbility
         }
 
         CombatObject other;
-        for (int i = combat.Sides[(int)target.GetSide()].GetCount() - 1; i >= 0; i--)
+        for (int i = combat.Sides[(int)target.Side].GetCount() - 1; i >= 0; i--)
         {
-            CombatSideIndex side = target.GetSide();
+            CombatSideIndex side = target.Side;
             other = combat.Sides[(int)side].GetObjects(i);
-            if (other != target && other.GetEnabled() && (int)(((uint)other.Position) >> 4) == (int)(((uint)target.Position) >> 4) && (!other.GetAbilityEnabled(1) || source.GetAbilityEnabled(1)) && !source.FastBattleWallInBetween(other.Position) && other.FastBattleRoundDistance() <= combat.GetRound() - 1 && damageTypes - other.GetImmunityTypes() != Set<DamageType>.Of())
+            if (other != target && other.GetEnabled() && other.Position >>> 4 == target.Position >>> 4 && (!other.GetAbilityEnabled(1) || source.GetAbilityEnabled(1)) && !source.FastBattleWallInBetween(other.Position) && other.FastBattleRoundDistance() <= combat.Round - 1 && damageTypes - other.GetImmunityTypes() != Set<DamageType>.Of())
             {
                 _ = targets.Add(other);
             }
@@ -70,7 +70,7 @@ public class RoundAttackAbility : TouchAbility
         while (count != 0 && targets.Count != 0)
         {
             other = targets[StrategicMap.Current.Random(targets.Count)];
-            action = CombatObject.CreateStrikeCombatAction(source, other, false);
+            action = CombatObject.CreateStrikeCombatAction(source, target: other, defensive: false);
             if (action is not null)
             {
                 combat.ExecuteCombatAction(action);
@@ -86,17 +86,17 @@ public class RoundAttackAbility : TouchAbility
     }
 
     // AoWAb.PAS:2286
-    public override int GetDamageValue(Troop attacker, Troop defender) => CanTouchUnit(attacker, defender) ? Troop.UnitStrikeDamageValue(attacker, defender) * 2 : 0;
+    public override int GetDamageValue(Troop attacker, Troop defender) => CanTouchUnit(attacker, target: defender) ? Troop.UnitStrikeDamageValue(attacker, target: defender) * 2 : 0;
 
     // AoWAb.PAS:2318
     public override void GetDamageValues(Troop attacker, Troop defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
-        if (wallSituation == WallSituation.None && CanTouchUnit(attacker, defender))
+        if (wallSituation == WallSituation.None && CanTouchUnit(attacker, target: defender))
         {
-            int unitStrikeDamageValue = Troop.UnitStrikeDamageValue(attacker, defender);
+            int unitStrikeDamageValue = Troop.UnitStrikeDamageValue(attacker, target: defender);
             damageValues.SourceDamage = unitStrikeDamageValue * 2;
             damageValues.SourceCost = 0;
-            int unitStrikeDamageValueLocal = Troop.UnitStrikeDamageValue(attacker, defender);
+            int unitStrikeDamageValueLocal = Troop.UnitStrikeDamageValue(attacker, target: defender);
             damageValues.TargetDamage = unitStrikeDamageValueLocal;
             damageValues.TargetCost = 0;
             Set<DamageType> damageTypes = GamePack.Current.AbilityControl.GetAbility<StrikeAbility>(21).GetDamageTypes(attacker);
@@ -121,7 +121,7 @@ public class RoundAttackAbility : TouchAbility
             int attack = troop.GetAttack();
             int damage = troop.GetDamage();
 
-            strength = AbilityRules.LimitedDamage(attack, damage, 1) * 3;
+            strength = AbilityRules.LimitedDamage(attack, defense: damage, damage: 1) * 3;
             types = GamePack.Current.AbilityControl.GetAbility<StrikeAbility>(21).GetDamageTypes(owner);
         }
     }
@@ -129,14 +129,14 @@ public class RoundAttackAbility : TouchAbility
     // AoWAb.PAS:2338
     public override void FastBattleGetDamageValues(CombatObject attacker, CombatObject defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
-        if (wallSituation == WallSituation.None && CanTouch(attacker, defender))
+        if (wallSituation == WallSituation.None && CanTouch(attacker, target: defender))
         {
             Set<DamageType> damageTypes = CombatObject.MeleeDamageTypes(attacker);
-            int strikeDamageValue = CombatObject.StrikeDamageValue(attacker, defender);
+            int strikeDamageValue = CombatObject.StrikeDamageValue(attacker, target: defender);
             damageValues.SourceDamage = strikeDamageValue;
             sbyte damage = attacker.GetDamage();
             damageValues.SourceCost = damage;
-            int strikeDamageValueLocal = CombatObject.StrikeDamageValue(defender, attacker);
+            int strikeDamageValueLocal = CombatObject.StrikeDamageValue(defender, target: attacker);
             damageValues.TargetDamage = strikeDamageValueLocal;
             sbyte defenderDamage = defender.GetDamage();
             damageValues.TargetCost = defenderDamage;
@@ -144,13 +144,13 @@ public class RoundAttackAbility : TouchAbility
             damageValues.DamageTypes = damageTypes - immunityTypes;
             Battle combat = attacker.Combat;
             int count = 0;
-            for (int i = combat.Sides[(int)defender.GetSide()].GetCount() - 1; i >= 0; i--)
+            for (int i = combat.Sides[(int)defender.Side].GetCount() - 1; i >= 0; i--)
             {
                 // { Preserve the original saved registers. }
-                CombatSideIndex side = defender.GetSide();
+                CombatSideIndex side = defender.Side;
                 CombatObject target = combat.Sides[(int)side].GetObjects(i);
                 // { Original tests Defender's flying ability here, rather than Target's. }
-                if (target != defender && target.GetEnabled() && (int)(((uint)target.Position) >> 4) == (int)(((uint)defender.Position) >> 4) && (!defender.GetAbilityEnabled(1) || attacker.GetAbilityEnabled(1)) && !attacker.FastBattleWallInBetween(target.Position) && target.FastBattleRoundDistance() <= combat.GetRoundDistance() && damageTypes - target.GetImmunityTypes() != Set<DamageType>.Of())
+                if (target != defender && target.GetEnabled() && target.Position >>> 4 == defender.Position >>> 4 && (!defender.GetAbilityEnabled(1) || attacker.GetAbilityEnabled(1)) && !attacker.FastBattleWallInBetween(target.Position) && target.FastBattleRoundDistance() <= combat.RoundDistance && damageTypes - target.GetImmunityTypes() != Set<DamageType>.Of())
                 {
                     count += 1;
                 }
@@ -179,14 +179,14 @@ public class RoundAttackAbility : TouchAbility
     // AoWAb.PAS:2383
     public override void TacticalBattleGetDamageValues(CombatObject attacker, CombatObject defender, ref AbilityDamageValues damageValues)
     {
-        if (CanTouch(attacker, defender))
+        if (CanTouch(attacker, target: defender))
         {
-            int strikeDamageValue = CombatObject.StrikeDamageValue(attacker, defender);
+            int strikeDamageValue = CombatObject.StrikeDamageValue(attacker, target: defender);
             damageValues.SourceDamage = strikeDamageValue * 2;
             sbyte damage = attacker.GetDamage();
             damageValues.SourceCost = damage * 2;
             // { Original repeats the forward strike instead of reversing the arguments. }
-            int strikeDamageValueLocal = CombatObject.StrikeDamageValue(attacker, defender);
+            int strikeDamageValueLocal = CombatObject.StrikeDamageValue(attacker, target: defender);
             damageValues.TargetDamage = strikeDamageValueLocal;
             sbyte defenderDamage = defender.GetDamage();
             damageValues.TargetCost = defenderDamage;

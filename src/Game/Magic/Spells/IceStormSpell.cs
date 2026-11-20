@@ -14,7 +14,7 @@ public class IceStormSpell : StormSpell
     public IceStormSpell(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameTables.IceStormText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.IceStormText);
         SpellId = 4;
         BaseManaCost = 5;
         SpellLevel = 4;

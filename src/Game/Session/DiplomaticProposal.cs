@@ -143,14 +143,14 @@ public abstract record DiplomaticProposal
 
     // The relation of First to Second.
     protected static DiplomaticRelation Relation(sbyte first, sbyte second)
-        => StrategicMap.Current.Players.GetDiplomaticRelation((sbyte)(byte)first, (sbyte)(byte)second);
+        => StrategicMap.Current.Players.GetDiplomaticRelation((sbyte)(byte)first, otherPlayer: (sbyte)(byte)second);
 
     // Shows Log at once when Player is seated.
     protected static void ShowTo(EventLog log, sbyte player)
     {
         if (player == StrategicMap.Current.SeatedPlayer)
         {
-            _ = log.Execute(false, ExecuteTrigger.Event, null);
+            _ = log.Execute(false, trigger: ExecuteTrigger.Event, done: null);
         }
     }
 
@@ -159,7 +159,7 @@ public abstract record DiplomaticProposal
     {
         DiplomaticActionEventLog log = action.CreateEventLog();
         BroadcastDiplomaticEvent(log, exclude);
-        ShowTo(log, viewer);
+        ShowTo(log, player: viewer);
         _ = log.Release();
     }
 
@@ -169,13 +169,13 @@ public abstract record DiplomaticProposal
         StrategicMap.Current.Players.GetPlayers(action.Target).PlayerSeen((sbyte)(byte)action.Source);
         if (action.Source == StrategicMap.Current.SeatedPlayer)
         {
-            string messageSent = AbilityRules.TranslateResourceString(action.GetEngine(), s_messageSentText);
+            string messageSent = AbilityRules.TranslateResourceString(action.GetEngine(), S: s_messageSentText);
             StrategicMap.Current.ShowMessage(messageSent);
         }
 
         DiplomaticActionEventLog log = action.CreateEventLog();
         StrategicMap.Current.Players.GetPlayers(action.Target).EventLogbook.AddEvent(log);
-        ShowTo(log, action.Target);
+        ShowTo(log, player: action.Target);
         _ = log.Release();
         StrategicMap.Current.DiplomaticRelationsChangedEventsStore.Raise(action);
     }
@@ -193,21 +193,21 @@ public abstract record DiplomaticProposal
         DiplomaticActionEventLog log = StrategicMap.Current.Players.GetPlayers(action.Target).EventLogbook.FindId<DiplomaticActionEventLog>(action.EventLogId);
         log.SetDiplomaticAction(action);
         StrategicMap.Current.Players.GetPlayers(action.Source).EventLogbook.AddEvent(log);
-        ShowTo(log, action.Source);
+        ShowTo(log, player: action.Source);
     }
 
     // The logbook line of an answered kind: Proposed while unanswered, else the answer about Subject.
     protected static string Outcome(DiplomaticAction action, string proposed, string subject, string accepted, string otherwise) => action.Reaction switch
     {
         DiplomaticActionReaction.None => proposed,
-        DiplomaticActionReaction.Reject => AbilityRules.Format(AbilityRules.TranslateResourceString(action.GetEngine(), RejectedFormat), [subject]),
+        DiplomaticActionReaction.Reject => AbilityRules.Format(AbilityRules.TranslateResourceString(action.GetEngine(), S: RejectedFormat), arguments: [subject]),
         DiplomaticActionReaction.Accept => accepted,
-        DiplomaticActionReaction.Ignore => AbilityRules.Format(AbilityRules.TranslateResourceString(action.GetEngine(), IgnoredFormat), [subject]),
+        DiplomaticActionReaction.Ignore => AbilityRules.Format(AbilityRules.TranslateResourceString(action.GetEngine(), S: IgnoredFormat), arguments: [subject]),
         _ => otherwise,
     };
 
     // The accepted line about Subject.
-    protected static string AcceptedLine(string subject, GameEngine engine) => AbilityRules.Format(AbilityRules.TranslateResourceString(engine, AcceptedFormat), [subject]);
+    protected static string AcceptedLine(string subject, GameEngine engine) => AbilityRules.Format(AbilityRules.TranslateResourceString(engine, S: AcceptedFormat), arguments: [subject]);
 
     private static readonly string s_messageSentText = "Message sent";
 

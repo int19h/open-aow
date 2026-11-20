@@ -35,7 +35,7 @@ public class HeroResourceList : ResourceCollection, IChildList<HeroResource>
             HeroResource resource = this[i];
             if (resource is not null && (GetEngine().User.Contains(EngineUserElement.Designer) || !resource.Hidden) && heroTypes.Contains(resource.HeroType))
             {
-                _ = list.AddObject(resource.Name, IntToObject(i));
+                _ = list.AddObject(resource.Name, item: IntToObject(i));
             }
         }
 

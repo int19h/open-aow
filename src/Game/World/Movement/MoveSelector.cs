@@ -59,7 +59,7 @@ public class MoveSelector : IDisposable
             if (capture == this && hexSpriteMapMouse.Button == MouseButton.Left)
             {
                 int hexY = Map.Mouse.HexY;
-                SelectPath((sbyte)hexSpriteMapMouse.HexX, (sbyte)hexY, (sbyte)Map.ViewMapLevel);
+                SelectPath((sbyte)hexSpriteMapMouse.HexX, (sbyte)hexY, L: (sbyte)Map.ViewMapLevel);
             }
         }
     }
@@ -195,11 +195,11 @@ public class MoveSelector : IDisposable
                                     HexGeometry.HexToPixel(x1, y1, out pixelX, out pixelY);
                                     if (CurrentMove == i || CurrentMove == -1)
                                     {
-                                        GamePack.Current.CursorImages[imageIndex].Show(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, surface);
+                                        GamePack.Current.CursorImages[imageIndex].Show(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, lockedSurface: surface);
                                     }
                                     else
                                     {
-                                        GamePack.Current.CursorImages[imageIndex].ShowTransparent(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, surface);
+                                        GamePack.Current.CursorImages[imageIndex].ShowTransparent(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, lockedSurface: surface);
                                     }
                                 }
                             }
@@ -210,13 +210,13 @@ public class MoveSelector : IDisposable
                                     imageIndex = pointsLeft <= settings.MovePoints ? 41 : 48;
 
                                     HexGeometry.HexToPixel(x1, y1, out pixelX, out pixelY);
-                                    GamePack.Current.CursorImages[imageIndex].Show(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, surface);
+                                    GamePack.Current.CursorImages[imageIndex].Show(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, lockedSurface: surface);
                                     if (pointsLeft - settings.Path[j].MoveCost != 0 && settings.Path[j + 1].Location.MapLevel == Map.ViewMapLevel)
                                     {
                                         imageIndex = pointsLeft - settings.Path[j].MoveCost <= settings.MovePoints ? 41 : 48;
 
                                         HexGeometry.HexToPixel(x2, y2, out pixelX, out pixelY);
-                                        GamePack.Current.CursorImages[imageIndex].Show(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, surface);
+                                        GamePack.Current.CursorImages[imageIndex].Show(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, lockedSurface: surface);
                                     }
                                 }
                                 else
@@ -224,11 +224,11 @@ public class MoveSelector : IDisposable
                                     imageIndex = pointsLeft <= settings.MovePoints ? 41 : 48;
 
                                     HexGeometry.HexToPixel(x1, y1, out pixelX, out pixelY);
-                                    GamePack.Current.CursorImages[imageIndex].ShowTransparent(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, surface);
+                                    GamePack.Current.CursorImages[imageIndex].ShowTransparent(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, lockedSurface: surface);
                                     imageIndex = pointsLeft - settings.Path[j].MoveCost <= settings.MovePoints ? 41 : 48;
 
                                     HexGeometry.HexToPixel(x2, y2, out pixelX, out pixelY);
-                                    GamePack.Current.CursorImages[imageIndex].ShowTransparent(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, surface);
+                                    GamePack.Current.CursorImages[imageIndex].ShowTransparent(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, lockedSurface: surface);
                                 }
                             }
                         }
@@ -248,21 +248,21 @@ public class MoveSelector : IDisposable
                         if (settings.MovePoints < settings.PathMovePoints)
                         {
                             imageIndex = 48;
-                            GamePack.Current.CursorImages[imageIndex].Show(pixelX, pixelY, surface);
+                            GamePack.Current.CursorImages[imageIndex].Show(pixelX, pixelY, lockedSurface: surface);
                             // { Original sets the font color before checking the font for nil. }
                             Creator.GetEngine().CombatFont.Color = 0;
-                            Creator.GetEngine().CombatFont?.SetTextCentered(pixelX + 25, pixelY + 9, IntToStr(((settings.PathMovePoints - settings.MovePoints - 1) / settings.Moves) + 1), surface);
+                            Creator.GetEngine().CombatFont?.SetTextCentered(pixelX + 25, pixelY + 9, text: IntToStr(((settings.PathMovePoints - settings.MovePoints - 1) / settings.Moves) + 1), lockedSurface: surface);
                         }
                         else
                         {
                             imageIndex = 41;
                             if (CurrentMove == i || CurrentMove == -1)
                             {
-                                GamePack.Current.CursorImages[imageIndex].Show(pixelX, pixelY, surface);
+                                GamePack.Current.CursorImages[imageIndex].Show(pixelX, pixelY, lockedSurface: surface);
                             }
                             else
                             {
-                                GamePack.Current.CursorImages[imageIndex].ShowTransparent(pixelX, pixelY, surface);
+                                GamePack.Current.CursorImages[imageIndex].ShowTransparent(pixelX, pixelY, lockedSurface: surface);
                             }
                         }
                     }
@@ -279,11 +279,11 @@ public class MoveSelector : IDisposable
                             imageIndex = 41;
                             if (CurrentMove == i || CurrentMove == -1)
                             {
-                                GamePack.Current.CursorImages[imageIndex].Show(pixelX, pixelY, surface);
+                                GamePack.Current.CursorImages[imageIndex].Show(pixelX, pixelY, lockedSurface: surface);
                             }
                             else
                             {
-                                GamePack.Current.CursorImages[imageIndex].ShowTransparent(pixelX, pixelY, surface);
+                                GamePack.Current.CursorImages[imageIndex].ShowTransparent(pixelX, pixelY, lockedSurface: surface);
                             }
                         }
                     }
@@ -299,7 +299,7 @@ public class MoveSelector : IDisposable
                         HexGeometry.HexToPixel(mapField.HexX, mapField.HexY, out pixelX, out pixelY);
                         pixelX = pixelX - Map.ViewPixelX - 8;
                         pixelY = pixelY - Map.ViewPixelY - 8;
-                        GamePack.Current.CursorImages[41].Show(pixelX, pixelY, surface);
+                        GamePack.Current.CursorImages[41].Show(pixelX, pixelY, lockedSurface: surface);
                     }
                 }
             }

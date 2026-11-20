@@ -160,7 +160,7 @@ public partial class MapWindow(UIContext ui) : UIModule(ui)
             MapViewer.SceneHeight = MainWindow.WinHeight - 24;
             if (MainWindow.DoubleBuffered)
             {
-                MapViewer.ShowScene(12, 12, MainWindow.BackSurface);
+                MapViewer.ShowScene(12, 12, surface: MainWindow.BackSurface);
             }
             else
             {
@@ -354,7 +354,7 @@ public partial class MapWindow(UIContext ui) : UIModule(ui)
 
                     break;
                 case 119:
-                    if (!UI.Engine.Demo && UI.Engine.Registry.GetDeveloper())
+                    if (!UI.Engine.Demo && UI.Engine.Registry.Developer)
                     {
                         if (StrategicMap.Current.CombatMap is not null)
                         {

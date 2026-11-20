@@ -358,7 +358,7 @@ public partial class EmailGameSettingsDialog : ILayoutModule
         EmailAddressEdit1.WinWidth = 230;
         EmailAddressEdit1.BorderWidth = 8;
         EmailAddressEdit1.BorderHeight = 5;
-        EmailAddressEdit1.OnChange += sender => EmailAddressEdit1Change(sender, 0);
+        EmailAddressEdit1.OnChange += sender => EmailAddressEdit1Change(sender, slot: 0);
         EmailAddressEdit1.MaxChars = 0;
         EmailAddressEdit1.CursorChar = 95;
         EmailAddressEdit1.BlinkDelay = 1;
@@ -521,7 +521,7 @@ public partial class EmailGameSettingsDialog : ILayoutModule
         EmailAddressEdit2.WinWidth = 230;
         EmailAddressEdit2.BorderWidth = 8;
         EmailAddressEdit2.BorderHeight = 6;
-        EmailAddressEdit2.OnChange += sender => EmailAddressEdit1Change(sender, 1);
+        EmailAddressEdit2.OnChange += sender => EmailAddressEdit1Change(sender, slot: 1);
         EmailAddressEdit2.MaxChars = 0;
         EmailAddressEdit2.CursorChar = 95;
         EmailAddressEdit2.BlinkDelay = 1;
@@ -554,7 +554,7 @@ public partial class EmailGameSettingsDialog : ILayoutModule
         EmailAddressEdit3.WinWidth = 230;
         EmailAddressEdit3.BorderWidth = 8;
         EmailAddressEdit3.BorderHeight = 6;
-        EmailAddressEdit3.OnChange += sender => EmailAddressEdit1Change(sender, 2);
+        EmailAddressEdit3.OnChange += sender => EmailAddressEdit1Change(sender, slot: 2);
         EmailAddressEdit3.MaxChars = 0;
         EmailAddressEdit3.CursorChar = 95;
         EmailAddressEdit3.BlinkDelay = 1;
@@ -609,7 +609,7 @@ public partial class EmailGameSettingsDialog : ILayoutModule
         EmailAddressEdit4.WinWidth = 230;
         EmailAddressEdit4.BorderWidth = 8;
         EmailAddressEdit4.BorderHeight = 6;
-        EmailAddressEdit4.OnChange += sender => EmailAddressEdit1Change(sender, 3);
+        EmailAddressEdit4.OnChange += sender => EmailAddressEdit1Change(sender, slot: 3);
         EmailAddressEdit4.MaxChars = 0;
         EmailAddressEdit4.CursorChar = 95;
         EmailAddressEdit4.BlinkDelay = 1;
@@ -710,7 +710,7 @@ public partial class EmailGameSettingsDialog : ILayoutModule
         player1Pnl.WinLeft = 1;
         player1Pnl.WinTop = 0;
         player1Pnl.WinWidth = 120;
-        player1Pnl.OnDrawBack += (sender, surface) => Player6PnlDrawBack(sender, surface, 0);
+        player1Pnl.OnDrawBack += (sender, surface) => Player6PnlDrawBack(sender, lockedSurface: surface, slot: 0);
         player1Pnl.Masked = true;
         player1Pnl.Alignment.AlignWidth = AlignWidth.Left;
         player1Pnl.Alignment.AlignHeight = AlignHeight.Top;
@@ -766,7 +766,7 @@ public partial class EmailGameSettingsDialog : ILayoutModule
         player2Pnl.WinLeft = 1;
         player2Pnl.WinTop = 20;
         player2Pnl.WinWidth = 120;
-        player2Pnl.OnDrawBack += (sender, surface) => Player6PnlDrawBack(sender, surface, 1);
+        player2Pnl.OnDrawBack += (sender, surface) => Player6PnlDrawBack(sender, lockedSurface: surface, slot: 1);
         player2Pnl.Masked = true;
         player2Pnl.Alignment.AlignWidth = AlignWidth.Left;
         player2Pnl.Alignment.AlignHeight = AlignHeight.Top;
@@ -795,7 +795,7 @@ public partial class EmailGameSettingsDialog : ILayoutModule
         player3Pnl.WinLeft = 1;
         player3Pnl.WinTop = 40;
         player3Pnl.WinWidth = 120;
-        player3Pnl.OnDrawBack += (sender, surface) => Player6PnlDrawBack(sender, surface, 2);
+        player3Pnl.OnDrawBack += (sender, surface) => Player6PnlDrawBack(sender, lockedSurface: surface, slot: 2);
         player3Pnl.Masked = true;
         player3Pnl.Alignment.AlignWidth = AlignWidth.Left;
         player3Pnl.Alignment.AlignHeight = AlignHeight.Top;
@@ -824,7 +824,7 @@ public partial class EmailGameSettingsDialog : ILayoutModule
         player4Pnl.WinLeft = 1;
         player4Pnl.WinTop = 60;
         player4Pnl.WinWidth = 120;
-        player4Pnl.OnDrawBack += (sender, surface) => Player6PnlDrawBack(sender, surface, 3);
+        player4Pnl.OnDrawBack += (sender, surface) => Player6PnlDrawBack(sender, lockedSurface: surface, slot: 3);
         player4Pnl.Masked = true;
         player4Pnl.Alignment.AlignWidth = AlignWidth.Left;
         player4Pnl.Alignment.AlignHeight = AlignHeight.Top;
@@ -891,7 +891,7 @@ public partial class EmailGameSettingsDialog : ILayoutModule
         EmailAddressEdit5.WinWidth = 230;
         EmailAddressEdit5.BorderWidth = 8;
         EmailAddressEdit5.BorderHeight = 6;
-        EmailAddressEdit5.OnChange += sender => EmailAddressEdit1Change(sender, 4);
+        EmailAddressEdit5.OnChange += sender => EmailAddressEdit1Change(sender, slot: 4);
         EmailAddressEdit5.MaxChars = 0;
         EmailAddressEdit5.CursorChar = 95;
         EmailAddressEdit5.BlinkDelay = 1;
@@ -946,7 +946,7 @@ public partial class EmailGameSettingsDialog : ILayoutModule
         EmailAddressEdit6.WinWidth = 230;
         EmailAddressEdit6.BorderWidth = 8;
         EmailAddressEdit6.BorderHeight = 6;
-        EmailAddressEdit6.OnChange += sender => EmailAddressEdit1Change(sender, 5);
+        EmailAddressEdit6.OnChange += sender => EmailAddressEdit1Change(sender, slot: 5);
         EmailAddressEdit6.MaxChars = 0;
         EmailAddressEdit6.CursorChar = 95;
         EmailAddressEdit6.BlinkDelay = 1;
@@ -963,7 +963,7 @@ public partial class EmailGameSettingsDialog : ILayoutModule
         player5Pnl.WinLeft = 1;
         player5Pnl.WinTop = 80;
         player5Pnl.WinWidth = 120;
-        player5Pnl.OnDrawBack += (sender, surface) => Player6PnlDrawBack(sender, surface, 4);
+        player5Pnl.OnDrawBack += (sender, surface) => Player6PnlDrawBack(sender, lockedSurface: surface, slot: 4);
         player5Pnl.Masked = true;
         player5Pnl.Alignment.AlignWidth = AlignWidth.Left;
         player5Pnl.Alignment.AlignHeight = AlignHeight.Top;
@@ -992,7 +992,7 @@ public partial class EmailGameSettingsDialog : ILayoutModule
         player6Pnl.WinLeft = 1;
         player6Pnl.WinTop = 100;
         player6Pnl.WinWidth = 120;
-        player6Pnl.OnDrawBack += (sender, surface) => Player6PnlDrawBack(sender, surface, 5);
+        player6Pnl.OnDrawBack += (sender, surface) => Player6PnlDrawBack(sender, lockedSurface: surface, slot: 5);
         player6Pnl.Masked = true;
         player6Pnl.Alignment.AlignWidth = AlignWidth.Left;
         player6Pnl.Alignment.AlignHeight = AlignHeight.Top;
@@ -1105,9 +1105,9 @@ public partial class EmailGameSettingsDialog : ILayoutModule
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";
-        translator.TargetsData.Add(new TranslationTarget("", "Items", 0));
-        translator.TargetsData.Add(new TranslationTarget("", "Text", 0));
-        translator.TargetsData.Add(new TranslationTarget("", "ToolTipText", 0));
+        translator.TargetsData.Add(new TranslationTarget("", PropertyName: "Items", Options: 0));
+        translator.TargetsData.Add(new TranslationTarget("", PropertyName: "Text", Options: 0));
+        translator.TargetsData.Add(new TranslationTarget("", PropertyName: "ToolTipText", Options: 0));
         session.EndRead(translator);
         session.EndRead(this);
         okBtn.Window = Window;

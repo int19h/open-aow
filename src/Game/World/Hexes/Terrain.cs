@@ -62,7 +62,7 @@ public class Terrain(CustomNode owner) : TerrainMapObject(owner)
         {
             if (StrategicMap.Current.Random(20) == 0)
             {
-                TerrainMapObjectResource r = FindCompatibleResource(base.Resource.TerrainType, 1, 0);
+                TerrainMapObjectResource r = FindCompatibleResource(base.Resource.TerrainType, overlayType: 1, decorationType: 0);
                 if (r is not null)
                 {
                     MapField oldOwner = Owner;
@@ -89,13 +89,13 @@ public class Terrain(CustomNode owner) : TerrainMapObject(owner)
             return;
         }
 
-        TerrainMapObjectResource resource = FindCompatibleResource(base.Resource.TerrainType, 3, 3);
+        TerrainMapObjectResource resource = FindCompatibleResource(base.Resource.TerrainType, overlayType: 3, decorationType: 3);
         if (resource is null)
         {
             return;
         }
 
-        UpdateTerrain(Owner.Owner, GetHexX(), GetHexY());
+        UpdateTerrain(Owner.Owner, HexX, HexY);
         MapField owner = Owner;
         RemoveFromMap();
         SetResource(resource);

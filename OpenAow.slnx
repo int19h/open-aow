@@ -1,4 +1,8 @@
 <Solution>
+  <Folder Name="/analyzers/">
+    <Project Path="analyzers/Aow.Analyzers.csproj" />
+    <Project Path="analyzers/Tests/Aow.Analyzers.Tests.csproj" />
+  </Folder>
   <Project Path="src/Aow/Aow.csproj" />
   <Project Path="src/Headless/Aow.Headless.csproj" />
   <Folder Name="/src/" />

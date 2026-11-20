@@ -20,7 +20,7 @@ public class MindDecay : CombatSpell
     public MindDecay(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_mindDecayText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_mindDecayText);
         SpellId = 106;
         SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 5;

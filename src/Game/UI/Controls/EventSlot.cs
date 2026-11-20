@@ -21,7 +21,7 @@ internal static class EventSlot
     public static NotifyEvent<TBase> Add<TBase, TOwner>(TOwner owner, string slot, NotifyEvent<TOwner> value)
         where TBase : class
         where TOwner : class, TBase
-        => value is null ? null : Keep(owner, new NotifyView<TBase, TOwner>(owner, slot, value)).Invoke;
+        => value is null ? null : Keep(owner, view: new NotifyView<TBase, TOwner>(owner, slot, typed: value)).Invoke;
 
     public static NotifyEvent<TBase> Remove<TBase, TOwner>(TOwner owner, string slot, NotifyEvent<TOwner> value)
         where TBase : class
@@ -31,7 +31,7 @@ internal static class EventSlot
     public static MouseEvent<TBase> Add<TBase, TOwner>(TOwner owner, string slot, MouseEvent<TOwner> value)
         where TBase : class
         where TOwner : class, TBase
-        => value is null ? null : Keep(owner, new MouseView<TBase, TOwner>(owner, slot, value)).Invoke;
+        => value is null ? null : Keep(owner, view: new MouseView<TBase, TOwner>(owner, slot, typed: value)).Invoke;
 
     public static MouseEvent<TBase> Remove<TBase, TOwner>(TOwner owner, string slot, MouseEvent<TOwner> value)
         where TBase : class
@@ -41,7 +41,7 @@ internal static class EventSlot
     public static MouseMoveEvent<TBase> Add<TBase, TOwner>(TOwner owner, string slot, MouseMoveEvent<TOwner> value)
         where TBase : class
         where TOwner : class, TBase
-        => value is null ? null : Keep(owner, new MouseMoveView<TBase, TOwner>(owner, slot, value)).Invoke;
+        => value is null ? null : Keep(owner, view: new MouseMoveView<TBase, TOwner>(owner, slot, typed: value)).Invoke;
 
     public static MouseMoveEvent<TBase> Remove<TBase, TOwner>(TOwner owner, string slot, MouseMoveEvent<TOwner> value)
         where TBase : class
@@ -51,7 +51,7 @@ internal static class EventSlot
     public static KeyPressEvent<TBase> Add<TBase, TOwner>(TOwner owner, string slot, KeyPressEvent<TOwner> value)
         where TBase : class
         where TOwner : class, TBase
-        => value is null ? null : Keep(owner, new KeyPressView<TBase, TOwner>(owner, slot, value)).Invoke;
+        => value is null ? null : Keep(owner, view: new KeyPressView<TBase, TOwner>(owner, slot, typed: value)).Invoke;
 
     public static KeyPressEvent<TBase> Remove<TBase, TOwner>(TOwner owner, string slot, KeyPressEvent<TOwner> value)
         where TBase : class
@@ -61,7 +61,7 @@ internal static class EventSlot
     public static KeyEvent<TBase> Add<TBase, TOwner>(TOwner owner, string slot, KeyEvent<TOwner> value)
         where TBase : class
         where TOwner : class, TBase
-        => value is null ? null : Keep(owner, new KeyView<TBase, TOwner>(owner, slot, value)).Invoke;
+        => value is null ? null : Keep(owner, view: new KeyView<TBase, TOwner>(owner, slot, typed: value)).Invoke;
 
     public static KeyEvent<TBase> Remove<TBase, TOwner>(TOwner owner, string slot, KeyEvent<TOwner> value)
         where TBase : class
@@ -71,7 +71,7 @@ internal static class EventSlot
     public static AoWOnDrawEvent<TBase> Add<TBase, TOwner>(TOwner owner, string slot, AoWOnDrawEvent<TOwner> value)
         where TBase : class
         where TOwner : class, TBase
-        => value is null ? null : Keep(owner, new DrawView<TBase, TOwner>(owner, slot, value)).Invoke;
+        => value is null ? null : Keep(owner, view: new DrawView<TBase, TOwner>(owner, slot, typed: value)).Invoke;
 
     public static AoWOnDrawEvent<TBase> Remove<TBase, TOwner>(TOwner owner, string slot, AoWOnDrawEvent<TOwner> value)
         where TBase : class
@@ -81,7 +81,7 @@ internal static class EventSlot
     public static AoWOnDrawBackEvent<TBase> Add<TBase, TOwner>(TOwner owner, string slot, AoWOnDrawBackEvent<TOwner> value)
         where TBase : class
         where TOwner : class, TBase
-        => value is null ? null : Keep(owner, new DrawBackView<TBase, TOwner>(owner, slot, value)).Invoke;
+        => value is null ? null : Keep(owner, view: new DrawBackView<TBase, TOwner>(owner, slot, typed: value)).Invoke;
 
     public static AoWOnDrawBackEvent<TBase> Remove<TBase, TOwner>(TOwner owner, string slot, AoWOnDrawBackEvent<TOwner> value)
         where TBase : class
@@ -91,7 +91,7 @@ internal static class EventSlot
     public static AoWOnDrawSurface<TBase> Add<TBase, TOwner>(TOwner owner, string slot, AoWOnDrawSurface<TOwner> value)
         where TBase : class
         where TOwner : class, TBase
-        => value is null ? null : Keep(owner, new DrawSurfaceView<TBase, TOwner>(owner, slot, value)).Invoke;
+        => value is null ? null : Keep(owner, view: new DrawSurfaceView<TBase, TOwner>(owner, slot, typed: value)).Invoke;
 
     public static AoWOnDrawSurface<TBase> Remove<TBase, TOwner>(TOwner owner, string slot, AoWOnDrawSurface<TOwner> value)
         where TBase : class
@@ -172,7 +172,7 @@ internal static class EventSlot
         where TBase : class
         where TOwner : class, TBase
     {
-        internal void Invoke(TBase _, LockedSurface surface) => Typed(Owner, surface);
+        internal void Invoke(TBase _, LockedSurface surface) => Typed(Owner, surfDesc: surface);
     }
 
     internal sealed class DrawBackView<TBase, TOwner>(TOwner owner, string slot, AoWOnDrawBackEvent<TOwner> typed)
@@ -180,7 +180,7 @@ internal static class EventSlot
         where TBase : class
         where TOwner : class, TBase
     {
-        internal void Invoke(TBase _, LockedSurface surface) => Typed(Owner, surface);
+        internal void Invoke(TBase _, LockedSurface surface) => Typed(Owner, SurfDesc: surface);
     }
 
     internal sealed class DrawSurfaceView<TBase, TOwner>(TOwner owner, string slot, AoWOnDrawSurface<TOwner> typed)

@@ -15,7 +15,7 @@ public class UnholyChampion : UnitSpell
     public UnholyChampion(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.UnholyChampionText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.UnholyChampionText);
         SpellId = 37;
         BaseManaCost = 5;
         SpellLevel = 2;
@@ -29,7 +29,7 @@ public class UnholyChampion : UnitSpell
     public override bool ValidTargetUnit(Troop source, Troop target)
     {
         bool result = base.ValidTargetUnit(source, target);
-        return result && !target.GetAbilityEnabled(147) && !target.GetAbilityEnabled(161) && GamePack.Current.AbilityControl.GetAbility(147).CanExpand(target);
+        return result && !target.GetAbilityEnabled(147) && !target.GetAbilityEnabled(161) && GamePack.Current.AbilityControl[147].CanExpand(target);
     }
 
     // UnitSpells.pas:550

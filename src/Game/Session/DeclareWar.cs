@@ -17,9 +17,9 @@ public sealed record DeclareWar : DiplomaticProposal
 
     public override int Icon => 9;
 
-    public override string Name(DiplomaticAction action) => AbilityRules.TranslateResourceString(action.GetEngine(), GameText.DeclareWarText);
+    public override string Name(DiplomaticAction action) => AbilityRules.TranslateResourceString(action.GetEngine(), S: GameText.DeclareWarText);
 
-    public override string LogText(DiplomaticAction action) => AbilityRules.TranslateResourceString(action.GetEngine(), GameTables.WarText);
+    public override string LogText(DiplomaticAction action) => AbilityRules.TranslateResourceString(action.GetEngine(), S: GameTables.WarText);
 
     public override int MiddleIcon(DiplomaticAction action) => 0x15;
 
@@ -30,14 +30,14 @@ public sealed record DeclareWar : DiplomaticProposal
     {
         action.ApplyRelationModifiers();
         StrategicMap.Current.Players.GetPlayers(action.Target).PlayerSeen((sbyte)(byte)action.Source);
-        StrategicMap.Current.Players.SetDiplomaticRelation((sbyte)(byte)action.Source, (sbyte)(byte)action.Target, DiplomaticRelation.War);
+        StrategicMap.Current.Players.SetDiplomaticRelation((sbyte)(byte)action.Source, otherPlayer: (sbyte)(byte)action.Target, relation: DiplomaticRelation.War);
         if (action.Source == StrategicMap.Current.SeatedPlayer)
         {
-            string warDeclared = AbilityRules.TranslateResourceString(action.GetEngine(), s_warDeclaredText);
+            string warDeclared = AbilityRules.TranslateResourceString(action.GetEngine(), S: s_warDeclaredText);
             StrategicMap.Current.ShowMessage(warDeclared);
         }
 
-        Broadcast(action, -1, action.Target);
+        Broadcast(action, exclude: -1, viewer: action.Target);
     }
 
     public override void AnswerAI(DiplomaticAction action, sbyte player, DiplomaticRelation relation, ByteList idealPeace, ByteList idealWar)
@@ -45,11 +45,11 @@ public sealed record DeclareWar : DiplomaticProposal
 
     public override int RelationModifier(DiplomaticAction action, sbyte player, sbyte race)
     {
-        return player == action.Source && Relation(action.Source, action.Target) != DiplomaticRelation.War
-? RaceModifier(modifier: Relation(action.Source, action.Target) == DiplomaticRelation.Alliance
+        return player == action.Source && Relation(action.Source, second: action.Target) != DiplomaticRelation.War
+? RaceModifier(modifier: Relation(action.Source, second: action.Target) == DiplomaticRelation.Alliance
                 ? -60
                 : -20, other: action.Target, race: race)
-            : player == action.Target && Relation(action.Source, action.Target) != DiplomaticRelation.War && StrategicMap.Current.Players.GetPlayers(action.Source).PlayerRace == race
+            : player == action.Target && Relation(action.Source, second: action.Target) != DiplomaticRelation.War && StrategicMap.Current.Players.GetPlayers(action.Source).PlayerRace == race
             ? -20
             : 0;
     }

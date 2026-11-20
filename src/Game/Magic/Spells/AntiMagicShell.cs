@@ -19,7 +19,7 @@ public class AntiMagicShell : CityEnchantmentSpell
     public AntiMagicShell(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.AntiMagicShellText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.AntiMagicShellText);
         SpellId = 54;
         CityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Own);
         BaseManaCost = 1;
@@ -39,15 +39,15 @@ public class AntiMagicShell : CityEnchantmentSpell
         bool condition = source.Player == StrategicMap.Current.SeatedPlayer;
         if (!condition)
         {
-            sbyte hexLevel = targetCity.GetHexLevel();
-            sbyte hexY = targetCity.GetHexY();
-            sbyte hexX = targetCity.GetHexX();
-            condition = StrategicMap.Current.WatchingTerrain(hexX, hexY, hexLevel, 1);
+            sbyte hexLevel = targetCity.HexLevel;
+            sbyte hexY = targetCity.HexY;
+            sbyte hexX = targetCity.HexX;
+            condition = StrategicMap.Current.WatchingTerrain(hexX, hexY, L: hexLevel, radius: 1);
         }
 
         if (condition)
         {
-            _ = GamePack.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(1, -1, false, 30, SamplePanning.Center, null);
+            _ = GamePack.Current.SpellControl[SpellId].CastSounds.Play(1, volume: -1, looped: false, delay: 30, panning: SamplePanning.Center, callback: null);
         }
     }
 }

@@ -69,7 +69,7 @@ public class UnitSelector : IDisposable
     {
         if (Selection == 0)
         {
-            error = AbilityRules.TranslateResourceString(Creator.GetEngine(), GameText.NoUnitSelectedText);
+            error = AbilityRules.TranslateResourceString(Creator.GetEngine(), S: GameText.NoUnitSelectedText);
             return false;
         }
         else
@@ -114,7 +114,7 @@ public class UnitSelector : IDisposable
                 result += 1;
             }
 
-            bits = (uint)(int)(((uint)(int)bits) >> 1);
+            bits = (uint)((int)bits >>> 1);
         }
 
         return result;

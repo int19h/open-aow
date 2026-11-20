@@ -28,7 +28,7 @@ public sealed class AIPlayerActionClass
     public AIPlayerAction CreateInstance(CustomNode owner, EngineObject holder) => Class.Create<AIPlayerAction>(owner, holder: holder);
 
     public static AIPlayerActionClass Register<T>() where T : AIPlayerAction, IAIPlayerActionClass
-        => s_catalog.Add(typeof(T), new AIPlayerActionClass(EngineClass.Of<T>(), static () => T.Priority, T.SupportedPhases));
+        => s_catalog.Add(typeof(T), new AIPlayerActionClass(EngineClass.Of<T>(), priority: static () => T.Priority, T.SupportedPhases));
 
     public static AIPlayerActionClass Of<T>() where T : AIPlayerAction, IAIPlayerActionClass => s_catalog[typeof(T)];
     public static AIPlayerActionClass Of(Type type) => s_catalog[type];

@@ -10,6 +10,6 @@ public partial class ShowBookEventLog(CustomNode owner) : EventLog(owner)
     public new const int ClassId = 131818;
 
     // EventLog.pas:821
-    public override bool GetVisible() => false;
+    public override bool Visible => false;
 
 }

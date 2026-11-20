@@ -13,7 +13,7 @@ public class PassWallAbility : AdjustableAbility
     public PassWallAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_passWallText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_passWallText);
         AbilityId = 66;
         SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.HeadItem, AbilitySelectionType.TorsoItem, AbilitySelectionType.DefenseItem, AbilitySelectionType.RingItem);
     }

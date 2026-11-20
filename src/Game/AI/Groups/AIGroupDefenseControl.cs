@@ -38,7 +38,7 @@ public class AIGroupDefenseControl : AIGroupTask
     }
 
     // AIGroup.pas:1822
-    public override bool GetBusy() => State != -1 && Status.Contains(AIGroupTaskStatusElement.Activated);
+    public override bool Busy => State != -1 && Status.Contains(AIGroupTaskStatusElement.Activated);
 
     // AIGroup.pas:1827
     public override bool Activate(AIGroupControl control)
@@ -56,7 +56,7 @@ public class AIGroupDefenseControl : AIGroupTask
             case 0:
                 {
                     AIGroupControl aiGroupControl = GroupControl;
-                    _ = _selector.Execute(aiGroupControl.Group, aiGroupControl.Location.X, aiGroupControl.Location.Y, aiGroupControl.Location.MapLevel, null);
+                    _ = _selector.Execute(aiGroupControl.Group, aiGroupControl.Location.X, aiGroupControl.Location.Y, L: aiGroupControl.Location.MapLevel, units: null);
                 }
 
                 if (_selector.Defenders.Count != 0)
@@ -67,16 +67,16 @@ public class AIGroupDefenseControl : AIGroupTask
                             UnitUserList units = new(null) { Holder = CreationHolder() };
                             {
                                 AIGroupControl aiGroupControl = GroupControl;
-                                _ = _selector.GetDefenders(aiGroupControl.Group.Player, aiGroupControl.Location.X, aiGroupControl.Location.Y, aiGroupControl.Location.MapLevel, units);
+                                _ = _selector.GetDefenders(aiGroupControl.Group.Player, aiGroupControl.Location.X, aiGroupControl.Location.Y, L: aiGroupControl.Location.MapLevel, units);
                             }
 
                             int index = units.IndexOfBehavior(GroupBehavior.Passive);
                             AIGroup group;
                             if (index == -1)
                             {
-                                group = StrategicMap.Current.AIGroupManager.CreateGroup(GroupControl.Group.Player, GroupControl.Group.IndependentRelation, GroupBehavior.Passive);
+                                group = StrategicMap.Current.AIGroupManager.CreateGroup(GroupControl.Group.Player, relation: GroupControl.Group.IndependentRelation, behavior: GroupBehavior.Passive);
                                 _ = group.AddUnits(_selector.Defenders.Units);
-                                _ = group.SetupTarget(GroupControl.Location, 0, AIGroupTargetStatus.None, 2, -1, 0, 0);
+                                _ = group.SetupTarget(GroupControl.Location, movePoints: 0, targetType: AIGroupTargetStatus.None, mode: 2, transporterId: -1, gold: 0, mana: 0);
                                 _ = group.Release();
                             }
                             else

@@ -87,13 +87,13 @@ public partial class Mine : PlayerStructure
     public override string GetCurrentActivityText()
     {
         int income = GetIncome();
-        return Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.ProducingIncomeFormat), [IntToStr(income)]);
+        return Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.ProducingIncomeFormat), args: [IntToStr(income)]);
     }
 
     // Mine.pas:99
     public override void UpdateAITarget(in AITargetInfo info, ref AITargetData data)
     {
-        if (!GetRazed() || GetBuilding())
+        if (!GetRazed() || Building)
         {
             int candidatePriority = data.Priority;
             switch (info.Mode)
@@ -107,7 +107,7 @@ public partial class Mine : PlayerStructure
                         }
                         else
                         {
-                            if (AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, (sbyte)(byte)Player, 0))
+                            if (AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, targetPlayer: (sbyte)(byte)Player, targetRace: 0))
                             {
                                 candidatePriority = 50 - (StrategicMap.Current.Players.GetPlayers(info.Player).Income / 2);
                                 if (candidatePriority < 25)
@@ -176,13 +176,13 @@ public partial class Mine : PlayerStructure
     }
 
     // Mine.pas:85
-    public override int GetIncome() => !GetRazed() && !GetBuilding() ? 10 : 0;
+    public override int GetIncome() => !GetRazed() && !Building ? 10 : 0;
 
     // Mine.pas:178
     public override string GetCombatEventText(Battle combat)
     {
         return combat.CombatResult is CombatResult.Victory or CombatResult.NoDefenders
-            ? AbilityRules.TranslateResourceString(GetEngine(), s_mineBattleWonText)
+            ? AbilityRules.TranslateResourceString(GetEngine(), S: s_mineBattleWonText)
             : "";
     }
 
@@ -210,7 +210,7 @@ public partial class Mine : PlayerStructure
         public override int ResourceUserClassId() => 131962;
 
         // Mine.pas:197
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_mineText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_mineText);
 
         private static readonly string s_mineText = "Mine";
 

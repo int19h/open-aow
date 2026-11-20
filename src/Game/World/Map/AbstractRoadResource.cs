@@ -13,7 +13,7 @@ public class AbstractRoadResource(CustomNode owner) : MapObjectResource(owner)
         base.MessageProc(ref message, sender);
         if (message.MessageId == 65556)
         {
-            GetRoadControl().RegisterResource(this);
+            RoadControl.RegisterResource(this);
         }
 
         if (message.MessageId == 65621)
@@ -29,7 +29,7 @@ public class AbstractRoadResource(CustomNode owner) : MapObjectResource(owner)
         HexGeometry.HexToPixel(hexX, hexY, out int pixelX, out int pixelY);
         pixelX += 16;
         pixelY += 16;
-        if (!hexSpriteMap.Place(result, pixelX, pixelY, hexLevel))
+        if (!hexSpriteMap.Place(result, pixelX, pixelY, L: hexLevel))
         {
             result?.Dispose();
             return null;
@@ -39,7 +39,7 @@ public class AbstractRoadResource(CustomNode owner) : MapObjectResource(owner)
     }
 
     // MAPOBJ.PAS:869
-    public virtual RoadControl GetRoadControl() => Engine.HexSpriteSet.RoadControl;
+    public virtual RoadControl RoadControl => Engine.HexSpriteSet.RoadControl;
 
-    public override MapObjectResourceTerrainControl GetTerrainControl() => GetRoadControl();
+    public override MapObjectResourceTerrainControl TerrainControl => RoadControl;
 }

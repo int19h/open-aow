@@ -5,7 +5,7 @@ namespace Aow.Game.Draw.Images;
 
 public partial class FastLoadFileStream(string name)
 {
-    private Stream _source = DelphiStreams.OpenFile(name, DelphiStreams.fmOpenRead | DelphiStreams.fmShareDenyWrite);
+    private Stream _source = DelphiStreams.OpenFile(name, mode: DelphiStreams.fmOpenRead | DelphiStreams.fmShareDenyWrite);
 
     public override bool CanRead => true;
 

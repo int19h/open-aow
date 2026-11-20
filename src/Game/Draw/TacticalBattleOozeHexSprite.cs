@@ -20,10 +20,10 @@ public class TacticalBattleOozeHexSprite(CustomNode owner) : SingleHexSprite(own
     public override sbyte GetOverlay(int hexNumber) => 11;
 
     // AoWTC.pas:4121
-    public override byte GetLevel() => 26;
+    public override byte Level => 26;
 
     // AoWTC.pas:4126
-    public override int GetShowPriority() => 1744830464 + (GetHexY() << 13) + GetHexX();
+    public override int GetShowPriority() => 1744830464 + (HexY << 13) + HexX;
 
     // AoWTC.pas:4102
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
@@ -39,7 +39,7 @@ public class TacticalBattleOozeHexSprite(CustomNode owner) : SingleHexSprite(own
         };
         while (sequence is not null)
         {
-            int frame = sequence.GetUnloopedFrameIndex(FrameFixtureInputs.PhaseModulo(divisor: sequence.GetTotalSequenceFrames(), instance: this));
+            int frame = sequence.GetUnloopedFrameIndex(FrameFixtureInputs.PhaseModulo(divisor: sequence.TotalSequenceFrames, instance: this));
             if (frame != -1)
             {
                 sequence.ImageLibrary[frame].Show(pixelXSurface, pixelYSurface, lockedSurface);

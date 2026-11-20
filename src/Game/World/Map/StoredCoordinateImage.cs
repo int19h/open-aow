@@ -26,6 +26,6 @@ public readonly struct StoredCoordinateImage
 
     public MapCoordinate ReadCheckedLocation(string memberName)
         => (_value & unchecked((int)0xFF00_0000)) != 0
-            ? throw new InvalidOperationException(string.Create(CultureInfo.InvariantCulture, $"{memberName} is {_value}, outside its storage range."))
+            ? throw new InvalidOperationException(string.Create(CultureInfo.InvariantCulture, handler: $"{memberName} is {_value}, outside its storage range."))
             : Location;
 }

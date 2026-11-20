@@ -25,14 +25,14 @@ public sealed class DocumentKind
     /// <summary>The extension the port gives its own documents of this kind.</summary>
     public string OwnExtension { get; }
 
-    public static DocumentKind Save { get; } = new("save", ".asg");
-    public static DocumentKind Map { get; } = new("map", ".hsm");
-    public static DocumentKind CampaignMap { get; } = new("campaign-map", ".csm");
-    public static DocumentKind Campaign { get; } = new("campaign", ".cam");
-    public static DocumentKind CampaignSave { get; } = new("campaign-save", ".acg");
-    public static DocumentKind ScenarioSet { get; } = new("scenario-set", ".hss");
-    public static DocumentKind HeroList { get; } = new("hero-list", ".ahl");
-    public static DocumentKind ItemList { get; } = new("item-list", ".ail");
+    public static DocumentKind Save { get; } = new("save", originalExtension: ".asg");
+    public static DocumentKind Map { get; } = new("map", originalExtension: ".hsm");
+    public static DocumentKind CampaignMap { get; } = new("campaign-map", originalExtension: ".csm");
+    public static DocumentKind Campaign { get; } = new("campaign", originalExtension: ".cam");
+    public static DocumentKind CampaignSave { get; } = new("campaign-save", originalExtension: ".acg");
+    public static DocumentKind ScenarioSet { get; } = new("scenario-set", originalExtension: ".hss");
+    public static DocumentKind HeroList { get; } = new("hero-list", originalExtension: ".ahl");
+    public static DocumentKind ItemList { get; } = new("item-list", originalExtension: ".ail");
 
     public static IReadOnlyList<DocumentKind> All { get; } = [Save, Map, CampaignMap, Campaign, CampaignSave, ScenarioSet, HeroList, ItemList];
 
@@ -44,20 +44,20 @@ public sealed class DocumentKind
 
     /// <summary>The kind whose original extension this is, without regard to case.</summary>
     public static DocumentKind? ForOriginalExtension(string? extension)
-        => All.FirstOrDefault(k => string.Equals(extension, k.OriginalExtension, StringComparison.OrdinalIgnoreCase));
+        => All.FirstOrDefault(k => string.Equals(extension, k.OriginalExtension, comparisonType: StringComparison.OrdinalIgnoreCase));
 
     /// <summary>Whether the extension is this kind's original or own extension.</summary>
     public bool HasExtension(string? extension, StringComparison comparison = StringComparison.OrdinalIgnoreCase)
-        => string.Equals(extension, OriginalExtension, comparison) || string.Equals(extension, OwnExtension, comparison);
+        => string.Equals(extension, OriginalExtension, comparisonType: comparison) || string.Equals(extension, OwnExtension, comparisonType: comparison);
 
     /// <summary>Whether the extension is this kind's own extension, without regard to case.</summary>
-    public bool IsOwnExtension(string? extension) => string.Equals(extension, OwnExtension, StringComparison.OrdinalIgnoreCase);
+    public bool IsOwnExtension(string? extension) => string.Equals(extension, OwnExtension, comparisonType: StringComparison.OrdinalIgnoreCase);
 
     /// <summary>The name with this kind's own extension in place of its extension.</summary>
-    public string OwnName(string name) => ChangeExtension(name, OwnExtension);
+    public string OwnName(string name) => ChangeExtension(name, extension: OwnExtension);
 
     /// <summary>The name with this kind's original extension in place of its extension.</summary>
-    public string OriginalName(string name) => ChangeExtension(name, OriginalExtension);
+    public string OriginalName(string name) => ChangeExtension(name, extension: OriginalExtension);
 
     /// <summary>Replaces the extension after the last separator, or appends one to a name without it.</summary>
     private static string ChangeExtension(string name, string extension)

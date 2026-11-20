@@ -47,7 +47,7 @@ public class FloodEnchantment : GlobalEnchantment
     public FloodEnchantment(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        Name = AbilityRules.TranslateResourceString(GetEngine(), GameText.FloodText);
+        Name = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.FloodText);
         EnchantmentType = GlobalEnchantmentType.Flood;
         FloodControl = new FloodControl(null) { Holder = CreationHolder() };
         DispelMana = 100;
@@ -90,7 +90,7 @@ public class FloodEnchantment : GlobalEnchantment
             if (DaysBeforeActive() != 0)
             {
                 int daysBeforeActive = DaysBeforeActive();
-                return Format(s_dueInDaysFormat, [result, daysBeforeActive]);
+                return Format(s_dueInDaysFormat, args: [result, daysBeforeActive]);
             }
         }
 
@@ -112,7 +112,7 @@ public class FloodEnchantment : GlobalEnchantment
         }
         else
         {
-            reason = Format(AbilityRules.TranslateResourceString(GetEngine(), s_alreadyRemovedFormat), [Name]);
+            reason = Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_alreadyRemovedFormat), args: [Name]);
             return false;
         }
     }

@@ -54,7 +54,7 @@ public partial class ArmyEventDialog(UIContext ui) : UIModule(ui)
             Troop fArmyViewUnit = eventValue.ArmyView.Units.GetUnit(unit2);
             int frame = _frame - FrameFixtureInputs.ArmyStagger(fArmyViewUnit);
             info = default;
-            info.Frame = (int)(((uint)frame) >> 1) - 1;
+            info.Frame = (frame >>> 1) - 1;
             info.Direction = 3;
             info.Animation = UnitAnimation.Hit;
             byte unit3 = _units[index];
@@ -65,14 +65,14 @@ public partial class ArmyEventDialog(UIContext ui) : UIModule(ui)
                 if (eventValue.ArmyView.Units.GetUnit(unit4).GetHitPoints() != 0)
                 {
                     byte unit5 = _units[index];
-                    int unitGraphicsResourceIndex = eventValue.ArmyView.Units.GetUnit(unit5).GetUnitGraphicsResourceIndex();
+                    int unitGraphicsResourceIndex = eventValue.ArmyView.Units.GetUnit(unit5).UnitGraphicsResourceIndex;
                     UnitGraphicsResource unitGraphicsResource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex);
                     _ = unitGraphicsResource.SfxLibraries[3].Play(0);
                 }
                 else
                 {
                     byte unit5 = _units[index];
-                    int unitGraphicsResourceIndex = eventValue.ArmyView.Units.GetUnit(unit5).GetUnitGraphicsResourceIndex();
+                    int unitGraphicsResourceIndex = eventValue.ArmyView.Units.GetUnit(unit5).UnitGraphicsResourceIndex;
                     UnitGraphicsResource unitGraphicsResource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex);
                     _ = unitGraphicsResource.SfxLibraries[4].Play(0);
                 }
@@ -84,13 +84,13 @@ public partial class ArmyEventDialog(UIContext ui) : UIModule(ui)
                 byte damageValue = eventValue.DamageValues[unit4];
                 byte unit5 = _units[index];
                 byte damageType = eventValue.DamageTypes[unit5];
-                AbilityRules.ShowDamageIcon(UI.Engine, X, Y + 8, lockedSurface, damageValue, (DamageType)damageType);
+                AbilityRules.ShowDamageIcon(UI.Engine, X, Y + 8, surface: lockedSurface, damage: damageValue, damageType: (DamageType)damageType);
                 byte unit6 = _units[index];
                 sbyte hitPoints = eventValue.ArmyView.Units.GetUnit(unit6).GetHitPoints();
                 byte unit7 = _units[index];
                 byte damageValue2 = eventValue.DamageValues[unit7];
                 byte unit8 = _units[index];
-                HitChance.ShowHitPercent(percent: HitChance.HitPointsToHitPercent((sbyte)(byte)(hitPoints - damageValue2), eventValue.ArmyView.Units.GetUnit(unit8).GetHits()), x: X, y: Y, surface: lockedSurface);
+                HitChance.ShowHitPercent(percent: HitChance.HitPointsToHitPercent((sbyte)(byte)(hitPoints - damageValue2), hits: eventValue.ArmyView.Units.GetUnit(unit8).GetHits()), x: X, y: Y, surface: lockedSurface);
             }
             else
             {
@@ -114,7 +114,7 @@ public partial class ArmyEventDialog(UIContext ui) : UIModule(ui)
         for (int i = 0, last = _units.Count - 1; i <= last; i++)
         {
             byte unit = _units[i];
-            int resource = _event.ArmyView.Units.GetUnit(unit).GetUnitGraphicsResourceIndex();
+            int resource = _event.ArmyView.Units.GetUnit(unit).UnitGraphicsResourceIndex;
             if (resource != -1)
             {
                 _ = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(resource).Release();
@@ -175,7 +175,7 @@ public partial class ArmyEventDialog(UIContext ui) : UIModule(ui)
 
     internal static void ShowArmyEvent(ArmyEventDialog dialog, ArmyEventLog eventValue, ExecuteDoneEvent done)
     {
-        Assert(dialog._event is null, "", "AoWArmyEventDlg.pas", 92);
+        Assert(dialog._event is null, message: "", file: "AoWArmyEventDlg.pas", line: 92);
         dialog.OnClose = done;
         dialog._event = eventValue;
         _ = dialog._event.AddRef();
@@ -187,10 +187,10 @@ public partial class ArmyEventDialog(UIContext ui) : UIModule(ui)
         dialog._units.Clear();
         for (int i = 0, last = army.Units.Count - 1; i <= last; i++)
         {
-            if (!army.GetUnitConcealedForPlayer(i, StrategicMap.Current.SeatedPlayer) || log.DamageValues[i] != 0)
+            if (!army.GetUnitConcealedForPlayer(i, player: StrategicMap.Current.SeatedPlayer) || log.DamageValues[i] != 0)
             {
                 _ = dialog._units.Add((byte)i);
-                int image = log.ArmyView.Units.GetUnit(i).GetUnitGraphicsResourceIndex();
+                int image = log.ArmyView.Units.GetUnit(i).UnitGraphicsResourceIndex;
                 if (image != -1)
                 {
                     _ = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(image).AddRef();

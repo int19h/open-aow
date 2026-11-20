@@ -79,7 +79,7 @@ public class FlagEvent(CustomNode owner) : MapObject(owner)
         sbyte player = Owner.GetPlayer();
         if (player != -1 && GetTriggerPlayer(player) && Trigger(player))
         {
-            SetTriggerPlayer(player, false);
+            SetTriggerPlayer(player, value: false);
         }
     }
 
@@ -88,7 +88,7 @@ public class FlagEvent(CustomNode owner) : MapObject(owner)
     {
         if (player == Owner.GetPlayer() && GetTriggerPlayer(player) && Trigger(player))
         {
-            SetTriggerPlayer(player, false);
+            SetTriggerPlayer(player, value: false);
         }
     }
 }

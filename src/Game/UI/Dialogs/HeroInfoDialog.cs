@@ -60,17 +60,17 @@ public partial class HeroInfoDialog(UIContext ui) : UIModule(ui)
             if ((int)alignment < UI.Graphics.UnitBackgrounds.Count)
             {
                 LibraryImage image = UI.Graphics.UnitBackgrounds[(int)alignment];
-                image.ShowClipped(x - (image.Width / 2), y - (image.Height / 2), surface);
+                image.ShowClipped(x - (image.Width / 2), y - (image.Height / 2), lockedSurface: surface);
             }
 
             info = default;
             info.Direction = 3;
             info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
-            _ = _armyInfo.ArmyView.Units.GetUnit(index).Show(x - 33, y - 35, surface, info);
-            if ((((int)(((uint)_armyInfo.Selection) >> index)) & 1) == 0)
+            _ = _armyInfo.ArmyView.Units.GetUnit(index).Show(x - 33, y - 35, lockedSurface: surface, info);
+            if (((_armyInfo.Selection >>> index) & 1) == 0)
             {
                 LibraryImage image = UI.Graphics.UnitBackgrounds[7];
-                image.ShowClipped(x - (image.Width / 2), y - (image.Height / 2), surface);
+                image.ShowClipped(x - (image.Width / 2), y - (image.Height / 2), lockedSurface: surface);
             }
 
             surface.ClipRectangle = oldClip;
@@ -93,10 +93,10 @@ public partial class HeroInfoDialog(UIContext ui) : UIModule(ui)
         r.Top = FaceFrame.WinTop + Window.WinTop;
         r.Bottom = FaceFrame.WinHeight + r.Top;
 
-        Hero hero = _armyInfo.ArmyView.Hero(_armyInfo.Selection, RosterTables.AllHeroTypes);
+        Hero hero = _armyInfo.ArmyView.Hero(_armyInfo.Selection, types: RosterTables.AllHeroTypes);
         if (hero.GetFace() is not null)
         {
-            hero.ShowFace(r, surface);
+            hero.ShowFace(r, lockedSurface: surface);
         }
         else
         {
@@ -108,7 +108,7 @@ public partial class HeroInfoDialog(UIContext ui) : UIModule(ui)
 
             if (i < _armyInfo.ArmyView.Units.Count)
             {
-                _armyInfo.ArmyView.Units.GetUnit(i).ShowFace(r, surface);
+                _armyInfo.ArmyView.Units.GetUnit(i).ShowFace(r, lockedSurface: surface);
             }
         }
     }
@@ -156,18 +156,18 @@ public partial class HeroInfoDialog(UIContext ui) : UIModule(ui)
 
     internal static void ShowHeroInfo(HeroInfoDialog dialog, ArmyInfoEventLog eventValue, ExecuteDoneEvent done)
     {
-        Assert(dialog._armyInfo is null, "", "AoWHeroInfoDlg.pas", 80);
+        Assert(dialog._armyInfo is null, message: "", file: "AoWHeroInfoDlg.pas", line: 80);
         dialog.Done = done;
         dialog._armyInfo = eventValue;
         _ = dialog._armyInfo.AddRef();
         string text = eventValue.Messages.Text;
         dialog.MessageMemo.Items.Text = text;
-        Hero hero = dialog._armyInfo.ArmyView.Hero(dialog._armyInfo.Selection, RosterTables.AllHeroTypes);
+        Hero hero = dialog._armyInfo.ArmyView.Hero(dialog._armyInfo.Selection, types: RosterTables.AllHeroTypes);
         if (hero is not null)
         {
             dialog.HeroNameLabel.Text = hero.HeroName;
             sbyte level = hero.GetLevel();
-            string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.LevelFormat), [IntToStr(level)]);
+            string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.LevelFormat), arguments: [IntToStr(level)]);
             dialog.HeroLevelLabel.Text = format;
         }
         else

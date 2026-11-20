@@ -14,7 +14,7 @@ public class FlameThrowingAbility : BreathAbility
     {
         Holder = holder;
         AbilityId = 30;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_flameThrowingText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_flameThrowingText);
         AttackRangedAttack = 4;
         DamageRangedAttack = 3;
         DamageTypesRangedAttack = Set<DamageType>.Of(DamageType.Fire);
@@ -25,7 +25,7 @@ public class FlameThrowingAbility : BreathAbility
     {
         sbyte attackRepeatRangedAttack = GetAttackRepeatRangedAttack(owner);
         sbyte damageRangedAttack = GetDamageRangedAttack(owner);
-        strength = AbilityRules.LimitedDamage(GetAttackRangedAttack(owner), damageRangedAttack, attackRepeatRangedAttack);
+        strength = AbilityRules.LimitedDamage(GetAttackRangedAttack(owner), defense: damageRangedAttack, damage: attackRepeatRangedAttack);
         strength *= 2;
         types = GetDamageTypesRangedAttack(owner);
     }

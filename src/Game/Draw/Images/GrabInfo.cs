@@ -18,19 +18,19 @@ public class GrabInfo
     public virtual void LoadFromStream(Stream stream)
     {
         int transparentColor = TransparentColor;
-        stream.ReadExactly(Bytes.Of(ref transparentColor, 4));
+        stream.ReadExactly(Bytes.Of(ref transparentColor, count: 4));
         TransparentColor = transparentColor;
         bool findRectangles = FindRectangles;
-        stream.ReadExactly(Bytes.Of(ref findRectangles, 1));
+        stream.ReadExactly(Bytes.Of(ref findRectangles, count: 1));
         FindRectangles = findRectangles;
         int transparentPixel = TransparentPixel;
-        stream.ReadExactly(Bytes.Of(ref transparentPixel, 4));
+        stream.ReadExactly(Bytes.Of(ref transparentPixel, count: 4));
         TransparentPixel = transparentPixel;
         string fileName = FileName;
         LibraryDrawing.ReadStringFromStream(ref fileName, stream);
         FileName = fileName;
         int fileIndex = FileIndex;
-        stream.ReadExactly(Bytes.Of(ref fileIndex, 4));
+        stream.ReadExactly(Bytes.Of(ref fileIndex, count: 4));
         FileIndex = fileIndex;
     }
 
@@ -38,17 +38,17 @@ public class GrabInfo
     public virtual void SaveToStream(Stream stream)
     {
         int transparentColor = TransparentColor;
-        stream.Write(Bytes.Of(ref transparentColor, 4));
+        stream.Write(Bytes.Of(ref transparentColor, count: 4));
         TransparentColor = transparentColor;
         bool findRectangles = FindRectangles;
-        stream.Write(Bytes.Of(ref findRectangles, 1));
+        stream.Write(Bytes.Of(ref findRectangles, count: 1));
         FindRectangles = findRectangles;
         int transparentPixel = TransparentPixel;
-        stream.Write(Bytes.Of(ref transparentPixel, 4));
+        stream.Write(Bytes.Of(ref transparentPixel, count: 4));
         TransparentPixel = transparentPixel;
         LibraryDrawing.WriteStringToStream(FileName, stream);
         int fileIndex = FileIndex;
-        stream.Write(Bytes.Of(ref fileIndex, 4));
+        stream.Write(Bytes.Of(ref fileIndex, count: 4));
         FileIndex = fileIndex;
     }
 

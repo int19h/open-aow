@@ -27,7 +27,7 @@ public class DelphiRegistry
     {
         byte[] bytes = (byte[])values.Read($"{key}\\{name}")!;
         int count = Math.Min(size, bytes.Length);
-        bytes.AsSpan(0, count).CopyTo(buffer);
+        bytes.AsSpan(0, length: count).CopyTo(buffer);
         return count;
     }
 

@@ -67,7 +67,7 @@ public sealed class CoreTests
         Assert.Equal(12, Marshal.SizeOf<SampleRecord>());
         Span<byte> image = Bytes.Of(ref result);
         Assert.Equal(7, image[0]);
-        Assert.Equal(new byte[] { 5, 97, 98, 99, 100, 101 }, image.Slice(1, 6).ToArray());
+        Assert.Equal(new byte[] { 5, 97, 98, 99, 100, 101 }, image.Slice(1, length: 6).ToArray());
         Assert.Equal(6, Marshal.SizeOf<ByteArray6>());
     }
 
@@ -90,7 +90,7 @@ public sealed class CoreTests
         Assert.Equal((byte)63, Cp1252.Byte('\u0080'));
         Assert.Equal((byte)128, Cp1252.Byte('\u20ac'));
         Assert.Equal("?", Cp1252.Normalize("\u4e2d"));
-        byte[] all = [.. Enumerable.Range(0, 256).Select(i => (byte)i)];
+        byte[] all = [.. Enumerable.Range(0, count: 256).Select(i => (byte)i)];
         string full = Cp1252.Decode(all);
         Assert.Equal(256, full.Length);
         Assert.Equal(all, Cp1252.Encode(full));
@@ -104,16 +104,16 @@ public sealed class CoreTests
         Assert.Equal(0, pointer[256]);
         Assert.Equal("ab", StrPas(Ptr<byte>.Unbox("ab\0cd")));
         string original = "abc";
-        Assert.Equal("abc\0\0", Resized(original, 5));
+        Assert.Equal("abc\0\0", Resized(original, length: 5));
         Assert.Equal("abc", original);
-        Assert.Equal("aXc", WithChar(original, 2, 'X'));
+        Assert.Equal("aXc", WithChar(original, index: 2, character: 'X'));
         // The indexer and WithChar report a string index. A negative length is an argument.
         _ = Assert.Throws<IndexOutOfRangeException>(() => original[3]);
         _ = Assert.Throws<IndexOutOfRangeException>(() => original[-1]);
-        _ = Assert.Throws<IndexOutOfRangeException>(() => WithChar(original, 0, 'X'));
-        _ = Assert.Throws<IndexOutOfRangeException>(() => WithChar(original, 4, 'X'));
-        _ = Assert.Throws<IndexOutOfRangeException>(() => WithChar(original, int.MinValue, '\0'));
-        _ = Assert.Throws<ArgumentOutOfRangeException>(() => Resized(original, -1));
+        _ = Assert.Throws<IndexOutOfRangeException>(() => WithChar(original, index: 0, character: 'X'));
+        _ = Assert.Throws<IndexOutOfRangeException>(() => WithChar(original, index: 4, character: 'X'));
+        _ = Assert.Throws<IndexOutOfRangeException>(() => WithChar(original, index: int.MinValue, character: '\0'));
+        _ = Assert.Throws<ArgumentOutOfRangeException>(() => Resized(original, length: -1));
         Assert.Equal(0, Cp1252.Compare("a", "a"));
         Assert.True(Cp1252.Compare("a", "b") < 0);
         Assert.True(Cp1252.Compare("\u20ac", "\u00c4") < 0);
@@ -139,15 +139,15 @@ public sealed class CoreTests
         Assert.Equal(pointer, pointer + 2 - 2);
         Assert.Equal(2, pointer + 2 - pointer);
         Assert.True(pointer != pointer + 1);
-        Assert.True(pointer.Equals((object)Ptr<int>.To(pointer.Array, 0)));
+        Assert.True(pointer.Equals((object)Ptr<int>.To(pointer.Array, index: 0)));
         Assert.False(pointer.Equals(0));
-        Assert.Equal(pointer.GetHashCode(), Ptr<int>.To(pointer.Array, 0).GetHashCode());
+        Assert.Equal(pointer.GetHashCode(), Ptr<int>.To(pointer.Array, index: 0).GetHashCode());
         _ = Assert.Throws<InvalidOperationException>(() => pointer - Ptr<int>.Alloc(1));
-        Ptr<int>.Copy(pointer, pointer + 1, 3);
+        Ptr<int>.Copy(pointer, destination: pointer + 1, count: 3);
         Assert.Equal((int[])[1, 1, 2, 3, 0], pointer.Array);
-        Ptr<int>.Copy(pointer + 1, pointer, 3);
+        Ptr<int>.Copy(pointer + 1, destination: pointer, count: 3);
         Assert.Equal((int[])[1, 2, 3, 3, 0], pointer.Array);
-        Ptr<int>.Fill(pointer + 3, 2, 8);
+        Ptr<int>.Fill(pointer + 3, count: 2, value: 8);
         Assert.Equal((int[])[1, 2, 3, 8, 8], pointer.Array);
         Ptr<int> grown = pointer.Realloc(7);
         Assert.Equal((int[])[1, 2, 3, 8, 8, 0, 0], grown.Array);
@@ -156,8 +156,8 @@ public sealed class CoreTests
         Assert.Equal((int[])[2, 3], (pointer + 1).Realloc(2).Array);
         Assert.True(pointer.Realloc(0).IsNull);
         Assert.Equal(2, nil.Realloc(2).Array!.Length);
-        Ptr<int>.Copy(default, default, 0);
-        Ptr<int>.Fill(default, -1, 0);
+        Ptr<int>.Copy(default, destination: default, count: 0);
+        Ptr<int>.Fill(default, count: -1, value: 0);
         PtrBox<int> box = new(pointer);
         Assert.Equal(pointer, box.Pointer);
         Assert.Equal(pointer, Ptr<int>.Unbox(box));
@@ -168,13 +168,13 @@ public sealed class CoreTests
         _ = Assert.Throws<InvalidCastException>(() => Ptr<int>.Unbox((object?)null));
         _ = Assert.Throws<InvalidCastException>(() => Ptr<byte>.Unbox(box));
         string[] words = ["a", "b", "c"];
-        Ptr<string> managed = Ptr<string>.To(words, 0);
-        Ptr<string>.Copy(managed, managed + 1, 2);
+        Ptr<string> managed = Ptr<string>.To(words, index: 0);
+        Ptr<string>.Copy(managed, destination: managed + 1, count: 2);
         Assert.Equal(new[] { "a", "a", "b" }, words);
-        Ptr<string>.Fill(managed + 1, 2, "z");
+        Ptr<string>.Fill(managed + 1, count: 2, value: "z");
         Assert.Equal(new[] { "a", "z", "z" }, words);
         SampleRecord[] cell = new SampleRecord[1];
-        object payload = new PtrBox<SampleRecord>(Ptr<SampleRecord>.To(cell, 0));
+        object payload = new PtrBox<SampleRecord>(Ptr<SampleRecord>.To(cell, index: 0));
         Ptr<SampleRecord>.Unbox(payload).Value.Value = 91;
         Assert.Equal(91, cell[0].Value);
     }
@@ -247,9 +247,9 @@ public sealed class CoreTests
                 Assert.Equal((ulong)(a | b), (left + right).Mask);
                 Assert.Equal((ulong)(a & ~b), (left - right).Mask);
                 Assert.Equal((ulong)(a & b), (left & right).Mask);
-                Assert.Equal((a & ~b) == 0, left.IsSubsetOf(right));
-                Assert.Equal(a == b, left == right);
-                Assert.Equal(a != b, left != right);
+                Assert.Equal((a & ~b) == 0, actual: left.IsSubsetOf(right));
+                Assert.Equal(a == b, actual: left == right);
+                Assert.Equal(a != b, actual: left != right);
             }
             Assert.Equal(original, left);
         }

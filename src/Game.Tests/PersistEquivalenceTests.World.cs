@@ -30,11 +30,11 @@ public sealed partial class PersistEquivalenceTests
     {
         ProductionOrder order = ProductionOrder.FromFields(kind, parameter, groupId);
         ProductionItem item = new(null!) { Holder = EngineFixture.Engine, Order = order };
-        JsonObject document = DocumentBackend.Write(TreeWriter.Write(item, Factory), s_schema.Get("ProductionItem"), s_schema, "game");
+        JsonObject document = DocumentBackend.Write(TreeWriter.Write(item, Factory), classValue: s_schema.Get("ProductionItem"), s_schema, engine: "game");
         _ = Assert.IsType<JsonString>(document["$case"]);
         Check("ProductionItem", item);
         using ProductionItem loaded = new(null!) { Holder = EngineFixture.Engine };
-        TreeReader.Read(DocumentBackend.Read(document, s_schema.Get("ProductionItem"), s_schema, "game"), loaded, Factory);
+        TreeReader.Read(DocumentBackend.Read(document, classValue: s_schema.Get("ProductionItem"), s_schema, engine: "game"), objectValue: loaded, Factory);
         Assert.Equal(order, loaded.Order);
     }
 
@@ -49,17 +49,17 @@ public sealed partial class PersistEquivalenceTests
         using ProductionItem viaReadWrite = new(null!) { Holder = EngineFixture.Engine };
         using ProductionItem viaPersist = new(null!) { Holder = EngineFixture.Engine };
         Load(viaReadWrite, image);
-        TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), viaPersist, Factory);
+        TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, engine: "game"), objectValue: viaPersist, Factory);
         Assert.Equal(viaReadWrite.Order, viaPersist.Order);
-        EqualBytes(Image(viaReadWrite), Image(viaPersist), "ProductionItem unknown kind");
+        EqualBytes(Image(viaReadWrite), Image(viaPersist), label: "ProductionItem unknown kind");
     }
 
     [Fact]
     public void AProductionQueueWithItemsMatchesTheConverter()
     {
         ProductionQueue queue = new(null!) { Holder = EngineFixture.Engine };
-        new ProductionItem(null!) { Holder = EngineFixture.Engine, Order = ProductionOrder.FromFields(1, 4, 2) }.SetOwner(queue);
-        new ProductionItem(null!) { Holder = EngineFixture.Engine, Order = ProductionOrder.FromFields(12, 0, 0) }.SetOwner(queue);
+        new ProductionItem(null!) { Holder = EngineFixture.Engine, Order = ProductionOrder.FromFields(1, parameter: 4, groupId: 2) }.SetOwner(queue);
+        new ProductionItem(null!) { Holder = EngineFixture.Engine, Order = ProductionOrder.FromFields(12, parameter: 0, groupId: 0) }.SetOwner(queue);
         Check("ProductionQueue", queue);
     }
 
@@ -74,15 +74,15 @@ public sealed partial class PersistEquivalenceTests
             using MapContainer source = new(map) { Holder = EngineFixture.Engine };
             byte[] image = Image(source);
             ObjectNode tree = TreeWriter.Write(source, Factory);
-            EqualJson(PilotImage.Decode(image, "MapContainer"), DocumentBackend.Write(tree, classValue, s_schema, "game"), "MapContainer write");
-            EqualBytes(image, OriginalBackend.Write(tree, classValue, s_schema, "game"), "MapContainer original");
+            EqualJson(PilotImage.Decode(image, className: "MapContainer"), DocumentBackend.Write(tree, classValue, s_schema, engine: "game"), label: "MapContainer write");
+            EqualBytes(image, OriginalBackend.Write(tree, classValue, s_schema, engine: "game"), label: "MapContainer original");
             using MapContainer viaReadWrite = new(map) { Holder = EngineFixture.Engine };
             Load(viaReadWrite, image);
             Assert.Same(viaReadWrite, map.MapContainer);
             using MapContainer viaPersist = new(map) { Holder = EngineFixture.Engine };
-            TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), viaPersist, Factory);
+            TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, engine: "game"), objectValue: viaPersist, Factory);
             Assert.Same(viaPersist, map.MapContainer);
-            EqualBytes(Image(viaReadWrite), Image(viaPersist), "MapContainer read");
+            EqualBytes(Image(viaReadWrite), Image(viaPersist), label: "MapContainer read");
             map.MapContainer = null;
         });
     }
@@ -101,11 +101,11 @@ public sealed partial class PersistEquivalenceTests
         SchemaClass classValue = s_schema.Get("GameMap");
         ObjectNode tree = TreeWriter.Write(map, Factory);
         Assert.Equal([6], ChildSlots(tree));
-        ObjectNode read = OriginalBackend.Read(OriginalBackend.Write(tree, classValue, s_schema, "game"), classValue: classValue, schema: s_schema, engine: "game");
+        ObjectNode read = OriginalBackend.Read(OriginalBackend.Write(tree, classValue, s_schema, engine: "game"), classValue: classValue, schema: s_schema, engine: "game");
         Assert.Equal([6], ChildSlots(read));
-        Assert.Equal([6], ChildSlots(DocumentBackend.Read(DocumentBackend.Write(tree, classValue, s_schema, "game"), classValue, s_schema, "game")));
+        Assert.Equal([6], ChildSlots(DocumentBackend.Read(DocumentBackend.Write(tree, classValue, s_schema, engine: "game"), classValue, s_schema, engine: "game")));
         using GameMap loaded = new(null) { Holder = EngineFixture.Engine };
-        TreeReader.Read(read, loaded, Factory);
+        TreeReader.Read(read, objectValue: loaded, Factory);
         Assert.Equal(6, loaded.Count);
         _ = Assert.IsType<MapContainer>(loaded.GetChild(5));
         Assert.Same(loaded.GetChild(5), loaded.MapContainer);
@@ -127,17 +127,17 @@ public sealed partial class PersistEquivalenceTests
             _ = source.Text.Add("Welcome");
             source.TextSeen[2] = true;
             byte[] local = Image(source);
-            Assert.NotNull(DocumentBackend.Write(TreeWriter.Write(source, Factory), classValue, s_schema, "game").Find("TextSeen"));
+            Assert.NotNull(DocumentBackend.Write(TreeWriter.Write(source, Factory), classValue, s_schema, engine: "game").Find("TextSeen"));
             map.ConnectionType = PlayerConnectionType.Network;
             byte[] network = Image(source);
             ObjectNode tree = TreeWriter.Write(source, Factory);
-            Assert.Null(DocumentBackend.Write(tree, classValue, s_schema, "game").Find("TextSeen"));
-            EqualBytes(network, OriginalBackend.Write(tree, classValue, s_schema, "game"), "Sign network write");
+            Assert.Null(DocumentBackend.Write(tree, classValue, s_schema, engine: "game").Find("TextSeen"));
+            EqualBytes(network, OriginalBackend.Write(tree, classValue, s_schema, engine: "game"), label: "Sign network write");
             using Sign viaReadWrite = new(null) { Holder = EngineFixture.Engine };
             using Sign viaPersist = new(null) { Holder = EngineFixture.Engine };
-            _ = AlikeOutcome(() => Load(viaReadWrite, local), () => TreeReader.Read(OriginalBackend.Read(local, classValue, s_schema, "game"), viaPersist, Factory), "Sign network load");
+            _ = AlikeOutcome(() => Load(viaReadWrite, image: local), viaPersist: () => TreeReader.Read(OriginalBackend.Read(local, classValue, s_schema, engine: "game"), objectValue: viaPersist, Factory), label: "Sign network load");
             Assert.False(viaPersist.TextSeen[2]);
-            Assert.Equal(viaReadWrite.TextSeen[2], viaPersist.TextSeen[2]);
+            Assert.Equal(viaReadWrite.TextSeen[2], actual: viaPersist.TextSeen[2]);
         });
     }
 
@@ -167,7 +167,7 @@ public sealed partial class PersistEquivalenceTests
             item.SetOwner(texts);
             using (DictionaryStream stream = new(dictionary))
             {
-                stream.Object(texts, 0);
+                stream.Object(texts, id: 0);
                 Assert.Equal(["lines 1"], stream.Visited);
                 Assert.Equal(["TextControl", "TextControlItem"], stream.Objects);
             }
@@ -178,19 +178,19 @@ public sealed partial class PersistEquivalenceTests
             _ = sign.Text.Add("Beware");
             using (DictionaryStream stream = new(dictionary))
             {
-                stream.Object(sign, 0);
+                stream.Object(sign, id: 0);
                 Assert.Equal(["lines 1"], stream.Visited);
             }
             Assert.Equal("Vorsicht", sign.Text[0]);
 
             using StructureResource resource = new(null!) { Holder = EngineFixture.Engine };
             _ = resource.Description.Add("A tall tower");
-            typeof(StructureResource).GetProperty(nameof(StructureResource.SelectSfx))!.SetValue(resource, "bell.wav");
+            typeof(StructureResource).GetProperty(nameof(StructureResource.SelectSfx))!.SetValue(resource, value: "bell.wav");
             using (DictionaryStream stream = new(dictionary))
             {
-                stream.Object(resource, 0);
-                Assert.Contains("lines 1", stream.Visited);
-                Assert.DoesNotContain("bell.wav", stream.Visited);
+                stream.Object(resource, id: 0);
+                Assert.Contains("lines 1", collection: stream.Visited);
+                Assert.DoesNotContain("bell.wav", collection: stream.Visited);
             }
             Assert.Equal("Ein hoher Turm", resource.Description[0]);
             Assert.Equal("bell.wav", resource.SelectSfx);
@@ -207,7 +207,7 @@ public sealed partial class PersistEquivalenceTests
             field.StoredCount = 1;
             using (DictionaryStream stream = new(dictionary))
             {
-                stream.Object(level, 0);
+                stream.Object(level, id: 0);
                 Assert.Equal(["lines 1"], stream.Visited);
                 Assert.Equal(["MapLevel", "MapField", "Sign"], stream.Objects);
             }
@@ -218,11 +218,11 @@ public sealed partial class PersistEquivalenceTests
             map.SetModified();
             using (DictionaryStream stream = new(dictionary))
             {
-                stream.Object(map, 0);
-                Assert.Contains("Tower", stream.Visited);
-                Assert.Contains("TextControl", stream.Objects);
-                Assert.DoesNotContain("StartupSongList", stream.Objects);
-                Assert.DoesNotContain("SongList", stream.Objects);
+                stream.Object(map, id: 0);
+                Assert.Contains("Tower", collection: stream.Visited);
+                Assert.Contains("TextControl", collection: stream.Objects);
+                Assert.DoesNotContain("StartupSongList", collection: stream.Objects);
+                Assert.DoesNotContain("SongList", collection: stream.Objects);
             }
             Assert.Equal("Turm", map.MapName);
             Assert.Equal("Willkommen", map.Description[0]);
@@ -254,20 +254,20 @@ public sealed partial class PersistEquivalenceTests
 
                 byte[]? image = null;
                 ObjectNode? tree = null;
-                _ = AlikeOutcome(() => image = Image(source), () => tree = TreeWriter.Write(source, Factory), $"{className} write");
+                _ = AlikeOutcome(() => image = Image(source), viaPersist: () => tree = TreeWriter.Write(source, Factory), label: $"{className} write");
                 if (image is null || tree is null)
                 {
                     return;
                 }
 
-                EqualJson(PilotImage.Decode(image, className), DocumentBackend.Write(tree, classValue, s_schema, "game"), $"{className} write");
-                EqualBytes(image, OriginalBackend.Write(tree, classValue, s_schema, "game"), $"{className} original");
+                EqualJson(PilotImage.Decode(image, className), DocumentBackend.Write(tree, classValue, s_schema, engine: "game"), label: $"{className} write");
+                EqualBytes(image, OriginalBackend.Write(tree, classValue, s_schema, engine: "game"), label: $"{className} original");
                 EngineObject stream = viaReadWrite = Blank(className);
                 EngineObject persisted = viaPersist = Blank(className);
-                bool loaded = AlikeOutcome(() => Load(stream, image), () => TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), persisted, Factory), $"{className} load");
+                bool loaded = AlikeOutcome(() => Load(stream, image), viaPersist: () => TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, engine: "game"), objectValue: persisted, Factory), label: $"{className} load");
                 if (loaded)
                 {
-                    EqualBytes(Image(stream), Image(persisted), $"{className} read");
+                    EqualBytes(Image(stream), Image(persisted), label: $"{className} read");
                 }
             }
             finally
@@ -310,7 +310,7 @@ public sealed partial class PersistEquivalenceTests
                 continue;
             }
 
-            if (type.Namespace is not { } space || !(space.StartsWith("Aow.Game.World", StringComparison.Ordinal) || space.StartsWith("Aow.Game.Draw", StringComparison.Ordinal)))
+            if (type.Namespace is not { } space || !(space.StartsWith("Aow.Game.World", comparisonType: StringComparison.Ordinal) || space.StartsWith("Aow.Game.Draw", comparisonType: StringComparison.Ordinal)))
             {
                 continue;
             }
@@ -339,7 +339,7 @@ public sealed partial class PersistEquivalenceTests
         Exception? streamError = Record.Exception(viaReadWrite);
         Exception? treeError = Record.Exception(viaPersist);
         Assert.True(streamError?.GetType() == treeError?.GetType(),
-            $"{label}: ReadWrite {streamError?.GetType().Name ?? "finished"}, the tree {treeError?.GetType().Name ?? "finished"}. {treeError ?? streamError}");
+            userMessage: $"{label}: ReadWrite {streamError?.GetType().Name ?? "finished"}, the tree {treeError?.GetType().Name ?? "finished"}. {treeError ?? streamError}");
         Assert.Equal(streamError?.Message, treeError?.Message);
         return streamError is null;
     }

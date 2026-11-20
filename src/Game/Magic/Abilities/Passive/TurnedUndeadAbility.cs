@@ -14,7 +14,7 @@ public class TurnedUndeadAbility : UnitEnchantmentAbility
     public TurnedUndeadAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_turnedUndeadText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_turnedUndeadText);
         AbilityId = 34;
         SelectionTypes = Set<AbilitySelectionType>.Of();
     }
@@ -23,7 +23,7 @@ public class TurnedUndeadAbility : UnitEnchantmentAbility
     public override DurationMode GetDurationMode() => DurationMode.CombatTurn;
 
     // PassiveAb.pas:698
-    public override sbyte GetTotalDuration() => 3;
+    public override sbyte TotalDuration => 3;
 
     // PassiveAb.pas:687
     public override UnitEnchantment CreateEnchantment()

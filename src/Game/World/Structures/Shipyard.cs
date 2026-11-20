@@ -15,7 +15,7 @@ public partial class Shipyard(CustomNode owner) : ProductionPlace(owner)
     public override void UpdateAITarget(in AITargetInfo info, ref AITargetData data) => base.UpdateAITarget(info, ref data);
 
     // Shipyard.pas:52
-    public override int GetBaseIncome() => 0;
+    public override int BaseIncome => 0;
 
     public new class Resource : ProductionPlaceResource
     {
@@ -34,7 +34,7 @@ public partial class Shipyard(CustomNode owner) : ProductionPlace(owner)
         public override int ResourceUserClassId() => 132286;
 
         // Shipyard.pas:69
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), GameText.ShipyardText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: GameText.ShipyardText);
 
     }
 }

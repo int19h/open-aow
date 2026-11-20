@@ -30,16 +30,19 @@ public partial class EnterArenaEventLog(CustomNode owner) : EventLog(owner)
     public int GetCount() => UnitIds.Count;
 
     // Arena.pas:274
-    public Troop GetUnit(int index)
+    public Troop this[int index]
     {
-        if (index >= 0 && index < UnitIds.Count)
+        get
         {
-            int unitId = UnitIds[index];
-            return StrategicMap.Current.UnitControl.FindUnit(unitId);
-        }
-        else
-        {
-            return null;
+            if (index >= 0 && index < UnitIds.Count)
+            {
+                int unitId = UnitIds[index];
+                return StrategicMap.Current.UnitControl.FindUnit(unitId);
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 
@@ -97,7 +100,7 @@ public partial class EnterArenaEventLog(CustomNode owner) : EventLog(owner)
             }
         }
 
-        return total != 0 ? Format(AbilityRules.TranslateResourceString(GetEngine(), s_totalCostFormat), [IntToStr(total)]) : "";
+        return total != 0 ? Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_totalCostFormat), args: [IntToStr(total)]) : "";
     }
 
     private static readonly string s_totalCostFormat = "Total Cost: %s";

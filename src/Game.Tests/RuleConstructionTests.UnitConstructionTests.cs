@@ -61,7 +61,7 @@ public sealed partial class RuleConstructionTests
         }
         if (route == 3)
         {
-            return (Troop)Invoke(() => meta.GetType().GetMethod("CreateInstance", [typeof(CustomNode), typeof(EngineObject)]).Invoke(meta, [owner, EngineFixture.Engine]));
+            return (Troop)Invoke(() => meta.GetType().GetMethod("CreateInstance", types: [typeof(CustomNode), typeof(EngineObject)]).Invoke(meta, parameters: [owner, EngineFixture.Engine]));
         }
 
         ConstructorInfo constructor = EngineClassCreation.OwnerConstructor(type);
@@ -84,13 +84,13 @@ public sealed partial class RuleConstructionTests
                 for (int route = 0; route < 4; route++)
                 {
                     UnitOwner owner = new(ownerMode == 2);
-                    Troop value = CreateUnit(type, ownerMode == 0 ? null : owner, route);
-                    Assert.IsType(type, value);
+                    Troop value = CreateUnit(type, owner: ownerMode == 0 ? null : owner, route);
+                    Assert.IsType(type, @object: value);
                     Assert.Equal(1, value.RefCount);
                     Assert.Equal(-1, value.UnitId);
                     Assert.Equal(0, value.GroupId);
                     Assert.Same(ownerMode == 1 ? owner : null, value.Owner);
-                    string state = $"{Snapshot(value)}\n{string.Join("\n", owner.Events)}";
+                    string state = $"{Snapshot(value)}\n{string.Join("\n", values: owner.Events)}";
                     expected ??= state;
                     Assert.Equal(expected, state);
                     if (route == 0)
@@ -102,7 +102,7 @@ public sealed partial class RuleConstructionTests
                     Assert.Empty(owner.Members);
                 }
             }
-            ConstructionSnapshot.Check("UnitConstruction", name, string.Join("\n", states));
+            ConstructionSnapshot.Check("UnitConstruction", key: name, actual: string.Join("\n", values: states));
         }
         finally
         {
@@ -127,7 +127,7 @@ public sealed partial class RuleConstructionTests
         Type type = TypeNamed(name);
         EngineClass meta = EngineClass.Of(type);
         GameEngine engine = new(null);
-        EngineObject source = CreateUnit(type, null, 0);
+        EngineObject source = CreateUnit(type, owner: null, route: 0);
         EngineObject result = null;
         using MemoryStream memory = new();
         try
@@ -160,7 +160,7 @@ public sealed partial class RuleConstructionTests
             memory.Position = 0;
             result = engine.RetrieveEngineObject(memory, progress: null);
             Troop loaded = Assert.IsAssignableFrom<Troop>(result);
-            Assert.IsType(type, loaded);
+            Assert.IsType(type, @object: loaded);
             Assert.Equal(1, loaded.RefCount);
             Assert.Equal(317, loaded.UnitId);
             Assert.Equal(29, loaded.GroupId);

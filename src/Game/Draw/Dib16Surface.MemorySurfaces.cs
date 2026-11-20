@@ -36,7 +36,7 @@ public partial class Dib16Surface
             return GraphicsResult.Ok;
         }
 
-        (_pitch, _bits) = MemorySurfaces.Allocate(width, height, _pixelFormatId, 4);
+        (_pitch, _bits) = MemorySurfaces.Allocate(width, h: height, format: _pixelFormatId, alignment: 4);
         _width = width;
         _height = height;
         return GraphicsResult.Ok;
@@ -45,7 +45,7 @@ public partial class Dib16Surface
     public override GraphicsResult Lock(ref LockedSurface lockedSurface)
     {
         _memoryLocked = true;
-        lockedSurface = MemorySurfaces.Describe(_width, _height, _pitch, _pixelFormatId, _bits, null);
+        lockedSurface = MemorySurfaces.Describe(_width, h: _height, _pitch, format: _pixelFormatId, _bits, palette: null);
         return GraphicsResult.Ok;
     }
 

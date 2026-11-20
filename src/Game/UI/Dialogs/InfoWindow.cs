@@ -138,7 +138,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
 
             sbyte fItemBagHexY = ItemBag.HexY;
             sbyte fItemBagHexX = ItemBag.HexX;
-            StrategicMap.Current.PlayCenterAnimation(fItemBagHexX, fItemBagHexY, ItemBag.HexLevel);
+            StrategicMap.Current.PlayCenterAnimation(fItemBagHexX, fItemBagHexY, L: ItemBag.HexLevel);
         }
         else
         {
@@ -147,7 +147,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
             StrategicMap.Current.CenterViewTo(hexX, hexY, UI.General.Structure.HexLevel);
             sbyte fStructureHexY = UI.General.Structure.HexY;
             sbyte fStructureHexX = UI.General.Structure.HexX;
-            StrategicMap.Current.PlayCenterAnimation(fStructureHexX, fStructureHexY, UI.General.Structure.HexLevel);
+            StrategicMap.Current.PlayCenterAnimation(fStructureHexX, fStructureHexY, L: UI.General.Structure.HexLevel);
         }
     }
 
@@ -188,9 +188,9 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
                 ArmyHexSprite army = ItemBag.Owner.GetArmyHexSprite();
                 if (army is not null && army.Army.Player == StrategicMap.Current.SeatedPlayer)
                 {
-                    if (army.Army.Hero(255, RosterTables.AllHeroTypes) is not null)
+                    if (army.Army.Hero(255, types: RosterTables.AllHeroTypes) is not null)
                     {
-                        Hero hero = army.Army.Hero(255, RosterTables.AllHeroTypes);
+                        Hero hero = army.Army.Hero(255, types: RosterTables.AllHeroTypes);
                         UI.General.SelectedUnit = hero;
                         UI.UnitWindow.ShowUnit();
                         UI.UnitWindow.UnitTabs.Selected = 2;
@@ -245,7 +245,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
         dialog.IncomePanel.Visible = true;
-        DelphiStringCollection description = structure.GetDescription();
+        DelphiStringCollection description = structure.Description;
         dialog.IncomeMemo.Items.Assign(description);
         dialog.IncomeTypeImage.CurrentImage = 31;
         int income = structure.GetIncome();
@@ -258,7 +258,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
         dialog.IncomePanel.Visible = true;
-        DelphiStringCollection description = structure.GetDescription();
+        DelphiStringCollection description = structure.Description;
         dialog.IncomeMemo.Items.Assign(description);
         dialog.IncomeTypeImage.CurrentImage = 33;
         int power = structure.GetPower();
@@ -271,7 +271,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
         dialog.IncomePanel.Visible = true;
-        DelphiStringCollection description = structure.GetDescription();
+        DelphiStringCollection description = structure.Description;
         dialog.IncomeMemo.Items.Assign(description);
         dialog.IncomeTypeImage.CurrentImage = 33;
         int power = structure.GetPower();
@@ -284,10 +284,10 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
         dialog.SingleButtonPanel.Visible = true;
-        DelphiStringCollection description = structure.GetDescription();
+        DelphiStringCollection description = structure.Description;
         dialog.SingleButtonMemo.Items.Assign(description);
         _ = dialog.SingleButtonMemo.Items.Add("");
-        string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.IncomeFormat), [IntToStr(structure.Income)]);
+        string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.IncomeFormat), arguments: [IntToStr(structure.Income)]);
         _ = dialog.SingleButtonMemo.Items.Add(format);
         dialog.RazePanel.Visible = true;
     }
@@ -306,7 +306,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
         dialog.SingleButtonPanel.Visible = true;
-        DelphiStringCollection description = dialog.UI.General.Structure.GetDescription();
+        DelphiStringCollection description = dialog.UI.General.Structure.Description;
         dialog.SingleButtonMemo.Items.Assign(description);
         dialog.SingleButtonMemo.Sized = false;
         bool canTeleport = structure.CanTeleport(StrategicMap.Current.SeatedPlayer);
@@ -321,7 +321,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
         dialog.SingleButtonPanel.Visible = true;
-        DelphiStringCollection description = structure.GetDescription();
+        DelphiStringCollection description = structure.Description;
         dialog.SingleButtonMemo.Items.Assign(description);
         bool canEnter = structure.CanEnter(StrategicMap.Current.SeatedPlayer);
         dialog.MainButton.Visible = canEnter;
@@ -334,7 +334,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
         dialog.SingleButtonPanel.Visible = true;
-        DelphiStringCollection description = structure.GetDescription();
+        DelphiStringCollection description = structure.Description;
         dialog.SingleButtonMemo.Items.Assign(description);
         bool canEnter = structure.CanEnter(StrategicMap.Current.SeatedPlayer);
         dialog.MainButton.Visible = canEnter;
@@ -347,7 +347,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
         dialog.SingleButtonPanel.Visible = true;
-        DelphiStringCollection description = structure.GetDescription();
+        DelphiStringCollection description = structure.Description;
         dialog.SingleButtonMemo.Items.Assign(description);
         bool canEnter = structure.CanEnter(StrategicMap.Current.SeatedPlayer);
         dialog.MainButton.Visible = canEnter;
@@ -372,7 +372,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
         dialog.SingleButtonPanel.Visible = true;
-        DelphiStringCollection description = structure.GetDescription();
+        DelphiStringCollection description = structure.Description;
         dialog.SingleButtonMemo.Items.Assign(description);
         dialog.RazePanel.Visible = true;
     }
@@ -382,11 +382,11 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
         dialog.ExplorationSitePanel.Visible = true;
-        DelphiStringCollection description = dialog.UI.General.Structure.GetDescription();
+        DelphiStringCollection description = dialog.UI.General.Structure.Description;
         dialog.ExplorationSiteMemo.Items.Assign(description);
         string status = dialog.UI.Engine.TranslateResourceString(CityScreen.StatusText);
         dialog.ExplorationSiteLabel.Text = $"{status}:";
-        if (structure.GetExplored())
+        if (structure.Explored)
         {
             string explored = dialog.UI.Engine.TranslateResourceString(GameText.ExploredText);
             dialog.ExplorationSiteStatusLabel.Text = explored;
@@ -408,7 +408,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
         dialog.AltarPanel.Visible = true;
-        if (structure.GetTargeting())
+        if (structure.Targeting)
         {
             string cancel = dialog.UI.Engine.TranslateResourceString(GameText.CancelText);
             dialog.MainButton.Text = cancel;
@@ -461,17 +461,17 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         string name = dialog.UI.General.City.GetName();
         dialog.StructureNameLabel.Text = name;
         string raceNames = dialog.UI.Engine.TranslateResourceString(GameTables.RaceNames[dialog.UI.General.City.Race]);
-        string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.RaceFormat), [raceNames]);
+        string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.RaceFormat), arguments: [raceNames]);
         dialog.CityRaceLabel.Text = format;
         dialog.CityLevelLabel.Text = IntToStr(structure.UpgradeLevel);
         dialog.CityIncomeLabel.Text = IntToStr(structure.Income);
         City.CivilStatus civilStatus = structure.GetCivilStatus();
         string civilStatusText = dialog.UI.Engine.TranslateResourceString(CityScreen.CivilStatusTexts[(int)civilStatus]);
-        string formattedText = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.StatusFormat), [civilStatusText]);
+        string formattedText = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.StatusFormat), arguments: [civilStatusText]);
         dialog.CivilStatusLabel.Text = formattedText;
         if (structure.Production.Queue.GetCount() != 0)
         {
-            structure.Production.Queue.GetItem(0).Order.ActivityLines(structure.Production, dialog.ActiveCityActionMemo.Items);
+            structure.Production.Queue.GetItem(0).Order.ActivityLines(structure.Production, lines: dialog.ActiveCityActionMemo.Items);
 
             if (structure.Production.Status == ProductionControlStatus.Producing)
             {
@@ -534,7 +534,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         }
         else
         {
-            if (structure.GetBaseIncome() != 0)
+            if (structure.BaseIncome != 0)
             {
                 dialog.IncomeTypeIcon.CurrentImage = 31;
                 int income = structure.GetIncome();
@@ -553,7 +553,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         dialog.StructureNameLabel.Text = name;
         if (structure.ProductionControl.Queue.GetCount() != 0)
         {
-            structure.ProductionControl.Queue.GetItem(0).Order.ActivityLines(structure.ProductionControl, dialog.ActiveActionMemo.Items);
+            structure.ProductionControl.Queue.GetItem(0).Order.ActivityLines(structure.ProductionControl, lines: dialog.ActiveActionMemo.Items);
 
             if (structure.ProductionControl.Status == ProductionControlStatus.Producing)
             {
@@ -586,7 +586,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
             if (structure.GetMagicSphere() == MagicSphere.None)
             {
                 _ = dialog.ActiveActionMemo.Items.Add("");
-                if (structure.GetBaseIncome() != 0)
+                if (structure.BaseIncome != 0)
                 {
                     string producingMerchandise = dialog.UI.Engine.TranslateResourceString(GameText.ProducingMerchandiseText);
                     _ = dialog.ActiveActionMemo.Items.Add(producingMerchandise);
@@ -614,7 +614,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         dialog.ConstructionPanel.Visible = true;
         string formatDaysLeftString = DurationText.FormatDaysLeftString(dialog.UI.Engine, days: structure.BuildingDays);
         dialog.ConstructionDaysLeftLabel.Text = formatDaysLeftString;
-        DelphiStringCollection description = structure.GetDescription();
+        DelphiStringCollection description = structure.Description;
         dialog.ConstructionMemo.Items.Assign(description);
     }
 
@@ -627,17 +627,17 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         if (structure is City)
         {
             string name = structure.GetName();
-            text = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.CityFormat), [name]);
+            text = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.CityFormat), arguments: [name]);
         }
         else
         {
             text = structure.GetName();
         }
 
-        string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.LiesInRuinsFormat), [text]);
+        string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.LiesInRuinsFormat), arguments: [text]);
         dialog.SingleButtonMemo.Items.Text = format;
-        dialog.SingleButtonMemo.Items.Insert(0, "");
-        dialog.SingleButtonMemo.Items.Insert(0, "");
+        dialog.SingleButtonMemo.Items.Insert(0, value: "");
+        dialog.SingleButtonMemo.Items.Insert(0, value: "");
     }
 
     internal static void ShowOtherPlayerInfo(InfoWindow dialog, PlayerStructure structure)
@@ -655,7 +655,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         }
         else
         {
-            DelphiStringCollection description = structure.GetDescription();
+            DelphiStringCollection description = structure.Description;
             dialog.NotYoursMemo.Items.Assign(description);
         }
 
@@ -685,7 +685,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
         dialog.SingleButtonPanel.Visible = true;
-        DelphiStringCollection description = structure.GetDescription();
+        DelphiStringCollection description = structure.Description;
         dialog.SingleButtonMemo.Items.Assign(description);
     }
 }

@@ -92,7 +92,7 @@ public class AIMoveExecutorUnitList(CustomNode owner) : OwningNode(owner), IChil
                 result += 1;
             }
 
-            selection = (byte)(int)(((uint)selection) >> 1);
+            selection = (byte)(selection >>> 1);
         }
 
         return result;
@@ -111,7 +111,7 @@ public class AIMoveExecutorUnitList(CustomNode owner) : OwningNode(owner), IChil
                 }
             }
 
-            selection = (byte)(int)(((uint)selection) >> 1);
+            selection = (byte)(selection >>> 1);
         }
 
         return null;
@@ -127,7 +127,7 @@ public class AIMoveExecutorUnitList(CustomNode owner) : OwningNode(owner), IChil
                 this[i].MoveResult = moveResult;
             }
 
-            selection = (byte)(int)(((uint)selection) >> 1);
+            selection = (byte)(selection >>> 1);
         }
     }
 
@@ -141,7 +141,7 @@ public class AIMoveExecutorUnitList(CustomNode owner) : OwningNode(owner), IChil
                 this[i].TransportStatus = status;
             }
 
-            selection = (byte)(int)(((uint)selection) >> 1);
+            selection = (byte)(selection >>> 1);
         }
     }
 
@@ -155,7 +155,7 @@ public class AIMoveExecutorUnitList(CustomNode owner) : OwningNode(owner), IChil
                 this[i].Status = status;
             }
 
-            selection = (byte)(int)(((uint)selection) >> 1);
+            selection = (byte)(selection >>> 1);
         }
     }
 }

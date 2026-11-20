@@ -10,7 +10,7 @@ public class EndTurnEventLog(CustomNode owner) : EventLog(owner)
     public new const int ClassId = 131811;
 
     // EventLog.pas:750
-    public override bool GetVisible() => false;
+    public override bool Visible => false;
 
     // EventLog.pas:756
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done) => false;

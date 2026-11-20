@@ -106,7 +106,7 @@ public class AIMoveTargetSelector : EngineObject
     public bool SetupArmy(ArmyHexSprite army, byte selection)
     {
         Reset();
-        MapCoordinate mapCoordinate = army.GetMapCoordinate();
+        MapCoordinate mapCoordinate = army.MapCoordinate;
         SourceLocation = mapCoordinate;
         Units.AddUnits(army.Army.Units, selection);
         AITargetInfo targetInfo = TargetInfo;
@@ -120,7 +120,7 @@ public class AIMoveTargetSelector : EngineObject
         }
 
         _ = MovePointTable;
-        army.Army.CreateMovePointTable(selection, out MovePointTable movePointTable);
+        army.Army.CreateMovePointTable(selection, table: out MovePointTable movePointTable);
         MovePointTable = movePointTable;
         return true;
     }
@@ -186,7 +186,7 @@ public class AIMoveTargetSelector : EngineObject
             sbyte locationMapLevel = coordinate106.MapLevel;
             MapCoordinate location = new(locationX, locationY, locationMapLevel);
             bool valid;
-            if (ListMovementGaps(StrategicMap.Current, target.MovePath, MovePointTable, gaps, null) != 0)
+            if (ListMovementGaps(StrategicMap.Current, path: target.MovePath, table: MovePointTable, starts: gaps, ends: null) != 0)
             {
                 _settings.Reset();
                 _settings.Player = TargetInfo.Player;
@@ -208,7 +208,7 @@ public class AIMoveTargetSelector : EngineObject
                     int item3 = gaps[i];
                     PathStep item4 = target.MovePath[item3];
                     _settings.SetDestinationPosition(item4.Location.X, item2.Location.Y, fMovePathItem.Location.MapLevel);
-                    valid = StrategicMap.Current.MoveControl.CanMove(_settings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast)) != -1;
+                    valid = StrategicMap.Current.MoveControl.CanMove(_settings, mode: Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast)) != -1;
                 }
             }
             else
@@ -265,7 +265,7 @@ public class AIMoveTargetSelector : EngineObject
             case 1:
                 _ = StrategicMap.Current.MoveControl.Activate(_settings);
                 bool processing = true;
-                while (StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 0 && processing)
+                while (StrategicMap.Current.AIExecutor.ProcessTimeLeft > 0 && processing)
                 {
                     processing = StrategicMap.Current.MoveControl.Process();
                 }
@@ -288,11 +288,11 @@ public class AIMoveTargetSelector : EngineObject
                     field = settings.ProcessedMapFields.List[i];
                     if ((field.FieldFlags & MapField.AITargetFlag) != 0)
                     {
-                        MapCoordinate mapCoordinate = field.GetMapCoordinate();
-                        if (_targets.IndexOfMapCoordinate(mapCoordinate) == -1 && field.GetAITarget(_control, TargetInfo, out data))
+                        MapCoordinate mapCoordinate = field.MapCoordinate;
+                        if (_targets.IndexOfMapCoordinate(mapCoordinate) == -1 && field.GetAITarget(_control, info: TargetInfo, out data))
                         {
                             target = new MoveTarget(null) { Holder = CreationHolder() };
-                            MapCoordinate fieldMapCoordinate = field.GetMapCoordinate();
+                            MapCoordinate fieldMapCoordinate = field.MapCoordinate;
                             target.Location = fieldMapCoordinate;
                             target.MovePoints = settings.GetMovePoints(field.HexX, field.HexY, field.HexLevel);
                             target.TransporterId = -1;
@@ -375,7 +375,7 @@ public class AIMoveTargetSelector : EngineObject
                 break;
             case 11:
                 _ = StrategicMap.Current.MoveControl.Activate(_settings);
-                while (StrategicMap.Current.MoveControl.Process() && StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 0)
+                while (StrategicMap.Current.MoveControl.Process() && StrategicMap.Current.AIExecutor.ProcessTimeLeft > 0)
                 {
                 }
 
@@ -396,11 +396,11 @@ public class AIMoveTargetSelector : EngineObject
                     field = settings.ProcessedMapFields.List[i];
                     if ((field.FieldFlags & MapField.AITargetFlag) != 0)
                     {
-                        MapCoordinate mapCoordinate = field.GetMapCoordinate();
-                        if (_targets.IndexOfMapCoordinate(mapCoordinate) == -1 && field.GetAITarget(_control, TargetInfo, out data) && MovePointTable[field.TerrainType][field.OverlayType - MovementTables.FirstOverlay] >= 0)
+                        MapCoordinate mapCoordinate = field.MapCoordinate;
+                        if (_targets.IndexOfMapCoordinate(mapCoordinate) == -1 && field.GetAITarget(_control, info: TargetInfo, out data) && MovePointTable[field.TerrainType][field.OverlayType - MovementTables.FirstOverlay] >= 0)
                         {
                             target = new MoveTarget(null) { Holder = CreationHolder() };
-                            MapCoordinate fieldMapCoordinate = field.GetMapCoordinate();
+                            MapCoordinate fieldMapCoordinate = field.MapCoordinate;
                             target.Location = fieldMapCoordinate;
                             target.MovePoints = settings.GetMovePoints(field.HexX, field.HexY, field.HexLevel);
                             target.TransporterId = _transporter.UnitId;
@@ -446,7 +446,7 @@ public class AIMoveTargetSelector : EngineObject
         try
         {
             bool yield = false;
-            while (!yield && _state != -1 && StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 0)
+            while (!yield && _state != -1 && StrategicMap.Current.AIExecutor.ProcessTimeLeft > 0)
             {
                 yield = ProcessStates();
             }

@@ -38,13 +38,13 @@ public sealed class ResourcePayloadTests
         int seed = DelphiRandom.RandSeed;
         try
         {
-            using ImageSequenceList viaStream = new(null, null);
+            using ImageSequenceList viaStream = new(null, imageLibrary: null);
             DelphiRandom.RandSeed = Seed;
             StreamLoad(viaStream, payload: payload);
             int streamSeed = DelphiRandom.RandSeed;
             // Three frame-table layers draw three times.
             Assert.Equal(Advance(Seed, draws: 3), streamSeed);
-            foreach (ObjectNode tree in Backends(tree: Stored("MapObjectResource", "ImageSequenceList", payload), className: "MapObjectResource"))
+            foreach (ObjectNode tree in Backends(tree: Stored("MapObjectResource", property: "ImageSequenceList", payload), className: "MapObjectResource"))
             {
                 Holder viaTree = new((persister, self) => PersistSupport.ImageSequences(persister, name: "ImageSequenceList", list: self.Sequences));
                 DelphiRandom.RandSeed = Seed;
@@ -58,7 +58,7 @@ public sealed class ResourcePayloadTests
             DelphiRandom.RandSeed = Seed;
             ObjectNode written = TreeWriter.Write(new Holder((persister, _) => PersistSupport.ImageSequences(persister, name: "ImageSequenceList", list: viaStream)), factory: Factory);
             Assert.Equal(Seed, DelphiRandom.RandSeed);
-            Assert.Equal(StreamSaved(viaStream), Payload("MapObjectResource", "ImageSequenceList", written));
+            Assert.Equal(StreamSaved(viaStream), Payload("MapObjectResource", property: "ImageSequenceList", tree: written));
         }
         finally
         {
@@ -75,7 +75,7 @@ public sealed class ResourcePayloadTests
             Holder holder = new((persister, self) => PersistSupport.ImageSequences(persister, name: "ImageSequenceList", list: self.Sequences));
             StreamLoad(holder.Sequences, payload: Sequences());
             DelphiRandom.RandSeed = Seed;
-            TreeReader.Read(new ObjectNode(null, null), objectValue: holder, factory: Factory);
+            TreeReader.Read(new ObjectNode(null, slot: null), objectValue: holder, factory: Factory);
             Assert.Equal(Seed, DelphiRandom.RandSeed);
             Assert.Equal(3, holder.Sequences.Count);
             holder.Dispose();
@@ -94,17 +94,17 @@ public sealed class ResourcePayloadTests
     public void ATerrainListStoresAndLoadsThePackedPairs()
     {
         TerrainList source = new();
-        source.SetTerrain(0, 1);
-        source.SetOverlay(1, 4);
-        source.SetTerrain(3, -2);
+        source.SetTerrain(0, value: 1);
+        source.SetOverlay(1, value: 4);
+        source.SetTerrain(3, value: -2);
         ObjectNode written = TreeWriter.Write(new Holder((persister, _) => PersistSupport.TerrainList(persister, name: "TerrainList", list: source)), factory: Factory);
         byte[] payload = [2, 0, 0, 0, 1, 0xFE, 0xFE, 4];
         Assert.Equal(2, source.Count);
-        Assert.Equal(payload, Payload("MapObjectResource", "TerrainList", written));
-        foreach (ObjectNode tree in Backends("MapObjectResource", Stored("MapObjectResource", "TerrainList", payload)))
+        Assert.Equal(payload, Payload("MapObjectResource", property: "TerrainList", tree: written));
+        foreach (ObjectNode tree in Backends("MapObjectResource", tree: Stored("MapObjectResource", property: "TerrainList", payload)))
         {
             TerrainList loaded = new();
-            loaded.SetTerrain(5, 9);
+            loaded.SetTerrain(5, value: 9);
             TreeReader.Read(tree, objectValue: new Holder((persister, _) => PersistSupport.TerrainList(persister, name: "TerrainList", list: loaded)), factory: Factory);
             Assert.Equal(2, loaded.Count);
             Assert.Equal([1, -2], new[] { loaded.GetTerrain(0), loaded.GetTerrain(1) });
@@ -118,7 +118,7 @@ public sealed class ResourcePayloadTests
         byte[] payload = Library();
         using ImageLibrary viaStream = new(null);
         viaStream.LoadFromStream(new MemoryStream(payload));
-        foreach (ObjectNode tree in Backends("MapObjectResource", Stored("MapObjectResource", "ImageLibrary", payload)))
+        foreach (ObjectNode tree in Backends("MapObjectResource", tree: Stored("MapObjectResource", property: "ImageLibrary", payload)))
         {
             using ImageLibrary loaded = new(null);
             TreeReader.Read(tree, objectValue: new Holder((persister, _) => PersistSupport.ImageLibrary(persister, name: "ImageLibrary", library: loaded)), factory: Factory);
@@ -130,13 +130,13 @@ public sealed class ResourcePayloadTests
     public void AUnitIndexListCollectionIsItsFlatList()
     {
         using UnitIndexListCollection source = new();
-        source.Units.LoadFromStream(new MemoryStream(Flat(-1, [198, 201, 199, -1, -1, -1, -1, -1, 203, 200])));
+        source.Units.LoadFromStream(new MemoryStream(Flat(-1, items: [198, 201, 199, -1, -1, -1, -1, -1, 203, 200])));
         ObjectNode written = TreeWriter.Write(new Holder((persister, _) => PersistSupport.UnitIndexListCollection(persister, name: "Defenders", collection: source)), factory: Factory);
         byte[] payload = Saved(source.Units.SaveToStream);
-        Assert.Equal(payload, Payload("StructureResource", "Defenders", written));
-        JsonObject document = DocumentBackend.Write(written, s_schema.Get("StructureResource"), s_schema, "game");
+        Assert.Equal(payload, Payload("StructureResource", property: "Defenders", tree: written));
+        JsonObject document = DocumentBackend.Write(written, classValue: s_schema.Get("StructureResource"), s_schema, engine: "game");
         Assert.Equal("""{"groups": [[198, 201, 199], [203, 200]], "count": 10}""", Compact(document["Defenders"]));
-        foreach (ObjectNode tree in Backends("StructureResource", Stored("StructureResource", "Defenders", payload)))
+        foreach (ObjectNode tree in Backends("StructureResource", tree: Stored("StructureResource", property: "Defenders", payload)))
         {
             using UnitIndexListCollection loaded = new();
             TreeReader.Read(tree, objectValue: new Holder((persister, _) => PersistSupport.UnitIndexListCollection(persister, name: "Defenders", collection: loaded)), factory: Factory);
@@ -160,14 +160,14 @@ public sealed class ResourcePayloadTests
         counted[2] = true;
         counted[12] = true;
         ObjectNode saved = TreeWriter.Write(new Holder((persister, _) => PersistSupport.BitList(persister, name: "AIValidAttackPlayers", list: counted)), factory: Factory);
-        Assert.Equal([0, 13, 0, 0, 0, 0x05, 0x10], Payload("Player", "AIValidAttackPlayers", saved));
+        Assert.Equal([0, 13, 0, 0, 0, 0x05, 0x10], Payload("Player", property: "AIValidAttackPlayers", tree: saved));
 
         byte[] payload = [2, 32, 0, 0, 0, 0x05, 0x10, 0x00, 0x80];
         BitList source = new();
         source.LoadImage(new BitListImage(Default: 2, Count: 32, Bits: [0x05, 0x10, 0x00, 0x80]));
         ObjectNode written = TreeWriter.Write(new Holder((persister, _) => PersistSupport.BitList(persister, name: "AIValidAttackPlayers", list: source)), factory: Factory);
-        Assert.Equal(payload, Payload("Player", "AIValidAttackPlayers", written));
-        foreach (ObjectNode tree in Backends("Player", Stored("Player", "AIValidAttackPlayers", payload)))
+        Assert.Equal(payload, Payload("Player", property: "AIValidAttackPlayers", tree: written));
+        foreach (ObjectNode tree in Backends("Player", tree: Stored("Player", property: "AIValidAttackPlayers", payload)))
         {
             BitList loaded = new();
             _ = loaded.Add(true);
@@ -179,7 +179,7 @@ public sealed class ResourcePayloadTests
         BitList untouched = new();
         _ = untouched.Add(true);
         byte[] before = BitImage(untouched);
-        TreeReader.Read(new ObjectNode(null, null), objectValue: new Holder((persister, _) => PersistSupport.BitList(persister, name: "AIValidAttackPlayers", list: untouched)), factory: Factory);
+        TreeReader.Read(new ObjectNode(null, slot: null), objectValue: new Holder((persister, _) => PersistSupport.BitList(persister, name: "AIValidAttackPlayers", list: untouched)), factory: Factory);
         Assert.Equal(before, BitImage(untouched));
     }
 
@@ -270,9 +270,9 @@ public sealed class ResourcePayloadTests
     private static ObjectNode Stored(string className, string property, byte[] payload)
     {
         SchemaProperty prop = s_schema.Get(className).PropertyByName(property);
-        DecodeContext context = new(payload, s_schema, "game", "game", null, FormatLimits.Default);
-        ObjectNode node = new(null, null);
-        node.Add(property, prop.Codec.ReadImage(context, 0, payload.Length, new ImageFrame { Property = prop, Id = prop.Id.Value, Path = DocumentNodePath.Root.Member(property) }));
+        DecodeContext context = new(payload, s_schema, engine: "game", profile: "game", file: null, limits: FormatLimits.Default);
+        ObjectNode node = new(null, slot: null);
+        node.Add(property, prop.Codec.ReadImage(context, start: 0, end: payload.Length, frame: new ImageFrame { Property = prop, Id = prop.Id.Value, Path = DocumentNodePath.Root.Member(property) }));
         return node;
     }
 
@@ -280,9 +280,9 @@ public sealed class ResourcePayloadTests
     private static byte[] Payload(string className, string property, ObjectNode tree)
     {
         SchemaProperty prop = s_schema.Get(className).PropertyByName(property);
-        EncodeContext context = new(s_schema, "game", "game", null, FormatLimits.Default);
+        EncodeContext context = new(s_schema, engine: "game", profile: "game", file: null, limits: FormatLimits.Default);
         ByteBuffer data = new();
-        prop.Codec.WriteImage(tree.Find(property), context, data, new ImageFrame { Property = prop, Id = prop.Id.Value, Path = DocumentNodePath.Root.Member(property) });
+        prop.Codec.WriteImage(tree.Find(property), context, data, frame: new ImageFrame { Property = prop, Id = prop.Id.Value, Path = DocumentNodePath.Root.Member(property) });
         return data.ToArray();
     }
 
@@ -290,8 +290,8 @@ public sealed class ResourcePayloadTests
     private static IEnumerable<ObjectNode> Backends(string className, ObjectNode tree)
     {
         SchemaClass classValue = s_schema.Get(className);
-        yield return OriginalBackend.Read(OriginalBackend.Write(tree, classValue, s_schema, "game"), classValue, s_schema, "game");
-        yield return DocumentBackend.Read(DocumentBackend.Write(tree, classValue, s_schema, "game"), classValue, s_schema, "game");
+        yield return OriginalBackend.Read(OriginalBackend.Write(tree, classValue, s_schema, engine: "game"), classValue, s_schema, engine: "game");
+        yield return DocumentBackend.Read(DocumentBackend.Write(tree, classValue, s_schema, engine: "game"), classValue, s_schema, engine: "game");
     }
 
     // Three entries: a chain of a FrameTable, a RandomFrameTable and a plain layer, a nil entry, and
@@ -341,11 +341,11 @@ public sealed class ResourcePayloadTests
     {
         byte[] bytes = new byte[32];
         "\u0004ILB\0"u8.CopyTo(bytes);
-        BinaryPrimitives.WriteSingleLittleEndian(bytes.AsSpan(8), 4f);
-        BinaryPrimitives.WriteInt32LittleEndian(bytes.AsSpan(12), 24);
-        BinaryPrimitives.WriteInt32LittleEndian(bytes.AsSpan(16), 32);
-        BinaryPrimitives.WriteInt32LittleEndian(bytes.AsSpan(20), 32);
-        BinaryPrimitives.WriteInt32LittleEndian(bytes.AsSpan(28), -1);
+        BinaryPrimitives.WriteSingleLittleEndian(bytes.AsSpan(8), value: 4f);
+        BinaryPrimitives.WriteInt32LittleEndian(bytes.AsSpan(12), value: 24);
+        BinaryPrimitives.WriteInt32LittleEndian(bytes.AsSpan(16), value: 32);
+        BinaryPrimitives.WriteInt32LittleEndian(bytes.AsSpan(20), value: 32);
+        BinaryPrimitives.WriteInt32LittleEndian(bytes.AsSpan(28), value: -1);
         return bytes;
     }
 
@@ -387,7 +387,7 @@ public sealed class ResourcePayloadTests
     // One object whose persist body is the adapter under test.
     private sealed class Holder(Action<IPersister, Holder> body) : IPersistable, IDisposable
     {
-        public ImageSequenceList Sequences { get; } = new(null, null);
+        public ImageSequenceList Sequences { get; } = new(null, imageLibrary: null);
 
         public void Persist(IPersister persister) => body(persister, this);
 

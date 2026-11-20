@@ -26,19 +26,19 @@ public partial class Gauge(Component owner) : Control(owner)
     {
         if (_imageLibraryTextureNormal is not null)
         {
-            _imageLibraryTextureNormal = _imageLibraryTextureNormal.CheckImageLibrary(_imageLibraryIndexTNormal, 1, this);
+            _imageLibraryTextureNormal = _imageLibraryTextureNormal.CheckImageLibrary(_imageLibraryIndexTNormal, count: 1, sender: this);
         }
 
         if (_imageLibraryTextureSelected is not null)
         {
-            _imageLibraryTextureSelected = _imageLibraryTextureSelected.CheckImageLibrary(_imageLibraryIndexTSelected, 1, this);
+            _imageLibraryTextureSelected = _imageLibraryTextureSelected.CheckImageLibrary(_imageLibraryIndexTSelected, count: 1, sender: this);
         }
 
         if (_imageLibraryTextureNormal is not null && _imageLibraryTextureSelected is not null)
         {
             if (_imageLibraryFrame is not null)
             {
-                _imageLibraryFrame = _imageLibraryFrame.CheckImageLibrary(ImageLibraryIndexFrame, 8, this);
+                _imageLibraryFrame = _imageLibraryFrame.CheckImageLibrary(ImageLibraryIndexFrame, count: 8, sender: this);
             }
 
             _style = _imageLibraryFrame is not null ? GaugeType.Normal : GaugeType.Borderless;
@@ -106,7 +106,7 @@ public partial class Gauge(Component owner) : Control(owner)
         {
             if (Valid && Visible)
             {
-                RaisePreDraw(this, lockedSurface);
+                RaisePreDraw(this, surfDesc: lockedSurface);
 
                 Rect oldClip = lockedSurface.ClipRectangle;
                 int p;
@@ -117,7 +117,7 @@ public partial class Gauge(Component owner) : Control(owner)
                         LibraryImage imageLibraryFrame = _imageLibraryFrame[ImageLibraryIndexFrame + 4];
                         p = (WinWidth - imageLibraryFrameWidth.Width - imageLibraryFrame.Width) * _position / (Max - Min);
                         SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth, WinHeight);
-                        _imageLibraryFrame.DrawFrame(ImageLibraryIndexFrame, rectangle, ref lockedSurface);
+                        _imageLibraryFrame.DrawFrame(ImageLibraryIndexFrame, area: rectangle, ref lockedSurface);
                         LibraryImage imageLibraryFrame2 = _imageLibraryFrame[ImageLibraryIndexFrame + 3];
                         if (Window.AbsoluteLeft + p + WinLeft + imageLibraryFrame2.Width > lockedSurface.ClipRectangle.Left)
                         {
@@ -134,14 +134,14 @@ public partial class Gauge(Component owner) : Control(owner)
                         LibraryImage imageLibraryFrame7 = _imageLibraryFrame[ImageLibraryIndexFrame + 1];
                         LibraryImage imageLibraryFrame8 = _imageLibraryFrame[ImageLibraryIndexFrame + 3];
                         SizedRectangle rectangle2 = new(Window.AbsoluteLeft + WinLeft + imageLibraryFrame8.Width, Window.AbsoluteTop + WinTop + imageLibraryFrame7.Height, WinWidth - imageLibraryFrame5.Width - imageLibraryFrame6.Width, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame4.Height);
-                        _imageLibraryTextureNormal.DrawTiled(_imageLibraryIndexTNormal, rectangle2, ref lockedSurface);
+                        _imageLibraryTextureNormal.DrawTiled(_imageLibraryIndexTNormal, area: rectangle2, ref lockedSurface);
                         lockedSurface.ClipRectangle = oldClip;
                         LibraryImage imageLibraryFrame9 = _imageLibraryFrame[ImageLibraryIndexFrame + 1];
                         LibraryImage libraryImage = _imageLibraryFrame[ImageLibraryIndexFrame + 6];
                         LibraryImage filFrameItem = _imageLibraryFrame[ImageLibraryIndexFrame + 1];
                         LibraryImage imageLibraryFrameWidth2 = _imageLibraryFrame[ImageLibraryIndexFrame + 3];
                         SizedRectangle rectangle3 = new(Window.AbsoluteLeft + WinLeft + imageLibraryFrameWidth2.Width, Window.AbsoluteTop + WinTop + filFrameItem.Height, p, WinHeight - imageLibraryFrame9.Height - libraryImage.Height);
-                        _imageLibraryTextureSelected.DrawTiled(_imageLibraryIndexTSelected, rectangle3, ref lockedSurface);
+                        _imageLibraryTextureSelected.DrawTiled(_imageLibraryIndexTSelected, area: rectangle3, ref lockedSurface);
                         break;
                     case GaugeType.Borderless:
                         p = _position * WinWidth / (Max - Min);
@@ -153,21 +153,21 @@ public partial class Gauge(Component owner) : Control(owner)
                         }
 
                         SizedRectangle rectangle4 = new(Window.AbsoluteLeft + p + WinLeft, Window.AbsoluteTop + WinTop, WinWidth - p, WinHeight);
-                        _imageLibraryTextureNormal.DrawTiled(_imageLibraryIndexTNormal, rectangle4, ref lockedSurface);
+                        _imageLibraryTextureNormal.DrawTiled(_imageLibraryIndexTNormal, area: rectangle4, ref lockedSurface);
                         lockedSurface.ClipRectangle = oldClip;
                         SizedRectangle rectangle5 = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, p, WinHeight);
-                        _imageLibraryTextureSelected.DrawTiled(_imageLibraryIndexTSelected, rectangle5, ref lockedSurface);
+                        _imageLibraryTextureSelected.DrawTiled(_imageLibraryIndexTSelected, area: rectangle5, ref lockedSurface);
                         break;
                     default:
                         break;
                 }
 
-                RaiseDraw(this, lockedSurface);
+                RaiseDraw(this, surfDesc: lockedSurface);
             }
         }
         catch
         {
-            _ = MessageBox(0, "Exception during Draw", $"Error - {Name}", 0);
+            _ = MessageBox(0, text: "Exception during Draw", caption: $"Error - {Name}", flags: 0);
         }
     }
 

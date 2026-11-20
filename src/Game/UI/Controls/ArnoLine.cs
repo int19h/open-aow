@@ -58,7 +58,7 @@ public class ArnoLine : Control
         {
             if (Valid && Visible)
             {
-                RaisePreDraw(this, lockedSurface);
+                RaisePreDraw(this, surfDesc: lockedSurface);
 
                 Rect oldClip = lockedSurface.ClipRectangle;
                 if (WinTop > lockedSurface.ClipRectangle.Top)
@@ -69,15 +69,15 @@ public class ArnoLine : Control
                 }
 
                 SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth, WinHeight);
-                _lineLibrary.DrawVerticalStrip(0, rectangle, ref lockedSurface);
-                RaiseDraw(this, lockedSurface);
+                _lineLibrary.DrawVerticalStrip(0, area: rectangle, ref lockedSurface);
+                RaiseDraw(this, surfDesc: lockedSurface);
 
                 lockedSurface.ClipRectangle = oldClip;
             }
         }
         catch
         {
-            _ = MessageBox(0, "Exception during Draw", $"Error - {Name}", 0);
+            _ = MessageBox(0, text: "Exception during Draw", caption: $"Error - {Name}", flags: 0);
         }
     }
 

@@ -57,35 +57,39 @@ public class Animation(CustomNode owner) : HexSprite(owner)
     }
 
     // Animation.pas:194
-    public override byte GetLevel() => AnimationLevel;
-
-    // Animation.pas:207
-    public override void SetVisible(bool value) => _state = value
-        ? _state + Set<StateElement>.Of(StateElement.Visible)
-        : _state - Set<StateElement>.Of(StateElement.Visible);
+    public override byte Level => AnimationLevel;
 
     // Animation.pas:213
-    public override bool GetVisible() => _state.Contains(StateElement.Visible);
+    public override bool Visible
+    {
+        get => _state.Contains(StateElement.Visible);
+        // Animation.pas:207
+        set => _state = value
+        ? _state + Set<StateElement>.Of(StateElement.Visible)
+        : _state - Set<StateElement>.Of(StateElement.Visible);
+    }
 
     // Animation.pas:250
     public override bool GetSelected() => _state.Contains(StateElement.Selected);
 
     // Animation.pas:261
-    public override sbyte GetHexX() => Location.X;
+    public override sbyte HexX => Location.X;
 
     // Animation.pas:266
-    public override sbyte GetHexY() => Location.Y;
+    public override sbyte HexY => Location.Y;
 
     // Animation.pas:271
-    public override sbyte GetHexLevel() => Location.MapLevel;
+    public override sbyte HexLevel => Location.MapLevel;
 
     // Animation.pas:227
-    public override bool GetEditMode() => _state.Contains(StateElement.EditMode);
-
-    // Animation.pas:232
-    public override void SetEditMode(bool value) => _state = value
+    public override bool EditMode
+    {
+        get => _state.Contains(StateElement.EditMode);
+        // Animation.pas:232
+        set => _state = value
         ? _state + Set<StateElement>.Of(StateElement.EditMode)
         : _state - Set<StateElement>.Of(StateElement.EditMode);
+    }
 
     // Animation.pas:199
     public override int GetShowPriority()
@@ -128,26 +132,26 @@ public class Animation(CustomNode owner) : HexSprite(owner)
     }
 
     // Animation.pas:383
-    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface) => OnShow?.Invoke(this, pixelXSurface, pixelYSurface, lockedSurface);
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface) => OnShow?.Invoke(this, pixelXSurface, pixelYSurface, SurfaceDesc: lockedSurface);
 
     // Animation.pas:349
     public override bool Place(MapContainer map, int pixelX, int pixelY, int hexLevel)
     {
-        HexGeometry.PixelToHex(pixelX, pixelY, out int x, out int y);
-        return PlaceHex(map, (sbyte)x, (sbyte)y, (sbyte)hexLevel);
+        HexGeometry.PixelToHex(pixelX, vertical: pixelY, out int x, out int y);
+        return PlaceHex(map, (sbyte)x, (sbyte)y, L: (sbyte)hexLevel);
     }
 
     // Animation.pas:372
     public override void Remove()
     {
         base.Remove();
-        if (GetVisible())
+        if (Visible)
         {
             _ = AnimationLevel <= 15
                 ? AnimationMap.StaticVisibleHexSprite.RemoveChild(this)
                 : AnimationMap.DynamicVisibleHexSprite.RemoveChild(this);
 
-            SetVisible(false);
+            Visible = false;
         }
     }
 
@@ -203,7 +207,7 @@ public class Animation(CustomNode owner) : HexSprite(owner)
         if (!_state.Contains(StateElement.Visible))
         {
             _state += Set<StateElement>.Of(StateElement.Visible);
-            _ = visibilityList.AddSortChild(this, GetShowPriority());
+            _ = visibilityList.AddSortChild(this, sortValue: GetShowPriority());
         }
     }
 
@@ -222,7 +226,7 @@ public class Animation(CustomNode owner) : HexSprite(owner)
     }
 
     // Animation.pas:286
-    public virtual bool PlaceTokenEvent(AnimationTokenEvent eventValue, TokenExecutor executor) => PlaceHex(AnimationMap.MapContainer, Location.X, Location.Y, Location.MapLevel);
+    public virtual bool PlaceTokenEvent(AnimationTokenEvent eventValue, TokenExecutor executor) => PlaceHex(AnimationMap.MapContainer, Location.X, Location.Y, L: Location.MapLevel);
 
     // Animation.pas:291
     public virtual bool RemoveTokenEvent(AnimationTokenEvent eventValue, TokenExecutor executor)
@@ -240,7 +244,7 @@ public class Animation(CustomNode owner) : HexSprite(owner)
     // Animation.pas:357
     public virtual bool PlaceHex(MapContainer map, sbyte X, sbyte Y, sbyte L)
     {
-        if (GetEditMode() || CanPlace(map, X, Y, L))
+        if (EditMode || CanPlace(map, X, Y, L))
         {
             AnimationMap = map.Map;
             Remove();

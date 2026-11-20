@@ -31,9 +31,9 @@ public class AIMoveExecutorArmyList(CustomNode owner) : OwningNode(owner), IChil
         {
             i -= 1;
             AIMoveExecutorArmy entry = this[i];
-            if (army.GetHexX() == entry.Location.X && army.GetHexY() == entry.Location.Y && army.GetHexLevel() == entry.Location.MapLevel)
+            if (army.HexX == entry.Location.X && army.HexY == entry.Location.Y && army.HexLevel == entry.Location.MapLevel)
             {
-                entry.RetrieveArmy(255, out ArmyHexSprite foundArmy, out byte foundSelection);
+                entry.RetrieveArmy(255, army: out ArmyHexSprite foundArmy, armySelection: out byte foundSelection);
                 if (army == foundArmy && foundSelection == selection)
                 {
                     return i;

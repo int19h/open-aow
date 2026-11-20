@@ -24,7 +24,7 @@ public sealed class CoordinateTests : FormatsTest
         ]}
         """;
 
-    private static FormatSchema Sample { get; } = FormatSchema.Load(System.Text.Encoding.UTF8.GetBytes(SampleSchema), "coordinate.json");
+    private static FormatSchema Sample { get; } = FormatSchema.Load(System.Text.Encoding.UTF8.GetBytes(SampleSchema), file: "coordinate.json");
 
     [Fact]
     public void AnEmptyCoordinateIsOmitted()
@@ -33,7 +33,7 @@ public sealed class CoordinateTests : FormatsTest
         node.Add("Location", new RecordNode());
         JsonObject document = WriteDocument("Marker", node);
         Assert.Null(document.Find("Location"));
-        ObjectNode read = ReadImage("Marker", WriteImage("Marker", node));
+        ObjectNode read = ReadImage("Marker", image: WriteImage("Marker", node));
         Assert.Null(read.Find("Location"));
     }
 
@@ -52,7 +52,7 @@ public sealed class CoordinateTests : FormatsTest
         Assert.Null(stored.Find("Y"));
         Assert.Equal(2L, ((JsonInteger)stored["MapLevel"]!).Value);
 
-        RecordNode read = (RecordNode)ReadImage("Marker", WriteImage("Marker", node)).Find("Location")!;
+        RecordNode read = (RecordNode)ReadImage("Marker", image: WriteImage("Marker", node)).Find("Location")!;
         Assert.Equal(0L, ((IntegerNode)read.Find("X")!).Value);
         Assert.Null(read.Find("Y"));
         Assert.Equal(2L, ((IntegerNode)read.Find("MapLevel")!).Value);
@@ -72,7 +72,7 @@ public sealed class CoordinateTests : FormatsTest
         Assert.Equal(255L, ((JsonInteger)stored["Y"]!).Value);
         Assert.Null(stored.Find("MapLevel"));
 
-        RecordNode read = (RecordNode)ReadImage("Marker", WriteImage("Marker", node)).Find("Location")!;
+        RecordNode read = (RecordNode)ReadImage("Marker", image: WriteImage("Marker", node)).Find("Location")!;
         Assert.Equal(255L, ((IntegerNode)read.Find("X")!).Value);
         Assert.Equal(255L, ((IntegerNode)read.Find("Y")!).Value);
     }
@@ -93,14 +93,14 @@ public sealed class CoordinateTests : FormatsTest
         Assert.Equal(Codes.Range, image.Diagnostic.Code);
         Assert.Equal("root.Location.X", image.Diagnostic.Path);
 
-        ConversionException document = Assert.Throws<ConversionException>(() => ReadDocument("Spot", """{"Location":{"Y":128}}"""));
+        ConversionException document = Assert.Throws<ConversionException>(() => ReadDocument("Spot", json: """{"Location":{"Y":128}}"""));
         Assert.Equal(Codes.Range, document.Diagnostic.Code);
         Assert.Equal("root.Location.Y", document.Diagnostic.Path);
 
-        byte[] stored = WriteImage("Spot", Spot(x: 127));
-        int at = IndexOf(stored, [0x7F, 0, 0, 0]);
+        byte[] stored = WriteImage("Spot", node: Spot(x: 127));
+        int at = IndexOf(stored, pattern: [0x7F, 0, 0, 0]);
         stored[at] = 200;
-        ConversionException read = Assert.Throws<ConversionException>(() => ReadImage("Spot", stored));
+        ConversionException read = Assert.Throws<ConversionException>(() => ReadImage("Spot", image: stored));
         Assert.Equal(Codes.Range, read.Diagnostic.Code);
         Assert.Equal("root.Location.X", read.Diagnostic.Path);
     }
@@ -118,7 +118,7 @@ public sealed class CoordinateTests : FormatsTest
         => DocumentBackend.Write(node, classValue: Sample.Get(className), schema: Sample, engine: "game");
 
     private static ObjectNode ReadDocument(string className, string json)
-        => DocumentBackend.Read((JsonObject)JsonReader.Parse(System.Text.Encoding.UTF8.GetBytes(json), "coordinate.json"), classValue: Sample.Get(className), schema: Sample, engine: "game");
+        => DocumentBackend.Read((JsonObject)JsonReader.Parse(System.Text.Encoding.UTF8.GetBytes(json), file: "coordinate.json"), classValue: Sample.Get(className), schema: Sample, engine: "game");
 
     private static byte[] WriteImage(string className, ObjectNode node)
         => OriginalBackend.Write(node, classValue: Sample.Get(className), schema: Sample, engine: "game");

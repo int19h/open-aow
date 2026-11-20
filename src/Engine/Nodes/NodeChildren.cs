@@ -31,7 +31,7 @@ public sealed class NodeChildren(CustomNode node) : IChildCollection
         objectValue.SetOwnerWithoutNotify(null);
         if (KeepIndex)
         {
-            objectValue.SetArrayOwner(node, slot);
+            objectValue.SetArrayOwner(node, index: slot);
         }
         else
         {

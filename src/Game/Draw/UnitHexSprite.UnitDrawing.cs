@@ -14,7 +14,7 @@ public partial class UnitHexSprite
 {
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        Assert(Direction < UnitGraphicsResource.Sequences.Count, "Invalid Unit Index", "UnitHS.PAS", 853);
+        Assert(Direction < UnitGraphicsResource.Sequences.Count, message: "Invalid Unit Index", file: "UnitHS.PAS", line: 853);
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         pixelXSurface = pixelX - pixelXSurface;
         pixelYSurface = pixelY - pixelYSurface;
@@ -38,7 +38,7 @@ public partial class UnitHexSprite
                 sequence = UnitGraphicsResource.Sequences.List[Direction + 5];
                 if (sequence is not null && GetSelected())
                 {
-                    index = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                    index = sequence.GetFrameIndex(StrategicMap.Current.Frame, offset: FrameFixtureInputs.AnimationOffset(this));
                     // sound timing gate
                     if (sequence.SpeedCount == sequence.SequenceSpeed)
                     {
@@ -60,7 +60,7 @@ public partial class UnitHexSprite
         {
             while (sequence is not null)
             {
-                index = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                index = sequence.GetFrameIndex(StrategicMap.Current.Frame, offset: FrameFixtureInputs.AnimationOffset(this));
                 if (index != -1)
                 {
                     sequence.ImageLibrary[index].Show(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY, lockedSurface);
@@ -93,7 +93,7 @@ public partial class UnitHexSprite
 
         while (sequence is not null)
         {
-            int index = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+            int index = sequence.GetFrameIndex(StrategicMap.Current.Frame, offset: FrameFixtureInputs.AnimationOffset(this));
             sequence.ImageLibrary[index].Show(X + sequence.OffsetX, Y + sequence.OffsetY, lockedSurface);
             sequence = sequence.Next;
         }

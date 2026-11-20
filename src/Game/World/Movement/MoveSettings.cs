@@ -30,7 +30,7 @@ public class MoveSettings(CustomNode owner) : EngineObject(owner)
     }
 
     // Structur.PAS:4024
-    public MapCoordinate GetMoveLocation() => Path.Count > MovePosition && MovePosition >= 0 ? Path.List[MovePosition].Location : MapCoordinate.None;
+    public MapCoordinate MoveLocation => Path.Count > MovePosition && MovePosition >= 0 ? Path.List[MovePosition].Location : MapCoordinate.None;
 
     // Structur.PAS:4034
     public int GetMovePrio() => (Path.Count - MovePosition) * _priority;

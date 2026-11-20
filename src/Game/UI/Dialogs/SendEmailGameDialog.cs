@@ -48,7 +48,7 @@ public partial class SendEmailGameDialog(UIContext ui) : UIModule(ui)
         EmailAddressEdit.Text = player.PbemSettings.EmailGame.EmailAddress;
         // { Original reuses the resource-string temporary for the formatted text. }
         string nameEx = StrategicMap.Current.Players.GetPlayers(_sendEvent.SendPlayer).GetNameWithRace();
-        string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_nextPlayerFormat), [nameEx]);
+        string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_nextPlayerFormat), arguments: [nameEx]);
         RecipientNameLabel.Text = format;
         if (sendEmailGameEventLog.Mode == 2)
         {

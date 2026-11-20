@@ -112,7 +112,7 @@ public partial class TurnButton(Component owner) : Control(owner)
         {
             if (Visible && Valid)
             {
-                RaisePreDraw(this, lockedSurface);
+                RaisePreDraw(this, surfDesc: lockedSurface);
 
                 if (!Animating && ButtonChecked)
                 {
@@ -123,12 +123,12 @@ public partial class TurnButton(Component owner) : Control(owner)
                     _imageLibrary[_frameOffset + AnimationFrame].ShowClipped(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, lockedSurface);
                 }
 
-                RaiseDraw(this, lockedSurface);
+                RaiseDraw(this, surfDesc: lockedSurface);
             }
         }
         catch
         {
-            _ = MessageBox(0, "Exception during Draw", $"Error - {Name}", 0);
+            _ = MessageBox(0, text: "Exception during Draw", caption: $"Error - {Name}", flags: 0);
         }
     }
 

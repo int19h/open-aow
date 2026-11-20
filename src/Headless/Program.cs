@@ -32,7 +32,7 @@ internal static class Program
         // --measure-persistence <map|set|campaign> <file> [--map <file>] --out <dir> (own-formats.md 9.3).
         if (arguments.Length >= 3 && arguments[0] == "--measure-persistence")
         {
-            string? Option(string name) => Array.IndexOf(arguments, name) is int at and >= 0 && at + 1 < arguments.Length ? arguments[at + 1] : null;
+            string? Option(string name) => Array.IndexOf(arguments, value: name) is int at and >= 0 && at + 1 < arguments.Length ? arguments[at + 1] : null;
             return PersistenceMeasurement.Run(Option("--game-root") ?? Environment.GetEnvironmentVariable("AOW_GAME_ROOT") ?? @"D:\Games\GOG\Age of Wonders", kind: arguments[1], file: arguments[2], map: Option("--map"), output: Option("--out") ?? throw new ArgumentException("--measure-persistence needs --out"));
         }
         string? output = null;
@@ -70,9 +70,9 @@ internal static class Program
                     case "--out": output = Path.GetFullPath(Value()); break;
                     case "--seed":
                         string seedText = Value();
-                        long seedValue = seedText.StartsWith("0x", StringComparison.OrdinalIgnoreCase)
-                            ? long.Parse(seedText.AsSpan(2), NumberStyles.HexNumber, CultureInfo.InvariantCulture)
-                            : long.Parse(seedText, CultureInfo.InvariantCulture);
+                        long seedValue = seedText.StartsWith("0x", comparisonType: StringComparison.OrdinalIgnoreCase)
+                            ? long.Parse(seedText.AsSpan(2), style: NumberStyles.HexNumber, provider: CultureInfo.InvariantCulture)
+                            : long.Parse(seedText, provider: CultureInfo.InvariantCulture);
                         if (seedValue is < int.MinValue or > uint.MaxValue)
                         {
                             throw new ArgumentOutOfRangeException("seed");
@@ -106,7 +106,7 @@ internal static class Program
             }
 
             _ = Directory.CreateDirectory(output);
-            if (Directory.EnumerateFiles(output, "day-*.asg").Any())
+            if (Directory.EnumerateFiles(output, searchPattern: "day-*.asg").Any())
             {
                 throw new IOException("output already contains day saves");
             }
@@ -115,7 +115,7 @@ internal static class Program
             trace = new StreamWriter(Path.Combine(output, "exceptions.log")) { NewLine = "\n" };
             AppDomain.CurrentDomain.FirstChanceException += (sender, e) =>
             {
-                string detail = (e.Exception.ToString() + (gameplay ? $"\n{new StackTrace(1, true)}" : "")).Replace("\r\n", "\n");
+                string detail = (e.Exception.ToString() + (gameplay ? $"\n{new StackTrace(1, fNeedFileInfo: true)}" : "")).Replace("\r\n", "\n");
                 if (e.Exception is NotImplementedException)
                 {
                     _ = todos.Add(detail);
@@ -137,7 +137,7 @@ internal static class Program
             if (fileLogPath is not null)
             {
                 // own-formats.md 4.2: every open and write at the file boundary, refusals included.
-                StreamWriter log = fileLog = new StreamWriter(fileLogPath, false, new UTF8Encoding(false)) { NewLine = "\n" };
+                StreamWriter log = fileLog = new StreamWriter(fileLogPath, append: false, encoding: new UTF8Encoding(false)) { NewLine = "\n" };
                 FileBoundary.Log = record =>
                 {
                     log.WriteLine(record.ToJson());
@@ -162,18 +162,18 @@ internal static class Program
             NullSoundSystem.Install();
             CombatClasses.Register(engine);
             gameplay = true;
-            engine.LoadHsm(input, false, null, GameProfile.WorldMap);
+            engine.LoadHsm(input, edit: false, progress: null, profile: GameProfile.WorldMap);
             if (engine.HexSpriteMap is not StrategicMap map)
             {
                 throw new InvalidDataException($"engine load failed{(FileBoundary.LastFailure is { } refused ? $": {refused}" : "")}");
             }
 
-            _ = map.SetViewPort(map.ViewPixelX, map.ViewPixelY, map.ViewMapLevel, 0, 0);
+            _ = map.SetViewPort(map.ViewPixelX, map.ViewPixelY, lHitPoints: map.ViewMapLevel, 0, 0);
             DelphiRandom.RandSeed = seed;
             DelphiRandom.SuppressRandomize = true;
             HeadlessHooks.Tactical = tactical;
             HeadlessHooks.TacticalBattles = tacticalBattles;
-            directed = new(map, exerciseItems, globalSpell);
+            directed = new(map, items: exerciseItems, spell: globalSpell);
             if (globalSpell != 0)
             {
                 HeadlessHooks.BeforeAIPlayerProcess = directed.BeforeFrame;
@@ -186,7 +186,7 @@ internal static class Program
                 if (info.Log is MessageEventLog message)
                 {
                     bool yes = message.Buttons is MessageEventLogButtons.YesNo or MessageEventLogButtons.YesNoCancel;
-                    _ = host.Show(new(message.Message.Text, message.Title, (int)message.Buttons, yes ? 6 : 1));
+                    _ = host.Show(new(message.Message.Text, Caption: message.Title, Flags: (int)message.Buttons, DefaultResult: yes ? 6 : 1));
                     _ = yes ? message.Yes() : message.Ok();
                 }
                 info.Done?.Invoke(info.Log);
@@ -195,12 +195,12 @@ internal static class Program
             {
                 if (todos.Count != 0)
                 {
-                    throw new InvalidOperationException($"reached TODO: {string.Join("\n", todos)}");
+                    throw new InvalidOperationException($"reached TODO: {string.Join("\n", values: todos)}");
                 }
 
                 if (runtimeErrors.Count != 0)
                 {
-                    throw new InvalidOperationException($"gameplay exception: {string.Join("\n", runtimeErrors)}");
+                    throw new InvalidOperationException($"gameplay exception: {string.Join("\n", values: runtimeErrors)}");
                 }
             }
             void Save(PlayerControl control)
@@ -246,7 +246,7 @@ internal static class Program
                 SceneWidth = viewportWidth,
                 SceneHeight = viewportHeight
             };
-            viewer.ChangeScene(map.ViewPixelX, map.ViewPixelY, map.ViewMapLevel);
+            viewer.ChangeScene(map.ViewPixelX, map.ViewPixelY, lHitPoints: map.ViewMapLevel);
             TacticalInput.Install(map, viewer);
             Stopwatch watchdog = Stopwatch.StartNew();
             int previous = day;
@@ -287,7 +287,7 @@ internal static class Program
         {
             if (writeManifest && output is not null && Directory.Exists(output))
             {
-                File.WriteAllText(Path.Combine(output, "run.json"), JsonSerializer.Serialize(new
+                File.WriteAllText(Path.Combine(output, "run.json"), contents: JsonSerializer.Serialize(new
                 {
                     input,
                     input_sha256 = input is not null && File.Exists(input) ? Convert.ToHexStringLower(SHA256.HashData(File.ReadAllBytes(input))) : null,
@@ -314,7 +314,7 @@ internal static class Program
                     reached_todos = todos,
                     gameplay_exceptions = runtimeErrors,
                     error
-                }, new JsonSerializerOptions { WriteIndented = true }) + "\n");
+                }, options: new JsonSerializerOptions { WriteIndented = true }) + "\n");
             }
 
             trace?.Flush();

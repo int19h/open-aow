@@ -40,6 +40,7 @@ public class SpellCaster(CustomNode owner) : EngineObject(owner)
     public virtual bool Cast() => true;
 
     // intf_P4_02.inc:998
-    public Troop GetSource() => StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
+    public Troop Source => StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
+
     public virtual bool CanCast(ref string reason) => StrategicMap.Current.UnitControl.FindUnit(CasterSourceId) is not null;
 }

@@ -49,8 +49,8 @@ public class House(CustomNode owner) : CombatStructure(owner)
         if (HitPoints == 0)
         {
             sequence = GamePack.Current.ImageSequences.GetImageSequence(50);
-            sbyte hexY = GetHexY();
-            sbyte hexX = GetHexX();
+            sbyte hexY = HexY;
+            sbyte hexX = HexX;
             terrainOffset = CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).TerrainType switch
             {
                 3 => 1,
@@ -61,7 +61,7 @@ public class House(CustomNode owner) : CombatStructure(owner)
             {
                 do
                 {
-                    imageIndex = sequence.GetUnloopedFrameIndex(FrameFixtureInputs.PhaseModulo(this, 3) + (terrainOffset * 3));
+                    imageIndex = sequence.GetUnloopedFrameIndex(FrameFixtureInputs.PhaseModulo(this, divisor: 3) + (terrainOffset * 3));
                     if (imageIndex != -1)
                     {
                         sequence.ImageLibrary[imageIndex].Show(pixelXSurface + sequence.OffsetX + 16, pixelYSurface + sequence.OffsetY + 16, lockedSurface);
@@ -74,8 +74,8 @@ public class House(CustomNode owner) : CombatStructure(owner)
         }
         else
         {
-            sbyte hexY = GetHexY();
-            sbyte hexX = GetHexX();
+            sbyte hexY = HexY;
+            sbyte hexX = HexX;
             terrainOffset = CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).TerrainType switch
             {
                 3 => 20,
@@ -90,21 +90,21 @@ public class House(CustomNode owner) : CombatStructure(owner)
                     switch (sequence.Layer)
                     {
                         case 7:
-                            imageIndex = sequence.GetFrameIndex(CombatMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                            imageIndex = sequence.GetFrameIndex(CombatMap.Current.Frame, offset: FrameFixtureInputs.AnimationOffset(this));
                             if (imageIndex != -1)
                             {
                                 if (!CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
                                 {
-                                    sbyte hexX2 = GetHexX();
-                                    sbyte hexY2 = GetHexY();
-                                    GamePack.Current.FlagControl.ShowStructureFlag(pixelXSurface + 21 + sequence.OffsetX, pixelYSurface + sequence.OffsetY + 16, hexX2 + StrategicMap.Current.Frame + (hexY2 * 100), (byte)_flagId, lockedSurface, false);
+                                    sbyte hexX2 = HexX;
+                                    sbyte hexY2 = HexY;
+                                    GamePack.Current.FlagControl.ShowStructureFlag(pixelXSurface + 21 + sequence.OffsetX, pixelYSurface + sequence.OffsetY + 16, frameOffset: hexX2 + StrategicMap.Current.Frame + (hexY2 * 100), flagId: (byte)_flagId, lockedSurface, showBase: false);
                                 }
                             }
 
                             break;
                         default:
                             {
-                                imageIndex = sequence.GetFrameIndex(CombatMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                                imageIndex = sequence.GetFrameIndex(CombatMap.Current.Frame, offset: FrameFixtureInputs.AnimationOffset(this));
                                 if (imageIndex != -1)
                                 {
                                     sequence.ImageLibrary[imageIndex].Show(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY, lockedSurface);
@@ -133,7 +133,7 @@ public class House(CustomNode owner) : CombatStructure(owner)
             {
                 do
                 {
-                    int imageIndex = sequence.GetFrameIndex(CombatMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                    int imageIndex = sequence.GetFrameIndex(CombatMap.Current.Frame, offset: FrameFixtureInputs.AnimationOffset(this));
                     if (imageIndex != -1)
                     {
                         sequence.ImageLibrary[imageIndex].Show(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY, lockedSurface);

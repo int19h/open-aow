@@ -64,7 +64,7 @@ public class ScoutAIGroupControl(CustomNode owner) : AIGroupControl(owner)
                 bool condition = Group.Player != 0;
                 if (!condition)
                 {
-                    StrategicMapIndependentAIMode independentAIMode = StrategicMap.Current.GetIndependentAIMode();
+                    StrategicMapIndependentAIMode independentAIMode = StrategicMap.Current.IndependentAIMode;
                     condition = StrategicMap.Current.Random(3) < (int)independentAIMode;
                 }
 
@@ -92,7 +92,7 @@ public class ScoutAIGroupControl(CustomNode owner) : AIGroupControl(owner)
                     SetupME();
                     AIGroupControlTarget targetLocation = Targets.GetTargets(0);
                     AIGroupControlTarget target = Targets.GetTargets(0);
-                    ExecuteME(Targets.GetTargets(0).Location.X, target.Location.Y, targetLocation.Location.MapLevel);
+                    ExecuteME(Targets.GetTargets(0).Location.X, target.Location.Y, L: targetLocation.Location.MapLevel);
                     Targets.Delete(0);
                 }
                 else

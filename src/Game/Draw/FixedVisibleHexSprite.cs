@@ -12,21 +12,23 @@ public class FixedVisibleHexSprite(CustomNode owner) : HexSprite(owner)
 {
     private byte _status;
 
-    // HXSPRITE.PAS:770
-    public override void SetVisible(bool value) => _status = value ? (byte)(_status | 1) : (byte)(_status & 254);
-
     // HXSPRITE.PAS:775
-    public override bool GetVisible() => (_status & 1) != 0;
+    public override bool Visible
+    {
+        get => (_status & 1) != 0;
+        // HXSPRITE.PAS:770
+        set => _status = value ? (byte)(_status | 1) : (byte)(_status & 254);
+    }
 
     // HXSPRITE.PAS:787
-    public override int GetShowPriority() => GetLevel() << 26;
+    public override int GetShowPriority() => Level << 26;
 
     // HXSPRITE.PAS:791
     public override void MainRemove()
     {
         Deactivate();
         Remove();
-        Assert(!GetVisible(), "FixedVisibleHS still in VisibilityList!!!", "HXSPRITE.PAS", 795);
+        Assert(!Visible, message: "FixedVisibleHS still in VisibilityList!!!", file: "HXSPRITE.PAS", line: 795);
     }
 
     // HXSPRITE.PAS:779
@@ -35,7 +37,7 @@ public class FixedVisibleHexSprite(CustomNode owner) : HexSprite(owner)
         if ((_status & 1) == 0)
         {
             _status = (byte)(_status | 1);
-            _ = visibilityList.AddSortChild(this, GetShowPriority());
+            _ = visibilityList.AddSortChild(this, sortValue: GetShowPriority());
         }
     }
 }

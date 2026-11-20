@@ -265,7 +265,7 @@ public partial class CustomDisplay : Component
     {
         if (ActiveDisplayController is not null && ActiveDisplayController.GetStatus().Contains(DisplayControllerStatusElement.Activated))
         {
-            OnDeactivateDisplayController?.Invoke(this, ActiveDisplayController);
+            OnDeactivateDisplayController?.Invoke(this, DC: ActiveDisplayController);
 
             _ = ActiveDisplayController.Deactivate();
             ActiveDisplayController = null;
@@ -292,7 +292,7 @@ public partial class CustomDisplay : Component
         LockedSurface lockedSurface2 = default;
         _ = source.Lock(ref lockedSurface);
         _ = destination.Lock(ref lockedSurface2);
-        GraphicsResult result = LockedSurface.RemapSurfacePart(in lockedSurface, 0, 0, lockedSurface.Width, lockedSurface.Height, in lockedSurface2, 0, 0);
+        GraphicsResult result = LockedSurface.RemapSurfacePart(in lockedSurface, 0, 0, lockedSurface.Width, lockedSurface.Height, destination: in lockedSurface2, 0, 0);
         _ = source.Unlock();
         _ = destination.Unlock();
         return result;

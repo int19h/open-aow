@@ -7,7 +7,7 @@ public class DisplayModeList : IDisposable
     private readonly List<DisplayModeItem> _list;
 
     // GFXE.pas:12629
-    internal DisplayModeItem GetItems(int index) => _list[index];
+    internal DisplayModeItem this[int index] => _list[index];
 
     // GFXE.pas:12634
     internal int GetCount() => _list.Count;
@@ -48,7 +48,7 @@ public class DisplayModeList : IDisposable
 
     public sealed class ItemsAccessor(DisplayModeList target)
     {
-        public DisplayModeItem this[int index] => target.GetItems(index);
+        public DisplayModeItem this[int index] => target[index];
     }
 
     public ItemsAccessor Items => new(this);

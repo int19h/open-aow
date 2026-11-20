@@ -12,16 +12,16 @@ public static class TranslatorProperties
     private static readonly Dictionary<(Type, string), Binding> s_bindings = [];
 
     public static void Register<T>(string name, Func<T, string> read, Action<T, string> write) where T : Component
-        => s_bindings[(typeof(T), name)] = new(typeof(T), name, component => [read((T)component)],
-            (component, values) => write((T)component, values[0]), false);
+        => s_bindings[(typeof(T), name)] = new(typeof(T), name, Read: component => [read((T)component)],
+            Write: (component, values) => write((T)component, values[0]), IsList: false);
 
     public static void RegisterStrings<T>(string name, Func<T, DelphiStringCollection?> read) where T : Component
     {
-        s_bindings[(typeof(T), name)] = new(typeof(T), name, component =>
+        s_bindings[(typeof(T), name)] = new(typeof(T), name, Read: component =>
         {
             DelphiStringCollection? strings = read((T)component);
             return strings is null ? [] : [.. Enumerable.Range(0, strings.Count).Select(i => strings[i])];
-        }, (component, values) =>
+        }, Write: (component, values) =>
         {
             DelphiStringCollection? strings = read((T)component);
             if (strings is null)
@@ -42,7 +42,7 @@ public static class TranslatorProperties
             {
                 strings.EndUpdate();
             }
-        }, true);
+        }, IsList: true);
     }
 
     internal static Binding? Find(Type type, string name)
@@ -93,7 +93,7 @@ public class IvCustomTranslator(Component? owner = null) : Component(owner)
         {
             foreach (TranslationTarget target in TargetsData)
             {
-                if (!Matches(component.GetType(), target.ClassName))
+                if (!Matches(component.GetType(), name: target.ClassName))
                 {
                     continue;
                 }
@@ -120,12 +120,12 @@ public class IvCustomTranslator(Component? owner = null) : Component(owner)
                     }
 
                     string joined = Join(native);
-                    string translated = dictionary.TranslateContext(joined, form, componentName);
+                    string translated = dictionary.TranslateContext(joined, form, component: componentName);
                     binding.Write(component, translated == joined ? native : Split(translated));
                 }
                 else
                 {
-                    binding.Write(component, [dictionary.TranslateContext(native[0], form, componentName)]);
+                    binding.Write(component, [dictionary.TranslateContext(native[0], form, component: componentName)]);
                 }
             }
             for (int index = 0; index < component.ComponentCount; index++)
@@ -173,16 +173,16 @@ public class IvCustomTranslator(Component? owner = null) : Component(owner)
         List<string> result = [];
         do
         {
-            int marker = DelphiStrings.Pos("<eol>", value), lineFeed = DelphiStrings.Pos("\n", value);
+            int marker = DelphiStrings.Pos("<eol>", haystack: value), lineFeed = DelphiStrings.Pos("\n", haystack: value);
             int end = marker != 0 && (lineFeed == 0 || marker < lineFeed) ? marker : lineFeed;
             if (end == 0)
             {
                 result.Add(value);
                 break;
             }
-            result.Add(DelphiStrings.Copy(value, 1, end - 1));
+            result.Add(DelphiStrings.Copy(value, index: 1, count: end - 1));
             int skip = end == marker ? 5 : 1;
-            value = DelphiStrings.Copy(value, end + skip, value.Length - end - skip + 1);
+            value = DelphiStrings.Copy(value, index: end + skip, count: value.Length - end - skip + 1);
         } while (value.Length > 0);
         return [.. result];
     }

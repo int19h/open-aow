@@ -39,7 +39,7 @@ public static class StreamExtensions
 
     public static int Write(this Stream stream, ReadOnlySpan<byte> buffer, int count) => WriteCounted(stream, buffer, count);
 
-    public static int Read(this Stream stream, Ptr<byte> buffer, int count) => count <= 0 ? 0 : stream.Read(buffer.Array.AsSpan(buffer.Index, count));
+    public static int Read(this Stream stream, Ptr<byte> buffer, int count) => count <= 0 ? 0 : stream.Read(buffer.Array.AsSpan(buffer.Index, length: count));
 
     public static int Write(this Stream stream, Ptr<byte> buffer, int count) => WritePointer(stream, buffer, count);
 
@@ -47,22 +47,22 @@ public static class StreamExtensions
 
     public static int Read<T>(this Stream stream, ref T value, int count) where T : unmanaged => stream.Read(Bytes.Of(ref value, count));
 
-    public static int Write<T>(this Stream stream, in T value) where T : unmanaged => WriteSpan(stream, MemoryMarshal.AsBytes(MemoryMarshal.CreateReadOnlySpan(in value, 1)));
+    public static int Write<T>(this Stream stream, in T value) where T : unmanaged => WriteSpan(stream, buffer: MemoryMarshal.AsBytes(MemoryMarshal.CreateReadOnlySpan(in value, length: 1)));
 
-    public static int Write<T>(this Stream stream, in T value, int count) where T : unmanaged => WriteSpan(stream, MemoryMarshal.AsBytes(MemoryMarshal.CreateReadOnlySpan(in value, 1))[..count]);
+    public static int Write<T>(this Stream stream, in T value, int count) where T : unmanaged => WriteSpan(stream, buffer: MemoryMarshal.AsBytes(MemoryMarshal.CreateReadOnlySpan(in value, length: 1))[..count]);
 
     // A short transfer raises the Delphi read or write error. An empty buffer does not call Read or Write.
     public static void ReadBuffer(this Stream stream, Span<byte> buffer) => ReadBufferExact(stream, buffer);
 
     public static void WriteBuffer(this Stream stream, ReadOnlySpan<byte> buffer) => WriteBufferExact(stream, buffer);
 
-    public static void ReadBuffer<T>(this Stream stream, ref T value) where T : unmanaged => ReadBufferExact(stream, Bytes.Of(ref value));
+    public static void ReadBuffer<T>(this Stream stream, ref T value) where T : unmanaged => ReadBufferExact(stream, buffer: Bytes.Of(ref value));
 
-    public static void WriteBuffer<T>(this Stream stream, in T value) where T : unmanaged => WriteBufferExact(stream, MemoryMarshal.AsBytes(MemoryMarshal.CreateReadOnlySpan(in value, 1)));
+    public static void WriteBuffer<T>(this Stream stream, in T value) where T : unmanaged => WriteBufferExact(stream, buffer: MemoryMarshal.AsBytes(MemoryMarshal.CreateReadOnlySpan(in value, length: 1)));
 
-    public static void ReadBuffer<T>(this Stream stream, ref T value, int count) where T : unmanaged => ReadBufferExact(stream, Bytes.Of(ref value, count));
+    public static void ReadBuffer<T>(this Stream stream, ref T value, int count) where T : unmanaged => ReadBufferExact(stream, buffer: Bytes.Of(ref value, count));
 
-    public static void WriteBuffer<T>(this Stream stream, in T value, int count) where T : unmanaged => WriteBufferExact(stream, MemoryMarshal.AsBytes(MemoryMarshal.CreateReadOnlySpan(in value, 1))[..count]);
+    public static void WriteBuffer<T>(this Stream stream, in T value, int count) where T : unmanaged => WriteBufferExact(stream, buffer: MemoryMarshal.AsBytes(MemoryMarshal.CreateReadOnlySpan(in value, length: 1))[..count]);
 
     public static void ReadBuffer(this Stream stream, Ptr<byte> buffer, int count)
     {
@@ -76,7 +76,7 @@ public static class StreamExtensions
             throw new EndOfStreamException("Stream read error");
         }
 
-        ReadBufferExact(stream, buffer.Array.AsSpan(buffer.Index, count));
+        ReadBufferExact(stream, buffer: buffer.Array.AsSpan(buffer.Index, length: count));
     }
 
     public static void WriteBuffer(this Stream stream, Ptr<byte> buffer, int count)
@@ -111,8 +111,8 @@ public static class StreamExtensions
         while (count != 0)
         {
             int n = Math.Min(count, buffer.Length);
-            ReadBufferExact(source, buffer.AsSpan(0, n));
-            WriteBufferExact(stream, buffer.AsSpan(0, n));
+            ReadBufferExact(source, buffer: buffer.AsSpan(0, length: n));
+            WriteBufferExact(stream, buffer: buffer.AsSpan(0, length: n));
             count -= n;
         }
 
@@ -133,24 +133,24 @@ public static class StreamExtensions
         stream.SetLength(count);
         if (count != 0)
         {
-            ReadBufferExact(source, stream.GetBuffer().AsSpan(0, count));
+            ReadBufferExact(source, buffer: stream.GetBuffer().AsSpan(0, length: count));
         }
     }
 
     public static void LoadFromFile(this MemoryStream stream, string name)
     {
-        using Stream file = DelphiStreams.OpenFile(name, DelphiStreams.fmOpenRead);
+        using Stream file = DelphiStreams.OpenFile(name, mode: DelphiStreams.fmOpenRead);
         stream.LoadFromStream(file);
     }
 
     public static void SaveToFile(this MemoryStream stream, string name)
     {
-        using Stream file = DelphiStreams.OpenFile(name, DelphiStreams.fmCreate);
+        using Stream file = DelphiStreams.OpenFile(name, mode: DelphiStreams.fmCreate);
         stream.WriteTo(file);
     }
 
     private static int WriteCounted(Stream stream, ReadOnlySpan<byte> buffer, int count)
-        => count < 0 ? 0 : WriteSpan(stream, buffer[..count]);
+        => count < 0 ? 0 : WriteSpan(stream, buffer: buffer[..count]);
 
     private static int WriteSpan(Stream stream, ReadOnlySpan<byte> buffer)
     {
@@ -165,8 +165,8 @@ public static class StreamExtensions
             return 0;
         }
 
-        ReadOnlySpan<byte> slice = count == 0 || buffer.IsNull ? default : buffer.Array.AsSpan(buffer.Index, count);
-        return WriteSpan(stream, slice);
+        ReadOnlySpan<byte> slice = count == 0 || buffer.IsNull ? default : buffer.Array.AsSpan(buffer.Index, length: count);
+        return WriteSpan(stream, buffer: slice);
     }
 
     private static void ReadBufferExact(Stream stream, Span<byte> buffer)

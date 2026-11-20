@@ -85,19 +85,19 @@ internal static class TacticalTables
         switch (ability)
         {
             case 55:
-                MakeRangedPath(side, 25, 0, 50, x1, y1, x2, y2, 0, 0, true, path, obstacles);
+                MakeRangedPath(side, speed: 25, arc: 0, unusedHeight: 50, x1, y1, x2, y2, 0, 0, includeUnits: true, path, obstacles);
                 break;
             case 22:
             case 24:
             case 25:
-                MakeRangedPath(side, 50, 100, 50, x1, y1, x2, y2, 0, 0, true, path, obstacles);
+                MakeRangedPath(side, speed: 50, arc: 100, unusedHeight: 50, x1, y1, x2, y2, 0, 0, includeUnits: true, path, obstacles);
                 break;
             case 44:
             case 45:
             case 57:
             case 58:
             case 123:
-                MakeRangedPath(side, 50, 20, 50, x1, y1, x2, y2, 0, 0, true, path, obstacles);
+                MakeRangedPath(side, speed: 50, arc: 20, unusedHeight: 50, x1, y1, x2, y2, 0, 0, includeUnits: true, path, obstacles);
                 break;
             case 30:
             case 31:
@@ -112,20 +112,20 @@ internal static class TacticalTables
                 switch (spell)
                 {
                     case 103:
-                        MakeRangedPath(side, 25, 0, 50, x1, y1, x2, y2, 0, 0, true, path, obstacles);
+                        MakeRangedPath(side, speed: 25, arc: 0, unusedHeight: 50, x1, y1, x2, y2, 0, 0, includeUnits: true, path, obstacles);
                         break;
                     case 107:
-                        MakeRangedPath(side, 25, 0, 50, x1, y1, x2, y2, 0, 0, true, path, obstacles);
+                        MakeRangedPath(side, speed: 25, arc: 0, unusedHeight: 50, x1, y1, x2, y2, 0, 0, includeUnits: true, path, obstacles);
                         obstacles.Clear();
                         break;
                     case 117:
-                        MakeRangedPath(side, 50, 50, 50, x1, y1, x2, y2, 0, 0, true, path, obstacles);
+                        MakeRangedPath(side, speed: 50, arc: 50, unusedHeight: 50, x1, y1, x2, y2, 0, 0, includeUnits: true, path, obstacles);
                         break;
                     case 100:
-                        MakeRangedPath(side, 50, 35, 50, x1, y1, x2, y2, 0, 0, true, path, obstacles);
+                        MakeRangedPath(side, speed: 50, arc: 35, unusedHeight: 50, x1, y1, x2, y2, 0, 0, includeUnits: true, path, obstacles);
                         break;
                     case 119:
-                        MakeRangedPath(side, 50, 20, 50, x1, y1, x2, y2, 0, 0, true, path, obstacles);
+                        MakeRangedPath(side, speed: 50, arc: 20, unusedHeight: 50, x1, y1, x2, y2, 0, 0, includeUnits: true, path, obstacles);
                         break;
                     default:
                         switch (SpellTypes[spell])
@@ -187,7 +187,7 @@ internal static class TacticalTables
                             case BattleEffectType.SacFire:
                             case BattleEffectType.BreathDam:
                             default:
-                                MakeRangedPath(side, 50, 50, 50, x1, y1, x2, y2, 0, 0, true, path, obstacles);
+                                MakeRangedPath(side, speed: 50, arc: 50, unusedHeight: 50, x1, y1, x2, y2, 0, 0, includeUnits: true, path, obstacles);
                                 break;
                         }
 
@@ -196,7 +196,7 @@ internal static class TacticalTables
 
                 break;
             default:
-                MakeRangedPath(side, 50, 50, 50, x1, y1, x2, y2, 0, 0, true, path, obstacles);
+                MakeRangedPath(side, speed: 50, arc: 50, unusedHeight: 50, x1, y1, x2, y2, 0, 0, includeUnits: true, path, obstacles);
                 break;
         }
     }
@@ -249,16 +249,16 @@ internal static class TacticalTables
         lastX = 0;
         lastY = 0;
         point = path[0];
-        HexGeometry.PixelToHex(point.X, point.Y, out int startX, out int startY);
+        HexGeometry.PixelToHex(point.X, vertical: point.Y, out int startX, out int startY);
         int count = path.Count;
         point = path[count - 1];
-        HexGeometry.PixelToHex(point.X, point.Y, out int endX, out int endY);
+        HexGeometry.PixelToHex(point.X, vertical: point.Y, out int endX, out int endY);
         i = 0;
         int last = path.Count - 1;
         for (; i <= last; i += 1)
         {
             point = path[i];
-            HexGeometry.PixelToHex(point.X, point.Y, out x, out y);
+            HexGeometry.PixelToHex(point.X, vertical: point.Y, out x, out y);
             if ((x != startX || y != startY) && (x != endX || y != endY))
             {
                 steps = 0;
@@ -287,7 +287,7 @@ internal static class TacticalTables
 
                         if (a == 1)
                         {
-                            if (unitHexSprite is not null && unitHexSprite.Unit.GetSide() != side)
+                            if (unitHexSprite is not null && unitHexSprite.Unit.Side != side)
                             {
                                 steps = 1;
                             }
@@ -327,7 +327,7 @@ internal static class TacticalTables
                                             b = 1;
                                             while (wall is null && b < 7)
                                             {
-                                                HexGeometry.CenterHexNumberToHex(startX, startY, b, ref hexX, ref hexY);
+                                                HexGeometry.CenterHexNumberToHex(startX, startY, hexNumber: b, ref hexX, ref hexY);
                                                 wall = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild<CityWall>(2229508) ?? CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2229510) as CityWall;
                                                 b += 1;
                                             }

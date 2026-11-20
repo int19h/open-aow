@@ -19,7 +19,7 @@ public class DiplomaticRelationHistoryList(CustomNode owner) : OwningNode(owner)
     public DiplomaticRelationHistoryItem GetItems(int index) => GetChildInRange<DiplomaticRelationHistoryItem>(index);
 
     // Player.PAS:50
-    public int GetLastModifiedOnDay() => Count != 0 ? GetItems(Count - 1).Day : 0;
+    public int LastModifiedOnDay => Count != 0 ? GetItems(Count - 1).Day : 0;
 
     // Player.PAS:56
     public DiplomaticRelation GetRelationOnDay(int day)

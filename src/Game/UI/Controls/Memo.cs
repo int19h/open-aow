@@ -87,12 +87,12 @@ public partial class Memo : Control
         {
             if (_imageLibraryFrame is not null)
             {
-                _imageLibraryFrame = _imageLibraryFrame.CheckImageLibrary(_imageLibraryIndexFrame, 8, this);
+                _imageLibraryFrame = _imageLibraryFrame.CheckImageLibrary(_imageLibraryIndexFrame, count: 8, sender: this);
             }
 
             if (_imageLibraryTexture is not null)
             {
-                _imageLibraryTexture = _imageLibraryTexture.CheckImageLibrary(_imageLibraryIndexTexture, 1, this);
+                _imageLibraryTexture = _imageLibraryTexture.CheckImageLibrary(_imageLibraryIndexTexture, count: 1, sender: this);
             }
 
             NoFrame = _imageLibraryFrame is null || _imageLibraryTexture is null;
@@ -188,7 +188,7 @@ public partial class Memo : Control
             {
                 if (text[j] == 32 || j == length - 1)
                 {
-                    string s = Copy(item, start + 1, j + 1 - start);
+                    string s = Copy(item, index: start + 1, count: j + 1 - start);
                     int tw = base.Font.GetTextWidth(s);
                     if (w + tw > WinWidth)
                     {
@@ -329,7 +329,7 @@ public partial class Memo : Control
         {
             if (Valid && Visible)
             {
-                RaisePreDraw(this, lockedSurface);
+                RaisePreDraw(this, surfDesc: lockedSurface);
 
                 base.Font.Color = Color;
                 Rect oldClip = lockedSurface.ClipRectangle;
@@ -341,14 +341,14 @@ public partial class Memo : Control
                 {
                     case false:
                         SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth, WinHeight);
-                        _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, rectangle, ref lockedSurface);
+                        _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, area: rectangle, ref lockedSurface);
                         LibraryImage imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                         LibraryImage imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
                         LibraryImage imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
                         LibraryImage imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                         LibraryImage imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
                         SizedRectangle rectangle2 = new(Window.AbsoluteLeft + WinLeft + imageLibraryFrame3.Width, Window.AbsoluteTop + WinTop + imageLibraryFrame2.Height, WinWidth - imageLibraryFrameWidth.Width - _scrollWidth, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
-                        _imageLibraryTexture.DrawTiled(_imageLibraryIndexTexture, rectangle2, ref lockedSurface);
+                        _imageLibraryTexture.DrawTiled(_imageLibraryIndexTexture, area: rectangle2, ref lockedSurface);
                         LibraryImage imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
                         x = Window.AbsoluteLeft + WinLeft + imageLibraryFrame4.Width;
                         LibraryImage imageLibraryFrame5 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
@@ -396,20 +396,20 @@ public partial class Memo : Control
                         {
                             case TextAlignment.Left:
                                 string line = Lines[_topItem + i];
-                                base.Font.SetText(BorderWidth + x, BorderHeight + y + (ItemHeight * i), line, lockedSurface);
+                                base.Font.SetText(BorderWidth + x, BorderHeight + y + (ItemHeight * i), text: line, lockedSurface);
                                 break;
                             case TextAlignment.Right:
                                 string line2 = Lines[_topItem + i];
                                 int textWidth = base.Font.GetTextWidth(line2);
                                 string line3 = Lines[_topItem + i];
-                                base.Font.SetText(x + w - BorderWidth - textWidth, BorderHeight + y + (ItemHeight * i), line3, lockedSurface);
+                                base.Font.SetText(x + w - BorderWidth - textWidth, BorderHeight + y + (ItemHeight * i), text: line3, lockedSurface);
                                 break;
                             case TextAlignment.Center:
                             default:
                                 string line4 = Lines[_topItem + i];
                                 int fontTextWidth = base.Font.GetTextWidth(line4);
                                 string line5 = Lines[_topItem + i];
-                                base.Font.SetText(x + (w / 2) - (fontTextWidth / 2), BorderHeight + y + (ItemHeight * i), line5, lockedSurface);
+                                base.Font.SetText(x + (w / 2) - (fontTextWidth / 2), BorderHeight + y + (ItemHeight * i), text: line5, lockedSurface);
                                 break;
                         }
                         _itemRectangle = new Rect(x, y + (ItemHeight * i), x + w, y + ((i + 1) * ItemHeight));
@@ -433,16 +433,16 @@ public partial class Memo : Control
                 if (condition && Redraw && Editable && _blink)
                 {
                     string line = Lines[_currentLine];
-                    int textWidth = base.Font.GetTextWidth(Copy(line, 1, _currentColumn));
-                    base.Font.SetText(BorderWidth + x + textWidth, BorderHeight + y + ((_currentLine - _topItem) * ItemHeight), Cp1252.Text(CursorChar), lockedSurface);
+                    int textWidth = base.Font.GetTextWidth(Copy(line, index: 1, count: _currentColumn));
+                    base.Font.SetText(BorderWidth + x + textWidth, BorderHeight + y + ((_currentLine - _topItem) * ItemHeight), text: Cp1252.Text(CursorChar), lockedSurface);
                 }
 
-                RaiseDraw(this, lockedSurface);
+                RaiseDraw(this, surfDesc: lockedSurface);
             }
         }
         catch
         {
-            _ = MessageBox(0, "Exception during Draw", $"Error - {Name}", 0);
+            _ = MessageBox(0, text: "Exception during Draw", caption: $"Error - {Name}", flags: 0);
         }
     }
 
@@ -492,7 +492,7 @@ public partial class Memo : Control
                         string itemLength = _items[_realLine];
                         string item = _items[_realLine];
                         string item2 = _items[_realLine];
-                        _items[_realLine] = Copy(item2, 1, _realColumn - 1) + Copy(item, _realColumn + 1, itemLength.Length - _realColumn + 1);
+                        _items[_realLine] = Copy(item2, index: 1, count: _realColumn - 1) + Copy(item, index: _realColumn + 1, count: itemLength.Length - _realColumn + 1);
                         _realColumn -= 1;
                         changed = true;
                     }
@@ -514,17 +514,17 @@ public partial class Memo : Control
                 case 13:
                     if (Lines[_currentLine].Length == _currentColumn)
                     {
-                        _items.Insert(_realLine + 1, "");
+                        _items.Insert(_realLine + 1, value: "");
                         string item = _items[_realLine];
-                        _items[_realLine] = Copy(item, 1, _realColumn + 1);
+                        _items[_realLine] = Copy(item, index: 1, count: _realColumn + 1);
                     }
                     else
                     {
                         string itemLength = _items[_realLine];
                         string item = _items[_realLine];
-                        _items.Insert(_realLine + 1, Copy(item, _realColumn + 1, itemLength.Length));
+                        _items.Insert(_realLine + 1, value: Copy(item, index: _realColumn + 1, count: itemLength.Length));
                         string item2 = _items[_realLine];
-                        _items[_realLine] = Copy(item2, 1, _realColumn);
+                        _items[_realLine] = Copy(item2, index: 1, count: _realColumn);
                     }
 
                     _realColumn = 0;
@@ -543,14 +543,14 @@ public partial class Memo : Control
                             string itemLength = _items[_realLine];
                             string item = _items[_realLine];
                             string item2 = _items[_realLine];
-                            _items[_realLine] = Copy(item2, 1, _realColumn + 1) + Cp1252.Text(c) + Copy(item, _realColumn + 2, itemLength.Length - _realColumn);
+                            _items[_realLine] = Copy(item2, index: 1, count: _realColumn + 1) + Cp1252.Text(c) + Copy(item, index: _realColumn + 2, count: itemLength.Length - _realColumn);
                         }
                         else
                         {
                             string itemLength = _items[_realLine];
                             string item = _items[_realLine];
                             string item2 = _items[_realLine];
-                            _items[_realLine] = Copy(item2, 1, _realColumn) + Cp1252.Text(c) + Copy(item, _realColumn + 1, itemLength.Length - _realColumn);
+                            _items[_realLine] = Copy(item2, index: 1, count: _realColumn) + Cp1252.Text(c) + Copy(item, index: _realColumn + 1, count: itemLength.Length - _realColumn);
                         }
 
                         _realColumn += 1;
@@ -681,7 +681,7 @@ public partial class Memo : Control
                         string itemLength = _items[_realLine];
                         string item = _items[_realLine];
                         string item2 = _items[_realLine];
-                        _items[_realLine] = Copy(item2, 1, _realColumn) + Copy(item, _realColumn + 2, itemLength.Length - _realColumn);
+                        _items[_realLine] = Copy(item2, index: 1, count: _realColumn) + Copy(item, index: _realColumn + 2, count: itemLength.Length - _realColumn);
                         changed = true;
                     }
                     else

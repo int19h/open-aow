@@ -77,8 +77,8 @@ public class MoveSettingsList(CustomNode owner) : OwningNode(owner), IChildList<
                 {
                     if (index != i)
                     {
-                        MapCoordinate moveLocation = GetMoveSettings(index).GetMoveLocation();
-                        MapCoordinate moveLocation2 = GetMoveSettings(i).GetMoveLocation();
+                        MapCoordinate moveLocation = GetMoveSettings(index).MoveLocation;
+                        MapCoordinate moveLocation2 = GetMoveSettings(i).MoveLocation;
                         if (moveLocation == moveLocation2)
                         {
                             if (GetMoveSettings(index).GetMovePrio() < GetMoveSettings(i).GetMovePrio())

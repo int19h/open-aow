@@ -22,11 +22,14 @@ public class GlobalEnchantmentEventLog(CustomNode owner) : LocationTextEventLog(
     }
 
     // Spells.PAS:2665
-    public override int GetLeftIcon()
+    public override int LeftIcon
     {
-        sbyte player = EnchantmentPlayer;
-        return player > 0 && StrategicMap.Current.Players.GetCount() > player
-            ? StrategicMap.Current.Players.GetPlayers(EnchantmentPlayer).PlayerRace
-            : 12;
+        get
+        {
+            sbyte player = EnchantmentPlayer;
+            return player > 0 && StrategicMap.Current.Players.GetCount() > player
+                ? StrategicMap.Current.Players.GetPlayers(EnchantmentPlayer).PlayerRace
+                : 12;
+        }
     }
 }

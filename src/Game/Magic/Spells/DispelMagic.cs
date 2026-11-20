@@ -23,7 +23,7 @@ public class DispelMagic : UnitSpell
     public DispelMagic(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.DispelMagicText);
         SpellId = 8;
         BaseManaCost = 5;
         SpellLevel = 1;
@@ -45,7 +45,7 @@ public class DispelMagic : UnitSpell
         };
         if (source is CombatUnit sourceUnit)
         {
-            action.Generate(source, target, GetDispelMana(sourceUnit.Troop));
+            action.Generate(source, target, dispelMana: GetDispelMana(sourceUnit.Troop));
         }
         if (chargeMana)
         {
@@ -96,12 +96,12 @@ public class DispelMagic : UnitSpell
             {
                 if (count > 0)
                 {
-                    string format = Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.SpellsSuccessfullyDispelledFormat), [IntToStr(count)]);
+                    string format = Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.SpellsSuccessfullyDispelledFormat), args: [IntToStr(count)]);
                     StrategicMap.Current.ShowMessage(format);
                 }
                 else
                 {
-                    string dispelMagicFailed = AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicFailedText);
+                    string dispelMagicFailed = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.DispelMagicFailedText);
                     StrategicMap.Current.ShowMessage(dispelMagicFailed);
                 }
             }

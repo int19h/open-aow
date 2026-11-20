@@ -56,8 +56,8 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
             _ = player.MagicControl.Spells.Add(SpellId);
             if (StrategicMap.Current.SeatedPlayer == tokenEvent.Param)
             {
-                Spell spell = GamePack.Current.SpellControl.GetSpell(SpellId);
-                string format = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), s_theyTaughtYouSpellFormat), [spell.SpellName]);
+                Spell spell = GamePack.Current.SpellControl[SpellId];
+                string format = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_theyTaughtYouSpellFormat), args: [spell.SpellName]);
                 StrategicMap.Current.ShowMessage(format);
             }
         }
@@ -87,7 +87,7 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
             int i = 0;
             int cost = BuyCost();
             bool found = false;
-            MapCoordinate location = HexGeometry.PackMapCoordinate(mapLevel: GetHexLevel(), y: GetHexY(), x: GetHexX());
+            MapCoordinate location = HexGeometry.PackMapCoordinate(mapLevel: HexLevel, y: HexY, x: HexX);
             while (!found && i != army.Units.Count)
             {
                 group = army.Units.GetUnit(i).Group;
@@ -109,13 +109,13 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
     // WizardsTower.pas:107
     public override void UpdateAITarget(in AITargetInfo info, ref AITargetData data)
     {
-        if (!GetRazed() || GetBuilding())
+        if (!GetRazed() || Building)
         {
             switch (info.Mode)
             {
                 case AITargetMode.Attack:
                     sbyte player = Owner.GetPlayer();
-                    if (player != info.Player && (player <= 0 || AbilityRules.ValidAttackRelation(info.Player, 0, player, 0)) && ValidAITarget(info.Player))
+                    if (player != info.Player && (player <= 0 || AbilityRules.ValidAttackRelation(info.Player, independentRelation: 0, targetPlayer: player, targetRace: 0)) && ValidAITarget(info.Player))
                     {
                         if (data.Priority < 10)
                         {
@@ -145,10 +145,10 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
     public override bool CanDoubleClick() => CanEnter(StrategicMap.Current.SeatedPlayer);
 
     // WizardsTower.pas:99
-    public bool ValidAITarget(sbyte player) => player > 0 && !GetRazed() && SpellId != 0 && StrategicMap.Current.Players.GetPlayers(player).MagicControl.Spells.IndexOf(SpellId) == -1 && GamePack.Current.SpellControl.GetSpell(SpellId).CastDuration > 0;
+    public bool ValidAITarget(sbyte player) => player > 0 && !GetRazed() && SpellId != 0 && StrategicMap.Current.Players.GetPlayers(player).MagicControl.Spells.IndexOf(SpellId) == -1 && GamePack.Current.SpellControl[SpellId].CastDuration > 0;
 
     // WizardsTower.pas:163
-    public void GenerateSettings() => SpellId = GamePack.Current.SpellControl.GetRandomSpell(_spellLevel, _spellLevel, _magicSpheres);
+    public void GenerateSettings() => SpellId = GamePack.Current.SpellControl.GetRandomSpell(_spellLevel, _spellLevel, spheres: _magicSpheres);
 
     // WizardsTower.pas:174
     public bool CanEnter(sbyte player)
@@ -167,7 +167,7 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
                 Holder = CreationHolder(),
                 Tower = this
             };
-            _ = log.Execute(true, ExecuteTrigger.User, null);
+            _ = log.Execute(true, trigger: ExecuteTrigger.User, done: null);
             _ = log.Release();
             return true;
         }
@@ -178,7 +178,7 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
     }
 
     // WizardsTower.pas:215
-    public int BuyCost() => SpellId != 0 ? GamePack.Current.SpellControl.GetSpell(SpellId).ResearchCost : -1;
+    public int BuyCost() => SpellId != 0 ? GamePack.Current.SpellControl[SpellId].ResearchCost : -1;
 
     // WizardsTower.pas:221
     public bool CanBuy(sbyte player, ref string reason)
@@ -197,13 +197,13 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
                 else
                 {
                     result = false;
-                    reason = AbilityRules.TranslateResourceString(GetEngine(), GameText.NotEnoughGoldText);
+                    reason = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.NotEnoughGoldText);
                 }
             }
             else
             {
                 result = false;
-                reason = AbilityRules.TranslateResourceString(GetEngine(), s_spellIsAlreadyResearchedText);
+                reason = AbilityRules.TranslateResourceString(GetEngine(), S: s_spellIsAlreadyResearchedText);
             }
         }
         else
@@ -248,7 +248,7 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
         public override int ResourceUserClassId() => 133278;
 
         // WizardsTower.pas:260
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_wizardsTowerText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_wizardsTowerText);
 
         private static readonly string s_wizardsTowerText = "Wizards Tower";
 

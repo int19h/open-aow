@@ -14,13 +14,13 @@ public class AbstractHexagonResource : MapObjectResource
         base.MessageProc(ref message, sender);
         if (message.MessageId == 65556)
         {
-            GetHexControl()?.RegisterResource(this);
+            HexControl?.RegisterResource(this);
         }
     }
 
     // MAPOBJ.PAS:776
-    public virtual HexControl GetHexControl() => Engine.HexSpriteSet.HexControl;
+    public virtual HexControl HexControl => Engine.HexSpriteSet.HexControl;
 
-    public override MapObjectResourceTerrainControl GetTerrainControl() => GetHexControl();
+    public override MapObjectResourceTerrainControl TerrainControl => HexControl;
 
 }

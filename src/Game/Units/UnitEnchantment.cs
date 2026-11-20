@@ -42,12 +42,12 @@ public class UnitEnchantment : Enchantment
         {
             Troop source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
             return source is not null
-                ? GamePack.Current.AbilityControl.GetAbility(EnchantmentAbilityId).GetName(source)
-                : GamePack.Current.AbilityControl.GetAbility(EnchantmentAbilityId).GetName(null);
+                ? GamePack.Current.AbilityControl[EnchantmentAbilityId].GetName(source)
+                : GamePack.Current.AbilityControl[EnchantmentAbilityId].GetName(null);
         }
         else
         {
-            return GamePack.Current.AbilityControl.GetAbility(EnchantmentAbilityId).GetName(null);
+            return GamePack.Current.AbilityControl[EnchantmentAbilityId].GetName(null);
         }
     }
 
@@ -59,12 +59,15 @@ public class UnitEnchantment : Enchantment
     }
 
     // AoWAb.PAS:820
-    public override int GetAIUpkeepPriority()
+    public override int AIUpkeepPriority
     {
-        Troop source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
-        return source is not null
-            ? GamePack.Current.AbilityControl.GetAbility<UnitEnchantmentAbility>(EnchantmentAbilityId).GetAIUpkeepPriority(source)
-            : 0;
+        get
+        {
+            Troop source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
+            return source is not null
+                ? GamePack.Current.AbilityControl.GetAbility<UnitEnchantmentAbility>(EnchantmentAbilityId).GetAIUpkeepPriority(source)
+                : 0;
+        }
     }
 
     // AoWAb.PAS:859
@@ -90,18 +93,18 @@ public class UnitEnchantment : Enchantment
         sbyte hexLevel = coordinate28.MapLevel;
         if (hexX != -1)
         {
-            if (StrategicMap.Current.Visible(hexX, hexY, hexLevel, 0))
+            if (StrategicMap.Current.Visible(hexX, hexY, L: hexLevel, radius: 0))
             {
                 ArmyHexSprite armyHexSprite = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel).GetArmyHexSprite();
                 if (armyHexSprite is not null)
                 {
-                    StrategicMap.Current.Select(armyHexSprite, true);
+                    StrategicMap.Current.Select(armyHexSprite, center: true);
                 }
             }
             else
             {
                 string binding = GetBinding();
-                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.IsOutOfSightFormat), [binding]);
+                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.IsOutOfSightFormat), arguments: [binding]);
                 StrategicMap.Current.ShowMessage(format);
             }
         }

@@ -16,8 +16,8 @@ internal static class InlineArrays
         }
 
         Type element = type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Single().FieldType;
-        return (object?[])typeof(InlineArrays).GetMethod(nameof(Read), BindingFlags.Static | BindingFlags.NonPublic)!
-            .MakeGenericMethod(type, element).Invoke(null, [value, inline.Length])!;
+        return (object?[])typeof(InlineArrays).GetMethod(nameof(Read), bindingAttr: BindingFlags.Static | BindingFlags.NonPublic)!
+            .MakeGenericMethod(type, element).Invoke(null, parameters: [value, inline.Length])!;
     }
 
     private static object?[] Read<TArray, TElement>(object boxed, int length) where TArray : struct

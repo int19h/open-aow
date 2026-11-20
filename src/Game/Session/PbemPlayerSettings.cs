@@ -39,5 +39,5 @@ public class PbemPlayerSettings : EngineObject
     }
 
     // Player.PAS:256
-    public void SetGame(EngineObject game) => EmailGame.Assign(game, GetEngine());
+    public void SetGame(EngineObject game) => EmailGame.Assign(game, engine: GetEngine());
 }

@@ -160,14 +160,14 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         HexGeometry.HexToPixel(StoredHexX, StoredHexY, out int pixelX, out int pixelY);
-        Resource.Show(pixelX - pixelXSurface, pixelY - pixelYSurface, lockedSurface, this);
+        Resource.Show(pixelX - pixelXSurface, pixelY - pixelYSurface, lockedSurface, structure: this);
     }
 
     // Structur.PAS:1092
     public override bool PlaceOnMap()
     {
         bool result = base.PlaceOnMap();
-        if (!GetEditMode())
+        if (!EditMode)
         {
             UpdateRoads(Owner);
         }
@@ -180,7 +180,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
     {
         MapField mapField = Owner;
         base.RemoveFromMap();
-        if (mapField is not null && !GetEditMode())
+        if (mapField is not null && !EditMode)
         {
             UpdateRoads(mapField);
         }
@@ -290,7 +290,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
     {
         base.Activate();
         StrategicMap.Current.StructureControl.Register(this);
-        if (StrategicMap.Current.ShowUnitShadows && Resource.CastsShadow && !GetEditMode())
+        if (StrategicMap.Current.ShowUnitShadows && Resource.CastsShadow && !EditMode)
         {
             CreateShadow();
         }
@@ -317,7 +317,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
     {
         if (!StrategicMap.Current.FogEnabled || !Fogged)
         {
-            HexGeometry.PixelToHex(pixelX, pixelY, out int x, out int y);
+            HexGeometry.PixelToHex(pixelX, vertical: pixelY, out int x, out int y);
             int hexNumber = HexGeometry.DeltaHexToHexNumber(Owner.HexX, Owner.HexY, x, y);
             return hexNumber < Resource.TerrainList.Count && (Resource.TerrainList.Terrain[hexNumber] >= 0 || Resource.TerrainList.Overlay[hexNumber] >= 0);
         }
@@ -344,20 +344,20 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
     public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
         return Resource.TerrainBound
-            ? GamePack.Current.PadControl.CanPlacePad(hexX, hexY, hexLevel, Resource.FlagType)
+            ? GamePack.Current.PadControl.CanPlacePad(hexX, hexY, L: hexLevel, size: Resource.FlagType)
             : base.CanPlace(mapContainer, hexX, hexY, hexLevel);
     }
 
     // Structur.PAS:1315
     public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        if (GetEditMode() || CanPlace(mapContainer, hexX, hexY, hexLevel))
+        if (EditMode || CanPlace(mapContainer, hexX, hexY, hexLevel))
         {
             if (Resource.TerrainBound)
             {
-                ImageLibraryTerrainMapObject pad = !GetEditMode() ? GamePack.Current.PadControl.PlacePad(hexX, hexY, hexLevel, Resource.FlagType) : null;
+                ImageLibraryTerrainMapObject pad = !EditMode ? GamePack.Current.PadControl.PlacePad(hexX, hexY, L: hexLevel, size: Resource.FlagType) : null;
 
-                if (pad is not null || GetEditMode())
+                if (pad is not null || EditMode)
                 {
                     if (pad is not null)
                     {
@@ -390,7 +390,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
     {
         return GetRazed()
             ? terrainType == 3 ? 23 : terrainType == 5 ? 24 : 22
-            : GetBuilding() ? terrainType == 3 ? 26 : terrainType == 5 ? 27 : 25 : base.GetTerrainTypeImage(terrainType);
+            : Building ? terrainType == 3 ? 26 : terrainType == 5 ? 27 : 25 : base.GetTerrainTypeImage(terrainType);
     }
 
     // Structur.PAS:1159
@@ -424,7 +424,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
     }
 
     // Structur.PAS:1174
-    public virtual DelphiStringCollection GetDescription() => Resource.Description;
+    public virtual DelphiStringCollection Description => Resource.Description;
 
     // Structur.PAS:1164
     public virtual string GetName() => EditName();
@@ -438,7 +438,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
     public virtual bool GetRazed() => false;
 
     // Structur.PAS:1336
-    public virtual bool GetRazeable() => Resource.Razeable;
+    public virtual bool Razeable => Resource.Razeable;
 
     // Structur.PAS:1844
     public virtual bool RazeWithoutConfirmation(sbyte player)
@@ -463,7 +463,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
     // Structur.PAS:1755
     public virtual void SetupRazeDefenderAIGroup(UnitUserList attackers, UnitUserList defenders)
     {
-        sbyte unitsToIndependentRelation = UnitList.UnitsToIndependentRelation(defenders, 5);
+        sbyte unitsToIndependentRelation = UnitList.UnitsToIndependentRelation(defenders, defaultRelation: 5);
         HuntAIGroup group = StrategicMap.Current.AIGroupManager.CreateGroup<HuntAIGroup>(0, relation: unitsToIndependentRelation);
         _ = group.AddUnits(defenders.Units);
         for (int i = attackers.Count - 1; i >= 0; i--)
@@ -482,7 +482,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
     public virtual StructureTokenEvent CreateTokenEvent() => new(null) { Holder = CreationHolder() };
 
     // Structur.PAS:1135
-    public virtual void SetupTokenEvent(StructureTokenEvent tokenEvent) => tokenEvent.Initialize(mapLevel: GetHexLevel(), y: GetHexY(), x: GetHexX(), classId: EngineClass.ClassId);
+    public virtual void SetupTokenEvent(StructureTokenEvent tokenEvent) => tokenEvent.Initialize(mapLevel: HexLevel, y: HexY, x: HexX, classId: EngineClass.ClassId);
 
     // Structur.PAS:1140
     public virtual ExecuteResult ExecuteTokenEvent(StructureTokenEvent tokenEvent, TokenExecutor executor)
@@ -603,7 +603,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
     public virtual void ShowShadow(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         HexGeometry.HexToPixel(StoredHexX, StoredHexY, out int pixelX, out int pixelY);
-        _ = Resource.ImageSequenceList.Show(90, pixelX - pixelXSurface, pixelY - pixelYSurface, 0, lockedSurface);
+        _ = Resource.ImageSequenceList.Show(90, pixelX - pixelXSurface, pixelY - pixelYSurface, frame: 0, lockedSurface);
     }
 
     // Structur.PAS:1414
@@ -617,15 +617,15 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
         if (GetRazed())
         {
             string editName = EditName();
-            log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_structureRebuiltFormat), [editName]);
+            log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_structureRebuiltFormat), arguments: [editName]);
         }
         else
         {
             string editName = EditName();
-            log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_structureBuiltFormat), [editName]);
+            log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_structureBuiltFormat), arguments: [editName]);
         }
-        log.SetLocation(level: GetHexLevel(), y: GetHexY(), x: GetHexX());
-        EventLog.DistributeLocationEventLog(y: GetHexY(), level: GetHexLevel(), x: GetHexX(), log: log, player: BuildingPlayer, execute: false);
+        log.SetLocation(level: HexLevel, y: HexY, x: HexX);
+        EventLog.DistributeLocationEventLog(y: HexY, level: HexLevel, x: HexX, log: log, player: BuildingPlayer, execute: false);
         _ = log.Release();
         SetRazed(false);
         BuildingPlayer = -1;
@@ -666,8 +666,8 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
     // Structur.PAS:1734
     public virtual bool GenerateRazeDefenders(sbyte player, UnitList units)
     {
-        sbyte hexX = GetHexX();
-        sbyte hexY = GetHexY();
+        sbyte hexX = HexX;
+        sbyte hexY = HexY;
         RandSeed = hexX + StrategicMap.Current.InitialRandomSeed + hexY;
         int collection = Resource.Defenders.GetRandomCollection();
         if (collection != -1)
@@ -676,10 +676,10 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
             UnitIndexListCollection unitIndexListCollection = Resource.Defenders;
             for (int i = unitIndexListCollection.GetCollectionCount(collection) - 1; i >= 0; i--)
             {
-                _ = indexes.Add(unitIndexListCollection.GetU(collection, i));
+                _ = indexes.Add(unitIndexListCollection.GetU(collection, index: i));
             }
 
-            _ = Int32List.FillWithRandomUnits(indexes, units.Units, 4, Resource.RazeDefenderBudget, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
+            _ = Int32List.FillWithRandomUnits(indexes, units.Units, level: 4, value: Resource.RazeDefenderBudget, types: Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
             while (units.Count > 8)
             {
                 _ = units.DeleteUnit(units.GetUnit(units.Count - 1));
@@ -697,7 +697,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
         UnitList defenders = new(null) { Holder = CreationHolder() };
         UnitUserList placed = new(null) { Holder = CreationHolder() };
         UnitUserList attackers = new(null) { Holder = CreationHolder() };
-        _ = GenerateRazeDefenders(player, defenders);
+        _ = GenerateRazeDefenders(player, units: defenders);
         bool result;
         if (defenders.Count != 0)
         {
@@ -705,13 +705,13 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
             {
                 Troop troop = defenders.GetUnit(i);
                 _ = placed.AddUnit(troop);
-                sbyte hexLevel = GetHexLevel();
-                sbyte hexY = GetHexY();
-                _ = troop.Place(GetHexX(), hexY, hexLevel, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
+                sbyte hexLevel = HexLevel;
+                sbyte hexY = HexY;
+                _ = troop.Place(HexX, hexY, L: hexLevel, player: 0, mode: Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
             }
 
             _ = ListUnits(attackers);
-            SetupRazeDefenderAIGroup(attackers, placed);
+            SetupRazeDefenderAIGroup(attackers, defenders: placed);
             result = true;
         }
         else
@@ -738,9 +738,9 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
                 Player = player
             };
             string editName = EditName();
-            log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_structureRazedFormat), [editName]);
-            log.SetLocation(level: GetHexLevel(), y: GetHexY(), x: GetHexX());
-            EventLog.DistributeLocationEventLog(y: GetHexY(), level: GetHexLevel(), log: log, player: player, x: GetHexX(), execute: false);
+            log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_structureRazedFormat), arguments: [editName]);
+            log.SetLocation(level: HexLevel, y: HexY, x: HexX);
+            EventLog.DistributeLocationEventLog(y: HexY, level: HexLevel, log: log, player: player, x: HexX, execute: false);
             _ = log.Release();
             ImageSequenceAnimation animation;
             if (Resource.ImageSequenceList.GetImageSequence(20) is not null)
@@ -750,10 +750,10 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
                 animation.SetPixelXOffset(animation.PixelXOffset - 16);
                 animation.SetPixelYOffset(animation.PixelYOffset - 16);
                 animation.OnShow += ShowRazeAnimation;
-                sbyte hexLevel3 = GetHexLevel();
-                sbyte hexY3 = GetHexY();
-                sbyte hexX = GetHexX();
-                _ = StrategicMap.Current.PlaceHex(animation, hexX, hexY3, hexLevel3);
+                sbyte hexLevel3 = HexLevel;
+                sbyte hexY3 = HexY;
+                sbyte hexX = HexX;
+                _ = StrategicMap.Current.PlaceHex(animation, hexX, hexY3, L: hexLevel3);
             }
 
             if (Resource.ImageSequenceList.GetImageSequence(21) is not null)
@@ -764,10 +764,10 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
                 animation.SetPixelXOffset(animation.PixelXOffset - 16);
                 animation.SetPixelYOffset(animation.PixelYOffset - 16);
                 animation.Looped = true;
-                sbyte hexLevel3 = GetHexLevel();
-                sbyte hexY3 = GetHexY();
-                sbyte hexX = GetHexX();
-                _ = StrategicMap.Current.PlaceHex(animation, hexX, hexY3, hexLevel3);
+                sbyte hexLevel3 = HexLevel;
+                sbyte hexY3 = HexY;
+                sbyte hexX = HexX;
+                _ = StrategicMap.Current.PlaceHex(animation, hexX, hexY3, L: hexLevel3);
             }
 
             _ = ValidateObservation(player);
@@ -796,10 +796,10 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
         if (errors.Count != 0)
         {
             string editName = EditName();
-            sbyte hexX = GetHexX();
-            sbyte hexY = GetHexY();
-            sbyte hexLevel = GetHexLevel();
-            _ = messages.Add(AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_atLocationFormat), [editName, "(" + IntToStr(hexX) + ", " + IntToStr(hexY) + ", " + IntToStr(hexLevel) + ")"]));
+            sbyte hexX = HexX;
+            sbyte hexY = HexY;
+            sbyte hexLevel = HexLevel;
+            _ = messages.Add(AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_atLocationFormat), arguments: [editName, "(" + IntToStr(hexX) + ", " + IntToStr(hexY) + ", " + IntToStr(hexLevel) + ")"]));
             for (int i = 0, last = errors.Count - 1; i <= last; i++)
             {
                 _ = messages.Add($"  {errors[i]}");
@@ -833,10 +833,10 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
         bool result = false;
         if (player >= 0)
         {
-            HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, StoredHexX, StoredHexY, 0);
+            HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, StoredHexX, StoredHexY, radius: 0);
             while (true)
             {
-                int terrainCount = GetTerrainCount();
+                int terrainCount = TerrainCount;
                 if (!(walk.HexNumber < terrainCount && !result))
                 {
                     break;
@@ -844,7 +844,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
 
                 if (Resource.TerrainList.Used[walk.HexNumber])
                 {
-                    sbyte hexLevel = GetHexLevel();
+                    sbyte hexLevel = HexLevel;
                     result = StrategicMap.Current.VisibleForPlayer(walk.X, walk.Y, hexLevel, player);
                 }
 
@@ -862,9 +862,9 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
     public virtual int ListUnits(UnitUserList list)
     {
         int result = 0;
-        int count = GetTerrainCount();
+        int count = TerrainCount;
         MapLevel level = Owner.Owner;
-        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, StoredHexX, StoredHexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, StoredHexX, StoredHexY, radius: 0);
         while (walk.HexNumber < count)
         {
             if (Resource.TerrainList.Terrain[walk.HexNumber] >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -890,9 +890,9 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
         using (list.BeginUpdate())
         {
             result = 0;
-            int count = GetTerrainCount();
+            int count = TerrainCount;
             MapLevel level = Owner.Owner;
-            HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, StoredHexX, StoredHexY, 0);
+            HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, StoredHexX, StoredHexY, radius: 0);
             while (walk.HexNumber < count)
             {
                 if (Resource.TerrainList.Terrain[walk.HexNumber] >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -923,16 +923,16 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
     {
         if (GetRazed())
         {
-            if (!GetBuilding())
+            if (!Building)
             {
-                GetRebuildInfo(out int cost, out _);
+                GetRebuildInfo(out int cost, time: out _);
                 if (StrategicMap.Current.Players.GetPlayers(troop.Player).Gems >= cost)
                 {
                     return true;
                 }
                 else
                 {
-                    reason = AbilityRules.TranslateResourceString(GetEngine(), GameText.NotEnoughGoldText);
+                    reason = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.NotEnoughGoldText);
                     return false;
                 }
             }
@@ -979,13 +979,13 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
                 {
                     Structure = this,
                     Buttons = MessageEventLogButtons.YesNo,
-                    Title = AbilityRules.TranslateResourceString(GetEngine(), GameText.WarningText)
+                    Title = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.WarningText)
                 };
-                string razeStructureWarning = AbilityRules.TranslateResourceString(GetEngine(), s_razeStructureWarningText);
+                string razeStructureWarning = AbilityRules.TranslateResourceString(GetEngine(), S: s_razeStructureWarningText);
                 _ = log.Message.Add(razeStructureWarning);
-                string translatedText = AbilityRules.TranslateResourceString(GetEngine(), s_doYouWishToContinueText);
+                string translatedText = AbilityRules.TranslateResourceString(GetEngine(), S: s_doYouWishToContinueText);
                 _ = log.Message.Add(translatedText);
-                _ = log.Execute(true, ExecuteTrigger.User, null);
+                _ = log.Execute(true, trigger: ExecuteTrigger.User, done: null);
                 _ = log.Release();
                 return true;
             }
@@ -1004,7 +1004,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
     public virtual bool CanRaze(sbyte player, ref string reason)
     {
         bool result;
-        if (!GetRazed() && GetRazeable())
+        if (!GetRazed() && Razeable)
         {
             CombatPredictor predictor = new(this);
             UnitList defenders = new(null) { Holder = CreationHolder() };
@@ -1019,17 +1019,17 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
             }
 
             units?.Dispose();
-            _ = GenerateRazeDefenders(player, defenders);
+            _ = GenerateRazeDefenders(player, units: defenders);
             for (int i = 0, last = defenders.Count - 1; i <= last; i++)
             {
-                predictor.AddOpponent(defenders.GetUnit(i), 0);
+                predictor.AddOpponent(defenders.GetUnit(i), behindWall: 0);
             }
 
             _ = predictor.Execute();
             result = Set<byte>.WithBounds(0, 255).With(3).With(4).With(6).Contains(predictor.Result) && predictor.GetSuperiority() > 50;
             if (!result)
             {
-                reason = AbilityRules.TranslateResourceString(GetEngine(), s_notEnoughForcesText);
+                reason = AbilityRules.TranslateResourceString(GetEngine(), S: s_notEnoughForcesText);
             }
 
             defenders?.Dispose();
@@ -1066,7 +1066,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
         for (int i = 0, last = table.Count - 1; i <= last; i++)
         {
             ushort item = table[i];
-            HexGeometry.CenterHexNumberToHex(mapField.HexX, mapField.HexY, item, ref x, ref y);
+            HexGeometry.CenterHexNumberToHex(mapField.HexX, mapField.HexY, hexNumber: item, ref x, ref y);
             if (x >= 0 && y >= 0 && x < level.Width && y < level.Height)
             {
                 AbstractRoad road = level.GetField(x, y).FindHexSprite<AbstractRoad>();
@@ -1086,9 +1086,9 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
         Fogged = StrategicMap.Current.FogEnabled;
         if (Fogged)
         {
-            int count = GetTerrainCount();
+            int count = TerrainCount;
             MapLevel level = Owner.Owner;
-            HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, StoredHexX, StoredHexY, 0);
+            HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, StoredHexX, StoredHexY, radius: 0);
             while (walk.HexNumber < count && Fogged)
             {
                 if (Resource.TerrainList.Terrain[walk.HexNumber] >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -1107,10 +1107,10 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
     {
         bool result = false;
         MapLevel level = Owner.Owner;
-        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, StoredHexX, StoredHexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, StoredHexX, StoredHexY, radius: 0);
         while (true)
         {
-            int terrainCount = GetTerrainCount();
+            int terrainCount = TerrainCount;
             if (!(walk.HexNumber < terrainCount && !result))
             {
                 break;
@@ -1118,8 +1118,8 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
 
             if (Resource.TerrainList.Used[walk.HexNumber] && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
-                sbyte hexLevel = GetHexLevel();
-                result = StrategicMap.Current.ValidateObservation(player, (sbyte)walk.X, (sbyte)walk.Y, hexLevel, 0);
+                sbyte hexLevel = HexLevel;
+                result = StrategicMap.Current.ValidateObservation(player, (sbyte)walk.X, (sbyte)walk.Y, hexLevel, radius: 0);
             }
 
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
@@ -1129,7 +1129,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
     }
 
     // Structur.PAS:1409
-    public bool GetBuilding() => BuildingPlayer != -1;
+    public bool Building => BuildingPlayer != -1;
 
     // Structur.PAS:1655
     public bool ShowBorderImage(LockedSurface lockedSurface, Rect R)
@@ -1186,13 +1186,13 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
         {
             int width = R.Right - R.Left;
             int height = R.Bottom - R.Top;
-            Dib16Surface surface = new(width, height, PixelFormat.Rgb565);
+            Dib16Surface surface = new(width, height, pixelFormatId: PixelFormat.Rgb565);
             try
             {
                 Rect borderRectangle = new(0, 0, width, height);
                 LockedSurface lockedSurface = default;
                 _ = surface.Lock(ref lockedSurface);
-                result = ShowBorderImage(lockedSurface, borderRectangle);
+                result = ShowBorderImage(lockedSurface, R: borderRectangle);
                 _ = surface.Unlock();
                 /* TODO: Implement cell or array backing for this address. */
                 throw new NotImplementedException();

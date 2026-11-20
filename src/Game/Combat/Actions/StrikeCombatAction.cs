@@ -39,17 +39,17 @@ public class StrikeCombatAction(CustomNode owner) : DamageCombatAction(owner)
 
         if (DamageDone != 0 && StrikeMode.Contains(StrikeModeElement.LifeStealing) && target is CombatUnit targetUnit && targetUnit.Troop.GetUnitType() != UnitType.Machine)
         {
-            source.SetHitPoints((byte)(source.GetHitPoints() + 1));
+            source.SetHitPoints((byte)(source.HitPoints + 1));
         }
 
         if (StrikeMode.Contains(StrikeModeElement.CausedFear) && target is CombatUnit fearTarget)
         {
-            _ = GamePack.Current.AbilityControl.GetAbility(108).Expand(fearTarget.Troop);
+            _ = GamePack.Current.AbilityControl[108].Expand(fearTarget.Troop);
         }
 
         if (StrikeMode.Contains(StrikeModeElement.Entangled) && target is CombatUnit entangledTarget)
         {
-            _ = GamePack.Current.AbilityControl.GetAbility(94).Expand(entangledTarget.Troop);
+            _ = GamePack.Current.AbilityControl[94].Expand(entangledTarget.Troop);
             UnitEnchantmentAbilityData data = entangledTarget.Troop.GetAbilityData<UnitEnchantmentAbilityData>(94);
             data?.EnchantmentPlayerIndex = source.CombatPlayer;
         }

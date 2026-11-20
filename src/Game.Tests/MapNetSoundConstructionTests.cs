@@ -23,7 +23,7 @@ public sealed class MapNetSoundConstructionTests
 
         public override int AddChild(EngineObject child)
         {
-            Assert.True(EngineFixture.Forwards(child.Owner, this));
+            Assert.True(EngineFixture.Forwards(child.Owner, recorder: this));
             _ = base.AddChild(child);
             return Members.Count - 1;
         }
@@ -54,7 +54,7 @@ public sealed class MapNetSoundConstructionTests
     {
         GameEngine engine = new(null!);
         MapOwner owner = new();
-        CustomNode argument = owned ? type == typeof(MapContainer) ? new GameMap(null!) { Holder = EngineFixture.Engine } : EngineFixture.OwnerFor(type, owner) : null!;
+        CustomNode argument = owned ? type == typeof(MapContainer) ? new GameMap(null!) { Holder = EngineFixture.Engine } : EngineFixture.OwnerFor(type, recorder: owner) : null!;
         EngineClass meta = EngineClass.Of(type);
         if (engine.ClassTable.TryGetValue(meta.ClassId, out EngineClass? previous) && previous is not null)
         {
@@ -63,13 +63,13 @@ public sealed class MapNetSoundConstructionTests
 
         engine.RegisterEngineClasses([EngineClass.Of(type)]);
         EngineObject direct = type == typeof(MapLevel) ? new MapLevel(argument)
-            : (EngineObject)Activator.CreateInstance(type, [argument])!;
-        EngineObject[] values = [direct, meta.CreateInstance(argument, holder: EngineFixture.Engine), engine.CreateEngineObject(meta.ClassId, argument)];
+            : (EngineObject)Activator.CreateInstance(type, args: [argument])!;
+        EngineObject[] values = [direct, meta.CreateInstance(argument, holder: EngineFixture.Engine), engine.CreateEngineObject(meta.ClassId, owner: argument)];
         try
         {
             foreach (EngineObject value in values)
             {
-                Assert.IsType(type, value);
+                Assert.IsType(type, @object: value);
                 Assert.Same(argument, value.Owner);
                 Assert.Same(meta, value.EngineClass);
                 AssertState(value);
@@ -224,7 +224,7 @@ public sealed class MapNetSoundConstructionTests
             1 => new TerrainList(),
             2 => new HexSpriteMapMouse(),
             3 => new MapCoordinateList(),
-            4 => new TokenControl(null!, 7),
+            4 => new TokenControl(null!, player: 7),
             5 => new TokenExecutor(null!),
             6 => new TokenManager(null!),
             7 => new PlayerCommunicationControl(EngineFixture.Engine),
@@ -329,7 +329,7 @@ public sealed class MapNetSoundConstructionTests
     public void TokenControlPublicationHasNoLaterConstructorWork()
     {
         using TokenManager manager = new(null);
-        TokenControl control = new(manager, 7);
+        TokenControl control = new(manager, player: 7);
         Assert.Same(control, manager.TokenExecutor.TacticalBattleList[0]);
         _ = Assert.Single(manager.TokenExecutor.TacticalBattleList);
         control.Dispose();

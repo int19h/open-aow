@@ -24,10 +24,10 @@ public class StartupSongList : SongList
             }
             catch
             {
-                name = AbilityRules.TranslateResourceString(GetEngine(), GameText.FileNotFoundText);
+                name = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.FileNotFoundText);
             }
 
-            SongNames.Insert(0, name);
+            SongNames.Insert(0, value: name);
         }
     }
 }

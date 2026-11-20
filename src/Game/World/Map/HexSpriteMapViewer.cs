@@ -70,12 +70,12 @@ public class HexSpriteMapViewer : Component
             StaticSurface = null;
         }
 
-        if (StaticSurface is null || StaticSurface.GetWidth() != _sceneWidth || StaticSurface.GetHeight() != _sceneHeight)
+        if (StaticSurface is null || StaticSurface.Width != _sceneWidth || StaticSurface.Height != _sceneHeight)
         {
             if (StaticSurface is null)
             {
                 PixelFormat pixelFormatId = surface.GetPixelFormatId();
-                StaticSurface = new DataSurface(_sceneWidth, _sceneHeight, pixelFormatId, null);
+                StaticSurface = new DataSurface(_sceneWidth, _sceneHeight, pixelFormatId, palette: null);
             }
             else
             {
@@ -95,7 +95,7 @@ public class HexSpriteMapViewer : Component
             SetSceneX(pixelX);
             SetSceneY(pixelY);
             SetSceneL(lHitPoints);
-            if (_hexSpriteMap.SetViewPort(_sceneX, _sceneY, _sceneL, _sceneWidth, _sceneHeight) && OnSceneChanged is not null)
+            if (_hexSpriteMap.SetViewPort(_sceneX, _sceneY, lHitPoints: _sceneL, _sceneWidth, _sceneHeight) && OnSceneChanged is not null)
             {
                 OnSceneChanged(this);
             }
@@ -108,10 +108,10 @@ public class HexSpriteMapViewer : Component
         if (_hexSpriteMap is not null)
         {
             HexGeometry.HexToPixel(hexX, hexY, out int pixelX, out int pixelY);
-            SetSceneX(pixelX + 16 - (int)(((uint)_sceneWidth) >> 1));
-            SetSceneY(pixelY + 16 - (int)(((uint)_sceneHeight) >> 1));
+            SetSceneX(pixelX + 16 - (_sceneWidth >>> 1));
+            SetSceneY(pixelY + 16 - (_sceneHeight >>> 1));
             SetSceneL(hexLevel);
-            if (_hexSpriteMap.SetViewPort(_sceneX, _sceneY, _sceneL, _sceneWidth, _sceneHeight) && OnSceneChanged is not null)
+            if (_hexSpriteMap.SetViewPort(_sceneX, _sceneY, lHitPoints: _sceneL, _sceneWidth, _sceneHeight) && OnSceneChanged is not null)
             {
                 OnSceneChanged(this);
             }
@@ -147,7 +147,7 @@ public class HexSpriteMapViewer : Component
                 value = 16;
             }
 
-            _sceneX = _hexSpriteMap.GetMaxPixelX() < _sceneWidth + value + 16 ? _hexSpriteMap.GetMaxPixelX() - _sceneWidth - 16 : value;
+            _sceneX = _hexSpriteMap.MaxPixelX < _sceneWidth + value + 16 ? _hexSpriteMap.MaxPixelX - _sceneWidth - 16 : value;
         }
     }
 
@@ -161,7 +161,7 @@ public class HexSpriteMapViewer : Component
                 value = 16;
             }
 
-            _sceneY = _hexSpriteMap.GetMaxPixelY() - 16 < _sceneHeight + value ? _hexSpriteMap.GetMaxPixelY() - _sceneHeight - 16 : value;
+            _sceneY = _hexSpriteMap.MaxPixelY - 16 < _sceneHeight + value ? _hexSpriteMap.MaxPixelY - _sceneHeight - 16 : value;
         }
     }
 
@@ -208,14 +208,14 @@ public class HexSpriteMapViewer : Component
             {
                 // The field holds the map. The object-typed copy belongs to #150.
                 GameMap m = (GameMap)mp;
-                if (m.SetViewPort(_sceneX, _sceneY, _sceneL, _sceneWidth, _sceneHeight) && OnSceneChanged is not null)
+                if (m.SetViewPort(_sceneX, _sceneY, lHitPoints: _sceneL, _sceneWidth, _sceneHeight) && OnSceneChanged is not null)
                 {
                     OnSceneChanged(this);
                 }
 
                 // Port extension: a scene larger than the map draws as the original does into
                 // FCenteredSurface, then ShowCenteredMap centers the map on Target and fills the rest black.
-                if (GetSceneExceedsMap())
+                if (SceneExceedsMap)
                 {
                     surface = VerifyCenteredSurface(target);
                     X = 0;
@@ -294,7 +294,7 @@ public class HexSpriteMapViewer : Component
 
     // Port extension: the original never showed a scene wider or taller than the map. SceneX and
     // SceneY keep the original clamp there, so the view port and the saved view stay the original's.
-    public bool GetSceneExceedsMap() => _hexSpriteMap is not null && (_sceneWidth > _hexSpriteMap.GetMaxPixelX() - 32 || _sceneHeight > _hexSpriteMap.GetMaxPixelY() - 32);
+    public bool SceneExceedsMap => _hexSpriteMap is not null && (_sceneWidth > _hexSpriteMap.MaxPixelX - 32 || _sceneHeight > _hexSpriteMap.MaxPixelY - 32);
 
     // Port extension: the part of the scene that shows the map under the original clamp. On an axis
     // where the scene fits inside the map it spans the scene.
@@ -305,8 +305,8 @@ public class HexSpriteMapViewer : Component
         {
             r.Left = Math.Max(16 - _sceneX, 0);
             r.Top = Math.Max(16 - _sceneY, 0);
-            r.Right = Math.Min(_hexSpriteMap.GetMaxPixelX() - 16 - _sceneX, _sceneWidth);
-            r.Bottom = Math.Min(_hexSpriteMap.GetMaxPixelY() - 16 - _sceneY, _sceneHeight);
+            r.Right = Math.Min(_hexSpriteMap.MaxPixelX - 16 - _sceneX, _sceneWidth);
+            r.Bottom = Math.Min(_hexSpriteMap.MaxPixelY - 16 - _sceneY, _sceneHeight);
         }
 
         return r;
@@ -330,7 +330,7 @@ public class HexSpriteMapViewer : Component
     // which the map mouse takes. A point outside the centered map gives false.
     public bool SceneToMapMouse(ref int X, ref int Y)
     {
-        if (!GetSceneExceedsMap())
+        if (!SceneExceedsMap)
         {
             return true;
         }
@@ -358,9 +358,9 @@ public class HexSpriteMapViewer : Component
 
         if (CenteredSurface is null)
         {
-            CenteredSurface = new DataSurface(_sceneWidth, _sceneHeight, surface.GetPixelFormatId(), null);
+            CenteredSurface = new DataSurface(_sceneWidth, _sceneHeight, pixelFormatId: surface.GetPixelFormatId(), palette: null);
         }
-        else if (CenteredSurface.GetWidth() != _sceneWidth || CenteredSurface.GetHeight() != _sceneHeight)
+        else if (CenteredSurface.Width != _sceneWidth || CenteredSurface.Height != _sceneHeight)
         {
             _ = CenteredSurface.Resize(_sceneWidth, _sceneHeight);
         }
@@ -375,22 +375,22 @@ public class HexSpriteMapViewer : Component
         LockedSurface lockedSurface = default;
         Rect source = GetMapSceneRectangle();
         Rect shown = GetMapDisplayRectangle();
-        if (target.Lock(ref lockedSurface, new Rect(X, Y, X + _sceneWidth, Y + _sceneHeight)) >= 0)
+        if (target.Lock(ref lockedSurface, R: new Rect(X, Y, X + _sceneWidth, Y + _sceneHeight)) >= 0)
         {
             FillOutsideRectangle(shown, lockedSurface);
             _ = target.Unlock(lockedSurface);
         }
 
-        _ = CenteredSurface.BlitClipped(target, source, X + shown.Left, Y + shown.Top);
+        _ = CenteredSurface.BlitClipped(target, sourceRectangle: source, X + shown.Left, Y + shown.Top);
     }
 
     // Port extension: fills every pixel of SD outside Inside black.
     public static void FillOutsideRectangle(Rect inside, in LockedSurface lockedSurface)
     {
-        _ = PixelFormats.ColorFillSurfaceDescription(new Rect(0, 0, lockedSurface.Width, inside.Top), 0, lockedSurface);
-        _ = PixelFormats.ColorFillSurfaceDescription(new Rect(0, inside.Bottom, lockedSurface.Width, lockedSurface.Height), 0, lockedSurface);
-        _ = PixelFormats.ColorFillSurfaceDescription(new Rect(0, inside.Top, inside.Left, inside.Bottom), 0, lockedSurface);
-        _ = PixelFormats.ColorFillSurfaceDescription(new Rect(inside.Right, inside.Top, lockedSurface.Width, inside.Bottom), 0, lockedSurface);
+        _ = PixelFormats.ColorFillSurfaceDescription(new Rect(0, 0, lockedSurface.Width, inside.Top), color: 0, lockedSurface);
+        _ = PixelFormats.ColorFillSurfaceDescription(new Rect(0, inside.Bottom, lockedSurface.Width, lockedSurface.Height), color: 0, lockedSurface);
+        _ = PixelFormats.ColorFillSurfaceDescription(new Rect(0, inside.Top, inside.Left, inside.Bottom), color: 0, lockedSurface);
+        _ = PixelFormats.ColorFillSurfaceDescription(new Rect(inside.Right, inside.Top, lockedSurface.Width, inside.Bottom), color: 0, lockedSurface);
     }
 
     public GameMap HexSpriteMap { get => _hexSpriteMap; set => SetHexSpriteMap(value); }

@@ -26,13 +26,13 @@ public sealed class TacticalBattleRoundDistanceTests
     public void ATacticalBattleAnswersTheRoundDistance(byte round, byte sideIndex, int distance)
     {
         Battle combat = Build(round, sideIndex);
-        Assert.Equal(distance, combat.GetRoundDistance());
+        Assert.Equal(distance, combat.RoundDistance);
     }
 
     [Fact]
     public void ATacticalBattleWithoutAWallHasNoWallSituation()
     {
-        TacticalBattle combat = Build(1, 0);
+        TacticalBattle combat = Build(1, sideIndex: 0);
         TacticalBattleUnit source = new(combat.CombatData.CombatObjects) { Combat = combat, Position = 0x12 };
         TacticalBattleUnit target = new(combat.CombatData.CombatObjects) { Combat = combat, Position = 0x34 };
         Assert.Equal(WallSituation.None, combat.GetWallSituation(source, target));

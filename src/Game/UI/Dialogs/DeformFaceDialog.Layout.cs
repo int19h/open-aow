@@ -63,7 +63,7 @@ public partial class DeformFaceDialog : ILayoutModule
         Frame faceFrame = new(this);
         session.BeginRead(faceFrame);
         faceFrame.Name = "FaceFrame";
-        faceFrame.OnDraw += (sender, surface) => DrawFace(sender, surface, 0);
+        faceFrame.OnDraw += (sender, surface) => DrawFace(sender, lockedSurface: surface, offset: 0);
         faceFrame.Priority = 500;
         faceFrame.WinLeft = 152;
         faceFrame.WinTop = 75;
@@ -262,7 +262,7 @@ public partial class DeformFaceDialog : ILayoutModule
         session.BeginRead(leftFace);
         leftFace.Name = "LeftFace";
         leftFace.Tag = -1;
-        leftFace.OnDraw += (sender, surface) => DrawFace(sender, surface, -1);
+        leftFace.OnDraw += (sender, surface) => DrawFace(sender, lockedSurface: surface, offset: -1);
         leftFace.Priority = 500;
         leftFace.WinLeft = 60;
         leftFace.WinTop = 75;
@@ -291,7 +291,7 @@ public partial class DeformFaceDialog : ILayoutModule
         session.BeginRead(rightFace);
         rightFace.Name = "RightFace";
         rightFace.Tag = 1;
-        rightFace.OnDraw += (sender, surface) => DrawFace(sender, surface, 1);
+        rightFace.OnDraw += (sender, surface) => DrawFace(sender, lockedSurface: surface, offset: 1);
         rightFace.Priority = 500;
         rightFace.WinLeft = 266;
         rightFace.WinTop = 75;
@@ -516,9 +516,9 @@ public partial class DeformFaceDialog : ILayoutModule
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";
-        translator.TargetsData.Add(new TranslationTarget("", "Items", 0));
-        translator.TargetsData.Add(new TranslationTarget("", "Text", 0));
-        translator.TargetsData.Add(new TranslationTarget("", "ToolTipText", 0));
+        translator.TargetsData.Add(new TranslationTarget("", PropertyName: "Items", Options: 0));
+        translator.TargetsData.Add(new TranslationTarget("", PropertyName: "Text", Options: 0));
+        translator.TargetsData.Add(new TranslationTarget("", PropertyName: "ToolTipText", Options: 0));
         session.EndRead(translator);
         session.EndRead(this);
         faceFrame.Window = Window;

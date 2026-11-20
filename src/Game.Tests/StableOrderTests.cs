@@ -13,9 +13,9 @@ public sealed class StableOrderTests
     public void TextControlKeepsEqualItemsInInsertionOrder()
     {
         using TextControl control = new(null) { Holder = EngineFixture.Engine };
-        TextControlItem high = Item(control, 2, "high");
-        TextControlItem low = Item(control, 1, "low");
-        TextControlItem tied = Item(control, 1, "tied");
+        TextControlItem high = Item(control, id: 2, name: "high");
+        TextControlItem low = Item(control, id: 1, name: "low");
+        TextControlItem tied = Item(control, id: 1, name: "tied");
         control.Sort();
         Assert.Same(low, control.GetItem(0));
         Assert.Same(tied, control.GetItem(1));

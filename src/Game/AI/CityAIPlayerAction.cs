@@ -62,7 +62,7 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
             }
 
             ValidateResearchBudget(researchBudget);
-            if (upgradeBudget.GetReady())
+            if (upgradeBudget.Ready)
             {
                 if (UpgradeCity(upgradeBudget))
                 {
@@ -75,7 +75,7 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
             AIBudget fortifyBudget = manager.Budgets.FindChild<AIBudget>(131351);
             if (fortifyBudget is not null)
             {
-                if (fortifyBudget.GetReady())
+                if (fortifyBudget.Ready)
                 {
                     if (FortifyCity(fortifyBudget))
                     {
@@ -114,11 +114,11 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
         bool result = result2;
         if (result)
         {
-            CityAction activeAction = city.GetActiveAction();
+            CityAction activeAction = city.ActiveAction;
             bool contains = Set<CityAction>.Of(CityAction.None, CityAction.Trade).Contains(activeAction);
             if (!contains)
             {
-                CityAction cityActiveAction = city.GetActiveAction();
+                CityAction cityActiveAction = city.ActiveAction;
                 contains = Set<CityAction>.Of(CityAction.Produce).Contains(cityActiveAction) && city.Production.Settings.TurnsLeft == city.Production.Settings.TurnsTotal;
             }
 
@@ -129,7 +129,7 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
     }
 
     // City.pas:2802
-    public bool ValidResearchBudgetCity(City city) => city.Production.GetProduceUnitLevelMax() != city.UpgradeLevel || city.GetActiveAction() == CityAction.Upgrade;
+    public bool ValidResearchBudgetCity(City city) => city.Production.GetProduceUnitLevelMax() != city.UpgradeLevel || city.ActiveAction == CityAction.Upgrade;
 
     // City.pas:2807
     public void ValidateResearchBudget(AIBudget budget)
@@ -200,7 +200,7 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
 
                 if (valid)
                 {
-                    int priority = (city.GetSize() * 2) + city.ProductionPriority + (city.WallType * 3);
+                    int priority = (city.Size * 2) + city.ProductionPriority + (city.WallType * 3);
                     _ = cities.AddAbility(city, priority);
                 }
             }
@@ -219,7 +219,7 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
             index = StrategicMap.Current.Random(index + 1);
             city = cities[index].First;
             RandSeed = StrategicMap.Current.Random(16777215);
-            index = cities[index].First.Production.FindOptimalResearchProduction(null, researchBudget.Gold + upgradeBudget.Gold);
+            index = cities[index].First.Production.FindOptimalResearchProduction(null, gold: researchBudget.Gold + upgradeBudget.Gold);
             if (index != -1)
             {
                 city.Production.ExecuteDeleteProductions();
@@ -234,12 +234,12 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
                 if (index > researchBudget.Gold)
                 {
                     index -= researchBudget.Gold;
-                    _ = player.AIBudget.BudgetExpenseMade(researchBudget.Gold, 0, researchBudget, AIBudgetManager.ExpenseMode.Budget);
-                    _ = player.AIBudget.BudgetExpenseMade(index, 0, upgradeBudget, AIBudgetManager.ExpenseMode.Budget);
+                    _ = player.AIBudget.BudgetExpenseMade(researchBudget.Gold, mana: 0, budget: researchBudget, mode: AIBudgetManager.ExpenseMode.Budget);
+                    _ = player.AIBudget.BudgetExpenseMade(index, mana: 0, budget: upgradeBudget, mode: AIBudgetManager.ExpenseMode.Budget);
                 }
                 else
                 {
-                    _ = player.AIBudget.BudgetExpenseMade(index, 0, researchBudget, AIBudgetManager.ExpenseMode.Budget);
+                    _ = player.AIBudget.BudgetExpenseMade(index, mana: 0, budget: researchBudget, mode: AIBudgetManager.ExpenseMode.Budget);
                 }
 
                 result = true;
@@ -256,15 +256,15 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
         string reason = "";
         int level = city.Production.GetProduceUnitLevelMax();
         bool result2 = city.CanUpgrade(false, ref reason);
-        result2 = result2 && city.GetSize() > city.UpgradeLevel && !(level == _maxProductionLevel && _productionLevelCounts[level - 1] == 1) && level == city.UpgradeLevel;
+        result2 = result2 && city.Size > city.UpgradeLevel && !(level == _maxProductionLevel && _productionLevelCounts[level - 1] == 1) && level == city.UpgradeLevel;
         bool result = result2;
         if (result)
         {
-            CityAction activeAction = city.GetActiveAction();
+            CityAction activeAction = city.ActiveAction;
             bool contains = Set<CityAction>.Of(CityAction.None, CityAction.Trade).Contains(activeAction);
             if (!contains)
             {
-                CityAction cityActiveAction = city.GetActiveAction();
+                CityAction cityActiveAction = city.ActiveAction;
                 contains = Set<CityAction>.Of(CityAction.Produce).Contains(cityActiveAction) && city.Production.Settings.TurnsLeft == city.Production.Settings.TurnsTotal;
             }
 
@@ -278,7 +278,7 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
     public bool ValidUpgradeBudgetCity(City city)
     {
         int level = city.Production.GetProduceUnitLevelMax();
-        return city.GetSize() > city.UpgradeLevel && level == city.UpgradeLevel;
+        return city.Size > city.UpgradeLevel && level == city.UpgradeLevel;
     }
 
     // City.pas:2928
@@ -294,7 +294,7 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
             if (structure is City found && ValidUpgradeCity(found))
             {
                 city = found;
-                int priority = (city.GetSize() * 2) + city.ProductionPriority + (city.WallType * 3);
+                int priority = (city.Size * 2) + city.ProductionPriority + (city.WallType * 3);
                 _ = cities.AddAbility(city, priority);
             }
         }
@@ -312,7 +312,7 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
             };
             city.Production.ExecuteAddProduction(production);
             production?.Dispose();
-            _ = player.AIBudget.BudgetExpenseMade(250, 0, budget, AIBudgetManager.ExpenseMode.Budget);
+            _ = player.AIBudget.BudgetExpenseMade(250, mana: 0, budget, mode: AIBudgetManager.ExpenseMode.Budget);
 
             result = true;
         }
@@ -372,15 +372,15 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
     {
         string reason = "";
         bool result2 = city.CanFortify(false, ref reason);
-        result2 = (result2 && city.WallType == 0) || (city.WallType == 1 && city.GetSize() > 2 && city.UpgradeLevel > 1 && StrategicMap.Current.Day >= 30);
+        result2 = (result2 && city.WallType == 0) || (city.WallType == 1 && city.Size > 2 && city.UpgradeLevel > 1 && StrategicMap.Current.Day >= 30);
         bool result = result2;
         if (result)
         {
-            CityAction activeAction = city.GetActiveAction();
+            CityAction activeAction = city.ActiveAction;
             bool contains = Set<CityAction>.Of(CityAction.None, CityAction.Trade).Contains(activeAction);
             if (!contains)
             {
-                CityAction cityActiveAction = city.GetActiveAction();
+                CityAction cityActiveAction = city.ActiveAction;
                 contains = Set<CityAction>.Of(CityAction.Produce).Contains(cityActiveAction) && city.Production.Settings.TurnsLeft == city.Production.Settings.TurnsTotal;
             }
 
@@ -391,7 +391,7 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
     }
 
     // City.pas:3009
-    public bool ValidFortifyBudgetCity(City city) => city.WallType == 0 || (city.WallType == 1 && city.GetSize() > 2 && city.UpgradeLevel > 1 && StrategicMap.Current.Day >= 30);
+    public bool ValidFortifyBudgetCity(City city) => city.WallType == 0 || (city.WallType == 1 && city.Size > 2 && city.UpgradeLevel > 1 && StrategicMap.Current.Day >= 30);
 
     // City.pas:3015
     public bool FortifyCity(AIBudget budget)
@@ -406,7 +406,7 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
             if (structure is City found && ValidFortifyCity(found))
             {
                 city = found;
-                int priority = (city.GetSize() * 2) + city.ProductionPriority;
+                int priority = (city.Size * 2) + city.ProductionPriority;
                 if (city.WallType == 0)
                 {
                     priority += 3;
@@ -423,7 +423,7 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
             city = cities[0].First;
             city.Production.ExecuteDeleteProductions();
             int fortifyCost = city.FortifyCost();
-            _ = player.AIBudget.BudgetExpenseMade(fortifyCost, 0, budget, AIBudgetManager.ExpenseMode.Budget);
+            _ = player.AIBudget.BudgetExpenseMade(fortifyCost, mana: 0, budget, mode: AIBudgetManager.ExpenseMode.Budget);
             ProductionItem production = new(null)
             {
                 Holder = CreationHolder(),
@@ -494,7 +494,7 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
             PlayerStructure structure = Control.Player.Structures.GetStructure(i);
             if (structure is City city)
             {
-                if (city.GetSize() > city.UpgradeLevel)
+                if (city.Size > city.UpgradeLevel)
                 {
                     count += 1;
                 }
@@ -518,9 +518,9 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
             {
                 _cityCount += 1;
                 City city = found;
-                if (Set<CityAction>.Of(CityAction.None, CityAction.Trade, CityAction.Produce).Contains(city.GetActiveAction()))
+                if (Set<CityAction>.Of(CityAction.None, CityAction.Trade, CityAction.Produce).Contains(city.ActiveAction))
                 {
-                    available += (city.GetSize() + 1) / 2;
+                    available += (city.Size + 1) / 2;
                     int level = city.Production.GetProduceUnitLevelMax();
                     if (level > 0)
                     {
@@ -534,7 +534,7 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
                 }
                 else
                 {
-                    busy += (city.GetSize() + 1) / 2;
+                    busy += (city.Size + 1) / 2;
                 }
             }
         }

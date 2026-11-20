@@ -14,14 +14,14 @@ public sealed class SurfaceRectangleTests
 
     private static DataSurface MakeSource()
     {
-        DataSurface surface = new(SourceWidth, SourceHeight, PixelFormat.Rgb555, null);
+        DataSurface surface = new(SourceWidth, SourceHeight, pixelFormatId: PixelFormat.Rgb555, palette: null);
         LockedSurface lockedSurface = default;
         Assert.Equal(GraphicsResult.Ok, surface.Lock(ref lockedSurface));
         for (int y = 0; y < SourceHeight; y++)
         {
             for (int x = 0; x < SourceWidth; x++)
             {
-                lockedSurface.View().UInt16((y * lockedSurface.Pitch) + (x * 2), Source(x, y));
+                lockedSurface.View().UInt16((y * lockedSurface.Pitch) + (x * 2), value: Source(x, y));
             }
         }
 
@@ -54,7 +54,7 @@ public sealed class SurfaceRectangleTests
         {
             for (int x = 0; x < DestinationWidth; x++)
             {
-                Assert.True(expected[x, y] == destination.GetPixelInfo(x, y), $"pixel {x}, {y}: expected {expected[x, y]:X}, actual {destination.GetPixelInfo(x, y):X}");
+                Assert.True(expected[x, y] == destination.GetPixelInfo(x, y), userMessage: $"pixel {x}, {y}: expected {expected[x, y]:X}, actual {destination.GetPixelInfo(x, y):X}");
             }
         }
     }
@@ -62,7 +62,7 @@ public sealed class SurfaceRectangleTests
     private static void Run(Func<Surface, Surface, GraphicsResult> copy, int[,] expected, GraphicsResult result = GraphicsResult.Ok)
     {
         DataSurface source = MakeSource();
-        DataSurface destination = new(DestinationWidth, DestinationHeight, PixelFormat.Rgb555, null);
+        DataSurface destination = new(DestinationWidth, DestinationHeight, pixelFormatId: PixelFormat.Rgb555, palette: null);
         try
         {
             Assert.Equal(result, copy(source, destination));
@@ -77,75 +77,75 @@ public sealed class SurfaceRectangleTests
 
     [Fact]
     public void BlitCopiesTheWholeSourceForANullRectangle()
-        => Run((s, d) => s.Blit(d, null, 1, 1), Expected(0, 0, 4, 3, 1, 1));
+        => Run((s, d) => s.Blit(d, sourceRectangle: null, 1, 1), expected: Expected(0, 0, 4, 3, 1, 1));
 
     [Fact]
     public void BlitCopiesTheGivenRectangle()
-        => Run((s, d) => s.Blit(d, new Rect(1, 1, 3, 3), 0, 0), Expected(1, 1, 3, 3, 0, 0));
+        => Run((s, d) => s.Blit(d, sourceRectangle: new Rect(1, 1, 3, 3), 0, 0), expected: Expected(1, 1, 3, 3, 0, 0));
 
     [Fact]
     public void BlitClippedMovesTheWholeSourceInsideTheDestination()
         // R = (0, 0, 4, 3) at (-1, -1): X < 0 cuts the left column, Y < 0 the top row.
-        => Run((s, d) => s.BlitClipped(d, null, -1, -1), Expected(1, 1, 4, 3, 0, 0));
+        => Run((s, d) => s.BlitClipped(d, sourceRectangle: null, -1, -1), expected: Expected(1, 1, 4, 3, 0, 0));
 
     [Fact]
     public void BlitClippedCutsARectangleToTheSource()
         // (-2, -1, 8, 5) at (0, 0): the right and bottom are cut to the source, the negative left
         // and top move X and Y by 2 and 1.
-        => Run((s, d) => s.BlitClipped(d, new Rect(-2, -1, 8, 5), 0, 0), Expected(0, 0, 4, 3, 2, 1));
+        => Run((s, d) => s.BlitClipped(d, sourceRectangle: new Rect(-2, -1, 8, 5), 0, 0), expected: Expected(0, 0, 4, 3, 2, 1));
 
     [Fact]
     public void BlitClippedCutsAtTheDestinationEdge()
         // (0, 0, 4, 3) at (4, 3): W = 4 - (4 + 4 - 6) = 2, H = 3 - (3 + 3 - 5) = 2.
-        => Run((s, d) => s.BlitClipped(d, null, 4, 3), Expected(0, 0, 2, 2, 4, 3));
+        => Run((s, d) => s.BlitClipped(d, sourceRectangle: null, 4, 3), expected: Expected(0, 0, 2, 2, 4, 3));
 
     [Fact]
     public void BlitClippedDrawsNothingOutside()
-        => Run((s, d) => s.BlitClipped(d, null, 6, 0), new int[DestinationWidth, DestinationHeight]);
+        => Run((s, d) => s.BlitClipped(d, sourceRectangle: null, 6, 0), expected: new int[DestinationWidth, DestinationHeight]);
 
     [Fact]
     public void BlitColorKeySkipsTheKeyForANullRectangle()
-        => Run((s, d) => s.BlitColorKey(d, null, 0, 0, Source(1, 1)), Expected(0, 0, 4, 3, 0, 0, Source(1, 1)));
+        => Run((s, d) => s.BlitColorKey(d, sourceRectangle: null, 0, 0, colorKey: Source(1, 1)), expected: Expected(0, 0, 4, 3, 0, 0, key: Source(1, 1)));
 
     [Fact]
     public void BlitColorKeySkipsTheKeyInTheGivenRectangle()
-        => Run((s, d) => s.BlitColorKey(d, new Rect(0, 1, 3, 3), 2, 2, Source(2, 2)), Expected(0, 1, 3, 3, 2, 2, Source(2, 2)));
+        => Run((s, d) => s.BlitColorKey(d, sourceRectangle: new Rect(0, 1, 3, 3), 2, 2, colorKey: Source(2, 2)), expected: Expected(0, 1, 3, 3, 2, 2, key: Source(2, 2)));
 
     [Fact]
     public void BlitColorKeyClippedClipsLikeBlitClipped()
-        => Run((s, d) => s.BlitColorKeyClipped(d, null, -1, -1, Source(2, 1)), Expected(1, 1, 4, 3, 0, 0, Source(2, 1)));
+        => Run((s, d) => s.BlitColorKeyClipped(d, sourceRectangle: null, -1, -1, colorKey: Source(2, 1)), expected: Expected(1, 1, 4, 3, 0, 0, key: Source(2, 1)));
 
     [Fact]
     public void BlitColorKeyClippedCutsARectangleToTheSource()
-        => Run((s, d) => s.BlitColorKeyClipped(d, new Rect(-2, -1, 8, 5), 0, 0, Source(0, 0)), Expected(0, 0, 4, 3, 2, 1, Source(0, 0)));
+        => Run((s, d) => s.BlitColorKeyClipped(d, sourceRectangle: new Rect(-2, -1, 8, 5), 0, 0, colorKey: Source(0, 0)), expected: Expected(0, 0, 4, 3, 2, 1, key: Source(0, 0)));
 
     [Fact]
     public void BlitStretchOfUnequalSizesIsNotSupported()
         // Null rectangles are the whole source (4 by 3) and the whole destination (6 by 5).
-        => Run((s, d) => s.BlitStretch(d, null, null), new int[DestinationWidth, DestinationHeight], GraphicsResult.NotSupported);
+        => Run((s, d) => s.BlitStretch(d, sourceRectangle: null, destinationRectangle: null), expected: new int[DestinationWidth, DestinationHeight], result: GraphicsResult.NotSupported);
 
     [Fact]
     public void BlitStretchOfEqualSizesCopiesToTheDestinationRectangle()
-        => Run((s, d) => s.BlitStretch(d, new Rect(1, 0, 3, 2), new Rect(3, 2, 5, 4)), Expected(1, 0, 3, 2, 3, 2));
+        => Run((s, d) => s.BlitStretch(d, sourceRectangle: new Rect(1, 0, 3, 2), destinationRectangle: new Rect(3, 2, 5, 4)), expected: Expected(1, 0, 3, 2, 3, 2));
 
     [Fact]
     public void BlitStretchOfANullSourceRectangleTakesTheWholeSource()
-        => Run((s, d) => s.BlitStretch(d, null, new Rect(2, 1, 6, 4)), Expected(0, 0, 4, 3, 2, 1));
+        => Run((s, d) => s.BlitStretch(d, sourceRectangle: null, destinationRectangle: new Rect(2, 1, 6, 4)), expected: Expected(0, 0, 4, 3, 2, 1));
 
     [Fact]
     public void BlitAreaClippedPassesItsArea()
-        => Run((s, d) => s.BlitAreaClipped(d, new Rect(1, 0, 4, 2), 3, 3), Expected(1, 0, 4, 2, 3, 3));
+        => Run((s, d) => s.BlitAreaClipped(d, area: new Rect(1, 0, 4, 2), 3, 3), expected: Expected(1, 0, 4, 2, 3, 3));
 
     [Fact]
     public void BlitAreaColorKeyClippedPassesItsArea()
-        => Run((s, d) => s.BlitAreaColorKeyClipped(d, new Rect(1, 0, 4, 2), 3, 3, Source(2, 1)), Expected(1, 0, 4, 2, 3, 3, Source(2, 1)));
+        => Run((s, d) => s.BlitAreaColorKeyClipped(d, area: new Rect(1, 0, 4, 2), 3, 3, colorKey: Source(2, 1)), expected: Expected(1, 0, 4, 2, 3, 3, key: Source(2, 1)));
 
     [Fact]
     public void CapturedSurfaceTakesTheWholeSourceOrTheRectangle()
     {
         DataSurface source = MakeSource();
-        DataSurface whole = new(source, null);
-        DataSurface part = new(source, new Rect(1, 1, 3, 3));
+        DataSurface whole = new(source, R: null);
+        DataSurface part = new(source, R: new Rect(1, 1, 3, 3));
         try
         {
             Assert.Equal((SourceWidth, SourceHeight), (whole.Width, whole.Height));
@@ -186,19 +186,19 @@ public sealed class SurfaceRectangleTests
             Assert.Equal(GraphicsResult.Ok, source.Lock(ref full));
             _ = source.Unlock();
             Assert.Equal(0, full.DataIndex);
-            Assert.Equal(GraphicsResult.Ok, source.Lock(ref part, new Rect(1, 1, 4, 3)));
+            Assert.Equal(GraphicsResult.Ok, source.Lock(ref part, R: new Rect(1, 1, 4, 3)));
             _ = source.Unlock(part);
             Assert.Same(full.Data, part.Data);
             Assert.Equal(full.Pitch + 2, part.DataIndex);
             Assert.Equal((3, 2), (part.Width, part.Height));
             Assert.Equal(Source(1, 1), part.View().UInt16(0));
             Assert.Equal(Source(3, 2), part.View().UInt16(part.Pitch + 4));
-            LockedSurface.CreateFrom(full, new Rect(2, 1, 4, 3), out LockedSurface sub);
+            LockedSurface.CreateFrom(full, R: new Rect(2, 1, 4, 3), destination: out LockedSurface sub);
             Assert.Same(full.Data, sub.Data);
             Assert.Equal(full.Pitch + 4, sub.DataIndex);
             Assert.Equal(new Rect(0, 0, 2, 2), sub.ClipRectangle);
             Assert.Equal(Source(2, 1), sub.View().UInt16(0));
-            Assert.Equal(GraphicsResult.Error, source.Lock(ref part, new Rect(1, 1, 5, 3)));
+            Assert.Equal(GraphicsResult.Error, source.Lock(ref part, R: new Rect(1, 1, 5, 3)));
         }
         finally
         {

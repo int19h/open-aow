@@ -20,7 +20,7 @@ public class Vortex : GlobalTargetSpell
     public Vortex(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.VortexText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.VortexText);
         SpellId = 70;
         AboveGroundOnly = false;
     }
@@ -40,8 +40,8 @@ public class Vortex : GlobalTargetSpell
         if (!StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             VortexTokenEvent eventValue = new(null) { Holder = CreationHolder() };
-            eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
-            eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
+            eventValue.Initialize(SpellId, playerIndex: (byte)source.Player, sourceId: source.UnitId, mana: BaseManaCost);
+            eventValue.SetLocation((sbyte)X, (sbyte)Y, layer: (sbyte)L);
             ArmyHexSprite army = StrategicMap.Current.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
             if (army is not null)
             {

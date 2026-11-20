@@ -14,7 +14,7 @@ public class FrozenAbility : UnitEnchantmentAbility
     public FrozenAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_frozenText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_frozenText);
         AbilityId = 95;
         AbilityType = AbilityType.Enchantment;
         SelectionTypes = Set<AbilitySelectionType>.Of();
@@ -27,7 +27,7 @@ public class FrozenAbility : UnitEnchantmentAbility
     public override DurationMode GetDurationMode() => DurationMode.CombatTurn;
 
     // PassiveAb.pas:663
-    public override sbyte GetTotalDuration() => 2;
+    public override sbyte TotalDuration => 2;
 
     // PassiveAb.pas:668
     public override UnitEnchantment CreateEnchantment()

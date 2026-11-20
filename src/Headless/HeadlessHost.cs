@@ -13,10 +13,10 @@ internal sealed class HeadlessHost : IRtlHost, IDialogService, IClock, IShellSer
     public HeadlessHost(string root, string output, string? settings, string movementSpeed = "normal", string? input = null)
     {
         GameRoot = Path.GetFullPath(root);
-        FilesForRun = new RunFiles(GameRoot, output, input);
+        FilesForRun = new RunFiles(GameRoot, runDirectory: output, inputFile: input);
         _dialogFile = Path.Combine(output, "dialogs.jsonl");
-        File.WriteAllText(_dialogFile, "");
-        File.WriteAllText(Path.Combine(output, "urls.jsonl"), "");
+        File.WriteAllText(_dialogFile, contents: "");
+        File.WriteAllText(Path.Combine(output, "urls.jsonl"), contents: "");
         if (settings is not null)
         {
             foreach (JsonProperty property in JsonDocument.Parse(File.ReadAllText(settings)).RootElement.EnumerateObject())
@@ -42,7 +42,7 @@ internal sealed class HeadlessHost : IRtlHost, IDialogService, IClock, IShellSer
             string kind = value.GetProperty("kind").GetString() ?? "";
             JsonElement data = value.GetProperty("value");
             return kind == "rectangle" && data.ValueKind == JsonValueKind.Array
-                ? string.Join(",", data.EnumerateArray().Select(v => v.GetInt32()))
+                ? string.Join(",", values: data.EnumerateArray().Select(v => v.GetInt32()))
                 : kind == "bytes" && data.ValueKind == JsonValueKind.String
                 ? Convert.FromBase64String(data.GetString()!) : ReadSetting(key, data);
         }
@@ -65,7 +65,7 @@ internal sealed class HeadlessHost : IRtlHost, IDialogService, IClock, IShellSer
     public ISettingsStore Settings { get; } = new MemorySettingsStore();
     public string GameRoot { get; }
     public string ExecutableName => Files.ExpandPath(Path.Combine(GameRoot, "AoW.exe"));
-    public DateTime Now => new(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+    public DateTime Now => new(2000, 1, 1, 0, 0, 0, kind: DateTimeKind.Utc);
     public uint TickCount => 0;
     public double ElapsedMilliseconds => 0;
 
@@ -76,14 +76,14 @@ internal sealed class HeadlessHost : IRtlHost, IDialogService, IClock, IShellSer
     // A headless run records the address and opens nothing.
     public void OpenUrl(string url)
     {
-        File.AppendAllText(Path.Combine(Path.GetDirectoryName(_dialogFile)!, "urls.jsonl"), $"{JsonSerializer.Serialize(new { url })}\n");
+        File.AppendAllText(Path.Combine(Path.GetDirectoryName(_dialogFile)!, "urls.jsonl"), contents: $"{JsonSerializer.Serialize(new { url })}\n");
         Console.WriteLine($"open url: {url}");
     }
 
     public int Show(DialogRequest request)
     {
         DialogCount++;
-        File.AppendAllText(_dialogFile, $"{JsonSerializer.Serialize(new { index = DialogCount, request.Text, request.Caption, request.Flags, result = request.DefaultResult })}\n");
+        File.AppendAllText(_dialogFile, contents: $"{JsonSerializer.Serialize(new { index = DialogCount, request.Text, request.Caption, request.Flags, result = request.DefaultResult })}\n");
         Console.WriteLine($"dialog {DialogCount}: {request.Text} -> {request.DefaultResult}");
         return request.DefaultResult;
     }
@@ -91,11 +91,11 @@ internal sealed class HeadlessHost : IRtlHost, IDialogService, IClock, IShellSer
 
 internal sealed class RunFiles(string gameRoot, string runDirectory, string? inputFile = null) : IFileSystem
 {
-    private readonly LayeredFileSystem _files = new(gameRoot, runDirectory);
+    private readonly LayeredFileSystem _files = new(gameRoot, userDirectory: runDirectory);
     private readonly string? _input = inputFile is null ? null : Path.GetFullPath(inputFile);
 
     private bool IsInput(string path) => _input is not null && Path.IsPathFullyQualified(path) &&
-        string.Equals(Path.GetFullPath(path), _input, StringComparison.OrdinalIgnoreCase);
+        string.Equals(Path.GetFullPath(path), _input, comparisonType: StringComparison.OrdinalIgnoreCase);
 
     public string? AutoSaveTarget { get; set; }
     public string CurrentDirectory => _files.CurrentDirectory;
@@ -120,12 +120,12 @@ internal sealed class RunFiles(string gameRoot, string runDirectory, string? inp
         foreach (string? extension in new[] { save.OwnExtension, save.OriginalExtension })
         {
             string autosave = $"autosave{extension}";
-            if (name.Equals(autosave, StringComparison.OrdinalIgnoreCase))
+            if (name.Equals(autosave, comparisonType: StringComparison.OrdinalIgnoreCase))
             {
                 return AutoSaveTarget;
             }
 
-            if (name.Equals(Game.Saves.FileBoundary.TemporaryFor(autosave), StringComparison.OrdinalIgnoreCase))
+            if (name.Equals(Game.Saves.FileBoundary.TemporaryFor(autosave), comparisonType: StringComparison.OrdinalIgnoreCase))
             {
                 return Game.Saves.FileBoundary.TemporaryFor(AutoSaveTarget);
             }
@@ -138,11 +138,11 @@ internal sealed class RunFiles(string gameRoot, string runDirectory, string? inp
         bool writing = mode == DelphiStreams.fmCreate || (mode & 3) != 0;
         // The command-line save is an explicit read-only input outside the virtual drive.
         return !writing && IsInput(path)
-            ? File.Open(_input!, FileMode.Open, FileAccess.Read, FileShare.Read)
+            ? File.Open(_input!, mode: FileMode.Open, access: FileAccess.Read, share: FileShare.Read)
             : _files.Open(writing ? Target(path) : path, mode);
     }
 
-    public bool ReplaceFile(string source, string target) => _files.ReplaceFile(Target(source), Target(target));
+    public bool ReplaceFile(string source, string target) => _files.ReplaceFile(Target(source), target: Target(target));
     public string Layer(string path) => IsInput(path) ? "input" : _files.Layer(Target(path));
     public bool FileExists(string path) => IsInput(path) ? File.Exists(_input) : _files.FileExists(Target(path));
     public bool DirectoryExists(string path) => _files.DirectoryExists(path);

@@ -19,7 +19,7 @@ public sealed class SchemaTests : FormatsTest
         Assert.Equal(OwnFormat.CurrentVersion, ((JsonInteger)current["version"]!).Value);
         Assert.Null(current.Find("versions"));
         string pinned = ((JsonString)current["schemaSha256"]!).Value;
-        Assert.True(pinned == Schema.Hash, $"versions.json pins {pinned}, the schema hashes to {Schema.Hash}. A schema change needs a version review.");
+        Assert.True(pinned == Schema.Hash, userMessage: $"versions.json pins {pinned}, the schema hashes to {Schema.Hash}. A schema change needs a version review.");
         Assert.Equal(OwnFormat.CurrentVersion, Schema.Version);
     }
 
@@ -35,12 +35,12 @@ public sealed class SchemaTests : FormatsTest
                 Assert.Equal(id, classValue.Id);
             }
         }
-        Assert.Equal(NameTable.ResolveStored("TAoWHSMap"), Schema.Resolve("game", 131089)!.Name);
-        Assert.Equal(NameTable.ResolveStored("TCity"), Schema.Resolve("game", 131336)!.Name);
-        Assert.Null(Schema.Resolve("game", 2228482));
-        Assert.Equal(NameTable.ResolveStored("TAoWCombatMapLevel"), Schema.Resolve("tactical", 2228482)!.Name);
-        Assert.Equal(NameTable.ResolveStored("TWMCampaign"), Schema.Resolve("campaign", 2248704)!.Name);
-        Assert.Null(Schema.Resolve("game", 2248704));
+        Assert.Equal(NameTable.ResolveStored("TAoWHSMap"), Schema.Resolve("game", classId: 131089)!.Name);
+        Assert.Equal(NameTable.ResolveStored("TCity"), Schema.Resolve("game", classId: 131336)!.Name);
+        Assert.Null(Schema.Resolve("game", classId: 2228482));
+        Assert.Equal(NameTable.ResolveStored("TAoWCombatMapLevel"), Schema.Resolve("tactical", classId: 2228482)!.Name);
+        Assert.Equal(NameTable.ResolveStored("TWMCampaign"), Schema.Resolve("campaign", classId: 2248704)!.Name);
+        Assert.Null(Schema.Resolve("game", classId: 2248704));
     }
 
     [Fact]
@@ -53,10 +53,10 @@ public sealed class SchemaTests : FormatsTest
               {"name": "TA", "parent": "TEObject", "id": 7, "engines": ["game"], "properties": []},
               {"name": "TB", "parent": "TEObject", "id": 7, "engines": ["game"], "properties": []},
               {"name": "TC", "parent": "TEObject", "id": 8, "engines": ["game"], "properties": []}]}
-            """), "ambiguous.json");
+            """), file: "ambiguous.json");
         Assert.Equal(["engine game class id 7: TA and TB"], schema.RegistrationAmbiguities);
-        Assert.Null(schema.Resolve("game", 7));
-        Assert.Equal("TC", schema.Resolve("game", 8)!.Name);
+        Assert.Null(schema.Resolve("game", classId: 7));
+        Assert.Equal("TC", schema.Resolve("game", classId: 8)!.Name);
     }
 
     [Fact]
@@ -68,7 +68,7 @@ public sealed class SchemaTests : FormatsTest
             Assert.Equal(names.Count, names.Distinct(StringComparer.Ordinal).Count());
             foreach (SchemaProperty p in classValue.Properties)
             {
-                Assert.False(p.Name.StartsWith('$'), $"{classValue.Name}.{p.Name}");
+                Assert.False(p.Name.StartsWith('$'), userMessage: $"{classValue.Name}.{p.Name}");
                 if (p.Id is int id)
                 {
                     Assert.Same(p, classValue.PropertyById(id));
@@ -101,11 +101,11 @@ public sealed class SchemaTests : FormatsTest
     [Fact]
     public void TheValleyLegacyShapeAppliesOnlyToSprites()
     {
-        (string Rule, SchemaClass Shape)? shape = Schema.LegacyShape("TMapField.HexSpriteList", "TFlagMessageEventResource");
+        (string Rule, SchemaClass Shape)? shape = Schema.LegacyShape("TMapField.HexSpriteList", className: "TFlagMessageEventResource");
         _ = Assert.NotNull(shape);
         Assert.Equal("LEGACY_VALLEY01_SPRITE", shape.Value.Rule);
         Assert.Equal(["ResourceId", "LegacyHexX", "LegacyHexY", "UnknownProperty10", "UnknownProperty12"], shape.Value.Shape.Properties.Select(p => p.Name));
-        Assert.Null(Schema.LegacyShape("TECustomNode.Children", "TFlagMessageEventResource"));
+        Assert.Null(Schema.LegacyShape("TECustomNode.Children", className: "TFlagMessageEventResource"));
     }
 
     [Fact]

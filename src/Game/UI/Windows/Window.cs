@@ -302,7 +302,7 @@ public partial class Window : GenericWindow
                 {
                     case Style.Normal:
                         SizedRectangle rectangle = new(WinLeft, WinTop, WinWidth, WinHeight);
-                        ImageLibraryFrame.DrawFrame(ImageLibraryIndexFrame, rectangle, ref lockedSurface);
+                        ImageLibraryFrame.DrawFrame(ImageLibraryIndexFrame, area: rectangle, ref lockedSurface);
                         LibraryImage imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
                         LibraryImage imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame + 6];
                         LibraryImage imageLibraryFrameWidth = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
@@ -310,29 +310,29 @@ public partial class Window : GenericWindow
                         LibraryImage imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
                         LibraryImage imageLibraryFrame4 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
                         SizedRectangle rectangle2 = new(WinLeft + imageLibraryFrame4.Width, WinTop + imageLibraryFrame3.Height, WinWidth - imageLibraryFrameWidth.Width - imageLibraryFrame2.Width, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
-                        ImageLibraryTexture.DrawTiled(ImageLibraryIndexTexture, rectangle2, ref lockedSurface);
+                        ImageLibraryTexture.DrawTiled(ImageLibraryIndexTexture, area: rectangle2, ref lockedSurface);
                         break;
                     case Style.Hollow:
                         SizedRectangle rectangle3 = new(WinLeft, WinTop, WinWidth, WinHeight);
-                        ImageLibraryFrame.DrawFrame(ImageLibraryIndexFrame, rectangle3, ref lockedSurface);
+                        ImageLibraryFrame.DrawFrame(ImageLibraryIndexFrame, area: rectangle3, ref lockedSurface);
                         break;
                     case Style.Borderless:
                         SizedRectangle rectangle4 = new(WinLeft, WinTop, WinWidth, WinHeight);
-                        ImageLibraryTexture.DrawTiled(ImageLibraryIndexTexture, rectangle4, ref lockedSurface);
+                        ImageLibraryTexture.DrawTiled(ImageLibraryIndexTexture, area: rectangle4, ref lockedSurface);
                         break;
                     case Style.Blank:
                     default:
                         break;
                 }
 
-                RaiseDrawBack(this, lockedSurface);
+                RaiseDrawBack(this, surfDesc: lockedSurface);
 
                 SurfaceValid = false;
             }
         }
         catch
         {
-            _ = MessageBox(0, "Exception during Draw", $"Error - {Name}", 0);
+            _ = MessageBox(0, text: "Exception during Draw", caption: $"Error - {Name}", flags: 0);
         }
     }
 

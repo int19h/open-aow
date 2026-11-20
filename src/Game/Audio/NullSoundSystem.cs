@@ -13,7 +13,7 @@ public sealed class NullSoundSystem : SoundSystem
     public static void Install()
     {
         RegisterSoundSystem(Descriptor);
-        _ = AudioPlayback.InitializeSoundSystem("Galaxy", default);
+        _ = AudioPlayback.InitializeSoundSystem("Galaxy", settings: default);
     }
 
     public static string Name => "Galaxy";
@@ -44,12 +44,14 @@ public sealed class NullSoundSystem : SoundSystem
         }
     }
 
-    protected internal override int GetMusicVolume() => _musicVolume;
+    public override int MusicVolume => _musicVolume;
+
     protected internal override int GetSfxVolume() => _sfxVolume;
     protected internal override bool GetPlayingSong() => _song.Length != 0;
     protected internal override string GetPlayingSongFileName() => _song;
-    protected internal override bool GetSfxEnabled() => _sfxEnabled;
-    protected internal override bool GetMusicEnabled() => _musicEnabled;
+
+    public override bool SfxEnabled => _sfxEnabled;
+    public override bool MusicEnabled => _musicEnabled;
 
     public override bool SetSfxEnabled(bool value)
     {
@@ -69,7 +71,8 @@ public sealed class NullSoundSystem : SoundSystem
         return true;
     }
 
-    public override SoundSettings GetSoundSettings() => _settings;
+    public override SoundSettings SoundSettings => _settings;
+
     public override bool FadeMusicVolume(int volume, int speed) => SetMusicVolume(volume);
 
     public override bool SetMusicVolume(int volume)

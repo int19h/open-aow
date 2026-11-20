@@ -12,7 +12,7 @@ public class NaturesBlessingAbility : DurationAbility
     public NaturesBlessingAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_naturesBlessingText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_naturesBlessingText);
         AbilityId = 99;
         AbilityType = AbilityType.Enchantment;
         SelectionTypes = Set<AbilitySelectionType>.Of();

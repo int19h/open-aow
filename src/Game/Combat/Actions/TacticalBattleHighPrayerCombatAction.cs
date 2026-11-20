@@ -17,8 +17,8 @@ public class TacticalBattleHighPrayerCombatAction(CustomNode owner) : ExclusiveC
         if (Succeeded)
         {
             CombatUnit target = combat.CombatData.FindId<CombatUnit>(TargetId);
-            target.SetHitPoints((byte)(target.GetHitPoints() + 5));
-            _ = GamePack.Current.AbilityControl.GetAbility(100).Expand(target.Troop);
+            target.SetHitPoints((byte)(target.HitPoints + 5));
+            _ = GamePack.Current.AbilityControl[100].Expand(target.Troop);
         }
     }
 }

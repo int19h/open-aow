@@ -21,7 +21,7 @@ public class PowerLeak : GlobalEnchantmentSpell
     {
         Holder = holder;
         SpellType = SpellType.Global;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.PowerLeakText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.PowerLeakText);
         SpellId = 48;
         BaseManaCost = 1;
         SpellLevel = 4;
@@ -38,12 +38,12 @@ public class PowerLeak : GlobalEnchantmentSpell
         sbyte x = coordinate74.X;
         sbyte y = coordinate74.Y;
         sbyte l = coordinate74.MapLevel;
-        _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
+        _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, radius: 0);
         TwinkleAnimation animation = new(null) { Holder = CreationHolder() };
-        animation.Setup(GamePack.Current.SpellControl.GetSpell(48).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Implode), 100, 64, 50, 30);
+        animation.Setup(GamePack.Current.SpellControl[48].CastImages.ImageSequences[0], mode: Set<TwinkleModeElement>.Of(TwinkleModeElement.Implode), count: 100, radius: 64, duration: 50, startDelay: 30);
         _ = StrategicMap.Current.PlaceHex(animation, x, y, l);
         _ = CastSounds.Play(0);
-        CastingDone(source, eventValue.EventMana);
+        CastingDone(source, mana: eventValue.EventMana);
         return false;
     }
 

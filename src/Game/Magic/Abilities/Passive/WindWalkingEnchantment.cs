@@ -13,7 +13,7 @@ public class WindWalkingEnchantment : UnitEnchantmentAbility
     public WindWalkingEnchantment(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), GameText.WindWalkingText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.WindWalkingText);
         AbilityId = 165;
     }
 

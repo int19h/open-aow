@@ -87,7 +87,7 @@ public class SkirmishAIGroupControl(CustomNode owner) : BehaviorAIGroupControl(o
                 }
 
                 GroupBehavior randomGroupBehavior = StrategicMap.Current.Players.GetPlayers(Group.Player).AIControl.GetRandomGroupBehavior();
-                AIGroup group = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, 0, randomGroupBehavior);
+                AIGroup group = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, relation: 0, behavior: randomGroupBehavior);
                 _ = group.AddUnits(Group.Units);
                 _ = group.Release();
                 Done();

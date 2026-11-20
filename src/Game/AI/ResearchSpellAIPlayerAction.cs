@@ -24,19 +24,19 @@ public class ResearchSpellAIPlayerAction(CustomNode owner) : AIPlayerAction(owne
         {
             SpellList spells = new();
             DoubleItemList choices = new();
-            Control.Player.MagicControl.ListResearchSpells(spells, Set<SpellType>.Of(SpellType.Combat, SpellType.Unit, SpellType.Global));
+            Control.Player.MagicControl.ListResearchSpells(spells, spellTypes: Set<SpellType>.Of(SpellType.Combat, SpellType.Unit, SpellType.Global));
             for (int i = 0, last = spells.GetCount() - 1; i <= last; i++)
             {
-                int value = (spells.GetSpell(i).CastDuration * 100) + 100;
-                Spell spell = spells.GetSpell(i);
+                int value = (spells[i].CastDuration * 100) + 100;
+                Spell spell = spells[i];
                 int netPowerToResearch = Control.Player.MagicControl.GetNetPowerToResearch();
-                value -= Control.Player.MagicControl.ResearchTurns(netPowerToResearch, spell.ResearchCost);
+                value -= Control.Player.MagicControl.ResearchTurns(netPowerToResearch, points: spell.ResearchCost);
                 if (value <= 0)
                 {
                     value = 1;
                 }
 
-                _ = choices.AddAbility(spells.GetSpell(i).SpellId, value);
+                _ = choices.AddAbility(spells[i].SpellId, value);
             }
 
             if (choices.Count != 0)

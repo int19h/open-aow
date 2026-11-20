@@ -77,7 +77,7 @@ internal static class OriginalComparison
         FormatLimits limits)
     {
         byte[] original = profile.Comparable(originalFile, limits);
-        byte[] exported = profile.ComparableImage(container, exportedImage);
+        byte[] exported = profile.ComparableImage(container, image: exportedImage);
         return CompareComparable(
             original,
             exported: exported,
@@ -248,7 +248,7 @@ internal static class OriginalComparison
 
             if (origRoot + 4 > originalEnd || expRoot + 4 > exportedEnd)
             {
-                state.Fail(origRoot, "Root class id is truncated.");
+                state.Fail(origRoot, detail: "Root class id is truncated.");
                 return;
             }
 
@@ -256,14 +256,14 @@ internal static class OriginalComparison
             int expClassId = BinaryPrimitives.ReadInt32LittleEndian(state.Exported.AsSpan(expRoot));
             if (origClassId != expClassId)
             {
-                state.Fail(origRoot + state.Original.AsSpan(origRoot, 4).CommonPrefixLength(state.Exported.AsSpan(expRoot, 4)), "Root class id differs.");
+                state.Fail(origRoot + state.Original.AsSpan(origRoot, length: 4).CommonPrefixLength(state.Exported.AsSpan(expRoot, length: 4)), detail: "Root class id differs.");
                 return;
             }
 
-            SchemaClass? classValue = state.Schema.Resolve(stored.Engine, origClassId);
+            SchemaClass? classValue = state.Schema.Resolve(stored.Engine, classId: origClassId);
             if (classValue is null)
             {
-                state.Fail(origRoot, "Unknown root class id.");
+                state.Fail(origRoot, detail: "Unknown root class id.");
                 return;
             }
 
@@ -302,11 +302,11 @@ internal static class OriginalComparison
                 return;
             }
 
-            ReadOnlySpan<byte> origPrefix = state.Original.AsSpan(originalStart, 5);
-            ReadOnlySpan<byte> expPrefix = state.Exported.AsSpan(exportedStart, 5);
+            ReadOnlySpan<byte> origPrefix = state.Original.AsSpan(originalStart, length: 5);
+            ReadOnlySpan<byte> expPrefix = state.Exported.AsSpan(exportedStart, length: 5);
             if (!origPrefix.SequenceEqual(expPrefix))
             {
-                state.Fail(originalStart + origPrefix.CommonPrefixLength(expPrefix), "CFS prefix differs.");
+                state.Fail(originalStart + origPrefix.CommonPrefixLength(expPrefix), detail: "CFS prefix differs.");
                 return;
             }
 
@@ -315,7 +315,7 @@ internal static class OriginalComparison
         }
         else if (exportedEnd - exportedStart >= 5 && Cfs.HasMagic(state.Exported.AsSpan(exportedStart)))
         {
-            state.Fail(originalStart, "CFS prefix differs.");
+            state.Fail(originalStart, detail: "CFS prefix differs.");
             return;
         }
 
@@ -329,46 +329,46 @@ internal static class OriginalComparison
         int expSize = BinaryPrimitives.ReadInt32LittleEndian(state.Exported.AsSpan(exportedStart));
         if (origSize < 16 || originalStart + origSize > originalEnd || expSize != 16 || exportedStart + expSize > exportedEnd)
         {
-            state.Fail(originalStart, "HSM header size differs.");
+            state.Fail(originalStart, detail: "HSM header size differs.");
             return;
         }
 
-        if (!state.Original.AsSpan(originalStart + 4, 4).SequenceEqual(state.Exported.AsSpan(exportedStart + 4, 4)))
+        if (!state.Original.AsSpan(originalStart + 4, length: 4).SequenceEqual(state.Exported.AsSpan(exportedStart + 4, length: 4)))
         {
-            state.Fail(originalStart + 4 + state.Original.AsSpan(originalStart + 4, 4).CommonPrefixLength(state.Exported.AsSpan(exportedStart + 4, 4)), "HSM magic differs.");
+            state.Fail(originalStart + 4 + state.Original.AsSpan(originalStart + 4, length: 4).CommonPrefixLength(state.Exported.AsSpan(exportedStart + 4, length: 4)), detail: "HSM magic differs.");
             return;
         }
 
-        ReadOnlySpan<byte> origReserved = state.Original.AsSpan(originalStart + 8, 4);
-        ReadOnlySpan<byte> expReserved = state.Exported.AsSpan(exportedStart + 8, 4);
+        ReadOnlySpan<byte> origReserved = state.Original.AsSpan(originalStart + 8, length: 4);
+        ReadOnlySpan<byte> expReserved = state.Exported.AsSpan(exportedStart + 8, length: 4);
         if (!origReserved.SequenceEqual(expReserved))
         {
             if (expReserved.ContainsAnyExcept((byte)0))
             {
-                state.Fail(originalStart + 8 + origReserved.CommonPrefixLength(expReserved), "Exported HSM reserved field is not zero.");
+                state.Fail(originalStart + 8 + origReserved.CommonPrefixLength(expReserved), detail: "Exported HSM reserved field is not zero.");
                 return;
             }
 
-            state.Mask(RuleHsmHeaderReserved, 4);
+            state.Mask(RuleHsmHeaderReserved, bytes: 4);
         }
 
         int origClassId = BinaryPrimitives.ReadInt32LittleEndian(state.Original.AsSpan(originalStart + 12));
         int expClassId = BinaryPrimitives.ReadInt32LittleEndian(state.Exported.AsSpan(exportedStart + 12));
         if (origClassId != expClassId)
         {
-            state.Fail(originalStart + 12 + state.Original.AsSpan(originalStart + 12, 4).CommonPrefixLength(state.Exported.AsSpan(exportedStart + 12, 4)), "HSM root class id differs.");
+            state.Fail(originalStart + 12 + state.Original.AsSpan(originalStart + 12, length: 4).CommonPrefixLength(state.Exported.AsSpan(exportedStart + 12, length: 4)), detail: "HSM root class id differs.");
             return;
         }
 
         if (origSize > 16)
         {
-            state.Mask(RuleHsmHeaderExtension, origSize - 16);
+            state.Mask(RuleHsmHeaderExtension, bytes: origSize - 16);
         }
 
-        SchemaClass? classValue = state.Schema.Resolve(hsm.Engine, origClassId);
+        SchemaClass? classValue = state.Schema.Resolve(hsm.Engine, classId: origClassId);
         if (classValue is null)
         {
-            state.Fail(originalStart + 12, "Unknown HSM root class id.");
+            state.Fail(originalStart + 12, detail: "Unknown HSM root class id.");
             return;
         }
 
@@ -393,52 +393,52 @@ internal static class OriginalComparison
         int expSize = BinaryPrimitives.ReadInt32LittleEndian(state.Exported.AsSpan(exportedStart));
         if (origSize < HeaderSize || originalStart + origSize > originalEnd - 4 || expSize != HeaderSize || exportedStart + expSize > exportedEnd - 4)
         {
-            state.Fail(originalStart, "HSS header size differs.");
+            state.Fail(originalStart, detail: "HSS header size differs.");
             return;
         }
 
         // Identifier (4..8) and name length (9).
-        ReadOnlySpan<byte> origId = state.Original.AsSpan(originalStart + 4, 6);
-        ReadOnlySpan<byte> expId = state.Exported.AsSpan(exportedStart + 4, 6);
+        ReadOnlySpan<byte> origId = state.Original.AsSpan(originalStart + 4, length: 6);
+        ReadOnlySpan<byte> expId = state.Exported.AsSpan(exportedStart + 4, length: 6);
         if (!origId.SequenceEqual(expId))
         {
-            state.Fail(originalStart + 4 + origId.CommonPrefixLength(expId), "HSS identifier or name length differs.");
+            state.Fail(originalStart + 4 + origId.CommonPrefixLength(expId), detail: "HSS identifier or name length differs.");
             return;
         }
 
         int nameLength = state.Original[originalStart + 9];
         if (nameLength > 40)
         {
-            state.Fail(originalStart + 9, "HSS name length exceeds 40.");
+            state.Fail(originalStart + 9, detail: "HSS name length exceeds 40.");
             return;
         }
 
-        ReadOnlySpan<byte> origName = state.Original.AsSpan(originalStart + 10, nameLength);
-        ReadOnlySpan<byte> expName = state.Exported.AsSpan(exportedStart + 10, nameLength);
+        ReadOnlySpan<byte> origName = state.Original.AsSpan(originalStart + 10, length: nameLength);
+        ReadOnlySpan<byte> expName = state.Exported.AsSpan(exportedStart + 10, length: nameLength);
         if (!origName.SequenceEqual(expName))
         {
-            state.Fail(originalStart + 10 + origName.CommonPrefixLength(expName), "HSS header name differs.");
+            state.Fail(originalStart + 10 + origName.CommonPrefixLength(expName), detail: "HSS header name differs.");
             return;
         }
 
         int tailOffset = 10 + nameLength;
         int tailLength = HeaderSize - tailOffset;
-        ReadOnlySpan<byte> origTail = state.Original.AsSpan(originalStart + tailOffset, tailLength);
-        ReadOnlySpan<byte> expTail = state.Exported.AsSpan(exportedStart + tailOffset, tailLength);
+        ReadOnlySpan<byte> origTail = state.Original.AsSpan(originalStart + tailOffset, length: tailLength);
+        ReadOnlySpan<byte> expTail = state.Exported.AsSpan(exportedStart + tailOffset, length: tailLength);
         if (!origTail.SequenceEqual(expTail))
         {
             if (expTail.ContainsAnyExcept((byte)0))
             {
-                state.Fail(originalStart + tailOffset + origTail.CommonPrefixLength(expTail), "Exported HSS header tail is not zero.");
+                state.Fail(originalStart + tailOffset + origTail.CommonPrefixLength(expTail), detail: "Exported HSS header tail is not zero.");
                 return;
             }
 
-            state.Mask(RuleHssHeaderTail, tailLength);
+            state.Mask(RuleHssHeaderTail, bytes: tailLength);
         }
 
         if (origSize > HeaderSize)
         {
-            state.Mask(RuleHssHeaderExtension, origSize - HeaderSize);
+            state.Mask(RuleHssHeaderExtension, bytes: origSize - HeaderSize);
         }
 
         int origBodyEnd = originalEnd - 4;
@@ -454,21 +454,21 @@ internal static class OriginalComparison
             return;
         }
 
-        ReadOnlySpan<byte> origCrcBytes = state.Original.AsSpan(origBodyEnd, 4);
-        ReadOnlySpan<byte> expCrcBytes = state.Exported.AsSpan(expBodyEnd, 4);
+        ReadOnlySpan<byte> origCrcBytes = state.Original.AsSpan(origBodyEnd, length: 4);
+        ReadOnlySpan<byte> expCrcBytes = state.Exported.AsSpan(expBodyEnd, length: 4);
         if (!origCrcBytes.SequenceEqual(expCrcBytes))
         {
             uint origCrc = BinaryPrimitives.ReadUInt32LittleEndian(origCrcBytes);
             uint expCrc = BinaryPrimitives.ReadUInt32LittleEndian(expCrcBytes);
-            uint computedOrig = Crc32.Compute(state.Original.AsSpan(originalStart, origBodyEnd - originalStart));
-            uint computedExp = Crc32.Compute(state.Exported.AsSpan(exportedStart, expBodyEnd - exportedStart));
+            uint computedOrig = Crc32.Compute(state.Original.AsSpan(originalStart, length: origBodyEnd - originalStart));
+            uint computedExp = Crc32.Compute(state.Exported.AsSpan(exportedStart, length: expBodyEnd - exportedStart));
             if (state.MaskedBytesByRule.Count == 0 || origCrc != computedOrig || expCrc != computedExp)
             {
-                state.Fail(origBodyEnd + origCrcBytes.CommonPrefixLength(expCrcBytes), "HSS checksum differs without a declared change in its covered bytes.");
+                state.Fail(origBodyEnd + origCrcBytes.CommonPrefixLength(expCrcBytes), detail: "HSS checksum differs without a declared change in its covered bytes.");
                 return;
             }
 
-            state.Mask(RuleFileCrc, 4);
+            state.Mask(RuleFileCrc, bytes: 4);
         }
     }
 
@@ -487,7 +487,7 @@ internal static class OriginalComparison
         PropertyTable expTable = PropertyTable.Read(state.ExportedContext("game"), start: exportedStart, end: exportedEnd, path: DocumentNodePath.Envelope);
         if (origTable.Entries.Count != 1 || origTable.Entries[0].Id != 0 || expTable.Entries.Count != 1 || expTable.Entries[0].Id != 0)
         {
-            state.Fail(originalStart, "Outer table does not hold only id 0.");
+            state.Fail(originalStart, detail: "Outer table does not hold only id 0.");
             return false;
         }
 
@@ -501,7 +501,7 @@ internal static class OriginalComparison
 
         if (expEntry.Offset != 0 || expEntry.Long || expTable.EmptyLongMarker)
         {
-            state.Fail(originalStart, "Exported outer table is not canonical.");
+            state.Fail(originalStart, detail: "Exported outer table is not canonical.");
             return false;
         }
 
@@ -509,7 +509,7 @@ internal static class OriginalComparison
         {
             int origLen = origTable.DataBase - originalStart;
             int expLen = expTable.DataBase - exportedStart;
-            state.Mask(RuleTableEntries, Math.Max(origLen, expLen));
+            state.Mask(RuleTableEntries, bytes: Math.Max(origLen, expLen));
         }
 
         origRoot = origTable.DataBase + origEntry.Offset;
@@ -528,8 +528,8 @@ internal static class OriginalComparison
         int exportedStart,
         int exportedEnd)
     {
-        if (state.Original.AsSpan(originalStart, originalEnd - originalStart)
-            .SequenceEqual(state.Exported.AsSpan(exportedStart, exportedEnd - exportedStart)))
+        if (state.Original.AsSpan(originalStart, length: originalEnd - originalStart)
+            .SequenceEqual(state.Exported.AsSpan(exportedStart, length: exportedEnd - exportedStart)))
         {
             return;
         }
@@ -555,7 +555,7 @@ internal static class OriginalComparison
             SchemaProperty? prop = classValue.PropertyById(entry.Id);
             if (prop is null)
             {
-                state.Fail(origBase + entry.Offset, $"Class {classValue.Name} has no property {entry.Id}.");
+                state.Fail(origBase + entry.Offset, detail: $"Class {classValue.Name} has no property {entry.Id}.");
                 return;
             }
 
@@ -563,7 +563,7 @@ internal static class OriginalComparison
             int slotEnd = slotStart;
             if (!prop.Codec.ZeroSize)
             {
-                int next = Array.BinarySearch(origBoundaries, entry.Offset);
+                int next = Array.BinarySearch(origBoundaries, value: entry.Offset);
                 slotEnd = origBase + (next + 1 < origBoundaries.Length ? origBoundaries[next + 1] : origLen);
                 _ = origValuedOffsets.Add(entry.Offset);
             }
@@ -579,7 +579,7 @@ internal static class OriginalComparison
             EntrySlice skipped = origSkipped[i];
             if (!origValuedOffsets.Contains(skipped.Entry.Offset))
             {
-                int next = Array.BinarySearch(origBoundaries, skipped.Entry.Offset);
+                int next = Array.BinarySearch(origBoundaries, value: skipped.Entry.Offset);
                 int skippedEnd = origBase + (next + 1 < origBoundaries.Length ? origBoundaries[next + 1] : origLen);
                 origSkipped[i] = skipped with { End = skippedEnd };
                 skippedDataBytes += skippedEnd - skipped.Start;
@@ -622,7 +622,7 @@ internal static class OriginalComparison
             int slotEnd = slotStart;
             if (!prop.Codec.ZeroSize)
             {
-                int next = Array.BinarySearch(expBoundaries, entry.Offset);
+                int next = Array.BinarySearch(expBoundaries, value: entry.Offset);
                 slotEnd = expBase + (next + 1 < expBoundaries.Length ? expBoundaries[next + 1] : expLen);
             }
 
@@ -704,15 +704,15 @@ internal static class OriginalComparison
                 entryBytes += 4;
             }
 
-            state.Mask(RuleSkippedProperty, entryBytes + skippedDataBytes);
+            state.Mask(RuleSkippedProperty, bytes: entryBytes + skippedDataBytes);
         }
 
         // Check whether the remaining non-skipped table entries differ in form, order, empty-long-marker, or sequential ids.
         List<TableEntry> origNonSkippedTable = [.. origTable.Entries.Where(e => !classValue.IsSkippedId(e.Id))];
-        long tableRuleBytes = CountTableRuleDifference(origNonSkippedTable, origTable.EmptyLongMarker, expTable.Entries, expTable.EmptyLongMarker, origOrdered, expOrdered);
+        long tableRuleBytes = CountTableRuleDifference(origNonSkippedTable, origEmptyLong: origTable.EmptyLongMarker, expTableEntries: expTable.Entries, expEmptyLong: expTable.EmptyLongMarker, origOrdered, expOrdered);
         if (tableRuleBytes > 0)
         {
-            state.Mask(RuleTableEntries, tableRuleBytes);
+            state.Mask(RuleTableEntries, bytes: tableRuleBytes);
         }
     }
 
@@ -795,8 +795,8 @@ internal static class OriginalComparison
         int exportedStart,
         int exportedEnd)
     {
-        ReadOnlySpan<byte> origSpan = state.Original.AsSpan(originalStart, originalEnd - originalStart);
-        ReadOnlySpan<byte> expSpan = state.Exported.AsSpan(exportedStart, exportedEnd - exportedStart);
+        ReadOnlySpan<byte> origSpan = state.Original.AsSpan(originalStart, length: originalEnd - originalStart);
+        ReadOnlySpan<byte> expSpan = state.Exported.AsSpan(exportedStart, length: exportedEnd - exportedStart);
         if (origSpan.SequenceEqual(expSpan))
         {
             return;
@@ -846,8 +846,8 @@ internal static class OriginalComparison
 
     private static void CompareIlb(State state, int originalStart, int originalEnd, int exportedStart, int exportedEnd)
     {
-        ReadOnlySpan<byte> orig = state.Original.AsSpan(originalStart, originalEnd - originalStart);
-        ReadOnlySpan<byte> exp = state.Exported.AsSpan(exportedStart, exportedEnd - exportedStart);
+        ReadOnlySpan<byte> orig = state.Original.AsSpan(originalStart, length: originalEnd - originalStart);
+        ReadOnlySpan<byte> exp = state.Exported.AsSpan(exportedStart, length: exportedEnd - exportedStart);
         if (orig.Length != exp.Length || ImageLibraryCodec.Problem(orig) is not null || ImageLibraryCodec.Problem(exp) is not null)
         {
             state.FailLeaf(originalStart, originalEnd: originalEnd, exportedStart: exportedStart, exportedEnd: exportedEnd, detail: "ILB library differs.");
@@ -855,7 +855,7 @@ internal static class OriginalComparison
         }
 
         List<int> spriteDwords = [];
-        _ = ImageLibraryCodec.TryFindSpriteReservedOffsets(orig, spriteDwords);
+        _ = ImageLibraryCodec.TryFindSpriteReservedOffsets(orig, offsets: spriteDwords);
         spriteDwords.Sort();
 
         // Walk byte ranges between allowed masks: header bytes 5..7, then each sprite reserved dword.
@@ -865,17 +865,17 @@ internal static class OriginalComparison
             return;
         }
 
-        ReadOnlySpan<byte> origPad = orig.Slice(5, 3);
-        ReadOnlySpan<byte> expPad = exp.Slice(5, 3);
+        ReadOnlySpan<byte> origPad = orig.Slice(5, length: 3);
+        ReadOnlySpan<byte> expPad = exp.Slice(5, length: 3);
         if (!origPad.SequenceEqual(expPad))
         {
             if (expPad.ContainsAnyExcept((byte)0))
             {
-                state.Fail(originalStart + 5 + origPad.CommonPrefixLength(expPad), "Exported ILB header padding is not zero.");
+                state.Fail(originalStart + 5 + origPad.CommonPrefixLength(expPad), detail: "Exported ILB header padding is not zero.");
                 return;
             }
 
-            state.Mask(RuleIlbHeaderPadding, 3);
+            state.Mask(RuleIlbHeaderPadding, bytes: 3);
         }
 
         cursor = 8;
@@ -891,17 +891,17 @@ internal static class OriginalComparison
                 return;
             }
 
-            ReadOnlySpan<byte> origDword = orig.Slice(offset, 4);
-            ReadOnlySpan<byte> expDword = exp.Slice(offset, 4);
+            ReadOnlySpan<byte> origDword = orig.Slice(offset, length: 4);
+            ReadOnlySpan<byte> expDword = exp.Slice(offset, length: 4);
             if (!origDword.SequenceEqual(expDword))
             {
                 if (expDword.ContainsAnyExcept((byte)0))
                 {
-                    state.Fail(originalStart + offset + origDword.CommonPrefixLength(expDword), "Exported ILB sprite reserved dword is not zero.");
+                    state.Fail(originalStart + offset + origDword.CommonPrefixLength(expDword), detail: "Exported ILB sprite reserved dword is not zero.");
                     return;
                 }
 
-                state.Mask(RuleIlbSpriteDword, 4);
+                state.Mask(RuleIlbSpriteDword, bytes: 4);
             }
 
             cursor = offset + 4;
@@ -917,14 +917,14 @@ internal static class OriginalComparison
             return true;
         }
 
-        ReadOnlySpan<byte> origSeg = state.Original.AsSpan(originalStart + from, to - from);
-        ReadOnlySpan<byte> expSeg = state.Exported.AsSpan(exportedStart + from, to - from);
+        ReadOnlySpan<byte> origSeg = state.Original.AsSpan(originalStart + from, length: to - from);
+        ReadOnlySpan<byte> expSeg = state.Exported.AsSpan(exportedStart + from, length: to - from);
         if (origSeg.SequenceEqual(expSeg))
         {
             return true;
         }
 
-        state.Fail(originalStart + from + origSeg.CommonPrefixLength(expSeg), "ILB library differs outside declared don't-care regions.");
+        state.Fail(originalStart + from + origSeg.CommonPrefixLength(expSeg), detail: "ILB library differs outside declared don't-care regions.");
         return false;
     }
 
@@ -947,7 +947,7 @@ internal static class OriginalComparison
         int expClassId = BinaryPrimitives.ReadInt32LittleEndian(state.Exported.AsSpan(exportedStart));
         if (origClassId != expClassId)
         {
-            state.Fail(originalStart + state.Original.AsSpan(originalStart, 4).CommonPrefixLength(state.Exported.AsSpan(exportedStart, 4)), "Created object class id differs.");
+            state.Fail(originalStart + state.Original.AsSpan(originalStart, length: 4).CommonPrefixLength(state.Exported.AsSpan(exportedStart, length: 4)), detail: "Created object class id differs.");
             return;
         }
 
@@ -957,14 +957,14 @@ internal static class OriginalComparison
             return;
         }
 
-        SchemaClass? classValue = state.Schema.Resolve(engine, origClassId);
+        SchemaClass? classValue = state.Schema.Resolve(engine, classId: origClassId);
         if (classValue is null)
         {
-            state.Fail(originalStart, "Unknown created object class id.");
+            state.Fail(originalStart, detail: "Unknown created object class id.");
             return;
         }
 
-        (string Rule, SchemaClass Shape)? legacy = state.Schema.LegacyShape($"{property.Owner.Name}.{property.Name}", classValue.Name);
+        (string Rule, SchemaClass Shape)? legacy = state.Schema.LegacyShape($"{property.Owner.Name}.{property.Name}", className: classValue.Name);
         CompareObject(state, engine: engine, classValue: legacy?.Shape ?? classValue, originalStart: originalStart + 4, originalEnd: originalEnd, exportedStart: exportedStart + 4, exportedEnd: exportedEnd);
     }
 
@@ -998,7 +998,7 @@ internal static class OriginalComparison
                 return;
             }
 
-            int next = origBounds[Array.BinarySearch(origBounds, entry.Offset) + 1];
+            int next = origBounds[Array.BinarySearch(origBounds, value: entry.Offset) + 1];
             origOrdered.Add(new EntrySlice(entry, Property: property, Start: origBase + entry.Offset, End: origBase + next));
             cursor = next;
         }
@@ -1015,7 +1015,7 @@ internal static class OriginalComparison
         List<EntrySlice> expOrdered = [with(expTable.Entries.Count)];
         foreach (TableEntry entry in expTable.Entries.OrderBy(e => e.Offset).ThenBy(e => e.Index))
         {
-            int next = expBounds[Array.BinarySearch(expBounds, entry.Offset) + 1];
+            int next = expBounds[Array.BinarySearch(expBounds, value: entry.Offset) + 1];
             expOrdered.Add(new EntrySlice(entry, Property: property, Start: expBase + entry.Offset, End: expBase + next));
         }
 
@@ -1041,10 +1041,10 @@ internal static class OriginalComparison
             }
         }
 
-        long tableRuleBytes = CountTableRuleDifference([.. origTable.Entries], origTable.EmptyLongMarker, expTable.Entries, expTable.EmptyLongMarker, origOrdered, expOrdered);
+        long tableRuleBytes = CountTableRuleDifference([.. origTable.Entries], origEmptyLong: origTable.EmptyLongMarker, expTableEntries: expTable.Entries, expEmptyLong: expTable.EmptyLongMarker, origOrdered, expOrdered);
         if (tableRuleBytes > 0)
         {
-            state.Mask(RuleTableEntries, tableRuleBytes);
+            state.Mask(RuleTableEntries, bytes: tableRuleBytes);
         }
     }
 
@@ -1072,7 +1072,7 @@ internal static class OriginalComparison
             int expLength = BinaryPrimitives.ReadInt32LittleEndian(state.Exported.AsSpan(expAt));
             if (origLength <= 0 || origAt + 4L + origLength > originalEnd || expLength <= 0 || expAt + 4L + expLength > exportedEnd)
             {
-                state.Fail(origAt, "Map field length is invalid.");
+                state.Fail(origAt, detail: "Map field length is invalid.");
                 return;
             }
 
@@ -1120,7 +1120,7 @@ internal static class OriginalComparison
             && originalEnd - originalStart >= 5
             && exportedEnd - exportedStart >= 5
             && Cfs.HasMagic(state.Original.AsSpan(originalStart))
-            && state.Original.AsSpan(originalStart, 5).SequenceEqual(state.Exported.AsSpan(exportedStart, 5))
+            && state.Original.AsSpan(originalStart, length: 5).SequenceEqual(state.Exported.AsSpan(exportedStart, length: 5))
             && state.Original[originalStart + 4] != 0)
         {
             state.Fallback("nested-compression");
@@ -1133,8 +1133,8 @@ internal static class OriginalComparison
     private static void CompareString(State state, int originalStart, int originalEnd, int exportedStart, int exportedEnd)
     {
         // A long 5-byte prefix (0xFF + 4-byte length) for a string shorter than 255 bytes.
-        ReadOnlySpan<byte> orig = state.Original.AsSpan(originalStart, originalEnd - originalStart);
-        ReadOnlySpan<byte> exp = state.Exported.AsSpan(exportedStart, exportedEnd - exportedStart);
+        ReadOnlySpan<byte> orig = state.Original.AsSpan(originalStart, length: originalEnd - originalStart);
+        ReadOnlySpan<byte> exp = state.Exported.AsSpan(exportedStart, length: exportedEnd - exportedStart);
         if (orig.Length >= 5 && orig[0] == 255 && exp.Length >= 1 && exp[0] < 255)
         {
             int origLen = BinaryPrimitives.ReadInt32LittleEndian(orig[1..]);
@@ -1191,9 +1191,9 @@ internal static class OriginalComparison
 
         public bool Stopped => MismatchOffset is not null || NeedsDocumentFallback;
 
-        public DecodeContext OriginalContext(string engine) => new(Original, Schema, engine, "g1", file: null, limits: Limits);
+        public DecodeContext OriginalContext(string engine) => new(Original, Schema, engine, profile: "g1", file: null, limits: Limits);
 
-        public DecodeContext ExportedContext(string engine) => new(Exported, Schema, engine, "g1", file: null, limits: Limits);
+        public DecodeContext ExportedContext(string engine) => new(Exported, Schema, engine, profile: "g1", file: null, limits: Limits);
 
         public void Mask(string rule, long bytes)
         {
@@ -1217,8 +1217,8 @@ internal static class OriginalComparison
 
         public void FailLeaf(int originalStart, int originalEnd, int exportedStart, int exportedEnd, string detail)
         {
-            int common = Original.AsSpan(originalStart, originalEnd - originalStart)
-                .CommonPrefixLength(Exported.AsSpan(exportedStart, exportedEnd - exportedStart));
+            int common = Original.AsSpan(originalStart, length: originalEnd - originalStart)
+                .CommonPrefixLength(Exported.AsSpan(exportedStart, length: exportedEnd - exportedStart));
             Fail(originalStart + common, detail);
         }
     }

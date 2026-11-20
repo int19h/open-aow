@@ -18,8 +18,8 @@ public class FastBattleHighPrayerCombatAction(CustomNode owner) : MultiTargetCom
         {
             byte targetId = TargetIds[i];
             CombatUnit target = combat.CombatData.FindId<CombatUnit>(targetId);
-            target.SetHitPoints((byte)(target.GetHitPoints() + 5));
-            _ = GamePack.Current.AbilityControl.GetAbility(100).Expand(target.Troop);
+            target.SetHitPoints((byte)(target.HitPoints + 5));
+            _ = GamePack.Current.AbilityControl[100].Expand(target.Troop);
         }
     }
 
@@ -29,7 +29,7 @@ public class FastBattleHighPrayerCombatAction(CustomNode owner) : MultiTargetCom
         SpellId = 102;
         SourceId = source.Id;
         Battle combat = source.Combat;
-        CombatSideIndex side = source.GetSide();
+        CombatSideIndex side = source.Side;
         CombatSide combatSide = combat.Sides[(int)side];
 
         for (int i = combatSide.GetCount() - 1; i >= 0; i--)

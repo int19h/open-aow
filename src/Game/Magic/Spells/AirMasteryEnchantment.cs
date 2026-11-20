@@ -20,7 +20,7 @@ public class AirMasteryEnchantment : GlobalEnchantment
     public AirMasteryEnchantment(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        Name = AbilityRules.TranslateResourceString(GetEngine(), GameText.AirMasteryText);
+        Name = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.AirMasteryText);
         EnchantmentType = GlobalEnchantmentType.None;
         DispelMana = 175;
     }
@@ -47,9 +47,9 @@ public class AirMasteryEnchantment : GlobalEnchantment
         {
             if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.AirMastery))
             {
-                string xIsAlreadyActive = AbilityRules.TranslateResourceString(GetEngine(), GameText.IsAlreadyActiveFormat);
+                string xIsAlreadyActive = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.IsAlreadyActiveFormat);
                 string name = GetName();
-                reason = DelphiFormat.Format(xIsAlreadyActive, [name]);
+                reason = DelphiFormat.Format(xIsAlreadyActive, args: [name]);
                 return false;
             }
         }

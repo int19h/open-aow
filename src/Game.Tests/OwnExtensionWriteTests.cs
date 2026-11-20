@@ -89,8 +89,8 @@ public sealed class OwnExtensionWriteTests
     public void ASaveBesideAnOriginalLeavesTheOriginalUntouched() => Run((engine, map) =>
     {
         byte[] original = [1, 2, 3];
-        File.WriteAllBytes(Save("Foo.asg"), original);
-        _ = Assert.Throws<GameFileErrorException>(() => engine.SaveHsm(FileBoundary.WriteName(Save("Foo.asg")), null, GameProfile.WorldMap));
+        File.WriteAllBytes(Save("Foo.asg"), bytes: original);
+        _ = Assert.Throws<GameFileErrorException>(() => engine.SaveHsm(FileBoundary.WriteName(Save("Foo.asg")), progress: null, profile: GameProfile.WorldMap));
         FileLogRecord write = Assert.Single(_log);
         Assert.Equal(Save("Foo.oasg"), write.Path, ignoreCase: true);
         Assert.Equal(original, File.ReadAllBytes(Save("Foo.asg")));

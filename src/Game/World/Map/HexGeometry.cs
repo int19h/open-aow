@@ -24,7 +24,7 @@ public static class HexGeometry
         {
             int r = ((int)Math.Sqrt(((hexNumber - 1) * 12) + 9) + 3) / 6;
             int n = r * 6;
-            return ((hexNumber - ((r - 1) * r * 3) - 1 + (int)(((uint)n) >> 1)) % n) + ((r - 1) * r * 3) + 1;
+            return ((hexNumber - ((r - 1) * r * 3) - 1 + (n >>> 1)) % n) + ((r - 1) * r * 3) + 1;
         }
     }
 
@@ -39,24 +39,24 @@ public static class HexGeometry
             switch (side)
             {
                 case 0:
-                    HVtoHex(r, position - r, out newHexX, out newHexY);
+                    HVtoHex(r, v: position - r, out newHexX, out newHexY);
                     break;
                 case 1:
                     newHexX = r;
                     newHexY = position - ((r + 1) / 2);
                     break;
                 case 2:
-                    HVtoHex(-position, r, out newHexX, out newHexY);
+                    HVtoHex(-position, v: r, out newHexX, out newHexY);
                     break;
                 case 3:
-                    HVtoHex(-r, r - position, out newHexX, out newHexY);
+                    HVtoHex(-r, v: r - position, out newHexX, out newHexY);
                     break;
                 case 4:
                     newHexX = -r;
                     newHexY = -position + (r / 2);
                     break;
                 case 5:
-                    HVtoHex(position, -r, out newHexX, out newHexY);
+                    HVtoHex(position, v: -r, out newHexX, out newHexY);
                     break;
                 default:
                     break;
@@ -154,7 +154,7 @@ public static class HexGeometry
 
     internal static ReadOnlySpan<int> RadiusToHexNumberTable => [0, 1, 7, 19, 37, 61, 91, 127, 169, 217, 271];
 
-    public static void OriginalAssert(string message, string fileName, int lineNumber) => Assert(false, message, fileName, lineNumber);
+    public static void OriginalAssert(string message, string fileName, int lineNumber) => Assert(false, message, file: fileName, line: lineNumber);
 
     internal static ImmutableArray<ImmutableArray<XYTableEntry>> HexNumberWalkTable { get; } = [[new XYTableEntry(1, 0), new XYTableEntry(0, 1), new XYTableEntry(-1, 0), new XYTableEntry(-1, -1), new XYTableEntry(0, -1), new XYTableEntry(1, -1), new XYTableEntry(0, 0), new XYTableEntry(0, 0)], [new XYTableEntry(1, 1), new XYTableEntry(0, 1), new XYTableEntry(-1, 1), new XYTableEntry(-1, 0), new XYTableEntry(0, -1), new XYTableEntry(1, 0), new XYTableEntry(0, 0), new XYTableEntry(0, 0)]];
 
@@ -187,24 +187,24 @@ public static class HexGeometry
             switch (side)
             {
                 case 0:
-                    HVtoHex(r, position - r, out hexX, out hexY);
+                    HVtoHex(r, v: position - r, out hexX, out hexY);
                     break;
                 case 1:
                     hexX = r;
                     hexY = position - ((r + 1) / 2);
                     break;
                 case 2:
-                    HVtoHex(-position, r, out hexX, out hexY);
+                    HVtoHex(-position, v: r, out hexX, out hexY);
                     break;
                 case 3:
-                    HVtoHex(-r, r - position, out hexX, out hexY);
+                    HVtoHex(-r, v: r - position, out hexX, out hexY);
                     break;
                 case 4:
                     hexX = -r;
                     hexY = -position + (r / 2);
                     break;
                 case 5:
-                    HVtoHex(position, -r, out hexX, out hexY);
+                    HVtoHex(position, v: -r, out hexX, out hexY);
                     break;
                 default:
                     break;
@@ -234,7 +234,7 @@ public static class HexGeometry
 
     internal static int PixelToHexNumber(int pixelX, int pixelY)
     {
-        PixelToHex(pixelX, pixelY, out pixelX, out pixelY);
+        PixelToHex(pixelX, vertical: pixelY, out pixelX, out pixelY);
         return HexToHexNumber(pixelX, pixelY);
     }
 
@@ -254,12 +254,12 @@ public static class HexGeometry
         if (dY >= dX)
         {
             bool up = (dX & 1) != 0 && ((!((x1 & 1) != 0) && y1 < y2) || (!((x2 & 1) != 0) && y2 < y1));
-            return up ? (int)(((uint)(dX + 1)) >> 1) + dY : (int)(((uint)dX) >> 1) + dY;
+            return up ? ((dX + 1) >>> 1) + dY : (dX >>> 1) + dY;
         }
         else
         {
             result = dX;
-            int half = (int)(((uint)(dX + 1)) >> 1);
+            int half = (dX + 1) >>> 1;
             if ((dX & 1) != 0 && ((!((x1 & 1) != 0) && y1 < y2) || (!((x2 & 1) != 0) && y2 < y1)))
             {
                 dY += 1;
@@ -282,12 +282,12 @@ public static class HexGeometry
         if (dY >= dX)
         {
             bool up = (dX & 1) != 0 && (hexY > 0 || (!((hexX & 1) != 0) && hexY < 0));
-            return up ? (int)(((uint)(dX + 1)) >> 1) + dY : (int)(((uint)dX) >> 1) + dY;
+            return up ? ((dX + 1) >>> 1) + dY : (dX >>> 1) + dY;
         }
         else
         {
             result = dX;
-            int half = (int)(((uint)(dX + 1)) >> 1);
+            int half = (dX + 1) >>> 1;
             if ((dX & 1) != 0 && (hexY > 0 || (!((hexX & 1) != 0) && hexY < 0)))
             {
                 dY += 1;

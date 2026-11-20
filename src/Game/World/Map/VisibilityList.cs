@@ -33,9 +33,9 @@ public class VisibilityList(CustomNode owner) : ControlStyleInverseSortedNode(ow
     {
         // The list stores hex sprites, so the override's EngineObject child always is one.
         HexSprite hexSprite = (HexSprite)child;
-        if (hexSprite.GetVisible())
+        if (hexSprite.Visible)
         {
-            hexSprite.SetVisible(false);
+            hexSprite.Visible = false;
         }
 
         return base.RemoveChild(child);

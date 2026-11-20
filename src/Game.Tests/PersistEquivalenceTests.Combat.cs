@@ -82,8 +82,8 @@ public sealed partial class PersistEquivalenceTests
         unit.Status = Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Activated, CombatObjectStatusElement.Destroyed);
         using (DictionaryStream stream = new(dictionary))
         {
-            stream.Object(unit, 0);
-            Assert.Contains("Archer", stream.Visited);
+            stream.Object(unit, id: 0);
+            Assert.Contains("Archer", collection: stream.Visited);
             Assert.Equal(["CombatUnit", "Hero"], stream.Objects.Take(2));
         }
         Assert.Same(hero, unit.Troop);
@@ -94,8 +94,8 @@ public sealed partial class PersistEquivalenceTests
         UpdateHeaderCombatAction action = new(null) { Holder = EngineFixture.Engine, Header = "Ambush" };
         using (DictionaryStream stream = new(dictionary))
         {
-            stream.Object(data, 0);
-            stream.Object(action, 0);
+            stream.Object(data, id: 0);
+            stream.Object(action, id: 0);
             Assert.Equal(["Siege", "Ambush"], stream.Visited);
         }
         Assert.Equal(("Belagerung", 4, "Hinterhalt"), (data.Header, data.Round, action.Header));
@@ -107,8 +107,8 @@ public sealed partial class PersistEquivalenceTests
         _ = plugins.UsedPlugins.Add("Abilities");
         using (DictionaryStream stream = new(dictionary))
         {
-            stream.Object(settings, 0);
-            stream.Object(plugins, 0);
+            stream.Object(settings, id: 0);
+            stream.Object(plugins, id: 0);
             Assert.Empty(stream.Visited);
         }
         Assert.Equal("Painter", settings.Editors[0]);

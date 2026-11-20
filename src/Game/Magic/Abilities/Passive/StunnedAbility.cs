@@ -12,7 +12,7 @@ public class StunnedAbility : DurationAbility
     public StunnedAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_stunnedText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_stunnedText);
         AbilityId = 92;
         AbilityType = AbilityType.Handicap;
         DurationMode = DurationMode.CombatTurn;
@@ -23,7 +23,7 @@ public class StunnedAbility : DurationAbility
     public override sbyte GetDefense(AbilityOwner owner) => -2;
 
     // PassiveAb.pas:804
-    public override int GetTotalDuration() => 1;
+    public override int TotalDuration => 1;
 
     private static readonly string s_stunnedText = "Stunned";
 }

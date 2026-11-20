@@ -13,7 +13,7 @@ public class DecayAbility : DurationAbility
     public DecayAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_decayText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_decayText);
         AbilityId = 131;
         AbilityType = AbilityType.Handicap;
         DurationMode = DurationMode.EntireCombat;
@@ -23,10 +23,10 @@ public class DecayAbility : DurationAbility
     // PassiveAb.pas:855
     public override void NewCombatTurn(CombatObject combatObject, sbyte player)
     {
-        DurationAbilityData data = GetData(combatObject.GetAbilityOwner());
+        DurationAbilityData data = GetData(combatObject.AbilityOwner);
         if (data is not null && data.PlayerIndex == player)
         {
-            if (combatObject.GetAbilityOwner() is Troop)
+            if (combatObject.AbilityOwner is Troop)
             {
                 _ = combatObject.ExecuteDamage(1);
             }

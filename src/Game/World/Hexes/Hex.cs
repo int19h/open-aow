@@ -25,7 +25,7 @@ public class Hex(CustomNode owner) : AbstractHexagon(owner)
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
-        GetResource<HexagonResource>().Show(pixelX - pixelXSurface - 8, pixelY - pixelYSurface, lockedSurface, this);
+        GetResource<HexagonResource>().Show(pixelX - pixelXSurface - 8, pixelY - pixelYSurface, lockedSurface, hex: this);
     }
 
     // Hexagon.pas:74
@@ -53,10 +53,10 @@ public class Hex(CustomNode owner) : AbstractHexagon(owner)
             }
             else
             {
-                sbyte hexLevel = GetHexLevel();
-                sbyte hexY = GetHexY();
-                sbyte hexX = GetHexX();
-                _ = base.Resource.Engine.HexSpriteSet.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, hexLevel, message.TerrainType);
+                sbyte hexLevel = HexLevel;
+                sbyte hexY = HexY;
+                sbyte hexX = HexX;
+                _ = base.Resource.Engine.HexSpriteSet.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, L: hexLevel, message.TerrainType);
             }
         }
     }
@@ -68,17 +68,17 @@ public class Hex(CustomNode owner) : AbstractHexagon(owner)
         {
             if (message.TerrainType != 14)
             {
-                sbyte hexLevel = GetHexLevel();
-                sbyte hexY = GetHexY();
-                sbyte hexX = GetHexX();
-                _ = base.Resource.Engine.HexSpriteSet.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, hexLevel, message.TerrainType);
+                sbyte hexLevel = HexLevel;
+                sbyte hexY = HexY;
+                sbyte hexX = HexX;
+                _ = base.Resource.Engine.HexSpriteSet.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, L: hexLevel, message.TerrainType);
             }
             else
             {
-                sbyte hexLevel = GetHexLevel();
-                sbyte hexY = GetHexY();
-                sbyte hexX = GetHexX();
-                _ = base.Resource.Engine.HexSpriteSet.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, hexLevel, 0);
+                sbyte hexLevel = HexLevel;
+                sbyte hexY = HexY;
+                sbyte hexX = HexX;
+                _ = base.Resource.Engine.HexSpriteSet.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, L: hexLevel, terrainType: 0);
             }
         }
     }

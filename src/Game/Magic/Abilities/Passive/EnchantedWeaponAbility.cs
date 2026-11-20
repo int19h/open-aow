@@ -10,7 +10,7 @@ public class EnchantedWeaponAbility : UnitEnchantmentAbility
     public EnchantedWeaponAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_enchantedWeaponText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_enchantedWeaponText);
         AbilityId = 154;
     }
 
@@ -28,7 +28,7 @@ public class EnchantedWeaponAbility : UnitEnchantmentAbility
             return 0;
         }
 
-        int result = troop.GetUnitLevel() + 225;
+        int result = troop.UnitLevel + 225;
         if (troop is Leader)
         {
             result += 50;

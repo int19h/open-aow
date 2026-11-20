@@ -81,7 +81,7 @@ public sealed class ThrowingCastTests
         Leader leader = new(null) { Holder = EngineFixture.Engine };
         leader.SetOwnerWithoutNotify(player.Heroes);
         player.Leader = leader;
-        player.GetLeaderLocation(out sbyte x, out sbyte y, out sbyte level);
+        player.GetLeaderLocation(out sbyte x, out sbyte y, L: out sbyte level);
         Assert.Equal((sbyte)-1, x);
         Assert.Equal((sbyte)-1, y);
         Assert.Equal((sbyte)-1, level);
@@ -93,7 +93,7 @@ public sealed class ThrowingCastTests
             Location = new MapCoordinate(4, 6, 1)
         };
         leader.SetOwnerWithoutNotify(army);
-        player.GetLeaderLocation(out x, out y, out level);
+        player.GetLeaderLocation(out x, out y, L: out level);
         Assert.Equal((sbyte)4, x);
         Assert.Equal((sbyte)6, y);
         Assert.Equal((sbyte)1, level);
@@ -139,10 +139,10 @@ public sealed class ThrowingCastTests
         scope.Map.UnitControl.RegisterUnit(hero);
 
         HeroUpgradeEventLog skipped = new(null) { Holder = EngineFixture.Engine, UnitId = 42 };
-        Assert.False(skipped.Execute(false, ExecuteTrigger.User, null));
+        Assert.False(skipped.Execute(false, trigger: ExecuteTrigger.User, done: null));
 
         HeroUpgradeEventLog resolved = new(null) { Holder = EngineFixture.Engine, UnitId = 43 };
-        Assert.False(resolved.Execute(false, ExecuteTrigger.User, null));
+        Assert.False(resolved.Execute(false, trigger: ExecuteTrigger.User, done: null));
 
         SpellTokenEvent spell = new(null) { Holder = EngineFixture.Engine, EventSourceId = 42 };
         TokenExecutor executor = new(null);
@@ -180,14 +180,14 @@ public sealed class ThrowingCastTests
             field.StoredCount = 1;
             BattleAI ai = new(EngineFixture.Engine);
             int value = 7;
-            ai.EvalHex(null, 0, 0, 0, 0, ref value, true, false, null, null);
+            ai.EvalHex(null, ability: 0, spell: 0, 0, 0, ref value, hitWalls: true, friendly: false, U: null, ignoreWall: null);
             Assert.Equal(7, value);
 
             CityWallDoor door = new(null) { Holder = EngineFixture.Engine };
             door.SetOwnerWithoutNotify(field);
             field.HexSpriteList[0] = door;
             value = 7;
-            ai.EvalHex(null, 0, 0, 0, 0, ref value, true, false, null, null);
+            ai.EvalHex(null, ability: 0, spell: 0, 0, 0, ref value, hitWalls: true, friendly: false, U: null, ignoreWall: null);
             Assert.Equal(7, value);
         }
         finally
@@ -209,7 +209,7 @@ public sealed class ThrowingCastTests
             container.Map = scope.Map;
             scope.Map.MapContainer = container;
             MapField field = container.MapLevels[0].Field[3, 3];
-            _ = field.AddHexSprite(new ItemSite(), 0);
+            _ = field.AddHexSprite(new ItemSite(), hexNumber: 0);
 
             TacticalBattle combat = new(null)
             {
@@ -218,7 +218,7 @@ public sealed class ThrowingCastTests
                 Items = new PrisonersArmy(null) { Holder = EngineFixture.Engine }
             };
             RandomBattleMapGenerator prisoners = new(EngineFixture.Engine);
-            Exception error = Record.Exception(() => prisoners.RandomMap(combat, 3, 3, 0));
+            Exception error = Record.Exception(() => prisoners.RandomMap(combat, 3, 3, L: 0));
             Assert.Null(prisoners.Items);
             // The generator keeps going after the item field and can fail on the map file.
             // The prisoners cast is the one whose message names ItemList.
@@ -230,7 +230,7 @@ public sealed class ThrowingCastTests
             ItemList items = new(null) { Holder = EngineFixture.Engine };
             combat.Items = items;
             RandomBattleMapGenerator laidOut = new(EngineFixture.Engine);
-            _ = Record.Exception(() => laidOut.RandomMap(combat, 3, 3, 0));
+            _ = Record.Exception(() => laidOut.RandomMap(combat, 3, 3, L: 0));
             Assert.Same(items, laidOut.Items);
         }
         finally
@@ -363,7 +363,7 @@ public sealed class ThrowingCastTests
         UnitList units = new(null) { Holder = EngineFixture.Engine };
         Hero hero = new(null) { Holder = EngineFixture.Engine, UnitId = 7, Player = 1 };
         hero.SetOwnerWithoutNotify(units);
-        WarpParty spell = new(null, EngineFixture.Engine);
+        WarpParty spell = new(null, holder: EngineFixture.Engine);
         bool result = true;
         Exception error = Record.Exception(() => result = spell.Activate(hero));
         Assert.Null(error);
@@ -401,7 +401,7 @@ public sealed class ThrowingCastTests
         _ = units.Units.AddUnit(target);
         UnitSpell spell = new(null) { Holder = EngineFixture.Engine };
         UnitSpellCaster caster = new(null) { Holder = EngineFixture.Engine };
-        Exception error = Record.Exception(() => spell.SetupUnitSelectionControl(caster, source, source.OwnerUnits));
+        Exception error = Record.Exception(() => spell.SetupUnitSelectionControl(caster, source, targets: source.OwnerUnits));
         Assert.Null(error);
         Assert.Equal(2, caster.TargetUnits.GetCount());
 
@@ -413,7 +413,7 @@ public sealed class ThrowingCastTests
         _ = army.Units.AddUnit(source);
         _ = army.Units.AddUnit(target);
         UnitSpellCaster listed = new(null) { Holder = EngineFixture.Engine };
-        error = Record.Exception(() => spell.SetupUnitSelectionControl(listed, source, source.OwnerUnits));
+        error = Record.Exception(() => spell.SetupUnitSelectionControl(listed, source, targets: source.OwnerUnits));
         Assert.Null(error);
         Assert.Equal(2, listed.TargetUnits.GetCount());
     }

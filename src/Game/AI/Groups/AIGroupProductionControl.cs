@@ -76,7 +76,7 @@ public class AIGroupProductionControl : AIGroupTask
     }
 
     // AIGroup.pas:2471
-    public override bool GetBusy() => State != -1;
+    public override bool Busy => State != -1;
 
     // AIGroup.pas:2654
     public override bool Activate(AIGroupControl control)
@@ -189,7 +189,7 @@ public class AIGroupProductionControl : AIGroupTask
     }
 
     // AIGroup.pas:2456
-    public int GetProducedStrength() => ProduceStrength - _remainingStrength;
+    public int ProducedStrength => ProduceStrength - _remainingStrength;
 
     // AIGroup.pas:2461
     public int GetProduceStrength(DamageType damageType) => _produceStrengths[(int)damageType];
@@ -201,7 +201,7 @@ public class AIGroupProductionControl : AIGroupTask
     public int UnitProductionPriority(Unit unit)
     {
         int result = -1;
-        bool useful = unit.GetMoves() > _movesMin && (unit.GetMoveTypes() & _moveTypes) != Set<MoveType>.Of();
+        bool useful = unit.Moves > _movesMin && (unit.GetMoveTypes() & _moveTypes) != Set<MoveType>.Of();
         useful = useful && unit.GetUnitMoraleValue(_control.Group.Player, _control.Group.IndependentRelation) >= 50;
         if (useful && _control.Group.Player == 0)
         {
@@ -237,7 +237,7 @@ public class AIGroupProductionControl : AIGroupTask
 
         if (useful)
         {
-            result += RosterTables.GetUnitIndexAIPriority(unit.UnitResource.UnitResourceIndex(), _control.Group.Player, _control.Group.IndependentRelation, engine: GetEngine());
+            result += RosterTables.GetUnitIndexAIPriority(unit.UnitResource.UnitResourceIndex(), _control.Group.Player, relation: _control.Group.IndependentRelation, engine: GetEngine());
         }
         else
         {
@@ -266,9 +266,9 @@ public class AIGroupProductionControl : AIGroupTask
     public int GetCompleteProductionTime()
     {
         int result = GetCurrentProductionTime();
-        if (result != -1 && _remainingStrength > 0 && GetProducedStrength() > 0)
+        if (result != -1 && _remainingStrength > 0 && ProducedStrength > 0)
         {
-            int producedStrength = GetProducedStrength();
+            int producedStrength = ProducedStrength;
             result += (int)((double)((double)((double)_remainingStrength / producedStrength) * result) + 0.999);
         }
 
@@ -437,7 +437,7 @@ public class AIGroupProductionControl : AIGroupTask
                         int unitProductionMana = location.ProductionControl.UnitProductionMana(i);
                         int unitProductionGoldUpkeep = location.ProductionControl.UnitProductionGoldUpkeep(i);
                         int unitProductionGold = location.ProductionControl.UnitProductionGold(i);
-                        if (StrategicMap.Current.Players.GetPlayers(_control.Group.Player).AIBudget.RequestProductionExpense(unitProductionGold + _gold, unitProductionGoldUpkeep + _goldUpkeep, unitProductionMana + _mana, unitProductionManaUpkeep + _manaUpkeep))
+                        if (StrategicMap.Current.Players.GetPlayers(_control.Group.Player).AIBudget.RequestProductionExpense(unitProductionGold + _gold, goldUpkeep: unitProductionGoldUpkeep + _goldUpkeep, mana: unitProductionMana + _mana, manaUpkeep: unitProductionManaUpkeep + _manaUpkeep))
                         {
                             UnitProduction unitProduction = location.ProductionControl.UnitProductions.GetItem(i);
                             testUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex));
@@ -470,7 +470,7 @@ public class AIGroupProductionControl : AIGroupTask
                         {
                             int unitResearchMana = location.ProductionControl.UnitResearchMana(i);
                             int unitResearchGold = location.ProductionControl.UnitResearchGold(i);
-                            if (StrategicMap.Current.Players.GetPlayers(_control.Group.Player).AIBudget.RequestProductionExpense(unitResearchGold + _gold, _goldUpkeep, unitResearchMana + _mana, _manaUpkeep))
+                            if (StrategicMap.Current.Players.GetPlayers(_control.Group.Player).AIBudget.RequestProductionExpense(unitResearchGold + _gold, _goldUpkeep, mana: unitResearchMana + _mana, _manaUpkeep))
                             {
                                 UnitProduction item = location.ProductionControl.UnitProductions.GetItem(i);
                                 testUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(item.UnitIndex));

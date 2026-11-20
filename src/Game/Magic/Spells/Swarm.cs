@@ -16,7 +16,7 @@ public class Swarm : CombatSpell
     public Swarm(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_swarmText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_swarmText);
         SpellId = 115;
         SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 6;

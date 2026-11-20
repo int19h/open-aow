@@ -50,7 +50,7 @@ public partial class ArmyInfoDialog(UIContext ui) : UIModule(ui)
             info.Direction = 3;
             info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
             _ = _event.ArmyView.Units.GetUnit(index).Show(x - 33, y - 35, lockedSurface, info);
-            if ((((int)(((uint)_event.Selection) >> index)) & 1) == 0)
+            if (((_event.Selection >>> index) & 1) == 0)
             {
                 image = UI.Graphics.UnitBackgrounds[7];
                 image.ShowClipped(x - (image.Width / 2), y - (image.Height / 2), lockedSurface);

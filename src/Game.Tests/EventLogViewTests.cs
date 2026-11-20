@@ -30,7 +30,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
 
     private static Type[] EventLogTypes() => [.. EngineClass.All
         .Where(c => typeof(EventLog).IsAssignableFrom(c.Type))
-        .Select(c => c.Type).OrderBy(t => t.Name, StringComparer.Ordinal)];
+        .Select(c => c.Type).OrderBy(t => t.Name, comparer: StringComparer.Ordinal)];
 
     // The arms of the old cascade in their order.
     private static readonly Type[] s_oldArms =
@@ -80,7 +80,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
                 if (armyHexSprite is not null)
                 {
                     byte joinSelection = armyHexSprite.Army.GetJoinSelection(negotiateRequestEventLog.Player);
-                    return armyHexSprite.Army.Hero(joinSelection, RosterTables.AllHeroTypes) is null ? "PartyJoin" : "HeroNegotiation";
+                    return armyHexSprite.Army.Hero(joinSelection, types: RosterTables.AllHeroTypes) is null ? "PartyJoin" : "HeroNegotiation";
                 }
             }
             return "None";
@@ -127,7 +127,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
 
         if (eventValue is ArmyInfoEventLog armyInfoEventLog)
         {
-            return armyInfoEventLog.ArmyView.Hero(armyInfoEventLog.Selection, RosterTables.AllHeroTypes) is null ? "ArmyInfo" : "HeroInfo";
+            return armyInfoEventLog.ArmyView.Hero(armyInfoEventLog.Selection, types: RosterTables.AllHeroTypes) is null ? "ArmyInfo" : "HeroInfo";
         }
         if (eventValue is PrisonersJoinEventLog prisonersJoinEventLog)
         {
@@ -265,11 +265,11 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
     {
         if (typeof(NegotiateRequestEventLog).IsAssignableFrom(type))
         {
-            yield return new State("noHero", (e, s) => s.Negotiate(e, NegotiateObject.Hero, null));
-            yield return new State("noCity", (e, s) => s.Negotiate(e, NegotiateObject.City, null));
-            yield return new State("noArmy,army=none", (e, s) => s.Negotiate(e, NegotiateObject.Army, null));
-            yield return new State("noArmy,army=staying", (e, s) => s.Negotiate(e, NegotiateObject.Army, false));
-            yield return new State("noArmy,army=hero", (e, s) => s.Negotiate(e, NegotiateObject.Army, true));
+            yield return new State("noHero", (e, s) => s.Negotiate(e, what: NegotiateObject.Hero, joins: null));
+            yield return new State("noCity", (e, s) => s.Negotiate(e, what: NegotiateObject.City, joins: null));
+            yield return new State("noArmy,army=none", (e, s) => s.Negotiate(e, what: NegotiateObject.Army, joins: null));
+            yield return new State("noArmy,army=staying", (e, s) => s.Negotiate(e, what: NegotiateObject.Army, joins: false));
+            yield return new State("noArmy,army=hero", (e, s) => s.Negotiate(e, what: NegotiateObject.Army, joins: true));
         }
         else if (typeof(GameOverEventLog).IsAssignableFrom(type))
         {
@@ -286,15 +286,15 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         else if (typeof(ArmyInfoEventLog).IsAssignableFrom(type))
         {
             // The army view holds a unit and a hero, the selection picks either or neither.
-            yield return new State("selection=unit", (e, s) => s.SelectArmyView(e, 1));
-            yield return new State("selection=hero", (e, s) => s.SelectArmyView(e, 2));
-            yield return new State("selection=none", (e, s) => s.SelectArmyView(e, 0));
+            yield return new State("selection=unit", (e, s) => s.SelectArmyView(e, selection: 1));
+            yield return new State("selection=hero", (e, s) => s.SelectArmyView(e, selection: 2));
+            yield return new State("selection=none", (e, s) => s.SelectArmyView(e, selection: 0));
         }
         else if (typeof(PrisonersJoinEventLog).IsAssignableFrom(type))
         {
-            yield return new State("prisoner=absent", (e, s) => s.Prisoner(e, null));
-            yield return new State("prisoner=unit", (e, s) => s.Prisoner(e, new Unit(null) { Holder = EngineFixture.Engine }));
-            yield return new State("prisoner=hero", (e, s) => s.Prisoner(e, new Hero(null) { Holder = EngineFixture.Engine }));
+            yield return new State("prisoner=absent", (e, s) => s.Prisoner(e, troop: null));
+            yield return new State("prisoner=unit", (e, s) => s.Prisoner(e, troop: new Unit(null) { Holder = EngineFixture.Engine }));
+            yield return new State("prisoner=hero", (e, s) => s.Prisoner(e, troop: new Hero(null) { Holder = EngineFixture.Engine }));
         }
         else
         {
@@ -334,7 +334,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         internal EventLog Create(Type type)
         {
             EventLog log = (EventLog)EngineClass.Of(type).CreateInstance(null, holder: EngineFixture.Engine);
-            Assert.IsType(type, log);
+            Assert.IsType(type, @object: log);
             _created.Add(log);
             return log;
         }
@@ -395,7 +395,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
     {
         Type[] types = EventLogTypes();
         Assert.Equal(42, types.Length);
-        Assert.Contains(typeof(EventLog), types);
+        Assert.Contains(typeof(EventLog), collection: types);
         Assert.Equal(types.Select(t => t.Name).Order(StringComparer.Ordinal), s_expected.Keys.Order(StringComparer.Ordinal));
     }
 
@@ -421,12 +421,12 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
 
                 if (view != EventView.None)
                 {
-                    Assert.True(MapEvents.EventRenderers.TryGet(view, out _), $"{type.Name} {state}: no renderer for {view}");
+                    Assert.True(MapEvents.EventRenderers.TryGet(view, out _), userMessage: $"{type.Name} {state}: no renderer for {view}");
                 }
 
                 row.Add($"{state}={view.Name}");
             }
-            string line = string.Join(" ", row);
+            string line = string.Join(" ", values: row);
             if (line != s_expected[type.Name])
             {
                 mismatches.Add($"{type.Name}: {line}, recorded {s_expected[type.Name]}");
@@ -448,7 +448,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         {
             for (int j = i + 1; j < s_oldArms.Length; j++)
             {
-                Assert.False(s_oldArms[i].IsAssignableFrom(s_oldArms[j]), $"{s_oldArms[i].Name} precedes its subclass {s_oldArms[j].Name}");
+                Assert.False(s_oldArms[i].IsAssignableFrom(s_oldArms[j]), userMessage: $"{s_oldArms[i].Name} precedes its subclass {s_oldArms[j].Name}");
             }
         }
 
@@ -466,7 +466,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             }
 
             Assert.Equal(arm ?? typeof(EventLog), declaring);
-            _ = resolved.AppendLine($"{type.Name}: View {declaring.Name}, old arm {arm?.Name ?? "none"}, ExecuteAI {type.GetMethod(nameof(EventLog.ExecuteAI), [typeof(sbyte)])!.DeclaringType!.Name}");
+            _ = resolved.AppendLine($"{type.Name}: View {declaring.Name}, old arm {arm?.Name ?? "none"}, ExecuteAI {type.GetMethod(nameof(EventLog.ExecuteAI), types: [typeof(sbyte)])!.DeclaringType!.Name}");
         }
         output.WriteLine(resolved.ToString());
     }
@@ -478,7 +478,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         List<string> mismatches = [];
         foreach (Type type in EventLogTypes())
         {
-            Type declaring = type.GetMethod(nameof(EventLog.ExecuteAI), [typeof(sbyte)])!.DeclaringType!;
+            Type declaring = type.GetMethod(nameof(EventLog.ExecuteAI), types: [typeof(sbyte)])!.DeclaringType!;
             EventLog log = scene.Create(type);
             string old = OldExecuteAI(log);
             string actual = declaring == typeof(EventLog) ? "None" : declaring.Name;
@@ -519,7 +519,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         MapEvents screen = new(null);
         List<EventLog> done = [];
         EventLog user = scene.Create(typeof(UserEventLog));
-        screen.TheMapExecuteEventLog(user, true, done.Add);
+        screen.TheMapExecuteEventLog(user, mode: true, done: done.Add);
         Assert.Equal(new[] { user }, done);
         foreach (Type type in EventLogTypes())
         {
@@ -529,7 +529,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
                 continue;
             }
 
-            screen.TheMapExecuteEventLog(log, true, done.Add);
+            screen.TheMapExecuteEventLog(log, mode: true, done: done.Add);
         }
         Assert.Equal(new[] { user }, done);
     }
@@ -546,7 +546,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         Assert.Equal(keys.Length, keys.Select(k => k.Name).Distinct().Count());
         foreach (EventView? key in keys.Where(k => k != EventView.None))
         {
-            Assert.True(MapEvents.EventRenderers.TryGet(key, out _), $"no renderer for {key}");
+            Assert.True(MapEvents.EventRenderers.TryGet(key, out _), userMessage: $"no renderer for {key}");
         }
 
         InvalidOperationException duplicate = Assert.Throws<InvalidOperationException>(() =>

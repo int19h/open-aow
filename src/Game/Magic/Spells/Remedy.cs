@@ -11,7 +11,7 @@ public class Remedy : UnitSpell
     public Remedy(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_remedyText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_remedyText);
         SpellId = 35;
         BaseManaCost = 5;
         SpellLevel = 1;

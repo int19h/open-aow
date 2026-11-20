@@ -216,7 +216,7 @@ public sealed class UncheckedOwnerCastTests
         DisjunctionSpellCaster caster = new(null) { Holder = EngineFixture.Engine, CasterSourceId = 42, EnchantmentId = 7 };
         string reason = "";
         Assert.False(caster.CanCast(ref reason));
-        Assert.Equal(AbilityRules.TranslateResourceString(EngineFixture.Engine, DisjunctionSpellCaster.CannotDispelWhenSpellWardIsActiveText), reason);
+        Assert.Equal(AbilityRules.TranslateResourceString(EngineFixture.Engine, S: DisjunctionSpellCaster.CannotDispelWhenSpellWardIsActiveText), reason);
 
         scope.Map.GlobalMagicControl.ActiveEnchantments = Set<GlobalEnchantmentType>.Of();
         Assert.True(caster.CanCast(ref reason));

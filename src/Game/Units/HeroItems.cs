@@ -241,9 +241,9 @@ public partial class HeroItems : ObservableNode, IChildList<Item>, IItemHolder
         for (int i = 0, last = Items.Count - 1; i <= last; i++)
         {
             Item item = Items[i];
-            if (item is not null && result < item.GetOwnAbilityCount())
+            if (item is not null && result < item.OwnAbilityCount)
             {
-                result = item.GetOwnAbilityCount();
+                result = item.OwnAbilityCount;
             }
         }
 
@@ -339,7 +339,7 @@ public partial class HeroItems : ObservableNode, IChildList<Item>, IItemHolder
     {
         if (CanPlaceItem(item, position))
         {
-            item.SetArrayOwner(this, (int)position);
+            item.SetArrayOwner(this, index: (int)position);
             return true;
         }
         else

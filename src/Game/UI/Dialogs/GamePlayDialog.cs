@@ -56,7 +56,7 @@ public partial class GamePlayDialog(UIContext ui) : UIModule(ui)
                     Title = UI.Engine.TranslateResourceString(s_passwordConfirmationText),
                     Prompt = UI.Engine.TranslateResourceString(s_reenterNewPasswordText)
                 };
-                StrategicMap.Current.TriggerTypedExecuteEventLog(password, true, PasswordConfirmed);
+                StrategicMap.Current.TriggerTypedExecuteEventLog(password, immediate: true, done: PasswordConfirmed);
                 _ = password.Release();
             }
             else
@@ -112,7 +112,7 @@ public partial class GamePlayDialog(UIContext ui) : UIModule(ui)
         {
             GameSettings.CombatResolveMode mode = (GameSettings.CombatResolveMode)modeOrdinal;
             string combatResolveMode = UI.Engine.TranslateResourceString(s_combatResolveModeTexts[(int)mode]);
-            _ = CombatResolveModeComboBox.Items.AddObject(combatResolveMode, IntToObject((int)mode));
+            _ = CombatResolveModeComboBox.Items.AddObject(combatResolveMode, item: IntToObject((int)mode));
         }
 
         GameSettings.CombatResolveMode fRegistryCombatResolveMode = UI.Engine.Registry.GetCombatResolveMode();
@@ -149,7 +149,7 @@ public partial class GamePlayDialog(UIContext ui) : UIModule(ui)
             {
                 Prompt = UI.Engine.TranslateResourceString(s_enterNewPasswordText)
             };
-            StrategicMap.Current.TriggerTypedExecuteEventLog(log, true, PasswordEntered);
+            StrategicMap.Current.TriggerTypedExecuteEventLog(log, immediate: true, done: PasswordEntered);
             _ = log.Release();
         }
     }

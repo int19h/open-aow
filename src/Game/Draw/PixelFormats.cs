@@ -11,13 +11,13 @@ namespace Aow.Game.Draw;
 
 public static class PixelFormats
 {
-    internal static void RegisterBlitRectangle(SurfaceView source, SurfaceView destination, int width, int height) => Blit.RegisterBlitRectangle(source, destination, width, height);
+    internal static void RegisterBlitRectangle(SurfaceView source, SurfaceView destination, int width, int height) => Blit.RegisterBlitRectangle(source, d: destination, w: width, h: height);
 
-    internal static void RepMovsdBlitRectangle(SurfaceView source, SurfaceView destination, int width, int height) => Blit.RepMovsdBlitRectangle(source, destination, width, height);
+    internal static void RepMovsdBlitRectangle(SurfaceView source, SurfaceView destination, int width, int height) => Blit.RepMovsdBlitRectangle(source, d: destination, w: width, h: height);
 
-    internal static int GetElapsedMilliseconds() => (int)Clock.TickCount;
+    internal static int ElapsedMilliseconds => (int)Clock.TickCount;
 
-    internal static int GetElapsedMicroseconds() => (int)Clock.TickCount * 1000;
+    internal static int ElapsedMicroseconds => (int)Clock.TickCount * 1000;
 
     internal static bool ValidImageFile(string fileName)
     {
@@ -76,7 +76,7 @@ public static class PixelFormats
                     bits += 1;
                 }
 
-                masks[i] = (int)(((uint)masks[i]) >> 1);
+                masks[i] = masks[i] >>> 1;
             }
 
             result += bits << ((i * 4) + 16);
@@ -87,7 +87,7 @@ public static class PixelFormats
 
     internal static Span<ushort> Words(Span<byte> row) => MemoryMarshal.Cast<byte, ushort>(row);
 
-    internal static int PixelInfo2Color(int pixelInfo, PixelFormat pixelFormatId, Palette palette) => PixelRemap.RemapPixelInfo(pixelInfo, pixelFormatId, palette, PixelFormat.Bgr24, null);
+    internal static int PixelInfo2Color(int pixelInfo, PixelFormat pixelFormatId, Palette palette) => PixelRemap.RemapPixelInfo(pixelInfo, sourcePixelFormatId: pixelFormatId, sourcePalette: palette, destinationPixelFormatId: PixelFormat.Bgr24, destinationPalette: null);
 
     internal static string GetErrorMessage(GraphicsResult errorCode)
     {
@@ -164,10 +164,10 @@ public static class PixelFormats
             return GraphicsResult.Ok;
         }
 
-        int pixel = Color2PixelInfo(color, lockedSurface.PixelFormatId, null);
+        int pixel = Color2PixelInfo(color, lockedSurface.PixelFormatId, palette: null);
         for (int y = top; y < bottom; y++)
         {
-            Blit.FillWord(lockedSurface.Data.AsSpan(lockedSurface.DataIndex + (y * lockedSurface.Pitch) + (left * 2)), right - left, pixel);
+            Blit.FillWord(lockedSurface.Data.AsSpan(lockedSurface.DataIndex + (y * lockedSurface.Pitch) + (left * 2)), count: right - left, value: pixel);
         }
 
         return GraphicsResult.Ok;

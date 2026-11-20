@@ -63,15 +63,15 @@ public class EventLogbook : EngineObject
     {
         for (int i = 0, last = _events.Count - 1; i <= last; i++)
         {
-            if (_events[i].GetVisible())
+            if (_events[i].Visible)
             {
-                _ = strings.AddObject(_events[i].GetText(), IntToObject(i));
+                _ = strings.AddObject(_events[i].GetText(), item: IntToObject(i));
             }
         }
     }
 
     // EventLog.pas:558
-    public EventLog GetLogs(int index) => _events[index];
+    public EventLog this[int index] => _events[index];
 
     // EventLog.pas:561
     public int CreateUniqueId()
@@ -124,7 +124,7 @@ public class EventLogbook : EngineObject
     // EventLog.pas:600
     public void AddEvent(EventLog eventValue)
     {
-        Assert(StrategicMap.Current.GetSynchronized(), "", "EventLog.pas", 704);
+        Assert(StrategicMap.Current.Synchronized, message: "", file: "EventLog.pas", line: 704);
         eventValue.SetOwner(_events);
         eventValue.Id = CreateUniqueId();
         eventValue.NotifyLogged(this);

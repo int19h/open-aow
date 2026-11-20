@@ -43,7 +43,7 @@ public class GlobalTargetSpell : Spell
             if (layer != 0)
             {
                 result = false;
-                messageText = AbilityRules.TranslateResourceString(GetEngine(), GameText.CannotCastSpellInUndergroundText);
+                messageText = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CannotCastSpellInUndergroundText);
             }
         }
 
@@ -84,7 +84,7 @@ public class GlobalTargetSpell : Spell
             {
                 int radius = HexGeometry.HexNumberToRadius(hexNumber);
                 int intensity = (Math.Abs(((StrategicMap.Current.Frame + radius) % 9) - 4) * 20) + 20;
-                target.ImageLibrary[0].ShowBlended(xs - 8, ys, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[intensity]);
+                target.ImageLibrary[0].ShowBlended(xs - 8, ys, lockedSurface, table: GraphicsState.IntensityBlendTable.LookupTables[intensity]);
             }
             else
             {
@@ -106,13 +106,13 @@ public class GlobalTargetSpell : Spell
         targetSelection.Range = 12;
         targetSelection.Changed += OnTargetSelectionChange;
         targetSelection.SetShowHandler(ShowTargetSelection);
-        string format = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.SelectTargetLocationForOnMapFormat), [SpellName]);
+        string format = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.SelectTargetLocationForOnMapFormat), args: [SpellName]);
         targetSelection.Text.Text = format;
         targetSelection.Title = SpellName;
-        targetSelection.CancelText = AbilityRules.TranslateResourceString(GetEngine(), GameText.CancelText);
-        targetSelection.SourceImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[20].GetPreviewImage();
-        targetSelection.ValidTargetImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[21].GetPreviewImage();
-        targetSelection.InvalidTargetImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[22].GetPreviewImage();
+        targetSelection.CancelText = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CancelText);
+        targetSelection.SourceImage = GamePack.Current.SpellControl[SpellId].CastImages.ImageSequences[20].GetPreviewImage();
+        targetSelection.ValidTargetImage = GamePack.Current.SpellControl[SpellId].CastImages.ImageSequences[21].GetPreviewImage();
+        targetSelection.InvalidTargetImage = GamePack.Current.SpellControl[SpellId].CastImages.ImageSequences[22].GetPreviewImage();
     }
 
     // GlobalTargetSpells.pas:544
@@ -146,7 +146,7 @@ public class GlobalTargetSpell : Spell
             target.Deactivate();
         }
         else if (target.Change == TargetSelectionChange.Selected && ValidTargetSelection(target) &&
-            TargetSelected(caster, target.Target.X, target.Target.Y, target.Target.MapLevel))
+            TargetSelected(caster, target.Target.X, target.Target.Y, L: target.Target.MapLevel))
         {
             target.Changed -= OnTargetSelectionChange;
             target.Deactivate();
@@ -165,7 +165,7 @@ public class GlobalTargetSpell : Spell
             if (layer != 0)
             {
                 result = false;
-                messageText = AbilityRules.TranslateResourceString(spell.GetEngine(), GameText.CannotCastSpellInUndergroundText);
+                messageText = AbilityRules.TranslateResourceString(spell.GetEngine(), S: GameText.CannotCastSpellInUndergroundText);
             }
         }
 

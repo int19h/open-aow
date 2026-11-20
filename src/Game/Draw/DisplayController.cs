@@ -25,18 +25,18 @@ public partial class DisplayController(Component owner) : Component(owner)
         Rect clipR = default;
         Rect sourceR = default;
         Rect destinationR = default;
-        if (GetInverseMatrix() is not null)
+        if (InverseMatrix is not null)
         {
             result = DisplayControllerError.Ok;
-            Matrix inverseMatrix = GetInverseMatrix();
-            Matrix m = new(GetInverseMatrix().Width, inverseMatrix.Height);
-            for (int i = 0, last = GetInverseMatrix().Width - 1; i <= last; i++)
+            Matrix inverseMatrix = InverseMatrix;
+            Matrix m = new(InverseMatrix.Width, inverseMatrix.Height);
+            for (int i = 0, last = InverseMatrix.Width - 1; i <= last; i++)
             {
-                for (int j = 0, lastJ = GetInverseMatrix().Height - 1; j <= lastJ; j++)
+                for (int j = 0, lastJ = InverseMatrix.Height - 1; j <= lastJ; j++)
                 {
-                    if (GetInverseMatrix().GetValue((byte)i, (byte)j) != 0)
+                    if (InverseMatrix.GetValue((byte)i, (byte)j) != 0)
                     {
-                        m.SetValue((byte)i, (byte)j, 1);
+                        m.SetValue((byte)i, (byte)j, value: 1);
                     }
                 }
             }
@@ -53,25 +53,25 @@ public partial class DisplayController(Component owner) : Component(owner)
                 {
                     if (result >= 0)
                     {
-                        int v = GetInverseMatrix().GetValue((byte)i, (byte)j);
+                        int v = InverseMatrix.GetValue((byte)i, (byte)j);
                         if (v != 0)
                         {
-                            GetInverseMatrix().SetValue((byte)i, (byte)j, (byte)(v - 1));
+                            InverseMatrix.SetValue((byte)i, (byte)j, value: (byte)(v - 1));
                         }
 
                         if (m.GetValue((byte)i, (byte)j) != 0)
                         {
-                            _ = GetInverseBlockSize(i, j, m, ref bw, ref bh);
+                            _ = GetInverseBlockSize(i, j, matrix: m, ref bw, ref bh);
                             _ = sourceR.Left;
                             _ = sourceR.Top;
-                            GetPixelPositionOfBlock(i, j, clipR, out int left, out int top, out int blockWidth, out int blockHeight);
+                            GetPixelPositionOfBlock(i, j, R: clipR, out int left, out int top, bw: out int blockWidth, bh: out int blockHeight);
                             sourceR.Left = left;
                             sourceR.Top = top;
                             int pixelX2;
                             int pixelY2;
                             if (bw > 1 || bh > 1)
                             {
-                                GetPixelPositionOfBlock(i + bw - 1, j + bh - 1, clipR, out pixelX2, out pixelY2, out blockWidth, out blockHeight);
+                                GetPixelPositionOfBlock(i + bw - 1, j + bh - 1, R: clipR, out pixelX2, out pixelY2, bw: out blockWidth, bh: out blockHeight);
                                 sourceR.Right = pixelX2 + blockWidth;
                                 sourceR.Bottom = pixelY2 + blockHeight;
                             }
@@ -84,7 +84,7 @@ public partial class DisplayController(Component owner) : Component(owner)
                             Rect? primarySurfaceRegion = GetPrimarySurfaceRegion();
                             _ = destinationR.Left;
                             _ = destinationR.Top;
-                            GetPixelPositionOfBlock(i, j, primarySurfaceRegion.Value, out int left2, out int top2, out blockWidth, out blockHeight);
+                            GetPixelPositionOfBlock(i, j, R: primarySurfaceRegion.Value, out int left2, out int top2, bw: out blockWidth, bh: out blockHeight);
                             destinationR.Left = left2;
                             destinationR.Top = top2;
                             Rect? primarySurfaceRegion2 = GetPrimarySurfaceRegion();
@@ -94,7 +94,7 @@ public partial class DisplayController(Component owner) : Component(owner)
                             if (bw > 1 || bh > 1)
                             {
                                 Rect? primarySurfaceRegion4 = GetPrimarySurfaceRegion();
-                                GetPixelPositionOfBlock(i + bw - 1, j + bh - 1, primarySurfaceRegion4.Value, out pixelX2, out pixelY2, out blockWidth, out blockHeight);
+                                GetPixelPositionOfBlock(i + bw - 1, j + bh - 1, R: primarySurfaceRegion4.Value, out pixelX2, out pixelY2, bw: out blockWidth, bh: out blockHeight);
                                 Rect? primarySurfaceRegion5 = GetPrimarySurfaceRegion();
                                 destinationR.Right = pixelX2 + blockWidth + primarySurfaceRegion5.Value.Left;
                                 Rect? primarySurfaceRegion6 = GetPrimarySurfaceRegion();
@@ -107,12 +107,12 @@ public partial class DisplayController(Component owner) : Component(owner)
                             }
 
                             Surface surface = GetSurface(0);
-                            result = (DisplayControllerError)GetSurface(index).BlitStretch(surface, sourceR, destinationR);
+                            result = (DisplayControllerError)GetSurface(index).BlitStretch(surface, sourceRectangle: sourceR, destinationRectangle: destinationR);
                             for (int x = 0, lastX = bw - 1; x <= lastX; x++)
                             {
                                 for (int y = 0, lastY = bh - 1; y <= lastY; y++)
                                 {
-                                    m.SetValue((byte)(i + x), (byte)(j + y), 0);
+                                    m.SetValue((byte)(i + x), (byte)(j + y), value: 0);
                                 }
                             }
                         }
@@ -156,17 +156,17 @@ public partial class DisplayController(Component owner) : Component(owner)
     }
 
     // DisplayC.pas:634
-    public virtual Matrix GetInverseMatrix() => _inverseMatrix;
+    public virtual Matrix InverseMatrix => _inverseMatrix;
 
     // DisplayC.pas:639
-    public virtual int GetSurfaceCount() => GetDisplay() is null ? 0 : (int)GetDisplay().BufferingScheme;
+    public virtual int SurfaceCount => Display is null ? 0 : (int)Display.BufferingScheme;
 
     // DisplayC.pas:647
     public virtual DisplayControllerError BlitSurface(int index)
     {
         Rect? primarySurfaceRegion = GetPrimarySurfaceRegion();
         Surface surface = GetSurface(0);
-        return (DisplayControllerError)GetSurface(index).BlitStretch(surface, default, primarySurfaceRegion);
+        return (DisplayControllerError)GetSurface(index).BlitStretch(surface, sourceRectangle: default, destinationRectangle: primarySurfaceRegion);
     }
 
     // DisplayC.pas:652
@@ -174,7 +174,7 @@ public partial class DisplayController(Component owner) : Component(owner)
     {
         Rect? primarySurfaceRegion = GetPrimarySurfaceRegion();
         Surface surface = GetSurface(0);
-        DisplayControllerError result = (DisplayControllerError)GetSurface(index).BlitStretch(surface, default, primarySurfaceRegion);
+        DisplayControllerError result = (DisplayControllerError)GetSurface(index).BlitStretch(surface, sourceRectangle: default, destinationRectangle: primarySurfaceRegion);
         return result.IsSuccess() ? DisplayControllerError.NoFlip : result;
     }
 
@@ -195,10 +195,10 @@ public partial class DisplayController(Component owner) : Component(owner)
     public virtual Set<DisplayControllerStatusElement> GetStatus() => Status;
 
     // DisplayC.pas:690
-    public virtual int GetHPalette() => 0;
+    public virtual int HPalette => 0;
 
     // DisplayC.pas:710
-    public virtual CustomDisplay GetDisplay() => _display;
+    public virtual CustomDisplay Display => _display;
 
     // DisplayC.pas:720
     public virtual void WindowRecreated()
@@ -301,7 +301,7 @@ public partial class DisplayController(Component owner) : Component(owner)
             {
                 for (int j = 0, lastJ = _inverseMatrix.Height - 1; j <= lastJ; j++)
                 {
-                    _inverseMatrix.SetValue((byte)i, (byte)j, 1);
+                    _inverseMatrix.SetValue((byte)i, (byte)j, value: 1);
                 }
             }
         }
@@ -462,10 +462,10 @@ public partial class DisplayController(Component owner) : Component(owner)
     }
 
     // DisplayC.pas:1020
-    public virtual void Invalidate(int X, int Y, int W, int H) => InverseWndwithValue(X, Y, W, H, 1);
+    public virtual void Invalidate(int X, int Y, int W, int H) => InverseWndwithValue(X, Y, W, H, value: 1);
 
     // DisplayC.pas:1043
-    public int GetCurrentFrameRate() => _display.CurrentFrameRate;
+    public int CurrentFrameRate => _display.CurrentFrameRate;
 
     // DisplayC.pas:1049
     // { Counts frames; every 5 frames the frame rate is measured. }
@@ -473,7 +473,7 @@ public partial class DisplayController(Component owner) : Component(owner)
     {
         if (_frameCount >= 5)
         {
-            int t = PixelFormats.GetElapsedMilliseconds();
+            int t = PixelFormats.ElapsedMilliseconds;
             _display.CurrentFrameRate = Round((double)5000 / (t - _lastFrameTime + 1));
             _frameCount = 0;
             _lastFrameTime = t;

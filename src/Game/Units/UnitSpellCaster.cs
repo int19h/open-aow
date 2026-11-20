@@ -42,7 +42,7 @@ public partial class UnitSpellCaster : SpellCaster
                     int mana = GetRequiredMana();
                     if (hero.CastingReady() && hero.CastingSpellId == CasterSpellId)
                     {
-                        mana -= GamePack.Current.SpellControl.GetSpell(CasterSpellId).BaseManaCost;
+                        mana -= GamePack.Current.SpellControl[CasterSpellId].BaseManaCost;
                     }
 
                     if (mana <= hero.GetCastingPoints())
@@ -54,13 +54,13 @@ public partial class UnitSpellCaster : SpellCaster
                         else
                         {
                             result = false;
-                            reason = AbilityRules.TranslateResourceString(GetEngine(), GameText.NotEnoughManaText);
+                            reason = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.NotEnoughManaText);
                         }
                     }
                     else
                     {
                         result = false;
-                        reason = AbilityRules.TranslateResourceString(GetEngine(), GameText.NotEnoughChannelingPointsText);
+                        reason = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.NotEnoughChannelingPointsText);
                     }
                 }
                 else
@@ -71,7 +71,7 @@ public partial class UnitSpellCaster : SpellCaster
             else
             {
                 result = false;
-                reason = AbilityRules.TranslateResourceString(GetEngine(), GameText.NoUnitSelectedText);
+                reason = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.NoUnitSelectedText);
             }
         }
         else
@@ -129,7 +129,7 @@ public partial class UnitSpellCaster : SpellCaster
                 result += 1;
             }
 
-            bits = (int)(((uint)bits) >> 1);
+            bits = bits >>> 1;
         }
 
         return result;
@@ -147,7 +147,7 @@ public partial class UnitSpellCaster : SpellCaster
     {
         byte value = selection;
         Troop source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
-        GamePack.Current.SpellControl.GetSpell<UnitSpell>(CasterSpellId).ValidateUnitSelection(source, TargetUnits, ref value);
+        GamePack.Current.SpellControl.GetSpell<UnitSpell>(CasterSpellId).ValidateUnitSelection(source, targets: TargetUnits, selection: ref value);
         SelectionMask = value;
     }
 }

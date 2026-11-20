@@ -94,7 +94,7 @@ internal static class EffectPaths
             double sin = Math.Sin(angle);
             double mathSin = Math.Sin(a2);
             int hexY = y1 - Round((double)sin * dist) - Round((double)mathSin * seg);
-            MakeLinePath(cx, cy, hexX, hexY, seg, list);
+            MakeLinePath(cx, cy, hexX, hexY, steps: seg, list);
             cx = hexX;
             cy = hexY;
             seg = Math.Abs(Round((double)Math.Cos((double)a2 - angle) * seg));
@@ -102,7 +102,7 @@ internal static class EffectPaths
             seg = Random(15) + 5;
         }
 
-        MakeLinePath(cx, cy, x2, y2, length - dist, list);
+        MakeLinePath(cx, cy, x2, y2, steps: length - dist, list);
         int count = list.Count;
         list[count - 1].Z = 1;
     }
@@ -191,7 +191,7 @@ internal static class EffectPaths
                         CombatImageLibraryTerrain terrain = CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).FindOwnedChild<CombatImageLibraryTerrain>(2228534);
                         if (terrain is not null)
                         {
-                            if (terrain.GetBurnValue() > 0)
+                            if (terrain.BurnValue > 0)
                             {
                                 canBurn = true;
                             }
@@ -213,7 +213,7 @@ internal static class EffectPaths
                     if (canBurn)
                     {
                         CombatFire fire = new(null) { Holder = engine };
-                        if (!CombatMap.Current.PlaceHex(fire, hexX, hexY, 0))
+                        if (!CombatMap.Current.PlaceHex(fire, hexX, hexY, L: 0))
                         {
                             fire?.Dispose();
                         }

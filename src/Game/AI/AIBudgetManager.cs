@@ -168,7 +168,7 @@ public class AIBudgetManager : EngineObject
         ProductionGoldUpkeep = 0;
         for (int i = Player.ProductionControls.Count - 1; i >= 0; i--)
         {
-            ProductionControl control = Player.ProductionControls.GetPC(i);
+            ProductionControl control = Player.ProductionControls[i];
             if (control.Status == ProductionControlStatus.Producing && control.Queue.GetItem(0).Order is ProduceUnit && control.Settings.Unit is not null)
             {
                 ProductionGoldUpkeep += control.Settings.GoldUpkeep;
@@ -337,7 +337,7 @@ public class AIBudgetManager : EngineObject
 
         if (gold > 0 || mana > 0)
         {
-            GetEngine().OutputDebugMessage(DebugChannel.Temporary, $"RETURNING FROM BUDGETS (GOLD:{IntToStr(gold)}/MANA:{IntToStr(mana)})");
+            GetEngine().OutputDebugMessage(DebugChannel.Temporary, S: $"RETURNING FROM BUDGETS (GOLD:{IntToStr(gold)}/MANA:{IntToStr(mana)})");
             ReturnFromBudgets(gold, mana);
         }
     }
@@ -352,9 +352,9 @@ public class AIBudgetManager : EngineObject
 
         int groupsGoldBudget = GetGroupsGoldBudget();
         int groupsManaBudget = GetGroupsManaBudget();
-        GetEngine().OutputDebugMessage(DebugChannel.Temporary, $"GROUPS BUDGET (GOLD:{IntToStr(groupsGoldBudget)}/MANA:{IntToStr(groupsManaBudget)})");
-        GetEngine().OutputDebugMessage(DebugChannel.Temporary, $"POOL (GOLD:{IntToStr(Gold)}/MANA:{IntToStr(Mana)})");
-        GetEngine().OutputDebugMessage(DebugChannel.Temporary, $"REAL (GOLD:{IntToStr(Player.Gems)}/MANA:{IntToStr(Player.MagicControl.Mana)})");
+        GetEngine().OutputDebugMessage(DebugChannel.Temporary, S: $"GROUPS BUDGET (GOLD:{IntToStr(groupsGoldBudget)}/MANA:{IntToStr(groupsManaBudget)})");
+        GetEngine().OutputDebugMessage(DebugChannel.Temporary, S: $"POOL (GOLD:{IntToStr(Gold)}/MANA:{IntToStr(Mana)})");
+        GetEngine().OutputDebugMessage(DebugChannel.Temporary, S: $"REAL (GOLD:{IntToStr(Player.Gems)}/MANA:{IntToStr(Player.MagicControl.Mana)})");
     }
 
     // AI.pas:1954
@@ -362,7 +362,7 @@ public class AIBudgetManager : EngineObject
     {
         if (ManaUpkeep < 0)
         {
-            _ = Player.MagicControl.AIOverrideUpkeep(16777215, Math.Abs(ManaUpkeep));
+            _ = Player.MagicControl.AIOverrideUpkeep(16777215, amount: Math.Abs(ManaUpkeep));
         }
     }
 
@@ -405,7 +405,7 @@ public class AIBudgetManager : EngineObject
             reserveMana = requiredMana;
         }
 
-        ReserveForBudgets(reserveGold, reserveMana);
+        ReserveForBudgets(reserveGold, mana: reserveMana);
         Gold = gold - reserveGold;
         Mana = mana - reserveMana;
     }
@@ -489,7 +489,7 @@ public class AIBudgetManager : EngineObject
     // AI.pas:2049
     public bool BudgetExpenseMade(int gold, int mana, AIBudget budget, ExpenseMode mode)
     {
-        if (RequestBudgetExpense(gold, mana, budget, mode != ExpenseMode.Budget))
+        if (RequestBudgetExpense(gold, mana, budget, usePool: mode != ExpenseMode.Budget))
         {
             if (gold < 0)
             {
@@ -610,7 +610,7 @@ public class AIBudgetManager : EngineObject
     public bool BudgetExpenseMade(int gold, int mana, int goldUpkeep, int manaUpkeep, AIBudget budget, ExpenseMode mode)
     {
         bool result;
-        if (RequestBudgetExpense(gold, mana, goldUpkeep, manaUpkeep, budget, mode != ExpenseMode.Budget))
+        if (RequestBudgetExpense(gold, mana, goldUpkeep, manaUpkeep, budget, usePool: mode != ExpenseMode.Budget))
         {
             if (gold < 0)
             {

@@ -57,7 +57,7 @@ public class EmailGameControl : EngineObject
         {
             if (GetFileCrc32(fileName) == GetEngine().Registry.GetEmailGamesCrc())
             {
-                GetEngine().ReadFromFile(fileName, _games, null);
+                GetEngine().ReadFromFile(fileName, _games, progress: null);
             }
         }
     }
@@ -68,7 +68,7 @@ public class EmailGameControl : EngineObject
         try
         {
             string fileName = $"{GetEngine().StartupDirectory}EmailIn\\egames.pfs";
-            GetEngine().WriteToFile($"{GetEngine().StartupDirectory}EmailIn\\egames.pfs", _games, null);
+            GetEngine().WriteToFile($"{GetEngine().StartupDirectory}EmailIn\\egames.pfs", _games, progress: null);
             int fileCrc = GetFileCrc32(fileName);
             GetEngine().Registry.SetEmailGamesCrc(fileCrc);
         }
@@ -101,7 +101,7 @@ public class EmailGameControl : EngineObject
     }
 
     // Diplomacy.pas:2546
-    public int GenerateSecurityId() => Random(PixelFormats.GetElapsedMilliseconds() & 16777215) + 1;
+    public int GenerateSecurityId() => Random(PixelFormats.ElapsedMilliseconds & 16777215) + 1;
 
     // Diplomacy.pas:2549
     public bool UpdateGame(EmailGame game)
@@ -129,7 +129,7 @@ public class EmailGameControl : EngineObject
             Holder = CreationHolder(),
             EmailAddress = emailAddress,
             UniqueLocalId = CreateUniqueLocalId(),
-            UniqueId = Random(PixelFormats.GetElapsedMilliseconds() & 16777215) + 1,
+            UniqueId = Random(PixelFormats.ElapsedMilliseconds & 16777215) + 1,
             SecurityId = GenerateSecurityId(),
             Name = name
         };
@@ -231,10 +231,10 @@ public class EmailGameControl : EngineObject
         MemoryStream value = new();
         try
         {
-            Stream value2 = OpenFile(fileName, 0);
+            Stream value2 = OpenFile(fileName, mode: 0);
             try
             {
-                StreamExtensions.LoadFromStream(value, value2);
+                StreamExtensions.LoadFromStream(value, source: value2);
                 return EngineServices.GetCrc32(size: (int)value.Length, buffer: (ReadOnlySpan<byte>)value.GetBuffer());
             }
             finally

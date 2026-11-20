@@ -107,7 +107,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
         {
             effect = null;
             Point3D pathY = Path[Frame];
-            HexGeometry.PixelToHex(Path[Frame].X, pathY.Y, out i, out j);
+            HexGeometry.PixelToHex(Path[Frame].X, vertical: pathY.Y, out i, out j);
             if (CombatMap.Current.MapContainer.MapLevels[0].Field[i, j].TerrainType == 0)
             {
                 effect = CombatMap.Current.AddEffect(BattleEffectType.HitWater);
@@ -186,7 +186,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
 
                         if (Frame == 0 && CombatMap.Current.PlaySounds && AbilityIndex == 52 && SpellIndex == 122)
                         {
-                            _ = GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(0);
+                            _ = GamePack.Current.SpellControl[SpellIndex].CastSounds.Play(0);
                         }
 
                         int count = Path.Count;
@@ -195,8 +195,8 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                             if (CombatMap.Current.PlaySounds)
                             {
                                 _ = AbilityIndex == 52
-                                    ? GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1)
-                                    : GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
+                                    ? GamePack.Current.SpellControl[SpellIndex].CastSounds.Play(1)
+                                    : GamePack.Current.AbilityControl[AbilityIndex].SfxLibrary.Play(1);
                             }
 
                             Frame = Path.Count - 1;
@@ -208,15 +208,15 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
 
                             Point3D pathY = Path[Frame];
                             Point3D pathZ = Path[Frame];
-                            HexGeometry.PixelToHex(Path[Frame].X, pathY.Y - pathZ.Z, out i, out j);
-                            CombatMap.Current.MakeVisible(i, j, 0, 2);
+                            HexGeometry.PixelToHex(Path[Frame].X, vertical: pathY.Y - pathZ.Z, out i, out j);
+                            CombatMap.Current.MakeVisible(i, j, 0, radius: 2);
                         }
 
                         break;
                     case BattleEffectType.DecayComet:
                         if (Frame == 0 && CombatMap.Current.PlaySounds && AbilityIndex == 52)
                         {
-                            _ = GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(0);
+                            _ = GamePack.Current.SpellControl[SpellIndex].CastSounds.Play(0);
                         }
 
                         int fPathCount = Path.Count;
@@ -225,8 +225,8 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                             if (CombatMap.Current.PlaySounds)
                             {
                                 _ = AbilityIndex == 52
-                                    ? GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1)
-                                    : GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
+                                    ? GamePack.Current.SpellControl[SpellIndex].CastSounds.Play(1)
+                                    : GamePack.Current.AbilityControl[AbilityIndex].SfxLibrary.Play(1);
                             }
 
                             Frame = Path.Count - 1;
@@ -237,7 +237,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                     case BattleEffectType.AltArrow:
                         if (Frame == 0 && CombatMap.Current.PlaySounds && AbilityIndex == 52)
                         {
-                            _ = GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(0);
+                            _ = GamePack.Current.SpellControl[SpellIndex].CastSounds.Play(0);
                         }
 
                         Frame += 3;
@@ -247,8 +247,8 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                             if (CombatMap.Current.PlaySounds)
                             {
                                 _ = AbilityIndex == 52
-                                    ? GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1)
-                                    : GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
+                                    ? GamePack.Current.SpellControl[SpellIndex].CastSounds.Play(1)
+                                    : GamePack.Current.AbilityControl[AbilityIndex].SfxLibrary.Play(1);
                             }
 
                             Frame = Path.Count - 1;
@@ -260,8 +260,8 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
 
                             Point3D pathY = Path[Frame];
                             Point3D pathZ = Path[Frame];
-                            HexGeometry.PixelToHex(Path[Frame].X, pathY.Y - pathZ.Z, out i, out j);
-                            CombatMap.Current.MakeVisible(i, j, 0, 2);
+                            HexGeometry.PixelToHex(Path[Frame].X, vertical: pathY.Y - pathZ.Z, out i, out j);
+                            CombatMap.Current.MakeVisible(i, j, 0, radius: 2);
                         }
 
                         break;
@@ -273,8 +273,8 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                             if (CombatMap.Current.PlaySounds)
                             {
                                 _ = AbilityIndex == 52
-                                    ? GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1)
-                                    : GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
+                                    ? GamePack.Current.SpellControl[SpellIndex].CastSounds.Play(1)
+                                    : GamePack.Current.AbilityControl[AbilityIndex].SfxLibrary.Play(1);
                             }
 
                             Frame = Path.Count - 1;
@@ -297,15 +297,15 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                         break;
                     case BattleEffectType.HailImpact:
                         sequence = AbilityIndex == 52
-                            ? GamePack.Current.SpellControl.GetSpell(SpellIndex).CastImages.ImageSequences[2]
-                            : GamePack.Current.AbilityControl.GetAbility(AbilityIndex).ImageSequences.ImageSequences[2];
+                            ? GamePack.Current.SpellControl[SpellIndex].CastImages.ImageSequences[2]
+                            : GamePack.Current.AbilityControl[AbilityIndex].ImageSequences.ImageSequences[2];
 
                         if (sequence is not null)
                         {
-                            int totalSequenceFrames = sequence.GetTotalSequenceFrames();
+                            int totalSequenceFrames = sequence.TotalSequenceFrames;
                             if (Frame >= totalSequenceFrames - 1)
                             {
-                                Frame = sequence.GetTotalSequenceFrames() - 1;
+                                Frame = sequence.TotalSequenceFrames - 1;
                                 Done = true;
                             }
                         }
@@ -317,15 +317,15 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                         break;
                     case BattleEffectType.PrayerGlow:
                         sequence = AbilityIndex == 52
-                            ? GamePack.Current.SpellControl.GetSpell(SpellIndex).CastImages.ImageSequences[1]
-                            : GamePack.Current.AbilityControl.GetAbility(AbilityIndex).ImageSequences.ImageSequences[1];
+                            ? GamePack.Current.SpellControl[SpellIndex].CastImages.ImageSequences[1]
+                            : GamePack.Current.AbilityControl[AbilityIndex].ImageSequences.ImageSequences[1];
 
                         if (sequence is not null)
                         {
-                            int totalSequenceFrames = sequence.GetTotalSequenceFrames();
+                            int totalSequenceFrames = sequence.TotalSequenceFrames;
                             if (Frame >= totalSequenceFrames - 1)
                             {
-                                Frame = sequence.GetTotalSequenceFrames() - 1;
+                                Frame = sequence.TotalSequenceFrames - 1;
                                 Done = true;
                             }
                         }
@@ -356,8 +356,8 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                             if (CombatMap.Current.PlaySounds)
                             {
                                 _ = Target is not null && AbilityIndex == 52
-                                    ? GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1)
-                                    : GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
+                                    ? GamePack.Current.SpellControl[SpellIndex].CastSounds.Play(1)
+                                    : GamePack.Current.AbilityControl[AbilityIndex].SfxLibrary.Play(1);
                             }
 
                             Frame = Path.Count - 1;
@@ -373,8 +373,8 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                             if (CombatMap.Current.PlaySounds)
                             {
                                 _ = AbilityIndex == 52
-                                    ? GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1)
-                                    : GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
+                                    ? GamePack.Current.SpellControl[SpellIndex].CastSounds.Play(1)
+                                    : GamePack.Current.AbilityControl[AbilityIndex].SfxLibrary.Play(1);
                             }
 
                             Frame = Path.Count - 1;
@@ -407,7 +407,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                         int random2 = Random(5);
                                         int random3 = Random(100);
                                         Point3DList path18 = effect.Path;
-                                        EffectPaths.MakeArcPathXY((short)(k - 200), (short)(x - 200), (short)(random3 + k - 50), (short)(random + x - 50), (short)(random2 + 5), 100, path18);
+                                        EffectPaths.MakeArcPathXY((short)(k - 200), (short)(x - 200), (short)(random3 + k - 50), (short)(random + x - 50), stepSize: (short)(random2 + 5), height: 100, list: path18);
                                         effect.Path = path18;
                                     }
                                 }
@@ -447,7 +447,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                         int random2 = Random(5);
                                         int random3 = Random(100);
                                         Point3DList path20 = effect.Path;
-                                        EffectPaths.MakeArcPathXY((short)(k - 200), (short)(x - 200), (short)(random3 + k - 50), (short)(random + x - 50), (short)(random2 + 5), 100, path20);
+                                        EffectPaths.MakeArcPathXY((short)(k - 200), (short)(x - 200), (short)(random3 + k - 50), (short)(random + x - 50), stepSize: (short)(random2 + 5), height: 100, list: path20);
                                         effect.Path = path20;
                                     }
                                 }
@@ -538,8 +538,8 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                 if (CombatMap.Current.PlaySounds)
                                 {
                                     _ = AbilityIndex == 52
-                                        ? GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1)
-                                        : GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
+                                        ? GamePack.Current.SpellControl[SpellIndex].CastSounds.Play(1)
+                                        : GamePack.Current.AbilityControl[AbilityIndex].SfxLibrary.Play(1);
                                 }
 
                                 {
@@ -602,8 +602,8 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                 if (Frame == 0 && CombatMap.Current.PlaySounds)
                                 {
                                     _ = AbilityIndex == 52
-                                        ? GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(0)
-                                        : GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(0);
+                                        ? GamePack.Current.SpellControl[SpellIndex].CastSounds.Play(0)
+                                        : GamePack.Current.AbilityControl[AbilityIndex].SfxLibrary.Play(0);
                                 }
 
                                 {
@@ -619,7 +619,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                         int random2 = Random(2);
                                         int random3 = Random(10);
                                         Point3DList path26 = effect.Path;
-                                        EffectPaths.MakeSwarmPath(Random(10) + 10, random3 + (Frame / 4), (i % 6 * 60) + Frame, random, pathX.X, pathY.Y, (SwarmDirection)random2, path26);
+                                        EffectPaths.MakeSwarmPath(Random(10) + 10, radius: random3 + (Frame / 4), phase: (i % 6 * 60) + Frame, angle: random, pathX.X, pathY.Y, direction: (SwarmDirection)random2, list: path26);
                                         effect.Path = path26;
                                     }
                                 }
@@ -639,7 +639,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                         int random2 = Random(2);
                                         int random3 = Random(10);
                                         Point3DList path27 = effect.Path;
-                                        EffectPaths.MakeSwarmPath(Random(10) + 10, random3 + ((60 - Frame) / 4), (i % 6 * 60) + Frame, random, pathX.X, pathY.Y, (SwarmDirection)random2, path27);
+                                        EffectPaths.MakeSwarmPath(Random(10) + 10, radius: random3 + ((60 - Frame) / 4), phase: (i % 6 * 60) + Frame, angle: random, pathX.X, pathY.Y, direction: (SwarmDirection)random2, list: path27);
                                         effect.Path = path27;
                                     }
                                 }
@@ -659,7 +659,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                         int random2 = Random(2);
                                         int random3 = Random(10);
                                         Point3DList path28 = effect.Path;
-                                        EffectPaths.MakeSwarmPath(Random(10) + 10, random3 + ((Frame - 60) / 2), (i % 6 * 60) + Frame, random, pathX.X, pathY.Y, (SwarmDirection)random2, path28);
+                                        EffectPaths.MakeSwarmPath(Random(10) + 10, radius: random3 + ((Frame - 60) / 2), phase: (i % 6 * 60) + Frame, angle: random, pathX.X, pathY.Y, direction: (SwarmDirection)random2, list: path28);
                                         effect.Path = path28;
                                     }
                                 }
@@ -679,7 +679,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                         int random2 = Random(2);
                                         int random3 = Random(10);
                                         Point3DList path29 = effect.Path;
-                                        EffectPaths.MakeSwarmPath(Random(10) + 10, random3 + ((120 - Frame) / 2), (i % 6 * 60) + Frame, random, pathX.X, pathY.Y, (SwarmDirection)random2, path29);
+                                        EffectPaths.MakeSwarmPath(Random(10) + 10, radius: random3 + ((120 - Frame) / 2), phase: (i % 6 * 60) + Frame, angle: random, pathX.X, pathY.Y, direction: (SwarmDirection)random2, list: path29);
                                         effect.Path = path29;
                                     }
                                 }
@@ -689,8 +689,8 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                 if (CombatMap.Current.PlaySounds)
                                 {
                                     _ = AbilityIndex == 52
-                                        ? GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1)
-                                        : GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
+                                        ? GamePack.Current.SpellControl[SpellIndex].CastSounds.Play(1)
+                                        : GamePack.Current.AbilityControl[AbilityIndex].SfxLibrary.Play(1);
                                 }
 
                                 x = 200;
@@ -714,7 +714,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                         Point3D pathX = Path[0];
                                         Point3D path = Path[0];
                                         Point3DList path30 = effect.Path;
-                                        EffectPaths.MakeLinePath(Path[0].X, path.Y, pathX.X + Round((double)cos * (random2 + x)), pathY.Y + (Round((double)sin * (random + y)) / 2), 75, path30);
+                                        EffectPaths.MakeLinePath(Path[0].X, path.Y, pathX.X + Round((double)cos * (random2 + x)), pathY.Y + (Round((double)sin * (random + y)) / 2), steps: 75, list: path30);
                                         effect.Path = path30;
                                         if (i % 10 == 0)
                                         {
@@ -730,7 +730,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                                 Point3D path3 = effect.Path[count8 - 1];
                                                 Point3D path4 = Path[0];
                                                 Point3DList path31 = effect2.Path;
-                                                EffectPaths.MakeLinePath(Path[0].X, path4.Y, path3.X, path2.Y, (k * 5) + 75, path31);
+                                                EffectPaths.MakeLinePath(Path[0].X, path4.Y, path3.X, path2.Y, steps: (k * 5) + 75, list: path31);
                                                 effect2.Path = path31;
                                             }
                                         }
@@ -741,7 +741,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                             case >= 151 and <= 169:
                             case >= 210 and <= 229:
                                 Point3D path5 = Path[0];
-                                HexGeometry.PixelToHex(Path[0].X, path5.Y, out x, out y);
+                                HexGeometry.PixelToHex(Path[0].X, vertical: path5.Y, out x, out y);
                                 message.MessageId = 200720;
                                 MapFieldMessageParameters param = message.Param;
                                 param[0] = 1;
@@ -751,7 +751,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                     i = 1;
                                     for (; i <= 36; i += 1)
                                     {
-                                        HexGeometry.CenterHexNumberToHex(x, y, i, ref j, ref k);
+                                        HexGeometry.CenterHexNumberToHex(x, y, hexNumber: i, ref j, ref k);
                                         CombatMap.Current.MapContainer.MapLevels[0].Field[j, k].SendMapFieldMessage(ref message);
                                     }
                                 }
@@ -760,7 +760,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                             case >= 170 and <= 184:
                             case >= 195 and <= 209:
                                 Point3D path6 = Path[0];
-                                HexGeometry.PixelToHex(Path[0].X, path6.Y, out x, out y);
+                                HexGeometry.PixelToHex(Path[0].X, vertical: path6.Y, out x, out y);
                                 message.MessageId = 200720;
                                 MapFieldMessageParameters param2 = message.Param;
                                 param2[0] = 2;
@@ -770,7 +770,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                     i = 1;
                                     for (; i <= 36; i += 1)
                                     {
-                                        HexGeometry.CenterHexNumberToHex(x, y, i, ref j, ref k);
+                                        HexGeometry.CenterHexNumberToHex(x, y, hexNumber: i, ref j, ref k);
                                         CombatMap.Current.MapContainer.MapLevels[0].Field[j, k].SendMapFieldMessage(ref message);
                                     }
                                 }
@@ -778,7 +778,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                 break;
                             case >= 185 and <= 194:
                                 Point3D path7 = Path[0];
-                                HexGeometry.PixelToHex(Path[0].X, path7.Y, out x, out y);
+                                HexGeometry.PixelToHex(Path[0].X, vertical: path7.Y, out x, out y);
                                 message.MessageId = 200720;
                                 MapFieldMessageParameters param3 = message.Param;
                                 param3[0] = 3;
@@ -788,7 +788,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                     i = 1;
                                     for (; i <= 36; i += 1)
                                     {
-                                        HexGeometry.CenterHexNumberToHex(x, y, i, ref j, ref k);
+                                        HexGeometry.CenterHexNumberToHex(x, y, hexNumber: i, ref j, ref k);
                                         CombatMap.Current.MapContainer.MapLevels[0].Field[j, k].SendMapFieldMessage(ref message);
                                     }
                                 }
@@ -796,14 +796,14 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                 break;
                             case 230:
                                 Point3D path8 = Path[0];
-                                HexGeometry.PixelToHex(Path[0].X, path8.Y, out x, out y);
+                                HexGeometry.PixelToHex(Path[0].X, vertical: path8.Y, out x, out y);
                                 message.MessageId = 200721;
                                 message.Result = -1;
                                 {
                                     i = 1;
                                     for (; i <= 36; i += 1)
                                     {
-                                        HexGeometry.CenterHexNumberToHex(x, y, i, ref j, ref k);
+                                        HexGeometry.CenterHexNumberToHex(x, y, hexNumber: i, ref j, ref k);
                                         CombatMap.Current.MapContainer.MapLevels[0].Field[j, k].SendMapFieldMessage(ref message);
                                     }
                                 }
@@ -827,16 +827,16 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                         if (CombatMap.Current.PlaySounds)
                                         {
                                             _ = AbilityIndex == 52
-                                                ? GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1)
-                                                : GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
+                                                ? GamePack.Current.SpellControl[SpellIndex].CastSounds.Play(1)
+                                                : GamePack.Current.AbilityControl[AbilityIndex].SfxLibrary.Play(1);
                                         }
 
                                         int count8 = Path.Count;
                                         Point3D path = Path[count8 - 1];
                                         int count9 = Path.Count;
-                                        HexGeometry.PixelToHex(Path[count9 - 1].X, path.Y, out j, out k);
+                                        HexGeometry.PixelToHex(Path[count9 - 1].X, vertical: path.Y, out j, out k);
                                         MapField mapField = CombatMap.Current.MapContainer.MapLevels[0].Field[j, k];
-                                        _ = Target.UnitHexSprite.MoveTo(mapField, 0);
+                                        _ = Target.UnitHexSprite.MoveTo(mapField, moveCost: 0);
                                         Target.UnitHexSprite.OffsetX = 0;
                                         Target.UnitHexSprite.OffsetY = 0;
                                         Target.UnitHexSprite.Busy = false;
@@ -849,8 +849,8 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                     if (CombatMap.Current.PlaySounds && (Frame == TargetX || Frame == TargetY))
                                     {
                                         _ = AbilityIndex == 52
-                                            ? GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(0)
-                                            : GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(0);
+                                            ? GamePack.Current.SpellControl[SpellIndex].CastSounds.Play(0)
+                                            : GamePack.Current.AbilityControl[AbilityIndex].SfxLibrary.Play(0);
                                     }
 
                                     if (Target is not null && Target.GetEnabled())
@@ -900,7 +900,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                             int random4 = Random(2);
                                             int count8 = Path.Count;
                                             Point3DList path32 = effect.Path;
-                                            EffectPaths.MakeSwarmPath(Random(5) + 20, (count8 - i) / 5, 0, random, pathX.X + random2 - 5, pathY.Y - pathZ.Z + random3 - 5, (SwarmDirection)random4, path32);
+                                            EffectPaths.MakeSwarmPath(Random(5) + 20, radius: (count8 - i) / 5, phase: 0, angle: random, pathX.X + random2 - 5, pathY.Y - pathZ.Z + random3 - 5, direction: (SwarmDirection)random4, list: path32);
                                             effect.Path = path32;
                                         }
                                     }
@@ -919,13 +919,13 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                 if (Frame == 0 && CombatMap.Current.PlaySounds)
                                 {
                                     _ = AbilityIndex == 52
-                                        ? GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(0)
-                                        : GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(0);
+                                        ? GamePack.Current.SpellControl[SpellIndex].CastSounds.Play(0)
+                                        : GamePack.Current.AbilityControl[AbilityIndex].SfxLibrary.Play(0);
                                 }
 
                                 j = Random(6) + 10;
-                                sbyte hexY = Target.UnitHexSprite.GetHexY();
-                                HexGeometry.HexToPixel(Target.UnitHexSprite.GetHexX(), hexY, out k, out x);
+                                sbyte hexY = Target.UnitHexSprite.HexY;
+                                HexGeometry.HexToPixel(Target.UnitHexSprite.HexX, hexY, out k, out x);
                                 {
                                     i = 1;
                                     int last = j - 1;
@@ -939,7 +939,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                         vz = (float)((double)(Random(50) + Frame) / 10);
                                         z = 0;
                                         Point3DList path33 = effect.Path;
-                                        EffectPaths.MakeArcPath(k + 16, x + 16, i * 360 / j, ref z, speed, ref vz, gravity, path33);
+                                        EffectPaths.MakeArcPath(k + 16, x + 16, angle: i * 360 / j, ref z, speed, ref vz, gravity, list: path33);
                                         effect.Path = path33;
                                     }
                                 }
@@ -959,8 +959,8 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                         if (CombatMap.Current.PlaySounds)
                                         {
                                             _ = AbilityIndex == 52
-                                                ? GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1)
-                                                : GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
+                                                ? GamePack.Current.SpellControl[SpellIndex].CastSounds.Play(1)
+                                                : GamePack.Current.AbilityControl[AbilityIndex].SfxLibrary.Play(1);
                                         }
 
                                         j = Random(10) + 100;
@@ -992,15 +992,15 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                 if (Frame == 125)
                                 {
                                     Point3D path = Path[0];
-                                    HexGeometry.PixelToHex(Path[0].X, path.Y, out i, out j);
+                                    HexGeometry.PixelToHex(Path[0].X, vertical: path.Y, out i, out j);
                                     CombatMap.Current.CenterViewTo(i, j - 3, 0);
                                 }
 
                                 if (CombatMap.Current.PlaySounds)
                                 {
                                     _ = AbilityIndex == 52
-                                        ? GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1)
-                                        : GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
+                                        ? GamePack.Current.SpellControl[SpellIndex].CastSounds.Play(1)
+                                        : GamePack.Current.AbilityControl[AbilityIndex].SfxLibrary.Play(1);
                                 }
 
                                 j = Random(6) + 10;
@@ -1023,7 +1023,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                         vz = (float)((double)(Random(50) + 100) / 10);
                                         z = 0;
                                         Point3DList path35 = effect.Path;
-                                        EffectPaths.MakeArcPath(k, x, i * 360 / j, ref z, speed, ref vz, gravity, path35);
+                                        EffectPaths.MakeArcPath(k, x, angle: i * 360 / j, ref z, speed, ref vz, gravity, list: path35);
                                         effect.Path = path35;
                                     }
                                 }
@@ -1078,7 +1078,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                             Point3D pathY = Path[0];
                                             int random2 = Random(2);
                                             Point3DList path37 = effect.Path;
-                                            EffectPaths.MakeSwarmPath(Random(10) + 10, i / 2, 45, random, pathX.X + 100 - i, pathY.Y - 200 - 50 + i, (SwarmDirection)random2, path37);
+                                            EffectPaths.MakeSwarmPath(Random(10) + 10, radius: i / 2, phase: 45, angle: random, pathX.X + 100 - i, pathY.Y - 200 - 50 + i, direction: (SwarmDirection)random2, list: path37);
                                             effect.Path = path37;
                                         }
                                     }
@@ -1103,7 +1103,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                             Point3D pathY = Path[0];
                                             int random2 = Random(2);
                                             Point3DList path38 = effect.Path;
-                                            EffectPaths.MakeSwarmPath(Random(10) + 10, i / 2, 45, random, pathX.X + 100 - i, pathY.Y - 200 - 50 + i, (SwarmDirection)random2, path38);
+                                            EffectPaths.MakeSwarmPath(Random(10) + 10, radius: i / 2, phase: 45, angle: random, pathX.X + 100 - i, pathY.Y - 200 - 50 + i, direction: (SwarmDirection)random2, list: path38);
                                             effect.Path = path38;
                                         }
                                     }
@@ -1124,7 +1124,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                     Point3D path2 = Path[0];
                                     int random5 = Random(50);
                                     Point3DList path39 = effect.Path;
-                                    EffectPaths.MakeArcPathXY((short)(path2.X + random5 + 25), (short)(path.Y + random4 - 225), (short)(pathX.X + random3 - 25), (short)(pathY.Y + random - 25), (short)(random2 + 5), 100, path39);
+                                    EffectPaths.MakeArcPathXY((short)(path2.X + random5 + 25), (short)(path.Y + random4 - 225), (short)(pathX.X + random3 - 25), (short)(pathY.Y + random - 25), stepSize: (short)(random2 + 5), height: 100, list: path39);
                                     effect.Path = path39;
                                     i = 0;
                                     for (; i <= 10; i += 1)
@@ -1144,11 +1144,11 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                         effect.Path = path40;
                                     }
 
-                                    HexGeometry.CenterHexNumberToHex(TargetX, TargetY, (Frame - 50) / 5, ref j, ref k);
+                                    HexGeometry.CenterHexNumberToHex(TargetX, TargetY, hexNumber: (Frame - 50) / 5, ref j, ref k);
                                     // { Original swaps the converted hex coordinates. }
                                     HexGeometry.HexToPixel(j, k, out x, out y);
                                     TacticalBattleUnitHexSprite unitHexSprite = CombatMap.Current.MapContainer.MapLevels[0].Field[j, k].FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
-                                    effect.Target = unitHexSprite is not null && unitHexSprite.Unit.GetSide() != Target.GetSide()
+                                    effect.Target = unitHexSprite is not null && unitHexSprite.Unit.Side != Target.Side
                                         ? unitHexSprite.Unit
                                         : null;
 
@@ -1161,7 +1161,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                         Point3D pathZ = effect.Path[count8 - 1];
                                         int count9 = effect.Path.Count;
                                         Point3DList path41 = effect.Path;
-                                        EffectPaths.MakeArcPathXY((short)effect.Path[count9 - 1].X, (short)(path3.Y - pathZ.Z), (short)(x + 16), (short)(y - 8), (short)(random6 + 6), 100, path41);
+                                        EffectPaths.MakeArcPathXY((short)effect.Path[count9 - 1].X, (short)(path3.Y - pathZ.Z), (short)(x + 16), (short)(y - 8), stepSize: (short)(random6 + 6), height: 100, list: path41);
                                         effect.Path = path41;
                                         i = 0;
                                         int last = Random(3) + 5;
@@ -1179,7 +1179,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                             Point3D path8 = effect.Path[count14 - 1];
                                             int count15 = effect.Path.Count;
                                             Point3DList path42 = effect.Path;
-                                            EffectPaths.MakeLinePath(effect.Path[count15 - 1].X, path6.Y - path7.Z, path8.X, path4.Y - path5.Z - 6, 3, path42);
+                                            EffectPaths.MakeLinePath(effect.Path[count15 - 1].X, path6.Y - path7.Z, path8.X, path4.Y - path5.Z - 6, steps: 3, list: path42);
                                             effect.Path = path42;
                                             int count16 = effect.Path.Count;
                                             Point3D path9 = effect.Path[count16 - 1];
@@ -1193,7 +1193,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                             Point3D path11 = effect.Path[count20 - 1];
                                             int count21 = effect.Path.Count;
                                             Point3DList path43 = effect.Path;
-                                            EffectPaths.MakeLinePath(effect.Path[count21 - 1].X, fPathItem.Y - path10.Z, path11.X, path9.Y - item.Z + 6, 3, path43);
+                                            EffectPaths.MakeLinePath(effect.Path[count21 - 1].X, fPathItem.Y - path10.Z, path11.X, path9.Y - item.Z + 6, steps: 3, list: path43);
                                             effect.Path = path43;
                                         }
                                     }
@@ -1232,7 +1232,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                 Point3D pathY = Path[i];
                                 Point3D pathX = Path[i];
                                 Point3D path = Path[j];
-                                EffectPaths.MakeLightningPath(Path[j].X, path.Y, pathX.X, pathY.Y, newPath);
+                                EffectPaths.MakeLightningPath(Path[j].X, path.Y, pathX.X, pathY.Y, list: newPath);
                                 switch (k)
                                 {
                                     case -1:
@@ -1275,14 +1275,14 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                             if (CombatMap.Current.PlaySounds)
                             {
                                 _ = AbilityIndex == 52
-                                    ? GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1)
-                                    : GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
+                                    ? GamePack.Current.SpellControl[SpellIndex].CastSounds.Play(1)
+                                    : GamePack.Current.AbilityControl[AbilityIndex].SfxLibrary.Play(1);
                             }
 
                             Point3D pathY = Path[Frame];
                             Point3D pathZ = Path[Frame];
-                            HexGeometry.PixelToHex(Path[Frame].X, pathY.Y - pathZ.Z, out i, out j);
-                            CombatMap.Current.MakeVisible(i, j, 0, 3);
+                            HexGeometry.PixelToHex(Path[Frame].X, vertical: pathY.Y - pathZ.Z, out i, out j);
+                            CombatMap.Current.MakeVisible(i, j, 0, radius: 3);
                         }
 
                         break;
@@ -1290,26 +1290,26 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                     case BattleEffectType.Effect:
                         if (Frame == 0 && CombatMap.Current.PlaySounds && AbilityIndex == 65)
                         {
-                            _ = GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(0);
+                            _ = GamePack.Current.AbilityControl[AbilityIndex].SfxLibrary.Play(0);
                         }
 
                         sequence = AbilityIndex == 52
-                            ? GamePack.Current.SpellControl.GetSpell(SpellIndex).CastImages.ImageSequences[0]
-                            : GamePack.Current.AbilityControl.GetAbility(AbilityIndex).ImageSequences.ImageSequences[0];
+                            ? GamePack.Current.SpellControl[SpellIndex].CastImages.ImageSequences[0]
+                            : GamePack.Current.AbilityControl[AbilityIndex].ImageSequences.ImageSequences[0];
 
                         if (sequence is not null)
                         {
-                            int totalSequenceFrames = sequence.GetTotalSequenceFrames();
+                            int totalSequenceFrames = sequence.TotalSequenceFrames;
                             if (Frame >= totalSequenceFrames - 1)
                             {
                                 if (CombatMap.Current.PlaySounds)
                                 {
                                     _ = AbilityIndex == 52
-                                        ? GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1)
-                                        : GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
+                                        ? GamePack.Current.SpellControl[SpellIndex].CastSounds.Play(1)
+                                        : GamePack.Current.AbilityControl[AbilityIndex].SfxLibrary.Play(1);
                                 }
 
-                                Frame = sequence.GetTotalSequenceFrames() - 1;
+                                Frame = sequence.TotalSequenceFrames - 1;
                                 Done = true;
                             }
                         }
@@ -1321,8 +1321,8 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                         break;
                     case BattleEffectType.SacredWrath:
                         sequence = AbilityIndex == 52
-                            ? GamePack.Current.SpellControl.GetSpell(SpellIndex).CastImages.ImageSequences[1]
-                            : GamePack.Current.AbilityControl.GetAbility(AbilityIndex).ImageSequences.ImageSequences[1];
+                            ? GamePack.Current.SpellControl[SpellIndex].CastImages.ImageSequences[1]
+                            : GamePack.Current.AbilityControl[AbilityIndex].ImageSequences.ImageSequences[1];
 
                         if (sequence is null)
                         {
@@ -1331,13 +1331,13 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
 
                         break;
                     case BattleEffectType.FBExplosion:
-                        sequence = GamePack.Current.SpellControl.GetSpell(SpellIndex).CastImages.ImageSequences[1];
+                        sequence = GamePack.Current.SpellControl[SpellIndex].CastImages.ImageSequences[1];
                         if (sequence is not null)
                         {
-                            int totalSequenceFrames = sequence.GetTotalSequenceFrames();
+                            int totalSequenceFrames = sequence.TotalSequenceFrames;
                             if (Frame >= totalSequenceFrames - 1)
                             {
-                                Frame = sequence.GetTotalSequenceFrames() - 1;
+                                Frame = sequence.TotalSequenceFrames - 1;
                                 Done = true;
                             }
                         }
@@ -1417,10 +1417,10 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                         }
                         else
                         {
-                            int totalSequenceFrames = sequence.GetTotalSequenceFrames();
+                            int totalSequenceFrames = sequence.TotalSequenceFrames;
                             if (Frame >= totalSequenceFrames)
                             {
-                                Frame = sequence.GetTotalSequenceFrames() - 1;
+                                Frame = sequence.TotalSequenceFrames - 1;
                                 Done = true;
                             }
                         }
@@ -1434,10 +1434,10 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                         }
                         else
                         {
-                            int totalSequenceFrames = sequence.GetTotalSequenceFrames();
+                            int totalSequenceFrames = sequence.TotalSequenceFrames;
                             if (Frame >= totalSequenceFrames)
                             {
-                                Frame = sequence.GetTotalSequenceFrames() - 1;
+                                Frame = sequence.TotalSequenceFrames - 1;
                                 Done = true;
                             }
                         }
@@ -1451,10 +1451,10 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                         }
                         else
                         {
-                            int totalSequenceFrames = sequence.GetTotalSequenceFrames();
+                            int totalSequenceFrames = sequence.TotalSequenceFrames;
                             if (Frame >= totalSequenceFrames)
                             {
-                                Frame = sequence.GetTotalSequenceFrames() - 1;
+                                Frame = sequence.TotalSequenceFrames - 1;
                                 Done = true;
                             }
                         }
@@ -1469,10 +1469,10 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                         }
                         else
                         {
-                            int totalSequenceFrames = sequence.GetTotalSequenceFrames();
+                            int totalSequenceFrames = sequence.TotalSequenceFrames;
                             if (Frame >= totalSequenceFrames - 1)
                             {
-                                Frame = sequence.GetTotalSequenceFrames() - 1;
+                                Frame = sequence.TotalSequenceFrames - 1;
                                 Done = true;
                             }
                         }
@@ -1496,21 +1496,21 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                 int random = Random(Frame / 3);
                                 Point3D pathX = Path[0];
                                 int random2 = Random(Frame / 3);
-                                CombatMap.Current.ChangeViewTo(pathX.X + random2 - (Frame / 6), pathY.Y + random - (Frame / 6), CombatMap.Current.ViewMapLevel);
+                                CombatMap.Current.ChangeViewTo(pathX.X + random2 - (Frame / 6), pathY.Y + random - (Frame / 6), lHitPoints: CombatMap.Current.ViewMapLevel);
                                 break;
                             case >= 30 and <= 89:
                                 Point3D path = Path[0];
                                 int random3 = Random(10);
                                 Point3D path2 = Path[0];
                                 int random4 = Random(10);
-                                CombatMap.Current.ChangeViewTo(path2.X + random4 - 5, path.Y + random3 - 5, CombatMap.Current.ViewMapLevel);
+                                CombatMap.Current.ChangeViewTo(path2.X + random4 - 5, path.Y + random3 - 5, lHitPoints: CombatMap.Current.ViewMapLevel);
                                 break;
                             case >= 90 and <= 119:
                                 Point3D path3 = Path[0];
                                 int random5 = Random((119 - Frame) / 3);
                                 Point3D path4 = Path[0];
                                 int random6 = Random((119 - Frame) / 3);
-                                CombatMap.Current.ChangeViewTo(path4.X + random6 - ((119 - Frame) / 6), path3.Y + random5 - ((119 - Frame) / 6), CombatMap.Current.ViewMapLevel);
+                                CombatMap.Current.ChangeViewTo(path4.X + random6 - ((119 - Frame) / 6), path3.Y + random5 - ((119 - Frame) / 6), lHitPoints: CombatMap.Current.ViewMapLevel);
                                 break;
                             case 120:
                                 Frame = -1;
@@ -1527,13 +1527,13 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                 Frame = -1;
                                 break;
                             case >= 1 and <= 149:
-                                MakeCloud(Frame, Frame);
+                                MakeCloud(Frame, radius: Frame);
                                 break;
                             case >= 150 and <= 199:
-                                MakeCloud(150, 150);
+                                MakeCloud(150, radius: 150);
                                 break;
                             case >= 200 and <= 249:
-                                MakeCloud((250 - Frame) * 3, 150);
+                                MakeCloud((250 - Frame) * 3, radius: 150);
                                 break;
                             default:
                                 break;
@@ -1542,15 +1542,15 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                         break;
                     case BattleEffectType.CloudPuff:
                         sequence = AbilityIndex == 52
-                            ? GamePack.Current.SpellControl.GetSpell(SpellIndex).CastImages.ImageSequences[0]
-                            : GamePack.Current.AbilityControl.GetAbility(AbilityIndex).ImageSequences.ImageSequences[0];
+                            ? GamePack.Current.SpellControl[SpellIndex].CastImages.ImageSequences[0]
+                            : GamePack.Current.AbilityControl[AbilityIndex].ImageSequences.ImageSequences[0];
 
                         if (sequence is not null)
                         {
-                            int totalSequenceFrames = sequence.GetTotalSequenceFrames();
+                            int totalSequenceFrames = sequence.TotalSequenceFrames;
                             if (Frame >= totalSequenceFrames - 1)
                             {
-                                Frame = sequence.GetTotalSequenceFrames() - 1;
+                                Frame = sequence.TotalSequenceFrames - 1;
                                 Done = true;
                             }
                         }
@@ -1591,12 +1591,12 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                         if (CombatMap.Current.Combat.CombatData.GetObjects(i) is CombatUnit && CombatMap.Current.Combat.CombatData.GetObjects(i).GetEnabled() && CombatMap.Current.Combat.CombatData.GetObjects(i).CombatPlayer == Target.CombatPlayer)
                                         {
                                             effect = CombatMap.Current.AddEffect(BattleEffectType.GeyserWater);
-                                            sbyte hexY = CombatMap.Current.Combat.CombatData.GetObjects<TacticalBattleUnit>(i).UnitHexSprite.GetHexY();
-                                            HexGeometry.HexToPixel(CombatMap.Current.Combat.CombatData.GetObjects<TacticalBattleUnit>(i).UnitHexSprite.GetHexX(), hexY, out j, out k);
+                                            sbyte hexY = CombatMap.Current.Combat.CombatData.GetObjects<TacticalBattleUnit>(i).UnitHexSprite.HexY;
+                                            HexGeometry.HexToPixel(CombatMap.Current.Combat.CombatData.GetObjects<TacticalBattleUnit>(i).UnitHexSprite.HexX, hexY, out j, out k);
                                             j = Random(20) + j + 6;
                                             k = Random(20) + k + 6;
                                             Point3DList path50 = effect.Path;
-                                            EffectPaths.MakeLinePath(j, k - 100, j, k, 50, path50);
+                                            EffectPaths.MakeLinePath(j, k - 100, j, k, steps: 50, list: path50);
                                             effect.Path = path50;
                                             effect.AbilityIndex = AbilityIndex;
                                             effect.SpellIndex = SpellIndex;
@@ -1614,8 +1614,8 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                         if (CombatMap.Current.Combat.CombatData.GetObjects(i) is CombatUnit && CombatMap.Current.Combat.CombatData.GetObjects(i).GetEnabled() && CombatMap.Current.Combat.CombatData.GetObjects(i).CombatPlayer == Target.CombatPlayer)
                                         {
                                             effect = CombatMap.Current.AddEffect(BattleEffectType.PrayerGlow);
-                                            sbyte hexY = CombatMap.Current.Combat.CombatData.GetObjects<TacticalBattleUnit>(i).UnitHexSprite.GetHexY();
-                                            HexGeometry.HexToPixel(CombatMap.Current.Combat.CombatData.GetObjects<TacticalBattleUnit>(i).UnitHexSprite.GetHexX(), hexY, out j, out k);
+                                            sbyte hexY = CombatMap.Current.Combat.CombatData.GetObjects<TacticalBattleUnit>(i).UnitHexSprite.HexY;
+                                            HexGeometry.HexToPixel(CombatMap.Current.Combat.CombatData.GetObjects<TacticalBattleUnit>(i).UnitHexSprite.HexX, hexY, out j, out k);
                                             Point3D xyz = new();
                                             effect.Path.Add(xyz);
                                             Point3DList path51 = effect.Path;
@@ -1664,8 +1664,8 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                     if (CombatMap.Current.PlaySounds)
                                     {
                                         _ = AbilityIndex == 52
-                                            ? GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(1)
-                                            : GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(1);
+                                            ? GamePack.Current.SpellControl[SpellIndex].CastSounds.Play(1)
+                                            : GamePack.Current.AbilityControl[AbilityIndex].SfxLibrary.Play(1);
                                     }
 
                                     Target.UnitHexSprite.OffsetY = 0;
@@ -1682,8 +1682,8 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                 if (CombatMap.Current.PlaySounds && Frame % 30 == 29)
                                 {
                                     _ = AbilityIndex == 52
-                                        ? GamePack.Current.SpellControl.GetSpell(SpellIndex).CastSounds.Play(0)
-                                        : GamePack.Current.AbilityControl.GetAbility(AbilityIndex).SfxLibrary.Play(0);
+                                        ? GamePack.Current.SpellControl[SpellIndex].CastSounds.Play(0)
+                                        : GamePack.Current.AbilityControl[AbilityIndex].SfxLibrary.Play(0);
                                 }
 
                                 if (Target is not null && Target.GetEnabled())
@@ -1708,7 +1708,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
                                         z = 0;
                                         Point3D path = Path[0];
                                         Point3DList path53 = effect.Path;
-                                        EffectPaths.MakeArcPath(Path[0].X, path.Y, i * 360 / j, ref z, speed, ref vz, gravity, path53);
+                                        EffectPaths.MakeArcPath(Path[0].X, path.Y, angle: i * 360 / j, ref z, speed, ref vz, gravity, list: path53);
                                         effect.Path = path53;
                                     }
                                 }
@@ -1746,7 +1746,7 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
         catch
         {
             // { Original puts the diagnostic in the message-box caption. }
-            _ = MessageBox(0, "Error during NewFrame", NullTerminatedText($"Error - fxHS {IntToStr(AbilityIndex)} {IntToStr(SpellIndex)}"), 0);
+            _ = MessageBox(0, text: "Error during NewFrame", caption: NullTerminatedText($"Error - fxHS {IntToStr(AbilityIndex)} {IntToStr(SpellIndex)}"), flags: 0);
         }
     }
 }

@@ -71,16 +71,16 @@ public partial class PyreScreen(UIContext ui) : UIModule(ui)
         _ = GameOverEvent.AddRef();
         Done = done;
         SavedSongStatus = AudioPlayback.BackupSongStatus();
-        AudioPlayback.FadeMusicVolume(0, 1);
+        AudioPlayback.FadeMusicVolume(0, speed: 1);
         UI.General.Manager.OverlayPriority = 249;
         switch (StrategicMap.Current.Players.GetPlayers(eventValue.Player).GameOverStatus)
         {
             case GameOverStatus.Lost:
-                _animation = AudioPlayback.PlaySample("Sfx\\Attack\\Fireloop.wav", 64, true, 0, SamplePanning.Center, null);
-                StrategicMap.Current.TutorialControl.ShowMessage(68, true, true);
+                _animation = AudioPlayback.PlaySample("Sfx\\Attack\\Fireloop.wav", volume: 64, looped: true, delay: 0, panning: SamplePanning.Center, callback: null);
+                StrategicMap.Current.TutorialControl.ShowMessage(68, immediate: true, onceOnly: true);
                 break;
             case GameOverStatus.Won:
-                StrategicMap.Current.TutorialControl.ShowMessage(67, true, true);
+                StrategicMap.Current.TutorialControl.ShowMessage(67, immediate: true, onceOnly: true);
                 break;
             case GameOverStatus.None:
             default:
@@ -90,8 +90,8 @@ public partial class PyreScreen(UIContext ui) : UIModule(ui)
         UI.Graphics.PyreFrames.LoadDiscardableImageData();
         UI.TitleWindow.TitlePanel.Visible = false;
         UI.PyreScreen.DeadPanel.Visible = true;
-        UI.VideoDialog.SetSceneSize(640, 480);
-        VideoDialog.SetVideoMode(UI.VideoDialog, VideoDialog.ScreenMode.Title);
+        UI.VideoDialog.SetSceneSize(640, H: 480);
+        VideoDialog.SetVideoMode(UI.VideoDialog, fullScreen: VideoDialog.ScreenMode.Title);
         UI.VideoDialog.ApplyMode();
         UI.TitleWindow.MainWindow.Visible = true;
         _ = SetCurrentDir(ExtractFileDir(LegacyApplication.Application.ExeName));
@@ -198,11 +198,11 @@ public partial class PyreScreen(UIContext ui) : UIModule(ui)
     private static void ShowResults(ResultsWindow window)
     {
         _ = window.UI.Engine.Demo
-            ? AudioPlayback.PlaySong("Songs\\Special\\end2.s3m", 2, 2, true)
-            : AudioPlayback.PlaySong("Songs\\Special\\Sunset.it", 2, 2, true);
+            ? AudioPlayback.PlaySong("Songs\\Special\\end2.s3m", fadeOut: 2, fadeIn: 2, loop: true)
+            : AudioPlayback.PlaySong("Songs\\Special\\Sunset.it", fadeOut: 2, fadeIn: 2, loop: true);
 
         AudioPlayback.SetMusicVolume(0);
-        AudioPlayback.FadeMusicVolume(window.UI.SoundDialog.MusicVolumeSlider.Position, 1);
+        AudioPlayback.FadeMusicVolume(window.UI.SoundDialog.MusicVolumeSlider.Position, speed: 1);
         window.Players.Clear();
         for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {

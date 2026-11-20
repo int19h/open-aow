@@ -26,7 +26,7 @@ public class TurnUndeadAbility : TouchAbility
         Holder = holder;
         AbilityId = 38;
         SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.HeadItem, AbilitySelectionType.TorsoItem, AbilitySelectionType.DefenseItem, AbilitySelectionType.RingItem, AbilitySelectionType.UseItem, AbilitySelectionType.Editor);
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), GameText.TurnUndeadText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.TurnUndeadText);
         AbilityType = AbilityType.Combat;
     }
 
@@ -63,7 +63,7 @@ public class TurnUndeadAbility : TouchAbility
         source.Combat.ExecuteCombatAction(action);
         if (target.GetEnabled())
         {
-            StrikeCombatAction strike = CombatObject.CreateStrikeCombatAction(target, source, true);
+            StrikeCombatAction strike = CombatObject.CreateStrikeCombatAction(target, target: source, defensive: true);
             if (strike is not null)
             {
                 source.Combat.ExecuteCombatAction(strike);
@@ -101,7 +101,7 @@ public class TurnUndeadAbility : TouchAbility
                 LevelAbilityId = (ushort)AbilityId,
                 Level = 1
             };
-            SetAbility(owner, AbilityId, 1);
+            SetAbility(owner, index: AbilityId, value: 1);
             owner.AddAbilityData(data);
             return true;
         }
@@ -125,7 +125,7 @@ public class TurnUndeadAbility : TouchAbility
         {
             if (data.Level == 1)
             {
-                SetAbility(owner, AbilityId, 0);
+                SetAbility(owner, index: AbilityId, value: 0);
                 owner.RemoveAbilityData(data);
             }
             else
@@ -135,7 +135,7 @@ public class TurnUndeadAbility : TouchAbility
         }
         else
         {
-            SetAbility(owner, AbilityId, 0);
+            SetAbility(owner, index: AbilityId, value: 0);
             return false;
         }
 
@@ -145,9 +145,9 @@ public class TurnUndeadAbility : TouchAbility
     // AoWAb.PAS:3293
     public override int GetDamageValue(Troop attacker, Troop defender)
     {
-        if (CanTouchUnit(attacker, defender) && !defender.GetImmunityTypes().Contains(DamageType.None))
+        if (CanTouchUnit(attacker, target: defender) && !defender.GetImmunityTypes().Contains(DamageType.None))
         {
-            float probability = TouchRoleProbability(attacker, defender);
+            float probability = TouchRoleProbability(attacker, target: defender);
             return Round((double)((double)defender.GetHitPoints() * probability) * 100);
         }
         else
@@ -159,13 +159,13 @@ public class TurnUndeadAbility : TouchAbility
     // AoWAb.PAS:3305
     public override void GetDamageValues(Troop attacker, Troop defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
-        if (wallSituation == WallSituation.None && CanTouchUnit(attacker, defender) && !defender.GetImmunityTypes().Contains(DamageType.None))
+        if (wallSituation == WallSituation.None && CanTouchUnit(attacker, target: defender) && !defender.GetImmunityTypes().Contains(DamageType.None))
         {
-            float probability = TouchRoleProbability(attacker, defender);
+            float probability = TouchRoleProbability(attacker, target: defender);
             int hitPoints = defender.GetHitPoints();
             damageValues.SourceCost = hitPoints;
             damageValues.SourceDamage = Round((double)((double)hitPoints * probability) * 100);
-            int unitStrikeDamageValue = Troop.UnitStrikeDamageValue(defender, attacker);
+            int unitStrikeDamageValue = Troop.UnitStrikeDamageValue(defender, target: attacker);
             damageValues.TargetDamage = Round(unitStrikeDamageValue * ((double)1 - probability));
             int statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: attacker.GetProtectionTypes(), damageTypes: GamePack.Current.AbilityControl.GetAbility<StrikeAbility>(21).GetDamageTypes(defender), immunityTypes: attacker.GetImmunityTypes(), damage: defender.GetDamage());
             damageValues.TargetCost = statisticsToMaxDamage;
@@ -201,13 +201,13 @@ public class TurnUndeadAbility : TouchAbility
     // AoWAb.PAS:3331
     public override void FastBattleGetDamageValues(CombatObject attacker, CombatObject defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
-        if (wallSituation == WallSituation.None && CanTouch(attacker, defender) && attacker is CombatUnit attackerUnit)
+        if (wallSituation == WallSituation.None && CanTouch(attacker, target: defender) && attacker is CombatUnit attackerUnit)
         {
-            float probability = CombatTouchRoleProbability(attackerUnit, defender);
-            int hitPoints = defender.GetHitPoints();
+            float probability = CombatTouchRoleProbability(attackerUnit, target: defender);
+            int hitPoints = defender.HitPoints;
             damageValues.SourceCost = hitPoints;
             damageValues.SourceDamage = Round((double)((double)hitPoints * probability) * 100);
-            int strikeDamageValue = CombatObject.StrikeDamageValue(defender, attacker);
+            int strikeDamageValue = CombatObject.StrikeDamageValue(defender, target: attacker);
             damageValues.TargetDamage = Round(strikeDamageValue * ((double)1 - probability));
             int statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: attacker.GetProtectionTypes(), immunityTypes: attacker.GetImmunityTypes(), damageTypes: CombatObject.MeleeDamageTypes(defender), damage: defender.GetDamage());
             damageValues.TargetCost = statisticsToMaxDamage;
@@ -276,11 +276,11 @@ public class TurnUndeadAbility : TouchAbility
     {
         return level switch
         {
-            0 => AbilityRules.TranslateResourceString(GetEngine(), GameText.TurnUndeadText),
-            1 => $"{AbilityRules.TranslateResourceString(GetEngine(), GameText.TurnUndeadText)} I",
-            2 => $"{AbilityRules.TranslateResourceString(GetEngine(), GameText.TurnUndeadText)} II",
-            3 => $"{AbilityRules.TranslateResourceString(GetEngine(), GameText.TurnUndeadText)} III",
-            4 => $"{AbilityRules.TranslateResourceString(GetEngine(), GameText.TurnUndeadText)} IV",
+            0 => AbilityRules.TranslateResourceString(GetEngine(), S: GameText.TurnUndeadText),
+            1 => $"{AbilityRules.TranslateResourceString(GetEngine(), S: GameText.TurnUndeadText)} I",
+            2 => $"{AbilityRules.TranslateResourceString(GetEngine(), S: GameText.TurnUndeadText)} II",
+            3 => $"{AbilityRules.TranslateResourceString(GetEngine(), S: GameText.TurnUndeadText)} III",
+            4 => $"{AbilityRules.TranslateResourceString(GetEngine(), S: GameText.TurnUndeadText)} IV",
             _ => "",
         };
     }

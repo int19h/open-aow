@@ -48,7 +48,7 @@ public class AIGroupTask(CustomNode owner) : EngineObject(owner)
     }
 
     // AIGroup.pas:1383
-    public virtual bool GetBusy() => Status.Contains(AIGroupTaskStatusElement.Activated) && State != -1;
+    public virtual bool Busy => Status.Contains(AIGroupTaskStatusElement.Activated) && State != -1;
 
     // AIGroup.pas:1388
     public virtual bool Activate(AIGroupControl control)
@@ -82,7 +82,7 @@ public class AIGroupTask(CustomNode owner) : EngineObject(owner)
             Validate();
             bool busy = false;
             int i = 0;
-            while (!busy && State != -1 && (i == 0 || StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 0))
+            while (!busy && State != -1 && (i == 0 || StrategicMap.Current.AIExecutor.ProcessTimeLeft > 0))
             {
                 i += 1;
                 busy = Process();

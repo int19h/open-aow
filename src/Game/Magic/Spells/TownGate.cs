@@ -23,7 +23,7 @@ public class TownGate : CityTargetSpell
     public TownGate(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_townGateText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_townGateText);
         SpellId = 38;
         CityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Own, CityTargetModeElement.SkipSource);
         BaseManaCost = 5;
@@ -45,7 +45,7 @@ public class TownGate : CityTargetSpell
         _ = townGateEvent.ArmyId.RetrieveArmy(ref army, ref selection);
         MapField field = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(townGateEvent.TeleportLocation);
         army.Army.ResetDestinationPosition();
-        if (StrategicMap.Current.SelectedArmy.GetArmyHexSprite() == army)
+        if (StrategicMap.Current.SelectedArmy.ArmyHexSprite == army)
         {
             StrategicMap.Current.SelectedArmy.Select(army);
         }
@@ -55,7 +55,7 @@ public class TownGate : CityTargetSpell
             ArmyHexSprite newArmy = new(null) { Holder = CreationHolder() };
             newArmy.Army.SetPlayer(army.Army.Player);
             _ = newArmy.Army.AddUnitSelection(army.Army.Units, selection);
-            _ = StrategicMap.Current.PlaceHex(newArmy, townGateEvent.TeleportLocation.X, townGateEvent.TeleportLocation.Y, townGateEvent.TeleportLocation.MapLevel);
+            _ = StrategicMap.Current.PlaceHex(newArmy, townGateEvent.TeleportLocation.X, townGateEvent.TeleportLocation.Y, L: townGateEvent.TeleportLocation.MapLevel);
         }
         else
         {
@@ -65,30 +65,30 @@ public class TownGate : CityTargetSpell
             }
             else
             {
-                _ = army.MoveTo(field, 0);
+                _ = army.MoveTo(field, moveCost: 0);
             }
         }
 
-        bool showSource = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.Visible(x, y, l, 0);
-        bool showTarget = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.Visible(field.HexX, field.HexY, field.HexLevel, 0);
+        bool showSource = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.Visible(x, y, l, radius: 0);
+        bool showTarget = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.Visible(field.HexX, field.HexY, L: field.HexLevel, radius: 0);
         ImageSequenceAnimation a;
         if (showSource)
         {
-            if (GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0] is not null)
+            if (GamePack.Current.SpellControl[SpellId].CastImages.ImageSequences[0] is not null)
             {
                 a = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
-                a.SetImageSequence(GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0]);
+                a.SetImageSequence(GamePack.Current.SpellControl[SpellId].CastImages.ImageSequences[0]);
                 _ = StrategicMap.Current.PlaceHex(a, x, y, l);
             }
         }
 
         if (showTarget)
         {
-            if (GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0] is not null)
+            if (GamePack.Current.SpellControl[SpellId].CastImages.ImageSequences[0] is not null)
             {
                 a = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
-                a.SetImageSequence(GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0]);
-                _ = StrategicMap.Current.PlaceHex(a, field.HexX, field.HexY, field.HexLevel);
+                a.SetImageSequence(GamePack.Current.SpellControl[SpellId].CastImages.ImageSequences[0]);
+                _ = StrategicMap.Current.PlaceHex(a, field.HexX, field.HexY, L: field.HexLevel);
             }
         }
 
@@ -98,18 +98,18 @@ public class TownGate : CityTargetSpell
         }
         else
         {
-            if (!StrategicMap.Current.ValidateObservation(source.Player, field.HexX, field.HexY, field.HexLevel, 0))
+            if (!StrategicMap.Current.ValidateObservation(source.Player, field.HexX, field.HexY, field.HexLevel, radius: 0))
             {
-                _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
+                _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, radius: 0);
             }
         }
 
-        if (StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.Watching(x, y, l, 0) || StrategicMap.Current.Watching(field.HexX, field.HexY, field.HexLevel, 0))
+        if (StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.Watching(x, y, l, radius: 0) || StrategicMap.Current.Watching(field.HexX, field.HexY, L: field.HexLevel, radius: 0))
         {
-            _ = GamePack.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0);
+            _ = GamePack.Current.SpellControl[SpellId].CastSounds.Play(0);
         }
 
-        CastingDone(source, eventValue.EventMana);
+        CastingDone(source, mana: eventValue.EventMana);
         return false;
     }
 
@@ -139,18 +139,18 @@ public class TownGate : CityTargetSpell
             }
 
             ArmyHexSprite army = armyOwner.GetArmyHexSprite();
-            byte selection = army.Army.Player == StrategicMap.Current.SeatedPlayer && StrategicMap.Current.SelectedArmy.GetArmyHexSprite() == army
-                ? StrategicMap.Current.SelectedArmy.GetSelection()
+            byte selection = army.Army.Player == StrategicMap.Current.SeatedPlayer && StrategicMap.Current.SelectedArmy.ArmyHexSprite == army
+                ? StrategicMap.Current.SelectedArmy.Selection
                 : (byte)255;
 
-            HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, 0);
+            HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, radius: 0);
             bool found = false;
             MapLevel level = StrategicMap.Current.MapContainer.GetMapLevel(L);
             while (walk.Radius < 4 && !found)
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                 {
-                    found = ValidTeleportLocation(army, selection, (sbyte)walk.X, (sbyte)walk.Y, (sbyte)L);
+                    found = ValidTeleportLocation(army, selection, (sbyte)walk.X, (sbyte)walk.Y, L: (sbyte)L);
                 }
 
                 if (!found)

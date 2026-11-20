@@ -126,8 +126,8 @@ public sealed class MapNetSoundDispatchTests
     {
         using SoundState state = new();
         SampleDataClass meta = SampleData.Descriptor;
-        SampleData direct = memory ? SampleData.Create(Format, new byte[] { 128 }, 1) : SampleData.Create("direct");
-        SampleData dynamic = memory ? meta.CreateInstance(Format, new byte[] { 128 }, 1) : meta.CreateInstance("dynamic");
+        SampleData direct = memory ? SampleData.Create(Format, data: new byte[] { 128 }, size: 1) : SampleData.Create("direct");
+        SampleData dynamic = memory ? meta.CreateInstance(Format, data: new byte[] { 128 }, size: 1) : meta.CreateInstance("dynamic");
         foreach (SampleData? value in new[] { direct, dynamic })
         {
             _ = Assert.IsType<SampleData>(value);
@@ -191,9 +191,9 @@ public sealed class MapNetSoundDispatchTests
         Assert.Equal(1, system.RefCount);
         system.Dispose();
         Assert.True(AudioPlayback.InitializeSoundSystem(name,
-            new SoundSettings { SampleRate = 8000, SampleVoices = 1, SfxEnabled = true }));
+            settings: new SoundSettings { SampleRate = 8000, SampleVoices = 1, SfxEnabled = true }));
         SampleDataClass sampleDataMeta = SdlSoundSystem.SampleData;
-        SampleData data = sampleDataMeta.CreateInstance(Format, new byte[] { 128 }, 1);
+        SampleData data = sampleDataMeta.CreateInstance(Format, data: new byte[] { 128 }, size: 1);
         Assert.Equal("SdlSampleData", data.GetType().Name);
         Assert.Equal(1, data.RefCount);
         Assert.Equal(0, AudioHost.SampleDataList.Count);
@@ -217,7 +217,7 @@ public sealed class MapNetSoundDispatchTests
     {
         using SoundState state = new();
         SampleDataClass meta = SdlSoundSystem.SampleData;
-        _ = Assert.Throws<InvalidDataException>(() => meta.CreateInstance(default, new byte[1], 1));
+        _ = Assert.Throws<InvalidDataException>(() => meta.CreateInstance(default, data: new byte[1], size: 1));
         Assert.Equal(0, AudioHost.SampleList.Count);
         Assert.Equal(0, AudioHost.SampleDataList.Count);
     }

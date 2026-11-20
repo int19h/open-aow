@@ -20,7 +20,7 @@ public partial class UpperIsometricHex(CustomNode owner) : IsometricHex(owner)
             pixelX = pixelX - pixelXSurface - 8;
             pixelY -= pixelYSurface;
             CustomImageLibrary imageLibrary = base.Resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
-            imageLibrary[(int)(((uint)Sides) >> 6) + 40].Show(pixelX, pixelY, lockedSurface);
+            imageLibrary[(Sides >>> 6) + 40].Show(pixelX, pixelY, lockedSurface);
             pixelX -= 6;
             pixelY -= 9;
             if ((Sides & 1) != 0)

@@ -21,7 +21,7 @@ public partial class UpperIsometricHex
             variant = 0;
         }
 
-        imageLibrary[(int)(((uint)Sides) >> 6) + 40].Show(pixelX, pixelY, lockedSurface);
+        imageLibrary[(Sides >>> 6) + 40].Show(pixelX, pixelY, lockedSurface);
         if (OpenSides != 0)
         {
             if ((OpenSides & 1) != 0)

@@ -27,7 +27,7 @@ public class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMapObject(
     }
 
     // ILTer.pas:131
-    public override bool CanChangeTerrain(in HexSpriteSenderInfo info) => Resource.TerrainList.GetTerrain(info.HexNumber) < 0 || GetMostFrequentMapFieldTerrainType(Owner.Owner, StoredHexX, StoredHexY, TerrainType) == info.MapField.TerrainType;
+    public override bool CanChangeTerrain(in HexSpriteSenderInfo info) => Resource.TerrainList.GetTerrain(info.HexNumber) < 0 || GetMostFrequentMapFieldTerrainType(Owner.Owner, StoredHexX, StoredHexY, defaultValue: TerrainType) == info.MapField.TerrainType;
 
     // ILTer.pas:152
     public override void ChangeTerrain(in HexSpriteTerrainInfo info)
@@ -75,7 +75,7 @@ public class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMapObject(
         }
         else
         {
-            Resource.ShowComplexImage(pixelX - pixelXSurface, pixelY - pixelYSurface, lockedSurface, ImageIndex, (uint)(pixelX + pixelY));
+            Resource.ShowComplexImage(pixelX - pixelXSurface, pixelY - pixelYSurface, lockedSurface, index: ImageIndex, offset: (uint)(pixelX + pixelY));
         }
     }
 
@@ -108,7 +108,7 @@ public class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMapObject(
         bool canPlaceHere = true;
         int count = Resource.TerrainList.Count;
         TerrainType = GetValidTerrainType(mapContainer.GetMapLevel(hexLevel), hexX, hexY);
-        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, radius: 0);
         while (canPlaceHere && walk.HexNumber < count)
         {
             sbyte terrainType = GetTerrain(walk.HexNumber);
@@ -130,11 +130,11 @@ public class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMapObject(
             {
                 if (terrainList.GetTerrain(i) >= 0)
                 {
-                    terrainList.SetTerrain(i, TerrainType);
+                    terrainList.SetTerrain(i, value: TerrainType);
                 }
             }
 
-            canPlaceHere = canPlaceHere && mapContainer.Map.CanChangeTerrain(this, hexX, hexY, hexLevel, terrainList);
+            canPlaceHere = canPlaceHere && mapContainer.Map.CanChangeTerrain(this, hexX, hexY, hexLevel, terrain: terrainList);
             terrainList?.Dispose();
         }
 
@@ -154,7 +154,7 @@ public class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMapObject(
                 ImageIndex = GetTerrainTypeImage(TerrainType);
                 if (ImageIndex != -1)
                 {
-                    if (!GetEditMode())
+                    if (!EditMode)
                     {
                         OverrideTerrain();
                     }
@@ -191,11 +191,11 @@ public class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMapObject(
     // ILTer.pas:107
     public virtual sbyte GetValidTerrainType(MapLevel mapLevel, sbyte hexX, sbyte hexY)
     {
-        sbyte result = GetMostFrequentMapFieldTerrainType(mapLevel, hexX, hexY, -1);
+        sbyte result = GetMostFrequentMapFieldTerrainType(mapLevel, hexX, hexY, defaultValue: -1);
         if (!ValidTerrainType(result))
         {
             result = ForceTerrainType(mapLevel, hexX, hexY);
-            if (GetEditMode() || result != -2)
+            if (EditMode || result != -2)
             {
                 if (!ValidTerrainType(result))
                 {

@@ -23,7 +23,7 @@ public class ProcessEventLogAIPlayerAction(CustomNode owner) : AIPlayerAction(ow
         {
             if (_logIndex == -1)
             {
-                _logIndex = Control.Player.EventLogbook.FindFirstLog(131811, Control.Player.PlayerIndex, StrategicMap.Current.Day - 1) + 1;
+                _logIndex = Control.Player.EventLogbook.FindFirstLog(131811, player: Control.Player.PlayerIndex, day: StrategicMap.Current.Day - 1) + 1;
             }
             else
             {
@@ -33,7 +33,7 @@ public class ProcessEventLogAIPlayerAction(CustomNode owner) : AIPlayerAction(ow
             int count = Control.Player.EventLogbook.GetCount();
             if (_logIndex < count)
             {
-                EventLog log = Control.Player.EventLogbook.GetLogs(_logIndex);
+                EventLog log = Control.Player.EventLogbook[_logIndex];
                 log.ExecuteAI(Control.Player.PlayerIndex);
             }
             else

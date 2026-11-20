@@ -143,7 +143,7 @@ public class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(owner)
                     SetupME();
                     AIGroupControlTarget targetLocation = Targets.GetTargets(0);
                     AIGroupControlTarget target = Targets.GetTargets(0);
-                    ExecuteME(Targets.GetTargets(0).Location.X, target.Location.Y, targetLocation.Location.MapLevel);
+                    ExecuteME(Targets.GetTargets(0).Location.X, target.Location.Y, L: targetLocation.Location.MapLevel);
                     Targets.Delete(0);
                 }
                 else
@@ -157,7 +157,7 @@ public class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(owner)
                 {
                     State += 1;
                     SetupME();
-                    ExecuteME(Group.PatrolTo.X, Group.PatrolTo.Y, Group.PatrolTo.MapLevel);
+                    ExecuteME(Group.PatrolTo.X, Group.PatrolTo.Y, L: Group.PatrolTo.MapLevel);
                 }
                 else
                 {
@@ -316,7 +316,7 @@ public class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(owner)
             DoubleItemList<MapField> selectedList = lists[heading];
             int random = StrategicMap.Current.Random(selectedList.Count);
             mapField = selectedList.List[random].First;
-            MapCoordinate mapCoordinate = mapField.GetMapCoordinate();
+            MapCoordinate mapCoordinate = mapField.MapCoordinate;
             group.PatrolTo = mapCoordinate;
             result = true;
         }

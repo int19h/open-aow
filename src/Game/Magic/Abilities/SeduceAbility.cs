@@ -16,7 +16,7 @@ public class SeduceAbility : CommandAbility
     {
         Holder = holder;
         AbilityId = 29;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_seduceText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_seduceText);
         CommandedAbilityId = 48;
         SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit);
     }
@@ -25,10 +25,10 @@ public class SeduceAbility : CommandAbility
     public override sbyte GetTouchAttack(int level) => 4;
 
     // AoWAb.PAS:5389
-    public override bool CanTouch(CombatObject source, CombatObject target) => base.CanTouch(source, target) && target is CombatUnit combatUnit && combatUnit.Troop.GetGender() == UnitGender.Male && combatUnit.Troop.GetUnitType() == UnitType.Humanoid;
+    public override bool CanTouch(CombatObject source, CombatObject target) => base.CanTouch(source, target) && target is CombatUnit combatUnit && combatUnit.Troop.Gender == UnitGender.Male && combatUnit.Troop.GetUnitType() == UnitType.Humanoid;
 
     // AoWAb.PAS:5384
-    public override bool CanTouchUnit(Troop source, Troop target) => base.CanTouchUnit(source, target) && target.GetGender() == UnitGender.Male && target.GetUnitType() == UnitType.Humanoid;
+    public override bool CanTouchUnit(Troop source, Troop target) => base.CanTouchUnit(source, target) && target.Gender == UnitGender.Male && target.GetUnitType() == UnitType.Humanoid;
 
     private static readonly string s_seduceText = "Seduce";
 }

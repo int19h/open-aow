@@ -23,11 +23,11 @@ public static class ConsoleOutput
     {
         static string Scientific(double real)
         {
-            string text = real.ToString("E14", CultureInfo.InvariantCulture);
+            string text = real.ToString("E14", provider: CultureInfo.InvariantCulture);
             int exponent = text.IndexOf('E');
             if (exponent >= 0)
             {
-                text = text[..(exponent + 2)] + text[(exponent + 2)..].PadLeft(4, '0');
+                text = text[..(exponent + 2)] + text[(exponent + 2)..].PadLeft(4, paddingChar: '0');
             }
 
             return real >= 0 ? $" {text}" : text;
@@ -36,11 +36,11 @@ public static class ConsoleOutput
         {
             string bytes => bytes,
             bool flag => flag ? "TRUE" : "FALSE",
-            double real => precision is int digits ? real.ToString($"F{Math.Clamp(digits, 0, 18)}", CultureInfo.InvariantCulture) : Scientific(real),
-            float real => precision is int digits ? real.ToString($"F{Math.Clamp(digits, 0, 18)}", CultureInfo.InvariantCulture) : Scientific(real),
-            IFormattable number => number.ToString(null, CultureInfo.InvariantCulture),
+            double real => precision is int digits ? real.ToString($"F{Math.Clamp(digits, 0, 18)}", provider: CultureInfo.InvariantCulture) : Scientific(real),
+            float real => precision is int digits ? real.ToString($"F{Math.Clamp(digits, 0, 18)}", provider: CultureInfo.InvariantCulture) : Scientific(real),
+            IFormattable number => number.ToString(null, formatProvider: CultureInfo.InvariantCulture),
             _ => value.ToString() ?? ""
         };
-        return width > result.Length ? new string(' ', width - result.Length) + result : result;
+        return width > result.Length ? new string(' ', count: width - result.Length) + result : result;
     }
 }

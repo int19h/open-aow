@@ -35,14 +35,14 @@ public sealed partial class PersistEquivalenceTests
         SchemaClass classValue = s_schema.Get("Unit");
         byte[] image = Image(unit);
         ObjectNode tree = TreeWriter.Write(unit, Factory);
-        EqualBytes(image, OriginalBackend.Write(tree, classValue, s_schema, "game"), "Unit original");
-        JsonObject document = DocumentBackend.Write(tree, classValue, s_schema, "game");
+        EqualBytes(image, OriginalBackend.Write(tree, classValue, s_schema, engine: "game"), label: "Unit original");
+        JsonObject document = DocumentBackend.Write(tree, classValue, s_schema, engine: "game");
         Assert.Equal(ushort.MaxValue, ((JsonInteger)document["UnitResourceIndex"]!).Value);
-        EqualJson(PilotImage.Decode(image, "Unit"), document, "Unit write");
+        EqualJson(PilotImage.Decode(image, className: "Unit"), document, label: "Unit write");
         using Unit viaReadWrite = new(null!) { Holder = EngineFixture.Engine };
         using Unit viaPersist = new(null!) { Holder = EngineFixture.Engine };
         KeyNotFoundException streamError = Assert.Throws<KeyNotFoundException>(() => Load(viaReadWrite, image));
-        KeyNotFoundException treeError = Assert.Throws<KeyNotFoundException>(() => TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), viaPersist, Factory));
+        KeyNotFoundException treeError = Assert.Throws<KeyNotFoundException>(() => TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, engine: "game"), objectValue: viaPersist, Factory));
         Assert.Equal("unit resource missing (-1)", streamError.Message);
         Assert.Equal(streamError.Message, treeError.Message);
     }
@@ -63,7 +63,7 @@ public sealed partial class PersistEquivalenceTests
                 Player = 2,
                 Mode = Set<HeroModeElement>.Of(HeroModeElement.UpdatingFromLibrary)
             };
-            JsonObject written = DocumentBackend.Write(TreeWriter.Write(updating, Factory), classValue, s_schema, "game");
+            JsonObject written = DocumentBackend.Write(TreeWriter.Write(updating, Factory), classValue, s_schema, engine: "game");
             Assert.Null(written.Find("Inventory"));
             Assert.Null(written.Find("HeroItems"));
             // A blank load is not updating, so it writes the items the converter's image lacks.
@@ -75,16 +75,16 @@ public sealed partial class PersistEquivalenceTests
             using Hero viaReadWrite = Updating(player: 5);
             using Hero viaPersist = Updating(player: 5);
             Load(viaReadWrite, image);
-            TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), viaPersist, Factory);
+            TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, engine: "game"), objectValue: viaPersist, Factory);
             Assert.Equal(5, viaReadWrite.Player);
             Assert.Equal(5, viaPersist.Player);
             Assert.Equal("Source", viaPersist.HeroName);
             Assert.Null(viaReadWrite.Inventory.Items.GetItem(0));
             Assert.Null(viaPersist.Inventory.Items.GetItem(0));
-            EqualBytes(Image(viaReadWrite), Image(viaPersist), "Hero updating load");
+            EqualBytes(Image(viaReadWrite), Image(viaPersist), label: "Hero updating load");
 
             using Hero plain = new(null) { Holder = EngineFixture.Engine, Player = 5 };
-            TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), plain, Factory);
+            TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, engine: "game"), objectValue: plain, Factory);
             Assert.Equal(2, plain.Player);
             Assert.Equal(9, plain.Inventory.Items.GetItem(0).ItemId);
         });
@@ -110,18 +110,18 @@ public sealed partial class PersistEquivalenceTests
         {
             SchemaClass classValue = s_schema.Get("Hero");
             using Hero source = new(null) { Holder = EngineFixture.Engine, HeroName = "Old", Experience = 0 };
-            JsonObject document = PilotImage.Decode(Image(source), "Hero");
+            JsonObject document = PilotImage.Decode(Image(source), className: "Hero");
             int at = document.Members.FindIndex(member => member.Name == "HeroName");
-            document.Members.Insert(at, new JsonMember("OldExperience", new JsonInteger(3 << 5)));
-            byte[] image = PilotImage.Encode(document, "Hero");
+            document.Members.Insert(at, item: new JsonMember("OldExperience", new JsonInteger(3 << 5)));
+            byte[] image = PilotImage.Encode(document, className: "Hero");
             using Hero viaReadWrite = new(null) { Holder = EngineFixture.Engine };
             using Hero viaPersist = new(null) { Holder = EngineFixture.Engine };
             Load(viaReadWrite, image);
-            TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), viaPersist, Factory);
+            TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, engine: "game"), objectValue: viaPersist, Factory);
             Assert.Equal(source.LevelToExperience(4), viaReadWrite.Experience);
             Assert.Equal(viaReadWrite.Experience, viaPersist.Experience);
-            EqualBytes(Image(viaReadWrite), Image(viaPersist), "Hero old experience");
-            Assert.Null(DocumentBackend.Write(TreeWriter.Write(viaPersist, Factory), classValue, s_schema, "game").Find("OldExperience"));
+            EqualBytes(Image(viaReadWrite), Image(viaPersist), label: "Hero old experience");
+            Assert.Null(DocumentBackend.Write(TreeWriter.Write(viaPersist, Factory), classValue, s_schema, engine: "game").Find("OldExperience"));
         });
     }
 
@@ -173,7 +173,7 @@ public sealed partial class PersistEquivalenceTests
             byte[] heroBytes = File.ReadAllBytes(heroes);
             using (HeroLibraryManager viaPersist = new(null) { Holder = EngineFixture.Engine })
             {
-                TreeReader.Read(DocumentBackend.Read(new JsonObject(), s_schema.Get("HeroLibraryManager"), s_schema, "game"), viaPersist, Factory);
+                TreeReader.Read(DocumentBackend.Read(new JsonObject(), classValue: s_schema.Get("HeroLibraryManager"), s_schema, engine: "game"), objectValue: viaPersist, Factory);
                 Assert.Equal("System", viaPersist.SystemLibrary.LibraryName);
             }
             using (HeroLibraryManager writer = new(null) { Holder = EngineFixture.Engine })
@@ -189,7 +189,7 @@ public sealed partial class PersistEquivalenceTests
             Check("ItemLibraryManager", itemManager);
             using (ItemLibraryManager viaPersist = new(null) { Holder = EngineFixture.Engine })
             {
-                TreeReader.Read(DocumentBackend.Read(new JsonObject(), s_schema.Get("ItemLibraryManager"), s_schema, "game"), viaPersist, Factory);
+                TreeReader.Read(DocumentBackend.Read(new JsonObject(), classValue: s_schema.Get("ItemLibraryManager"), s_schema, engine: "game"), objectValue: viaPersist, Factory);
                 Assert.Equal("System", viaPersist.SystemLibrary.Name);
                 Assert.Equal("Staff", viaPersist.SystemLibrary.Items[0].Name);
             }
@@ -236,12 +236,12 @@ public sealed partial class PersistEquivalenceTests
             };
             using (DictionaryStream stream = new(dictionary))
             {
-                stream.Object(army, 0);
+                stream.Object(army, id: 0);
                 Assert.Equal(["Archer", "the Swift", "Lair", "Sword", "lines 0"], stream.Visited);
             }
             using (DictionaryStream stream = new(dictionary))
             {
-                stream.Object(lair, 0);
+                stream.Object(lair, id: 0);
                 Assert.Equal(["Lair", "Sword", "lines 0"], stream.Visited);
             }
 

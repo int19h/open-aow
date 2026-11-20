@@ -112,7 +112,7 @@ public class StartMenu(Component owner) : Menu(owner)
                             string item = Items[i];
                             LibraryImage imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame];
                             LibraryImage imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
-                            Font.SetText(WinLeft + BorderWidth + imageLibraryFrame2.Width, WinTop + BorderHeight + imageLibraryFrameHeight.Height + (ItemHeight * i), item, lockedSurface);
+                            Font.SetText(WinLeft + BorderWidth + imageLibraryFrame2.Width, WinTop + BorderHeight + imageLibraryFrameHeight.Height + (ItemHeight * i), text: item, lockedSurface);
                             if (i == Highlighted)
                             {
                                 Font.Color = Color;
@@ -130,12 +130,12 @@ public class StartMenu(Component owner) : Menu(owner)
                     }
                 }
 
-                RaiseDraw(this, lockedSurface);
+                RaiseDraw(this, surfDesc: lockedSurface);
             }
         }
         catch
         {
-            _ = MessageBox(0, "Exception during Draw", $"Error - {Name}", 0);
+            _ = MessageBox(0, text: "Exception during Draw", caption: $"Error - {Name}", flags: 0);
         }
     }
 

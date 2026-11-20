@@ -24,7 +24,7 @@ public class ResurrectHero : Spell
     public ResurrectHero(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_resurrectHeroText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_resurrectHeroText);
         SpellId = 66;
         SpellType = SpellType.Global;
         BaseManaCost = 0;
@@ -44,11 +44,11 @@ public class ResurrectHero : Spell
             x = coordinate75.X;
             y = coordinate75.Y;
             layer = coordinate75.MapLevel;
-            _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, layer, 0);
+            _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, layer, radius: 0);
             TwinkleAnimation animation = new(null) { Holder = CreationHolder() };
-            animation.Setup(CastImages.GetImageSequence(0), Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), 50, 64, 50, 30);
-            _ = StrategicMap.Current.PlaceHex(animation, x, y, layer);
-            if (source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(x, y, layer, 0))
+            animation.Setup(CastImages.GetImageSequence(0), mode: Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), count: 50, radius: 64, duration: 50, startDelay: 30);
+            _ = StrategicMap.Current.PlaceHex(animation, x, y, L: layer);
+            if (source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(x, y, L: layer, radius: 0))
             {
                 _ = CastSounds.Play(0);
             }
@@ -74,44 +74,44 @@ public class ResurrectHero : Spell
                 int count = heroes.Count;
                 Hero hero = heroes.GetHero(StrategicMap.Current.Random(count));
                 hero.Resurrect();
-                ArmyHexSprite army = hero.Place(x, y, layer, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea, UnitPlaceModeElement.CreateNewArmy));
+                ArmyHexSprite army = hero.Place(x, y, L: layer, player: 0, mode: Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea, UnitPlaceModeElement.CreateNewArmy));
                 LocationTextEventLog log = new(null)
                 {
                     Holder = CreationHolder(),
                     Player = source.Player,
-                    Text = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), s_resurrectedFormat), [hero.HeroName])
+                    Text = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_resurrectedFormat), args: [hero.HeroName])
                 };
-                log.SetLocation(level: army.GetHexLevel(), y: army.GetHexY(), x: army.GetHexX());
-                EventLog.DistributeLocationEventLog(y: army.GetHexY(), level: army.GetHexLevel(), x: army.GetHexX(), log: log, player: source.Player, execute: false);
+                log.SetLocation(level: army.HexLevel, y: army.HexY, x: army.HexX);
+                EventLog.DistributeLocationEventLog(y: army.HexY, level: army.HexLevel, x: army.HexX, log: log, player: source.Player, execute: false);
                 _ = log.Release();
                 if (hero.OfferToJoin(source.Player))
                 {
                     HeroEmergeEventLog emergeLog = new(null) { Holder = CreationHolder() };
-                    emergeLog.Setup(hero, source.Player, HeroEmergeEventLog.HeroJoinMode.Resurrected);
-                    _ = emergeLog.Execute(true, ExecuteTrigger.Event, null);
+                    emergeLog.Setup(hero, source.Player, mode: HeroEmergeEventLog.HeroJoinMode.Resurrected);
+                    _ = emergeLog.Execute(true, trigger: ExecuteTrigger.Event, done: null);
                     _ = emergeLog.Release();
                 }
                 else
                 {
                     ArmyInfoEventLog infoLog = new(null) { Holder = CreationHolder() };
                     int indexOf = army.Army.Units.IndexOf(hero);
-                    infoLog.ArmyView.Setup(army.Army, (byte)(1 << indexOf));
+                    infoLog.ArmyView.Setup(army.Army, selection: (byte)(1 << indexOf));
                     infoLog.Selection = 255;
                     infoLog.Player = source.Player;
-                    string noJoinResurrection = AbilityRules.TranslateResourceString(GetEngine(), s_noJoinResurrectionText);
+                    string noJoinResurrection = AbilityRules.TranslateResourceString(GetEngine(), S: s_noJoinResurrectionText);
                     infoLog.Messages.Text = noJoinResurrection;
                     infoLog.Triggers = Set<ExecuteTrigger>.Of(ExecuteTrigger.Event);
-                    _ = infoLog.Execute(true, ExecuteTrigger.Event, null);
+                    _ = infoLog.Execute(true, trigger: ExecuteTrigger.Event, done: null);
                     _ = infoLog.Release();
                 }
             }
             else
             {
-                string noHeroAnswersYourCall = AbilityRules.TranslateResourceString(GetEngine(), GameText.NoHeroAnswersYourCallText);
+                string noHeroAnswersYourCall = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.NoHeroAnswersYourCallText);
                 StrategicMap.Current.ShowMessage(noHeroAnswersYourCall);
             }
 
-            CastingDone(source, eventValue.EventMana);
+            CastingDone(source, mana: eventValue.EventMana);
             heroes?.Dispose();
             return false;
         }
@@ -126,10 +126,10 @@ public class ResurrectHero : Spell
     {
         string reason = "";
         _ = base.Activate(source);
-        if (CanActivate(source, ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
+        if (CanActivate(source, messageText: ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             SpellTokenEvent eventValue = new(null) { Holder = CreationHolder() };
-            eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
+            eventValue.Initialize(SpellId, playerIndex: (byte)source.Player, sourceId: source.UnitId, mana: BaseManaCost);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             _ = eventValue.Release();
             return true;

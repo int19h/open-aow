@@ -12,7 +12,7 @@ public static class GateSwitches
     public const string InvariantSwitch = "System.Globalization.Invariant";
 
     /// <summary>True when the runtime configuration turns on invariant globalization.</summary>
-    public static bool InvariantGlobalization => AppContext.TryGetSwitch(InvariantSwitch, out bool on) && on;
+    public static bool InvariantGlobalization => AppContext.TryGetSwitch(InvariantSwitch, isEnabled: out bool on) && on;
 
     /// <summary>The message a game host prints before it stops, or null when the switch is on.</summary>
     public static string? CultureError(string host) => InvariantGlobalization ? null :

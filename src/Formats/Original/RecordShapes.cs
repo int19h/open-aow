@@ -19,33 +19,33 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
     private RecordTypeInfo? _known;
     private readonly Dictionary<string, PropertyCodec> _codecs = [];
 
-    internal override bool AcceptsDocumentArray(int version) => version >= 3 && Info(null, "").BareSet;
+    internal override bool AcceptsDocumentArray(int version) => version >= 3 && Info(null, path: "").BareSet;
 
     internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
     {
-        RecordTypeInfo info = Info(context.File, site.Path.ToString());
+        RecordTypeInfo info = Info(context.File, path: site.Path.ToString());
         return end - start != info.Size
-            ? throw Mismatch(context, start, site, $"A record of {info.Size} bytes is stored in {end - start} bytes.")
+            ? throw Mismatch(context, start, site, message: $"A record of {info.Size} bytes is stored in {end - start} bytes.")
             : info.BareSet
             ? FieldCodec(info.Fields[0]).Decode(context, start, end, site)
-            : Document(info, context.Data.AsSpan(start, info.Size), context, site);
+            : Document(info, bytes: context.Data.AsSpan(start, length: info.Size), context, site);
     }
 
     internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site)
     {
-        RecordTypeInfo info = Info(context.File, site.Path.ToString());
+        RecordTypeInfo info = Info(context.File, path: site.Path.ToString());
         if (info.BareSet)
         {
             FieldCodec(info.Fields[0]).Encode(context, value, data, site);
             return;
         }
-        data.Bytes(Pack(info, value, context, site));
+        data.Bytes(Pack(info, value, context, parent: site));
     }
 
     internal override JsonValue? WriteTree(TreeValue value, DocumentSite site)
     {
-        RefuseOld(site, null);
-        RecordTypeInfo info = Info(site.Context.File, site.Path.ToString());
+        RefuseOld(site, value: null);
+        RecordTypeInfo info = Info(site.Context.File, path: site.Path.ToString());
         if (info.BareSet)
         {
             return FieldCodec(info.Fields[0]).WriteTree(value, site);
@@ -66,8 +66,8 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
                 continue;
             }
 
-            DocumentSite at = site.At(site.Path.Member(field.Name), false);
-            JsonValue? written = FieldCodec(field).WriteTree(found, at);
+            DocumentSite at = site.At(site.Path.Member(field.Name), element: false);
+            JsonValue? written = FieldCodec(field).WriteTree(found, site: at);
             if (written is not null && !field.OmitsDocument(written))
             {
                 _ = json.Add(field.Name, written);
@@ -80,7 +80,7 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
         {
             if (!seen.Contains(name))
             {
-                throw site.At(site.Path.Member(name), false).Fail(Codes.UnknownMember, $"The record has no member \"{name}\".", value: name);
+                throw site.At(site.Path.Member(name), element: false).Fail(Codes.UnknownMember, message: $"The record has no member \"{name}\".", value: name);
             }
         }
 
@@ -90,7 +90,7 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
     internal override TreeValue? ReadTree(JsonValue value, DocumentSite site)
     {
         RefuseOld(site, value);
-        RecordTypeInfo info = Info(site.Context.File, site.Path.ToString());
+        RecordTypeInfo info = Info(site.Context.File, path: site.Path.ToString());
         if (info.BareSet)
         {
             return FieldCodec(info.Fields[0]).ReadTree(value, site);
@@ -98,7 +98,7 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
 
         if (value is not JsonObject objectValue)
         {
-            throw site.Mismatch($"{site.Property?.Name ?? TypeName} is a record.", value);
+            throw site.Mismatch($"{site.Property?.Name ?? TypeName} is a record.", at: value);
         }
 
         CheckNames(objectValue, info, site);
@@ -111,8 +111,8 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
                 continue;
             }
 
-            DocumentSite at = site.At(site.Path.Member(field.Name), false);
-            TreeValue? read = FieldCodec(field).ReadTree(member.Value, at);
+            DocumentSite at = site.At(site.Path.Member(field.Name), element: false);
+            TreeValue? read = FieldCodec(field).ReadTree(member.Value, site: at);
             if (read is not null && !field.OmitsImage(read))
             {
                 node.Add(field.Name, read);
@@ -127,7 +127,7 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
         foreach (RecordFieldInfo field in info.Fields)
         {
             ValueSite fieldSite = new() { Property = site.Property, Id = site.Id, Path = site.Path.Member(field.Name), Owner = site.Owner };
-            JsonValue? value = FieldValue(field, bytes.Slice(field.Offset, field.Size), context, fieldSite);
+            JsonValue? value = FieldValue(field, bytes: bytes.Slice(field.Offset, length: field.Size), context, site: fieldSite);
             if (value is not null)
             {
                 _ = json.Add(field.Name, value);
@@ -150,7 +150,7 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
         string name = parent.Property?.Name ?? TypeName;
         if (value is not JsonObject objectValue)
         {
-            throw context.Fail(Codes.Type, $"{name} is a record.", value, parent.Path, value.KindName);
+            throw context.Fail(Codes.Type, message: $"{name} is a record.", at: value, parent.Path, value: value.KindName);
         }
 
         CheckNames(objectValue, info, context, parent.Path);
@@ -165,7 +165,7 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
 
             DocumentNodePath fieldPath = parent.Path.Member(field.Name);
             ValueSite site = new() { Property = parent.Property!, Id = 0, Path = fieldPath, Owner = objectValue };
-            WriteField(field, member.Value, context, site, bytes.AsSpan(field.Offset, field.Size));
+            WriteField(field, member.Value, context, site, target: bytes.AsSpan(field.Offset, length: field.Size));
         }
         return bytes;
     }
@@ -173,10 +173,10 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
     private void WriteField(RecordFieldInfo field, JsonValue value, EncodeContext context, ValueSite site, Span<byte> target)
     {
         ByteBuffer buffer = new(field.Size);
-        FieldCodec(field).Encode(context, value, buffer, site);
+        FieldCodec(field).Encode(context, value, data: buffer, site);
         if (buffer.Length != field.Size)
         {
-            throw context.Fail(Codes.Range, $"{field.Name} holds exactly {field.Size} bytes.", value, site.Path, Text(buffer.Length), $"{field.Size} bytes");
+            throw context.Fail(Codes.Range, message: $"{field.Name} holds exactly {field.Size} bytes.", at: value, site.Path, value: Text(buffer.Length), constraint: $"{field.Size} bytes");
         }
 
         buffer.Span.CopyTo(target);
@@ -218,7 +218,7 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
             return;
         }
 
-        throw site.Fail(Codes.Type, $"Version {site.Schema.Version} does not store a record.", value);
+        throw site.Fail(Codes.Type, message: $"Version {site.Schema.Version} does not store a record.", at: value);
     }
 
     private static void CheckNames(JsonObject objectValue, RecordTypeInfo info, DocumentSite site)
@@ -228,14 +228,14 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
         {
             if (member.Name.StartsWith('$'))
             {
-                throw site.At(site.Path.Member(member.Name), false).Fail(Codes.ReservedMember,
-                    Reserved.IsKnown(member.Name) ? $"Reserved member \"{member.Name}\" is not allowed here." : $"Unknown reserved member \"{member.Name}\".",
-                    member.Value, member.Name);
+                throw site.At(site.Path.Member(member.Name), element: false).Fail(Codes.ReservedMember,
+                    message: Reserved.IsKnown(member.Name) ? $"Reserved member \"{member.Name}\" is not allowed here." : $"Unknown reserved member \"{member.Name}\".",
+                    at: member.Value, value: member.Name);
             }
 
             if (!known.Contains(member.Name))
             {
-                throw site.At(site.Path.Member(member.Name), false).Fail(Codes.UnknownMember, $"The record has no member \"{member.Name}\".", member.Value, member.Name);
+                throw site.At(site.Path.Member(member.Name), element: false).Fail(Codes.UnknownMember, message: $"The record has no member \"{member.Name}\".", at: member.Value, value: member.Name);
             }
         }
     }
@@ -248,13 +248,13 @@ internal sealed partial class CatalogRecordCodec(string typeName, int size) : Pr
             if (member.Name.StartsWith('$'))
             {
                 throw context.Fail(Codes.ReservedMember,
-                    Reserved.IsKnown(member.Name) ? $"Reserved member \"{member.Name}\" is not allowed here." : $"Unknown reserved member \"{member.Name}\".",
-                    member.Value, path.Member(member.Name), member.Name);
+                    message: Reserved.IsKnown(member.Name) ? $"Reserved member \"{member.Name}\" is not allowed here." : $"Unknown reserved member \"{member.Name}\".",
+                    at: member.Value, path: path.Member(member.Name), value: member.Name);
             }
 
             if (!known.Contains(member.Name))
             {
-                throw context.Fail(Codes.UnknownMember, $"The record has no member \"{member.Name}\".", member.Value, path.Member(member.Name), member.Name);
+                throw context.Fail(Codes.UnknownMember, message: $"The record has no member \"{member.Name}\".", at: member.Value, path: path.Member(member.Name), value: member.Name);
             }
         }
     }
@@ -276,26 +276,26 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
 
     internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
     {
-        int[] indices = Unpack(CountOf(site.Owner, null, CountName, context, site.Path), bytes: context.Data.AsSpan(start, end - start), context: context, path: site.Path);
+        int[] indices = Unpack(CountOf(site.Owner, parent: null, name: CountName, context, site.Path), bytes: context.Data.AsSpan(start, length: end - start), context: context, path: site.Path);
         return Document(indices);
     }
 
-    internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site) => data.Bytes(Pack(CountOf(site.Owner, null, CountName, context, site.Path), value: value, context: context, path: site.Path, name: site.Property?.Name ?? "The value"));
+    internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site) => data.Bytes(Pack(CountOf(site.Owner, parent: null, name: CountName, context, site.Path), value: value, context: context, path: site.Path, name: site.Property?.Name ?? "The value"));
 
     internal override void WriteImage(TreeValue value, EncodeContext context, ByteBuffer data, ImageFrame frame)
     {
         if (value is not BitArrayNode node)
         {
-            throw FrameFail(context, frame, Codes.Type, $"{frame.Property?.Name ?? "The value"} is a bit array.");
+            throw FrameFail(context, frame, code: Codes.Type, message: $"{frame.Property?.Name ?? "The value"} is a bit array.");
         }
 
-        data.Bytes(Pack(node.Count, Document(node.Indices), context, frame.Path, frame.Property?.Name ?? "The value"));
+        data.Bytes(Pack(node.Count, value: Document(node.Indices), context, frame.Path, name: frame.Property?.Name ?? "The value"));
     }
 
     internal override TreeValue ReadImage(DecodeContext context, int start, int end, ImageFrame frame)
     {
-        int count = CountOf(frame.Owner, frame.Parent, CountName, context, frame.Path);
-        int[] indices = Unpack(count, context.Data.AsSpan(start, end - start), context, frame.Path);
+        int count = CountOf(frame.Owner, frame.Parent, name: CountName, context, frame.Path);
+        int[] indices = Unpack(count, bytes: context.Data.AsSpan(start, length: end - start), context, frame.Path);
         return new BitArrayNode(count, indices);
     }
 
@@ -303,7 +303,7 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
     {
         if (site.Schema.Version < 3)
         {
-            throw site.Fail(Codes.Type, $"Version {site.Schema.Version} does not store a bit array.");
+            throw site.Fail(Codes.Type, message: $"Version {site.Schema.Version} does not store a bit array.");
         }
 
         if (value is not BitArrayNode node)
@@ -312,7 +312,7 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
         }
 
         JsonValue json = Document(node.Indices);
-        _ = Pack(node.Count, json, site.Context, site.Path, site.Property?.Name ?? "The value");
+        _ = Pack(node.Count, value: json, site.Context, site.Path, name: site.Property?.Name ?? "The value");
         return json;
     }
 
@@ -320,11 +320,11 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
     {
         if (site.Schema.Version < 3)
         {
-            throw site.Fail(Codes.Type, $"Version {site.Schema.Version} does not store a bit array.", value);
+            throw site.Fail(Codes.Type, message: $"Version {site.Schema.Version} does not store a bit array.", at: value);
         }
 
-        int count = CountOf(site.Owner, null, CountName, site.Context, site.Path);
-        byte[] bytes = Pack(count, value, site.Context, site.Path, site.Property?.Name ?? "The value");
+        int count = CountOf(site.Owner, parent: null, name: CountName, site.Context, site.Path);
+        byte[] bytes = Pack(count, value, site.Context, site.Path, name: site.Property?.Name ?? "The value");
         int[] indices = Unpack(count, bytes, site);
         return new BitArrayNode(count, indices);
     }
@@ -344,21 +344,21 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
     {
         if (count < 0)
         {
-            throw context.Fail(Codes.Range, $"{name} has a negative count.", value, path, Text(count));
+            throw context.Fail(Codes.Range, message: $"{name} has a negative count.", at: value, path, value: Text(count));
         }
 
         int length = (count + 7) >> 3;
         if (length == 0)
         {
-            throw context.Fail(Codes.Range, $"{name} of 0 bits is omitted.", value, path);
+            throw context.Fail(Codes.Range, message: $"{name} of 0 bits is omitted.", at: value, path);
         }
 
         if (value is not JsonArray array)
         {
-            throw context.Fail(Codes.Type, $"{name} is an array of bit indices.", value, path, value.KindName);
+            throw context.Fail(Codes.Type, message: $"{name} is an array of bit indices.", at: value, path, value: value.KindName);
         }
 
-        int[] indices = ReadIndices(array, length * 8, context, path, name);
+        int[] indices = ReadIndices(array, limit: length * 8, context, path, name);
         byte[] bytes = new byte[length];
         foreach (int index in indices)
         {
@@ -372,7 +372,7 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
     {
         int length = count < 0 ? -1 : (count + 7) >> 3;
         return count < 0 || bytes.Length != length
-            ? throw context.Fail(Codes.Range, $"A bit array of {count} bits is stored in {bytes.Length} bytes.", 0, path, Text(bytes.Length), $"{length} bytes")
+            ? throw context.Fail(Codes.Range, message: $"A bit array of {count} bits is stored in {bytes.Length} bytes.", offset: 0, path, value: Text(bytes.Length), constraint: $"{length} bytes")
             : Split(bytes);
     }
 
@@ -380,7 +380,7 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
     {
         int length = count < 0 ? -1 : (count + 7) >> 3;
         return count < 0 || bytes.Length != length
-            ? throw site.Fail(Codes.Range, $"A bit array of {count} bits is stored in {bytes.Length} bytes.", value: Text(bytes.Length), constraint: $"{length} bytes")
+            ? throw site.Fail(Codes.Range, message: $"A bit array of {count} bits is stored in {bytes.Length} bytes.", value: Text(bytes.Length), constraint: $"{length} bytes")
             : Split(bytes);
     }
 
@@ -404,7 +404,7 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
     {
         if (array.Items.Count > context.Limits.CollectionItems)
         {
-            throw context.Fail(Codes.Limit, "A collection has too many items.", array, path, null, $"at most {context.Limits.CollectionItems} items");
+            throw context.Fail(Codes.Limit, message: "A collection has too many items.", at: array, path, value: null, constraint: $"at most {context.Limits.CollectionItems} items");
         }
 
         int[] indices = new int[array.Items.Count];
@@ -413,23 +413,23 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
         {
             if (array.Items[i] is not JsonInteger number)
             {
-                throw context.Fail(Codes.Type, $"{name} is an integer.", array.Items[i], path.Item(i), array.Items[i].KindName);
+                throw context.Fail(Codes.Type, message: $"{name} is an integer.", at: array.Items[i], path: path.Item(i), value: array.Items[i].KindName);
             }
 
             if (number.Value < 0 || number.Value >= limit)
             {
-                throw context.Fail(Codes.Range, $"{name} is outside its storage range.", array.Items[i], path.Item(i), Text(number.Value), $"0 to {limit - 1}");
+                throw context.Fail(Codes.Range, message: $"{name} is outside its storage range.", at: array.Items[i], path: path.Item(i), value: Text(number.Value), constraint: $"0 to {limit - 1}");
             }
 
             int index = (int)number.Value;
             if (index == previous)
             {
-                throw context.Fail(Codes.Duplicate, $"{name} lists bit {index} twice.", array.Items[i], path.Item(i));
+                throw context.Fail(Codes.Duplicate, message: $"{name} lists bit {index} twice.", at: array.Items[i], path: path.Item(i));
             }
 
             if (index < previous)
             {
-                throw context.Fail(Codes.Range, $"{name} lists bits out of order.", array.Items[i], path.Item(i), Text(index));
+                throw context.Fail(Codes.Range, message: $"{name} lists bits out of order.", at: array.Items[i], path: path.Item(i), value: Text(index));
             }
 
             previous = index;
@@ -442,11 +442,11 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
     {
         return owner?[name] is JsonInteger json
             ? json.Value is < 0 or > int.MaxValue
-                ? throw context.Fail(Codes.Range, $"{name} is a non-negative 32-bit integer.", 0, path, Text(json.Value))
+                ? throw context.Fail(Codes.Range, message: $"{name} is a non-negative 32-bit integer.", offset: 0, path, value: Text(json.Value))
                 : (int)json.Value
             : parent?.Find(name) is IntegerNode node
             ? node.Value is < 0 or > int.MaxValue
-                ? throw context.Fail(Codes.Range, $"{name} is a non-negative 32-bit integer.", 0, path, Text(node.Value))
+                ? throw context.Fail(Codes.Range, message: $"{name} is a non-negative 32-bit integer.", offset: 0, path, value: Text(node.Value))
                 : (int)node.Value
             : 0;
     }
@@ -455,17 +455,17 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
     {
         return owner?[name] is JsonInteger json
             ? json.Value is < 0 or > int.MaxValue
-                ? throw context.Fail(Codes.Range, $"{name} is a non-negative 32-bit integer.", json, path, Text(json.Value))
+                ? throw context.Fail(Codes.Range, message: $"{name} is a non-negative 32-bit integer.", at: json, path, value: Text(json.Value))
                 : (int)json.Value
             : parent?.Find(name) is IntegerNode node
             ? node.Value is < 0 or > int.MaxValue
-                ? throw context.Fail(Codes.Range, $"{name} is a non-negative 32-bit integer.", null, path, Text(node.Value))
+                ? throw context.Fail(Codes.Range, message: $"{name} is a non-negative 32-bit integer.", at: null, path, value: Text(node.Value))
                 : (int)node.Value
             : 0;
     }
 
     private static ConversionException FrameFail(EncodeContext context, ImageFrame frame, string code, string message)
-        => context.Fail(code, message, null, frame.Path);
+        => context.Fail(code, message, at: null, frame.Path);
 }
 
 /// <summary>
@@ -477,11 +477,11 @@ internal sealed partial class RawBooleanCodec : PropertyCodec
     internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
     {
         return end - start != 1
-            ? throw Mismatch(context, start, site, $"A raw boolean is stored in {end - start} bytes.")
+            ? throw Mismatch(context, start, site, message: $"A raw boolean is stored in {end - start} bytes.")
             : Value(context.Data[start]);
     }
 
-    internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site) => data.Byte(ByteOf(context, value, site.Path, site.Property?.Name ?? "The value"));
+    internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site) => data.Byte(ByteOf(context, value, site.Path, name: site.Property?.Name ?? "The value"));
 
     internal override JsonValue? WriteTree(TreeValue value, DocumentSite site)
     {
@@ -489,7 +489,7 @@ internal sealed partial class RawBooleanCodec : PropertyCodec
             ? new JsonBoolean(bit.Value)
             : value is IntegerNode { Width: 1, Signed: false } number
             ? number.Value is < 0 or > 255
-                ? throw site.Fail(Codes.Range, $"{site.Property?.Name ?? "The value"} is outside its storage range.", value: Text(number.Value), constraint: "0 to 255")
+                ? throw site.Fail(Codes.Range, message: $"{site.Property?.Name ?? "The value"} is outside its storage range.", value: Text(number.Value), constraint: "0 to 255")
                 : (JsonValue)new JsonInteger(number.Value)
             : throw site.Mismatch($"{site.Property?.Name ?? "The value"} is a boolean.");
     }
@@ -500,9 +500,9 @@ internal sealed partial class RawBooleanCodec : PropertyCodec
             ? new BooleanNode(bit.Value)
             : value is JsonInteger number
             ? number.Value is < 0 or > 255
-                ? throw site.Fail(Codes.Range, $"{site.Property?.Name ?? "The value"} is outside its storage range.", value, Text(number.Value), "0 to 255")
-                : number.Value is 0 or 1 ? new BooleanNode(number.Value != 0) : new IntegerNode(1, false, number.Value)
-            : throw site.Mismatch($"{site.Property?.Name ?? "The value"} is a boolean.", value);
+                ? throw site.Fail(Codes.Range, message: $"{site.Property?.Name ?? "The value"} is outside its storage range.", at: value, value: Text(number.Value), constraint: "0 to 255")
+                : number.Value is 0 or 1 ? new BooleanNode(number.Value != 0) : new IntegerNode(1, signed: false, number.Value)
+            : throw site.Mismatch($"{site.Property?.Name ?? "The value"} is a boolean.", at: value);
     }
 
     /// <summary>The document value of a raw boolean byte: false, true, or the integer of any other byte.</summary>
@@ -527,9 +527,9 @@ internal sealed partial class RawBooleanCodec : PropertyCodec
 
         if (value is JsonInteger integer)
         {
-            throw context.Fail(Codes.Range, $"{name} is outside its storage range.", integer, path, Text(integer.Value), "0 to 255");
+            throw context.Fail(Codes.Range, message: $"{name} is outside its storage range.", at: integer, path, value: Text(integer.Value), constraint: "0 to 255");
         }
 
-        throw context.Fail(Codes.Type, $"{name} is a boolean.", value, path, value.KindName);
+        throw context.Fail(Codes.Type, message: $"{name} is a boolean.", at: value, path, value: value.KindName);
     }
 }

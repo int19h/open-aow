@@ -39,7 +39,7 @@ public class SdlSoundSystem : SoundSystem
     public static SoundSystemClass Descriptor { get; } = new("SDL", static () => new SdlSoundSystem());
     public static SoundSystemClass Galaxy { get; } = new("Galaxy", static () => new SdlSoundSystem());
     public static SampleClass Samples { get; } = new("SdlSample", static data => SdlSample.Create(s_active!.Mixer, data));
-    public static SampleDataClass SampleData { get; } = new("SdlSampleData", SdlSampleData.Create, SdlSampleData.Create);
+    public static SampleDataClass SampleData { get; } = new("SdlSampleData", SdlSampleData.Create, createEx: SdlSampleData.Create);
 
     protected internal override SampleClass SampleClass() => Samples;
     protected internal override SampleDataClass SampleDataClass() => SampleData;
@@ -87,7 +87,7 @@ public class SdlSoundSystem : SoundSystem
         {
             try
             {
-                _output = new(Mixer, value, s_muted);
+                _output = new(Mixer, settings: value, s_muted);
             }
             catch (Exception ex) when (ex is InvalidOperationException or DllNotFoundException or EntryPointNotFoundException)
             {
@@ -97,9 +97,9 @@ public class SdlSoundSystem : SoundSystem
         return true;
     }
 
-    public override SoundSettings GetSoundSettings() => _settings;
-    protected internal override bool GetMusicEnabled() => _settings.MusicEnabled;
-    protected internal override bool GetSfxEnabled() => _settings.SfxEnabled;
+    public override SoundSettings SoundSettings => _settings;
+    public override bool MusicEnabled => _settings.MusicEnabled;
+    public override bool SfxEnabled => _settings.SfxEnabled;
 
     public override bool SetMusicEnabled(bool value)
     {
@@ -125,7 +125,7 @@ public class SdlSoundSystem : SoundSystem
     }
 
     private static int Scale(int value) => (int)Math.Round(Math.Clamp(value, 0, 100) * 127.0 / 100);
-    public override bool SetMusicVolume(int value) => FadeMusicVolume(value, 0);
+    public override bool SetMusicVolume(int value) => FadeMusicVolume(value, speed: 0);
 
     public override bool FadeMusicVolume(int value, int speed)
     {
@@ -140,8 +140,9 @@ public class SdlSoundSystem : SoundSystem
         return true;
     }
 
-    protected internal override int GetMusicVolume() => (int)Math.Round(_volume * 100.0 / 127);
-    public override bool SetSfxVolume(int value) => FadeSfxVolume(value, 0);
+    public override int MusicVolume => (int)Math.Round(_volume * 100.0 / 127);
+
+    public override bool SetSfxVolume(int value) => FadeSfxVolume(value, speed: 0);
 
     public override bool FadeSfxVolume(int value, int speed)
     {
@@ -171,7 +172,7 @@ public class SdlSoundSystem : SoundSystem
     }
 
     protected internal override string GetPlayingSongFileName() => GetPlayingSong() ? _fileName : "";
-    public override bool PlaySong(string name) => PlaySong(name, 0, 0, false);
+    public override bool PlaySong(string name) => PlaySong(name, fadeOut: 0, newFadeIn: 0, repeat: false);
 
     public override bool PlaySong(string name, int fadeOut, int newFadeIn, bool repeat)
     {
@@ -188,17 +189,17 @@ public class SdlSoundSystem : SoundSystem
                 _loop = repeat;
                 _fadeIn = newFadeIn;
                 State = SongState.WaitingForFadeIn;
-                Mixer.MusicGain.Set(0, fadeOut);
+                Mixer.MusicGain.Set(0, speed: fadeOut);
                 return true;
             }
             Mixer.ReplaceSong(null);
             State = SongState.Idle;
             try
             {
-                using Stream stream = RtlHost.Files.Open(AudioHost.BaseSoundEnginePath + name, 0);
+                using Stream stream = RtlHost.Files.Open(AudioHost.BaseSoundEnginePath + name, mode: 0);
                 using MemoryStream data = new();
                 stream.CopyTo(data);
-                TrackerSong? song = TrackerSong.Load(data.GetBuffer().AsSpan(0, (int)data.Length), repeat);
+                TrackerSong? song = TrackerSong.Load(data.GetBuffer().AsSpan(0, length: (int)data.Length), loop: repeat);
                 if (song is null)
                 {
                     return false;
@@ -211,10 +212,10 @@ public class SdlSoundSystem : SoundSystem
                 State = SongState.Playing;
                 if (newFadeIn != 0)
                 {
-                    Mixer.MusicGain.Set(0, 0);
+                    Mixer.MusicGain.Set(0, speed: 0);
                 }
 
-                Mixer.MusicGain.Set(_volume, newFadeIn);
+                Mixer.MusicGain.Set(_volume, speed: newFadeIn);
                 return true;
             }
             catch (IOException ex)
@@ -231,7 +232,7 @@ public class SdlSoundSystem : SoundSystem
         {
             if (State == SongState.WaitingForFadeIn && Mixer.MusicGain.Value == 0)
             {
-                _ = PlaySong(_fileName, 0, _fadeIn, _loop);
+                _ = PlaySong(_fileName, fadeOut: 0, newFadeIn: _fadeIn, repeat: _loop);
             }
         }
 
@@ -284,7 +285,7 @@ public class SdlSoundSystem : SoundSystem
                 _loop = false;
                 _fadeIn = 3;
                 State = SongState.WaitingForFadeIn;
-                Mixer.MusicGain.Set(0, 2);
+                Mixer.MusicGain.Set(0, speed: 2);
                 return true;
             }
             bool result = PlaySong(status.FileName);
@@ -293,8 +294,8 @@ public class SdlSoundSystem : SoundSystem
                 Mixer.Song!.Order = saved.Order;
             }
 
-            Mixer.MusicGain.Set(0, 0);
-            Mixer.MusicGain.Set(_volume, 3);
+            Mixer.MusicGain.Set(0, speed: 0);
+            Mixer.MusicGain.Set(_volume, speed: 3);
             return result;
         }
     }
@@ -302,10 +303,10 @@ public class SdlSoundSystem : SoundSystem
 
 internal class SdlSampleData : SampleData
 {
-    public WaveData Wave { get; } = new(44100, 1, []);
+    public WaveData Wave { get; } = new(44100, Channels: 1, Samples: []);
 
     public static new SdlSampleData Create(string name)
-        => ConstructionContext.Create(name, static (context, value) => new SdlSampleData(context, value));
+        => ConstructionContext.Create(name, static (context, value) => new SdlSampleData(context, name: value));
 
     public static new SdlSampleData Create(in WaveFormat format, object data, int size)
         => ConstructionContext.Create((format, data, size), static (context, value) =>
@@ -313,18 +314,18 @@ internal class SdlSampleData : SampleData
 
     private protected SdlSampleData(ConstructionContext context, string name) : base(context, name)
     {
-        using Stream stream = RtlHost.Files.Open(AudioHost.BaseSoundEnginePath + name, 0);
+        using Stream stream = RtlHost.Files.Open(AudioHost.BaseSoundEnginePath + name, mode: 0);
         Wave = WaveData.Read(stream);
     }
 
-    private protected SdlSampleData(ConstructionContext context, in WaveFormat format, object data, int size) : base(context, format, data, size) => Wave = WaveData.Decode(format, PointerMemory.BufferBytes(data)[..size]);
+    private protected SdlSampleData(ConstructionContext context, in WaveFormat format, object data, int size) : base(context, format, data, size) => Wave = WaveData.Decode(format, data: PointerMemory.BufferBytes(data)[..size]);
 }
 
 internal class SdlSample : Sample
 {
     private readonly AudioMixer _mixer;
 
-    private protected SdlSample(ConstructionContext context, AudioMixer mixer, SampleData data) : base(context, data) => _mixer = mixer;
+    private protected SdlSample(ConstructionContext context, AudioMixer mixer, SampleData data) : base(context, sampleData: data) => _mixer = mixer;
 
     public static SdlSample Create(AudioMixer mixer, SampleData data)
         => ConstructionContext.Create((mixer, data), static (context, value) => new SdlSample(context, value.mixer, value.data));
@@ -342,36 +343,42 @@ internal class SdlSample : Sample
         }
     }
 
-    protected internal override int GetVolume() => _volume;
-
-    protected internal override void SetVolume(int value)
+    public override int Volume
     {
-        lock (_mixer.Sync)
+        get => _volume;
+        set
         {
-            _volume = value;
-            Apply();
+            lock (_mixer.Sync)
+            {
+                _volume = value;
+                Apply();
+            }
         }
     }
 
-    protected internal override bool GetLooped() => _loop;
-
-    protected internal override void SetLooped(bool value)
+    public override bool Looped
     {
-        lock (_mixer.Sync)
+        get => _loop;
+        set
         {
-            _loop = value;
-            Apply();
+            lock (_mixer.Sync)
+            {
+                _loop = value;
+                Apply();
+            }
         }
     }
 
-    protected internal override SamplePanning GetPanning() => _pan;
-
-    protected internal override void SetPanning(SamplePanning value)
+    public override SamplePanning Panning
     {
-        lock (_mixer.Sync)
+        get => _pan;
+        set
         {
-            _pan = value;
-            Apply();
+            lock (_mixer.Sync)
+            {
+                _pan = value;
+                Apply();
+            }
         }
     }
 

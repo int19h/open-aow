@@ -99,7 +99,7 @@ public class SetupControl : Component
     }
 
     // AoWSetup.pas:456
-    public void SendData(object data, int size, int recipient) => OnSendData?.Invoke(data, size, recipient);
+    public void SendData(object data, int size, int recipient) => OnSendData?.Invoke(data, size, SystemID: recipient);
 
     // AoWSetup.pas:461
     public void SendPackage(SetupPackage package, int recipient)
@@ -107,10 +107,10 @@ public class SetupControl : Component
         MemoryStream stream = new();
         try
         {
-            _engine.StoreEngineObject(stream, package, null);
+            _engine.StoreEngineObject(stream, objectValue: package, progress: null);
             SendData(size: (int)stream.Length, data: stream.GetBuffer(), recipient: recipient);
             int streamSize = (int)stream.Length;
-            _engine.OutputDebugMessage(DebugChannel.NetworkEngine, $"SetupPackage Send (ID:{IntToStr(package.MessageId)}/Size:{IntToStr(streamSize)}) to {IntToStr(recipient)}");
+            _engine.OutputDebugMessage(DebugChannel.NetworkEngine, S: $"SetupPackage Send (ID:{IntToStr(package.MessageId)}/Size:{IntToStr(streamSize)}) to {IntToStr(recipient)}");
         }
         finally
         {
@@ -159,11 +159,11 @@ public class SetupControl : Component
             package.Param1 = param1;
             if (!GetHost())
             {
-                SendPackage(package, 0);
+                SendPackage(package, recipient: 0);
             }
             else
             {
-                PackageReceived(package, RemotePlayer.RemoteId);
+                PackageReceived(package, senderId: RemotePlayer.RemoteId);
             }
 
             package?.Dispose();
@@ -175,15 +175,15 @@ public class SetupControl : Component
     {
         MemoryStream stream = new();
         stream.SetLength(size);
-        Move(BufferBytes(data)[..size], stream.GetBuffer().AsSpan(0, size), size);
+        Move(BufferBytes(data)[..size], destination: stream.GetBuffer().AsSpan(0, length: size), count: size);
         stream.Position = 0;
         try
         {
-            EngineObject objectValue = _engine.RetrieveEngineObject(stream, null);
+            EngineObject objectValue = _engine.RetrieveEngineObject(stream, progress: null);
             if (objectValue is SetupPackage package)
             {
                 int sizeLocal = (int)stream.Length;
-                _engine.OutputDebugMessage(DebugChannel.NetworkEngine, $"SetupPackage Received (ID:{IntToStr(package.MessageId)}/Size:{IntToStr(sizeLocal)}) from {IntToStr(senderId)}");
+                _engine.OutputDebugMessage(DebugChannel.NetworkEngine, S: $"SetupPackage Received (ID:{IntToStr(package.MessageId)}/Size:{IntToStr(sizeLocal)}) from {IntToStr(senderId)}");
                 PackageReceived(package, senderId);
             }
 
@@ -201,8 +201,8 @@ public class SetupControl : Component
     // AoWSetup.pas:530
     public bool ValidateCompatibleVersion(int version)
     {
-        int major = (int)(((uint)(_engine.Version & -65536)) >> 16);
-        version = (int)(((uint)(version & -65536)) >> 16);
+        int major = (_engine.Version & -65536) >>> 16;
+        version = (version & -65536) >>> 16;
         return major == version;
     }
 
@@ -222,13 +222,13 @@ public class SetupControl : Component
         }
         else
         {
-            if ((int)(((uint)player.Version) >> 24) == 1 && (((int)(((uint)player.Version) >> 16)) & 255) <= 10)
+            if (player.Version >>> 24 == 1 && ((player.Version >>> 16) & 255) <= 10)
             {
                 OnEjectPlayer?.Invoke(this, player.RemoteId);
             }
             else
             {
-                SendMessage(param1: _engine.GetMinorVersion(), messageId: 9, objectValue: null, param2: _engine.GetMajorVersion(), recipient: player.RemoteId);
+                SendMessage(param1: _engine.MinorVersion, messageId: 9, objectValue: null, param2: _engine.MajorVersion, recipient: player.RemoteId);
             }
         }
     }
@@ -287,7 +287,7 @@ public class SetupControl : Component
             Settings.HostRemoteId = remoteId;
             if (GetRemote())
             {
-                SendMessage(4, Settings, 0, 0, 0);
+                SendMessage(4, objectValue: Settings, 0, 0, recipient: 0);
             }
 
             OnSettingChanged?.Invoke(this);
@@ -305,7 +305,7 @@ public class SetupControl : Component
                 // The client looks up the host's map by name, its own document first (own-formats.md 2.9).
                 string fileName = FileBoundary.ReadName(_engine.StartupDirectory + Settings.MapName);
                 validation = FileExists(fileName)
-                    ? FileBoundary.ImageCrc32(fileName, GameProfile.WorldMap) == Settings.MapCrc
+                    ? FileBoundary.ImageCrc32(fileName, profile: GameProfile.WorldMap) == Settings.MapCrc
                         ? MapValidationInfo.Valid
                         : MapValidationInfo.InvalidMap
                     : MapValidationInfo.InvalidMap;
@@ -329,7 +329,7 @@ public class SetupControl : Component
             if (validation != RemotePlayer.MapValidation)
             {
                 RemotePlayer.MapValidation = validation;
-                SendHostMessage(3, RemotePlayer, 0, 0);
+                SendHostMessage(3, objectValue: RemotePlayer, 0, 0);
             }
         }
     }
@@ -411,7 +411,7 @@ public class SetupControl : Component
                 if (GetHost())
                 {
                     // Message 8 carries the customized leader in Data. The id selects the class, and the cast stays.
-                    LeaderCustomized(package.Param2, (Leader)package.Data);
+                    LeaderCustomized(package.Param2, leader: (Leader)package.Data);
                 }
 
                 break;
@@ -441,7 +441,7 @@ public class SetupControl : Component
             case 11:
                 if (GetHost() && ValidateSendMap())
                 {
-                    SendMessage(5, Settings, 0, 0, 0);
+                    SendMessage(5, objectValue: Settings, 0, 0, recipient: 0);
                     LoadMap();
                 }
 
@@ -449,7 +449,7 @@ public class SetupControl : Component
             case 9:
                 if (!GetHost())
                 {
-                    OnIncompatibleVersion?.Invoke(this, package.Param2, package.Param1);
+                    OnIncompatibleVersion?.Invoke(this, MajorVersion: package.Param2, MinorVersion: package.Param1);
                 }
 
                 break;
@@ -462,7 +462,7 @@ public class SetupControl : Component
     public void LoadMap()
     {
         _phase = SetupPhase.LoadMap;
-        OnLoadMap?.Invoke(this, _engine.StartupDirectory + Settings.MapName);
+        OnLoadMap?.Invoke(this, Filename: _engine.StartupDirectory + Settings.MapName);
     }
 
     // AoWSetup.pas:689
@@ -488,11 +488,11 @@ public class SetupControl : Component
             // The host sends the map's engine image, the bytes FMapCRC covers and LoadHSMfromStream
             // reads (own-formats.md 4.1). A document the original image cannot carry has no image.
             // LoadOrRaise refuses it through the packet profile, and this sends nothing.
-            MemoryStream stream = GameEngine.ImageStream(FileBoundary.LoadOrRaise(_engine.StartupDirectory + Settings.MapName, GameProfile.WorldMap));
+            MemoryStream stream = GameEngine.ImageStream(FileBoundary.LoadOrRaise(_engine.StartupDirectory + Settings.MapName, profile: GameProfile.WorldMap));
             if (OnSendMap is not null)
             {
                 int size = (int)stream.Length;
-                OnSendMap(this, stream.GetBuffer(), size, remoteId);
+                OnSendMap(this, Data: stream.GetBuffer(), size, Recipient: remoteId);
             }
 
             stream?.Dispose();
@@ -510,10 +510,10 @@ public class SetupControl : Component
         _phase = SetupPhase.SendMap;
         OnSendingMaps?.Invoke(this);
 
-        SendMessage(10, Settings, 0, 0, 0);
+        SendMessage(10, objectValue: Settings, 0, 0, recipient: 0);
         if (ValidateSendMap())
         {
-            SendMessage(5, Settings, 0, 0, 0);
+            SendMessage(5, objectValue: Settings, 0, 0, recipient: 0);
             LoadMap();
         }
     }
@@ -524,9 +524,9 @@ public class SetupControl : Component
         if (!GetHost())
         {
             Stream.SetLength(size);
-            Move(BufferBytes(data)[..size], Stream.GetBuffer().AsSpan(0, size), size);
+            Move(BufferBytes(data)[..size], destination: Stream.GetBuffer().AsSpan(0, length: size), count: size);
             ValidateMap();
-            SendHostMessage(11, RemotePlayer, 0, 0);
+            SendHostMessage(11, objectValue: RemotePlayer, 0, 0);
         }
     }
 
@@ -563,7 +563,7 @@ public class SetupControl : Component
             }
             else
             {
-                SendHostMessage(7, null, i, 0);
+                SendHostMessage(7, objectValue: null, i, 0);
             }
         }
         else
@@ -669,12 +669,12 @@ public class SetupControl : Component
     {
         if (!GetHost())
         {
-            SendHostMessage(8, control.OriginalLeader, control.PlayerIndex, 0);
+            SendHostMessage(8, objectValue: control.OriginalLeader, control.PlayerIndex, 0);
             Settings.GetSettings(control.PlayerIndex).Leader.Assign(control.OriginalLeader, _engine);
         }
         else
         {
-            LeaderCustomized(control.PlayerIndex, control.OriginalLeader);
+            LeaderCustomized(control.PlayerIndex, leader: control.OriginalLeader);
         }
 
         if (Status.Contains(SetupStatusElement.Busy))
@@ -788,29 +788,29 @@ public class SetupControl : Component
         if (GetRemote())
         {
             RemotePlayerCommunicationControl remotePlayerCommunicationControl = new(_engine);
-            remotePlayerCommunicationControl.Setup(StrategicMap.Current.Players.GetCount(), RemotePlayer.RemoteId);
-            remotePlayerCommunicationControl.SetConnectionMode(0, ConnectionMode.Global);
-            remotePlayerCommunicationControl.SetSystemId(0, RemotePlayer.RemoteId);
+            remotePlayerCommunicationControl.Setup(StrategicMap.Current.Players.GetCount(), localSystemId: RemotePlayer.RemoteId);
+            remotePlayerCommunicationControl.SetConnectionMode(0, mode: ConnectionMode.Global);
+            remotePlayerCommunicationControl.SetSystemId(0, systemId: RemotePlayer.RemoteId);
             for (int i = 0, last = Settings.GetCount() - 1; i <= last; i++)
             {
                 if (Settings.GetSettings(i).Behavior.PlayerType != 0)
                 {
-                    remotePlayerCommunicationControl.SetConnectionMode((sbyte)Settings.GetSettings(i).PlayerId, ConnectionMode.Global);
-                    remotePlayerCommunicationControl.SetSystemId((sbyte)Settings.GetSettings(i).PlayerId, RemotePlayer.RemoteId);
+                    remotePlayerCommunicationControl.SetConnectionMode((sbyte)Settings.GetSettings(i).PlayerId, mode: ConnectionMode.Global);
+                    remotePlayerCommunicationControl.SetSystemId((sbyte)Settings.GetSettings(i).PlayerId, systemId: RemotePlayer.RemoteId);
                 }
                 else
                 {
                     if (Settings.GetSettings(i).Behavior.Flags == RemotePlayer.RemoteId)
                     {
-                        remotePlayerCommunicationControl.SetConnectionMode((sbyte)Settings.GetSettings(i).PlayerId, ConnectionMode.Local);
+                        remotePlayerCommunicationControl.SetConnectionMode((sbyte)Settings.GetSettings(i).PlayerId, mode: ConnectionMode.Local);
                     }
                     else
                     {
-                        remotePlayerCommunicationControl.SetConnectionMode((sbyte)Settings.GetSettings(i).PlayerId, ConnectionMode.Remote);
+                        remotePlayerCommunicationControl.SetConnectionMode((sbyte)Settings.GetSettings(i).PlayerId, mode: ConnectionMode.Remote);
                     }
 
                     PlayerSetupSettings setting = Settings.GetSettings(i);
-                    remotePlayerCommunicationControl.SetSystemId((sbyte)Settings.GetSettings(i).PlayerId, setting.Behavior.Flags);
+                    remotePlayerCommunicationControl.SetSystemId((sbyte)Settings.GetSettings(i).PlayerId, systemId: setting.Behavior.Flags);
                 }
             }
 
@@ -823,16 +823,16 @@ public class SetupControl : Component
         {
             LocalPlayerCommunicationControl localPlayerCommunicationControl = new(_engine);
             localPlayerCommunicationControl.Setup(StrategicMap.Current.Players.GetCount());
-            localPlayerCommunicationControl.SetConnectionMode(0, ConnectionMode.Global);
+            localPlayerCommunicationControl.SetConnectionMode(0, mode: ConnectionMode.Global);
             for (int i = 0, last = Settings.GetCount() - 1; i <= last; i++)
             {
                 if (Settings.GetSettings(i).Behavior.PlayerType == 0)
                 {
-                    localPlayerCommunicationControl.SetConnectionMode((sbyte)Settings.GetSettings(i).PlayerId, ConnectionMode.Local);
+                    localPlayerCommunicationControl.SetConnectionMode((sbyte)Settings.GetSettings(i).PlayerId, mode: ConnectionMode.Local);
                 }
                 else
                 {
-                    localPlayerCommunicationControl.SetConnectionMode((sbyte)Settings.GetSettings(i).PlayerId, ConnectionMode.Global);
+                    localPlayerCommunicationControl.SetConnectionMode((sbyte)Settings.GetSettings(i).PlayerId, mode: ConnectionMode.Global);
                 }
             }
 
@@ -856,7 +856,7 @@ public class SetupControl : Component
         StrategicMap.Current.LeadersFixed = Settings.CustomizeLeaders;
         StrategicMap.Current.StartingGame = Settings.AlwaysViewTacticalBattle;
         RemoveIndependentPlayers();
-        StrategicMap.Current.SetupPlayerControl((PlayMode)Settings.PlayMode, (PlayerConnectionType)Settings.ConnectionType);
+        StrategicMap.Current.SetupPlayerControl((PlayMode)Settings.PlayMode, connection: (PlayerConnectionType)Settings.ConnectionType);
         if (OnSetupMap is not null)
         {
             try
@@ -900,7 +900,7 @@ public class SetupControl : Component
 
             if (result)
             {
-                SendMessage(6, Settings, 0, 0, 0);
+                SendMessage(6, objectValue: Settings, 0, 0, recipient: 0);
                 SetupMap();
             }
         }
@@ -920,7 +920,7 @@ public class SetupControl : Component
             _updateCount += 1;
             if (GetRemote())
             {
-                SendMessage(4, Settings, 0, 0, 0);
+                SendMessage(4, objectValue: Settings, 0, 0, recipient: 0);
             }
 
             OnSettingChanged?.Invoke(this);
@@ -961,10 +961,10 @@ public class SetupControl : Component
     }
 
     // AoWSetup.pas:916
-    public void Disconnect() => SendHostMessage(2, null, RemotePlayer.RemoteId, 0);
+    public void Disconnect() => SendHostMessage(2, objectValue: null, RemotePlayer.RemoteId, 0);
 
     // AoWSetup.pas:920
-    public string GetPlayerName() => RemotePlayer.Name;
+    public string PlayerName => RemotePlayer.Name;
 
     // AoWSetup.pas:924
     public void SetPlayerName(string value)
@@ -972,12 +972,12 @@ public class SetupControl : Component
         if (value != RemotePlayer.Name)
         {
             RemotePlayer.Name = value;
-            SendHostMessage(3, RemotePlayer, 0, 0);
+            SendHostMessage(3, objectValue: RemotePlayer, 0, 0);
         }
     }
 
     // AoWSetup.pas:932
-    public sbyte GetPreferredRace() => (sbyte)RemotePlayer.PreferredRace;
+    public sbyte PreferredRace => (sbyte)RemotePlayer.PreferredRace;
 
     // AoWSetup.pas:936
     public void SetPreferredRace(byte value)
@@ -985,14 +985,14 @@ public class SetupControl : Component
         if (value != RemotePlayer.PreferredRace)
         {
             RemotePlayer.PreferredRace = value;
-            SendHostMessage(3, RemotePlayer, 0, 0);
+            SendHostMessage(3, objectValue: RemotePlayer, 0, 0);
         }
     }
 
     // AoWSetup.pas:1276
     public void ResetPlayerSettings(int index)
     {
-        Assert(GetHost(), "", "AoWSetup.pas", 1278);
+        Assert(GetHost(), message: "", file: "AoWSetup.pas", line: 1278);
         if (!GetRemote())
         {
             if (Settings.GetSettings(index).OriginalBehavior.PlayerType != 0)
@@ -1017,7 +1017,7 @@ public class SetupControl : Component
     // AoWSetup.pas:1289
     public bool UpdatePreferredRaces()
     {
-        Assert(GetHost(), "", "AoWSetup.pas", 1292);
+        Assert(GetHost(), message: "", file: "AoWSetup.pas", line: 1292);
         bool again = true;
         bool result = false;
         while (again)
@@ -1116,7 +1116,7 @@ public class SetupControl : Component
             {
                 // { Original reads the last character without guarding an empty name. }
                 result = Set<byte>.WithBounds(0, 255).WithRange(49, 56).Contains(Cp1252.Byte(result[^1]))
-                    ? Copy(result, 1, result.Length - 1) + IntToStr(Cp1252.Byte(result[^1]) + 1 - 48)
+                    ? Copy(result, index: 1, count: result.Length - 1) + IntToStr(Cp1252.Byte(result[^1]) + 1 - 48)
                     : $"{result}1";
             }
             else
@@ -1256,7 +1256,7 @@ public class SetupControl : Component
 
             if (GetAllMapsValid())
             {
-                SendMessage(5, Settings, 0, 0, 0);
+                SendMessage(5, objectValue: Settings, 0, 0, recipient: 0);
                 LoadMap();
             }
             else
@@ -1462,7 +1462,7 @@ public class SetupControl : Component
         StrategicMap preview = _engine.CreatePreviewHsm<StrategicMap>(_engine.StartupDirectory + fileName, profile: GameProfile.WorldMap);
         if (GetHost() && preview is not null && (!_engine.Demo || preview.ShowAllPlayers) && preview.ConnectionType != PlayerConnectionType.Email)
         {
-            _engine.InitializeHexSpriteSet(_engine.StartupDirectory + preview.HssFileName, null);
+            _engine.InitializeHexSpriteSet(_engine.StartupDirectory + preview.HssFileName, progress: null);
             Randomize();
             Settings.Clear();
             Settings.MapName = fileName;
@@ -1470,7 +1470,7 @@ public class SetupControl : Component
             Settings.FileName = preview.MapName;
             // The map CRC covers the engine image, so an own copy and its original agree (own-formats.md 4.1).
             // A document with no image uses the canonical document bytes, as ImageCrc32 states.
-            int fileCrc = FileBoundary.ImageCrc32(_engine.StartupDirectory + fileName, GameProfile.WorldMap);
+            int fileCrc = FileBoundary.ImageCrc32(_engine.StartupDirectory + fileName, profile: GameProfile.WorldMap);
             Settings.MapCrc = fileCrc;
             Settings.SetCrc = GamePack.Current.HssCrc;
             Settings.RandomSeed = RandSeed;
@@ -1606,7 +1606,7 @@ public class SetupControl : Component
         RemotePlayer.PreferredRace = 255;
         RemotePlayer.Version = _engine.Version;
         Status += Set<SetupStatusElement>.Of(SetupStatusElement.Busy, SetupStatusElement.Remote);
-        SendHostMessage(1, RemotePlayer, 0, 0);
+        SendHostMessage(1, objectValue: RemotePlayer, 0, 0);
         _phase = SetupPhase.SetupPlayers;
         return true;
     }

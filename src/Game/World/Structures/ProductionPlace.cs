@@ -82,7 +82,7 @@ public partial class ProductionPlace : PlayerStructure
         base.MessageProc(ref message, sender);
         if (message.MessageId == 537002242)
         {
-            MasterySpellCast((sbyte)message.Param[0].Int, (MagicSphere)message.Param[1].Int);
+            MasterySpellCast((sbyte)message.Param[0].Int, sphere: (MagicSphere)message.Param[1].Int);
         }
     }
 
@@ -205,11 +205,11 @@ public partial class ProductionPlace : PlayerStructure
         {
             return Player > 0
                 ? GetMagicSphere() != MagicSphere.None
-                    ? GetPower() != 0 ? AbilityRules.TranslateResourceString(GetEngine(), GameText.GeneratingExtraPowerText) : "-"
-                    : GetBaseIncome() != 0
-                        ? AbilityRules.TranslateResourceString(GetEngine(), GameText.ProducingMerchandiseText)
-                        : AbilityRules.TranslateResourceString(GetEngine(), GameTables.NoneText)
-                : LowerCase(AbilityRules.TranslateResourceString(GetEngine(), GameTables.NoneText));
+                    ? GetPower() != 0 ? AbilityRules.TranslateResourceString(GetEngine(), S: GameText.GeneratingExtraPowerText) : "-"
+                    : BaseIncome != 0
+                        ? AbilityRules.TranslateResourceString(GetEngine(), S: GameText.ProducingMerchandiseText)
+                        : AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.NoneText)
+                : LowerCase(AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.NoneText));
         }
         else
         {
@@ -235,7 +235,7 @@ public partial class ProductionPlace : PlayerStructure
                         }
                         else
                         {
-                            if (AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, Player, 0))
+                            if (AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, targetPlayer: Player, targetRace: 0))
                             {
                                 Player player = StrategicMap.Current.Players.GetPlayers(info.Player);
                                 data.Priority = 50 + (player.Income / 2);
@@ -344,7 +344,7 @@ public partial class ProductionPlace : PlayerStructure
     // PrdPlace.pas:375
     public override int GetIncome()
     {
-        int income = GetBaseIncome();
+        int income = BaseIncome;
         if (GetMagicSphere() == MagicSphere.None)
         {
             if (ProductionControl.Status != ProductionControlStatus.Producing || ProductionControl.Queue.GetItem(0).Order is Trade)
@@ -361,7 +361,7 @@ public partial class ProductionPlace : PlayerStructure
     {
         int result;
         // { The original tests msCosmos, rather than msNone, here. }
-        if (Player > 0 && GetMagicSphere() != MagicSphere.Cosmos && !GetRazed() && !GetBuilding())
+        if (Player > 0 && GetMagicSphere() != MagicSphere.Cosmos && !GetRazed() && !Building)
         {
             MagicSphere magicSphere = GetMagicSphere();
             result = StrategicMap.Current.Players.GetPlayers(Player).Leader.GetSpherePicks(magicSphere);
@@ -376,7 +376,7 @@ public partial class ProductionPlace : PlayerStructure
     // PrdPlace.pas:543
     public override void StructureCaptured(sbyte oldPlayer, sbyte newPlayer)
     {
-        if (!GetRazed() && !GetBuilding() && oldPlayer == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Status.Contains(MapObjectStatusElement.Activated) && !Resource.Claimed)
+        if (!GetRazed() && !Building && oldPlayer == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Status.Contains(MapObjectStatusElement.Activated) && !Resource.Claimed)
         {
             ProductionPlaceEventLog log = new(null)
             {
@@ -384,7 +384,7 @@ public partial class ProductionPlace : PlayerStructure
                 Player = newPlayer
             };
             string editName = EditName();
-            log.Text = Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.StructureCapturedFormat), [editName]);
+            log.Text = Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.StructureCapturedFormat), args: [editName]);
             log.Location = new MapCoordinate(HexX, HexY, HexLevel);
             EventLog.DistributeLocationEventLog(y: HexY, x: HexX, log: log, player: Player, level: HexLevel, execute: false);
             _ = log.Release();
@@ -421,15 +421,15 @@ public partial class ProductionPlace : PlayerStructure
                     UnitIndexListCollection unitIndexListCollection = Resource.Defenders;
                     for (int i = unitIndexListCollection.GetCollectionCount(collection) - 1; i >= 0; i--)
                     {
-                        _ = units.Add(unitIndexListCollection.GetU(collection, i));
+                        _ = units.Add(unitIndexListCollection.GetU(collection, index: i));
                     }
 
                     sbyte hexY = HexY;
-                    _ = AbilityRules.PlaceRandomUnits(HexX, hexY, HexLevel, 0, units, 4, budget, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature), engine: GetEngine());
+                    _ = AbilityRules.PlaceRandomUnits(HexX, hexY, L: HexLevel, player: 0, units, level: 4, value: budget, types: Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature), engine: GetEngine());
                     armyHexSprite = Owner.GetArmyHexSprite();
                     if (armyHexSprite is not null && armyHexSprite.Army.Player == 0)
                     {
-                        armyHexSprite.Army.SetBehavior(255, GroupBehavior.Guard);
+                        armyHexSprite.Army.SetBehavior(255, behavior: GroupBehavior.Guard);
                     }
 
                     units?.Dispose();
@@ -439,7 +439,7 @@ public partial class ProductionPlace : PlayerStructure
     }
 
     // PrdPlace.pas:369
-    public virtual int GetBaseIncome() => RazedState != 1 && !GetBuilding() ? 10 : 0;
+    public virtual int BaseIncome => RazedState != 1 && !Building ? 10 : 0;
 
     // PrdPlace.pas:303
     public virtual MagicSphere GetMagicSphere() => MagicSphere.None;
@@ -449,14 +449,14 @@ public partial class ProductionPlace : PlayerStructure
     {
         if (GetMagicSphere() == MagicSphere.None)
         {
-            if (GetBaseIncome() > 0)
+            if (BaseIncome > 0)
             {
-                _ = names.Add(AbilityRules.TranslateResourceString(GetEngine(), GameText.BaseIncomeText));
-                _ = values.Add(IntToStr(GetBaseIncome()));
-                if (ProductionControl.Status != ProductionControlStatus.Producing || (ProductionControl.Queue.GetItem(0).Order is Trade && GetBaseIncome() > 0))
+                _ = names.Add(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.BaseIncomeText));
+                _ = values.Add(IntToStr(BaseIncome));
+                if (ProductionControl.Status != ProductionControlStatus.Producing || (ProductionControl.Queue.GetItem(0).Order is Trade && BaseIncome > 0))
                 {
-                    _ = names.Add(AbilityRules.TranslateResourceString(GetEngine(), GameText.ProducingMerchandiseText));
-                    _ = values.Add(IntToStr(Round(GetBaseIncome() * 0.25)));
+                    _ = names.Add(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.ProducingMerchandiseText));
+                    _ = values.Add(IntToStr(Round(BaseIncome * 0.25)));
                 }
             }
         }
@@ -467,12 +467,12 @@ public partial class ProductionPlace : PlayerStructure
                 MagicSphere magicSphere = GetMagicSphere();
                 int picks = StrategicMap.Current.Players.GetPlayers(Player).Leader.GetSpherePicks(magicSphere);
                 MagicSphere magicSphere2 = GetMagicSphere();
-                string magicSphereText = AbilityRules.TranslateResourceString(GetEngine(), GameTables.MagicSphereTexts[(int)magicSphere2]);
-                _ = names.Add(Format(AbilityRules.TranslateResourceString(GetEngine(), s_sphereCountFormat), [IntToStr(picks), LowerCase(magicSphereText)]));
+                string magicSphereText = AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.MagicSphereTexts[(int)magicSphere2]);
+                _ = names.Add(Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_sphereCountFormat), args: [IntToStr(picks), LowerCase(magicSphereText)]));
                 _ = values.Add(IntToStr(picks * 5));
                 if (ProductionControl.Status != ProductionControlStatus.Producing || ProductionControl.Queue.GetItem(0).Order is Trade)
                 {
-                    _ = names.Add(AbilityRules.TranslateResourceString(GetEngine(), s_extraPowerText));
+                    _ = names.Add(AbilityRules.TranslateResourceString(GetEngine(), S: s_extraPowerText));
                     _ = values.Add(IntToStr(Round(picks * 5 * 0.25)));
                 }
             }
@@ -500,7 +500,7 @@ public partial class ProductionPlace : PlayerStructure
                 unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(unitIndex));
                 unit.SetPlayer(Player);
                 sbyte hexY = HexY;
-                ArmyHexSprite armyHexSprite = unit.Place(HexX, hexY, HexLevel, Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
+                ArmyHexSprite armyHexSprite = unit.Place(HexX, hexY, L: HexLevel, Player, mode: Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
                 if (armyHexSprite is not null)
                 {
                     if (unit.ExpandAbility(155))
@@ -513,13 +513,13 @@ public partial class ProductionPlace : PlayerStructure
 
                     sbyte armyHexSpriteHexY = armyHexSprite.HexY;
                     sbyte hexX = armyHexSprite.HexX;
-                    if (StrategicMap.Current.Visible(hexX, armyHexSpriteHexY, armyHexSprite.HexLevel, 0))
+                    if (StrategicMap.Current.Visible(hexX, armyHexSpriteHexY, L: armyHexSprite.HexLevel, radius: 0))
                     {
                         ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
-                        animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(29).CastImages.GetImageSequence(0));
+                        animation.SetImageSequence(GamePack.Current.SpellControl[29].CastImages.GetImageSequence(0));
                         sbyte hexY2 = HexY;
                         sbyte hexX2 = HexX;
-                        _ = StrategicMap.Current.PlaceHex(animation, hexX2, hexY2, HexLevel);
+                        _ = StrategicMap.Current.PlaceHex(animation, hexX2, hexY2, L: HexLevel);
                     }
                 }
 
@@ -570,12 +570,12 @@ public partial class ProductionPlace : PlayerStructure
             }
             else
             {
-                reason = AbilityRules.TranslateResourceString(GetEngine(), s_youCannotChannelPowerFromThisNodeText);
+                reason = AbilityRules.TranslateResourceString(GetEngine(), S: s_youCannotChannelPowerFromThisNodeText);
             }
         }
         else
         {
-            return GetBaseIncome() != 0;
+            return BaseIncome != 0;
         }
 
         return false;
@@ -614,7 +614,7 @@ public partial class ProductionPlace : PlayerStructure
             for (int i = 0, last = r.Units.Count - 1; i <= last; i++)
             {
                 int unit = r.Units[i];
-                ProductionControl.UnitProductions.Add(unit, false);
+                ProductionControl.UnitProductions.Add(unit, researched: false);
             }
 
             ProductionControl.UnitProductions.SortOnLevel();

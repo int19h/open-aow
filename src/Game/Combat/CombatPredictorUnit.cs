@@ -117,13 +117,13 @@ public partial class CombatPredictorUnit : IDisposable
                 if (j == -1)
                 {
                     _predictor.Work += 1;
-                    v = Troop.GetCombatValue(u.Troop, 0);
+                    v = Troop.GetCombatValue(u.Troop, mode: 0);
                     if (v < 0)
                     {
                         v = 0;
                     }
 
-                    _ = Targets.AddABCD(u, v, u.CpuId, 0);
+                    _ = Targets.AddABCD(u, v, C: u.CpuId, D: 0);
                     CombatValue += v;
                 }
             }
@@ -135,13 +135,13 @@ public partial class CombatPredictorUnit : IDisposable
             {
                 _predictor.Work += 1;
                 u = _opponents.List[i];
-                v = Troop.GetCombatValue(u.Troop, 0);
+                v = Troop.GetCombatValue(u.Troop, mode: 0);
                 if (v < 0)
                 {
                     v = 0;
                 }
 
-                _ = Targets.AddABCD(u, v, u.CpuId, 0);
+                _ = Targets.AddABCD(u, v, C: u.CpuId, D: 0);
                 CombatValue += v;
             }
         }
@@ -187,7 +187,7 @@ public partial class CombatPredictorUnit : IDisposable
                         v = 0;
                     }
 
-                    _ = WallTargets.AddABCD(u, v, 0, 0);
+                    _ = WallTargets.AddABCD(u, v, C: 0, D: 0);
                     WallCombatValue += v;
                 }
             }
@@ -208,7 +208,7 @@ public partial class CombatPredictorUnit : IDisposable
                 }
 
                 // { Original initializes both C and D to zero in the wall cache. }
-                _ = WallTargets.AddABCD(u, v, 0, 0);
+                _ = WallTargets.AddABCD(u, v, C: 0, D: 0);
                 WallCombatValue += v;
             }
         }

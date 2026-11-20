@@ -106,7 +106,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
     private void FormCreate()
     {
         CombatClasses.Register(UI.Engine);
-        UI.Engine.InitializeHexSpriteSet($"{UI.Engine.StartupDirectory}RELEASE\\RELEASE.HSS", null);
+        UI.Engine.InitializeHexSpriteSet($"{UI.Engine.StartupDirectory}RELEASE\\RELEASE.HSS", progress: null);
         _windowState = UI.Engine.Registry.GetMainWindowState();
         UI.SoundDialog.MusicVolumeSlider.Position = UI.Engine.Registry.GetMusicVolume();
         UI.SoundDialog.EffectsVolumeSlider.Position = UI.Engine.Registry.GetSfxVolume();
@@ -142,7 +142,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             AudioPlayback.SetSfxVolume(UI.SoundDialog.EffectsVolumeSlider.Position);
         }
         VideoDialog.SetVideoSize(UI.VideoDialog, UI.Engine.Registry.GetDisplayWidth(), UI.Engine.Registry.GetDisplayHeight());
-        VideoDialog.SetVideoMode(UI.VideoDialog, _host.Fullscreen ? VideoDialog.ScreenMode.Game : VideoDialog.ScreenMode.Windowed);
+        VideoDialog.SetVideoMode(UI.VideoDialog, fullScreen: _host.Fullscreen ? VideoDialog.ScreenMode.Game : VideoDialog.ScreenMode.Windowed);
         UI.General.Manager.WinWidth = Display.BackSurfaceWidth;
         UI.General.Manager.WinHeight = Display.BackSurfaceHeight;
         UI.General.Manager.Aligned = false;
@@ -173,7 +173,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         UI.Engine.OutputDebugString($"ParamStr: {argument}");
         if (argument.Length != 0 && DelphiFiles.FileExists(argument) && IsSaveName(argument))
         {
-            WindowActions.ShowTitleScene(UI.TitleScene, false);
+            WindowActions.ShowTitleScene(UI.TitleScene, music: false);
             GameHost.DeferredSetupAction = 2;
             UI.FileDialogWindow.LastFileName = argument;
             return;
@@ -184,7 +184,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         }
         else
         {
-            WindowActions.ShowTitleScene(UI.TitleScene, true);
+            WindowActions.ShowTitleScene(UI.TitleScene, music: true);
         }
     }
 
@@ -264,7 +264,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             {
                 try
                 {
-                    DrawCursor(x, y, descriptor);
+                    DrawCursor(x, y, surface: descriptor);
                 }
                 finally
                 {
@@ -334,7 +334,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
 
         if (StrategicMap.Current is not null && StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated))
         {
-            FCursorImage?.Show(x - 15, y - 20, surface);
+            FCursorImage?.Show(x - 15, y - 20, lockedSurface: surface);
             LibraryImage image = CursorIndex != 1 ? GamePack.Current.CursorImages[CursorIndex] : null;
             if (image is null)
             {
@@ -346,16 +346,16 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
                 Player player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
                 if (player.GetBusy() && player.GameOverStatus == GameOverStatus.None)
                 {
-                    image.ShowBlended(x - 25, y - 25, surface, GraphicsState.AlphaBlendTable.GetLookupTables(Math.Abs(((StrategicMap.Current.Frame << 2) % 100) - 50) + 30));
+                    image.ShowBlended(x - 25, y - 25, lockedSurface: surface, table: GraphicsState.AlphaBlendTable.GetLookupTables(Math.Abs(((StrategicMap.Current.Frame << 2) % 100) - 50) + 30));
                     FCursorChanged = true;
                     return;
                 }
             }
-            image.Show(x - 25, y - 25, surface);
+            image.Show(x - 25, y - 25, lockedSurface: surface);
         }
         else if (FCursor != 1 && UI.Graphics.Cursors.ImageExist(FCursor))
         {
-            UI.Graphics.Cursors[FCursor].ShowClipped(x - 25, y - 25, surface);
+            UI.Graphics.Cursors[FCursor].ShowClipped(x - 25, y - 25, lockedSurface: surface);
         }
     }
 
@@ -479,8 +479,8 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             UI.General.SaveLayout();
             GameSettings registry = UI.Engine.Registry;
             registry.SetMainWindowState(_windowState);
-            registry.SetString(0, UI.MultiWindow.TcpNameEdit.Text);
-            registry.SetString(1, UI.MultiWindow.IPAddressEdit.Text);
+            registry.SetString(0, value: UI.MultiWindow.TcpNameEdit.Text);
+            registry.SetString(1, value: UI.MultiWindow.IPAddressEdit.Text);
             registry.SetDisplayWidth(UI.VideoDialog.DisplayWidth);
             registry.SetDisplayHeight(UI.VideoDialog.DisplayHeight);
             registry.SetDisplayMode(_host.Fullscreen ? 1 : 0);

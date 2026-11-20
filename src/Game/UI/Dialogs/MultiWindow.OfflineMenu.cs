@@ -16,7 +16,7 @@ public partial class MultiWindow
             _ = songs.Songs.Add("SONGS\\TITLE.IT");
             _ = songs.Play(0);
         }
-        UI.VideoDialog.SetSceneSize(640, 480);
+        UI.VideoDialog.SetSceneSize(640, H: 480);
         _pendingMap = mapName;
         GDPlay directPlay = UI.SetupEvents.DirectPlay;
         if (directPlay.Connected)

@@ -24,7 +24,7 @@ public class ImageSequenceAnimation(CustomNode owner) : Animation(owner)
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         base.Show(pixelXSurface, pixelYSurface, lockedSurface);
-        if (GetHexLevel() == AnimationMap.ViewMapLevel)
+        if (HexLevel == AnimationMap.ViewMapLevel)
         {
             HexGeometry.HexToPixel(Location.X, Location.Y, out int x, out int y);
             pixelXSurface = x - pixelXSurface + 16 + PixelXOffset;
@@ -53,7 +53,7 @@ public class ImageSequenceAnimation(CustomNode owner) : Animation(owner)
                 sequence = ImageSequence;
                 while (sequence is not null)
                 {
-                    index = sequence.GetFrameIndex(0, FrameCounter);
+                    index = sequence.GetFrameIndex(0, offset: FrameCounter);
                     if (index != -1)
                     {
                         sequence.ImageLibrary[index].Show(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY, lockedSurface);
@@ -125,7 +125,7 @@ public class ImageSequenceAnimation(CustomNode owner) : Animation(owner)
             FrameCount = -1;
             while (current is not null)
             {
-                int frames = current.GetTotalSequenceFrames();
+                int frames = current.TotalSequenceFrames;
                 if (frames > FrameCount)
                 {
                     FrameCount = frames;

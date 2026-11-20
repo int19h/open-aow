@@ -338,7 +338,7 @@ public class MapControl : Component
         try
         {
             HexSpriteSelection selection = StrategicMap.Current.Selection;
-            if (OnArmySelected is not null && selection.EventHexSprite is ArmyHexSprite armyHexSprite && StrategicMap.Current.SelectedArmy.GetArmyHexSprite() is not null)
+            if (OnArmySelected is not null && selection.EventHexSprite is ArmyHexSprite armyHexSprite && StrategicMap.Current.SelectedArmy.ArmyHexSprite is not null)
             {
                 OnArmySelected(armyHexSprite.Army);
             }
@@ -433,7 +433,7 @@ public class MapControl : Component
             if (OnEndTurn is not null)
             {
                 Player listed = StrategicMap.Current.Players.GetPlayers(player);
-                OnEndTurn(player, !listed.SingleProcessCycle);
+                OnEndTurn(player, Automatic: !listed.SingleProcessCycle);
             }
         }
         catch

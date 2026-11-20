@@ -17,7 +17,7 @@ public partial class MessageEventLog : EventLog
     {
         Holder = holder;
         Message = new DelphiStringList();
-        Title = AbilityRules.TranslateResourceString(GetEngine(), GameText.MessageText);
+        Title = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.MessageText);
         Buttons = MessageEventLogButtons.Ok;
         PressedButton = PressedEventLogButton.None;
         Layout = MessageEventLogLayout.Normal;

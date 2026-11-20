@@ -105,7 +105,7 @@ public class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerAction(owner)
                     ProductionControlList controls = Control.Player.ProductionControls;
                     if (_productionIndex < controls.Count)
                     {
-                        UpdateProductions(controls.GetPC(_productionIndex));
+                        UpdateProductions(controls[_productionIndex]);
                     }
                     else
                     {
@@ -134,7 +134,7 @@ public class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerAction(owner)
 
                     i = StrategicMap.Current.Random(i + 1);
                     QuadItem<ProductionControl> item = _productions[i];
-                    _ = ExecuteProduce(_productions[i].First, item.Second);
+                    _ = ExecuteProduce(_productions[i].First, index: item.Second);
                     _productions.Delete(i);
                     if (!(_productions.Count != 0 && (_goldUpkeep > 2 || _manaUpkeep > 2) && (Control.Player.AIBudget.Gold > 25 || Control.Player.AIBudget.Mana > 25)))
                     {
@@ -166,7 +166,7 @@ public class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerAction(owner)
                         int priority = Control.UnitIndexToPriority(unitIndex);
                         if (priority != -1)
                         {
-                            _ = _productions.AddABCD(control, i, 0, priority + bonus);
+                            _ = _productions.AddABCD(control, i, C: 0, D: priority + bonus);
                         }
                     }
                 }
@@ -187,13 +187,13 @@ public class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerAction(owner)
             {
                 if (Control.Player.AIBudget.RequestProductionExpense(gold, goldUpkeep, mana, manaUpkeep))
                 {
-                    if (control.ProduceUnit(index, 0, false))
+                    if (control.ProduceUnit(index, groupId: 0, queue: false))
                     {
                         int unitProductionManaUpkeep = control.UnitProductionManaUpkeep(index);
                         int unitProductionMana = control.UnitProductionMana(index);
                         int unitProductionGoldUpkeep = control.UnitProductionGoldUpkeep(index);
                         int unitProductionGold = control.UnitProductionGold(index);
-                        _ = Control.Player.AIBudget.ProductionExpenseMade(unitProductionGold, unitProductionGoldUpkeep, unitProductionMana, unitProductionManaUpkeep);
+                        _ = Control.Player.AIBudget.ProductionExpenseMade(unitProductionGold, goldUpkeep: unitProductionGoldUpkeep, mana: unitProductionMana, manaUpkeep: unitProductionManaUpkeep);
                         _goldUpkeep -= goldUpkeep;
                         _manaUpkeep -= manaUpkeep;
                         return true;
@@ -213,13 +213,13 @@ public class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerAction(owner)
             // { Original behavior: affordability uses production prices for research. }
             int gold = control.UnitProductionGold(index);
             int mana = control.UnitProductionMana(index);
-            if (Control.Player.AIBudget.RequestProductionExpense(gold, 0, mana, 0))
+            if (Control.Player.AIBudget.RequestProductionExpense(gold, goldUpkeep: 0, mana, manaUpkeep: 0))
             {
-                if (control.ResearchUnit(index, false))
+                if (control.ResearchUnit(index, queue: false))
                 {
                     int unitResearchMana = control.UnitResearchMana(index);
                     int unitResearchGold = control.UnitResearchGold(index);
-                    _ = Control.Player.AIBudget.ExpenseMade(unitResearchGold, unitResearchMana);
+                    _ = Control.Player.AIBudget.ExpenseMade(unitResearchGold, mana: unitResearchMana);
                     return true;
                 }
             }
@@ -264,7 +264,7 @@ public class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerAction(owner)
             while (i != 0)
             {
                 i -= 1;
-                ProductionControl control = player.ProductionControls.GetPC(i);
+                ProductionControl control = player.ProductionControls[i];
                 if (control.Status == ProductionControlStatus.Idle)
                 {
                     for (int j = 0, last = control.UnitProductions.Count - 1; j <= last; j++)
@@ -277,9 +277,9 @@ public class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerAction(owner)
                             {
                                 int unitResearchMana = control.UnitResearchMana(j);
                                 int unitResearchGold = control.UnitResearchGold(j);
-                                if (player.AIBudget.RequestBudgetExpense(unitResearchGold, unitResearchMana, budget, false))
+                                if (player.AIBudget.RequestBudgetExpense(unitResearchGold, mana: unitResearchMana, budget, usePool: false))
                                 {
-                                    MapCoordinate coordinate2 = control.GetLocation();
+                                    MapCoordinate coordinate2 = control.Location;
                                     sbyte x = coordinate2.X;
                                     sbyte y = coordinate2.Y;
                                     sbyte l = coordinate2.MapLevel;
@@ -294,7 +294,7 @@ public class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerAction(owner)
                                                 : Round((double)(priority * 0.5) * structure.ProductionPriority);
                                         }
 
-                                        _ = candidates.AddABCD(control, j, 0, priority);
+                                        _ = candidates.AddABCD(control, j, C: 0, D: priority);
                                     }
                                 }
                             }
@@ -308,7 +308,7 @@ public class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerAction(owner)
                 candidates.Sort(CompareAutoProductions);
                 _ = player.AIBudget.ReturnExpense(budget.Gold, budget.Mana);
                 QuadItem<ProductionControl> item = candidates[0];
-                if (ExecuteResearch(candidates[0].First, item.Second))
+                if (ExecuteResearch(candidates[0].First, index: item.Second))
                 {
                     budget.Gold = 0;
                     budget.Mana = 0;
@@ -339,7 +339,7 @@ public class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerAction(owner)
             while (i != 0)
             {
                 i -= 1;
-                ProductionControl control = player.ProductionControls.GetPC(i);
+                ProductionControl control = player.ProductionControls[i];
                 if (control.Status == ProductionControlStatus.Idle)
                 {
                     for (int j = 0, last = control.UnitProductions.Count - 1; j <= last; j++)
@@ -352,15 +352,15 @@ public class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerAction(owner)
                             {
                                 int unitProductionMana = control.UnitProductionMana(j);
                                 int unitProductionGold = control.UnitProductionGold(j);
-                                if (player.AIBudget.RequestBudgetExpense(unitProductionGold, unitProductionMana, budget, false))
+                                if (player.AIBudget.RequestBudgetExpense(unitProductionGold, mana: unitProductionMana, budget, usePool: false))
                                 {
                                     int unitProductionManaUpkeep = control.UnitProductionManaUpkeep(j);
                                     int controlUnitProductionMana = control.UnitProductionMana(j);
                                     int unitProductionGoldUpkeep = control.UnitProductionGoldUpkeep(j);
                                     int controlUnitProductionGold = control.UnitProductionGold(j);
-                                    if (player.AIBudget.RequestProductionExpense(controlUnitProductionGold, unitProductionGoldUpkeep, controlUnitProductionMana, unitProductionManaUpkeep, budget))
+                                    if (player.AIBudget.RequestProductionExpense(controlUnitProductionGold, goldUpkeep: unitProductionGoldUpkeep, mana: controlUnitProductionMana, manaUpkeep: unitProductionManaUpkeep, budget))
                                     {
-                                        MapCoordinate coordinate3 = control.GetLocation();
+                                        MapCoordinate coordinate3 = control.Location;
                                         sbyte x = coordinate3.X;
                                         sbyte y = coordinate3.Y;
                                         sbyte l = coordinate3.MapLevel;
@@ -380,7 +380,7 @@ public class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerAction(owner)
                                                 }
                                             }
 
-                                            _ = candidates.AddABCD(control, j, 0, priority);
+                                            _ = candidates.AddABCD(control, j, C: 0, D: priority);
                                         }
                                     }
                                 }
@@ -395,7 +395,7 @@ public class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerAction(owner)
                 candidates.Sort(CompareAutoProductions);
                 _ = player.AIBudget.ReturnExpense(budget.Gold, budget.Mana);
                 QuadItem<ProductionControl> item = candidates[0];
-                if (ExecuteProduce(candidates[0].First, item.Second))
+                if (ExecuteProduce(candidates[0].First, index: item.Second))
                 {
                     budget.Gold = 0;
                     budget.Mana = 0;
@@ -451,7 +451,7 @@ public class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerAction(owner)
         while (i != 0 && !result)
         {
             i -= 1;
-            ProductionControl control = player.ProductionControls.GetPC(i);
+            ProductionControl control = player.ProductionControls[i];
             for (int j = 0, last = control.UnitProductions.Count - 1; j <= last; j++)
             {
                 if (control.UnitProductions.GetItem(j).UnitIndex != -1 && control.UnitProductions.GetItem(j).Researched)
@@ -475,7 +475,7 @@ public class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerAction(owner)
         while (i != 0 && !result)
         {
             i -= 1;
-            ProductionControl control = player.ProductionControls.GetPC(i);
+            ProductionControl control = player.ProductionControls[i];
             if (control.Status == ProductionControlStatus.Producing)
             {
                 if (control.Queue.GetItem(0).Order is ProduceUnit)
@@ -497,7 +497,7 @@ public class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerAction(owner)
         while (i != 0 && !result)
         {
             i -= 1;
-            ProductionControl control = player.ProductionControls.GetPC(i);
+            ProductionControl control = player.ProductionControls[i];
             if (control.Status == ProductionControlStatus.Producing)
             {
                 if (control.Queue.GetItem(0).Order is ResearchSpell)

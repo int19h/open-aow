@@ -69,7 +69,7 @@ public class AIGroupDefendTargetSelector : AIGroupTask
             case 1:
                 if (_targets.Count != 0)
                 {
-                    _ = _control.Group.SetupTarget(null, AIGroupTargetStatus.Idle, 0);
+                    _ = _control.Group.SetupTarget(null, targetType: AIGroupTargetStatus.Idle, mode: 0);
                     _control.SetupME();
                     AIGroupControlTarget targetLocation = _targets.GetTargets(0);
                     if (targetLocation.Location == _control.Location)
@@ -80,7 +80,7 @@ public class AIGroupDefendTargetSelector : AIGroupTask
                     AIGroupControlTarget target = _targets.GetTargets(0);
                     AIGroupControlTarget target2 = _targets.GetTargets(0);
                     AIGroupControlTarget target3 = _targets.GetTargets(0);
-                    _control.ExecuteME(target3.Location.X, target2.Location.Y, target.Location.MapLevel);
+                    _control.ExecuteME(target3.Location.X, target2.Location.Y, L: target.Location.MapLevel);
                     State = 2;
                 }
                 else
@@ -90,9 +90,9 @@ public class AIGroupDefendTargetSelector : AIGroupTask
                     aiMoveExecutor.Mode -= Set<AIMoveExecutorModeElement>.Of(AIMoveExecutorModeElement.Adjacent);
 
                     AIGroupControl aiGroupControl = _control;
-                    aiGroupControl.ExecuteME(aiGroupControl.Location.X, aiGroupControl.Location.Y, aiGroupControl.Location.MapLevel);
+                    aiGroupControl.ExecuteME(aiGroupControl.Location.X, aiGroupControl.Location.Y, L: aiGroupControl.Location.MapLevel);
 
-                    _ = _control.Group.SetupTarget(null, AIGroupTargetStatus.Idle, 0);
+                    _ = _control.Group.SetupTarget(null, targetType: AIGroupTargetStatus.Idle, mode: 0);
                     Done();
                 }
 
@@ -133,7 +133,7 @@ public class AIGroupDefendTargetSelector : AIGroupTask
         {
             result = 0;
             int i = _pathStep;
-            BattleFieldInfo.SetupBattleFieldInfo(out BattleFieldInfo info, _control.Group.Player, _control.Group.IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(), _damageTypes);
+            BattleFieldInfo.SetupBattleFieldInfo(out BattleFieldInfo info, _control.Group.Player, relation: _control.Group.IndependentRelation, requests: Set<BattleFieldInfoRequestsElement>.Of(), _damageTypes);
             info.FriendlyRelations = Set<byte>.WithBounds(0, 7);
             info.Requests += Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents);
             while (i < path.Count)
@@ -142,7 +142,7 @@ public class AIGroupDefendTargetSelector : AIGroupTask
                 PathStep pathL = path[i];
                 PathStep pathY = path[i];
                 PathStep pathX = path[i];
-                StrategicMap.Current.RetrieveBattleFieldInfo(pathX.Location.X, pathY.Location.Y, pathL.Location.MapLevel, _battleFieldRadius, ref info);
+                StrategicMap.Current.RetrieveBattleFieldInfo(pathX.Location.X, pathY.Location.Y, pathL.Location.MapLevel, radius: _battleFieldRadius, ref info);
                 if (result < info.Strength)
                 {
                     result = info.Strength;

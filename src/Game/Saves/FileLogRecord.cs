@@ -46,7 +46,7 @@ public sealed class FileLogRecord(string path, string layer, GameFileReport repo
             json.WriteString("validation", Report.Validation);
             WriteOptional(json, "error", Report.Error?.Code);
             WriteOptional(json, "diagnostic", Report.Error?.ToString());
-            json.WriteBoolean("cached", Cached);
+            json.WriteBoolean("cached", value: Cached);
             json.WriteEndObject();
         }
         return Encoding.UTF8.GetString(buffer.ToArray());
@@ -64,5 +64,5 @@ public sealed class FileLogRecord(string path, string layer, GameFileReport repo
         }
     }
 
-    public override string ToString() => Report.Error?.ToString() ?? string.Create(CultureInfo.InvariantCulture, $"{Report.Operation} {Path}");
+    public override string ToString() => Report.Error?.ToString() ?? string.Create(CultureInfo.InvariantCulture, handler: $"{Report.Operation} {Path}");
 }

@@ -45,7 +45,7 @@ public static class TransportProfile
             at: null,
             path: path,
             value: id.ToString(CultureInfo.InvariantCulture),
-            constraint: string.Create(CultureInfo.InvariantCulture, $"a stored id below 0x{PortMinimum:X8}"));
+            constraint: string.Create(CultureInfo.InvariantCulture, handler: $"a stored id below 0x{PortMinimum:X8}"));
     }
 
     /// <summary>

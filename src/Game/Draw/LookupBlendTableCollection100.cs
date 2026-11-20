@@ -45,7 +45,7 @@ public class LookupBlendTableCollection100 : IDisposable
                 };
                 float v = count != 1 ? (float)((double)i / (count - 1)) : (float)0.5;
 
-                proc(t, v);
+                proc(t, Value: v);
                 Tables.Add(t);
             }
 

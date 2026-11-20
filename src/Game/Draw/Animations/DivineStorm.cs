@@ -30,6 +30,6 @@ public class DivineStorm(CustomNode owner) : BlastStorm(owner)
     public override StormType StormType() => Magic.Spells.StormType.Holy;
 
     // Storms.pas:613
-    public override string Name() => AbilityRules.TranslateResourceString(GetEngine(), GameTables.DivineStormText);
+    public override string Name() => AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.DivineStormText);
 
 }

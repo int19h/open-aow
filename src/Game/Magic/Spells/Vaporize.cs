@@ -16,7 +16,7 @@ public class Vaporize : CombatSpell
     public Vaporize(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_vaporizeText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_vaporizeText);
         SpellId = 121;
         DamageMode = 1;
         SpellCombatInfo spellCombatInfo = CombatInfo;

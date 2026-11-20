@@ -38,7 +38,7 @@ public static partial class Fixtures
     /// <summary>A case result. OwnDocuments counts the own documents the case checked for G-own.</summary>
     public sealed record Outcome(bool Matched, string Detail, int OwnDocuments = 0);
 
-    private static Outcome Pass(string detail, int own = 0) => new(true, detail, own);
+    private static Outcome Pass(string detail, int own = 0) => new(true, detail, OwnDocuments: own);
 
     private static Outcome Fail(string detail) => new(false, detail);
 
@@ -69,7 +69,7 @@ public static partial class Fixtures
                 errors.WriteLine($"fixture {c.Group}/{c.Name}: {outcome.Detail}");
             }
         }
-        return new Summary(cases, failed, own, ownFailed);
+        return new Summary(cases, failed, OwnDocuments: own, ownFailed);
     }
 
     // ---- Inputs ------------------------------------------------------------------------------
@@ -97,9 +97,9 @@ public static partial class Fixtures
 
     /// <summary>The canonical own text of Mountain Clash. A parsed copy has no row layout marks, so
     /// canonical text comes from the import.</summary>
-    private static byte[] MapText() => s_mapText ??= GameFiles.Write(Import(Game(Map), "world-hsm", "map"));
+    private static byte[] MapText() => s_mapText ??= GameFiles.Write(Import(Game(Map), profile: "world-hsm", kind: "map"));
 
-    private static JsonObject Import(byte[] file, string profile, string kind) => GameFiles.Import(file, FindProfile(profile), kind).Document;
+    private static JsonObject Import(byte[] file, string profile, string kind) => GameFiles.Import(file, profile: FindProfile(profile), kind).Document;
 
     private static JsonObject Parse(byte[] own) => GameFiles.Read(own).Document;
 
@@ -138,7 +138,7 @@ public static partial class Fixtures
     private static Outcome RoundTrip(byte[] file, string profile, string kind, Func<JsonObject, string?>? inspect = null, OriginalMatchKind? expectedKind = null)
     {
         FileProfile p = FindProfile(profile);
-        ImportResult imported = GameFiles.Import(file, p, kind);
+        ImportResult imported = GameFiles.Import(file, profile: p, kind);
         byte[] text = GameFiles.Write(imported.Document);
         ExportResult exported = GameFiles.Export(GameFiles.Read(text).Document);
         OriginalComparisonResult comparison = GameFiles.CompareG1(file, exported: exported.Bytes, profile: p, document: imported.Document, kind: kind);
@@ -152,7 +152,7 @@ public static partial class Fixtures
             return Fail($"G1 expected {required}, got {comparison.Kind}");
         }
 
-        byte[] again = GameFiles.Write(GameFiles.Import(exported.Bytes, p, kind).Document);
+        byte[] again = GameFiles.Write(GameFiles.Import(exported.Bytes, profile: p, kind).Document);
         if (!again.AsSpan().SequenceEqual(text))
         {
             return Fail("G2 differs");
@@ -163,18 +163,18 @@ public static partial class Fixtures
             ? Fail("G-own differs")
             : inspect?.Invoke(imported.Document) is string problem
             ? Fail(problem)
-            : Pass($"G1 ({comparison.Kind}), G2 and G-own hold", 1);
+            : Pass($"G1 ({comparison.Kind}), G2 and G-own hold", own: 1);
     }
 
     /// <summary>G2 and G-own for an own document: the import of its export is its normal form.</summary>
     private static Outcome OwnRoundTrip(JsonObject document, Func<JsonObject, byte[], string?>? inspect = null)
     {
-        (FileProfile? profile, string? kind, JsonObject _, JsonValue _) = GameFiles.Envelope(document, null);
+        (FileProfile? profile, string? kind, JsonObject _, JsonValue _) = GameFiles.Envelope(document, fileName: null);
         ExportResult exported = GameFiles.Export(document);
         JsonObject normal = GameFiles.Import(exported.Bytes, profile, kind).Document;
         byte[] text = GameFiles.Write(normal);
         ExportResult exportedAgain = GameFiles.Export(Parse(text));
-        if (!profile.Comparable(exportedAgain.Bytes, FormatLimits.Default).AsSpan().SequenceEqual(profile.Comparable(exported.Bytes, FormatLimits.Default)))
+        if (!profile.Comparable(exportedAgain.Bytes, limits: FormatLimits.Default).AsSpan().SequenceEqual(profile.Comparable(exported.Bytes, limits: FormatLimits.Default)))
         {
             return Fail("G1 differs for the exported original");
         }
@@ -189,7 +189,7 @@ public static partial class Fixtures
             ? Fail("N(D) differs from the import of the export")
             : !GameFiles.Normalize(n1).AsSpan().SequenceEqual(n1)
             ? Fail("G-own differs")
-            : inspect?.Invoke(normal, exported.Bytes) is string problem ? Fail(problem) : Pass("G2 and G-own hold", 1);
+            : inspect?.Invoke(normal, exported.Bytes) is string problem ? Fail(problem) : Pass("G2 and G-own hold", own: 1);
     }
 
     private static Outcome Expect(string code, Action action, Func<FormatDiagnostic, string?>? inspect = null)
@@ -214,7 +214,7 @@ public static partial class Fixtures
 
     // ---- Binary helpers ------------------------------------------------------------------------
 
-    private static byte[] Payload(byte[] cfs) => cfs[4] == 0 ? cfs[5..] : Cfs.Inflate(cfs.AsSpan(5), 1L << 30, m => new InvalidDataException(m));
+    private static byte[] Payload(byte[] cfs) => cfs[4] == 0 ? cfs[5..] : Cfs.Inflate(cfs.AsSpan(5), limit: 1L << 30, m => new InvalidDataException(m));
 
     private static byte[] Concat(params byte[][] parts)
     {
@@ -230,7 +230,7 @@ public static partial class Fixtures
     private static byte[] I32(int v)
     {
         byte[] b = new byte[4];
-        BinaryPrimitives.WriteInt32LittleEndian(b, v);
+        BinaryPrimitives.WriteInt32LittleEndian(b, value: v);
         return b;
     }
 

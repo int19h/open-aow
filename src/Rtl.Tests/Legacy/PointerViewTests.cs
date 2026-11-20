@@ -48,7 +48,7 @@ public sealed class PointerViewTests
         Assert.Equal(23, records.Value.Second);
         Assert.Equal(4, (words + 1).ByteIndex - words.ByteIndex);
         Assert.Equal(records.Reinterpret<int>(4), words + 1);
-        Ptr<int>.Copy(words, words + 1, 2);
+        Ptr<int>.Copy(words, destination: words + 1, count: 2);
         Assert.Equal((int[])[17, 17, 23, 0], words.AsSpan(4).ToArray());
         DelphiList<PtrBox<int>> list = new();
         _ = list.Add(new PtrBox<int>(words + 1));
@@ -119,7 +119,7 @@ public sealed class PointerViewTests
         foreach (FieldInfo field in state.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
         {
             object? value = field.GetValue(state);
-            Assert.False(value is Delegate or IPointerBox, field.Name);
+            Assert.False(value is Delegate or IPointerBox, userMessage: field.Name);
         }
     }
 }

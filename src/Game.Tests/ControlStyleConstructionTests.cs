@@ -38,7 +38,7 @@ public sealed class ControlStyleConstructionTests
             1 => new ResourceEditSettings(argument),
             _ => new PadControl(argument)
         };
-        EngineObject[] objects = [direct, meta.CreateInstance(argument, holder: EngineFixture.Engine), engine.CreateEngineObject(meta.ClassId, argument)];
+        EngineObject[] objects = [direct, meta.CreateInstance(argument, holder: EngineFixture.Engine), engine.CreateEngineObject(meta.ClassId, owner: argument)];
         EngineObject? copy = null;
         try
         {
@@ -46,18 +46,18 @@ public sealed class ControlStyleConstructionTests
             Assert.Same(meta, EngineClass.Of(type));
             foreach (EngineObject value in objects)
             {
-                Assert.IsType(type, value);
+                Assert.IsType(type, @object: value);
                 Assert.Same(argument, value.Owner);
                 Assert.Same(meta, value.EngineClass);
             }
             if (direct is ResourceEditSettings settings)
             {
-                _ = settings.Editors.AddObject("Editor", IntegerObjects.IntToObject(17));
+                _ = settings.Editors.AddObject("Editor", item: IntegerObjects.IntToObject(17));
             }
 
             direct.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Stored, EngineServices.Shared));
             copy = direct.Copy(engine);
-            Assert.IsType(type, copy);
+            Assert.IsType(type, @object: copy);
             Assert.Null(copy.Owner);
             Assert.Equal(direct.GetControlStyle(), copy.GetControlStyle());
             if (copy is ResourceEditSettings copied)
@@ -111,7 +111,7 @@ public sealed class ControlStyleConstructionTests
 
     private sealed class FlagOwner : GamePack
     {
-        public FlagOwner() : base(null, null, EngineFixture.Engine) { }
+        public FlagOwner() : base(null, owner: null, holder: EngineFixture.Engine) { }
 
         internal List<EngineObject> Members { get; } = [];
 
@@ -164,9 +164,9 @@ public sealed class ControlStyleConstructionTests
             try
             {
                 Owner = new FlagOwner();
-                Field(typeof(GamePack), "ImageLibraryManager").SetValue(Owner, _manager);
-                Field(typeof(ImageLibraryManager), "SearchPath").SetValue(_manager, "9.3b-2-missing/");
-                ImageLibraryManagerList disk = (ImageLibraryManagerList)Field(typeof(ImageLibraryManager), "DiskList").GetValue(_manager)!;
+                Field(typeof(GamePack), name: "ImageLibraryManager").SetValue(Owner, value: _manager);
+                Field(typeof(ImageLibraryManager), name: "SearchPath").SetValue(_manager, value: "9.3b-2-missing/");
+                ImageLibraryManagerList disk = (ImageLibraryManagerList)Field(typeof(ImageLibraryManager), name: "DiskList").GetValue(_manager)!;
                 if (directory is null)
                 {
                     Entry = disk.AddImageLibraryFile("Flags.ILB");
@@ -178,7 +178,7 @@ public sealed class ControlStyleConstructionTests
                 }
                 if (loaded)
                 {
-                    Field(typeof(ImageLibraryManagerObject), "ImageLibrary").SetValue(Entry, new ImageLibrary(null!));
+                    Field(typeof(ImageLibraryManagerObject), name: "ImageLibrary").SetValue(Entry, value: new ImageLibrary(null!));
                 }
 
                 GamePack.Current = Owner;
@@ -245,7 +245,7 @@ public sealed class ControlStyleConstructionTests
         private string Checked(string path)
         {
             string full = _files.ExpandPath(path);
-            Assert.True(full.Equals(_root, StringComparison.OrdinalIgnoreCase) || full.StartsWith(_root + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase), $"Flag fixture escaped temporary root: {full}");
+            Assert.True(full.Equals(_root, comparisonType: StringComparison.OrdinalIgnoreCase) || full.StartsWith(_root + Path.DirectorySeparatorChar, comparisonType: StringComparison.OrdinalIgnoreCase), userMessage: $"Flag fixture escaped temporary root: {full}");
             return full;
         }
 
@@ -264,7 +264,7 @@ public sealed class ControlStyleConstructionTests
         public bool FileExists(string path) => _files.FileExists(Checked(path));
         public bool DirectoryExists(string path) => _files.DirectoryExists(Checked(path));
         public bool DeleteFile(string path) => _files.DeleteFile(Checked(path));
-        public bool RenameFile(string source, string target) => _files.RenameFile(Checked(source), Checked(target));
+        public bool RenameFile(string source, string target) => _files.RenameFile(Checked(source), target: Checked(target));
         public bool CreateDirectory(string path) => _files.CreateDirectory(Checked(path));
         public bool RemoveDirectory(string path) => _files.RemoveDirectory(Checked(path));
         public int GetAttributes(string path) => _files.GetAttributes(Checked(path));
@@ -330,7 +330,7 @@ public sealed class ControlStyleConstructionTests
             // The version-4 index is truncated, so ReadBuffer fails before any image-class lookup.
             ImageLibraryHeader header = new() { Id = "ILB", Version = 4, HeaderSize = 24, IndexEnd = 28, Size = 28 };
             string path = Path.Combine(directory, "FLAGS.ILB");
-            File.WriteAllBytes(path, Bytes.Of(ref header, 24).ToArray());
+            File.WriteAllBytes(path, bytes: Bytes.Of(ref header, count: 24).ToArray());
             ImageLibraries.LibraryImageClasses = classes!;
             using FlagFixture fixture = new(loaded: false, directory);
             using (ImageLibrary library = new(null!))
@@ -339,9 +339,9 @@ public sealed class ControlStyleConstructionTests
             }
             fixture.Files.OpenedPaths.Clear();
             IOException error = Assert.Throws<IOException>(() => FlagControl.Create(fixture.Owner));
-            Assert.Contains("Error loading:", error.Message, StringComparison.Ordinal);
+            Assert.Contains("Error loading:", error.Message, comparisonType: StringComparison.Ordinal);
             Assert.Equal(path.ToUpperInvariant(), Assert.Single(fixture.Files.OpenedPaths).ToUpperInvariant());
-            Assert.Contains(fixture.Files.EnumeratedDirectories, entry => entry.Equals(directory, StringComparison.OrdinalIgnoreCase));
+            Assert.Contains(fixture.Files.EnumeratedDirectories, entry => entry.Equals(directory, comparisonType: StringComparison.OrdinalIgnoreCase));
             Assert.Equal(0, fixture.Entry.RefCount);
             Assert.Empty(fixture.Owner.Members);
         }

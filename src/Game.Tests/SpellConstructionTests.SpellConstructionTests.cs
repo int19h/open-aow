@@ -26,7 +26,7 @@ public sealed partial class SpellConstructionTests
 
         public override int AddChild(EngineObject child)
         {
-            Assert.True(EngineFixture.Forwards(child.Owner, this));
+            Assert.True(EngineFixture.Forwards(child.Owner, recorder: this));
             Observations.Add(Snapshot(child));
             _ = base.AddChild(child);
             return Members.Count - 1;
@@ -90,12 +90,12 @@ public sealed partial class SpellConstructionTests
 
         if (value is Array array)
         {
-            return array.Cast<object?>().Select(x => State(x, depth + 1)).ToArray();
+            return array.Cast<object?>().Select(x => State(x, depth: depth + 1)).ToArray();
         }
 
         if (InlineArrays.Elements(value) is { } elements)
         {
-            return elements.Select(x => State(x, depth + 1)).ToArray();
+            return elements.Select(x => State(x, depth: depth + 1)).ToArray();
         }
 
         if (depth > 8)
@@ -116,7 +116,7 @@ public sealed partial class SpellConstructionTests
                 object? fieldValue = field.GetValue(value);
                 fields[$"{current.Name}.{MemberNames.Of(field)}"] = MemberNames.Of(field) is "_owner" or "Owner"
                     ? fieldValue is null ? null : "$owner"
-                    : State(fieldValue, depth + 1);
+                    : State(fieldValue, depth: depth + 1);
             }
         }
 
@@ -163,8 +163,8 @@ public sealed partial class SpellConstructionTests
             {
                 return EngineClassCreation.OwnerConstructor(type) is { } constructor
                     ? (EngineObject)constructor.Invoke(EngineClassCreation.OwnerArguments(constructor, owner))
-                    : (EngineObject)type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly,
-                    [typeof(CustomNode)])!.Invoke(null, [owner])!;
+                    : (EngineObject)type.GetMethod("Create", bindingAttr: BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly,
+                    types: [typeof(CustomNode)])!.Invoke(null, parameters: [owner])!;
             }
             catch (TargetInvocationException error) when (error.InnerException is not null)
             {
@@ -181,7 +181,7 @@ public sealed partial class SpellConstructionTests
         {
             try
             {
-                return (EngineObject)meta.GetType().GetMethod("CreateInstance", [typeof(CustomNode), typeof(EngineObject)])!.Invoke(meta, [owner, EngineFixture.Engine])!;
+                return (EngineObject)meta.GetType().GetMethod("CreateInstance", types: [typeof(CustomNode), typeof(EngineObject)])!.Invoke(meta, parameters: [owner, EngineFixture.Engine])!;
             }
             catch (TargetInvocationException error) when (error.InnerException is not null)
             {
@@ -224,15 +224,15 @@ public sealed partial class SpellConstructionTests
                 for (int route = 0; route < 4; route++)
                 {
                     CustomNode argument = owned ? owner : null!;
-                    EngineObject value = Create(type, argument, route);
+                    EngineObject value = Create(type, owner: argument, route);
                     allocated.Add(value);
-                    Assert.IsType(type, value);
-                    Assert.True(owned ? EngineFixture.Forwards(value.Owner, owner) : value.Owner is null);
+                    Assert.IsType(type, @object: value);
+                    Assert.True(owned ? EngineFixture.Forwards(value.Owner, recorder: owner) : value.Owner is null);
                     Assert.Same(EngineClass.Of(type), value.EngineClass);
-                    ConstructionSnapshot.Check("SpellConstruction", name, SuccessSnapshot(value), "State");
+                    ConstructionSnapshot.Check("SpellConstruction", key: name, actual: SuccessSnapshot(value), member: "State");
                     if (owned)
                     {
-                        ConstructionSnapshot.Check("SpellConstruction", name, owner.Observations[^1], "Observation");
+                        ConstructionSnapshot.Check("SpellConstruction", key: name, actual: owner.Observations[^1], member: "Observation");
                     }
 
                     if (value is Spell spell)
@@ -273,8 +273,8 @@ public sealed partial class SpellConstructionTests
             using Fixture fixture = new();
             SpellOwner owner = new();
             EngineObject value = Create(type, owner, route);
-            Assert.IsType(type, value);
-            Assert.True(EngineFixture.Forwards(value.Owner, owner));
+            Assert.IsType(type, @object: value);
+            Assert.True(EngineFixture.Forwards(value.Owner, recorder: owner));
             Assert.Same(value, Assert.Single(owner.Members));
             Assert.Empty(owner.Removed);
             if (value is Spell spell)
@@ -301,9 +301,9 @@ public sealed partial class SpellConstructionTests
         for (int route = 0; route < 4; route++)
         {
             EngineObject value = Create(type, owner, route);
-            Assert.IsType(type, value);
+            Assert.IsType(type, @object: value);
             Assert.Equal(1, ((CombatAction)value).RefCount);
-            Assert.True(EngineFixture.Forwards(value.Owner, owner));
+            Assert.True(EngineFixture.Forwards(value.Owner, recorder: owner));
             value.Dispose();
         }
         Assert.Empty(owner.Members);
@@ -314,7 +314,7 @@ public sealed partial class SpellConstructionTests
     {
         for (int route = 0; route < 4; route++)
         {
-            NewCombatRoundCombatAction value = (NewCombatRoundCombatAction)Create(typeof(NewCombatRoundCombatAction), null!, route);
+            NewCombatRoundCombatAction value = (NewCombatRoundCombatAction)Create(typeof(NewCombatRoundCombatAction), owner: null!, route);
             _ = Assert.IsType<NewCombatRoundCombatAction>(value);
             Assert.Equal(1, value.RefCount);
             value.Dispose();

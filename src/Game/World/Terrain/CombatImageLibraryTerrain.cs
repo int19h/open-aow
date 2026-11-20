@@ -82,21 +82,21 @@ public class CombatImageLibraryTerrain(CustomNode owner) : ImageLibraryTerrainMa
         HexGeometry.HexToPixel(StoredHexX, StoredHexY, out int pixelX, out int pixelY);
         pixelXSurface = pixelX - pixelXSurface;
         pixelYSurface = pixelY - pixelYSurface;
-        Resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 40, (uint)(Owner.HexX + (Owner.HexY << 4)));
+        Resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, index: 40, offset: (uint)(Owner.HexX + (Owner.HexY << 4)));
     }
 
     // CombatILTer.pas:87
     public sbyte GetDefense() => GetResource<CombatImageLibraryTerrainResource>().Defense;
 
     // CombatILTer.pas:90
-    public sbyte GetBurnValue() => GetResource<CombatImageLibraryTerrainResource>().BurnValue;
+    public sbyte BurnValue => GetResource<CombatImageLibraryTerrainResource>().BurnValue;
 
     // CombatILTer.pas:118
     public void DestroyShadow()
     {
         if (_shadow is not null)
         {
-            if (GetVisible())
+            if (Visible)
             {
                 _ = Resource.Engine.HexSpriteMap.DynamicVisibleHexSprite.RemoveChild(_shadow);
             }

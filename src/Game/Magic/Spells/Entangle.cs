@@ -19,7 +19,7 @@ public class Entangle : CombatSpell
     public Entangle(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.EntangleText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.EntangleText);
         SpellId = 111;
         SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 7;
@@ -62,9 +62,9 @@ public class Entangle : CombatSpell
         {
             sbyte resistance = target.GetResistance();
             float hitRoleProbability = HitChance.HitRoleProbability(CombatInfo.Attack - resistance);
-            sbyte hitPoints = target.GetHitPoints();
+            sbyte hitPoints = target.HitPoints;
             values.SourceDamage = Round((double)(hitPoints * 100) * hitRoleProbability);
-            sbyte targetHitPoints = target.GetHitPoints();
+            sbyte targetHitPoints = target.HitPoints;
             values.SourceCost = targetHitPoints;
             values.TargetDamage = 0;
             values.TargetCost = 0;

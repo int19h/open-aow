@@ -44,13 +44,13 @@ public sealed unsafe class SdlAudioOutput : IDisposable
                 channels = _channels,
                 format = _bytesPerSample == 1 ? SDL_AudioFormat.SDL_AUDIO_U8 : SDL_AudioFormat.SDL_AUDIO_S16LE
             };
-            _stream = SDL_OpenAudioDeviceStream(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, &spec, &Callback, GCHandle.ToIntPtr(_handle));
+            _stream = SDL_OpenAudioDeviceStream(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, spec: &spec, callback: &Callback, userdata: GCHandle.ToIntPtr(_handle));
             if (_stream is null)
             {
                 throw new InvalidOperationException(SDL_GetError());
             }
             // Gain is set while the device is still paused.
-            if (!SDL_SetAudioStreamGain(_stream, muted ? 0 : 1) || !SDL_ResumeAudioStreamDevice(_stream))
+            if (!SDL_SetAudioStreamGain(_stream, gain: muted ? 0 : 1) || !SDL_ResumeAudioStreamDevice(_stream))
             {
                 throw new InvalidOperationException(SDL_GetError());
             }
@@ -73,7 +73,7 @@ public sealed unsafe class SdlAudioOutput : IDisposable
             while (frames > 0)
             {
                 int count = Math.Min(frames, output._pcm.Length / 2);
-                output._mixer.Render(output._pcm.AsSpan(0, count * 2));
+                output._mixer.Render(output._pcm.AsSpan(0, length: count * 2));
                 for (int i = 0; i < count; i++)
                 {
                     for (int channel = 0; channel < output._channels; channel++)
@@ -86,14 +86,14 @@ public sealed unsafe class SdlAudioOutput : IDisposable
                         }
                         else
                         {
-                            BinaryPrimitives.WriteInt16LittleEndian(output._encoded.AsSpan(at), (short)Math.Clamp((int)Math.Round(value * 32768), -32768, 32767));
+                            BinaryPrimitives.WriteInt16LittleEndian(output._encoded.AsSpan(at), value: (short)Math.Clamp((int)Math.Round(value * 32768), -32768, 32767));
                         }
                     }
                 }
 
                 fixed (byte* data = output._encoded)
                 {
-                    if (!SDL_PutAudioStreamData(stream, (nint)data, count * frameBytes))
+                    if (!SDL_PutAudioStreamData(stream, buf: (nint)data, len: count * frameBytes))
                     {
                         throw new InvalidOperationException();
                     }
@@ -105,7 +105,7 @@ public sealed unsafe class SdlAudioOutput : IDisposable
         }
         catch (Exception)
         {
-            Volatile.Write(ref output._callbackFailed, 1);
+            Volatile.Write(ref output._callbackFailed, value: 1);
         }
     }
 

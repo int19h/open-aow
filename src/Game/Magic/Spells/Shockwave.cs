@@ -16,7 +16,7 @@ public class Shockwave : CombatSpell
     public Shockwave(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_shockwaveText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_shockwaveText);
         SpellId = 127;
         SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 8;

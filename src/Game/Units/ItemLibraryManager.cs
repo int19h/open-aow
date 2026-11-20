@@ -55,17 +55,17 @@ public class ItemLibraryManager : EngineObject
         if (persister.Loading)
         {
             ReadUserLibraries();
-            GetEngine().ReadFromFile($"{directory}ITEMS.PFS", SystemLibrary, null);
+            GetEngine().ReadFromFile($"{directory}ITEMS.PFS", SystemLibrary, progress: null);
         }
         else
         {
-            GetEngine().WriteToFile($"{directory}ITEMS.PFS", SystemLibrary, null);
+            GetEngine().WriteToFile($"{directory}ITEMS.PFS", SystemLibrary, progress: null);
             WriteUserLibraries();
         }
     }
 
     // Army.PAS:5002
-    public ItemLibrary GetLibrary(int index) => Libraries.GetChildInRange<ItemLibrary>(index);
+    public ItemLibrary this[int index] => Libraries.GetChildInRange<ItemLibrary>(index);
 
     // Army.PAS:5007
     public int GetCount() => Libraries.Count;
@@ -77,7 +77,7 @@ public class ItemLibraryManager : EngineObject
         _ = Libraries.AddChild(SystemLibrary);
         // Both extensions list, and a list present in both forms loads its own document once
         // (own-formats.md 4.2).
-        foreach (string listed in FileBoundary.FindDocuments($"{GetEngine().StartupDirectory}User\\", DocumentKind.ItemList))
+        foreach (string listed in FileBoundary.FindDocuments($"{GetEngine().StartupDirectory}User\\", kind: DocumentKind.ItemList))
         {
             ItemLibrary itemLibrary = new(null) { Holder = CreationHolder() };
             try
@@ -97,7 +97,7 @@ public class ItemLibraryManager : EngineObject
     {
         for (int i = 1, last = Libraries.Count - 1; i <= last; i++)
         {
-            ItemLibrary itemLibrary = GetLibrary(i);
+            ItemLibrary itemLibrary = this[i];
             string name = itemLibrary.GetName();
             itemLibrary.SaveToFile($"{GetEngine().StartupDirectory}User\\{name}{FileBoundary.WriteExtension(DocumentKind.ItemList)}");
         }
@@ -134,9 +134,9 @@ public class ItemLibraryManager : EngineObject
     {
         string libraryName = name;
         // { Original retains the period when stripping the extension. }
-        if (Pos(".", libraryName) != 0)
+        if (Pos(".", haystack: libraryName) != 0)
         {
-            libraryName = DelphiStrings.Copy(libraryName, 1, Pos(".", libraryName));
+            libraryName = DelphiStrings.Copy(libraryName, index: 1, count: Pos(".", haystack: libraryName));
         }
 
         ItemLibrary result;
@@ -162,11 +162,11 @@ public class ItemLibraryManager : EngineObject
     {
         if (index < Libraries.Count && index > 0)
         {
-            string name = GetLibrary(index).GetName();
+            string name = this[index].GetName();
             // The list goes in both forms, so an original of the same name does not return.
             _ = DeleteFile($"{GetEngine().StartupDirectory}User\\{name}{DocumentKind.ItemList.OriginalExtension}");
             _ = DeleteFile($"{GetEngine().StartupDirectory}User\\{name}{DocumentKind.ItemList.OwnExtension}");
-            GetLibrary(index)?.Dispose();
+            this[index]?.Dispose();
         }
     }
 }

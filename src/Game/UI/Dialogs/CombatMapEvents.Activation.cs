@@ -15,20 +15,20 @@ public partial class CombatMapEvents
         _ = AudioHost.SongPlayer.Pause(false);
         if (UI.Engine.Demo)
         {
-            _ = AudioPlayback.PlaySong("Songs\\Combat\\Defend.IT", 2, 0, true);
+            _ = AudioPlayback.PlaySong("Songs\\Combat\\Defend.IT", fadeOut: 2, fadeIn: 0, loop: true);
         }
         else
         {
             switch (Random(3))
             {
                 case 0:
-                    _ = AudioPlayback.PlaySong("Songs\\Combat\\Defend.IT", 2, 0, true);
+                    _ = AudioPlayback.PlaySong("Songs\\Combat\\Defend.IT", fadeOut: 2, fadeIn: 0, loop: true);
                     break;
                 case 1:
-                    _ = AudioPlayback.PlaySong("Songs\\Combat\\Outnum.IT", 2, 0, true);
+                    _ = AudioPlayback.PlaySong("Songs\\Combat\\Outnum.IT", fadeOut: 2, fadeIn: 0, loop: true);
                     break;
                 case 2:
-                    _ = AudioPlayback.PlaySong("Songs\\Combat\\Races.IT", 2, 0, true);
+                    _ = AudioPlayback.PlaySong("Songs\\Combat\\Races.IT", fadeOut: 2, fadeIn: 0, loop: true);
                     break;
                 default:
                     break;

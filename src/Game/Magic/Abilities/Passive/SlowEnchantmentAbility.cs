@@ -15,13 +15,13 @@ public class SlowEnchantmentAbility : UnitEnchantmentAbility
     public SlowEnchantmentAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), GameText.SlowText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.SlowText);
         AbilityId = 132;
         SelectionTypes = Set<AbilitySelectionType>.Of();
     }
 
     // PassiveAb.pas:615
-    public override void CombatDone(CombatObject combatObject) => combatObject.GetAbilityOwner().RemoveAbility(AbilityId);
+    public override void CombatDone(CombatObject combatObject) => combatObject.AbilityOwner.RemoveAbility(AbilityId);
 
     // PassiveAb.pas:609
     public override UnitEnchantment CreateEnchantment()

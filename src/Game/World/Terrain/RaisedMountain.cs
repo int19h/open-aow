@@ -76,7 +76,7 @@ public class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapObject(own
         Dispose();
         if (overlay > 0)
         {
-            StrategicMap.Current.PlaceTerrain(field.HexX, field.HexY, field.HexLevel, field.TerrainType, overlay);
+            StrategicMap.Current.PlaceTerrain(field.HexX, field.HexY, L: field.HexLevel, field.TerrainType, overlayType: overlay);
         }
     }
 
@@ -96,9 +96,9 @@ public class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapObject(own
     // Mountain.pas:228
     public void ShowRaiseTerrainAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        sbyte hexLevel = animation.GetHexLevel();
-        sbyte hexY = animation.GetHexY();
-        sbyte hexX = animation.GetHexX();
+        sbyte hexLevel = animation.HexLevel;
+        sbyte hexY = animation.HexY;
+        sbyte hexX = animation.HexX;
         MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         // { Original tests the base mountain ID, although this object is raised terrain. }
         if (this == field.FindOwnedChild(131432) && animation.FrameCounter == 0)
@@ -106,15 +106,15 @@ public class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapObject(own
             bool condition = StrategicMap.Current.SeatedPlayer == animation.Tag;
             if (!condition)
             {
-                sbyte hexLevel2 = GetHexLevel();
-                sbyte hexY2 = GetHexY();
-                sbyte hexX2 = GetHexX();
-                condition = StrategicMap.Current.WatchingTerrain(hexX2, hexY2, hexLevel2, 0);
+                sbyte hexLevel2 = HexLevel;
+                sbyte hexY2 = HexY;
+                sbyte hexX2 = HexX;
+                condition = StrategicMap.Current.WatchingTerrain(hexX2, hexY2, L: hexLevel2, radius: 0);
             }
 
             if (condition)
             {
-                _ = GamePack.Current.SpellControl.GetSpell(19).CastSounds.Play(0);
+                _ = GamePack.Current.SpellControl[19].CastSounds.Play(0);
             }
         }
     }
@@ -122,9 +122,9 @@ public class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapObject(own
     // Mountain.pas:240
     public void NewFrameRaiseTerrainAnimation(Animation animation, int frameCounter)
     {
-        sbyte hexLevel = animation.GetHexLevel();
-        sbyte hexY = animation.GetHexY();
-        sbyte hexX = animation.GetHexX();
+        sbyte hexLevel = animation.HexLevel;
+        sbyte hexY = animation.HexY;
+        sbyte hexX = animation.HexX;
         MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         if (field.FindOwnedChild(131434) == this && frameCounter == 9)
         {
@@ -142,7 +142,7 @@ public class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapObject(own
         public override int ResourceUserClassId() => 131434;
 
         // Mountain.pas:252
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_raisedMountainText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_raisedMountainText);
 
         private static readonly string s_raisedMountainText = "Raised Mountain";
 

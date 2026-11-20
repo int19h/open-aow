@@ -29,7 +29,7 @@ public partial class BuildersGuild(CustomNode owner) : ProductionPlace(owner)
         public override int ResourceUserClassId() => 133422;
 
         // BldGuild.pas:50
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_buildersGuildText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_buildersGuildText);
 
         private static readonly string s_buildersGuildText = "Builders Guild";
 

@@ -82,7 +82,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
 
                             if (AbilityId == 52)
                             {
-                                GamePack.Current.SpellControl.GetSpell(SpellId).CombatSpellCast(_unit);
+                                GamePack.Current.SpellControl[SpellId].CombatSpellCast(_unit);
                             }
 
                             bool notExplorationEnabled = !CombatMap.Current.ExplorationEnabled;
@@ -97,7 +97,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                             {
                                 sbyte hexY = _unit.UnitHexSprite.HexY;
                                 sbyte hexX = _unit.UnitHexSprite.HexX;
-                                CombatMap.Current.MakeVisible(hexX, hexY, 0, 2);
+                                CombatMap.Current.MakeVisible(hexX, hexY, 0, radius: 2);
                             }
 
                             switch (_effectType)
@@ -175,7 +175,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                                     if (AbilityId == 52)
                                     {
                                         SpellCombatInfo info = default;
-                                        GamePack.Current.SpellControl.GetSpell(SpellId).GetCombatInfo(_unit.Troop, ref info);
+                                        GamePack.Current.SpellControl[SpellId].GetCombatInfo(_unit.Troop, ref info);
                                         _strikeCount = info.RepeatCount;
                                     }
                                     else
@@ -189,11 +189,11 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                             switch (_effectType)
                             {
                                 case BattleEffectType.Tremors:
-                                    _sound = GamePack.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0, 64, true, 0, SamplePanning.Center, null);
+                                    _sound = GamePack.Current.SpellControl[SpellId].CastSounds.Play(0, volume: 64, looped: true, delay: 0, panning: SamplePanning.Center, callback: null);
                                     NextStrike();
                                     break;
                                 case BattleEffectType.ScreenSwarm:
-                                    _sound = GamePack.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(2, 64, true, 0, SamplePanning.Center, null);
+                                    _sound = GamePack.Current.SpellControl[SpellId].CastSounds.Play(2, volume: 64, looped: true, delay: 0, panning: SamplePanning.Center, callback: null);
                                     {
                                         i = 0;
                                         int last = _strikeCount - 1;
@@ -263,7 +263,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                     }
                     catch
                     {
-                        _ = MessageBox(0, "Error during Token Start", $"Error - TCRangedToken {IntToStr(AbilityId)}/{IntToStr(SpellId)}", 0);
+                        _ = MessageBox(0, text: "Error during Token Start", caption: $"Error - TCRangedToken {IntToStr(AbilityId)}/{IntToStr(SpellId)}", flags: 0);
                     }
 
                     break;
@@ -303,12 +303,12 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                                             message.Param = param;
                                             message.Result = -1;
                                             Point3D path = effect.Path[0];
-                                            HexGeometry.PixelToHex(effect.Path[0].X, path.Y, out endX, out endY);
+                                            HexGeometry.PixelToHex(effect.Path[0].X, vertical: path.Y, out endX, out endY);
                                             {
                                                 i = 0;
                                                 for (; i <= 6; i += 1)
                                                 {
-                                                    HexGeometry.CenterHexNumberToHex(endX, endY, i, ref x, ref y);
+                                                    HexGeometry.CenterHexNumberToHex(endX, endY, hexNumber: i, ref x, ref y);
                                                     CombatMap.Current.MapContainer.MapLevels[0].GetField(x, y).SendMapFieldMessage(ref message);
                                                     EffectPaths.CreateFire(50, x, y, engine: GetEngine());
                                                 }
@@ -327,24 +327,24 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                                     if (effect.Frame != -1 && effect.Path[effect.Frame].Z == 15)
                                     {
                                         Point3D path = effect.Path[effect.Frame];
-                                        HexGeometry.PixelToHex(effect.Path[effect.Frame].X, path.Y, out x, out y);
+                                        HexGeometry.PixelToHex(effect.Path[effect.Frame].X, vertical: path.Y, out x, out y);
                                         hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(x, y).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
                                         if (hexSprite is not null)
                                         {
                                             RandSeed = StrategicMap.Current.Random(16777215);
                                             // Spell 107 builds a damage action. Another action class fails in the typed create.
-                                            DamageCombatAction damage = GamePack.Current.SpellControl.GetSpell(effect.SpellIndex).CreateCombatAction<DamageCombatAction>(_unit, target: hexSprite.Unit, chargeMana: false);
+                                            DamageCombatAction damage = GamePack.Current.SpellControl[effect.SpellIndex].CreateCombatAction<DamageCombatAction>(_unit, target: hexSprite.Unit, chargeMana: false);
                                             effect.CombatAction = damage;
                                             sbyte hexY = hexSprite.HexY;
                                             HexGeometry.HexToPixel(hexSprite.HexX, hexY, out i, out x);
                                             if (damage.DamageTypes - damage.Effects != Set<DamageType>.Of())
                                             {
-                                                CombatEvents.MakeDamageEffectHexSpriteList(i, x, damage.DamageTypes - damage.Effects, false);
+                                                CombatEvents.MakeDamageEffectHexSpriteList(i, x, damageTypes: damage.DamageTypes - damage.Effects, resisted: false);
                                             }
 
                                             if (damage.Effects != Set<DamageType>.Of())
                                             {
-                                                CombatEvents.MakeDamageEffectHexSpriteList(i, x, damage.Effects, true);
+                                                CombatEvents.MakeDamageEffectHexSpriteList(i, x, damageTypes: damage.Effects, resisted: true);
                                             }
 
                                             CombatMap.Current.Combat.ExecuteCombatAction(effect.CombatAction);
@@ -404,7 +404,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                                                         i = 0;
                                                         for (; i <= 6; i += 1)
                                                         {
-                                                            HexGeometry.CenterHexNumberToHex(TargetX, TargetY, i, ref x, ref y);
+                                                            HexGeometry.CenterHexNumberToHex(TargetX, TargetY, hexNumber: i, ref x, ref y);
                                                             CombatMap.Current.MapContainer.MapLevels[0].GetField(x, y).SendMapFieldMessage(ref message);
                                                         }
                                                     }
@@ -423,7 +423,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                                                         i = 0;
                                                         for (; i <= 6; i += 1)
                                                         {
-                                                            HexGeometry.CenterHexNumberToHex(TargetX, TargetY, i, ref x, ref y);
+                                                            HexGeometry.CenterHexNumberToHex(TargetX, TargetY, hexNumber: i, ref x, ref y);
                                                             CombatMap.Current.MapContainer.MapLevels[0].GetField(x, y).SendMapFieldMessage(ref message);
                                                         }
                                                     }
@@ -449,7 +449,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                                                             i = 0;
                                                             for (; i <= 6; i += 1)
                                                             {
-                                                                HexGeometry.CenterHexNumberToHex(TargetX, TargetY, i, ref x, ref y);
+                                                                HexGeometry.CenterHexNumberToHex(TargetX, TargetY, hexNumber: i, ref x, ref y);
                                                                 CombatMap.Current.MapContainer.MapLevels[0].GetField(x, y).SendMapFieldMessage(ref message);
                                                             }
                                                         }
@@ -475,7 +475,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                                                                 i = 1;
                                                                 for (; i <= 6; i += 1)
                                                                 {
-                                                                    HexGeometry.CenterHexNumberToHex(TargetX, TargetY, i, ref x, ref y);
+                                                                    HexGeometry.CenterHexNumberToHex(TargetX, TargetY, hexNumber: i, ref x, ref y);
                                                                     CombatMap.Current.MapContainer.MapLevels[0].GetField(x, y).SendMapFieldMessage(ref message);
                                                                 }
                                                             }
@@ -491,7 +491,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                                                                 i = 7;
                                                                 for (; i <= 18; i += 1)
                                                                 {
-                                                                    HexGeometry.CenterHexNumberToHex(TargetX, TargetY, i, ref x, ref y);
+                                                                    HexGeometry.CenterHexNumberToHex(TargetX, TargetY, hexNumber: i, ref x, ref y);
                                                                     CombatMap.Current.MapContainer.MapLevels[0].GetField(x, y).SendMapFieldMessage(ref message);
                                                                 }
                                                             }
@@ -507,7 +507,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                                                                 i = 19;
                                                                 for (; i <= 36; i += 1)
                                                                 {
-                                                                    HexGeometry.CenterHexNumberToHex(TargetX, TargetY, i, ref x, ref y);
+                                                                    HexGeometry.CenterHexNumberToHex(TargetX, TargetY, hexNumber: i, ref x, ref y);
                                                                     CombatMap.Current.MapContainer.MapLevels[0].GetField(x, y).SendMapFieldMessage(ref message);
                                                                 }
                                                             }
@@ -545,7 +545,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                                                                     i = 0;
                                                                     for (; i <= 18; i += 1)
                                                                     {
-                                                                        HexGeometry.CenterHexNumberToHex(TargetX, TargetY, i, ref x, ref y);
+                                                                        HexGeometry.CenterHexNumberToHex(TargetX, TargetY, hexNumber: i, ref x, ref y);
                                                                         CombatMap.Current.MapContainer.MapLevels[0].GetField(x, y).SendMapFieldMessage(ref message);
                                                                         EffectPaths.CreateFire(50, x, y, engine: GetEngine());
                                                                     }
@@ -564,11 +564,11 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                                                             int last = CombatMap.Current.Combat.CombatData.GetCount() - 1;
                                                             for (; i <= last; i += 1)
                                                             {
-                                                                if (CombatMap.Current.Combat.CombatData.GetObjects(i) is not null && CombatMap.Current.Combat.CombatData.GetObjects(i) is CombatUnit && CombatMap.Current.Combat.CombatData.GetObjects(i).GetSide() != _unit.GetSide() && CombatMap.Current.Combat.CombatData.GetObjects(i).GetEnabled() && CombatMap.Current.Combat.CombatData.GetObjects<TacticalBattleUnit>(i).UnitHexSprite is not null)
+                                                                if (CombatMap.Current.Combat.CombatData.GetObjects(i) is not null && CombatMap.Current.Combat.CombatData.GetObjects(i) is CombatUnit && CombatMap.Current.Combat.CombatData.GetObjects(i).Side != _unit.Side && CombatMap.Current.Combat.CombatData.GetObjects(i).GetEnabled() && CombatMap.Current.Combat.CombatData.GetObjects<TacticalBattleUnit>(i).UnitHexSprite is not null)
                                                                 {
                                                                     RandSeed = StrategicMap.Current.Random(16777215);
                                                                     CombatObject combatObject = CombatMap.Current.Combat.CombatData.GetObjects(i);
-                                                                    ExclusiveCombatSpellCombatAction exclusive = GamePack.Current.SpellControl.GetSpell(SpellId).CreateCombatAction<ExclusiveCombatSpellCombatAction>(_unit, target: combatObject, chargeMana: false);
+                                                                    ExclusiveCombatSpellCombatAction exclusive = GamePack.Current.SpellControl[SpellId].CreateCombatAction<ExclusiveCombatSpellCombatAction>(_unit, target: combatObject, chargeMana: false);
                                                                     CombatAction action = exclusive;
                                                                     if (exclusive.Succeeded)
                                                                     {
@@ -598,7 +598,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                                                                             i = 0;
                                                                             for (; i <= 6; i += 1)
                                                                             {
-                                                                                HexGeometry.CenterHexNumberToHex(TargetX, TargetY, i, ref x, ref y);
+                                                                                HexGeometry.CenterHexNumberToHex(TargetX, TargetY, hexNumber: i, ref x, ref y);
                                                                                 CombatMap.Current.MapContainer.MapLevels[0].GetField(x, y).SendMapFieldMessage(ref message);
                                                                             }
                                                                         }
@@ -646,8 +646,8 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                                                                         i = 0;
                                                                         RandSeed = StrategicMap.Current.Random(16777215);
                                                                         effect.CombatAction = AbilityId == 52
-                                                                            ? GamePack.Current.SpellControl.GetSpell(SpellId).CreateCombatAction(_unit, effect.Target, false)
-                                                                            : GamePack.Current.AbilityControl.GetAbility(AbilityId).CreateRangedCombatAction(_unit, target: effect.Target);
+                                                                            ? GamePack.Current.SpellControl[SpellId].CreateCombatAction(_unit, effect.Target, chargeMana: false)
+                                                                            : GamePack.Current.AbilityControl[AbilityId].CreateRangedCombatAction(_unit, target: effect.Target);
 
                                                                         if (effect.CombatAction is DamageCombatAction damage)
                                                                         {
@@ -656,12 +656,12 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                                                                             HexGeometry.HexToPixel(effect.Target.UnitHexSprite.HexX, hexY, out x, out y);
                                                                             if (damage.DamageTypes - damage.Effects != Set<DamageType>.Of())
                                                                             {
-                                                                                CombatEvents.MakeDamageEffectHexSpriteList(x, y, damage.DamageTypes - damage.Effects, false);
+                                                                                CombatEvents.MakeDamageEffectHexSpriteList(x, y, damageTypes: damage.DamageTypes - damage.Effects, resisted: false);
                                                                             }
 
                                                                             if (damage.Effects != Set<DamageType>.Of())
                                                                             {
-                                                                                CombatEvents.MakeDamageEffectHexSpriteList(x, y, damage.Effects, true);
+                                                                                CombatEvents.MakeDamageEffectHexSpriteList(x, y, damageTypes: damage.Effects, resisted: true);
                                                                             }
                                                                         }
                                                                         else
@@ -682,7 +682,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                                                                         if (i > 0)
                                                                         {
                                                                             effect.Target.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Hit);
-                                                                            TacticalBattleUnit.MakeHitBlood(effect.Target, i);
+                                                                            TacticalBattleUnit.MakeHitBlood(effect.Target, damage: i);
                                                                             effect.Cancelled = true;
                                                                         }
                                                                     }
@@ -692,7 +692,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                                                                         int count = effect.Path.Count;
                                                                         Point3D path = effect.Path[count - 1];
                                                                         int fPathCount = effect.Path.Count;
-                                                                        HexGeometry.PixelToHex(effect.Path[fPathCount - 1].X, path.Y, out endX, out endY);
+                                                                        HexGeometry.PixelToHex(effect.Path[fPathCount - 1].X, vertical: path.Y, out endX, out endY);
                                                                         if (effect.CombatAction is not null && effect.Target is not null)
                                                                         {
                                                                             CombatMap.Current.Combat.ExecuteCombatAction(effect.CombatAction);
@@ -794,7 +794,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                                                                                                         if (CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).TerrainType != 0 && CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).TerrainType != 10 && CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).OverlayType != 2 && CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).OverlayType != 11 && CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).OverlayType != 8 && CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).TerrainType != 9 && CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).TerrainType != 15 && CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).TerrainType != 7)
                                                                                                         {
                                                                                                             TacticalBattleOozeHexSprite ooze = new(null) { Holder = CreationHolder() };
-                                                                                                            _ = CombatMap.Current.PlaceHex(ooze, endX, endY, 0);
+                                                                                                            _ = CombatMap.Current.PlaceHex(ooze, endX, endY, L: 0);
                                                                                                         }
 
                                                                                                         break;
@@ -925,7 +925,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                     }
                     catch
                     {
-                        _ = MessageBox(0, "Error during Token Execute", $"Error - TCRangedToken {IntToStr(AbilityId)}/{IntToStr(SpellId)}", 0);
+                        _ = MessageBox(0, text: "Error during Token Execute", caption: $"Error - TCRangedToken {IntToStr(AbilityId)}/{IntToStr(SpellId)}", flags: 0);
                     }
 
                     break;
@@ -954,7 +954,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
         }
         catch
         {
-            _ = MessageBox(0, "Error during Token", $"Error - TCRangedToken {IntToStr(AbilityId)}/{IntToStr(SpellId)}", 0);
+            _ = MessageBox(0, text: "Error during Token", caption: $"Error - TCRangedToken {IntToStr(AbilityId)}/{IntToStr(SpellId)}", flags: 0);
         }
 
         return result;
@@ -974,7 +974,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
             int bestDistance = 6;
             for (int i2 = 0, last = CombatMap.Current.Combat.CombatData.GetCount() - 1; i2 <= last; i2++)
             {
-                if (CombatMap.Current.Combat.CombatData.GetObjects(i2) is CombatUnit && CombatMap.Current.Combat.CombatData.GetObjects(i2).GetEnabled() && CombatMap.Current.Combat.CombatData.GetObjects(i2).GetSide() != _unit.GetSide())
+                if (CombatMap.Current.Combat.CombatData.GetObjects(i2) is CombatUnit && CombatMap.Current.Combat.CombatData.GetObjects(i2).GetEnabled() && CombatMap.Current.Combat.CombatData.GetObjects(i2).Side != _unit.Side)
                 {
                     bool available = true;
                     for (int j2 = 0, lastJ = used.Count - 1; j2 <= lastJ; j2++)
@@ -1068,7 +1068,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                 sbyte hexY = _unit.UnitHexSprite.HexY;
                 int deltaHexToHexNumber2 = HexGeometry.DeltaHexToHexNumber(_unit.UnitHexSprite.HexX, hexY, TargetX, TargetY);
                 sbyte fUnitHexSpriteHexY = _unit.UnitHexSprite.HexY;
-                HexGeometry.CenterHexNumberToHex(_unit.UnitHexSprite.HexX, fUnitHexSpriteHexY, TacticalTables.BreathHexNumber[(TacticalTables.BreathDirection[deltaHexToHexNumber2 - 1] * 12) - 3], ref j, ref k);
+                HexGeometry.CenterHexNumberToHex(_unit.UnitHexSprite.HexX, fUnitHexSpriteHexY, hexNumber: TacticalTables.BreathHexNumber[(TacticalTables.BreathDirection[deltaHexToHexNumber2 - 1] * 12) - 3], ref j, ref k);
                 sbyte hexY2 = _unit.UnitHexSprite.HexY;
                 HexGeometry.HexToPixel(_unit.UnitHexSprite.HexX, hexY2, out x1, out y1);
                 HexGeometry.HexToPixel(j, k, out x2, out y2);
@@ -1100,7 +1100,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                 sbyte hexX = _unit.UnitHexSprite.HexX;
                 sbyte hexY3 = _unit.UnitHexSprite.HexY;
                 Point3DList path19 = effect.Path;
-                TacticalTables.MakeRangedPath(_unit.GetSide(), 50, 20, 50, hexX, hexY3, (short)j, (short)k, (short)deltaX, (short)deltaY, false, path19, obstacles);
+                TacticalTables.MakeRangedPath(_unit.Side, speed: 50, arc: 20, unusedHeight: 50, hexX, hexY3, (short)j, (short)k, (short)deltaX, (short)deltaY, includeUnits: false, path: path19, obstacles);
                 effect.Path = path19;
                 if (_strikeIndex < 12)
                 {
@@ -1109,7 +1109,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                     sbyte hexY5 = _unit.UnitHexSprite.HexY;
                     int targetX = effect.TargetX;
                     int targetY = effect.TargetY;
-                    HexGeometry.CenterHexNumberToHex(_unit.UnitHexSprite.HexX, hexY5, TacticalTables.BreathHexNumber[(TacticalTables.BreathDirection[deltaHexToHexNumber3 - 1] * 12) + BreathHit[_strikeIndex] - 12], ref targetX, ref targetY);
+                    HexGeometry.CenterHexNumberToHex(_unit.UnitHexSprite.HexX, hexY5, hexNumber: TacticalTables.BreathHexNumber[(TacticalTables.BreathDirection[deltaHexToHexNumber3 - 1] * 12) + BreathHit[_strikeIndex] - 12], ref targetX, ref targetY);
                     effect.TargetX = targetX;
                     effect.TargetY = targetY;
                 }
@@ -1232,7 +1232,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                 bool found = false;
                 while (!found)
                 {
-                    HexGeometry.CenterHexNumberToHex(TargetX, TargetY, i, ref j, ref k);
+                    HexGeometry.CenterHexNumberToHex(TargetX, TargetY, hexNumber: i, ref j, ref k);
                     bool condition = j is > 5 and < 60 && k is > 5 and < 53 && CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild(2228484) is null;
                     if (condition)
                     {
@@ -1308,7 +1308,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                 Point3D path4 = effect.Path[count6 - 1];
                 int count7 = effect.Path.Count;
                 Point3DList path22 = effect.Path;
-                EffectPaths.MakeArcPathXY((short)effect.Path[count7 - 1].X, (short)(path2.Y - path3.Z), (short)(path4.X + j - 150), (short)(path.Y - pathZ.Z + k - 150), (short)(((Math.Abs(j - 150) + Math.Abs(k - 150)) / 50) + 2), 100, path22);
+                EffectPaths.MakeArcPathXY((short)effect.Path[count7 - 1].X, (short)(path2.Y - path3.Z), (short)(path4.X + j - 150), (short)(path.Y - pathZ.Z + k - 150), stepSize: (short)(((Math.Abs(j - 150) + Math.Abs(k - 150)) / 50) + 2), height: 100, list: path22);
                 effect.Path = path22;
                 effect.TargetX = effect.Path.Count;
                 j = Random(200);
@@ -1325,7 +1325,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                 Point3D path9 = effect.Path[count12 - 1];
                 int count13 = effect.Path.Count;
                 Point3DList path23 = effect.Path;
-                EffectPaths.MakeArcPathXY((short)effect.Path[count13 - 1].X, (short)(path7.Y - path8.Z), (short)(path9.X + j - 100), (short)(path5.Y - path6.Z + k - 100), (short)(((Math.Abs(j - 100) + Math.Abs(k - 100)) / 50) + 3), 100, path23);
+                EffectPaths.MakeArcPathXY((short)effect.Path[count13 - 1].X, (short)(path7.Y - path8.Z), (short)(path9.X + j - 100), (short)(path5.Y - path6.Z + k - 100), stepSize: (short)(((Math.Abs(j - 100) + Math.Abs(k - 100)) / 50) + 3), height: 100, list: path23);
                 effect.Path = path23;
                 effect.TargetY = effect.Path.Count;
                 int count14 = effect.Path.Count;
@@ -1340,7 +1340,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                 Point3D path12 = effect.Path[count18 - 1];
                 int count19 = effect.Path.Count;
                 Point3DList path24 = effect.Path;
-                EffectPaths.MakeArcPathXY((short)effect.Path[count19 - 1].X, (short)(path11.Y - path12.Z), (short)(deltaX + 16), (short)(deltaY + 16), (short)(((Math.Abs(item.Y - fPathItem.Z - deltaY) + Math.Abs(path10.X - deltaX)) / 50) + 4), 100, path24);
+                EffectPaths.MakeArcPathXY((short)effect.Path[count19 - 1].X, (short)(path11.Y - path12.Z), (short)(deltaX + 16), (short)(deltaY + 16), stepSize: (short)(((Math.Abs(item.Y - fPathItem.Z - deltaY) + Math.Abs(path10.X - deltaX)) / 50) + 4), height: 100, list: path24);
                 effect.Path = path24;
                 break;
             case BattleEffectType.ScreenNESW:
@@ -1362,13 +1362,13 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                     124 => 19,
                     _ => 7,
                 };
-                HexGeometry.CenterHexNumberToHex(TargetX, TargetY, RandomHex[_strikeIndex % i], ref deltaX, ref deltaY);
+                HexGeometry.CenterHexNumberToHex(TargetX, TargetY, hexNumber: RandomHex[_strikeIndex % i], ref deltaX, ref deltaY);
                 HexGeometry.HexToPixel(deltaX, deltaY, out x2, out y2);
-                CombatMap.Current.MakeVisible(deltaX, deltaY, 0, 5);
+                CombatMap.Current.MakeVisible(deltaX, deltaY, 0, radius: 5);
                 x1 = Random(20) + 6;
                 y1 = Random(20) + 6;
                 Point3DList path25 = effect.Path;
-                EffectPaths.MakeLinePath(x2 + x1 - 100, y2 + y1 - 300, x2 + x1, y2 + y1, 30, path25);
+                EffectPaths.MakeLinePath(x2 + x1 - 100, y2 + y1 - 300, x2 + x1, y2 + y1, steps: 30, list: path25);
                 effect.Path = path25;
                 switch (SpellId)
                 {
@@ -1393,7 +1393,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                 HexGeometry.HexToPixel(_unit.UnitHexSprite.HexX, hexY6, out x1, out y1);
                 HexGeometry.HexToPixel(TargetX, TargetY, out x2, out y2);
                 Point3DList path26 = effect.Path;
-                EffectPaths.MakeLightningPath(x1 + 16, y1, x2 + 16, y2, path26);
+                EffectPaths.MakeLightningPath(x1 + 16, y1, x2 + 16, y2, list: path26);
                 effect.Path = path26;
                 int count20 = effect.Path.Count;
                 Point3DList path27 = effect.Path;
@@ -1417,7 +1417,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                     sbyte hexY4 = target.UnitHexSprite.HexY;
                     HexGeometry.HexToPixel(target.UnitHexSprite.HexX, hexY4, out x2, out y2);
                     Point3DList path28 = effect.Path;
-                    EffectPaths.MakeLightningPath(x1, y1, x2 + 16, y2, path28);
+                    EffectPaths.MakeLightningPath(x1, y1, x2 + 16, y2, list: path28);
                     effect.Path = path28;
                     i -= 1;
                     sbyte hexY5 = target.UnitHexSprite.HexY;
@@ -1436,7 +1436,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                 int random7 = Random(90);
                 int random8 = Random(5);
                 Point3DList path29 = effect.Path;
-                EffectPaths.MakeSwarmPath(Random(10) + 10, random8 + 20, random7, random3, random4 + x1 + 6, random5 + y1 - 10, (SwarmDirection)random6, path29);
+                EffectPaths.MakeSwarmPath(Random(10) + 10, radius: random8 + 20, phase: random7, angle: random3, random4 + x1 + 6, random5 + y1 - 10, direction: (SwarmDirection)random6, list: path29);
                 effect.Path = path29;
                 k = effect.Path.Count - 1;
                 {
@@ -1462,7 +1462,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                 Point3D path13 = effect.Path[count21 - 1];
                 int count22 = effect.Path.Count;
                 Point3DList path30 = effect.Path;
-                EffectPaths.MakeLinePath(effect.Path[count22 - 1].X, path13.Y, x2 + 16, y2, 15, path30);
+                EffectPaths.MakeLinePath(effect.Path[count22 - 1].X, path13.Y, x2 + 16, y2, steps: 15, list: path30);
                 effect.Path = path30;
                 Point3DList point3DList = new();
                 int random9 = Random(360);
@@ -1473,7 +1473,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                 int random10 = Random(2);
                 int random11 = Random(90);
                 int random12 = Random(5);
-                EffectPaths.MakeSwarmPath(Random(10) + 10, random12 + 20, random11, random9, path14.X, path15.Y, (SwarmDirection)random10, point3DList);
+                EffectPaths.MakeSwarmPath(Random(10) + 10, radius: random12 + 20, phase: random11, angle: random9, path14.X, path15.Y, direction: (SwarmDirection)random10, list: point3DList);
                 Point3D pathItem = point3DList[0];
                 int count25 = effect.Path.Count;
                 Point3D path16 = effect.Path[count25 - 1];
@@ -1481,7 +1481,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                 Point3D path17 = effect.Path[count26 - 1];
                 Point3D pathX2 = point3DList[0];
                 Point3DList path31 = effect.Path;
-                EffectPaths.MakeLinePath(path17.X, path16.Y, pathX2.X, pathItem.Y, 5, path31);
+                EffectPaths.MakeLinePath(path17.X, path16.Y, pathX2.X, pathItem.Y, steps: 5, list: path31);
                 effect.Path = path31;
                 {
                     i = 0;
@@ -1548,7 +1548,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                 int random17 = Random(90);
                 int random18 = Random(10);
                 Point3DList path32 = effect.Path;
-                EffectPaths.MakeSwarmPath(Random(10) + 10, random18 + 25, random17, random13, random14, random15 - 10, (SwarmDirection)random16, path32);
+                EffectPaths.MakeSwarmPath(Random(10) + 10, radius: random18 + 25, phase: random17, angle: random13, random14, random15 - 10, direction: (SwarmDirection)random16, list: path32);
                 effect.Path = path32;
                 k = effect.Path.Count - 1;
                 {
@@ -1586,15 +1586,15 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                 effect.TargetY = TargetY;
                 CombatMap.Current.CenterViewTo(TargetX - 3, TargetY - 3, 0);
                 Point3DList path34 = effect.Path;
-                EffectPaths.MakeArcPathXY((short)(x2 - 200), (short)(y2 - 200), (short)(x2 + 16), (short)(y2 + 16), 5, 100, path34);
+                EffectPaths.MakeArcPathXY((short)(x2 - 200), (short)(y2 - 200), (short)(x2 + 16), (short)(y2 + 16), stepSize: 5, height: 100, list: path34);
                 effect.Path = path34;
                 break;
             case BattleEffectType.Ray:
-                CombatMap.Current.MakeVisible(TargetX - 3, TargetY - 3, 0, 3);
+                CombatMap.Current.MakeVisible(TargetX - 3, TargetY - 3, 0, radius: 3);
                 sbyte hexX3 = _unit.UnitHexSprite.HexX;
                 sbyte hexY8 = _unit.UnitHexSprite.HexY;
                 Point3DList path35 = effect.Path;
-                TacticalTables.MakeRangedPath(_unit.GetSide(), 10, 0, 50, hexX3, hexY8, (short)TargetX, (short)TargetY, 0, 0, true, path35, obstacles);
+                TacticalTables.MakeRangedPath(_unit.Side, speed: 10, arc: 0, unusedHeight: 50, hexX3, hexY8, (short)TargetX, (short)TargetY, 0, 0, includeUnits: true, path: path35, obstacles);
                 effect.Path = path35;
                 break;
             case BattleEffectType.None:
@@ -1634,7 +1634,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                 sbyte hexX4 = _unit.UnitHexSprite.HexX;
                 sbyte hexY9 = _unit.UnitHexSprite.HexY;
                 Point3DList path36 = effect.Path;
-                TacticalTables.MakeAbilityPath(_unit.GetSide(), (short)AbilityId, (short)SpellId, hexX4, hexY9, (short)TargetX, (short)TargetY, path36, obstacles);
+                TacticalTables.MakeAbilityPath(_unit.Side, ability: (short)AbilityId, spell: (short)SpellId, hexX4, hexY9, (short)TargetX, (short)TargetY, path: path36, obstacles);
                 effect.Path = path36;
                 break;
         }
@@ -1665,7 +1665,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                     if (StrategicMap.Current.Random(100) < obstacle.Chance)
                     {
                         Point3D path = effect.Path[obstacle.PathIndex];
-                        HexGeometry.PixelToHex(effect.Path[obstacle.PathIndex].X, path.Y, out j, out k);
+                        HexGeometry.PixelToHex(effect.Path[obstacle.PathIndex].X, vertical: path.Y, out j, out k);
                         HexSprite hitObject = effect.EffectType == BattleEffectType.Breath
                             ? null
                             : CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild<HexSprite>(2228484);

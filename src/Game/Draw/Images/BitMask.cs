@@ -80,16 +80,16 @@ public class BitMask(CustomImageLibrary owner) : LibraryImage(owner), ILibraryIm
     {
         base.ReadImageData(stream);
         int maskWidth = MaskWidth;
-        stream.ReadExactly(Bytes.Of(ref maskWidth, 4));
+        stream.ReadExactly(Bytes.Of(ref maskWidth, count: 4));
         MaskWidth = maskWidth;
         int maskHeight = MaskHeight;
-        stream.ReadExactly(Bytes.Of(ref maskHeight, 4));
+        stream.ReadExactly(Bytes.Of(ref maskHeight, count: 4));
         MaskHeight = maskHeight;
         int maskLeft = MaskLeft;
-        stream.ReadExactly(Bytes.Of(ref maskLeft, 4));
+        stream.ReadExactly(Bytes.Of(ref maskLeft, count: 4));
         MaskLeft = maskLeft;
         int maskTop = MaskTop;
-        stream.ReadExactly(Bytes.Of(ref maskTop, 4));
+        stream.ReadExactly(Bytes.Of(ref maskTop, count: 4));
         MaskTop = maskTop;
     }
 
@@ -98,16 +98,16 @@ public class BitMask(CustomImageLibrary owner) : LibraryImage(owner), ILibraryIm
     {
         base.WriteImageData(stream);
         int maskWidth = MaskWidth;
-        stream.Write(Bytes.Of(ref maskWidth, 4));
+        stream.Write(Bytes.Of(ref maskWidth, count: 4));
         MaskWidth = maskWidth;
         int maskHeight = MaskHeight;
-        stream.Write(Bytes.Of(ref maskHeight, 4));
+        stream.Write(Bytes.Of(ref maskHeight, count: 4));
         MaskHeight = maskHeight;
         int maskLeft = MaskLeft;
-        stream.Write(Bytes.Of(ref maskLeft, 4));
+        stream.Write(Bytes.Of(ref maskLeft, count: 4));
         MaskLeft = maskLeft;
         int maskTop = MaskTop;
-        stream.Write(Bytes.Of(ref maskTop, 4));
+        stream.Write(Bytes.Of(ref maskTop, count: 4));
         MaskTop = maskTop;
     }
 
@@ -123,14 +123,14 @@ public class BitMask(CustomImageLibrary owner) : LibraryImage(owner), ILibraryIm
     {
         base.ReadDiscardableImageData(stream);
         AllocateMaskData(MaskWidth, MaskHeight);
-        stream.ReadExactly(MaskData.AsSpan(0, DataSize));
+        stream.ReadExactly(MaskData.AsSpan(0, length: DataSize));
     }
 
     // ImageLib.pas:4734
     public override void WriteDiscardableImageData(Stream stream)
     {
         base.WriteDiscardableImageData(stream);
-        stream.Write(MaskData.AsSpan(0, DataSize));
+        stream.Write(MaskData.AsSpan(0, length: DataSize));
     }
 
     // ImageLib.pas:4740
@@ -158,7 +158,7 @@ public class BitMask(CustomImageLibrary owner) : LibraryImage(owner), ILibraryIm
             bitCount += 1;
             if (bitCount == 32)
             {
-                BinaryPrimitives.WriteInt32LittleEndian(MaskData.AsSpan(offset, 4), bits);
+                BinaryPrimitives.WriteInt32LittleEndian(MaskData.AsSpan(offset, length: 4), value: bits);
 
                 offset += 4;
                 bitCount = 0;
@@ -169,7 +169,7 @@ public class BitMask(CustomImageLibrary owner) : LibraryImage(owner), ILibraryIm
         void FlushBits()
         {
             bits <<= 32 - bitCount;
-            BinaryPrimitives.WriteInt32LittleEndian(MaskData.AsSpan(offset, 4), bits);
+            BinaryPrimitives.WriteInt32LittleEndian(MaskData.AsSpan(offset, length: 4), value: bits);
             bitCount = 0;
             bits = 0;
         }
@@ -190,11 +190,11 @@ public class BitMask(CustomImageLibrary owner) : LibraryImage(owner), ILibraryIm
         Rect minRectangle;
         if (!maskGrab.Inverse)
         {
-            LockedSurface.MinimizeTransparentRectangle(lockedSurface, R, transparentColor, out minRectangle);
+            LockedSurface.MinimizeTransparentRectangle(lockedSurface, R, transparentColor, result: out minRectangle);
         }
         else
         {
-            MinimizeInverseTransparentRectangle(lockedSurface, R, transparentColor, out minRectangle);
+            MinimizeInverseTransparentRectangle(lockedSurface, R, transparentColor, result: out minRectangle);
         }
 
         int left = minRectangle.Left;
@@ -236,7 +236,7 @@ public class BitMask(CustomImageLibrary owner) : LibraryImage(owner), ILibraryIm
             LoadDiscardableImageData();
         }
 
-        ShowBitMask16(X + Xshift + MaskLeft, Y + Yshift + MaskTop, lockedSurface, MaskData, MaskWidth, MaskHeight);
+        ShowBitMask16(X + Xshift + MaskLeft, Y + Yshift + MaskTop, lockedSurface, data: MaskData, MaskWidth, MaskHeight);
     }
 
     public void AllocateMaskData(int width, int height)
@@ -244,7 +244,7 @@ public class BitMask(CustomImageLibrary owner) : LibraryImage(owner), ILibraryIm
         _pitch = checked(((width + 31) >> 5) * 4);
         DataSize = checked(_pitch * MaskHeight);
         // GrabImage flushes one extra zero dword after a full final word.
-        MaskData = MemorySurfaces.Reallocate(MaskData, checked(DataSize + 4));
+        MaskData = MemorySurfaces.Reallocate(MaskData, size: checked(DataSize + 4));
     }
 
     internal static int GetPixelInfo(in LockedSurface lockedSurface, int X, int Y)
@@ -353,7 +353,7 @@ public class BitMask(CustomImageLibrary owner) : LibraryImage(owner), ILibraryIm
         }
     }
 
-    private static void ShowBitMask16(int X, int Y, in LockedSurface lockedSurface, ReadOnlySpan<byte> data, int width, int height) => Blit.ShowBitMask16(X, Y, lockedSurface.View(), data, width, height);
+    private static void ShowBitMask16(int X, int Y, in LockedSurface lockedSurface, ReadOnlySpan<byte> data, int width, int height) => Blit.ShowBitMask16(X, Y, destination: lockedSurface.View(), data, w: width, h: height);
 
     // Inverse (grab the non-transparent rectangle with MinimizeInvTransparentRect)
     public class GrabInfo : Images.GrabInfo
@@ -367,7 +367,7 @@ public class BitMask(CustomImageLibrary owner) : LibraryImage(owner), ILibraryIm
         {
             base.LoadFromStream(stream);
             bool inverse = Inverse;
-            stream.ReadExactly(Bytes.Of(ref inverse, 1));
+            stream.ReadExactly(Bytes.Of(ref inverse, count: 1));
             Inverse = inverse;
         }
 
@@ -376,7 +376,7 @@ public class BitMask(CustomImageLibrary owner) : LibraryImage(owner), ILibraryIm
         {
             base.SaveToStream(stream);
             bool inverse = Inverse;
-            stream.Write(Bytes.Of(ref inverse, 1));
+            stream.Write(Bytes.Of(ref inverse, count: 1));
             Inverse = inverse;
         }
 

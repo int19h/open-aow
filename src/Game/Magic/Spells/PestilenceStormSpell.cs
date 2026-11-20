@@ -14,7 +14,7 @@ public class PestilenceStormSpell : StormSpell
     public PestilenceStormSpell(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_pestilenceText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_pestilenceText);
         SpellId = 9;
         BaseManaCost = 5;
         SpellLevel = 3;

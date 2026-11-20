@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- The OpenAoW analyzers (README.md). The product build loads them through
+       Aow.Analyzers.props. The Roslyn assemblies come from the pinned SDK, so the analyzers bind
+       to the compiler that runs them and the project needs no package feed. -->
+  <PropertyGroup>
+    <RootNamespace>Aow.Analyzers</RootNamespace>
+    <AssemblyName>Aow.Analyzers</AssemblyName>
+    <UseAowAnalyzers>false</UseAowAnalyzers>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Tests/**" />
+    <None Remove="Tests/**" />
+    <Reference Include="$(RoslynTargetsPath)/bincore/Microsoft.CodeAnalysis.dll" Private="false" />
+    <Reference Include="$(RoslynTargetsPath)/bincore/Microsoft.CodeAnalysis.CSharp.dll" Private="false" />
+    <Reference Include="$(MSBuildSDKsPath)/../DotnetTools/dotnet-format/Microsoft.CodeAnalysis.Workspaces.dll" Private="false" />
+    <Reference Include="$(MSBuildSDKsPath)/../DotnetTools/dotnet-format/Microsoft.CodeAnalysis.CSharp.Workspaces.dll" Private="false" />
+    <Reference Include="$(MSBuildSDKsPath)/../DotnetTools/dotnet-format/System.Composition.AttributedModel.dll" Private="false" />
+  </ItemGroup>
+</Project>

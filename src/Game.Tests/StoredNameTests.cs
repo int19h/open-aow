@@ -13,8 +13,8 @@ public sealed class StoredNameTests
     [Fact]
     public void AnOldEnumMemberNameIsNotAMember()
     {
-        Assert.False(NameTable.TryMember(typeof(GameSettings.CombatResolveMode), "AlwaysFC", out _));
-        Assert.True(NameTable.TryMember(typeof(GameSettings.CombatResolveMode), nameof(GameSettings.CombatResolveMode.AlwaysFastBattle), out string member));
+        Assert.False(NameTable.TryMember(typeof(GameSettings.CombatResolveMode), text: "AlwaysFC", member: out _));
+        Assert.True(NameTable.TryMember(typeof(GameSettings.CombatResolveMode), text: nameof(GameSettings.CombatResolveMode.AlwaysFastBattle), out string member));
         Assert.Equal(nameof(GameSettings.CombatResolveMode.AlwaysFastBattle), member);
     }
 
@@ -33,7 +33,7 @@ public sealed class StoredNameTests
         Assert.Null(resource.PropertyByName("ResourceID"));
         Assert.Equal("ResourceId", resource.PropertyById(1)!.Name);
         ConversionException error = Assert.Throws<ConversionException>(() =>
-            DocumentBackend.Read(new JsonObject().Add("ResourceID", new JsonInteger(5)), resource, schema, "game"));
+            DocumentBackend.Read(new JsonObject().Add("ResourceID", new JsonInteger(5)), classValue: resource, schema, engine: "game"));
         Assert.Equal(Codes.UnknownMember, error.Diagnostic.Code);
         Assert.Equal("root.ResourceID", error.Diagnostic.Path);
     }

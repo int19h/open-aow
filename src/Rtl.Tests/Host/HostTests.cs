@@ -25,8 +25,8 @@ public sealed class HostTests
             Assert.Equal(3, events.Count);
             Assert.Equal("seed", events[0].Kind);
             Assert.Equal(123456789, events[0].After);
-            Assert.Equal(new RandomTraceEvent("random", 20, integer, 123456789, events[1].After), events[1]);
-            Assert.Equal(new RandomTraceEvent("random", null, fraction, events[1].After, after), events[2]);
+            Assert.Equal(new RandomTraceEvent("random", Argument: 20, Result: integer, Before: 123456789, events[1].After), events[1]);
+            Assert.Equal(new RandomTraceEvent("random", Argument: null, Result: fraction, Before: events[1].After, after), events[2]);
         }
         finally
         {
@@ -71,7 +71,7 @@ public sealed class HostTests
         try
         {
             RtlHost.Dialogs = new Defaults();
-            Assert.Equal(expected, RtlHost.MessageBox(0, "message", "caption", flags));
+            Assert.Equal(expected, RtlHost.MessageBox(0, text: "message", caption: "caption", flags));
         }
         finally
         {

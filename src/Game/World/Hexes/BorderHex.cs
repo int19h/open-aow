@@ -30,7 +30,7 @@ public class BorderHex(CustomNode owner) : AbstractBorderHexagon(owner)
             MapField field = Owner;
             if (field is not null && field.HexY != 0)
             {
-                _ = field.Owner.GetField(field.HexX, Owner.HexY - 1).AddHexSprite(this, 1);
+                _ = field.Owner.GetField(field.HexX, Owner.HexY - 1).AddHexSprite(this, hexNumber: 1);
             }
         }
         else
@@ -50,7 +50,7 @@ public class BorderHex(CustomNode owner) : AbstractBorderHexagon(owner)
     public override bool CanSelect(int pixelX, int pixelY) => false;
 
     // BorderHx.pas:77
-    public override byte GetLevel() => 11;
+    public override byte Level => 11;
 
     // BorderHx.pas:82
     public override int GetShowPriority()

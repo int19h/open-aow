@@ -20,7 +20,7 @@ public class HealingCombatAction(CustomNode owner) : SingleTargetCombatAction(ow
     {
         CombatUnit source = combat.CombatData.FindId<CombatUnit>(SourceId);
         CombatUnit target = combat.CombatData.FindId<CombatUnit>(TargetId);
-        GamePack.Current.AbilityControl.GetAbility<HealingAbility>(47).SetEnabled(source.Troop, false);
+        GamePack.Current.AbilityControl.GetAbility<HealingAbility>(47).SetEnabled(source.Troop, enabled: false);
         _ = GamePack.Current.AbilityControl.GetAbility<HealingAbility>(47).HealUnit(target.Troop);
     }
 
@@ -29,7 +29,7 @@ public class HealingCombatAction(CustomNode owner) : SingleTargetCombatAction(ow
     {
         if (viewer.Time == 0)
         {
-            _ = GamePack.Current.AbilityControl.GetAbility(47).SfxLibrary.Play(0);
+            _ = GamePack.Current.AbilityControl[47].SfxLibrary.Play(0);
         }
 
         if (viewer.Delay == viewer.Time)
@@ -46,7 +46,7 @@ public class HealingCombatAction(CustomNode owner) : SingleTargetCombatAction(ow
         base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
         if (objectValue.Id == TargetId)
         {
-            _ = GamePack.Current.AbilityControl.GetAbility(47).ImageSequences.Show(0, X + 32, Y + 32, viewer.Time, surface);
+            _ = GamePack.Current.AbilityControl[47].ImageSequences.Show(0, X + 32, Y + 32, frame: viewer.Time, lockedSurface: surface);
         }
     }
 

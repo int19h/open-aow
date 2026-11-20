@@ -27,7 +27,7 @@ public class ByteList : Persistent
     {
         if (index < 0)
         {
-            Error("List index out of bounds (%d)", index);
+            Error("List index out of bounds (%d)", data: index);
         }
 
         if (index >= _count)
@@ -43,12 +43,12 @@ public class ByteList : Persistent
     {
         if (newCapacity < _count || newCapacity > EngineServices.MaxListSize)
         {
-            Error("List capacity out of bounds (%d)", newCapacity);
+            Error("List capacity out of bounds (%d)", data: newCapacity);
         }
 
         if (newCapacity != _capacity)
         {
-            Array.Resize(ref _list, newCapacity * 1);
+            Array.Resize(ref _list, newSize: newCapacity * 1);
             _capacity = newCapacity;
         }
     }
@@ -58,7 +58,7 @@ public class ByteList : Persistent
     {
         if (newCount is < 0 or > EngineServices.MaxListSize)
         {
-            Error("List count out of bounds (%d)", newCount);
+            Error("List count out of bounds (%d)", data: newCount);
         }
 
         if (newCount > _capacity)
@@ -68,7 +68,7 @@ public class ByteList : Persistent
 
         if (newCount > _count)
         {
-            FillBytes(_list.AsSpan(_count, newCount - _count), Default);
+            FillBytes(_list.AsSpan(_count, length: newCount - _count), value: Default);
         }
 
         _count = newCount;
@@ -83,21 +83,21 @@ public class ByteList : Persistent
             result = $"{result}{IntToStr(_list[i])},";
         }
 
-        return !IsEmpty(result) ? Copy(result, 1, result.Length - 1) : result;
+        return !IsEmpty(result) ? Copy(result, index: 1, count: result.Length - 1) : result;
     }
 
     // Engine.pas:3894
     internal void SetItemString(string S)
     {
         Clear();
-        int p = Pos(",", S);
+        int p = Pos(",", haystack: S);
         while (!IsEmpty(S))
         {
             string item;
             if (p != 0)
             {
-                item = Copy(S, 1, p - 1);
-                S = DelphiStrings.Delete(S, 1, p);
+                item = Copy(S, index: 1, count: p - 1);
+                S = DelphiStrings.Delete(S, index: 1, count: p);
             }
             else
             {
@@ -113,7 +113,7 @@ public class ByteList : Persistent
             }
 
             _ = Add((byte)v);
-            p = Pos(",", S);
+            p = Pos(",", haystack: S);
         }
     }
 
@@ -134,7 +134,7 @@ public class ByteList : Persistent
         {
             _count = byteList._count;
             SetCapacity(byteList._count);
-            Array.Copy(byteList._list, 0, _list, 0, _count * 1);
+            Array.Copy(byteList._list, sourceIndex: 0, destinationArray: _list, destinationIndex: 0, length: _count * 1);
             Default = byteList.Default;
         }
         else
@@ -169,13 +169,13 @@ public class ByteList : Persistent
     {
         if (index < 0 || index >= _count)
         {
-            Error("List index out of bounds (%d)", index);
+            Error("List index out of bounds (%d)", data: index);
         }
 
         _count -= 1;
         if (index < _count)
         {
-            Array.Copy(_list, index + 1, _list, index, (_count - index) * 1);
+            Array.Copy(_list, sourceIndex: index + 1, destinationArray: _list, destinationIndex: index, length: (_count - index) * 1);
         }
     }
 
@@ -184,12 +184,12 @@ public class ByteList : Persistent
     {
         if (index1 < 0 || index1 >= _count)
         {
-            Error("List index out of bounds (%d)", index1);
+            Error("List index out of bounds (%d)", data: index1);
         }
 
         if (index2 < 0 || index2 >= _count)
         {
-            Error("List index out of bounds (%d)", index2);
+            Error("List index out of bounds (%d)", data: index2);
         }
 
         (_list[index2], _list[index1]) = (_list[index1], _list[index2]);
@@ -226,7 +226,7 @@ public class ByteList : Persistent
     {
         if (index < 0 || index > _count)
         {
-            Error("List index out of bounds (%d)", index);
+            Error("List index out of bounds (%d)", data: index);
         }
 
         if (_count == _capacity)
@@ -236,7 +236,7 @@ public class ByteList : Persistent
 
         if (index < _count)
         {
-            Array.Copy(_list, index, _list, index + 1, (_count - index) * 1);
+            Array.Copy(_list, sourceIndex: index, destinationArray: _list, destinationIndex: index + 1, length: (_count - index) * 1);
         }
 
         _list[index] = item;
@@ -253,7 +253,7 @@ public class ByteList : Persistent
         {
             if (newIndex < 0 || newIndex >= _count)
             {
-                Error("List index out of bounds (%d)", newIndex);
+                Error("List index out of bounds (%d)", data: newIndex);
             }
 
             byte item = Get(currentIndex);
@@ -291,12 +291,12 @@ public class ByteList : Persistent
     {
         if (_list.Length != 0 && Count > 0)
         {
-            QuickSortByte(_list, 0, Count - 1, compare);
+            QuickSortByte(_list, L: 0, R: Count - 1, sCompare: compare);
         }
     }
 
     // Engine.pas:3806
-    public bool Compare(ByteList list) => list._count == _count && CompareMem(_list.AsSpan(0, _count * 1), list._list.AsSpan(0, _count * 1), _count * 1);
+    public bool Compare(ByteList list) => list._count == _count && CompareMem(_list.AsSpan(0, length: _count * 1), list._list.AsSpan(0, length: _count * 1), count: _count * 1);
 
     // Engine.pas:3920
     public int RandomChanceItem(int bonus)
@@ -344,13 +344,13 @@ public class ByteList : Persistent
     public int Count { get => _count; set => SetCount(value); }
     public byte Default { get; set; }
 
-    public byte this[int index] { get => Get(index); set => Put(index, value); }
+    public byte this[int index] { get => Get(index); set => Put(index, item: value); }
 
     public string ItemString { get => GetItemString(); set => SetItemString(value); }
     public byte[] List => _list;
 
     // Engine.pas:3645
-    protected internal static void Error(string message, int data) => throw new ArgumentOutOfRangeException(paramName: null, Format(message, [data]));
+    protected internal static void Error(string message, int data) => throw new ArgumentOutOfRangeException(paramName: null, message: Format(message, args: [data]));
 
     private static void QuickSortByte(Span<byte> sortList, int L, int R, ByteSortCompare sCompare)
     {
@@ -384,7 +384,7 @@ public class ByteList : Persistent
             }
             if (L < number2)
             {
-                QuickSortByte(sortList, L, number2, sCompare);
+                QuickSortByte(sortList, L, R: number2, sCompare);
             }
             L = number;
         }

@@ -27,7 +27,7 @@ public class PlayerConnectionEventLog(CustomNode owner, EngineObject holder) : M
             DefaultName = "",
             Directory = $"{GetEngine().StartupDirectory}Save\\"
         };
-        StrategicMap.Current.TriggerTypedExecuteEventLog(log, false, ExitSaveGameCallback);
+        StrategicMap.Current.TriggerTypedExecuteEventLog(log, immediate: false, done: ExitSaveGameCallback);
         _ = log.Release();
         return true;
     }
@@ -48,18 +48,18 @@ public class PlayerConnectionEventLog(CustomNode owner, EngineObject holder) : M
         {
             case 3:
                 Buttons = MessageEventLogButtons.YesNo;
-                string outOfSync = AbilityRules.TranslateResourceString(GetEngine(), s_outOfSyncText);
+                string outOfSync = AbilityRules.TranslateResourceString(GetEngine(), S: s_outOfSyncText);
                 Message.Text = outOfSync;
-                string translatedText = AbilityRules.TranslateResourceString(GetEngine(), s_terminateGameSaveText);
+                string translatedText = AbilityRules.TranslateResourceString(GetEngine(), S: s_terminateGameSaveText);
                 _ = Message.Add(translatedText);
                 break;
             case 1:
                 Buttons = MessageEventLogButtons.YesNo;
                 string name = StrategicMap.Current.Players.GetPlayers(_disconnectedPlayer).GetName();
-                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_connectionTimeOutFormat), [name]);
+                string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_connectionTimeOutFormat), arguments: [name]);
                 Message.Text = format;
                 _ = Message.Add("");
-                string terminateGameSave = AbilityRules.TranslateResourceString(GetEngine(), s_terminateGameSaveText);
+                string terminateGameSave = AbilityRules.TranslateResourceString(GetEngine(), S: s_terminateGameSaveText);
                 _ = Message.Add(terminateGameSave);
                 break;
             case 2:
@@ -67,17 +67,17 @@ public class PlayerConnectionEventLog(CustomNode owner, EngineObject holder) : M
                 if (_disconnectedPlayer != -1)
                 {
                     string name2 = StrategicMap.Current.Players.GetPlayers(_disconnectedPlayer).GetName();
-                    string formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_connectionLostFormat), [name2]);
+                    string formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_connectionLostFormat), arguments: [name2]);
                     Message.Text = formattedText;
                 }
                 else
                 {
-                    string connectionLost = AbilityRules.TranslateResourceString(GetEngine(), s_connectionLostText);
+                    string connectionLost = AbilityRules.TranslateResourceString(GetEngine(), S: s_connectionLostText);
                     Message.Text = connectionLost;
                 }
 
                 _ = Message.Add("");
-                string terminateGameSaveText = AbilityRules.TranslateResourceString(GetEngine(), s_terminateGameSaveText);
+                string terminateGameSaveText = AbilityRules.TranslateResourceString(GetEngine(), S: s_terminateGameSaveText);
                 _ = Message.Add(terminateGameSaveText);
                 break;
             default:
@@ -96,7 +96,7 @@ public class PlayerConnectionEventLog(CustomNode owner, EngineObject holder) : M
             }
             else
             {
-                GetEngine().SaveHsm(log.FileName, null, GameProfile.WorldMap);
+                GetEngine().SaveHsm(log.FileName, progress: null, profile: GameProfile.WorldMap);
             }
         }
         else

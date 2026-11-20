@@ -22,7 +22,7 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
     private byte[] _buffer;
 
     // The rows of the picture: FBuffer from its first byte, FPitch bytes apart.
-    internal SurfaceView View => new(_buffer, 0, _pitch);
+    internal SurfaceView View => new(_buffer, start: 0, _pitch);
 
     // ImageLib.pas:2206
     internal void AllocateDiscardableImageData(int width, int height)
@@ -100,7 +100,7 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
         AllocateDiscardableImageData(DataWidth, DataHeight);
         for (int y = 0, last = DataHeight - 1; y <= last; y++)
         {
-            stream.ReadExactly(_buffer.AsSpan(y * _pitch, DataWidth * 2));
+            stream.ReadExactly(_buffer.AsSpan(y * _pitch, length: DataWidth * 2));
         }
     }
 
@@ -110,7 +110,7 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
         base.WriteDiscardableImageData(stream);
         for (int y = 0, last = DataHeight - 1; y <= last; y++)
         {
-            stream.Write(_buffer.AsSpan(y * _pitch, DataWidth * 2));
+            stream.Write(_buffer.AsSpan(y * _pitch, length: DataWidth * 2));
         }
     }
 
@@ -140,12 +140,12 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
                     {
                         for (int y = 0, last = Height - 1; y <= last; y++)
                         {
-                            Span<byte> s = lockedSurface.View().Bytes(((R.Top + y) * lockedSurface.Pitch) + R.Left, Width);
-                            Span<ushort> d = MemoryMarshal.Cast<byte, ushort>(_buffer.AsSpan(_pitch * y, Width * 2));
+                            Span<byte> s = lockedSurface.View().Bytes(((R.Top + y) * lockedSurface.Pitch) + R.Left, count: Width);
+                            Span<ushort> d = MemoryMarshal.Cast<byte, ushort>(_buffer.AsSpan(_pitch * y, length: Width * 2));
                             for (int x = 0, lastX = Width - 1; x <= lastX; x++)
                             {
                                 Palette.Entry p = lockedSurface.Palette[s[x]];
-                                d[x] = (ushort)(((p.Red & 248) << 8) + ((p.Green & 252) << 3) + (int)(((uint)p.Blue) >> 3));
+                                d[x] = (ushort)(((p.Red & 248) << 8) + ((p.Green & 252) << 3) + (p.Blue >>> 3));
                             }
                         }
                     }
@@ -157,7 +157,7 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
                     {
                         for (int i = 0, last = Height - 1; i <= last; i++)
                         {
-                            lockedSurface.View().Bytes(((R.Top + i) * lockedSurface.Pitch) + (R.Left * 2), Width * 2).CopyTo(_buffer.AsSpan(_pitch * i, Width * 2));
+                            lockedSurface.View().Bytes(((R.Top + i) * lockedSurface.Pitch) + (R.Left * 2), count: Width * 2).CopyTo(_buffer.AsSpan(_pitch * i, length: Width * 2));
                         }
                     }
 
@@ -167,11 +167,11 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
                     {
                         for (int y = 0, last = Height - 1; y <= last; y++)
                         {
-                            Span<ushort> d = MemoryMarshal.Cast<byte, ushort>(_buffer.AsSpan(_pitch * y, Width * 2));
-                            Span<byte> s24 = lockedSurface.View().Bytes(((R.Top + y) * lockedSurface.Pitch) + (R.Left * 3), Width * 3);
+                            Span<ushort> d = MemoryMarshal.Cast<byte, ushort>(_buffer.AsSpan(_pitch * y, length: Width * 2));
+                            Span<byte> s24 = lockedSurface.View().Bytes(((R.Top + y) * lockedSurface.Pitch) + (R.Left * 3), count: Width * 3);
                             for (int x = 0, lastX = Width - 1; x <= lastX; x++)
                             {
-                                d[x] = (ushort)(((s24[(x * 3) + 2] & 248) << 8) + ((s24[(x * 3) + 1] & 252) << 3) + (int)(((uint)s24[x * 3]) >> 3));
+                                d[x] = (ushort)(((s24[(x * 3) + 2] & 248) << 8) + ((s24[(x * 3) + 1] & 252) << 3) + (s24[x * 3] >>> 3));
                             }
                         }
                     }
@@ -207,11 +207,11 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
             switch (pixelFormatId)
             {
                 case PixelFormat.Rgb565:
-                    PixelRemap.RemapSurface555To565(View, View, DataWidth, DataHeight);
+                    PixelRemap.RemapSurface555To565(View, destination: View, DataWidth, DataHeight);
                     PixelFormatId = PixelFormat.Rgb565;
                     break;
                 case PixelFormat.Rgb555:
-                    PixelRemap.RemapSurface565To555(View, View, DataWidth, DataHeight);
+                    PixelRemap.RemapSurface565To555(View, destination: View, DataWidth, DataHeight);
                     PixelFormatId = PixelFormat.Rgb555;
                     break;
                 case PixelFormat.None:
@@ -385,10 +385,10 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
                             switch (PixelFormatId)
                             {
                                 case PixelFormat.Rgb565:
-                                    BlendSurface565(source, destination, w, h, table.Bytes);
+                                    BlendSurface565(source, destination, w, h, table: table.Bytes);
                                     break;
                                 case PixelFormat.Rgb555:
-                                    BlendSurface555(source, destination, w, h, table.Bytes);
+                                    BlendSurface555(source, destination, w, h, table: table.Bytes);
                                     break;
                                 case PixelFormat.None:
                                 case PixelFormat.Pal8:
@@ -418,10 +418,10 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
                             switch (PixelFormatId)
                             {
                                 case PixelFormat.Rgb565:
-                                    BlendSurface565(source, destination, w, h, table.Bytes);
+                                    BlendSurface565(source, destination, w, h, table: table.Bytes);
                                     break;
                                 case PixelFormat.Rgb555:
-                                    BlendSurface555(source, destination, w, h, table.Bytes);
+                                    BlendSurface555(source, destination, w, h, table: table.Bytes);
                                     break;
                                 case PixelFormat.None:
                                 case PixelFormat.Pal8:
@@ -456,10 +456,10 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
                             switch (PixelFormatId)
                             {
                                 case PixelFormat.Rgb565:
-                                    BlendSurface565(source, destination, w, h, table.Bytes);
+                                    BlendSurface565(source, destination, w, h, table: table.Bytes);
                                     break;
                                 case PixelFormat.Rgb555:
-                                    BlendSurface555(source, destination, w, h, table.Bytes);
+                                    BlendSurface555(source, destination, w, h, table: table.Bytes);
                                     break;
                                 case PixelFormat.None:
                                 case PixelFormat.Pal8:
@@ -489,10 +489,10 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
                             switch (PixelFormatId)
                             {
                                 case PixelFormat.Rgb565:
-                                    BlendSurface565(source, destination, w, h, table.Bytes);
+                                    BlendSurface565(source, destination, w, h, table: table.Bytes);
                                     break;
                                 case PixelFormat.Rgb555:
-                                    BlendSurface555(source, destination, w, h, table.Bytes);
+                                    BlendSurface555(source, destination, w, h, table: table.Bytes);
                                     break;
                                 case PixelFormat.None:
                                 case PixelFormat.Pal8:
@@ -638,18 +638,18 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
         }
     }
 
-    private static void BlitTransparent565(SurfaceView source, SurfaceView destination, int width, int height) => Blit.BlitTransparent565(source, destination, width, height);
+    private static void BlitTransparent565(SurfaceView source, SurfaceView destination, int width, int height) => Blit.BlitTransparent565(source, d: destination, w: width, h: height);
 
-    private static void BlitTransparent555(SurfaceView source, SurfaceView destination, int width, int height) => Blit.BlitTransparent555(source, destination, width, height);
+    private static void BlitTransparent555(SurfaceView source, SurfaceView destination, int width, int height) => Blit.BlitTransparent555(source, d: destination, w: width, h: height);
 
-    internal static void BlitStretched16(SurfaceView source, ReadOnlySpan<int> rowTable, ReadOnlySpan<int> columnTable, SurfaceView destination, int width, int height) => Blit.BlitStretched16(source, rowTable, columnTable, destination, width, height);
+    internal static void BlitStretched16(SurfaceView source, ReadOnlySpan<int> rowTable, ReadOnlySpan<int> columnTable, SurfaceView destination, int width, int height) => Blit.BlitStretched16(source, rows: rowTable, cols: columnTable, destination, w: width, h: height);
 
-    private static void BlendSurface555(SurfaceView source, SurfaceView destination, int width, int height, ReadOnlySpan<byte> table) => Blit.BlendSurface555(source, destination, width, height, table);
+    private static void BlendSurface555(SurfaceView source, SurfaceView destination, int width, int height, ReadOnlySpan<byte> table) => Blit.BlendSurface555(source, d: destination, w: width, h: height, t: table);
 
-    private static void BlendSurface565(SurfaceView source, SurfaceView destination, int width, int height, ReadOnlySpan<byte> table) => Blit.BlendSurface565(source, destination, width, height, table);
+    private static void BlendSurface565(SurfaceView source, SurfaceView destination, int width, int height, ReadOnlySpan<byte> table) => Blit.BlendSurface565(source, d: destination, w: width, h: height, t: table);
 
-    internal static void BlendStretched555(SurfaceView source, ReadOnlySpan<int> rowTable, ReadOnlySpan<int> columnTable, SurfaceView destination, int width, int height, ReadOnlySpan<byte> table) => Blit.BlendStretched555(source, rowTable, columnTable, destination, width, height, table);
+    internal static void BlendStretched555(SurfaceView source, ReadOnlySpan<int> rowTable, ReadOnlySpan<int> columnTable, SurfaceView destination, int width, int height, ReadOnlySpan<byte> table) => Blit.BlendStretched555(source, rows: rowTable, cols: columnTable, destination, w: width, h: height, table);
 
-    private static void BlendStretched565(SurfaceView source, ReadOnlySpan<int> rowTable, ReadOnlySpan<int> columnTable, SurfaceView destination, int width, int height, ReadOnlySpan<byte> table) => Blit.BlendStretched565(source, rowTable, columnTable, destination, width, height, table);
+    private static void BlendStretched565(SurfaceView source, ReadOnlySpan<int> rowTable, ReadOnlySpan<int> columnTable, SurfaceView destination, int width, int height, ReadOnlySpan<byte> table) => Blit.BlendStretched565(source, rows: rowTable, cols: columnTable, destination, w: width, h: height, table);
 
 }

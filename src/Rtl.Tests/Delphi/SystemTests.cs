@@ -64,14 +64,14 @@ public sealed class SystemTests
     public void StringsHandleExtremeIndicesAndIndependentAliases()
     {
         string text = "abcd";
-        Assert.Equal("ab", Copy(text, int.MinValue, 2));
-        Assert.Equal("", Copy(text, int.MaxValue, int.MaxValue));
-        Assert.Equal(text, Delete(text, int.MinValue, int.MaxValue));
-        Assert.Equal(text, Delete(text, int.MaxValue, int.MaxValue));
-        Assert.Equal("", Delete(text, 1, int.MaxValue));
-        Assert.Equal("XYabcd", Insert("XY", text, int.MinValue));
-        Assert.Equal("abcdXY", Insert("XY", text, int.MaxValue));
-        Assert.Equal(0, Pos("x", text));
+        Assert.Equal("ab", Copy(text, index: int.MinValue, count: 2));
+        Assert.Equal("", Copy(text, index: int.MaxValue, count: int.MaxValue));
+        Assert.Equal(text, Delete(text, index: int.MinValue, count: int.MaxValue));
+        Assert.Equal(text, Delete(text, index: int.MaxValue, count: int.MaxValue));
+        Assert.Equal("", Delete(text, index: 1, count: int.MaxValue));
+        Assert.Equal("XYabcd", Insert("XY", value: text, index: int.MinValue));
+        Assert.Equal("abcdXY", Insert("XY", value: text, index: int.MaxValue));
+        Assert.Equal(0, Pos("x", haystack: text));
         Assert.Equal(4, Length(text));
         Assert.Equal((byte)255, Chr(-1));
         Assert.Equal((byte)0, Chr(256));
@@ -89,28 +89,28 @@ public sealed class SystemTests
         Assert.Equal("ab", StrPas(pointer));
         Assert.Equal("b", StrPas(pointer + 1));
         Assert.Equal("", StrPas(default));
-        Assert.Equal("ab\0cd", SetString(pointer, 5));
-        SetString(out string value, pointer + 1, 3);
+        Assert.Equal("ab\0cd", SetString(pointer, length: 5));
+        SetString(out string value, source: pointer + 1, length: 3);
         Assert.Equal("b\0c", value);
         pointer[1] = 99;
         Assert.Equal("b\0c", value);
-        Assert.Equal("\0\0\0", SetString(default, 3));
-        Assert.Equal("", SetString(default, -1));
+        Assert.Equal("\0\0\0", SetString(default, length: 3));
+        Assert.Equal("", SetString(default, length: -1));
         Ptr<byte> destination = Ptr<byte>.Alloc(10);
-        Ptr<byte>.Fill(destination, 10, 255);
-        Assert.Equal(destination, StrCopy(destination + 0, pointer));
+        Ptr<byte>.Fill(destination, count: 10, value: 255);
+        Assert.Equal(destination, StrCopy(destination + 0, source: pointer));
         Assert.Equal(0, destination[2]);
         Assert.Equal(255, destination[3]);
-        Assert.Equal(0, StrLComp(pointer, destination, 10));
-        Assert.Equal(0, StrLComp(default, default, 0));
-        Assert.Equal(0, StrLComp(Ptr<byte>.Unbox("abc"), Ptr<byte>.Unbox("abd"), 2));
-        Assert.Equal(-1, StrLComp(Ptr<byte>.Unbox("abc"), Ptr<byte>.Unbox("abd"), 3));
-        Assert.Equal(127, StrLComp(Ptr<byte>.Unbox("\u00FF"), Ptr<byte>.Unbox("\u20AC"), 2));
-        Assert.Equal(-99, StrLComp(Ptr<byte>.Unbox("ab"), Ptr<byte>.Unbox("abc"), 10));
-        Assert.Equal(pointer + 1, StrScan(pointer, (byte)'c'));
-        Assert.Equal(pointer + 2, StrScan(pointer, 0));
-        Assert.True(StrScan(pointer, (byte)'d').IsNull);
-        Assert.Equal(pointer, StrScan(pointer, (byte)'a'));
+        Assert.Equal(0, StrLComp(pointer, destination, maxLength: 10));
+        Assert.Equal(0, StrLComp(default, default, maxLength: 0));
+        Assert.Equal(0, StrLComp(Ptr<byte>.Unbox("abc"), Ptr<byte>.Unbox("abd"), maxLength: 2));
+        Assert.Equal(-1, StrLComp(Ptr<byte>.Unbox("abc"), Ptr<byte>.Unbox("abd"), maxLength: 3));
+        Assert.Equal(127, StrLComp(Ptr<byte>.Unbox("\u00FF"), Ptr<byte>.Unbox("\u20AC"), maxLength: 2));
+        Assert.Equal(-99, StrLComp(Ptr<byte>.Unbox("ab"), Ptr<byte>.Unbox("abc"), maxLength: 10));
+        Assert.Equal(pointer + 1, StrScan(pointer, character: (byte)'c'));
+        Assert.Equal(pointer + 2, StrScan(pointer, character: 0));
+        Assert.True(StrScan(pointer, character: (byte)'d').IsNull);
+        Assert.Equal(pointer, StrScan(pointer, character: (byte)'a'));
     }
 
     [StoredLayout]
@@ -124,17 +124,17 @@ public sealed class SystemTests
     [Fact]
     public void TypedMemoryAndByteViews()
     {
-        GetMem(out Ptr<int> pointer, 3);
-        GetMem(out Ptr<int> zero, 0);
+        GetMem(out Ptr<int> pointer, count: 3);
+        GetMem(out Ptr<int> zero, count: 0);
         Assert.True(zero.IsNull);
-        FillChar(pointer, 3, 7);
+        FillChar(pointer, count: 3, value: 7);
         Assert.Equal((int[])[7, 7, 7], pointer.Array);
         pointer.Value = 1;
-        Move(pointer, pointer + 1, 2);
+        Move(pointer, destination: pointer + 1, count: 2);
         Assert.Equal((int[])[1, 1, 7], pointer.Array);
-        ReallocMem(ref pointer, 5);
+        ReallocMem(ref pointer, count: 5);
         Assert.Equal((int[])[1, 1, 7, 0, 0], pointer.Array);
-        ReallocMem(ref pointer, 1);
+        ReallocMem(ref pointer, count: 1);
         Assert.Equal((int[])[1], pointer.Array);
         Ptr<int> alias = pointer;
         FreeMem(out pointer);
@@ -146,29 +146,29 @@ public sealed class SystemTests
         record.Value.Byte = 5;
         Span<byte> bytes = Bytes.Of(ref record.Value);
         Assert.Equal(new byte[] { 1, 2, 3, 4, 5, 0, 0, 0 }, bytes.ToArray());
-        Assert.Equal(4, Bytes.Of(ref record.Value, 4).Length);
-        _ = Assert.Throws<ArgumentOutOfRangeException>(() => Bytes.Of(ref record.Value, 9).ToArray());
-        _ = Assert.Throws<ArgumentOutOfRangeException>(() => Bytes.Of(ref record.Value, -1).ToArray());
-        FillChar(bytes, 2, 0x80);
+        Assert.Equal(4, Bytes.Of(ref record.Value, count: 4).Length);
+        _ = Assert.Throws<ArgumentOutOfRangeException>(() => Bytes.Of(ref record.Value, count: 9).ToArray());
+        _ = Assert.Throws<ArgumentOutOfRangeException>(() => Bytes.Of(ref record.Value, count: -1).ToArray());
+        FillChar(bytes, count: 2, value: 0x80);
         Assert.Equal(0x04038080, record.Value.Value);
         PackedRecord other = new();
-        Move(bytes, Bytes.Of(ref other), 8);
-        Assert.True(CompareMem(bytes, Bytes.Of(ref other), 8));
+        Move(bytes, destination: Bytes.Of(ref other), count: 8);
+        Assert.True(CompareMem(bytes, Bytes.Of(ref other), count: 8));
         other.Byte = 6;
-        Assert.False(CompareMem(bytes, Bytes.Of(ref other), 8));
-        Move(bytes[..4], bytes[1..], 4);
+        Assert.False(CompareMem(bytes, Bytes.Of(ref other), count: 8));
+        Move(bytes[..4], destination: bytes[1..], count: 4);
         Assert.Equal(new byte[] { 128, 128, 128, 3, 4, 0, 0, 0 }, bytes.ToArray());
-        Move([], [], -1);
-        FillChar([], 0, 1);
-        Assert.True(CompareMem([], [], 0));
-        _ = Assert.Throws<ArgumentOutOfRangeException>(() => Move(new byte[1], new byte[1], 2));
-        _ = Assert.Throws<ArgumentOutOfRangeException>(() => FillChar(new byte[1], 2, 0));
-        _ = Assert.Throws<ArgumentOutOfRangeException>(() => CompareMem(new byte[1], new byte[1], 2));
+        Move([], destination: [], count: -1);
+        FillChar([], count: 0, value: 1);
+        Assert.True(CompareMem([], [], count: 0));
+        _ = Assert.Throws<ArgumentOutOfRangeException>(() => Move(new byte[1], destination: new byte[1], count: 2));
+        _ = Assert.Throws<ArgumentOutOfRangeException>(() => FillChar(new byte[1], count: 2, value: 0));
+        _ = Assert.Throws<ArgumentOutOfRangeException>(() => CompareMem(new byte[1], new byte[1], count: 2));
         Dispose(out record);
         Assert.True(record.IsNull);
         FreeMem(out pointer);
         Dispose(out record);
-        ReallocMem(ref pointer, 0);
+        ReallocMem(ref pointer, count: 0);
         Assert.True(pointer.IsNull);
     }
 
@@ -182,10 +182,10 @@ public sealed class SystemTests
         _ = Assert.Throws<AbortException>(Abort);
         Assert.Equal(0, Assert.Throws<HaltException>(() => Halt()).ExitCode);
         Assert.Equal(-1, Assert.Throws<HaltException>(() => Halt(-1)).ExitCode);
-        Assert.Equal("broken (unit.pas, line 42)", Assert.Throws<AssertionFailedException>(() => DelphiAssert.Assert(false, "broken", "unit.pas", 42)).Message);
+        Assert.Equal("broken (unit.pas, line 42)", Assert.Throws<AssertionFailedException>(() => DelphiAssert.Assert(false, message: "broken", file: "unit.pas", line: 42)).Message);
         // SYSUTILS.PAS:5380 substitutes SAssertionFailed for an empty message.
-        Assert.Equal("Assertion failed (unit.pas, line 1)", Assert.Throws<AssertionFailedException>(() => DelphiAssert.Assert(false, "", "unit.pas", 1)).Message);
-        DelphiAssert.Assert(true, "", "unit.pas", 1);
+        Assert.Equal("Assertion failed (unit.pas, line 1)", Assert.Throws<AssertionFailedException>(() => DelphiAssert.Assert(false, message: "", file: "unit.pas", line: 1)).Message);
+        DelphiAssert.Assert(true, message: "", file: "unit.pas", line: 1);
     }
 
     [Fact]

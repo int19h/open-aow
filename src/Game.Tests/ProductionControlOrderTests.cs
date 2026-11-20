@@ -25,9 +25,9 @@ public sealed class ProductionControlOrderTests
             Assert.Equal(0, player.ProductionControls.Add(city));
             Assert.Equal(1, player.ProductionControls.Add(place));
             Assert.Equal(2, player.ProductionControls.Add(later));
-            Assert.Same(city, player.ProductionControls.GetPC(0));
-            Assert.Same(place, player.ProductionControls.GetPC(1));
-            Assert.Same(later, player.ProductionControls.GetPC(2));
+            Assert.Same(city, player.ProductionControls[0]);
+            Assert.Same(place, player.ProductionControls[1]);
+            Assert.Same(later, player.ProductionControls[2]);
             Assert.Equal(0, player.ProductionControls.IndexOf(city));
             Assert.Equal(1, player.ProductionControls.IndexOf(place));
             Assert.Equal(2, player.ProductionControls.IndexOf(later));
@@ -44,7 +44,7 @@ public sealed class ProductionControlOrderTests
             List<ProductionControl> seen = [];
             for (int i = player.ProductionControls.Count - 1; i >= 0; i--)
             {
-                seen.Add(player.ProductionControls.GetPC(i));
+                seen.Add(player.ProductionControls[i]);
             }
 
             Assert.Same(later, seen[0]);
@@ -53,14 +53,14 @@ public sealed class ProductionControlOrderTests
 
             city.Status = ProductionControlStatus.Producing;
             place.Status = ProductionControlStatus.Producing;
-            Assert.False(action.ExecuteProduce(city, 0));
-            Assert.False(action.ExecuteResearch(place, 0));
+            Assert.False(action.ExecuteProduce(city, index: 0));
+            Assert.False(action.ExecuteResearch(place, index: 0));
             Assert.Equal(1, player.ProductionControls.Remove(place));
             Assert.Equal(-1, player.ProductionControls.IndexOf(place));
-            Assert.Same(city, player.ProductionControls.GetPC(0));
-            Assert.Same(later, player.ProductionControls.GetPC(1));
+            Assert.Same(city, player.ProductionControls[0]);
+            Assert.Same(later, player.ProductionControls[1]);
             Assert.Equal(2, player.ProductionControls.Add(place));
-            Assert.Same(place, player.ProductionControls.GetPC(2));
+            Assert.Same(place, player.ProductionControls[2]);
         }
         finally
         {

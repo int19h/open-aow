@@ -69,11 +69,11 @@ public partial class CombatUnitInfo(UIContext ui) : UIModule(ui)
             if (condition)
             {
                 CombatAbilityRef ability = UI.General.CombatUnit.Abilities[drawItem];
-                CombatMode combatMode = GamePack.Current.AbilityControl.GetAbility(ability.Ability).GetCombatMode(UI.General.CombatUnit.Unit.Troop);
+                CombatMode combatMode = GamePack.Current.AbilityControl[ability.Ability].GetCombatMode(UI.General.CombatUnit.Unit.Troop);
                 bool test = !Set<CombatMode>.Of().WithRange(CombatMode.ShortRange, CombatMode.LongRange).Contains(combatMode) && UI.General.CombatUnit.Abilities[drawItem].Ability != 52;
                 if (!test)
                 {
-                    sbyte moves = UI.General.CombatUnit.Unit.Troop.GetMoves();
+                    sbyte moves = UI.General.CombatUnit.Unit.Troop.Moves;
                     test = UI.General.CombatUnit.Unit.MovePoints == moves;
                 }
 
@@ -85,7 +85,7 @@ public partial class CombatUnitInfo(UIContext ui) : UIModule(ui)
     }
 
     // AoWTCUnit.pas:138
-    public void TCUnitPnlDrawBack(LockedSurface lockedSurface) => UI.General.CombatUnit?.Unit.Troop.Show(CombatUnitPanel.AbsoluteLeft - 10, CombatUnitPanel.AbsoluteTop - 2, lockedSurface, UI.General.UnitShowInfo);
+    public void TCUnitPnlDrawBack(LockedSurface lockedSurface) => UI.General.CombatUnit?.Unit.Troop.Show(CombatUnitPanel.AbsoluteLeft - 10, CombatUnitPanel.AbsoluteTop - 2, lockedSurface, info: UI.General.UnitShowInfo);
 
     // AoWTCUnit.pas:146
     public void UAbilLBUpdate()
@@ -112,7 +112,7 @@ public partial class CombatUnitInfo(UIContext ui) : UIModule(ui)
                 if (button == MouseButton.Right && UI.General.CombatUnit is not null)
                 {
                     object objectValue = UnitAbilityList.Items.Objects[UnitAbilityList.Selected];
-                    Ability ability = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
+                    Ability ability = GamePack.Current.AbilityControl[ObjectToInt(objectValue)];
                     if (ability is not null)
                     {
                         InfoBanner.SetInfoBanner(caption: ability.GetName(UI.General.CombatUnit.Unit.Troop), banner: UI.InfoBanner, description: ability.Description);
@@ -130,14 +130,14 @@ public partial class CombatUnitInfo(UIContext ui) : UIModule(ui)
             if (UI.General.CombatUnit.Unit.GetPlayer() == CombatMap.Current.SeatedPlayer && UI.General.CombatUnit.Unit.MovePoints != 0 && UnitAbilityList.HoverItem < UI.General.CombatUnit.CombatAbilityCount)
             {
                 CombatAbilityRef ability = UI.General.CombatUnit.Abilities[UnitAbilityList.HoverItem];
-                CombatMode combatMode = GamePack.Current.AbilityControl.GetAbility(ability.Ability).GetCombatMode(UI.General.CombatUnit.Unit.Troop);
+                CombatMode combatMode = GamePack.Current.AbilityControl[ability.Ability].GetCombatMode(UI.General.CombatUnit.Unit.Troop);
                 if (!Set<CombatMode>.Of().WithRange(CombatMode.ShortRange, CombatMode.LongRange).Contains(combatMode) && UI.General.CombatUnit.Abilities[UnitAbilityList.HoverItem].Ability != 52)
                 {
                     return;
                 }
 
                 TacticalBattleUnit tacticalBattleUnit = UI.General.CombatUnit.Unit;
-                if (tacticalBattleUnit.Troop.GetMoves() <= tacticalBattleUnit.MovePoints)
+                if (tacticalBattleUnit.Troop.Moves <= tacticalBattleUnit.MovePoints)
                 {
                     return;
                 }
@@ -158,14 +158,14 @@ public partial class CombatUnitInfo(UIContext ui) : UIModule(ui)
     public void CenterClick()
     {
         UI.General.PlayButtonSound(0);
-        sbyte hexLevel = UI.General.CombatUnit.GetHexLevel();
-        sbyte hexY = UI.General.CombatUnit.GetHexY();
-        sbyte hexX = UI.General.CombatUnit.GetHexX();
+        sbyte hexLevel = UI.General.CombatUnit.HexLevel;
+        sbyte hexY = UI.General.CombatUnit.HexY;
+        sbyte hexX = UI.General.CombatUnit.HexX;
         CombatMap.Current.CenterViewTo(hexX, hexY, hexLevel);
-        sbyte fCombatUnitHexLevel = UI.General.CombatUnit.GetHexLevel();
-        sbyte fCombatUnitHexY = UI.General.CombatUnit.GetHexY();
-        sbyte fCombatUnitHexX = UI.General.CombatUnit.GetHexX();
-        CombatMap.Current.PlayCenterAnimation(fCombatUnitHexX, fCombatUnitHexY, fCombatUnitHexLevel);
+        sbyte fCombatUnitHexLevel = UI.General.CombatUnit.HexLevel;
+        sbyte fCombatUnitHexY = UI.General.CombatUnit.HexY;
+        sbyte fCombatUnitHexX = UI.General.CombatUnit.HexX;
+        CombatMap.Current.PlayCenterAnimation(fCombatUnitHexX, fCombatUnitHexY, L: fCombatUnitHexLevel);
     }
 
     // AoWTCUnit.pas:195

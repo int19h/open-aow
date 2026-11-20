@@ -128,7 +128,7 @@ public partial class BookWindow(Component owner) : Window(owner)
             _ = BackSurface.Lock(ref source);
             LockedSurface destination = default;
             _ = _pageSurface.Lock(ref destination);
-            _ = LockedSurface.BlitSurfaceDescriptionRectangleClipped(source, r, destination, 0, 0);
+            _ = LockedSurface.BlitSurfaceDescriptionRectangleClipped(source, sourceRectangle: r, destination, 0, 0);
             _ = _pageSurface.Unlock();
             _ = BackSurface.Unlock();
             PageTurn.SetPageDimensions(271, 368);

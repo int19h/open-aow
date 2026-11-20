@@ -20,7 +20,7 @@ public class ImageNode : LibraryImage, ILibraryImageClass
     {
         if (newCapacity != Capacity)
         {
-            Images = ReallocArray(Images, newCapacity);
+            Images = ReallocArray(Images, count: newCapacity);
             Capacity = newCapacity;
         }
     }
@@ -35,7 +35,7 @@ public class ImageNode : LibraryImage, ILibraryImageClass
 
         if (newCount > Count)
         {
-            ClearElements(Images, Count, newCount - Count);
+            ClearElements(Images, index: Count, count: newCount - Count);
         }
 
         Count = newCount;
@@ -107,7 +107,7 @@ public class ImageNode : LibraryImage, ILibraryImageClass
 
         if (index < Count)
         {
-            MoveElements(Images, index, Images, index + 1, Count - index);
+            MoveElements(Images, sourceIndex: index, destination: Images, destinationIndex: index + 1, count: Count - index);
         }
 
         Images[index] = image;
@@ -138,7 +138,7 @@ public class ImageNode : LibraryImage, ILibraryImageClass
             Count -= 1;
             if (i < Count)
             {
-                MoveElements(Images, i + 1, Images, i, Count - i);
+                MoveElements(Images, sourceIndex: i + 1, destination: Images, destinationIndex: i, count: Count - i);
             }
 
             UpdateDimensions();
@@ -165,7 +165,7 @@ public class ImageNode : LibraryImage, ILibraryImageClass
             Count -= 1;
             if (index < Count)
             {
-                MoveElements(Images, index + 1, Images, index, Count - index);
+                MoveElements(Images, sourceIndex: index + 1, destination: Images, destinationIndex: index, count: Count - index);
             }
 
             UpdateDimensions();

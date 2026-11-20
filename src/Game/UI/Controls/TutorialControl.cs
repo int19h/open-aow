@@ -47,7 +47,7 @@ public class TutorialControl(CustomNode owner) : EngineObject(owner)
             TutorialMessageEventLog log = new(null, holder: CreationHolder());
             TextControlItem idLocal = StrategicMap.Current.TextControl.FindId(id);
             log.Message.Assign(idLocal.Text);
-            StrategicMap.Current.TriggerExecuteEventLog(log, immediate, null);
+            StrategicMap.Current.TriggerExecuteEventLog(log, immediate, done: null);
             _ = log.Release();
             _ = _shownMessages.Add(id);
         }

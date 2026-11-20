@@ -13,8 +13,8 @@ public partial class PasswordEventLog : EventLog
     {
         Holder = holder;
         Password = "";
-        Prompt = AbilityRules.TranslateResourceString(GetEngine(), s_enterPasswordText);
-        Title = AbilityRules.TranslateResourceString(GetEngine(), s_passwordVerificationText);
+        Prompt = AbilityRules.TranslateResourceString(GetEngine(), S: s_enterPasswordText);
+        Title = AbilityRules.TranslateResourceString(GetEngine(), S: s_passwordVerificationText);
         PressedButton = PressedEventLogButton.None;
     }
 

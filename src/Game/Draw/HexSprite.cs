@@ -41,7 +41,7 @@ public class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>
     }
 
     // HXSPRITE.PAS:125
-    public virtual int GetTerrainCount() => 0;
+    public virtual int TerrainCount => 0;
 
     // HXSPRITE.PAS:130
     public virtual sbyte GetOverlay(int hexNumber) => -2;
@@ -52,40 +52,44 @@ public class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>
     }
 
     // HXSPRITE.PAS:139
-    public virtual int GetOverlayCount() => 0;
+    public virtual int OverlayCount => 0;
 
     // HXSPRITE.PAS:52
-    public virtual byte GetLevel() => throw new InvalidOperationException("No HexagonSprite Level defined");
-
-    // HXSPRITE.PAS:43
-    public virtual void SetVisible(bool value)
-    {
-    }
+    public virtual byte Level => throw new InvalidOperationException("No HexagonSprite Level defined");
 
     // HXSPRITE.PAS:47
-    public virtual bool GetVisible() => false;
+    public virtual bool Visible
+    {
+        get => false;
+        // HXSPRITE.PAS:43
+        set
+        {
+        }
+    }
 
     // HXSPRITE.PAS:72
     public virtual bool GetSelected() => false;
 
     // HXSPRITE.PAS:87
-    public virtual sbyte GetHexX() => Owner.HexX;
+    public virtual sbyte HexX => Owner.HexX;
 
     // HXSPRITE.PAS:92
-    public virtual sbyte GetHexY() => Owner.HexY;
+    public virtual sbyte HexY => Owner.HexY;
 
     // HXSPRITE.PAS:97
-    public virtual sbyte GetHexLevel() => (sbyte)Owner.Owner.HexLevel;
+    public virtual sbyte HexLevel => (sbyte)Owner.Owner.HexLevel;
 
     // HXSPRITE.PAS:102
-    public virtual MapCoordinate GetMapCoordinate() => HexGeometry.PackMapCoordinate(GetHexX(), GetHexY(), GetHexLevel());
+    public virtual MapCoordinate MapCoordinate => HexGeometry.PackMapCoordinate(HexX, HexY, HexLevel);
 
     // HXSPRITE.PAS:153
-    public virtual bool GetEditMode() => false;
-
-    // HXSPRITE.PAS:158
-    public virtual void SetEditMode(bool value)
+    public virtual bool EditMode
     {
+        get => false;
+        // HXSPRITE.PAS:158
+        set
+        {
+        }
     }
 
     // HXSPRITE.PAS:162
@@ -157,7 +161,7 @@ public class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>
     {
         Deactivate();
         Remove();
-        Assert(!GetVisible(), "Hexagon Sprite Still Visible!", "HXSPRITE.PAS", 589);
+        Assert(!Visible, message: "Hexagon Sprite Still Visible!", file: "HXSPRITE.PAS", line: 589);
     }
 
     // HXSPRITE.PAS:592
@@ -223,10 +227,10 @@ public class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>
     // HXSPRITE.PAS:144
     public virtual void MakeVisible(VisibilityList visibilityList)
     {
-        if (!GetVisible())
+        if (!Visible)
         {
-            SetVisible(true);
-            _ = visibilityList.AddSortChild(this, GetShowPriority());
+            Visible = true;
+            _ = visibilityList.AddSortChild(this, sortValue: GetShowPriority());
         }
     }
 
@@ -250,8 +254,8 @@ public class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>
     // HXSPRITE.PAS:219
     public bool PlaceOnMap(MapContainer map, int pixelX, int pixelY, int hexLevel, int width, int height)
     {
-        HexGeometry.PixelToHex(pixelX - 8, pixelY, out int minX, out int minYOdd);
-        HexGeometry.PixelToHex(pixelX - 8 + 32, pixelY, out _, out int y);
+        HexGeometry.PixelToHex(pixelX - 8, vertical: pixelY, out int minX, out int minYOdd);
+        HexGeometry.PixelToHex(pixelX - 8 + 32, vertical: pixelY, out _, out int y);
         int minYEven;
         if (!((minX & 1) != 0))
         {
@@ -264,8 +268,8 @@ public class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>
         }
 
         y = pixelY + height - 1;
-        HexGeometry.PixelToHex(width + pixelX + 8 - 1, y, out int maxX, out int maxYOdd);
-        HexGeometry.PixelToHex(width + pixelX + 8 - 1 + 32, y, out _, out y);
+        HexGeometry.PixelToHex(width + pixelX + 8 - 1, vertical: y, out int maxX, out int maxYOdd);
+        HexGeometry.PixelToHex(width + pixelX + 8 - 1 + 32, vertical: y, out _, out y);
         int maxYEven;
         if (!((maxX & 1) != 0))
         {
@@ -325,8 +329,8 @@ public class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>
             }
 
             MapLevel mapL = map.GetMapLevel(hexLevel);
-            int x = (int)(((uint)(minX + maxX)) >> 1);
-            y = !((x & 1) != 0) ? (int)(((uint)(minYEven + maxYEven)) >> 1) : (int)(((uint)(minYOdd + maxYOdd)) >> 1);
+            int x = (minX + maxX) >>> 1;
+            y = !((x & 1) != 0) ? (minYEven + maxYEven) >>> 1 : (minYOdd + maxYOdd) >>> 1;
 
             SetOwnerWithoutNotify(mapL.GetField(x, y));
             x = minX;
@@ -338,7 +342,7 @@ public class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>
                     y = minYEven;
                     for (; y <= maxYEven; y += 1)
                     {
-                        _ = mapL.GetField(x, y).AddHexSprite(this, 1);
+                        _ = mapL.GetField(x, y).AddHexSprite(this, hexNumber: 1);
                     }
                 }
                 else
@@ -347,12 +351,12 @@ public class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>
                     int limit = maxYOdd;
                     for (; y <= limit; y += 1)
                     {
-                        _ = mapL.GetField(x, y).AddHexSprite(this, 1);
+                        _ = mapL.GetField(x, y).AddHexSprite(this, hexNumber: 1);
                     }
                 }
             }
 
-            _ = Owner.SetHexNumberOfHexSprite(this, 0);
+            _ = Owner.SetHexNumberOfHexSprite(this, hexNumber: 0);
             return true;
         }
         else
@@ -365,8 +369,8 @@ public class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>
     public void RemoveFromMap(int pixelX, int pixelY, int width, int height)
     {
         MapLevel mapL = Owner.Owner;
-        HexGeometry.PixelToHex(pixelX - 8, pixelY, out int minX, out int minYOdd);
-        HexGeometry.PixelToHex(pixelX - 8 + 32, pixelY, out _, out int y);
+        HexGeometry.PixelToHex(pixelX - 8, vertical: pixelY, out int minX, out int minYOdd);
+        HexGeometry.PixelToHex(pixelX - 8 + 32, vertical: pixelY, out _, out int y);
         int minYEven;
         if (!((minX & 1) != 0))
         {
@@ -379,8 +383,8 @@ public class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>
         }
 
         y = pixelY + height - 1;
-        HexGeometry.PixelToHex(width + pixelX + 8 - 1, y, out int maxX, out int maxYOdd);
-        HexGeometry.PixelToHex(width + pixelX + 8 - 1 + 32, y, out _, out y);
+        HexGeometry.PixelToHex(width + pixelX + 8 - 1, vertical: y, out int maxX, out int maxYOdd);
+        HexGeometry.PixelToHex(width + pixelX + 8 - 1 + 32, vertical: y, out _, out y);
         int maxYEven;
         if (!((maxX & 1) != 0))
         {
@@ -470,8 +474,8 @@ public class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>
     // HXSPRITE.PAS:362
     public bool PlaceUserOnMap(MapContainer map, int pixelX, int pixelY, int hexLevel, int width, int height)
     {
-        HexGeometry.PixelToHex(pixelX - 8, pixelY, out int minX, out int minYOdd);
-        HexGeometry.PixelToHex(pixelX - 8 + 32, pixelY, out _, out int y);
+        HexGeometry.PixelToHex(pixelX - 8, vertical: pixelY, out int minX, out int minYOdd);
+        HexGeometry.PixelToHex(pixelX - 8 + 32, vertical: pixelY, out _, out int y);
         int minYEven;
         if (!((minX & 1) != 0))
         {
@@ -484,8 +488,8 @@ public class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>
         }
 
         y = pixelY + height - 1;
-        HexGeometry.PixelToHex(width + pixelX + 8 - 1, y, out int maxX, out int maxYOdd);
-        HexGeometry.PixelToHex(width + pixelX + 8 - 1 + 32, y, out _, out y);
+        HexGeometry.PixelToHex(width + pixelX + 8 - 1, vertical: y, out int maxX, out int maxYOdd);
+        HexGeometry.PixelToHex(width + pixelX + 8 - 1 + 32, vertical: y, out _, out y);
         int maxYEven;
         if (!((maxX & 1) != 0))
         {
@@ -554,7 +558,7 @@ public class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>
                     y = minYEven;
                     for (; y <= maxYEven; y += 1)
                     {
-                        _ = mapL.GetField(x, y).AddHexSprite(this, 1);
+                        _ = mapL.GetField(x, y).AddHexSprite(this, hexNumber: 1);
                     }
                 }
                 else
@@ -563,7 +567,7 @@ public class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>
                     int limit = maxYOdd;
                     for (; y <= limit; y += 1)
                     {
-                        _ = mapL.GetField(x, y).AddHexSprite(this, 1);
+                        _ = mapL.GetField(x, y).AddHexSprite(this, hexNumber: 1);
                     }
                 }
             }
@@ -580,8 +584,8 @@ public class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>
     public void RemoveUserFromMap(MapContainer map, int pixelX, int pixelY, int hexLevel, int width, int height)
     {
         MapLevel mapL = map.GetMapLevel(hexLevel);
-        HexGeometry.PixelToHex(pixelX - 8, pixelY, out int minX, out int minYOdd);
-        HexGeometry.PixelToHex(pixelX - 8 + 32, pixelY, out _, out int y);
+        HexGeometry.PixelToHex(pixelX - 8, vertical: pixelY, out int minX, out int minYOdd);
+        HexGeometry.PixelToHex(pixelX - 8 + 32, vertical: pixelY, out _, out int y);
         int minYEven;
         if (!((minX & 1) != 0))
         {
@@ -594,8 +598,8 @@ public class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>
         }
 
         y = pixelY + height - 1;
-        HexGeometry.PixelToHex(width + pixelX + 8 - 1, y, out int maxX, out int maxYOdd);
-        HexGeometry.PixelToHex(width + pixelX + 8 - 1 + 32, y, out _, out y);
+        HexGeometry.PixelToHex(width + pixelX + 8 - 1, vertical: y, out int maxX, out int maxYOdd);
+        HexGeometry.PixelToHex(width + pixelX + 8 - 1 + 32, vertical: y, out _, out y);
         int maxYEven;
         if (!((maxX & 1) != 0))
         {
@@ -684,8 +688,8 @@ public class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>
     public void SortMapField(MapContainer map, int pixelX, int pixelY, int hexLevel, int width, int height)
     {
         MapLevel mapL = map.GetMapLevel(hexLevel);
-        HexGeometry.PixelToHex(pixelX - 8, pixelY, out int minX, out int minYOdd);
-        HexGeometry.PixelToHex(pixelX - 8 + 32, pixelY, out _, out int y);
+        HexGeometry.PixelToHex(pixelX - 8, vertical: pixelY, out int minX, out int minYOdd);
+        HexGeometry.PixelToHex(pixelX - 8 + 32, vertical: pixelY, out _, out int y);
         int minYEven;
         if (!((minX & 1) != 0))
         {
@@ -698,8 +702,8 @@ public class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>
         }
 
         y = pixelY + height - 1;
-        HexGeometry.PixelToHex(width + pixelX + 8 - 1, y, out int maxX, out int maxYOdd);
-        HexGeometry.PixelToHex(width + pixelX + 8 - 1 + 32, y, out _, out y);
+        HexGeometry.PixelToHex(width + pixelX + 8 - 1, vertical: y, out int maxX, out int maxYOdd);
+        HexGeometry.PixelToHex(width + pixelX + 8 - 1 + 32, vertical: y, out _, out y);
         int maxYEven;
         if (!((maxX & 1) != 0))
         {
@@ -784,23 +788,15 @@ public class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>
         }
     }
 
-    public int TerrainCount => GetTerrainCount();
-    public int OverlayCount => GetOverlayCount();
-    public byte Level => GetLevel();
-    public bool Visible { get => GetVisible(); set => SetVisible(value); }
     public bool Selected => GetSelected();
-    public sbyte HexX => GetHexX();
-    public sbyte HexY => GetHexY();
-    public sbyte HexLevel => GetHexLevel();
 
     // Computed from GetHexX, GetHexY and GetHexLevel. A sprite that stores the position overrides this.
     public virtual MapCoordinate Location
     {
-        get => GetMapCoordinate();
+        get => MapCoordinate;
         set => throw new InvalidOperationException("This sprite computes its location from its hex.");
     }
 
-    public bool EditMode { get => GetEditMode(); set => SetEditMode(value); }
     public int ShowPriority => GetShowPriority();
 
     // HXSPRITE.PAS:77

@@ -16,7 +16,7 @@ public class FrostBeams : CombatSpell
     public FrostBeams(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_frostBeamsText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_frostBeamsText);
         SpellId = 120;
         SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 9;

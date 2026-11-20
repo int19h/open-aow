@@ -52,7 +52,7 @@ public partial class ArmyHexSprite
                 {
                     while (sequence is not null)
                     {
-                        frame = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                        frame = sequence.GetFrameIndex(StrategicMap.Current.Frame, offset: FrameFixtureInputs.AnimationOffset(this));
                         if (frame != -1)
                         {
                             sequence.ImageLibrary[frame].Show(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY + _unitYOffset, lockedSurface);
@@ -84,7 +84,7 @@ public partial class ArmyHexSprite
                 {
                     while (sequence is not null)
                     {
-                        frame = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                        frame = sequence.GetFrameIndex(StrategicMap.Current.Frame, offset: FrameFixtureInputs.AnimationOffset(this));
                         if (frame != -1)
                         {
                             sequence.ImageLibrary[frame].Show(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY + _unitYOffset, lockedSurface);
@@ -101,7 +101,7 @@ public partial class ArmyHexSprite
                             if (FlagId != 32)
                             {
                                 int count = Army.Units.Count;
-                                GamePack.Current.RaceResources.GetRaceResource(FlagId).ImageLibrary[count + 29].ShowBlended(pixelXSurface - 5, pixelYSurface - 12, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[50]);
+                                GamePack.Current.RaceResources.GetRaceResource(FlagId).ImageLibrary[count + 29].ShowBlended(pixelXSurface - 5, pixelYSurface - 12, lockedSurface, table: GraphicsState.AlphaBlendTable.LookupTables[50]);
                                 if (Army.Status.Contains(ArmyStatusElement.ShowCrown))
                                 {
                                     GamePack.Current.FlagControl.Flags[FlagId + 80].Show(pixelXSurface - 5, pixelYSurface - 14, lockedSurface);
@@ -110,7 +110,7 @@ public partial class ArmyHexSprite
                             else
                             {
                                 int count = Army.Units.Count;
-                                GamePack.Current.FlagControl.Flags[count + 39].ShowBlended(pixelXSurface - 5, pixelYSurface - 12, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[50]);
+                                GamePack.Current.FlagControl.Flags[count + 39].ShowBlended(pixelXSurface - 5, pixelYSurface - 12, lockedSurface, table: GraphicsState.AlphaBlendTable.LookupTables[50]);
                             }
                         }
                     }
@@ -119,7 +119,7 @@ public partial class ArmyHexSprite
                         if (FlagId != 32)
                         {
                             int count = Army.Units.Count;
-                            GamePack.Current.RaceResources.GetRaceResource(FlagId).ImageLibrary[count + 29].ShowBlended(pixelXSurface - 5, pixelYSurface - 12, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[Math.Abs(((StrategicMap.Current.Frame << 2) % 60) - 30) + 40]);
+                            GamePack.Current.RaceResources.GetRaceResource(FlagId).ImageLibrary[count + 29].ShowBlended(pixelXSurface - 5, pixelYSurface - 12, lockedSurface, table: GraphicsState.AlphaBlendTable.LookupTables[Math.Abs(((StrategicMap.Current.Frame << 2) % 60) - 30) + 40]);
                             if (Army.Status.Contains(ArmyStatusElement.ShowCrown))
                             {
                                 GamePack.Current.FlagControl.Flags[FlagId + 80].Show(pixelXSurface - 5, pixelYSurface - 14, lockedSurface);
@@ -128,7 +128,7 @@ public partial class ArmyHexSprite
                         else
                         {
                             int count = Army.Units.Count;
-                            GamePack.Current.FlagControl.Flags[count + 39].ShowBlended(pixelXSurface - 5, pixelYSurface - 12, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[Math.Abs(((StrategicMap.Current.Frame << 2) % 60) - 30) + 40]);
+                            GamePack.Current.FlagControl.Flags[count + 39].ShowBlended(pixelXSurface - 5, pixelYSurface - 12, lockedSurface, table: GraphicsState.AlphaBlendTable.LookupTables[Math.Abs(((StrategicMap.Current.Frame << 2) % 60) - 30) + 40]);
                         }
                     }
                 }
@@ -139,7 +139,7 @@ public partial class ArmyHexSprite
                 {
                     while (sequence is not null)
                     {
-                        frame = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                        frame = sequence.GetFrameIndex(StrategicMap.Current.Frame, offset: FrameFixtureInputs.AnimationOffset(this));
                         if (frame != -1)
                         {
                             sequence.ImageLibrary[frame].Show(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY + _unitYOffset, lockedSurface);
@@ -199,7 +199,7 @@ public partial class ArmyHexSprite
 
             while (sequence is not null)
             {
-                int frame = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                int frame = sequence.GetFrameIndex(StrategicMap.Current.Frame, offset: FrameFixtureInputs.AnimationOffset(this));
                 sequence.ImageLibrary[frame].Show(X + sequence.OffsetX, Y + sequence.OffsetY, lockedSurface);
                 sequence = sequence.Next;
             }
@@ -214,7 +214,7 @@ public partial class ArmyHexSprite
 
             if (sequence is not null)
             {
-                int frame = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                int frame = sequence.GetFrameIndex(StrategicMap.Current.Frame, offset: FrameFixtureInputs.AnimationOffset(this));
                 if (sequence.SpeedCount == sequence.SequenceSpeed)
                 {
                     _ = UnitGraphicsResource.SfxLibraries[1].Play(frame % 100);

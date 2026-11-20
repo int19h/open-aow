@@ -20,8 +20,8 @@ public record class FastBattleSpellCommand : FastBattleCommand
     // Spells.PAS:1
     public override string GetName()
     {
-        Spell spell = GamePack.Current.SpellControl.GetSpell(SpellId);
-        string result = AbilityRules.Format(AbilityRules.TranslateResourceString(Creator.GetEngine(), s_castFormat), [spell.SpellName]);
+        Spell spell = GamePack.Current.SpellControl[SpellId];
+        string result = AbilityRules.Format(AbilityRules.TranslateResourceString(Creator.GetEngine(), S: s_castFormat), arguments: [spell.SpellName]);
         return Target is not null ? $"{result} on {Target.IdString()}" : result;
     }
 

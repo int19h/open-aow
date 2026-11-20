@@ -20,7 +20,7 @@ public class SpellCastingAbility : MultiLevelAbility
     {
         Holder = holder;
         AbilityId = 52;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_spellCastingText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_spellCastingText);
         AbilityType = AbilityType.Enhancement;
         MaxLevel = 5;
         LevelCosts[1] = 20;
@@ -43,9 +43,9 @@ public class SpellCastingAbility : MultiLevelAbility
             CombatPlayer players = combat.CombatData.Players.GetPlayers(source.CombatPlayer);
             if (StrategicMap.Current.Players.GetPlayers(players.Player).PlayerType != PlayerType.Human || sourceUnit.Troop.GetCastingSpellId() == 0)
             {
-                CombatSideIndex side = source.GetSide();
-                CombatSideIndex opponentSide = source.GetOpponentSide();
-                if (combat.Sides[(int)side].Strength < combat.Sides[(int)opponentSide].Strength * 2 || source.GetHitPoints() < 10 || (combat.CombatData.WallType != 0 && !combat.CombatData.WallBreached && CanCastBreachWallSpell(sourceUnit.Troop)))
+                CombatSideIndex side = source.Side;
+                CombatSideIndex opponentSide = source.OpponentSide;
+                if (combat.Sides[(int)side].Strength < combat.Sides[(int)opponentSide].Strength * 2 || source.HitPoints < 10 || (combat.CombatData.WallType != 0 && !combat.CombatData.WallBreached && CanCastBreachWallSpell(sourceUnit.Troop)))
                 {
                     sbyte player = commands.Source.GetPlayer();
                     PlayerMagicControl magic = StrategicMap.Current.Players.GetPlayers(player).MagicControl;
@@ -56,10 +56,10 @@ public class SpellCastingAbility : MultiLevelAbility
                         for (int i = magic.Spells.Count - 1; i >= 0; i--)
                         {
                             int item = magic.Spells[i];
-                            spell = GamePack.Current.SpellControl.GetSpell(item);
+                            spell = GamePack.Current.SpellControl[item];
                             if (spell is not null && spell.SpellControlTypes.Contains(SpellControlTypeElement.Combat))
                             {
-                                if (sourceUnit.Troop.CanCastSpellInstantly(spell.SpellId, spell.BaseManaCost, ref error))
+                                if (sourceUnit.Troop.CanCastSpellInstantly(spell.SpellId, mana: spell.BaseManaCost, reason: ref error))
                                 {
                                     spell.FastBattlePrefetchCombatCommands(commands);
                                 }
@@ -70,7 +70,7 @@ public class SpellCastingAbility : MultiLevelAbility
                     {
                         for (int i = 0, last = GamePack.Current.SpellControl.GetCount() - 1; i <= last; i++)
                         {
-                            spell = GamePack.Current.SpellControl.GetSpell(i);
+                            spell = GamePack.Current.SpellControl[i];
                             if (spell is not null && spell.SpellControlTypes.Contains(SpellControlTypeElement.Combat))
                             {
                                 spell.FastBattlePrefetchCombatCommands(commands);
@@ -88,7 +88,7 @@ public class SpellCastingAbility : MultiLevelAbility
     public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand command)
     {
         FastBattleSpellCommand spellCommand = (FastBattleSpellCommand)command;
-        return GamePack.Current.SpellControl.GetSpell(spellCommand.SpellId).FastBattleExecuteCombatCommand(source, command: spellCommand);
+        return GamePack.Current.SpellControl[spellCommand.SpellId].FastBattleExecuteCombatCommand(source, command: spellCommand);
     }
 
     // AoWAb.PAS:4479
@@ -137,10 +137,10 @@ public class SpellCastingAbility : MultiLevelAbility
             for (int i = magic.Spells.Count - 1; i >= 0; i--)
             {
                 int item = magic.Spells[i];
-                Spell spell = GamePack.Current.SpellControl.GetSpell(item);
+                Spell spell = GamePack.Current.SpellControl[item];
                 if (spell is not null && spell.SpellControlTypes.Contains(SpellControlTypeElement.Combat) && source.GetCastingPointsMax() >= spell.BaseManaCost)
                 {
-                    spell.FastBattleGetDamageValues(attacker, defender, wallSituation, ref values);
+                    spell.FastBattleGetDamageValues(attacker, target: defender, wallSituation, ref values);
                     if (damageValues.SourceDamage < values.SourceDamage)
                     {
                         damageValues = values;
@@ -163,10 +163,10 @@ public class SpellCastingAbility : MultiLevelAbility
             for (int i = magic.Spells.Count - 1; i >= 0; i--)
             {
                 int item = magic.Spells[i];
-                Spell spell = GamePack.Current.SpellControl.GetSpell(item);
+                Spell spell = GamePack.Current.SpellControl[item];
                 if (spell is not null && spell.SpellControlTypes.Contains(SpellControlTypeElement.Combat) && source.GetCastingPoints() >= spell.BaseManaCost)
                 {
-                    spell.FastBattleGetDamageValues(attacker, defender, WallSituation.None, ref values);
+                    spell.FastBattleGetDamageValues(attacker, target: defender, wallSituation: WallSituation.None, ref values);
                     if (damageValues.SourceDamage < values.SourceDamage)
                     {
                         damageValues = values;
@@ -181,12 +181,12 @@ public class SpellCastingAbility : MultiLevelAbility
     {
         return level switch
         {
-            0 => AbilityRules.TranslateResourceString(GetEngine(), s_spellCastingText),
-            1 => $"{AbilityRules.TranslateResourceString(GetEngine(), s_spellCastingText)} I",
-            2 => $"{AbilityRules.TranslateResourceString(GetEngine(), s_spellCastingText)} II",
-            3 => $"{AbilityRules.TranslateResourceString(GetEngine(), s_spellCastingText)} III",
-            4 => $"{AbilityRules.TranslateResourceString(GetEngine(), s_spellCastingText)} IV",
-            5 => $"{AbilityRules.TranslateResourceString(GetEngine(), s_spellCastingText)} V",
+            0 => AbilityRules.TranslateResourceString(GetEngine(), S: s_spellCastingText),
+            1 => $"{AbilityRules.TranslateResourceString(GetEngine(), S: s_spellCastingText)} I",
+            2 => $"{AbilityRules.TranslateResourceString(GetEngine(), S: s_spellCastingText)} II",
+            3 => $"{AbilityRules.TranslateResourceString(GetEngine(), S: s_spellCastingText)} III",
+            4 => $"{AbilityRules.TranslateResourceString(GetEngine(), S: s_spellCastingText)} IV",
+            5 => $"{AbilityRules.TranslateResourceString(GetEngine(), S: s_spellCastingText)} V",
             _ => "",
         };
     }
@@ -206,7 +206,7 @@ public class SpellCastingAbility : MultiLevelAbility
             {
                 i -= 1;
                 int item = magic.Spells[i];
-                Spell spell = GamePack.Current.SpellControl.GetSpell(item);
+                Spell spell = GamePack.Current.SpellControl[item];
                 if (spell is not null && spell.SpellType == SpellType.Combat)
                 {
                     spell.GetCombatInfo(troop, ref info);
@@ -235,14 +235,14 @@ public class SpellCastingAbility : MultiLevelAbility
         bool result = StrategicMap.Current.Players.GetPlayers(troop.Player).PlayerType != PlayerType.Human || troop.GetCastingSpellId() == 0;
         if (result)
         {
-            CombatSideIndex side = source.GetSide();
+            CombatSideIndex side = source.Side;
             int sourceStrength = source.Combat.Sides[(int)side].Strength;
             if (sourceStrength <= 0)
             {
                 sourceStrength = 0;
             }
 
-            CombatSideIndex opponentSide = source.GetOpponentSide();
+            CombatSideIndex opponentSide = source.OpponentSide;
             int targetStrength = source.Combat.Sides[(int)opponentSide].Strength;
             if (targetStrength <= 0)
             {
@@ -251,7 +251,7 @@ public class SpellCastingAbility : MultiLevelAbility
 
             // { Original divides by zero when the opponent strength is zero. }
             float ratio = (float)((double)sourceStrength / targetStrength);
-            return ((double)ratio < 1.5 && troop.GetCastingSpellId() == 0) || (double)ratio < 1 || (double)((double)source.GetHitPoints() * ratio) < 7;
+            return ((double)ratio < 1.5 && troop.GetCastingSpellId() == 0) || (double)ratio < 1 || (double)((double)source.HitPoints * ratio) < 7;
         }
 
         return result;

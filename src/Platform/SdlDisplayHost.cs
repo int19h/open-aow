@@ -29,7 +29,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
             throw new ArgumentOutOfRangeException(nameof(width));
         }
 
-        if (Interlocked.CompareExchange(ref s_owned, 1, 0) != 0)
+        if (Interlocked.CompareExchange(ref s_owned, value: 1, comparand: 0) != 0)
         {
             throw new InvalidOperationException("One SDL window is supported.");
         }
@@ -42,20 +42,20 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
             _width = width;
             _height = height;
             _windowedScale = scale;
-            _window = SDL_CreateWindow(title, checked(width * scale), checked(height * scale), SDL_WindowFlags.SDL_WINDOW_RESIZABLE | SDL_WindowFlags.SDL_WINDOW_HIGH_PIXEL_DENSITY | (hidden ? SDL_WindowFlags.SDL_WINDOW_HIDDEN : 0));
+            _window = SDL_CreateWindow(title, w: checked(width * scale), h: checked(height * scale), flags: SDL_WindowFlags.SDL_WINDOW_RESIZABLE | SDL_WindowFlags.SDL_WINDOW_HIGH_PIXEL_DENSITY | (hidden ? SDL_WindowFlags.SDL_WINDOW_HIDDEN : 0));
             if (_window is null)
             {
                 throw Error();
             }
 
-            _renderer = SDL_CreateRenderer(_window, (byte*)null);
+            _renderer = SDL_CreateRenderer(_window, name: (byte*)null);
             if (_renderer is null)
             {
                 throw Error();
             }
 
-            Check(SDL_SetWindowMinimumSize(_window, width, height));
-            Check(SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 255));
+            Check(SDL_SetWindowMinimumSize(_window, min_w: width, min_h: height));
+            Check(SDL_SetRenderDrawColor(_renderer, r: 0, g: 0, b: 0, a: 255));
             CreateTexture();
             if (HasFocus)
             {
@@ -81,7 +81,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
 
     private void OnThread()
     {
-        ObjectDisposedException.ThrowIf(_disposed, this);
+        ObjectDisposedException.ThrowIf(_disposed, instance: this);
         if (_thread != Environment.CurrentManagedThreadId)
         {
             throw new InvalidOperationException("SDL calls belong to the window thread.");
@@ -91,7 +91,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
     private (int Width, int Height) WindowSize()
     {
         int w, h;
-        Check(SDL_GetWindowSize(_window, &w, &h));
+        Check(SDL_GetWindowSize(_window, w: &w, h: &h));
         return (w, h);
     }
 
@@ -100,7 +100,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
         get
         {
             int w, h;
-            Check(SDL_GetCurrentRenderOutputSize(_renderer, &w, &h));
+            Check(SDL_GetCurrentRenderOutputSize(_renderer, w: &w, h: &h));
             return DisplayViewport.Fit(_width, _height, w, h);
         }
     }
@@ -164,10 +164,10 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
         _width = newWidth;
         _height = newHeight;
         CreateTexture();
-        Check(SDL_SetWindowMinimumSize(_window, _width, _height));
+        Check(SDL_SetWindowMinimumSize(_window, min_w: _width, min_h: _height));
         if (!Fullscreen)
         {
-            Check(SDL_SetWindowSize(_window, _width * _windowedScale, _height * _windowedScale));
+            Check(SDL_SetWindowSize(_window, w: _width * _windowedScale, h: _height * _windowedScale));
         }
     }
 
@@ -195,7 +195,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
                 return;
             }
 
-            Check(SDL_SetWindowFullscreen(_window, value));
+            Check(SDL_SetWindowFullscreen(_window, fullscreen: value));
             // Wayland applies the state at the next configure. Wait for it so the first frame is not
             // presented in the old state. X11 reports a failed sync here, so only Wayland waits.
             if (SDL_GetCurrentVideoDriver() == "wayland")
@@ -205,7 +205,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
 
             if (!value)
             {
-                Check(SDL_SetWindowSize(_window, _width * _windowedScale, _height * _windowedScale));
+                Check(SDL_SetWindowSize(_window, w: _width * _windowedScale, h: _height * _windowedScale));
             }
         }
     }
@@ -231,13 +231,13 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
         {
             OnThread();
             int interval;
-            Check(SDL_GetRenderVSync(_renderer, &interval));
+            Check(SDL_GetRenderVSync(_renderer, vsync: &interval));
             return interval != 0;
         }
         set
         {
             OnThread();
-            if (!SDL_SetRenderVSync(_renderer, value ? 1 : 0))
+            if (!SDL_SetRenderVSync(_renderer, vsync: value ? 1 : 0))
             {
                 Console.Error.WriteLine($"SDL: vsync unavailable: {SDL_GetError()}");
             }
@@ -298,7 +298,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
                 buttons = data
             };
             int pressed;
-            return SDL_ShowMessageBox(&box, &pressed) && pressed > 0 ? pressed : request.DefaultResult;
+            return SDL_ShowMessageBox(&box, buttonid: &pressed) && pressed > 0 ? pressed : request.DefaultResult;
         }
         finally
         {
@@ -329,13 +329,13 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
             SDL_DestroyTexture(_texture);
         }
 
-        _texture = SDL_CreateTexture(_renderer, SDL_PixelFormat.SDL_PIXELFORMAT_XRGB1555, SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING, _width, _height);
+        _texture = SDL_CreateTexture(_renderer, format: SDL_PixelFormat.SDL_PIXELFORMAT_XRGB1555, access: SDL_TextureAccess.SDL_TEXTUREACCESS_STREAMING, w: _width, h: _height);
         if (_texture is null)
         {
             throw Error();
         }
 
-        Check(SDL_SetTextureScaleMode(_texture, SDL_ScaleMode.SDL_SCALEMODE_NEAREST));
+        Check(SDL_SetTextureScaleMode(_texture, scaleMode: SDL_ScaleMode.SDL_SCALEMODE_NEAREST));
         _upload = new byte[checked(_width * _height * 2)];
     }
 
@@ -344,7 +344,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
         OnThread();
         if (backSurface.Width <= 0 || backSurface.Height <= 0 || backSurface.BitCount != 16 || backSurface.PixelFormatId != PixelFormat.Rgb555 || Math.Abs((long)backSurface.Pitch) < (long)backSurface.Width * 2)
         {
-            throw new ArgumentException("The presenter requires 555 rows with a valid pitch.", nameof(backSurface));
+            throw new ArgumentException("The presenter requires 555 rows with a valid pitch.", paramName: nameof(backSurface));
         }
 
         if (backSurface.Width != _width || backSurface.Height != _height)
@@ -354,18 +354,18 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
         int rowBytes = checked(_width * 2);
         for (int y = 0; y < _height; y++)
         {
-            backSurface.Data.AsSpan(checked(backSurface.DataIndex + (y * backSurface.Pitch)), rowBytes).CopyTo(_upload.AsSpan(y * rowBytes));
+            backSurface.Data.AsSpan(checked(backSurface.DataIndex + (y * backSurface.Pitch)), length: rowBytes).CopyTo(_upload.AsSpan(y * rowBytes));
         }
 
         fixed (byte* pixels = _upload)
         {
-            Check(SDL_UpdateTexture(_texture, null, (nint)pixels, rowBytes));
+            Check(SDL_UpdateTexture(_texture, rect: null, pixels: (nint)pixels, pitch: rowBytes));
         }
 
         Check(SDL_RenderClear(_renderer));
         DisplayViewport viewport = Viewport;
         SDL_FRect destination = new() { x = viewport.Left, y = viewport.Top, w = _width * viewport.Scale, h = _height * viewport.Scale };
-        Check(SDL_RenderTexture(_renderer, _texture, null, &destination));
+        Check(SDL_RenderTexture(_renderer, _texture, srcrect: null, dstrect: &destination));
         Check(SDL_RenderPresent(_renderer));
     }
 
@@ -442,11 +442,11 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
                 case SDL_EVENT_WINDOW_RESIZED:
                     if (!Fullscreen)
                     {
-                        int scale = Math.Max(1, (int)Math.Round(Math.Min((double)ev.window.data1 / _width, (double)ev.window.data2 / _height), MidpointRounding.AwayFromZero));
+                        int scale = Math.Max(1, (int)Math.Round(Math.Min((double)ev.window.data1 / _width, (double)ev.window.data2 / _height), mode: MidpointRounding.AwayFromZero));
                         _windowedScale = scale;
                         if (ev.window.data1 != _width * scale || ev.window.data2 != _height * scale)
                         {
-                            Check(SDL_SetWindowSize(_window, _width * scale, _height * scale));
+                            Check(SDL_SetWindowSize(_window, w: _width * scale, h: _height * scale));
                         }
                     }
                     (int width, int height) = ClientSize;
@@ -455,23 +455,23 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
                 case SDL_EVENT_MOUSE_MOTION:
                     _input.SetModifiers((int)SDL_GetModState());
                     (float x, float y) = ToOutput(ev.motion.x, ev.motion.y);
-                    _input.Motion(x, y, (uint)ev.motion.state, Viewport, sink);
+                    _input.Motion(x, y, state: (uint)ev.motion.state, Viewport, sink);
                     ShowSystemCursor(!Viewport.Map(x, y).Inside);
                     break;
                 case SDL_EVENT_MOUSE_BUTTON_DOWN:
                 case SDL_EVENT_MOUSE_BUTTON_UP:
                     _input.SetModifiers((int)SDL_GetModState());
                     (float pressX, float pressY) = ToOutput(ev.button.x, ev.button.y);
-                    _input.Button(ev.button.button, type == SDL_EVENT_MOUSE_BUTTON_DOWN, ev.button.timestamp / 1_000_000, pressX, pressY, Viewport, sink);
+                    _input.Button(ev.button.button, down: type == SDL_EVENT_MOUSE_BUTTON_DOWN, milliseconds: ev.button.timestamp / 1_000_000, pressX, pressY, Viewport, sink);
                     break;
                 case SDL_EVENT_MOUSE_WHEEL:
                     _input.SetModifiers((int)SDL_GetModState());
                     (float wheelX, float wheelY) = ToOutput(ev.wheel.mouse_x, ev.wheel.mouse_y);
-                    _input.Wheel(ev.wheel.y, (int)ev.wheel.direction, wheelX, wheelY, Viewport, sink);
+                    _input.Wheel(ev.wheel.y, direction: (int)ev.wheel.direction, wheelX, wheelY, Viewport, sink);
                     break;
                 case SDL_EVENT_KEY_DOWN:
                 case SDL_EVENT_KEY_UP:
-                    _input.Key((int)ev.key.key, (int)ev.key.scancode, (int)ev.key.mod, type == SDL_EVENT_KEY_DOWN, sink);
+                    _input.Key((int)ev.key.key, scancode: (int)ev.key.scancode, keyModifiers: (int)ev.key.mod, down: type == SDL_EVENT_KEY_DOWN, sink);
                     break;
                 case SDL_EVENT_TEXT_INPUT:
                     InputMapper.Text(Marshal.PtrToStringUTF8((nint)ev.text.text) ?? "", sink);
@@ -738,6 +738,6 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
         _renderer = null;
         _texture = null;
         _disposed = true;
-        _ = Interlocked.Exchange(ref s_owned, 0);
+        _ = Interlocked.Exchange(ref s_owned, value: 0);
     }
 }

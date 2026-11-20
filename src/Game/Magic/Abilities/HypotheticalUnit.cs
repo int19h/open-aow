@@ -61,8 +61,8 @@ public class HypotheticalUnit : Troop
                 _resistance = 3;
                 _damage = 3;
                 _hits = 5;
-                SetAbilitySet(21, 1);
-                SetAbilitySet(0, 1);
+                SetAbilitySet(21, value: 1);
+                SetAbilitySet(0, value: 1);
                 _immunityTypes = Set<DamageType>.Of(DamageType.Wall);
                 break;
             case 2:
@@ -71,8 +71,8 @@ public class HypotheticalUnit : Troop
                 _resistance = 3;
                 _damage = 3;
                 _hits = 8;
-                SetAbilitySet(21, 1);
-                SetAbilitySet(0, 1);
+                SetAbilitySet(21, value: 1);
+                SetAbilitySet(0, value: 1);
                 _immunityTypes = Set<DamageType>.Of(DamageType.Wall);
                 break;
             case 3:
@@ -81,8 +81,8 @@ public class HypotheticalUnit : Troop
                 _resistance = 4;
                 _damage = 7;
                 _hits = 15;
-                SetAbilitySet(21, 1);
-                SetAbilitySet(0, 1);
+                SetAbilitySet(21, value: 1);
+                SetAbilitySet(0, value: 1);
                 _immunityTypes = Set<DamageType>.Of(DamageType.Wall);
                 _protectionTypes = Set<DamageType>.Of(DamageType.Physical);
                 break;
@@ -94,8 +94,8 @@ public class HypotheticalUnit : Troop
                     _damage = 7;
                     _hits = 20;
                     _immunityTypes = Set<DamageType>.Of(DamageType.Physical, DamageType.Wall);
-                    SetAbilitySet(21, 1);
-                    SetAbilitySet(0, 1);
+                    SetAbilitySet(21, value: 1);
+                    SetAbilitySet(0, value: 1);
                 }
 
                 break;

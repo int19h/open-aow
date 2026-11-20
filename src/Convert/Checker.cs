@@ -65,17 +65,17 @@ public sealed class Checker(TextWriter output, TextWriter errors)
                 string path = Path.Combine(root, row.RelativePath.Replace('/', Path.DirectorySeparatorChar));
                 if (!File.Exists(path))
                 {
-                    Failure(row.Identity, $"pinned file {path} is missing");
+                    Failure(row.Identity, message: $"pinned file {path} is missing");
                     continue;
                 }
                 byte[] bytes = File.ReadAllBytes(path);
                 if (System.Convert.ToHexStringLower(SHA256.HashData(bytes)) != row.Sha256)
                 {
-                    Failure(row.Identity, "the file differs from its pinned SHA-256");
+                    Failure(row.Identity, message: "the file differs from its pinned SHA-256");
                     continue;
                 }
                 pinned++;
-                CheckOriginal(row.Identity, bytes, FileProfile.Find(row.Profile), row.Kind, inCensus: true);
+                CheckOriginal(row.Identity, bytes, profile: FileProfile.Find(row.Profile), row.Kind, inCensus: true);
             }
         }
         foreach (string target in o.Positional)
@@ -100,9 +100,9 @@ public sealed class Checker(TextWriter output, TextWriter errors)
         output.WriteLine($"G1: {_exactRoundTrips} byte-exact, {_maskedRoundTrips} exact outside marks, {_documentG1RoundTrips} compared as documents");
         if (_maskedBytesByRule.Count > 0)
         {
-            output.WriteLine($"Masked bytes by rule: {string.Join(", ", _maskedBytesByRule.Select(r => $"{r.Key} {r.Value}"))}");
+            output.WriteLine($"Masked bytes by rule: {string.Join(", ", values: _maskedBytesByRule.Select(r => $"{r.Key} {r.Value}"))}");
         }
-        output.WriteLine($"Validation: {_validated} imported documents pass the unit validators ({string.Join(", ", FormatMapping.Validators.Select(v => v.Name))}, {FormatMapping.All.Count} mapped classes), {_refused} refused");
+        output.WriteLine($"Validation: {_validated} imported documents pass the unit validators ({string.Join(", ", values: FormatMapping.Validators.Select(v => v.Name))}, {FormatMapping.All.Count} mapped classes), {_refused} refused");
         output.WriteLine((census is null
             ? "Schema: unclassified sites not checked without a census, "
             : $"Schema: {census.UnexplainedSites} unclassified sites (census {census.Sha256[..12]}), ") +
@@ -123,18 +123,18 @@ public sealed class Checker(TextWriter output, TextWriter errors)
         }
 
         output.WriteLine(_legacy.Count == 0 ? "Legacy rules: none fired" :
-            $"Legacy rules: {string.Join(", ", _legacy.Select(l => $"{l.Key} {l.Value.Occurrences} in {l.Value.Files.Count} file(s) ({string.Join(", ", l.Value.Files)})"))}");
+            $"Legacy rules: {string.Join(", ", values: _legacy.Select(l => $"{l.Key} {l.Value.Occurrences} in {l.Value.Files.Count} file(s) ({string.Join(", ", values: l.Value.Files)})"))}");
         output.WriteLine("G3: unavailable in aowconv. The independent reader is tools/oracle/asg.py ModelReader (world-hsm and tactical-hsm payloads), run by the 9.7-2 gate. Other profiles have no independent reader yet.");
         foreach ((string name, string profile, long size, long inflated, double importMs, double exportMs, long json) in _timings.OrderByDescending(t => t.Inflated).Take(3))
         {
             output.WriteLine(string.Create(CultureInfo.InvariantCulture,
-                $"Measure: {name} ({profile}), {size} bytes, {inflated} payload bytes, own JSON {json} bytes, import {importMs:F0} ms, export {exportMs:F0} ms"));
+                handler: $"Measure: {name} ({profile}), {size} bytes, {inflated} payload bytes, own JSON {json} bytes, import {importMs:F0} ms, export {exportMs:F0} ms"));
         }
 
         bool drift = false;
         if (expectation is not null)
         {
-            List<string> problems = expectation.Compare(_corpusExact, _corpusMasked, _corpusDocument, _corpusMaskedRules, _corpusProfiles, _corpusLegacy);
+            List<string> problems = expectation.Compare(_corpusExact, masked: _corpusMasked, document: _corpusDocument, maskedRules: _corpusMaskedRules, profiles: _corpusProfiles, legacyRules: _corpusLegacy);
             foreach (string p in problems)
             {
                 errors.WriteLine($"expectation drift: {p}");
@@ -174,7 +174,7 @@ public sealed class Checker(TextWriter output, TextWriter errors)
     private void CheckFile(string path, string? kind, string? profile)
     {
         byte[] bytes = File.ReadAllBytes(path);
-        Classification c = GameFiles.Classify(bytes, Path.GetExtension(path), kind, profile);
+        Classification c = GameFiles.Classify(bytes, extension: Path.GetExtension(path), kind, profileName: profile);
         switch (c.Format)
         {
             case DetectedFormat.Original:
@@ -188,7 +188,7 @@ public sealed class Checker(TextWriter output, TextWriter errors)
             case DetectedFormat.UnsupportedKind:
             case DetectedFormat.Unknown:
             default:
-                Failure(path, c.Error?.ToString() ?? $"unknown format ({c.Format})");
+                Failure(path, message: c.Error?.ToString() ?? $"unknown format ({c.Format})");
                 break;
         }
     }
@@ -199,8 +199,8 @@ public sealed class Checker(TextWriter output, TextWriter errors)
         _ownDocuments++;
         try
         {
-            byte[] n1 = GameFiles.Normalize(bytes, name);
-            byte[] n2 = GameFiles.Normalize(n1, name);
+            byte[] n1 = GameFiles.Normalize(bytes, fileName: name);
+            byte[] n2 = GameFiles.Normalize(n1, fileName: name);
             if (n1.AsSpan().SequenceEqual(n2))
             {
                 _stableNormalizations++;
@@ -213,7 +213,7 @@ public sealed class Checker(TextWriter output, TextWriter errors)
         }
         catch (ConversionException error)
         {
-            Failure(name, error.Diagnostic.ToString());
+            Failure(name, message: error.Diagnostic.ToString());
         }
     }
 
@@ -227,7 +227,7 @@ public sealed class Checker(TextWriter output, TextWriter errors)
         _originals++;
         if (profile is null)
         {
-            Failure(name, "no profile");
+            Failure(name, message: "no profile");
             return;
         }
         ProfileTally tally = Tally(profile.Name);
@@ -235,18 +235,18 @@ public sealed class Checker(TextWriter output, TextWriter errors)
         try
         {
             Stopwatch watch = Stopwatch.StartNew();
-            ImportResult imported = GameFiles.Import(bytes, profile, kind, name);
+            ImportResult imported = GameFiles.Import(bytes, profile, kind, fileName: name);
             double importMilliseconds = watch.Elapsed.TotalMilliseconds;
             byte[] text = GameFiles.Write(imported.Document);
-            ReadResult read = GameFiles.Read(text, name);
+            ReadResult read = GameFiles.Read(text, fileName: name);
             watch.Restart();
-            ExportResult exported = GameFiles.Export(read.Document, name);
+            ExportResult exported = GameFiles.Export(read.Document, fileName: name);
             double exportMilliseconds = watch.Elapsed.TotalMilliseconds;
-            byte[] original = profile.Comparable(bytes, FormatLimits.Default);
+            byte[] original = profile.Comparable(bytes, limits: FormatLimits.Default);
             _timings.Add((name, profile.Name, bytes.Length, original.Length, importMilliseconds, exportMilliseconds, text.Length));
             // The unit validators the game runs before it loads (own-formats.md 2.7). A refusal of
             // an original the game loads is a failure of the validators.
-            ValidationContext context = new(imported.Document, profile, kind, name);
+            ValidationContext context = new(imported.Document, profile, kind, file: name);
             List<FormatDiagnostic> findings = [.. FormatMapping.Validators.SelectMany(v => v.Validate(context))];
             if (findings.Count == 0)
             {
@@ -257,13 +257,13 @@ public sealed class Checker(TextWriter output, TextWriter errors)
                 _refused++;
                 foreach (FormatDiagnostic finding in findings)
                 {
-                    Failure(name, $"unit validation: {finding}");
+                    Failure(name, message: $"unit validation: {finding}");
                 }
             }
 
             foreach ((string rule, int count) in imported.LegacyRules)
             {
-                Add(_legacy, rule, count, name);
+                Add(_legacy, rule, count, file: name);
             }
 
             OriginalComparisonResult comparison = GameFiles.CompareG1(bytes, exported: exported.Bytes, profile: profile, document: imported.Document, kind: kind);
@@ -304,7 +304,7 @@ public sealed class Checker(TextWriter output, TextWriter errors)
             {
                 foreach ((string rule, int count) in imported.LegacyRules)
                 {
-                    Add(_corpusLegacy, rule, count, name);
+                    Add(_corpusLegacy, rule, count, file: name);
                 }
 
                 ProfileG1Counts profileCounts = _corpusProfiles.GetValueOrDefault(profile.Name);
@@ -333,7 +333,7 @@ public sealed class Checker(TextWriter output, TextWriter errors)
                 }
             }
 
-            ImportResult again = GameFiles.Import(exported.Bytes, profile, kind, name);
+            ImportResult again = GameFiles.Import(exported.Bytes, profile, kind, fileName: name);
             byte[] text2 = GameFiles.Write(again.Document);
             if (!text.AsSpan().SequenceEqual(text2))
             {
@@ -355,7 +355,7 @@ public sealed class Checker(TextWriter output, TextWriter errors)
                 _unknownProperties++;
             }
 
-            Failure(name, error.Diagnostic.ToString());
+            Failure(name, message: error.Diagnostic.ToString());
         }
     }
 

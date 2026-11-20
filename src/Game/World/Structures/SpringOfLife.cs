@@ -34,7 +34,7 @@ public partial class SpringOfLife(CustomNode owner) : Structure(owner)
         HexGeometry.HexToPixel(StoredHexX, StoredHexY, out int pixelX, out int pixelY);
         pixelX -= pixelXSurface;
         pixelY -= pixelYSurface;
-        _ = base.Resource.ImageSequenceList.Show(20, pixelX, pixelY, animation.FrameCounter, lockedSurface);
+        _ = base.Resource.ImageSequenceList.Show(20, pixelX, pixelY, frame: animation.FrameCounter, lockedSurface);
     }
 
     // Spring.pas:86
@@ -49,10 +49,10 @@ public partial class SpringOfLife(CustomNode owner) : Structure(owner)
         bool condition = armyHexSprite.Army.Player == StrategicMap.Current.SeatedPlayer;
         if (!condition)
         {
-            sbyte hexLevel = GetHexLevel();
-            sbyte hexY = GetHexY();
-            sbyte hexX = GetHexX();
-            condition = StrategicMap.Current.Watching(hexX, hexY, hexLevel, 0);
+            sbyte hexLevel = HexLevel;
+            sbyte hexY = HexY;
+            sbyte hexX = HexX;
+            condition = StrategicMap.Current.Watching(hexX, hexY, L: hexLevel, radius: 0);
         }
 
         if (condition)
@@ -60,20 +60,20 @@ public partial class SpringOfLife(CustomNode owner) : Structure(owner)
             _ = AudioPlayback.PlaySample("SFX\\ATTACK\\ENCHP02.WAV");
         }
 
-        sbyte hexLevel2 = GetHexLevel();
-        sbyte hexY2 = GetHexY();
-        sbyte hexX2 = GetHexX();
-        if (StrategicMap.Current.Visible(hexX2, hexY2, hexLevel2, 0))
+        sbyte hexLevel2 = HexLevel;
+        sbyte hexY2 = HexY;
+        sbyte hexX2 = HexX;
+        if (StrategicMap.Current.Visible(hexX2, hexY2, L: hexLevel2, radius: 0))
         {
             SpringOfLifeAnimation animation = new(null) { Holder = CreationHolder() };
             Rect r = new(-16, -8, 32, 40);
             animation.SetDimensions(r);
             animation.AnimationLevel = 27;
             animation.OnShow += ShowBlessingAnimation;
-            sbyte hexLevel = GetHexLevel();
-            sbyte hexY = GetHexY();
-            sbyte hexX = GetHexX();
-            _ = StrategicMap.Current.PlaceHex(animation, hexX, hexY, hexLevel);
+            sbyte hexLevel = HexLevel;
+            sbyte hexY = HexY;
+            sbyte hexX = HexX;
+            _ = StrategicMap.Current.PlaceHex(animation, hexX, hexY, L: hexLevel);
         }
     }
 
@@ -88,7 +88,7 @@ public partial class SpringOfLife(CustomNode owner) : Structure(owner)
         public override int ResourceUserClassId() => 131328;
 
         // Spring.pas:126
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_springOfLifeText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_springOfLifeText);
 
         private static readonly string s_springOfLifeText = "Spring of Life";
 

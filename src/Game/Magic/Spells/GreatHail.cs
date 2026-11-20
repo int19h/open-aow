@@ -16,7 +16,7 @@ public class GreatHail : CombatSpell
     public GreatHail(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_greatHailText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_greatHailText);
         SpellId = 116;
         SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 5;

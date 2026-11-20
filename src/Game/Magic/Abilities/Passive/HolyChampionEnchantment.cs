@@ -10,7 +10,7 @@ public class HolyChampionEnchantment : UnitEnchantmentAbility
     public HolyChampionEnchantment(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), GameText.HolyChampionText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.HolyChampionText);
         AbilityId = 160;
     }
 }

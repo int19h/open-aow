@@ -10,7 +10,7 @@ public sealed class ConstructionContextTests
         internal List<ConstructionContext> Contexts { get; } = [];
 
         internal void Fact(string label, string value) => Facts.Add($"{label} {value}");
-        internal void Number(string label, int value) => Fact(label, value.ToString(System.Globalization.CultureInfo.InvariantCulture));
+        internal void Number(string label, int value) => Fact(label, value: value.ToString(System.Globalization.CultureInfo.InvariantCulture));
     }
 
     private sealed class Construct(string message) : Exception(message);
@@ -37,7 +37,7 @@ public sealed class ConstructionContextTests
         protected Base(ConstructionContext context, ConstructionTrace trace, int failAt) : base(context, trace)
         {
             _baseValue = 10;
-            trace.Number("base_body", _baseValue);
+            trace.Number("base_body", value: _baseValue);
             try
             {
                 if (failAt == 1)
@@ -47,11 +47,11 @@ public sealed class ConstructionContextTests
             }
             finally
             {
-                trace.Fact("base_unwind", "done");
+                trace.Fact("base_unwind", value: "done");
             }
         }
 
-        public virtual void Dispose() => ConstructionTrace.Number("base_destroy", _baseValue);
+        public virtual void Dispose() => ConstructionTrace.Number("base_destroy", value: _baseValue);
     }
 
     private class Middle : Base
@@ -61,7 +61,7 @@ public sealed class ConstructionContextTests
         protected Middle(ConstructionContext context, ConstructionTrace trace, int failAt) : base(context, trace, failAt)
         {
             _middleValue = 20;
-            trace.Number("middle_body", _middleValue);
+            trace.Number("middle_body", value: _middleValue);
             try
             {
                 if (failAt == 2)
@@ -71,13 +71,13 @@ public sealed class ConstructionContextTests
             }
             finally
             {
-                trace.Fact("middle_unwind", "done");
+                trace.Fact("middle_unwind", value: "done");
             }
         }
 
         public override void Dispose()
         {
-            ConstructionTrace.Number("middle_destroy", _middleValue);
+            ConstructionTrace.Number("middle_destroy", value: _middleValue);
             base.Dispose();
         }
     }
@@ -89,7 +89,7 @@ public sealed class ConstructionContextTests
         private Leaf(ConstructionContext context, ConstructionTrace trace, int failAt) : base(context, trace, failAt)
         {
             _leafValue = 30;
-            trace.Number("leaf_body", _leafValue);
+            trace.Number("leaf_body", value: _leafValue);
             try
             {
                 if (failAt == 3)
@@ -99,7 +99,7 @@ public sealed class ConstructionContextTests
             }
             finally
             {
-                trace.Fact("leaf_unwind", "done");
+                trace.Fact("leaf_unwind", value: "done");
             }
         }
 
@@ -107,7 +107,7 @@ public sealed class ConstructionContextTests
 
         public override void Dispose()
         {
-            ConstructionTrace.Number("leaf_destroy", _leafValue);
+            ConstructionTrace.Number("leaf_destroy", value: _leafValue);
             base.Dispose();
         }
     }
@@ -121,7 +121,7 @@ public sealed class ConstructionContextTests
         {
             _owner = owner;
             owner.Add(this);
-            trace.Number("owner_inserted", owner.Count);
+            trace.Number("owner_inserted", value: owner.Count);
             throw new Construct("owner");
         }
 
@@ -129,9 +129,9 @@ public sealed class ConstructionContextTests
 
         public void Dispose()
         {
-            ConstructionTrace.Number("owner_at_destroy", _owner.Count);
+            ConstructionTrace.Number("owner_at_destroy", value: _owner.Count);
             _ = _owner.Remove(this);
-            ConstructionTrace.Number("owner_removed", _owner.Count);
+            ConstructionTrace.Number("owner_removed", value: _owner.Count);
         }
     }
 
@@ -142,14 +142,14 @@ public sealed class ConstructionContextTests
 
         private Parent(ConstructionContext context, ConstructionTrace trace) : base(context, trace)
         {
-            trace.Fact("parent_body", "enter");
+            trace.Fact("parent_body", value: "enter");
             try
             {
-                _child = Leaf.New(trace, 2);
+                _child = Leaf.New(trace, failAt: 2);
             }
             finally
             {
-                trace.Number("parent_unwind_child_nil", _child is null ? 1 : 0);
+                trace.Number("parent_unwind_child_nil", value: _child is null ? 1 : 0);
             }
         }
 
@@ -157,19 +157,19 @@ public sealed class ConstructionContextTests
 
         public void Dispose()
         {
-            ConstructionTrace.Number("parent_destroy_child_nil", _child is null ? 1 : 0);
+            ConstructionTrace.Number("parent_destroy_child_nil", value: _child is null ? 1 : 0);
             _child?.Dispose();
         }
     }
 
     private sealed class Throwing : Base
     {
-        private Throwing(ConstructionContext context, ConstructionTrace trace) : base(context, trace, 0) => throw new Construct("original");
+        private Throwing(ConstructionContext context, ConstructionTrace trace) : base(context, trace, failAt: 0) => throw new Construct("original");
         internal static Throwing New(ConstructionTrace trace) => ConstructionContext.Create(context => new Throwing(context, trace));
 
         public override void Dispose()
         {
-            ConstructionTrace.Fact("throwing_destroy", "enter");
+            ConstructionTrace.Fact("throwing_destroy", value: "enter");
             base.Dispose();
             throw new Cleanup("replacement");
         }
@@ -178,7 +178,7 @@ public sealed class ConstructionContextTests
     private class VirtualBase : Captured
     {
         protected VirtualBase(ConstructionContext context, ConstructionTrace trace) : base(context, trace) => Observe();
-        protected virtual void Observe() => ConstructionTrace.Fact("virtual_base", "unexpected");
+        protected virtual void Observe() => ConstructionTrace.Fact("virtual_base", value: "unexpected");
     }
 
     private sealed class VirtualLeaf : VirtualBase
@@ -218,7 +218,7 @@ public sealed class ConstructionContextTests
 
     private sealed class PlainLeaf : PlainBase
     {
-        private PlainLeaf(ConstructionContext context, ConstructionTrace trace) : base(context, trace, false) { }
+        private PlainLeaf(ConstructionContext context, ConstructionTrace trace) : base(context, trace, fail: false) { }
 
         internal static PlainLeaf New(ConstructionTrace trace) => ConstructionContext.Create(context => new PlainLeaf(context, trace));
         internal void Reenter() => Initialize(true);
@@ -230,7 +230,7 @@ public sealed class ConstructionContextTests
         ConstructionTrace trace = new();
         for (int failAt = 1; failAt <= 3; failAt++)
         {
-            trace.Number("chain_case", failAt);
+            trace.Number("chain_case", value: failAt);
             Leaf? objectValue = null;
             try
             {
@@ -238,9 +238,9 @@ public sealed class ConstructionContextTests
             }
             catch (Construct e)
             {
-                trace.Fact("chain_exception", e.Message);
+                trace.Fact("chain_exception", value: e.Message);
             }
-            trace.Number("chain_result_nil", objectValue is null ? 1 : 0);
+            trace.Number("chain_result_nil", value: objectValue is null ? 1 : 0);
         }
         List<object> owner = [];
         Owned? owned = null;
@@ -250,10 +250,10 @@ public sealed class ConstructionContextTests
         }
         catch (Construct e)
         {
-            trace.Fact("owner_exception", e.Message);
+            trace.Fact("owner_exception", value: e.Message);
         }
-        trace.Number("owner_after", owner.Count);
-        trace.Number("owner_result_nil", owned is null ? 1 : 0);
+        trace.Number("owner_after", value: owner.Count);
+        trace.Number("owner_result_nil", value: owned is null ? 1 : 0);
         Parent? parent = null;
         try
         {
@@ -261,9 +261,9 @@ public sealed class ConstructionContextTests
         }
         catch (Construct e)
         {
-            trace.Fact("parent_exception", e.Message);
+            trace.Fact("parent_exception", value: e.Message);
         }
-        trace.Number("parent_result_nil", parent is null ? 1 : 0);
+        trace.Number("parent_result_nil", value: parent is null ? 1 : 0);
         Throwing? throwing = null;
         try
         {
@@ -271,10 +271,10 @@ public sealed class ConstructionContextTests
         }
         catch (Cleanup e)
         {
-            trace.Fact("throwing_exception_class", e.GetType().Name);
-            trace.Fact("throwing_exception", e.Message);
+            trace.Fact("throwing_exception_class", value: e.GetType().Name);
+            trace.Fact("throwing_exception", value: e.Message);
         }
-        trace.Number("throwing_result_nil", throwing is null ? 1 : 0);
+        trace.Number("throwing_result_nil", value: throwing is null ? 1 : 0);
         _ = VirtualLeaf.New(trace);
         PlainLeaf plain = PlainLeaf.New(trace);
         try
@@ -285,7 +285,7 @@ public sealed class ConstructionContextTests
             }
             catch (Construct e)
             {
-                trace.Fact("plain_exception", e.Message);
+                trace.Fact("plain_exception", value: e.Message);
             }
             trace.Number("plain_after", plain.Value);
         }

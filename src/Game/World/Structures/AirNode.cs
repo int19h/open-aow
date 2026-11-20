@@ -32,7 +32,7 @@ public partial class AirNode(CustomNode owner) : ProductionPlace(owner)
         public override int ResourceUserClassId() => 133454;
 
         // AirNode.pas:52
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_airNodeText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_airNodeText);
 
         private static readonly string s_airNodeText = "Air Node";
 

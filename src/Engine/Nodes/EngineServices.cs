@@ -29,12 +29,12 @@ public static class EngineServices
     internal static string ReplaceText(string S, string old, string newValue)
     {
         string result = "";
-        int p = Pos(old, S);
+        int p = Pos(old, haystack: S);
         while (p != 0)
         {
-            result = result + Copy(S, 1, p - 1) + newValue;
-            S = Copy(S, p + old.Length, S.Length - p - old.Length + 1);
-            p = Pos(old, S);
+            result = result + Copy(S, index: 1, count: p - 1) + newValue;
+            S = Copy(S, index: p + old.Length, count: S.Length - p - old.Length + 1);
+            p = Pos(old, haystack: S);
         }
 
         return result + S;
@@ -48,7 +48,7 @@ public static class EngineServices
         int crc = -1;
         foreach (byte value in buffer[..size])
         {
-            crc = s_crc32Table[(value ^ crc) & 255] ^ (int)((uint)crc >> 8);
+            crc = s_crc32Table[(value ^ crc) & 255] ^ (crc >>> 8);
         }
 
         return crc ^ -1;
@@ -57,7 +57,7 @@ public static class EngineServices
     internal static void StringToStream(string S, Stream stream)
     {
         int length = S.Length;
-        stream.Write(Bytes.Of(ref length, 4));
+        stream.Write(Bytes.Of(ref length, count: 4));
         stream.Write(Cp1252.Encode(S).AsSpan()[..length]);
     }
 
@@ -65,7 +65,7 @@ public static class EngineServices
     {
         for (int k = lists.Count - 1; k >= 0; k--)
         {
-            lists.List[k].Exchange(I, J);
+            lists.List[k].Exchange(I, second: J);
         }
     }
 
@@ -78,7 +78,7 @@ public static class EngineServices
             int c = i;
             for (int j = 7; j >= 0; j--)
             {
-                c = (c & 1) != 0 ? ((int)(((uint)c) >> 1)) ^ polynomial : (int)(((uint)c) >> 1);
+                c = (c & 1) != 0 ? (c >>> 1) ^ polynomial : c >>> 1;
             }
 
             table[i] = c;
@@ -91,7 +91,7 @@ public static class EngineServices
     {
         if (count < 0)
         {
-            throw new ArgumentOutOfRangeException(paramName: null, "Negative fill count");
+            throw new ArgumentOutOfRangeException(paramName: null, message: "Negative fill count");
         }
 
         buffer[..count].Fill(value);

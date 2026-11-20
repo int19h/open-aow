@@ -55,7 +55,7 @@ internal static class LocalizationFrameChecks
         SortedSet<string> required = [with(StringComparer.Ordinal)];
         // A byte that no installed font draws, such as the ellipsis 0x85, leaves the original's
         // 5 pixel gap. The frame comparison checks that gap, so it is recorded, not a missing glyph.
-        HashSet<int> absentEverywhere = [.. Enumerable.Range(128, 128).Where(code => fonts.All(font => !font.ImageExist(code) || font[code].Width <= 0 || font[code].Height <= 0))];
+        HashSet<int> absentEverywhere = [.. Enumerable.Range(128, count: 128).Where(code => fonts.All(font => !font.ImageExist(code) || font[code].Width <= 0 || font[code].Height <= 0))];
         SortedSet<string> absent = [with(StringComparer.Ordinal)];
         foreach (Component module in layouts.Modules.Values)
         {
@@ -108,7 +108,7 @@ internal static class LocalizationFrameChecks
             }
         }
 
-        File.WriteAllText(Path.Combine(output, "localization.json"), JsonSerializer.Serialize(new
+        File.WriteAllText(Path.Combine(output, "localization.json"), contents: JsonSerializer.Serialize(new
         {
             language,
             undead,
@@ -121,7 +121,7 @@ internal static class LocalizationFrameChecks
             absent_glyphs = absent,
             german_bytes = germanBytes,
             coverage
-        }, new JsonSerializerOptions { WriteIndented = true }) + "\n");
+        }, options: new JsonSerializerOptions { WriteIndented = true }) + "\n");
         if (!undeadEqual)
         {
             throw new InvalidOperationException("English Undead(plural) did not translate to Undead");
@@ -129,8 +129,8 @@ internal static class LocalizationFrameChecks
 
         if (language == 1)
         {
-            Dib16Surface left = new(120, 40, PixelFormat.Rgb555);
-            Dib16Surface right = new(120, 40, PixelFormat.Rgb555);
+            Dib16Surface left = new(120, 40, pixelFormatId: PixelFormat.Rgb555);
+            Dib16Surface right = new(120, 40, pixelFormatId: PixelFormat.Rgb555);
             try
             {
                 _ = left.Clear(0);
@@ -140,10 +140,10 @@ internal static class LocalizationFrameChecks
                 _ = right.Lock(ref r);
                 try
                 {
-                    ui.Fonts.Age8.SetText(0, 0, undead, l);
-                    ui.Fonts.Age8.SetText(0, 0, "Undead", r);
-                    Span<byte> pixels = l.Data.AsSpan(l.DataIndex, l.Pitch * 40);
-                    if (!pixels.SequenceEqual(r.Data.AsSpan(r.DataIndex, r.Pitch * 40)) || !pixels.ToArray().Any(b => b != 0))
+                    ui.Fonts.Age8.SetText(0, 0, text: undead, lockedSurface: l);
+                    ui.Fonts.Age8.SetText(0, 0, text: "Undead", lockedSurface: r);
+                    Span<byte> pixels = l.Data.AsSpan(l.DataIndex, length: l.Pitch * 40);
+                    if (!pixels.SequenceEqual(r.Data.AsSpan(r.DataIndex, length: r.Pitch * 40)) || !pixels.ToArray().Any(b => b != 0))
                     {
                         throw new InvalidOperationException("English Undead rendering differs");
                     }
@@ -168,7 +168,7 @@ internal static class LocalizationFrameChecks
     {
         for (Type? type = control.GetType(); type is not null; type = type.BaseType)
         {
-            if (type.GetProperty("Items", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance
+            if (type.GetProperty("Items", bindingAttr: System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance
                     | System.Reflection.BindingFlags.DeclaredOnly) is { } property)
             {
                 return property.GetValue(control);

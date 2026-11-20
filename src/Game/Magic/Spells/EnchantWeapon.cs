@@ -12,7 +12,7 @@ public class EnchantWeapon : UnitSpell
     public EnchantWeapon(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_enchantWeaponText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_enchantWeaponText);
         SpellId = 16;
         BaseManaCost = 5;
         SpellLevel = 1;

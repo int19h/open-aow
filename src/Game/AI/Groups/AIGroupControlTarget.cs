@@ -58,14 +58,14 @@ public class AIGroupControlTarget(CustomNode owner) : EngineObject(owner), IOwne
     public virtual bool Validate(AIGroupControl control)
     {
         sbyte x = Location.X;
-        return x != -1 && StrategicMap.Current.MapContainer.GetField(x, Location.Y, Location.MapLevel).GetAITarget(control, Info, out _);
+        return x != -1 && StrategicMap.Current.MapContainer.GetField(x, Location.Y, Location.MapLevel).GetAITarget(control, Info, data: out _);
     }
 
     // AIGroup.pas:666
-    public int GetTargetGold() => Data.Cost;
+    public int TargetGold => Data.Cost;
 
     // AIGroup.pas:671
-    public int GetTargetMana() => 0;
+    public int TargetMana => 0;
 
     // AIGroup.pas:676
     public void GetDebugInfo(out string text)

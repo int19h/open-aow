@@ -47,8 +47,8 @@ public class MagicSanctuaryOverlayHexSprite(CustomNode owner) : SingleHexSprite(
                 _fadeEndFrame = -1;
             }
 
-            int frameIndex = sequence.GetFrameIndex(0, 0);
-            sequence.ImageLibrary[frameIndex].ShowBlended(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[blend]);
+            int frameIndex = sequence.GetFrameIndex(0, offset: 0);
+            sequence.ImageLibrary[frameIndex].ShowBlended(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY, lockedSurface, table: GraphicsState.IntensityBlendTable.LookupTables[blend]);
         }
     }
 

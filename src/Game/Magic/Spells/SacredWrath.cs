@@ -16,7 +16,7 @@ public class SacredWrath : CombatSpell
     public SacredWrath(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_sacredWrathText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_sacredWrathText);
         SpellId = 125;
         SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 6;

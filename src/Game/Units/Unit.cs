@@ -71,7 +71,7 @@ public class Unit(CustomNode owner) : Troop(owner)
     }
 
     // Unit.PAS:2079
-    public override sbyte GetUnitLevel() => UnitResource.Level;
+    public override sbyte UnitLevel => UnitResource.Level;
 
     // Unit.PAS:2118
     public override sbyte GetRace() => UnitResource.Race;
@@ -98,7 +98,7 @@ public class Unit(CustomNode owner) : Troop(owner)
     }
 
     // Unit.PAS:2049
-    public override sbyte GetInherentResistance() => UnitResource.Resistance;
+    public override sbyte InherentResistance => UnitResource.Resistance;
 
     // Unit.PAS:2027
     public override sbyte GetAttack()
@@ -162,7 +162,7 @@ public class Unit(CustomNode owner) : Troop(owner)
     }
 
     // Unit.PAS:2077
-    public override sbyte GetMoves() => UnitResource.Moves;
+    public override sbyte Moves => UnitResource.Moves;
 
     // Unit.PAS:1930
     public override sbyte GetMovePoints() => _movePoints;
@@ -170,9 +170,9 @@ public class Unit(CustomNode owner) : Troop(owner)
     // Unit.PAS:1937
     public override void SetMovePoints(sbyte value)
     {
-        if (value > GetMoves())
+        if (value > Moves)
         {
-            value = GetMoves();
+            value = Moves;
         }
 
         if (value < 0)
@@ -235,16 +235,16 @@ public class Unit(CustomNode owner) : Troop(owner)
     public override bool GetTransporter() => UnitResource.GetTransportCapacity() != 0;
 
     // Unit.PAS:1958
-    public override UnitGender GetGender() => UnitResource.Gender;
+    public override UnitGender Gender => UnitResource.Gender;
 
     // Unit.PAS:1954
-    public override BloodType GetBloodType() => UnitResource.BloodType;
+    public override BloodType BloodType => UnitResource.BloodType;
 
     // Unit.PAS:1956
     public override UnitType GetUnitType() => UnitResource.UnitType;
 
     // Unit.PAS:2108
-    public override int GetUnitGraphicsResourceIndex() => UnitResource.UnitGraphicsResourceIndex;
+    public override int UnitGraphicsResourceIndex => UnitResource.UnitGraphicsResourceIndex;
 
     // Unit.PAS:2120
     public override void NewDay()
@@ -295,13 +295,13 @@ public class Unit(CustomNode owner) : Troop(owner)
     }
 
     // Unit.PAS:2000
-    public override DelphiStringCollection GetDescription() => UnitResource.Description;
+    public override DelphiStringCollection Description => UnitResource.Description;
 
     // Unit.PAS:1928
     public override int GetObtainValue() => UnitResource.ObtainValue;
 
     // Unit.PAS:1952
-    public override UnitSize GetUnitSize() => UnitResource.UnitSize;
+    public override UnitSize UnitSize => UnitResource.UnitSize;
 
     // Unit.PAS:2110
     public override void Activate()
@@ -396,7 +396,7 @@ public class Unit(CustomNode owner) : Troop(owner)
                 }
 
                 _hitPoints = GetHits();
-                _movePoints = GetMoves();
+                _movePoints = Moves;
             }
         }
     }

@@ -33,7 +33,7 @@ public class TouchAbility : AdjustableAbility
             CombatObject target = commands.TargetSide.GetObjects(i);
             if (target.GetEnabled() && CanTouch(commands.Source, target) && FastBattleValidRoundDistance(commands.Source, target))
             {
-                FastBattleGetDamageValues(commands.Source, target, WallSituation.None, ref values);
+                FastBattleGetDamageValues(commands.Source, defender: target, wallSituation: WallSituation.None, damageValues: ref values);
                 if (values.SourceDamage != 0)
                 {
                     FastBattleCommand command = new(AbilityId)
@@ -41,7 +41,7 @@ public class TouchAbility : AdjustableAbility
                         Target = commands.TargetSide.GetObjects(i),
                         SourceDamageValue = values.SourceDamage,
                         TargetDamageValue = values.TargetDamage,
-                        ExpectedDamageValue = AbilityRules.DamageValueToDamageEvaluation(values.SourceDamage, values.TargetDamage, commands.Source, target),
+                        ExpectedDamageValue = AbilityRules.DamageValueToDamageEvaluation(values.SourceDamage, targetDamageValue: values.TargetDamage, commands.Source, target),
                         MoveCost = values.TargetDamage == 0 ? 1 : 2
                     };
 
@@ -98,10 +98,10 @@ public class TouchAbility : AdjustableAbility
     // AoWAb.PAS:1916
     public virtual bool CanTouch(CombatObject source, CombatObject target)
     {
-        bool result = source.GetSide() == CombatSideIndex.Defender
+        bool result = source.Side == CombatSideIndex.Defender
             ? !source.FastBattleBehindWall() || !source.FastBattleWallInBetween(target.Position) || target.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing)
             : !target.FastBattleBehindWall() || !source.FastBattleWallInBetween(target.Position) || source.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing);
-        return source.GetSide() != target.GetSide() ? result && (!target.GetAbilityEnabled(1) || source.GetAbilityEnabled(1)) : result;
+        return source.Side != target.Side ? result && (!target.GetAbilityEnabled(1) || source.GetAbilityEnabled(1)) : result;
     }
 
     // AoWAb.PAS:1937

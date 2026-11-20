@@ -33,7 +33,7 @@ public class Pad(CustomNode owner) : FixedImageLibraryTerrainMapObject(owner)
         {
             if (Engine is not null && !Engine.HexSpriteSet.Status.Contains(HexSpriteSetStatusElement.Destroying))
             {
-                Engine.HexSpriteSet.PadControl.UnregisterPadResource(this, _padSize);
+                Engine.HexSpriteSet.PadControl.UnregisterPadResource(this, size: _padSize);
             }
 
             base.Dispose();
@@ -67,7 +67,7 @@ public class Pad(CustomNode owner) : FixedImageLibraryTerrainMapObject(owner)
                 }
             }
 
-            Engine.HexSpriteSet.PadControl.RegisterPadResource(this, _padSize);
+            Engine.HexSpriteSet.PadControl.RegisterPadResource(this, size: _padSize);
         }
 
         // Pad.pas:79

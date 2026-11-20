@@ -70,7 +70,7 @@ public class ResourceEditSettings(CustomNode owner) : ControlStyleObject(owner)
         else
         {
             result = GetUniqueEditId();
-            _ = Editors.AddObject(name, IntToObject(result));
+            _ = Editors.AddObject(name, item: IntToObject(result));
         }
 
         return result;
@@ -95,7 +95,7 @@ public class ResourceEditSettings(CustomNode owner) : ControlStyleObject(owner)
         // The original ReadWrite leaves out the editors under text only (the translate stream).
         if (!PersistSupport.Translating(persister))
         {
-            PersistSupport.LinesWithValues(persister, "Editors", Editors);
+            PersistSupport.LinesWithValues(persister, name: "Editors", lines: Editors);
         }
     }
 

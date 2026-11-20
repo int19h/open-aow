@@ -17,8 +17,8 @@ public sealed class CombatUnitSelectionConstructionTests
     {
         try
         {
-            MethodInfo? factory = typeof(CombatUnitSelectionControl).GetMethod("Create", BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly);
-            return factory is not null ? (CombatUnitSelectionControl)factory.Invoke(null, null)! : new CombatUnitSelectionControl(EngineFixture.Engine);
+            MethodInfo? factory = typeof(CombatUnitSelectionControl).GetMethod("Create", bindingAttr: BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly);
+            return factory is not null ? (CombatUnitSelectionControl)factory.Invoke(null, parameters: null)! : new CombatUnitSelectionControl(EngineFixture.Engine);
         }
         catch (TargetInvocationException error) when (error.InnerException is not null)
         {
@@ -60,7 +60,7 @@ public sealed class CombatUnitSelectionConstructionTests
             {
                 GamePack.Current = set;
             }
-            Assert.Equal(fail == 0, value is not null);
+            Assert.Equal(fail == 0, actual: value is not null);
             actual.Add($"fail{fail}", JsonSerializer.Serialize(new { State = state, Before = before, After = entry.RefCount }));
             value?.Dispose();
             Assert.Equal(before, entry.RefCount);

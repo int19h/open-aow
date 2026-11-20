@@ -27,7 +27,7 @@ public class StormSpell : Spell
     // Storms.pas:888
     public override void AIPrefetchCastSpellActions(Troop source, AICastSpellActionList actions)
     {
-        if (AIRequestCastSpellExpense(source, BaseManaCost, 0, 0))
+        if (AIRequestCastSpellExpense(source, budget: BaseManaCost, mana: 0, upkeep: 0))
         {
             int priority = AICastSpellPriority(source);
             if (priority != -1)
@@ -46,18 +46,18 @@ public class StormSpell : Spell
         bool result;
         if (AICastSpellPriority(source) != -1)
         {
-            _ = AICastSpellExpenseMade(source, BaseManaCost, ManaUpkeep, 0);
+            _ = AICastSpellExpenseMade(source, budget: BaseManaCost, mana: ManaUpkeep, upkeep: 0);
             string reason = "";
-            if (source.CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
+            if (source.CanCastSpellInstantly(SpellId, mana: BaseManaCost, ref reason))
             {
                 MapCoordinate coordinate80 = source.GetLocation();
                 sbyte x = coordinate80.X;
                 sbyte y = coordinate80.Y;
                 sbyte l = coordinate80.MapLevel;
                 Storm storm = CreateStorm();
-                if (storm.GetBestTarget(source.Player, x, y, l, 12, out MapCoordinate target, out _))
+                if (storm.GetBestTarget(source.Player, x, y, l, range: 12, out MapCoordinate target, info: out _))
                 {
-                    _ = ExecuteStormSpell(source, target.X, target.Y, target.MapLevel);
+                    _ = ExecuteStormSpell(source, target.X, target.Y, L: target.MapLevel);
                     result = true;
                 }
                 else
@@ -101,7 +101,7 @@ public class StormSpell : Spell
             if (l != 0)
             {
                 result = false;
-                messageText = AbilityRules.TranslateResourceString(GetEngine(), GameText.CannotCastSpellInUndergroundText);
+                messageText = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CannotCastSpellInUndergroundText);
             }
         }
 
@@ -113,7 +113,7 @@ public class StormSpell : Spell
     {
         string reason = "";
         _ = base.Activate(source);
-        if (CanActivate(source, ref reason))
+        if (CanActivate(source, messageText: ref reason))
         {
             _source = source;
             MapCoordinate coordinate82 = source.GetLocation();
@@ -125,17 +125,17 @@ public class StormSpell : Spell
             selection.Initialize(this);
             selection.TargetMode += Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
             selection.SourceLocation = new MapCoordinate(x, y, l);
-            StrategicMap.Current.MakeVisible(x, y, l, 5);
+            StrategicMap.Current.MakeVisible(x, y, l, radius: 5);
             string name = _targetStorm.Name();
-            string format = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.SelectTargetLocationForOnMapFormat), [name]);
+            string format = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.SelectTargetLocationForOnMapFormat), args: [name]);
             selection.Text.Text = format;
             selection.Title = SpellName;
-            selection.CancelText = AbilityRules.TranslateResourceString(GetEngine(), GameText.CancelText);
+            selection.CancelText = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CancelText);
             selection.Range = 12;
             selection.Changed += OnTargetSelectionChange;
-            selection.SourceImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[20].GetPreviewImage();
-            selection.ValidTargetImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[21].GetPreviewImage();
-            selection.InvalidTargetImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[22].GetPreviewImage();
+            selection.SourceImage = GamePack.Current.SpellControl[SpellId].CastImages.ImageSequences[20].GetPreviewImage();
+            selection.ValidTargetImage = GamePack.Current.SpellControl[SpellId].CastImages.ImageSequences[21].GetPreviewImage();
+            selection.InvalidTargetImage = GamePack.Current.SpellControl[SpellId].CastImages.ImageSequences[22].GetPreviewImage();
             selection.Activate();
             _targetStorm.UpdateTargetSelection(StrategicMap.Current.TargetSelection);
             return true;
@@ -155,7 +155,7 @@ public class StormSpell : Spell
         if (!StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             StormSpellTokenEvent tokenEvent = new(null) { Holder = CreationHolder() };
-            tokenEvent.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
+            tokenEvent.Initialize(SpellId, playerIndex: (byte)source.Player, sourceId: source.UnitId, mana: BaseManaCost);
             tokenEvent.Location = new MapCoordinate(X, Y, L);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(tokenEvent);
             _ = tokenEvent.Release();
@@ -172,7 +172,7 @@ public class StormSpell : Spell
     {
         int result;
         string reason = "";
-        if (CanActivate(source, ref reason))
+        if (CanActivate(source, messageText: ref reason))
         {
             result = -1;
             MapCoordinate coordinate83 = source.GetLocation();
@@ -182,7 +182,7 @@ public class StormSpell : Spell
             if (l == 0)
             {
                 Storm storm = CreateStorm();
-                if (storm.GetBestTarget(source.Player, x, y, l, 12, out _, out StormDamageInfo info))
+                if (storm.GetBestTarget(source.Player, x, y, l, range: 12, target: out _, out StormDamageInfo info))
                 {
                     int damage = info.EnemyDamage - info.FriendlyDamage;
                     if ((double)(BaseManaCost * 0.75) < damage)
@@ -214,7 +214,7 @@ public class StormSpell : Spell
                 break;
             case TargetSelectionChange.Selected:
                 selection.Changed -= OnTargetSelectionChange;
-                if (ExecuteStormSpell(_source, selection.Target.X, selection.Target.Y, selection.Target.MapLevel))
+                if (ExecuteStormSpell(_source, selection.Target.X, selection.Target.Y, L: selection.Target.MapLevel))
                 {
                     selection.Deactivate();
                 }

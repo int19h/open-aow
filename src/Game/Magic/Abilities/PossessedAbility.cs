@@ -20,7 +20,7 @@ public class PossessedAbility : PossessAbility
     public PossessedAbility(CustomNode owner, EngineObject holder) : base(owner, holder)
     {
         AbilityId = 107;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_possessedText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_possessedText);
         AbilityType = AbilityType.Enchantment;
         SelectionTypes = Set<AbilitySelectionType>.Of();
     }
@@ -32,7 +32,7 @@ public class PossessedAbility : PossessAbility
         if (data is null)
         {
             data = new PossessedAbilityData(null) { Holder = CreationHolder() };
-            SetAbility(owner, AbilityId, 1);
+            SetAbility(owner, index: AbilityId, value: 1);
             owner.AddAbilityData(data);
             return true;
         }
@@ -46,12 +46,12 @@ public class PossessedAbility : PossessAbility
         PossessedAbilityData data = GetData(owner);
         if (data is not null)
         {
-            SetAbility(owner, AbilityId, 0);
+            SetAbility(owner, index: AbilityId, value: 0);
             owner.RemoveAbilityData(data);
         }
         else
         {
-            SetAbility(owner, AbilityId, 0);
+            SetAbility(owner, index: AbilityId, value: 0);
         }
 
         return true;

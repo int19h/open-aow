@@ -18,7 +18,7 @@ public partial class BookWindow
         Rect area = new(0, 0, WinWidth, WinHeight);
         if (_pageSurface is null)
         {
-            _pageSurface = new DataSurface(WinWidth, WinHeight, BackSurface.PixelFormatId, null);
+            _pageSurface = new DataSurface(WinWidth, WinHeight, BackSurface.PixelFormatId, palette: null);
             _ = BackSurface.BlitAreaClipped(_pageSurface, area, 0, 0);
         }
         if (!Animating)
@@ -35,7 +35,7 @@ public partial class BookWindow
                 _ = !Masked
                     ? initial.BlitAreaClipped(surface, area, WinLeft, WinTop)
                     : initial.BlitAreaColorKeyClipped(surface, area, WinLeft, WinTop,
-                    PixelFormats.Color2PixelInfo(MaskColor, BackSurface.PixelFormatId, null));
+                    colorKey: PixelFormats.Color2PixelInfo(MaskColor, BackSurface.PixelFormatId, palette: null));
             }
             _firstAnimationFrame = false;
         }
@@ -44,7 +44,7 @@ public partial class BookWindow
         _ = BackSurface.Lock(ref source);
         _ = _pageSurface.Lock(ref oldPage);
         PageTurn.RenderScene(WinLeft + BorderWidth, WinTop + BorderHeight, destination,
-            BorderWidth, BorderHeight, oldPage, BorderWidth, BorderHeight, source, ref area);
+            BorderWidth, BorderHeight, oldPage, BorderWidth, BorderHeight, source, R: ref area);
         _ = _pageSurface.Unlock();
         _ = BackSurface.Unlock();
         _ = surface.Unlock();

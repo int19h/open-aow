@@ -37,16 +37,16 @@ public sealed class GameSetTests : FormatsTest
     public void AGameSetFileRoundTripsOnBothBackends(string relative, string rootClass, string engine)
     {
         byte[] bytes = File.ReadAllBytes(Path.Combine(Checker.GameRoot, relative));
-        WrittenObjectProfile profile = new("pfs", ["pfs"], rootClass, engine);
+        WrittenObjectProfile profile = new("pfs", kinds: ["pfs"], rootClass, engine);
         byte[] body = bytes[4..^4];
-        ImportResult imported = GameFiles.Import(body, profile, "pfs", relative);
+        ImportResult imported = GameFiles.Import(body, profile, kind: "pfs", fileName: relative);
         Assert.Equal(OwnFormat.CurrentVersion, ((JsonInteger)imported.Document["$version"]!).Value);
         JsonObject container = (JsonObject)imported.Document["$container"]!;
         JsonObject root = (JsonObject)imported.Document["root"]!;
-        byte[] exported = profile.Export(context: new EncodeContext(FormatSchema.Current, engine, profile.Name, relative, FormatLimits.Default), container: container, root: root);
+        byte[] exported = profile.Export(context: new EncodeContext(FormatSchema.Current, engine, profile: profile.Name, file: relative, limits: FormatLimits.Default), container: container, root: root);
         OriginalComparisonResult comparison = GameFiles.CompareG1(body, exported: exported, profile: profile, document: imported.Document, kind: "pfs");
         Assert.NotEqual(OriginalMatchKind.Mismatch, comparison.Kind);
-        Prove(root, FormatSchema.Current.Get(rootClass), engine, relative);
+        Prove(root, classValue: FormatSchema.Current.Get(rootClass), engine, label: relative);
     }
 
     [GameFact]
@@ -55,24 +55,24 @@ public sealed class GameSetTests : FormatsTest
         const string relative = "Release/Release.hss";
         byte[] bytes = File.ReadAllBytes(Path.Combine(Checker.GameRoot, relative));
         FileProfile profile = FileProfile.Find("scenario-set")!;
-        ImportResult imported = GameFiles.Import(bytes, profile, "scenario-set", relative);
-        ExportResult exported = GameFiles.Export(GameFiles.Read(GameFiles.Write(imported.Document), relative).Document, relative);
+        ImportResult imported = GameFiles.Import(bytes, profile, kind: "scenario-set", fileName: relative);
+        ExportResult exported = GameFiles.Export(GameFiles.Read(GameFiles.Write(imported.Document), fileName: relative).Document, fileName: relative);
         OriginalComparisonResult comparison = GameFiles.CompareG1(bytes, exported: exported.Bytes, profile: profile, document: imported.Document, kind: "scenario-set");
         Assert.Equal(OriginalMatchKind.Masked, comparison.Kind);
-        Prove((JsonObject)imported.Document["root"]!, FormatSchema.Current.Get(profile.RootFamily), profile.Engine, relative);
+        Prove((JsonObject)imported.Document["root"]!, classValue: FormatSchema.Current.Get(profile.RootFamily), profile.Engine, label: relative);
     }
 
     private static void Prove(JsonObject root, SchemaClass classValue, string engine, string label)
     {
         FormatSchema schema = FormatSchema.Current;
-        byte[] image = PilotImage.Encode(root, classValue.Name, engine);
+        byte[] image = PilotImage.Encode(root, className: classValue.Name, engine);
         ObjectNode tree = OriginalBackend.Read(image, classValue, schema, engine);
         byte[] direct = OriginalBackend.Write(tree, classValue, schema, engine);
-        JsonObject expected = PilotImage.Decode(direct, classValue.Name, engine);
-        Assert.True(Same(PilotImage.Decode(image, classValue.Name, engine), expected), $"{label} direct read");
-        Assert.True(direct.AsSpan().SequenceEqual(PilotImage.Encode(expected, classValue.Name, engine)), $"{label} direct canonical");
-        Assert.True(Same(expected, DocumentBackend.Write(tree, classValue, schema, engine)), $"{label} direct document");
-        Assert.True(direct.AsSpan().SequenceEqual(OriginalBackend.Write(DocumentBackend.Read(expected, classValue, schema, engine), classValue, schema, engine)), $"{label} direct document read");
+        JsonObject expected = PilotImage.Decode(direct, className: classValue.Name, engine);
+        Assert.True(Same(PilotImage.Decode(image, className: classValue.Name, engine), expected), userMessage: $"{label} direct read");
+        Assert.True(direct.AsSpan().SequenceEqual(PilotImage.Encode(expected, className: classValue.Name, engine)), userMessage: $"{label} direct canonical");
+        Assert.True(Same(expected, DocumentBackend.Write(tree, classValue, schema, engine)), userMessage: $"{label} direct document");
+        Assert.True(direct.AsSpan().SequenceEqual(OriginalBackend.Write(DocumentBackend.Read(expected, classValue, schema, engine), classValue, schema, engine)), userMessage: $"{label} direct document read");
     }
 
     private static bool Same(JsonObject left, JsonObject right) => JsonWriter.ToUtf8(left).AsSpan().SequenceEqual(JsonWriter.ToUtf8(right));

@@ -22,7 +22,7 @@ public class StrikeAbility : AdjustableAbility
         SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem);
         AbilityType = AbilityType.Combat;
         AbilityId = 21;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_strikeText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_strikeText);
         MeleeRound = new MeleeRound(this);
     }
 
@@ -50,7 +50,7 @@ public class StrikeAbility : AdjustableAbility
             CombatObject target = commands.TargetSide.GetObjects(i);
             if (target.GetEnabled() && FastBattleValidRoundDistance(commands.Source, target) && CanExecuteMelee(commands.Source, target))
             {
-                FastBattleGetDamageValues(commands.Source, target, WallSituation.None, ref values);
+                FastBattleGetDamageValues(commands.Source, defender: target, wallSituation: WallSituation.None, damageValues: ref values);
                 if (values.SourceDamage != 0)
                 {
                     FastBattleCommand command = new(AbilityId)
@@ -58,7 +58,7 @@ public class StrikeAbility : AdjustableAbility
                         Target = target,
                         SourceDamageValue = values.SourceDamage,
                         TargetDamageValue = values.TargetDamage,
-                        ExpectedDamageValue = AbilityRules.DamageValueToDamageEvaluation(values.SourceDamage, values.TargetDamage, commands.Source, target),
+                        ExpectedDamageValue = AbilityRules.DamageValueToDamageEvaluation(values.SourceDamage, targetDamageValue: values.TargetDamage, commands.Source, target),
                         // { Both original branches assign the same move cost. }
                         MoveCost = values.TargetDamage == 0 ? 2 : 2
                     };
@@ -74,7 +74,7 @@ public class StrikeAbility : AdjustableAbility
     {
         CombatObject target = command.Target;
         MeleeRound round = new(this);
-        round.Calculate(source, target);
+        round.Calculate(source, defender: target);
         bool stop = false;
         int i = 0;
         if (source is FastBattleUnit fastUnit)
@@ -177,7 +177,7 @@ public class StrikeAbility : AdjustableAbility
                 repeats += 1;
             }
 
-            strength = AbilityRules.LimitedDamage(attack, damage, repeats);
+            strength = AbilityRules.LimitedDamage(attack, defense: damage, damage: repeats);
             types = GetDamageTypes(owner);
         }
         else
@@ -238,7 +238,7 @@ public class StrikeAbility : AdjustableAbility
     // AoWAb.PAS:1248
     public bool CanExecuteMelee(CombatObject source, CombatObject target)
     {
-        bool result = source.GetSide() == CombatSideIndex.Defender
+        bool result = source.Side == CombatSideIndex.Defender
             ? !source.FastBattleBehindWall() || !source.FastBattleWallInBetween(target.Position) || target.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing)
             : !target.FastBattleBehindWall() || !source.FastBattleWallInBetween(target.Position) || source.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing);
         return result && (!target.GetAbilityEnabled(1) || source.GetAbilityEnabled(1));
@@ -302,11 +302,11 @@ public class StrikeAbility : AdjustableAbility
         }
 
         _ = base.Remove(owner);
-        for (int i = owner.GetOwnAbilityCount() - 1; i >= 0; --i)
+        for (int i = owner.OwnAbilityCount - 1; i >= 0; --i)
         {
-            if (owner.GetOwnAbilityEnabled(i) && GamePack.Current.AbilityControl.GetAbility(i) is StrikeEnhancementAbility)
+            if (owner.GetOwnAbilityEnabled(i) && GamePack.Current.AbilityControl[i] is StrikeEnhancementAbility)
             {
-                while (GamePack.Current.AbilityControl.GetAbility(i).Remove(owner))
+                while (GamePack.Current.AbilityControl[i].Remove(owner))
                 {
                 }
             }

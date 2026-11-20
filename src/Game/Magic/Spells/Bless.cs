@@ -12,7 +12,7 @@ public class Bless : UnitSpell
     public Bless(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_blessText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_blessText);
         SpellId = 56;
         BaseManaCost = 5;
         SpellLevel = 3;

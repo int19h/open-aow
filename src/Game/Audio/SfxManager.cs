@@ -61,7 +61,7 @@ public class SfxManager(Component owner) : Component(owner)
         _ = SetCurrentDir(path);
         Search("");
         _ = SetCurrentDir(oldDirectory);
-        SearchPath = UpperCase(ExtractRelativePath(AudioHost.BaseSoundEnginePath, SearchPath));
+        SearchPath = UpperCase(ExtractRelativePath(AudioHost.BaseSoundEnginePath, destination: SearchPath));
     }
 
     [Published]

@@ -23,7 +23,7 @@ public partial class UnitWindow
             Troop u = UI.General.SelectedUnit;
             if (u is not null && StrategicMap.Current.SeatedPlayer == u.Player)
             {
-                StrategicMap.Current.TutorialControl.ShowMessage(64, true, true);
+                StrategicMap.Current.TutorialControl.ShowMessage(64, immediate: true, onceOnly: true);
             }
 
             Hero h = u is Hero heroUnit ? heroUnit : null;
@@ -120,11 +120,11 @@ public partial class UnitWindow
             if (h is null)
             {
                 string level = UI.Engine.TranslateResourceString(s_levelText);
-                sbyte unitLevel = u.GetUnitLevel();
+                sbyte unitLevel = u.UnitLevel;
                 UI.UnitWindow.LevelLabel.Text = $"{level} {IntToStr(unitLevel)}";
                 UI.UnitWindow.InfoLeaderPanel.Visible = false;
                 UI.UnitWindow.InfoTextPanel.Visible = true;
-                DelphiStringCollection description = u.GetDescription();
+                DelphiStringCollection description = u.Description;
                 UI.UnitWindow.InfoMemo.Items.Assign(description);
                 UI.UnitWindow.InfoScrollBar.Position = 0;
                 string name = u.GetName();
@@ -141,7 +141,7 @@ public partial class UnitWindow
                 else
                 {
                     UI.UnitWindow.SpherePanel.Visible = true;
-                    if (StrategicMap.Current.Players.GetPlayers(h.Player).Leader.GetSphereCount() > 0)
+                    if (StrategicMap.Current.Players.GetPlayers(h.Player).Leader.SphereCount > 0)
                     {
                         UI.UnitWindow.Sphere1Button.Visible = true;
                         MagicSphere sphere = StrategicMap.Current.Players.GetPlayers(h.Player).Leader.GetSpheres(0);
@@ -153,7 +153,7 @@ public partial class UnitWindow
                         UI.UnitWindow.Sphere1Button.Visible = false;
                     }
 
-                    if (StrategicMap.Current.Players.GetPlayers(h.Player).Leader.GetSphereCount() > 1)
+                    if (StrategicMap.Current.Players.GetPlayers(h.Player).Leader.SphereCount > 1)
                     {
                         UI.UnitWindow.Sphere2Button.Visible = true;
                         MagicSphere sphere = StrategicMap.Current.Players.GetPlayers(h.Player).Leader.GetSpheres(1);
@@ -165,7 +165,7 @@ public partial class UnitWindow
                         UI.UnitWindow.Sphere2Button.Visible = false;
                     }
 
-                    if (StrategicMap.Current.Players.GetPlayers(h.Player).Leader.GetSphereCount() > 2)
+                    if (StrategicMap.Current.Players.GetPlayers(h.Player).Leader.SphereCount > 2)
                     {
                         UI.UnitWindow.Sphere3Button.Visible = true;
                         MagicSphere sphere = StrategicMap.Current.Players.GetPlayers(h.Player).Leader.GetSpheres(2);
@@ -177,7 +177,7 @@ public partial class UnitWindow
                         UI.UnitWindow.Sphere3Button.Visible = false;
                     }
 
-                    if (StrategicMap.Current.Players.GetPlayers(h.Player).Leader.GetSphereCount() > 3)
+                    if (StrategicMap.Current.Players.GetPlayers(h.Player).Leader.SphereCount > 3)
                     {
                         UI.UnitWindow.Sphere4Button.Visible = true;
                         MagicSphere sphere = StrategicMap.Current.Players.GetPlayers(h.Player).Leader.GetSpheres(3);
@@ -189,7 +189,7 @@ public partial class UnitWindow
                         UI.UnitWindow.Sphere4Button.Visible = false;
                     }
 
-                    if (StrategicMap.Current.Players.GetPlayers(h.Player).Leader.GetSphereCount() > 4)
+                    if (StrategicMap.Current.Players.GetPlayers(h.Player).Leader.SphereCount > 4)
                     {
                         UI.UnitWindow.Sphere5Button.Visible = true;
                         MagicSphere sphere = StrategicMap.Current.Players.GetPlayers(h.Player).Leader.GetSpheres(4);
@@ -201,7 +201,7 @@ public partial class UnitWindow
                         UI.UnitWindow.Sphere5Button.Visible = false;
                     }
 
-                    if (StrategicMap.Current.Players.GetPlayers(h.Player).Leader.GetSphereCount() > 5)
+                    if (StrategicMap.Current.Players.GetPlayers(h.Player).Leader.SphereCount > 5)
                     {
                         UI.UnitWindow.Sphere6Button.Visible = true;
                         MagicSphere sphere = StrategicMap.Current.Players.GetPlayers(h.Player).Leader.GetSpheres(5);
@@ -213,7 +213,7 @@ public partial class UnitWindow
                         UI.UnitWindow.Sphere6Button.Visible = false;
                     }
 
-                    if (StrategicMap.Current.Players.GetPlayers(h.Player).Leader.GetSphereCount() > 6)
+                    if (StrategicMap.Current.Players.GetPlayers(h.Player).Leader.SphereCount > 6)
                     {
                         UI.UnitWindow.Sphere7Button.Visible = true;
                         MagicSphere sphere = StrategicMap.Current.Players.GetPlayers(h.Player).Leader.GetSpheres(6);
@@ -435,14 +435,14 @@ public partial class UnitWindow
                 if (StrategicMap.Current.CombatMap is null)
                 {
                     sbyte movePoints = u.GetMovePoints();
-                    sbyte moves = u.GetMoves();
+                    sbyte moves = u.Moves;
                     UI.UnitWindow.UnitMovesLabel.Text = $"{IntToStr(movePoints)}/{IntToStr(moves)}";
                 }
                 else
                 {
                     if (UI.General.CombatUnit is not null)
                     {
-                        int moves = UI.General.CombatUnit.Unit.GetMoves();
+                        int moves = UI.General.CombatUnit.Unit.Moves;
                         UI.UnitWindow.UnitMovesLabel.Text = $"{IntToStr(UI.General.CombatUnit.Unit.MovePoints)}/{IntToStr(moves)}";
                     }
                 }
@@ -504,21 +504,21 @@ public partial class UnitWindow
                 UI.UnitWindow.AbilitySourceList.Items.Clear();
                 Troop.Morale morale = u.GetMorale();
                 string moraleText = UI.Engine.TranslateResourceString(s_moraleTexts[(int)morale]);
-                string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_moraleFormat), [moraleText]);
+                string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_moraleFormat), arguments: [moraleText]);
                 MoraleLabel.Text = format;
                 UnitType unitType = u.GetUnitType();
                 MoraleLabel.Visible = unitType != UnitType.Machine;
                 if (StrategicMap.Current.CombatMap is null)
                 {
-                    u.ListAbilityInfo(AbilityAbilityList.Items, AbilityTypeList.Items, AbilitySourceList.Items);
-                    StringSorting.SortStrings(AbilityAbilityList.Items, CompareUnitAbilities, [AbilityTypeList.Items, AbilitySourceList.Items]);
+                    u.ListAbilityInfo(AbilityAbilityList.Items, types: AbilityTypeList.Items, sources: AbilitySourceList.Items);
+                    StringSorting.SortStrings(AbilityAbilityList.Items, compare: CompareUnitAbilities, linkedStrings: [AbilityTypeList.Items, AbilitySourceList.Items]);
                 }
                 else
                 {
                     if (UI.General.CombatUnit is not null && UI.General.CombatUnit.Unit is not null && UI.General.CombatUnit.Unit.Troop is not null)
                     {
-                        UI.General.CombatUnit.Unit.Troop.ListAbilityInfo(AbilityAbilityList.Items, AbilityTypeList.Items, AbilitySourceList.Items);
-                        StringSorting.SortStrings(AbilityAbilityList.Items, CompareUnitAbilities, [AbilityTypeList.Items, AbilitySourceList.Items]);
+                        UI.General.CombatUnit.Unit.Troop.ListAbilityInfo(AbilityAbilityList.Items, types: AbilityTypeList.Items, sources: AbilitySourceList.Items);
+                        StringSorting.SortStrings(AbilityAbilityList.Items, compare: CompareUnitAbilities, linkedStrings: [AbilityTypeList.Items, AbilitySourceList.Items]);
                     }
                 }
 

@@ -91,7 +91,7 @@ public partial class HelpWindow(UIContext ui) : UIModule(ui)
         }
 
         DelphiStringList lines = new();
-        GamePack.Current.TextControl.RetrieveText(helpId, lines);
+        GamePack.Current.TextControl.RetrieveText(helpId, text: lines);
         UI.HelpWindow.HelpScrollBar.Position = 0;
         UI.HelpWindow.HeaderMemo.Items.Clear();
         if (lines.Count > 0)

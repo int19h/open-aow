@@ -79,12 +79,12 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
                 if (alpha < 100)
                 {
                     string line = lines[0];
-                    _creditsFont.SetText(x, y, line, surface, Set<SetTextModeElement>.Of(SetTextModeElement.Center), info);
+                    _creditsFont.SetText(x, y, text: line, lockedSurface: surface, mode: Set<SetTextModeElement>.Of(SetTextModeElement.Center), showInfo: info);
                 }
                 else
                 {
                     string line = lines[0];
-                    _creditsFont.SetTextCentered(x, y, line, surface);
+                    _creditsFont.SetTextCentered(x, y, text: line, lockedSurface: surface);
                 }
             }
 
@@ -98,12 +98,12 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
                     if (alpha < 100)
                     {
                         string line = lines[i];
-                        _creditsFont.SetText(x, y + (i * 25) + 5, line, surface, Set<SetTextModeElement>.Of(SetTextModeElement.Center), info);
+                        _creditsFont.SetText(x, y + (i * 25) + 5, text: line, lockedSurface: surface, mode: Set<SetTextModeElement>.Of(SetTextModeElement.Center), showInfo: info);
                     }
                     else
                     {
                         string line = lines[i];
-                        _creditsFont.SetTextCentered(x, y + (i * 25) + 5, line, surface);
+                        _creditsFont.SetTextCentered(x, y + (i * 25) + 5, text: line, lockedSurface: surface);
                     }
                 }
             }
@@ -163,11 +163,11 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
                 info.ShowMode = ShowMode.Blended;
                 info.BlendMode = BlendMode.Alpha;
                 info.Blend = opacity;
-                _creditsFont.SetText(x, y - (_creditsFont.Height / 2), text, surface, Set<SetTextModeElement>.Of(SetTextModeElement.Center), info);
+                _creditsFont.SetText(x, y - (_creditsFont.Height / 2), text, lockedSurface: surface, mode: Set<SetTextModeElement>.Of(SetTextModeElement.Center), showInfo: info);
             }
             else
             {
-                _creditsFont.SetTextCentered(x, y - (_creditsFont.Height / 2), text, surface);
+                _creditsFont.SetTextCentered(x, y - (_creditsFont.Height / 2), text, lockedSurface: surface);
             }
         }
 
@@ -180,36 +180,36 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
                     {
                         LibraryImage titleSceneImageLibraryHeight = TitleSceneImages[4];
                         LibraryImage titleSceneImageLibraryWidth = TitleSceneImages[4];
-                        TitleSceneImages[4].Show(x - 75 - (titleSceneImageLibraryWidth.Width / 2), y - (titleSceneImageLibraryHeight.Height / 2), surface);
+                        TitleSceneImages[4].Show(x - 75 - (titleSceneImageLibraryWidth.Width / 2), y - (titleSceneImageLibraryHeight.Height / 2), lockedSurface: surface);
                     }
 
                     if (TitleSceneImages[5] is not null)
                     {
                         LibraryImage titleSceneImageLibraryHeight = TitleSceneImages[5];
                         LibraryImage titleSceneImageLibraryWidth = TitleSceneImages[5];
-                        TitleSceneImages[5].Show(x + 75 - (titleSceneImageLibraryWidth.Width / 2), y - (titleSceneImageLibraryHeight.Height / 2), surface);
+                        TitleSceneImages[5].Show(x + 75 - (titleSceneImageLibraryWidth.Width / 2), y - (titleSceneImageLibraryHeight.Height / 2), lockedSurface: surface);
                     }
 
                     break;
                 case 1:
                     string northAmerica = UI.Engine.TranslateResourceString(s_northAmericaText);
                     LibraryImage titleSceneImageLibrary = TitleSceneImages[6];
-                    _creditsFont.SetTextCentered(x - 75, y - (titleSceneImageLibrary.Height / 2) - 20, northAmerica, surface);
+                    _creditsFont.SetTextCentered(x - 75, y - (titleSceneImageLibrary.Height / 2) - 20, text: northAmerica, lockedSurface: surface);
                     string europe = UI.Engine.TranslateResourceString(s_europeText);
                     LibraryImage titleSceneImageLibrary2 = TitleSceneImages[6];
-                    _creditsFont.SetTextCentered(x + 75 + 15, y - (titleSceneImageLibrary2.Height / 2) - 20, europe, surface);
+                    _creditsFont.SetTextCentered(x + 75 + 15, y - (titleSceneImageLibrary2.Height / 2) - 20, text: europe, lockedSurface: surface);
                     if (TitleSceneImages[6] is not null)
                     {
                         LibraryImage titleSceneImageLibraryHeight = TitleSceneImages[6];
                         LibraryImage titleSceneImageLibraryWidth = TitleSceneImages[6];
-                        TitleSceneImages[6].Show(x - 75 - (titleSceneImageLibraryWidth.Width / 2), y - (titleSceneImageLibraryHeight.Height / 2) + 20, surface);
+                        TitleSceneImages[6].Show(x - 75 - (titleSceneImageLibraryWidth.Width / 2), y - (titleSceneImageLibraryHeight.Height / 2) + 20, lockedSurface: surface);
                     }
 
                     if (TitleSceneImages[2] is not null)
                     {
                         LibraryImage titleSceneImageLibraryHeight = TitleSceneImages[2];
                         LibraryImage titleSceneImageLibraryWidth = TitleSceneImages[2];
-                        TitleSceneImages[2].Show(x + 75 + 15 - (titleSceneImageLibraryWidth.Width / 2), y - (titleSceneImageLibraryHeight.Height / 2) + 20, surface);
+                        TitleSceneImages[2].Show(x + 75 + 15 - (titleSceneImageLibraryWidth.Width / 2), y - (titleSceneImageLibraryHeight.Height / 2) + 20, lockedSurface: surface);
                     }
 
                     break;
@@ -225,11 +225,11 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
                         info.ShowMode = ShowMode.Blended;
                         info.BlendMode = BlendMode.Alpha;
                         info.Blend = opacity;
-                        _creditsFont.SetText(x, y - (_creditsFont.Height / 2), "Copyright (C) 1999,2000 Triumph Studios", surface, Set<SetTextModeElement>.Of(SetTextModeElement.Center), info);
+                        _creditsFont.SetText(x, y - (_creditsFont.Height / 2), text: "Copyright (C) 1999,2000 Triumph Studios", lockedSurface: surface, mode: Set<SetTextModeElement>.Of(SetTextModeElement.Center), showInfo: info);
                     }
                     else
                     {
-                        _creditsFont.SetTextCentered(x, y - (_creditsFont.Height / 2), "Copyright (C) 1999,2000 Triumph Studios", surface);
+                        _creditsFont.SetTextCentered(x, y - (_creditsFont.Height / 2), text: "Copyright (C) 1999,2000 Triumph Studios", lockedSurface: surface);
                     }
 
                     break;
@@ -257,7 +257,7 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
             r = _sceneRectangle;
             LibraryImage titleSceneImageLibrary = TitleSceneImages[0];
             r.Top += titleSceneImageLibrary.Height;
-            _ = PixelFormats.ColorFillSurfaceDescription(r, 0, surface);
+            _ = PixelFormats.ColorFillSurfaceDescription(r, color: 0, lockedSurface: surface);
         }
 
         int y = _sceneRectangle.Top;
@@ -268,9 +268,9 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
         }
 
         frame = -((frame + 490) % TitleSceneImages[0].Width);
-        TitleSceneImages[0].Show(frame, y, surface);
+        TitleSceneImages[0].Show(frame, y, lockedSurface: surface);
         LibraryImage titleSceneImageLibraryWidth = TitleSceneImages[0];
-        TitleSceneImages[0].Show(frame + titleSceneImageLibraryWidth.Width, y, surface);
+        TitleSceneImages[0].Show(frame + titleSceneImageLibraryWidth.Width, y, lockedSurface: surface);
         int x;
         if (!_showCredits && _frame > 25)
         {
@@ -281,11 +281,11 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
             if (frame < 100)
             {
                 BlendTable lookupTable = GraphicsState.AlphaBlendTable.GetLookupTables(frame);
-                TitleSceneImages[1].ShowBlended(x, y + 10, surface, lookupTable);
+                TitleSceneImages[1].ShowBlended(x, y + 10, lockedSurface: surface, table: lookupTable);
             }
             else
             {
-                TitleSceneImages[3].Show(x, y + 10, surface);
+                TitleSceneImages[3].Show(x, y + 10, lockedSurface: surface);
             }
         }
 
@@ -295,18 +295,18 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
         {
             int image = i == _pressedButton && i == HitTest() ? 2 : _pressedButton == -1 && i == _hoverButton ? 1 : 0;
 
-            TitleSceneImages[(i * 3) + 10 + image].Show(x + (spacing * i), y + 355, surface);
+            TitleSceneImages[(i * 3) + 10 + image].Show(x + (spacing * i), y + 355, lockedSurface: surface);
             if (i == HitTest())
             {
                 _font.Color = 16777215;
                 string translatedText = UI.Engine.TranslateResourceString(TitleCaptions.TitleButtons[i]);
                 LibraryImage titleSceneImageLibrary = TitleSceneImages[10];
-                _font.SetTextCentered(x + (spacing * i) + (titleSceneImageLibrary.Width / 2), y + 445, translatedText, surface);
+                _font.SetTextCentered(x + (spacing * i) + (titleSceneImageLibrary.Width / 2), y + 445, text: translatedText, lockedSurface: surface);
             }
 
             if (UI.Engine.AnimationDetail == 2)
             {
-                TitleSceneImages[25].Show(x + (spacing * i), y + 355, surface);
+                TitleSceneImages[25].Show(x + (spacing * i), y + 355, lockedSurface: surface);
             }
         }
 
@@ -419,7 +419,7 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
         string registeredTo = UI.Engine.RegisteredTo();
         NameLabel.Text = registeredTo;
         string versionString = UI.Engine.GetVersionString();
-        string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_versionFormat), [versionString]);
+        string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_versionFormat), arguments: [versionString]);
         VersionLabel.Text = format;
         _credits = [];
         DelphiStringList lines = new();
@@ -677,8 +677,8 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
 
         _ = AudioHost.SongPlayer.Stop(false);
         AudioHost.SongPlayer.Songs.Clear();
-        AudioPlayback.FadeMusicVolume(0, 1);
-        controller.UI.Engine.LoadHsm(fileName, false, (_, message, progression) => controller.MapProgress(message, progression), GameProfile.WorldMap);
+        AudioPlayback.FadeMusicVolume(0, speed: 1);
+        controller.UI.Engine.LoadHsm(fileName, edit: false, progress: (_, message, progression) => controller.MapProgress(message, progression), profile: GameProfile.WorldMap);
         if (controller.UI.Engine.Demo && StrategicMap.Current is not null && !StrategicMap.Current.ShowAllPlayers)
         {
             CloseGame(controller);
@@ -818,7 +818,7 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
         controller.UI.TaskBar.TaskWindow.Visible = false;
         controller.UI.TitleWindow.MainWindow.Visible = false;
         controller.UI.TitleScene.ResetScene();
-        WindowActions.ShowTitleScene(controller.UI.TitleScene, true);
+        WindowActions.ShowTitleScene(controller.UI.TitleScene, music: true);
     }
 
     private static readonly string s_loadingText = "Loading";
@@ -854,8 +854,8 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
 
         scene.UI.General.Manager.OverlayPriority = 0;
         scene.TitleSceneImages.LoadDiscardableImageData();
-        scene.UI.VideoDialog.SetSceneSize(640, 480);
-        VideoDialog.SetVideoMode(scene.UI.VideoDialog, VideoDialog.ScreenMode.Title);
+        scene.UI.VideoDialog.SetSceneSize(640, H: 480);
+        VideoDialog.SetVideoMode(scene.UI.VideoDialog, fullScreen: VideoDialog.ScreenMode.Title);
         scene.UI.VideoDialog.ApplyMode();
         GameHost.MainForm.Display.FrameRate = 30;
         GameHost.MainForm.DisplayController.UseVerticalBlank = true;

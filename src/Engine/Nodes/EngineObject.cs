@@ -77,11 +77,13 @@ public class EngineObject : IDisposable, IPersistable, IOwned
     public virtual GameEngine GetEngine() => _owner is not null ? _owner.GetEngine() : Holder?.GetEngine();
 
     // Engine.pas:2502
-    public virtual int GetLastMessage() => 2147483647;
-
-    // Engine.pas:2507
-    public virtual void SetLastMessage(int value)
+    public virtual int LastMessage
     {
+        get => 2147483647;
+        // Engine.pas:2507
+        set
+        {
+        }
     }
 
     // Engine.pas:2590
@@ -179,7 +181,7 @@ public class EngineObject : IDisposable, IPersistable, IOwned
     {
         if (message.MessageId == 1)
         {
-            SetLastMessage(2147483647);
+            LastMessage = 2147483647;
         }
     }
 
@@ -190,7 +192,7 @@ public class EngineObject : IDisposable, IPersistable, IOwned
         _ = (_owner?.RemoveChild(this));
 
         _owner = owner;
-        _owner?.SetChild(index, this);
+        _owner?.SetChild(index, child: this);
     }
 
     // Engine.pas:2436
@@ -236,10 +238,9 @@ public class EngineObject : IDisposable, IPersistable, IOwned
     {
         if (owner is not null && !AcceptsOwner(owner))
         {
-            throw new ArgumentException($"{GetType().Name} does not take an owner of type {owner.GetType().Name}.", nameof(owner));
+            throw new ArgumentException($"{GetType().Name} does not take an owner of type {owner.GetType().Name}.", paramName: nameof(owner));
         }
     }
 
     public string EngineObjectPath => GetEngineObjectPath();
-    public int LastMessage { get => GetLastMessage(); set => SetLastMessage(value); }
 }

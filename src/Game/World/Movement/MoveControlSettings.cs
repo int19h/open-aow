@@ -96,11 +96,11 @@ public partial class MoveControlSettings : EngineObject
         ProcessedMapFields.Clear();
         for (int i = 0, last = _levelCount - 1; i <= last; i++)
         {
-            Array.Resize(ref _levelData[i], 0);
+            Array.Resize(ref _levelData[i], newSize: 0);
         }
 
-        Array.Resize(ref _rowOffsets, 0);
-        Array.Resize(ref _levelData, 0);
+        Array.Resize(ref _rowOffsets, newSize: 0);
+        Array.Resize(ref _levelData, newSize: 0);
         _width = 0;
         _height = 0;
         _levelCount = 0;
@@ -121,7 +121,7 @@ public partial class MoveControlSettings : EngineObject
         MovePointTable = movePointTable;
         for (int i = 0, last = _levelCount - 1; i <= last; i++)
         {
-            _levelData[i]?.AsSpan(0, _width * _height).Fill(16777215);
+            _levelData[i]?.AsSpan(0, length: _width * _height).Fill(16777215);
         }
 
         Mode = Set<MoveModeElement>.Of();
@@ -153,7 +153,7 @@ public partial class MoveControlSettings : EngineObject
         Source = new MapCoordinate(army.HexX, army.HexY, army.HexLevel);
         Player = army.Army.Player;
         _ = MovePointTable;
-        army.Army.CreateMovePointTable(selection, out MovePointTable movePointTable);
+        army.Army.CreateMovePointTable(selection, table: out MovePointTable movePointTable);
         MovePointTable = movePointTable;
         if (StrategicMap.Current.Players.GetPlayers(Player).PlayerType != PlayerType.Human)
         {
@@ -166,8 +166,8 @@ public partial class MoveControlSettings : EngineObject
     {
         if (_levelData[level] is null)
         {
-            Array.Resize(ref _levelData[level], _width * _height);
-            _levelData[level].AsSpan(0, _width * _height).Fill(16777215);
+            Array.Resize(ref _levelData[level], newSize: _width * _height);
+            _levelData[level].AsSpan(0, length: _width * _height).Fill(16777215);
         }
     }
 
@@ -183,14 +183,14 @@ public partial class MoveControlSettings : EngineObject
             _movePointsClear = true;
             int offset = 0;
             int rowSize = width * 4;
-            Array.Resize(ref _rowOffsets, height);
+            Array.Resize(ref _rowOffsets, newSize: height);
             for (int i = 0; i <= height - 1; i++)
             {
                 _rowOffsets[i] = offset;
                 offset += rowSize;
             }
 
-            Array.Resize(ref _levelData, levelCount);
+            Array.Resize(ref _levelData, newSize: levelCount);
             Array.Clear(_levelData);
             for (int i = 1; i <= 6; i++)
             {
@@ -211,7 +211,7 @@ public partial class MoveControlSettings : EngineObject
         {
             for (int i = 0, last = _levelCount - 1; i <= last; i++)
             {
-                _levelData[i]?.AsSpan(0, _width * _height).Fill(16777215);
+                _levelData[i]?.AsSpan(0, length: _width * _height).Fill(16777215);
             }
 
             _movePointsClear = true;

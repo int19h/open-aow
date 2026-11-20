@@ -100,12 +100,12 @@ public class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILibraryIma
     {
         int reserved = default;
         base.ReadImageData(stream);
-        stream.ReadExactly(Bytes.Of(ref _spriteWidth, 4));
-        stream.ReadExactly(Bytes.Of(ref _spriteHeight, 4));
-        stream.ReadExactly(Bytes.Of(ref _spriteX, 4));
-        stream.ReadExactly(Bytes.Of(ref _spriteY, 4));
-        stream.ReadExactly(Bytes.Of(ref _colorKey, 4));
-        stream.ReadExactly(Bytes.Of(ref reserved, 4));
+        stream.ReadExactly(Bytes.Of(ref _spriteWidth, count: 4));
+        stream.ReadExactly(Bytes.Of(ref _spriteHeight, count: 4));
+        stream.ReadExactly(Bytes.Of(ref _spriteX, count: 4));
+        stream.ReadExactly(Bytes.Of(ref _spriteY, count: 4));
+        stream.ReadExactly(Bytes.Of(ref _colorKey, count: 4));
+        stream.ReadExactly(Bytes.Of(ref reserved, count: 4));
     }
 
     // ImageLib.pas:2960
@@ -113,27 +113,27 @@ public class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILibraryIma
     {
         int reserved = default;
         base.WriteImageData(stream);
-        stream.Write(Bytes.Of(ref _spriteWidth, 4));
-        stream.Write(Bytes.Of(ref _spriteHeight, 4));
-        stream.Write(Bytes.Of(ref _spriteX, 4));
-        stream.Write(Bytes.Of(ref _spriteY, 4));
-        stream.Write(Bytes.Of(ref _colorKey, 4));
-        stream.Write(Bytes.Of(ref reserved, 4));
+        stream.Write(Bytes.Of(ref _spriteWidth, count: 4));
+        stream.Write(Bytes.Of(ref _spriteHeight, count: 4));
+        stream.Write(Bytes.Of(ref _spriteX, count: 4));
+        stream.Write(Bytes.Of(ref _spriteY, count: 4));
+        stream.Write(Bytes.Of(ref _colorKey, count: 4));
+        stream.Write(Bytes.Of(ref reserved, count: 4));
     }
 
     // ImageLib.pas:2973
     public override void ReadDiscardableImageData(Stream stream)
     {
         base.ReadDiscardableImageData(stream);
-        _data = MemorySurfaces.Reallocate(_data, DataSize);
-        stream.ReadExactly(_data.AsSpan(0, DataSize));
+        _data = MemorySurfaces.Reallocate(_data, size: DataSize);
+        stream.ReadExactly(_data.AsSpan(0, length: DataSize));
     }
 
     // ImageLib.pas:2980
     public override void WriteDiscardableImageData(Stream stream)
     {
         base.WriteDiscardableImageData(stream);
-        stream.Write(_data.AsSpan(0, DataSize));
+        stream.Write(_data.AsSpan(0, length: DataSize));
     }
 
     // ImageLib.pas:2986
@@ -144,11 +144,11 @@ public class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILibraryIma
             switch (pixelFormatId)
             {
                 case PixelFormat.Rgb565:
-                    RemapRle555To565(_data, _spriteHeight, _colorKey);
+                    RemapRle555To565(_data, height: _spriteHeight, _colorKey);
                     PixelFormatId = PixelFormat.Rgb565;
                     break;
                 case PixelFormat.Rgb555:
-                    RemapRle565To555(_data, _spriteHeight, _colorKey);
+                    RemapRle565To555(_data, height: _spriteHeight, _colorKey);
                     PixelFormatId = PixelFormat.Rgb555;
                     break;
                 case PixelFormat.None:
@@ -292,10 +292,10 @@ public class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILibraryIma
         {
             if (DataSize <= position)
             {
-                _data = MemorySurfaces.Reallocate(_data, position + 4096);
+                _data = MemorySurfaces.Reallocate(_data, size: position + 4096);
             }
 
-            BinaryPrimitives.WriteUInt16LittleEndian(_data.AsSpan(position, 2), W);
+            BinaryPrimitives.WriteUInt16LittleEndian(_data.AsSpan(position, length: 2), value: W);
             position += 2;
         }
 
@@ -323,10 +323,10 @@ public class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILibraryIma
             FlushSkip();
             if (DataSize <= position)
             {
-                _data = MemorySurfaces.Reallocate(_data, position + 4096);
+                _data = MemorySurfaces.Reallocate(_data, size: position + 4096);
             }
 
-            BinaryPrimitives.WriteUInt16LittleEndian(_data.AsSpan(rowStart, 2), (ushort)(position - rowStart));
+            BinaryPrimitives.WriteUInt16LittleEndian(_data.AsSpan(rowStart, length: 2), value: (ushort)(position - rowStart));
 
             if ((position & 3) != 0)
             {
@@ -341,20 +341,20 @@ public class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILibraryIma
                 LockedSurface lSD = default;
                 if (lockedSurface.BitCount != 16)
                 {
-                    surface = new DataSurface(R.Right - R.Left, R.Bottom - R.Top, PixelFormat.Rgb565, null);
+                    surface = new DataSurface(R.Right - R.Left, R.Bottom - R.Top, pixelFormatId: PixelFormat.Rgb565, palette: null);
                     gr.Left = 0;
                     gr.Top = 0;
-                    int width = surface.GetWidth();
+                    int width = surface.Width;
                     gr.Right = width;
-                    int height = surface.GetHeight();
+                    int height = surface.Height;
                     gr.Bottom = height;
                     _ = surface.Lock(ref lSD);
-                    if (LockedSurface.RemapSurfacePart(width: surface.GetWidth(), height: surface.GetHeight(), source: lockedSurface, sourceX: R.Left, sourceY: R.Top, destination: lSD, destinationX: 0, destinationY: 0) != 0)
+                    if (LockedSurface.RemapSurfacePart(width: surface.Width, height: surface.Height, source: lockedSurface, sourceX: R.Left, sourceY: R.Top, destination: lSD, destinationX: 0, destinationY: 0) != 0)
                     {
                         throw new ArgumentException("Invalid PixelFormat");
                     }
 
-                    _colorKey = PixelRemap.RemapPixelInfo(grabInfo.TransparentPixel, lockedSurface.PixelFormatId, lockedSurface.Palette, lSD.PixelFormatId, null);
+                    _colorKey = PixelRemap.RemapPixelInfo(grabInfo.TransparentPixel, sourcePixelFormatId: lockedSurface.PixelFormatId, sourcePalette: lockedSurface.Palette, destinationPixelFormatId: lSD.PixelFormatId, destinationPalette: null);
                 }
                 else
                 {
@@ -375,7 +375,7 @@ public class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILibraryIma
                 PixelFormatId = StoredPixelFormatId;
                 position = 0;
                 skip = 0;
-                LockedSurface.MinimizeTransparentRectangle(lSD, gr, _colorKey, out Rect mr);
+                LockedSurface.MinimizeTransparentRectangle(lSD, R: gr, transparentColor: _colorKey, result: out Rect mr);
                 _spriteX = mr.Left - gr.Left;
                 _spriteY = mr.Top - gr.Top;
                 _spriteWidth = mr.Right - mr.Left;
@@ -401,7 +401,7 @@ public class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILibraryIma
                     EndRow();
                 }
 
-                _data = MemorySurfaces.Reallocate(_data, position);
+                _data = MemorySurfaces.Reallocate(_data, size: position);
                 DataSize = position;
             }
             finally
@@ -418,14 +418,14 @@ public class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILibraryIma
         return true;
     }
 
-    private static void RemapRle565To555(Span<byte> data, int height, int colorKey) => Blit.RemapRle565To555(data, height, colorKey);
+    private static void RemapRle565To555(Span<byte> data, int height, int colorKey) => Blit.RemapRle565To555(data, h: height, key: colorKey);
 
-    private static void RemapRle555To565(Span<byte> data, int height, int colorKey) => Blit.RemapRle555To565(data, height, colorKey);
+    private static void RemapRle555To565(Span<byte> data, int height, int colorKey) => Blit.RemapRle555To565(data, h: height, key: colorKey);
 
-    private static void BlitRle16(int X, int Y, in LockedSurface lockedSurface, ReadOnlySpan<byte> data, int width, int height, int colorKey) => Blit.BlitRle16(X, Y, lockedSurface.View(), data, width, height, colorKey);
+    private static void BlitRle16(int X, int Y, in LockedSurface lockedSurface, ReadOnlySpan<byte> data, int width, int height, int colorKey) => Blit.BlitRle16(X, Y, destination: lockedSurface.View(), data, w: width, h: height, key: colorKey);
 
-    private static void BlendRle565(int X, int Y, in LockedSurface lockedSurface, ReadOnlySpan<byte> data, int width, int height, int colorKey) => Blit.BlendRle565(X, Y, lockedSurface.View(), data, width, height, colorKey);
+    private static void BlendRle565(int X, int Y, in LockedSurface lockedSurface, ReadOnlySpan<byte> data, int width, int height, int colorKey) => Blit.BlendRle565(X, Y, destination: lockedSurface.View(), data, w: width, h: height, key: colorKey);
 
-    private static void BlendRle555(int X, int Y, in LockedSurface lockedSurface, ReadOnlySpan<byte> data, int width, int height, int colorKey) => Blit.BlendRle555(X, Y, lockedSurface.View(), data, width, height, colorKey);
+    private static void BlendRle555(int X, int Y, in LockedSurface lockedSurface, ReadOnlySpan<byte> data, int width, int height, int colorKey) => Blit.BlendRle555(X, Y, destination: lockedSurface.View(), data, w: width, h: height, key: colorKey);
 
 }

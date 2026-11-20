@@ -130,7 +130,7 @@ public partial class MessageDialog(UIContext ui) : UIModule(ui)
                 dialog.MessageMemo.Items.Text = text;
                 if (dialog.MessageMemo.Items.Text.Length < 80)
                 {
-                    dialog.MessageMemo.Items.Insert(0, "");
+                    dialog.MessageMemo.Items.Insert(0, value: "");
                 }
 
                 break;

@@ -143,7 +143,7 @@ public class AIGroupControl : EngineObject
                 ArmyHexSprite = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Location).GetArmyHexSprite();
                 _ = Army;
                 _ = Selection;
-                _ = RetrieveGroupArmy(Location.X, Location.Y, Location.MapLevel, out Army army, out byte selection);
+                _ = RetrieveGroupArmy(Location.X, Location.Y, L: Location.MapLevel, out Army army, out byte selection);
                 Army = army;
                 Selection = selection;
                 UpdateGroupChanges();
@@ -191,7 +191,7 @@ public class AIGroupControl : EngineObject
             if (found)
             {
                 GroupBehavior behavior = Group.GroupClass.Behavior;
-                AIGroup group = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, Group.IndependentRelation, behavior);
+                AIGroup group = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, relation: Group.IndependentRelation, behavior);
                 group.Status += Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Split);
                 i = Group.Units.Count - 1;
                 for (; i >= 0; i -= 1)
@@ -434,7 +434,7 @@ public class AIGroupControl : EngineObject
         ResetCP();
         if (StrategicMap.Current.MapContainer.GetFieldMapCoordinate(target.Location).GetMoveAction(Group.Player) != MoveAction.Negotiate)
         {
-            CombatPredictor.InitializeAdjacentOpponents((byte)Group.Player, (byte)Group.IndependentRelation, target.Location.X, target.Location.Y, target.Location.MapLevel);
+            CombatPredictor.InitializeAdjacentOpponents((byte)Group.Player, relation: (byte)Group.IndependentRelation, target.Location.X, target.Location.Y, L: target.Location.MapLevel);
         }
     }
 
@@ -484,7 +484,7 @@ public class AIGroupControl : EngineObject
             try
             {
                 bool busy = false;
-                while (!busy && !Group.Status.Contains(AIGroupStatusElement.Done) && StrategicMap.Current.AIExecutor.GetProcessTimeLeft() >= 0 && MoveExecutor.Status != AIMoveExecutorStatus.Busy)
+                while (!busy && !Group.Status.Contains(AIGroupStatusElement.Done) && StrategicMap.Current.AIExecutor.ProcessTimeLeft >= 0 && MoveExecutor.Status != AIMoveExecutorStatus.Busy)
                 {
                     if (_aiGroupTask is not null)
                     {
@@ -492,7 +492,7 @@ public class AIGroupControl : EngineObject
                         if (!busy)
                         {
                             DeactivatePlugin();
-                            if (StrategicMap.Current.AIExecutor.GetProcessTimeLeft() >= 0 && !Group.Status.Contains(AIGroupStatusElement.Done))
+                            if (StrategicMap.Current.AIExecutor.ProcessTimeLeft >= 0 && !Group.Status.Contains(AIGroupStatusElement.Done))
                             {
                                 MainProcessStates(looped);
                             }

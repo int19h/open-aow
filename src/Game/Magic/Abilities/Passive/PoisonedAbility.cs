@@ -12,7 +12,7 @@ public class PoisonedAbility : DurationAbility
     public PoisonedAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_poisonedText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_poisonedText);
         AbilityId = 96;
         AbilityType = AbilityType.Handicap;
         DurationMode = DurationMode.Day;

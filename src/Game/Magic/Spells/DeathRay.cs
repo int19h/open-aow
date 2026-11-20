@@ -16,7 +16,7 @@ public class DeathRay : CombatSpell
     public DeathRay(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_deathRayText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_deathRayText);
         SpellId = 103;
         SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 8;

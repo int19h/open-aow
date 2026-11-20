@@ -11,13 +11,13 @@ internal static class SpellTargets
 
     internal static void NotifySpellSphere(sbyte player, MagicSphere sphere)
     {
-        EngineMessage.InitializeMessage(out EngineMessage message, 537002242, null);
+        EngineMessage.InitializeMessage(out EngineMessage message, messageId: 537002242, sender: null);
         EngineMessageParameters param = message.Param;
         param[0] = player;
         message.Param = param;
         EngineMessageParameters param2 = message.Param;
         param2[1] = (int)sphere;
         message.Param = param2;
-        StrategicMap.Current.SendMessage(ref message, null);
+        StrategicMap.Current.SendMessage(ref message, sender: null);
     }
 }

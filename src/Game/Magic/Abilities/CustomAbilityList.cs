@@ -41,8 +41,8 @@ public class CustomAbilityList(CustomNode owner) : EngineObject(owner)
             SetAbilityCount(count);
         }
 
-        int length = (int)(((uint)(AbilityCount + 7)) >> 3);
-        persister.BitArray("AbilityBits", AbilityCount, AbilityBits.AsSpan(0, length));
+        int length = (AbilityCount + 7) >>> 3;
+        persister.BitArray("AbilityBits", count: AbilityCount, bits: AbilityBits.AsSpan(0, length));
         if (persister.Preview)
         {
             return;
@@ -50,9 +50,9 @@ public class CustomAbilityList(CustomNode owner) : EngineObject(owner)
 
         for (int index = 0; index < AbilityCount; index++)
         {
-            if (GetAbilitySetAt(index) && GamePack.Current.AbilityControl.GetAbility(index) is null)
+            if (GetAbilitySetAt(index) && GamePack.Current.AbilityControl[index] is null)
             {
-                SetAbilitySet(index, 0);
+                SetAbilitySet(index, value: 0);
             }
         }
     }
@@ -65,7 +65,7 @@ public class CustomAbilityList(CustomNode owner) : EngineObject(owner)
     }
 
     // Ability.PAS:1130
-    public virtual int GetOwnAbilityCount() => AbilityCount;
+    public virtual int OwnAbilityCount => AbilityCount;
 
     // Ability.PAS:1216
     public virtual void ListAbilities(DelphiStringCollection text, Set<AbilitySelectionType> types)
@@ -75,10 +75,10 @@ public class CustomAbilityList(CustomNode owner) : EngineObject(owner)
         {
             if (GetAbilitySetAt(i))
             {
-                Ability ability = GamePack.Current.AbilityControl.GetAbility(i);
+                Ability ability = GamePack.Current.AbilityControl[i];
                 if ((Set<byte>.FromMask(ability.SelectionTypes.Mask) & Set<byte>.FromMask(types.Mask)) != Set<byte>.WithBounds(0, 15))
                 {
-                    _ = text.AddObject(ability.GetName(null), IntToObject(i));
+                    _ = text.AddObject(ability.GetName(null), item: IntToObject(i));
                 }
             }
         }
@@ -88,8 +88,8 @@ public class CustomAbilityList(CustomNode owner) : EngineObject(owner)
     public void SetAbilityCount(int value)
     {
         // Ability.PAS:1119 asserts a bounds predicate that admits every Integer, so no check remains.
-        int oldSize = (int)(((uint)(AbilityCount + 7)) >> 3);
-        int newSize = (int)(((uint)(value + 7)) >> 3);
+        int oldSize = (AbilityCount + 7) >>> 3;
+        int newSize = (value + 7) >>> 3;
         if (newSize != oldSize)
         {
             byte[] abilityBits = AbilityBits;
@@ -97,7 +97,7 @@ public class CustomAbilityList(CustomNode owner) : EngineObject(owner)
             AbilityBits = abilityBits;
             if (newSize > oldSize)
             {
-                FillBytes(AbilityBits.AsSpan(oldSize, newSize - oldSize), 0);
+                FillBytes(AbilityBits.AsSpan(oldSize, length: newSize - oldSize), value: 0);
             }
         }
 
@@ -107,12 +107,12 @@ public class CustomAbilityList(CustomNode owner) : EngineObject(owner)
     // Ability.PAS:1134
     public void AssignAbility(CustomAbilityList source)
     {
-        int count = source.GetOwnAbilityCount() > GetOwnAbilityCount() ? source.GetOwnAbilityCount() : GetOwnAbilityCount();
+        int count = source.OwnAbilityCount > OwnAbilityCount ? source.OwnAbilityCount : OwnAbilityCount;
         for (int i = 0; i <= count - 1; i++)
         {
             if (source.GetAbilitySetAt(i) != GetAbilitySetAt(i))
             {
-                SetAbilitySet(i, (byte)(source.GetAbilitySetAt(i) ? 1 : 0));
+                SetAbilitySet(i, value: (byte)(source.GetAbilitySetAt(i) ? 1 : 0));
             }
         }
     }
@@ -120,11 +120,11 @@ public class CustomAbilityList(CustomNode owner) : EngineObject(owner)
     // Ability.PAS:1144
     public bool CompareAbility(CustomAbilityList source)
     {
-        bool result = source.GetOwnAbilityCount() == AbilityCount;
+        bool result = source.OwnAbilityCount == AbilityCount;
         if (result)
         {
-            int abilityCount = GetOwnAbilityCount();
-            return CompareMem(AbilityBits.AsSpan(0, (int)(((uint)(abilityCount + 7)) >> 3)), source.AbilityBits.AsSpan(0, (int)(((uint)(abilityCount + 7)) >> 3)), (int)(((uint)(abilityCount + 7)) >> 3));
+            int abilityCount = OwnAbilityCount;
+            return CompareMem(AbilityBits.AsSpan(0, length: (abilityCount + 7) >>> 3), source.AbilityBits.AsSpan(0, length: (abilityCount + 7) >>> 3), count: (abilityCount + 7) >>> 3);
         }
 
         return result;
@@ -134,11 +134,11 @@ public class CustomAbilityList(CustomNode owner) : EngineObject(owner)
     public bool ComposeAbility(CustomAbilityList source)
     {
         bool result = false;
-        for (int i = 0, last = source.GetOwnAbilityCount() - 1; i <= last; i++)
+        for (int i = 0, last = source.OwnAbilityCount - 1; i <= last; i++)
         {
             if (source.GetAbilitySetAt(i) && !GetAbilitySetAt(i))
             {
-                SetAbilitySet(i, 1);
+                SetAbilitySet(i, value: 1);
                 result = true;
             }
         }
@@ -158,21 +158,21 @@ public class CustomAbilityList(CustomNode owner) : EngineObject(owner)
             }
         }
 
-        return !IsEmpty(result) ? DelphiStrings.Copy(result, 1, result.Length - 1) : result;
+        return !IsEmpty(result) ? DelphiStrings.Copy(result, index: 1, count: result.Length - 1) : result;
     }
 
     // Ability.PAS:1193
     public void SetItemString(string S)
     {
         Clear();
-        int p = Pos(",", S);
+        int p = Pos(",", haystack: S);
         while (!IsEmpty(S))
         {
             string part;
             if (p != 0)
             {
-                part = DelphiStrings.Copy(S, 1, p - 1);
-                S = Delete(S, 1, p);
+                part = DelphiStrings.Copy(S, index: 1, count: p - 1);
+                S = Delete(S, index: 1, count: p);
             }
             else
             {
@@ -182,10 +182,10 @@ public class CustomAbilityList(CustomNode owner) : EngineObject(owner)
 
             if (!IsEmpty(part))
             {
-                SetAbilitySet(StrToInt(part), 1);
+                SetAbilitySet(StrToInt(part), value: 1);
             }
 
-            p = Pos(",", S);
+            p = Pos(",", haystack: S);
         }
     }
 

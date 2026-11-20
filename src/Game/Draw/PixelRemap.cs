@@ -6,26 +6,26 @@ namespace Aow.Game.Draw;
 
 internal static class PixelRemap
 {
-    internal static void RemapSurface16To16(SurfaceView source, SurfaceView destination, ReadOnlySpan<byte> table, int width, int height) => Blit.RemapSurface16To16(source, destination, table, width, height);
+    internal static void RemapSurface16To16(SurfaceView source, SurfaceView destination, ReadOnlySpan<byte> table, int width, int height) => Blit.RemapSurface16To16(source, d: destination, table, w: width, h: height);
 
-    internal static void RemapSurface16To08(SurfaceView source, SurfaceView destination, ReadOnlySpan<byte> table, int width, int height) => Blit.RemapSurface16To08(source, destination, table, width, height);
+    internal static void RemapSurface16To08(SurfaceView source, SurfaceView destination, ReadOnlySpan<byte> table, int width, int height) => Blit.RemapSurface16To08(source, d: destination, table, w: width, h: height);
 
-    internal static void RemapSurface16To32(SurfaceView source, SurfaceView destination, ReadOnlySpan<byte> table, int width, int height) => Blit.RemapSurface16To32(source, destination, table, width, height);
+    internal static void RemapSurface16To32(SurfaceView source, SurfaceView destination, ReadOnlySpan<byte> table, int width, int height) => Blit.RemapSurface16To32(source, d: destination, table, w: width, h: height);
 
-    internal static void RemapSurface555To32(SurfaceView source, SurfaceView destination, int width, int height) => Blit.RemapSurface555To32(source, destination, width, height);
+    internal static void RemapSurface555To32(SurfaceView source, SurfaceView destination, int width, int height) => Blit.RemapSurface555To32(source, d: destination, w: width, h: height);
 
-    internal static void RemapSurface565To32(SurfaceView source, SurfaceView destination, int width, int height) => Blit.RemapSurface565To32(source, destination, width, height);
+    internal static void RemapSurface565To32(SurfaceView source, SurfaceView destination, int width, int height) => Blit.RemapSurface565To32(source, d: destination, w: width, h: height);
 
-    internal static void RemapSurface555To565(SurfaceView source, SurfaceView destination, int width, int height) => Blit.RemapSurface555To565(source, destination, width, height);
+    internal static void RemapSurface555To565(SurfaceView source, SurfaceView destination, int width, int height) => Blit.RemapSurface555To565(source, d: destination, w: width, h: height);
 
-    internal static void RemapSurface565To555(SurfaceView source, SurfaceView destination, int width, int height) => Blit.RemapSurface565To555(source, destination, width, height);
+    internal static void RemapSurface565To555(SurfaceView source, SurfaceView destination, int width, int height) => Blit.RemapSurface565To555(source, d: destination, w: width, h: height);
 
     internal static void RemapSurface24To565(SurfaceView source, SurfaceView destination, int width, int height)
     {
         for (int y = 0; y <= height - 1; y++)
         {
-            Span<byte> s = source.Row(y, width * 3);
-            Span<ushort> d = PixelFormats.Words(destination.Row(y, width * 2));
+            Span<byte> s = source.Row(y, count: width * 3);
+            Span<ushort> d = PixelFormats.Words(destination.Row(y, count: width * 2));
             for (int x = 0; x <= width - 1; x++)
             {
                 int i = x * 3;
@@ -38,8 +38,8 @@ internal static class PixelRemap
     {
         for (int y = 0; y <= height - 1; y++)
         {
-            Span<byte> s = source.Row(y, width * 3);
-            Span<ushort> d = PixelFormats.Words(destination.Row(y, width * 2));
+            Span<byte> s = source.Row(y, count: width * 3);
+            Span<ushort> d = PixelFormats.Words(destination.Row(y, count: width * 2));
             for (int x = 0; x <= width - 1; x++)
             {
                 int i = x * 3;
@@ -52,8 +52,8 @@ internal static class PixelRemap
     {
         for (int y = 0; y <= height - 1; y++)
         {
-            Span<ushort> s = PixelFormats.Words(source.Row(y, width * 2));
-            Span<byte> d = destination.Row(y, width * 3);
+            Span<ushort> s = PixelFormats.Words(source.Row(y, count: width * 2));
+            Span<byte> d = destination.Row(y, count: width * 3);
             for (int x = 0; x <= width - 1; x++)
             {
                 int i = x * 3;
@@ -68,8 +68,8 @@ internal static class PixelRemap
     {
         for (int y = 0; y <= height - 1; y++)
         {
-            Span<ushort> s = PixelFormats.Words(source.Row(y, width * 2));
-            Span<byte> d = destination.Row(y, width * 3);
+            Span<ushort> s = PixelFormats.Words(source.Row(y, count: width * 2));
+            Span<byte> d = destination.Row(y, count: width * 3);
             for (int x = 0; x <= width - 1; x++)
             {
                 int i = x * 3;
@@ -86,8 +86,8 @@ internal static class PixelRemap
     {
         for (int y = 0; y <= height - 1; y++)
         {
-            Span<byte> s = source.Row(y, width * 4);
-            Span<ushort> d = PixelFormats.Words(destination.Row(y, width * 2));
+            Span<byte> s = source.Row(y, count: width * 4);
+            Span<ushort> d = PixelFormats.Words(destination.Row(y, count: width * 2));
             for (int x = 0; x <= width - 1; x++)
             {
                 int i = x * 4;
@@ -100,8 +100,8 @@ internal static class PixelRemap
     {
         for (int y = 0; y <= height - 1; y++)
         {
-            Span<byte> s = source.Row(y, width);
-            Span<byte> d = destination.Row(y, width * 3);
+            Span<byte> s = source.Row(y, count: width);
+            Span<byte> d = destination.Row(y, count: width * 3);
             for (int x = 0; x <= width - 1; x++)
             {
                 Palette.Entry e = palette[s[x]];
@@ -134,39 +134,39 @@ internal static class PixelRemap
 
                 break;
             case PixelFormat.Rgb565:
-                r = (byte)(((int)(((uint)pixelInfo) >> 8)) & 248);
-                g = (byte)(((int)(((uint)pixelInfo) >> 3)) & 252);
+                r = (byte)((pixelInfo >>> 8) & 248);
+                g = (byte)((pixelInfo >>> 3) & 252);
                 b = (byte)((pixelInfo << 3) & 248);
                 a = 0;
                 break;
             case PixelFormat.Rgb555:
-                r = (byte)(((int)(((uint)pixelInfo) >> 7)) & 248);
-                g = (byte)(((int)(((uint)pixelInfo) >> 2)) & 248);
+                r = (byte)((pixelInfo >>> 7) & 248);
+                g = (byte)((pixelInfo >>> 2) & 248);
                 b = (byte)((pixelInfo << 3) & 248);
                 a = 0;
                 break;
             case PixelFormat.Argb1555:
-                r = (byte)(((int)(((uint)pixelInfo) >> 7)) & 248);
-                g = (byte)(((int)(((uint)pixelInfo) >> 2)) & 248);
+                r = (byte)((pixelInfo >>> 7) & 248);
+                g = (byte)((pixelInfo >>> 2) & 248);
                 b = (byte)((pixelInfo << 3) & 248);
-                a = (byte)(((int)(((uint)pixelInfo) >> 8)) & 1);
+                a = (byte)((pixelInfo >>> 8) & 1);
                 break;
             case PixelFormat.Rgb24:
-                r = (byte)(((int)(((uint)pixelInfo) >> 16)) & 255);
-                g = (byte)(((int)(((uint)pixelInfo) >> 8)) & 255);
+                r = (byte)((pixelInfo >>> 16) & 255);
+                g = (byte)((pixelInfo >>> 8) & 255);
                 b = (byte)(pixelInfo & 255);
                 a = 0;
                 break;
             case PixelFormat.Bgr24:
                 r = (byte)(pixelInfo & 255);
-                g = (byte)(((int)(((uint)pixelInfo) >> 8)) & 255);
-                b = (byte)(((int)(((uint)pixelInfo) >> 16)) & 255);
+                g = (byte)((pixelInfo >>> 8) & 255);
+                b = (byte)((pixelInfo >>> 16) & 255);
                 a = 0;
                 break;
             case PixelFormat.Rgb32:
-                a = (byte)(((int)(((uint)pixelInfo) >> 24)) & 255);
-                r = (byte)(((int)(((uint)pixelInfo) >> 16)) & 255);
-                g = (byte)(((int)(((uint)pixelInfo) >> 8)) & 255);
+                a = (byte)((pixelInfo >>> 24) & 255);
+                r = (byte)((pixelInfo >>> 16) & 255);
+                g = (byte)((pixelInfo >>> 8) & 255);
                 b = (byte)(pixelInfo & 255);
                 break;
             case PixelFormat.None:
@@ -180,9 +180,9 @@ internal static class PixelRemap
             PixelFormat.Pal8 => destinationPalette is not null
                                 ? destinationPalette.GetNearestColor(r + (g << 8) + (b << 16))
                                 : throw new InvalidOperationException("Destination Palette needed"),
-            PixelFormat.Rgb565 => ((r & 248) << 8) + ((g & 252) << 3) + (int)(((uint)(b & 248)) >> 3),
-            PixelFormat.Rgb555 => ((r & 248) << 7) + ((g & 248) << 2) + (int)(((uint)(b & 248)) >> 3),
-            PixelFormat.Argb1555 => ((a & 128) << 8) + ((r & 248) << 7) + ((g & 248) << 2) + (int)(((uint)(b & 248)) >> 3),
+            PixelFormat.Rgb565 => ((r & 248) << 8) + ((g & 252) << 3) + ((b & 248) >>> 3),
+            PixelFormat.Rgb555 => ((r & 248) << 7) + ((g & 248) << 2) + ((b & 248) >>> 3),
+            PixelFormat.Argb1555 => ((a & 128) << 8) + ((r & 248) << 7) + ((g & 248) << 2) + ((b & 248) >>> 3),
             PixelFormat.Rgb24 => (r << 16) + (g << 8) + b,
             PixelFormat.Bgr24 => r + (g << 8) + (b << 16),
             PixelFormat.Rgb32 => (a << 24) + (r << 16) + (g << 8) + b,
@@ -193,17 +193,17 @@ internal static class PixelRemap
     }
 
     internal static void RemapSurface08To555(SurfaceView source, SurfaceView destination, int width, int height, Palette palette)
-            => RemapIndexedSurface(source, destination, width, height, palette, false);
+            => RemapIndexedSurface(source, destination, width, height, palette, rgb565: false);
 
     internal static void RemapSurface08To565(SurfaceView source, SurfaceView destination, int width, int height, Palette palette)
-            => RemapIndexedSurface(source, destination, width, height, palette, true);
+            => RemapIndexedSurface(source, destination, width, height, palette, rgb565: true);
 
     internal static void RemapIndexedSurface(SurfaceView source, SurfaceView destination, int width, int height, Palette palette, bool rgb565)
     {
         for (int y = 0; y < height; y++)
         {
-            Span<byte> sourceLocal = source.Row(y, width);
-            Span<ushort> destinationLocal = MemoryMarshal.Cast<byte, ushort>(destination.Row(y, width * 2));
+            Span<byte> sourceLocal = source.Row(y, count: width);
+            Span<ushort> destinationLocal = MemoryMarshal.Cast<byte, ushort>(destination.Row(y, count: width * 2));
             for (int x = 0; x < width; x++)
             {
                 Palette.Entry entry = palette[sourceLocal[x]];

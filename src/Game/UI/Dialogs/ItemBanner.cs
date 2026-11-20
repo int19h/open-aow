@@ -122,8 +122,8 @@ public partial class ItemBanner(UIContext ui) : UIModule(ui)
             {
                 if (item.GetOwnAbilityEnabled(x))
                 {
-                    string name = GamePack.Current.AbilityControl.GetAbility(x).GetName(item);
-                    _ = AbilityList.Items.AddObject(name, IntToObject(x));
+                    string name = GamePack.Current.AbilityControl[x].GetName(item);
+                    _ = AbilityList.Items.AddObject(name, item: IntToObject(x));
                 }
             }
 
@@ -149,7 +149,7 @@ public partial class ItemBanner(UIContext ui) : UIModule(ui)
     public void DrawBoxPreDraw(LockedSurface lockedSurface)
     {
         Item item = StrategicMap.Current.ItemControl.FindItem(ItemId);
-        item?.Show(ItemView.WinLeft, ItemView.WinTop, lockedSurface);
+        item?.Show(ItemView.WinLeft, ItemView.WinTop, surface: lockedSurface);
     }
 
     internal static int ItemId { get; set; }

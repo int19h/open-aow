@@ -23,11 +23,11 @@ public class PassiveAIGroupControl(CustomNode owner) : AIGroupControl(owner)
                 CombinePassiveGroups();
                 MapCoordinate location = Group.GetLocation();
                 GroupDefenseSelector selector = new(this);
-                _ = selector.Execute(Group, location.X, location.Y, location.MapLevel, null);
+                _ = selector.Execute(Group, location.X, location.Y, L: location.MapLevel, units: null);
                 if (selector.Defenders.Count != Group.Units.Count && Group.Player != 0)
                 {
                     GroupBehavior randomGroupBehavior = StrategicMap.Current.Players.GetPlayers(Group.Player).AIControl.GetRandomGroupBehavior();
-                    AIGroup group = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, Group.IndependentRelation, randomGroupBehavior);
+                    AIGroup group = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, relation: Group.IndependentRelation, behavior: randomGroupBehavior);
                     for (int i = Group.Units.Count - 1; i >= 0; i--)
                     {
                         Troop troop = Group.Units.GetUnit(i);
@@ -46,7 +46,7 @@ public class PassiveAIGroupControl(CustomNode owner) : AIGroupControl(owner)
                     Group.TargetMode = (byte)AIGroupDefenseControl.GroupDefendMode.Custom;
                     SetupME();
                     MoveExecutor.Mode = MoveExecutor.Mode - Set<AIMoveExecutorModeElement>.Of(AIMoveExecutorModeElement.Adjacent);
-                    ExecuteME(selector.DefenseLocation.X, selector.DefenseLocation.Y, selector.DefenseLocation.MapLevel);
+                    ExecuteME(selector.DefenseLocation.X, selector.DefenseLocation.Y, L: selector.DefenseLocation.MapLevel);
                     Done();
                 }
                 else

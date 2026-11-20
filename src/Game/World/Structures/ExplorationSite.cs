@@ -75,7 +75,7 @@ public partial class ExplorationSite : Structure
     {
         if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            HexGeometry.PixelToHex(pixelX, pixelY, out int hexX, out int hexY);
+            HexGeometry.PixelToHex(pixelX, vertical: pixelY, out int hexX, out int hexY);
             return Owner.HexX == hexX && Owner.HexY == hexY && base.CanSelect(pixelX, pixelY);
         }
         else
@@ -87,7 +87,7 @@ public partial class ExplorationSite : Structure
     // ExploreS.pas:96
     public override int GetTerrainTypeImage(int terrainType)
     {
-        if (!GetExplored() || StrategicMap.Current.Day == 0)
+        if (!Explored || StrategicMap.Current.Day == 0)
         {
             return terrainType;
         }
@@ -123,24 +123,24 @@ public partial class ExplorationSite : Structure
     }
 
     // ExploreS.pas:93
-    public virtual bool GetExplored() => true;
+    public virtual bool Explored => true;
 
     // ExploreS.pas:138
     public virtual void SetupCombat(Battle combat, ArmyHexSprite army)
     {
         combat.SetExecutedHandler(CombatExecuted);
-        sbyte hexY = army.GetHexY();
-        sbyte hexLevel = army.GetHexLevel();
-        sbyte hexX = GetHexX();
-        sbyte hexY2 = GetHexY();
-        sbyte hexLevel2 = GetHexLevel();
-        sbyte armyHexX = army.GetHexX();
-        _ = combat.Setup((byte)army.Army.Player, (byte)army.Army.IndependentRelation, armyHexX, hexY, hexLevel, (byte)_defenders.Player, (byte)_defenders.IndependentRelation, hexX, hexY2, hexLevel2, true);
-        sbyte hexY3 = GetHexY();
-        sbyte hexLevel3 = GetHexLevel();
-        sbyte hexX2 = GetHexX();
-        _ = combat.AddArmy(army.Army, CombatSideIndex.Attacker, hexX2, hexY3, hexLevel3);
-        _ = combat.AddArmy(_defenders, CombatSideIndex.Defender, -1, -1, -1, 1);
+        sbyte hexY = army.HexY;
+        sbyte hexLevel = army.HexLevel;
+        sbyte hexX = HexX;
+        sbyte hexY2 = HexY;
+        sbyte hexLevel2 = HexLevel;
+        sbyte armyHexX = army.HexX;
+        _ = combat.Setup((byte)army.Army.Player, attackerRelation: (byte)army.Army.IndependentRelation, armyHexX, hexY, attackerL: hexLevel, defenderPlayer: (byte)_defenders.Player, defenderRelation: (byte)_defenders.IndependentRelation, hexX, hexY2, L: hexLevel2, logActions: true);
+        sbyte hexY3 = HexY;
+        sbyte hexLevel3 = HexLevel;
+        sbyte hexX2 = HexX;
+        _ = combat.AddArmy(army.Army, side: CombatSideIndex.Attacker, hexX2, hexY3, L: hexLevel3);
+        _ = combat.AddArmy(_defenders, side: CombatSideIndex.Defender, -1, -1, L: -1, position: 1);
         combat.ExplorationSite = 1;
     }
 
@@ -158,7 +158,7 @@ public partial class ExplorationSite : Structure
             sbyte player = armyHexSprite.Army.Player;
             if (_defenders.Units.Count == 0)
             {
-                ExecuteSearchDone(CombatType.Fast, CombatResult.Victory);
+                ExecuteSearchDone(CombatType.Fast, combatResult: CombatResult.Victory);
             }
             else
             {
@@ -168,7 +168,7 @@ public partial class ExplorationSite : Structure
                 {
                     StrategicMap.Current.LockGameOverEvent();
                     combat = StrategicMap.Current.CreateCombat(131760);
-                    SetupCombat(combat, armyHexSprite);
+                    SetupCombat(combat, army: armyHexSprite);
                     combat.LockExecuted();
                     combat.Initialize();
                     combat.Activate();
@@ -182,7 +182,7 @@ public partial class ExplorationSite : Structure
                     StrategicMap.Current.Players.GetPlayers(player).EventLogbook.AddEvent(eventValue);
                     if (StrategicMap.Current.SeatedPlayer == player && StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
                     {
-                        _ = eventValue.Execute(false, ExecuteTrigger.Event, null);
+                        _ = eventValue.Execute(false, trigger: ExecuteTrigger.Event, done: null);
                     }
 
                     _ = eventValue.Release();
@@ -193,7 +193,7 @@ public partial class ExplorationSite : Structure
                 else
                 {
                     combat = StrategicMap.Current.CreateCombat(2228496);
-                    SetupCombat(combat, armyHexSprite);
+                    SetupCombat(combat, army: armyHexSprite);
                     combat.Initialize();
                     combat.Activate();
                     if (combat.Execute() != CombatResult.Busy)
@@ -207,7 +207,7 @@ public partial class ExplorationSite : Structure
                         StrategicMap.Current.Players.GetPlayers(player).EventLogbook.AddEvent(eventValue);
                         if (StrategicMap.Current.SeatedPlayer == player && StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
                         {
-                            _ = eventValue.Execute(false, ExecuteTrigger.Event, null);
+                            _ = eventValue.Execute(false, trigger: ExecuteTrigger.Event, done: null);
                         }
 
                         _ = eventValue.Release();
@@ -234,12 +234,12 @@ public partial class ExplorationSite : Structure
             if (playerList.LocalPlayers.Count == 1 || StrategicMap.Current.RequestCombatType)
             {
                 CombatTypeRequestEventLog request = new(null) { Holder = CreationHolder() };
-                sbyte hexLevel = GetHexLevel();
-                sbyte hexY = GetHexY();
-                request.SetCenterLocation((byte)GetHexX(), (byte)hexY, hexLevel);
+                sbyte hexLevel = HexLevel;
+                sbyte hexY = HexY;
+                request.SetCenterLocation((byte)HexX, (byte)hexY, L: hexLevel);
                 request.AttackerPlayer = armyHexSprite.Army.Player;
                 request.DefenderPlayer = 0;
-                StrategicMap.Current.TriggerTypedExecuteEventLog(request, true, RequestCombatTypeCallback);
+                StrategicMap.Current.TriggerTypedExecuteEventLog(request, immediate: true, done: RequestCombatTypeCallback);
                 _ = request.Release();
                 return true;
             }
@@ -311,7 +311,7 @@ public partial class ExplorationSite : Structure
     // ExploreS.pas:246
     public bool CanSearch(sbyte player)
     {
-        if (!GetExplored())
+        if (!Explored)
         {
             ArmyHexSprite armyHexSprite = Owner.GetArmyHexSprite();
             return armyHexSprite is not null && armyHexSprite.Army.Player == player;
@@ -340,12 +340,12 @@ public partial class ExplorationSite : Structure
             UnitIndexListCollection collections = siteResource.DefenderCollections;
             for (int i = collections.GetCollectionCount(collection) - 1; i >= 0; i--)
             {
-                _ = list.Add(collections.GetU(collection, i));
+                _ = list.Add(collections.GetU(collection, index: i));
             }
 
             try
             {
-                _ = Int32List.FillWithRandomUnits(list, _defenders.Units, 4, (int)_defendersMode * 50, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
+                _ = Int32List.FillWithRandomUnits(list, _defenders.Units, level: 4, value: (int)_defendersMode * 50, types: Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
             }
             catch
             {

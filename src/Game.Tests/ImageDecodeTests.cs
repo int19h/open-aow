@@ -24,7 +24,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     {
         string root = InstalledFontsFactAttribute.Root;
         string[] files = [.. InstalledLibrariesFactAttribute.Folders
-            .SelectMany(folder => Directory.EnumerateFiles(folder, "*.ILB", SearchOption.AllDirectories))
+            .SelectMany(folder => Directory.EnumerateFiles(folder, searchPattern: "*.ILB", searchOption: SearchOption.AllDirectories))
             .Order(StringComparer.OrdinalIgnoreCase)];
         List<Entry> entries = [];
         SortedDictionary<string, int> classes = [with(StringComparer.Ordinal)];
@@ -40,8 +40,8 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                     count++;
                     Pin(image, hash);
                 });
-                Decode(file, onDemand: true, image => hash.Add(Draw(image, PixelFormat.Rgb555, 3, 2, d => image.Show(3, 2, d))));
-                entries.Add(new Entry(Path.GetRelativePath(root, file).Replace('\\', '/'), count, hash.Value.ToString("X16")));
+                Decode(file, onDemand: true, image => hash.Add(Draw(image, format: PixelFormat.Rgb555, 3, 2, d => image.Show(3, 2, lockedSurface: d))));
+                entries.Add(new Entry(Path.GetRelativePath(root, path: file).Replace('\\', '/'), Images: count, Hash: hash.Value.ToString("X16")));
             }
         });
 
@@ -65,7 +65,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         {
             _ = Directory.CreateDirectory(record);
             File.WriteAllText(Path.Combine(record, $"{section}.json"),
-                $"{JsonSerializer.Serialize(entries, new JsonSerializerOptions { WriteIndented = true }).Replace("\r\n", "\n")}\n");
+                contents: $"{JsonSerializer.Serialize(entries, options: new JsonSerializerOptions { WriteIndented = true }).Replace("\r\n", "\n")}\n");
             return;
         }
 
@@ -93,7 +93,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     {
         string root = InstalledFontsFactAttribute.Root;
         string[] files = [.. InstalledLibrariesFactAttribute.Folders
-            .SelectMany(folder => Directory.EnumerateFiles(folder, "*.ILB", SearchOption.AllDirectories))
+            .SelectMany(folder => Directory.EnumerateFiles(folder, searchPattern: "*.ILB", searchOption: SearchOption.AllDirectories))
             .Order(StringComparer.OrdinalIgnoreCase)];
         List<Entry> entries = [];
         WithImageClasses(() =>
@@ -108,7 +108,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                         return;
                     }
 
-                    string label = $"{Path.GetRelativePath(root, file).Replace('\\', '/')} {seen - 1}";
+                    string label = $"{Path.GetRelativePath(root, path: file).Replace('\\', '/')} {seen - 1}";
                     GrabAll(image, label, entries);
                 });
             }
@@ -129,10 +129,10 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         }
 
         palette.PixelFormatId = PixelFormat.Bgr24;
-        DataSurface s555 = new(w, h, PixelFormat.Rgb555, null!);
-        DataSurface s565 = new(w, h, PixelFormat.Rgb565, null!);
-        DataSurface s8 = new(w, h, PixelFormat.Pal8, palette);
-        DataSurface s24 = new(w, h, PixelFormat.Rgb24, null!);
+        DataSurface s555 = new(w, h, pixelFormatId: PixelFormat.Rgb555, palette: null!);
+        DataSurface s565 = new(w, h, pixelFormatId: PixelFormat.Rgb565, palette: null!);
+        DataSurface s8 = new(w, h, pixelFormatId: PixelFormat.Pal8, palette);
+        DataSurface s24 = new(w, h, pixelFormatId: PixelFormat.Rgb24, palette: null!);
         Fnv hash = new();
         try
         {
@@ -141,11 +141,11 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
             _ = s565.Lock(ref d565);
             _ = s8.Lock(ref d8);
             _ = s24.Lock(ref d24);
-            Span<ushort> words = System.Runtime.InteropServices.MemoryMarshal.Cast<byte, ushort>(d555.Data.AsSpan(d555.DataIndex, d555.Pitch * h));
+            Span<ushort> words = System.Runtime.InteropServices.MemoryMarshal.Cast<byte, ushort>(d555.Data.AsSpan(d555.DataIndex, length: d555.Pitch * h));
             words.Fill(Magenta555);
             try
             {
-                source.Show(0, 0, d555);
+                source.Show(0, 0, lockedSurface: d555);
             }
             catch (Exception) { }
             for (int y = 0; y < h; y++)
@@ -156,7 +156,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                     int r = (c >> 10) & 31, g = (c >> 5) & 31, b = c & 31;
                     d565.View().UInt16(value: (r << 11) | (g << 6) | ((g >> 4) << 5) | b, offset: (y * d565.Pitch) + (x * 2));
                     d8.View()[(y * d8.Pitch) + x] = c == Magenta555 ? (byte)0 : (byte)(1 + ((r ^ (g << 3) ^ (b << 5)) % 255));
-                    Span<byte> p24 = d24.View().Bytes((y * d24.Pitch) + (x * 3), 3);
+                    Span<byte> p24 = d24.View().Bytes((y * d24.Pitch) + (x * 3), count: 3);
                     p24[0] = (byte)(b << 3);
                     p24[1] = (byte)(g << 3);
                     p24[2] = (byte)(r << 3);
@@ -201,7 +201,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                                 bool grabbed;
                                 try
                                 {
-                                    grabbed = image.GrabImage(lockedSurface, rectangle, grab);
+                                    grabbed = image.GrabImage(lockedSurface, R: rectangle, grabInfo: grab);
                                 }
                                 catch (Exception error)
                                 {
@@ -224,7 +224,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                 }
             }
 
-            entries.Add(new Entry(label, grabs, hash.Value.ToString("X16")));
+            entries.Add(new Entry(label, Images: grabs, Hash: hash.Value.ToString("X16")));
             _ = s24.Unlock();
             _ = s8.Unlock();
             _ = s565.Unlock();
@@ -246,9 +246,9 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         try
         {
             LibraryImage.WriteImageToStream(image, stream);
-            hash.Add(stream.GetBuffer().AsSpan(0, (int)stream.Length));
+            hash.Add(stream.GetBuffer().AsSpan(0, length: (int)stream.Length));
             stream.Position = 0;
-            LibraryImage copy = ImageStreams.ReadImageFromStream(stream, null);
+            LibraryImage copy = ImageStreams.ReadImageFromStream(stream, owner: null);
             try
             {
                 Pin(copy, hash);
@@ -288,13 +288,13 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                 for (int w = 1; w <= 17; w++)
                 {
                     int h = 3 + (w % 3);
-                    DataSurface surface = new(w, h, format, format == PixelFormat.Pal8 ? palette : null);
+                    DataSurface surface = new(w, h, pixelFormatId: format, palette: format == PixelFormat.Pal8 ? palette : null);
                     Fnv hash = new();
                     try
                     {
                         LockedSurface lockedSurface = default;
                         _ = surface.Lock(ref lockedSurface);
-                        Span<byte> bytes = lockedSurface.Data.AsSpan(lockedSurface.DataIndex, lockedSurface.Pitch * h);
+                        Span<byte> bytes = lockedSurface.Data.AsSpan(lockedSurface.DataIndex, length: lockedSurface.Pitch * h);
                         for (int i = 0; i < bytes.Length; i++)
                         {
                             bytes[i] = (byte)(((i * 7) + w) % 5 == 0 ? 0xC3 : (i * 29) + 1);
@@ -320,7 +320,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                                 Rect found = default;
                                 hash.Add(Read(() =>
                                 {
-                                    LockedSurface.MinimizeTransparentRectangle(lockedSurface, rectangle, key, out found);
+                                    LockedSurface.MinimizeTransparentRectangle(lockedSurface, R: rectangle, transparentColor: key, result: out found);
                                     return 0;
                                 }));
                                 foreach (int value in new[] { found.Left, found.Top, found.Right, found.Bottom })
@@ -331,7 +331,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                                 found = default;
                                 hash.Add(Read(() =>
                                 {
-                                    BitMask.MinimizeInverseTransparentRectangle(lockedSurface, rectangle, key, out found);
+                                    BitMask.MinimizeInverseTransparentRectangle(lockedSurface, R: rectangle, transparentColor: key, result: out found);
                                     return 0;
                                 }));
                                 foreach (int value in new[] { found.Left, found.Top, found.Right, found.Bottom })
@@ -342,7 +342,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                             RectangleList? list = null;
                             hash.Add(Read(() =>
                             {
-                                list = LibraryImageClass.GetSurfaceRectangles(lockedSurface, key, null);
+                                list = LibraryImageClass.GetSurfaceRectangles(lockedSurface, transparentColor: key, onProgress: null);
                                 return 0;
                             }));
                             hash.Add(list?.Count ?? -1);
@@ -365,7 +365,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                     {
                         surface.Dispose();
                     }
-                    entries.Add(new Entry($"{(int)format:X8} {w}", h, hash.Value.ToString("X16")));
+                    entries.Add(new Entry($"{(int)format:X8} {w}", Images: h, Hash: hash.Value.ToString("X16")));
                 }
             }
         }
@@ -407,10 +407,10 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                 }
                 for (int i = 0; i <= 100; i++)
                 {
-                    hash.Add(collection.Tables.Count == 0 ? -1 : IndexOf(collection, collection.Lookup[i]));
+                    hash.Add(collection.Tables.Count == 0 ? -1 : IndexOf(collection, table: collection.Lookup[i]));
                 }
 
-                entries.Add(new Entry(name, collection.Tables.Count, hash.Value.ToString("X16")));
+                entries.Add(new Entry(name, Images: collection.Tables.Count, Hash: hash.Value.ToString("X16")));
             }
         });
         Check("Blend", entries);
@@ -505,21 +505,21 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         Rect shrunk = new(-w / 4, 2, (-w / 4) + Math.Max(1, w / 2), 2 + Math.Max(1, h * 5 / 4));
         if (image is Image08)
         {
-            hash.Add(Draw(image, PixelFormat.Pal8, 3, 2, d => image.ShowOpaque(3, 2, d)));
-            hash.Add(Draw(image, PixelFormat.Pal8, -w / 3, -h / 3, d => image.ShowOpaque(-w / 3, -h / 3, d)));
+            hash.Add(Draw(image, format: PixelFormat.Pal8, 3, 2, d => image.ShowOpaque(3, 2, lockedSurface: d)));
+            hash.Add(Draw(image, format: PixelFormat.Pal8, -w / 3, -h / 3, d => image.ShowOpaque(-w / 3, -h / 3, lockedSurface: d)));
         }
 
         foreach (PixelFormat format in new[] { PixelFormat.Rgb555, PixelFormat.Rgb565 })
         {
-            hash.Add(Draw(image, format, 3, 2, d => image.ShowOpaque(3, 2, d)));
-            hash.Add(Draw(image, format, -w / 3, -h / 3, d => image.ShowOpaque(-w / 3, -h / 3, d)));
-            hash.Add(Draw(image, format, 3, 2, d => image.ShowTransparent(3, 2, d)));
-            hash.Add(Draw(image, format, 3, 2, d => image.ShowBlended(3, 2, d, GraphicsState.AlphaBlendTable.Lookup[50])));
-            hash.Add(Draw(image, format, -w / 3, -h / 3, d => image.ShowBlended(-w / 3, -h / 3, d, GraphicsState.IntensityBlendTable.Lookup[30])));
-            hash.Add(Draw(image, format, 0, 0, d => image.ShowOpaqueStretched(stretched, d)));
-            hash.Add(Draw(image, format, 0, 0, d => image.ShowOpaqueStretched(shrunk, d)));
-            hash.Add(Draw(image, format, 0, 0, d => image.ShowBlendedStretched(stretched, d, GraphicsState.AlphaBlendTable.Lookup[50])));
-            hash.Add(Draw(image, format, 0, 0, d => image.ShowBlendedStretched(shrunk, d, GraphicsState.ShadowBlendTable.Lookup[70])));
+            hash.Add(Draw(image, format, 3, 2, d => image.ShowOpaque(3, 2, lockedSurface: d)));
+            hash.Add(Draw(image, format, -w / 3, -h / 3, d => image.ShowOpaque(-w / 3, -h / 3, lockedSurface: d)));
+            hash.Add(Draw(image, format, 3, 2, d => image.ShowTransparent(3, 2, lockedSurface: d)));
+            hash.Add(Draw(image, format, 3, 2, d => image.ShowBlended(3, 2, lockedSurface: d, table: GraphicsState.AlphaBlendTable.Lookup[50])));
+            hash.Add(Draw(image, format, -w / 3, -h / 3, d => image.ShowBlended(-w / 3, -h / 3, lockedSurface: d, table: GraphicsState.IntensityBlendTable.Lookup[30])));
+            hash.Add(Draw(image, format, 0, 0, d => image.ShowOpaqueStretched(stretched, lockedSurface: d)));
+            hash.Add(Draw(image, format, 0, 0, d => image.ShowOpaqueStretched(shrunk, lockedSurface: d)));
+            hash.Add(Draw(image, format, 0, 0, d => image.ShowBlendedStretched(stretched, lockedSurface: d, table: GraphicsState.AlphaBlendTable.Lookup[50])));
+            hash.Add(Draw(image, format, 0, 0, d => image.ShowBlendedStretched(shrunk, lockedSurface: d, table: GraphicsState.ShadowBlendTable.Lookup[70])));
         }
         AddBuffer(image, hash);
     }
@@ -529,8 +529,8 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     {
         Type type = image.GetType();
         const BindingFlags fields = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
-        FieldInfo? field = new[] { "_buffer", "MaskData", "_data", "Data" }.Select(name => MemberNames.Field(type, name, fields)).FirstOrDefault(f => f is not null);
-        FieldInfo? pitch = MemberNames.Field(type, "Pitch", fields) ?? MemberNames.Field(type, "_pitch", fields);
+        FieldInfo? field = new[] { "_buffer", "MaskData", "_data", "Data" }.Select(name => MemberNames.Field(type, name, flags: fields)).FirstOrDefault(f => f is not null);
+        FieldInfo? pitch = MemberNames.Field(type, name: "Pitch", flags: fields) ?? MemberNames.Field(type, name: "_pitch", flags: fields);
         hash.Add(pitch is null ? -1 : (int)pitch.GetValue(image)!);
         byte[]? bytes = field?.GetValue(image) switch
         {
@@ -557,7 +557,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         {
             LockedSurface lockedSurface = default;
             Assert.Equal(GraphicsResult.Ok, surface.Lock(ref lockedSurface));
-            Span<byte> pixels = lockedSurface.Data.AsSpan(lockedSurface.DataIndex, lockedSurface.Pitch * h);
+            Span<byte> pixels = lockedSurface.Data.AsSpan(lockedSurface.DataIndex, length: lockedSurface.Pitch * h);
             for (int i = 0; i < pixels.Length; i++)
             {
                 pixels[i] = (byte)((i * 37) + (x * 5) + y);
@@ -596,7 +596,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         ImageLibraries.LibraryImageClasses = [];
         try
         {
-            GraphicsState.InitializeBlendTables(5, 31);
+            GraphicsState.InitializeBlendTables(5, count: 31);
             ImageLibraries.RegisterLibraryImageClasses([
                 LibraryImageClass.Of<Picture08>(), LibraryImageClass.Of<RleSprite08>(),
                 LibraryImageClass.Of<Picture16>(), LibraryImageClass.Of<TransparentPicture16>(),

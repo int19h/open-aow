@@ -68,14 +68,14 @@ internal sealed class CoordinateCodec : PropertyCodec
 
             if (name != expected[i])
             {
-                throw new InvalidOperationException(string.Create(CultureInfo.InvariantCulture, $"{path} part {i} is {expected[i]}."));
+                throw new InvalidOperationException(string.Create(CultureInfo.InvariantCulture, handler: $"{path} part {i} is {expected[i]}."));
             }
 
             parsed[i] = (name, (int)id.Value);
         }
         return source["id"] is not JsonInteger property || (int)property.Value != parsed[0].Id
             ? throw new InvalidOperationException($"{path} coordinate id is the id of X.")
-            : new CoordinateCodec((int)width.Value, parsed);
+            : new CoordinateCodec((int)width.Value, parts: parsed);
     }
 
     internal override bool StoresImage(TreeValue value) => value is not RecordNode node || node.Members.Count != 0;
@@ -84,7 +84,7 @@ internal sealed class CoordinateCodec : PropertyCodec
     {
         if (value is not RecordNode node)
         {
-            throw context.Fail(Codes.Type, $"{frame.Property.Name} is a coordinate.", null, frame.Path);
+            throw context.Fail(Codes.Type, message: $"{frame.Property.Name} is a coordinate.", at: null, frame.Path);
         }
 
         foreach ((string? name, int id) in _parts)
@@ -96,10 +96,10 @@ internal sealed class CoordinateCodec : PropertyCodec
             }
 
             DocumentNodePath part = frame.Path.Member(name);
-            long number = Require(found, context, name, part);
+            long number = Require(found, context, name, path: part);
             ValueSite site = new() { Property = frame.Property, Id = id, Path = part, Owner = frame.Owner };
-            writer.Begin(id, frame.Property);
-            _integers.Encode(context, new JsonInteger(number), writer.Data, site);
+            writer.Begin(id, prop: frame.Property);
+            _integers.Encode(context, value: new JsonInteger(number), writer.Data, site);
             writer.End();
         }
     }
@@ -112,12 +112,12 @@ internal sealed class CoordinateCodec : PropertyCodec
             int index = IndexOf(entry.Id);
             if (index < 0)
             {
-                throw context.Fail(Codes.UnknownProperty, string.Create(CultureInfo.InvariantCulture, $"{frame.Property.Name} has no part {entry.Id}."), entry.Start, frame.Path);
+                throw context.Fail(Codes.UnknownProperty, message: string.Create(CultureInfo.InvariantCulture, handler: $"{frame.Property.Name} has no part {entry.Id}."), offset: entry.Start, frame.Path);
             }
 
             string name = _parts[index].Name;
             ValueSite site = new() { Property = frame.Property, Id = entry.Id, Path = frame.Path.Member(name), Owner = frame.Owner };
-            node.Add(name, new IntegerNode(_width, _signed, ReadInteger(context, entry.Start, entry.End, name, site)));
+            node.Add(name, new IntegerNode(_width, _signed, value: ReadInteger(context, entry.Start, entry.End, name, site)));
         }
         return node;
     }
@@ -132,10 +132,10 @@ internal sealed class CoordinateCodec : PropertyCodec
     {
         if (value is not JsonObject objectValue)
         {
-            throw context.Fail(Codes.Type, $"{site.Property.Name} is a coordinate.", value, site.Path, value.KindName);
+            throw context.Fail(Codes.Type, message: $"{site.Property.Name} is a coordinate.", at: value, site.Path, value: value.KindName);
         }
 
-        RejectUnknown(objectValue, (member, code, message) => context.Fail(code, message, member.Value, site.Path.Member(member.Name), member.Name));
+        RejectUnknown(objectValue, (member, code, message) => context.Fail(code, message, at: member.Value, path: site.Path.Member(member.Name), value: member.Name));
         foreach ((string? name, int id) in _parts)
         {
             JsonMember? member = objectValue.Find(name);
@@ -147,12 +147,12 @@ internal sealed class CoordinateCodec : PropertyCodec
             DocumentNodePath part = site.Path.Member(name);
             if (member.Value is JsonInteger number)
             {
-                CheckRange(number.Value, value => context.Fail(Codes.Range, $"{name} is outside -128 to 127.", member.Value, part, Text(number.Value), "-128 to 127"));
+                CheckRange(number.Value, value => context.Fail(Codes.Range, message: $"{name} is outside -128 to 127.", at: member.Value, path: part, value: Text(number.Value), constraint: "-128 to 127"));
             }
 
             ValueSite partSite = new() { Property = site.Property, Id = id, Path = part, Owner = site.Owner };
-            writer.Begin(id, site.Property);
-            _integers.Encode(context, member.Value, writer.Data, partSite);
+            writer.Begin(id, prop: site.Property);
+            _integers.Encode(context, member.Value, writer.Data, site: partSite);
             writer.End();
         }
     }
@@ -166,12 +166,12 @@ internal sealed class CoordinateCodec : PropertyCodec
             int index = IndexOf(entry.Id);
             if (index < 0)
             {
-                throw context.Fail(Codes.UnknownProperty, string.Create(CultureInfo.InvariantCulture, $"{site.Property.Name} has no part {entry.Id}."), entry.Start, site.Path);
+                throw context.Fail(Codes.UnknownProperty, message: string.Create(CultureInfo.InvariantCulture, handler: $"{site.Property.Name} has no part {entry.Id}."), offset: entry.Start, site.Path);
             }
 
             string name = _parts[index].Name;
             ValueSite partSite = new() { Property = site.Property, Id = entry.Id, Path = site.Path.Member(name), Owner = site.Owner };
-            numbers[index] = ReadInteger(context, entry.Start, entry.End, name, partSite);
+            numbers[index] = ReadInteger(context, entry.Start, entry.End, name, site: partSite);
         }
         for (int i = 0; i < 3; i++)
         {
@@ -207,14 +207,14 @@ internal sealed class CoordinateCodec : PropertyCodec
 
             DocumentSite part = site.At(site.Path.Member(name), element: false);
             long number = Require(found, name, message => part.Mismatch(message));
-            CheckRange(number, stored => part.Fail(Codes.Range, $"{name} is outside -128 to 127.", null, Text(stored), "-128 to 127"));
-            _ = json.Add(name, _integers.WriteTree(new IntegerNode(_width, _signed, number), part)!);
+            CheckRange(number, stored => part.Fail(Codes.Range, message: $"{name} is outside -128 to 127.", at: null, value: Text(stored), constraint: "-128 to 127"));
+            _ = json.Add(name, _integers.WriteTree(new IntegerNode(_width, _signed, value: number), site: part)!);
         }
         foreach ((string? name, _) in node.Members)
         {
             if (IndexOf(name) < 0)
             {
-                throw site.At(site.Path.Member(name), element: false).Fail(Codes.UnknownMember, $"The coordinate has no member \"{name}\".", value: name);
+                throw site.At(site.Path.Member(name), element: false).Fail(Codes.UnknownMember, message: $"The coordinate has no member \"{name}\".", value: name);
             }
         }
 
@@ -225,10 +225,10 @@ internal sealed class CoordinateCodec : PropertyCodec
     {
         if (value is not JsonObject objectValue)
         {
-            throw site.Mismatch($"{site.Property?.Name ?? "The value"} is a coordinate.", value);
+            throw site.Mismatch($"{site.Property?.Name ?? "The value"} is a coordinate.", at: value);
         }
 
-        RejectUnknown(objectValue, (member, code, message) => site.At(site.Path.Member(member.Name), element: false).Fail(code, message, member.Value, member.Name));
+        RejectUnknown(objectValue, (member, code, message) => site.At(site.Path.Member(member.Name), element: false).Fail(code, message, at: member.Value, value: member.Name));
         RecordNode node = new();
         foreach ((string? name, int _) in _parts)
         {
@@ -239,12 +239,12 @@ internal sealed class CoordinateCodec : PropertyCodec
             }
 
             DocumentSite part = site.At(site.Path.Member(name), element: false);
-            if (_integers.ReadTree(member.Value, part) is not IntegerNode integer)
+            if (_integers.ReadTree(member.Value, site: part) is not IntegerNode integer)
             {
-                throw part.Mismatch($"{name} is an integer.", member.Value);
+                throw part.Mismatch($"{name} is an integer.", at: member.Value);
             }
 
-            CheckRange(integer.Value, number => part.Fail(Codes.Range, $"{name} is outside -128 to 127.", member.Value, Text(number), "-128 to 127"));
+            CheckRange(integer.Value, number => part.Fail(Codes.Range, message: $"{name} is outside -128 to 127.", at: member.Value, value: Text(number), constraint: "-128 to 127"));
             node.Add(name, integer);
         }
         return node;
@@ -280,10 +280,10 @@ internal sealed class CoordinateCodec : PropertyCodec
     {
         if (_integers.Decode(context, start, end, site) is not JsonInteger number)
         {
-            throw context.Fail(Codes.Type, $"{name} is an integer.", start, site.Path);
+            throw context.Fail(Codes.Type, message: $"{name} is an integer.", offset: start, site.Path);
         }
 
-        CheckRange(number.Value, value => context.Fail(Codes.Range, $"{name} is outside -128 to 127.", start, site.Path, Text(value), "-128 to 127"));
+        CheckRange(number.Value, value => context.Fail(Codes.Range, message: $"{name} is outside -128 to 127.", offset: start, site.Path, value: Text(value), constraint: "-128 to 127"));
         return number.Value;
     }
 
@@ -291,10 +291,10 @@ internal sealed class CoordinateCodec : PropertyCodec
     {
         if (found is not IntegerNode integer || integer.Width != _width || integer.Signed != _signed)
         {
-            throw context.Fail(Codes.Type, $"{name} is an integer.", null, path);
+            throw context.Fail(Codes.Type, message: $"{name} is an integer.", at: null, path);
         }
 
-        CheckRange(integer.Value, value => context.Fail(Codes.Range, $"{name} is outside -128 to 127.", null, path, Text(value), "-128 to 127"));
+        CheckRange(integer.Value, value => context.Fail(Codes.Range, message: $"{name} is outside -128 to 127.", at: null, path, value: Text(value), constraint: "-128 to 127"));
         return integer.Value;
     }
 

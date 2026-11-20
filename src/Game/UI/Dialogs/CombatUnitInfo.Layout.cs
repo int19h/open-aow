@@ -616,7 +616,7 @@ public partial class CombatUnitInfo : ILayoutModule
         UnitAbilityList.BorderWidth = 20;
         UnitAbilityList.BorderHeight = 3;
         UnitAbilityList.Selected = -1;
-        UnitAbilityList.OnPreDrawItem += (_, in drawRectangle, drawItem, ref surface) => UAbilLBPreDrawItem(drawRectangle, drawItem, in surface);
+        UnitAbilityList.OnPreDrawItem += (_, in drawRectangle, drawItem, ref surface) => UAbilLBPreDrawItem(drawRectangle, drawItem, lockedSurface: in surface);
         UnitAbilityList.TextColor = 9415072;
         UnitAbilityList.TextSelectedColor = 0;
         UnitAbilityList.ImageLibraryIndexFrame = 113;
@@ -1934,9 +1934,9 @@ public partial class CombatUnitInfo : ILayoutModule
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";
-        translator.TargetsData.Add(new TranslationTarget("", "Items", 0));
-        translator.TargetsData.Add(new TranslationTarget("", "Text", 0));
-        translator.TargetsData.Add(new TranslationTarget("", "ToolTipText", 0));
+        translator.TargetsData.Add(new TranslationTarget("", PropertyName: "Items", Options: 0));
+        translator.TargetsData.Add(new TranslationTarget("", PropertyName: "Text", Options: 0));
+        translator.TargetsData.Add(new TranslationTarget("", PropertyName: "ToolTipText", Options: 0));
         session.EndRead(translator);
         session.EndRead(this);
         sIcon.Window = MainWindow;

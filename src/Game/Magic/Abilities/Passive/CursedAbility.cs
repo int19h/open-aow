@@ -12,7 +12,7 @@ public class CursedAbility : DurationAbility
     public CursedAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_cursedText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_cursedText);
         AbilityId = 93;
         SelectionTypes = Set<AbilitySelectionType>.Of();
         DurationMode = DurationMode.Day;
@@ -29,12 +29,12 @@ public class CursedAbility : DurationAbility
     {
         DurationAbilityData data = GetData(owner);
         return data is not null && data.Source == 1
-            ? AbilityRules.TranslateResourceString(GetEngine(), GameText.DeathMasteryText)
+            ? AbilityRules.TranslateResourceString(GetEngine(), S: GameText.DeathMasteryText)
             : base.GetSourceName(owner);
     }
 
     // PassiveAb.pas:1003
-    public override int GetTotalDuration() => 3;
+    public override int TotalDuration => 3;
 
     private static readonly string s_cursedText = "Cursed";
 }

@@ -82,7 +82,7 @@ public class AowHexSpriteMapMouse : GameMapMouse
         bool selectStructure = Capture is null;
         if (Capture == StrategicMap.Current.SelectedArmy)
         {
-            selectStructure = StrategicMap.Current.SelectedArmy.GetArmyHexSprite() is not null && StrategicMap.Current.SelectedArmy.MoveSettingsList.Count == 1 && StrategicMap.Current.SelectedArmy.GetArmyHexSprite().HexX == HexX && StrategicMap.Current.SelectedArmy.GetArmyHexSprite().HexY == HexY && StrategicMap.Current.SelectedArmy.GetArmyHexSprite().HexLevel == StrategicMap.Current.ViewMapLevel;
+            selectStructure = StrategicMap.Current.SelectedArmy.ArmyHexSprite is not null && StrategicMap.Current.SelectedArmy.MoveSettingsList.Count == 1 && StrategicMap.Current.SelectedArmy.ArmyHexSprite.HexX == HexX && StrategicMap.Current.SelectedArmy.ArmyHexSprite.HexY == HexY && StrategicMap.Current.SelectedArmy.ArmyHexSprite.HexLevel == StrategicMap.Current.ViewMapLevel;
         }
 
         if (selectStructure && HexX != -1)

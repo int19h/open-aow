@@ -25,23 +25,23 @@ public sealed class ClassRegistryTests
     public void EveryProductClassHasItsDescriptor()
     {
         Type[] types = typeof(EngineObject).Assembly.GetTypes();
-        IOrderedEnumerable<Type> engineTypes = types.Where(t => t.IsClass && typeof(EngineObject).IsAssignableFrom(t)).OrderBy(t => t.FullName, StringComparer.Ordinal);
-        Assert.Equal(engineTypes, EngineClass.All.Where(c => c.Type.Assembly == typeof(EngineObject).Assembly).Select(c => c.Type).OrderBy(t => t.FullName, StringComparer.Ordinal));
+        IOrderedEnumerable<Type> engineTypes = types.Where(t => t.IsClass && typeof(EngineObject).IsAssignableFrom(t)).OrderBy(t => t.FullName, comparer: StringComparer.Ordinal);
+        Assert.Equal(engineTypes, EngineClass.All.Where(c => c.Type.Assembly == typeof(EngineObject).Assembly).Select(c => c.Type).OrderBy(t => t.FullName, comparer: StringComparer.Ordinal));
         foreach (Type? type in engineTypes)
         {
             EngineClass descriptor = EngineClass.Of(type);
             Assert.Equal(type, descriptor.Type);
-            Assert.Equal((int)type.GetField("ClassId", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)!.GetRawConstantValue()!, descriptor.ClassId);
+            Assert.Equal((int)type.GetField("ClassId", bindingAttr: BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)!.GetRawConstantValue()!, descriptor.ClassId);
             if (type != typeof(EngineObject))
             {
                 Assert.Equal(type.BaseType, EngineClass.Of(type.BaseType!).Type);
             }
         }
-        CheckFamily(typeof(IAIPlayerActionClass), types, AIPlayerActionClass.All.Select(c => c.Class.Type));
-        CheckFamily(typeof(IAIGroupClass), types, AIGroupClass.All.Select(c => c.Class.Type));
-        CheckFamily(typeof(IEngineObjectEditorClass), types, EditorClass.All.Select(c => c.Class.Type));
-        CheckFamily(typeof(ILibraryImageClass), types, LibraryImageClass.All.Select(c => c.Type));
-        CheckFamily(typeof(IImageFileClass), types, ImageFileClass.All.Select(c => c.Type));
+        CheckFamily(typeof(IAIPlayerActionClass), types, registered: AIPlayerActionClass.All.Select(c => c.Class.Type));
+        CheckFamily(typeof(IAIGroupClass), types, registered: AIGroupClass.All.Select(c => c.Class.Type));
+        CheckFamily(typeof(IEngineObjectEditorClass), types, registered: EditorClass.All.Select(c => c.Class.Type));
+        CheckFamily(typeof(ILibraryImageClass), types, registered: LibraryImageClass.All.Select(c => c.Type));
+        CheckFamily(typeof(IImageFileClass), types, registered: ImageFileClass.All.Select(c => c.Type));
     }
 
     // own-formats.md 3.1: the third block registers one format mapping per persisted class that
@@ -56,23 +56,23 @@ public sealed class ClassRegistryTests
         foreach ((string? name, ContentRule[]? rules) in FormatMapping.All)
         {
             SchemaClass? classValue = schema.Find(name);
-            Assert.True(classValue is not null, $"The format mapping names no schema class: {name}");
+            Assert.True(classValue is not null, userMessage: $"The format mapping names no schema class: {name}");
             Assert.NotEmpty(rules);
             foreach (string? member in rules.SelectMany(r => r.Members))
             {
-                Assert.True(member == "Children" ? classValue.KeepsChildren : classValue.PropertyByName(member) is not null, $"{name} has no member {member}.");
+                Assert.True(member == "Children" ? classValue.KeepsChildren : classValue.PropertyByName(member) is not null, userMessage: $"{name} has no member {member}.");
             }
         }
         foreach (string name in FormatVersions.FlatMappings)
         {
             Assert.NotNull(schema.Find(name));
-            Assert.False(FormatMapping.All.ContainsKey(name), $"{name} keeps its flat mapping in version 1.");
+            Assert.False(FormatMapping.All.ContainsKey(name), userMessage: $"{name} keeps its flat mapping in version 1.");
         }
         // A schema class with a case table has its line, and its line gives the converter the
         // kind family's FromFields and ToFields.
         foreach (SchemaClass? classValue in schema.Classes.Where(c => c.Mapping is not null))
         {
-            Assert.Contains(classValue.Name, FormatVersions.UnitMappings);
+            Assert.Contains(classValue.Name, collection: FormatVersions.UnitMappings);
             Assert.Contains(FormatMapping.All[classValue.Name], r => r is KindCases);
             Assert.Same(FormatMapping.All[classValue.Name].OfType<KindCases>().Single(), CaseMappings.Find(classValue.Name));
         }
@@ -85,29 +85,29 @@ public sealed class ClassRegistryTests
     {
         FormatSchema schema = GameFiles.Schema;
         SchemaMapping production = schema.Get("ProductionItem").Mapping!;
-        Assert.Equal(Enumerable.Range(0, 256).Where(ProductionOrder.IsRegistered).Select(k => (long)k), production.Cases.Select(c => c.Key!.Value));
+        Assert.Equal(Enumerable.Range(0, count: 256).Where(ProductionOrder.IsRegistered).Select(k => (long)k), production.Cases.Select(c => c.Key!.Value));
         foreach (SchemaCase c in production.Cases)
         {
-            ProductionOrder order = ProductionOrder.FromFields((int)c.Key!.Value, 7, 3);
+            ProductionOrder order = ProductionOrder.FromFields((int)c.Key!.Value, parameter: 7, groupId: 3);
             Assert.Equal(c.Name, NameTable.Delphi(order.GetType()));
             (int kind, int parameter, int groupId) = order.ToFields();
             Assert.Equal(c.Key, kind);
-            Assert.Equal(c.Fields.Any(f => f.Member == "Parameter"), parameter == 7);
-            Assert.Equal(c.Fields.Any(f => f.Member == "GroupId"), groupId == 3);
+            Assert.Equal(c.Fields.Any(f => f.Member == "Parameter"), actual: parameter == 7);
+            Assert.Equal(c.Fields.Any(f => f.Member == "GroupId"), actual: groupId == 3);
         }
         SchemaMapping diplomacy = schema.Get("DiplomaticAction").Mapping!;
-        Assert.Equal(Enumerable.Range(0, 256).Where(k => DiplomaticProposal.IsRegistered((byte)k)).Select(k => (long)k), diplomacy.Cases.Select(c => c.Key!.Value));
+        Assert.Equal(Enumerable.Range(0, count: 256).Where(k => DiplomaticProposal.IsRegistered((byte)k)).Select(k => (long)k), diplomacy.Cases.Select(c => c.Key!.Value));
         foreach (SchemaCase c in diplomacy.Cases)
         {
-            DiplomaticProposal proposal = DiplomaticProposal.FromFields((byte)c.Key!.Value, 70, 30);
+            DiplomaticProposal proposal = DiplomaticProposal.FromFields((byte)c.Key!.Value, gold: 70, mana: 30);
             Assert.Equal(c.Name, NameTable.Delphi(proposal.GetType()));
             (byte kind, int gold, int mana) = proposal.ToFields();
             Assert.Equal(c.Key, kind);
-            Assert.Equal(c.Fields.Any(f => f.Member == "Gold"), gold == 70);
-            Assert.Equal(c.Fields.Any(f => f.Member == "Mana"), mana == 30);
+            Assert.Equal(c.Fields.Any(f => f.Member == "Gold"), actual: gold == 70);
+            Assert.Equal(c.Fields.Any(f => f.Member == "Mana"), actual: mana == 30);
         }
-        _ = Assert.IsType<UnknownOrder>(ProductionOrder.FromFields(99, 0, 0));
-        _ = Assert.IsType<UnknownProposal>(DiplomaticProposal.FromFields(12, 0, 0));
+        _ = Assert.IsType<UnknownOrder>(ProductionOrder.FromFields(99, parameter: 0, groupId: 0));
+        _ = Assert.IsType<UnknownProposal>(DiplomaticProposal.FromFields(12, gold: 0, mana: 0));
     }
 
     public static IEnumerable<object?[]> Classes => EngineClass.All
@@ -132,7 +132,7 @@ public sealed class ClassRegistryTests
         EngineObject instance = EngineClass.Of(type).CreateInstance(null, holder: EngineFixture.Engine);
         try
         {
-            Assert.IsType(type, instance);
+            Assert.IsType(type, @object: instance);
         }
         finally
         {
@@ -145,7 +145,7 @@ public sealed class ClassRegistryTests
             }
             else
             {
-                Assert.IsType(cleanupError, error);
+                Assert.IsType(cleanupError, @object: error);
             }
         }
     }
@@ -196,6 +196,6 @@ public sealed class ClassRegistryTests
     };
 
     private static void CheckFamily(Type contract, Type[] types, IEnumerable<Type> registered)
-        => Assert.Equal(types.Where(t => t.IsClass && contract.IsAssignableFrom(t)).OrderBy(t => t.FullName, StringComparer.Ordinal),
-            registered.Where(t => t.Assembly == typeof(EngineObject).Assembly).OrderBy(t => t.FullName, StringComparer.Ordinal));
+        => Assert.Equal(types.Where(t => t.IsClass && contract.IsAssignableFrom(t)).OrderBy(t => t.FullName, comparer: StringComparer.Ordinal),
+            registered.Where(t => t.Assembly == typeof(EngineObject).Assembly).OrderBy(t => t.FullName, comparer: StringComparer.Ordinal));
 }

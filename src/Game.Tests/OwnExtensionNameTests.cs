@@ -42,12 +42,12 @@ public sealed class OwnExtensionNameTests : IDisposable
         RtlHost.WritesOwnExtensions = _previousOwn;
         FileBoundary.Log = _previousLog;
         FileBoundary.Previews.Clear();
-        Directory.Delete(_directory, true);
+        Directory.Delete(_directory, recursive: true);
     }
 
     // The layered file service caches its listings, so a case installs it again after it writes
     // files behind its back.
-    private void Install() => RtlHost.Files = new LayeredFileSystem(Path.Combine(_directory, "root"), Path.Combine(_directory, "user"));
+    private void Install() => RtlHost.Files = new LayeredFileSystem(Path.Combine(_directory, "root"), userDirectory: Path.Combine(_directory, "user"));
 
     private string Root(string relative) => Path.Combine(_directory, "root", relative);
 
@@ -72,8 +72,8 @@ public sealed class OwnExtensionNameTests : IDisposable
         Assert.True(FileBoundary.IsEmailExchange(Root(@"emailin\Duel.asg")));
         Assert.False(FileBoundary.IsEmailExchange(Root(@"Save\Duel.asg")));
         // A relative name decides by the directory it is given, not the current one.
-        Assert.Equal("Duel.asg", FileBoundary.WriteName("Duel.asg", Root(@"EmailIn\")));
-        Assert.Equal("Duel.oasg", FileBoundary.WriteName("Duel.asg", Root(@"Save\")));
+        Assert.Equal("Duel.asg", FileBoundary.WriteName("Duel.asg", directory: Root(@"EmailIn\")));
+        Assert.Equal("Duel.oasg", FileBoundary.WriteName("Duel.asg", directory: Root(@"Save\")));
     }
 
     [Fact]
@@ -81,10 +81,10 @@ public sealed class OwnExtensionNameTests : IDisposable
     {
         string original = Root(@"User\List.ahl");
         Assert.Equal(original, FileBoundary.ReadName(original));
-        File.WriteAllBytes(original, HeroList("Original"));
+        File.WriteAllBytes(original, bytes: HeroList("Original"));
         Install();
         Assert.Equal(original, FileBoundary.ReadName(original));
-        File.WriteAllBytes(Root(@"User\List.oahl"), HeroList("Own"));
+        File.WriteAllBytes(Root(@"User\List.oahl"), bytes: HeroList("Own"));
         Install();
         Assert.Equal(Root(@"User\List.oahl"), FileBoundary.ReadName(original));
         Assert.Equal(Root(@"User\notes.txt"), FileBoundary.ReadName(Root(@"User\notes.txt")));
@@ -97,10 +97,10 @@ public sealed class OwnExtensionNameTests : IDisposable
     {
         string own = Root(@"User\Other.oahl");
         Assert.Equal(own, FileBoundary.ReadName(own));
-        File.WriteAllBytes(Root(@"User\Other.ahl"), HeroList("Original"));
+        File.WriteAllBytes(Root(@"User\Other.ahl"), bytes: HeroList("Original"));
         Install();
         Assert.Equal(Root(@"User\Other.ahl"), FileBoundary.ReadName(own));
-        File.WriteAllBytes(own, HeroList("Own"));
+        File.WriteAllBytes(own, bytes: HeroList("Own"));
         Install();
         Assert.Equal(own, FileBoundary.ReadName(own));
     }
@@ -109,13 +109,13 @@ public sealed class OwnExtensionNameTests : IDisposable
     [Fact]
     public void AListingShowsBothFormsAndPrefersTheOwnDocument()
     {
-        File.WriteAllBytes(Root(@"User\A.ahl"), HeroList("A"));
-        File.WriteAllBytes(Root(@"User\B.ahl"), HeroList("B"));
-        File.WriteAllBytes(Root(@"User\B.oahl"), HeroList("B"));
-        File.WriteAllBytes(Root(@"User\C.oahl"), HeroList("C"));
-        File.WriteAllBytes(Root(@"User\D.ail"), HeroList("D"));
+        File.WriteAllBytes(Root(@"User\A.ahl"), bytes: HeroList("A"));
+        File.WriteAllBytes(Root(@"User\B.ahl"), bytes: HeroList("B"));
+        File.WriteAllBytes(Root(@"User\B.oahl"), bytes: HeroList("B"));
+        File.WriteAllBytes(Root(@"User\C.oahl"), bytes: HeroList("C"));
+        File.WriteAllBytes(Root(@"User\D.ail"), bytes: HeroList("D"));
         Install();
-        Assert.Equal(["A.ahl", "B.oahl", "C.oahl"], FileBoundary.FindDocuments(Root(@"User\"), DocumentKind.HeroList));
+        Assert.Equal(["A.ahl", "B.oahl", "C.oahl"], FileBoundary.FindDocuments(Root(@"User\"), kind: DocumentKind.HeroList));
     }
 
     // The original save, its own document under the original name and the own document beside it.
@@ -123,21 +123,21 @@ public sealed class OwnExtensionNameTests : IDisposable
     public void SavesLoadByContentAndTheDerivedNamePrefersTheOwnDocument()
     {
         byte[] original = File.ReadAllBytes(InstalledSave.Save);
-        byte[] own = GameFiles.Write(GameFiles.Import(original, GameProfile.WorldMap.Profile, "save", "After the Fall.asg").Document);
-        File.WriteAllBytes(Root(@"Save\Original.asg"), original);
-        File.WriteAllBytes(Root(@"Save\Json.asg"), own);
+        byte[] own = GameFiles.Write(GameFiles.Import(original, GameProfile.WorldMap.Profile, kind: "save", fileName: "After the Fall.asg").Document);
+        File.WriteAllBytes(Root(@"Save\Original.asg"), bytes: original);
+        File.WriteAllBytes(Root(@"Save\Json.asg"), bytes: own);
         Install();
-        byte[]? fromOriginal = FileBoundary.Load(Root(@"Save\Original.asg"), GameProfile.WorldMap);
-        byte[]? fromJson = FileBoundary.Load(Root(@"Save\Json.asg"), GameProfile.WorldMap);
+        byte[]? fromOriginal = FileBoundary.Load(Root(@"Save\Original.asg"), profile: GameProfile.WorldMap);
+        byte[]? fromJson = FileBoundary.Load(Root(@"Save\Json.asg"), profile: GameProfile.WorldMap);
         Assert.NotNull(fromOriginal);
         Assert.Equal(fromOriginal, fromJson);
         Assert.Equal([DetectedFormat.Original.ToString(), DetectedFormat.OwnJson.ToString()], _log.Select(r => r.Report.Format));
 
-        File.WriteAllBytes(Root(@"Save\Original.oasg"), own);
+        File.WriteAllBytes(Root(@"Save\Original.oasg"), bytes: own);
         Install();
         string derived = FileBoundary.ReadName(Root(@"Save\Original.asg"));
         Assert.Equal(Root(@"Save\Original.oasg"), derived);
-        Assert.Equal(fromOriginal, FileBoundary.Load(derived, GameProfile.WorldMap));
+        Assert.Equal(fromOriginal, FileBoundary.Load(derived, profile: GameProfile.WorldMap));
         Assert.Equal(DetectedFormat.OwnJson.ToString(), _log[^1].Report.Format);
         Assert.Equal(original, File.ReadAllBytes(Root(@"Save\Original.asg")));
     }
@@ -159,5 +159,5 @@ public sealed class OwnExtensionNameTests : IDisposable
     [InlineData(0, false, ".ohsm", false)]
     [InlineData(0, false, ".oahl", false)]
     public void TheDialogListsBothExtensions(int mode, bool campaign, string extension, bool listed)
-        => Assert.Equal(listed, FileDialogWindow.ListsFile(mode, campaign, extension));
+        => Assert.Equal(listed, actual: FileDialogWindow.ListsFile(mode, campaign, extension));
 }

@@ -57,7 +57,7 @@ public partial class UnitSelectionDialog(UIContext ui) : UIModule(ui)
             info.Direction = 3;
             info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
             _ = Event.Units.GetUnit(index).Show(X - 8, Y - 5, lockedSurface, info);
-            if ((((int)(((uint)Event.Selectable) >> index)) & 1) == 0)
+            if (((Event.Selectable >>> index) & 1) == 0)
             {
                 image = UI.Graphics.UnitBackgrounds[7];
                 image.ShowClipped(X + 25 - (image.Width / 2), Y + 30 - (image.Height / 2), lockedSurface);

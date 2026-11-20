@@ -13,7 +13,7 @@ public class CrusaderAbility : DurationAbility
     public CrusaderAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), s_crusaderText);
+        AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_crusaderText);
         AbilityId = 101;
         AbilityType = AbilityType.Handicap;
         DurationMode = DurationMode.Day;
@@ -46,7 +46,7 @@ public class CrusaderAbility : DurationAbility
     }
 
     // PassiveAb.pas:719
-    public override int GetTotalDuration() => 3;
+    public override int TotalDuration => 3;
 
     private static readonly string s_crusaderText = "Crusader";
 }

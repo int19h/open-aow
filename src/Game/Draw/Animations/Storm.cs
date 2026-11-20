@@ -46,7 +46,7 @@ public class Storm(CustomNode owner) : Animation(owner)
         hexNumber = HexGeometry.HexNumberToRadius(hexNumber);
         int intensity = (Math.Abs(((StrategicMap.Current.Frame + hexNumber) % 9) - 4) * 20) + 20;
         BlendTable lookupTable = GraphicsState.IntensityBlendTable.GetLookupTables(intensity);
-        selection.ImageLibrary[0].ShowBlended(xs - 8, ys, lockedSurface, lookupTable);
+        selection.ImageLibrary[0].ShowBlended(xs - 8, ys, lockedSurface, table: lookupTable);
     }
 
     // Storms.pas:242
@@ -57,15 +57,15 @@ public class Storm(CustomNode owner) : Animation(owner)
         bool result = false;
         info = default;
         StormDamageInfo candidate = default;
-        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, radius: 0);
         while (walk.Radius <= range)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
                 ArmyHexSprite armyHexSprite = level.Field[walk.X, walk.Y].GetArmyHexSprite();
-                if (armyHexSprite is not null && armyHexSprite.Army.Player != 0 && AbilityRules.ValidAttackRelation(player, 0, armyHexSprite.Army.Player, 0))
+                if (armyHexSprite is not null && armyHexSprite.Army.Player != 0 && AbilityRules.ValidAttackRelation(player, independentRelation: 0, targetPlayer: armyHexSprite.Army.Player, targetRace: 0))
                 {
-                    GetTargetDamageInfo(player, (sbyte)walk.X, (sbyte)walk.Y, (sbyte)L, ref candidate);
+                    GetTargetDamageInfo(player, (sbyte)walk.X, (sbyte)walk.Y, L: (sbyte)L, info: ref candidate);
                     if (info.EnemyDamage - info.FriendlyDamage < candidate.EnemyDamage - candidate.FriendlyDamage)
                     {
                         info = candidate;

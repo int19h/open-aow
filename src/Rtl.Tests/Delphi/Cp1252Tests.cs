@@ -59,7 +59,7 @@ public sealed class Cp1252Tests
     [Fact]
     public void EveryCharMapsToItsByteOrQuestionMark()
     {
-        Dictionary<char, byte> inverse = Enumerable.Range(0, 256).ToDictionary(i => ExpectedChar((byte)i), i => (byte)i);
+        Dictionary<char, byte> inverse = Enumerable.Range(0, count: 256).ToDictionary(i => ExpectedChar((byte)i), i => (byte)i);
         for (int c = 0; c <= char.MaxValue; c++)
         {
             Assert.Equal(inverse.GetValueOrDefault((char)c, (byte)63), Cp1252.Byte((char)c));
@@ -109,7 +109,7 @@ public sealed class Cp1252Tests
                 Assert.Equal(Cp1252.Decode(bytes), text);
             }
         }
-        byte[] all = [.. Enumerable.Range(0, 256).Select(i => (byte)i)];
+        byte[] all = [.. Enumerable.Range(0, count: 256).Select(i => (byte)i)];
         Assert.Equal(all, Cp1252.Encode(Cp1252.Decode(all)));
         Assert.Equal(new byte[] { 0, 128, 63, 63, 63 }, Cp1252.Encode("\0\u20ac\u0080\u2603\ud800"));
         Assert.Empty(Cp1252.Encode(null));
@@ -119,7 +119,7 @@ public sealed class Cp1252Tests
     [Fact]
     public void AnsiCaseTablesMatchEveryByte()
     {
-        string all = Cp1252.Decode(Enumerable.Range(0, 256).Select(i => (byte)i).ToArray());
+        string all = Cp1252.Decode(Enumerable.Range(0, count: 256).Select(i => (byte)i).ToArray());
         Assert.Equal(DelphiTextCompare.UpperCase(all), DelphiTextCompare.UpperCase(all));
         Assert.Equal(DelphiTextCompare.LowerCase(all), DelphiTextCompare.LowerCase(all));
         Assert.Equal(DelphiTextCompare.AnsiUpperCase(all), DelphiTextCompare.AnsiUpperCase(all));
@@ -161,8 +161,8 @@ public sealed class Cp1252Tests
     [Fact]
     public void OneEncoderMatchesTheFrozenMapForEveryCharAndEveryProducer()
     {
-        Dictionary<char, byte> inverse = Enumerable.Range(0, 256).ToDictionary(i => ExpectedChar((byte)i), i => (byte)i);
-        string text = new([.. Enumerable.Range(0, char.MaxValue + 1).Select(i => (char)i)]);
+        Dictionary<char, byte> inverse = Enumerable.Range(0, count: 256).ToDictionary(i => ExpectedChar((byte)i), i => (byte)i);
+        string text = new([.. Enumerable.Range(0, count: char.MaxValue + 1).Select(i => (char)i)]);
         byte[] expected = [.. text.Select(c => inverse.GetValueOrDefault(c, (byte)63))];
         string normalized = new([.. expected.Select(ExpectedChar)]);
         Assert.Equal(expected, Cp1252.Encode(text));
@@ -177,7 +177,7 @@ public sealed class Cp1252Tests
         {
             char c = (char)i;
             string single = c.ToString();
-            Assert.Equal(inverse.ContainsKey(c), Cp1252.IsMapped(c));
+            Assert.Equal(inverse.ContainsKey(c), actual: Cp1252.IsMapped(c));
             Assert.Equal(expected[i], Cp1252.Byte(c));
             Assert.Equal(expected[i], Cp1252.Encode(single)[0]);
             Assert.Equal(expected[i], Cp1252.Byte(HeldChar(c)));
@@ -188,7 +188,7 @@ public sealed class Cp1252Tests
             // The old shim accepted Latin-1 C1 escapes before consulting its CP1252 table.
             byte oldShim = c <= 255 ? (byte)c : inverse.GetValueOrDefault(c, (byte)63);
             bool correctedC1 = c is >= '\u0080' and <= '\u009f' && !inverse.ContainsKey(c);
-            Assert.Equal(correctedC1, oldShim != expected[i]);
+            Assert.Equal(correctedC1, actual: oldShim != expected[i]);
             if (correctedC1)
             {
                 Assert.Equal((byte)63, expected[i]);
@@ -221,7 +221,7 @@ public sealed class Cp1252Tests
     [Fact]
     public void UnmappedCharsKeepTheirCaseAndOrderAfterEveryMappedChar()
     {
-        HashSet<char> mapped = [.. Enumerable.Range(0, 256).Select(i => ExpectedChar((byte)i))];
+        HashSet<char> mapped = [.. Enumerable.Range(0, count: 256).Select(i => ExpectedChar((byte)i))];
         for (int i = 0; i <= char.MaxValue; i++)
         {
             char c = (char)i;
@@ -257,8 +257,8 @@ public sealed class Cp1252Tests
     public void CompareAndComparerGiveAnInjectiveTotalOrderOutsideTheImage()
     {
         Random random = new(95102);
-        string Next() => new([.. Enumerable.Range(0, random.Next(9)).Select(_ => (char)random.Next(65536))]);
-        Dictionary<char, int> inverse = Enumerable.Range(0, 256).ToDictionary(i => ExpectedChar((byte)i), i => i);
+        string Next() => new([.. Enumerable.Range(0, count: random.Next(9)).Select(_ => (char)random.Next(65536))]);
+        Dictionary<char, int> inverse = Enumerable.Range(0, count: 256).ToDictionary(i => ExpectedChar((byte)i), i => i);
         int Key(char c) => inverse.GetValueOrDefault(c, 256 + c);
         int Expected(string a, string b)
         {
@@ -279,7 +279,7 @@ public sealed class Cp1252Tests
             string c = Next();
             int order = Cp1252.Compare(a, b);
             Assert.Equal(Expected(a, b), order);
-            Assert.Equal(a == b, order == 0);
+            Assert.Equal(a == b, actual: order == 0);
             Assert.Equal(order, DelphiTextCompare.CompareStr(a, b));
             Assert.Equal(order, Cp1252.Comparer.Compare(a, b));
             Assert.Equal(-order, Cp1252.Compare(b, a));

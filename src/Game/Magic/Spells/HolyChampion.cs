@@ -15,7 +15,7 @@ public class HolyChampion : UnitSpell
     public HolyChampion(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.HolyChampionText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.HolyChampionText);
         SpellId = 36;
         BaseManaCost = 5;
         SpellLevel = 2;
@@ -29,7 +29,7 @@ public class HolyChampion : UnitSpell
     public override bool ValidTargetUnit(Troop source, Troop target)
     {
         bool result = base.ValidTargetUnit(source, target);
-        return result && !target.GetAbilityEnabled(146) && !target.GetAbilityEnabled(160) && GamePack.Current.AbilityControl.GetAbility(146).CanExpand(target);
+        return result && !target.GetAbilityEnabled(146) && !target.GetAbilityEnabled(160) && GamePack.Current.AbilityControl[146].CanExpand(target);
     }
 
     // UnitSpells.pas:510

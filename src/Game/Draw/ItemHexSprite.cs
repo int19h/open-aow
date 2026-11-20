@@ -56,7 +56,7 @@ public partial class ItemHexSprite : SingleHexSprite
     }
 
     // Army.PAS:5235
-    public override byte GetLevel() => 26;
+    public override byte Level => 26;
 
     // Army.PAS:5240
     public override int GetShowPriority()
@@ -99,7 +99,7 @@ public partial class ItemHexSprite : SingleHexSprite
     public override bool CanSelect(int pixelX, int pixelY) => Owner.FogCount != 0 || !StrategicMap.Current.FogEnabled;
 
     // Army.PAS:5255
-    public override string EditName() => AbilityRules.TranslateResourceString(GetEngine(), s_itemBagText);
+    public override string EditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_itemBagText);
 
     // Army.PAS:5297
     public override bool CanPlace(MapContainer map, sbyte hexX, sbyte hexY, sbyte hexLevel) => base.CanPlace(map, hexX, hexY, hexLevel);

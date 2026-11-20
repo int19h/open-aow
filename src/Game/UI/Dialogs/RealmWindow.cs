@@ -145,7 +145,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
             {
                 City c = found;
                 string name = c.GetName();
-                _ = CityNameList.Items.AddObject(name, c);
+                _ = CityNameList.Items.AddObject(name, item: c);
                 string raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[c.Race]);
                 _ = CityRaceList.Items.Add(raceNamesPlural);
                 _ = CityIncomeList.Items.Add(IntToStr(c.Income));
@@ -173,11 +173,11 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
                     4 => CityRelationList.Items.Add("4"),
                     _ => CityRelationList.Items.Add("-"),
                 };
-                ProductionOrder activeOrder = c.GetActiveOrder();
+                ProductionOrder activeOrder = c.ActiveOrder;
                 _ = CityActionList.Items.Add(activeOrder != null ? activeOrder.RealmActivity(c) : "-");
 
                 _ = CityEnchantmentList.Items.Add("-");
-                int size = c.GetSize();
+                int size = c.Size;
                 _ = CitySizeList.Items.Add(IntToStr(size));
             }
         }
@@ -194,7 +194,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
             if (place is not City)
             {
                 string editName = place.EditName();
-                _ = PlaceNameList.Items.AddObject(editName, place);
+                _ = PlaceNameList.Items.AddObject(editName, item: place);
                 string currentActivityText = place.GetCurrentActivityText();
                 _ = PlaceActionList.Items.Add(currentActivityText);
             }
@@ -216,10 +216,10 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
                 {
                     Army army = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(i);
                     string name = u.GetName();
-                    _ = HeroNameList.Items.AddObject(name, army);
+                    _ = HeroNameList.Items.AddObject(name, item: army);
                     sbyte hitPoints = u.GetHitPoints();
                     sbyte hits = u.GetHits();
-                    _ = HeroHealthList.Items.AddObject($"{IntToStr(hitPoints)}/{IntToStr(hits)}", hero);
+                    _ = HeroHealthList.Items.AddObject($"{IntToStr(hitPoints)}/{IntToStr(hits)}", item: hero);
                     sbyte level = hero.GetLevel();
                     _ = HeroLevelList.Items.Add(IntToStr(level));
                 }
@@ -308,7 +308,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
 
             LibraryImage previewImage = u.GetPreviewImage();
             LibraryImage uPreviewImage = u.GetPreviewImage();
-            _ = u.Show(drawRectangle.Left - ((uPreviewImage.Width - (drawRectangle.Right - drawRectangle.Left)) / 2), drawRectangle.Top - ((previewImage.Height - (Unit1List.ItemHeight - 10)) / 2), lockedSurface, UI.General.UnitShowInfo);
+            _ = u.Show(drawRectangle.Left - ((uPreviewImage.Width - (drawRectangle.Right - drawRectangle.Left)) / 2), drawRectangle.Top - ((previewImage.Height - (Unit1List.ItemHeight - 10)) / 2), lockedSurface, info: UI.General.UnitShowInfo);
             Gauge gauge = UnitGauge;
             gauge.Visible = true;
             gauge.Max = u.GetHits();
@@ -383,7 +383,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
             Troop troop = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(listBox.Selected).Units.GetUnit(slot);
             UI.General.SelectedUnit = troop;
             ArmyHexSprite armyHexSprite = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(listBox.Selected).GetArmyHexSprite();
-            StrategicMap.Current.Select(armyHexSprite, true);
+            StrategicMap.Current.Select(armyHexSprite, center: true);
             Window.Priority = Window.Priority;
         }
         else
@@ -417,14 +417,14 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         if (button == MouseButton.Right && sender.Selected != -1)
         {
             HexSprite sprite = CityNameList.Items.Objects[sender.Selected];
-            sbyte hexLevel = sprite.GetHexLevel();
-            sbyte hexY = sprite.GetHexY();
-            sbyte hexX = sprite.GetHexX();
+            sbyte hexLevel = sprite.HexLevel;
+            sbyte hexY = sprite.HexY;
+            sbyte hexX = sprite.HexX;
             StrategicMap.Current.CenterViewTo(hexX, hexY, hexLevel);
-            sbyte spriteHexLevel = sprite.GetHexLevel();
-            sbyte spriteHexY = sprite.GetHexY();
-            sbyte spriteHexX = sprite.GetHexX();
-            StrategicMap.Current.PlayCenterAnimation(spriteHexX, spriteHexY, spriteHexLevel);
+            sbyte spriteHexLevel = sprite.HexLevel;
+            sbyte spriteHexY = sprite.HexY;
+            sbyte spriteHexX = sprite.HexX;
+            StrategicMap.Current.PlayCenterAnimation(spriteHexX, spriteHexY, L: spriteHexLevel);
         }
     }
 
@@ -466,7 +466,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
             else
             {
                 PlayerStructure hexSprite = PlaceNameList.Items.Objects[sender.Selected];
-                StrategicMap.Current.Select(hexSprite, true);
+                StrategicMap.Current.Select(hexSprite, center: true);
             }
         }
     }
@@ -477,14 +477,14 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         if (button == MouseButton.Right && sender.Selected != -1)
         {
             HexSprite sprite = PlaceNameList.Items.Objects[sender.Selected];
-            sbyte hexLevel = sprite.GetHexLevel();
-            sbyte hexY = sprite.GetHexY();
-            sbyte hexX = sprite.GetHexX();
+            sbyte hexLevel = sprite.HexLevel;
+            sbyte hexY = sprite.HexY;
+            sbyte hexX = sprite.HexX;
             StrategicMap.Current.CenterViewTo(hexX, hexY, hexLevel);
-            sbyte spriteHexLevel = sprite.GetHexLevel();
-            sbyte spriteHexY = sprite.GetHexY();
-            sbyte spriteHexX = sprite.GetHexX();
-            StrategicMap.Current.PlayCenterAnimation(spriteHexX, spriteHexY, spriteHexLevel);
+            sbyte spriteHexLevel = sprite.HexLevel;
+            sbyte spriteHexY = sprite.HexY;
+            sbyte spriteHexX = sprite.HexX;
+            StrategicMap.Current.PlayCenterAnimation(spriteHexX, spriteHexY, L: spriteHexLevel);
         }
     }
 
@@ -495,7 +495,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         if (listBox.Selected != -1)
         {
             ArmyHexSprite armyHexSprite = HeroNameList.Items.Objects[listBox.Selected].GetArmyHexSprite();
-            StrategicMap.Current.Select(armyHexSprite, true);
+            StrategicMap.Current.Select(armyHexSprite, center: true);
         }
     }
 
@@ -506,14 +506,14 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         if (list.Selected != -1)
         {
             HexSprite sprite = HeroNameList.Items.Objects[list.Selected].GetArmyHexSprite();
-            sbyte hexLevel = sprite.GetHexLevel();
-            sbyte hexY = sprite.GetHexY();
-            sbyte hexX = sprite.GetHexX();
+            sbyte hexLevel = sprite.HexLevel;
+            sbyte hexY = sprite.HexY;
+            sbyte hexX = sprite.HexX;
             StrategicMap.Current.CenterViewTo(hexX, hexY, hexLevel);
-            sbyte spriteHexLevel = sprite.GetHexLevel();
-            sbyte spriteHexY = sprite.GetHexY();
-            sbyte spriteHexX = sprite.GetHexX();
-            StrategicMap.Current.PlayCenterAnimation(spriteHexX, spriteHexY, spriteHexLevel);
+            sbyte spriteHexLevel = sprite.HexLevel;
+            sbyte spriteHexY = sprite.HexY;
+            sbyte spriteHexX = sprite.HexX;
+            StrategicMap.Current.PlayCenterAnimation(spriteHexX, spriteHexY, L: spriteHexLevel);
         }
     }
 
@@ -629,7 +629,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         _ = lists.Add(CityMoraleList);
         _ = lists.Add(CityActionList);
         _ = lists.Add(CityEnchantmentList);
-        UI.General.SortLists(lists, 0);
+        UI.General.SortLists(lists, order: 0);
     }
 
     // AoWRealm.pas:649
@@ -647,7 +647,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         _ = lists.Add(CityMoraleList);
         _ = lists.Add(CityActionList);
         _ = lists.Add(CityEnchantmentList);
-        UI.General.SortLists(lists, 0);
+        UI.General.SortLists(lists, order: 0);
     }
 
     // AoWRealm.pas:668
@@ -665,7 +665,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         _ = lists.Add(CityMoraleList);
         _ = lists.Add(CityActionList);
         _ = lists.Add(CityEnchantmentList);
-        UI.General.SortLists(lists, 2);
+        UI.General.SortLists(lists, order: 2);
     }
 
     // AoWRealm.pas:687
@@ -683,7 +683,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         _ = lists.Add(CityMoraleList);
         _ = lists.Add(CityActionList);
         _ = lists.Add(CityEnchantmentList);
-        UI.General.SortLists(lists, 1);
+        UI.General.SortLists(lists, order: 1);
     }
 
     // AoWRealm.pas:706
@@ -701,7 +701,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         _ = lists.Add(CityMoraleList);
         _ = lists.Add(CityActionList);
         _ = lists.Add(CityEnchantmentList);
-        UI.General.SortLists(lists, 1);
+        UI.General.SortLists(lists, order: 1);
     }
 
     // AoWRealm.pas:725
@@ -719,7 +719,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         _ = lists.Add(CityMoraleList);
         _ = lists.Add(CityActionList);
         _ = lists.Add(CityEnchantmentList);
-        UI.General.SortLists(lists, 1);
+        UI.General.SortLists(lists, order: 1);
     }
 
     // AoWRealm.pas:744
@@ -737,7 +737,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         _ = lists.Add(CityMoraleList);
         _ = lists.Add(CityActionList);
         _ = lists.Add(CityEnchantmentList);
-        UI.General.SortLists(lists, 1);
+        UI.General.SortLists(lists, order: 1);
     }
 
     // AoWRealm.pas:763
@@ -755,7 +755,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         _ = lists.Add(CityRelationList);
         _ = lists.Add(CityActionList);
         _ = lists.Add(CityEnchantmentList);
-        UI.General.SortLists(lists, 1);
+        UI.General.SortLists(lists, order: 1);
     }
 
     // AoWRealm.pas:782
@@ -773,7 +773,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         _ = lists.Add(CityRelationList);
         _ = lists.Add(CityMoraleList);
         _ = lists.Add(CityEnchantmentList);
-        UI.General.SortLists(lists, 1);
+        UI.General.SortLists(lists, order: 1);
     }
 
     // AoWRealm.pas:801
@@ -791,7 +791,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         _ = lists.Add(CityRelationList);
         _ = lists.Add(CityMoraleList);
         _ = lists.Add(CityActionList);
-        UI.General.SortLists(lists, 0);
+        UI.General.SortLists(lists, order: 0);
     }
 
     // AoWRealm.pas:820
@@ -801,7 +801,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         DelphiList<ListBox> lists = new();
         _ = lists.Add(PlaceNameList);
         _ = lists.Add(PlaceActionList);
-        UI.General.SortLists(lists, 0);
+        UI.General.SortLists(lists, order: 0);
     }
 
     // AoWRealm.pas:831
@@ -856,7 +856,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         _ = lists.Add(HeroNameList);
         _ = lists.Add(HeroHealthList);
         _ = lists.Add(HeroLevelList);
-        UI.General.SortLists(lists, 0);
+        UI.General.SortLists(lists, order: 0);
     }
 
     // AoWRealm.pas:887
@@ -867,7 +867,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         _ = lists.Add(HeroHealthList);
         _ = lists.Add(HeroNameList);
         _ = lists.Add(HeroLevelList);
-        UI.General.SortLists(lists, 1);
+        UI.General.SortLists(lists, order: 1);
     }
 
     // AoWRealm.pas:899
@@ -878,7 +878,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         _ = lists.Add(HeroLevelList);
         _ = lists.Add(HeroNameList);
         _ = lists.Add(HeroHealthList);
-        UI.General.SortLists(lists, 2);
+        UI.General.SortLists(lists, order: 2);
     }
 
     // AoWRealm.pas:911
@@ -891,7 +891,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         {
             for (int j = 0, lastJ = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(i).Units.Count - 1; j <= lastJ; j++)
             {
-                int unitGraphicsResourceIndex = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(i).Units.GetUnit(j).GetUnitGraphicsResourceIndex();
+                int unitGraphicsResourceIndex = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(i).Units.GetUnit(j).UnitGraphicsResourceIndex;
                 _ = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex).AddRef();
             }
         }
@@ -904,7 +904,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         {
             for (int j = 0, lastJ = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(i).Units.Count - 1; j <= lastJ; j++)
             {
-                int unitGraphicsResourceIndex = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(i).Units.GetUnit(j).GetUnitGraphicsResourceIndex();
+                int unitGraphicsResourceIndex = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Armies.GetArmy(i).Units.GetUnit(j).UnitGraphicsResourceIndex;
                 _ = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex).Release();
             }
         }
@@ -938,7 +938,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         DelphiList<ListBox> lists = new();
         _ = lists.Add(PlaceActionList);
         _ = lists.Add(PlaceNameList);
-        UI.General.SortLists(lists, 1);
+        UI.General.SortLists(lists, order: 1);
     }
 
     // AoWRealm.pas:962

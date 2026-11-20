@@ -17,7 +17,7 @@ public class Hatred : GlobalEnchantmentSpell
     public Hatred(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.HatredText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.HatredText);
         SpellId = 46;
         SpellType = SpellType.Global;
         BaseManaCost = 20;
@@ -33,10 +33,10 @@ public class Hatred : GlobalEnchantmentSpell
         sbyte x = coordinate72.X;
         sbyte y = coordinate72.Y;
         sbyte l = coordinate72.MapLevel;
-        _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
+        _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, radius: 0);
         _ = StrategicMap.Current.AddEffect(WorldEffectType.Hatred);
         _ = CastSounds.Play(0);
-        CastingDone(source, eventValue.EventMana);
+        CastingDone(source, mana: eventValue.EventMana);
         return false;
     }
 

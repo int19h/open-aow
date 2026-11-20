@@ -27,7 +27,7 @@ public sealed class FixtureTests : FormatsTest
     {
         Fixtures.Case c = Fixtures.All().Single(f => $"{f.Group}/{f.Name}" == name);
         Fixtures.Outcome outcome = c.Run();
-        Assert.True(outcome.Matched, outcome.Detail);
+        Assert.True(outcome.Matched, userMessage: outcome.Detail);
     }
 
     [Theory]

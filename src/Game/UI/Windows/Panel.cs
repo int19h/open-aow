@@ -194,7 +194,7 @@ public partial class Panel : BaseWindow
         }
         catch
         {
-            _ = MessageBox(0, "Exception during Setup", $"Error - {Name}", 0);
+            _ = MessageBox(0, text: "Exception during Setup", caption: $"Error - {Name}", flags: 0);
         }
     }
 
@@ -220,11 +220,11 @@ public partial class Panel : BaseWindow
 
                 if (Masked)
                 {
-                    OwnerComponent.AddDrawRectangle(ref r, this);
+                    OwnerComponent.AddDrawRectangle(ref r, sender: this);
                 }
                 else
                 {
-                    OwnerComponent.AddBlitRectangle(ref r, this);
+                    OwnerComponent.AddBlitRectangle(ref r, sender: this);
                 }
             }
 
@@ -238,7 +238,7 @@ public partial class Panel : BaseWindow
                     ? new Rect(WinLeft, WinTop, WinLeft + WinWidth - 1, WinTop + WinHeight - 1)
                     : new Rect(OwnerComponent.WindowRelativeLeft + WinLeft, OwnerComponent.WindowRelativeTop + WinTop, OwnerComponent.WindowRelativeLeft + WinLeft + WinWidth - 1, OwnerComponent.WindowRelativeTop + WinTop + WinHeight - 1);
 
-                OwnerComponent.AddDrawRectangle(ref r, this);
+                OwnerComponent.AddDrawRectangle(ref r, sender: this);
                 Hidden = false;
             }
         }
@@ -269,7 +269,7 @@ public partial class Panel : BaseWindow
                 {
                     if (c is BaseWindow)
                     {
-                        c.InvalidateRectangle(0, ref rectangle, this);
+                        c.InvalidateRectangle(0, ref rectangle, sender: this);
                     }
                     else
                     {
@@ -279,7 +279,7 @@ public partial class Panel : BaseWindow
                             if (c.Masked)
                             {
                                 Rect r = new(absLeft + c.WinLeft, absTop + c.WinTop, absLeft + c.WinLeft + c.WinWidth, absTop + c.WinTop + c.WinHeight);
-                                AddDrawRectangle(ref r, this);
+                                AddDrawRectangle(ref r, sender: this);
                             }
                         }
                     }
@@ -290,19 +290,19 @@ public partial class Panel : BaseWindow
         if (OwnerComponent != sender)
         {
             int indexOf = OwnerComponent.Children.IndexOf(this);
-            OwnerComponent.InvalidateRectangle(indexOf + 1, ref rectangle, this);
+            OwnerComponent.InvalidateRectangle(indexOf + 1, ref rectangle, sender: this);
         }
     }
 
     // AoWPanel.pas:82
-    public override void AddBlitRectangle(ref Rect rectangle, UIComponent sender) => OwnerComponent.AddBlitRectangle(ref rectangle, this);
+    public override void AddBlitRectangle(ref Rect rectangle, UIComponent sender) => OwnerComponent.AddBlitRectangle(ref rectangle, sender: this);
 
     // AoWPanel.pas:87
     public override void AddDrawRectangle(ref Rect rectangle, UIComponent sender)
     {
         if (Masked)
         {
-            OwnerComponent.AddDrawRectangle(ref rectangle, this);
+            OwnerComponent.AddDrawRectangle(ref rectangle, sender: this);
         }
 
         if (WindowStyle != Style.Blank)
@@ -376,7 +376,7 @@ public partial class Panel : BaseWindow
                 {
                     case Style.Normal:
                         SizedRectangle rectangle = new(absLeft, absTop, WinWidth, WinHeight);
-                        ImageLibraryFrame.DrawFrame(ImageLibraryIndexFrame, rectangle, ref lockedSurface);
+                        ImageLibraryFrame.DrawFrame(ImageLibraryIndexFrame, area: rectangle, ref lockedSurface);
                         LibraryImage imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
                         LibraryImage imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame + 6];
                         LibraryImage imageLibraryFrameWidth = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
@@ -384,15 +384,15 @@ public partial class Panel : BaseWindow
                         LibraryImage imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
                         LibraryImage imageLibraryFrame4 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
                         SizedRectangle rectangle2 = new(absLeft + imageLibraryFrame4.Width, absTop + imageLibraryFrame3.Height, WinWidth - imageLibraryFrameWidth.Width - imageLibraryFrame2.Width, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
-                        ImageLibraryTexture.DrawTiled(ImageLibraryIndexTexture, rectangle2, ref lockedSurface);
+                        ImageLibraryTexture.DrawTiled(ImageLibraryIndexTexture, area: rectangle2, ref lockedSurface);
                         break;
                     case Style.Hollow:
                         SizedRectangle rectangle3 = new(absLeft, absTop, WinWidth, WinHeight);
-                        ImageLibraryFrame.DrawFrame(ImageLibraryIndexFrame, rectangle3, ref lockedSurface);
+                        ImageLibraryFrame.DrawFrame(ImageLibraryIndexFrame, area: rectangle3, ref lockedSurface);
                         break;
                     case Style.Borderless:
                         SizedRectangle rectangle4 = new(absLeft, absTop, WinWidth, WinHeight);
-                        ImageLibraryTexture.DrawTiled(ImageLibraryIndexTexture, rectangle4, ref lockedSurface);
+                        ImageLibraryTexture.DrawTiled(ImageLibraryIndexTexture, area: rectangle4, ref lockedSurface);
                         break;
                     case Style.Blank:
                     default:
@@ -400,7 +400,7 @@ public partial class Panel : BaseWindow
                 }
 
                 blitRectangle = new Rect(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, lockedSurface.ClipRectangle.Right, lockedSurface.ClipRectangle.Bottom);
-                OwnerComponent.AddBlitRectangle(ref blitRectangle, this);
+                OwnerComponent.AddBlitRectangle(ref blitRectangle, sender: this);
             }
         }
 
@@ -449,14 +449,14 @@ public partial class Panel : BaseWindow
                         DrawBack();
                         lockedSurface.ClipRectangle = oldClip;
                         Rect rectangle5 = d.Rectangle;
-                        InvalidateRectangle(0, ref rectangle5, d.Owner);
+                        InvalidateRectangle(0, rectangle: ref rectangle5, sender: d.Owner);
                         d.Rectangle = rectangle5;
                     }
                 }
                 else
                 {
                     DrawBack();
-                    RaiseDrawBack(this, lockedSurface);
+                    RaiseDrawBack(this, surfDesc: lockedSurface);
                 }
 
                 DrawCount = 0;
@@ -479,7 +479,7 @@ public partial class Panel : BaseWindow
                         {
                             d = DrawList[j];
                             Rect rectangle6 = d.Rectangle;
-                            InvalidateRectangle(i + 1, ref rectangle6, null);
+                            InvalidateRectangle(i + 1, rectangle: ref rectangle6, sender: null);
                             d.Rectangle = rectangle6;
                         }
 
@@ -487,14 +487,14 @@ public partial class Panel : BaseWindow
                         if (!Drawn || !c.FirstDraw)
                         {
                             blitRectangle = new Rect(absLeft + c.WinLeft, absTop + c.WinTop, absLeft + c.WinLeft + c.WinWidth, absTop + c.WinTop + c.WinHeight);
-                            OwnerComponent.AddBlitRectangle(ref blitRectangle, this);
+                            OwnerComponent.AddBlitRectangle(ref blitRectangle, sender: this);
                             blitRectangle = new Rect(absLeft + c.WinLeft, absTop + c.WinTop, absLeft + c.WinLeft + c.WinWidth - 1, absTop + c.WinTop + c.WinHeight - 1);
-                            InvalidateRectangle(i + 1, ref blitRectangle, c);
+                            InvalidateRectangle(i + 1, rectangle: ref blitRectangle, sender: c);
                         }
                     }
                 }
 
-                RaiseDraw(this, lockedSurface);
+                RaiseDraw(this, surfDesc: lockedSurface);
 
                 Drawn = SurfaceValid;
                 lockedSurface.ClipRectangle = oldClip;
@@ -503,7 +503,7 @@ public partial class Panel : BaseWindow
         }
         catch
         {
-            _ = MessageBox(0, "Exception during Draw", $"Error - {Name}", 0);
+            _ = MessageBox(0, text: "Exception during Draw", caption: $"Error - {Name}", flags: 0);
         }
     }
 
@@ -674,7 +674,7 @@ public partial class Panel : BaseWindow
                 }
                 else
                 {
-                    _tabPanel.Panels.Insert(newIndex, this);
+                    _tabPanel.Panels.Insert(newIndex, item: this);
                 }
             }
         }

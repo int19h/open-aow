@@ -33,13 +33,13 @@ public class CityEnchantmentSpell(CustomNode owner) : CityTargetSpell(owner)
             CityEnchantmentId = EnchantmentId,
             EnchantmentManaUpkeep = ManaUpkeep
         };
-        MapCoordinate mapCoordinate = targetCity.Owner.GetMapCoordinate();
+        MapCoordinate mapCoordinate = targetCity.Owner.MapCoordinate;
         enchantment.EnchantmentLocation = mapCoordinate;
         enchantment.DispelMana = EnchantmentSpellId;
         enchantment.PlayerIndex = source.Player;
         targetCity.ActivateEnchantment(enchantment);
-        PlayDefaultCityEffects(eventValue.GetSource(), targetCity);
-        CastingDone(source, eventValue.EventMana);
+        PlayDefaultCityEffects(eventValue.Source, targetCity);
+        CastingDone(source, mana: eventValue.EventMana);
         return false;
     }
 
@@ -66,7 +66,7 @@ public class CityEnchantmentSpell(CustomNode owner) : CityTargetSpell(owner)
             valid = valid && source.CanCastSpell(SpellId, ref reason);
             if (valid)
             {
-                if ((AICastSituation.Contains(CityEnchantmentCastSpellSituationElement.LeaderInCity) && source is Leader) || (AICastSituation.Contains(CityEnchantmentCastSpellSituationElement.Hex4City) && targetCity.GetSize() == 4) || (AICastSituation.Contains(CityEnchantmentCastSpellSituationElement.Hex3City) && targetCity.GetSize() == 3))
+                if ((AICastSituation.Contains(CityEnchantmentCastSpellSituationElement.LeaderInCity) && source is Leader) || (AICastSituation.Contains(CityEnchantmentCastSpellSituationElement.Hex4City) && targetCity.Size == 4) || (AICastSituation.Contains(CityEnchantmentCastSpellSituationElement.Hex3City) && targetCity.Size == 3))
                 {
                     AICastSpellAction action = CreateCastSpellAction();
                     SetupCastSpellAction(source, action);
@@ -88,8 +88,8 @@ public class CityEnchantmentSpell(CustomNode owner) : CityTargetSpell(owner)
         City targetCity = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<City>();
         if (targetCity is not null && ValidTargetCity(source, targetCity) && source.CanCastSpell(SpellId, ref reason))
         {
-            _ = AICastSpellExpenseMade(source, BaseManaCost, ManaUpkeep, AIBudget);
-            if (source.CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
+            _ = AICastSpellExpenseMade(source, budget: BaseManaCost, mana: ManaUpkeep, upkeep: AIBudget);
+            if (source.CanCastSpellInstantly(SpellId, mana: BaseManaCost, ref reason))
             {
                 return TargetSelected(source, x, y, l);
             }

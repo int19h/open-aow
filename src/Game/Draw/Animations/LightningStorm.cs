@@ -29,10 +29,10 @@ public class LightningStorm(CustomNode owner) : Storm(owner)
         int frame = FrameCounter % _stormImages.Count;
         if (_stormImages[frame] is not null)
         {
-            sbyte hexY = GetHexY();
-            HexGeometry.HexToPixel(GetHexX(), hexY, out int x, out int y);
+            sbyte hexY = HexY;
+            HexGeometry.HexToPixel(HexX, hexY, out int x, out int y);
             LibraryImage stormImageWidth = _stormImages[frame];
-            x = x - (int)(((uint)stormImageWidth.Width) >> 1) + 20;
+            x = x - (stormImageWidth.Width >>> 1) + 20;
             LibraryImage stormImageHeight = _stormImages[frame];
             y = y - stormImageHeight.Height + 32 + 40;
             _stormImages[frame].Show(x - pixelXSurface, y - pixelYSurface, lockedSurface);
@@ -40,7 +40,7 @@ public class LightningStorm(CustomNode owner) : Storm(owner)
     }
 
     // Storms.pas:487
-    public override void GetTargetDamageInfo(sbyte player, sbyte X, sbyte Y, sbyte L, ref StormDamageInfo info) => AbilityRules.RetrieveStormDamageInfo(player, StormType.Lightning, X, Y, L, 0, 1, out info);
+    public override void GetTargetDamageInfo(sbyte player, sbyte X, sbyte Y, sbyte L, ref StormDamageInfo info) => AbilityRules.RetrieveStormDamageInfo(player, storm: StormType.Lightning, X, Y, L, innerRadius: 0, outerRadius: 1, out info);
 
     // Storms.pas:478
     public override void UpdateTargetSelection(TargetSelectionControl selection)
@@ -58,18 +58,18 @@ public class LightningStorm(CustomNode owner) : Storm(owner)
     {
         Rect r = default;
         base.InitializeStorm(player, X, Y, L);
-        _stormImages = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "EFFECTS\\LIGHTN.ILB");
-        if (GetVisible())
+        _stormImages = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: "EFFECTS\\LIGHTN.ILB");
+        if (Visible)
         {
             _stormImages.LoadDiscardableImageData();
         }
 
-        r.Left = -(int)(((uint)_stormImages[0].Width) >> 1);
-        r.Right = (int)(((uint)_stormImages[0].Width) >> 1);
+        r.Left = -(_stormImages[0].Width >>> 1);
+        r.Right = _stormImages[0].Width >>> 1;
         r.Top = -_stormImages[0].Height + 32;
         r.Bottom = 32;
         SetDimensions(r);
-        _ = StrategicMap.Current.ValidateTerrainObservation(StrategicMap.Current.CurrentPlayer, X, Y, L, 2);
+        _ = StrategicMap.Current.ValidateTerrainObservation(StrategicMap.Current.CurrentPlayer, X, Y, L, radius: 2);
         _ = PlaceHex(StrategicMap.Current.MapContainer, X, Y, L);
     }
 
@@ -83,7 +83,7 @@ public class LightningStorm(CustomNode owner) : Storm(owner)
         }
         if (_stormImages.Count == FrameCounter)
         {
-            AbilityRules.TriggerStormDamage(mapLevel: GetHexLevel(), y: GetHexY(), storm: StormType.Lightning, x: GetHexX(), innerRadius: 0, outerRadius: 1, player: StrategicMap.Current.CurrentPlayer);
+            AbilityRules.TriggerStormDamage(mapLevel: HexLevel, y: HexY, storm: StormType.Lightning, x: HexX, innerRadius: 0, outerRadius: 1, player: StrategicMap.Current.CurrentPlayer);
             return false;
         }
         else
@@ -96,11 +96,11 @@ public class LightningStorm(CustomNode owner) : Storm(owner)
     public override void FinalizeStorm()
     {
         _stormImages.ReleaseDiscardableImageData();
-        GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "EFFECTS\\LIGHTN.ILB");
+        GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: "EFFECTS\\LIGHTN.ILB");
         base.FinalizeStorm();
     }
 
     // Storms.pas:424
-    public override string Name() => AbilityRules.TranslateResourceString(GetEngine(), GameTables.LightningStormText);
+    public override string Name() => AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.LightningStormText);
 
 }

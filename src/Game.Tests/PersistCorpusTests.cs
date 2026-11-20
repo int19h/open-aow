@@ -119,19 +119,19 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
             {
                 string path = Path.Combine(Root, relative);
                 byte[] bytes = File.ReadAllBytes(path);
-                Classification found = GameFiles.Classify(bytes, Path.GetExtension(path));
+                Classification found = GameFiles.Classify(bytes, extension: Path.GetExtension(path));
                 if (found.Format != DetectedFormat.Original || found.Profile is null || found.Kind is null)
                 {
                     continue;
                 }
 
-                ImportResult imported = GameFiles.Import(bytes, found.Profile, found.Kind, relative);
+                ImportResult imported = GameFiles.Import(bytes, found.Profile, found.Kind, fileName: relative);
                 Assert.Equal(OwnFormat.CurrentVersion, ((JsonInteger)imported.Document["$version"]).Value);
                 JsonObject root = (JsonObject)imported.Document["root"];
                 SchemaClass classValue = found.Profile.RootHasClass
                     ? schema.Get(((JsonString)root["$class"]).Value)
                     : schema.Get(found.Profile.RootFamily);
-                Walk(root, classValue, found.Profile.Engine, relative, schema, factory, counts);
+                Walk(root, classValue, found.Profile.Engine, file: relative, schema, factory, counts);
             }
             foreach ((string relative, string rootClass, string engine) in s_gameSetFiles)
             {
@@ -142,9 +142,9 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
                 }
 
                 byte[] bytes = File.ReadAllBytes(path);
-                WrittenObjectProfile profile = new("pfs", ["pfs"], rootClass, engine);
-                ImportResult imported = GameFiles.Import(bytes[4..^4], profile, "pfs", relative);
-                Walk((JsonObject)imported.Document["root"], schema.Get(rootClass), engine, relative, schema, factory, counts);
+                WrittenObjectProfile profile = new("pfs", kinds: ["pfs"], rootClass, engine);
+                ImportResult imported = GameFiles.Import(bytes[4..^4], profile, kind: "pfs", fileName: relative);
+                Walk((JsonObject)imported.Document["root"], classValue: schema.Get(rootClass), engine, file: relative, schema, factory, counts);
             }
             SortedSet<string> printed = [with(StringComparer.Ordinal)];
             foreach (KeyValuePair<string, int> pair in counts)
@@ -170,7 +170,7 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
                 _output.WriteLine(line);
                 Console.WriteLine(line);
             }
-            foreach (KeyValuePair<string, int> pair in s_refusers.OrderByDescending(pair => pair.Value).ThenBy(pair => pair.Key, StringComparer.Ordinal))
+            foreach (KeyValuePair<string, int> pair in s_refusers.OrderByDescending(pair => pair.Value).ThenBy(pair => pair.Key, comparer: StringComparer.Ordinal))
             {
                 string line = $"refused {pair.Value} {pair.Key}";
                 _output.WriteLine(line);
@@ -180,7 +180,7 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
             {
                 _ = s_proved.TryGetValue(name, out int ok);
                 _ = s_blocked.TryGetValue(name, out (int Count, string Reason) held);
-                Assert.True(ok > 0, $"{name} has no proved instance in the corpus. {held.Reason ?? ""}");
+                Assert.True(ok > 0, userMessage: $"{name} has no proved instance in the corpus. {held.Reason ?? ""}");
             }
             PrintLevels();
         }
@@ -273,7 +273,7 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
                 {
                     foreach (JsonValue item in array.Items)
                     {
-                        Visit(classValue, prop, item, engine, file, schema, factory, counts);
+                        Visit(classValue, prop, value: item, engine, file, schema, factory, counts);
                     }
                 }
 
@@ -287,11 +287,11 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
     {
         if (prop.Codec is FixedObjectCodec fixedObject && value is JsonObject nested)
         {
-            Walk(nested, schema.Get(fixedObject.ClassName), engine, file, schema, factory, counts);
+            Walk(nested, classValue: schema.Get(fixedObject.ClassName), engine, file, schema, factory, counts);
         }
         else if (prop.Codec is CreatedObjectCodec && value is JsonObject created && created["$class"] is JsonString name)
         {
-            Walk(created, schema.Get(name.Value), engine, file, schema, factory, counts);
+            Walk(created, classValue: schema.Get(name.Value), engine, file, schema, factory, counts);
         }
         else if (prop.Codec is ChildrenCodec && value is JsonArray children)
         {
@@ -299,7 +299,7 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
             {
                 if (item is JsonObject child && child["$class"] is JsonString childName)
                 {
-                    Walk(child, schema.Get(childName.Value), engine, file, schema, factory, counts);
+                    Walk(child, classValue: schema.Get(childName.Value), engine, file, schema, factory, counts);
                 }
             }
         }
@@ -314,7 +314,7 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
                     {
                         if (cell is JsonObject fieldObject)
                         {
-                            Walk(fieldObject, field, engine, file, schema, factory, counts);
+                            Walk(fieldObject, classValue: field, engine, file, schema, factory, counts);
                         }
                     }
                 }
@@ -323,7 +323,7 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
         else if (prop.Codec is CampaignMapCodec && value is JsonObject map && map["root"] is JsonObject campaignRoot)
         {
             SchemaClass campaignClass = campaignRoot["$class"] is JsonString nestedName ? schema.Get(nestedName.Value) : schema.Get("StrategicMap");
-            Walk(campaignRoot, campaignClass, engine, file, schema, factory, counts);
+            Walk(campaignRoot, classValue: campaignClass, engine, file, schema, factory, counts);
         }
     }
 
@@ -333,13 +333,13 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
         // cannot load. Its levels are proved on the direct path, and a constructed test proves it.
         if (classValue.Name == "MapContainer")
         {
-            Block(classValue.Name, "fixture: a map container loads only into its map");
+            Block(classValue.Name, label: "fixture: a map container loads only into its map");
             return false;
         }
 
         try
         {
-            byte[] image = PilotImage.Encode(objectValue, classValue.Name, engine);
+            byte[] image = PilotImage.Encode(objectValue, className: classValue.Name, engine);
             // An image sequence draws Random once per frame-table layer when it loads, so every
             // load of the instance starts from the same seed and draws the same image indices.
             int seed = DelphiRandom.RandSeed;
@@ -355,7 +355,7 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
                 {
                     // The fixture loads no game resources, so a part that needs one (a unit's
                     // resource) cannot load. Such an instance proves nothing either way.
-                    Block(classValue.Name, $"fixture: {FixtureLabel(error)}");
+                    Block(classValue.Name, label: $"fixture: {FixtureLabel(error)}");
                     return false;
                 }
                 catch (NullReferenceException error)
@@ -363,11 +363,11 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
                     // A hexagon sprite whose resource does not link reads that resource anyway
                     // (HexBridge.LinkToResource), and the fixture has no map for a sprite to
                     // place itself on. The stream load fails before the tree is involved.
-                    Block(classValue.Name, $"fixture: null reference in {error.TargetSite?.DeclaringType?.Name}.{error.TargetSite?.Name}");
+                    Block(classValue.Name, label: $"fixture: null reference in {error.TargetSite?.DeclaringType?.Name}.{error.TargetSite?.Name}");
                     return false;
                 }
                 byte[] rewritten = Image(loaded, engine: engine);
-                JsonObject expected = PilotImage.Decode(rewritten, classValue.Name, engine);
+                JsonObject expected = PilotImage.Decode(rewritten, className: classValue.Name, engine);
                 ObjectNode tree = TreeWriter.Write(loaded, factory);
                 EqualJson(actual: DocumentBackend.Write(tree, classValue, schema, engine), expected: expected, label: $"{file} {classValue.Name} write");
                 byte[] direct;
@@ -377,16 +377,16 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
                 }
                 catch (ConversionException error) when (IsDirectRefusal(error))
                 {
-                    Block(classValue.Name, error.Diagnostic.Message);
+                    Block(classValue.Name, label: error.Diagnostic.Message);
                     return false;
                 }
-                EqualBytes(rewritten, direct, $"{file} {classValue.Name} original");
+                EqualBytes(rewritten, direct, label: $"{file} {classValue.Name} original");
                 EngineObject again = Blank(classValue.Name);
                 try
                 {
                     DelphiRandom.RandSeed = seed;
-                    TreeReader.Read(DocumentBackend.Read(expected, classValue, schema, engine), again, factory, Stop);
-                    EqualBytes(PilotImage.Encode(expected, classValue.Name, engine), Image(again, engine: engine), $"{file} {classValue.Name} read");
+                    TreeReader.Read(DocumentBackend.Read(expected, classValue, schema, engine), objectValue: again, factory, onError: Stop);
+                    EqualBytes(PilotImage.Encode(expected, className: classValue.Name, engine), Image(again, engine: engine), label: $"{file} {classValue.Name} read");
                 }
                 finally
                 {
@@ -402,11 +402,11 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
                     }
                     catch (ConversionException error) when (IsDirectRefusal(error))
                     {
-                        Block(classValue.Name, error.Diagnostic.Message);
+                        Block(classValue.Name, label: error.Diagnostic.Message);
                         return false;
                     }
                     DelphiRandom.RandSeed = seed;
-                    TreeReader.Read(read, fromImage, factory, Stop);
+                    TreeReader.Read(read, objectValue: fromImage, factory, onError: Stop);
                     EqualBytes(Image(loaded, engine: engine), actual: Image(fromImage, engine: engine), label: $"{file} {classValue.Name} read");
                 }
                 finally
@@ -421,7 +421,7 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
                 try
                 {
                     DelphiRandom.RandSeed = seed;
-                    Load(streamCopied, Image(loaded, engine: engine), classValue: classValue, engine: engine, factory: factory);
+                    Load(streamCopied, image: Image(loaded, engine: engine), classValue: classValue, engine: engine, factory: factory);
                     EqualBytes(Image(streamCopied, engine: engine), actual: Image(copied, engine: engine), label: $"{file} {classValue.Name} copy");
                 }
                 finally
@@ -438,12 +438,12 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
         }
         catch (InvalidOperationException error) when (IsTreeRefusal(error))
         {
-            Block(classValue.Name, RefusalName(error));
+            Block(classValue.Name, label: RefusalName(error));
             return false;
         }
         catch (Exception error) when (error is not XunitException)
         {
-            throw new InvalidOperationException($"{file} {classValue.Name} failed. {error.Message}", error);
+            throw new InvalidOperationException($"{file} {classValue.Name} failed. {error.Message}", innerException: error);
         }
     }
 
@@ -463,7 +463,7 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
     private static void ProveLevel(JsonObject level, SchemaClass classValue, string engine, string file, FormatSchema schema)
     {
         string label = $"{file} {classValue.Name}";
-        byte[] image = PilotImage.Encode(level, classValue.Name, engine);
+        byte[] image = PilotImage.Encode(level, className: classValue.Name, engine);
         ObjectNode tree;
         byte[] direct;
         try
@@ -477,11 +477,11 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
             s_levelBlocks[error.Diagnostic.Message] = seen + 1;
             return;
         }
-        JsonObject expected = PilotImage.Decode(direct, classValue.Name, engine);
-        EqualJson(PilotImage.Decode(image, classValue.Name, engine), expected, $"{label} direct read");
-        EqualBytes(direct, PilotImage.Encode(expected, classValue.Name, engine), $"{label} direct canonical");
-        EqualJson(expected, DocumentBackend.Write(tree, classValue, schema, engine), $"{label} direct document");
-        EqualBytes(direct, OriginalBackend.Write(DocumentBackend.Read(expected, classValue, schema, engine), classValue, schema, engine), $"{label} direct document read");
+        JsonObject expected = PilotImage.Decode(direct, className: classValue.Name, engine);
+        EqualJson(PilotImage.Decode(image, className: classValue.Name, engine), expected, label: $"{label} direct read");
+        EqualBytes(direct, PilotImage.Encode(expected, className: classValue.Name, engine), label: $"{label} direct canonical");
+        EqualJson(expected, DocumentBackend.Write(tree, classValue, schema, engine), label: $"{label} direct document");
+        EqualBytes(direct, OriginalBackend.Write(DocumentBackend.Read(expected, classValue, schema, engine), classValue, schema, engine), label: $"{label} direct document read");
         GridNode grid = (GridNode)tree.Find("Fields");
         long sprites = 0;
         foreach (ObjectNode field in grid.Fields)
@@ -499,12 +499,12 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
     private void PrintLevels()
     {
         int levels = 0;
-        foreach ((string name, (int count, long fields, long sprites)) in s_levels.OrderBy(pair => pair.Key, StringComparer.Ordinal))
+        foreach ((string name, (int count, long fields, long sprites)) in s_levels.OrderBy(pair => pair.Key, comparer: StringComparer.Ordinal))
         {
             levels += count;
             Print($"direct {name} {count} levels, {fields} fields, {sprites} sprites");
         }
-        foreach ((string message, int count) in s_levelBlocks.OrderByDescending(pair => pair.Value).ThenBy(pair => pair.Key, StringComparer.Ordinal))
+        foreach ((string message, int count) in s_levelBlocks.OrderByDescending(pair => pair.Value).ThenBy(pair => pair.Key, comparer: StringComparer.Ordinal))
         {
             levels += count;
             Print($"direct blocked {count} {message}");
@@ -512,8 +512,8 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
         Print($"direct levels {levels}");
         foreach (string message in s_levelBlocks.Keys)
         {
-            Assert.False(message.Contains("map fields", StringComparison.Ordinal) || message.Contains("dynamic member", StringComparison.Ordinal),
-                $"A map level is refused for its fields or sprites: {message}");
+            Assert.False(message.Contains("map fields", comparisonType: StringComparison.Ordinal) || message.Contains("dynamic member", comparisonType: StringComparison.Ordinal),
+                userMessage: $"A map level is refused for its fields or sprites: {message}");
         }
     }
 
@@ -547,18 +547,18 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
     private static string RefusalName(InvalidOperationException error)
     {
         const string prefix = "Class ";
-        int nameEnd = error.Message.IndexOf(' ', prefix.Length);
+        int nameEnd = error.Message.IndexOf(' ', startIndex: prefix.Length);
         return error.Message[prefix.Length..nameEnd];
     }
 
     private static bool IsDirectRefusal(ConversionException error)
     {
         string message = error.Diagnostic.Message;
-        return message.StartsWith("The direct path does not store", StringComparison.Ordinal)
-            || message.StartsWith("PE-2c still needs", StringComparison.Ordinal)
-            || message.StartsWith("PE-3 still needs", StringComparison.Ordinal)
-            || message.StartsWith("A record has no image.", StringComparison.Ordinal)
-            || message.Contains("uses a case mapping.", StringComparison.Ordinal);
+        return message.StartsWith("The direct path does not store", comparisonType: StringComparison.Ordinal)
+            || message.StartsWith("PE-2c still needs", comparisonType: StringComparison.Ordinal)
+            || message.StartsWith("PE-3 still needs", comparisonType: StringComparison.Ordinal)
+            || message.StartsWith("A record has no image.", comparisonType: StringComparison.Ordinal)
+            || message.Contains("uses a case mapping.", comparisonType: StringComparison.Ordinal);
     }
 
     // Stored names pinned in names.csv by this part. The schema still uses these names.
@@ -596,8 +596,8 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
     // name, so one cause sums under one refuser line.
     private static string FixtureLabel(Exception error) => error switch
     {
-        MapObjectResourceMissingException => Regex.Replace(error.Message, " -?[0-9]+$", ""),
-        _ when error.Message.StartsWith(EngineFixture.Root, StringComparison.OrdinalIgnoreCase) =>
+        MapObjectResourceMissingException => Regex.Replace(error.Message, pattern: " -?[0-9]+$", replacement: ""),
+        _ when error.Message.StartsWith(EngineFixture.Root, comparisonType: StringComparison.OrdinalIgnoreCase) =>
             $"no hexagon sprite set {Path.GetFileName(error.Message.Split(' ')[0]).ToUpperInvariant()}",
         _ => error.Message,
     };
@@ -606,12 +606,12 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
     {
         string message = error.Message;
         const string prefix = "Class ";
-        if (!message.StartsWith(prefix, StringComparison.Ordinal))
+        if (!message.StartsWith(prefix, comparisonType: StringComparison.Ordinal))
         {
             return false;
         }
 
-        int nameEnd = message.IndexOf(' ', prefix.Length);
+        int nameEnd = message.IndexOf(' ', startIndex: prefix.Length);
         if (nameEnd < 0)
         {
             return false;
@@ -669,7 +669,7 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
             return;
         }
 
-        Assert.Fail($"{label} at {FirstDifference(expected, actual, "")}");
+        Assert.Fail($"{label} at {FirstDifference(expected, actual, path: "")}");
     }
 
     private static string FirstDifference(JsonValue expected, JsonValue actual, string path)
@@ -691,12 +691,12 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
 
                 JsonMember one = left.Members[i];
                 JsonMember other = right.Members[i];
-                if (!string.Equals(one.Name, other.Name, StringComparison.Ordinal))
+                if (!string.Equals(one.Name, other.Name, comparisonType: StringComparison.Ordinal))
                 {
-                    return string.Create(CultureInfo.InvariantCulture, $"{path} member {i} {one.Name} / {other.Name}");
+                    return string.Create(CultureInfo.InvariantCulture, handler: $"{path} member {i} {one.Name} / {other.Name}");
                 }
 
-                string nested = FirstDifference(one.Value, other.Value, Join(path, one.Name));
+                string nested = FirstDifference(one.Value, other.Value, path: Join(path, one.Name));
                 if (nested.Length != 0)
                 {
                     return nested;
@@ -709,7 +709,7 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
             int count = Math.Max(leftItems.Items.Count, rightItems.Items.Count);
             for (int i = 0; i < count; i++)
             {
-                string at = string.Create(CultureInfo.InvariantCulture, $"{path}[{i}]");
+                string at = string.Create(CultureInfo.InvariantCulture, handler: $"{path}[{i}]");
                 if (i >= leftItems.Items.Count)
                 {
                     return $"{at} extra";
@@ -720,7 +720,7 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
                     return $"{at} missing";
                 }
 
-                string nested = FirstDifference(leftItems.Items[i], rightItems.Items[i], at);
+                string nested = FirstDifference(leftItems.Items[i], rightItems.Items[i], path: at);
                 if (nested.Length != 0)
                 {
                     return nested;
@@ -773,9 +773,9 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
                 continue;
             }
 
-            foreach (string file in Directory.EnumerateFiles(directory, Path.GetFileName(pattern), new EnumerationOptions { MatchCasing = MatchCasing.CaseInsensitive }))
+            foreach (string file in Directory.EnumerateFiles(directory, searchPattern: Path.GetFileName(pattern), enumerationOptions: new EnumerationOptions { MatchCasing = MatchCasing.CaseInsensitive }))
             {
-                yield return Path.GetRelativePath(Root, file);
+                yield return Path.GetRelativePath(Root, path: file);
             }
         }
     }

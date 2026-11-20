@@ -172,8 +172,8 @@ public partial class PlayerInfoWindow : ILayoutModule
         EventList.BorderHeight = 4;
         EventList.OnDoubleClick += _ => EventListDoubleClick();
         EventList.Selected = -1;
-        EventList.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => EventListDrawItem(drawRectangle, drawItem, in surface);
-        EventList.OnPreDrawItem += (_, in drawRectangle, drawItem, ref surface) => EventListPreDrawItem(drawRectangle, drawItem, in surface);
+        EventList.OnDrawItem += (_, in drawRectangle, drawItem, ref surface) => EventListDrawItem(drawRectangle, drawItem, lockedSurface: in surface);
+        EventList.OnPreDrawItem += (_, in drawRectangle, drawItem, ref surface) => EventListPreDrawItem(drawRectangle, drawItem, lockedSurface: in surface);
         EventList.TextColor = 9415072;
         EventList.TextSelectedColor = 0;
         EventList.ImageLibraryIndexFrame = 113;
@@ -681,9 +681,9 @@ public partial class PlayerInfoWindow : ILayoutModule
         session.BeginRead(translator);
         translator.Name = "Translator";
         translator.DictionaryName = "AoW";
-        translator.TargetsData.Add(new TranslationTarget("", "Items", 0));
-        translator.TargetsData.Add(new TranslationTarget("", "Text", 0));
-        translator.TargetsData.Add(new TranslationTarget("", "ToolTipText", 0));
+        translator.TargetsData.Add(new TranslationTarget("", PropertyName: "Items", Options: 0));
+        translator.TargetsData.Add(new TranslationTarget("", PropertyName: "Text", Options: 0));
+        translator.TargetsData.Add(new TranslationTarget("", PropertyName: "ToolTipText", Options: 0));
         session.EndRead(translator);
         session.EndRead(this);
         min.Window = MainWindow;

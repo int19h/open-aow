@@ -348,7 +348,7 @@ public class CombatPredictor : IDisposable
     public CombatPredictorUnit AddUnit(Troop troop, byte side, byte behindWall)
     {
         CombatPredictorUnit u = new();
-        u.Setup(troop, (CombatPredictor)(object)this, side);
+        u.Setup(troop, predictor: (CombatPredictor)(object)this, side);
         u.BehindWall = behindWall;
         _ = _allUnits.Add(u);
         _ = Sides[side].Add(u);
@@ -365,7 +365,7 @@ public class CombatPredictor : IDisposable
     }
 
     // CombatPredictor.pas:504
-    public void AddUnit(Troop troop) => AddUnit(troop, 0, 0);
+    public void AddUnit(Troop troop) => AddUnit(troop, side: 0, behindWall: 0);
 
     // CombatPredictor.pas:507
     public void AddUnits(UnitCollection units)
@@ -377,7 +377,7 @@ public class CombatPredictor : IDisposable
     }
 
     // CombatPredictor.pas:514
-    public void AddOpponent(Troop troop, byte behindWall) => AddUnit(troop, 1, behindWall);
+    public void AddOpponent(Troop troop, byte behindWall) => AddUnit(troop, side: 1, behindWall);
 
     // CombatPredictor.pas:517
     public void AddOpponents(UnitList units, byte behindWall)
@@ -394,7 +394,7 @@ public class CombatPredictor : IDisposable
         if (wallType == WallType.None)
         {
             // { Preserve the original assertion diagnostic. }
-            Assert(false, "Use DeleteWall instead!", "D:\\AoWDev\\AoWE\\inc\\CombatPredictor.pas", 18391);
+            Assert(false, message: "Use DeleteWall instead!", file: "D:\\AoWDev\\AoWE\\inc\\CombatPredictor.pas", line: 18391);
         }
 
         CombatPredictorUnit unitObject = _wall;
@@ -404,7 +404,7 @@ public class CombatPredictor : IDisposable
             wall.SetWallType(wallType);
             wall.Hits = (sbyte)(wall.Hits + 5);
             wall.HitPoints = (sbyte)(wall.HitPoints + 5);
-            _wall = AddUnit(wall, 1, 0);
+            _wall = AddUnit(wall, side: 1, behindWall: 0);
             _ = wall.Release();
         }
         else
@@ -469,7 +469,7 @@ public class CombatPredictor : IDisposable
                 AddWall((WallType)message.Result.Int);
             }
 
-            HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, 0);
+            HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, radius: 0);
             while (walk.Radius <= 1)
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -477,7 +477,7 @@ public class CombatPredictor : IDisposable
                     ArmyHexSprite armyHexSprite = level.GetField(walk.X, walk.Y).GetArmyHexSprite();
                     if (armyHexSprite is not null && armyHexSprite != army)
                     {
-                        CombatSideIndex side = CombatAbilityTables.GetCombatSide((sbyte)player, (sbyte)relation, (sbyte)defender, (sbyte)defenderRelation, armyHexSprite.Army.Player, armyHexSprite.Army.IndependentRelation);
+                        CombatSideIndex side = CombatAbilityTables.GetCombatSide((sbyte)player, attackerRelation: (sbyte)relation, defender: (sbyte)defender, defenderRelation: (sbyte)defenderRelation, armyHexSprite.Army.Player, relation: armyHexSprite.Army.IndependentRelation);
                         if (side != CombatSideIndex.Neutral)
                         {
                             MapField field = level.GetField(X, Y);
@@ -493,7 +493,7 @@ public class CombatPredictor : IDisposable
                                 Troop u = armyHexSprite.Army.Units.GetUnit(i);
                                 if (u.ValidTerrain(field.TerrainType, field.OverlayType))
                                 {
-                                    _ = AddUnit(u, (byte)(int)side, (byte)((WallType)message.Result.Int != WallType.None ? 1 : 0));
+                                    _ = AddUnit(u, side: (byte)(int)side, behindWall: (byte)((WallType)message.Result.Int != WallType.None ? 1 : 0));
                                 }
                             }
                         }
@@ -526,7 +526,7 @@ public class CombatPredictor : IDisposable
                 AddWall((WallType)message.Result.Int);
             }
 
-            HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, 0);
+            HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, radius: 0);
             while (walk.Radius <= 1)
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
@@ -534,7 +534,7 @@ public class CombatPredictor : IDisposable
                     ArmyHexSprite armyHexSprite = level.GetField(walk.X, walk.Y).GetArmyHexSprite();
                     if (armyHexSprite is not null)
                     {
-                        CombatSideIndex side = CombatAbilityTables.GetCombatSide((sbyte)player, (sbyte)relation, (sbyte)defender, (sbyte)defenderRelation, armyHexSprite.Army.Player, armyHexSprite.Army.IndependentRelation);
+                        CombatSideIndex side = CombatAbilityTables.GetCombatSide((sbyte)player, attackerRelation: (sbyte)relation, defender: (sbyte)defender, defenderRelation: (sbyte)defenderRelation, armyHexSprite.Army.Player, relation: armyHexSprite.Army.IndependentRelation);
                         if (side == CombatSideIndex.Defender)
                         {
                             MapField field = level.GetField(X, Y);
@@ -550,7 +550,7 @@ public class CombatPredictor : IDisposable
                                 Troop u = armyHexSprite.Army.Units.GetUnit(i);
                                 if (u.ValidTerrain(field.TerrainType, field.OverlayType))
                                 {
-                                    _ = AddUnit(u, (byte)(int)side, (byte)((WallType)message.Result.Int != WallType.None ? 1 : 0));
+                                    _ = AddUnit(u, side: (byte)(int)side, behindWall: (byte)((WallType)message.Result.Int != WallType.None ? 1 : 0));
                                 }
                             }
                         }
@@ -797,10 +797,10 @@ public class CombatPredictor : IDisposable
     }
 
     // CombatPredictor.pas:988
-    public void ListRequiredUnits(UnitUserList required, int superiority) => ListRequiredUnits(required, null, null, superiority);
+    public void ListRequiredUnits(UnitUserList required, int superiority) => ListRequiredUnits(required, optional: null, useless: null, superiority);
 
     // CombatPredictor.pas:991
-    public void ListOptionalUnits(UnitUserList optional, int superiority) => ListRequiredUnits(null, optional, null, superiority);
+    public void ListOptionalUnits(UnitUserList optional, int superiority) => ListRequiredUnits(null, optional, useless: null, superiority);
 
     // CombatPredictor.pas:994
     public void ListUselessUnits(UnitList useless)
@@ -821,7 +821,7 @@ public class CombatPredictor : IDisposable
         EnableAllUnits();
         Validate();
         CombatPredictorUnit u = new();
-        u.Setup(troop, (CombatPredictor)(object)this, 0);
+        u.Setup(troop, predictor: (CombatPredictor)(object)this, side: 0);
         CombatPredictorUnit wall = _wall;
         int result;
         CombatPredictorUnit target;

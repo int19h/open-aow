@@ -89,7 +89,7 @@ public class CombatWall : CombatObject
     public override sbyte GetHits() => _wallType == 2 ? (sbyte)10 : (sbyte)5;
 
     // Combat.pas:1743
-    public override sbyte GetHitPoints() => (sbyte)_hitPoints;
+    public override sbyte HitPoints => (sbyte)_hitPoints;
 
     // Combat.pas:1755
     public override void SetHitPoints(byte value) => _hitPoints = value;
@@ -117,10 +117,10 @@ public class CombatWall : CombatObject
         switch (_wallType)
         {
             case 1:
-                GamePack.Current.CombatImages[21].Show(X + 15, Y + 5, surface);
+                GamePack.Current.CombatImages[21].Show(X + 15, Y + 5, lockedSurface: surface);
                 break;
             case 2:
-                GamePack.Current.CombatImages[22].Show(X + 15, Y + 5, surface);
+                GamePack.Current.CombatImages[22].Show(X + 15, Y + 5, lockedSurface: surface);
                 break;
             default:
                 break;

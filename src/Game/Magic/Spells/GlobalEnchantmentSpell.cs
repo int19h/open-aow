@@ -53,7 +53,7 @@ public class GlobalEnchantmentSpell(CustomNode owner) : Spell(owner)
         {
             _ = AICastSpellExpenseMade(upkeep: AIUpkeepPriority(), source: source, budget: BaseManaCost, mana: ManaUpkeep);
             string reason = "";
-            if (source.CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
+            if (source.CanCastSpellInstantly(SpellId, mana: BaseManaCost, ref reason))
             {
                 return Activate(source);
             }
@@ -88,14 +88,14 @@ public class GlobalEnchantmentSpell(CustomNode owner) : Spell(owner)
                 if (enchantment is not null)
                 {
                     SetupEnchantment(source, enchantment);
-                    result = enchantment.CanCast(source.Player, ref messageText);
+                    result = enchantment.CanCast(source.Player, reason: ref messageText);
                     _ = enchantment.Release();
                 }
             }
             else
             {
                 result = false;
-                messageText = AbilityRules.TranslateResourceString(GetEngine(), GameText.CannotCastGlobalEnchantmentWhenSpellWardIsActiveText);
+                messageText = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CannotCastGlobalEnchantmentWhenSpellWardIsActiveText);
             }
         }
 
@@ -106,10 +106,10 @@ public class GlobalEnchantmentSpell(CustomNode owner) : Spell(owner)
     public override bool Activate(Troop source)
     {
         string reason = "";
-        if (CanActivate(source, ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
+        if (CanActivate(source, messageText: ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             GlobalEnchantmentSpellTokenEvent eventValue = new(null) { Holder = CreationHolder() };
-            eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
+            eventValue.Initialize(SpellId, playerIndex: (byte)source.Player, sourceId: source.UnitId, mana: BaseManaCost);
             eventValue.Enchantment = CreateEnchantment();
             SetupEnchantment(source, eventValue.Enchantment);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
@@ -127,7 +127,7 @@ public class GlobalEnchantmentSpell(CustomNode owner) : Spell(owner)
     {
         string reason = "";
         bool result = AIBasePriority != -1 && source.CanCastSpell(SpellId, ref reason);
-        return result && CanActivate(source, ref reason);
+        return result && CanActivate(source, messageText: ref reason);
     }
 
     // GlobalEnchantmentSpells.pas:419

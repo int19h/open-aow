@@ -62,15 +62,15 @@ public partial class Picture16
                 SurfaceView destination = lockedSurface.View((l * 2) + (lockedSurface.Pitch * t));
                 // One table of H row offsets followed by W columns, as the original's GetMem.
                 int[] tables = new int[w + h];
-                rowTable = tables.AsSpan(0, h);
-                columnTable = tables.AsSpan(h, w);
+                rowTable = tables.AsSpan(0, length: h);
+                columnTable = tables.AsSpan(h, length: w);
                 int xStep = DelphiRounding.Round((double)65535 / xScale);
                 int xPosition = sx != 0 ? DelphiRounding.Round((double)((double)sx / xScale) * 65535) : 0;
 
                 int c;
                 for (int i = 0; i <= w - 1; i++)
                 {
-                    c = (int)(((uint)xPosition) >> 16);
+                    c = xPosition >>> 16;
                     if (c >= DataWidth)
                     {
                         c = DataWidth - 1;
@@ -88,7 +88,7 @@ public partial class Picture16
                     LoadDiscardableImageData();
                     for (int i = 0; i <= h - 1; i++)
                     {
-                        c = (int)(((uint)yPosition) >> 16);
+                        c = yPosition >>> 16;
                         if (c >= DataHeight)
                         {
                             c = DataHeight - 1;
@@ -121,7 +121,7 @@ public partial class Picture16
                 {
                     for (int i = 0; i <= h - 1; i++)
                     {
-                        c = (int)(((uint)yPosition) >> 16);
+                        c = yPosition >>> 16;
                         if (c >= DataHeight)
                         {
                             c = DataHeight - 1;
@@ -205,15 +205,15 @@ public partial class Picture16
                 SurfaceView destination = lockedSurface.View((l * 2) + (lockedSurface.Pitch * t));
                 // One table of H row offsets followed by W columns, as the original's GetMem.
                 int[] tables = new int[w + h];
-                rowTable = tables.AsSpan(0, h);
-                columnTable = tables.AsSpan(h, w);
+                rowTable = tables.AsSpan(0, length: h);
+                columnTable = tables.AsSpan(h, length: w);
                 int xStep = DelphiRounding.Round((double)65535 / xScale);
                 int xPosition = sx != 0 ? DelphiRounding.Round((double)((double)sx / xScale) * 65535) : 0;
 
                 int c;
                 for (int i = 0; i <= w - 1; i++)
                 {
-                    c = (int)(((uint)xPosition) >> 16);
+                    c = xPosition >>> 16;
                     if (c >= DataWidth)
                     {
                         c = DataWidth - 1;
@@ -231,7 +231,7 @@ public partial class Picture16
                     LoadDiscardableImageData();
                     for (int i = 0; i <= h - 1; i++)
                     {
-                        c = (int)(((uint)yPosition) >> 16);
+                        c = yPosition >>> 16;
                         if (c >= DataHeight)
                         {
                             c = DataHeight - 1;
@@ -246,10 +246,10 @@ public partial class Picture16
                         switch (lockedSurface.PixelFormatId)
                         {
                             case PixelFormat.Rgb555:
-                                BlendStretched555(View, rowTable, columnTable, destination, w, h, table.Bytes);
+                                BlendStretched555(View, rowTable, columnTable, destination, w, h, table: table.Bytes);
                                 break;
                             case PixelFormat.Rgb565:
-                                BlendStretched565(View, rowTable, columnTable, destination, w, h, table.Bytes);
+                                BlendStretched565(View, rowTable, columnTable, destination, w, h, table: table.Bytes);
                                 break;
                             case PixelFormat.None:
                             case PixelFormat.Pal8:
@@ -272,10 +272,10 @@ public partial class Picture16
                         switch (lockedSurface.PixelFormatId)
                         {
                             case PixelFormat.Rgb555:
-                                BlendStretched555(View, rowTable, columnTable, destination, w, h, table.Bytes);
+                                BlendStretched555(View, rowTable, columnTable, destination, w, h, table: table.Bytes);
                                 break;
                             case PixelFormat.Rgb565:
-                                BlendStretched565(View, rowTable, columnTable, destination, w, h, table.Bytes);
+                                BlendStretched565(View, rowTable, columnTable, destination, w, h, table: table.Bytes);
                                 break;
                             case PixelFormat.None:
                             case PixelFormat.Pal8:
@@ -298,7 +298,7 @@ public partial class Picture16
                 {
                     for (int i = 0; i <= h - 1; i++)
                     {
-                        c = (int)(((uint)yPosition) >> 16);
+                        c = yPosition >>> 16;
                         if (c >= DataHeight)
                         {
                             c = DataHeight - 1;
@@ -313,10 +313,10 @@ public partial class Picture16
                         switch (lockedSurface.PixelFormatId)
                         {
                             case PixelFormat.Rgb555:
-                                BlendStretched555(View, rowTable, columnTable, destination, w, h, table.Bytes);
+                                BlendStretched555(View, rowTable, columnTable, destination, w, h, table: table.Bytes);
                                 break;
                             case PixelFormat.Rgb565:
-                                BlendStretched565(View, rowTable, columnTable, destination, w, h, table.Bytes);
+                                BlendStretched565(View, rowTable, columnTable, destination, w, h, table: table.Bytes);
                                 break;
                             case PixelFormat.None:
                             case PixelFormat.Pal8:
@@ -339,10 +339,10 @@ public partial class Picture16
                         switch (lockedSurface.PixelFormatId)
                         {
                             case PixelFormat.Rgb555:
-                                BlendStretched555(View, rowTable, columnTable, destination, w, h, table.Bytes);
+                                BlendStretched555(View, rowTable, columnTable, destination, w, h, table: table.Bytes);
                                 break;
                             case PixelFormat.Rgb565:
-                                BlendStretched565(View, rowTable, columnTable, destination, w, h, table.Bytes);
+                                BlendStretched565(View, rowTable, columnTable, destination, w, h, table: table.Bytes);
                                 break;
                             case PixelFormat.None:
                             case PixelFormat.Pal8:

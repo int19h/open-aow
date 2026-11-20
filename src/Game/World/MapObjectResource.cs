@@ -125,7 +125,7 @@ public class MapObjectResource : EngineResource
     }
 
     // MAPOBJ.PAS:465
-    public override void SetCellImage(LibraryImage value) => ImageLibrary.SetImage(0, value);
+    public override void SetCellImage(LibraryImage value) => ImageLibrary.SetImage(0, image: value);
 
     // MAPOBJ.PAS:525
     // The user class is a map object. Another class throws, and a class id of zero stays null.
@@ -141,7 +141,7 @@ public class MapObjectResource : EngineResource
         if (mapObject is not null)
         {
             mapObject.SetResource(this);
-            mapObject.SetResourceLinked(true);
+            mapObject.ResourceLinked = true;
         }
 
         return mapObject;
@@ -172,11 +172,11 @@ public class MapObjectResource : EngineResource
                 }
             }
 
-            BlitImageSequence(canvas, sequence, 0, rectangle, mode, scaleX, scaleY, bkColor, color, false, in drawRectangle);
+            BlitImageSequence(canvas, sequence, frame: 0, rectangle, mode, scaleX, scaleY, bkColor, color, selected: false, in drawRectangle);
         }
         else
         {
-            LibraryDrawing.BlitLibraryImage(canvas, image, rectangle, mode, scaleX, scaleY, bkColor, color, false, in drawRectangle);
+            LibraryDrawing.BlitLibraryImage(canvas, image, rectangle, mode, scaleX, scaleY, bkColor, color, selected: false, in drawRectangle);
         }
     }
 
@@ -199,7 +199,7 @@ public class MapObjectResource : EngineResource
         HexGeometry.HexToPixel(hexX, hexY, out int pixelX, out int pixelY);
         pixelX += 16;
         pixelY += 16;
-        if (!hexSpriteMap.Place(result, pixelX, pixelY, hexLevel))
+        if (!hexSpriteMap.Place(result, pixelX, pixelY, L: hexLevel))
         {
             result?.Dispose();
             return null;
@@ -223,7 +223,7 @@ public class MapObjectResource : EngineResource
 
     // The control of this resource kind, null for a resource with none. Hexagon resources answer
     // the hexagon control, road resources the road control.
-    public virtual MapObjectResourceTerrainControl GetTerrainControl() => null;
+    public virtual MapObjectResourceTerrainControl TerrainControl => null;
 
     // MAPOBJ.PAS:507
     public void ShowComplexImage(int X, int Y, in LockedSurface lockedSurface, int index, uint offset)
@@ -232,7 +232,7 @@ public class MapObjectResource : EngineResource
 
         while (sequence is not null)
         {
-            int frame = sequence.GetFrameIndex(Engine.HexSpriteMap.Frame, (int)offset);
+            int frame = sequence.GetFrameIndex(Engine.HexSpriteMap.Frame, offset: (int)offset);
             if (frame != -1)
             {
                 sequence.ImageLibrary.Get(frame).Show(X + sequence.OffsetX, Y + sequence.OffsetY, lockedSurface);
@@ -251,8 +251,8 @@ public class MapObjectResource : EngineResource
         {
             if (TerrainList.GetTerrain(i) >= 0)
             {
-                HexGeometry.CenterHexNumberToHex(X, Y, i, ref hexX, ref hexY);
-                Engine.HexSpriteMap.ClearTerrain(hexX, hexY, hexLevel, 0, -1);
+                HexGeometry.CenterHexNumberToHex(X, Y, hexNumber: i, ref hexX, ref hexY);
+                Engine.HexSpriteMap.ClearTerrain(hexX, hexY, L: hexLevel, radius: 0, terrainType: -1);
             }
         }
     }
@@ -266,9 +266,9 @@ public class MapObjectResource : EngineResource
         MapLevel mapLevel = message.Param[0].As<MapLevel>();
         int hexLevel = message.Data[1];
         int radius = message.Param[1].Int;
-        HexGeometry.PixelToHex(message.Payload.Int, message.Data[0], out int hexX, out int hexY);
+        HexGeometry.PixelToHex(message.Payload.Int, vertical: message.Data[0], out int hexX, out int hexY);
         bool clear = message.Param[2].Int == 1;
-        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, 0);
+        HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, radius: 0);
         while (walk.Radius <= radius)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)

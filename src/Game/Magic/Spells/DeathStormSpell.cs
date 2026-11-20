@@ -14,7 +14,7 @@ public class DeathStormSpell : StormSpell
     public DeathStormSpell(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameTables.DeathStormText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.DeathStormText);
         SpellId = 5;
         BaseManaCost = 5;
         SpellLevel = 4;

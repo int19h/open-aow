@@ -18,7 +18,7 @@ public class ImageFileClassList : DelphiList<ImageFileClass>
         int i = 0;
         if (!IsEmpty(ext) && ext[0] == 46)
         {
-            ext = Copy(ext, 2, ext.Length - 1);
+            ext = Copy(ext, index: 2, count: ext.Length - 1);
         }
 
         while (i != Count && CompareText(List[i].Extension, ext) != 0)

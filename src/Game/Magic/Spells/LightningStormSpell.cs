@@ -14,7 +14,7 @@ public class LightningStormSpell : StormSpell
     public LightningStormSpell(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameTables.LightningStormText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.LightningStormText);
         SpellId = 7;
         BaseManaCost = 5;
         SpellLevel = 3;

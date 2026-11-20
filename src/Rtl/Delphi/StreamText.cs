@@ -5,7 +5,7 @@ public static class StreamText
     public static int ReadString(Stream stream, ref string value, int start, int count, bool exact)
     {
         byte[] bytes = [.. Cp1252.Encode(value)];
-        Span<byte> buffer = bytes.AsSpan(start, count);
+        Span<byte> buffer = bytes.AsSpan(start, length: count);
         if (exact && count == 0)
         {
             return 0;

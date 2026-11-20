@@ -17,7 +17,7 @@ public static class SafeOutput
         string full = Path.GetFullPath(path);
         string root = Path.GetPathRoot(full) ?? "";
         string current = root;
-        foreach (string part in full[root.Length..].Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries))
+        foreach (string part in full[root.Length..].Split(Path.DirectorySeparatorChar, options: StringSplitOptions.RemoveEmptyEntries))
         {
             current = Path.Combine(current, part);
             FileSystemInfo info = Directory.Exists(current) ? new DirectoryInfo(current) : new FileInfo(current);
@@ -29,13 +29,13 @@ public static class SafeOutput
         return current.TrimEnd(Path.DirectorySeparatorChar);
     }
 
-    public static bool SamePath(string a, string b) => string.Equals(Resolve(a), Resolve(b), s_pathComparison);
+    public static bool SamePath(string a, string b) => string.Equals(Resolve(a), Resolve(b), comparisonType: s_pathComparison);
 
     /// <summary>Whether one directory tree contains the other.</summary>
     public static bool Overlaps(string a, string b)
     {
         string x = Resolve(a) + Path.DirectorySeparatorChar, y = Resolve(b) + Path.DirectorySeparatorChar;
-        return x.StartsWith(y, s_pathComparison) || y.StartsWith(x, s_pathComparison);
+        return x.StartsWith(y, comparisonType: s_pathComparison) || y.StartsWith(x, comparisonType: s_pathComparison);
     }
 
     public static string? CheckFile(string input, string output, bool overwrite)
@@ -56,12 +56,12 @@ public static class SafeOutput
         string temporary = Path.Combine(directory, $".{Path.GetFileName(full)}.{Guid.NewGuid():N}.tmp");
         try
         {
-            using (FileStream stream = new(temporary, FileMode.CreateNew, FileAccess.Write, FileShare.None))
+            using (FileStream stream = new(temporary, mode: FileMode.CreateNew, access: FileAccess.Write, share: FileShare.None))
             {
                 stream.Write(bytes);
                 stream.Flush(true);
             }
-            File.Move(temporary, full, true);
+            File.Move(temporary, destFileName: full, overwrite: true);
         }
         finally
         {

@@ -31,7 +31,7 @@ public sealed class AtomicReplacementTests : IDisposable
     {
         RtlHost.Files = _previous;
         FileBoundary.Log = _previousLog;
-        Directory.Delete(_directory, true);
+        Directory.Delete(_directory, recursive: true);
     }
 
     /// <summary>The engine image of an empty hero list: the stored image of one root property.</summary>
@@ -50,9 +50,9 @@ public sealed class AtomicReplacementTests : IDisposable
         if (withOld)
         {
             _ = Directory.CreateDirectory(Path.GetDirectoryName(Old)!);
-            File.WriteAllBytes(Old, HeroListImage());
+            File.WriteAllBytes(Old, bytes: HeroListImage());
         }
-        LayeredFileSystem files = new(Path.Combine(_directory, "root"), Path.Combine(_directory, "user"));
+        LayeredFileSystem files = new(Path.Combine(_directory, "root"), userDirectory: Path.Combine(_directory, "user"));
         RtlHost.Files = files;
         return files;
     }
@@ -62,12 +62,12 @@ public sealed class AtomicReplacementTests : IDisposable
     {
         _ = Layers();
         using HeroLibrary list = HeroList("Replaced");
-        FileBoundary.Save(Logical, GameProfile.HeroList, list);
+        FileBoundary.Save(Logical, profile: GameProfile.HeroList, root: list);
         byte[] written = File.ReadAllBytes(Old);
         Assert.True(GameFiles.IsJsonCandidate(written));
         Assert.False(File.Exists(Temporary));
-        GameFileResult reread = GameBoundary.PrepareLoad(written, Logical, GameProfile.HeroList, FormatMapping.Validators);
-        Assert.True(reread.Succeeded, reread.Report.Error?.ToString());
+        GameFileResult reread = GameBoundary.PrepareLoad(written, fileName: Logical, use: GameProfile.HeroList, FormatMapping.Validators);
+        Assert.True(reread.Succeeded, userMessage: reread.Report.Error?.ToString());
         Assert.Equal("Replaced", ((JsonString)((JsonObject)reread.Document!["root"]!)["LibraryName"]!).Value);
         FileLogRecord record = Assert.Single(_log);
         Assert.True(record.Succeeded);
@@ -82,7 +82,7 @@ public sealed class AtomicReplacementTests : IDisposable
         _ = Layers();
         byte[] before = File.ReadAllBytes(Old);
         using HeroLibrary list = HeroList("\u4e00");
-        GameFileErrorException error = Assert.Throws<GameFileErrorException>(() => FileBoundary.Save(Logical, GameProfile.HeroList, list));
+        GameFileErrorException error = Assert.Throws<GameFileErrorException>(() => FileBoundary.Save(Logical, profile: GameProfile.HeroList, root: list));
         Assert.Equal(before, File.ReadAllBytes(Old));
         Assert.False(File.Exists(Temporary));
         Assert.False(error.Record.Succeeded);
@@ -94,7 +94,7 @@ public sealed class AtomicReplacementTests : IDisposable
         LayeredFileSystem layers = Layers();
         byte[] before = File.ReadAllBytes(Old);
         RtlHost.Files = new FailingFiles(layers, failWrite: true);
-        _ = Assert.Throws<GameFileErrorException>(() => FileBoundary.Save(Logical, GameProfile.HeroList, HeroList("New")));
+        _ = Assert.Throws<GameFileErrorException>(() => FileBoundary.Save(Logical, profile: GameProfile.HeroList, root: HeroList("New")));
         Assert.Equal(before, File.ReadAllBytes(Old));
         Assert.False(File.Exists(Temporary));
         Assert.Equal(Codes.Output, Assert.Single(_log).Report.Error!.Code);
@@ -106,7 +106,7 @@ public sealed class AtomicReplacementTests : IDisposable
         LayeredFileSystem layers = Layers();
         byte[] before = File.ReadAllBytes(Old);
         RtlHost.Files = new FailingFiles(layers, failReplace: true);
-        _ = Assert.Throws<GameFileErrorException>(() => FileBoundary.Save(Logical, GameProfile.HeroList, HeroList("New")));
+        _ = Assert.Throws<GameFileErrorException>(() => FileBoundary.Save(Logical, profile: GameProfile.HeroList, root: HeroList("New")));
         Assert.Equal(before, File.ReadAllBytes(Old));
         Assert.False(File.Exists(Temporary));
     }
@@ -116,9 +116,9 @@ public sealed class AtomicReplacementTests : IDisposable
     {
         _ = Layers(withOld: false);
         string shipped = Path.Combine(_directory, "root", "User", "list.ahl");
-        File.WriteAllBytes(shipped, HeroListImage());
-        RtlHost.Files = new LayeredFileSystem(Path.Combine(_directory, "root"), Path.Combine(_directory, "user"));
-        FileBoundary.Save(Logical, GameProfile.HeroList, HeroList("New"));
+        File.WriteAllBytes(shipped, bytes: HeroListImage());
+        RtlHost.Files = new LayeredFileSystem(Path.Combine(_directory, "root"), userDirectory: Path.Combine(_directory, "user"));
+        FileBoundary.Save(Logical, profile: GameProfile.HeroList, root: HeroList("New"));
         Assert.Equal(HeroListImage(), File.ReadAllBytes(shipped));
         Assert.True(GameFiles.IsJsonCandidate(File.ReadAllBytes(Old)));
         Assert.Equal("user", RtlHost.Files.Layer(Logical));
@@ -130,7 +130,7 @@ public sealed class AtomicReplacementTests : IDisposable
         LayeredFileSystem layers = Layers();
         byte[] before = File.ReadAllBytes(Old);
         RtlHost.Files = new NoReplaceFiles(layers);
-        _ = Assert.Throws<GameFileErrorException>(() => FileBoundary.Save(Logical, GameProfile.HeroList, HeroList("New")));
+        _ = Assert.Throws<GameFileErrorException>(() => FileBoundary.Save(Logical, profile: GameProfile.HeroList, root: HeroList("New")));
         Assert.Equal(before, File.ReadAllBytes(Old));
         Assert.False(File.Exists(Temporary));
     }
@@ -190,7 +190,7 @@ public sealed class AtomicReplacementTests : IDisposable
 
         public override void Write(byte[] buffer, int offset, int count)
         {
-            inner.Write(buffer, offset, Math.Min(count, 1));
+            inner.Write(buffer, offset, count: Math.Min(count, 1));
             throw new IOException("There is not enough space on the disk.");
         }
 

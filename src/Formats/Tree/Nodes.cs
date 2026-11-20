@@ -143,12 +143,12 @@ public sealed class LinesNode : TreeValue
         RawText = rawText;
     }
 
-    public static LinesNode FromLines(IReadOnlyList<string> lines) => new(lines, null);
+    public static LinesNode FromLines(IReadOnlyList<string> lines) => new(lines, rawText: null);
 
     internal static LinesNode FromText(string text)
     {
         List<string>? lines = Original.StringsCodec.Lines(text);
-        return lines is null ? new LinesNode(null, text) : new LinesNode(lines, null);
+        return lines is null ? new LinesNode(null, rawText: text) : new LinesNode(lines, rawText: null);
     }
 
     public override bool ValueEquals(TreeValue other)
@@ -173,12 +173,12 @@ public sealed class LinesWithValuesNode : TreeValue
         Objects = objects;
     }
 
-    public static LinesWithValuesNode FromLines(IReadOnlyList<string> lines, IReadOnlyList<int> objects) => new(lines, null, objects);
+    public static LinesWithValuesNode FromLines(IReadOnlyList<string> lines, IReadOnlyList<int> objects) => new(lines, rawText: null, objects);
 
     internal static LinesWithValuesNode FromText(string text, IReadOnlyList<int> objects)
     {
         List<string>? lines = Original.StringsCodec.Lines(text);
-        return lines is null ? new LinesWithValuesNode(null, text, objects) : new LinesWithValuesNode(lines, null, objects);
+        return lines is null ? new LinesWithValuesNode(null, rawText: text, objects) : new LinesWithValuesNode(lines, rawText: null, objects);
     }
 
     public override bool ValueEquals(TreeValue other)
@@ -313,7 +313,7 @@ public sealed class ObjectNode(string? className, int? slot) : TreeValue
     {
         foreach ((string? name, TreeValue? value) in _members)
         {
-            foreach ((string Path, int Key) hit in value.ReferencesIn(domain, name))
+            foreach ((string Path, int Key) hit in value.ReferencesIn(domain, path: name))
             {
                 yield return hit;
             }
@@ -324,7 +324,7 @@ public sealed class ObjectNode(string? className, int? slot) : TreeValue
     {
         foreach ((string? name, TreeValue? value) in _members)
         {
-            value.RejectVersion(version, path.Member(name));
+            value.RejectVersion(version, path: path.Member(name));
         }
     }
 
@@ -332,7 +332,7 @@ public sealed class ObjectNode(string? className, int? slot) : TreeValue
     {
         foreach ((string? name, TreeValue? value) in _members)
         {
-            foreach ((string Path, int Key) hit in value.ReferencesIn(domain, $"{path}.{name}"))
+            foreach ((string Path, int Key) hit in value.ReferencesIn(domain, path: $"{path}.{name}"))
             {
                 yield return hit;
             }
@@ -369,12 +369,12 @@ public sealed class RecordNode : TreeValue
     {
         if (version < 3)
         {
-            throw TreeErrors.Fail(Codes.Type, string.Create(CultureInfo.InvariantCulture, $"Version {version} does not store a record."), path);
+            throw TreeErrors.Fail(Codes.Type, message: string.Create(CultureInfo.InvariantCulture, handler: $"Version {version} does not store a record."), path);
         }
 
         foreach ((string? name, TreeValue? value) in _members)
         {
-            value.RejectVersion(version, path.Member(name));
+            value.RejectVersion(version, path: path.Member(name));
         }
     }
 
@@ -382,7 +382,7 @@ public sealed class RecordNode : TreeValue
     {
         foreach ((string? name, TreeValue? value) in _members)
         {
-            foreach ((string Path, int Key) hit in value.ReferencesIn(domain, $"{path}.{name}"))
+            foreach ((string Path, int Key) hit in value.ReferencesIn(domain, path: $"{path}.{name}"))
             {
                 yield return hit;
             }
@@ -406,7 +406,7 @@ public sealed class BitArrayNode(int count, int[] indices) : TreeValue
     {
         if (version < 3)
         {
-            throw TreeErrors.Fail(Codes.Type, string.Create(CultureInfo.InvariantCulture, $"Version {version} does not store a bit array."), path);
+            throw TreeErrors.Fail(Codes.Type, message: string.Create(CultureInfo.InvariantCulture, handler: $"Version {version} does not store a bit array."), path);
         }
     }
 }
@@ -487,7 +487,7 @@ public sealed class SlotListNode : TreeValue
     {
         for (int i = 0; i < _entries.Count; i++)
         {
-            _entries[i].Value.RejectVersion(version, path.Item(i));
+            _entries[i].Value.RejectVersion(version, path: path.Item(i));
         }
     }
 
@@ -495,7 +495,7 @@ public sealed class SlotListNode : TreeValue
     {
         for (int i = 0; i < _entries.Count; i++)
         {
-            foreach ((string Path, int Key) hit in _entries[i].Value.ReferencesIn(domain, string.Create(CultureInfo.InvariantCulture, $"{path}[{i}]")))
+            foreach ((string Path, int Key) hit in _entries[i].Value.ReferencesIn(domain, path: string.Create(CultureInfo.InvariantCulture, handler: $"{path}[{i}]")))
             {
                 yield return hit;
             }
@@ -523,8 +523,8 @@ public sealed class GridNode(int width, int height, IReadOnlyList<ObjectNode> fi
     {
         for (int i = 0; i < Fields.Count; i++)
         {
-            int y = Math.DivRem(i, Width, out int x);
-            Fields[i].RejectVersion(version, path.Item(y).Item(x));
+            int y = Math.DivRem(i, Width, result: out int x);
+            Fields[i].RejectVersion(version, path: path.Item(y).Item(x));
         }
     }
 
@@ -532,8 +532,8 @@ public sealed class GridNode(int width, int height, IReadOnlyList<ObjectNode> fi
     {
         for (int i = 0; i < Fields.Count; i++)
         {
-            int y = Math.DivRem(i, Width, out int x);
-            foreach ((string Path, int Key) hit in Fields[i].ReferencesIn(domain, string.Create(CultureInfo.InvariantCulture, $"{path}[{y}][{x}]")))
+            int y = Math.DivRem(i, Width, result: out int x);
+            foreach ((string Path, int Key) hit in Fields[i].ReferencesIn(domain, path: string.Create(CultureInfo.InvariantCulture, handler: $"{path}[{y}][{x}]")))
             {
                 yield return hit;
             }
@@ -557,7 +557,7 @@ public sealed class SequenceNode(IReadOnlyList<TreeValue> items) : TreeValue
     {
         for (int i = 0; i < Items.Count; i++)
         {
-            Items[i].RejectVersion(version, path.Item(i));
+            Items[i].RejectVersion(version, path: path.Item(i));
         }
     }
 
@@ -565,7 +565,7 @@ public sealed class SequenceNode(IReadOnlyList<TreeValue> items) : TreeValue
     {
         for (int i = 0; i < Items.Count; i++)
         {
-            foreach ((string Path, int Key) hit in Items[i].ReferencesIn(domain, string.Create(CultureInfo.InvariantCulture, $"{path}[{i}]")))
+            foreach ((string Path, int Key) hit in Items[i].ReferencesIn(domain, path: string.Create(CultureInfo.InvariantCulture, handler: $"{path}[{i}]")))
             {
                 yield return hit;
             }
@@ -599,12 +599,12 @@ public sealed class ListNode : TreeValue
     {
         if (version == 1)
         {
-            throw TreeErrors.Fail(Codes.Type, "Version 1 does not store a list.", path);
+            throw TreeErrors.Fail(Codes.Type, message: "Version 1 does not store a list.", path);
         }
 
         for (int i = 0; i < Items.Count; i++)
         {
-            Items[i].RejectVersion(version, path.Item(i));
+            Items[i].RejectVersion(version, path: path.Item(i));
         }
     }
 
@@ -612,7 +612,7 @@ public sealed class ListNode : TreeValue
     {
         for (int i = 0; i < Items.Count; i++)
         {
-            foreach ((string Path, int Key) hit in Items[i].ReferencesIn(domain, string.Create(CultureInfo.InvariantCulture, $"{path}[{i}]")))
+            foreach ((string Path, int Key) hit in Items[i].ReferencesIn(domain, path: string.Create(CultureInfo.InvariantCulture, handler: $"{path}[{i}]")))
             {
                 yield return hit;
             }
@@ -632,7 +632,7 @@ public sealed class ChildListNode(IReadOnlyList<ObjectNode> children) : TreeValu
     {
         for (int i = 0; i < Children.Count; i++)
         {
-            Children[i].RejectVersion(version, path.Item(i));
+            Children[i].RejectVersion(version, path: path.Item(i));
         }
     }
 
@@ -640,7 +640,7 @@ public sealed class ChildListNode(IReadOnlyList<ObjectNode> children) : TreeValu
     {
         for (int i = 0; i < Children.Count; i++)
         {
-            foreach ((string Path, int Key) hit in Children[i].ReferencesIn(domain, string.Create(CultureInfo.InvariantCulture, $"{path}[{i}]")))
+            foreach ((string Path, int Key) hit in Children[i].ReferencesIn(domain, path: string.Create(CultureInfo.InvariantCulture, handler: $"{path}[{i}]")))
             {
                 yield return hit;
             }

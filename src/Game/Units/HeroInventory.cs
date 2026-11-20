@@ -142,9 +142,9 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
         for (int i = 0, last = Items.Count - 1; i <= last; i++)
         {
             Item item = Items[i];
-            if (item is not null && result < item.GetOwnAbilityCount())
+            if (item is not null && result < item.OwnAbilityCount)
             {
-                result = item.GetOwnAbilityCount();
+                result = item.OwnAbilityCount;
             }
         }
 

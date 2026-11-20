@@ -141,10 +141,10 @@ public class Gems(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
             bool condition = StrategicMap.Current.SeatedPlayer == armyHexSprite.Army.Player;
             if (!condition)
             {
-                sbyte hexLevel = GetHexLevel();
-                sbyte hexY = GetHexY();
-                sbyte hexX = GetHexX();
-                condition = StrategicMap.Current.Watching(hexX, hexY, hexLevel, 0);
+                sbyte hexLevel = HexLevel;
+                sbyte hexY = HexY;
+                sbyte hexX = HexX;
+                condition = StrategicMap.Current.Watching(hexX, hexY, L: hexLevel, radius: 0);
             }
 
             if (condition)
@@ -159,9 +159,9 @@ public class Gems(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
             {
                 Holder = CreationHolder(),
                 Player = armyHexSprite.Army.Player,
-                Text = Format(AbilityRules.TranslateResourceString(GetEngine(), s_goldFoundFormat), [IntToStr(_amount)])
+                Text = Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_goldFoundFormat), args: [IntToStr(_amount)])
             };
-            eventValue.SetLocation(level: GetHexLevel(), y: GetHexY(), x: GetHexX());
+            eventValue.SetLocation(level: HexLevel, y: HexY, x: HexX);
             StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player).EventLogbook.AddEvent(eventValue);
             _ = eventValue.Release();
             Dispose();
@@ -180,7 +180,7 @@ public class Gems(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         public override int ResourceUserClassId() => 132014;
 
         // Gems.pas:134
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_goldText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_goldText);
 
         private static readonly string s_goldText = "Gold";
 

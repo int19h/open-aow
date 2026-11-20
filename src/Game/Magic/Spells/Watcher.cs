@@ -19,7 +19,7 @@ public class Watcher : GlobalTargetSpell
     public Watcher(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_watcherText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_watcherText);
         SpellId = 57;
         AboveGroundOnly = false;
     }
@@ -38,8 +38,8 @@ public class Watcher : GlobalTargetSpell
         if (!StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             WatcherTokenEvent eventValue = new(null) { Holder = CreationHolder() };
-            eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
-            eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
+            eventValue.Initialize(SpellId, playerIndex: (byte)source.Player, sourceId: source.UnitId, mana: BaseManaCost);
+            eventValue.SetLocation((sbyte)X, (sbyte)Y, layer: (sbyte)L);
             StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             // Original queues through AddEvent
             _ = eventValue.Release();

@@ -46,7 +46,7 @@ public class BaseWindow(Component owner) : WindowControl(owner)
                 {
                     if (c is BaseWindow)
                     {
-                        c.InvalidateRectangle(0, ref rectangle, this);
+                        c.InvalidateRectangle(0, ref rectangle, sender: this);
                     }
                     else
                     {
@@ -58,7 +58,7 @@ public class BaseWindow(Component owner) : WindowControl(owner)
             if (OwnerComponent != sender && OwnerComponent is BaseWindow)
             {
                 int indexOf = OwnerComponent.Children.IndexOf(this);
-                OwnerComponent.InvalidateRectangle(indexOf + 1, ref rectangle, this);
+                OwnerComponent.InvalidateRectangle(indexOf + 1, ref rectangle, sender: this);
             }
         }
     }
@@ -158,7 +158,7 @@ public class BaseWindow(Component owner) : WindowControl(owner)
                 catch
                 {
                     locked = false;
-                    _ = MessageBox(0, "Verify Surface Error", $"Error - {Name}", 0);
+                    _ = MessageBox(0, text: "Verify Surface Error", caption: $"Error - {Name}", flags: 0);
                 }
 
                 if (locked)
@@ -195,7 +195,7 @@ public class BaseWindow(Component owner) : WindowControl(owner)
                                     Draw(lockedSurface);
                                     lockedSurface.ClipRectangle = r;
                                     Rect rectangle2 = d.Rectangle;
-                                    InvalidateRectangle(0, ref rectangle2, null);
+                                    InvalidateRectangle(0, rectangle: ref rectangle2, sender: null);
                                     d.Rectangle = rectangle2;
                                 }
                             }
@@ -205,7 +205,7 @@ public class BaseWindow(Component owner) : WindowControl(owner)
                     }
                     catch
                     {
-                        _ = MessageBox(0, "Draw Error", $"Error - {Name}", 0);
+                        _ = MessageBox(0, text: "Draw Error", caption: $"Error - {Name}", flags: 0);
                     }
 
                     UIComponent c;
@@ -229,7 +229,7 @@ public class BaseWindow(Component owner) : WindowControl(owner)
                                     {
                                         d = DrawList[j];
                                         Rect rectangle3 = d.Rectangle;
-                                        InvalidateRectangle(i + 1, ref rectangle3, null);
+                                        InvalidateRectangle(i + 1, rectangle: ref rectangle3, sender: null);
                                         d.Rectangle = rectangle3;
                                     }
 
@@ -239,19 +239,19 @@ public class BaseWindow(Component owner) : WindowControl(owner)
                                         if (SurfaceValid)
                                         {
                                             r = new Rect(c.WinLeft, c.WinTop, c.WinLeft + c.WinWidth, c.WinTop + c.WinHeight);
-                                            AddBlitRectangle(ref r, c);
+                                            AddBlitRectangle(ref r, sender: c);
                                         }
 
                                         c.FirstDraw = c.Drawn;
                                         r = new Rect(WinLeft + c.WinLeft, WinTop + c.WinTop, WinLeft + c.WinLeft + c.WinWidth - 1, WinTop + c.WinTop + c.WinHeight - 1);
-                                        InvalidateRectangle(i + 1, ref r, c);
+                                        InvalidateRectangle(i + 1, rectangle: ref r, sender: c);
                                     }
 
                                     c.Drawn = true;
                                 }
                             }
 
-                            RaiseDraw(this, lockedSurface);
+                            RaiseDraw(this, surfDesc: lockedSurface);
                         }
 
                         if (locked)
@@ -267,7 +267,7 @@ public class BaseWindow(Component owner) : WindowControl(owner)
                             {
                                 if (BlitCount > 0)
                                 {
-                                    RaisePreDrawSurface(this, BackSurface, 0, 0);
+                                    RaisePreDrawSurface(this, surface: BackSurface, 0, 0);
 
                                     for (int j = 0, last = BlitCount - 1; j <= last; j++)
                                     {
@@ -275,16 +275,16 @@ public class BaseWindow(Component owner) : WindowControl(owner)
                                         r = new Rect(d.Rectangle.Left, d.Rectangle.Top, d.Rectangle.Right + 1, d.Rectangle.Bottom + 1);
                                         if (!Masked)
                                         {
-                                            _ = BackSurface.BlitAreaClipped(surface, r, d.Rectangle.Left + oldLeft, d.Rectangle.Top + oldTop);
+                                            _ = BackSurface.BlitAreaClipped(surface, area: r, d.Rectangle.Left + oldLeft, d.Rectangle.Top + oldTop);
                                         }
                                         else
                                         {
                                             int color2PixelInfo = PixelFormats.Color2PixelInfo(pixelFormatId: BackSurface.GetPixelFormatId(), color: MaskColor, palette: null);
-                                            _ = BackSurface.BlitAreaColorKeyClipped(surface, r, d.Rectangle.Left + oldLeft, d.Rectangle.Top + oldTop, color2PixelInfo);
+                                            _ = BackSurface.BlitAreaColorKeyClipped(surface, area: r, d.Rectangle.Left + oldLeft, d.Rectangle.Top + oldTop, colorKey: color2PixelInfo);
                                         }
 
                                         r = new Rect(d.Rectangle.Left + oldLeft, d.Rectangle.Top + oldTop, d.Rectangle.Right + oldLeft, d.Rectangle.Bottom + oldTop);
-                                        WindowManager.AddBlitRectangle(ref r, this);
+                                        WindowManager.AddBlitRectangle(ref r, sender: this);
                                     }
 
                                     RaiseDrawSurface(this, surface, 0, 0);
@@ -297,7 +297,7 @@ public class BaseWindow(Component owner) : WindowControl(owner)
                         }
                         catch
                         {
-                            _ = MessageBox(0, "Blt Error", $"Error - {Name}", 0);
+                            _ = MessageBox(0, text: "Blt Error", caption: $"Error - {Name}", flags: 0);
                         }
                     }
                     else
@@ -312,7 +312,7 @@ public class BaseWindow(Component owner) : WindowControl(owner)
                             }
                         }
 
-                        RaiseDraw(this, lockedSurface);
+                        RaiseDraw(this, surfDesc: lockedSurface);
 
                         if (locked)
                         {
@@ -327,7 +327,7 @@ public class BaseWindow(Component owner) : WindowControl(owner)
                         }
                         catch
                         {
-                            _ = MessageBox(0, "SB Draw Events Error", $"Error - {Name}", 0);
+                            _ = MessageBox(0, text: "SB Draw Events Error", caption: $"Error - {Name}", flags: 0);
                         }
                     }
 
@@ -337,7 +337,7 @@ public class BaseWindow(Component owner) : WindowControl(owner)
         }
         catch
         {
-            _ = MessageBox(0, "Exception during DrawSurface", $"Error - {Name}", 0);
+            _ = MessageBox(0, text: "Exception during DrawSurface", caption: $"Error - {Name}", flags: 0);
         }
     }
 
@@ -358,7 +358,7 @@ public class BaseWindow(Component owner) : WindowControl(owner)
                 destinationSurfaceDescription = lockedSurface;
                 if (BackSurface is null)
                 {
-                    BackSurface = new DataSurface(WinWidth, WinHeight, lockedSurface.PixelFormatId, null);
+                    BackSurface = new DataSurface(WinWidth, WinHeight, lockedSurface.PixelFormatId, palette: null);
                     if (Masked)
                     {
                         _ = BackSurface.Clear(MaskColor);
@@ -375,7 +375,7 @@ public class BaseWindow(Component owner) : WindowControl(owner)
                         {
                             _ = BackSurface.Unlock();
                             BackSurface?.Dispose();
-                            BackSurface = new DataSurface(WinWidth, WinHeight, destinationSurfaceDescription.PixelFormatId, null);
+                            BackSurface = new DataSurface(WinWidth, WinHeight, destinationSurfaceDescription.PixelFormatId, palette: null);
                             if (Masked)
                             {
                                 _ = BackSurface.Clear(MaskColor);
@@ -406,7 +406,7 @@ public class BaseWindow(Component owner) : WindowControl(owner)
                     }
                 }
 
-                RaiseDraw(this, lockedSurface);
+                RaiseDraw(this, surfDesc: lockedSurface);
 
                 if (DoubleBuffered)
                 {
@@ -418,8 +418,8 @@ public class BaseWindow(Component owner) : WindowControl(owner)
                     try
                     {
                         _ = Masked
-                            ? LockedSurface.BlitSpriteClipped16(lockedSurface, sourceRectangle, destinationSurfaceDescription, WinLeft, WinTop, MaskColor)
-                            : LockedSurface.BlitSurfaceDescriptionRectangleClipped(lockedSurface, sourceRectangle, destinationSurfaceDescription, WinLeft, WinTop);
+                            ? LockedSurface.BlitSpriteClipped16(lockedSurface, sourceRectangle, destination: destinationSurfaceDescription, WinLeft, WinTop, colorKey: MaskColor)
+                            : LockedSurface.BlitSurfaceDescriptionRectangleClipped(lockedSurface, sourceRectangle, destination: destinationSurfaceDescription, WinLeft, WinTop);
                     }
                     catch
                     {
@@ -431,7 +431,7 @@ public class BaseWindow(Component owner) : WindowControl(owner)
         }
         catch
         {
-            _ = MessageBox(0, "Exception during DrawSurfaceDesc", $"Error - {Name}", 0);
+            _ = MessageBox(0, text: "Exception during DrawSurfaceDesc", caption: $"Error - {Name}", flags: 0);
         }
     }
 

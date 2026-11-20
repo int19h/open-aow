@@ -116,12 +116,12 @@ public class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner)
                             StrategicMap.Current.ShowIndependentMoves = !StrategicMap.Current.ShowIndependentMoves;
                             if (StrategicMap.Current.ShowIndependentMoves)
                             {
-                                string observeEnabled = AbilityRules.TranslateResourceString(GetEngine(), s_observeEnabledText);
+                                string observeEnabled = AbilityRules.TranslateResourceString(GetEngine(), S: s_observeEnabledText);
                                 StrategicMap.Current.ShowMessage(observeEnabled);
                             }
                             else
                             {
-                                string observeDisabled = AbilityRules.TranslateResourceString(GetEngine(), s_observeDisabledText);
+                                string observeDisabled = AbilityRules.TranslateResourceString(GetEngine(), S: s_observeDisabledText);
                                 StrategicMap.Current.ShowMessage(observeDisabled);
                             }
 
@@ -147,7 +147,7 @@ public class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner)
                             StrategicMap.Current.SelectedArmy.ToggleGuard();
                             break;
                         case 76:
-                            StrategicMap.Current.CenterOnLeader(StrategicMap.Current.SeatedPlayer, true, false);
+                            StrategicMap.Current.CenterOnLeader(StrategicMap.Current.SeatedPlayer, select: true, animate: false);
                             break;
                         case 67:
                             if (!shift.Contains(ShiftState.Ctrl))
@@ -171,7 +171,7 @@ public class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner)
 
                             break;
                         case 65:
-                            if (GetEngine().Registry.GetDeveloper() && StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).PlayerType != PlayerType.Human)
+                            if (GetEngine().Registry.Developer && StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).PlayerType != PlayerType.Human)
                             {
                                 _ = StrategicMap.Current.AIExecutor.ActivatePlayer(StrategicMap.Current.SeatedPlayer);
                             }
@@ -203,7 +203,7 @@ public class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner)
                 while (i != 0 && !complete)
                 {
                     i -= 1;
-                    prefix = prefix || CompareText(_cheatText, DelphiStrings.Copy(s_cheatNames[i], 1, _cheatText.Length)) == 0;
+                    prefix = prefix || CompareText(_cheatText, DelphiStrings.Copy(s_cheatNames[i], index: 1, count: _cheatText.Length)) == 0;
                     complete = CompareText(_cheatText, s_cheatNames[i]) == 0;
                 }
 
@@ -254,7 +254,7 @@ public class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner)
     {
         string fileName = $"autosave{FileBoundary.WriteExtension(DocumentKind.Save)}";
         // { Original saves the autosave file. }
-        GetEngine().SaveHsm($"{GetEngine().StartupDirectory}Save\\{fileName}", null, GameProfile.WorldMap);
+        GetEngine().SaveHsm($"{GetEngine().StartupDirectory}Save\\{fileName}", progress: null, profile: GameProfile.WorldMap);
     }
 
     private static readonly string s_observeEnabledText = "Observe enabled";

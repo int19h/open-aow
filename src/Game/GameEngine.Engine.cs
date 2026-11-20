@@ -227,8 +227,8 @@ public partial class GameEngine : OwningNode
     // Engine.pas:8819
     public void ResetMessageCount()
     {
-        InitializeMessage(out EngineMessage message, 1, this, _messageCount + 1);
-        MessageProc(ref message, this);
+        InitializeMessage(out EngineMessage message, messageId: 1, sender: this, sequence: _messageCount + 1);
+        MessageProc(ref message, sender: this);
         _messageCount = 0;
     }
 
@@ -294,9 +294,9 @@ public partial class GameEngine : OwningNode
     // Engine.pas:8878
     public void ActivateEngineObject(EngineObject objectValue)
     {
-        EngineMessage.InitializeMessage(out EngineMessage message, 536870920, this);
+        EngineMessage.InitializeMessage(out EngineMessage message, messageId: 536870920, sender: this);
         message.Payload = this;
-        objectValue.MessageProc(ref message, this);
+        objectValue.MessageProc(ref message, sender: this);
     }
 
     // Engine.pas:8947
@@ -388,7 +388,7 @@ public partial class GameEngine : OwningNode
     public void WriteToFile(string fileName, EngineObject objectValue, Engine.ProgressEvent progress)
     {
         byte[] image = WriteObjectImage(objectValue, progress: progress, classTable: "game");
-        Stream f = OpenFile(fileName, 65535);
+        Stream f = OpenFile(fileName, mode: 65535);
         try
         {
             f.Write(image);
@@ -403,7 +403,7 @@ public partial class GameEngine : OwningNode
     public void ReadFromFile(string fileName, EngineObject objectValue, Engine.ProgressEvent progress)
     {
         MemoryStream m = new();
-        Stream f = OpenFile(fileName, 0 | 32);
+        Stream f = OpenFile(fileName, mode: 0 | 32);
         try
         {
             m.LoadFromStream(f);
@@ -433,12 +433,12 @@ public partial class GameEngine : OwningNode
         {
             m.Write(WriteObjectImage(objectValue, progress: progress, classTable: classTable));
             int crc1 = EngineServices.GetCrc32(size: (int)m.Length, buffer: m.GetBuffer());
-            m.Write(Bytes.Of(ref crc1, 4));
+            m.Write(Bytes.Of(ref crc1, count: 4));
             int crc2 = EngineServices.GetCrc32(size: (int)m.Length, buffer: m.GetBuffer());
-            Stream f = OpenFile(fileName, 65535);
+            Stream f = OpenFile(fileName, mode: 65535);
             try
             {
-                f.Write(Bytes.Of(ref crc2, 4));
+                f.Write(Bytes.Of(ref crc2, count: 4));
                 f.Write(m.GetBuffer().AsSpan(length: (int)m.Length, start: 0));
             }
             finally
@@ -456,22 +456,22 @@ public partial class GameEngine : OwningNode
     public bool ReadFromFileCrc(string fileName, EngineObject objectValue, Engine.ProgressEvent progress, string classTable = "game")
     {
         MemoryStream m = new();
-        Stream f = OpenFile(fileName, 0 | 32);
+        Stream f = OpenFile(fileName, mode: 0 | 32);
         try
         {
             m.LoadFromStream(f);
             m.Position = 0;
             if (m.Length > 8)
             {
-                int crc1 = MemoryMarshal.Read<int>(m.GetBuffer().AsSpan(0, 4));
+                int crc1 = MemoryMarshal.Read<int>(m.GetBuffer().AsSpan(0, length: 4));
                 int size = (int)m.Length;
-                int crc2 = MemoryMarshal.Read<int>(m.GetBuffer().AsSpan(size - 4, 4));
+                int crc2 = MemoryMarshal.Read<int>(m.GetBuffer().AsSpan(size - 4, length: 4));
                 int mSize = (int)m.Length;
-                bool condition = crc1 == EngineServices.GetCrc32(m.GetBuffer().AsSpan(4), mSize - 4);
+                bool condition = crc1 == EngineServices.GetCrc32(m.GetBuffer().AsSpan(4), size: mSize - 4);
                 if (condition)
                 {
                     int size2 = (int)m.Length;
-                    condition = crc2 == EngineServices.GetCrc32(m.GetBuffer().AsSpan(4), size2 - 8);
+                    condition = crc2 == EngineServices.GetCrc32(m.GetBuffer().AsSpan(4), size: size2 - 8);
                 }
 
                 if (condition)

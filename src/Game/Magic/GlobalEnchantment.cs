@@ -108,7 +108,7 @@ public class GlobalEnchantment(CustomNode owner) : EngineObject(owner)
     {
         if (EnchantmentType != GlobalEnchantmentType.None && StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(EnchantmentType))
         {
-            reason = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.IsAlreadyActiveFormat), [Name]);
+            reason = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.IsAlreadyActiveFormat), arguments: [Name]);
             return false;
         }
         else
@@ -161,9 +161,9 @@ public class GlobalEnchantment(CustomNode owner) : EngineObject(owner)
                     Holder = CreationHolder(),
                     EnchantmentPlayer = player,
                     Player = player,
-                    Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CastFormat), [Name])
+                    Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CastFormat), arguments: [Name])
                 };
-                EventLog.DistributeEventLog(log, false);
+                EventLog.DistributeEventLog(log, execute: false);
                 _ = log.Release();
             }
         }
@@ -199,7 +199,7 @@ public class GlobalEnchantment(CustomNode owner) : EngineObject(owner)
                     };
                     log.SetLocation(location);
                     string name = GetName();
-                    log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_dispelledFormat), [name]);
+                    log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_dispelledFormat), arguments: [name]);
                     StrategicMap.Current.Players.GetPlayers(i).EventLogbook.AddEvent(log);
                     _ = log.Release();
                 }
@@ -240,7 +240,7 @@ public class GlobalEnchantment(CustomNode owner) : EngineObject(owner)
                     };
                     log.SetLocation(location);
                     string name = GetName();
-                    log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.RemovedFormat), [name]);
+                    log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.RemovedFormat), arguments: [name]);
                     StrategicMap.Current.Players.GetPlayers(i).EventLogbook.AddEvent(log);
                     _ = log.Release();
                 }
@@ -278,7 +278,7 @@ public class GlobalEnchantment(CustomNode owner) : EngineObject(owner)
         if (location.X != -1)
         {
             StrategicMap.Current.CenterViewTo(location.X, location.Y, location.MapLevel);
-            StrategicMap.Current.PlayCenterAnimation(location.X, location.Y, location.MapLevel);
+            StrategicMap.Current.PlayCenterAnimation(location.X, location.Y, L: location.MapLevel);
         }
     }
 

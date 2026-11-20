@@ -16,7 +16,7 @@ public class SacrificialFlame : CombatSpell
     public SacrificialFlame(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_sacrificialFlameText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_sacrificialFlameText);
         SpellId = 128;
         SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 8;

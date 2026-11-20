@@ -138,8 +138,8 @@ public partial class MapLevel
         }
     }
 
-    public void DestroyHexSprite() => VisitFields(MapProgressType.Destroying, 10, 10, f => f.DestroyHexSprite(), false);
-    public void UpdateTerrain() => VisitFields(MapProgressType.UpdatingTerrain, 5, 20, f => f.Initialize(), true);
-    public void Loaded() => VisitFields(MapProgressType.Initializing, 5, 20, f => f.Loaded(), true);
-    public void Activate() => VisitFields(MapProgressType.Activating, 5, 20, f => f.Activate(), true);
+    public void DestroyHexSprite() => VisitFields(MapProgressType.Destroying, divisor: 10, increment: 10, action: f => f.DestroyHexSprite(), final: false);
+    public void UpdateTerrain() => VisitFields(MapProgressType.UpdatingTerrain, divisor: 5, increment: 20, action: f => f.Initialize(), final: true);
+    public void Loaded() => VisitFields(MapProgressType.Initializing, divisor: 5, increment: 20, action: f => f.Loaded(), final: true);
+    public void Activate() => VisitFields(MapProgressType.Activating, divisor: 5, increment: 20, action: f => f.Activate(), final: true);
 }

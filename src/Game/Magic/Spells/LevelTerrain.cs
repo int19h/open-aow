@@ -22,7 +22,7 @@ public class LevelTerrain : GlobalTargetSpell
     public LevelTerrain(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), s_levelTerrainText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_levelTerrainText);
         SpellId = 18;
         BaseManaCost = 5;
         SpellLevel = 3;
@@ -33,7 +33,7 @@ public class LevelTerrain : GlobalTargetSpell
     public override void SetupTargetSelection(Troop source, TargetSelectionControl targetSelection)
     {
         TargetSelectionControl target = targetSelection;
-        base.SetupTargetSelection(source, target);
+        base.SetupTargetSelection(source, targetSelection: target);
         target.HexNumbers.Clear();
         for (int i = 0, last = HexGeometry.RadiusToHexNumber(2) - 1; i <= last; i++)
         {
@@ -45,8 +45,8 @@ public class LevelTerrain : GlobalTargetSpell
     public override bool TargetSelected(Troop source, int X, int Y, int L)
     {
         LevelTerrainTokenEvent eventValue = new(null) { Holder = CreationHolder() };
-        eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
-        eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
+        eventValue.Initialize(SpellId, playerIndex: (byte)source.Player, sourceId: source.UnitId, mana: BaseManaCost);
+        eventValue.SetLocation((sbyte)X, (sbyte)Y, layer: (sbyte)L);
         StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
         _ = eventValue.Release();
         return true;

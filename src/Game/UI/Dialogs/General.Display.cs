@@ -36,7 +36,7 @@ public partial class General
         if (GameHost.MainForm is { FCursorChanged: true } form)
         {
             Rect rectangle = form.FLastCursorRectangle;
-            Manager.AddDrawRectangle(ref rectangle, null);
+            Manager.AddDrawRectangle(ref rectangle, sender: null);
         }
     }
 

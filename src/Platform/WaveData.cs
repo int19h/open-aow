@@ -12,7 +12,7 @@ public sealed record WaveData(int SampleRate, int Channels, float[] Samples)
         using MemoryStream copy = new();
         stream.CopyTo(copy);
         ReadOnlySpan<byte> bytes = copy.ToArray();
-        if (bytes.Length < 12 || !bytes[..4].SequenceEqual("RIFF"u8) || !bytes.Slice(8, 4).SequenceEqual("WAVE"u8))
+        if (bytes.Length < 12 || !bytes[..4].SequenceEqual("RIFF"u8) || !bytes.Slice(8, length: 4).SequenceEqual("WAVE"u8))
         {
             throw new InvalidDataException("Expected RIFF WAVE data.");
         }
@@ -36,8 +36,8 @@ public sealed record WaveData(int SampleRate, int Channels, float[] Samples)
                 throw new InvalidDataException("Truncated WAVE chunk.");
             }
 
-            ReadOnlySpan<byte> chunk = bytes.Slice(at + 8, checked((int)length));
-            if (bytes.Slice(at, 4).SequenceEqual("fmt "u8))
+            ReadOnlySpan<byte> chunk = bytes.Slice(at + 8, length: checked((int)length));
+            if (bytes.Slice(at, length: 4).SequenceEqual("fmt "u8))
             {
                 if (chunk.Length < 16)
                 {
@@ -52,7 +52,7 @@ public sealed record WaveData(int SampleRate, int Channels, float[] Samples)
                     BitsPerSample: BinaryPrimitives.ReadUInt16LittleEndian(chunk[14..]));
                 haveFormat = true;
             }
-            else if (bytes.Slice(at, 4).SequenceEqual("data"u8))
+            else if (bytes.Slice(at, length: 4).SequenceEqual("data"u8))
             {
                 data = chunk;
                 haveData = true;

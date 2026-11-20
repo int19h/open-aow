@@ -40,14 +40,14 @@ public partial class StrategicMap
         {
             try
             {
-                _tokenLog = RtlHost.Files.Open($"{GetEngine().StartupDirectory}Debug\\SYNC_LOG{DelphiConversions.IntToStr(PixelFormats.GetElapsedMilliseconds())}.TXT", DelphiStreams.fmCreate);
+                _tokenLog = RtlHost.Files.Open($"{GetEngine().StartupDirectory}Debug\\SYNC_LOG{DelphiConversions.IntToStr(PixelFormats.ElapsedMilliseconds)}.TXT", mode: DelphiStreams.fmCreate);
             }
             catch (IOException) { }
             catch (UnauthorizedAccessException) { }
             WriteTokenLog($"Map Session: {MapName}");
             int player = Current.Players.LocalHumanPlayers[0];
             WriteTokenLog($"Local Player: {DelphiConversions.IntToStr(player)}");
-            WriteTokenLog($"Local Race: {AbilityRules.TranslateResourceString(GetEngine(), GameTables.RaceNamesPluralTexts[Current.Players.GetPlayers((sbyte)player).PlayerRace])}");
+            WriteTokenLog($"Local Race: {AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.RaceNamesPluralTexts[Current.Players.GetPlayers((sbyte)player).PlayerRace])}");
             TokenEventLogging = true;
         }
         catch { }
@@ -78,7 +78,7 @@ public partial class StrategicMap
 
         if (TokenEventLogging && TokenManager.TokenExecutor.ExecuteCount == 0)
         {
-            WriteTokenLog($"{token.GetType().Name} (P:{DelphiConversions.IntToStr(TokenManager.TokenExecutor.ActiveTacticalBattleIndex)}/T:{DelphiConversions.IntToStr(token.TokenCounter)}/S:{DelphiConversions.IntToStr(DefendersSeed)}/D:{DelphiConversions.IntToStr(Current.Day)}/AIPC:{DelphiConversions.IntToStr(Current.AIExecutor.ProcessCycles)}", true);
+            WriteTokenLog($"{token.GetType().Name} (P:{DelphiConversions.IntToStr(TokenManager.TokenExecutor.ActiveTacticalBattleIndex)}/T:{DelphiConversions.IntToStr(token.TokenCounter)}/S:{DelphiConversions.IntToStr(DefendersSeed)}/D:{DelphiConversions.IntToStr(Current.Day)}/AIPC:{DelphiConversions.IntToStr(Current.AIExecutor.ProcessCycles)}", flush: true);
         }
     }
 
@@ -99,7 +99,7 @@ public partial class StrategicMap
             return;
         }
 
-        int answer = (RtlHost.Dialogs ?? throw new InvalidOperationException(message)).Show(new($"{message} Ignore failure?", "Error", 0, 7));
+        int answer = (RtlHost.Dialogs ?? throw new InvalidOperationException(message)).Show(new($"{message} Ignore failure?", Caption: "Error", Flags: 0, DefaultResult: 7));
         handled = answer is 6 or 8;
         IgnoreStreamErrors = answer == 8;
     }

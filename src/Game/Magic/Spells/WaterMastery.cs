@@ -17,7 +17,7 @@ public class WaterMastery : GlobalEnchantmentSpell
     public WaterMastery(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellName = AbilityRules.TranslateResourceString(GetEngine(), GameText.WaterMasteryText);
+        SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.WaterMasteryText);
         SpellId = 45;
         SpellType = SpellType.Global;
         BaseManaCost = 1;
@@ -31,16 +31,16 @@ public class WaterMastery : GlobalEnchantmentSpell
     public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
         // { Original ignores the event step. }
-        _ = base.ExecuteTokenEvent(eventValue, source, 0);
+        _ = base.ExecuteTokenEvent(eventValue, source, executeCount: 0);
         MapCoordinate coordinate86 = source.GetLocation();
         sbyte x = coordinate86.X;
         sbyte y = coordinate86.Y;
         sbyte l = coordinate86.MapLevel;
-        SpellTargets.NotifySpellSphere(source.Player, MagicSphere.Water);
-        _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
+        SpellTargets.NotifySpellSphere(source.Player, sphere: MagicSphere.Water);
+        _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, radius: 0);
         _ = CastSounds.Play(0);
         _ = StrategicMap.Current.AddEffect(WorldEffectType.WaterMastery);
-        CastingDone(source, BaseManaCost);
+        CastingDone(source, mana: BaseManaCost);
         return false;
     }
 

@@ -65,7 +65,7 @@ public class MultiLevelAbility(CustomNode owner) : AdjustableAbility(owner)
             data = CreateData();
             data.LevelAbilityId = (ushort)AbilityId;
             data.Level = 1;
-            SetAbility(owner, AbilityId, 1);
+            SetAbility(owner, index: AbilityId, value: 1);
             owner.AddAbilityData(data);
             return true;
         }
@@ -83,12 +83,12 @@ public class MultiLevelAbility(CustomNode owner) : AdjustableAbility(owner)
         MultiLevelAbilityData data = GetData(owner);
         if (data is null)
         {
-            SetAbility(owner, AbilityId, 0);
+            SetAbility(owner, index: AbilityId, value: 0);
             return false;
         }
         if (data.Level == 1)
         {
-            SetAbility(owner, AbilityId, 0);
+            SetAbility(owner, index: AbilityId, value: 0);
             owner.RemoveAbilityData(data);
         }
         else

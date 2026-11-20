@@ -22,11 +22,11 @@ public partial class DiplomaticAction
         for (int i = 0, last = StrategicMap.Current.Races.Count - 1; i <= last; i++)
         {
             int playerRelationValue = StrategicMap.Current.Races.GetRace(i).GetPlayerRelationValue(Source);
-            int relationModifier = GetRelationModifier(Source, (sbyte)i);
-            StrategicMap.Current.Races.GetRace(i).SetPlayerRelationValue(Source, relationModifier + playerRelationValue);
+            int relationModifier = GetRelationModifier(Source, race: (sbyte)i);
+            StrategicMap.Current.Races.GetRace(i).SetPlayerRelationValue(Source, value: relationModifier + playerRelationValue);
             int playerRelationValue2 = StrategicMap.Current.Races.GetRace(i).GetPlayerRelationValue(Target);
-            int relationModifier2 = GetRelationModifier(Target, (sbyte)i);
-            StrategicMap.Current.Races.GetRace(i).SetPlayerRelationValue(Target, relationModifier2 + playerRelationValue2);
+            int relationModifier2 = GetRelationModifier(Target, race: (sbyte)i);
+            StrategicMap.Current.Races.GetRace(i).SetPlayerRelationValue(Target, value: relationModifier2 + playerRelationValue2);
         }
 
         StrategicMap.Current.UnlockRelationsChanged();

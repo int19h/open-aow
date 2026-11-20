@@ -100,7 +100,7 @@ public static class EnumCatalog
     }
 
     public static EnumTypeInfo Require(string typeName, string? file, string path)
-        => Find(typeName) ?? throw new ConversionException(new FormatDiagnostic(Codes.Type, $"The enum {typeName} is not in the catalog.")
+        => Find(typeName) ?? throw new ConversionException(new FormatDiagnostic(Codes.Type, Message: $"The enum {typeName} is not in the catalog.")
         { File = file, Path = path });
 }
 

@@ -31,7 +31,7 @@ public partial class FireNode(CustomNode owner) : ProductionPlace(owner)
         public override int ResourceUserClassId() => 132062;
 
         // FireNode.pas:50
-        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_fireNodeText);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_fireNodeText);
 
         private static readonly string s_fireNodeText = "Fire Node";
 

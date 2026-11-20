@@ -17,40 +17,40 @@ public sealed record ProposeAlliance(int Gold = 0, int Mana = 0) : OfferProposal
 
     public override int Icon => 10;
 
-    public override string Name(DiplomaticAction action) => AbilityRules.TranslateResourceString(action.GetEngine(), ProposeAllianceText);
+    public override string Name(DiplomaticAction action) => AbilityRules.TranslateResourceString(action.GetEngine(), S: ProposeAllianceText);
 
     public override string LogText(DiplomaticAction action)
     {
-        string subject = AbilityRules.TranslateResourceString(action.GetEngine(), AllianceProposalText);
-        return Outcome(accepted: action.Source == StrategicMap.Current.SeatedPlayer ? AcceptedLine(subject, engine: action.GetEngine()) : AbilityRules.TranslateResourceString(action.GetEngine(), MadeAllianceText), action: action, proposed: subject, subject: subject, otherwise: subject);
+        string subject = AbilityRules.TranslateResourceString(action.GetEngine(), S: AllianceProposalText);
+        return Outcome(accepted: action.Source == StrategicMap.Current.SeatedPlayer ? AcceptedLine(subject, engine: action.GetEngine()) : AbilityRules.TranslateResourceString(action.GetEngine(), S: MadeAllianceText), action: action, proposed: subject, subject: subject, otherwise: subject);
     }
 
     public override string LoggedSample => "SFX\\EVENTS\\MESSAGE2.WAV";
 
     public override void DefaultMessage(DiplomaticMessageText text, DiplomaticActionReaction reaction, DiplomaticRelation relation)
-        => text.Exchange(reaction, 106, 121, 124);
+        => text.Exchange(reaction, proposed: 106, accepted: 121, rejected: 124);
 
     public override void Sent(DiplomaticAction action) => Deliver(action);
 
     public override bool LapsesUnanswered(DiplomaticAction action)
-        => Relation(action.Source, action.Target) != DiplomaticRelation.Alliance;
+        => Relation(action.Source, second: action.Target) != DiplomaticRelation.Alliance;
 
     public override void Accepted(DiplomaticAction action)
     {
-        StrategicMap.Current.Players.SetDiplomaticRelation((sbyte)(byte)action.Source, (sbyte)(byte)action.Target, DiplomaticRelation.Alliance);
-        Broadcast(action, -1, action.Source);
+        StrategicMap.Current.Players.SetDiplomaticRelation((sbyte)(byte)action.Source, otherPlayer: (sbyte)(byte)action.Target, relation: DiplomaticRelation.Alliance);
+        Broadcast(action, exclude: -1, viewer: action.Source);
         RemoveTargetLog(action);
     }
 
     public override DiplomaticActionReaction RejectReaction(DiplomaticAction action)
-        => Relation(action.Source, action.Target) != DiplomaticRelation.Alliance ? DiplomaticActionReaction.Reject : DiplomaticActionReaction.Ignore;
+        => Relation(action.Source, second: action.Target) != DiplomaticRelation.Alliance ? DiplomaticActionReaction.Reject : DiplomaticActionReaction.Ignore;
 
     public override void AnswerAI(DiplomaticAction action, sbyte player, DiplomaticRelation relation, ByteList idealPeace, ByteList idealWar)
     {
         string errorText = "";
         if (StrategicMap.Current.Players.GetPlayers(action.Target).AIControl.CanProposeAlliance((byte)action.Source))
         {
-            RandSeed = (int)(((uint)(StrategicMap.Current.InitialRandomSeed + StrategicMap.Current.Day + action.Source + action.Target)) >> 2);
+            RandSeed = (StrategicMap.Current.InitialRandomSeed + StrategicMap.Current.Day + action.Source + action.Target) >>> 2;
             int chance = ((action.EscrowGold + action.EscrowMana) / 25) + 30;
             if (chance > 60)
             {
@@ -67,9 +67,9 @@ public sealed record ProposeAlliance(int Gold = 0, int Mana = 0) : OfferProposal
 
     public override int RelationModifier(DiplomaticAction action, sbyte player, sbyte race)
     {
-        if (Relation(action.Source, action.Target) != DiplomaticRelation.Alliance)
+        if (Relation(action.Source, second: action.Target) != DiplomaticRelation.Alliance)
         {
-            int modifier = Relation(action.Source, action.Target) == DiplomaticRelation.War ? 30 : 20;
+            int modifier = Relation(action.Source, second: action.Target) == DiplomaticRelation.War ? 30 : 20;
             if (player == action.Source)
             {
                 return RaceModifier(action.Target, race, modifier);

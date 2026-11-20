@@ -39,7 +39,7 @@ public class TranslateVisit(GameEngine engine) : IDisposable
             if (_onError is not null)
             {
                 int classId = objectValue.EngineClass.ClassId;
-                _onError($"Error reading object (cid:{IntToStr(classId)})", ref canContinue);
+                _onError($"Error reading object (cid:{IntToStr(classId)})", handled: ref canContinue);
             }
 
             if (!canContinue)
@@ -57,7 +57,7 @@ public class TranslateVisit(GameEngine engine) : IDisposable
             EngineObject child = node.Children[i];
             if (child is not null && child.Owner == node && !child.GetControlStyle().Contains(EngineServices.Shared) && child.GetControlStyle().Contains(EngineServices.Stored))
             {
-                Object(child, i);
+                Object(child, id: i);
             }
         }
     }

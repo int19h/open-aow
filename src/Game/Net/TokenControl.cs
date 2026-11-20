@@ -57,7 +57,7 @@ public class TokenControl : IDisposable
                         SyncTokenEvent syncEvent = new(null) { Holder = _tokenManager.Owner };
                         int syncValue = executor.GetSyncValue();
                         syncEvent.SyncValue = syncValue;
-                        Events.Insert(0, syncEvent);
+                        Events.Insert(0, tokenEvent: syncEvent);
                         _ = syncEvent.Release();
                     }
 
@@ -116,7 +116,7 @@ public class TokenControl : IDisposable
     {
         if (Local() && !Global() && events.Count != 0)
         {
-            _tokenManager.TokenPackageDistributor.SendTokenEvents(Player, NetworkSession.AllPlayers, events);
+            _tokenManager.TokenPackageDistributor.SendTokenEvents(Player, receiver: NetworkSession.AllPlayers, events);
         }
     }
 
@@ -172,7 +172,7 @@ public class TokenControl : IDisposable
     public void ClearEvents() => Events.Clear();
 
     // NetworkE.pas:1228
-    public TokenEvent GetEvent(int index) => Events[index];
+    public TokenEvent this[int index] => Events[index];
 
     // NetworkE.pas:1233
     public int GetCount() => Events.Count;

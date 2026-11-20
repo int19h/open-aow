@@ -26,7 +26,7 @@ public class FlagControl : ControlStyleObject
     // PlayerC.PAS:1920
     public override void Dispose()
     {
-        GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "Flags.ILB");
+        GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: "Flags.ILB");
         Flags = null;
         base.Dispose();
     }
@@ -36,7 +36,7 @@ public class FlagControl : ControlStyleObject
     {
         // Both creation paths pass the game set: GamePack.Create and a game set child load.
         GamePack gameSet = GetOwner<GamePack>();
-        Flags = gameSet.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "Flags.ILB");
+        Flags = gameSet.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: "Flags.ILB");
         _raceResources = gameSet.RaceResources;
 
         SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.FixedChild));
@@ -46,7 +46,7 @@ public class FlagControl : ControlStyleObject
     public void ShowFlag(int X, int Y, int frameOffset, byte flagId, in LockedSurface lockedSurface)
     {
         Flags[4].Show(X, Y, lockedSurface);
-        frameOffset = (int)(((uint)frameOffset) >> 2) % 12;
+        frameOffset = (frameOffset >>> 2) % 12;
         if ((flagId & 32) != 0)
         {
             Flags[frameOffset + 22].Show(X - 21, Y - 16, lockedSurface);
@@ -65,7 +65,7 @@ public class FlagControl : ControlStyleObject
             Flags[4].Show(X, Y, lockedSurface);
         }
 
-        frameOffset = (int)(((uint)frameOffset) >> 2) % 12;
+        frameOffset = (frameOffset >>> 2) % 12;
         if ((flagId & 32) != 0)
         {
             Flags[frameOffset + 22].Show(X - 21, Y - 16, lockedSurface);
@@ -79,8 +79,8 @@ public class FlagControl : ControlStyleObject
     // PlayerC.PAS:1947
     public void ShowStructureFlag(int X, int Y, int frameOffset, byte flagId, in LockedSurface lockedSurface)
     {
-        Flags[(int)(((uint)flagId) >> 6)].Show(X, Y, lockedSurface);
-        frameOffset = (int)(((uint)frameOffset) >> 1) % 12;
+        Flags[flagId >>> 6].Show(X, Y, lockedSurface);
+        frameOffset = (frameOffset >>> 1) % 12;
         if ((flagId & 32) != 0)
         {
             Flags[frameOffset + 10].Show(X - 21, Y - 16, lockedSurface);
@@ -96,10 +96,10 @@ public class FlagControl : ControlStyleObject
     {
         if (showBase)
         {
-            Flags[(int)(((uint)flagId) >> 6)].Show(X, Y, lockedSurface);
+            Flags[flagId >>> 6].Show(X, Y, lockedSurface);
         }
 
-        frameOffset = (int)(((uint)frameOffset) >> 1) % 12;
+        frameOffset = (frameOffset >>> 1) % 12;
         if ((flagId & 32) != 0)
         {
             Flags[frameOffset + 10].Show(X - 21, Y - 16, lockedSurface);
@@ -112,5 +112,5 @@ public class FlagControl : ControlStyleObject
 
     // PlayerC.PAS:1909
     public static FlagControl Create(CustomNode owner)
-        => ConstructionContext.Create(owner, static (context, owner) => new FlagControl(context, owner ?? throw new NullReferenceException()));
+        => ConstructionContext.Create(owner, static (context, owner) => new FlagControl(context, owner: owner ?? throw new NullReferenceException()));
 }

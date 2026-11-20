@@ -176,7 +176,7 @@ public sealed partial class SpellConstructionTests
         using Fixture fixture = new();
         SpellOwner owner = new();
         Spell raw = (Spell)EngineClass.Of(type).CreateInstance(owner, holder: EngineFixture.Engine);
-        Assert.IsType(type, raw);
+        Assert.IsType(type, @object: raw);
         Assert.NotNull(raw.SpellText);
         try
         {

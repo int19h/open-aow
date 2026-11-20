@@ -87,7 +87,7 @@ public static class GeneratedStyleSample
         try
         {
             SampleRecord[] records = new SampleRecord[3];
-            Ptr<SampleRecord> pointer = Ptr<SampleRecord>.To(records, 0);
+            Ptr<SampleRecord> pointer = Ptr<SampleRecord>.To(records, index: 0);
             for (int i = 0; i < records.Length; i++)
             {
                 pointer.Value.Value = instance.Value + i;

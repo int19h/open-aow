@@ -54,7 +54,7 @@ public class AIGroupRecruitControl : AIGroupTask
     }
 
     // AIGroup.pas:2097
-    public override bool GetBusy() => State != -1;
+    public override bool Busy => State != -1;
 
     // AIGroup.pas:2268
     public override bool Activate(AIGroupControl control)
@@ -107,7 +107,7 @@ public class AIGroupRecruitControl : AIGroupTask
     }
 
     // AIGroup.pas:2082
-    public int GetRecruitedStrength() => RecruitStrength - _remainingStrength;
+    public int RecruitedStrength => RecruitStrength - _remainingStrength;
 
     // AIGroup.pas:2087
     public int GetRecruitStrength(DamageType damageType) => _recruitStrengths[(int)damageType];
@@ -123,9 +123,9 @@ public class AIGroupRecruitControl : AIGroupTask
         {
             Troop troop = Units.GetUnit(i);
             AIRecruitmentGroup group = _control.RecruitmentGroups.FindUnit(troop);
-            if (group is not null && Units.GetUnit(i).GetMoves() != 0)
+            if (group is not null && Units.GetUnit(i).Moves != 0)
             {
-                sbyte moves = Units.GetUnit(i).GetMoves();
+                sbyte moves = Units.GetUnit(i).Moves;
                 int days = (group.MovePoints - 1) / moves;
                 if (days > result)
                 {
@@ -140,7 +140,7 @@ public class AIGroupRecruitControl : AIGroupTask
     // AIGroup.pas:2119
     public bool UsefulRecruitUnit(Troop troop)
     {
-        bool result = troop.GetMoves() > _movesMin && (troop.GetMoveTypes() & _moveTypes) != Set<MoveType>.Of();
+        bool result = troop.Moves > _movesMin && (troop.GetMoveTypes() & _moveTypes) != Set<MoveType>.Of();
         if (result)
         {
             result = _remainingStrength > 0 && troop.GetStrengthMax(_damageTypes) > 0;
