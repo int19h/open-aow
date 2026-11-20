@@ -52,7 +52,7 @@ public class AIMoveExecutorMove(CustomNode owner) : AIMoveExecutorUnitList(owner
                 _ = AddChild(units.GetUnits(i));
             }
 
-            selection = (byte)(int)(((uint)selection) >> 1);
+            selection = (byte)(selection >>> 1);
         }
     }
 

@@ -38,7 +38,7 @@ public class BreathAbility : RangedAttackAbility
             {
                 CombatSideIndex side = target.Side;
                 other = combat.Sides[(int)side].GetObjects(i);
-                bool condition = other != target && other.GetEnabled() && (int)(((uint)other.Position) >> 4) == (int)(((uint)target.Position) >> 4) && other.FastBattleRoundDistance() <= combat.RoundDistance;
+                bool condition = other != target && other.GetEnabled() && other.Position >>> 4 == target.Position >>> 4 && other.FastBattleRoundDistance() <= combat.RoundDistance;
                 if (condition)
                 {
                     Set<DamageType> immunityTypes = other.GetImmunityTypes();
@@ -90,7 +90,7 @@ public class BreathAbility : RangedAttackAbility
             {
                 CombatSideIndex side = defender.Side;
                 CombatObject target = combat.Sides[(int)side].GetObjects(i);
-                bool condition = target != defender && target.GetEnabled() && (int)(((uint)target.Position) >> 4) == (int)(((uint)defender.Position) >> 4) && target.FastBattleRoundDistance() <= combat.RoundDistance;
+                bool condition = target != defender && target.GetEnabled() && target.Position >>> 4 == defender.Position >>> 4 && target.FastBattleRoundDistance() <= combat.RoundDistance;
                 if (condition)
                 {
                     Set<DamageType> immunityTypes = target.GetImmunityTypes();

@@ -201,8 +201,8 @@ public class SetupControl : Component
     // AoWSetup.pas:530
     public bool ValidateCompatibleVersion(int version)
     {
-        int major = (int)(((uint)(_engine.Version & -65536)) >> 16);
-        version = (int)(((uint)(version & -65536)) >> 16);
+        int major = (_engine.Version & -65536) >>> 16;
+        version = (version & -65536) >>> 16;
         return major == version;
     }
 
@@ -222,7 +222,7 @@ public class SetupControl : Component
         }
         else
         {
-            if ((int)(((uint)player.Version) >> 24) == 1 && (((int)(((uint)player.Version) >> 16)) & 255) <= 10)
+            if (player.Version >>> 24 == 1 && ((player.Version >>> 16) & 255) <= 10)
             {
                 OnEjectPlayer?.Invoke(this, player.RemoteId);
             }

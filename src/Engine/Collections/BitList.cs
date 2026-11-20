@@ -40,7 +40,7 @@ public partial class BitList : Persistent
             }
             else
             {
-                byte[] resized = new byte[(int)((uint)newCapacity >> 3)];
+                byte[] resized = new byte[newCapacity >>> 3];
                 List.Span[..Math.Min(List.Length, resized.Length)].CopyTo(resized);
                 List = resized;
             }
@@ -168,7 +168,7 @@ public partial class BitList : Persistent
         {
             _count = bitList._count;
             SetCapacity(bitList._count);
-            DelphiMemory.Move(bitList.List.Span[..((int)(((uint)(_count + 31)) >> 5) * 4)], List.Span[..((int)(((uint)(_count + 31)) >> 5) * 4)], (int)(((uint)(_count + 31)) >> 5) * 4);
+            DelphiMemory.Move(bitList.List.Span[..(((_count + 31) >>> 5) * 4)], List.Span[..(((_count + 31) >>> 5) * 4)], ((_count + 31) >>> 5) * 4);
             _default = bitList._default;
         }
         else
@@ -333,11 +333,11 @@ public partial class BitList : Persistent
     }
 
     // Engine.pas:4775
-    public bool Compare(BitList list) => list._count == _count && CompareMem(List.Span[..(int)(((uint)(_count + 7)) >> 3)], list.List.Span[..(int)(((uint)(_count + 7)) >> 3)], (int)(((uint)(_count + 7)) >> 3));
+    public bool Compare(BitList list) => list._count == _count && CompareMem(List.Span[..((_count + 7) >>> 3)], list.List.Span[..((_count + 7) >>> 3)], (_count + 7) >>> 3);
 
     /// <summary>The image <c>TBitList.SaveToStream</c> (Engine.pas:4791) writes, the default as its stored byte.</summary>
     internal BitListImage SaveImage()
-        => new(_default, _count, List.Span[..(int)(((uint)(_count + 7)) >> 3)].ToArray());
+        => new(_default, _count, List.Span[..((_count + 7) >>> 3)].ToArray());
 
     /// <summary>
     /// <c>TBitList.LoadFromStream</c> (Engine.pas:4782) from a stored image. A default byte other

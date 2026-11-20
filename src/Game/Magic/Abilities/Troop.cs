@@ -1236,7 +1236,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
                             sbyte value = table[terrain][overlay - MovementTables.FirstOverlay];
                             if (value > 2)
                             {
-                                table[terrain][overlay - MovementTables.FirstOverlay] = (sbyte)(int)(((uint)(value + 1)) >> 1);
+                                table[terrain][overlay - MovementTables.FirstOverlay] = (sbyte)((value + 1) >>> 1);
                             }
                         }
                     }
@@ -1733,7 +1733,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         _ = coordinate49.Y;
         sbyte hexLevel = coordinate49.MapLevel;
         return (hexLevel != 0 && !GetAbilityEnabled(39)) || (hexLevel == 0 && Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 8) != 0)
-            ? (int)(((uint)(result + 1)) >> 1)
+            ? (result + 1) >>> 1
             : result;
     }
 

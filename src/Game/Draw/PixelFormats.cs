@@ -76,7 +76,7 @@ public static class PixelFormats
                     bits += 1;
                 }
 
-                masks[i] = (int)(((uint)masks[i]) >> 1);
+                masks[i] = masks[i] >>> 1;
             }
 
             result += bits << ((i * 4) + 16);

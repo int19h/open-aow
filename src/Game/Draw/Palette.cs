@@ -69,7 +69,7 @@ public partial class Palette
                                 for (int i = 0; i <= 255; i++)
                                 {
                                     Entry paletteEntry = this[i];
-                                    this[i] = paletteEntry with { PackedColor = (ushort)(((paletteEntry.Red & 248) << 8) + ((paletteEntry.Green & 252) << 3) + (int)(((uint)paletteEntry.Blue) >> 3)) };
+                                    this[i] = paletteEntry with { PackedColor = (ushort)(((paletteEntry.Red & 248) << 8) + ((paletteEntry.Green & 252) << 3) + (paletteEntry.Blue >>> 3)) };
                                 }
                             }
 
@@ -79,7 +79,7 @@ public partial class Palette
                                 for (int i = 0; i <= 255; i++)
                                 {
                                     Entry paletteEntry = this[i];
-                                    this[i] = paletteEntry with { PackedColor = (ushort)(((paletteEntry.Red & 248) << 7) + ((paletteEntry.Green & 248) << 2) + (int)(((uint)paletteEntry.Blue) >> 3)) };
+                                    this[i] = paletteEntry with { PackedColor = (ushort)(((paletteEntry.Red & 248) << 7) + ((paletteEntry.Green & 248) << 2) + (paletteEntry.Blue >>> 3)) };
                                 }
                             }
 
@@ -107,7 +107,7 @@ public partial class Palette
                                 for (int i = 0; i <= 255; i++)
                                 {
                                     Entry paletteEntry = this[i];
-                                    this[i] = paletteEntry with { PackedColor = (ushort)(((paletteEntry.Blue & 248) << 8) + ((paletteEntry.Green & 252) << 3) + (int)(((uint)paletteEntry.Red) >> 3)) };
+                                    this[i] = paletteEntry with { PackedColor = (ushort)(((paletteEntry.Blue & 248) << 8) + ((paletteEntry.Green & 252) << 3) + (paletteEntry.Red >>> 3)) };
                                 }
                             }
 
@@ -117,7 +117,7 @@ public partial class Palette
                                 for (int i = 0; i <= 255; i++)
                                 {
                                     Entry paletteEntry = this[i];
-                                    this[i] = paletteEntry with { PackedColor = (ushort)(((paletteEntry.Blue & 248) << 7) + ((paletteEntry.Green & 248) << 2) + (int)(((uint)paletteEntry.Red) >> 3)) };
+                                    this[i] = paletteEntry with { PackedColor = (ushort)(((paletteEntry.Blue & 248) << 7) + ((paletteEntry.Green & 248) << 2) + (paletteEntry.Red >>> 3)) };
                                 }
                             }
 

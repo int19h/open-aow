@@ -129,7 +129,7 @@ public partial class UnitSpellCaster : SpellCaster
                 result += 1;
             }
 
-            bits = (int)(((uint)bits) >> 1);
+            bits = bits >>> 1;
         }
 
         return result;

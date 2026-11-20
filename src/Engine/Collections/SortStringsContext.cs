@@ -18,7 +18,7 @@ public struct SortStringsContext
         {
             i = L;
             int j = R;
-            int m = (int)(((uint)(L + R)) >> 1);
+            int m = (L + R) >>> 1;
             string p = context.Strings[m];
             object po = context.Strings.Objects[m];
             do

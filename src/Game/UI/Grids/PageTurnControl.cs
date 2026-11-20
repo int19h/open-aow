@@ -43,7 +43,7 @@ public class PageTurnControl
     {
         _width = width;
         _height = height;
-        _halfWidth = (int)(((uint)_width) >> 1);
+        _halfWidth = _width >>> 1;
     }
 
     // PageTurnCtrl.pas:67

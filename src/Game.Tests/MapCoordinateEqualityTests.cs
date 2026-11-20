@@ -40,7 +40,7 @@ public sealed class MapCoordinateEqualityTests
         foreach (MapCoordinate location in new[] { new MapCoordinate(0, 0, 0), MapCoordinate.None, new MapCoordinate(5, -2, 1), new MapCoordinate(127, -128, 2) })
         {
             int packed = StoredCoordinateImage.From(location).ToInt32();
-            Assert.Equal(0, (byte)((uint)packed >> 24));
+            Assert.Equal(0, (byte)(packed >>> 24));
             Assert.Equal(location, StoredCoordinateImage.FromInt32(packed).Location);
             Assert.Equal(location, StoredCoordinateImage.FromInt32(packed).ReadCheckedLocation("Slot"));
         }

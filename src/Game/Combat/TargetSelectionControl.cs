@@ -163,7 +163,7 @@ public class TargetSelectionControl : IDisposable
         {
             if (Status.Contains(TargetSelectionStatusElement.Visible))
             {
-                StrategicMap.Current.Mouse.SetCursor(110 + ((int)(((uint)StrategicMap.Current.Frame) >> 2) % 10));
+                StrategicMap.Current.Mouse.SetCursor(110 + ((StrategicMap.Current.Frame >>> 2) % 10));
                 StrategicMap.Current.Mouse.CursorVisible = true;
             }
             else

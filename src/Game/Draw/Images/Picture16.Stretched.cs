@@ -70,7 +70,7 @@ public partial class Picture16
                 int c;
                 for (int i = 0; i <= w - 1; i++)
                 {
-                    c = (int)(((uint)xPosition) >> 16);
+                    c = xPosition >>> 16;
                     if (c >= DataWidth)
                     {
                         c = DataWidth - 1;
@@ -88,7 +88,7 @@ public partial class Picture16
                     LoadDiscardableImageData();
                     for (int i = 0; i <= h - 1; i++)
                     {
-                        c = (int)(((uint)yPosition) >> 16);
+                        c = yPosition >>> 16;
                         if (c >= DataHeight)
                         {
                             c = DataHeight - 1;
@@ -121,7 +121,7 @@ public partial class Picture16
                 {
                     for (int i = 0; i <= h - 1; i++)
                     {
-                        c = (int)(((uint)yPosition) >> 16);
+                        c = yPosition >>> 16;
                         if (c >= DataHeight)
                         {
                             c = DataHeight - 1;
@@ -213,7 +213,7 @@ public partial class Picture16
                 int c;
                 for (int i = 0; i <= w - 1; i++)
                 {
-                    c = (int)(((uint)xPosition) >> 16);
+                    c = xPosition >>> 16;
                     if (c >= DataWidth)
                     {
                         c = DataWidth - 1;
@@ -231,7 +231,7 @@ public partial class Picture16
                     LoadDiscardableImageData();
                     for (int i = 0; i <= h - 1; i++)
                     {
-                        c = (int)(((uint)yPosition) >> 16);
+                        c = yPosition >>> 16;
                         if (c >= DataHeight)
                         {
                             c = DataHeight - 1;
@@ -298,7 +298,7 @@ public partial class Picture16
                 {
                     for (int i = 0; i <= h - 1; i++)
                     {
-                        c = (int)(((uint)yPosition) >> 16);
+                        c = yPosition >>> 16;
                         if (c >= DataHeight)
                         {
                             c = DataHeight - 1;

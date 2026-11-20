@@ -86,7 +86,7 @@ public partial class PartyJoinDialog(UIContext ui) : UIModule(ui)
             info.Direction = 3;
             info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
             _ = _units.GetUnit(index).Show(x - 33, y - 35, surface, info);
-            if ((((int)(((uint)_selection) >> index)) & 1) == 0)
+            if (((_selection >>> index) & 1) == 0)
             {
                 LibraryImage image = UI.Graphics.UnitBackgrounds[7];
                 image.ShowClipped(x - (image.Width / 2), y - (image.Height / 2), surface);

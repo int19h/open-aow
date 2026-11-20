@@ -586,7 +586,7 @@ public class PlayerMagicControl : EngineObject
     {
         int id;
         // { Preserve a valid unused ID before allocating a new one. }
-        if (enchantment.EnchantmentId != 0 && (int)(((uint)enchantment.EnchantmentId) >> 24) == Player.PlayerIndex)
+        if (enchantment.EnchantmentId != 0 && enchantment.EnchantmentId >>> 24 == Player.PlayerIndex)
         {
             id = enchantment.EnchantmentId;
             enchantment.EnchantmentId = 0;

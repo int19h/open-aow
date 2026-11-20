@@ -7,7 +7,7 @@ public static class DelphiDateTime
     private static readonly DateTime Epoch = new(1899, 12, 30);
 
     // SYSUTILS.PAS FileDateToDateTime and DateTimeToFileDate use DOS two-second resolution.
-    public static double FileDateToDateTime(int value) => EncodeDate((int)((uint)value >> 25) + 1980, (value >> 21) & 15, (value >> 16) & 31) + EncodeTime((value >> 11) & 31, (value >> 5) & 63, (value & 31) * 2, 0);
+    public static double FileDateToDateTime(int value) => EncodeDate((value >>> 25) + 1980, (value >> 21) & 15, (value >> 16) & 31) + EncodeTime((value >> 11) & 31, (value >> 5) & 63, (value & 31) * 2, 0);
 
     // The DOS date and time of a file time, as SYSUTILS.PAS FileAge and TSearchRec.Time give it.
     internal static int FileDate(DateTime time)

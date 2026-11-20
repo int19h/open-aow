@@ -177,7 +177,7 @@ public class RecordList<TRecord> : Persistent where TRecord : struct
         {
             i = L;
             int j = R;
-            TRecord p = sortList[(int)(((uint)(L + R)) >> 1)];
+            TRecord p = sortList[(L + R) >>> 1];
             do
             {
                 while (sCompare(sortList[i], p) < 0)

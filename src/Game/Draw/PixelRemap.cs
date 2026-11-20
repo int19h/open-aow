@@ -134,39 +134,39 @@ internal static class PixelRemap
 
                 break;
             case PixelFormat.Rgb565:
-                r = (byte)(((int)(((uint)pixelInfo) >> 8)) & 248);
-                g = (byte)(((int)(((uint)pixelInfo) >> 3)) & 252);
+                r = (byte)((pixelInfo >>> 8) & 248);
+                g = (byte)((pixelInfo >>> 3) & 252);
                 b = (byte)((pixelInfo << 3) & 248);
                 a = 0;
                 break;
             case PixelFormat.Rgb555:
-                r = (byte)(((int)(((uint)pixelInfo) >> 7)) & 248);
-                g = (byte)(((int)(((uint)pixelInfo) >> 2)) & 248);
+                r = (byte)((pixelInfo >>> 7) & 248);
+                g = (byte)((pixelInfo >>> 2) & 248);
                 b = (byte)((pixelInfo << 3) & 248);
                 a = 0;
                 break;
             case PixelFormat.Argb1555:
-                r = (byte)(((int)(((uint)pixelInfo) >> 7)) & 248);
-                g = (byte)(((int)(((uint)pixelInfo) >> 2)) & 248);
+                r = (byte)((pixelInfo >>> 7) & 248);
+                g = (byte)((pixelInfo >>> 2) & 248);
                 b = (byte)((pixelInfo << 3) & 248);
-                a = (byte)(((int)(((uint)pixelInfo) >> 8)) & 1);
+                a = (byte)((pixelInfo >>> 8) & 1);
                 break;
             case PixelFormat.Rgb24:
-                r = (byte)(((int)(((uint)pixelInfo) >> 16)) & 255);
-                g = (byte)(((int)(((uint)pixelInfo) >> 8)) & 255);
+                r = (byte)((pixelInfo >>> 16) & 255);
+                g = (byte)((pixelInfo >>> 8) & 255);
                 b = (byte)(pixelInfo & 255);
                 a = 0;
                 break;
             case PixelFormat.Bgr24:
                 r = (byte)(pixelInfo & 255);
-                g = (byte)(((int)(((uint)pixelInfo) >> 8)) & 255);
-                b = (byte)(((int)(((uint)pixelInfo) >> 16)) & 255);
+                g = (byte)((pixelInfo >>> 8) & 255);
+                b = (byte)((pixelInfo >>> 16) & 255);
                 a = 0;
                 break;
             case PixelFormat.Rgb32:
-                a = (byte)(((int)(((uint)pixelInfo) >> 24)) & 255);
-                r = (byte)(((int)(((uint)pixelInfo) >> 16)) & 255);
-                g = (byte)(((int)(((uint)pixelInfo) >> 8)) & 255);
+                a = (byte)((pixelInfo >>> 24) & 255);
+                r = (byte)((pixelInfo >>> 16) & 255);
+                g = (byte)((pixelInfo >>> 8) & 255);
                 b = (byte)(pixelInfo & 255);
                 break;
             case PixelFormat.None:
@@ -180,9 +180,9 @@ internal static class PixelRemap
             PixelFormat.Pal8 => destinationPalette is not null
                                 ? destinationPalette.GetNearestColor(r + (g << 8) + (b << 16))
                                 : throw new InvalidOperationException("Destination Palette needed"),
-            PixelFormat.Rgb565 => ((r & 248) << 8) + ((g & 252) << 3) + (int)(((uint)(b & 248)) >> 3),
-            PixelFormat.Rgb555 => ((r & 248) << 7) + ((g & 248) << 2) + (int)(((uint)(b & 248)) >> 3),
-            PixelFormat.Argb1555 => ((a & 128) << 8) + ((r & 248) << 7) + ((g & 248) << 2) + (int)(((uint)(b & 248)) >> 3),
+            PixelFormat.Rgb565 => ((r & 248) << 8) + ((g & 252) << 3) + ((b & 248) >>> 3),
+            PixelFormat.Rgb555 => ((r & 248) << 7) + ((g & 248) << 2) + ((b & 248) >>> 3),
+            PixelFormat.Argb1555 => ((a & 128) << 8) + ((r & 248) << 7) + ((g & 248) << 2) + ((b & 248) >>> 3),
             PixelFormat.Rgb24 => (r << 16) + (g << 8) + b,
             PixelFormat.Bgr24 => r + (g << 8) + (b << 16),
             PixelFormat.Rgb32 => (a << 24) + (r << 16) + (g << 8) + b,

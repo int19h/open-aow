@@ -54,7 +54,7 @@ public partial class ArmyEventDialog(UIContext ui) : UIModule(ui)
             Troop fArmyViewUnit = eventValue.ArmyView.Units.GetUnit(unit2);
             int frame = _frame - FrameFixtureInputs.ArmyStagger(fArmyViewUnit);
             info = default;
-            info.Frame = (int)(((uint)frame) >> 1) - 1;
+            info.Frame = (frame >>> 1) - 1;
             info.Direction = 3;
             info.Animation = UnitAnimation.Hit;
             byte unit3 = _units[index];

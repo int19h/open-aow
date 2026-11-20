@@ -177,7 +177,7 @@ public class PropertyTable : IDisposable
             for (int ordinal = 0, last = shortCount - 1; ordinal <= last; ordinal++)
             {
                 stream.ReadExactly(Bytes.Of(ref pair, 2));
-                Add(pair & 255, (int)(((uint)pair) >> 8));
+                Add(pair & 255, pair >>> 8);
             }
         }
 

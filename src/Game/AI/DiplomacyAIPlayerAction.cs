@@ -126,7 +126,7 @@ public class DiplomacyAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), 
                 {
                     if (Control.CanProposeAlliance((byte)player))
                     {
-                        RandSeed = (int)(((uint)(StrategicMap.Current.InitialRandomSeed + StrategicMap.Current.Day + source)) >> 2);
+                        RandSeed = (StrategicMap.Current.InitialRandomSeed + StrategicMap.Current.Day + source) >>> 2;
                         if (Random(100) < 30)
                         {
                             action = CreateDA(new ProposeAlliance(), player, -1, 10);

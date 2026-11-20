@@ -399,7 +399,7 @@ public partial class GameMap : OwningNode
     // HSMAP.PAS:579
     public virtual void GetViewCenter(out int hexX, out int hexY, out int hexLevel)
     {
-        HexGeometry.PixelToHex(ViewPixelX + (int)(((uint)ViewWidth) >> 1), ViewPixelY + (int)(((uint)ViewHeight) >> 1), out hexX, out hexY);
+        HexGeometry.PixelToHex(ViewPixelX + (ViewWidth >>> 1), ViewPixelY + (ViewHeight >>> 1), out hexX, out hexY);
         hexLevel = ViewMapLevel;
     }
 

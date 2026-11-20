@@ -42,7 +42,7 @@ public partial class ArmyCombatMoveTokenEvent
                 ArmyHexSprite.Army.Units.GetUnit(i).UnitStatus = unit.UnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Moving);
             }
 
-            Selection = (byte)(int)(((uint)Selection) >> 1);
+            Selection = (byte)(Selection >>> 1);
         }
 
         if (otherArmyHexSprite is not null)

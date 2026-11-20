@@ -167,7 +167,7 @@ public partial class Hero : Troop
         _deathPlayer = PersistSupport.UnsignedByte(persister, name: "DeathPlayer", value: _deathPlayer);
         if (persister.Loading && Experience == 0)
         {
-            Experience = LevelToExperience((int)(((uint)oldExperience) >> 5) + 1);
+            Experience = LevelToExperience((oldExperience >>> 5) + 1);
         }
 
         _movePoints = PersistSupport.UnsignedByte(persister, name: "MovePoints", value: _movePoints);

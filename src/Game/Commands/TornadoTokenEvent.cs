@@ -211,7 +211,7 @@ public class TornadoTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(o
             for (int i = 0; i <= 200; i++)
             {
                 int direction = Random(360);
-                if (animation.FrameCounter >= (int)(((uint)i) >> 2) && animation.FrameCounter <= (int)(((uint)i) >> 4) + 68)
+                if (animation.FrameCounter >= i >>> 2 && animation.FrameCounter <= (i >>> 4) + 68)
                 {
                     int radius = Round((double)((double)2.997 - Math.Log((double)(i * 19 * 0.005) + 1)) * 35) + 7;
                     int height = 200 - i - 16;
@@ -220,7 +220,7 @@ public class TornadoTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(o
                     float angle = (float)((double)((direction + _angle) * pi) / 180);
                     int last = GetEngine().AnimationDetail == 0
                         ? 1
-                        : GetEngine().AnimationDetail == 1 ? (int)(((uint)(200 - i)) >> 5) : (int)(((uint)(200 - i)) >> 4);
+                        : GetEngine().AnimationDetail == 1 ? (200 - i) >>> 5 : (200 - i) >>> 4;
 
                     for (int count = last; count >= 0; count--)
                     {

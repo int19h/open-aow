@@ -38,7 +38,7 @@ internal static class FrameFixtureChecks
         Check(!RtlHost.WritesOwnExtensions && FileBoundary.WriteName("roundtrip.asg") == "roundtrip.asg"
             && FileBoundary.WriteExtension(DocumentKind.Save) == ".asg", "fixture host writes original extensions");
         object instance = new();
-        Check(FrameFixtureInputs.AnimationOffset(instance) == ((int)((uint)RuntimeHelpers.GetHashCode(instance) >> 2) & 65535), "ordinary animation phase");
+        Check(FrameFixtureInputs.AnimationOffset(instance) == ((RuntimeHelpers.GetHashCode(instance) >>> 2) & 65535), "ordinary animation phase");
         Check(!new GDPlay().Connected && new GDPlay().ConnectionType == ConnectionType.None, "offline connection queries");
         Check(ControlWindow.UnitMoveText(32) == "   32", "native unit movement label spacing");
         FrameFixtureInputs.AddressAnimationPhase = 0;

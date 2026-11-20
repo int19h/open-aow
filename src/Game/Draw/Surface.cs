@@ -24,10 +24,10 @@ public partial class Surface : IDisposable
                 {
                     case PixelFormat.Rgb555:
                         w = lockedSurface.View().UInt16(X + X + (Y * lockedSurface.Pitch));
-                        return (int)(((uint)(w & 31744)) >> 7) + ((w & 992) << 6) + ((w & 31) << 19);
+                        return ((w & 31744) >>> 7) + ((w & 992) << 6) + ((w & 31) << 19);
                     case PixelFormat.Rgb565:
                         w = lockedSurface.View().UInt16(X + X + (Y * lockedSurface.Pitch));
-                        return (int)(((uint)(w & 63488)) >> 8) + ((w & 2016) << 5) + ((w & 31) << 19);
+                        return ((w & 63488) >>> 8) + ((w & 2016) << 5) + ((w & 31) << 19);
                     case PixelFormat.Pal8:
                         Assert(lockedSurface.Palette is not null, "Palette not found, cannot retrieve color (GetColor)", "GFXE.pas", 11986);
                         byte index = lockedSurface.View().Byte(X + (Y * lockedSurface.Pitch));
@@ -38,7 +38,7 @@ public partial class Surface : IDisposable
                         return p[2] + (p[1] << 8) + (p[0] << 16);
                     case PixelFormat.Rgb32:
                         int v = (int)lockedSurface.View().Dword((X << 2) + (Y * lockedSurface.Pitch));
-                        return (int)(((uint)(v & 16711680)) >> 16) + (v & 65280) + ((v & 255) << 16);
+                        return ((v & 16711680) >>> 16) + (v & 65280) + ((v & 255) << 16);
                     case PixelFormat.None:
                     case PixelFormat.Argb1555:
                     case PixelFormat.Bgr24:
@@ -442,7 +442,7 @@ public partial class Surface : IDisposable
             result = Lock(ref lockedSurface);
             if (result.IsSuccess())
             {
-                lockedSurface.DataIndex = lockedSurface.DataIndex + (int)(((uint)(R.Left * lockedSurface.BitCount)) >> 3) + (R.Top * lockedSurface.Pitch);
+                lockedSurface.DataIndex = lockedSurface.DataIndex + ((R.Left * lockedSurface.BitCount) >>> 3) + (R.Top * lockedSurface.Pitch);
                 lockedSurface.Width = R.Right - R.Left;
                 lockedSurface.Height = R.Bottom - R.Top;
                 Rect clipRectangle = lockedSurface.ClipRectangle;

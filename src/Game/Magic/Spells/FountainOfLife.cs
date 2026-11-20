@@ -61,7 +61,7 @@ public class FountainOfLife : CityEnchantmentSpell
     // CitySpells.pas:666
     public void ShowFountain(Animation animation, int X, int Y, in LockedSurface lockedSurface)
     {
-        HexGeometry.HexToPixel(animation.Tag & 255, (int)(((uint)animation.Tag) >> 8), out int cx, out int cy);
+        HexGeometry.HexToPixel(animation.Tag & 255, animation.Tag >>> 8, out int cx, out int cy);
         cx = cx + 10 - X;
         cy = cy - Y + 10;
         // { Original resets the process-wide random seed for every draw. }

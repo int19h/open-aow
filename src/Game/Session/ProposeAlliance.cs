@@ -50,7 +50,7 @@ public sealed record ProposeAlliance(int Gold = 0, int Mana = 0) : OfferProposal
         string errorText = "";
         if (StrategicMap.Current.Players.GetPlayers(action.Target).AIControl.CanProposeAlliance((byte)action.Source))
         {
-            RandSeed = (int)(((uint)(StrategicMap.Current.InitialRandomSeed + StrategicMap.Current.Day + action.Source + action.Target)) >> 2);
+            RandSeed = (StrategicMap.Current.InitialRandomSeed + StrategicMap.Current.Day + action.Source + action.Target) >>> 2;
             int chance = ((action.EscrowGold + action.EscrowMana) / 25) + 30;
             if (chance > 60)
             {

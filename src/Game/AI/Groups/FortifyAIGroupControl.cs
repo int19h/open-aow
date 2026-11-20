@@ -120,14 +120,14 @@ public class FortifyAIGroupControl : AIGroupControl
                         if (excess > 0)
                         {
                             AIGroupControlTarget target = Targets.GetTargets(i);
-                            target.DataB -= (int)(((uint)excess) >> 4);
+                            target.DataB -= excess >>> 4;
                         }
 
                         excess = Targets.GetTargets(i).PathStrength;
                         if (excess > 0)
                         {
                             AIGroupControlTarget target = Targets.GetTargets(i);
-                            target.DataB -= (int)(((uint)excess) >> 3);
+                            target.DataB -= excess >>> 3;
                         }
 
                         if (Targets.GetTargets(i).Location != Location)
@@ -573,7 +573,7 @@ public class FortifyAIGroupControl : AIGroupControl
         if (statistics.TurnInfo.Count > 0)
         {
             int count = statistics.TurnInfo.Count;
-            strength = (int)(((uint)statistics.TurnInfo.GetTurnInfo(count - 1).ArmyStrength) >> 1);
+            strength = statistics.TurnInfo.GetTurnInfo(count - 1).ArmyStrength >>> 1;
             if (strength < _requiredStrength)
             {
                 _requiredStrength = strength;

@@ -41,7 +41,7 @@ public class CustomAbilityList(CustomNode owner) : EngineObject(owner)
             SetAbilityCount(count);
         }
 
-        int length = (int)(((uint)(AbilityCount + 7)) >> 3);
+        int length = (AbilityCount + 7) >>> 3;
         persister.BitArray("AbilityBits", AbilityCount, AbilityBits.AsSpan(0, length));
         if (persister.Preview)
         {
@@ -88,8 +88,8 @@ public class CustomAbilityList(CustomNode owner) : EngineObject(owner)
     public void SetAbilityCount(int value)
     {
         // Ability.PAS:1119 asserts a bounds predicate that admits every Integer, so no check remains.
-        int oldSize = (int)(((uint)(AbilityCount + 7)) >> 3);
-        int newSize = (int)(((uint)(value + 7)) >> 3);
+        int oldSize = (AbilityCount + 7) >>> 3;
+        int newSize = (value + 7) >>> 3;
         if (newSize != oldSize)
         {
             byte[] abilityBits = AbilityBits;
@@ -124,7 +124,7 @@ public class CustomAbilityList(CustomNode owner) : EngineObject(owner)
         if (result)
         {
             int abilityCount = OwnAbilityCount;
-            return CompareMem(AbilityBits.AsSpan(0, (int)(((uint)(abilityCount + 7)) >> 3)), source.AbilityBits.AsSpan(0, (int)(((uint)(abilityCount + 7)) >> 3)), (int)(((uint)(abilityCount + 7)) >> 3));
+            return CompareMem(AbilityBits.AsSpan(0, (abilityCount + 7) >>> 3), source.AbilityBits.AsSpan(0, (abilityCount + 7) >>> 3), (abilityCount + 7) >>> 3);
         }
 
         return result;

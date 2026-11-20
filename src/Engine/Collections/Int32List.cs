@@ -440,7 +440,7 @@ public class Int32List : Persistent
         {
             i = L;
             int j = R;
-            int p = sortList[(int)(((uint)(L + R)) >> 1)];
+            int p = sortList[(L + R) >>> 1];
             do
             {
                 while (sCompare(sortList[i], p) < 0)

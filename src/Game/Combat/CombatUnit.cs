@@ -290,7 +290,7 @@ public class CombatUnit : CombatObject
         if (Disabled && objectValue is CombatUnit combatUnit)
         {
             Troop u = combatUnit.Troop;
-            if (u is not null && u.GetTransporter() && (int)(((uint)combatUnit.Position) >> 4) == (int)(((uint)Position) >> 4))
+            if (u is not null && u.GetTransporter() && combatUnit.Position >>> 4 == Position >>> 4)
             {
                 DestroyObject();
             }
@@ -317,7 +317,7 @@ public class CombatUnit : CombatObject
             {
                 if ((Position & 15) <= 7)
                 {
-                    party = Combat.CombatData.Parties.GetParty((byte)(int)(((uint)Position) >> 4));
+                    party = Combat.CombatData.Parties.GetParty((byte)(Position >>> 4));
                     if (party is not null && (sbyte)party.PlayerIndex == CombatPlayer)
                     {
                         sbyte player = GetPlayer();
@@ -341,7 +341,7 @@ public class CombatUnit : CombatObject
             }
             else
             {
-                party = (Position & 15) <= 7 ? Combat.CombatData.Parties.GetParty((byte)(int)(((uint)Position) >> 4)) : null;
+                party = (Position & 15) <= 7 ? Combat.CombatData.Parties.GetParty((byte)(Position >>> 4)) : null;
 
                 if (party is null || party.Location.X != -1)
                 {
@@ -691,7 +691,7 @@ public class CombatUnit : CombatObject
         CombatParty party;
         if (Status.Contains(CombatObjectStatusElement.Activated))
         {
-            party = Combat.CombatData.Parties.GetParty((byte)(int)(((uint)Position) >> 4));
+            party = Combat.CombatData.Parties.GetParty((byte)(Position >>> 4));
             if ((byte)CombatPlayer != party.PlayerIndex || Status.Contains(CombatObjectStatusElement.Destroyed))
             {
                 party = null;

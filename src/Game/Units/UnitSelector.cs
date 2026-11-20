@@ -114,7 +114,7 @@ public class UnitSelector : IDisposable
                 result += 1;
             }
 
-            bits = (uint)(int)(((uint)(int)bits) >> 1);
+            bits = (uint)((int)bits >>> 1);
         }
 
         return result;

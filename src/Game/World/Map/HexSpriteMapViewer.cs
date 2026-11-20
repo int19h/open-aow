@@ -108,8 +108,8 @@ public class HexSpriteMapViewer : Component
         if (_hexSpriteMap is not null)
         {
             HexGeometry.HexToPixel(hexX, hexY, out int pixelX, out int pixelY);
-            SetSceneX(pixelX + 16 - (int)(((uint)_sceneWidth) >> 1));
-            SetSceneY(pixelY + 16 - (int)(((uint)_sceneHeight) >> 1));
+            SetSceneX(pixelX + 16 - (_sceneWidth >>> 1));
+            SetSceneY(pixelY + 16 - (_sceneHeight >>> 1));
             SetSceneL(hexLevel);
             if (_hexSpriteMap.SetViewPort(_sceneX, _sceneY, _sceneL, _sceneWidth, _sceneHeight) && OnSceneChanged is not null)
             {

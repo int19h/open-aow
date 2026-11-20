@@ -688,7 +688,7 @@ public partial class ArmyHexSprite : UnitHexSprite
         if (Army.Status.Contains(ArmyStatusElement.Concealed))
         {
             i = 0;
-            while ((((int)(((uint)Army.ConcealedUnits) >> i)) & 1) == 1)
+            while (((Army.ConcealedUnits >>> i) & 1) == 1)
             {
                 i += 1;
             }
@@ -730,7 +730,7 @@ public partial class ArmyHexSprite : UnitHexSprite
         {
             info.Overlays = Set<UnitOverlayModesElement>.Of();
             info.Animation = UnitAnimation.None;
-            info.Frame = StrategicMap.Current.Frame + (int)(((uint)(X + Y + Y)) >> 4);
+            info.Frame = StrategicMap.Current.Frame + ((X + Y + Y) >>> 4);
             info.Looped = true;
             _ = Army.Units.GetUnit(_unitIndex).Show(X - 16, Y - 20, lockedSurface, info);
         }

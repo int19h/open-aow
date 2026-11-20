@@ -51,10 +51,10 @@ public class ArmyView(CustomNode owner) : Army(owner)
     public override MapCoordinate GetLocation() => Location;
 
     // Army.PAS:89
-    public override bool GetUnitConcealedForPlayer(int index, sbyte player) => (((int)(((uint)UnitConcealment[index]) >> (player - 1))) & 1) != 0;
+    public override bool GetUnitConcealedForPlayer(int index, sbyte player) => ((UnitConcealment[index] >>> (player - 1)) & 1) != 0;
 
     // Army.PAS:78
-    public override bool GetConcealedForPlayer(sbyte player) => (((int)(((uint)ConcealedForPlayers) >> (player - 1))) & 1) != 0;
+    public override bool GetConcealedForPlayer(sbyte player) => ((ConcealedForPlayers >>> (player - 1)) & 1) != 0;
 
     // Army.PAS:100
     public virtual void Setup(Army army, byte selection)
@@ -77,7 +77,7 @@ public class ArmyView(CustomNode owner) : Army(owner)
                 }
             }
 
-            selection = (byte)(int)(((uint)selection) >> 1);
+            selection = (byte)(selection >>> 1);
         }
     }
 

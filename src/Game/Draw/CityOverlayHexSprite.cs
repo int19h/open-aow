@@ -35,7 +35,7 @@ public class CityOverlayHexSprite(CustomNode owner) : SingleHexSprite(owner)
             ImageSequence sequence;
             if (City.Enchantments.Contains(CityEnchantmentId.Warmonger))
             {
-                intensity = Math.Abs(((int)(((uint)StrategicMap.Current.Frame) >> 1) % 20) - 10) + 50;
+                intensity = Math.Abs(((StrategicMap.Current.Frame >>> 1) % 20) - 10) + 50;
                 sequence = City.Resource.ImageSequenceList.ImageSequences[17];
                 while (sequence is not null)
                 {
@@ -55,7 +55,7 @@ public class CityOverlayHexSprite(CustomNode owner) : SingleHexSprite(owner)
 
             if (City.Enchantments.Contains(CityEnchantmentId.GoldRush))
             {
-                intensity = Math.Abs(((int)(((uint)StrategicMap.Current.Frame) >> 1) % 20) - 10) + 70;
+                intensity = Math.Abs(((StrategicMap.Current.Frame >>> 1) % 20) - 10) + 70;
                 sequence = City.Resource.ImageSequenceList.ImageSequences[18];
                 while (sequence is not null)
                 {

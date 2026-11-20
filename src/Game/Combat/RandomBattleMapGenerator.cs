@@ -686,12 +686,12 @@ public class RandomBattleMapGenerator : IDisposable
                 {
                     if (CombatMap.Current.Combat.CombatData.GetObjects(i).GetEnabled())
                     {
-                        if ((int)(((uint)CombatMap.Current.Combat.CombatData.GetObjects(i).Position) >> 4) == position)
+                        if (CombatMap.Current.Combat.CombatData.GetObjects(i).Position >>> 4 == position)
                         {
                             _ = units.Add(CombatMap.Current.Combat.CombatData.GetObjects<TacticalBattleUnit>(i));
                             u = units[^1];
                             u.PositionIndex = (byte)(u.Position & 15);
-                            u.PositionGroup = (byte)(int)(((uint)u.Position) >> 4);
+                            u.PositionGroup = (byte)(u.Position >>> 4);
                             if (u.PositionGroup == 7)
                             {
                                 u.PositionGroup = 1;

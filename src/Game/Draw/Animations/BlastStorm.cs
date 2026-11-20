@@ -28,9 +28,9 @@ public class BlastStorm(CustomNode owner) : Storm(owner)
         sbyte hexY = HexY;
         HexGeometry.HexToPixel(HexX, hexY, out int x, out int y);
         LibraryImage stormImageWidth = _stormImages[frame];
-        x = x - (int)(((uint)stormImageWidth.Width) >> 1) + 10;
+        x = x - (stormImageWidth.Width >>> 1) + 10;
         LibraryImage stormImageHeight = _stormImages[frame];
-        y = y - (int)(((uint)stormImageHeight.Height) >> 1) - 42;
+        y = y - (stormImageHeight.Height >>> 1) - 42;
         _stormImages[frame].Show(x - pixelXSurface, y - pixelYSurface, lockedSurface);
     }
 
@@ -60,10 +60,10 @@ public class BlastStorm(CustomNode owner) : Storm(owner)
             _stormImages.LoadDiscardableImageData();
         }
 
-        r.Left = -(int)(((uint)_stormImages[0].Width) >> 1);
-        r.Right = (int)(((uint)_stormImages[0].Width) >> 1);
-        r.Top = -(int)(((uint)_stormImages[0].Height) >> 1);
-        r.Bottom = (int)(((uint)_stormImages[0].Height) >> 1);
+        r.Left = -(_stormImages[0].Width >>> 1);
+        r.Right = _stormImages[0].Width >>> 1;
+        r.Top = -(_stormImages[0].Height >>> 1);
+        r.Bottom = _stormImages[0].Height >>> 1;
         SetDimensions(r);
         _ = StrategicMap.Current.ValidateTerrainObservation(StrategicMap.Current.CurrentPlayer, X, Y, L, 4);
         if (StrategicMap.Current.CurrentPlayer == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.TerrainVisible(X, Y, L, 4))

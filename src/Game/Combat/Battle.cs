@@ -463,8 +463,8 @@ public class Battle : EngineObject
     {
         if ((source & 15) <= 7 && (target & 15) <= 7 && CombatData.Wall is not null && !CombatData.Wall.Status.Contains(CombatObjectStatusElement.Destroyed))
         {
-            source = (byte)(int)(((uint)source) >> 4);
-            target = (byte)(int)(((uint)target) >> 4);
+            source = (byte)(source >>> 4);
+            target = (byte)(target >>> 4);
             if (source < 7 && target < 7)
             {
                 CombatParty party = CombatData.Parties.GetParty(source);

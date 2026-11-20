@@ -621,7 +621,7 @@ public class CombatMap : GameMap
     {
         if (!((SeatedPlayer == -1 || StrategicMap.Current.TokenManager.PlayerReady(SeatedPlayer)) && SeatedPlayer == CurrentPlayer && !Players.GetPlayers(CurrentCombatPlayer).Auto && Current.SeatedCombatPlayer == Current.CurrentCombatPlayer))
         {
-            Mouse.Cursor = ((int)(((uint)Frame) >> 2) % 4) + 6;
+            Mouse.Cursor = ((Frame >>> 2) % 4) + 6;
         }
         else
         {
@@ -636,10 +636,10 @@ public class CombatMap : GameMap
                     Mouse.Cursor = 0;
                     break;
                 case 257:
-                    Mouse.Cursor = ((int)(((uint)Frame) >> 2) % 4) + 52;
+                    Mouse.Cursor = ((Frame >>> 2) % 4) + 52;
                     break;
                 case 258:
-                    Mouse.Cursor = (((int)(((uint)Frame) >> 2)) & 1) + 49;
+                    Mouse.Cursor = ((Frame >>> 2) & 1) + 49;
                     break;
                 default:
                     break;

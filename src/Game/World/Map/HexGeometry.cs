@@ -24,7 +24,7 @@ public static class HexGeometry
         {
             int r = ((int)Math.Sqrt(((hexNumber - 1) * 12) + 9) + 3) / 6;
             int n = r * 6;
-            return ((hexNumber - ((r - 1) * r * 3) - 1 + (int)(((uint)n) >> 1)) % n) + ((r - 1) * r * 3) + 1;
+            return ((hexNumber - ((r - 1) * r * 3) - 1 + (n >>> 1)) % n) + ((r - 1) * r * 3) + 1;
         }
     }
 
@@ -254,12 +254,12 @@ public static class HexGeometry
         if (dY >= dX)
         {
             bool up = (dX & 1) != 0 && ((!((x1 & 1) != 0) && y1 < y2) || (!((x2 & 1) != 0) && y2 < y1));
-            return up ? (int)(((uint)(dX + 1)) >> 1) + dY : (int)(((uint)dX) >> 1) + dY;
+            return up ? ((dX + 1) >>> 1) + dY : (dX >>> 1) + dY;
         }
         else
         {
             result = dX;
-            int half = (int)(((uint)(dX + 1)) >> 1);
+            int half = (dX + 1) >>> 1;
             if ((dX & 1) != 0 && ((!((x1 & 1) != 0) && y1 < y2) || (!((x2 & 1) != 0) && y2 < y1)))
             {
                 dY += 1;
@@ -282,12 +282,12 @@ public static class HexGeometry
         if (dY >= dX)
         {
             bool up = (dX & 1) != 0 && (hexY > 0 || (!((hexX & 1) != 0) && hexY < 0));
-            return up ? (int)(((uint)(dX + 1)) >> 1) + dY : (int)(((uint)dX) >> 1) + dY;
+            return up ? ((dX + 1) >>> 1) + dY : (dX >>> 1) + dY;
         }
         else
         {
             result = dX;
-            int half = (int)(((uint)(dX + 1)) >> 1);
+            int half = (dX + 1) >>> 1;
             if ((dX & 1) != 0 && (hexY > 0 || (!((hexX & 1) != 0) && hexY < 0)))
             {
                 dY += 1;

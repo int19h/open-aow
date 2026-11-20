@@ -70,7 +70,7 @@ public partial class MapField
             Array.Copy(_hexSpriteList, index, _hexSpriteList, index + 1, StoredCount - index);
             Array.Copy(_directions, index, _directions, index + 1, StoredCount - index);
         }
-        if ((uint)priority >> 26 <= 15)
+        if (priority >>> 26 <= 15)
         {
             StaticCount++;
         }
@@ -100,7 +100,7 @@ public partial class MapField
             Array.Copy(_directions, index + 1, _directions, index, StoredCount - index);
             Array.Copy(_hexSpriteList, index + 1, _hexSpriteList, index, StoredCount - index);
         }
-        if ((uint)sprite.GetShowPriority() >> 26 <= 15)
+        if (sprite.GetShowPriority() >>> 26 <= 15)
         {
             if (StaticCount != 0)
             {
@@ -151,7 +151,7 @@ public partial class MapField
             }
         }
         StaticCount = 0;
-        while (StaticCount != StoredCount && (uint)_hexSpriteList[StaticCount].GetShowPriority() >> 26 <= 15)
+        while (StaticCount != StoredCount && _hexSpriteList[StaticCount].GetShowPriority() >>> 26 <= 15)
         {
             StaticCount++;
         }

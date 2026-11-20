@@ -98,7 +98,7 @@ public partial class ReflectingPool(CustomNode owner) : PlayerStructure(owner)
     {
         int result = 8;
         return HexLevel != 0 || (Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 8) != 0)
-            ? (int)(((uint)(result + 1)) >> 1)
+            ? (result + 1) >>> 1
             : result;
     }
 

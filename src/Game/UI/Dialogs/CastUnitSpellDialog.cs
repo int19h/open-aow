@@ -67,7 +67,7 @@ public partial class CastUnitSpellDialog(UIContext ui) : UIModule(ui)
             info.Direction = 3;
             info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
             _ = Caster.TargetUnits.GetUnit(index).Show(X - 8, Y - 4, surface, info);
-            if ((((int)(((uint)Caster.ValidSelection) >> index)) & 1) == 0)
+            if (((Caster.ValidSelection >>> index) & 1) == 0)
             {
                 LibraryImage image = UI.Graphics.UnitBackgrounds[7];
                 image.ShowClipped(X + 25 - (image.Width / 2), Y + 30 - (image.Height / 2), surface);

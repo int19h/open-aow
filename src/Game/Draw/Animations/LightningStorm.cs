@@ -32,7 +32,7 @@ public class LightningStorm(CustomNode owner) : Storm(owner)
             sbyte hexY = HexY;
             HexGeometry.HexToPixel(HexX, hexY, out int x, out int y);
             LibraryImage stormImageWidth = _stormImages[frame];
-            x = x - (int)(((uint)stormImageWidth.Width) >> 1) + 20;
+            x = x - (stormImageWidth.Width >>> 1) + 20;
             LibraryImage stormImageHeight = _stormImages[frame];
             y = y - stormImageHeight.Height + 32 + 40;
             _stormImages[frame].Show(x - pixelXSurface, y - pixelYSurface, lockedSurface);
@@ -64,8 +64,8 @@ public class LightningStorm(CustomNode owner) : Storm(owner)
             _stormImages.LoadDiscardableImageData();
         }
 
-        r.Left = -(int)(((uint)_stormImages[0].Width) >> 1);
-        r.Right = (int)(((uint)_stormImages[0].Width) >> 1);
+        r.Left = -(_stormImages[0].Width >>> 1);
+        r.Right = _stormImages[0].Width >>> 1;
         r.Top = -_stormImages[0].Height + 32;
         r.Bottom = 32;
         SetDimensions(r);

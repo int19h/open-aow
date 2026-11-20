@@ -704,7 +704,7 @@ public class Scanner(Component owner) : Control(owner)
                                 int imageIndex;
                                 if (building > 0 && _buildings)
                                 {
-                                    imageIndex = 7 - (((int)(((uint)building) >> 22)) & 3) + ((((int)(((uint)building) >> 16)) & 63) * 6);
+                                    imageIndex = 7 - ((building >>> 22) & 3) + (((building >>> 16) & 63) * 6);
                                     if (imageIndex < _objectsImageLibrary.Count && imageIndex > -1 && _objectsImageLibrary[imageIndex] is not null)
                                     {
                                         LibraryImage objectsImageLibraryHeight = _objectsImageLibrary[imageIndex];
@@ -716,7 +716,7 @@ public class Scanner(Component owner) : Control(owner)
                                 {
                                     if (natural > 0 && _naturals)
                                     {
-                                        imageIndex = ((int)(((uint)natural) >> 8) * 6) + 9;
+                                        imageIndex = ((natural >>> 8) * 6) + 9;
                                         if (imageIndex < _objectsImageLibrary.Count && imageIndex > -1 && _objectsImageLibrary[imageIndex] is not null)
                                         {
                                             LibraryImage objectsImageLibraryHeight = _objectsImageLibrary[imageIndex];

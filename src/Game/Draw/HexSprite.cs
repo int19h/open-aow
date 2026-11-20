@@ -329,8 +329,8 @@ public class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>
             }
 
             MapLevel mapL = map.GetMapLevel(hexLevel);
-            int x = (int)(((uint)(minX + maxX)) >> 1);
-            y = !((x & 1) != 0) ? (int)(((uint)(minYEven + maxYEven)) >> 1) : (int)(((uint)(minYOdd + maxYOdd)) >> 1);
+            int x = (minX + maxX) >>> 1;
+            y = !((x & 1) != 0) ? (minYEven + maxYEven) >>> 1 : (minYOdd + maxYOdd) >>> 1;
 
             SetOwnerWithoutNotify(mapL.GetField(x, y));
             x = minX;

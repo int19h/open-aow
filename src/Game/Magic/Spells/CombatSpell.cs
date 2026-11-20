@@ -195,7 +195,7 @@ public class CombatSpell : Spell
             {
                 CombatSideIndex side = target.Side;
                 other = combat.Sides[(int)side].GetObjects(i);
-                bool condition = other != target && other.GetEnabled() && (int)(((uint)other.Position) >> 4) == (int)(((uint)target.Position) >> 4) && distance >= other.FastBattleRoundDistance();
+                bool condition = other != target && other.GetEnabled() && other.Position >>> 4 == target.Position >>> 4 && distance >= other.FastBattleRoundDistance();
                 if (condition)
                 {
                     Set<DamageType> immunityTypes = other.GetImmunityTypes();
@@ -209,7 +209,7 @@ public class CombatSpell : Spell
             }
 
             // { Original shifts Random(4) by two, so this adds no random extra targets. }
-            int count = (int)(((uint)StrategicMap.Current.Random(4)) >> 2) + CombatInfo.Radius;
+            int count = (StrategicMap.Current.Random(4) >>> 2) + CombatInfo.Radius;
             while (count != 0 && targets.Count != 0)
             {
                 other = targets[StrategicMap.Current.Random(targets.Count)];
@@ -255,7 +255,7 @@ public class CombatSpell : Spell
             values.SourceDamage = statisticsToLimitedDamageValue * CombatInfo.RepeatCount;
             if (CombatInfo.Radius > 1)
             {
-                values.SourceDamage = (int)(((uint)(values.SourceDamage * CombatInfo.Radius)) >> 1);
+                values.SourceDamage = (values.SourceDamage * CombatInfo.Radius) >>> 1;
             }
 
             int statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(damage, damageTypes, protection, immunity);
@@ -290,7 +290,7 @@ public class CombatSpell : Spell
                 {
                     CombatSideIndex side = target.Side;
                     CombatObject other = combat.Sides[(int)side].GetObjects(i);
-                    if (target != other && other.GetEnabled() && (int)(((uint)other.Position) >> 4) == (int)(((uint)target.Position) >> 4) && other.FastBattleRoundDistance() <= distance && damageTypes - other.GetImmunityTypes() != Set<DamageType>.Of())
+                    if (target != other && other.GetEnabled() && other.Position >>> 4 == target.Position >>> 4 && other.FastBattleRoundDistance() <= distance && damageTypes - other.GetImmunityTypes() != Set<DamageType>.Of())
                     {
                         count += 1;
                     }

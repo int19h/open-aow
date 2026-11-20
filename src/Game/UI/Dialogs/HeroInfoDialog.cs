@@ -67,7 +67,7 @@ public partial class HeroInfoDialog(UIContext ui) : UIModule(ui)
             info.Direction = 3;
             info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
             _ = _armyInfo.ArmyView.Units.GetUnit(index).Show(x - 33, y - 35, surface, info);
-            if ((((int)(((uint)_armyInfo.Selection) >> index)) & 1) == 0)
+            if (((_armyInfo.Selection >>> index) & 1) == 0)
             {
                 LibraryImage image = UI.Graphics.UnitBackgrounds[7];
                 image.ShowClipped(x - (image.Width / 2), y - (image.Height / 2), surface);

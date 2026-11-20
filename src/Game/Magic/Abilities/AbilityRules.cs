@@ -62,7 +62,7 @@ public static class AbilityRules
             {
                 if (threshold >= 0)
                 {
-                    result = (int)(((uint)(((damage - 1) * (18 - threshold)) + 1)) >> 1) + damage + (18 - threshold);
+                    result = ((((damage - 1) * (18 - threshold)) + 1) >>> 1) + damage + (18 - threshold);
                     if (threshold != 0)
                     {
                         result += 1;
@@ -70,9 +70,9 @@ public static class AbilityRules
                 }
                 else
                 {
-                    result = damage + 1 + (18 - threshold) + (int)(((uint)(((damage - 1) * (18 - threshold)) + 1)) >> 1);
+                    result = damage + 1 + (18 - threshold) + ((((damage - 1) * (18 - threshold)) + 1) >>> 1);
                     threshold = -threshold;
-                    int correction = (int)(((uint)((((damage - 1) * threshold * threshold) + threshold + 19) / (threshold + 19))) >> 1);
+                    int correction = ((((damage - 1) * threshold * threshold) + threshold + 19) / (threshold + 19)) >>> 1;
                     threshold = correction + threshold + 1;
                     result -= threshold;
                 }
@@ -107,7 +107,7 @@ public static class AbilityRules
                 {
                     attackDefense = 10 - (attackDefense * 2);
                     return roll >= attackDefense && attackDefense < 18
-                        ? ((((damage - 1) * (roll - attackDefense)) + (int)(((uint)(18 - attackDefense)) >> 1)) / (18 - attackDefense)) + 1
+                        ? ((((damage - 1) * (roll - attackDefense)) + ((18 - attackDefense) >>> 1)) / (18 - attackDefense)) + 1
                         : 0;
                 }
             }
@@ -145,7 +145,7 @@ public static class AbilityRules
     {
         damageTypes -= immunityTypes;
         return damageTypes != Set<DamageType>.Of()
-            ? damageTypes - protectionTypes == Set<DamageType>.Of() ? (int)(((uint)(damage + 1)) >> 1) : damage
+            ? damageTypes - protectionTypes == Set<DamageType>.Of() ? (damage + 1) >>> 1 : damage
             : 0;
     }
 
@@ -160,7 +160,7 @@ public static class AbilityRules
             attack -= defense;
             if (damageTypes - protectionTypes == Set<DamageType>.Of())
             {
-                damage = (int)(((uint)(damage + 1)) >> 1);
+                damage = (damage + 1) >>> 1;
             }
 
             result = ExpectedDamageCapped(damage, attack, limit);

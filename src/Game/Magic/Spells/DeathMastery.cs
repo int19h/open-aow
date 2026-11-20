@@ -72,7 +72,7 @@ public class DeathMastery : GlobalEnchantmentSpell
         for (int i = 0; i <= count - 1; i++)
         {
             int x = Random(animation.Tag & 65535);
-            int y = Random((int)(((uint)(int)(uint)animation.Tag) >> 16));
+            int y = Random((int)(uint)animation.Tag >>> 16);
             int speed = Random(15) + 5;
             int image = Random(3);
             // { Preserve the original image/displacement register lifetimes. }

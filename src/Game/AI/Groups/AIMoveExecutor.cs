@@ -159,7 +159,7 @@ public class AIMoveExecutor : EngineObject
                 _ = AddUnit(army.Army.Units.GetUnit(i));
             }
 
-            selection = (byte)(int)(((uint)selection) >> 1);
+            selection = (byte)(selection >>> 1);
         }
     }
 

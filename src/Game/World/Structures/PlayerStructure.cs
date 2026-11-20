@@ -477,7 +477,7 @@ public partial class PlayerStructure(CustomNode owner) : Structure(owner)
             result = 6;
             if (HexLevel != 0 || (Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 8) != 0))
             {
-                return (int)(((uint)(result + 1)) >> 1);
+                return (result + 1) >>> 1;
             }
         }
         else

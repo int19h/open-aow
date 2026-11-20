@@ -239,8 +239,8 @@ public partial class DisjunctionDialog(UIContext ui) : UIModule(ui)
         int w = r.Right - r.Left;
         int h = r.Bottom - r.Top;
         HexGeometry.HexToPixel(Location.X, Location.Y, out int x, out int y);
-        x = x + 16 - (int)(((uint)w) >> 1);
-        y = y + 16 - (int)(((uint)h) >> 1);
+        x = x + 16 - (w >>> 1);
+        y = y + 16 - (h >>> 1);
         if (x < 16)
         {
             x = 16;

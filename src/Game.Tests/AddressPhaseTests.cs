@@ -28,7 +28,7 @@ public sealed class AddressPhaseTests
 
             FrameFixtureInputs.AddressAnimationPhase = null;
             FrameFixtureInputs.WaterVariantPhase = null;
-            Assert.Equal(((int)((uint)RuntimeHelpers.GetHashCode(instance) >> 2)) & 65535, FrameFixtureInputs.AnimationOffset(instance));
+            Assert.Equal((RuntimeHelpers.GetHashCode(instance) >>> 2) & 65535, FrameFixtureInputs.AnimationOffset(instance));
             Assert.Equal(84, FrameFixtureInputs.WaterBasePhase(instance));
             Assert.Equal(0, FrameFixtureInputs.WaterBasePhase(null));
             Assert.Equal(2, FrameFixtureInputs.TextureVariant(instance));

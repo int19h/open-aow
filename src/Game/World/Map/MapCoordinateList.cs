@@ -53,7 +53,7 @@ public class MapCoordinateList : DefaultItemList<MapCoordinate>
         {
             i = L;
             int j = R;
-            MapCoordinate p = sortList[(int)(((uint)(L + R)) >> 1)];
+            MapCoordinate p = sortList[(L + R) >>> 1];
             do
             {
                 while (sCompare(sortList[i], p) < 0)

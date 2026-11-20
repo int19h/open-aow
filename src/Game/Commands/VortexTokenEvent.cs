@@ -147,7 +147,7 @@ public class VortexTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(ow
             for (int i = 0; i <= 200; i++)
             {
                 int direction = Random(360);
-                if (animation.FrameCounter >= (int)(((uint)(200 - i)) >> 2) && animation.FrameCounter <= (int)(((uint)i) >> 4) + 68)
+                if (animation.FrameCounter >= (200 - i) >>> 2 && animation.FrameCounter <= (i >>> 4) + 68)
                 {
                     int radius = Round((double)((double)2.997 - Math.Log((double)(i * 19 * 0.005) + 1)) * 35) + 18;
                     int height = -16;
@@ -156,7 +156,7 @@ public class VortexTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(ow
                     float angle = (float)((double)(-(direction + _angle) * pi) / 180);
                     int count = GetEngine().AnimationDetail == 0
                         ? 1
-                        : GetEngine().AnimationDetail == 1 ? (int)(((uint)(200 - i)) >> 5) : (int)(((uint)(200 - i)) >> 4);
+                        : GetEngine().AnimationDetail == 1 ? (200 - i) >>> 5 : (200 - i) >>> 4;
 
                     for (int j = count; j >= 0; j--)
                     {

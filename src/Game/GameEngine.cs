@@ -222,14 +222,14 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     public string TranslateResourceString(string S) => Dictionary.Language > 0 ? Dictionary.Translate(S) : CompareText(S, s_undeadPluralText) == 0 ? s_undeadText : S;
 
     // Army.PAS:5915
-    public int MajorVersion => ((int)(((uint)Version) >> 24)) & 255;
+    public int MajorVersion => (Version >>> 24) & 255;
 
     // Army.PAS:5918
     public int MinorVersion
     {
         get
         {
-            int result = ((int)(((uint)Version) >> 16)) & 255;
+            int result = (Version >>> 16) & 255;
             return result > 99 ? 99 : result;
         }
     }

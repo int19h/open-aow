@@ -57,14 +57,14 @@ public partial class ArenaDialog(UIContext ui) : UIModule(ui)
             info.Direction = 3;
             info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
             _ = u.Show(X - 8, Y - 5, lockedSurface, info);
-            if ((((int)(((uint)_event.Trainable) >> index)) & 1) == 0)
+            if (((_event.Trainable >>> index) & 1) == 0)
             {
                 image = UI.Graphics.UnitBackgrounds[7];
                 image.ShowClipped(X + 25 - (image.Width / 2), Y + 30 - (image.Height / 2), lockedSurface);
             }
 
             lockedSurface.ClipRectangle = saveRectangle;
-            if ((((int)(((uint)_event.Trainable) >> index)) & 1) != 0)
+            if (((_event.Trainable >>> index) & 1) != 0)
             {
                 UI.Fonts.Age8.Color = 0;
                 int unitTrainCost = _event.Arena.UnitTrainCost(u);
@@ -167,8 +167,8 @@ public partial class ArenaDialog(UIContext ui) : UIModule(ui)
         int h = r.Bottom - r.Top;
         sbyte hexY = _event.Arena.HexY;
         HexGeometry.HexToPixel(_event.Arena.HexX, hexY, out int x, out int y);
-        x = x + 16 - (int)(((uint)w) >> 1);
-        y = y + 16 - (int)(((uint)h) >> 1);
+        x = x + 16 - (w >>> 1);
+        y = y + 16 - (h >>> 1);
         if (x < 16)
         {
             x = 16;

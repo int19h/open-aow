@@ -2014,13 +2014,13 @@ public partial class StrategicMap : GameMap
                 Mouse.Cursor = 0;
                 break;
             case 257:
-                Mouse.Cursor = ((int)(((uint)Frame) >> 2) % 4) + 52;
+                Mouse.Cursor = ((Frame >>> 2) % 4) + 52;
                 break;
             case 258:
-                Mouse.Cursor = (((int)(((uint)Frame) >> 2)) & 1) + 49;
+                Mouse.Cursor = ((Frame >>> 2) & 1) + 49;
                 break;
             case 259:
-                Mouse.Cursor = ((int)(((uint)Frame) >> 2) % 3) + 58;
+                Mouse.Cursor = ((Frame >>> 2) % 3) + 58;
                 break;
             default:
                 break;

@@ -401,7 +401,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
         {
             for (int i = Units.Count - 1; i >= 0; i--)
             {
-                if ((((int)(((uint)selection) >> i)) & 1) != 0)
+                if (((selection >>> i) & 1) != 0)
                 {
                     Units[i].Killed();
                 }
@@ -492,7 +492,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
                 }
             }
 
-            selection = (byte)(int)(((uint)selection) >> 1);
+            selection = (byte)(selection >>> 1);
         }
 
         return result;
@@ -505,7 +505,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
         while ((selection & 1) == 0 && i != Units.Count)
         {
             i += 1;
-            selection = (byte)(int)(((uint)selection) >> 1);
+            selection = (byte)(selection >>> 1);
         }
 
         return i != Units.Count ? Units[i].UnitId : 0;
@@ -533,7 +533,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
                 }
             }
 
-            selection = (byte)(int)(((uint)selection) >> 1);
+            selection = (byte)(selection >>> 1);
             i += 1;
         }
 
@@ -550,7 +550,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
                 _ = group.AddUnit(Units[i]);
             }
 
-            selection = (byte)(int)(((uint)selection) >> 1);
+            selection = (byte)(selection >>> 1);
         }
     }
 
@@ -590,7 +590,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
                     _ = group.AddUnit(Units[i]);
                 }
 
-                selection = (byte)(int)(((uint)selection) >> 1);
+                selection = (byte)(selection >>> 1);
             }
 
             _ = group.Release();
@@ -712,7 +712,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
                 _ = id.UnitIds.Add(Units[i].UnitId);
             }
 
-            selection = (byte)(int)(((uint)selection) >> 1);
+            selection = (byte)(selection >>> 1);
         }
 
         return id;
@@ -766,7 +766,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
             if (showCrown && concealed)
             {
                 int indexOf = Units.IndexOf(leader);
-                if ((((int)(((uint)ConcealedUnits) >> indexOf)) & 1) != 0)
+                if (((ConcealedUnits >>> indexOf) & 1) != 0)
                 {
                     showCrown = false;
                 }
@@ -836,7 +836,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
                 }
             }
 
-            selection = (byte)(int)(((uint)selection) >> 1);
+            selection = (byte)(selection >>> 1);
         }
 
         return !same ? -1 : result;
@@ -863,7 +863,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
                 result += 1;
             }
 
-            selection = (byte)(int)(((uint)selection) >> 1);
+            selection = (byte)(selection >>> 1);
         }
 
         return result;
@@ -972,7 +972,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
                     for (int i = 0, last = Units.Count - 1; i <= last; i++)
                     {
                         Troop troop = Units.GetUnit(i);
-                        if ((((int)(((uint)selection) >> i)) & 1) != 0)
+                        if (((selection >>> i) & 1) != 0)
                         {
                             sbyte hitPoints = troop.GetHitPoints();
                             _ = log.DamageValues.Add((byte)hitPoints);
@@ -1180,7 +1180,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
                 result += 1;
             }
 
-            selection = (byte)(int)(((uint)selection) >> 1);
+            selection = (byte)(selection >>> 1);
         }
 
         return result;
@@ -1289,7 +1289,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
                 result &= Units[i].GetImmunityTypes();
             }
 
-            selection = (byte)(int)(((uint)selection) >> 1);
+            selection = (byte)(selection >>> 1);
             i += 1;
         }
 
@@ -1307,7 +1307,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
                 result += Units[i].GetObtainValue();
             }
 
-            selection = (byte)(int)(((uint)selection) >> 1);
+            selection = (byte)(selection >>> 1);
         }
 
         return result;
@@ -1338,7 +1338,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
                         }
                     }
 
-                    selection = (byte)(int)(((uint)selection) >> 1);
+                    selection = (byte)(selection >>> 1);
                 }
             }
             else
@@ -1375,7 +1375,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
                         }
                     }
 
-                    selection = (byte)(int)(((uint)selection) >> 1);
+                    selection = (byte)(selection >>> 1);
                 }
             }
             else
@@ -1406,7 +1406,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
                     result += Units[i].GetMoveTypes();
                 }
 
-                selection = (byte)(int)(((uint)selection) >> 1);
+                selection = (byte)(selection >>> 1);
             }
         }
 
@@ -1497,7 +1497,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
                     table.Maximize(unitTable);
                 }
 
-                selection = (byte)(int)(((uint)selection) >> 1);
+                selection = (byte)(selection >>> 1);
             }
         }
 
@@ -1527,7 +1527,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
                     count += 1;
                 }
 
-                selection = (byte)(int)(((uint)selection) >> 1);
+                selection = (byte)(selection >>> 1);
             }
         }
 
@@ -1668,7 +1668,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
                 }
             }
 
-            selection = (byte)(int)(((uint)selection) >> 1);
+            selection = (byte)(selection >>> 1);
             i += 1;
         }
 
@@ -1694,7 +1694,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
                 }
             }
 
-            selection = (byte)(int)(((uint)selection) >> 1);
+            selection = (byte)(selection >>> 1);
             i += 1;
         }
 
@@ -1716,7 +1716,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
                 }
             }
 
-            selection = (byte)(int)(((uint)selection) >> 1);
+            selection = (byte)(selection >>> 1);
             i += 1;
         }
 
@@ -1793,7 +1793,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
     public byte VisibilityRange() => (byte)(_visibilityRanges & 15);
 
     // Army.PAS:1670
-    public byte TrueVisionRange() => (byte)(int)(((uint)_visibilityRanges) >> 4);
+    public byte TrueVisionRange() => (byte)(_visibilityRanges >>> 4);
 
     // Army.PAS:1673
     public void TurnUnFogOff()
@@ -1936,7 +1936,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
                 _ = list.Add(units.GetUnit(i));
             }
 
-            selection = (byte)(int)(((uint)selection) >> 1);
+            selection = (byte)(selection >>> 1);
         }
 
         int transportCount = 0;
@@ -2052,7 +2052,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
                 index -= 1;
             }
 
-            selection = (byte)(int)(((uint)selection) >> 1);
+            selection = (byte)(selection >>> 1);
             i += 1;
         }
 
@@ -2118,7 +2118,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
                     _ = units.Add(Units[i]);
                 }
 
-                selection = (byte)(int)(((uint)selection) >> 1);
+                selection = (byte)(selection >>> 1);
             }
 
             Troop troop;
@@ -2481,7 +2481,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
                 }
             }
 
-            selection = (byte)(int)(((uint)selection) >> 1);
+            selection = (byte)(selection >>> 1);
         }
 
         PartyStatus result = predictor.Execute() == CombatResult.Defeat
@@ -2697,7 +2697,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
                 result += Units[i].JoinAmount(player);
             }
 
-            selection = (byte)(int)(((uint)selection) >> 1);
+            selection = (byte)(selection >>> 1);
         }
 
         return result;
@@ -3122,7 +3122,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
                 i += 1;
             }
 
-            temporary = (byte)(int)(((uint)temporary) >> 1);
+            temporary = (byte)(temporary >>> 1);
         }
 
         Troop ownTransporter = Transporter(255);

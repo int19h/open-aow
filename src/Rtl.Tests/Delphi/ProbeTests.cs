@@ -336,19 +336,19 @@ public sealed class ProbeTests(ITestOutputHelper output)
         i = -1;
         for (int n = 0; n <= 33; n++)
         {
-            probe.Fact($"shr_neg1_{n}", (int)((uint)i >> n));
+            probe.Fact($"shr_neg1_{n}", i >>> n);
             probe.Fact($"shl_neg1_{n}", i << n);
         }
         s = -1;
         t = -1;
-        probe.Fact("shortint_shr_neg1_1", (int)((uint)s >> 1));
-        probe.Fact("smallint_shr_neg1_1", (int)((uint)t >> 1));
+        probe.Fact("shortint_shr_neg1_1", s >>> 1);
+        probe.Fact("smallint_shr_neg1_1", t >>> 1);
         probe.Fact("byte_shl_8", b << 8);
         probe.Fact("word_shl_16", w << 16);
         i = int.MinValue;
-        probe.Fact("shr_min_1", (int)((uint)i >> 1));
+        probe.Fact("shr_min_1", i >>> 1);
         i = -7;
-        probe.Fact("shr_neg7_1", (int)((uint)i >> 1));
+        probe.Fact("shr_neg7_1", i >>> 1);
         probe.Fact("ord_true", Ord(true));
         probe.Fact("ord_false", Ord(false));
         foreach (int n in new[] { 0, 1, 2, 255, 256, -1 })

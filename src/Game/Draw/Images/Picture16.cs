@@ -145,7 +145,7 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
                             for (int x = 0, lastX = Width - 1; x <= lastX; x++)
                             {
                                 Palette.Entry p = lockedSurface.Palette[s[x]];
-                                d[x] = (ushort)(((p.Red & 248) << 8) + ((p.Green & 252) << 3) + (int)(((uint)p.Blue) >> 3));
+                                d[x] = (ushort)(((p.Red & 248) << 8) + ((p.Green & 252) << 3) + (p.Blue >>> 3));
                             }
                         }
                     }
@@ -171,7 +171,7 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
                             Span<byte> s24 = lockedSurface.View().Bytes(((R.Top + y) * lockedSurface.Pitch) + (R.Left * 3), Width * 3);
                             for (int x = 0, lastX = Width - 1; x <= lastX; x++)
                             {
-                                d[x] = (ushort)(((s24[(x * 3) + 2] & 248) << 8) + ((s24[(x * 3) + 1] & 252) << 3) + (int)(((uint)s24[x * 3]) >> 3));
+                                d[x] = (ushort)(((s24[(x * 3) + 2] & 248) << 8) + ((s24[(x * 3) + 1] & 252) << 3) + (s24[x * 3] >>> 3));
                             }
                         }
                     }

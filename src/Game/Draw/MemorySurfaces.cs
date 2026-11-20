@@ -60,13 +60,13 @@ internal static class MemorySurfaces
         int raw = (int)pixelFormatId;
         int bitCount = pixelFormatId.BitCount();
         int position = 0;
-        order[(int)((uint)raw >> 8) & 3] = 0;
-        order[(int)((uint)raw >> 10) & 3] = 1;
-        order[(int)((uint)raw >> 12) & 3] = 2;
-        order[(int)((uint)raw >> 14) & 3] = 3;
+        order[(raw >>> 8) & 3] = 0;
+        order[(raw >>> 10) & 3] = 1;
+        order[(raw >>> 12) & 3] = 2;
+        order[(raw >>> 14) & 3] = 3;
         for (int i = 0; i <= 3; i++)
         {
-            int bits = (int)((uint)raw >> ((order[i] * 4) + 16)) & 15;
+            int bits = (raw >>> ((order[i] * 4) + 16)) & 15;
             int j = bits;
             int m = 0;
             while (j != 0)

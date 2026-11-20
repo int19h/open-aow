@@ -911,7 +911,7 @@ public class BattleAI(EngineObject creator) : IDisposable
                             }
                             else
                             {
-                                if (_ignoreWalls || ChargeFromPosition((int)(((uint)unit.Position) >> 4)))
+                                if (_ignoreWalls || ChargeFromPosition(unit.Position >>> 4))
                                 {
                                     if (!((safeValue < 0 && _normalUnits != 0) || unit.MovePoints <= 0 || (pathStepList.List[pathStepList.Count - 2].MoveCost > unit.MovePoints && pathStepList.List[pathStepList.Count - 2].MoveCost <= 15)))
                                     {
@@ -1416,7 +1416,7 @@ public class BattleAI(EngineObject creator) : IDisposable
                                                 }
                                                 else
                                                 {
-                                                    if (pathStepList.Count > 1 && (_ignoreWalls || ChargeFromPosition((int)(((uint)unit.Position) >> 4))))
+                                                    if (pathStepList.Count > 1 && (_ignoreWalls || ChargeFromPosition(unit.Position >>> 4)))
                                                     {
                                                         if (!((safeValue < 0 && _normalUnits != 0) || unit.MovePoints <= 0 || pathStepList.Count <= 1 || (pathStepList.List[pathStepList.Count - 2].MoveCost > unit.MovePoints && pathStepList.List[pathStepList.Count - 2].MoveCost <= 15)))
                                                         {
@@ -1578,7 +1578,7 @@ public class BattleAI(EngineObject creator) : IDisposable
                                                 }
                                                 else
                                                 {
-                                                    if (_ignoreWalls || ChargeFromPosition((int)(((uint)unit.Position) >> 4)))
+                                                    if (_ignoreWalls || ChargeFromPosition(unit.Position >>> 4))
                                                     {
                                                         if (!((safeValue < 0 && _normalUnits != 0) || unit.MovePoints <= 0 || (pathStepList.List[pathStepList.Count - 2].MoveCost > unit.MovePoints && pathStepList.List[pathStepList.Count - 2].MoveCost <= 15)))
                                                         {
@@ -1852,7 +1852,7 @@ public class BattleAI(EngineObject creator) : IDisposable
                                             }
                                             else
                                             {
-                                                if (pathStepList.Count > 1 && (_ignoreWalls || ChargeFromPosition((int)(((uint)unit.Position) >> 4))))
+                                                if (pathStepList.Count > 1 && (_ignoreWalls || ChargeFromPosition(unit.Position >>> 4)))
                                                 {
                                                     if (!((safeValue < 0 && _normalUnits != 0) || unit.MovePoints <= 0 || pathStepList.Count <= 1 || (pathStepList.List[pathStepList.Count - 2].MoveCost > unit.MovePoints && pathStepList.List[pathStepList.Count - 2].MoveCost <= 15)))
                                                     {
@@ -2822,7 +2822,7 @@ public class BattleAI(EngineObject creator) : IDisposable
                                         {
                                             if (!(CombatMap.Current.Combat.CombatData.WallBreached && CombatMap.Current.MapContainer.MapLevels[0].Field[move.X, move.Y].FindOwnedChild(2229508) is null && CombatMap.Current.MapContainer.MapLevels[0].Field[move.X, move.Y].FindOwnedChild(2229510) is null))
                                             {
-                                                if (!_ignoreWalls || !ChargeFromPosition((int)(((uint)move.UnitHexSprite.Unit.Position) >> 4)) || _side == CombatSideIndex.Attacker)
+                                                if (!_ignoreWalls || !ChargeFromPosition(move.UnitHexSprite.Unit.Position >>> 4) || _side == CombatSideIndex.Attacker)
                                                 {
                                                     settings.MoveFlags += Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Wall);
                                                 }

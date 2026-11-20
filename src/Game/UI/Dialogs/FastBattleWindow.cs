@@ -107,7 +107,7 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
                 CombatObject objectValue = combat.CombatData.GetObjects(i);
                 if (objectValue.Position != 128)
                 {
-                    GetPartyPosition((int)(((uint)objectValue.Position) >> 4), ref pixelX, ref pixelY);
+                    GetPartyPosition(objectValue.Position >>> 4, ref pixelX, ref pixelY);
                     pixelX = pixelX + X - 15;
                     pixelY = pixelY + Y - 32;
                     int position = objectValue.Position & 15;

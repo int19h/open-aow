@@ -868,7 +868,7 @@ public partial class City : PlayerCropStructure
     {
         int result = 6;
         return HexLevel != 0 || (Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 8) != 0)
-            ? (int)(((uint)(result + 1)) >> 1)
+            ? (result + 1) >>> 1
             : result;
     }
 

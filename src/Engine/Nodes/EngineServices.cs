@@ -48,7 +48,7 @@ public static class EngineServices
         int crc = -1;
         foreach (byte value in buffer[..size])
         {
-            crc = s_crc32Table[(value ^ crc) & 255] ^ (int)((uint)crc >> 8);
+            crc = s_crc32Table[(value ^ crc) & 255] ^ (crc >>> 8);
         }
 
         return crc ^ -1;
@@ -78,7 +78,7 @@ public static class EngineServices
             int c = i;
             for (int j = 7; j >= 0; j--)
             {
-                c = (c & 1) != 0 ? ((int)(((uint)c) >> 1)) ^ polynomial : (int)(((uint)c) >> 1);
+                c = (c & 1) != 0 ? (c >>> 1) ^ polynomial : c >>> 1;
             }
 
             table[i] = c;

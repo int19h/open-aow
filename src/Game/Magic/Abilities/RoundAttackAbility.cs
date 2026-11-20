@@ -60,7 +60,7 @@ public class RoundAttackAbility : TouchAbility
         {
             CombatSideIndex side = target.Side;
             other = combat.Sides[(int)side].GetObjects(i);
-            if (other != target && other.GetEnabled() && (int)(((uint)other.Position) >> 4) == (int)(((uint)target.Position) >> 4) && (!other.GetAbilityEnabled(1) || source.GetAbilityEnabled(1)) && !source.FastBattleWallInBetween(other.Position) && other.FastBattleRoundDistance() <= combat.Round - 1 && damageTypes - other.GetImmunityTypes() != Set<DamageType>.Of())
+            if (other != target && other.GetEnabled() && other.Position >>> 4 == target.Position >>> 4 && (!other.GetAbilityEnabled(1) || source.GetAbilityEnabled(1)) && !source.FastBattleWallInBetween(other.Position) && other.FastBattleRoundDistance() <= combat.Round - 1 && damageTypes - other.GetImmunityTypes() != Set<DamageType>.Of())
             {
                 _ = targets.Add(other);
             }
@@ -150,7 +150,7 @@ public class RoundAttackAbility : TouchAbility
                 CombatSideIndex side = defender.Side;
                 CombatObject target = combat.Sides[(int)side].GetObjects(i);
                 // { Original tests Defender's flying ability here, rather than Target's. }
-                if (target != defender && target.GetEnabled() && (int)(((uint)target.Position) >> 4) == (int)(((uint)defender.Position) >> 4) && (!defender.GetAbilityEnabled(1) || attacker.GetAbilityEnabled(1)) && !attacker.FastBattleWallInBetween(target.Position) && target.FastBattleRoundDistance() <= combat.RoundDistance && damageTypes - target.GetImmunityTypes() != Set<DamageType>.Of())
+                if (target != defender && target.GetEnabled() && target.Position >>> 4 == defender.Position >>> 4 && (!defender.GetAbilityEnabled(1) || attacker.GetAbilityEnabled(1)) && !attacker.FastBattleWallInBetween(target.Position) && target.FastBattleRoundDistance() <= combat.RoundDistance && damageTypes - target.GetImmunityTypes() != Set<DamageType>.Of())
                 {
                     count += 1;
                 }

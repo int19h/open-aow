@@ -102,9 +102,9 @@ public struct LockedSurface
         {
             if (w > 0 && h > 0)
             {
-                w = (int)(((uint)(source.BitCount * w)) >> 3);
-                SurfaceView s = source.View((source.Pitch * sourceRectangle.Top) + (int)(((uint)(source.BitCount * sourceRectangle.Left)) >> 3));
-                SurfaceView d = destination.View((destination.Pitch * Y) + (int)(((uint)(destination.BitCount * X)) >> 3));
+                w = (source.BitCount * w) >>> 3;
+                SurfaceView s = source.View((source.Pitch * sourceRectangle.Top) + ((source.BitCount * sourceRectangle.Left) >>> 3));
+                SurfaceView d = destination.View((destination.Pitch * Y) + ((destination.BitCount * X) >>> 3));
                 BlitRects.BlitRectangle(s, d, w, h);
             }
 
@@ -190,7 +190,7 @@ public struct LockedSurface
         _ = destination.ClipRectangle;
         _ = IntersectRect(out Rect clipRectangle, source.ClipRectangle, R);
         destination.ClipRectangle = clipRectangle;
-        destination.DataIndex = source.DataIndex + (R.Top * source.Pitch) + ((int)(((uint)source.BitCount) >> 3) * R.Left);
+        destination.DataIndex = source.DataIndex + (R.Top * source.Pitch) + ((source.BitCount >>> 3) * R.Left);
         Rect clipRectangle2 = destination.ClipRectangle;
         clipRectangle2.Left -= R.Left;
         destination.ClipRectangle = clipRectangle2;
@@ -343,8 +343,8 @@ public struct LockedSurface
 
         if (width > 0 && height > 0)
         {
-            SurfaceView s = source.View((source.Pitch * sourceY) + ((int)(((uint)(source.BitCount + 7)) >> 3) * sourceX));
-            SurfaceView d = destination.View((destination.Pitch * destinationY) + ((int)(((uint)(destination.BitCount + 7)) >> 3) * destinationX));
+            SurfaceView s = source.View((source.Pitch * sourceY) + (((source.BitCount + 7) >>> 3) * sourceX));
+            SurfaceView d = destination.View((destination.Pitch * destinationY) + (((destination.BitCount + 7) >>> 3) * destinationX));
             switch (source.PixelFormatId)
             {
                 case PixelFormat.Pal8:
