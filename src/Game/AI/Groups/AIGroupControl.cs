@@ -91,7 +91,7 @@ public partial class AIGroupControl : EngineObject
     // AIGroup.pas:1084
     public virtual void MoveExecutorDone(object sender)
     {
-        if (Group.Transporter != null && !MoveExecutor.GetTransporting())
+        if (Group.Transporter is not null && !MoveExecutor.GetTransporting())
         {
             _ = Group.DeleteUnit(Group.Transporter);
         }
@@ -259,7 +259,7 @@ public partial class AIGroupControl : EngineObject
         Troop troop;
         ResetME();
         troop = Group.Leader;
-        if (troop != null)
+        if (troop is not null)
         {
             _ = MoveExecutor.AddUnit(troop);
         }
@@ -279,7 +279,7 @@ public partial class AIGroupControl : EngineObject
         }
 
         troop = Group.Transporter;
-        if (troop != null)
+        if (troop is not null)
         {
             MoveExecutor.AddTransporter(troop);
         }
@@ -374,7 +374,7 @@ public partial class AIGroupControl : EngineObject
         bool result;
         ArmyHexSprite armyHexSprite;
         armyHexSprite = StrategicMap.Current.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
-        if (armyHexSprite != null)
+        if (armyHexSprite is not null)
         {
             army = armyHexSprite.Army;
             selection = armyHexSprite.Army.GetGroupSelection(Group.GroupId);
@@ -506,7 +506,7 @@ public partial class AIGroupControl : EngineObject
                 busy = false;
                 while (!busy && !Group.Status.Contains(AIGroupStatusElement.Done) && StrategicMap.Current.AIExecutor.GetProcessTimeLeft() >= 0 && MoveExecutor.Status != AIMoveExecutorStatus.Busy)
                 {
-                    if (_aiGroupTask != null)
+                    if (_aiGroupTask is not null)
                     {
                         busy = _aiGroupTask.MainProcess();
                         if (!busy)
@@ -553,7 +553,7 @@ public partial class AIGroupControl : EngineObject
         for (int i = 0, last = player.Armies.Count - 1; i <= last; i++)
         {
             troop = player.Armies.GetArmy(i).Transporter(255);
-            if (troop != null && (troop.Group == null || troop.Group.EngineClass.ClassId == 136295))
+            if (troop is not null && (troop.Group is null || troop.Group.EngineClass.ClassId == 136295))
             {
                 MapCoordinate coordinate100 = troop.GetLocation();
                 sbyte locationX = coordinate100.X;

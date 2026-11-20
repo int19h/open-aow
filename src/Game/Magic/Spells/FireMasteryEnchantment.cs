@@ -131,7 +131,7 @@ public partial class FireMasteryEnchantment : GlobalEnchantment
                         if (StrategicMap.Current.Random(10000) < chance * factor)
                         {
                             fire = GamePack.Current.FireControl.PlaceFire(x, y, l, FireType.Large);
-                            if (fire != null)
+                            if (fire is not null)
                             {
                                 if (explosions)
                                 {

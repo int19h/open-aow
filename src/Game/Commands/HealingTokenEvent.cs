@@ -40,7 +40,7 @@ public partial class HealingTokenEvent(CustomNode owner) : TokenEvent(owner)
         _ = base.Execute(tokenEvent);
         source = StrategicMap.Current.UnitControl.FindUnit(SourceId);
         target = StrategicMap.Current.UnitControl.FindUnit(TargetId);
-        if (source != null && (byte)source.Player == SourcePlayer && target != null && (byte)target.Player == TargetPlayer)
+        if (source is not null && (byte)source.Player == SourcePlayer && target is not null && (byte)target.Player == TargetPlayer)
         {
             ability = GamePack.Current.AbilityControl.GetAbility<HealingAbility>(47);
             if (ability.GetEnabled(source))

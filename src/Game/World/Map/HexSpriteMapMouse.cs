@@ -89,7 +89,7 @@ public partial class HexSpriteMapMouse : IDisposable
     public virtual bool MouseDown()
     {
         bool result = true;
-        if (_capture == null && GetHexX() != -1)
+        if (_capture is null && GetHexX() != -1)
         {
             if (Button == MouseButton.Left)
             {
@@ -304,7 +304,7 @@ public partial class HexSpriteMapMouse : IDisposable
         {
             _status += Set<StatusElement>.Of(StatusElement.ChangingCapture);
             _capture = value;
-            if (value == null)
+            if (value is null)
             {
                 _cursor = 0;
             }

@@ -39,7 +39,7 @@ public partial class SetupEvents(UIContext ui) : UIModule(ui)
         UI.ChatWindow.PlayerList.Items.Clear();
         string allPlayers = UI.Engine.TranslateResourceString(s_allPlayersText);
         _ = UI.ChatWindow.PlayerList.Items.AddObject(allPlayers, null);
-        if (StrategicMap.Current != null)
+        if (StrategicMap.Current is not null)
         {
             for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
             {
@@ -215,7 +215,7 @@ public partial class SetupEvents(UIContext ui) : UIModule(ui)
             SetupControl.DataReceived(data, size, fromId);
         }
 
-        if (StrategicMap.Current != null && StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated))
+        if (StrategicMap.Current is not null && StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated))
         {
             if (StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl is RemotePlayerCommunicationControl remote)
             {
@@ -262,7 +262,7 @@ public partial class SetupEvents(UIContext ui) : UIModule(ui)
     public void DPlayDestroyPlayer(int id, int numberPlayers)
     {
         sbyte player;
-        if (UI.ScenarioSetup.SetupControl != null)
+        if (UI.ScenarioSetup.SetupControl is not null)
         {
             if (UI.ScenarioSetup.SetupControl.GetHost())
             {
@@ -270,12 +270,12 @@ public partial class SetupEvents(UIContext ui) : UIModule(ui)
             }
         }
 
-        if (StrategicMap.Current != null && StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl != null)
+        if (StrategicMap.Current is not null && StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl is not null)
         {
             player = (sbyte)StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.IndexOfSystemId(id);
             if (player != -1)
             {
-                if (StrategicMap.Current.Players.GetPlayers(player) != null)
+                if (StrategicMap.Current.Players.GetPlayers(player) is not null)
                 {
                     if (StrategicMap.Current.Players.GetPlayers(player).Status == PlayerStatus.Playing)
                     {

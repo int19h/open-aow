@@ -126,7 +126,7 @@ public partial class AIGroupRecruitControl : AIGroupTask
         {
             Troop troop = Units.GetUnit(i);
             group = _control.RecruitmentGroups.FindUnit(troop);
-            if (group != null && Units.GetUnit(i).GetMoves() != 0)
+            if (group is not null && Units.GetUnit(i).GetMoves() != 0)
             {
                 sbyte moves = Units.GetUnit(i).GetMoves();
                 days = (group.MovePoints - 1) / moves;

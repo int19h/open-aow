@@ -56,7 +56,7 @@ public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
             for (int i = 0, last = player.Heroes.GetCount() - 1; i <= last; i++)
             {
                 hero = player.Heroes.GetHero(i);
-                if (hero.GetAbilityEnabled(52) && hero.Owner != null)
+                if (hero.GetAbilityEnabled(52) && hero.Owner is not null)
                 {
                     _ = hero.CastingSpellId == 0 ? _idleHeroes.Add(hero.UnitId) : _castingHeroes.Add(hero.UnitId);
                 }
@@ -141,7 +141,7 @@ public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
                     done = false;
                     int item = _pendingHeroes[0];
                     hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(item);
-                    if (hero != null && hero.Owner != null && (((byte)hero.UnitStatus.Image) & 16) == 0)
+                    if (hero is not null && hero.Owner is not null && (((byte)hero.UnitStatus.Image) & 16) == 0)
                     {
                         if (hero.CastingSpellId != 0)
                         {
@@ -183,7 +183,7 @@ public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
                 {
                     int item = _pendingHeroes[0];
                     hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(item);
-                    if (hero != null && (((byte)hero.UnitStatus.Image) & 16) == 0)
+                    if (hero is not null && (((byte)hero.UnitStatus.Image) & 16) == 0)
                     {
                         PrefetchCastSpellActions(hero);
                     }
@@ -225,7 +225,7 @@ public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
                         index = StrategicMap.Current.Random(i);
                         AICastSpellAction castSpellActions2 = _castSpellActions.GetCastSpellActions(index);
                         hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(castSpellActions2.SourceUnitId);
-                        if (hero != null && (((byte)hero.UnitStatus.Image) & 16) == 0)
+                        if (hero is not null && (((byte)hero.UnitStatus.Image) & 16) == 0)
                         {
                             AICastSpellAction castSpellActions = _castSpellActions.GetCastSpellActions(index);
                             if (GamePack.Current.SpellControl.GetSpell(castSpellActions.SpellId).AIExecuteCastSpellAction(hero))

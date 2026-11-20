@@ -26,7 +26,7 @@ public partial class MapObject
         if (!GetResourceLinked())
         {
             MapObjectResource resource = GetResourceList(engine).FindResource<MapObjectResource>(_unlinkedResourceId);
-            if (resource != null)
+            if (resource is not null)
             {
                 _resource = resource;
                 SetResourceLinked(true);

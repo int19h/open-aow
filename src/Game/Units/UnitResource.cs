@@ -137,7 +137,7 @@ public partial class UnitResource : TroopResource
     public override EngineObject CreateResourceUser()
     {
         EngineObject result = base.CreateResourceUser();
-        if (result != null)
+        if (result is not null)
         {
             // The resource user class registers only UnitHexSprite. Another class fails. Null stays
             // null and this write is skipped.
@@ -167,7 +167,7 @@ public partial class UnitResource : TroopResource
 
         unit = new Unit(null) { Holder = CreationHolder() };
         unit.SetUnitResource(this);
-        bool result = unit.Place(hexX, hexY, hexLevel, player, Set<UnitPlaceModeElement>.Of()) != null;
+        bool result = unit.Place(hexX, hexY, hexLevel, player, Set<UnitPlaceModeElement>.Of()) is not null;
         _ = unit.Release();
         return result;
     }

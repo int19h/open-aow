@@ -150,7 +150,7 @@ public partial class AIExecutor(CustomNode owner) : EngineObject(owner)
         if (Status.Contains(AIExecutorStatusElement.Enabled) && StrategicMap.Current.PlayMode == PlayMode.Simultaneous)
         {
             _tokenControlDone = true;
-            if (StrategicMap.Current.CurrentPlayer == 0 && StrategicMap.Current.CombatMap == null)
+            if (StrategicMap.Current.CurrentPlayer == 0 && StrategicMap.Current.CombatMap is null)
             {
                 CaptureTokenCycles(5);
             }

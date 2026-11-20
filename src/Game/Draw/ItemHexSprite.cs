@@ -65,7 +65,7 @@ public partial class ItemHexSprite : SingleHexSprite
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         int result = 1744830464 + ((pixelY + 33) << 13) + pixelX + 16;
         hexSprite = Owner.GetMaxLevelNoneTransparentHexSprite();
-        if (hexSprite != this && hexSprite != null)
+        if (hexSprite != this && hexSprite is not null)
         {
             if (result <= hexSprite.GetShowPriority())
             {

@@ -41,7 +41,7 @@ public readonly struct EventLogCollection : IReadOnlyList<EventLog>
         int index;
         index = Count;
         EventLog result = null;
-        while (index != 0 && result == null)
+        while (index != 0 && result is null)
         {
             index -= 1;
             if (this[index].Id == id)

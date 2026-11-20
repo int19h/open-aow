@@ -51,7 +51,7 @@ public partial class ArmyHexSprite
             {
                 if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || StrategicMap.Current.SeatedPlayer != Army.Player || Army.Units.Count != Army.ConcealedUnitsCount())
                 {
-                    while (sequence != null)
+                    while (sequence is not null)
                     {
                         frame = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                         if (frame != -1)
@@ -83,7 +83,7 @@ public partial class ArmyHexSprite
                 }
                 else
                 {
-                    while (sequence != null)
+                    while (sequence is not null)
                     {
                         frame = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                         if (frame != -1)
@@ -138,7 +138,7 @@ public partial class ArmyHexSprite
             {
                 if (!Army.Status.Contains(ArmyStatusElement.FullyConcealed))
                 {
-                    while (sequence != null)
+                    while (sequence is not null)
                     {
                         frame = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                         if (frame != -1)
@@ -201,7 +201,7 @@ public partial class ArmyHexSprite
                 ? UnitGraphicsResource.Sequences.GetImageSequence(27)
                 : UnitGraphicsResource.Sequences.GetImageSequence(Direction + 23);
 
-            while (sequence != null)
+            while (sequence is not null)
             {
                 frame = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                 sequence.ImageLibrary[frame].Show(X + sequence.OffsetX, Y + sequence.OffsetY, lockedSurface);
@@ -218,7 +218,7 @@ public partial class ArmyHexSprite
         {
             sequence = Direction == 0 ? UnitGraphicsResource.Sequences.List[9] : UnitGraphicsResource.Sequences.List[Direction + 5];
 
-            if (sequence != null)
+            if (sequence is not null)
             {
                 frame = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                 if (sequence.SpeedCount == sequence.SequenceSpeed)

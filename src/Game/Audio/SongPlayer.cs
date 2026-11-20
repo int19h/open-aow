@@ -91,7 +91,7 @@ public partial class SongPlayer : IDisposable
     // { Called every tick (ProcessSound): starts the next song when the last one has ended. }
     public void Update()
     {
-        if (AudioHost.SoundSystem != null && Status.Contains(StatusElement.Playing) && !Status.Contains(StatusElement.Paused) && !AudioHost.SoundSystem.PlayingSong && AudioHost.SoundSystem.MusicEnabled)
+        if (AudioHost.SoundSystem is not null && Status.Contains(StatusElement.Playing) && !Status.Contains(StatusElement.Paused) && !AudioHost.SoundSystem.PlayingSong && AudioHost.SoundSystem.MusicEnabled)
         {
             CurrentIndex += 1;
             if (_songs.Count <= CurrentIndex)
@@ -115,7 +115,7 @@ public partial class SongPlayer : IDisposable
     public bool Play(int index, int fadeOut, int fadeIn)
     {
         bool result;
-        if (AudioHost.SoundSystem != null && index >= 0 && index < _songs.Count)
+        if (AudioHost.SoundSystem is not null && index >= 0 && index < _songs.Count)
         {
             Status += Set<StatusElement>.Of(StatusElement.Playing);
             string item = _songs[index];
@@ -144,7 +144,7 @@ public partial class SongPlayer : IDisposable
     public bool Play(int index)
     {
         bool result;
-        if (AudioHost.SoundSystem != null && index >= 0 && index < _songs.Count)
+        if (AudioHost.SoundSystem is not null && index >= 0 && index < _songs.Count)
         {
             Status += Set<StatusElement>.Of(StatusElement.Playing);
             string item = _songs[index];
@@ -173,7 +173,7 @@ public partial class SongPlayer : IDisposable
     public bool Stop(bool stopMusic)
     {
         bool result;
-        if (AudioHost.SoundSystem != null)
+        if (AudioHost.SoundSystem is not null)
         {
             result = stopMusic && AudioHost.SoundSystem.StopSong();
 
@@ -193,7 +193,7 @@ public partial class SongPlayer : IDisposable
     {
         if (_pauseCount == 0)
         {
-            if (_backup != null)
+            if (_backup is not null)
             {
             }
 
@@ -215,7 +215,7 @@ public partial class SongPlayer : IDisposable
         _pauseCount -= 1;
         if (_pauseCount == 0)
         {
-            if (_backup != null)
+            if (_backup is not null)
             {
                 CurrentIndex = _songs.IndexOf(_backup.FileName);
                 _ = CurrentIndex == -1 ? Play(0) : SongStatus.RestoreSongStatus(_backup);

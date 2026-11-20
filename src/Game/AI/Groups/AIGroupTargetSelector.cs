@@ -100,7 +100,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
         }
 
         _ = GroupControl.Targets.Validate();
-        if (State != 21 && _target != null)
+        if (State != 21 && _target is not null)
         {
             if (GroupControl.Targets.IndexOfChild(_target) == -1)
             {
@@ -223,7 +223,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
         AIGroup aiGroup = default;
         MapCoordinate location = default;
         aiGroupTask = _aiGroupTask;
-        if (aiGroupTask != null)
+        if (aiGroupTask is not null)
         {
             busy = aiGroupTask.MainProcess();
             if (!busy)
@@ -561,7 +561,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
                         else
                         {
                             AIGroup group = GroupControl.Group;
-                            if (group.Transporter != null)
+                            if (group.Transporter is not null)
                             {
                                 _ = group.DeleteUnit(group.Transporter);
                             }
@@ -1176,7 +1176,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
         // The cleared target: the Delphi wrote -1, all four bytes $FF, which differs from None.
         GroupControl.Group.TargetLocation = null;
         GroupControl.Group.TargetType = AIGroupTargetStatus.None;
-        if (GroupControl.Group.Transporter != null)
+        if (GroupControl.Group.Transporter is not null)
         {
             _ = GroupControl.Group.DeleteUnit(GroupControl.Group.Transporter);
         }

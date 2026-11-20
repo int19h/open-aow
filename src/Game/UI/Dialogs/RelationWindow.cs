@@ -548,7 +548,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
         DiplomaticActionEventLog pending;
         DiplomaticActionEventLog eventValue;
         pending = _event;
-        if (pending != null)
+        if (pending is not null)
         {
             done = Done;
             eventValue = pending;
@@ -638,7 +638,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
         MainWindow.Drawn = false;
         if (sender.Checked && sender is CheckBox)
         {
-            if (_action == null)
+            if (_action is null)
             {
                 ShowPlayerActions((sbyte)Players[slot]);
             }
@@ -664,7 +664,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
         }
 
         RelationPanel.Aligned = false;
-        if (_action == null)
+        if (_action is null)
         {
             ClearActions();
             HighlightRace((sbyte)Races[slot - 20]);
@@ -716,12 +716,12 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
             r = new Rect(control.WinLeft + 1, control.WinTop + 1, control.WinLeft + control.WinWidth - 1, control.WinTop + control.WinHeight - 1);
             GamePack.Current.RaceResources.GetRaceResource(race).GetFace().ShowStretched(r, surface);
             action = _action;
-            if (action == null && NewActionPanel.Visible && ActionsList.Selected != -1)
+            if (action is null && NewActionPanel.Visible && ActionsList.Selected != -1)
             {
                 action = ActionsList.Items.Objects[ActionsList.Selected];
             }
 
-            if (action != null)
+            if (action is not null)
             {
                 modifier = action.GetRelationModifier(StrategicMap.Current.SeatedPlayer, race);
                 if (modifier != 0)
@@ -794,7 +794,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
         DiplomaticAction action;
         UI.General.PlayButtonSound(0);
         action = _action;
-        if (action != null)
+        if (action is not null)
         {
             if (action.Accept(reason))
             {
@@ -815,7 +815,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
         DiplomaticAction action;
         UI.General.PlayButtonSound(0);
         action = _action;
-        if (action != null)
+        if (action is not null)
         {
             if (action.Reject(reason))
             {
@@ -864,7 +864,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
     {
         Rect r;
         r = new Rect(FaceFrame.WinLeft + 1, FaceFrame.WinTop, FaceFrame.WinLeft + FaceFrame.WinWidth, FaceFrame.WinTop + FaceFrame.WinHeight);
-        if (_action == null)
+        if (_action is null)
         {
             if (SelectedPlayer != -1)
             {
@@ -880,7 +880,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
         }
         else
         {
-            if (_event != null && _event.Action.Proposal.SignedAsOtherPlayer)
+            if (_event is not null && _event.Action.Proposal.SignedAsOtherPlayer)
             {
                 StrategicMap.Current.Players.GetPlayers(_event.Action.OtherPlayer).Leader.ShowFace(r, surface);
             }
@@ -982,7 +982,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
     // AoWRelations.pas:868
     public void CancelSelectedAction()
     {
-        if (_event != null)
+        if (_event is not null)
         {
             FinishEvent();
         }
@@ -996,7 +996,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
     // AoWRelations.pas:877
     public void ChangeActionMessage(Memo sender)
     {
-        if (_action != null)
+        if (_action is not null)
         {
             string text = sender.Items.Text;
             _action.Proposal = _action.Proposal with { Message = DiplomaticProposal.Lines(text) };
@@ -1010,13 +1010,13 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
         sbyte player;
         DiplomaticAction action;
         action = _action;
-        if (action != null)
+        if (action is not null)
         {
             action.Proposal = action.Proposal.WithOffer(BribeGoldSlider.Position, BribeManaSlider.Position);
             if (action.Send(ref reason))
             {
                 player = _action.Target;
-                if (_event != null && _event.Action.Proposal.SignedAsOtherPlayer)
+                if (_event is not null && _event.Action.Proposal.SignedAsOtherPlayer)
                 {
                     player = _event.Action.OtherPlayer;
                 }
@@ -1045,7 +1045,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
     // AoWRelations.pas:912
     public void RMCancelBtnClick()
     {
-        if (_event != null)
+        if (_event is not null)
         {
             FinishEvent();
         }
@@ -1087,7 +1087,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
         dialog.ClearActions();
         dialog.ResetChecks();
         // { Original reports its source filename, independent of this checkout. }
-        if (dialog._event != null)
+        if (dialog._event is not null)
         {
             WindowActions.OriginalAssert("Assertion failure", "D:\\AoWDev\\AoWRelations.pas", 663);
         }

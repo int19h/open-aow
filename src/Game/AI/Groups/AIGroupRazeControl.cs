@@ -43,7 +43,7 @@ public partial class AIGroupRazeControl(CustomNode owner) : AIGroupTask(owner)
         if (State == 0)
         {
             structure = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(_control.Location).FindNoneTransparentHexSprite<Structure>();
-            if (structure != null && structure.GetRazeable())
+            if (structure is not null && structure.GetRazeable())
             {
                 BattleFieldInfo.SetupBattleFieldInfo(out BattleFieldInfo info, _control.Group.Player, _control.Group.IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnoreIndependents), _damageTypes);
                 StrategicMap.Current.RetrieveBattleFieldInfo(_control.Location.X, _control.Location.Y, _control.Location.MapLevel, 15, ref info);

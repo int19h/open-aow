@@ -20,7 +20,7 @@ public partial class RebuildConstructionControl(CustomNode owner) : Construction
         sbyte y = coordinate36.Y;
         sbyte l = coordinate36.MapLevel;
         Structure result = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<Structure>();
-        if (result != null)
+        if (result is not null)
         {
             if (!result.GetRazed() || result.GetBuilding())
             {
@@ -36,7 +36,7 @@ public partial class RebuildConstructionControl(CustomNode owner) : Construction
     {
         Structure structure;
         structure = GetStructure(troop);
-        if (structure != null)
+        if (structure is not null)
         {
             string editName = structure.EditName();
             text = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), s_rebuildFormat), [editName]);
@@ -55,7 +55,7 @@ public partial class RebuildConstructionControl(CustomNode owner) : Construction
     public override bool CanConstruct(Troop troop, ref string reason)
     {
         bool result;
-        if (GetStructure(troop) != null)
+        if (GetStructure(troop) is not null)
         {
             result = base.CanConstruct(troop, ref reason);
         }

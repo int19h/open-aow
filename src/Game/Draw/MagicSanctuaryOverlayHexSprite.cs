@@ -33,7 +33,7 @@ public partial class MagicSanctuaryOverlayHexSprite(CustomNode owner) : SingleHe
         pixelXSurface = pixelX - pixelXSurface;
         pixelYSurface = pixelY - pixelYSurface;
         sequence = ((World.MapObject)Structure).Resource.ImageSequenceList.GetImageSequence(19);
-        if (sequence != null)
+        if (sequence is not null)
         {
             blend = 50;
             if (_fadeEndFrame != -1 && _fadeEndFrame > StrategicMap.Current.Frame)

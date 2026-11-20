@@ -99,7 +99,7 @@ public partial class GameMap : OwningNode
 
     protected void RaiseProgress(EngineObject sender, string message, int progression) => OnProgress?.Invoke(sender, message, progression);
 
-    protected bool HasProgressHandlers => OnProgress != null;
+    protected bool HasProgressHandlers => OnProgress is not null;
 
     internal void SetProgressHandler(Engine.ProgressEvent handler) => OnProgress = handler;
 
@@ -384,7 +384,7 @@ public partial class GameMap : OwningNode
     // { Tests OnCenterView instead of OnViewLevel (original slip). }
     public virtual void ViewLevel(int hexLevel)
     {
-        if (OnCenterView != null && hexLevel < MapContainer.LevelCount)
+        if (OnCenterView is not null && hexLevel < MapContainer.LevelCount)
         {
             OnViewLevel(hexLevel);
         }
@@ -540,7 +540,7 @@ public partial class GameMap : OwningNode
         MapField mapField;
         Rect r = default;
         MapLevel mapLevel;
-        if (changeTerrainProc != null)
+        if (changeTerrainProc is not null)
         {
             LockTerrainChangedEvent();
             orgList = new SByteList();
@@ -1234,7 +1234,7 @@ public partial class GameMap : OwningNode
             {
                 HexGeometry.HexToPixel(_selectorX, _selectorY, out int pixelX, out int pixelY);
                 hexSprite = MapContainer.GetField(_selectorX, _selectorY, ViewMapLevel).GetMaxLevelNoneTransparentHexSprite();
-                if (hexSprite != null)
+                if (hexSprite is not null)
                 {
                     if (hexSprite.GetShowPriority() > 1744830464)
                     {
@@ -1309,7 +1309,7 @@ public partial class GameMap : OwningNode
         if (x != -1)
         {
             items = StrategicMap.Current.MapContainer.GetField(x, y, l).FindOwnedChild<ItemHexSprite>(131697);
-            if (items != null)
+            if (items is not null)
             {
                 result = items.Items;
             }

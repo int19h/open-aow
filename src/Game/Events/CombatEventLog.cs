@@ -29,7 +29,7 @@ public partial class CombatEventLog(CustomNode owner) : EventLog(owner)
     {
         CombatLogbook l;
         l = Logbook;
-        if (l != null)
+        if (l is not null)
         {
             _ = l.Release();
             Logbook = null;

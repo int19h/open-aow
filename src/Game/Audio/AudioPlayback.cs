@@ -13,10 +13,10 @@ public static class AudioPlayback
     public static void LockSampleData(string name)
     {
         SampleData d;
-        if (AudioHost.SoundSystem != null)
+        if (AudioHost.SoundSystem is not null)
         {
             d = AudioHost.SampleDataList.Find(name);
-            if (d == null)
+            if (d is null)
             {
                 _ = AudioHost.SoundSystem.SampleDataClass().CreateInstance(name);
             }
@@ -44,9 +44,9 @@ public static class AudioPlayback
         bool result = true;
         c = IsEmpty(name) ? AudioHost.SoundSystems.Count != 0 ? AudioHost.SoundSystems[0] : null : AudioHost.SoundSystems.Find(name);
 
-        if (c != null)
+        if (c is not null)
         {
-            if (AudioHost.SoundSystem != null)
+            if (AudioHost.SoundSystem is not null)
             {
                 ReleaseSoundSystem();
             }
@@ -69,7 +69,7 @@ public static class AudioPlayback
 
     public static void ReleaseSoundSystem()
     {
-        if (AudioHost.SoundSystem != null)
+        if (AudioHost.SoundSystem is not null)
         {
             _ = (AudioHost.SongPlayer?.Stop(true));
 
@@ -86,19 +86,19 @@ public static class AudioPlayback
 
     internal static int GetSfxVolume()
     {
-        int result = AudioHost.SoundSystem != null ? AudioHost.SoundSystem.GetSfxVolume() : -1;
+        int result = AudioHost.SoundSystem is not null ? AudioHost.SoundSystem.GetSfxVolume() : -1;
         return result;
     }
 
     internal static bool GetSfxEnabled()
     {
-        bool result = AudioHost.SoundSystem != null && AudioHost.SoundSystem.GetSfxEnabled();
+        bool result = AudioHost.SoundSystem is not null && AudioHost.SoundSystem.GetSfxEnabled();
         return result;
     }
 
     internal static SoundSettings GetSoundSettings()
     {
-        SoundSettings result = AudioHost.SoundSystem != null ? AudioHost.SoundSystem.GetSoundSettings() : default;
+        SoundSettings result = AudioHost.SoundSystem is not null ? AudioHost.SoundSystem.GetSoundSettings() : default;
         return result;
     }
 
@@ -154,7 +154,7 @@ public static class AudioPlayback
 
     public static void ProcessSound()
     {
-        if (AudioHost.SampleList != null)
+        if (AudioHost.SampleList is not null)
         {
             for (int i = AudioHost.SampleList.Count - 1; i >= 0; i--)
             {
@@ -171,13 +171,13 @@ public static class AudioPlayback
 
     internal static int GetMusicVolume()
     {
-        int result = AudioHost.SoundSystem != null ? AudioHost.SoundSystem.GetMusicVolume() : -1;
+        int result = AudioHost.SoundSystem is not null ? AudioHost.SoundSystem.GetMusicVolume() : -1;
         return result;
     }
 
     internal static bool GetMusicEnabled()
     {
-        bool result = AudioHost.SoundSystem != null && AudioHost.SoundSystem.GetMusicEnabled();
+        bool result = AudioHost.SoundSystem is not null && AudioHost.SoundSystem.GetMusicEnabled();
         return result;
     }
 
@@ -185,12 +185,12 @@ public static class AudioPlayback
     {
         Sample result;
         SampleData d;
-        if (AudioHost.SoundSystem != null && AudioHost.SoundSystem.SfxEnabled)
+        if (AudioHost.SoundSystem is not null && AudioHost.SoundSystem.SfxEnabled)
         {
             try
             {
                 d = AudioHost.SampleDataList.Find(name);
-                if (d == null)
+                if (d is null)
                 {
                     d = AudioHost.SoundSystem.SampleDataClass().CreateInstance(name);
                     result = AudioHost.SoundSystem.SampleClass().CreateInstance(d);
@@ -220,12 +220,12 @@ public static class AudioPlayback
     {
         Sample result;
         SampleData d;
-        if (AudioHost.SoundSystem != null && AudioHost.SoundSystem.SfxEnabled)
+        if (AudioHost.SoundSystem is not null && AudioHost.SoundSystem.SfxEnabled)
         {
             try
             {
                 d = AudioHost.SampleDataList.Find(name);
-                if (d == null)
+                if (d is null)
                 {
                     d = AudioHost.SoundSystem.SampleDataClass().CreateInstance(name);
                     result = AudioHost.SoundSystem.SampleClass().CreateInstance(d);
@@ -258,13 +258,13 @@ public static class AudioPlayback
 
     internal static bool PlaySong(string fileName)
     {
-        bool result = AudioHost.SoundSystem != null && AudioHost.SoundSystem.PlaySong(fileName);
+        bool result = AudioHost.SoundSystem is not null && AudioHost.SoundSystem.PlaySong(fileName);
         return result;
     }
 
     internal static bool PlaySong(string fileName, int fadeOut, int fadeIn, bool loop)
     {
-        bool result = AudioHost.SoundSystem != null && AudioHost.SoundSystem.PlaySong(fileName, fadeOut, fadeIn, loop);
+        bool result = AudioHost.SoundSystem is not null && AudioHost.SoundSystem.PlaySong(fileName, fadeOut, fadeIn, loop);
         return result;
     }
 

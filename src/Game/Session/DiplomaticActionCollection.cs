@@ -41,7 +41,7 @@ public readonly struct DiplomaticActionCollection : IReadOnlyList<DiplomaticActi
         DiplomaticAction candidate;
         DiplomaticAction result = null;
         index = Count;
-        while (result == null && index != 0)
+        while (result is null && index != 0)
         {
             index -= 1;
             candidate = this[index];

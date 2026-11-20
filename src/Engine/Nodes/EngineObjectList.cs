@@ -19,7 +19,7 @@ public partial class EngineObjectList : DelphiList<EngineObject>
         found = false;
         while (!found && i < Count)
         {
-            found = List[i] != null && classId == List[i].EngineClass.ClassId;
+            found = List[i] is not null && classId == List[i].EngineClass.ClassId;
             i += 1;
         }
 
@@ -38,7 +38,7 @@ public partial class EngineObjectList : DelphiList<EngineObject>
         found = false;
         while (!found && i < Count)
         {
-            found = List[i] != null && classId == List[i].EngineClass.ClassId;
+            found = List[i] is not null && classId == List[i].EngineClass.ClassId;
             i += 1;
         }
 
@@ -68,7 +68,7 @@ public partial class EngineObjectList : DelphiList<EngineObject>
         ok = true;
         while (i < Count)
         {
-            ok = List[i] == null || classId == List[i].EngineClass.ClassId;
+            ok = List[i] is null || classId == List[i].EngineClass.ClassId;
             i += 1;
         }
 

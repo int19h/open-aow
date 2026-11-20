@@ -46,7 +46,7 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
         {
             for (int i = 0, last = Count - 1; i <= last; i++)
             {
-                if (GetChild(i) != null)
+                if (GetChild(i) is not null)
                 {
                     _ = Items[i].Release();
                 }
@@ -60,10 +60,10 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
         EngineObject child;
         for (int i = Count - 1; i >= 0; i--)
         {
-            if (GetChild(i) != null)
+            if (GetChild(i) is not null)
             {
                 child = Items[i];
-                if (child != null)
+                if (child is not null)
                 {
                     if (child.Owner != this)
                     {
@@ -125,7 +125,7 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
         int result = 0;
         while (result < Items.Count && result != 8)
         {
-            if (GetChild(result) == null)
+            if (GetChild(result) is null)
             {
                 return result;
             }
@@ -144,7 +144,7 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
         for (int i = 0, last = Items.Count - 1; i <= last; i++)
         {
             item = Items[i];
-            if (item != null && result < item.GetOwnAbilityCount())
+            if (item is not null && result < item.GetOwnAbilityCount())
             {
                 result = item.GetOwnAbilityCount();
             }
@@ -161,9 +161,9 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
         for (int i = 0, last = Items.Count - 1; i <= last; i++)
         {
             item = Items[i];
-            if (item != null && item.GetOwnAbilityEnabled(abilityId) && item.ItemType == ItemType.Use)
+            if (item is not null && item.GetOwnAbilityEnabled(abilityId) && item.ItemType == ItemType.Use)
             {
-                if (result == null || item.GetOwnAbilityLevel(abilityId) > result.GetOwnAbilityLevel(abilityId))
+                if (result is null || item.GetOwnAbilityLevel(abilityId) > result.GetOwnAbilityLevel(abilityId))
                 {
                     result = item;
                 }
@@ -183,7 +183,7 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
         while (!result && i < Items.Count)
         {
             item = Items[i];
-            result = item != null && item.ItemType == ItemType.Use && item.GetOwnAbilityEnabled(abilityId);
+            result = item is not null && item.ItemType == ItemType.Use && item.GetOwnAbilityEnabled(abilityId);
             i += 1;
         }
 
@@ -200,7 +200,7 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
         while (!result && i < Items.Count)
         {
             item = Items[i];
-            result = item != null && item.ItemType == ItemType.Use && item.GetAbilitySetAt(abilityId);
+            result = item is not null && item.ItemType == ItemType.Use && item.GetAbilitySetAt(abilityId);
             i += 1;
         }
 
@@ -215,9 +215,9 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
         for (int i = 0, last = Items.Count - 1; i <= last; i++)
         {
             item = Items[i];
-            if (item != null && item.GetAbilitySetAt(abilityId) && item.ItemType == ItemType.Use)
+            if (item is not null && item.GetAbilitySetAt(abilityId) && item.ItemType == ItemType.Use)
             {
-                if (result == null || item.GetOwnAbilityLevel(abilityId) > result.GetOwnAbilityLevel(abilityId))
+                if (result is null || item.GetOwnAbilityLevel(abilityId) > result.GetOwnAbilityLevel(abilityId))
                 {
                     result = item;
                 }

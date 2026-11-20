@@ -69,7 +69,7 @@ public partial class UIComponent(Rtl.Component owner) : Rtl.Component(owner)
 
     protected void RaiseKeyDown(UIComponent sender, ref ushort key, Set<ShiftState> shift) => OnKeyDown?.Invoke(sender, ref key, shift);
 
-    protected bool HasKeyDownHandlers => OnKeyDown != null;
+    protected bool HasKeyDownHandlers => OnKeyDown is not null;
 
     public event NotifyEvent<UIComponent> OnChange;
 
@@ -203,7 +203,7 @@ public partial class UIComponent(Rtl.Component owner) : Rtl.Component(owner)
     // AoWComp.pas:690
     public virtual void ReAlign()
     {
-        if (_ownerComponent != null && (_alignment.AlignWidth != AlignWidth.None || _alignment.AlignHeight != AlignHeight.None))
+        if (_ownerComponent is not null && (_alignment.AlignWidth != AlignWidth.None || _alignment.AlignHeight != AlignHeight.None))
         {
             switch (_alignment.AlignWidth)
             {
@@ -864,7 +864,7 @@ public partial class UIComponent(Rtl.Component owner) : Rtl.Component(owner)
         int i;
         int newIndex;
         int oldIndex;
-        if (_ownerComponent != null)
+        if (_ownerComponent is not null)
         {
             oldIndex = _ownerComponent.Children.IndexOf(this);
             _ownerComponent.Children.Delete(oldIndex);
@@ -881,7 +881,7 @@ public partial class UIComponent(Rtl.Component owner) : Rtl.Component(owner)
 
         _ownerComponent = value;
         newIndex = -1;
-        if (_ownerComponent != null)
+        if (_ownerComponent is not null)
         {
             i = 0;
             while (i < _ownerComponent.Children.Count)

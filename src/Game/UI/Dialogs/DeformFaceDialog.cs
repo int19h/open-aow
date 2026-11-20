@@ -26,7 +26,7 @@ public partial class DeformFaceDialog(UIContext ui) : UIModule(ui)
         _caster = caster;
         _ = _caster.AddRef();
         u = StrategicMap.Current.UnitControl.FindUnit(_caster.TargetUnitId);
-        if (u != null)
+        if (u is not null)
         {
             string name = u.GetName();
             UnitNameLabel.Text = name;

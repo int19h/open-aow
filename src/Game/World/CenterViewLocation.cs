@@ -29,10 +29,7 @@ public partial class CenterViewLocation(CustomNode owner) : MapObject(owner)
         base.Activate();
         if (!GetEditMode())
         {
-            if (CombatMap.Current.CenterViewLocation != null)
-            {
-                CombatMap.Current.CenterViewLocation?.Dispose();
-            }
+            CombatMap.Current.CenterViewLocation?.Dispose();
 
             CombatMap.Current.CenterViewLocation = this;
         }

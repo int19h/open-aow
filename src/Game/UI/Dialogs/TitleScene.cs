@@ -185,14 +185,14 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
             switch (page)
             {
                 case 0:
-                    if (TitleSceneImages[4] != null)
+                    if (TitleSceneImages[4] is not null)
                     {
                         LibraryImage titleSceneImageLibraryHeight = TitleSceneImages[4];
                         LibraryImage titleSceneImageLibraryWidth = TitleSceneImages[4];
                         TitleSceneImages[4].Show(x - 75 - (titleSceneImageLibraryWidth.Width / 2), y - (titleSceneImageLibraryHeight.Height / 2), surface);
                     }
 
-                    if (TitleSceneImages[5] != null)
+                    if (TitleSceneImages[5] is not null)
                     {
                         LibraryImage titleSceneImageLibraryHeight = TitleSceneImages[5];
                         LibraryImage titleSceneImageLibraryWidth = TitleSceneImages[5];
@@ -207,14 +207,14 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
                     string europe = UI.Engine.TranslateResourceString(s_europeText);
                     LibraryImage titleSceneImageLibrary2 = TitleSceneImages[6];
                     _creditsFont.SetTextCentered(x + 75 + 15, y - (titleSceneImageLibrary2.Height / 2) - 20, europe, surface);
-                    if (TitleSceneImages[6] != null)
+                    if (TitleSceneImages[6] is not null)
                     {
                         LibraryImage titleSceneImageLibraryHeight = TitleSceneImages[6];
                         LibraryImage titleSceneImageLibraryWidth = TitleSceneImages[6];
                         TitleSceneImages[6].Show(x - 75 - (titleSceneImageLibraryWidth.Width / 2), y - (titleSceneImageLibraryHeight.Height / 2) + 20, surface);
                     }
 
-                    if (TitleSceneImages[2] != null)
+                    if (TitleSceneImages[2] is not null)
                     {
                         LibraryImage titleSceneImageLibraryHeight = TitleSceneImages[2];
                         LibraryImage titleSceneImageLibraryWidth = TitleSceneImages[2];
@@ -675,7 +675,7 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
 
     private static void LoadGame(General controller, string fileName)
     {
-        if (StrategicMap.Current != null)
+        if (StrategicMap.Current is not null)
         {
             controller.UI.Engine.CloseHsm(null);
         }
@@ -696,7 +696,7 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
         AudioHost.SongPlayer.Songs.Clear();
         AudioPlayback.FadeMusicVolume(0, 1);
         controller.UI.Engine.LoadHsm(fileName, false, (_, message, progression) => controller.MapProgress(message, progression), GameProfile.WorldMap);
-        if (controller.UI.Engine.Demo && StrategicMap.Current != null && !StrategicMap.Current.ShowAllPlayers)
+        if (controller.UI.Engine.Demo && StrategicMap.Current is not null && !StrategicMap.Current.ShowAllPlayers)
         {
             CloseGame(controller);
         }
@@ -737,7 +737,7 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
         controller.UI.TaskBar.WorldStartMenuBar.Items.Clear();
         string background = controller.UI.Engine.TranslateResourceString(s_backgroundText);
         _ = controller.UI.TaskBar.WorldStartMenuBar.Items.Add(background);
-        if (controller.UI.Engine.Campaign != null)
+        if (controller.UI.Engine.Campaign is not null)
         {
             string campaign = controller.UI.Engine.TranslateResourceString(s_campaignText);
             _ = controller.UI.TaskBar.WorldStartMenuBar.Items.Add(campaign);

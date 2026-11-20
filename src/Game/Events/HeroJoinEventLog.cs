@@ -27,7 +27,7 @@ public partial class HeroJoinEventLog(CustomNode owner) : JoinEventLog(owner)
         bool executeNow;
         UnitControl unitControl = StrategicMap.Current.UnitControl;
         hero = unitControl.FindUnit<Hero>(FirstUnitId);
-        if (hero != null && hero.Player == 0 && hero.OfferToJoin(Player))
+        if (hero is not null && hero.Player == 0 && hero.OfferToJoin(Player))
         {
             executeNow = trigger == ExecuteTrigger.User;
             executeNow = executeNow || (StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.HeroJoin));
@@ -85,7 +85,7 @@ public partial class HeroJoinEventLog(CustomNode owner) : JoinEventLog(owner)
         string errorText = "";
         bool result = false;
         hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(FirstUnitId);
-        if (hero != null && hero.Player == 0 && hero.OfferToJoin(Player))
+        if (hero is not null && hero.Player == 0 && hero.OfferToJoin(Player))
         {
             Player players = StrategicMap.Current.Players.GetPlayers(Player);
             if (StrategicMap.Current.Players.GetPlayers(Player).AIBudget.RequestBudgetExpense(Gold, 0, players.AIBudget.DefaultBudget, true))

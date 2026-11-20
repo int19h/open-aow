@@ -36,7 +36,7 @@ public partial class ImageSequenceAnimation(CustomNode owner) : Animation(owner)
             if (!Looped)
             {
                 sequence = ImageSequence;
-                while (sequence != null)
+                while (sequence is not null)
                 {
                     index = sequence.GetUnloopedFrameIndex(FrameCounter);
                     if (index != -1)
@@ -53,7 +53,7 @@ public partial class ImageSequenceAnimation(CustomNode owner) : Animation(owner)
             else
             {
                 sequence = ImageSequence;
-                while (sequence != null)
+                while (sequence is not null)
                 {
                     index = sequence.GetFrameIndex(0, FrameCounter);
                     if (index != -1)
@@ -94,7 +94,7 @@ public partial class ImageSequenceAnimation(CustomNode owner) : Animation(owner)
         dimensions4.Bottom = 0;
         Dimensions = dimensions4;
         sequence = ImageSequence;
-        while (sequence != null)
+        while (sequence is not null)
         {
             sequence.GetDimensions(out Rect r);
             Rect input = Dimensions;
@@ -128,7 +128,7 @@ public partial class ImageSequenceAnimation(CustomNode owner) : Animation(owner)
         {
             current = ImageSequence;
             FrameCount = -1;
-            while (current != null)
+            while (current is not null)
             {
                 frames = current.GetTotalSequenceFrames();
                 if (frames > FrameCount)

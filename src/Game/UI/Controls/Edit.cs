@@ -39,12 +39,12 @@ public partial class Edit(Component owner) : Control(owner)
     // AoWEdit.pas:87
     public override void Validate()
     {
-        if (_imageLibraryEdit != null)
+        if (_imageLibraryEdit is not null)
         {
             _imageLibraryEdit = _imageLibraryEdit.CheckImageLibrary(_imageLibraryIndex, 3, this);
         }
 
-        if (_imageLibraryEdit != null && base.Font != null)
+        if (_imageLibraryEdit is not null && base.Font is not null)
         {
             Valid = true;
         }

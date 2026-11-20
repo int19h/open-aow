@@ -40,7 +40,7 @@ public partial class DisbandUnitTokenEvent(CustomNode owner) : TokenEvent(owner)
         int i;
         int n;
         troop = StrategicMap.Current.UnitControl.FindUnit(UnitId);
-        if (troop != null && troop.Player == Player)
+        if (troop is not null && troop.Player == Player)
         {
             _ = troop.AddRef();
             if (troop.GetRace() == 5 && troop.Player > 0 && StrategicMap.Current.Players.GetPlayers(troop.Player).PlayerRace == 5 && (troop.GetAbilityEnabled(162) || troop.GetAbilityEnabled(164) || troop.GetAbilityEnabled(165)))
@@ -55,7 +55,7 @@ public partial class DisbandUnitTokenEvent(CustomNode owner) : TokenEvent(owner)
                 sbyte y = coordinate5.Y;
                 sbyte l = coordinate5.MapLevel;
                 structure = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<PlayerStructure>();
-                if (troop.Owner is not Army || troop.Owner.Count > 1 || (structure != null && structure.Player > 0))
+                if (troop.Owner is not Army || troop.Owner.Count > 1 || (structure is not null && structure.Player > 0))
                 {
                     MapCoordinate coordinate6 = troop.GetLocation();
                     x = coordinate6.X;
@@ -70,7 +70,7 @@ public partial class DisbandUnitTokenEvent(CustomNode owner) : TokenEvent(owner)
                     armyHexSprite = troop.ArmyOwner.GetArmyHexSprite();
                 }
 
-                if (armyHexSprite != null)
+                if (armyHexSprite is not null)
                 {
                     n = StrategicMap.Current.Random(10);
                     behavior = n == 0 ? GroupBehavior.GuardArea : n < 7 ? GroupBehavior.Scout : GroupBehavior.Raid;

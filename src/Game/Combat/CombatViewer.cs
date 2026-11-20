@@ -245,7 +245,7 @@ public partial class CombatViewer : IDisposable
     // Combat2.pas:688
     public void DefaultShowFightingObjects(CombatObject source, CombatObject target, int frame, int X, int Y, in LockedSurface surface)
     {
-        if (target != null)
+        if (target is not null)
         {
             if (target.GetSide() == CombatSideIndex.Attacker)
             {
@@ -257,7 +257,7 @@ public partial class CombatViewer : IDisposable
             }
         }
 
-        if (source != null)
+        if (source is not null)
         {
             if (source.GetSide() == CombatSideIndex.Attacker)
             {

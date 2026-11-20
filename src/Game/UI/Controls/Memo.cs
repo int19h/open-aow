@@ -83,19 +83,19 @@ public partial class Memo : Control
     // AoWMemo.pas:150
     public override void Validate()
     {
-        if (base.Font != null)
+        if (base.Font is not null)
         {
-            if (_imageLibraryFrame != null)
+            if (_imageLibraryFrame is not null)
             {
                 _imageLibraryFrame = _imageLibraryFrame.CheckImageLibrary(_imageLibraryIndexFrame, 8, this);
             }
 
-            if (_imageLibraryTexture != null)
+            if (_imageLibraryTexture is not null)
             {
                 _imageLibraryTexture = _imageLibraryTexture.CheckImageLibrary(_imageLibraryIndexTexture, 1, this);
             }
 
-            NoFrame = _imageLibraryFrame == null || _imageLibraryTexture == null;
+            NoFrame = _imageLibraryFrame is null || _imageLibraryTexture is null;
 
             Valid = true;
         }
@@ -151,7 +151,7 @@ public partial class Memo : Control
                 break;
         }
 
-        if (_verticalScrollBar != null)
+        if (_verticalScrollBar is not null)
         {
             _scrollWidth = _verticalScrollBar.WinWidth;
             _topItem = _verticalScrollBar.Position;
@@ -237,7 +237,7 @@ public partial class Memo : Control
         if (!_scrollSet)
         {
             _scrollWidth = !NoFrame ? _imageLibraryFrame[_imageLibraryIndexFrame + 4].Width : 0;
-            if (_verticalScrollBar != null)
+            if (_verticalScrollBar is not null)
             {
                 _scrollSet = true;
                 if (Window != _verticalScrollBar.Window)
@@ -280,7 +280,7 @@ public partial class Memo : Control
         base.Update();
         if (Visible)
         {
-            if (_verticalScrollBar != null && Lines.Count > 0)
+            if (_verticalScrollBar is not null && Lines.Count > 0)
             {
                 if (_verticalScrollBar.Position != _topItem)
                 {

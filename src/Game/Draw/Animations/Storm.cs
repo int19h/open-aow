@@ -67,7 +67,7 @@ public partial class Storm(CustomNode owner) : Animation(owner)
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
                 armyHexSprite = level.Field[walk.X, walk.Y].GetArmyHexSprite();
-                if (armyHexSprite != null && armyHexSprite.Army.Player != 0 && AbilityRules.ValidAttackRelation(player, 0, armyHexSprite.Army.Player, 0))
+                if (armyHexSprite is not null && armyHexSprite.Army.Player != 0 && AbilityRules.ValidAttackRelation(player, 0, armyHexSprite.Army.Player, 0))
                 {
                     GetTargetDamageInfo(player, (sbyte)walk.X, (sbyte)walk.Y, (sbyte)L, ref candidate);
                     if (info.EnemyDamage - info.FriendlyDamage < candidate.EnemyDamage - candidate.FriendlyDamage)

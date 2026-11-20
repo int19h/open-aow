@@ -58,10 +58,10 @@ public readonly struct ItemCollection : IReadOnlyList<Item>
     {
         Item result = null;
         int i = 0;
-        while (i != Count && result == null)
+        while (i != Count && result is null)
         {
             Item item = this[i];
-            if (item != null && itemId == item.ItemId)
+            if (item is not null && itemId == item.ItemId)
             {
                 result = item;
             }
@@ -88,7 +88,7 @@ public readonly struct ItemCollection : IReadOnlyList<Item>
         for (int i = Count - 1; i >= 0; i--)
         {
             item = this[i];
-            if (item != null && !item.Status.Contains(ItemStatusElement.Registered))
+            if (item is not null && !item.Status.Contains(ItemStatusElement.Registered))
             {
                 StrategicMap.Current.ItemControl.RegisterItem(item);
             }

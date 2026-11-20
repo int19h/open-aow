@@ -120,7 +120,7 @@ public partial class PlayerCropStructure : PlayerStructure
                 {
                     if (hexXLocal >= 0 && hexXLocal < mapLevel.Width && hexYLocal >= 0 && hexYLocal < mapLevel.Height)
                     {
-                        result = mapLevel.GetField(hexXLocal, hexYLocal).FindNoneTransparentHexSprite(typeof(PlayerCropStructure)) == null;
+                        result = mapLevel.GetField(hexXLocal, hexYLocal).FindNoneTransparentHexSprite(typeof(PlayerCropStructure)) is null;
                     }
 
                     hexNumber += 1;
@@ -188,11 +188,11 @@ public partial class PlayerCropStructure : PlayerStructure
         if (!GetRazed())
         {
             army = field.GetArmyHexSprite();
-            result = army == null || StrategicMap.Current.Players.GetDiplomaticRelation(army.Army.Player, Player) != DiplomaticRelation.War;
+            result = army is null || StrategicMap.Current.Players.GetDiplomaticRelation(army.Army.Player, Player) != DiplomaticRelation.War;
             if (result)
             {
                 hexSprite = field.GetMaxLevelNoneTransparentHexSprite();
-                result = hexSprite == null || hexSprite.GetLevel() < 26;
+                result = hexSprite is null || hexSprite.GetLevel() < 26;
             }
 
             if (result)
@@ -322,7 +322,7 @@ public partial class PlayerCropStructure : PlayerStructure
             if (x >= 0 && mapLevel.Width > x && y >= 0 && mapLevel.Height > y)
             {
                 crop = mapLevel.GetField(x, y).FindChild<Crop>(131946);
-                if (crop != null)
+                if (crop is not null)
                 {
                     if (crop.CropOwner == this)
                     {
@@ -362,9 +362,9 @@ public partial class PlayerCropStructure : PlayerStructure
                 {
                     field = mapLevel.GetField(x, y);
                     crop = field.FindOwnedChild<Crop>(131946);
-                    if (crop != null || !CanPlaceCrop(field))
+                    if (crop is not null || !CanPlaceCrop(field))
                     {
-                        if (crop != null && crop.CropOwner == this)
+                        if (crop is not null && crop.CropOwner == this)
                         {
                             _ = crops.Add(crop);
                         }
@@ -381,14 +381,14 @@ public partial class PlayerCropStructure : PlayerStructure
             if (crops.Count < value)
             {
                 resource = Resource.Engine.HexSpriteSet.MapObjectResourceList.FindChild<Crop.Resource>(131947);
-                if (resource != null)
+                if (resource is not null)
                 {
                     while (crops.Count != value && locations.Count != 0)
                     {
                         i = StrategicMap.Current.Random(locations.Count);
                         HexGeometry.CenterHexNumberToHex(StoredHexX, StoredHexY, locations.List[i], ref x, ref y);
                         crop = resource.PlaceCrop((sbyte)x, (sbyte)y, (sbyte)mapLevel.HexLevel, this);
-                        if (crop != null)
+                        if (crop is not null)
                         {
                             _ = crops.Add(crop);
                             crop.SetCropOwner(this);

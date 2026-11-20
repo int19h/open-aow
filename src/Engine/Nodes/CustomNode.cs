@@ -41,7 +41,7 @@ public abstract partial class CustomNode : EngineObject, IOwner
             for (int i = Count - 1; i >= 0; i--)
             {
                 c = Children[i];
-                if (c != null && c.Owner == this)
+                if (c is not null && c.Owner == this)
                 {
                     if (!c.GetControlStyle().Contains(EngineServices.Shared))
                     {
@@ -57,7 +57,7 @@ public abstract partial class CustomNode : EngineObject, IOwner
             for (int i = Count - 1; i >= 0; i--)
             {
                 c = Children[i];
-                if (c != null)
+                if (c is not null)
                 {
                     if (!(c.Owner == this && c.GetControlStyle().Contains(EngineServices.Shared)))
                     {
@@ -107,7 +107,7 @@ public abstract partial class CustomNode : EngineObject, IOwner
         for (int i = Count - 1; i >= 0; i--)
         {
             c = Children[i];
-            if (c != null && c.Owner == this)
+            if (c is not null && c.Owner == this)
             {
                 c.Dispose();
             }
@@ -118,7 +118,7 @@ public abstract partial class CustomNode : EngineObject, IOwner
             for (int i = Count - 1; i >= 0; i--)
             {
                 c = Children[i];
-                if (c != null)
+                if (c is not null)
                 {
                     _ = RemoveChild(c);
                 }
@@ -146,7 +146,7 @@ public abstract partial class CustomNode : EngineObject, IOwner
                 for (int i = Count - 1; i >= 0; i--)
                 {
                     c = Children[i];
-                    if (c != null && c.GetLastMessage() != message.Sequence)
+                    if (c is not null && c.GetLastMessage() != message.Sequence)
                     {
                         c.SetLastMessage(message.Sequence);
                         c.MessageProc(ref message, this);
@@ -158,7 +158,7 @@ public abstract partial class CustomNode : EngineObject, IOwner
                 for (int i = Count - 1; i >= 0; i--)
                 {
                     c = Children[i];
-                    if (c != null && c.GetLastMessage() != message.Sequence && c.Owner == this)
+                    if (c is not null && c.GetLastMessage() != message.Sequence && c.Owner == this)
                     {
                         c.SetLastMessage(message.Sequence);
                         c.MessageProc(ref message, this);
@@ -181,7 +181,7 @@ public abstract partial class CustomNode : EngineObject, IOwner
                 for (int i = Count - 1; i >= 0; i--)
                 {
                     c = Children[i];
-                    if (c != null && c.Owner == this)
+                    if (c is not null && c.Owner == this)
                     {
                         c.MessageProc(ref message, this);
                     }
@@ -206,7 +206,7 @@ public abstract partial class CustomNode : EngineObject, IOwner
         for (int i = Count - 1; i >= 0; i--)
         {
             c = Children[i];
-            if (c != null && c.EngineClass.ClassId == classId)
+            if (c is not null && c.EngineClass.ClassId == classId)
             {
                 c.Dispose();
                 n += 1;
@@ -221,10 +221,10 @@ public abstract partial class CustomNode : EngineObject, IOwner
     {
         int i;
         EngineObject result = FindChild(classId);
-        if (result == null)
+        if (result is null)
         {
             i = 0;
-            while (result == null && i < Count)
+            while (result is null && i < Count)
             {
                 if (Children[i] is CustomNode child)
                 {
@@ -251,7 +251,7 @@ public abstract partial class CustomNode : EngineObject, IOwner
         while (!found && i < Count)
         {
             c = Children[i];
-            found = c != null && c.EngineClass.ClassId == classId;
+            found = c is not null && c.EngineClass.ClassId == classId;
             i += 1;
         }
 
@@ -276,7 +276,7 @@ public abstract partial class CustomNode : EngineObject, IOwner
         while (!found && i < Count)
         {
             c = Children[i];
-            found = c != null && c.Owner == this && classId == c.EngineClass.ClassId;
+            found = c is not null && c.Owner == this && classId == c.EngineClass.ClassId;
             i += 1;
         }
 
@@ -340,7 +340,7 @@ public abstract partial class CustomNode : EngineObject, IOwner
 
     protected void CheckChild(EngineObject child)
     {
-        if (child != null && !AcceptsChild(child))
+        if (child is not null && !AcceptsChild(child))
         {
             throw new ArgumentException($"{GetType().Name} does not take a child of type {child.GetType().Name}.", nameof(child));
         }

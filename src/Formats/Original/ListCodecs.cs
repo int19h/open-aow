@@ -411,7 +411,7 @@ internal sealed class GroupedListCodec(int size, string? domain = null) : Proper
             }
         }
 
-        long Integer(JsonValue item, DocumentNodePath at) => item is JsonInteger n && n.Value >= int.MinValue && n.Value <= int.MaxValue ? n.Value
+        long Integer(JsonValue item, DocumentNodePath at) => item is JsonInteger n && n.Value is >= int.MinValue and <= int.MaxValue ? n.Value
             : throw context.Fail(item is JsonInteger ? Codes.Range : Codes.Type, "A list value is a signed 32-bit integer.", item, at, null, $"{int.MinValue} to {int.MaxValue}");
         long defense = objectValue["default"] is { } stored ? Integer(stored, path.Member("default")) : Empty;
         JsonArray groups = objectValue["groups"] as JsonArray ?? throw context.Fail(Codes.MissingMember, "groups is an array of groups.", objectValue, path);

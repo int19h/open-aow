@@ -19,18 +19,18 @@ public partial class UnitWindow
     {
         Hero h = default;
         Troop u = default;
-        if (UI.General.SelectedUnit != null)
+        if (UI.General.SelectedUnit is not null)
         {
             UI.General.BuildAbilities();
             u = UI.General.SelectedUnit;
-            if (u != null && StrategicMap.Current.SeatedPlayer == u.Player)
+            if (u is not null && StrategicMap.Current.SeatedPlayer == u.Player)
             {
                 StrategicMap.Current.TutorialControl.ShowMessage(64, true, true);
             }
 
             h = u is Hero heroUnit ? heroUnit : null;
 
-            if (CombatMap.Current == null && UI.General.UnitList != null && UI.General.IndexOfUnit(u) > -1 && UI.General.SelectedUnits[1] > -1)
+            if (CombatMap.Current is null && UI.General.UnitList is not null && UI.General.IndexOfUnit(u) > -1 && UI.General.SelectedUnits[1] > -1)
             {
                 UI.UnitWindow.PreviousUnitButton.Visible = true;
                 UI.UnitWindow.NextUnitButton.Visible = true;
@@ -70,7 +70,7 @@ public partial class UnitWindow
                 UI.UnitWindow.RelationValueLabel.Text = none;
             }
 
-            if (StrategicMap.Current.SeatedPlayer == u.Player && u is not Leader && StrategicMap.Current.CombatMap == null)
+            if (StrategicMap.Current.SeatedPlayer == u.Player && u is not Leader && StrategicMap.Current.CombatMap is null)
             {
                 UI.UnitWindow.DisbandButton.Visible = true;
                 UI.UnitWindow.BottomCloseButton.Alignment.AlignWidth = AlignWidth.Left;
@@ -96,7 +96,7 @@ public partial class UnitWindow
                     break;
                 case UnitType.Humanoid:
                 default:
-                    if (h == null)
+                    if (h is null)
                     {
                         string unit = UI.Engine.TranslateResourceString(s_unitText);
                         UI.UnitWindow.TypeValueLabel.Text = $"{UI.UnitWindow.TypeValueLabel.Text} {unit}";
@@ -119,7 +119,7 @@ public partial class UnitWindow
                     break;
             }
 
-            if (h == null)
+            if (h is null)
             {
                 string level = UI.Engine.TranslateResourceString(s_levelText);
                 sbyte unitLevel = u.GetUnitLevel();
@@ -231,7 +231,7 @@ public partial class UnitWindow
                     UI.UnitWindow.SphereLabel.Text = leaderSpheres;
                 }
 
-                if ((StrategicMap.Current.Combat == null && h.Player == StrategicMap.Current.SeatedPlayer) || (StrategicMap.Current.Combat != null && StrategicMap.Current.Combat.CombatData.Players.GetPlayers((sbyte)StrategicMap.Current.Combat.CombatData.CurrentPlayer).Player == h.Player))
+                if ((StrategicMap.Current.Combat is null && h.Player == StrategicMap.Current.SeatedPlayer) || (StrategicMap.Current.Combat is not null && StrategicMap.Current.Combat.CombatData.Players.GetPlayers((sbyte)StrategicMap.Current.Combat.CombatData.CurrentPlayer).Player == h.Player))
                 {
                     string items = UI.Engine.TranslateResourceString(s_itemsText);
                     _ = UI.UnitWindow.UnitTabs.Items.Add(items);
@@ -268,9 +268,9 @@ public partial class UnitWindow
             }
 
             UI.UnitWindow.MainWindow.Visible = true;
-            if (h != null && ((StrategicMap.Current.Combat == null && h.Player == StrategicMap.Current.SeatedPlayer) || (StrategicMap.Current.Combat != null && StrategicMap.Current.Combat.CombatData.Players.GetPlayers((sbyte)StrategicMap.Current.Combat.CombatData.CurrentPlayer).Player == h.Player)))
+            if (h is not null && ((StrategicMap.Current.Combat is null && h.Player == StrategicMap.Current.SeatedPlayer) || (StrategicMap.Current.Combat is not null && StrategicMap.Current.Combat.CombatData.Players.GetPlayers((sbyte)StrategicMap.Current.Combat.CombatData.CurrentPlayer).Player == h.Player)))
             {
-                if (h.Inventory.Items.GetItem(0) != null)
+                if (h.Inventory.Items.GetItem(0) is not null)
                 {
                     Item inventory = h.Inventory.Items.GetItem(0);
                     UI.UnitWindow.Backpack1CheckBox.Tag = inventory.ItemId;
@@ -280,7 +280,7 @@ public partial class UnitWindow
                     UI.UnitWindow.Backpack1CheckBox.Tag = -1;
                 }
 
-                if (h.Inventory.Items.GetItem(1) != null)
+                if (h.Inventory.Items.GetItem(1) is not null)
                 {
                     Item inventory = h.Inventory.Items.GetItem(1);
                     UI.UnitWindow.Backpack2CheckBox.Tag = inventory.ItemId;
@@ -290,7 +290,7 @@ public partial class UnitWindow
                     UI.UnitWindow.Backpack2CheckBox.Tag = -1;
                 }
 
-                if (h.Inventory.Items.GetItem(2) != null)
+                if (h.Inventory.Items.GetItem(2) is not null)
                 {
                     Item inventory = h.Inventory.Items.GetItem(2);
                     UI.UnitWindow.Backpack3CheckBox.Tag = inventory.ItemId;
@@ -300,7 +300,7 @@ public partial class UnitWindow
                     UI.UnitWindow.Backpack3CheckBox.Tag = -1;
                 }
 
-                if (h.Inventory.Items.GetItem(3) != null)
+                if (h.Inventory.Items.GetItem(3) is not null)
                 {
                     Item inventory = h.Inventory.Items.GetItem(3);
                     UI.UnitWindow.Backpack4CheckBox.Tag = inventory.ItemId;
@@ -310,7 +310,7 @@ public partial class UnitWindow
                     UI.UnitWindow.Backpack4CheckBox.Tag = -1;
                 }
 
-                if (h.Inventory.Items.GetItem(4) != null)
+                if (h.Inventory.Items.GetItem(4) is not null)
                 {
                     Item inventory = h.Inventory.Items.GetItem(4);
                     UI.UnitWindow.Backpack5CheckBox.Tag = inventory.ItemId;
@@ -320,7 +320,7 @@ public partial class UnitWindow
                     UI.UnitWindow.Backpack5CheckBox.Tag = -1;
                 }
 
-                if (h.Inventory.Items.GetItem(5) != null)
+                if (h.Inventory.Items.GetItem(5) is not null)
                 {
                     Item inventory = h.Inventory.Items.GetItem(5);
                     UI.UnitWindow.Backpack6CheckBox.Tag = inventory.ItemId;
@@ -330,7 +330,7 @@ public partial class UnitWindow
                     UI.UnitWindow.Backpack6CheckBox.Tag = -1;
                 }
 
-                if (h.Inventory.Items.GetItem(6) != null)
+                if (h.Inventory.Items.GetItem(6) is not null)
                 {
                     Item inventory = h.Inventory.Items.GetItem(6);
                     UI.UnitWindow.Backpack7CheckBox.Tag = inventory.ItemId;
@@ -340,7 +340,7 @@ public partial class UnitWindow
                     UI.UnitWindow.Backpack7CheckBox.Tag = -1;
                 }
 
-                if (h.Inventory.Items.GetItem(7) != null)
+                if (h.Inventory.Items.GetItem(7) is not null)
                 {
                     Item inventory = h.Inventory.Items.GetItem(7);
                     UI.UnitWindow.Backpack8CheckBox.Tag = inventory.ItemId;
@@ -350,7 +350,7 @@ public partial class UnitWindow
                     UI.UnitWindow.Backpack8CheckBox.Tag = -1;
                 }
 
-                if (h.HeroItems.GetPositionItem(HeroItemPosition.AttackSlot) != null)
+                if (h.HeroItems.GetPositionItem(HeroItemPosition.AttackSlot) is not null)
                 {
                     Item positionItem = h.HeroItems.GetPositionItem(HeroItemPosition.AttackSlot);
                     UI.UnitWindow.AttackSlotCheckBox.Tag = positionItem.ItemId;
@@ -360,7 +360,7 @@ public partial class UnitWindow
                     UI.UnitWindow.AttackSlotCheckBox.Tag = -1;
                 }
 
-                if (h.HeroItems.GetPositionItem(HeroItemPosition.DefenseSlot) != null)
+                if (h.HeroItems.GetPositionItem(HeroItemPosition.DefenseSlot) is not null)
                 {
                     Item positionItem = h.HeroItems.GetPositionItem(HeroItemPosition.DefenseSlot);
                     UI.UnitWindow.DefendSlotCheckBox.Tag = positionItem.ItemId;
@@ -370,7 +370,7 @@ public partial class UnitWindow
                     UI.UnitWindow.DefendSlotCheckBox.Tag = -1;
                 }
 
-                if (h.HeroItems.GetPositionItem(HeroItemPosition.HeadSlot) != null)
+                if (h.HeroItems.GetPositionItem(HeroItemPosition.HeadSlot) is not null)
                 {
                     Item positionItem = h.HeroItems.GetPositionItem(HeroItemPosition.HeadSlot);
                     UI.UnitWindow.HeadSlotCheckBox.Tag = positionItem.ItemId;
@@ -380,7 +380,7 @@ public partial class UnitWindow
                     UI.UnitWindow.HeadSlotCheckBox.Tag = -1;
                 }
 
-                if (h.HeroItems.GetPositionItem(HeroItemPosition.TorsoSlot) != null)
+                if (h.HeroItems.GetPositionItem(HeroItemPosition.TorsoSlot) is not null)
                 {
                     Item positionItem = h.HeroItems.GetPositionItem(HeroItemPosition.TorsoSlot);
                     UI.UnitWindow.TorsoSlotCheckBox.Tag = positionItem.ItemId;
@@ -390,7 +390,7 @@ public partial class UnitWindow
                     UI.UnitWindow.TorsoSlotCheckBox.Tag = -1;
                 }
 
-                if (h.HeroItems.GetPositionItem(HeroItemPosition.LeftRingSlot) != null)
+                if (h.HeroItems.GetPositionItem(HeroItemPosition.LeftRingSlot) is not null)
                 {
                     Item positionItem = h.HeroItems.GetPositionItem(HeroItemPosition.LeftRingSlot);
                     UI.UnitWindow.LeftRingCheckBox.Tag = positionItem.ItemId;
@@ -400,7 +400,7 @@ public partial class UnitWindow
                     UI.UnitWindow.LeftRingCheckBox.Tag = -1;
                 }
 
-                if (h.HeroItems.GetPositionItem(HeroItemPosition.RightRingSlot) != null)
+                if (h.HeroItems.GetPositionItem(HeroItemPosition.RightRingSlot) is not null)
                 {
                     Item positionItem = h.HeroItems.GetPositionItem(HeroItemPosition.RightRingSlot);
                     UI.UnitWindow.RightRingCheckBox.Tag = positionItem.ItemId;
@@ -429,12 +429,12 @@ public partial class UnitWindow
                 UI.UnitWindow.ItemUseButton.Visible = false;
             }
 
-            if (u != null)
+            if (u is not null)
             {
                 sbyte hitPoints = u.GetHitPoints();
                 sbyte hits = u.GetHits();
                 UI.UnitWindow.UnitHitsLabel.Text = $"{IntToStr(hitPoints)}/{IntToStr(hits)}";
-                if (StrategicMap.Current.CombatMap == null)
+                if (StrategicMap.Current.CombatMap is null)
                 {
                     sbyte movePoints = u.GetMovePoints();
                     sbyte moves = u.GetMoves();
@@ -442,7 +442,7 @@ public partial class UnitWindow
                 }
                 else
                 {
-                    if (UI.General.CombatUnit != null)
+                    if (UI.General.CombatUnit is not null)
                     {
                         int moves = UI.General.CombatUnit.Unit.GetMoves();
                         UI.UnitWindow.UnitMovesLabel.Text = $"{IntToStr(UI.General.CombatUnit.Unit.MovePoints)}/{IntToStr(moves)}";
@@ -510,14 +510,14 @@ public partial class UnitWindow
                 MoraleLabel.Text = format;
                 UnitType unitType = u.GetUnitType();
                 MoraleLabel.Visible = unitType != UnitType.Machine;
-                if (StrategicMap.Current.CombatMap == null)
+                if (StrategicMap.Current.CombatMap is null)
                 {
                     u.ListAbilityInfo(AbilityAbilityList.Items, AbilityTypeList.Items, AbilitySourceList.Items);
                     StringSorting.SortStrings(AbilityAbilityList.Items, CompareUnitAbilities, [AbilityTypeList.Items, AbilitySourceList.Items]);
                 }
                 else
                 {
-                    if (UI.General.CombatUnit != null && UI.General.CombatUnit.Unit != null && UI.General.CombatUnit.Unit.Troop != null)
+                    if (UI.General.CombatUnit is not null && UI.General.CombatUnit.Unit is not null && UI.General.CombatUnit.Unit.Troop is not null)
                     {
                         UI.General.CombatUnit.Unit.Troop.ListAbilityInfo(AbilityAbilityList.Items, AbilityTypeList.Items, AbilitySourceList.Items);
                         StringSorting.SortStrings(AbilityAbilityList.Items, CompareUnitAbilities, [AbilityTypeList.Items, AbilitySourceList.Items]);

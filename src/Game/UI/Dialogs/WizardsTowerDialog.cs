@@ -80,9 +80,9 @@ public partial class WizardsTowerDialog(UIContext ui) : UIModule(ui)
         if (wizardsTower.SpellId != 0)
         {
             s = GamePack.Current.SpellControl.GetSpell(wizardsTower.SpellId);
-            if (s != null)
+            if (s is not null)
             {
-                if (s.CastImages.GetImageSequence(10) != null)
+                if (s.CastImages.GetImageSequence(10) is not null)
                 {
                     x = sender.Window.AbsoluteLeft;
                     y = sender.Window.AbsoluteTop;

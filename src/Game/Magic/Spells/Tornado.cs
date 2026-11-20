@@ -48,7 +48,7 @@ public partial class Tornado : GlobalTargetSpell
             eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
             eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
             army = StrategicMap.Current.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
-            if (army != null)
+            if (army is not null)
             {
                 eventValue.ArmyId = army.Army.CreateId(255);
             }
@@ -72,7 +72,7 @@ public partial class Tornado : GlobalTargetSpell
         MapField mapField;
         MapFieldMessage message = default;
         mapField = StrategicMap.Current.MapContainer.GetField(X, Y, layer);
-        bool result = mapField.GetArmyHexSprite() == null && mapField.GetPlayer() == -1;
+        bool result = mapField.GetArmyHexSprite() is null && mapField.GetPlayer() == -1;
         if (result)
         {
             message.MessageId = 4384;

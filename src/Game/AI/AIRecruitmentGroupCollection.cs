@@ -63,7 +63,7 @@ public readonly struct AIRecruitmentGroupCollection : IReadOnlyList<AIRecruitmen
         int index;
         AIRecruitmentGroup result = null;
         index = Count;
-        while (result == null && index != 0)
+        while (result is null && index != 0)
         {
             index -= 1;
             if (this[index].Group.Units.IndexOf(troop) != -1)

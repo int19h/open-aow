@@ -37,7 +37,7 @@ public partial class Pad(CustomNode owner) : FixedImageLibraryTerrainMapObject(o
         // Pad.pas:69
         public override void Dispose()
         {
-            if (Engine != null && !Engine.HexSpriteSet.Status.Contains(HexSpriteSetStatusElement.Destroying))
+            if (Engine is not null && !Engine.HexSpriteSet.Status.Contains(HexSpriteSetStatusElement.Destroying))
             {
                 Engine.HexSpriteSet.PadControl.UnregisterPadResource(this, _padSize);
             }

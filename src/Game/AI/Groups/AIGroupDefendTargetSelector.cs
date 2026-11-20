@@ -133,7 +133,7 @@ public partial class AIGroupDefendTargetSelector : AIGroupTask
     {
         int result;
         int i;
-        if (path != null && _pathStep < path.Count)
+        if (path is not null && _pathStep < path.Count)
         {
             result = 0;
             i = _pathStep;

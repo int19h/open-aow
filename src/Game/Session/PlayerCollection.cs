@@ -338,9 +338,9 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
         defaultRace = -1;
         while (i != GamePack.Current.RaceResources.Count && defaultRace == -1)
         {
-            if (GamePack.Current.RaceResources.GetRaceResource(i) != null)
+            if (GamePack.Current.RaceResources.GetRaceResource(i) is not null)
             {
-                if (races == null || races.GetRace(i).Enabled)
+                if (races is null || races.GetRace(i).Enabled)
                 {
                     defaultRace = i;
                 }

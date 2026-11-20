@@ -49,7 +49,7 @@ public partial class HolyGroundSpellTokenEvent(CustomNode owner) : GlobalTargetS
                 field = level.Field[walk.X, walk.Y];
                 if (GamePack.Current.SpellControl.GetSpell<GlobalTargetSpell>(13).ValidTargetMapField(field))
                 {
-                    if (field.GetArmyHexSprite() == null)
+                    if (field.GetArmyHexSprite() is null)
                     {
                         field.RestoreTerrain();
                         ground = resource.CreateResourceUser<HolyGround>();

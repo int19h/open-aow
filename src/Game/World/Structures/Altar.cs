@@ -73,7 +73,7 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
                 _storm.InitializeStorm(Player, (sbyte)(tokenEvent.Param & 255), (sbyte)(((int)(((uint)tokenEvent.Param) >> 8)) & 255), (sbyte)(((int)(((uint)tokenEvent.Param) >> 16)) & 255));
             }
 
-            if (_storm != null)
+            if (_storm is not null)
             {
                 if (!_storm.UpdateStorm())
                 {
@@ -129,7 +129,7 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
     {
         Storm storm;
         int value;
-        if (player == Player && (phase == 1 || phase == 2))
+        if (player == Player && (phase is 1 or 2))
         {
             storm = CreateStorm();
             sbyte hexLevel = GetHexLevel();
@@ -243,7 +243,7 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
         TargetSelectionControl selection = default;
         string reason = "";
         selection = StrategicMap.Current.TargetSelection;
-        if (!GetRazed() && Player >= 0 && TargetMana() <= StrategicMap.Current.Players.GetPlayers(Player).MagicControl.Mana && CanTarget(ref reason) && _storm == null)
+        if (!GetRazed() && Player >= 0 && TargetMana() <= StrategicMap.Current.Players.GetPlayers(Player).MagicControl.Mana && CanTarget(ref reason) && _storm is null)
         {
             selection.Initialize(this);
             selection.TargetMode += Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);

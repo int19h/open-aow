@@ -46,7 +46,7 @@ public partial class Vortex : GlobalTargetSpell
             eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
             eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
             army = StrategicMap.Current.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
-            if (army != null)
+            if (army is not null)
             {
                 eventValue.ArmyId = army.Army.CreateId(255);
             }

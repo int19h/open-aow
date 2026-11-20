@@ -255,7 +255,7 @@ public partial class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObjec
         if (PoisonPlantActive())
         {
             armyHexSprite = Owner.GetArmyHexSprite();
-            if (armyHexSprite != null && player == armyHexSprite.Army.Player)
+            if (armyHexSprite is not null && player == armyHexSprite.Army.Player)
             {
                 TriggerArmyDamage(armyHexSprite);
             }

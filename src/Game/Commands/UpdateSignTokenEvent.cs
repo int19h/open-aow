@@ -43,7 +43,7 @@ public partial class UpdateSignTokenEvent(CustomNode owner) : TokenEvent(owner)
         ExecuteResult result;
         Sign sign;
         sign = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindOwnedChild<Sign>(131330);
-        if (sign != null)
+        if (sign is not null)
         {
             sign.SetText(Text);
             sign.TextSeen.Clear();

@@ -25,7 +25,7 @@ public partial class CombatPartyList(CustomNode owner) : OwningNode(owner), IChi
     public CombatParty CreateParty(Battle combat, byte position, byte combatPlayer, int X, int Y, int L, Army army)
     {
         CombatParty p;
-        if (GetParty(position) == null)
+        if (GetParty(position) is null)
         {
             p = new CombatParty(null)
             {
@@ -38,7 +38,7 @@ public partial class CombatPartyList(CustomNode owner) : OwningNode(owner), IChi
             p.Army.SetMapCoordinate((sbyte)(byte)X, (sbyte)(byte)Y, (sbyte)L);
             CombatPlayer players = combat.CombatData.Players.GetPlayers((sbyte)combatPlayer);
             p.Army.SetPlayer(players.Player);
-            if (army != null)
+            if (army is not null)
             {
                 p.Army.AssignSettings(army);
             }
@@ -65,7 +65,7 @@ public partial class CombatPartyList(CustomNode owner) : OwningNode(owner), IChi
     {
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            if (GetChild(i) != null)
+            if (GetChild(i) is not null)
             {
                 this[i].Activate(combat);
             }
@@ -77,7 +77,7 @@ public partial class CombatPartyList(CustomNode owner) : OwningNode(owner), IChi
     {
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            if (GetChild(i) != null)
+            if (GetChild(i) is not null)
             {
                 this[i].Deactivate(combat);
             }

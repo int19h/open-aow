@@ -123,7 +123,7 @@ public partial class MapContainer(CustomNode owner) : OwningNode(owner), IChildL
         EngineClass levelClass;
         MapLevel level;
         levelClass = _engine.GetEngineClass(classId);
-        if (levelClass != null)
+        if (levelClass is not null)
         {
             level = levelClass.Create<MapLevel>(this, holder: CreationHolder());
             level.HexLevel = LevelCount;

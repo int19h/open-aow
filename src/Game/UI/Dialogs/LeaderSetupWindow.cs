@@ -317,7 +317,7 @@ public partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
         AvailableAbilitiesCostList.Items.Clear();
         for (int i = 0, last = GamePack.Current.AbilityControl.GetCount() - 1; i <= last; i++)
         {
-            if (GamePack.Current.AbilityControl.GetAbility(i) != null && (GamePack.Current.AbilityControl.GetAbility(i).SelectionTypes & Set<AbilitySelectionType>.Of(AbilitySelectionType.CustomizeLeader, AbilitySelectionType.HeroUpgrade)) != Set<AbilitySelectionType>.Of())
+            if (GamePack.Current.AbilityControl.GetAbility(i) is not null && (GamePack.Current.AbilityControl.GetAbility(i).SelectionTypes & Set<AbilitySelectionType>.Of(AbilitySelectionType.CustomizeLeader, AbilitySelectionType.HeroUpgrade)) != Set<AbilitySelectionType>.Of())
             {
                 if (GamePack.Current.AbilityControl.GetAbility(i).CanExpand(Leader))
                 {
@@ -661,7 +661,7 @@ public partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
         Frame image = sender;
         r = new Rect(Phase1Panel.AbsoluteLeft + image.WinLeft + 2, Phase1Panel.AbsoluteTop + image.WinTop, Phase1Panel.AbsoluteLeft + image.WinLeft + image.WinWidth - 2, Phase1Panel.AbsoluteTop + image.WinTop + image.WinHeight - 2);
 
-        if (setup.OriginalLeader.GetFace() != null)
+        if (setup.OriginalLeader.GetFace() is not null)
         {
             face = GamePack.Current.FaceResources.GetFaceResource(index);
             _ = face.AddRef();
@@ -1157,7 +1157,7 @@ public partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
         {
             object objectValue = SelectedAbilitiesList.Items.Objects[SelectedAbilitiesList.Selected];
             ability = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
-            if (ability != null)
+            if (ability is not null)
             {
                 InfoBanner.SetInfoBanner(caption: ability.GetName(null), banner: UI.InfoBanner, description: ability.Description);
             }
@@ -1172,7 +1172,7 @@ public partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
         {
             object objectValue = AvailableAbilitiesList.Items.Objects[AvailableAbilitiesList.Selected];
             ability = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
-            if (ability != null)
+            if (ability is not null)
             {
                 InfoBanner.SetInfoBanner(caption: ability.GetName(null), banner: UI.InfoBanner, description: ability.Description);
             }

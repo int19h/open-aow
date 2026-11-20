@@ -21,7 +21,7 @@ internal static class RosterTables
         Unit unit;
         HypotheticalUnit defaultUnit;
         resource = GamePack.Current.UnitResources.GetUnitResource(unitIndex);
-        if (resource != null && resource.GetTransportCapacity() == 0)
+        if (resource is not null && resource.GetTransportCapacity() == 0)
         {
             if (player != 0)
             {
@@ -61,7 +61,7 @@ internal static class RosterTables
                         result += 150;
                     }
 
-                    if (StrategicMap.Current != null && StrategicMap.Current.Day > 20 && (resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(20) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(19) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(18) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(121) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(88) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(89)))
+                    if (StrategicMap.Current is not null && StrategicMap.Current.Day > 20 && (resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(20) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(19) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(18) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(121) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(88) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(89)))
                     {
                         result += 100;
                     }

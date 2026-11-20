@@ -28,7 +28,7 @@ public partial class LightningStorm(CustomNode owner) : Storm(owner)
     {
         int frame;
         frame = FrameCounter % _stormImages.Count;
-        if (_stormImages[frame] != null)
+        if (_stormImages[frame] is not null)
         {
             sbyte hexY = GetHexY();
             HexGeometry.HexToPixel(GetHexX(), hexY, out int x, out int y);
@@ -79,7 +79,7 @@ public partial class LightningStorm(CustomNode owner) : Storm(owner)
     {
         bool result;
         NewFrame();
-        if (_stormImages.GetSafe(FrameCounter) != null)
+        if (_stormImages.GetSafe(FrameCounter) is not null)
         {
             _ = AudioPlayback.PlaySample("SFX\\ATTACK\\LIGHTNG.WAV");
         }

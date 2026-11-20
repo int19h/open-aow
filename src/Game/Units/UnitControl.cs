@@ -96,7 +96,7 @@ public partial class UnitControl(CustomNode owner) : EngineObject(owner)
                 {
                     Units.Add(troop);
                     troop.UnitStatus += Set<UnitStatusElement>.Of(UnitStatusElement.Registered);
-                    if (existingUnit == null)
+                    if (existingUnit is null)
                     {
                         HashTables.Add(UnitTable, key: troop.UnitId, value: troop);
                     }

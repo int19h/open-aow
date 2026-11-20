@@ -130,7 +130,7 @@ public partial class SetupControl : Component
                 Holder = _engine,
                 MessageId = messageId
             };
-            if (objectValue != null)
+            if (objectValue is not null)
             {
                 package.Data = objectValue.Copy(_engine);
             }
@@ -153,7 +153,7 @@ public partial class SetupControl : Component
                 Holder = _engine,
                 MessageId = messageId
             };
-            if (objectValue != null)
+            if (objectValue is not null)
             {
                 package.Data = objectValue.Copy(_engine);
             }
@@ -516,7 +516,7 @@ public partial class SetupControl : Component
             // reads (own-formats.md 4.1). A document the original image cannot carry has no image.
             // LoadOrRaise refuses it through the packet profile, and this sends nothing.
             stream = GameEngine.ImageStream(FileBoundary.LoadOrRaise(_engine.StartupDirectory + Settings.MapName, GameProfile.WorldMap));
-            if (OnSendMap != null)
+            if (OnSendMap is not null)
             {
                 int size = (int)stream.Length;
                 OnSendMap(this, stream.GetBuffer(), size, remoteId);
@@ -679,7 +679,7 @@ public partial class SetupControl : Component
                 cLC.Mode = Set<LeaderSetupModeElement>.FromMask((cLC.Mode - Set<LeaderSetupModeElement>.Of((LeaderSetupModeElement)1)).Mask);
             }
 
-            if (OnCustomizeLeader != null)
+            if (OnCustomizeLeader is not null)
             {
                 OnCustomizeLeader(this, cLC);
                 result = true;
@@ -895,7 +895,7 @@ public partial class SetupControl : Component
         StrategicMap.Current.StartingGame = Settings.AlwaysViewTacticalBattle;
         RemoveIndependentPlayers();
         StrategicMap.Current.SetupPlayerControl((PlayMode)Settings.PlayMode, (PlayerConnectionType)Settings.ConnectionType);
-        if (OnSetupMap != null)
+        if (OnSetupMap is not null)
         {
             try
             {
@@ -907,7 +907,7 @@ public partial class SetupControl : Component
         }
 
         Reset();
-        if (OnStart != null)
+        if (OnStart is not null)
         {
             try
             {
@@ -1298,7 +1298,7 @@ public partial class SetupControl : Component
                     RemotePlayer playerRemoteId = Settings.RemotePlayers.GetPlayers(i);
                     if (Settings.IndexOfRemoteId(playerRemoteId.RemoteId) == -1)
                     {
-                        if (OnEjectPlayer != null)
+                        if (OnEjectPlayer is not null)
                         {
                             RemotePlayer player = Settings.RemotePlayers.GetPlayers(i);
                             OnEjectPlayer(this, player.RemoteId);
@@ -1523,7 +1523,7 @@ public partial class SetupControl : Component
         PlayerSetupSettings settings = default;
         StrategicMap preview;
         preview = _engine.CreatePreviewHsm<StrategicMap>(_engine.StartupDirectory + fileName, profile: GameProfile.WorldMap);
-        if (GetHost() && preview != null && (!_engine.Demo || preview.ShowAllPlayers) && preview.ConnectionType != PlayerConnectionType.Email)
+        if (GetHost() && preview is not null && (!_engine.Demo || preview.ShowAllPlayers) && preview.ConnectionType != PlayerConnectionType.Email)
         {
             _engine.InitializeHexSpriteSet(_engine.StartupDirectory + preview.HssFileName, null);
             Randomize();

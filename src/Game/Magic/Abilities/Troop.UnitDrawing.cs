@@ -23,7 +23,7 @@ public partial class Troop
         if (info.Animation != UnitAnimation.None)
         {
             sequence = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(resourceIndex).Sequences.List[((int)info.Animation * 6) + info.Direction - 1];
-            if (sequence != null)
+            if (sequence is not null)
             {
                 if (!info.Looped)
                 {
@@ -55,7 +55,7 @@ public partial class Troop
                 }
 
                 sequence = sequence.Next;
-                while (sequence != null)
+                while (sequence is not null)
                 {
                     frame = sequence.GetFrameIndex(info.Frame, 0);
                     if (frame >= 0)

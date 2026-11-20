@@ -55,7 +55,7 @@ public partial class TranslateVisit(GameEngine engine) : IDisposable
         for (int i = 0, last = node.Count - 1; i <= last; i++)
         {
             EngineObject child = node.Children[i];
-            if (child != null && child.Owner == node && !child.GetControlStyle().Contains(EngineServices.Shared) && child.GetControlStyle().Contains(EngineServices.Stored))
+            if (child is not null && child.Owner == node && !child.GetControlStyle().Contains(EngineServices.Shared) && child.GetControlStyle().Contains(EngineServices.Stored))
             {
                 Object(child, i);
             }

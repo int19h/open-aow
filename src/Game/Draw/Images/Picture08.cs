@@ -69,7 +69,7 @@ public partial class Picture08(CustomImageLibrary owner) : Image08(owner), ILibr
     }
 
     // ImageLib.pas:7331
-    public override bool SupportShowMode(ShowMode showMode, PixelFormat pixelFormatId) => (pixelFormatId == PixelFormat.None || pixelFormatId == PixelFormat.Pal8 || pixelFormatId == PixelFormat.Rgb555 || pixelFormatId == PixelFormat.Rgb565) && showMode == ShowMode.Opaque;
+    public override bool SupportShowMode(ShowMode showMode, PixelFormat pixelFormatId) => (pixelFormatId is PixelFormat.None or PixelFormat.Pal8 or PixelFormat.Rgb555 or PixelFormat.Rgb565) && showMode == ShowMode.Opaque;
 
     // ImageLib.pas:7337
     public void AllocateDiscardableImageData(int width, int height)
@@ -143,7 +143,7 @@ public partial class Picture08(CustomImageLibrary owner) : Image08(owner), ILibr
                 }
 
                 CreateLibraryImagePalette(lockedSurface.Palette);
-                if (Owner != null)
+                if (Owner is not null)
                 {
                     RegisterPalette();
                 }

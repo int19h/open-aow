@@ -47,7 +47,7 @@ public partial class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHex
         if (SequenceIndex > -1)
         {
             sequence = GamePack.Current.ImageSequences.ImageSequences[SequenceIndex];
-            while (sequence != null)
+            while (sequence is not null)
             {
                 frame = sequence.GetUnloopedFrameIndex(_sequenceFrame);
                 if (frame != -1)
@@ -60,7 +60,7 @@ public partial class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHex
         }
 
         sequence = UnitGraphics.Sequences.ImageSequences[30];
-        while (sequence != null)
+        while (sequence is not null)
         {
             frame = sequence.GetUnloopedFrameIndex(Frame);
             if (frame != -1)
@@ -87,7 +87,7 @@ public partial class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHex
         float gravity;
         TacticalBattleUnitHexSprite unitHexSprite;
         base.MapFieldMessageProc(ref message);
-        if (Unit != null)
+        if (Unit is not null)
         {
             int x;
             int y;
@@ -95,7 +95,7 @@ public partial class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHex
             {
                 sbyte hexY = GetHexY();
                 sbyte hexX = GetHexX();
-                if (CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2228484) == null)
+                if (CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2228484) is null)
                 {
                     sbyte hexY2 = GetHexY();
                     sbyte hexX2 = GetHexX();
@@ -113,21 +113,9 @@ public partial class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHex
                             effect.AbilityIndex = 52;
                             effect.SpellIndex = message.Param[1].Int;
                             deltaX = -deltaX;
-                            switch (i)
+                            if (i is 1 or 3 or 5 or 7 or 9 or 11 or 13 or 15 or 17)
                             {
-                                case 1:
-                                case 3:
-                                case 5:
-                                case 7:
-                                case 9:
-                                case 11:
-                                case 13:
-                                case 15:
-                                case 17:
-                                    deltaY = -deltaY;
-                                    break;
-                                default:
-                                    break;
+                                deltaY = -deltaY;
                             }
 
                             double pi = Math.PI;
@@ -147,7 +135,7 @@ public partial class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHex
             {
                 sbyte hexY = GetHexY();
                 sbyte hexX = GetHexX();
-                if (CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2228484) == null)
+                if (CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2228484) is null)
                 {
                     sbyte hexY2 = GetHexY();
                     HexGeometry.HexToPixel(GetHexX(), hexY2, out x, out y);

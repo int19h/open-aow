@@ -78,7 +78,7 @@ public partial class MoveArmyTokenEvent(CustomNode owner) : MoveTokenEvent(owner
         else
         {
             ArmyHexSprite = GetMapField(Path[i].Location).GetArmyHexSprite();
-            if (ArmyHexSprite == null)
+            if (ArmyHexSprite is null)
             {
                 result = false;
             }
@@ -186,14 +186,14 @@ public partial class MoveArmyTokenEvent(CustomNode owner) : MoveTokenEvent(owner
         MapField field;
         ArmyHexSprite armyHexSprite;
         base.FinishMove();
-        if (ArmyHexSprite != null)
+        if (ArmyHexSprite is not null)
         {
             selected = ArmyHexSprite.GetSelected();
             field = ArmyHexSprite.Owner;
             ArmyHexSprite.SetOwner(null);
             armyHexSprite = GetNoneMovingArmyHexSprite(field);
             ArmyHexSprite.SetOwner(field);
-            if (armyHexSprite != null)
+            if (armyHexSprite is not null)
             {
                 ArmyHexSprite armyHexSprite2 = ArmyHexSprite;
                 armyHexSprite2.Army.UserMode = ArmyHexSprite.Army.UserMode & armyHexSprite.Army.UserMode;
@@ -326,7 +326,7 @@ public partial class MoveArmyTokenEvent(CustomNode owner) : MoveTokenEvent(owner
             if (!result)
             {
                 armyHexSprite = GetNoneMovingArmyHexSprite(field);
-                if (armyHexSprite != null)
+                if (armyHexSprite is not null)
                 {
                     if (armyHexSprite.Army.Player == ArmyHexSprite.Army.Player)
                     {

@@ -40,7 +40,7 @@ public partial class SmokeCloudSpell : GlobalTargetSpell
         }
 
         resource = ((CustomNode)(object)GamePack.Current.MapObjectResourceList).FindChild<EngineResource>(135747);
-        if (resource != null)
+        if (resource is not null)
         {
             cloud = resource.CreateResourceUser<SmokeCloud>();
             cloud.Player = source.Player;

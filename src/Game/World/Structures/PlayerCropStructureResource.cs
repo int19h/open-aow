@@ -30,10 +30,7 @@ public partial class PlayerCropStructureResource(CustomNode owner) : PlayerStruc
         base.MessageProc(ref message, sender);
         if (message.MessageId == 536870920)
         {
-            if (CropLocations != null)
-            {
-                CropLocations?.Dispose();
-            }
+            CropLocations?.Dispose();
 
             CropLocations = TerrainList.CreateSurroundingHexNumberTable();
         }

@@ -54,7 +54,7 @@ public static class Startup
         for (int index = 0; index < units.Length; index++)
         {
             StartupUnit unit = units[index];
-            if ((selection == null || Array.IndexOf(selection, unit.Name) >= 0) && !state[index])
+            if ((selection is null || Array.IndexOf(selection, unit.Name) >= 0) && !state[index])
             {
                 unit.Initialize?.Invoke();
                 state[index] = true;
@@ -75,7 +75,7 @@ public static class Startup
             StartupUnit unit = units[index];
             try
             {
-                if ((selection == null || Array.IndexOf(selection, unit.Name) >= 0) && state[index])
+                if ((selection is null || Array.IndexOf(selection, unit.Name) >= 0) && state[index])
                 {
                     state[index] = false;
                     unit.Finalize?.Invoke();

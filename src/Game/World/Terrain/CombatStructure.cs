@@ -181,7 +181,7 @@ public partial class CombatStructure : CombatFixedImageLibraryTerrain
             _playSound = true;
             razed = false;
             structure = StrategicMap.Current.MapContainer.GetMapLevel(CombatPlacement.CombatLLocation).GetField(CombatPlacement.CombatXLocation, CombatPlacement.CombatYLocation).FindNoneTransparentHexSprite<PlayerStructure>();
-            if (structure != null)
+            if (structure is not null)
             {
                 razed = structure.GetRazed();
             }

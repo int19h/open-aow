@@ -26,14 +26,14 @@ public partial class Image
 
     public override void Validate()
     {
-        if (_imageLibrary != null)
+        if (_imageLibrary is not null)
         {
             _imageLibrary = _animate
                 ? _imageLibrary.CheckImageLibrary(_animationStart, _animationEnd + 1 - _animationStart, this)
                 : _imageLibrary.CheckImageLibrary(_currentImage, 1, this);
         }
 
-        if (_imageLibrary != null)
+        if (_imageLibrary is not null)
         {
             Valid = true;
         }

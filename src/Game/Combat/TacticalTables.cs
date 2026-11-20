@@ -299,19 +299,19 @@ internal static class TacticalTables
                             : CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
 
                         wall = CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild<CityWall>(2229508);
-                        if (wall == null && side == CombatSideIndex.Attacker)
+                        if (wall is null && side == CombatSideIndex.Attacker)
                         {
                             wall = CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild(2229510) as CityWall;
                         }
 
                         if (a == 1)
                         {
-                            if (unitHexSprite != null && unitHexSprite.Unit.GetSide() != side)
+                            if (unitHexSprite is not null && unitHexSprite.Unit.GetSide() != side)
                             {
                                 steps = 1;
                             }
 
-                            if (wall != null && wall.HitPoints > 0 && side == CombatSideIndex.Attacker)
+                            if (wall is not null && wall.HitPoints > 0 && side == CombatSideIndex.Attacker)
                             {
                                 steps = 4;
                             }
@@ -320,12 +320,12 @@ internal static class TacticalTables
                         {
                             if (a > 1)
                             {
-                                if (unitHexSprite != null)
+                                if (unitHexSprite is not null)
                                 {
                                     steps = 1;
                                 }
 
-                                if (wall == null)
+                                if (wall is null)
                                 {
                                     if (CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].OverlayType == 8)
                                     {
@@ -344,14 +344,14 @@ internal static class TacticalTables
                                         {
                                             wall = null;
                                             b = 1;
-                                            while (wall == null && b < 7)
+                                            while (wall is null && b < 7)
                                             {
                                                 HexGeometry.CenterHexNumberToHex(startX, startY, b, ref hexX, ref hexY);
                                                 wall = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild<CityWall>(2229508) ?? CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2229510) as CityWall;
                                                 b += 1;
                                             }
 
-                                            if (wall == null)
+                                            if (wall is null)
                                             {
                                                 steps = 2;
                                             }

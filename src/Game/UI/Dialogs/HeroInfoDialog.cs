@@ -102,7 +102,7 @@ public partial class HeroInfoDialog(UIContext ui) : UIModule(ui)
         r.Bottom = FaceFrame.WinHeight + r.Top;
 
         hero = _armyInfo.ArmyView.Hero(_armyInfo.Selection, RosterTables.AllHeroTypes);
-        if (hero.GetFace() != null)
+        if (hero.GetFace() is not null)
         {
             hero.ShowFace(r, surface);
         }
@@ -165,14 +165,14 @@ public partial class HeroInfoDialog(UIContext ui) : UIModule(ui)
     internal static void ShowHeroInfo(HeroInfoDialog dialog, ArmyInfoEventLog eventValue, ExecuteDoneEvent done)
     {
         Hero hero;
-        Assert(dialog._armyInfo == null, "", "AoWHeroInfoDlg.pas", 80);
+        Assert(dialog._armyInfo is null, "", "AoWHeroInfoDlg.pas", 80);
         dialog.Done = done;
         dialog._armyInfo = eventValue;
         _ = dialog._armyInfo.AddRef();
         string text = eventValue.Messages.Text;
         dialog.MessageMemo.Items.Text = text;
         hero = dialog._armyInfo.ArmyView.Hero(dialog._armyInfo.Selection, RosterTables.AllHeroTypes);
-        if (hero != null)
+        if (hero is not null)
         {
             dialog.HeroNameLabel.Text = hero.HeroName;
             sbyte level = hero.GetLevel();

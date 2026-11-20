@@ -34,7 +34,7 @@ public sealed class OwnershipTests
             Assert.Equal(new IOwned[] { first }, owner.Children.OfType<IOwned>().Where(child => child.Owner == owner));
             Assert.Equal("OwningNodeOwningNodeOwningNode", second.EngineObjectPath);
             List<IOwner> owners = [];
-            for (IOwner? current = ((IOwned)second).Owner; current != null; current = (current as IOwned)?.Owner)
+            for (IOwner? current = ((IOwned)second).Owner; current is not null; current = (current as IOwned)?.Owner)
             {
                 owners.Add(current);
             }

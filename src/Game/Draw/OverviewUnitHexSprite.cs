@@ -30,7 +30,7 @@ public partial class OverviewUnitHexSprite(CustomNode owner) : UnitHexSprite(own
         _ = (_troop?.Release());
 
         _troop = U;
-        if (_troop != null)
+        if (_troop is not null)
         {
             _ = _troop.AddRef();
             SetUnitGraphicsResourceIndex(_troop.GetUnitGraphicsResourceIndex());

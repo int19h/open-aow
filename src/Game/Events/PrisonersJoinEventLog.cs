@@ -26,7 +26,7 @@ public partial class PrisonersJoinEventLog(CustomNode owner) : JoinEventLog(owne
         Dungeon dungeon;
         StructureTokenEvent tokenEvent;
         dungeon = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindOwnedChild<Dungeon>(131882);
-        if (dungeon != null && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
+        if (dungeon is not null && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
             tokenEvent = dungeon.CreateTokenEvent();
             dungeon.SetupTokenEvent(tokenEvent);
@@ -50,7 +50,7 @@ public partial class PrisonersJoinEventLog(CustomNode owner) : JoinEventLog(owne
         Dungeon dungeon;
         int index;
         dungeon = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).FindOwnedChild<Dungeon>(131882);
-        if (dungeon != null)
+        if (dungeon is not null)
         {
             for (int i = 0, last = dungeon.Prisoners.Units.Count - 1; i <= last; i++)
             {
@@ -58,7 +58,7 @@ public partial class PrisonersJoinEventLog(CustomNode owner) : JoinEventLog(owne
                 if (Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(unitType))
                 {
                     index = dungeon.Prisoners.Units.GetUnit(i).GetUnitGraphicsResourceIndex();
-                    if (GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(index) != null)
+                    if (GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(index) is not null)
                     {
                         int random = Random(15);
                         UnitGraphicsResource unitGraphicsResource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(index);

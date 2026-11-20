@@ -81,7 +81,7 @@ public partial class DiplomacyAIPlayerAction(CustomNode owner) : AIPlayerAction(
         DiplomaticAction last;
         player = Control.Player.PlayerIndex;
         last = StrategicMap.Current.Players.GetPlayers(player).DiplomaticActions.FindLastAction(action.ToFields().Kind, DiplomaticActionReaction.None, player, target, other);
-        result = last == null || StrategicMap.Current.Day - last.Day >= minDays
+        result = last is null || StrategicMap.Current.Day - last.Day >= minDays
             ? StrategicMap.Current.Players.GetPlayers(player).CreateDiplomaticAction(action, target, other)
             : null;
 
@@ -177,7 +177,7 @@ public partial class DiplomacyAIPlayerAction(CustomNode owner) : AIPlayerAction(
                         if (war.IndexOf((byte)candidate) != -1 && Control.CanOfferPeace((byte)candidate))
                         {
                             action = StrategicMap.Current.Players.GetPlayers(source).DiplomaticActions.FindLastAction(OfferPeace.Kind, DiplomaticActionReaction.None, source, candidate, -1);
-                            if (action == null || StrategicMap.Current.Day - action.Day > 12)
+                            if (action is null || StrategicMap.Current.Day - action.Day > 12)
                             {
                                 score = -i;
                                 score -= StrategicMap.Current.Players.GetDiplomaticRelationCount((sbyte)(byte)candidate, Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace)) * 5;
@@ -197,7 +197,7 @@ public partial class DiplomacyAIPlayerAction(CustomNode owner) : AIPlayerAction(
                             if (war.IndexOf((byte)candidate) != -1)
                             {
                                 action = StrategicMap.Current.Players.GetPlayers(source).DiplomaticActions.FindLastAction(OfferPeace.Kind, DiplomaticActionReaction.None, source, candidate, -1);
-                                if (action == null || StrategicMap.Current.Day - action.Day > 12)
+                                if (action is null || StrategicMap.Current.Day - action.Day > 12)
                                 {
                                     score = j;
                                     score -= StrategicMap.Current.Players.GetDiplomaticRelationCount((sbyte)(byte)candidate, Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace)) * 5;
@@ -227,7 +227,7 @@ public partial class DiplomacyAIPlayerAction(CustomNode owner) : AIPlayerAction(
                 break;
         }
 
-        if (action != null)
+        if (action is not null)
         {
             _ = action.Send(ref errorText);
             _ = action.Release();

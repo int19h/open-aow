@@ -35,7 +35,7 @@ public partial class UnitSpellCaster : SpellCaster
         Hero hero;
         int mana;
         hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(CasterSourceId);
-        if (hero != null && !hero.UnitStatus.Contains(UnitStatusElement.Killed))
+        if (hero is not null && !hero.UnitStatus.Contains(UnitStatusElement.Killed))
         {
             if (SelectionMask != 0)
             {
@@ -94,7 +94,7 @@ public partial class UnitSpellCaster : SpellCaster
         if (CanCast(ref reason))
         {
             source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
-            if (source != null)
+            if (source is not null)
             {
                 targets = new UnitUserList(null) { Holder = CreationHolder() };
                 for (int i = 0, last = TargetUnits.Count - 1; i <= last; i++)
@@ -146,7 +146,7 @@ public partial class UnitSpellCaster : SpellCaster
         bool result;
         Troop source;
         source = StrategicMap.Current.UnitControl.FindUnit<Troop>(CasterSourceId);
-        result = source != null && (((byte)source.UnitStatus.Image) & 16) == 0;
+        result = source is not null && (((byte)source.UnitStatus.Image) & 16) == 0;
 
         return result;
     }

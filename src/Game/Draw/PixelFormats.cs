@@ -22,7 +22,7 @@ public static class PixelFormats
     internal static bool ValidImageFile(string fileName)
     {
         string extractFileExt = ExtractFileExt(fileName);
-        return GraphicsState.ImageFileClassList.FindClass(extractFileExt) != null;
+        return GraphicsState.ImageFileClassList.FindClass(extractFileExt) is not null;
     }
 
     internal static Surface CreateSurfaceFromImageFile(string fileName)

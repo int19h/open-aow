@@ -49,7 +49,7 @@ public partial class AIMoveControl : EngineObject
     {
         AIMoveControlSettings settings;
         settings = Settings;
-        if (settings != null)
+        if (settings is not null)
         {
             _ = settings.Release();
             Settings = null;
@@ -64,7 +64,7 @@ public partial class AIMoveControl : EngineObject
     // AIGroup.pas:3941
     public void ProcessingDone(AIMoveControlStatus status)
     {
-        if (Settings != null)
+        if (Settings is not null)
         {
             Status = status;
             Settings.Status = status;
@@ -349,7 +349,7 @@ public partial class AIMoveControl : EngineObject
         _ = (oldSettings?.Release());
 
         Settings = settings;
-        if (Settings != null)
+        if (Settings is not null)
         {
             _ = Settings.AddRef();
             Settings.MovePoints = -1;
@@ -360,7 +360,7 @@ public partial class AIMoveControl : EngineObject
             Settings.Status = AIMoveControlStatus.Processing;
             _movePointTable = Settings.MovePointTable;
             transporter = Settings.Transporter;
-            if (transporter != null)
+            if (transporter is not null)
             {
                 int moveTypesToInt32 = MovementTables.MoveTypesToInt32(transporter.GetMoveTypes());
                 _transportMovePointTable = MovementTables.MovePointTables[moveTypesToInt32];
@@ -384,7 +384,7 @@ public partial class AIMoveControl : EngineObject
         _pathSettings.ArmyHexSprite = Settings.ArmyHexSprite;
         _pathSettings.Selection = Settings.Selection;
         _pathSettings.Mode = Settings.MoveMode;
-        if (Settings.Transporter == null)
+        if (Settings.Transporter is null)
         {
             _mode = AIMoveControlMode.CanMove;
             _pathSettings.MovePointTable = _movePointTable;

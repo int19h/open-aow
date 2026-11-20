@@ -140,8 +140,8 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
             bool wb;
             pa = _viewer.Combat.CombatData.Parties.GetParty((byte)A);
             pb = _viewer.Combat.CombatData.Parties.GetParty((byte)B);
-            wa = pa != null && pa.Wall != 0;
-            wb = pb != null && pb.Wall != 0;
+            wa = pa is not null && pa.Wall != 0;
+            wb = pb is not null && pb.Wall != 0;
             return wa ^ wb;
         }
 
@@ -217,7 +217,7 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
         if (combatData.WallType != 0)
         {
             wall = combatData.Wall;
-            if (wall != null)
+            if (wall is not null)
             {
                 if (HasWall(0, 4))
                 {
@@ -256,7 +256,7 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
         {
             for (int i = 0; i <= 7; i++)
             {
-                if (combat.CombatData.Parties.GetParty((byte)i) != null)
+                if (combat.CombatData.Parties.GetParty((byte)i) is not null)
                 {
                     if (combat.CombatData.Parties.GetParty((byte)i).Army.Units.Count == 0)
                     {
@@ -509,7 +509,7 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
         CombatViewer viewer;
         UI.General.PlayButtonSound(0);
         viewer = _viewer;
-        if (viewer != null && viewer.Status.Contains(CombatViewerStatusElement.Initialized))
+        if (viewer is not null && viewer.Status.Contains(CombatViewerStatusElement.Initialized))
         {
             viewer.SetPosition(0);
             SetPhase(1);
@@ -522,7 +522,7 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
         CombatViewer viewer;
         UI.General.PlayButtonSound(0);
         viewer = _viewer;
-        if (viewer != null && viewer.Status.Contains(CombatViewerStatusElement.Initialized))
+        if (viewer is not null && viewer.Status.Contains(CombatViewerStatusElement.Initialized))
         {
             viewer.SetPosition(viewer.GetEndPosition() + 1);
             SetPhase(3);
@@ -533,7 +533,7 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
     public void PauseBtnClick()
     {
         UI.General.PlayButtonSound(0);
-        if (_viewer != null && _viewer.Status.Contains(CombatViewerStatusElement.Initialized))
+        if (_viewer is not null && _viewer.Status.Contains(CombatViewerStatusElement.Initialized))
         {
             _viewer.Pause();
         }
@@ -543,7 +543,7 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
     public void PlayBtnClick()
     {
         UI.General.PlayButtonSound(0);
-        if (_viewer != null && _viewer.Status.Contains(CombatViewerStatusElement.Initialized))
+        if (_viewer is not null && _viewer.Status.Contains(CombatViewerStatusElement.Initialized))
         {
             _viewer.Play();
         }
@@ -554,7 +554,7 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
     {
         CombatViewer viewer;
         viewer = _viewer;
-        if (viewer != null && viewer.Status.Contains(CombatViewerStatusElement.Initialized))
+        if (viewer is not null && viewer.Status.Contains(CombatViewerStatusElement.Initialized))
         {
             viewer.SetPosition(SequencePositionSlider.Position);
             SetPhase(1);
@@ -604,7 +604,7 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
 
     internal static void ShowCombatEvent(FastBattleWindow dialog, CombatEventLog eventValue, ExecuteDoneEvent done)
     {
-        Assert(dialog._event == null, "", "FastCombatWin.pas", 159);
+        Assert(dialog._event is null, "", "FastCombatWin.pas", 159);
         dialog.UI.General.Manager.OverlayPriority = 49;
         dialog._event = eventValue;
         _ = dialog._event.AddRef();
@@ -640,7 +640,7 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
                 _ => null,
             };
             party = combat.CombatData.Parties.GetParty((byte)i);
-            if (party != null)
+            if (party is not null)
             {
                 playerIndex = combat.CombatData.Players.GetPlayers((sbyte)party.PlayerIndex).Player;
                 partyRace = playerIndex != 0 ? StrategicMap.Current.Players.GetPlayers(playerIndex).PlayerRace : 12;

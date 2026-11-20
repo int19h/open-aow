@@ -140,7 +140,7 @@ public partial class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     {
         MapField mapField;
         mapField = Owner;
-        if (mapField != null)
+        if (mapField is not null)
         {
             base.RemoveFromMap();
             mapField.UpdateMapField();
@@ -221,7 +221,7 @@ public partial class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner
         if (result)
         {
             int classId = EngineClass.ClassId;
-            result = mapContainer.GetField(hexX, hexY, hexLevel).FindOwnedChild(classId) == null;
+            result = mapContainer.GetField(hexX, hexY, hexLevel).FindOwnedChild(classId) is null;
         }
 
         return result;
@@ -285,7 +285,7 @@ public partial class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner
         HexGeometry.HexToPixel(mapField.HexX, mapField.HexY, out int x, out int y);
         hexSprite = mapField.GetMaxLevelNoneTransparentHexSprite();
         _showPriority = 1744830464 + ((y + 36) << 13) + x + 16;
-        if (hexSprite != this && hexSprite != null)
+        if (hexSprite != this && hexSprite is not null)
         {
             if (hexSprite.GetShowPriority() >= _showPriority)
             {
@@ -297,7 +297,7 @@ public partial class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     // Structur.PAS:3503
     public void SetupExplosion(int delay)
     {
-        if (base.Resource.ImageSequenceList.GetImageSequence(20) != null)
+        if (base.Resource.ImageSequenceList.GetImageSequence(20) is not null)
         {
             _explosionFrame = delay + StrategicMap.Current.Frame;
         }
@@ -373,7 +373,7 @@ public partial class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner
                         RandSeed = StrategicMap.Current.Random(16777215);
                         sbyte hexLevel = GetHexLevel();
                         fire = GamePack.Current.FireControl.PlaceFire(walk.X, walk.Y, hexLevel, FireType.Large);
-                        if (fire != null)
+                        if (fire is not null)
                         {
                             fire.Player = Player;
                             fire.TurnsLeft = 3;
@@ -428,7 +428,7 @@ public partial class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner
         // FireType
         public override void Dispose()
         {
-            if (Engine != null && !GamePack.Current.Status.Contains(HexSpriteSetStatusElement.Destroying))
+            if (Engine is not null && !GamePack.Current.Status.Contains(HexSpriteSetStatusElement.Destroying))
             {
                 GamePack.Current.FireControl.UnregisterFireResource(this);
             }

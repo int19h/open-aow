@@ -117,7 +117,7 @@ public partial class ArmyEventLog : EventLog
     {
         ArmyView army;
         army = ArmyView;
-        if (army != null && army.Location.X != -1)
+        if (army is not null && army.Location.X != -1)
         {
             CenterViewTo(army.Location.X, army.Location.Y, army.Location.MapLevel);
         }

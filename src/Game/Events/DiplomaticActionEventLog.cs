@@ -27,7 +27,7 @@ public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner
     {
         DiplomaticAction action;
         action = Action;
-        if (action != null)
+        if (action is not null)
         {
             _ = action.Release();
             Action = null;

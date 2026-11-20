@@ -274,7 +274,7 @@ public partial class Animation(CustomNode owner) : HexSprite(owner)
     // Animation.pas:138
     public void DestroyEvent(object sender)
     {
-        if (Owner == null)
+        if (Owner is null)
         {
             Dispose();
         }

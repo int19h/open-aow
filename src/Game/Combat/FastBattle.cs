@@ -170,7 +170,7 @@ public partial class FastBattle(CustomNode owner) : Battle(owner)
         bool result;
         CombatWall wall;
         wall = CombatData.Wall;
-        if (wall != null && !wall.Status.Contains(CombatObjectStatusElement.Destroyed) && WallSiegeObjectCount == 0)
+        if (wall is not null && !wall.Status.Contains(CombatObjectStatusElement.Destroyed) && WallSiegeObjectCount == 0)
         {
             CombatResult = CombatResult.CannotBreachWall;
             result = false;

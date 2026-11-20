@@ -13,7 +13,7 @@ public partial class MapWindow
 {
     private void PressEndTurnShortcut(ushort key, Set<ShiftState> shift)
     {
-        if (StrategicMap.Current == null || CombatMap.Current != null)
+        if (StrategicMap.Current is null || CombatMap.Current is not null)
         {
             return;
         }
@@ -24,7 +24,7 @@ public partial class MapWindow
             return;
         }
 
-        if (!shift.Contains(ShiftState.Ctrl) || (key != 69 && key != 13))
+        if (!shift.Contains(ShiftState.Ctrl) || (key is not 69 and not 13))
         {
             return;
         }

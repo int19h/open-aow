@@ -216,7 +216,7 @@ public partial class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceLi
     {
         if (value != Enabled)
         {
-            if (GamePack.Current.RaceResources.GetRaceResource(RaceIndex) != null)
+            if (GamePack.Current.RaceResources.GetRaceResource(RaceIndex) is not null)
             {
                 _ = value
                     ? GamePack.Current.RaceResources.GetRaceResource(RaceIndex).AddRef()

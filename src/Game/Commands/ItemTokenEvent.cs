@@ -38,13 +38,13 @@ public partial class ItemTokenEvent(CustomNode owner) : TokenEvent(owner)
         _ = base.Execute(tokenEvent);
         done = false;
         item = StrategicMap.Current.ItemControl.FindItem(ItemId);
-        if (item != null)
+        if (item is not null)
         {
             switch (_action)
             {
                 case 0:
                     hero = StrategicMap.Current.HeroControl.FindId(HeroId);
-                    done = hero != null && item.ExecuteUse(hero);
+                    done = hero is not null && item.ExecuteUse(hero);
 
                     break;
                 default:

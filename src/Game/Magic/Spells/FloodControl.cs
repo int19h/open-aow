@@ -91,7 +91,7 @@ public partial class FloodControl(CustomNode owner) : EngineObject(owner)
                         if ((!Set<byte>.WithBounds(0, 255).With(0).With(6).With(15).Contains((byte)mapField.TerrainType) && !Set<byte>.WithBounds(0, 255).With(0).With(2).With(7).Contains((byte)mapField.OverlayType)) || (mapField.TerrainType == 0 && mapField.OverlayType == 5))
                         {
                             index = ((Width * walk.Y) + walk.X) * 2;
-                            if (OriginalTerrain[index] == 0 && OriginalTerrain[index + 1] == 0 && mapField.FindNoneTransparentHexSprite(typeof(Structure)) == null)
+                            if (OriginalTerrain[index] == 0 && OriginalTerrain[index + 1] == 0 && mapField.FindNoneTransparentHexSprite(typeof(Structure)) is null)
                             {
                                 sbyte[] originalTerrain = OriginalTerrain;
                                 originalTerrain[index] = mapField.TerrainType;

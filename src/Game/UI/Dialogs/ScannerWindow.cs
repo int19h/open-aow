@@ -20,7 +20,7 @@ public partial class ScannerWindow(UIContext ui) : UIModule(ui)
     // AoWSWindow.pas:51
     public void ScannerTabChange()
     {
-        if (StrategicMap.Current != null)
+        if (StrategicMap.Current is not null)
         {
             switch (ScannerTabs.Selected)
             {

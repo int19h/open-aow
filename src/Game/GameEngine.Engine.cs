@@ -198,7 +198,7 @@ public partial class GameEngine : OwningNode
     // Engine.pas:8860
     public virtual EngineClass GetEngineClass(int classId)
     {
-        return !ClassTable.TryGetValue(classId, out EngineClass result) || result == null
+        return !ClassTable.TryGetValue(classId, out EngineClass result) || result is null
             ? throw new KeyNotFoundException($"Unregistered E-ClassID found ({IntToStr(classId)})")
             : result;
     }

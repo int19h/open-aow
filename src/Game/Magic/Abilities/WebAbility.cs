@@ -38,7 +38,7 @@ public partial class WebAbility : TouchAbility
         if (!action.Successful)
         {
             strike = CombatObject.CreateStrikeCombatAction(target, source, true);
-            if (strike != null)
+            if (strike is not null)
             {
                 source.Combat.ExecuteCombatAction(strike);
                 _ = strike.Release();

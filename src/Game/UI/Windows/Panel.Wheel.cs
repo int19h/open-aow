@@ -24,6 +24,6 @@ public partial class Panel
 
         SizedRectangle absolute = AbsoluteArea();
         UIComponent child = TopWheelChild(X, Y);
-        return (child != null && child.CheckMouseWheel(steps, shift, X, Y)) || (PointInside(X, Y, absolute.Left, absolute.Top, WinWidth, WinHeight) && ScrollOwnedBar(steps));
+        return (child is not null && child.CheckMouseWheel(steps, shift, X, Y)) || (PointInside(X, Y, absolute.Left, absolute.Top, WinWidth, WinHeight) && ScrollOwnedBar(steps));
     }
 }

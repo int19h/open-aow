@@ -55,7 +55,7 @@ public partial class PadControl : ControlStyleObject
     // MoveT.PAS:3641
     public void RegisterPadResource(MapObjectResource resource, int size)
     {
-        if (GetPadResource(size) == null)
+        if (GetPadResource(size) is null)
         {
             SetPadResource(size, resource);
         }
@@ -77,7 +77,7 @@ public partial class PadControl : ControlStyleObject
         MapObjectResource resource;
         ImageLibraryTerrainMapObject pad;
         resource = GetPadResource(size);
-        if (resource != null)
+        if (resource is not null)
         {
             pad = resource.CreateResourceUser<ImageLibraryTerrainMapObject>();
             result = pad.CanPlace(StrategicMap.Current.MapContainer, X, Y, L);

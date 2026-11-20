@@ -514,7 +514,7 @@ public partial class Int32List : Persistent
         Unit unit;
         bool CanUse(Unit unit)
         {
-            bool condition = unit.UnitResource != null;
+            bool condition = unit.UnitResource is not null;
             if (condition)
             {
                 condition = types.Contains(unit.GetUnitType());
@@ -591,7 +591,7 @@ public partial class Int32List : Persistent
         int delta;
         bool CanUse(Unit unit)
         {
-            bool condition = unit.UnitResource != null;
+            bool condition = unit.UnitResource is not null;
             if (condition)
             {
                 condition = types.Contains(unit.GetUnitType());

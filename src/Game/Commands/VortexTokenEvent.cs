@@ -76,7 +76,7 @@ public partial class VortexTokenEvent(CustomNode owner) : GlobalTargetSpellToken
 
         if (value == 80)
         {
-            if (ArmyId != null && ArmyId.RetrieveArmy(ref army, ref selection))
+            if (ArmyId is not null && ArmyId.RetrieveArmy(ref army, ref selection))
             {
                 log = new ArmyEventLog(null)
                 {
@@ -187,7 +187,7 @@ public partial class VortexTokenEvent(CustomNode owner) : GlobalTargetSpellToken
     }
 
     // GlobalTargetSpells.pas:242
-    public override bool Validate(Hero source) => base.Validate(source) && (ArmyId == null || ArmyId.Valid());
+    public override bool Validate(Hero source) => base.Validate(source) && (ArmyId is null || ArmyId.Valid());
 
     private static readonly string s_vortexDamageText = "Vortex Damage";
 }

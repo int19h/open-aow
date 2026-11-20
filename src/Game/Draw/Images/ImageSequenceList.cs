@@ -30,7 +30,7 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
         string result = "";
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            if (List[i] != null)
+            if (List[i] is not null)
             {
                 result = $"{result}{IntToStr(i)},";
             }
@@ -49,7 +49,7 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
     {
         for (int i = Count - 1; i >= 0; i--)
         {
-            if (List[i] != null)
+            if (List[i] is not null)
             {
                 ((List[i] ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
             }
@@ -62,7 +62,7 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
     public ImageSequence GetLayerImageSequence(int index, int layer)
     {
         ImageSequence result = index < Count ? List[index] : null;
-        while (result != null && layer != result.Layer)
+        while (result is not null && layer != result.Layer)
         {
             result = result.Next;
         }
@@ -75,7 +75,7 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
     public int ReduceCount()
     {
         int result = Count - 1;
-        while (result >= 0 && List[result] == null)
+        while (result >= 0 && List[result] is null)
         {
             Delete(result);
             result -= 1;
@@ -110,7 +110,7 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
         DestroyItems();
         foreach (IReadOnlyList<SequenceLayer> layers in entries)
         {
-            if (layers != null)
+            if (layers is not null)
             {
                 ImageSequence sequence = new(this);
                 sequence.LoadLayers(layers, index: 0);
@@ -154,7 +154,7 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
             _ = Add(null);
         }
 
-        if (List[index] != null)
+        if (List[index] is not null)
         {
             ((List[index] ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
         }
@@ -169,7 +169,7 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
         int result = 0;
         sequence = index < Count ? List[index] : null;
 
-        while (sequence != null)
+        while (sequence is not null)
         {
             sequence = sequence.Next;
             result += 1;
@@ -192,7 +192,7 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
             result += 1;
         }
 
-        if (s == null)
+        if (s is null)
         {
             result = -1;
         }
@@ -208,7 +208,7 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
         i = 0;
         result = index < Count ? List[index] : null;
 
-        while (result != null && i != subIndex)
+        while (result is not null && i != subIndex)
         {
             result = result.Next;
             i += 1;
@@ -226,18 +226,18 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
         ImageSequence previous;
         s = index < Count ? List[index] : null;
 
-        if (s != null)
+        if (s is not null)
         {
             previous = null;
-            while (s != null && s.Layer < sequence.Layer)
+            while (s is not null && s.Layer < sequence.Layer)
             {
                 previous = s;
                 s = s.Next;
             }
 
-            if (previous != null)
+            if (previous is not null)
             {
-                if (s != null && sequence.Layer == s.Layer)
+                if (s is not null && sequence.Layer == s.Layer)
                 {
                     throw new InvalidOperationException("Layer does already exist");
                 }
@@ -267,15 +267,15 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
         {
             previous = null;
             s = List[index];
-            while (s != null && s != sequence)
+            while (s is not null && s != sequence)
             {
                 previous = s;
                 s = s.Next;
             }
 
-            if (s != null && s == sequence)
+            if (s is not null && s == sequence)
             {
-                if (previous != null)
+                if (previous is not null)
                 {
                     previous.Next = s.Next;
                 }
@@ -299,7 +299,7 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
             for (int i = 0, last = Count - 1; i <= last; i++)
             {
                 sequence = List[i];
-                while (sequence != null)
+                while (sequence is not null)
                 {
                     sequence.LinkToImageLibrary();
                     sequence = sequence.Next;
@@ -318,7 +318,7 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
             for (int i = 0, last = Count - 1; i <= last; i++)
             {
                 sequence = List[i];
-                while (sequence != null)
+                while (sequence is not null)
                 {
                     sequence.ReleaseImageLibrary();
                     sequence = sequence.Next;
@@ -337,7 +337,7 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
         while (i != Count && !result)
         {
             sequence = List[i];
-            while (sequence != null && !result)
+            while (sequence is not null && !result)
             {
                 result = sequence.SequenceMode != SequenceMode.None;
                 sequence = sequence.Next;
@@ -356,10 +356,10 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
         ImageSequence sequence;
         LibraryImage result = null;
         i = 0;
-        while (i != Count && result == null)
+        while (i != Count && result is null)
         {
             sequence = List[i];
-            while (sequence != null && result == null)
+            while (sequence is not null && result is null)
             {
                 result = sequence.GetPreviewImage();
                 sequence = sequence.Next;
@@ -380,7 +380,7 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
         if (index < Count && index >= 0)
         {
             sequence = List[index];
-            while (sequence != null)
+            while (sequence is not null)
             {
                 sequence.GetDimensions(out Rect sr);
                 _ = UnionRect(out R, R, sr);
@@ -400,7 +400,7 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
         if (index < Count)
         {
             sequence = List[index];
-            while (sequence != null)
+            while (sequence is not null)
             {
                 i = sequence.GetUnloopedFrameIndex(frame);
                 if (i != -1)
@@ -428,7 +428,7 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
         if (index < Count)
         {
             sequence = List[index];
-            while (sequence != null)
+            while (sequence is not null)
             {
                 n = sequence.GetTotalSequenceFrames();
                 if (n > result)
@@ -451,7 +451,7 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
         if (index < Count)
         {
             sequence = List[index];
-            while (sequence != null)
+            while (sequence is not null)
             {
                 i = sequence.GetFrameIndex(frame, 0);
                 if (i != -1)
@@ -475,7 +475,7 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
         if (index < Count)
         {
             sequence = List[index];
-            while (sequence != null)
+            while (sequence is not null)
             {
                 i = sequence.GetFrameIndex(frame, offset);
                 if (i != -1)

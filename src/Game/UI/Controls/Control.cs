@@ -43,7 +43,7 @@ public partial class Control : UIComponent
             if (Visible)
             {
                 base.Update();
-                if (ToolTip != null)
+                if (ToolTip is not null)
                 {
                     if (ToolTipCount > 0)
                     {
@@ -55,7 +55,7 @@ public partial class Control : UIComponent
                             }
                             else
                             {
-                                if (!ToolTip.ToolTipStatic && ToolTip != null)
+                                if (!ToolTip.ToolTipStatic && ToolTip is not null)
                                 {
                                     ToolTip.SetVisible(false);
                                 }
@@ -92,7 +92,7 @@ public partial class Control : UIComponent
                     {
                         if (MouseIn)
                         {
-                            if (!ToolTip.ToolTipStatic && ToolTip != null)
+                            if (!ToolTip.ToolTipStatic && ToolTip is not null)
                             {
                                 ToolTip.SetVisible(false);
                             }
@@ -104,7 +104,7 @@ public partial class Control : UIComponent
 
                 if (OldRectangle.Width > 0 && OldRectangle.Height > 0 && (OldRectangle.Left != WinLeft || OldRectangle.Top != WinTop || OldRectangle.Width != WinWidth || OldRectangle.Height != WinHeight))
                 {
-                    r = OwnerComponent.OwnerComponent.OwnerComponent == null
+                    r = OwnerComponent.OwnerComponent.OwnerComponent is null
                         ? new Rect(OldRectangle.Left, OldRectangle.Top, OldRectangle.Left + OldRectangle.Width - 1, OldRectangle.Top + OldRectangle.Height - 1)
                         : new Rect(OwnerComponent.WindowRelativeLeft + OldRectangle.Left, OwnerComponent.WindowRelativeTop + OldRectangle.Top, OwnerComponent.WindowRelativeLeft + OldRectangle.Left + OldRectangle.Width - 1, OwnerComponent.WindowRelativeTop + OldRectangle.Top + OldRectangle.Height - 1);
 
@@ -115,7 +115,7 @@ public partial class Control : UIComponent
                 {
                     if (Masked && !Drawn)
                     {
-                        r = OwnerComponent.OwnerComponent.OwnerComponent == null
+                        r = OwnerComponent.OwnerComponent.OwnerComponent is null
                             ? new Rect(WinLeft, WinTop, WinLeft + WinWidth - 1, WinTop + WinHeight - 1)
                             : new Rect(OwnerComponent.WindowRelativeLeft + WinLeft, OwnerComponent.WindowRelativeTop + WinTop, OwnerComponent.WindowRelativeLeft + WinLeft + WinWidth - 1, OwnerComponent.WindowRelativeTop + WinTop + WinHeight - 1);
 
@@ -125,7 +125,7 @@ public partial class Control : UIComponent
 
                 if (!Drawn)
                 {
-                    r = OwnerComponent.OwnerComponent.OwnerComponent == null
+                    r = OwnerComponent.OwnerComponent.OwnerComponent is null
                         ? new Rect(WinLeft, WinTop, WinLeft + WinWidth - 1, WinTop + WinHeight - 1)
                         : new Rect(OwnerComponent.WindowRelativeLeft + WinLeft, OwnerComponent.WindowRelativeTop + WinTop, OwnerComponent.WindowRelativeLeft + WinLeft + WinWidth - 1, OwnerComponent.WindowRelativeTop + WinTop + WinHeight - 1);
 
@@ -139,7 +139,7 @@ public partial class Control : UIComponent
             {
                 if (Hidden)
                 {
-                    r = OwnerComponent.OwnerComponent.OwnerComponent == null
+                    r = OwnerComponent.OwnerComponent.OwnerComponent is null
                         ? new Rect(WinLeft, WinTop, WinLeft + WinWidth - 1, WinTop + WinHeight - 1)
                         : new Rect(OwnerComponent.WindowRelativeLeft + WinLeft, OwnerComponent.WindowRelativeTop + WinTop, OwnerComponent.WindowRelativeLeft + WinLeft + WinWidth - 1, OwnerComponent.WindowRelativeTop + WinTop + WinHeight - 1);
 
@@ -161,7 +161,7 @@ public partial class Control : UIComponent
     // AoWControl.pas:190
     public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        if (ToolTip != null)
+        if (ToolTip is not null)
         {
             ToolTip.SetVisible(false);
             _toolTipShown = ToolTip.ShowDuration;
@@ -179,7 +179,7 @@ public partial class Control : UIComponent
         }
         else
         {
-            if (ToolTip != null && ToolTip.ToolTipDelay > ToolTipCount)
+            if (ToolTip is not null && ToolTip.ToolTipDelay > ToolTipCount)
             {
                 ToolTipLeft = X - _window.WinLeft;
                 ToolTipCount = 1;

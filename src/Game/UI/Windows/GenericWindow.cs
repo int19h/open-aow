@@ -46,7 +46,7 @@ public partial class GenericWindow(Component owner) : BaseWindow(owner)
             base.DoubleBuffered = value;
             if (!base.DoubleBuffered)
             {
-                if (BackSurface != null)
+                if (BackSurface is not null)
                 {
                     BackSurface?.Dispose();
                     BackSurface = null;

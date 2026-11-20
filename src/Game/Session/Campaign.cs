@@ -168,7 +168,7 @@ public partial class Campaign : EngineObject
                 for (int j = 0, lastJ = GamePack.Current.SpellControl.GetCount() - 1; j <= lastJ; j++)
                 {
                     spell = GamePack.Current.SpellControl.GetSpell(j);
-                    bool condition = spell != null && spell.SpellLevel <= level;
+                    bool condition = spell is not null && spell.SpellLevel <= level;
                     if (condition)
                     {
                         byte spherePicks = StrategicMap.Current.Players.GetPlayers(i).Leader.GetSpherePicks(spell.MagicSphere);
@@ -245,10 +245,10 @@ public partial class Campaign : EngineObject
         StrategicMap.Current.SetupPlayerControl(PlayMode, PlayerConnectionType.Local);
         for (int r = 0, last = StrategicMap.Current.Races.Count - 1; r <= last; r++)
         {
-            if (StrategicMap.Current.Races.GetRace(r) != null)
+            if (StrategicMap.Current.Races.GetRace(r) is not null)
             {
                 race = StrategicMap.Current.Races.GetRace(r);
-                if (race != null)
+                if (race is not null)
                 {
                     for (int i = 0; i <= 11; i++)
                     {

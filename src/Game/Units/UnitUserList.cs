@@ -184,7 +184,7 @@ public partial class UnitUserList(CustomNode owner) : ObservableNode(owner), ICh
             PlaceChild(index, child: null);
         }
 
-        if (GetChild(index) != null)
+        if (GetChild(index) is not null)
         {
             _ = this[index].Release();
         }

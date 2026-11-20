@@ -123,9 +123,9 @@ public partial class CombatMapEvents(UIContext ui) : UIModule(ui)
         Troop u;
         if (UI.CombatUnitInfo.MainWindow.Visible)
         {
-            UI.CombatUnitInfo.TargetSelectPanel.Visible = hexSprite != null;
-            UI.CombatUnitInfo.NoTargetPanel.Visible = hexSprite == null;
-            if (hexSprite != null)
+            UI.CombatUnitInfo.TargetSelectPanel.Visible = hexSprite is not null;
+            UI.CombatUnitInfo.NoTargetPanel.Visible = hexSprite is null;
+            if (hexSprite is not null)
             {
                 if (hexSprite is TacticalBattleUnitHexSprite unitHexSprite)
                 {
@@ -195,7 +195,7 @@ public partial class CombatMapEvents(UIContext ui) : UIModule(ui)
     // aowTCMapEvents.pas:225
     public void CombatMapUnitChanged(TacticalBattleUnitHexSprite hexSprite)
     {
-        if (hexSprite == UI.General.CombatUnit && hexSprite != null)
+        if (hexSprite == UI.General.CombatUnit && hexSprite is not null)
         {
             RefreshCombatUnit(UI.CombatUnitInfo);
         }
@@ -246,7 +246,7 @@ public partial class CombatMapEvents(UIContext ui) : UIModule(ui)
     {
         AbilityCombatInfo abilityCombatInfo = default;
         SpellCombatInfo info = default;
-        if (window.UI.General.CombatUnit != null)
+        if (window.UI.General.CombatUnit is not null)
         {
             Troop fTroop = window.UI.General.CombatUnit.Unit.Troop;
             Hero hero = fTroop is Hero faceTroop ? faceTroop : null;
@@ -255,7 +255,7 @@ public partial class CombatMapEvents(UIContext ui) : UIModule(ui)
                 window.UnitManaGauge.Visible = false;
                 window.UI.TaskBar.CombatUnitButton.Visible = true;
             }
-            if (hero != null)
+            if (hero is not null)
             {
                 if (hero.GetCastingPointsMax() > 0)
                 {
@@ -276,7 +276,7 @@ public partial class CombatMapEvents(UIContext ui) : UIModule(ui)
                 unitFrame2.WinHeight = 61;
             }
             window.UnitFramePanel.Aligned = false;
-            if (fTroop != null)
+            if (fTroop is not null)
             {
                 if (window.UI.General.CombatUnit.SelectedAbility == -1)
                 {
@@ -448,5 +448,5 @@ public partial class CombatMapEvents(UIContext ui) : UIModule(ui)
         window.UI.CombatUnitInfo.MainWindow.Visible = true;
     }
 
-    private static bool StopSong() => AudioHost.SoundSystem != null && AudioHost.SoundSystem.StopSong();
+    private static bool StopSong() => AudioHost.SoundSystem is not null && AudioHost.SoundSystem.StopSong();
 }

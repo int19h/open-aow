@@ -33,7 +33,7 @@ public partial class PestilenceStorm(CustomNode owner) : Storm(owner)
         x = x - pixelXSurface + 8;
         y -= pixelYSurface;
         sequence = _cloudResource.ImageSequenceList.ImageSequences[0];
-        while (sequence != null)
+        while (sequence is not null)
         {
             frame = sequence.GetUnloopedFrameIndex(FrameCounter);
             if (frame != -1 && sequence.ImageLibrary.ImageExist(frame))
@@ -92,7 +92,7 @@ public partial class PestilenceStorm(CustomNode owner) : Storm(owner)
         NewFrame();
         sequence = _cloudResource.ImageSequenceList.ImageSequences[0];
         frame = -1;
-        while (sequence != null && frame == -1)
+        while (sequence is not null && frame == -1)
         {
             frame = sequence.GetUnloopedFrameIndex(FrameCounter);
             sequence = sequence.Next;

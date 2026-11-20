@@ -35,7 +35,7 @@ public partial class ItemGFXList : ResourceCollection, IChildList<ItemGraphics>
         i = 0;
         while (result == -1 && i != Count)
         {
-            if (GetChild(i) != null && this[i].ItemType == itemType)
+            if (GetChild(i) is not null && this[i].ItemType == itemType)
             {
                 result = i;
             }

@@ -58,11 +58,11 @@ public partial class LevelTerrain : GlobalTargetSpell
     public override bool ValidTargetSelectionMapField(MapField field)
     {
         ArmyHexSprite army;
-        bool result = base.ValidTargetSelectionMapField(field) && !Set<byte>.WithBounds(0, 255).With(0).With(6).With(8).With(10).With(13).Contains((byte)field.TerrainType) && field.FindNoneTransparentHexSprite(typeof(Structure)) == null;
+        bool result = base.ValidTargetSelectionMapField(field) && !Set<byte>.WithBounds(0, 255).With(0).With(6).With(8).With(10).With(13).Contains((byte)field.TerrainType) && field.FindNoneTransparentHexSprite(typeof(Structure)) is null;
         if (result)
         {
             army = field.GetArmyHexSprite();
-            if (army != null)
+            if (army is not null)
             {
                 result = !army.VisibleForSeatedPlayer();
             }
@@ -72,7 +72,7 @@ public partial class LevelTerrain : GlobalTargetSpell
     }
 
     // GlobalTargetSpells.pas:988
-    public override bool ValidTargetMapField(MapField field) => base.ValidTargetMapField(field) && !Set<byte>.WithBounds(0, 255).With(0).With(6).With(8).With(10).With(13).Contains((byte)field.TerrainType) && field.FindNoneTransparentHexSprite(typeof(Structure)) == null && field.GetArmyHexSprite() == null;
+    public override bool ValidTargetMapField(MapField field) => base.ValidTargetMapField(field) && !Set<byte>.WithBounds(0, 255).With(0).With(6).With(8).With(10).With(13).Contains((byte)field.TerrainType) && field.FindNoneTransparentHexSprite(typeof(Structure)) is null && field.GetArmyHexSprite() is null;
 
     private static readonly string s_levelTerrainText = "Level Terrain";
 }

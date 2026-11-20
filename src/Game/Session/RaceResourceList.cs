@@ -30,7 +30,7 @@ public partial class RaceResourceList : ResourceCollection, IChildList<RaceResou
     public int GetMaxRaceIndex()
     {
         int result = Count - 1;
-        while (result > 0 && GetChild(result) == null)
+        while (result > 0 && GetChild(result) is null)
         {
             result -= 1;
         }

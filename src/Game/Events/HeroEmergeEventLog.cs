@@ -45,7 +45,7 @@ public partial class HeroEmergeEventLog(CustomNode owner) : EventLog(owner)
         HeroJoinEventLog log;
         Hero hero = default;
         log = CreateHeroJoinEventLog();
-        if (log != null)
+        if (log is not null)
         {
             result = log.Execute(mode, trigger, done);
             _ = log.Release();
@@ -53,7 +53,7 @@ public partial class HeroEmergeEventLog(CustomNode owner) : EventLog(owner)
         else
         {
             hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(UnitId);
-            if (hero != null)
+            if (hero is not null)
             {
                 if (hero.Player == Player)
                 {
@@ -78,7 +78,7 @@ public partial class HeroEmergeEventLog(CustomNode owner) : EventLog(owner)
     {
         Troop u;
         u = StrategicMap.Current.UnitControl.FindUnit(UnitId);
-        if (u != null)
+        if (u is not null)
         {
             MapCoordinate coordinate17 = u.GetLocation();
             sbyte x = coordinate17.X;
@@ -115,7 +115,7 @@ public partial class HeroEmergeEventLog(CustomNode owner) : EventLog(owner)
         HeroJoinEventLog result;
         Hero hero;
         hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(UnitId);
-        if (hero != null && hero.Player == 0 && hero.OfferToJoin(Player) && hero.ArmyOwner is { } army)
+        if (hero is not null && hero.Player == 0 && hero.OfferToJoin(Player) && hero.ArmyOwner is { } army)
         {
             result = new HeroJoinEventLog(null)
             {
@@ -154,7 +154,7 @@ public partial class HeroEmergeEventLog(CustomNode owner) : EventLog(owner)
         bool result;
         HeroJoinEventLog log;
         log = CreateHeroJoinEventLog();
-        if (log != null)
+        if (log is not null)
         {
             result = log.ExecuteAI();
             _ = log.Release();

@@ -46,9 +46,9 @@ public partial class CallHero : Spell
         sbyte y = coordinate55.Y;
         sbyte layer = coordinate55.MapLevel;
         hero = FindCallHero(source);
-        if (hero != null)
+        if (hero is not null)
         {
-            if (hero.Owner == null)
+            if (hero.Owner is null)
             {
                 hero.SetHitPoints(hero.GetHits());
             }
@@ -67,7 +67,7 @@ public partial class CallHero : Spell
             showTarget = condition;
             if (showSource)
             {
-                if (GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(0) != null)
+                if (GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(0) is not null)
                 {
                     animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                     animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(0));
@@ -77,7 +77,7 @@ public partial class CallHero : Spell
 
             if (showTarget)
             {
-                if (GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(0) != null)
+                if (GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(0) is not null)
                 {
                     animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                     animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(0));
@@ -176,7 +176,7 @@ public partial class CallHero : Spell
             for (int i = StrategicMap.Current.HeroControl.GetCount() - 1; i >= 0; i--)
             {
                 hero = StrategicMap.Current.HeroControl.GetHero(i);
-                if (!hero.UnitStatus.Contains(UnitStatusElement.Killed) && hero.Player <= 0 && hero.Owner == null)
+                if (!hero.UnitStatus.Contains(UnitStatusElement.Killed) && hero.Player <= 0 && hero.Owner is null)
                 {
                     _ = hero.OfferToJoin(source.Player) ? heroes.AddAbility(hero, 10) : heroes.AddAbility(hero, 1);
                 }

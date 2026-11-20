@@ -15,19 +15,19 @@ public partial class Window
     // one vertical scroll bar. Containing the pointer does not by itself consume the wheel.
     public override bool CheckMouseWheel(int steps, Set<ShiftState> shift, int X, int Y)
     {
-        if (steps == 0 || WindowManager == null || !Visible || !ContainsPoint(X, Y))
+        if (steps == 0 || WindowManager is null || !Visible || !ContainsPoint(X, Y))
         {
             return false;
         }
 
         UIComponent child = TopWheelChild(X, Y);
-        return (child != null && child.CheckMouseWheel(steps, shift, X, Y)) || TurnPages(steps) || ScrollOwnedBar(steps);
+        return (child is not null && child.CheckMouseWheel(steps, shift, X, Y)) || TurnPages(steps) || ScrollOwnedBar(steps);
     }
 
     private bool TurnPages(int steps)
     {
         Button button = steps > 0 ? PageBack : PageForward;
-        if (button == null)
+        if (button is null)
         {
             return false;
         }

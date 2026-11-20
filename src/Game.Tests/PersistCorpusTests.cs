@@ -249,7 +249,7 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
         {
             ProveLevel(objectValue, classValue, engine, file, schema);
         }
-        else if (classValue.Name != "MapField" && s_engineTypes.TryGetValue(classValue.Name, out Type type) && EngineObject.TreePersistenceRefusal(type) == null)
+        else if (classValue.Name != "MapField" && s_engineTypes.TryGetValue(classValue.Name, out Type type) && EngineObject.TreePersistenceRefusal(type) is null)
         {
             _ = counts.TryGetValue(classValue.Name, out int seen);
             counts[classValue.Name] = seen + 1;

@@ -36,7 +36,7 @@ public partial class ScorcherAIGroupControl(CustomNode owner) : BehaviorAIGroupC
                 Targets.Clear();
                 finder = new AIGroupTargetFinder(null) { Holder = CreationHolder() };
                 _ = finder.Setup(this);
-                if (Group.Transporter == null)
+                if (Group.Transporter is null)
                 {
                     Troop availableTransporter = FindAvailableTransporter();
                     finder.Selector.SetTransporter(availableTransporter);
@@ -142,7 +142,7 @@ public partial class ScorcherAIGroupControl(CustomNode owner) : BehaviorAIGroupC
                 State += 1;
                 break;
             case 11:
-                if (Group.Transporter != null)
+                if (Group.Transporter is not null)
                 {
                     _ = Group.DeleteUnit(Group.Transporter);
                 }

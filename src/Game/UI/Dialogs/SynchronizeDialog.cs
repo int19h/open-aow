@@ -38,7 +38,7 @@ public partial class SynchronizeDialog(UIContext ui) : UIModule(ui)
         PlayerSetupSettings settings;
         Rect r;
         settings = GetPlayerSetup();
-        if (settings != null)
+        if (settings is not null)
         {
             r = new Rect(Window.WinLeft + 188, Window.WinTop + 40, Window.WinLeft + 188 + 103, Window.WinTop + 40 + 128);
             settings.Leader.ShowFace(r, surface);
@@ -52,7 +52,7 @@ public partial class SynchronizeDialog(UIContext ui) : UIModule(ui)
         int i;
         int day2;
         settings = GetPlayerSetup();
-        if (settings != null)
+        if (settings is not null)
         {
             if (!UI.SetupEvents.SetupControl.Settings.CustomizeLeaders)
             {

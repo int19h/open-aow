@@ -54,7 +54,7 @@ public partial class GroupControlLoopAIPlayerAction(CustomNode owner) : AIPlayer
             done = false;
             while (!done && !busy && StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 0)
             {
-                if (_groupControl == null)
+                if (_groupControl is null)
                 {
                     Control.Player.AIGroups.SortOnProcessPriority();
                     i = 0;
@@ -74,7 +74,7 @@ public partial class GroupControlLoopAIPlayerAction(CustomNode owner) : AIPlayer
                 }
 
                 control = _groupControl;
-                if (control != null)
+                if (control is not null)
                 {
                     busy = control.Process(true);
                     if (!busy)
@@ -111,7 +111,7 @@ public partial class GroupControlLoopAIPlayerAction(CustomNode owner) : AIPlayer
     {
         AIGroupControl control;
         control = _groupControl;
-        if (control != null)
+        if (control is not null)
         {
             control.Deactivate();
             _groupControl?.Dispose();

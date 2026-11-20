@@ -95,21 +95,21 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
     // MAPOBJ.PAS:45
     public override sbyte GetHexX()
     {
-        Assert(Owner != null, "Owner not set", "MAPOBJ.PAS", 47);
+        Assert(Owner is not null, "Owner not set", "MAPOBJ.PAS", 47);
         return Owner.HexX;
     }
 
     // MAPOBJ.PAS:51
     public override sbyte GetHexY()
     {
-        Assert(Owner != null, "Owner not set", "MAPOBJ.PAS", 53);
+        Assert(Owner is not null, "Owner not set", "MAPOBJ.PAS", 53);
         return Owner.HexY;
     }
 
     // MAPOBJ.PAS:57
     public override sbyte GetHexLevel()
     {
-        Assert(Owner != null, "Owner not set", "MAPOBJ.PAS", 59);
+        Assert(Owner is not null, "Owner not set", "MAPOBJ.PAS", 59);
         return Owner.HexLevel;
     }
 
@@ -141,7 +141,7 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
-        if (_resource.ImageSequenceList == null)
+        if (_resource.ImageSequenceList is null)
         {
             _resource.ImageLibrary.Get(0).Show(pixelX - pixelXSurface - 8, pixelY - pixelYSurface, lockedSurface);
         }
@@ -181,7 +181,7 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
         MapField mapField;
         if (Status.Contains(MapObjectStatusElement.PlacedOnMap))
         {
-            if (Owner != null)
+            if (Owner is not null)
             {
                 mapField = Owner;
                 Disconnect();
@@ -358,7 +358,7 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
         {
             mapField = mapContainer.GetField(hexX, hexY, hexLevel);
             hexSprite = mapField.GetMaxLevelNoneTransparentHexSprite();
-            bool condition = hexSprite == null || hexSprite.GetLevel() < 10;
+            bool condition = hexSprite is null || hexSprite.GetLevel() < 10;
             if (condition)
             {
                 condition = mapField.CanChangeTerrain(overlay: GetOverlay(0), sender: this, terrain: GetTerrain(0));

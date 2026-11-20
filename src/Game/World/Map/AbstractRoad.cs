@@ -31,7 +31,7 @@ public partial class AbstractRoad(CustomNode owner) : MapObject(owner)
         {
             int classId = Resource.EngineClass.ClassId;
             r = Resource.GetTerrainControl().GetRandomResource(message.TerrainType, classId);
-            if (r != null)
+            if (r is not null)
             {
                 SetResource(r);
                 UpdateTransitions();
@@ -45,7 +45,7 @@ public partial class AbstractRoad(CustomNode owner) : MapObject(owner)
                 sbyte hexLevel = GetHexLevel();
                 sbyte hexY = GetHexY();
                 sbyte hexX = GetHexX();
-                if (Resource.GetTerrainControl().Place(Owner.Owner.Owner, hexX, hexY, hexLevel, message.TerrainType) == null)
+                if (Resource.GetTerrainControl().Place(Owner.Owner.Owner, hexX, hexY, hexLevel, message.TerrainType) is null)
                 {
                     Dispose();
                 }
@@ -75,7 +75,7 @@ public partial class AbstractRoad(CustomNode owner) : MapObject(owner)
         if (condition)
         {
             hexSprite = mapContainer.GetField(hexX, hexY, hexLevel).GetMaxLevelNoneTransparentHexSprite();
-            result = hexSprite == null || hexSprite.GetLevel() < 10 || hexSprite is AbstractRoad;
+            result = hexSprite is null || hexSprite.GetLevel() < 10 || hexSprite is AbstractRoad;
         }
         else
         {

@@ -110,7 +110,7 @@ public partial class UnitGraphicsResource : EngineResource
     public override int Release()
     {
         _refCount -= 1;
-        if (_refCount == 0 && !GamePack.Current.Status.Contains(HexSpriteSetStatusElement.Editting) && (StrategicMap.Current == null || !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting)))
+        if (_refCount == 0 && !GamePack.Current.Status.Contains(HexSpriteSetStatusElement.Editting) && (StrategicMap.Current is null || !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting)))
         {
             ReleaseImageLibrary();
         }
@@ -155,7 +155,7 @@ public partial class UnitGraphicsResource : EngineResource
     public void ReleaseImageLibrary()
     {
         Sequences.ReleaseImageLibrary();
-        if (_faceImageLibrary != null)
+        if (_faceImageLibrary is not null)
         {
             if (!IsEmpty(_faceImageLibraryName))
             {
@@ -200,7 +200,7 @@ public partial class UnitGraphicsResource : EngineResource
         int index;
         _ = AddRef();
         sequence = Sequences.List[direction - 1];
-        while (sequence != null)
+        while (sequence is not null)
         {
             index = sequence.GetFrameIndex(1, 0);
             if (index != -1)

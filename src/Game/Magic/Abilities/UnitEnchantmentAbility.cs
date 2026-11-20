@@ -31,7 +31,7 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
     public override string GetName(AbilityOwner owner)
     {
         string result;
-        if (owner != null)
+        if (owner is not null)
         {
             switch (GetDurationMode())
             {
@@ -77,14 +77,14 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
         string result;
         UnitEnchantmentAbilityData data;
         Troop source;
-        if (StrategicMap.Current != null)
+        if (StrategicMap.Current is not null)
         {
             data = owner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
             source = StrategicMap.Current.UnitControl.FindUnit(data.Enchantment.UnitId);
             // { Original also reports player zero as unknown. }
             result = data.Enchantment.Source <= 0
                 ? AbilityRules.TranslateResourceString(GetEngine(), GameTables.UnknownText)
-                : source != null && source.Player == data.Enchantment.Source
+                : source is not null && source.Player == data.Enchantment.Source
                     ? AbilityRules.TranslateResourceString(GetEngine(), s_manaText)
                     : StrategicMap.Current.Players.GetPlayers(data.Enchantment.Source).Leader.HeroName;
         }
@@ -103,7 +103,7 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
         if (GetDurationMode() == DurationMode.Day)
         {
             data = owner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
-            if (data != null)
+            if (data is not null)
             {
                 if (data.EnchantmentDuration > 0 && player == data.EnchantmentPlayerIndex)
                 {
@@ -135,7 +135,7 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
 
         bool result = false;
         data = owner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
-        if (data == null)
+        if (data is null)
         {
             if (troop.UnitId <= 0)
             {
@@ -171,9 +171,9 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
         UnitEnchantmentAbilityData data;
         bool result = true;
         data = owner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
-        if (data != null)
+        if (data is not null)
         {
-            if (StrategicMap.Current != null && data.Enchantment.Source > -1)
+            if (StrategicMap.Current is not null && data.Enchantment.Source > -1)
             {
                 _ = StrategicMap.Current.Players.GetPlayers(data.Enchantment.Source).MagicControl.UnregisterEnchantment(data.Enchantment);
             }
@@ -197,7 +197,7 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
         if (GetDurationMode() == DurationMode.CombatTurn)
         {
             data = combatObject.GetAbilityOwner().GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
-            if (data != null)
+            if (data is not null)
             {
                 if (data.EnchantmentDuration > 0 && player == data.EnchantmentPlayerIndex)
                 {
@@ -240,7 +240,7 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
         byte result;
         UnitEnchantmentAbilityData data;
         data = owner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
-        result = data != null ? (byte)data.EnchantmentDuration : (byte)0;
+        result = data is not null ? (byte)data.EnchantmentDuration : (byte)0;
 
         return result;
     }

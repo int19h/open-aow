@@ -73,7 +73,7 @@ public partial class GameEngine : OwningNode
             return;
         }
 
-        if (_hexSpriteMap != null)
+        if (_hexSpriteMap is not null)
         {
             _hexSpriteMap?.Dispose();
             SetHexSpriteMap(null);
@@ -172,7 +172,7 @@ public partial class GameEngine : OwningNode
     // stored class of the map.
     public virtual void SaveHsm(string fileName, ProgressEvent progress, GameProfile profile)
     {
-        if (_hexSpriteMap != null)
+        if (_hexSpriteMap is not null)
         {
             Status += Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.SavingHsm);
             try
@@ -273,7 +273,7 @@ public partial class GameEngine : OwningNode
     public void SaveHss(string fileName, ProgressEvent progress, GameProfile profile)
     {
         HssHeader header = default;
-        if (HexSpriteSet != null)
+        if (HexSpriteSet is not null)
         {
             header.Name = HexSpriteSet.Name;
             HssFileName = ExpandFileName(fileName);
@@ -298,7 +298,7 @@ public partial class GameEngine : OwningNode
             return;
         }
 
-        if (_hexSpriteMap != null)
+        if (_hexSpriteMap is not null)
         {
             _hexSpriteMap?.Dispose();
             SetHexSpriteMap(null);
@@ -385,7 +385,7 @@ public partial class GameEngine : OwningNode
     public void LoadHsmFromStream(Stream stream, bool edit, ProgressEvent progress)
     {
         CompressStream cStream;
-        if (_hexSpriteMap != null)
+        if (_hexSpriteMap is not null)
         {
             _hexSpriteMap?.Dispose();
             SetHexSpriteMap(null);
@@ -440,7 +440,7 @@ public partial class GameEngine : OwningNode
     // the map and keeps the port-only members.
     public void SaveHsmToStream(Stream stream, ProgressEvent progress)
     {
-        if (_hexSpriteMap == null)
+        if (_hexSpriteMap is null)
         {
             return;
         }
@@ -496,7 +496,7 @@ public partial class GameEngine : OwningNode
     {
         EngineMessage message = default;
         fileName = FileBoundary.ReadName(fileName);
-        if (HexSpriteSet == null || CompareText(fileName, HssFileName) != 0)
+        if (HexSpriteSet is null || CompareText(fileName, HssFileName) != 0)
         {
             LoadHss(fileName, false, progress, GameProfile.ScenarioSet);
         }
@@ -510,7 +510,7 @@ public partial class GameEngine : OwningNode
     // HSEngine.pas:5354
     public GameMap NewHsm(int classId)
     {
-        if (_hexSpriteMap != null)
+        if (_hexSpriteMap is not null)
         {
             _hexSpriteMap?.Dispose();
             SetHexSpriteMap(null);

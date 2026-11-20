@@ -77,7 +77,7 @@ public partial class AIMoveExecutor : EngineObject
             Moves.Clear();
         }
 
-        if (Transporter != null)
+        if (Transporter is not null)
         {
             Transporter?.Dispose();
             Transporter = null;
@@ -91,7 +91,7 @@ public partial class AIMoveExecutor : EngineObject
     public void ActivateMoveExecutorControl(Func<AIMoveExecutorControl> createControl)
     {
         DeactivateMoveExecutorControl();
-        if (createControl != null)
+        if (createControl is not null)
         {
             Control = createControl();
             Control.Activate(this);
@@ -101,7 +101,7 @@ public partial class AIMoveExecutor : EngineObject
     // AIGroup.pas:6007
     public void DeactivateMoveExecutorControl()
     {
-        if (Control != null)
+        if (Control is not null)
         {
             Control.Deactivate();
             Control.Dispose();
@@ -168,7 +168,7 @@ public partial class AIMoveExecutor : EngineObject
     public void AddTransporter(Troop troop)
     {
         int index;
-        if (Transporter != null)
+        if (Transporter is not null)
         {
             throw new InvalidOperationException("Transporter already exists! (TAIMoveExecuter)");
         }
@@ -213,7 +213,7 @@ public partial class AIMoveExecutor : EngineObject
     {
         bool valid;
         valid = true;
-        if (Transporter != null)
+        if (Transporter is not null)
         {
             valid = valid && Transporter.Validate();
         }
@@ -407,9 +407,9 @@ public partial class AIMoveExecutor : EngineObject
     {
         int timeLeft = default;
         timeLeft = 5;
-        while (timeLeft > 0 && (Control != null || ControlQueue.Count != 0) && Status == AIMoveExecutorStatus.Busy && State == 0)
+        while (timeLeft > 0 && (Control is not null || ControlQueue.Count != 0) && Status == AIMoveExecutorStatus.Busy && State == 0)
         {
-            if (Control != null)
+            if (Control is not null)
             {
                 if (!Control.Process())
                 {
@@ -419,7 +419,7 @@ public partial class AIMoveExecutor : EngineObject
                 timeLeft = StrategicMap.Current.AIExecutor.GetProcessTimeLeft();
             }
 
-            if (Control == null && ControlQueue.Count != 0 && Status == AIMoveExecutorStatus.Busy)
+            if (Control is null && ControlQueue.Count != 0 && Status == AIMoveExecutorStatus.Busy)
             {
                 switch (ControlQueue[^1])
                 {
@@ -440,7 +440,7 @@ public partial class AIMoveExecutor : EngineObject
             }
         }
 
-        if (Control == null && Status == AIMoveExecutorStatus.Busy && State == 0)
+        if (Control is null && Status == AIMoveExecutorStatus.Busy && State == 0)
         {
             Status = AIMoveExecutorStatus.Done;
         }
@@ -588,7 +588,7 @@ public partial class AIMoveExecutor : EngineObject
                         ? ControlQueue.Add(2)
                         : ControlQueue.Add(0);
 
-                    if (Transporter != null)
+                    if (Transporter is not null)
                     {
                         SetupTransporter();
                     }

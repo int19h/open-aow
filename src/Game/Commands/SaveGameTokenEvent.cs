@@ -46,7 +46,7 @@ public partial class SaveGameTokenEvent(CustomNode owner) : TokenEvent(owner)
                 try
                 {
                     StrategicMap.Current.DisableTurnTimer();
-                    if (GetEngine().Campaign != null)
+                    if (GetEngine().Campaign is not null)
                     {
                         GetEngine().SaveCampaign(FileName);
                         GetEngine().Campaign.FileName = FileName;

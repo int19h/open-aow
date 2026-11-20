@@ -38,10 +38,10 @@ public partial class TurnUndeadAbility : TouchAbility
     {
         int result;
         MultiLevelAbilityData data;
-        if (owner != null)
+        if (owner is not null)
         {
             data = GetData(owner);
-            if (data != null)
+            if (data is not null)
             {
                 result = data.Level;
             }
@@ -78,7 +78,7 @@ public partial class TurnUndeadAbility : TouchAbility
         if (target.GetEnabled())
         {
             strike = CombatObject.CreateStrikeCombatAction(target, source, true);
-            if (strike != null)
+            if (strike is not null)
             {
                 source.Combat.ExecuteCombatAction(strike);
                 _ = strike.Release();
@@ -110,7 +110,7 @@ public partial class TurnUndeadAbility : TouchAbility
         MultiLevelAbilityData data;
         bool result = false;
         data = GetData(owner);
-        if (data == null)
+        if (data is null)
         {
             data = new MultiLevelAbilityData(null)
             {
@@ -140,7 +140,7 @@ public partial class TurnUndeadAbility : TouchAbility
         MultiLevelAbilityData data;
         bool result = true;
         data = GetData(owner);
-        if (data != null)
+        if (data is not null)
         {
             if (data.Level == 1)
             {
@@ -307,27 +307,15 @@ public partial class TurnUndeadAbility : TouchAbility
     // AoWAb.PAS:3181
     public string GetLevelName(int level)
     {
-        string result = "";
-        switch (level)
+        string result = level switch
         {
-            case 0:
-                result = AbilityRules.TranslateResourceString(GetEngine(), GameText.TurnUndeadText);
-                break;
-            case 1:
-                result = $"{AbilityRules.TranslateResourceString(GetEngine(), GameText.TurnUndeadText)} I";
-                break;
-            case 2:
-                result = $"{AbilityRules.TranslateResourceString(GetEngine(), GameText.TurnUndeadText)} II";
-                break;
-            case 3:
-                result = $"{AbilityRules.TranslateResourceString(GetEngine(), GameText.TurnUndeadText)} III";
-                break;
-            case 4:
-                result = $"{AbilityRules.TranslateResourceString(GetEngine(), GameText.TurnUndeadText)} IV";
-                break;
-            default:
-                break;
-        }
+            0 => AbilityRules.TranslateResourceString(GetEngine(), GameText.TurnUndeadText),
+            1 => $"{AbilityRules.TranslateResourceString(GetEngine(), GameText.TurnUndeadText)} I",
+            2 => $"{AbilityRules.TranslateResourceString(GetEngine(), GameText.TurnUndeadText)} II",
+            3 => $"{AbilityRules.TranslateResourceString(GetEngine(), GameText.TurnUndeadText)} III",
+            4 => $"{AbilityRules.TranslateResourceString(GetEngine(), GameText.TurnUndeadText)} IV",
+            _ => "",
+        };
 
         return result;
     }

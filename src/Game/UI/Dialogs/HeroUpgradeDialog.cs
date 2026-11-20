@@ -81,7 +81,7 @@ public partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
     public bool ValidateHero()
     {
         _hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(_referencedHero.UnitId);
-        bool result = _hero != null;
+        bool result = _hero is not null;
         if (!result)
         {
             Window.Visible = false;
@@ -186,7 +186,7 @@ public partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
         for (int i = 1, last = GamePack.Current.AbilityControl.GetCount() - 1; i <= last; i++)
         {
             ability = GamePack.Current.AbilityControl.GetAbility(i);
-            if (ability != null && ability.CanExpand(_editedHero) && ability.SelectionTypes.Contains(AbilitySelectionType.HeroUpgrade))
+            if (ability is not null && ability.CanExpand(_editedHero) && ability.SelectionTypes.Contains(AbilitySelectionType.HeroUpgrade))
             {
                 string expandName = ability.ExpandName(_editedHero);
                 _ = AvailableAbilitiesList.Items.AddObject(expandName, IntToObject(i));
@@ -531,7 +531,7 @@ public partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
         {
             object objectValue = AvailableAbilitiesList.Items.Objects[AvailableAbilitiesList.Selected];
             ability = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
-            if (ability != null)
+            if (ability is not null)
             {
                 InfoBanner.SetInfoBanner(caption: ability.GetName(null), banner: UI.InfoBanner, description: ability.Description);
             }
@@ -546,7 +546,7 @@ public partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
         {
             object objectValue = SelectedAbilitiesList.Items.Objects[SelectedAbilitiesList.Selected];
             ability = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
-            if (ability != null)
+            if (ability is not null)
             {
                 InfoBanner.SetInfoBanner(caption: ability.GetName(null), banner: UI.InfoBanner, description: ability.Description);
             }

@@ -17,15 +17,15 @@ public sealed partial record Upgrade : ProductionOrder
     public override CityAction CityAction => CityAction.Upgrade;
 
     public override string Name(ProductionControl control) =>
-        control.ProductionCity() != null ? AbilityRules.TranslateResourceString(control.GetEngine(), GameText.UpgradeText) : base.Name(control);
+        control.ProductionCity() is not null ? AbilityRules.TranslateResourceString(control.GetEngine(), GameText.UpgradeText) : base.Name(control);
 
     public override string NameProgressive(ProductionControl control) =>
-        control.ProductionCity() != null ? AbilityRules.TranslateResourceString(control.GetEngine(), s_upgradingText) : base.NameProgressive(control);
+        control.ProductionCity() is not null ? AbilityRules.TranslateResourceString(control.GetEngine(), s_upgradingText) : base.NameProgressive(control);
 
     public override bool CanExecute(ProductionControl control, ref string reason)
     {
         City city = control.ProductionCity();
-        if (city == null)
+        if (city is null)
         {
             return base.CanExecute(control, ref reason);
         }
@@ -42,7 +42,7 @@ public sealed partial record Upgrade : ProductionOrder
     public override void Executed(ProductionControl control)
     {
         City city = control.ProductionCity();
-        if (city == null)
+        if (city is null)
         {
             return;
         }
@@ -59,7 +59,7 @@ public sealed partial record Upgrade : ProductionOrder
     public override void Completed(ProductionControl control)
     {
         City city = control.ProductionCity();
-        if (city == null)
+        if (city is null)
         {
             return;
         }
@@ -72,7 +72,7 @@ public sealed partial record Upgrade : ProductionOrder
         control.EndUpdate();
     }
 
-    public override bool Loopable(ProductionControl control) => control.ProductionCity() == null;
+    public override bool Loopable(ProductionControl control) => control.ProductionCity() is null;
 
     public override int ActivityImage(City city) => 43;
 

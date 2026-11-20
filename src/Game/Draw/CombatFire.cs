@@ -130,7 +130,7 @@ public partial class CombatFire(CustomNode owner) : SingleHexSprite(owner)
         pixelXSurface = pixelX - pixelXSurface;
         pixelYSurface = pixelY - pixelYSurface;
         sequence = GamePack.Current.ImageSequences.GetImageSequence(60);
-        if (sequence != null)
+        if (sequence is not null)
         {
             do
             {
@@ -142,7 +142,7 @@ public partial class CombatFire(CustomNode owner) : SingleHexSprite(owner)
 
                 sequence = sequence.Next;
             }
-            while (!(sequence == null));
+            while (sequence is not null);
         }
     }
 }

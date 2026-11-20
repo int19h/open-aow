@@ -639,7 +639,7 @@ public partial class PlayerStructure(CustomNode owner) : Structure(owner)
             if (Resource.TerrainList.Terrain[walk.HexNumber] >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
                 army = level.GetField(walk.X, walk.Y).GetArmyHexSprite();
-                if (army != null)
+                if (army is not null)
                 {
                     if (player != -1)
                     {
@@ -699,7 +699,7 @@ public partial class PlayerStructure(CustomNode owner) : Structure(owner)
         {
             if (_victoryLocations[i])
             {
-                if (StrategicMap.Current.Players.GetPlayers(i) != null)
+                if (StrategicMap.Current.Players.GetPlayers(i) is not null)
                 {
                     StrategicMap.Current.Players.GetPlayers(i).RegisterVictoryLocation(this);
                 }
@@ -716,7 +716,7 @@ public partial class PlayerStructure(CustomNode owner) : Structure(owner)
     {
         for (int i = 1, last = _victoryLocations.Count - 1; i <= last; i++)
         {
-            if (_victoryLocations[i] && StrategicMap.Current.Players.GetPlayers(i) != null)
+            if (_victoryLocations[i] && StrategicMap.Current.Players.GetPlayers(i) is not null)
             {
                 StrategicMap.Current.Players.GetPlayers(i).UnregisterVictoryLocation(this);
             }

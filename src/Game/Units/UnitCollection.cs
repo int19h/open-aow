@@ -150,7 +150,7 @@ public readonly struct UnitCollection : IReadOnlyList<Troop>
         {
             result -= 1;
             group = this[result].Group;
-            if (group != null && group.GroupClass.Behavior == behavior)
+            if (group is not null && group.GroupClass.Behavior == behavior)
             {
                 return result;
             }
@@ -184,7 +184,7 @@ public readonly struct UnitCollection : IReadOnlyList<Troop>
         {
             result -= 1;
             group = this[result].Group;
-            if (group != null && group.GroupId == id)
+            if (group is not null && group.GroupId == id)
             {
                 return result;
             }

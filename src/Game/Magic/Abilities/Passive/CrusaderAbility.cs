@@ -27,7 +27,7 @@ public partial class CrusaderAbility : DurationAbility
         if (DurationMode == DurationMode.Day)
         {
             data = GetData(owner);
-            if (data != null && data.Duration != 0 && data.PlayerIndex == player)
+            if (data is not null && data.Duration != 0 && data.PlayerIndex == player)
             {
                 data.Duration = (byte)(data.Duration - 1);
             }

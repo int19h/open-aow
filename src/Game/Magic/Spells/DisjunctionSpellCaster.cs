@@ -26,7 +26,7 @@ public partial class DisjunctionSpellCaster(CustomNode owner) : SpellCaster(owne
         Troop source;
         bool result = base.CanCast(ref reason);
         source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
-        if (result && SelectedEnchantment() != null)
+        if (result && SelectedEnchantment() is not null)
         {
             if (!StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.SpellWard) || SelectedEnchantment().EnchantmentType == GlobalEnchantmentType.SpellWard)
             {
@@ -121,7 +121,7 @@ public partial class DisjunctionSpellCaster(CustomNode owner) : SpellCaster(owne
         int result;
         GlobalEnchantment enchantment;
         enchantment = SelectedEnchantment();
-        result = enchantment != null ? Round((double)(enchantment.DispelMana * 0.02) * DispelChance) : -1;
+        result = enchantment is not null ? Round((double)(enchantment.DispelMana * 0.02) * DispelChance) : -1;
 
         return result;
     }
@@ -152,7 +152,7 @@ public partial class DisjunctionSpellCaster(CustomNode owner) : SpellCaster(owne
         int mana2;
         bool result = false;
         source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
-        if (SelectedEnchantment() != null)
+        if (SelectedEnchantment() is not null)
         {
             if (!StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.GetCheatEnabled())
             {

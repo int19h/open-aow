@@ -60,7 +60,7 @@ public partial class FreezeWater : GlobalTargetSpell
         }
 
         sbyte terrain = field.TerrainType;
-        return (terrain == 0 || terrain == 10) && field.FindNoneTransparentHexSprite(typeof(Structure)) == null && field.GetArmyHexSprite() == null;
+        return (terrain is 0 or 10) && field.FindNoneTransparentHexSprite(typeof(Structure)) is null && field.GetArmyHexSprite() is null;
     }
 
     public override bool ValidTargetSelectionMapField(MapField field)
@@ -71,13 +71,13 @@ public partial class FreezeWater : GlobalTargetSpell
         }
 
         sbyte terrain = field.TerrainType;
-        if ((terrain != 0 && terrain != 10) || field.FindNoneTransparentHexSprite(typeof(Structure)) != null)
+        if ((terrain is not 0 and not 10) || field.FindNoneTransparentHexSprite(typeof(Structure)) is not null)
         {
             return false;
         }
 
         ArmyHexSprite army = field.GetArmyHexSprite();
-        return army == null || !army.VisibleForSeatedPlayer();
+        return army is null || !army.VisibleForSeatedPlayer();
     }
 
     private static readonly string s_freezeWaterText = "Freeze Water";

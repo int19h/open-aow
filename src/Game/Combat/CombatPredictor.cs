@@ -223,7 +223,7 @@ public partial class CombatPredictor : IDisposable
             while (!result && i != 0)
             {
                 i -= 1;
-                if (_allUnits.GetUnits(i).Troop != null)
+                if (_allUnits.GetUnits(i).Troop is not null)
                 {
                     result = _allUnits.GetUnits(i).Troop.GetWallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing);
                 }
@@ -269,7 +269,7 @@ public partial class CombatPredictor : IDisposable
             else
             {
                 wall = _wall;
-                Result = wall != null && wall.HitPoints > 0
+                Result = wall is not null && wall.HitPoints > 0
                     ? surviving[1] == 1 && CanPassWall() ? (byte)3 : (byte)8
                     : surviving[0] == 0 ? (byte)4 : (byte)2;
             }
@@ -281,7 +281,7 @@ public partial class CombatPredictor : IDisposable
     // CombatPredictor.pas:440
     public CombatResult Execute()
     {
-        if (_wall != null)
+        if (_wall is not null)
         {
             ResetCombat();
             SetupCombat(1);
@@ -410,7 +410,7 @@ public partial class CombatPredictor : IDisposable
         }
 
         unitObject = _wall;
-        if (unitObject == null)
+        if (unitObject is null)
         {
             wall = new WallCombatant(null) { Holder = Creator.CreationHolder() };
             wall.SetWallType(wallType);
@@ -431,7 +431,7 @@ public partial class CombatPredictor : IDisposable
     {
         CombatPredictorUnit wall;
         wall = _wall;
-        if (wall != null)
+        if (wall is not null)
         {
             DeleteUnit(wall.Troop);
             _wall = null;
@@ -497,7 +497,7 @@ public partial class CombatPredictor : IDisposable
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                 {
                     armyHexSprite = level.GetField(walk.X, walk.Y).GetArmyHexSprite();
-                    if (armyHexSprite != null && armyHexSprite != army)
+                    if (armyHexSprite is not null && armyHexSprite != army)
                     {
                         side = CombatAbilityTables.GetCombatSide((sbyte)player, (sbyte)relation, (sbyte)defender, (sbyte)defenderRelation, armyHexSprite.Army.Player, armyHexSprite.Army.IndependentRelation);
                         if (side != CombatSideIndex.Neutral)
@@ -561,7 +561,7 @@ public partial class CombatPredictor : IDisposable
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                 {
                     armyHexSprite = level.GetField(walk.X, walk.Y).GetArmyHexSprite();
-                    if (armyHexSprite != null)
+                    if (armyHexSprite is not null)
                     {
                         side = CombatAbilityTables.GetCombatSide((sbyte)player, (sbyte)relation, (sbyte)defender, (sbyte)defenderRelation, armyHexSprite.Army.Player, armyHexSprite.Army.IndependentRelation);
                         if (side == CombatSideIndex.Defender)
@@ -795,7 +795,7 @@ public partial class CombatPredictor : IDisposable
                 }
             }
 
-            if (required != null)
+            if (required is not null)
             {
                 for (int i = 0; i <= minimum - 1; i++)
                 {
@@ -803,7 +803,7 @@ public partial class CombatPredictor : IDisposable
                 }
             }
 
-            if (optional != null)
+            if (optional is not null)
             {
                 for (int i = list.Count - 1; i >= minimum; i--)
                 {
@@ -811,7 +811,7 @@ public partial class CombatPredictor : IDisposable
                 }
             }
 
-            if (useless != null)
+            if (useless is not null)
             {
                 for (int i = list.Count - 1; i >= minimum; i--)
                 {
@@ -870,7 +870,7 @@ public partial class CombatPredictor : IDisposable
         u = new CombatPredictorUnit();
         u.Setup(troop, (CombatPredictor)(object)this, 0);
         wall = _wall;
-        if (wall != null && wall.HitPoints > 0)
+        if (wall is not null && wall.HitPoints > 0)
         {
             u.UpdateWallTargets();
             result = u.WallCombatValue;

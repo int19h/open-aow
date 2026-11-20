@@ -129,7 +129,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
     public void CenterClick()
     {
         UI.General.PlayButtonSound(0);
-        if (ItemBag != null)
+        if (ItemBag is not null)
         {
             ItemHexSprite itemHexSprite = ItemBag;
             sbyte hexY = ItemBag.HexY;
@@ -156,7 +156,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
     {
         string reason = "";
         UI.General.PlayButtonSound(0);
-        if (UI.General.Structure != null)
+        if (UI.General.Structure is not null)
         {
             if (UI.General.Structure.CanRaze(StrategicMap.Current.SeatedPlayer, ref reason))
             {
@@ -174,7 +174,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
     {
         ArmyHexSprite army;
         UI.General.PlayButtonSound(0);
-        if (UI.General.Structure != null)
+        if (UI.General.Structure is not null)
         {
             Structure structure = UI.General.Structure;
             if (StructureButtons.TryGet(structure.InfoButton(StrategicMap.Current.SeatedPlayer), out Action<InfoWindow, Structure> open))
@@ -184,12 +184,12 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         }
         else
         {
-            if (ItemBag != null)
+            if (ItemBag is not null)
             {
                 army = ItemBag.Owner.GetArmyHexSprite();
-                if (army != null && army.Army.Player == StrategicMap.Current.SeatedPlayer)
+                if (army is not null && army.Army.Player == StrategicMap.Current.SeatedPlayer)
                 {
-                    if (army.Army.Hero(255, RosterTables.AllHeroTypes) != null)
+                    if (army.Army.Hero(255, RosterTables.AllHeroTypes) is not null)
                     {
                         Hero hero = army.Army.Hero(255, RosterTables.AllHeroTypes);
                         UI.General.SelectedUnit = hero;
@@ -204,7 +204,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
     // AoWInfoWin.pas:226
     public void ItembagLBDrawItem(in Rect drawRectangle, int drawItem, in LockedSurface surface)
     {
-        if (ItemBag != null)
+        if (ItemBag is not null)
         {
             // { Original uses the scroll offset for every row. }
             if (ItemBag.Items.Count > ItemBagList.ListOffset)
@@ -228,7 +228,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
     {
         string name = structure.GetName();
         dialog.StructureNameLabel.Text = name;
-        if (structure.GetBottomBorderImage() != null)
+        if (structure.GetBottomBorderImage() is not null)
         {
             LibraryImage topBorderImage = structure.GetTopBorderImage();
             dialog.StructureLine.ImageTop = topBorderImage;

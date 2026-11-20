@@ -57,7 +57,7 @@ public partial class RoundAttackAbility : TouchAbility
         }
 
         action = CombatObject.CreateStrikeCombatAction(source, target, false);
-        if (action != null)
+        if (action is not null)
         {
             combat.ExecuteCombatAction(action);
             _ = action.Release();
@@ -78,7 +78,7 @@ public partial class RoundAttackAbility : TouchAbility
         {
             other = targets[StrategicMap.Current.Random(targets.Count)];
             action = CombatObject.CreateStrikeCombatAction(source, other, false);
-            if (action != null)
+            if (action is not null)
             {
                 combat.ExecuteCombatAction(action);
                 _ = action.Release();

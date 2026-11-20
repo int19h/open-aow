@@ -34,7 +34,7 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
     internal string GetEngineObjectPath()
     {
         string path = GetType().Name;
-        for (IOwner owner = ((IOwned)this).Owner; owner != null; owner = (owner as IOwned)?.Owner)
+        for (IOwner owner = ((IOwned)this).Owner; owner is not null; owner = (owner as IOwned)?.Owner)
         {
             path = owner.GetType().Name + path;
         }
@@ -151,9 +151,9 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
         GameEngine e;
         EditorClass result = null;
         e = GetEngine();
-        if (e != null)
+        if (e is not null)
         {
-            for (Type type = GetType(); type != typeof(EngineObject) && result == null; type = type.BaseType)
+            for (Type type = GetType(); type != typeof(EngineObject) && result is null; type = type.BaseType)
             {
                 result = e.Editors.FindEditor(EngineClass.Of(type).ClassId);
             }
@@ -235,7 +235,7 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
 
     private void CheckOwner(CustomNode owner)
     {
-        if (owner != null && !AcceptsOwner(owner))
+        if (owner is not null && !AcceptsOwner(owner))
         {
             throw new ArgumentException($"{GetType().Name} does not take an owner of type {owner.GetType().Name}.", nameof(owner));
         }

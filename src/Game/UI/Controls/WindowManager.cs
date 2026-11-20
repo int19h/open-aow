@@ -43,17 +43,17 @@ public partial class WindowManager : UIComponent
     // AOWWinManager.pas:91
     public override void Validate()
     {
-        if (_backgroundTexture != null)
+        if (_backgroundTexture is not null)
         {
             _backgroundTexture = _backgroundTexture.CheckImageLibrary(_imageLibraryIndexTBack, 1, this);
         }
 
-        if (_foregroundTexture != null)
+        if (_foregroundTexture is not null)
         {
             _foregroundTexture = _foregroundTexture.CheckImageLibrary(_imageLibraryIndexTFore, 1, this);
         }
 
-        if (_backgroundTexture != null)
+        if (_backgroundTexture is not null)
         {
             Valid = true;
         }
@@ -102,7 +102,7 @@ public partial class WindowManager : UIComponent
         Rect r = default;
         if (Valid && Visible)
         {
-            if (sender == null || (sender != null && sender is WindowControl && Children[index].Priority >= _overlayPriority))
+            if (sender is null || (sender is not null && sender is WindowControl && Children[index].Priority >= _overlayPriority))
             {
                 for (int i = index, last = Children.Count - 1; i <= last; i++)
                 {

@@ -55,7 +55,7 @@ public partial class AbilityControl : EngineObject
         base.PersistFields(persister);
         for (int i = 0, last = Abilities.Count - 1; i <= last; i++)
         {
-            if (Abilities[i] != null)
+            if (Abilities[i] is not null)
             {
                 persister.ObjectSlot("Abilities", slot: i, objectValue: Abilities[i]);
             }
@@ -74,7 +74,7 @@ public partial class AbilityControl : EngineObject
         id = ability.AbilityId;
         if (id != -1)
         {
-            if (id < Abilities.Count && Abilities[id] != null)
+            if (id < Abilities.Count && Abilities[id] is not null)
             {
                 throw new InvalidOperationException($"Ability already registered ({IntToStr(id)})");
             }
@@ -107,7 +107,7 @@ public partial class AbilityControl : EngineObject
                 throw new InvalidOperationException($"Cannot Unregister Ability ({IntToStr(id)})");
             }
 
-            if (Abilities[id] != null)
+            if (Abilities[id] is not null)
             {
                 AbilityType abilityType = ability.GetAbilityType();
                 _ = AbilitiesByType[(int)abilityType].Remove(ability);
@@ -127,7 +127,7 @@ public partial class AbilityControl : EngineObject
     {
         for (int i = Abilities.Count - 1; i >= 0; i--)
         {
-            if (Abilities[i] != null)
+            if (Abilities[i] is not null)
             {
                 UnregisterAbility(Abilities[i]);
             }
@@ -140,7 +140,7 @@ public partial class AbilityControl : EngineObject
         text.Clear();
         for (int i = 0, last = Abilities.Count - 1; i <= last; i++)
         {
-            if (Abilities[i] != null)
+            if (Abilities[i] is not null)
             {
                 if ((Abilities[i].SelectionTypes & types) != Set<AbilitySelectionType>.Of() || (types == Set<AbilitySelectionType>.Of().WithRange(0, (AbilitySelectionType)9) && Abilities[i].SelectionTypes == Set<AbilitySelectionType>.Of()))
                 {
@@ -157,7 +157,7 @@ public partial class AbilityControl : EngineObject
         list = new DelphiList<Ability>();
         for (int i = 0, last = Abilities.Count - 1; i <= last; i++)
         {
-            if (Abilities[i] != null)
+            if (Abilities[i] is not null)
             {
                 _ = list.Add(Abilities[i]);
             }

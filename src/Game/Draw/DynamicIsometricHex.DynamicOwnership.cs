@@ -36,7 +36,7 @@ public partial class DynamicIsometricHex
 
     public override void Dispose()
     {
-        if (_hex != null)
+        if (_hex is not null)
         {
             if (_hex.GetVisible())
             {

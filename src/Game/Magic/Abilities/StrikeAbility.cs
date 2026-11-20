@@ -106,7 +106,7 @@ public partial class StrikeAbility : AdjustableAbility
         while (i < round.Count && !stop)
         {
             action = round.CreateStrikeCombatAction(i);
-            if (action != null)
+            if (action is not null)
             {
                 source.Combat.ExecuteCombatAction(action);
                 round.GetMeleeStrike(i, out MeleeRound.Strike strike);

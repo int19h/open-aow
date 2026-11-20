@@ -52,7 +52,7 @@ public partial class TokenManager : IDisposable
     public virtual bool PlayerReady(int player)
     {
         bool result;
-        if (player < _tokenControls.Count && _tokenControls[player] != null)
+        if (player < _tokenControls.Count && _tokenControls[player] is not null)
         {
             bool condition = TokenExecutor.SystemEvents.Count != 0 || _tokenControls[player].GetCount() != 0;
             if (!condition)
@@ -74,7 +74,7 @@ public partial class TokenManager : IDisposable
     // NetworkE.pas:1663
     public virtual void CreatePlayer(int player)
     {
-        if (player >= _tokenControls.Count || _tokenControls[player] == null)
+        if (player >= _tokenControls.Count || _tokenControls[player] is null)
         {
             while (player >= _tokenControls.Count)
             {
@@ -89,7 +89,7 @@ public partial class TokenManager : IDisposable
     // NetworkE.pas:1673
     public virtual void DeletePlayer(int player)
     {
-        if (player < _tokenControls.Count && _tokenControls[player] != null)
+        if (player < _tokenControls.Count && _tokenControls[player] is not null)
         {
             (_tokenControls[player] as IDisposable)?.Dispose();
             _tokenControls[player] = null;
@@ -101,7 +101,7 @@ public partial class TokenManager : IDisposable
     {
         while (_tokenControls.Count != 0)
         {
-            if (_tokenControls[^1] != null)
+            if (_tokenControls[^1] is not null)
             {
                 (_tokenControls[^1] as IDisposable)?.Dispose();
             }

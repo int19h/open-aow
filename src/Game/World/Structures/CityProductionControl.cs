@@ -50,7 +50,7 @@ public partial class CityProductionControl(CustomNode owner) : ProductionControl
             if (city.Resource.TerrainList.Terrain[walk.HexNumber] >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
                 sbyte hexLevel = city.GetHexLevel();
-                valid = Settings.Unit.Place(walk.X, walk.Y, hexLevel, city.Player, Set<UnitPlaceModeElement>.Of()) != null;
+                valid = Settings.Unit.Place(walk.X, walk.Y, hexLevel, city.Player, Set<UnitPlaceModeElement>.Of()) is not null;
             }
 
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
@@ -61,7 +61,7 @@ public partial class CityProductionControl(CustomNode owner) : ProductionControl
             sbyte hexLevel = city.GetHexLevel();
             sbyte cityHexY = city.GetHexY();
             sbyte cityHexX = city.GetHexX();
-            valid = Settings.Unit.Place(cityHexX, cityHexY, hexLevel, city.Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea)) != null;
+            valid = Settings.Unit.Place(cityHexX, cityHexY, hexLevel, city.Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea)) is not null;
         }
 
         log = new CityProductionEventLog(null)
@@ -113,7 +113,7 @@ public partial class CityProductionControl(CustomNode owner) : ProductionControl
     public override Unit CreateUnitProduction(int index)
     {
         Unit result = base.CreateUnitProduction(index);
-        if (result != null && City.Enchantments.Contains(CityEnchantmentId.Warmonger))
+        if (result is not null && City.Enchantments.Contains(CityEnchantmentId.Warmonger))
         {
             result.SetRank(Unit.Rank.Silver);
         }

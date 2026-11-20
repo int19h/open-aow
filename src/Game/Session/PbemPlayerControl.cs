@@ -99,7 +99,7 @@ public partial class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(own
 
         player = StrategicMap.Current.TurnOrder[i];
         Player players = StrategicMap.Current.Players.GetPlayers(player);
-        bool test = GetEngine().EmailGames.FindEmailGame(players.PbemSettings.EmailGame) != null;
+        bool test = GetEngine().EmailGames.FindEmailGame(players.PbemSettings.EmailGame) is not null;
         if (test)
         {
             test = CompareText(b: GetEngine().Registry.GetLocalEmailAddress(), a: StrategicMap.Current.Players.GetPlayers(player).PbemSettings.EmailGame.EmailAddress) == 0;
@@ -420,7 +420,7 @@ public partial class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(own
         MessageEventLog log = default;
         _localPlayer = StrategicMap.Current.CurrentPlayer;
         Player players = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer);
-        if (GetEngine().EmailGames.FindEmailGame(players.PbemSettings.EmailGame) == null)
+        if (GetEngine().EmailGames.FindEmailGame(players.PbemSettings.EmailGame) is null)
         {
             Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer);
             restarted = GetEngine().EmailGames.EmailGameRestarted(fPlayersPlayers.PbemSettings.EmailGame);

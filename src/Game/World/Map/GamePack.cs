@@ -185,7 +185,7 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
         HeroLibraries?.Dispose();
         Status += Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Destroying);
         EngineMessage.InitializeMessage(out EngineMessage message, 66564, this);
-        if (ActivatedEngine != null && ActivatedEngine.ControlNode != null)
+        if (ActivatedEngine is not null && ActivatedEngine.ControlNode is not null)
         {
             ActivatedEngine.ControlNode.MessageProc(ref message, this);
         }
@@ -203,7 +203,7 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
         SfxManager?.Dispose();
         SfxManager = null;
         EngineMessage.InitializeMessage(out message, 66565, this);
-        if (ActivatedEngine != null && ActivatedEngine.ControlNode != null)
+        if (ActivatedEngine is not null && ActivatedEngine.ControlNode is not null)
         {
             ActivatedEngine.ControlNode.MessageProc(ref message, this);
         }

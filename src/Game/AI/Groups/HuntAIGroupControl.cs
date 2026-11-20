@@ -30,7 +30,7 @@ public partial class HuntAIGroupControl(CustomNode owner) : AIGroupControl(owner
         if (field.GetPlayer() != Group.Player)
         {
             army = field.GetArmyHexSprite();
-            if (army != null)
+            if (army is not null)
             {
                 group = Group;
                 found = false;
@@ -77,7 +77,7 @@ public partial class HuntAIGroupControl(CustomNode owner) : AIGroupControl(owner
                     {
                         int item = group.TargetUnitIds[i];
                         troop = StrategicMap.Current.UnitControl.FindUnit(item);
-                        if (troop == null || troop.Player == 0)
+                        if (troop is null || troop.Player == 0)
                         {
                             group.TargetUnitIds.Delete(i);
                         }

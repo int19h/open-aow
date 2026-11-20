@@ -63,7 +63,7 @@ public partial class CombatUnitInfo(UIContext ui) : UIModule(ui)
     // AoWTCUnit.pas:123
     public void UAbilLBPreDrawItem(in Rect drawRectangle, int drawItem, ref readonly LockedSurface lockedSurface)
     {
-        if (UI.General.CombatUnit != null)
+        if (UI.General.CombatUnit is not null)
         {
             bool condition = UI.General.CombatUnit.Unit.GetPlayer() == CombatMap.Current.SeatedPlayer && UI.General.CombatUnit.Unit.MovePoints > 0 && drawItem < UI.General.CombatUnit.CombatAbilityCount;
             if (condition)
@@ -110,11 +110,11 @@ public partial class CombatUnitInfo(UIContext ui) : UIModule(ui)
             }
             else
             {
-                if (button == MouseButton.Right && UI.General.CombatUnit != null)
+                if (button == MouseButton.Right && UI.General.CombatUnit is not null)
                 {
                     object objectValue = UnitAbilityList.Items.Objects[UnitAbilityList.Selected];
                     ability = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
-                    if (ability != null)
+                    if (ability is not null)
                     {
                         InfoBanner.SetInfoBanner(caption: ability.GetName(UI.General.CombatUnit.Unit.Troop), banner: UI.InfoBanner, description: ability.Description);
                     }
@@ -126,7 +126,7 @@ public partial class CombatUnitInfo(UIContext ui) : UIModule(ui)
     // AoWTCUnit.pas:168
     public void UAbilLBMouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        if (UI.General.CombatUnit != null)
+        if (UI.General.CombatUnit is not null)
         {
             if (UI.General.CombatUnit.Unit.GetPlayer() == CombatMap.Current.SeatedPlayer && UI.General.CombatUnit.Unit.MovePoints != 0 && UnitAbilityList.HoverItem < UI.General.CombatUnit.CombatAbilityCount)
             {

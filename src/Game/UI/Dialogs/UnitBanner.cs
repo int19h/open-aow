@@ -28,7 +28,7 @@ public partial class UnitBanner(UIContext ui) : UIModule(ui)
     public void BannerPopupShow()
     {
         CombatAbilityRef a;
-        if (UI.General.SelectedUnit != null)
+        if (UI.General.SelectedUnit is not null)
         {
             string name = UI.General.SelectedUnit.GetName();
             UnitNameLabel.Text = name;
@@ -77,7 +77,7 @@ public partial class UnitBanner(UIContext ui) : UIModule(ui)
     // AoWUnitBanner.pas:85
     public void AbLBMouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        if (UI.General.SelectedUnit != null && AbilityList.HoverItem >= UI.General.ActiveAbilityCount)
+        if (UI.General.SelectedUnit is not null && AbilityList.HoverItem >= UI.General.ActiveAbilityCount)
         {
             AbilityList.HoverItem = -1;
         }
@@ -96,7 +96,7 @@ public partial class UnitBanner(UIContext ui) : UIModule(ui)
     public void AbLBMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         string reason = "";
-        if (UI.General.SelectedUnit != null)
+        if (UI.General.SelectedUnit is not null)
         {
             if (AbilityList.Selected > -1 && AbilityList.Selected < UI.General.ActiveAbilityCount)
             {

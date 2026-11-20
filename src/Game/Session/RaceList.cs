@@ -39,7 +39,7 @@ public partial class RaceList : ControlStyleNode, IChildList<Race>
         int result = 0;
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            if (GetChild(i) != null && this[i].Enabled)
+            if (GetChild(i) is not null && this[i].Enabled)
             {
                 result += 1;
             }
@@ -56,7 +56,7 @@ public partial class RaceList : ControlStyleNode, IChildList<Race>
         races = new DelphiList<Race>();
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            if (GetChild(i) != null && this[i].Enabled)
+            if (GetChild(i) is not null && this[i].Enabled)
             {
                 _ = races.Add(this[i]);
             }
@@ -81,7 +81,7 @@ public partial class RaceList : ControlStyleNode, IChildList<Race>
     {
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            if (GetChild(i) != null)
+            if (GetChild(i) is not null)
             {
                 this[i].ResetPlayerRelations();
             }
@@ -93,7 +93,7 @@ public partial class RaceList : ControlStyleNode, IChildList<Race>
     {
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            if (GetChild(i) != null)
+            if (GetChild(i) is not null)
             {
                 this[i].ResetDefaultRaceRelations();
             }
@@ -106,9 +106,9 @@ public partial class RaceList : ControlStyleNode, IChildList<Race>
         Race race;
         for (int i = 0, last = GamePack.Current.RaceResources.GetCount() - 1; i <= last; i++)
         {
-            if (GamePack.Current.RaceResources.GetRaceResource(i) != null)
+            if (GamePack.Current.RaceResources.GetRaceResource(i) is not null)
             {
-                if (GetRace(i) == null)
+                if (GetRace(i) is null)
                 {
                     race = new Race(null)
                     {

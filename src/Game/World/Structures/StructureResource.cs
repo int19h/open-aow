@@ -98,10 +98,10 @@ public partial class StructureResource : FixedImageLibraryTerrainMapObjectResour
         {
             index = structure.ImageIndex;
             offset = structure.Owner.HexX + (structure.Owner.HexY * 16);
-            if (ImageSequenceList != null)
+            if (ImageSequenceList is not null)
             {
                 sequence = ImageSequenceList.List[index];
-                while (sequence != null)
+                while (sequence is not null)
                 {
                     frameIndex = sequence.GetFrameIndex(StrategicMap.Current.Frame, offset);
                     if (frameIndex != -1)
@@ -126,7 +126,7 @@ public partial class StructureResource : FixedImageLibraryTerrainMapObjectResour
         }
         else
         {
-            if (ImageSequenceList == null)
+            if (ImageSequenceList is null)
             {
                 ImageLibrary[structure.ImageIndex].Show(X, Y, lockedSurface);
             }

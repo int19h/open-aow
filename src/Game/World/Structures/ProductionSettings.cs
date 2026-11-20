@@ -59,7 +59,7 @@ public partial class ProductionSettings(CustomNode owner) : EngineObject(owner)
         GroupId = 0;
         UnitProductionIndex = -1;
         u = Unit;
-        if (u != null)
+        if (u is not null)
         {
             _ = u.Release();
             Unit = null;

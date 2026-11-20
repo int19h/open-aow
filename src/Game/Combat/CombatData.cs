@@ -129,7 +129,7 @@ public partial class CombatData : EngineObject
         int i;
         CombatObject result = null;
         i = CombatObjects.Count;
-        while (i != 0 && result == null)
+        while (i != 0 && result is null)
         {
             i -= 1;
             if (position == CombatObjects.GetChild<CombatObject>(i).Position)
@@ -144,7 +144,7 @@ public partial class CombatData : EngineObject
     // Combat2.pas:282
     public void AddObject(CombatObject combatObject)
     {
-        Assert(FindId(combatObject.Id) == null && FindPosition(combatObject.Position) == null, "CombatObject Position/ID double defined", "Combat2.pas", 284);
+        Assert(FindId(combatObject.Id) is null && FindPosition(combatObject.Position) is null, "CombatObject Position/ID double defined", "Combat2.pas", 284);
         combatObject.SetOwner(CombatObjects);
     }
 

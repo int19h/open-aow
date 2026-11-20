@@ -90,7 +90,7 @@ public partial class GlobalEnchantmentSpell(CustomNode owner) : Spell(owner)
             if (!StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.SpellWard))
             {
                 enchantment = CreateEnchantment();
-                if (enchantment != null)
+                if (enchantment is not null)
                 {
                     SetupEnchantment(source, enchantment);
                     result = enchantment.CanCast(source.Player, ref messageText);

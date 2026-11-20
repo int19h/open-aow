@@ -43,7 +43,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     // ImageLib.pas:1613
     public virtual void SetOwner(CustomImageLibrary owner)
     {
-        if (owner != _owner && _owner != null && !DataLoaded)
+        if (owner != _owner && _owner is not null && !DataLoaded)
         {
             SetReloadingEnabled(false);
         }
@@ -223,7 +223,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
         ReadImageData(stream);
         if (_version >= 2)
         {
-            if (_loadMode == LoadMode.LoadAlways || _owner == null || !_owner.Reloading || !_owner.Status.Contains(ImageLibraryStatusElement.LoadingFromFile) || _dataPosition == -1)
+            if (_loadMode == LoadMode.LoadAlways || _owner is null || !_owner.Reloading || !_owner.Status.Contains(ImageLibraryStatusElement.LoadingFromFile) || _dataPosition == -1)
             {
                 if (_dataPosition != -1)
                 {
@@ -349,7 +349,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
         if (_version < 2)
         {
             _dataPosition = (int)stream.Position;
-            if (_loadMode == LoadMode.LoadAlways || _owner == null || !_owner.Reloading || !_owner.Status.Contains(ImageLibraryStatusElement.LoadingFromFile))
+            if (_loadMode == LoadMode.LoadAlways || _owner is null || !_owner.Reloading || !_owner.Status.Contains(ImageLibraryStatusElement.LoadingFromFile))
             {
                 ReadDiscardableImageData(stream);
                 _reloadingEnabled = false;
@@ -362,7 +362,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
         }
         else
         {
-            if (_loadMode == LoadMode.LoadAlways || _owner == null || !_owner.Reloading || !_owner.Status.Contains(ImageLibraryStatusElement.LoadingFromFile) || _dataPosition == -1)
+            if (_loadMode == LoadMode.LoadAlways || _owner is null || !_owner.Reloading || !_owner.Status.Contains(ImageLibraryStatusElement.LoadingFromFile) || _dataPosition == -1)
             {
                 if (_dataPosition != -1)
                 {
@@ -611,7 +611,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     public static void WriteImageToStream(LibraryImage image, Stream stream)
     {
         int id = default;
-        if (image != null)
+        if (image is not null)
         {
             id = image.ImageClass.ClassId;
             stream.Write(Bytes.Of(ref id, 4));
@@ -627,7 +627,7 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     internal static void WriteImageToStream(LibraryImage image, Stream stream, Stream dataStream)
     {
         int id = default;
-        if (image != null)
+        if (image is not null)
         {
             id = image.ImageClass.ClassId;
             stream.Write(Bytes.Of(ref id, 4));

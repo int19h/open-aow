@@ -77,7 +77,7 @@ public partial class CommandAbility : TouchAbility
             if (!action.Successful)
             {
                 strike = CombatObject.CreateStrikeCombatAction(target, source, true);
-                if (strike != null)
+                if (strike is not null)
                 {
                     source.Combat.ExecuteCombatAction(strike);
                     _ = strike.Release();
@@ -223,7 +223,7 @@ public partial class CommandAbility : TouchAbility
         target.Troop.AddAbilityData(targetData);
         target.SetCombatPlayer((byte)source.CombatPlayer);
         sourceData = GetData(source.Troop);
-        if (sourceData == null)
+        if (sourceData is null)
         {
             sourceData = new CommandAbilityData(null)
             {
@@ -261,12 +261,12 @@ public partial class CommandAbility : TouchAbility
         if (troopOwner.GetAbilityEnabled(AbilityId))
         {
             data = GetData(source.Troop);
-            if (data != null)
+            if (data is not null)
             {
                 for (int i = data.CommandedUnits.Count - 1; i >= 0; i--)
                 {
                     target = source.Combat.CombatData.FindId<CombatUnit>(data.CommandedUnits.List[i]);
-                    if (target != null)
+                    if (target is not null)
                     {
                         Uncommand(target);
                     }
@@ -288,13 +288,13 @@ public partial class CommandAbility : TouchAbility
             data = GamePack.Current.AbilityControl.GetAbility<CommandedAbility>(CommandedAbilityId).GetData(troopOwner);
             // { Original reads Data before checking it for nil. }
             source = target.Combat.CombatData.FindId<CombatUnit>(data.SourceId);
-            if (data != null)
+            if (data is not null)
             {
                 target.SetCombatPlayer(data.OriginalCombatPlayer);
             }
 
             _ = GamePack.Current.AbilityControl.GetAbility(CommandedAbilityId).Remove(target.Troop);
-            if (source != null)
+            if (source is not null)
             {
                 sourceData = GetData(source.Troop);
                 _ = (sourceData?.CommandedUnits.Remove(target.Id));

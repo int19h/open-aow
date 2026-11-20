@@ -151,7 +151,7 @@ public partial class Teleport(CustomNode owner) : Structure(owner)
             {
                 otherArmy = field.GetArmyHexSprite();
                 // { Original rejects a same-player army when CanAddUnits succeeds. }
-                if (otherArmy != null && (byte)armyHexSprite.Army.Player == (byte)otherArmy.Army.Player && otherArmy.Army.CanAddUnits(armyHexSprite.Army.Units) != 0)
+                if (otherArmy is not null && (byte)armyHexSprite.Army.Player == (byte)otherArmy.Army.Player && otherArmy.Army.CanAddUnits(armyHexSprite.Army.Units) != 0)
                 {
                     return result;
                 }
@@ -169,7 +169,7 @@ public partial class Teleport(CustomNode owner) : Structure(owner)
         ArmyHexSprite armyHexSprite;
         armyHexSprite = Owner.GetArmyHexSprite();
         // { Original only checks destination X here; X=0 is rejected. }
-        return armyHexSprite != null && player == armyHexSprite.Army.Player && !State.Contains(StateElement.Razed) && Destination.X > 0;
+        return armyHexSprite is not null && player == armyHexSprite.Army.Player && !State.Contains(StateElement.Razed) && Destination.X > 0;
     }
 
     // Teleport.pas:218
@@ -207,7 +207,7 @@ public partial class Teleport(CustomNode owner) : Structure(owner)
                         {
                             // { Original passes action before mode. }
                             eventValue = ArmyHexSprite.CreateArmyMoveTokenEvent(armyHexSprite, 255, path, MoveAction.Attack, Set<ArmyMoveModeElement>.Of());
-                            if (eventValue != null)
+                            if (eventValue is not null)
                             {
                                 StrategicMap.Current.TokenManager.GetTokenControl(armyHexSprite.Army.Player).AddEvent(eventValue);
                                 _ = eventValue.Release();

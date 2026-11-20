@@ -41,7 +41,7 @@ public partial class City
             {
                 RaceResource race = GamePack.Current.RaceResources.GetRaceResource(Race);
                 int size = GetResource<Resource>().Size;
-                if (race != null)
+                if (race is not null)
                 {
                     CityImage = race.GetCityImage(size, terrain, field.HexLevel);
                 }

@@ -215,7 +215,7 @@ public static partial class Blit
     // four pixels. The port raises there.
     private static void CheckShortRows(SurfaceView s, SurfaceView d, int w, int h)
     {
-        if (w > 0 && w < 4 && h > 0 && ((s.Start | d.Start) & 3) == 0)
+        if (w is > 0 and < 4 && h > 0 && ((s.Start | d.Start) & 3) == 0)
         {
             throw new AccessViolationException("Original aligned remapper overruns short rows");
         }

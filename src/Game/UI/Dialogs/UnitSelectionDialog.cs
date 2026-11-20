@@ -98,7 +98,7 @@ public partial class UnitSelectionDialog(UIContext ui) : UIModule(ui)
         Event = request.UnitSelector;
         _ = Event.AddRef();
         u = StrategicMap.Current.UnitControl.FindUnit(Event.SourceUnitId);
-        if (u != null)
+        if (u is not null)
         {
             SourcePanel.Visible = true;
             string name = u.GetName();
@@ -203,10 +203,10 @@ public partial class UnitSelectionDialog(UIContext ui) : UIModule(ui)
     {
         Rect r = default;
         Troop u;
-        if (Event != null)
+        if (Event is not null)
         {
             u = StrategicMap.Current.UnitControl.FindUnit(Event.SourceUnitId);
-            if (u != null)
+            if (u is not null)
             {
                 r.Left = SourceFace.WinLeft + SourcePanel.AbsoluteLeft;
                 r.Right = SourceFace.WinWidth + r.Left;

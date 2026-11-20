@@ -30,7 +30,7 @@ public partial class FaceResourceList : ResourceCollection, IChildList<FaceResou
         {
             result -= 1;
             face = this[result];
-            if (face != null && face.GetFaceImage() == image)
+            if (face is not null && face.GetFaceImage() == image)
             {
                 return result;
             }
@@ -61,7 +61,7 @@ public partial class FaceResourceList : ResourceCollection, IChildList<FaceResou
                 result = Count - 1;
             }
         }
-        while (!(GetChild(result) != null && (developer || !this[result].DeveloperOnly)));
+        while (!(GetChild(result) is not null && (developer || !this[result].DeveloperOnly)));
         return result;
     }
 
@@ -80,7 +80,7 @@ public partial class FaceResourceList : ResourceCollection, IChildList<FaceResou
                 result = 0;
             }
         }
-        while (!(GetChild(result) != null && (developer || !this[result].DeveloperOnly)));
+        while (!(GetChild(result) is not null && (developer || !this[result].DeveloperOnly)));
         return result;
     }
 

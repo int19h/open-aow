@@ -45,7 +45,7 @@ public partial class CommandAbilityData(CustomNode owner) : AbilityData(owner)
         for (int i = CommandedUnits.Count - 1; i >= 0; i--)
         {
             target = combat.CombatData.FindId(CommandedUnits.List[i]);
-            if (target != null)
+            if (target is not null)
             {
                 result += target.GetTargetPriority();
             }
@@ -62,7 +62,7 @@ public partial class CommandAbilityData(CustomNode owner) : AbilityData(owner)
         for (int i = CommandedUnits.Count - 1; i >= 0; i--)
         {
             target = combat.CombatData.FindId(CommandedUnits.List[i]);
-            if (target != null)
+            if (target is not null)
             {
                 result += target.GetTargetStrength();
             }

@@ -16,7 +16,7 @@ public partial class UnitSelectionActivation(CustomNode owner) : AbilityActivati
     {
         UnitSelector selector;
         selector = UnitSelector;
-        if (selector != null)
+        if (selector is not null)
         {
             _ = selector.Release();
             UnitSelector = null;

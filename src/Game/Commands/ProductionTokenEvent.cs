@@ -26,7 +26,7 @@ public partial class ProductionTokenEvent(CustomNode owner) : TokenEvent(owner)
     // { Original leaves the upkeep fields unchanged. }
     public override void Dispose()
     {
-        if (Item != null)
+        if (Item is not null)
         {
             Item?.Dispose();
             Item = null;
@@ -55,7 +55,7 @@ public partial class ProductionTokenEvent(CustomNode owner) : TokenEvent(owner)
         ExecuteResult result;
         ProductionControl control;
         control = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).GetProductionControl();
-        result = control != null ? control.ExecuteProductionTokenEvent(this) : ExecuteResult.DoneHalt;
+        result = control is not null ? control.ExecuteProductionTokenEvent(this) : ExecuteResult.DoneHalt;
 
         return result;
     }

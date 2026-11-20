@@ -262,7 +262,7 @@ public partial class FrameTableList : Persistent
     // ImageLib.pas:9554
     public void Sort(FrameTableSortCompare compare)
     {
-        if (List != null && Count > 0)
+        if (List is not null && Count > 0)
         {
             FrameTableQuickSort(List, 0, Count - 1, compare);
         }

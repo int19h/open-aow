@@ -65,7 +65,7 @@ public partial class EmailGameSettingsDialog(UIContext ui) : UIModule(ui)
         int index;
         if (SettingsComplete())
         {
-            if (_setupControl != null)
+            if (_setupControl is not null)
             {
                 for (int i = 0, last = EmailAddresses.Count - 1; i <= last; i++)
                 {

@@ -65,7 +65,7 @@ public partial class UnitSpellTokenEvent : SpellTokenEvent
             i -= 1;
             int item = TargetUnitIds[i];
             target = StrategicMap.Current.UnitControl.FindUnit(item);
-            if (target != null)
+            if (target is not null)
             {
                 MapCoordinate coordinate13 = target.GetLocation();
                 sbyte targetX = coordinate13.X;
@@ -127,7 +127,7 @@ public partial class UnitSpellTokenEvent : SpellTokenEvent
         EventPlayerIndex = (byte)source.Player;
         EventSourceId = source.UnitId;
         EventMana = mana;
-        if (targets != null && targets.GetCount() != 0)
+        if (targets is not null && targets.GetCount() != 0)
         {
             TargetPlayer = (byte)targets.GetUnit(0).Player;
             for (int i = 0, last = targets.GetCount() - 1; i <= last; i++)

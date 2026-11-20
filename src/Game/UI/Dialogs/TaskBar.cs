@@ -160,7 +160,7 @@ public partial class TaskBar(UIContext ui) : UIModule(ui)
         int position;
         int race;
         position = 0;
-        if (StrategicMap.Current != null)
+        if (StrategicMap.Current is not null)
         {
             for (int i = 0, last = StrategicMap.Current.Players.GetCount() - 1; i <= last; i++)
             {
@@ -297,7 +297,7 @@ public partial class TaskBar(UIContext ui) : UIModule(ui)
     // AoWTBWindow.pas:285
     public void TBWorldUpdate()
     {
-        if (WorldPanel.Visible && StrategicMap.Current != null)
+        if (WorldPanel.Visible && StrategicMap.Current is not null)
         {
             WorldClockDelay = (short)(WorldClockDelay - 1);
             if (WorldClockDelay < 0)
@@ -309,7 +309,7 @@ public partial class TaskBar(UIContext ui) : UIModule(ui)
                     WorldClockDelay = 10;
                     minute = (ushort)(StrategicMap.Current.GetTurnTimeLeft() / 60000);
                     second = (ushort)(StrategicMap.Current.GetTurnTimeLeft() % 60000 / 1000);
-                    WorldTimeLabel.TextColor = minute == 0 && second > 0 && second <= 10 ? 255 : 0;
+                    WorldTimeLabel.TextColor = minute == 0 && second is > 0 and <= 10 ? 255 : 0;
 
                     WorldTimeLabel.Text = $"{IntToStr(minute)}:";
                     if (second < 10)
@@ -350,7 +350,7 @@ public partial class TaskBar(UIContext ui) : UIModule(ui)
     // AoWTBWindow.pas:317
     public void TBCombatUpdate()
     {
-        if (CombatPanel.Visible && CombatMap.Current != null)
+        if (CombatPanel.Visible && CombatMap.Current is not null)
         {
             _combatClockDelay = (short)(_combatClockDelay - 1);
             if (_combatClockDelay < 0)

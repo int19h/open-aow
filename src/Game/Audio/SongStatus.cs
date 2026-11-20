@@ -9,7 +9,7 @@ public partial class SongStatus
 
     internal static bool RestoreSongStatus(SongStatus status)
     {
-        bool result = AudioHost.SoundSystem != null && AudioHost.SoundSystem.RestoreSongStatus(status);
+        bool result = AudioHost.SoundSystem is not null && AudioHost.SoundSystem.RestoreSongStatus(status);
         return result;
     }
 

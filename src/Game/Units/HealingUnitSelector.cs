@@ -35,7 +35,7 @@ public partial class HealingUnitSelector(EngineObject creator) : UnitSelector(cr
         {
             i = 0;
             target = null;
-            while (target == null && i != Units.GetCount())
+            while (target is null && i != Units.GetCount())
             {
                 if ((Selection & (1 << i)) != 0)
                 {
@@ -45,7 +45,7 @@ public partial class HealingUnitSelector(EngineObject creator) : UnitSelector(cr
                 i += 1;
             }
 
-            if (target != null)
+            if (target is not null)
             {
                 eventValue = new HealingTokenEvent(null)
                 {

@@ -108,9 +108,9 @@ public partial class CastUnitSpellDialog(UIContext ui) : UIModule(ui)
         Troop u;
         Rect r = default;
         u = StrategicMap.Current.UnitControl.FindUnit(Caster.CasterSourceId);
-        if (u != null)
+        if (u is not null)
         {
-            if (u.GetFace() != null)
+            if (u.GetFace() is not null)
             {
                 r.Left = FaceFrame.WinLeft + TopPanel.AbsoluteLeft;
                 r.Right = r.Left + FaceFrame.WinWidth;
@@ -132,17 +132,17 @@ public partial class CastUnitSpellDialog(UIContext ui) : UIModule(ui)
     {
         Spell spell;
         Rect r = default;
-        if (Caster != null)
+        if (Caster is not null)
         {
             spell = GamePack.Current.SpellControl.GetSpell(Caster.CasterSpellId);
-            if (spell != null)
+            if (spell is not null)
             {
                 r.Left = SpellFrame.WinLeft + TopPanel.AbsoluteLeft;
                 r.Right = r.Left + SpellFrame.WinWidth;
                 r.Top = SpellFrame.WinTop + TopPanel.AbsoluteTop;
                 r.Bottom = r.Top + SpellFrame.WinHeight;
 
-                if (spell.CastImages.GetImageSequence(10) != null)
+                if (spell.CastImages.GetImageSequence(10) is not null)
                 {
                     _ = spell.CastImages.Show(10, r.Left + 5, r.Top + 15, 0, surface);
                 }
@@ -156,7 +156,7 @@ public partial class CastUnitSpellDialog(UIContext ui) : UIModule(ui)
     // AoWCastUnitSpellDlg.pas:219
     public void DlgUpdate()
     {
-        if (Window.Visible && Caster != null)
+        if (Window.Visible && Caster is not null)
         {
             if (!Caster.Valid())
             {

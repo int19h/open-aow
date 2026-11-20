@@ -78,7 +78,7 @@ public partial class ItemControl(CustomNode owner) : EngineObject(owner)
             do
             {
                 item = persister.CreatedSlot<Item>("Items", slot: slot, objectValue: null);
-                if (item != null)
+                if (item is not null)
                 {
                     ValidateItem(item);
                     _items.Add(item);
@@ -87,14 +87,14 @@ public partial class ItemControl(CustomNode owner) : EngineObject(owner)
 
                 slot += 1;
             }
-            while (item != null);
+            while (item is not null);
             return;
         }
 
         int next = 0;
         for (int i = 0; i < _items.Count; i++)
         {
-            if (_items[i].Owner == null)
+            if (_items[i].Owner is null)
             {
                 _ = persister.CreatedSlot("Items", slot: next, objectValue: _items[i]);
                 next += 1;
@@ -175,7 +175,7 @@ public partial class ItemControl(CustomNode owner) : EngineObject(owner)
     // Army.PAS:4766
     public void ValidateItem(Item item)
     {
-        if (FindItem(item.ItemId) != null)
+        if (FindItem(item.ItemId) is not null)
         {
             item.ItemId = CreateUniqueId();
         }
@@ -200,7 +200,7 @@ public partial class ItemControl(CustomNode owner) : EngineObject(owner)
         if (!item.Status.Contains(ItemStatusElement.Registered))
         {
             existing = FindItem(item.ItemId);
-            if (existing != null && existing.Compare(item, GetEngine()) && existing.RefCount == 1)
+            if (existing is not null && existing.Compare(item, GetEngine()) && existing.RefCount == 1)
             {
                 UnregisterItem(existing);
             }
@@ -308,7 +308,7 @@ public partial class ItemControl(CustomNode owner) : EngineObject(owner)
                 }
             }
 
-            if (candidate != null)
+            if (candidate is not null)
             {
                 candidate.SetOwner(owner);
                 list.Delete(list.IndexOfItemA(candidate));

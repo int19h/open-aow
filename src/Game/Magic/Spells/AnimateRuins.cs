@@ -57,7 +57,7 @@ public partial class AnimateRuins : CityTargetSpell
             _ = log.Release();
             PlayDefaultCityEffects(source, targetCity);
             _ = targetCity.ValidateObservation(source.Player);
-            if (targetCity.Resource.ImageSequenceList.ImageSequences[20] != null)
+            if (targetCity.Resource.ImageSequenceList.ImageSequences[20] is not null)
             {
                 a = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                 a.SetImageSequence(targetCity.Resource.ImageSequenceList.ImageSequences[20]);

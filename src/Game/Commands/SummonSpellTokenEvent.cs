@@ -58,7 +58,7 @@ public partial class SummonSpellTokenEvent(CustomNode owner) : SpellTokenEvent(o
             int unitIndex = UnitIndices[i];
             u.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(unitIndex));
             army = u.Place(x, y, l, source.Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
-            if (army != null)
+            if (army is not null)
             {
                 sbyte hexY = army.GetHexY();
                 sbyte hexX = army.GetHexX();
@@ -95,7 +95,7 @@ public partial class SummonSpellTokenEvent(CustomNode owner) : SpellTokenEvent(o
             _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, 0);
             if (StrategicMap.Current.Visible(x, y, l, 0))
             {
-                if (GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0] != null)
+                if (GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0] is not null)
                 {
                     animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                     animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0]);

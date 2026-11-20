@@ -28,7 +28,7 @@ public partial class Leader(CustomNode owner) : Hero(owner)
     // Hero.PAS:2766
     public override void Dispose()
     {
-        if (StrategicMap.Current != null && StrategicMap.Current.Players.GetPlayers(Player) != null && this == StrategicMap.Current.Players.GetPlayers(Player).Leader)
+        if (StrategicMap.Current is not null && StrategicMap.Current.Players.GetPlayers(Player) is not null && this == StrategicMap.Current.Players.GetPlayers(Player).Leader)
         {
             StrategicMap.Current.Players.GetPlayers(Player).SetLeader(null);
         }
@@ -73,7 +73,7 @@ public partial class Leader(CustomNode owner) : Hero(owner)
     public override void Changed()
     {
         base.Changed();
-        if (StrategicMap.Current != null && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
+        if (StrategicMap.Current is not null && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
         {
             StrategicMap.Current.OnLeaderChangedStore.Raise(this);
         }
@@ -117,7 +117,7 @@ public partial class Leader(CustomNode owner) : Hero(owner)
         if (result)
         {
             leader = StrategicMap.Current.Players.GetPlayers(Player).Leader;
-            if (leader != null && !CompatibleHero(leader))
+            if (leader is not null && !CompatibleHero(leader))
             {
                 result = false;
             }
@@ -137,12 +137,12 @@ public partial class Leader(CustomNode owner) : Hero(owner)
         }
 
         base.Activate();
-        if (StrategicMap.Current.Players.GetPlayers(Player) != null)
+        if (StrategicMap.Current.Players.GetPlayers(Player) is not null)
         {
             leader = StrategicMap.Current.Players.GetPlayers(Player).Leader;
             if (leader != this)
             {
-                if (leader != null && leader.Owner != null)
+                if (leader is not null && leader.Owner is not null)
                 {
                     try
                     {
@@ -178,7 +178,7 @@ public partial class Leader(CustomNode owner) : Hero(owner)
     // Hero.PAS:2915
     public override void Killed()
     {
-        if (UnitStatus.Contains(UnitStatusElement.Activated) && StrategicMap.Current.Combat == null)
+        if (UnitStatus.Contains(UnitStatusElement.Activated) && StrategicMap.Current.Combat is null)
         {
             StrategicMap.Current.GameOver(Player, GameOverStatus.Lost);
         }
@@ -190,7 +190,7 @@ public partial class Leader(CustomNode owner) : Hero(owner)
     public override string GetNickname()
     {
         string result;
-        if (StrategicMap.Current != null)
+        if (StrategicMap.Current is not null)
         {
             if (StrategicMap.Current.GameType != GameType.Campaign)
             {
@@ -212,7 +212,7 @@ public partial class Leader(CustomNode owner) : Hero(owner)
     // Hero.PAS:2795
     public override void SetNickname(string value)
     {
-        if (StrategicMap.Current != null && StrategicMap.Current.GameType == GameType.Campaign)
+        if (StrategicMap.Current is not null && StrategicMap.Current.GameType == GameType.Campaign)
         {
             base.SetNickname(value);
         }
@@ -222,7 +222,7 @@ public partial class Leader(CustomNode owner) : Hero(owner)
     public override void SetHeroResourceIndex(int value)
     {
         base.SetHeroResourceIndex(value);
-        if (HeroResource != null && StrategicMap.Current != null && StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (HeroResource is not null && StrategicMap.Current is not null && StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             HeroName = HeroResource.Name;
         }
@@ -237,7 +237,7 @@ public partial class Leader(CustomNode owner) : Hero(owner)
         level = message.Param[0].As<MapLevel>();
         l = message.Data[1];
         HexGeometry.PixelToHex(message.Payload.Int, message.Data[0], out int x, out int y);
-        placed = x >= 0 && y >= 0 && x < level.Width && y < level.Height && Place(x, y, l, Player, Set<UnitPlaceModeElement>.Of()) != null;
+        placed = x >= 0 && y >= 0 && x < level.Width && y < level.Height && Place(x, y, l, Player, Set<UnitPlaceModeElement>.Of()) is not null;
 
         message.Result = placed ? 0 : -1;
     }

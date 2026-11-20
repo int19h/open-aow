@@ -42,10 +42,10 @@ public partial class LeadershipAbility : MultiLevelAbility
     {
         int result;
         LeadershipAbilityData data;
-        if (owner != null)
+        if (owner is not null)
         {
             data = GetData(owner);
-            if (data != null)
+            if (data is not null)
             {
                 result = data.ExternalLevel > data.Level ? data.ExternalLevel : data.Level;
             }
@@ -68,7 +68,7 @@ public partial class LeadershipAbility : MultiLevelAbility
         string result;
         LeadershipAbilityData data;
         data = GetData(owner);
-        result = data != null && data.ExternalLevel > data.Level ? data.ExternalSource : owner.GetOwnerName();
+        result = data is not null && data.ExternalLevel > data.Level ? data.ExternalSource : owner.GetOwnerName();
 
         return result;
     }
@@ -78,7 +78,7 @@ public partial class LeadershipAbility : MultiLevelAbility
     {
         LeadershipAbilityData data;
         data = GetData(owner);
-        return data != null && data.Level > 0;
+        return data is not null && data.Level > 0;
     }
 
     // AoWAb.PAS:1086
@@ -87,7 +87,7 @@ public partial class LeadershipAbility : MultiLevelAbility
         bool result;
         LeadershipAbilityData data;
         data = GetData(owner);
-        result = data == null || data.Level < MaxLevel;
+        result = data is null || data.Level < MaxLevel;
 
         return result;
     }
@@ -100,7 +100,7 @@ public partial class LeadershipAbility : MultiLevelAbility
     {
         LeadershipAbilityData data;
         data = GetData(owner);
-        if (data == null)
+        if (data is null)
         {
             SetAbility(owner, AbilityId, 1);
             data = new LeadershipAbilityData(null)
@@ -130,7 +130,7 @@ public partial class LeadershipAbility : MultiLevelAbility
     {
         LeadershipAbilityData data;
         data = GetData(owner);
-        if (data != null)
+        if (data is not null)
         {
             if (data.Level != 0)
             {

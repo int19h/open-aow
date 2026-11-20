@@ -176,7 +176,7 @@ public partial class CampaignTransferSettings : EngineObject
         Item item;
         Item copyItem;
         Clear();
-        if (StrategicMap.Current != null)
+        if (StrategicMap.Current is not null)
         {
             units = new UnitUserList(null) { Holder = CreationHolder() };
             player = (sbyte)StrategicMap.Current.Players.LocalPlayers[0];
@@ -187,7 +187,7 @@ public partial class CampaignTransferSettings : EngineObject
             for (int j = Leader.Inventory.Items.Count - 1; j >= 0; j--)
             {
                 item = Leader.Inventory.Items.GetItem(j);
-                if (item != null)
+                if (item is not null)
                 {
                     copyItem = item.Copy<Item>(GetEngine());
                     copyItem.SetOwner(Items);
@@ -200,7 +200,7 @@ public partial class CampaignTransferSettings : EngineObject
             for (int j = Leader.HeroItems.Items.Count - 1; j >= 0; j--)
             {
                 item = Leader.HeroItems.Items.GetItem(j);
-                if (item != null)
+                if (item is not null)
                 {
                     copyItem = item.Copy<Item>(GetEngine());
                     copyItem.SetOwner(Items);
@@ -225,7 +225,7 @@ public partial class CampaignTransferSettings : EngineObject
                         for (int j = hero.Inventory.Items.Count - 1; j >= 0; j--)
                         {
                             item = hero.Inventory.Items.GetItem(j);
-                            if (item != null)
+                            if (item is not null)
                             {
                                 copyItem = item.Copy<Item>(GetEngine());
                                 copyItem.SetOwner(Items);
@@ -238,7 +238,7 @@ public partial class CampaignTransferSettings : EngineObject
                         for (int j = hero.HeroItems.Items.Count - 1; j >= 0; j--)
                         {
                             item = hero.HeroItems.Items.GetItem(j);
-                            if (item != null)
+                            if (item is not null)
                             {
                                 copyItem = item.Copy<Item>(GetEngine());
                                 copyItem.SetOwner(Items);
@@ -541,7 +541,7 @@ public partial class CampaignTransferSettings : EngineObject
         Troop troop;
         Hero hero;
         Item itemItem;
-        if (StrategicMap.Current != null)
+        if (StrategicMap.Current is not null)
         {
             StrategicMap.Current.SynchronizeBegin();
             StrategicMap.Current.Players.Update();
@@ -568,7 +568,7 @@ public partial class CampaignTransferSettings : EngineObject
             sbyte x = coordinate23.X;
             sbyte y = coordinate23.Y;
             sbyte l = coordinate23.MapLevel;
-            if (Leader != null)
+            if (Leader is not null)
             {
                 leader.Deactivate();
                 leader.Assign(Leader, GetEngine());

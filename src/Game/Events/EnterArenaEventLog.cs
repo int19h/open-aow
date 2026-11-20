@@ -98,7 +98,7 @@ public partial class EnterArenaEventLog(CustomNode owner) : EventLog(owner)
             {
                 int unitId = UnitIds[i];
                 troop = StrategicMap.Current.UnitControl.FindUnit(unitId);
-                if (troop != null)
+                if (troop is not null)
                 {
                     total += Arena.UnitTrainCost(troop);
                 }

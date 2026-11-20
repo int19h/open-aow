@@ -7,7 +7,7 @@ public partial class CustomImageLibrary
     public LibraryImage Get(int index)
     {
         LibraryImage image = Images[index].Image;
-        if (image != null)
+        if (image is not null)
         {
             return image;
         }
@@ -24,7 +24,7 @@ public partial class CustomImageLibrary
         }
 
         LibraryImage image = Images[index].Image;
-        if (image != null)
+        if (image is not null)
         {
             return image;
         }

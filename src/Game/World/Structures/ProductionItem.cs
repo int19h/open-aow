@@ -39,7 +39,7 @@ public partial class ProductionItem(CustomNode owner) : EngineObject(owner), IOw
     // Structur.PAS:71
     public virtual string GetName()
     {
-        string result = Owner != null
+        string result = Owner is not null
             ? Owner.ProductionControl.GetProductionName(this)
             : AbilityRules.TranslateResourceString(GetEngine(), GameTables.UnknownText);
         return result;
@@ -48,7 +48,7 @@ public partial class ProductionItem(CustomNode owner) : EngineObject(owner), IOw
     // Structur.PAS:77
     public string GetNameProgressive()
     {
-        string result = Owner != null
+        string result = Owner is not null
             ? Owner.ProductionControl.GetProductionNameProgressive(this)
             : AbilityRules.TranslateResourceString(GetEngine(), GameTables.UnknownText);
         return result;

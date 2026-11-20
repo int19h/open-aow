@@ -78,7 +78,7 @@ public partial class Menu : GenericWindow
         int i;
         Menu m;
         i = 0;
-        if (_ownerMenu != null)
+        if (_ownerMenu is not null)
         {
             try
             {
@@ -100,7 +100,7 @@ public partial class Menu : GenericWindow
         }
 
         i = 0;
-        if (_ownerMenuBar != null)
+        if (_ownerMenuBar is not null)
         {
             try
             {
@@ -136,22 +136,22 @@ public partial class Menu : GenericWindow
     // AOWMenu.pas:159
     public override void Validate()
     {
-        if (ImageLibraryFrame != null)
+        if (ImageLibraryFrame is not null)
         {
             ImageLibraryFrame = ImageLibraryFrame.CheckImageLibrary(ImageLibraryIndexFrame, 8, this);
         }
 
-        if (ImageLibraryTexture != null)
+        if (ImageLibraryTexture is not null)
         {
             ImageLibraryTexture = ImageLibraryTexture.CheckImageLibrary(ImageLibraryIndexTexture, 1, this);
         }
 
-        if (_imageLibraryTextureSelected != null)
+        if (_imageLibraryTextureSelected is not null)
         {
             _imageLibraryTextureSelected = _imageLibraryTextureSelected.CheckImageLibrary(_imageLibraryIndexTSelected, 1, this);
         }
 
-        if (OwnerComponent != null && ImageLibraryFrame != null && ImageLibraryTexture != null && _imageLibraryTextureSelected != null && base.Font != null)
+        if (OwnerComponent is not null && ImageLibraryFrame is not null && ImageLibraryTexture is not null && _imageLibraryTextureSelected is not null && base.Font is not null)
         {
             Valid = true;
         }
@@ -200,11 +200,11 @@ public partial class Menu : GenericWindow
             SetWinHeightWithoutInvalidate(imageLibraryFrame.Height + (count * ItemHeight) + imageLibraryFrameHeight.Height);
         }
 
-        if (WindowManager != null && _ownerMenuBar != null)
+        if (WindowManager is not null && _ownerMenuBar is not null)
         {
             mb = _ownerMenuBar;
             w = mb.Window;
-            if (w != null)
+            if (w is not null)
             {
                 int count = mb.Items.Count;
                 SetWinLeftWithoutInvalidate(w.WinLeft + mb.WinLeft + (mb.WinWidth / count * _ownerMenuBar.Selected));
@@ -254,7 +254,7 @@ public partial class Menu : GenericWindow
             FrameBottom = WinHeight - imageLibraryFrameHeight.Height;
         }
 
-        if (DoubleBuffered && BackSurface != null)
+        if (DoubleBuffered && BackSurface is not null)
         {
             _ = BackSurface.Resize(WinWidth, WinHeight);
             if (Masked)
@@ -360,11 +360,11 @@ public partial class Menu : GenericWindow
                 if (Visible)
                 {
                     Highlighted = -1;
-                    if (WindowManager != null && _ownerMenuBar != null)
+                    if (WindowManager is not null && _ownerMenuBar is not null)
                     {
                         MenuBar mb = _ownerMenuBar;
                         BaseWindow w = mb.Window;
-                        if (w != null)
+                        if (w is not null)
                         {
                             int count = mb.Items.Count;
                             SetWinLeftWithoutInvalidate(w.WinLeft + mb.WinLeft + (mb.WinWidth / count * _ownerMenuBar.Selected));
@@ -394,7 +394,7 @@ public partial class Menu : GenericWindow
                 else
                 {
                     MenuBar bar = _ownerMenuBar;
-                    if (bar != null)
+                    if (bar is not null)
                     {
                         bar.Selected = -1;
                         bar.Drawn = false;
@@ -771,7 +771,7 @@ public partial class Menu : GenericWindow
         Menu m;
         if (value != _ownerMenu)
         {
-            if (_ownerMenu != null)
+            if (_ownerMenu is not null)
             {
                 i = 0;
                 while (i < _ownerMenu.SubMenus.Count)
@@ -788,7 +788,7 @@ public partial class Menu : GenericWindow
             }
 
             _ownerMenu = value;
-            if (_ownerMenu != this && _ownerMenu != null)
+            if (_ownerMenu != this && _ownerMenu is not null)
             {
                 i = 0;
                 newIndex = -1;
@@ -825,7 +825,7 @@ public partial class Menu : GenericWindow
         Menu m;
         if (value != _ownerMenuBar)
         {
-            if (_ownerMenuBar != null)
+            if (_ownerMenuBar is not null)
             {
                 i = 0;
                 while (i < _ownerMenuBar.Menus.Count)
@@ -842,7 +842,7 @@ public partial class Menu : GenericWindow
             }
 
             _ownerMenuBar = value;
-            if (_ownerMenuBar != null)
+            if (_ownerMenuBar is not null)
             {
                 i = 0;
                 newIndex = -1;

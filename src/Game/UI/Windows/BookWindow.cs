@@ -28,10 +28,7 @@ public partial class BookWindow(Component owner) : Window(owner)
     {
         Surface s;
         s = _pageSurface;
-        if (s != null)
-        {
-            s?.Dispose();
-        }
+        s?.Dispose();
 
         base.Dispose();
     }
@@ -62,7 +59,7 @@ public partial class BookWindow(Component owner) : Window(owner)
             if (FreeSurfaceOnHide)
             {
                 s = _pageSurface;
-                if (s != null)
+                if (s is not null)
                 {
                     s?.Dispose();
                     _pageSurface = null;
@@ -129,7 +126,7 @@ public partial class BookWindow(Component owner) : Window(owner)
         LockedSurface source = default;
         LockedSurface destination = default;
         Rect r;
-        if (BackSurface != null && _pageSurface != null)
+        if (BackSurface is not null && _pageSurface is not null)
         {
             r = new Rect(0, 0, WinWidth, WinHeight);
             _ = BackSurface.Lock(ref source);

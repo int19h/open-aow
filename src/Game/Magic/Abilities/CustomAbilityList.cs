@@ -50,7 +50,7 @@ public partial class CustomAbilityList(CustomNode owner) : EngineObject(owner)
 
         for (int index = 0; index < AbilityCount; index++)
         {
-            if (GetAbilitySetAt(index) && GamePack.Current.AbilityControl.GetAbility(index) == null)
+            if (GetAbilitySetAt(index) && GamePack.Current.AbilityControl.GetAbility(index) is null)
             {
                 SetAbilitySet(index, 0);
             }

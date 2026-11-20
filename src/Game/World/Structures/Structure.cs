@@ -60,18 +60,18 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
     // Structur.PAS:1017
     public override void Dispose()
     {
-        if (_shadow != null)
+        if (_shadow is not null)
         {
             DestroyShadow();
         }
 
-        if (Owner != null && Status.Contains(MapObjectStatusElement.ResourceLinked) && Resource.TerrainBound)
+        if (Owner is not null && Status.Contains(MapObjectStatusElement.ResourceLinked) && Resource.TerrainBound)
         {
             _ = Owner.DestroyChildren(131334);
         }
 
         base.Dispose();
-        if (StrategicMap.Current != null && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
+        if (StrategicMap.Current is not null && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
         {
             StrategicMap.Current.NotifyStructureDestroyed(this);
         }
@@ -193,7 +193,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
         MapField mapField;
         mapField = Owner;
         base.RemoveFromMap();
-        if (mapField != null && !GetEditMode())
+        if (mapField is not null && !GetEditMode())
         {
             UpdateRoads(mapField);
         }
@@ -377,9 +377,9 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
             {
                 pad = !GetEditMode() ? GamePack.Current.PadControl.PlacePad(hexX, hexY, hexLevel, Resource.FlagType) : null;
 
-                if (pad != null || GetEditMode())
+                if (pad is not null || GetEditMode())
                 {
-                    if (pad != null)
+                    if (pad is not null)
                     {
                         TerrainType = pad.TerrainType;
                     }
@@ -429,8 +429,8 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
         LibraryImage result;
         ImageSequenceList sequences;
         sequences = Resource.ImageSequenceList;
-        result = sequences != null
-            ? sequences.GetImageSequence(30) != null ? Resource.ImageSequenceList.GetImageSequence(30).GetPreviewImage() : null
+        result = sequences is not null
+            ? sequences.GetImageSequence(30) is not null ? Resource.ImageSequenceList.GetImageSequence(30).GetPreviewImage() : null
             : Resource.ImageLibrary.GetSafe(30);
 
         return result;
@@ -442,8 +442,8 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
         LibraryImage result;
         ImageSequenceList sequences;
         sequences = Resource.ImageSequenceList;
-        result = sequences != null
-            ? sequences.GetImageSequence(31) != null ? Resource.ImageSequenceList.GetImageSequence(31).GetPreviewImage() : null
+        result = sequences is not null
+            ? sequences.GetImageSequence(31) is not null ? Resource.ImageSequenceList.GetImageSequence(31).GetPreviewImage() : null
             : Resource.ImageLibrary.GetSafe(31);
 
         return result;
@@ -455,8 +455,8 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
         LibraryImage result;
         ImageSequenceList sequences;
         sequences = Resource.ImageSequenceList;
-        result = sequences != null
-            ? sequences.GetImageSequence(32) != null ? Resource.ImageSequenceList.GetImageSequence(32).GetPreviewImage() : null
+        result = sequences is not null
+            ? sequences.GetImageSequence(32) is not null ? Resource.ImageSequenceList.GetImageSequence(32).GetPreviewImage() : null
             : Resource.ImageLibrary.GetSafe(32);
 
         return result;
@@ -541,7 +541,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
             if (tokenEvent.Action == -2)
             {
                 troop = StrategicMap.Current.UnitControl.FindUnit(tokenEvent.Param);
-                if (troop != null && ExecuteRebuild(troop))
+                if (troop is not null && ExecuteRebuild(troop))
                 {
                     troop.Killed();
                     result = ExecuteResult.Done;
@@ -618,7 +618,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
     // Structur.PAS:1107
     public virtual void CreateShadow()
     {
-        if (_shadow != null)
+        if (_shadow is not null)
         {
             DestroyShadow();
         }
@@ -634,7 +634,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
     // Structur.PAS:1115
     public virtual void DestroyShadow()
     {
-        if (_shadow != null)
+        if (_shadow is not null)
         {
             if (_shadow.ShadowStatus.Contains(StructureShadowStatusElement.Connected))
             {
@@ -802,7 +802,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
             log.SetLocation(level: GetHexLevel(), y: GetHexY(), x: GetHexX());
             EventLog.DistributeLocationEventLog(y: GetHexY(), level: GetHexLevel(), log: log, player: player, x: GetHexX(), execute: false);
             _ = log.Release();
-            if (Resource.ImageSequenceList.GetImageSequence(20) != null)
+            if (Resource.ImageSequenceList.GetImageSequence(20) is not null)
             {
                 animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                 animation.SetImageSequence(Resource.ImageSequenceList.GetImageSequence(20));
@@ -815,7 +815,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
                 _ = StrategicMap.Current.PlaceHex(animation, hexX, hexY3, hexLevel3);
             }
 
-            if (Resource.ImageSequenceList.GetImageSequence(21) != null)
+            if (Resource.ImageSequenceList.GetImageSequence(21) is not null)
             {
                 animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                 animation.SetImageSequence(Resource.ImageSequenceList.GetImageSequence(21));
@@ -935,7 +935,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
             if (Resource.TerrainList.Terrain[walk.HexNumber] >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
                 army = level.GetField(walk.X, walk.Y).GetArmyHexSprite();
-                if (army != null)
+                if (army is not null)
                 {
                     _ = list.AddUnits(army.Army.Units);
                     result += army.Army.Units.Count;
@@ -966,7 +966,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
                 if (Resource.TerrainList.Terrain[walk.HexNumber] >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                 {
                     army = level.GetField(walk.X, walk.Y).FindOwnedChild(131607);
-                    if (army != null)
+                    if (army is not null)
                     {
                         _ = list.AddChild(army);
                         result += 1;
@@ -1229,7 +1229,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
         int height;
         int y;
         bool result = false;
-        if (GetTopBorderImage() != null)
+        if (GetTopBorderImage() is not null)
         {
             if (lockedSurface.ClipRectangle.Right > R.Right)
             {
@@ -1249,7 +1249,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
             topImage = GetTopBorderImage();
             middleImage = GetMiddleBorderImage();
             bottomImage = GetBottomBorderImage();
-            if (bottomImage != null && topImage != null && middleImage != null)
+            if (bottomImage is not null && topImage is not null && middleImage is not null)
             {
                 // { Original uses the height, rather than R.Bottom, for the bottom image. }
                 bottomImage.Show(R.Left, height - bottomImage.Height, lockedSurface);
@@ -1282,7 +1282,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
         LockedSurface lockedSurface = default;
         Rect borderRectangle;
         bool result = false;
-        if (GetBottomBorderImage() != null)
+        if (GetBottomBorderImage() is not null)
         {
             width = R.Right - R.Left;
             height = R.Bottom - R.Top;

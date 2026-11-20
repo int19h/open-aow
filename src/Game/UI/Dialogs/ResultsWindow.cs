@@ -360,7 +360,7 @@ public partial class ResultsWindow(UIContext ui) : UIModule(ui)
         AudioPlayback.FadeMusicVolume(UI.SoundDialog.MusicVolumeSlider.Position, 2);
         if (StrategicMap.Current.GameStatus == StrategicMapGameStatus.Terminated)
         {
-            if (UI.Engine.Campaign == null)
+            if (UI.Engine.Campaign is null)
             {
                 UI.General.ReturnToTitle();
             }
@@ -405,7 +405,7 @@ public partial class ResultsWindow(UIContext ui) : UIModule(ui)
         {
             r = new Rect(component.WinLeft + ResultsPanel.AbsoluteLeft + 1, component.WinTop + ResultsPanel.AbsoluteTop + 1, component.WinLeft + component.WinWidth + ResultsPanel.AbsoluteLeft - 1, component.WinTop + component.WinHeight + ResultsPanel.AbsoluteTop - 1);
             byte player = Players[slot];
-            if (StrategicMap.Current.Players.GetPlayers(player).GetFace() != null)
+            if (StrategicMap.Current.Players.GetPlayers(player).GetFace() is not null)
             {
                 byte player2 = Players[slot];
                 StrategicMap.Current.Players.GetPlayers(player2).Leader.ShowFace(r, surface);
@@ -445,7 +445,7 @@ public partial class ResultsWindow(UIContext ui) : UIModule(ui)
     {
         AudioPlayback.SetSfxVolume(dialog.UI.SoundDialog.EffectsVolumeSlider.Position);
         dialog.ClearFire();
-        if (dialog.SavedSongStatus != null)
+        if (dialog.SavedSongStatus is not null)
         {
             _ = SongStatus.RestoreSongStatus(dialog.SavedSongStatus);
             dialog.SavedSongStatus = null;

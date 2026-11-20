@@ -189,7 +189,7 @@ public partial class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibra
     }
 
     // ImageLib.pas:4386
-    public override bool SupportShowMode(ShowMode showMode, PixelFormat pixelFormatId) => (pixelFormatId == PixelFormat.None || pixelFormatId == PixelFormat.Rgb565 || pixelFormatId == PixelFormat.Rgb555) && Set<ShowMode>.Of(ShowMode.Opaque, ShowMode.Transparent, ShowMode.Blended).Contains(showMode);
+    public override bool SupportShowMode(ShowMode showMode, PixelFormat pixelFormatId) => (pixelFormatId is PixelFormat.None or PixelFormat.Rgb565 or PixelFormat.Rgb555) && Set<ShowMode>.Of(ShowMode.Opaque, ShowMode.Transparent, ShowMode.Blended).Contains(showMode);
 
     // ImageLib.pas:4392
     public override void ShowOpaque(int X, int Y, in LockedSurface lockedSurface)

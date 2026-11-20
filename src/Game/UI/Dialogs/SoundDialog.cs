@@ -420,14 +420,14 @@ public partial class SoundDialog(UIContext ui) : UIModule(ui)
 
     private static Set<SoundSystemStatusElement> SoundSystemStatus()
     {
-        return AudioHost.SoundSystem != null
+        return AudioHost.SoundSystem is not null
             ? AudioHost.SoundSystem.Status
             : Set<SoundSystemStatusElement>.Of([]);
     }
 
-    private static bool SetMusicEnabled(bool value) => AudioHost.SoundSystem != null && AudioHost.SoundSystem.SetMusicEnabled(value);
+    private static bool SetMusicEnabled(bool value) => AudioHost.SoundSystem is not null && AudioHost.SoundSystem.SetMusicEnabled(value);
 
-    private static bool SetSfxEnabled(bool value) => AudioHost.SoundSystem != null && AudioHost.SoundSystem.SetSfxEnabled(value);
+    private static bool SetSfxEnabled(bool value) => AudioHost.SoundSystem is not null && AudioHost.SoundSystem.SetSfxEnabled(value);
 
-    private static bool SetSoundSettings(in SoundSettings settings) => AudioHost.SoundSystem != null && AudioHost.SoundSystem.SetSoundSettings(in settings);
+    private static bool SetSoundSettings(in SoundSettings settings) => AudioHost.SoundSystem is not null && AudioHost.SoundSystem.SetSoundSettings(in settings);
 }

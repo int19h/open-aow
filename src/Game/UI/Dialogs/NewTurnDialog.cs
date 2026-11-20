@@ -34,7 +34,7 @@ public partial class NewTurnDialog(UIContext ui) : UIModule(ui)
         ExecuteDoneEvent done;
         NewTurnEventLog eventValue;
         UI.General.Manager.OverlayPriority = 0;
-        if (_newTurn == null)
+        if (_newTurn is null)
         {
             StrategicMap.Current.SetSeatedPlayer(StrategicMap.Current.CurrentPlayer);
             if (StrategicMap.Current.SeatedPlayer > -1)
@@ -117,7 +117,7 @@ public partial class NewTurnDialog(UIContext ui) : UIModule(ui)
     // AoWNewTurnDialog.pas:106
     public void NewTDlgMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        if (CombatMap.Current == null && _newTurn.DialogStyle.Contains(NewTurnEventLogDialogStyleElement.Closeable))
+        if (CombatMap.Current is null && _newTurn.DialogStyle.Contains(NewTurnEventLogDialogStyleElement.Closeable))
         {
             Window.Visible = false;
         }
@@ -126,7 +126,7 @@ public partial class NewTurnDialog(UIContext ui) : UIModule(ui)
     // AoWNewTurnDialog.pas:111
     public void NewTDlgKeyPress(in byte key)
     {
-        if (_newTurn.DialogStyle.Contains(NewTurnEventLogDialogStyleElement.Closeable) && (key == 32 || key == 13 || key == 27))
+        if (_newTurn.DialogStyle.Contains(NewTurnEventLogDialogStyleElement.Closeable) && (key is 32 or 13 or 27))
         {
             Window.Visible = false;
         }
@@ -136,9 +136,9 @@ public partial class NewTurnDialog(UIContext ui) : UIModule(ui)
     public void FaceFramePreDraw(LockedSurface surface)
     {
         Rect r;
-        if (CombatMap.Current != null)
+        if (CombatMap.Current is not null)
         {
-            if (StrategicMap.Current.Players.GetPlayers(CombatMap.Current.SeatedPlayer).Leader != null)
+            if (StrategicMap.Current.Players.GetPlayers(CombatMap.Current.SeatedPlayer).Leader is not null)
             {
                 r = new Rect(Window.WinLeft + 188, Window.WinTop + 40, Window.WinLeft + 188 + 103, Window.WinTop + 40 + 128);
                 StrategicMap.Current.Players.GetPlayers(CombatMap.Current.SeatedPlayer).Leader.ShowFace(r, surface);
@@ -146,7 +146,7 @@ public partial class NewTurnDialog(UIContext ui) : UIModule(ui)
         }
         else
         {
-            if (StrategicMap.Current.Players.GetPlayers(_newTurn.TurnPlayer).Leader != null)
+            if (StrategicMap.Current.Players.GetPlayers(_newTurn.TurnPlayer).Leader is not null)
             {
                 r = new Rect(Window.WinLeft + 188, Window.WinTop + 40, Window.WinLeft + 188 + 103, Window.WinTop + 40 + 128);
                 StrategicMap.Current.Players.GetPlayers(_newTurn.TurnPlayer).Leader.ShowFace(r, surface);

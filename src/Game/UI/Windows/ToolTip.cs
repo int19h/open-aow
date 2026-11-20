@@ -48,17 +48,17 @@ public partial class ToolTip : GenericWindow
     // AOWToolTip.pas:79
     public override void Validate()
     {
-        if (ImageLibraryFrame != null)
+        if (ImageLibraryFrame is not null)
         {
             ImageLibraryFrame = ImageLibraryFrame.CheckImageLibrary(ImageLibraryIndexFrame, 8, this);
         }
 
-        if (ImageLibraryTexture != null)
+        if (ImageLibraryTexture is not null)
         {
             ImageLibraryTexture = ImageLibraryTexture.CheckImageLibrary(ImageLibraryIndexTexture, 1, this);
         }
 
-        if (OwnerComponent != null && ImageLibraryFrame != null && ImageLibraryTexture != null && base.Font != null)
+        if (OwnerComponent is not null && ImageLibraryFrame is not null && ImageLibraryTexture is not null && base.Font is not null)
         {
             Valid = true;
         }

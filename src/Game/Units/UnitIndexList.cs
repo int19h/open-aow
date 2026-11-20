@@ -27,7 +27,7 @@ public partial class UnitIndexList : Int32List
         for (int i = Count - 1; i >= 0; i--)
         {
             u = List[i];
-            if (u != -1 && GamePack.Current.UnitResources.GetUnitResource(u) == null)
+            if (u != -1 && GamePack.Current.UnitResources.GetUnitResource(u) is null)
             {
                 if (showErrors)
                 {
@@ -54,7 +54,7 @@ public partial class UnitIndexList : Int32List
     // UnitRes.PAS:262
     public void SortUnits()
     {
-        if (GamePack.Current != null)
+        if (GamePack.Current is not null)
         {
             Pack();
             try

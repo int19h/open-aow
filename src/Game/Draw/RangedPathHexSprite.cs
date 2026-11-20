@@ -40,7 +40,7 @@ public partial class RangedPathHexSprite(CustomNode owner) : FixedVisibleHexSpri
         int hexX = default;
         int hexY = default;
         BattleEffectType effectType;
-        if (Selection != null)
+        if (Selection is not null)
         {
             int pixelX;
             int pixelY;

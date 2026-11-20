@@ -122,7 +122,7 @@ public partial class City : PlayerCropStructure
         {
             if (Race >= 0)
             {
-                if (StrategicMap.Current.Races.GetRace(Race) == null || !StrategicMap.Current.Races.GetRace(Race).Enabled)
+                if (StrategicMap.Current.Races.GetRace(Race) is null || !StrategicMap.Current.Races.GetRace(Race).Enabled)
                 {
                     Race = -1;
                     UpdateImages();
@@ -390,8 +390,8 @@ public partial class City : PlayerCropStructure
         {
             index = 42;
             sequences = Resource.ImageSequenceList;
-            result = sequences != null
-                ? sequences.GetImageSequence(index) != null ? Resource.ImageSequenceList.GetImageSequence(index).GetPreviewImage() : null
+            result = sequences is not null
+                ? sequences.GetImageSequence(index) is not null ? Resource.ImageSequenceList.GetImageSequence(index).GetPreviewImage() : null
                 : null;
         }
 
@@ -414,8 +414,8 @@ public partial class City : PlayerCropStructure
         {
             index = 43;
             sequences = Resource.ImageSequenceList;
-            result = sequences != null
-                ? sequences.GetImageSequence(index) != null ? Resource.ImageSequenceList.GetImageSequence(index).GetPreviewImage() : null
+            result = sequences is not null
+                ? sequences.GetImageSequence(index) is not null ? Resource.ImageSequenceList.GetImageSequence(index).GetPreviewImage() : null
                 : null;
         }
 
@@ -438,8 +438,8 @@ public partial class City : PlayerCropStructure
         {
             index = 44;
             sequences = Resource.ImageSequenceList;
-            result = sequences != null
-                ? sequences.GetImageSequence(index) != null ? Resource.ImageSequenceList.GetImageSequence(index).GetPreviewImage() : null
+            result = sequences is not null
+                ? sequences.GetImageSequence(index) is not null ? Resource.ImageSequenceList.GetImageSequence(index).GetPreviewImage() : null
                 : null;
         }
 
@@ -1005,7 +1005,7 @@ public partial class City : PlayerCropStructure
                 if (Resource.TerrainList.GetTerrain(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
                 {
                     army = mapLevel.GetField(walk.X, walk.Y).GetArmyHexSprite();
-                    if (army != null)
+                    if (army is not null)
                     {
                         if (player == -1)
                         {
@@ -1478,7 +1478,7 @@ public partial class City : PlayerCropStructure
             if (Resource.TerrainList.GetTerrain(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
                 army = mapLevel.GetField(walk.X, walk.Y).GetArmyHexSprite();
-                if (army != null && (!selection.Contains(MoveOutOfCitySelectionElement.SkipOwnPlayer) || army.Army.Player != Player))
+                if (army is not null && (!selection.Contains(MoveOutOfCitySelectionElement.SkipOwnPlayer) || army.Army.Player != Player))
                 {
                     result = army.Place(mapLevel: GetHexLevel(), x: (sbyte)walk.X, y: (sbyte)walk.Y, mode: Set<ArmyPlaceModeElement>.Of(ArmyPlaceModeElement.Safe, ArmyPlaceModeElement.ScanArea));
                 }
@@ -1512,7 +1512,7 @@ public partial class City : PlayerCropStructure
             if (Resource.TerrainList.GetTerrain(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
                 army = mapLevel.GetField(walk.X, walk.Y).GetArmyHexSprite();
-                if (army != null)
+                if (army is not null)
                 {
                     result += army.Army.ObtainValue(255);
                 }
@@ -1775,7 +1775,7 @@ public partial class City : PlayerCropStructure
                     if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
                     {
                         city = mapLevel.GetField(walk.X, walk.Y).FindNoneTransparentHexSprite<City>();
-                        if (city != null && city.Race == race)
+                        if (city is not null && city.Race == race)
                         {
                             radius = walk.Radius;
                         }
@@ -1877,7 +1877,7 @@ public partial class City : PlayerCropStructure
             if (StrategicMap.Current.Races.GetRace(i).Enabled)
             {
                 item = CreateMigrationItem((sbyte)i);
-                if (item != null && Set<Status>.Of(Session.Status.Neutral, Session.Status.Polite, Session.Status.Friendly).Contains(item.Relation))
+                if (item is not null && Set<Status>.Of(Session.Status.Neutral, Session.Status.Polite, Session.Status.Friendly).Contains(item.Relation))
                 {
                     item.Owner = result;
                 }
@@ -2550,7 +2550,7 @@ public partial class City : PlayerCropStructure
         LibraryImage result;
         int? sequence = order?.CitySequence(this, row);
         result = sequence is int index
-            ? Resource.ImageSequenceList != null && index != -1
+            ? Resource.ImageSequenceList is not null && index != -1
                 ? Resource.ImageSequenceList.GetImageSequence(index)?.GetPreviewImage()
                 : null
             : hasRace
@@ -2681,7 +2681,7 @@ public partial class City : PlayerCropStructure
     {
         UnitProduction unitProduction = item1;
         int number;
-        if (GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex) != null)
+        if (GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex) is not null)
         {
             number = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).Level * 2;
             if (s_sortingCity.Race != -1 && GamePack.Current.RaceResources.GetRaceResource(s_sortingCity.Race).SpecialUnitIndexes.Count > 3 && GamePack.Current.RaceResources.GetRaceResource(s_sortingCity.Race).SpecialUnitIndexes[3] == unitProduction.UnitIndex)
@@ -2695,7 +2695,7 @@ public partial class City : PlayerCropStructure
         }
         UnitProduction unitProduction2 = item2;
         int number2;
-        if (GamePack.Current.UnitResources.GetUnitResource(unitProduction2.UnitIndex) != null)
+        if (GamePack.Current.UnitResources.GetUnitResource(unitProduction2.UnitIndex) is not null)
         {
             number2 = GamePack.Current.UnitResources.GetUnitResource(unitProduction2.UnitIndex).Level * 2;
             if (s_sortingCity.Race != -1 && GamePack.Current.RaceResources.GetRaceResource(s_sortingCity.Race).SpecialUnitIndexes.Count > 3 && GamePack.Current.RaceResources.GetRaceResource(s_sortingCity.Race).SpecialUnitIndexes[3] == unitProduction2.UnitIndex)

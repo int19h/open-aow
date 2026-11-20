@@ -300,9 +300,9 @@ public partial class MagicWindow(UIContext ui) : UIModule(ui)
         if (magic.ResearchSpellId != 0)
         {
             spell = GamePack.Current.SpellControl.GetSpell(magic.ResearchSpellId);
-            if (spell != null)
+            if (spell is not null)
             {
-                if (spell.CastImages.GetImageSequence(10) != null)
+                if (spell.CastImages.GetImageSequence(10) is not null)
                 {
                     x = sender.Window.AbsoluteLeft;
                     y = sender.Window.AbsoluteTop + sender.WinTop;

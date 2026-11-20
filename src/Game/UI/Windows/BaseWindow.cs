@@ -87,7 +87,7 @@ public partial class BaseWindow(Component owner) : WindowControl(owner)
                 Hidden = true;
                 OnHide?.Invoke(this);
 
-                if (FreeSurfaceOnHide && BackSurface != null)
+                if (FreeSurfaceOnHide && BackSurface is not null)
                 {
                     BackSurface?.Dispose();
                     BackSurface = null;
@@ -362,7 +362,7 @@ public partial class BaseWindow(Component owner) : WindowControl(owner)
             if (DoubleBuffered)
             {
                 destinationSurfaceDescription = lockedSurface;
-                if (BackSurface == null)
+                if (BackSurface is null)
                 {
                     BackSurface = new DataSurface(WinWidth, WinHeight, lockedSurface.PixelFormatId, null);
                     if (Masked)
@@ -392,7 +392,7 @@ public partial class BaseWindow(Component owner) : WindowControl(owner)
                     }
                 }
 
-                if (BackSurface != null)
+                if (BackSurface is not null)
                 {
                     SetWinLeftWithoutInvalidate(0);
                     SetWinTopWithoutInvalidate(0);

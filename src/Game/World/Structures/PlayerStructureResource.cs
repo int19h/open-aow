@@ -50,7 +50,7 @@ public partial class PlayerStructureResource(CustomNode owner) : StructureResour
     {
         // The user class is a player structure (131916) or one of its kinds. Another class throws.
         PlayerStructure result = PlaceCreatedUser<PlayerStructure>(hexSpriteMap, hexX, hexY, hexLevel);
-        if (result != null && StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (result is not null && StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             result.SetPlayer(StrategicMap.Current.EditorPlayer);
         }

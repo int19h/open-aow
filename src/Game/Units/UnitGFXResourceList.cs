@@ -34,7 +34,7 @@ public partial class UnitGFXResourceList : ResourceCollection, IChildList<UnitGr
         list.Clear();
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            if (GetChild(i) != null)
+            if (GetChild(i) is not null)
             {
                 _ = list.AddObject(this[i].Name, IntToObject(i));
             }

@@ -25,7 +25,7 @@ public partial class IsometricHex(CustomNode owner) : AbstractHexagon(owner)
     // IsoHex.pas:204
     public override void Dispose()
     {
-        if (Dynamic != null)
+        if (Dynamic is not null)
         {
             Dynamic?.Dispose();
             Dynamic = null;
@@ -39,7 +39,7 @@ public partial class IsometricHex(CustomNode owner) : AbstractHexagon(owner)
     // IsoHex.pas:224
     public override void Disconnect()
     {
-        if (Dynamic != null)
+        if (Dynamic is not null)
         {
             Dynamic?.Dispose();
             Dynamic = null;

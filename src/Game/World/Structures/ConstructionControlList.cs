@@ -23,7 +23,7 @@ public partial class ConstructionControlList(CustomNode owner) : OwningNode(owne
         int i;
         ConstructionControl result = null;
         i = GetCount();
-        while (result == null && i != 0)
+        while (result is null && i != 0)
         {
             i -= 1;
             // { Read the list again after the virtual ID call. }

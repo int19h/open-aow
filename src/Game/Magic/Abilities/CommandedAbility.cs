@@ -37,7 +37,7 @@ public partial class CommandedAbility : AdjustableAbility
     {
         CommandedAbilityData? data;
         data = GetData(combatObject.GetAbilityOwner());
-        if (data != null && combatObject is CombatUnit combatUnit)
+        if (data is not null && combatObject is CombatUnit combatUnit)
         {
             GamePack.Current.AbilityControl.GetAbility<CommandAbility>(data.CommandAbilityId).Uncommand(combatUnit);
         }

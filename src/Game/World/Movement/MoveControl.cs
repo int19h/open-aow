@@ -84,7 +84,7 @@ public partial class MoveControl(GameMap owner) : IDisposable
         }
 
         // { Original bug: the Y bound also uses the map width. }
-        if (!(MapLevel != null && Source.X >= 0 && Source.X < MapLevel.Width && Source.Y >= 0 && Source.Y < MapLevel.Width))
+        if (!(MapLevel is not null && Source.X >= 0 && Source.X < MapLevel.Width && Source.Y >= 0 && Source.Y < MapLevel.Width))
         {
             // { Preserve the original assertion diagnostic. }
             Assert(false, "Invalid settings (TMoveControl)", "D:\\AoWDev\\AoWE\\inc\\MoveT.PAS", 32187);
@@ -311,7 +311,7 @@ public partial class MoveControl(GameMap owner) : IDisposable
         pathFindingStep = new PathFindingStep(null) { Holder = Map };
         MapCoordinate mapCoordinate = mapField.GetMapCoordinate();
         pathFindingStep.Location = mapCoordinate;
-        if (origin != null)
+        if (origin is not null)
         {
             MapCoordinate originMapCoordinate = origin.GetMapCoordinate();
             pathFindingStep.Origin = originMapCoordinate;

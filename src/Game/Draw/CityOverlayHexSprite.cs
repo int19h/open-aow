@@ -38,7 +38,7 @@ public partial class CityOverlayHexSprite(CustomNode owner) : SingleHexSprite(ow
             {
                 intensity = Math.Abs(((int)(((uint)StrategicMap.Current.Frame) >> 1) % 20) - 10) + 50;
                 sequence = City.Resource.ImageSequenceList.ImageSequences[17];
-                while (sequence != null)
+                while (sequence is not null)
                 {
                     index = sequence.GetFrameIndex(0, 0);
                     if (sequence == City.Resource.ImageSequenceList.ImageSequences[17])
@@ -58,7 +58,7 @@ public partial class CityOverlayHexSprite(CustomNode owner) : SingleHexSprite(ow
             {
                 intensity = Math.Abs(((int)(((uint)StrategicMap.Current.Frame) >> 1) % 20) - 10) + 70;
                 sequence = City.Resource.ImageSequenceList.ImageSequences[18];
-                while (sequence != null)
+                while (sequence is not null)
                 {
                     if (sequence == City.Resource.ImageSequenceList.ImageSequences[18])
                     {
@@ -84,7 +84,7 @@ public partial class CityOverlayHexSprite(CustomNode owner) : SingleHexSprite(ow
             if (City.Enchantments.Contains(CityEnchantmentId.AntiMagicShell))
             {
                 sequence = City.Resource.ImageSequenceList.ImageSequences[19];
-                if (sequence != null)
+                if (sequence is not null)
                 {
                     intensity = 50;
                     index = sequence.GetFrameIndex(0, 0);

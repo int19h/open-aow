@@ -37,7 +37,7 @@ public partial class UnitPositionControl : EngineObject
             if (CombatMap.Current.MapContainer.GetField(x, y, l).TerrainType != 15)
             {
                 hexSprite = CombatMap.Current.MapContainer.GetField(x, y, l).FindOwnedChild<UnitPositionHexSprite>(2228483);
-                if (hexSprite == null)
+                if (hexSprite is null)
                 {
                     hexSprite = new UnitPositionHexSprite(null) { Holder = CreationHolder() };
                     if (!CombatMap.Current.PlaceHex(hexSprite, x, y, l))
@@ -47,7 +47,7 @@ public partial class UnitPositionControl : EngineObject
                     }
                 }
 
-                if (hexSprite != null)
+                if (hexSprite is not null)
                 {
                 }
             }

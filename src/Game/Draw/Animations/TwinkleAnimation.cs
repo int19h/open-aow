@@ -72,7 +72,7 @@ public partial class TwinkleAnimation : Animation
 
                 AbilityRules.PolarToCartesian(angle, radius, out int deltaX, out int deltaY);
                 sequence = _imageSequence;
-                while (sequence != null)
+                while (sequence is not null)
                 {
                     index = sequence.GetUnloopedFrameIndex(FrameCounter - delay);
                     if (sequence.ImageLibrary.ImageExist(index))

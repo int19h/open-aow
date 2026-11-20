@@ -104,17 +104,17 @@ public partial class ImageLibraryManager : Component
             result = DiskList.LinkToImageLibrary(fileName);
         }
 
-        if (category.Contains(ImageLibraryManagerCategoryElement.Owned) && result == null)
+        if (category.Contains(ImageLibraryManagerCategoryElement.Owned) && result is null)
         {
             result = OwnedList.LinkToImageLibrary(fileName);
-            if (result == null)
+            if (result is null)
             {
                 result = new ImageLibrary(null);
                 _ = OwnedList.AddImageLibraryManagerObject(fileName, result);
             }
         }
 
-        if (result == null)
+        if (result is null)
         {
             try
             {

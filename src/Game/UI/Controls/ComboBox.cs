@@ -68,27 +68,27 @@ public partial class ComboBox : Control
     // AoWComboBox.pas:128
     public override void Validate()
     {
-        if (_imageLibraryEdit != null)
+        if (_imageLibraryEdit is not null)
         {
             _imageLibraryEdit = _imageLibraryEdit.CheckImageLibrary(_ileIndex, 3, this);
         }
 
-        if (_imageLibraryFrame != null)
+        if (_imageLibraryFrame is not null)
         {
             _imageLibraryFrame = _imageLibraryFrame.CheckImageLibrary(_ilfIndex, 8, this);
         }
 
-        if (_imageLibraryTextureNormal != null)
+        if (_imageLibraryTextureNormal is not null)
         {
             _imageLibraryTextureNormal = _imageLibraryTextureNormal.CheckImageLibrary(_imageLibraryTnIndex, 1, this);
         }
 
-        if (_imageLibraryTextureSelected != null)
+        if (_imageLibraryTextureSelected is not null)
         {
             _imageLibraryTextureSelected = _imageLibraryTextureSelected.CheckImageLibrary(_imageLibraryTsIndex, 1, this);
         }
 
-        if (base.Font != null && _imageLibraryEdit != null && _imageLibraryFrame != null && _imageLibraryTextureNormal != null && _imageLibraryTextureSelected != null)
+        if (base.Font is not null && _imageLibraryEdit is not null && _imageLibraryFrame is not null && _imageLibraryTextureNormal is not null && _imageLibraryTextureSelected is not null)
         {
             Valid = true;
         }
@@ -124,7 +124,7 @@ public partial class ComboBox : Control
         }
 
         SetWinHeightWithoutInvalidate(_imageLibraryEdit[_ileIndex].Height);
-        if (_verticalScrollBar != null)
+        if (_verticalScrollBar is not null)
         {
             if (_verticalScrollBar.Window != Window)
             {
@@ -163,7 +163,7 @@ public partial class ComboBox : Control
         if (Visible)
         {
             Redraw = _open;
-            if (_verticalScrollBar != null && _items.Count > 0)
+            if (_verticalScrollBar is not null && _items.Count > 0)
             {
                 if (_verticalScrollBar.Position != _firstShownItem)
                 {
@@ -184,7 +184,7 @@ public partial class ComboBox : Control
     public override void SetVisible(bool value)
     {
         base.SetVisible(value);
-        if (_open && _verticalScrollBar != null)
+        if (_open && _verticalScrollBar is not null)
         {
             _verticalScrollBar.Visible = Visible;
         }
@@ -344,7 +344,7 @@ public partial class ComboBox : Control
 
                         Drawn = false;
                         _scrollBarWidth = _imageLibraryFrame[_ilfIndex + 4].Width;
-                        if (_verticalScrollBar != null && _openListRows > 0)
+                        if (_verticalScrollBar is not null && _openListRows > 0)
                         {
                             if (Priority + 1 != _verticalScrollBar.Priority)
                             {

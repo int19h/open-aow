@@ -20,10 +20,7 @@ public partial class SetupPackage(CustomNode owner) : EngineObject(owner)
     {
         EngineObject data;
         data = Data;
-        if (data != null)
-        {
-            data?.Dispose();
-        }
+        data?.Dispose();
 
         base.Dispose();
     }

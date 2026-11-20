@@ -71,7 +71,7 @@ public sealed class NullSoundSystem : SoundSystem
     {
         AudioHost.SoundSystems ??= new SoundSystemList();
         string name = classValue.Name;
-        if (AudioHost.SoundSystems.Find(name) == null)
+        if (AudioHost.SoundSystems.Find(name) is null)
         {
             _ = AudioHost.SoundSystems.Add(classValue);
             return;

@@ -44,10 +44,10 @@ public partial class ConstructStructureTokenEvent(CustomNode owner) : TokenEvent
         _ = base.Execute(tokenEvent);
         troop = StrategicMap.Current.UnitControl.FindUnit(UnitId);
         control = GamePack.Current.AbilityControl.GetAbility<ConstructAbility>(125).ConstructionControls.FindId<StructureConstructionControl>(ControlId);
-        if (control != null && troop != null && troop.Player == Player && control.CanConstruct(troop, ref reason))
+        if (control is not null && troop is not null && troop.Player == Player && control.CanConstruct(troop, ref reason))
         {
             resource = control.StructureResource(troop);
-            if (resource != null)
+            if (resource is not null)
             {
                 MapCoordinate coordinate4 = troop.GetLocation();
                 sbyte x = coordinate4.X;
@@ -69,7 +69,7 @@ public partial class ConstructStructureTokenEvent(CustomNode owner) : TokenEvent
                 owner = locked ? troop.OwnerUnits.Holder : null;
                 using ObservableNode.UpdateBatch batch = locked ? owner.BeginUpdate() : default;
                 structure = resource.PlaceResourceUser<Structure>(StrategicMap.Current, hexX: x, hexY: y, hexLevel: l);
-                if (structure != null)
+                if (structure is not null)
                 {
                     control.GetInfo(troop, out string text, out int gold, out int days);
                     _ = structure.ExecuteBuild(troop, days);

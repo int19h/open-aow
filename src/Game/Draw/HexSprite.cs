@@ -235,7 +235,7 @@ public partial class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<M
     public virtual void GetBaseHex(out int mapCoordinate) => mapCoordinate = Owner.HexX + (Owner.HexY << 8) + (Owner.Owner.HexLevel << 16);
 
     // HXSPRITE.PAS:57
-    public virtual bool CanSelect(int pixelX, int pixelY) => Owner != null && Owner.Owner.Engine.HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting);
+    public virtual bool CanSelect(int pixelX, int pixelY) => Owner is not null && Owner.Owner.Engine.HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting);
 
     // HXSPRITE.PAS:107
     public virtual void Select()

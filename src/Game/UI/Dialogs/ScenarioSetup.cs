@@ -663,7 +663,7 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
         string connection;
         RemotePlayer player;
         SetupControl control;
-        if (setup.SetupControl != null)
+        if (setup.SetupControl is not null)
         {
             control = setup.SetupControl;
             setup.PlayerList.Items.Clear();
@@ -809,7 +809,7 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
         int i;
         bool visible;
         bool found;
-        if (settings != null)
+        if (settings is not null)
         {
             visible = setup.SetupControl.GetHost() && !settings.Status.Contains(PlayerSetupStatusElement.Fixed);
             if (visible != playerBox.Visible)

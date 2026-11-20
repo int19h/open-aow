@@ -246,7 +246,7 @@ public partial class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject
     {
         ArmyHexSprite army;
         army = Owner.GetArmyHexSprite();
-        if (army != null && player == army.Army.Player)
+        if (army is not null && player == army.Army.Player)
         {
             TriggerArmyDamage(army);
         }

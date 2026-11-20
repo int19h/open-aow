@@ -84,7 +84,7 @@ public partial class Spell : EngineObject
         if (StrategicMap.Current.Visible(X, Y, layer, 0))
         {
             _ = StrategicMap.Current.ValidateObservation(player, X, Y, layer, 0);
-            if (GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(0) != null)
+            if (GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(0) is not null)
             {
                 animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                 animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(0));
@@ -322,7 +322,7 @@ public partial class Spell : EngineObject
         return result;
     }
 
-    public virtual bool CanActivateCombat(Troop source, ref string reason) => StrategicMap.Current.Combat != null;
+    public virtual bool CanActivateCombat(Troop source, ref string reason) => StrategicMap.Current.Combat is not null;
 
     public virtual void GetCombatInfo(Troop source, ref SpellCombatInfo info)
     {

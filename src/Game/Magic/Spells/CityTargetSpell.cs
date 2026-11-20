@@ -54,7 +54,7 @@ public partial class CityTargetSpell : Spell
         Troop source = default;
         bool valid = default;
         source = StrategicMap.Current.UnitControl.FindUnit(_sourceId);
-        if (source != null)
+        if (source is not null)
         {
             switch (targetSelection.Change)
             {
@@ -247,14 +247,14 @@ public partial class CityTargetSpell : Spell
         City targetCity;
         level = StrategicMap.Current.MapContainer.GetMapLevel(L);
         source = StrategicMap.Current.UnitControl.FindUnit(_sourceId);
-        if (source != null && X >= 0 && Y >= 0 && X < level.Width && Y < level.Height)
+        if (source is not null && X >= 0 && Y >= 0 && X < level.Width && Y < level.Height)
         {
             field = level.GetField(X, Y);
             valid = !StrategicMap.Current.ExplorationEnabled || field.GetExplored(source.Player);
             if (valid)
             {
                 targetCity = field.FindNoneTransparentHexSprite<City>();
-                valid = targetCity != null && ValidTargetCity(source, targetCity);
+                valid = targetCity is not null && ValidTargetCity(source, targetCity);
             }
         }
         else

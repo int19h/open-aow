@@ -11,7 +11,7 @@ public static class ImageLibraries
     {
         for (int i = 0, last = classes.Length - 1; i <= last; i++)
         {
-            if (classes[i].ClassId != 0 && LibraryCatalog.FindLibraryImageClass(classes[i].ClassId) == null)
+            if (classes[i].ClassId != 0 && LibraryCatalog.FindLibraryImageClass(classes[i].ClassId) is null)
             {
                 LibraryImageClasses.Add(classes[i]);
             }

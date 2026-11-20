@@ -60,12 +60,12 @@ public partial class Terrain(CustomNode owner) : TerrainMapObject(owner)
     {
         TerrainMapObjectResource r;
         MapField oldOwner;
-        if (Owner.FindOwnedChild(132990) == null)
+        if (Owner.FindOwnedChild(132990) is null)
         {
             if (StrategicMap.Current.Random(20) == 0)
             {
                 r = FindCompatibleResource(base.Resource.TerrainType, 1, 0);
-                if (r != null)
+                if (r is not null)
                 {
                     oldOwner = Owner;
                     RemoveFromMap();
@@ -92,7 +92,7 @@ public partial class Terrain(CustomNode owner) : TerrainMapObject(owner)
         }
 
         TerrainMapObjectResource resource = FindCompatibleResource(base.Resource.TerrainType, 3, 3);
-        if (resource == null)
+        if (resource is null)
         {
             return;
         }

@@ -16,7 +16,7 @@ public partial class Label(Component owner) : Control(owner)
     // AoWLabel.pas:38
     public override void Validate()
     {
-        if (base.Font != null)
+        if (base.Font is not null)
         {
             Valid = true;
         }

@@ -5,7 +5,7 @@ public partial class SpellBook
     public override void Loaded()
     {
         base.Loaded();
-        if (Book != null)
+        if (Book is not null)
         {
             Book.PageBack = PreviousButton;
             Book.PageForward = NextButton;

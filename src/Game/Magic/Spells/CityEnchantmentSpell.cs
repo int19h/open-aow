@@ -59,7 +59,7 @@ public partial class CityEnchantmentSpell(CustomNode owner) : CityTargetSpell(ow
             sbyte y = coordinate56.Y;
             sbyte l = coordinate56.MapLevel;
             targetCity = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<City>();
-            bool condition = targetCity != null;
+            bool condition = targetCity is not null;
             if (condition)
             {
                 condition = AIRequestCastSpellExpense(upkeep: targetCity.AICityEnchantmentUpkeepPriority(EnchantmentId), source: source, budget: BaseManaCost, mana: ManaUpkeep);
@@ -93,7 +93,7 @@ public partial class CityEnchantmentSpell(CustomNode owner) : CityTargetSpell(ow
         sbyte y = coordinate57.Y;
         sbyte l = coordinate57.MapLevel;
         targetCity = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<City>();
-        if (targetCity != null && ValidTargetCity(source, targetCity) && source.CanCastSpell(SpellId, ref reason))
+        if (targetCity is not null && ValidTargetCity(source, targetCity) && source.CanCastSpell(SpellId, ref reason))
         {
             _ = AICastSpellExpenseMade(source, BaseManaCost, ManaUpkeep, AIBudget);
             if (source.CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))

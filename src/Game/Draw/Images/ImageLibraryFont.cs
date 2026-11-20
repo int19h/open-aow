@@ -39,7 +39,7 @@ public partial class ImageLibraryFont(Component owner) : CustomImageLibrary(owne
         i = 0;
         while (i < Count)
         {
-            if (this[i] != null)
+            if (this[i] is not null)
             {
                 if (this[i].Height > Height)
                 {
@@ -79,7 +79,7 @@ public partial class ImageLibraryFont(Component owner) : CustomImageLibrary(owne
         for (int i = 1; i <= s.Length; i++)
         {
             c = Cp1252.Byte(s[i - 1]);
-            if (c < Count && this[c] != null && this[c].Height > h)
+            if (c < Count && this[c] is not null && this[c].Height > h)
             {
                 h = this[c].Height;
             }
@@ -150,7 +150,7 @@ public partial class ImageLibraryFont(Component owner) : CustomImageLibrary(owne
         for (int i = 1; i <= s.Length; i++)
         {
             c = Cp1252.Byte(s[i - 1]);
-            if (c < Count && this[c] != null)
+            if (c < Count && this[c] is not null)
             {
                 this[c].Show(X, Y, lockedSurface, showInfo);
                 X += this[c].Width + CharacterDistance;

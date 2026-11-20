@@ -86,7 +86,7 @@ public partial class TransportMoveExecutorControl(CustomNode owner) : AIMoveExec
 
                     aiMoveExecutorArmyList.GetArmies(index).SetTransportStatus(255, AIMoveExecutorTransportStatus.Done);
                     // { The original executes queued moves only when creation returns nil. }
-                    if (move == null)
+                    if (move is null)
                     {
                         Executor.ExecuteMoves();
                     }
@@ -189,7 +189,7 @@ public partial class TransportMoveExecutorControl(CustomNode owner) : AIMoveExec
                         move = CreateMove(aiMoveExecutorArmyList.GetArmies(index), 255, location.Location.X, location.Location.Y, location.Location.MapLevel, Set<CreateMoveModeElement>.Of());
                     }
 
-                    if (move == null)
+                    if (move is null)
                     {
                         aiMoveExecutorArmyList.GetArmies(index).SetStatus(255, AIMoveExecutorUnitStatus.Done);
                         Executor.Transporter.Status = AIMoveExecutorUnitStatus.Done;
@@ -216,7 +216,7 @@ public partial class TransportMoveExecutorControl(CustomNode owner) : AIMoveExec
                         MapCoordinate location = aiMoveExecutorArmyList.GetArmies(index).TransportDestination;
                         move = CreateTransporterMove(location.X, location.Y, location.MapLevel, true);
 
-                        if (move == null)
+                        if (move is null)
                         {
                             aiMoveExecutorArmyList.GetArmies(index).SetStatus(255, AIMoveExecutorUnitStatus.Done);
                             Executor.Transporter.Status = AIMoveExecutorUnitStatus.Done;
@@ -240,7 +240,7 @@ public partial class TransportMoveExecutorControl(CustomNode owner) : AIMoveExec
                         if (army.BoardingPoint.X != -1 && army.Location != army.BoardingPoint)
                         {
                             move = CreateMove(aiMoveExecutorArmyList.GetArmies(i), 255, army.BoardingPoint.X, army.BoardingPoint.Y, army.BoardingPoint.MapLevel, Set<CreateMoveModeElement>.Of());
-                            if (move == null)
+                            if (move is null)
                             {
                                 army.SetStatus(255, AIMoveExecutorUnitStatus.Done);
                             }
@@ -270,7 +270,7 @@ public partial class TransportMoveExecutorControl(CustomNode owner) : AIMoveExec
                         if (Executor.Transporter.Location != aiMoveExecutorArmy.TransportSource)
                         {
                             move = CreateTransporterMove(aiMoveExecutorArmy.TransportSource.X, aiMoveExecutorArmy.TransportSource.Y, aiMoveExecutorArmy.TransportSource.MapLevel, true);
-                            if (move == null)
+                            if (move is null)
                             {
                                 Executor.Transporter.Status = AIMoveExecutorUnitStatus.Done;
                             }
@@ -296,7 +296,7 @@ public partial class TransportMoveExecutorControl(CustomNode owner) : AIMoveExec
                             if (selection != 0)
                             {
                                 move = CreateMove(aiMoveExecutorArmyList.GetArmies(index), selection, army.TransportSource.X, army.TransportSource.Y, army.TransportSource.MapLevel, Set<CreateMoveModeElement>.Of());
-                                if (move == null)
+                                if (move is null)
                                 {
                                     Executor.Transporter.Status = AIMoveExecutorUnitStatus.Done;
                                 }
@@ -514,7 +514,7 @@ public partial class TransportMoveExecutorControl(CustomNode owner) : AIMoveExec
 
             if (found)
             {
-                if (CreateMove(army, transporting, field.HexX, field.HexY, field.HexLevel, Set<CreateMoveModeElement>.Of()) != null)
+                if (CreateMove(army, transporting, field.HexX, field.HexY, field.HexLevel, Set<CreateMoveModeElement>.Of()) is not null)
                 {
                     Executor.ExecuteMoves();
                     army.SetStatus(transporting, AIMoveExecutorUnitStatus.Done);
@@ -561,7 +561,7 @@ public partial class TransportMoveExecutorControl(CustomNode owner) : AIMoveExec
 
             if (found)
             {
-                if (CreateMove(army, others, field.HexX, field.HexY, field.HexLevel, Set<CreateMoveModeElement>.Of()) != null)
+                if (CreateMove(army, others, field.HexX, field.HexY, field.HexLevel, Set<CreateMoveModeElement>.Of()) is not null)
                 {
                     Executor.ExecuteMoves();
                     army.SetStatus(others, AIMoveExecutorUnitStatus.Done);
@@ -672,7 +672,7 @@ public partial class TransportMoveExecutorControl(CustomNode owner) : AIMoveExec
         index = armies.IndexOf(MoveControl.Settings.ArmyHexSprite, (byte)MoveControl.Settings.Selection);
         army = index != -1 ? armies.GetArmies(index) : null;
 
-        if (army != null && MoveControl.Settings.MovePoints != -1)
+        if (army is not null && MoveControl.Settings.MovePoints != -1)
         {
             if (MoveControl.Settings.BoardingPoint.X != -1)
             {

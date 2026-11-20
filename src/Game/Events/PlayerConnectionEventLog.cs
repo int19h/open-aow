@@ -91,7 +91,7 @@ public partial class PlayerConnectionEventLog(CustomNode owner, EngineObject hol
     {
         if (!IsEmpty(log.FileName))
         {
-            if (GetEngine().Campaign != null)
+            if (GetEngine().Campaign is not null)
             {
                 GetEngine().SaveCampaign(log.FileName);
             }

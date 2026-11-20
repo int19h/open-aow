@@ -146,21 +146,21 @@ public partial class WindowControl(Component owner) : UIComponent(owner)
     // AoWWinControl.pas:120
     public override void Validate()
     {
-        if (OwnerComponent != null)
+        if (OwnerComponent is not null)
         {
-            if (ImageLibraryFrame != null)
+            if (ImageLibraryFrame is not null)
             {
                 ImageLibraryFrame = ImageLibraryFrame.CheckImageLibrary(ImageLibraryIndexFrame, 8, this);
             }
 
-            if (ImageLibraryTexture != null)
+            if (ImageLibraryTexture is not null)
             {
                 ImageLibraryTexture = ImageLibraryTexture.CheckImageLibrary(ImageLibraryIndexTexture, 1, this);
             }
 
-            WindowStyle = ImageLibraryFrame != null
-                ? ImageLibraryTexture != null ? Style.Normal : Style.Hollow
-                : ImageLibraryTexture != null ? Style.Borderless : Style.Blank;
+            WindowStyle = ImageLibraryFrame is not null
+                ? ImageLibraryTexture is not null ? Style.Normal : Style.Hollow
+                : ImageLibraryTexture is not null ? Style.Borderless : Style.Blank;
 
             Valid = true;
         }
@@ -277,7 +277,7 @@ public partial class WindowControl(Component owner) : UIComponent(owner)
         bool result = false;
         if (DoubleBuffered)
         {
-            if (BackSurface != null)
+            if (BackSurface is not null)
             {
                 if (BackSurface.GetPixelFormatId() != surface.GetPixelFormatId())
                 {
@@ -286,7 +286,7 @@ public partial class WindowControl(Component owner) : UIComponent(owner)
                 }
             }
 
-            if (BackSurface == null)
+            if (BackSurface is null)
             {
                 PixelFormat pixelFormatId = surface.GetPixelFormatId();
                 BackSurface = new DataSurface(WinWidth, WinHeight, pixelFormatId, null);

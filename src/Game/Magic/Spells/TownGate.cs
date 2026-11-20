@@ -64,7 +64,7 @@ public partial class TownGate : CityTargetSpell
         }
         else
         {
-            if (field.GetArmyHexSprite() != null)
+            if (field.GetArmyHexSprite() is not null)
             {
                 _ = field.GetArmyHexSprite().Army.AddUnitSelection(army.Army.Units, selection);
             }
@@ -78,7 +78,7 @@ public partial class TownGate : CityTargetSpell
         showTarget = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.Visible(field.HexX, field.HexY, field.HexLevel, 0);
         if (showSource)
         {
-            if (GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0] != null)
+            if (GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0] is not null)
             {
                 a = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                 a.SetImageSequence(GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0]);
@@ -88,7 +88,7 @@ public partial class TownGate : CityTargetSpell
 
         if (showTarget)
         {
-            if (GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0] != null)
+            if (GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0] is not null)
             {
                 a = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                 a.SetImageSequence(GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0]);
@@ -198,7 +198,7 @@ public partial class TownGate : CityTargetSpell
         {
             result = army.Army.ValidTerrain(selection, field.TerrainType, field.OverlayType);
             // { CanAddUnitSelection returns arOK (zero) when the destination accepts the selection. }
-            result = result && (field.GetArmyHexSprite() == null || field.GetArmyHexSprite().Army.CanAddUnitSelection(army.Army.Units, selection) == AddUnitsResult.Ok);
+            result = result && (field.GetArmyHexSprite() is null || field.GetArmyHexSprite().Army.CanAddUnitSelection(army.Army.Units, selection) == AddUnitsResult.Ok);
         }
 
         return result;

@@ -46,10 +46,7 @@ public partial class NegotiateTokenEvent(CustomNode owner) : TokenEvent(owner)
     {
         ArmyId id;
         id = ArmyId;
-        if (id != null)
-        {
-            id?.Dispose();
-        }
+        id?.Dispose();
 
         base.Dispose();
     }
@@ -97,7 +94,7 @@ public partial class NegotiateTokenEvent(CustomNode owner) : TokenEvent(owner)
         bool result;
         ArmyId id;
         id = ArmyId;
-        if (id != null)
+        if (id is not null)
         {
             ArmyHexSprite armyHexSprite = ArmyHexSprite;
             result = id.RetrieveArmy(ref armyHexSprite, ref _selection);
@@ -126,13 +123,13 @@ public partial class NegotiateTokenEvent(CustomNode owner) : TokenEvent(owner)
             if (EventLogId != -1)
             {
                 log = StrategicMap.Current.Players.GetPlayers(Player).EventLogbook.FindId(EventLogId);
-                if (log != null)
+                if (log is not null)
                 {
                     StrategicMap.Current.Players.GetPlayers(Player).EventLogbook.RemoveEvent(log);
                 }
             }
 
-            if (ArmyHexSprite != null && Mode.Contains(NegotiateModeElement.MoveOnAccept))
+            if (ArmyHexSprite is not null && Mode.Contains(NegotiateModeElement.MoveOnAccept))
             {
                 path = new MovePath();
                 _ = path.AddMapCoordinate(Location.X, Location.Y, Location.MapLevel);
@@ -152,7 +149,7 @@ public partial class NegotiateTokenEvent(CustomNode owner) : TokenEvent(owner)
     {
         MovePath path;
         MoveArmyTokenEvent move;
-        if (Offer == NegotiateOffer.ForceOffer && ArmyHexSprite != null && Mode.Contains(NegotiateModeElement.AttackOnReject))
+        if (Offer == NegotiateOffer.ForceOffer && ArmyHexSprite is not null && Mode.Contains(NegotiateModeElement.AttackOnReject))
         {
             path = new MovePath();
             _ = path.AddMapCoordinate(Location.X, Location.Y, Location.MapLevel);

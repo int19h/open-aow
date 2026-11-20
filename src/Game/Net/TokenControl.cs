@@ -134,7 +134,7 @@ public partial class TokenControl : IDisposable
         _tokenManager = manager;
         Player = player;
         Active = true;
-        if (_tokenManager != null && _tokenManager.TokenExecutor != null)
+        if (_tokenManager is not null && _tokenManager.TokenExecutor is not null)
         {
             _tokenManager.TokenExecutor.AddTacticalBattle(this);
         }
@@ -166,7 +166,7 @@ public partial class TokenControl : IDisposable
     // NetworkE.pas:1180
     public virtual void Dispose()
     {
-        if (_tokenManager != null && _tokenManager.TokenExecutor != null)
+        if (_tokenManager is not null && _tokenManager.TokenExecutor is not null)
         {
             _tokenManager.TokenExecutor.RemoveTacticalBattle(this);
         }

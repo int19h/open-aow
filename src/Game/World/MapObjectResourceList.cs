@@ -35,7 +35,7 @@ public partial class MapObjectResourceList(CustomNode owner) : ResourceCollectio
             r = this[i];
             if (r.EngineClass.ClassId == classId)
             {
-                if (terrainList == null || r.TerrainList.CompareTerrain(terrainList, mode))
+                if (terrainList is null || r.TerrainList.CompareTerrain(terrainList, mode))
                 {
                     result = true;
                     _ = list.Add(r);

@@ -123,7 +123,7 @@ public partial class HexSpriteSelection(CustomNode owner) : ControlStyleNode(own
         int i;
         HexSprite result = null;
         i = 0;
-        while (i != Count && result == null)
+        while (i != Count && result is null)
         {
             hexSprite = this[i];
             if (classValue.IsInstanceOfType(hexSprite))

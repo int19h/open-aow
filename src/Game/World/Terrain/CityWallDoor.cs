@@ -24,7 +24,7 @@ public partial class CityWallDoor(CustomNode owner) : CityWall(owner)
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         TacticalBattleUnitHexSprite combatUnit;
-        if (CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || CombatMap.Current.Combat == null)
+        if (CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || CombatMap.Current.Combat is null)
         {
             base.Show(pixelXSurface, pixelYSurface, lockedSurface);
         }
@@ -33,7 +33,7 @@ public partial class CityWallDoor(CustomNode owner) : CityWall(owner)
             sbyte hexY = GetHexY();
             sbyte hexX = GetHexX();
             combatUnit = CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
-            if (combatUnit != null)
+            if (combatUnit is not null)
             {
                 if (combatUnit.Unit.GetSide() != CombatSideIndex.Defender)
                 {
@@ -45,7 +45,7 @@ public partial class CityWallDoor(CustomNode owner) : CityWall(owner)
             if (!condition)
             {
                 int indexOfPlayer = CombatMap.Current.Combat.CombatData.Players.IndexOfPlayer((byte)CombatMap.Current.CurrentPlayer);
-                condition = CombatMap.Current.Combat.CombatData.Players.GetPlayers((sbyte)indexOfPlayer).SideIndex != 1 && combatUnit == null;
+                condition = CombatMap.Current.Combat.CombatData.Players.GetPlayers((sbyte)indexOfPlayer).SideIndex != 1 && combatUnit is null;
             }
 
             if (condition)

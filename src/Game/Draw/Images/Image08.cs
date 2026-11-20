@@ -68,7 +68,7 @@ public partial class Image08(CustomImageLibrary owner) : LibraryImage(owner), IL
     public virtual void RegisterPalette()
     {
         LibraryImagePalette old;
-        if (_ownPalette && _imagePalette != null && Owner != null)
+        if (_ownPalette && _imagePalette is not null && Owner is not null)
         {
             old = _imagePalette;
             _imagePalette = Owner.PaletteManager.RegisterPalette(_imagePalette.Palette);
@@ -82,7 +82,7 @@ public partial class Image08(CustomImageLibrary owner) : LibraryImage(owner), IL
     public virtual void UnregisterPalette()
     {
         LibraryImagePalette p;
-        if (!_ownPalette && _imagePalette != null)
+        if (!_ownPalette && _imagePalette is not null)
         {
             p = new LibraryImagePalette();
             p.Assign(_imagePalette);
@@ -121,7 +121,7 @@ public partial class Image08(CustomImageLibrary owner) : LibraryImage(owner), IL
         GraphicsResult result;
         Palette p;
         p = _imagePalette.RemapPalette(pixelFormatId);
-        if (p != null)
+        if (p is not null)
         {
             RemapPaletteValue = p;
             result = GraphicsResult.Ok;

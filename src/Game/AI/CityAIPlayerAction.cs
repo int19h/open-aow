@@ -44,7 +44,7 @@ public partial class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner
             };
 
             researchBudget = manager.Budgets.FindChild<AIBudget>(131350);
-            if (researchBudget != null)
+            if (researchBudget is not null)
             {
                 if (researchBudget.Gold + upgradeBudget.Gold > 125)
                 {
@@ -78,7 +78,7 @@ public partial class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner
 
             ValidateUpgradeBudget(upgradeBudget);
             fortifyBudget = manager.Budgets.FindChild<AIBudget>(131351);
-            if (fortifyBudget != null)
+            if (fortifyBudget is not null)
             {
                 if (fortifyBudget.GetReady())
                 {
@@ -103,7 +103,7 @@ public partial class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner
                 }
             }
 
-            if (fortifyBudget != null)
+            if (fortifyBudget is not null)
             {
                 ValidateFortifyBudget(fortifyBudget);
             }

@@ -58,19 +58,19 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
 
         // Under the translate stream the original takes its read branch, and the stream's empty
         // property table holds no ability bits, so no ability data is visited.
-        if (AbilityData == null || PersistSupport.Translating(persister))
+        if (AbilityData is null || PersistSupport.Translating(persister))
         {
             return;
         }
 
         Int32List stored = new();
-        for (AbilityData data = AbilityData; data != null; data = data.Next)
+        for (AbilityData data = AbilityData; data is not null; data = data.Next)
         {
             _ = stored.Add(data.GetAbilityId());
         }
 
         PersistSupport.Int32List(persister, "AbilityDataIds", stored);
-        for (AbilityData data = AbilityData; data != null; data = data.Next)
+        for (AbilityData data = AbilityData; data is not null; data = data.Next)
         {
             _ = persister.CreatedSlot("AbilityData", slot: data.GetAbilityId(), objectValue: data);
         }
@@ -82,7 +82,7 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     public override void Clear()
     {
         base.Clear();
-        while (AbilityData != null)
+        while (AbilityData is not null)
         {
             RemoveAbilityData(AbilityData);
         }
@@ -213,7 +213,7 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     {
         AbilityData data;
         data = AbilityData;
-        while (data != null && data.GetAbilityId() != abilityId)
+        while (data is not null && data.GetAbilityId() != abilityId)
         {
             data = data.Next;
         }
@@ -229,7 +229,7 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     public void AssignAbility(AbilityOwner source)
     {
         AbilityData data;
-        while (AbilityData != null)
+        while (AbilityData is not null)
         {
             RemoveAbilityData(AbilityData);
         }
@@ -244,7 +244,7 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
         }
 
         data = source.AbilityData;
-        while (data != null)
+        while (data is not null)
         {
             AddAbilityData(data.Copy<AbilityData>(GetEngine()));
             data = data.Next;
@@ -265,7 +265,7 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
         AbilityData previous;
         current = AbilityData;
         previous = null;
-        while (current != null && current != data)
+        while (current is not null && current != data)
         {
             previous = current;
             current = current.Next;
@@ -274,7 +274,7 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
         if (current == data)
         {
             // { Original dereferences nil when Data is nil. }
-            if (previous != null)
+            if (previous is not null)
             {
                 previous.Next = current.Next;
             }
@@ -294,15 +294,15 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
         AbilityData previous;
         current = AbilityData;
         previous = null;
-        while (current != null && current.GetAbilityId() != abilityId)
+        while (current is not null && current.GetAbilityId() != abilityId)
         {
             previous = current;
             current = current.Next;
         }
 
-        if (current != null && current.GetAbilityId() == abilityId)
+        if (current is not null && current.GetAbilityId() == abilityId)
         {
-            if (previous != null)
+            if (previous is not null)
             {
                 previous.Next = current.Next;
             }
@@ -324,7 +324,7 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
             if (source.GetAbilitySetAt(i) && (!GetAbilitySetAt(i) || source.GetOwnAbilityLevel(i) > GetOwnAbilityLevel(i)))
             {
                 data = source.GetAbilityData(i);
-                if (data != null)
+                if (data is not null)
                 {
                     RemoveAbilityDataId(i);
                     data = data.Copy<AbilityData>(GetEngine());

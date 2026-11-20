@@ -35,7 +35,7 @@ public partial class GameMapMouse : HexSpriteMapMouse
     public override void Down(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         base.Down(button, shift, X, Y);
-        if (Capture == null && !HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (Capture is null && !HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             StartRectangleSelection(HexSpriteMap.ViewPixelX + X - 2, HexSpriteMap.ViewPixelY + Y - 3);
         }
@@ -45,7 +45,7 @@ public partial class GameMapMouse : HexSpriteMapMouse
     public override void Up(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         base.Up(button, shift, X, Y);
-        if (Capture == null && SelectionRectangle.Left != -1)
+        if (Capture is null && SelectionRectangle.Left != -1)
         {
             if (X != -1 && Y != -1)
             {
@@ -62,7 +62,7 @@ public partial class GameMapMouse : HexSpriteMapMouse
     public override void Move(Set<ShiftState> shift, int X, int Y)
     {
         base.Move(shift, X, Y);
-        if (Capture == null)
+        if (Capture is null)
         {
             UpdateRectangleSelection(HexSpriteMap.ViewPixelX + X - 2, HexSpriteMap.ViewPixelY + Y - 3);
         }

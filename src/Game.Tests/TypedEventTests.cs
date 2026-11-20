@@ -128,7 +128,7 @@ public sealed class TypedEventTests(TypedEventTests.Host host) : IClassFixture<T
         ImageLibraries.BaseImageLibraryPath = EngineFixture.Root + Path.DirectorySeparatorChar;
         SoundSystem system = AudioHost.SoundSystem;
         bool muted = false;
-        if (system != null && system.SfxEnabled)
+        if (system is not null && system.SfxEnabled)
         {
             _ = system.SetSfxEnabled(false);
             muted = true;

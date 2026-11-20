@@ -97,7 +97,7 @@ public partial class EventLogList(CustomNode owner) : OwningNode(owner), IChildL
     // EventLog.pas:494
     public void Changed()
     {
-        if (_updateCount == 0 && OnChanged != null)
+        if (_updateCount == 0 && OnChanged is not null)
         {
             OnChanged(this);
         }

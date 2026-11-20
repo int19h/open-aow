@@ -27,7 +27,7 @@ public partial class TextControl(CustomNode owner) : OwningNode(owner), IChildLi
     // Structur.PAS:4426
     public void Delete(int index)
     {
-        if (GetItem(index) != null)
+        if (GetItem(index) is not null)
         {
             GetItem(index)?.Dispose();
         }
@@ -42,7 +42,7 @@ public partial class TextControl(CustomNode owner) : OwningNode(owner), IChildLi
         int i;
         i = Count;
         TextControlItem result = null;
-        while (result == null && i != 0)
+        while (result is null && i != 0)
         {
             i -= 1;
             if (this[i].Id == id)
@@ -66,7 +66,7 @@ public partial class TextControl(CustomNode owner) : OwningNode(owner), IChildLi
         TextControlItem item;
         text.Clear();
         item = FindId(id);
-        if (item != null)
+        if (item is not null)
         {
             text.Text = item.Text.Text;
         }

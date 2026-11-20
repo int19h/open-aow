@@ -48,7 +48,7 @@ public partial class Resource : PlayerCropStructureResource
         image = city.WallBackImage;
         image?.Show(dX, dY, lockedSurface);
 
-        if (city.CityImage != null)
+        if (city.CityImage is not null)
         {
             // { Original blinks the selected city from frame bits. }
             if (city.GetSelected() && (StrategicMap.Current.Frame & 6) == 6)

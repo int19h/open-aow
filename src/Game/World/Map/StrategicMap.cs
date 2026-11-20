@@ -419,12 +419,12 @@ public partial class StrategicMap : GameMap
         _playerChangedEventsStore.Clear();
         _exitEventsStore.Clear();
         Mouse.OnMove -= MouseMoved;
-        if (Combat != null)
+        if (Combat is not null)
         {
             DestroyCombat();
         }
 
-        if (CombatMap != null)
+        if (CombatMap is not null)
         {
             CombatMap?.Dispose();
             CombatMap = null;
@@ -787,7 +787,7 @@ public partial class StrategicMap : GameMap
         AIGroupManager.MessageProc(ref message, sender);
         if (message.MessageId == 537001986 && message.Payload.Int == Current.SeatedPlayer)
         {
-            if (SelectedArmy.GetArmyHexSprite() != null)
+            if (SelectedArmy.GetArmyHexSprite() is not null)
             {
                 SelectedArmy.Update();
             }
@@ -933,7 +933,7 @@ public partial class StrategicMap : GameMap
             }
         }
 
-        if (PlayerControl == null)
+        if (PlayerControl is null)
         {
             if (PlayMode == PlayMode.None)
             {
@@ -1016,7 +1016,7 @@ public partial class StrategicMap : GameMap
         {
             PlayerControl.NewFrame();
             PlayerCommunicator.Process();
-            if (CombatMap == null && GameStatus != StrategicMapGameStatus.Terminated)
+            if (CombatMap is null && GameStatus != StrategicMapGameStatus.Terminated)
             {
                 AIExecutor.Process();
             }
@@ -1132,7 +1132,7 @@ public partial class StrategicMap : GameMap
     public void TriggerTypedExecuteEventLog<TLog>(TLog log, bool immediate, Action<TLog> done) where TLog : EventLog
     {
         ExecuteDoneEvent callback = null;
-        if (done != null)
+        if (done is not null)
         {
             // ClearExecuteEventLogBuffer passes the next queued log to the first callback
             // (AoWHSMap.PAS:1931). A log of another kind throws on this cast, the same way the old cast did.
@@ -1367,13 +1367,13 @@ public partial class StrategicMap : GameMap
                     i = 0;
                 }
 
-                if (left == 0 || player.Armies.GetArmy(i).Hero(255, Set<HeroType>.Of(HeroType.Hero, HeroType.Leader, HeroType.HeroLeader, HeroType.Merchant)) != null)
+                if (left == 0 || player.Armies.GetArmy(i).Hero(255, Set<HeroType>.Of(HeroType.Hero, HeroType.Leader, HeroType.HeroLeader, HeroType.Merchant)) is not null)
                 {
                     break;
                 }
             }
 
-            if (player.Armies.GetArmy(i).Hero(255, Set<HeroType>.Of(HeroType.Hero, HeroType.Leader, HeroType.HeroLeader, HeroType.Merchant)) != null)
+            if (player.Armies.GetArmy(i).Hero(255, Set<HeroType>.Of(HeroType.Hero, HeroType.Leader, HeroType.HeroLeader, HeroType.Merchant)) is not null)
             {
                 army = Players.GetPlayers(SeatedPlayer).Armies.GetArmy(i);
                 CenterViewTo(army.Location.X, army.Location.Y, army.Location.MapLevel);
@@ -1601,7 +1601,7 @@ public partial class StrategicMap : GameMap
         if (!ExitPending)
         {
             playerControl = PlayerControl;
-            if (playerControl != null)
+            if (playerControl is not null)
             {
                 playerControl.ExitGame(mode, done);
             }
@@ -1625,7 +1625,7 @@ public partial class StrategicMap : GameMap
     {
         while (_executeEventLogCallBacks.GetCount() > 0)
         {
-            if (_executeEventLogCallBacks.GetItem(0).Done != null)
+            if (_executeEventLogCallBacks.GetItem(0).Done is not null)
             {
                 ExecuteEventLogInfo item = _executeEventLogCallBacks.GetItem(1);
                 _executeEventLogCallBacks.GetItem(0).Done(item.Log);
@@ -2044,7 +2044,7 @@ public partial class StrategicMap : GameMap
         MapField field;
         // The original tests Xhx only and with Yhx -1 read memory before the field block. The
         // port treats that point as off the map.
-        if (Mouse.Capture == null && Mouse.HexX != -1 && Mouse.HexY != -1)
+        if (Mouse.Capture is null && Mouse.HexX != -1 && Mouse.HexY != -1)
         {
             int hexY = Mouse.HexY;
             int hexX = Mouse.HexX;
@@ -2145,7 +2145,7 @@ public partial class StrategicMap : GameMap
     public void TokenControlActivatedEvent(object sender)
     {
         int player;
-        if (CombatMap == null)
+        if (CombatMap is null)
         {
             player = TokenManager.TokenExecutor.ActiveTacticalBattleIndex;
             if (player != CurrentPlayer)
@@ -2317,7 +2317,7 @@ public partial class StrategicMap : GameMap
     // AoWHSMap.PAS:2817
     public void ResetMapLevels()
     {
-        if (MapContainer != null)
+        if (MapContainer is not null)
         {
             for (int i = 0, last = MapContainer.LevelCount - 1; i <= last; i++)
             {
@@ -2338,7 +2338,7 @@ public partial class StrategicMap : GameMap
         int x = default;
         int y = default;
         int l = default;
-        if (CombatMap == null)
+        if (CombatMap is null)
         {
             if (SeatedPlayer != -1)
             {
@@ -2356,7 +2356,7 @@ public partial class StrategicMap : GameMap
     // AoWHSMap.PAS:2891
     public void ReleaseCombatMap()
     {
-        if (CombatMap != null)
+        if (CombatMap is not null)
         {
             CombatMapDestroyedEventsStore.Raise(this);
             CombatMap?.Dispose();
@@ -2369,7 +2369,7 @@ public partial class StrategicMap : GameMap
     public Battle CreateCombat(int classId)
     {
         Battle result;
-        if (Combat == null)
+        if (Combat is null)
         {
             // The class id selects a battle class, and the factory returns the engine object it creates.
             result = GetEngine().CreateEngineObject<Battle>(classId, owner: null);
@@ -2408,7 +2408,7 @@ public partial class StrategicMap : GameMap
         sbyte player = default;
         int count = default;
         NewTurnEventLog log = default;
-        if (Combat != null)
+        if (Combat is not null)
         {
             Current.LockGameOverEvent();
             if (Combat.Status.Contains(CombatStatusElement.Activated))
@@ -2504,7 +2504,7 @@ public partial class StrategicMap : GameMap
         if (GetTurnTimerEnabled())
         {
             seconds = GetTurnTimeLeft() / 1000;
-            if (_turnTimeBeep != 0 && seconds < _turnTimeBeep && CombatMap == null)
+            if (_turnTimeBeep != 0 && seconds < _turnTimeBeep && CombatMap is null)
             {
                 _turnTimeBeep = seconds;
                 _ = _turnTimeBeep == 0 ? AudioPlayback.PlaySample("SFX\\EVENTS\\CLOCK.WAV") : AudioPlayback.PlaySample("SFX\\EVENTS\\CLOCK.WAV");
@@ -2572,7 +2572,7 @@ public partial class StrategicMap : GameMap
     public void CenterOnLeader(sbyte player, bool select, bool animate)
     {
         ArmyHexSprite army;
-        if (Current.Players.GetPlayers(player).Leader != null)
+        if (Current.Players.GetPlayers(player).Leader is not null)
         {
             MapCoordinate coordinate32 = Current.Players.GetPlayers(player).Leader.GetLocation();
             sbyte x = coordinate32.X;
@@ -2588,7 +2588,7 @@ public partial class StrategicMap : GameMap
                 }
 
                 army = Current.MapContainer.GetField(x, y, l).GetArmyHexSprite();
-                if (army != null)
+                if (army is not null)
                 {
                     Selection.UnselectLocation();
                     Selection.SelectLocationHexSprite(army);

@@ -65,7 +65,7 @@ public partial class WorldEffectHexSprite(CustomNode owner) : FixedVisibleHexSpr
                 brightness = 100;
             }
 
-            while (sequence != null)
+            while (sequence is not null)
             {
                 // { Original uses the instance address as the animation phase. }
                 frame = sequence.GetUnloopedFrameIndex(FrameFixtureInputs.PhaseModulo(this, 3));
@@ -130,7 +130,7 @@ public partial class WorldEffectHexSprite(CustomNode owner) : FixedVisibleHexSpr
                 brightness = 100;
             }
 
-            while (sequence != null)
+            while (sequence is not null)
             {
                 frame = sequence.GetUnloopedFrameIndex(FrameFixtureInputs.PhaseModulo(this, 3));
                 if (frame != -1)

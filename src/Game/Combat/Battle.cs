@@ -257,7 +257,7 @@ public partial class Battle : EngineObject
         j = 0;
         while (wallType == 0 && j != CombatData.Parties.Count)
         {
-            if (CombatData.Parties.GetParty((byte)j) != null)
+            if (CombatData.Parties.GetParty((byte)j) is not null)
             {
                 wallType = CombatData.Parties.GetParty((byte)j).Wall;
             }
@@ -272,7 +272,7 @@ public partial class Battle : EngineObject
             CombatData.AddObject(wall);
         }
 
-        if (CombatData.Parties.GetParty(0) != null)
+        if (CombatData.Parties.GetParty(0) is not null)
         {
             CombatParty party = CombatData.Parties.GetParty(0);
             CombatData.WallType = party.Wall;
@@ -478,7 +478,7 @@ public partial class Battle : EngineObject
     public bool GetWallInBetween(byte source, byte target)
     {
         bool result;
-        if ((source & 15) <= 7 && (target & 15) <= 7 && CombatData.Wall != null && !CombatData.Wall.Status.Contains(CombatObjectStatusElement.Destroyed))
+        if ((source & 15) <= 7 && (target & 15) <= 7 && CombatData.Wall is not null && !CombatData.Wall.Status.Contains(CombatObjectStatusElement.Destroyed))
         {
             source = (byte)(int)(((uint)source) >> 4);
             target = (byte)(int)(((uint)target) >> 4);
@@ -527,7 +527,7 @@ public partial class Battle : EngineObject
         bool result = false;
         for (int i = 0, last = CombatData.Parties.Count - 1; i <= last; i++)
         {
-            if (CombatData.Parties.GetParty((byte)i) != null)
+            if (CombatData.Parties.GetParty((byte)i) is not null)
             {
                 CombatParty party = CombatData.Parties.GetParty((byte)i);
                 CombatPlayer players = CombatData.Players.GetPlayers((sbyte)party.PlayerIndex);
@@ -628,7 +628,7 @@ public partial class Battle : EngineObject
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
                 armyHexSprite = level.GetField(walk.X, walk.Y).GetArmyHexSprite();
-                if (armyHexSprite != null)
+                if (armyHexSprite is not null)
                 {
                     if (walk.HexNumber != 0)
                     {
@@ -711,7 +711,7 @@ public partial class Battle : EngineObject
             position = GetPartyPosition(X, Y, L);
             party = CombatData.Parties.CreateParty(this, position, player, X, Y, L, army);
             transporter = army.Transporter(255);
-            transport = transporter != null && transporter.ValidTerrain((sbyte)CombatData.TerrainAndOverlayTypes[0], (sbyte)CombatData.TerrainAndOverlayTypes[1]);
+            transport = transporter is not null && transporter.ValidTerrain((sbyte)CombatData.TerrainAndOverlayTypes[0], (sbyte)CombatData.TerrainAndOverlayTypes[1]);
             index = 0;
             for (int i = army.Units.Count - 1; i >= 0; i--)
             {
@@ -827,7 +827,7 @@ public partial class Battle : EngineObject
             ExplorationSite = 2;
             _ = AddArmy(army, CombatSideIndex.Attacker, X, Y, L);
             armyHexSprite = StrategicMap.Current.MapContainer.GetField(data.Location.X, data.Location.Y, data.Location.MapLevel).GetArmyHexSprite();
-            if (armyHexSprite != null)
+            if (armyHexSprite is not null)
             {
                 _ = AddArmy(armyHexSprite.Army, CombatSideIndex.Defender, data.Location.X, data.Location.Y, data.Location.MapLevel);
             }
@@ -851,7 +851,7 @@ public partial class Battle : EngineObject
     public void UnlockExecuted()
     {
         _executedLock -= 1;
-        if (_executedLock == 0 && OnExecuted != null)
+        if (_executedLock == 0 && OnExecuted is not null)
         {
             OnExecuted(this);
         }

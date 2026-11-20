@@ -37,7 +37,7 @@ public partial class CityTargetSpellTokenEvent(CustomNode owner) : SpellTokenEve
         if (result)
         {
             targetCity = GetSelectedCity();
-            result = targetCity != null && targetCity.Player == TargetPlayer;
+            result = targetCity is not null && targetCity.Player == TargetPlayer;
         }
 
         return result;

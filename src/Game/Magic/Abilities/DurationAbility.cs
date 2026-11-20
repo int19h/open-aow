@@ -21,7 +21,7 @@ public partial class DurationAbility(CustomNode owner) : AdjustableAbility(owner
     public override string GetName(AbilityOwner owner)
     {
         string result = "";
-        if (owner != null)
+        if (owner is not null)
         {
             switch (DurationMode)
             {
@@ -77,7 +77,7 @@ public partial class DurationAbility(CustomNode owner) : AdjustableAbility(owner
         if (DurationMode == DurationMode.Day)
         {
             data = GetData(owner);
-            if (data != null)
+            if (data is not null)
             {
                 if (data.Duration != 0 && data.PlayerIndex == player)
                 {
@@ -101,7 +101,7 @@ public partial class DurationAbility(CustomNode owner) : AdjustableAbility(owner
         DurationAbilityData data;
         bool result = false;
         data = GetData(owner);
-        if (data == null)
+        if (data is null)
         {
             data = new DurationAbilityData(null)
             {
@@ -132,7 +132,7 @@ public partial class DurationAbility(CustomNode owner) : AdjustableAbility(owner
         if (DurationMode == DurationMode.CombatTurn)
         {
             data = GetData(combatObject.GetAbilityOwner());
-            if (data != null)
+            if (data is not null)
             {
                 if (data.Duration != 0 && data.PlayerIndex == player)
                 {
@@ -172,7 +172,7 @@ public partial class DurationAbility(CustomNode owner) : AdjustableAbility(owner
         byte result;
         DurationAbilityData data;
         data = GetData(abilityOwner);
-        result = data != null ? data.Duration : (byte)0;
+        result = data is not null ? data.Duration : (byte)0;
 
         return result;
     }
@@ -189,7 +189,7 @@ public partial class DurationAbility(CustomNode owner) : AdjustableAbility(owner
     {
         AbilityData data = owner.GetAbilityData(AbilityId);
         SetAbility(owner, AbilityId, 0);
-        if (data == null)
+        if (data is null)
         {
             return false;
         }

@@ -35,10 +35,10 @@ public partial class ItemsFoundDialog(UIContext ui) : UIModule(ui)
     {
         ArmyHexSprite army;
         Hero result = null;
-        if (_event != null)
+        if (_event is not null)
         {
             army = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(_event.Location).GetArmyHexSprite();
-            if (army != null && army.Army.Player == StrategicMap.Current.SeatedPlayer)
+            if (army is not null && army.Army.Player == StrategicMap.Current.SeatedPlayer)
             {
                 result = army.Army.Hero(255, RosterTables.AllHeroTypes);
             }
@@ -82,7 +82,7 @@ public partial class ItemsFoundDialog(UIContext ui) : UIModule(ui)
         ItemExplorationSiteEventLog eventValue;
         Item item;
         eventValue = _event;
-        if (eventValue != null)
+        if (eventValue is not null)
         {
             if (slot + _itemOffset < eventValue.ItemIds.Count)
             {
@@ -99,7 +99,7 @@ public partial class ItemsFoundDialog(UIContext ui) : UIModule(ui)
         Hero hero;
         TutorialMessageEventLog eventValue;
         hero = GetHero();
-        if (hero != null)
+        if (hero is not null)
         {
             UI.General.SelectedUnit = hero;
             UI.UnitWindow.ShowUnit();
@@ -110,7 +110,7 @@ public partial class ItemsFoundDialog(UIContext ui) : UIModule(ui)
                 {
                     HelpFileName = UI.Engine.TranslateResourceString(GameText.TutorialText)
                 };
-                if (StrategicMap.Current.TextControl.FindId(55) != null)
+                if (StrategicMap.Current.TextControl.FindId(55) is not null)
                 {
                     TextControlItem id = StrategicMap.Current.TextControl.FindId(55);
                     eventValue.Message.Assign(id.Text);
@@ -137,7 +137,7 @@ public partial class ItemsFoundDialog(UIContext ui) : UIModule(ui)
             {
                 int itemId = _event.ItemIds[_itemOffset + slot];
                 item = StrategicMap.Current.ItemControl.FindItem(itemId);
-                if (item != null)
+                if (item is not null)
                 {
                     box.PopupMenu = UI.ItemBanner.BannerMenu;
                     ItemBanner.ItemId = item.ItemId;
@@ -188,7 +188,7 @@ public partial class ItemsFoundDialog(UIContext ui) : UIModule(ui)
         dialog.MessageMemo.Items.Text = text;
         dialog.LeftButton.Visible = log.ItemIds.Count > 5;
         dialog.RightButton.Visible = log.ItemIds.Count > 5;
-        if (dialog.GetHero() == null)
+        if (dialog.GetHero() is null)
         {
             dialog.OKPanel.Visible = true;
         }

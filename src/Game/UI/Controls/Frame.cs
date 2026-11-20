@@ -22,31 +22,31 @@ public partial class Frame(Component owner) : Control(owner)
     // AoWFrame.pas:63
     public override void Validate()
     {
-        if (_imageLibraryFrame != null)
+        if (_imageLibraryFrame is not null)
         {
             _imageLibraryFrame = _imageLibraryFrame.CheckImageLibrary(_imageLibraryIndexFrame, 8, this);
         }
 
-        if (_imageLibraryTexture != null)
+        if (_imageLibraryTexture is not null)
         {
             _imageLibraryTexture = _imageLibraryTexture.CheckImageLibrary(_imageLibraryIndexTexture, 1, this);
         }
 
-        if (_imageLibraryLine != null)
+        if (_imageLibraryLine is not null)
         {
             _imageLibraryLine = _imageLibraryLine.CheckImageLibrary(_imageLibraryIndexLine, 3, this);
         }
 
-        if (_imageLibraryFrame != null || _imageLibraryLine != null)
+        if (_imageLibraryFrame is not null || _imageLibraryLine is not null)
         {
             Valid = true;
-            if (_imageLibraryFrame != null)
+            if (_imageLibraryFrame is not null)
             {
-                FrameType = _imageLibraryTexture != null ? FrameType.FilledBox : FrameType.HollowBox;
+                FrameType = _imageLibraryTexture is not null ? FrameType.FilledBox : FrameType.HollowBox;
             }
             else
             {
-                if (_imageLibraryLine != null)
+                if (_imageLibraryLine is not null)
                 {
                     if (FrameType != FrameType.HorizontalLine)
                     {
@@ -174,12 +174,12 @@ public partial class Frame(Component owner) : Control(owner)
             Handled = true;
             RaiseMouseDown(this, button, shift, X, Y);
 
-            if (button == MouseButton.Right && PopupMenu != null)
+            if (button == MouseButton.Right && PopupMenu is not null)
             {
                 PopupMenu.SetPopupOwner(this);
                 PopupMenu.WinLeft = X;
                 PopupMenu.WinTop = Y;
-                if (PopupMenu.WindowManager != null)
+                if (PopupMenu.WindowManager is not null)
                 {
                     if (PopupMenu.Hidden)
                     {

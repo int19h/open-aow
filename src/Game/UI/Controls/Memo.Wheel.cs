@@ -16,7 +16,7 @@ public partial class Memo
         }
 
         VerticalScrollBar bar = WheelScrollBar ?? _verticalScrollBar;
-        if (bar == null || !bar.HasWheelRange())
+        if (bar is null || !bar.HasWheelRange())
         {
             return false;
         }

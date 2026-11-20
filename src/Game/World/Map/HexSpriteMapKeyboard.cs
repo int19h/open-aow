@@ -103,13 +103,9 @@ public partial class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner
 
                         break;
                     case 4:
-                        switch (key)
+                        if (key is 65)
                         {
-                            case 65:
-                                translatedKey = 68;
-                                break;
-                            default:
-                                break;
+                            translatedKey = 68;
                         }
 
                         break;
@@ -244,7 +240,7 @@ public partial class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner
         }
 
         string[] commandLine = Environment.GetCommandLineArgs();
-        if (key == 67 && (Set<ShiftState>.Of(ShiftState.Shift, ShiftState.Ctrl) & shift) == Set<ShiftState>.Of(ShiftState.Shift, ShiftState.Ctrl) && commandLine.Length > 1 && CompareText(commandLine[1], "beatrix") == 0 && StrategicMap.Current.ConnectionType != PlayerConnectionType.Network && StrategicMap.Current.ConnectionType != PlayerConnectionType.Email && !GetEngine().Demo)
+        if (key == 67 && (Set<ShiftState>.Of(ShiftState.Shift, ShiftState.Ctrl) & shift) == Set<ShiftState>.Of(ShiftState.Shift, ShiftState.Ctrl) && commandLine.Length > 1 && CompareText(commandLine[1], "beatrix") == 0 && StrategicMap.Current.ConnectionType is not PlayerConnectionType.Network and not PlayerConnectionType.Email && !GetEngine().Demo)
         {
             _ = AudioPlayback.PlaySample("SFX\\ATTACK\\MAGICB02.WAV");
             Mode = HexSpriteMapKeyboardMode.Cheat;

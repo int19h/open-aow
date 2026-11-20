@@ -110,12 +110,12 @@ public partial class ProductionPlace : PlayerStructure
                 _ = StrategicMap.Current.Players.GetPlayers(Player).ProductionControls.Add(ProductionControl);
             }
 
-            if (_powerSource != null)
+            if (_powerSource is not null)
             {
                 _ = StrategicMap.Current.Players.GetPlayers(Player).MagicControl.RegisterPowerSource(_powerSource);
             }
 
-            if (_incomeSource != null)
+            if (_incomeSource is not null)
             {
                 StrategicMap.Current.Players.GetPlayers(Player).RegisterIncomeSource(_incomeSource);
             }
@@ -132,12 +132,12 @@ public partial class ProductionPlace : PlayerStructure
                 _ = StrategicMap.Current.Players.GetPlayers(Player).ProductionControls.Remove(ProductionControl);
             }
 
-            if (_powerSource != null)
+            if (_powerSource is not null)
             {
                 _ = StrategicMap.Current.Players.GetPlayers(Player).MagicControl.UnregisterPowerSource(_powerSource);
             }
 
-            if (_incomeSource != null)
+            if (_incomeSource is not null)
             {
                 StrategicMap.Current.Players.GetPlayers(Player).UnregisterIncomeSource(_incomeSource);
             }
@@ -287,12 +287,12 @@ public partial class ProductionPlace : PlayerStructure
     public override void Update()
     {
         base.Update();
-        if (_incomeSource != null && Player >= 0)
+        if (_incomeSource is not null && Player >= 0)
         {
             StrategicMap.Current.Players.GetPlayers(Player).UpdateIncome();
         }
 
-        if (_powerSource != null && Player >= 0)
+        if (_powerSource is not null && Player >= 0)
         {
             StrategicMap.Current.Players.GetPlayers(Player).MagicControl.Update();
         }
@@ -313,12 +313,12 @@ public partial class ProductionPlace : PlayerStructure
             ProductionControl.PlayerChanged();
             if (Player != -1)
             {
-                if (_powerSource != null)
+                if (_powerSource is not null)
                 {
                     _ = StrategicMap.Current.Players.GetPlayers(Player).MagicControl.UnregisterPowerSource(_powerSource);
                 }
 
-                if (_incomeSource != null)
+                if (_incomeSource is not null)
                 {
                     StrategicMap.Current.Players.GetPlayers(Player).UnregisterIncomeSource(_incomeSource);
                 }
@@ -332,12 +332,12 @@ public partial class ProductionPlace : PlayerStructure
             base.SetPlayer(player);
             if (Player != -1)
             {
-                if (_powerSource != null)
+                if (_powerSource is not null)
                 {
                     _ = StrategicMap.Current.Players.GetPlayers(Player).MagicControl.RegisterPowerSource(_powerSource);
                 }
 
-                if (_incomeSource != null)
+                if (_incomeSource is not null)
                 {
                     StrategicMap.Current.Players.GetPlayers(Player).RegisterIncomeSource(_incomeSource);
                 }
@@ -423,7 +423,7 @@ public partial class ProductionPlace : PlayerStructure
 
             budget = ((_defenderLevel - 2) * 25) + 25;
             armyHexSprite = Owner.GetArmyHexSprite();
-            if (armyHexSprite != null)
+            if (armyHexSprite is not null)
             {
                 budget -= armyHexSprite.Army.ObtainValue(255);
             }
@@ -444,7 +444,7 @@ public partial class ProductionPlace : PlayerStructure
                     sbyte hexY = HexY;
                     _ = AbilityRules.PlaceRandomUnits(HexX, hexY, HexLevel, 0, units, 4, budget, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature), engine: GetEngine());
                     armyHexSprite = Owner.GetArmyHexSprite();
-                    if (armyHexSprite != null && armyHexSprite.Army.Player == 0)
+                    if (armyHexSprite is not null && armyHexSprite.Army.Player == 0)
                     {
                         armyHexSprite.Army.SetBehavior(255, GroupBehavior.Guard);
                     }
@@ -528,7 +528,7 @@ public partial class ProductionPlace : PlayerStructure
                 unit.SetPlayer(Player);
                 sbyte hexY = HexY;
                 armyHexSprite = unit.Place(HexX, hexY, HexLevel, Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
-                if (armyHexSprite != null)
+                if (armyHexSprite is not null)
                 {
                     if (unit.ExpandAbility(155))
                     {

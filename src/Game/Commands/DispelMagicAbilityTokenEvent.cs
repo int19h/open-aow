@@ -49,7 +49,7 @@ public partial class DispelMagicAbilityTokenEvent(CustomNode owner) : TokenEvent
         source = StrategicMap.Current.UnitControl.FindUnit(SourceId);
         target = StrategicMap.Current.UnitControl.FindUnit(TargetId);
         ability = GamePack.Current.AbilityControl.GetAbility<DispelMagicAbility>(60);
-        success = source != null && (byte)source.Player == SourcePlayer && target != null && (byte)target.Player == TargetPlayer;
+        success = source is not null && (byte)source.Player == SourcePlayer && target is not null && (byte)target.Player == TargetPlayer;
         success = success && ability.GetEnabled(source);
         if (success)
         {

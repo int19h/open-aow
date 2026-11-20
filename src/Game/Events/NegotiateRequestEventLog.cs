@@ -34,10 +34,7 @@ public partial class NegotiateRequestEventLog(CustomNode owner) : JoinEventLog(o
     {
         ArmyId id;
         id = ArmyId;
-        if (id != null)
-        {
-            id?.Dispose();
-        }
+        id?.Dispose();
 
         base.Dispose();
     }
@@ -118,7 +115,7 @@ public partial class NegotiateRequestEventLog(CustomNode owner) : JoinEventLog(o
             Location = new MapCoordinate(unchecked((sbyte)(byte)Hex.X), unchecked((sbyte)(byte)Hex.Y), unchecked((sbyte)(byte)Hex.MapLevel))
         };
         id = ArmyId;
-        if (id != null)
+        if (id is not null)
         {
             eventValue.ArmyId = id.Copy<ArmyId>(GetEngine());
             eventValue.MovePoints = MovePoints;

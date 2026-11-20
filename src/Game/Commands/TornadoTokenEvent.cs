@@ -86,10 +86,10 @@ public partial class TornadoTokenEvent(CustomNode owner) : GlobalTargetSpellToke
         if (value == 80)
         {
             mapField = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
-            if (ArmyId != null && !mapField.GetMagicShieldActive())
+            if (ArmyId is not null && !mapField.GetMagicShieldActive())
             {
                 _ = ArmyId.RetrieveArmy(ref army, ref selection);
-                exposed = !(Set<byte>.WithBounds(0, 255).With(1).Contains((byte)mapField.OverlayType) || mapField.FindNoneTransparentHexSprite(typeof(Structure)) != null);
+                exposed = !(Set<byte>.WithBounds(0, 255).With(1).Contains((byte)mapField.OverlayType) || mapField.FindNoneTransparentHexSprite(typeof(Structure)) is not null);
                 for (int i = 0, last = army.Army.Units.Count - 1; i <= last; i++)
                 {
                     if ((selection & (1 << i)) != 0)
@@ -115,9 +115,9 @@ public partial class TornadoTokenEvent(CustomNode owner) : GlobalTargetSpellToke
                     }
                 }
 
-                if (army.Army.Transporter(255) != null)
+                if (army.Army.Transporter(255) is not null)
                 {
-                    selection = army.Army.Transporter(selection) != null ? (byte)255 : (byte)0;
+                    selection = army.Army.Transporter(selection) is not null ? (byte)255 : (byte)0;
                 }
 
                 if (selection != 0)
@@ -145,7 +145,7 @@ public partial class TornadoTokenEvent(CustomNode owner) : GlobalTargetSpellToke
 
                         if (StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.VisibleForPlayer(Location.X, Location.Y, Location.MapLevel, StrategicMap.Current.SeatedPlayer))
                         {
-                            if (GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[1] != null)
+                            if (GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[1] is not null)
                             {
                                 animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                                 animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[1]);
@@ -155,7 +155,7 @@ public partial class TornadoTokenEvent(CustomNode owner) : GlobalTargetSpellToke
 
                         if (StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.VisibleForPlayer(location.X, location.Y, location.MapLevel, StrategicMap.Current.SeatedPlayer))
                         {
-                            if (GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[1] != null)
+                            if (GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[1] is not null)
                             {
                                 animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                                 animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[1]);
@@ -255,5 +255,5 @@ public partial class TornadoTokenEvent(CustomNode owner) : GlobalTargetSpellToke
     }
 
     // GlobalTargetSpells.pas:215
-    public override bool Validate(Hero source) => base.Validate(source) && (ArmyId == null || ArmyId.Valid());
+    public override bool Validate(Hero source) => base.Validate(source) && (ArmyId is null || ArmyId.Valid());
 }

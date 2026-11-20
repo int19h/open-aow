@@ -31,7 +31,7 @@ public partial class PossessedAbility : PossessAbility
         PossessedAbilityData data;
         bool result = false;
         data = GetData(owner);
-        if (data == null)
+        if (data is null)
         {
             data = new PossessedAbilityData(null) { Holder = CreationHolder() };
             SetAbility(owner, AbilityId, 1);
@@ -48,7 +48,7 @@ public partial class PossessedAbility : PossessAbility
         PossessedAbilityData data;
         bool result = true;
         data = GetData(owner);
-        if (data != null)
+        if (data is not null)
         {
             SetAbility(owner, AbilityId, 0);
             owner.RemoveAbilityData(data);
@@ -72,7 +72,7 @@ public partial class PossessedAbility : PossessAbility
             newUnit = new Unit(null) { Holder = CreationHolder() };
             newUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(152));
             data = GetData(combatUnit.Troop);
-            if (data != null)
+            if (data is not null)
             {
                 newUnit.SetExperience(data.SourceExperience);
             }

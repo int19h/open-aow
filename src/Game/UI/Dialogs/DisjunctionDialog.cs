@@ -122,7 +122,7 @@ public partial class DisjunctionDialog(UIContext ui) : UIModule(ui)
             object objectValue = EnchantmentList.Items.Objects[index];
             _caster.SetEnchantmentId(ObjectToInt(objectValue));
             enchantment = _caster.SelectedEnchantment();
-            if (enchantment != null)
+            if (enchantment is not null)
             {
                 location = enchantment.GetLocation();
                 Location = new MapCoordinate(location.X, location.Y, location.MapLevel);

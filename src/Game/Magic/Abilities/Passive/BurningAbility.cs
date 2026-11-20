@@ -25,7 +25,7 @@ public partial class BurningAbility : DurationAbility
     {
         DurationAbilityData data;
         data = GetData(combatObject.GetAbilityOwner());
-        if (data != null)
+        if (data is not null)
         {
             if (data.Duration != 0 && data.PlayerIndex == player)
             {

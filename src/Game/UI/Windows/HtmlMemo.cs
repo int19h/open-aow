@@ -108,7 +108,7 @@ public partial class HtmlMemo : BaseWindow
             string word;
             int i;
             int length;
-            if (Font != null)
+            if (Font is not null)
             {
                 i = 0;
                 start = 0;
@@ -247,7 +247,7 @@ public partial class HtmlMemo : BaseWindow
         }
 
         _scrollWidth = 0;
-        if (_verticalScrollBar != null)
+        if (_verticalScrollBar is not null)
         {
             _scrollWidth = _verticalScrollBar.WinWidth;
             _verticalScrollBar.Position = _topItem;
@@ -569,7 +569,7 @@ public partial class HtmlMemo : BaseWindow
 
         SurfaceValid = false;
         _backDrawn = false;
-        if (_verticalScrollBar != null)
+        if (_verticalScrollBar is not null)
         {
             if (_window != _verticalScrollBar.Window)
             {
@@ -600,7 +600,7 @@ public partial class HtmlMemo : BaseWindow
         Rect r;
         if (Visible)
         {
-            if (_verticalScrollBar != null && _lines.Count > 0)
+            if (_verticalScrollBar is not null && _lines.Count > 0)
             {
                 if (_verticalScrollBar.Position != _topItem)
                 {
@@ -619,7 +619,7 @@ public partial class HtmlMemo : BaseWindow
         base.Update();
         if (Visible && Masked && !SurfaceValid)
         {
-            r = OwnerComponent.OwnerComponent.OwnerComponent == null
+            r = OwnerComponent.OwnerComponent.OwnerComponent is null
                 ? new Rect(WinLeft, WinTop, WinLeft + WinWidth - 1, WinTop + WinHeight - 1)
                 : new Rect(OwnerComponent.WindowRelativeLeft + WinLeft, OwnerComponent.WindowRelativeTop + WinTop, OwnerComponent.WindowRelativeLeft + WinLeft + WinWidth - 1, OwnerComponent.WindowRelativeTop + WinTop + WinHeight - 1);
 
@@ -660,7 +660,7 @@ public partial class HtmlMemo : BaseWindow
                 oldTop = WinTop;
                 SetWinLeftWithoutInvalidate(0);
                 SetWinTopWithoutInvalidate(0);
-                if (BackSurface != null)
+                if (BackSurface is not null)
                 {
                     if (BackSurface.PixelFormatId != lockedSurface.PixelFormatId)
                     {
@@ -669,7 +669,7 @@ public partial class HtmlMemo : BaseWindow
                     }
                 }
 
-                if (BackSurface == null)
+                if (BackSurface is null)
                 {
                     BackSurface = new DataSurface(_textWidth, _textHeight, lockedSurface.PixelFormatId, null);
                     _backDrawn = false;
@@ -938,7 +938,7 @@ public partial class HtmlMemo : BaseWindow
         fileName = ExtractFilePath(LegacyApplication.Application.ExeName) + fileName;
         font = null;
         i = 0;
-        while (i < _fonts.Count && font == null)
+        while (i < _fonts.Count && font is null)
         {
             if (_fonts[i].FileName == fileName)
             {
@@ -948,7 +948,7 @@ public partial class HtmlMemo : BaseWindow
             i += 1;
         }
 
-        if (font == null && FileExists(fileName))
+        if (font is null && FileExists(fileName))
         {
             font = new ImageLibraryFont(this)
             {
@@ -958,12 +958,12 @@ public partial class HtmlMemo : BaseWindow
             _fonts.Add(font);
         }
 
-        if (font != null)
+        if (font is not null)
         {
             Font = font;
         }
 
-        return font != null;
+        return font is not null;
     }
 
     public DelphiStringList Items { get => _items; set => SetFStrings(value); }

@@ -38,7 +38,7 @@ public partial class TutorialControl(CustomNode owner) : EngineObject(owner)
     public void ShowMessage(int id, bool immediate, bool onceOnly)
     {
         TutorialMessageEventLog log;
-        if (StrategicMap.Current.GameType == GameType.Tutorial && StrategicMap.Current.TextControl.FindId(id) != null)
+        if (StrategicMap.Current.GameType == GameType.Tutorial && StrategicMap.Current.TextControl.FindId(id) is not null)
         {
             if (onceOnly && _shownMessages.IndexOf(id) != -1)
             {

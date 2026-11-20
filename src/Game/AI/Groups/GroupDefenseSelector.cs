@@ -101,7 +101,7 @@ public partial class GroupDefenseSelector : IDisposable
     // AIGroup.pas:1699
     public void UpdateDefenseLocation(MapField mapField)
     {
-        if (DefenseLocation == MapCoordinate.None || mapField.FindOwnedHexSprite(typeof(Structure)) != null)
+        if (DefenseLocation == MapCoordinate.None || mapField.FindOwnedHexSprite(typeof(Structure)) is not null)
         {
             MapCoordinate mapCoordinate = mapField.GetMapCoordinate();
             DefenseLocation = mapCoordinate;
@@ -204,7 +204,7 @@ public partial class GroupDefenseSelector : IDisposable
         }
 
         candidates?.Dispose();
-        if (units != null)
+        if (units is not null)
         {
             result = true;
             i = units.Count;
@@ -238,7 +238,7 @@ public partial class GroupDefenseSelector : IDisposable
             number = item1.GroupId - item2.GroupId;
             if (number == 0 && item1.GroupId == s_defenseSortGroupId)
             {
-                if (s_defenseSortUnits != null)
+                if (s_defenseSortUnits is not null)
                 {
                     bool flag = s_defenseSortUnits.IndexOfChild(item1) != -1;
                     bool flag2 = s_defenseSortUnits.IndexOfChild(item2) != -1;

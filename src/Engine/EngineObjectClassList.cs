@@ -60,7 +60,7 @@ public partial class EngineObjectClassList : DelphiList<EngineClass>
     // Engine.pas:8338
     public void RegisterClass(EngineClass classValue)
     {
-        _ = FindClass(classValue.ClassId) == null && classValue.ClassId != 0
+        _ = FindClass(classValue.ClassId) is null && classValue.ClassId != 0
             ? Add(classValue)
             : throw new InvalidOperationException("EObject Class ID double defined!");
     }

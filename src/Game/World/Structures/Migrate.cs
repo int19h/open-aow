@@ -14,24 +14,24 @@ public sealed partial record Migrate(int Race) : ProductionOrder
 
     public override CityAction CityAction => CityAction.Migrate;
 
-    public override string Name(ProductionControl control) => control.ProductionCity() != null
+    public override string Name(ProductionControl control) => control.ProductionCity() is not null
         ? DelphiFormat.Format(AbilityRules.TranslateResourceString(control.GetEngine(), MigrateFormat), [AbilityRules.TranslateResourceString(control.GetEngine(), GameTables.RaceNamesPluralTexts[Race])])
         : base.Name(control);
 
-    public override string NameProgressive(ProductionControl control) => control.ProductionCity() != null
+    public override string NameProgressive(ProductionControl control) => control.ProductionCity() is not null
         ? DelphiFormat.Format(AbilityRules.TranslateResourceString(control.GetEngine(), s_migratingFormat), [AbilityRules.TranslateResourceString(control.GetEngine(), GameTables.RaceNamesPluralTexts[Race])])
         : base.NameProgressive(control);
 
     public override bool CanExecute(ProductionControl control, ref string reason)
     {
         City city = control.ProductionCity();
-        return city != null ? city.CanMigrate((sbyte)Race, reason) : base.CanExecute(control, ref reason);
+        return city is not null ? city.CanMigrate((sbyte)Race, reason) : base.CanExecute(control, ref reason);
     }
 
     public override void Executed(ProductionControl control)
     {
         City city = control.ProductionCity();
-        if (city == null)
+        if (city is null)
         {
             return;
         }
@@ -46,7 +46,7 @@ public sealed partial record Migrate(int Race) : ProductionOrder
     public override void Completed(ProductionControl control)
     {
         City city = control.ProductionCity();
-        if (city == null)
+        if (city is null)
         {
             return;
         }
@@ -65,15 +65,15 @@ public sealed partial record Migrate(int Race) : ProductionOrder
     public override void Cancel(ProductionControl control)
     {
         City city = control.ProductionCity();
-        if (city != null)
+        if (city is not null)
         {
             ChangeRelation(control, city, control.Settings.TurnsLeft == control.Settings.TurnsTotal ? 15 : 10);
         }
     }
 
-    public override bool Loopable(ProductionControl control) => control.ProductionCity() == null;
+    public override bool Loopable(ProductionControl control) => control.ProductionCity() is null;
 
-    public override bool LocksQueue(ProductionControl control) => control.ProductionCity() != null;
+    public override bool LocksQueue(ProductionControl control) => control.ProductionCity() is not null;
 
     public override int ActivityImage(City city) => 44;
 

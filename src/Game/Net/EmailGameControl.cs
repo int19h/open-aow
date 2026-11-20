@@ -100,7 +100,7 @@ public partial class EmailGameControl : EngineObject
         if (game.SecurityId != 0)
         {
             localGame = FindEmailGame(game);
-            result = localGame == null || game.SecurityId != localGame.SecurityId;
+            result = localGame is null || game.SecurityId != localGame.SecurityId;
         }
         else
         {
@@ -119,7 +119,7 @@ public partial class EmailGameControl : EngineObject
         bool result;
         EmailGame localGame;
         localGame = FindEmailGame(game);
-        if (localGame != null)
+        if (localGame is not null)
         {
             localGame.LastDay = game.LastDay;
             localGame.SecurityId = GenerateSecurityId();
@@ -167,7 +167,7 @@ public partial class EmailGameControl : EngineObject
             destination = "";
             overwrite = false;
             map = GetEngine().CreatePreviewHsm<StrategicMap>(fileName, profile: GameProfile.WorldMap);
-            bool condition = map != null && map.ConnectionType == PlayerConnectionType.Email && map.CurrentPlayer > 0;
+            bool condition = map is not null && map.ConnectionType == PlayerConnectionType.Email && map.CurrentPlayer > 0;
             if (condition)
             {
                 int count = map.Players.Count;
@@ -179,7 +179,7 @@ public partial class EmailGameControl : EngineObject
                 if (CompareText(b: GetEngine().Registry.GetLocalEmailAddress(), a: map.Players.GetPlayers(map.CurrentPlayer).PbemSettings.EmailGame.EmailAddress) == 0)
                 {
                     localGame = FindEmailGame(map.Players.GetPlayers(map.CurrentPlayer).PbemSettings.EmailGame);
-                    if (localGame != null)
+                    if (localGame is not null)
                     {
                         if (map.Day > localGame.LastDay)
                         {
@@ -187,7 +187,7 @@ public partial class EmailGameControl : EngineObject
                             if (FileExists($"{GetEngine().StartupDirectory}EmailIn\\{name}.asg"))
                             {
                                 previousMap = GetEngine().CreatePreviewHsm<StrategicMap>($"{GetEngine().StartupDirectory}EmailIn\\{name}.asg", profile: GameProfile.WorldMap);
-                                if (previousMap != null)
+                                if (previousMap is not null)
                                 {
                                     // { Original bug: the previous map's player is checked against the new map's count. }
                                     bool test = previousMap.CurrentPlayer > 0;

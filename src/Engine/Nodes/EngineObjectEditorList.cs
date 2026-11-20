@@ -15,7 +15,7 @@ public partial class EngineObjectEditorList
     // Engine.pas:8356
     public void RegisterClass(EditorClass classValue)
     {
-        if (FindEditor(classValue.EditorClassId) == null)
+        if (FindEditor(classValue.EditorClassId) is null)
         {
             _list.Add(classValue);
         }

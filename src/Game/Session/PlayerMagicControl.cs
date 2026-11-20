@@ -357,7 +357,7 @@ public partial class PlayerMagicControl : EngineObject
                 for (int i = 0, last = GamePack.Current.SpellControl.GetCount() - 1; i <= last; i++)
                 {
                     spell = GamePack.Current.SpellControl.GetSpell(i);
-                    if (spell != null && Spells.IndexOf(i) == -1 && spell.SpellType == kind && (spell.MagicSphere == MagicSphere.Cosmos || Player.Leader.GetSpherePicks(spell.MagicSphere) > 0) && spell.SpellLevel == 1)
+                    if (spell is not null && Spells.IndexOf(i) == -1 && spell.SpellType == kind && (spell.MagicSphere == MagicSphere.Cosmos || Player.Leader.GetSpherePicks(spell.MagicSphere) > 0) && spell.SpellLevel == 1)
                     {
                         _ = candidates.Add(i);
                     }
@@ -554,7 +554,7 @@ public partial class PlayerMagicControl : EngineObject
         for (int i = 0, last = GamePack.Current.SpellControl.GetCount() - 1; i <= last; i++)
         {
             spell = GamePack.Current.SpellControl.GetSpell(i);
-            if (spell != null && spellTypes.Contains(spell.SpellType) && ValidResearchSpell(spell))
+            if (spell is not null && spellTypes.Contains(spell.SpellType) && ValidResearchSpell(spell))
             {
                 list.Add(spell);
             }
@@ -570,7 +570,7 @@ public partial class PlayerMagicControl : EngineObject
             for (int i = 0, last = GamePack.Current.SpellControl.GetCount() - 1; i <= last; i++)
             {
                 spell = GamePack.Current.SpellControl.GetSpell(i);
-                if (spell != null && spell.GetEnabled() && spellTypes.Contains(spell.SpellType))
+                if (spell is not null && spell.GetEnabled() && spellTypes.Contains(spell.SpellType))
                 {
                     list.Add(spell);
                 }
@@ -582,7 +582,7 @@ public partial class PlayerMagicControl : EngineObject
             {
                 int item = Spells[i];
                 spell = GamePack.Current.SpellControl.GetSpell(item);
-                if (spell != null && spell.GetEnabled() && spellTypes.Contains(spell.SpellType))
+                if (spell is not null && spell.GetEnabled() && spellTypes.Contains(spell.SpellType))
                 {
                     list.Add(spell);
                 }
@@ -913,7 +913,7 @@ public partial class PlayerMagicControl : EngineObject
             {
                 UpkeepCandidate item = list[0];
                 total += item.Upkeep;
-                if (item.Enchantment != null)
+                if (item.Enchantment is not null)
                 {
                     _ = ExecuteDispelEnchantment(Enchantments.IndexOfChild(item.Enchantment));
                 }

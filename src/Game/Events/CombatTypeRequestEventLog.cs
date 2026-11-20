@@ -30,10 +30,7 @@ public partial class CombatTypeRequestEventLog(CustomNode owner) : EventLog(owne
         object objectValue;
         SetTokenEvent(null);
         objectValue = ArmyId;
-        if (objectValue != null)
-        {
-            (objectValue as IDisposable)?.Dispose();
-        }
+        (objectValue as IDisposable)?.Dispose();
 
         base.Dispose();
     }

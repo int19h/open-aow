@@ -32,7 +32,7 @@ public partial class ItemBanner(UIContext ui) : UIModule(ui)
         int x;
         int y;
         item = StrategicMap.Current.ItemControl.FindItem(ItemId);
-        if (item != null)
+        if (item is not null)
         {
             ItemNameLabel.Text = item.OwnerName;
             AttackIcon.Visible = false;

@@ -88,7 +88,7 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     // UnitHS.PAS:232
     public override sbyte GetHexLevel()
     {
-        Assert(Owner != null, "Onwer isn't defined", "UnitHS.PAS", 557);
+        Assert(Owner is not null, "Onwer isn't defined", "UnitHS.PAS", 557);
         return Owner.HexLevel;
     }
 
@@ -128,7 +128,7 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     {
         MapField field;
         MapLevel level;
-        if (Owner != null)
+        if (Owner is not null)
         {
             field = Owner;
             level = field.Owner;
@@ -167,7 +167,7 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     public override void RemoveFromMap()
     {
         MapField field;
-        if (Owner != null)
+        if (Owner is not null)
         {
             field = Owner;
             if (Moving())
@@ -246,7 +246,7 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
             Status = (byte)(Status | 1);
             _ = visibilityList.AddSortChild(this, _showPriority);
             // { Read Shadow directly. }
-            if (_shadow != null)
+            if (_shadow is not null)
             {
                 _ = visibilityList.AddSortChild(sortValue: _shadow.GetShowPriority(), child: _shadow);
             }
@@ -301,7 +301,7 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
 
         hexSprite = field.GetMaxLevelNoneTransparentHexSprite();
         _showPriority = 1744830464 + ((y + 34 + 6) << 13) + x + 16;
-        if (hexSprite != this && hexSprite != null && hexSprite.GetShowPriority() >= _showPriority)
+        if (hexSprite != this && hexSprite is not null && hexSprite.GetShowPriority() >= _showPriority)
         {
             _showPriority = hexSprite.GetShowPriority() + 2;
         }
@@ -313,7 +313,7 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     // UnitHS.PAS:766
     public virtual bool MoveTo(MapField field, int moveCost)
     {
-        if (Owner != null)
+        if (Owner is not null)
         {
             RemoveFromMap();
         }
@@ -390,7 +390,7 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     // UnitHS.PAS:176
     public void CreateShadow()
     {
-        if (_shadow != null)
+        if (_shadow is not null)
         {
             DestroyShadow();
         }
@@ -408,7 +408,7 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     // UnitHS.PAS:185
     public void DestroyShadow()
     {
-        if (_shadow != null)
+        if (_shadow is not null)
         {
             if (GetVisible())
             {
@@ -421,7 +421,7 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     }
 
     // UnitHS.PAS:584
-    public int GetUnitGraphicsResourceIndex() => UnitGraphicsResource != null ? UnitGraphicsResource.GetIndex() : -1;
+    public int GetUnitGraphicsResourceIndex() => UnitGraphicsResource is not null ? UnitGraphicsResource.GetIndex() : -1;
 
     // UnitHS.PAS:594
     public void SetUnitGraphicsResourceIndex(int value)
@@ -430,7 +430,7 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
         UnitGraphicsResource old;
         // { This eliminated copy preserves the original saved registers. }
         resource = UnitGraphicsResource;
-        if (resource == null || value != resource.GetIndex())
+        if (resource is null || value != resource.GetIndex())
         {
             old = UnitGraphicsResource;
             _ = (old?.Release());

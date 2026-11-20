@@ -86,7 +86,7 @@ public partial class ControlWindow(UIContext ui) : UIModule(ui)
     {
         if (UI.General.SelectedUnits[index] != -1)
         {
-            if (UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[index]).GetPreviewImage() != null)
+            if (UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[index]).GetPreviewImage() is not null)
             {
                 lockedSurface.ClipRectangle = R;
                 // { Original tests the unsorted index when checking the background library. }
@@ -129,7 +129,7 @@ public partial class ControlWindow(UIContext ui) : UIModule(ui)
     // AOWControlWin.pas:333
     public void Unit1FrameMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y, int slot)
     {
-        if (UI.General.UnitList != null && UI.General.SelectedUnits[slot] > -1 && UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[slot]) != null)
+        if (UI.General.UnitList is not null && UI.General.SelectedUnits[slot] > -1 && UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[slot]) is not null)
         {
             Troop troop = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[slot]);
             UI.General.SelectedUnit = troop;
@@ -269,7 +269,7 @@ public partial class ControlWindow(UIContext ui) : UIModule(ui)
     {
         Rect saveRectangle;
         UIComponent component;
-        if (UI.General.UnitList != null)
+        if (UI.General.UnitList is not null)
         {
             component = sender;
             saveRectangle = lockedSurface.ClipRectangle;

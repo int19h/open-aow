@@ -65,7 +65,7 @@ public partial class MessageDialog(UIContext ui) : UIModule(ui)
     // AoWMessageDlg.pas:98
     public void OKBtnClick()
     {
-        if (_event != null)
+        if (_event is not null)
         {
             if (!_event.Ok())
             {

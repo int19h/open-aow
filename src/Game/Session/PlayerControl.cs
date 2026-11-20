@@ -38,7 +38,7 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
     // PlayerC.PAS:7
     public override void Dispose()
     {
-        if (StrategicMap.Current != null && StrategicMap.Current.TokenManager != null)
+        if (StrategicMap.Current is not null && StrategicMap.Current.TokenManager is not null)
         {
             TokenExecutor tokenExecutor = StrategicMap.Current.TokenManager.TokenExecutor;
             tokenExecutor.ClearGetSyncValueHandler();
@@ -245,7 +245,7 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
         LocalPlayerCommunicationControl playerCommunicationControl = default;
         if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Network && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            if (StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl == null)
+            if (StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl is null)
             {
                 throw new InvalidOperationException("Please setup DirectPlayPCC");
             }
@@ -256,7 +256,7 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
         }
         else
         {
-            if ((StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || Set<PlayerConnectionType>.Of(PlayerConnectionType.Local, PlayerConnectionType.Email).Contains(StrategicMap.Current.ConnectionType)) && StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl == null)
+            if ((StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || Set<PlayerConnectionType>.Of(PlayerConnectionType.Local, PlayerConnectionType.Email).Contains(StrategicMap.Current.ConnectionType)) && StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl is null)
             {
                 playerCommunicationControl = new LocalPlayerCommunicationControl(this);
                 playerCommunicationControl.Setup(StrategicMap.Current.Players.Count);
@@ -369,7 +369,7 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
     public virtual void ExitGame(ExitGameMode mode, ExitGameCallBack done)
     {
         MessageEventLog log = default;
-        if (StrategicMap.Current.Combat == null)
+        if (StrategicMap.Current.Combat is null)
         {
             if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Network && StrategicMap.Current.GameStatus != StrategicMapGameStatus.Terminated && StrategicMap.Current.GameType != GameType.Tutorial && StrategicMap.Current.Players.LocalPlayers.Count > 1)
             {
@@ -408,7 +408,7 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
             {
                 if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Modified) && StrategicMap.Current.GameStatus != StrategicMapGameStatus.Terminated && StrategicMap.Current.GameType != GameType.Tutorial)
                 {
-                    if (!(_exitCallback != null))
+                    if (_exitCallback is null)
                     {
                         if (mode != ExitGameMode.Reload)
                         {
@@ -419,7 +419,7 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
                                 Title = AbilityRules.TranslateResourceString(GetEngine(), ConfirmText),
                                 Buttons = MessageEventLogButtons.YesNoCancel
                             };
-                            if (GetEngine().Campaign == null && !IsEmpty(StrategicMap.Current.FileName) && !DocumentKind.Map.HasExtension(ExtractFileExt(StrategicMap.Current.FileName)))
+                            if (GetEngine().Campaign is null && !IsEmpty(StrategicMap.Current.FileName) && !DocumentKind.Map.HasExtension(ExtractFileExt(StrategicMap.Current.FileName)))
                             {
                                 log.Layout = MessageEventLogLayout.Normal;
                                 // The message names the file the save writes (own-formats.md 4.2).
@@ -429,7 +429,7 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
                             }
                             else
                             {
-                                if (GetEngine().Campaign != null && !IsEmpty(GetEngine().Campaign.FileName) && !DocumentKind.CampaignMap.HasExtension(ExtractFileExt(StrategicMap.Current.FileName)))
+                                if (GetEngine().Campaign is not null && !IsEmpty(GetEngine().Campaign.FileName) && !DocumentKind.CampaignMap.HasExtension(ExtractFileExt(StrategicMap.Current.FileName)))
                                 {
                                     // { Original tests the map extension when saving a campaign. }
                                     log.Layout = MessageEventLogLayout.Normal;
@@ -479,7 +479,7 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
         {
             p = StrategicMap.Current.Players.GetPlayers(player);
             p.SetEndTurn(true);
-            if (p != null)
+            if (p is not null)
             {
                 StrategicMap.Current.GetViewCenter(out int x, out int y, out int l);
                 p.View = new MapCoordinate(unchecked((sbyte)(byte)x), unchecked((sbyte)(byte)y), unchecked((sbyte)(byte)l));
@@ -567,7 +567,7 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
             {
                 log = new PlayerConnectionEventLog(null, holder: CreationHolder());
                 log.Setup(-1, 3);
-                StrategicMap.Current.TriggerExecuteEventLog(log, StrategicMap.Current.Combat != null, null);
+                StrategicMap.Current.TriggerExecuteEventLog(log, StrategicMap.Current.Combat is not null, null);
                 _ = log.Release();
                 _outOfSyncShown = true;
             }
@@ -607,7 +607,7 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
     {
         if (!IsEmpty(log.FileName))
         {
-            if (GetEngine().Campaign != null)
+            if (GetEngine().Campaign is not null)
             {
                 GetEngine().SaveCampaign(log.FileName);
             }
@@ -633,7 +633,7 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
         SaveGameEventLog saveLog = default;
         if (log.PressedButton == PressedEventLogButton.Yes)
         {
-            if ((GetEngine().Campaign == null && (IsEmpty(StrategicMap.Current.FileName) || DocumentKind.Map.HasExtension(ExtractFileExt(StrategicMap.Current.FileName)))) || (GetEngine().Campaign != null && (IsEmpty(GetEngine().Campaign.FileName) || DocumentKind.CampaignMap.HasExtension(ExtractFileExt(StrategicMap.Current.FileName)))))
+            if ((GetEngine().Campaign is null && (IsEmpty(StrategicMap.Current.FileName) || DocumentKind.Map.HasExtension(ExtractFileExt(StrategicMap.Current.FileName)))) || (GetEngine().Campaign is not null && (IsEmpty(GetEngine().Campaign.FileName) || DocumentKind.CampaignMap.HasExtension(ExtractFileExt(StrategicMap.Current.FileName)))))
             {
                 saveLog = new SaveGameEventLog(null, holder: CreationHolder());
                 if (!IsEmpty(StrategicMap.Current.FileName))
@@ -658,7 +658,7 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
                 GameEngine engine = GetEngine();
                 // The save writes the own sibling of an original's name, which stays untouched
                 // (own-formats.md 4.2).
-                if (engine.Campaign != null)
+                if (engine.Campaign is not null)
                 {
                     engine.SaveCampaign(FileBoundary.WriteName(engine.Campaign.FileName));
                 }

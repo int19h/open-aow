@@ -50,7 +50,7 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
         base.MessageProc(ref message, sender);
-        if (message.MessageId != 536936471 && (message.MessageId & 1073741824) == 0 && Unit != null)
+        if (message.MessageId != 536936471 && (message.MessageId & 1073741824) == 0 && Unit is not null)
         {
             Unit.MessageProc(ref message, sender);
         }
@@ -319,7 +319,7 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
             sbyte hexY = GetHexY();
             sbyte hexX = GetHexX();
             movement = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild<MovementHexSprite>(2228490);
-            if (movement != null && movement.Enabled)
+            if (movement is not null && movement.Enabled)
             {
                 if (((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetSide() == Unit.GetSide())
                 {
@@ -432,7 +432,7 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
 
             if (((MoveControl)info.Sender).Destination.X >= 0 && ((MoveControl)info.Sender).Destination.Y >= 0 && HexGeometry.DeltaHexToRadius(x, y, ((MoveControl)info.Sender).Destination.X, ((MoveControl)info.Sender).Destination.Y) <= 1)
             {
-                if (CombatMap.Current.MapContainer.MapLevels[0].Field[((MoveControl)info.Sender).Destination.X, ((MoveControl)info.Sender).Destination.Y].FindOwnedChild(2228484) != null)
+                if (CombatMap.Current.MapContainer.MapLevels[0].Field[((MoveControl)info.Sender).Destination.X, ((MoveControl)info.Sender).Destination.Y].FindOwnedChild(2228484) is not null)
                 {
                     return;
                 }
@@ -522,7 +522,7 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
     public override void Unselect()
     {
         base.Unselect();
-        if (CombatMap.Current != null)
+        if (CombatMap.Current is not null)
         {
             if (CombatMap.Current.UnitSelection.GetTacticalBattleUnitHexSprite() == this)
             {
@@ -570,7 +570,7 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
         if (StrategicMap.Current.TokenManager.PlayerReady(player) && path.Count > 1)
         {
             tokenEvent = CreateTacticalBattleMeleeMoveTokenEvent(Unit, path);
-            if (tokenEvent != null)
+            if (tokenEvent is not null)
             {
                 sbyte fUnitPlayer = Unit.GetPlayer();
                 StrategicMap.Current.TokenManager.GetTokenControl(fUnitPlayer).AddEvent(tokenEvent);
@@ -784,14 +784,14 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
         {
             CombatAbilityRef ability = Abilities[i];
             _ = names.AddObject(GamePack.Current.AbilityControl.GetAbility(ability.Ability).GetName(Unit.Troop), IntToObject(Abilities[i].Ability));
-            if (types != null)
+            if (types is not null)
             {
                 CombatAbilityRef ability2 = Abilities[i];
                 AbilityType abilityType = GamePack.Current.AbilityControl.GetAbility(ability2.Ability).GetAbilityType();
                 _ = types.Add(AbilityRules.TranslateResourceString(GetEngine(), GameTables.AbilityTypeTexts[(int)abilityType]));
             }
 
-            if (sources != null)
+            if (sources is not null)
             {
                 CombatAbilityRef ability2 = Abilities[i];
                 _ = sources.Add(GamePack.Current.AbilityControl.GetAbility(ability2.Ability).GetSourceName(Unit.Troop));
@@ -846,7 +846,7 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
             if (path.Count > 1)
             {
                 tokenEvent = CreateTacticalBattleAbilityTouchMoveTokenEvent(Unit, path, SelectedAbility);
-                if (tokenEvent != null)
+                if (tokenEvent is not null)
                 {
                     sbyte fUnitPlayer = Unit.GetPlayer();
                     StrategicMap.Current.TokenManager.GetTokenControl(fUnitPlayer).AddEvent(tokenEvent);
@@ -877,7 +877,7 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
         if (StrategicMap.Current.TokenManager.PlayerReady(player))
         {
             tokenEvent = CreateTacticalBattleAbilityRangedTokenEvent(Unit, X, Y, SelectedAbility, SelectedSpell);
-            if (tokenEvent != null)
+            if (tokenEvent is not null)
             {
                 sbyte fUnitPlayer = Unit.GetPlayer();
                 StrategicMap.Current.TokenManager.GetTokenControl(fUnitPlayer).AddEvent(tokenEvent);
@@ -903,7 +903,7 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
     private static CombatAbilityTouchMoveTokenEvent CreateTacticalBattleAbilityTouchMoveTokenEvent(TacticalBattleUnit unitObject, MovePath path, int abilityId)
     {
         CombatAbilityTouchMoveTokenEvent tacticalBattleAbilityTouchMoveTokenEvent = new(null) { Holder = unitObject };
-        if (tacticalBattleAbilityTouchMoveTokenEvent != null)
+        if (tacticalBattleAbilityTouchMoveTokenEvent is not null)
         {
             _ = tacticalBattleAbilityTouchMoveTokenEvent.Setup(unitObject, path);
             tacticalBattleAbilityTouchMoveTokenEvent.AbilityId = abilityId;
@@ -914,7 +914,7 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
     private static CombatAbilityRangedTokenEvent CreateTacticalBattleAbilityRangedTokenEvent(TacticalBattleUnit unitObject, ushort X, ushort Y, int abilityId, int spellId)
     {
         CombatAbilityRangedTokenEvent tacticalBattleAbilityRangedTokenEvent = new(null) { Holder = unitObject };
-        if (tacticalBattleAbilityRangedTokenEvent != null)
+        if (tacticalBattleAbilityRangedTokenEvent is not null)
         {
             tacticalBattleAbilityRangedTokenEvent.SourceX = (ushort)unitObject.UnitHexSprite.HexX;
             tacticalBattleAbilityRangedTokenEvent.SourceY = (ushort)unitObject.UnitHexSprite.HexY;

@@ -5,7 +5,7 @@ namespace Aow.Game.UI.Controls;
 
 public partial class ListBox
 {
-    public override bool ContainsPoint(int X, int Y) => Window != null && PointInside(X, Y, Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth - _scrollWidth, WinHeight);
+    public override bool ContainsPoint(int X, int Y) => Window is not null && PointInside(X, Y, Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth - _scrollWidth, WinHeight);
 
     // A linked bar with room to move scrolls even when it is hidden, so shared columns stay together.
     // A bar with no room, or no bar when every item fits, leaves the wheel for the parent.
@@ -17,7 +17,7 @@ public partial class ListBox
         }
 
         VerticalScrollBar bar = WheelScrollBar ?? _verticalScrollBar;
-        if (bar != null)
+        if (bar is not null)
         {
             if (!bar.HasWheelRange())
             {

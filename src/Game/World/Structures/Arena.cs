@@ -40,7 +40,7 @@ public partial class Arena(CustomNode owner) : Structure(owner)
                 {
                     int unitId = arenaTokenEvent.UnitIds[i];
                     troop = StrategicMap.Current.UnitControl.FindUnit(unitId);
-                    if (troop != null)
+                    if (troop is not null)
                     {
                         Player player = StrategicMap.Current.Players.GetPlayers(tokenEvent.Param);
                         int unitTrainCost = UnitTrainCost(troop);
@@ -124,7 +124,7 @@ public partial class Arena(CustomNode owner) : Structure(owner)
                 i -= 1;
                 int unit = units[i];
                 troop = StrategicMap.Current.UnitControl.FindUnit(unit);
-                if (troop != null)
+                if (troop is not null)
                 {
                     cost = UnitTrainCost(troop);
                     if (cost != -1)
@@ -195,7 +195,7 @@ public partial class Arena(CustomNode owner) : Structure(owner)
         bool result;
         ArmyHexSprite army;
         army = Owner.GetArmyHexSprite();
-        result = army != null && army.Army.Player == player;
+        result = army is not null && army.Army.Player == player;
 
         return result;
     }

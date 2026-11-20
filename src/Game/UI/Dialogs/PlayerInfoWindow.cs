@@ -149,7 +149,7 @@ public partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
     public void CenterButtonClick()
     {
         UI.General.PlayButtonSound(0);
-        if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Leader != null)
+        if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Leader is not null)
         {
             StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetLeaderLocation(out sbyte x, out sbyte y, out sbyte l);
             if (x > -1)
@@ -177,7 +177,7 @@ public partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
     // AoWPInfoWin.pas:149
     public void FaceFrMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Leader != null)
+        if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Leader is not null)
         {
             StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetLeaderLocation(out sbyte hexX, out _, out _);
             if (hexX > -1)

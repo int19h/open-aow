@@ -61,11 +61,11 @@ public partial class HolyGroundSpell : GlobalTargetSpell
         bool result = base.ValidTargetMapField(field) && Set<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)field.TerrainType);
         // { Original overlay test allows these overlays even when the terrain check failed. }
         result = (result && field.OverlayType == -1) || Set<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)field.OverlayType);
-        result = result && field.FindNoneTransparentHexSprite(typeof(Structure)) == null;
+        result = result && field.FindNoneTransparentHexSprite(typeof(Structure)) is null;
         if (result)
         {
             army = field.GetArmyHexSprite();
-            if (army != null)
+            if (army is not null)
             {
                 result = !army.VisibleForSeatedPlayer();
             }
@@ -80,7 +80,7 @@ public partial class HolyGroundSpell : GlobalTargetSpell
         bool result = base.ValidTargetMapField(field) && Set<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)field.TerrainType);
         // { Original overlay test allows these overlays even when the terrain check failed. }
         result = (result && field.OverlayType == -1) || Set<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)field.OverlayType);
-        return result && field.FindNoneTransparentHexSprite(typeof(Structure)) == null && field.GetArmyHexSprite() == null;
+        return result && field.FindNoneTransparentHexSprite(typeof(Structure)) is null && field.GetArmyHexSprite() is null;
     }
 
     private static readonly string s_holyGroundsText = "Holy Woods";

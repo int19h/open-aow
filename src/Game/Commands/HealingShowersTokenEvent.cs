@@ -72,7 +72,7 @@ public partial class HealingShowersTokenEvent(CustomNode owner) : GlobalTargetSp
                     {
                         healed2 = false;
                         army = level.GetField(walk.X, walk.Y).GetArmyHexSprite();
-                        if (army != null)
+                        if (army is not null)
                         {
                             for (int i = 0, last = army.Army.Units.Count - 1; i <= last; i++)
                             {
@@ -120,10 +120,7 @@ public partial class HealingShowersTokenEvent(CustomNode owner) : GlobalTargetSp
                         }
 
                         cloud = level.GetField(walk.X, walk.Y).FindOwnedChild<HexSprite>(132990);
-                        if (cloud != null)
-                        {
-                            cloud?.Dispose();
-                        }
+                        cloud?.Dispose();
                     }
                 }
 

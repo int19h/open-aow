@@ -34,7 +34,7 @@ public partial class DispelMagicAbility : TouchAbility
     public override string GetName(AbilityOwner owner)
     {
         string result = GetLevelName(GetLevel(owner));
-        if (owner != null && !GetEnabled(owner))
+        if (owner is not null && !GetEnabled(owner))
         {
             result = $"{result} ({LowerCase(AbilityRules.TranslateResourceString(GetEngine(), GameText.UsedText))})";
         }
@@ -47,12 +47,12 @@ public partial class DispelMagicAbility : TouchAbility
     {
         int result;
         DispelMagicAbilityData data;
-        if (owner != null)
+        if (owner is not null)
         {
             if (owner.GetAbilitySetAt(60))
             {
                 data = GetData(owner);
-                result = data != null ? data.Level : 1;
+                result = data is not null ? data.Level : 1;
             }
             else
             {
@@ -75,7 +75,7 @@ public partial class DispelMagicAbility : TouchAbility
         if (result)
         {
             data = GetData(owner);
-            result = data == null || data.Enabled;
+            result = data is null || data.Enabled;
         }
 
         return result;
@@ -159,13 +159,13 @@ public partial class DispelMagicAbility : TouchAbility
             {
                 Holder = CreationHolder(),
                 AbilityId = AbilityId,
-                UnitId = troop != null ? troop.UnitId : 0
+                UnitId = troop is not null ? troop.UnitId : 0
             };
 
             selector = new DispelMagicAbilityUnitSelector(this);
             string dispelMagic = AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicText);
             selector.Caption = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.SelectUnitFormat), [dispelMagic]);
-            if (troop != null)
+            if (troop is not null)
             {
                 if (troop.Owner is IHeroHolder)
                 {
@@ -207,7 +207,7 @@ public partial class DispelMagicAbility : TouchAbility
         DispelMagicAbilityData data;
         bool result = false;
         data = GetData(owner);
-        if (data == null)
+        if (data is null)
         {
             data = new DispelMagicAbilityData(null)
             {
@@ -242,7 +242,7 @@ public partial class DispelMagicAbility : TouchAbility
         DispelMagicAbilityData data;
         bool result = true;
         data = GetData(owner);
-        if (data != null)
+        if (data is not null)
         {
             if (data.Level == 1)
             {
@@ -360,7 +360,7 @@ public partial class DispelMagicAbility : TouchAbility
     {
         DispelMagicAbilityData data;
         data = GetData(owner);
-        if (data == null)
+        if (data is null)
         {
             data = new DispelMagicAbilityData(null) { Holder = CreationHolder() };
             owner.AddAbilityData(data);
@@ -375,24 +375,14 @@ public partial class DispelMagicAbility : TouchAbility
     // AoWAb.PAS:4116
     public string GetLevelName(int level)
     {
-        string result = "";
-        switch (level)
+        string result = level switch
         {
-            case 0:
-                result = AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicText);
-                break;
-            case 1:
-                result = $"{AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicText)} I";
-                break;
-            case 2:
-                result = $"{AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicText)} II";
-                break;
-            case 3:
-                result = $"{AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicText)} III";
-                break;
-            default:
-                break;
-        }
+            0 => AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicText),
+            1 => $"{AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicText)} I",
+            2 => $"{AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicText)} II",
+            3 => $"{AbilityRules.TranslateResourceString(GetEngine(), GameText.DispelMagicText)} III",
+            _ => "",
+        };
 
         return result;
     }

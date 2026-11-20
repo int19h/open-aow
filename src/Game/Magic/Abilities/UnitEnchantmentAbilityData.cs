@@ -25,10 +25,7 @@ public partial class UnitEnchantmentAbilityData(CustomNode owner) : AbilityData(
     {
         UnitEnchantment enchantment;
         enchantment = Enchantment;
-        if (enchantment != null)
-        {
-            enchantment?.Dispose();
-        }
+        enchantment?.Dispose();
 
         base.Dispose();
     }
@@ -51,10 +48,7 @@ public partial class UnitEnchantmentAbilityData(CustomNode owner) : AbilityData(
     {
         UnitEnchantment oldEnchantment;
         oldEnchantment = Enchantment;
-        if (oldEnchantment != null)
-        {
-            oldEnchantment?.Dispose();
-        }
+        oldEnchantment?.Dispose();
 
         Enchantment = enchantment;
     }

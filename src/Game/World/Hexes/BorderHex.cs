@@ -21,14 +21,14 @@ public partial class BorderHex(CustomNode owner) : AbstractBorderHexagon(owner)
         if (owner != Owner)
         {
             MapField oldField = Owner;
-            if (oldField != null && oldField.HexY != 0)
+            if (oldField is not null && oldField.HexY != 0)
             {
                 _ = oldField.Owner.GetField(oldField.HexX, Owner.HexY - 1).RemoveChild(this);
             }
 
             base.SetOwner(owner);
             MapField field = Owner;
-            if (field != null && field.HexY != 0)
+            if (field is not null && field.HexY != 0)
             {
                 _ = field.Owner.GetField(field.HexX, Owner.HexY - 1).AddHexSprite(this, 1);
             }
@@ -79,7 +79,7 @@ public partial class BorderHex(CustomNode owner) : AbstractBorderHexagon(owner)
     // AoWHex.pas:261
     public override void UpdateMapField(in HexSpriteMapFieldInfo info)
     {
-        if (info.HexNumber == 0 && StrategicMap.Current != null && StrategicMap.Current.Day == 0)
+        if (info.HexNumber == 0 && StrategicMap.Current is not null && StrategicMap.Current.Day == 0)
         {
             info.MapField.FieldFlags = info.MapField.FieldFlags & ~MapField.ExploredFlags;
         }

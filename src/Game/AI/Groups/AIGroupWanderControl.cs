@@ -116,7 +116,7 @@ public partial class AIGroupWanderControl : AIGroupTask
                     fields.Sort(CompareWanderFields);
                     field = null;
                     i = 0;
-                    while (fields.Count != 0 && field == null)
+                    while (fields.Count != 0 && field is null)
                     {
                         i = StrategicMap.Current.Random(Round(fields.Count * 0.1) + 1);
                         field = fields[i].First;
@@ -127,7 +127,7 @@ public partial class AIGroupWanderControl : AIGroupTask
                         }
                     }
 
-                    if (field != null)
+                    if (field is not null)
                     {
                         // { Original reads the list item before GetXYL. }
                         targetWeight = fields[i].Second;

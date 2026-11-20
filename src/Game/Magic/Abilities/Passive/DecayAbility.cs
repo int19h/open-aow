@@ -25,7 +25,7 @@ public partial class DecayAbility : DurationAbility
     {
         DurationAbilityData data;
         data = GetData(combatObject.GetAbilityOwner());
-        if (data != null && data.PlayerIndex == player)
+        if (data is not null && data.PlayerIndex == player)
         {
             if (combatObject.GetAbilityOwner() is Troop)
             {

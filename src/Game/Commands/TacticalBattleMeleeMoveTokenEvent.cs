@@ -57,7 +57,7 @@ public partial class TacticalBattleMeleeMoveTokenEvent(CustomNode owner) : Comba
                         hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(pathX.Location.X, pathY.Location.Y).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
                         PreviousUnit = hexSprite?.Unit;
 
-                        if (PreviousUnit == null)
+                        if (PreviousUnit is null)
                         {
                             result = MoveStatus.Done;
                         }
@@ -230,10 +230,7 @@ public partial class TacticalBattleMeleeMoveTokenEvent(CustomNode owner) : Comba
 
             if (result == MoveStatus.Done)
             {
-                if (_meleeRound != null)
-                {
-                    _meleeRound?.Dispose();
-                }
+                _meleeRound?.Dispose();
 
                 _ = (Strike?.Release());
 

@@ -152,7 +152,7 @@ public partial class AIGroupProductionControl : AIGroupTask
                     {
                         production = new AIGroupUnitProduction(null) { Holder = CreationHolder() };
                         production.SetU(_control.Group.Productions.GetProductions(i).Control.Settings.Unit);
-                        if (production.Unit != null)
+                        if (production.Unit is not null)
                         {
                             production.Gold = 0;
                             production.Mana = 0;
@@ -162,7 +162,7 @@ public partial class AIGroupProductionControl : AIGroupTask
                             production.SetProductionLocation(_control.ProductionLocations.FindPC(productions.Control));
                             production.Priority = 0;
                             production.Research = false;
-                            if (production.ProductionLocation != null)
+                            if (production.ProductionLocation is not null)
                             {
                                 AddProduction(production);
                             }

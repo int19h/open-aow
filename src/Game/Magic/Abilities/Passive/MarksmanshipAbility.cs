@@ -26,27 +26,15 @@ public partial class MarksmanshipAbility : MultiLevelAbility
     // PassiveAb.pas:1398
     public override string GetLevelName(int level)
     {
-        string result = "";
-        switch (level)
+        string result = level switch
         {
-            case 0:
-                result = AbilityRules.TranslateResourceString(GetEngine(), s_marksmanshipText);
-                break;
-            case 1:
-                result = $"{AbilityRules.TranslateResourceString(GetEngine(), s_marksmanshipText)} I";
-                break;
-            case 2:
-                result = $"{AbilityRules.TranslateResourceString(GetEngine(), s_marksmanshipText)} II";
-                break;
-            case 3:
-                result = $"{AbilityRules.TranslateResourceString(GetEngine(), s_marksmanshipText)} III";
-                break;
-            case 4:
-                result = $"{AbilityRules.TranslateResourceString(GetEngine(), s_marksmanshipText)} IV";
-                break;
-            default:
-                break;
-        }
+            0 => AbilityRules.TranslateResourceString(GetEngine(), s_marksmanshipText),
+            1 => $"{AbilityRules.TranslateResourceString(GetEngine(), s_marksmanshipText)} I",
+            2 => $"{AbilityRules.TranslateResourceString(GetEngine(), s_marksmanshipText)} II",
+            3 => $"{AbilityRules.TranslateResourceString(GetEngine(), s_marksmanshipText)} III",
+            4 => $"{AbilityRules.TranslateResourceString(GetEngine(), s_marksmanshipText)} IV",
+            _ => "",
+        };
 
         return result;
     }

@@ -39,7 +39,7 @@ public partial class HeroResourceList : ResourceCollection, IChildList<HeroResou
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
             resource = this[i];
-            if (resource != null && (GetEngine().User.Contains(EngineUserElement.Designer) || !resource.Hidden) && heroTypes.Contains(resource.HeroType))
+            if (resource is not null && (GetEngine().User.Contains(EngineUserElement.Designer) || !resource.Hidden) && heroTypes.Contains(resource.HeroType))
             {
                 _ = list.AddObject(resource.Name, IntToObject(i));
             }
@@ -58,7 +58,7 @@ public partial class HeroResourceList : ResourceCollection, IChildList<HeroResou
         while (i < Count && result == -1)
         {
             resource = this[i];
-            if (resource != null && race == resource.Race && heroType == resource.HeroType)
+            if (resource is not null && race == resource.Race && heroType == resource.HeroType)
             {
                 result = i;
             }

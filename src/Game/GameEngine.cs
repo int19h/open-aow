@@ -140,7 +140,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     {
         try
         {
-            if (_hexSpriteMap != null)
+            if (_hexSpriteMap is not null)
             {
                 _hexSpriteMap.SetProgressHandler(progress);
                 OnHsmCloseStore.Raise(_hexSpriteMap);
@@ -422,7 +422,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     // Army.PAS:6050
     public void CloseCampaign()
     {
-        if (Campaign != null)
+        if (Campaign is not null)
         {
             Campaign?.Dispose();
             Campaign = null;
@@ -432,7 +432,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     // Army.PAS:6059
     public void LoadCampaignMap(Engine.ProgressEvent progress)
     {
-        if (Campaign != null && Campaign.Stream != null)
+        if (Campaign is not null && Campaign.Stream is not null)
         {
             CloseHsm(null);
             LoadHsmFromStream(Campaign.Stream, false, progress);
@@ -456,10 +456,10 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     // Army.PAS:6076
     public void SaveCampaign(string fileName)
     {
-        if (Campaign != null)
+        if (Campaign is not null)
         {
             Campaign.Stream.Clear();
-            if (_gameMap != null)
+            if (_gameMap is not null)
             {
                 SaveHsmToStream(Campaign.Stream, null);
             }

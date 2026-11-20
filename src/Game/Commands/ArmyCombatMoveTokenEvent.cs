@@ -65,7 +65,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
                         if (_combatType != CombatType.None)
                         {
                             ExecuteCombat();
-                            result = ArmyHexSprite == null ? MoveStatus.Done : MoveStatus.Moving;
+                            result = ArmyHexSprite is null ? MoveStatus.Done : MoveStatus.Moving;
                         }
                         else
                         {
@@ -235,7 +235,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
                     }
 
                     move = ArmyHexSprite.CreateArmyCombatMoveTokenEvent(ArmyHexSprite, selection: Selection, path: Path, mode: Set<ArmyMoveModeElement>.Of());
-                    if (move != null)
+                    if (move is not null)
                     {
                         // { created combat move }
                         move._combatType = request.CombatType;
@@ -716,7 +716,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
             if (Set<CombatResult>.Of(CombatResult.Victory).Contains(combat.CombatResult))
             {
                 armyHexSprite = StrategicMap.Current.MapContainer.GetField(combat.CombatData.AttackerLocation.X, combat.CombatData.AttackerLocation.Y, combat.CombatData.AttackerLocation.MapLevel).GetArmyHexSprite();
-                if (armyHexSprite != null)
+                if (armyHexSprite is not null)
                 {
                     army = armyHexSprite.Army;
                     selection = 0;
@@ -746,7 +746,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
                             move = combatMove;
                         }
 
-                        if (move != null)
+                        if (move is not null)
                         {
                             StrategicMap.Current.TokenManager.TokenExecutor.AddSystemEvent(move);
                             _ = move.Release();
@@ -757,7 +757,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
             else
             {
                 armyHexSprite = StrategicMap.Current.MapContainer.GetField(combat.CombatData.AttackerLocation.X, combat.CombatData.AttackerLocation.Y, combat.CombatData.AttackerLocation.MapLevel).GetArmyHexSprite();
-                if (armyHexSprite != null)
+                if (armyHexSprite is not null)
                 {
                     for (int i = armyHexSprite.Army.Units.Count - 1; i >= 0; i--)
                     {
@@ -786,7 +786,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
     // MoveT.PAS:3019
     public MoveStatus ExecuteLastMove()
     {
-        if (GetMapField(Path[MoveIndex - 1].Location).FindOwnedChild(131607) == null)
+        if (GetMapField(Path[MoveIndex - 1].Location).FindOwnedChild(131607) is null)
         {
             MapField mapField = GetMapField(Path[MoveIndex - 1].Location);
             PathStep item = Path[MoveIndex - 1];

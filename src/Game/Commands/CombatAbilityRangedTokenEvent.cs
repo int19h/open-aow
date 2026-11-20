@@ -78,7 +78,7 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                     try
                     {
                         hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(SourceX, SourceY).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
-                        if (hexSprite == null)
+                        if (hexSprite is null)
                         {
                             result = ExecuteResult.Done;
                         }
@@ -336,7 +336,7 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                                         Point3D path = effect.Path[effect.Frame];
                                         HexGeometry.PixelToHex(effect.Path[effect.Frame].X, path.Y, out x, out y);
                                         hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(x, y).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
-                                        if (hexSprite != null)
+                                        if (hexSprite is not null)
                                         {
                                             RandSeed = StrategicMap.Current.Random(16777215);
                                             // Spell 107 builds a damage action. Another action class fails in the typed create.
@@ -394,7 +394,7 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                                     }
                                     else
                                     {
-                                        if (effect.AbilityIndex == 52 && effect.EffectType == BattleEffectType.Resurrect && (effect.SpellIndex == 130 || effect.SpellIndex == 129))
+                                        if (effect.AbilityIndex == 52 && effect.EffectType == BattleEffectType.Resurrect && (effect.SpellIndex is 130 or 129))
                                         {
                                             switch (effect.Frame)
                                             {
@@ -565,13 +565,13 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                                                     }
                                                     else
                                                     {
-                                                        if (effect.AbilityIndex == 52 && effect.SpellIndex == 105 && effect.Target != null)
+                                                        if (effect.AbilityIndex == 52 && effect.SpellIndex == 105 && effect.Target is not null)
                                                         {
                                                             i = 0;
                                                             int last = CombatMap.Current.Combat.CombatData.GetCount() - 1;
                                                             for (; i <= last; i += 1)
                                                             {
-                                                                if (CombatMap.Current.Combat.CombatData.GetObjects(i) != null && CombatMap.Current.Combat.CombatData.GetObjects(i) is CombatUnit && CombatMap.Current.Combat.CombatData.GetObjects(i).GetSide() != _unit.GetSide() && CombatMap.Current.Combat.CombatData.GetObjects(i).GetEnabled() && CombatMap.Current.Combat.CombatData.GetObjects<TacticalBattleUnit>(i).UnitHexSprite != null)
+                                                                if (CombatMap.Current.Combat.CombatData.GetObjects(i) is not null && CombatMap.Current.Combat.CombatData.GetObjects(i) is CombatUnit && CombatMap.Current.Combat.CombatData.GetObjects(i).GetSide() != _unit.GetSide() && CombatMap.Current.Combat.CombatData.GetObjects(i).GetEnabled() && CombatMap.Current.Combat.CombatData.GetObjects<TacticalBattleUnit>(i).UnitHexSprite is not null)
                                                                 {
                                                                     RandSeed = StrategicMap.Current.Random(16777215);
                                                                     CombatObject combatObject = CombatMap.Current.Combat.CombatData.GetObjects(i);
@@ -630,7 +630,7 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                                                                                     if (CombatMap.Current.Combat.CombatData.GetObjects(i) is CombatUnit && CombatMap.Current.Combat.CombatData.GetObjects(i).GetEnabled())
                                                                                     {
                                                                                         hexSprite = CombatMap.Current.Combat.CombatData.GetObjects<TacticalBattleUnit>(i).UnitHexSprite;
-                                                                                        if (hexSprite != null)
+                                                                                        if (hexSprite is not null)
                                                                                         {
                                                                                             extraEffect = CombatMap.Current.AddEffect(BattleEffectType.SWComet);
                                                                                             extraEffect.AbilityIndex = AbilityId;
@@ -648,7 +648,7 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                                                                 }
                                                                 else
                                                                 {
-                                                                    if (effect.Done && effect.Target != null && effect.Target.GetEnabled())
+                                                                    if (effect.Done && effect.Target is not null && effect.Target.GetEnabled())
                                                                     {
                                                                         i = 0;
                                                                         RandSeed = StrategicMap.Current.Random(16777215);
@@ -700,7 +700,7 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                                                                         Point3D path = effect.Path[count - 1];
                                                                         int fPathCount = effect.Path.Count;
                                                                         HexGeometry.PixelToHex(effect.Path[fPathCount - 1].X, path.Y, out endX, out endY);
-                                                                        if (effect.CombatAction != null && effect.Target != null)
+                                                                        if (effect.CombatAction is not null && effect.Target is not null)
                                                                         {
                                                                             CombatMap.Current.Combat.ExecuteCombatAction(effect.CombatAction);
                                                                             _ = effect.CombatAction.Release();
@@ -942,12 +942,9 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
 
             if (result == ExecuteResult.Done)
             {
-                if (_sound != null)
-                {
-                    (_sound as IDisposable)?.Dispose();
-                }
+                (_sound as IDisposable)?.Dispose();
 
-                if (_unit != null && _unit.GetEnabled())
+                if (_unit is not null && _unit.GetEnabled())
                 {
                     _unit.UnitHexSprite.SelectedAbility = -1;
                     _unit.UnitHexSprite.SelectedSpell = -1;
@@ -1057,7 +1054,7 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                 }
             }
 
-            if (target != null)
+            if (target is not null)
             {
                 _ = used.Add(target);
                 weights.Add(total);
@@ -1236,7 +1233,7 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                 };
                 effect.Path.Add(point);
                 hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(TargetX, TargetY).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
-                if (hexSprite != null)
+                if (hexSprite is not null)
                 {
                     effect.Target = hexSprite.Unit;
                 }
@@ -1251,7 +1248,7 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                 };
                 effect.Path.Add(point);
                 hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(TargetX, TargetY).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
-                if (hexSprite != null)
+                if (hexSprite is not null)
                 {
                     effect.Target = hexSprite.Unit;
                 }
@@ -1261,7 +1258,7 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                 while (!found)
                 {
                     HexGeometry.CenterHexNumberToHex(TargetX, TargetY, i, ref j, ref k);
-                    bool condition = j > 5 && j < 60 && k > 5 && k < 53 && CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild(2228484) == null;
+                    bool condition = j is > 5 and < 60 && k is > 5 and < 53 && CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild(2228484) is null;
                     if (condition)
                     {
                         bool test = CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).OverlayType != 8;
@@ -1406,7 +1403,7 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                     default:
                         {
                             hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(deltaX, deltaY).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
-                            if (hexSprite != null)
+                            if (hexSprite is not null)
                             {
                                 effect.Target = hexSprite.Unit;
                             }
@@ -1431,13 +1428,13 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                 used = new DelphiList<TacticalBattleUnit>();
                 _ = used.Add(_unit);
                 hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(TargetX, TargetY).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
-                if (hexSprite != null)
+                if (hexSprite is not null)
                 {
                     _ = used.Add(hexSprite.Unit);
                 }
 
                 target = FindTarget(TargetX, TargetY);
-                while (target != null && i > 0)
+                while (target is not null && i > 0)
                 {
                     _ = used.Add(target);
                     x1 = x2 + 16;
@@ -1550,7 +1547,7 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
                 deltaX = TargetX;
                 deltaY = TargetY;
                 ChooseTarget();
-                if (target != null)
+                if (target is not null)
                 {
                     deltaX = target.UnitHexSprite.HexX;
                     deltaY = target.UnitHexSprite.HexY;
@@ -1681,7 +1678,7 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
             case BattleEffectType.Swarm:
             case BattleEffectType.AltArrow:
                 hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(TargetX, TargetY).FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
-                if (hexSprite != null)
+                if (hexSprite is not null)
                 {
                     effect.Target = hexSprite.Unit;
                 }
@@ -1704,7 +1701,7 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
 
                         hitObject ??= CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild<HexSprite>(2229510);
 
-                        if (hitObject != null || CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).TerrainType == 15 || CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).TerrainType == 7 || CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).OverlayType == 8)
+                        if (hitObject is not null || CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).TerrainType == 15 || CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).TerrainType == 7 || CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).OverlayType == 8)
                         {
                             j = obstacle.PathIndex + 1;
                             int last = effect.Path.Count - 1;

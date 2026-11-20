@@ -94,7 +94,7 @@ public partial class HeroControl : EngineObject
             {
                 for (int i = _heroes.GetCount() - 1; i >= 0; i--)
                 {
-                    if (_heroes[i].Owner == null)
+                    if (_heroes[i].Owner is null)
                     {
                         _heroes[i].MessageProc(ref message, sender);
                     }
@@ -174,9 +174,9 @@ public partial class HeroControl : EngineObject
         for (int i = _heroes.GetCount() - 1; i >= 0; i--)
         {
             hero = _heroes[i];
-            if (hero != null && hero.LibraryId != -1 && GamePack.Current.HeroLibraries.FindHero(hero.LibraryName, hero.LibraryId) == null)
+            if (hero is not null && hero.LibraryId != -1 && GamePack.Current.HeroLibraries.FindHero(hero.LibraryName, hero.LibraryId) is null)
             {
-                if (hero.Owner == null)
+                if (hero.Owner is null)
                 {
                     hero?.Dispose();
                 }
@@ -195,7 +195,7 @@ public partial class HeroControl : EngineObject
         for (int i = _heroes.GetCount() - 1; i >= 0; i--)
         {
             hero = _heroes[i];
-            if (!hero.UnitStatus.Contains(UnitStatusElement.Activated) && hero.Owner == null)
+            if (!hero.UnitStatus.Contains(UnitStatusElement.Activated) && hero.Owner is null)
             {
                 hero.Activate();
             }
@@ -209,7 +209,7 @@ public partial class HeroControl : EngineObject
         for (int i = _heroes.GetCount() - 1; i >= 0; i--)
         {
             hero = _heroes[i];
-            if (hero.UnitStatus.Contains(UnitStatusElement.Activated) && hero.Owner == null)
+            if (hero.UnitStatus.Contains(UnitStatusElement.Activated) && hero.Owner is null)
             {
                 hero.Deactivate();
             }

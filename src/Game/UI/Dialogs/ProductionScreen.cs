@@ -95,7 +95,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
     // AoWProdScreen.pas:590
     public void FreePreview()
     {
-        if (_preview != null)
+        if (_preview is not null)
         {
             _preview?.Dispose();
             _preview = null;
@@ -275,7 +275,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
         {
             case >= 0 and <= 3:
                 u = _place.ProductionControl.CreateUnitProduction(_productionIndex);
-                if (u != null)
+                if (u is not null)
                 {
                     UnitPanel.Visible = true;
                     sbyte attack = u.GetAttack();
@@ -580,7 +580,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
         _preview = generator.RandomMap(null, _place.GetHexX(), hexY, hexLevel);
         generator?.Dispose();
         army = _place.Owner.GetArmyHexSprite();
-        if (army != null)
+        if (army is not null)
         {
             for (int i = 0, last = army.Army.Units.Count - 1; i <= last; i++)
             {
@@ -591,7 +591,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
         int baseIncome = _place.GetBaseIncome();
         Action5CheckBox.CaptureInput = baseIncome != 0;
         center = _preview.CenterViewLocation;
-        if (center != null)
+        if (center is not null)
         {
             sbyte fCenterViewLocationHexY = _preview.CenterViewLocation.GetHexY();
             HexGeometry.HexToPixel(center.GetHexX(), fCenterViewLocationHexY, out _viewX, out _viewY);
@@ -646,7 +646,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
         {
             case >= 0 and <= 3:
                 u = _place.ProductionControl.CreateUnitProduction(slot);
-                if (u != null)
+                if (u is not null)
                 {
                     info.Direction = 3;
                     info.Overlays = Set<UnitOverlayModesElement>.Of();
@@ -866,7 +866,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
         Unit u;
         Rect r;
         u = _place.ProductionControl.CreateUnitProduction(_productionIndex);
-        if (u != null)
+        if (u is not null)
         {
             r = new Rect(UnitPictureFramePanel.AbsoluteLeft + sender.WinLeft + 2, UnitPictureFramePanel.AbsoluteTop + sender.WinTop + 2, UnitPictureFramePanel.AbsoluteLeft + sender.WinLeft + sender.WinWidth - 4, UnitPictureFramePanel.AbsoluteTop + sender.WinTop + sender.WinHeight - 2);
             u.ShowFace(r, lockedSurface);
@@ -929,7 +929,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
         if (slot <= 3)
         {
             UnitProduction unitProduction = _place.ProductionControl.UnitProductions.GetItem(slot);
-            sender.CaptureInput = unitProduction != null;
+            sender.CaptureInput = unitProduction is not null;
         }
     }
 
@@ -944,14 +944,14 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
         Unit u;
         if (_place.ProductionControl.Queue.GetCount() != 0)
         {
-            if (_place.ProductionControl.Queue.GetItem(0).Order.UnitProductionIndex != null)
+            if (_place.ProductionControl.Queue.GetItem(0).Order.UnitProductionIndex is not null)
             {
                 r = new Rect(ActiveActionPanel.AbsoluteLeft + sender.WinLeft, ActiveActionPanel.AbsoluteTop + sender.WinTop, ActiveActionPanel.AbsoluteLeft + sender.WinLeft + sender.WinWidth, ActiveActionPanel.AbsoluteTop + sender.WinTop + sender.WinHeight);
                 ProductionPlaceControl productionPlaceControl = _place.ProductionControl;
-                if (productionPlaceControl.UnitProductions.GetItem(productionPlaceControl.Settings.UnitProductionIndex) != null)
+                if (productionPlaceControl.UnitProductions.GetItem(productionPlaceControl.Settings.UnitProductionIndex) is not null)
                 {
                     u = _place.ProductionControl.CreateUnitProduction(_place.ProductionControl.Settings.UnitProductionIndex);
-                    if (u != null)
+                    if (u is not null)
                     {
                         info.Direction = 3;
                         info.Overlays = Set<UnitOverlayModesElement>.Of();
@@ -973,7 +973,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
         int w;
         int h;
         int width;
-        if (_preview != null)
+        if (_preview is not null)
         {
             r = new Rect(Window.WinLeft + sender.WinLeft, Window.WinTop + sender.WinTop, Window.WinLeft + sender.WinLeft + sender.WinWidth, Window.WinTop + sender.WinTop + sender.WinHeight);
             width = r.Right - r.Left;
@@ -1062,7 +1062,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
         {
             object objectValue = UnitAbilitiesList.Items.Objects[UnitAbilitiesList.Selected];
             a = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
-            if (a != null)
+            if (a is not null)
             {
                 InfoBanner.SetInfoBanner(caption: a.GetName(null), banner: UI.InfoBanner, description: a.Description);
             }

@@ -61,56 +61,56 @@ public partial class ScrollBar(Rtl.Component owner) : Control(owner)
     //   a background line with a tab makes a slider; anything else leaves the scroll bar invalid }
     public override void Validate()
     {
-        if (_imageLibraryImageIncrement != null)
+        if (_imageLibraryImageIncrement is not null)
         {
             _imageLibraryImageIncrement = _imageLibraryImageIncrement.CheckImageLibrary(_imageLibraryIndexIncrementUp, 1, this);
         }
 
-        if (_imageLibraryImageIncrement != null)
+        if (_imageLibraryImageIncrement is not null)
         {
             _imageLibraryImageIncrement = _imageLibraryImageIncrement.CheckImageLibrary(_imageLibraryIndexIncrementDown, 1, this);
         }
 
-        if (_imageLibraryIDecrement != null)
+        if (_imageLibraryIDecrement is not null)
         {
             _imageLibraryIDecrement = _imageLibraryIDecrement.CheckImageLibrary(_imageLibraryIndexDecrementUp, 1, this);
         }
 
-        if (_imageLibraryIDecrement != null)
+        if (_imageLibraryIDecrement is not null)
         {
             _imageLibraryIDecrement = _imageLibraryIDecrement.CheckImageLibrary(_imageLibraryIndexDecrementDown, 1, this);
         }
 
-        if (_imageLibraryTileBack != null)
+        if (_imageLibraryTileBack is not null)
         {
             _imageLibraryTileBack = _imageLibraryTileBack.CheckImageLibrary(_imageLibraryIndexBack, 1, this);
         }
 
-        if (_imageLibraryLineBack != null)
+        if (_imageLibraryLineBack is not null)
         {
             _imageLibraryLineBack = _imageLibraryLineBack.CheckImageLibrary(_imageLibraryIndexBack, 3, this);
         }
 
-        if (_thumbImage != null)
+        if (_thumbImage is not null)
         {
             _thumbImage = _thumbImage.CheckImageLibrary(_thumbImageIndex, 3, this);
         }
 
-        if (_thumbStrip != null)
+        if (_thumbStrip is not null)
         {
             _thumbStrip = _thumbStrip.CheckImageLibrary(_thumbImageIndex, 3, this);
         }
 
-        ThumbStyle = _thumbImage != null ? ScrollBarThumbStyle.Icon : ScrollBarThumbStyle.Bar;
+        ThumbStyle = _thumbImage is not null ? ScrollBarThumbStyle.Icon : ScrollBarThumbStyle.Bar;
 
-        if (_imageLibraryImageIncrement != null && _imageLibraryIDecrement != null)
+        if (_imageLibraryImageIncrement is not null && _imageLibraryIDecrement is not null)
         {
             Valid = true;
-            ScrollType = _imageLibraryTileBack != null && (_thumbImage != null || _thumbStrip != null) ? Style.Scroll : Style.IncrementDecrement;
+            ScrollType = _imageLibraryTileBack is not null && (_thumbImage is not null || _thumbStrip is not null) ? Style.Scroll : Style.IncrementDecrement;
         }
         else
         {
-            if (_imageLibraryLineBack != null && (_thumbImage != null || _thumbStrip != null))
+            if (_imageLibraryLineBack is not null && (_thumbImage is not null || _thumbStrip is not null))
             {
                 Valid = true;
                 ScrollType = Style.Slider;

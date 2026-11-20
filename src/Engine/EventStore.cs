@@ -22,7 +22,7 @@ internal sealed class EventStore<TSender>
 
     public void Add(NotifyEvent<TSender> item)
     {
-        int capacity = _items == null ? 0 : _items.Length;
+        int capacity = _items is null ? 0 : _items.Length;
         if (Count == capacity)
         {
             Grow(capacity);

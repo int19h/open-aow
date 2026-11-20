@@ -47,7 +47,7 @@ public partial class HexagonResource : AbstractHexagonResource
         // The resource user class (131410) registers only Hex.
         Hex found = mapField.FindOwnedChild<Hex>(ResourceUserClassId());
         MapObject result = found;
-        if (found != null)
+        if (found is not null)
         {
             if (found.GetTerrain(0) != TerrainList.GetTerrain(0))
             {

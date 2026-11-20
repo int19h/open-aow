@@ -78,7 +78,7 @@ public partial class WarpParty : Spell
         MapField field;
         MapFieldMessage message = default;
         field = StrategicMap.Current.MapContainer.GetField(X, Y, layer);
-        bool result = field.GetArmyHexSprite() == null && field.GetPlayer() == -1;
+        bool result = field.GetArmyHexSprite() is null && field.GetPlayer() == -1;
         if (result)
         {
             message.MessageId = 4384;
@@ -152,7 +152,7 @@ public partial class WarpParty : Spell
         {
             i = Random(candidates.Count);
             field = candidates[i];
-            if (field.GetArmyHexSprite() == null && field.GetPlayer() == -1)
+            if (field.GetArmyHexSprite() is null && field.GetPlayer() == -1)
             {
                 message.MessageId = 4384;
                 MapFieldMessageParameters param = message.Param;

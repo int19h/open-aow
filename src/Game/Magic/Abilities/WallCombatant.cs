@@ -32,21 +32,13 @@ public partial class WallCombatant(CustomNode owner) : Troop(owner)
     // Unit.PAS:2522
     public override string GetName()
     {
-        string result = "";
-        switch (_wallType)
+        string result = _wallType switch
         {
-            case WallType.Wood:
-                result = AbilityRules.TranslateResourceString(GetEngine(), GameText.WoodenWallText);
-                break;
-            case WallType.Stone:
-                result = AbilityRules.TranslateResourceString(GetEngine(), GameText.StoneWallText);
-                break;
-            case WallType.None:
-                result = AbilityRules.TranslateResourceString(GetEngine(), GameText.UndefinedWallText);
-                break;
-            default:
-                break;
-        }
+            WallType.Wood => AbilityRules.TranslateResourceString(GetEngine(), GameText.WoodenWallText),
+            WallType.Stone => AbilityRules.TranslateResourceString(GetEngine(), GameText.StoneWallText),
+            WallType.None => AbilityRules.TranslateResourceString(GetEngine(), GameText.UndefinedWallText),
+            _ => "",
+        };
 
         return result;
     }

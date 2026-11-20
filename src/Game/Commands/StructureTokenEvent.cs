@@ -59,7 +59,7 @@ public partial class StructureTokenEvent(CustomNode owner) : TokenEvent(owner)
         MapField mapField;
         mapField = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel);
         structure = mapField.FindOwnedChild<Structure>(_structureClassId);
-        result = structure != null && structure.EngineClass.ClassId == _structureClassId && mapField.GetPlayer() == Player;
+        result = structure is not null && structure.EngineClass.ClassId == _structureClassId && mapField.GetPlayer() == Player;
 
         return result;
     }

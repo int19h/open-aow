@@ -52,7 +52,7 @@ public partial class SfxLibrary(CustomNode owner) : OwningNode(owner), IChildLis
         int i;
         i = 0;
         SfxSequence result = null;
-        while (i != Count && result == null)
+        while (i != Count && result is null)
         {
             if (this[i].Id == id)
             {

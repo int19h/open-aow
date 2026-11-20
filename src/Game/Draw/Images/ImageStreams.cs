@@ -14,7 +14,7 @@ public static class ImageStreams
         LibraryImageClass imageClass;
         stream.ReadExactly(Bytes.Of(ref id, 4));
         imageClass = LibraryCatalog.FindLibraryImageClass(id);
-        if (imageClass != null)
+        if (imageClass is not null)
         {
             result = imageClass.CreateInstance(owner);
             result.LoadFromStream(stream);
@@ -34,7 +34,7 @@ public static class ImageStreams
         LibraryImageClass imageClass;
         stream.ReadExactly(Bytes.Of(ref id, 4));
         imageClass = LibraryCatalog.FindLibraryImageClass(id);
-        if (imageClass != null)
+        if (imageClass is not null)
         {
             result = imageClass.CreateInstance(owner);
             result.LoadFromStream(stream, dataStream);

@@ -96,7 +96,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             _ = (Owner?.RemoveChild(this));
 
             SetOwnerWithoutNotify(owner);
-            if (Owner != null)
+            if (Owner is not null)
             {
                 if (Owner.AddChild(this) == -1)
                 {
@@ -123,7 +123,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             {
                 legacy = null;
                 legacy = persister.Created("LegacyGroup", objectValue: legacy);
-                LegacyGroupBehavior = legacy != null ? (byte)((GroupControl)(object)legacy).Behavior() : (byte)0;
+                LegacyGroupBehavior = legacy is not null ? (byte)((GroupControl)(object)legacy).Behavior() : (byte)0;
             }
             catch
             {
@@ -589,7 +589,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         if (GroupId != 0 && Player >= 0)
         {
             group = StrategicMap.Current.AIGroupManager.Groups.FindId(GroupId);
-            if (group != null)
+            if (group is not null)
             {
                 _ = group.AddUnit(this);
             }
@@ -655,10 +655,10 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             _ = StrategicMap.Current.ChangeTerrain(null, newField.HexX, newField.HexY, newField.HexLevel, 0, (int)TerrainType.Dirt);
         }
 
-        if (oldField != null)
+        if (oldField is not null)
         {
             army = Owner;
-            transported = army is Army armyValue && armyValue.Transporter(255) != null;
+            transported = army is Army armyValue && armyValue.Transporter(255) is not null;
             if (!transported)
             {
                 if (oldField.HexLevel == 0)
@@ -708,7 +708,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         Alignment alignment;
         DiplomaticRelation relation;
         int i;
-        bool condition = Group == null;
+        bool condition = Group is null;
         if (!condition)
         {
             GroupBehavior behavior = Group.GroupClass.Behavior;
@@ -757,7 +757,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
                 result = StrategicMap.Current.Races.GetRace(race).GetPlayerRelation(player) >= Status.Polite;
             }
 
-            if (result && Group != null && Group.HuntingPlayer(player))
+            if (result && Group is not null && Group.HuntingPlayer(player))
             {
                 result = false;
             }
@@ -776,7 +776,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         int result;
         AIGroup group;
         group = Group;
-        result = group != null && group.GroupClass.Behavior == GroupBehavior.Refuge ? 0 : Round(GetObtainValue() * 0.75);
+        result = group is not null && group.GroupClass.Behavior == GroupBehavior.Refuge ? 0 : Round(GetObtainValue() * 0.75);
 
         return result;
     }
@@ -797,7 +797,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             else
             {
                 group = Group;
-                if (group != null && group.GroupClass.Behavior == GroupBehavior.Refuge)
+                if (group is not null && group.GroupClass.Behavior == GroupBehavior.Refuge)
                 {
                     Player players = StrategicMap.Current.Players.GetPlayers(player);
                     alignment = GamePack.Current.RaceResources.GetRaceResource(players.PlayerRace).GetAlignment();
@@ -826,7 +826,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         {
             case JoinMode.Default:
                 group = Group;
-                messages.Text = group != null && group.GroupClass.Behavior == GroupBehavior.Refuge && amount == 0
+                messages.Text = group is not null && group.GroupClass.Behavior == GroupBehavior.Refuge && amount == 0
                     ? count == 0
                         ? AbilityRules.TranslateResourceString(GetEngine(), GameText.RefugeJoinText)
                         : AbilityRules.TranslateResourceString(GetEngine(), GameText.RefugeesJoinText)
@@ -1101,7 +1101,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         if (ability is UnitEnchantmentAbility && GetAbilityEnabled(ability.AbilityId))
         {
             data = GetAbilityData<UnitEnchantmentAbilityData>(ability.AbilityId);
-            if (data != null)
+            if (data is not null)
             {
                 result = data.Enchantment;
             }
@@ -1131,7 +1131,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         {
             i -= 1;
             enchantment = AbilityToEnchantment(list.GetAbility(i).AbilityId);
-            result = enchantment != null && player != enchantment.Source;
+            result = enchantment is not null && player != enchantment.Source;
         }
 
         return result;
@@ -1146,7 +1146,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         for (int i = abilities.Count - 1; i >= 0; i--)
         {
             enchantment = AbilityToEnchantment(abilities.GetAbility(i).AbilityId);
-            if (enchantment != null)
+            if (enchantment is not null)
             {
                 _ = list.AddChild(enchantment);
             }
@@ -1262,7 +1262,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         if (GetAbilityEnabled(155))
         {
             enchantment = GetAbilityData<UnitEnchantmentAbilityData>(155).Enchantment;
-            if (enchantment != null)
+            if (enchantment is not null)
             {
                 result = enchantment.Upkeep;
             }
@@ -1310,7 +1310,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         bool faster;
         bool slower;
         moves = GetMoveTypes();
-        if (StrategicMap.Current.Combat != null)
+        if (StrategicMap.Current.Combat is not null)
         {
             moves -= Set<MoveType>.Of(MoveType.Tunneling);
         }
@@ -1452,7 +1452,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     // Unit.PAS:1038
     public void PathOfLifeTerrainChange(MapField mapField, ref sbyte terrainType, in sbyte overlayType)
     {
-        if (terrainType != (int)TerrainType.Ice && terrainType != (int)TerrainType.Water && mapField.HexLevel == 0)
+        if (terrainType is not (int)TerrainType.Ice and not (int)TerrainType.Water && mapField.HexLevel == 0)
         {
             terrainType = (int)TerrainType.Grass;
         }
@@ -1461,7 +1461,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     // Unit.PAS:1043
     public void PathOfDecayTerrainChange(MapField mapField, ref sbyte terrainType, in sbyte overlayType)
     {
-        if (terrainType != (int)TerrainType.Ice && terrainType != (int)TerrainType.Water && mapField.HexLevel == 0)
+        if (terrainType is not (int)TerrainType.Ice and not (int)TerrainType.Water && mapField.HexLevel == 0)
         {
             terrainType = (int)TerrainType.Wasteland;
         }
@@ -1480,7 +1480,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             if (Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)terrainType))
             {
                 ice = mapField.FindOwnedHexSprite<FrozenWaterHexSprite>();
-                if (ice != null)
+                if (ice is not null)
                 {
                     ice.DaysRemaining = 2;
                     ice.CasterPlayer = Player;
@@ -1503,7 +1503,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         if (Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)mapField.TerrainType) && !Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)originalTerrainType))
         {
             ice = mapField.FindOwnedHexSprite<FrozenWaterHexSprite>();
-            if (ice == null)
+            if (ice is null)
             {
                 ice = new FrozenWaterHexSprite(null) { Holder = CreationHolder() };
                 _ = StrategicMap.Current.PlaceHex(ice, mapField.HexX, mapField.HexY, mapField.HexLevel);
@@ -1529,7 +1529,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             if (Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)field.TerrainType))
             {
                 ice = field.FindOwnedHexSprite<FrozenWaterHexSprite>();
-                if (ice != null)
+                if (ice is not null)
                 {
                     ice.DaysRemaining = 2;
                     ice.CasterPlayer = Player;
@@ -1890,7 +1890,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             if (mode.Contains(UnitPlaceModeElement.NeglectEmptyPlayerLocation) || fieldPlayer == player || fieldPlayer == -1 || player == -1)
             {
                 armyHexSprite = StrategicMap.Current.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
-                result = armyHexSprite != null
+                result = armyHexSprite is not null
                     ? !mode.Contains(UnitPlaceModeElement.CreateNewArmy) && (player == -1 || armyHexSprite.Army.Player == player) && armyHexSprite.Army.CanAddUnit(this)
                     : ValidTerrain(field.TerrainType, field.OverlayType);
             }
@@ -1913,12 +1913,12 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         ArmyHexSprite armyHexSprite;
         ArmyHexSprite result = null;
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, 0);
-        while (result == null && (walk.Radius == 0 || mode.Contains(UnitPlaceModeElement.ScanArea)) && walk.Radius < 30)
+        while (result is null && (walk.Radius == 0 || mode.Contains(UnitPlaceModeElement.ScanArea)) && walk.Radius < 30)
         {
             if (CanPlace(walk.X, walk.Y, L, player, mode))
             {
                 armyHexSprite = StrategicMap.Current.MapContainer.GetField(walk.X, walk.Y, L).GetArmyHexSprite();
-                if (armyHexSprite == null)
+                if (armyHexSprite is null)
                 {
                     armyHexSprite = new ArmyHexSprite(null) { Holder = CreationHolder() };
                     if (player != -1)
@@ -1940,7 +1940,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
                 }
             }
 
-            if (result == null)
+            if (result is null)
             {
                 HexNumberWalkData.WalkToNextHexNumber(ref walk);
             }
@@ -1954,7 +1954,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     {
         DurationAbilityData data;
         data = GetAbilityData<DurationAbilityData>(101);
-        if (data != null)
+        if (data is not null)
         {
             if (data.Duration <= 0)
             {
@@ -1984,7 +1984,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
 
         if (GetAbilityEnabled(129))
         {
-            if (StrategicMap.Current != null)
+            if (StrategicMap.Current is not null)
             {
                 GamePack.Current.GeneralImages[45]?.ShowStretched(R, lockedSurface);
             }

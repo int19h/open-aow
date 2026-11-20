@@ -18,7 +18,7 @@ public partial class StructureConstructionControl(CustomNode owner) : Constructi
 {
 
     // Structur.PAS:3195
-    public override bool CanConstruct(Troop troop, ref string reason) => ValidateLocation(troop, ref reason) && base.CanConstruct(troop, ref reason) && StructureResource(troop) != null;
+    public override bool CanConstruct(Troop troop, ref string reason) => ValidateLocation(troop, ref reason) && base.CanConstruct(troop, ref reason) && StructureResource(troop) is not null;
 
     // Structur.PAS:3201
     public override bool Construct(Troop troop)
@@ -69,7 +69,7 @@ public partial class StructureConstructionControl(CustomNode owner) : Constructi
                 {
                     mapField = level.GetField(walk.X, walk.Y);
                     result = mapField.GetPlayer() == -1 || mapField.GetPlayer() == troop.Player;
-                    result = result && mapField.FindNoneTransparentHexSprite(typeof(Structure)) == null;
+                    result = result && mapField.FindNoneTransparentHexSprite(typeof(Structure)) is null;
                     result = result && !Set<byte>.WithBounds(0, 255).With(0).With(2).Contains((byte)mapField.OverlayType);
                     result = result && Set<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)mapField.TerrainType);
                 }

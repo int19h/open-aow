@@ -65,11 +65,11 @@ public partial class CombatMapControl : Component
     // CMapCtrl.pas:117
     public override void Dispose()
     {
-        if (_engine != null)
+        if (_engine is not null)
         {
             _engine.OnHsmLoaded -= ActivateHsm;
             _engine.OnHsmClose -= DeactivateHsm;
-            if (CombatMap.Current != null)
+            if (CombatMap.Current is not null)
             {
                 ReleaseHsm();
             }
@@ -84,7 +84,7 @@ public partial class CombatMapControl : Component
         // The engine of the dialog module that owns the control, as the original read the
         // engine global.
         _engine = (owner as UIModule)?.UI.Engine;
-        if (_engine != null)
+        if (_engine is not null)
         {
             _engine.OnHsmLoaded += ActivateHsm;
             _engine.OnHsmClose += DeactivateHsm;
@@ -208,7 +208,7 @@ public partial class CombatMapControl : Component
     {
         try
         {
-            if (OnUnitChanged != null)
+            if (OnUnitChanged is not null)
             {
                 TacticalBattleUnitHexSprite tacticalBattleUnitHexSprite = CombatMap.Current.UnitSelection.GetTacticalBattleUnitHexSprite();
                 OnUnitChanged(tacticalBattleUnitHexSprite);

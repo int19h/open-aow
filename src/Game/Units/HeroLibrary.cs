@@ -43,7 +43,7 @@ public partial class HeroLibrary(CustomNode owner) : Engine.Nodes.ReferenceNode(
         // CheckChild refuses a non-hero. The cast names the child the library id is written on.
         Hero hero = (Hero)child;
         // { Original checks unit IDs rather than library IDs for a collision. }
-        if (hero.LibraryId == 0 || Heroes.FindHero(hero.LibraryId) != null)
+        if (hero.LibraryId == 0 || Heroes.FindHero(hero.LibraryId) is not null)
         {
             hero.LibraryId = CreateUniqueLibraryId();
         }

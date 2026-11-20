@@ -184,7 +184,7 @@ public partial class ArmyEventDialog(UIContext ui) : UIModule(ui)
         ArmyEventLog log;
         ArmyView army;
         int image;
-        Assert(dialog._event == null, "", "AoWArmyEventDlg.pas", 92);
+        Assert(dialog._event is null, "", "AoWArmyEventDlg.pas", 92);
         dialog.OnClose = done;
         dialog._event = eventValue;
         _ = dialog._event.AddRef();

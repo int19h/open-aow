@@ -25,7 +25,7 @@ public partial class Panel : BaseWindow
     // AoWPanel.pas:69
     public override void Dispose()
     {
-        if (_tabPanel != null)
+        if (_tabPanel is not null)
         {
             int indexOf = _tabPanel.Panels.IndexOf(this);
             _tabPanel.Panels.RemoveAt(indexOf);
@@ -39,7 +39,7 @@ public partial class Panel : BaseWindow
     //   MinHeight; the panel uses the window's window manager }
     public override void SetSize()
     {
-        if (!Visible && _tabPanel != null && _tabPanel.Selected == OwnerItem)
+        if (!Visible && _tabPanel is not null && _tabPanel.Selected == OwnerItem)
         {
             SetVisibleWithoutUpdate(true);
         }
@@ -140,7 +140,7 @@ public partial class Panel : BaseWindow
             SetWinHeightWithoutInvalidate(MinHeight);
         }
 
-        if (_window.WindowManager != null)
+        if (_window.WindowManager is not null)
         {
             WindowManager = _window.WindowManager;
         }
@@ -214,7 +214,7 @@ public partial class Panel : BaseWindow
 
             if (OldRectangle.Width > 0 && OldRectangle.Height > 0 && (OldRectangle.Left != WinLeft || OldRectangle.Top != WinTop || OldRectangle.Width != WinWidth || OldRectangle.Height != WinHeight))
             {
-                r = OwnerComponent.OwnerComponent.OwnerComponent == null
+                r = OwnerComponent.OwnerComponent.OwnerComponent is null
                     ? new Rect(OldRectangle.Left, OldRectangle.Top, OldRectangle.Left + OldRectangle.Width - 1, OldRectangle.Top + OldRectangle.Height - 1)
                     : new Rect(OwnerComponent.WindowRelativeLeft + OldRectangle.Left, OwnerComponent.WindowRelativeTop + OldRectangle.Top, OwnerComponent.WindowRelativeLeft + OldRectangle.Left + OldRectangle.Width - 1, OwnerComponent.WindowRelativeTop + OldRectangle.Top + OldRectangle.Height - 1);
 
@@ -234,7 +234,7 @@ public partial class Panel : BaseWindow
         {
             if (Hidden)
             {
-                r = OwnerComponent.OwnerComponent.OwnerComponent == null
+                r = OwnerComponent.OwnerComponent.OwnerComponent is null
                     ? new Rect(WinLeft, WinTop, WinLeft + WinWidth - 1, WinTop + WinHeight - 1)
                     : new Rect(OwnerComponent.WindowRelativeLeft + WinLeft, OwnerComponent.WindowRelativeTop + WinTop, OwnerComponent.WindowRelativeLeft + WinLeft + WinWidth - 1, OwnerComponent.WindowRelativeTop + WinTop + WinHeight - 1);
 
@@ -521,7 +521,7 @@ public partial class Panel : BaseWindow
         if (Visible)
         {
             SizedRectangle absolute = AbsoluteArea();
-            if (_window != null)
+            if (_window is not null)
             {
                 Handled = _window.Handled;
             }
@@ -562,7 +562,7 @@ public partial class Panel : BaseWindow
         if (Visible)
         {
             SizedRectangle absolute = AbsoluteArea();
-            if (_window != null)
+            if (_window is not null)
             {
                 Handled = _window.Handled;
             }
@@ -597,7 +597,7 @@ public partial class Panel : BaseWindow
         if (Visible)
         {
             SizedRectangle absolute = AbsoluteArea();
-            if (_window != null)
+            if (_window is not null)
             {
                 Handled = _window.Handled;
             }
@@ -638,7 +638,7 @@ public partial class Panel : BaseWindow
         Panel p;
         if (value != _tabPanel)
         {
-            if (_tabPanel != null)
+            if (_tabPanel is not null)
             {
                 i = 0;
                 while (i < _tabPanel.Panels.Count)
@@ -655,7 +655,7 @@ public partial class Panel : BaseWindow
             }
 
             _tabPanel = value;
-            if (_tabPanel != null)
+            if (_tabPanel is not null)
             {
                 i = 0;
                 newIndex = -1;

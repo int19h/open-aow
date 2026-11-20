@@ -35,7 +35,7 @@ public partial class LibraryImagePalette : Persistent
         else
         {
             _ = PixelFormats.Color2PixelInfo(0, pixelFormatId, Palette);
-            if (RemapPaletteValue == null || pixelFormatId != RemapPaletteValue.PixelFormatId)
+            if (RemapPaletteValue is null || pixelFormatId != RemapPaletteValue.PixelFormatId)
             {
                 RemapPaletteValue ??= new Palette();
 
@@ -55,7 +55,7 @@ public partial class LibraryImagePalette : Persistent
         if (source is LibraryImagePalette palette)
         {
             Palette.Assign(palette.Palette);
-            if (palette.RemapPaletteValue != null)
+            if (palette.RemapPaletteValue is not null)
             {
                 RemapPaletteValue ??= new Palette();
 

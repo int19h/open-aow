@@ -28,7 +28,7 @@ public partial class AnimationTokenEvent(CustomNode owner) : TokenEvent(owner)
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
         ExecuteResult result = base.Execute(tokenEvent);
-        if (_animation != null)
+        if (_animation is not null)
         {
             if (_state == AnimationTokenEventState.Idle)
             {
@@ -67,10 +67,7 @@ public partial class AnimationTokenEvent(CustomNode owner) : TokenEvent(owner)
     // Animation.pas:393
     public void Initialize(Animation animation)
     {
-        if (_animation != null)
-        {
-            _animation?.Dispose();
-        }
+        _animation?.Dispose();
 
         _animation = animation;
     }

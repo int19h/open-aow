@@ -302,7 +302,7 @@ public partial class MoveSelector : IDisposable
                 }
                 else
                 {
-                    if (settings.Path.Count == 1 && StrategicMap.Current.Combat != null)
+                    if (settings.Path.Count == 1 && StrategicMap.Current.Combat is not null)
                     {
                         PathStep item = settings.Path[0];
                         PathStep fPathItem = settings.Path[0];
@@ -347,7 +347,7 @@ public partial class MoveSelector : IDisposable
     {
         object objectValue = CurrentMove != -1 ? MoveSettingsList.GetMoveSettings(CurrentMove).MoveObject : null;
         (MoveSettingsList[index] as IDisposable)?.Dispose();
-        if (objectValue != null)
+        if (objectValue is not null)
         {
             index = MoveSettingsList.IndexOfMoveObject(objectValue);
             if (index == -1)

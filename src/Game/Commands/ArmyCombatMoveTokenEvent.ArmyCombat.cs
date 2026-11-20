@@ -56,7 +56,7 @@ public partial class ArmyCombatMoveTokenEvent
             Selection = (byte)(int)(((uint)Selection) >> 1);
         }
 
-        if (otherArmyHexSprite != null)
+        if (otherArmyHexSprite is not null)
         {
             using (ArmyHexSprite.Army.BeginUpdate())
             {
@@ -155,13 +155,13 @@ public partial class ArmyCombatMoveTokenEvent
             StrategicMap.Current.DestroyCombat();
             StrategicMap.Current.UnlockGameOverEvent();
             ArmyHexSprite = GetMapField(Path[MoveIndex].Location).GetArmyHexSprite();
-            if (ArmyHexSprite != null && Set<CombatResult>.Of(CombatResult.CannotInflictDamage, CombatResult.Undecided, CombatResult.CannotBreachWall, CombatResult.Fled).Contains(combatResult))
+            if (ArmyHexSprite is not null && Set<CombatResult>.Of(CombatResult.CannotInflictDamage, CombatResult.Undecided, CombatResult.CannotBreachWall, CombatResult.Fled).Contains(combatResult))
             {
                 FinishMove();
                 ArmyHexSprite = null;
             }
 
-            if (ArmyHexSprite != null)
+            if (ArmyHexSprite is not null)
             {
                 ArmyHexSprite.CancelMove();
                 bool moved;

@@ -42,7 +42,7 @@ public partial class Memo
                     _blinkCount = 0;
                     Handled = true;
                     Drawn = false;
-                    if (NoFrame && Window != null)
+                    if (NoFrame && Window is not null)
                     {
                         Window.Drawn = false;
                     }

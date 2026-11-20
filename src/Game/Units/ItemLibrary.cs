@@ -48,7 +48,7 @@ public partial class ItemLibrary(CustomNode owner) : ObservableNode(owner), IChi
         // and null fails at the LibraryId read.
         Item item = (Item)child;
         // { Original checks the world item ID, not the library ID. }
-        if (item.LibraryId <= 0 || Items.FindItem(item.LibraryId) != null)
+        if (item.LibraryId <= 0 || Items.FindItem(item.LibraryId) is not null)
         {
             item.LibraryId = CreateUniqueLibraryId();
         }
@@ -70,7 +70,7 @@ public partial class ItemLibrary(CustomNode owner) : ObservableNode(owner), IChi
         {
             for (int i = 0, last = Count - 1; i <= last; i++)
             {
-                if (GetChild(i) != null)
+                if (GetChild(i) is not null)
                 {
                     _ = Items[i].Release();
                 }
@@ -84,10 +84,10 @@ public partial class ItemLibrary(CustomNode owner) : ObservableNode(owner), IChi
         EngineObject child;
         for (int i = Count - 1; i >= 0; i--)
         {
-            if (GetChild(i) != null)
+            if (GetChild(i) is not null)
             {
                 child = Items[i];
-                if (child != null)
+                if (child is not null)
                 {
                     if (child.Owner != this)
                     {

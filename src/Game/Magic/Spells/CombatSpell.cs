@@ -114,7 +114,7 @@ public partial class CombatSpell : Spell
         FastBattleSpellCommand command;
         AbilityDamageValues values = default;
         hero = commands.Source is CombatUnit sourceUnit ? sourceUnit.Troop : null;
-        if (hero != null && hero.CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
+        if (hero is not null && hero.CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
         {
             distance = commands.Combat.GetRoundDistance();
             if (CombatInfo.Range == -1)
@@ -257,7 +257,7 @@ public partial class CombatSpell : Spell
         Battle combat;
         int damage;
         int defense;
-        if (wallSituation == WallSituation.None || CombatInfo.Range == -1 || CombatInfo.Range >= 8)
+        if (wallSituation == WallSituation.None || CombatInfo.Range is -1 or >= 8)
         {
             protection = target.GetProtectionTypes();
             immunity = target.GetImmunityTypes();

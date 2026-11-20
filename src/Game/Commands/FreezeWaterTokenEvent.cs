@@ -46,7 +46,7 @@ public partial class FreezeWaterTokenEvent(CustomNode owner) : GlobalTargetSpell
     public void ChangeTerrain(MapField mapField, ref sbyte terrainType, in sbyte overlayType)
     {
         FrozenWaterHexSprite ice;
-        if (mapField.GetArmyHexSprite() == null)
+        if (mapField.GetArmyHexSprite() is null)
         {
             if (terrainType == (int)TerrainType.Water)
             {
@@ -63,7 +63,7 @@ public partial class FreezeWaterTokenEvent(CustomNode owner) : GlobalTargetSpell
                     if (Set<byte>.WithBounds(0, 255).With((int)TerrainType.Ice).With((int)TerrainType.UndergroundIce).Contains((byte)terrainType))
                     {
                         ice = mapField.FindOwnedHexSprite<FrozenWaterHexSprite>();
-                        if (ice != null)
+                        if (ice is not null)
                         {
                             ice.DaysRemaining = (sbyte)(((StrategicMap.Current.Random(11) - 5) / 5) + 3);
                             ice.CasterPlayer = (sbyte)EventPlayerIndex;
@@ -81,7 +81,7 @@ public partial class FreezeWaterTokenEvent(CustomNode owner) : GlobalTargetSpell
         if (Set<byte>.WithBounds(0, 255).With((int)TerrainType.Ice).With((int)TerrainType.UndergroundIce).Contains((byte)mapField.TerrainType) && !Set<byte>.WithBounds(0, 255).With((int)TerrainType.Ice).With((int)TerrainType.UndergroundIce).Contains((byte)originalTerrainType))
         {
             ice = mapField.FindOwnedHexSprite<FrozenWaterHexSprite>();
-            if (ice == null)
+            if (ice is null)
             {
                 ice = new FrozenWaterHexSprite(null) { Holder = CreationHolder() };
                 _ = StrategicMap.Current.PlaceHex(ice, mapField.HexX, mapField.HexY, mapField.HexLevel);

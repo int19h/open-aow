@@ -40,7 +40,7 @@ public partial class TerrainMapObject(CustomNode owner) : MultiHexMapObject(owne
             if (newTerrainType != terrainType)
             {
                 r = FindTerrainResource((byte)newTerrainType);
-                if (r != null)
+                if (r is not null)
                 {
                     oldOwner = Owner;
                     RemoveFromMap();

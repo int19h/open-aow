@@ -169,7 +169,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
         HexSprite hexSprite;
         i = 0;
         HexSprite result = null;
-        while (i < StoredCount && result == null)
+        while (i < StoredCount && result is null)
         {
             hexSprite = _hexSpriteList[i];
             if (classValue.IsInstanceOfType(hexSprite) && hexSprite.Owner == this)
@@ -621,7 +621,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     internal static int IgnitionChance(MapField mapField)
     {
         int result;
-        if (Set<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)mapField.TerrainType) && mapField.FindOwnedChild(132990) == null && !mapField.GetMagicShieldActive())
+        if (Set<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)mapField.TerrainType) && mapField.FindOwnedChild(132990) is null && !mapField.GetMagicShieldActive())
         {
             result = mapField.OverlayType == 1
                 ? mapField.TerrainType == 3 ? 40 : mapField.TerrainType == 2 ? 80 : 60
@@ -629,10 +629,10 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
                     ? mapField.TerrainType == 3 ? 10 : mapField.TerrainType == 2 ? 30 : 20
                     : mapField.TerrainType == 3 ? 1 : 5;
 
-            if (mapField.FindNoneTransparentHexSprite(typeof(Structure)) != null)
+            if (mapField.FindNoneTransparentHexSprite(typeof(Structure)) is not null)
             {
                 result += 5;
-                if (StrategicMap.Current != null && StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.FireMastery))
+                if (StrategicMap.Current is not null && StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.FireMastery))
                 {
                     result += 5;
                 }

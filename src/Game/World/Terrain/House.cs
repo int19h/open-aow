@@ -25,7 +25,7 @@ public partial class House(CustomNode owner) : CombatStructure(owner)
         if (!CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             structure = StrategicMap.Current.MapContainer.GetMapLevel(CombatPlacement.CombatLLocation).GetField(CombatPlacement.CombatXLocation, CombatPlacement.CombatYLocation).FindNoneTransparentHexSprite<PlayerStructure>();
-            if (structure != null)
+            if (structure is not null)
             {
                 _race = structure is City city ? city.Race : 0;
 
@@ -58,7 +58,7 @@ public partial class House(CustomNode owner) : CombatStructure(owner)
                 5 or 7 or 12 => 2,
                 _ => 0,
             };
-            if (sequence != null)
+            if (sequence is not null)
             {
                 do
                 {
@@ -70,7 +70,7 @@ public partial class House(CustomNode owner) : CombatStructure(owner)
 
                     sequence = sequence.Next;
                 }
-                while (!(sequence == null));
+                while (sequence is not null);
             }
         }
         else
@@ -84,7 +84,7 @@ public partial class House(CustomNode owner) : CombatStructure(owner)
                 _ => 0,
             };
             sequence = ((MapObject)this).Resource.ImageSequenceList.GetImageSequence(terrainOffset + _race);
-            if (sequence != null)
+            if (sequence is not null)
             {
                 do
                 {
@@ -117,7 +117,7 @@ public partial class House(CustomNode owner) : CombatStructure(owner)
 
                     sequence = sequence.Next;
                 }
-                while (!(sequence == null));
+                while (sequence is not null);
             }
         }
     }
@@ -132,7 +132,7 @@ public partial class House(CustomNode owner) : CombatStructure(owner)
             pixelXSurface = pixelX - pixelXSurface;
             pixelYSurface = pixelY - pixelYSurface;
             sequence = ((MapObject)this).Resource.ImageSequenceList.GetImageSequence(_race + 60);
-            if (sequence != null)
+            if (sequence is not null)
             {
                 do
                 {
@@ -144,7 +144,7 @@ public partial class House(CustomNode owner) : CombatStructure(owner)
 
                     sequence = sequence.Next;
                 }
-                while (!(sequence == null));
+                while (sequence is not null);
             }
         }
     }

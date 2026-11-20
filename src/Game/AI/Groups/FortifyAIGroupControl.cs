@@ -140,7 +140,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                         {
                             AIGroupControlTarget targetLocation = Targets.GetTargets(i);
                             army = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(targetLocation.Location).GetArmyHexSprite();
-                            if (army != null)
+                            if (army is not null)
                             {
                                 int count = army.Army.Units.Count;
                                 AIGroupControlTarget target = Targets.GetTargets(i);
@@ -154,7 +154,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 if (Targets.Count != 0 && Targets.GetTargets(0) != currentTarget)
                 {
                     Targets.SortOnDataB();
-                    bool condition = currentTarget == null;
+                    bool condition = currentTarget is null;
                     if (!condition)
                     {
                         AIGroupControlTarget target = Targets.GetTargets(0);
@@ -164,9 +164,9 @@ public partial class FortifyAIGroupControl : AIGroupControl
                     newTarget = condition ? Targets.GetTargets(0) : currentTarget;
                 }
 
-                _fortifyLocation = newTarget != null && newTarget != currentTarget
+                _fortifyLocation = newTarget is not null && newTarget != currentTarget
                     ? newTarget.Location
-                    : currentTarget != null ? currentTarget.Location : MapCoordinate.None;
+                    : currentTarget is not null ? currentTarget.Location : MapCoordinate.None;
 
                 State += 1;
                 break;
@@ -254,7 +254,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
             case 11:
                 if (Targets.Count >= 1)
                 {
-                    if (Targets.Count == 1 || FortifyCity() == null || CanBreachWall())
+                    if (Targets.Count == 1 || FortifyCity() is null || CanBreachWall())
                     {
                         _ = _targetSelector.Setup(this);
                         _targetSelector.PathStrengthFactor = (float)1.5;
@@ -295,7 +295,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 break;
             case 13:
                 city = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Location).FindNoneTransparentHexSprite<City>();
-                if (city != null && city.GetActiveAction() == CityAction.Migrate)
+                if (city is not null && city.GetActiveAction() == CityAction.Migrate)
                 {
                     defense = new AIGroupDefenseControl(null)
                     {
@@ -364,7 +364,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 if (StrengthMax >= _enemyStrength)
                 {
                     city = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Location).FindNoneTransparentHexSprite<City>();
-                    if (city != null && city.GetActiveAction() == CityAction.Migrate)
+                    if (city is not null && city.GetActiveAction() == CityAction.Migrate)
                     {
                         defense = new AIGroupDefenseControl(null)
                         {
@@ -399,7 +399,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 State = 20;
                 break;
             case 20:
-                if (FortifyCity() != null)
+                if (FortifyCity() is not null)
                 {
                     State = 21;
                 }
@@ -411,7 +411,7 @@ public partial class FortifyAIGroupControl : AIGroupControl
                 break;
             case 21:
                 city = FortifyCity();
-                if (city != null && city.Production.Status == ProductionControlStatus.Idle)
+                if (city is not null && city.Production.Status == ProductionControlStatus.Idle)
                 {
                     if (city.WallType == 0)
                     {

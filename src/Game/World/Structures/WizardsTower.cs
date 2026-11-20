@@ -101,7 +101,7 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
             while (!found && i != army.Units.Count)
             {
                 group = army.Units.GetUnit(i).Group;
-                found = group != null && group.TargetLocation == location && group.GoldBudget == cost;
+                found = group is not null && group.TargetLocation == location && group.GoldBudget == cost;
                 i += 1;
             }
 
@@ -170,7 +170,7 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
         bool result;
         ArmyHexSprite armyHexSprite;
         armyHexSprite = Owner.GetArmyHexSprite();
-        result = armyHexSprite != null && armyHexSprite.Army.Player == player;
+        result = armyHexSprite is not null && armyHexSprite.Army.Player == player;
 
         return result;
     }

@@ -35,7 +35,7 @@ public partial class IsometricHexResource(CustomNode owner) : AbstractHexagonRes
         // The lookup finds only IsometricHex, including a hex that derives from it.
         IsometricHex found = mapField.FindOwnedHexSprite<IsometricHex>();
         MapObject result = found;
-        if (found != null)
+        if (found is not null)
         {
             if (found.GetTerrain(0) != TerrainList.GetTerrain(0))
             {

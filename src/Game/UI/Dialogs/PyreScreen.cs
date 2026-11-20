@@ -47,7 +47,7 @@ public partial class PyreScreen(UIContext ui) : UIModule(ui)
     // AOWPyreScrn.pas:114
     public void ClearFire()
     {
-        if (_animation != null)
+        if (_animation is not null)
         {
             (_animation as IDisposable)?.Dispose();
             _animation = null;
@@ -109,7 +109,7 @@ public partial class PyreScreen(UIContext ui) : UIModule(ui)
     public void LeaderFaceFrPreDraw(LockedSurface lockedSurface)
     {
         Rect r = default;
-        if (StrategicMap.Current != null)
+        if (StrategicMap.Current is not null)
         {
             r.Left = DeadPanel.AbsoluteLeft + LeaderFaceFrame.WinLeft + 45;
             r.Right = r.Left + 103;
@@ -222,7 +222,7 @@ public partial class PyreScreen(UIContext ui) : UIModule(ui)
             window.Controls[i].Checked = condition;
         }
 
-        if (window.UI.Engine.Campaign != null && StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GameOverStatus == GameOverStatus.Lost)
+        if (window.UI.Engine.Campaign is not null && StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GameOverStatus == GameOverStatus.Lost)
         {
             string replay = window.UI.Engine.TranslateResourceString(s_replayText);
             window.ContinueButton.Text = replay;
@@ -240,7 +240,7 @@ public partial class PyreScreen(UIContext ui) : UIModule(ui)
 
     internal static void ClearPyre(PyreScreen dialog)
     {
-        if (dialog._animation != null)
+        if (dialog._animation is not null)
         {
             (dialog._animation as IDisposable)?.Dispose();
             dialog._animation = null;

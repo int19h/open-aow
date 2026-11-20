@@ -348,7 +348,7 @@ public partial class ProductionControl : EngineObject
     {
         Unit result;
         Unit unit;
-        if (UnitProductions.GetItem(index) != null)
+        if (UnitProductions.GetItem(index) is not null)
         {
             unit = new Unit(null) { Holder = CreationHolder() };
             UnitProduction unitProduction = UnitProductions.GetItem(index);
@@ -821,7 +821,7 @@ public partial class ProductionControl : EngineObject
             if (!UnitProductions.GetItem(i).Researched)
             {
                 include = UnitResearchGold(i) <= gold;
-                if (predictor != null)
+                if (predictor is not null)
                 {
                     UnitProduction unitProduction = UnitProductions.GetItem(i);
                     unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex));

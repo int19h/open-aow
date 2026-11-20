@@ -181,7 +181,7 @@ public partial class CombatUnit : CombatObject
     }
 
     // Combat.pas:1136
-    public override bool GetEnabled() => Troop != null && (Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed, CombatObjectStatusElement.Fled) & Status) == Set<CombatObjectStatusElement>.Of() && !Disabled;
+    public override bool GetEnabled() => Troop is not null && (Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed, CombatObjectStatusElement.Fled) & Status) == Set<CombatObjectStatusElement>.Of() && !Disabled;
 
     // Combat.pas:1142
     public override bool GetLocked() => Troop.GetAbilityEnabled(95) || Troop.GetAbilityEnabled(97) || Troop.GetAbilityEnabled(92) || Troop.GetAbilityEnabled(94) || Troop.GetAbilityEnabled(34);
@@ -207,7 +207,7 @@ public partial class CombatUnit : CombatObject
     // Combat.pas:1282
     public override sbyte GetHits()
     {
-        sbyte result = Troop != null ? Troop.GetHits() : (sbyte)0;
+        sbyte result = Troop is not null ? Troop.GetHits() : (sbyte)0;
         // { Direct field test retains the receiver. }
         // { No cast temporary. }
 
@@ -217,7 +217,7 @@ public partial class CombatUnit : CombatObject
     // Combat.pas:1289
     public override sbyte GetHitPoints()
     {
-        sbyte result = Troop != null ? Troop.GetHitPoints() : (sbyte)0;
+        sbyte result = Troop is not null ? Troop.GetHitPoints() : (sbyte)0;
         // { Direct field test retains the receiver. }
         // { No cast temporary. }
 
@@ -252,7 +252,7 @@ public partial class CombatUnit : CombatObject
         int level;
         Troop u;
         u = Troop;
-        if (u != null)
+        if (u is not null)
         {
             level = u.GetAbilityLevel(64);
             result = level != 0 ? (level * 2) + 4 : 4;
@@ -273,7 +273,7 @@ public partial class CombatUnit : CombatObject
     // Combat.pas:1266
     public override bool GetAbilityEnabled(int abilityId)
     {
-        bool result = Troop != null && Troop.GetAbilityEnabled(abilityId);
+        bool result = Troop is not null && Troop.GetAbilityEnabled(abilityId);
         return result;
     }
 
@@ -286,7 +286,7 @@ public partial class CombatUnit : CombatObject
     // Combat.pas:1277
     public override int GetAbilityCount()
     {
-        int result = Troop != null ? Troop.GetAbilityCount() : 0;
+        int result = Troop is not null ? Troop.GetAbilityCount() : 0;
         return result;
     }
 
@@ -318,7 +318,7 @@ public partial class CombatUnit : CombatObject
         if (Disabled && objectValue is CombatUnit combatUnit)
         {
             u = combatUnit.Troop;
-            if (u != null && u.GetTransporter() && (int)(((uint)combatUnit.Position) >> 4) == (int)(((uint)Position) >> 4))
+            if (u is not null && u.GetTransporter() && (int)(((uint)combatUnit.Position) >> 4) == (int)(((uint)Position) >> 4))
             {
                 DestroyObject();
             }
@@ -347,7 +347,7 @@ public partial class CombatUnit : CombatObject
                 if ((Position & 15) <= 7)
                 {
                     party = Combat.CombatData.Parties.GetParty((byte)(int)(((uint)Position) >> 4));
-                    if (party != null && (sbyte)party.PlayerIndex == CombatPlayer)
+                    if (party is not null && (sbyte)party.PlayerIndex == CombatPlayer)
                     {
                         sbyte player = GetPlayer();
                         if (StrategicMap.Current.Players.GetPlayers(player).GameOverStatus == GameOverStatus.Lost)
@@ -360,7 +360,7 @@ public partial class CombatUnit : CombatObject
                             placed = Troop.Place(party.Location.X, party.Location.Y, party.Location.MapLevel, player2, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.NeglectEmptyPlayerLocation));
                         }
 
-                        if (placed != null)
+                        if (placed is not null)
                         {
                             Dispose();
                         }
@@ -371,7 +371,7 @@ public partial class CombatUnit : CombatObject
             {
                 party = (Position & 15) <= 7 ? Combat.CombatData.Parties.GetParty((byte)(int)(((uint)Position) >> 4)) : null;
 
-                if (party == null || party.Location.X != -1)
+                if (party is null || party.Location.X != -1)
                 {
                     sbyte player = GetPlayer();
                     if (StrategicMap.Current.Players.GetPlayers(player).GameOverStatus == GameOverStatus.Lost)
@@ -388,7 +388,7 @@ public partial class CombatUnit : CombatObject
                 }
                 else
                 {
-                    if (party != null && (sbyte)party.PlayerIndex != CombatPlayer)
+                    if (party is not null && (sbyte)party.PlayerIndex != CombatPlayer)
                     {
                         sbyte player = GetPlayer();
                         _ = Troop.Place(Combat.CombatData.Location.X, Combat.CombatData.Location.Y, Combat.CombatData.Location.MapLevel, player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
@@ -409,7 +409,7 @@ public partial class CombatUnit : CombatObject
         Troop u;
         int i;
         u = Troop;
-        if (u != null && u.GetHitPoints() > 0)
+        if (u is not null && u.GetHitPoints() > 0)
         {
             result = false;
             i = Troop.GetAbilityCount();
@@ -487,7 +487,7 @@ public partial class CombatUnit : CombatObject
         Troop u;
         UnitShowInfo info = default;
         u = Troop;
-        if (u != null)
+        if (u is not null)
         {
             info.Direction = (byte)direction;
             info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank, UnitOverlayModesElement.Combat);
@@ -517,7 +517,7 @@ public partial class CombatUnit : CombatObject
         int result;
         UnitShowInfo info = default;
         // { Direct field receiver. }
-        if (Troop != null)
+        if (Troop is not null)
         {
             info.Direction = (byte)direction;
             info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank, UnitOverlayModesElement.Combat);
@@ -540,7 +540,7 @@ public partial class CombatUnit : CombatObject
         int result;
         UnitShowInfo info = default;
         // { Direct field receiver. }
-        if (Troop != null)
+        if (Troop is not null)
         {
             info.Direction = (byte)direction;
             info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank, UnitOverlayModesElement.Combat);
@@ -576,7 +576,7 @@ public partial class CombatUnit : CombatObject
         }
 
         Combat.ObjectDestroyed(this);
-        if (Troop != null)
+        if (Troop is not null)
         {
             KillUnit();
         }
@@ -593,7 +593,7 @@ public partial class CombatUnit : CombatObject
 
         Status += Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed);
         u = Troop;
-        if (u != null)
+        if (u is not null)
         {
             for (int i = u.GetAbilityCount() - 1; i >= 0; i--)
             {
@@ -613,7 +613,7 @@ public partial class CombatUnit : CombatObject
             }
 
             Combat.ObjectDestroyed(this);
-            if (Troop != null)
+            if (Troop is not null)
             {
                 KillUnit();
             }
@@ -627,7 +627,7 @@ public partial class CombatUnit : CombatObject
     public override string IdString()
     {
         string result = Combat.CombatData.Players.GetPlayers(CombatPlayer).SideIndex == 0 ? "A" : "D";
-        if (Troop != null)
+        if (Troop is not null)
         {
             string name = Troop.GetName();
             result = $"{result}({IntToStr(Position)})={name}";
@@ -648,10 +648,10 @@ public partial class CombatUnit : CombatObject
         u = Troop;
         if (u != troop)
         {
-            if (u != null)
+            if (u is not null)
             {
                 party = _party;
-                if (party != null && Troop.Owner == party.Army)
+                if (party is not null && Troop.Owner == party.Army)
                 {
                     Troop.SetOwner(null);
                 }
@@ -661,11 +661,11 @@ public partial class CombatUnit : CombatObject
 
             Troop = troop;
             u = Troop;
-            if (u != null)
+            if (u is not null)
             {
                 _ = u.AddRef();
                 party = _party;
-                if (party != null && !Status.Contains(CombatObjectStatusElement.Destroyed))
+                if (party is not null && !Status.Contains(CombatObjectStatusElement.Destroyed))
                 {
                     _ = party.Army.AddUnit(Troop);
                 }
@@ -695,7 +695,7 @@ public partial class CombatUnit : CombatObject
     {
         Troop u;
         u = Troop;
-        if (u != null && !Status.Contains(CombatObjectStatusElement.Destroyed))
+        if (u is not null && !Status.Contains(CombatObjectStatusElement.Destroyed))
         {
             WallCombatFeaturesValue = u.GetWallCombatFeatures();
             if (Troop.GetAbilityEnabled(52) && GamePack.Current.AbilityControl.GetAbility<SpellCastingAbility>(52).CanCastBreachWallSpell(Troop))
@@ -715,14 +715,14 @@ public partial class CombatUnit : CombatObject
         CombatParty p;
         if (party != _party)
         {
-            if (_party != null && Troop != null)
+            if (_party is not null && Troop is not null)
             {
                 Troop.SetOwner(null);
             }
 
             _party = party;
             p = _party;
-            if (p != null && Troop != null)
+            if (p is not null && Troop is not null)
             {
                 Troop.SetOwner(p.Army);
                 _party.Army.UpdateFormation();
@@ -756,7 +756,7 @@ public partial class CombatUnit : CombatObject
         int index;
         Troop u;
         u = Troop;
-        index = u != null ? u.GetUnitGraphicsResourceIndex() : -1;
+        index = u is not null ? u.GetUnitGraphicsResourceIndex() : -1;
 
         if (index != _unitGraphicsResourceIndex)
         {
@@ -805,7 +805,7 @@ public partial class CombatUnit : CombatObject
             if (GetAbilityEnabled(CombatAbilityTables.CommandingPriorityAbilityIds[i]))
             {
                 data = GamePack.Current.AbilityControl.GetAbility<CommandAbility>(CombatAbilityTables.CommandingPriorityAbilityIds[i]).GetData(Troop);
-                if (data != null)
+                if (data is not null)
                 {
                     result += data.CommandingTargetPriority(Combat);
                 }
@@ -825,7 +825,7 @@ public partial class CombatUnit : CombatObject
             if (GetAbilityEnabled(CombatAbilityTables.CommandingStrengthAbilityIds[i]))
             {
                 data = GamePack.Current.AbilityControl.GetAbility<CommandAbility>(CombatAbilityTables.CommandingStrengthAbilityIds[i]).GetData(Troop);
-                if (data != null)
+                if (data is not null)
                 {
                     result += data.CommandingTargetStrength(Combat);
                 }

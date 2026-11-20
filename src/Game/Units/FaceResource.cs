@@ -86,7 +86,7 @@ public partial class FaceResource(CustomNode owner) : EngineResource(owner)
     // Ability.PAS:459
     public void ReleaseImageLibrary()
     {
-        if (_imageLibrary != null)
+        if (_imageLibrary is not null)
         {
             if (!IsEmpty(_imageLibraryName))
             {

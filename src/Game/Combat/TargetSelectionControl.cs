@@ -75,7 +75,7 @@ public partial class TargetSelectionControl : IDisposable
         OnChangeStore.Clear();
         HexNumbers?.Dispose();
         HexNumbers = null;
-        if (ImageLibrary != null)
+        if (ImageLibrary is not null)
         {
             // { Original links the image library again when destroying the control. }
             _ = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TARGHEX.ILB");
@@ -145,7 +145,7 @@ public partial class TargetSelectionControl : IDisposable
 
             mapField = StrategicMap.Current.MapContainer.GetField(X, Y, L);
             result = result && mapField.TerrainType != 15;
-            if (result && OnValidateTarget != null)
+            if (result && OnValidateTarget is not null)
             {
                 OnValidateTarget(this, X, Y, L, ref result);
             }
@@ -280,7 +280,7 @@ public partial class TargetSelectionControl : IDisposable
             StrategicMap.Current.Selection.OnDeselect -= DeselectHexSprite;
             if (StrategicMap.Current.Mouse.Capture == this)
             {
-                if (StrategicMap.Current.SelectedArmy.GetArmyHexSprite() != null)
+                if (StrategicMap.Current.SelectedArmy.GetArmyHexSprite() is not null)
                 {
                     armyHexSprite = StrategicMap.Current.SelectedArmy.GetArmyHexSprite();
                     StrategicMap.Current.Mouse.SetCapture(null);
@@ -305,7 +305,7 @@ public partial class TargetSelectionControl : IDisposable
     public void UnitChanged(object unit)
     {
         // UnitChanged receives the move payload as object. Typing that payload is issue 150.
-        if (Status.Contains(TargetSelectionStatusElement.Activated) && Source != null && unit == Source && ((Troop)unit).UnitStatus.Contains(UnitStatusElement.Killed))
+        if (Status.Contains(TargetSelectionStatusElement.Activated) && Source is not null && unit == Source && ((Troop)unit).UnitStatus.Contains(UnitStatusElement.Killed))
         {
             Deactivate();
         }

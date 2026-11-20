@@ -46,7 +46,7 @@ public partial class HexSpriteSelection
         }
 
         n = mapField.Count;
-        while (n != 0 && hexSprite == null)
+        while (n != 0 && hexSprite is null)
         {
             hexSprite = mapField.HexSpriteList[i];
             if (!hexSprite.CanSelect(pixelX, pixelY))
@@ -62,7 +62,7 @@ public partial class HexSpriteSelection
             }
         }
 
-        if (hexSprite != null)
+        if (hexSprite is not null)
         {
             if (LocationHexSprite.IndexOf(hexSprite) == -1)
             {

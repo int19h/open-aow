@@ -205,7 +205,7 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
         LibraryImage image;
         Clear();
         image = ImageStreams.ReadImageFromStream(stream, Owner);
-        while (image != null)
+        while (image is not null)
         {
             _ = Add(image);
             image = ImageStreams.ReadImageFromStream(stream, Owner);
@@ -217,7 +217,7 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     {
         LibraryImage image;
         image = ImageStreams.ReadImageFromStream(stream, dataStream, Owner);
-        while (image != null)
+        while (image is not null)
         {
             _ = Add(image);
             image = ImageStreams.ReadImageFromStream(stream, dataStream, Owner);

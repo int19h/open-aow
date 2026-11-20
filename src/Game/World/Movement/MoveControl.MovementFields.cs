@@ -24,7 +24,7 @@ public partial class MoveControl
         int points = Settings.GetMovePoints(field.HexX, field.HexY, field.HexLevel);
         bool failed = points == 0xffffff;
         MapField neighbor = null;
-        while (field != null && (field.HexX != Source.X || field.HexY != Source.Y || field.HexLevel != Source.MapLevel) && !failed)
+        while (field is not null && (field.HexX != Source.X || field.HexY != Source.Y || field.HexLevel != Source.MapLevel) && !failed)
         {
             _ = path.AddMapCoordinate(field.HexX, field.HexY, field.HexLevel);
             int cost = OnMovePoint(field, 1);
@@ -50,14 +50,14 @@ public partial class MoveControl
             else
             {
                 previous = FindSubMoveOrigin(field);
-                if (previous != null && path.IndexOfMapCoordinate(previous.HexX, previous.HexY, previous.HexLevel) == -1)
+                if (previous is not null && path.IndexOfMapCoordinate(previous.HexX, previous.HexY, previous.HexLevel) == -1)
                 {
                     points = Settings.GetMovePoints(previous.HexX, previous.HexY, previous.HexLevel);
                     SetMapL(previous.Owner);
                     found = true;
                 }
             }
-            if (previous != null && found)
+            if (previous is not null && found)
             {
                 path.List[path.Count - 1] = path.List[path.Count - 1] with { MoveCost = (sbyte)(Settings.GetMovePoints(field.HexX, field.HexY, field.HexLevel) - points) };
             }
@@ -69,7 +69,7 @@ public partial class MoveControl
         {
             path.Clear();
         }
-        else if (field != null && points == 0)
+        else if (field is not null && points == 0)
         {
             _ = path.AddMapCoordinate(field.HexX, field.HexY, field.HexLevel);
         }

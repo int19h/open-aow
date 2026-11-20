@@ -199,7 +199,7 @@ public partial class AIMoveExecutorControl : EngineObject
         mapField = StrategicMap.Current.MapContainer.GetField(x, y, mapLevel);
         armyHexSprite = mapField.GetArmyHexSprite();
         byte result = 0;
-        if (armyHexSprite != null && armyHexSprite.Army.Player == army.Player)
+        if (armyHexSprite is not null && armyHexSprite.Army.Player == army.Player)
         {
             existingArmy = armyHexSprite.Army;
             i = 0;
@@ -241,7 +241,7 @@ public partial class AIMoveExecutorControl : EngineObject
                 {
                     unitCount += move.Count;
                     transporter = move.Transporter(255);
-                    if (transporter != null)
+                    if (transporter is not null)
                     {
                         transporterCount += 1;
                         if (transporter.Troop.GetTransportCapacity() + 1 < capacity)
@@ -253,9 +253,9 @@ public partial class AIMoveExecutorControl : EngineObject
             }
 
             transporter = army.Transporter(selection);
-            if (transporter == null || transporterCount == 0)
+            if (transporter is null || transporterCount == 0)
             {
-                if (transporter != null)
+                if (transporter is not null)
                 {
                     if (transporter.Troop.GetTransportCapacity() + 1 < capacity)
                     {
@@ -266,7 +266,7 @@ public partial class AIMoveExecutorControl : EngineObject
                 excess = army.SelectionCount(selection) + unitCount - capacity;
                 if (excess > 0)
                 {
-                    if (transporter == null)
+                    if (transporter is null)
                     {
                         i = 8;
                         selection = army.ValidateSelection(selection);

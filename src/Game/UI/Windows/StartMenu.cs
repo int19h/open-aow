@@ -19,7 +19,7 @@ public partial class StartMenu(Component owner) : Menu(owner)
         base.SetSize();
         SetWinHeightWithoutInvalidate(377);
         m = WindowManager;
-        if (m != null && OwnerMenuBar != null)
+        if (m is not null && OwnerMenuBar is not null)
         {
             SetWinTopWithoutInvalidate(m.WinHeight - 393);
         }
@@ -38,7 +38,7 @@ public partial class StartMenu(Component owner) : Menu(owner)
                 Highlighted = -1;
                 SetWinHeightWithoutInvalidate(377);
                 WindowManager m = WindowManager;
-                if (m != null && OwnerMenuBar != null)
+                if (m is not null && OwnerMenuBar is not null)
                 {
                     SetWinTopWithoutInvalidate(m.WinHeight - 393);
                 }
@@ -55,7 +55,7 @@ public partial class StartMenu(Component owner) : Menu(owner)
             else
             {
                 MenuBar b = OwnerMenuBar;
-                if (b != null)
+                if (b is not null)
                 {
                     b.Selected = -1;
                     b.Drawn = false;

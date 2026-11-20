@@ -196,7 +196,7 @@ public partial class CombatHex(CustomNode owner) : AbstractHexagon(owner)
             if (imageIndex != -1)
             {
                 imageIndex = (Random(2) * 3) + (imageIndex * 6) + (side - 1);
-                _transitions[side - 1] = GetResource<Resource>().TransitionLibrary.GetSafe(imageIndex) != null ? (byte)imageIndex : (byte)255;
+                _transitions[side - 1] = GetResource<Resource>().TransitionLibrary.GetSafe(imageIndex) is not null ? (byte)imageIndex : (byte)255;
             }
             else
             {
@@ -243,7 +243,7 @@ public partial class CombatHex(CustomNode owner) : AbstractHexagon(owner)
         public override LibraryImage GetCellImage()
         {
             LibraryImage result = null;
-            if (ImageSequenceList != null && ImageSequenceList.Count > 0 && ImageSequenceList.GetImageSequence(0) != null)
+            if (ImageSequenceList is not null && ImageSequenceList.Count > 0 && ImageSequenceList.GetImageSequence(0) is not null)
             {
                 result = ImageSequenceList.GetImageSequence(0).ImageLibrary[10];
             }

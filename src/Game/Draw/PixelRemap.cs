@@ -122,7 +122,7 @@ internal static class PixelRemap
         switch (sourcePixelFormatId)
         {
             case PixelFormat.Pal8:
-                if (sourcePalette != null)
+                if (sourcePalette is not null)
                 {
                     (r, g, b) = (sourcePalette[pixelInfo].Red, sourcePalette[pixelInfo].Green, sourcePalette[pixelInfo].Blue);
                     a = 0;
@@ -177,7 +177,7 @@ internal static class PixelRemap
 
         int result = destinationPixelFormatId switch
         {
-            PixelFormat.Pal8 => destinationPalette != null
+            PixelFormat.Pal8 => destinationPalette is not null
                                 ? destinationPalette.GetNearestColor(r + (g << 8) + (b << 16))
                                 : throw new InvalidOperationException("Destination Palette needed"),
             PixelFormat.Rgb565 => ((r & 248) << 8) + ((g & 252) << 3) + (int)(((uint)(b & 248)) >> 3),

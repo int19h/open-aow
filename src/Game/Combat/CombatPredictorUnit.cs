@@ -60,21 +60,21 @@ public partial class CombatPredictorUnit : IDisposable
         Troop u;
         RoundTargets?.Dispose();
         objectValue = Targets;
-        if (objectValue != null)
+        if (objectValue is not null)
         {
             (objectValue as IDisposable)?.Dispose();
             Targets = null;
         }
 
         objectValue = WallTargets;
-        if (objectValue != null)
+        if (objectValue is not null)
         {
             (objectValue as IDisposable)?.Dispose();
             WallTargets = null;
         }
 
         u = Troop;
-        if (u != null)
+        if (u is not null)
         {
             _ = u.Release();
             Troop = null;

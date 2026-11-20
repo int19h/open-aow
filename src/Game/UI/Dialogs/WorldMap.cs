@@ -88,7 +88,7 @@ public partial class WorldMap(UIContext ui) : UIModule(ui)
     {
         int index = default;
         StrategicMap preview = default;
-        if (GetCampaign() != null)
+        if (GetCampaign() is not null)
         {
             switch (GetCampaign().State)
             {
@@ -389,7 +389,7 @@ public partial class WorldMap(UIContext ui) : UIModule(ui)
                     WorldMapCampaign campaign27 = GetCampaign();
                     WorldMapCampaignScenario campaignScenario11 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign27.NextScenarioId);
                     preview = UI.Engine.CreatePreviewHsm<StrategicMap>(FileBoundary.ReadName($"{UI.Engine.StartupDirectory}Scenario\\Campaign\\{campaignScenario11.FileName}"), profile: GameProfile.WorldMap);
-                    if (preview != null)
+                    if (preview is not null)
                     {
                         index = preview.Players.IndexOfPlayerType(PlayerType.Human);
                         bool test = index != -1 && GetCampaign().RaceHistory.Count > 0;

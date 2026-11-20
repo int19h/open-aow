@@ -50,7 +50,7 @@ public sealed partial record OfferPeace(int Gold = 0, int Mana = 0) : OfferPropo
         sbyte source = action.Source;
         sbyte target = action.Target;
         DiplomaticAction last = StrategicMap.Current.Players.GetPlayers(target).DiplomaticActions.FindLastAction(Kind, DiplomaticActionReaction.None, target, source, -1);
-        if (idealPeace.IndexOf((byte)source) != -1 || (last != null && StrategicMap.Current.Day - last.Day <= 1))
+        if (idealPeace.IndexOf((byte)source) != -1 || (last is not null && StrategicMap.Current.Day - last.Day <= 1))
         {
             _ = StrategicMap.Current.Players.GetPlayers(target).AIControl.CanOfferPeace((byte)source)
                 ? action.Accept(errorText)
@@ -63,7 +63,7 @@ public sealed partial record OfferPeace(int Gold = 0, int Mana = 0) : OfferPropo
                 if (StrategicMap.Current.Players.GetDiplomaticRelationCount((sbyte)(byte)source, Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace, DiplomaticRelation.Alliance)) + 1 < StrategicMap.Current.Players.GetDiplomaticRelationCount((sbyte)(byte)source, Set<DiplomaticRelation>.Of(DiplomaticRelation.War)))
                 {
                     last = StrategicMap.Current.Players.GetPlayers(target).DiplomaticActions.FindLastAction(Kind, DiplomaticActionReaction.Reject, source, target, -1);
-                    if (last == null || StrategicMap.Current.Day - last.Day > 8)
+                    if (last is null || StrategicMap.Current.Day - last.Day > 8)
                     {
                         // { Original bug: escrow gold is counted twice. }
                         _ = StrategicMap.Current.Random(3) == 1 && StrategicMap.Current.Random(250) + 100 < action.EscrowGold + action.EscrowGold
@@ -94,7 +94,7 @@ public sealed partial record OfferPeace(int Gold = 0, int Mana = 0) : OfferPropo
         if (!Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace, DiplomaticRelation.War).Contains(diplomaticRelation))
         {
             DiplomaticAction last = StrategicMap.Current.Players.GetPlayers(action.Source).CreateDiplomaticAction(new DeclareWar(), action.Target, -1);
-            if (last != null)
+            if (last is not null)
             {
                 _ = last.Send(ref errorText);
                 _ = last.Release();

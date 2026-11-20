@@ -40,10 +40,10 @@ public partial class UnitEnchantment : Enchantment
     {
         string result;
         Troop source;
-        if (StrategicMap.Current != null)
+        if (StrategicMap.Current is not null)
         {
             source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
-            result = source != null
+            result = source is not null
                 ? GamePack.Current.AbilityControl.GetAbility(EnchantmentAbilityId).GetName(source)
                 : GamePack.Current.AbilityControl.GetAbility(EnchantmentAbilityId).GetName(null);
         }
@@ -61,7 +61,7 @@ public partial class UnitEnchantment : Enchantment
         string result;
         Troop source;
         source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
-        result = source != null ? source.GetName() : "";
+        result = source is not null ? source.GetName() : "";
 
         return result;
     }
@@ -72,7 +72,7 @@ public partial class UnitEnchantment : Enchantment
         int result;
         Troop source;
         source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
-        result = source != null
+        result = source is not null
             ? GamePack.Current.AbilityControl.GetAbility<UnitEnchantmentAbility>(EnchantmentAbilityId).GetAIUpkeepPriority(source)
             : 0;
 
@@ -83,7 +83,7 @@ public partial class UnitEnchantment : Enchantment
     public override MapCoordinate GetLocation()
     {
         Troop source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
-        return source != null ? source.GetLocation() : MapCoordinate.None;
+        return source is not null ? source.GetLocation() : MapCoordinate.None;
     }
 
     // AoWAb.PAS:874
@@ -92,7 +92,7 @@ public partial class UnitEnchantment : Enchantment
         bool result;
         Troop source;
         source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
-        result = source != null && source.RemoveAbility(EnchantmentAbilityId);
+        result = source is not null && source.RemoveAbility(EnchantmentAbilityId);
 
         return result;
     }
@@ -110,7 +110,7 @@ public partial class UnitEnchantment : Enchantment
             if (StrategicMap.Current.Visible(hexX, hexY, hexLevel, 0))
             {
                 armyHexSprite = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel).GetArmyHexSprite();
-                if (armyHexSprite != null)
+                if (armyHexSprite is not null)
                 {
                     StrategicMap.Current.Select(armyHexSprite, true);
                 }

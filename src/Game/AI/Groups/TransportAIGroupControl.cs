@@ -112,7 +112,7 @@ public partial class TransportAIGroupControl(CustomNode owner) : AIGroupControl(
         Army army;
         base.SetupME();
         transporter = Group.Leader;
-        if (transporter != null && transporter.Owner is Army)
+        if (transporter is not null && transporter.Owner is Army)
         {
             army = transporter.ArmyOwner;
             for (int i = 0, last = army.Units.Count - 1; i <= last; i++)

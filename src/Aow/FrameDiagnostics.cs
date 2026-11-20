@@ -34,7 +34,7 @@ internal sealed class FrameDiagnostics : IDisposable
 
     private void Random(RandomTraceEvent entry)
     {
-        if (entry.Kind == "random" && (StrategicMap.Current is null || StrategicMap.Current is { Day: 1, Frame: <= 1 }))
+        if (entry.Kind == "random" && (StrategicMap.Current is null or { Day: 1, Frame: <= 1 }))
         {
             _writer.WriteLine(JsonSerializer.Serialize(new
             {

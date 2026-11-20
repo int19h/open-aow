@@ -99,7 +99,7 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
             _ = (Owner?.RemoveChild(this));
 
             SetOwnerWithoutNotify(owner);
-            if (Owner != null)
+            if (Owner is not null)
             {
                 if (Owner.AddChild(this) == -1)
                 {
@@ -193,7 +193,7 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
     {
         _ = AddRef();
         base.SetArrayOwner(owner, index);
-        if (Owner != null)
+        if (Owner is not null)
         {
             _ = AddRef();
         }
@@ -324,7 +324,7 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
     {
         ItemGraphics graphics;
         graphics = GamePack.Current.ItemGraphicsResources.GetItemGraphics(_itemGraphicsIndex);
-        if (graphics != null)
+        if (graphics is not null)
         {
             _ = graphics.AddRef();
             graphics.GetItemImage().Show(X, Y, surface);
@@ -367,7 +367,7 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
         LibraryImage result;
         ItemGraphics graphics;
         graphics = GamePack.Current.ItemGraphicsResources.GetItemGraphics(_itemGraphicsIndex);
-        if (graphics != null)
+        if (graphics is not null)
         {
             _ = graphics.AddRef();
             result = graphics.GetItemImage();
@@ -408,7 +408,7 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
         if (LibraryId != -1)
         {
             item = GamePack.Current.ItemLibraries.FindItem(LibraryName, LibraryId);
-            if (item != null)
+            if (item is not null)
             {
                 id = ItemId;
                 Assign(item, GetEngine());
@@ -417,7 +417,7 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
             }
             else
             {
-                if (Owner == null)
+                if (Owner is null)
                 {
                     Dispose();
                 }
@@ -461,7 +461,7 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
         if (x >= 0 && y >= 0 && level >= 0 && x < map.MapContainer.Width && y < map.MapContainer.Height && level < map.MapContainer.LevelCount && map.MapContainer.GetField(x, y, level).TerrainType != 15)
         {
             hexSprite = map.MapContainer.GetField(x, y, level).FindOwnedChild<ItemHexSprite>(131697);
-            if (hexSprite == null)
+            if (hexSprite is null)
             {
                 hexSprite = new ItemHexSprite(null) { Holder = CreationHolder() };
                 if (!map.PlaceHex(hexSprite, x, y, level))
@@ -471,7 +471,7 @@ public partial class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwne
                 }
             }
 
-            if (hexSprite != null)
+            if (hexSprite is not null)
             {
                 SetOwner(hexSprite.Items);
                 result = true;

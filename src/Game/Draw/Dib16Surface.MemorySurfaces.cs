@@ -13,7 +13,7 @@ public partial class Dib16Surface
 
     internal void SetPixelFormatId(PixelFormat value) { if (value is not PixelFormat.Rgb555 and not PixelFormat.Rgb565 and not PixelFormat.Argb1555) { throw new NotSupportedException("Pixel format"); } if (_memoryLocked && value != _pixelFormatId) { throw new InvalidOperationException("Pixel format after Lock"); } _pixelFormatId = value; }
 
-    public override GraphicsResult Resize(int width, int height) { if (_width == width && _height == height && _bits != null) { return GraphicsResult.Ok; } (_pitch, _bits) = MemorySurfaces.Allocate(width, height, _pixelFormatId, 4); _width = width; _height = height; return GraphicsResult.Ok; }
+    public override GraphicsResult Resize(int width, int height) { if (_width == width && _height == height && _bits is not null) { return GraphicsResult.Ok; } (_pitch, _bits) = MemorySurfaces.Allocate(width, height, _pixelFormatId, 4); _width = width; _height = height; return GraphicsResult.Ok; }
 
     public override GraphicsResult Lock(ref LockedSurface lockedSurface) { _memoryLocked = true; lockedSurface = MemorySurfaces.Describe(_width, _height, _pitch, _pixelFormatId, _bits, null); return GraphicsResult.Ok; }
 

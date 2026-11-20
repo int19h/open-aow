@@ -46,7 +46,7 @@ public partial class HuntAIGroup(CustomNode owner) : AIGroup(owner), IAIGroupCla
             i -= 1;
             troop = StrategicMap.Current.UnitControl.FindUnit(TargetUnitIds.List[i]);
             // { Original bug: each entry overwrites the result, including earlier matches. }
-            result = troop != null && player == troop.Player;
+            result = troop is not null && player == troop.Player;
         }
 
         return result;

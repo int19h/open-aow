@@ -101,7 +101,7 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
                 // A refused campaign keeps the current map, which is not started again.
                 StrategicMap previous = StrategicMap.Current;
                 LoadCampaign(UI.General, name);
-                if (StrategicMap.Current != null && StrategicMap.Current != previous)
+                if (StrategicMap.Current is not null && StrategicMap.Current != previous)
                 {
                     General.StartGame(UI.General);
                 }
@@ -110,7 +110,7 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
         else
         {
             StrategicMap map = UI.Engine.CreatePreviewHsm<StrategicMap>(name, profile: GameProfile.WorldMap);
-            if (map != null)
+            if (map is not null)
             {
                 UI.Engine.CloseCampaign();
                 UI.Engine.CloseHsm(null);
@@ -119,7 +119,7 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
                     if (map.ConnectionType != PlayerConnectionType.Network)
                     {
                         General.LoadGame(UI.General, name);
-                        if (StrategicMap.Current != null)
+                        if (StrategicMap.Current is not null)
                         {
                             General.StartGame(UI.General);
                         }
@@ -145,7 +145,7 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
     public void CloseClick()
     {
         UI.General.PlayButtonSound(0);
-        if (_saveEvent != null)
+        if (_saveEvent is not null)
         {
             if (!_saveEvent.Mode.Contains(SaveGameEventLogModeElement.DisableCancel))
             {
@@ -214,7 +214,7 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
                 else
                 {
                     extension = LowerCase(ExtractFileExt(entry.Name));
-                    includeFile = ListsFile(Mode, UI.Engine.Campaign != null, extension);
+                    includeFile = ListsFile(Mode, UI.Engine.Campaign is not null, extension);
                     if (includeFile)
                     {
                         stamp = new FileTime
@@ -319,15 +319,15 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
                 case 0:
                     if (!IsEmpty(SaveFileNameEdit.Text) && FileExists(SaveFileNameEdit.Text))
                     {
-                        if (StrategicMap.Current != null)
+                        if (StrategicMap.Current is not null)
                         {
-                            if (StrategicMap.Current.CombatMap != null)
+                            if (StrategicMap.Current.CombatMap is not null)
                             {
                                 UI.General.ReturnToTitle();
                             }
                             else
                             {
-                                if (UI.Engine.Campaign != null)
+                                if (UI.Engine.Campaign is not null)
                                 {
                                     if (CompareText(UI.Engine.Campaign.FileName, Directory + SaveFileNameEdit.Text) == 0)
                                     {
@@ -352,7 +352,7 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
                             }
                         }
 
-                        if (StrategicMap.Current == null || StrategicMap.Current.ExitPending)
+                        if (StrategicMap.Current is null || StrategicMap.Current.ExitPending)
                         {
                             Window.Visible = false;
                             LoadSelectedGame(path + SaveFileNameEdit.Text);
@@ -372,7 +372,7 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
                             SaveFileNameEdit.Text = Copy(SaveFileNameEdit.Text, 1, Pos(".", SaveFileNameEdit.Text) - 1);
                         }
 
-                        if (UI.Engine.Campaign != null)
+                        if (UI.Engine.Campaign is not null)
                         {
                             Window.Visible = false;
                             // The save takes the extension the host writes, beside an original of the same name
@@ -382,7 +382,7 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
                         }
                         else
                         {
-                            if (_saveEvent != null)
+                            if (_saveEvent is not null)
                             {
                                 _saveEvent.FileName = FileBoundary.WriteName(SaveFileNameEdit.Text + DocumentKind.Save.OriginalExtension, Directory);
                                 Window.Visible = false;
@@ -454,7 +454,7 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
             if (!DocumentKind.CampaignSave.HasExtension(ExtractFileExt(SaveFileNameEdit.Text)))
             {
                 map = UI.Engine.CreatePreviewHsm<StrategicMap>(SaveFileNameEdit.Text, profile: GameProfile.WorldMap);
-                if (map != null)
+                if (map is not null)
                 {
                     int count = map.Players.GetCount();
                     SavedPlayersLabel.Text = IntToStr(count - 1);
@@ -555,7 +555,7 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
                 if (!IsEmpty(SaveFileNameEdit.Text))
                 {
                     // The default name shows the file the save writes (own-formats.md 4.2).
-                    SaveFileNameEdit.Text = UI.Engine.Campaign != null
+                    SaveFileNameEdit.Text = UI.Engine.Campaign is not null
                         ? FileBoundary.WriteName(SaveFileNameEdit.Text + DocumentKind.CampaignSave.OriginalExtension)
                         : FileBoundary.WriteName(SaveFileNameEdit.Text + DocumentKind.Save.OriginalExtension);
                 }
@@ -763,11 +763,11 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
 
     internal static int CompareFileDates(string s1, string s2, object o1, object o2)
     {
-        int result = o1 == null && o2 == null
+        int result = o1 is null && o2 is null
             ? CompareText(s1, s2)
-            : o1 == null
+            : o1 is null
                 ? -1
-                : o2 == null
+                : o2 is null
                     ? 1
                     : (double)((FileTime)o2).Time > ((FileTime)o1).Time ? 1 : (double)((FileTime)o2).Time < ((FileTime)o1).Time ? -1 : 0;
         return result;
@@ -781,13 +781,13 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
             return;
         }
 
-        if (StrategicMap.Current != null)
+        if (StrategicMap.Current is not null)
         {
             controller.UI.Engine.CloseHsm(null);
         }
 
         controller.UI.Engine.LoadCampaign(name, tree: tree);
-        if (controller.UI.Engine.Campaign != null)
+        if (controller.UI.Engine.Campaign is not null)
         {
             if (controller.UI.Engine.Campaign.ScenarioStarted)
             {

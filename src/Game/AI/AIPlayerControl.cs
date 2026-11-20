@@ -95,10 +95,10 @@ public partial class AIPlayerControl : EngineObject
         for (int i = 0, last = player.Armies.Count - 1; i <= last; i++)
         {
             troop = player.Armies.GetArmy(i).Transporter(255);
-            if (troop != null)
+            if (troop is not null)
             {
                 group = troop.Group;
-                if (group == null || group.EngineClass.ClassId == 136295)
+                if (group is null || group.EngineClass.ClassId == 136295)
                 {
                     _ = units.AddUnit(troop);
                     result += 1;
@@ -310,7 +310,7 @@ public partial class AIPlayerControl : EngineObject
     {
         AIPlayerAction action;
         action = _action;
-        if (action != null)
+        if (action is not null)
         {
             action.Deactivate();
             _action = null;
@@ -383,7 +383,7 @@ public partial class AIPlayerControl : EngineObject
                 Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Player.PlayerIndex);
                 raceRelation = StrategicMap.Current.Races.GetRace(fPlayersPlayers.PlayerRace).GetDefaultRaceRelation(players.PlayerRace);
                 action = Player.DiplomaticActions.FindLastAction(DeclareWar.Kind, DiplomaticActionReaction.None, (sbyte)i, Player.PlayerIndex, -1);
-                if (action != null)
+                if (action is not null)
                 {
                     days = StrategicMap.Current.Day - action.Day;
                     if (days < 30)

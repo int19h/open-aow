@@ -38,7 +38,7 @@ public partial class PlayerCommunicator(CustomNode owner) : EngineObject(owner)
         PlayerCommunicationControl = null;
 
         PlayerCommunicationControl = playerCommunicationControl;
-        if (PlayerCommunicationControl != null)
+        if (PlayerCommunicationControl is not null)
         {
             PlayerCommunicationControl.AddRef();
             result = PlayerCommunicationControl.Activate(this);

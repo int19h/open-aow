@@ -37,7 +37,7 @@ public partial class TokenExecutor : IDisposable
 
     internal void RaiseSyncError(object sender) => OnSyncError?.Invoke(sender);
 
-    internal bool HasSyncErrorHandlers => OnSyncError != null;
+    internal bool HasSyncErrorHandlers => OnSyncError is not null;
 
     internal void SetSyncErrorHandler(NotifyEvent<object> handler) => OnSyncError = handler;
 
@@ -108,7 +108,7 @@ public partial class TokenExecutor : IDisposable
     public int GetSyncValue()
     {
         int result;
-        if (OnGetSyncValue != null)
+        if (OnGetSyncValue is not null)
         {
             OnGetSyncValue(out result);
         }
@@ -291,7 +291,7 @@ public partial class TokenExecutor : IDisposable
         int i;
         bool prefetched;
         ExecuteResult r;
-        if (ActiveTacticalBattle != null && !ProcessSystemTokenEvents())
+        if (ActiveTacticalBattle is not null && !ProcessSystemTokenEvents())
         {
             i = 0;
             prefetched = true;

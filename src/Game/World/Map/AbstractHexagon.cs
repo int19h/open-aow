@@ -32,10 +32,10 @@ public partial class AbstractHexagon(CustomNode owner) : MapObject(owner)
         if (message.HexNumber == 0 && GetTerrain(0) != message.TerrainType)
         {
             control = Resource.GetTerrainControl();
-            if (control != null)
+            if (control is not null)
             {
                 r = control.GetRandomResource(classId: Resource.EngineClass.ClassId, terrainType: message.TerrainType);
-                if (r != null)
+                if (r is not null)
                 {
                     SetResource(r);
                     UpdateTransitions();
@@ -94,7 +94,7 @@ public partial class AbstractHexagon(CustomNode owner) : MapObject(owner)
         {
             mapField = mapContainer.GetField(hexX, hexY, hexLevel);
             hexSprite = mapField.GetMaxLevelNoneTransparentHexSprite();
-            bool condition = hexSprite == null;
+            bool condition = hexSprite is null;
             if (!condition)
             {
                 bool test = hexSprite.GetLevel() < 10;

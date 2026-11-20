@@ -121,10 +121,10 @@ public partial class RaceResource(CustomNode owner) : EngineResource(owner)
         int i;
         _ = AddRef();
         LibraryImage result = null;
-        if (ImageLibrary != null)
+        if (ImageLibrary is not null)
         {
             i = 0;
-            while (i < ImageLibrary.Count && result == null)
+            while (i < ImageLibrary.Count && result is null)
             {
                 result = ImageLibrary[i];
                 i += 1;
@@ -159,7 +159,7 @@ public partial class RaceResource(CustomNode owner) : EngineResource(owner)
     // PlayerC.PAS:1766
     public void LinkToImageLibrary()
     {
-        if (ImageLibrary == null)
+        if (ImageLibrary is null)
         {
             if (!IsEmpty(_imageLibraryName))
             {
@@ -174,7 +174,7 @@ public partial class RaceResource(CustomNode owner) : EngineResource(owner)
     public void ReleaseImageLibrary()
     {
         // { Original leaves the face library linked when the city library is nil. }
-        if (ImageLibrary != null)
+        if (ImageLibrary is not null)
         {
             if (!IsEmpty(_imageLibraryName))
             {
@@ -209,7 +209,7 @@ public partial class RaceResource(CustomNode owner) : EngineResource(owner)
 
         result = ImageLibrary.ImageExist(index) ? ImageLibrary[index] : null;
 
-        if (result == null)
+        if (result is null)
         {
             index = level == 0 ? size + 50 - 1 : size + 60 - 1;
 

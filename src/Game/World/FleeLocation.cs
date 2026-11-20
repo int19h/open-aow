@@ -83,7 +83,7 @@ public partial class FleeLocation(CustomNode owner) : MapObject(owner)
         {
             mapField = mapContainer.GetField(hexX, hexY, hexLevel);
             oldHex = mapField.FindOwnedChild(132439);
-            if (oldHex != null)
+            if (oldHex is not null)
             {
                 oldHex?.Dispose();
                 _ = GamePack.Current.CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, 0, 1);
@@ -104,7 +104,7 @@ public partial class FleeLocation(CustomNode owner) : MapObject(owner)
         }
         else
         {
-            if (CombatMap.Current.UnitSelection.GetTacticalBattleUnitHexSprite() != null && CombatMap.Current.UnitSelection.GetTacticalBattleUnitHexSprite().Unit.CombatPlayer == CombatMap.Current.SeatedCombatPlayer && CombatMap.Current.UnitSelection.GetTacticalBattleUnitHexSprite().Unit.CombatPlayer != CombatMap.Current.Combat.CombatData.DefenderPlayer)
+            if (CombatMap.Current.UnitSelection.GetTacticalBattleUnitHexSprite() is not null && CombatMap.Current.UnitSelection.GetTacticalBattleUnitHexSprite().Unit.CombatPlayer == CombatMap.Current.SeatedCombatPlayer && CombatMap.Current.UnitSelection.GetTacticalBattleUnitHexSprite().Unit.CombatPlayer != CombatMap.Current.Combat.CombatData.DefenderPlayer)
             {
                 highlight = true;
             }

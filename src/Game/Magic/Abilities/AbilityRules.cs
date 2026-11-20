@@ -380,7 +380,7 @@ public static class AbilityRules
                 {
                     unit = new Unit(null) { Holder = engine };
                     unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(index));
-                    if (unit.Place(X, Y, L, player, Set<UnitPlaceModeElement>.Of()) != null)
+                    if (unit.Place(X, Y, L, player, Set<UnitPlaceModeElement>.Of()) is not null)
                     {
                         result += unit.GetObtainValue();
                         tries = 50;
@@ -521,7 +521,7 @@ public static class AbilityRules
         MapLevel level;
         MapField field;
         ArmyHexSprite army;
-        if (movePath != null && movePath.Count > 0)
+        if (movePath is not null && movePath.Count > 0)
         {
             distance = Round(range * 0.5);
             result = 0;
@@ -551,7 +551,7 @@ public static class AbilityRules
                         if ((field.FieldFlags & MapField.BattleFieldInfoFlag) != 0)
                         {
                             army = field.GetArmyHexSprite();
-                            if (army != null && army.Army.Player != player)
+                            if (army is not null && army.Army.Player != player)
                             {
                                 _ = units.AddUnits(army.Army.Units);
                             }
@@ -622,10 +622,7 @@ public static class AbilityRules
                 i = j;
             }
 
-            if (units != null)
-            {
-                units?.Dispose();
-            }
+            units?.Dispose();
 
             StrategicMap.Current.AIExecutor.UseProcessTime(50);
         }
@@ -703,7 +700,7 @@ public static class AbilityRules
         result = result && Set<byte>.WithBounds(0, 255).WithRange(1, 5).Contains((byte)field.TerrainType);
         result = result && !Set<byte>.WithBounds(0, 255).With(0).With(2).With(4).With(5).Contains((byte)field.OverlayType);
         // Original shared helper
-        return result && field.FindNoneTransparentHexSprite(typeof(Structure)) == null;
+        return result && field.FindNoneTransparentHexSprite(typeof(Structure)) is null;
     }
 
     public static void RetrieveStormDamageInfo(sbyte player, StormType storm, sbyte x, sbyte y,

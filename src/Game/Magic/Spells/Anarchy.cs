@@ -53,7 +53,7 @@ public partial class Anarchy : CityTargetSpell
             _ = log.Release();
             PlayDefaultCityEffects(source, targetCity);
             _ = targetCity.ValidateObservation(source.Player);
-            if (targetCity.Resource.ImageSequenceList.ImageSequences[16] != null)
+            if (targetCity.Resource.ImageSequenceList.ImageSequences[16] is not null)
             {
                 a = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
                 a.SetImageSequence(targetCity.Resource.ImageSequenceList.ImageSequences[16]);

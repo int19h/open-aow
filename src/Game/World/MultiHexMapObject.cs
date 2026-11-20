@@ -104,7 +104,7 @@ public partial class MultiHexMapObject(CustomNode owner) : MapObject(owner)
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         HexGeometry.HexToPixel(StoredHexX, StoredHexY, out int pixelX, out int pixelY);
-        if (Resource.ImageSequenceList == null)
+        if (Resource.ImageSequenceList is null)
         {
             // The offsets live on the multi-hex resource. Another resource throws, as the old cast did.
             MultiHexMapObjectResource placed = GetResource<MultiHexMapObjectResource>();
@@ -229,7 +229,7 @@ public partial class MultiHexMapObject(CustomNode owner) : MapObject(owner)
             if ((terrainType >= 0 || overlayType >= 0) && walk.X >= 0 && walk.Y >= 0 && walk.X < mapContainer.Width && walk.Y < mapContainer.Height)
             {
                 hexSprite = mapContainer.GetField(walk.X, walk.Y, hexLevel).GetMaxLevelNoneTransparentHexSprite();
-                result = hexSprite == null || CanPlaceOnHexSprite(hexSprite);
+                result = hexSprite is null || CanPlaceOnHexSprite(hexSprite);
             }
 
             HexNumberWalkData.WalkToNextHexNumber(ref walk);

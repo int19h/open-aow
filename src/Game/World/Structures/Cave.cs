@@ -35,14 +35,14 @@ public partial class Cave(CustomNode owner) : Structure(owner)
         Cave partner;
         oldEntrance = Entrance;
         Entrance = CaveEntrance.Idle;
-        if (Status.Contains(MapObjectStatusElement.PlacedOnMap) && Owner != null)
+        if (Status.Contains(MapObjectStatusElement.PlacedOnMap) && Owner is not null)
         {
             if (!GetEditMode())
             {
                 if (oldEntrance == CaveEntrance.Up)
                 {
                     partner = StrategicMap.Current.MapContainer.GetField(StoredHexX, StoredHexY, Owner.HexLevel - 1).FindOwnedChild<Cave>(131966);
-                    if (partner != null && partner.Entrance == CaveEntrance.Down)
+                    if (partner is not null && partner.Entrance == CaveEntrance.Down)
                     {
                         partner.Dispose();
                     }
@@ -50,7 +50,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
                 else
                 {
                     partner = StrategicMap.Current.MapContainer.GetField(StoredHexX, StoredHexY, Owner.HexLevel + 1).FindOwnedChild<Cave>(131966);
-                    if (partner != null && partner.Entrance == CaveEntrance.Up)
+                    if (partner is not null && partner.Entrance == CaveEntrance.Up)
                     {
                         partner.Dispose();
                     }
@@ -142,7 +142,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
                 if (Entrance == CaveEntrance.Down)
                 {
                     up = mapContainer.GetField(hexX, hexY, hexLevel + 1).FindOwnedChild<Cave>(131966);
-                    if (up == null)
+                    if (up is null)
                     {
                         up = base.Resource.CreateResourceUser<Cave>();
                         up.Entrance = CaveEntrance.Up;
@@ -166,7 +166,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
                 else
                 {
                     down = mapContainer.GetField(hexX, hexY, hexLevel - 1).FindOwnedChild<Cave>(131966);
-                    if (down == null)
+                    if (down is null)
                     {
                         down = base.Resource.CreateResourceUser<Cave>();
                         down.Entrance = CaveEntrance.Down;
@@ -203,7 +203,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
     public override LibraryImage GetTopBorderImage()
     {
         LibraryImage result = Entrance == CaveEntrance.Up
-            ? base.Resource.ImageSequenceList != null && base.Resource.ImageSequenceList.ImageSequences[33] != null
+            ? base.Resource.ImageSequenceList is not null && base.Resource.ImageSequenceList.ImageSequences[33] is not null
                 ? base.Resource.ImageSequenceList.ImageSequences[33].GetPreviewImage()
                 : null
             : base.GetTopBorderImage();
@@ -214,7 +214,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
     public override LibraryImage GetMiddleBorderImage()
     {
         LibraryImage result = Entrance == CaveEntrance.Up
-            ? base.Resource.ImageSequenceList != null && base.Resource.ImageSequenceList.ImageSequences[34] != null
+            ? base.Resource.ImageSequenceList is not null && base.Resource.ImageSequenceList.ImageSequences[34] is not null
                 ? base.Resource.ImageSequenceList.ImageSequences[34].GetPreviewImage()
                 : null
             : base.GetMiddleBorderImage();
@@ -225,7 +225,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
     public override LibraryImage GetBottomBorderImage()
     {
         LibraryImage result = Entrance == CaveEntrance.Up
-            ? base.Resource.ImageSequenceList != null && base.Resource.ImageSequenceList.ImageSequences[35] != null
+            ? base.Resource.ImageSequenceList is not null && base.Resource.ImageSequenceList.ImageSequences[35] is not null
                 ? base.Resource.ImageSequenceList.ImageSequences[35].GetPreviewImage()
                 : null
             : base.GetBottomBorderImage();
@@ -239,7 +239,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
         ArmyHexSprite armyHexSprite;
         base.ArmyPlaced(placedArmy);
         armyHexSprite = placedArmy;
-        if (armyHexSprite != null)
+        if (armyHexSprite is not null)
         {
             l = Entrance == CaveEntrance.Down ? GetHexLevel() + 1 : GetHexLevel() - 1;
 
@@ -290,7 +290,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
     {
         ArmyHexSprite armyHexSprite;
         armyHexSprite = Owner.GetArmyHexSprite();
-        return armyHexSprite != null && player == armyHexSprite.Army.Player && CanEnterSelection(armyHexSprite.Army.Units) != 0;
+        return armyHexSprite is not null && player == armyHexSprite.Army.Player && CanEnterSelection(armyHexSprite.Army.Units) != 0;
     }
 
     // Cave.pas:325
@@ -305,7 +305,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
         MapField field;
         TokenEvent eventValue;
         armyHexSprite = Owner.GetArmyHexSprite();
-        if (armyHexSprite != null && CanEnter(armyHexSprite.Army.Player))
+        if (armyHexSprite is not null && CanEnter(armyHexSprite.Army.Player))
         {
             selection = CanEnterSelection(armyHexSprite.Army.Units);
             l = 0;
@@ -345,7 +345,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
                     {
                         // { Original passes action before mode. }
                         eventValue = ArmyHexSprite.CreateArmyMoveTokenEvent(armyHexSprite, selection, path, MoveAction.Attack, Set<ArmyMoveModeElement>.Of());
-                        if (eventValue != null)
+                        if (eventValue is not null)
                         {
                             StrategicMap.Current.TokenManager.GetTokenControl(armyHexSprite.Army.Player).AddEvent(eventValue);
                             _ = eventValue.Release();

@@ -355,12 +355,12 @@ public partial class UnitSpell : Spell
         Troop source;
         ArmyHexSprite party;
         source = StrategicMap.Current.UnitControl.FindUnit(control.SourceUnitId);
-        if (source != null)
+        if (source is not null)
         {
             if (StrategicMap.Current.Visible(X, Y, L, 0))
             {
                 party = StrategicMap.Current.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
-                valid = party != null && (party.Army.Player == source.Player || !StrategicMap.Current.MapContainer.GetField(X, Y, L).GetMagicShieldActive()) && ValidTargetParty(source, party);
+                valid = party is not null && (party.Army.Player == source.Player || !StrategicMap.Current.MapContainer.GetField(X, Y, L).GetMagicShieldActive()) && ValidTargetParty(source, party);
             }
             else
             {
@@ -379,7 +379,7 @@ public partial class UnitSpell : Spell
         Troop source;
         ArmyHexSprite party;
         source = StrategicMap.Current.UnitControl.FindUnit(control.SourceUnitId);
-        if (source != null)
+        if (source is not null)
         {
             switch (control.Change)
             {
@@ -390,7 +390,7 @@ public partial class UnitSpell : Spell
                     if (control.Target.X != -1)
                     {
                         party = StrategicMap.Current.MapContainer.GetField(control.Target.X, control.Target.Y, control.Target.MapLevel).GetArmyHexSprite();
-                        if (party != null && ValidTargetParty(source, party))
+                        if (party is not null && ValidTargetParty(source, party))
                         {
                             TargetPartySelected(source, party);
                         }

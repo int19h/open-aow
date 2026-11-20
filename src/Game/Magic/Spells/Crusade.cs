@@ -170,7 +170,7 @@ public partial class Crusade : Spell
             sbyte hexX = party.GetHexX();
             if (StrategicMap.Current.Watching(hexX, hexY, hexLevel, 0))
             {
-                if (GamePack.Current.SpellControl.GetSpell(34).CastImages.GetImageSequence(0) != null)
+                if (GamePack.Current.SpellControl.GetSpell(34).CastImages.GetImageSequence(0) is not null)
                 {
                     // { Original uses Warp Party's images for Crusade parties. }
                     animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };

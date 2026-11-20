@@ -37,7 +37,7 @@ public partial class HexSpriteMapViewer : Component
     // { Leaves the map's OnChangeView set (original slip). }
     public override void Dispose()
     {
-        if (_hexSpriteMap != null)
+        if (_hexSpriteMap is not null)
         {
             _hexSpriteMap.ClearCenterViewHandler();
             _hexSpriteMap.ClearViewLevelHandler();
@@ -52,7 +52,7 @@ public partial class HexSpriteMapViewer : Component
     public virtual void SetHexSpriteMap(GameMap value)
     {
         _hexSpriteMap = value;
-        if (_hexSpriteMap != null)
+        if (_hexSpriteMap is not null)
         {
             // { Install viewer callbacks on the assigned map. }
             _hexSpriteMap.SetCenterViewHandler(CenterScene);
@@ -64,15 +64,15 @@ public partial class HexSpriteMapViewer : Component
     // HSEngine.pas:4794
     public virtual void VerifyStaticSurface(Surface surface)
     {
-        if (StaticSurface != null && StaticSurface.GetPixelFormatId() != surface.GetPixelFormatId())
+        if (StaticSurface is not null && StaticSurface.GetPixelFormatId() != surface.GetPixelFormatId())
         {
             StaticSurface?.Dispose();
             StaticSurface = null;
         }
 
-        if (StaticSurface == null || StaticSurface.GetWidth() != _sceneWidth || StaticSurface.GetHeight() != _sceneHeight)
+        if (StaticSurface is null || StaticSurface.GetWidth() != _sceneWidth || StaticSurface.GetHeight() != _sceneHeight)
         {
-            if (StaticSurface == null)
+            if (StaticSurface is null)
             {
                 PixelFormat pixelFormatId = surface.GetPixelFormatId();
                 StaticSurface = new DataSurface(_sceneWidth, _sceneHeight, pixelFormatId, null);
@@ -90,12 +90,12 @@ public partial class HexSpriteMapViewer : Component
     // HSEngine.pas:4689
     public void ChangeScene(int pixelX, int pixelY, int lHitPoints)
     {
-        if (_hexSpriteMap != null)
+        if (_hexSpriteMap is not null)
         {
             SetSceneX(pixelX);
             SetSceneY(pixelY);
             SetSceneL(lHitPoints);
-            if (_hexSpriteMap.SetViewPort(_sceneX, _sceneY, _sceneL, _sceneWidth, _sceneHeight) && OnSceneChanged != null)
+            if (_hexSpriteMap.SetViewPort(_sceneX, _sceneY, _sceneL, _sceneWidth, _sceneHeight) && OnSceneChanged is not null)
             {
                 OnSceneChanged(this);
             }
@@ -105,13 +105,13 @@ public partial class HexSpriteMapViewer : Component
     // HSEngine.pas:4702
     public void CenterScene(int hexX, int hexY, int hexLevel)
     {
-        if (_hexSpriteMap != null)
+        if (_hexSpriteMap is not null)
         {
             HexGeometry.HexToPixel(hexX, hexY, out int pixelX, out int pixelY);
             SetSceneX(pixelX + 16 - (int)(((uint)_sceneWidth) >> 1));
             SetSceneY(pixelY + 16 - (int)(((uint)_sceneHeight) >> 1));
             SetSceneL(hexLevel);
-            if (_hexSpriteMap.SetViewPort(_sceneX, _sceneY, _sceneL, _sceneWidth, _sceneHeight) && OnSceneChanged != null)
+            if (_hexSpriteMap.SetViewPort(_sceneX, _sceneY, _sceneL, _sceneWidth, _sceneHeight) && OnSceneChanged is not null)
             {
                 OnSceneChanged(this);
             }
@@ -121,7 +121,7 @@ public partial class HexSpriteMapViewer : Component
     // HSEngine.pas:4730
     public void SetSceneL(int value)
     {
-        if (_hexSpriteMap != null)
+        if (_hexSpriteMap is not null)
         {
             if (value < 0)
             {
@@ -140,7 +140,7 @@ public partial class HexSpriteMapViewer : Component
     // HSEngine.pas:4742
     public void SetSceneX(int value)
     {
-        if (_hexSpriteMap != null)
+        if (_hexSpriteMap is not null)
         {
             if (value < 16)
             {
@@ -154,7 +154,7 @@ public partial class HexSpriteMapViewer : Component
     // HSEngine.pas:4756
     public void SetSceneY(int value)
     {
-        if (_hexSpriteMap != null)
+        if (_hexSpriteMap is not null)
         {
             if (value < 16)
             {
@@ -170,7 +170,7 @@ public partial class HexSpriteMapViewer : Component
     {
         GameMap m;
         m = _hexSpriteMap;
-        if (m != null && value > 0)
+        if (m is not null && value > 0)
         {
             _sceneWidth = value;
             SetSceneX(_sceneX);
@@ -182,7 +182,7 @@ public partial class HexSpriteMapViewer : Component
     {
         GameMap m;
         m = _hexSpriteMap;
-        if (m != null && value > 0)
+        if (m is not null && value > 0)
         {
             _sceneHeight = value;
             SetSceneY(_sceneY);
@@ -209,11 +209,11 @@ public partial class HexSpriteMapViewer : Component
         try
         {
             mp = _hexSpriteMap;
-            if (mp != null)
+            if (mp is not null)
             {
                 // The field holds the map. The object-typed copy belongs to #150.
                 m = (GameMap)mp;
-                if (m.SetViewPort(_sceneX, _sceneY, _sceneL, _sceneWidth, _sceneHeight) && OnSceneChanged != null)
+                if (m.SetViewPort(_sceneX, _sceneY, _sceneL, _sceneWidth, _sceneHeight) && OnSceneChanged is not null)
                 {
                     OnSceneChanged(this);
                 }
@@ -226,7 +226,7 @@ public partial class HexSpriteMapViewer : Component
                     X = 0;
                     Y = 0;
                 }
-                else if (CenteredSurface != null)
+                else if (CenteredSurface is not null)
                 {
                     CenteredSurface?.Dispose();
                     CenteredSurface = null;
@@ -298,14 +298,14 @@ public partial class HexSpriteMapViewer : Component
 
     // Port extension: the original never showed a scene wider or taller than the map. SceneX and
     // SceneY keep the original clamp there, so the view port and the saved view stay the original's.
-    public bool GetSceneExceedsMap() => _hexSpriteMap != null && (_sceneWidth > _hexSpriteMap.GetMaxPixelX() - 32 || _sceneHeight > _hexSpriteMap.GetMaxPixelY() - 32);
+    public bool GetSceneExceedsMap() => _hexSpriteMap is not null && (_sceneWidth > _hexSpriteMap.GetMaxPixelX() - 32 || _sceneHeight > _hexSpriteMap.GetMaxPixelY() - 32);
 
     // Port extension: the part of the scene that shows the map under the original clamp. On an axis
     // where the scene fits inside the map it spans the scene.
     public Rect GetMapSceneRectangle()
     {
         Rect r = default;
-        if (_hexSpriteMap != null)
+        if (_hexSpriteMap is not null)
         {
             r.Left = Math.Max(16 - _sceneX, 0);
             r.Top = Math.Max(16 - _sceneY, 0);
@@ -356,13 +356,13 @@ public partial class HexSpriteMapViewer : Component
     // Port extension: the scene-sized surface that ShowScene draws on when the scene exceeds the map.
     public Surface VerifyCenteredSurface(Surface surface)
     {
-        if (CenteredSurface != null && CenteredSurface.GetPixelFormatId() != surface.GetPixelFormatId())
+        if (CenteredSurface is not null && CenteredSurface.GetPixelFormatId() != surface.GetPixelFormatId())
         {
             CenteredSurface?.Dispose();
             CenteredSurface = null;
         }
 
-        if (CenteredSurface == null)
+        if (CenteredSurface is null)
         {
             CenteredSurface = new DataSurface(_sceneWidth, _sceneHeight, surface.GetPixelFormatId(), null);
         }

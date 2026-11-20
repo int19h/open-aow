@@ -22,7 +22,7 @@ public sealed partial record ResearchSpell(int Index) : ProductionOrder
     public override string Name(ProductionControl control)
     {
         UnitProduction production = control.UnitProductions.GetItem(Index);
-        if (production == null)
+        if (production is null)
         {
             return AbilityRules.TranslateResourceString(control.GetEngine(), GameTables.UnknownText);
         }
@@ -34,7 +34,7 @@ public sealed partial record ResearchSpell(int Index) : ProductionOrder
     public override string NameProgressive(ProductionControl control)
     {
         UnitProduction production = control.UnitProductions.GetItem(Index);
-        if (production == null)
+        if (production is null)
         {
             return AbilityRules.TranslateResourceString(control.GetEngine(), GameTables.UnknownText);
         }

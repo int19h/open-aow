@@ -148,7 +148,7 @@ public partial class AIMoveTargetSelector : EngineObject
     public void TriggerTargetFound(MoveTarget target)
     {
         bool searchDone;
-        if (OnTargetFound != null)
+        if (OnTargetFound is not null)
         {
             searchDone = false;
             OnTargetFound(target, ref searchDone);
@@ -345,7 +345,7 @@ public partial class AIMoveTargetSelector : EngineObject
                 yield = false;
                 break;
             case 10:
-                if (MovePointsMin > 0 && _transporter != null)
+                if (MovePointsMin > 0 && _transporter is not null)
                 {
                     _bufferedTargets.Clear();
                     _settings.Reset();
@@ -470,7 +470,7 @@ public partial class AIMoveTargetSelector : EngineObject
     public bool Search(AIGroupControl control)
     {
         bool result;
-        if (TargetInfo.Player != -1 && OnTargetFound != null && SourceLocation != MapCoordinate.None && (MovePointsMax > 0 || (MovePointsMin > 0 && _transporter != null)))
+        if (TargetInfo.Player != -1 && OnTargetFound is not null && SourceLocation != MapCoordinate.None && (MovePointsMax > 0 || (MovePointsMin > 0 && _transporter is not null)))
         {
             _state = MovePointsMax > 0 ? 0 : 10;
             _control = control;

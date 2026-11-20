@@ -450,7 +450,7 @@ public partial class MeleeRound(EngineObject creator) : IDisposable
         i = 0;
         lifeStealingDamageValue = 0;
         source = _attacker;
-        if (source != null)
+        if (source is not null)
         {
             lifeStealing = source.GetAbilityEnabled(118);
             if (lifeStealing && _defender is CombatUnit defender && defender.Troop.GetUnitType() == UnitType.Machine)

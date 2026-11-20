@@ -72,7 +72,7 @@ public partial class PossessCombatAction(CustomNode owner) : SingleTargetCombatA
             if (oldUnit.GetAbilityEnabled(107))
             {
                 data = GamePack.Current.AbilityControl.GetAbility<PossessedAbility>(107).GetData(oldUnit);
-                experience = data != null ? data.SourceExperience : 0;
+                experience = data is not null ? data.SourceExperience : 0;
             }
             else
             {

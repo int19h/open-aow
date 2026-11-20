@@ -29,7 +29,7 @@ public partial class ArnoLine : Control
     // AoWArnoLine.pas:53
     public override void Validate()
     {
-        if (_imageTop != null && _imageMiddle != null && _imageBottom != null)
+        if (_imageTop is not null && _imageMiddle is not null && _imageBottom is not null)
         {
             _lineLibrary.Clear();
             LibraryImage copy = _imageTop.Copy();

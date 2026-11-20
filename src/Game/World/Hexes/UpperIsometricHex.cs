@@ -15,7 +15,7 @@ public partial class UpperIsometricHex(CustomNode owner) : IsometricHex(owner)
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         CustomImageLibrary imageLibrary;
-        if (Dynamic == null)
+        if (Dynamic is null)
         {
             HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
             pixelX = pixelX - pixelXSurface - 8;

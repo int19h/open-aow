@@ -53,7 +53,7 @@ public readonly struct HeroCollection : IReadOnlyList<Hero>
         int i;
         i = 0;
         Hero result = null;
-        while (i != Count && result == null)
+        while (i != Count && result is null)
         {
             if (id == this[i].UnitId)
             {

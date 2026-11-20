@@ -56,7 +56,7 @@ public partial class StructureAIPlayerAction(CustomNode owner) : AIPlayerAction(
         {
             int item = _structureIds[^1];
             structure = StrategicMap.Current.StructureControl.FindId(item);
-            if (structure != null)
+            if (structure is not null)
             {
                 waiting = structure.ExecuteAI(Control.Player.PlayerIndex, Phase);
             }

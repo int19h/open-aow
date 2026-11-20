@@ -50,7 +50,7 @@ public partial class PoisonPlantSpellTokenEvent(CustomNode owner) : GlobalTarget
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
                 mapField = level.GetField(walk.X, walk.Y);
-                if (GamePack.Current.SpellControl.GetSpell<GlobalTargetSpell>(12).ValidTargetMapField(mapField) && mapField.GetArmyHexSprite() == null)
+                if (GamePack.Current.SpellControl.GetSpell<GlobalTargetSpell>(12).ValidTargetMapField(mapField) && mapField.GetArmyHexSprite() is null)
                 {
                     mapField.RestoreTerrain();
                     plant = resource.CreateResourceUser<PoisonPlant>();

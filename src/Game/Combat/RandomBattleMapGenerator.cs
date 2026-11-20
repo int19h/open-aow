@@ -99,16 +99,16 @@ public partial class RandomBattleMapGenerator : IDisposable
             {
                 HexGeometry.CenterHexNumberToHex(X, Y, ClusterCheckBox[i2], ref hexX, ref hexY);
                 kind = terrainBuffer[(hexY * 65) + hexX];
-                result = result || kind == 1 || kind == 2 || kind == 3 || kind == 5 || kind == 6 || kind == 7 || kind == 11 || kind == 14 || kind == 15 || kind == 16 || kind == 17 || kind == 18 || kind == 252 || kind == 253 || kind == 254;
+                result = result || kind is 1 or 2 or 3 or 5 or 6 or 7 or 11 or 14 or 15 or 16 or 17 or 18 or 252 or 253 or 254;
             }
 
             return result;
         }
 
         Items = null;
-        siteCombat = combat != null && combat.ExplorationSite == 1;
+        siteCombat = combat is not null && combat.ExplorationSite == 1;
 
-        randomTerrain = combat == null || !(siteCombat || combat.ExplorationSite == 2);
+        randomTerrain = combat is null || !(siteCombat || combat.ExplorationSite == 2);
 
         _randomTerrain = randomTerrain;
         CombatPlacement.CombatXLocation = X;
@@ -148,18 +148,18 @@ public partial class RandomBattleMapGenerator : IDisposable
         fileName = "TCMaps\\";
         structure = StrategicMap.Current.MapContainer.MapLevels[L].Field[X, Y].FindNoneTransparentHexSprite<Structure>();
         bridge = null;
-        if (structure == null)
+        if (structure is null)
         {
             bridge = StrategicMap.Current.MapContainer.MapLevels[L].Field[X, Y].FindNoneTransparentHexSprite<HexBridge>();
         }
 
-        if (structure != null)
+        if (structure is not null)
         {
             // The kind names the map (Structure.Views.cs) and reports what the map takes from the combat.
             CombatMapSite site = new(siteCombat, randomTerrain, (direction, kind) =>
             {
                 HexGeometry.CenterHexNumberToHex(X, Y, direction, ref j, ref k);
-                return StrategicMap.Current.MapContainer.MapLevels[L].Field[j, k].FindNoneTransparentHexSprite(kind) != null;
+                return StrategicMap.Current.MapContainer.MapLevels[L].Field[j, k].FindNoneTransparentHexSprite(kind) is not null;
             });
             fileName += structure.CombatMapName(site);
             randomTerrain = site.RandomTerrain;
@@ -179,7 +179,7 @@ public partial class RandomBattleMapGenerator : IDisposable
 
             _tags[0] = 127;
         }
-        else if (bridge != null)
+        else if (bridge is not null)
         {
             randomTerrain = false;
             _randomTerrain = false;
@@ -207,7 +207,7 @@ public partial class RandomBattleMapGenerator : IDisposable
         }
 
         fileName += ".HSM";
-        if (combat == null)
+        if (combat is null)
         {
             _ = Creator.GetEngine().LoadHsmMap(FileBoundary.ReadName(Creator.GetEngine().StartupDirectory + fileName), false, null, GameProfile.TacticalMap);
         }
@@ -219,7 +219,7 @@ public partial class RandomBattleMapGenerator : IDisposable
         CombatMap.Current.SetCombat(combat);
         CombatMap.Current.SetExplorationEnabled(siteCombat);
         CombatMap.Current.SetFogEnabled(false);
-        if (combat != null)
+        if (combat is not null)
         {
             PlaceCombatUnits();
         }
@@ -304,7 +304,7 @@ public partial class RandomBattleMapGenerator : IDisposable
                         if (j > -1)
                         {
                             HexGeometry.CenterHexNumberToHex(X, Y, j, ref k, ref hexX);
-                            if (StrategicMap.Current.MapContainer.MapLevels[L].Field[k, hexX].FindOwnedChild(131946) == null)
+                            if (StrategicMap.Current.MapContainer.MapLevels[L].Field[k, hexX].FindOwnedChild(131946) is null)
                             {
                                 CombatMap.Current.ClearTerrain(column, row, 0, 0, -1);
                             }
@@ -425,7 +425,7 @@ public partial class RandomBattleMapGenerator : IDisposable
                             }
                         }
 
-                        hasUnit = CombatMap.Current.MapContainer.MapLevels[0].Field[column * 2, row].FindChild(2228484) != null;
+                        hasUnit = CombatMap.Current.MapContainer.MapLevels[0].Field[column * 2, row].FindChild(2228484) is not null;
                         if (hasUnit || Blocked(column * 2, row, 0, 2))
                         {
                             if ((hasUnit || Blocked(column * 2, row, 4, 8)) && (hasUnit || Blocked(column * 2, row, 9, 17)))
@@ -551,7 +551,7 @@ public partial class RandomBattleMapGenerator : IDisposable
                             }
                         }
 
-                        hasUnit = CombatMap.Current.MapContainer.MapLevels[0].Field[(column * 2) + 1, row].FindChild(2228484) != null;
+                        hasUnit = CombatMap.Current.MapContainer.MapLevels[0].Field[(column * 2) + 1, row].FindChild(2228484) is not null;
                         if (hasUnit || Blocked((column * 2) + 1, row, 0, 2))
                         {
                             if ((hasUnit || Blocked((column * 2) + 1, row, 4, 8)) && (hasUnit || Blocked((column * 2) + 1, row, 9, 17)))
@@ -718,7 +718,7 @@ public partial class RandomBattleMapGenerator : IDisposable
                             {
                                 if (u.GetSide() == CombatSideIndex.Defender)
                                 {
-                                    if (StrategicMap.Current.MapContainer.MapLevels[CombatMap.Current.Combat.CombatData.Location.MapLevel].Field[CombatMap.Current.Combat.CombatData.Location.X, CombatMap.Current.Combat.CombatData.Location.Y].FindNoneTransparentHexSprite(typeof(City)) != null)
+                                    if (StrategicMap.Current.MapContainer.MapLevels[CombatMap.Current.Combat.CombatData.Location.MapLevel].Field[CombatMap.Current.Combat.CombatData.Location.X, CombatMap.Current.Combat.CombatData.Location.Y].FindNoneTransparentHexSprite(typeof(City)) is not null)
                                     {
                                     }
                                 }
@@ -758,7 +758,7 @@ public partial class RandomBattleMapGenerator : IDisposable
 
         if (CombatMap.Current.PositionStatus[0] != 1)
         {
-            if (StrategicMap.Current.MapContainer.MapLevels[CombatMap.Current.Combat.CombatData.Location.MapLevel].Field[CombatMap.Current.Combat.CombatData.Location.X, CombatMap.Current.Combat.CombatData.Location.Y].FindNoneTransparentHexSprite(typeof(City)) != null && CombatMap.Current.Combat.CombatData.WallType != 0)
+            if (StrategicMap.Current.MapContainer.MapLevels[CombatMap.Current.Combat.CombatData.Location.MapLevel].Field[CombatMap.Current.Combat.CombatData.Location.X, CombatMap.Current.Combat.CombatData.Location.Y].FindNoneTransparentHexSprite(typeof(City)) is not null && CombatMap.Current.Combat.CombatData.WallType != 0)
             {
                 position = 1;
                 while (position < 7)
@@ -766,7 +766,7 @@ public partial class RandomBattleMapGenerator : IDisposable
                     if (CombatMap.Current.PositionStatus[position] == 1)
                     {
                         HexGeometry.CenterHexNumberToHex(CombatMap.Current.Combat.CombatData.Location.X, CombatMap.Current.Combat.CombatData.Location.Y, position, ref j, ref temporary);
-                        if (StrategicMap.Current.MapContainer.MapLevels[CombatMap.Current.Combat.CombatData.Location.MapLevel].Field[j, temporary].FindNoneTransparentHexSprite(typeof(City)) != null)
+                        if (StrategicMap.Current.MapContainer.MapLevels[CombatMap.Current.Combat.CombatData.Location.MapLevel].Field[j, temporary].FindNoneTransparentHexSprite(typeof(City)) is not null)
                         {
                             _homePosition = position;
                             CombatMap.Current.PositionStatus[position] = (int)CombatSideIndex.Neutral;
@@ -804,7 +804,7 @@ public partial class RandomBattleMapGenerator : IDisposable
         }
 
         units?.Dispose();
-        if (Items != null)
+        if (Items is not null)
         {
             position = 0;
             for (; position <= 7; position += 1)
@@ -985,7 +985,7 @@ public partial class RandomBattleMapGenerator : IDisposable
             targetHexSprite = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild<TacticalBattleUnitHexSprite>(2228484);
             hexNumber += 1;
         }
-        while (!(slot != 8 && targetHexSprite == null));
+        while (!(slot != 8 && targetHexSprite is null));
         _ = CombatMap.Current.PlaceHex(unitHexSprite, hexX, hexY, 0);
         if (HexGeometry.DeltaHexToHexNumber(CombatMap.Current.Combat.CombatData.Location.X, CombatMap.Current.Combat.CombatData.Location.Y, CombatMap.Current.Combat.CombatData.AttackerLocation.X, CombatMap.Current.Combat.CombatData.AttackerLocation.Y) == position && CombatMap.Current.Players.GetPlayers(unitHexSprite.Unit.CombatPlayer).LastX == 0)
         {

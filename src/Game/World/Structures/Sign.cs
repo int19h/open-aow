@@ -40,7 +40,7 @@ public partial class Sign(CustomNode owner) : Structure(owner)
     {
         base.PersistFields(persister);
         PersistSupport.Lines(persister, name: "Text", lines: Text);
-        if (StrategicMap.Current != null && StrategicMap.Current.ConnectionType != (PlayerConnectionType)1)
+        if (StrategicMap.Current is not null && StrategicMap.Current.ConnectionType != (PlayerConnectionType)1)
         {
             _ = PersistSupport.BitList(persister, name: "TextSeen", list: TextSeen);
         }
@@ -81,7 +81,7 @@ public partial class Sign(CustomNode owner) : Structure(owner)
     {
         ArmyHexSprite armyHexSprite;
         armyHexSprite = Owner.GetArmyHexSprite();
-        return armyHexSprite != null && (byte)armyHexSprite.Army.Player == (byte)StrategicMap.Current.SeatedPlayer;
+        return armyHexSprite is not null && (byte)armyHexSprite.Army.Player == (byte)StrategicMap.Current.SeatedPlayer;
     }
 
     // Sign.pas:134
@@ -133,7 +133,7 @@ public partial class Sign(CustomNode owner) : Structure(owner)
             int offset;
             int image;
             bool animate;
-            if (ImageSequenceList != null)
+            if (ImageSequenceList is not null)
             {
                 index = structure.ImageIndex;
                 offset = structure.Owner.HexX + (structure.Owner.HexY * 16);
@@ -141,7 +141,7 @@ public partial class Sign(CustomNode owner) : Structure(owner)
                 animate = StrategicMap.Current.SeatedPlayer < 0 || !((Sign)structure).GetTextSeen(StrategicMap.Current.SeatedPlayer);
                 sequence = index < ImageSequenceList.Count ? ImageSequenceList.List[index] : null;
 
-                while (sequence != null)
+                while (sequence is not null)
                 {
                     image = animate ? sequence.GetFrameIndex(StrategicMap.Current.Frame, offset) : sequence.GetUnloopedFrameIndex(0);
 

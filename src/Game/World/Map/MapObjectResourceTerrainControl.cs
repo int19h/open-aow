@@ -41,7 +41,7 @@ public partial class MapObjectResourceTerrainControl(CustomNode owner) : EngineO
     // HSEngine.pas:4510
     public override void Clear()
     {
-        if (Resources != null)
+        if (Resources is not null)
         {
             for (int i = Resources.Count - 1; i >= 0; i--)
             {
@@ -101,10 +101,10 @@ public partial class MapObjectResourceTerrainControl(CustomNode owner) : EngineO
             r = null;
             mapField = container.GetField(X, Y, L);
             mapObject = mapField.FindOwnedHexSprite<MapObject>(MapObjectClass);
-            if (mapObject != null)
+            if (mapObject is not null)
             {
                 r = GetRandomResource(terrainType, mapObject.Resource.EngineClass.ClassId);
-                if (r != null)
+                if (r is not null)
                 {
                     mapObject.SetResource(r);
                     mapField.UpdateTerrain();
@@ -112,11 +112,11 @@ public partial class MapObjectResourceTerrainControl(CustomNode owner) : EngineO
                 }
             }
 
-            if (r == null)
+            if (r is null)
             {
                 int random = Random(list.Count);
                 r = list.List[random];
-                if (r != null)
+                if (r is not null)
                 {
                     result = r.PlaceResourceUser(container.Map, X, Y, L);
                 }
@@ -138,10 +138,10 @@ public partial class MapObjectResourceTerrainControl(CustomNode owner) : EngineO
             r = null;
             mapField = container.GetField(X, Y, L);
             mapObject = mapField.FindOwnedHexSprite<MapObject>(MapObjectClass);
-            if (mapObject != null && mapObject.Resource.EngineClass.ClassId == classId)
+            if (mapObject is not null && mapObject.Resource.EngineClass.ClassId == classId)
             {
                 r = GetRandomResource(terrainType, mapObject.Resource.EngineClass.ClassId);
-                if (r != null)
+                if (r is not null)
                 {
                     mapObject.SetResource(r);
                     mapField.UpdateTerrain();
@@ -149,10 +149,10 @@ public partial class MapObjectResourceTerrainControl(CustomNode owner) : EngineO
                 }
             }
 
-            if (r == null)
+            if (r is null)
             {
                 r = GetRandomResource(terrainType, classId);
-                if (r != null)
+                if (r is not null)
                 {
                     result = r.PlaceResourceUser(container.Map, X, Y, L);
                 }
@@ -173,7 +173,7 @@ public partial class MapObjectResourceTerrainControl(CustomNode owner) : EngineO
         {
             i = 0;
             result = null;
-            while (i != Tries && result == null)
+            while (i != Tries && result is null)
             {
                 int random = Random(list.Count);
                 result = list.List[random];
@@ -185,10 +185,10 @@ public partial class MapObjectResourceTerrainControl(CustomNode owner) : EngineO
                 i += 1;
             }
 
-            if (result == null)
+            if (result is null)
             {
                 i = 0;
-                while (i != list.Count && result == null)
+                while (i != list.Count && result is null)
                 {
                     result = list.List[i];
                     if (result.EngineClass.ClassId != classId)
@@ -215,7 +215,7 @@ public partial class MapObjectResourceTerrainControl(CustomNode owner) : EngineO
         terrainType = resource.TerrainList.GetTerrain(0);
         if (terrainType >= 0 && terrainType < Resources.Count)
         {
-            if (Resources[terrainType].IndexOf(resource) != -1 || resource == null)
+            if (Resources[terrainType].IndexOf(resource) != -1 || resource is null)
             {
                 throw new InvalidOperationException("Resource double defined (TMORTerrainControl)");
             }

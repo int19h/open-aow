@@ -34,7 +34,7 @@ public partial class Surface : IDisposable
                         result = (int)(((uint)(w & 63488)) >> 8) + ((w & 2016) << 5) + ((w & 31) << 19);
                         break;
                     case PixelFormat.Pal8:
-                        Assert(lockedSurface.Palette != null, "Palette not found, cannot retrieve color (GetColor)", "GFXE.pas", 11986);
+                        Assert(lockedSurface.Palette is not null, "Palette not found, cannot retrieve color (GetColor)", "GFXE.pas", 11986);
                         index = lockedSurface.View().Byte(X + (Y * lockedSurface.Pitch));
                         Palette.Entry e = lockedSurface.Palette[index];
                         result = e.Red + (e.Green << 8) + (e.Blue << 16);

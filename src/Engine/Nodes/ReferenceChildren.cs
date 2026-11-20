@@ -20,7 +20,7 @@ public sealed class ReferenceChildren(ReferenceNode list) : IChildCollection
     public bool IsStored(int index)
     {
         EngineObject child = list.GetChild(index);
-        return child != null && (child.Owner == null || child.Owner == list)
+        return child is not null && (child.Owner is null || child.Owner == list)
             && !child.GetControlStyle().Contains(EngineServices.Shared)
             && child.GetControlStyle().Contains(EngineServices.Stored);
     }

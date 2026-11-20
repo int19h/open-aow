@@ -48,10 +48,10 @@ public partial class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerActio
                     Player player = Control.Player;
                     if (player.PlayerIndex != 0)
                     {
-                        if (FindAvailableTransporter() == null && !ProducingTransporter() && StrategicMap.Current.Day > 5)
+                        if (FindAvailableTransporter() is null && !ProducingTransporter() && StrategicMap.Current.Day > 5)
                         {
                             budget = player.AIBudget.Budgets.FindChild<AIBudget>(131742);
-                            if (budget == null)
+                            if (budget is null)
                             {
                                 budget = new AITransporterBudget(null) { Holder = CreationHolder() };
                                 budget.SetOwner(player.AIBudget.Budgets);
@@ -250,7 +250,7 @@ public partial class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerActio
         UnitResource resource;
         Unit unit;
         resource = GamePack.Current.UnitResources.GetUnitResource(unitIndex);
-        if (resource != null && resource.GetTransportCapacity() != 0)
+        if (resource is not null && resource.GetTransportCapacity() != 0)
         {
             unit = new Unit(null) { Holder = CreationHolder() };
             unit.SetUnitResource(resource);
@@ -314,7 +314,7 @@ public partial class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerActio
                                     priority = TransporterPriority(control.UnitProductions.GetItem(j).UnitIndex);
                                     if (priority != -1)
                                     {
-                                        if (structure != null && structure.ProductionPriority > 0)
+                                        if (structure is not null && structure.ProductionPriority > 0)
                                         {
                                             priority = structure.ProductionPriority > 10
                                                 ? priority * 5
@@ -405,7 +405,7 @@ public partial class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerActio
                                         priority = TransporterPriority(control.UnitProductions.GetItem(j).UnitIndex);
                                         if (priority != -1)
                                         {
-                                            if (structure != null && structure.ProductionPriority > 0)
+                                            if (structure is not null && structure.ProductionPriority > 0)
                                             {
                                                 if (structure.ProductionPriority > 10)
                                                 {
@@ -466,11 +466,11 @@ public partial class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerActio
         Player player = Control.Player;
         Troop result = null;
         i = player.Armies.Count;
-        while (i != 0 && result == null)
+        while (i != 0 && result is null)
         {
             i -= 1;
             result = player.Armies.GetArmy(i).Transporter(255);
-            if (result != null && result.GroupId != 0)
+            if (result is not null && result.GroupId != 0)
             {
                 result = null;
             }
@@ -550,7 +550,7 @@ public partial class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerActio
                 {
                     UnitProduction unitProduction = control.UnitProductions.GetItem(control.Settings.UnitProductionIndex);
                     resource = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex);
-                    if (resource != null)
+                    if (resource is not null)
                     {
                         result = resource.GetTransportCapacity() != 0;
                     }

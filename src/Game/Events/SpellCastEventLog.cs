@@ -44,7 +44,7 @@ public partial class SpellCastEventLog(CustomNode owner) : EventLog(owner)
         if (show)
         {
             Hero hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(UnitId);
-            if (hero != null && hero.CastingSpellId == SpellId && hero.CastingReady())
+            if (hero is not null && hero.CastingSpellId == SpellId && hero.CastingReady())
             {
                 _ = GamePack.Current.AbilityControl.GetAbility(52).Activate(hero, ref reason);
             }
@@ -58,7 +58,7 @@ public partial class SpellCastEventLog(CustomNode owner) : EventLog(owner)
     {
         Troop troop;
         troop = StrategicMap.Current.UnitControl.FindUnit(UnitId);
-        if (troop != null)
+        if (troop is not null)
         {
             MapCoordinate coordinate21 = troop.GetLocation();
             sbyte x = coordinate21.X;

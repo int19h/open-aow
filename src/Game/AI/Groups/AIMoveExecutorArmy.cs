@@ -48,7 +48,7 @@ public partial class AIMoveExecutorArmy(CustomNode owner) : AIMoveExecutorUnitLi
     {
         int index;
         army = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).GetArmyHexSprite();
-        if (army != null)
+        if (army is not null)
         {
             armySelection = 0;
             for (int i = 0, last = Count - 1; i <= last; i++)

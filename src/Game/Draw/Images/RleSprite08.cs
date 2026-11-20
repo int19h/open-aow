@@ -155,7 +155,7 @@ public partial class RleSprite08(CustomImageLibrary owner) : Image08(owner), ILi
     }
 
     // ImageLib.pas:7596
-    public override bool SupportShowMode(ShowMode showMode, PixelFormat pixelFormatId) => (pixelFormatId == PixelFormat.None || pixelFormatId == PixelFormat.Rgb555 || pixelFormatId == PixelFormat.Rgb565) && showMode == ShowMode.Opaque;
+    public override bool SupportShowMode(ShowMode showMode, PixelFormat pixelFormatId) => (pixelFormatId is PixelFormat.None or PixelFormat.Rgb555 or PixelFormat.Rgb565) && showMode == ShowMode.Opaque;
 
     // ImageLib.pas:7602
     public override void ShowOpaque(int X, int Y, in LockedSurface lockedSurface)
@@ -355,7 +355,7 @@ public partial class RleSprite08(CustomImageLibrary owner) : Image08(owner), ILi
                 }
                 finally
                 {
-                    if (temporary != null)
+                    if (temporary is not null)
                     {
                         ((temporary ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
                     }

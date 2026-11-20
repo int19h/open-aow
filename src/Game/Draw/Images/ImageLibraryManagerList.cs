@@ -30,7 +30,7 @@ public partial class ImageLibraryManagerList(ImageLibraryManager owner) : Delphi
         for (int i = Count - 1; i >= 0; i--)
         {
             objectValue = Objects[i];
-            if (objectValue != null && objectValue.ImageLibrary != null)
+            if (objectValue is not null && objectValue.ImageLibrary is not null)
             {
                 objectValue.ImageLibrary.ReleaseDiscardableImageData();
             }
@@ -99,10 +99,10 @@ public partial class ImageLibraryManagerList(ImageLibraryManager owner) : Delphi
         CustomImageLibrary result;
         fileName = UpperCase(fileName);
         _ = HashTable.TryGetValue(fileName, out ImageLibraryManagerObject objectValue);
-        if (objectValue != null)
+        if (objectValue is not null)
         {
             objectValue.RefCount += 1;
-            if (objectValue.ImageLibrary == null)
+            if (objectValue.ImageLibrary is null)
             {
                 objectValue.ImageLibrary = new ImageLibrary(null)
                 {
@@ -134,7 +134,7 @@ public partial class ImageLibraryManagerList(ImageLibraryManager owner) : Delphi
         bool result;
         fileName = UpperCase(fileName);
         _ = HashTable.TryGetValue(fileName, out ImageLibraryManagerObject objectValue);
-        if (objectValue != null)
+        if (objectValue is not null)
         {
             objectValue.RefCount -= 1;
             if (objectValue.RefCount == 0)

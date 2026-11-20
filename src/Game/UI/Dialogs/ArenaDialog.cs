@@ -215,7 +215,7 @@ public partial class ArenaDialog(UIContext ui) : UIModule(ui)
 
     internal static void ShowArena(ArenaDialog dialog, EnterArenaEventLog eventValue, ExecuteDoneEvent done)
     {
-        Assert(dialog._event == null, "", "AoWArenaDlg.pas", 94);
+        Assert(dialog._event is null, "", "AoWArenaDlg.pas", 94);
         ResetArena(dialog);
         dialog.OnClose = done;
         dialog._event = eventValue;

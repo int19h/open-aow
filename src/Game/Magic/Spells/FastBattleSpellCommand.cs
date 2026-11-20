@@ -22,7 +22,7 @@ public partial record class FastBattleSpellCommand : FastBattleCommand
     {
         Spell spell = GamePack.Current.SpellControl.GetSpell(SpellId);
         string result = AbilityRules.Format(AbilityRules.TranslateResourceString(Creator.GetEngine(), s_castFormat), [spell.SpellName]);
-        if (Target != null)
+        if (Target is not null)
         {
             result = $"{result} on {Target.IdString()}";
         }

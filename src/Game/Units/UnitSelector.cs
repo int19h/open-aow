@@ -44,7 +44,7 @@ public partial class UnitSelector : IDisposable
     // Ability.PAS:662
     public virtual void Setup(Troop source, UnitCollection units)
     {
-        if (source != null)
+        if (source is not null)
         {
             SourceUnitId = source.UnitId;
             Player = source.Player;

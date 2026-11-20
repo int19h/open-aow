@@ -77,7 +77,7 @@ public partial class EventLogbook : EngineObject
     public int CreateUniqueId()
     {
         _nextId += 1;
-        while (FindId(_nextId) != null)
+        while (FindId(_nextId) is not null)
         {
             _nextId += 1;
             if (_nextId > 16777215)

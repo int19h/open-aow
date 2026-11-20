@@ -47,7 +47,7 @@ public partial class Hex(CustomNode owner) : AbstractHexagon(owner)
         {
             int classId = base.Resource.EngineClass.ClassId;
             r = GamePack.Current.HexControl.GetRandomResource(message.TerrainType, classId);
-            if (r != null)
+            if (r is not null)
             {
                 SetResource(r);
                 UpdateTransitions();
@@ -128,7 +128,7 @@ public partial class Hex(CustomNode owner) : AbstractHexagon(owner)
         {
             neighbourTerrain = mapLevel.GetField(nHexX, nHexY).TerrainType;
             ownTerrain = GetTerrain(0);
-            if (ownTerrain != neighbourTerrain && ownTerrain >= 0 && neighbourTerrain >= 0 && neighbourTerrain != 8 && neighbourTerrain != 7 && neighbourTerrain != 15 && ownTerrain != 15)
+            if (ownTerrain != neighbourTerrain && ownTerrain >= 0 && neighbourTerrain is >= 0 and not 8 and not 7 and not 15 && ownTerrain != 15)
             {
                 if (ownTerrain == 9)
                 {
@@ -250,7 +250,7 @@ public partial class Hex(CustomNode owner) : AbstractHexagon(owner)
             image = Transitions[side];
             if (image < imageLibrary.Count)
             {
-                if (imageLibrary[image] != null)
+                if (imageLibrary[image] is not null)
                 {
                     TransitionSides = (byte)(TransitionSides + (1 << side));
                     if (shifted)

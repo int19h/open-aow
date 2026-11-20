@@ -25,7 +25,7 @@ public partial class AIMoveExecutorMove(CustomNode owner) : AIMoveExecutorUnitLi
     public override void Dispose()
     {
         // { Original retains this empty exception frame when the path is already nil. }
-        if (Path == null)
+        if (Path is null)
         {
             try
             {
@@ -74,7 +74,7 @@ public partial class AIMoveExecutorMove(CustomNode owner) : AIMoveExecutorUnitLi
         bool result;
         int index;
         army = StrategicMap.Current.MapContainer.GetField(Source.X, Source.Y, Source.MapLevel).GetArmyHexSprite();
-        if (army != null)
+        if (army is not null)
         {
             selection = 0;
             for (int i = Count - 1; i >= 0; i--)

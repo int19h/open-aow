@@ -37,7 +37,7 @@ public partial class ArmyId(CustomNode owner) : EngineObject(owner)
         if (Location.X != -1)
         {
             armyHexSprite = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).GetArmyHexSprite();
-            if (armyHexSprite != null && armyHexSprite.Army.Player == Player)
+            if (armyHexSprite is not null && armyHexSprite.Army.Player == Player)
             {
                 i = UnitIds.Count;
                 result = true;
@@ -71,7 +71,7 @@ public partial class ArmyId(CustomNode owner) : EngineObject(owner)
         {
             selection = 0;
             armyHexSprite = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).GetArmyHexSprite();
-            if (armyHexSprite != null && armyHexSprite.Army.Player == Player)
+            if (armyHexSprite is not null && armyHexSprite.Army.Player == Player)
             {
                 i = UnitIds.Count;
                 result = true;

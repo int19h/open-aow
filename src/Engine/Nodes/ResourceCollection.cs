@@ -39,7 +39,7 @@ public partial class ResourceCollection(CustomNode owner) : EngineNode(owner), I
         i = 0;
         while (!found && i != Count)
         {
-            found = GetChild(i) != null && id == this[i].ResourceId;
+            found = GetChild(i) is not null && id == this[i].ResourceId;
             i += 1;
         }
 
@@ -64,7 +64,7 @@ public partial class ResourceCollection(CustomNode owner) : EngineNode(owner), I
             EngineResource resource = GetResource(index);
             resource.ResourceId ^= 65535;
 
-            if (FindResource(id) != null)
+            if (FindResource(id) is not null)
             {
                 tries = 10;
                 found = false;
@@ -72,14 +72,14 @@ public partial class ResourceCollection(CustomNode owner) : EngineNode(owner), I
                 while (tries > 0 && !found)
                 {
                     newId = Random(268435455);
-                    found = FindResource(newId) == null;
+                    found = FindResource(newId) is null;
                     tries -= 1;
                 }
 
                 while (!found)
                 {
                     newId = tries;
-                    found = FindResource(newId) == null;
+                    found = FindResource(newId) is null;
                     tries += 1;
                 }
 

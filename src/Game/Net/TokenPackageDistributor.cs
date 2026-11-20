@@ -17,7 +17,7 @@ public partial class TokenPackageDistributor(TokenManager manager)
     //   unless they were already executed or are already there. }
     public virtual void TokenPackageReceived(TokenPackage tp)
     {
-        if (TokenManager != null)
+        if (TokenManager is not null)
         {
             if (Pc.PlayerCommunicationControl.GetLocalSystemId() != Pc.PlayerCommunicationControl.GetPlayers(tp.Sender).SystemId)
             {

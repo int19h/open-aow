@@ -184,7 +184,7 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
                                 : Set<CreateMoveModeElement>.Of(CreateMoveModeElement.DoNotQueue);
 
                             move = CreateMove(aiMoveExecutorArmyList.GetArmies(index), 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, mode, out moveResult);
-                            if (move == null)
+                            if (move is null)
                             {
                                 if (moveResult == 1)
                                 {
@@ -226,7 +226,7 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
                             : Set<CreateMoveModeElement>.Of(CreateMoveModeElement.DoNotQueue);
 
                         move = CreateMove(aiMoveExecutorArmyList.GetArmies(0), 255, _meetingPoint.Location.X, _meetingPoint.Location.Y, _meetingPoint.Location.MapLevel, mode, out moveResult);
-                        if (move != null)
+                        if (move is not null)
                         {
                             if (moveResult == 0)
                             {
@@ -329,10 +329,7 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
                         failed += 1;
                     }
 
-                    if (move != null)
-                    {
-                        move?.Dispose();
-                    }
+                    move?.Dispose();
 
                     i += 1;
                 }
@@ -343,10 +340,10 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
                     i = 0;
                     move = null;
                     aiMoveExecutorArmyList = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready, AIMoveExecutorUnitStatus.Done));
-                    while (move == null && aiMoveExecutorArmyList.Count != i)
+                    while (move is null && aiMoveExecutorArmyList.Count != i)
                     {
                         move = CreateMove(aiMoveExecutorArmyList.GetArmies(i), 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, Set<CreateMoveModeElement>.Of(), out _);
-                        if (move != null)
+                        if (move is not null)
                         {
                             Executor.ExecuteMoves();
                         }

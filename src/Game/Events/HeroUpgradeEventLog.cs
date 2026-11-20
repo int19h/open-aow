@@ -36,7 +36,7 @@ public partial class HeroUpgradeEventLog(CustomNode owner) : EventLog(owner)
         string result = "";
         Hero hero;
         hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(UnitId);
-        if (hero != null)
+        if (hero is not null)
         {
             if (NewLevel - OldLevel == 1)
             {
@@ -61,7 +61,7 @@ public partial class HeroUpgradeEventLog(CustomNode owner) : EventLog(owner)
         bool executeNow;
         UnitControl unitControl = StrategicMap.Current.UnitControl;
         hero = unitControl.FindUnit<Hero>(UnitId);
-        if (hero != null && StrategicMap.Current.SeatedPlayer == hero.Player)
+        if (hero is not null && StrategicMap.Current.SeatedPlayer == hero.Player)
         {
             if (hero.UpgradePending)
             {
@@ -99,7 +99,7 @@ public partial class HeroUpgradeEventLog(CustomNode owner) : EventLog(owner)
     {
         Troop u;
         u = StrategicMap.Current.UnitControl.FindUnit(UnitId);
-        if (u != null)
+        if (u is not null)
         {
             MapCoordinate coordinate19 = u.GetLocation();
             sbyte x = coordinate19.X;

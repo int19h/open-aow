@@ -55,7 +55,7 @@ public sealed class LibraryImageClass
             _ = rects.Add(new Rectangle(0, 0, lockedSurface.Width, lockedSurface.Height));
         }
 
-        if (rects != null && imageClass != null)
+        if (rects is not null && imageClass is not null)
         {
             for (int i = 0, last = rects.Count - 1; i <= last; i++)
             {
@@ -106,13 +106,13 @@ public sealed class LibraryImageClass
                 if (GetPixel(x, number2) == transparentColor)
                 {
                     Rectangle rectangle = FindRectangle(x, number2);
-                    if (rectangle != null)
+                    if (rectangle is not null)
                     {
                         _ = rectangleList.Add(rectangle);
                     }
                 }
             }
-            if (onProgress != null && (number2 % 20 == 0 || number2 == lockedSurface.Height - 1))
+            if (onProgress is not null && (number2 % 20 == 0 || number2 == lockedSurface.Height - 1))
             {
                 onProgress(null, DelphiRounding.Round(number2 * 100 / (double)(lockedSurface.Height - 1)), 0);
             }

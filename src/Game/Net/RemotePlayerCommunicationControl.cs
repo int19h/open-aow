@@ -118,7 +118,7 @@ public partial class RemotePlayerCommunicationControl(EngineObject creator) : Pl
     // NetworkE.pas:842
     public bool SendData(object data, int size, int systemId)
     {
-        bool result = OnSendData != null && OnSendData(data, size, systemId);
+        bool result = OnSendData is not null && OnSendData(data, size, systemId);
         return result;
     }
 

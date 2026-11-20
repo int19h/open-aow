@@ -76,7 +76,7 @@ public partial class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMa
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         HexGeometry.HexToPixel(StoredHexX, StoredHexY, out int pixelX, out int pixelY);
-        if (Resource.ImageSequenceList == null)
+        if (Resource.ImageSequenceList is null)
         {
             // The offsets live on the multi-hex resource. Another resource throws, as the old cast did.
             MultiHexMapObjectResource placed = GetResource<MultiHexMapObjectResource>();
@@ -131,7 +131,7 @@ public partial class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMa
             if ((terrainType >= 0 || overlay >= 0) && walk.X >= 0 && walk.Y >= 0 && walk.X < mapContainer.Width && walk.Y < mapContainer.Height)
             {
                 hexSprite = mapContainer.GetField(walk.X, walk.Y, hexLevel).GetMaxLevelNoneTransparentHexSprite();
-                canPlaceHere = hexSprite == null || CanPlaceOnHexSprite(hexSprite);
+                canPlaceHere = hexSprite is null || CanPlaceOnHexSprite(hexSprite);
             }
 
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
@@ -192,7 +192,7 @@ public partial class ImageLibraryTerrainMapObject(CustomNode owner) : MultiHexMa
         {
             index = GetTerrainTypeImage(terrainType);
             sequences = Resource.ImageSequenceList;
-            result = sequences == null ? Resource.ImageLibrary.ImageExist(index) : sequences.GetImageSequence(index) != null;
+            result = sequences is null ? Resource.ImageLibrary.ImageExist(index) : sequences.GetImageSequence(index) is not null;
         }
         else
         {

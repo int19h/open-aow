@@ -38,7 +38,7 @@ public partial class TacticalBattleItemHexSprite(CustomNode owner) : ItemHexSpri
         else
         {
             itemHexSprite = StrategicMap.Current.MapContainer.GetField(CombatMap.Current.Combat.CombatData.Location.X, CombatMap.Current.Combat.CombatData.Location.Y, CombatMap.Current.Combat.CombatData.Location.MapLevel).FindOwnedChild<ItemHexSprite>(131697);
-            if (itemHexSprite == null)
+            if (itemHexSprite is null)
             {
                 itemHexSprite = new ItemHexSprite(null) { Holder = CreationHolder() };
                 _ = StrategicMap.Current.PlaceHex(itemHexSprite, CombatMap.Current.Combat.CombatData.Location.X, CombatMap.Current.Combat.CombatData.Location.Y, CombatMap.Current.Combat.CombatData.Location.MapLevel);

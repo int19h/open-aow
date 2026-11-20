@@ -112,7 +112,7 @@ public partial class MapWindow(UIContext ui) : UIModule(ui)
             UI.CombatScanner.Scanner.SetTTop((UI.MapWindow.MapViewer.SceneY / 32) - 6);
         }
 
-        if (StrategicMap.Current.CombatMap == null)
+        if (StrategicMap.Current.CombatMap is null)
         {
             if (StrategicMap.Current.MapContainer.GetMapLevel(MapViewer.SceneL) != UI.ScannerWindow.Scanner.Level)
             {
@@ -124,7 +124,7 @@ public partial class MapWindow(UIContext ui) : UIModule(ui)
             }
         }
 
-        if (StrategicMap.Current.CombatMap != null)
+        if (StrategicMap.Current.CombatMap is not null)
         {
             HexSpriteMapMouse hexSpriteMapMouse = StrategicMap.Current.CombatMap.Mouse;
             hexSpriteMapMouse.Move(Set<ShiftState>.Of(), hexSpriteMapMouse.X, hexSpriteMapMouse.Y);
@@ -154,7 +154,7 @@ public partial class MapWindow(UIContext ui) : UIModule(ui)
     // AOWMWindow.pas:150
     public void MapWindowPreDrawSurface(Surface surface, int X, int Y)
     {
-        if (StrategicMap.Current != null)
+        if (StrategicMap.Current is not null)
         {
             MapViewer.SceneWidth = MainWindow.WinWidth - 24;
             MapViewer.SceneHeight = MainWindow.WinHeight - 24;
@@ -173,7 +173,7 @@ public partial class MapWindow(UIContext ui) : UIModule(ui)
     public void MapWindowKeyDown(UIComponent sender, ref ushort key, Set<ShiftState> shift)
     {
         ushort k;
-        if (StrategicMap.Current != null && CombatMap.Current == null)
+        if (StrategicMap.Current is not null && CombatMap.Current is null)
         {
             StrategicMap.Current.Keyboard.KeyDown(key, shift);
             PressEndTurnShortcut(key, shift);
@@ -208,7 +208,7 @@ public partial class MapWindow(UIContext ui) : UIModule(ui)
                 break;
         }
 
-        if (MapViewer != null && StrategicMap.Current != null)
+        if (MapViewer is not null && StrategicMap.Current is not null)
         {
             switch (k)
             {
@@ -251,7 +251,7 @@ public partial class MapWindow(UIContext ui) : UIModule(ui)
                     break;
                 case 69:
                 case 13:
-                    if (shift.Contains(ShiftState.Ctrl) && CombatMap.Current != null)
+                    if (shift.Contains(ShiftState.Ctrl) && CombatMap.Current is not null)
                     {
                         _ = CombatMap.Current.EndTurn(false);
                         sender.Handled = true;
@@ -260,7 +260,7 @@ public partial class MapWindow(UIContext ui) : UIModule(ui)
                     break;
                 case 79:
                 case 114:
-                    if (CombatMap.Current == null && (k == 114 || shift.Contains(ShiftState.Ctrl)))
+                    if (CombatMap.Current is null && (k == 114 || shift.Contains(ShiftState.Ctrl)))
                     {
                         UI.FileDialogWindow.Mode = 0;
                         UI.FileDialogWindow.Window.Visible = true;
@@ -269,7 +269,7 @@ public partial class MapWindow(UIContext ui) : UIModule(ui)
                     break;
                 case 83:
                 case 115:
-                    if (CombatMap.Current == null && (k == 115 || shift.Contains(ShiftState.Ctrl)))
+                    if (CombatMap.Current is null && (k == 115 || shift.Contains(ShiftState.Ctrl)))
                     {
                         UI.FileDialogWindow.Mode = 1;
                         UI.FileDialogWindow.Window.Visible = true;
@@ -277,7 +277,7 @@ public partial class MapWindow(UIContext ui) : UIModule(ui)
 
                     break;
                 case 116:
-                    if (CombatMap.Current != null)
+                    if (CombatMap.Current is not null)
                     {
                         CombatMap.Current.ShowGrid = !CombatMap.Current.ShowGrid;
                     }
@@ -290,7 +290,7 @@ public partial class MapWindow(UIContext ui) : UIModule(ui)
                 case 117:
                     if (UI.Engine.Debug && StrategicMap.Current.ConnectionType != PlayerConnectionType.Network)
                     {
-                        if (CombatMap.Current != null)
+                        if (CombatMap.Current is not null)
                         {
                             CombatMap.Current.SetFogEnabled(!CombatMap.Current.FogEnabled);
                             if (CombatMap.Current.FogEnabled)
@@ -304,7 +304,7 @@ public partial class MapWindow(UIContext ui) : UIModule(ui)
                         }
                         else
                         {
-                            if (StrategicMap.Current != null)
+                            if (StrategicMap.Current is not null)
                             {
                                 StrategicMap.Current.SetFogEnabled(!StrategicMap.Current.FogEnabled);
                                 if (StrategicMap.Current.FogEnabled)
@@ -323,7 +323,7 @@ public partial class MapWindow(UIContext ui) : UIModule(ui)
                 case 118:
                     if (UI.Engine.Debug && StrategicMap.Current.ConnectionType != PlayerConnectionType.Network)
                     {
-                        if (CombatMap.Current != null)
+                        if (CombatMap.Current is not null)
                         {
                             CombatMap.Current.SetExplorationEnabled(!CombatMap.Current.ExplorationEnabled);
                             if (CombatMap.Current.ExplorationEnabled)
@@ -338,7 +338,7 @@ public partial class MapWindow(UIContext ui) : UIModule(ui)
                         }
                         else
                         {
-                            if (StrategicMap.Current != null)
+                            if (StrategicMap.Current is not null)
                             {
                                 StrategicMap.Current.SetExplorationEnabled(!StrategicMap.Current.ExplorationEnabled);
                                 if (StrategicMap.Current.ExplorationEnabled)
@@ -357,7 +357,7 @@ public partial class MapWindow(UIContext ui) : UIModule(ui)
                 case 119:
                     if (!UI.Engine.Demo && UI.Engine.Registry.GetDeveloper())
                     {
-                        if (StrategicMap.Current.CombatMap != null)
+                        if (StrategicMap.Current.CombatMap is not null)
                         {
                             CombatMap.Current.EndCombat();
                         }

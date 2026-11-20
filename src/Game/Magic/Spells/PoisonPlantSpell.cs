@@ -61,11 +61,11 @@ public partial class PoisonPlantSpell : GlobalTargetSpell
         bool result = base.ValidTargetSelectionMapField(field) && Set<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)field.TerrainType);
         // { Original precedence also accepts these overlays without the terrain test. }
         result = (result && field.OverlayType == -1) || Set<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)field.OverlayType);
-        result = result && field.FindNoneTransparentHexSprite(typeof(Structure)) == null && field.GetArmyHexSprite() == null;
+        result = result && field.FindNoneTransparentHexSprite(typeof(Structure)) is null && field.GetArmyHexSprite() is null;
         if (result)
         {
             armyHexSprite = field.GetArmyHexSprite();
-            if (armyHexSprite != null)
+            if (armyHexSprite is not null)
             {
                 result = !armyHexSprite.VisibleForSeatedPlayer();
             }
@@ -80,7 +80,7 @@ public partial class PoisonPlantSpell : GlobalTargetSpell
         bool result = base.ValidTargetMapField(field) && Set<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)field.TerrainType);
         // { Original precedence also accepts these overlays without the terrain test. }
         result = (result && field.OverlayType == -1) || Set<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)field.OverlayType);
-        return result && field.FindNoneTransparentHexSprite(typeof(Structure)) == null && field.GetArmyHexSprite() == null;
+        return result && field.FindNoneTransparentHexSprite(typeof(Structure)) is null && field.GetArmyHexSprite() is null;
     }
 
     private static readonly string s_poisonPlantsText = "Poison Plants";

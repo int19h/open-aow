@@ -38,7 +38,7 @@ public partial class TacticalBattleOozeHexSprite(CustomNode owner) : SingleHexSp
             12 => GamePack.Current.ImageSequences.ImageSequences[27],
             _ => GamePack.Current.ImageSequences.ImageSequences[25],
         };
-        while (sequence != null)
+        while (sequence is not null)
         {
             frame = sequence.GetUnloopedFrameIndex(FrameFixtureInputs.PhaseModulo(divisor: sequence.GetTotalSequenceFrames(), instance: this));
             if (frame != -1)

@@ -103,7 +103,7 @@ public partial class DataSurface : Surface
     // GFXE.pas:12485
     public void SetPalette(Palette palette)
     {
-        if (palette != null)
+        if (palette is not null)
         {
             _palette ??= new Palette();
 

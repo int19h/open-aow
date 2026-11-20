@@ -248,7 +248,7 @@ public partial class UnholyGround(CustomNode owner) : ImageLibraryTerrainMapObje
     {
         ArmyHexSprite army;
         army = Owner.GetArmyHexSprite();
-        if (army != null && player == army.Army.Player)
+        if (army is not null && player == army.Army.Player)
         {
             TriggerArmyDamage(army);
         }

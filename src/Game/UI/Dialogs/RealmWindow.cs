@@ -861,7 +861,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
         {
             hero = HeroHealthList.Items.Objects[index << 0];
             r = new Rect(HeroHeroInfoPanel.AbsoluteLeft + 1, HeroHeroInfoPanel.AbsoluteTop + 1, HeroHeroInfoPanel.AbsoluteLeft + HeroHeroInfoPanel.WinWidth - 1, HeroHeroInfoPanel.AbsoluteTop + HeroHeroInfoPanel.WinHeight - 1);
-            if (hero.GetFace() != null)
+            if (hero.GetFace() is not null)
             {
                 hero.ShowFace(r, lockedSurface);
             }
@@ -997,7 +997,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     private static int BuildersGuildIncome(sbyte player)
     {
         int number;
-        if (StrategicMap.Current != null)
+        if (StrategicMap.Current is not null)
         {
             Player players = StrategicMap.Current.Players.GetPlayers(player);
             number = 0;
@@ -1021,7 +1021,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     private static int CityIncome(sbyte player)
     {
         int number;
-        if (StrategicMap.Current != null)
+        if (StrategicMap.Current is not null)
         {
             Player players = StrategicMap.Current.Players.GetPlayers(player);
             number = 0;
@@ -1045,7 +1045,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     private static int FarmIncome(sbyte player)
     {
         int number;
-        if (StrategicMap.Current != null)
+        if (StrategicMap.Current is not null)
         {
             Player players = StrategicMap.Current.Players.GetPlayers(player);
             number = 0;
@@ -1069,7 +1069,7 @@ public partial class RealmWindow(UIContext ui) : UIModule(ui)
     private static int MineIncome(sbyte player)
     {
         int number;
-        if (StrategicMap.Current != null)
+        if (StrategicMap.Current is not null)
         {
             Player players = StrategicMap.Current.Players.GetPlayers(player);
             number = 0;

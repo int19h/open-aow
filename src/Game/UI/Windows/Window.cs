@@ -29,7 +29,7 @@ public partial class Window : GenericWindow
         {
             case Style.Normal:
             case Style.Hollow:
-                if (ImageLibraryFrame != null && (ImageLibraryTexture != null || WindowStyle == Style.Hollow))
+                if (ImageLibraryFrame is not null && (ImageLibraryTexture is not null || WindowStyle == Style.Hollow))
                 {
                     LibraryImage imageLibraryFrameWidth = ImageLibraryFrame[ImageLibraryIndexFrame];
                     LibraryImage imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame + 2];
@@ -157,7 +157,7 @@ public partial class Window : GenericWindow
                 break;
             case Style.Borderless:
             case Style.Blank:
-                if (ImageLibraryTexture != null || WindowStyle == Style.Blank)
+                if (ImageLibraryTexture is not null || WindowStyle == Style.Blank)
                 {
                     if (MinWidth > 0 && MinWidth > WinWidth)
                     {
@@ -257,7 +257,7 @@ public partial class Window : GenericWindow
                 break;
         }
 
-        if (DoubleBuffered && BackSurface != null)
+        if (DoubleBuffered && BackSurface is not null)
         {
             _ = BackSurface.Resize(WinWidth, WinHeight);
             if (Masked)
@@ -344,7 +344,7 @@ public partial class Window : GenericWindow
         Handled = false;
         Redraw = false;
         Dragging = 0;
-        if (WindowManager != null && !WindowManager.Handled && Visible)
+        if (WindowManager is not null && !WindowManager.Handled && Visible)
         {
             if (X > WinLeft - 1 && X < WinLeft + WinWidth && Y > WinTop - 1 && Y < WinTop + WinHeight)
             {
@@ -462,7 +462,7 @@ public partial class Window : GenericWindow
 
             if (Handled)
             {
-                if (WindowManager != null)
+                if (WindowManager is not null)
                 {
                     if (!WindowManager.Handled)
                     {
@@ -547,7 +547,7 @@ public partial class Window : GenericWindow
                 case 1:
                     SetWinLeftWithoutInvalidate(X - DragX);
                     SetWinTopWithoutInvalidate(Y - DragY);
-                    if (WindowManager != null && UseManagerBorders)
+                    if (WindowManager is not null && UseManagerBorders)
                     {
                         if (WindowManager.BorderLeft > WinLeft)
                         {
@@ -585,7 +585,7 @@ public partial class Window : GenericWindow
                         case 1:
                             if (WinLeft + DragX > X)
                             {
-                                if (WindowManager != null && UseManagerBorders)
+                                if (WindowManager is not null && UseManagerBorders)
                                 {
                                     if (WindowManager.BorderLeft > X - DragX)
                                     {
@@ -611,7 +611,7 @@ public partial class Window : GenericWindow
                             break;
                         case 2:
                             SetWinWidthWithoutInvalidate(X + DragX - WinLeft);
-                            if (WindowManager != null && UseManagerBorders)
+                            if (WindowManager is not null && UseManagerBorders)
                             {
                                 if (WindowManager.WinWidth - WindowManager.BorderRight < WinLeft + WinWidth)
                                 {
@@ -640,7 +640,7 @@ public partial class Window : GenericWindow
                         case 1:
                             if (WinTop + DragY > Y)
                             {
-                                if (WindowManager != null && UseManagerBorders)
+                                if (WindowManager is not null && UseManagerBorders)
                                 {
                                     if (WindowManager.BorderTop > Y - DragY)
                                     {
@@ -666,7 +666,7 @@ public partial class Window : GenericWindow
                             break;
                         case 2:
                             SetWinHeightWithoutInvalidate(Y + DragY - WinTop);
-                            if (WindowManager != null && UseManagerBorders)
+                            if (WindowManager is not null && UseManagerBorders)
                             {
                                 if (WindowManager.WinHeight - WindowManager.BorderBottom < WinTop + WinHeight)
                                 {
@@ -789,7 +789,7 @@ public partial class Window : GenericWindow
 
             if (Handled)
             {
-                if (WindowManager != null)
+                if (WindowManager is not null)
                 {
                     if (!WindowManager.Handled)
                     {

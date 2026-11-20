@@ -72,7 +72,7 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
     // aowMapEvents.pas:100
     public void TheMapArmyChanged(Army army)
     {
-        if (army != null)
+        if (army is not null)
         {
             if (army == UI.General.UnitList)
             {
@@ -136,7 +136,7 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
     // aowMapEvents.pas:144
     public void TheMapArmyDestroyed(Army army)
     {
-        if (army != null && army == UI.General.UnitList)
+        if (army is not null && army == UI.General.UnitList)
         {
             TheMapArmyDeselected();
         }
@@ -242,7 +242,7 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
         }
         else
         {
-            if (StrategicMap.Current.CombatMap != null)
+            if (StrategicMap.Current.CombatMap is not null)
             {
                 if (StrategicMap.Current.CombatMap.SeatedPlayer == player)
                 {
@@ -303,7 +303,7 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
         }
         else
         {
-            if (StrategicMap.Current.CombatMap != null)
+            if (StrategicMap.Current.CombatMap is not null)
             {
                 if (StrategicMap.Current.CombatMap.SeatedPlayer == player)
                 {
@@ -393,7 +393,7 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
         }
         else
         {
-            if (StrategicMap.Current.CombatMap != null)
+            if (StrategicMap.Current.CombatMap is not null)
             {
                 if (StrategicMap.Current.CombatMap.SeatedPlayer == player)
                 {
@@ -463,7 +463,7 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
     public void TheMapPlayerTerminated(sbyte player)
     {
         UI.TaskBar.UpdatePlayerIndicator();
-        if (StrategicMap.Current != null)
+        if (StrategicMap.Current is not null)
         {
             if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Network)
             {
@@ -531,7 +531,7 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
     public void TheMapStructureChanged(Structure structure)
     {
         UpdateStructureInfo(UI.InfoWindow, structure);
-        if (structure != null)
+        if (structure is not null)
         {
             UI.CityScreen.CityChanged(structure);
             UI.ProductionScreen.PlaceChanged(structure);
@@ -562,7 +562,7 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
     // aowMapEvents.pas:467
     public void TheMapStructureDestroyed(Structure structure)
     {
-        if (structure != null && structure == UI.General.Structure)
+        if (structure is not null && structure == UI.General.Structure)
         {
             TheMapStructureDeselected();
         }
@@ -654,7 +654,7 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
     // aowMapEvents.pas:518
     public void TheMapStructureDoubleClick(Structure structure)
     {
-        if (structure == UI.General.Structure && structure != null)
+        if (structure == UI.General.Structure && structure is not null)
         {
             if (StructureScreens.TryGet(structure.DoubleClick(StrategicMap.Current.SeatedPlayer), out Action<MapEvents, Structure> open))
             {
@@ -706,15 +706,15 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
         {
             return;
         }
-        if (structure == null)
+        if (structure is null)
         {
             structure = dialog.UI.General.Structure;
-            if (structure != null && !structure.Selected)
+            if (structure is not null && !structure.Selected)
             {
                 structure = null;
             }
         }
-        if (structure != null && structure.Selected)
+        if (structure is not null && structure.Selected)
         {
             ShowStructureInfo(dialog, structure);
         }
@@ -736,11 +736,11 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
         LibraryImage imageBottom = dialog.UI.Graphics.MiscArt[37];
         dialog.StructureLine.ImageBottom = imageBottom;
         ArmyHexSprite armyHexSprite = items.Owner.GetArmyHexSprite();
-        if (armyHexSprite != null && armyHexSprite.Army.Player == StrategicMap.Current.SeatedPlayer)
+        if (armyHexSprite is not null && armyHexSprite.Army.Player == StrategicMap.Current.SeatedPlayer)
         {
             dialog.ItemBagMemo.Visible = false;
             Hero hero = armyHexSprite.Army.Hero(255, RosterTables.AllHeroTypes);
-            dialog.MainButton.Visible = hero != null;
+            dialog.MainButton.Visible = hero is not null;
             string text2 = dialog.UI.Engine.TranslateResourceString(s_pickupText);
             dialog.MainButton.Text = text2;
             dialog.ItemBagList.Visible = true;
@@ -850,7 +850,7 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
         dialog.Caster = caster;
         _ = dialog.Caster.AddRef();
         Hero hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(dialog.Caster.CasterSourceId);
-        if (hero != null)
+        if (hero is not null)
         {
             string name = hero.GetName();
             dialog.CasterNameLabel.Text = name;

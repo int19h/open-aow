@@ -53,7 +53,7 @@ public partial class SingleHexSprite(CustomNode owner) : HexSprite(owner)
     public override void Remove()
     {
         MapField mapField;
-        if (Owner != null)
+        if (Owner is not null)
         {
             mapField = Owner;
             RemoveFromMap();

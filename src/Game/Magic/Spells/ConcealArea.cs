@@ -67,7 +67,7 @@ public partial class ConcealArea : Spell
                         if (mapField.GetExplored(player) && !StrategicMap.Current.VisibleForPlayer(walk.X, walk.Y, layer, (sbyte)player))
                         {
                             mapField.SetExplored(player, false);
-                            if (log == null)
+                            if (log is null)
                             {
                                 log = new LocationTextEventLog(null)
                                 {

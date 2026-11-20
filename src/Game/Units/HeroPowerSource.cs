@@ -37,7 +37,7 @@ public partial class HeroPowerSource(CustomNode owner) : PowerSource(owner)
         if (x != -1)
         {
             armyHexSprite = StrategicMap.Current.MapContainer.GetField(x, y, l).GetArmyHexSprite();
-            if (armyHexSprite != null)
+            if (armyHexSprite is not null)
             {
                 StrategicMap.Current.Select(armyHexSprite, true);
             }

@@ -52,7 +52,7 @@ internal static class StringSorting
 
             int count = strings.Count;
             SortStringsContext.QuickSortStrings(ref context, 0, count - 1);
-            if (lists != null)
+            if (lists is not null)
             {
                 for (int i = 0, last = linkedStrings.Length - 1; i <= last; i++)
                 {

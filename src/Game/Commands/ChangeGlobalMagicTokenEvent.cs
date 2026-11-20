@@ -32,18 +32,12 @@ public partial class ChangeGlobalMagicTokenEvent(CustomNode owner) : TokenEvent(
         ExecuteResult result;
         bool success;
         _ = base.Execute(tokenEvent);
-        success = false;
-        switch (Mode)
+        success = Mode switch
         {
-            case ChangeGlobalMagicTokenEventMode.DispelEnchantment:
-                success = StrategicMap.Current.GlobalMagicControl.ExecuteDispelEnchantment((sbyte)PlayerIndex, EnchantmentId);
-                break;
-            case ChangeGlobalMagicTokenEventMode.RemoveEnchantment:
-                success = StrategicMap.Current.GlobalMagicControl.ExecuteRemoveEnchantment((sbyte)PlayerIndex, EnchantmentId);
-                break;
-            default:
-                break;
-        }
+            ChangeGlobalMagicTokenEventMode.DispelEnchantment => StrategicMap.Current.GlobalMagicControl.ExecuteDispelEnchantment((sbyte)PlayerIndex, EnchantmentId),
+            ChangeGlobalMagicTokenEventMode.RemoveEnchantment => StrategicMap.Current.GlobalMagicControl.ExecuteRemoveEnchantment((sbyte)PlayerIndex, EnchantmentId),
+            _ => false,
+        };
 
         if (success)
         {

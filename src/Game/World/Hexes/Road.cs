@@ -170,7 +170,7 @@ public partial class Road(CustomNode owner) : AbstractRoad(owner)
             if (hexX >= 0 && hexY >= 0 && level.Width > hexX && level.Height > hexY)
             {
                 mapField = level.GetField(hexX, hexY);
-                if (mapField.FindOwnedHexSprite(typeof(AbstractRoad)) == null)
+                if (mapField.FindOwnedHexSprite(typeof(AbstractRoad)) is null)
                 {
                     // { Original message stores its response in Param[1], rather than Result. }
                     MapFieldMessageParameters param2 = message.Param;

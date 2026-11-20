@@ -92,7 +92,7 @@ public partial class ItemGraphics(CustomNode owner) : EngineResource(owner)
     // Army.PAS:5116
     public void ReleaseImageLibrary()
     {
-        if (_imageLibrary != null)
+        if (_imageLibrary is not null)
         {
             if (!IsEmpty(ImageLibraryName))
             {

@@ -48,14 +48,14 @@ public partial class Unit(CustomNode owner) : Troop(owner)
             short resourceIndex = unchecked((short)persister.UInt16("UnitResourceIndex", value: 0));
             UnitResource resource = GamePack.Current.UnitResources.GetUnitResource(resourceIndex);
             UnitResource = resource;
-            if (resource == null)
+            if (resource is null)
             {
                 throw new KeyNotFoundException($"unit resource missing ({IntToStr(resourceIndex)})");
             }
         }
         else
         {
-            short resourceIndex = UnitResource != null ? (short)UnitResource.UnitResourceIndex() : (short)-1;
+            short resourceIndex = UnitResource is not null ? (short)UnitResource.UnitResourceIndex() : (short)-1;
             _ = persister.UInt16("UnitResourceIndex", value: unchecked((ushort)resourceIndex));
         }
     }
@@ -357,7 +357,7 @@ public partial class Unit(CustomNode owner) : Troop(owner)
     // Unit.PAS:2110
     public override void Activate()
     {
-        if (UnitResource != null)
+        if (UnitResource is not null)
         {
             base.Activate();
             return;
@@ -458,7 +458,7 @@ public partial class Unit(CustomNode owner) : Troop(owner)
         {
             base.Clear();
             UnitResource = resource;
-            if (UnitResource != null)
+            if (UnitResource is not null)
             {
                 _ = UpdateMoraleValue();
                 for (int rankOrdinal = (int)Rank.None, last = (int)GetRank(); rankOrdinal <= last; rankOrdinal++)

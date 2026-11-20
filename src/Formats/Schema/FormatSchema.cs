@@ -290,7 +290,7 @@ public sealed class SchemaClass
     {
         foreach (JsonValue item in skipped.Items)
         {
-            if (item is not JsonInteger number || number.Value < int.MinValue || number.Value > int.MaxValue)
+            if (item is not JsonInteger number || number.Value is < int.MinValue or > int.MaxValue)
             {
                 throw new InvalidOperationException($"Class {Name} has a non-integer skipped id.");
             }

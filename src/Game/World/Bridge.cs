@@ -80,8 +80,8 @@ public partial class Bridge(CustomNode owner) : AbstractRoad(owner)
             {
                 mapField = level.GetField(hexX, hexY);
                 terrainType = mapField.TerrainType;
-                hasRoad = mapField.FindHexSprite(typeof(AbstractRoad)) != null;
-                isShore = terrainType != 0 && base.Resource.TerrainList.GetTerrain(0) != terrainType && mapField.FindHexSprite(typeof(BorderHex)) == null;
+                hasRoad = mapField.FindHexSprite(typeof(AbstractRoad)) is not null;
+                isShore = terrainType != 0 && base.Resource.TerrainList.GetTerrain(0) != terrainType && mapField.FindHexSprite(typeof(BorderHex)) is null;
                 if (hasRoad)
                 {
                     sides[hexNumber - 1] = 1;

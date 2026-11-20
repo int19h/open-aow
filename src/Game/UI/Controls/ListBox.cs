@@ -75,24 +75,24 @@ public partial class ListBox : Control
     //   text only }
     public override void Validate()
     {
-        if (base.Font != null)
+        if (base.Font is not null)
         {
-            if (_imageLibraryFrame != null)
+            if (_imageLibraryFrame is not null)
             {
                 _imageLibraryFrame = _imageLibraryFrame.CheckImageLibrary(_imageLibraryIndexFrame, 8, this);
             }
 
-            if (_imageLibraryTextureNormal != null)
+            if (_imageLibraryTextureNormal is not null)
             {
                 _imageLibraryTextureNormal = _imageLibraryTextureNormal.CheckImageLibrary(_imageLibraryIndexTNormal, 1, this);
             }
 
-            if (_imageLibraryTextureSelected != null)
+            if (_imageLibraryTextureSelected is not null)
             {
                 _imageLibraryTextureSelected = _imageLibraryTextureSelected.CheckImageLibrary(_imageLibraryIndexTSelected, 1, this);
             }
 
-            _textOnly = _imageLibraryFrame != null && _imageLibraryTextureNormal != null && _imageLibraryTextureSelected != null ? (byte)0 : (byte)1;
+            _textOnly = _imageLibraryFrame is not null && _imageLibraryTextureNormal is not null && _imageLibraryTextureSelected is not null ? (byte)0 : (byte)1;
 
             Valid = true;
         }
@@ -168,7 +168,7 @@ public partial class ListBox : Control
         {
             FirstShownItem = 0;
         }
-        if (_verticalScrollBar != null)
+        if (_verticalScrollBar is not null)
         {
             if (_verticalScrollBar.Window != Window)
             {
@@ -205,7 +205,7 @@ public partial class ListBox : Control
     // { Update keeps the first item shown in step with the scroll bar }
     public override void Update()
     {
-        if (Visible && _verticalScrollBar != null && _items.Count > 0)
+        if (Visible && _verticalScrollBar is not null && _items.Count > 0)
         {
             if (_verticalScrollBar.Position != FirstShownItem)
             {
@@ -390,17 +390,17 @@ public partial class ListBox : Control
                     RaiseChange(this);
                 }
 
-                if (button == MouseButton.Left && (Set<ShiftState>.Of(ShiftState.Double) & shift) == Set<ShiftState>.Of(ShiftState.Double) && OnDoubleClick != null)
+                if (button == MouseButton.Left && (Set<ShiftState>.Of(ShiftState.Double) & shift) == Set<ShiftState>.Of(ShiftState.Double) && OnDoubleClick is not null)
                 {
                     OnDoubleClick(this);
                 }
 
-                if (_selected > -1 && button == MouseButton.Right && PopupMenu != null)
+                if (_selected > -1 && button == MouseButton.Right && PopupMenu is not null)
                 {
                     PopupMenu.SetPopupOwner(this);
                     PopupMenu.WinLeft = X;
                     PopupMenu.WinTop = Y;
-                    if (PopupMenu.WindowManager != null)
+                    if (PopupMenu.WindowManager is not null)
                     {
                         if (PopupMenu.Hidden)
                         {

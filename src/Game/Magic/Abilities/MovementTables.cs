@@ -36,7 +36,7 @@ internal static class MovementTables
             if ((force || StrategicMap.Current.TokenManager.PlayerReady(player)) && settings.Path.Count > 1)
             {
                 result = ArmyHexSprite.CreateArmyMoveTokenEvent(army, selection, settings.Path, action, Set<ArmyMoveModeElement>.Of());
-                if (result != null)
+                if (result is not null)
                 {
                     StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(result);
                     // { Original returns the token-event pointer after releasing its reference. }

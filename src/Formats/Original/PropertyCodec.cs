@@ -600,7 +600,7 @@ internal sealed partial class StringsWithValuesCodec : StringsCodec
         List<int> ids = [with(objects.Items.Count)];
         for (int i = 0; i < objects.Items.Count; i++)
         {
-            if (objects.Items[i] is not JsonInteger n || n.Value < int.MinValue || n.Value > int.MaxValue)
+            if (objects.Items[i] is not JsonInteger n || n.Value is < int.MinValue or > int.MaxValue)
             {
                 throw context.Fail(Codes.Range, "An object value is a signed 32-bit integer.", objects.Items[i], path.Member("objects").Item(i));
             }

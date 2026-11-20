@@ -207,7 +207,7 @@ public partial class CityWall(CustomNode owner) : CombatImageLibraryTerrain(owne
             _playSound = true;
             MapField field = StrategicMap.Current.MapContainer.GetMapLevel(CombatPlacement.CombatLLocation).GetField(CombatPlacement.CombatXLocation, CombatPlacement.CombatYLocation);
             City city = field.FindNoneTransparentHexSprite<City>();
-            if (city != null)
+            if (city is not null)
             {
                 WallType = city.WallType;
                 razed = city.GetRazed();
@@ -216,7 +216,7 @@ public partial class CityWall(CustomNode owner) : CombatImageLibraryTerrain(owne
             else
             {
                 Tower tower = field.FindNoneTransparentHexSprite<Tower>();
-                if (tower != null)
+                if (tower is not null)
                 {
                     WallType = 1;
                     razed = tower.GetRazed();
@@ -352,7 +352,7 @@ public partial class CityWall(CustomNode owner) : CombatImageLibraryTerrain(owne
             _ => 0,
         };
         sequence = base.Resource.ImageSequenceList.GetImageSequence(WallIsIndex[WallType - 1] + terrainOffset + _damageImage);
-        if (sequence != null)
+        if (sequence is not null)
         {
             do
             {
@@ -385,7 +385,7 @@ public partial class CityWall(CustomNode owner) : CombatImageLibraryTerrain(owne
 
                 sequence = sequence.Next;
             }
-            while (!(sequence == null));
+            while (sequence is not null);
         }
     }
 

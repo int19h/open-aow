@@ -54,12 +54,12 @@ public partial class CheckBox(Component owner) : BaseButton(owner)
             }
             else
             {
-                if (button == MouseButton.Right && PopupMenu != null)
+                if (button == MouseButton.Right && PopupMenu is not null)
                 {
                     PopupMenu.WinLeft = X;
                     PopupMenu.WinTop = Y;
                     PopupMenu.SetPopupOwner(this);
-                    if (PopupMenu.WindowManager != null)
+                    if (PopupMenu.WindowManager is not null)
                     {
                         if (PopupMenu.WinLeft + PopupMenu.WinWidth > PopupMenu.WindowManager.WinWidth)
                         {
@@ -124,7 +124,7 @@ public partial class CheckBox(Component owner) : BaseButton(owner)
             Drawn = false;
             if (RadioIndex > 0)
             {
-                if (Window != null)
+                if (Window is not null)
                 {
                     if (base.Checked)
                     {

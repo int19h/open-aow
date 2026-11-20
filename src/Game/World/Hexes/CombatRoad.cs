@@ -152,7 +152,7 @@ public partial class CombatRoad(CustomNode owner) : AbstractRoad(owner)
         public override LibraryImage GetCellImage()
         {
             LibraryImage result = null;
-            if (ImageSequenceList != null && ImageSequenceList.Count > 0 && ImageSequenceList.GetImageSequence(0) != null)
+            if (ImageSequenceList is not null && ImageSequenceList.Count > 0 && ImageSequenceList.GetImageSequence(0) is not null)
             {
                 result = ImageSequenceList.GetImageSequence(0).ImageLibrary.Get(10);
             }

@@ -72,7 +72,7 @@ public partial class AIBudgetManager : EngineObject
         if (Player.PlayerType != PlayerType.Human && message.MessageId == 536870920)
         {
             DefaultBudget = Budgets.FindChild<AIBudget>(131741);
-            if (DefaultBudget == null)
+            if (DefaultBudget is null)
             {
                 DefaultBudget = new AISavingsBudget(null) { Holder = CreationHolder() };
                 DefaultBudget.SetOwner(Budgets);
@@ -170,7 +170,7 @@ public partial class AIBudgetManager : EngineObject
         for (int i = Player.ProductionControls.Count - 1; i >= 0; i--)
         {
             control = Player.ProductionControls.GetPC(i);
-            if (control.Status == ProductionControlStatus.Producing && control.Queue.GetItem(0).Order is ProduceUnit && control.Settings.Unit != null)
+            if (control.Status == ProductionControlStatus.Producing && control.Queue.GetItem(0).Order is ProduceUnit && control.Settings.Unit is not null)
             {
                 ProductionGoldUpkeep += control.Settings.GoldUpkeep;
                 ProductionManaUpkeep += control.Settings.ManaUpkeep;
@@ -441,7 +441,7 @@ public partial class AIBudgetManager : EngineObject
         int m;
         g = Gold;
         m = Mana;
-        if (budget != null)
+        if (budget is not null)
         {
             g += budget.Gold;
             m += budget.Mana;
@@ -499,7 +499,7 @@ public partial class AIBudgetManager : EngineObject
         int m;
         g = 0;
         m = 0;
-        if (budget != null)
+        if (budget is not null)
         {
             g += budget.Gold;
             m += budget.Mana;
@@ -555,7 +555,7 @@ public partial class AIBudgetManager : EngineObject
                 }
             }
 
-            if (budget != null)
+            if (budget is not null)
             {
                 if (gold < budget.Gold)
                 {

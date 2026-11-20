@@ -10,7 +10,7 @@ public partial class Button(Component owner) : BaseButton(owner)
     [Published]
     public event NotifyEvent<Button> OnClick;
 
-    internal bool HasClickHandlers => OnClick != null;
+    internal bool HasClickHandlers => OnClick is not null;
 
     internal void RaiseClick(Button sender) => OnClick?.Invoke(sender);
 
@@ -49,7 +49,7 @@ public partial class Button(Component owner) : BaseButton(owner)
             Handled = true;
             if (button == MouseButton.Left)
             {
-                if (MouseDown && OnClick != null)
+                if (MouseDown && OnClick is not null)
                 {
                     OnClick(this);
                 }

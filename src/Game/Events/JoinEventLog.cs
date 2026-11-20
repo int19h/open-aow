@@ -73,7 +73,7 @@ public partial class JoinEventLog(CustomNode owner) : EventLog(owner)
             int item = UnitIds[i];
             troop = StrategicMap.Current.UnitControl.FindUnit(item);
             // { Original behavior: missing and dead units do not invalidate the offer. }
-            if (troop != null && troop.Player == 0)
+            if (troop is not null && troop.Player == 0)
             {
                 MapCoordinate coordinate20 = troop.GetLocation();
                 sbyte locationX = coordinate20.X;

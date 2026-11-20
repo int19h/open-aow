@@ -34,10 +34,7 @@ public partial class MapObjectResource : EngineResource
     {
         TerrainList?.Dispose();
         ImageLibrary?.Dispose();
-        if (ImageSequenceList != null)
-        {
-            ImageSequenceList?.Dispose();
-        }
+        ImageSequenceList?.Dispose();
 
         base.Dispose();
     }
@@ -74,7 +71,7 @@ public partial class MapObjectResource : EngineResource
         }
         else
         {
-            complex = ImageSequenceList != null;
+            complex = ImageSequenceList is not null;
             complex = persister.Boolean("Complex", value: complex);
         }
 
@@ -93,7 +90,7 @@ public partial class MapObjectResource : EngineResource
         if (message.MessageId == 536870920)
         {
             Engine = message.Payload.As<GameEngine>();
-            if (ImageSequenceList != null)
+            if (ImageSequenceList is not null)
             {
                 ImageSequenceList.ImageLibraryManager = Engine.HexSpriteSet.ImageLibraryManager;
                 ImageSequenceList.LinkToImageLibrary();
@@ -121,13 +118,13 @@ public partial class MapObjectResource : EngineResource
         int i;
         i = 0;
         LibraryImage result = null;
-        while (i != ImageLibrary.Count && result == null)
+        while (i != ImageLibrary.Count && result is null)
         {
             result = ImageLibrary.Get(i);
             i += 1;
         }
 
-        if (result == null && ImageSequenceList != null)
+        if (result is null && ImageSequenceList is not null)
         {
             result = ImageSequenceList.GetPreviewImage();
         }
@@ -149,7 +146,7 @@ public partial class MapObjectResource : EngineResource
         }
 
         MapObject mapObject = Engine.CreateEngineObject<MapObject>(id, owner: null);
-        if (mapObject != null)
+        if (mapObject is not null)
         {
             mapObject.SetResource(this);
             mapObject.SetResourceLinked(true);
@@ -167,20 +164,20 @@ public partial class MapObjectResource : EngineResource
         Rect drawRectangle = default;
         i = 0;
         image = null;
-        while (i != ImageLibrary.Count && image == null)
+        while (i != ImageLibrary.Count && image is null)
         {
             image = ImageLibrary.Get(i);
             i += 1;
         }
 
-        if (image == null && ImageSequenceList != null)
+        if (image is null && ImageSequenceList is not null)
         {
             i = 0;
             sequence = null;
-            while (i != ImageSequenceList.Count && sequence == null)
+            while (i != ImageSequenceList.Count && sequence is null)
             {
                 sequence = ImageSequenceList.GetImageSequence(i);
-                if (sequence == null)
+                if (sequence is null)
                 {
                     i += 1;
                 }
@@ -246,7 +243,7 @@ public partial class MapObjectResource : EngineResource
         int frame;
         sequence = index < ImageSequenceList.Count ? ImageSequenceList.List[index] : null;
 
-        while (sequence != null)
+        while (sequence is not null)
         {
             frame = sequence.GetFrameIndex(Engine.HexSpriteMap.Frame, (int)offset);
             if (frame != -1)
@@ -299,7 +296,7 @@ public partial class MapObjectResource : EngineResource
                     ClearTerrain(walk.X, walk.Y, hexLevel);
                 }
 
-                placed = placed && PlaceResourceUser(Engine.HexSpriteMap, (sbyte)walk.X, (sbyte)walk.Y, (sbyte)hexLevel) != null;
+                placed = placed && PlaceResourceUser(Engine.HexSpriteMap, (sbyte)walk.X, (sbyte)walk.Y, (sbyte)hexLevel) is not null;
             }
 
             HexNumberWalkData.WalkToNextHexNumber(ref walk);

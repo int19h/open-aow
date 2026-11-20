@@ -30,10 +30,7 @@ public partial class MoveTarget(CustomNode owner) : EngineObject(owner), IOwned<
     // AIGroup.pas:4221
     public override void Dispose()
     {
-        if (MovePath != null)
-        {
-            MovePath?.Dispose();
-        }
+        MovePath?.Dispose();
 
         base.Dispose();
     }

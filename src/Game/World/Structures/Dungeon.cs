@@ -207,7 +207,7 @@ public partial class Dungeon : ExplorationSite
         armyLog.Title = AbilityRules.TranslateResourceString(GetEngine(), PrisonerLiberationText);
         armyLog.Description = "";
         hero = Prisoners.Hero(255, Set<HeroType>.Of(HeroType.Hero));
-        if (hero == null)
+        if (hero is null)
         {
             if (Prisoners.Units.Count == 1)
             {

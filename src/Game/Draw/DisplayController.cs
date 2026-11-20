@@ -29,7 +29,7 @@ public partial class DisplayController(Component owner) : Component(owner)
         Rect clipR = default;
         Rect sourceR = default;
         Rect destinationR = default;
-        if (GetInverseMatrix() != null)
+        if (GetInverseMatrix() is not null)
         {
             result = DisplayControllerError.Ok;
             Matrix inverseMatrix = GetInverseMatrix();
@@ -163,7 +163,7 @@ public partial class DisplayController(Component owner) : Component(owner)
     // DisplayC.pas:639
     public virtual int GetSurfaceCount()
     {
-        int result = GetDisplay() == null ? 0 : (int)GetDisplay().BufferingScheme;
+        int result = GetDisplay() is null ? 0 : (int)GetDisplay().BufferingScheme;
         return result;
     }
 
@@ -312,7 +312,7 @@ public partial class DisplayController(Component owner) : Component(owner)
     // DisplayC.pas:880
     public virtual void InvalidateAll()
     {
-        if (_inverseMatrix != null)
+        if (_inverseMatrix is not null)
         {
             for (int i = 0, last = _inverseMatrix.Width - 1; i <= last; i++)
             {
@@ -449,7 +449,7 @@ public partial class DisplayController(Component owner) : Component(owner)
     {
         Matrix m;
         Rect r = default;
-        if (_inverseMatrix != null)
+        if (_inverseMatrix is not null)
         {
             m = _inverseMatrix;
             r.Left = 0;

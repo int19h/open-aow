@@ -248,7 +248,7 @@ public partial class RangedAttackAbility : AdjustableAbility
     public virtual sbyte GetDamageRangedAttack(AbilityOwner owner)
     {
         sbyte result = DamageRangedAttack;
-        if (owner != null && owner.GetOwnAbilityEnabled(32))
+        if (owner is not null && owner.GetOwnAbilityEnabled(32))
         {
             switch (owner.GetOwnAbilityLevel(32))
             {
@@ -273,7 +273,7 @@ public partial class RangedAttackAbility : AdjustableAbility
     public virtual sbyte GetAttackRangedAttack(AbilityOwner owner)
     {
         sbyte result = AttackRangedAttack;
-        if (owner != null && owner.GetOwnAbilityEnabled(32))
+        if (owner is not null && owner.GetOwnAbilityEnabled(32))
         {
             switch (owner.GetOwnAbilityLevel(32))
             {

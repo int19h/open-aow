@@ -70,12 +70,12 @@ public partial class Scanner(Component owner) : Control(owner)
     {
         InterfaceImageLibrary frame;
         frame = _imageLibraryFrame;
-        if (frame != null)
+        if (frame is not null)
         {
             _imageLibraryFrame = frame.CheckImageLibrary(_imageLibraryIndexFrame, 8, this);
         }
 
-        if (_imageLibraryFrame != null && _tilesImageLibrary != null && _objectsImageLibrary != null && _map != null && _fogImageLibrary != null && _highlightImageLibrary != null)
+        if (_imageLibraryFrame is not null && _tilesImageLibrary is not null && _objectsImageLibrary is not null && _map is not null && _fogImageLibrary is not null && _highlightImageLibrary is not null)
         {
             Valid = true;
         }
@@ -91,7 +91,7 @@ public partial class Scanner(Component owner) : Control(owner)
         {
             _halfRowInset = WinHeight / _mapHeight / 2;
             _drawableHeight = WinHeight - _halfRowInset;
-            if (_mapSurface != null)
+            if (_mapSurface is not null)
             {
                 _ = _objectSurface.Resize(WinWidth, WinHeight);
                 _ = _objectSurface.Clear(65280);
@@ -130,7 +130,7 @@ public partial class Scanner(Component owner) : Control(owner)
     public override void Update()
     {
         base.Update();
-        if (Visible && _mapSurface != null)
+        if (Visible && _mapSurface is not null)
         {
             if (!Incremental)
             {
@@ -159,14 +159,14 @@ public partial class Scanner(Component owner) : Control(owner)
             {
                 RaisePreDraw(this, lockedSurface);
 
-                if (_mapSurface != null && _mapSurface.PixelFormatId != lockedSurface.PixelFormatId)
+                if (_mapSurface is not null && _mapSurface.PixelFormatId != lockedSurface.PixelFormatId)
                 {
                     _objectSurface?.Dispose();
                     _mapSurface?.Dispose();
                     _mapSurface = null;
                 }
 
-                if (_mapSurface == null)
+                if (_mapSurface is null)
                 {
                     _objectSurface = new DataSurface(WinWidth, WinHeight, lockedSurface.PixelFormatId, null);
                     _ = _objectSurface.Clear(65280);
@@ -354,7 +354,7 @@ public partial class Scanner(Component owner) : Control(owner)
     public void SetLevel(MapLevel value)
     {
         Level = value;
-        if (StrategicMap.Current.CombatMap != null)
+        if (StrategicMap.Current.CombatMap is not null)
         {
             _mapWidth = Level.Width - 16;
             _mapHeight = Level.Height - 12;
@@ -367,12 +367,12 @@ public partial class Scanner(Component owner) : Control(owner)
     }
 
     // Scanner.pas:205
-    public void SetMapWidth(int value) => _mapWidth = StrategicMap.Current.CombatMap != null ? value - 16 : value - 12;
+    public void SetMapWidth(int value) => _mapWidth = StrategicMap.Current.CombatMap is not null ? value - 16 : value - 12;
 
     // Scanner.pas:211
     public void SetMapHeight(int value)
     {
-        if (StrategicMap.Current.CombatMap != null)
+        if (StrategicMap.Current.CombatMap is not null)
         {
             _mapHeight = value - 12;
         }
@@ -386,7 +386,7 @@ public partial class Scanner(Component owner) : Control(owner)
     // Scanner.pas:217
     public byte GetTerrain(int X, int Y)
     {
-        byte result = StrategicMap.Current.CombatMap != null
+        byte result = StrategicMap.Current.CombatMap is not null
             ? (byte)Level.GetField(X + 8, Y + 6).TerrainType
             : (byte)Level.GetField(X + 6, Y + 6).TerrainType;
         return result;
@@ -400,7 +400,7 @@ public partial class Scanner(Component owner) : Control(owner)
     // Scanner.pas:226
     public int GetOverlay(int X, int Y)
     {
-        int result = StrategicMap.Current.CombatMap != null
+        int result = StrategicMap.Current.CombatMap is not null
             ? Level.GetField(X + 8, Y + 6).GetDecorationType() switch
             {
                 1 or 2 or 3 or 9 => 1,
@@ -424,9 +424,9 @@ public partial class Scanner(Component owner) : Control(owner)
     public byte GetExplored(int X, int Y)
     {
         byte result;
-        _ = StrategicMap.Current.CombatMap != null ? Level.GetField(X + 8, Y + 6) : Level.GetField(X + 6, Y + 6);
+        _ = StrategicMap.Current.CombatMap is not null ? Level.GetField(X + 8, Y + 6) : Level.GetField(X + 6, Y + 6);
 
-        MapField field = StrategicMap.Current.CombatMap != null ? Level.GetField(X + 8, Y + 6) : Level.GetField(X + 6, Y + 6);
+        MapField field = StrategicMap.Current.CombatMap is not null ? Level.GetField(X + 8, Y + 6) : Level.GetField(X + 6, Y + 6);
 
         result = _map.ExplorationEnabled
             ? field.GetExplored(_map.SeatedPlayer) ? _map.FogEnabled ? field.FogCount == 0 ? (byte)2 : (byte)1 : (byte)1 : (byte)0
@@ -443,7 +443,7 @@ public partial class Scanner(Component owner) : Control(owner)
     // Scanner.pas:280
     public int GetObject(int X, int Y)
     {
-        int result = StrategicMap.Current.CombatMap != null
+        int result = StrategicMap.Current.CombatMap is not null
             ? Level.GetField(X + 8, Y + 6).GetScannerIcon()
             : Level.GetField(X + 6, Y + 6).GetScannerIcon();
         return result;
@@ -542,10 +542,10 @@ public partial class Scanner(Component owner) : Control(owner)
     public void SetMap(GameMap value)
     {
         _map = value;
-        if (_map != null)
+        if (_map is not null)
         {
             Level = _map.MapContainer.GetMapLevel(0);
-            if (StrategicMap.Current.CombatMap != null)
+            if (StrategicMap.Current.CombatMap is not null)
             {
                 _mapWidth = Level.Width - 16;
                 _mapHeight = Level.Height - 12;
@@ -573,7 +573,7 @@ public partial class Scanner(Component owner) : Control(owner)
         LockedSurface lockedSurface = default;
         try
         {
-            if (Valid && _mapSurface != null && Visible)
+            if (Valid && _mapSurface is not null && Visible)
             {
                 if (X < 0)
                 {
@@ -641,7 +641,7 @@ public partial class Scanner(Component owner) : Control(owner)
                                 }
                                 else
                                 {
-                                    if (imageIndex < _tilesImageLibrary.Count && _tilesImageLibrary[imageIndex] != null)
+                                    if (imageIndex < _tilesImageLibrary.Count && _tilesImageLibrary[imageIndex] is not null)
                                     {
                                         for (int tileX = WinWidth * mapX / _mapWidth / _tilesImageLibrary[imageIndex].Width, last = (mapX + 1) * WinWidth / _mapWidth / _tilesImageLibrary[imageIndex].Width; tileX <= last; tileX++)
                                         {
@@ -654,12 +654,12 @@ public partial class Scanner(Component owner) : Control(owner)
                                         }
                                     }
 
-                                    if ((overlay == 0 || overlay == 10) && HighLights && mapY < _mapHeight - 1 && mapX > 0 && GetOverlay(mapX - 1, mapY + 1) != overlay)
+                                    if ((overlay is 0 or 10) && HighLights && mapY < _mapHeight - 1 && mapX > 0 && GetOverlay(mapX - 1, mapY + 1) != overlay)
                                     {
                                         _highlightImageLibrary[1].ShowClipped(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, lockedSurface);
                                     }
 
-                                    if ((overlay == 0 || overlay == 10) && HighLights && mapY > 0 && mapX < _mapWidth - 1 && GetOverlay(mapX + 1, mapY - 1) != overlay)
+                                    if ((overlay is 0 or 10) && HighLights && mapY > 0 && mapX < _mapWidth - 1 && GetOverlay(mapX + 1, mapY - 1) != overlay)
                                     {
                                         _highlightImageLibrary[0].ShowClipped(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, lockedSurface);
                                     }
@@ -705,7 +705,7 @@ public partial class Scanner(Component owner) : Control(owner)
         int building;
         int objectValue;
         LockedSurface lockedSurface = default;
-        if (_objectSurface != null)
+        if (_objectSurface is not null)
         {
             _ = _objectSurface.Clear(65280);
             yOffset = 0;
@@ -726,7 +726,7 @@ public partial class Scanner(Component owner) : Control(owner)
                                 if (building > 0 && _buildings)
                                 {
                                     imageIndex = 7 - (((int)(((uint)building) >> 22)) & 3) + ((((int)(((uint)building) >> 16)) & 63) * 6);
-                                    if (imageIndex < _objectsImageLibrary.Count && imageIndex > -1 && _objectsImageLibrary[imageIndex] != null)
+                                    if (imageIndex < _objectsImageLibrary.Count && imageIndex > -1 && _objectsImageLibrary[imageIndex] is not null)
                                     {
                                         LibraryImage objectsImageLibraryHeight = _objectsImageLibrary[imageIndex];
                                         LibraryImage objectsImageLibraryWidth = _objectsImageLibrary[imageIndex];
@@ -738,7 +738,7 @@ public partial class Scanner(Component owner) : Control(owner)
                                     if (natural > 0 && _naturals)
                                     {
                                         imageIndex = ((int)(((uint)natural) >> 8) * 6) + 9;
-                                        if (imageIndex < _objectsImageLibrary.Count && imageIndex > -1 && _objectsImageLibrary[imageIndex] != null)
+                                        if (imageIndex < _objectsImageLibrary.Count && imageIndex > -1 && _objectsImageLibrary[imageIndex] is not null)
                                         {
                                             LibraryImage objectsImageLibraryHeight = _objectsImageLibrary[imageIndex];
                                             LibraryImage objectsImageLibraryWidth = _objectsImageLibrary[imageIndex];
@@ -750,7 +750,7 @@ public partial class Scanner(Component owner) : Control(owner)
                                 if (army > 0 && _armies)
                                 {
                                     imageIndex = (army * 6) + 8;
-                                    if (imageIndex < _objectsImageLibrary.Count && imageIndex > -1 && _objectsImageLibrary[imageIndex] != null)
+                                    if (imageIndex < _objectsImageLibrary.Count && imageIndex > -1 && _objectsImageLibrary[imageIndex] is not null)
                                     {
                                         LibraryImage objectsImageLibraryHeight = _objectsImageLibrary[imageIndex];
                                         LibraryImage objectsImageLibraryWidth = _objectsImageLibrary[imageIndex];

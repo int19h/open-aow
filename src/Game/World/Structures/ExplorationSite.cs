@@ -101,7 +101,7 @@ public partial class ExplorationSite : Structure
         else
         {
             image = terrainType + 100;
-            result = Resource.ImageSequenceList.ImageSequences[image << 0] != null ? image : terrainType;
+            result = Resource.ImageSequenceList.ImageSequences[image << 0] is not null ? image : terrainType;
         }
 
         return result;
@@ -172,7 +172,7 @@ public partial class ExplorationSite : Structure
         sbyte player;
         CombatEventLog eventValue;
         armyHexSprite = Owner.GetArmyHexSprite();
-        if (armyHexSprite != null && CanSearch(armyHexSprite.Army.Player))
+        if (armyHexSprite is not null && CanSearch(armyHexSprite.Army.Player))
         {
             player = armyHexSprite.Army.Player;
             if (_defenders.Units.Count == 0)
@@ -251,7 +251,7 @@ public partial class ExplorationSite : Structure
         CombatTypeRequestEventLog request = default;
         StructureTokenEvent tokenEvent = default;
         armyHexSprite = Owner.GetArmyHexSprite();
-        if (armyHexSprite != null && CanSearch(armyHexSprite.Army.Player))
+        if (armyHexSprite is not null && CanSearch(armyHexSprite.Army.Player))
         {
             PlayerCollection playerList = StrategicMap.Current.Players;
             if (playerList.LocalPlayers.Count == 1 || StrategicMap.Current.RequestCombatType)
@@ -345,7 +345,7 @@ public partial class ExplorationSite : Structure
         if (!GetExplored())
         {
             armyHexSprite = Owner.GetArmyHexSprite();
-            if (armyHexSprite == null || armyHexSprite.Army.Player != player)
+            if (armyHexSprite is null || armyHexSprite.Army.Player != player)
             {
                 result = false;
             }

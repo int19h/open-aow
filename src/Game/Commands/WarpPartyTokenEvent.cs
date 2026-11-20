@@ -72,14 +72,14 @@ public partial class WarpPartyTokenEvent(CustomNode owner) : SpellTokenEvent(own
         _ = army.MoveTo(field, 0);
         showSource = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.VisibleForPlayer(x, y, layer, StrategicMap.Current.SeatedPlayer);
         showTarget = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.VisibleForPlayer(field.HexX, field.HexY, field.HexLevel, StrategicMap.Current.SeatedPlayer);
-        if (showSource && GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0] != null)
+        if (showSource && GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0] is not null)
         {
             animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
             animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0]);
             _ = StrategicMap.Current.PlaceHex(animation, x, y, layer);
         }
 
-        if (showTarget && GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0] != null)
+        if (showTarget && GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0] is not null)
         {
             animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
             animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0]);

@@ -58,7 +58,7 @@ public partial class TacticalBattleUnit(CustomNode owner) : CombatUnit(owner)
             int y2 = default;
             int direction;
             TacticalBattleBloodHexSprite blood;
-            if (GetEnabled() && UnitHexSprite != null && Troop.GetBloodType() != BloodType.None)
+            if (GetEnabled() && UnitHexSprite is not null && Troop.GetBloodType() != BloodType.None)
             {
                 sbyte hitPoints = GetHitPoints();
                 count = damage >= hitPoints && (GetAbilityEnabled(131) || DeathMethod == TacticalBattleUnitDeathMethod.Explode)
@@ -93,7 +93,7 @@ public partial class TacticalBattleUnit(CustomNode owner) : CombatUnit(owner)
         int result = base.ExecuteDamage(damage);
         if (!GetEnabled())
         {
-            if (UnitHexSprite != null)
+            if (UnitHexSprite is not null)
             {
                 if (GetAbilityEnabled(131))
                 {
@@ -152,7 +152,7 @@ public partial class TacticalBattleUnit(CustomNode owner) : CombatUnit(owner)
                             UnitGraphics = UnitHexSprite.UnitGraphicsResource
                         };
                         sequence = corpse.UnitGraphics.Sequences.ImageSequences[30];
-                        if (sequence != null)
+                        if (sequence is not null)
                         {
                             corpse.Frame = Random(sequence.GetTotalSequenceFrames());
                         }
@@ -210,7 +210,7 @@ public partial class TacticalBattleUnit(CustomNode owner) : CombatUnit(owner)
         }
         else
         {
-            if (UnitHexSprite != null)
+            if (UnitHexSprite is not null)
             {
                 int unitGraphicsResourceIndex = Troop.GetUnitGraphicsResourceIndex();
                 UnitHexSprite.SetUnitGraphicsResourceIndex(unitGraphicsResourceIndex);
@@ -342,7 +342,7 @@ public partial class TacticalBattleUnit(CustomNode owner) : CombatUnit(owner)
                 }
 
                 eventValue = CreateCombatMoveTokenEvent(unitObject, newPath);
-                if (eventValue != null)
+                if (eventValue is not null)
                 {
                     sbyte unitObjectPlayer = unitObject.GetPlayer();
                     StrategicMap.Current.TokenManager.GetTokenControl(unitObjectPlayer).AddEvent(eventValue);

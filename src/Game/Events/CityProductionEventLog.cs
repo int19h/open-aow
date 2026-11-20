@@ -20,7 +20,7 @@ public partial class CityProductionEventLog(CustomNode owner) : ProductionEventL
         if (trigger == ExecuteTrigger.User)
         {
             city = GetCity();
-            if (city != null && StrategicMap.Current.SeatedPlayer == city.Player)
+            if (city is not null && StrategicMap.Current.SeatedPlayer == city.Player)
             {
                 StrategicMap.Current.CenterViewTo(Location.X, Location.Y, Location.MapLevel);
                 StrategicMap.Current.TriggerExecuteEventLog(this, true, done);

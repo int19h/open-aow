@@ -39,7 +39,7 @@ public partial class MapField
     {
         try
         {
-            if (sprite == null)
+            if (sprite is null)
             {
                 throw new ArgumentException("No nil HS allowed in TMapField");
             }

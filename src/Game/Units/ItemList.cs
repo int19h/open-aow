@@ -38,7 +38,7 @@ public partial class ItemList(CustomNode owner) : ObservableNode(owner), IChildL
         {
             for (int i = 0, last = Count - 1; i <= last; i++)
             {
-                if (GetChild(i) != null)
+                if (GetChild(i) is not null)
                 {
                     _ = this[i].Release();
                 }
@@ -52,10 +52,10 @@ public partial class ItemList(CustomNode owner) : ObservableNode(owner), IChildL
         EngineObject child;
         for (int i = Count - 1; i >= 0; i--)
         {
-            if (GetChild(i) != null)
+            if (GetChild(i) is not null)
             {
                 child = this[i];
-                if (child != null)
+                if (child is not null)
                 {
                     if (child.Owner != this)
                     {
@@ -138,7 +138,7 @@ public partial class ItemList(CustomNode owner) : ObservableNode(owner), IChildL
     // Army.PAS:4636
     public new void UnlockChanged() => base.UnlockChanged();
 
-    public static int CompareItemNames(Item item1, Item item2) => item1 != null && item2 != null
+    public static int CompareItemNames(Item item1, Item item2) => item1 is not null && item2 is not null
         ? DelphiTextCompare.CompareText(item1.OwnerName, item2.OwnerName)
         : 0;
 
