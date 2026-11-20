@@ -6,7 +6,7 @@ using Aow.Formats.Tree;
 namespace Aow.Game.Audio;
 
 // _fileName. One wave file of a sequence
-public class Sfx(CustomNode owner) : EngineObject(owner)
+public sealed class Sfx(CustomNode owner) : EngineObject(owner)
 {
     public new const int ClassId = 2_162_689;
 
@@ -15,7 +15,7 @@ public class Sfx(CustomNode owner) : EngineObject(owner)
     {
         base.PersistFields(persister);
         // The original ReadWrite leaves out the file name under text only (the translate stream).
-        if (!PersistSupport.Translating(persister))
+        if (!persister.Translating())
         {
             FileName = persister.String("FileName", value: FileName);
         }

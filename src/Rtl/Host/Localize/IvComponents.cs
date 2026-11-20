@@ -13,4 +13,4 @@ public partial class IvDictionary : Component
     public void SetDictionaryName(string name) => NameDictionary(name);
 }
 
-public class IvBinaryDictionary : IvDictionary { }
+public sealed class IvBinaryDictionary : IvDictionary { }

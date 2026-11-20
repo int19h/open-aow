@@ -3,7 +3,7 @@ using Aow.Rtl;
 
 namespace Aow.Platform;
 
-public class SdlSoundSystem : SoundSystem
+public sealed class SdlSoundSystem : SoundSystem
 {
     private static bool s_muted = true, s_useOutput;
     private static SdlSoundSystem? s_active;
@@ -196,7 +196,7 @@ public class SdlSoundSystem : SoundSystem
             State = SongState.Idle;
             try
             {
-                using Stream stream = RtlHost.Files.Open(AudioHost.BaseSoundEnginePath + name, mode: 0);
+                using Stream stream = RtlHost.Files.Open(AudioHost.BaseSoundEnginePath + name, mode: FileOpenMode.Read);
                 using MemoryStream data = new();
                 stream.CopyTo(data);
                 TrackerSong? song = TrackerSong.Load(data.GetBuffer().AsSpan(0, length: (int)data.Length), loop: repeat);
@@ -314,7 +314,7 @@ internal class SdlSampleData : SampleData
 
     private protected SdlSampleData(ConstructionContext context, string name) : base(context, name)
     {
-        using Stream stream = RtlHost.Files.Open(AudioHost.BaseSoundEnginePath + name, mode: 0);
+        using Stream stream = RtlHost.Files.Open(AudioHost.BaseSoundEnginePath + name, mode: FileOpenMode.Read);
         Wave = WaveData.Read(stream);
     }
 

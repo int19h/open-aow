@@ -5,7 +5,7 @@ using Aow.Game.World.Movement;
 
 namespace Aow.Game.World.Map;
 
-public partial class StrategicMap
+public sealed partial class StrategicMap
 {
     public void RetrieveBattleFieldInfo(int x, int y, int level, int radius, ref BattleFieldInfo info)
     {

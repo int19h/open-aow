@@ -1,10 +1,9 @@
 // Translated from AoWE.pas.
+using System.Globalization;
 using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Game.AI.Groups;
 using Aow.Game.Magic.Abilities;
-
-using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.AI;
 
@@ -34,10 +33,10 @@ public class AIRecruitmentGroupList(CustomNode owner) : ReferenceNode(owner), IC
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
             AIRecruitmentGroup group = GetRecruitmentGroups(i);
-            string text = $"{group.Group.GetType().Name}(ID:{IntToStr(group.Group.GroupId)})";
-            text = $"{text}/Loc:({IntToStr(group.Location.X)},{IntToStr(group.Location.Y)},{IntToStr(group.Location.MapLevel)})";
-            text = $"{text}/MP:{IntToStr(group.MovePoints)}";
-            text = $"{text}/MPBFS:{IntToStr(group.PathStrength)}";
+            string text = $"{group.Group.GetType().Name}(ID:{group.Group.GroupId.ToString(CultureInfo.InvariantCulture)})";
+            text = $"{text}/Loc:({((int)group.Location.X).ToString(CultureInfo.InvariantCulture)},{((int)group.Location.Y).ToString(CultureInfo.InvariantCulture)},{((int)group.Location.MapLevel).ToString(CultureInfo.InvariantCulture)})";
+            text = $"{text}/MP:{group.MovePoints.ToString(CultureInfo.InvariantCulture)}";
+            text = $"{text}/MPBFS:{group.PathStrength.ToString(CultureInfo.InvariantCulture)}";
             GetEngine().OutputDebugMessage(DebugChannel.AI, S: text);
         }
     }

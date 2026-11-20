@@ -42,7 +42,7 @@ public partial class NegotiateRequestEventLog(CustomNode owner) : JoinEventLog(o
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Hex = PersistSupport.Coordinate(persister, name: "Hex", value: Hex, width: CoordinateWidth.Byte);
+        Hex = persister.Coordinate(name: "Hex", value: Hex, width: CoordinateWidth.Byte);
         Object = persister.Enum("Object", value: Object);
         // Delphi TNegotiateRequestEventLog.FData1 and FData2 (ids 44 and 45) are always 0 (omitted) and never read.
         persister.Skip("Data1");

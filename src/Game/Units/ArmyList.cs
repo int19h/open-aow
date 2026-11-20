@@ -6,7 +6,7 @@ using Aow.Game.Session;
 
 namespace Aow.Game.Units;
 
-public class ArmyList(CustomNode owner) : ObservableEventList(owner)
+public sealed class ArmyList(CustomNode owner) : ObservableEventList(owner)
 {
     public Player Player { get; set; }
 

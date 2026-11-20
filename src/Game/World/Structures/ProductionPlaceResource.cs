@@ -33,7 +33,7 @@ public class ProductionPlaceResource : PlayerStructureResource
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        PersistSupport.UnitIndexList(persister, name: "Units", list: Units);
+        persister.UnitIndexList(name: "Units", list: Units);
     }
 
     // PrdPlace.pas:724

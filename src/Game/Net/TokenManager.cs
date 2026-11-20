@@ -4,7 +4,7 @@ namespace Aow.Game.Net;
 
 // _tokenExecutor, _tokenPackageDistributor, _owner, _tokenControls (one per player, nil for a
 // free slot), OnMessage
-public class TokenManager : IDisposable
+public sealed class TokenManager : IDisposable
 {
 
     public TokenManager(GameEngine owner)
@@ -19,16 +19,16 @@ public class TokenManager : IDisposable
     public event NetworkMessageEvent OnMessage;
 
     // NetworkE.pas:1642
-    public virtual TokenExecutor CreateTokenExecutor() => new(this);
+    public TokenExecutor CreateTokenExecutor() => new(this);
 
     // NetworkE.pas:1647
-    public virtual TokenPackageDistributor CreateTokenPackageDistributor() => new(this);
+    public TokenPackageDistributor CreateTokenPackageDistributor() => new(this);
 
     // NetworkE.pas:1652
-    public virtual TokenControl CreateTokenControl(int player) => new(this, player);
+    public TokenControl CreateTokenControl(int player) => new(this, player);
 
     // NetworkE.pas:1628
-    public virtual void Initialize(PlayerCommunicator pc)
+    public void Initialize(PlayerCommunicator pc)
     {
         TokenPackageDistributor.SetPC(pc);
         if (pc.PlayerCommunicationControl.GetCount() > 0)
@@ -44,12 +44,12 @@ public class TokenManager : IDisposable
     }
 
     // NetworkE.pas:1657
-    public virtual void Process() => TokenExecutor?.Process();
+    public void Process() => TokenExecutor?.Process();
 
     // NetworkE.pas:1694
     // { A player is ready when nothing of his waits: no system events, no token events, and his events
     //   are not being executed }
-    public virtual bool PlayerReady(int player)
+    public bool PlayerReady(int player)
     {
         if (player < _tokenControls.Count && _tokenControls[player] is not null)
         {
@@ -69,7 +69,7 @@ public class TokenManager : IDisposable
     }
 
     // NetworkE.pas:1663
-    public virtual void CreatePlayer(int player)
+    public void CreatePlayer(int player)
     {
         if (player >= _tokenControls.Count || _tokenControls[player] is null)
         {
@@ -84,7 +84,7 @@ public class TokenManager : IDisposable
     }
 
     // NetworkE.pas:1673
-    public virtual void DeletePlayer(int player)
+    public void DeletePlayer(int player)
     {
         if (player < _tokenControls.Count && _tokenControls[player] is not null)
         {
@@ -94,7 +94,7 @@ public class TokenManager : IDisposable
     }
 
     // NetworkE.pas:1682
-    public virtual void ClearPlayers()
+    public void ClearPlayers()
     {
         while (_tokenControls.Count != 0)
         {
@@ -111,7 +111,7 @@ public class TokenManager : IDisposable
     // { The original does not call the inherited constructor. }
 
     // NetworkE.pas:1614
-    public virtual void Dispose()
+    public void Dispose()
     {
         ClearPlayers();
         _tokenControls?.Clear();

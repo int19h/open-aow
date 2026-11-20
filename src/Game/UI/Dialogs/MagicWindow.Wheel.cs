@@ -1,6 +1,6 @@
 namespace Aow.Game.UI.Dialogs;
 
-public partial class MagicWindow
+public sealed partial class MagicWindow
 {
     public override void Loaded()
     {

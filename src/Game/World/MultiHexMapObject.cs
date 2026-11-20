@@ -24,8 +24,8 @@ public class MultiHexMapObject(CustomNode owner) : MapObject(owner)
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        StoredHexX = PersistSupport.UnsignedByte(persister, name: "HexX", value: StoredHexX);
-        StoredHexY = PersistSupport.UnsignedByte(persister, name: "HexY", value: StoredHexY);
+        StoredHexX = persister.UnsignedByte(name: "HexX", value: StoredHexX);
+        StoredHexY = persister.UnsignedByte(name: "HexY", value: StoredHexY);
     }
 
     // MAPOBJ.PAS:900
@@ -35,7 +35,7 @@ public class MultiHexMapObject(CustomNode owner) : MapObject(owner)
     public override sbyte HexY => StoredHexY;
 
     // MAPOBJ.PAS:910
-    public override MapCoordinate MapCoordinate => HexGeometry.PackMapCoordinate(StoredHexX, StoredHexY, HexLevel);
+    public override MapCoordinate MapCoordinate => new(StoredHexX, StoredHexY, HexLevel);
 
     // MAPOBJ.PAS:915
     public override int GetShowPriority()

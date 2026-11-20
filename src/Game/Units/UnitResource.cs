@@ -95,27 +95,27 @@ public class UnitResource : TroopResource
         _name = persister.String("Name", value: _name);
         _nickname = persister.String("Nickname", value: _nickname);
         Alignment = persister.Enum("Alignment", value: Alignment);
-        Race = PersistSupport.UnsignedByte(persister, name: "Race", value: Race);
-        Attack = PersistSupport.UnsignedByte(persister, name: "Attack", value: Attack);
-        Defense = PersistSupport.UnsignedByte(persister, name: "Defense", value: Defense);
-        Damage = PersistSupport.UnsignedByte(persister, name: "Damage", value: Damage);
-        Hits = PersistSupport.UnsignedByte(persister, name: "Hits", value: Hits);
-        Moves = PersistSupport.UnsignedByte(persister, name: "Moves", value: Moves);
-        Resistance = PersistSupport.UnsignedByte(persister, name: "Resistance", value: Resistance);
-        Level = PersistSupport.UnsignedByte(persister, name: "Level", value: Level);
+        Race = persister.UnsignedByte(name: "Race", value: Race);
+        Attack = persister.UnsignedByte(name: "Attack", value: Attack);
+        Defense = persister.UnsignedByte(name: "Defense", value: Defense);
+        Damage = persister.UnsignedByte(name: "Damage", value: Damage);
+        Hits = persister.UnsignedByte(name: "Hits", value: Hits);
+        Moves = persister.UnsignedByte(name: "Moves", value: Moves);
+        Resistance = persister.UnsignedByte(name: "Resistance", value: Resistance);
+        Level = persister.UnsignedByte(name: "Level", value: Level);
         UnitType = persister.Enum("UnitType", value: UnitType);
         Champion = persister.RawBool("Champion", value: Champion);
         Gender = persister.Enum("Gender", value: Gender);
         _transportCapacity = persister.Byte("TransportCapacity", value: _transportCapacity);
         persister.Object("NoRankAbilities", objectValue: Abilities[(int)Unit.Rank.None]);
-        PersistSupport.Lines(persister, name: "Description", lines: Description);
+        persister.Lines(name: "Description", lines: Description);
         ObtainValue = persister.Int32("ObtainValue", value: ObtainValue);
         UnitSize = persister.Enum("UnitSize", value: UnitSize);
         BloodType = persister.Enum("BloodType", value: BloodType);
         persister.Object("SilverRankAbilities", objectValue: Abilities[(int)Unit.Rank.Silver]);
         persister.Object("GoldRankAbilities", objectValue: Abilities[(int)Unit.Rank.Gold]);
         // The translate stream's mode holds read, so the original validates the abilities there too.
-        if (persister.Loading || PersistSupport.Translating(persister))
+        if (persister.Loading || persister.Translating())
         {
             for (int rankOrdinal = (int)Unit.Rank.None; rankOrdinal <= (int)Unit.Rank.Gold; rankOrdinal++)
             {

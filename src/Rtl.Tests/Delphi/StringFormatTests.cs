@@ -71,7 +71,7 @@ public sealed class StringFormatTests
         Same("%X", int.MinValue);
         Same("%p", new PointerArg(uint.MaxValue));
         Same("%10.2P", new PointerArg(1));
-        Same("%s", PCharStrings.StrPas(Ptr<byte>.Unbox("abc\0def")));
+        Same("%s", PCharStrings.FromPChar(Ptr<byte>.Unbox("abc\0def")));
         Same("%s", "a\0b");
         Same("%*:*s", 1, 2, "bc");
         Same("%*d", false, 1);

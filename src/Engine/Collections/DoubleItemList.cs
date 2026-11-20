@@ -445,7 +445,7 @@ public class DoubleItemList : Persistent
 
     private static int CompareDoubleItemBDescending(in DoubleItem item1, in DoubleItem item2) => item2.Second - item1.Second;
 
-    private static void FillLargeInteger(Span<DoubleItem> buffer, int count, DoubleItem value) => EngineServices.Fill(buffer, count, value);
+    private static void FillLargeInteger(Span<DoubleItem> buffer, int count, DoubleItem value) => buffer[..count].Fill(value);
 
     // Delphi TDoubleItem, two integers. Equality compares both, as the Delphi Comp compare of the
     // eight bytes does.

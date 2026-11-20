@@ -4,7 +4,7 @@ using Aow.Formats.Tree;
 
 namespace Aow.Game.Combat;
 
-public partial class CombatData
+public sealed partial class CombatData
 {
     public override void Clear()
     {
@@ -25,21 +25,21 @@ public partial class CombatData
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Location = PersistSupport.Coordinate(persister, name: "Location", value: Location, width: CoordinateWidth.Int32);
+        Location = persister.Coordinate(name: "Location", value: Location, width: CoordinateWidth.Int32);
         ImmunityTypes = persister.Set("ImmunityTypes", value: ImmunityTypes);
-        AttackerPlayer = PersistSupport.UnsignedByte(persister, name: "AttackerPlayer", value: AttackerPlayer);
-        DefenderPlayer = PersistSupport.UnsignedByte(persister, name: "DefenderPlayer", value: DefenderPlayer);
+        AttackerPlayer = persister.UnsignedByte(name: "AttackerPlayer", value: AttackerPlayer);
+        DefenderPlayer = persister.UnsignedByte(name: "DefenderPlayer", value: DefenderPlayer);
         CombatResult = persister.RawByte("CombatResult", value: CombatResult);
         Round = persister.Int32("Round", value: Round);
         persister.Object("Players", objectValue: Players);
         persister.Object("CombatObjects", objectValue: CombatObjects);
         persister.Object("Parties", objectValue: Parties);
         Header = persister.String("Header", value: Header);
-        AttackerLocation = PersistSupport.Coordinate(persister, name: "AttackerLocation", value: AttackerLocation, width: CoordinateWidth.Int32);
-        PersistSupport.ByteList(persister, name: "DefeatedLeaders", list: DefeatedLeaders);
-        PersistSupport.ByteList(persister, name: "TurnOrder", list: TurnOrder);
+        AttackerLocation = persister.Coordinate(name: "AttackerLocation", value: AttackerLocation, width: CoordinateWidth.Int32);
+        persister.ByteList(name: "DefeatedLeaders", list: DefeatedLeaders);
+        persister.ByteList(name: "TurnOrder", list: TurnOrder);
         WallType = persister.RawByte("WallType", value: WallType);
         WallBreached = persister.Boolean("WallBreached", value: WallBreached);
-        PersistSupport.ByteList(persister, name: "InvolvedLeaders", list: InvolvedLeaders);
+        persister.ByteList(name: "InvolvedLeaders", list: InvolvedLeaders);
     }
 }

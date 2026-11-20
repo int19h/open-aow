@@ -15,7 +15,7 @@ using static Aow.Rtl.DelphiStrings;
 namespace Aow.Game.Units;
 
 // { Interface declaration run owned by P1. }
-public class FaceResource(CustomNode owner) : EngineResource(owner)
+public sealed class FaceResource(CustomNode owner) : EngineResource(owner)
 {
     public new const int ClassId = 131_696;
     private string _imageLibraryName = "";
@@ -30,7 +30,7 @@ public class FaceResource(CustomNode owner) : EngineResource(owner)
     {
         base.PersistFields(persister);
         // The original leaves the library name out under the text-only mode of the translate stream.
-        if (!PersistSupport.Translating(persister))
+        if (!persister.Translating())
         {
             _imageLibraryName = persister.String("ImageLibraryName", value: _imageLibraryName);
         }

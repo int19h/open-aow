@@ -13,7 +13,7 @@ namespace Aow.Game.UI.Controls;
 //   their OwnerItem is the selected tab and hidden otherwise. }
 // Fields: FItems, FSelected, FILButton, FBorderHeightSelected (the text offset of the selected
 // tab), FILIndexUp, FILIndexDown, FPanels (the TAOWPanel objects of the tabs)
-public partial class TabPanel : Control
+public sealed partial class TabPanel : Control
 {
     private int _selected;
     private InterfaceImageLibrary _imageLibraryButton;
@@ -59,7 +59,7 @@ public partial class TabPanel : Control
             _imageLibraryButton = _imageLibraryButton.CheckImageLibrary(_imageLibraryIndexDown, count: 3, sender: this);
         }
 
-        if (_imageLibraryButton is not null && base.Font is not null)
+        if (_imageLibraryButton is not null && Font is not null)
         {
             Valid = true;
         }
@@ -110,14 +110,14 @@ public partial class TabPanel : Control
                         int fItemsCount = Items.Count;
                         SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft + (WinWidth * i / fItemsCount), Window.AbsoluteTop + WinTop, WinWidth / count, WinHeight);
                         _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexUp, area: rectangle, ref lockedSurface);
-                        if (base.Font is not null)
+                        if (Font is not null)
                         {
-                            base.Font.Color = SelectedColor;
+                            Font.Color = SelectedColor;
                             string item = Items[i];
-                            int textWidth = base.Font.GetTextWidth(item);
+                            int textWidth = Font.GetTextWidth(item);
                             int count2 = Items.Count;
                             string item2 = Items[i];
-                            base.Font.SetText(Window.AbsoluteLeft + WinLeft + (WinWidth * ((2 * i) + 1) / (2 * count2)) - (textWidth / 2), Window.AbsoluteTop + WinTop + BorderHeight, text: item2, lockedSurface);
+                            Font.SetText(Window.AbsoluteLeft + WinLeft + (WinWidth * ((2 * i) + 1) / (2 * count2)) - (textWidth / 2), Window.AbsoluteTop + WinTop + BorderHeight, text: item2, lockedSurface);
                         }
                     }
                     else
@@ -126,14 +126,14 @@ public partial class TabPanel : Control
                         int fItemsCount = Items.Count;
                         SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft + (WinWidth * i / fItemsCount), Window.AbsoluteTop + WinTop, WinWidth / count, WinHeight);
                         _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexDown, area: rectangle, ref lockedSurface);
-                        if (base.Font is not null)
+                        if (Font is not null)
                         {
-                            base.Font.Color = Color;
+                            Font.Color = Color;
                             string item = Items[i];
-                            int textWidth = base.Font.GetTextWidth(item);
+                            int textWidth = Font.GetTextWidth(item);
                             int count2 = Items.Count;
                             string item2 = Items[i];
-                            base.Font.SetText(Window.AbsoluteLeft + WinLeft + (WinWidth * ((2 * i) + 1) / (2 * count2)) - (textWidth / 2), Window.AbsoluteTop + WinTop + BorderHeightSelected, text: item2, lockedSurface);
+                            Font.SetText(Window.AbsoluteLeft + WinLeft + (WinWidth * ((2 * i) + 1) / (2 * count2)) - (textWidth / 2), Window.AbsoluteTop + WinTop + BorderHeightSelected, text: item2, lockedSurface);
                         }
                     }
                 }
@@ -193,7 +193,7 @@ public partial class TabPanel : Control
     public override void CheckKeyPress(ref byte key) => Handled = false;
 
     // AoWTabPanel.pas:85
-    public virtual void SetImageLibraryButton(InterfaceImageLibrary value)
+    public void SetImageLibraryButton(InterfaceImageLibrary value)
     {
         if (value != _imageLibraryButton)
         {
@@ -203,7 +203,7 @@ public partial class TabPanel : Control
     }
 
     // AoWTabPanel.pas:94
-    public virtual void SetImageLibraryUIndex(int value)
+    public void SetImageLibraryUIndex(int value)
     {
         if (value != _imageLibraryIndexUp)
         {
@@ -213,7 +213,7 @@ public partial class TabPanel : Control
     }
 
     // AoWTabPanel.pas:103
-    public virtual void SetILDIndex(int value)
+    public void SetILDIndex(int value)
     {
         if (value != _imageLibraryIndexDown)
         {

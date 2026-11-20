@@ -2,7 +2,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Windows;
 
-public partial class BookWindow
+public sealed partial class BookWindow
 {
     protected override bool OneWheelTurnPerEvent => true;
 

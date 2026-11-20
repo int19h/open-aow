@@ -1,5 +1,6 @@
 #nullable disable
 
+using System.Globalization;
 using Aow.Graphics;
 using Aow.Rtl;
 
@@ -59,7 +60,7 @@ public sealed class LibraryImageClass
             {
                 if (rects.Count > 1)
                 {
-                    Progress(DelphiRounding.Round((double)(i * 90) / (rects.Count - 1)) + 10, message: $"Grabbing Image {DelphiConversions.IntToStr(i + 1)}");
+                    Progress(DelphiRounding.Round((double)(i * 90) / (rects.Count - 1)) + 10, message: $"Grabbing Image {(i + 1).ToString(CultureInfo.InvariantCulture)}");
                 }
                 else
                 {

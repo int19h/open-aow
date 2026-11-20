@@ -21,7 +21,7 @@ namespace Aow.Game.Units;
 // { Interface declaration run owned by P2. }
 // Name. FaceIndex. FaceImageLibrary. FaceImageLibraryName. Sequences. RefCount. flags.
 // SfxLibraries
-public class UnitGraphicsResource : EngineResource
+public sealed class UnitGraphicsResource : EngineResource
 {
     public new const int ClassId = 131_600;
 
@@ -77,9 +77,9 @@ public class UnitGraphicsResource : EngineResource
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        PersistSupport.ImageSequences(persister, name: "Sequences", list: Sequences);
+        persister.ImageSequences(name: "Sequences", list: Sequences);
         // The original leaves both names out under the text-only mode of the translate stream.
-        if (!PersistSupport.Translating(persister))
+        if (!persister.Translating())
         {
             _faceImageLibraryName = persister.String("FaceImageLibraryName", value: _faceImageLibraryName);
             Name = persister.String("Name", value: Name);

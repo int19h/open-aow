@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWCampaignTransferDlg.pas.
+using System.Globalization;
 using Aow.Game.Audio;
 using Aow.Game.Draw;
 using Aow.Game.Magic.Abilities;
@@ -9,12 +10,11 @@ using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.Units;
 using Aow.Rtl;
-using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.UI.Dialogs;
 
 // hero scroll. unit scroll. item scroll. left selection kind/index. right selection kind/index
-public partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
+public sealed partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
 {
     public CheckBox AvailableHero1CheckBox { get; private set; }
     public CheckBox AvailableHero2CheckBox { get; private set; }
@@ -83,11 +83,11 @@ public partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
     public void UpdateControls()
     {
         CampaignTransferSettings s = UI.Engine.Campaign.TransferSettings;
-        TransferPointsLabel.Text = $"{IntToStr(s.TransferPointsLeft)}/{IntToStr(s.TransferPointsMax)}";
-        TransferManaLabel.Text = IntToStr(s.SelectedTransferMana);
-        TransferGoldLabel.Text = IntToStr(s.SelectedTransferGold);
-        AvailableManaLabel.Text = IntToStr(s.TransferManaMax - s.SelectedTransferMana);
-        AvailableGoldLabel.Text = IntToStr(s.TransferGoldMax - s.SelectedTransferGold);
+        TransferPointsLabel.Text = $"{s.TransferPointsLeft.ToString(CultureInfo.InvariantCulture)}/{s.TransferPointsMax.ToString(CultureInfo.InvariantCulture)}";
+        TransferManaLabel.Text = s.SelectedTransferMana.ToString(CultureInfo.InvariantCulture);
+        TransferGoldLabel.Text = s.SelectedTransferGold.ToString(CultureInfo.InvariantCulture);
+        AvailableManaLabel.Text = (s.TransferManaMax - s.SelectedTransferMana).ToString(CultureInfo.InvariantCulture);
+        AvailableGoldLabel.Text = (s.TransferGoldMax - s.SelectedTransferGold).ToString(CultureInfo.InvariantCulture);
         ManaSlider.Position = s.SelectedTransferMana;
         GoldSlider.Position = s.SelectedTransferGold;
         AvailableHeroPreviousButton.Visible = _leftHero != 0;
@@ -368,7 +368,7 @@ public partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
             UI.Graphics.CampaignTransfer[31].Show(r.Left + 10, r.Top + 55, lockedSurface);
             UI.Fonts.Age8.Color = 0xFF_FF_FF;
             int campaignTransferPoints = objectValue.GetCampaignTransferPoints();
-            UI.Fonts.Age8.SetTextCentered(r.Left + 24, r.Top + 56, text: IntToStr(campaignTransferPoints), lockedSurface);
+            UI.Fonts.Age8.SetTextCentered(r.Left + 24, r.Top + 56, text: campaignTransferPoints.ToString(CultureInfo.InvariantCulture), lockedSurface);
         }
     }
 
@@ -397,7 +397,7 @@ public partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
                 UI.Graphics.CampaignTransfer[31].Show(r.Left + 10, r.Top + 55, lockedSurface);
                 UI.Fonts.Age8.Color = 0xFF_FF_FF;
                 int campaignTransferPoints = objectValue.GetCampaignTransferPoints();
-                UI.Fonts.Age8.SetTextCentered(r.Left + 24, r.Top + 56, text: IntToStr(campaignTransferPoints), lockedSurface);
+                UI.Fonts.Age8.SetTextCentered(r.Left + 24, r.Top + 56, text: campaignTransferPoints.ToString(CultureInfo.InvariantCulture), lockedSurface);
             }
         }
     }
@@ -436,7 +436,7 @@ public partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
                 UI.Graphics.CampaignTransfer[31].Show(r.Left + 10, r.Top + 55, lockedSurface);
                 UI.Fonts.Age8.Color = 0xFF_FF_FF;
                 int campaignTransferPoints = objectValue.GetCampaignTransferPoints();
-                UI.Fonts.Age8.SetTextCentered(r.Left + 24, r.Top + 56, text: IntToStr(campaignTransferPoints), lockedSurface);
+                UI.Fonts.Age8.SetTextCentered(r.Left + 24, r.Top + 56, text: campaignTransferPoints.ToString(CultureInfo.InvariantCulture), lockedSurface);
             }
         }
     }
@@ -470,7 +470,7 @@ public partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
                 UI.Graphics.CampaignTransfer[31].Show(r.Left + 10, r.Top + 55, lockedSurface);
                 UI.Fonts.Age8.Color = 0xFF_FF_FF;
                 int campaignTransferPoints = objectValue.GetCampaignTransferPoints();
-                UI.Fonts.Age8.SetTextCentered(r.Left + 24, r.Top + 56, text: IntToStr(campaignTransferPoints), lockedSurface);
+                UI.Fonts.Age8.SetTextCentered(r.Left + 24, r.Top + 56, text: campaignTransferPoints.ToString(CultureInfo.InvariantCulture), lockedSurface);
             }
         }
     }
@@ -500,7 +500,7 @@ public partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
             UI.Graphics.CampaignTransfer[31].Show(r.Left + 10, r.Top + 55, lockedSurface);
             UI.Fonts.Age8.Color = 0xFF_FF_FF;
             int campaignTransferPoints = objectValue.CampaignTransferPoints;
-            UI.Fonts.Age8.SetTextCentered(r.Left + 24, r.Top + 56, text: IntToStr(campaignTransferPoints), lockedSurface);
+            UI.Fonts.Age8.SetTextCentered(r.Left + 24, r.Top + 56, text: campaignTransferPoints.ToString(CultureInfo.InvariantCulture), lockedSurface);
         }
     }
 
@@ -527,7 +527,7 @@ public partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
                 UI.Graphics.CampaignTransfer[31].Show(r.Left + 10, r.Top + 55, lockedSurface);
                 UI.Fonts.Age8.Color = 0xFF_FF_FF;
                 int campaignTransferPoints = objectValue.CampaignTransferPoints;
-                UI.Fonts.Age8.SetTextCentered(r.Left + 24, r.Top + 56, text: IntToStr(campaignTransferPoints), lockedSurface);
+                UI.Fonts.Age8.SetTextCentered(r.Left + 24, r.Top + 56, text: campaignTransferPoints.ToString(CultureInfo.InvariantCulture), lockedSurface);
             }
         }
     }

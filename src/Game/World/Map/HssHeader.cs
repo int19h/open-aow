@@ -20,10 +20,28 @@ public struct HssHeader
     [FieldOffset(4)]
     public Array5<byte> IdImage;
 
-    public string Id { readonly get => ReadShortString(IdImage); set => WriteShortString(IdImage, value); }
+    public string Id
+    {
+        readonly get => ReadShortString(IdImage); set
+        {
+            Span<byte> image = IdImage;
+            int length = Math.Min(value.Length, image.Length - 1);
+            image[0] = (byte)length;
+            Cp1252.Encode(value).AsSpan()[..length].CopyTo(image[1..]);
+        }
+    }
 
     [FieldOffset(9)]
     public Array41<byte> NameImage;
 
-    public string Name { readonly get => ReadShortString(NameImage); set => WriteShortString(NameImage, value); }
+    public string Name
+    {
+        readonly get => ReadShortString(NameImage); set
+        {
+            Span<byte> image = NameImage;
+            int length = Math.Min(value.Length, image.Length - 1);
+            image[0] = (byte)length;
+            Cp1252.Encode(value).AsSpan()[..length].CopyTo(image[1..]);
+        }
+    }
 }

@@ -1,6 +1,6 @@
 namespace Aow.Game.UI.Dialogs;
 
-public partial class RealmWindow
+public sealed partial class RealmWindow
 {
     public override void Loaded()
     {

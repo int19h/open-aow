@@ -2,7 +2,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Controls;
 
-public partial class Memo
+public sealed partial class Memo
 {
     // AoWMemo.pas:511. The editable-byte comparison tests exactly one after the bounds checks.
     public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int x, int y)
@@ -85,7 +85,7 @@ public partial class Memo
                         _currentLine--;
                     }
 
-                    while (Lines[_currentLine].Length > _currentColumn && base.Font.GetTextWidth(DelphiStrings.Copy(Lines[_currentLine], index: 1, count: _currentColumn + 1)) + left < x)
+                    while (Lines[_currentLine].Length > _currentColumn && Font.GetTextWidth(DelphiStrings.Copy(Lines[_currentLine], index: 1, count: _currentColumn + 1)) + left < x)
                     {
                         _currentColumn++;
                         _realColumn++;

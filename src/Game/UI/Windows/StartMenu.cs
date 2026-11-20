@@ -9,7 +9,7 @@ using static Aow.Rtl.RtlHost;
 namespace Aow.Game.UI.Windows;
 
 // whole-menu image library
-public class StartMenu(Component owner) : Menu(owner)
+public sealed class StartMenu(Component owner) : Menu(owner)
 {
 
     // StartMenu.pas:30

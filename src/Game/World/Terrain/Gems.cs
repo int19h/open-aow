@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from Gems.pas.
+using System.Globalization;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.AI;
@@ -9,7 +10,6 @@ using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.World.Map;
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiFormat;
 
 namespace Aow.Game.World.Terrain;
@@ -58,7 +58,7 @@ public class Gems(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
             AITargetInfo info = message.Param[0].As<AITargetQuery>().Info;
             AITargetData data = message.Param[0].As<AITargetQuery>().Data;
             int priority = data.Priority;
-            UpdateAITarget(in info, ref priority);
+            priority = UpdateAITarget(in info, priority);
             message.Param[0].As<AITargetQuery>().Info = info;
             data.Priority = priority;
             message.Param[0].As<AITargetQuery>().Data = data;
@@ -105,7 +105,7 @@ public class Gems(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     }
 
     // Gems.pas:74
-    public void UpdateAITarget(ref readonly AITargetInfo info, ref int priority)
+    public int UpdateAITarget(ref readonly AITargetInfo info, int priority)
     {
         switch (info.Mode)
         {
@@ -131,6 +131,7 @@ public class Gems(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
             default:
                 break;
         }
+        return priority;
     }
 
     // Gems.pas:99
@@ -159,7 +160,7 @@ public class Gems(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
             {
                 Holder = CreationHolder(),
                 Player = armyHexSprite.Army.Player,
-                Text = Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_goldFoundFormat), args: [IntToStr(_amount)])
+                Text = Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_goldFoundFormat), args: [_amount.ToString(CultureInfo.InvariantCulture)])
             };
             eventValue.SetLocation(level: HexLevel, y: HexY, x: HexX);
             StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player).EventLogbook.AddEvent(eventValue);

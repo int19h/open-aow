@@ -4,7 +4,6 @@ using Aow.Formats.Tree;
 using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiStrings;
-using static Aow.Rtl.RectRoutines;
 
 namespace Aow.Game.Draw.Images;
 
@@ -14,7 +13,7 @@ namespace Aow.Game.Draw.Images;
 // image - 1), FSequenceMode, FFrameTable (the image indices of smFrameTable and
 // smRndFrameTable), FImageIndex (the image of smNone, the random start of smRandom and
 // smRndFrameTable), _offsetX, _offsetY, _lastFrame, _speedCount, _frameCounter
-public class ImageSequence(ImageSequenceList owner) : IDisposable
+public sealed class ImageSequence(ImageSequenceList owner) : IDisposable
 {
     private byte _layer;
     private string _imageLibraryName = "";
@@ -49,7 +48,7 @@ public class ImageSequence(ImageSequenceList owner) : IDisposable
     }
 
     // ImageLib.pas:8559
-    public virtual void Dispose()
+    public void Dispose()
     {
         FrameTable?.Dispose();
         ReleaseImageLibrary();
@@ -112,10 +111,10 @@ public class ImageSequence(ImageSequenceList owner) : IDisposable
     }
 
     // ImageLib.pas:8620
-    public void GetDimensions(out Rect R)
+    public Rect GetDimensions()
     {
         // The out value is assigned before its members are written.
-        R = default;
+        Rect R = default;
         if (ImageLibrary is not null)
         {
             Rect ir;
@@ -131,8 +130,8 @@ public class ImageSequence(ImageSequenceList owner) : IDisposable
                             image = ImageLibrary.GetSafe(item);
                             if (image is not null)
                             {
-                                image.GetVisualDimensions(out ir);
-                                _ = UnionRect(out R, R, ir);
+                                ir = image.GetVisualDimensions();
+                                _ = R.Union(right: ir, result: out R);
                             }
                         }
                     }
@@ -147,8 +146,8 @@ public class ImageSequence(ImageSequenceList owner) : IDisposable
                             image = ImageLibrary.GetSafe(i);
                             if (image is not null)
                             {
-                                image.GetVisualDimensions(out ir);
-                                _ = UnionRect(out R, R, ir);
+                                ir = image.GetVisualDimensions();
+                                _ = R.Union(right: ir, result: out R);
                             }
                         }
                     }
@@ -156,7 +155,10 @@ public class ImageSequence(ImageSequenceList owner) : IDisposable
                     break;
                 case SequenceMode.None:
                     image = ImageLibrary.GetSafe(_imageIndex);
-                    image?.GetVisualDimensions(out R);
+                    if (image is not null)
+                    {
+                        R = image.GetVisualDimensions();
+                    }
 
                     break;
                 default:
@@ -168,6 +170,7 @@ public class ImageSequence(ImageSequenceList owner) : IDisposable
             R.Top += _offsetY;
             R.Bottom += _offsetY;
         }
+        return R;
     }
 
     // ImageLib.pas:8666

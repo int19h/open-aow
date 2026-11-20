@@ -14,7 +14,7 @@ using static Aow.Rtl.PointerMemory;
 namespace Aow.Game.UI.Grids;
 
 // event methods occupy
-public class CombatMapControl : Component
+public sealed class CombatMapControl : Component
 {
     private readonly GameEngine _engine;
 

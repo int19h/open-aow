@@ -3,7 +3,7 @@ using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Engine.Collections;
 
-public class DoubleItemList<TA> : RecordList<DoubleItem<TA>> where TA : class
+public sealed class DoubleItemList<TA> : RecordList<DoubleItem<TA>> where TA : class
 {
     public int AddAbility(TA a, int b) => Add(new DoubleItem<TA> { First = a, Second = b });
 

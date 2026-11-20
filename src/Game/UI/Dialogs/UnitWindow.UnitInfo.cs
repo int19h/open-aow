@@ -1,4 +1,5 @@
 #nullable disable
+using System.Globalization;
 using Aow.Engine.Nodes;
 using Aow.Game.Combat;
 using Aow.Game.Magic;
@@ -9,11 +10,10 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Rtl;
-using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class UnitWindow
+public sealed partial class UnitWindow
 {
     public void ShowUnit()
     {
@@ -121,7 +121,7 @@ public partial class UnitWindow
             {
                 string level = UI.Engine.TranslateResourceString(s_levelText);
                 sbyte unitLevel = u.UnitLevel;
-                UI.UnitWindow.LevelLabel.Text = $"{level} {IntToStr(unitLevel)}";
+                UI.UnitWindow.LevelLabel.Text = $"{level} {((int)unitLevel).ToString(CultureInfo.InvariantCulture)}";
                 UI.UnitWindow.InfoLeaderPanel.Visible = false;
                 UI.UnitWindow.InfoTextPanel.Visible = true;
                 DelphiStringCollection description = u.Description;
@@ -240,7 +240,7 @@ public partial class UnitWindow
                     UI.UnitWindow.ManaLabel.Visible = true;
                     sbyte castingPoints = h.GetCastingPoints();
                     sbyte castingPointsMax = h.GetCastingPointsMax();
-                    UI.UnitWindow.ManaLabel.Text = $"{IntToStr(castingPoints)}/{IntToStr(castingPointsMax)}";
+                    UI.UnitWindow.ManaLabel.Text = $"{((int)castingPoints).ToString(CultureInfo.InvariantCulture)}/{((int)castingPointsMax).ToString(CultureInfo.InvariantCulture)}";
                     UI.UnitWindow.ManaIcon.Visible = true;
                 }
 
@@ -248,7 +248,7 @@ public partial class UnitWindow
                 UI.UnitWindow._groundOffset = 0;
                 string level = UI.Engine.TranslateResourceString(s_levelText);
                 sbyte hLevel = h.GetLevel();
-                UI.UnitWindow.LevelLabel.Text = $"{level} {IntToStr(hLevel)}";
+                UI.UnitWindow.LevelLabel.Text = $"{level} {((int)hLevel).ToString(CultureInfo.InvariantCulture)}";
                 UI.UnitWindow.InfoLeaderPanel.Visible = true;
                 UI.UnitWindow.InfoTextPanel.Visible = false;
                 string nickname = h.GetNickname();
@@ -258,7 +258,7 @@ public partial class UnitWindow
             string exp = UI.Engine.TranslateResourceString(s_experienceText);
             int experience = u.GetExperience();
             int nextLevelExperience = u.GetNextLevelExperience();
-            UI.UnitWindow.ExperienceLabel.Text = $"{exp} ({IntToStr(experience)}/{IntToStr(nextLevelExperience)})";
+            UI.UnitWindow.ExperienceLabel.Text = $"{exp} ({experience.ToString(CultureInfo.InvariantCulture)}/{nextLevelExperience.ToString(CultureInfo.InvariantCulture)})";
             UI.UnitWindow.MainWindow.Cursor = 0;
             if (UI.UnitWindow.UnitTabs.Items.Count <= UI.UnitWindow.UnitTabs.Selected || UI.UnitWindow.UnitTabs.Selected < 0)
             {
@@ -431,43 +431,43 @@ public partial class UnitWindow
             {
                 sbyte hitPoints = u.GetHitPoints();
                 sbyte hits = u.GetHits();
-                UI.UnitWindow.UnitHitsLabel.Text = $"{IntToStr(hitPoints)}/{IntToStr(hits)}";
+                UI.UnitWindow.UnitHitsLabel.Text = $"{((int)hitPoints).ToString(CultureInfo.InvariantCulture)}/{((int)hits).ToString(CultureInfo.InvariantCulture)}";
                 if (StrategicMap.Current.CombatMap is null)
                 {
                     sbyte movePoints = u.GetMovePoints();
                     sbyte moves = u.Moves;
-                    UI.UnitWindow.UnitMovesLabel.Text = $"{IntToStr(movePoints)}/{IntToStr(moves)}";
+                    UI.UnitWindow.UnitMovesLabel.Text = $"{((int)movePoints).ToString(CultureInfo.InvariantCulture)}/{((int)moves).ToString(CultureInfo.InvariantCulture)}";
                 }
                 else
                 {
                     if (UI.General.CombatUnit is not null)
                     {
                         int moves = UI.General.CombatUnit.Unit.Moves;
-                        UI.UnitWindow.UnitMovesLabel.Text = $"{IntToStr(UI.General.CombatUnit.Unit.MovePoints)}/{IntToStr(moves)}";
+                        UI.UnitWindow.UnitMovesLabel.Text = $"{UI.General.CombatUnit.Unit.MovePoints.ToString(CultureInfo.InvariantCulture)}/{moves.ToString(CultureInfo.InvariantCulture)}";
                     }
                 }
 
                 sbyte attack = u.GetAttack();
-                UI.UnitWindow.UnitAttackLabel.Text = IntToStr(attack);
+                UI.UnitWindow.UnitAttackLabel.Text = ((int)attack).ToString(CultureInfo.InvariantCulture);
                 sbyte damage = u.GetDamage();
-                UI.UnitWindow.UnitDamageLabel.Text = IntToStr(damage);
+                UI.UnitWindow.UnitDamageLabel.Text = ((int)damage).ToString(CultureInfo.InvariantCulture);
                 sbyte defense = u.GetDefense();
-                UI.UnitWindow.UnitDefenseLabel.Text = IntToStr(defense);
+                UI.UnitWindow.UnitDefenseLabel.Text = ((int)defense).ToString(CultureInfo.InvariantCulture);
                 sbyte resistance = u.GetResistance();
-                UI.UnitWindow.UnitResistanceLabel.Text = IntToStr(resistance);
+                UI.UnitWindow.UnitResistanceLabel.Text = ((int)resistance).ToString(CultureInfo.InvariantCulture);
                 Set<MoveType> moveTypes = u.GetMoveTypes();
                 int moveTypesToInt32 = UI.General.MoveTypesToInt32(moveTypes);
                 UI.UnitWindow.UnitMovesIcon.CurrentImage = moveTypesToInt32;
                 if (u.GetManaUpkeep() > 0)
                 {
                     int manaUpkeep = u.GetManaUpkeep();
-                    UI.UnitWindow.UpkeepLabel.Text = IntToStr(manaUpkeep);
+                    UI.UnitWindow.UpkeepLabel.Text = manaUpkeep.ToString(CultureInfo.InvariantCulture);
                     UpkeepIcon.CurrentImage = 52;
                 }
                 else
                 {
                     byte upkeep = u.GetUpkeep();
-                    UI.UnitWindow.UpkeepLabel.Text = IntToStr(upkeep);
+                    UI.UnitWindow.UpkeepLabel.Text = ((int)upkeep).ToString(CultureInfo.InvariantCulture);
                     UpkeepIcon.CurrentImage = 51;
                 }
 
@@ -511,14 +511,14 @@ public partial class UnitWindow
                 if (StrategicMap.Current.CombatMap is null)
                 {
                     u.ListAbilityInfo(AbilityAbilityList.Items, types: AbilityTypeList.Items, sources: AbilitySourceList.Items);
-                    StringSorting.SortStrings(AbilityAbilityList.Items, compare: CompareUnitAbilities, linkedStrings: [AbilityTypeList.Items, AbilitySourceList.Items]);
+                    AbilityAbilityList.Items.SortStrings(compare: CompareUnitAbilities, linkedStrings: [AbilityTypeList.Items, AbilitySourceList.Items]);
                 }
                 else
                 {
                     if (UI.General.CombatUnit is not null && UI.General.CombatUnit.Unit is not null && UI.General.CombatUnit.Unit.Troop is not null)
                     {
                         UI.General.CombatUnit.Unit.Troop.ListAbilityInfo(AbilityAbilityList.Items, types: AbilityTypeList.Items, sources: AbilitySourceList.Items);
-                        StringSorting.SortStrings(AbilityAbilityList.Items, compare: CompareUnitAbilities, linkedStrings: [AbilityTypeList.Items, AbilitySourceList.Items]);
+                        AbilityAbilityList.Items.SortStrings(compare: CompareUnitAbilities, linkedStrings: [AbilityTypeList.Items, AbilitySourceList.Items]);
                     }
                 }
 

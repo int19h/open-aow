@@ -1,4 +1,3 @@
-using static Aow.Rtl.DelphiOrdinals;
 using static Aow.Rtl.IntegerObjects;
 
 namespace Aow.Rtl.Tests;
@@ -34,7 +33,7 @@ public sealed class MemoryProbeTests
         }
 
         probe.Fact("sum", value: total);
-        probe.Fact("same_box", value: Ord(ReferenceEquals(list[0], list[2])));
+        probe.Fact("same_box", value: ReferenceEquals(list[0], list[2]) ? 1 : 0);
         probe.Fact("find_box", value: list.IndexOf(IntToObject(17)));
         list.Insert(1, item: IntToObject(int.MinValue));
         _ = list.Add(IntToObject(int.MaxValue));
@@ -47,10 +46,10 @@ public sealed class MemoryProbeTests
 
         probe.Fact("maximum_score", value: ObjectToInt(list[0]));
         list[0] = IntToObject(0);
-        probe.Fact("zero_is_nil", value: Ord(list[0] is null));
+        probe.Fact("zero_is_nil", value: list[0] is null ? 1 : 0);
         list[0] = stored;
-        probe.Fact("object_identity", value: Ord(ObjectToInt(list[0]) == ObjectToInt(stored)));
-        probe.Fact("object_recovered", value: Ord(ReferenceEquals(list[0], stored)));
+        probe.Fact("object_identity", value: ObjectToInt(list[0]) == ObjectToInt(stored) ? 1 : 0);
+        probe.Fact("object_recovered", value: ReferenceEquals(list[0], stored) ? 1 : 0);
         probe.End();
     }
 
@@ -93,11 +92,11 @@ public sealed class MemoryProbeTests
         items[1] = item;
         items[2] = item;
         Ptr<object?>.Fill(items + 1, count: 2, value: null);
-        probe.Fact("first", value: Ord(items[0] == item));
-        probe.Fact("second", value: Ord(items[1] is null));
-        probe.Fact("third", value: Ord(items[2] is null));
+        probe.Fact("first", value: items[0] == item ? 1 : 0);
+        probe.Fact("second", value: items[1] is null ? 1 : 0);
+        probe.Fact("third", value: items[2] is null ? 1 : 0);
         Ptr<object?>.Fill(items, count: 3, value: null);
-        probe.Fact("root", value: Ord(items[0] is null && items[1] is null && items[2] is null));
+        probe.Fact("root", value: items[0] is null && items[1] is null && items[2] is null ? 1 : 0);
         probe.End();
     }
 }

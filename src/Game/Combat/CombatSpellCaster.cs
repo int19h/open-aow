@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 namespace Aow.Game.Combat;
 
 // (spell ID, source ID, refcount)
-public class CombatSpellCaster(CustomNode owner) : EngineObject(owner)
+public sealed class CombatSpellCaster(CustomNode owner) : EngineObject(owner)
 {
     public int CombatCasterSpellId { get; init; }
     public int CombatCasterSourceId { get; init; }

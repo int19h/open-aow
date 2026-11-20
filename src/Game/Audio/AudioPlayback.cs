@@ -1,5 +1,6 @@
 #nullable disable
 
+using Aow.Rtl;
 using static Aow.Rtl.DelphiPaths;
 using static Aow.Rtl.DelphiStreams;
 using static Aow.Rtl.DelphiStrings;
@@ -80,8 +81,6 @@ public static class AudioPlayback
 
     internal static void SetSfxVolume(int volume) => AudioHost.SoundSystem?.SetSfxVolume(volume);
 
-    internal static int GetSfxVolume() => AudioHost.SoundSystem is not null ? AudioHost.SoundSystem.GetSfxVolume() : -1;
-
     internal static bool SfxEnabled => AudioHost.SoundSystem is not null && AudioHost.SoundSystem.SfxEnabled;
 
     internal static SoundSettings SoundSettings => AudioHost.SoundSystem is not null ? AudioHost.SoundSystem.SoundSettings : default;
@@ -91,7 +90,7 @@ public static class AudioPlayback
     internal static string GetSongName(string fileName)
     {
         Span<byte> title = stackalloc byte[28];
-        Stream stream = OpenFile(AudioHost.BaseSoundEnginePath + fileName, mode: 0 | 0b0010_0000);
+        Stream stream = OpenFile(AudioHost.BaseSoundEnginePath + fileName, mode: FileOpenMode.Read | FileOpenMode.ShareDenyWrite);
         string result;
         try
         {
@@ -223,11 +222,7 @@ public static class AudioPlayback
         return result;
     }
 
-    internal static bool PlaySong(string fileName) => AudioHost.SoundSystem is not null && AudioHost.SoundSystem.PlaySong(fileName);
-
     internal static bool PlaySong(string fileName, int fadeOut, int fadeIn, bool loop) => AudioHost.SoundSystem is not null && AudioHost.SoundSystem.PlaySong(fileName, fadeOut, fadeIn, loop);
-
-    internal static SampleData CreateSampleData(string name) => AudioHost.SoundSystem?.SampleDataClass().CreateInstance(name);
 
     public static SampleData CreateSampleData(ReadOnlySpan<WaveFormat> format, object data, int size) => AudioHost.SoundSystem?.SampleDataClass().CreateInstance(format[0], data, size);
 

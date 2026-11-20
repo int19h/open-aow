@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWInfoWin.pas.
+using System.Globalization;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.Magic;
@@ -10,15 +11,13 @@ using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiRounding;
 using static Aow.Rtl.DelphiTextCompare;
 
 namespace Aow.Game.UI.Dialogs;
 
 // item bag
-public partial class InfoWindow(UIContext ui) : UIModule(ui)
+public sealed partial class InfoWindow(UIContext ui) : UIModule(ui)
 {
     public Window MainWindow { get; private set; }
     public Label TitleLabel { get; private set; }
@@ -249,7 +248,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         dialog.IncomeMemo.Items.Assign(description);
         dialog.IncomeTypeImage.CurrentImage = 31;
         int income = structure.GetIncome();
-        dialog.IncomeAmountLabel.Text = IntToStr(income);
+        dialog.IncomeAmountLabel.Text = income.ToString(CultureInfo.InvariantCulture);
         dialog.RazePanel.Visible = true;
     }
 
@@ -262,7 +261,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         dialog.IncomeMemo.Items.Assign(description);
         dialog.IncomeTypeImage.CurrentImage = 33;
         int power = structure.GetPower();
-        dialog.IncomeAmountLabel.Text = IntToStr(power);
+        dialog.IncomeAmountLabel.Text = power.ToString(CultureInfo.InvariantCulture);
         dialog.RazePanel.Visible = true;
     }
 
@@ -275,7 +274,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         dialog.IncomeMemo.Items.Assign(description);
         dialog.IncomeTypeImage.CurrentImage = 33;
         int power = structure.GetPower();
-        dialog.IncomeAmountLabel.Text = IntToStr(power);
+        dialog.IncomeAmountLabel.Text = power.ToString(CultureInfo.InvariantCulture);
         dialog.RazePanel.Visible = true;
     }
 
@@ -287,7 +286,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         DelphiStringCollection description = structure.Description;
         dialog.SingleButtonMemo.Items.Assign(description);
         _ = dialog.SingleButtonMemo.Items.Add("");
-        string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.IncomeFormat), arguments: [IntToStr(structure.Income)]);
+        string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.IncomeFormat), arguments: [((int)structure.Income).ToString(CultureInfo.InvariantCulture)]);
         _ = dialog.SingleButtonMemo.Items.Add(format);
         dialog.RazePanel.Visible = true;
     }
@@ -424,11 +423,11 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         dialog.AltarChargeBar.Max = rechargeDays;
         dialog.AltarChargeBar.Position = structure.RechargeDays;
         byte structureRechargeDays = structure.GetRechargeDays();
-        dialog.ChargePercentLabel.Text = $"{IntToStr(Round((double)(structure.RechargeDays * 100) / structureRechargeDays))}%";
+        dialog.ChargePercentLabel.Text = $"{Round((double)(structure.RechargeDays * 100) / structureRechargeDays).ToString(CultureInfo.InvariantCulture)}%";
         byte rechargeDays2 = structure.GetRechargeDays();
-        dialog.DayLabel.Text = IntToStr(rechargeDays2 - structure.RechargeDays);
+        dialog.DayLabel.Text = (rechargeDays2 - structure.RechargeDays).ToString(CultureInfo.InvariantCulture);
         int targetMana = structure.TargetMana();
-        dialog.GemLabel.Text = IntToStr(targetMana);
+        dialog.GemLabel.Text = targetMana.ToString(CultureInfo.InvariantCulture);
         dialog.RazePanel.Visible = true;
     }
 
@@ -463,8 +462,8 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         string raceNames = dialog.UI.Engine.TranslateResourceString(GameTables.RaceNames[dialog.UI.General.City.Race]);
         string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.RaceFormat), arguments: [raceNames]);
         dialog.CityRaceLabel.Text = format;
-        dialog.CityLevelLabel.Text = IntToStr(structure.UpgradeLevel);
-        dialog.CityIncomeLabel.Text = IntToStr(structure.Income);
+        dialog.CityLevelLabel.Text = ((int)structure.UpgradeLevel).ToString(CultureInfo.InvariantCulture);
+        dialog.CityIncomeLabel.Text = ((int)structure.Income).ToString(CultureInfo.InvariantCulture);
         City.CivilStatus civilStatus = structure.GetCivilStatus();
         string civilStatusText = dialog.UI.Engine.TranslateResourceString(CityScreen.CivilStatusTexts[(int)civilStatus]);
         string formattedText = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.StatusFormat), arguments: [civilStatusText]);
@@ -530,7 +529,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         {
             dialog.IncomeTypeIcon.CurrentImage = 33;
             int power = structure.GetPower();
-            dialog.IncomeValueLabel.Text = IntToStr(power);
+            dialog.IncomeValueLabel.Text = power.ToString(CultureInfo.InvariantCulture);
         }
         else
         {
@@ -538,7 +537,7 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
             {
                 dialog.IncomeTypeIcon.CurrentImage = 31;
                 int income = structure.GetIncome();
-                dialog.IncomeValueLabel.Text = IntToStr(income);
+                dialog.IncomeValueLabel.Text = income.ToString(CultureInfo.InvariantCulture);
             }
             else
             {

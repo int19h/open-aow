@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.Session;
 
-public class AoWCampaignScenarioList(CustomNode owner) : OwningNode(owner), IChildList<CampaignScenario>
+public sealed class AoWCampaignScenarioList(CustomNode owner) : OwningNode(owner), IChildList<CampaignScenario>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a CampaignScenario, so the cast never fails.

@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWTC.pas.
+using System.Globalization;
 using Aow.Engine.Nodes;
 
 using Aow.Game.Combat;
@@ -9,12 +10,11 @@ using Aow.Game.Draw.Images;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
-using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.Draw;
 
 // MiscellaneousImages. TargetImages. Frame. FrameCount. Selection. Range
-public class RangedPathHexSprite(CustomNode owner) : FixedVisibleHexSprite(owner)
+public sealed class RangedPathHexSprite(CustomNode owner) : FixedVisibleHexSprite(owner)
 {
 
     // AoWTC.pas:4846
@@ -247,7 +247,7 @@ public class RangedPathHexSprite(CustomNode owner) : FixedVisibleHexSprite(owner
                     _miscellaneousImages[1].Show(pixelX + 5 - pixelXSurface, pixelY + 5 - pixelYSurface, lockedSurface);
                     GetEngine().CombatFont.Color = 0;
                     RangedObstacle obstacle3 = Selection.Obstacles[i];
-                    GetEngine().CombatFont.SetTextCentered(pixelX + 16 - pixelXSurface, pixelY + 12 - pixelYSurface, text: IntToStr(obstacle3.Chance), lockedSurface);
+                    GetEngine().CombatFont.SetTextCentered(pixelX + 16 - pixelXSurface, pixelY + 12 - pixelYSurface, text: obstacle3.Chance.ToString(CultureInfo.InvariantCulture), lockedSurface);
                 }
             }
         }

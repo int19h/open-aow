@@ -4,8 +4,6 @@ namespace Aow.Rtl;
 
 public static class ConsoleOutput
 {
-    public static void ConsoleWrite(bool newline, params object[] values) => ConsoleWrite(Console.OpenStandardOutput(), newline, values);
-
     public static void ConsoleWrite(Stream output, bool newline, params object[] values)
     {
         foreach (object value in values)

@@ -40,8 +40,6 @@ public static class Startup
         return engine;
     }
 
-    public static void FinalizeAll() => FinalizeSelected(null);
-
     public static void InitializeSelected(string[] selection) => InitializeUnits(Units, state: s_initialized, selection);
 
     public static void FinalizeSelected(string[] selection) => FinalizeUnits(Units, state: s_initialized, selection);

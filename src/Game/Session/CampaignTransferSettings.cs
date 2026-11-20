@@ -24,7 +24,7 @@ namespace Aow.Game.Session;
 // leader. heroes. items. units. research percentage. spells. research spell ID. research points
 // left. selected heroes/items/units. gold/mana. spheres. points max. gold max. mana max. points
 // left
-public class CampaignTransferSettings : EngineObject
+public sealed class CampaignTransferSettings : EngineObject
 {
     // Diplomacy.pas:1736
     public CampaignTransferSettings(CustomNode owner) : base(owner)
@@ -82,7 +82,7 @@ public class CampaignTransferSettings : EngineObject
         persister.Object("Heroes", objectValue: Heroes);
         persister.Object("Items", objectValue: Items);
         persister.Object("Units", objectValue: Units);
-        PersistSupport.Int32List(persister, name: "Spells", list: _spells);
+        persister.Int32List(name: "Spells", list: _spells);
         _researchSpellId = persister.Int32("ResearchSpellId", value: _researchSpellId);
         _researchPointsLeft = persister.Int32("ResearchPointsLeft", value: _researchPointsLeft);
         _researchPercentage = persister.Int32("ResearchPercentage", value: _researchPercentage);

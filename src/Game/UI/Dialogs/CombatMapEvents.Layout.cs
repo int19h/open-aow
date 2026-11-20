@@ -5,7 +5,7 @@ using Aow.Game.UI.Grids;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class CombatMapEvents : ILayoutModule
+public sealed partial class CombatMapEvents : ILayoutModule
 {
     public void InitializeComponent() => InitializeComponent(LayoutSession.Default);
 

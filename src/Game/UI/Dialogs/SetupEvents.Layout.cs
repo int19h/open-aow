@@ -5,7 +5,7 @@ using Aow.Game.Session;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class SetupEvents : ILayoutModule
+public sealed partial class SetupEvents : ILayoutModule
 {
     public void InitializeComponent() => InitializeComponent(LayoutSession.Default);
 

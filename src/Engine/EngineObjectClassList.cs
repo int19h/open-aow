@@ -1,8 +1,7 @@
 #nullable disable
 // Translated from Engine.pas.
+using System.Globalization;
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Engine;
 
@@ -44,7 +43,7 @@ public class EngineObjectClassList : DelphiList<EngineClass>
     public EngineClass GetClass(int classId)
     {
         EngineClass result = FindClass(classId);
-        return result ?? throw new KeyNotFoundException($"Unregistered E-ClassID found ({IntToStr(classId)})");
+        return result ?? throw new KeyNotFoundException($"Unregistered E-ClassID found ({classId.ToString(CultureInfo.InvariantCulture)})");
     }
 
     // Engine.pas:8338

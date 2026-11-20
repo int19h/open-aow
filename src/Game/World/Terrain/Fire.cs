@@ -45,9 +45,9 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        TurnsLeft = PersistSupport.UnsignedByte(persister, name: "TurnsLeft", value: TurnsLeft);
+        TurnsLeft = persister.UnsignedByte(name: "TurnsLeft", value: TurnsLeft);
         _mode = persister.Set("Mode", value: _mode);
-        Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
+        Player = persister.UnsignedByte(name: "Player", value: Player);
         Age = persister.Byte("Age", value: Age);
     }
 

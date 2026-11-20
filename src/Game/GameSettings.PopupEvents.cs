@@ -2,7 +2,7 @@ using Aow.Rtl;
 
 namespace Aow.Game;
 
-public partial class GameSettings
+public sealed partial class GameSettings
 {
     public Set<WindowPopupEvent> GetClassicWindowPopupEvents()
     {

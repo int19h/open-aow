@@ -4,7 +4,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class ProductionScreen
+public sealed partial class ProductionScreen
 {
     public event NotifyEvent<ProductionScreen> LayoutOnCreate;
     public event NotifyEvent<ProductionScreen> LayoutOnDestroy;

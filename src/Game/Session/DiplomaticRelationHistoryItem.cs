@@ -6,7 +6,7 @@ using Aow.Formats.Tree;
 namespace Aow.Game.Session;
 
 // day, relation
-public class DiplomaticRelationHistoryItem(CustomNode owner) : EngineObject(owner)
+public sealed class DiplomaticRelationHistoryItem(CustomNode owner) : EngineObject(owner)
 {
     public new const int ClassId = 131_354;
 

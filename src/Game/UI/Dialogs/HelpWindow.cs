@@ -9,7 +9,7 @@ using Aow.Rtl;
 namespace Aow.Game.UI.Dialogs;
 
 // done callback, help event
-public partial class HelpWindow(UIContext ui) : UIModule(ui)
+public sealed partial class HelpWindow(UIContext ui) : UIModule(ui)
 {
     public Window MainWindow { get; private set; }
     public VerticalScrollBar HelpScrollBar { get; private set; }

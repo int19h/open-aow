@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWSpellBook.pas.
+using System.Globalization;
 using Aow.Engine.Collections;
 using Aow.Game.Audio;
 using Aow.Game.Combat;
@@ -16,13 +17,11 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Rtl;
 
-using static Aow.Rtl.DelphiConversions;
-
 namespace Aow.Game.UI.Dialogs;
 
 // mode, page kind, spell type, spells, page, hero, activation, researched spell, callback,
 // event, saved player pages
-public partial class SpellBook(UIContext ui) : UIModule(ui)
+public sealed partial class SpellBook(UIContext ui) : UIModule(ui)
 {
     public Label LeftHeaderLabel { get; private set; }
     public Panel LeftSpellPage { get; private set; }
@@ -394,15 +393,15 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
             NameLabel.Text = _hero.HeroName;
             Player player = StrategicMap.Current.Players.GetPlayers(player2);
             string manaPool = UI.Engine.TranslateResourceString(s_manaPoolText);
-            ManaPoolLabel.Text = $"{manaPool}: {IntToStr(player.MagicControl.Mana)}";
+            ManaPoolLabel.Text = $"{manaPool}: {player.MagicControl.Mana.ToString(CultureInfo.InvariantCulture)}";
             sbyte castingPoints = _hero.GetCastingPoints();
             string castingPointsText = UI.Engine.TranslateResourceString(GameText.CastingPointsText);
             sbyte castingPointsMax = _hero.GetCastingPointsMax();
-            CastingPointsLabel.Text = $"{castingPointsText}: {IntToStr(castingPoints)}/{IntToStr(castingPointsMax)}";
+            CastingPointsLabel.Text = $"{castingPointsText}: {((int)castingPoints).ToString(CultureInfo.InvariantCulture)}/{((int)castingPointsMax).ToString(CultureInfo.InvariantCulture)}";
             ResearchManaPoolLabel.Text = ManaPoolLabel.Text;
             int netPowerToResearch = StrategicMap.Current.Players.GetPlayers(player2).MagicControl.GetNetPowerToResearch();
             string researchPoints = UI.Engine.TranslateResourceString(s_researchPointsText);
-            ResearchPointsLabel.Text = $"{researchPoints}: {IntToStr(netPowerToResearch)}";
+            ResearchPointsLabel.Text = $"{researchPoints}: {netPowerToResearch.ToString(CultureInfo.InvariantCulture)}";
             Spell spell;
             if (Set<byte>.WithBounds(0, 255).With(2).With(3).Contains(Mode))
             {
@@ -423,11 +422,11 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
                     ResearchNameLabel.Text = spell.SpellName;
                     string magicSphere = UI.Engine.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere]);
                     string level = UI.Engine.TranslateResourceString(GameText.LevelText);
-                    ResearchClassLabel.Text = $"{magicSphere}, {level} {IntToStr(spell.SpellLevel)}";
+                    ResearchClassLabel.Text = $"{magicSphere}, {level} {((int)spell.SpellLevel).ToString(CultureInfo.InvariantCulture)}";
                     int castingMana = _hero.CastingMana(spell);
                     string castingCost = UI.Engine.TranslateResourceString(GameText.CastingCostText);
                     string mana = UI.Engine.TranslateResourceString(GameText.ManaText);
-                    ResearchCostLabel.Text = $"{castingCost}: {IntToStr(castingMana)} {mana}";
+                    ResearchCostLabel.Text = $"{castingCost}: {castingMana.ToString(CultureInfo.InvariantCulture)} {mana}";
                     if (control.GetResearchTurnsLeft() < 999)
                     {
                         string formatTurnsLeftString = DurationText.FormatTurnsLeftString(UI.Engine, turns: control.GetResearchTurnsLeft());
@@ -456,10 +455,10 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
                         ResearchNameLabel.Text = spell.SpellName;
                         string magicSphere = UI.Engine.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere]);
                         string level = UI.Engine.TranslateResourceString(GameText.LevelText);
-                        ResearchClassLabel.Text = $"{magicSphere}, {level} {IntToStr(spell.SpellLevel)}";
+                        ResearchClassLabel.Text = $"{magicSphere}, {level} {((int)spell.SpellLevel).ToString(CultureInfo.InvariantCulture)}";
                         string castingCost = UI.Engine.TranslateResourceString(GameText.CastingCostText);
                         string mana = UI.Engine.TranslateResourceString(GameText.ManaText);
-                        ResearchCostLabel.Text = $"{castingCost}: {IntToStr(spell.BaseManaCost)} {mana}";
+                        ResearchCostLabel.Text = $"{castingCost}: {spell.BaseManaCost.ToString(CultureInfo.InvariantCulture)} {mana}";
                         ResearchStatusLabel.Visible = false;
                         string research = UI.Engine.TranslateResourceString(s_researchText);
                         CancelResearchButton.Text = research;
@@ -482,9 +481,9 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
                 if (Set<byte>.WithBounds(0, 255).With(0).With(1).Contains(Mode))
                 {
                     sbyte fHeroCastingPoints = _hero.GetCastingPoints();
-                    CurrentPointsLabel.Text = IntToStr(fHeroCastingPoints);
+                    CurrentPointsLabel.Text = ((int)fHeroCastingPoints).ToString(CultureInfo.InvariantCulture);
                     sbyte fHeroCastingPointsMax = _hero.GetCastingPointsMax();
-                    CastingPointsMaxLabel.Text = IntToStr(fHeroCastingPointsMax);
+                    CastingPointsMaxLabel.Text = ((int)fHeroCastingPointsMax).ToString(CultureInfo.InvariantCulture);
                     SpellBookLabel.Visible = true;
                     ResearchBookLabel.Visible = false;
                     ResearchPage.Visible = false;
@@ -495,10 +494,10 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
                         CastingSpellLabel.Text = spell.SpellName;
                         string magicSphere = UI.Engine.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere]);
                         string level = UI.Engine.TranslateResourceString(GameText.LevelText);
-                        CastingClassLabel.Text = $"{magicSphere}, {level} {IntToStr(spell.SpellLevel)}";
+                        CastingClassLabel.Text = $"{magicSphere}, {level} {((int)spell.SpellLevel).ToString(CultureInfo.InvariantCulture)}";
                         string castingCost = UI.Engine.TranslateResourceString(GameText.CastingCostText);
                         string mana = UI.Engine.TranslateResourceString(GameText.ManaText);
-                        CastingCostLabel.Text = $"{castingCost}: {IntToStr(_hero.CastingProgress)} {mana}";
+                        CastingCostLabel.Text = $"{castingCost}: {_hero.CastingProgress.ToString(CultureInfo.InvariantCulture)} {mana}";
                         CastingMemo.Items = spell.SpellText;
                         string formatTurnsLeftString = DurationText.FormatTurnsLeftString(UI.Engine, turns: _hero.CastingTurnsLeft());
                         CastingStatusLabel.Text = $"({formatTurnsLeftString})";
@@ -538,7 +537,7 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
         {
             panel.Visible = true;
             name.Text = spell.SpellName;
-            spellClass.Text = $"{UI.Engine.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere])}, {UI.Engine.TranslateResourceString(GameText.LevelText)} {IntToStr(spell.SpellLevel)}";
+            spellClass.Text = $"{UI.Engine.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere])}, {UI.Engine.TranslateResourceString(GameText.LevelText)} {((int)spell.SpellLevel).ToString(CultureInfo.InvariantCulture)}";
             if (Mode == 2)
             {
                 if (spell.SpellControlTypes == Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global))
@@ -608,7 +607,7 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
                 turns = _hero.CastingTurns(spell);
                 reason = turns == 0
                     ? UI.Engine.TranslateResourceString(s_instantText)
-                    : AbilityRules.Format(UI.Engine.TranslateResourceString(s_turnsFormat), arguments: [IntToStr(turns)]);
+                    : AbilityRules.Format(UI.Engine.TranslateResourceString(s_turnsFormat), arguments: [turns.ToString(CultureInfo.InvariantCulture)]);
 
                 cost.Text = $"{cost.Text} {reason}";
             }
@@ -620,7 +619,7 @@ public partial class SpellBook(UIContext ui) : UIModule(ui)
                     turns = control.ResearchTurns(control.GetNetPowerToResearch(), points: spell.ResearchCost);
                     if (turns < 999)
                     {
-                        string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_turnsFormat), arguments: [IntToStr(turns)]);
+                        string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_turnsFormat), arguments: [turns.ToString(CultureInfo.InvariantCulture)]);
                         cost.Text = $"{cost.Text} {format}";
                     }
                     else

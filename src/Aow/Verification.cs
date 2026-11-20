@@ -302,16 +302,16 @@ internal static class Verification
         }
     }
 
-    private static void Write(IFileSystem files, string name, string value, int mode = DelphiStreams.fmCreate)
+    private static void Write(IFileSystem files, string name, string value, FileOpenMode mode = FileOpenMode.Create)
     {
-        using Stream stream = files.Open(name, mode);
+        using Stream stream = files.Open(name, mode: mode);
         using StreamWriter writer = new(stream);
         writer.Write(value);
     }
 
     private static string Read(IFileSystem files, string name)
     {
-        using Stream stream = files.Open(name, mode: DelphiStreams.fmOpenRead);
+        using Stream stream = files.Open(name, mode: FileOpenMode.Read);
         using StreamReader reader = new(stream);
         return reader.ReadToEnd();
     }
@@ -334,7 +334,7 @@ internal static class Verification
         Equal("overlay", Read(files, name: @"Images/Scenes/Intro.avi"), label: "overlay wins");
         Equal("root", File.ReadAllText(Path.Combine(root, "Images", "Scenes", "Intro.avi")), label: "root unchanged");
         Equal(1, files.Enumerate(@"Images\Scenes").Count(), label: "shadow merged once");
-        Write(files, @"IMAGES\copy.dat", "x", mode: DelphiStreams.fmOpenReadWrite);
+        Write(files, @"IMAGES\copy.dat", "x", mode: FileOpenMode.ReadWrite);
         Equal("x2345", Read(files, name: "images/copy.dat"), label: "copy on write keeps tail");
         Equal("12345", File.ReadAllText(Path.Combine(root, "Images", "Copy.dat")), label: "copy on write protects install");
         Check(files.DeleteFile(@"Images\Scenes\Intro.avi"), label: "delete overlay");
@@ -363,7 +363,7 @@ internal static class Verification
         Check(!files.RemoveDirectory($@"{files.VirtualDrive}\"), label: "virtual drive deletion refused");
         Check(files.CreateDirectory("EmailIn"), label: "create user directory");
         Check(files.RemoveDirectory("EMAILIN"), label: "remove user directory");
-        Throws<UnauthorizedAccessException>(() => files.Open("Z:\\outside.dat", mode: DelphiStreams.fmCreate), label: "unknown drive refused");
+        Throws<UnauthorizedAccessException>(() => files.Open("Z:\\outside.dat", mode: FileOpenMode.Create), label: "unknown drive refused");
         Write(files, "../../escape.txt", "contained");
         Check(File.Exists(Path.Combine(user, "escape.txt")), label: "parent traversal contained");
         IFileSystem old = RtlHost.Files;
@@ -371,16 +371,11 @@ internal static class Verification
         try
         {
             Equal(files.VirtualDrive, RtlHost.Files.VirtualDrive, label: "shared virtual drive");
-            Equal(@"Scenario\Campaign\x.hsm", DelphiPaths.ExtractRelativePath(
-                $"{root}\\", destination: @"Scenario\Campaign\x.hsm"), label: "startup directory relative file");
-            Equal(@"..\Campaign\", DelphiPaths.ExtractRelativePath(
-                @"Scenario\Custom\", destination: @"scenario\Campaign\"), label: "relative directory keeps separator and ignores case");
-            Equal("", DelphiPaths.ExtractRelativePath(
-                @"Scenario\Custom\", destination: @"scenario\CUSTOM\"), label: "same directory is empty");
-            Equal(@"..\Campaign\x.hsm", DelphiPaths.ExtractRelativePath(
-                @"Scenario\Custom\base.hsm", destination: @"Scenario\Campaign\x.hsm"), label: "shim relative path");
-            Equal(Path.Combine(root, "Images", "x.ilb"), DelphiPaths.ExtractRelativePath(
-                "", destination: Path.Combine(root, "Images", "x.ilb")), label: "empty base keeps the destination");
+            Equal(@"Scenario\Campaign\x.hsm", RtlHost.Files.ExtractRelativePath($"{root}\\", destination: @"Scenario\Campaign\x.hsm"), label: "startup directory relative file");
+            Equal(@"..\Campaign\", RtlHost.Files.ExtractRelativePath(@"Scenario\Custom\", destination: @"scenario\Campaign\"), label: "relative directory keeps separator and ignores case");
+            Equal("", RtlHost.Files.ExtractRelativePath(@"Scenario\Custom\", destination: @"scenario\CUSTOM\"), label: "same directory is empty");
+            Equal(@"..\Campaign\x.hsm", RtlHost.Files.ExtractRelativePath(@"Scenario\Custom\base.hsm", destination: @"Scenario\Campaign\x.hsm"), label: "shim relative path");
+            Equal(Path.Combine(root, "Images", "x.ilb"), RtlHost.Files.ExtractRelativePath("", destination: Path.Combine(root, "Images", "x.ilb")), label: "empty base keeps the destination");
             IReadOnlyList<RtlFileEntry> libraries = RtlHost.Files.FindEntries(@"Images\*.ilb", attributes: 0);
             Check(libraries.Count != 0, label: "file search finds the libraries");
             Equal("a.ilb", libraries[0].Name, label: "file search order");
@@ -404,7 +399,7 @@ internal static class Verification
             {
                 AppDomain.CurrentDomain.FirstChanceException -= MissingDirectoryException;
             }
-            Check(DelphiFiles.SetCurrentDir(@"Scenario\Custom"), label: "shim current directory");
+            Check(RtlHost.Files.SetCurrentDirectory(@"Scenario\Custom"), label: "shim current directory");
             Equal(Path.Combine(root, "Scenario", "Campaign", "x.hsm"), DelphiPaths.ExpandFileName(@"..\Campaign\x.hsm").ToString(), label: "shim expansion");
         }
         finally
@@ -454,7 +449,7 @@ internal static class Verification
             Check(Directory.Exists(path) ? files.DirectoryExists(alternate) : files.FileExists(alternate), label: $"install lookup {relative}");
             if (!Directory.Exists(path))
             {
-                using Stream stream = files.Open(alternate, mode: DelphiStreams.fmOpenRead);
+                using Stream stream = files.Open(alternate, mode: FileOpenMode.Read);
                 Equal(new FileInfo(path).Length, stream.Length, label: $"install open {relative}");
             }
         }

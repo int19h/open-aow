@@ -9,7 +9,7 @@ using static Aow.Rtl.DelphiStreams;
 
 namespace Aow.Engine.Storage;
 
-public class CompressStream : MemoryStream
+public sealed class CompressStream : MemoryStream
 {
 
     // Engine.pas:1715
@@ -90,7 +90,7 @@ public class CompressStream : MemoryStream
     // Engine.pas:1781
     public int SaveToFile(string fileName, Level level)
     {
-        Stream f = OpenFile(fileName, mode: 65535);
+        Stream f = OpenFile(fileName, mode: FileOpenMode.Create);
         try
         {
             return SaveToStream(f, level);
@@ -104,7 +104,7 @@ public class CompressStream : MemoryStream
     // Engine.pas:1793
     public void SaveToFile(string fileName)
     {
-        Stream f = OpenFile(fileName, mode: 65535);
+        Stream f = OpenFile(fileName, mode: FileOpenMode.Create);
         try
         {
             _ = SaveToStream(f, level: Level.Default);
@@ -118,7 +118,7 @@ public class CompressStream : MemoryStream
     // Engine.pas:1805
     public void LoadFromFile(string fileName)
     {
-        Stream f = OpenFile(fileName, mode: 0 | 0b0010_0000);
+        Stream f = OpenFile(fileName, mode: FileOpenMode.Read | FileOpenMode.ShareDenyWrite);
         try
         {
             LoadFromStream(f);

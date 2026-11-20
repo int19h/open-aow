@@ -5,7 +5,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Layout;
 
-public class LayoutVideoPlayer(Component owner) : VideoPlayer(owner)
+public sealed class LayoutVideoPlayer(Component owner) : VideoPlayer(owner)
 {
     public VideoPlayerLoopMode LoopMode { get; set; }
 

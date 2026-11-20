@@ -15,7 +15,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.UI.Controls;
 
 // list of shown message IDs
-public class TutorialControl(CustomNode owner) : EngineObject(owner)
+public sealed class TutorialControl(CustomNode owner) : EngineObject(owner)
 {
 
     private readonly Int32List _shownMessages = new();
@@ -31,7 +31,7 @@ public class TutorialControl(CustomNode owner) : EngineObject(owner)
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        PersistSupport.Int32List(persister, name: "ShownMessages", list: _shownMessages);
+        persister.Int32List(name: "ShownMessages", list: _shownMessages);
     }
 
     // AoWHSMap.PAS:16

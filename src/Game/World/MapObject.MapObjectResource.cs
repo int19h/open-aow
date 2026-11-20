@@ -27,7 +27,7 @@ public partial class MapObject
     public override void PersistFields(IPersister persister)
     {
         // The original stores nothing in a text stream, the translate stream's included.
-        if (PersistSupport.Translating(persister))
+        if (persister.Translating())
         {
             return;
         }
@@ -37,7 +37,7 @@ public partial class MapObject
             ResourceLinked = false;
             _unlinkedResourceId = persister.Int32("ResourceId", value: _unlinkedResourceId);
             _resource = null;
-            _ = LinkToResource(PersistSupport.Engine(persister));
+            _ = LinkToResource(persister.Engine());
             if (!ResourceLinked)
             {
                 throw new MapObjectResourceMissingException($"Resource Missing {GetType().Name} {_unlinkedResourceId}");

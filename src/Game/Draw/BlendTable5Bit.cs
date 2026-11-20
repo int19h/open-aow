@@ -3,7 +3,7 @@
 namespace Aow.Game.Draw;
 
 // Table (32 x 32 bytes, row I at byte I * 32)
-public partial class BlendTable5Bit : BlendTable
+public sealed partial class BlendTable5Bit : BlendTable
 {
     // The rows of the table. RowView[I][J] reads and writes the byte at row I and column J.
     public readonly struct Rows(byte[] bytes)

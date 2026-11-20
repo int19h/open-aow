@@ -1,17 +1,14 @@
 #nullable disable
 // Translated from Animation.pas.
 using Aow.Engine.Nodes;
-
 using Aow.Game.Draw.Images;
-
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using static Aow.Rtl.RectRoutines;
 
 namespace Aow.Game.Draw.Animations;
 
 // sequence, pixel offsets, last frame, loop flag
-public class ImageSequenceAnimation(CustomNode owner) : Animation(owner)
+public sealed class ImageSequenceAnimation(CustomNode owner) : Animation(owner)
 {
 
     public ImageSequence ImageSequence { get; private set; }
@@ -93,9 +90,9 @@ public class ImageSequenceAnimation(CustomNode owner) : Animation(owner)
         ImageSequence sequence = ImageSequence;
         while (sequence is not null)
         {
-            sequence.GetDimensions(out Rect r);
+            Rect r = sequence.GetDimensions();
             Rect input = Dimensions;
-            _ = UnionRect(out Rect dimensions5, input, r);
+            _ = input.Union(right: r, result: out Rect dimensions5);
             Dimensions = dimensions5;
             sequence = sequence.Next;
         }

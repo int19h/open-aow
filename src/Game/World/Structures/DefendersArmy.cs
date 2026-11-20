@@ -8,7 +8,7 @@ using Aow.Game.Units;
 namespace Aow.Game.World.Structures;
 
 // { ot=1 }
-public class DefendersArmy(CustomNode owner) : Army(owner)
+public sealed class DefendersArmy(CustomNode owner) : Army(owner)
 {
 
     // ExploreS.pas:71

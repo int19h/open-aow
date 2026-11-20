@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWWinMan.pas.
+using System.Globalization;
 using Aow.Formats;
 using Aow.Game.Audio;
 using Aow.Game.Combat;
@@ -18,7 +19,6 @@ using Aow.Game.World.Movement;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
 using static Aow.Rtl.DelphiConversions;
-using static Aow.Rtl.DelphiFiles;
 using static Aow.Rtl.DelphiPaths;
 using static Aow.Rtl.DelphiTextCompare;
 
@@ -26,7 +26,7 @@ namespace Aow.Game.UI.Dialogs;
 
 // preview settings. abilities. active ability count. selected indices. unit list. selected
 // unit. combat sprite
-public partial class General(UIContext ui) : UIModule(ui)
+public sealed partial class General(UIContext ui) : UIModule(ui)
 {
     public WindowManager Manager { get; set; }
     public ToolTip ToolTip { get; private set; }
@@ -69,12 +69,12 @@ public partial class General(UIContext ui) : UIModule(ui)
         UI.CombatScanner.Scanner.SetMap(null);
         _ = AudioHost.SongPlayer.Stop(false);
         AudioHost.SongPlayer.Songs.Clear();
-        _ = SetCurrentDir(UI.Engine.StartupDirectory);
+        _ = RtlHost.Files.SetCurrentDirectory(UI.Engine.StartupDirectory);
         UI.General.HideWindows();
         UI.TaskBar.TaskWindow.Visible = false;
         UI.TitleWindow.MainWindow.Visible = false;
         UI.TitleScene.ResetScene();
-        WindowActions.ShowTitleScene(UI.TitleScene, music: true);
+        UI.TitleScene.ShowScene(true);
     }
 
     // AoWWinMan.pas:415
@@ -645,7 +645,7 @@ public partial class General(UIContext ui) : UIModule(ui)
                 player.PlayerType = player.PlayerType == PlayerType.Cpu5 ? PlayerType.Human : (PlayerType)((int)player.PlayerType + 1);
 
                 string playerType = UI.Engine.TranslateResourceString(GameTables.PlayerTypeTexts[(int)player.PlayerType]);
-                s = $"Player {IntToStr(key - 48)} set to: {playerType}";
+                s = $"Player {(key - 48).ToString(CultureInfo.InvariantCulture)} set to: {playerType}";
                 StrategicMap.Current.ShowMessage(s);
                 StrategicMap.Current.Players.Update();
                 StrategicMap.Current.RequestCombatType = StrategicMap.Current.Players.LocalHumanPlayers.Count > 1;
@@ -656,14 +656,14 @@ public partial class General(UIContext ui) : UIModule(ui)
                 case 122:
                     s = ExtractFileDir(LegacyApplication.Application.ExeName);
                     s += "\\Scenario\\Custom";
-                    _ = SetCurrentDir(s);
+                    _ = RtlHost.Files.SetCurrentDirectory(s);
                     LoadGame(this, name: FileBoundary.ReadName("Crap.hsm"));
                     StartGame(this);
                     break;
                 case 123:
                     s = ExtractFileDir(LegacyApplication.Application.ExeName);
                     s += "\\Scenario\\Custom";
-                    _ = SetCurrentDir(s);
+                    _ = RtlHost.Files.SetCurrentDirectory(s);
                     LoadGame(this, name: FileBoundary.ReadName("demomap.hsm"));
                     StartGame(this);
                     break;
@@ -735,7 +735,7 @@ public partial class General(UIContext ui) : UIModule(ui)
         controller.UI.CombatScanner.Scanner.SetMap(null);
         _ = AudioHost.SongPlayer.Stop(false);
         AudioHost.SongPlayer.Songs.Clear();
-        _ = SetCurrentDir(controller.UI.Engine.StartupDirectory);
+        _ = RtlHost.Files.SetCurrentDirectory(controller.UI.Engine.StartupDirectory);
         HideGameWindows(controller.UI.General);
         controller.UI.TaskBar.TaskWindow.Visible = false;
         controller.UI.TitleWindow.MainWindow.Visible = false;
@@ -876,7 +876,7 @@ public partial class General(UIContext ui) : UIModule(ui)
 
         _ = AudioHost.SongPlayer.Stop(false);
         AudioHost.SongPlayer.Songs.Clear();
-        AudioPlayback.FadeMusicVolume(0, speed: 1);
+        _ = (AudioHost.SoundSystem?.FadeMusicVolume(0, speed: 1));
         controller.UI.Engine.LoadHsm(name, edit: false, progress: (_, message, progression) => controller.MapProgress(message, progression), profile: GameProfile.WorldMap);
         if (controller.UI.Engine.Demo && StrategicMap.Current is not null && !StrategicMap.Current.ShowAllPlayers)
         {

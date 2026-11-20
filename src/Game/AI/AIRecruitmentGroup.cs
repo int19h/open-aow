@@ -7,7 +7,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.AI;
 
 // references, location, group, moves, transporter, path strength
-public class AIRecruitmentGroup(CustomNode owner) : EngineObject(owner), IOwned<AIRecruitmentGroupList>, IOwnedSink<AIRecruitmentGroupList>
+public sealed class AIRecruitmentGroup(CustomNode owner) : EngineObject(owner), IOwned<AIRecruitmentGroupList>, IOwnedSink<AIRecruitmentGroupList>
 {
     // A reference list holds the recruitment group and owns it only while the list saves or loads it, and
     // nothing else owns it. AcceptsOwner admits only that list.
@@ -53,7 +53,7 @@ public class AIRecruitmentGroup(CustomNode owner) : EngineObject(owner), IOwned<
     }
 
     // AIGroup.pas:788
-    public virtual bool Validate(AIGroupControl control)
+    public bool Validate(AIGroupControl control)
     {
         if (Group.Units.Count != 0)
         {

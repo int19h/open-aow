@@ -18,7 +18,7 @@ using static Aow.Rtl.DelphiAssert;
 namespace Aow.Game.UI.Dialogs;
 
 // completion callback. army event. frame. visible unit indices
-public partial class ArmyEventDialog(UIContext ui) : UIModule(ui)
+public sealed partial class ArmyEventDialog(UIContext ui) : UIModule(ui)
 {
     public Window ArmyEventWindow { get; private set; }
     public Panel UnitPanel { get; private set; }

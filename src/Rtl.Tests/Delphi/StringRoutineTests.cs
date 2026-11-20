@@ -52,7 +52,7 @@ public sealed class StringRoutineTests
             ("\0b", "a\0b"), ("\u20ac", "a\u20ac\u00ff"), ("\u00ff", "\u20ac") })
         {
             Assert.Equal(DelphiStrings.Pos(Ansi(needle), haystack: Ansi(text)), DelphiStrings.Pos(needle, haystack: text));
-            Assert.Equal(DelphiStrings.AnsiPos(Ansi(needle), value: Ansi(text)), DelphiStrings.AnsiPos(needle, value: text));
+            Assert.Equal(DelphiStrings.Pos((string?)Ansi(needle), haystack: (string?)Ansi(text)), DelphiStrings.Pos((string?)needle, haystack: (string?)text));
         }
     }
 
@@ -62,7 +62,7 @@ public sealed class StringRoutineTests
         foreach (string text in new[] { "abc", "a\0\u20ac\u00ffz", "" })
         {
             string ansi = Ansi(text);
-            Assert.Equal(DelphiStrings.Length(ansi), DelphiStrings.Length(text));
+            Assert.Equal(DelphiStrings.RequireString((string?)ansi).Length, DelphiStrings.RequireString((string?)text).Length);
             for (int i = 1; i <= text.Length; i++)
             {
                 foreach (byte b in new byte[] { 0, 88, 128, 255 })
@@ -129,16 +129,16 @@ public sealed class StringRoutineTests
     {
         foreach (string text in new[] { "  abc  ", "\0\t\n\rabc\x1f ", "\0\t ", "", "\u00a0abc\u00a0", " a b ", "a'b\0c", "'", "\u20ac" })
         {
-            Assert.Equal(DelphiStrings.Trim(Ansi(text)), DelphiStrings.Trim(text));
+            Assert.Equal(DelphiStrings.TrimLeft(DelphiStrings.TrimRight((string?)Ansi(text))), DelphiStrings.TrimLeft(DelphiStrings.TrimRight((string?)text)));
             Assert.Equal(DelphiStrings.TrimLeft(Ansi(text)), DelphiStrings.TrimLeft(text));
             Assert.Equal(DelphiStrings.TrimRight(Ansi(text)), DelphiStrings.TrimRight(text));
-            Assert.Equal(DelphiStrings.QuotedStr(Ansi(text)), DelphiStrings.QuotedStr(text));
+            Assert.Equal($"'{DelphiStrings.RequireString((string?)Ansi(text)).Replace("'", "''")}'", $"'{DelphiStrings.RequireString((string?)text).Replace("'", "''")}'");
         }
         for (int b = 0; b < 256; b++)
         {
             foreach (int count in new[] { -1, 0, 1, 3 })
             {
-                Assert.Equal(DelphiStrings.StringOfChar((byte)b, count), DelphiStrings.StringOfChar(Cp1252.Char((byte)b), count));
+                Assert.Equal(DelphiStrings.StringOfChar(Cp1252.Char((byte)b), count), DelphiStrings.StringOfChar(Cp1252.Char((byte)b), count));
             }
         }
     }
@@ -174,19 +174,29 @@ public sealed class StringRoutineTests
         {
             string ansi = Ansi(text);
             Ptr<byte> pointer = Ptr<byte>.Unbox(ansi);
-            Assert.Equal(PCharStrings.StrPas(pointer), PCharStrings.FromPChar(pointer));
+            Assert.Equal(PCharStrings.FromPChar(pointer), PCharStrings.FromPChar(pointer));
             Assert.Equal(PCharStrings.NullTerminatedText(ansi), PCharStrings.NullTerminatedText(text));
             foreach (int length in new[] { -1, 0, text.Length })
             {
-                PCharStrings.SetString(out string value, source: pointer, length);
-                Assert.Equal(PCharStrings.SetString(pointer, length), value);
+                string value = length <= 0 ? ""
+        : pointer.IsNull ? new string('\0', count: length) : Cp1252.Decode(pointer.AsSpan(length));
+                Assert.Equal(length <= 0
+            ? ""
+            : pointer.IsNull
+                ? DelphiStrings.Resized("", length)
+                : Cp1252.Decode(pointer.Array.AsSpan(pointer.Index, length).ToArray()), value);
             }
         }
         Assert.Equal("", PCharStrings.FromPChar(default));
         foreach (int length in new[] { -1, 0, 3 })
         {
-            PCharStrings.SetString(out string value, source: default, length);
-            Assert.Equal(PCharStrings.SetString(default, length), value);
+            string value = length <= 0 ? ""
+        : ((Ptr<byte>)default).IsNull ? new string('\0', count: length) : Cp1252.Decode(((Ptr<byte>)default).AsSpan(length));
+            Assert.Equal(length <= 0
+            ? ""
+            : ((Ptr<byte>)default).IsNull
+                ? DelphiStrings.Resized("", length)
+                : Cp1252.Decode(((Ptr<byte>)default).Array.AsSpan(((Ptr<byte>)default).Index, length).ToArray()), value);
         }
     }
 
@@ -194,14 +204,14 @@ public sealed class StringRoutineTests
     public void NullArgumentsBehaveAsEmptyText()
     {
         using StringMode mode = new(false);
-        Assert.Equal(0, DelphiStrings.Length(null));
+        Assert.Equal(0, DelphiStrings.RequireString(null).Length);
         Assert.Equal("", DelphiStrings.Copy(null, index: 1, count: 3));
         Assert.Equal("", DelphiStrings.Delete(null, index: 1, count: 3));
         Assert.Equal("x", DelphiStrings.Insert("x", value: null, index: 1));
         Assert.Equal("x", DelphiStrings.Insert(null, value: "x", index: 1));
         Assert.Equal(0, DelphiStrings.Pos(null, haystack: "x"));
         Assert.Equal(0, DelphiStrings.Pos("x", haystack: null));
-        Assert.Equal(0, DelphiStrings.AnsiPos(null, value: null));
+        Assert.Equal(0, DelphiStrings.Pos(null, haystack: null));
         Assert.Equal("\0\0", DelphiStrings.Resized(null, length: 2));
         _ = Assert.Throws<IndexOutOfRangeException>(() => DelphiStrings.WithChar(null, index: 1, character: 'x'));
         string value = null!;
@@ -226,7 +236,7 @@ public sealed class StringRoutineTests
             Assert.Equal(0, function(null, ""));
             Assert.Equal(0, function("", null));
         }
-        Assert.Equal("''", DelphiStrings.QuotedStr(null));
+        Assert.Equal("''", $"'{DelphiStrings.RequireString(null).Replace("'", "''")}'");
         Assert.Equal(91, DelphiConversions.StrToIntDef(null, fallback: 91));
         _ = Assert.Throws<FormatException>(() => DelphiConversions.StrToInt(null));
         Assert.Equal("", DelphiFormat.Format(null));

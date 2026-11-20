@@ -5,7 +5,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Abilities;
 
-public class HeroResourceAbilityOwner(CustomNode owner) : AbilityOwner(owner)
+public sealed class HeroResourceAbilityOwner(CustomNode owner) : AbilityOwner(owner)
 {
 
     // Army.PAS:6128

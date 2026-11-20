@@ -1,6 +1,7 @@
 #nullable disable
 // Translated from AoWScenSetup.pas.
 using System.Collections.Immutable;
+using System.Globalization;
 using Aow.Game.Audio;
 using Aow.Game.Draw;
 using Aow.Game.Host;
@@ -9,7 +10,6 @@ using Aow.Game.Session;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Rtl;
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiStrings;
 using static Aow.Rtl.DelphiTextCompare;
 using static Aow.Rtl.IntegerObjects;
@@ -17,7 +17,7 @@ using static Aow.Rtl.IntegerObjects;
 namespace Aow.Game.UI.Dialogs;
 
 // map-validation delay. setup control. ping delay. chat scroll pending
-public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
+public sealed partial class ScenarioSetup(UIContext ui) : UIModule(ui)
 {
     public Memo ChatMemo { get; private set; }
     public VerticalScrollBar ChatScrollBar { get; private set; }
@@ -515,7 +515,7 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
         }
         else
         {
-            string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_minutesFormat), arguments: [IntToStr(TurnTimeSlider.Position)]);
+            string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_minutesFormat), arguments: [TurnTimeSlider.Position.ToString(CultureInfo.InvariantCulture)]);
             TurnTimeValueLabel.Text = format;
         }
     }
@@ -530,7 +530,7 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
         }
         else
         {
-            string format = AbilityRules.Format(LowerCase(UI.Engine.TranslateResourceString(GameText.TurnsFormat)), arguments: [IntToStr(TurnsSlider.Position * 10)]);
+            string format = AbilityRules.Format(LowerCase(UI.Engine.TranslateResourceString(GameText.TurnsFormat)), arguments: [(TurnsSlider.Position * 10).ToString(CultureInfo.InvariantCulture)]);
             TurnsValueLabel.Text = format;
         }
     }

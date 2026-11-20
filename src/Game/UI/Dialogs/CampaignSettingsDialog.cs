@@ -9,7 +9,7 @@ using static Aow.Rtl.IntegerObjects;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class CampaignSettingsDialog(UIContext ui) : UIModule(ui)
+public sealed partial class CampaignSettingsDialog(UIContext ui) : UIModule(ui)
 {
     public Window Window { get; private set; }
     public ComboBox DifficultyLevelComboBox { get; private set; }

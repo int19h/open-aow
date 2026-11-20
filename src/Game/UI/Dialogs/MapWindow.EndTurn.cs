@@ -9,7 +9,7 @@ namespace Aow.Game.UI.Dialogs;
 // end-turn button instead, the same path as a click, so the button shows its
 // pressed frame and a second press cancels. A port addition the original does
 // not have. Combat keeps its own Ctrl+E and Ctrl+Enter in MapWindowKeyDown.
-public partial class MapWindow
+public sealed partial class MapWindow
 {
     private void PressEndTurnShortcut(ushort key, Set<ShiftState> shift)
     {

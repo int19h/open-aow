@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 namespace Aow.Game.AI;
 
 // children
-public class AIPlayerActionList(CustomNode owner) : OwningNode(owner), IChildList<AIPlayerAction>
+public sealed class AIPlayerActionList(CustomNode owner) : OwningNode(owner), IChildList<AIPlayerAction>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AIPlayerAction.

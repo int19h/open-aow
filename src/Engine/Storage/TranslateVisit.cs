@@ -1,9 +1,9 @@
 #nullable disable
 // Translated from Engine.pas.
+using System.Globalization;
 using Aow.Engine.Nodes;
 using Aow.Game;
 using Aow.Rtl;
-using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Engine.Storage;
 
@@ -39,7 +39,7 @@ public class TranslateVisit(GameEngine engine) : IDisposable
             if (_onError is not null)
             {
                 int classId = objectValue.EngineClass.ClassId;
-                _onError($"Error reading object (cid:{IntToStr(classId)})", handled: ref canContinue);
+                _onError($"Error reading object (cid:{classId.ToString(CultureInfo.InvariantCulture)})", handled: ref canContinue);
             }
 
             if (!canContinue)

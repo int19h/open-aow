@@ -19,7 +19,7 @@ public class LocationTextEventLog(CustomNode owner) : TextEventLog(owner)
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Location = PersistSupport.Coordinate(persister, name: "Location", value: Location, width: CoordinateWidth.Byte);
+        Location = persister.Coordinate(name: "Location", value: Location, width: CoordinateWidth.Byte);
     }
 
     // EventLog.pas:740

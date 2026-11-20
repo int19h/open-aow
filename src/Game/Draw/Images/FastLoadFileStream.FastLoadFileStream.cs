@@ -3,9 +3,9 @@ using Aow.Rtl;
 
 namespace Aow.Game.Draw.Images;
 
-public partial class FastLoadFileStream(string name)
+public sealed partial class FastLoadFileStream(string name)
 {
-    private Stream _source = DelphiStreams.OpenFile(name, mode: DelphiStreams.fmOpenRead | DelphiStreams.fmShareDenyWrite);
+    private Stream _source = DelphiStreams.OpenFile(name, mode: FileOpenMode.Read | FileOpenMode.ShareDenyWrite);
 
     public override bool CanRead => true;
 

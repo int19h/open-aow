@@ -1,6 +1,6 @@
 namespace Aow.Game;
 
-public partial class GameSettings
+public sealed partial class GameSettings
 {
     // A port setting the original does not have: the file dialogs' last sort order.
     internal bool GetFileDialogSortByDate()

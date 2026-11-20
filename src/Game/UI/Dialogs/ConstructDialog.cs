@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWConstructDlg.pas.
+using System.Globalization;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
@@ -7,12 +8,10 @@ using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
 
-using static Aow.Rtl.DelphiConversions;
-
 namespace Aow.Game.UI.Dialogs;
 
 // activation request
-public partial class ConstructDialog(UIContext ui) : UIModule(ui)
+public sealed partial class ConstructDialog(UIContext ui) : UIModule(ui)
 {
     public Window Window { get; private set; }
     public ListBox<ConstructionControl> ConstructionList { get; private set; }
@@ -53,9 +52,9 @@ public partial class ConstructDialog(UIContext ui) : UIModule(ui)
             ConstructionControl control = controls.GetConstructionControl(i);
             control.GetInfo(u, text: out string name, out int gold, out int days);
             _ = ConstructionList.Items.AddObject(name, item: control);
-            _ = gold != 0 ? ConstructionCostList.Items.Add(IntToStr(gold)) : ConstructionCostList.Items.Add("-");
+            _ = gold != 0 ? ConstructionCostList.Items.Add(gold.ToString(CultureInfo.InvariantCulture)) : ConstructionCostList.Items.Add("-");
 
-            _ = days != 0 ? ConstructionTurnsList.Items.Add(IntToStr(days)) : ConstructionTurnsList.Items.Add("-");
+            _ = days != 0 ? ConstructionTurnsList.Items.Add(days.ToString(CultureInfo.InvariantCulture)) : ConstructionTurnsList.Items.Add("-");
         }
     }
 

@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWE.pas.
+using System.Globalization;
 using Aow.Engine.Nodes;
 
 using Aow.Formats.Tree;
@@ -9,9 +10,7 @@ using Aow.Game.World.Map;
 using Aow.Rtl;
 
 using static Aow.Rtl.DelphiConversions;
-using static Aow.Rtl.DelphiMemory;
 using static Aow.Rtl.DelphiStrings;
-using static Aow.Rtl.Heap;
 using static Aow.Rtl.IntegerObjects;
 
 namespace Aow.Game.Magic.Abilities;
@@ -97,7 +96,7 @@ public class CustomAbilityList(CustomNode owner) : EngineObject(owner)
             AbilityBits = abilityBits;
             if (newSize > oldSize)
             {
-                FillBytes(AbilityBits.AsSpan(oldSize, length: newSize - oldSize), value: 0);
+                AbilityBits.AsSpan(oldSize, length: newSize - oldSize).Fill(unchecked(0));
             }
         }
 
@@ -124,7 +123,7 @@ public class CustomAbilityList(CustomNode owner) : EngineObject(owner)
         if (result)
         {
             int abilityCount = OwnAbilityCount;
-            return CompareMem(AbilityBits.AsSpan(0, length: (abilityCount + 7) >>> 3), source.AbilityBits.AsSpan(0, length: (abilityCount + 7) >>> 3), count: (abilityCount + 7) >>> 3);
+            return AbilityBits.AsSpan(0, length: (abilityCount + 7) >>> 3).SequenceEqual(source.AbilityBits.AsSpan(0, length: (abilityCount + 7) >>> 3));
         }
 
         return result;
@@ -154,7 +153,7 @@ public class CustomAbilityList(CustomNode owner) : EngineObject(owner)
         {
             if (GetAbilitySetAt(i))
             {
-                result = $"{result}{IntToStr(i)},";
+                result = $"{result}{i.ToString(CultureInfo.InvariantCulture)},";
             }
         }
 

@@ -5,7 +5,7 @@ using Aow.Rtl;
 namespace Aow.Game.Net;
 
 // Declaration-only field type from ims.dpl
-public partial class SmtpSender(Component owner) : Component(owner)
+public sealed partial class SmtpSender(Component owner) : Component(owner)
 {
     public string Host { get; set; } = "";
     public MailMessage Message { get; set; }

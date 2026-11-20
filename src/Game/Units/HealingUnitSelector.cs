@@ -11,7 +11,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Units;
 
-public class HealingUnitSelector(EngineObject creator) : UnitSelector(creator)
+public sealed class HealingUnitSelector(EngineObject creator) : UnitSelector(creator)
 {
 
     // AoWAb.PAS:3894

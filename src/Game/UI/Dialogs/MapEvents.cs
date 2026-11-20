@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from aowMapEvents.pas.
+using System.Globalization;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
@@ -16,14 +17,13 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiTextCompare;
 using static Aow.Rtl.LegacyApplication;
 
 namespace Aow.Game.UI.Dialogs;
 
 // map control
-public partial class MapEvents(UIContext ui) : UIModule(ui)
+public sealed partial class MapEvents(UIContext ui) : UIModule(ui)
 {
 
     // Renderers of the DoubleClick keys of the structures (Structure.Views.cs). ClassRegistry adds
@@ -273,7 +273,7 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
             else
             {
                 Player playerLocal = StrategicMap.Current.Players.GetPlayers(player);
-                UI.TaskBar.WorldGoldTotalLabel.Text = IntToStr(playerLocal.Gems);
+                UI.TaskBar.WorldGoldTotalLabel.Text = playerLocal.Gems.ToString(CultureInfo.InvariantCulture);
                 if (UI.RealmWindow.Window.Visible && UI.RealmWindow.HeaderTabs.Selected == 0)
                 {
                     UI.RealmWindow.UpdateOverview();
@@ -343,7 +343,7 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
                     UI.TaskBar.WorldGoldIncomeLabel.TextColor = 0x00_00_77;
                 }
 
-                UI.TaskBar.WorldGoldIncomeLabel.Text = IntToStr(Math.Abs(netIncome));
+                UI.TaskBar.WorldGoldIncomeLabel.Text = Math.Abs(netIncome).ToString(CultureInfo.InvariantCulture);
                 if (UI.RealmWindow.Window.Visible && UI.RealmWindow.HeaderTabs.Selected == 0)
                 {
                     UI.RealmWindow.UpdateOverview();
@@ -418,7 +418,7 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
             else
             {
                 Player playerLocal = StrategicMap.Current.Players.GetPlayers(player);
-                UI.TaskBar.WorldManaTotalLabel.Text = IntToStr(playerLocal.MagicControl.Mana);
+                UI.TaskBar.WorldManaTotalLabel.Text = playerLocal.MagicControl.Mana.ToString(CultureInfo.InvariantCulture);
                 int netIncome = StrategicMap.Current.Players.GetPlayers(player).MagicControl.GetManaIncome() - StrategicMap.Current.Players.GetPlayers(player).MagicControl.GetManaUpkeep();
                 if (netIncome >= 0)
                 {
@@ -433,7 +433,7 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
                     UI.TaskBar.WorldManaIncomeLabel.TextColor = 0x00_00_77;
                 }
 
-                UI.TaskBar.WorldManaIncomeLabel.Text = IntToStr(Math.Abs(netIncome));
+                UI.TaskBar.WorldManaIncomeLabel.Text = Math.Abs(netIncome).ToString(CultureInfo.InvariantCulture);
             }
 
             UI.TaskBar.CombatManaTotalLabel.Text = UI.TaskBar.WorldManaTotalLabel.Text;
@@ -812,7 +812,7 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
                     }
                     else
                     {
-                        dialog.TargetLabel.Text = IntToStr(control.Range);
+                        dialog.TargetLabel.Text = control.Range.ToString(CultureInfo.InvariantCulture);
                     }
                     dialog.BorderLine.ImageTop = control.SourceImage;
                     dialog.BorderLine.ImageMiddle = control.ValidTargetImage;
@@ -855,9 +855,9 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
             {
                 text,
                 ": ",
-                IntToStr(castingPoints),
+                ((int)castingPoints).ToString(CultureInfo.InvariantCulture),
                 "/",
-                IntToStr(castingPointsMax)
+                ((int)castingPointsMax).ToString(CultureInfo.InvariantCulture)
             });
         }
         Spell spell = GamePack.Current.SpellControl[dialog.Caster.CasterSpellId];
@@ -869,7 +869,7 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
         {
             text2,
             ": ",
-            IntToStr(number),
+            number.ToString(CultureInfo.InvariantCulture),
             " ",
             text3
         });
@@ -879,13 +879,13 @@ public partial class MapEvents(UIContext ui) : UIModule(ui)
         {
             text4,
             ": ",
-            IntToStr(spell.ManaUpkeep),
+            spell.ManaUpkeep.ToString(CultureInfo.InvariantCulture),
             " ",
             text5
         });
         Player players = StrategicMap.Current.Players.GetPlayers(hero.Player);
         string text6 = dialog.UI.Engine.TranslateResourceString(GameText.ManaText);
-        dialog.CastingManaLabel.Text = $"{text6}: {IntToStr(players.MagicControl.Mana)}";
+        dialog.CastingManaLabel.Text = $"{text6}: {players.MagicControl.Mana.ToString(CultureInfo.InvariantCulture)}";
         dialog.Unit1CheckBox.Checked = false;
         dialog.Unit2CheckBox.Checked = false;
         dialog.Unit3CheckBox.Checked = false;

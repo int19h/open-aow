@@ -3,7 +3,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Windows;
 
-public partial class HtmlMemo
+public sealed partial class HtmlMemo
 {
     public override bool WantsMouseWheel => Visible;
 

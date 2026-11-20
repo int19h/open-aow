@@ -11,7 +11,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Session;
 
 // player, relations, history
-public class PlayerDiplomaticRelations : EngineObject
+public sealed class PlayerDiplomaticRelations : EngineObject
 {
     // Player.PAS:78
     public PlayerDiplomaticRelations(CustomNode owner) : base(owner)
@@ -38,10 +38,10 @@ public class PlayerDiplomaticRelations : EngineObject
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        PersistSupport.ByteList(persister, name: "Relations", list: _relations);
+        persister.ByteList(name: "Relations", list: _relations);
         persister.Object("History", _history);
         // The translate stream's mode holds read, so the original ReadWrite resets it there too.
-        if (persister.Loading || PersistSupport.Translating(persister))
+        if (persister.Loading || persister.Translating())
         {
             _relations.Default = (byte)DiplomaticRelation.Unknown;
         }

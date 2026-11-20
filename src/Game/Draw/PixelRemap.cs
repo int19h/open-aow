@@ -6,20 +6,6 @@ namespace Aow.Game.Draw;
 
 internal static class PixelRemap
 {
-    internal static void RemapSurface16To16(SurfaceView source, SurfaceView destination, ReadOnlySpan<byte> table, int width, int height) => Blit.RemapSurface16To16(source, d: destination, table, w: width, h: height);
-
-    internal static void RemapSurface16To08(SurfaceView source, SurfaceView destination, ReadOnlySpan<byte> table, int width, int height) => Blit.RemapSurface16To08(source, d: destination, table, w: width, h: height);
-
-    internal static void RemapSurface16To32(SurfaceView source, SurfaceView destination, ReadOnlySpan<byte> table, int width, int height) => Blit.RemapSurface16To32(source, d: destination, table, w: width, h: height);
-
-    internal static void RemapSurface555To32(SurfaceView source, SurfaceView destination, int width, int height) => Blit.RemapSurface555To32(source, d: destination, w: width, h: height);
-
-    internal static void RemapSurface565To32(SurfaceView source, SurfaceView destination, int width, int height) => Blit.RemapSurface565To32(source, d: destination, w: width, h: height);
-
-    internal static void RemapSurface555To565(SurfaceView source, SurfaceView destination, int width, int height) => Blit.RemapSurface555To565(source, d: destination, w: width, h: height);
-
-    internal static void RemapSurface565To555(SurfaceView source, SurfaceView destination, int width, int height) => Blit.RemapSurface565To555(source, d: destination, w: width, h: height);
-
     internal static void RemapSurface24To565(SurfaceView source, SurfaceView destination, int width, int height)
     {
         for (int y = 0; y <= height - 1; y++)

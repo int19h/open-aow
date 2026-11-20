@@ -1,12 +1,9 @@
 #nullable disable
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-
 using Aow.Game.Draw;
-
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
-
 using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
@@ -79,8 +76,7 @@ public class TransportMoveExecutorControl(CustomNode owner) : AIMoveExecutorCont
                 if (index != -1)
                 {
                     PathStep location = aiMoveExecutorArmyList.GetArmies(index).ArrivalPoint;
-                    move = CreateMove(aiMoveExecutorArmyList.GetArmies(index), selection: 255, location.Location.X, location.Location.Y, location.Location.MapLevel, mode: Set<CreateMoveModeElement>.Of());
-
+                    (move, _) = CreateMove(aiMoveExecutorArmyList.GetArmies(index), selection: 255, location.Location.X, location.Location.Y, location.Location.MapLevel, mode: Set<CreateMoveModeElement>.Of());
                     aiMoveExecutorArmyList.GetArmies(index).SetTransportStatus(255, status: AIMoveExecutorTransportStatus.Done);
                     // { The original executes queued moves only when creation returns nil. }
                     if (move is null)
@@ -178,12 +174,12 @@ public class TransportMoveExecutorControl(CustomNode owner) : AIMoveExecutorCont
                         AIMoveExecutorArmy armies = transporters.GetArmies(i);
                         AIMoveExecutorArmy transportersArmies = transporters.GetArmies(i);
                         AIMoveExecutorArmy armies2 = transporters.GetArmies(i);
-                        move = CreateMove(aiMoveExecutorArmyList.GetArmies(index), selection: 255, armies2.Location.X, armies.Location.Y, transportersArmies.Location.MapLevel, mode: Set<CreateMoveModeElement>.Of());
+                        (move, _) = CreateMove(aiMoveExecutorArmyList.GetArmies(index), selection: 255, armies2.Location.X, armies.Location.Y, transportersArmies.Location.MapLevel, mode: Set<CreateMoveModeElement>.Of());
                     }
                     else
                     {
                         PathStep location = aiMoveExecutorArmyList.GetArmies(index).ArrivalPoint;
-                        move = CreateMove(aiMoveExecutorArmyList.GetArmies(index), selection: 255, location.Location.X, location.Location.Y, location.Location.MapLevel, mode: Set<CreateMoveModeElement>.Of());
+                        (move, _) = CreateMove(aiMoveExecutorArmyList.GetArmies(index), selection: 255, location.Location.X, location.Location.Y, location.Location.MapLevel, mode: Set<CreateMoveModeElement>.Of());
                     }
 
                     if (move is null)
@@ -236,7 +232,7 @@ public class TransportMoveExecutorControl(CustomNode owner) : AIMoveExecutorCont
                         army = aiMoveExecutorArmyList.GetArmies(i);
                         if (army.BoardingPoint.X != -1 && army.Location != army.BoardingPoint)
                         {
-                            move = CreateMove(aiMoveExecutorArmyList.GetArmies(i), selection: 255, army.BoardingPoint.X, army.BoardingPoint.Y, army.BoardingPoint.MapLevel, mode: Set<CreateMoveModeElement>.Of());
+                            (move, _) = CreateMove(aiMoveExecutorArmyList.GetArmies(i), selection: 255, army.BoardingPoint.X, army.BoardingPoint.Y, army.BoardingPoint.MapLevel, mode: Set<CreateMoveModeElement>.Of());
                             if (move is null)
                             {
                                 army.SetStatus(255, status: AIMoveExecutorUnitStatus.Done);
@@ -292,7 +288,7 @@ public class TransportMoveExecutorControl(CustomNode owner) : AIMoveExecutorCont
                             selection = CanMoveTo(aiMoveExecutorArmyList.GetArmies(index), selection: 255, army.TransportSource.X, army.TransportSource.Y, army.TransportSource.MapLevel);
                             if (selection != 0)
                             {
-                                move = CreateMove(aiMoveExecutorArmyList.GetArmies(index), selection, army.TransportSource.X, army.TransportSource.Y, army.TransportSource.MapLevel, mode: Set<CreateMoveModeElement>.Of());
+                                (move, _) = CreateMove(aiMoveExecutorArmyList.GetArmies(index), selection, army.TransportSource.X, army.TransportSource.Y, army.TransportSource.MapLevel, mode: Set<CreateMoveModeElement>.Of());
                                 if (move is null)
                                 {
                                     Executor.Transporter.Status = AIMoveExecutorUnitStatus.Done;
@@ -496,7 +492,8 @@ public class TransportMoveExecutorControl(CustomNode owner) : AIMoveExecutorCont
 
             if (found)
             {
-                if (CreateMove(army, selection: transporting, field.HexX, field.HexY, field.HexLevel, mode: Set<CreateMoveModeElement>.Of()) is not null)
+                (AIMoveExecutorMove move, _) = CreateMove(army, selection: transporting, field.HexX, field.HexY, field.HexLevel, mode: Set<CreateMoveModeElement>.Of());
+                if (move is not null)
                 {
                     Executor.ExecuteMoves();
                     army.SetStatus(transporting, status: AIMoveExecutorUnitStatus.Done);
@@ -543,7 +540,8 @@ public class TransportMoveExecutorControl(CustomNode owner) : AIMoveExecutorCont
 
             if (found)
             {
-                if (CreateMove(army, selection: others, field.HexX, field.HexY, field.HexLevel, mode: Set<CreateMoveModeElement>.Of()) is not null)
+                (AIMoveExecutorMove move, _) = CreateMove(army, selection: others, field.HexX, field.HexY, field.HexLevel, mode: Set<CreateMoveModeElement>.Of());
+                if (move is not null)
                 {
                     Executor.ExecuteMoves();
                     army.SetStatus(others, status: AIMoveExecutorUnitStatus.Done);

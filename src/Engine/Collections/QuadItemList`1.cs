@@ -2,7 +2,7 @@
 
 namespace Aow.Engine.Collections;
 
-public class QuadItemList<TA> : RecordList<QuadItem<TA>> where TA : class
+public sealed class QuadItemList<TA> : RecordList<QuadItem<TA>> where TA : class
 {
     public int AddABCD(TA A, int B, int C, int D) => Add(new QuadItem<TA> { First = A, Second = B, Third = C, Fourth = D });
 

@@ -7,7 +7,7 @@ namespace Aow.Game.World.Map;
 
 // the sorted list of the visible sprites of a scene (THSMap). a sprite removed from it is made
 // invisible
-public class VisibilityList(CustomNode owner) : ControlStyleInverseSortedNode(owner), IChildList<HexSprite>, IOwned<GameMap>, IOwnedSink<GameMap>
+public sealed class VisibilityList(CustomNode owner) : ControlStyleInverseSortedNode(owner), IChildList<HexSprite>, IOwned<GameMap>, IOwnedSink<GameMap>
 {
 
     // The sprite in slot index, read from the sorted items as the original reads them.

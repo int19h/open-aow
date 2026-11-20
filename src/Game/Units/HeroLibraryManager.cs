@@ -10,8 +10,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Saves;
 
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiFiles;
 using static Aow.Rtl.DelphiPaths;
 using static Aow.Rtl.DelphiStrings;
 using static Aow.Rtl.DelphiTextCompare;
@@ -19,7 +17,7 @@ using static Aow.Rtl.DelphiTextCompare;
 namespace Aow.Game.Units;
 
 // SystemLibrary. Libraries
-public class HeroLibraryManager : EngineObject
+public sealed class HeroLibraryManager : EngineObject
 {
     // Hero.PAS:2646
     public HeroLibraryManager(CustomNode owner) : base(owner)
@@ -46,7 +44,7 @@ public class HeroLibraryManager : EngineObject
         base.PersistFields(persister);
         // Under the text-only mode of the translate stream the original visits the system library
         // in place and touches no file.
-        if (PersistSupport.Translating(persister))
+        if (persister.Translating())
         {
             persister.Object("SystemLibrary", objectValue: SystemLibrary);
             return;
@@ -164,8 +162,8 @@ public class HeroLibraryManager : EngineObject
         {
             string name = this[index].GetName();
             // The list goes in both forms, so an original of the same name does not return.
-            _ = DeleteFile($"{GetEngine().StartupDirectory}User\\{name}{DocumentKind.HeroList.OriginalExtension}");
-            _ = DeleteFile($"{GetEngine().StartupDirectory}User\\{name}{DocumentKind.HeroList.OwnExtension}");
+            _ = RtlHost.Files.DeleteFile($"{GetEngine().StartupDirectory}User\\{name}{DocumentKind.HeroList.OriginalExtension}");
+            _ = RtlHost.Files.DeleteFile($"{GetEngine().StartupDirectory}User\\{name}{DocumentKind.HeroList.OwnExtension}");
             this[index]?.Dispose();
         }
     }

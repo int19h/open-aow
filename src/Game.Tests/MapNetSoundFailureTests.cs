@@ -71,7 +71,7 @@ public sealed class MapNetSoundFailureTests
     {
         internal SampleData? Published { get; private set; }
 
-        public Stream Open(string path, int mode)
+        public Stream Open(string path, FileOpenMode mode)
         {
             Published = AudioHost.SampleDataList.Find(name);
             Assert.NotNull(Published);

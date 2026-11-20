@@ -13,7 +13,7 @@ using Aow.Rtl;
 namespace Aow.Game.UI.Dialogs;
 
 // race, completion event, retained negotiation event
-public partial class CityJoinDialog(UIContext ui) : UIModule(ui)
+public sealed partial class CityJoinDialog(UIContext ui) : UIModule(ui)
 {
     public Window Window { get; private set; }
     public Label ApproachLabel { get; private set; }

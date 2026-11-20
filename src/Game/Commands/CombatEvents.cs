@@ -4,8 +4,6 @@ using Aow.Game.Combat;
 
 using Aow.Game.Draw;
 
-using Aow.Game.World.Map;
-
 using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 
@@ -67,12 +65,5 @@ internal static class CombatEvents
         {
             MakeEffect(BattleEffectType.DamCold);
         }
-    }
-
-    internal static TacticalBattleEndTurnTokenEvent CreateTacticalBattleCancelEndTurnTokenEvent(sbyte player, GameEngine engine)
-    {
-        return !StrategicMap.Current.Players.GetPlayers(player).GetBusy()
-            ? new TacticalBattleEndTurnTokenEvent(null) { Holder = engine }
-            : null;
     }
 }

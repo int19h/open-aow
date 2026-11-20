@@ -42,7 +42,7 @@ public sealed class HostPathTests
 
             foreach (string name in found)
             {
-                using Stream stream = OpenFile(name, mode: fmOpenRead);
+                using Stream stream = OpenFile(name, mode: FileOpenMode.Read);
                 byte[] content = new byte[1];
                 Assert.Equal(1, stream.Read(content));
                 Assert.Equal(Array.IndexOf(s_names, value: name), content[0]);

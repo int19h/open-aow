@@ -17,7 +17,7 @@ namespace Aow.Game.AI;
 
 // cycles, players, current player, player cycles, status, token done, time mode, time, used
 // time, start, token cycles, token cycle, lock count
-public partial class AIExecutor(CustomNode owner) : EngineObject(owner)
+public sealed partial class AIExecutor(CustomNode owner) : EngineObject(owner)
 {
 
     public int ProcessCycles { get; set; }

@@ -1,6 +1,6 @@
 namespace Aow.Game.UI.Dialogs;
 
-public partial class HeroUpgradeDialog
+public sealed partial class HeroUpgradeDialog
 {
     public override void Loaded()
     {

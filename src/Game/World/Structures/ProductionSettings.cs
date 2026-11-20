@@ -11,7 +11,7 @@ using Aow.Game.Units;
 namespace Aow.Game.World.Structures;
 
 // costs, turns left, upkeep, turns total, player, group, unit, unit production
-public class ProductionSettings(CustomNode owner) : EngineObject(owner)
+public sealed class ProductionSettings(CustomNode owner) : EngineObject(owner)
 {
     public int Gold { get; set; }
     public int Mana { get; set; }
@@ -37,9 +37,9 @@ public class ProductionSettings(CustomNode owner) : EngineObject(owner)
         base.PersistFields(persister);
         Gold = persister.Int32("Gold", value: Gold);
         Mana = persister.Int32("Mana", value: Mana);
-        TurnsLeft = PersistSupport.UnsignedByte(persister, name: "TurnsLeft", value: TurnsLeft);
-        TurnsTotal = PersistSupport.UnsignedByte(persister, name: "TurnsTotal", value: TurnsTotal);
-        Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
+        TurnsLeft = persister.UnsignedByte(name: "TurnsLeft", value: TurnsLeft);
+        TurnsTotal = persister.UnsignedByte(name: "TurnsTotal", value: TurnsTotal);
+        Player = persister.UnsignedByte(name: "Player", value: Player);
         GroupId = persister.Int32("GroupId", value: GroupId);
         UnitProductionIndex = persister.Int32("UnitProductionIndex", value: UnitProductionIndex);
         Unit = persister.Created("Unit", objectValue: Unit);

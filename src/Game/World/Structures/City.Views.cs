@@ -1,6 +1,5 @@
+using System.Globalization;
 using Aow.Game.Combat;
-
-using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.World.Structures;
 
@@ -27,7 +26,7 @@ public partial class City
         {
             if (site.NeighborHolds(i, kind: typeof(City)))
             {
-                stem += IntToStr(i);
+                stem += i.ToString(CultureInfo.InvariantCulture);
                 site.FixTag(i);
             }
         }

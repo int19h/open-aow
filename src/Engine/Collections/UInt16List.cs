@@ -420,7 +420,7 @@ public class UInt16List : Persistent
         while (number2 < R);
     }
 
-    internal static void FillWord(Span<ushort> buffer, int count, ushort value) => EngineServices.Fill(buffer, count, value);
+    internal static void FillWord(Span<ushort> buffer, int count, ushort value) => buffer[..count].Fill(value);
 
     public delegate int WordSortCompare(ushort Item1, ushort Item2);
 

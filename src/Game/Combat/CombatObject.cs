@@ -82,12 +82,12 @@ public class CombatObject(CustomNode owner) : EngineObject(owner)
     {
         base.PersistFields(persister);
         Position = persister.Byte("Position", value: Position);
-        CombatPlayer = PersistSupport.UnsignedByte(persister, name: "CombatPlayer", value: CombatPlayer);
+        CombatPlayer = persister.UnsignedByte(name: "CombatPlayer", value: CombatPlayer);
         Status = persister.Set("Status", value: Status);
         Id = persister.RawByte("Id", value: Id);
         // The translate stream's mode holds read, so the original ReadWrite clears the activated
         // flag there too.
-        if (persister.Loading || PersistSupport.Translating(persister))
+        if (persister.Loading || persister.Translating())
         {
             Status -= Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Activated);
         }

@@ -5,7 +5,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Windows;
 
-public partial class Panel
+public sealed partial class Panel
 {
     public override bool ContainsPoint(int X, int Y)
     {

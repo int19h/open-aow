@@ -8,7 +8,7 @@ namespace Aow.Game.UI.Controls;
 
 // the vertical scroll bar, the decrement button at the top and the increment button at the
 // bottom
-public partial class VerticalScrollBar(Component owner) : ScrollBar(owner)
+public sealed partial class VerticalScrollBar(Component owner) : ScrollBar(owner)
 {
 
     // AoWVScroll.pas:408

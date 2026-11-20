@@ -1,7 +1,6 @@
 #nullable disable
 // Translated from ImageLib.pas.
 using System.Buffers.Binary;
-
 using Aow.Graphics;
 using Aow.Rtl;
 using static Aow.Rtl.DelphiPaths;
@@ -12,7 +11,7 @@ namespace Aow.Game.Draw.Images;
 // transparent pixels), FData (the encoded rows: per row a length dword, then the opaque pixels
 // and, for a transparent run, the transparent index and the run length), FRLELeft, FRLETop,
 // FRLEWidth, FRLEHeight (the rectangle of the encoded pixels in the data rectangle)
-public class RleSprite08(CustomImageLibrary owner) : Image08(owner), ILibraryImageClass
+public sealed class RleSprite08(CustomImageLibrary owner) : Image08(owner), ILibraryImageClass
 {
     static int ILibraryImageClass.ClassId => 2;
     static string ILibraryImageClass.Name => "RLE Sprite (08bpp)";
@@ -87,11 +86,12 @@ public class RleSprite08(CustomImageLibrary owner) : Image08(owner), ILibraryIma
     }
 
     // ImageLib.pas:7553
-    public override void GetVisualDimensions(out Rect R)
+    public override Rect GetVisualDimensions()
     {
         int left = Xshift + RleLeft;
         int top = Yshift + RleTop;
-        R = new() { Left = left, Right = left + RleWidth, Top = top, Bottom = top + RleHeight };
+        Rect R = new() { Left = left, Right = left + RleWidth, Top = top, Bottom = top + RleHeight };
+        return R;
     }
 
     // ImageLib.pas:7561

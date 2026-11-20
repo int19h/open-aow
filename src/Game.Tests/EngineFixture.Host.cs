@@ -120,9 +120,9 @@ public sealed partial class EngineFixture
             return _files.SetCurrentDirectory(Checked(path));
         }
 
-        public Stream Open(string path, int mode)
+        public Stream Open(string path, FileOpenMode mode)
         {
-            Record($"Open:{mode}", argument: path);
+            Record($"Open:{(int)mode}", argument: path);
             return _files.Open(Checked(path), mode);
         }
 

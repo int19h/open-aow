@@ -1,17 +1,16 @@
 #nullable disable
 // Translated from ImageLib.pas.
+using System.Globalization;
 using Aow.Formats.Tree;
 using Aow.Rtl;
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiStrings;
-using static Aow.Rtl.RectRoutines;
 
 namespace Aow.Game.Draw.Images;
 
 // the image sequences of the indices, each the first layer of a chain (nil for none). FLinked
 // (the sequences are linked to their libraries), FILManager, FImageLibrary (the library of the
 // sequences without a library name)
-public class ImageSequenceList(ImageLibraryManager aILManager, CustomImageLibrary imageLibrary) : DelphiList<ImageSequence>
+public sealed class ImageSequenceList(ImageLibraryManager aILManager, CustomImageLibrary imageLibrary) : DelphiList<ImageSequence>
 {
 
     // { HSEngine's TMapObjectResource.MsgProc writes FILManager directly }
@@ -32,7 +31,7 @@ public class ImageSequenceList(ImageLibraryManager aILManager, CustomImageLibrar
         {
             if (List[i] is not null)
             {
-                result = $"{result}{IntToStr(i)},";
+                result = $"{result}{i.ToString(CultureInfo.InvariantCulture)},";
             }
         }
 
@@ -344,20 +343,21 @@ public class ImageSequenceList(ImageLibraryManager aILManager, CustomImageLibrar
     }
 
     // ImageLib.pas:9247
-    public void GetDimensions(int index, out Rect R)
+    public Rect GetDimensions(int index)
     {
         // The out value is assigned before its members are written.
-        R = default;
+        Rect R = default;
         if (index < Count && index >= 0)
         {
             ImageSequence sequence = List[index];
             while (sequence is not null)
             {
-                sequence.GetDimensions(out Rect sr);
-                _ = UnionRect(out R, R, sr);
+                Rect sr = sequence.GetDimensions();
+                _ = R.Union(right: sr, result: out R);
                 sequence = sequence.Next;
             }
         }
+        return R;
     }
 
     // ImageLib.pas:9270

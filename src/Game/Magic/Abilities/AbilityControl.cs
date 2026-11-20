@@ -1,19 +1,19 @@
 #nullable disable
 // Translated from AoWE.pas.
+using System.Globalization;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 
 using Aow.Rtl;
 
 using static Aow.Rtl.DelphiAssert;
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiTextCompare;
 using static Aow.Rtl.IntegerObjects;
 
 namespace Aow.Game.Magic.Abilities;
 
 // (Abilities, AbilitiesByType,)
-public class AbilityControl : EngineObject
+public sealed class AbilityControl : EngineObject
 {
     // Ability.PAS:2035
     public AbilityControl(CustomNode owner) : base(owner)
@@ -72,7 +72,7 @@ public class AbilityControl : EngineObject
         {
             if (id < Abilities.Count && Abilities[id] is not null)
             {
-                throw new InvalidOperationException($"Ability already registered ({IntToStr(id)})");
+                throw new InvalidOperationException($"Ability already registered ({id.ToString(CultureInfo.InvariantCulture)})");
             }
 
             while (id >= Abilities.Count)
@@ -99,7 +99,7 @@ public class AbilityControl : EngineObject
         {
             if (id < 0 || id >= Abilities.Count || Abilities[id] != ability)
             {
-                throw new InvalidOperationException($"Cannot Unregister Ability ({IntToStr(id)})");
+                throw new InvalidOperationException($"Cannot Unregister Ability ({id.ToString(CultureInfo.InvariantCulture)})");
             }
 
             if (Abilities[id] is not null)

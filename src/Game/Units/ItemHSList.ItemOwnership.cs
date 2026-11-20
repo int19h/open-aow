@@ -4,7 +4,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Units;
 
-public partial class ItemHSList
+public sealed partial class ItemHSList
 {
     internal ItemHexSprite Sprite { get; init; } = null!;
 

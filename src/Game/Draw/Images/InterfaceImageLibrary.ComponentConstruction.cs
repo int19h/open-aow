@@ -4,7 +4,7 @@ using Aow.Game.Layout;
 
 namespace Aow.Game.Draw.Images;
 
-public partial class InterfaceImageLibrary
+public sealed partial class InterfaceImageLibrary
 {
     public byte[] LayoutData
     {

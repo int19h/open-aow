@@ -5,7 +5,7 @@ using Aow.Game.Layout;
 
 namespace Aow.Game.Net;
 
-public partial class SmtpSender
+public sealed partial class SmtpSender
 {
     public int DefaultPort { get; set; }
 

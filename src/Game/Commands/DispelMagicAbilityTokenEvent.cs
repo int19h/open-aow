@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWE.pas.
+using System.Globalization;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.Draw.Animations;
@@ -7,7 +8,6 @@ using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Net;
 using Aow.Game.World.Map;
-using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.Commands;
 
@@ -66,7 +66,7 @@ public class DispelMagicAbilityTokenEvent(CustomNode owner) : TokenEvent(owner)
             {
                 if (count > 0)
                 {
-                    string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.SpellsSuccessfullyDispelledFormat), arguments: [IntToStr(count)]);
+                    string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.SpellsSuccessfullyDispelledFormat), arguments: [count.ToString(CultureInfo.InvariantCulture)]);
                     StrategicMap.Current.ShowMessage(format);
                 }
                 else

@@ -39,10 +39,10 @@ public partial class Sign(CustomNode owner) : Structure(owner)
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        PersistSupport.Lines(persister, name: "Text", lines: Text);
+        persister.Lines(name: "Text", lines: Text);
         if (StrategicMap.Current is not null && StrategicMap.Current.ConnectionType != PlayerConnectionType.Network)
         {
-            _ = PersistSupport.BitList(persister, name: "TextSeen", list: TextSeen);
+            _ = persister.BitList(name: "TextSeen", list: TextSeen);
         }
         else
         {

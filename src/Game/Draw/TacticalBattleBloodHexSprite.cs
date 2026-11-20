@@ -8,7 +8,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Draw;
 
 // Frame. OffsetX. OffsetY
-public class TacticalBattleBloodHexSprite(CustomNode owner) : SingleHexSprite(owner)
+public sealed class TacticalBattleBloodHexSprite(CustomNode owner) : SingleHexSprite(owner)
 {
     public new const int ClassId = 2_228_487;
 

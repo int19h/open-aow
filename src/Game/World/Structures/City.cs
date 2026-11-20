@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from City.pas.
+using System.Globalization;
 using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
@@ -23,7 +24,6 @@ using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
 using Aow.Rtl;
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiFormat;
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiRounding;
@@ -103,7 +103,7 @@ public partial class City : PlayerCropStructure
     {
         base.PersistFields(persister);
         Name = persister.String("Name", value: Name);
-        Race = PersistSupport.UnsignedByte(persister, name: "Race", value: Race);
+        Race = persister.UnsignedByte(name: "Race", value: Race);
         WallType = persister.RawByte("WallType", value: WallType);
         UpgradeLevel = persister.Byte("UpgradeLevel", value: UpgradeLevel);
         persister.Object("Production", objectValue: Production);
@@ -1203,7 +1203,7 @@ public partial class City : PlayerCropStructure
     // City.pas:955
     public void ListEnhancementsInfo(DelphiStringCollection list)
     {
-        _ = list.Add(Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_upgradeLevelFormat), args: [IntToStr(UpgradeLevel)]));
+        _ = list.Add(Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_upgradeLevelFormat), args: [((int)UpgradeLevel).ToString(CultureInfo.InvariantCulture)]));
         if (WallType == 1)
         {
             _ = list.Add(AbilityRules.TranslateResourceString(GetEngine(), S: s_cityWoodenWallText));
@@ -1873,22 +1873,22 @@ public partial class City : PlayerCropStructure
     {
         int income = Size * 5;
         _ = names.Add(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.BaseIncomeText));
-        _ = values.Add(IntToStr(income));
+        _ = values.Add(income.ToString(CultureInfo.InvariantCulture));
         income += GetCropCount() * 2;
         int cropCount = GetCropCount();
-        _ = names.Add(Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_cropFieldsFormat), args: [IntToStr(cropCount)]));
-        _ = values.Add(IntToStr(GetCropCount() * 2));
+        _ = names.Add(Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_cropFieldsFormat), args: [cropCount.ToString(CultureInfo.InvariantCulture)]));
+        _ = values.Add((GetCropCount() * 2).ToString(CultureInfo.InvariantCulture));
         if (Set<CityAction>.Of(CityAction.None, CityAction.Trade).Contains(ActiveAction))
         {
             _ = names.Add(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.ProducingMerchandiseText));
-            _ = values.Add(IntToStr(Round(income * 0.25)));
+            _ = values.Add(Round(income * 0.25).ToString(CultureInfo.InvariantCulture));
             income += Round(income * 0.25);
         }
 
         if (Enchantments.Contains(CityEnchantmentId.GoldRush))
         {
             _ = names.Add(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.GoldRushText));
-            _ = values.Add(IntToStr(income));
+            _ = values.Add(income.ToString(CultureInfo.InvariantCulture));
         }
     }
 
@@ -2254,7 +2254,7 @@ public partial class City : PlayerCropStructure
                 }
                 else
                 {
-                    string format = Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_cityTributeJoinFormat), args: [IntToStr(request.Gold)]);
+                    string format = Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_cityTributeJoinFormat), args: [request.Gold.ToString(CultureInfo.InvariantCulture)]);
                     request.JoinMessage.Text = format;
                 }
 

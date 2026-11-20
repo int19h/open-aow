@@ -16,7 +16,7 @@ using static Aow.Rtl.DelphiTextCompare;
 namespace Aow.Game.Units;
 
 // Changed. UpdateCount. HeroChanged. Heroes
-public class HeroControl : EngineObject
+public sealed class HeroControl : EngineObject
 {
     // Hero.PAS:2413
     public HeroControl(CustomNode owner) : base(owner)

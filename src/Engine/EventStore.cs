@@ -3,7 +3,6 @@
 // TriggerNotifyEvents (4873, 4881, 4887, 4994, 5046).
 using System.Reflection;
 using Aow.Rtl;
-using static Aow.Rtl.DelegateRoutines;
 
 namespace Aow.Engine;
 
@@ -60,11 +59,11 @@ internal sealed class EventStore<TSender>
     // Engine.pas:4947. The scan starts at the bottom of the list.
     private int IndexOf(NotifyEvent<TSender> item)
     {
-        object target = MethodTarget(item);
-        MethodInfo code = MethodCode(item);
+        object target = ((Delegate)item)?.Target;
+        MethodInfo code = ((Delegate)item)?.Method;
         for (int i = 0; i < Count; i++)
         {
-            if (MethodTarget(_items[i]) == target && MethodCode(_items[i]) == code)
+            if ((((Delegate)_items[i])?.Target) == target && (((Delegate)_items[i])?.Method) == code)
             {
                 return i;
             }

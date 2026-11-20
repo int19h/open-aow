@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from Dungeon.pas.
+using System.Globalization;
 using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
@@ -17,7 +18,6 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiFormat;
 using static Aow.Rtl.DelphiRandom;
 
@@ -208,7 +208,7 @@ public partial class Dungeon : ExplorationSite
             else
             {
                 int count = Prisoners.Units.Count;
-                armyLog.Text = Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_prisonersLiberatedFormat), args: [IntToStr(count)]);
+                armyLog.Text = Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_prisonersLiberatedFormat), args: [count.ToString(CultureInfo.InvariantCulture)]);
                 int fPrisonersCount = Prisoners.Units.Count;
                 string name2 = StrategicMap.Current.Players.GetPlayers(player).GetName();
                 string format = Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_afterLiberationUnitsJoinedForcesFormat), args: [fPrisonersCount, name2]);
@@ -267,7 +267,7 @@ public partial class Dungeon : ExplorationSite
         public override void PersistFields(IPersister persister)
         {
             base.PersistFields(persister);
-            PersistSupport.UnitIndexListCollection(persister, name: "PrisonerCollections", collection: PrisonerCollections);
+            persister.UnitIndexListCollection(name: "PrisonerCollections", collection: PrisonerCollections);
         }
 
         // Dungeon.pas:283

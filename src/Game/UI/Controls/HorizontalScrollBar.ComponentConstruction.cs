@@ -4,7 +4,7 @@ using Aow.Game.Layout;
 
 namespace Aow.Game.UI.Controls;
 
-public partial class HorizontalScrollBar
+public sealed partial class HorizontalScrollBar
 {
     public LayoutStrings LayoutToolTipText
     {

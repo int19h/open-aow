@@ -121,7 +121,7 @@ internal static class PersistenceMeasurement
 
     private static long ReadLength(HeadlessHost host, string path)
     {
-        using Stream stream = host.Files.Open(path, mode: DelphiStreams.fmOpenRead | DelphiStreams.fmShareDenyWrite);
+        using Stream stream = host.Files.Open(path, mode: FileOpenMode.Read | FileOpenMode.ShareDenyWrite);
         return stream.Length;
     }
 

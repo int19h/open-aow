@@ -4,7 +4,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class General
+public sealed partial class General
 {
     public event NotifyEvent<General> LayoutOnCreate;
     public event NotifyEvent<General> LayoutOnDestroy;

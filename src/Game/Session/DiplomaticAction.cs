@@ -62,19 +62,19 @@ public partial class DiplomaticAction(CustomNode owner) : EngineObject(owner), I
             _ = message.Add(line);
         }
 
-        Source = PersistSupport.UnsignedByte(persister, name: "Source", value: Source);
-        Target = PersistSupport.UnsignedByte(persister, name: "Target", value: Target);
-        OtherPlayer = PersistSupport.UnsignedByte(persister, name: "OtherPlayer", value: OtherPlayer);
+        Source = persister.UnsignedByte(name: "Source", value: Source);
+        Target = persister.UnsignedByte(name: "Target", value: Target);
+        OtherPlayer = persister.UnsignedByte(name: "OtherPlayer", value: OtherPlayer);
         gold = persister.Int32("Gold", value: gold);
         mana = persister.Int32("Mana", value: mana);
         Span<byte> kindData = [kind];
         persister.Bytes("Kind", data: kindData);
         kind = kindData[0];
         Reaction = persister.Enum("Reaction", value: Reaction);
-        PersistSupport.Lines(persister, name: "Message", lines: message);
+        persister.Lines(name: "Message", lines: message);
         // The translate stream's mode holds read, so the original ReadWrite builds the proposal
         // with the translated message there too.
-        if (persister.Loading || PersistSupport.Translating(persister))
+        if (persister.Loading || persister.Translating())
         {
             Proposal = DiplomaticProposal.FromFields(kind, gold, mana) with { Message = DiplomaticProposal.Lines(message) };
         }

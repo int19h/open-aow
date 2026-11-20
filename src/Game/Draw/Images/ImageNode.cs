@@ -5,7 +5,7 @@ using static Aow.Rtl.DelphiMemory;
 
 namespace Aow.Game.Draw.Images;
 
-public class ImageNode : LibraryImage, ILibraryImageClass
+public sealed class ImageNode : LibraryImage, ILibraryImageClass
 {
     static int ILibraryImageClass.ClassId => Engine.Nodes.OwningNode.ClassId;
     static string ILibraryImageClass.Name => "";

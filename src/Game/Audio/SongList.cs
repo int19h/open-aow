@@ -52,9 +52,9 @@ public class SongList : EngineObject
     {
         base.PersistFields(persister);
         // The original ReadWrite leaves out the songs under text only (the translate stream).
-        if (!PersistSupport.Translating(persister))
+        if (!persister.Translating())
         {
-            PersistSupport.Lines(persister, name: "Songs", lines: Songs);
+            persister.Lines(name: "Songs", lines: Songs);
         }
     }
 

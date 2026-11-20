@@ -6,7 +6,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Units;
 
-public class UnitResourceList : ResourceCollection, IChildList<UnitResource>
+public sealed class UnitResourceList : ResourceCollection, IChildList<UnitResource>
 {
     // The unit resource in slot index, read as the original reads the list, without a range check.
     // AcceptsResource admits only a UnitResource, so the cast never fails.

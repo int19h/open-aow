@@ -5,7 +5,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class MultiWindow
+public sealed partial class MultiWindow
 {
     public void Execute(string mapName)
     {

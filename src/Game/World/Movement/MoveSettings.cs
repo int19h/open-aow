@@ -7,7 +7,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.World.Movement;
 
 // Path, PathMovePoints, MoveObject, MovePoints, Priority, Selection, MovePosition, Valid
-public class MoveSettings(CustomNode owner) : EngineObject(owner)
+public sealed class MoveSettings(CustomNode owner) : EngineObject(owner)
 {
 
     public MovePath Path { get; } = new MovePath();

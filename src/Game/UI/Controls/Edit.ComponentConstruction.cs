@@ -4,7 +4,7 @@ using Aow.Game.Layout;
 
 namespace Aow.Game.UI.Controls;
 
-public partial class Edit
+public sealed partial class Edit
 {
     public LayoutStrings LayoutToolTipText
     {

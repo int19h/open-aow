@@ -1,7 +1,7 @@
 #nullable disable
 // Translated from AoWE.pas.
 using System.Collections.Immutable;
-
+using System.Globalization;
 using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
@@ -28,7 +28,6 @@ using Aow.Game.World.Movement;
 using Aow.Rtl;
 
 using static Aow.Rtl.DelphiAssert;
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiStrings;
 
@@ -149,29 +148,29 @@ public partial class Hero : Troop
 
         HeroName = persister.String("HeroName", value: HeroName);
         Nickname = persister.String("Nickname", value: Nickname);
-        Race = PersistSupport.UnsignedByte(persister, name: "Race", value: Race);
-        CastingPoints = PersistSupport.UnsignedByte(persister, name: "CastingPoints", value: CastingPoints);
+        Race = persister.UnsignedByte(name: "Race", value: Race);
+        CastingPoints = persister.UnsignedByte(name: "CastingPoints", value: CastingPoints);
         CastingSpellId = persister.Int32("CastingSpellId", value: CastingSpellId);
         _gender = persister.Enum("Gender", value: _gender);
-        UnitAttack = PersistSupport.UnsignedByte(persister, name: "UnitAttack", value: UnitAttack);
-        UnitDefense = PersistSupport.UnsignedByte(persister, name: "UnitDefense", value: UnitDefense);
-        UnitDamage = PersistSupport.UnsignedByte(persister, name: "UnitDamage", value: UnitDamage);
-        UnitHits = PersistSupport.UnsignedByte(persister, name: "UnitHits", value: UnitHits);
-        UnitMoves = PersistSupport.UnsignedByte(persister, name: "UnitMoves", value: UnitMoves);
-        UnitResistance = PersistSupport.UnsignedByte(persister, name: "UnitResistance", value: UnitResistance);
+        UnitAttack = persister.UnsignedByte(name: "UnitAttack", value: UnitAttack);
+        UnitDefense = persister.UnsignedByte(name: "UnitDefense", value: UnitDefense);
+        UnitDamage = persister.UnsignedByte(name: "UnitDamage", value: UnitDamage);
+        UnitHits = persister.UnsignedByte(name: "UnitHits", value: UnitHits);
+        UnitMoves = persister.UnsignedByte(name: "UnitMoves", value: UnitMoves);
+        UnitResistance = persister.UnsignedByte(name: "UnitResistance", value: UnitResistance);
         Level = persister.Byte("Level", value: Level);
         UpgradePending = persister.Boolean("UpgradePending", value: UpgradePending);
         Experience = persister.Int32("Experience", value: Experience);
         HeroStatus = persister.Set("HeroStatus", value: HeroStatus);
         _deathDay = persister.Int32("DeathDay", value: _deathDay);
-        _deathPlayer = PersistSupport.UnsignedByte(persister, name: "DeathPlayer", value: _deathPlayer);
+        _deathPlayer = persister.UnsignedByte(name: "DeathPlayer", value: _deathPlayer);
         if (persister.Loading && Experience == 0)
         {
             Experience = LevelToExperience((oldExperience >>> 5) + 1);
         }
 
-        _movePoints = PersistSupport.UnsignedByte(persister, name: "MovePoints", value: _movePoints);
-        HitPoints = PersistSupport.UnsignedByte(persister, name: "HitPoints", value: HitPoints);
+        _movePoints = persister.UnsignedByte(name: "MovePoints", value: _movePoints);
+        HitPoints = persister.UnsignedByte(name: "HitPoints", value: HitPoints);
         CastingManaValue = persister.Int32("CastingManaValue", value: CastingManaValue);
         _castSpellInstantly = persister.Boolean("CastSpellInstantly", value: _castSpellInstantly);
         CastingProgress = persister.Int32("CastingProgress", value: CastingProgress);
@@ -189,7 +188,7 @@ public partial class Hero : Troop
         }
 
         // The original leaves the library name out under the text-only mode of the translate stream.
-        if (!PersistSupport.Translating(persister))
+        if (!persister.Translating())
         {
             LibraryName = persister.String("LibraryName", value: LibraryName);
         }
@@ -836,7 +835,7 @@ public partial class Hero : Troop
         {
             GetEngine().CombatFont.Color = 0xFF_FF_FF;
             sbyte level = GetLevel();
-            GetEngine().CombatFont.SetTextCentered(X + 43, Y + 12, text: IntToStr(level), lockedSurface);
+            GetEngine().CombatFont.SetTextCentered(X + 43, Y + 12, text: ((int)level).ToString(CultureInfo.InvariantCulture), lockedSurface);
         }
 
         return result;

@@ -67,9 +67,9 @@ public class Spell : EngineObject
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        PersistSupport.Lines(persister, name: "SpellText", lines: SpellText);
+        persister.Lines(name: "SpellText", lines: SpellText);
         persister.Object("CastSounds", objectValue: CastSounds);
-        PersistSupport.ImageSequences(persister, name: "CastImages", list: CastImages);
+        persister.ImageSequences(name: "CastImages", list: CastImages);
         BaseManaCost = persister.Int32("BaseManaCost", value: BaseManaCost);
         ManaUpkeep = persister.Int32("ManaUpkeep", value: ManaUpkeep);
         ResearchCost = persister.Int32("ResearchCost", value: ResearchCost);

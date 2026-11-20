@@ -5,7 +5,7 @@ using PageTurnMode = Aow.Game.UI.Grids.PageTurnMode;
 
 namespace Aow.Game.UI.Windows;
 
-public partial class BookWindow
+public sealed partial class BookWindow
 {
     public override void Blit(Surface surface)
     {

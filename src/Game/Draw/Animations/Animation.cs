@@ -51,8 +51,8 @@ public class Animation(CustomNode owner) : HexSprite(owner)
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Dimensions = PersistSupport.Record<RectImage, Rect>(persister, name: "Dimensions", value: Dimensions);
-        Location = PersistSupport.Coordinate(persister, name: "Location", value: Location, width: CoordinateWidth.Byte);
+        Dimensions = persister.Record<RectImage, Rect>(name: "Dimensions", value: Dimensions);
+        Location = persister.Coordinate(name: "Location", value: Location, width: CoordinateWidth.Byte);
         FrameCounter = persister.Int32("FrameCounter", value: FrameCounter);
     }
 

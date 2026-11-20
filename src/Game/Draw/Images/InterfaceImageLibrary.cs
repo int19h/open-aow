@@ -1,7 +1,7 @@
 #nullable disable
 // Translated from AOWInterfaceImgLib.pas.
+using System.Globalization;
 using Aow.Rtl;
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.RtlHost;
 
 namespace Aow.Game.Draw.Images;
@@ -12,7 +12,7 @@ namespace Aow.Game.Draw.Images;
 //   SizedRectangle, clipped to the surface's clip rectangle, which they narrow while drawing and
 //   restore. }
 // no fields or virtual methods of its own
-public partial class InterfaceImageLibrary(Component owner) : ImageLibrary(owner)
+public sealed partial class InterfaceImageLibrary(Component owner) : ImageLibrary(owner)
 {
 
     // AOWInterfaceImgLib.pas:34
@@ -24,7 +24,7 @@ public partial class InterfaceImageLibrary(Component owner) : ImageLibrary(owner
         if (index + count > Count)
         {
             result = null;
-            _ = MessageBox(0, text: $"{Name} must have {IntToStr(index + count)} Images", caption: $"Error - {sender.Name}", flags: 0);
+            _ = MessageBox(0, text: $"{Name} must have {(index + count).ToString(CultureInfo.InvariantCulture)} Images", caption: $"Error - {sender.Name}", flags: 0);
         }
         else
         {
@@ -32,7 +32,7 @@ public partial class InterfaceImageLibrary(Component owner) : ImageLibrary(owner
             {
                 if (!ImageExist(i))
                 {
-                    _ = MessageBox(0, text: $"{Name} Image # {IntToStr(i)} is invalid", caption: $"Error - {sender.Name}", flags: 0);
+                    _ = MessageBox(0, text: $"{Name} Image # {i.ToString(CultureInfo.InvariantCulture)} is invalid", caption: $"Error - {sender.Name}", flags: 0);
                     result = null;
                 }
             }

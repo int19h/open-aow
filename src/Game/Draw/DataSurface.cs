@@ -9,7 +9,7 @@ namespace Aow.Game.Draw;
 // FPitch, FPixelFormatID, FX, FY (origin of the captured rectangle), FPalette. The port's FMem
 // is the pixel array and its first byte is the first pixel, so FData has no field of its own
 // (graphics.md 3.4).
-public partial class DataSurface : Surface
+public sealed partial class DataSurface : Surface
 {
 
     private int _width;
@@ -83,7 +83,7 @@ public partial class DataSurface : Surface
                     SetPalette(lockedSurface.Palette);
                     X = R.Value.Left;
                     Y = R.Value.Top;
-                    BlitRects.BlitRectangle(lockedSurface.View((Y * lockedSurface.Pitch) + ((X * _bitCount) >>> 3)), destination: new SurfaceView(Data, start: 0, Pitch), (_width * _bitCount) >>> 3, _height);
+                    Graphics.Blit.BlitRectangle(lockedSurface.View((Y * lockedSurface.Pitch) + ((X * _bitCount) >>> 3)), d: new SurfaceView(Data, start: 0, Pitch), w: (_width * _bitCount) >>> 3, h: _height);
                 }
             }
             catch

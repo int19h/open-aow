@@ -4,7 +4,7 @@ using Aow.Rtl;
 namespace Aow.Game.Audio;
 
 // every Sample (ProcessSound updates them)
-public class SampleList : DelphiList<Sample>
+public sealed class SampleList : DelphiList<Sample>
 {
     // Sound.pas:710
     public override void Dispose()

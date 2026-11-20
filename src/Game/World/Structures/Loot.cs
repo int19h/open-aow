@@ -1,10 +1,10 @@
 #nullable disable
+using System.Globalization;
 using Aow.Game.Draw;
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.World.Map;
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiFormat;
 
 namespace Aow.Game.World.Structures;
@@ -65,7 +65,7 @@ public sealed record Loot : ProductionOrder
         }
 
         control.BeginUpdate();
-        Log(control, city, text: Format(AbilityRules.TranslateResourceString(control.GetEngine(), S: s_cityLootedFormat), args: [city.GetName(), IntToStr(city.Income * 3)]));
+        Log(control, city, text: Format(AbilityRules.TranslateResourceString(control.GetEngine(), S: s_cityLootedFormat), args: [city.GetName(), (city.Income * 3).ToString(CultureInfo.InvariantCulture)]));
         Player playerGems = StrategicMap.Current.Players.GetPlayers(control.GetPlayer());
         StrategicMap.Current.Players.GetPlayers(control.GetPlayer()).SetGems(playerGems.Gems + (city.Income * 3));
         city.Overlay.SetMode(CityOverlayHexSprite.OverlayMode.Idle);

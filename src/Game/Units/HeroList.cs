@@ -5,7 +5,7 @@ using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.Units;
 
-public class HeroList(CustomNode owner) : ReferenceNode(owner), IChildList<Hero>, IHeroHolder
+public sealed class HeroList(CustomNode owner) : ReferenceNode(owner), IChildList<Hero>, IHeroHolder
 {
     // The hero in slot index, without a range check.
     public Hero this[int index] => Heroes[index];

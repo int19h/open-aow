@@ -8,7 +8,7 @@ using Aow.Rtl;
 namespace Aow.Game.World.Map;
 
 // ID, Text, Name
-public class TextControlItem(CustomNode owner) : EngineObject(owner)
+public sealed class TextControlItem(CustomNode owner) : EngineObject(owner)
 {
 
     public new const int ClassId = 131_738;
@@ -31,9 +31,9 @@ public class TextControlItem(CustomNode owner) : EngineObject(owner)
     {
         base.PersistFields(persister);
         Id = persister.Int32("Id", value: Id);
-        PersistSupport.Lines(persister, name: "Text", lines: Text);
+        persister.Lines(name: "Text", lines: Text);
         // The original leaves the name out under text only, which the translate stream's mode holds.
-        if (!PersistSupport.Translating(persister))
+        if (!persister.Translating())
         {
             Name = persister.String("Name", value: Name);
         }

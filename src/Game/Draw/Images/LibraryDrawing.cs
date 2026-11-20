@@ -9,10 +9,6 @@ internal static class LibraryDrawing
         /* TODO: Implement Windows.SetStretchBltMode in the platform or editor service. */
         => throw new NotImplementedException();
 
-    internal static void Register()
-        /* TODO: Implement DsgnIntf.RegisterComponentEditor in the platform or editor service. */
-        => throw new NotImplementedException();
-
     internal static void WriteStringToStream(string S, Stream stream)
     {
         int l = S.Length;
@@ -36,9 +32,4 @@ internal static class LibraryDrawing
         stream.ReadExactly(buffer);
         S = Cp1252.Decode(buffer);
     }
-
-    internal static void DrawFocusFrame(int displayController, Rect R, bool focused, int color)
-        /* TODO: Implement Windows.CreateSolidBrush in the platform or editor service. */
-        => throw new NotImplementedException();
-
 }

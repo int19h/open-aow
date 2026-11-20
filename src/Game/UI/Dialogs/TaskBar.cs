@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWTBWindow.pas.
+using System.Globalization;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
 using Aow.Game.Session;
@@ -7,13 +8,12 @@ using Aow.Game.UI.Controls;
 using Aow.Game.UI.Grids;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.RtlHost;
 
 namespace Aow.Game.UI.Dialogs;
 
 // indicator frame/step, world/combat clock delays, chat flash countdown
-public partial class TaskBar(UIContext ui) : UIModule(ui)
+public sealed partial class TaskBar(UIContext ui) : UIModule(ui)
 {
     public Window TaskWindow { get; private set; }
     public MenuBar WorldStartMenuBar { get; private set; }
@@ -306,13 +306,13 @@ public partial class TaskBar(UIContext ui) : UIModule(ui)
                     ushort second = (ushort)(StrategicMap.Current.TurnTimeLeft % 60_000 / 1_000);
                     WorldTimeLabel.TextColor = minute == 0 && second is > 0 and <= 10 ? 255 : 0;
 
-                    WorldTimeLabel.Text = $"{IntToStr(minute)}:";
+                    WorldTimeLabel.Text = $"{((int)minute).ToString(CultureInfo.InvariantCulture)}:";
                     if (second < 10)
                     {
                         WorldTimeLabel.Text = $"{WorldTimeLabel.Text}0";
                     }
 
-                    WorldTimeLabel.Text = WorldTimeLabel.Text + IntToStr(second);
+                    WorldTimeLabel.Text = WorldTimeLabel.Text + ((int)second).ToString(CultureInfo.InvariantCulture);
                 }
                 else
                 {
@@ -330,13 +330,13 @@ public partial class TaskBar(UIContext ui) : UIModule(ui)
                         hour = 12;
                     }
 
-                    WorldTimeLabel.Text = $"{IntToStr(hour)}:";
+                    WorldTimeLabel.Text = $"{((int)hour).ToString(CultureInfo.InvariantCulture)}:";
                     if (minute < 10)
                     {
                         WorldTimeLabel.Text = $"{WorldTimeLabel.Text}0";
                     }
 
-                    WorldTimeLabel.Text = WorldTimeLabel.Text + IntToStr(minute);
+                    WorldTimeLabel.Text = WorldTimeLabel.Text + ((int)minute).ToString(CultureInfo.InvariantCulture);
                 }
             }
         }
@@ -364,13 +364,13 @@ public partial class TaskBar(UIContext ui) : UIModule(ui)
                     hour = 12;
                 }
 
-                CombatTimeLabel.Text = $"{IntToStr(hour)}:";
+                CombatTimeLabel.Text = $"{((int)hour).ToString(CultureInfo.InvariantCulture)}:";
                 if (minute < 10)
                 {
                     CombatTimeLabel.Text = $"{CombatTimeLabel.Text}0";
                 }
 
-                CombatTimeLabel.Text = CombatTimeLabel.Text + IntToStr(minute);
+                CombatTimeLabel.Text = CombatTimeLabel.Text + ((int)minute).ToString(CultureInfo.InvariantCulture);
             }
         }
     }

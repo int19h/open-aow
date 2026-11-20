@@ -14,7 +14,7 @@ namespace Aow.Game.UI.Controls;
 // Fields: _items, _selected (-1 for none), _imageLibraryButton, LastSelected, _imageLibraryIndexUp, _imageLibraryIndexDown,
 // FMenus (the TAOWMenu objects whose OwnerMenuBar is this bar), F130 (only cleared and tested:
 // a click on the item last selected then does nothing)
-public partial class MenuBar : Control
+public sealed partial class MenuBar : Control
 {
     private InterfaceImageLibrary _imageLibraryButton;
     private int _lastSelected;
@@ -126,12 +126,12 @@ public partial class MenuBar : Control
                         int fItemsCount = Items.Count;
                         SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft + (WinWidth * i / fItemsCount), Window.AbsoluteTop + WinTop, WinWidth / count, WinHeight);
                         _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexDown, area: rectangle, ref lockedSurface);
-                        if (base.Font is not null)
+                        if (Font is not null)
                         {
-                            base.Font.Color = SelectedColor;
+                            Font.Color = SelectedColor;
                             string item = Items[i];
                             int count2 = Items.Count;
-                            base.Font.SetText(Window.AbsoluteLeft + WinLeft + (WinWidth * i / count2) + BorderWidth, Window.AbsoluteTop + WinTop + BorderHeight, text: item, lockedSurface);
+                            Font.SetText(Window.AbsoluteLeft + WinLeft + (WinWidth * i / count2) + BorderWidth, Window.AbsoluteTop + WinTop + BorderHeight, text: item, lockedSurface);
                         }
                     }
                     else
@@ -140,12 +140,12 @@ public partial class MenuBar : Control
                         int fItemsCount = Items.Count;
                         SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft + (WinWidth * i / fItemsCount), Window.AbsoluteTop + WinTop, WinWidth / count, WinHeight);
                         _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexUp, area: rectangle, ref lockedSurface);
-                        if (base.Font is not null)
+                        if (Font is not null)
                         {
-                            base.Font.Color = Color;
+                            Font.Color = Color;
                             string item = Items[i];
                             int count2 = Items.Count;
-                            base.Font.SetText(Window.AbsoluteLeft + WinLeft + (WinWidth * i / count2) + BorderWidth, Window.AbsoluteTop + WinTop + BorderHeight + 1, text: item, lockedSurface);
+                            Font.SetText(Window.AbsoluteLeft + WinLeft + (WinWidth * i / count2) + BorderWidth, Window.AbsoluteTop + WinTop + BorderHeight + 1, text: item, lockedSurface);
                         }
                     }
                 }
@@ -246,7 +246,7 @@ public partial class MenuBar : Control
     public override void CheckKeyPress(ref byte key) => Handled = false;
 
     // AOWMenuBar.pas:89
-    public virtual void SetImageLibraryButton(InterfaceImageLibrary value)
+    public void SetImageLibraryButton(InterfaceImageLibrary value)
     {
         if (value != _imageLibraryButton)
         {
@@ -256,7 +256,7 @@ public partial class MenuBar : Control
     }
 
     // AOWMenuBar.pas:131
-    public virtual void SetImageLibraryUIndex(int value)
+    public void SetImageLibraryUIndex(int value)
     {
         if (value != _imageLibraryIndexUp)
         {
@@ -266,7 +266,7 @@ public partial class MenuBar : Control
     }
 
     // AOWMenuBar.pas:140
-    public virtual void SetILDIndex(int value)
+    public void SetILDIndex(int value)
     {
         if (value != _imageLibraryIndexDown)
         {

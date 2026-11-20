@@ -1,9 +1,9 @@
 #nullable disable
 // Translated from AoWE.pas.
+using System.Globalization;
 using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.Magic.Abilities;
 
@@ -22,7 +22,7 @@ public class MultiLevelAbility(CustomNode owner) : AdjustableAbility(owner)
     }
 
     // AoWAb.PAS:322
-    public virtual string GetLevelName(int level) => $"Unknown {IntToStr(level)}";
+    public virtual string GetLevelName(int level) => $"Unknown {level.ToString(CultureInfo.InvariantCulture)}";
 
     // AoWAb.PAS:317
     // { branch past the missing-data exit and nil-owner zero result }

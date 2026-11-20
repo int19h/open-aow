@@ -1,6 +1,6 @@
 namespace Aow.Game.UI.Dialogs;
 
-public partial class ScenarioSetup
+public sealed partial class ScenarioSetup
 {
     public override void Loaded()
     {

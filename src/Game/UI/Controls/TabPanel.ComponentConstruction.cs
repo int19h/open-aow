@@ -4,7 +4,7 @@ using Aow.Game.Layout;
 
 namespace Aow.Game.UI.Controls;
 
-public partial class TabPanel
+public sealed partial class TabPanel
 {
     public LayoutStrings LayoutItems
     {

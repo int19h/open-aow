@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWCastUnitSpellDlg.pas.
+using System.Globalization;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.Magic.Abilities;
@@ -10,12 +11,10 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Rtl;
 
-using static Aow.Rtl.DelphiConversions;
-
 namespace Aow.Game.UI.Dialogs;
 
 // retained unit spell caster
-public partial class CastUnitSpellDialog(UIContext ui) : UIModule(ui)
+public sealed partial class CastUnitSpellDialog(UIContext ui) : UIModule(ui)
 {
     public Window Window { get; private set; }
     public Panel UnitPanel { get; private set; }
@@ -187,7 +186,7 @@ public partial class CastUnitSpellDialog(UIContext ui) : UIModule(ui)
         string reason = "";
         SelectionInfoLabel.TextColor = Caster.CanCast(ref reason) ? 0 : 149;
         // AoW.exe loads the two-byte separator
-        SelectionInfoLabel.Text = $"{UI.Engine.TranslateResourceString(s_requiredManaText)}: {IntToStr(Caster.GetRequiredMana())}";
+        SelectionInfoLabel.Text = $"{UI.Engine.TranslateResourceString(s_requiredManaText)}: {Caster.GetRequiredMana().ToString(CultureInfo.InvariantCulture)}";
     }
 
     // AoWCastUnitSpellDlg.pas:183

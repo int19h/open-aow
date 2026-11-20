@@ -1,24 +1,17 @@
 #nullable disable
 // Translated from AoWE.pas.
+using System.Globalization;
 using Aow.Engine;
 using Aow.Engine.Buffers;
 using Aow.Engine.Nodes;
-
 using Aow.Game.Combat;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Session;
-
 using Aow.Game.Units;
-
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Game.World.Structures;
-
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.AI.Groups;
@@ -1090,15 +1083,15 @@ public class AIGroupTargetSelector : AIGroupTask
     // AIGroup.pas:3441
     public void ShowTargetInfo()
     {
-        GetEngine().OutputDebugMessage(DebugChannel.AI, S: $"Targets for Group (ID:{IntToStr(GroupControl.Group.GroupId)})");
+        GetEngine().OutputDebugMessage(DebugChannel.AI, S: $"Targets for Group (ID:{GroupControl.Group.GroupId.ToString(CultureInfo.InvariantCulture)})");
         for (int i = 0, last = GroupControl.Targets.Count - 1; i <= last; i++)
         {
             AIGroupControlTarget target = GroupControl.Targets.GetTargets(i);
-            target.GetDebugInfo(out string text);
-            text = $"{text}/TS_Prio:{IntToStr(target.DataA)}";
-            text = $"{text}/MPBFS:{IntToStr(target.PathStrength)}";
-            text = $"{text}/TG:{IntToStr(target.TargetGold)}";
-            text = $"{text}/MP:{IntToStr(target.MovePoints)}";
+            string text = target.GetDebugInfo();
+            text = $"{text}/TS_Prio:{target.DataA.ToString(CultureInfo.InvariantCulture)}";
+            text = $"{text}/MPBFS:{target.PathStrength.ToString(CultureInfo.InvariantCulture)}";
+            text = $"{text}/TG:{target.TargetGold.ToString(CultureInfo.InvariantCulture)}";
+            text = $"{text}/MP:{target.MovePoints.ToString(CultureInfo.InvariantCulture)}";
             text += "/Status:";
             if (target.Status.Contains(AIGroupTargetFlags.Cooperate))
             {
@@ -1190,7 +1183,7 @@ public class AIGroupTargetSelector : AIGroupTask
 
     // target factor, immediate bonus, transport penalty, overlap penalties, existing-target
     // bonuses, cooperation penalties, recruitment penalties, move-day penalty, production penalties
-    public class PrioritySettings
+    public sealed class PrioritySettings
     {
         public float TargetFactor { get; set; }
         public int ImmediateBonus { get; set; }

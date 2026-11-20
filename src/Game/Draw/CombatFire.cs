@@ -12,7 +12,7 @@ using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.Draw;
 
-public class CombatFire(CustomNode owner) : SingleHexSprite(owner)
+public sealed class CombatFire(CustomNode owner) : SingleHexSprite(owner)
 {
 
     // CombatFire.pas:80

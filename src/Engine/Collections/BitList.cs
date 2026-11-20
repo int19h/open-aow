@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from Engine.pas.
+using System.Globalization;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 
@@ -88,7 +89,7 @@ public partial class BitList : Persistent
         {
             if (DefaultByte(Get(i)) != _default)
             {
-                result = $"{result}{IntToStr(i)},";
+                result = $"{result}{i.ToString(CultureInfo.InvariantCulture)},";
             }
         }
 

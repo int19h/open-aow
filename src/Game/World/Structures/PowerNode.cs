@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from PowerNode.pas.
+using System.Globalization;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.AI;
@@ -11,7 +12,6 @@ using Aow.Game.Session;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiFormat;
 
 namespace Aow.Game.World.Structures;
@@ -90,7 +90,7 @@ public partial class PowerNode : PlayerStructure
     public override string GetCurrentActivityText()
     {
         int power = GetPower();
-        return Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_generatingPowerFormat), args: [IntToStr(power)]);
+        return Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_generatingPowerFormat), args: [power.ToString(CultureInfo.InvariantCulture)]);
     }
 
     // PowerNode.pas:96

@@ -15,7 +15,7 @@ namespace Aow.Game.UI.Windows;
 // FShowing, FControlRect (the control on the screen. the tip shows at its bottom right),
 // FItemIndex, FItemRect (the line being drawn, for OnDrawItem), FLines (Items broken into lines
 // that fit)
-public class ToolTip : GenericWindow
+public sealed class ToolTip : GenericWindow
 {
     [Published]
     public event NotifyEvent<ToolTip> OnDrawItem;
@@ -57,7 +57,7 @@ public class ToolTip : GenericWindow
             ImageLibraryTexture = ImageLibraryTexture.CheckImageLibrary(ImageLibraryIndexTexture, count: 1, sender: this);
         }
 
-        if (OwnerComponent is not null && ImageLibraryFrame is not null && ImageLibraryTexture is not null && base.Font is not null)
+        if (OwnerComponent is not null && ImageLibraryFrame is not null && ImageLibraryTexture is not null && Font is not null)
         {
             Valid = true;
         }
@@ -122,7 +122,7 @@ public class ToolTip : GenericWindow
                     if (!notDone)
                     {
                         string line = _lines[i];
-                        int textWidth = base.Font.GetTextWidth(line);
+                        int textWidth = Font.GetTextWidth(line);
                         LibraryImage imageLibraryFrame2 = ImageLibraryFrame[3];
                         LibraryImage imageLibraryFrame3 = ImageLibraryFrame[4];
                         notDone = textWidth > WinWidth - imageLibraryFrame2.Width - imageLibraryFrame3.Width - (BorderWidth * 2);
@@ -176,7 +176,7 @@ public class ToolTip : GenericWindow
             int count = _lines.Count;
             SetWinHeightWithoutInvalidate(imageLibraryFrame5.Height + imageLibraryFrame6.Height + (BorderHeight * 2) + (count * ItemHeight));
             string line6 = _lines[0];
-            int w = base.Font.GetTextWidth(line6);
+            int w = Font.GetTextWidth(line6);
             LibraryImage imageLibraryFrame7 = ImageLibraryFrame[ImageLibraryIndexFrame];
             LibraryImage imageLibraryFrame8 = ImageLibraryFrame[ImageLibraryIndexFrame + 2];
             if (w < WinWidth - imageLibraryFrame7.Width - imageLibraryFrame8.Width - (BorderWidth * 2))
@@ -283,7 +283,7 @@ public class ToolTip : GenericWindow
                 LibraryImage imageLibraryFrame4 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
                 SizedRectangle rectangle2 = new(WinLeft + imageLibraryFrame4.Width, WinTop + imageLibraryFrame3.Height, WinWidth - imageLibraryFrameWidth.Width - imageLibraryFrame2.Width, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
                 ImageLibraryTexture.DrawTiled(ImageLibraryIndexTexture, area: rectangle2, ref lockedSurface);
-                base.Font.Color = Color;
+                Font.Color = Color;
                 Rect oldClip = lockedSurface.ClipRectangle;
                 if (_lines.Count > 0)
                 {
@@ -303,7 +303,7 @@ public class ToolTip : GenericWindow
                             string line = _lines[i];
                             LibraryImage imageLibraryFrame6 = ImageLibraryFrame[ImageLibraryIndexFrame];
                             LibraryImage imageLibraryFrame7 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
-                            base.Font.SetText(WinLeft + BorderWidth + imageLibraryFrame7.Width, WinTop + BorderHeight + imageLibraryFrame6.Height + (ItemHeight * i), text: line, lockedSurface);
+                            Font.SetText(WinLeft + BorderWidth + imageLibraryFrame7.Width, WinTop + BorderHeight + imageLibraryFrame6.Height + (ItemHeight * i), text: line, lockedSurface);
                             LibraryImage imageLibraryFrame8 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
                             LibraryImage imageLibraryFrame9 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
                             LibraryImage libraryImage = ImageLibraryFrame[ImageLibraryIndexFrame + 3];

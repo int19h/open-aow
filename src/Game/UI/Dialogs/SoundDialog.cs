@@ -7,7 +7,6 @@ using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Rtl;
 using Aow.Rtl.Host;
-using static Aow.Rtl.DelphiFiles;
 using static Aow.Rtl.DelphiStrings;
 using static Aow.Rtl.DelphiTextCompare;
 using static Aow.Rtl.RtlHost;
@@ -15,7 +14,7 @@ using static Aow.Rtl.RtlHost;
 namespace Aow.Game.UI.Dialogs;
 
 // sound quality, sound settings (rate, music, DirectSound, window, Sfx, voices)
-public partial class SoundDialog(UIContext ui) : UIModule(ui)
+public sealed partial class SoundDialog(UIContext ui) : UIModule(ui)
 {
     public Window Window { get; private set; }
     public ListBox SongList { get; private set; }
@@ -138,8 +137,8 @@ public partial class SoundDialog(UIContext ui) : UIModule(ui)
     {
         SongList.Items.Clear();
         s_songFiles.Clear();
-        _ = SetCurrentDir($"{UI.Engine.StartupDirectory}\\Songs");
-        string directory = GetCurrentDir();
+        _ = Files.SetCurrentDirectory($"{UI.Engine.StartupDirectory}\\Songs");
+        string directory = Files.CurrentDirectory;
         if (Copy(directory, index: directory.Length, count: 1) == "\\")
         {
             directory = Copy(directory, index: 1, count: directory.Length - 1);
@@ -158,7 +157,7 @@ public partial class SoundDialog(UIContext ui) : UIModule(ui)
             }
         }
 
-        StringSorting.SortStringsAscending(SongList.Items, linkedStrings: [s_songFiles]);
+        SongList.Items.SortStringsAscending(linkedStrings: [s_songFiles]);
         SongList.Selected = -1;
         SongList.ListOffset = 0;
         SongScrollBar.Position = 0;

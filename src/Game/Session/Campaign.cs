@@ -80,7 +80,7 @@ public class Campaign : EngineObject
             Stream.SetLength(image.Length);
             image.CopyTo(Stream.GetBuffer().AsSpan(start: 0, length: image.Length));
         }
-        else if (!PersistSupport.Translating(persister))
+        else if (!persister.Translating())
         {
             // The original ReadWrite leaves out the map under text only (the translate stream).
             _ = persister.NestedDocument("Map", profile: "world-hsm", image: Stream.GetBuffer().AsSpan(start: 0, length: (int)Stream.Length).ToArray());
@@ -90,9 +90,9 @@ public class Campaign : EngineObject
         persister.Object("Scenarios", objectValue: Scenarios);
         _name = persister.String("Name", value: _name);
         CurrentScenarioId = persister.Int32("CurrentScenarioId", value: CurrentScenarioId);
-        PersistSupport.Int32List(persister, name: "CompletedScenarios", list: CompletedScenarios);
+        persister.Int32List(name: "CompletedScenarios", list: CompletedScenarios);
         ScenarioStarted = persister.Boolean("ScenarioStarted", value: ScenarioStarted);
-        PersistSupport.ByteList(persister, name: "RaceHistory", list: RaceHistory);
+        persister.ByteList(name: "RaceHistory", list: RaceHistory);
         PlayMode = persister.Enum("PlayMode", value: PlayMode);
         DifficultyLevel = persister.Enum("DifficultyLevel", value: DifficultyLevel);
         if (persister.Loading)

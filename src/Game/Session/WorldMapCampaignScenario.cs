@@ -9,7 +9,7 @@ using Aow.Game.UI.Dialogs;
 namespace Aow.Game.Session;
 
 // image library, path text, description, position, paths, pages, map kind
-public class WorldMapCampaignScenario : CampaignScenario
+public sealed class WorldMapCampaignScenario : CampaignScenario
 {
     // AoWVideoDlg.pas:304
     public new const int ClassId = 2_248_705;
@@ -41,7 +41,7 @@ public class WorldMapCampaignScenario : CampaignScenario
     {
         base.PersistFields(persister);
         // The original ReadWrite leaves out the image library under text only (the translate stream).
-        if (!PersistSupport.Translating(persister))
+        if (!persister.Translating())
         {
             ImageLibrary = persister.String("ImageLibrary", value: ImageLibrary);
         }
@@ -54,7 +54,7 @@ public class WorldMapCampaignScenario : CampaignScenario
         MapY = persister.Int32("MapY", value: MapY);
         persister.Object("IntroPages", objectValue: IntroPages);
         persister.Object("OutroPages", objectValue: OutroPages);
-        PersistSupport.Int32List(persister, name: "Paths", list: Paths);
+        persister.Int32List(name: "Paths", list: Paths);
         MapKind = persister.RawByte("MapKind", value: MapKind);
     }
 

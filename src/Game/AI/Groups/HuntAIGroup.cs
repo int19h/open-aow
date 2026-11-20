@@ -31,7 +31,7 @@ public class HuntAIGroup(CustomNode owner) : AIGroup(owner), IAIGroupClass
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        PersistSupport.Int32List(persister, name: "TargetUnitIds", list: TargetUnitIds);
+        persister.Int32List(name: "TargetUnitIds", list: TargetUnitIds);
     }
 
     // AIGroup.pas:1457

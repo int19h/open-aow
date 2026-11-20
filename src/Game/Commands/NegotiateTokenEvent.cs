@@ -56,8 +56,8 @@ public class NegotiateTokenEvent(CustomNode owner) : TokenEvent(owner)
         base.PersistFields(persister);
         Gold = persister.Int32("Gold", value: Gold);
         Offer = persister.Enum("Offer", value: Offer);
-        Location = PersistSupport.Coordinate(persister, name: "Location", value: Location, width: CoordinateWidth.Byte);
-        Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
+        Location = persister.Coordinate(name: "Location", value: Location, width: CoordinateWidth.Byte);
+        Player = persister.UnsignedByte(name: "Player", value: Player);
         _ownerPlayer = persister.Byte("OwnerPlayer", value: _ownerPlayer);
         Object = persister.Enum("Object", value: Object);
         MovePoints = persister.Int32("MovePoints", value: MovePoints);

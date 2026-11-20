@@ -11,7 +11,7 @@ using static Aow.Rtl.IntegerObjects;
 namespace Aow.Game.Events;
 
 // events, player, next ID
-public class EventLogbook : EngineObject
+public sealed class EventLogbook : EngineObject
 {
     // EventLog.pas:532
     public new const int ClassId = 131_808;

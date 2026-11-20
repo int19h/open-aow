@@ -16,7 +16,7 @@ using static Aow.Rtl.DelphiStrings;
 namespace Aow.Game.Units;
 
 // library name, image index, item type, library, references, hidden
-public class ItemGraphics(CustomNode owner) : EngineResource(owner)
+public sealed class ItemGraphics(CustomNode owner) : EngineResource(owner)
 {
     public new const int ClassId = 131_689;
 
@@ -34,7 +34,7 @@ public class ItemGraphics(CustomNode owner) : EngineResource(owner)
     {
         base.PersistFields(persister);
         // The original leaves the library name out under the text-only mode of the translate stream.
-        if (!PersistSupport.Translating(persister))
+        if (!persister.Translating())
         {
             ImageLibraryName = persister.String("ImageLibraryName", value: ImageLibraryName);
         }

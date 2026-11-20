@@ -8,7 +8,7 @@ using Aow.Rtl;
 namespace Aow.Game.Combat;
 
 // Status. Combat. Delay. Speed. Position. Time. Logbook
-public class CombatViewer : IDisposable
+public sealed class CombatViewer : IDisposable
 {
     // Combat2.pas:546
     public CombatViewer(EngineObject creator)
@@ -34,7 +34,7 @@ public class CombatViewer : IDisposable
     public CombatLogbook Logbook { get; private set; }
 
     // Combat2.pas:555
-    public virtual void Dispose()
+    public void Dispose()
     {
         if (Status.Contains(CombatViewerStatusElement.Initialized))
         {

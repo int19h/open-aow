@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from Engine.pas.
+using System.Globalization;
 using System.Runtime.InteropServices;
 
 using Aow.Engine.Nodes;
@@ -87,7 +88,7 @@ public class Int32List : Persistent
         string result = "";
         for (int i = 0, last = _count - 1; i <= last; i++)
         {
-            result = $"{result}{IntToStr(_list[i])},";
+            result = $"{result}{_list[i].ToString(CultureInfo.InvariantCulture)},";
         }
 
         return !IsEmpty(result) ? Copy(result, index: 1, count: result.Length - 1) : result;
@@ -471,7 +472,7 @@ public class Int32List : Persistent
         while (!(i >= R));
     }
 
-    internal static void FillInteger(Span<int> buffer, int count, int value) => EngineServices.Fill(buffer, count, value);
+    internal static void FillInteger(Span<int> buffer, int count, int value) => buffer[..count].Fill(value);
 
     internal static int FillWithRandomUnits(Int32List indexes, UnitCollection units, int level, int value, Set<UnitType> types)
     {

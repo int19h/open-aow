@@ -2,16 +2,11 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-
 using Aow.Game.Draw;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Units;
-
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
-
 using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
@@ -40,7 +35,7 @@ public partial class AIMoveExecutorControl : EngineObject
     }
 
     // AIGroup.pas:4738
-    public virtual AIMoveExecutorMove CreateMove(AIMoveExecutorArmy army, byte selection, sbyte x, sbyte y, sbyte mapLevel, Set<CreateMoveModeElement> mode, out byte moveResult)
+    public virtual (AIMoveExecutorMove, byte MoveResult) CreateMove(AIMoveExecutorArmy army, byte selection, sbyte x, sbyte y, sbyte mapLevel, Set<CreateMoveModeElement> mode)
     {
         AIMoveExecutorMove move = null;
         army.RetrieveArmy(selection, army: out ArmyHexSprite armyHexSprite, out byte armySelection);
@@ -64,7 +59,7 @@ public partial class AIMoveExecutorControl : EngineObject
                     {
                         if (CanMoveTo(army, selection, (sbyte)walk.X, (sbyte)walk.Y, mapLevel) == selection)
                         {
-                            _ = candidates.Add(new SurroundCandidate(Location: HexGeometry.PackMapCoordinate((sbyte)walk.X, (sbyte)walk.Y, mapLevel), MovePoints: points));
+                            _ = candidates.Add(new SurroundCandidate(Location: new MapCoordinate((sbyte)walk.X, (sbyte)walk.Y, mapLevel), MovePoints: points));
                         }
                     }
                 }
@@ -91,7 +86,7 @@ public partial class AIMoveExecutorControl : EngineObject
             settings.SetDestinationPosition(x, y, mapLevel);
             StrategicMap.Current.MoveControl.ProcessMove(settings);
         }
-
+        byte moveResult;
         if (settings.Path.Count != 0)
         {
             points = armyHexSprite.Army.MovePoints(armySelection);
@@ -166,7 +161,7 @@ public partial class AIMoveExecutorControl : EngineObject
         }
 
         _ = settings.Release();
-        return move;
+        return (move, moveResult);
     }
 
     // AIGroup.pas:4854

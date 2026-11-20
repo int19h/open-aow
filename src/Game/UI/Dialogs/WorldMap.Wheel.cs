@@ -1,6 +1,6 @@
 namespace Aow.Game.UI.Dialogs;
 
-public partial class WorldMap
+public sealed partial class WorldMap
 {
     public override void Loaded()
     {

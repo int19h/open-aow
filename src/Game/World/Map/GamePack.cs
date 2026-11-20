@@ -221,10 +221,10 @@ public class GamePack : EngineNode, IChildList<GamePackChild>
     {
         if (persister.Loading)
         {
-            PersistSupport.ShowProgress(persister, sender: this, message: AbilityRules.TranslateResourceString(GetEngine(), S: s_loadingGamePackText), percent: 0);
+            persister.ShowProgress(sender: this, message: AbilityRules.TranslateResourceString(GetEngine(), S: s_loadingGamePackText), percent: 0);
         }
 
-        GameEngine engine = PersistSupport.Engine(persister);
+        GameEngine engine = persister.Engine();
         SetEngine(engine);
         PluginControl.Engine = engine;
         base.PersistFields(persister);
@@ -235,7 +235,7 @@ public class GamePack : EngineNode, IChildList<GamePackChild>
         persister.Object("RaceResources", objectValue: RaceResources);
         persister.Object("ItemLibraries", objectValue: ItemLibraries);
         string path = ExtractFilePath(GetEngine().HssFileName);
-        if (PersistSupport.Translating(persister))
+        if (persister.Translating())
         {
             // The translate stream's mode holds text only, under which the original visits the game
             // set inline (ids 111 to 119) and reads and writes no file.
@@ -251,12 +251,12 @@ public class GamePack : EngineNode, IChildList<GamePackChild>
         else if (persister.Loading)
         {
             bool loaded = GetEngine().ReadFromFileCrc($"{path}ABILITY.PFS", objectValue: AbilityControl, progress: null);
-            PersistSupport.ShowProgress(persister, sender: this, message: AbilityRules.TranslateResourceString(GetEngine(), S: s_loadingUnitsText), percent: 70);
+            persister.ShowProgress(sender: this, message: AbilityRules.TranslateResourceString(GetEngine(), S: s_loadingUnitsText), percent: 70);
             loaded = loaded && GetEngine().ReadFromFileCrc($"{path}UNITRES.PFS", objectValue: UnitResources, progress: null);
             loaded = loaded && GetEngine().ReadFromFileCrc($"{path}UNITGFX.PFS", objectValue: UnitGraphicsResources, progress: null);
-            PersistSupport.ShowProgress(persister, sender: this, message: AbilityRules.TranslateResourceString(GetEngine(), S: s_loadingHeroesText), percent: 80);
+            persister.ShowProgress(sender: this, message: AbilityRules.TranslateResourceString(GetEngine(), S: s_loadingHeroesText), percent: 80);
             loaded = loaded && GetEngine().ReadFromFileCrc($"{path}HERORES.PFS", objectValue: HeroResources, progress: null);
-            PersistSupport.ShowProgress(persister, sender: this, message: AbilityRules.TranslateResourceString(GetEngine(), S: s_loadingItemsText), percent: 90);
+            persister.ShowProgress(sender: this, message: AbilityRules.TranslateResourceString(GetEngine(), S: s_loadingItemsText), percent: 90);
             loaded = loaded && GetEngine().ReadFromFileCrc($"{path}ITEMGFX.PFS", objectValue: ItemGraphicsResources, progress: null);
             loaded = loaded && GetEngine().ReadFromFileCrc($"{path}FACERES.PFS", objectValue: FaceResources, progress: null);
             loaded = loaded && GetEngine().ReadFromFileCrc($"{path}COMB_RES.PFS", objectValue: CombatResources, progress: null, classTable: "tactical");
@@ -267,7 +267,7 @@ public class GamePack : EngineNode, IChildList<GamePackChild>
                 throw new InvalidOperationException("CRC-CHECK FAILED");
             }
 
-            PersistSupport.ShowProgress(persister, sender: this, message: AbilityRules.TranslateResourceString(GetEngine(), S: s_gamePackLoadedText), percent: 100);
+            persister.ShowProgress(sender: this, message: AbilityRules.TranslateResourceString(GetEngine(), S: s_gamePackLoadedText), percent: 100);
         }
         else
         {
@@ -283,9 +283,9 @@ public class GamePack : EngineNode, IChildList<GamePackChild>
         }
 
         persister.Object("HeroLibraries", objectValue: HeroLibraries);
-        PersistSupport.ImageSequences(persister, name: "ImageSequences", list: ImageSequences);
+        persister.ImageSequences(name: "ImageSequences", list: ImageSequences);
         // The translate stream's mode holds read, so the original links and takes the CRC there too.
-        if (persister.Loading || PersistSupport.Translating(persister))
+        if (persister.Loading || persister.Translating())
         {
             ImageSequences.LinkToImageLibrary();
             HssCrc = RetrieveHssCrc();
@@ -407,7 +407,7 @@ public class GamePack : EngineNode, IChildList<GamePackChild>
     public int GetFileCrc(string fileName, bool atEnd)
     {
         int result = 0;
-        Stream fileStream = OpenFile(fileName, mode: 0 | 0b0010_0000);
+        Stream fileStream = OpenFile(fileName, mode: FileOpenMode.Read | FileOpenMode.ShareDenyWrite);
         try
         {
             if (atEnd)

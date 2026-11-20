@@ -1,10 +1,7 @@
 // Translated from Storms.pas.
 using Aow.Engine.Nodes;
-
 using Aow.Game.Combat;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Rtl;
@@ -17,7 +14,7 @@ public class Storm(CustomNode owner) : Animation(owner)
     public sbyte Player { get; private set; }
 
     // Storms.pas:34
-    public virtual void GetTargetDamageInfo(sbyte player, sbyte X, sbyte Y, sbyte L, ref StormDamageInfo info) => throw AbstractErrorException.Create("Abstract Error");
+    public virtual StormDamageInfo GetTargetDamageInfo(sbyte player, sbyte X, sbyte Y, sbyte L, StormDamageInfo info) => throw AbstractErrorException.Create("Abstract Error");
 
     // Storms.pas:236
     public virtual void UpdateTargetSelection(TargetSelectionControl selection)
@@ -65,11 +62,11 @@ public class Storm(CustomNode owner) : Animation(owner)
                 ArmyHexSprite armyHexSprite = level.Field[walk.X, walk.Y].GetArmyHexSprite();
                 if (armyHexSprite is not null && armyHexSprite.Army.Player != 0 && AbilityRules.ValidAttackRelation(player, independentRelation: 0, targetPlayer: armyHexSprite.Army.Player, targetRace: 0))
                 {
-                    GetTargetDamageInfo(player, (sbyte)walk.X, (sbyte)walk.Y, L: (sbyte)L, info: ref candidate);
+                    candidate = GetTargetDamageInfo(player, (sbyte)walk.X, (sbyte)walk.Y, L: (sbyte)L, info: candidate);
                     if (info.EnemyDamage - info.FriendlyDamage < candidate.EnemyDamage - candidate.FriendlyDamage)
                     {
                         info = candidate;
-                        target = HexGeometry.PackMapCoordinate((sbyte)walk.X, (sbyte)walk.Y, (sbyte)L);
+                        target = new MapCoordinate((sbyte)walk.X, (sbyte)walk.Y, (sbyte)L);
                         result = true;
                     }
                 }

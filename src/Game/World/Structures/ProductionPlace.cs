@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from PrdPlace.pas.
+using System.Globalization;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.AI;
@@ -17,7 +18,6 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiFormat;
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiRounding;
@@ -452,11 +452,11 @@ public partial class ProductionPlace : PlayerStructure
             if (BaseIncome > 0)
             {
                 _ = names.Add(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.BaseIncomeText));
-                _ = values.Add(IntToStr(BaseIncome));
+                _ = values.Add(BaseIncome.ToString(CultureInfo.InvariantCulture));
                 if (ProductionControl.Status != ProductionControlStatus.Producing || (ProductionControl.Queue.GetItem(0).Order is Trade && BaseIncome > 0))
                 {
                     _ = names.Add(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.ProducingMerchandiseText));
-                    _ = values.Add(IntToStr(Round(BaseIncome * 0.25)));
+                    _ = values.Add(Round(BaseIncome * 0.25).ToString(CultureInfo.InvariantCulture));
                 }
             }
         }
@@ -468,12 +468,12 @@ public partial class ProductionPlace : PlayerStructure
                 int picks = StrategicMap.Current.Players.GetPlayers(Player).Leader.GetSpherePicks(magicSphere);
                 MagicSphere magicSphere2 = GetMagicSphere();
                 string magicSphereText = AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.MagicSphereTexts[(int)magicSphere2]);
-                _ = names.Add(Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_sphereCountFormat), args: [IntToStr(picks), LowerCase(magicSphereText)]));
-                _ = values.Add(IntToStr(picks * 5));
+                _ = names.Add(Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_sphereCountFormat), args: [picks.ToString(CultureInfo.InvariantCulture), LowerCase(magicSphereText)]));
+                _ = values.Add((picks * 5).ToString(CultureInfo.InvariantCulture));
                 if (ProductionControl.Status != ProductionControlStatus.Producing || ProductionControl.Queue.GetItem(0).Order is Trade)
                 {
                     _ = names.Add(AbilityRules.TranslateResourceString(GetEngine(), S: s_extraPowerText));
-                    _ = values.Add(IntToStr(Round(picks * 5 * 0.25)));
+                    _ = values.Add(Round(picks * 5 * 0.25).ToString(CultureInfo.InvariantCulture));
                 }
             }
         }

@@ -15,7 +15,7 @@ namespace Aow.Game.Units;
 
 // The original's THeroItems derives from TItemList. The items a hero wears own the equipped
 // items as node children and read them through Items. FOwner is the hero.
-public partial class HeroItems : ObservableNode, IChildList<Item>, IItemHolder
+public sealed partial class HeroItems : ObservableNode, IChildList<Item>, IItemHolder
 {
     /// <summary>The items this hero wears, in their stored order.</summary>
     public ItemCollection Items => new(this);

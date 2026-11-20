@@ -2,7 +2,7 @@
 namespace Aow.Game.Draw;
 
 // _list
-public class DisplayModeList : IDisposable
+public sealed class DisplayModeList : IDisposable
 {
     private readonly List<DisplayModeItem> _list;
 
@@ -16,7 +16,7 @@ public class DisplayModeList : IDisposable
     public DisplayModeList() => _list = [];
 
     // GFXE.pas:12617
-    public virtual void Dispose()
+    public void Dispose()
     {
         Clear();
         _list?.Clear();

@@ -7,7 +7,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class MapWindow : ILayoutModule
+public sealed partial class MapWindow : ILayoutModule
 {
     public void InitializeComponent() => InitializeComponent(LayoutSession.Default);
 

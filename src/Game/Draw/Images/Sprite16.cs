@@ -11,7 +11,7 @@ namespace Aow.Game.Draw.Images;
 // FStoredPixelFormatID), FColorKey (the transparent color in FPixelFormatID), FSpriteX,
 // FSpriteY (of the pixels in the grabbed rectangle), FSpriteWidth, FSpriteHeight (of the
 // pixels)
-public class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibraryImageClass
+public sealed class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibraryImageClass
 {
     static int ILibraryImageClass.ClassId => 22;
     static string ILibraryImageClass.Name => "Sprite (16bpp)";
@@ -89,11 +89,12 @@ public class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibraryImageC
     }
 
     // ImageLib.pas:4294
-    public override void GetVisualDimensions(out Rect R)
+    public override Rect GetVisualDimensions()
     {
         int left = Xshift + _spriteX;
         int top = Yshift + _spriteY;
-        R = new() { Left = left, Right = left + _spriteWidth, Top = top, Bottom = top + _spriteHeight };
+        Rect R = new() { Left = left, Right = left + _spriteWidth, Top = top, Bottom = top + _spriteHeight };
+        return R;
     }
 
     // ImageLib.pas:4315
@@ -159,12 +160,12 @@ public class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibraryImageC
             switch (pixelFormatId)
             {
                 case PixelFormat.Rgb565:
-                    PixelRemap.RemapSurface555To565(View, destination: View, _spriteWidth, _spriteHeight);
+                    Blit.RemapSurface555To565(View, d: View, w: _spriteWidth, h: _spriteHeight);
                     _colorKey = PixelRemap.RemapPixelInfo(_colorKey, sourcePixelFormatId: PixelFormat.Rgb555, sourcePalette: null, destinationPixelFormatId: PixelFormat.Rgb565, destinationPalette: null);
                     PixelFormatId = PixelFormat.Rgb565;
                     break;
                 case PixelFormat.Rgb555:
-                    PixelRemap.RemapSurface565To555(View, destination: View, _spriteWidth, _spriteHeight);
+                    Blit.RemapSurface565To555(View, d: View, w: _spriteWidth, h: _spriteHeight);
                     _colorKey = PixelRemap.RemapPixelInfo(_colorKey, sourcePixelFormatId: PixelFormat.Rgb565, sourcePalette: null, destinationPixelFormatId: PixelFormat.Rgb555, destinationPalette: null);
                     PixelFormatId = PixelFormat.Rgb555;
                     break;
@@ -244,7 +245,7 @@ public class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibraryImageC
                     destination = lockedSurface.View((destinationX << 1) + (lockedSurface.Pitch * destinationY));
                     if (lockedSurface.PixelFormatId == PixelFormatId)
                     {
-                        BlitRects.BlitColorKey16(source, destination, w, h, _colorKey);
+                        Blit.BlitColorKey16(source, d: destination, w: w, h: h, key: _colorKey);
                     }
                     else
                     {
@@ -253,7 +254,7 @@ public class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibraryImageC
                             throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
-                        BlitRects.BlitColorKey16(source, destination, w, h, _colorKey);
+                        Blit.BlitColorKey16(source, d: destination, w: w, h: h, key: _colorKey);
                     }
 
                     if (LoadMode == LoadMode.LoadFreeOnDemand)
@@ -267,7 +268,7 @@ public class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibraryImageC
                     destination = lockedSurface.View((destinationX << 1) + (lockedSurface.Pitch * destinationY));
                     if (lockedSurface.PixelFormatId == PixelFormatId)
                     {
-                        BlitRects.BlitColorKey16(source, destination, w, h, _colorKey);
+                        Blit.BlitColorKey16(source, d: destination, w: w, h: h, key: _colorKey);
                     }
                     else
                     {
@@ -276,7 +277,7 @@ public class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibraryImageC
                             throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
-                        BlitRects.BlitColorKey16(source, destination, w, h, _colorKey);
+                        Blit.BlitColorKey16(source, d: destination, w: w, h: h, key: _colorKey);
                     }
                 }
             }

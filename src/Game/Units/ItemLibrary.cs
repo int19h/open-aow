@@ -12,7 +12,7 @@ namespace Aow.Game.Units;
 
 // The original's TItemLibrary derives from TItemList. The port's library owns its items as its
 // node children and reads them through Items.
-public class ItemLibrary(CustomNode owner) : ObservableNode(owner), IChildList<Item>, IItemHolder
+public sealed class ItemLibrary(CustomNode owner) : ObservableNode(owner), IChildList<Item>, IItemHolder
 {
     /// <summary>The items of this library, in their stored order.</summary>
     public ItemCollection Items => new(this);
@@ -27,7 +27,7 @@ public class ItemLibrary(CustomNode owner) : ObservableNode(owner), IChildList<I
     public event NotifyEvent<object> OnChanged;
 
     // Army.PAS:4596
-    public virtual MapCoordinate GetLocation() => MapCoordinate.None;
+    public MapCoordinate GetLocation() => MapCoordinate.None;
 
     public string Name { get; set; } = "";
 
@@ -131,7 +131,7 @@ public class ItemLibrary(CustomNode owner) : ObservableNode(owner), IChildList<I
     }
 
     // Army.PAS:4940
-    public virtual string GetName()
+    public string GetName()
     {
         string result = Name;
         return IsEmpty(result) ? AbilityRules.TranslateResourceString(GetEngine(), S: s_systemItemLibraryText) : result;

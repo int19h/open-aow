@@ -304,8 +304,8 @@ public class CombatTerrain(CustomNode owner) : TerrainMapObject(owner)
         public override void PersistFields(IPersister persister)
         {
             base.PersistFields(persister);
-            Defense = PersistSupport.UnsignedByte(persister, name: "Defense", value: Defense);
-            _burnValue = PersistSupport.UnsignedByte(persister, name: "BurnValue", value: _burnValue);
+            Defense = persister.UnsignedByte(name: "Defense", value: Defense);
+            _burnValue = persister.UnsignedByte(name: "BurnValue", value: _burnValue);
             _hitPoints = persister.Byte("HitPoints", value: _hitPoints);
             _meleeTarget = persister.Boolean("MeleeTarget", value: _meleeTarget);
         }

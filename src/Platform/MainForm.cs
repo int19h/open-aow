@@ -159,7 +159,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         }
 
         WindowActions.RestoreWindowLayout(UI.General);
-        _ = DelphiFiles.SetCurrentDir(UI.Engine.StartupDirectory);
+        _ = RtlHost.Files.SetCurrentDirectory(UI.Engine.StartupDirectory);
         UI.Engine.CombatFont = UI.Fonts.Age8;
     }
 
@@ -171,9 +171,9 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
     {
         AudioHost.SongPlayer.SetSongChangeHandler(_ => UI.SoundDialog.SongChange());
         UI.Engine.OutputDebugString($"ParamStr: {argument}");
-        if (argument.Length != 0 && DelphiFiles.FileExists(argument) && IsSaveName(argument))
+        if (argument.Length != 0 && RtlHost.Files.FileExists(argument) && IsSaveName(argument))
         {
-            WindowActions.ShowTitleScene(UI.TitleScene, music: false);
+            UI.TitleScene.ShowScene(false);
             GameHost.DeferredSetupAction = 2;
             UI.FileDialogWindow.LastFileName = argument;
             return;
@@ -184,7 +184,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         }
         else
         {
-            WindowActions.ShowTitleScene(UI.TitleScene, music: true);
+            UI.TitleScene.ShowScene(true);
         }
     }
 
@@ -241,7 +241,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         {
             int x = -1, y = -1;
             Display.GetMousePosition(ref x, ref y);
-            GetCursorRectangle(x, y, out Rect rectangle);
+            Rect rectangle = GetCursorRectangle(x, y);
             FCursorChanged |= (StrategicMap.Current is not null && StrategicMap.Current.Mouse.CursorVisible) ||
                 FLastCursorRectangle.Left != rectangle.Left || FLastCursorRectangle.Top != rectangle.Top ||
                 FLastCursorRectangle.Right != rectangle.Right || FLastCursorRectangle.Bottom != rectangle.Bottom;
@@ -284,12 +284,12 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
 
     private int CursorIndex => FCursor == 9999 && StrategicMap.Current is not null ? StrategicMap.Current.Mouse.Cursor : FCursor;
 
-    public void GetCursorRectangle(int x, int y, out Rect rectangle)
+    public Rect GetCursorRectangle(int x, int y)
     {
-        rectangle = default;
+        Rect rectangle = default;
         if (x == -1)
         {
-            return;
+            return rectangle;
         }
 
         void Include(LibraryImage image, int dx, int dy)
@@ -299,12 +299,12 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
                 return;
             }
 
-            image.GetVisualDimensions(out Rect bounds);
+            Rect bounds = image.GetVisualDimensions();
             bounds.Left += x + dx;
             bounds.Right += x + dx;
             bounds.Top += y + dy;
             bounds.Bottom += y + dy;
-            _ = RectRoutines.UnionRect(out _cursorBounds, _cursorBounds, bounds);
+            _ = _cursorBounds.Union(right: bounds, result: out _cursorBounds);
         }
         _cursorBounds = default;
         if (StrategicMap.Current is not null)
@@ -321,6 +321,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         }
 
         rectangle = _cursorBounds;
+        return rectangle;
     }
 
     private Rect _cursorBounds;

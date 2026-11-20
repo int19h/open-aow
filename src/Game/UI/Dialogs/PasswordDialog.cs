@@ -7,7 +7,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class PasswordDialog(UIContext ui) : UIModule(ui)
+public sealed partial class PasswordDialog(UIContext ui) : UIModule(ui)
 {
     public Window Window { get; private set; }
     public Label TitleLabel { get; private set; }

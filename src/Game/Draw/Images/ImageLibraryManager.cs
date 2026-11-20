@@ -2,7 +2,6 @@
 // Translated from ImageLib.pas.
 using Aow.Rtl;
 using Aow.Rtl.Host;
-using static Aow.Rtl.DelphiFiles;
 using static Aow.Rtl.DelphiTextCompare;
 using static Aow.Rtl.RtlHost;
 
@@ -10,7 +9,7 @@ namespace Aow.Game.Draw.Images;
 
 // the libraries a program shares, linked by file name. FSearchPath (upper case, ends with a
 // backslash), _diskList, _ownedList
-public class ImageLibraryManager : Component
+public sealed class ImageLibraryManager : Component
 {
 
     // ImageLib.pas:8260
@@ -85,10 +84,10 @@ public class ImageLibraryManager : Component
             SearchPath += "\\";
         }
 
-        string directory = GetCurrentDir();
-        _ = SetCurrentDir(path);
+        string directory = Files.CurrentDirectory;
+        _ = Files.SetCurrentDirectory(path);
         SearchDirectory("");
-        _ = SetCurrentDir(directory);
+        _ = Files.SetCurrentDirectory(directory);
     }
 
     // ImageLib.pas:8331

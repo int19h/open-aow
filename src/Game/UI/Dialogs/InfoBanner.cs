@@ -5,7 +5,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class InfoBanner(UIContext ui) : UIModule(ui)
+public sealed partial class InfoBanner(UIContext ui) : UIModule(ui)
 {
     public Label HeaderLabel { get; private set; }
     public Memo InfoMemo { get; private set; }

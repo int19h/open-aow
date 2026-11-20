@@ -829,7 +829,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
         moveControlSettings.Selection = selection;
         moveControlSettings.SetDestinationPosition(x, y, l);
         _ = moveControlSettings.MovePointTable;
-        army.Army.CreateMovePointTable(selection, table: out MovePointTable movePointTable);
+        MovePointTable movePointTable = army.Army.CreateMovePointTable(selection);
         moveControlSettings.MovePointTable = movePointTable;
         StrategicMap.Current.MoveControl.ProcessMove(moveControlSettings);
         return moveControlSettings;

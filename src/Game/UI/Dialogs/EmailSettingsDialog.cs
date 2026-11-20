@@ -6,7 +6,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class EmailSettingsDialog(UIContext ui) : UIModule(ui)
+public sealed partial class EmailSettingsDialog(UIContext ui) : UIModule(ui)
 {
     public Window Window { get; private set; }
     public Edit LocalEmailAddressEdit { get; private set; }

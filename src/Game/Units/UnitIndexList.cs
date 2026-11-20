@@ -1,14 +1,14 @@
 // Translated from AoWE.pas.
+using System.Globalization;
 using Aow.Engine.Collections;
 using Aow.Game.World.Map;
 using static Aow.Rtl.DelphiAssert;
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.LegacyApplication;
 
 namespace Aow.Game.Units;
 
 // inherited List, Count, Default
-public class UnitIndexList : Int32List
+public sealed class UnitIndexList : Int32List
 {
     // UnitRes.PAS:219
     public UnitIndexList() => Default = -1;
@@ -26,7 +26,7 @@ public class UnitIndexList : Int32List
             {
                 if (showErrors)
                 {
-                    ShowMessage($"Used unit missing (unit index:{IntToStr(u)})");
+                    ShowMessage($"Used unit missing (unit index:{u.ToString(CultureInfo.InvariantCulture)})");
                 }
 
                 List[i] = Default;

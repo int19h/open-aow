@@ -20,7 +20,7 @@ public class LeadershipAbilityData(CustomNode owner) : MultiLevelAbilityData(own
         base.PersistFields(persister);
         ExternalLevel = persister.Byte("ExternalLevel", value: ExternalLevel);
         // The original leaves the external source out under the text-only mode of the translate stream.
-        if (!PersistSupport.Translating(persister))
+        if (!persister.Translating())
         {
             ExternalSource = persister.String("ExternalSource", value: ExternalSource);
         }

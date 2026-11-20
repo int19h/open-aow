@@ -54,7 +54,7 @@ public partial class ArmyInfoEventLog : EventLog
     {
         base.PersistFields(persister);
         persister.Object("ArmyView", objectValue: ArmyView);
-        PersistSupport.Lines(persister, name: "Messages", lines: Messages);
+        persister.Lines(name: "Messages", lines: Messages);
         Selection = persister.RawByte("Selection", value: Selection);
         Title = persister.String("Title", value: Title);
         Text = persister.String("Text", value: Text);

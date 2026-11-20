@@ -12,7 +12,7 @@ using Aow.Rtl;
 namespace Aow.Game.Session;
 
 // behaviors, race, status, leader, player, behavior, email
-public class PlayerSetupSettings : EngineObject
+public sealed class PlayerSetupSettings : EngineObject
 {
     // AoWSetup.pas:312
     public new const int ClassId = 131_683;
@@ -43,12 +43,12 @@ public class PlayerSetupSettings : EngineObject
     {
         base.PersistFields(persister);
         PlayerId = persister.Byte("PlayerId", value: PlayerId);
-        Behavior = PersistSupport.Record<SetupPlayerBehaviorImage, SetupPlayerBehavior>(persister, name: "Behavior", value: Behavior);
-        Race = PersistSupport.UnsignedByte(persister, name: "Race", value: Race);
+        Behavior = persister.Record<SetupPlayerBehaviorImage, SetupPlayerBehavior>(name: "Behavior", value: Behavior);
+        Race = persister.UnsignedByte(name: "Race", value: Race);
         BehaviorMode = persister.RawByte("BehaviorMode", value: BehaviorMode);
         persister.Object("Leader", objectValue: Leader);
         Status = persister.Set("Status", value: Status);
-        OriginalBehavior = PersistSupport.Record<SetupPlayerBehaviorImage, SetupPlayerBehavior>(persister, name: "OriginalBehavior", value: OriginalBehavior);
+        OriginalBehavior = persister.Record<SetupPlayerBehaviorImage, SetupPlayerBehavior>(name: "OriginalBehavior", value: OriginalBehavior);
     }
 
     // AoWSetup.pas:296

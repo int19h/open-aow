@@ -13,7 +13,7 @@ using Aow.Rtl;
 namespace Aow.Game.UI.Dialogs;
 
 // unit selector. retained event log
-public partial class UnitSelectionDialog(UIContext ui) : UIModule(ui)
+public sealed partial class UnitSelectionDialog(UIContext ui) : UIModule(ui)
 {
     public Window Window { get; private set; }
     public Panel UnitPanel { get; set; }

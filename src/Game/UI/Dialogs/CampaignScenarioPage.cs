@@ -8,7 +8,7 @@ using Aow.Rtl;
 namespace Aow.Game.UI.Dialogs;
 
 // image library, image index, heading, text
-public class CampaignScenarioPage(CustomNode owner) : EngineObject(owner)
+public sealed class CampaignScenarioPage(CustomNode owner) : EngineObject(owner)
 {
 
     // AoWVideoDlg.pas:264
@@ -31,10 +31,10 @@ public class CampaignScenarioPage(CustomNode owner) : EngineObject(owner)
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        PersistSupport.Lines(persister, name: "Text", lines: Text);
+        persister.Lines(name: "Text", lines: Text);
         Heading = persister.String("Heading", value: Heading);
         // The original ReadWrite leaves out the image library under text only (the translate stream).
-        if (!PersistSupport.Translating(persister))
+        if (!persister.Translating())
         {
             ImageLibrary = persister.String("ImageLibrary", value: ImageLibrary);
         }

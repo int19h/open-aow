@@ -179,8 +179,6 @@ internal static class GameText
 
     internal static string InvisibilityText { get; } = "Invisibility";
 
-    internal const byte LargeMapLetter = 76;
-
     internal static string LevelText { get; } = "Level";
 
     internal static string LevelFormat { get; } = "Level %s";
@@ -200,8 +198,6 @@ internal static class GameText
     internal static string MagicProtectionText { get; } = "Magic Protection";
 
     internal static string ManaText { get; } = "Mana";
-
-    internal const byte MediumMapLetter = 77;
 
     internal static string MessageFormat { get; } = "Message from %s";
 
@@ -278,8 +274,6 @@ internal static class GameText
     internal static string ShipyardText { get; } = "Shipyard";
 
     internal static string SlowText { get; } = "Slow";
-
-    internal const byte SmallMapLetter = 83;
 
     internal static string SmokeCloudText { get; } = "Cloud of Ashes";
 

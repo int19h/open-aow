@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWE.pas.
+using System.Globalization;
 using Aow.Engine;
 using Aow.Engine.Buffers;
 using Aow.Engine.Collections;
@@ -31,8 +32,6 @@ using Aow.Game.World.Movement;
 using Aow.Game.World.Terrain;
 
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiStrings;
 
@@ -83,7 +82,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
         base.PersistFields(persister);
         BuildingDays = persister.Byte("BuildingDays", value: BuildingDays);
         StructureId = persister.Int32("StructureId", value: StructureId);
-        BuildingPlayer = PersistSupport.UnsignedByte(persister, name: "BuildingPlayer", value: BuildingPlayer, fallback: 255);
+        BuildingPlayer = persister.UnsignedByte(name: "BuildingPlayer", value: BuildingPlayer, fallback: 255);
     }
 
     // Structur.PAS:1629
@@ -799,7 +798,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
             sbyte hexX = HexX;
             sbyte hexY = HexY;
             sbyte hexLevel = HexLevel;
-            _ = messages.Add(AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_atLocationFormat), arguments: [editName, "(" + IntToStr(hexX) + ", " + IntToStr(hexY) + ", " + IntToStr(hexLevel) + ")"]));
+            _ = messages.Add(AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_atLocationFormat), arguments: [editName, "(" + ((int)hexX).ToString(CultureInfo.InvariantCulture) + ", " + ((int)hexY).ToString(CultureInfo.InvariantCulture) + ", " + ((int)hexLevel).ToString(CultureInfo.InvariantCulture) + ")"]));
             for (int i = 0, last = errors.Count - 1; i <= last; i++)
             {
                 _ = messages.Add($"  {errors[i]}");

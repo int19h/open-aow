@@ -24,7 +24,7 @@ public class TerminatePlayerTokenEvent(CustomNode owner) : TokenEvent(owner)
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
+        Player = persister.UnsignedByte(name: "Player", value: Player);
     }
 
     // MoveT.PAS:3255

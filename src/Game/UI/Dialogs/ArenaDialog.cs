@@ -1,8 +1,8 @@
 #nullable disable
 // Translated from AoWArenaDlg.pas.
+using System.Globalization;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
-
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Controls;
@@ -10,14 +10,12 @@ using Aow.Game.UI.Windows;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-
 using static Aow.Rtl.DelphiAssert;
-using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.UI.Dialogs;
 
 // arena event. completion callback
-public partial class ArenaDialog(UIContext ui) : UIModule(ui)
+public sealed partial class ArenaDialog(UIContext ui) : UIModule(ui)
 {
     public Window Window { get; private set; }
     public Panel UnitPanel { get; private set; }
@@ -68,7 +66,7 @@ public partial class ArenaDialog(UIContext ui) : UIModule(ui)
             {
                 UI.Fonts.Age8.Color = 0;
                 int unitTrainCost = _event.Arena.UnitTrainCost(u);
-                UI.Fonts.Age8.SetTextCentered(X + 25, Y + 62, text: IntToStr(unitTrainCost), lockedSurface);
+                UI.Fonts.Age8.SetTextCentered(X + 25, Y + 62, text: unitTrainCost.ToString(CultureInfo.InvariantCulture), lockedSurface);
             }
         }
     }
@@ -179,7 +177,7 @@ public partial class ArenaDialog(UIContext ui) : UIModule(ui)
             y = 16;
         }
 
-        LockedSurface.CreateFrom(lockedSurface, r, destination: out LockedSurface mapSurfaceDescription);
+        LockedSurface mapSurfaceDescription = LockedSurface.CreateFrom(lockedSurface, r);
         sbyte hexLevel = _event.Arena.HexLevel;
         _ = StrategicMap.Current.SetViewPort(x, y, lHitPoints: hexLevel, r.Right - r.Left, r.Bottom - r.Top);
         StrategicMap.Current.UpdateStaticScene();

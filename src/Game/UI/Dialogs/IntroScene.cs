@@ -6,7 +6,7 @@ using Aow.Rtl;
 namespace Aow.Game.UI.Dialogs;
 
 // sound buffer, buffer size, DirectSound, stream position
-public partial class IntroScene(UIContext ui) : UIModule(ui)
+public sealed partial class IntroScene(UIContext ui) : UIModule(ui)
 {
     public UserWindow Window { get; private set; }
 
@@ -15,7 +15,7 @@ public partial class IntroScene(UIContext ui) : UIModule(ui)
     {
         ReleaseSound();
         Window.Visible = false;
-        WindowActions.ShowTitleScene(UI.TitleScene, music: true);
+        UI.TitleScene.ShowScene(true);
     }
 
     // AoWIntroScene.pas:192

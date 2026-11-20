@@ -30,7 +30,7 @@ public class DispelMagicCombatAction(CustomNode owner) : SingleTargetCombatActio
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        PersistSupport.Int32List(persister, name: "EnchantmentIds", list: EnchantmentIds);
+        persister.Int32List(name: "EnchantmentIds", list: EnchantmentIds);
     }
 
     // AoWAb.PAS:3951

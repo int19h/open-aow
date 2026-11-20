@@ -41,7 +41,7 @@ public sealed class MldDictionary
             return;
         }
 
-        using Stream stream = RtlHost.Files.Open(path, mode: DelphiStreams.fmOpenRead);
+        using Stream stream = RtlHost.Files.Open(path, mode: FileOpenMode.Read);
         Read(stream);
         _fileName = path;
     }

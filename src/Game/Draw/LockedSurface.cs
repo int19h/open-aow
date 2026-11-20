@@ -2,7 +2,6 @@
 
 using Aow.Graphics;
 using Aow.Rtl;
-using static Aow.Rtl.RectRoutines;
 
 namespace Aow.Game.Draw;
 
@@ -42,7 +41,7 @@ public struct LockedSurface
             int key = PixelFormats.Color2PixelInfo(colorKey, source.PixelFormatId, palette: null);
             SurfaceView s = source.View((source.Pitch * sourceRectangle.Top) + (sourceRectangle.Left * 2));
             SurfaceView d = destination.View((destination.Pitch * Y) + (X * 2));
-            BlitRects.BlitColorKey16(s, destination: d, sourceRectangle.Right - sourceRectangle.Left, sourceRectangle.Bottom - sourceRectangle.Top, colorKey: key);
+            Blit.BlitColorKey16(s, d: d, w: sourceRectangle.Right - sourceRectangle.Left, h: sourceRectangle.Bottom - sourceRectangle.Top, key: key);
             return GraphicsResult.Ok;
         }
         else
@@ -105,7 +104,7 @@ public struct LockedSurface
                 w = (source.BitCount * w) >>> 3;
                 SurfaceView s = source.View((source.Pitch * sourceRectangle.Top) + ((source.BitCount * sourceRectangle.Left) >>> 3));
                 SurfaceView d = destination.View((destination.Pitch * Y) + ((destination.BitCount * X) >>> 3));
-                BlitRects.BlitRectangle(s, destination: d, w, h);
+                Blit.BlitRectangle(s, d: d, w: w, h: h);
             }
 
             return GraphicsResult.Ok;
@@ -173,7 +172,7 @@ public struct LockedSurface
                 SurfaceView d = destination.View(destination.Pitch * Y);
                 X += X;
                 d = d.At(X);
-                BlitRects.BlitColorKey16(s, destination: d, w, h, colorKey: key);
+                Blit.BlitColorKey16(s, d: d, w: w, h: h, key: key);
             }
 
             return GraphicsResult.Ok;
@@ -184,11 +183,11 @@ public struct LockedSurface
         }
     }
 
-    public static void CreateFrom(in LockedSurface source, in Rect R, out LockedSurface destination)
+    public static LockedSurface CreateFrom(in LockedSurface source, in Rect R)
     {
-        destination = source;
+        LockedSurface destination = source;
         _ = destination.ClipRectangle;
-        _ = IntersectRect(out Rect clipRectangle, source.ClipRectangle, R);
+        _ = source.ClipRectangle.Intersect(right: R, result: out Rect clipRectangle);
         destination.ClipRectangle = clipRectangle;
         destination.DataIndex = source.DataIndex + (R.Top * source.Pitch) + ((source.BitCount >>> 3) * R.Left);
         Rect clipRectangle2 = destination.ClipRectangle;
@@ -203,6 +202,7 @@ public struct LockedSurface
         Rect clipRectangle5 = destination.ClipRectangle;
         clipRectangle5.Bottom -= R.Top;
         destination.ClipRectangle = clipRectangle5;
+        return destination;
     }
 
     internal static void MinimizeTransparentRectangle(in LockedSurface lockedSurface, in Rect R, int transparentColor, out Rect result)
@@ -360,7 +360,7 @@ public struct LockedSurface
                             PixelRemap.RemapSurface08To24(s, destination: d, width, height, source.Palette);
                             break;
                         case PixelFormat.Pal8:
-                            BlitRects.BlitRectangle(s, destination: d, width, height);
+                            Blit.BlitRectangle(s, d: d, w: width, h: height);
                             break;
                         case PixelFormat.None:
                         case PixelFormat.Argb1555:
@@ -380,13 +380,13 @@ public struct LockedSurface
                             PixelRemap.RemapSurface555To24(s, destination: d, width, height);
                             break;
                         case PixelFormat.Rgb32:
-                            PixelRemap.RemapSurface555To32(s, destination: d, width, height);
+                            Blit.RemapSurface555To32(s, d: d, w: width, h: height);
                             break;
                         case PixelFormat.Rgb565:
-                            PixelRemap.RemapSurface555To565(s, destination: d, width, height);
+                            Blit.RemapSurface555To565(s, d: d, w: width, h: height);
                             break;
                         case PixelFormat.Rgb555:
-                            BlitRects.BlitRectangle(s, destination: d, width * 2, height);
+                            Blit.BlitRectangle(s, d: d, w: width * 2, h: height);
                             break;
                         case PixelFormat.None:
                         case PixelFormat.Pal8:
@@ -405,13 +405,13 @@ public struct LockedSurface
                             PixelRemap.RemapSurface565To24(s, destination: d, width, height);
                             break;
                         case PixelFormat.Rgb32:
-                            PixelRemap.RemapSurface565To32(s, destination: d, width, height);
+                            Blit.RemapSurface565To32(s, d: d, w: width, h: height);
                             break;
                         case PixelFormat.Rgb555:
-                            PixelRemap.RemapSurface565To555(s, destination: d, width, height);
+                            Blit.RemapSurface565To555(s, d: d, w: width, h: height);
                             break;
                         case PixelFormat.Rgb565:
-                            BlitRects.BlitRectangle(s, destination: d, width * 2, height);
+                            Blit.BlitRectangle(s, d: d, w: width * 2, h: height);
                             break;
                         case PixelFormat.None:
                         case PixelFormat.Pal8:
@@ -433,7 +433,7 @@ public struct LockedSurface
                             PixelRemap.RemapSurface24To555(s, destination: d, width, height);
                             break;
                         case PixelFormat.Rgb24:
-                            BlitRects.BlitRectangle(s, destination: d, width * 3, height);
+                            Blit.BlitRectangle(s, d: d, w: width * 3, h: height);
                             break;
                         case PixelFormat.None:
                         case PixelFormat.Pal8:
@@ -450,13 +450,13 @@ public struct LockedSurface
                     switch (destination.PixelFormatId)
                     {
                         case PixelFormat.Rgb565:
-                            PixelRemap.RemapSurface32To565(s, destination: d, width, height);
+                            PixelRemap.RemapSurface32To555(s, destination: d, width, height);
                             break;
                         case PixelFormat.Rgb555:
                             PixelRemap.RemapSurface32To555(s, destination: d, width, height);
                             break;
                         case PixelFormat.Rgb32:
-                            BlitRects.BlitRectangle(s, destination: d, width * 4, height);
+                            Blit.BlitRectangle(s, d: d, w: width * 4, h: height);
                             break;
                         case PixelFormat.None:
                         case PixelFormat.Pal8:

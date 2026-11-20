@@ -67,16 +67,16 @@ public class StructureResource : FixedImageLibraryTerrainMapObjectResource
         base.PersistFields(persister);
         _selectSfxLooped = persister.Boolean("SelectSfxLooped", value: _selectSfxLooped);
         // The original leaves the sound out under text only, which the translate stream's mode holds.
-        if (!PersistSupport.Translating(persister))
+        if (!persister.Translating())
         {
             SelectSfx = persister.String("SelectSfx", value: SelectSfx);
         }
 
-        PersistSupport.Lines(persister, name: "Description", lines: Description);
+        persister.Lines(name: "Description", lines: Description);
         ScannerIcon = persister.Int32("ScannerIcon", value: ScannerIcon);
-        PersistSupport.UnitIndexListCollection(persister, name: "Defenders", collection: Defenders);
+        persister.UnitIndexListCollection(name: "Defenders", collection: Defenders);
         // The translate stream's mode holds read, so the original calculates the index there too.
-        if (persister.Loading || PersistSupport.Translating(persister))
+        if (persister.Loading || persister.Translating())
         {
             CalculatePadIndex();
         }

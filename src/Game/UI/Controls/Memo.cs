@@ -21,7 +21,7 @@ namespace Aow.Game.UI.Controls;
 // transparent), FILIndexFrame, FILIndexTexture, FDrawIndex, FItemRect (the line being drawn,
 // for OnDrawItem), FLines (the wrapped lines). FRedraw is the focus: the memo takes the keys
 // while it is set
-public partial class Memo : Control
+public sealed partial class Memo : Control
 {
 
     private readonly DelphiStringList _items;
@@ -83,7 +83,7 @@ public partial class Memo : Control
     // AoWMemo.pas:150
     public override void Validate()
     {
-        if (base.Font is not null)
+        if (Font is not null)
         {
             if (_imageLibraryFrame is not null)
             {
@@ -189,7 +189,7 @@ public partial class Memo : Control
                 if (text[j] == 32 || j == length - 1)
                 {
                     string s = Copy(item, index: start + 1, count: j + 1 - start);
-                    int tw = base.Font.GetTextWidth(s);
+                    int tw = Font.GetTextWidth(s);
                     if (w + tw > WinWidth)
                     {
                         _ = Lines.Add(s);
@@ -331,7 +331,7 @@ public partial class Memo : Control
             {
                 RaisePreDraw(this, surfDesc: lockedSurface);
 
-                base.Font.Color = Color;
+                Font.Color = Color;
                 Rect oldClip = lockedSurface.ClipRectangle;
                 int x;
                 int y;
@@ -389,27 +389,27 @@ public partial class Memo : Control
                         ColorChange cc = ColorList[_topItem + i];
                         if (cc.HasColor)
                         {
-                            base.Font.Color = cc.Color;
+                            Font.Color = cc.Color;
                         }
 
                         switch (TextAlign)
                         {
                             case TextAlignment.Left:
                                 string line = Lines[_topItem + i];
-                                base.Font.SetText(BorderWidth + x, BorderHeight + y + (ItemHeight * i), text: line, lockedSurface);
+                                Font.SetText(BorderWidth + x, BorderHeight + y + (ItemHeight * i), text: line, lockedSurface);
                                 break;
                             case TextAlignment.Right:
                                 string line2 = Lines[_topItem + i];
-                                int textWidth = base.Font.GetTextWidth(line2);
+                                int textWidth = Font.GetTextWidth(line2);
                                 string line3 = Lines[_topItem + i];
-                                base.Font.SetText(x + w - BorderWidth - textWidth, BorderHeight + y + (ItemHeight * i), text: line3, lockedSurface);
+                                Font.SetText(x + w - BorderWidth - textWidth, BorderHeight + y + (ItemHeight * i), text: line3, lockedSurface);
                                 break;
                             case TextAlignment.Center:
                             default:
                                 string line4 = Lines[_topItem + i];
-                                int fontTextWidth = base.Font.GetTextWidth(line4);
+                                int fontTextWidth = Font.GetTextWidth(line4);
                                 string line5 = Lines[_topItem + i];
-                                base.Font.SetText(x + (w / 2) - (fontTextWidth / 2), BorderHeight + y + (ItemHeight * i), text: line5, lockedSurface);
+                                Font.SetText(x + (w / 2) - (fontTextWidth / 2), BorderHeight + y + (ItemHeight * i), text: line5, lockedSurface);
                                 break;
                         }
                         _itemRectangle = new Rect(x, y + (ItemHeight * i), x + w, y + ((i + 1) * ItemHeight));
@@ -433,8 +433,8 @@ public partial class Memo : Control
                 if (condition && Redraw && Editable && _blink)
                 {
                     string line = Lines[_currentLine];
-                    int textWidth = base.Font.GetTextWidth(Copy(line, index: 1, count: _currentColumn));
-                    base.Font.SetText(BorderWidth + x + textWidth, BorderHeight + y + ((_currentLine - _topItem) * ItemHeight), text: Cp1252.Text(CursorChar), lockedSurface);
+                    int textWidth = Font.GetTextWidth(Copy(line, index: 1, count: _currentColumn));
+                    Font.SetText(BorderWidth + x + textWidth, BorderHeight + y + ((_currentLine - _topItem) * ItemHeight), text: Cp1252.Text(CursorChar), lockedSurface);
                 }
 
                 RaiseDraw(this, surfDesc: lockedSurface);
@@ -719,7 +719,7 @@ public partial class Memo : Control
     }
 
     // AoWMemo.pas:340
-    public virtual void SetImageLibraryFrame(InterfaceImageLibrary value)
+    public void SetImageLibraryFrame(InterfaceImageLibrary value)
     {
         if (value != _imageLibraryFrame)
         {
@@ -729,7 +729,7 @@ public partial class Memo : Control
     }
 
     // AoWMemo.pas:349
-    public virtual void SetImageLibraryTexture(InterfaceImageLibrary value)
+    public void SetImageLibraryTexture(InterfaceImageLibrary value)
     {
         if (value != _imageLibraryTexture)
         {

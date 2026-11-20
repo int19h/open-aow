@@ -13,7 +13,7 @@ using static Aow.Rtl.IntegerObjects;
 namespace Aow.Game.UI.Dialogs;
 
 // components
-public partial class CombatUnitInfo(UIContext ui) : UIModule(ui)
+public sealed partial class CombatUnitInfo(UIContext ui) : UIModule(ui)
 {
     public Window MainWindow { get; private set; }
     public Image UnitMovesIcon { get; private set; }

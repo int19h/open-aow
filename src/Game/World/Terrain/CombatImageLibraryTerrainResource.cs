@@ -18,8 +18,8 @@ public class CombatImageLibraryTerrainResource(CustomNode owner) : ImageLibraryT
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Defense = PersistSupport.UnsignedByte(persister, name: "Defense", value: Defense);
-        BurnValue = PersistSupport.UnsignedByte(persister, name: "BurnValue", value: BurnValue);
+        Defense = persister.UnsignedByte(name: "Defense", value: Defense);
+        BurnValue = persister.UnsignedByte(name: "BurnValue", value: BurnValue);
     }
 
     // CombatILTer.pas:188

@@ -17,7 +17,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic;
 
 // next ID, update count, active types, enchantments, double-mana counters, changed events
-public class GlobalMagicControl : EngineObject
+public sealed class GlobalMagicControl : EngineObject
 {
 
     // Spells.PAS:2673
@@ -59,7 +59,7 @@ public class GlobalMagicControl : EngineObject
         base.PersistFields(persister);
         persister.Object("Enchantments", Enchantments);
         NextEnchantmentId = persister.Int32("NextEnchantmentId", NextEnchantmentId);
-        PersistSupport.Int32Array(persister, name: "DoubleSphereManaCount", values: DoubleSphereManaCount);
+        persister.Int32Array(name: "DoubleSphereManaCount", values: DoubleSphereManaCount);
         UpdateActiveEnchantments();
     }
 

@@ -5,7 +5,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Draw.Animations;
 
-public class SpringOfLifeAnimation(CustomNode owner) : Animation(owner)
+public sealed class SpringOfLifeAnimation(CustomNode owner) : Animation(owner)
 {
 
     // Spring.pas:64

@@ -4,7 +4,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class EmailGameSettingsDialog
+public sealed partial class EmailGameSettingsDialog
 {
     public event NotifyEvent<EmailGameSettingsDialog> LayoutOnCreate;
     public event NotifyEvent<EmailGameSettingsDialog> LayoutOnDestroy;

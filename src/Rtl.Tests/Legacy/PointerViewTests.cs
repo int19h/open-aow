@@ -11,7 +11,7 @@ public sealed class PointerViewTests
         string text = "A\u00E9\0B";
         Ptr<byte> pointer = Ptr<byte>.Unbox(text);
         Assert.Equal(new byte[] { 65, 233, 0, 66, 0 }, pointer.AsSpan(5).ToArray());
-        Assert.Equal("A\u00E9", PCharStrings.StrPas(pointer));
+        Assert.Equal("A\u00E9", PCharStrings.FromPChar(pointer));
         _ = Assert.Throws<InvalidCastException>(() => Ptr<int>.Unbox(text));
     }
 

@@ -44,6 +44,10 @@ tool that generates C# emits code that follows them.
 - Data is immutable by default. Mutable state needs a reason.
 - An immutable type is `readonly`: a `record class` or `record struct` as fits, with a primary
   constructor where possible. Members use `required` and `readonly` where they apply.
+- A class is sealed until something derives from it. `sealed` is a default, not a design
+  decision. New work that needs a hierarchy removes `sealed` from the class that becomes the
+  base, and `sealed` is never a reason to avoid the right design. The kind families that stay
+  open for mods (`docs/design.md` section 6) keep their leaf classes unsealed.
 - A property is an auto-property where possible. Otherwise its backing store is the `field`
   keyword when nothing outside the accessors needs it. A property set only during
   initialization has `init`, not `set`.

@@ -28,7 +28,7 @@ public class PatrolAIGroup : AIGroup, IAIGroupClass
         PatrolFrom = StoredCoordinateImage.FromInt32(from).Location;
         int to = persister.Int32("PatrolTo", value: StoredCoordinateImage.From(PatrolTo).ToInt32());
         PatrolTo = StoredCoordinateImage.FromInt32(to).Location;
-        PreviousHeading = PersistSupport.UnsignedByte(persister, name: "PreviousHeading", value: PreviousHeading);
+        PreviousHeading = persister.UnsignedByte(name: "PreviousHeading", value: PreviousHeading);
         PatrolStrength = persister.Int32("PatrolStrength", value: PatrolStrength);
     }
 

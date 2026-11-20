@@ -9,7 +9,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Combat;
 
 // Positions: the unit positions, eight per army position, each with the direction the unit faces
-public class UnitPositionControl : EngineObject
+public sealed class UnitPositionControl : EngineObject
 {
     public DefaultItemList<UnitPosition> Positions { get; private set; }
 

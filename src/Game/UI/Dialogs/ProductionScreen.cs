@@ -1,9 +1,9 @@
 #nullable disable
 // Translated from AoWProdScreen.pas.
+using System.Globalization;
 using Aow.Engine.Collections;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
-
 using Aow.Game.Events;
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
@@ -14,15 +14,13 @@ using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiTextCompare;
 using static Aow.Rtl.IntegerObjects;
 
 namespace Aow.Game.UI.Dialogs;
 
 // view, place, production, queue, mode, preview, images
-public partial class ProductionScreen(UIContext ui) : UIModule(ui)
+public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
 {
     public Window Window { get; private set; }
     public Panel UnitPanel { get; private set; }
@@ -277,17 +275,17 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
                 {
                     UnitPanel.Visible = true;
                     sbyte attack = u.GetAttack();
-                    UnitAttackLabel.Text = IntToStr(attack);
+                    UnitAttackLabel.Text = ((int)attack).ToString(CultureInfo.InvariantCulture);
                     sbyte defense = u.GetDefense();
-                    UnitDefenseLabel.Text = IntToStr(defense);
+                    UnitDefenseLabel.Text = ((int)defense).ToString(CultureInfo.InvariantCulture);
                     sbyte resistance = u.GetResistance();
-                    UnitResistanceLabel.Text = IntToStr(resistance);
+                    UnitResistanceLabel.Text = ((int)resistance).ToString(CultureInfo.InvariantCulture);
                     sbyte damage = u.GetDamage();
-                    UnitDamageLabel.Text = IntToStr(damage);
+                    UnitDamageLabel.Text = ((int)damage).ToString(CultureInfo.InvariantCulture);
                     sbyte hits = u.GetHits();
-                    UnitHitsLabel.Text = IntToStr(hits);
+                    UnitHitsLabel.Text = ((int)hits).ToString(CultureInfo.InvariantCulture);
                     sbyte moves = u.Moves;
-                    UnitMovesLabel.Text = IntToStr(moves);
+                    UnitMovesLabel.Text = ((int)moves).ToString(CultureInfo.InvariantCulture);
                     Set<MoveType> moveTypes = u.GetMoveTypes();
                     int moveTypesToInt32 = UI.General.MoveTypesToInt32(moveTypes);
                     UnitMovesIcon.CurrentImage = moveTypesToInt32;
@@ -296,7 +294,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
                     string format = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.AlignmentFormat), arguments: [alignmentText]);
                     UnitAlignmentLabel.Text = format;
                     sbyte unitLevel = u.UnitLevel;
-                    string formattedText = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.LevelFormat), arguments: [IntToStr(unitLevel)]);
+                    string formattedText = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.LevelFormat), arguments: [((int)unitLevel).ToString(CultureInfo.InvariantCulture)]);
                     byte upkeep = u.GetUpkeep();
                     string format2 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.UpkeepFormat), arguments: [(int)upkeep]);
                     UnitLevelLabel.Text = $"{formattedText} / {format2}";
@@ -315,9 +313,9 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
                         string format3 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.ProduceFormat), arguments: [name]);
                         UnitLabel.Text = format3;
                         int unitProductionGold = _place.ProductionControl.UnitProductionGold(_productionIndex);
-                        UnitCostLabel.Text = IntToStr(unitProductionGold);
+                        UnitCostLabel.Text = unitProductionGold.ToString(CultureInfo.InvariantCulture);
                         int unitProductionTime = _place.ProductionControl.UnitProductionTime(_productionIndex);
-                        UnitTurnsLabel.Text = IntToStr(unitProductionTime);
+                        UnitTurnsLabel.Text = unitProductionTime.ToString(CultureInfo.InvariantCulture);
                     }
                     else
                     {
@@ -332,9 +330,9 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
                         string format3 = AbilityRules.Format(UI.Engine.TranslateResourceString(GameText.InstallFormat), arguments: [name]);
                         UnitLabel.Text = format3;
                         int unitResearchGold = _place.ProductionControl.UnitResearchGold(_productionIndex);
-                        UnitCostLabel.Text = IntToStr(unitResearchGold);
+                        UnitCostLabel.Text = unitResearchGold.ToString(CultureInfo.InvariantCulture);
                         int unitResearchTime = _place.ProductionControl.UnitResearchTime(_productionIndex);
-                        UnitTurnsLabel.Text = IntToStr(unitResearchTime);
+                        UnitTurnsLabel.Text = unitResearchTime.ToString(CultureInfo.InvariantCulture);
                     }
 
                     PreviousButton.Visible = !MainButton2.Visible;
@@ -404,7 +402,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
         {
             int power = _place.GetPower();
             string xPower = UI.Engine.TranslateResourceString(s_powerFormat);
-            string format = AbilityRules.Format(" " + xPower, arguments: [IntToStr(power)]);
+            string format = AbilityRules.Format(" " + xPower, arguments: [power.ToString(CultureInfo.InvariantCulture)]);
             _ = IncomeHeader.Items.Add(format);
         }
 
@@ -412,7 +410,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
         {
             int fPlaceIncome = _place.GetIncome();
             string xGold = UI.Engine.TranslateResourceString(GameText.GoldFormat);
-            string format = AbilityRules.Format(" " + xGold, arguments: [IntToStr(fPlaceIncome)]);
+            string format = AbilityRules.Format(" " + xGold, arguments: [fPlaceIncome.ToString(CultureInfo.InvariantCulture)]);
             _ = IncomeHeader.Items.Add(format);
         }
 
@@ -449,13 +447,13 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
         for (int i = 0, last = _place.ProductionControl.Queue.GetCount() - 1; i <= last; i++)
         {
             string name2 = _place.ProductionControl.Queue.GetItem(i).GetName();
-            _ = QueueList.Items.Add($"{IntToStr(i + 1)}. {name2}");
+            _ = QueueList.Items.Add($"{(i + 1).ToString(CultureInfo.InvariantCulture)}. {name2}");
         }
 
         for (int i = _place.ProductionControl.Queue.GetCount(); i <= 4; i++)
         {
             string emptyQueue = UI.Engine.TranslateResourceString(GameText.EmptyQueueText);
-            _ = QueueList.Items.Add($"{IntToStr(i + 1)}. {emptyQueue}");
+            _ = QueueList.Items.Add($"{(i + 1).ToString(CultureInfo.InvariantCulture)}. {emptyQueue}");
         }
 
         int count = _place.ProductionControl.Queue.GetCount();
@@ -985,7 +983,7 @@ public partial class ProductionScreen(UIContext ui) : UIModule(ui)
                 _viewY = 16;
             }
 
-            LockedSurface.CreateFrom(lockedSurface, r, destination: out LockedSurface viewSurfaceDescription);
+            LockedSurface viewSurfaceDescription = LockedSurface.CreateFrom(lockedSurface, r);
             _preview.SetExplorationEnabled(false);
             _preview.SetFogEnabled(false);
             _ = _preview.SetViewPort(_viewX, _viewY, lHitPoints: 0, width, r.Bottom - r.Top);

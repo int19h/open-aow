@@ -3,7 +3,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.Net;
 
-public class EmailGameList(CustomNode owner) : OwningNode(owner), IChildList<EmailGame>
+public sealed class EmailGameList(CustomNode owner) : OwningNode(owner), IChildList<EmailGame>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an EmailGame, so the read never fails.

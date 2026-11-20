@@ -356,7 +356,7 @@ public class BitMask(CustomImageLibrary owner) : LibraryImage(owner), ILibraryIm
     private static void ShowBitMask16(int X, int Y, in LockedSurface lockedSurface, ReadOnlySpan<byte> data, int width, int height) => Blit.ShowBitMask16(X, Y, destination: lockedSurface.View(), data, w: width, h: height);
 
     // Inverse (grab the non-transparent rectangle with MinimizeInvTransparentRect)
-    public class GrabInfo : Images.GrabInfo
+    public sealed class GrabInfo : Images.GrabInfo
     {
         public static new GrabInfoClass Descriptor { get; } = new("BitMask.GrabInfo", static () => new GrabInfo());
 

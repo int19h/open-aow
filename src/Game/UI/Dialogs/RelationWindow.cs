@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWRelations.pas.
+using System.Globalization;
 using Aow.Engine.Collections;
 
 using Aow.Game.Draw;
@@ -14,8 +15,6 @@ using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -423,7 +422,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
                             string status = UI.Engine.TranslateResourceString(GameTables.StatusTexts[(int)playerRelation]);
                             int race2 = Races[i];
                             int playerRelationValue = StrategicMap.Current.Races.GetRace(race2).GetPlayerRelationValue(SelectedPlayer);
-                            _ = image.ToolTipText.Add($"{status} ({IntToStr(playerRelationValue)})");
+                            _ = image.ToolTipText.Add($"{status} ({playerRelationValue.ToString(CultureInfo.InvariantCulture)})");
                         }
                     }
 
@@ -507,7 +506,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
                         string status = UI.Engine.TranslateResourceString(GameTables.StatusTexts[(int)playerRelation]);
                         int player3 = Players[i];
                         int playerRelationValue = StrategicMap.Current.Races.GetRace(SelectedRace).GetPlayerRelationValue((sbyte)player3);
-                        _ = image.ToolTipText.Add($"{status} ({IntToStr(playerRelationValue)})");
+                        _ = image.ToolTipText.Add($"{status} ({playerRelationValue.ToString(CultureInfo.InvariantCulture)})");
                     }
 
                     break;
@@ -711,7 +710,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
                 if (modifier != 0)
                 {
                     UI.Fonts.Age10.Color = 0xFF_FF_FF;
-                    UI.Fonts.Age10.SetTextCentered(r.Left + ((r.Right - r.Left) / 2), r.Top + 50, text: IntToStr(modifier), lockedSurface: surface);
+                    UI.Fonts.Age10.SetTextCentered(r.Left + ((r.Right - r.Left) / 2), r.Top + 50, text: modifier.ToString(CultureInfo.InvariantCulture), lockedSurface: surface);
                 }
             }
         }
@@ -882,10 +881,10 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWRelations.pas:794. The offer enters the proposal when the player sends it (MsgSendActionBtn).
-    public void SBGoldSlidChange() => BribeGoldValueLabel.Text = IntToStr(BribeGoldSlider.Position);
+    public void SBGoldSlidChange() => BribeGoldValueLabel.Text = BribeGoldSlider.Position.ToString(CultureInfo.InvariantCulture);
 
     // AoWRelations.pas:800
-    public void SBManaSlidChange() => BribeManaValueLabel.Text = IntToStr(BribeManaSlider.Position);
+    public void SBManaSlidChange() => BribeManaValueLabel.Text = BribeManaSlider.Position.ToString(CultureInfo.InvariantCulture);
 
     // AoWRelations.pas:806
     public void RelWinHide() => FinishDialog();
@@ -1062,7 +1061,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
         // { Original reports its source filename, independent of this checkout. }
         if (dialog._event is not null)
         {
-            WindowActions.OriginalAssert("Assertion failure", fileName: "D:\\AoWDev\\AoWRelations.pas", lineNumber: 663);
+            DelphiAssert.Assert(false, message: "Assertion failure", file: "D:\\AoWDev\\AoWRelations.pas", line: 663);
         }
 
         dialog.Done = done;
@@ -1097,8 +1096,8 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
                     dialog.ShowPlayerInformation(dialog._action.Source);
                     dialog.IncomingPanel.Visible = true;
                     (_, int gold, int mana) = proposal.ToFields();
-                    dialog.ReceivedGoldLabel.Text = IntToStr(gold);
-                    dialog.ReceivedManaLabel.Text = IntToStr(mana);
+                    dialog.ReceivedGoldLabel.Text = gold.ToString(CultureInfo.InvariantCulture);
+                    dialog.ReceivedManaLabel.Text = mana.ToString(CultureInfo.InvariantCulture);
                     string text2 = proposal.MessageText;
                     dialog.IncomingMemo.Items.Text = text2;
                     if (proposal.Icon >= 0)

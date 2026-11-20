@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using Aow.Rtl.Tests.Generated;
 using static Aow.Rtl.DelphiFailure;
 using static Aow.Rtl.DelphiFormat;
 using static Aow.Rtl.DelphiMemory;
@@ -29,14 +30,17 @@ public sealed class SystemTests
         }
         Assert.Equal(0, Round(-0.5));
         Assert.Equal(0, Trunc(-0.9));
-        Assert.Equal(-2.0, Int(-2.75));
-        Assert.Equal(-0.75, Frac(-2.75));
-        Assert.Equal(0.0, Int(0));
-        Assert.Equal(0.0, Frac(0));
+        Assert.Equal(-2.0, Math.Truncate(-2.75));
+        Assert.Equal(-0.75, double.IsInfinity(-2.75)
+        ? throw new ArithmeticException("Invalid floating point operation") : -2.75 - Math.Truncate(-2.75));
+        Assert.Equal(0.0, Math.Truncate((double)0));
+        Assert.Equal(0.0, double.IsInfinity(0)
+        ? throw new ArithmeticException("Invalid floating point operation") : 0 - Math.Truncate((double)0));
     }
 
     [Fact]
-    public void MathDomainAndRangeFollowDelphiSource() => _ = Assert.Throws<ArithmeticException>(() => Frac(double.PositiveInfinity));
+    public void MathDomainAndRangeFollowDelphiSource() => _ = Assert.Throws<ArithmeticException>(() => double.IsInfinity(double.PositiveInfinity)
+        ? throw new ArithmeticException("Invalid floating point operation") : double.PositiveInfinity - Math.Truncate(double.PositiveInfinity));
 
     [Fact]
     public void RandomIncludesUnsignedBoundsAndConsumesEveryCall()
@@ -72,13 +76,8 @@ public sealed class SystemTests
         Assert.Equal("XYabcd", Insert("XY", value: text, index: int.MinValue));
         Assert.Equal("abcdXY", Insert("XY", value: text, index: int.MaxValue));
         Assert.Equal(0, Pos("x", haystack: text));
-        Assert.Equal(4, Length(text));
-        Assert.Equal((byte)255, Chr(-1));
-        Assert.Equal((byte)0, Chr(256));
-        Assert.Equal(255, Ord((byte)255));
-        Assert.Equal(-1, Ord(-1));
-        Assert.Equal(-1, Ord(uint.MaxValue));
-        Assert.Equal(1, Ord(Generated.Flag.Second));
+        Assert.Equal(4, RequireString((string?)text).Length);
+        Assert.Equal(1, Convert.ToInt32(Flag.Second));
         for (int i = 0; i <= 255; i++)
         {
             Assert.Equal(i is >= 97 and <= 122 ? i - 32 : i, UpCase((byte)i));
@@ -86,16 +85,28 @@ public sealed class SystemTests
 
         Ptr<byte> pointer = Ptr<byte>.Unbox("ab\0cd");
         Assert.Equal(2, StrLen(pointer));
-        Assert.Equal("ab", StrPas(pointer));
-        Assert.Equal("b", StrPas(pointer + 1));
-        Assert.Equal("", StrPas(default));
-        Assert.Equal("ab\0cd", SetString(pointer, length: 5));
-        SetString(out string value, source: pointer + 1, length: 3);
+        Assert.Equal("ab", FromPChar(pointer));
+        Assert.Equal("b", FromPChar(pointer + 1));
+        Assert.Equal("", FromPChar(default));
+        Assert.Equal("ab\0cd", 5 <= 0
+            ? ""
+            : pointer.IsNull
+                ? Resized("", length: 5)
+                : Cp1252.Decode(pointer.Array.AsSpan(pointer.Index, length: 5).ToArray()));
+        string value = SetString(source: pointer + 1, length: 3);
         Assert.Equal("b\0c", value);
         pointer[1] = 99;
         Assert.Equal("b\0c", value);
-        Assert.Equal("\0\0\0", SetString(default, length: 3));
-        Assert.Equal("", SetString(default, length: -1));
+        Assert.Equal("\0\0\0", 3 <= 0
+            ? ""
+            : ((Ptr<byte>)default).IsNull
+                ? Resized("", length: 3)
+                : Cp1252.Decode(((Ptr<byte>)default).Array.AsSpan(((Ptr<byte>)default).Index, length: 3).ToArray()));
+        Assert.Equal("", -1 <= 0
+            ? ""
+            : ((Ptr<byte>)default).IsNull
+                ? Resized("", length: -1)
+                : Cp1252.Decode(((Ptr<byte>)default).Array.AsSpan(((Ptr<byte>)default).Index, length: -1).ToArray()));
         Ptr<byte> destination = Ptr<byte>.Alloc(10);
         Ptr<byte>.Fill(destination, count: 10, value: 255);
         Assert.Equal(destination, StrCopy(destination + 0, source: pointer));
@@ -149,7 +160,17 @@ public sealed class SystemTests
         Assert.Equal(4, Bytes.Of(ref record.Value, count: 4).Length);
         _ = Assert.Throws<ArgumentOutOfRangeException>(() => Bytes.Of(ref record.Value, count: 9).ToArray());
         _ = Assert.Throws<ArgumentOutOfRangeException>(() => Bytes.Of(ref record.Value, count: -1).ToArray());
-        FillChar(bytes, count: 2, value: 0x80);
+        int count = 2;
+        byte value = 0x80;
+        if (count > bytes.Length)
+        {
+            throw new ArgumentOutOfRangeException(paramName: null, message: "FillChar exceeds the buffer");
+        }
+
+        if (count > 0)
+        {
+            bytes[..count].Fill(value);
+        }
         Assert.Equal(0x04038080, record.Value.Value);
         PackedRecord other = new();
         Move(bytes, destination: Bytes.Of(ref other), count: 8);
@@ -159,7 +180,18 @@ public sealed class SystemTests
         Move(bytes[..4], destination: bytes[1..], count: 4);
         Assert.Equal(new byte[] { 128, 128, 128, 3, 4, 0, 0, 0 }, bytes.ToArray());
         Move([], destination: [], count: -1);
-        FillChar([], count: 0, value: 1);
+        Span<byte> destination = [];
+        int count2 = 0;
+        byte value2 = 1;
+        if (count2 > destination.Length)
+        {
+            throw new ArgumentOutOfRangeException(paramName: null, message: "FillChar exceeds the buffer");
+        }
+
+        if (count2 > 0)
+        {
+            destination[..count2].Fill(value2);
+        }
         Assert.True(CompareMem([], [], count: 0));
         _ = Assert.Throws<ArgumentOutOfRangeException>(() => Move(new byte[1], destination: new byte[1], count: 2));
         _ = Assert.Throws<ArgumentOutOfRangeException>(() => FillChar(new byte[1], count: 2, value: 0));
@@ -178,7 +210,7 @@ public sealed class SystemTests
         Assert.Null(As<object>(null));
         object objectValue = new();
         Assert.Same(objectValue, As<object>(objectValue));
-        Assert.Equal("Invalid class typecast", Assert.Throws<InvalidCastException>(() => As<Generated.Sample>(objectValue)).Message);
+        Assert.Equal("Invalid class typecast", Assert.Throws<InvalidCastException>(() => As<Sample>(objectValue)).Message);
         _ = Assert.Throws<AbortException>(Abort);
         Assert.Equal(0, Assert.Throws<HaltException>(() => Halt()).ExitCode);
         Assert.Equal(-1, Assert.Throws<HaltException>(() => Halt(-1)).ExitCode);

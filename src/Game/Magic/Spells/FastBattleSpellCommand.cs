@@ -8,7 +8,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Magic.Spells;
 
-public record class FastBattleSpellCommand : FastBattleCommand
+public sealed record class FastBattleSpellCommand : FastBattleCommand
 {
     public FastBattleSpellCommand(int abilityId, EngineObject creator) : base(abilityId) => Creator = creator;
 

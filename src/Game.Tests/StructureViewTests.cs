@@ -1,4 +1,5 @@
 #nullable disable
+using System.Globalization;
 using System.Reflection;
 using System.Text;
 using Aow.Engine;
@@ -189,7 +190,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
             }
 
             takesItems = items;
-            string name = prefix + DelphiConversions.IntToStr(DelphiRandom.Random(variants));
+            string name = prefix + DelphiRandom.Random(variants).ToString(CultureInfo.InvariantCulture);
             for (int i = 1; i <= 6; i++)
             {
                 fixedTags |= 1 << i;
@@ -205,7 +206,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
                 {
                     if (neighborHoldsCity(i))
                     {
-                        fileName += DelphiConversions.IntToStr(i);
+                        fileName += i.ToString(CultureInfo.InvariantCulture);
                         fixedTags |= 1 << i;
                     }
                 }

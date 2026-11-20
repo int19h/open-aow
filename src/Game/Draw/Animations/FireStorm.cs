@@ -1,17 +1,12 @@
 #nullable disable
 // Translated from Storms.pas.
 using Aow.Engine.Nodes;
-
 using Aow.Game.Audio;
 using Aow.Game.Combat;
-
 using Aow.Game.Draw.Images;
-
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
-
 using Aow.Game.World.Map;
-
 using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 
@@ -44,7 +39,11 @@ public class FireStorm(CustomNode owner) : Storm(owner)
     }
 
     // Storms.pas:603
-    public override void GetTargetDamageInfo(sbyte player, sbyte X, sbyte Y, sbyte L, ref StormDamageInfo info) => AbilityRules.RetrieveStormDamageInfo(player, storm: StormType.Fire, X, Y, L, innerRadius: 0, outerRadius: 2, out info);
+    public override StormDamageInfo GetTargetDamageInfo(sbyte player, sbyte X, sbyte Y, sbyte L, StormDamageInfo info)
+    {
+        AbilityRules.RetrieveStormDamageInfo(player, storm: StormType.Fire, X, Y, L, innerRadius: 0, outerRadius: 2, out info);
+        return info;
+    }
 
     // Storms.pas:594
     public override void UpdateTargetSelection(TargetSelectionControl selection)

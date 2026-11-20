@@ -1,17 +1,17 @@
 #nullable disable
+using System.Globalization;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Controls;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
-using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class ControlWindow
+public sealed partial class ControlWindow
 {
     // Original AoW.exe loads the three-space string. The recovered UpdateArmy source has one space
     // at all eight labels
-    public static string UnitMoveText(int points) => $"   {DelphiConversions.IntToStr(points)}";
+    public static string UnitMoveText(int points) => $"   {points.ToString(CultureInfo.InvariantCulture)}";
 
     public void UpdateArmy()
     {
@@ -65,7 +65,7 @@ public partial class ControlWindow
             PartyInfoPanel.Visible = false;
             MoveIcon.Visible = true;
             MoveIcon.CurrentImage = UI.General.MoveTypesToInt32(army.GetPartyMoves(255));
-            MovesLabel.Text = DelphiConversions.IntToStr(army.MovePoints(255));
+            MovesLabel.Text = ((int)army.MovePoints(255)).ToString(CultureInfo.InvariantCulture);
             UI.ControlWindow.CheckEnd();
             PartyControlPanel.Visible = true;
             PartyGuardCheckBox.Checked = army.UserMode.Contains(ArmyUserModeElement.Guard);

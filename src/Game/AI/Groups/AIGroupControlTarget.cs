@@ -1,16 +1,13 @@
 // Translated from AoWE.pas.
+using System.Globalization;
 using Aow.Engine.Nodes;
-
 using Aow.Game.World.Map;
-
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.AI.Groups;
 
 // references. info. data. location. moves. transporter. status. path strength. data A. data B
-public class AIGroupControlTarget(CustomNode owner) : EngineObject(owner), IOwned<AIGroupControlTargetList>, IOwnedSink<AIGroupControlTargetList>
+public sealed class AIGroupControlTarget(CustomNode owner) : EngineObject(owner), IOwned<AIGroupControlTargetList>, IOwnedSink<AIGroupControlTargetList>
 {
     // A reference list holds the target and owns it only while the list saves or loads it, and
     // nothing else owns it. AcceptsOwner admits only that list.
@@ -55,7 +52,7 @@ public class AIGroupControlTarget(CustomNode owner) : EngineObject(owner), IOwne
     }
 
     // AIGroup.pas:655
-    public virtual bool Validate(AIGroupControl control)
+    public bool Validate(AIGroupControl control)
     {
         sbyte x = Location.X;
         return x != -1 && StrategicMap.Current.MapContainer.GetField(x, Location.Y, Location.MapLevel).GetAITarget(control, Info, data: out _);
@@ -68,12 +65,13 @@ public class AIGroupControlTarget(CustomNode owner) : EngineObject(owner), IOwne
     public int TargetMana => 0;
 
     // AIGroup.pas:676
-    public void GetDebugInfo(out string text)
+    public string GetDebugInfo()
     {
-        text = $"Target({IntToStr(Location.X)},{IntToStr(Location.Y)},{IntToStr(Location.MapLevel)}): Prio:{IntToStr(Data.Priority)}";
+        string text = $"Target({((int)Location.X).ToString(CultureInfo.InvariantCulture)},{((int)Location.Y).ToString(CultureInfo.InvariantCulture)},{((int)Location.MapLevel).ToString(CultureInfo.InvariantCulture)}): Prio:{Data.Priority.ToString(CultureInfo.InvariantCulture)}";
         if (TransporterId != -1)
         {
-            text = $"{text}/Transporter({IntToStr(TransporterId)})";
+            text = $"{text}/Transporter({TransporterId.ToString(CultureInfo.InvariantCulture)})";
         }
+        return text;
     }
 }

@@ -1,6 +1,6 @@
 namespace Aow.Game.UI.Dialogs;
 
-public partial class FileDialogWindow
+public sealed partial class FileDialogWindow
 {
     public override void Loaded()
     {

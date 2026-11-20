@@ -5,7 +5,7 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Game.Draw;
 
 // FList, the owned points
-public class Point3DList : IDisposable
+public sealed class Point3DList : IDisposable
 {
 
     private readonly List<Point3D> _list;
@@ -14,7 +14,7 @@ public class Point3DList : IDisposable
     public Point3DList() => _list = [];
 
     // aowFX.pas:98
-    public virtual void Dispose()
+    public void Dispose()
     {
         for (int i = 0, last = _list.Count - 1; i <= last; i++)
         {

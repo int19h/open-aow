@@ -27,8 +27,6 @@ public static class RtlHost
         MessageHandler = message => host.Dialogs.Show(new(message, Caption: "", Flags: 0, DefaultResult: 1));
     }
 
-    public static void OpenUrl(string url) => (Shell ?? throw new InvalidOperationException($"No shell service opens {url}")).OpenUrl(url);
-
     public static int MessageBox(int handle, string text, string caption, int flags)
     {
         int[] buttons = (flags & 15) switch

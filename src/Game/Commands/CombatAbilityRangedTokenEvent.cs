@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from CombatTE.pas.
+using System.Globalization;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.Audio;
@@ -11,7 +12,6 @@ using Aow.Game.Magic.Spells;
 using Aow.Game.Net;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiRounding;
 using static Aow.Rtl.RtlHost;
@@ -263,7 +263,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                     }
                     catch
                     {
-                        _ = MessageBox(0, text: "Error during Token Start", caption: $"Error - TCRangedToken {IntToStr(AbilityId)}/{IntToStr(SpellId)}", flags: 0);
+                        _ = MessageBox(0, text: "Error during Token Start", caption: $"Error - TCRangedToken {AbilityId.ToString(CultureInfo.InvariantCulture)}/{SpellId.ToString(CultureInfo.InvariantCulture)}", flags: 0);
                     }
 
                     break;
@@ -925,7 +925,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                     }
                     catch
                     {
-                        _ = MessageBox(0, text: "Error during Token Execute", caption: $"Error - TCRangedToken {IntToStr(AbilityId)}/{IntToStr(SpellId)}", flags: 0);
+                        _ = MessageBox(0, text: "Error during Token Execute", caption: $"Error - TCRangedToken {AbilityId.ToString(CultureInfo.InvariantCulture)}/{SpellId.ToString(CultureInfo.InvariantCulture)}", flags: 0);
                     }
 
                     break;
@@ -954,7 +954,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
         }
         catch
         {
-            _ = MessageBox(0, text: "Error during Token", caption: $"Error - TCRangedToken {IntToStr(AbilityId)}/{IntToStr(SpellId)}", flags: 0);
+            _ = MessageBox(0, text: "Error during Token", caption: $"Error - TCRangedToken {AbilityId.ToString(CultureInfo.InvariantCulture)}/{SpellId.ToString(CultureInfo.InvariantCulture)}", flags: 0);
         }
 
         return result;

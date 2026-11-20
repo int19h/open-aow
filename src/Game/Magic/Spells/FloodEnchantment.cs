@@ -39,7 +39,7 @@ public class FloodEnchantment : GlobalEnchantment
         TurnsActive = persister.Int32("TurnsActive", value: TurnsActive);
         persister.Object("FloodControl", objectValue: FloodControl);
         Removed = persister.Boolean("Removed", value: Removed);
-        DispelPlayer = PersistSupport.UnsignedByte(persister, name: "DispelPlayer", value: DispelPlayer);
+        DispelPlayer = persister.UnsignedByte(name: "DispelPlayer", value: DispelPlayer);
         RestoreDays = persister.SByte("RestoreDays", value: RestoreDays, fallback: -1);
     }
 

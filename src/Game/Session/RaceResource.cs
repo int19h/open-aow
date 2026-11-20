@@ -21,7 +21,7 @@ namespace Aow.Game.Session;
 // { Interface declaration run owned by P1. }
 // face library, city library, library name, name, race name, description, alignments,
 // references, units, hero unit, special units, hero names
-public class RaceResource(CustomNode owner) : EngineResource(owner)
+public sealed class RaceResource(CustomNode owner) : EngineResource(owner)
 {
 
     public new const int ClassId = 131_585;
@@ -69,16 +69,16 @@ public class RaceResource(CustomNode owner) : EngineResource(owner)
         _description = persister.String("Description", value: _description);
         // The original ReadWrite leaves out the image library name under text only (the translate
         // stream).
-        if (!PersistSupport.Translating(persister))
+        if (!persister.Translating())
         {
             _imageLibraryName = persister.String("ImageLibraryName", value: _imageLibraryName);
         }
 
         Alignments = persister.Set("Alignments", value: Alignments);
-        PersistSupport.UnitIndexList(persister, name: "UnitIndexes", list: UnitIndexes);
-        PersistSupport.UnitIndexList(persister, name: "SpecialUnitIndexes", list: SpecialUnitIndexes);
+        persister.UnitIndexList(name: "UnitIndexes", list: UnitIndexes);
+        persister.UnitIndexList(name: "SpecialUnitIndexes", list: SpecialUnitIndexes);
         _heroUnitIndex = persister.Int32("HeroUnitIndex", value: _heroUnitIndex);
-        PersistSupport.Lines(persister, name: "HeroNames", lines: _heroNames);
+        persister.Lines(name: "HeroNames", lines: _heroNames);
     }
 
     // PlayerC.PAS:1798

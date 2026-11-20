@@ -1,13 +1,12 @@
 #nullable disable
 // Translated from AoWE.pas.
+using System.Globalization;
 using Aow.Engine.Nodes;
 using Aow.Game.Draw;
 
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.World.Movement;
 
@@ -251,7 +250,7 @@ public class MoveSelector : IDisposable
                             GamePack.Current.CursorImages[imageIndex].Show(pixelX, pixelY, lockedSurface: surface);
                             // { Original sets the font color before checking the font for nil. }
                             Creator.GetEngine().CombatFont.Color = 0;
-                            Creator.GetEngine().CombatFont?.SetTextCentered(pixelX + 25, pixelY + 9, text: IntToStr(((settings.PathMovePoints - settings.MovePoints - 1) / settings.Moves) + 1), lockedSurface: surface);
+                            Creator.GetEngine().CombatFont?.SetTextCentered(pixelX + 25, pixelY + 9, text: (((settings.PathMovePoints - settings.MovePoints - 1) / settings.Moves) + 1).ToString(CultureInfo.InvariantCulture), lockedSurface: surface);
                         }
                         else
                         {

@@ -2,9 +2,7 @@ using System.Buffers.Binary;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using Aow.Engine.Collections;
-using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
-using Aow.Game.Draw;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
@@ -396,7 +394,7 @@ public sealed class AsmStubsProbeTests
                 FillA5(ints);
                 Blit.FillInteger(MemoryMarshal.AsBytes(ints.AsSpan())[4..], count: s_counts[i], value: s_values[j]);
                 FillA5(words);
-                PixelFormats.FillWord(MemoryMarshal.AsBytes(words.AsSpan())[2..], count: s_counts[i], value: s_values[j]);
+                Blit.FillWord(MemoryMarshal.AsBytes(words.AsSpan())[2..], count: s_counts[i], value: s_values[j]);
                 for (int k = 0; k < 12; k++)
                 {
                     AddHex(lines, label: $"GFXE.FillInt_{tag}_{Decrement(k)}", value: ints[k]);
@@ -406,7 +404,7 @@ public sealed class AsmStubsProbeTests
                 if (s_counts[i] > 0)
                 {
                     FillA5(quads);
-                    PixelFormats.FillTripleByte(MemoryMarshal.AsBytes(quads.AsSpan()), count: s_counts[i], value: s_values[j]);
+                    Blit.FillTripleByte(MemoryMarshal.AsBytes(quads.AsSpan()), count: s_counts[i], value: s_values[j]);
                     for (int k = 0; k < 3; k++)
                     {
                         AddHex(lines, label: $"GFXE.FillTrippleByte_{tag}_{Decrement(k)}_A", value: quads[k].First);
@@ -420,7 +418,7 @@ public sealed class AsmStubsProbeTests
 
         try
         {
-            PixelFormats.FillTripleByte(new byte[12], count: 0, value: 0x12345678);
+            Blit.FillTripleByte((Span<byte>)(new byte[12]), count: 0, value: 0x12345678);
         }
         catch (Exception e)
         {
@@ -502,7 +500,7 @@ public sealed class AsmStubsProbeTests
     }
 
     private static void FillLarge(DoubleItemList.DoubleItem[] items, int start, int count, DoubleItemList.DoubleItem value)
-        => EngineServices.Fill(items.AsSpan(start), count, value);
+        => items.AsSpan(start)[..count].Fill(value);
 
     private static void FillA5<T>(Span<T> items) where T : unmanaged => MemoryMarshal.AsBytes(items).Fill(0xA5);
 

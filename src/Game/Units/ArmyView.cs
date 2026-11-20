@@ -12,7 +12,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Units;
 
 // UnitConcealment. ConcealedForPlayers. MoraleValues
-public class ArmyView(CustomNode owner) : Army(owner)
+public sealed class ArmyView(CustomNode owner) : Army(owner)
 {
     public new const int ClassId = 131_609;
 
@@ -26,9 +26,9 @@ public class ArmyView(CustomNode owner) : Army(owner)
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        PersistSupport.UInt16Array(persister, name: "UnitConcealment", values: UnitConcealment);
+        persister.UInt16Array(name: "UnitConcealment", values: UnitConcealment);
         ConcealedForPlayers = persister.UInt16("ConcealedForPlayers", ConcealedForPlayers);
-        PersistSupport.Int32Array(persister, name: "MoraleValues", values: MoraleValues);
+        persister.Int32Array(name: "MoraleValues", values: MoraleValues);
     }
 
     // Army.PAS:130
@@ -36,7 +36,7 @@ public class ArmyView(CustomNode owner) : Army(owner)
     {
         base.MainPersist(persister);
         // The translate stream's mode holds read, so the original sets the morale there too.
-        if (!persister.Loading && !PersistSupport.Translating(persister))
+        if (!persister.Loading && !persister.Translating())
         {
             return;
         }
@@ -57,7 +57,7 @@ public class ArmyView(CustomNode owner) : Army(owner)
     public override bool GetConcealedForPlayer(sbyte player) => ((ConcealedForPlayers >>> (player - 1)) & 1) != 0;
 
     // Army.PAS:100
-    public virtual void Setup(Army army, byte selection)
+    public void Setup(Army army, byte selection)
     {
         AssignSettings(army);
         Location = new MapCoordinate(army.Location.X, army.Location.Y, army.Location.MapLevel);

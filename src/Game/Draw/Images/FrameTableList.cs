@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from ImageLib.pas.
+using System.Globalization;
 using System.Runtime.InteropServices;
 
 using Aow.Rtl;
@@ -303,7 +304,7 @@ public class FrameTableList : Persistent
         string result = "";
         for (int i = 0, last = _count - 1; i <= last; i++)
         {
-            result = $"{result}{IntToStr(List[i])},";
+            result = $"{result}{List[i].ToString(CultureInfo.InvariantCulture)},";
         }
 
         return !IsEmpty(result) ? Copy(result, index: 1, count: result.Length - 1) : result;

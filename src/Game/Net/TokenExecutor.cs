@@ -12,7 +12,7 @@ namespace Aow.Game.Net;
 // _activeTacticalBattle, _prefetchTacticalBattle, _activeTacticalBattleIndex, Events, TacticalBattleList, _tokenCounter, _round,
 // _executeCount, _state, EventsExecuted, TacticalBattleActivating, OnSyncError, OnGetSyncValue,
 // OnExecuteTokenEvent, _executing, _lockCount, SystemEvents, _holdTacticalBattle, TokenManager
-public class TokenExecutor : IDisposable
+public sealed class TokenExecutor : IDisposable
 {
     internal TokenEventList Events { get; }
     internal List<TokenControl> TacticalBattleList { get; }
@@ -60,7 +60,7 @@ public class TokenExecutor : IDisposable
     internal TokenManager TokenManager { get; }
 
     // NetworkE.pas:1429
-    public virtual ExecuteResult ExecuteTokenEvent(TokenEvent tokenEvent)
+    public ExecuteResult ExecuteTokenEvent(TokenEvent tokenEvent)
     {
         Executing = true;
         OnExecuteTokenEvent?.Invoke(tokenEvent);
@@ -94,7 +94,7 @@ public class TokenExecutor : IDisposable
     }
 
     // NetworkE.pas:1361
-    public virtual void Dispose()
+    public void Dispose()
     {
         Reset();
         Events?.Dispose();

@@ -1,7 +1,7 @@
 
 namespace Aow.Game.Draw;
 
-public partial class Palette
+public sealed partial class Palette
 {
     public int GetNearestColor(int color)
     {
@@ -20,7 +20,7 @@ public partial class Palette
     }
 }
 
-public partial class Palette
+public sealed partial class Palette
 {
     public void Assign(Palette source)
     {

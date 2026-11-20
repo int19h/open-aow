@@ -192,7 +192,7 @@ public partial class GameMap : OwningNode
 
         // The original leaves the file name out of a text stream. Under the translate stream's mode
         // (read, text only) it still initializes the hexagon sprite set of the name the map holds.
-        bool translating = PersistSupport.Translating(persister);
+        bool translating = persister.Translating();
         if (!translating)
         {
             _hssFileName = persister.String("HssFileName", value: _hssFileName);
@@ -200,11 +200,11 @@ public partial class GameMap : OwningNode
 
         if (!persister.Preview && (persister.Loading || translating) && !IsEmpty(_hssFileName))
         {
-            GameEngine engine = PersistSupport.Engine(persister);
-            engine.InitializeHexSpriteSet(engine.StartupDirectory + _hssFileName, progress: PersistSupport.Progress(persister));
+            GameEngine engine = persister.Engine();
+            engine.InitializeHexSpriteSet(engine.StartupDirectory + _hssFileName, progress: persister.Progress());
         }
 
-        Version = PersistSupport.UnsignedByte(persister, name: "Version", value: (sbyte)Version);
+        Version = persister.UnsignedByte(name: "Version", value: (sbyte)Version);
         ViewPixelX = persister.Int32("ViewPixelX", value: ViewPixelX);
         ViewPixelY = persister.Int32("ViewPixelY", value: ViewPixelY);
         ViewMapLevel = persister.Int32("ViewMapLevel", value: ViewMapLevel);
@@ -839,7 +839,7 @@ public partial class GameMap : OwningNode
     {
         if (_terrainChangedLockCounter == 0)
         {
-            HexGeometry.OriginalAssert("Invalid TerrainChangedLockCounter", fileName: "D:\\GEngine\\HSENGINE\\inc\\HSMAP.PAS", lineNumber: 5989);
+            Assert(false, message: "Invalid TerrainChangedLockCounter", file: "D:\\GEngine\\HSENGINE\\inc\\HSMAP.PAS", line: 5989);
         }
 
         _terrainChangedLockCounter -= 1;
@@ -887,7 +887,7 @@ public partial class GameMap : OwningNode
     public void SetHssFileName(string fileName)
     {
         string expandFileName = ExpandFileName(fileName);
-        _hssFileName = ExtractRelativePath(Engine.StartupDirectory, destination: expandFileName);
+        _hssFileName = RtlHost.Files.ExtractRelativePath(Engine.StartupDirectory, destination: expandFileName);
     }
 
     // HSMAP.PAS:459

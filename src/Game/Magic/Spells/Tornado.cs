@@ -1,16 +1,12 @@
 #nullable disable
 // Translated from GlobalTargetSpells.pas.
 using Aow.Engine.Nodes;
-
 using Aow.Game.Combat;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
-
 using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 
@@ -84,7 +80,7 @@ public class Tornado : GlobalTargetSpell
     public MapCoordinate CalculateWarpLocation(ArmyHexSprite army, byte selection)
     {
         DelphiList<MapField> locations = new();
-        army.Army.CreateMovePointTable(selection, out MovePointTable table);
+        MovePointTable table = army.Army.CreateMovePointTable(selection);
         sbyte hexY = army.HexY;
         sbyte hexX = army.HexX;
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, radius: 10);

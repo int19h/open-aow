@@ -4,7 +4,7 @@ using Aow.Game.Layout;
 
 namespace Aow.Game.UI.Controls;
 
-public partial class Button
+public sealed partial class Button
 {
     public LayoutStrings LayoutToolTipText
     {

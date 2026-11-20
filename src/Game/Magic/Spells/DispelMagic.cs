@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from UnitSpells.pas.
+using System.Globalization;
 using Aow.Engine.Nodes;
 
 using Aow.Game.Combat;
@@ -11,7 +12,6 @@ using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiFormat;
 
 namespace Aow.Game.Magic.Spells;
@@ -96,7 +96,7 @@ public class DispelMagic : UnitSpell
             {
                 if (count > 0)
                 {
-                    string format = Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.SpellsSuccessfullyDispelledFormat), args: [IntToStr(count)]);
+                    string format = Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.SpellsSuccessfullyDispelledFormat), args: [count.ToString(CultureInfo.InvariantCulture)]);
                     StrategicMap.Current.ShowMessage(format);
                 }
                 else

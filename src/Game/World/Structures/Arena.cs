@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from Arena.pas.
+using System.Globalization;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Game.Commands;
@@ -10,7 +11,6 @@ using Aow.Game.Net;
 using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiFormat;
 
 namespace Aow.Game.World.Structures;
@@ -57,7 +57,7 @@ public partial class Arena(CustomNode owner) : Structure(owner)
                     }
                     else
                     {
-                        string format = Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_unitsTrainedFormat), args: [IntToStr(arenaTokenEvent.UnitIds.Count)]);
+                        string format = Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_unitsTrainedFormat), args: [arenaTokenEvent.UnitIds.Count.ToString(CultureInfo.InvariantCulture)]);
                         StrategicMap.Current.ShowMessage(format);
                     }
                 }

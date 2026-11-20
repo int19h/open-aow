@@ -1,9 +1,8 @@
 // Translated from AoWE.pas.
+using System.Globalization;
 using Aow.Engine.Nodes;
 
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.Magic.Abilities;
 
@@ -18,7 +17,7 @@ public class TransportAbility : MultiLevelAbility
     }
 
     // AoWAb.PAS:947
-    public override string GetLevelName(int level) => AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_transportUnitsFormat), arguments: [IntToStr(level)]);
+    public override string GetLevelName(int level) => AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_transportUnitsFormat), arguments: [level.ToString(CultureInfo.InvariantCulture)]);
 
     private static readonly string s_transportUnitsFormat = "Transport (%s units)";
 }

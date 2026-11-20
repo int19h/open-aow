@@ -7,7 +7,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class ScannerWindow(UIContext ui) : UIModule(ui)
+public sealed partial class ScannerWindow(UIContext ui) : UIModule(ui)
 {
     public Window MainWindow { get; private set; }
     public TabPanel ScannerTabs { get; private set; }

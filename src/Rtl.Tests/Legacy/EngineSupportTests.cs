@@ -62,7 +62,7 @@ public sealed class EngineSupportTests
         _ = Assert.Throws<ArgumentOutOfRangeException>(() => Heap.ValueBytes(1, count: 5));
         Assert.Equal(new byte[] { 0, 233, 255 }, Cp1252.Encode("\0\u00E9\u00FF").ToArray());
         byte[] bytes = new byte[3];
-        Heap.FillBytes(bytes, value: -1);
+        ((Span<byte>)bytes).Fill(unchecked((byte)-1));
         Assert.Equal(new byte[] { 255, 255, 255 }, bytes);
     }
 
@@ -86,17 +86,17 @@ public sealed class EngineSupportTests
         Receiver a = new();
         Receiver b = new();
         NotifyEvent<object> first = a.Event, second = b.Event;
-        Assert.Equal(DelegateRoutines.MethodCode(first), DelegateRoutines.MethodCode(second));
-        Assert.NotSame(DelegateRoutines.MethodTarget(first), DelegateRoutines.MethodTarget(second));
-        Assert.Null(DelegateRoutines.MethodCode(null));
-        Assert.Null(DelegateRoutines.MethodTarget(null));
+        Assert.Equal(((Delegate?)first)?.Method, ((Delegate?)second)?.Method);
+        Assert.NotSame(((Delegate?)first)?.Target, ((Delegate?)second)?.Target);
+        Assert.Null(((Delegate?)null)?.Method);
+        Assert.Null(((Delegate?)null)?.Target);
     }
 
     [Fact]
     public void SetTransferUsesTheDelphiImageAndItsLowByte()
     {
         Set<Flag> value = default;
-        SetImage.TransferSet(ref value, size: 1, id: 17, (bytes, size, id) =>
+        value = SetImage.TransferSet(value, size: 1, id: 17, (bytes, size, id) =>
         {
             Assert.Equal(1, size);
             Assert.Equal(17, id);
@@ -106,7 +106,7 @@ public sealed class EngineSupportTests
         Assert.True(value.Contains(Flag.Third));
         Assert.False(value.Contains(Flag.Second));
         Set<OffsetFlag> offset = default;
-        SetImage.TransferSet(ref offset, size: 1, id: 0, transfer: (bytes, _, _) => bytes[0] = 5, low: 8);
+        offset = SetImage.TransferSet(offset, size: 1, id: 0, transfer: (bytes, _, _) => bytes[0] = 5, low: 8);
         Assert.True(offset.Contains(OffsetFlag.First));
         Assert.True(offset.Contains(OffsetFlag.Third));
     }
@@ -177,6 +177,6 @@ public sealed class EngineSupportTests
         {
             LegacyApplication.MessageHandler = saved;
         }
-        Assert.True(Heap.GetHeapStatus().TotalAllocated >= 0);
+        Assert.True(new HeapStatus(unchecked((int)GC.GetTotalMemory(false))).TotalAllocated >= 0);
     }
 }

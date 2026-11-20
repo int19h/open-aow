@@ -27,7 +27,7 @@ namespace Aow.Game.Session;
 // (next ID, cheat, player, updates, external mana/power, external source, mana, spheres,
 // research percentage, spells, research spell, points, enchantments, power sources, enchantment
 // sets, changed events)
-public class PlayerMagicControl : EngineObject
+public sealed class PlayerMagicControl : EngineObject
 {
 
     // Spells.PAS:1908
@@ -123,7 +123,7 @@ public class PlayerMagicControl : EngineObject
         base.PersistFields(persister);
         Mana = persister.Int32("Mana", value: Mana);
         ResearchPercentage = persister.Int32("ResearchPercentage", value: ResearchPercentage, fallback: 50);
-        PersistSupport.Int32List(persister, name: "Spells", list: Spells);
+        persister.Int32List(name: "Spells", list: Spells);
         ResearchSpellId = persister.Int32("ResearchSpellId", value: ResearchSpellId);
         ResearchPointsLeft = persister.Int32("ResearchPointsLeft", value: ResearchPointsLeft);
         persister.Object("Enchantments", objectValue: Enchantments);

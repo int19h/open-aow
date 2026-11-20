@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWPowerDlg.pas.
+using System.Globalization;
 using Aow.Game.Draw;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
@@ -8,14 +9,12 @@ using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.UI.Dialogs;
 
 // all fields are form components, power allocation slider
-public partial class PowerDialog(UIContext ui) : UIModule(ui)
+public sealed partial class PowerDialog(UIContext ui) : UIModule(ui)
 {
     public Window Window { get; private set; }
     public Label NetManaLabel { get; private set; }
@@ -33,7 +32,7 @@ public partial class PowerDialog(UIContext ui) : UIModule(ui)
         PlayerMagicControl control = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl;
         PowerSlider.Position = control.ResearchPercentage;
         int netPower = control.GetNetPower();
-        PowerLabel.Text = IntToStr(netPower);
+        PowerLabel.Text = netPower.ToString(CultureInfo.InvariantCulture);
         UpdatePower();
     }
 
@@ -61,9 +60,9 @@ public partial class PowerDialog(UIContext ui) : UIModule(ui)
             ResearchLeftLabel.Text = "-";
         }
 
-        NetManaLabel.Text = $"{IntToStr(manaPower)}-{IntToStr(upkeep)}={IntToStr(manaPower - upkeep)}";
-        ManaLabel.Text = IntToStr(manaPower);
-        ResearchLabel.Text = IntToStr(researchPower);
+        NetManaLabel.Text = $"{manaPower.ToString(CultureInfo.InvariantCulture)}-{upkeep.ToString(CultureInfo.InvariantCulture)}={(manaPower - upkeep).ToString(CultureInfo.InvariantCulture)}";
+        ManaLabel.Text = manaPower.ToString(CultureInfo.InvariantCulture);
+        ResearchLabel.Text = researchPower.ToString(CultureInfo.InvariantCulture);
         Window.Drawn = false;
     }
 
@@ -125,7 +124,7 @@ public partial class PowerDialog(UIContext ui) : UIModule(ui)
             return AbilityRules.Format(s, arguments: new ReadOnlySpan<FormatArg>(ref value));
         }
         string s2 = engine.TranslateResourceString(GameText.TurnsFormat);
-        FormatArg value2 = (FormatArg)IntToStr(turns);
+        FormatArg value2 = (FormatArg)turns.ToString(CultureInfo.InvariantCulture);
         return AbilityRules.Format(s2, arguments: new ReadOnlySpan<FormatArg>(ref value2));
     }
 }

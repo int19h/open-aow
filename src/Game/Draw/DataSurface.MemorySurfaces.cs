@@ -1,7 +1,7 @@
 
 namespace Aow.Game.Draw;
 
-public partial class DataSurface
+public sealed partial class DataSurface
 {
     public override GraphicsResult Lock(ref LockedSurface lockedSurface)
     {

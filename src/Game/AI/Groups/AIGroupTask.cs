@@ -1,13 +1,12 @@
 #nullable disable
 // Translated from AoWE.pas.
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using Aow.Engine.Nodes;
 
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.AI.Groups;
 
@@ -90,7 +89,7 @@ public class AIGroupTask(CustomNode owner) : EngineObject(owner)
         }
         catch
         {
-            throw new InvalidOperationException($"{GetType().Name} exception during state ({IntToStr(State)})");
+            throw new InvalidOperationException($"{GetType().Name} exception during state ({State.ToString(CultureInfo.InvariantCulture)})");
         }
 
         return State != -1;

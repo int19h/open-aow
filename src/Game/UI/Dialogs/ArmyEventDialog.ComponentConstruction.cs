@@ -4,7 +4,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class ArmyEventDialog
+public sealed partial class ArmyEventDialog
 {
     public event NotifyEvent<ArmyEventDialog> LayoutOnCreate;
     public event NotifyEvent<ArmyEventDialog> LayoutOnDestroy;

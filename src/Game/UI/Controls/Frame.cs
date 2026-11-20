@@ -10,7 +10,7 @@ namespace Aow.Game.UI.Controls;
 
 // Fields: _frameType, _imageLibraryFrame, _imageLibraryTexture, _imageLibraryLine, _imageLibraryIndexFrame, _imageLibraryIndexLine,
 // _imageLibraryIndexTexture, _popupMenu
-public class Frame(Component owner) : Control(owner)
+public sealed class Frame(Component owner) : Control(owner)
 {
     private InterfaceImageLibrary _imageLibraryFrame;
     private InterfaceImageLibrary _imageLibraryTexture;
@@ -236,7 +236,7 @@ public class Frame(Component owner) : Control(owner)
     public override void CheckKeyPress(ref byte key) => Handled = false;
 
     // AoWFrame.pas:139
-    public virtual void SetImageLibraryFrame(InterfaceImageLibrary value)
+    public void SetImageLibraryFrame(InterfaceImageLibrary value)
     {
         if (value != _imageLibraryFrame)
         {
@@ -246,7 +246,7 @@ public class Frame(Component owner) : Control(owner)
     }
 
     // AoWFrame.pas:148
-    public virtual void SetImageLibraryTexture(InterfaceImageLibrary value)
+    public void SetImageLibraryTexture(InterfaceImageLibrary value)
     {
         if (value != _imageLibraryTexture)
         {
@@ -256,7 +256,7 @@ public class Frame(Component owner) : Control(owner)
     }
 
     // AoWFrame.pas:157
-    public virtual void SetImageLibraryLine(InterfaceImageLibrary value)
+    public void SetImageLibraryLine(InterfaceImageLibrary value)
     {
         if (value != _imageLibraryLine)
         {

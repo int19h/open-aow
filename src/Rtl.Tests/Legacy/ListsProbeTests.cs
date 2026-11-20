@@ -1,4 +1,3 @@
-using static Aow.Rtl.DelphiOrdinals;
 
 namespace Aow.Rtl.Tests;
 
@@ -136,11 +135,11 @@ public sealed class ListsProbeTests
         }
         void Lookup(string tag, string s)
         {
-            p.Fact($"{tag}_found", value: Ord(sl.Find(s, index: out int at)));
+            p.Fact($"{tag}_found", value: sl.Find(s, index: out int at) ? 1 : 0);
             p.Fact($"{tag}_insertion_index", value: at);
             p.Fact($"{tag}_indexof", value: sl.IndexOf(s));
         }
-        p.Fact("default_sorted", value: Ord(sl.Sorted));
+        p.Fact("default_sorted", value: sl.Sorted ? 1 : 0);
         p.Fact("default_duplicates", value: (int)sl.Duplicates);
         for (int d = 0; d < 3; d++)
         {
@@ -172,7 +171,7 @@ public sealed class ListsProbeTests
             p.Fact($"sorted_{d}_insert_error", value: p.Thrown(() => sl.Insert(0, value: "illegal")));
         }
         sl.Clear();
-        p.Fact("empty_find", value: Ord(sl.Find("absent", out int index)));
+        p.Fact("empty_find", value: sl.Find("absent", out int index) ? 1 : 0);
         p.Fact("empty_find_index", value: index);
         p.Fact("empty_indexof", value: sl.IndexOf("absent"));
         p.End();

@@ -36,15 +36,15 @@ public class HeroUpgradeTokenEvent : TokenEvent
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Attack = PersistSupport.UnsignedByte(persister, name: "Attack", value: Attack);
-        Defense = PersistSupport.UnsignedByte(persister, name: "Defense", value: Defense);
-        Resistance = PersistSupport.UnsignedByte(persister, name: "Resistance", value: Resistance);
-        Damage = PersistSupport.UnsignedByte(persister, name: "Damage", value: Damage);
-        Moves = PersistSupport.UnsignedByte(persister, name: "Moves", value: Moves);
-        Hits = PersistSupport.UnsignedByte(persister, name: "Hits", value: Hits);
+        Attack = persister.UnsignedByte(name: "Attack", value: Attack);
+        Defense = persister.UnsignedByte(name: "Defense", value: Defense);
+        Resistance = persister.UnsignedByte(name: "Resistance", value: Resistance);
+        Damage = persister.UnsignedByte(name: "Damage", value: Damage);
+        Moves = persister.UnsignedByte(name: "Moves", value: Moves);
+        Hits = persister.UnsignedByte(name: "Hits", value: Hits);
         persister.Object("Abilities", objectValue: Abilities);
         UnitId = persister.Int32("UnitId", value: UnitId);
-        Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
+        Player = persister.UnsignedByte(name: "Player", value: Player);
     }
 
     // Hero.PAS:1

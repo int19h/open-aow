@@ -54,7 +54,7 @@ public class SmokeCloud : MultiHexMapObject
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
+        Player = persister.UnsignedByte(name: "Player", value: Player);
         TurnsRemaining = persister.Int32("TurnsRemaining", value: TurnsRemaining);
         Drifting = persister.Boolean("Drifting", value: Drifting);
         _direction = persister.Byte("Direction", value: _direction);

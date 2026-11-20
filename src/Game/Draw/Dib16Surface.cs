@@ -3,7 +3,7 @@ namespace Aow.Game.Draw;
 
 // a 16 bit DIB section (555 or 565). _handle, _width, _height, _bits, _pitch, _pixelFormatId,
 // Info, Masks
-public partial class Dib16Surface : Surface
+public sealed partial class Dib16Surface : Surface
 {
     private int _width;
     private int _height;

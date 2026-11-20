@@ -15,7 +15,7 @@ using Aow.Rtl;
 namespace Aow.Game.Draw;
 
 // Position. Index. ImageIndex. Images. Direction
-public class UnitPositionHexSprite(CustomNode owner) : SingleHexSprite(owner)
+public sealed class UnitPositionHexSprite(CustomNode owner) : SingleHexSprite(owner)
 {
 
     // AoWTC.pas:5016
@@ -31,8 +31,8 @@ public class UnitPositionHexSprite(CustomNode owner) : SingleHexSprite(owner)
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        _position = PersistSupport.UnsignedByte(persister, name: "Position", value: _position);
-        _index = PersistSupport.UnsignedByte(persister, name: "Index", value: _index);
+        _position = persister.UnsignedByte(name: "Position", value: _position);
+        _index = persister.UnsignedByte(name: "Index", value: _index);
         _direction = persister.Byte("Direction", value: _direction);
     }
 

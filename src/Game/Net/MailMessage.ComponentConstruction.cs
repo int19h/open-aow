@@ -3,7 +3,7 @@
 
 namespace Aow.Game.Net;
 
-public partial class MailMessage
+public sealed partial class MailMessage
 {
     public string ContentType { get; set; } = "";
     public bool ReturnReceipt { get; set; }

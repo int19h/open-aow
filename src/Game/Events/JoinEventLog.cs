@@ -3,15 +3,10 @@ using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Session;
-
 using Aow.Game.Units;
-
 using Aow.Game.World.Map;
-
 using Aow.Rtl;
 
 namespace Aow.Game.Events;
@@ -49,9 +44,9 @@ public class JoinEventLog(CustomNode owner) : EventLog(owner)
     {
         base.PersistFields(persister);
         FirstUnitId = persister.Int32("FirstUnitId", value: FirstUnitId);
-        PersistSupport.Int32List(persister, name: "UnitIds", list: UnitIds);
+        persister.Int32List(name: "UnitIds", list: UnitIds);
         Selection = persister.Byte("Selection", value: Selection);
-        PersistSupport.Lines(persister, name: "JoinMessage", lines: JoinMessage);
+        persister.Lines(name: "JoinMessage", lines: JoinMessage);
         Gold = persister.Int32("Gold", value: Gold);
         int location = persister.Int32("Location", value: StoredCoordinateImage.From(_location).ToInt32());
         _location = StoredCoordinateImage.FromInt32(location).Location;
@@ -86,7 +81,7 @@ public class JoinEventLog(CustomNode owner) : EventLog(owner)
     }
 
     // Diplomacy.pas:80
-    public virtual void ListJoinUnits(UnitUserList units, out byte selection)
+    public virtual byte ListJoinUnits(UnitUserList units)
     {
         for (int i = 0, last = UnitIds.Count - 1; i <= last; i++)
         {
@@ -95,7 +90,8 @@ public class JoinEventLog(CustomNode owner) : EventLog(owner)
             _ = units.AddUnit(troop);
         }
 
-        selection = Selection;
+        byte selection = Selection;
+        return selection;
     }
 
     // Diplomacy.pas:93
@@ -141,6 +137,6 @@ public class JoinEventLog(CustomNode owner) : EventLog(owner)
             _ = UnitIds.Add(troop.UnitId);
         }
 
-        _location = HexGeometry.PackMapCoordinate(army.Location.X, army.Location.Y, army.Location.MapLevel);
+        _location = new MapCoordinate(army.Location.X, army.Location.Y, army.Location.MapLevel);
     }
 }

@@ -10,7 +10,7 @@ namespace Aow.Game.UI.Controls;
 // { The AoWLabel unit of aowInt.dpl: TAOWLabel, a line of text in an image library font; it
 //   sizes itself to its text. }
 // no fields of its own
-public partial class Label(Component owner) : Control(owner)
+public sealed partial class Label(Component owner) : Control(owner)
 {
 
     // AoWLabel.pas:38

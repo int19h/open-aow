@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWE.pas.
+using System.Globalization;
 using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -14,8 +15,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.Units;
 
@@ -41,8 +40,8 @@ public class Unit(CustomNode owner) : Troop(owner)
     {
         base.PersistFields(persister);
         _experience = persister.Byte("Experience", value: _experience);
-        _movePoints = PersistSupport.UnsignedByte(persister, name: "MovePoints", value: _movePoints);
-        _hitPoints = PersistSupport.UnsignedByte(persister, name: "HitPoints", value: _hitPoints);
+        _movePoints = persister.UnsignedByte(name: "MovePoints", value: _movePoints);
+        _hitPoints = persister.UnsignedByte(name: "HitPoints", value: _hitPoints);
         if (persister.Loading)
         {
             short resourceIndex = unchecked((short)persister.UInt16("UnitResourceIndex", value: 0));
@@ -50,7 +49,7 @@ public class Unit(CustomNode owner) : Troop(owner)
             UnitResource = resource;
             if (resource is null)
             {
-                throw new KeyNotFoundException($"unit resource missing ({IntToStr(resourceIndex)})");
+                throw new KeyNotFoundException($"unit resource missing ({((int)resourceIndex).ToString(CultureInfo.InvariantCulture)})");
             }
         }
         else

@@ -8,7 +8,7 @@ namespace Aow.Game.Session;
 
 // CRCs, day, play mode, victory, independent AI, seed, limits, players, connection, tactical
 // combat, email game name
-public class SetupSettings : OwningNode, IChildList<PlayerSetupSettings>
+public sealed class SetupSettings : OwningNode, IChildList<PlayerSetupSettings>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a PlayerSetupSettings, so the cast never fails.

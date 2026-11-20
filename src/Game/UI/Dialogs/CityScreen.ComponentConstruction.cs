@@ -4,7 +4,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class CityScreen
+public sealed partial class CityScreen
 {
     public event NotifyEvent<CityScreen> LayoutOnCreate;
     public event NotifyEvent<CityScreen> LayoutOnDestroy;

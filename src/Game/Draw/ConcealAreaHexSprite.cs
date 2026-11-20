@@ -12,7 +12,7 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Game.Draw;
 
 // X/Y/layer explored hexagons, animation frame
-public class ConcealAreaHexSprite(CustomNode owner) : FixedVisibleHexSprite(owner)
+public sealed class ConcealAreaHexSprite(CustomNode owner) : FixedVisibleHexSprite(owner)
 {
 
     private sbyte _x;

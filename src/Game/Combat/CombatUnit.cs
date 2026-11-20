@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWE.pas.
+using System.Globalization;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 
@@ -14,8 +15,6 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.Combat;
 
@@ -590,11 +589,11 @@ public class CombatUnit : CombatObject
         if (Troop is not null)
         {
             string name = Troop.GetName();
-            return $"{result}({IntToStr(Position)})={name}";
+            return $"{result}({((int)Position).ToString(CultureInfo.InvariantCulture)})={name}";
         }
         else
         {
-            return $"{result}({IntToStr(Position)})";
+            return $"{result}({((int)Position).ToString(CultureInfo.InvariantCulture)})";
         }
     }
 

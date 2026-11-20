@@ -5,7 +5,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.World.Movement;
 
 // inherited FChildren
-public class MoveSettingsList(CustomNode owner) : OwningNode(owner), IChildList<MoveSettings>
+public sealed class MoveSettingsList(CustomNode owner) : OwningNode(owner), IChildList<MoveSettings>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a MoveSettings, so the cast never fails.

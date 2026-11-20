@@ -3,7 +3,7 @@ using Aow.Game.Host;
 
 namespace Aow.Game.AI;
 
-public partial class AIExecutor
+public sealed partial class AIExecutor
 {
     // AI.pas:612. The callback records the source work charge.
     public void UseProcessTime(int time)

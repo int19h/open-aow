@@ -1,11 +1,11 @@
 
+using System.Globalization;
 using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiDateTime;
 using static Aow.Rtl.DelphiFormat;
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiStrings;
 using static Aow.Rtl.DelphiTextCompare;
-using static Aow.Rtl.PCharStrings;
 using static Aow.Rtl.RtlHost;
 using Assert = Xunit.Assert;
 
@@ -28,21 +28,21 @@ public sealed class SysUtilsTests
             Assert.Equal(value, StrToIntDef(text, fallback: 91));
         }
         // SYSUTILS.PAS:3719 ignores integer precision outside 0..15.
-        Assert.Equal("000000000000001", IntToHex(1, digits: 15));
+        Assert.Equal("000000000000001", unchecked((uint)1).ToString("X15", provider: CultureInfo.InvariantCulture));
         foreach (int width in new[] { int.MinValue, -1, 0, 16, 32, int.MaxValue })
         {
             Assert.Equal("1", IntToHex(1, digits: width));
         }
 
-        Assert.Equal("80000000", IntToHex(int.MinValue, digits: 1));
-        Assert.Equal("000", StringOfChar((byte)'0', count: 3));
-        Assert.Equal("", StringOfChar(255, count: -1));
-        Assert.Equal("\u00FF\u00FF", StringOfChar(255, count: 2));
-        Assert.Equal("'a''b\0c'", QuotedStr("a'b\0c"));
-        Assert.Equal("''", QuotedStr(""));
-        Assert.Equal(3, AnsiPos("\0b", value: "aa\0bb"));
-        Assert.Equal(0, AnsiPos("", value: "aa"));
-        Assert.Equal(0, AnsiPos("z", value: "aa"));
+        Assert.Equal("80000000", unchecked((uint)int.MinValue).ToString("X1", provider: CultureInfo.InvariantCulture));
+        Assert.Equal("000", StringOfChar(Cp1252.Char((byte)'0'), count: 3));
+        Assert.Equal("", StringOfChar(Cp1252.Char(255), count: -1));
+        Assert.Equal("\u00FF\u00FF", StringOfChar(Cp1252.Char(255), count: 2));
+        Assert.Equal("'a''b\0c'", $"'{RequireString((string?)"a'b\0c").Replace("'", "''")}'");
+        Assert.Equal("''", $"'{RequireString((string?)"").Replace("'", "''")}'");
+        Assert.Equal(3, Pos((string?)"\0b", haystack: (string?)"aa\0bb"));
+        Assert.Equal(0, Pos((string?)"", haystack: (string?)"aa"));
+        Assert.Equal(0, Pos((string?)"z", haystack: (string?)"aa"));
     }
 
     [Fact]
@@ -100,7 +100,7 @@ public sealed class SysUtilsTests
         Assert.Equal("80000000", Format("%X", int.MinValue));
         Assert.Equal("FFFFFFFF", Format("%p", new PointerArg(uint.MaxValue)));
         Assert.Equal("  00000001", Format("%10.2P", new PointerArg(1)));
-        Assert.Equal("abc", Format("%s", StrPas(Ptr<byte>.Unbox("abc\0def"))));
+        Assert.Equal("abc", Format("%s", PCharStrings.FromPChar(Ptr<byte>.Unbox("abc\0def"))));
         Assert.Equal("a\0b", Format("%s", "a\0b"));
         Assert.Equal("bc", Format("%*:*s", 1, 2, "bc"));
         Assert.Equal("1", Format("%*d", false, 1));

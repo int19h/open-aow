@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from aowTCMapEvents.pas.
+using System.Globalization;
 using Aow.Game.Audio;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
@@ -14,11 +15,10 @@ using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Rtl;
-using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class CombatMapEvents(UIContext ui) : UIModule(ui)
+public sealed partial class CombatMapEvents(UIContext ui) : UIModule(ui)
 {
     private int _chatHeight;
 
@@ -133,18 +133,18 @@ public partial class CombatMapEvents(UIContext ui) : UIModule(ui)
                     UI.CombatUnitInfo.TargetUnitLabel.Text = name;
                     sbyte hitPoints = u.GetHitPoints();
                     sbyte hits = u.GetHits();
-                    UI.CombatUnitInfo.TargetHitsLabel.Text = $"{IntToStr(hitPoints)}/{IntToStr(hits)}";
+                    UI.CombatUnitInfo.TargetHitsLabel.Text = $"{((int)hitPoints).ToString(CultureInfo.InvariantCulture)}/{((int)hits).ToString(CultureInfo.InvariantCulture)}";
                     sbyte movePoints = u.GetMovePoints();
                     sbyte moves = u.Moves;
-                    UI.CombatUnitInfo.TargetMovesLabel.Text = $"{IntToStr(movePoints)}/{IntToStr(moves)}";
+                    UI.CombatUnitInfo.TargetMovesLabel.Text = $"{((int)movePoints).ToString(CultureInfo.InvariantCulture)}/{((int)moves).ToString(CultureInfo.InvariantCulture)}";
                     sbyte attack = u.GetAttack();
-                    UI.CombatUnitInfo.TargetAttackLabel.Text = IntToStr(attack);
+                    UI.CombatUnitInfo.TargetAttackLabel.Text = ((int)attack).ToString(CultureInfo.InvariantCulture);
                     sbyte damage = u.GetDamage();
-                    UI.CombatUnitInfo.TargetDamageLabel.Text = IntToStr(damage);
+                    UI.CombatUnitInfo.TargetDamageLabel.Text = ((int)damage).ToString(CultureInfo.InvariantCulture);
                     sbyte defense = u.GetDefense();
-                    UI.CombatUnitInfo.TargetDefenseLabel.Text = IntToStr(defense);
+                    UI.CombatUnitInfo.TargetDefenseLabel.Text = ((int)defense).ToString(CultureInfo.InvariantCulture);
                     sbyte resistance = u.GetResistance();
-                    UI.CombatUnitInfo.TargetResistanceLabel.Text = IntToStr(resistance);
+                    UI.CombatUnitInfo.TargetResistanceLabel.Text = ((int)resistance).ToString(CultureInfo.InvariantCulture);
                     Set<MoveType> moveTypes = u.GetMoveTypes();
                     int moveTypesToInt32 = UI.General.MoveTypesToInt32(moveTypes);
                     UI.CombatUnitInfo.TargetMovesIcon.SetCurrent(moveTypesToInt32);
@@ -282,17 +282,17 @@ public partial class CombatMapEvents(UIContext ui) : UIModule(ui)
                     window.TargetSelectPanel.Visible = false;
                     sbyte hitPoints = fTroop.GetHitPoints();
                     sbyte hits = fTroop.GetHits();
-                    window.UnitHitsLabel.Text = $"{IntToStr(hitPoints)}/{IntToStr(hits)}";
+                    window.UnitHitsLabel.Text = $"{((int)hitPoints).ToString(CultureInfo.InvariantCulture)}/{((int)hits).ToString(CultureInfo.InvariantCulture)}";
                     sbyte moves = fTroop.Moves;
-                    window.UnitMovesLabel.Text = $"{IntToStr(window.UI.General.CombatUnit.Unit.MovePoints)}/{IntToStr(moves)}";
+                    window.UnitMovesLabel.Text = $"{window.UI.General.CombatUnit.Unit.MovePoints.ToString(CultureInfo.InvariantCulture)}/{((int)moves).ToString(CultureInfo.InvariantCulture)}";
                     sbyte attack = fTroop.GetAttack();
-                    window.UnitAttackLabel.Text = IntToStr(attack);
+                    window.UnitAttackLabel.Text = ((int)attack).ToString(CultureInfo.InvariantCulture);
                     sbyte damage = fTroop.GetDamage();
-                    window.UnitDamageLabel.Text = IntToStr(damage);
+                    window.UnitDamageLabel.Text = ((int)damage).ToString(CultureInfo.InvariantCulture);
                     sbyte defense = fTroop.GetDefense();
-                    window.UnitDefenseLabel.Text = IntToStr(defense);
+                    window.UnitDefenseLabel.Text = ((int)defense).ToString(CultureInfo.InvariantCulture);
                     sbyte resistance = fTroop.GetResistance();
-                    window.UnitResistanceLabel.Text = IntToStr(resistance);
+                    window.UnitResistanceLabel.Text = ((int)resistance).ToString(CultureInfo.InvariantCulture);
                     Set<MoveType> moveTypes = fTroop.GetMoveTypes();
                     int current = window.UI.General.MoveTypesToInt32(moveTypes);
                     window.UnitMovesIcon.SetCurrent(current);
@@ -310,8 +310,8 @@ public partial class CombatMapEvents(UIContext ui) : UIModule(ui)
                     GamePack.Current.SpellControl[window.UI.General.CombatUnit.SelectedSpell].GetCombatInfo(window.UI.General.CombatUnit.Unit.Troop, ref info);
                     Spell spell = GamePack.Current.SpellControl[window.UI.General.CombatUnit.SelectedSpell];
                     window.AbilityNameLabel.Text = spell.SpellName;
-                    window.AbilityAttackLabel.Text = info.Attack > 0 ? IntToStr(info.Attack) : "-";
-                    window.AbilityDamageLabel.Text = info.Damage > 0 ? IntToStr(info.Damage) : "-";
+                    window.AbilityAttackLabel.Text = info.Attack > 0 ? ((int)info.Attack).ToString(CultureInfo.InvariantCulture) : "-";
+                    window.AbilityDamageLabel.Text = info.Damage > 0 ? ((int)info.Damage).ToString(CultureInfo.InvariantCulture) : "-";
                     window.AbilityStatisticsList.Items.Clear();
                     if (info.DamageTypes.Contains(DamageType.Fire))
                     {
@@ -377,8 +377,8 @@ public partial class CombatMapEvents(UIContext ui) : UIModule(ui)
                     GamePack.Current.AbilityControl[window.UI.General.CombatUnit.SelectedAbility].GetCombatInfo(window.UI.General.CombatUnit.Unit.Troop, info: ref abilityCombatInfo);
                     string name = GamePack.Current.AbilityControl[window.UI.General.CombatUnit.SelectedAbility].GetName(window.UI.General.CombatUnit.Unit.Troop);
                     window.AbilityNameLabel.Text = name;
-                    window.AbilityAttackLabel.Text = abilityCombatInfo.Attack > 0 ? IntToStr(abilityCombatInfo.Attack) : "-";
-                    window.AbilityDamageLabel.Text = abilityCombatInfo.Damage > 0 ? IntToStr(abilityCombatInfo.Damage) : "-";
+                    window.AbilityAttackLabel.Text = abilityCombatInfo.Attack > 0 ? ((int)abilityCombatInfo.Attack).ToString(CultureInfo.InvariantCulture) : "-";
+                    window.AbilityDamageLabel.Text = abilityCombatInfo.Damage > 0 ? ((int)abilityCombatInfo.Damage).ToString(CultureInfo.InvariantCulture) : "-";
                     window.AbilityStatisticsList.Items.Clear();
                     if (abilityCombatInfo.DamageTypes.Contains(DamageType.Fire))
                     {

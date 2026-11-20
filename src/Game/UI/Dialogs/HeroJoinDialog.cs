@@ -1,23 +1,20 @@
 #nullable disable
 // Translated from AoWHeroJoinDlg.pas.
+using System.Globalization;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.Events;
-
 using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
-
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.UI.Dialogs;
 
 // done callback, join event, details flag, selection mask, unit list, face unit
-public partial class HeroJoinDialog(UIContext ui) : UIModule(ui)
+public sealed partial class HeroJoinDialog(UIContext ui) : UIModule(ui)
 {
     public Panel UnitPanel { get; private set; }
     public Button MiddleButton { get; private set; }
@@ -218,9 +215,9 @@ public partial class HeroJoinDialog(UIContext ui) : UIModule(ui)
         {
             dialog._units.Clear();
             dialog._faceUnit = StrategicMap.Current.UnitControl.FindUnit<Hero>(dialog._joinEvent.FirstUnitId);
-            dialog._joinEvent.ListJoinUnits(dialog._units, out dialog._selection);
+            dialog._selection = dialog._joinEvent.ListJoinUnits(dialog._units);
             sbyte level = dialog._faceUnit.GetLevel();
-            string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.LevelFormat), arguments: [IntToStr(level)]);
+            string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.LevelFormat), arguments: [((int)level).ToString(CultureInfo.InvariantCulture)]);
             dialog.HeroLevelLabel.Text = format;
             dialog.HeroNameLabel.Text = dialog._faceUnit.HeroName;
             string text = dialog._joinEvent.JoinMessage.Text;

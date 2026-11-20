@@ -9,7 +9,7 @@ using Aow.Rtl;
 namespace Aow.Game.UI.Dialogs;
 
 // splash timer, splash stage
-public partial class TitleWindow(UIContext ui) : UIModule(ui)
+public sealed partial class TitleWindow(UIContext ui) : UIModule(ui)
 {
     public Window MainWindow { get; private set; }
     public Panel TitlePanel { get; private set; }
@@ -103,7 +103,7 @@ public partial class TitleWindow(UIContext ui) : UIModule(ui)
         if (key == 27)
         {
             HideSplash();
-            WindowActions.ShowTitleScene(UI.TitleScene, music: false);
+            UI.TitleScene.ShowScene(false);
         }
         else
         {

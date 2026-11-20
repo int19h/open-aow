@@ -37,7 +37,7 @@ public class MultiTargetCombatSpellCombatAction(CustomNode owner) : CombatAction
     {
         base.PersistFields(persister);
         SourceId = persister.Byte("SourceId", value: SourceId);
-        PersistSupport.ByteList(persister, name: "TargetIds", list: TargetIds);
+        persister.ByteList(name: "TargetIds", list: TargetIds);
         ManaCost = persister.Int32("ManaCost", value: ManaCost);
         _succeeded = persister.Boolean("Succeeded", value: _succeeded);
         SpellId = persister.Int32("SpellId", value: SpellId);

@@ -19,7 +19,7 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Game.Draw;
 
 // state, unfog radius, enchantment, animation frame, unexplored HNs, visibility flag
-public class WatcherHexSprite : SingleHexSprite
+public sealed class WatcherHexSprite : SingleHexSprite
 {
     // GlobalTargetSpells.pas:1220
     public new const int ClassId = 132_989;

@@ -2,22 +2,17 @@
 // Translated from AoWE.pas.
 using System.Diagnostics.CodeAnalysis;
 using Aow.Engine.Nodes;
-
 using Aow.Game.Combat.Actions;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Units;
-
 using Aow.Game.World.Map;
-
 using Aow.Rtl;
 
 namespace Aow.Game.Combat;
 
 // count, capacity, strikes, combat objects, cached damage values, units, strike counts,
 // attacker/defender damage types
-public class MeleeRound(EngineObject creator) : IDisposable
+public sealed class MeleeRound(EngineObject creator) : IDisposable
 {
 
     // The node that created this round. It and the nodes it creates reach the engine through it.
@@ -41,7 +36,7 @@ public class MeleeRound(EngineObject creator) : IDisposable
     private Set<DamageType> _defenderDamageTypes;
 
     // AoWAb.PAS:1492
-    public virtual void Dispose() => SetCapacity(0);
+    public void Dispose() => SetCapacity(0);
 
     // AoWAb.PAS:1498
     public void SetCapacity(int newCapacity)
@@ -72,7 +67,7 @@ public class MeleeRound(EngineObject creator) : IDisposable
     }
 
     // AoWAb.PAS:1513
-    public void GetMeleeStrike(int index, out Strike strike) => strike = _strikes[index];
+    public Strike GetMeleeStrike(int index) => _strikes[index];
 
     // AoWAb.PAS:1518
     public void Reset()

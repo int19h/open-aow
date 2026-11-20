@@ -1,6 +1,5 @@
 using System.Globalization;
 using Xunit.Abstractions;
-using static Aow.Rtl.DelphiOrdinals;
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiRounding;
 using static Aow.Rtl.DelphiStrings;
@@ -127,8 +126,9 @@ public sealed class ProbeTests(ITestOutputHelper output)
             double x = i / 2.0;
             probe.Fact($"round_half_index_{i}", value: Round(x));
             probe.Fact($"trunc_half_index_{i}", value: Trunc(x));
-            probe.Fact($"int_half_index_{i}_scale_1048576", value: Trunc(Int(x) * 1048576));
-            probe.Fact($"frac_half_index_{i}_scale_1048576", value: Trunc(Frac(x) * 1048576));
+            probe.Fact($"int_half_index_{i}_scale_1048576", value: Trunc(Math.Truncate(x) * 1048576));
+            probe.Fact($"frac_half_index_{i}_scale_1048576", value: Trunc((double.IsInfinity(x)
+        ? throw new ArithmeticException("Invalid floating point operation") : x - Math.Truncate(x)) * 1048576));
         }
         probe.Fact("round_below_pos_half", value: Round(2.5 - (1.0 / 1048576)));
         probe.Fact("round_above_pos_half", value: Round(2.5 + (1.0 / 1048576)));
@@ -138,8 +138,9 @@ public sealed class ProbeTests(ITestOutputHelper output)
         {
             double x = i / 4.0;
             probe.Fact($"quarter_trunc_{i}", value: Trunc(x));
-            probe.Fact($"quarter_int_{i}_scale_1048576", value: Trunc(Int(x) * 1048576));
-            probe.Fact($"quarter_frac_{i}_scale_1048576", value: Trunc(Frac(x) * 1048576));
+            probe.Fact($"quarter_int_{i}_scale_1048576", value: Trunc(Math.Truncate(x) * 1048576));
+            probe.Fact($"quarter_frac_{i}_scale_1048576", value: Trunc((double.IsInfinity(x)
+        ? throw new ArithmeticException("Invalid floating point operation") : x - Math.Truncate(x)) * 1048576));
         }
         probe.Fact("integer_divide_7_2_scale_1048576", value: Trunc(7.0 / 2 * 1048576));
         probe.Fact("integer_divide_neg7_2_scale_1048576", value: Trunc(-7.0 / 2 * 1048576));
@@ -192,16 +193,16 @@ public sealed class ProbeTests(ITestOutputHelper output)
         probe.Fact("pos_first_repeat", value: Pos("aa", haystack: "aaaa"));
         probe.Fact("pos_long_needle", value: Pos("abcde", haystack: s));
         probe.Fact("pos_embedded_zero", value: Pos("\0b", haystack: "a\0b"));
-        probe.Fact("prefix_lt", value: Ord(Cp1252.Compare("ab", "abc") < 0));
-        probe.Fact("prefix_gt", value: Ord(Cp1252.Compare("abc", "ab") > 0));
-        probe.Fact("empty_lt", value: Ord(Cp1252.Compare("", "a") < 0));
-        probe.Fact("prefix_le", value: Ord(Cp1252.Compare("ab", "abc") <= 0));
-        probe.Fact("prefix_ge", value: Ord(Cp1252.Compare("abc", "ab") >= 0));
-        probe.Fact("equal", value: Ord(s == "abcd"));
-        probe.Fact("unequal", value: Ord(s != "abc"));
-        probe.Fact("high_byte_lt", value: Ord(Cp1252.Compare("\u20AC", "\u00FF") < 0));
-        probe.Fact("high_vs_ascii_gt", value: Ord(Cp1252.Compare("\u20AC", "z") > 0));
-        probe.Fact("embedded_zero_compare", value: Ord(Cp1252.Compare("a\0b", "a\0c") < 0));
+        probe.Fact("prefix_lt", value: Cp1252.Compare("ab", "abc") < 0 ? 1 : 0);
+        probe.Fact("prefix_gt", value: Cp1252.Compare("abc", "ab") > 0 ? 1 : 0);
+        probe.Fact("empty_lt", value: Cp1252.Compare("", "a") < 0 ? 1 : 0);
+        probe.Fact("prefix_le", value: Cp1252.Compare("ab", "abc") <= 0 ? 1 : 0);
+        probe.Fact("prefix_ge", value: Cp1252.Compare("abc", "ab") >= 0 ? 1 : 0);
+        probe.Fact("equal", value: s == "abcd" ? 1 : 0);
+        probe.Fact("unequal", value: s != "abc" ? 1 : 0);
+        probe.Fact("high_byte_lt", value: Cp1252.Compare("\u20AC", "\u00FF") < 0 ? 1 : 0);
+        probe.Fact("high_vs_ascii_gt", value: Cp1252.Compare("\u20AC", "z") > 0 ? 1 : 0);
+        probe.Fact("embedded_zero_compare", value: Cp1252.Compare("a\0b", "a\0c") < 0 ? 1 : 0);
         s = "abc";
         string alias = s;
         s = WithChar(s, index: 2, character: 'X');
@@ -212,7 +213,7 @@ public sealed class ProbeTests(ITestOutputHelper output)
         Bytes("alias_first_preserved", value: s);
         s = "a\0\u20AC\u00FFz";
         Bytes("binary_string", value: s);
-        probe.Fact("binary_length", value: Length(s));
+        probe.Fact("binary_length", value: RequireString((string?)s).Length);
         alias = s;
         SetLength(ref alias, length: 3);
         Bytes("setlength_shrink", value: alias);
@@ -238,14 +239,14 @@ public sealed class ProbeTests(ITestOutputHelper output)
             probe.Fact($"difference_{width}", value: Bits(a - b, width));
             Set<byte> c = a & b;
             probe.Fact($"intersection_{width}", value: Bits(c, width));
-            probe.Fact($"subset_true_{width}", value: Ord(c.IsSubsetOf(a)));
-            probe.Fact($"subset_false_{width}", value: Ord(a.IsSubsetOf(b)));
-            probe.Fact($"superset_{width}", value: Ord(c.IsSubsetOf(a)));
-            probe.Fact($"equal_{width}", value: Ord(a == b));
-            probe.Fact($"not_equal_{width}", value: Ord(a != b));
-            probe.Fact($"member_low_{width}", value: Ord(a.Contains(0)));
-            probe.Fact($"member_high_{width}", value: Ord(a.Contains((byte)(width - 1))));
-            probe.Fact($"member_absent_{width}", value: Ord(a.Contains(2)));
+            probe.Fact($"subset_true_{width}", value: c.IsSubsetOf(a) ? 1 : 0);
+            probe.Fact($"subset_false_{width}", value: a.IsSubsetOf(b) ? 1 : 0);
+            probe.Fact($"superset_{width}", value: c.IsSubsetOf(a) ? 1 : 0);
+            probe.Fact($"equal_{width}", value: a == b ? 1 : 0);
+            probe.Fact($"not_equal_{width}", value: a != b ? 1 : 0);
+            probe.Fact($"member_low_{width}", value: a.Contains(0) ? 1 : 0);
+            probe.Fact($"member_high_{width}", value: a.Contains((byte)(width - 1)) ? 1 : 0);
+            probe.Fact($"member_absent_{width}", value: a.Contains(2) ? 1 : 0);
             a = a.With(1).With(1).Without((byte)(width - 1)).Without(2);
             probe.Fact($"include_exclude_{width}", value: Bits(a, width));
             probe.Fact($"empty_{width}", value: Bits(empty, width));
@@ -266,7 +267,7 @@ public sealed class ProbeTests(ITestOutputHelper output)
         Set<byte> full = Set<byte>.WithBounds(0, 255).WithRange(0, 255);
         for (int i = 0; i <= 255; i++)
         {
-            probe.Fact($"full_member_{i}", value: Ord(full.Contains((byte)i)));
+            probe.Fact($"full_member_{i}", value: full.Contains((byte)i) ? 1 : 0);
         }
 
         probe.End();
@@ -349,14 +350,14 @@ public sealed class ProbeTests(ITestOutputHelper output)
         probe.Fact("shr_min_1", value: i >>> 1);
         i = -7;
         probe.Fact("shr_neg7_1", value: i >>> 1);
-        probe.Fact("ord_true", value: Ord(true));
-        probe.Fact("ord_false", value: Ord(false));
+        probe.Fact("ord_true", value: true ? 1 : 0);
+        probe.Fact("ord_false", value: false ? 1 : 0);
         foreach (int n in new[] { 0, 1, 2, 255, 256, -1 })
         {
             byte raw = unchecked((byte)n);
-            probe.Fact($"boolean_raw_{n}", value: Ord(raw));
-            probe.Fact($"boolean_branch_{n}", value: Ord(raw != 0));
-            probe.Fact($"boolean_eq_true_{n}", value: Ord(raw == 1));
+            probe.Fact($"boolean_raw_{n}", value: (int)raw);
+            probe.Fact($"boolean_branch_{n}", value: raw != 0 ? 1 : 0);
+            probe.Fact($"boolean_eq_true_{n}", value: raw == 1 ? 1 : 0);
             // DCC32 integers.pas:89 emits XOR DL,1 then AND EDX,$7F for Ord(not Bool).
             probe.Fact($"boolean_not_{n}", value: (raw ^ 1) & 0x7f);
         }

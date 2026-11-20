@@ -14,7 +14,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Spells;
 
 // Width, Height, OriginalTerrain
-public class FloodControl(CustomNode owner) : EngineObject(owner)
+public sealed class FloodControl(CustomNode owner) : EngineObject(owner)
 {
 
     public int Width { get; set; }
@@ -45,7 +45,7 @@ public class FloodControl(CustomNode owner) : EngineObject(owner)
         {
             int count = Width * Height * 2;
             // The translate stream's mode holds read, so the original ReadWrite sizes the array there too.
-            if (persister.Loading || PersistSupport.Translating(persister))
+            if (persister.Loading || persister.Translating())
             {
                 sbyte[] originalTerrain = OriginalTerrain;
                 Array.Resize(ref originalTerrain, newSize: count);

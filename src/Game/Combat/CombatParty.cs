@@ -9,7 +9,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Combat;
 
-public class CombatParty : EngineObject
+public sealed class CombatParty : EngineObject
 {
     // Combat2.pas:47
     public new const int ClassId = 131_746;
@@ -36,7 +36,7 @@ public class CombatParty : EngineObject
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Location = PersistSupport.Coordinate(persister, name: "Location", value: Location, width: CoordinateWidth.Int32);
+        Location = persister.Coordinate(name: "Location", value: Location, width: CoordinateWidth.Int32);
         PlayerIndex = persister.Byte("PlayerIndex", value: PlayerIndex);
         Wall = persister.RawByte("Wall", value: Wall);
         Position = persister.Byte("Position", value: Position);

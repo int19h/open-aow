@@ -3,113 +3,17 @@
 using System.Runtime.InteropServices;
 using Aow.Graphics;
 using Aow.Rtl;
-using static Aow.Rtl.DelphiConversions;
-using static Aow.Rtl.DelphiPaths;
 using static Aow.Rtl.RtlHost;
 
 namespace Aow.Game.Draw;
 
 public static class PixelFormats
 {
-    internal static void RegisterBlitRectangle(SurfaceView source, SurfaceView destination, int width, int height) => Blit.RegisterBlitRectangle(source, d: destination, w: width, h: height);
-
-    internal static void RepMovsdBlitRectangle(SurfaceView source, SurfaceView destination, int width, int height) => Blit.RepMovsdBlitRectangle(source, d: destination, w: width, h: height);
-
     internal static int ElapsedMilliseconds => (int)Clock.TickCount;
 
     internal static int ElapsedMicroseconds => (int)Clock.TickCount * 1_000;
 
-    internal static bool ValidImageFile(string fileName)
-    {
-        string extractFileExt = ExtractFileExt(fileName);
-        return GraphicsState.ImageFileClassList.FindClass(extractFileExt) is not null;
-    }
-
-    internal static Surface CreateSurfaceFromImageFile(string fileName)
-    {
-        string extractFileExt = ExtractFileExt(fileName);
-        ImageFileClass c = GraphicsState.ImageFileClassList.FindClass(extractFileExt);
-        return c?.CreateSurface(fileName);
-    }
-
-    internal static PixelFormat MaskToPixelFormatId(int bitCount, int rMask, int gMask, int bMask, int mask)
-    {
-        Span<byte> order = stackalloc byte[4];
-        Span<int> masks = stackalloc int[4];
-        int result = bitCount;
-        masks[0] = mask;
-        order[3] = 3;
-        masks[1] = bMask;
-        order[0] = 0;
-        masks[2] = gMask;
-        order[1] = 1;
-        masks[3] = rMask;
-        order[2] = 2;
-        bool swapped;
-        do
-        {
-            swapped = false;
-            for (int i = 0; i <= 2; i++)
-            {
-                if (((masks[order[i]] < 0 || masks[order[i + 1]] < masks[order[i]]) && masks[order[i + 1]] > 0) || (masks[order[i]] == 0 && masks[order[i + 1]] != 0))
-                {
-                    int t = order[i];
-                    order[i] = order[i + 1];
-                    order[i + 1] = (byte)t;
-                    swapped = true;
-                }
-            }
-        }
-        while (!!swapped);
-        for (int i = 0; i <= 3; i++)
-        {
-            result += i << ((order[i] * 2) + 8);
-        }
-
-        for (int i = 0; i <= 3; i++)
-        {
-            int bits = 0;
-            while (masks[i] != 0)
-            {
-                if ((masks[i] & 1) != 0)
-                {
-                    bits += 1;
-                }
-
-                masks[i] = masks[i] >>> 1;
-            }
-
-            result += bits << ((i * 4) + 16);
-        }
-
-        return (PixelFormat)result;
-    }
-
     internal static Span<ushort> Words(Span<byte> row) => MemoryMarshal.Cast<byte, ushort>(row);
-
-    internal static int PixelInfo2Color(int pixelInfo, PixelFormat pixelFormatId, Palette palette) => PixelRemap.RemapPixelInfo(pixelInfo, sourcePixelFormatId: pixelFormatId, sourcePalette: palette, destinationPixelFormatId: PixelFormat.Bgr24, destinationPalette: null);
-
-    internal static string GetErrorMessage(GraphicsResult errorCode)
-    {
-        return errorCode switch
-        {
-            GraphicsResult.Ok => "No ERROR occurred!",
-            GraphicsResult.Error => "Undefine ERROR occurred",
-            GraphicsResult.NotSupported => "Function is not supported",
-            GraphicsResult.PixelFormatNotSupported => "PixelFormat is not supported",
-            GraphicsResult.BitmapFormatNotSupported => "Bitmap format is not supported",
-            GraphicsResult.CannotLock => $"Undocumented Error (Error Code:{IntToStr((int)errorCode)})",
-            _ => $"Undocumented Error (Error Code:{IntToStr((int)errorCode)})",
-        };
-    }
-
-    internal static void ForceOptimal16BitPixelFormatId(PixelFormat pixelFormatId) => GraphicsState.ForcedPixelFormatId = pixelFormatId is PixelFormat.Rgb565 or PixelFormat.Rgb555
-        ? pixelFormatId
-        : PixelFormat.None;
-
-    internal static PixelFormat GetOptimalPixelFormatId(int bitCount)
-        /* TODO: Implement Forms.Width in the platform or editor service. */
-        => throw new NotImplementedException();
 
     internal static IReadOnlyList<(int Width, int Height)> IntegerScaleSizes(int desktopWidth, int desktopHeight)
     {
@@ -124,16 +28,6 @@ public static class PixelFormats
         }
         return sizes;
     }
-
-    internal static void FillWord(Span<byte> destination, int count, int value) => Blit.FillWord(destination, count, value);
-
-    internal static void FillTripleByte(Span<byte> destination, int count, int value) => Blit.FillTripleByte(destination, count, value);
-
-    public static int ReadTimeStampCounter() => 0;
-
-    public static bool CpuIdSupported() => false;
-
-    public static bool MmxSupport() => false;
 
     internal static int Color2PixelInfo(int color, PixelFormat pixelFormatId, Palette palette)
     {

@@ -32,7 +32,7 @@ public class ExplorationSiteResource : StructureResource
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        PersistSupport.UnitIndexListCollection(persister, name: "DefenderCollections", collection: DefenderCollections);
+        persister.UnitIndexListCollection(name: "DefenderCollections", collection: DefenderCollections);
     }
 
     // ExploreS.pas:382

@@ -6,7 +6,7 @@ namespace Aow.Game.Audio;
 
 // _currentSong, _status, _songs, _songNames, _currentIndex, OnSongChange, _backup (Pause),
 // FPauseCount. Plays the songs in turn (Update starts the next one)
-public class SongPlayer : IDisposable
+public sealed class SongPlayer : IDisposable
 {
     public event NotifyEvent<SongPlayer> OnSongChange;
 
@@ -79,7 +79,7 @@ public class SongPlayer : IDisposable
     }
 
     // Sound.pas:863
-    public virtual void Dispose()
+    public void Dispose()
     {
         Songs?.Dispose();
         SongNames?.Dispose();

@@ -311,28 +311,28 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
         {
             if (library.Images[i].Image is { } image)
             {
-                CheckImage(file, bytes, image, ref from, tally);
+                from = CheckImage(file, bytes, image, from, tally);
             }
         }
     }
 
-    private static void CheckImage(string file, byte[] bytes, LibraryImage image, ref int from, Tally tally)
+    private static int CheckImage(string file, byte[] bytes, LibraryImage image, int from, Tally tally)
     {
         if (image is ImageNode node)
         {
             for (int i = 0; i < node.Count; i++)
             {
-                CheckImage(file, bytes, image: node.Images[i], ref from, tally);
+                from = CheckImage(file, bytes, image: node.Images[i], from, tally);
             }
 
-            return;
+            return from;
         }
 
         tally.Images++;
         if (image.Version < 3)
         {
             tally.WithoutShowInfo++;
-            return;
+            return from;
         }
 
         ShowInfo info = image.ShowInfoValue;
@@ -364,6 +364,7 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
         int record = at + header.Length;
         Assert.Equal(bytes.AsSpan(record, length: 8).ToArray(), Written(info));
         from = record + 8;
+        return from;
     }
 
     // The fields of a version 3 header between the version byte and the show info record

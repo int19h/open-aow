@@ -16,7 +16,7 @@ namespace Aow.Game.Session;
 
 // { Interface declaration run owned by P1. }
 // race, defaults, player relations, enabled
-public class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceList>, IOwnedSink<RaceList>
+public sealed class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceList>, IOwnedSink<RaceList>
 {
 
     // The race list the race belongs to. AcceptsOwner admits only a RaceList, so the cast never fails.
@@ -50,8 +50,8 @@ public class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceList>, IOw
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        RaceIndex = PersistSupport.UnsignedByte(persister, name: "RaceIndex", value: RaceIndex);
-        PersistSupport.Int32List(persister, name: "PlayerRelations", list: _playerRelations);
+        RaceIndex = persister.UnsignedByte(name: "RaceIndex", value: RaceIndex);
+        persister.Int32List(name: "PlayerRelations", list: _playerRelations);
         if (persister.Loading)
         {
             // { Original leaves this local uninitialized if property 4 is absent. }
@@ -64,10 +64,10 @@ public class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceList>, IOw
             Enabled = persister.Boolean("Enabled", value: Enabled);
         }
 
-        PersistSupport.ByteList(persister, name: "DefaultRelations", list: DefaultRelations);
+        persister.ByteList(name: "DefaultRelations", list: DefaultRelations);
         // The translate stream's mode holds read, so the original ReadWrite resets the default
         // relations there too.
-        if ((persister.Loading || PersistSupport.Translating(persister)) && DefaultRelations.Count == 0)
+        if ((persister.Loading || persister.Translating()) && DefaultRelations.Count == 0)
         {
             ResetDefaultRaceRelations();
         }

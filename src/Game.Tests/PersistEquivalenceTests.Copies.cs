@@ -293,7 +293,7 @@ public sealed partial class PersistEquivalenceTests
             _ = new HeroResource(resources) { Name = "Elf" };
             EngineFixture.Engine.WriteToFileCrc(file, objectValue: resources, progress: null);
             byte[] bytes;
-            using (Stream stream = RtlHost.Files.Open(file, mode: DelphiStreams.fmOpenRead))
+            using (Stream stream = RtlHost.Files.Open(file, mode: FileOpenMode.Read))
             using (MemoryStream memory = new())
             {
                 stream.CopyTo(memory);
@@ -303,7 +303,7 @@ public sealed partial class PersistEquivalenceTests
             Assert.True(EngineFixture.Engine.ReadFromFileCrc(file, objectValue: loaded, progress: null));
             EqualBytes(Image(resources), actual: Image(loaded), label: "HERORES.PFS load");
             bytes[10] ^= 1;
-            using (Stream stream = RtlHost.Files.Open(file, mode: DelphiStreams.fmCreate))
+            using (Stream stream = RtlHost.Files.Open(file, mode: FileOpenMode.Create))
             {
                 stream.Write(bytes);
             }

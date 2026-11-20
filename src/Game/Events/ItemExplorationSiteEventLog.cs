@@ -37,8 +37,8 @@ public partial class ItemExplorationSiteEventLog(CustomNode owner) : EventLog(ow
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        PersistSupport.Int32List(persister, name: "ItemIds", list: ItemIds);
-        PersistSupport.Lines(persister, name: "Messages", lines: Messages);
+        persister.Int32List(name: "ItemIds", list: ItemIds);
+        persister.Lines(name: "Messages", lines: Messages);
         Title = persister.String("Title", value: Title);
     }
 }

@@ -3,7 +3,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Combat;
 
-public class CombatMapMouse : GameMapMouse
+public sealed class CombatMapMouse : GameMapMouse
 {
 
     public CombatMapMouse() : base()

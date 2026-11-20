@@ -4,7 +4,7 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Game.Units;
 
 // CollectionSize. Units
-public class UnitIndexListCollection : IDisposable
+public sealed class UnitIndexListCollection : IDisposable
 {
     // Unit.PAS:2413
     public UnitIndexListCollection()
@@ -19,7 +19,7 @@ public class UnitIndexListCollection : IDisposable
     internal UnitIndexList Units { get; }
 
     // Unit.PAS:2419
-    public virtual void Dispose() => Units?.Dispose();
+    public void Dispose() => Units?.Dispose();
 
     // Unit.PAS:2432
     public int GetCollectionCount(int index)

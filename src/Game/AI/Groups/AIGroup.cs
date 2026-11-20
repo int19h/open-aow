@@ -126,7 +126,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
             TargetLocation = ReadTargetLocation(target);
         }
         TargetType = persister.Enum("TargetType", value: TargetType);
-        Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
+        Player = persister.UnsignedByte(name: "Player", value: Player);
         IndependentRelation = persister.RawSByte("IndependentRelation", value: IndependentRelation);
         ProcessPriority = persister.Byte("ProcessPriority", value: ProcessPriority);
         RecruitmentPriority = persister.Byte("RecruitmentPriority", value: RecruitmentPriority);
@@ -423,7 +423,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
             sbyte x = coordinate94.X;
             sbyte y = coordinate94.Y;
             sbyte l = coordinate94.MapLevel;
-            _ = locations.Add(HexGeometry.PackMapCoordinate(x, y, l));
+            _ = locations.Add(new MapCoordinate(x, y, l));
         }
 
         bool result = MapCoordinateList.LocationsConnected(locations);

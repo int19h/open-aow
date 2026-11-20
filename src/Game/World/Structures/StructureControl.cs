@@ -7,7 +7,7 @@ using static Aow.Rtl.DelphiAssert;
 
 namespace Aow.Game.World.Structures;
 
-public class StructureControl : EngineObject
+public sealed class StructureControl : EngineObject
 {
     // Structur.PAS:3220
     // (structures, next ID, city count)

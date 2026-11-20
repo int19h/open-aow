@@ -5,7 +5,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Draw.Animations;
 
-public class BloodShrineAnimation(CustomNode owner) : Animation(owner)
+public sealed class BloodShrineAnimation(CustomNode owner) : Animation(owner)
 {
 
     // BloodShrine.pas:56

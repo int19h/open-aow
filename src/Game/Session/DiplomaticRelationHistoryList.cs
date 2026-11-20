@@ -3,7 +3,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.Session;
 
-public class DiplomaticRelationHistoryList(CustomNode owner) : OwningNode(owner), IChildList<DiplomaticRelationHistoryItem>
+public sealed class DiplomaticRelationHistoryList(CustomNode owner) : OwningNode(owner), IChildList<DiplomaticRelationHistoryItem>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a DiplomaticRelationHistoryItem, so the cast never fails.

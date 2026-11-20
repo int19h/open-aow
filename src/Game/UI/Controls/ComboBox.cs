@@ -19,7 +19,7 @@ namespace Aow.Game.UI.Controls;
 // _imageLibraryFrame, _imageLibraryTextureNormal, _imageLibraryTextureSelected, _itemHeight, OnOpen, OnClose, _ileIndex,
 // FILFIndex, FILTnIndex, FILTsIndex, FDrawItem, FDrawItemRect (the item and its rectangle while
 // OnDrawItem runs)
-public partial class ComboBox : Control
+public sealed partial class ComboBox : Control
 {
 
     private bool _open;
@@ -88,7 +88,7 @@ public partial class ComboBox : Control
             _imageLibraryTextureSelected = _imageLibraryTextureSelected.CheckImageLibrary(_imageLibraryTsIndex, count: 1, sender: this);
         }
 
-        if (base.Font is not null && _imageLibraryEdit is not null && _imageLibraryFrame is not null && _imageLibraryTextureNormal is not null && _imageLibraryTextureSelected is not null)
+        if (Font is not null && _imageLibraryEdit is not null && _imageLibraryFrame is not null && _imageLibraryTextureNormal is not null && _imageLibraryTextureSelected is not null)
         {
             Valid = true;
         }
@@ -202,14 +202,14 @@ public partial class ComboBox : Control
             {
                 RaisePreDraw(this, surfDesc: lockedSurface);
 
-                base.Font.Color = Color;
+                Font.Color = Color;
                 Rect oldClip = lockedSurface.ClipRectangle;
                 SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth, WinHeight);
                 _imageLibraryEdit.DrawHorizontalStrip(_ileIndex, area: rectangle, ref lockedSurface);
                 if (_selected > -1 && _items.Count > _selected)
                 {
                     string item = _items[_selected];
-                    base.Font.SetText(Window.AbsoluteLeft + WinLeft + BorderWidth, Window.AbsoluteTop + WinTop + BorderHeight, text: item, lockedSurface);
+                    Font.SetText(Window.AbsoluteLeft + WinLeft + BorderWidth, Window.AbsoluteTop + WinTop + BorderHeight, text: item, lockedSurface);
                 }
 
                 lockedSurface.ClipRectangle = oldClip;
@@ -251,16 +251,16 @@ public partial class ComboBox : Control
                         {
                             if (_firstShownItem + i == _hoverItem)
                             {
-                                base.Font.Color = SelectedColor;
+                                Font.Color = SelectedColor;
                             }
 
                             LibraryImage imageLibraryEdit2 = _imageLibraryEdit[_ileIndex];
                             LibraryImage imageLibraryFrame5 = _imageLibraryFrame[_ilfIndex + 1];
                             string item = _items[_firstShownItem + i];
-                            base.Font.SetText(Window.AbsoluteLeft + WinLeft + ListBorderWidth, Window.AbsoluteTop + WinTop + imageLibraryEdit2.Height + imageLibraryFrame5.Height + ListBorderHeight + (ItemHeight * i), text: item, lockedSurface);
+                            Font.SetText(Window.AbsoluteLeft + WinLeft + ListBorderWidth, Window.AbsoluteTop + WinTop + imageLibraryEdit2.Height + imageLibraryFrame5.Height + ListBorderHeight + (ItemHeight * i), text: item, lockedSurface);
                             if (_firstShownItem + i == _hoverItem)
                             {
-                                base.Font.Color = Color;
+                                Font.Color = Color;
                             }
                             LibraryImage imageLibraryEdit3 = _imageLibraryEdit[_ileIndex + 1];
                             LibraryImage imageLibraryFrame6 = _imageLibraryFrame[_ilfIndex + 1];
@@ -526,7 +526,7 @@ public partial class ComboBox : Control
     }
 
     // AoWComboBox.pas:211
-    public virtual void SetImageLibraryEdit(InterfaceImageLibrary value)
+    public void SetImageLibraryEdit(InterfaceImageLibrary value)
     {
         if (value != _imageLibraryEdit)
         {
@@ -536,7 +536,7 @@ public partial class ComboBox : Control
     }
 
     // AoWComboBox.pas:220
-    public virtual void SetILEIndex(int value)
+    public void SetILEIndex(int value)
     {
         if (value != _ileIndex)
         {
@@ -546,7 +546,7 @@ public partial class ComboBox : Control
     }
 
     // AoWComboBox.pas:229
-    public virtual void SetImageLibraryFrame(InterfaceImageLibrary value)
+    public void SetImageLibraryFrame(InterfaceImageLibrary value)
     {
         if (value != _imageLibraryFrame)
         {
@@ -556,7 +556,7 @@ public partial class ComboBox : Control
     }
 
     // AoWComboBox.pas:238
-    public virtual void SetILFIndex(int value)
+    public void SetILFIndex(int value)
     {
         if (value != _ilfIndex)
         {
@@ -566,7 +566,7 @@ public partial class ComboBox : Control
     }
 
     // AoWComboBox.pas:247
-    public virtual void SetImageLibraryTileNorm(InterfaceImageLibrary value)
+    public void SetImageLibraryTileNorm(InterfaceImageLibrary value)
     {
         if (value != _imageLibraryTextureNormal)
         {
@@ -576,7 +576,7 @@ public partial class ComboBox : Control
     }
 
     // AoWComboBox.pas:256
-    public virtual void SetImageLibraryTnIndex(int value)
+    public void SetImageLibraryTnIndex(int value)
     {
         if (value != _imageLibraryTnIndex)
         {
@@ -586,7 +586,7 @@ public partial class ComboBox : Control
     }
 
     // AoWComboBox.pas:265
-    public virtual void SetImageLibraryTileSelected(InterfaceImageLibrary value)
+    public void SetImageLibraryTileSelected(InterfaceImageLibrary value)
     {
         if (value != _imageLibraryTextureSelected)
         {
@@ -596,7 +596,7 @@ public partial class ComboBox : Control
     }
 
     // AoWComboBox.pas:274
-    public virtual void SetImageLibraryTsIndex(int value)
+    public void SetImageLibraryTsIndex(int value)
     {
         if (value != _imageLibraryTsIndex)
         {
@@ -606,7 +606,7 @@ public partial class ComboBox : Control
     }
 
     // AoWComboBox.pas:179
-    public virtual void SetIndex(int value)
+    public void SetIndex(int value)
     {
         if (value >= _items.Count)
         {

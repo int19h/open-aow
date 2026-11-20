@@ -1,16 +1,16 @@
 #nullable disable
 // Translated from AoWItemBanner.pas.
+using System.Globalization;
 using Aow.Game.Draw;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.IntegerObjects;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class ItemBanner(UIContext ui) : UIModule(ui)
+public sealed partial class ItemBanner(UIContext ui) : UIModule(ui)
 {
     public Label ItemNameLabel { get; private set; }
     public Menu BannerMenu { get; private set; }
@@ -44,7 +44,7 @@ public partial class ItemBanner(UIContext ui) : UIModule(ui)
             int y = 100;
             if (item.Attack != 0)
             {
-                AttackLabel.Text = IntToStr(item.Attack);
+                AttackLabel.Text = ((int)item.Attack).ToString(CultureInfo.InvariantCulture);
                 AttackLabel.Visible = true;
                 AttackIcon.Visible = true;
                 AttackIcon.WinLeft = x + 10;
@@ -61,7 +61,7 @@ public partial class ItemBanner(UIContext ui) : UIModule(ui)
 
             if (item.Damage != 0)
             {
-                DamageLabel.Text = IntToStr(item.Damage);
+                DamageLabel.Text = ((int)item.Damage).ToString(CultureInfo.InvariantCulture);
                 DamageLabel.Visible = true;
                 DamageIcon.Visible = true;
                 DamageIcon.WinLeft = x + 10;
@@ -78,7 +78,7 @@ public partial class ItemBanner(UIContext ui) : UIModule(ui)
 
             if (item.Defense != 0)
             {
-                DefenseLabel.Text = IntToStr(item.Defense);
+                DefenseLabel.Text = ((int)item.Defense).ToString(CultureInfo.InvariantCulture);
                 DefenseLabel.Visible = true;
                 DefenseIcon.Visible = true;
                 DefenseIcon.WinLeft = x + 10;
@@ -95,7 +95,7 @@ public partial class ItemBanner(UIContext ui) : UIModule(ui)
 
             if (item.Resistance != 0)
             {
-                ResistanceLabel.Text = IntToStr(item.Resistance);
+                ResistanceLabel.Text = ((int)item.Resistance).ToString(CultureInfo.InvariantCulture);
                 ResistanceLabel.Visible = true;
                 ResistanceIcon.Visible = true;
                 ResistanceIcon.WinLeft = x + 10;

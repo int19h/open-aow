@@ -1,6 +1,7 @@
 #nullable disable
 // Translated from AoWE.pas.
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -25,7 +26,6 @@ using Aow.Game.World.Structures;
 using Aow.Rtl;
 
 using static Aow.Rtl.DelphiAssert;
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiRounding;
 using static Aow.Rtl.DelphiStrings;
 using static Aow.Rtl.IntegerObjects;
@@ -114,8 +114,8 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         base.PersistFields(persister);
         GroupId = persister.Int32("GroupId", value: GroupId);
         UnitId = persister.Int32("UnitId", value: UnitId, fallback: -1);
-        MoraleValue = PersistSupport.UnsignedByte(persister, name: "MoraleValue", value: MoraleValue);
-        Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
+        MoraleValue = persister.UnsignedByte(name: "MoraleValue", value: MoraleValue);
+        Player = persister.UnsignedByte(name: "Player", value: Player);
         if (persister.Loading)
         {
             try
@@ -795,8 +795,8 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
                         ? AbilityRules.TranslateResourceString(GetEngine(), S: GameText.RefugeJoinText)
                         : AbilityRules.TranslateResourceString(GetEngine(), S: GameText.RefugeesJoinText)
                     : count == 0
-                        ? AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.BribeUnitJoinFormat), arguments: [IntToStr(amount)])
-                        : AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.BribeUnitsJoinFormat), arguments: [IntToStr(amount)]);
+                        ? AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.BribeUnitJoinFormat), arguments: [amount.ToString(CultureInfo.InvariantCulture)])
+                        : AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.BribeUnitsJoinFormat), arguments: [amount.ToString(CultureInfo.InvariantCulture)]);
 
                 break;
             default:
@@ -1208,7 +1208,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             moves -= Set<MoveType>.Of(MoveType.Tunneling);
         }
 
-        int moveTypesToInt32 = MovementTables.MoveTypesToInt32(moves);
+        int moveTypesToInt32 = (byte)moves.Image;
         table = MovementTables.MovePointTables[moveTypesToInt32];
         if (Player > 0)
         {
@@ -1304,7 +1304,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     {
         // { Original retrieves the movement set twice and retains the first dead store. }
         _ = GetMoveTypes();
-        int moveTypesToInt32 = MovementTables.MoveTypesToInt32(GetMoveTypes());
+        int moveTypesToInt32 = (byte)GetMoveTypes().Image;
         sbyte cost = MovementTables.MovePointTables[moveTypesToInt32][terrainType][overlayType - MovementTables.FirstOverlay];
         return cost != -1 && cost <= Moves;
     }
@@ -1481,7 +1481,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
                 sbyte terrain = field.TerrainType;
                 sbyte overlay = field.OverlayType;
                 moves -= Set<MoveType>.Of(MoveType.Flying);
-                int moveTypesToInt32 = MovementTables.MoveTypesToInt32(moves);
+                int moveTypesToInt32 = (byte)moves.Image;
                 doubleDamage = MovementTables.MovePointTables[moveTypesToInt32][terrain][overlay - MovementTables.FirstOverlay] == 0;
             }
         }

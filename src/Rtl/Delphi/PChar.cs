@@ -4,13 +4,6 @@ namespace Aow.Rtl;
 
 public static class PCharStrings
 {
-    public static string SetString(Ptr<byte> source, int length)
-        => length <= 0
-            ? ""
-            : source.IsNull
-                ? Resized("", length)
-                : Cp1252.Decode(source.Array.AsSpan(source.Index, length).ToArray());
-
     public static int StrLen(Ptr<byte> value)
     {
         int count = 0;
@@ -21,8 +14,6 @@ public static class PCharStrings
 
         return count;
     }
-
-    public static string StrPas(Ptr<byte> value) => FromPChar(value);
 
     public static string StrPasBuffer(ReadOnlySpan<byte> value)
     {
@@ -65,7 +56,7 @@ public static class PCharStrings
         }
     }
 
-    public static void SetString(out string value, Ptr<byte> source, int length) => value = length <= 0 ? ""
+    public static string SetString(Ptr<byte> source, int length) => length <= 0 ? ""
         : source.IsNull ? new string('\0', count: length) : Cp1252.Decode(source.AsSpan(length));
 
     public static string FromPChar(Ptr<byte> value) => value.IsNull ? "" : Cp1252.Decode(value.AsSpan(StrLen(value)));

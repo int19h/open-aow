@@ -7,7 +7,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class TitleScene
+public sealed partial class TitleScene
 {
     public void ShowScene(bool playMusic)
     {

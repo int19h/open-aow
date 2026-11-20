@@ -4,7 +4,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class FileDialogWindow
+public sealed partial class FileDialogWindow
 {
     public event NotifyEvent<FileDialogWindow> LayoutOnCreate;
     public event NotifyEvent<FileDialogWindow> LayoutOnDestroy;

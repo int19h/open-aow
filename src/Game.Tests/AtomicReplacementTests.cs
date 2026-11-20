@@ -141,10 +141,10 @@ public sealed class AtomicReplacementTests : IDisposable
 
         public string ExpandPath(string path) => inner.ExpandPath(path);
 
-        public Stream Open(string path, int mode)
+        public Stream Open(string path, FileOpenMode mode)
         {
             Stream stream = inner.Open(path, mode);
-            return failWrite && mode == DelphiStreams.fmCreate ? new BrokenStream(stream) : stream;
+            return failWrite && mode == FileOpenMode.Create ? new BrokenStream(stream) : stream;
         }
 
         public bool FileExists(string path) => inner.FileExists(path);
@@ -164,7 +164,7 @@ public sealed class AtomicReplacementTests : IDisposable
         public string CurrentDirectory => inner.CurrentDirectory;
 
         public string ExpandPath(string path) => inner.ExpandPath(path);
-        public Stream Open(string path, int mode) => inner.Open(path, mode);
+        public Stream Open(string path, FileOpenMode mode) => inner.Open(path, mode);
         public bool FileExists(string path) => inner.FileExists(path);
         public bool DirectoryExists(string path) => inner.DirectoryExists(path);
         public bool DeleteFile(string path) => inner.DeleteFile(path);

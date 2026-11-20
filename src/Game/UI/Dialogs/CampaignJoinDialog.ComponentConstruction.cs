@@ -4,7 +4,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class CampaignJoinDialog
+public sealed partial class CampaignJoinDialog
 {
     public event NotifyEvent<CampaignJoinDialog> LayoutOnCreate;
     public event NotifyEvent<CampaignJoinDialog> LayoutOnDestroy;

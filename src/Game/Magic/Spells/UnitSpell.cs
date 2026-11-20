@@ -7,13 +7,9 @@ using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Units;
-
 using Aow.Game.World.Map;
-
 using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
@@ -183,7 +179,7 @@ public class UnitSpell : Spell
     public virtual bool ValidTargetUnit(Troop source, Troop target) => true;
 
     // Spells.PAS:1228
-    public virtual void ValidateUnitSelection(Troop source, UnitUserList targets, ref byte selection)
+    public virtual byte ValidateUnitSelection(Troop source, UnitUserList targets, byte selection)
     {
         int count = targets.GetCount();
         selection = (byte)(selection & SelectionMasks[count]);
@@ -197,6 +193,7 @@ public class UnitSpell : Spell
                 }
             }
         }
+        return selection;
     }
 
     // Spells.PAS:1238

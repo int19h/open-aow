@@ -2,7 +2,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Controls;
 
-public partial class ComboBox
+public sealed partial class ComboBox
 {
     // A closed list leaves the wheel for the parent. An open list scrolls with its bar and moves F12C
     // in the same call, which is what Update copies from the bar on the next frame.

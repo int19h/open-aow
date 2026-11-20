@@ -8,7 +8,7 @@ using Aow.Game.Magic.Abilities;
 namespace Aow.Game.Units;
 
 // { ot=1 } The prisoners of a dungeon, and the items its combat leaves on the battlefield.
-public class PrisonersArmy : Army
+public sealed class PrisonersArmy : Army
 {
     public PrisonersArmy(CustomNode owner) : base(owner) => Items = new ItemList(null) { Holder = CreationHolder() };
 

@@ -2,6 +2,7 @@
 // Translated from AoWSetup.pas.
 
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using Aow.Engine;
 using Aow.Engine.Nodes;
 
@@ -16,8 +17,6 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Rtl;
 using static Aow.Rtl.DelphiAssert;
-using static Aow.Rtl.DelphiConversions;
-using static Aow.Rtl.DelphiFiles;
 using static Aow.Rtl.DelphiMemory;
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiStrings;
@@ -26,7 +25,7 @@ using static Aow.Rtl.PointerMemory;
 
 namespace Aow.Game.Session;
 
-public class SetupControl : Component
+public sealed class SetupControl : Component
 {
     private readonly GameEngine _engine;
 
@@ -110,7 +109,7 @@ public class SetupControl : Component
             _engine.StoreEngineObject(stream, objectValue: package, progress: null);
             SendData(size: (int)stream.Length, data: stream.GetBuffer(), recipient: recipient);
             int streamSize = (int)stream.Length;
-            _engine.OutputDebugMessage(DebugChannel.NetworkEngine, S: $"SetupPackage Send (ID:{IntToStr(package.MessageId)}/Size:{IntToStr(streamSize)}) to {IntToStr(recipient)}");
+            _engine.OutputDebugMessage(DebugChannel.NetworkEngine, S: $"SetupPackage Send (ID:{package.MessageId.ToString(CultureInfo.InvariantCulture)}/Size:{streamSize.ToString(CultureInfo.InvariantCulture)}) to {recipient.ToString(CultureInfo.InvariantCulture)}");
         }
         finally
         {
@@ -183,7 +182,7 @@ public class SetupControl : Component
             if (objectValue is SetupPackage package)
             {
                 int sizeLocal = (int)stream.Length;
-                _engine.OutputDebugMessage(DebugChannel.NetworkEngine, S: $"SetupPackage Received (ID:{IntToStr(package.MessageId)}/Size:{IntToStr(sizeLocal)}) from {IntToStr(senderId)}");
+                _engine.OutputDebugMessage(DebugChannel.NetworkEngine, S: $"SetupPackage Received (ID:{package.MessageId.ToString(CultureInfo.InvariantCulture)}/Size:{sizeLocal.ToString(CultureInfo.InvariantCulture)}) from {senderId.ToString(CultureInfo.InvariantCulture)}");
                 PackageReceived(package, senderId);
             }
 
@@ -304,7 +303,7 @@ public class SetupControl : Component
             {
                 // The client looks up the host's map by name, its own document first (own-formats.md 2.9).
                 string fileName = FileBoundary.ReadName(_engine.StartupDirectory + Settings.MapName);
-                validation = FileExists(fileName)
+                validation = RtlHost.Files.FileExists(fileName)
                     ? FileBoundary.ImageCrc32(fileName, profile: GameProfile.WorldMap) == Settings.MapCrc
                         ? MapValidationInfo.Valid
                         : MapValidationInfo.InvalidMap
@@ -691,7 +690,7 @@ public class SetupControl : Component
         for (int i = 0, last = playerCommunicationControl.Count - 1; i <= last; i++)
         {
             PlayerCommunicationSettings player = playerCommunicationControl.Players[i];
-            string s = $"Player ({IntToStr(i)}) at system:{IntToStr(player.SystemId)} CM:";
+            string s = $"Player ({i.ToString(CultureInfo.InvariantCulture)}) at system:{player.SystemId.ToString(CultureInfo.InvariantCulture)} CM:";
             switch (playerCommunicationControl.Players[i].ConnectionMode)
             {
                 case ConnectionMode.Global:
@@ -1116,7 +1115,7 @@ public class SetupControl : Component
             {
                 // { Original reads the last character without guarding an empty name. }
                 result = Set<byte>.WithBounds(0, 255).WithRange(49, 56).Contains(Cp1252.Byte(result[^1]))
-                    ? Copy(result, index: 1, count: result.Length - 1) + IntToStr(Cp1252.Byte(result[^1]) + 1 - 48)
+                    ? Copy(result, index: 1, count: result.Length - 1) + (Cp1252.Byte(result[^1]) + 1 - 48).ToString(CultureInfo.InvariantCulture)
                     : $"{result}1";
             }
             else

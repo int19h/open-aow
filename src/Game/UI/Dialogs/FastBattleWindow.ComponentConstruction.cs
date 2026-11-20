@@ -4,7 +4,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class FastBattleWindow
+public sealed partial class FastBattleWindow
 {
     public event NotifyEvent<FastBattleWindow> LayoutOnCreate;
     public event NotifyEvent<FastBattleWindow> LayoutOnDestroy;

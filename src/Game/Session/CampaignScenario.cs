@@ -24,7 +24,7 @@ public class CampaignScenario(CustomNode owner) : EngineObject(owner)
         Id = persister.Int32("Id", value: Id);
         // The original ReadWrite leaves out the name and the file name under text only (the
         // translate stream).
-        if (!PersistSupport.Translating(persister))
+        if (!persister.Translating())
         {
             _name = persister.String("Name", value: _name);
             FileName = persister.String("FileName", value: FileName);

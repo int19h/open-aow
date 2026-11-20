@@ -3,7 +3,7 @@
 namespace Aow.Game.Draw;
 
 // PixelFormatId, Width, Height
-public record class DisplayModeItem
+public sealed record class DisplayModeItem
 {
     public PixelFormat PixelFormatId { get; init; }
     public int Width { get; init; }

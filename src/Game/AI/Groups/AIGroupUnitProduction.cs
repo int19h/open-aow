@@ -8,7 +8,7 @@ namespace Aow.Game.AI.Groups;
 
 // references, unit, production location, gold, mana, upkeep, production time, priority,
 // research
-public class AIGroupUnitProduction(CustomNode owner) : EngineObject(owner), IOwned<AIGroupUnitProductionList>, IOwnedSink<AIGroupUnitProductionList>
+public sealed class AIGroupUnitProduction(CustomNode owner) : EngineObject(owner), IOwned<AIGroupUnitProductionList>, IOwnedSink<AIGroupUnitProductionList>
 {
     // A reference list holds the production and owns it only while the list saves or loads it, and
     // nothing else owns it. AcceptsOwner admits only that list.

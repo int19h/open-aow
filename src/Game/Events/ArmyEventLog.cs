@@ -60,10 +60,10 @@ public partial class ArmyEventLog : EventLog
         base.PersistFields(persister);
         persister.Object("ArmyView", objectValue: ArmyView);
         ArmyText = persister.String("ArmyText", value: ArmyText);
-        PersistSupport.Lines(persister, name: "ArmyMessages", lines: ArmyMessages);
+        persister.Lines(name: "ArmyMessages", lines: ArmyMessages);
         ArmyIcon = persister.Int32("ArmyIcon", value: ArmyIcon);
-        PersistSupport.ByteList(persister, name: "DamageValues", list: DamageValues);
-        PersistSupport.ByteList(persister, name: "DamageTypes", list: DamageTypes);
+        persister.ByteList(name: "DamageValues", list: DamageValues);
+        persister.ByteList(name: "DamageTypes", list: DamageTypes);
         _gameOver = persister.Boolean("GameOver", value: _gameOver);
     }
 

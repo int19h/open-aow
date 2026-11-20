@@ -1,8 +1,6 @@
 // Translated from Sound.pas.
 using Aow.Rtl;
 using Aow.Rtl.Host;
-using static Aow.Rtl.DelphiFiles;
-using static Aow.Rtl.DelphiPaths;
 using static Aow.Rtl.DelphiTextCompare;
 using static Aow.Rtl.RtlHost;
 
@@ -10,7 +8,7 @@ namespace Aow.Game.Audio;
 
 // _searchPath, _sfx. ExecutePathSearch lists every wave file under a directory (with its
 // subdirectories) relative to the search path
-public class SfxManager(Component owner) : Component(owner)
+public sealed class SfxManager(Component owner) : Component(owner)
 {
     // Sound.pas:413
     public override void Dispose()
@@ -57,11 +55,11 @@ public class SfxManager(Component owner) : Component(owner)
             SearchPath += "\\";
         }
 
-        string oldDirectory = GetCurrentDir();
-        _ = SetCurrentDir(path);
+        string oldDirectory = Files.CurrentDirectory;
+        _ = Files.SetCurrentDirectory(path);
         Search("");
-        _ = SetCurrentDir(oldDirectory);
-        SearchPath = UpperCase(ExtractRelativePath(AudioHost.BaseSoundEnginePath, destination: SearchPath));
+        _ = Files.SetCurrentDirectory(oldDirectory);
+        SearchPath = UpperCase(Files.ExtractRelativePath(AudioHost.BaseSoundEnginePath, destination: SearchPath));
     }
 
     [Published]

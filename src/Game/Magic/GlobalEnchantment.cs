@@ -38,7 +38,7 @@ public class GlobalEnchantment(CustomNode owner) : EngineObject(owner)
         base.PersistFields(persister);
         EnchantmentId = persister.Int32("EnchantmentId", value: EnchantmentId);
         EnchantmentType = persister.Enum("EnchantmentType", value: EnchantmentType);
-        PlayerIndex = PersistSupport.UnsignedByte(persister, name: "PlayerIndex", value: PlayerIndex);
+        PlayerIndex = persister.UnsignedByte(name: "PlayerIndex", value: PlayerIndex);
         Name = persister.String("Name", value: Name);
         EnchantmentManaUpkeep = persister.Int32("EnchantmentManaUpkeep", value: EnchantmentManaUpkeep);
         DispelMana = persister.Int32("DispelMana", value: DispelMana);

@@ -14,7 +14,7 @@ using Aow.Rtl;
 namespace Aow.Game.UI.Dialogs;
 
 // unit-info window open. completion callback. army-info event
-public partial class ArmyInfoDialog(UIContext ui) : UIModule(ui)
+public sealed partial class ArmyInfoDialog(UIContext ui) : UIModule(ui)
 {
     public Panel UnitPanel { get; private set; }
     public Label TitleLabel { get; private set; }

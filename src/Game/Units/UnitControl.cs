@@ -13,7 +13,7 @@ using Aow.Rtl;
 namespace Aow.Game.Units;
 
 // NextUnitId. UnitTable. Units
-public class UnitControl(CustomNode owner) : EngineObject(owner)
+public sealed class UnitControl(CustomNode owner) : EngineObject(owner)
 {
 
     private int _nextUnitId = 1;

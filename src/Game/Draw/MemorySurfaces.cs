@@ -22,7 +22,7 @@ internal static class MemorySurfaces
         _ = lockedSurface.GMask;
         _ = lockedSurface.BMask;
         _ = lockedSurface.AMask;
-        _ = PixelFormatIdToMask(format, out int rMask, out int gMask, out int bMask, mask: out int aMask);
+        (_, int rMask, int gMask, int bMask, int aMask) = PixelFormatIdToMask(format);
         lockedSurface.RMask = rMask;
         lockedSurface.GMask = gMask;
         lockedSurface.BMask = bMask;
@@ -53,7 +53,7 @@ internal static class MemorySurfaces
         return result;
     }
 
-    private static int PixelFormatIdToMask(PixelFormat pixelFormatId, out int rMask, out int gMask, out int bMask, out int mask)
+    private static (int BitCount, int RMask, int GMask, int BMask, int AMask) PixelFormatIdToMask(PixelFormat pixelFormatId)
     {
         Span<byte> order = stackalloc byte[4];
         Span<int> masks = stackalloc int[4];
@@ -80,10 +80,10 @@ internal static class MemorySurfaces
             masks[order[i]] = m;
         }
 
-        mask = masks[0];
-        bMask = masks[1];
-        gMask = masks[2];
-        rMask = masks[3];
-        return bitCount;
+        int mask = masks[0];
+        int bMask = masks[1];
+        int gMask = masks[2];
+        int rMask = masks[3];
+        return (bitCount, rMask, gMask, bMask, mask);
     }
 }

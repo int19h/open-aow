@@ -59,7 +59,7 @@ internal sealed class RunListCodec(int width, ListElement? element = null, strin
 
     internal override Tree.TreeValue ReadImage(DecodeContext context, int start, int end, ImageFrame frame)
     {
-        List<long> items = Parse(context, start, end, site: frame.Value(context), out long defense);
+        (List<long> items, long defense) = Parse(context, start, end, site: frame.Value(context));
         return new Tree.DefaultListNode(width, defaultValue: defense, items);
     }
 
@@ -140,7 +140,7 @@ internal sealed class RunListCodec(int width, ListElement? element = null, strin
 
     internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
     {
-        List<long> items = DecodeRuns(context, start, end, site, out long defense);
+        (List<long> items, long defense) = DecodeRuns(context, start, end, site);
         JsonArray array = new();
         for (int i = 0; i < items.Count; i++)
         {
@@ -151,13 +151,13 @@ internal sealed class RunListCodec(int width, ListElement? element = null, strin
     }
 
     /// <summary>The default and the items of a stored list.</summary>
-    internal List<long> DecodeRuns(DecodeContext context, int start, int end, ValueSite site, out long defense)
-        => Parse(context, start, end, site, out defense);
+    internal (List<long>, long Defense) DecodeRuns(DecodeContext context, int start, int end, ValueSite site)
+        => Parse(context, start, end, site);
 
-    internal List<long> Parse(DecodeContext context, int start, int end, ValueSite site, out long defense)
+    internal (List<long> Items, long Defense) Parse(DecodeContext context, int start, int end, ValueSite site)
     {
         context.Need(start, count: width + 4, end, site.Path, what: "list header");
-        defense = Read(context.Data, at: start);
+        long defense = Read(context.Data, at: start);
         int count = context.Int32(start + width);
         if (count < 0)
         {
@@ -192,7 +192,7 @@ internal sealed class RunListCodec(int width, ListElement? element = null, strin
                 items.Add(v);
             }
         }
-        return at != end ? throw Mismatch(context, start: at, site, message: "Bytes follow the list items.") : items;
+        return (at != end ? throw Mismatch(context, start: at, site, message: "Bytes follow the list items.") : items, defense);
     }
 
     private void Put(ByteBuffer b, long v)
@@ -349,7 +349,7 @@ internal sealed class GroupedListCodec(int size, string? domain = null) : Proper
 
     internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
     {
-        List<long> items = _flat.DecodeRuns(context, start, end, site, out long defense);
+        (List<long> items, long defense) = _flat.DecodeRuns(context, start, end, site);
         return Document(defense, items);
     }
 

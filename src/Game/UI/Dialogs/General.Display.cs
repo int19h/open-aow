@@ -6,7 +6,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class General
+public sealed partial class General
 {
     public void ManagerChangeCursor()
     {

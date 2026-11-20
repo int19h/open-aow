@@ -8,7 +8,7 @@ using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Engine.Storage;
 
-public class TranslateTextStream(GameEngine engine) : TranslateVisit(engine)
+public sealed class TranslateTextStream(GameEngine engine) : TranslateVisit(engine)
 {
     public IvDictionary FDictionary { get; internal set; }
 

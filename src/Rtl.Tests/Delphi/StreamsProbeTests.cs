@@ -1,5 +1,3 @@
-using static Aow.Rtl.DelphiFiles;
-using static Aow.Rtl.DelphiOrdinals;
 using static Aow.Rtl.DelphiStreams;
 
 namespace Aow.Rtl.Tests;
@@ -157,13 +155,13 @@ public sealed class StreamsProbeTests
             p.Fact("memory_capacity8193", value: m.Capacity);
         }
 
-        using (Stream f = OpenFile("probe-stream.bin", mode: fmCreate))
+        using (Stream f = OpenFile("probe-stream.bin", mode: FileOpenMode.Create))
         {
             Exercise("file", s: f);
         }
 
         byte[] buffer = new byte[61457];
-        using (Stream f = OpenFile("probe-stream.bin", mode: fmOpenRead | fmShareDenyWrite))
+        using (Stream f = OpenFile("probe-stream.bin", mode: FileOpenMode.Read | FileOpenMode.ShareDenyWrite))
         {
             State("file_reopened", s: f);
             p.Fact("file_readonly_write", value: Written(f, data: buffer.AsSpan(0, length: 1)));
@@ -172,7 +170,7 @@ public sealed class StreamsProbeTests
             State("file_after_readonly_writebuffer", s: f);
         }
 
-        p.Fact("file_deleted", value: Ord(DeleteFile("probe-stream.bin")));
+        p.Fact("file_deleted", value: RtlHost.Files.DeleteFile("probe-stream.bin") ? 1 : 0);
         using MemoryStream source = new();
         using MemoryStream destination = new();
         void Both(string tag)

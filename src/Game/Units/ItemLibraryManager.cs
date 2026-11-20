@@ -10,8 +10,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Saves;
 
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiFiles;
 using static Aow.Rtl.DelphiPaths;
 using static Aow.Rtl.DelphiStrings;
 using static Aow.Rtl.DelphiTextCompare;
@@ -19,7 +17,7 @@ using static Aow.Rtl.DelphiTextCompare;
 namespace Aow.Game.Units;
 
 // system library, libraries
-public class ItemLibraryManager : EngineObject
+public sealed class ItemLibraryManager : EngineObject
 {
     // Army.PAS:4967
     public ItemLibraryManager(CustomNode owner) : base(owner)
@@ -45,7 +43,7 @@ public class ItemLibraryManager : EngineObject
         base.PersistFields(persister);
         // Under the text-only mode of the translate stream the original visits the system library
         // in place and touches no file.
-        if (PersistSupport.Translating(persister))
+        if (persister.Translating())
         {
             persister.Object("SystemLibrary", objectValue: SystemLibrary);
             return;
@@ -164,8 +162,8 @@ public class ItemLibraryManager : EngineObject
         {
             string name = this[index].GetName();
             // The list goes in both forms, so an original of the same name does not return.
-            _ = DeleteFile($"{GetEngine().StartupDirectory}User\\{name}{DocumentKind.ItemList.OriginalExtension}");
-            _ = DeleteFile($"{GetEngine().StartupDirectory}User\\{name}{DocumentKind.ItemList.OwnExtension}");
+            _ = RtlHost.Files.DeleteFile($"{GetEngine().StartupDirectory}User\\{name}{DocumentKind.ItemList.OriginalExtension}");
+            _ = RtlHost.Files.DeleteFile($"{GetEngine().StartupDirectory}User\\{name}{DocumentKind.ItemList.OwnExtension}");
             this[index]?.Dispose();
         }
     }

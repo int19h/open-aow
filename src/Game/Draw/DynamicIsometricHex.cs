@@ -8,7 +8,7 @@ namespace Aow.Game.Draw;
 
 // owned by its TIsometricHexagon (FOwner set directly, so it is not added as a child) and shown
 // from the map field of that hexagon
-public partial class DynamicIsometricHex : HexSprite
+public sealed partial class DynamicIsometricHex : HexSprite
 {
     // IsoHex.pas:126
     public new const int ClassId = 131_439;

@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from aowSetupEvents.pas.
+using System.Globalization;
 using Aow.Formats;
 using Aow.Game.Audio;
 
@@ -12,14 +13,12 @@ using Aow.Game.Session;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiPaths;
 using static Aow.Rtl.IntegerObjects;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class SetupEvents(UIContext ui) : UIModule(ui)
+public sealed partial class SetupEvents(UIContext ui) : UIModule(ui)
 {
     public GDPlay DirectPlay { get; set; }
     public SetupControl SetupControl { get; set; }
@@ -84,7 +83,7 @@ public partial class SetupEvents(UIContext ui) : UIModule(ui)
     // aowSetupEvents.pas:111
     public void DPlayFileStartMessage(int id, string name, int size, in byte response)
     {
-        UI.ProgressDialog.StatusLabel.Text = $"0k of {IntToStr(size / 1_000)}k";
+        UI.ProgressDialog.StatusLabel.Text = $"0k of {(size / 1_000).ToString(CultureInfo.InvariantCulture)}k";
         UI.ProgressDialog.TitleLabel.Text = "Receiving File";
         UI.ProgressDialog.ProgressBar.Max = size;
         UI.ProgressDialog.ProgressBar.Position = 0;
@@ -100,7 +99,7 @@ public partial class SetupEvents(UIContext ui) : UIModule(ui)
     {
         if (position > UI.ProgressDialog.ProgressBar.Position)
         {
-            UI.ProgressDialog.StatusLabel.Text = $"{IntToStr(position / 1_000)}k of {IntToStr(size / 1_000)}k";
+            UI.ProgressDialog.StatusLabel.Text = $"{(position / 1_000).ToString(CultureInfo.InvariantCulture)}k of {(size / 1_000).ToString(CultureInfo.InvariantCulture)}k";
             UI.ProgressDialog.ProgressBar.Position = position;
         }
     }
@@ -175,7 +174,7 @@ public partial class SetupEvents(UIContext ui) : UIModule(ui)
         {
             _ = AudioHost.SongPlayer.Stop(false);
             AudioHost.SongPlayer.Songs.Clear();
-            AudioPlayback.FadeMusicVolume(0, speed: 1);
+            _ = (AudioHost.SoundSystem?.FadeMusicVolume(0, speed: 1));
         }
 
         if (control.Stream.Length != 0)

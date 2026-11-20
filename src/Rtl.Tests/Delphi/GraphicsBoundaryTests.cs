@@ -1,3 +1,4 @@
+
 namespace Aow.Rtl.Tests;
 
 public sealed class GraphicsBoundaryTests
@@ -13,11 +14,17 @@ public sealed class GraphicsBoundaryTests
     public void ShortStringImagesTruncateAndRetainTheUnusedTail()
     {
         byte[] image = [0, 0xA5, 0xA5, 0xA5];
-        ShortStrings.WriteShortString(image, value: "ABCDE");
+        string value = "ABCDE";
+        int length = Math.Min(value.Length, ((Span<byte>)image).Length - 1);
+        ((Span<byte>)image)[0] = (byte)length;
+        Cp1252.Encode(value).AsSpan()[..length].CopyTo(((Span<byte>)image)[1..]);
         Assert.Equal(new byte[] { 3, 65, 66, 67 }, image);
-        ShortStrings.WriteShortString(image, value: "X");
+        string value2 = "X";
+        int length2 = Math.Min(value2.Length, ((Span<byte>)image).Length - 1);
+        ((Span<byte>)image)[0] = (byte)length2;
+        Cp1252.Encode(value2).AsSpan()[..length2].CopyTo(((Span<byte>)image)[1..]);
         Assert.Equal(new byte[] { 1, 88, 66, 67 }, image);
-        Assert.Equal("X", ShortStrings.ReadShortString(image));
+        Assert.Equal("X", Cp1252.Decode(((ReadOnlySpan<byte>)image).Slice(1, length: ((ReadOnlySpan<byte>)image)[0]).ToArray()));
     }
 
     private delegate void OtherNotify(object sender);

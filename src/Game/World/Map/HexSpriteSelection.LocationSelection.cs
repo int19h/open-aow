@@ -3,7 +3,7 @@ using Aow.Game.Draw;
 
 namespace Aow.Game.World.Map;
 
-public partial class HexSpriteSelection
+public sealed partial class HexSpriteSelection
 {
     public bool CanSelectLocation(int pixelX, int pixelY, int lHitPoints)
     {

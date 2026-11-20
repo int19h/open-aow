@@ -138,7 +138,7 @@ public sealed class OriginalComparisonTests : FormatsTest
     [Fact]
     public void IlbNormalizationClearsHeaderPaddingAndSpriteDwordAndComparisonFailsOutsideThem()
     {
-        byte[] ilb = BuildIlbWithSprite16(headerPad: [0x16, 0x50, 0x55], reservedDword: 0x5520B020, colorKey: 0x00001234, out int reservedOffset);
+        (byte[] ilb, int reservedOffset) = BuildIlbWithSprite16(headerPad: [0x16, 0x50, 0x55], reservedDword: 0x5520B020, colorKey: 0x00001234);
 
         // Wrap ILB inside a MapObjectResource in a written-object profile.
         byte[] resourceImage = WrapMapObjectResourceIlb(ilb);
@@ -265,7 +265,7 @@ public sealed class OriginalComparisonTests : FormatsTest
         return body.ToArray();
     }
 
-    private static byte[] BuildIlbWithSprite16(byte[] headerPad, uint reservedDword, uint colorKey, out int reservedOffset)
+    private static (byte[], int ReservedOffset) BuildIlbWithSprite16(byte[] headerPad, uint reservedDword, uint colorKey)
     {
         ByteBuffer buf = new();
         buf.Bytes("\u0004ILB\0"u8);
@@ -302,7 +302,7 @@ public sealed class OriginalComparisonTests : FormatsTest
         buf.Int32(0); // SpriteX
         buf.Int32(0); // SpriteY
         buf.Int32((int)colorKey); // ColorKey
-        reservedOffset = buf.Length;
+        int reservedOffset = buf.Length;
         buf.Int32((int)reservedDword); // unused Reserved dword
         buf.Int32(0); // reference
         buf.Int32(-1); // terminator
@@ -310,6 +310,6 @@ public sealed class OriginalComparisonTests : FormatsTest
         int total = buf.Length;
         buf.PatchInt32(indexEndAt, value: total);
         buf.PatchInt32(sizeAt, value: total);
-        return buf.ToArray();
+        return (buf.ToArray(), reservedOffset);
     }
 }

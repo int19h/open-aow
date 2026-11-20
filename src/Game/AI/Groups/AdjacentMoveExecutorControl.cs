@@ -2,16 +2,11 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
-
 using Aow.Game.Draw;
-
 using Aow.Game.Units;
-
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
-
 using Aow.Rtl;
-
 using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.AI.Groups;
@@ -177,7 +172,7 @@ public class AdjacentMoveExecutorControl : AIMoveExecutorControl
                                 ? Set<CreateMoveModeElement>.Of(CreateMoveModeElement.DoNotQueue, CreateMoveModeElement.Surround)
                                 : Set<CreateMoveModeElement>.Of(CreateMoveModeElement.DoNotQueue);
 
-                            move = CreateMove(aiMoveExecutorArmyList.GetArmies(index), selection: 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, mode, out moveResult);
+                            (move, moveResult) = CreateMove(aiMoveExecutorArmyList.GetArmies(index), selection: 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, mode);
                             if (move is null)
                             {
                                 if (moveResult == 1)
@@ -219,7 +214,7 @@ public class AdjacentMoveExecutorControl : AIMoveExecutorControl
                             ? Set<CreateMoveModeElement>.Of(CreateMoveModeElement.DoNotQueue, CreateMoveModeElement.Surround)
                             : Set<CreateMoveModeElement>.Of(CreateMoveModeElement.DoNotQueue);
 
-                        move = CreateMove(aiMoveExecutorArmyList.GetArmies(0), selection: 255, _meetingPoint.Location.X, _meetingPoint.Location.Y, _meetingPoint.Location.MapLevel, mode, out moveResult);
+                        (move, moveResult) = CreateMove(aiMoveExecutorArmyList.GetArmies(0), selection: 255, _meetingPoint.Location.X, _meetingPoint.Location.Y, _meetingPoint.Location.MapLevel, mode);
                         if (move is not null)
                         {
                             if (moveResult == 0)
@@ -304,7 +299,7 @@ public class AdjacentMoveExecutorControl : AIMoveExecutorControl
                 aiMoveExecutorArmyList = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready, AIMoveExecutorUnitStatus.Done));
                 while (aiMoveExecutorArmyList.Count != i)
                 {
-                    move = CreateMove(aiMoveExecutorArmyList.GetArmies(i), selection: 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, mode: Set<CreateMoveModeElement>.Of(CreateMoveModeElement.DoNotQueue, CreateMoveModeElement.Surround), out moveResult);
+                    (move, moveResult) = CreateMove(aiMoveExecutorArmyList.GetArmies(i), selection: 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, mode: Set<CreateMoveModeElement>.Of(CreateMoveModeElement.DoNotQueue, CreateMoveModeElement.Surround));
                     bool condition = moveResult != 0;
                     if (!condition)
                     {
@@ -336,7 +331,7 @@ public class AdjacentMoveExecutorControl : AIMoveExecutorControl
                     aiMoveExecutorArmyList = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready, AIMoveExecutorUnitStatus.Done));
                     while (move is null && aiMoveExecutorArmyList.Count != i)
                     {
-                        move = CreateMove(aiMoveExecutorArmyList.GetArmies(i), selection: 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, mode: Set<CreateMoveModeElement>.Of(), moveResult: out _);
+                        (move, _) = CreateMove(aiMoveExecutorArmyList.GetArmies(i), selection: 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, mode: Set<CreateMoveModeElement>.Of());
                         if (move is not null)
                         {
                             Executor.ExecuteMoves();
@@ -380,7 +375,7 @@ public class AdjacentMoveExecutorControl : AIMoveExecutorControl
                 AIMoveExecutorArmy army = armies.GetArmies(index);
                 if (army.Location.MapLevel == Executor.Destination.MapLevel && HexGeometry.DeltaHexToRadius(army.Location.X, army.Location.Y, Executor.Destination.X, Executor.Destination.Y) > 1)
                 {
-                    _ = CreateMove(army, selection: 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, mode: Set<CreateMoveModeElement>.Of(CreateMoveModeElement.SurroundNearest), out byte moveResult);
+                    byte moveResult = CreateMove(army, selection: 255, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel, mode: Set<CreateMoveModeElement>.Of(CreateMoveModeElement.SurroundNearest)).MoveResult;
                     result = moveResult is not 0 and not 3;
                 }
             }
@@ -466,7 +461,7 @@ public class AdjacentMoveExecutorControl : AIMoveExecutorControl
         if (mapCoordinate == MapCoordinate.None)
         {
             MapCoordinate location = Executor.Destination;
-            mapCoordinate = HexGeometry.PackMapCoordinate(location.X, location.Y, location.MapLevel);
+            mapCoordinate = new MapCoordinate(location.X, location.Y, location.MapLevel);
         }
 
         AIMoveExecutorArmyList armies = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready));
@@ -483,7 +478,7 @@ public class AdjacentMoveExecutorControl : AIMoveExecutorControl
             int index = armies.IndexOfLocation(sorted[i].First.Location);
             if (index != -1)
             {
-                _ = CreateMove(armies.GetArmies(index), selection: 255, mapCoordinate.X, mapCoordinate.Y, mapCoordinate.MapLevel, mode: Set<CreateMoveModeElement>.Of(), out byte moveResult);
+                byte moveResult = CreateMove(armies.GetArmies(index), selection: 255, mapCoordinate.X, mapCoordinate.Y, mapCoordinate.MapLevel, mode: Set<CreateMoveModeElement>.Of()).MoveResult;
                 if (moveResult == 0)
                 {
                     result = false;

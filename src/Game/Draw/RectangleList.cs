@@ -5,7 +5,7 @@ using Aow.Rtl;
 namespace Aow.Game.Draw;
 
 // a TList of TRectangle, owning them
-public class RectangleList : DelphiList<Rectangle>
+public sealed class RectangleList : DelphiList<Rectangle>
 {
     // GFXE.pas:2458
     internal Rectangle GetRectangle(int index) => List[index];

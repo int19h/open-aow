@@ -1,7 +1,7 @@
 #nullable disable
 // Translated from AoWE.pas.
 using System.Collections.Immutable;
-
+using System.Globalization;
 using Aow.Engine.Nodes;
 
 using Aow.Formats;
@@ -16,16 +16,13 @@ using Aow.Game.Saves;
 using Aow.Game.Session;
 
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.DelphiTextCompare;
-using static Aow.Rtl.Heap;
 
 namespace Aow.Game.World.Map;
 
 // TNotifyEvent target passed directly
 // cheat text, mode, lock count
-public class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner)
+public sealed class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner)
 {
     private string _cheatText = "";
 
@@ -33,7 +30,7 @@ public class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner)
     public int LockCount { get; private set; }
 
     // AoWHSMap.PAS:946
-    public virtual void KeyDown(in ushort key, Set<ShiftState> shift)
+    public void KeyDown(in ushort key, Set<ShiftState> shift)
     {
         if (LockCount != 0)
         {
@@ -159,7 +156,7 @@ public class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner)
                         case 82:
                             if (GetEngine().Debug)
                             {
-                                GetEngine().OutputDebugString($"Random Seed: {IntToStr(StrategicMap.Current.DefendersSeed)}");
+                                GetEngine().OutputDebugString($"Random Seed: {StrategicMap.Current.DefendersSeed.ToString(CultureInfo.InvariantCulture)}");
                             }
 
                             break;
@@ -180,8 +177,8 @@ public class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner)
                         case 73:
                             if (GetEngine().Debug)
                             {
-                                HeapStatus heapStatus = GetHeapStatus();
-                                StrategicMap.Current.ShowMessage($"Allocated Memory: {IntToStr(heapStatus.TotalAllocated)}");
+                                HeapStatus heapStatus = new(unchecked((int)GC.GetTotalMemory(false)));
+                                StrategicMap.Current.ShowMessage($"Allocated Memory: {heapStatus.TotalAllocated.ToString(CultureInfo.InvariantCulture)}");
                             }
 
                             break;

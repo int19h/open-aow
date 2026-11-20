@@ -2,6 +2,6 @@
 
 namespace Aow.Engine;
 
-public class DoublePriorityIdException(string message) : Exception(message)
+public sealed class DoublePriorityIdException(string message) : Exception(message)
 {
 }

@@ -15,7 +15,7 @@ namespace Aow.Game.AI.Groups;
 
 // status, settings, cycles, army table, transporter table, multiple gaps, mode, search state,
 // path settings
-public class AIMoveControl : EngineObject
+public sealed class AIMoveControl : EngineObject
 {
     // AIGroup.pas:3911
     public AIMoveControl(CustomNode owner) : base(owner)
@@ -348,7 +348,7 @@ public class AIMoveControl : EngineObject
             Troop transporter = Settings.Transporter;
             if (transporter is not null)
             {
-                int moveTypesToInt32 = MovementTables.MoveTypesToInt32(transporter.GetMoveTypes());
+                int moveTypesToInt32 = (byte)transporter.GetMoveTypes().Image;
                 _transportMovePointTable = MovementTables.MovePointTables[moveTypesToInt32];
             }
         }

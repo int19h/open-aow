@@ -5,7 +5,6 @@ using Aow.Game.Draw.Images;
 using Aow.Game.UI.Controls;
 using Aow.Rtl;
 using static Aow.Rtl.DelphiConversions;
-using static Aow.Rtl.DelphiFiles;
 using static Aow.Rtl.DelphiPaths;
 using static Aow.Rtl.DelphiStrings;
 using static Aow.Rtl.DelphiTextCompare;
@@ -19,7 +18,7 @@ namespace Aow.Game.UI.Windows;
 // surface holds the text), FImages (the background textures), FTopItem (the first pixel row
 // shown), FFonts (the fonts loaded, TImageLibraryFont), FAOWWindow, FTextWidth, FTextHeight
 // (the size of the back surface)
-public partial class HtmlMemo : BaseWindow
+public sealed partial class HtmlMemo : BaseWindow
 {
     public List<ChangeInfo> Changes { get; }
 
@@ -452,7 +451,7 @@ public partial class HtmlMemo : BaseWindow
                         case IntegerParseMode.Background:
                             if (Set<byte>.WithBounds(0, 255).With(32).With(62).Contains(c))
                             {
-                                if (FileExists(ExtractFilePath(LegacyApplication.Application.ExeName) + Copy(item, index: tagStart + 1, count: j - tagStart)))
+                                if (Files.FileExists(ExtractFilePath(LegacyApplication.Application.ExeName) + Copy(item, index: tagStart + 1, count: j - tagStart)))
                                 {
                                     string filePath = ExtractFilePath(LegacyApplication.Application.ExeName);
                                     _images.LoadFromFile(filePath + Copy(item, index: tagStart + 1, count: j - tagStart));
@@ -902,7 +901,7 @@ public partial class HtmlMemo : BaseWindow
     // AoWHTMLMemo.pas:165
     public void SetFileName(string value)
     {
-        if (value != _fileName && FileExists(value))
+        if (value != _fileName && Files.FileExists(value))
         {
             _fileName = value;
             Items.LoadFromFile(_fileName);
@@ -927,7 +926,7 @@ public partial class HtmlMemo : BaseWindow
             i += 1;
         }
 
-        if (font is null && FileExists(fileName))
+        if (font is null && Files.FileExists(fileName))
         {
             font = new ImageLibraryFont(this)
             {
@@ -1043,7 +1042,7 @@ public partial class HtmlMemo : BaseWindow
 
     // a style change in the text. FHeight (the line height), FColor, FFont (the font file, '' for
     // the current font), FAlign, FPos (the character of the line where it starts), FLine, FSpacing
-    public class ChangeInfo
+    public sealed class ChangeInfo
     {
         public int Height { get; set; }
         public int Color { get; set; }

@@ -1,17 +1,16 @@
 #nullable disable
 // Translated from AoWE.pas.
+using System.Globalization;
 using Aow.Engine.Nodes;
 
 using Aow.Game.Magic.Abilities;
 
 using Aow.Rtl;
 
-using static Aow.Rtl.DelphiConversions;
-
 namespace Aow.Game.Combat;
 
 // wall siege object count
-public class FastBattle(CustomNode owner) : Battle(owner)
+public sealed class FastBattle(CustomNode owner) : Battle(owner)
 {
     // AIGroup.pas:7128
     public new const int ClassId = 131_760;
@@ -176,7 +175,7 @@ public class FastBattle(CustomNode owner) : Battle(owner)
         bool idle = true;
         CombatObjectList objects = new();
         int round = Round;
-        SetLogbookHeader(AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_roundFormat), arguments: [IntToStr(round)]));
+        SetLogbookHeader(AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_roundFormat), arguments: [round.ToString(CultureInfo.InvariantCulture)]));
         for (int playerIndex = 0, last = CombatData.TurnOrder.Count - 1; playerIndex <= last; playerIndex++)
         {
             NewTurn(CombatData.TurnOrder[playerIndex]);

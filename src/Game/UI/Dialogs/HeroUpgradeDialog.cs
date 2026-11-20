@@ -1,5 +1,6 @@
 #nullable disable
 // Translated from AoWHeroUpgradeDlg.pas.
+using System.Globalization;
 using Aow.Engine.Nodes;
 
 using Aow.Game.Commands;
@@ -13,14 +14,12 @@ using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
-
-using static Aow.Rtl.DelphiConversions;
 using static Aow.Rtl.IntegerObjects;
 
 namespace Aow.Game.UI.Dialogs;
 
 // close callback, referenced hero, list sort orders, live hero, editable copy
-public partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
+public sealed partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
 {
     public Window Window { get; private set; }
     public Label HeaderLabel { get; private set; }
@@ -92,38 +91,38 @@ public partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
     public void UpdateStatistics()
     {
         sbyte inherentAttack = _hero.GetInherentAttack();
-        AttackBaseLabel.Text = IntToStr(inherentAttack);
+        AttackBaseLabel.Text = ((int)inherentAttack).ToString(CultureInfo.InvariantCulture);
         sbyte inherentDefense = _hero.GetInherentDefense();
-        DefenseBaseLabel.Text = IntToStr(inherentDefense);
+        DefenseBaseLabel.Text = ((int)inherentDefense).ToString(CultureInfo.InvariantCulture);
         sbyte inherentDamage = _hero.GetInherentDamage();
-        DamageBaseLabel.Text = IntToStr(inherentDamage);
+        DamageBaseLabel.Text = ((int)inherentDamage).ToString(CultureInfo.InvariantCulture);
         sbyte inherentResistance = _hero.InherentResistance;
-        ResistanceBaseLabel.Text = IntToStr(inherentResistance);
+        ResistanceBaseLabel.Text = ((int)inherentResistance).ToString(CultureInfo.InvariantCulture);
         sbyte hits = _hero.GetHits();
-        HitsBaseLabel.Text = IntToStr(hits);
+        HitsBaseLabel.Text = ((int)hits).ToString(CultureInfo.InvariantCulture);
         sbyte moves = _hero.Moves;
-        MovesBaseLabel.Text = IntToStr(moves);
-        AttackAddedLabel.Text = IntToStr(_editedHero.UnitAttack - _hero.UnitAttack);
-        DefenseAddedLabel.Text = IntToStr(_editedHero.UnitDefense - _hero.UnitDefense);
-        DamageAddedLabel.Text = IntToStr(_editedHero.UnitDamage - _hero.UnitDamage);
-        ResistanceAddedLabel.Text = IntToStr(_editedHero.UnitResistance - _hero.UnitResistance);
-        HitsAddedLabel.Text = IntToStr(_editedHero.UnitHits - _hero.UnitHits);
-        MovesAddedLabel.Text = IntToStr(_editedHero.UnitMoves - _hero.UnitMoves);
+        MovesBaseLabel.Text = ((int)moves).ToString(CultureInfo.InvariantCulture);
+        AttackAddedLabel.Text = (_editedHero.UnitAttack - _hero.UnitAttack).ToString(CultureInfo.InvariantCulture);
+        DefenseAddedLabel.Text = (_editedHero.UnitDefense - _hero.UnitDefense).ToString(CultureInfo.InvariantCulture);
+        DamageAddedLabel.Text = (_editedHero.UnitDamage - _hero.UnitDamage).ToString(CultureInfo.InvariantCulture);
+        ResistanceAddedLabel.Text = (_editedHero.UnitResistance - _hero.UnitResistance).ToString(CultureInfo.InvariantCulture);
+        HitsAddedLabel.Text = (_editedHero.UnitHits - _hero.UnitHits).ToString(CultureInfo.InvariantCulture);
+        MovesAddedLabel.Text = (_editedHero.UnitMoves - _hero.UnitMoves).ToString(CultureInfo.InvariantCulture);
         sbyte fEditedHeroInherentAttack = _editedHero.GetInherentAttack();
-        AttackValueLabel.Text = IntToStr(fEditedHeroInherentAttack);
+        AttackValueLabel.Text = ((int)fEditedHeroInherentAttack).ToString(CultureInfo.InvariantCulture);
         sbyte fEditedHeroInherentDefense = _editedHero.GetInherentDefense();
-        DefenseValueLabel.Text = IntToStr(fEditedHeroInherentDefense);
+        DefenseValueLabel.Text = ((int)fEditedHeroInherentDefense).ToString(CultureInfo.InvariantCulture);
         sbyte fEditedHeroInherentDamage = _editedHero.GetInherentDamage();
-        DamageValueLabel.Text = IntToStr(fEditedHeroInherentDamage);
+        DamageValueLabel.Text = ((int)fEditedHeroInherentDamage).ToString(CultureInfo.InvariantCulture);
         sbyte fEditedHeroInherentResistance = _editedHero.InherentResistance;
-        ResistanceValueLabel.Text = IntToStr(fEditedHeroInherentResistance);
+        ResistanceValueLabel.Text = ((int)fEditedHeroInherentResistance).ToString(CultureInfo.InvariantCulture);
         sbyte fEditedHeroHits = _editedHero.GetHits();
-        HitsValueLabel.Text = IntToStr(fEditedHeroHits);
+        HitsValueLabel.Text = ((int)fEditedHeroHits).ToString(CultureInfo.InvariantCulture);
         sbyte fEditedHeroMoves = _editedHero.Moves;
-        MovesValueLabel.Text = IntToStr(fEditedHeroMoves);
+        MovesValueLabel.Text = ((int)fEditedHeroMoves).ToString(CultureInfo.InvariantCulture);
         int skillPoints = _editedHero.GetSkillPoints();
         int fHeroSkillPoints = _hero.GetSkillPoints();
-        SkillPointsLabel.Text = $"{IntToStr(skillPoints)}/{IntToStr(fHeroSkillPoints)}";
+        SkillPointsLabel.Text = $"{skillPoints.ToString(CultureInfo.InvariantCulture)}/{fHeroSkillPoints.ToString(CultureInfo.InvariantCulture)}";
     }
 
     // AoWHeroUpgradeDlg.pas:252
@@ -135,16 +134,16 @@ public partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
         switch (_selectedSort)
         {
             case 0:
-                StringSorting.SortStringsAscending(SelectedAbilitiesList.Items, linkedStrings: [SelectedAbilitiesCostList.Items]);
+                SelectedAbilitiesList.Items.SortStringsAscending(linkedStrings: [SelectedAbilitiesCostList.Items]);
                 break;
             case 1:
-                StringSorting.SortStringsDescending(SelectedAbilitiesList.Items, linkedStrings: [SelectedAbilitiesCostList.Items]);
+                SelectedAbilitiesList.Items.SortStringsDescending(linkedStrings: [SelectedAbilitiesCostList.Items]);
                 break;
             case 2:
-                StringSorting.SortStringsNumericalAscending(SelectedAbilitiesCostList.Items, linkedStrings: [SelectedAbilitiesList.Items]);
+                SelectedAbilitiesCostList.Items.SortStringsNumericalAscending(linkedStrings: [SelectedAbilitiesList.Items]);
                 break;
             case 3:
-                StringSorting.SortStringsNumericalDescending(SelectedAbilitiesCostList.Items, linkedStrings: [SelectedAbilitiesList.Items]);
+                SelectedAbilitiesCostList.Items.SortStringsNumericalDescending(linkedStrings: [SelectedAbilitiesList.Items]);
                 break;
             default:
                 break;
@@ -157,16 +156,16 @@ public partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
         switch (_availableSort)
         {
             case 0:
-                StringSorting.SortStringsAscending(AvailableAbilitiesList.Items, linkedStrings: [AvailableAbilitiesCostList.Items]);
+                AvailableAbilitiesList.Items.SortStringsAscending(linkedStrings: [AvailableAbilitiesCostList.Items]);
                 break;
             case 1:
-                StringSorting.SortStringsDescending(AvailableAbilitiesList.Items, linkedStrings: [AvailableAbilitiesCostList.Items]);
+                AvailableAbilitiesList.Items.SortStringsDescending(linkedStrings: [AvailableAbilitiesCostList.Items]);
                 break;
             case 2:
-                StringSorting.SortStringsNumericalAscending(AvailableAbilitiesCostList.Items, linkedStrings: [AvailableAbilitiesList.Items]);
+                AvailableAbilitiesCostList.Items.SortStringsNumericalAscending(linkedStrings: [AvailableAbilitiesList.Items]);
                 break;
             case 3:
-                StringSorting.SortStringsNumericalDescending(AvailableAbilitiesCostList.Items, linkedStrings: [AvailableAbilitiesList.Items]);
+                AvailableAbilitiesCostList.Items.SortStringsNumericalDescending(linkedStrings: [AvailableAbilitiesList.Items]);
                 break;
             default:
                 break;
@@ -187,7 +186,7 @@ public partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
                 string expandName = ability.ExpandName(_editedHero);
                 _ = AvailableAbilitiesList.Items.AddObject(expandName, item: IntToObject(i));
                 int expandCost = ability.ExpandCost(_editedHero);
-                _ = AvailableAbilitiesCostList.Items.Add(IntToStr(expandCost));
+                _ = AvailableAbilitiesCostList.Items.Add(expandCost.ToString(CultureInfo.InvariantCulture));
             }
         }
 
@@ -207,7 +206,7 @@ public partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
                 }
                 else
                 {
-                    cost = IntToStr(ability.GetSkillPoints(_editedHero) - ability.GetSkillPoints(_hero));
+                    cost = (ability.GetSkillPoints(_editedHero) - ability.GetSkillPoints(_hero)).ToString(CultureInfo.InvariantCulture);
                 }
 
                 _ = SelectedAbilitiesCostList.Items.Add(cost);
@@ -558,7 +557,7 @@ public partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
             dialog.UnitNameEdit.Text = dialog._hero.HeroName;
             sbyte level = dialog._hero.GetLevel();
             string levelText = dialog.UI.Engine.TranslateResourceString(GameText.LevelText);
-            dialog.LevelLabel.Text = $"{levelText} {IntToStr(level)}";
+            dialog.LevelLabel.Text = $"{levelText} {((int)level).ToString(CultureInfo.InvariantCulture)}";
             if (dialog._referencedHero.NewLevel - dialog._referencedHero.OldLevel > 1)
             {
                 string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(ScenarioText.MadeLevelsFormat), arguments: [dialog._hero.HeroName, (dialog._referencedHero.NewLevel - dialog._referencedHero.OldLevel)]);

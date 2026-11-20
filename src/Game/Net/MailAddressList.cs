@@ -2,7 +2,7 @@
 
 namespace Aow.Game.Net;
 
-public class MailAddressList
+public sealed class MailAddressList
 {
     // E3IMSTypes.pas:19
     public void Clear()

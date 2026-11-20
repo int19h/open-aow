@@ -54,12 +54,12 @@ public class MoveArmyTokenEvent(CustomNode owner) : MoveTokenEvent(owner)
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        PersistSupport.Int32List(persister, name: "UnitIds", list: _unitIds);
-        _player = PersistSupport.UnsignedByte(persister, name: "Player", value: _player);
-        Target = PersistSupport.Coordinate(persister, name: "Target", value: Target, width: CoordinateWidth.Byte);
-        TargetPlayer = PersistSupport.UnsignedByte(persister, name: "TargetPlayer", value: TargetPlayer);
+        persister.Int32List(name: "UnitIds", list: _unitIds);
+        _player = persister.UnsignedByte(name: "Player", value: _player);
+        Target = persister.Coordinate(name: "Target", value: Target, width: CoordinateWidth.Byte);
+        TargetPlayer = persister.UnsignedByte(name: "TargetPlayer", value: TargetPlayer);
         Mode = persister.Set("Mode", value: Mode);
-        Destination = PersistSupport.Coordinate(persister, name: "Destination", value: Destination, width: CoordinateWidth.Byte);
+        Destination = persister.Coordinate(name: "Destination", value: Destination, width: CoordinateWidth.Byte);
     }
 
     // MoveT.PAS:2137

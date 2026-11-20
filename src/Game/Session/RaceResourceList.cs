@@ -6,7 +6,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Session;
 
-public class RaceResourceList : ResourceCollection, IChildList<RaceResource>
+public sealed class RaceResourceList : ResourceCollection, IChildList<RaceResource>
 {
     // The race resource in slot index, read as the original reads the list, without a range check.
     // AcceptsResource admits only a RaceResource, so the cast never fails.

@@ -11,7 +11,7 @@ using Aow.Rtl;
 namespace Aow.Game.Draw;
 
 // connected/visible flags, structure
-public class StructureShadow(CustomNode owner) : HexSprite(owner)
+public sealed class StructureShadow(CustomNode owner) : HexSprite(owner)
 {
     public Set<StructureShadowStatusElement> ShadowStatus { get; private set; }
     public Structure Structure { get; init; }

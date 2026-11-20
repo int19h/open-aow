@@ -25,7 +25,7 @@ namespace Aow.Game.Magic.Abilities;
 
 // ID, owner name, status, references, library ID, library name, value, name, type, spell ID,
 // description, graphics index, hidden, availability, attack, defense, damage, resistance
-public class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner>
+public sealed class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner>
 {
     [SuppressMessage("Style", "IDE0290", Justification = "Item.SetOwner calls AddRef and Release around AddChild. The count starts at 0, so Release reaches 0 and Dispose runs, and the constructor then stores 1. ItemLibrary.cs:51 reads LibraryId during that AddChild and stamps an id when the id is not positive, and the constructor then stores -1.")]
     public Item(CustomNode owner) : base(owner)
@@ -120,7 +120,7 @@ public class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner>
         // Under the text-only mode of the translate stream the original visits an item of a library
         // only for its owner name, and that only inside an item library, and never visits the
         // library name.
-        bool translating = PersistSupport.Translating(persister);
+        bool translating = persister.Translating();
         if (!translating || !LibraryItem)
         {
             _itemGraphicsIndex = persister.Int32("ItemGraphicsIndex", value: _itemGraphicsIndex);
@@ -138,14 +138,14 @@ public class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner>
 
         Name = persister.String("Name", value: Name);
         Availability = persister.Enum("Availability", value: Availability);
-        Attack = PersistSupport.UnsignedByte(persister, name: "Attack", value: Attack);
-        Defense = PersistSupport.UnsignedByte(persister, name: "Defense", value: Defense);
-        Damage = PersistSupport.UnsignedByte(persister, name: "Damage", value: Damage);
-        Resistance = PersistSupport.UnsignedByte(persister, name: "Resistance", value: Resistance);
+        Attack = persister.UnsignedByte(name: "Attack", value: Attack);
+        Defense = persister.UnsignedByte(name: "Defense", value: Defense);
+        Damage = persister.UnsignedByte(name: "Damage", value: Damage);
+        Resistance = persister.UnsignedByte(name: "Resistance", value: Resistance);
         ItemType = persister.Enum("ItemType", value: ItemType);
         _hidden = persister.Boolean("Hidden", value: _hidden);
         ItemId = persister.Int32("ItemId", value: ItemId);
-        PersistSupport.Lines(persister, name: "Description", lines: _description);
+        persister.Lines(name: "Description", lines: _description);
         _obtainValue = persister.Int32("ObtainValue", value: _obtainValue);
         _spellId = persister.Int32("SpellId", value: _spellId);
         LibraryId = persister.Int32("LibraryId", value: LibraryId, fallback: -1);
@@ -229,7 +229,7 @@ public class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner>
     }
 
     // Army.PAS:4276
-    public virtual bool CanUse(Hero hero, ref string reason)
+    public bool CanUse(Hero hero, ref string reason)
     {
         bool result;
         if (ItemType == ItemType.Scroll && _spellId != 0)
@@ -255,7 +255,7 @@ public class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner>
     }
 
     // Army.PAS:4296
-    public virtual bool Use(Hero hero)
+    public bool Use(Hero hero)
     {
         string reason = "";
         if (CanUse(hero, ref reason) && !StrategicMap.Current.Players.GetPlayers(hero.Player).GetBusy())
@@ -277,7 +277,7 @@ public class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner>
     }
 
     // Army.PAS:4255
-    public virtual bool ExecuteUse(Hero hero)
+    public bool ExecuteUse(Hero hero)
     {
         string reason = "";
         // { Original reports success even when CanUse rejects the item. }
@@ -313,7 +313,7 @@ public class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner>
     }
 
     // Army.PAS:4418
-    public virtual void Show(int X, int Y, in LockedSurface surface)
+    public void Show(int X, int Y, in LockedSurface surface)
     {
         ItemGraphics graphics = GamePack.Current.ItemGraphicsResources.GetItemGraphics(_itemGraphicsIndex);
         if (graphics is not null)
@@ -325,7 +325,7 @@ public class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner>
     }
 
     // Army.PAS:4331
-    public virtual void Activate()
+    public void Activate()
     {
         if (!Status.Contains(ItemStatusElement.Activated))
         {
@@ -339,7 +339,7 @@ public class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner>
     }
 
     // Army.PAS:4340
-    public virtual void Deactivate()
+    public void Deactivate()
     {
         if (Status.Contains(ItemStatusElement.Activated))
         {
@@ -431,7 +431,7 @@ public class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner>
         ItemType itemType = value;
         ItemType = itemType;
         _itemGraphicsIndex = GamePack.Current.ItemGraphicsResources.FindItemTypeGraphics(itemType);
-        base.Clear();
+        Clear();
     }
 
     // Army.PAS:4443

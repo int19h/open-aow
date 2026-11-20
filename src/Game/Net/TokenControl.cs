@@ -5,13 +5,13 @@ using Aow.Game.Commands;
 namespace Aow.Game.Net;
 
 // FEvents, FTokenManager, FPlayer, FActive. The token events of one player
-public class TokenControl : IDisposable
+public sealed class TokenControl : IDisposable
 {
     private readonly TokenManager _tokenManager;
 
     // NetworkE.pas:1189
     // { Keeps the events sorted on their token counters; an event without one goes to the end }
-    public virtual void Add(TokenEvent tokenEvent)
+    public void Add(TokenEvent tokenEvent)
     {
         if (tokenEvent.TokenCounter != -1)
         {
@@ -44,7 +44,7 @@ public class TokenControl : IDisposable
     // NetworkE.pas:1293
     // { A local player's events end with a TPassTokenTE (after a TSyncTE when the executer checks the
     //   sync); a remote player's events are prefetched only when they are complete }
-    public virtual bool PrefetchTokenEvents(TokenExecutor executor)
+    public bool PrefetchTokenEvents(TokenExecutor executor)
     {
         if (Global() || Local())
         {
@@ -112,7 +112,7 @@ public class TokenControl : IDisposable
 
     // NetworkE.pas:1342
     // { A local player's prefetched events go to every other player }
-    public virtual void TokenEventsPrefetched(TokenExecutor executor, TokenEventList events)
+    public void TokenEventsPrefetched(TokenExecutor executor, TokenEventList events)
     {
         if (Local() && !Global() && events.Count != 0)
         {
@@ -135,7 +135,7 @@ public class TokenControl : IDisposable
     }
 
     // NetworkE.pas:1211
-    public virtual void AddEvent(TokenEvent tokenEvent)
+    public void AddEvent(TokenEvent tokenEvent)
     {
         if (Remote())
         {
@@ -146,10 +146,10 @@ public class TokenControl : IDisposable
     }
 
     // NetworkE.pas:1218
-    public virtual void AddLocalEvent(TokenEvent tokenEvent) => Add(tokenEvent);
+    public void AddLocalEvent(TokenEvent tokenEvent) => Add(tokenEvent);
 
     // NetworkE.pas:1238
-    public virtual void AddEvents(TokenEventList events)
+    public void AddEvents(TokenEventList events)
     {
         for (int i = 0, last = events.Count - 1; i <= last; i++)
         {
@@ -158,7 +158,7 @@ public class TokenControl : IDisposable
     }
 
     // NetworkE.pas:1180
-    public virtual void Dispose()
+    public void Dispose()
     {
         if (_tokenManager is not null && _tokenManager.TokenExecutor is not null)
         {
