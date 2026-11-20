@@ -13,7 +13,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
-public partial class ArmyCombineMoveTokenEvent(CustomNode owner) : MoveArmyTokenEvent(owner)
+public class ArmyCombineMoveTokenEvent(CustomNode owner) : MoveArmyTokenEvent(owner)
 {
     public new const int ClassId = 135427;
 
@@ -64,9 +64,4 @@ public partial class ArmyCombineMoveTokenEvent(CustomNode owner) : MoveArmyToken
 
     private static readonly string s_cannotCombineArmiesText = "Cannot combine armies";
     private static readonly string s_cannotCombineTransportersText = "Cannot combine two transporters";
-
-    // intf_P5_07.inc:816
-
-    // intf_P5_07.inc:816
-
 }

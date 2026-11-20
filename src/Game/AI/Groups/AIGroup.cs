@@ -728,8 +728,6 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         }
     }
 
-    // intf_P5_07.inc:54
-
     // AIGroup.pas:123
     public virtual EngineClass GroupControlClass() => EngineClass.Of<AIGroupControl>();
 

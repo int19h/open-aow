@@ -144,15 +144,15 @@ public static class GameFiles
     /// Rule-based G1 comparison of an original file against its exported round trip
     /// (own-formats.md 2.5 and 3.3).
     /// </summary>
-    public static OriginalComparisonResult CompareG1(byte[] file, byte[] exported, FileProfile profile, JsonObject document, string kind, FormatLimits? limits = null) =>
-        OriginalComparison.CompareFile(file, exportedFile: exported, profile: profile, originalDocument: document, kind: kind, schema: Schema, limits: limits ?? FormatLimits.Default);
+    public static OriginalComparisonResult CompareG1(byte[] file, byte[] exported, FileProfile profile, JsonObject document, string kind, FormatLimits? limits = null)
+        => OriginalComparison.CompareFile(file, exportedFile: exported, profile: profile, originalDocument: document, kind: kind, schema: Schema, limits: limits ?? FormatLimits.Default);
 
     /// <summary>
     /// Rule-based G1 comparison of an original file against its exported engine image without
     /// recompressing.
     /// </summary>
-    public static OriginalComparisonResult CompareG1Image(byte[] file, FileProfile profile, JsonObject container, byte[] image, JsonObject? document = null, string? kind = null, FormatLimits? limits = null) =>
-        OriginalComparison.CompareImage(file, exportedImage: image, profile: profile, container: container, originalDocument: document, kind: kind, schema: Schema, limits: limits ?? FormatLimits.Default);
+    public static OriginalComparisonResult CompareG1Image(byte[] file, FileProfile profile, JsonObject container, byte[] image, JsonObject? document = null, string? kind = null, FormatLimits? limits = null)
+        => OriginalComparison.CompareImage(file, exportedImage: image, profile: profile, container: container, originalDocument: document, kind: kind, schema: Schema, limits: limits ?? FormatLimits.Default);
 
     /// <summary>
     /// G1 check for one original file (own-formats.md 3.3): returns the first differing offset
@@ -174,8 +174,8 @@ public static class GameFiles
     /// <summary>Validates the envelope of a current-version document.</summary>
     public static (FileProfile Profile, string Kind, JsonObject Container, JsonValue Root) Envelope(JsonObject document, string? fileName)
     {
-        ConversionException Fail(string code, string message, JsonValue at, string path, string? value = null) =>
-            new(new FormatDiagnostic(code, message) { File = fileName, Span = at.Span, Path = path, Value = value });
+        ConversionException Fail(string code, string message, JsonValue at, string path, string? value = null)
+            => new(new FormatDiagnostic(code, message) { File = fileName, Span = at.Span, Path = path, Value = value });
         foreach (JsonMember m in document.Members)
         {
             if (m.Name is "$format" or "$version" or "$kind" or "$container" or "root")

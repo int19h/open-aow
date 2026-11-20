@@ -15,7 +15,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.AI;
 
-public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
+public class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
 {
     // Spells.PAS:1543
     // state, casting heroes, idle heroes, pending hero IDs, candidate actions
@@ -241,8 +241,6 @@ public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
                 break;
         }
     }
-
-    // intf_P4_02.inc:1147
 
     // Spells.PAS:1559
     public static new int Priority => 23;

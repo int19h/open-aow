@@ -10,7 +10,7 @@ using static Aow.Rtl.DelphiRounding;
 namespace Aow.Game.AI;
 
 // priority, required gold/mana, upkeep, days, daily limits, daily requirements, gold/mana
-public partial class AIBudget(CustomNode owner) : EngineObject(owner)
+public class AIBudget(CustomNode owner) : EngineObject(owner)
 {
     // AI.pas:1653
     public new const int ClassId = 131740;
@@ -85,5 +85,4 @@ public partial class AIBudget(CustomNode owner) : EngineObject(owner)
             }
         }
     }
-
 }

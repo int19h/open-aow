@@ -72,8 +72,8 @@ public sealed class FailingSample : Sample
         throw new InvalidOperationException("Constructor failure");
     }
 
-    public static FailingSample Create(int value) =>
-        ConstructionContext.Create(value, static (context, value) => new FailingSample(context, value));
+    public static FailingSample Create(int value)
+        => ConstructionContext.Create(value, static (context, value) => new FailingSample(context, value));
 }
 
 public static class GeneratedStyleSample
@@ -99,6 +99,9 @@ public static class GeneratedStyleSample
             sampleRecord.Value += instance.ClassId;
             return records[1];
         }
-        finally { instance?.Dispose(); }
+        finally
+        {
+            instance?.Dispose();
+        }
     }
 }

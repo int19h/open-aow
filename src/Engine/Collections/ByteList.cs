@@ -13,7 +13,7 @@ using static Aow.Rtl.Heap;
 
 namespace Aow.Engine.Collections;
 
-public partial class ByteList : Persistent
+public class ByteList : Persistent
 {
     private byte[] _list = [];
     private int _count;

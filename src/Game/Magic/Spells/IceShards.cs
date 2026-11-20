@@ -10,7 +10,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Spells;
 
 // inherited combat statistics, damage mode
-public partial class IceShards : CombatSpell
+public class IceShards : CombatSpell
 {
     // CombatSpells.pas:1537
     public IceShards(CustomNode owner, EngineObject holder) : base(owner)

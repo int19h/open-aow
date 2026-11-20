@@ -11,7 +11,7 @@ public partial class MonsterLair(CustomNode owner) : ItemExplorationSite(owner)
     // MonsterL.pas:34
     public new const int ClassId = 131886;
 
-    public new partial class Resource(CustomNode owner) : ItemExplorationSiteResource(owner)
+    public new class Resource(CustomNode owner) : ItemExplorationSiteResource(owner)
     {
 
         // MonsterL.pas:40
@@ -26,5 +26,4 @@ public partial class MonsterLair(CustomNode owner) : ItemExplorationSite(owner)
         private static readonly string s_monsterLairText = "Monster Lair";
 
     }
-
 }

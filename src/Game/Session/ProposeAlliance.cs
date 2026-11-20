@@ -9,7 +9,7 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Game.Session;
 
 // Kind 2: the source proposes an alliance to the target.
-public sealed partial record ProposeAlliance(int Gold = 0, int Mana = 0) : OfferProposal(Gold, Mana)
+public sealed record ProposeAlliance(int Gold = 0, int Mana = 0) : OfferProposal(Gold, Mana)
 {
     public const byte Kind = 2;
 
@@ -27,13 +27,13 @@ public sealed partial record ProposeAlliance(int Gold = 0, int Mana = 0) : Offer
 
     public override string LoggedSample => "SFX\\EVENTS\\MESSAGE2.WAV";
 
-    public override void DefaultMessage(DiplomaticMessageText text, DiplomaticActionReaction reaction, DiplomaticRelation relation) =>
-        text.Exchange(reaction, 106, 121, 124);
+    public override void DefaultMessage(DiplomaticMessageText text, DiplomaticActionReaction reaction, DiplomaticRelation relation)
+        => text.Exchange(reaction, 106, 121, 124);
 
     public override void Sent(DiplomaticAction action) => Deliver(action);
 
-    public override bool LapsesUnanswered(DiplomaticAction action) =>
-        Relation(action.Source, action.Target) != DiplomaticRelation.Alliance;
+    public override bool LapsesUnanswered(DiplomaticAction action)
+        => Relation(action.Source, action.Target) != DiplomaticRelation.Alliance;
 
     public override void Accepted(DiplomaticAction action)
     {
@@ -42,8 +42,8 @@ public sealed partial record ProposeAlliance(int Gold = 0, int Mana = 0) : Offer
         RemoveTargetLog(action);
     }
 
-    public override DiplomaticActionReaction RejectReaction(DiplomaticAction action) =>
-        Relation(action.Source, action.Target) != DiplomaticRelation.Alliance ? DiplomaticActionReaction.Reject : DiplomaticActionReaction.Ignore;
+    public override DiplomaticActionReaction RejectReaction(DiplomaticAction action)
+        => Relation(action.Source, action.Target) != DiplomaticRelation.Alliance ? DiplomaticActionReaction.Reject : DiplomaticActionReaction.Ignore;
 
     public override void AnswerAI(DiplomaticAction action, sbyte player, DiplomaticRelation relation, ByteList idealPeace, ByteList idealWar)
     {

@@ -11,7 +11,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Draw.Animations;
 
-public partial class IceStorm(CustomNode owner) : BlastStorm(owner)
+public class IceStorm(CustomNode owner) : BlastStorm(owner)
 {
 
     // Storms.pas:363
@@ -68,8 +68,6 @@ public partial class IceStorm(CustomNode owner) : BlastStorm(owner)
 
     // Storms.pas:414
     public override StormType StormType() => Magic.Spells.StormType.Ice;
-
-    // Animation.pas:43
 
     // Storms.pas:368
     public override string Name() => AbilityRules.TranslateResourceString(GetEngine(), GameTables.IceStormText);

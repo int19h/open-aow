@@ -11,7 +11,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class LifeMasteryEnchantment : GlobalEnchantment
+public class LifeMasteryEnchantment : GlobalEnchantment
 {
     // GlobalEnchantmentSpells.pas:1395
     public new const int ClassId = 135967;
@@ -79,5 +79,4 @@ public partial class LifeMasteryEnchantment : GlobalEnchantment
 
         return true;
     }
-
 }

@@ -18,19 +18,47 @@ public readonly struct FormatArg : IUnion
     private readonly object? reference;
     private readonly Case kind;
 
-    public FormatArg(int value) { bits = value; kind = Case.Integer; }
+    public FormatArg(int value)
+    {
+        bits = value;
+        kind = Case.Integer;
+    }
 
-    public FormatArg(bool value) { bits = value ? 1 : 0; kind = Case.Boolean; }
+    public FormatArg(bool value)
+    {
+        bits = value ? 1 : 0;
+        kind = Case.Boolean;
+    }
 
-    public FormatArg(char value) { bits = value; kind = Case.Char; }
+    public FormatArg(char value)
+    {
+        bits = value;
+        kind = Case.Char;
+    }
 
-    public FormatArg(double value) { bits = BitConverter.DoubleToInt64Bits(value); kind = Case.Extended; }
+    public FormatArg(double value)
+    {
+        bits = BitConverter.DoubleToInt64Bits(value);
+        kind = Case.Extended;
+    }
 
-    public FormatArg(string value) { reference = DelphiStrings.RequireString(value); kind = Case.String; }
+    public FormatArg(string value)
+    {
+        reference = DelphiStrings.RequireString(value);
+        kind = Case.String;
+    }
 
-    public FormatArg(object? value) { reference = value; kind = value is null ? Case.None : Case.Object; }
+    public FormatArg(object? value)
+    {
+        reference = value;
+        kind = value is null ? Case.None : Case.Object;
+    }
 
-    public FormatArg(PointerArg value) { bits = value.Value; kind = Case.Pointer; }
+    public FormatArg(PointerArg value)
+    {
+        bits = value.Value;
+        kind = Case.Pointer;
+    }
 
     // The compiler prefers a user-defined conversion to a union conversion. Declaring one per
     // case keeps the choice the same as with one operator per source type: a constant 1 stays an

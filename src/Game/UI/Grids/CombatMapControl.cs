@@ -14,7 +14,7 @@ using static Aow.Rtl.PointerMemory;
 namespace Aow.Game.UI.Grids;
 
 // event methods occupy
-public partial class CombatMapControl : Component
+public class CombatMapControl : Component
 {
     private readonly GameEngine _engine;
 
@@ -377,7 +377,10 @@ public partial class CombatMapControl : Component
                 ? notification.Info : ReadLegacyRecord<ExecuteEventLogInfo>(sender);
             OnExecuteEventLog(info.Log, info.Done);
         }
-        catch { LegacyApplication.ShowMessage("Exception occurred during OnExecuteEventLog event (TAoWCombatMapControl)"); }
+        catch
+        {
+            LegacyApplication.ShowMessage("Exception occurred during OnExecuteEventLog event (TAoWCombatMapControl)");
+        }
     }
 
     // CMapCtrl.pas:198. The notification carries the changed map area.
@@ -398,8 +401,14 @@ public partial class CombatMapControl : Component
 
     public void ShowMessage(object sender)
     {
-        try { OnShowMessage?.Invoke(((ShowMessageNotification)sender).Info); }
-        catch { LegacyApplication.ShowMessage("Exception occurred during ShowMessage event(TAoWCombatMapControl)"); }
+        try
+        {
+            OnShowMessage?.Invoke(((ShowMessageNotification)sender).Info);
+        }
+        catch
+        {
+            LegacyApplication.ShowMessage("Exception occurred during ShowMessage event(TAoWCombatMapControl)");
+        }
     }
 
     public delegate void SelectHSEvent(HexSprite HS);

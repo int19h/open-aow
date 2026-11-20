@@ -20,5 +20,4 @@ internal static class LibraryCatalog
 
         return found ? ImageLibraries.LibraryImageClasses[i - 1] : null;
     }
-
 }

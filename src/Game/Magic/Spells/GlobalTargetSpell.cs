@@ -19,7 +19,7 @@ namespace Aow.Game.Magic.Spells;
 // ShowTargetSelection variants: reordered locals, split/inline radius, target with-scope, and
 // inline map-field lookup. SetupTargetSelection variants: explicit class local, repeated casts,
 // class with-scope, record fields, record with-scope and reversed coordinate local order
-public partial class GlobalTargetSpell : Spell
+public class GlobalTargetSpell : Spell
 {
 
     private int _casterId;
@@ -190,5 +190,4 @@ public partial class GlobalTargetSpell : Spell
             return false;
         }
     }
-
 }

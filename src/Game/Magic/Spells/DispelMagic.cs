@@ -17,7 +17,7 @@ using static Aow.Rtl.DelphiFormat;
 namespace Aow.Game.Magic.Spells;
 
 // inherited multiple targets, target range, dispel resistance, AI value
-public partial class DispelMagic : UnitSpell
+public class DispelMagic : UnitSpell
 {
     // UnitSpells.pas:1000
     public DispelMagic(CustomNode owner, EngineObject holder) : base(owner)

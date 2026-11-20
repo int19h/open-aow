@@ -46,8 +46,8 @@ public static partial class Fixtures
     private const string ProductionCases = "ProduceUnit{Index=3,GroupId=5} ResearchSpell{Index=2} Upgrade{} Fortify{} Migrate{Race=4} Unknown{Kind=99,Parameter=7,GroupId=1}";
     private const string DiplomacyCases = "DeclareWar{} OfferPeace{Gold=100,Mana=20} Unknown{Kind=\"0c\",Gold=5}";
 
-    private static JsonObject[] ProductionItems =>
-    [
+    private static JsonObject[] ProductionItems
+    => [
         Item(0, "ProduceUnit", [("Index", new JsonInteger(3)), ("GroupId", new JsonInteger(5))]),
         Item(1, "ResearchSpell", [("Index", new JsonInteger(2))]),
         Item(2, "Upgrade", []),
@@ -56,8 +56,8 @@ public static partial class Fixtures
         Item(5, "Unknown", [("Kind", new JsonInteger(99)), ("Parameter", new JsonInteger(7)), ("GroupId", new JsonInteger(1))]),
     ];
 
-    private static JsonObject[] DiplomaticActions =>
-    [
+    private static JsonObject[] DiplomaticActions
+    => [
         Action(0, "DeclareWar", []),
         Action(1, "OfferPeace", [("Gold", new JsonInteger(100)), ("Mana", new JsonInteger(20))]),
         Action(2, "Unknown", [("Kind", new JsonString("0c")), ("Gold", new JsonInteger(5))]),

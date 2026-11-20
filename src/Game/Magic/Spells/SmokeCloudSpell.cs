@@ -12,7 +12,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class SmokeCloudSpell : GlobalTargetSpell
+public class SmokeCloudSpell : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:2325
     public SmokeCloudSpell(CustomNode owner, EngineObject holder) : base(owner)

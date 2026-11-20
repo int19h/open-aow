@@ -153,5 +153,4 @@ public partial class ItemBanner(UIContext ui) : UIModule(ui)
     }
 
     internal static int ItemId { get; set; }
-
 }

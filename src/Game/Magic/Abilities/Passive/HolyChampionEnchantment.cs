@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // inherited name, ability ID, selection types, ability type
-public partial class HolyChampionEnchantment : UnitEnchantmentAbility
+public class HolyChampionEnchantment : UnitEnchantmentAbility
 {
     // PassiveAb.pas:1195
     public HolyChampionEnchantment(CustomNode owner, EngineObject holder) : base(owner)

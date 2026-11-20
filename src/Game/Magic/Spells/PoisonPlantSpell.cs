@@ -16,7 +16,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class PoisonPlantSpell : GlobalTargetSpell
+public class PoisonPlantSpell : GlobalTargetSpell
 {
     public PoisonPlantSpell(CustomNode owner, EngineObject holder) : base(owner)
     {
@@ -28,8 +28,6 @@ public partial class PoisonPlantSpell : GlobalTargetSpell
         MagicSphere = MagicSphere.Earth;
         AboveGroundOnly = false;
     }
-
-    // PoisonP.pas:371
 
     // PoisonP.pas:405
     public override void SetupTargetSelection(Troop source, TargetSelectionControl targetSelection)
@@ -82,9 +80,4 @@ public partial class PoisonPlantSpell : GlobalTargetSpell
     }
 
     private static readonly string s_poisonPlantsText = "Poison Plants";
-
-    // PoisonP.pas:66
-
-    // PoisonP.pas:66
-
 }

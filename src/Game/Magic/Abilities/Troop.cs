@@ -135,8 +135,6 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         }
     }
 
-    // Unit.PAS:95
-
     // Unit.PAS:127
     public override int AddRef()
     {
@@ -2183,5 +2181,4 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     {
         Terrible = 0, Poor = 1, Ok = 2, Good = 3, High = 4
     }
-
 }

@@ -13,7 +13,7 @@ using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.Magic.Abilities;
 
-public partial class RoundAttackAbility : TouchAbility
+public class RoundAttackAbility : TouchAbility
 {
     // AoWAb.PAS:2262
     public RoundAttackAbility(CustomNode owner, EngineObject holder) : base(owner)

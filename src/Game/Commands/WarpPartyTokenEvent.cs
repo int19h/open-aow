@@ -12,7 +12,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Commands;
 
 // army ID, packed destination
-public partial class WarpPartyTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
+public class WarpPartyTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
 {
 
     // GlobalSpells.pas:564
@@ -101,7 +101,4 @@ public partial class WarpPartyTokenEvent(CustomNode owner) : SpellTokenEvent(own
         GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, spell.BaseManaCost);
         return false;
     }
-
-    // GlobalSpells.pas:92
-
 }

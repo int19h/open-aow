@@ -11,7 +11,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Events;
 
 // (unit ID, spell ID)
-public partial class SpellCastEventLog(CustomNode owner) : EventLog(owner)
+public class SpellCastEventLog(CustomNode owner) : EventLog(owner)
 {
     public new const int ClassId = 131823;
 

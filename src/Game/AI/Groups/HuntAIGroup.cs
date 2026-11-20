@@ -12,7 +12,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.AI.Groups;
 
 // hunted unit IDs
-public partial class HuntAIGroup(CustomNode owner) : AIGroup(owner), IAIGroupClass
+public class HuntAIGroup(CustomNode owner) : AIGroup(owner), IAIGroupClass
 {
 
     // AIGroup.pas:1442
@@ -49,8 +49,6 @@ public partial class HuntAIGroup(CustomNode owner) : AIGroup(owner), IAIGroupCla
 
         return result;
     }
-
-    // intf_P5_07.inc:660
 
     // AIGroup.pas:1452
     public override EngineClass GroupControlClass() => EngineClass.Of<HuntAIGroupControl>();

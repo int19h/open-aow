@@ -11,7 +11,11 @@ public sealed class LayoutSessionTests
     {
         public bool Destroyed { get; private set; }
 
-        public override void Dispose() { Destroyed = true; base.Dispose(); }
+        public override void Dispose()
+        {
+            Destroyed = true;
+            base.Dispose();
+        }
     }
 
     // The second label is complete and owned when its Name setter rejects the duplicate.
@@ -40,7 +44,11 @@ public sealed class LayoutSessionTests
 
     private sealed class ThrowingCleanupModule : FailingModule
     {
-        public override void Dispose() { base.Dispose(); throw new InvalidOperationException("cleanup"); }
+        public override void Dispose()
+        {
+            base.Dispose();
+            throw new InvalidOperationException("cleanup");
+        }
     }
 
     private sealed class GoodModule : DataModule, ILayoutModule
@@ -105,7 +113,11 @@ public sealed class LayoutSessionTests
         LayoutSession session = new();
         using GoodModule module = new();
         GoodModule? seen = null;
-        session.Load(module, value => { s_goodGlobal = value; seen ??= value; });
+        session.Load(module, value =>
+        {
+            s_goodGlobal = value;
+            seen ??= value;
+        });
         Assert.Same(module, s_goodGlobal);
         Assert.Same(module, seen);
         Assert.Same(module, session.Modules["Good"]);
@@ -136,5 +148,4 @@ public sealed class LayoutSessionTests
         root.Loaded();
         Assert.True(root.ComponentState.IsEmpty);
     }
-
 }

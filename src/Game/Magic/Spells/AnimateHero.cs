@@ -18,7 +18,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Spells;
 
 // inherited name, spell ID, mana, sphere, level, type, sounds, images
-public partial class AnimateHero : Spell
+public class AnimateHero : Spell
 {
     // GlobalSpells.pas:1080
     public AnimateHero(CustomNode owner, EngineObject holder) : base(owner)

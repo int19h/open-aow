@@ -6,7 +6,7 @@ using Aow.Formats.Tree;
 namespace Aow.Game.Net;
 
 // _tokenEvents (stored with id 5)
-public partial class TokenPackage : DataPackage
+public class TokenPackage : DataPackage
 {
     // NetworkE.pas:1100
     public new const int ClassId = ClassIdTokenPackage;

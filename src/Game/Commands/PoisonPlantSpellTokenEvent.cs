@@ -15,7 +15,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
-public partial class PoisonPlantSpellTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
+public class PoisonPlantSpellTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
 {
 
     // PoisonP.pas:303
@@ -76,7 +76,4 @@ public partial class PoisonPlantSpellTokenEvent(CustomNode owner) : GlobalTarget
             HexNumberWalkData.WalkToNextHexNumber(ref hexNumberWalkData);
         }
     }
-
-    // NetworkE.pas:230
-
 }

@@ -24,7 +24,7 @@ namespace Aow.Game.Magic.Spells;
 
 // (name, control types, spell ID, base mana cost, sphere, level, type, text, sounds, images.
 // remain unresolved Integers)
-public partial class Spell : EngineObject
+public class Spell : EngineObject
 {
 
     // Spells.PAS:10
@@ -215,8 +215,8 @@ public partial class Spell : EngineObject
     public virtual CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana) => default;
 
     // The caller names the action this spell builds. Another action class throws. Null stays null.
-    public TAction CreateCombatAction<TAction>(CombatObject source, CombatObject target, bool chargeMana) where TAction : CombatAction =>
-        (TAction)CreateCombatAction(source, target: target, chargeMana: chargeMana);
+    public TAction CreateCombatAction<TAction>(CombatObject source, CombatObject target, bool chargeMana) where TAction : CombatAction
+        => (TAction)CreateCombatAction(source, target: target, chargeMana: chargeMana);
 
     // Spells.PAS:178
     public virtual int GetCombatDamageValue(CombatObject source, CombatObject target) => 0;
@@ -307,22 +307,38 @@ public partial class Spell : EngineObject
 
     public virtual void GetCombatInfo(Troop source, ref SpellCombatInfo info)
     {
-        info.Attack = 0; info.Damage = 0; info.DamageTypes = default;
-        info.RepeatCount = 1; info.Range = 0; info.Radius = 0; info.TargetTypes = default;
+        info.Attack = 0;
+        info.Damage = 0;
+        info.DamageTypes = default;
+        info.RepeatCount = 1;
+        info.Range = 0;
+        info.Radius = 0;
+        info.TargetTypes = default;
     }
 
     public virtual AICastSpellAction CreateCastSpellAction()
     {
         AICastSpellAction action = new(null) { Holder = CreationHolder() };
         // TEObject.Create only calls SetOwner. It bypasses descendant constructor bodies.
-        try { action.SetOwner(null); } catch { action.Dispose(); throw; }
+        try
+        {
+            action.SetOwner(null);
+        }
+        catch
+        {
+            action.Dispose();
+            throw;
+        }
         return action;
     }
 
     public virtual void SetupCastSpellAction(Troop source, AICastSpellAction action)
-    { action.SpellId = SpellId; action.SourceUnitId = source.UnitId; }
+    {
+        action.SpellId = SpellId;
+        action.SourceUnitId = source.UnitId;
+    }
 
     // Spells.PAS:215. The casting view aliases the combat unit's hero.
-    public void CombatSpellCast(CombatUnit source) =>
-        CombatCastingDone(source, source.Troop.CastingMana(this));
+    public void CombatSpellCast(CombatUnit source)
+        => CombatCastingDone(source, source.Troop.CastingMana(this));
 }

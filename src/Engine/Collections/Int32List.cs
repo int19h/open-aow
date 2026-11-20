@@ -18,7 +18,7 @@ using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Engine.Collections;
 
-public partial class Int32List : Persistent
+public class Int32List : Persistent
 {
     private int[] _list = [];
     private int _count;
@@ -537,7 +537,6 @@ public partial class Int32List : Persistent
                     }
                 }
             }
-
         }
         _ = testUnit.Release();
         return result;

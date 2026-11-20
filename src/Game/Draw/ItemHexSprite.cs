@@ -143,11 +143,6 @@ public partial class ItemHexSprite : SingleHexSprite
     }
 
     private static readonly string s_itemBagText = "Item Bag";
-
-    // intf_P2_04.inc:216
-
-    // intf_P2_04.inc:216
-
 }
 
 public enum ItemHexSpriteGenerateMode : byte

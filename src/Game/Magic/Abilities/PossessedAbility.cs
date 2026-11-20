@@ -14,7 +14,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Abilities;
 
-public partial class PossessedAbility : PossessAbility
+public class PossessedAbility : PossessAbility
 {
     // AoWAb.PAS:2562
     public PossessedAbility(CustomNode owner, EngineObject holder) : base(owner, holder)

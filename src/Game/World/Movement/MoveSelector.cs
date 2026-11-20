@@ -11,7 +11,7 @@ using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.World.Movement;
 
-public partial class MoveSelector : IDisposable
+public class MoveSelector : IDisposable
 {
     // Structur.PAS:4109
     // control settings, moves, current move, map, status
@@ -356,7 +356,4 @@ public partial class MoveSelector : IDisposable
             DeleteMoveObject(MoveSettingsList.Count - 1);
         }
     }
-
-    // intf_P1_04.inc:237
-
 }

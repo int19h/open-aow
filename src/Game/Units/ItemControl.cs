@@ -14,7 +14,7 @@ using Aow.Rtl;
 namespace Aow.Game.Units;
 
 // items, change events, update lock, item change events, last ID, status
-public partial class ItemControl(CustomNode owner) : EngineObject(owner)
+public class ItemControl(CustomNode owner) : EngineObject(owner)
 {
 
     private readonly List<Item> _items = [];
@@ -338,7 +338,4 @@ public partial class ItemControl(CustomNode owner) : EngineObject(owner)
     {
         Activated = 0
     }
-
-    // intf_P2_04.inc:182
-
 }

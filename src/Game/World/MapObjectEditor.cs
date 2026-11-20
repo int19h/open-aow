@@ -3,7 +3,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.World;
 
-public partial class MapObjectEditor(CustomNode owner) : EngineObjectEditor(owner), IEngineObjectEditorClass
+public class MapObjectEditor(CustomNode owner) : EngineObjectEditor(owner), IEngineObjectEditorClass
 {
 
     // Army.PAS:5753

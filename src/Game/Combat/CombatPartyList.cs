@@ -8,7 +8,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Combat;
 
-public partial class CombatPartyList(CustomNode owner) : OwningNode(owner), IChildList<CombatParty>
+public class CombatPartyList(CustomNode owner) : OwningNode(owner), IChildList<CombatParty>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a CombatParty, so the cast never fails.
@@ -79,7 +79,4 @@ public partial class CombatPartyList(CustomNode owner) : OwningNode(owner), IChi
             }
         }
     }
-
-    // Engine.pas:631
-
 }

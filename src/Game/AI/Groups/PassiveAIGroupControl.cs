@@ -11,7 +11,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
-public partial class PassiveAIGroupControl(CustomNode owner) : AIGroupControl(owner)
+public class PassiveAIGroupControl(CustomNode owner) : AIGroupControl(owner)
 {
 
     // MainAG.pas:199

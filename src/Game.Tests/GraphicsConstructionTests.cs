@@ -7,8 +7,8 @@ namespace Aow.Game.Tests;
 
 public sealed class GraphicsConstructionTests
 {
-    private static object? Field(object value, string name) =>
-        (MemberNames.Field(value.GetType(), name) ?? throw new InvalidOperationException(name)).GetValue(value);
+    private static object? Field(object value, string name)
+        => (MemberNames.Field(value.GetType(), name) ?? throw new InvalidOperationException(name)).GetValue(value);
 
     public static IEnumerable<object[]> Images()
     {
@@ -364,5 +364,4 @@ public sealed class GraphicsConstructionTests
 
         public void ShowSystemCursor(bool show) { }
     }
-
 }

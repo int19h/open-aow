@@ -12,7 +12,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
-public partial class TransportAIGroupControl(CustomNode owner) : AIGroupControl(owner)
+public class TransportAIGroupControl(CustomNode owner) : AIGroupControl(owner)
 {
 
     // MainAG.pas:822

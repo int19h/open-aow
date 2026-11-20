@@ -20,5 +20,4 @@ internal static class SpellTargets
         message.Param = param2;
         StrategicMap.Current.SendMessage(ref message, null);
     }
-
 }

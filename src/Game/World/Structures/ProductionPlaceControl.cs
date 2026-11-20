@@ -138,7 +138,4 @@ public partial class ProductionPlaceControl(CustomNode owner) : ProductionContro
 
         return result;
     }
-
-    // intf_P1_02.inc:120
-
 }

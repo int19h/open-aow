@@ -9,7 +9,7 @@ using Aow.Rtl;
 namespace Aow.Game.Combat.Actions;
 
 // inherited source ID, target ID, mana, success, spell ID
-public partial class AnimateDeadCombatAction(CustomNode owner) : ExclusiveCombatSpellCombatAction(owner)
+public class AnimateDeadCombatAction(CustomNode owner) : ExclusiveCombatSpellCombatAction(owner)
 {
     // CombatSpells.pas:2021
     public new const int ClassId = 131782;
@@ -33,5 +33,4 @@ public partial class AnimateDeadCombatAction(CustomNode owner) : ExclusiveCombat
             target.SetCombatPlayer((byte)source.CombatPlayer);
         }
     }
-
 }

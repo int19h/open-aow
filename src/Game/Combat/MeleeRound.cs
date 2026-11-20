@@ -17,7 +17,7 @@ namespace Aow.Game.Combat;
 
 // count, capacity, strikes, combat objects, cached damage values, units, strike counts,
 // attacker/defender damage types
-public partial class MeleeRound(EngineObject creator) : IDisposable
+public class MeleeRound(EngineObject creator) : IDisposable
 {
 
     // The node that created this round. It and the nodes it creates reach the engine through it.
@@ -533,9 +533,4 @@ public partial class MeleeRound(EngineObject creator) : IDisposable
         public int DamageValue { get; internal set; }
         public CombatSideIndex Side { get; internal set; }
     }
-
-    // intf_P4_02.inc:123
-
-    // intf_P4_02.inc:123
-
 }

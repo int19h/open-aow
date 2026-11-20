@@ -16,7 +16,7 @@ using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.AI;
 
-public partial class DiplomacyAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPlayerActionClass
+public class DiplomacyAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPlayerActionClass
 {
     private sbyte _nextPlayer;
 
@@ -259,8 +259,6 @@ public partial class DiplomacyAIPlayerAction(CustomNode owner) : AIPlayerAction(
         idealPeace?.Dispose();
         idealWar?.Dispose();
     }
-
-    // intf_P5_08.inc:209
 
     // Diplomacy.pas:1546
     public static new int Priority => 14;

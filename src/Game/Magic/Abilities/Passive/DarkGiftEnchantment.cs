@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // (name, ID, selection types, ability type.)
-public partial class DarkGiftEnchantment : UnitEnchantmentAbility
+public class DarkGiftEnchantment : UnitEnchantmentAbility
 {
     // PassiveAb.pas:1249
     public DarkGiftEnchantment(CustomNode owner, EngineObject holder) : base(owner)

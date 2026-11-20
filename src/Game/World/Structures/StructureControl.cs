@@ -7,7 +7,7 @@ using static Aow.Rtl.DelphiAssert;
 
 namespace Aow.Game.World.Structures;
 
-public partial class StructureControl : EngineObject
+public class StructureControl : EngineObject
 {
     // Structur.PAS:3220
     // (structures, next ID, city count)
@@ -118,7 +118,4 @@ public partial class StructureControl : EngineObject
 
     // Structur.PAS:3312
     public void Activate() => CityCount = 0;
-
-    // intf_P1_09.inc:166
-
 }

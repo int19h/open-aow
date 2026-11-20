@@ -10,7 +10,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
-public partial class ScoutAIGroupControl(CustomNode owner) : AIGroupControl(owner)
+public class ScoutAIGroupControl(CustomNode owner) : AIGroupControl(owner)
 {
 
     // IndependentAG.pas:671

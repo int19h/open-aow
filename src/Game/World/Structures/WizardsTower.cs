@@ -43,8 +43,6 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
         SpellId = persister.RawInt32("SpellId", value: SpellId);
     }
 
-    // WizardsTower.pas:76
-
     // WizardsTower.pas:196
     public override ExecuteResult ExecuteTokenEvent(StructureTokenEvent tokenEvent, TokenExecutor executor)
     {
@@ -240,7 +238,7 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
     private static readonly string s_theyTaughtYouSpellFormat = "They taught you the spell %s";
     private static readonly Set<MagicSphere> s_allMagicSpheres = Set<MagicSphere>.FromMask(255uL);
 
-    public new partial class Resource(CustomNode owner) : StructureResource(owner)
+    public new class Resource(CustomNode owner) : StructureResource(owner)
     {
 
         // WizardsTower.pas:263
@@ -255,9 +253,4 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
         private static readonly string s_wizardsTowerText = "Wizards Tower";
 
     }
-
-    // WizardsTower.pas:24
-
-    // WizardsTower.pas:24
-
 }

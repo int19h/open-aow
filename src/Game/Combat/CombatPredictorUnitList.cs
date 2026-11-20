@@ -6,7 +6,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Combat;
 
-public partial class CombatPredictorUnitList : DelphiList<CombatPredictorUnit>
+public class CombatPredictorUnitList : DelphiList<CombatPredictorUnit>
 {
     // CombatPredictor.pas:253
     public CombatPredictorUnit GetUnits(int index) => List[index];
@@ -42,7 +42,4 @@ public partial class CombatPredictorUnitList : DelphiList<CombatPredictorUnit>
 
         return -1;
     }
-
-    // System.pas:111
-
 }

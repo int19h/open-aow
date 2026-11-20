@@ -13,7 +13,7 @@ using static Aow.Rtl.DelphiRounding;
 namespace Aow.Game.Magic.Spells;
 
 // inherited combat statistics, damage mode
-public partial class Terror : CombatSpell
+public class Terror : CombatSpell
 {
     // CombatSpells.pas:1759
     public Terror(CustomNode owner, EngineObject holder) : base(owner)

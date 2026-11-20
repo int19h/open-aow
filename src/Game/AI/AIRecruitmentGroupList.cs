@@ -9,7 +9,7 @@ using static Aow.Rtl.DelphiConversions;
 namespace Aow.Game.AI;
 
 // children
-public partial class AIRecruitmentGroupList(CustomNode owner) : ReferenceNode(owner), IChildList<AIRecruitmentGroup>
+public class AIRecruitmentGroupList(CustomNode owner) : ReferenceNode(owner), IChildList<AIRecruitmentGroup>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AIRecruitmentGroup, so the cast never fails.
@@ -70,9 +70,4 @@ public partial class AIRecruitmentGroupList(CustomNode owner) : ReferenceNode(ow
 
     // AIGroup.pas:874
     public AIRecruitmentGroup FindUnit(Troop troop) => Groups.FindUnit(troop);
-
-    // Engine.pas:631
-
-    // Engine.pas:631
-
 }

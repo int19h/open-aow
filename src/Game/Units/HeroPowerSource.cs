@@ -13,7 +13,7 @@ using Aow.Game.World.Structures;
 namespace Aow.Game.Units;
 
 // Hero
-public partial class HeroPowerSource(CustomNode owner) : PowerSource(owner)
+public class HeroPowerSource(CustomNode owner) : PowerSource(owner)
 {
     public Hero Hero { get; init; }
 
@@ -42,7 +42,4 @@ public partial class HeroPowerSource(CustomNode owner) : PowerSource(owner)
             }
         }
     }
-
-    // Engine.pas:524
-
 }

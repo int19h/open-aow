@@ -7,7 +7,7 @@ using Aow.Game.Units;
 
 namespace Aow.Game.Combat.Actions;
 
-public partial class SlowCombatAction(CustomNode owner) : ExclusiveCombatSpellCombatAction(owner)
+public class SlowCombatAction(CustomNode owner) : ExclusiveCombatSpellCombatAction(owner)
 {
     // CombatSpells.pas:1257
     public new const int ClassId = 131792;
@@ -28,5 +28,4 @@ public partial class SlowCombatAction(CustomNode owner) : ExclusiveCombatSpellCo
             }
         }
     }
-
 }

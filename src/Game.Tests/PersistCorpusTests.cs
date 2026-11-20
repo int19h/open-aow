@@ -758,8 +758,8 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
 
     private static string Root => InstalledSave.Root;
 
-    internal static string? SkipReason =>
-        File.Exists(Path.Combine(Root, "Release", "Release.hss")) && Directory.Exists(Path.Combine(Root, "Scenario", "Custom"))
+    internal static string? SkipReason
+        => File.Exists(Path.Combine(Root, "Release", "Release.hss")) && Directory.Exists(Path.Combine(Root, "Scenario", "Custom"))
             ? null
             : $"The installed game is absent: {Root}. Set AOW_GAME_ROOT to the game installation.";
 

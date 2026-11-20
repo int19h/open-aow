@@ -12,7 +12,7 @@ using static Aow.Rtl.DelphiRounding;
 namespace Aow.Game.AI.Groups;
 
 // mode, move limit, move settings, control
-public partial class AIGroupWanderControl : AIGroupTask
+public class AIGroupWanderControl : AIGroupTask
 {
     public int MovePointsMax { get; set; }
 
@@ -180,5 +180,4 @@ public partial class AIGroupWanderControl : AIGroupTask
     {
         TransportersAllowed = 0
     }
-
 }

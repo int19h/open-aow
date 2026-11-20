@@ -15,7 +15,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
-public partial class UnholyGroundSpellTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
+public class UnholyGroundSpellTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
 {
 
     // UnHolyG.pas:288
@@ -74,7 +74,4 @@ public partial class UnholyGroundSpellTokenEvent(CustomNode owner) : GlobalTarge
             HexNumberWalkData.WalkToNextHexNumber(ref hexNumberWalkData);
         }
     }
-
-    // NetworkE.pas:230
-
 }

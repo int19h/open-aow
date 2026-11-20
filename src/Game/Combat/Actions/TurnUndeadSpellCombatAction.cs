@@ -7,7 +7,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Combat.Actions;
 
-public partial class TurnUndeadSpellCombatAction(CustomNode owner) : CombatSpellCombatAction(owner)
+public class TurnUndeadSpellCombatAction(CustomNode owner) : CombatSpellCombatAction(owner)
 {
     // CombatSpells.pas:861
     public new const int ClassId = 131788;
@@ -28,5 +28,4 @@ public partial class TurnUndeadSpellCombatAction(CustomNode owner) : CombatSpell
             }
         }
     }
-
 }

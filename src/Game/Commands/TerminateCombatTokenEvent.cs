@@ -7,7 +7,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Commands;
 
-public partial class TerminateCombatTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class TerminateCombatTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
 
     // CombatTE.pas:149
@@ -19,7 +19,4 @@ public partial class TerminateCombatTokenEvent(CustomNode owner) : TokenEvent(ow
         StrategicMap.Current.DestroyCombat();
         return ExecuteResult.Done;
     }
-
-    // NetworkE.pas:230
-
 }

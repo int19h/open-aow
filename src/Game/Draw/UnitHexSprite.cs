@@ -511,7 +511,4 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
             Status = (byte)(Status & 231);
         }
     }
-
-    // intf_P2_03.inc:74
-
 }

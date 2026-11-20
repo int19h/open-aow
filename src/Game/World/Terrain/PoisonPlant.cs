@@ -22,7 +22,7 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Game.World.Terrain;
 
 // summoning status. caster player. remaining turns. original overlay
-public partial class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
+public class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
 {
 
     // PoisonP.pas:87
@@ -42,8 +42,6 @@ public partial class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObjec
         DaysRemaining = persister.SByte("DaysRemaining", value: DaysRemaining, fallback: -1);
         OriginalOverlay = persister.SByte("OriginalOverlay", value: OriginalOverlay, fallback: -1);
     }
-
-    // PoisonP.pas:78
 
     // PoisonP.pas:255
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
@@ -299,7 +297,7 @@ public partial class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObjec
 
     private static readonly string s_poisonPlantDamageText = "Poison Plant Damage";
 
-    public new partial class Resource(CustomNode owner) : ImageLibraryTerrainMapObjectResource(owner)
+    public new class Resource(CustomNode owner) : ImageLibraryTerrainMapObjectResource(owner)
     {
 
         // PoisonP.pas:293
@@ -314,9 +312,4 @@ public partial class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObjec
         private static readonly string s_poisonPlantText = "Poison Plant";
 
     }
-
-    // PoisonP.pas:28
-
-    // PoisonP.pas:28
-
 }

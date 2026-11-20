@@ -193,5 +193,4 @@ public partial class CombatChoice(UIContext ui) : UIModule(ui)
             StrategicMap.Current.TutorialControl.ShowMessage(61, true, true);
         }
     }
-
 }

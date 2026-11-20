@@ -10,7 +10,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Spells;
 
 // inherited combat statistics, damage mode
-public partial class Swarm : CombatSpell
+public class Swarm : CombatSpell
 {
     // CombatSpells.pas:1455
     public Swarm(CustomNode owner, EngineObject holder) : base(owner)

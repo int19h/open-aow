@@ -17,7 +17,7 @@ using Aow.Rtl;
 namespace Aow.Game.AI.Groups;
 
 // state, targets, settings, buffer, transporter movement table, transporter, control
-public partial class AIMoveTargetSelector : EngineObject
+public class AIMoveTargetSelector : EngineObject
 {
     // AIGroup.pas:6375
     public AIMoveTargetSelector(CustomNode owner) : base(owner)
@@ -510,11 +510,6 @@ public partial class AIMoveTargetSelector : EngineObject
     }
 
     public delegate void MoveTargetFoundEvent(MoveTarget Target, ref bool SearchDone);
-
-    // intf_P5_06.inc:242
-
-    // intf_P5_06.inc:242
-
 }
 
 public enum AIMoveTargetSelectorStatus : byte

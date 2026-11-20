@@ -11,7 +11,7 @@ namespace Aow.Game.Draw.Images;
 // a mask of one bit per pixel (ClassID $13), shown as white pixels. _pitch (bytes per row,
 // whole dwords), FMaskData (rows of dwords, the first pixel in the high bit), FMaskLeft,
 // FMaskTop, FMaskWidth, FMaskHeight (the rectangle of the mask in the data rectangle)
-public partial class BitMask(CustomImageLibrary owner) : LibraryImage(owner), ILibraryImageClass
+public class BitMask(CustomImageLibrary owner) : LibraryImage(owner), ILibraryImageClass
 {
     static int ILibraryImageClass.ClassId => 19;
     static string ILibraryImageClass.Name => "Bit Mask";
@@ -224,9 +224,9 @@ public partial class BitMask(CustomImageLibrary owner) : LibraryImage(owner), IL
 
     // ImageLib.pas:4827
     // { ShowDC clears the surface to gray, not to BkColor. }
-    public override void ShowDisplayController(Rect? sourceRectangle, Rect? destinationRectangle, int displayController, int bkColor) =>
+    public override void ShowDisplayController(Rect? sourceRectangle, Rect? destinationRectangle, int displayController, int bkColor)
         /* TODO: Implement Windows.WindowFromDC in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     // ImageLib.pas:4861
     public override void ShowOpaque(int X, int Y, in LockedSurface lockedSurface)
@@ -356,7 +356,7 @@ public partial class BitMask(CustomImageLibrary owner) : LibraryImage(owner), IL
     private static void ShowBitMask16(int X, int Y, in LockedSurface lockedSurface, ReadOnlySpan<byte> data, int width, int height) => Blit.ShowBitMask16(X, Y, lockedSurface.View(), data, width, height);
 
     // Inverse (grab the non-transparent rectangle with MinimizeInvTransparentRect)
-    public partial class GrabInfo : Images.GrabInfo
+    public class GrabInfo : Images.GrabInfo
     {
         public static new GrabInfoClass Descriptor { get; } = new("BitMask.GrabInfo", static () => new GrabInfo());
 

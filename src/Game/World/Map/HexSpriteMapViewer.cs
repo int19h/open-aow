@@ -11,7 +11,7 @@ namespace Aow.Game.World.Map;
 // _sceneWidth, _sceneHeight, _sceneX, _sceneY, _sceneL, _staticSurfaceValid, OnSceneChanged
 // (published), FHSMap. SetHSMap points the map's OnCenterView, OnChangeView and OnViewLevel at
 // CenterScene, ChangeScene and SetSceneL
-public partial class HexSpriteMapViewer : Component
+public class HexSpriteMapViewer : Component
 {
     private int _sceneWidth;
     private int _sceneHeight;

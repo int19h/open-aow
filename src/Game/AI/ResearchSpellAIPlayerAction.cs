@@ -14,7 +14,7 @@ using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.AI;
 
-public partial class ResearchSpellAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPlayerActionClass
+public class ResearchSpellAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPlayerActionClass
 {
 
     // Spells.PAS:1504

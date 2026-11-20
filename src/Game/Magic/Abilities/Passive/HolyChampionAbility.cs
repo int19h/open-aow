@@ -6,7 +6,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // inherited name, ability ID, selection types, ability type
-public partial class HolyChampionAbility : EnhancementAbility
+public class HolyChampionAbility : EnhancementAbility
 {
     // PassiveAb.pas:484
     public HolyChampionAbility(CustomNode owner, EngineObject holder) : base(owner)

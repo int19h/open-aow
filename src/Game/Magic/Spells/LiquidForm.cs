@@ -9,7 +9,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class LiquidForm : UnitSpell
+public class LiquidForm : UnitSpell
 {
     // UnitSpells.pas:741
     public LiquidForm(CustomNode owner, EngineObject holder) : base(owner)

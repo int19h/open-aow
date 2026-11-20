@@ -91,5 +91,4 @@ public partial class PlayerMagicEventLog(CustomNode owner) : EventLog(owner)
     {
         SpellResearched = 0, OutOfMana = 1, StartResearch = 2
     }
-
 }

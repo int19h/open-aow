@@ -467,11 +467,11 @@ public sealed class RecordShapeTests : FormatsTest
         return new JsonObject().Add("AbCount", new JsonInteger(count)).Add("Bits", array);
     }
 
-    private static void Poke(ref SampleBehavior value, int offset, byte stored) =>
-        MemoryMarshal.AsBytes(MemoryMarshal.CreateSpan(ref value, 1))[offset] = stored;
+    private static void Poke(ref SampleBehavior value, int offset, byte stored)
+        => MemoryMarshal.AsBytes(MemoryMarshal.CreateSpan(ref value, 1))[offset] = stored;
 
-    private static byte At(SampleBehavior value, int offset) =>
-        MemoryMarshal.AsBytes(MemoryMarshal.CreateSpan(ref value, 1))[offset];
+    private static byte At(SampleBehavior value, int offset)
+        => MemoryMarshal.AsBytes(MemoryMarshal.CreateSpan(ref value, 1))[offset];
 
     private static List<object> Items(JsonValue value)
     {

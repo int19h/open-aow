@@ -1183,5 +1183,4 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
             dialog.FinishDialog();
         }
     }
-
 }

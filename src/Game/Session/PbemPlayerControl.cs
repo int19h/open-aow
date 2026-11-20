@@ -22,7 +22,7 @@ using static Aow.Rtl.DelphiTextCompare;
 namespace Aow.Game.Session;
 
 // local player
-public partial class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(owner)
+public class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(owner)
 {
     public new const int ClassId = 131667;
     private sbyte _localPlayer;
@@ -294,9 +294,9 @@ public partial class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(own
     }
 
     // PlayerC.PAS:938
-    public void SendEmailGameCallback(EventLog log) =>
+    public void SendEmailGameCallback(EventLog log)
         /* TODO: Implement Windows.GetTempPath in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     // PlayerC.PAS:1018
     public void TriggerGameRestartedEvents(sbyte player)
@@ -495,9 +495,4 @@ public partial class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(own
     private static readonly string s_pbemGameEndedText = "This game's turn has been ended. Restarting is only allowed for resend purposes.";
     private static readonly string s_pbemRestartCheatText = "This game isn't the original game. Restarting it qualifies you as a cheater!";
     private static readonly string s_saveEmailGameText = "Save email game...";
-
-    // intf_P1_04.inc:26
-
-    // intf_P1_04.inc:26
-
 }

@@ -11,7 +11,7 @@ using Aow.Rtl;
 namespace Aow.Game.AI.Groups;
 
 // selector, custom state, mode, defend mode
-public partial class AIGroupDefenseControl : AIGroupTask
+public class AIGroupDefenseControl : AIGroupTask
 {
     // AIGroup.pas:1807
     public AIGroupDefenseControl(CustomNode owner) : base(owner)
@@ -129,7 +129,4 @@ public partial class AIGroupDefenseControl : AIGroupTask
     {
         Split = 0, Wait = 1, Custom = 2
     }
-
-    // intf_P5_07.inc:338
-
 }

@@ -369,5 +369,4 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
     public int ResourceId { get => GetResourceId(); set => SetResourceId(value); }
     public bool ResourceLinked { get => GetResourceLinked(); set => SetResourceLinked(value); }
     public Set<MapObjectStatusElement> Status { get; protected set; }
-
 }

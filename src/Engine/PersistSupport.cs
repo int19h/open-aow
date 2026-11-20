@@ -28,27 +28,27 @@ public enum CoordinateWidth
 public static class PersistSupport
 {
     /// <summary>The engine of a tree load, which <c>ReadWrite</c> reads as <c>Stream.Engine</c>.</summary>
-    public static GameEngine Engine(IPersister persister) =>
-        (persister.Factory as IEnginePersistableFactory)?.Engine
+    public static GameEngine Engine(IPersister persister)
+        => (persister.Factory as IEnginePersistableFactory)?.Engine
             ?? throw new InvalidOperationException("The load's factory names no engine.");
 
     /// <summary>The progress handler of a tree load, which <c>ReadWrite</c> reads as <c>Stream.ProgressHandler</c>. Null when the load has none.</summary>
     public static ProgressEvent Progress(IPersister persister) => (persister.Factory as IEnginePersistableFactory)?.Progress;
 
     /// <summary>Reports load progress the way <c>Stream.ShowProgress</c> does: to the load's handler, when it has one.</summary>
-    public static void ShowProgress(IPersister persister, EngineObject sender, string message, int percent) =>
-        Progress(persister)?.Invoke(sender, Message: message, Progression: percent);
+    public static void ShowProgress(IPersister persister, EngineObject sender, string message, int percent)
+        => Progress(persister)?.Invoke(sender, Message: message, Progression: percent);
 
     /// <summary>
     /// A catalog record. The value moves through its I/O image, which maps it without loss and
     /// which the record catalog describes under the image's bound record name.
     /// </summary>
-    public static TValue Record<TImage, TValue>(IPersister persister, string name, TValue value) where TImage : unmanaged, IRecordImage<TImage, TValue> =>
-        RecordValues.Transfer(persister, name, TImage.From(value)).ToValue();
+    public static TValue Record<TImage, TValue>(IPersister persister, string name, TValue value) where TImage : unmanaged, IRecordImage<TImage, TValue>
+        => RecordValues.Transfer(persister, name, TImage.From(value)).ToValue();
 
     /// <summary>A signed byte stored as an unsigned one (Delphi <c>rwByte</c> on a shortint), with its unsigned fallback.</summary>
-    public static sbyte UnsignedByte(IPersister persister, string name, sbyte value, byte fallback = 0) =>
-        unchecked((sbyte)persister.Byte(name, unchecked((byte)value), fallback));
+    public static sbyte UnsignedByte(IPersister persister, string name, sbyte value, byte fallback = 0)
+        => unchecked((sbyte)persister.Byte(name, unchecked((byte)value), fallback));
 
     /// <summary>
     /// A map coordinate stored as X, Y and MapLevel. Byte width is an unsigned byte.
@@ -205,15 +205,15 @@ public static class PersistSupport
     /// A TUnitIndexList stream. The image is the TIntegerList image, and the constructor's default
     /// is -1. A stored default that differs from it is kept.
     /// </summary>
-    public static void UnitIndexList(IPersister persister, string name, UnitIndexList list) =>
-        Int32List(persister, name, list);
+    public static void UnitIndexList(IPersister persister, string name, UnitIndexList list)
+        => Int32List(persister, name, list);
 
     /// <summary>
     /// A TUnitIndexListCollection stream: the flat TUnitIndexList of its groups. The document
     /// cuts it into groups of the schema's size.
     /// </summary>
-    public static void UnitIndexListCollection(IPersister persister, string name, UnitIndexListCollection collection) =>
-        Int32List(persister, name, collection.Units);
+    public static void UnitIndexListCollection(IPersister persister, string name, UnitIndexListCollection collection)
+        => Int32List(persister, name, collection.Units);
 
     /// <summary>
     /// A TBitList stream. The save writes what <c>SaveToStream</c> writes. A present member loads as

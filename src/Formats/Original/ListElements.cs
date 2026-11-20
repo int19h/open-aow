@@ -17,8 +17,8 @@ internal abstract class ListElement
     internal abstract long Read(JsonValue value, EncodeContext context, DocumentNodePath path);
 
     /// <summary>A context for <see cref="Write"/> where only an encode context exists.</summary>
-    internal static DecodeContext Decoding(EncodeContext context) =>
-        new([], context.Schema, context.Engine, context.Profile, context.File, context.Limits);
+    internal static DecodeContext Decoding(EncodeContext context)
+        => new([], context.Schema, context.Engine, context.Profile, context.File, context.Limits);
 }
 
 /// <summary>An enum byte: the C# member name, or the integer when the enum declares no such member.</summary>
@@ -28,11 +28,11 @@ internal sealed class EnumListElement(string typeName, int width) : ListElement
 
     public string TypeName { get; } = typeName;
 
-    internal override JsonValue Write(long value, DecodeContext context, DocumentNodePath path) =>
-        _codec.MemberText(value, context.File, path.ToString());
+    internal override JsonValue Write(long value, DecodeContext context, DocumentNodePath path)
+        => _codec.MemberText(value, context.File, path.ToString());
 
-    internal override long Read(JsonValue value, EncodeContext context, DocumentNodePath path) =>
-        _codec.Parse(context, value, path, "A list value");
+    internal override long Read(JsonValue value, EncodeContext context, DocumentNodePath path)
+        => _codec.Parse(context, value, path, "A list value");
 }
 
 /// <summary>

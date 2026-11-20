@@ -5,7 +5,7 @@ namespace Aow.Game.Audio;
 
 // FRefCount, FStatus. The abstract sound system. GetName is a class function
 // (RegisterSoundSystem calls it on the class)
-public partial class SoundSystem : IDisposable
+public class SoundSystem : IDisposable
 {
     protected internal int RefCount { get; private set; }
 

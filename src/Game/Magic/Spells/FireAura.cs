@@ -9,7 +9,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class FireAura : UnitSpell
+public class FireAura : UnitSpell
 {
     // UnitSpells.pas:616
     public FireAura(CustomNode owner, EngineObject holder) : base(owner)

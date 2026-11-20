@@ -18,7 +18,7 @@ using static Aow.Rtl.DelphiRounding;
 namespace Aow.Game.Commands;
 
 // angle, animation, selected army identity
-public partial class VortexTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
+public class VortexTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
 {
 
     // GlobalTargetSpells.pas:1905

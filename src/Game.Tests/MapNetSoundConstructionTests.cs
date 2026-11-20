@@ -319,7 +319,10 @@ public sealed class MapNetSoundConstructionTests
                     break;
             }
         }
-        finally { ((value ?? throw new NullReferenceException()) as IDisposable)?.Dispose(); }
+        finally
+        {
+            ((value ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
+        }
     }
 
     [Fact]

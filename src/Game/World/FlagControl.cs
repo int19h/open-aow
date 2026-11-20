@@ -16,7 +16,7 @@ namespace Aow.Game.World;
 
 // { Interface declaration run owned by P1. }
 // race resources, flag library
-public partial class FlagControl : ControlStyleObject
+public class FlagControl : ControlStyleObject
 {
 
     private readonly RaceResourceList _raceResources;
@@ -111,6 +111,6 @@ public partial class FlagControl : ControlStyleObject
     }
 
     // PlayerC.PAS:1909
-    public static FlagControl Create(CustomNode owner) =>
-        ConstructionContext.Create(owner, static (context, owner) => new FlagControl(context, owner ?? throw new NullReferenceException()));
+    public static FlagControl Create(CustomNode owner)
+        => ConstructionContext.Create(owner, static (context, owner) => new FlagControl(context, owner ?? throw new NullReferenceException()));
 }

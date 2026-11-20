@@ -4,7 +4,7 @@ using static Aow.Rtl.Heap;
 
 namespace Aow.Game.Draw.Images;
 
-public partial class PaletteManager : IDisposable
+public class PaletteManager : IDisposable
 {
     internal List<LibraryImagePalette> Palettes { get; }
 

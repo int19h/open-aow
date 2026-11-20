@@ -6,7 +6,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class Bless : UnitSpell
+public class Bless : UnitSpell
 {
     // UnitSpells.pas:790
     public Bless(CustomNode owner, EngineObject holder) : base(owner)

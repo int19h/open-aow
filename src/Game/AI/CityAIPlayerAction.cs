@@ -15,7 +15,7 @@ using static Aow.Rtl.DelphiRounding;
 namespace Aow.Game.AI;
 
 // CityCount, ProductionLevelCounts, MaxProductionLevel, ProductionRatio
-public partial class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPlayerActionClass
+public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPlayerActionClass
 {
     private int _cityCount;
     private readonly int[] _productionLevelCounts = new int[4];

@@ -9,7 +9,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Magic.Spells;
 
 // DaysActive
-public partial class HarmonyEnchantment : GlobalEnchantment
+public class HarmonyEnchantment : GlobalEnchantment
 {
     // GlobalEnchantmentSpells.pas:921
     public new const int ClassId = 135958;
@@ -78,5 +78,4 @@ public partial class HarmonyEnchantment : GlobalEnchantment
             StrategicMap.Current.Races.RelationOffset += 4;
         }
     }
-
 }

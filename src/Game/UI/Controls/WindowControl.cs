@@ -14,7 +14,7 @@ namespace Aow.Game.UI.Controls;
 // FrameLeft, FrameTop, FrameRight, FrameBottom, _maskColor, _useVideoMemory, BackSurface,
 // (unused), BackRectangle, (unused), OnDrawBack, OnEnter, OnExit, MouseInside, _imageLibraryIndexFrame,
 // _imageLibraryIndexTexture, _dockable
-public partial class WindowControl(Component owner) : UIComponent(owner)
+public class WindowControl(Component owner) : UIComponent(owner)
 {
 
     [Published]

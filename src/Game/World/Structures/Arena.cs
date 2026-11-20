@@ -218,19 +218,15 @@ public partial class Arena(CustomNode owner) : Structure(owner)
     private static readonly string s_oneUnitTrainedText = "1 unit trained";
     private static readonly string s_unitsTrainedFormat = "%s units trained";
 
-    public new partial class Resource : StructureResource
+    public new class Resource : StructureResource
     {
         public Resource(CustomNode owner) : base(owner) => CastsShadow = true;
 
         // Arena.pas:253
         public new const int ClassId = 133277;
 
-        // Arena.pas:244
-
         // Arena.pas:256
         public override int ResourceUserClassId() => 133276;
-
-        // Arena.pas:45
 
         // Arena.pas:250
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_arenaText);
@@ -238,5 +234,4 @@ public partial class Arena(CustomNode owner) : Structure(owner)
         private static readonly string s_arenaText = "Arena";
 
     }
-
 }

@@ -452,9 +452,4 @@ public partial class TurnPlayerControl(CustomNode owner) : PlayerControl(owner)
     private static readonly string s_independentsAreMovingText = "Independents are moving";
     private static readonly string s_playerIsMovingFormat = "%s is moving";
     private static readonly string s_areMovingFormat = "%s are moving";
-
-    // intf_P1_04.inc:26
-
-    // intf_P1_04.inc:26
-
 }

@@ -15,7 +15,7 @@ using static Aow.Rtl.IntegerObjects;
 namespace Aow.Game.Magic.Spells;
 
 // (registered-spell list)
-public partial class SpellControl(CustomNode owner) : EngineObject(owner)
+public class SpellControl(CustomNode owner) : EngineObject(owner)
 {
 
     public List<Spell> RegisteredSpells { get; init; } = [];
@@ -172,7 +172,4 @@ public partial class SpellControl(CustomNode owner) : EngineObject(owner)
         candidates?.Dispose();
         return result;
     }
-
-    // intf_P4_02.inc:947
-
 }

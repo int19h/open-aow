@@ -11,7 +11,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Commands;
 
-public partial class TerminatePlayerTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class TerminatePlayerTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
     public new const int ClassId = 131836;
 
@@ -65,9 +65,4 @@ public partial class TerminatePlayerTokenEvent(CustomNode owner) : TokenEvent(ow
     }
 
     private static readonly string s_leftGameFormat = "%s left the game!";
-
-    // NetworkE.pas:230
-
-    // NetworkE.pas:230
-
 }

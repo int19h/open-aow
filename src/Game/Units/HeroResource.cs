@@ -11,7 +11,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Units;
 
 // Race. HeroType. Name. Alignment. Hidden. base statistics. Abilities. FaceIndex
-public partial class HeroResource : TroopResource
+public class HeroResource : TroopResource
 {
     public new const int ClassId = 131633;
 
@@ -94,7 +94,4 @@ public partial class HeroResource : TroopResource
 
         return result;
     }
-
-    // intf_P2_07.inc:343
-
 }

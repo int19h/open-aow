@@ -246,7 +246,4 @@ public partial class HeroInventory : ObservableNode, IChildList<Item>, IItemHold
                 return null;
         }
     }
-
-    // intf_P2_06.inc:8
-
 }

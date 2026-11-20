@@ -9,7 +9,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Combat.Actions;
 
 // (successful)
-public partial class WebCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
+public class WebCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
 {
     public new const int ClassId = 131768;
 
@@ -67,7 +67,4 @@ public partial class WebCombatAction(CustomNode owner) : SingleTargetCombatActio
         TargetId = targetId;
         Successful = successful;
     }
-
-    // intf_P3_02.inc:38
-
 }

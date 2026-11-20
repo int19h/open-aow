@@ -9,7 +9,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.AI.Groups;
 
-public partial class PassiveAIGroup : AIGroup, IAIGroupClass
+public class PassiveAIGroup : AIGroup, IAIGroupClass
 {
     // MainAG.pas:129
     public new const int ClassId = 136280;

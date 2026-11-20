@@ -7,7 +7,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Combat.Actions;
 
-public partial class EntangleSpellCombatAction(CustomNode owner) : ExclusiveCombatSpellCombatAction(owner)
+public class EntangleSpellCombatAction(CustomNode owner) : ExclusiveCombatSpellCombatAction(owner)
 {
     // CombatSpells.pas:1328
     public new const int ClassId = 131784;
@@ -25,5 +25,4 @@ public partial class EntangleSpellCombatAction(CustomNode owner) : ExclusiveComb
             data?.EnchantmentPlayerIndex = source.CombatPlayer;
         }
     }
-
 }

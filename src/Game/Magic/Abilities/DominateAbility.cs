@@ -5,7 +5,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Abilities;
 
-public partial class DominateAbility : CommandAbility
+public class DominateAbility : CommandAbility
 {
     // AoWAb.PAS:5321
     public DominateAbility(CustomNode owner, EngineObject holder) : base(owner)

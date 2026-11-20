@@ -5,7 +5,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class Remedy : UnitSpell
+public class Remedy : UnitSpell
 {
     // UnitSpells.pas:424
     public Remedy(CustomNode owner, EngineObject holder) : base(owner)

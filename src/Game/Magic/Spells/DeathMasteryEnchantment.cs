@@ -12,7 +12,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class DeathMasteryEnchantment : GlobalEnchantment
+public class DeathMasteryEnchantment : GlobalEnchantment
 {
     // GlobalEnchantmentSpells.pas:1483
     public new const int ClassId = 135968;
@@ -144,5 +144,4 @@ public partial class DeathMasteryEnchantment : GlobalEnchantment
         StrategicMap.Current.UpdateVisibility();
         Array.Resize(ref flags, 0);
     }
-
 }

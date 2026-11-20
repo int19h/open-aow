@@ -10,7 +10,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Commands;
 
 // player, day, end-turn mode
-public partial class EndTurnTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class EndTurnTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
     public new const int ClassId = 135425;
 
@@ -59,11 +59,6 @@ public partial class EndTurnTokenEvent(CustomNode owner) : TokenEvent(owner)
     }
 
     private static readonly string s_finishedTheirTurnText = "finished their turn";
-
-    // NetworkE.pas:230
-
-    // NetworkE.pas:230
-
 }
 
 public enum EndTurnTokenEventMode : byte

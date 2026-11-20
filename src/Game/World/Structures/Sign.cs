@@ -51,8 +51,6 @@ public partial class Sign(CustomNode owner) : Structure(owner)
         }
     }
 
-    // Sign.pas:85
-
     // Sign.pas:102
     public override sbyte GetOverlay(int index) => -1;
 
@@ -104,7 +102,7 @@ public partial class Sign(CustomNode owner) : Structure(owner)
         }
     }
 
-    public new partial class Resource : StructureResource
+    public new class Resource : StructureResource
     {
         public Resource(CustomNode owner) : base(owner)
         {
@@ -114,8 +112,6 @@ public partial class Sign(CustomNode owner) : Structure(owner)
 
         // Sign.pas:159
         public new const int ClassId = 131331;
-
-        // Sign.pas:152
 
         // Sign.pas:165
         public override int ResourceUserClassId() => 131330;
@@ -152,15 +148,10 @@ public partial class Sign(CustomNode owner) : Structure(owner)
             }
         }
 
-        // Sign.pas:37
-
         // Sign.pas:162
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_signText);
 
         private static readonly string s_signText = "Sign";
 
     }
-
-    // Sign.pas:24
-
 }

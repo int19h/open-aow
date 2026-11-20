@@ -15,7 +15,7 @@ using Aow.Rtl;
 namespace Aow.Game.Commands;
 
 // UnitIndices
-public partial class SummonSpellTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
+public class SummonSpellTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
 {
 
     // SummonSpells.pas:171
@@ -118,9 +118,4 @@ public partial class SummonSpellTokenEvent(CustomNode owner) : SpellTokenEvent(o
     }
 
     private static readonly string s_noSummonLocationFoundText = "No nearby summon location found";
-
-    // SummonSpells.pas:34
-
-    // SummonSpells.pas:34
-
 }

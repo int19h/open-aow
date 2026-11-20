@@ -11,7 +11,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class SpellWard : GlobalEnchantmentSpell
+public class SpellWard : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:1949
     public SpellWard(CustomNode owner, EngineObject holder) : base(owner)

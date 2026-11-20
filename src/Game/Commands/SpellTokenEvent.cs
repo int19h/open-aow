@@ -9,7 +9,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Commands;
 
 // (spell ID, source ID, player, mana)
-public partial class SpellTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class SpellTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
     public new const int ClassId = 135936;
 

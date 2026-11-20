@@ -146,9 +146,9 @@ public partial class CustomImageLibrary : Component
     }
 
     // ImageLib.pas:9820
-    public override void DefineProperties(Filer filer) =>
+    public override void DefineProperties(Filer filer)
         /* TODO: Implement Classes.DefineBinaryProperty in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     public CustomImageLibrary(Component owner) : base(owner)
     {
@@ -565,14 +565,14 @@ public partial class CustomImageLibrary : Component
     }
 
     // ImageLib.pas:10127
-    public void CopyToClipboard() =>
+    public void CopyToClipboard()
         /* TODO: Implement Clipbrd.SetComponent in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     // ImageLib.pas:10132
-    public void PasteFromClipboard() =>
+    public void PasteFromClipboard()
         /* TODO: Implement Clipbrd.GetComponent in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     // ImageLib.pas:10168
     public override void Assign(Persistent source)
@@ -1039,5 +1039,4 @@ public partial class CustomImageLibrary : Component
 
         public int Reference { get; internal set; }
     }
-
 }

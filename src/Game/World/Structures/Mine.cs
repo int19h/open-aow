@@ -46,8 +46,6 @@ public partial class Mine : PlayerStructure
         State = persister.RawByte("State", value: State);
     }
 
-    // Mine.pas:69
-
     // Mine.pas:142
     public override void Activate()
     {
@@ -193,7 +191,7 @@ public partial class Mine : PlayerStructure
 
     private static readonly string s_mineBattleWonText = "Mine captured";
 
-    public new partial class Resource : PlayerStructureResource
+    public new class Resource : PlayerStructureResource
     {
         public Resource(CustomNode owner) : base(owner)
         {
@@ -208,12 +206,8 @@ public partial class Mine : PlayerStructure
         // Mine.pas:200
         public new const int ClassId = 131963;
 
-        // Mine.pas:186
-
         // Mine.pas:203
         public override int ResourceUserClassId() => 131962;
-
-        // Mine.pas:41
 
         // Mine.pas:197
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_mineText);

@@ -14,7 +14,7 @@ using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class DeathMastery : GlobalEnchantmentSpell
+public class DeathMastery : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:1577
     public DeathMastery(CustomNode owner, EngineObject holder) : base(owner)

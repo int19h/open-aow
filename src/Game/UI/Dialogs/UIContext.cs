@@ -141,10 +141,16 @@ public sealed class UIContext(GameEngine engine) : IDisposable
         }
 
         _disposed = true;
-        try { Fonts?.Dispose(); }
-        finally { Graphics?.Dispose(); }
+        try
+        {
+            Fonts?.Dispose();
+        }
+        finally
+        {
+            Graphics?.Dispose();
+        }
     }
 
-    private T Module<T>() where T : DataModule =>
-        _modules.TryGetValue(typeof(T), out DataModule module) ? (T)module : null;
+    private T Module<T>() where T : DataModule
+        => _modules.TryGetValue(typeof(T), out DataModule module) ? (T)module : null;
 }

@@ -517,8 +517,8 @@ public sealed partial class PersistEquivalenceTests
         }
     }
 
-    private static Player NewPlayer(int index) =>
-        new(null) { Holder = EngineFixture.Engine, PlayerIndex = (sbyte)index };
+    private static Player NewPlayer(int index)
+        => new(null) { Holder = EngineFixture.Engine, PlayerIndex = (sbyte)index };
 
     // A preview load, as a preview reads a map.
     private static void LoadPreview(EngineObject objectValue, byte[] image) => TreeReader.Read(node: OriginalBackend.Read(classValue: s_schema.Get(Factory.ClassName(objectValue)), image: image, schema: s_schema, engine: "game"), objectValue: objectValue, factory: Factory, preview: true);

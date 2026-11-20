@@ -6,7 +6,7 @@ namespace Aow.Game.Audio;
 
 // FDelay (Update ticks before it plays), FSampleData, FCallBack, FStatus. One playing sound
 // effect, in SampleList
-public partial class Sample : IDisposable
+public class Sample : IDisposable
 {
     public static SampleClass Descriptor { get; } = new("Sample", Create);
 
@@ -113,12 +113,11 @@ public partial class Sample : IDisposable
     public SamplePanning Panning { get => GetPanning(); set => SetPanning(value); }
 
     // Sound.pas:89
-    public static Sample Create(SampleData data) =>
-        ConstructionContext.Create(data, static (context, value) => new Sample(context, value));
+    public static Sample Create(SampleData data)
+        => ConstructionContext.Create(data, static (context, value) => new Sample(context, value));
 
     public enum StatusElement : byte
     {
         Running = 0
     }
-
 }

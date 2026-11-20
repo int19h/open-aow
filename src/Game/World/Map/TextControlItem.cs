@@ -8,7 +8,7 @@ using Aow.Rtl;
 namespace Aow.Game.World.Map;
 
 // ID, Text, Name
-public partial class TextControlItem(CustomNode owner) : EngineObject(owner)
+public class TextControlItem(CustomNode owner) : EngineObject(owner)
 {
 
     public new const int ClassId = 131738;
@@ -38,7 +38,4 @@ public partial class TextControlItem(CustomNode owner) : EngineObject(owner)
             Name = persister.String("Name", value: Name);
         }
     }
-
-    // intf_P1_04.inc:67
-
 }

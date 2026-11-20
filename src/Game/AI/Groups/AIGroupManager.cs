@@ -7,7 +7,7 @@ namespace Aow.Game.AI.Groups;
 
 // The original's TAIGroupManager derives from TAIGroupList. The port's manager owns the groups
 // it creates and reads them through Groups. A player's AIGroups list is a separate index.
-public partial class AIGroupManager(CustomNode owner) : OwningNode(owner), IChildList<AIGroup>
+public class AIGroupManager(CustomNode owner) : OwningNode(owner), IChildList<AIGroup>
 {
 
     /// <summary>The groups this manager owns, in their stored order.</summary>
@@ -89,8 +89,8 @@ public partial class AIGroupManager(CustomNode owner) : OwningNode(owner), IChil
     }
 
     // The behavior selects the registered group class, which constructs T.
-    public T CreateGroup<T>(sbyte player, sbyte relation) where T : AIGroup, IAIGroupClass =>
-        (T)CreateGroup(player, relation: relation, behavior: T.Behavior);
+    public T CreateGroup<T>(sbyte player, sbyte relation) where T : AIGroup, IAIGroupClass
+        => (T)CreateGroup(player, relation: relation, behavior: T.Behavior);
 
     // AIGroup.pas:624
     public int CreateUniqueId()
@@ -108,7 +108,4 @@ public partial class AIGroupManager(CustomNode owner) : OwningNode(owner), IChil
         _nextId = result + 1;
         return result;
     }
-
-    // intf_P5_07.inc:101
-
 }

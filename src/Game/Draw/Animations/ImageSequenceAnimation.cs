@@ -11,7 +11,7 @@ using static Aow.Rtl.RectRoutines;
 namespace Aow.Game.Draw.Animations;
 
 // sequence, pixel offsets, last frame, loop flag
-public partial class ImageSequenceAnimation(CustomNode owner) : Animation(owner)
+public class ImageSequenceAnimation(CustomNode owner) : Animation(owner)
 {
 
     public ImageSequence ImageSequence { get; private set; }
@@ -19,8 +19,6 @@ public partial class ImageSequenceAnimation(CustomNode owner) : Animation(owner)
     public int PixelYOffset { get; private set; }
     public int FrameCount { get; set; } = -1;
     public bool Looped { get; set; }
-
-    // Animation.pas:424
 
     // Animation.pas:493
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
@@ -156,7 +154,4 @@ public partial class ImageSequenceAnimation(CustomNode owner) : Animation(owner)
         PixelYOffset = value;
         UpdateDimensions();
     }
-
-    // Animation.pas:98
-
 }

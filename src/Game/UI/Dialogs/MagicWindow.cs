@@ -611,5 +611,4 @@ public partial class MagicWindow(UIContext ui) : UIModule(ui)
         TaskBar.ShowMagicWindow(window);
         done?.Invoke(eventValue);
     }
-
 }

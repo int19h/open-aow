@@ -6,7 +6,7 @@ using Aow.Rtl;
 namespace Aow.Game.World.Map;
 
 // selection rectangle, events
-public partial class GameMapMouse : HexSpriteMapMouse
+public class GameMapMouse : HexSpriteMapMouse
 {
     public GameMapMouse() : base()
     {
@@ -168,7 +168,4 @@ public partial class GameMapMouse : HexSpriteMapMouse
         RectangleSelectEventsStore.Raise(this);
         ResetRectangleSelection();
     }
-
-    // intf_P1_05.inc:68
-
 }

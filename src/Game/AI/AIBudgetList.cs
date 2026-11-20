@@ -3,7 +3,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.AI;
 
-public partial class AIBudgetList(CustomNode owner) : OwningNode(owner), IChildList<AIBudget>
+public class AIBudgetList(CustomNode owner) : OwningNode(owner), IChildList<AIBudget>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AIBudget.
@@ -15,7 +15,4 @@ public partial class AIBudgetList(CustomNode owner) : OwningNode(owner), IChildL
 
     // AI.pas:1707
     public AIBudget GetBudgets(int index) => this[index];
-
-    // Engine.pas:631
-
 }

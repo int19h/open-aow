@@ -17,7 +17,7 @@ using static Aow.Rtl.DelphiRounding;
 namespace Aow.Game.AI.Groups;
 
 // city location, enemy strength, required strength, target selector
-public partial class FortifyAIGroupControl : AIGroupControl
+public class FortifyAIGroupControl : AIGroupControl
 {
     private MapCoordinate _fortifyLocation;
     private int _enemyStrength;
@@ -664,5 +664,4 @@ public partial class FortifyAIGroupControl : AIGroupControl
         }
         return number2 - number;
     }
-
 }

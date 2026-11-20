@@ -11,7 +11,7 @@ using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.World.Hexes;
 
-public partial class CombatHex(CustomNode owner) : AbstractHexagon(owner)
+public class CombatHex(CustomNode owner) : AbstractHexagon(owner)
 {
     public new const int ClassId = 2229504;
 
@@ -202,7 +202,7 @@ public partial class CombatHex(CustomNode owner) : AbstractHexagon(owner)
 
     private static ReadOnlySpan<byte> TransitionNeighbours => [6, 1, 2];
 
-    public new partial class Resource(CustomNode owner) : AbstractHexagonResource(owner)
+    public new class Resource(CustomNode owner) : AbstractHexagonResource(owner)
     {
         public new const int ClassId = 2229505;
 
@@ -258,5 +258,4 @@ public partial class CombatHex(CustomNode owner) : AbstractHexagon(owner)
         public override string ResourceEditName() => "Combat Hexagon";
 
     }
-
 }

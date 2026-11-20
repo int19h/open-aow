@@ -18,7 +18,7 @@ using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.World.Terrain;
 
-public partial class CityWall(CustomNode owner) : CombatImageLibraryTerrain(owner)
+public class CityWall(CustomNode owner) : CombatImageLibraryTerrain(owner)
 {
 
     // CityWall.pas:78
@@ -382,7 +382,7 @@ public partial class CityWall(CustomNode owner) : CombatImageLibraryTerrain(owne
 
     private static ReadOnlySpan<int> WallIsIndex => [30, 0];
 
-    public new partial class Resource(CustomNode owner) : CombatImageLibraryTerrainResource(owner)
+    public new class Resource(CustomNode owner) : CombatImageLibraryTerrainResource(owner)
     {
 
         // CityWall.pas:366

@@ -14,7 +14,7 @@ using static Aow.Rtl.DelphiRounding;
 namespace Aow.Game.Commands;
 
 // dispel chance, enchantment ID
-public partial class DisjunctionTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
+public class DisjunctionTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
 {
 
     // GlobalSpells.pas:745
@@ -93,9 +93,4 @@ public partial class DisjunctionTokenEvent(CustomNode owner) : SpellTokenEvent(o
     }
 
     private static readonly string s_successfullyDispelledFormat = "%s successfully dispelled";
-
-    // NetworkE.pas:230
-
-    // NetworkE.pas:230
-
 }

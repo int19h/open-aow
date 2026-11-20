@@ -18,7 +18,7 @@ using static Aow.Rtl.DelphiRounding;
 namespace Aow.Game.Combat;
 
 // round distance, state
-public partial class FastBattleUnit(CustomNode owner) : CombatUnit(owner)
+public class FastBattleUnit(CustomNode owner) : CombatUnit(owner)
 {
     // AIGroup.pas:6778
     public new const int ClassId = 131791;
@@ -474,7 +474,4 @@ public partial class FastBattleUnit(CustomNode owner) : CombatUnit(owner)
             }
         }
     }
-
-    // intf_P5_07.inc:1031
-
 }

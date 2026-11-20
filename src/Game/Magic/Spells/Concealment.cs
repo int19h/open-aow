@@ -6,7 +6,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class Concealment : UnitSpell
+public class Concealment : UnitSpell
 {
     // UnitSpells.pas:577
     public Concealment(CustomNode owner, EngineObject holder) : base(owner)

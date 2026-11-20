@@ -17,7 +17,7 @@ using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.Magic.Abilities;
 
-public partial class UnitEnchantmentAbility : AdjustableAbility
+public class UnitEnchantmentAbility : AdjustableAbility
 {
 
     // AoWAb.PAS:601

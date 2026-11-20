@@ -2,15 +2,15 @@
 
 namespace Aow.Game.Net;
 
-public partial class MailAttachmentList
+public class MailAttachmentList
 {
     // E3IMSTypes.pas:24
-    public void Clear() =>
+    public void Clear()
         /* TODO: Implement TmsAttList.Clear. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     // E3IMSTypes.pas:25
-    public void AddFile(string fileName) =>
+    public void AddFile(string fileName)
         /* TODO: Implement TmsAttList.AddFile. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 }

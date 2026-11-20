@@ -200,23 +200,23 @@ internal sealed class MemberPersister : IPersister
         }
     }
 
-    public int Int32(string name, int value, int fallback = 0) =>
-        (int)Integer(name, value, fallback, 4, true);
+    public int Int32(string name, int value, int fallback = 0)
+        => (int)Integer(name, value, fallback, 4, true);
 
-    public byte Byte(string name, byte value, byte fallback = 0) =>
-        (byte)Integer(name, value, fallback, 1, false);
+    public byte Byte(string name, byte value, byte fallback = 0)
+        => (byte)Integer(name, value, fallback, 1, false);
 
-    public sbyte SByte(string name, sbyte value, sbyte fallback = 0) =>
-        (sbyte)Integer(name, value, fallback, 1, true);
+    public sbyte SByte(string name, sbyte value, sbyte fallback = 0)
+        => (sbyte)Integer(name, value, fallback, 1, true);
 
-    public ushort UInt16(string name, ushort value, ushort fallback = 0) =>
-        (ushort)Integer(name, value, fallback, 2, false);
+    public ushort UInt16(string name, ushort value, ushort fallback = 0)
+        => (ushort)Integer(name, value, fallback, 2, false);
 
-    public short Int16(string name, short value, short fallback = 0) =>
-        (short)Integer(name, value, fallback, 2, true);
+    public short Int16(string name, short value, short fallback = 0)
+        => (short)Integer(name, value, fallback, 2, true);
 
-    public uint UInt32(string name, uint value, uint fallback = 0) =>
-        (uint)Integer(name, value, fallback, 4, false);
+    public uint UInt32(string name, uint value, uint fallback = 0)
+        => (uint)Integer(name, value, fallback, 4, false);
 
     public TEnum Enum<TEnum>(string name, TEnum value, TEnum fallback = default) where TEnum : struct, Enum
     {
@@ -1250,8 +1250,8 @@ internal sealed class MemberPersister : IPersister
         _add!(name, value);
     }
 
-    private ConversionException Type(string name, string expected) =>
-        TreeErrors.Fail(Codes.Type, $"{name} is {expected}.", _path.Member(name));
+    private ConversionException Type(string name, string expected)
+        => TreeErrors.Fail(Codes.Type, $"{name} is {expected}.", _path.Member(name));
 
     private long RawInteger(string name, long current, int width, bool signed)
     {
@@ -1336,8 +1336,8 @@ internal sealed class ItemSlot(TreeValue? loaded, bool loading, IPersistableFact
     private TreeValue? _stored;
     private bool _used;
 
-    public TreeValue Finish() =>
-        !_used
+    public TreeValue Finish()
+        => !_used
             ? throw TreeErrors.Fail(Codes.MissingMember, "A list item stores one value.", _path)
             : _loading
                 ? _loaded!

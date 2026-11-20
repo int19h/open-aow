@@ -11,7 +11,7 @@ using Aow.Game.World.Movement;
 
 namespace Aow.Game.World;
 
-public partial class CombatObstacle(CustomNode owner) : MultiHexMapObject(owner)
+public class CombatObstacle(CustomNode owner) : MultiHexMapObject(owner)
 {
 
     // CombatObstacle.pas:94
@@ -206,7 +206,7 @@ public partial class CombatObstacle(CustomNode owner) : MultiHexMapObject(owner)
         base.Resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 41, (uint)(Owner.HexX + (Owner.HexY << 4)));
     }
 
-    public new partial class Resource(CustomNode owner) : MultiHexMapObjectResource(owner)
+    public new class Resource(CustomNode owner) : MultiHexMapObjectResource(owner)
     {
 
         // CombatObstacle.pas:239
@@ -219,5 +219,4 @@ public partial class CombatObstacle(CustomNode owner) : MultiHexMapObject(owner)
         public override string ResourceEditName() => $"Combat {AbilityRules.TranslateResourceString(GetEngine(), GameText.ObstacleText)}";
 
     }
-
 }

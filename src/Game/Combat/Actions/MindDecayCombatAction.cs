@@ -7,7 +7,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Combat.Actions;
 
-public partial class MindDecayCombatAction(CustomNode owner) : ExclusiveCombatSpellCombatAction(owner)
+public class MindDecayCombatAction(CustomNode owner) : ExclusiveCombatSpellCombatAction(owner)
 {
     // CombatSpells.pas:1162
     public new const int ClassId = 131787;
@@ -35,5 +35,4 @@ public partial class MindDecayCombatAction(CustomNode owner) : ExclusiveCombatSp
             target.SetCombatPlayer((byte)source.CombatPlayer);
         }
     }
-
 }

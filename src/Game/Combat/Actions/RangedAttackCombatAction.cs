@@ -10,7 +10,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Combat.Actions;
 
 // (ability ID)
-public partial class RangedAttackCombatAction(CustomNode owner) : DamageCombatAction(owner)
+public class RangedAttackCombatAction(CustomNode owner) : DamageCombatAction(owner)
 {
     public new const int ClassId = 131753;
 
@@ -46,7 +46,4 @@ public partial class RangedAttackCombatAction(CustomNode owner) : DamageCombatAc
             GamePack.Current.AbilityControl.GetAbility(AbilityId).ImageSequences.ShowLooped(40, X + 32, Y + 32, viewer.Time, surface);
         }
     }
-
-    // intf_P3_02.inc:38
-
 }

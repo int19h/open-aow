@@ -8,7 +8,7 @@ using static Aow.Rtl.DelphiAssert;
 namespace Aow.Game.Draw;
 
 // a sprite that is always in the visibility list (not on a field). FStatus: bit 1 visible
-public partial class FixedVisibleHexSprite(CustomNode owner) : HexSprite(owner)
+public class FixedVisibleHexSprite(CustomNode owner) : HexSprite(owner)
 {
     private byte _status;
 

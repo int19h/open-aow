@@ -12,7 +12,7 @@ using static Aow.Rtl.DelphiConversions;
 namespace Aow.Game.AI.Groups;
 
 // references, cycles, control, status, state
-public partial class AIGroupTask(CustomNode owner) : EngineObject(owner)
+public class AIGroupTask(CustomNode owner) : EngineObject(owner)
 {
     private int _refCount = 1;
     [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Construction snapshots record this field, and the Delphi field is only written.")]
@@ -95,7 +95,4 @@ public partial class AIGroupTask(CustomNode owner) : EngineObject(owner)
 
         return State != -1;
     }
-
-    // intf_P5_07.inc:218
-
 }

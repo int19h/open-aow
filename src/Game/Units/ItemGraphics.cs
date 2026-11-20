@@ -16,7 +16,7 @@ using static Aow.Rtl.DelphiStrings;
 namespace Aow.Game.Units;
 
 // library name, image index, item type, library, references, hidden
-public partial class ItemGraphics(CustomNode owner) : EngineResource(owner)
+public class ItemGraphics(CustomNode owner) : EngineResource(owner)
 {
     public new const int ClassId = 131689;
 

@@ -67,8 +67,6 @@ public partial class Cave(CustomNode owner) : Structure(owner)
         Entrance = persister.Enum("Entrance", value: Entrance);
     }
 
-    // Cave.pas:128
-
     // Cave.pas:273
     public override sbyte GetOverlay(int index)
     {
@@ -118,9 +116,9 @@ public partial class Cave(CustomNode owner) : Structure(owner)
     }
 
     // Cave.pas:204
-    public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel) =>
+    public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
         // { Original permits an upward cave on level zero; there is no lower-bound test. }
-        base.CanPlace(mapContainer, hexX, hexY, hexLevel) && (hexLevel + 1 < mapContainer.LevelCount || Entrance == CaveEntrance.Up);
+        => base.CanPlace(mapContainer, hexX, hexY, hexLevel) && (hexLevel + 1 < mapContainer.LevelCount || Entrance == CaveEntrance.Up);
 
     // Cave.pas:211
     public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
@@ -400,7 +398,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
 
     private static readonly string s_splitOnEnterCaveWarningText = "Entering the cave will split your party. Do you wish to continue?";
 
-    public new partial class Resource : StructureResource
+    public new class Resource : StructureResource
     {
         public Resource(CustomNode owner) : base(owner)
         {
@@ -411,12 +409,8 @@ public partial class Cave(CustomNode owner) : Structure(owner)
         // Cave.pas:436
         public new const int ClassId = 131967;
 
-        // Cave.pas:426
-
         // Cave.pas:439
         public override int ResourceUserClassId() => 131966;
-
-        // Cave.pas:49
 
         // Cave.pas:433
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_caveText);
@@ -424,11 +418,6 @@ public partial class Cave(CustomNode owner) : Structure(owner)
         private static readonly string s_caveText = "Cave";
 
     }
-
-    // Cave.pas:25
-
-    // Cave.pas:25
-
 }
 
 public enum CaveEntrance : byte

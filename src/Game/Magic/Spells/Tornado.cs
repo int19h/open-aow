@@ -16,7 +16,7 @@ using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class Tornado : GlobalTargetSpell
+public class Tornado : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:1798
     public Tornado(CustomNode owner, EngineObject holder) : base(owner)

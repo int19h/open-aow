@@ -9,7 +9,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Hexes;
 
-public partial class IsometricCombatHex(CustomNode owner) : UpperIsometricHex(owner)
+public class IsometricCombatHex(CustomNode owner) : UpperIsometricHex(owner)
 {
 
     // IsoCombatHex.pas:40
@@ -141,7 +141,7 @@ public partial class IsometricCombatHex(CustomNode owner) : UpperIsometricHex(ow
         }
     }
 
-    public new partial class Resource(CustomNode owner) : UpperIsometricHex.Resource(owner)
+    public new class Resource(CustomNode owner) : UpperIsometricHex.Resource(owner)
     {
 
         // IsoCombatHex.pas:108
@@ -157,5 +157,4 @@ public partial class IsometricCombatHex(CustomNode owner) : UpperIsometricHex(ow
         public override string ResourceEditName() => "Combat ISO-Hex";
 
     }
-
 }

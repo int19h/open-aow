@@ -11,7 +11,7 @@ namespace Aow.Game.Draw.Images;
 // the image sequences of the indices, each the first layer of a chain (nil for none). FLinked
 // (the sequences are linked to their libraries), FILManager, FImageLibrary (the library of the
 // sequences without a library name)
-public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomImageLibrary imageLibrary) : DelphiList<ImageSequence>
+public class ImageSequenceList(ImageLibraryManager aILManager, CustomImageLibrary imageLibrary) : DelphiList<ImageSequence>
 {
 
     // { HSEngine's TMapObjectResource.MsgProc writes FILManager directly }
@@ -125,14 +125,14 @@ public partial class ImageSequenceList(ImageLibraryManager aILManager, CustomIma
     }
 
     // ImageLib.pas:9001
-    public void SaveToIniFile(string section, IniFile iniFile) =>
+    public void SaveToIniFile(string section, IniFile iniFile)
         /* TODO: Implement IniFiles.WriteString in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     // ImageLib.pas:9016
-    public void LoadFromIniFile(string section, IniFile iniFile) =>
+    public void LoadFromIniFile(string section, IniFile iniFile)
         /* TODO: Implement IniFiles.ReadString in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     // ImageLib.pas:9044
     public ImageSequence GetImageSequence(int index) => index >= 0 && index < Count ? List[index] : null;

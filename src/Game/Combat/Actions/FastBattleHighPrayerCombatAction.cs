@@ -5,7 +5,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Combat.Actions;
 
-public partial class FastBattleHighPrayerCombatAction(CustomNode owner) : MultiTargetCombatSpellCombatAction(owner)
+public class FastBattleHighPrayerCombatAction(CustomNode owner) : MultiTargetCombatSpellCombatAction(owner)
 {
     // CombatSpells.pas:937
     public new const int ClassId = 131783;
@@ -41,5 +41,4 @@ public partial class FastBattleHighPrayerCombatAction(CustomNode owner) : MultiT
             }
         }
     }
-
 }

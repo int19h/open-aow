@@ -10,7 +10,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.AI;
 
-public partial class EndTurnAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPlayerActionClass
+public class EndTurnAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPlayerActionClass
 {
 
     // AI.pas:1032

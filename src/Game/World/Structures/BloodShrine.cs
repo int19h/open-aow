@@ -12,13 +12,11 @@ using Aow.Rtl;
 
 namespace Aow.Game.World.Structures;
 
-public partial class BloodShrine(CustomNode owner) : Structure(owner)
+public class BloodShrine(CustomNode owner) : Structure(owner)
 {
 
     // BloodShrine.pas:65
     public new const int ClassId = 131376;
-
-    // BloodShrine.pas:62
 
     // BloodShrine.pas:103
     public override void ArmyPlaced(ArmyHexSprite placedArmy)
@@ -76,7 +74,7 @@ public partial class BloodShrine(CustomNode owner) : Structure(owner)
         }
     }
 
-    public new partial class Resource : StructureResource
+    public new class Resource : StructureResource
     {
         public Resource(CustomNode owner) : base(owner)
         {
@@ -87,12 +85,8 @@ public partial class BloodShrine(CustomNode owner) : Structure(owner)
         // BloodShrine.pas:116
         public new const int ClassId = 131377;
 
-        // BloodShrine.pas:109
-
         // BloodShrine.pas:122
         public override int ResourceUserClassId() => 131376;
-
-        // BloodShrine.pas:36
 
         // BloodShrine.pas:119
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_bloodShrineText);
@@ -100,7 +94,4 @@ public partial class BloodShrine(CustomNode owner) : Structure(owner)
         private static readonly string s_bloodShrineText = "Blood Shrine";
 
     }
-
-    // BloodShrine.pas:26
-
 }

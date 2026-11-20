@@ -19,7 +19,7 @@ using Aow.Rtl;
 namespace Aow.Game.World.Structures;
 
 // selection Sfx, description, scanner icon. . other recovered resource fields below
-public partial class StructureResource : FixedImageLibraryTerrainMapObjectResource
+public class StructureResource : FixedImageLibraryTerrainMapObjectResource
 {
     public StructureResource(CustomNode owner) : base(owner)
     {
@@ -82,8 +82,6 @@ public partial class StructureResource : FixedImageLibraryTerrainMapObjectResour
         }
     }
 
-    // Structur.PAS:1892
-
     // Structur.PAS:1917
     public override int ResourceUserClassId() => 131914;
 
@@ -145,8 +143,6 @@ public partial class StructureResource : FixedImageLibraryTerrainMapObjectResour
             }
         }
     }
-
-    // intf_P1_09.inc:200
 
     // Structur.PAS:1914
     public override string ResourceEditName() => "";

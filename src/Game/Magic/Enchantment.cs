@@ -12,7 +12,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Magic;
 
 // (ID, source, upkeep, signed dispel resistance)
-public partial class Enchantment(CustomNode owner) : EngineObject(owner)
+public class Enchantment(CustomNode owner) : EngineObject(owner)
 {
 
     public int EnchantmentId { get; set; }
@@ -121,9 +121,4 @@ public partial class Enchantment(CustomNode owner) : EngineObject(owner)
     }
 
     private static readonly string s_undefinedText = "Undefined";
-
-    // intf_P4_01.inc:28
-
-    // intf_P4_01.inc:28
-
 }

@@ -715,9 +715,4 @@ public partial class MoveControl(GameMap owner) : IDisposable
     }
 
     public delegate int MoveOnMovePointProc(MapField MapF, int MoveOverCode);
-
-    // intf_P5_01.inc:120
-
-    // intf_P5_01.inc:120
-
 }

@@ -12,7 +12,7 @@ using Aow.Rtl;
 namespace Aow.Game.Draw.Animations;
 
 // player
-public partial class Storm(CustomNode owner) : Animation(owner)
+public class Storm(CustomNode owner) : Animation(owner)
 {
     public sbyte Player { get; private set; }
 

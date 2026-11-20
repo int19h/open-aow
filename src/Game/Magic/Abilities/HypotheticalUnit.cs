@@ -8,7 +8,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Abilities;
 
 // attack. defense. resistance. hits. damage. immunity. protection. hit points
-public partial class HypotheticalUnit : Troop
+public class HypotheticalUnit : Troop
 {
     private sbyte _attack;
     private sbyte _defense;
@@ -103,5 +103,4 @@ public partial class HypotheticalUnit : Troop
 
         _hitPoints = _hits;
     }
-
 }

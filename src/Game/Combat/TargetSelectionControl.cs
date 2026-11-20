@@ -21,7 +21,7 @@ using Aow.Rtl;
 namespace Aow.Game.Combat;
 
 // { Interface declaration run owned by P1. }
-public partial class TargetSelectionControl : IDisposable
+public class TargetSelectionControl : IDisposable
 {
     // Structur.PAS:3785
     // images, HNs, status, mode, callbacks, range, source coordinates, source, change events,
@@ -305,7 +305,4 @@ public partial class TargetSelectionControl : IDisposable
             Deactivate();
         }
     }
-
-    // intf_P1_05.inc:31
-
 }

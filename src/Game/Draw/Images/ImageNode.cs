@@ -5,7 +5,7 @@ using static Aow.Rtl.DelphiMemory;
 
 namespace Aow.Game.Draw.Images;
 
-public partial class ImageNode : LibraryImage, ILibraryImageClass
+public class ImageNode : LibraryImage, ILibraryImageClass
 {
     static int ILibraryImageClass.ClassId => 256;
     static string ILibraryImageClass.Name => "";
@@ -300,9 +300,9 @@ public partial class ImageNode : LibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:1514
-    public override void ShowDisplayController(Rect? sourceRectangle, Rect? destinationRectangle, int displayController, int bkColor) =>
+    public override void ShowDisplayController(Rect? sourceRectangle, Rect? destinationRectangle, int displayController, int bkColor)
         /* TODO: Implement Windows.WindowFromDC in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     // ImageLib.pas:1550
     public override void Show(int X, int Y, in LockedSurface lockedSurface, in ShowInfo showInfo)

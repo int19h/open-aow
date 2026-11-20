@@ -14,7 +14,7 @@ using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.Magic.Abilities;
 
-public partial class EntangleAbility : TouchAbility
+public class EntangleAbility : TouchAbility
 {
     // AoWAb.PAS:2968
     public EntangleAbility(CustomNode owner, EngineObject holder) : base(owner)

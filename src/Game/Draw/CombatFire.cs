@@ -12,7 +12,7 @@ using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.Draw;
 
-public partial class CombatFire(CustomNode owner) : SingleHexSprite(owner)
+public class CombatFire(CustomNode owner) : SingleHexSprite(owner)
 {
 
     // CombatFire.pas:80
@@ -22,8 +22,6 @@ public partial class CombatFire(CustomNode owner) : SingleHexSprite(owner)
     private int _yShift;
     private int _player;
     private bool _firstTurn;
-
-    // CombatFire.pas:60
 
     // CombatFire.pas:119
     public override void MessageProc(ref EngineMessage message, EngineObject sender)

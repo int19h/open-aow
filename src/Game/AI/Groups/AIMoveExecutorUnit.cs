@@ -14,7 +14,7 @@ namespace Aow.Game.AI.Groups;
 
 // unit, ID, location, origin, destination, transporter ID, transport status, transport points,
 // status, move result
-public partial class AIMoveExecutorUnit(CustomNode owner) : EngineObject(owner)
+public class AIMoveExecutorUnit(CustomNode owner) : EngineObject(owner)
 {
     public Troop Troop { get; private set; }
     public int UnitId { get; private set; }
@@ -86,7 +86,4 @@ public partial class AIMoveExecutorUnit(CustomNode owner) : EngineObject(owner)
         TransportSource = TransportSource with { X = -1 };
         TransportDestination = TransportDestination with { X = -1 };
     }
-
-    // Engine.pas:524
-
 }

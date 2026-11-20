@@ -8,7 +8,7 @@ using static Aow.Rtl.DelphiFormat;
 
 namespace Aow.Engine.Collections;
 
-public partial class QuadItemList : Persistent
+public class QuadItemList : Persistent
 {
     private QuadInteger[] _list = [];
     private int _count;

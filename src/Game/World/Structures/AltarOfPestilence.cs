@@ -6,7 +6,7 @@ using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.World.Structures;
 
-public partial class AltarOfPestilence(CustomNode owner) : Altar(owner)
+public class AltarOfPestilence(CustomNode owner) : Altar(owner)
 {
 
     // AltPest.pas:36
@@ -15,18 +15,14 @@ public partial class AltarOfPestilence(CustomNode owner) : Altar(owner)
     // AltPest.pas:39
     public override Storm CreateStorm() => new PestilenceStorm(null) { Holder = CreationHolder() };
 
-    public new partial class Resource(CustomNode owner) : AltarResource(owner)
+    public new class Resource(CustomNode owner) : AltarResource(owner)
     {
 
         // AltPest.pas:52
         public new const int ClassId = 131853;
 
-        // AltPest.pas:44
-
         // AltPest.pas:55
         public override int ResourceUserClassId() => 131852;
-
-        // AltPest.pas:26
 
         // AltPest.pas:49
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_altarOfPestilenceText);
@@ -34,5 +30,4 @@ public partial class AltarOfPestilence(CustomNode owner) : Altar(owner)
         private static readonly string s_altarOfPestilenceText = "Altar of Pestilence";
 
     }
-
 }

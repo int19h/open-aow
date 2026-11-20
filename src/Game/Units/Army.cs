@@ -37,7 +37,7 @@ namespace Aow.Game.Units;
 // The original's TArmy derives from TUnitList. The port's army owns its troops as its node
 // children (it routes messages to them, notifies their changes, frees them and stores them) and
 // reads them through Units. The members below that carry a Unit.PAS line are TUnitList's part.
-public partial class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, IUnitHolder
+public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, IUnitHolder
 {
 
     public new const int ClassId = 131606;
@@ -332,7 +332,6 @@ public partial class Army(CustomNode owner) : ObservableNode(owner), IChildList<
                 {
                     _ = AddUnit(units.GetUnit(i));
                 }
-
             }
         }
 
@@ -407,7 +406,6 @@ public partial class Army(CustomNode owner) : ObservableNode(owner), IChildList<
                     Units[i].Killed();
                 }
             }
-
         }
     }
 
@@ -812,8 +810,8 @@ public partial class Army(CustomNode owner) : ObservableNode(owner), IChildList<
         }
     }
 
-    public void SetMapCoordinate(sbyte x, sbyte y, sbyte level) =>
-        SetMapCoordinate(new MapCoordinate(x, y, level));
+    public void SetMapCoordinate(sbyte x, sbyte y, sbyte level)
+        => SetMapCoordinate(new MapCoordinate(x, y, level));
 
     // Army.PAS:647
     public int GetRace(byte selection)
@@ -1025,7 +1023,6 @@ public partial class Army(CustomNode owner) : ObservableNode(owner), IChildList<
                     }
                 }
             }
-
         }
         StrategicMap.Current.UnlockGameOverEvent();
     }
@@ -1276,7 +1273,6 @@ public partial class Army(CustomNode owner) : ObservableNode(owner), IChildList<
                 {
                     Player = player;
                 }
-
             }
         }
     }
@@ -2032,7 +2028,6 @@ public partial class Army(CustomNode owner) : ObservableNode(owner), IChildList<
                 {
                     _ = AddUnit(list.GetUnit(i));
                 }
-
             }
             list?.Dispose();
         }
@@ -2837,7 +2832,6 @@ public partial class Army(CustomNode owner) : ObservableNode(owner), IChildList<
                         {
                             SetPlayer(offer.Player);
                         }
-
                     }
                     offer.Accept();
                 }

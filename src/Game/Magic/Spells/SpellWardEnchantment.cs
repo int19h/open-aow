@@ -5,7 +5,7 @@ using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class SpellWardEnchantment : GlobalEnchantment
+public class SpellWardEnchantment : GlobalEnchantment
 {
     // GlobalEnchantmentSpells.pas:1943
     public new const int ClassId = 135971;

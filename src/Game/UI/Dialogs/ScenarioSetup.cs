@@ -264,9 +264,9 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
     }
 
     // AoWScenSetup.pas:281
-    public void ChatEditReturn() =>
+    public void ChatEditReturn()
         /* TODO: Implement aowDPlayComp.PlayerName in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     // AoWScenSetup.pas:295
     public void PlayerListDrawItem(in Rect drawRectangle, int drawItem, ref readonly LockedSurface lockedSurface)
@@ -921,5 +921,4 @@ public partial class ScenarioSetup(UIContext ui) : UIModule(ui)
             fog.Visible = true;
         }
     }
-
 }

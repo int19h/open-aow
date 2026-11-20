@@ -8,7 +8,7 @@ using Aow.Rtl;
 namespace Aow.Engine.Nodes;
 
 // _owner
-public partial class EngineObject : IDisposable, IPersistable, IOwned
+public class EngineObject : IDisposable, IPersistable, IOwned
 {
     // Engine.pas:2461
     public const int ClassId = 80;
@@ -242,5 +242,4 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
 
     public string EngineObjectPath => GetEngineObjectPath();
     public int LastMessage { get => GetLastMessage(); set => SetLastMessage(value); }
-
 }

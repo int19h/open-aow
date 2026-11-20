@@ -19,7 +19,7 @@ using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.Units;
 
-public partial class Unit(CustomNode owner) : Troop(owner)
+public class Unit(CustomNode owner) : Troop(owner)
 {
     public new const int ClassId = 131603;
     private byte _experience;
@@ -405,5 +405,4 @@ public partial class Unit(CustomNode owner) : Troop(owner)
     {
         None = 0, Silver = 1, Gold = 2
     }
-
 }

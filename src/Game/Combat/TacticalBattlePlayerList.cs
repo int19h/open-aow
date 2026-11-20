@@ -4,7 +4,7 @@
 namespace Aow.Game.Combat;
 
 // Players
-public partial class TacticalBattlePlayerList
+public class TacticalBattlePlayerList
 {
     public CombatPlayerList Players { get; set; }
 

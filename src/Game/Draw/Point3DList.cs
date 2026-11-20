@@ -5,7 +5,7 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Game.Draw;
 
 // FList, the owned points
-public partial class Point3DList : IDisposable
+public class Point3DList : IDisposable
 {
 
     private readonly List<Point3D> _list;
@@ -86,5 +86,4 @@ public partial class Point3DList : IDisposable
             deltaY = ry;
         }
     }
-
 }

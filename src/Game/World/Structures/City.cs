@@ -112,8 +112,6 @@ public partial class City : PlayerCropStructure
         persister.Object("EnchantmentList", objectValue: _enchantmentList);
     }
 
-    // City.pas:824
-
     // City.pas:2191
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {

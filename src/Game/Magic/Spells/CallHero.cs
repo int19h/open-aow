@@ -18,7 +18,7 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Game.Magic.Spells;
 
 // inherited name, spell ID, mana, sphere, level, type, sounds, images
-public partial class CallHero : Spell
+public class CallHero : Spell
 {
     // GlobalSpells.pas:1184
     public CallHero(CustomNode owner, EngineObject holder) : base(owner)

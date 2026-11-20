@@ -61,5 +61,4 @@ internal static class PassiveAbilities
         };
         return ability;
     }
-
 }

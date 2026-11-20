@@ -6,7 +6,7 @@ namespace Aow.Engine.Nodes;
 
 // a TENode that holds references to objects owned elsewhere (AddRef on AddChild, Release on
 // removal)
-public partial class ReferenceNode(CustomNode owner) : OwningNode(owner)
+public class ReferenceNode(CustomNode owner) : OwningNode(owner)
 {
 
     // Engine.pas:8144
@@ -64,7 +64,4 @@ public partial class ReferenceNode(CustomNode owner) : OwningNode(owner)
         _ = AppendChild(child);
         return child.AddRef() == -1 ? throw new NotSupportedException("EObject doesn't support ReferenceCounting") : Count - 1;
     }
-
-    // Engine.pas:631
-
 }

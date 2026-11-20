@@ -209,9 +209,9 @@ public readonly struct UnitCollection : IReadOnlyList<Troop>
     }
 
     // Unit.PAS:2277
-    public Troop GetUnit(int index) =>
+    public Troop GetUnit(int index)
         // { Original accepts negative indexes and reads the backing array directly. }
-        index < Count ? this[index] : null;
+        => index < Count ? this[index] : null;
 
     private static int CompareUnits(Troop item1, Troop item2)
     {

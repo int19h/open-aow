@@ -60,5 +60,4 @@ public static class GraphicsState
         LinearAlphaBlendTable?.Dispose();
         ImageFileClassList?.Dispose();
     }
-
 }

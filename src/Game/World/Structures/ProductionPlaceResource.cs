@@ -8,7 +8,7 @@ using Aow.Game.Units;
 namespace Aow.Game.World.Structures;
 
 // available unit indexes
-public partial class ProductionPlaceResource : PlayerStructureResource
+public class ProductionPlaceResource : PlayerStructureResource
 {
     public ProductionPlaceResource(CustomNode owner) : base(owner)
     {
@@ -36,15 +36,11 @@ public partial class ProductionPlaceResource : PlayerStructureResource
         PersistSupport.UnitIndexList(persister, name: "Units", list: Units);
     }
 
-    // PrdPlace.pas:701
-
     // PrdPlace.pas:724
     public override EditorClass Editor() => Engine.Editors.FindEditor(132027) ?? base.Editor();
 
     // PrdPlace.pas:721
     public override int ResourceUserClassId() => 132026;
-
-    // PrdPlace.pas:100
 
     // PrdPlace.pas:715
     public override string ResourceEditName() => "";

@@ -16,7 +16,7 @@ using Aow.Rtl;
 namespace Aow.Game.Combat.Actions;
 
 // (possession succeeded)
-public partial class PossessCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
+public class PossessCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
 {
     public new const int ClassId = 131765;
 
@@ -116,7 +116,4 @@ public partial class PossessCombatAction(CustomNode owner) : SingleTargetCombatA
         TargetId = targetId;
         Successful = successful;
     }
-
-    // intf_P3_02.inc:38
-
 }

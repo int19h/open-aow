@@ -464,8 +464,8 @@ internal sealed class BitArrayCodec(string countName) : PropertyCodec
             : 0;
     }
 
-    private static ConversionException FrameFail(EncodeContext context, ImageFrame frame, string code, string message) =>
-        context.Fail(code, message, null, frame.Path);
+    private static ConversionException FrameFail(EncodeContext context, ImageFrame frame, string code, string message)
+        => context.Fail(code, message, null, frame.Path);
 }
 
 /// <summary>

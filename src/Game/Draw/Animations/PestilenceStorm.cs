@@ -16,7 +16,7 @@ using Aow.Rtl;
 namespace Aow.Game.Draw.Animations;
 
 // poison cloud resource
-public partial class PestilenceStorm(CustomNode owner) : Storm(owner)
+public class PestilenceStorm(CustomNode owner) : Storm(owner)
 {
     public new const int ClassId = 135745;
 
@@ -117,8 +117,6 @@ public partial class PestilenceStorm(CustomNode owner) : Storm(owner)
 
     // Storms.pas:685
     public override void FinalizeStorm() => base.FinalizeStorm();
-
-    // Animation.pas:43
 
     // Storms.pas:639
     public override string Name() => AbilityRules.TranslateResourceString(GetEngine(), GameTables.PestilenceStormText);

@@ -15,7 +15,7 @@ using static Aow.Rtl.RtlHost;
 
 namespace Aow.Game.Commands;
 
-public partial class TacticalBattleMeleeMoveTokenEvent(CustomNode owner) : CombatMoveTokenEvent(owner)
+public class TacticalBattleMeleeMoveTokenEvent(CustomNode owner) : CombatMoveTokenEvent(owner)
 {
     public new const int ClassId = 2236417;
 
@@ -316,7 +316,4 @@ public partial class TacticalBattleMeleeMoveTokenEvent(CustomNode owner) : Comba
         _strikeIndex++;
         Step = TokenStep.InitializeStrike;
     }
-
-    // intf_P5_07.inc:765
-
 }

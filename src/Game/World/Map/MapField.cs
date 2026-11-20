@@ -69,8 +69,6 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
         FieldFlags = (flags & ~0xFFFF) | persister.UInt16("FieldFlags", (ushort)flags);
     }
 
-    // HSEngine.pas:1898
-
     // HSEngine.pas:1943
     public override EngineObject GetChild(int index) => index >= StoredCount
         ? throw new IndexOutOfRangeException("Index out of bounds")

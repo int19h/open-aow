@@ -28,8 +28,16 @@ public sealed class EngineSupportTests
     {
         EventContext context = new();
         List<int> calls = [];
-        EventDone first = value => { Assert.Same(context, value); calls.Add(1); };
-        EventDone second = value => { Assert.Same(context, value); calls.Add(2); };
+        EventDone first = value =>
+        {
+            Assert.Same(context, value);
+            calls.Add(1);
+        };
+        EventDone second = value =>
+        {
+            Assert.Same(context, value);
+            calls.Add(2);
+        };
         NotifyEvent<object> cast = DelegateRoutines.RebindDelegate<NotifyEvent<object>>(first + second)!;
         cast(context);
         Assert.Equal(new[] { 1, 2 }, calls);
@@ -75,11 +83,13 @@ public sealed class EngineSupportTests
     [Fact]
     public void DelegateHalvesRemainDistinctFromFullDelegateEquality()
     {
-        Receiver a = new(); Receiver b = new();
+        Receiver a = new();
+        Receiver b = new();
         NotifyEvent<object> first = a.Event, second = b.Event;
         Assert.Equal(DelegateRoutines.MethodCode(first), DelegateRoutines.MethodCode(second));
         Assert.NotSame(DelegateRoutines.MethodTarget(first), DelegateRoutines.MethodTarget(second));
-        Assert.Null(DelegateRoutines.MethodCode(null)); Assert.Null(DelegateRoutines.MethodTarget(null));
+        Assert.Null(DelegateRoutines.MethodCode(null));
+        Assert.Null(DelegateRoutines.MethodTarget(null));
     }
 
     [Fact]
@@ -88,12 +98,17 @@ public sealed class EngineSupportTests
         Set<Flag> value = default;
         SetImage.TransferSet(ref value, 1, 17, (bytes, size, id) =>
         {
-            Assert.Equal(1, size); Assert.Equal(17, id); bytes[0] = 5;
+            Assert.Equal(1, size);
+            Assert.Equal(17, id);
+            bytes[0] = 5;
         });
-        Assert.True(value.Contains(Flag.First)); Assert.True(value.Contains(Flag.Third)); Assert.False(value.Contains(Flag.Second));
+        Assert.True(value.Contains(Flag.First));
+        Assert.True(value.Contains(Flag.Third));
+        Assert.False(value.Contains(Flag.Second));
         Set<OffsetFlag> offset = default;
         SetImage.TransferSet(ref offset, 1, 0, (bytes, _, _) => bytes[0] = 5, 8);
-        Assert.True(offset.Contains(OffsetFlag.First)); Assert.True(offset.Contains(OffsetFlag.Third));
+        Assert.True(offset.Contains(OffsetFlag.First));
+        Assert.True(offset.Contains(OffsetFlag.Third));
     }
 
     [Fact]
@@ -108,7 +123,8 @@ public sealed class EngineSupportTests
         Assert.Equal("a\0\u00E9d", value);
         stream.Position = 0;
         _ = Assert.Throws<EndOfStreamException>(() => StreamText.ReadString(stream, ref value, 0, 4, true));
-        Assert.Equal((byte)0, Cp1252.Byte(value[0])); Assert.Equal((byte)233, Cp1252.Byte(value[1]));
+        Assert.Equal((byte)0, Cp1252.Byte(value[0]));
+        Assert.Equal((byte)233, Cp1252.Byte(value[1]));
     }
 
     [Fact]
@@ -120,7 +136,8 @@ public sealed class EngineSupportTests
             MemoryStream backing = new();
             ZLibStream compressor = new(backing, level, true);
             compressor.Write(expected);
-            compressor.Dispose(); compressor.Dispose();
+            compressor.Dispose();
+            compressor.Dispose();
             Assert.True(backing.Length > 0);
             backing.Position = 0;
             ZLibStream reader = new(backing, CompressionMode.Decompress, true);
@@ -156,7 +173,10 @@ public sealed class EngineSupportTests
             LegacyApplication.ShowMessage("message");
             Assert.Equal("message", shown);
         }
-        finally { LegacyApplication.MessageHandler = saved; }
+        finally
+        {
+            LegacyApplication.MessageHandler = saved;
+        }
         Assert.True(Heap.GetHeapStatus().TotalAllocated >= 0);
     }
 }

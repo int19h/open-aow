@@ -3,7 +3,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.Session;
 
-public partial class RemotePlayerList(CustomNode owner) : OwningNode(owner), IChildList<RemotePlayer>
+public class RemotePlayerList(CustomNode owner) : OwningNode(owner), IChildList<RemotePlayer>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a RemotePlayer, so the cast never fails.
@@ -33,5 +33,4 @@ public partial class RemotePlayerList(CustomNode owner) : OwningNode(owner), ICh
 
         return result;
     }
-
 }

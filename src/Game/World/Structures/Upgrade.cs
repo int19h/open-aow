@@ -8,7 +8,7 @@ using Aow.Rtl;
 namespace Aow.Game.World.Structures;
 
 // Production id 11: raise the city's upgrade level.
-public sealed partial record Upgrade : ProductionOrder
+public sealed record Upgrade : ProductionOrder
 {
     public const int Kind = 11;
 
@@ -16,11 +16,11 @@ public sealed partial record Upgrade : ProductionOrder
 
     public override CityAction CityAction => CityAction.Upgrade;
 
-    public override string Name(ProductionControl control) =>
-        control.ProductionCity() is not null ? AbilityRules.TranslateResourceString(control.GetEngine(), GameText.UpgradeText) : base.Name(control);
+    public override string Name(ProductionControl control)
+        => control.ProductionCity() is not null ? AbilityRules.TranslateResourceString(control.GetEngine(), GameText.UpgradeText) : base.Name(control);
 
-    public override string NameProgressive(ProductionControl control) =>
-        control.ProductionCity() is not null ? AbilityRules.TranslateResourceString(control.GetEngine(), s_upgradingText) : base.NameProgressive(control);
+    public override string NameProgressive(ProductionControl control)
+        => control.ProductionCity() is not null ? AbilityRules.TranslateResourceString(control.GetEngine(), s_upgradingText) : base.NameProgressive(control);
 
     public override bool CanExecute(ProductionControl control, ref string reason)
     {

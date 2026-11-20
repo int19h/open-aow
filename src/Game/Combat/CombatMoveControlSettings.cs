@@ -8,10 +8,7 @@ using Aow.Rtl;
 namespace Aow.Game.Combat;
 
 // MoveFlags
-public partial class CombatMoveControlSettings(CustomNode owner) : MoveControlSettings(owner)
+public class CombatMoveControlSettings(CustomNode owner) : MoveControlSettings(owner)
 {
     public Set<CombatMoveModeElement> MoveFlags { get; set; }
-
-    // intf_P5_01.inc:63
-
 }

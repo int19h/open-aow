@@ -8,7 +8,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Commands;
 
 // item ID, action, hero ID
-public partial class ItemTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class ItemTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
     public new const int ClassId = 131698;
 
@@ -50,7 +50,4 @@ public partial class ItemTokenEvent(CustomNode owner) : TokenEvent(owner)
 
         return done ? ExecuteResult.Done : ExecuteResult.DoneHalt;
     }
-
-    // NetworkE.pas:230
-
 }

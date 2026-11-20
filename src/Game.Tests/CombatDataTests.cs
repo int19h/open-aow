@@ -16,21 +16,33 @@ public sealed class CombatDataTests
     {
         internal int DestroyCount { get; private set; }
 
-        public override void Dispose() { DestroyCount++; base.Dispose(); }
+        public override void Dispose()
+        {
+            DestroyCount++;
+            base.Dispose();
+        }
     }
 
     private sealed class ObservedList : ByteList
     {
         internal int DestroyCount { get; private set; }
 
-        public override void Dispose() { DestroyCount++; base.Dispose(); }
+        public override void Dispose()
+        {
+            DestroyCount++;
+            base.Dispose();
+        }
     }
 
     private sealed class ObservedChild(CustomNode owner) : CombatObject(owner)
     {
         internal int DestroyCount { get; private set; }
 
-        public override void Dispose() { DestroyCount++; base.Dispose(); }
+        public override void Dispose()
+        {
+            DestroyCount++;
+            base.Dispose();
+        }
     }
 
     [Theory]
@@ -103,6 +115,9 @@ public sealed class CombatDataTests
             EngineFixture.Engine.ReadObjectImage(before, objectValue: loaded, progress: null, classTable: "game");
             Assert.Equal(before, Save(loaded));
         }
-        finally { data.Dispose(); }
+        finally
+        {
+            data.Dispose();
+        }
     }
 }

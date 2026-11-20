@@ -9,7 +9,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class HolyChampion : UnitSpell
+public class HolyChampion : UnitSpell
 {
     // UnitSpells.pas:497
     public HolyChampion(CustomNode owner, EngineObject holder) : base(owner)

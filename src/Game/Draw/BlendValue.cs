@@ -16,9 +16,17 @@ public readonly struct BlendValue : IUnion
     private readonly BlendTable? _table;
     private readonly Case _kind;
 
-    public BlendValue(int value) { _percentage = value; _kind = Case.Percentage; }
+    public BlendValue(int value)
+    {
+        _percentage = value;
+        _kind = Case.Percentage;
+    }
 
-    public BlendValue(BlendTable? value) { _table = value; _kind = value is null ? Case.None : Case.Table; }
+    public BlendValue(BlendTable? value)
+    {
+        _table = value;
+        _kind = value is null ? Case.None : Case.Table;
+    }
 
     // The compiler prefers a user-defined conversion to a union conversion. One operator per case
     // keeps the case chosen by the source type: a byte widens to Percentage, a table converts to

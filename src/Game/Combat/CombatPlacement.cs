@@ -9,5 +9,4 @@ internal static class CombatPlacement
     internal static int CombatYLocation { get; set; }
 
     internal static int CombatLLocation { get; set; }
-
 }

@@ -29,8 +29,8 @@ public sealed class ValidationContext(JsonObject document, FileProfile profile, 
     public JsonObject Root => (JsonObject)Document["root"]!;
 
     /// <summary>A located diagnostic for a value: path, line and column, rejected value and constraint.</summary>
-    public FormatDiagnostic At(string code, string message, JsonValue value, DocumentNodePath path, string? rejected = null, string? constraint = null) =>
-        new(code, message)
+    public FormatDiagnostic At(string code, string message, JsonValue value, DocumentNodePath path, string? rejected = null, string? constraint = null)
+        => new(code, message)
         {
             File = File,
             Span = value.Span,
@@ -49,8 +49,8 @@ public static class DocumentValidation
     /// Runs the structural validation, then every validator. It returns every finding, so a
     /// caller refuses before any destructive load step and leaves the current state intact.
     /// </summary>
-    public static IReadOnlyList<FormatDiagnostic> Run(JsonObject document, IEnumerable<IDocumentValidator> validators, string? file = null) =>
-        Check(document, validators, file).Findings;
+    public static IReadOnlyList<FormatDiagnostic> Run(JsonObject document, IEnumerable<IDocumentValidator> validators, string? file = null)
+        => Check(document, validators, file).Findings;
 
     /// <summary>
     /// <see cref="Run"/> with the same findings. The structural step reads the root through

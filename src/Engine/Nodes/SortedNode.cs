@@ -3,7 +3,7 @@ using Aow.Formats.Tree;
 
 namespace Aow.Engine.Nodes;
 
-public partial class SortedNode(CustomNode owner) : CustomNode(owner)
+public class SortedNode(CustomNode owner) : CustomNode(owner)
 {
 
     // Engine.pas:1478
@@ -197,9 +197,4 @@ public partial class SortedNode(CustomNode owner) : CustomNode(owner)
         public int SortValue { get; set; }
         public EngineObject Child { get; set; }
     }
-
-    // Engine.pas:922
-
-    // Engine.pas:922
-
 }

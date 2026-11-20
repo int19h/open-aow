@@ -10,7 +10,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Spells;
 
 // inherited combat statistics, damage mode
-public partial class ChainLightning : CombatSpell
+public class ChainLightning : CombatSpell
 {
     // CombatSpells.pas:1224
     public ChainLightning(CustomNode owner, EngineObject holder) : base(owner)

@@ -11,7 +11,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class WaterMasteryEnchantment : GlobalEnchantment
+public class WaterMasteryEnchantment : GlobalEnchantment
 {
     // GlobalEnchantmentSpells.pas:760
     public new const int ClassId = 135956;
@@ -69,5 +69,4 @@ public partial class WaterMasteryEnchantment : GlobalEnchantment
         StrategicMap.Current.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Fire);
         return true;
     }
-
 }

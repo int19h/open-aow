@@ -10,7 +10,7 @@ using static Aow.Rtl.IntegerObjects;
 namespace Aow.Engine.Nodes;
 
 // _editors, editor names with ids
-public partial class ResourceEditSettings(CustomNode owner) : ControlStyleObject(owner)
+public class ResourceEditSettings(CustomNode owner) : ControlStyleObject(owner)
 {
 
     // Engine.pas:8662

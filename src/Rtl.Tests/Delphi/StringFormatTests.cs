@@ -25,15 +25,33 @@ public sealed class StringFormatTests
     [Fact]
     public void FormatMatchesEveryFormatProbeInput()
     {
-        Same("%s", "abc"); Same("%d", -123); Same("%x", 255); Same("%x", -1);
-        Same("%6s", "abc"); Same("%6d", -12); Same("%6x", 255);
-        Same("%.2s", "abcd"); Same("%.5d", -12); Same("%.6x", 255);
-        Same("%-6s", "abc"); Same("%-6.4d", 12); Same("%*d", 6, 12);
-        Same("%.*s", 2, "abcd"); Same("%*.*x", 8, 4, 255);
-        Same("%1:s/%0:d/%1:s", 7, "abc"); Same("%1:d/%d/%0:d", 10, 20, 30);
-        Same("%1:*.*s", 99, 6, 2, "abcd"); Same("%% %d %%", 5);
-        Same("%3s", ""); Same("%.0s", "abc"); Same("%.0d", 0); Same("%d", 1, 2);
-        Same("%d", "abc"); Same("%s %d", "abc"); Same("%q", 1); Same("%2:d", 1);
+        Same("%s", "abc");
+        Same("%d", -123);
+        Same("%x", 255);
+        Same("%x", -1);
+        Same("%6s", "abc");
+        Same("%6d", -12);
+        Same("%6x", 255);
+        Same("%.2s", "abcd");
+        Same("%.5d", -12);
+        Same("%.6x", 255);
+        Same("%-6s", "abc");
+        Same("%-6.4d", 12);
+        Same("%*d", 6, 12);
+        Same("%.*s", 2, "abcd");
+        Same("%*.*x", 8, 4, 255);
+        Same("%1:s/%0:d/%1:s", 7, "abc");
+        Same("%1:d/%d/%0:d", 10, 20, 30);
+        Same("%1:*.*s", 99, 6, 2, "abcd");
+        Same("%% %d %%", 5);
+        Same("%3s", "");
+        Same("%.0s", "abc");
+        Same("%.0d", 0);
+        Same("%d", 1, 2);
+        Same("%d", "abc");
+        Same("%s %d", "abc");
+        Same("%q", 1);
+        Same("%2:d", 1);
         Same("%*d", "bad", 1);
     }
 
@@ -45,12 +63,21 @@ public sealed class StringFormatTests
             Same(format);
         }
 
-        Same("%.16d", 7); Same("%.15d", 7); Same("%.0s", (byte)'A');
-        Same("%u", -1); Same("%D", int.MinValue); Same("%X", int.MinValue);
-        Same("%p", new PointerArg(uint.MaxValue)); Same("%10.2P", new PointerArg(1));
-        Same("%s", PCharStrings.StrPas(Ptr<byte>.Unbox("abc\0def"))); Same("%s", "a\0b");
-        Same("%*:*s", 1, 2, "bc"); Same("%*d", false, 1); Same("%*d", "x", 1);
-        Same("%0:1:s", 7, "abcdef"); Same("%:s", "abc");
+        Same("%.16d", 7);
+        Same("%.15d", 7);
+        Same("%.0s", (byte)'A');
+        Same("%u", -1);
+        Same("%D", int.MinValue);
+        Same("%X", int.MinValue);
+        Same("%p", new PointerArg(uint.MaxValue));
+        Same("%10.2P", new PointerArg(1));
+        Same("%s", PCharStrings.StrPas(Ptr<byte>.Unbox("abc\0def")));
+        Same("%s", "a\0b");
+        Same("%*:*s", 1, 2, "bc");
+        Same("%*d", false, 1);
+        Same("%*d", "x", 1);
+        Same("%0:1:s", 7, "abcdef");
+        Same("%:s", "abc");
         foreach (string kind in new[] { "%e", "%f", "%g", "%n", "%m" })
         {
             Same(kind, 1.25);
@@ -61,7 +88,9 @@ public sealed class StringFormatTests
             Same("%s", argument);
         }
 
-        Same("%p", 1); Same("%d", (byte)'a'); Same("%0:1:d", 7, "abcdef");
+        Same("%p", 1);
+        Same("%d", (byte)'a');
+        Same("%0:1:d", 7, "abcdef");
         Assert.Equal("A", DelphiFormat.Format("%.0s", 'A'));
         Assert.Equal("abc", DelphiFormat.Format("%s", "abc\0def"[..3]));
         Assert.Equal("€\0Ÿ", DelphiFormat.Format("€\0%s", 'Ÿ'));
@@ -233,8 +262,14 @@ public sealed class StringFormatTests
     {
         FormatArg value = Argument(argument);
         string actual;
-        try { actual = DelphiFormat.Format(format, value); }
-        catch (FormatException error) { actual = error.Message; }
+        try
+        {
+            actual = DelphiFormat.Format(format, value);
+        }
+        catch (FormatException error)
+        {
+            actual = error.Message;
+        }
         Assert.Equal(expected, actual);
     }
 

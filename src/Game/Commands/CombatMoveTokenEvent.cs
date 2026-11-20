@@ -18,7 +18,7 @@ using static Aow.Rtl.RtlHost;
 
 namespace Aow.Game.Commands;
 
-public partial class CombatMoveTokenEvent(CustomNode owner) : MoveTokenEvent(owner)
+public class CombatMoveTokenEvent(CustomNode owner) : MoveTokenEvent(owner)
 {
 
     // CombatTE.pas:206
@@ -448,7 +448,4 @@ public partial class CombatMoveTokenEvent(CustomNode owner) : MoveTokenEvent(own
     {
         Start = 0, End = 1, FirstStrike = 2, InitializeStrike = 3, ExecuteStrike = 4, EndStrike = 5, ExecuteEndStrike = 6, StepUp = 7, DelayStrike = 8
     }
-
-    // intf_P5_07.inc:765
-
 }

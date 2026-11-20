@@ -6,7 +6,7 @@ using Aow.Game.Audio;
 
 namespace Aow.Game.Combat.Actions;
 
-public partial class NewCombatTurnCombatAction(CustomNode owner) : CombatAction(owner)
+public class NewCombatTurnCombatAction(CustomNode owner) : CombatAction(owner)
 {
     // Combat2.pas:982
     public new const int ClassId = 131770;
@@ -41,7 +41,4 @@ public partial class NewCombatTurnCombatAction(CustomNode owner) : CombatAction(
 
         return viewer.Delay > viewer.Time;
     }
-
-    // intf_P3_02.inc:38
-
 }

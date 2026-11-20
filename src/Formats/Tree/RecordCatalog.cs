@@ -120,8 +120,8 @@ public static class RecordCatalog
         return found;
     }
 
-    internal static RecordTypeInfo Require(string typeName, string? file, string path) =>
-        Find(typeName) ?? throw new ConversionException(new FormatDiagnostic(Codes.Type, $"The record {typeName} is not in the catalog.")
+    internal static RecordTypeInfo Require(string typeName, string? file, string path)
+        => Find(typeName) ?? throw new ConversionException(new FormatDiagnostic(Codes.Type, $"The record {typeName} is not in the catalog.")
         { File = file, Path = path });
 }
 

@@ -93,5 +93,4 @@ public partial class HeroJoinEventLog(CustomNode owner) : JoinEventLog(owner)
 
         return false;
     }
-
 }

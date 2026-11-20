@@ -170,5 +170,4 @@ public partial class ImageLibraryFont(Component owner) : CustomImageLibrary(owne
 
     [Published]
     public int FontColorPaletteIndex { get => _fontColorPaletteIndex; set => SetFontColorPaletteIndex(value); }
-
 }

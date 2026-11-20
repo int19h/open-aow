@@ -10,7 +10,7 @@ namespace Aow.Game.Draw.Images;
 // FReloadingEnabled, FVersion, FLoadMode, FDataWidth, FDataHeight (of the pixels), FWidth,
 // FHeight (the visual size), FXshift, FYshift (of the pixels in the visual rectangle),
 // FFileName, FFileIndex (where the image was grabbed), FShowInfo
-public partial class LibraryImage : Persistent, ILibraryImageClass
+public class LibraryImage : Persistent, ILibraryImageClass
 {
     static int ILibraryImageClass.ClassId => 0;
     static byte ILibraryImageClass.ClassVersion => 3;
@@ -633,5 +633,4 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
             stream.Write(Bytes.Of(ref id, 4));
         }
     }
-
 }

@@ -6,7 +6,7 @@ using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.Units;
 
-public partial class UnitSelectionActivation(CustomNode owner) : AbilityActivation(owner)
+public class UnitSelectionActivation(CustomNode owner) : AbilityActivation(owner)
 {
 
     public UnitSelector UnitSelector { get; private set; }
@@ -37,7 +37,4 @@ public partial class UnitSelectionActivation(CustomNode owner) : AbilityActivati
             _ = (old?.AddRef());
         }
     }
-
-    // intf_P1_08.inc:76
-
 }

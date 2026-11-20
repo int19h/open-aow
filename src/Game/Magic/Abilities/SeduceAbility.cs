@@ -9,7 +9,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Abilities;
 
-public partial class SeduceAbility : CommandAbility
+public class SeduceAbility : CommandAbility
 {
     // AoWAb.PAS:5372
     public SeduceAbility(CustomNode owner, EngineObject holder) : base(owner)

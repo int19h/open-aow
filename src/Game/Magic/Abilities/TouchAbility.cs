@@ -9,7 +9,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Abilities;
 
-public partial class TouchAbility : AdjustableAbility
+public class TouchAbility : AdjustableAbility
 {
     // AoWAb.PAS:1843
     public TouchAbility(CustomNode owner) : base(owner)

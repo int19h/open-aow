@@ -11,7 +11,7 @@ namespace Aow.Game.Draw;
 
 // the base of everything placed on the map. Owner is the TMapField the sprite stands on (for
 // the multi-hex sprites the field of the base hexagon)
-public partial class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>, IOwnedSink<MapField>
+public class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>, IOwnedSink<MapField>
 {
 
     // The field the sprite stands on. AcceptsOwner admits only a field, so the read never fails.

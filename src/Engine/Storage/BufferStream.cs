@@ -3,7 +3,7 @@
 namespace Aow.Engine.Storage;
 
 // the write stream's data buffer
-public partial class BufferStream : FastMemoryStream
+public class BufferStream : FastMemoryStream
 {
     // System.pas:111
     public BufferStream()

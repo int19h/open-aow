@@ -915,9 +915,4 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
     {
         Move = 0, MeleeHit = 1, MeleeMiss = 2, Ability = 3, Hit = 4, Killed = 5, StepUp = 6, StepBack = 7, Busy = 8, RoundAttack = 9, RoundAttackHit = 10, FreeStruck = 11, BreathAttack = 12
     }
-
-    // intf_P2_03.inc:74
-
-    // intf_P2_03.inc:74
-
 }

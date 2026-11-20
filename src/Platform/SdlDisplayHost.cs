@@ -62,7 +62,11 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
                 Check(SDL_StartTextInput(_window));
             }
         }
-        catch { Dispose(); throw; }
+        catch
+        {
+            Dispose();
+            throw;
+        }
     }
 
     private static InvalidOperationException Error() => new($"SDL: {SDL_GetError()}");
@@ -116,7 +120,11 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
 
     public (int Width, int Height) ClientSize
     {
-        get { OnThread(); return (_width, _height); }
+        get
+        {
+            OnThread();
+            return (_width, _height);
+        }
     }
 
     public (int Width, int Height) DesktopSize
@@ -133,7 +141,11 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
 
     public IReadOnlyList<(int Width, int Height)> FullscreenSizes
     {
-        get { (int width, int height) = DesktopSize; return PixelFormats.IntegerScaleSizes(width, height); }
+        get
+        {
+            (int width, int height) = DesktopSize;
+            return PixelFormats.IntegerScaleSizes(width, height);
+        }
     }
 
     public void ResizeImage(int newWidth, int newHeight)
@@ -161,12 +173,20 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
 
     public bool HasFocus
     {
-        get { OnThread(); return (SDL_GetWindowFlags(_window) & SDL_WindowFlags.SDL_WINDOW_INPUT_FOCUS) != 0; }
+        get
+        {
+            OnThread();
+            return (SDL_GetWindowFlags(_window) & SDL_WindowFlags.SDL_WINDOW_INPUT_FOCUS) != 0;
+        }
     }
 
     public bool Fullscreen
     {
-        get { OnThread(); return (SDL_GetWindowFlags(_window) & SDL_WindowFlags.SDL_WINDOW_FULLSCREEN) != 0; }
+        get
+        {
+            OnThread();
+            return (SDL_GetWindowFlags(_window) & SDL_WindowFlags.SDL_WINDOW_FULLSCREEN) != 0;
+        }
         set
         {
             OnThread();
@@ -356,7 +376,15 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
         while (SDL_PollEvent(&ev))
         {
             SDL_EventType type = (SDL_EventType)ev.type;
-            if (type == SDL_EVENT_QUIT) { if (sink.CloseRequested()) { IsClosed = true; } continue; }
+            if (type == SDL_EVENT_QUIT)
+            {
+                if (sink.CloseRequested())
+                {
+                    IsClosed = true;
+                }
+
+                continue;
+            }
             if (type is >= SDL_EVENT_WINDOW_FIRST and <= SDL_EVENT_WINDOW_LAST && ev.window.windowID != SDL_GetWindowID(_window))
             {
                 continue;

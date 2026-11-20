@@ -28,7 +28,7 @@ namespace Aow.Game.World.Map;
 // filled by the game (TAoWHSSet.Create) and not stored. The game adds the shared resources and
 // controls of the game pack: the combat resources, the unit, hero, item and face resources, the
 // abilities, spells and texts read from the PFS files beside the set.
-public partial class GamePack : EngineNode, IChildList<GamePackChild>
+public class GamePack : EngineNode, IChildList<GamePackChild>
 {
     // Ability.PAS (TAoWHSSet). HSEngine.pas:3394 gives the engine set 66049.
     public new const int ClassId = 131088;
@@ -453,8 +453,8 @@ public partial class GamePack : EngineNode, IChildList<GamePackChild>
     }
 
     // intf_P1_10.inc:44
-    public static GamePack Create(CustomNode owner, EngineObject holder) =>
-        ConstructionContext.Create((owner, holder), static (context, value) => new GamePack(context, value.owner, value.holder));
+    public static GamePack Create(CustomNode owner, EngineObject holder)
+        => ConstructionContext.Create((owner, holder), static (context, value) => new GamePack(context, value.owner, value.holder));
 
     private static readonly string s_grassText = "Grass";
 

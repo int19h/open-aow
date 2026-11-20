@@ -5,7 +5,7 @@ using Aow.Formats.Tree;
 
 namespace Aow.Game.Combat;
 
-public partial class CombatPlayer(CustomNode owner) : EngineObject(owner)
+public class CombatPlayer(CustomNode owner) : EngineObject(owner)
 {
     // Combat2.pas:115
     public new const int ClassId = 131744;
@@ -22,7 +22,4 @@ public partial class CombatPlayer(CustomNode owner) : EngineObject(owner)
         IndependentRelation = persister.Byte("IndependentRelation", value: IndependentRelation);
         SideIndex = persister.RawByte("SideIndex", value: SideIndex);
     }
-
-    // Engine.pas:524
-
 }

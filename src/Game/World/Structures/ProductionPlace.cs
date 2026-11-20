@@ -76,8 +76,6 @@ public partial class ProductionPlace : PlayerStructure
         RazedState = persister.RawByte("RazedState", value: RazedState);
     }
 
-    // PrdPlace.pas:264
-
     // PrdPlace.pas:352
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
@@ -627,9 +625,4 @@ public partial class ProductionPlace : PlayerStructure
     private static readonly string s_extraPowerText = "Extra Power";
     private static readonly string s_sphereCountFormat = "%0:sx %1:s sphere";
     private static readonly string s_youCannotChannelPowerFromThisNodeText = "You cannot channel power from this node";
-
-    // PrdPlace.pas:51
-
-    // PrdPlace.pas:51
-
 }

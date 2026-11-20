@@ -8,7 +8,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Draw.Animations;
 
-public partial class DivineStorm(CustomNode owner) : BlastStorm(owner)
+public class DivineStorm(CustomNode owner) : BlastStorm(owner)
 {
 
     // Storms.pas:608
@@ -28,8 +28,6 @@ public partial class DivineStorm(CustomNode owner) : BlastStorm(owner)
 
     // Storms.pas:629
     public override StormType StormType() => Magic.Spells.StormType.Holy;
-
-    // Animation.pas:43
 
     // Storms.pas:613
     public override string Name() => AbilityRules.TranslateResourceString(GetEngine(), GameTables.DivineStormText);

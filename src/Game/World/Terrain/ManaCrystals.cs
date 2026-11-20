@@ -15,7 +15,7 @@ using static Aow.Rtl.DelphiFormat;
 namespace Aow.Game.World.Terrain;
 
 // Amount, Size
-public partial class ManaCrystals(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
+public class ManaCrystals(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
 {
 
     // ManaCrystals.pas:80
@@ -31,8 +31,6 @@ public partial class ManaCrystals(CustomNode owner) : ImageLibraryTerrainMapObje
         _amount = persister.Int32("Amount", value: _amount);
         _size = persister.RawByte("Size", value: _size);
     }
-
-    // ManaCrystals.pas:73
 
     // ManaCrystals.pas:118
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
@@ -185,7 +183,7 @@ public partial class ManaCrystals(CustomNode owner) : ImageLibraryTerrainMapObje
         public byte Kind { get; init; }
     }
 
-    public new partial class Resource(CustomNode owner) : ImageLibraryTerrainMapObjectResource(owner)
+    public new class Resource(CustomNode owner) : ImageLibraryTerrainMapObjectResource(owner)
     {
 
         // ManaCrystals.pas:168
@@ -200,9 +198,4 @@ public partial class ManaCrystals(CustomNode owner) : ImageLibraryTerrainMapObje
         private static readonly string s_manaCrystalsText = "Mana Crystals";
 
     }
-
-    // ManaCrystals.pas:28
-
-    // ManaCrystals.pas:28
-
 }

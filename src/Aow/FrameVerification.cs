@@ -54,8 +54,18 @@ internal static class FrameVerification
             display.Resize();
             Check(screen.Width == 800 && back.Width == 800 && back.Height == 600, "resize uses client pixels");
             int draws = 0;
-            display.SetUpdate((_, _, index) => { Check(index == 1, "double buffer index"); draws++; });
-            display.FramePresented = frame => { if (frame == 4) { display.StopUpdateFrameLoop(); } };
+            display.SetUpdate((_, _, index) =>
+            {
+                Check(index == 1, "double buffer index");
+                draws++;
+            });
+            display.FramePresented = frame =>
+            {
+                if (frame == 4)
+                {
+                    display.StopUpdateFrameLoop();
+                }
+            };
             display.StartUpdateFrameLoop();
             Check(draws == 3 && host.Pumps == 3 && host.Presents == 5, "synchronous frame loop");
             Check(clock.ElapsedMilliseconds == 99, "33 ms limiter");

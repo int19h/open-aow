@@ -4,7 +4,7 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Game.Units;
 
 // CollectionSize. Units
-public partial class UnitIndexListCollection : IDisposable
+public class UnitIndexListCollection : IDisposable
 {
     // Unit.PAS:2413
     public UnitIndexListCollection()
@@ -102,7 +102,4 @@ public partial class UnitIndexListCollection : IDisposable
 
         return index;
     }
-
-    // intf_P2_05.inc:377
-
 }

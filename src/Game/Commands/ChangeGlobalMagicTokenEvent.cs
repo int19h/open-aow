@@ -7,7 +7,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Commands;
 
 // mode, player, enchantment ID, value
-public partial class ChangeGlobalMagicTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class ChangeGlobalMagicTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
     public new const int ClassId = 135446;
 
@@ -46,9 +46,6 @@ public partial class ChangeGlobalMagicTokenEvent(CustomNode owner) : TokenEvent(
             return ExecuteResult.DoneHalt;
         }
     }
-
-    // NetworkE.pas:230
-
 }
 
 public enum ChangeGlobalMagicTokenEventMode : byte

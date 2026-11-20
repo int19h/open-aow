@@ -19,8 +19,8 @@ internal readonly record struct BackendReach(string Caller, string Target)
 /// <summary>A public member that exposes a stored id, a storage width, a raw image or residue.</summary>
 internal readonly record struct ExposedMember(string Owner, string Member, string Kind, string? UsedBy)
 {
-    public override string ToString() =>
-        UsedBy is null ? $"{Kind}: {Owner}.{Member}" : $"{Kind}: {Owner}.{Member} used by {UsedBy}";
+    public override string ToString()
+        => UsedBy is null ? $"{Kind}: {Owner}.{Member}" : $"{Kind}: {Owner}.{Member} used by {UsedBy}";
 }
 
 /// <summary>
@@ -80,11 +80,11 @@ internal static class PersistenceInventory
         }
     }
 
-    internal static IReadOnlyList<BackendReach> BackendReaches(params Assembly[] assemblies) =>
-        Collect(assemblies, only: null).Reaches;
+    internal static IReadOnlyList<BackendReach> BackendReaches(params Assembly[] assemblies)
+        => Collect(assemblies, only: null).Reaches;
 
-    internal static IReadOnlyList<BackendReach> BackendReaches(Type only) =>
-        Collect([only.Assembly], only).Reaches;
+    internal static IReadOnlyList<BackendReach> BackendReaches(Type only)
+        => Collect([only.Assembly], only).Reaches;
 
     internal static IReadOnlyList<ExposedMember> ExposedMembers(params Assembly[] assemblies)
     {
@@ -290,8 +290,8 @@ internal static class PersistenceInventory
         return (definition == typeof(ReadOnlyMemory<>) || definition == typeof(Memory<>)) && type.GetGenericArguments()[0] == typeof(byte);
     }
 
-    private static bool HasPublicHeight(Type type) =>
-        type.GetProperty("Height", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly) is not null
+    private static bool HasPublicHeight(Type type)
+        => type.GetProperty("Height", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly) is not null
         || (type.BaseType is { } parent && parent != typeof(object) && parent != typeof(ValueType) && HasPublicHeight(parent));
 
     private static bool Allowed(string typeName, string methodName)
@@ -307,8 +307,8 @@ internal static class PersistenceInventory
         return false;
     }
 
-    private static bool IsImageImplementation(string typeName) =>
-        typeName == ImageTreeName || typeName == OriginalBackendName
+    private static bool IsImageImplementation(string typeName)
+        => typeName == ImageTreeName || typeName == OriginalBackendName
         || typeName.StartsWith("Aow.Formats.Original.", StringComparison.Ordinal);
 
     private static bool InScope(Type? declaring, Type? only)
@@ -456,8 +456,8 @@ internal static class PersistenceInventory
         }
     }
 
-    private static bool IsMethodOpcode(int code, bool wide) =>
-        wide ? code is 0x06 or 0x07 : code is 0x28 or 0x6F or 0x27;
+    private static bool IsMethodOpcode(int code, bool wide)
+        => wide ? code is 0x06 or 0x07 : code is 0x28 or 0x6F or 0x27;
 
     private static bool IsFieldOpcode(int code) => code is 0x7B or 0x7C or 0x7D or 0x7E or 0x7F or 0x80;
 
@@ -580,9 +580,9 @@ internal static class PersistenceInventory
         return kind != 0 ? kind : string.CompareOrdinal(left.UsedBy, right.UsedBy);
     }
 
-    private static void Fail(MethodBase method, int offset) =>
-        throw new InvalidOperationException($"{Label(method)} has an instruction the inventory cannot read at offset {offset}.");
+    private static void Fail(MethodBase method, int offset)
+        => throw new InvalidOperationException($"{Label(method)} has an instruction the inventory cannot read at offset {offset}.");
 
-    private static string Label(MethodBase method) =>
-        $"{method.DeclaringType?.FullName ?? method.Module.Name}.{method.Name}";
+    private static string Label(MethodBase method)
+        => $"{method.DeclaringType?.FullName ?? method.Module.Name}.{method.Name}";
 }

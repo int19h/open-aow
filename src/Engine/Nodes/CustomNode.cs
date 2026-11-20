@@ -11,7 +11,7 @@ namespace Aow.Engine.Nodes;
 
 // children through an abstract list interface. Message ids carry flags: $10000000 deliver once
 // per Seq, $20000000 owned children only, $40000000 do not forward to children
-public abstract partial class CustomNode : EngineObject, IOwner
+public abstract class CustomNode : EngineObject, IOwner
 {
 
     // Engine.pas:2430

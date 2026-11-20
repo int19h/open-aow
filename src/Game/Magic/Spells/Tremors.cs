@@ -8,7 +8,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Spells;
 
 // inherited combat statistics, damage mode
-public partial class Tremors : CombatSpell
+public class Tremors : CombatSpell
 {
     // CombatSpells.pas:1404
     public Tremors(CustomNode owner) : base(owner)

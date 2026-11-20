@@ -9,7 +9,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Abilities;
 
-public partial class SelfDestructAbility : TouchAbility
+public class SelfDestructAbility : TouchAbility
 {
     // AoWAb.PAS:2136
     public SelfDestructAbility(CustomNode owner, EngineObject holder) : base(owner)

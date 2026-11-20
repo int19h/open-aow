@@ -40,8 +40,13 @@ public static partial class Blit
                 {
                     while (p < end)
                     {
-                        int pixel = UInt16(data, p); p += 2;
-                        if (pixel == key) { dx += UInt16(data, p) / 2; p += 2; }
+                        int pixel = UInt16(data, p);
+                        p += 2;
+                        if (pixel == key)
+                        {
+                            dx += UInt16(data, p) / 2;
+                            p += 2;
+                        }
                         else
                         {
                             if (Visible(dx, y + ry, clip))
@@ -72,31 +77,55 @@ public static partial class Blit
 
         private void Scalar()
         {
-            int pixel = UInt16(Data, DataPosition); DataPosition += 2; Count -= 2;
-            if (pixel == Key) { DestinationOffset += UInt16(Data, DataPosition); DataPosition += 2; Count -= 2; }
-            else { Destination.UInt16(DestinationOffset, Half(pixel, Destination.UInt16(DestinationOffset), Rgb565)); DestinationOffset += 2; }
+            int pixel = UInt16(Data, DataPosition);
+            DataPosition += 2;
+            Count -= 2;
+            if (pixel == Key)
+            {
+                DestinationOffset += UInt16(Data, DataPosition);
+                DataPosition += 2;
+                Count -= 2;
+            }
+            else
+            {
+                Destination.UInt16(DestinationOffset, Half(pixel, Destination.UInt16(DestinationOffset), Rgb565));
+                DestinationOffset += 2;
+            }
         }
 
         private void Pair()
         {
             Destination.UInt16(DestinationOffset, Half(UInt16(Data, DataPosition), Destination.UInt16(DestinationOffset), Rgb565));
             Destination.UInt16(DestinationOffset + 2, Half(UInt16(Data, DataPosition + 2), Destination.UInt16(DestinationOffset + 2), Rgb565, true));
-            DataPosition += 4; Count -= 4; DestinationOffset += 4;
+            DataPosition += 4;
+            Count -= 4;
+            DestinationOffset += 4;
         }
 
         public void Run()
         {
             while (Count > 0)
             {
-                if (Count < 8) { Scalar(); continue; }
+                if (Count < 8)
+                {
+                    Scalar();
+                    continue;
+                }
                 if (UInt16(Data, DataPosition) == Key)
                 {
                     Scalar();
-                    if (UInt16(Data, DataPosition) == Key) { Scalar(); continue; }
+                    if (UInt16(Data, DataPosition) == Key)
+                    {
+                        Scalar();
+                        continue;
+                    }
                 }
                 else if (UInt16(Data, DataPosition + 2) == Key)
                 {
-                    Scalar(); Scalar(); Scalar(); continue;
+                    Scalar();
+                    Scalar();
+                    Scalar();
+                    continue;
                 }
                 else
                 {
@@ -113,7 +142,8 @@ public static partial class Blit
                 }
                 else
                 {
-                    Scalar(); Scalar();
+                    Scalar();
+                    Scalar();
                     while (Count > 0 && UInt16(Data, DataPosition) == Key)
                     {
                         Scalar();
@@ -214,11 +244,21 @@ public static partial class Blit
         int left = 0, limit = w * 2, skip = 0;
         if (clipped)
         {
-            int cut = Math.Max(0, clipLeft - x); left = cut & 31;
+            int cut = Math.Max(0, clipLeft - x);
+            left = cut & 31;
             skip = cut >> 5;
-            if (skip != 0) { words -= skip; limit -= skip * 64; x += skip * 32; }
+            if (skip != 0)
+            {
+                words -= skip;
+                limit -= skip * 64;
+                x += skip * 32;
+            }
             int right = x + w - (skip * 32) - clipRight;
-            if (right >= 0) { limit -= right * 2; words -= (right >> 5) + 1; }
+            if (right >= 0)
+            {
+                limit -= right * 2;
+                words -= (right >> 5) + 1;
+            }
         }
         if (clipped && words == 0 && left == 0)
         {
@@ -231,7 +271,11 @@ public static partial class Blit
         {
             int p = (ry * sourcePitch) + (skip * 4), d = ((y + ry) * pitch) + (x * 2), offset = left * 2, remaining = words;
             uint bits = Dword(data, p);
-            if (left != 0) { bits <<= left; p += 4; }
+            if (left != 0)
+            {
+                bits <<= left;
+                p += 4;
+            }
             else if (!shadow)
             {
                 p += 4;
@@ -245,19 +289,46 @@ public static partial class Blit
                 {
                     while (true)
                     {
-                        bool set = (bits & 0x80000000u) != 0; bits <<= 1;
-                        if (!set) { if (bits == 0) { break; } offset += 2; continue; }
-                        if (!shadow) { destination.UInt16(d + offset, 0xFFFF); offset += 2; if (bits == 0) { break; } continue; }
-                        if (bits == 0) { destination.UInt16(d + offset, Dark(destination, d + offset, m1, m2)); break; }
-                        bool second = (bits & 0x80000000u) != 0; bits <<= 1;
+                        bool set = (bits & 0x80000000u) != 0;
+                        bits <<= 1;
+                        if (!set)
+                        {
+                            if (bits == 0)
+                            {
+                                break;
+                            }
+
+                            offset += 2;
+                            continue;
+                        }
+                        if (!shadow)
+                        {
+                            destination.UInt16(d + offset, 0xFFFF);
+                            offset += 2;
+                            if (bits == 0)
+                            {
+                                break;
+                            }
+
+                            continue;
+                        }
+                        if (bits == 0)
+                        {
+                            destination.UInt16(d + offset, Dark(destination, d + offset, m1, m2));
+                            break;
+                        }
+                        bool second = (bits & 0x80000000u) != 0;
+                        bits <<= 1;
                         if (second)
                         {
                             uint pixel = destination.Dword(d + offset);
-                            destination.Dword(d + offset, ((pixel >> 1) & pair1) + ((pixel & pair2) >> 2)); offset += 4;
+                            destination.Dword(d + offset, ((pixel >> 1) & pair1) + ((pixel & pair2) >> 2));
+                            offset += 4;
                         }
                         else
                         {
-                            int pixel = Dark(destination, d + offset, m1, m2); offset += 4;
+                            int pixel = Dark(destination, d + offset, m1, m2);
+                            offset += 4;
                             destination.UInt16(d + offset, pixel);
                         }
                         if (bits == 0)
@@ -276,7 +347,8 @@ public static partial class Blit
                         break;
                     }
 
-                    offset = next; next += 64;
+                    offset = next;
+                    next += 64;
                     if (remaining == 0)
                     {
                         break;
@@ -297,7 +369,8 @@ public static partial class Blit
             }
             while (true)
             {
-                bool set = (bits & 0x80000000u) != 0; bits <<= 1;
+                bool set = (bits & 0x80000000u) != 0;
+                bits <<= 1;
                 if (set)
                 {
                     int pixel = shadow ? Dark(destination, d + offset, m1, m2) : 0xFFFF;

@@ -7,7 +7,7 @@ using Aow.Rtl;
 namespace Aow.Game.AI;
 
 // registered classes
-public partial class AIPlayerActionManager(CustomNode owner) : EngineObject(owner)
+public class AIPlayerActionManager(CustomNode owner) : EngineObject(owner)
 {
 
     private readonly DelphiList<AIPlayerActionClass> _registeredClasses = new();
@@ -51,9 +51,4 @@ public partial class AIPlayerActionManager(CustomNode owner) : EngineObject(owne
     }
 
     private static int CompareAIPlayerActionClasses(AIPlayerActionClass item1, AIPlayerActionClass item2) => item2.Priority - item1.Priority;
-
-    // intf_P5_06.inc:32
-
-    // intf_P5_06.inc:32
-
 }

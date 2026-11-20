@@ -16,7 +16,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class HolyGroundSpell : GlobalTargetSpell
+public class HolyGroundSpell : GlobalTargetSpell
 {
     public HolyGroundSpell(CustomNode owner, EngineObject holder) : base(owner)
     {
@@ -28,8 +28,6 @@ public partial class HolyGroundSpell : GlobalTargetSpell
         MagicSphere = MagicSphere.Life;
         AboveGroundOnly = false;
     }
-
-    // HolyG.pas:339
 
     // HolyG.pas:375
     public override void SetupTargetSelection(Troop source, TargetSelectionControl targetSelection)
@@ -82,9 +80,4 @@ public partial class HolyGroundSpell : GlobalTargetSpell
     }
 
     private static readonly string s_holyGroundsText = "Holy Woods";
-
-    // HolyG.pas:63
-
-    // HolyG.pas:63
-
 }

@@ -16,7 +16,7 @@ namespace Aow.Game.Draw;
 
 // { Interface declaration run owned by P2. }
 // FFinished, Frame, FX, FY, Layer, Path, EffectType
-public partial class WorldEffectHexSprite(CustomNode owner) : FixedVisibleHexSprite(owner)
+public class WorldEffectHexSprite(CustomNode owner) : FixedVisibleHexSprite(owner)
 {
 
     public bool Done { get; private set; }
@@ -529,7 +529,4 @@ public partial class WorldEffectHexSprite(CustomNode owner) : FixedVisibleHexSpr
             _ = MessageBox(0, $"Error - WorldfxHS {IntToStr((int)EffectType)}", "Error during NewFrame", 0);
         }
     }
-
-    // intf_P2_01.inc:17
-
 }

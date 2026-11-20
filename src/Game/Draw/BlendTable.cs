@@ -7,7 +7,7 @@ namespace Aow.Game.Draw;
 
 // FBits, FTable (the bytes of the table, which the original addresses with a pointer into the
 // derived class's own field)
-public partial class BlendTable
+public class BlendTable
 {
 
     // GFXE.pas:741
@@ -139,5 +139,4 @@ public partial class BlendTable
             throw new NotSupportedException("BlendTable format not supported");
         }
     }
-
 }

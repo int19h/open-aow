@@ -11,8 +11,8 @@ namespace Aow.Formats.Original;
 internal sealed partial class MapFieldsCodec
 {
     /// <summary>The field class the level's class names (MapFieldClass).</summary>
-    private static SchemaClass TreeFieldClass(FormatSchema schema, SchemaClass? ownerClass, SchemaProperty property) =>
-        schema.Get((ownerClass ?? property.Owner).FieldClass ?? "MapField");
+    private static SchemaClass TreeFieldClass(FormatSchema schema, SchemaClass? ownerClass, SchemaProperty property)
+        => schema.Get((ownerClass ?? property.Owner).FieldClass ?? "MapField");
 
     private static int NodeDimension(ObjectNode? parent, string name) => parent?.Find(name) is IntegerNode n ? (int)n.Value : 0;
 
@@ -312,8 +312,8 @@ internal sealed partial class CampaignMapCodec
         _ = DocumentBackend.Read(body, classValue: classValue, schema: site.Schema, engine: Nested.Engine, path: site.Path.Member("root"), file: site.Context.File);
     }
 
-    private static byte[] OwnDocument(JsonObject container, JsonObject root) =>
-        GameFiles.Write(GameFiles.NewDocument(GameProfile.WorldMap.WriteKind, container: container, root: root));
+    private static byte[] OwnDocument(JsonObject container, JsonObject root)
+        => GameFiles.Write(GameFiles.NewDocument(GameProfile.WorldMap.WriteKind, container: container, root: root));
 
     private static byte[] ExportOwnDocument(byte[] image, EncodeContext context, DocumentNodePath path)
     {

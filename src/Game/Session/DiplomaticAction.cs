@@ -360,9 +360,4 @@ public partial class DiplomaticAction(CustomNode owner) : EngineObject(owner), I
             : 2)
             : 0, textControl: fTextControl, sourceRace: sourceRace, targetRace: targetRace, otherRace: otherRace, text: text), reaction, diplomaticRelation);
     }
-
-    // intf_P5_08.inc:143
-
-    // intf_P5_08.inc:143
-
 }

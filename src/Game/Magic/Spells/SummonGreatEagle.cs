@@ -5,7 +5,7 @@ using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class SummonGreatEagle : SummonSpell
+public class SummonGreatEagle : SummonSpell
 {
     // SummonSpells.pas:444
     public SummonGreatEagle(CustomNode owner, EngineObject holder) : base(owner)

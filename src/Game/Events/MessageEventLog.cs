@@ -77,7 +77,6 @@ public partial class MessageEventLog : EventLog
         PressedButton = PressedEventLogButton.No;
         return true;
     }
-
 }
 
 public enum MessageEventLogButtons : byte

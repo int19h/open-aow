@@ -229,5 +229,4 @@ public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner
         StrategicMap.Current.TriggerExecuteEventLog(log, immediate, done);
         return true;
     }
-
 }

@@ -12,7 +12,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.World.Structures;
 
 // Size
-public partial class Resource : PlayerCropStructureResource
+public class Resource : PlayerCropStructureResource
 {
     public Resource(CustomNode owner) : base(owner) => Razeable = true;
 
@@ -20,8 +20,6 @@ public partial class Resource : PlayerCropStructureResource
     public new const int ClassId = 131337;
 
     public byte Size { get; private set; }
-
-    // City.pas:2622
 
     // City.pas:2669
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
@@ -74,8 +72,6 @@ public partial class Resource : PlayerCropStructureResource
             }
         }
     }
-
-    // City.pas:262
 
     // City.pas:2633
     public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_cityText);

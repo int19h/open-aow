@@ -5,7 +5,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.AI.Groups;
 
 // no fields. map-load registration callback
-public partial class MainRegistrar
+public class MainRegistrar
 {
     // MainAG.pas:115
     public static void MapLoaded(GameMap sender)

@@ -47,7 +47,11 @@ public sealed class HeadlessDisplayHost(string directory, int width = 640, int h
 
         ClientSize = (surface.Width, surface.Height);
         Frame++;
-        if (CaptureWhen is not null ? !CaptureWhen() : captureFrame != 0 && Frame != captureFrame) { AfterPresent?.Invoke(); return; }
+        if (CaptureWhen is not null ? !CaptureWhen() : captureFrame != 0 && Frame != captureFrame)
+        {
+            AfterPresent?.Invoke();
+            return;
+        }
         int pitch = checked(surface.Width * 2);
         byte[] bytes = new byte[checked(pitch * surface.Height)];
         for (int y = 0; y < surface.Height; y++)

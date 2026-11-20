@@ -17,7 +17,7 @@ using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.World.Terrain;
 
-public partial class CombatStructure : CombatFixedImageLibraryTerrain
+public class CombatStructure : CombatFixedImageLibraryTerrain
 {
     public CombatStructure(CustomNode owner) : base(owner) => SetHitPoints(5);
 
@@ -27,8 +27,6 @@ public partial class CombatStructure : CombatFixedImageLibraryTerrain
     public int HitPoints { get; private set; }
 
     private bool _playSound;
-
-    // CombatStructure.pas:51
 
     // CombatStructure.pas:229
     public override sbyte GetOverlay(int index) => ((MapObject)this).Resource.TerrainList.GetTerrain(index) >= 0 ? HitPoints == 0 ? (sbyte)6 : (sbyte)8 : (sbyte)-1;
@@ -262,7 +260,4 @@ public partial class CombatStructure : CombatFixedImageLibraryTerrain
         HitPoints = value;
         _playSound = true;
     }
-
-    // CombatStructure.pas:23
-
 }

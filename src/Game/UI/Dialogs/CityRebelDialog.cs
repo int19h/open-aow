@@ -65,5 +65,4 @@ public partial class CityRebelDialog(UIContext ui) : UIModule(ui)
         dialog.CityNameLabel.Text = dialog._event.CityName;
         dialog.RebelWindow.Visible = true;
     }
-
 }

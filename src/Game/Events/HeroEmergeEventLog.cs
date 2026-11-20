@@ -171,5 +171,4 @@ public partial class HeroEmergeEventLog(CustomNode owner) : EventLog(owner)
     {
         Emerged = 0, Resurrected = 1
     }
-
 }

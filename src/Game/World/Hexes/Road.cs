@@ -10,15 +10,13 @@ namespace Aow.Game.World.Hexes;
 //   from the roads on the six neighbour hexagons (TRoadResource, ClassID $20165). }
 // FTransitions (bit HN-1: a road on the neighbour HN. the pairs 2+6 and 3+5 become bits 7 and
 // 6)
-public partial class Road(CustomNode owner) : AbstractRoad(owner)
+public class Road(CustomNode owner) : AbstractRoad(owner)
 {
 
     // Road.pas:47
     public new const int ClassId = 131428;
 
     protected internal byte Transitions { get; protected set; }
-
-    // Road.pas:42
 
     // Road.pas:52
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
@@ -60,7 +58,7 @@ public partial class Road(CustomNode owner) : AbstractRoad(owner)
         }
     }
 
-    public new partial class Resource(CustomNode owner) : AbstractRoadResource(owner)
+    public new class Resource(CustomNode owner) : AbstractRoadResource(owner)
     {
 
         // Road.pas:136
@@ -132,8 +130,6 @@ public partial class Road(CustomNode owner) : AbstractRoad(owner)
         // Road.pas:131
         public override string ResourceEditName() => "Road";
     }
-
-    // Road.pas:18
 
     // AoWRoad.pas:35 (Road.pas:74 counts only the neighbours' road sprites)
     public override void UpdateTransitions()

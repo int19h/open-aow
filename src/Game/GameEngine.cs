@@ -1033,5 +1033,4 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
         engine.UnregisterEngineClasses([EngineClass.Of<UnholyGround>(), EngineClass.Of<UnholyGround.Resource>(), EngineClass.Of<UnholyGroundSpellTokenEvent>()]);
         engine.GameSet.SpellControl.UnregisterSpellId(14);
     }
-
 }

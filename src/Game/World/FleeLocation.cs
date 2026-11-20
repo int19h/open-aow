@@ -9,7 +9,7 @@ using Aow.Game.World.Movement;
 
 namespace Aow.Game.World;
 
-public partial class FleeLocation(CustomNode owner) : MapObject(owner)
+public class FleeLocation(CustomNode owner) : MapObject(owner)
 {
 
     // FleeLoc.pas:76
@@ -18,8 +18,6 @@ public partial class FleeLocation(CustomNode owner) : MapObject(owner)
     private bool _highlighted;
     private int _alpha;
     private int _alphaStep;
-
-    // FleeLoc.pas:71
 
     // FleeLoc.pas:82
     public override int GetShowPriority() => 1744830464 + (HexY << 13) + HexX;
@@ -121,7 +119,7 @@ public partial class FleeLocation(CustomNode owner) : MapObject(owner)
         }
     }
 
-    public new partial class Resource(CustomNode owner) : MapObjectResource(owner)
+    public new class Resource(CustomNode owner) : MapObjectResource(owner)
     {
 
         // FleeLoc.pas:163
@@ -134,7 +132,4 @@ public partial class FleeLocation(CustomNode owner) : MapObject(owner)
         public override string ResourceEditName() => "Combat Flee Location";
 
     }
-
-    // FleeLoc.pas:27
-
 }

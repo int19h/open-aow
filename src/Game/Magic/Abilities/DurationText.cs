@@ -25,5 +25,4 @@ internal static class DurationText
             ? AbilityRules.Format(engine.TranslateResourceString(GameText.DayLeftFormat), [(byte)49])
             : AbilityRules.Format(engine.TranslateResourceString(GameText.DaysLeftFormat), [IntToStr(days)]);
     }
-
 }

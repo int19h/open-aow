@@ -12,7 +12,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Spells;
 
 // inherited combat statistics, damage mode
-public partial class HighPrayer : CombatSpell
+public class HighPrayer : CombatSpell
 {
     // CombatSpells.pas:996
     public HighPrayer(CustomNode owner, EngineObject holder) : base(owner)

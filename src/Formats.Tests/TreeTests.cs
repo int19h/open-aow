@@ -333,8 +333,8 @@ public sealed class TreeTests : FormatsTest
         Assert.Equal(4, fromDocument.Key);
     }
 
-    private static JsonObject Write(Sample sample) =>
-        DocumentBackend.Write(TreeWriter.Write(sample, new TestFactory()), SampleClass, Schema, "game");
+    private static JsonObject Write(Sample sample)
+        => DocumentBackend.Write(TreeWriter.Write(sample, new TestFactory()), SampleClass, Schema, "game");
 
     private static Sample RoundTrip(Sample sample)
     {

@@ -21,5 +21,4 @@ public partial class Dib16Surface : Surface
     public override PixelFormat GetPixelFormatId() => _pixelFormatId;
 
     public new PixelFormat PixelFormatId { get => _pixelFormatId; set => SetPixelFormatId(value); }
-
 }

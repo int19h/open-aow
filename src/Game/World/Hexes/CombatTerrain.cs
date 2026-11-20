@@ -16,7 +16,7 @@ using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.World.Hexes;
 
-public partial class CombatTerrain(CustomNode owner) : TerrainMapObject(owner)
+public class CombatTerrain(CustomNode owner) : TerrainMapObject(owner)
 {
 
     // CombatTerrain.pas:82
@@ -287,7 +287,7 @@ public partial class CombatTerrain(CustomNode owner) : TerrainMapObject(owner)
         base.Resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 40, (uint)(Owner.HexX + (Owner.HexY << 4)));
     }
 
-    public new partial class Resource(CustomNode owner) : TerrainMapObjectResource(owner)
+    public new class Resource(CustomNode owner) : TerrainMapObjectResource(owner)
     {
 
         // CombatTerrain.pas:301
@@ -317,5 +317,4 @@ public partial class CombatTerrain(CustomNode owner) : TerrainMapObject(owner)
         public override string ResourceEditName() => "Combat Terrain";
 
     }
-
 }

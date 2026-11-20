@@ -10,7 +10,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Spells;
 
 // inherited combat statistics, damage mode
-public partial class Stoning : CombatSpell
+public class Stoning : CombatSpell
 {
     // CombatSpells.pas:1587
     public Stoning(CustomNode owner, EngineObject holder) : base(owner)

@@ -21,7 +21,7 @@ using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class Anarchy : CityTargetSpell
+public class Anarchy : CityTargetSpell
 {
     // CitySpells.pas:849
     public Anarchy(CustomNode owner, EngineObject holder) : base(owner)

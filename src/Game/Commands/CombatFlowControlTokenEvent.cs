@@ -9,7 +9,7 @@ using Aow.Rtl;
 namespace Aow.Game.Commands;
 
 // flow mode, player
-public partial class CombatFlowControlTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class CombatFlowControlTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
     public new const int ClassId = 135448;
 
@@ -59,7 +59,4 @@ public partial class CombatFlowControlTokenEvent(CustomNode owner) : TokenEvent(
 
         return ExecuteResult.Done;
     }
-
-    // NetworkE.pas:230
-
 }

@@ -13,7 +13,7 @@ using Aow.Game.World.Structures;
 
 namespace Aow.Game.Commands;
 
-public partial class ConstructStructureTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class ConstructStructureTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
     public new const int ClassId = 135962;
 
@@ -76,7 +76,4 @@ public partial class ConstructStructureTokenEvent(CustomNode owner) : TokenEvent
 
         return ExecuteResult.DoneHalt;
     }
-
-    // NetworkE.pas:230
-
 }

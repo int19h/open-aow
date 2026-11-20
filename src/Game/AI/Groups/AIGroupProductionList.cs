@@ -13,7 +13,7 @@ namespace Aow.Game.AI.Groups;
 
 // { Interface declaration run owned by P5. }
 // children
-public partial class AIGroupProductionList(CustomNode owner) : OwningNode(owner), IChildList<AIGroupProduction>
+public class AIGroupProductionList(CustomNode owner) : OwningNode(owner), IChildList<AIGroupProduction>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AIGroupProduction.
@@ -84,7 +84,4 @@ public partial class AIGroupProductionList(CustomNode owner) : OwningNode(owner)
 
         return -1;
     }
-
-    // Engine.pas:631
-
 }

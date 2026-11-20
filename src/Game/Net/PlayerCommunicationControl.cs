@@ -6,7 +6,7 @@ namespace Aow.Game.Net;
 
 // FRefCount, FPlayerCommunicator, FPCSList. The base player communication control: one system,
 // no transport
-public partial class PlayerCommunicationControl : IDisposable
+public class PlayerCommunicationControl : IDisposable
 {
     internal int RefCount { get; private set; }
 
@@ -111,5 +111,4 @@ public partial class PlayerCommunicationControl : IDisposable
     public PlayersAccessor Players => new(this);
     public PlayerCommunicator PlayerCommunicator { get; private set; }
     public PlayerCommunicationSettingsList PlayerCommunicationSettingsList { get; }
-
 }

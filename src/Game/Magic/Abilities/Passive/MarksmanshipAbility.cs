@@ -6,7 +6,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // (maximum level, level costs.)
-public partial class MarksmanshipAbility : MultiLevelAbility
+public class MarksmanshipAbility : MultiLevelAbility
 {
     // PassiveAb.pas:1384
     public MarksmanshipAbility(CustomNode owner, EngineObject holder) : base(owner)

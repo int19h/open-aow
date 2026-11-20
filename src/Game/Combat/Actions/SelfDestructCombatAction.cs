@@ -9,7 +9,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Combat.Actions;
 
-public partial class SelfDestructCombatAction(CustomNode owner) : DamageCombatAction(owner)
+public class SelfDestructCombatAction(CustomNode owner) : DamageCombatAction(owner)
 {
     public new const int ClassId = 131764;
 
@@ -36,7 +36,4 @@ public partial class SelfDestructCombatAction(CustomNode owner) : DamageCombatAc
             _ = GamePack.Current.AbilityControl.GetAbility(65).ImageSequences.Show(40, X + 32, Y + 32, viewer.Time, surface);
         }
     }
-
-    // intf_P3_02.inc:38
-
 }

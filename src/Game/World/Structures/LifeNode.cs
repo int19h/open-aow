@@ -15,7 +15,7 @@ public partial class LifeNode(CustomNode owner) : ProductionPlace(owner)
     // LifeNode.pas:40
     public override MagicSphere GetMagicSphere() => MagicSphere.Life;
 
-    public new partial class Resource : ProductionPlaceResource
+    public new class Resource : ProductionPlaceResource
     {
         public Resource(CustomNode owner) : base(owner)
         {
@@ -28,12 +28,8 @@ public partial class LifeNode(CustomNode owner) : ProductionPlace(owner)
         // LifeNode.pas:55
         public new const int ClassId = 131954;
 
-        // LifeNode.pas:43
-
         // LifeNode.pas:58
         public override int ResourceUserClassId() => 131953;
-
-        // LifeNode.pas:27
 
         // LifeNode.pas:52
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_lifeNodeText);
@@ -41,5 +37,4 @@ public partial class LifeNode(CustomNode owner) : ProductionPlace(owner)
         private static readonly string s_lifeNodeText = "Life Node";
 
     }
-
 }

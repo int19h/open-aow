@@ -12,7 +12,7 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Game.Draw;
 
 // X/Y/layer explored hexagons, animation frame
-public partial class ConcealAreaHexSprite(CustomNode owner) : FixedVisibleHexSprite(owner)
+public class ConcealAreaHexSprite(CustomNode owner) : FixedVisibleHexSprite(owner)
 {
 
     private sbyte _x;
@@ -109,7 +109,4 @@ public partial class ConcealAreaHexSprite(CustomNode owner) : FixedVisibleHexSpr
         _ = StrategicMap.Current.DynamicVisibleHexSprite.RemoveChild(this);
         Dispose();
     }
-
-    // GlobalSpells.pas:39
-
 }

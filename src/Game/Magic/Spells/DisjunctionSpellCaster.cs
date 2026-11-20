@@ -13,7 +13,7 @@ using static Aow.Rtl.DelphiRounding;
 namespace Aow.Game.Magic.Spells;
 
 // enchantment ID, dispel chance. inherited spell ID, source unit ID, references
-public partial class DisjunctionSpellCaster(CustomNode owner) : SpellCaster(owner)
+public class DisjunctionSpellCaster(CustomNode owner) : SpellCaster(owner)
 {
 
     public int EnchantmentId { get; set; }

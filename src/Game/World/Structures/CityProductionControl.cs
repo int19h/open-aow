@@ -123,7 +123,4 @@ public partial class CityProductionControl(CustomNode owner) : ProductionControl
         int result = unitResource.Level - (size / 2) + 1;
         return result < 1 ? 1 : result;
     }
-
-    // intf_P1_02.inc:120
-
 }

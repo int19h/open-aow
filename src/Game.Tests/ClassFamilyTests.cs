@@ -189,7 +189,11 @@ public sealed class ClassFamilyTests
             Assert.Same(EditorClass.Of<EngineObjectEditor>(), node.Editor());
             EditResult? result = null;
             EngineObject? edited = null;
-            node.Editor().Edit(node, engine, (r, o) => { result = r; edited = o; });
+            node.Editor().Edit(node, engine, (r, o) =>
+            {
+                result = r;
+                edited = o;
+            });
             Assert.Equal(EditResult.Cancel, result);
             Assert.Same(node, edited);
         }

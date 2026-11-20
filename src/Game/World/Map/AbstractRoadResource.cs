@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.World.Map;
 
-public partial class AbstractRoadResource(CustomNode owner) : MapObjectResource(owner)
+public class AbstractRoadResource(CustomNode owner) : MapObjectResource(owner)
 {
 
     // MAPOBJ.PAS:874

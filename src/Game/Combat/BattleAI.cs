@@ -19,7 +19,7 @@ namespace Aow.Game.Combat;
 
 // Side. Units. Allies. Enemies. Moves. Walls. CurrentMove. UnitIndex. UnitLimit. MinMoves.
 // HeroMoves. NormalUnits. IgnoreWalls. Flee. Status
-public partial class BattleAI(EngineObject creator) : IDisposable
+public class BattleAI(EngineObject creator) : IDisposable
 {
     private CombatSideIndex _side;
 
@@ -3028,5 +3028,4 @@ public partial class BattleAI(EngineObject creator) : IDisposable
     {
         Idle = 0, Busy = 1, Done = 2
     }
-
 }

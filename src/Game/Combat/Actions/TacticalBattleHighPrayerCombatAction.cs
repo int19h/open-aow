@@ -5,7 +5,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Combat.Actions;
 
-public partial class TacticalBattleHighPrayerCombatAction(CustomNode owner) : ExclusiveCombatSpellCombatAction(owner)
+public class TacticalBattleHighPrayerCombatAction(CustomNode owner) : ExclusiveCombatSpellCombatAction(owner)
 {
     // CombatSpells.pas:976
     public new const int ClassId = 131786;
@@ -21,5 +21,4 @@ public partial class TacticalBattleHighPrayerCombatAction(CustomNode owner) : Ex
             _ = GamePack.Current.AbilityControl.GetAbility(100).Expand(target.Troop);
         }
     }
-
 }

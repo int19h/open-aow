@@ -15,7 +15,7 @@ using Aow.Rtl;
 namespace Aow.Game.Commands;
 
 // unit ID, player
-public partial class DisbandUnitTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class DisbandUnitTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
     public new const int ClassId = 135447;
 
@@ -101,7 +101,4 @@ public partial class DisbandUnitTokenEvent(CustomNode owner) : TokenEvent(owner)
 
         return ExecuteResult.Done;
     }
-
-    // NetworkE.pas:230
-
 }

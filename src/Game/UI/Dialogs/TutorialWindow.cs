@@ -89,5 +89,4 @@ public partial class TutorialWindow(UIContext ui) : UIModule(ui)
         dialog.MessageMemo.Items.AddStrings(eventValue.Message);
         dialog.Window.Visible = true;
     }
-
 }

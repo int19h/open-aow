@@ -34,8 +34,6 @@ public partial class IsometricHex(CustomNode owner) : AbstractHexagon(owner)
         base.Dispose();
     }
 
-    // IsoHex.pas:198
-
     // IsoHex.pas:224
     public override void Disconnect()
     {
@@ -81,7 +79,4 @@ public partial class IsometricHex(CustomNode owner) : AbstractHexagon(owner)
     public virtual void ShowDynamic(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
     }
-
-    // IsoHex.pas:50
-
 }

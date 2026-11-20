@@ -228,5 +228,4 @@ public partial class ArenaDialog(UIContext ui) : UIModule(ui)
         dialog.Unit8CheckBox.Checked = false;
         dialog.SelectionInfoLabel.Text = "";
     }
-
 }

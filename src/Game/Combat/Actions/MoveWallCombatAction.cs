@@ -6,7 +6,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Combat.Actions;
 
-public partial class MoveWallCombatAction(CustomNode owner) : CombatAction(owner)
+public class MoveWallCombatAction(CustomNode owner) : CombatAction(owner)
 {
     // Combat2.pas:1072
     public new const int ClassId = 131767;
@@ -38,5 +38,9 @@ public partial class MoveWallCombatAction(CustomNode owner) : CombatAction(owner
     }
 
     // intf_P3_02.inc:38
-    public override bool Play(CombatViewer viewer) { Execute(viewer.Combat); return false; }
+    public override bool Play(CombatViewer viewer)
+    {
+        Execute(viewer.Combat);
+        return false;
+    }
 }

@@ -10,5 +10,4 @@ namespace Aow.Game.Events;
 public partial class EnterWizardsTowerEventLog(CustomNode owner) : EventLog(owner)
 {
     public WizardsTower Tower { get; init; }
-
 }

@@ -12,7 +12,7 @@ using static Aow.Rtl.LegacyApplication;
 namespace Aow.Game.AI.Groups;
 
 // units, path, points, moves, source, destination
-public partial class AIMoveExecutorMove(CustomNode owner) : AIMoveExecutorUnitList(owner)
+public class AIMoveExecutorMove(CustomNode owner) : AIMoveExecutorUnitList(owner)
 {
 
     public MovePath Path { get; private set; } = new MovePath();
@@ -91,7 +91,4 @@ public partial class AIMoveExecutorMove(CustomNode owner) : AIMoveExecutorUnitLi
             return false;
         }
     }
-
-    // intf_P5_06.inc:347
-
 }

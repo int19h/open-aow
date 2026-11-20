@@ -12,7 +12,7 @@ namespace Aow.Game.Net;
 // _activeTacticalBattle, _prefetchTacticalBattle, _activeTacticalBattleIndex, Events, TacticalBattleList, _tokenCounter, _round,
 // _executeCount, _state, EventsExecuted, TacticalBattleActivating, OnSyncError, OnGetSyncValue,
 // OnExecuteTokenEvent, _executing, _lockCount, SystemEvents, _holdTacticalBattle, TokenManager
-public partial class TokenExecutor : IDisposable
+public class TokenExecutor : IDisposable
 {
     internal TokenEventList Events { get; }
     internal List<TokenControl> TacticalBattleList { get; }

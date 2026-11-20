@@ -14,7 +14,7 @@ using Aow.Rtl;
 namespace Aow.Game.AI;
 
 // control, selector, range, step, target range, mode
-public partial class AIRecruitmentGroupFinder : AIGroupTask
+public class AIRecruitmentGroupFinder : AIGroupTask
 {
     // AIGroup.pas:1981
     public AIRecruitmentGroupFinder(CustomNode owner) : base(owner) => _selector = new AIMoveTargetSelector(null) { Holder = CreationHolder() };
@@ -125,7 +125,4 @@ public partial class AIRecruitmentGroupFinder : AIGroupTask
     {
         CalculateMovePathBfs = 0
     }
-
-    // intf_P5_07.inc:356
-
 }

@@ -7,7 +7,7 @@ using Aow.Formats.Tree;
 namespace Aow.Game.Commands;
 
 // UnitIds
-public partial class ArenaTokenEvent(CustomNode owner) : StructureTokenEvent(owner)
+public class ArenaTokenEvent(CustomNode owner) : StructureTokenEvent(owner)
 {
 
     // Arena.pas:86
@@ -28,9 +28,4 @@ public partial class ArenaTokenEvent(CustomNode owner) : StructureTokenEvent(own
         base.PersistFields(persister);
         PersistSupport.Int32List(persister, name: "UnitIds", list: UnitIds);
     }
-
-    // Arena.pas:74
-
-    // Arena.pas:23
-
 }

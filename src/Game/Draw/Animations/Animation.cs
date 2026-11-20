@@ -13,7 +13,7 @@ namespace Aow.Game.Draw.Animations;
 
 // { ot=1 }
 // hex position, display level, state, frame, dimensions, callbacks, tag, map
-public partial class Animation(CustomNode owner) : HexSprite(owner)
+public class Animation(CustomNode owner) : HexSprite(owner)
 {
 
     // Animation.pas:143
@@ -55,8 +55,6 @@ public partial class Animation(CustomNode owner) : HexSprite(owner)
         Location = PersistSupport.Coordinate(persister, name: "Location", value: Location, width: CoordinateWidth.Byte);
         FrameCounter = persister.Int32("FrameCounter", value: FrameCounter);
     }
-
-    // Animation.pas:127
 
     // Animation.pas:194
     public override byte GetLevel() => AnimationLevel;
@@ -282,8 +280,6 @@ public partial class Animation(CustomNode owner) : HexSprite(owner)
             ? R
             : throw new InvalidOperationException("Cannot change dimensions when object is places");
     }
-
-    // Animation.pas:43
 
     // Animation.pas:159
     public virtual Set<AnimationControlModeElement> AnimationControlMode() => Set<AnimationControlModeElement>.Of(AnimationControlModeElement.LinkToNewFrame, AnimationControlModeElement.FixedVisible, AnimationControlModeElement.LinkToOnDestroy);

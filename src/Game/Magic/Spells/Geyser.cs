@@ -12,7 +12,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Spells;
 
 // inherited combat statistics, damage mode
-public partial class Geyser : CombatSpell
+public class Geyser : CombatSpell
 {
     // CombatSpells.pas:1505
     public Geyser(CustomNode owner, EngineObject holder) : base(owner)

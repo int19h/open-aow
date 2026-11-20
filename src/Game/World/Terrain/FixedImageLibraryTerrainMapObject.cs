@@ -5,7 +5,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Terrain;
 
-public partial class FixedImageLibraryTerrainMapObject(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
+public class FixedImageLibraryTerrainMapObject(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
 {
     public new const int ClassId = 131464;
 

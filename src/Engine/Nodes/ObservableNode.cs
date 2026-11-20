@@ -10,7 +10,7 @@ using static Aow.Rtl.DelphiAssert;
 namespace Aow.Engine.Nodes;
 
 // Engine.TEChangeNotifyNode (16 bytes): +8 FChildren, FUpdateCount. Changed on child changes
-public partial class ObservableNode(CustomNode owner) : CustomNode(owner)
+public class ObservableNode(CustomNode owner) : CustomNode(owner)
 {
 
     // Engine.pas:7246
@@ -137,9 +137,9 @@ public partial class ObservableNode(CustomNode owner) : CustomNode(owner)
 
         internal UpdateBatch(ObservableNode node) => _node = node;
 
-        public void Dispose() =>
+        public void Dispose()
             // A default batch leaves the field null. The units project compiles this file with nullable off.
-            _node?.EndUpdate();
+            => _node?.EndUpdate();
     }
 
     // Engine.pas:7284
@@ -1100,7 +1100,4 @@ public partial class ObservableNode(CustomNode owner) : CustomNode(owner)
 
         _children.List[index] = child;
     }
-
-    // Engine.pas:680
-
 }

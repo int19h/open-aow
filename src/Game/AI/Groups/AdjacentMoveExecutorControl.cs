@@ -17,7 +17,7 @@ using static Aow.Rtl.DelphiRounding;
 namespace Aow.Game.AI.Groups;
 
 // meeting point, adjacent armies
-public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
+public class AdjacentMoveExecutorControl : AIMoveExecutorControl
 {
     // AIGroup.pas:5117
     public AdjacentMoveExecutorControl(CustomNode owner) : base(owner) => _adjacentArmies = new AdjacentArmyList(null) { Holder = CreationHolder() };
@@ -500,7 +500,4 @@ public partial class AdjacentMoveExecutorControl : AIMoveExecutorControl
         armies?.Dispose();
         return result;
     }
-
-    // intf_P5_06.inc:413
-
 }

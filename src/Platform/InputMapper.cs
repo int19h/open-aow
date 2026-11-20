@@ -155,7 +155,11 @@ public sealed class InputMapper
             return;
         }
 
-        if (!down) { sink.KeyUp(key, Shift()); return; }
+        if (!down)
+        {
+            sink.KeyUp(key, Shift());
+            return;
+        }
         sink.KeyDown(key, Shift());
         byte character = key switch { 13 => 13, 8 => 8, 27 => 27, 9 => 9, _ => 0 };
         if (character != 0)

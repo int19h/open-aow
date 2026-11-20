@@ -8,7 +8,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Combat.Actions;
 
-public partial class FastBattleTerrorCombatAction(CustomNode owner) : MultiTargetCombatSpellCombatAction(owner)
+public class FastBattleTerrorCombatAction(CustomNode owner) : MultiTargetCombatSpellCombatAction(owner)
 {
     // CombatSpells.pas:1666
     public new const int ClassId = 131777;
@@ -43,5 +43,4 @@ public partial class FastBattleTerrorCombatAction(CustomNode owner) : MultiTarge
             }
         }
     }
-
 }

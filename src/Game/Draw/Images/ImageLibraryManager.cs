@@ -10,7 +10,7 @@ namespace Aow.Game.Draw.Images;
 
 // the libraries a program shares, linked by file name. FSearchPath (upper case, ends with a
 // backslash), _diskList, _ownedList
-public partial class ImageLibraryManager : Component
+public class ImageLibraryManager : Component
 {
 
     // ImageLib.pas:8260

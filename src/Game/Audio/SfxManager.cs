@@ -10,10 +10,8 @@ namespace Aow.Game.Audio;
 
 // _searchPath, _sfx. ExecutePathSearch lists every wave file under a directory (with its
 // subdirectories) relative to the search path
-public partial class SfxManager(Component owner) : Component(owner)
+public class SfxManager(Component owner) : Component(owner)
 {
-    // Sound.pas:407
-
     // Sound.pas:413
     public override void Dispose()
     {

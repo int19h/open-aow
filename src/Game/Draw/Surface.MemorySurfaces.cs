@@ -25,14 +25,21 @@ public partial class Surface
                 {
                     case 8: row[..lockedSurface.Width].Fill((byte)pixel); break;
                     case 16: Graphics.Blit.FillWord(row, lockedSurface.Width, pixel); break;
-                    case 24: if (lockedSurface.Width > 0) { Graphics.Blit.FillTripleByte(row, lockedSurface.Width, pixel); } break;
+                    case 24:
+                        if (lockedSurface.Width > 0)
+                        {
+                            Graphics.Blit.FillTripleByte(row, lockedSurface.Width, pixel);
+                        }
+                        break;
                     case 32: Graphics.Blit.FillInteger(row, lockedSurface.Width, pixel); break;
                     default: return GraphicsResult.NotSupported;
                 }
             }
             return GraphicsResult.Ok;
         }
-        finally { _ = Unlock(); }
+        finally
+        {
+            _ = Unlock();
+        }
     }
-
 }

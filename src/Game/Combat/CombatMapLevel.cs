@@ -8,15 +8,15 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Combat;
 
 // Inherited world-map level layout
-public partial class CombatMapLevel(CustomNode owner) : MapLevel(owner)
+public class CombatMapLevel(CustomNode owner) : MapLevel(owner)
 {
 
     // AoWTC.pas:2173
     public new const int ClassId = 2228482;
 
     // AoWTC.pas:2178
-    public override EngineClass MapFieldClass() =>
+    public override EngineClass MapFieldClass()
         // { Original uses the world-map field class. }
-        EngineClass.Of<MapField>();
+        => EngineClass.Of<MapField>();
 
 }

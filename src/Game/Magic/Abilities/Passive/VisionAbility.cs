@@ -6,7 +6,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // inherited name, ability ID, selection types, ability type. maximum level, level costs
-public partial class VisionAbility : MultiLevelAbility
+public class VisionAbility : MultiLevelAbility
 {
     // PassiveAb.pas:461
     public VisionAbility(CustomNode owner) : base(owner)

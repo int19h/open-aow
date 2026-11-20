@@ -16,7 +16,7 @@ namespace Aow.Game.AI;
 
 // player, budgets, income/reserve factors, production upkeep, available upkeep, pool, savings
 // budget
-public partial class AIBudgetManager : EngineObject
+public class AIBudgetManager : EngineObject
 {
     // AI.pas:1712
     public AIBudgetManager(CustomNode owner) : base(owner)
@@ -694,7 +694,4 @@ public partial class AIBudgetManager : EngineObject
     {
         Budget = 0, BudgetThenPool = 1, PoolThenBudget = 2
     }
-
-    // intf_P5_06.inc:593
-
 }

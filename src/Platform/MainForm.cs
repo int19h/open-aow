@@ -71,8 +71,16 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             throw;
         }
         MainForm form = new(host, layouts: layouts, ui: ui);
-        try { form.Initialize(argument); return form; }
-        catch { form.Dispose(); throw; }
+        try
+        {
+            form.Initialize(argument);
+            return form;
+        }
+        catch
+        {
+            form.Dispose();
+            throw;
+        }
     }
 
     private void Initialize(string argument)
@@ -80,7 +88,11 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         Display.SetUpdateFrameHandler(DisplayUpdateFrame);
         Display.SetResizeBackSurfaceHandler((_, w, h) => DisplayResizeBackSurface(w, h));
         Display.SetSurfaceDataLostHandler((_, _) => UI.General.Manager.Aligned = false);
-        Display.SetSwapDisplayControllerHandler(_ => { UI.VideoDialog.ModeChanged = true; UI.VideoDialog.ApplyMode(); });
+        Display.SetSwapDisplayControllerHandler(_ =>
+        {
+            UI.VideoDialog.ModeChanged = true;
+            UI.VideoDialog.ApplyMode();
+        });
         Display.PrimaryDisplayController = WinDisplayController;
         Display.SecondaryDisplayController = WinDisplayController;
         FormCreate();
@@ -135,7 +147,11 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         UI.General.Manager.WinHeight = Display.BackSurfaceHeight;
         UI.General.Manager.Aligned = false;
         string name = UI.Engine.Registry.GetString(0);
-        if (!DelphiStrings.IsEmpty(name)) { UI.MultiWindow.TcpNameEdit.Text = name; UI.MultiWindow.IpxNameEdit.Text = name; }
+        if (!DelphiStrings.IsEmpty(name))
+        {
+            UI.MultiWindow.TcpNameEdit.Text = name;
+            UI.MultiWindow.IpxNameEdit.Text = name;
+        }
         string address = UI.Engine.Registry.GetString(1);
         if (!DelphiStrings.IsEmpty(address))
         {
@@ -148,8 +164,8 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
     }
 
     // A command-line save names a world or campaign save by its original or own extension (own-formats.md 2.9).
-    public static bool IsSaveName(string argument) =>
-        DocumentKind.Save.HasExtension(Path.GetExtension(argument)) || DocumentKind.CampaignSave.HasExtension(Path.GetExtension(argument));
+    public static bool IsSaveName(string argument)
+        => DocumentKind.Save.HasExtension(Path.GetExtension(argument)) || DocumentKind.CampaignSave.HasExtension(Path.GetExtension(argument));
 
     private void FormShow(string argument)
     {
@@ -186,7 +202,13 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             return;
         }
 
-        Display.FramePresented = frame => { if (frames > 0 && frame >= frames) { Display.StopUpdateFrameLoop(); } };
+        Display.FramePresented = frame =>
+        {
+            if (frames > 0 && frame >= frames)
+            {
+                Display.StopUpdateFrameLoop();
+            }
+        };
         Display.StartUpdateFrameLoop();
     }
 
@@ -206,8 +228,15 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         }
 
         AudioPlayback.ProcessSound();
-        try { StrategicMap.Current?.NewFrame(); }
-        catch (Exception error) { Console.Error.WriteLine(error); LegacyApplication.ShowMessage("Exception during AoWHSMap.NewFrame"); }
+        try
+        {
+            StrategicMap.Current?.NewFrame();
+        }
+        catch (Exception error)
+        {
+            Console.Error.WriteLine(error);
+            LegacyApplication.ShowMessage("Exception during AoWHSMap.NewFrame");
+        }
         if (displayController?.GetSurface(1) is Surface back)
         {
             int x = -1, y = -1;
@@ -221,13 +250,26 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
                 ScrollMap(x, y);
             }
 
-            try { UI.General.Manager.DrawSurface(back); }
-            catch (Exception error) { Console.Error.WriteLine(error); LegacyApplication.ShowMessage("Exception during WinManager DrawSurface"); }
+            try
+            {
+                UI.General.Manager.DrawSurface(back);
+            }
+            catch (Exception error)
+            {
+                Console.Error.WriteLine(error);
+                LegacyApplication.ShowMessage("Exception during WinManager DrawSurface");
+            }
             LockedSurface descriptor = default;
             if (x != -1 && back.Lock(ref descriptor) >= 0)
             {
-                try { DrawCursor(x, y, descriptor); }
-                finally { _ = back.Unlock(); }
+                try
+                {
+                    DrawCursor(x, y, descriptor);
+                }
+                finally
+                {
+                    _ = back.Unlock();
+                }
             }
             FLastCursorRectangle = rectangle;
             UI.DebugWindow.ShowFrameRate(Display.CurrentFrameRate);
@@ -258,8 +300,10 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             }
 
             image.GetVisualDimensions(out Rect bounds);
-            bounds.Left += x + dx; bounds.Right += x + dx;
-            bounds.Top += y + dy; bounds.Bottom += y + dy;
+            bounds.Left += x + dx;
+            bounds.Right += x + dx;
+            bounds.Top += y + dy;
+            bounds.Bottom += y + dy;
             _ = RectRoutines.UnionRect(out _cursorBounds, _cursorBounds, bounds);
         }
         _cursorBounds = default;
@@ -322,13 +366,33 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             return;
         }
 
-        if (x <= 1) { UI.MapWindow.MapViewer.SceneX -= 16; UI.ScannerWindow.Scanner.SetTLeft((UI.MapWindow.MapViewer.SceneX / 32) - 6); }
-        if (x >= Display.ActiveDisplayController.GetSurface(0).Width - 1) { UI.MapWindow.MapViewer.SceneX += 16; UI.ScannerWindow.Scanner.SetTLeft((UI.MapWindow.MapViewer.SceneX / 32) - 6); }
-        if (y <= 1) { UI.MapWindow.MapViewer.SceneY -= 16; UI.ScannerWindow.Scanner.SetTTop((UI.MapWindow.MapViewer.SceneY / 32) - 6); }
-        if (y >= Display.ActiveDisplayController.GetSurface(0).Height - 1) { UI.MapWindow.MapViewer.SceneY += 16; UI.ScannerWindow.Scanner.SetTTop((UI.MapWindow.MapViewer.SceneY / 32) - 6); }
+        if (x <= 1)
+        {
+            UI.MapWindow.MapViewer.SceneX -= 16;
+            UI.ScannerWindow.Scanner.SetTLeft((UI.MapWindow.MapViewer.SceneX / 32) - 6);
+        }
+        if (x >= Display.ActiveDisplayController.GetSurface(0).Width - 1)
+        {
+            UI.MapWindow.MapViewer.SceneX += 16;
+            UI.ScannerWindow.Scanner.SetTLeft((UI.MapWindow.MapViewer.SceneX / 32) - 6);
+        }
+        if (y <= 1)
+        {
+            UI.MapWindow.MapViewer.SceneY -= 16;
+            UI.ScannerWindow.Scanner.SetTTop((UI.MapWindow.MapViewer.SceneY / 32) - 6);
+        }
+        if (y >= Display.ActiveDisplayController.GetSurface(0).Height - 1)
+        {
+            UI.MapWindow.MapViewer.SceneY += 16;
+            UI.ScannerWindow.Scanner.SetTTop((UI.MapWindow.MapViewer.SceneY / 32) - 6);
+        }
     }
 
-    public void MouseDown(MouseButton button, Set<ShiftState> shift, int x, int y) { Display.MouseButtons = shift; UI.General.Manager.CheckMouseDown(button, shift, x, y); }
+    public void MouseDown(MouseButton button, Set<ShiftState> shift, int x, int y)
+    {
+        Display.MouseButtons = shift;
+        UI.General.Manager.CheckMouseDown(button, shift, x, y);
+    }
 
     public void MouseUp(MouseButton button, Set<ShiftState> shift, int x, int y)
     {
@@ -340,13 +404,21 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         }
     }
 
-    public void MouseMove(Set<ShiftState> shift, int x, int y) { Display.MouseButtons = shift; UI.General.Manager.CheckMouseMove(shift, x, y); }
+    public void MouseMove(Set<ShiftState> shift, int x, int y)
+    {
+        Display.MouseButtons = shift;
+        UI.General.Manager.CheckMouseMove(shift, x, y);
+    }
 
     public void MouseWheel(int steps, Set<ShiftState> shift, int x, int y) => UI.General.Manager.CheckMouseWheel(steps, shift, x, y);
 
     public void KeyDown(ushort key, Set<ShiftState> shift)
     {
-        if (key == 13 && shift.Contains(ShiftState.Alt)) { _ = Display.SwapDisplayController(); return; }
+        if (key == 13 && shift.Contains(ShiftState.Alt))
+        {
+            _ = Display.SwapDisplayController();
+            return;
+        }
         UI.General.Manager.CheckKeyDown(ref key, shift);
         if (key == 112 && StrategicMap.Current is not null && StrategicMap.Current.GameType == GameType.Tutorial)
         {

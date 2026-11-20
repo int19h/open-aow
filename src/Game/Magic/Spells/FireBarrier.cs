@@ -16,7 +16,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class FireBarrier : GlobalTargetSpell
+public class FireBarrier : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:882
     public FireBarrier(CustomNode owner, EngineObject holder) : base(owner)

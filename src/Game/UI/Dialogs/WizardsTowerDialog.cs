@@ -130,5 +130,4 @@ public partial class WizardsTowerDialog(UIContext ui) : UIModule(ui)
 
         dialog.Window.Visible = true;
     }
-
 }

@@ -17,7 +17,7 @@ namespace Aow.Game.Combat.Actions;
 
 // FDamage. FDamageTypes. FEffects. FDamageTaken. The two damage sets are stored as unaligned
 // packed records (PackedDamageTypes)
-public partial class DamageCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
+public class DamageCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
 {
     // Combat2.pas:774
     public new const int ClassId = 131761;
@@ -267,9 +267,4 @@ public partial class DamageCombatAction(CustomNode owner) : SingleTargetCombatAc
                 : damageTypes.Contains(DamageType.Wall) ? DamageType.Wall : DamageType.None
             : DamageType.None;
     }
-
-    // intf_P3_02.inc:38
-
-    // intf_P3_02.inc:38
-
 }

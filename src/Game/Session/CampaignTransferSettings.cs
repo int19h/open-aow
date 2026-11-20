@@ -24,7 +24,7 @@ namespace Aow.Game.Session;
 // leader. heroes. items. units. research percentage. spells. research spell ID. research points
 // left. selected heroes/items/units. gold/mana. spheres. points max. gold max. mana max. points
 // left
-public partial class CampaignTransferSettings : EngineObject
+public class CampaignTransferSettings : EngineObject
 {
     // Diplomacy.pas:1736
     public CampaignTransferSettings(CustomNode owner) : base(owner)
@@ -615,9 +615,4 @@ public partial class CampaignTransferSettings : EngineObject
     }
 
     private static int CompareCampaignTransfer(in QuadItemList.QuadInteger item1, in QuadItemList.QuadInteger item2) => item2.Third - item1.Third;
-
-    // intf_P5_08.inc:43
-
-    // intf_P5_08.inc:43
-
 }

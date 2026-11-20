@@ -280,5 +280,4 @@ public partial class HeroJoinDialog(UIContext ui) : UIModule(ui)
         UpdateHeroJoin(dialog);
         dialog.Window.Visible = true;
     }
-
 }

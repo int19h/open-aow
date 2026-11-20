@@ -6,7 +6,7 @@ using Aow.Formats.Tree;
 namespace Aow.Game.Magic.Abilities;
 
 // (level, ability ID)
-public partial class MultiLevelAbilityData(CustomNode owner) : AbilityData(owner)
+public class MultiLevelAbilityData(CustomNode owner) : AbilityData(owner)
 {
     public new const int ClassId = 139265;
 
@@ -23,7 +23,4 @@ public partial class MultiLevelAbilityData(CustomNode owner) : AbilityData(owner
 
     // AoWAb.PAS:243
     public override int GetAbilityId() => LevelAbilityId;
-
-    // Engine.pas:524
-
 }

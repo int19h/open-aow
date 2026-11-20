@@ -9,7 +9,7 @@ namespace Aow.Game.Draw.Images;
 
 // library file names (upper case, relative to the search path) with their TILManagerObject.
 // FHashTable (the objects by name), FOwner
-public partial class ImageLibraryManagerList(ImageLibraryManager owner) : DelphiStringList<ImageLibraryManagerObject>
+public class ImageLibraryManagerList(ImageLibraryManager owner) : DelphiStringList<ImageLibraryManagerObject>
 {
     internal Dictionary<string, ImageLibraryManagerObject> HashTable { get; } = [with(AnsiCompareComparer.Instance)];
 
@@ -168,5 +168,4 @@ public partial class ImageLibraryManagerList(ImageLibraryManager owner) : Delphi
             Objects[i].ImageLibrary.SaveToStream(stream);
         }
     }
-
 }

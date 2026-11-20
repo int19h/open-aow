@@ -22,8 +22,8 @@ public sealed class AIGroupClass
 
     public AIGroup CreateInstance(CustomNode owner, EngineObject holder) => Class.Create<AIGroup>(owner, holder: holder);
 
-    public static AIGroupClass Register<T>() where T : AIGroup, IAIGroupClass =>
-        s_catalog.Add(typeof(T), new AIGroupClass(EngineClass.Of<T>(), T.Behavior));
+    public static AIGroupClass Register<T>() where T : AIGroup, IAIGroupClass
+        => s_catalog.Add(typeof(T), new AIGroupClass(EngineClass.Of<T>(), T.Behavior));
 
     public static AIGroupClass Of<T>() where T : AIGroup, IAIGroupClass => s_catalog[typeof(T)];
     public static AIGroupClass Of(Type type) => s_catalog[type];

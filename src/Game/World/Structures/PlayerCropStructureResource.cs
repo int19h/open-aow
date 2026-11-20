@@ -8,7 +8,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.World.Structures;
 
 // CropLocations
-public partial class PlayerCropStructureResource(CustomNode owner) : PlayerStructureResource(owner)
+public class PlayerCropStructureResource(CustomNode owner) : PlayerStructureResource(owner)
 {
 
     // Crops.pas:599

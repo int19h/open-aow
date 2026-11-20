@@ -5,7 +5,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Structures;
 
-public partial class PowerSource(CustomNode owner) : EngineObject(owner)
+public class PowerSource(CustomNode owner) : EngineObject(owner)
 {
 
     // Spells.PAS:1782

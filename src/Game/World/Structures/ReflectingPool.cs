@@ -22,8 +22,6 @@ public partial class ReflectingPool(CustomNode owner) : PlayerStructure(owner)
     // ReflectingPool.pas:80
     public override void PersistFields(IPersister persister) => base.PersistFields(persister);
 
-    // ReflectingPool.pas:52
-
     // ReflectingPool.pas:241
     public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
@@ -289,7 +287,7 @@ public partial class ReflectingPool(CustomNode owner) : PlayerStructure(owner)
 
     internal static int ComparePools(object item1, object item2) => 0;
 
-    public new partial class Resource : PlayerStructureResource
+    public new class Resource : PlayerStructureResource
     {
         public Resource(CustomNode owner) : base(owner)
         {
@@ -302,12 +300,8 @@ public partial class ReflectingPool(CustomNode owner) : PlayerStructure(owner)
         // ReflectingPool.pas:266
         public new const int ClassId = 132671;
 
-        // ReflectingPool.pas:254
-
         // ReflectingPool.pas:269
         public override int ResourceUserClassId() => 132670;
-
-        // ReflectingPool.pas:42
 
         // ReflectingPool.pas:263
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_reflectingPoolText);
@@ -315,9 +309,4 @@ public partial class ReflectingPool(CustomNode owner) : PlayerStructure(owner)
         private static readonly string s_reflectingPoolText = "Reflecting Pool";
 
     }
-
-    // ReflectingPool.pas:20
-
-    // ReflectingPool.pas:20
-
 }

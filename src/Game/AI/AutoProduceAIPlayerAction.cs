@@ -18,7 +18,7 @@ using static Aow.Rtl.DelphiRounding;
 namespace Aow.Game.AI;
 
 // production index, state, gold upkeep, mana upkeep, productions
-public partial class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPlayerActionClass
+public class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPlayerActionClass
 {
 
     private int _productionIndex;
@@ -514,8 +514,6 @@ public partial class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerActio
 
         return result;
     }
-
-    // intf_P5_06.inc:642
 
     // AI.pas:1214
     public static new int Priority => 12;

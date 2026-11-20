@@ -11,7 +11,7 @@ using Aow.Rtl;
 namespace Aow.Game.World.Hexes;
 
 // _terrain, Direction (-1 invalid), SideA, SideB
-public partial class HexBridge(CustomNode owner) : AbstractRoad(owner)
+public class HexBridge(CustomNode owner) : AbstractRoad(owner)
 {
 
     // HxBridge.pas:84
@@ -31,8 +31,6 @@ public partial class HexBridge(CustomNode owner) : AbstractRoad(owner)
         _sideA?.Dispose();
         _sideB?.Dispose();
     }
-
-    // HxBridge.pas:69
 
     // HxBridge.pas:100
     public override sbyte GetTerrain(int index) => index == 0 ? _terrain : (sbyte)-2;
@@ -360,27 +358,18 @@ public partial class HexBridge(CustomNode owner) : AbstractRoad(owner)
             .Contains((byte)terrain);
     }
 
-    public new partial class Resource : AbstractRoadResource
+    public new class Resource : AbstractRoadResource
     {
         public Resource(CustomNode owner) : base(owner) => Level = 10;
 
         // HxBridge.pas:348
         public new const int ClassId = 133243;
 
-        // HxBridge.pas:332
-
         // HxBridge.pas:338
         public override int ResourceUserClassId() => 133242;
-
-        // HxBridge.pas:49
 
         // HxBridge.pas:343
         public override string ResourceEditName() => HexText.BridgeText;
 
     }
-
-    // HxBridge.pas:25
-
-    // HxBridge.pas:25
-
 }

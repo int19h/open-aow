@@ -6,7 +6,7 @@ namespace Aow.Game.Net;
 
 // FSender, FReceiver (player indices, stored with ids 1 and 2), FRefCount. The base of the
 // packages that TPlayerCommunicator sends
-public partial class DataPackage(CustomNode owner) : EngineObject(owner)
+public class DataPackage(CustomNode owner) : EngineObject(owner)
 {
     internal int RefCount { get; private set; } = 1;
 
@@ -46,5 +46,4 @@ public partial class DataPackage(CustomNode owner) : EngineObject(owner)
 
     public int Sender { get; set; }
     public int Receiver { get; set; }
-
 }

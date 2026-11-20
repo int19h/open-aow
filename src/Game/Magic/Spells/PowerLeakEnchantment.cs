@@ -7,7 +7,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class PowerLeakEnchantment : GlobalEnchantment
+public class PowerLeakEnchantment : GlobalEnchantment
 {
     // GlobalEnchantmentSpells.pas:1001
     public new const int ClassId = 135959;
@@ -47,5 +47,4 @@ public partial class PowerLeakEnchantment : GlobalEnchantment
 
         return true;
     }
-
 }

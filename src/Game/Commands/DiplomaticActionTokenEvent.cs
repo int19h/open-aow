@@ -8,7 +8,7 @@ using Aow.Game.Session;
 namespace Aow.Game.Commands;
 
 // Operation, Action
-public partial class DiplomaticActionTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class DiplomaticActionTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
 
     // Diplomacy.pas:1125
@@ -82,7 +82,4 @@ public partial class DiplomaticActionTokenEvent(CustomNode owner) : TokenEvent(o
             _ = (Action?.AddRef());
         }
     }
-
-    // NetworkE.pas:230
-
 }

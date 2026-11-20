@@ -6,7 +6,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class WaterWalking : UnitSpell
+public class WaterWalking : UnitSpell
 {
     // UnitSpells.pas:662
     public WaterWalking(CustomNode owner, EngineObject holder) : base(owner)

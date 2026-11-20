@@ -17,7 +17,7 @@ using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.Draw.Animations;
 
-public partial class FireStorm(CustomNode owner) : Storm(owner)
+public class FireStorm(CustomNode owner) : Storm(owner)
 {
 
     // Storms.pas:517
@@ -124,8 +124,6 @@ public partial class FireStorm(CustomNode owner) : Storm(owner)
             terrainType = 0;
         }
     }
-
-    // Animation.pas:43
 
     // Storms.pas:522
     public override string Name() => AbilityRules.TranslateResourceString(GetEngine(), GameTables.FireStormText);

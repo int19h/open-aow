@@ -22,7 +22,7 @@ using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class AnimateRuins : CityTargetSpell
+public class AnimateRuins : CityTargetSpell
 {
     // CitySpells.pas:915
     public AnimateRuins(CustomNode owner, EngineObject holder) : base(owner)

@@ -15,7 +15,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Grids;
 
-public partial class MapControl : Component
+public class MapControl : Component
 {
     private readonly GameEngine _engine;
 

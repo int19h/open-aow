@@ -13,7 +13,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Session;
 
 // faction, state, page
-public partial class WorldMapCampaign(CustomNode owner) : Campaign(owner)
+public class WorldMapCampaign(CustomNode owner) : Campaign(owner)
 {
     // AoWVideoDlg.pas:334
     public new const int ClassId = 2248704;

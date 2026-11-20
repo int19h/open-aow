@@ -22,7 +22,7 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Game.World.Terrain;
 
 // Mode, Player, Duration, OriginalOverlay
-public partial class UnholyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
+public class UnholyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
 {
 
     // UnHolyG.pas:93
@@ -302,7 +302,7 @@ public partial class UnholyGround(CustomNode owner) : ImageLibraryTerrainMapObje
 
     private static readonly string s_unholyGroundDamageText = "Unholy Ground Damage";
 
-    public new partial class Resource(CustomNode owner) : ImageLibraryTerrainMapObjectResource(owner)
+    public new class Resource(CustomNode owner) : ImageLibraryTerrainMapObjectResource(owner)
     {
 
         // UnHolyG.pas:278
@@ -317,5 +317,4 @@ public partial class UnholyGround(CustomNode owner) : ImageLibraryTerrainMapObje
         private static readonly string s_unholyGroundText = "Unholy Ground";
 
     }
-
 }

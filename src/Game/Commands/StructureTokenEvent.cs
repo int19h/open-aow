@@ -12,7 +12,7 @@ using static Aow.Rtl.DelphiAssert;
 
 namespace Aow.Game.Commands;
 
-public partial class StructureTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class StructureTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
     public new const int ClassId = 135440;
 
@@ -73,7 +73,4 @@ public partial class StructureTokenEvent(CustomNode owner) : TokenEvent(owner)
         _razed = structure.GetRazed();
         Player = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).GetPlayer();
     }
-
-    // NetworkE.pas:230
-
 }

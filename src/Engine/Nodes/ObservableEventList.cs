@@ -4,7 +4,7 @@ using Aow.Rtl;
 namespace Aow.Engine.Nodes;
 
 // Events, notified by Changed
-public partial class ObservableEventList(CustomNode owner) : ObservableNode(owner)
+public class ObservableEventList(CustomNode owner) : ObservableNode(owner)
 {
 
     private readonly EventStore<ObservableEventList> _eventsStore = new();

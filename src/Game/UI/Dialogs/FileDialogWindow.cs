@@ -808,9 +808,9 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
 
     private static void SaveGame(string name) => StrategicMap.Current.SaveGame(name);
 
-    private static void SaveCampaign(string name) =>
+    private static void SaveCampaign(string name)
         // { Original campaign-save command uses the map save routine. }
-        StrategicMap.Current.SaveGame(name);
+        => StrategicMap.Current.SaveGame(name);
 
     private static void PickScenarioMap(ScenarioSetup dialog, string name)
     {
@@ -838,5 +838,4 @@ public partial class FileDialogWindow(UIContext ui) : UIModule(ui)
         dialog.TitleLabel.Text = eventValue.Title;
         dialog.FindFiles();
     }
-
 }

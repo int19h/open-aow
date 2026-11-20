@@ -5,7 +5,7 @@ using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.Units;
 
-public partial class UnitSelector : IDisposable
+public class UnitSelector : IDisposable
 {
     // Ability.PAS:575
     public UnitSelector(EngineObject creator)
@@ -121,7 +121,11 @@ public partial class UnitSelector : IDisposable
     }
 
     // intf_P1_08.inc:65
-    public virtual bool Select() { OnSelect?.Invoke(this); return true; }
+    public virtual bool Select()
+    {
+        OnSelect?.Invoke(this);
+        return true;
+    }
 
     public delegate void NotifyEvent(UnitSelector Selector);
 }

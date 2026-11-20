@@ -27,7 +27,7 @@ namespace Aow.Game.Session;
 // (next ID, cheat, player, updates, external mana/power, external source, mana, spheres,
 // research percentage, spells, research spell, points, enchantments, power sources, enchantment
 // sets, changed events)
-public partial class PlayerMagicControl : EngineObject
+public class PlayerMagicControl : EngineObject
 {
 
     // Spells.PAS:1908

@@ -19,7 +19,7 @@ namespace Aow.Game.Combat;
 
 // PathInvalid. TargetImages. RangedPathHexSprite. TargetX. TargetY. CursorImage. CursorFrame.
 // RangedPath. Obstacles
-public partial class CombatUnitSelectionControl : MoveSelector
+public class CombatUnitSelectionControl : MoveSelector
 {
     // AoWTC.pas:2723
     public CombatUnitSelectionControl(EngineObject creator) : base(creator)
@@ -1471,5 +1471,4 @@ public partial class CombatUnitSelectionControl : MoveSelector
     {
         Move = 0, Ranged = 1
     }
-
 }

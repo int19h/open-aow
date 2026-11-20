@@ -10,7 +10,7 @@ using Aow.Rtl;
 namespace Aow.Game.Units;
 
 // references, leader, mode, original leader, items, done event
-public partial class LeaderSetupControl : EngineObject
+public class LeaderSetupControl : EngineObject
 {
 
     // Player.PAS:1755
@@ -76,7 +76,4 @@ public partial class LeaderSetupControl : EngineObject
     {
         None = 0, Busy = 1, Done = 2, Canceled = 3
     }
-
-    // intf_P1_03.inc:99
-
 }

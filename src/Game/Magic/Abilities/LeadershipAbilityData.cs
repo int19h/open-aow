@@ -7,7 +7,7 @@ using Aow.Formats.Tree;
 namespace Aow.Game.Magic.Abilities;
 
 // (external level, source name)
-public partial class LeadershipAbilityData(CustomNode owner) : MultiLevelAbilityData(owner)
+public class LeadershipAbilityData(CustomNode owner) : MultiLevelAbilityData(owner)
 {
     public new const int ClassId = 131790;
 
@@ -25,7 +25,4 @@ public partial class LeadershipAbilityData(CustomNode owner) : MultiLevelAbility
             ExternalSource = persister.String("ExternalSource", value: ExternalSource);
         }
     }
-
-    // Engine.pas:524
-
 }

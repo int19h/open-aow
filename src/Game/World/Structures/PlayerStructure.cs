@@ -52,8 +52,6 @@ public partial class PlayerStructure(CustomNode owner) : Structure(owner)
         ProductionPriority = persister.Byte("ProductionPriority", value: ProductionPriority);
     }
 
-    // Structur.PAS:1970
-
     // Structur.PAS:2328
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
@@ -736,7 +734,4 @@ public partial class PlayerStructure(CustomNode owner) : Structure(owner)
             }
         }
     }
-
-    // intf_P1_09.inc:249
-
 }

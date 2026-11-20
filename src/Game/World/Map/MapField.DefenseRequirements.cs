@@ -20,8 +20,14 @@ public partial class MapField
         MapFieldMessageParameters param3 = message.Param;
         param3[2] = control;
         message.Param = param3;
-        try { SendMapFieldMessage(ref message); }
-        finally { data = query.Data; }
+        try
+        {
+            SendMapFieldMessage(ref message);
+        }
+        finally
+        {
+            data = query.Data;
+        }
         return data.Priority != 0;
     }
 
@@ -35,7 +41,13 @@ public partial class MapField
         MapFieldMessageParameters param2 = message.Param;
         param2[1] = query;
         message.Param = param2;
-        try { SendMapFieldMessage(ref message); }
-        finally { requirements = query.Requirements; }
+        try
+        {
+            SendMapFieldMessage(ref message);
+        }
+        finally
+        {
+            requirements = query.Requirements;
+        }
     }
 }

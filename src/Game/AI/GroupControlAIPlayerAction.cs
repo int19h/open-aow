@@ -10,7 +10,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.AI;
 
 // group cycles, group control
-public partial class GroupControlAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPlayerActionClass
+public class GroupControlAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPlayerActionClass
 {
     [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Construction snapshots record this field, and the Delphi field is only written.")]
     private int _groupProcessCycles;
@@ -94,8 +94,6 @@ public partial class GroupControlAIPlayerAction(CustomNode owner) : AIPlayerActi
             _groupControl = null;
         }
     }
-
-    // intf_P5_06.inc:504
 
     // AI.pas:1060
     public static new int Priority => 20;

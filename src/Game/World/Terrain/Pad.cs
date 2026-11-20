@@ -6,13 +6,11 @@ using Aow.Game.World.Map;
 namespace Aow.Game.World.Terrain;
 
 // PadActive
-public partial class Pad(CustomNode owner) : FixedImageLibraryTerrainMapObject(owner)
+public class Pad(CustomNode owner) : FixedImageLibraryTerrainMapObject(owner)
 {
 
     // Pad.pas:52
     public new const int ClassId = 131334;
-
-    // Pad.pas:46
 
     // Pad.pas:55
     public override bool CanSelect(int pixelX, int pixelY) => false;
@@ -21,7 +19,7 @@ public partial class Pad(CustomNode owner) : FixedImageLibraryTerrainMapObject(o
     public override sbyte ForceTerrainType(MapLevel mapLevel, sbyte hexX, sbyte hexY) => mapLevel.HexLevel != 0 ? (sbyte)12 : (sbyte)-1;
 
     // PadSize
-    public new partial class Resource : FixedImageLibraryTerrainMapObjectResource
+    public new class Resource : FixedImageLibraryTerrainMapObjectResource
     {
         public Resource(CustomNode owner) : base(owner) => SetLevel(10);
 
@@ -40,8 +38,6 @@ public partial class Pad(CustomNode owner) : FixedImageLibraryTerrainMapObject(o
 
             base.Dispose();
         }
-
-        // Pad.pas:63
 
         // Pad.pas:101
         public override EditorClass Editor() => Engine.Editors.FindEditor(131335) ?? base.Editor();
@@ -74,13 +70,8 @@ public partial class Pad(CustomNode owner) : FixedImageLibraryTerrainMapObject(o
             Engine.HexSpriteSet.PadControl.RegisterPadResource(this, _padSize);
         }
 
-        // Pad.pas:32
-
         // Pad.pas:79
         public override string ResourceEditName() => "Pad";
 
     }
-
-    // Pad.pas:20
-
 }

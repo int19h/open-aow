@@ -175,5 +175,4 @@ public partial class HexSpriteSelection(CustomNode owner) : ControlStyleNode(own
     }
 
     public HexSprite EventHexSprite { get; private set; }
-
 }

@@ -11,7 +11,7 @@ public partial class Ruin(CustomNode owner) : ItemExplorationSite(owner)
     // Ruin.pas:34
     public new const int ClassId = 131994;
 
-    public new partial class Resource(CustomNode owner) : ItemExplorationSiteResource(owner)
+    public new class Resource(CustomNode owner) : ItemExplorationSiteResource(owner)
     {
 
         // Ruin.pas:40
@@ -26,5 +26,4 @@ public partial class Ruin(CustomNode owner) : ItemExplorationSite(owner)
         private static readonly string s_castleRuinText = "Castle Ruin";
 
     }
-
 }

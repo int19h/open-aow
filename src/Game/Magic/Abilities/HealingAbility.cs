@@ -18,7 +18,7 @@ using static Aow.Rtl.DelphiTextCompare;
 
 namespace Aow.Game.Magic.Abilities;
 
-public partial class HealingAbility : TouchAbility
+public class HealingAbility : TouchAbility
 {
     // AoWAb.PAS:3616
     public HealingAbility(CustomNode owner, EngineObject holder) : base(owner)
@@ -276,8 +276,8 @@ public partial class HealingAbility : TouchAbility
     }
 
     // AoWAb.PAS:3680. The ranged event already drew its random value.
-    public override CombatAction CreateRangedCombatAction(CombatUnit source, CombatUnit target) =>
-        CreateHealingCombatAction(source, target: target);
+    public override CombatAction CreateRangedCombatAction(CombatUnit source, CombatUnit target)
+        => CreateHealingCombatAction(source, target: target);
 
     // Draws the random value the touch event used to draw, then builds the action.
     public override CombatAction CreateTouchMoveCombatAction(CombatUnit source, CombatUnit target)

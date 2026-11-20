@@ -24,7 +24,7 @@ namespace Aow.Game.AI.Groups;
 // cycles, group, status, location, army, army sprite, selection, targets, strengths, max
 // strength, move table, immunity, predictor, move executer, recruitment, production locations,
 // plugin, state
-public partial class AIGroupControl : EngineObject
+public class AIGroupControl : EngineObject
 {
 
     // AIGroup.pas:973
@@ -560,7 +560,4 @@ public partial class AIGroupControl : EngineObject
     {
         Activated = 0, Loop = 1
     }
-
-    // intf_P5_07.inc:259
-
 }

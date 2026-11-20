@@ -9,7 +9,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.World.Structures;
 
-public partial class ShipyardConstructionControl(CustomNode owner) : StructureConstructionControl(owner)
+public class ShipyardConstructionControl(CustomNode owner) : StructureConstructionControl(owner)
 {
 
     // Shipyard.pas:93

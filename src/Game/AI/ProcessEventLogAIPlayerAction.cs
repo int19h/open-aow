@@ -10,7 +10,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.AI;
 
 // log index
-public partial class ProcessEventLogAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPlayerActionClass
+public class ProcessEventLogAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPlayerActionClass
 {
 
     private int _logIndex = -1;
@@ -44,8 +44,6 @@ public partial class ProcessEventLogAIPlayerAction(CustomNode owner) : AIPlayerA
 
         return !done;
     }
-
-    // intf_P5_06.inc:662
 
     // AI.pas:1621
     public static new int Priority => 999;

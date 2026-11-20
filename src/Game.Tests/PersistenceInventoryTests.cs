@@ -9,8 +9,8 @@ namespace Aow.Game.Tests;
 /// </summary>
 public static class PersistenceInventoryPlant
 {
-    public static byte[] WriteOwnPath(ObjectNode node, SchemaClass classValue, FormatSchema schema) =>
-        OriginalBackend.Write(node, classValue: classValue, schema: schema, engine: "game");
+    public static byte[] WriteOwnPath(ObjectNode node, SchemaClass classValue, FormatSchema schema)
+        => OriginalBackend.Write(node, classValue: classValue, schema: schema, engine: "game");
 }
 
 /// <summary>A public stored id the product tree does not declare. The inventory test asserts that this member is reported.</summary>

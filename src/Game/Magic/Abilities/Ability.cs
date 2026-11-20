@@ -26,7 +26,7 @@ namespace Aow.Game.Magic.Abilities;
 
 // name, ID, description, cost, Sfx library, image sequences, selection types. Procedure
 // return-ABI adapters preserve unmarked overrides in other packages
-public partial class Ability : EngineObject
+public class Ability : EngineObject
 {
 
     // Ability.PAS:1238
@@ -152,8 +152,8 @@ public partial class Ability : EngineObject
     // family override this. The event's ability id names a ranged attack otherwise, and the type
     // system does not carry that, so this cast stays. Another ability fails it, the same failure the
     // old ranged attack lookup made.
-    public virtual CombatAction CreateRangedCombatAction(CombatUnit source, CombatUnit target) =>
-        ((RangedAttackAbility)this).CreateRangedAttackCombatAction(source, target: target, attackPenalty: 0);
+    public virtual CombatAction CreateRangedCombatAction(CombatUnit source, CombatUnit target)
+        => ((RangedAttackAbility)this).CreateRangedAttackCombatAction(source, target: target, attackPenalty: 0);
 
     // A touch ability builds its action here and draws its random value where the touch event drew it.
     // Any other ability does nothing.

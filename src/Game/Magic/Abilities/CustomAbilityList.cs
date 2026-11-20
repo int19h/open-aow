@@ -17,7 +17,7 @@ using static Aow.Rtl.IntegerObjects;
 namespace Aow.Game.Magic.Abilities;
 
 // ability-bit buffer, bit count
-public partial class CustomAbilityList(CustomNode owner) : EngineObject(owner)
+public class CustomAbilityList(CustomNode owner) : EngineObject(owner)
 {
     public byte[] AbilityBits { get; internal set; } = [];
 

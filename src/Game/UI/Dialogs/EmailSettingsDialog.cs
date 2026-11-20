@@ -44,5 +44,4 @@ public partial class EmailSettingsDialog(UIContext ui) : UIModule(ui)
         dialog.AttachmentDirectoryEdit.Text = attachmentDirectory;
         dialog.Window.Visible = true;
     }
-
 }

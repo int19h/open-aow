@@ -13,7 +13,7 @@ namespace Aow.Game.World.Hexes;
 //   on three sides from HexTrans.ILB (THexagonResource, ClassID $20153). }
 // FTransitions (the transition image of the sides 0.2), FTransitionSides (bits 0.2: the sides
 // with a transition, bits 3.5: the shifted variants)
-public partial class Hex(CustomNode owner) : AbstractHexagon(owner)
+public class Hex(CustomNode owner) : AbstractHexagon(owner)
 {
     public new const int ClassId = 131410;
 
@@ -257,7 +257,7 @@ public partial class Hex(CustomNode owner) : AbstractHexagon(owner)
     private static ReadOnlySpan<byte> SideHexNumber => [6, 1, 2];
     private static ReadOnlySpan<byte> SideClear => [246, 237, 219];
 
-    public new partial class Resource(CustomNode owner) : HexagonResource(owner)
+    public new class Resource(CustomNode owner) : HexagonResource(owner)
     {
 
         // AoWHex.pas:254

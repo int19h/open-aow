@@ -11,7 +11,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class Harmony : GlobalEnchantmentSpell
+public class Harmony : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:969
     public Harmony(CustomNode owner, EngineObject holder) : base(owner)

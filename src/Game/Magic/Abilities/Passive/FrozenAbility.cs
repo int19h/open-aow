@@ -8,7 +8,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // inherited name, ability ID, selection types, ability type
-public partial class FrozenAbility : UnitEnchantmentAbility
+public class FrozenAbility : UnitEnchantmentAbility
 {
     // PassiveAb.pas:649
     public FrozenAbility(CustomNode owner, EngineObject holder) : base(owner)

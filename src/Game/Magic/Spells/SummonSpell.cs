@@ -15,7 +15,7 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Game.Magic.Spells;
 
 // AIBasePriority, UnitIndices
-public partial class SummonSpell : Spell
+public class SummonSpell : Spell
 {
 
     public int AIBasePriority { get; protected set; }

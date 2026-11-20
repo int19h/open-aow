@@ -222,5 +222,4 @@ internal static class EffectPaths
             }
         }
     }
-
 }

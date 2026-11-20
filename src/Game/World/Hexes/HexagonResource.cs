@@ -10,7 +10,7 @@ using Aow.Rtl;
 namespace Aow.Game.World.Hexes;
 
 // TransitionLibrary (HexTrans.ILB)
-public partial class HexagonResource : AbstractHexagonResource
+public class HexagonResource : AbstractHexagonResource
 {
     public HexagonResource(CustomNode owner) : base(owner) => SetLevel(0);
 
@@ -18,8 +18,6 @@ public partial class HexagonResource : AbstractHexagonResource
     public new const int ClassId = 131411;
 
     protected internal CustomImageLibrary TransitionLibrary { get; private set; }
-
-    // Hexagon.pas:83
 
     // Hexagon.pas:99
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
@@ -118,8 +116,6 @@ public partial class HexagonResource : AbstractHexagonResource
             }
         }
     }
-
-    // Hexagon.pas:32
 
     // Hexagon.pas:107
     public override string ResourceEditName() => s_hexText;

@@ -3,7 +3,7 @@
 namespace Aow.Engine.Nodes;
 
 // { Engine.TEInverseSortNode: the same, sorted the other way }
-public partial class InverseSortedNode(CustomNode owner) : SortedNode(owner)
+public class InverseSortedNode(CustomNode owner) : SortedNode(owner)
 {
     public new const int ClassId = 262;
 
@@ -102,5 +102,4 @@ public partial class InverseSortedNode(CustomNode owner) : SortedNode(owner)
         }
         while (number < R);
     }
-
 }

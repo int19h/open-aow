@@ -11,7 +11,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Commands;
 
 // storm, X, Y, layer
-public partial class StormSpellTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
+public class StormSpellTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
 {
 
     // Storms.pas:730
@@ -50,7 +50,4 @@ public partial class StormSpellTokenEvent(CustomNode owner) : SpellTokenEvent(ow
             return true;
         }
     }
-
-    // NetworkE.pas:230
-
 }

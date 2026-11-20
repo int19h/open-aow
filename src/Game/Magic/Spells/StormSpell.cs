@@ -16,7 +16,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Spells;
 
 // targeting storm, caster
-public partial class StormSpell : Spell
+public class StormSpell : Spell
 {
     private Storm _targetStorm;
     private Troop _source;

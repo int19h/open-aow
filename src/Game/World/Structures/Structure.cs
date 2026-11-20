@@ -86,8 +86,6 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
         BuildingPlayer = PersistSupport.UnsignedByte(persister, name: "BuildingPlayer", value: BuildingPlayer, fallback: 255);
     }
 
-    // Structur.PAS:1010
-
     // Structur.PAS:1629
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
@@ -909,7 +907,6 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
 
                 HexNumberWalkData.WalkToNextHexNumber(ref walk);
             }
-
         }
         return result;
     }
@@ -1227,9 +1224,4 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
     private static readonly string s_notEnoughForcesText = "Your forces aren't sufficient";
     private static readonly string s_razeStructureWarningText = "You're about to raze this structure.";
     private static readonly string s_doYouWishToContinueText = "Do you wish to continue?";
-
-    // intf_P1_09.inc:78
-
-    // intf_P1_09.inc:78
-
 }

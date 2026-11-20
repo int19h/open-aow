@@ -10,7 +10,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Spells;
 
 // inherited combat statistics, damage mode
-public partial class GreatHail : CombatSpell
+public class GreatHail : CombatSpell
 {
     // CombatSpells.pas:1472
     public GreatHail(CustomNode owner, EngineObject holder) : base(owner)

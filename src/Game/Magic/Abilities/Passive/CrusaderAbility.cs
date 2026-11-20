@@ -7,7 +7,7 @@ namespace Aow.Game.Magic.Abilities.Passive;
 
 // inherited name, ability ID, selection types, ability type, duration mode. duration data
 // countdown, player index
-public partial class CrusaderAbility : DurationAbility
+public class CrusaderAbility : DurationAbility
 {
     // PassiveAb.pas:703
     public CrusaderAbility(CustomNode owner, EngineObject holder) : base(owner)

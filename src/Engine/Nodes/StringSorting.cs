@@ -99,5 +99,4 @@ internal static class StringSorting
         int v2 = StrToIntDef(s2, -1);
         return v2 - v1;
     }
-
 }

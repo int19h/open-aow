@@ -6,7 +6,7 @@ using Aow.Formats.Tree;
 namespace Aow.Game.Session;
 
 // day, relation
-public partial class DiplomaticRelationHistoryItem(CustomNode owner) : EngineObject(owner)
+public class DiplomaticRelationHistoryItem(CustomNode owner) : EngineObject(owner)
 {
     public new const int ClassId = 131354;
 
@@ -20,7 +20,4 @@ public partial class DiplomaticRelationHistoryItem(CustomNode owner) : EngineObj
         Day = persister.Int32("Day", value: Day);
         Relation = persister.Enum("Relation", value: Relation);
     }
-
-    // Engine.pas:524
-
 }

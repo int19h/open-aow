@@ -16,7 +16,7 @@ using static Aow.Rtl.RtlHost;
 
 namespace Aow.Game.Commands;
 
-public partial class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : CombatMoveTokenEvent(owner)
+public class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : CombatMoveTokenEvent(owner)
 {
 
     // CombatTE.pas:624
@@ -486,7 +486,4 @@ public partial class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : Combat
 
         return result;
     }
-
-    // intf_P5_07.inc:765
-
 }

@@ -14,7 +14,7 @@ using Aow.Rtl;
 namespace Aow.Game.World.Structures;
 
 // Income, ChangingCrops, IncomeSource
-public partial class PlayerCropStructure : PlayerStructure
+public class PlayerCropStructure : PlayerStructure
 {
 
     public PlayerCropStructure(CustomNode owner) : base(owner)
@@ -40,8 +40,6 @@ public partial class PlayerCropStructure : PlayerStructure
         base.Dispose();
         _incomeSource?.Dispose();
     }
-
-    // Crops.pas:270
 
     // Crops.pas:528
     public override void NeighbourTerrainChanged(int hexNumber, in HexSpriteTerrainInfo info)

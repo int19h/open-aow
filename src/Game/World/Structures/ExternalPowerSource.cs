@@ -9,7 +9,7 @@ using Aow.Game.Session;
 namespace Aow.Game.World.Structures;
 
 // (external power control)
-public partial class ExternalPowerSource(CustomNode owner) : PowerSource(owner)
+public class ExternalPowerSource(CustomNode owner) : PowerSource(owner)
 {
     public PlayerMagicControl ExternalPowerControl { get; set; }
 

@@ -11,7 +11,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class EnchantedRoadsEnchantment : GlobalEnchantment
+public class EnchantedRoadsEnchantment : GlobalEnchantment
 {
     // GlobalEnchantmentSpells.pas:535
     public new const int ClassId = 135955;
@@ -60,5 +60,4 @@ public partial class EnchantedRoadsEnchantment : GlobalEnchantment
         StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.EnchantedRoads));
         return true;
     }
-
 }

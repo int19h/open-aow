@@ -13,7 +13,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Abilities;
 
-public partial class SpellCastingAbility : MultiLevelAbility
+public class SpellCastingAbility : MultiLevelAbility
 {
     // AoWAb.PAS:4439
     public SpellCastingAbility(CustomNode owner, EngineObject holder) : base(owner)

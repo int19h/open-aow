@@ -18,7 +18,7 @@ namespace Aow.Game.Session;
 
 // name. map stream. scenarios. completed scenario IDs. race history. scenario started. transfer
 // settings. current ID. next ID. difficulty. play mode
-public partial class Campaign : EngineObject
+public class Campaign : EngineObject
 {
 
     // Diplomacy.pas:2246
@@ -324,9 +324,6 @@ public partial class Campaign : EngineObject
 
     // Diplomacy.pas:2292
     public bool GetContainsMap() => Stream.Length != 0;
-
-    // intf_P5_08.inc:107
-
 }
 
 public enum CampaignDifficultyLevel : byte

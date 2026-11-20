@@ -14,7 +14,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Spells;
 
 // inherited combat statistics, damage mode
-public partial class MindDecay : CombatSpell
+public class MindDecay : CombatSpell
 {
     // CombatSpells.pas:1190
     public MindDecay(CustomNode owner, EngineObject holder) : base(owner)

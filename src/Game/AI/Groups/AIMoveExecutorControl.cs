@@ -319,5 +319,4 @@ public partial class AIMoveExecutorControl : EngineObject
 
         return State != -1;
     }
-
 }

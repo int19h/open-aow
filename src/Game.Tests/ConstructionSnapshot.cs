@@ -103,7 +103,10 @@ internal static class ConstructionSnapshot
     {
         if (text.StartsWith('{') || text.StartsWith('['))
         {
-            try { return new JsonObject { ["$jsonText"] = Expand(JsonNode.Parse(text)) }; }
+            try
+            {
+                return new JsonObject { ["$jsonText"] = Expand(JsonNode.Parse(text)) };
+            }
             catch (JsonException) { }
         }
         return text.Contains('\n')

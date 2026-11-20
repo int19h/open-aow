@@ -213,5 +213,4 @@ public partial class CampaignJoinDialog(UIContext ui) : UIModule(ui)
         dialog._scrollPosition = 0;
         dialog.ScrollText.Clear();
     }
-
 }

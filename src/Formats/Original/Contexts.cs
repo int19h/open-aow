@@ -35,8 +35,8 @@ public sealed class DecodeContext
     /// <summary>Offsets are in the inflated payload, not in the file.</summary>
     public bool Inflated { get; init; }
 
-    public ConversionException Fail(string code, string message, long offset, DocumentNodePath? path = null, string? value = null, string? constraint = null) =>
-        new(new FormatDiagnostic(code, Nested is null ? message : $"{message} In the nested image of {Nested}.")
+    public ConversionException Fail(string code, string message, long offset, DocumentNodePath? path = null, string? value = null, string? constraint = null)
+        => new(new FormatDiagnostic(code, Nested is null ? message : $"{message} In the nested image of {Nested}.")
         {
             File = File,
             Offset = offset,
@@ -101,8 +101,8 @@ public sealed class EncodeContext
     public string? File { get; }
     public FormatLimits Limits { get; }
 
-    public ConversionException Fail(string code, string message, JsonValue? at, DocumentNodePath path, string? value = null, string? constraint = null) =>
-        new(new FormatDiagnostic(code, message)
+    public ConversionException Fail(string code, string message, JsonValue? at, DocumentNodePath path, string? value = null, string? constraint = null)
+        => new(new FormatDiagnostic(code, message)
         {
             File = File,
             Span = at?.Span ?? default,

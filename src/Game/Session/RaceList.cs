@@ -11,7 +11,7 @@ using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.Session;
 
-public partial class RaceList : ControlStyleNode, IChildList<Race>
+public class RaceList : ControlStyleNode, IChildList<Race>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a Race, so the cast never fails.

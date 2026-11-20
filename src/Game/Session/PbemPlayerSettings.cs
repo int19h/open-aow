@@ -10,7 +10,7 @@ using Aow.Rtl;
 namespace Aow.Game.Session;
 
 // status, email game
-public partial class PbemPlayerSettings : EngineObject
+public class PbemPlayerSettings : EngineObject
 {
     // Player.PAS:236
     public PbemPlayerSettings(CustomNode owner) : base(owner)
@@ -40,7 +40,4 @@ public partial class PbemPlayerSettings : EngineObject
 
     // Player.PAS:256
     public void SetGame(EngineObject game) => EmailGame.Assign(game, GetEngine());
-
-    // intf_P1_03.inc:160
-
 }

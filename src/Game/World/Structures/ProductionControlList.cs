@@ -3,7 +3,7 @@
 namespace Aow.Game.World.Structures;
 
 // City and place production controls in the order structures register them.
-public partial class ProductionControlList : IDisposable
+public class ProductionControlList : IDisposable
 {
     private readonly List<ProductionControl> _items = [];
 

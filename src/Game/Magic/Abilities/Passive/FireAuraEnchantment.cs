@@ -7,7 +7,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // (name, ID, selection types, ability type.)
-public partial class FireAuraEnchantment : UnitEnchantmentAbility
+public class FireAuraEnchantment : UnitEnchantmentAbility
 {
     // PassiveAb.pas:1294
     public FireAuraEnchantment(CustomNode owner, EngineObject holder) : base(owner)

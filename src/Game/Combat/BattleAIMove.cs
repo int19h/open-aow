@@ -5,7 +5,7 @@ using Aow.Game.Draw;
 namespace Aow.Game.Combat;
 
 // MoveType. Ability. Spell. Value. GroupValue. UnitHexSprite. Target. X. Y
-public partial class BattleAIMove
+public class BattleAIMove
 {
     public BattleAIMoveType MoveType { get; init; }
     public short Ability { get; init; }

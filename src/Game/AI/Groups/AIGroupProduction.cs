@@ -8,10 +8,8 @@ using Aow.Game.World.Structures;
 
 namespace Aow.Game.AI.Groups;
 
-public partial class AIGroupProduction(CustomNode owner) : EngineObject(owner)
+public class AIGroupProduction(CustomNode owner) : EngineObject(owner)
 {
     public Troop Troop { get; init; }
     public ProductionControl Control { get; init; }
-    // Engine.pas:524
-
 }

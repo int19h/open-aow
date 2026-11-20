@@ -16,7 +16,7 @@ namespace Aow.Game.AI.Groups;
 
 // { ot=1 }
 // fields control, mode, damage types, structure factor, city factor
-public partial class AIGroupRazeControl(CustomNode owner) : AIGroupTask(owner)
+public class AIGroupRazeControl(CustomNode owner) : AIGroupTask(owner)
 {
     private AIGroupControl _control;
 
@@ -123,7 +123,4 @@ public partial class AIGroupRazeControl(CustomNode owner) : AIGroupTask(owner)
 
         return (Mode.Contains(AIGroupRazeControlModeElement.CannotDefend) && Round((double)info.FriendlyStrength * _structureStrengthFactor) < info.Strength) || result;
     }
-
-    // intf_P5_07.inc:218
-
 }

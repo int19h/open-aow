@@ -19,20 +19,20 @@ public readonly record struct ObservableChange(
     EngineObject Previous,
     int NewIndex)
 {
-    public static ObservableChange Added(int index, EngineObject item) =>
-        new(ObservableChangeKind.Added, Index: index, Item: item, Previous: null, NewIndex: -1);
+    public static ObservableChange Added(int index, EngineObject item)
+        => new(ObservableChangeKind.Added, Index: index, Item: item, Previous: null, NewIndex: -1);
 
-    public static ObservableChange Removed(int index, EngineObject item) =>
-        new(ObservableChangeKind.Removed, Index: index, Item: item, Previous: null, NewIndex: -1);
+    public static ObservableChange Removed(int index, EngineObject item)
+        => new(ObservableChangeKind.Removed, Index: index, Item: item, Previous: null, NewIndex: -1);
 
-    public static ObservableChange Replaced(int index, EngineObject item, EngineObject previous) =>
-        new(ObservableChangeKind.Replaced, Index: index, Item: item, Previous: previous, NewIndex: -1);
+    public static ObservableChange Replaced(int index, EngineObject item, EngineObject previous)
+        => new(ObservableChangeKind.Replaced, Index: index, Item: item, Previous: previous, NewIndex: -1);
 
-    public static ObservableChange Moved(int index, int newIndex, EngineObject item) =>
-        new(ObservableChangeKind.Moved, Index: index, Item: item, Previous: null, NewIndex: newIndex);
+    public static ObservableChange Moved(int index, int newIndex, EngineObject item)
+        => new(ObservableChangeKind.Moved, Index: index, Item: item, Previous: null, NewIndex: newIndex);
 
-    public static ObservableChange Reset() =>
-        new(ObservableChangeKind.Reset, Index: -1, Item: null, Previous: null, NewIndex: -1);
+    public static ObservableChange Reset()
+        => new(ObservableChangeKind.Reset, Index: -1, Item: null, Previous: null, NewIndex: -1);
 }
 
 public delegate void ObservableChangeHandler(ObservableNode sender, ObservableChange change);

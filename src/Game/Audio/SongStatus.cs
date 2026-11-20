@@ -3,7 +3,7 @@
 namespace Aow.Game.Audio;
 
 // FFileName. What BackupSongStatus saves. the sound system adds its own position
-public partial class SongStatus
+public class SongStatus
 {
     public string FileName { get; protected internal set; } = "";
 

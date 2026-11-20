@@ -22,9 +22,9 @@ internal static class EngineClassCreation
 
     // The public constructor that takes the owner, and with it the holder where the class's
     // constructor reads the engine (issue 224). The holder is the fixture's engine.
-    internal static System.Reflection.ConstructorInfo? OwnerConstructor(Type type) =>
-        type.GetConstructor([typeof(CustomNode)]) ?? type.GetConstructor([typeof(CustomNode), typeof(EngineObject)]);
+    internal static System.Reflection.ConstructorInfo? OwnerConstructor(Type type)
+        => type.GetConstructor([typeof(CustomNode)]) ?? type.GetConstructor([typeof(CustomNode), typeof(EngineObject)]);
 
-    internal static object?[] OwnerArguments(System.Reflection.ConstructorInfo constructor, CustomNode? owner) =>
-        constructor.GetParameters().Length == 1 ? [owner] : [owner, EngineFixture.Engine];
+    internal static object?[] OwnerArguments(System.Reflection.ConstructorInfo constructor, CustomNode? owner)
+        => constructor.GetParameters().Length == 1 ? [owner] : [owner, EngineFixture.Engine];
 }

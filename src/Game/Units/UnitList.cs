@@ -15,7 +15,7 @@ using Aow.Rtl;
 namespace Aow.Game.Units;
 
 // inherited FChildren, UpdateCount
-public partial class UnitList(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, IUnitHolder
+public class UnitList(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, IUnitHolder
 {
     // The troop in slot index, without a range check.
     public Troop this[int index] => Units[index];
@@ -256,5 +256,4 @@ public partial class UnitList(CustomNode owner) : ObservableNode(owner), IChildL
             return relation;
         }
     }
-
 }

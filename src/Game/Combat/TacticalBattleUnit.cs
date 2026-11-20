@@ -18,7 +18,7 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Game.Combat;
 
 // MovePoints. UnitHexSprite. PositionIndex. PositionGroup. CanFlee. DeathMethod
-public partial class TacticalBattleUnit(CustomNode owner) : CombatUnit(owner)
+public class TacticalBattleUnit(CustomNode owner) : CombatUnit(owner)
 {
     public int MovePoints { get; set; }
     public TacticalBattleUnitHexSprite UnitHexSprite { get; set; }
@@ -338,11 +338,6 @@ public partial class TacticalBattleUnit(CustomNode owner) : CombatUnit(owner)
 
         return result;
     }
-
-    // intf_P3_01.inc:244
-
-    // intf_P3_01.inc:244
-
 }
 
 public enum TacticalBattleUnitDeathMethod : byte

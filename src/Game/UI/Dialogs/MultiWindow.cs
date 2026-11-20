@@ -97,17 +97,17 @@ public partial class MultiWindow(UIContext ui) : UIModule(ui)
     }
 
     // AOWMultiWin.pas:142
-    public void JoinBtnClick() =>
+    public void JoinBtnClick()
         /* TODO: Implement aowDPlayComp.JoinSession in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     // AOWMultiWin.pas:157
     public void GamesLBChange() => JoinButton.Visible = GamesList.Selected > -1;
 
     // AOWMultiWin.pas:163
-    public void BackBtnClick() =>
+    public void BackBtnClick()
         /* TODO: Implement aowDPlayComp.GetSessions in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     // AOWMultiWin.pas:175
     public void TCPBtnClick()
@@ -177,14 +177,14 @@ public partial class MultiWindow(UIContext ui) : UIModule(ui)
     public void TCPNameChange() => IpxNameEdit.Text = TcpNameEdit.Text;
 
     // AOWMultiWin.pas:244
-    public void LANFindClick() =>
+    public void LANFindClick()
         /* TODO: Implement aowDPlayComp.PlayerName in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     // AOWMultiWin.pas:259
-    public void LANHostClick() =>
+    public void LANHostClick()
         /* TODO: Implement aowDPlayComp.PlayerName in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     // AOWMultiWin.pas:276
     public void SingleBtnClick()
@@ -278,8 +278,8 @@ public partial class MultiWindow(UIContext ui) : UIModule(ui)
 
     internal const string NetworkPlayNotAvailableText = "Network play is not available in this version.";
 
-    internal static void ShowMultiplayer(MultiWindow dialog, string name) =>
+    internal static void ShowMultiplayer(MultiWindow dialog, string name)
         /* TODO: Implement aowDPlayComp.DisConnect in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
 }

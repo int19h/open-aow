@@ -10,7 +10,7 @@ namespace Aow.Engine.Nodes;
 
 // FResourceList, FResourceID, FEditID (the edit id of the resource grid that placed it),
 // FEditIndex (its cell in that grid). all three integers are persisted (ids 1.3)
-public partial class EngineResource(CustomNode owner) : EngineObject(owner)
+public class EngineResource(CustomNode owner) : EngineObject(owner)
 {
     public new const int ClassId = 1024;
 

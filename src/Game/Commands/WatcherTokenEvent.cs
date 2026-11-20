@@ -10,7 +10,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Commands;
 
-public partial class WatcherTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
+public class WatcherTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
 {
 
     // GlobalTargetSpells.pas:1476
@@ -35,7 +35,4 @@ public partial class WatcherTokenEvent(CustomNode owner) : GlobalTargetSpellToke
         GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, fSpellControlSpell.BaseManaCost);
         return false;
     }
-
-    // NetworkE.pas:230
-
 }

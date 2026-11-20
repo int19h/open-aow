@@ -10,7 +10,7 @@ using Aow.Game.World.Movement;
 
 namespace Aow.Game.Commands;
 
-public partial class LevelTerrainTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
+public class LevelTerrainTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
 {
 
     // GlobalTargetSpells.pas:940
@@ -50,7 +50,4 @@ public partial class LevelTerrainTokenEvent(CustomNode owner) : GlobalTargetSpel
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
     }
-
-    // NetworkE.pas:230
-
 }

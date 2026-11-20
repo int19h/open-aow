@@ -8,7 +8,7 @@ using Aow.Game.Units;
 namespace Aow.Game.World.Structures;
 
 // FDefenderCollections, the available defender army compositions
-public partial class ExplorationSiteResource : StructureResource
+public class ExplorationSiteResource : StructureResource
 {
     public ExplorationSiteResource(CustomNode owner) : base(owner)
     {
@@ -35,12 +35,8 @@ public partial class ExplorationSiteResource : StructureResource
         PersistSupport.UnitIndexListCollection(persister, name: "DefenderCollections", collection: DefenderCollections);
     }
 
-    // ExploreS.pas:357
-
     // ExploreS.pas:382
     public override int ResourceUserClassId() => 132033;
-
-    // ExploreS.pas:61
 
     // ExploreS.pas:370
     public override string ResourceEditName() => "";

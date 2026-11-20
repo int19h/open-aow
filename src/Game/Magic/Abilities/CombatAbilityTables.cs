@@ -29,5 +29,4 @@ internal static class CombatAbilityTables
                                 ? CombatSideIndex.Defender
                                 : CombatSideIndex.Neutral;
     }
-
 }

@@ -3,12 +3,10 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.World.Map;
 
-public partial class AbstractHexagonResource : MapObjectResource
+public class AbstractHexagonResource : MapObjectResource
 {
 
     public AbstractHexagonResource(CustomNode owner) : base(owner) => SetLevel(0);
-
-    // MAPOBJ.PAS:770
 
     // MAPOBJ.PAS:781
     public override void MessageProc(ref EngineMessage message, EngineObject sender)

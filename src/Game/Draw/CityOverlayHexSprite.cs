@@ -11,7 +11,7 @@ using Aow.Game.World.Structures;
 namespace Aow.Game.Draw;
 
 // City, ModeStartFrame, Mode, ShellAnimation, ShellEndFrame
-public partial class CityOverlayHexSprite(CustomNode owner) : SingleHexSprite(owner)
+public class CityOverlayHexSprite(CustomNode owner) : SingleHexSprite(owner)
 {
     public City City { get; init; }
     public OverlayMode Mode { get; private set; }
@@ -164,7 +164,4 @@ public partial class CityOverlayHexSprite(CustomNode owner) : SingleHexSprite(ow
     {
         Idle = 0, ShowRazeAnimation = 1, Looting = 2
     }
-
-    // Engine.pas:524
-
 }

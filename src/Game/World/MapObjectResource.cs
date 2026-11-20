@@ -16,7 +16,7 @@ namespace Aow.Game.World;
 // the resource of map objects. FEngine (set by the engine activation message),
 // _showPriorityOffset (id 4), _imageLibrary (id 8), _imageSequenceList (nil without complex
 // images. ids 9, 10), _terrainList (id 7), _level (id 5), _name (id 6)
-public partial class MapObjectResource : EngineResource
+public class MapObjectResource : EngineResource
 {
     public new const int ClassId = 65876;
 
@@ -80,8 +80,6 @@ public partial class MapObjectResource : EngineResource
             PersistSupport.ImageSequences(persister, name: "ImageSequenceList", list: ImageSequenceList);
         }
     }
-
-    // MAPOBJ.PAS:383
 
     // MAPOBJ.PAS:620
     public override void MessageProc(ref EngineMessage message, EngineObject sender)

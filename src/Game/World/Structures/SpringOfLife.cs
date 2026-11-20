@@ -18,8 +18,6 @@ public partial class SpringOfLife(CustomNode owner) : Structure(owner)
     // Spring.pas:73
     public new const int ClassId = 131328;
 
-    // Spring.pas:70
-
     // Spring.pas:111
     public override void ArmyPlaced(ArmyHexSprite placedArmy)
     {
@@ -79,19 +77,15 @@ public partial class SpringOfLife(CustomNode owner) : Structure(owner)
         }
     }
 
-    public new partial class Resource : StructureResource
+    public new class Resource : StructureResource
     {
         public Resource(CustomNode owner) : base(owner) => TerrainBound = false;
 
         // Spring.pas:123
         public new const int ClassId = 131329;
 
-        // Spring.pas:117
-
         // Spring.pas:129
         public override int ResourceUserClassId() => 131328;
-
-        // Spring.pas:37
 
         // Spring.pas:126
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_springOfLifeText);
@@ -99,7 +93,4 @@ public partial class SpringOfLife(CustomNode owner) : Structure(owner)
         private static readonly string s_springOfLifeText = "Spring of Life";
 
     }
-
-    // Spring.pas:27
-
 }

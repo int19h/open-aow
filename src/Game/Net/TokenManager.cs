@@ -4,7 +4,7 @@ namespace Aow.Game.Net;
 
 // _tokenExecutor, _tokenPackageDistributor, _owner, _tokenControls (one per player, nil for a
 // free slot), OnMessage
-public partial class TokenManager : IDisposable
+public class TokenManager : IDisposable
 {
 
     public TokenManager(GameEngine owner)

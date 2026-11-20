@@ -8,7 +8,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Structures;
 
-public partial class PlayerStructureResource(CustomNode owner) : StructureResource(owner)
+public class PlayerStructureResource(CustomNode owner) : StructureResource(owner)
 {
 
     public new const int ClassId = 131917;
@@ -89,7 +89,4 @@ public partial class PlayerStructureResource(CustomNode owner) : StructureResour
 
     // Structur.PAS:2462
     public void ActivateMessage() => FlagControl = Engine.HexSpriteSet.FlagControl;
-
-    // intf_P1_09.inc:300
-
 }

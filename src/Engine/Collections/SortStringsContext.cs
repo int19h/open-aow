@@ -66,5 +66,4 @@ public struct SortStringsContext
         }
         while (!(i >= R));
     }
-
 }

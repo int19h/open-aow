@@ -8,7 +8,7 @@ using static Aow.Rtl.LegacyApplication;
 namespace Aow.Game.Units;
 
 // inherited List, Count, Default
-public partial class UnitIndexList : Int32List
+public class UnitIndexList : Int32List
 {
     // UnitRes.PAS:219
     public UnitIndexList() => Default = -1;
@@ -70,9 +70,4 @@ public partial class UnitIndexList : Int32List
         UnitResource unitResource2 = GamePack.Current.UnitResources.GetUnitResource(item1);
         return unitResource.Level - unitResource2.Level;
     }
-
-    // intf_P2_05.inc:364
-
-    // intf_P2_05.inc:364
-
 }

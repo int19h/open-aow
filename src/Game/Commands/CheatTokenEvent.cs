@@ -10,7 +10,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Commands;
 
-public partial class CheatTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class CheatTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
     public new const int ClassId = 131829;
 
@@ -166,9 +166,4 @@ public partial class CheatTokenEvent(CustomNode owner) : TokenEvent(owner)
     private static readonly string s_spellCheatDisabledText = "All spells disabled";
     private static readonly string s_freeMovementEnabledText = "Free movement enabled";
     private static readonly string s_freeMovementDisabledText = "Free movement disabled";
-
-    // NetworkE.pas:230
-
-    // NetworkE.pas:230
-
 }

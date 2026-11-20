@@ -9,7 +9,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Combat.Actions;
 
 // (successful)
-public partial class InvokeDeathCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
+public class InvokeDeathCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
 {
     public new const int ClassId = 131780;
 
@@ -68,7 +68,4 @@ public partial class InvokeDeathCombatAction(CustomNode owner) : SingleTargetCom
         TargetId = targetId;
         Successful = successful;
     }
-
-    // intf_P3_02.inc:38
-
 }

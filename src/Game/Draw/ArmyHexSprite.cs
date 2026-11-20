@@ -543,7 +543,6 @@ public partial class ArmyHexSprite : UnitHexSprite
             {
                 return false;
             }
-
         }
     }
 
@@ -787,8 +786,8 @@ public partial class ArmyHexSprite : UnitHexSprite
             : (x1 == x2 - 1 || x1 == x2 + 1) && (!((x1 & 1) != 0) ? y1 == y2 || y1 == y2 + 1 : y1 == y2 || y1 == y2 - 1);
     }
 
-    internal static ArmyCombatMoveTokenEvent CreateArmyCombatMoveTokenEvent(ArmyHexSprite army, byte selection, MovePath path, Set<ArmyMoveModeElement> mode) =>
-        SetupArmyMoveTokenEvent(new ArmyCombatMoveTokenEvent(null) { Holder = army }, army: army, selection: selection, path: path, mode: mode);
+    internal static ArmyCombatMoveTokenEvent CreateArmyCombatMoveTokenEvent(ArmyHexSprite army, byte selection, MovePath path, Set<ArmyMoveModeElement> mode)
+        => SetupArmyMoveTokenEvent(new ArmyCombatMoveTokenEvent(null) { Holder = army }, army: army, selection: selection, path: path, mode: mode);
 
     private static T SetupArmyMoveTokenEvent<T>(T move, ArmyHexSprite army, byte selection, MovePath path, Set<ArmyMoveModeElement> mode)
         where T : MoveArmyTokenEvent
@@ -894,5 +893,4 @@ public partial class ArmyHexSprite : UnitHexSprite
         _ = settings.Release();
         return result;
     }
-
 }

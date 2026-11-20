@@ -69,5 +69,4 @@ internal static class HitChance
 
         GamePack.Current.CombatImages[1].Show(x + 20, y + 54, lockedSurface);
     }
-
 }

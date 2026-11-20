@@ -4,6 +4,6 @@ using Aow.Engine.Nodes;
 namespace Aow.Game.World.Map;
 
 // the road resources of a set
-public partial class RoadControl(CustomNode owner) : MapObjectResourceTerrainControl(owner)
+public class RoadControl(CustomNode owner) : MapObjectResourceTerrainControl(owner)
 {
 }

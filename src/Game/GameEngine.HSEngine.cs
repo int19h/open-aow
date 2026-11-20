@@ -472,8 +472,8 @@ public partial class GameEngine : OwningNode
     }
 
     // An own document is not an HSM image. CompressStream leaves those bytes unchanged.
-    private static bool IsOwnMapDocument(byte[] payload) =>
-        GameFiles.IsGzip(payload) || GameFiles.IsJsonCandidate(payload);
+    private static bool IsOwnMapDocument(byte[] payload)
+        => GameFiles.IsGzip(payload) || GameFiles.IsJsonCandidate(payload);
 
     private static GameFileTree ReadOwnMap(byte[] payload)
     {
@@ -548,5 +548,4 @@ public partial class GameEngine : OwningNode
         add => _onHssCloseStore.Add(value);
         remove => _onHssCloseStore.Remove(value);
     }
-
 }

@@ -14,7 +14,7 @@ using static Aow.Rtl.DelphiRounding;
 namespace Aow.Game.Magic.Spells;
 
 // combat statistics (attack, damage, types, repeats, range, radius, targets). damage mode
-public partial class CombatSpell : Spell
+public class CombatSpell : Spell
 {
     public SpellCombatInfo CombatInfo { get; protected set; }
 

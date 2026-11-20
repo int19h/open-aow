@@ -14,7 +14,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class Flood : GlobalEnchantmentSpell
+public class Flood : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:1356
     public Flood(CustomNode owner, EngineObject holder) : base(owner)

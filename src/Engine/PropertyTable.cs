@@ -5,7 +5,7 @@ using Aow.Rtl;
 
 namespace Aow.Engine;
 
-public partial class PropertyTable : IDisposable
+public class PropertyTable : IDisposable
 {
     private Item[] _items = [];
     private int _capacity;

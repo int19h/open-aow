@@ -59,5 +59,4 @@ public partial class CombatTypeRequestEventLog(CustomNode owner) : EventLog(owne
         }
         Location = Location with { MapLevel = (sbyte)L };
     }
-
 }

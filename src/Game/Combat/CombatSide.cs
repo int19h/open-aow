@@ -11,7 +11,7 @@ using static Aow.Rtl.DelphiConversions;
 namespace Aow.Game.Combat;
 
 // SideIndex. Opponent. Strength. ConquerCount
-public partial class CombatSide(CustomNode owner) : OwningNode(owner), IChildList<CombatObject>
+public class CombatSide(CustomNode owner) : OwningNode(owner), IChildList<CombatObject>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a CombatObject, so the cast never fails.
@@ -122,7 +122,4 @@ public partial class CombatSide(CustomNode owner) : OwningNode(owner), IChildLis
             }
         }
     }
-
-    // intf_P3_01.inc:352
-
 }

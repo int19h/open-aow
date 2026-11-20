@@ -10,7 +10,7 @@ using static Aow.Rtl.DelphiFormat;
 namespace Aow.Game.World.Structures;
 
 // Production id 14: loot the city and raze it.
-public sealed partial record Loot : ProductionOrder
+public sealed record Loot : ProductionOrder
 {
     public const int Kind = 14;
 
@@ -18,11 +18,11 @@ public sealed partial record Loot : ProductionOrder
 
     public override CityAction CityAction => CityAction.Loot;
 
-    public override string Name(ProductionControl control) =>
-        control.ProductionCity() is not null ? AbilityRules.TranslateResourceString(control.GetEngine(), GameText.LootText) : base.Name(control);
+    public override string Name(ProductionControl control)
+        => control.ProductionCity() is not null ? AbilityRules.TranslateResourceString(control.GetEngine(), GameText.LootText) : base.Name(control);
 
-    public override string NameProgressive(ProductionControl control) =>
-        control.ProductionCity() is not null ? AbilityRules.TranslateResourceString(control.GetEngine(), s_lootingText) : base.NameProgressive(control);
+    public override string NameProgressive(ProductionControl control)
+        => control.ProductionCity() is not null ? AbilityRules.TranslateResourceString(control.GetEngine(), s_lootingText) : base.NameProgressive(control);
 
     public override bool CanExecute(ProductionControl control, ref string reason)
     {

@@ -192,11 +192,11 @@ internal static class PixelRemap
         };
     }
 
-    internal static void RemapSurface08To555(SurfaceView source, SurfaceView destination, int width, int height, Palette palette) =>
-            RemapIndexedSurface(source, destination, width, height, palette, false);
+    internal static void RemapSurface08To555(SurfaceView source, SurfaceView destination, int width, int height, Palette palette)
+            => RemapIndexedSurface(source, destination, width, height, palette, false);
 
-    internal static void RemapSurface08To565(SurfaceView source, SurfaceView destination, int width, int height, Palette palette) =>
-            RemapIndexedSurface(source, destination, width, height, palette, true);
+    internal static void RemapSurface08To565(SurfaceView source, SurfaceView destination, int width, int height, Palette palette)
+            => RemapIndexedSurface(source, destination, width, height, palette, true);
 
     internal static void RemapIndexedSurface(SurfaceView source, SurfaceView destination, int width, int height, Palette palette, bool rgb565)
     {
@@ -213,5 +213,4 @@ internal static class PixelRemap
             }
         }
     }
-
 }

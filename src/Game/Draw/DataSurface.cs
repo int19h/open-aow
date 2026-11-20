@@ -138,5 +138,4 @@ public partial class DataSurface : Surface
     public byte[] Data { get; private set; }
     public int Pitch { get; private set; }
     public Palette Palette { get => _palette; set => SetPalette(value); }
-
 }

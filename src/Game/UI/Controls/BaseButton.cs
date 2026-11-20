@@ -17,7 +17,7 @@ namespace Aow.Game.UI.Controls;
 // FBorderHeight when it is up), ButtonType (btText: drawn from _imageLibraryButton, btIcon: from
 // _imageLibraryIcon. set by Validate), _imageLibraryButton, _imageLibraryIcon, _imageLibraryIndexUp, _imageLibraryIndexDown, _imageLibraryIndexLit,
 // FPopupMenu, FLit (the mouse is over the button). FChecked is the down state
-public partial class BaseButton(Component owner) : Control(owner)
+public class BaseButton(Component owner) : Control(owner)
 {
     private UIComponentButtonType _buttonType;
     private InterfaceImageLibrary _imageLibraryButton;

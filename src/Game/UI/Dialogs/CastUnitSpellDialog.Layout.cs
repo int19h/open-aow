@@ -1269,5 +1269,4 @@ public partial class CastUnitSpellDialog : ILayoutModule
         frame1.ImageLibraryLine = UI.Graphics.CelticDecorations;
         SelectionInfoLabel.Font = UI.Fonts.Age10;
     }
-
 }

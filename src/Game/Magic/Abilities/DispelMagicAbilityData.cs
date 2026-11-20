@@ -6,7 +6,7 @@ using Aow.Formats.Tree;
 namespace Aow.Game.Magic.Abilities;
 
 // (enabled, level)
-public partial class DispelMagicAbilityData(CustomNode owner) : AbilityData(owner)
+public class DispelMagicAbilityData(CustomNode owner) : AbilityData(owner)
 {
     public new const int ClassId = 131789;
 
@@ -23,7 +23,4 @@ public partial class DispelMagicAbilityData(CustomNode owner) : AbilityData(owne
 
     // AoWAb.PAS:4030
     public override int GetAbilityId() => 60;
-
-    // Engine.pas:524
-
 }

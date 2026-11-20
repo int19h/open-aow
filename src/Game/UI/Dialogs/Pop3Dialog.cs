@@ -42,9 +42,9 @@ public partial class Pop3Dialog(UIContext ui) : UIModule(ui)
     }
 
     // AoWPOP3Dlg.pas:87
-    public int CheckAttachments() =>
+    public int CheckAttachments()
         /* TODO: Implement Windows.CreateFile in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     // AoWPOP3Dlg.pas:121
     public void ShowDialog()

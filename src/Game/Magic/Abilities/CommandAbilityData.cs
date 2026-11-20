@@ -10,7 +10,7 @@ using Aow.Game.Combat;
 namespace Aow.Game.Magic.Abilities;
 
 // (ability ID, commanded combat-unit IDs)
-public partial class CommandAbilityData(CustomNode owner) : AbilityData(owner)
+public class CommandAbilityData(CustomNode owner) : AbilityData(owner)
 {
 
     public new const int ClassId = 131755;
@@ -68,7 +68,4 @@ public partial class CommandAbilityData(CustomNode owner) : AbilityData(owner)
 
         return result;
     }
-
-    // intf_P4_02.inc:475
-
 }

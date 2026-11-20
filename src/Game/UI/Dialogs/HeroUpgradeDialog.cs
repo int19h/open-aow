@@ -573,5 +573,4 @@ public partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
             dialog.Window.Visible = true;
         }
     }
-
 }

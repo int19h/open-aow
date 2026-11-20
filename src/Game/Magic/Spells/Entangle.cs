@@ -13,7 +13,7 @@ using static Aow.Rtl.DelphiRounding;
 namespace Aow.Game.Magic.Spells;
 
 // inherited combat statistics, damage mode
-public partial class Entangle : CombatSpell
+public class Entangle : CombatSpell
 {
     // CombatSpells.pas:1352
     public Entangle(CustomNode owner, EngineObject holder) : base(owner)

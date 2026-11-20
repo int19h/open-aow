@@ -49,8 +49,8 @@ public partial class MoveTokenEvent(CustomNode owner) : TokenEvent(owner)
         }
     }
 
-    private static PathStep Step(int value) =>
-        new(
+    private static PathStep Step(int value)
+        => new(
             Location: new MapCoordinate(
                 X: unchecked((sbyte)(byte)value),
                 Y: unchecked((sbyte)(byte)(value >> 8)),
@@ -180,7 +180,4 @@ public partial class MoveTokenEvent(CustomNode owner) : TokenEvent(owner)
             return 0;
         }
     }
-
-    // intf_P5_07.inc:765
-
 }

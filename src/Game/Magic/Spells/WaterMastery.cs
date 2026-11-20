@@ -11,7 +11,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class WaterMastery : GlobalEnchantmentSpell
+public class WaterMastery : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:806
     public WaterMastery(CustomNode owner, EngineObject holder) : base(owner)

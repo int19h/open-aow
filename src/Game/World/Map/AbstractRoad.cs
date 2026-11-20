@@ -6,7 +6,7 @@ using Aow.Game.Draw;
 namespace Aow.Game.World.Map;
 
 // the base of roads and bridges
-public partial class AbstractRoad(CustomNode owner) : MapObject(owner)
+public class AbstractRoad(CustomNode owner) : MapObject(owner)
 {
     public new const int ClassId = 65906;
 
@@ -81,5 +81,4 @@ public partial class AbstractRoad(CustomNode owner) : MapObject(owner)
     public virtual void UpdateTransitions()
     {
     }
-
 }

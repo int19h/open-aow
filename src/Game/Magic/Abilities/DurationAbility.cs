@@ -13,7 +13,7 @@ using static Aow.Rtl.DelphiConversions;
 namespace Aow.Game.Magic.Abilities;
 
 // (duration mode)
-public partial class DurationAbility(CustomNode owner) : AdjustableAbility(owner)
+public class DurationAbility(CustomNode owner) : AdjustableAbility(owner)
 {
     public DurationMode DurationMode { get; protected set; }
 

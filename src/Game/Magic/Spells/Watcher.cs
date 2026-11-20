@@ -13,7 +13,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class Watcher : GlobalTargetSpell
+public class Watcher : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:1498
     public Watcher(CustomNode owner, EngineObject holder) : base(owner)

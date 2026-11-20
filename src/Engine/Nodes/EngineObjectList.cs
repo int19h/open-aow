@@ -7,7 +7,7 @@ namespace Aow.Engine.Nodes;
 // The child slots of a TENode or a TEChangeNotifyNode, in stored order. An empty slot holds null,
 // and the slot index is the stored slot. The storage and the sorts are the TList ones, so the
 // order of equal keys and the spare slot past Count stay as the original keeps them.
-public partial class EngineObjectList : DelphiList<EngineObject>
+public class EngineObjectList : DelphiList<EngineObject>
 {
     // Engine.pas:7146
     public EngineObject FindObject(int classId)

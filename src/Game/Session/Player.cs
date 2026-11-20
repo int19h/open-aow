@@ -41,7 +41,7 @@ namespace Aow.Game.Session;
 // players, seen days, PBEM, emerging hero, participating, initial gold, base income, hero join
 // days, upkeep. end turn, view, password, turn number, base hero level, emerging hero ID,
 // emerge day, highest hero level, settings/description
-public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<PlayerCollection>
+public class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<PlayerCollection>
 {
     // The list that holds the player. AcceptsOwner admits only that list, so the cast never fails.
     public new PlayerCollection Owner { get => GetOwner<PlayerCollection>(); set => SetOwner(value); }
@@ -1770,7 +1770,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     }
 
     // Kind 4: the source threatens to attack the target.
-    public sealed partial record ThreatenToAttack : DiplomaticProposal
+    public sealed record ThreatenToAttack : DiplomaticProposal
     {
         public const byte Kind = 4;
 
@@ -1784,8 +1784,8 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
 
         public override string LogText(DiplomaticAction action) => AbilityRules.TranslateResourceString(action.GetEngine(), ThreatText);
 
-        public override void DefaultMessage(DiplomaticMessageText text, DiplomaticActionReaction reaction, DiplomaticRelation relation) =>
-            text.Proposing(112);
+        public override void DefaultMessage(DiplomaticMessageText text, DiplomaticActionReaction reaction, DiplomaticRelation relation)
+            => text.Proposing(112);
 
         public override void Sent(DiplomaticAction action) => Deliver(action);
 
@@ -1794,7 +1794,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     }
 
     // Kind 5: the source pays the target a tribute.
-    public sealed partial record MakeTribute(int Gold = 0, int Mana = 0) : OfferProposal(Gold, Mana)
+    public sealed record MakeTribute(int Gold = 0, int Mana = 0) : OfferProposal(Gold, Mana)
     {
         public const byte Kind = 5;
 
@@ -1812,8 +1812,8 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
 
         public override string LoggedSample => "SFX\\EVENTS\\MESSAGE2.WAV";
 
-        public override void DefaultMessage(DiplomaticMessageText text, DiplomaticActionReaction reaction, DiplomaticRelation relation) =>
-            text.Exchange(reaction, 118, 133, 136);
+        public override void DefaultMessage(DiplomaticMessageText text, DiplomaticActionReaction reaction, DiplomaticRelation relation)
+            => text.Exchange(reaction, 118, 133, 136);
 
         public override bool CanSend(DiplomaticAction action, ref string errorText)
         {
@@ -1847,7 +1847,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
 
     // Kind 7: the source writes to the target in the name of the other player, offered between human
     // players to a source of race 5 whose hero emerges (Player.PAS:1226).
-    public sealed partial record ImpersonatedMessage : DiplomaticProposal
+    public sealed record ImpersonatedMessage : DiplomaticProposal
     {
         public const byte Kind = 7;
 
@@ -1871,7 +1871,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     }
 
     // Kind 8: the source asks the target to end its alliance with the other player.
-    public sealed partial record SuggestAllianceBreak(int Gold = 0, int Mana = 0) : OfferProposal(Gold, Mana)
+    public sealed record SuggestAllianceBreak(int Gold = 0, int Mana = 0) : OfferProposal(Gold, Mana)
     {
         public const byte Kind = 8;
 
@@ -1891,13 +1891,13 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             return Outcome(action, AbilityRules.TranslateResourceString(action.GetEngine(), BreakAllianceSuggestionText), subject, AcceptedLine(subject, engine: action.GetEngine()), "");
         }
 
-        public override void DefaultMessage(DiplomaticMessageText text, DiplomaticActionReaction reaction, DiplomaticRelation relation) =>
-            text.Exchange(reaction, 160, 139, 142, true);
+        public override void DefaultMessage(DiplomaticMessageText text, DiplomaticActionReaction reaction, DiplomaticRelation relation)
+            => text.Exchange(reaction, 160, 139, 142, true);
 
         public override void Sent(DiplomaticAction action) => Deliver(action);
 
-        public override bool LapsesUnanswered(DiplomaticAction action) =>
-            Relation(action.Target, action.OtherPlayer) != DiplomaticRelation.Alliance;
+        public override bool LapsesUnanswered(DiplomaticAction action)
+            => Relation(action.Target, action.OtherPlayer) != DiplomaticRelation.Alliance;
 
         public override void Accepted(DiplomaticAction action)
         {
@@ -1915,8 +1915,8 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             ReturnToSource(action);
         }
 
-        public override DiplomaticActionReaction RejectReaction(DiplomaticAction action) =>
-            Relation(action.Target, action.OtherPlayer) == DiplomaticRelation.Alliance ? DiplomaticActionReaction.Reject : DiplomaticActionReaction.Ignore;
+        public override DiplomaticActionReaction RejectReaction(DiplomaticAction action)
+            => Relation(action.Target, action.OtherPlayer) == DiplomaticRelation.Alliance ? DiplomaticActionReaction.Reject : DiplomaticActionReaction.Ignore;
 
         public override void AnswerAI(DiplomaticAction action, sbyte player, DiplomaticRelation relation, ByteList idealPeace, ByteList idealWar)
         {
@@ -1926,8 +1926,8 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
                 : action.Reject(errorText);
         }
 
-        public override int RelationModifier(DiplomaticAction action, sbyte player, sbyte race) =>
-            player == action.Target && Relation(action.Target, action.OtherPlayer) == DiplomaticRelation.Alliance
+        public override int RelationModifier(DiplomaticAction action, sbyte player, sbyte race)
+            => player == action.Target && Relation(action.Target, action.OtherPlayer) == DiplomaticRelation.Alliance
                 ? RaceModifier(action.OtherPlayer, race, -40)
                 : 0;
 
@@ -1937,7 +1937,7 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
     }
 
     // Kind 9: the source asks the target to declare war on the other player.
-    public sealed partial record SuggestWarDeclaration(int Gold = 0, int Mana = 0) : OfferProposal(Gold, Mana)
+    public sealed record SuggestWarDeclaration(int Gold = 0, int Mana = 0) : OfferProposal(Gold, Mana)
     {
         public const byte Kind = 9;
 
@@ -1957,16 +1957,16 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             return Outcome(action, AbilityRules.TranslateResourceString(action.GetEngine(), DeclareWarSuggestionText), subject, AcceptedLine(subject, engine: action.GetEngine()), "");
         }
 
-        public override int MiddleIcon(DiplomaticAction action) =>
-            action.Reaction == DiplomaticActionReaction.Accept ? 0x15 : 0x16;
+        public override int MiddleIcon(DiplomaticAction action)
+            => action.Reaction == DiplomaticActionReaction.Accept ? 0x15 : 0x16;
 
-        public override void DefaultMessage(DiplomaticMessageText text, DiplomaticActionReaction reaction, DiplomaticRelation relation) =>
-            text.Exchange(reaction, 157, 145, 148, true);
+        public override void DefaultMessage(DiplomaticMessageText text, DiplomaticActionReaction reaction, DiplomaticRelation relation)
+            => text.Exchange(reaction, 157, 145, 148, true);
 
         public override void Sent(DiplomaticAction action) => Deliver(action);
 
-        public override bool LapsesUnanswered(DiplomaticAction action) =>
-            Relation(action.Target, action.OtherPlayer) != DiplomaticRelation.War;
+        public override bool LapsesUnanswered(DiplomaticAction action)
+            => Relation(action.Target, action.OtherPlayer) != DiplomaticRelation.War;
 
         public override void Accepted(DiplomaticAction action)
         {
@@ -1985,8 +1985,8 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
             ReturnToSource(action);
         }
 
-        public override DiplomaticActionReaction RejectReaction(DiplomaticAction action) =>
-            Relation(action.Target, action.OtherPlayer) != DiplomaticRelation.War ? DiplomaticActionReaction.Reject : DiplomaticActionReaction.Ignore;
+        public override DiplomaticActionReaction RejectReaction(DiplomaticAction action)
+            => Relation(action.Target, action.OtherPlayer) != DiplomaticRelation.War ? DiplomaticActionReaction.Reject : DiplomaticActionReaction.Ignore;
 
         public override void AnswerAI(DiplomaticAction action, sbyte player, DiplomaticRelation relation, ByteList idealPeace, ByteList idealWar)
         {
@@ -2015,11 +2015,6 @@ public partial class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink
 
         internal static string DeclareWarSuggestionText { get; } = "Declare war suggestion";
     }
-
-    // intf_P1_03.inc:248
-
-    // intf_P1_03.inc:248
-
 }
 
 public enum PlayerBehavior : byte

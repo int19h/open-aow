@@ -9,7 +9,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Magic.Spells;
 
 // inherited name, spell ID, mana, sphere, level, type, sounds, images
-public partial class Disjunction : Spell
+public class Disjunction : Spell
 {
     // GlobalSpells.pas:931
     public Disjunction(CustomNode owner, EngineObject holder) : base(owner)

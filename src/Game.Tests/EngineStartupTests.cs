@@ -62,8 +62,8 @@ public sealed class EngineStartupTests
         return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>);
     }
 
-    private static bool ConvertedListField(FieldInfo field) =>
-        ConvertedListFields.Contains($"{field.DeclaringType?.FullName ?? ""}.{MemberNames.Of(field)}");
+    private static bool ConvertedListField(FieldInfo field)
+        => ConvertedListFields.Contains($"{field.DeclaringType?.FullName ?? ""}.{MemberNames.Of(field)}");
 
     // These fields were hash tables. The walk records the dictionary type and does not enter its entries.
     private static readonly HashSet<string> ConvertedDictionaryFields =
@@ -80,8 +80,8 @@ public sealed class EngineStartupTests
         return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Dictionary<,>);
     }
 
-    private static bool ConvertedDictionaryField(FieldInfo field) =>
-        ConvertedDictionaryFields.Contains($"{field.DeclaringType?.FullName ?? ""}.{MemberNames.Of(field)}");
+    private static bool ConvertedDictionaryField(FieldInfo field)
+        => ConvertedDictionaryFields.Contains($"{field.DeclaringType?.FullName ?? ""}.{MemberNames.Of(field)}");
 
     [Fact]
     public async Task RealStartupSideEffectsStateAndThreeFailuresMatchBaseCommit()
@@ -98,8 +98,15 @@ public sealed class EngineStartupTests
             Task<string> stdout = process.StandardOutput.ReadToEndAsync();
             Task<string> stderr = process.StandardError.ReadToEndAsync();
             using CancellationTokenSource timeout = new(TimeSpan.FromSeconds(60));
-            try { await process.WaitForExitAsync(timeout.Token); }
-            catch (OperationCanceledException) { process.Kill(entireProcessTree: true); throw; }
+            try
+            {
+                await process.WaitForExitAsync(timeout.Token);
+            }
+            catch (OperationCanceledException)
+            {
+                process.Kill(entireProcessTree: true);
+                throw;
+            }
             Assert.True(process.ExitCode == 0, await stdout + await stderr);
             return;
         }
@@ -135,7 +142,10 @@ public sealed class EngineStartupTests
                         _ => GameEngine.Create(null!)
                     };
                 }
-                catch (Exception error) { caught = error; }
+                catch (Exception error)
+                {
+                    caught = error;
+                }
                 // A failed construction leaves no reference to the partial engine, so the caller
                 // records its objects only for an engine that was built.
                 Assert.Equal(route is "AoW" or "HS" or "Engine", caught is null);
@@ -175,7 +185,10 @@ public sealed class EngineStartupTests
                 }));
                 actual.Add(route, result);
             }
-            finally { AppDomain.CurrentDomain.FirstChanceException -= Thrown; }
+            finally
+            {
+                AppDomain.CurrentDomain.FirstChanceException -= Thrown;
+            }
         }
         string? target = Environment.GetEnvironmentVariable("AOW_ENGINE_STARTUP_RECORD");
         if (target is not null)

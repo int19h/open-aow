@@ -180,9 +180,9 @@ public partial class DisplayController(Component owner) : Component(owner)
 
     // DisplayC.pas:660
     // { Bug kept from the original: the result of Resize is ignored, so Result stays 0. }
-    public virtual DisplayControllerError ResizeBackSurfaces(int width, int height) =>
+    public virtual DisplayControllerError ResizeBackSurfaces(int width, int height)
         /* TODO: Implement Controls.Color in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     // DisplayC.pas:675
     public virtual void SetPrimarySurfaceRegion(in Rect R) => PrimarySurfaceRegion = R;
@@ -263,9 +263,9 @@ public partial class DisplayController(Component owner) : Component(owner)
     // DisplayC.pas:787
     // { The mouse position in the display, or -1, -1 when the mouse is outside or another window has
     //   captured it. }
-    public virtual void GetMousePosition(ref int X, ref int Y) =>
+    public virtual void GetMousePosition(ref int X, ref int Y)
         /* TODO: Implement Windows.GetCapture in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     // DisplayC.pas:830
     public virtual DisplayControllerError Hide()

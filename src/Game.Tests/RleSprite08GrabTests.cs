@@ -61,7 +61,10 @@ public sealed class RleSprite08GrabTests
             Assert.Equal(new byte[] { 8, 0, 0, 0, 7, 0, 2, 9 }, Encoded(image));
             Assert.Equal(new byte[,] { { 0x55, 0x55, 0x55, 0x55, 0x55 }, { 0x55, 7, 0x55, 0x55, 9 }, { 0x55, 0x55, 0x55, 0x55, 0x55 } }, Draw(image, 5, 3));
         }
-        finally { image.Dispose(); }
+        finally
+        {
+            image.Dispose();
+        }
     }
 
     [Fact]
@@ -88,7 +91,10 @@ public sealed class RleSprite08GrabTests
                 }
             }
         }
-        finally { image.Dispose(); }
+        finally
+        {
+            image.Dispose();
+        }
     }
 
     [Fact]
@@ -109,7 +115,10 @@ public sealed class RleSprite08GrabTests
             Assert.Equal((0, 0, 2, 2), (image.RleLeft, image.RleTop, image.RleWidth, image.RleHeight));
             Assert.Equal(new byte[] { 7, 0, 0, 0, 0, 1, 6, 6, 0, 0, 0, 6, 6 }, Encoded(image));
         }
-        finally { image.Dispose(); }
+        finally
+        {
+            image.Dispose();
+        }
     }
 
     [Fact]

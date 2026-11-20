@@ -7,7 +7,7 @@ using static Aow.Rtl.DelphiConversions;
 
 namespace Aow.Game.Magic.Abilities;
 
-public partial class TransportAbility : MultiLevelAbility
+public class TransportAbility : MultiLevelAbility
 {
     // AoWAb.PAS:939
     public TransportAbility(CustomNode owner) : base(owner)

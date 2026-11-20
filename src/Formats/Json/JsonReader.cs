@@ -90,8 +90,8 @@ public sealed class JsonReader
 
     private char Peek() => _position < _text.Length ? _text[_position] : '\0';
 
-    private ConversionException Error(string code, string message, TextSpan? span = null, string? value = null, string? constraint = null) =>
-        new(new FormatDiagnostic(code, message)
+    private ConversionException Error(string code, string message, TextSpan? span = null, string? value = null, string? constraint = null)
+        => new(new FormatDiagnostic(code, message)
         {
             File = _file,
             Span = span ?? Here,

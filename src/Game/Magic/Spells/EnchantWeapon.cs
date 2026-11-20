@@ -6,7 +6,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class EnchantWeapon : UnitSpell
+public class EnchantWeapon : UnitSpell
 {
     // UnitSpells.pas:296
     public EnchantWeapon(CustomNode owner, EngineObject holder) : base(owner)

@@ -11,7 +11,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Combat.Actions;
 
 // (ability ID, success)
-public partial class CommandCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
+public class CommandCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
 {
     public new const int ClassId = 131763;
 
@@ -86,7 +86,4 @@ public partial class CommandCombatAction(CustomNode owner) : SingleTargetCombatA
         TargetId = targetId;
         Successful = successful;
     }
-
-    // intf_P3_02.inc:38
-
 }

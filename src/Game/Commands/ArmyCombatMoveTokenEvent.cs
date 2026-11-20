@@ -834,11 +834,6 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
         StrategicMap.Current.MoveControl.ProcessMove(moveControlSettings);
         return moveControlSettings;
     }
-
-    // intf_P5_07.inc:816
-
-    // intf_P5_07.inc:816
-
 }
 
 public enum ArmyCombatMoveTokenEventMode : byte

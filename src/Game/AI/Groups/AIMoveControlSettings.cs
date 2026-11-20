@@ -11,7 +11,7 @@ namespace Aow.Game.AI.Groups;
 
 // references, player, source, destination, move table, completion event, transporter, search
 // limits, mode, army, selection, cycles, status, cost, path, transport locations
-public partial class AIMoveControlSettings : EngineObject
+public class AIMoveControlSettings : EngineObject
 {
     // AIGroup.pas:3841
     public AIMoveControlSettings(CustomNode owner) : base(owner)
@@ -94,14 +94,14 @@ public partial class AIMoveControlSettings : EngineObject
     // AIGroup.pas:3887
     public void SetSourcePosition(MapCoordinate source) => Source = source;
 
-    public void SetSourcePosition(int x, int y, int level) =>
-        SetSourcePosition(new MapCoordinate((sbyte)x, (sbyte)y, (sbyte)level));
+    public void SetSourcePosition(int x, int y, int level)
+        => SetSourcePosition(new MapCoordinate((sbyte)x, (sbyte)y, (sbyte)level));
 
     // AIGroup.pas:3894
     public void SetDestinationPosition(MapCoordinate destination) => Destination = destination;
 
-    public void SetDestinationPosition(int x, int y, int level) =>
-        SetDestinationPosition(new MapCoordinate((sbyte)x, (sbyte)y, (sbyte)level));
+    public void SetDestinationPosition(int x, int y, int level)
+        => SetDestinationPosition(new MapCoordinate((sbyte)x, (sbyte)y, (sbyte)level));
 
     // AIGroup.pas:3901
     public void Setup(ArmyHexSprite army, byte selection, int X, int Y, int L)
@@ -117,7 +117,4 @@ public partial class AIMoveControlSettings : EngineObject
         army.Army.CreateMovePointTable(selection, out MovePointTable movePointTable);
         MovePointTable = movePointTable;
     }
-
-    // intf_P5_06.inc:154
-
 }

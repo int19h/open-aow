@@ -195,12 +195,12 @@ public sealed class FormatSchema
         return delphi is not null && delphi != name && _classes.TryGetValue(delphi, out found) ? found : null;
     }
 
-    public SchemaClass Get(string name) =>
-        Find(name) ?? throw new InvalidOperationException($"The schema has no class {name}.");
+    public SchemaClass Get(string name)
+        => Find(name) ?? throw new InvalidOperationException($"The schema has no class {name}.");
 
     /// <summary>Resolves a stored class id through one engine table only (own-formats.md 2.2).</summary>
-    public SchemaClass? Resolve(string engine, int classId) =>
-        _engines.TryGetValue(engine, out Dictionary<int, SchemaClass>? table) ? table.GetValueOrDefault(classId) : null;
+    public SchemaClass? Resolve(string engine, int classId)
+        => _engines.TryGetValue(engine, out Dictionary<int, SchemaClass>? table) ? table.GetValueOrDefault(classId) : null;
 
     public IReadOnlyDictionary<int, SchemaClass> EngineTable(string engine) => _engines[engine];
 }
@@ -228,8 +228,8 @@ public static class FormatVersions
 
     public static IReadOnlyList<string> FlatMappings => Names("flatMappings");
 
-    private static string[] Names(string member) =>
-        s_current.Value[member] is JsonArray names ? [.. names.Items.Select(n => ((JsonString)n).Value)] : [];
+    private static string[] Names(string member)
+        => s_current.Value[member] is JsonArray names ? [.. names.Items.Select(n => ((JsonString)n).Value)] : [];
 }
 
 public sealed class SchemaClass
@@ -366,8 +366,14 @@ public sealed class SchemaClass
     // An ambiguous Delphi name has no single stored name. The exact class name still matches above.
     private static string? StoredName(string name)
     {
-        try { return NameTable.ResolveStored(name); }
-        catch (InvalidOperationException) { return null; }
+        try
+        {
+            return NameTable.ResolveStored(name);
+        }
+        catch (InvalidOperationException)
+        {
+            return null;
+        }
     }
 
     internal void Complete()
@@ -617,11 +623,11 @@ public sealed class SchemaMapping
         StoredMembers = [.. Cases.Append(Unknown).SelectMany(c => c.Fields.Select(f => f.Member)).Append(Discriminator).Distinct()];
     }
 
-    private static (string Field, string Member)[] Fields(JsonObject c) =>
-        [.. ((JsonArray)c["fields"]!).Items.Cast<JsonArray>().Select(f => (((JsonString)f.Items[0]).Value, ((JsonString)f.Items[1]).Value))];
+    private static (string Field, string Member)[] Fields(JsonObject c)
+        => [.. ((JsonArray)c["fields"]!).Items.Cast<JsonArray>().Select(f => (((JsonString)f.Items[0]).Value, ((JsonString)f.Items[1]).Value))];
 
-    private static HashSet<string> Refused(JsonObject c) =>
-        c["refuse"] is JsonArray list
+    private static HashSet<string> Refused(JsonObject c)
+        => c["refuse"] is JsonArray list
             ? [with(StringComparer.Ordinal), .. list.Items.Cast<JsonString>().Select(s => s.Value)]
             : [with(StringComparer.Ordinal)];
 

@@ -8,7 +8,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Events;
 
 // (enchantment player)
-public partial class GlobalEnchantmentEventLog(CustomNode owner) : LocationTextEventLog(owner)
+public class GlobalEnchantmentEventLog(CustomNode owner) : LocationTextEventLog(owner)
 {
     public new const int ClassId = 131819;
 
@@ -29,5 +29,4 @@ public partial class GlobalEnchantmentEventLog(CustomNode owner) : LocationTextE
             ? StrategicMap.Current.Players.GetPlayers(EnchantmentPlayer).PlayerRace
             : 12;
     }
-
 }

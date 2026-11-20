@@ -6,7 +6,7 @@ using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.World.Structures;
 
-public partial class AltarOfLightning(CustomNode owner) : Altar(owner)
+public class AltarOfLightning(CustomNode owner) : Altar(owner)
 {
 
     // AltLight.pas:36
@@ -15,18 +15,14 @@ public partial class AltarOfLightning(CustomNode owner) : Altar(owner)
     // AltLight.pas:39
     public override Storm CreateStorm() => new LightningStorm(null) { Holder = CreationHolder() };
 
-    public new partial class Resource(CustomNode owner) : AltarResource(owner)
+    public new class Resource(CustomNode owner) : AltarResource(owner)
     {
 
         // AltLight.pas:52
         public new const int ClassId = 131646;
 
-        // AltLight.pas:44
-
         // AltLight.pas:55
         public override int ResourceUserClassId() => 131645;
-
-        // AltLight.pas:26
 
         // AltLight.pas:49
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_altarOfLightningText);
@@ -34,5 +30,4 @@ public partial class AltarOfLightning(CustomNode owner) : Altar(owner)
         private static readonly string s_altarOfLightningText = "Altar of Lightning";
 
     }
-
 }

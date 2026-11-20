@@ -17,7 +17,7 @@ namespace Aow.Game.World;
 
 // Player, TurnsRemaining, Drifting, Direction, Updated, VisibleForSeatedPlayer,
 // Enchantment
-public partial class SmokeCloud : MultiHexMapObject
+public class SmokeCloud : MultiHexMapObject
 {
     public SmokeCloud(CustomNode owner) : base(owner)
     {
@@ -60,8 +60,6 @@ public partial class SmokeCloud : MultiHexMapObject
         _direction = persister.Byte("Direction", value: _direction);
         persister.Object("Enchantment", objectValue: Enchantment);
     }
-
-    // SmokeCloud.pas:172
 
     // SmokeCloud.pas:373
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
@@ -309,7 +307,7 @@ public partial class SmokeCloud : MultiHexMapObject
         }
     }
 
-    public new partial class Resource(CustomNode owner) : MultiHexMapObjectResource(owner)
+    public new class Resource(CustomNode owner) : MultiHexMapObjectResource(owner)
     {
 
         // SmokeCloud.pas:385
@@ -322,7 +320,4 @@ public partial class SmokeCloud : MultiHexMapObject
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), GameText.SmokeCloudText);
 
     }
-
-    // SmokeCloud.pas:43
-
 }

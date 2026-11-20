@@ -8,7 +8,7 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Game.Audio;
 
 // FID. A sound effect: its children are TSFX, one of them plays (at random)
-public partial class SfxSequence(CustomNode owner) : OwningNode(owner), IChildList<Sfx>
+public class SfxSequence(CustomNode owner) : OwningNode(owner), IChildList<Sfx>
 {
     // The sound effect in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a Sfx, so the read never fails.
@@ -37,5 +37,4 @@ public partial class SfxSequence(CustomNode owner) : OwningNode(owner), IChildLi
     public Sample Play(int volume, bool looped, int delay, SamplePanning panning, SampleCallBack callback) => Count != 0 ? this[Random(Count)].Play(volume, looped, delay, panning, callback) : null;
 
     public int Id { get; set; }
-
 }

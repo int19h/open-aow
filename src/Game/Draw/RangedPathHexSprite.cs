@@ -14,7 +14,7 @@ using static Aow.Rtl.DelphiConversions;
 namespace Aow.Game.Draw;
 
 // MiscellaneousImages. TargetImages. Frame. FrameCount. Selection. Range
-public partial class RangedPathHexSprite(CustomNode owner) : FixedVisibleHexSprite(owner)
+public class RangedPathHexSprite(CustomNode owner) : FixedVisibleHexSprite(owner)
 {
 
     // AoWTC.pas:4846
@@ -268,7 +268,4 @@ public partial class RangedPathHexSprite(CustomNode owner) : FixedVisibleHexSpri
         GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TargHex.ILB");
         base.Deactivate();
     }
-
-    // Engine.pas:524
-
 }

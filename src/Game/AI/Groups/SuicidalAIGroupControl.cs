@@ -8,7 +8,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
-public partial class SuicidalAIGroupControl(CustomNode owner) : AIGroupControl(owner)
+public class SuicidalAIGroupControl(CustomNode owner) : AIGroupControl(owner)
 {
 
     // MainAG.pas:750

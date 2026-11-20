@@ -198,7 +198,10 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
                     image.ShowInfo = new ShowInfo { ShowMode = ShowMode.Blended, BlendMode = mode, Blend = table };
                     _ = Assert.Throws<InvalidCastException>(() => image.Show(0, 0, lockedSurface));
                 }
-                finally { image.Dispose(); }
+                finally
+                {
+                    image.Dispose();
+                }
             }
         }
     });

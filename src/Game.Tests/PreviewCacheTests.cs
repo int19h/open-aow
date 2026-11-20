@@ -46,8 +46,8 @@ public sealed class PreviewCacheTests : IDisposable
 
     private void Install() => RtlHost.Files = new LayeredFileSystem(Path.Combine(_directory, "root"), Path.Combine(_directory, "user"));
 
-    private static string Name(byte[] image) =>
-        ((JsonString)((JsonObject)GameFiles.ImportImage(image, GameProfile.HeroList.Profile, "hero-list").Document["root"]!)["LibraryName"]!).Value;
+    private static string Name(byte[] image)
+        => ((JsonString)((JsonObject)GameFiles.ImportImage(image, GameProfile.HeroList.Profile, "hero-list").Document["root"]!)["LibraryName"]!).Value;
 
     [Fact]
     public void SecondPreviewOfTheSameBytesComesFromTheCache()

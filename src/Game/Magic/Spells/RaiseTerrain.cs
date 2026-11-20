@@ -16,7 +16,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class RaiseTerrain : GlobalTargetSpell
+public class RaiseTerrain : GlobalTargetSpell
 {
     public RaiseTerrain(CustomNode owner, EngineObject holder) : base(owner)
     {
@@ -28,8 +28,6 @@ public partial class RaiseTerrain : GlobalTargetSpell
         MagicSphere = MagicSphere.Earth;
         AboveGroundOnly = true;
     }
-
-    // Mountain.pas:327
 
     // Mountain.pas:364
     public override void SetupTargetSelection(Troop source, TargetSelectionControl targetSelection)
@@ -73,9 +71,4 @@ public partial class RaiseTerrain : GlobalTargetSpell
     public override bool ValidTargetMapField(MapField field) => base.ValidTargetMapField(field) && !Set<byte>.WithBounds(0, 255).With(0).With(6).With(10).With(13).Contains((byte)field.TerrainType) && !Set<byte>.WithBounds(0, 255).With(0).Contains((byte)field.OverlayType) && field.FindNoneTransparentHexSprite(typeof(Structure)) is null && field.GetArmyHexSprite() is null;
 
     private static readonly string s_raiseTerrainText = "Raise Terrain";
-
-    // Mountain.pas:77
-
-    // Mountain.pas:77
-
 }

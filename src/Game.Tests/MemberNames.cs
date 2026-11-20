@@ -9,8 +9,8 @@ internal static class MemberNames
 {
     private const BindingFlags Instance = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
 
-    internal static string Of(FieldInfo field) =>
-        field.Name is ['<', .. var rest] && rest.IndexOf(">k__BackingField", StringComparison.Ordinal) is int end and >= 0
+    internal static string Of(FieldInfo field)
+        => field.Name is ['<', .. var rest] && rest.IndexOf(">k__BackingField", StringComparison.Ordinal) is int end and >= 0
             ? rest[..end]
             : field.Name;
 

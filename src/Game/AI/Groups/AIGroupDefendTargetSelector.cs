@@ -15,7 +15,7 @@ using static Aow.Rtl.DelphiRounding;
 namespace Aow.Game.AI.Groups;
 
 // control, selector, targets, mode, path step, radius, damage, factor
-public partial class AIGroupDefendTargetSelector : AIGroupTask
+public class AIGroupDefendTargetSelector : AIGroupTask
 {
     private AIGroupControl _control;
     private readonly AIMoveTargetSelector _selector;
@@ -233,5 +233,4 @@ public partial class AIGroupDefendTargetSelector : AIGroupTask
     {
         CalculateMovePathBfs = 0
     }
-
 }

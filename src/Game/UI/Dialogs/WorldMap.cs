@@ -1241,5 +1241,4 @@ public partial class WorldMap(UIContext ui) : UIModule(ui)
         dialog.EnemyPawnImage.CurrentImage = 8 - campaign3.Faction;
         dialog.UpdateCampaignState();
     }
-
 }

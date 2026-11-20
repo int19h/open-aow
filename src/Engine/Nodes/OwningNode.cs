@@ -5,7 +5,7 @@ using Aow.Rtl;
 namespace Aow.Engine.Nodes;
 
 // _children
-public partial class OwningNode : CustomNode
+public class OwningNode : CustomNode
 {
     // Engine.pas:2861
     public new const int ClassId = 256;
@@ -368,6 +368,4 @@ public partial class OwningNode : CustomNode
 
         _children.List[index] = child;
     }
-
-    // Engine.pas:631
 }

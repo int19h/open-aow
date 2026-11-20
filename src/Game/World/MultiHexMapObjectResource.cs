@@ -6,7 +6,7 @@ namespace Aow.Game.World;
 
 // FdXImage, FdYImage (the image offset, ids 12 and 13), FdXmainP, FdYmainP (the main point, ids
 // 14 and 15, part of the show priority offset)
-public partial class MultiHexMapObjectResource : MapObjectResource
+public class MultiHexMapObjectResource : MapObjectResource
 {
     public new const int ClassId = 65877;
 
@@ -29,8 +29,6 @@ public partial class MultiHexMapObjectResource : MapObjectResource
         _mainPointOffsetY = persister.Int32("MainPointOffsetY", value: _mainPointOffsetY);
     }
 
-    // MAPOBJ.PAS:1232
-
     // MAPOBJ.PAS:1244
     public virtual void SetMainPointOffsetX(int value)
     {
@@ -49,5 +47,4 @@ public partial class MultiHexMapObjectResource : MapObjectResource
     public int ImageOffsetY { get; set; }
     public int MainPointOffsetX { get => _mainPointOffsetX; set => SetMainPointOffsetX(value); }
     public int MainPointOffsetY { get => _mainPointOffsetY; set => SetMainPointOffsetY(value); }
-
 }

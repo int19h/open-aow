@@ -12,7 +12,7 @@ using static Aow.Rtl.DelphiTextCompare;
 namespace Aow.Game.Magic.Spells;
 
 // Removed, RestoreDays, DispelPlayer, TurnsActive, FloodControl
-public partial class FloodEnchantment : GlobalEnchantment
+public class FloodEnchantment : GlobalEnchantment
 {
     // GlobalEnchantmentSpells.pas:1240
     public new const int ClassId = 135960;

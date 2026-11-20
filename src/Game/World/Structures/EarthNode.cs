@@ -15,7 +15,7 @@ public partial class EarthNode(CustomNode owner) : ProductionPlace(owner)
     // EarthNode.pas:39
     public override MagicSphere GetMagicSphere() => MagicSphere.Earth;
 
-    public new partial class Resource : ProductionPlaceResource
+    public new class Resource : ProductionPlaceResource
     {
         public Resource(CustomNode owner) : base(owner)
         {
@@ -27,12 +27,8 @@ public partial class EarthNode(CustomNode owner) : ProductionPlace(owner)
         // EarthNode.pas:53
         public new const int ClassId = 132303;
 
-        // EarthNode.pas:42
-
         // EarthNode.pas:56
         public override int ResourceUserClassId() => 132302;
-
-        // EarthNode.pas:26
 
         // EarthNode.pas:50
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_earthNodeText);
@@ -40,5 +36,4 @@ public partial class EarthNode(CustomNode owner) : ProductionPlace(owner)
         private static readonly string s_earthNodeText = "Earth Node";
 
     }
-
 }

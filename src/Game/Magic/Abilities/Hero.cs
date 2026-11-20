@@ -1775,7 +1775,6 @@ public partial class Hero : Troop
                 {
                     item1.SetOwner(owner2.Observable);
                 }
-
             }
             Changed();
             return true;

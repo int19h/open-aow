@@ -5,13 +5,11 @@ using Aow.Game.Session;
 
 namespace Aow.Game.AI;
 
-public partial class StructurePhase1AIPlayerAction : StructureAIPlayerAction, IAIPlayerActionClass
+public class StructurePhase1AIPlayerAction : StructureAIPlayerAction, IAIPlayerActionClass
 {
     // Structur.PAS:3361
     // (inherited phase)
     public StructurePhase1AIPlayerAction(CustomNode owner) : base(owner) => Phase = 1;
-
-    // intf_P1_12.inc:16
 
     // Structur.PAS:3367
     public static new int Priority => 21;

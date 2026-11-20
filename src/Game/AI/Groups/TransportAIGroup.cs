@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.AI.Groups;
 
-public partial class TransportAIGroup : AIGroup, IAIGroupClass
+public class TransportAIGroup : AIGroup, IAIGroupClass
 {
     // MainAG.pas:801
     public new const int ClassId = 136295;

@@ -7,7 +7,7 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Game.World.Terrain;
 
 // Resources
-public partial class FireControl : IDisposable
+public class FireControl : IDisposable
 {
     // Structur.PAS:3720
     // Resources
@@ -69,7 +69,4 @@ public partial class FireControl : IDisposable
 
     // Structur.PAS:3776
     public void UnregisterFireResource(Fire.Resource resource) => _resources.Remove(resource);
-
-    // intf_P1_11.inc:62
-
 }

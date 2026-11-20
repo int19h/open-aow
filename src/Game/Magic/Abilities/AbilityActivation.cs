@@ -3,7 +3,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.Magic.Abilities;
 
-public partial class AbilityActivation(CustomNode owner) : EngineObject(owner)
+public class AbilityActivation(CustomNode owner) : EngineObject(owner)
 {
     private int _references = 1;
 
@@ -30,7 +30,4 @@ public partial class AbilityActivation(CustomNode owner) : EngineObject(owner)
 
         return result;
     }
-
-    // intf_P1_06.inc:17
-
 }

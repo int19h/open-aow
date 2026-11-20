@@ -191,8 +191,8 @@ public partial class CastUnitSpellDialog(UIContext ui) : UIModule(ui)
     }
 
     // AoWCastUnitSpellDlg.pas:183
-    public void U1PreDraw(CheckBox sender, LockedSurface surface, int slot) =>
-        DrawUnit(slot, UnitPanel.AbsoluteLeft + sender.WinLeft, UnitPanel.AbsoluteTop + sender.WinTop, ref surface);
+    public void U1PreDraw(CheckBox sender, LockedSurface surface, int slot)
+        => DrawUnit(slot, UnitPanel.AbsoluteLeft + sender.WinLeft, UnitPanel.AbsoluteTop + sender.WinTop, ref surface);
 
     private static readonly string s_requiredManaText = "Required Mana";
 }

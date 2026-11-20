@@ -8,7 +8,7 @@ namespace Aow.Game.UI.Windows;
 // { The AoWWinGeneric unit of aowInt.dpl: TAOWGenericWindow, the base window class that publishes
 //   the window manager's settings (the ancestor of TAOWWindow, TAOWToolTip and TAOWMenu). }
 // no fields of its own
-public partial class GenericWindow(Component owner) : BaseWindow(owner)
+public class GenericWindow(Component owner) : BaseWindow(owner)
 {
 
     // AoWWinGeneric.pas:39

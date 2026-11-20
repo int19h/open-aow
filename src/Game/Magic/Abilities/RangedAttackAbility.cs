@@ -10,7 +10,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Abilities;
 
 // (range, damage, attack, packed damage types, repeats)
-public partial class RangedAttackAbility : AdjustableAbility
+public class RangedAttackAbility : AdjustableAbility
 {
     // AoWAb.PAS:4653
     public RangedAttackAbility(CustomNode owner) : base(owner)
@@ -113,8 +113,8 @@ public partial class RangedAttackAbility : AdjustableAbility
         return true;
     }
 
-    public override CombatAction CreateRangedCombatAction(CombatUnit source, CombatUnit target) =>
-        CreateRangedAttackCombatAction(source, target: target, attackPenalty: 0);
+    public override CombatAction CreateRangedCombatAction(CombatUnit source, CombatUnit target)
+        => CreateRangedAttackCombatAction(source, target: target, attackPenalty: 0);
 
     // AoWAb.PAS:4708
     public override int GetDamageValue(Troop attacker, Troop defender)

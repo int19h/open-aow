@@ -9,7 +9,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Combat.Actions;
 
-public partial class TurnUndeadCombatAction(CustomNode owner) : DamageCombatAction(owner)
+public class TurnUndeadCombatAction(CustomNode owner) : DamageCombatAction(owner)
 {
     public new const int ClassId = 131769;
 
@@ -57,7 +57,4 @@ public partial class TurnUndeadCombatAction(CustomNode owner) : DamageCombatActi
     public bool GetSuccessful() => Damage != 0;
 
     public override bool TouchSucceeded => GetSuccessful();
-
-    // intf_P3_02.inc:38
-
 }

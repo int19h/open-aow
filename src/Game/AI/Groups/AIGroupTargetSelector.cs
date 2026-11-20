@@ -27,7 +27,7 @@ namespace Aow.Game.AI.Groups;
 // spare units, next target, battlefield factors, radius, damage types, superiority, move-day
 // factor, minimum strength, split factor, path factors, target limit, transport, valid limit,
 // priority settings
-public partial class AIGroupTargetSelector : AIGroupTask
+public class AIGroupTargetSelector : AIGroupTask
 {
     // AIGroup.pas:3041
     public AIGroupTargetSelector(CustomNode owner) : base(owner)
@@ -1190,7 +1190,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
 
     // target factor, immediate bonus, transport penalty, overlap penalties, existing-target
     // bonuses, cooperation penalties, recruitment penalties, move-day penalty, production penalties
-    public partial class PrioritySettings
+    public class PrioritySettings
     {
         public float TargetFactor { get; set; }
         public int ImmediateBonus { get; set; }
@@ -1206,12 +1206,5 @@ public partial class AIGroupTargetSelector : AIGroupTask
         public int MoveDayPenalty { get; set; }
         public int PartialProductionPenalty { get; set; }
         public int ProductionDayPenalty { get; set; }
-        // System.pas:111
-
     }
-
-    // intf_P5_07.inc:624
-
-    // intf_P5_07.inc:624
-
 }

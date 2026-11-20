@@ -22,7 +22,7 @@ using Aow.Rtl;
 namespace Aow.Game.Commands;
 
 // mode, unit IDs, selection, army sprite, moving/target player, target, destination, animate
-public partial class MoveArmyTokenEvent(CustomNode owner) : MoveTokenEvent(owner)
+public class MoveArmyTokenEvent(CustomNode owner) : MoveTokenEvent(owner)
 {
 
     public new const int ClassId = 135424;

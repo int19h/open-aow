@@ -3,7 +3,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.Magic.Abilities;
 
-public partial class SeducedAbility : CommandedAbility
+public class SeducedAbility : CommandedAbility
 {
     // AoWAb.PAS:5366
     public SeducedAbility(CustomNode owner, EngineObject holder) : base(owner)

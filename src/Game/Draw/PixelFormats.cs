@@ -107,9 +107,9 @@ public static class PixelFormats
         ? pixelFormatId
         : PixelFormat.None;
 
-    internal static PixelFormat GetOptimalPixelFormatId(int bitCount) =>
+    internal static PixelFormat GetOptimalPixelFormatId(int bitCount)
         /* TODO: Implement Forms.Width in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     internal static IReadOnlyList<(int Width, int Height)> IntegerScaleSizes(int desktopWidth, int desktopHeight)
     {
@@ -172,5 +172,4 @@ public static class PixelFormats
 
         return GraphicsResult.Ok;
     }
-
 }

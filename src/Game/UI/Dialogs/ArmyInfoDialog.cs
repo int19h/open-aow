@@ -166,5 +166,4 @@ public partial class ArmyInfoDialog(UIContext ui) : UIModule(ui)
         dialog.Window.Visible = true;
         dialog._unitInfoShown = false;
     }
-
 }

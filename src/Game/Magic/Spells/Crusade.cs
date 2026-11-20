@@ -17,7 +17,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Spells;
 
 // inherited name, spell ID, mana, sphere, level, type, sounds, images
-public partial class Crusade : Spell
+public class Crusade : Spell
 {
     // GlobalSpells.pas:1302
     public Crusade(CustomNode owner, EngineObject holder) : base(owner)

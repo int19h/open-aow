@@ -6,7 +6,7 @@ using Aow.Game.World.Hexes;
 
 namespace Aow.Game.Draw;
 
-public partial class CombatTerrainShadow(CustomNode owner) : HexSprite(owner)
+public class CombatTerrainShadow(CustomNode owner) : HexSprite(owner)
 {
     public CombatTerrain Terrain { get; init; }
 
@@ -15,7 +15,4 @@ public partial class CombatTerrainShadow(CustomNode owner) : HexSprite(owner)
 
     // CombatTerrain.pas:77
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface) => Terrain.ShowShadow(pixelXSurface, pixelYSurface, lockedSurface);
-
-    // Engine.pas:524
-
 }

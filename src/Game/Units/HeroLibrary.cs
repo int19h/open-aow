@@ -12,7 +12,7 @@ namespace Aow.Game.Units;
 
 // The original's THeroLibrary derives from THeroList. The port's library holds its heroes as
 // references in its node children and reads them through Heroes.
-public partial class HeroLibrary(CustomNode owner) : Engine.Nodes.ReferenceNode(owner), IChildList<Hero>, IHeroHolder
+public class HeroLibrary(CustomNode owner) : Engine.Nodes.ReferenceNode(owner), IChildList<Hero>, IHeroHolder
 {
     /// <summary>The heroes of this library, in their stored order.</summary>
     public HeroCollection Heroes => new(this);
@@ -114,7 +114,4 @@ public partial class HeroLibrary(CustomNode owner) : Engine.Nodes.ReferenceNode(
 
     // Hero.PAS:2636
     public void SaveToFile(string fileName) => GetEngine().WriteToFile(fileName, this, null, GameProfile.HeroList);
-
-    // Engine.pas:631
-
 }

@@ -2,7 +2,7 @@
 namespace Aow.Game.Draw;
 
 // _list
-public partial class DisplayModeList : IDisposable
+public class DisplayModeList : IDisposable
 {
     private readonly List<DisplayModeItem> _list;
 

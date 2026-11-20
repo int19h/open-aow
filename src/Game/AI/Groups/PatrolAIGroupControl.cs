@@ -11,7 +11,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
-public partial class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(owner)
+public class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(owner)
 {
     // Heading 0 is the centre, 1 to 6 the hex sides (fixed-arrays.md, named constant).
     public const int HexDirectionSlotCount = 7;

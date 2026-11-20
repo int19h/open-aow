@@ -8,7 +8,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // inherited name, ability ID, selection types, ability type
-public partial class SummonedAbility : UnitEnchantmentAbility
+public class SummonedAbility : UnitEnchantmentAbility
 {
     // PassiveAb.pas:1100
     public SummonedAbility(CustomNode owner, EngineObject holder) : base(owner)

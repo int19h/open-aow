@@ -5,7 +5,7 @@ using static Aow.Rtl.PointerMemory;
 namespace Aow.Game.Net;
 
 // FList, the memory streams of the packages that wait to be received
-public partial class PackageDataList : IDisposable
+public class PackageDataList : IDisposable
 {
     private readonly List<MemoryStream> _list;
 

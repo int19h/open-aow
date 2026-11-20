@@ -10,8 +10,8 @@ internal static class PortedExceptions
 {
     // The construction sweeps caught the Delphi exception base. This is that set after the
     // stand-ins with a .NET counterpart were replaced. Runtime failures stay outside it.
-    internal static bool Is(Exception error) =>
-        error is not NullStringException
+    internal static bool Is(Exception error)
+        => error is not NullStringException
         and (ArgumentException
             or InvalidOperationException
             or FormatException

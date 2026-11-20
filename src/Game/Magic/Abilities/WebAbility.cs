@@ -14,7 +14,7 @@ using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.Magic.Abilities;
 
-public partial class WebAbility : TouchAbility
+public class WebAbility : TouchAbility
 {
     // AoWAb.PAS:2806
     public WebAbility(CustomNode owner, EngineObject holder) : base(owner)

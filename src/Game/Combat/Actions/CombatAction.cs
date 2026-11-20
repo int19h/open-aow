@@ -6,7 +6,7 @@ using Aow.Rtl;
 namespace Aow.Game.Combat.Actions;
 
 // RefCount
-public partial class CombatAction(CustomNode owner) : EngineObject(owner), IOwned<CombatActionList>, IOwnedSink<CombatActionList>
+public class CombatAction(CustomNode owner) : EngineObject(owner), IOwned<CombatActionList>, IOwnedSink<CombatActionList>
 {
     // A reference list holds the action and owns it only while the list saves or loads it, and
     // nothing else owns it. AcceptsOwner admits only that list, so the cast never fails.
@@ -62,7 +62,4 @@ public partial class CombatAction(CustomNode owner) : EngineObject(owner), IOwne
     public virtual void ShowFightingObjects(CombatViewer viewer, int frame, int X, int Y, in LockedSurface surface)
     {
     }
-
-    // intf_P3_02.inc:38
-
 }

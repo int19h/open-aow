@@ -8,7 +8,7 @@ using static Aow.Rtl.IntegerObjects;
 
 namespace Aow.Game.Units;
 
-public partial class UnitGFXResourceList : ResourceCollection, IChildList<UnitGraphicsResource>
+public class UnitGFXResourceList : ResourceCollection, IChildList<UnitGraphicsResource>
 {
     // The unit graphics in slot index, read as the original reads the list, without a range check.
     // AcceptsResource admits only a UnitGraphicsResource, so the cast never fails.
@@ -36,7 +36,4 @@ public partial class UnitGFXResourceList : ResourceCollection, IChildList<UnitGr
             }
         }
     }
-
-    // intf_P2_03.inc:39
-
 }

@@ -5,7 +5,7 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Engine.Nodes;
 
 // resources with unique ids
-public partial class ResourceCollection(CustomNode owner) : EngineNode(owner), IChildList<EngineResource>
+public class ResourceCollection(CustomNode owner) : EngineNode(owner), IChildList<EngineResource>
 {
     public new const int ClassId = 1025;
 
@@ -82,5 +82,4 @@ public partial class ResourceCollection(CustomNode owner) : EngineNode(owner), I
             }
         }
     }
-
 }

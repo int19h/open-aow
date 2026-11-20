@@ -99,7 +99,4 @@ public partial class ArmyId(CustomNode owner) : EngineObject(owner)
 
         return result;
     }
-
-    // intf_P2_07.inc:411
-
 }

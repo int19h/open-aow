@@ -52,8 +52,14 @@ public sealed class CombatUnitSelectionConstructionTests
                 Assert.Same(entry.ImageLibrary, value.TargetImages);
                 state = OrderingRecording.Snapshot(value);
             }
-            catch (Exception error) when (error is not XunitException) { state = $"{error.GetType().FullName}:{error.Message}"; }
-            finally { GamePack.Current = set; }
+            catch (Exception error) when (error is not XunitException)
+            {
+                state = $"{error.GetType().FullName}:{error.Message}";
+            }
+            finally
+            {
+                GamePack.Current = set;
+            }
             Assert.Equal(fail == 0, value is not null);
             actual.Add($"fail{fail}", JsonSerializer.Serialize(new { State = state, Before = before, After = entry.RefCount }));
             value?.Dispose();

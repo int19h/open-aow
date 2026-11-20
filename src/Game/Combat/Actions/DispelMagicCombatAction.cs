@@ -14,7 +14,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Combat.Actions;
 
 // (dispelled enchantment IDs)
-public partial class DispelMagicCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
+public class DispelMagicCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
 {
 
     public Int32List EnchantmentIds { get; } = new Int32List();
@@ -107,7 +107,4 @@ public partial class DispelMagicCombatAction(CustomNode owner) : SingleTargetCom
             enchantmentList?.Dispose();
         }
     }
-
-    // intf_P4_02.inc:660
-
 }

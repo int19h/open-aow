@@ -21,7 +21,7 @@ namespace Aow.Game.Session;
 // { Interface declaration run owned by P1. }
 // face library, city library, library name, name, race name, description, alignments,
 // references, units, hero unit, special units, hero names
-public partial class RaceResource(CustomNode owner) : EngineResource(owner)
+public class RaceResource(CustomNode owner) : EngineResource(owner)
 {
 
     public new const int ClassId = 131585;
@@ -233,8 +233,6 @@ public partial class RaceResource(CustomNode owner) : EngineResource(owner)
                         ? Alignment.PureEvil
                         : Alignments == s_pureNeutralAlignments ? Alignment.PureNeutral : Alignment.None;
     }
-
-    // intf_P1_09.inc:24
 
     // PlayerC.PAS:1815
     public override string ResourceEditName() => "Race";

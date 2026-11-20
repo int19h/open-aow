@@ -6,7 +6,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class FreeMovement : UnitSpell
+public class FreeMovement : UnitSpell
 {
     // UnitSpells.pas:386
     public FreeMovement(CustomNode owner, EngineObject holder) : base(owner)

@@ -15,13 +15,21 @@ public static class DelphiFormat
         int next = 0;
         for (int i = 0; i < text.Length; i++)
         {
-            if (text[i] != '%') { _ = result.Append(text[i]); continue; }
+            if (text[i] != '%')
+            {
+                _ = result.Append(text[i]);
+                continue;
+            }
             if (++i >= text.Length)
             {
                 break;
             }
 
-            if (text[i] == '%') { _ = result.Append('%'); continue; }
+            if (text[i] == '%')
+            {
+                _ = result.Append('%');
+                continue;
+            }
             int start = i;
             int width;
             bool left;
@@ -54,7 +62,11 @@ public static class DelphiFormat
                 i++;
             }
             int precision = -1;
-            if (i < text.Length && text[i] == '.') { i++; precision = ReadNumber(text, ref i, args, ref next); }
+            if (i < text.Length && text[i] == '.')
+            {
+                i++;
+                precision = ReadNumber(text, ref i, args, ref next);
+            }
             if (i >= text.Length)
             {
                 break;
@@ -107,8 +119,8 @@ public static class DelphiFormat
         return output;
     }
 
-    private static string Truncate(string value, int precision) =>
-        precision >= 0 && value.Length > precision ? value[..precision] : value;
+    private static string Truncate(string value, int precision)
+        => precision >= 0 && value.Length > precision ? value[..precision] : value;
 
     private static FormatException Mismatch(char conversion, int start) => conversion switch
     {

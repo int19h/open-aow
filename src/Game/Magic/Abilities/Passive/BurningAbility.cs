@@ -7,7 +7,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // inherited name, ability ID, selection types, ability type, duration mode
-public partial class BurningAbility : DurationAbility
+public class BurningAbility : DurationAbility
 {
     // PassiveAb.pas:756
     public BurningAbility(CustomNode owner, EngineObject holder) : base(owner)

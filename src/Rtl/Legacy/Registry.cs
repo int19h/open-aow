@@ -7,7 +7,11 @@ public class DelphiRegistry
     private readonly ISettingsStore values = RtlHost.Settings ?? new MemorySettingsStore();
     private string key = "";
 
-    public bool OpenKey(string name, bool create) { key = name; return true; }
+    public bool OpenKey(string name, bool create)
+    {
+        key = name;
+        return true;
+    }
 
     public void CloseKey() => key = "";
     public bool ValueExists(string name) => values.Read($"{key}\\{name}") is not null;

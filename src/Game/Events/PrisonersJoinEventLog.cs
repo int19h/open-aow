@@ -63,5 +63,4 @@ public partial class PrisonersJoinEventLog(CustomNode owner) : JoinEventLog(owne
 
         return true;
     }
-
 }

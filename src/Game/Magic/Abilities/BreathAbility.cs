@@ -13,7 +13,7 @@ using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.Magic.Abilities;
 
-public partial class BreathAbility : RangedAttackAbility
+public class BreathAbility : RangedAttackAbility
 {
     // AoWAb.PAS:4852
     public BreathAbility(CustomNode owner) : base(owner)

@@ -9,7 +9,7 @@ using Aow.Game.World.Structures;
 namespace Aow.Game.AI;
 
 // { Interface declaration run owned by P1. }
-public partial class StructureAIPlayerAction(CustomNode owner) : AIPlayerAction(owner)
+public class StructureAIPlayerAction(CustomNode owner) : AIPlayerAction(owner)
 {
 
     public int Phase { get; protected set; }
@@ -64,7 +64,4 @@ public partial class StructureAIPlayerAction(CustomNode owner) : AIPlayerAction(
 
         return _structureIds.Count != 0;
     }
-
-    // intf_P1_12.inc:8
-
 }

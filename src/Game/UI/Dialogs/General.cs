@@ -995,5 +995,4 @@ public partial class General(UIContext ui) : UIModule(ui)
         controller.UI.TaskBar.ChatFlash = 0;
         controller.UI.VideoDialog.SetSceneSize(controller.UI.VideoDialog.DisplayWidth, controller.UI.VideoDialog.DisplayHeight);
     }
-
 }

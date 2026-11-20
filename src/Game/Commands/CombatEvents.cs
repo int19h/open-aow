@@ -75,5 +75,4 @@ internal static class CombatEvents
             ? new TacticalBattleEndTurnTokenEvent(null) { Holder = engine }
             : null;
     }
-
 }

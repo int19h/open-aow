@@ -9,7 +9,7 @@ namespace Aow.Game.World.Hexes;
 // { The BorderHx unit of HSEPack.dpl: the border hexagon (TBorderHexagon, ClassID $20557) drawn at
 //   level 11 over the map edge; it also adds itself to the hexagon above (HN 1) of its map field.
 //   TBorderHexagonResource has ClassID $20558. }
-public partial class BorderHex(CustomNode owner) : AbstractBorderHexagon(owner)
+public class BorderHex(CustomNode owner) : AbstractBorderHexagon(owner)
 {
 
     // BorderHx.pas:59
@@ -63,7 +63,7 @@ public partial class BorderHex(CustomNode owner) : AbstractBorderHexagon(owner)
     // BorderHx.pas:95
     public override bool CanChangeTerrain(in HexSpriteSenderInfo info) => info.HexNumber != 0;
 
-    public new partial class Resource(CustomNode owner) : AbstractBorderHexagon.Resource(owner)
+    public new class Resource(CustomNode owner) : AbstractBorderHexagon.Resource(owner)
     {
         public new const int ClassId = 132440;
 

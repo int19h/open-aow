@@ -165,5 +165,4 @@ public partial class MessageDialog(UIContext ui) : UIModule(ui)
 
         dialog.Window.Visible = true;
     }
-
 }

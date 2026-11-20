@@ -273,5 +273,4 @@ public partial class PartyJoinDialog(UIContext ui) : UIModule(ui)
         dialog.RightButton.Text = reject;
         UpdatePartyJoin(dialog);
     }
-
 }

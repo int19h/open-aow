@@ -6,7 +6,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // (name, ID, selection types, ability type, duration mode.)
-public partial class HighPrayerBlessingAbility : DurationAbility
+public class HighPrayerBlessingAbility : DurationAbility
 {
     // PassiveAb.pas:1267
     public HighPrayerBlessingAbility(CustomNode owner, EngineObject holder) : base(owner)

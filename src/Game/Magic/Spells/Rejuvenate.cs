@@ -13,7 +13,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class Rejuvenate : GlobalTargetSpell
+public class Rejuvenate : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:1074
     public Rejuvenate(CustomNode owner, EngineObject holder) : base(owner)

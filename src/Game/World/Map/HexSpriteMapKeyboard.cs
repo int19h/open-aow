@@ -25,7 +25,7 @@ namespace Aow.Game.World.Map;
 
 // TNotifyEvent target passed directly
 // cheat text, mode, lock count
-public partial class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner)
+public class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner)
 {
     private string _cheatText = "";
 
@@ -260,11 +260,6 @@ public partial class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner
     private static readonly string s_observeEnabledText = "Observe enabled";
     private static readonly string s_observeDisabledText = "Observe disabled";
     private static readonly ImmutableArray<string> s_cheatNames = ["gold", "mana", "explore", "fog", "spells", "win", "freemove", "towns", "lose", "research"];
-
-    // Engine.pas:524
-
-    // Engine.pas:524
-
 }
 
 public enum HexSpriteMapKeyboardMode : byte

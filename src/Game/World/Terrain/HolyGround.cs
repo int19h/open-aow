@@ -22,7 +22,7 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Game.World.Terrain;
 
 // Mode, Player, Duration, OriginalOverlay
-public partial class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
+public class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
 {
 
     // HolyG.pas:92
@@ -300,7 +300,7 @@ public partial class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject
 
     private static readonly string s_holyGroundDamageText = "Holy Ground Damage";
 
-    public new partial class Resource(CustomNode owner) : ImageLibraryTerrainMapObjectResource(owner)
+    public new class Resource(CustomNode owner) : ImageLibraryTerrainMapObjectResource(owner)
     {
 
         // HolyG.pas:276
@@ -315,5 +315,4 @@ public partial class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject
         private static readonly string s_holyGroundText = "Holy Ground";
 
     }
-
 }

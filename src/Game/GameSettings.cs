@@ -10,9 +10,9 @@ namespace Aow.Game;
 public partial class GameSettings : DelphiRegistry
 {
     // AoWReg.pas:128
-    public void AssociateMapFiles(string executable) =>
+    public void AssociateMapFiles(string executable)
         /* TODO: Implement Registry.RootKey in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     // AoWReg.pas:141
     public void Int32(string key, string name, ref int value, ReadWriteMode mode)
@@ -249,9 +249,9 @@ public partial class GameSettings : DelphiRegistry
     public bool GetDeveloper() => false;
 
     // AoWReg.pas:312
-    public void SetDeveloper(bool value) =>
+    public void SetDeveloper(bool value)
         /* TODO: Implement Registry.DeleteValue in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     // AoWReg.pas:329
     public bool GetSkipIntro()
@@ -683,9 +683,9 @@ public partial class GameSettings : DelphiRegistry
     }
 
     // AoWReg.pas:791
-    public void RegisterDPlayLobbyServer() =>
+    public void RegisterDPlayLobbyServer()
         /* TODO: Implement Registry.RootKey in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     // Automatic and English retain the shipped forcing behavior.
     public Language GetLanguage()

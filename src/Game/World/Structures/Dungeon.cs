@@ -54,8 +54,6 @@ public partial class Dungeon : ExplorationSite
         _prisonersMode = persister.Enum("PrisonersMode", value: _prisonersMode);
     }
 
-    // Dungeon.pas:95
-
     // Dungeon.pas:249
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
@@ -250,7 +248,7 @@ public partial class Dungeon : ExplorationSite
     private static readonly string s_prisonersLiberatedFormat = "%s prisoners liberated";
 
     // PrisonerCollections
-    public new partial class Resource(CustomNode owner) : ExplorationSiteResource(owner)
+    public new class Resource(CustomNode owner) : ExplorationSiteResource(owner)
     {
 
         // Dungeon.pas:280
@@ -272,12 +270,8 @@ public partial class Dungeon : ExplorationSite
             PersistSupport.UnitIndexListCollection(persister, name: "PrisonerCollections", collection: PrisonerCollections);
         }
 
-        // Dungeon.pas:265
-
         // Dungeon.pas:283
         public override int ResourceUserClassId() => 131882;
-
-        // Dungeon.pas:53
 
         // Dungeon.pas:277
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_dungeonText);
@@ -285,11 +279,6 @@ public partial class Dungeon : ExplorationSite
         private static readonly string s_dungeonText = "Dungeon";
 
     }
-
-    // Dungeon.pas:33
-
-    // Dungeon.pas:33
-
 }
 
 public enum DungeonPrisonersMode : byte

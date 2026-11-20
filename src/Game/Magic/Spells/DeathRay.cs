@@ -10,7 +10,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Spells;
 
 // inherited combat statistics, damage mode
-public partial class DeathRay : CombatSpell
+public class DeathRay : CombatSpell
 {
     // CombatSpells.pas:1130
     public DeathRay(CustomNode owner, EngineObject holder) : base(owner)

@@ -336,8 +336,8 @@ public partial class BitList : Persistent
     public bool Compare(BitList list) => list._count == _count && CompareMem(List.Span[..(int)(((uint)(_count + 7)) >> 3)], list.List.Span[..(int)(((uint)(_count + 7)) >> 3)], (int)(((uint)(_count + 7)) >> 3));
 
     /// <summary>The image <c>TBitList.SaveToStream</c> (Engine.pas:4791) writes, the default as its stored byte.</summary>
-    internal BitListImage SaveImage() =>
-        new(_default, _count, List.Span[..(int)(((uint)(_count + 7)) >> 3)].ToArray());
+    internal BitListImage SaveImage()
+        => new(_default, _count, List.Span[..(int)(((uint)(_count + 7)) >> 3)].ToArray());
 
     /// <summary>
     /// <c>TBitList.LoadFromStream</c> (Engine.pas:4782) from a stored image. A default byte other

@@ -12,7 +12,7 @@ namespace Aow.Game.World.Map;
 // TList of resources per terrain type name of the set (THSSet.TerrainTypes), filled by
 // RegisterResource when a resource is activated. Place and PlaceClass put a random resource of
 // a terrain type on a map field
-public partial class MapObjectResourceTerrainControl(CustomNode owner) : EngineObject(owner)
+public class MapObjectResourceTerrainControl(CustomNode owner) : EngineObject(owner)
 {
 
     // HSEngine.pas:4522

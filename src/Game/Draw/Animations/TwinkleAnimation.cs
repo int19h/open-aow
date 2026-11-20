@@ -14,7 +14,7 @@ using static Aow.Rtl.DelphiRounding;
 namespace Aow.Game.Draw.Animations;
 
 // sequence, particle count, radius, lifetime, random start delay, mode
-public partial class TwinkleAnimation : Animation
+public class TwinkleAnimation : Animation
 {
     public TwinkleAnimation(CustomNode owner) : base(owner) => AnimationLevel = 28;
 
@@ -24,8 +24,6 @@ public partial class TwinkleAnimation : Animation
     private int _duration;
     private int _startDelay;
     private Set<TwinkleModeElement> _mode;
-
-    // Animation.pas:532
 
     // Animation.pas:538
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
@@ -96,7 +94,4 @@ public partial class TwinkleAnimation : Animation
         _startDelay = startDelay;
         _duration = duration;
     }
-
-    // Animation.pas:117
-
 }

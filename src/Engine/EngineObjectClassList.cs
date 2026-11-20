@@ -7,7 +7,7 @@ using static Aow.Rtl.DelphiConversions;
 namespace Aow.Engine;
 
 // a TList of class references
-public partial class EngineObjectClassList : DelphiList<EngineClass>
+public class EngineObjectClassList : DelphiList<EngineClass>
 {
     // Engine.pas:8296
     protected internal EngineClass GetEngineClass(int index) => this[index];

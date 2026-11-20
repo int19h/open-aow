@@ -26,7 +26,7 @@ namespace Aow.Game.Combat;
 // FCombat. FID. FTargets. FTargetedBy. outgoing CV/wall CV. incoming CV/wall CV. target counts.
 // attacker counts. target priority/cache flag. strength/cache flag. FCombatPlayer. FPosition.
 // Status. ControlMode
-public partial class CombatObject(CustomNode owner) : EngineObject(owner)
+public class CombatObject(CustomNode owner) : EngineObject(owner)
 {
 
     public Battle Combat { get; set; }
@@ -788,9 +788,4 @@ public partial class CombatObject(CustomNode owner) : EngineObject(owner)
 
         return result;
     }
-
-    // intf_P3_01.inc:157
-
-    // intf_P3_01.inc:157
-
 }

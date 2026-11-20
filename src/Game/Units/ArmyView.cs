@@ -12,7 +12,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Units;
 
 // UnitConcealment. ConcealedForPlayers. MoraleValues
-public partial class ArmyView(CustomNode owner) : Army(owner)
+public class ArmyView(CustomNode owner) : Army(owner)
 {
     public new const int ClassId = 131609;
 
@@ -94,7 +94,4 @@ public partial class ArmyView(CustomNode owner) : Army(owner)
         int mask = 1 << (player - 1);
         UnitConcealment[index] = value ? (ushort)(UnitConcealment[index] | (ushort)mask) : (ushort)(UnitConcealment[index] & ~(ushort)mask);
     }
-
-    // intf_P2_07.inc:445
-
 }

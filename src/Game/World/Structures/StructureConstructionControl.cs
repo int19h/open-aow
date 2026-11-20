@@ -14,7 +14,7 @@ using Aow.Rtl;
 namespace Aow.Game.World.Structures;
 
 // { Interface declaration run owned by P1. }
-public partial class StructureConstructionControl(CustomNode owner) : ConstructionControl(owner)
+public class StructureConstructionControl(CustomNode owner) : ConstructionControl(owner)
 {
 
     // Structur.PAS:3195

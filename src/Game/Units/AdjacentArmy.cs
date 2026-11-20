@@ -7,7 +7,7 @@ using Aow.Game.World.Movement;
 namespace Aow.Game.Units;
 
 // location, moves, current move points, path
-public partial class AdjacentArmy(CustomNode owner) : EngineObject(owner)
+public class AdjacentArmy(CustomNode owner) : EngineObject(owner)
 {
 
     public MapCoordinate Location { get; set; }
@@ -38,7 +38,4 @@ public partial class AdjacentArmy(CustomNode owner) : EngineObject(owner)
             return 99;
         }
     }
-
-    // intf_P5_06.inc:394
-
 }

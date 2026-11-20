@@ -67,14 +67,28 @@ public static partial class Blit
     private static void RegisterRow(Span<byte> source, int si, Span<byte> destination, int di, int head, uint words, int tail)
     {
         int offset = 0;
-        for (int i = 0; i < head; i++) { byte value = source[si + offset]; destination[di + offset++] = value; }
+        for (int i = 0; i < head; i++)
+        {
+            byte value = source[si + offset];
+            destination[di + offset++] = value;
+        }
         for (uint i = 0; i < (words >> 1); i++)
         {
             uint first = Dword(source, si + offset), second = Dword(source, si + offset + 4);
-            Dword(destination, di + offset, first); Dword(destination, di + offset + 4, second); offset += 8;
+            Dword(destination, di + offset, first);
+            Dword(destination, di + offset + 4, second);
+            offset += 8;
         }
-        if ((words & 1) != 0) { Dword(value: Dword(source, si + offset), d: destination, offset: di + offset); offset += 4; }
-        for (int i = 0; i < tail; i++) { byte value = source[si + offset]; destination[di + offset++] = value; }
+        if ((words & 1) != 0)
+        {
+            Dword(value: Dword(source, si + offset), d: destination, offset: di + offset);
+            offset += 4;
+        }
+        for (int i = 0; i < tail; i++)
+        {
+            byte value = source[si + offset];
+            destination[di + offset++] = value;
+        }
     }
 
     // `rep movsd` with the bytes before and after: a row shorter than 4 bytes is copied byte by
@@ -101,9 +115,21 @@ public static partial class Blit
             else
             {
                 int offset = 0;
-                for (int i = 0; i < head; i++) { byte value = s.Memory[si + offset]; d.Memory[di + offset++] = value; }
-                for (int i = 0; i < words; i++) { Dword(value: Dword(s.Memory, si + offset), d: d.Memory, offset: di + offset); offset += 4; }
-                for (int i = 0; i < tail; i++) { byte value = s.Memory[si + offset]; d.Memory[di + offset++] = value; }
+                for (int i = 0; i < head; i++)
+                {
+                    byte value = s.Memory[si + offset];
+                    d.Memory[di + offset++] = value;
+                }
+                for (int i = 0; i < words; i++)
+                {
+                    Dword(value: Dword(s.Memory, si + offset), d: d.Memory, offset: di + offset);
+                    offset += 4;
+                }
+                for (int i = 0; i < tail; i++)
+                {
+                    byte value = s.Memory[si + offset];
+                    d.Memory[di + offset++] = value;
+                }
             }
         }
     }
@@ -207,7 +233,8 @@ public static partial class Blit
                 throw new AccessViolationException("FillTrippleByte crossed the buffer");
             }
 
-            d[offset + 2] = (byte)(value >> 16); offset += 3;
+            d[offset + 2] = (byte)(value >> 16);
+            offset += 3;
         } while (--count != 0);
     }
 

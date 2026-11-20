@@ -14,7 +14,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class EnchantedRoads : GlobalEnchantmentSpell
+public class EnchantedRoads : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:571
     public EnchantedRoads(CustomNode owner, EngineObject holder) : base(owner)

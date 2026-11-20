@@ -12,7 +12,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Combat.Actions;
 
 // source ID, target byte list, casting mana, success, spell ID
-public partial class MultiTargetCombatSpellCombatAction(CustomNode owner) : CombatAction(owner)
+public class MultiTargetCombatSpellCombatAction(CustomNode owner) : CombatAction(owner)
 {
 
     public byte SourceId { get; protected set; }
@@ -120,5 +120,4 @@ public partial class MultiTargetCombatSpellCombatAction(CustomNode owner) : Comb
         CombatObject source = viewer.Combat.CombatData.FindId(SourceId);
         viewer.DefaultShowFightingObjects(null, source, frame, X, Y, surface);
     }
-
 }

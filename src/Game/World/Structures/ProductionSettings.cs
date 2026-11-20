@@ -11,7 +11,7 @@ using Aow.Game.Units;
 namespace Aow.Game.World.Structures;
 
 // costs, turns left, upkeep, turns total, player, group, unit, unit production
-public partial class ProductionSettings(CustomNode owner) : EngineObject(owner)
+public class ProductionSettings(CustomNode owner) : EngineObject(owner)
 {
     public int Gold { get; set; }
     public int Mana { get; set; }
@@ -64,7 +64,4 @@ public partial class ProductionSettings(CustomNode owner) : EngineObject(owner)
             Unit = null;
         }
     }
-
-    // Engine.pas:524
-
 }

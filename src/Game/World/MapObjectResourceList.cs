@@ -7,7 +7,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.World;
 
-public partial class MapObjectResourceList(CustomNode owner) : ResourceCollection(owner), IChildList<MapObjectResource>
+public class MapObjectResourceList(CustomNode owner) : ResourceCollection(owner), IChildList<MapObjectResource>
 {
     // The map object resource in slot index, read as the original reads the list, without a range check.
     // AcceptsResource admits only a MapObjectResource, so the cast never fails.

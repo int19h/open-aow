@@ -14,15 +14,15 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Units;
 
 // (unit ID, ability ID)
-public partial class UnitEnchantment : Enchantment
+public class UnitEnchantment : Enchantment
 {
     public new const int ClassId = 135951;
 
     // AoWAb.PAS:785
-    public UnitEnchantment(CustomNode owner) : base(null) =>
+    public UnitEnchantment(CustomNode owner) : base(null)
         // { Original ignores the supplied owner. }
 
-        Source = -1;
+        => Source = -1;
 
     public int UnitId { get; set; }
     public int EnchantmentAbilityId { get; set; }
@@ -106,7 +106,4 @@ public partial class UnitEnchantment : Enchantment
             }
         }
     }
-
-    // intf_P4_02.inc:770
-
 }

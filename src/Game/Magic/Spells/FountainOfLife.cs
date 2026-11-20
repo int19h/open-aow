@@ -17,7 +17,7 @@ using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class FountainOfLife : CityEnchantmentSpell
+public class FountainOfLife : CityEnchantmentSpell
 {
     // CitySpells.pas:649
     public FountainOfLife(CustomNode owner, EngineObject holder) : base(owner)

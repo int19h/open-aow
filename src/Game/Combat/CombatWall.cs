@@ -14,7 +14,7 @@ using Aow.Rtl;
 namespace Aow.Game.Combat;
 
 // WallType. HitPoints. Locked
-public partial class CombatWall : CombatObject
+public class CombatWall : CombatObject
 {
     // Combat.pas:1670
     public new const int ClassId = 131759;
@@ -160,7 +160,4 @@ public partial class CombatWall : CombatObject
         _hitPoints = (byte)GetHits();
         SetCombatPlayer(combatPlayer);
     }
-
-    // intf_P3_01.inc:316
-
 }

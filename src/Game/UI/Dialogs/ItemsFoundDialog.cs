@@ -190,5 +190,4 @@ public partial class ItemsFoundDialog(UIContext ui) : UIModule(ui)
         dialog.Window.Drawn = false;
         dialog.Window.Visible = true;
     }
-
 }

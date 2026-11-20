@@ -55,7 +55,11 @@ public sealed unsafe class SdlAudioOutput : IDisposable
                 throw new InvalidOperationException(SDL_GetError());
             }
         }
-        catch { Dispose(); throw; }
+        catch
+        {
+            Dispose();
+            throw;
+        }
     }
 
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
@@ -99,17 +103,28 @@ public sealed unsafe class SdlAudioOutput : IDisposable
                 frames -= count;
             }
         }
-        catch (Exception) { Volatile.Write(ref output._callbackFailed, 1); }
+        catch (Exception)
+        {
+            Volatile.Write(ref output._callbackFailed, 1);
+        }
     }
 
     public void Dispose()
     {
-        if (_stream is not null) { SDL_DestroyAudioStream(_stream); _stream = null; }
+        if (_stream is not null)
+        {
+            SDL_DestroyAudioStream(_stream);
+            _stream = null;
+        }
         if (_handle.IsAllocated)
         {
             _handle.Free();
         }
 
-        if (_initialized) { SDL_QuitSubSystem(SDL_InitFlags.SDL_INIT_AUDIO); _initialized = false; }
+        if (_initialized)
+        {
+            SDL_QuitSubSystem(SDL_InitFlags.SDL_INIT_AUDIO);
+            _initialized = false;
+        }
     }
 }

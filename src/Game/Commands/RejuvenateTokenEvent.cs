@@ -12,7 +12,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
-public partial class RejuvenateTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
+public class RejuvenateTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
 {
 
     // GlobalTargetSpells.pas:1036
@@ -51,7 +51,4 @@ public partial class RejuvenateTokenEvent(CustomNode owner) : GlobalTargetSpellT
             terrainType = (int)TerrainType.Grass;
         }
     }
-
-    // NetworkE.pas:230
-
 }

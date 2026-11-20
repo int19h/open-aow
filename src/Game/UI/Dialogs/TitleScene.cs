@@ -867,5 +867,4 @@ public partial class TitleScene(UIContext ui) : UIModule(ui)
         scene.Window.WindowManager.SetImageLibraryIndex(4);
         scene.Window.Visible = true;
     }
-
 }

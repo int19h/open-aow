@@ -13,7 +13,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
-public partial class FreezeWaterTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
+public class FreezeWaterTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
 {
     public new const int ClassId = 135939;
 
@@ -88,7 +88,4 @@ public partial class FreezeWaterTokenEvent(CustomNode owner) : GlobalTargetSpell
             ice.CasterPlayer = (sbyte)EventPlayerIndex;
         }
     }
-
-    // NetworkE.pas:230
-
 }

@@ -26,7 +26,7 @@ using static Aow.Rtl.DelphiStrings;
 namespace Aow.Game.Session;
 
 // exit callback, exit mode, password, disconnected-player list, sync warning shown
-public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
+public class PlayerControl(CustomNode owner) : EngineObject(owner)
 {
 
     private ExitGameCallBack _exitCallback;
@@ -775,9 +775,4 @@ public partial class PlayerControl(CustomNode owner) : EngineObject(owner)
     private static readonly string s_doYouWantToSaveThisGameText = "Do you want to save this game?";
     private static readonly string s_passwordFailedText = "Password failed!";
     private static readonly string s_doYouWantToTryAgainText = "Do you want to try again?";
-
-    // intf_P1_04.inc:26
-
-    // intf_P1_04.inc:26
-
 }

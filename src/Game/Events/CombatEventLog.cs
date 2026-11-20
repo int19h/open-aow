@@ -14,7 +14,6 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Events;
 
-// { }
 // Logbook
 public partial class CombatEventLog(CustomNode owner) : EventLog(owner)
 {

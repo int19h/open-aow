@@ -10,7 +10,4 @@ public partial class ItemHSList(CustomNode owner) : ItemList(owner)
 
     // Army.PAS:5202
     public override void SetOwner(CustomNode owner) => SetOwnerWithoutNotify(owner);
-
-    // intf_P2_04.inc:118
-
 }

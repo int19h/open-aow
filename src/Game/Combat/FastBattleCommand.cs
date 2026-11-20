@@ -6,7 +6,7 @@ namespace Aow.Game.Combat;
 
 // { Interface declaration run owned by P5. }
 // ability ID, source DV, target DV, expected DV, move cost, target
-public partial record class FastBattleCommand
+public record class FastBattleCommand
 {
     public FastBattleCommand(int abilityId) => AbilityId = abilityId;
 
@@ -23,7 +23,4 @@ public partial record class FastBattleCommand
         string result = GamePack.Current.AbilityControl.GetAbility(AbilityId).GetName(null);
         return Target is not null ? $"{result} on {Target.IdString()}" : result;
     }
-
-    // intf_P5_05.inc:10
-
 }

@@ -14,7 +14,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Spells;
 
 // enchantment ID, enchantment setting, AI priority, AI budget, AI cast situations
-public partial class CityEnchantmentSpell(CustomNode owner) : CityTargetSpell(owner)
+public class CityEnchantmentSpell(CustomNode owner) : CityTargetSpell(owner)
 {
 
     public CityEnchantmentId EnchantmentId { get; protected set; }

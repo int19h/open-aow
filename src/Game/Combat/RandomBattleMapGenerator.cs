@@ -22,7 +22,7 @@ namespace Aow.Game.Combat;
 
 // FItems. FRandomTerrain. neighbor weights. terrain weights. terrain-tag weights. terrain
 // samples. tag samples. resource lists. FHomePosition
-public partial class RandomBattleMapGenerator : IDisposable
+public class RandomBattleMapGenerator : IDisposable
 {
     public ItemList Items { get; private set; }
 

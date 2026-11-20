@@ -17,7 +17,11 @@ public sealed class SdlHost : IRtlHost, IDisposable
             // The port's own setting, absent from the original: on unless it reads 0.
             Display.VSync = vsync ?? (Settings.Read(@"\Software\Triumph Studios\Age of Wonders\Video\VSync") is not int interval || interval != 0);
         }
-        catch { Display.Dispose(); throw; }
+        catch
+        {
+            Display.Dispose();
+            throw;
+        }
         Dialogs = dialogs ?? new DisplayDialogs(Display);
     }
 

@@ -4,7 +4,7 @@
 namespace Aow.Game.Draw;
 
 // FTables, Lookup (101 tables, indexed by percentage)
-public partial class LookupBlendTableCollection100 : IDisposable
+public class LookupBlendTableCollection100 : IDisposable
 {
 
     // { ImageLib's blitters read Lookup directly; adding lines here moves the Asserts below }

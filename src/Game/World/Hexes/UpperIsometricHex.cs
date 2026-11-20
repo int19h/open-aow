@@ -40,7 +40,7 @@ public partial class UpperIsometricHex(CustomNode owner) : IsometricHex(owner)
         }
     }
 
-    public new partial class Resource(CustomNode owner) : IsometricHexResource(owner)
+    public new class Resource(CustomNode owner) : IsometricHexResource(owner)
     {
         public new const int ClassId = 131441;
 
@@ -53,5 +53,4 @@ public partial class UpperIsometricHex(CustomNode owner) : IsometricHex(owner)
         private static readonly string s_upperIsometricHexText = "Upper Isometric Hexagon";
 
     }
-
 }

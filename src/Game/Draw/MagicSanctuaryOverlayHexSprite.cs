@@ -10,14 +10,12 @@ using Aow.Game.World.Structures;
 namespace Aow.Game.Draw;
 
 // Structure. FadeEndFrame
-public partial class MagicSanctuaryOverlayHexSprite(CustomNode owner) : SingleHexSprite(owner)
+public class MagicSanctuaryOverlayHexSprite(CustomNode owner) : SingleHexSprite(owner)
 {
 
     public MagicSanctuary Structure { get; init; }
 
     private int _fadeEndFrame = -1;
-
-    // MagicSanctuary.pas:67
 
     // MagicSanctuary.pas:73
     public override int GetShowPriority() => Structure.GetShowPriority() + 134217728;
@@ -56,7 +54,4 @@ public partial class MagicSanctuaryOverlayHexSprite(CustomNode owner) : SingleHe
 
     // MagicSanctuary.pas:105
     public void FadeUp() => _fadeEndFrame = StrategicMap.Current.Frame + 20;
-
-    // MagicSanctuary.pas:22
-
 }

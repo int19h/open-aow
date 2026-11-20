@@ -18,7 +18,7 @@ namespace Aow.Game.Events;
 
 // { Interface declaration run owned by P5. }
 // FirstUnitID, UnitIDs, Location, Selection, JoinIndex, JoinMessage, Gold, JoinMode, Text
-public partial class JoinEventLog(CustomNode owner) : EventLog(owner)
+public class JoinEventLog(CustomNode owner) : EventLog(owner)
 {
 
     public int FirstUnitId { get; set; }
@@ -143,5 +143,4 @@ public partial class JoinEventLog(CustomNode owner) : EventLog(owner)
 
         _location = HexGeometry.PackMapCoordinate(army.Location.X, army.Location.Y, army.Location.MapLevel);
     }
-
 }

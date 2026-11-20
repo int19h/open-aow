@@ -5,7 +5,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class HealingWater : UnitSpell
+public class HealingWater : UnitSpell
 {
     // UnitSpells.pas:467
     public HealingWater(CustomNode owner, EngineObject holder) : base(owner)

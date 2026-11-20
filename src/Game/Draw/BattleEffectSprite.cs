@@ -51,8 +51,6 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
         base.Dispose();
     }
 
-    // AoWTC.pas:5214
-
     // AoWTC.pas:5239
     public override int GetShowPriority() => 1811939328;
 
@@ -1751,7 +1749,4 @@ public partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprit
             _ = MessageBox(0, "Error during NewFrame", NullTerminatedText($"Error - fxHS {IntToStr(AbilityIndex)} {IntToStr(SpellIndex)}"), 0);
         }
     }
-
-    // AoWTC.pas:196
-
 }

@@ -5,7 +5,7 @@ namespace Aow.Engine.Nodes;
 
 // { Engine.TEObjectEditorList: the editor descriptors an engine registers, one per editor class id
 //   (an EditorClass per editor class since 9.4-4, a list of editor metaclasses before) }
-public partial class EngineObjectEditorList
+public class EngineObjectEditorList
 {
     private readonly List<EditorClass> _list = [];
 

@@ -18,7 +18,7 @@ using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.Magic.Abilities;
 
-public partial class TurnUndeadAbility : TouchAbility
+public class TurnUndeadAbility : TouchAbility
 {
     // AoWAb.PAS:3121
     public TurnUndeadAbility(CustomNode owner, EngineObject holder) : base(owner)

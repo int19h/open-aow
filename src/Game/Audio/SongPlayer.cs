@@ -6,7 +6,7 @@ namespace Aow.Game.Audio;
 
 // _currentSong, _status, _songs, _songNames, _currentIndex, OnSongChange, _backup (Pause),
 // FPauseCount. Plays the songs in turn (Update starts the next one)
-public partial class SongPlayer : IDisposable
+public class SongPlayer : IDisposable
 {
     private readonly DelphiStringList _songs;
 
@@ -238,5 +238,4 @@ public partial class SongPlayer : IDisposable
     {
         Playing = 0, Paused = 1
     }
-
 }

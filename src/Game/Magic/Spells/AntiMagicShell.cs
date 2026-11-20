@@ -13,7 +13,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class AntiMagicShell : CityEnchantmentSpell
+public class AntiMagicShell : CityEnchantmentSpell
 {
     // CitySpells.pas:727
     public AntiMagicShell(CustomNode owner, EngineObject holder) : base(owner)

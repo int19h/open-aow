@@ -20,7 +20,7 @@ namespace Aow.Game.AI.Groups;
 
 // mode, control, completion, units, remaining strengths, remaining maximum, requested maximum,
 // damage types, requested strengths, superiority, move types, moves, path-strength factor
-public partial class AIGroupRecruitControl : AIGroupTask
+public class AIGroupRecruitControl : AIGroupTask
 {
     // AIGroup.pas:2070
     public AIGroupRecruitControl(CustomNode owner) : base(owner) => Units = new UnitUserList(null) { Holder = CreationHolder() };
@@ -320,9 +320,6 @@ public partial class AIGroupRecruitControl : AIGroupTask
         Complete = false;
         Mode = AIGroupRecruitControlMode.AutoRecruit;
     }
-
-    // intf_P5_07.inc:390
-
 }
 
 public enum AIGroupRecruitControlMode : byte

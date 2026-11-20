@@ -17,7 +17,7 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Game.Magic.Spells;
 
 // inherited name, ID, mana, sphere, level, spell type
-public partial class WarpParty : Spell
+public class WarpParty : Spell
 {
     // GlobalSpells.pas:632
     public WarpParty(CustomNode owner, EngineObject holder) : base(owner)

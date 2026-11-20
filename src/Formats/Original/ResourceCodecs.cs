@@ -23,8 +23,8 @@ internal sealed class SingleCodec : PropertyCodec
             : Value(context.Int32(start));
     }
 
-    internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site) =>
-        data.Int32(Bits(context, value, site.Path, site.Property?.Name ?? "The value"));
+    internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site)
+        => data.Int32(Bits(context, value, site.Path, site.Property?.Name ?? "The value"));
 
     internal override void WriteImage(TreeValue value, EncodeContext context, ByteBuffer data, ImageFrame frame)
     {
@@ -43,13 +43,13 @@ internal sealed class SingleCodec : PropertyCodec
             : (TreeValue)new SingleNode(context.Int32(start));
     }
 
-    internal override JsonValue? WriteTree(TreeValue value, DocumentSite site) =>
-        value is not SingleNode node
+    internal override JsonValue? WriteTree(TreeValue value, DocumentSite site)
+        => value is not SingleNode node
             ? throw site.Mismatch($"{site.Property?.Name ?? "The value"} is a single.")
             : Value(node.Bits);
 
-    internal override TreeValue? ReadTree(JsonValue value, DocumentSite site) =>
-        new SingleNode(Bits(site.Context, value, site.Path, site.Property?.Name ?? "The value"));
+    internal override TreeValue? ReadTree(JsonValue value, DocumentSite site)
+        => new SingleNode(Bits(site.Context, value, site.Path, site.Property?.Name ?? "The value"));
 
     /// <summary>The document value of the bits of a single.</summary>
     internal static JsonValue Value(int bits)
@@ -118,11 +118,11 @@ internal sealed class TerrainListCodec : PropertyCodec
 {
     internal override bool AcceptsDocumentArray(int version) => true;
 
-    internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site) =>
-        Document(Parse(context, start, end, site.Path));
+    internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
+        => Document(Parse(context, start, end, site.Path));
 
-    internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site) =>
-        Write(Pairs(context, value, site.Path, site.Property?.Name ?? "The value"), data);
+    internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site)
+        => Write(Pairs(context, value, site.Path, site.Property?.Name ?? "The value"), data);
 
     internal override void WriteImage(TreeValue value, EncodeContext context, ByteBuffer data, ImageFrame frame)
     {
@@ -139,8 +139,8 @@ internal sealed class TerrainListCodec : PropertyCodec
         Write(node.Pairs, data);
     }
 
-    internal override TreeValue ReadImage(DecodeContext context, int start, int end, ImageFrame frame) =>
-        new PairListNode(Parse(context, start, end, frame.Path));
+    internal override TreeValue ReadImage(DecodeContext context, int start, int end, ImageFrame frame)
+        => new PairListNode(Parse(context, start, end, frame.Path));
 
     internal override JsonValue? WriteTree(TreeValue value, DocumentSite site)
     {
@@ -151,8 +151,8 @@ internal sealed class TerrainListCodec : PropertyCodec
             : (JsonValue)Document(node.Pairs);
     }
 
-    internal override TreeValue? ReadTree(JsonValue value, DocumentSite site) =>
-        new PairListNode(Pairs(site.Context, value, site.Path, site.Property?.Name ?? "The value"));
+    internal override TreeValue? ReadTree(JsonValue value, DocumentSite site)
+        => new PairListNode(Pairs(site.Context, value, site.Path, site.Property?.Name ?? "The value"));
 
     private static List<(sbyte First, sbyte Second)> Parse(DecodeContext context, int start, int end, DocumentNodePath path)
     {
@@ -405,8 +405,8 @@ internal sealed class TerrainGridCodec(string widthName, string heightName) : Pr
             : number.Value;
     }
 
-    private static ConversionException Missing(EncodeContext context, JsonObject hexagon, DocumentNodePath at, string name) =>
-        context.Fail(Codes.MissingMember, $"A changed hexagon needs {name}.", hexagon, at);
+    private static ConversionException Missing(EncodeContext context, JsonObject hexagon, DocumentNodePath at, string name)
+        => context.Fail(Codes.MissingMember, $"A changed hexagon needs {name}.", hexagon, at);
 }
 
 /// <summary>
@@ -431,8 +431,8 @@ internal sealed class ImageLibraryCodec : PropertyCodec
         return Problem(bytes) is string problem ? throw context.Fail(Codes.Corrupt, problem, start, site.Path) : (JsonValue)Document(Normalize(bytes));
     }
 
-    internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site) =>
-        data.Bytes(Bytes(context, value, site.Path));
+    internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site)
+        => data.Bytes(Bytes(context, value, site.Path));
 
     internal override void WriteImage(TreeValue value, EncodeContext context, ByteBuffer data, ImageFrame frame)
     {
@@ -800,11 +800,11 @@ internal sealed class ImageSequencesCodec : PropertyCodec
 
     internal override bool AcceptsDocumentArray(int version) => true;
 
-    internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site) =>
-        Document(Parse(context, start, end, site.Path), context.File, site.Path);
+    internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
+        => Document(Parse(context, start, end, site.Path), context.File, site.Path);
 
-    internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site) =>
-        data.Bytes(Canonical(Entries(context, value, site.Path, site.Property?.Name ?? "The value")));
+    internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site)
+        => data.Bytes(Canonical(Entries(context, value, site.Path, site.Property?.Name ?? "The value")));
 
     internal override void WriteImage(TreeValue value, EncodeContext context, ByteBuffer data, ImageFrame frame)
     {
@@ -817,8 +817,8 @@ internal sealed class ImageSequencesCodec : PropertyCodec
         data.Bytes(Canonical(node.Entries));
     }
 
-    internal override TreeValue ReadImage(DecodeContext context, int start, int end, ImageFrame frame) =>
-        new ImageSequenceListNode(Parse(context, start, end, frame.Path));
+    internal override TreeValue ReadImage(DecodeContext context, int start, int end, ImageFrame frame)
+        => new ImageSequenceListNode(Parse(context, start, end, frame.Path));
 
     internal override JsonValue? WriteTree(TreeValue value, DocumentSite site)
     {
@@ -831,8 +831,8 @@ internal sealed class ImageSequencesCodec : PropertyCodec
         return Document(node.Entries, site.Context.File, site.Path);
     }
 
-    internal override TreeValue? ReadTree(JsonValue value, DocumentSite site) =>
-        new ImageSequenceListNode(Entries(site.Context, value, site.Path, site.Property?.Name ?? "The value"));
+    internal override TreeValue? ReadTree(JsonValue value, DocumentSite site)
+        => new ImageSequenceListNode(Entries(site.Context, value, site.Path, site.Property?.Name ?? "The value"));
 
     private static void Check(ImageSequenceListNode node, Func<string, string, DocumentNodePath, ConversionException> fail, EncodeContext context, DocumentNodePath path)
     {

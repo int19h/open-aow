@@ -18,8 +18,8 @@ public partial class UIComponent
 
     private static readonly ConditionalWeakTable<UIComponent, WheelLink> s_wheelLinks = [];
 
-    internal static bool PointInside(int X, int Y, int left, int top, int width, int height) =>
-        X > left - 1 && X < left + width && Y > top - 1 && Y < top + height;
+    internal static bool PointInside(int X, int Y, int left, int top, int width, int height)
+        => X > left - 1 && X < left + width && Y > top - 1 && Y < top + height;
 
     public virtual bool ContainsPoint(int X, int Y) => false;
 

@@ -7,7 +7,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Structures;
 
-public partial class ConstructionControl(CustomNode owner) : EngineObject(owner)
+public class ConstructionControl(CustomNode owner) : EngineObject(owner)
 {
 
     // AoWAb.PAS:5494

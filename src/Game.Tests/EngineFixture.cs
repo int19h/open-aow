@@ -291,8 +291,8 @@ public sealed partial class EngineFixture : IDisposable
 
     // The owner a construction test passes for the type: the recorder itself, or an owner of the
     // type's owner type that forwards to it.
-    internal static CustomNode OwnerFor(Type type, Owner recorder) =>
-        recorder is null ? null!
+    internal static CustomNode OwnerFor(Type type, Owner recorder)
+        => recorder is null ? null!
         : typeof(Draw.HexSprite).IsAssignableFrom(type) ? new FieldOwner(recorder)
         : typeof(MapField).IsAssignableFrom(type) ? new LevelOwner(recorder)
         : typeof(MapLevel).IsAssignableFrom(type) ? new ContainerOwner(recorder)
@@ -314,8 +314,8 @@ public sealed partial class EngineFixture : IDisposable
         : recorder;
 
     // Whether the owner is the recorder or an owner that forwards to it.
-    internal static bool Forwards(CustomNode owner, Owner recorder) =>
-        ReferenceEquals(owner, recorder) || (owner is IForwarder { Recorder: var forwarded } && forwarded == recorder);
+    internal static bool Forwards(CustomNode owner, Owner recorder)
+        => ReferenceEquals(owner, recorder) || (owner is IForwarder { Recorder: var forwarded } && forwarded == recorder);
 
     internal static T Configure<T>(T value, Action<T> configure)
     {
@@ -326,7 +326,10 @@ public sealed partial class EngineFixture : IDisposable
     public void Dispose()
     {
         RestoreEngine();
-        try { Engine.Dispose(); }
+        try
+        {
+            Engine.Dispose();
+        }
         finally
         {
             Engine = null!;

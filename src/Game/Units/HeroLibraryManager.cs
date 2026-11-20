@@ -19,7 +19,7 @@ using static Aow.Rtl.DelphiTextCompare;
 namespace Aow.Game.Units;
 
 // SystemLibrary. Libraries
-public partial class HeroLibraryManager : EngineObject
+public class HeroLibraryManager : EngineObject
 {
     // Hero.PAS:2646
     public HeroLibraryManager(CustomNode owner) : base(owner)
@@ -169,7 +169,4 @@ public partial class HeroLibraryManager : EngineObject
             GetLibrary(index)?.Dispose();
         }
     }
-
-    // intf_P2_07.inc:311
-
 }

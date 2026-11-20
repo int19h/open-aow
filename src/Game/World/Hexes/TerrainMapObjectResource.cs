@@ -6,7 +6,7 @@ using Aow.Formats.Tree;
 namespace Aow.Game.World.Hexes;
 
 // _decorationType (-1 none), _terrainType. persisted as ids $12 and $11
-public partial class TerrainMapObjectResource(CustomNode owner) : MultiHexMapObjectResource(owner)
+public class TerrainMapObjectResource(CustomNode owner) : MultiHexMapObjectResource(owner)
 {
 
     // Terrain.pas:327
@@ -20,15 +20,11 @@ public partial class TerrainMapObjectResource(CustomNode owner) : MultiHexMapObj
         DecorationType = PersistSupport.UnsignedByte(persister, name: "DecorationType", value: DecorationType);
     }
 
-    // Terrain.pas:299
-
     // Terrain.pas:322
     public override int ResourceUserClassId() => 131430;
 
     public sbyte DecorationType { get; set; } = -1;
     public byte TerrainType { get; set; }
-
-    // Terrain.pas:42
 
     // Terrain.pas:317
     public override string ResourceEditName() => s_terrainText;

@@ -209,5 +209,4 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
             }
         }
     }
-
 }

@@ -4,7 +4,7 @@ using Aow.Formats.Tree;
 
 namespace Aow.Game.Combat.Actions;
 
-public partial class UpdateHeaderCombatAction(CustomNode owner) : CombatAction(owner)
+public class UpdateHeaderCombatAction(CustomNode owner) : CombatAction(owner)
 {
     // Combat2.pas:960
     public new const int ClassId = 131766;
@@ -22,5 +22,9 @@ public partial class UpdateHeaderCombatAction(CustomNode owner) : CombatAction(o
     public override void Execute(Battle combat) => combat.CombatData.Header = Header;
 
     // intf_P3_02.inc:38
-    public override bool Play(CombatViewer viewer) { Execute(viewer.Combat); return false; }
+    public override bool Play(CombatViewer viewer)
+    {
+        Execute(viewer.Combat);
+        return false;
+    }
 }

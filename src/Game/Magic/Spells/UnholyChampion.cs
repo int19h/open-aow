@@ -9,7 +9,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class UnholyChampion : UnitSpell
+public class UnholyChampion : UnitSpell
 {
     // UnitSpells.pas:537
     public UnholyChampion(CustomNode owner, EngineObject holder) : base(owner)

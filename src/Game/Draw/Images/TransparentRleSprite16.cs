@@ -3,7 +3,7 @@
 namespace Aow.Game.Draw.Images;
 
 // (ClassID $12): a TRLESprite16 shown transparent by default. it cannot be grabbed
-public partial class TransparentRleSprite16 : RleSprite16, ILibraryImageClass
+public class TransparentRleSprite16 : RleSprite16, ILibraryImageClass
 {
     static int ILibraryImageClass.ClassId => 18;
     static string ILibraryImageClass.Name => "Transparent RLE Sprite (16bpp)";

@@ -5,7 +5,7 @@ using Aow.Game.Units;
 
 namespace Aow.Game.World.Structures;
 
-public partial class MigrationList(CustomNode owner) : OwningNode(owner), IChildList<MigrationItem>
+public class MigrationList(CustomNode owner) : OwningNode(owner), IChildList<MigrationItem>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a MigrationItem, so the cast never fails.

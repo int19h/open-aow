@@ -8,7 +8,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // (ImmunityTypes.)
-public partial class ImmunityAbility : EnhancementAbility
+public class ImmunityAbility : EnhancementAbility
 {
     public Set<DamageType> ImmunityTypes { get; init; }
 

@@ -14,7 +14,7 @@ using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class FireMasteryEnchantment : GlobalEnchantment
+public class FireMasteryEnchantment : GlobalEnchantment
 {
     // GlobalEnchantmentSpells.pas:1647
     public new const int ClassId = 135969;
@@ -138,5 +138,4 @@ public partial class FireMasteryEnchantment : GlobalEnchantment
             }
         }
     }
-
 }

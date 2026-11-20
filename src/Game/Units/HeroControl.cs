@@ -16,7 +16,7 @@ using static Aow.Rtl.DelphiTextCompare;
 namespace Aow.Game.Units;
 
 // Changed. UpdateCount. HeroChanged. Heroes
-public partial class HeroControl : EngineObject
+public class HeroControl : EngineObject
 {
     // Hero.PAS:2413
     public HeroControl(CustomNode owner) : base(owner)
@@ -294,7 +294,4 @@ public partial class HeroControl : EngineObject
             }
         }
     }
-
-    // intf_P2_07.inc:267
-
 }

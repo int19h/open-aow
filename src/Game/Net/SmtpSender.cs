@@ -11,14 +11,14 @@ public partial class SmtpSender(Component owner) : Component(owner)
     public MailMessage Message { get; set; }
 
     // AoWSMTPDlg.pas:29
-    public void SetWinsockLoaded(bool value) =>
+    public void SetWinsockLoaded(bool value)
         /* TODO: Implement TmsSMTP.SetWinsockLoaded. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     public bool WinsockLoaded { set => SetWinsockLoaded(value); }
 
     // AoWSMTPDlg.pas:30
-    public void Send() =>
+    public void Send()
         /* TODO: Implement TmsSMTP.Send. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 }

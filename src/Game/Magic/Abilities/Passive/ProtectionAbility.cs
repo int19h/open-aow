@@ -7,7 +7,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // (ProtectionTypes.)
-public partial class ProtectionAbility : EnhancementAbility
+public class ProtectionAbility : EnhancementAbility
 {
     public Set<DamageType> ProtectionTypes { get; init; }
 

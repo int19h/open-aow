@@ -12,7 +12,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Commands;
 
 // (target IDs, target users, target player, spell data)
-public partial class UnitSpellTokenEvent : SpellTokenEvent
+public class UnitSpellTokenEvent : SpellTokenEvent
 {
     public new const int ClassId = 135944;
 
@@ -32,7 +32,6 @@ public partial class UnitSpellTokenEvent : SpellTokenEvent
         base.Dispose();
     }
 
-    // Spells.PAS:1136
     // Spells.PAS:1136
     public override void PersistFields(IPersister persister)
     {
@@ -138,7 +137,4 @@ public partial class UnitSpellTokenEvent : SpellTokenEvent
             TargetPlayer = 255;
         }
     }
-
-    // intf_P4_02.inc:1059
-
 }

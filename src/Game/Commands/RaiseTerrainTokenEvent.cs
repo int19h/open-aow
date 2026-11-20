@@ -17,7 +17,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
-public partial class RaiseTerrainTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
+public class RaiseTerrainTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
 {
 
     // Mountain.pas:258
@@ -81,7 +81,4 @@ public partial class RaiseTerrainTokenEvent(CustomNode owner) : GlobalTargetSpel
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
     }
-
-    // NetworkE.pas:230
-
 }

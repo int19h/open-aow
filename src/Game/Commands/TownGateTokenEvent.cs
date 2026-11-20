@@ -11,7 +11,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Commands;
 
 // army ID. destination coordinates
-public partial class TownGateTokenEvent(CustomNode owner) : CityTargetSpellTokenEvent(owner)
+public class TownGateTokenEvent(CustomNode owner) : CityTargetSpellTokenEvent(owner)
 {
 
     // CitySpells.pas:397
@@ -51,7 +51,4 @@ public partial class TownGateTokenEvent(CustomNode owner) : CityTargetSpellToken
 
         return result;
     }
-
-    // NetworkE.pas:230
-
 }

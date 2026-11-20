@@ -14,7 +14,7 @@ using Aow.Rtl;
 namespace Aow.Game.World.Structures;
 
 // CityEnchantmentId, EnchantmentLocation
-public partial class CityEnchantment : GlobalEnchantment
+public class CityEnchantment : GlobalEnchantment
 {
     // City.pas:2722
     public new const int ClassId = 131820;

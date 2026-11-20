@@ -124,8 +124,8 @@ public static partial class Fixtures
         }
     }
 
-    private static JsonObject Envelope(string kind, string profile, JsonObject root, string compression = "none") =>
-        new JsonObject()
+    private static JsonObject Envelope(string kind, string profile, JsonObject root, string compression = "none")
+        => new JsonObject()
             .Add("$format", new JsonString(OwnFormat.FormatName))
             .Add("$version", new JsonInteger(OwnFormat.CurrentVersion))
             .Add("$kind", new JsonString(kind))
@@ -209,8 +209,8 @@ public static partial class Fixtures
         return Fail($"expected {code}, the conversion succeeded");
     }
 
-    private static string? Located(FormatDiagnostic d) =>
-        d.Span.IsKnown || d.Offset is not null ? null : "the diagnostic has no location";
+    private static string? Located(FormatDiagnostic d)
+        => d.Span.IsKnown || d.Offset is not null ? null : "the diagnostic has no location";
 
     // ---- Binary helpers ------------------------------------------------------------------------
 

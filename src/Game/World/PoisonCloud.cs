@@ -17,7 +17,7 @@ using Aow.Game.World.Movement;
 namespace Aow.Game.World;
 
 // Player, TurnsRemaining, Drifting, Direction, Updated
-public partial class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
+public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
 {
 
     // PoisonC.pas:64
@@ -39,8 +39,6 @@ public partial class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
         _drifting = persister.Boolean("Drifting", value: _drifting);
         _direction = persister.Byte("Direction", value: _direction);
     }
-
-    // PoisonC.pas:58
 
     // PoisonC.pas:275
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
@@ -311,7 +309,7 @@ public partial class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
         }
     }
 
-    public new partial class Resource(CustomNode owner) : MultiHexMapObjectResource(owner)
+    public new class Resource(CustomNode owner) : MultiHexMapObjectResource(owner)
     {
 
         // PoisonC.pas:286
@@ -326,7 +324,4 @@ public partial class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
         private static readonly string s_poisonCloudText = "Poison Cloud";
 
     }
-
-    // PoisonC.pas:27
-
 }

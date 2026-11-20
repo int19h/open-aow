@@ -36,8 +36,8 @@ public static class FileBoundary
     /// image cannot carry has no image, and this returns null rather than the file bytes. The
     /// current game and the file stay untouched.
     /// </summary>
-    public static byte[]? Load(string fileName, GameProfile profile, string operation = "open") =>
-        Prepare(fileName, profile: profile, operation: operation) is { Image: { } image } ? image : null;
+    public static byte[]? Load(string fileName, GameProfile profile, string operation = "open")
+        => Prepare(fileName, profile: profile, operation: operation) is { Image: { } image } ? image : null;
 
     /// <summary>
     /// Reads a file and prepares the tree the engine loads (own-formats.md 4.1, persistence-tree.md
@@ -72,8 +72,8 @@ public static class FileBoundary
     /// Like Open, for the routines whose original raised on a failed open: the refusal raises
     /// EGameFileError after it is logged, before the caller changes anything.
     /// </summary>
-    public static GameFileTree OpenOrRaise(string fileName, GameProfile profile) =>
-        Open(fileName, profile) ?? throw new GameFileErrorException(LastFailure!);
+    public static GameFileTree OpenOrRaise(string fileName, GameProfile profile)
+        => Open(fileName, profile) ?? throw new GameFileErrorException(LastFailure!);
 
     // One preflight. Image is the engine image, or null when the validated document has none.
     // It is never the own document's file bytes. A cached preview has an image and no result.
@@ -527,8 +527,8 @@ public static class FileBoundary
         }
     }
 
-    private static void Record(IFileSystem files, string fileName, GameFileReport report) =>
-        Record(new FileLogRecord(fileName, LayerOf(files, fileName), report));
+    private static void Record(IFileSystem files, string fileName, GameFileReport report)
+        => Record(new FileLogRecord(fileName, LayerOf(files, fileName), report));
 
     private static void Record(FileLogRecord record)
     {

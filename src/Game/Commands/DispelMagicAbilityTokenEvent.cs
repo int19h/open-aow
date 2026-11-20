@@ -12,7 +12,7 @@ using static Aow.Rtl.DelphiConversions;
 namespace Aow.Game.Commands;
 
 // (source unit ID/player, target unit ID/player)
-public partial class DispelMagicAbilityTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class DispelMagicAbilityTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
     public new const int ClassId = 131827;
 
@@ -104,7 +104,4 @@ public partial class DispelMagicAbilityTokenEvent(CustomNode owner) : TokenEvent
         enchantments?.Dispose();
         return result;
     }
-
-    // NetworkE.pas:230
-
 }

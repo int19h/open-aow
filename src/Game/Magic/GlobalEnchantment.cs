@@ -17,7 +17,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic;
 
 // (ID, references, status, mode, dispel mana, type, player, name, upkeep)
-public partial class GlobalEnchantment(CustomNode owner) : EngineObject(owner)
+public class GlobalEnchantment(CustomNode owner) : EngineObject(owner)
 {
     public int EnchantmentId { get; set; }
 
@@ -291,9 +291,4 @@ public partial class GlobalEnchantment(CustomNode owner) : EngineObject(owner)
     }
 
     private static readonly string s_dispelledFormat = "%s dispelled";
-
-    // intf_P4_01.inc:194
-
-    // intf_P4_01.inc:194
-
 }

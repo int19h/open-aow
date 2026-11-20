@@ -11,7 +11,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Session;
 
 // player, relations, history
-public partial class PlayerDiplomaticRelations : EngineObject
+public class PlayerDiplomaticRelations : EngineObject
 {
     // Player.PAS:78
     public PlayerDiplomaticRelations(CustomNode owner) : base(owner)
@@ -115,7 +115,4 @@ public partial class PlayerDiplomaticRelations : EngineObject
             _history.Children[count - 1]?.Dispose();
         }
     }
-
-    // intf_P1_03.inc:79
-
 }

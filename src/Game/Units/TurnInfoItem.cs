@@ -5,7 +5,7 @@ using Aow.Formats.Tree;
 namespace Aow.Game.Units;
 
 // gold, mana, structures, army strength, heroes
-public partial class TurnInfoItem(CustomNode owner) : EngineObject(owner)
+public class TurnInfoItem(CustomNode owner) : EngineObject(owner)
 {
     public new const int ClassId = 131739;
 
@@ -28,7 +28,4 @@ public partial class TurnInfoItem(CustomNode owner) : EngineObject(owner)
 
     // Player.PAS:171
     public int GetSuperiority() => (ArmyStrength / 100) + (Structures * 10) + (int)(((uint)Gold) >> 3) + (int)(((uint)Mana) >> 3) + (Heroes * 100);
-
-    // Engine.pas:524
-
 }

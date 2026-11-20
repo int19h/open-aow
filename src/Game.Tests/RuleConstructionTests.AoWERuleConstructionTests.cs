@@ -154,7 +154,11 @@ public sealed partial class RuleConstructionTests
                     }
                     string key = $"{current.Name}.{MemberNames.Of(field)}";
                     object? child = field.GetValue(item);
-                    if (MemberNames.Of(field) is "_owner" or "Owner") { fields[key] = child is null ? null : "$owner"; continue; }
+                    if (MemberNames.Of(field) is "_owner" or "Owner")
+                    {
+                        fields[key] = child is null ? null : "$owner";
+                        continue;
+                    }
                     fields[key] = State(child, $"{path}.{key}");
                 }
             }
@@ -226,7 +230,10 @@ public sealed partial class RuleConstructionTests
             using GameEngine engine = new(null!);
             EngineClass meta = EngineClass.Of(type);
             engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);
-            try { engine.UnregisterEngineClasses([engine.GetEngineClass(meta.ClassId)]); }
+            try
+            {
+                engine.UnregisterEngineClasses([engine.GetEngineClass(meta.ClassId)]);
+            }
             catch (Exception error) when (PortedExceptions.Is(error)) { }
             engine.RegisterEngineClasses([EngineClass.Of(type)]);
             return engine.CreateEngineObject(meta.ClassId, owner);
@@ -247,7 +254,10 @@ public sealed partial class RuleConstructionTests
             : p.ParameterType == typeof(FastBattle) ? new FastBattle(null!) { Holder = EngineFixture.Engine }
             : p.ParameterType == typeof(CombatSide) ? new CombatSide(null!) { Holder = EngineFixture.Engine }
             : null)];
-        try { return Invoke(() => factory is not null ? factory.Invoke(null, arguments) : constructor!.Invoke(arguments))!; }
+        try
+        {
+            return Invoke(() => factory is not null ? factory.Invoke(null, arguments) : constructor!.Invoke(arguments))!;
+        }
         finally
         {
             foreach (object? argument in arguments)
@@ -262,7 +272,10 @@ public sealed partial class RuleConstructionTests
 
     private static object? Invoke(Func<object?> action)
     {
-        try { return action(); }
+        try
+        {
+            return action();
+        }
         catch (TargetInvocationException error) when (error.InnerException is not null)
         {
             ExceptionDispatchInfo.Capture(error.InnerException).Throw();
@@ -311,11 +324,20 @@ public sealed partial class RuleConstructionTests
                 AssertPrivateArrayChildren(value);
                 state = $"success:{Snapshot(value)}";
             }
-            catch (Exception error) { state = $"failure:{error.GetType().FullName}:{error.Message}"; }
+            catch (Exception error)
+            {
+                state = $"failure:{error.GetType().FullName}:{error.Message}";
+            }
             finally
             {
-                try { (value as IDisposable)?.Dispose(); }
-                catch (Exception error) { states.Add($"destroy:{error.GetType().FullName}:{error.Message}"); }
+                try
+                {
+                    (value as IDisposable)?.Dispose();
+                }
+                catch (Exception error)
+                {
+                    states.Add($"destroy:{error.GetType().FullName}:{error.Message}");
+                }
             }
             states.Add(state);
             ConstructionSnapshot.Check("AoWERuleConstruction", name, string.Join("\n", states));
@@ -337,8 +359,14 @@ public sealed partial class RuleConstructionTests
             Assert.Null(value.Owner);
             Assert.Same(EngineClass.Of(type), value.EngineClass);
             string state = Snapshot(value);
-            try { value.Dispose(); }
-            catch (Exception error) { state += $"\n{error.GetType().FullName}:{error.Message}"; }
+            try
+            {
+                value.Dispose();
+            }
+            catch (Exception error)
+            {
+                state += $"\n{error.GetType().FullName}:{error.Message}";
+            }
             expected ??= state;
             Assert.Equal(expected, state);
         }
@@ -398,7 +426,10 @@ public sealed partial class RuleConstructionTests
             Assert.Equal(0, value.MoveSettingsList.Count);
             Assert.Equal(-1, value.CurrentMove);
         }
-        finally { value.Dispose(); }
+        finally
+        {
+            value.Dispose();
+        }
     }
 
     [Theory]

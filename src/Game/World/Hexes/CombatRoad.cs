@@ -9,7 +9,7 @@ using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.World.Hexes;
 
-public partial class CombatRoad(CustomNode owner) : AbstractRoad(owner)
+public class CombatRoad(CustomNode owner) : AbstractRoad(owner)
 {
 
     // CombatRoad.pas:51
@@ -123,7 +123,7 @@ public partial class CombatRoad(CustomNode owner) : AbstractRoad(owner)
         }
     }
 
-    public new partial class Resource(CustomNode owner) : AbstractRoadResource(owner)
+    public new class Resource(CustomNode owner) : AbstractRoadResource(owner)
     {
 
         // CombatRoad.pas:133
@@ -163,5 +163,4 @@ public partial class CombatRoad(CustomNode owner) : AbstractRoad(owner)
         public override string ResourceEditName() => "Combat Road";
 
     }
-
 }

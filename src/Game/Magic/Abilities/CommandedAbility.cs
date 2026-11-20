@@ -11,7 +11,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Abilities;
 
-public partial class CommandedAbility : AdjustableAbility
+public class CommandedAbility : AdjustableAbility
 {
     // AoWAb.PAS:5013
     public CommandedAbility(CustomNode owner) : base(owner)

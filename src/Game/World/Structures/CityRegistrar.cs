@@ -5,7 +5,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Structures;
 
-public partial class CityRegistrar
+public class CityRegistrar
 {
     // City.pas:3306
     public static void MapLoaded(GameMap sender)

@@ -6,7 +6,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class StoneSkin : UnitSpell
+public class StoneSkin : UnitSpell
 {
     // UnitSpells.pas:256
     public StoneSkin(CustomNode owner, EngineObject holder) : base(owner)

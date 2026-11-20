@@ -1044,7 +1044,7 @@ public partial class HtmlMemo : BaseWindow
 
     // a style change in the text. FHeight (the line height), FColor, FFont (the font file, '' for
     // the current font), FAlign, FPos (the character of the line where it starts), FLine, FSpacing
-    public partial class ChangeInfo
+    public class ChangeInfo
     {
         public int Height { get; set; }
         public int Color { get; set; }

@@ -16,7 +16,7 @@ using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.Magic.Abilities;
 
-public partial class InvokeDeathAbility : TouchAbility
+public class InvokeDeathAbility : TouchAbility
 {
     // AoWAb.PAS:3437
     public InvokeDeathAbility(CustomNode owner, EngineObject holder) : base(owner)

@@ -13,7 +13,7 @@ using Aow.Game.World.Structures;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class FreezeWater : GlobalTargetSpell
+public class FreezeWater : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:710
     public FreezeWater(CustomNode owner, EngineObject holder) : base(owner)

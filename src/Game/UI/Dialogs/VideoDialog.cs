@@ -210,5 +210,4 @@ public partial class VideoDialog(UIContext ui) : UIModule(ui)
     {
         Windowed = 0, Game = 1, Title = 2
     }
-
 }

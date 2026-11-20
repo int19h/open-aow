@@ -13,7 +13,7 @@ using static Aow.Rtl.IntegerObjects;
 namespace Aow.Game.Magic.Abilities;
 
 // (Abilities, AbilitiesByType,)
-public partial class AbilityControl : EngineObject
+public class AbilityControl : EngineObject
 {
     // Ability.PAS:2035
     public AbilityControl(CustomNode owner) : base(owner)
@@ -287,5 +287,4 @@ public partial class AbilityControl : EngineObject
         control.UnregisterAbilityId(144);
         control.UnregisterAbilityId(145);
     }
-
 }

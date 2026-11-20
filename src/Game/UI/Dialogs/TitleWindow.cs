@@ -49,9 +49,9 @@ public partial class TitleWindow(UIContext ui) : UIModule(ui)
     }
 
     // AOWTitleWindow.pas:105
-    public void NextSplash() =>
+    public void NextSplash()
         /* TODO: Implement Forms.Close in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     // AOWTitleWindow.pas:87
     public void ShowSplash()
@@ -136,5 +136,4 @@ public partial class TitleWindow(UIContext ui) : UIModule(ui)
         dialog.SplashPanel.Visible = true;
         dialog._splashTimer = 450;
     }
-
 }

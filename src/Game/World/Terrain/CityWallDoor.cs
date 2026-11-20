@@ -11,7 +11,7 @@ using Aow.Game.World.Movement;
 
 namespace Aow.Game.World.Terrain;
 
-public partial class CityWallDoor(CustomNode owner) : CityWall(owner)
+public class CityWallDoor(CustomNode owner) : CityWall(owner)
 {
 
     // CityWall.pas:381
@@ -98,7 +98,7 @@ public partial class CityWallDoor(CustomNode owner) : CityWall(owner)
             : 1;
     }
 
-    public new partial class Resource(CustomNode owner) : CityWall.Resource(owner)
+    public new class Resource(CustomNode owner) : CityWall.Resource(owner)
     {
 
         // CityWall.pas:451
@@ -111,5 +111,4 @@ public partial class CityWallDoor(CustomNode owner) : CityWall(owner)
         public override string ResourceEditName() => "Combat City Door";
 
     }
-
 }

@@ -8,7 +8,7 @@ using static Aow.Rtl.DelphiConversions;
 namespace Aow.Game.Magic.Abilities;
 
 // (max level, level costs)
-public partial class MultiLevelAbility(CustomNode owner) : AdjustableAbility(owner)
+public class MultiLevelAbility(CustomNode owner) : AdjustableAbility(owner)
 {
 
     public int MaxLevel { get; protected set; } = 4;
@@ -81,8 +81,16 @@ public partial class MultiLevelAbility(CustomNode owner) : AdjustableAbility(own
     public override bool Remove(AbilityOwner owner)
     {
         MultiLevelAbilityData data = GetData(owner);
-        if (data is null) { SetAbility(owner, AbilityId, 0); return false; }
-        if (data.Level == 1) { SetAbility(owner, AbilityId, 0); owner.RemoveAbilityData(data); }
+        if (data is null)
+        {
+            SetAbility(owner, AbilityId, 0);
+            return false;
+        }
+        if (data.Level == 1)
+        {
+            SetAbility(owner, AbilityId, 0);
+            owner.RemoveAbilityData(data);
+        }
         else
         {
             data.Level = (byte)(data.Level - 1);

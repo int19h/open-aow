@@ -8,7 +8,7 @@ using Aow.Rtl;
 namespace Aow.Game.Commands;
 
 // events, simultaneous
-public partial class MultiMoveTokenEvent : TokenEvent
+public class MultiMoveTokenEvent : TokenEvent
 {
     public new const int ClassId = 135442;
 
@@ -93,7 +93,4 @@ public partial class MultiMoveTokenEvent : TokenEvent
 
         return moveResult;
     }
-
-    // intf_P5_07.inc:788
-
 }

@@ -56,5 +56,4 @@ public partial class MessageReceiveDialog(UIContext ui) : UIModule(ui)
         dialog.RightShield.CurrentImage = dialog.LeftShield.CurrentImage;
         dialog.Window.Visible = true;
     }
-
 }

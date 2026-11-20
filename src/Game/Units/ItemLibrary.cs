@@ -12,7 +12,7 @@ namespace Aow.Game.Units;
 
 // The original's TItemLibrary derives from TItemList. The port's library owns its items as its
 // node children and reads them through Items.
-public partial class ItemLibrary(CustomNode owner) : ObservableNode(owner), IChildList<Item>, IItemHolder
+public class ItemLibrary(CustomNode owner) : ObservableNode(owner), IChildList<Item>, IItemHolder
 {
     /// <summary>The items of this library, in their stored order.</summary>
     public ItemCollection Items => new(this);
@@ -196,9 +196,4 @@ public partial class ItemLibrary(CustomNode owner) : ObservableNode(owner), IChi
     public void SaveToFile(string fileName) => GetEngine().WriteToFile(fileName, this, null, GameProfile.ItemList);
 
     private static readonly string s_systemItemLibraryText = "System";
-
-    // intf_P2_04.inc:118
-
-    // intf_P2_04.inc:118
-
 }

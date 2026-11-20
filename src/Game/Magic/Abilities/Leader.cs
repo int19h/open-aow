@@ -16,7 +16,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Abilities;
 
 // SpherePicksMax. Spheres
-public partial class Leader(CustomNode owner) : Hero(owner)
+public class Leader(CustomNode owner) : Hero(owner)
 {
 
     public new const int ClassId = 131634;

@@ -11,11 +11,11 @@ namespace Aow.Formats.Tree;
 /// </summary>
 public static class DocumentBackend
 {
-    public static JsonObject Write(ObjectNode node, SchemaClass classValue, FormatSchema schema, string engine, DocumentNodePath? path = null) =>
-        WriteObject(node, classValue, Site(schema, engine, path ?? DocumentNodePath.Root), created: false, slotted: false);
+    public static JsonObject Write(ObjectNode node, SchemaClass classValue, FormatSchema schema, string engine, DocumentNodePath? path = null)
+        => WriteObject(node, classValue, Site(schema, engine, path ?? DocumentNodePath.Root), created: false, slotted: false);
 
-    public static ObjectNode Read(JsonObject document, SchemaClass classValue, FormatSchema schema, string engine, DocumentNodePath? path = null, string? file = null) =>
-        ReadObject(document, classValue, Site(schema, engine, path ?? DocumentNodePath.Root, file), created: false, slotted: false);
+    public static ObjectNode Read(JsonObject document, SchemaClass classValue, FormatSchema schema, string engine, DocumentNodePath? path = null, string? file = null)
+        => ReadObject(document, classValue, Site(schema, engine, path ?? DocumentNodePath.Root, file), created: false, slotted: false);
 
     internal static JsonObject WriteObject(ObjectNode node, SchemaClass classValue, DocumentSite site, bool created, bool slotted)
     {
@@ -175,8 +175,8 @@ public static class DocumentBackend
         return node;
     }
 
-    private static string ListOnly(int version) =>
-        string.Create(System.Globalization.CultureInfo.InvariantCulture, $"Version {version} stores a list only for a fixed integer array.");
+    private static string ListOnly(int version)
+        => string.Create(System.Globalization.CultureInfo.InvariantCulture, $"Version {version} stores a list only for a fixed integer array.");
 
     internal static SchemaClass RequireClass(DocumentSite site, string name, string? family, JsonValue? at)
     {

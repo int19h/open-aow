@@ -8,7 +8,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // (MoveTypes.)
-public partial class MovementAbility : AdjustableAbility
+public class MovementAbility : AdjustableAbility
 {
     public Set<MoveType> MoveTypes { get; init; }
 

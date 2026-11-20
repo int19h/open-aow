@@ -148,8 +148,8 @@ internal sealed partial class SetCodec(string typeName, int width) : PropertyCod
             : (JsonValue)Members(node.Mask, site.Context.File, site.Path.ToString());
     }
 
-    internal override TreeValue? ReadTree(JsonValue value, DocumentSite site) =>
-        new SetNode(TypeName, Width, Parse(site.Context, value, site.Path, site.Property?.Name ?? "The value"));
+    internal override TreeValue? ReadTree(JsonValue value, DocumentSite site)
+        => new SetNode(TypeName, Width, Parse(site.Context, value, site.Path, site.Property?.Name ?? "The value"));
 
     internal JsonArray Members(ulong mask, string? file, string path)
     {

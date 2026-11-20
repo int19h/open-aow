@@ -1517,9 +1517,9 @@ public partial class StrategicMap : GameMap
     }
 
     // AoWHSMap.PAS:1860
-    public void NotifyArmyDestroyed(Army army) =>
+    public void NotifyArmyDestroyed(Army army)
         // TArmy.Destroy passes its Self pointer
-        _armyDestroyedEventsStore.Raise(army);
+        => _armyDestroyedEventsStore.Raise(army);
 
     // AoWHSMap.PAS:1866
     // TArmy.Destroy passes TArmy
@@ -2657,7 +2657,7 @@ public partial class StrategicMap : GameMap
 
     // { Interface declaration run owned by P5. }
     // allied victory. . points. gold. mana. next scenario
-    public partial class MapCampaignSettings(CustomNode owner) : EngineObject(owner)
+    public class MapCampaignSettings(CustomNode owner) : EngineObject(owner)
     {
 
         public bool AlliedVictory { get; private set; }
@@ -2676,11 +2676,7 @@ public partial class StrategicMap : GameMap
             HeroLevelMax = persister.Int32("HeroLevelMax", value: HeroLevelMax);
             AlliedVictory = persister.Boolean("AlliedVictory", value: AlliedVictory);
         }
-
-        // intf_P5_08.inc:13
-
     }
-
 }
 
 public enum StrategicMapTurnOrderMode : byte

@@ -675,7 +675,10 @@ public static class AbilityRules
                 HexNumberWalkData.WalkToNextHexNumber(ref walk);
             }
         }
-        finally { info = query.Info; }
+        finally
+        {
+            info = query.Info;
+        }
     }
 
     internal static Set<MoveType> ToMoveTypes(int value) => Set<MoveType>.FromMask((byte)value);
@@ -707,5 +710,4 @@ public static class AbilityRules
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
     }
-
 }

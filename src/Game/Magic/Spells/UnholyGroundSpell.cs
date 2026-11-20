@@ -16,7 +16,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class UnholyGroundSpell : GlobalTargetSpell
+public class UnholyGroundSpell : GlobalTargetSpell
 {
     public UnholyGroundSpell(CustomNode owner, EngineObject holder) : base(owner)
     {
@@ -28,8 +28,6 @@ public partial class UnholyGroundSpell : GlobalTargetSpell
         MagicSphere = MagicSphere.Death;
         AboveGroundOnly = false;
     }
-
-    // UnHolyG.pas:349
 
     // UnHolyG.pas:383
     public override void SetupTargetSelection(Troop source, TargetSelectionControl targetSelection)
@@ -82,9 +80,4 @@ public partial class UnholyGroundSpell : GlobalTargetSpell
     }
 
     private static readonly string s_unholyGroundsText = "Evil Woods";
-
-    // UnHolyG.pas:62
-
-    // UnHolyG.pas:62
-
 }

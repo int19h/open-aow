@@ -28,7 +28,7 @@ namespace Aow.Game.Combat;
 
 // FCombatStatus. CombatData. NextCombatObjectId. FResult. Logbook. Sides. Executed.
 // ExecutedLock. OnExecuted. Terminated. OnTerminated. FVisibilityMode
-public partial class Battle : EngineObject
+public class Battle : EngineObject
 {
 
     // Combat.pas:6067
@@ -430,7 +430,6 @@ public partial class Battle : EngineObject
     public bool GetLogCombatActions() => Status.Contains(CombatStatusElement.LogCombatActions);
 
     // Combat.pas:6097
-    // { }
     public void SetLogCombatActions(byte value)
     {
         Status = value != 0
@@ -439,7 +438,6 @@ public partial class Battle : EngineObject
     }
 
     // Combat.pas:6112
-    // { }
     public int GetRound() => CombatData.Round;
 
     // Combat.pas:6115
@@ -489,7 +487,6 @@ public partial class Battle : EngineObject
             : WallSituation.None;
     }
 
-    // { }
     public void ExecuteCombatAction(CombatAction action)
     {
         if (Status.Contains(CombatStatusElement.LogCombatActions))
@@ -529,7 +526,6 @@ public partial class Battle : EngineObject
     }
 
     // Combat.pas:6177
-    // { }
     public void UpdateSidesSettings()
     {
         Sides[(int)CombatSideIndex.Attacker].UpdateSettings();
@@ -537,7 +533,6 @@ public partial class Battle : EngineObject
     }
 
     // Combat.pas:6190
-    // { }
     public void NextTurn()
     {
         if (CombatData.TurnOrder.Count != 0)
@@ -553,7 +548,6 @@ public partial class Battle : EngineObject
     }
 
     // Combat.pas:6201
-    // { }
     public void Terminate()
     {
         if (!Terminated)
@@ -564,7 +558,6 @@ public partial class Battle : EngineObject
     }
 
     // Combat.pas:6210
-    // { }
     public void CheckTerminate()
     {
         if (!Terminated)
@@ -577,7 +570,6 @@ public partial class Battle : EngineObject
     }
 
     // Combat.pas:6236
-    // { }
     public void SetLogbookHeader(string header)
     {
         UpdateHeaderCombatAction a = new(null)
@@ -590,7 +582,6 @@ public partial class Battle : EngineObject
     }
 
     // Combat.pas:6245
-    // { }
     public void AddAdjacentArmies()
     {
         CombatData data = CombatData;
@@ -636,7 +627,6 @@ public partial class Battle : EngineObject
     }
 
     // Combat.pas:6280
-    // { }
     public byte GetPartyPosition(int X, int Y, int layer)
     {
         CombatData data = CombatData;
@@ -707,7 +697,6 @@ public partial class Battle : EngineObject
                     party.Wall = (byte)message.Result.Int;
                 }
             }
-
         }
         return party;
     }
@@ -733,7 +722,6 @@ public partial class Battle : EngineObject
                 CombatData.AddObject(unitObject);
                 index += 1;
             }
-
         }
         return party;
     }
@@ -769,7 +757,6 @@ public partial class Battle : EngineObject
     }
 
     // Combat.pas:6385
-    // { }
     public void InitializeDefaultArmies(Army army, int X, int Y, int L)
     {
         CombatData data = CombatData;
@@ -798,7 +785,6 @@ public partial class Battle : EngineObject
     public void LockExecuted() => _executedLock += 1;
 
     // Combat.pas:6571
-    // { }
     public void UnlockExecuted()
     {
         _executedLock -= 1;
@@ -809,7 +795,6 @@ public partial class Battle : EngineObject
     }
 
     // Combat.pas:6642
-    // { }
     public string GetCombatResultText()
     {
         CombatResultQuery query = new();
@@ -863,9 +848,4 @@ public partial class Battle : EngineObject
     private static readonly string s_battleDrawnText = "Battle Drawn";
 
     public delegate void ExecutedEvent(Battle pCombat);
-
-    // intf_P3_02.inc:318
-
-    // intf_P3_02.inc:318
-
 }

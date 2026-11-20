@@ -19,7 +19,7 @@ namespace Aow.Game.Units;
 
 // Name. Race. Champion. Nickname. unit statistics. Abilities[rank]. TransportCapacity.
 // Description. ObtainValue. size. blood
-public partial class UnitResource : TroopResource
+public class UnitResource : TroopResource
 {
     public new const int ClassId = 131602;
 
@@ -195,7 +195,4 @@ public partial class UnitResource : TroopResource
         string result = _name;
         return !IsEmpty(_nickname) ? $"{result} {_nickname}" : result;
     }
-
-    // intf_P2_05.inc:243
-
 }

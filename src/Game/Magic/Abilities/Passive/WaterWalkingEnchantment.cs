@@ -7,7 +7,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // (name, ID, selection types, ability type.)
-public partial class WaterWalkingEnchantment : UnitEnchantmentAbility
+public class WaterWalkingEnchantment : UnitEnchantmentAbility
 {
     // PassiveAb.pas:1315
     public WaterWalkingEnchantment(CustomNode owner, EngineObject holder) : base(owner)

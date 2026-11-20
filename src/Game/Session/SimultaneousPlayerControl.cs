@@ -19,7 +19,7 @@ using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Game.Session;
 
-public partial class SimultaneousPlayerControl(CustomNode owner) : PlayerControl(owner)
+public class SimultaneousPlayerControl(CustomNode owner) : PlayerControl(owner)
 {
     public new const int ClassId = 131665;
 
@@ -308,9 +308,4 @@ public partial class SimultaneousPlayerControl(CustomNode owner) : PlayerControl
 
     private static readonly string s_letGameBeginText = "Let the game begin";
     private static readonly string s_gameContinuesText = "The game continues";
-
-    // intf_P1_04.inc:26
-
-    // intf_P1_04.inc:26
-
 }

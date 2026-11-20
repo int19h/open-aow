@@ -19,7 +19,7 @@ using static Aow.Rtl.IntegerObjects;
 namespace Aow.Game.Magic.Abilities;
 
 // (AbilityData,)
-public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
+public class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
 {
     public AbilityData AbilityData { get; set; }
 
@@ -617,7 +617,4 @@ public partial class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
             }
         }
     }
-
-    // intf_P1_06.inc:120
-
 }

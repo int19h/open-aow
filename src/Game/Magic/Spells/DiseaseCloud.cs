@@ -10,7 +10,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Spells;
 
 // inherited combat statistics, damage mode
-public partial class DiseaseCloud : CombatSpell
+public class DiseaseCloud : CombatSpell
 {
     // CombatSpells.pas:1146
     public DiseaseCloud(CustomNode owner, EngineObject holder) : base(owner)

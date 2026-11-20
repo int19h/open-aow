@@ -9,7 +9,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.World.Structures;
 
 // { Interface declaration run owned by P4. }
-public partial class RebuildConstructionControl(CustomNode owner) : ConstructionControl(owner)
+public class RebuildConstructionControl(CustomNode owner) : ConstructionControl(owner)
 {
 
     // AoWAb.PAS:5404
@@ -70,8 +70,6 @@ public partial class RebuildConstructionControl(CustomNode owner) : Construction
         string reason = "";
         return CanConstruct(troop, ref reason) && GetStructure(troop).Rebuild(troop);
     }
-
-    // Engine.pas:524
 
     // AoWAb.PAS:5400
     public override int Id() => 1;

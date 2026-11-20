@@ -5,7 +5,7 @@ using Aow.Game.Commands;
 namespace Aow.Game.Net;
 
 // FEvents, FTokenManager, FPlayer, FActive. The token events of one player
-public partial class TokenControl : IDisposable
+public class TokenControl : IDisposable
 {
     private readonly TokenManager _tokenManager;
 

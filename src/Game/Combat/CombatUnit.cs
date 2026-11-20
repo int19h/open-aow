@@ -21,7 +21,7 @@ namespace Aow.Game.Combat;
 
 // Troop. Party. Disabled. WallCombatFeaturesValue. UnitGraphicsResourceIndex. Inherited: FID.
 // FPosition. FStatus. FControlMode
-public partial class CombatUnit : CombatObject
+public class CombatUnit : CombatObject
 {
     // Combat.pas:1084
     public new const int ClassId = 131745;
@@ -208,10 +208,10 @@ public partial class CombatUnit : CombatObject
     public override sbyte GetHitPoints() => Troop is not null ? Troop.GetHitPoints() : (sbyte)0;// { Direct field test retains the receiver. }// { No cast temporary. }
 
     // Combat.pas:1296
-    public override void SetHitPoints(byte value) =>
+    public override void SetHitPoints(byte value)
         // { Direct nil guard. }
         // { No cast temporary. }
-        Troop?.SetHitPoints((sbyte)value);
+        => Troop?.SetHitPoints((sbyte)value);
 
     // Combat.pas:1260
     public override Alignment GetAlignment() => Troop.GetAlignment();
@@ -784,7 +784,4 @@ public partial class CombatUnit : CombatObject
 
         return result;
     }
-
-    // intf_P3_01.inc:244
-
 }

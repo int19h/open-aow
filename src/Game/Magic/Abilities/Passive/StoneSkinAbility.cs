@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // inherited name, ability ID, selection types, ability type
-public partial class StoneSkinAbility : UnitEnchantmentAbility
+public class StoneSkinAbility : UnitEnchantmentAbility
 {
     // PassiveAb.pas:1029
     public StoneSkinAbility(CustomNode owner, EngineObject holder) : base(owner)

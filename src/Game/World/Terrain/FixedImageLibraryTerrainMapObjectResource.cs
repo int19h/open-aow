@@ -3,7 +3,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.World.Terrain;
 
-public partial class FixedImageLibraryTerrainMapObjectResource(CustomNode owner) : ImageLibraryTerrainMapObjectResource(owner)
+public class FixedImageLibraryTerrainMapObjectResource(CustomNode owner) : ImageLibraryTerrainMapObjectResource(owner)
 {
 
     // ILTer.pas:339

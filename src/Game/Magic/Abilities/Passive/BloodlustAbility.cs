@@ -6,7 +6,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // inherited name, ability ID, selection types, ability type. duration mode
-public partial class BloodlustAbility : DurationAbility
+public class BloodlustAbility : DurationAbility
 {
     // PassiveAb.pas:546
     public BloodlustAbility(CustomNode owner, EngineObject holder) : base(owner)

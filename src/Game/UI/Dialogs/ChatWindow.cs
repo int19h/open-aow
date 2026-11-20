@@ -31,9 +31,9 @@ public partial class ChatWindow(UIContext ui) : UIModule(ui)
     }
 
     // AOWChatWin.pas:53
-    public void ChatEditReturn() =>
+    public void ChatEditReturn()
         /* TODO: Implement aowDPlayComp.PlayerName in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     // AOWChatWin.pas:67
     public void ChatWinResize()

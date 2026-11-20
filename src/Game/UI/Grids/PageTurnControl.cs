@@ -7,7 +7,7 @@ using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.UI.Grids;
 
-public partial class PageTurnControl
+public class PageTurnControl
 {
     private readonly float _scale;
     private float _shade;
@@ -496,5 +496,4 @@ public partial class PageTurnControl
             height--;
         }
     }
-
 }

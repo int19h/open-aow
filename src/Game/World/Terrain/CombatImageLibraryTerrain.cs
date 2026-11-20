@@ -8,7 +8,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Terrain;
 
-public partial class CombatImageLibraryTerrain(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
+public class CombatImageLibraryTerrain(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
 {
 
     // CombatILTer.pas:105
@@ -126,5 +126,4 @@ public partial class CombatImageLibraryTerrain(CustomNode owner) : ImageLibraryT
             }
         }
     }
-
 }

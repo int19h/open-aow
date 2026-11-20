@@ -6,7 +6,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // inherited name, ability ID, selection types, ability type, duration mode
-public partial class HolyFear : DurationAbility
+public class HolyFear : DurationAbility
 {
     // PassiveAb.pas:816
     public HolyFear(CustomNode owner, EngineObject holder) : base(owner)

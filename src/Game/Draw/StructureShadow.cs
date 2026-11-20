@@ -11,7 +11,7 @@ using Aow.Rtl;
 namespace Aow.Game.Draw;
 
 // connected/visible flags, structure
-public partial class StructureShadow(CustomNode owner) : HexSprite(owner)
+public class StructureShadow(CustomNode owner) : HexSprite(owner)
 {
     public Set<StructureShadowStatusElement> ShadowStatus { get; private set; }
     public Structure Structure { get; init; }
@@ -85,7 +85,4 @@ public partial class StructureShadow(CustomNode owner) : HexSprite(owner)
 
     // Structur.PAS:1000
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface) => Structure.ShowShadow(pixelXSurface, pixelYSurface, lockedSurface);
-
-    // Engine.pas:524
-
 }

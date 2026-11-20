@@ -4,7 +4,7 @@ using Aow.Game.Magic.Abilities;
 namespace Aow.Game.Session;
 
 // Kind 3: the source writes to the target.
-public sealed partial record SendMessage : DiplomaticProposal
+public sealed record SendMessage : DiplomaticProposal
 {
     public const byte Kind = 3;
 

@@ -4,7 +4,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.World.Structures;
 
-public partial class ConstructionControlList(CustomNode owner) : OwningNode(owner), IChildList<ConstructionControl>
+public class ConstructionControlList(CustomNode owner) : OwningNode(owner), IChildList<ConstructionControl>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a ConstructionControl, so the cast never fails.
@@ -38,7 +38,4 @@ public partial class ConstructionControlList(CustomNode owner) : OwningNode(owne
     // The caller names the control registered at the id. Another class throws. A missing id returns
     // null, as FindId does.
     public T FindId<T>(int id) where T : ConstructionControl => (T)FindId(id);
-
-    // Engine.pas:631
-
 }

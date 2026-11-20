@@ -412,5 +412,4 @@ public static class HexGeometry
 
         return HexToHexDirection(x2, y2);
     }
-
 }

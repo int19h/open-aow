@@ -120,5 +120,4 @@ public partial class CityJoinDialog(UIContext ui) : UIModule(ui)
         dialog.Window.Visible = true;
         StrategicMap.Current.TutorialControl.ShowMessage(62, true, true);
     }
-
 }

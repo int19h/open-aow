@@ -11,7 +11,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Magic;
 
-public partial class CosmeticSurgeryEnchantment(CustomNode owner) : UnitEnchantment(owner)
+public class CosmeticSurgeryEnchantment(CustomNode owner) : UnitEnchantment(owner)
 {
     public new const int ClassId = 135964;
 
@@ -32,7 +32,4 @@ public partial class CosmeticSurgeryEnchantment(CustomNode owner) : UnitEnchantm
         string name = source.GetName();
         return AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), GameText.CosmeticSurgeryText), [name]);
     }
-
-    // intf_P4_02.inc:846
-
 }

@@ -15,7 +15,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
-public partial class ArmyNegotiateMoveTokenEvent(CustomNode owner) : MoveArmyTokenEvent(owner)
+public class ArmyNegotiateMoveTokenEvent(CustomNode owner) : MoveArmyTokenEvent(owner)
 {
     public new const int ClassId = 135430;
 
@@ -164,9 +164,4 @@ public partial class ArmyNegotiateMoveTokenEvent(CustomNode owner) : MoveArmyTok
             _ = negotiateRequestEventLog.Release();
         }
     }
-
-    // intf_P5_07.inc:816
-
-    // intf_P5_07.inc:816
-
 }

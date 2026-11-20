@@ -15,7 +15,7 @@ namespace Aow.Game.World;
 
 // a map object that covers the hexagons of its terrain list around its main hexagon. FXhx, FYhx
 // (the main hexagon, ids 3 and 4)
-public partial class MultiHexMapObject(CustomNode owner) : MapObject(owner)
+public class MultiHexMapObject(CustomNode owner) : MapObject(owner)
 {
     protected internal sbyte StoredHexX { get; set; }
     protected internal sbyte StoredHexY { get; set; }

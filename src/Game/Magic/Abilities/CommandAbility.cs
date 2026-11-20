@@ -19,7 +19,7 @@ using static Aow.Rtl.DelphiRounding;
 namespace Aow.Game.Magic.Abilities;
 
 // (commanded ability ID)
-public partial class CommandAbility : TouchAbility
+public class CommandAbility : TouchAbility
 {
     // AoWAb.PAS:5088
     public CommandAbility(CustomNode owner) : base(owner) => SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.UseItem);

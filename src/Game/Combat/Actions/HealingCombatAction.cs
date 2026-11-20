@@ -9,7 +9,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Combat.Actions;
 
-public partial class HealingCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
+public class HealingCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
 {
     public new const int ClassId = 131773;
 
@@ -56,7 +56,4 @@ public partial class HealingCombatAction(CustomNode owner) : SingleTargetCombatA
         SourceId = sourceId;
         TargetId = targetId;
     }
-
-    // intf_P3_02.inc:38
-
 }

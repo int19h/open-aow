@@ -17,7 +17,7 @@ using static Aow.Rtl.DelphiRounding;
 namespace Aow.Game.Draw;
 
 // Unit. UnitGraphics. Frame. OffsetX. OffsetY. SequenceIndex. SequenceFrame
-public partial class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHexSprite(owner)
+public class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHexSprite(owner)
 {
     public new const int ClassId = 2228488;
 
@@ -211,7 +211,4 @@ public partial class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHex
             _sequenceFrame += 1;
         }
     }
-
-    // Engine.pas:524
-
 }

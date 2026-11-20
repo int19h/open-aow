@@ -13,7 +13,7 @@ using Aow.Rtl;
 namespace Aow.Game.Combat.Actions;
 
 // (strike mode)
-public partial class StrikeCombatAction(CustomNode owner) : DamageCombatAction(owner)
+public class StrikeCombatAction(CustomNode owner) : DamageCombatAction(owner)
 {
     public new const int ClassId = 131754;
 
@@ -90,7 +90,4 @@ public partial class StrikeCombatAction(CustomNode owner) : DamageCombatAction(o
             }
         }
     }
-
-    // intf_P3_02.inc:38
-
 }

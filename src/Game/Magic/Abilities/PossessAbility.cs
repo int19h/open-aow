@@ -16,7 +16,7 @@ using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.Magic.Abilities;
 
-public partial class PossessAbility : TouchAbility
+public class PossessAbility : TouchAbility
 {
     // AoWAb.PAS:2627
     public PossessAbility(CustomNode owner, EngineObject holder) : base(owner)

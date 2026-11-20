@@ -19,7 +19,7 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Game.Magic.Spells;
 
 // source unit ID. city target modes
-public partial class CityTargetSpell : Spell
+public class CityTargetSpell : Spell
 {
     private int _sourceId;
 
@@ -212,8 +212,8 @@ public partial class CityTargetSpell : Spell
     public virtual CityTargetSpellTokenEvent CreateTokenEvent() => new(null) { Holder = CreationHolder() };
 
     // CityTargetSpell.CreateTokenEvent constructs CityTargetSpellTokenEvent.
-    public sealed override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount) =>
-        ExecuteTokenEvent((CityTargetSpellTokenEvent)eventValue, source: source, executeCount: executeCount);
+    public sealed override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
+        => ExecuteTokenEvent((CityTargetSpellTokenEvent)eventValue, source: source, executeCount: executeCount);
 
     protected virtual bool ExecuteTokenEvent(CityTargetSpellTokenEvent eventValue, Troop source, int executeCount) => false;
 

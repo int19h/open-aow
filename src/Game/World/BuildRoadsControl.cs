@@ -9,7 +9,7 @@ using Aow.Game.World.Structures;
 
 namespace Aow.Game.World;
 
-public partial class BuildRoadsControl(CustomNode owner) : ConstructionControl(owner)
+public class BuildRoadsControl(CustomNode owner) : ConstructionControl(owner)
 {
 
     // AoWAb.PAS:5458
@@ -54,8 +54,6 @@ public partial class BuildRoadsControl(CustomNode owner) : ConstructionControl(o
             return false;
         }
     }
-
-    // intf_P4_03.inc:16
 
     // AoWAb.PAS:5454
     public override int Id() => 2;

@@ -105,6 +105,9 @@ public sealed class GlyphIndexTests
             draw(lockedSurface);
             return lockedSurface.Data.AsSpan(lockedSurface.DataIndex, Math.Abs(lockedSurface.Pitch) * height).ToArray();
         }
-        finally { _ = surface.Unlock(); }
+        finally
+        {
+            _ = surface.Unlock();
+        }
     }
 }

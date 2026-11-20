@@ -9,7 +9,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Combat;
 
-public partial class CombatMoveControl(GameMap owner) : MoveControl(owner)
+public class CombatMoveControl(GameMap owner) : MoveControl(owner)
 {
     public TacticalBattleUnitHexSprite UnitHexSprite { get; set; }
     public Set<CombatMoveModeElement> MoveFlags { get; private set; }
@@ -24,7 +24,4 @@ public partial class CombatMoveControl(GameMap owner) : MoveControl(owner)
         MoveFlags = ((CombatMoveControlSettings)settings).MoveFlags;
         base.ProcessMove(settings);
     }
-
-    // intf_P5_01.inc:120
-
 }

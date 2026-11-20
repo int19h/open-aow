@@ -144,7 +144,4 @@ public partial class CombatData : EngineObject
         Assert(FindId(combatObject.Id) is null && FindPosition(combatObject.Position) is null, "CombatObject Position/ID double defined", "Combat2.pas", 284);
         combatObject.SetOwner(CombatObjects);
     }
-
-    // intf_P3_02.inc:252
-
 }

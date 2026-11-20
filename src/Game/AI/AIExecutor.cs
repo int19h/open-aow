@@ -246,9 +246,6 @@ public partial class AIExecutor(CustomNode owner) : EngineObject(owner)
             Status -= Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.Executing);
         }
     }
-
-    // intf_P5_06.inc:108
-
 }
 
 public enum AIExecutorProcessTimeMode : byte

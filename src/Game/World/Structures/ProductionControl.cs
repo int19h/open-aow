@@ -793,11 +793,6 @@ public partial class ProductionControl : EngineObject
     }
 
     private static readonly string s_actionAlreadyQueuedText = "Action already queued";
-
-    // intf_P1_02.inc:120
-
-    // intf_P1_02.inc:120
-
 }
 
 public enum ProductionControlStatus : byte

@@ -130,7 +130,10 @@ public sealed class ClassRegistryTests
             return;
         }
         EngineObject instance = EngineClass.Of(type).CreateInstance(null, holder: EngineFixture.Engine);
-        try { Assert.IsType(type, instance); }
+        try
+        {
+            Assert.IsType(type, instance);
+        }
         finally
         {
             // Construction alone leaves abstract nodes and world-linked objects incomplete.
@@ -192,7 +195,7 @@ public sealed class ClassRegistryTests
         [typeof(Ruin)] = typeof(NullReferenceException),
     };
 
-    private static void CheckFamily(Type contract, Type[] types, IEnumerable<Type> registered) =>
-        Assert.Equal(types.Where(t => t.IsClass && contract.IsAssignableFrom(t)).OrderBy(t => t.FullName, StringComparer.Ordinal),
+    private static void CheckFamily(Type contract, Type[] types, IEnumerable<Type> registered)
+        => Assert.Equal(types.Where(t => t.IsClass && contract.IsAssignableFrom(t)).OrderBy(t => t.FullName, StringComparer.Ordinal),
             registered.Where(t => t.Assembly == typeof(EngineObject).Assembly).OrderBy(t => t.FullName, StringComparer.Ordinal));
 }

@@ -9,7 +9,7 @@ using Aow.Rtl;
 namespace Aow.Game.World.Structures;
 
 // Production id 2: research unit production Index.
-public sealed partial record ResearchSpell(int Index) : ProductionOrder
+public sealed record ResearchSpell(int Index) : ProductionOrder
 {
     public const int Kind = 2;
 

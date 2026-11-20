@@ -9,7 +9,7 @@ using Aow.Game.Units;
 namespace Aow.Game.Magic.Abilities;
 
 // (ability ID, duration, player, enchantment)
-public partial class UnitEnchantmentAbilityData(CustomNode owner) : AbilityData(owner)
+public class UnitEnchantmentAbilityData(CustomNode owner) : AbilityData(owner)
 {
 
     public new const int ClassId = 131756;
@@ -50,7 +50,4 @@ public partial class UnitEnchantmentAbilityData(CustomNode owner) : AbilityData(
 
         Enchantment = enchantment;
     }
-
-    // intf_P4_02.inc:789
-
 }

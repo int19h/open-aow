@@ -48,7 +48,10 @@ public sealed class HostPathTests
                 Assert.Equal(Array.IndexOf(s_names, name), content[0]);
             }
         }
-        finally { Files = saved; }
+        finally
+        {
+            Files = saved;
+        }
 
         Assert.Equal("\u0141\u00d3D\u017a.SAV", AnsiUpperCase("\u0141\u00f3d\u017a.sav"));
         Assert.Equal("\u0141\u00f3d\u017a.sav", AnsiLowerCase("\u0141\u00d3D\u017a.SAV"));

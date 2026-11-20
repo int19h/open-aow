@@ -16,7 +16,7 @@ namespace Aow.Game.Session;
 
 // { Interface declaration run owned by P1. }
 // race, defaults, player relations, enabled
-public partial class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceList>, IOwnedSink<RaceList>
+public class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceList>, IOwnedSink<RaceList>
 {
 
     // The race list the race belongs to. AcceptsOwner admits only a RaceList, so the cast never fails.
@@ -315,9 +315,4 @@ public partial class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceLi
         }
         return Status.Neutral;
     }
-
-    // intf_P1_03.inc:13
-
-    // intf_P1_03.inc:13
-
 }

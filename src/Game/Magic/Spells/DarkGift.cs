@@ -6,7 +6,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class DarkGift : UnitSpell
+public class DarkGift : UnitSpell
 {
     // UnitSpells.pas:830
     public DarkGift(CustomNode owner, EngineObject holder) : base(owner)

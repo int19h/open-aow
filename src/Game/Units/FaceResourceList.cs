@@ -8,7 +8,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Units;
 
-public partial class FaceResourceList : ResourceCollection, IChildList<FaceResource>
+public class FaceResourceList : ResourceCollection, IChildList<FaceResource>
 {
     // The face in slot index, read as the original reads the list, without a range check.
     // AcceptsResource admits only a FaceResource, so the cast never fails.
@@ -76,7 +76,4 @@ public partial class FaceResourceList : ResourceCollection, IChildList<FaceResou
         while (!(GetChild(result) is not null && (developer || !this[result].DeveloperOnly)));
         return result;
     }
-
-    // intf_P1_07.inc:27
-
 }

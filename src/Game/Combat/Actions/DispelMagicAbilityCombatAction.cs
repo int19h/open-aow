@@ -7,7 +7,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Combat.Actions;
 
-public partial class DispelMagicAbilityCombatAction(CustomNode owner) : DispelMagicCombatAction(owner)
+public class DispelMagicAbilityCombatAction(CustomNode owner) : DispelMagicCombatAction(owner)
 {
     public new const int ClassId = 131775;
 
@@ -20,7 +20,4 @@ public partial class DispelMagicAbilityCombatAction(CustomNode owner) : DispelMa
         CombatUnit source = combat.CombatData.FindId<CombatUnit>(SourceId);
         GamePack.Current.AbilityControl.GetAbility<DispelMagicAbility>(60).SetEnabled(source.Troop, false);
     }
-
-    // intf_P4_02.inc:660
-
 }

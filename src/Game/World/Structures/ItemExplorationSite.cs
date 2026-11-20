@@ -17,7 +17,7 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Game.World.Structures;
 
 // ItemCount, Items
-public partial class ItemExplorationSite : ExplorationSite
+public class ItemExplorationSite : ExplorationSite
 {
     public ItemExplorationSite(CustomNode owner) : base(owner)
     {
@@ -47,8 +47,6 @@ public partial class ItemExplorationSite : ExplorationSite
         persister.Object("Items", objectValue: _items);
         _itemCount = persister.RawByte("ItemCount", value: _itemCount);
     }
-
-    // ItemExpS.pas:88
 
     // ItemExpS.pas:114
     public override void Activate()
@@ -134,9 +132,4 @@ public partial class ItemExplorationSite : ExplorationSite
     private static readonly string s_itemsExploredFormat = "\"From the %s\",\"you recovered the following items:\"";
     private static readonly string s_itemsFoundText = "Items Found";
     private static readonly Set<ItemType> s_itAll = Set<ItemType>.FromMask(127uL);
-
-    // ItemExpS.pas:32
-
-    // ItemExpS.pas:32
-
 }

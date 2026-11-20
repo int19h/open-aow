@@ -22,7 +22,7 @@ using static Aow.Rtl.DelphiTextCompare;
 namespace Aow.Game.Net;
 
 // games
-public partial class EmailGameControl : EngineObject
+public class EmailGameControl : EngineObject
 {
     // Diplomacy.pas:2489
     public EmailGameControl(CustomNode owner) : base(owner) => _games = new EmailGameList(null) { Holder = CreationHolder() };
@@ -247,9 +247,4 @@ public partial class EmailGameControl : EngineObject
             value?.Dispose();
         }
     }
-
-    // intf_P5_04.inc:29
-
-    // intf_P5_04.inc:29
-
 }

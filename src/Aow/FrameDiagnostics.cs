@@ -29,8 +29,8 @@ internal sealed class FrameDiagnostics : IDisposable
         HeadlessHooks.ProcessCost = Cost;
     }
 
-    public static FrameDiagnostics? Start(string output) =>
-        Environment.GetEnvironmentVariable("AOW_FRAME_DIAGNOSTICS") == "1" ? new(output) : null;
+    public static FrameDiagnostics? Start(string output)
+        => Environment.GetEnvironmentVariable("AOW_FRAME_DIAGNOSTICS") == "1" ? new(output) : null;
 
     private void Random(RandomTraceEvent entry)
     {

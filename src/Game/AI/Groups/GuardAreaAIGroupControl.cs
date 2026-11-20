@@ -10,7 +10,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
-public partial class GuardAreaAIGroupControl(CustomNode owner) : AIGroupControl(owner)
+public class GuardAreaAIGroupControl(CustomNode owner) : AIGroupControl(owner)
 {
     public new GuardAreaAIGroup Group => GetGroup<GuardAreaAIGroup>();
 

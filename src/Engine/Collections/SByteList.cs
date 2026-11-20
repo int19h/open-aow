@@ -11,7 +11,7 @@ using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Engine.Collections;
 
-public partial class SByteList : Persistent
+public class SByteList : Persistent
 {
     private sbyte[] _list = [];
     private int _count;

@@ -9,7 +9,7 @@ namespace Aow.Game.Draw.Images;
 // the pixels are shown with: the image palette, or the copy remapped to the pixel format of the
 // last surface). RegisterPalette (share the palette through the owner's palette manager) and
 // UnregisterPalette (make a private copy again)
-public partial class Image08(CustomImageLibrary owner) : LibraryImage(owner), ILibraryImageClass
+public class Image08(CustomImageLibrary owner) : LibraryImage(owner), ILibraryImageClass
 {
     static LibraryImage ILibraryImageClass.CreateInstance(CustomImageLibrary owner) => new Image08(owner);
 
@@ -134,7 +134,7 @@ public partial class Image08(CustomImageLibrary owner) : LibraryImage(owner), IL
     // ImageLib.pas:7258
     // { ShowDC remaps the palette to pfPAL8 (an original slip: the surface is pfRGB565; ShowOpaque
     //   remaps the palette again when it differs). }
-    public override void ShowDisplayController(Rect? sourceRectangle, Rect? destinationRectangle, int displayController, int bkColor) =>
+    public override void ShowDisplayController(Rect? sourceRectangle, Rect? destinationRectangle, int displayController, int bkColor)
         /* TODO: Implement Windows.WindowFromDC in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 }

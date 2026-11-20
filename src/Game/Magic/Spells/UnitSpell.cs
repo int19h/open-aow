@@ -19,7 +19,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Spells;
 
 // (multiple targets, range, dispel resistance, AI value)
-public partial class UnitSpell : Spell
+public class UnitSpell : Spell
 {
 
     // Spells.PAS:1210

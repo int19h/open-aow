@@ -11,7 +11,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Magic.Spells;
 
 // AIBasePriority
-public partial class GlobalEnchantmentSpell(CustomNode owner) : Spell(owner)
+public class GlobalEnchantmentSpell(CustomNode owner) : Spell(owner)
 {
 
     public int AIBasePriority { get; protected set; } = -1;

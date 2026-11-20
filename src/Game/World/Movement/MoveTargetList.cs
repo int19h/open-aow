@@ -7,7 +7,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.World.Movement;
 
 // reference children
-public partial class MoveTargetList(CustomNode owner) : ReferenceNode(owner), IChildList<MoveTarget>
+public class MoveTargetList(CustomNode owner) : ReferenceNode(owner), IChildList<MoveTarget>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a MoveTarget, so the cast never fails.
@@ -43,9 +43,4 @@ public partial class MoveTargetList(CustomNode owner) : ReferenceNode(owner), IC
 
     // AIGroup.pas:4275
     public void SortOnMovePoints() => Targets.SortOnMovePoints();
-
-    // Engine.pas:631
-
-    // Engine.pas:631
-
 }

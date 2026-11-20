@@ -33,12 +33,20 @@ public sealed class SdlDisplayController(IDisplayHost host, Component owner = nu
             }
             return DisplayControllerError.Ok;
         }
-        catch { _ = Deactivate(); throw; }
+        catch
+        {
+            _ = Deactivate();
+            throw;
+        }
     }
 
     public override DisplayControllerError Deactivate()
     {
-        for (int i = 0; i < _surfaces.Length; i++) { _surfaces[i]?.Dispose(); _surfaces[i] = null; }
+        for (int i = 0; i < _surfaces.Length; i++)
+        {
+            _surfaces[i]?.Dispose();
+            _surfaces[i] = null;
+        }
         return base.Deactivate();
     }
 
@@ -57,8 +65,14 @@ public sealed class SdlDisplayController(IDisplayHost host, Component owner = nu
             return (DisplayControllerError)result;
         }
 
-        try { host.Present(descriptor); }
-        finally { _ = surface.Unlock(); }
+        try
+        {
+            host.Present(descriptor);
+        }
+        finally
+        {
+            _ = surface.Unlock();
+        }
         return DisplayControllerError.Ok;
     }
 
@@ -87,9 +101,17 @@ public sealed class SdlDisplayController(IDisplayHost host, Component owner = nu
         host.ShowSystemCursor(x == -1);
     }
 
-    public override DisplayControllerError Hide() { Status = Status.Without(Visible); return DisplayControllerError.Ok; }
+    public override DisplayControllerError Hide()
+    {
+        Status = Status.Without(Visible);
+        return DisplayControllerError.Ok;
+    }
 
-    public override DisplayControllerError Show() { Status = Status.With(Visible); return DisplayControllerError.Ok; }
+    public override DisplayControllerError Show()
+    {
+        Status = Status.With(Visible);
+        return DisplayControllerError.Ok;
+    }
 
     public override DisplayControllerError SupportDisplayMode(CustomDisplay display) => DisplayControllerError.Ok;
 

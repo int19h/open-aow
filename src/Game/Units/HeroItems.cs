@@ -366,9 +366,4 @@ public partial class HeroItems : ObservableNode, IChildList<Item>, IItemHolder
         HeroItemPosition.None,
         HeroItemPosition.None
     ];
-
-    // intf_P2_06.inc:25
-
-    // intf_P2_06.inc:25
-
 }

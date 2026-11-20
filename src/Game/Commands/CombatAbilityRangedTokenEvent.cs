@@ -18,7 +18,7 @@ using static Aow.Rtl.RtlHost;
 
 namespace Aow.Game.Commands;
 
-public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
 
     // CombatTE.pas:917
@@ -1966,9 +1966,4 @@ public partial class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEven
 
         return deltaX < 0 && result > 0 ? (ushort)(24 - result) : result;
     }
-
-    // NetworkE.pas:230
-
-    // NetworkE.pas:230
-
 }

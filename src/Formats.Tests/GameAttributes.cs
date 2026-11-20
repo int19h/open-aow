@@ -7,11 +7,11 @@ internal static class InstalledGame
 {
     public static string Root => Path.GetFullPath(Checker.GameRoot);
 
-    public static bool Present =>
-        File.Exists(Path.Combine(Root, "Release", "Release.hss")) && Directory.Exists(Path.Combine(Root, "Scenario", "Custom"));
+    public static bool Present
+        => File.Exists(Path.Combine(Root, "Release", "Release.hss")) && Directory.Exists(Path.Combine(Root, "Scenario", "Custom"));
 
-    public static string? SkipReason =>
-        Present ? null : $"The installed game is absent: {Root}. Set AOW_GAME_ROOT to the game installation.";
+    public static string? SkipReason
+        => Present ? null : $"The installed game is absent: {Root}. Set AOW_GAME_ROOT to the game installation.";
 }
 
 /// <summary>A fact that skips with the resolved root when the installed game is absent.</summary>

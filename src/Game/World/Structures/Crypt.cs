@@ -11,7 +11,7 @@ public partial class Crypt(CustomNode owner) : ItemExplorationSite(owner)
     // Crypt.pas:34
     public new const int ClassId = 131850;
 
-    public new partial class Resource(CustomNode owner) : ItemExplorationSiteResource(owner)
+    public new class Resource(CustomNode owner) : ItemExplorationSiteResource(owner)
     {
 
         // Crypt.pas:40
@@ -26,5 +26,4 @@ public partial class Crypt(CustomNode owner) : ItemExplorationSite(owner)
         private static readonly string s_cryptText = "Crypt";
 
     }
-
 }

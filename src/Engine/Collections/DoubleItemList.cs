@@ -9,7 +9,7 @@ using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Engine.Collections;
 
-public partial class DoubleItemList : Persistent
+public class DoubleItemList : Persistent
 {
     private DoubleItem[] _list = [];
     private int _count;

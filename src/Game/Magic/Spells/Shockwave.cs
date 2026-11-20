@@ -10,7 +10,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Spells;
 
 // inherited spell ID, combat statistics, damage mode
-public partial class Shockwave : CombatSpell
+public class Shockwave : CombatSpell
 {
     // CombatSpells.pas:1919
     public Shockwave(CustomNode owner, EngineObject holder) : base(owner)

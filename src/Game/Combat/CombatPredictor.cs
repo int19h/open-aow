@@ -21,7 +21,7 @@ namespace Aow.Game.Combat;
 
 // AllUnits. ActiveUnits. Sides. Result. Superiority. Efficiency. Wall. Round.
 // NextCpuId. Invalid. Work
-public partial class CombatPredictor : IDisposable
+public class CombatPredictor : IDisposable
 {
     // CombatPredictor.pas:292
     public CombatPredictor(EngineObject creator)
@@ -883,9 +883,4 @@ public partial class CombatPredictor : IDisposable
     }
 
     private static int CompareRequiredUnits(in DoubleItem<CombatPredictorUnit> A, in DoubleItem<CombatPredictorUnit> B) => B.Second - A.Second;
-
-    // intf_P3_01.inc:92
-
-    // intf_P3_01.inc:92
-
 }

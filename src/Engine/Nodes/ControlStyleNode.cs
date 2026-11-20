@@ -5,7 +5,7 @@ using Aow.Rtl;
 namespace Aow.Engine.Nodes;
 
 // _controlStyle
-public partial class ControlStyleNode : OwningNode
+public class ControlStyleNode : OwningNode
 {
     // Engine.pas:8199
     public new const int ClassId = 257;
@@ -26,5 +26,4 @@ public partial class ControlStyleNode : OwningNode
         base.PersistFields(persister);
         _controlStyle = persister.Set("ControlStyle", value: _controlStyle);
     }
-
 }

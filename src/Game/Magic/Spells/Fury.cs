@@ -10,7 +10,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class Fury : UnitSpell
+public class Fury : UnitSpell
 {
     // UnitSpells.pas:336
     public Fury(CustomNode owner, EngineObject holder) : base(owner)

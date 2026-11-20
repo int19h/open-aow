@@ -13,15 +13,13 @@ using Aow.Game.World.Structures;
 namespace Aow.Game.World.Terrain;
 
 // CropOwner
-public partial class Crop(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
+public class Crop(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
 {
 
     // Crops.pas:119
     public new const int ClassId = 131946;
 
     public PlayerCropStructure CropOwner { get; private set; }
-
-    // Crops.pas:109
 
     // Crops.pas:151
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
@@ -173,7 +171,7 @@ public partial class Crop(CustomNode owner) : ImageLibraryTerrainMapObject(owner
         SetCropOwner(found);
     }
 
-    public new partial class Resource(CustomNode owner) : ImageLibraryTerrainMapObjectResource(owner)
+    public new class Resource(CustomNode owner) : ImageLibraryTerrainMapObjectResource(owner)
     {
 
         // Crops.pas:245
@@ -207,7 +205,4 @@ public partial class Crop(CustomNode owner) : ImageLibraryTerrainMapObject(owner
         private static readonly string s_cropText = "Crops";
 
     }
-
-    // Crops.pas:68
-
 }

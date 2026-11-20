@@ -688,5 +688,4 @@ public partial class InfoWindow(UIContext ui) : UIModule(ui)
         DelphiStringCollection description = structure.GetDescription();
         dialog.SingleButtonMemo.Items.Assign(description);
     }
-
 }

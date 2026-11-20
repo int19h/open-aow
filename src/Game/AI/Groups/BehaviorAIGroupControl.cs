@@ -5,7 +5,7 @@ using Aow.Engine.Nodes;
 namespace Aow.Game.AI.Groups;
 
 // TargetSelector
-public partial class BehaviorAIGroupControl : AIGroupControl
+public class BehaviorAIGroupControl : AIGroupControl
 {
     public AIGroupTargetSelector TargetSelector { get; }
 

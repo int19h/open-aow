@@ -13,7 +13,7 @@ using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.Commands;
 
-public partial class FireBarrierTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
+public class FireBarrierTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
 {
     public new const int ClassId = 135940;
 
@@ -53,7 +53,4 @@ public partial class FireBarrierTokenEvent(CustomNode owner) : GlobalTargetSpell
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
     }
-
-    // NetworkE.pas:230
-
 }

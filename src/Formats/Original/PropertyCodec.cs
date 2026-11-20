@@ -11,7 +11,7 @@ namespace Aow.Formats.Original;
 /// document value and back through its own virtual methods, so new kinds join the family
 /// without a switch in the object codec.
 /// </summary>
-public abstract partial class PropertyCodec
+public abstract class PropertyCodec
 {
     /// <summary>A codec whose presence is its value stores no bytes.</summary>
     public virtual bool ZeroSize => false;
@@ -59,38 +59,38 @@ public abstract partial class PropertyCodec
     }
 
     /// <summary>Reads a member stored as two entries, the member's id and its data id. Either can be absent.</summary>
-    internal virtual Tree.TreeValue ReadPairImage(DecodeContext context, (int Start, int End)? first, (int Start, int End)? second, ImageFrame frame) =>
-        throw new InvalidOperationException($"{GetType().Name} stores one entry.");
+    internal virtual Tree.TreeValue ReadPairImage(DecodeContext context, (int Start, int End)? first, (int Start, int End)? second, ImageFrame frame)
+        => throw new InvalidOperationException($"{GetType().Name} stores one entry.");
 
     /// <summary>True when one member is several original entries, as a coordinate is.</summary>
     internal virtual bool GroupsEntries => false;
 
     /// <summary>Reads the entries of a grouped member. The base stores one entry.</summary>
-    internal virtual Tree.TreeValue ReadGroupImage(DecodeContext context, IReadOnlyList<SlotImage> entries, ImageFrame frame) =>
-        throw new InvalidOperationException($"{GetType().Name} stores one entry.");
+    internal virtual Tree.TreeValue ReadGroupImage(DecodeContext context, IReadOnlyList<SlotImage> entries, ImageFrame frame)
+        => throw new InvalidOperationException($"{GetType().Name} stores one entry.");
 
     /// <summary>Reads the entries of a grouped member into a document value. The base stores one entry.</summary>
-    internal virtual JsonValue DecodeGroup(DecodeContext context, IReadOnlyList<SlotImage> entries, ValueSite site) =>
-        throw new InvalidOperationException($"{GetType().Name} stores one entry.");
+    internal virtual JsonValue DecodeGroup(DecodeContext context, IReadOnlyList<SlotImage> entries, ValueSite site)
+        => throw new InvalidOperationException($"{GetType().Name} stores one entry.");
 
     /// <summary>
     /// Writes the entries of a dynamic member into the object's table. The base refuses the
     /// member. A created member overrides it, keyed by slot or in sequence.
     /// </summary>
-    internal virtual void WriteSlotsImage(Tree.TreeValue value, EncodeContext context, ObjectWriter writer, ImageFrame frame) =>
-        throw context.Fail(Codes.Type, "PE-3 still needs a dynamic member. The direct path does not store it.", null, frame.Path);
+    internal virtual void WriteSlotsImage(Tree.TreeValue value, EncodeContext context, ObjectWriter writer, ImageFrame frame)
+        => throw context.Fail(Codes.Type, "PE-3 still needs a dynamic member. The direct path does not store it.", null, frame.Path);
 
     /// <summary>Reads the stored entries of a dynamic member, in data order. The base refuses the member.</summary>
-    internal virtual Tree.TreeValue ReadSlotsImage(DecodeContext context, IReadOnlyList<SlotImage> entries, ImageFrame frame) =>
-        throw context.Fail(Codes.Type, "PE-3 still needs a dynamic member. The direct path does not store it.", entries[0].Start, frame.Path);
+    internal virtual Tree.TreeValue ReadSlotsImage(DecodeContext context, IReadOnlyList<SlotImage> entries, ImageFrame frame)
+        => throw context.Fail(Codes.Type, "PE-3 still needs a dynamic member. The direct path does not store it.", entries[0].Start, frame.Path);
 
     /// <summary>Writes a dynamic member as its document array. The base refuses the member.</summary>
-    internal virtual JsonValue WriteSlotsTree(Tree.TreeValue value, Tree.DocumentSite site) =>
-        throw site.Fail(Codes.Type, "PE-1 does not store a dynamic member.");
+    internal virtual JsonValue WriteSlotsTree(Tree.TreeValue value, Tree.DocumentSite site)
+        => throw site.Fail(Codes.Type, "PE-1 does not store a dynamic member.");
 
     /// <summary>Reads a dynamic member's document array. The base refuses the member.</summary>
-    internal virtual Tree.TreeValue ReadSlotsTree(JsonValue value, Tree.DocumentSite site) =>
-        throw site.Fail(Codes.Type, "PE-1 does not store a dynamic member.", value);
+    internal virtual Tree.TreeValue ReadSlotsTree(JsonValue value, Tree.DocumentSite site)
+        => throw site.Fail(Codes.Type, "PE-1 does not store a dynamic member.", value);
 
     /// <summary>The document value is a JSON array for this codec at this version.</summary>
     internal virtual bool AcceptsDocumentArray(int version) => AcceptsList(version);
@@ -144,11 +144,11 @@ public abstract partial class PropertyCodec
         };
     }
 
-    private static string TypeName(JsonObject source, string key) =>
-        (source[key] as JsonString)?.Value ?? throw new InvalidOperationException($"A {key} codec names its C# type.");
+    private static string TypeName(JsonObject source, string key)
+        => (source[key] as JsonString)?.Value ?? throw new InvalidOperationException($"A {key} codec names its C# type.");
 
-    private static int Width(JsonObject source) =>
-        source["width"] is JsonInteger width ? (int)width.Value : throw new InvalidOperationException("The codec needs a width.");
+    private static int Width(JsonObject source)
+        => source["width"] is JsonInteger width ? (int)width.Value : throw new InvalidOperationException("The codec needs a width.");
 
     private static int CheckedWidth(JsonObject source, string path, string kind)
     {
@@ -160,17 +160,17 @@ public abstract partial class PropertyCodec
 
     private static bool Signed(JsonObject source) => source["signed"] is JsonBoolean { Value: true };
 
-    private static int Count(JsonObject source) =>
-        source["count"] is JsonInteger count ? (int)count.Value : throw new InvalidOperationException("An integer array needs a count.");
+    private static int Count(JsonObject source)
+        => source["count"] is JsonInteger count ? (int)count.Value : throw new InvalidOperationException("An integer array needs a count.");
 
-    private static string CountName(JsonObject source, string path) =>
-        (source["count"] as JsonString)?.Value ?? throw new InvalidOperationException($"{path} bit array names its count property.");
+    private static string CountName(JsonObject source, string path)
+        => (source["count"] as JsonString)?.Value ?? throw new InvalidOperationException($"{path} bit array names its count property.");
 
-    private static string MemberName(JsonObject source, string key, string path) =>
-        (source[key] as JsonString)?.Value ?? throw new InvalidOperationException($"{path} terrain grid names its {key} property.");
+    private static string MemberName(JsonObject source, string key, string path)
+        => (source[key] as JsonString)?.Value ?? throw new InvalidOperationException($"{path} terrain grid names its {key} property.");
 
-    private static int CheckedSize(JsonObject source, string path) =>
-        source["size"] is JsonInteger size && size.Value > 0 ? (int)size.Value : throw new InvalidOperationException($"{path} record needs a size.");
+    private static int CheckedSize(JsonObject source, string path)
+        => source["size"] is JsonInteger size && size.Value > 0 ? (int)size.Value : throw new InvalidOperationException($"{path} record needs a size.");
 
     private static bool Raw(JsonObject source) => source["raw"] is JsonBoolean { Value: true };
 
@@ -202,27 +202,27 @@ public abstract partial class PropertyCodec
         writer.End();
     }
 
-    internal virtual JsonValue DecodeElement(DecodeContext context, int start, int end, ValueSite site) =>
-        throw new InvalidOperationException($"{GetType().Name} has no dynamic elements.");
+    internal virtual JsonValue DecodeElement(DecodeContext context, int start, int end, ValueSite site)
+        => throw new InvalidOperationException($"{GetType().Name} has no dynamic elements.");
 
-    internal virtual int ElementId(EncodeContext context, JsonValue value, SchemaProperty property, int index, DocumentNodePath path) =>
-        throw new InvalidOperationException($"{GetType().Name} has no dynamic elements.");
+    internal virtual int ElementId(EncodeContext context, JsonValue value, SchemaProperty property, int index, DocumentNodePath path)
+        => throw new InvalidOperationException($"{GetType().Name} has no dynamic elements.");
 
     internal virtual void EncodeElement(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site) => Encode(context, value, data, site);
 
     /// <summary>Writes a tree value as its document value. Null means the member is omitted.</summary>
-    internal virtual JsonValue? WriteTree(Tree.TreeValue value, Tree.DocumentSite site) =>
-        throw site.Mismatch($"{site.Property?.Name ?? "The value"} does not store this value.");
+    internal virtual JsonValue? WriteTree(Tree.TreeValue value, Tree.DocumentSite site)
+        => throw site.Mismatch($"{site.Property?.Name ?? "The value"} does not store this value.");
 
     /// <summary>Reads a document value into a tree value. Null means the member is absent.</summary>
-    internal virtual Tree.TreeValue? ReadTree(JsonValue value, Tree.DocumentSite site) =>
-        throw site.Mismatch($"{site.Property?.Name ?? "The value"} does not store this value.", value);
+    internal virtual Tree.TreeValue? ReadTree(JsonValue value, Tree.DocumentSite site)
+        => throw site.Mismatch($"{site.Property?.Name ?? "The value"} does not store this value.", value);
 
-    internal virtual JsonValue DecodePair(DecodeContext context, (int Start, int End)? first, (int Start, int End)? second, ValueSite site) =>
-        throw new InvalidOperationException($"{GetType().Name} stores one entry.");
+    internal virtual JsonValue DecodePair(DecodeContext context, (int Start, int End)? first, (int Start, int End)? second, ValueSite site)
+        => throw new InvalidOperationException($"{GetType().Name} stores one entry.");
 
-    private protected static ConversionException Mismatch(DecodeContext context, int start, ValueSite site, string message) =>
-        context.Fail(Codes.Corrupt, message, start, site.Path);
+    private protected static ConversionException Mismatch(DecodeContext context, int start, ValueSite site, string message)
+        => context.Fail(Codes.Corrupt, message, start, site.Path);
 
     protected static string Text(long value) => value.ToString(CultureInfo.InvariantCulture);
 }

@@ -14,7 +14,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class PowerLeak : GlobalEnchantmentSpell
+public class PowerLeak : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:1036
     public PowerLeak(CustomNode owner, EngineObject holder) : base(owner)

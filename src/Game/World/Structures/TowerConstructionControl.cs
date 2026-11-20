@@ -8,7 +8,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.World.Structures;
 
-public partial class TowerConstructionControl(CustomNode owner) : StructureConstructionControl(owner)
+public class TowerConstructionControl(CustomNode owner) : StructureConstructionControl(owner)
 {
 
     // Tower.pas:139

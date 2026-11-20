@@ -18,7 +18,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class TownQuake : CityTargetSpell
+public class TownQuake : CityTargetSpell
 {
     // CitySpells.pas:764
     public TownQuake(CustomNode owner, EngineObject holder) : base(owner)

@@ -7,7 +7,7 @@ using Aow.Game.Units;
 
 namespace Aow.Game.Magic.Abilities;
 
-public partial class CharmAbility : CommandAbility
+public class CharmAbility : CommandAbility
 {
     // AoWAb.PAS:5339
     public CharmAbility(CustomNode owner, EngineObject holder) : base(owner)

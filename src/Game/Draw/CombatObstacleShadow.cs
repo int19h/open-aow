@@ -6,7 +6,7 @@ using Aow.Game.World;
 
 namespace Aow.Game.Draw;
 
-public partial class CombatObstacleShadow(CustomNode owner) : HexSprite(owner)
+public class CombatObstacleShadow(CustomNode owner) : HexSprite(owner)
 {
     public CombatObstacle Obstacle { get; init; }
 
@@ -15,7 +15,4 @@ public partial class CombatObstacleShadow(CustomNode owner) : HexSprite(owner)
 
     // CombatObstacle.pas:79
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface) => Obstacle.ShowShadow(pixelXSurface, pixelYSurface, lockedSurface);
-
-    // Engine.pas:524
-
 }

@@ -11,15 +11,13 @@ namespace Aow.Game.World;
 // { The Bridge unit of HSEPack.dpl: a bridge over water (TBridge, ClassID $20174, an overlay at level
 //   10) whose image is chosen from the roads and shores around it (TBridgeResource, ClassID $20175). }
 // FTransitions (two bits per side HN 1.6: 0 none, 1 a road, 2 the shore the bridge reaches)
-public partial class Bridge(CustomNode owner) : AbstractRoad(owner)
+public class Bridge(CustomNode owner) : AbstractRoad(owner)
 {
 
     // Bridge.pas:48
     public new const int ClassId = 131444;
 
     private ushort _transitions;
-
-    // Bridge.pas:43
 
     // Bridge.pas:53
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
@@ -208,14 +206,12 @@ public partial class Bridge(CustomNode owner) : AbstractRoad(owner)
         _transitions = (ushort)transitions;
     }
 
-    public new partial class Resource : AbstractRoadResource
+    public new class Resource : AbstractRoadResource
     {
         public Resource(CustomNode owner) : base(owner) => SetLevel(10);
 
         // Bridge.pas:205
         public new const int ClassId = 131445;
-
-        // Bridge.pas:189
 
         // Bridge.pas:195
         public override int ResourceUserClassId() => 131444;
@@ -311,13 +307,8 @@ public partial class Bridge(CustomNode owner) : AbstractRoad(owner)
             }
         }
 
-        // Bridge.pas:28
-
         // Bridge.pas:200
         public override string ResourceEditName() => HexText.BridgeText;
 
     }
-
-    // Bridge.pas:18
-
 }

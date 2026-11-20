@@ -358,7 +358,4 @@ public partial class CombatPredictorUnit : IDisposable
             Status += Set<CombatPredictorUnitStatusElement>.Of(CombatPredictorUnitStatusElement.Destroyed);
         }
     }
-
-    // intf_P3_01.inc:38
-
 }

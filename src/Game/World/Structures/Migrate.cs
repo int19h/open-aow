@@ -6,7 +6,7 @@ using Aow.Rtl;
 namespace Aow.Game.World.Structures;
 
 // Production id 13: the city's people move out and Race moves in.
-public sealed partial record Migrate(int Race) : ProductionOrder
+public sealed record Migrate(int Race) : ProductionOrder
 {
     public const int Kind = 13;
 

@@ -3,7 +3,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.Magic.Abilities;
 
-public partial class StrikeEnhancementAbility : AdjustableAbility
+public class StrikeEnhancementAbility : AdjustableAbility
 {
 
     // AoWAb.PAS:1475

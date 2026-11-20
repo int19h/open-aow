@@ -10,7 +10,7 @@ namespace Aow.Engine.Storage;
 //   by tools/match.py. TFastMemoryStream is Delphi 3's TMemoryStream with a direct Position field, a
 //   32/128-byte capacity granularity and one-, two- and four-byte fast paths in Read and Write. }
 // _memory, _size, _position, _capacity
-public partial class FastMemoryStream : Stream
+public class FastMemoryStream : Stream
 {
     private byte[] _memory = [];
     private int _size;

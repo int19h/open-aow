@@ -10,7 +10,7 @@ using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Game.Draw.Images;
 
-public partial class FrameTableList : Persistent
+public class FrameTableList : Persistent
 {
     private int _count;
     private int _capacity;

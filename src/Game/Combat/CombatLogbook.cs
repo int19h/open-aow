@@ -6,7 +6,7 @@ using Aow.Formats.Tree;
 namespace Aow.Game.Combat;
 
 // RefCount. InitialData. FinalData. Actions. result flag
-public partial class CombatLogbook : EngineObject
+public class CombatLogbook : EngineObject
 {
     // Combat2.pas:381
     public new const int ClassId = 131749;
@@ -84,7 +84,4 @@ public partial class CombatLogbook : EngineObject
 
     // Combat2.pas:371
     public void SetFinalData(CombatData data) => FinalData.Assign(data, GetEngine());
-
-    // intf_P3_02.inc:278
-
 }

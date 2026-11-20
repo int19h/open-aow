@@ -9,7 +9,7 @@ using Aow.Rtl;
 namespace Aow.Game.Units;
 
 // inherited children, update lock. change event
-public partial class ItemList(CustomNode owner) : ObservableNode(owner), IChildList<Item>, IItemHolder
+public class ItemList(CustomNode owner) : ObservableNode(owner), IChildList<Item>, IItemHolder
 {
     /// <summary>The items of this list.</summary>
     public ItemCollection Items => new(this);
@@ -140,9 +140,4 @@ public partial class ItemList(CustomNode owner) : ObservableNode(owner), IChildL
     public static int CompareItemNames(Item item1, Item item2) => item1 is not null && item2 is not null
         ? DelphiTextCompare.CompareText(item1.OwnerName, item2.OwnerName)
         : 0;
-
-    // intf_P2_04.inc:118
-
-    // intf_P2_04.inc:118
-
 }

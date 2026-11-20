@@ -11,7 +11,7 @@ using static Aow.Rtl.DelphiPaths;
 namespace Aow.Game.Commands;
 
 // save filename
-public partial class SaveGameTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class SaveGameTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
     public new const int ClassId = 135444;
 
@@ -76,9 +76,4 @@ public partial class SaveGameTokenEvent(CustomNode owner) : TokenEvent(owner)
 
     private static readonly string s_savingGameFormat = "saving: %s";
     private static readonly string s_errorSavingFormat = "Error saving: %s";
-
-    // NetworkE.pas:230
-
-    // NetworkE.pas:230
-
 }

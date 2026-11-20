@@ -14,7 +14,7 @@ namespace Aow.Game.Events;
 
 // { Interface declaration run owned by P1. }
 // reason, disconnected player
-public partial class PlayerConnectionEventLog(CustomNode owner, EngineObject holder) : MessageEventLog(owner, holder)
+public class PlayerConnectionEventLog(CustomNode owner, EngineObject holder) : MessageEventLog(owner, holder)
 {
     private byte _reason;
     private sbyte _disconnectedPlayer;

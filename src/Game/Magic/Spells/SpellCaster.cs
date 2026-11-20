@@ -8,7 +8,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Magic.Spells;
 
 // (spell ID, source ID, refcount)
-public partial class SpellCaster(CustomNode owner) : EngineObject(owner)
+public class SpellCaster(CustomNode owner) : EngineObject(owner)
 {
     public int CasterSpellId { get; set; }
     public int CasterSourceId { get; set; }

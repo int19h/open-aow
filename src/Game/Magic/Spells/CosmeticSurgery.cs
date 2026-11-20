@@ -12,7 +12,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class CosmeticSurgery : UnitSpell
+public class CosmeticSurgery : UnitSpell
 {
     // UnitSpells.pas:901
     public CosmeticSurgery(CustomNode owner, EngineObject holder) : base(owner)

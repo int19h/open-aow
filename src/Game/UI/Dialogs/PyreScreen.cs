@@ -243,5 +243,4 @@ public partial class PyreScreen(UIContext ui) : UIModule(ui)
             dialog._animation = null;
         }
     }
-
 }

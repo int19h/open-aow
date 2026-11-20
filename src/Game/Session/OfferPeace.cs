@@ -8,7 +8,7 @@ using Aow.Rtl;
 namespace Aow.Game.Session;
 
 // Kind 1: the source offers the target peace.
-public sealed partial record OfferPeace(int Gold = 0, int Mana = 0) : OfferProposal(Gold, Mana)
+public sealed record OfferPeace(int Gold = 0, int Mana = 0) : OfferProposal(Gold, Mana)
 {
     public const byte Kind = 1;
 
@@ -26,13 +26,13 @@ public sealed partial record OfferPeace(int Gold = 0, int Mana = 0) : OfferPropo
 
     public override string LoggedSample => "SFX\\EVENTS\\MESSAGE2.WAV";
 
-    public override void DefaultMessage(DiplomaticMessageText text, DiplomaticActionReaction reaction, DiplomaticRelation relation) =>
-        text.Exchange(reaction, relation == DiplomaticRelation.Unknown ? 103 : 154, 127, 130);
+    public override void DefaultMessage(DiplomaticMessageText text, DiplomaticActionReaction reaction, DiplomaticRelation relation)
+        => text.Exchange(reaction, relation == DiplomaticRelation.Unknown ? 103 : 154, 127, 130);
 
     public override void Sent(DiplomaticAction action) => Deliver(action);
 
-    public override bool LapsesUnanswered(DiplomaticAction action) =>
-        Relation(action.Source, action.Target) != DiplomaticRelation.Peace;
+    public override bool LapsesUnanswered(DiplomaticAction action)
+        => Relation(action.Source, action.Target) != DiplomaticRelation.Peace;
 
     public override void Accepted(DiplomaticAction action)
     {
@@ -41,8 +41,8 @@ public sealed partial record OfferPeace(int Gold = 0, int Mana = 0) : OfferPropo
         RemoveTargetLog(action);
     }
 
-    public override DiplomaticActionReaction RejectReaction(DiplomaticAction action) =>
-        Relation(action.Source, action.Target) != DiplomaticRelation.Peace ? DiplomaticActionReaction.Reject : DiplomaticActionReaction.Ignore;
+    public override DiplomaticActionReaction RejectReaction(DiplomaticAction action)
+        => Relation(action.Source, action.Target) != DiplomaticRelation.Peace ? DiplomaticActionReaction.Reject : DiplomaticActionReaction.Ignore;
 
     public override void AnswerAI(DiplomaticAction action, sbyte player, DiplomaticRelation relation, ByteList idealPeace, ByteList idealWar)
     {

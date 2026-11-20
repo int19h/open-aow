@@ -11,7 +11,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class EarthMasteryEnchantment : GlobalEnchantment
+public class EarthMasteryEnchantment : GlobalEnchantment
 {
     // GlobalEnchantmentSpells.pas:1828
     public new const int ClassId = 135970;
@@ -85,5 +85,4 @@ public partial class EarthMasteryEnchantment : GlobalEnchantment
 
         return true;
     }
-
 }

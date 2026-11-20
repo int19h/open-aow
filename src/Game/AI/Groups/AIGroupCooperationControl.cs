@@ -18,7 +18,7 @@ namespace Aow.Game.AI.Groups;
 
 // completion, control, groups, mode, remaining strength, remaining strengths, path factor,
 // target, strength, damage types, strengths, required superiority
-public partial class AIGroupCooperationControl : AIGroupTask
+public class AIGroupCooperationControl : AIGroupTask
 {
     // AIGroup.pas:2839
     public AIGroupCooperationControl(CustomNode owner) : base(owner) => Groups = new AIRecruitmentGroupList(null) { Holder = CreationHolder() };
@@ -298,9 +298,4 @@ public partial class AIGroupCooperationControl : AIGroupTask
     {
         None = 0, AutoCooperate = 1, CompleteCooperateOnly = 2
     }
-
-    // intf_P5_07.inc:431
-
-    // intf_P5_07.inc:431
-
 }

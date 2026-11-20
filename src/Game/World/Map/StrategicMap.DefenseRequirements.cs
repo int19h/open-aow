@@ -38,6 +38,9 @@ public partial class StrategicMap
                 HexNumberWalkData.WalkToNextHexNumber(ref walk);
             }
         }
-        finally { info = query.Info; }
+        finally
+        {
+            info = query.Info;
+        }
     }
 }

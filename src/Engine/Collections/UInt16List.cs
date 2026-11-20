@@ -11,7 +11,7 @@ using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Engine.Collections;
 
-public partial class UInt16List : Persistent
+public class UInt16List : Persistent
 {
     private ushort[] _list = [];
     private int _count;

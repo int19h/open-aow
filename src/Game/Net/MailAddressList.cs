@@ -2,15 +2,15 @@
 
 namespace Aow.Game.Net;
 
-public partial class MailAddressList
+public class MailAddressList
 {
     // E3IMSTypes.pas:19
-    public void Clear() =>
+    public void Clear()
         /* TODO: Implement TmsAddressList.Clear. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     // E3IMSTypes.pas:20
-    public void AddAddress(string address, string name) =>
+    public void AddAddress(string address, string name)
         /* TODO: Implement TmsAddressList.AddAddress. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 }

@@ -16,7 +16,7 @@ using static Aow.Rtl.DelphiRounding;
 namespace Aow.Game.Commands;
 
 // animation
-public partial class HealingShowersTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
+public class HealingShowersTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
 {
 
     // GlobalTargetSpells.pas:2138
@@ -193,7 +193,4 @@ public partial class HealingShowersTokenEvent(CustomNode owner) : GlobalTargetSp
                 break;
         }
     }
-
-    // NetworkE.pas:230
-
 }

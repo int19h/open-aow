@@ -76,5 +76,4 @@ public partial class PasswordDialog(UIContext ui) : UIModule(ui)
         dialog.PasswordEdit.Redraw = true;
         dialog.Window.Visible = true;
     }
-
 }

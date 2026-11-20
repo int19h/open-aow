@@ -14,7 +14,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class LifeMastery : GlobalEnchantmentSpell
+public class LifeMastery : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:1441
     public LifeMastery(CustomNode owner, EngineObject holder) : base(owner)

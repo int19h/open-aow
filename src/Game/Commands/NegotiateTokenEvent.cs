@@ -16,7 +16,7 @@ namespace Aow.Game.Commands;
 
 // Gold, Offer, X/Y/L, ArmyId, Player, OwnerPlayer, ArmyHexSprite, Object, MovePoints, Selection, Mode,
 // Result, EventLogID
-public partial class NegotiateTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class NegotiateTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
 
     // Diplomacy.pas:133
@@ -163,5 +163,4 @@ public partial class NegotiateTokenEvent(CustomNode owner) : TokenEvent(owner)
     {
         Unknown = 0, Accept = 1, Reject = 2
     }
-
 }

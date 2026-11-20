@@ -11,7 +11,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Abilities;
 
 // (construction controls)
-public partial class ConstructAbility : AdjustableAbility
+public class ConstructAbility : AdjustableAbility
 {
     // AoWAb.PAS:5537
     public ConstructAbility(CustomNode owner, EngineObject holder) : base(owner)

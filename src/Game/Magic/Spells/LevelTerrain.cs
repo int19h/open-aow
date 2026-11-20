@@ -16,7 +16,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class LevelTerrain : GlobalTargetSpell
+public class LevelTerrain : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:978
     public LevelTerrain(CustomNode owner, EngineObject holder) : base(owner)

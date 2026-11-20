@@ -17,7 +17,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class TownGate : CityTargetSpell
+public class TownGate : CityTargetSpell
 {
     // CitySpells.pas:421
     public TownGate(CustomNode owner, EngineObject holder) : base(owner)

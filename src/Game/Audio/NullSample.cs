@@ -7,8 +7,8 @@ internal class NullSample : Sample
     private protected NullSample(ConstructionContext context, SampleData data) : base(context, data)
     { }
 
-    public static new NullSample Create(SampleData data) =>
-            ConstructionContext.Create(data, static (context, value) => new NullSample(context, value));
+    public static new NullSample Create(SampleData data)
+            => ConstructionContext.Create(data, static (context, value) => new NullSample(context, value));
 
     private int _volume;
     private bool _looped;

@@ -12,7 +12,7 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Game.Commands;
 
 // { ot=1 }
-public partial class TacticalBattleEndTurnTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class TacticalBattleEndTurnTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
 
     // CombatTE.pas:175
@@ -55,7 +55,4 @@ public partial class TacticalBattleEndTurnTokenEvent(CustomNode owner) : TokenEv
         CombatMap.Current.NewTurn((sbyte)turnOrder2);
         return ExecuteResult.Done;
     }
-
-    // NetworkE.pas:230
-
 }

@@ -9,7 +9,7 @@ using Aow.Game.World.Structures;
 namespace Aow.Game.AI.Groups;
 
 // references, production control, location, moves, transporter, path strength
-public partial class AIGroupProductionLocation(CustomNode owner) : EngineObject(owner), IOwned<AIGroupProductionLocationList>, IOwnedSink<AIGroupProductionLocationList>
+public class AIGroupProductionLocation(CustomNode owner) : EngineObject(owner), IOwned<AIGroupProductionLocationList>, IOwnedSink<AIGroupProductionLocationList>
 {
     // A reference list holds the location and owns it only while the list saves or loads it, and
     // nothing else owns it. AcceptsOwner admits only that list.
@@ -49,7 +49,4 @@ public partial class AIGroupProductionLocation(CustomNode owner) : EngineObject(
 
     // AIGroup.pas:903
     public virtual bool Validate(AIGroupControl control) => true;
-
-    // intf_P5_07.inc:190
-
 }

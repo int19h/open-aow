@@ -14,7 +14,7 @@ namespace Aow.Game.Draw.Images;
 // image - 1), FSequenceMode, FFrameTable (the image indices of smFrameTable and
 // smRndFrameTable), FImageIndex (the image of smNone, the random start of smRandom and
 // smRndFrameTable), _offsetX, _offsetY, _lastFrame, _speedCount, _frameCounter
-public partial class ImageSequence(ImageSequenceList owner) : IDisposable
+public class ImageSequence(ImageSequenceList owner) : IDisposable
 {
     private byte _layer;
     private string _imageLibraryName = "";
@@ -472,14 +472,14 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
     }
 
     // ImageLib.pas:8865
-    public void SaveToIniFile(string section, IniFile iniFile) =>
+    public void SaveToIniFile(string section, IniFile iniFile)
         /* TODO: Implement IniFiles.WriteString in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     // ImageLib.pas:8880
-    public void LoadFromIniFile(string section, IniFile iniFile) =>
+    public void LoadFromIniFile(string section, IniFile iniFile)
         /* TODO: Implement IniFiles.ReadString in the platform or editor service. */
-        throw new NotImplementedException();
+        => throw new NotImplementedException();
 
     public ImageSequenceList Owner { get; } = owner;
     public byte Layer { get => _layer; set => _layer = value; }
@@ -516,5 +516,4 @@ public partial class ImageSequence(ImageSequenceList owner) : IDisposable
         throw new NotImplementedException();
         surface?.Dispose();
     }
-
 }

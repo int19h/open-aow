@@ -10,7 +10,7 @@ namespace Aow.Game.Commands;
 
 // { ot=1 }
 // packed target coordinates. target owner
-public partial class CityTargetSpellTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
+public class CityTargetSpellTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
 {
 
     // CitySpells.pas:170
@@ -45,12 +45,9 @@ public partial class CityTargetSpellTokenEvent(CustomNode owner) : SpellTokenEve
     // CitySpells.pas:182
     public void SetLocation(MapCoordinate location) => _targetLocation = location;
 
-    public void SetLocation(sbyte x, sbyte y, sbyte level) =>
-        SetLocation(new MapCoordinate(x, y, level));
+    public void SetLocation(sbyte x, sbyte y, sbyte level)
+        => SetLocation(new MapCoordinate(x, y, level));
 
     // CitySpells.pas:204
     public City GetSelectedCity() => StrategicMap.Current.MapContainer.GetFieldMapCoordinate(_targetLocation).FindNoneTransparentHexSprite<City>();
-
-    // NetworkE.pas:230
-
 }

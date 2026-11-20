@@ -15,7 +15,7 @@ namespace Aow.Game.UI.Windows;
 // FShowing, FControlRect (the control on the screen. the tip shows at its bottom right),
 // FItemIndex, FItemRect (the line being drawn, for OnDrawItem), FLines (Items broken into lines
 // that fit)
-public partial class ToolTip : GenericWindow
+public class ToolTip : GenericWindow
 {
     private readonly DelphiStringList _items;
     [Published]

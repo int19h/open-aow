@@ -13,7 +13,7 @@ using Aow.Rtl;
 namespace Aow.Game.Units;
 
 // NextUnitId. UnitTable. Units
-public partial class UnitControl(CustomNode owner) : EngineObject(owner)
+public class UnitControl(CustomNode owner) : EngineObject(owner)
 {
 
     private int _nextUnitId = 1;
@@ -58,8 +58,8 @@ public partial class UnitControl(CustomNode owner) : EngineObject(owner)
     public Troop FindUnit(int id) => UnitTable.TryGetValue(id, out Troop found) ? found : null;
 
     // Null when the id is missing or the stored unit is not a T.
-    public T FindUnit<T>(int id) where T : Troop =>
-        UnitTable.TryGetValue(id, out Troop found) && found is T typed ? typed : null;
+    public T FindUnit<T>(int id) where T : Troop
+        => UnitTable.TryGetValue(id, out Troop found) && found is T typed ? typed : null;
 
     // Unit.PAS:39
     public int GetFreeId()
@@ -138,7 +138,4 @@ public partial class UnitControl(CustomNode owner) : EngineObject(owner)
             _ = Units.Remove(troop);
         }
     }
-
-    // intf_P2_05.inc:21
-
 }

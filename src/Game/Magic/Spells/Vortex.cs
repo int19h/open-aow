@@ -14,7 +14,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class Vortex : GlobalTargetSpell
+public class Vortex : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:2069
     public Vortex(CustomNode owner, EngineObject holder) : base(owner)

@@ -8,7 +8,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class GoldRush : CityEnchantmentSpell
+public class GoldRush : CityEnchantmentSpell
 {
     // CitySpells.pas:710
     public GoldRush(CustomNode owner, EngineObject holder) : base(owner)

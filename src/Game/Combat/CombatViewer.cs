@@ -8,7 +8,7 @@ using Aow.Rtl;
 namespace Aow.Game.Combat;
 
 // Status. Combat. Delay. Speed. Position. Time. Logbook
-public partial class CombatViewer : IDisposable
+public class CombatViewer : IDisposable
 {
     // Combat2.pas:546
     public CombatViewer(EngineObject creator)
@@ -268,7 +268,4 @@ public partial class CombatViewer : IDisposable
             }
         }
     }
-
-    // intf_P3_02.inc:19
-
 }

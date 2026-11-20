@@ -23,8 +23,8 @@ public sealed class EditorClass
 
     public void Edit(EngineObject objectValue, GameEngine engine, EditDoneEvent done) => _edit(objectValue, engine, done);
 
-    public static EditorClass Register<T>() where T : EngineObjectEditor, IEngineObjectEditorClass =>
-        s_catalog.Add(typeof(T), new EditorClass(EngineClass.Of<T>(), T.EditorClassId, static (objectValue, engine, done) => T.Edit(objectValue, engine, done)));
+    public static EditorClass Register<T>() where T : EngineObjectEditor, IEngineObjectEditorClass
+        => s_catalog.Add(typeof(T), new EditorClass(EngineClass.Of<T>(), T.EditorClassId, static (objectValue, engine, done) => T.Edit(objectValue, engine, done)));
 
     public static EditorClass Of<T>() where T : EngineObjectEditor, IEngineObjectEditorClass => s_catalog[typeof(T)];
     public static EditorClass Of(Type type) => s_catalog[type];

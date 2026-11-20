@@ -12,7 +12,7 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Game.Draw;
 
 // X/Y/layer unexplored hexagons, animation frame
-public partial class BirdsViewHexSprite(CustomNode owner) : FixedVisibleHexSprite(owner)
+public class BirdsViewHexSprite(CustomNode owner) : FixedVisibleHexSprite(owner)
 {
 
     private sbyte _x;
@@ -104,7 +104,4 @@ public partial class BirdsViewHexSprite(CustomNode owner) : FixedVisibleHexSprit
         _ = StrategicMap.Current.DynamicVisibleHexSprite.RemoveChild(this);
         Dispose();
     }
-
-    // GlobalSpells.pas:67
-
 }

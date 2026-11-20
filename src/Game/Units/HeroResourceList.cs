@@ -10,7 +10,7 @@ using static Aow.Rtl.IntegerObjects;
 
 namespace Aow.Game.Units;
 
-public partial class HeroResourceList : ResourceCollection, IChildList<HeroResource>
+public class HeroResourceList : ResourceCollection, IChildList<HeroResource>
 {
     // The hero resource in slot index, read as the original reads the list, without a range check.
     // AcceptsResource admits only a HeroResource, so the cast never fails.
@@ -60,7 +60,4 @@ public partial class HeroResourceList : ResourceCollection, IChildList<HeroResou
 
         return result;
     }
-
-    // intf_P2_07.inc:353
-
 }

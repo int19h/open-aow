@@ -10,7 +10,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Commands;
 
 // (unit IDs, players)
-public partial class HealingTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class HealingTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
     public new const int ClassId = 131826;
 
@@ -67,7 +67,4 @@ public partial class HealingTokenEvent(CustomNode owner) : TokenEvent(owner)
             return ExecuteResult.DoneHalt;
         }
     }
-
-    // NetworkE.pas:230
-
 }

@@ -18,7 +18,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Spells;
 
 // inherited name, spell ID, mana, sphere, level, type
-public partial class ConcealArea : Spell
+public class ConcealArea : Spell
 {
     // GlobalSpells.pas:286
     public ConcealArea(CustomNode owner, EngineObject holder) : base(owner)

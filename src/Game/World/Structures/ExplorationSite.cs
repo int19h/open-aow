@@ -49,8 +49,6 @@ public partial class ExplorationSite : Structure
         _defendersMode = persister.Enum("DefendersMode", value: _defendersMode);
     }
 
-    // ExploreS.pas:77
-
     // ExploreS.pas:351
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
@@ -357,9 +355,6 @@ public partial class ExplorationSite : Structure
             list?.Dispose();
         }
     }
-
-    // ExploreS.pas:33
-
 }
 
 public enum ExplorationSiteDefendersMode : byte

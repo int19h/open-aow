@@ -27,8 +27,8 @@ public sealed class LibraryImageClass
 
     public LibraryImage CreateInstance(CustomImageLibrary owner) => _create(owner);
 
-    public static LibraryImageClass Register<T>() where T : LibraryImage, ILibraryImageClass =>
-        s_catalog.Add(typeof(T), new LibraryImageClass(typeof(T), T.ClassId, T.ClassVersion, T.Name, T.CreateInstance));
+    public static LibraryImageClass Register<T>() where T : LibraryImage, ILibraryImageClass
+        => s_catalog.Add(typeof(T), new LibraryImageClass(typeof(T), T.ClassId, T.ClassVersion, T.Name, T.CreateInstance));
 
     public static LibraryImageClass Of<T>() where T : LibraryImage, ILibraryImageClass => s_catalog[typeof(T)];
     public static LibraryImageClass Of(Type type) => s_catalog[type];

@@ -20,7 +20,7 @@ namespace Aow.Game.Combat;
 // FSeatedCombatPlayer. FCurrentCombatPlayer. turn/player events. MoveControl. UnitSelection.
 // selection/unit events. AI. Effects. Walls. FleeLocations. EndTurnPending. PlaySounds.
 // PositionStatus. Round
-public partial class CombatMap : GameMap
+public class CombatMap : GameMap
 {
     internal EventStore<CombatSpellCaster> CombatStartedEventsStore { get; }
 
@@ -757,8 +757,4 @@ public partial class CombatMap : GameMap
     }
 
     internal static CombatMap Current { get; set; }
-
-    // AoWTC.pas:484
-
-    // AoWTC.pas:484
 }

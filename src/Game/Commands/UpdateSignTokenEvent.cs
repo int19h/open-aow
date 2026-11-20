@@ -10,7 +10,7 @@ using Aow.Rtl;
 namespace Aow.Game.Commands;
 
 // Text, HexX, HexY, HexLevel
-public partial class UpdateSignTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class UpdateSignTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
 
     // Sign.pas:202
@@ -35,8 +35,6 @@ public partial class UpdateSignTokenEvent(CustomNode owner) : TokenEvent(owner)
         Location = PersistSupport.Coordinate(persister, name: "Location", value: Location, width: CoordinateWidth.Byte);
     }
 
-    // Sign.pas:196
-
     // Sign.pas:214
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
@@ -53,7 +51,4 @@ public partial class UpdateSignTokenEvent(CustomNode owner) : TokenEvent(owner)
             return ExecuteResult.DoneHalt;
         }
     }
-
-    // Sign.pas:54
-
 }

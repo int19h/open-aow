@@ -7,7 +7,7 @@ using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class SummonBlackSpider : SummonSpell
+public class SummonBlackSpider : SummonSpell
 {
     // SummonSpells.pas:475
     public SummonBlackSpider(CustomNode owner, EngineObject holder) : base(owner)

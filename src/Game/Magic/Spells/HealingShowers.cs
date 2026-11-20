@@ -11,7 +11,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Magic.Spells;
 
-public partial class HealingShowers : GlobalTargetSpell
+public class HealingShowers : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:2277
     public HealingShowers(CustomNode owner, EngineObject holder) : base(owner)

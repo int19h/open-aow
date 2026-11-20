@@ -37,7 +37,17 @@ public sealed class AudioMixer : IDisposable
             }
         }
 
-        public void Tick() { if (_remaining > 0) { Value += _step; if (--_remaining == 0) { Value = _target; } } }
+        public void Tick()
+        {
+            if (_remaining > 0)
+            {
+                Value += _step;
+                if (--_remaining == 0)
+                {
+                    Value = _target;
+                }
+            }
+        }
     }
 
     private readonly List<Voice> _voices = [];
@@ -52,7 +62,12 @@ public sealed class AudioMixer : IDisposable
     public TrackerSong? Song { get; set; }
     public bool SongEnded { get; private set; }
 
-    public void ReplaceSong(TrackerSong? song) { Song?.Dispose(); Song = song; SongEnded = false; }
+    public void ReplaceSong(TrackerSong? song)
+    {
+        Song?.Dispose();
+        Song = song;
+        SongEnded = false;
+    }
 
     public Voice? Play(WaveData data)
     {
@@ -67,7 +82,15 @@ public sealed class AudioMixer : IDisposable
         return voice;
     }
 
-    public void StopVoices() { foreach (Voice voice in _voices) { voice.Playing = false; } _voices.Clear(); }
+    public void StopVoices()
+    {
+        foreach (Voice voice in _voices)
+        {
+            voice.Playing = false;
+        }
+
+        _voices.Clear();
+    }
 
     // One ramp _step per 50 ms mixer block, independent of SDL callback size.
     private int _blockRemaining;
@@ -85,13 +108,22 @@ public sealed class AudioMixer : IDisposable
             output.Clear();
             while (!output.IsEmpty)
             {
-                if (_blockRemaining == 0) { MusicGain.Tick(); SfxGain.Tick(); _blockRemaining = Math.Max(1, Rate / 20); }
+                if (_blockRemaining == 0)
+                {
+                    MusicGain.Tick();
+                    SfxGain.Tick();
+                    _blockRemaining = Math.Max(1, Rate / 20);
+                }
                 int frames = Math.Min(_blockRemaining, output.Length / 2);
                 Span<float> block = output[..(frames * 2)];
                 if (Song is not null && !SongEnded)
                 {
                     int read = Song.Render(Rate, block);
-                    if (read < frames) { block[(read * 2)..].Clear(); SongEnded = true; }
+                    if (read < frames)
+                    {
+                        block[(read * 2)..].Clear();
+                        SongEnded = true;
+                    }
                 }
                 float music = MusicEnabled ? MusicGain.Value / 127 : 0;
                 for (int i = 0; i < block.Length; i++)
@@ -119,7 +151,11 @@ public sealed class AudioMixer : IDisposable
                             {
                                 voice.Position %= wave.Frames;
                             }
-                            else { voice.Playing = false; break; }
+                            else
+                            {
+                                voice.Playing = false;
+                                break;
+                            }
                         }
                         int a = (int)voice.Position;
                         int b = a + 1 < wave.Frames ? a + 1 : voice.Loop ? 0 : a;
@@ -145,5 +181,12 @@ public sealed class AudioMixer : IDisposable
         }
     }
 
-    public void Dispose() { lock (Sync) { ReplaceSong(null); StopVoices(); } }
+    public void Dispose()
+    {
+        lock (Sync)
+        {
+            ReplaceSong(null);
+            StopVoices();
+        }
+    }
 }

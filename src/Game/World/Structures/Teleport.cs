@@ -38,8 +38,6 @@ public partial class Teleport(CustomNode owner) : Structure(owner)
         State = persister.Set("State", value: State);
     }
 
-    // Teleport.pas:97
-
     // Teleport.pas:157
     public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
@@ -252,7 +250,7 @@ public partial class Teleport(CustomNode owner) : Structure(owner)
         Razed = 0, Bit1 = 1, Bit2 = 2, Bit3 = 3, Bit4 = 4, Bit5 = 5, Bit6 = 6, Bit7 = 7
     }
 
-    public new partial class Resource : StructureResource
+    public new class Resource : StructureResource
     {
         public Resource(CustomNode owner) : base(owner)
         {
@@ -265,12 +263,8 @@ public partial class Teleport(CustomNode owner) : Structure(owner)
         // Teleport.pas:299
         public new const int ClassId = 131333;
 
-        // Teleport.pas:290
-
         // Teleport.pas:305
         public override int ResourceUserClassId() => 131332;
-
-        // Teleport.pas:45
 
         // Teleport.pas:302
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), TeleportText);

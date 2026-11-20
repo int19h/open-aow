@@ -46,8 +46,6 @@ public partial class PowerNode : PlayerStructure
         State = persister.Set("State", value: State);
     }
 
-    // PowerNode.pas:51
-
     // PowerNode.pas:131
     public override void Activate()
     {
@@ -189,7 +187,7 @@ public partial class PowerNode : PlayerStructure
         Razed = 0
     }
 
-    public new partial class Resource : PlayerStructureResource
+    public new class Resource : PlayerStructureResource
     {
         public Resource(CustomNode owner) : base(owner)
         {
@@ -204,12 +202,8 @@ public partial class PowerNode : PlayerStructure
         // PowerNode.pas:166
         public new const int ClassId = 131483;
 
-        // PowerNode.pas:152
-
         // PowerNode.pas:169
         public override int ResourceUserClassId() => 131482;
-
-        // PowerNode.pas:41
 
         // PowerNode.pas:163
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), s_powerNodeText);
@@ -217,9 +211,4 @@ public partial class PowerNode : PlayerStructure
         private static readonly string s_powerNodeText = "Power Node";
 
     }
-
-    // PowerNode.pas:25
-
-    // PowerNode.pas:25
-
 }

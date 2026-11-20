@@ -201,5 +201,4 @@ public partial class ArmyEventDialog(UIContext ui) : UIModule(ui)
         dialog.ArmyEventWindow.Visible = true;
         dialog._frame = 0;
     }
-
 }

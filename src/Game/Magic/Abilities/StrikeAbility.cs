@@ -12,7 +12,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Abilities;
 
 // (melee round)
-public partial class StrikeAbility : AdjustableAbility
+public class StrikeAbility : AdjustableAbility
 {
 
     // AoWAb.PAS:1210
@@ -306,7 +306,9 @@ public partial class StrikeAbility : AdjustableAbility
         {
             if (owner.GetOwnAbilityEnabled(i) && GamePack.Current.AbilityControl.GetAbility(i) is StrikeEnhancementAbility)
             {
-                while (GamePack.Current.AbilityControl.GetAbility(i).Remove(owner)) { }
+                while (GamePack.Current.AbilityControl.GetAbility(i).Remove(owner))
+                {
+                }
             }
         }
 

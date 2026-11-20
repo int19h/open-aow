@@ -10,7 +10,7 @@ namespace Aow.Game.UI.Controls;
 
 // Fields: _frameType, _imageLibraryFrame, _imageLibraryTexture, _imageLibraryLine, _imageLibraryIndexFrame, _imageLibraryIndexLine,
 // _imageLibraryIndexTexture, _popupMenu
-public partial class Frame(Component owner) : Control(owner)
+public class Frame(Component owner) : Control(owner)
 {
     private InterfaceImageLibrary _imageLibraryFrame;
     private InterfaceImageLibrary _imageLibraryTexture;

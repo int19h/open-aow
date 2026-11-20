@@ -16,7 +16,7 @@ namespace Aow.Game.World.Terrain;
 
 // { ot=1 }
 // Amount, GenerateMode
-public partial class Gems(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
+public class Gems(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
 {
 
     // Gems.pas:53
@@ -32,8 +32,6 @@ public partial class Gems(CustomNode owner) : ImageLibraryTerrainMapObject(owner
         _amount = persister.Int32("Amount", value: _amount);
         _generateMode = persister.Enum("GenerateMode", value: _generateMode);
     }
-
-    // Gems.pas:46
 
     // Gems.pas:93
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
@@ -172,7 +170,7 @@ public partial class Gems(CustomNode owner) : ImageLibraryTerrainMapObject(owner
 
     private static readonly string s_goldFoundFormat = "%s gold pieces found";
 
-    public new partial class Resource(CustomNode owner) : ImageLibraryTerrainMapObjectResource(owner)
+    public new class Resource(CustomNode owner) : ImageLibraryTerrainMapObjectResource(owner)
     {
 
         // Gems.pas:137
@@ -187,11 +185,6 @@ public partial class Gems(CustomNode owner) : ImageLibraryTerrainMapObject(owner
         private static readonly string s_goldText = "Gold";
 
     }
-
-    // Gems.pas:24
-
-    // Gems.pas:24
-
 }
 
 public enum GemsGenerateMode : byte

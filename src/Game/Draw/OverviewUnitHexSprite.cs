@@ -7,7 +7,7 @@ using Aow.Game.Magic.Abilities;
 namespace Aow.Game.Draw;
 
 // Troop
-public partial class OverviewUnitHexSprite(CustomNode owner) : UnitHexSprite(owner)
+public class OverviewUnitHexSprite(CustomNode owner) : UnitHexSprite(owner)
 {
     private Troop _troop;
 
@@ -36,7 +36,4 @@ public partial class OverviewUnitHexSprite(CustomNode owner) : UnitHexSprite(own
             SetUnitGraphicsResourceIndex(_troop.GetUnitGraphicsResourceIndex());
         }
     }
-
-    // intf_P2_03.inc:74
-
 }

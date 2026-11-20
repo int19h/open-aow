@@ -9,7 +9,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.AI.Groups;
 
 // armies
-public partial class AIMoveExecutorArmyList(CustomNode owner) : OwningNode(owner), IChildList<AIMoveExecutorArmy>
+public class AIMoveExecutorArmyList(CustomNode owner) : OwningNode(owner), IChildList<AIMoveExecutorArmy>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AIMoveExecutorArmy.
@@ -97,9 +97,4 @@ public partial class AIMoveExecutorArmyList(CustomNode owner) : OwningNode(owner
     public void SortOnMovePoints() => SortChildren<AIMoveExecutorArmy>(CompareExecutorArmies);
 
     private static int CompareExecutorArmies(AIMoveExecutorArmy item1, AIMoveExecutorArmy item2) => item1.MovePoints(255) - item2.MovePoints(255);
-
-    // Engine.pas:631
-
-    // Engine.pas:631
-
 }

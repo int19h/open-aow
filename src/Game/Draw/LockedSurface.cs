@@ -479,5 +479,4 @@ public struct LockedSurface
 
         return GraphicsResult.Ok;
     }
-
 }

@@ -25,7 +25,7 @@ namespace Aow.Game.World.Terrain;
 
 // { Interface declaration run owned by P1. }
 // Mode, TurnsLeft, Age, _showPriority, Player, ExplosionFrame
-public partial class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
+public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
 {
 
     public new const int ClassId = 132990;
@@ -388,7 +388,7 @@ public partial class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     }
 
     // FireType
-    public new partial class Resource(CustomNode owner) : ImageLibraryTerrainMapObjectResource(owner)
+    public new class Resource(CustomNode owner) : ImageLibraryTerrainMapObjectResource(owner)
     {
         public new const int ClassId = 132991;
 
@@ -430,7 +430,4 @@ public partial class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner
         public override string ResourceEditName() => AbilityRules.TranslateResourceString(GetEngine(), GameTables.FireText);
 
     }
-
-    // intf_P1_11.inc:16
-
 }

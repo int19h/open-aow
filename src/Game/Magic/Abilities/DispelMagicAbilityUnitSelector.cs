@@ -9,7 +9,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Magic.Abilities;
 
-public partial class DispelMagicAbilityUnitSelector(EngineObject creator) : UnitSelector(creator)
+public class DispelMagicAbilityUnitSelector(EngineObject creator) : UnitSelector(creator)
 {
 
     // AoWAb.PAS:4403
@@ -58,7 +58,4 @@ public partial class DispelMagicAbilityUnitSelector(EngineObject creator) : Unit
             return false;
         }
     }
-
-    // intf_P1_08.inc:65
-
 }

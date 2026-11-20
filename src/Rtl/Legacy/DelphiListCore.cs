@@ -89,8 +89,8 @@ internal static class DelphiListCore
         Array.Copy(items, index + 1, items, index, count - index);
     }
 
-    internal static bool Same(object? left, object? right) =>
-        ReferenceEquals(left, right) || (left is IPointerBox leftBox && right is IPointerBox rightBox &&
+    internal static bool Same(object? left, object? right)
+        => ReferenceEquals(left, right) || (left is IPointerBox leftBox && right is IPointerBox rightBox &&
         ReferenceEquals(leftBox.StorageIdentity, rightBox.StorageIdentity) && leftBox.ByteIndex == rightBox.ByteIndex);
 
     internal static int IndexOf<T>(T[] items, int count, T item)
@@ -145,8 +145,8 @@ internal static class DelphiListCore
     }
 
     internal static void SortStable<T>(T?[] items, int count, ListSortCompare<T> compare)
-        where T : class =>
-        SortStable(items, count, new TypedCompare<T>(compare));
+        where T : class
+        => SortStable(items, count, new TypedCompare<T>(compare));
 
     internal static void SortAs<T, TItem>(T?[] items, int count, ListSortCompare<TItem> compare)
         where T : class
@@ -160,8 +160,8 @@ internal static class DelphiListCore
 
     internal static void SortStableAs<T, TItem>(T?[] items, int count, ListSortCompare<TItem> compare)
         where T : class
-        where TItem : class, T =>
-        SortStable(items, count, new NarrowCompare<T, TItem>(compare));
+        where TItem : class, T
+        => SortStable(items, count, new NarrowCompare<T, TItem>(compare));
 
     private static void SortStable<T, TCompare>(T[] items, int count, TCompare compare)
         where TCompare : ICompare<T>

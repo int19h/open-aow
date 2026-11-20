@@ -8,7 +8,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
-public partial class ExpanderAIGroupControl(CustomNode owner) : BehaviorAIGroupControl(owner)
+public class ExpanderAIGroupControl(CustomNode owner) : BehaviorAIGroupControl(owner)
 {
 
     // BehaviorAG.pas:511

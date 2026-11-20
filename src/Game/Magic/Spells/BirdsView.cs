@@ -12,7 +12,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Magic.Spells;
 
 // inherited name, spell ID, mana, sphere, level, spell type
-public partial class BirdsView : Spell
+public class BirdsView : Spell
 {
     // GlobalSpells.pas:489
     public BirdsView(CustomNode owner, EngineObject holder) : base(owner)

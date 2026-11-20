@@ -89,7 +89,18 @@ public sealed class PhysicalFileSystem : IFileSystem
     public bool FileExists(string path) => File.Exists(Resolve(path));
     public bool DirectoryExists(string path) => Directory.Exists(Resolve(path));
 
-    private static bool Attempt(Action action) { try { action(); return true; } catch (Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException) { return false; } }
+    private static bool Attempt(Action action)
+    {
+        try
+        {
+            action();
+            return true;
+        }
+        catch (Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException)
+        {
+            return false;
+        }
+    }
 
     public bool DeleteFile(string path) => FileExists(path) && Attempt(() => File.Delete(Resolve(path)));
     public bool RenameFile(string source, string target) => Attempt(() => File.Move(Resolve(source), Resolve(target)));
@@ -99,8 +110,14 @@ public sealed class PhysicalFileSystem : IFileSystem
 
     public int GetAttributes(string path)
     {
-        try { return (int)File.GetAttributes(Resolve(path)); }
-        catch (Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException) { return -1; }
+        try
+        {
+            return (int)File.GetAttributes(Resolve(path));
+        }
+        catch (Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException)
+        {
+            return -1;
+        }
     }
 
     public int SetAttributes(string path, int attributes) => Attempt(() => File.SetAttributes(Resolve(path), (FileAttributes)attributes)) ? 0 : -1;

@@ -179,5 +179,4 @@ public partial class HeroInfoDialog(UIContext ui) : UIModule(ui)
         dialog.Window.Visible = true;
         dialog._detailsOpen = false;
     }
-
 }

@@ -674,5 +674,4 @@ public partial class FastBattleWindow(UIContext ui) : UIModule(ui)
             dialog.SetPhase(3);
         }
     }
-
 }

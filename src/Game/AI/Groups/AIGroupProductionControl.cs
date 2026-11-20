@@ -23,7 +23,7 @@ namespace Aow.Game.AI.Groups;
 // remainder, requested strength, damage types, requested strengths, priority range, multiple,
 // group ID, superiority, move-point priority, allow research, research priority, move types,
 // minimum moves, path-strength factor
-public partial class AIGroupProductionControl : AIGroupTask
+public class AIGroupProductionControl : AIGroupTask
 {
     // AIGroup.pas:2440
     public AIGroupProductionControl(CustomNode owner) : base(owner)
@@ -525,11 +525,6 @@ public partial class AIGroupProductionControl : AIGroupTask
     }
 
     private static int CompareProducibleUnits(AIGroupUnitProduction item1, AIGroupUnitProduction item2) => item2.Priority - item1.Priority;
-
-    // intf_P5_07.inc:537
-
-    // intf_P5_07.inc:537
-
 }
 
 public enum AIGroupProductionControlMode : byte

@@ -5,7 +5,7 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.Magic.Abilities;
 
-public partial class LeadershipAbility : MultiLevelAbility
+public class LeadershipAbility : MultiLevelAbility
 {
     // AoWAb.PAS:965
     public LeadershipAbility(CustomNode owner) : base(owner)

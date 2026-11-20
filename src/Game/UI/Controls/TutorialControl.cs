@@ -15,7 +15,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.UI.Controls;
 
 // list of shown message IDs
-public partial class TutorialControl(CustomNode owner) : EngineObject(owner)
+public class TutorialControl(CustomNode owner) : EngineObject(owner)
 {
 
     private readonly Int32List _shownMessages = new();
@@ -52,7 +52,4 @@ public partial class TutorialControl(CustomNode owner) : EngineObject(owner)
             _ = _shownMessages.Add(id);
         }
     }
-
-    // intf_P1_05.inc:187
-
 }

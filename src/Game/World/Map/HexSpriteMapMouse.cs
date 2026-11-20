@@ -10,7 +10,7 @@ namespace Aow.Game.World.Map;
 // when outside), _button, ButtonUp, ButtonDown, Moved, DoubleClicked, CaptureChanged, _capture
 // (the object that gets the mouse events), FStatus, FCursor, FCursorMode, FIgnoreDown, FShift,
 // FCursorVisible (and are used by the game only)
-public partial class HexSpriteMapMouse : IDisposable
+public class HexSpriteMapMouse : IDisposable
 {
 
     public HexSpriteMapMouse()
@@ -66,8 +66,6 @@ public partial class HexSpriteMapMouse : IDisposable
     private object _capture;
     private Set<StatusElement> _status;
     private int _cursor;
-
-    // HSEngine.pas:3475
 
     // HSEngine.pas:3486
     public virtual void Dispose()
@@ -363,5 +361,4 @@ public partial class HexSpriteMapMouse : IDisposable
     {
         ChangingCapture = 0
     }
-
 }

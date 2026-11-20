@@ -5,7 +5,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Spells;
 
 // (spell list)
-public partial class SpellList : IDisposable
+public class SpellList : IDisposable
 {
     // Spells.PAS:695
     public SpellList() => _spells = new DelphiList<Spell>();
@@ -55,9 +55,4 @@ public partial class SpellList : IDisposable
         }
         return number;
     }
-
-    // intf_P4_02.inc:964
-
-    // intf_P4_02.inc:964
-
 }
