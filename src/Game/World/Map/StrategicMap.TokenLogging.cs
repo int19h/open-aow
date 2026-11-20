@@ -41,7 +41,7 @@ public sealed partial class StrategicMap
         {
             try
             {
-                _tokenLog = RtlHost.Files.Open($"{GetEngine().StartupDirectory}Debug\\SYNC_LOG{PixelFormats.ElapsedMilliseconds.ToString(CultureInfo.InvariantCulture)}.TXT", mode: (int)FileOpenMode.Create);
+                _tokenLog = RtlHost.Files.Open($"{GetEngine().StartupDirectory}Debug\\SYNC_LOG{PixelFormats.ElapsedMilliseconds.ToString(CultureInfo.InvariantCulture)}.TXT", mode: FileOpenMode.Create);
             }
             catch (IOException) { }
             catch (UnauthorizedAccessException) { }

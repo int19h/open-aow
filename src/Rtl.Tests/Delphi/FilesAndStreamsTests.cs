@@ -107,9 +107,9 @@ public sealed class FilesAndStreamsTests
             return $"fake/{path}";
         }
 
-        public Stream Open(string path, int mode)
+        public Stream Open(string path, FileOpenMode mode)
         {
-            Calls.Add($"open {path} {mode}");
+            Calls.Add($"open {path} {(int)mode}");
             return Opened;
         }
 

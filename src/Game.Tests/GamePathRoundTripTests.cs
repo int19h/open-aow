@@ -50,7 +50,7 @@ public sealed class GamePathRoundTripTests : IDisposable
 
     private static byte[] ReadBack(string file)
     {
-        using Stream stream = RtlHost.Files.Open(file, mode: (int)(FileOpenMode.Read | FileOpenMode.ShareDenyWrite));
+        using Stream stream = RtlHost.Files.Open(file, mode: FileOpenMode.Read | FileOpenMode.ShareDenyWrite);
         using MemoryStream memory = new();
         stream.CopyTo(memory);
         return memory.ToArray();
@@ -140,7 +140,7 @@ public sealed class GamePathRoundTripTests : IDisposable
             .Add("root", root));
         string source = Path.Combine(Folder, "constructed.ohsm");
         string file = Path.Combine(Folder, "saved.ohsm");
-        using (Stream stream = RtlHost.Files.Open(source, mode: (int)FileOpenMode.Create))
+        using (Stream stream = RtlHost.Files.Open(source, mode: FileOpenMode.Create))
         {
             stream.Write(constructed);
         }

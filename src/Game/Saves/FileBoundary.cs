@@ -196,7 +196,7 @@ public static class FileBoundary
         byte[] head;
         try
         {
-            using Stream stream = files.Open(fileName, mode: (int)(FileOpenMode.Read | FileOpenMode.ShareDenyWrite));
+            using Stream stream = files.Open(fileName, mode: FileOpenMode.Read | FileOpenMode.ShareDenyWrite);
             head = new byte[count];
             int total = 0, read;
             while (total < count && (read = stream.Read(head, offset: total, count: count - total)) > 0)
@@ -478,7 +478,7 @@ public static class FileBoundary
         bool replaced = false;
         try
         {
-            using (Stream stream = files.Open(temporary, mode: (int)FileOpenMode.Create))
+            using (Stream stream = files.Open(temporary, mode: FileOpenMode.Create))
             {
                 stream.Write(bytes);
                 // The temporary reaches the disk before it replaces the old file.
@@ -509,7 +509,7 @@ public static class FileBoundary
 
     private static byte[] ReadAll(IFileSystem files, string fileName)
     {
-        using Stream stream = files.Open(fileName, mode: (int)(FileOpenMode.Read | FileOpenMode.ShareDenyWrite));
+        using Stream stream = files.Open(fileName, mode: FileOpenMode.Read | FileOpenMode.ShareDenyWrite);
         using MemoryStream memory = new();
         stream.CopyTo(memory);
         return memory.ToArray();

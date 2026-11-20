@@ -304,14 +304,14 @@ internal static class Verification
 
     private static void Write(IFileSystem files, string name, string value, FileOpenMode mode = FileOpenMode.Create)
     {
-        using Stream stream = files.Open(name, mode: (int)mode);
+        using Stream stream = files.Open(name, mode: mode);
         using StreamWriter writer = new(stream);
         writer.Write(value);
     }
 
     private static string Read(IFileSystem files, string name)
     {
-        using Stream stream = files.Open(name, mode: (int)FileOpenMode.Read);
+        using Stream stream = files.Open(name, mode: FileOpenMode.Read);
         using StreamReader reader = new(stream);
         return reader.ReadToEnd();
     }
@@ -363,7 +363,7 @@ internal static class Verification
         Check(!files.RemoveDirectory($@"{files.VirtualDrive}\"), label: "virtual drive deletion refused");
         Check(files.CreateDirectory("EmailIn"), label: "create user directory");
         Check(files.RemoveDirectory("EMAILIN"), label: "remove user directory");
-        Throws<UnauthorizedAccessException>(() => files.Open("Z:\\outside.dat", mode: (int)FileOpenMode.Create), label: "unknown drive refused");
+        Throws<UnauthorizedAccessException>(() => files.Open("Z:\\outside.dat", mode: FileOpenMode.Create), label: "unknown drive refused");
         Write(files, "../../escape.txt", "contained");
         Check(File.Exists(Path.Combine(user, "escape.txt")), label: "parent traversal contained");
         IFileSystem old = RtlHost.Files;
@@ -449,7 +449,7 @@ internal static class Verification
             Check(Directory.Exists(path) ? files.DirectoryExists(alternate) : files.FileExists(alternate), label: $"install lookup {relative}");
             if (!Directory.Exists(path))
             {
-                using Stream stream = files.Open(alternate, mode: (int)FileOpenMode.Read);
+                using Stream stream = files.Open(alternate, mode: FileOpenMode.Read);
                 Equal(new FileInfo(path).Length, stream.Length, label: $"install open {relative}");
             }
         }

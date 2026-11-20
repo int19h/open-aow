@@ -254,7 +254,7 @@ public sealed class ControlStyleConstructionTests
         public bool SetCurrentDirectory(string path) => _files.SetCurrentDirectory(Checked(path));
         public string ExpandPath(string path) => Checked(path);
 
-        public Stream Open(string path, int mode)
+        public Stream Open(string path, FileOpenMode mode)
         {
             string full = Checked(path);
             OpenedPaths.Add(full);

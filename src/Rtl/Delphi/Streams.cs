@@ -10,7 +10,7 @@ public static class DelphiStreams
     {
         try
         {
-            return Files.Open(name, mode: (int)mode);
+            return Files.Open(name, mode: mode);
         }
         catch (Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException or NotSupportedException)
         {

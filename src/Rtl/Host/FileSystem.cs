@@ -28,7 +28,7 @@ public interface IFileSystem
 
     bool SetCurrentDirectory(string path) => false;
     string ExpandPath(string path);
-    Stream Open(string path, int mode);
+    Stream Open(string path, FileOpenMode mode);
     bool FileExists(string path);
     bool DirectoryExists(string path);
     bool DeleteFile(string path);
@@ -82,9 +82,9 @@ public sealed class PhysicalFileSystem : IFileSystem
         return current;
     }
 
-    public Stream Open(string path, int mode) => new FileStream(Resolve(path), mode: mode == (int)FileOpenMode.Create ? FileMode.Create : FileMode.Open,
-        access: mode == (int)FileOpenMode.Create ? FileAccess.ReadWrite : (mode & 3) switch { 0 => FileAccess.Read, 1 => FileAccess.Write, _ => FileAccess.ReadWrite },
-        share: (mode & 0xF0) == (int)FileOpenMode.ShareDenyWrite ? FileShare.Read : FileShare.ReadWrite);
+    public Stream Open(string path, FileOpenMode mode) => new FileStream(Resolve(path), mode: mode == FileOpenMode.Create ? FileMode.Create : FileMode.Open,
+        access: mode == FileOpenMode.Create ? FileAccess.ReadWrite : ((int)mode & 3) switch { 0 => FileAccess.Read, 1 => FileAccess.Write, _ => FileAccess.ReadWrite },
+        share: ((int)mode & 0xF0) == (int)FileOpenMode.ShareDenyWrite ? FileShare.Read : FileShare.ReadWrite);
 
     public bool FileExists(string path) => File.Exists(Resolve(path));
     public bool DirectoryExists(string path) => Directory.Exists(Resolve(path));
