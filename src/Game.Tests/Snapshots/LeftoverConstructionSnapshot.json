@@ -2609,7 +2609,7 @@
               "DelphiStringList.count": 0,
               "DelphiStringList.items": []
             },
-            "SongList._songs": {
+            "SongList.Songs": {
               "$type": "Aow.Rtl.DelphiStringList",
               "DelphiStringCollection.UpdateCount": 0,
               "DelphiStringList.Duplicates": 0,
@@ -2654,7 +2654,7 @@
               "DelphiStringList.count": 0,
               "DelphiStringList.items": []
             },
-            "SongList._songs": {
+            "SongList.Songs": {
               "$type": "Aow.Rtl.DelphiStringList",
               "DelphiStringCollection.UpdateCount": 0,
               "DelphiStringList.Duplicates": 0,
@@ -2677,7 +2677,7 @@
               "$type": "Aow.Game.Audio.SongList",
               "EngineObject._owner": "$owner",
               "SongList.SongNames": null,
-              "SongList._songs": null
+              "SongList.Songs": null
             }
           }
         ]
@@ -2711,7 +2711,7 @@
               "DelphiStringList.count": 0,
               "DelphiStringList.items": []
             },
-            "SongList._songs": {
+            "SongList.Songs": {
               "$type": "Aow.Rtl.DelphiStringList",
               "DelphiStringCollection.UpdateCount": 0,
               "DelphiStringList.Duplicates": 0,
@@ -2756,7 +2756,7 @@
               "DelphiStringList.count": 0,
               "DelphiStringList.items": []
             },
-            "SongList._songs": {
+            "SongList.Songs": {
               "$type": "Aow.Rtl.DelphiStringList",
               "DelphiStringCollection.UpdateCount": 0,
               "DelphiStringList.Duplicates": 0,
@@ -2779,7 +2779,7 @@
               "$type": "Aow.Game.Audio.StartupSongList",
               "EngineObject._owner": "$owner",
               "SongList.SongNames": null,
-              "SongList._songs": null
+              "SongList.Songs": null
             }
           }
         ]
@@ -16200,7 +16200,7 @@
                 "DelphiStringList.count": 0,
                 "DelphiStringList.items": "$ref:$.StrategicMap.Description.DelphiStringList.items"
               },
-              "SongList._songs": {
+              "SongList.Songs": {
                 "$type": "Aow.Rtl.DelphiStringList",
                 "DelphiStringCollection.UpdateCount": 0,
                 "DelphiStringList.Duplicates": 0,
@@ -19129,7 +19129,7 @@
                 "DelphiStringList.count": 0,
                 "DelphiStringList.items": "$ref:$.StrategicMap.Description.DelphiStringList.items"
               },
-              "SongList._songs": {
+              "SongList.Songs": {
                 "$type": "Aow.Rtl.DelphiStringList",
                 "DelphiStringCollection.UpdateCount": 0,
                 "DelphiStringList.Duplicates": 0,
@@ -20239,7 +20239,7 @@
                 "DelphiStringList.count": 0,
                 "DelphiStringList.items": "$ref:$.StrategicMap.Description.DelphiStringList.items"
               },
-              "SongList._songs": {
+              "SongList.Songs": {
                 "$type": "Aow.Rtl.DelphiStringList",
                 "DelphiStringCollection.UpdateCount": 0,
                 "DelphiStringList.Duplicates": 0,
@@ -23168,7 +23168,7 @@
                 "DelphiStringList.count": 0,
                 "DelphiStringList.items": "$ref:$.StrategicMap.Description.DelphiStringList.items"
               },
-              "SongList._songs": {
+              "SongList.Songs": {
                 "$type": "Aow.Rtl.DelphiStringList",
                 "DelphiStringCollection.UpdateCount": 0,
                 "DelphiStringList.Duplicates": 0,
