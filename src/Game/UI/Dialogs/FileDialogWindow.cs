@@ -252,9 +252,9 @@ public sealed partial class FileDialogWindow(UIContext ui) : UIModule(ui)
     // AoWFileDialog.pas:296
     public void FileDialogWindowCreate()
     {
-        Drives = new DelphiStringList();
-        Directories = new DelphiStringList();
-        Files = new DelphiStringList<FileTime>();
+        Drives = [];
+        Directories = [];
+        Files = [];
         Directory = $"{UI.Engine.StartupDirectory}Save\\";
         LastFileName = "";
     }

@@ -39,9 +39,9 @@ public sealed partial class MenuBar : Control
     // AOWMenuBar.pas:74
     public override void Dispose()
     {
-        for (int i = 0, last = Menus.Count - 1; i <= last; i++)
+        foreach (Menu menu in Menus)
         {
-            WindowControl m = Menus[i];
+            WindowControl m = menu;
             m.DetachMenuBar();
         }
 
@@ -87,9 +87,9 @@ public sealed partial class MenuBar : Control
         }
 
         SetWinHeightWithoutInvalidate(_imageLibraryButton[_imageLibraryIndexUp].Height);
-        for (int i = 0, last = Menus.Count - 1; i <= last; i++)
+        foreach (Menu menu in Menus)
         {
-            Menus[i].Aligned = false;
+            menu.Aligned = false;
         }
 
         base.SetSize();
@@ -98,9 +98,9 @@ public sealed partial class MenuBar : Control
     // AOWMenuBar.pas:122
     public override void ReAlign()
     {
-        for (int i = 0, last = Menus.Count - 1; i <= last; i++)
+        foreach (Menu menu in Menus)
         {
-            Menus[i].Aligned = false;
+            menu.Aligned = false;
         }
 
         base.ReAlign();

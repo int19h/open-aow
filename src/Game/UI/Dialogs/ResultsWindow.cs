@@ -210,7 +210,7 @@ public sealed partial class ResultsWindow(UIContext ui) : UIModule(ui)
     // AoWResultsWin.pas:160
     public void DrawGold(sbyte player, in Rect R, in LockedSurface surface)
     {
-        Int32List values = new();
+        Int32List values = [];
         TurnInfo info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
         for (int i = 0, last = info.GetCount() - 1; i <= last; i++)
         {
@@ -226,7 +226,7 @@ public sealed partial class ResultsWindow(UIContext ui) : UIModule(ui)
     // AoWResultsWin.pas:175
     public void DrawMana(sbyte player, in Rect R, in LockedSurface surface)
     {
-        Int32List values = new();
+        Int32List values = [];
         TurnInfo info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
         for (int i = 0, last = info.GetCount() - 1; i <= last; i++)
         {
@@ -242,7 +242,7 @@ public sealed partial class ResultsWindow(UIContext ui) : UIModule(ui)
     // AoWResultsWin.pas:190
     public void DrawHeroes(sbyte player, in Rect R, in LockedSurface surface)
     {
-        Int32List values = new();
+        Int32List values = [];
         TurnInfo info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
         for (int i = 0, last = info.GetCount() - 1; i <= last; i++)
         {
@@ -258,7 +258,7 @@ public sealed partial class ResultsWindow(UIContext ui) : UIModule(ui)
     // AoWResultsWin.pas:205
     public void DrawArmies(sbyte player, in Rect R, in LockedSurface surface)
     {
-        Int32List values = new();
+        Int32List values = [];
         TurnInfo info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
         for (int i = 0, last = info.GetCount() - 1; i <= last; i++)
         {
@@ -274,7 +274,7 @@ public sealed partial class ResultsWindow(UIContext ui) : UIModule(ui)
     // AoWResultsWin.pas:220
     public void DrawStructures(sbyte player, in Rect R, in LockedSurface surface)
     {
-        Int32List values = new();
+        Int32List values = [];
         TurnInfo info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
         for (int i = 0, last = info.GetCount() - 1; i <= last; i++)
         {
@@ -290,7 +290,7 @@ public sealed partial class ResultsWindow(UIContext ui) : UIModule(ui)
     // AoWResultsWin.pas:235
     public void DrawStrength(sbyte player, in Rect R, in LockedSurface surface)
     {
-        Int32List values = new();
+        Int32List values = [];
         TurnInfo info = StrategicMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
         for (int i = 0, last = info.GetCount() - 1; i <= last; i++)
         {
@@ -307,7 +307,7 @@ public sealed partial class ResultsWindow(UIContext ui) : UIModule(ui)
     // AoWResultsWin.pas:270
     public void ResultsWinCreate()
     {
-        Players = new ByteList();
+        Players = [];
         Controls =
         [
             Player1CheckBox,

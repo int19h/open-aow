@@ -816,7 +816,7 @@ public sealed partial class CityScreen(UIContext ui) : UIModule(ui)
     }
 
     // AoWCityScreen.pas:292
-    public void CityScreenCreate() => _images = new Int32List();
+    public void CityScreenCreate() => _images = [];
 
     // AoWCityScreen.pas:297
     public void CityScreenDestroy() => _images?.Dispose();

@@ -1097,7 +1097,7 @@ public sealed class SetupControl : Component
     // AoWSetup.pas:970
     public string ValidatePlayerName(string name)
     {
-        DelphiStringList list = new();
+        DelphiStringList list = [];
         ListAvailablePlayers(list);
         bool done = false;
         string result = name;

@@ -12,7 +12,7 @@ public class MultiLevelAbility(CustomNode? owner) : AdjustableAbility(owner)
 {
 
     public int MaxLevel { get; protected init; } = 4;
-    public Int32List LevelCosts { get; } = new Int32List();
+    public Int32List LevelCosts { get; } = [];
 
     // AoWAb.PAS:255
     public override void Dispose()

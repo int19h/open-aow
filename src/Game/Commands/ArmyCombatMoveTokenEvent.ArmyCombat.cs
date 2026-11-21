@@ -28,17 +28,17 @@ public partial class ArmyCombatMoveTokenEvent
         ArmyHexSprite.SetOwner(null);
         ArmyHexSprite otherArmyHexSprite = source.GetArmyHexSprite();
         ArmyHexSprite.SetOwner(source);
-        for (int i = 0, last = ArmyHexSprite.Army.Units.Count - 1; i <= last; i++)
+        foreach (Troop? troop2 in ArmyHexSprite.Army.Units)
         {
             if ((Selection & 1) != 0)
             {
-                Troop? unit = ArmyHexSprite.Army.Units.GetUnit(i);
-                ArmyHexSprite.Army.Units.GetUnit(i).UnitStatus = unit.UnitStatus | UnitStatuses.Moving;
+                Troop? unit = troop2;
+                troop2.UnitStatus = unit.UnitStatus | UnitStatuses.Moving;
             }
             else
             {
-                Troop? unit = ArmyHexSprite.Army.Units.GetUnit(i);
-                ArmyHexSprite.Army.Units.GetUnit(i).UnitStatus = unit.UnitStatus & ~UnitStatuses.Moving;
+                Troop? unit = troop2;
+                troop2.UnitStatus = unit.UnitStatus & ~UnitStatuses.Moving;
             }
 
             Selection = (byte)(Selection >>> 1);

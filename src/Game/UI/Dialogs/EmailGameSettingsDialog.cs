@@ -40,7 +40,7 @@ public sealed partial class EmailGameSettingsDialog(UIContext ui) : UIModule(ui)
     private SetupControl? _setupControl;
 
     // AoWEmailGameSettingsDlg.pas:85
-    public void EmailGameSettingsDialogCreate() => EmailAddresses = new DelphiStringList();
+    public void EmailGameSettingsDialogCreate() => EmailAddresses = [];
 
     // AoWEmailGameSettingsDlg.pas:90
     public void EmailGameSettingsDialogDestroy() => EmailAddresses?.Dispose();

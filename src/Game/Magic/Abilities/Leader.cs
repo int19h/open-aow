@@ -21,7 +21,7 @@ public class Leader(CustomNode? owner) : Hero(owner)
 
     public byte SpherePicksMax { get; private set; } = 5;
 
-    private readonly ByteList _spheres = new();
+    private readonly ByteList _spheres = [];
 
     // Hero.PAS:2766
     public override void Dispose()

@@ -35,9 +35,9 @@ public sealed partial class TabPanel : Control
     // AoWTabPanel.pas:70
     public override void Dispose()
     {
-        for (int i = 0, last = Panels.Count - 1; i <= last; i++)
+        foreach (Panel panel in Panels)
         {
-            WindowControl p = Panels[i];
+            WindowControl p = panel;
             p.DetachMenuBar();
         }
 

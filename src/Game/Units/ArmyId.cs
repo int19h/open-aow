@@ -15,7 +15,7 @@ public sealed partial class ArmyId(CustomNode? owner) : EngineObject(owner)
 
     public new const int ClassId = 131_616;
 
-    public Int32List UnitIds { get; } = new Int32List();
+    public Int32List UnitIds { get; } = [];
 
     public sbyte Player { get; set; }
 

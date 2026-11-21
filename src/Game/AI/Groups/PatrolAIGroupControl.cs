@@ -285,7 +285,7 @@ public class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(owner)
             : 0;
 
         int previousHeading = group.PreviousHeading;
-        ByteList choices = new();
+        ByteList choices = [];
         for (int i = 0; i < HexDirectionSlotCount; i++)
         {
             if (lists[i].Count != 0 && lastHeading != i && i != previousHeading)

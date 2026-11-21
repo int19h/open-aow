@@ -24,8 +24,8 @@ public partial class Sign(CustomNode? owner) : Structure(owner)
     // Sign.pas:99
     public new const int ClassId = 131_330;
 
-    public DelphiStringList Text { get; } = new DelphiStringList();
-    public BitList TextSeen { get; } = new BitList();
+    public DelphiStringList Text { get; } = [];
+    public BitList TextSeen { get; } = [];
 
     // Sign.pas:92
     public override void Dispose()

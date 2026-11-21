@@ -157,7 +157,7 @@ public sealed class SpellControl(CustomNode? owner) : EngineObject(owner)
     // Spells.PAS:674
     public int GetRandomSpell(int minLevel, int maxLevel, MagicSpheres spheres)
     {
-        Int32List candidates = new();
+        Int32List candidates = [];
         for (int i = RegisteredSpells.Count - 1; i >= 0; i--)
         {
             Spell? spell = RegisteredSpells[i];

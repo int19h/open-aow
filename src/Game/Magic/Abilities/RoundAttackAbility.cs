@@ -28,7 +28,7 @@ public class RoundAttackAbility : TouchAbility
     public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand? command)
     {
         Battle combat = source.Combat;
-        DelphiList<CombatObject> targets = new();
+        DelphiList<CombatObject> targets = [];
         DamageTypes damageTypes = CombatObject.MeleeDamageTypes(source);
         CombatObject? target = command.Target;
         FastBattleValidateMoveOutsideWall(source, target);

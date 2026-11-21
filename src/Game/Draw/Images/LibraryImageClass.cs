@@ -49,7 +49,7 @@ public sealed class LibraryImageClass
         }
         else
         {
-            rects = new RectangleList();
+            rects = [];
             _ = rects.Add(new Rectangle(0, 0, lockedSurface.Width, lockedSurface.Height));
         }
 
@@ -93,7 +93,7 @@ public sealed class LibraryImageClass
 
     internal static RectangleList? GetSurfaceRectangles(LockedSurface lockedSurface, int transparentColor, Action<object?, int, int>? onProgress)
     {
-        RectangleList rectangleList = new();
+        RectangleList rectangleList = [];
         int i = 0;
         for (int number = lockedSurface.Height - 1; i <= number; i++)
         {

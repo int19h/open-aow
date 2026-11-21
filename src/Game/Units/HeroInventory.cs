@@ -131,9 +131,8 @@ public sealed partial class HeroInventory : ObservableNode, IChildList<Item>, II
     public int GetAbilityCount()
     {
         int result = 0;
-        for (int i = 0, last = Items.Count - 1; i <= last; i++)
+        foreach (Item item in Items)
         {
-            Item item = Items[i];
             if (item is not null && result < item.OwnAbilityCount)
             {
                 result = item.OwnAbilityCount;

@@ -29,10 +29,10 @@ public sealed class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceLis
 
     public sbyte RaceIndex { get; set; } = -1;
 
-    public ByteList DefaultRelations { get; } = new ByteList();
+    public ByteList DefaultRelations { get; } = [];
 
     // TStatus values
-    private readonly Int32List _playerRelations = new();
+    private readonly Int32List _playerRelations = [];
 
     public bool Enabled { get; set; }
 

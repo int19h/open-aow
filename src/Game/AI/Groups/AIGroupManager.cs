@@ -41,11 +41,11 @@ public sealed class AIGroupManager(CustomNode? owner) : OwningNode(owner), IChil
     // AIGroup.pas:583
     public void RegisterAIGroupClasses(ReadOnlySpan<AIGroupClass> classes)
     {
-        for (int i = 0, last = classes.Length - 1; i <= last; i++)
+        foreach (AIGroupClass groupClass in classes)
         {
-            if (RegisteredClasses.IndexOf(classes[i]) == -1)
+            if (RegisteredClasses.IndexOf(groupClass) == -1)
             {
-                RegisteredClasses.Add(classes[i]);
+                RegisteredClasses.Add(groupClass);
             }
         }
     }
@@ -53,9 +53,9 @@ public sealed class AIGroupManager(CustomNode? owner) : OwningNode(owner), IChil
     // AIGroup.pas:592
     public void UnregisterAIGroupClasses(ReadOnlySpan<AIGroupClass> classes)
     {
-        for (int i = 0, last = classes.Length - 1; i <= last; i++)
+        foreach (AIGroupClass groupClass in classes)
         {
-            _ = RegisteredClasses.Remove(classes[i]);
+            _ = RegisteredClasses.Remove(groupClass);
         }
     }
 

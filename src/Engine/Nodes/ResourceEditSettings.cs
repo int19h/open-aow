@@ -98,6 +98,6 @@ public sealed class ResourceEditSettings(CustomNode owner) : ControlStyleObject(
         }
     }
 
-    public DelphiStringList Editors { get; } = new DelphiStringList();
+    public DelphiStringList Editors { get; } = [];
 
 }

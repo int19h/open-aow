@@ -37,7 +37,7 @@ public sealed partial class HtmlMemo : BaseWindow
     // AoWHTMLMemo.pas:93
     public HtmlMemo(Component? owner) : base(owner)
     {
-        _lines = new DelphiStringList();
+        _lines = [];
         Items = new DelphiStringList
         {
             OnChange = OnChangeText

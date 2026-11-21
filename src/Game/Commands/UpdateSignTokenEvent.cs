@@ -17,7 +17,7 @@ public class UpdateSignTokenEvent(CustomNode owner) : TokenEvent(owner)
     // Sign.pas:202
     public new const int ClassId = 131_343;
 
-    public DelphiStringList Text { get; } = new DelphiStringList();
+    public DelphiStringList Text { get; } = [];
 
     public MapCoordinate Location { get; set; }
 

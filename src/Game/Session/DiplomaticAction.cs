@@ -56,7 +56,7 @@ public partial class DiplomaticAction(CustomNode? owner) : EngineObject(owner), 
     {
         base.PersistFields(persister);
         (byte kind, int gold, int mana) = Proposal.ToFields();
-        DelphiStringList message = new();
+        DelphiStringList message = [];
         foreach (string line in Proposal.Message)
         {
             _ = message.Add(line);
@@ -183,11 +183,11 @@ public partial class DiplomaticAction(CustomNode? owner) : EngineObject(owner), 
         if (reaction == DiplomaticActionReaction.None)
         {
             DiplomaticRelation relation = StrategicMap.Current.Players.GetDiplomaticRelation((sbyte)(byte)Source, otherPlayer: (sbyte)(byte)Target);
-            ByteList idealPeace = new();
-            ByteList idealWar = new();
-            ByteList peace = new();
-            ByteList war = new();
-            ByteList unknown = new();
+            ByteList idealPeace = [];
+            ByteList idealWar = [];
+            ByteList peace = [];
+            ByteList war = [];
+            ByteList unknown = [];
             StrategicMap.Current.Players.GetPlayers(Target).AIControl.ListPeaceWarUnknownPlayers(peace, war, unknown);
             StrategicMap.Current.Players.GetPlayers(Target).AIControl.ListIdealPeaceWarPlayers(idealPeace, war: idealWar);
             Proposal.AnswerAI(this, player, relation, idealPeace, idealWar);

@@ -130,7 +130,7 @@ public partial class UIComponent(Rtl.Component? owner) : Rtl.Component(owner)
 
     private UIComponent? _ownerComponent;
 
-    public DelphiList<UIComponent> Children { get; init; } = new DelphiList<UIComponent>();
+    public DelphiList<UIComponent> Children { get; init; } = [];
 
     public List<DirtyRectangle> BlitList { get; } = [];
     public List<DirtyRectangle> DrawList { get; } = [];
@@ -179,9 +179,9 @@ public partial class UIComponent(Rtl.Component? owner) : Rtl.Component(owner)
     {
         Sized = false;
         Aligned = false;
-        for (int i = 0, last = Children.Count - 1; i <= last; i++)
+        foreach (UIComponent? component in Children)
         {
-            Children[i].Valid = false;
+            component.Valid = false;
         }
     }
 
@@ -192,9 +192,9 @@ public partial class UIComponent(Rtl.Component? owner) : Rtl.Component(owner)
         IsDrawn = false;
         BlitCount = 0;
         DrawCount = 0;
-        for (int i = 0, last = Children.Count - 1; i <= last; i++)
+        foreach (UIComponent? component in Children)
         {
-            Children[i].Aligned = false;
+            component.Aligned = false;
         }
     }
 
@@ -266,9 +266,9 @@ public partial class UIComponent(Rtl.Component? owner) : Rtl.Component(owner)
 
         Aligned = true;
         Sized = false;
-        for (int i = 0, last = Children.Count - 1; i <= last; i++)
+        foreach (UIComponent? component in Children)
         {
-            Children[i].Aligned = false;
+            component.Aligned = false;
         }
     }
 
@@ -377,11 +377,11 @@ public partial class UIComponent(Rtl.Component? owner) : Rtl.Component(owner)
     public virtual void ClearDrawList()
     {
         DrawCount = 0;
-        for (int i = 0, last = Children.Count - 1; i <= last; i++)
+        foreach (UIComponent? component in Children)
         {
-            if (Children[i]._visible)
+            if (component._visible)
             {
-                Children[i].ClearDrawList();
+                component.ClearDrawList();
             }
         }
     }
@@ -390,11 +390,11 @@ public partial class UIComponent(Rtl.Component? owner) : Rtl.Component(owner)
     public virtual void ClearBlitList()
     {
         BlitCount = 0;
-        for (int i = 0, last = Children.Count - 1; i <= last; i++)
+        foreach (UIComponent? component in Children)
         {
-            if (Children[i]._visible)
+            if (component._visible)
             {
-                Children[i].ClearBlitList();
+                component.ClearBlitList();
             }
         }
     }

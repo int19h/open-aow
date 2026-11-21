@@ -735,10 +735,9 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyToken
                 armyHexSprite = StrategicMap.Current.MapContainer.GetField(combat.CombatData.AttackerLocation.X, combat.CombatData.AttackerLocation.Y, combat.CombatData.AttackerLocation.MapLevel).GetArmyHexSprite();
                 if (armyHexSprite is not null)
                 {
-                    for (int i = armyHexSprite.Army.Units.Count - 1; i >= 0; i--)
+                    foreach (Troop? troop in armyHexSprite.Army.Units.Reverse())
                     {
-                        Troop? troop = armyHexSprite.Army.Units.GetUnit(i);
-                        armyHexSprite.Army.Units.GetUnit(i).UnitStatus = troop.UnitStatus & ~UnitStatuses.Moving;
+                        troop.UnitStatus &= ~UnitStatuses.Moving;
                     }
 
                     if (armyHexSprite.Army.Player == StrategicMap.Current.SeatedPlayer)

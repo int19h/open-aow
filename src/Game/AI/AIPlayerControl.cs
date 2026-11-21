@@ -436,11 +436,11 @@ public sealed partial class AIPlayerControl : EngineObject
         bool result;
         if (!(Player.DiplomaticRelations.GetHistory((sbyte)player).GetRelationOnDay(0) == DiplomaticRelation.War && Player.DiplomaticRelations.GetDiplomaticRelation((sbyte)player) == DiplomaticRelation.War))
         {
-            ByteList idealPeace = new();
-            ByteList idealWar = new();
-            ByteList peace = new();
-            ByteList war = new();
-            ByteList unknown = new();
+            ByteList idealPeace = [];
+            ByteList idealWar = [];
+            ByteList peace = [];
+            ByteList war = [];
+            ByteList unknown = [];
             ListPeaceWarUnknownPlayers(peace, war, unknown);
             ListIdealPeaceWarPlayers(idealPeace, war: idealWar);
             _ = war.Remove(player);
@@ -511,11 +511,11 @@ public sealed partial class AIPlayerControl : EngineObject
         bool result;
         if (!(Player.DiplomaticRelations.GetHistory((sbyte)player).GetRelationOnDay(0) == DiplomaticRelation.Peace && Player.DiplomaticRelations.GetDiplomaticRelation((sbyte)player) == DiplomaticRelation.Peace))
         {
-            ByteList idealPeace = new();
-            ByteList idealWar = new();
-            ByteList peace = new();
-            ByteList war = new();
-            ByteList unknown = new();
+            ByteList idealPeace = [];
+            ByteList idealWar = [];
+            ByteList peace = [];
+            ByteList war = [];
+            ByteList unknown = [];
             ListPeaceWarUnknownPlayers(peace, war, unknown);
             ListIdealPeaceWarPlayers(idealPeace, war: idealWar);
             _ = peace.Remove(player);

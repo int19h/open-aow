@@ -12,7 +12,7 @@ public partial class SmtpEventLog(CustomNode owner) : EventLog(owner)
     public string ToAddress { get; } = "";
     public string FileName { get; } = "";
     public string Subject { get; } = "";
-    public DelphiStringList Message { get; } = new DelphiStringList();
+    public DelphiStringList Message { get; } = [];
     public bool Success { get; set; }
     public string FromAddress { get; } = "";
     public string Error { get; set; } = "";

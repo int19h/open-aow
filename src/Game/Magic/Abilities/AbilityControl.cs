@@ -24,7 +24,7 @@ public sealed class AbilityControl : EngineObject
         for (int kindOrdinal = (int)AbilityType.Enhancement; kindOrdinal <= (int)AbilityType.Enchantment; kindOrdinal++)
         {
             AbilityType kind = (AbilityType)kindOrdinal;
-            AbilityTypeList abilityTypeList = new();
+            AbilityTypeList abilityTypeList = [];
             AbilitiesByType[(int)kind] = abilityTypeList;
         }
     }
@@ -150,7 +150,7 @@ public sealed class AbilityControl : EngineObject
     // Ability.PAS:2148
     public void ListAbilityInfo(DelphiStringCollection text, bool sortByName, AbilityInfoModes mode)
     {
-        DelphiList<Ability> list = new();
+        DelphiList<Ability> list = [];
         for (int i = 0, last = Abilities.Count - 1; i <= last; i++)
         {
             if (Abilities[i] is not null)

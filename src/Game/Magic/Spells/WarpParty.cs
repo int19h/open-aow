@@ -92,7 +92,7 @@ public class WarpParty : Spell
     public MapCoordinate CalculateWarpLocation(ArmyHexSprite? army)
     {
         MapFieldMessage message = default;
-        DelphiList<MapField> candidates = new();
+        DelphiList<MapField> candidates = [];
         MovePointTable table = army.Army.CreateMovePointTable(255);
         sbyte hexY = army.HexY;
         sbyte hexX = army.HexX;

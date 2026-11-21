@@ -15,7 +15,7 @@ public class ObservableNode(CustomNode? owner) : CustomNode(owner)
 
     // The child slots. Every write of a child goes through AddChild, SetChild or the members
     // below, so the child check in CheckChild sees each child that enters.
-    private EngineObjectList? _children = new();
+    private EngineObjectList? _children = [];
 
     // Engine.pas:7212
     public override void Dispose()

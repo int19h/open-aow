@@ -18,7 +18,7 @@ namespace Aow.Game.UI.Controls;
 public sealed class TutorialControl(CustomNode? owner) : EngineObject(owner)
 {
 
-    private readonly Int32List _shownMessages = new();
+    private readonly Int32List _shownMessages = [];
 
     // AoWHSMap.PAS:6
     public override void Dispose()

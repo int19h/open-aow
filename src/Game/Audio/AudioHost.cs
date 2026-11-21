@@ -23,9 +23,9 @@ public static class AudioHost
     {
         BaseSoundEnginePath = ExtractFilePath(Application.ExeName);
 
-        SampleList = new SampleList();
-        SampleDataList = new SampleDataList();
-        SoundSystems ??= new SoundSystemList();
+        SampleList = [];
+        SampleDataList = [];
+        SoundSystems ??= [];
 
         SongPlayer = new SongPlayer();
     }

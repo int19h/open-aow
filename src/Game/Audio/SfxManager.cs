@@ -31,7 +31,7 @@ public sealed class SfxManager(Component owner) : Component(owner)
                 _ = Sfx.Add(UpperCase(directory + entry.Name));
             }
 
-            DelphiStringList directories = new();
+            DelphiStringList directories = [];
             foreach (RtlFileEntry entry in Files.FindEntries($"{directory}*.*", attributes: 16))
             {
                 if ((entry.Attribute & 0b0001_0000) != 0 && entry.Name != "." && entry.Name != "..")
@@ -66,7 +66,7 @@ public sealed class SfxManager(Component owner) : Component(owner)
     public string SearchPath { get; private set; } = "";
 
     [Published]
-    public SfxList Sfx { get; } = new SfxList();
+    public SfxList Sfx { get; } = [];
 
     private static readonly string s_sfxExtension = "WAV";
 

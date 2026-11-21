@@ -977,9 +977,9 @@ public class CombatAbilityRangedTokenEvent(CustomNode? owner) : TokenEvent(owner
                 if (CombatMap.Current.Combat.CombatData.GetObjects(i2) is CombatUnit && CombatMap.Current.Combat.CombatData.GetObjects(i2).GetEnabled() && CombatMap.Current.Combat.CombatData.GetObjects(i2).Side != _unit.Side)
                 {
                     bool available = true;
-                    for (int j2 = 0, lastJ = used.Count - 1; j2 <= lastJ; j2++)
+                    foreach (TacticalBattleUnit? unit in used)
                     {
-                        if (CombatMap.Current.Combat.CombatData.GetObjects(i2) == used[j2])
+                        if (CombatMap.Current.Combat.CombatData.GetObjects(i2) == unit)
                         {
                             available = false;
                         }
@@ -1004,7 +1004,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode? owner) : TokenEvent(owner
         TacticalBattleUnit? target;
         void ChooseTarget()
         {
-            used = new DelphiList<TacticalBattleUnit>();
+            used = [];
             List<int> weights = [];
             int total = 0;
             int i2 = 0;
@@ -1054,7 +1054,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode? owner) : TokenEvent(owner
         }
 
         BattleEffectSprite effect = CombatMap.Current.AddEffect(BattleEffectType.None);
-        DelphiList<RangedObstacle> obstacles = new();
+        DelphiList<RangedObstacle> obstacles = [];
         int x1;
         int y1;
         int x2;
@@ -1400,7 +1400,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode? owner) : TokenEvent(owner
                 path27[count20 - 1].Z = 16;
                 effect.Path = path27;
                 i = 3;
-                used = new DelphiList<TacticalBattleUnit>();
+                used = [];
                 _ = used.Add(_unit);
                 hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(TargetX, TargetY).FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
                 if (hexSprite is not null)

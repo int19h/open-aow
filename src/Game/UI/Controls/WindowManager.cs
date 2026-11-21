@@ -142,10 +142,10 @@ public sealed partial class WindowManager : UIComponent
             if (Valid)
             {
                 {
-                    for (int i = 0, last = Children.Count - 1; i <= last; i++)
+                    foreach (UIComponent? component in Children)
                     {
                         // The child list is UIComponent. The manager shows windows, and the cast stays.
-                        c = (WindowControl?)Children[i];
+                        c = (WindowControl?)component;
                         if (c.Valid)
                         {
                             if (!IsDrawn)
@@ -429,9 +429,8 @@ public sealed partial class WindowManager : UIComponent
     {
         if (_overlayPriority > _newOverlayPriority)
         {
-            for (int i = 0, last = Children.Count - 1; i <= last; i++)
+            foreach (UIComponent? c in Children)
             {
-                UIComponent? c = Children[i];
                 if (c.Priority >= _newOverlayPriority && c.Priority < _overlayPriority && c.Visible)
                 {
                     c.IsDrawn = false;

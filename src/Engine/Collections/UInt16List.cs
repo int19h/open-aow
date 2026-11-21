@@ -11,7 +11,7 @@ using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Engine.Collections;
 
-public class UInt16List : Persistent
+public class UInt16List : Persistent, IReadOnlyList<ushort>
 {
     private ushort[] _list = [];
     private int _count;
@@ -421,4 +421,16 @@ public class UInt16List : Persistent
     }
 
     internal static void FillWord(Span<ushort> buffer, int count, ushort value) => buffer[..count].Fill(value);
+
+    // The values from the first to the last in index order, read through the indexer. Each step
+    // reads the count again, as the index loop over a live count does.
+    public IEnumerator<ushort> GetEnumerator()
+    {
+        for (int i = 0; i < Count; i++)
+        {
+            yield return this[i];
+        }
+    }
+
+    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
 }

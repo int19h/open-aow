@@ -9,7 +9,7 @@ public partial class TerrainMapObject
 {
     public virtual TerrainMapObjectResource? FindTerrainResource(byte terrainType)
     {
-        DelphiList<TerrainMapObjectResource> candidates = new();
+        DelphiList<TerrainMapObjectResource> candidates = [];
         MapObjectResourceList resources = GetResourceList(Resource.Engine);
         for (int i = 0; i < resources.Count; i++)
         {
@@ -34,7 +34,7 @@ public partial class TerrainMapObject
 
     public TerrainMapObjectResource? FindCompatibleResource(byte terrainType, sbyte overlayType, int decorationType)
     {
-        DelphiList<TerrainMapObjectResource> candidates = new();
+        DelphiList<TerrainMapObjectResource> candidates = [];
         MapObjectResourceList resources = GetResourceList(Resource.Engine);
         for (int i = 0; i < resources.Count; i++)
         {

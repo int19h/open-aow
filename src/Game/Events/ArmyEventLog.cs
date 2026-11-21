@@ -25,8 +25,8 @@ public partial class ArmyEventLog : EventLog
     {
         ArmyMessages = new DelphiStringList();
         ArmyView = new ArmyView(null) { Holder = CreationHolder() };
-        DamageValues = new ByteList();
-        DamageTypes = new ByteList();
+        DamageValues = [];
+        DamageTypes = [];
     }
 
     public new const int ClassId = 131_608;

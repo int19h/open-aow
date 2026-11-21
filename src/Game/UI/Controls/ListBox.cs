@@ -50,7 +50,7 @@ public partial class ListBox : Control
     public int HoverItem { get; set; }
 
     // AoWListBox.pas:107
-    public ListBox(Component? owner) : this(owner, items: new DelphiStringList())
+    public ListBox(Component? owner) : this(owner, items: [])
     {
     }
 

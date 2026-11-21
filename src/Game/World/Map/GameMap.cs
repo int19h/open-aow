@@ -434,7 +434,7 @@ public partial class GameMap : OwningNode
     {
         Rect r = default;
         LockTerrainChangedEvent();
-        SByteList list = new();
+        SByteList list = [];
         MapLevel mapLevel = MapContainer.GetMapLevel(L);
         int count = 0;
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, radius: 0);
@@ -521,9 +521,9 @@ public partial class GameMap : OwningNode
         if (changeTerrainProc is not null)
         {
             LockTerrainChangedEvent();
-            SByteList orgList = new();
-            SByteList newList = new();
-            BitList changed = new();
+            SByteList orgList = [];
+            SByteList newList = [];
+            BitList changed = [];
             MapLevel mapLevel = MapContainer.GetMapLevel(L);
             int count = 0;
             HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, radius: 0);

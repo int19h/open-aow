@@ -19,14 +19,14 @@ public class JoinEventLog(CustomNode owner) : EventLog(owner)
 
     public int FirstUnitId { get; set; }
 
-    public Int32List UnitIds { get; } = new Int32List();
+    public Int32List UnitIds { get; } = [];
 
     private MapCoordinate _location = new(-1, -1, -1);
 
     public byte Selection { get; set; }
     public int JoinIndex { get; set; } = -1;
 
-    public DelphiStringList JoinMessage { get; } = new DelphiStringList();
+    public DelphiStringList JoinMessage { get; } = [];
 
     public int Gold { get; set; }
     public JoinMode JoinMode { get; set; }

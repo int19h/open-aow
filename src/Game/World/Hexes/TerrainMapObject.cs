@@ -149,7 +149,7 @@ public partial class TerrainMapObject(CustomNode? owner) : MultiHexMapObject(own
     // Terrain.pas:70
     public virtual TerrainMapObjectResource? FindDecorationResource(byte decorationType)
     {
-        DelphiList<TerrainMapObjectResource> candidates = new();
+        DelphiList<TerrainMapObjectResource> candidates = [];
         MapObjectResourceList resources = GetResourceList(Resource.Engine);
         for (int i = 0, last = resources.Count - 1; i <= last; i++)
         {

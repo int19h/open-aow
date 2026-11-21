@@ -253,7 +253,7 @@ public class SmokeCloud : MultiHexMapObject
             if (Drifting)
             {
                 int direction = 0;
-                ByteList directions = new();
+                ByteList directions = [];
                 bool valid = false;
                 _ = directions.Add(_direction);
                 _ = _direction != 1 ? directions.Add((byte)(_direction - 1)) : directions.Add(6);

@@ -1,19 +1,13 @@
 #nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
-
 using Aow.Engine.Nodes;
-
 using Aow.Formats.Tree;
-
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.Units;
-
 using Aow.Game.World.Map;
-
 using Aow.Game.World.Structures;
-
 using static Aow.Rtl.DelphiAssert;
 
 namespace Aow.Game.AI.Groups;
@@ -445,11 +439,11 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     public int GetMovePointsMin()
     {
         int result = 50;
-        for (int i = Units.Count - 1; i >= 0; i--)
+        foreach (Troop? troop in Units.Reverse())
         {
-            if (result > Units.GetUnit(i).GetMovePoints())
+            if (result > troop.GetMovePoints())
             {
-                result = Units.GetUnit(i).GetMovePoints();
+                result = troop.GetMovePoints();
             }
         }
 
@@ -460,11 +454,11 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     public int GetMovesMin()
     {
         int result = 50;
-        for (int i = Units.Count - 1; i >= 0; i--)
+        foreach (Troop? troop in Units.Reverse())
         {
-            if (result > Units.GetUnit(i).Moves)
+            if (result > troop.Moves)
             {
-                result = Units.GetUnit(i).Moves;
+                result = troop.Moves;
             }
         }
 

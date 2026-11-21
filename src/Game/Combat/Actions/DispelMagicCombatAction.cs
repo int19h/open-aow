@@ -17,7 +17,7 @@ namespace Aow.Game.Combat.Actions;
 public class DispelMagicCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
 {
 
-    public Int32List EnchantmentIds { get; } = new Int32List();
+    public Int32List EnchantmentIds { get; } = [];
 
     // AoWAb.PAS:3941
     public override void Dispose()

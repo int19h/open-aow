@@ -171,7 +171,7 @@ public sealed class FastBattle(CustomNode owner) : Battle(owner)
     {
         NewRound();
         bool idle = true;
-        CombatObjectList objects = new();
+        CombatObjectList objects = [];
         int round = Round;
         SetLogbookHeader(AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_roundFormat), arguments: [round.ToString(CultureInfo.InvariantCulture)]));
         for (int playerIndex = 0, last = CombatData.TurnOrder.Count - 1; playerIndex <= last; playerIndex++)

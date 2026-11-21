@@ -47,7 +47,7 @@ public static class GraphicsState
         LinearAlphaBlendTable = new LookupBlendTableCollection100();
         InitializeBlendTables(5, count: 31);
         ForcedPixelFormatId = PixelFormat.None;
-        ImageFileClassList = new ImageFileClassList();
+        ImageFileClassList = [];
         RegisterImageFileClasses([ImageFileClass.Of<BmpImageFile>()]);
     }
 

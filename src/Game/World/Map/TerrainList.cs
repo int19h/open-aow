@@ -130,7 +130,7 @@ public sealed class TerrainList : IDisposable
     {
         int hexX = default;
         int hexY = default;
-        UInt16List result = new();
+        UInt16List result = [];
         for (int i = 0, last = _count - 1; i <= last; i++)
         {
             if (GetTerrain(i) >= 0)

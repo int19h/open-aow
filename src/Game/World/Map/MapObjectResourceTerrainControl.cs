@@ -21,7 +21,7 @@ public class MapObjectResourceTerrainControl(CustomNode owner) : EngineObject(ow
         Clear();
         for (int i = 0, last = HexSpriteEngine.HexSpriteSet.TerrainTypes.Count - 1; i <= last; i++)
         {
-            DelphiList<MapObjectResource> list = new();
+            DelphiList<MapObjectResource> list = [];
             Resources.Add(list);
         }
     }

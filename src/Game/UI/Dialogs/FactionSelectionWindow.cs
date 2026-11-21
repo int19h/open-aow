@@ -218,7 +218,7 @@ public sealed partial class FactionSelectionWindow(UIContext ui) : UIModule(ui)
         dialog.ResetCampaignJoin();
         dialog.Faction = faction;
         dialog.Stage = 0;
-        DelphiStringList value = new();
+        DelphiStringList value = [];
         switch (dialog.Faction)
         {
             case 0:

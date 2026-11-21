@@ -31,7 +31,7 @@ public class SummonSpell : Spell
     // SummonSpells.pas:241
     public SummonSpell(CustomNode? owner) : base(owner)
     {
-        UnitIndices = new UnitIndexList();
+        UnitIndices = [];
         SpellType = SpellType.Global;
         AIBasePriority = -1;
     }

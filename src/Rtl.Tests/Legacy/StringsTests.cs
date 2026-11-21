@@ -16,7 +16,7 @@ public sealed class StringsTests
     public void ObjectsNamesValuesAndAssignmentPreserveSourceRules()
     {
         // CLASSES.PAS:2125..2163 and :2263..2354.
-        DelphiStringList list = new();
+        DelphiStringList list = [];
         TrackObject objectValue = new();
         TrackObject other = new();
         Assert.Equal(0, list.AddObject("First=one", item: objectValue));
@@ -44,7 +44,7 @@ public sealed class StringsTests
         Assert.Equal("changed", list[1]);
         list.Objects[1] = objectValue;
         Assert.Same(objectValue, list.Objects[1]);
-        DelphiStringList copy = new();
+        DelphiStringList copy = [];
         copy.Assign(list);
         Assert.Equal(list.Text, copy.Text);
         Assert.Same(objectValue, copy.Objects[0]);
@@ -69,7 +69,7 @@ public sealed class StringsTests
     public void StringListEventsBatchAndSortedMutationErrorsFollowSource()
     {
         // CLASSES.PAS:2575..2615, :2719..2733 and :2775..2788.
-        DelphiStringList list = new();
+        DelphiStringList list = [];
         List<string> events = [];
         list.OnChanging = s =>
         {
@@ -144,7 +144,7 @@ public sealed class StringsTests
     public void CommaTextPortsTheDelphiParserIncludingEmptyAndTrailingFields()
     {
         // CLASSES.PAS:2239..2261 and :2454..2484, also checked with DCC32.
-        DelphiStringList list = new();
+        DelphiStringList list = [];
         foreach ((string? input, string[]? expected, string? canonical) in new[]{
             ("",Array.Empty<string>(),""), ("a,,b,",["a","","b"],"a,,b"), (",,",["",""],","),
             ("\"a\"\"b\", \"\",c",["a\"b","","c"],"\"a\"\"b\",,c"),

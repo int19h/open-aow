@@ -699,9 +699,9 @@ public static class NameTable
             string[] parts = ns.Length == 0 ? [] : ns.Split('.');
             HashSet<string> used = [with(stored.Values)];
             string candidate = baseStored;
-            for (int i = parts.Length - 1; i >= 0; i--)
+            foreach (string part in Enumerable.Reverse(parts))
             {
-                candidate = $"{parts[i]}.{candidate}";
+                candidate = $"{part}.{candidate}";
                 if (!used.Contains(candidate))
                 {
                     return candidate;

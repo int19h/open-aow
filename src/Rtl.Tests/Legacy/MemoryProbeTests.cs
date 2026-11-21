@@ -14,7 +14,7 @@ public sealed class MemoryProbeTests
     public void IntegerListSlots()
     {
         ProbeLines probe = new("integer-list-slots");
-        DelphiList<object> list = new();
+        DelphiList<object> list = [];
         object stored = new();
         list.Count = 3;
         for (int i = 0; i < 3; i++)

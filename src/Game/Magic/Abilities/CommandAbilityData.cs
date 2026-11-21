@@ -18,7 +18,7 @@ public class CommandAbilityData(CustomNode owner) : AbilityData(owner)
 
     public int AbilityId { get; set; }
 
-    public ByteList CommandedUnits { get; } = new ByteList();
+    public ByteList CommandedUnits { get; } = [];
 
     // AoWAb.PAS:4954
     public override void Dispose()

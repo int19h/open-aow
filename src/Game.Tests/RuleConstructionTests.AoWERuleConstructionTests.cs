@@ -175,7 +175,7 @@ public sealed partial class RuleConstructionTests
         {
             for (int i = 0; i < 5; i++)
             {
-                Assert.Equal(0, control.AbilitiesByType[i].Count);
+                Assert.Empty(control.AbilitiesByType[i]);
             }
         }
 

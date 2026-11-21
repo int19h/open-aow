@@ -26,7 +26,7 @@ public sealed class AIMoveExecutor : EngineObject
     {
         Units = new AIMoveExecutorUnitList(null) { Holder = CreationHolder() };
         Moves = new AIMoveExecutorMoveQueue(null) { Holder = CreationHolder() };
-        ControlQueue = new Int32List();
+        ControlQueue = [];
         Clear();
     }
 
@@ -222,7 +222,7 @@ public sealed class AIMoveExecutor : EngineObject
     // AIGroup.pas:6106
     public AIMoveExecutorArmyList CreateArmies(AIMoveExecutorUnitStatuses status)
     {
-        Int32List used = new();
+        Int32List used = [];
         AIMoveExecutorArmyList armies = new(null) { Holder = CreationHolder() };
         for (int i = 0, last = Units.Count - 1; i <= last; i++)
         {

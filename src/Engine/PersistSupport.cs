@@ -93,9 +93,9 @@ public static class PersistSupport
     public static void Int32Array(this IPersister persister, string name, Span<int> values)
     {
         List<int> list = [with(values.Length)];
-        for (int i = 0; i < values.Length; i++)
+        foreach (int value in values)
         {
-            list.Add(values[i]);
+            list.Add(value);
         }
 
         persister.List(name, items: list, static (slot, item) => slot.Int32(item));
@@ -118,9 +118,9 @@ public static class PersistSupport
     public static void UInt16Array(this IPersister persister, string name, Span<ushort> values)
     {
         List<ushort> list = [with(values.Length)];
-        for (int i = 0; i < values.Length; i++)
+        foreach (ushort value in values)
         {
-            list.Add(values[i]);
+            list.Add(value);
         }
 
         persister.List(name, items: list, static (slot, item) => slot.UInt16(item));

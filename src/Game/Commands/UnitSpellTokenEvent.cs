@@ -44,7 +44,7 @@ public class UnitSpellTokenEvent : SpellTokenEvent
     // Spells.PAS:1120
     public UnitSpellTokenEvent(CustomNode? owner) : base(owner)
     {
-        TargetUnitIds = new Int32List();
+        TargetUnitIds = [];
         _targetUnits = new UnitUserList(null) { Holder = CreationHolder() };
     }
 

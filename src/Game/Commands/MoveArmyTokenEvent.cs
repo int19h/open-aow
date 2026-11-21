@@ -27,7 +27,7 @@ public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
 
     public ArmyMoveModes Mode { get; protected set; }
 
-    private readonly Int32List _unitIds = new();
+    private readonly Int32List _unitIds = [];
 
     public byte Selection { get; protected set; }
     public ArmyHexSprite? ArmyHexSprite { get; protected set; }

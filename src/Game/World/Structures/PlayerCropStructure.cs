@@ -321,8 +321,8 @@ public class PlayerCropStructure : PlayerStructure
         {
             _changingCrops = true;
             MapLevel mapLevel = Owner.Owner;
-            DelphiList<Crop> crops = new();
-            UInt16List locations = new();
+            DelphiList<Crop> crops = [];
+            UInt16List locations = [];
             locations.Assign(Resource.CropLocations);
             int i = locations.Count - 1;
             int x = default;

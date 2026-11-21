@@ -9,7 +9,7 @@ public sealed class StringListGenericTests
     {
         Tagged first = new(1);
         Tagged second = new(2);
-        DelphiStringList<Tagged> list = new();
+        DelphiStringList<Tagged> list = [];
         Assert.Equal(0, list.AddObject("b", item: first));
         list.InsertObject(0, value: "a", item: second);
         _ = list.Add("c");
@@ -33,10 +33,10 @@ public sealed class StringListGenericTests
         Assert.Equal(["c", "b", "a"], Enumerable.Range(0, list.Count).Select(i => list[i]));
         Assert.Equal([first, first, second], Enumerable.Range(0, list.Count).Select(i => list.Objects[i]));
 
-        DelphiStringList<Tagged> copy = new();
+        DelphiStringList<Tagged> copy = [];
         copy.AddStrings(list);
         Assert.Same(second, copy.Objects[2]);
-        DelphiStringList mixed = new();
+        DelphiStringList mixed = [];
         _ = mixed.AddObject("x", item: new object());
         _ = Assert.Throws<ArgumentException>(() => copy.AddStrings(mixed));
     }

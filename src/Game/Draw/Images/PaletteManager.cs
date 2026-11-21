@@ -61,9 +61,9 @@ public sealed class PaletteManager : IDisposable
     // ImageLib.pas:7025
     public void Clear()
     {
-        for (int i = Palettes.Count - 1; i >= 0; i--)
+        foreach (LibraryImagePalette palette in Enumerable.Reverse(Palettes))
         {
-            Palettes[i]?.Dispose();
+            palette?.Dispose();
         }
 
         Palettes.Clear();

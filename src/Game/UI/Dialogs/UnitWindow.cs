@@ -370,7 +370,7 @@ public sealed partial class UnitWindow(UIContext ui) : UIModule(ui)
     public void T1SortNameClick(int button)
     {
         UI.General.PlayButtonSound(0);
-        DelphiList<ListBox> lists = new();
+        DelphiList<ListBox> lists = [];
         _ = lists.Add(AbilityAbilityList);
         _ = lists.Add(AbilityTypeList);
         _ = lists.Add(AbilitySourceList);
@@ -382,7 +382,7 @@ public sealed partial class UnitWindow(UIContext ui) : UIModule(ui)
     public void T1SortTypeClick(int button)
     {
         UI.General.PlayButtonSound(0);
-        DelphiList<ListBox> lists = new();
+        DelphiList<ListBox> lists = [];
         _ = lists.Add(AbilityTypeList);
         _ = lists.Add(AbilityAbilityList);
         _ = lists.Add(AbilitySourceList);
@@ -394,7 +394,7 @@ public sealed partial class UnitWindow(UIContext ui) : UIModule(ui)
     public void T1SortSourceClick(int button)
     {
         UI.General.PlayButtonSound(0);
-        DelphiList<ListBox> lists = new();
+        DelphiList<ListBox> lists = [];
         _ = lists.Add(AbilitySourceList);
         _ = lists.Add(AbilityAbilityList);
         _ = lists.Add(AbilityTypeList);

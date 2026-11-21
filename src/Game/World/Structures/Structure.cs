@@ -671,7 +671,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
         int collection = Resource.Defenders.GetRandomCollection();
         if (collection != -1)
         {
-            UnitIndexList indexes = new();
+            UnitIndexList indexes = [];
             UnitIndexListCollection unitIndexListCollection = Resource.Defenders;
             for (int i = unitIndexListCollection.GetCollectionCount(collection) - 1; i >= 0; i--)
             {
@@ -789,7 +789,7 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
     // Structur.PAS:1569
     public virtual bool MainValidateMap(DelphiStringCollection? messages)
     {
-        DelphiStringList errors = new();
+        DelphiStringList errors = [];
         bool result = ValidateMap(errors);
         if (errors.Count != 0)
         {

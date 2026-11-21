@@ -172,7 +172,7 @@ public sealed class AIMoveTargetSelector : EngineObject
     {
         if (_bufferedTargets.Count != 0)
         {
-            Int32List gaps = new();
+            Int32List gaps = [];
             MoveTarget target = _bufferedTargets.GetTarget(0);
             MapCoordinate coordinate106 = _transporter.GetLocation();
             sbyte locationX = coordinate106.X;

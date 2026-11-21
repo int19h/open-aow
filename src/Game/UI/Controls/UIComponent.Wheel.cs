@@ -50,9 +50,8 @@ public partial class UIComponent
 
     protected UIComponent? TopWheelChild(int X, int Y)
     {
-        for (int i = Children.Count - 1; i >= 0; i--)
+        foreach (UIComponent? child in Children.Reverse())
         {
-            UIComponent? child = Children[i];
             if (child.WantsMouseWheel && child.ContainsPoint(X, Y))
             {
                 return child;
@@ -78,9 +77,9 @@ public partial class UIComponent
         }
 
         VerticalScrollBar? bar = null;
-        for (int i = 0; i < Children.Count; i++)
+        foreach (UIComponent? component in Children)
         {
-            if (Children[i] is VerticalScrollBar candidate && candidate._visible && candidate.CaptureInput)
+            if (component is VerticalScrollBar candidate && candidate._visible && candidate.CaptureInput)
             {
                 if (bar is not null)
                 {

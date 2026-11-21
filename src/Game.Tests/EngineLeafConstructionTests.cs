@@ -160,7 +160,7 @@ public sealed class EngineLeafConstructionTests
             switch (value)
             {
                 case BitList list:
-                    Assert.Equal(0, list.Count); Assert.Equal(0, list.Capacity); Assert.True(Field<Memory<byte>>(list, name: "List").IsEmpty);
+                    Assert.Empty(list); Assert.Equal(0, list.Capacity); Assert.True(Field<Memory<byte>>(list, name: "List").IsEmpty);
                     break;
                 case DoubleItemList list:
                     Assert.Equal(0, list.Count); Assert.Equal(0, list.Capacity); Assert.Empty(list.List);
@@ -180,19 +180,19 @@ public sealed class EngineLeafConstructionTests
                     Assert.Equal(0, list.Count); Assert.Equal(0, list.Capacity); Assert.Empty(list.List);
                     break;
                 case SByteList list:
-                    Assert.Equal(0, list.Count); Assert.Equal(0, list.Capacity); Assert.Empty(list.List);
+                    Assert.Empty(list); Assert.Equal(0, list.Capacity); Assert.Empty(list.List);
                     break;
                 case UInt16List list:
-                    Assert.Equal(0, list.Count); Assert.Equal(0, list.Capacity); Assert.Empty(list.List);
+                    Assert.Empty(list); Assert.Equal(0, list.Capacity); Assert.Empty(list.List);
                     break;
                 case EngineObjectEditorList editors:
                     Assert.Equal(0, editors.Count);
                     break;
                 case EngineObjectList children:
-                    Assert.Equal(0, children.Count); Assert.Equal(0, children.Capacity); Assert.Empty(children.List);
+                    Assert.Empty(children); Assert.Equal(0, children.Capacity); Assert.Empty(children.List);
                     break;
                 case EngineObjectClassList list:
-                    Assert.Equal(0, list.Count); Assert.Equal(0, list.Capacity);
+                    Assert.Empty(list); Assert.Equal(0, list.Capacity);
                     break;
                 default: Assert.Fail("Missing helper assertion"); break;
             }

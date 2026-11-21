@@ -50,7 +50,7 @@ public sealed class PointerViewTests
         Assert.Equal(records.Reinterpret<int>(4), words + 1);
         Ptr<int>.Copy(words, destination: words + 1, count: 2);
         Assert.Equal((int[])[17, 17, 23, 0], words.AsSpan(4).ToArray());
-        DelphiList<PtrBox<int>> list = new();
+        DelphiList<PtrBox<int>> list = [];
         _ = list.Add(new PtrBox<int>(words + 1));
         Assert.Equal(0, list.IndexOf(new PtrBox<int>(records.Reinterpret<int>(4))));
         Assert.Equal(-1, list.IndexOf(new PtrBox<int>(words)));

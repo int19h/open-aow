@@ -17,7 +17,7 @@ public sealed class ClassesTests
         // CLASSES.PAS:1435..1619, including pointer identity and Count's zero fill.
         Identical first = new();
         Identical equal = new();
-        DelphiList<Identical> l = new();
+        DelphiList<Identical> l = [];
         _ = Assert.Throws<ArgumentOutOfRangeException>(l.First);
         _ = Assert.Throws<ArgumentOutOfRangeException>(l.Last);
         _ = Assert.Throws<ArgumentOutOfRangeException>(() => l[-1]);
@@ -49,7 +49,7 @@ public sealed class ClassesTests
         Assert.Equal(9, l.Capacity);
         Assert.Equal("problem 7", Assert.Throws<ArgumentOutOfRangeException>(() => DelphiListCore.Error("problem %d", data: 7)).Message);
         l.Dispose();
-        Assert.Equal(0, l.Count);
+        Assert.Empty(l);
         Assert.Empty(l.List);
     }
 

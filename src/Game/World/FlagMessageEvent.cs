@@ -20,7 +20,7 @@ public class FlagMessageEvent(CustomNode owner) : FlagEvent(owner)
     public new const int ClassId = 132_461;
 
     private string _helpFileName = "";
-    private readonly DelphiStringList _message = new();
+    private readonly DelphiStringList _message = [];
 
     // FlagEvents.pas:186
     public override void Dispose()

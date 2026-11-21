@@ -16,7 +16,7 @@ public partial class MoveControlSettings : EngineObject
     public MoveControlSettings(CustomNode? owner) : base(owner)
     {
         _refCount = 1;
-        ProcessedMapFields = new DelphiList<MapField>();
+        ProcessedMapFields = [];
         Path = new MovePath();
         SubMoves = new SubMoveList(null) { Holder = CreationHolder() };
         Units = new UnitUserList(null) { Holder = CreationHolder() };

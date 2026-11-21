@@ -56,7 +56,7 @@ public sealed partial class Memo : Control
     // AoWMemo.pas:126
     public Memo(Component? owner) : base(owner)
     {
-        Lines = new DelphiStringList();
+        Lines = [];
         _items = new DelphiStringList
         {
             OnChange = OnChangeText
@@ -149,9 +149,9 @@ public sealed partial class Memo : Control
             _topItem = _verticalScrollBar.Position;
         }
 
-        for (int i = 0, last = ColorList.Count - 1; i <= last; i++)
+        foreach (ColorChange change in ColorList)
         {
-            _ = ColorList[i];
+            _ = change;
         }
 
         ColorList.Clear();

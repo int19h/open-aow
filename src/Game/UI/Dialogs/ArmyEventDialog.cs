@@ -131,7 +131,7 @@ public sealed partial class ArmyEventDialog(UIContext ui) : UIModule(ui)
     }
 
     // AoWArmyEventDlg.pas:171
-    public void ArmyEventDialogCreate() => _units = new ByteList();
+    public void ArmyEventDialogCreate() => _units = [];
 
     // AoWArmyEventDlg.pas:176
     public void ArmyEventDialogDestroy() => _units?.Dispose();

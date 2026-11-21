@@ -169,7 +169,7 @@ public class CombatSpell : Spell
         if (CombatInfo.Radius > 1)
         {
             Battle combat = source.Combat;
-            DelphiList<CombatObject> targets = new();
+            DelphiList<CombatObject> targets = [];
             int distance = combat.RoundDistance;
             if (CombatInfo.Range == -1)
             {

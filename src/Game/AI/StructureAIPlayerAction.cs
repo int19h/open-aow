@@ -15,7 +15,7 @@ public class StructureAIPlayerAction(CustomNode owner) : AIPlayerAction(owner)
 
     public int Phase { get; protected init; }
 
-    private readonly Int32List _structureIds = new();
+    private readonly Int32List _structureIds = [];
 
     // Structur.PAS:3324
     public override void Dispose()

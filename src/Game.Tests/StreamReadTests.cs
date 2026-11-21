@@ -33,7 +33,7 @@ public sealed class StreamReadTests
     {
         // The integer list's payload, which the token events still store. The byte list's payload
         // methods went with the combat ReadWrite methods (issue 185 PE-3-i part 4).
-        Int32List list = new();
+        Int32List list = [];
         using MemoryStream stream = new();
         _ = Assert.Throws<EndOfStreamException>(() => list.LoadFromStream(stream));
     }

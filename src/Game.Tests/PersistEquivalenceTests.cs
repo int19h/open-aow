@@ -653,7 +653,7 @@ public sealed partial class PersistEquivalenceTests
         _ = untouched.Units.Add(8);
         TreeReader.Read(new ObjectNode(null, slot: null), objectValue: untouched, Factory);
         Assert.Equal(-1, untouched.Units.Default);
-        Assert.Equal(1, untouched.Units.Count);
+        _ = Assert.Single(untouched.Units);
     }
 
     [Fact]
@@ -1690,7 +1690,7 @@ public sealed partial class PersistEquivalenceTests
     // A unit index list stored under the integer list of ItemExplorationSiteEventLog.
     private sealed class UnitIndexProbe : IPersistable
     {
-        public UnitIndexList Units { get; } = new();
+        public UnitIndexList Units { get; } = [];
 
         public void Persist(IPersister persister) => PersistSupport.UnitIndexList(persister, name: "ItemIds", list: Units);
     }

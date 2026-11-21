@@ -112,7 +112,7 @@ public sealed class NullSoundSystem : SoundSystem
 
     internal static void RegisterSoundSystem(SoundSystemClass classValue)
     {
-        AudioHost.SoundSystems ??= new SoundSystemList();
+        AudioHost.SoundSystems ??= [];
         string name = classValue.Name;
         if (AudioHost.SoundSystems.Find(name) is null)
         {

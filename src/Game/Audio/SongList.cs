@@ -22,7 +22,7 @@ public class SongList : EngineObject
         {
             OnChange = SongsChanged
         };
-        SongNames = new DelphiStringList();
+        SongNames = [];
     }
 
     // Sound.pas:813

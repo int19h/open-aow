@@ -118,11 +118,11 @@ public class AIGroupTargetSelector : AIGroupTask
         GroupControl = control;
         _ = GroupControl.Targets.Validate();
         _movesMin = 50;
-        for (int i = GroupControl.Group.Units.Count - 1; i >= 0; i--)
+        foreach (Troop? troop in GroupControl.Group.Units.Reverse())
         {
-            if (GroupControl.Group.Units.GetUnit(i).Moves < _movesMin)
+            if (troop.Moves < _movesMin)
             {
-                _movesMin = GroupControl.Group.Units.GetUnit(i).Moves;
+                _movesMin = troop.Moves;
             }
         }
 

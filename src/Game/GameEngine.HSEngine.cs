@@ -216,7 +216,7 @@ public partial class GameEngine : OwningNode
                 }
             }
 
-            DelphiStringList directories = new();
+            DelphiStringList directories = [];
             foreach (RtlFileEntry entry in Files.FindEntries($"{directory}*.*", attributes: 16))
             {
                 if ((entry.Attribute & 0b0001_0000) != 0 && entry.Name != "." && entry.Name != "..")
@@ -233,7 +233,7 @@ public partial class GameEngine : OwningNode
             directories?.Dispose();
         }
 
-        files = new DelphiStringList();
+        files = [];
         Search(StartupDirectory);
         return files;
     }

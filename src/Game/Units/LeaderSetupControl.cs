@@ -17,7 +17,7 @@ public class LeaderSetupControl : EngineObject
     // { Return the final search index. }
     public LeaderSetupControl(CustomNode? owner) : base(owner)
     {
-        Items = new Int32List();
+        Items = [];
         OriginalLeader = new Leader(null) { Holder = CreationHolder() };
         Leader = new Leader(null) { Holder = CreationHolder() };
         _refCount = 1;

@@ -25,7 +25,7 @@ public class Spell : EngineObject
     // Spells.PAS:10
     public Spell(CustomNode? owner) : base(owner)
     {
-        SpellText = new DelphiStringList();
+        SpellText = [];
         CastSounds = new SfxLibrary(null) { Holder = CreationHolder() };
         CastImages = new ImageSequenceList(GamePack.Current.ImageLibraryManager, imageLibrary: null);
         ResearchCost = 1;

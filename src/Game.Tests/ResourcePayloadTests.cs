@@ -163,20 +163,20 @@ public sealed class ResourcePayloadTests
         Assert.Equal([0, 13, 0, 0, 0, 0x05, 0x10], Payload("Player", property: "AIValidAttackPlayers", tree: saved));
 
         byte[] payload = [2, 32, 0, 0, 0, 0x05, 0x10, 0x00, 0x80];
-        BitList source = new();
+        BitList source = [];
         source.LoadImage(new BitListImage(Default: 2, Count: 32, Bits: [0x05, 0x10, 0x00, 0x80]));
         ObjectNode written = TreeWriter.Write(new Holder((persister, _) => PersistSupport.BitList(persister, name: "AIValidAttackPlayers", list: source)), factory: Factory);
         Assert.Equal(payload, Payload("Player", property: "AIValidAttackPlayers", tree: written));
         foreach (ObjectNode tree in Backends("Player", tree: Stored("Player", property: "AIValidAttackPlayers", payload)))
         {
-            BitList loaded = new();
+            BitList loaded = [];
             _ = loaded.Add(true);
             TreeReader.Read(tree, objectValue: new Holder((persister, _) => PersistSupport.BitList(persister, name: "AIValidAttackPlayers", list: loaded)), factory: Factory);
             Assert.Equal(payload, BitImage(loaded));
             Assert.True(loaded[31]);
             Assert.False(loaded[30]);
         }
-        BitList untouched = new();
+        BitList untouched = [];
         _ = untouched.Add(true);
         byte[] before = BitImage(untouched);
         TreeReader.Read(new ObjectNode(null, slot: null), objectValue: new Holder((persister, _) => PersistSupport.BitList(persister, name: "AIValidAttackPlayers", list: untouched)), factory: Factory);

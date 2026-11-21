@@ -32,12 +32,12 @@ public sealed class CampaignTransferSettings : EngineObject
         Heroes = new HeroList(null) { Holder = CreationHolder() };
         Items = new ItemList(null) { Holder = CreationHolder() };
         Units = new UnitList(null) { Holder = CreationHolder() };
-        _spells = new Int32List();
+        _spells = [];
         _researchPercentage = 50;
-        SelectedHeroes = new Int32List();
-        SelectedItems = new Int32List();
-        SelectedUnits = new Int32List();
-        SelectedSpheres = new ByteList();
+        SelectedHeroes = [];
+        SelectedItems = [];
+        SelectedUnits = [];
+        SelectedSpheres = [];
     }
 
     public Leader? Leader { get; private set; }
@@ -126,7 +126,7 @@ public sealed class CampaignTransferSettings : EngineObject
     {
         Span<int> levelCounts = stackalloc int[4];
         Units.Clear();
-        DelphiList<Troop> candidates = new();
+        DelphiList<Troop> candidates = [];
         int maxUnits = 10;
         levelCounts[1 - 1] = 8;
         levelCounts[2 - 1] = 4;
