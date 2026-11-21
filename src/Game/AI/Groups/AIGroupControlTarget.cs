@@ -2,7 +2,6 @@
 using System.Globalization;
 using Aow.Engine.Nodes;
 using Aow.Game.World.Map;
-using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
@@ -26,7 +25,7 @@ public sealed class AIGroupControlTarget(CustomNode owner) : EngineObject(owner)
 
     public int MovePoints { get; init; }
     public int TransporterId { get; set; } = -1;
-    public Set<AIGroupTargetFlags> Status { get; set; }
+    public AIGroupTargetFlags Status { get; set; }
     public int PathStrength { get; set; }
     public int DataA { get; set; }
     public int DataB { get; set; }

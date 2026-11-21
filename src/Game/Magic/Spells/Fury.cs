@@ -6,7 +6,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
-using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
@@ -23,7 +22,7 @@ public class Fury : UnitSpell
         SpellLevel = 1;
         MagicSphere = MagicSphere.Fire;
         TargetRange = 12;
-        SpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global, SpellControlTypeElement.Combat);
+        SpellControlTypes = SpellControlTypes.Global | SpellControlTypes.Combat;
         UnitDispelResistance = 3;
     }
 

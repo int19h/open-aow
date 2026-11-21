@@ -9,8 +9,6 @@ using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Commands;
 
 public class FreezeWaterTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
@@ -25,7 +23,7 @@ public class FreezeWaterTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEve
         if (StrategicMap.Current.TerrainVisible((sbyte)(byte)Location.X, (sbyte)(byte)Location.Y, L: (sbyte)(byte)Location.MapLevel, radius: 2))
         {
             TwinkleAnimation twinkle = new(null) { Holder = CreationHolder() };
-            twinkle.Setup(GamePack.Current.SpellControl[10].CastImages.ImageSequences[0], mode: Set<TwinkleModeElement>.Of(TwinkleModeElement.Expand), count: 100, radius: 64, duration: 50, startDelay: 30);
+            twinkle.Setup(GamePack.Current.SpellControl[10].CastImages.ImageSequences[0], mode: TwinkleModes.Expand, count: 100, radius: 64, duration: 50, startDelay: 30);
             _ = StrategicMap.Current.PlaceHex(twinkle, Location.X, Location.Y, L: Location.MapLevel);
         }
 
@@ -58,7 +56,7 @@ public class FreezeWaterTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEve
                 }
                 else
                 {
-                    if (Set<byte>.WithBounds(0, 255).With((int)TerrainType.Ice).With((int)TerrainType.UndergroundIce).Contains((byte)terrainType))
+                    if (terrainType is (sbyte)TerrainType.Ice or (sbyte)TerrainType.UndergroundIce)
                     {
                         FrozenWaterHexSprite ice = mapField.FindOwnedHexSprite<FrozenWaterHexSprite>();
                         if (ice is not null)
@@ -75,7 +73,7 @@ public class FreezeWaterTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEve
     // GlobalTargetSpells.pas:661
     public void TerrainChanged(MapField mapField, sbyte originalTerrainType, sbyte originalOverlayType)
     {
-        if (Set<byte>.WithBounds(0, 255).With((int)TerrainType.Ice).With((int)TerrainType.UndergroundIce).Contains((byte)mapField.TerrainType) && !Set<byte>.WithBounds(0, 255).With((int)TerrainType.Ice).With((int)TerrainType.UndergroundIce).Contains((byte)originalTerrainType))
+        if (mapField.TerrainType is (sbyte)TerrainType.Ice or (sbyte)TerrainType.UndergroundIce && (byte)originalTerrainType is not (6 or 13))
         {
             FrozenWaterHexSprite ice = mapField.FindOwnedHexSprite<FrozenWaterHexSprite>();
             if (ice is null)

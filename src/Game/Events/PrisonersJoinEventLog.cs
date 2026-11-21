@@ -9,7 +9,6 @@ using Aow.Game.Commands;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
-using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.Events;
@@ -48,7 +47,7 @@ public partial class PrisonersJoinEventLog(CustomNode owner) : JoinEventLog(owne
             for (int i = 0, last = dungeon.Prisoners.Units.Count - 1; i <= last; i++)
             {
                 UnitType unitType = dungeon.Prisoners.Units.GetUnit(i).GetUnitType();
-                if (Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(unitType))
+                if (unitType is UnitType.Humanoid or UnitType.Creature)
                 {
                     int index = dungeon.Prisoners.Units.GetUnit(i).UnitGraphicsResourceIndex;
                     if (GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(index) is not null)

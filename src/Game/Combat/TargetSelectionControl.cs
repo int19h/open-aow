@@ -35,8 +35,8 @@ public sealed class TargetSelectionControl : IDisposable
 
     public CustomImageLibrary ImageLibrary { get; private set; }
     public SByteList HexNumbers { get; private set; }
-    public Set<TargetSelectionStatusElement> Status { get; set; }
-    public Set<TargetSelectionModeElement> TargetMode { get; set; }
+    public TargetSelectionStatuses Status { get; set; }
+    public TargetSelectionModes TargetMode { get; set; }
 
     private ShowTargetSelectionEvent _show;
 
@@ -78,7 +78,7 @@ public sealed class TargetSelectionControl : IDisposable
         if (ImageLibrary is not null)
         {
             // { Original links the image library again when destroying the control. }
-            _ = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: "TARGHEX.ILB");
+            _ = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(ImageLibraryManagerCategories.Disk, fileName: "TARGHEX.ILB");
             ImageLibrary = null;
         }
     }
@@ -94,7 +94,7 @@ public sealed class TargetSelectionControl : IDisposable
     // Structur.PAS:3816
     public void DeselectHexSprite(object sender)
     {
-        if (Status.Contains(TargetSelectionStatusElement.Activated))
+        if (Status.Contains(TargetSelectionStatuses.Activated))
         {
             Deactivate();
         }
@@ -103,7 +103,7 @@ public sealed class TargetSelectionControl : IDisposable
     // Structur.PAS:3821
     public void MouseDownEvent(object sender)
     {
-        if (Status.Contains(TargetSelectionStatusElement.Activated))
+        if (Status.Contains(TargetSelectionStatuses.Activated))
         {
             if (StrategicMap.Current.Mouse.Capture != this || StrategicMap.Current.Mouse.Button == MouseButton.Right)
             {
@@ -118,7 +118,7 @@ public sealed class TargetSelectionControl : IDisposable
                     if (ValidTarget(Target.X, Target.Y, L: Target.MapLevel))
                     {
                         TriggerOnChangeEvent(TargetSelectionChange.Selected);
-                        if (!Status.Contains(TargetSelectionStatusElement.Activated))
+                        if (!Status.Contains(TargetSelectionStatuses.Activated))
                         {
                             StrategicMap.Current.SelectedArmy.IgnoreMouseDown = true;
                         }
@@ -134,9 +134,9 @@ public sealed class TargetSelectionControl : IDisposable
         bool result;
         if (X != -1 && Y != -1)
         {
-            result = !TargetMode.Contains(TargetSelectionModeElement.ValidateDistance) || HexGeometry.DeltaHexToRadius(SourceLocation.X, SourceLocation.Y, X, Y) <= Range;
+            result = !TargetMode.Contains(TargetSelectionModes.ValidateDistance) || HexGeometry.DeltaHexToRadius(SourceLocation.X, SourceLocation.Y, X, Y) <= Range;
 
-            if (TargetMode.Contains(TargetSelectionModeElement.FixedLevel))
+            if (TargetMode.Contains(TargetSelectionModes.FixedLevel))
             {
                 result = result && L == SourceLocation.MapLevel;
             }
@@ -159,9 +159,9 @@ public sealed class TargetSelectionControl : IDisposable
     // Structur.PAS:3862
     public void NewFrameEvent(object sender)
     {
-        if (Status.Contains(TargetSelectionStatusElement.Activated))
+        if (Status.Contains(TargetSelectionStatuses.Activated))
         {
-            if (Status.Contains(TargetSelectionStatusElement.Visible))
+            if (Status.Contains(TargetSelectionStatuses.Visible))
             {
                 StrategicMap.Current.Mouse.SetCursor(110 + ((StrategicMap.Current.Frame >>> 2) % 10));
                 StrategicMap.Current.Mouse.CursorVisible = true;
@@ -177,7 +177,7 @@ public sealed class TargetSelectionControl : IDisposable
     // Structur.PAS:3877
     public void MouseMoveEvent(object sender)
     {
-        if (Status.Contains(TargetSelectionStatusElement.Activated))
+        if (Status.Contains(TargetSelectionStatuses.Activated))
         {
             Target = new MapCoordinate((sbyte)StrategicMap.Current.Mouse.HexX, (sbyte)StrategicMap.Current.Mouse.HexY, (sbyte)StrategicMap.Current.ViewMapLevel);
             bool condition = StrategicMap.Current.Mouse.HexX != -1 && StrategicMap.Current.Mouse.HexY != -1;
@@ -188,15 +188,15 @@ public sealed class TargetSelectionControl : IDisposable
             }
 
             Status = condition
-                ? Status + Set<TargetSelectionStatusElement>.Of(TargetSelectionStatusElement.Visible)
-                : Status - Set<TargetSelectionStatusElement>.Of(TargetSelectionStatusElement.Visible);
+                ? Status | TargetSelectionStatuses.Visible
+                : Status & ~TargetSelectionStatuses.Visible;
         }
     }
 
     // Structur.PAS:3891
     public void ShowSelection(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        if (Status.Contains(TargetSelectionStatusElement.Activated) && Target.X != -1 && Status.Contains(TargetSelectionStatusElement.Visible))
+        if (Status.Contains(TargetSelectionStatuses.Activated) && Target.X != -1 && Status.Contains(TargetSelectionStatuses.Visible))
         {
             HexGeometry.HexToPixel(Target.X, Target.Y, out int x, out int y);
             x -= pixelXSurface;
@@ -210,7 +210,7 @@ public sealed class TargetSelectionControl : IDisposable
                     HexGeometry.HexNumberToPixel(i, ref deltaX, ref deltaY);
                     int xs = x + deltaX;
                     int ys = y + deltaY;
-                    if (TargetMode.Contains(TargetSelectionModeElement.OwnerDraw))
+                    if (TargetMode.Contains(TargetSelectionModes.OwnerDraw))
                     {
                         _show?.Invoke(this, HN: i, xs, ys, SurfaceDesc: lockedSurface);
                     }
@@ -227,13 +227,13 @@ public sealed class TargetSelectionControl : IDisposable
     // Structur.PAS:3915
     public void Initialize(object source)
     {
-        ImageLibrary ??= GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: "TARGHEX.ILB");
+        ImageLibrary ??= GamePack.Current.ImageLibraryManager.LinkToImageLibrary(ImageLibraryManagerCategories.Disk, fileName: "TARGHEX.ILB");
 
-        if (!Status.Contains(TargetSelectionStatusElement.Activated))
+        if (!Status.Contains(TargetSelectionStatuses.Activated))
         {
             HexNumbers.Clear();
             Source = source;
-            TargetMode = Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.FixedLevel);
+            TargetMode = TargetSelectionModes.FixedLevel;
         }
         else
         {
@@ -244,9 +244,9 @@ public sealed class TargetSelectionControl : IDisposable
     // Structur.PAS:3928
     public void Activate()
     {
-        if (!Status.Contains(TargetSelectionStatusElement.Activated))
+        if (!Status.Contains(TargetSelectionStatuses.Activated))
         {
-            Status += Set<TargetSelectionStatusElement>.Of(TargetSelectionStatusElement.Activated);
+            Status |= TargetSelectionStatuses.Activated;
             StrategicMap.Current.Mouse.SetCapture(this);
             StrategicMap.Current.Mouse.OnDown += MouseDownEvent;
             StrategicMap.Current.Mouse.OnMove += MouseMoveEvent;
@@ -266,9 +266,9 @@ public sealed class TargetSelectionControl : IDisposable
     // Structur.PAS:3946
     public void Deactivate()
     {
-        if (Status.Contains(TargetSelectionStatusElement.Activated))
+        if (Status.Contains(TargetSelectionStatuses.Activated))
         {
-            Status -= Set<TargetSelectionStatusElement>.Of(TargetSelectionStatusElement.Activated);
+            Status &= ~TargetSelectionStatuses.Activated;
             StrategicMap.Current.Mouse.OnDown -= MouseDownEvent;
             StrategicMap.Current.Mouse.OnMove -= MouseMoveEvent;
             StrategicMap.Current.NewFrameEvents -= NewFrameEvent;
@@ -300,7 +300,7 @@ public sealed class TargetSelectionControl : IDisposable
     public void UnitChanged(object unit)
     {
         // UnitChanged receives the move payload as object. Typing that payload is issue 150.
-        if (Status.Contains(TargetSelectionStatusElement.Activated) && Source is not null && unit == Source && ((Troop)unit).UnitStatus.Contains(UnitStatusElement.Killed))
+        if (Status.Contains(TargetSelectionStatuses.Activated) && Source is not null && unit == Source && ((Troop)unit).UnitStatus.Contains(UnitStatuses.Killed))
         {
             Deactivate();
         }

@@ -224,55 +224,6 @@ public sealed class ProbeTests(ITestOutputHelper output)
         SysUtilsProbeTests.StringsRemaining(probe, output);
     }
 
-    [ProbeFact("sets")]
-    public void SetsFixture()
-    {
-        ProbeLines probe = new("sets");
-        string Bits(Set<byte> set, int width) => string.Concat(Enumerable.Range(0, count: width).Select(i => set.Contains((byte)i) ? '1' : '0'));
-        foreach (int width in new[] { 8, 16, 32, 256 })
-        {
-            Set<byte> empty = Set<byte>.WithBounds(0, width - 1);
-            Set<byte> a = empty.With(0).With((byte)(width - 1));
-            Set<byte> b = empty.With(1).With((byte)(width - 1));
-            probe.Fact($"size_{width}", value: a.StorageSize);
-            probe.Fact($"union_{width}", value: Bits(a + b, width));
-            probe.Fact($"difference_{width}", value: Bits(a - b, width));
-            Set<byte> c = a & b;
-            probe.Fact($"intersection_{width}", value: Bits(c, width));
-            probe.Fact($"subset_true_{width}", value: c.IsSubsetOf(a) ? 1 : 0);
-            probe.Fact($"subset_false_{width}", value: a.IsSubsetOf(b) ? 1 : 0);
-            probe.Fact($"superset_{width}", value: c.IsSubsetOf(a) ? 1 : 0);
-            probe.Fact($"equal_{width}", value: a == b ? 1 : 0);
-            probe.Fact($"not_equal_{width}", value: a != b ? 1 : 0);
-            probe.Fact($"member_low_{width}", value: a.Contains(0) ? 1 : 0);
-            probe.Fact($"member_high_{width}", value: a.Contains((byte)(width - 1)) ? 1 : 0);
-            probe.Fact($"member_absent_{width}", value: a.Contains(2) ? 1 : 0);
-            a = a.With(1).With(1).Without((byte)(width - 1)).Without(2);
-            probe.Fact($"include_exclude_{width}", value: Bits(a, width));
-            probe.Fact($"empty_{width}", value: Bits(empty, width));
-            probe.Fact($"full_{width}", value: Bits(empty.WithRange(0, (byte)(width - 1)), width));
-        }
-        probe.Fact("byte_mask", value: (byte)Set<byte>.Of(0, 7).Image);
-        probe.Fact("word_mask", value: (ushort)Set<byte>.Of(0, 8, 15).Image);
-        Set<byte> shifted = Set<byte>.WithBounds(8, 15);
-        probe.Fact("shifted_size", value: shifted.StorageSize);
-        probe.Fact("shifted_mask", value: (byte)shifted.With(8).With(15).Image);
-        probe.Fact("shifted_low_mask", value: (byte)shifted.With(8).Image);
-        probe.Fact("shifted_high_mask", value: (byte)shifted.With(15).Image);
-        Set<byte> cross = Set<byte>.WithBounds(7, 8);
-        probe.Fact("cross_size", value: cross.StorageSize);
-        probe.Fact("cross_mask", value: (ushort)cross.With(7).With(8).Image);
-        probe.Fact("cross_low_mask", value: (ushort)cross.With(7).Image);
-        probe.Fact("cross_high_mask", value: (ushort)cross.With(8).Image);
-        Set<byte> full = Set<byte>.WithBounds(0, 255).WithRange(0, 255);
-        for (int i = 0; i <= 255; i++)
-        {
-            probe.Fact($"full_member_{i}", value: full.Contains((byte)i) ? 1 : 0);
-        }
-
-        probe.End();
-    }
-
     [ProbeFact("integers")]
     public void IntegersFixture()
     {

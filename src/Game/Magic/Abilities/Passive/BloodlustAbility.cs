@@ -1,8 +1,6 @@
 // Translated from PassiveAb.pas.
 using Aow.Engine.Nodes;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // inherited name, ability ID, selection types, ability type. duration mode
@@ -15,7 +13,7 @@ public class BloodlustAbility : DurationAbility
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_bloodlustText);
         AbilityId = 168;
         AbilityType = AbilityType.Enchantment;
-        SelectionTypes = Set<AbilitySelectionType>.Of();
+        SelectionTypes = AbilitySelectionTypes.None;
         DurationMode = DurationMode.Day;
     }
 

@@ -1,9 +1,6 @@
 // Translated from PassiveAb.pas.
 using Aow.Engine.Nodes;
-
 using Aow.Game.Units;
-
-using Aow.Rtl;
 
 namespace Aow.Game.Magic.Abilities.Passive;
 
@@ -17,7 +14,7 @@ public class FrozenAbility : UnitEnchantmentAbility
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_frozenText);
         AbilityId = 95;
         AbilityType = AbilityType.Enchantment;
-        SelectionTypes = Set<AbilitySelectionType>.Of();
+        SelectionTypes = AbilitySelectionTypes.None;
     }
 
     // PassiveAb.pas:674

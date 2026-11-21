@@ -8,16 +8,11 @@ using Aow.Game.Audio;
 using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
 using Aow.Game.Commands;
-
 using Aow.Game.Draw.Animations;
 using Aow.Game.Draw.Images;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.World.Map;
-
 using Aow.Rtl;
-
 using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.Magic.Spells;
@@ -34,11 +29,11 @@ public class Spell : EngineObject
         CastSounds = new SfxLibrary(null) { Holder = CreationHolder() };
         CastImages = new ImageSequenceList(GamePack.Current.ImageLibraryManager, imageLibrary: null);
         ResearchCost = 1;
-        SpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global);
+        SpellControlTypes = SpellControlTypes.Global;
     }
 
     public string SpellName { get; protected init; } = "";
-    public Set<SpellControlTypeElement> SpellControlTypes { get; protected init; }
+    public SpellControlTypes SpellControlTypes { get; protected init; }
     public int SpellId { get; protected init; }
 
     public int BaseManaCost { get; protected set; }
@@ -116,7 +111,7 @@ public class Spell : EngineObject
     {
         if (SpellType == SpellType.Global)
         {
-            if (StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.SpellWard))
+            if (StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentTypes.SpellWard))
             {
                 messageText = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CannotCastGlobalEnchantmentWhenSpellWardIsActiveText);
                 return false;
@@ -136,7 +131,7 @@ public class Spell : EngineObject
     {
         if (SpellType == SpellType.Global)
         {
-            if (StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.SpellWard))
+            if (StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentTypes.SpellWard))
             {
                 messageText = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.CannotCastGlobalEnchantmentWhenSpellWardIsActiveText);
                 return false;
@@ -228,7 +223,7 @@ public class Spell : EngineObject
         values.SourceCost = 0;
         values.TargetDamage = 0;
         values.TargetCost = 0;
-        values.DamageTypes = Set<DamageType>.Of();
+        values.DamageTypes = DamageTypes.None;
     }
 
     // Spells.PAS:326

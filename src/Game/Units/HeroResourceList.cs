@@ -21,19 +21,19 @@ public sealed class HeroResourceList : ResourceCollection, IChildList<HeroResour
     int IChildSink<HeroResource>.AddChild(HeroResource child) => AddChild(child);
 
     // Hero.PAS:2360
-    public HeroResourceList(CustomNode owner) : base(owner) => SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, ControlStyleElement.ArrayMode));
+    public HeroResourceList(CustomNode owner) : base(owner) => SetControlStyle(ControlStyles.SaveLoad | ControlStyles.FixedChild | ControlStyles.ArrayMode);
 
     // Hero.PAS:2363
     public HeroResource GetHeroResource(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // Hero.PAS:2369
-    public DelphiStringList CreateHeroResourceStrings(Set<HeroType> heroTypes)
+    public DelphiStringList CreateHeroResourceStrings(HeroTypes heroTypes)
     {
         DelphiStringList list = new();
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
             HeroResource resource = this[i];
-            if (resource is not null && (GetEngine().User.Contains(EngineUserElement.Designer) || !resource.Hidden) && heroTypes.Contains(resource.HeroType))
+            if (resource is not null && (GetEngine().User.Contains(EngineUsers.Designer) || !resource.Hidden) && heroTypes.Contains(resource.HeroType.ToFlag()))
             {
                 _ = list.AddObject(resource.Name, item: IntToObject(i));
             }

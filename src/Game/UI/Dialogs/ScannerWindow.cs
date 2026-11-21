@@ -113,7 +113,7 @@ public sealed partial class ScannerWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWSWindow.pas:107
-    public void ScannerTabMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y) => UI.General.PlayButtonSound(0);
+    public void ScannerTabMouseDown(MouseButton button, ShiftStates shift, int X, int Y) => UI.General.PlayButtonSound(0);
 
     // AoWSWindow.pas:110
     public void HelpClick() => UI.HelpWindow.ShowHelp(501);

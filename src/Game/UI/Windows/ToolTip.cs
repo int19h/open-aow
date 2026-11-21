@@ -324,7 +324,7 @@ public sealed class ToolTip : GenericWindow
     }
 
     // AOWToolTip.pas:266
-    public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y) => SetVisible(false);
+    public override void CheckMouseDown(MouseButton button, ShiftStates shift, int X, int Y) => SetVisible(false);
 
     // AOWToolTip.pas:172
     public void SetFStrings(DelphiStringList value)

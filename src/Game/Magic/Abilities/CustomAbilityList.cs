@@ -67,7 +67,7 @@ public class CustomAbilityList(CustomNode owner) : EngineObject(owner)
     public virtual int OwnAbilityCount => AbilityCount;
 
     // Ability.PAS:1216
-    public virtual void ListAbilities(DelphiStringCollection text, Set<AbilitySelectionType> types)
+    public virtual void ListAbilities(DelphiStringCollection text, AbilitySelectionTypes types)
     {
         text.Clear();
         for (int i = 0, last = AbilityCount - 1; i <= last; i++)
@@ -75,7 +75,7 @@ public class CustomAbilityList(CustomNode owner) : EngineObject(owner)
             if (GetAbilitySetAt(i))
             {
                 Ability ability = GamePack.Current.AbilityControl[i];
-                if ((Set<byte>.FromMask(ability.SelectionTypes.Mask) & Set<byte>.FromMask(types.Mask)) != Set<byte>.WithBounds(0, 15))
+                if ((ability.SelectionTypes & types) != AbilitySelectionTypes.None)
                 {
                     _ = text.AddObject(ability.GetName(null), item: IntToObject(i));
                 }

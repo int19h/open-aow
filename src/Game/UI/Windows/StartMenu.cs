@@ -140,7 +140,7 @@ public sealed class StartMenu(Component owner) : Menu(owner)
     }
 
     // StartMenu.pas:123
-    public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
         if (Valid)
         {

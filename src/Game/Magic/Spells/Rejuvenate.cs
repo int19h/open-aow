@@ -9,8 +9,6 @@ using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Spells;
 
 public class Rejuvenate : GlobalTargetSpell
@@ -51,10 +49,10 @@ public class Rejuvenate : GlobalTargetSpell
     }
 
     // GlobalTargetSpells.pas:1090
-    public override bool ValidTargetSelectionMapField(MapField field) => base.ValidTargetSelectionMapField(field) && Set<byte>.WithBounds(0, 255).WithRange(2, 5).Contains((byte)field.TerrainType);
+    public override bool ValidTargetSelectionMapField(MapField field) => base.ValidTargetSelectionMapField(field) && field.TerrainType is >= (sbyte)TerrainType.Desert and <= (sbyte)TerrainType.Wasteland;
 
     // GlobalTargetSpells.pas:1085
-    public override bool ValidTargetMapField(MapField field) => base.ValidTargetMapField(field) && Set<byte>.WithBounds(0, 255).WithRange(2, 5).Contains((byte)field.TerrainType);
+    public override bool ValidTargetMapField(MapField field) => base.ValidTargetMapField(field) && field.TerrainType is >= (sbyte)TerrainType.Desert and <= (sbyte)TerrainType.Wasteland;
 
     private static readonly string s_rejuvenateText = "Rejuvenate";
 }

@@ -62,7 +62,7 @@ public sealed class GroupDefenseSelector : IDisposable
     public bool EnoughStrength(ReadOnlySpan<int> strengths)
     {
         bool result = default;
-        for (int damageTypeOrdinal = (int)DamageType.Fire; damageTypeOrdinal <= (int)DamageType.None; damageTypeOrdinal++)
+        for (int damageTypeOrdinal = (int)DamageType.Fire; damageTypeOrdinal <= (int)DamageType.NonSpecific; damageTypeOrdinal++)
         {
             DamageType damageType = (DamageType)damageTypeOrdinal;
             result = strengths[(int)damageType] <= 0;
@@ -79,7 +79,7 @@ public sealed class GroupDefenseSelector : IDisposable
     public bool UsefulUnit(Troop troop, ReadOnlySpan<int> strengths)
     {
         bool result = default;
-        for (int damageTypeOrdinal = (int)DamageType.Fire; damageTypeOrdinal <= (int)DamageType.None; damageTypeOrdinal++)
+        for (int damageTypeOrdinal = (int)DamageType.Fire; damageTypeOrdinal <= (int)DamageType.NonSpecific; damageTypeOrdinal++)
         {
             DamageType damageType = (DamageType)damageTypeOrdinal;
             result = strengths[(int)damageType] > 0 && troop.GetStrength(damageType) > 0;
@@ -133,7 +133,7 @@ public sealed class GroupDefenseSelector : IDisposable
                     while (candidates.Count != i && candidates.GetUnit(i).GroupId != group.GroupId)
                     {
                         troop = candidates.GetUnit(i);
-                        for (int damageTypeOrdinal = (int)DamageType.Fire; damageTypeOrdinal <= (int)DamageType.None; damageTypeOrdinal++)
+                        for (int damageTypeOrdinal = (int)DamageType.Fire; damageTypeOrdinal <= (int)DamageType.NonSpecific; damageTypeOrdinal++)
                         {
                             damageType = (DamageType)damageTypeOrdinal;
                             int strength = troop.GetStrength(damageType);
@@ -151,7 +151,7 @@ public sealed class GroupDefenseSelector : IDisposable
                     for (; i <= last; i += 1)
                     {
                         troop = Defenders.GetUnit(i);
-                        for (int damageTypeOrdinal = (int)DamageType.Fire; damageTypeOrdinal <= (int)DamageType.None; damageTypeOrdinal++)
+                        for (int damageTypeOrdinal = (int)DamageType.Fire; damageTypeOrdinal <= (int)DamageType.NonSpecific; damageTypeOrdinal++)
                         {
                             damageType = (DamageType)damageTypeOrdinal;
                             int strength = troop.GetStrength(damageType);
@@ -174,7 +174,7 @@ public sealed class GroupDefenseSelector : IDisposable
                         if (Defenders.IndexOfChild(troop) == -1 && UsefulUnit(troop, strengths: required))
                         {
                             _ = Defenders.AddUnit(troop);
-                            for (int damageTypeOrdinal = (int)DamageType.Fire; damageTypeOrdinal <= (int)DamageType.None; damageTypeOrdinal++)
+                            for (int damageTypeOrdinal = (int)DamageType.Fire; damageTypeOrdinal <= (int)DamageType.NonSpecific; damageTypeOrdinal++)
                             {
                                 damageType = (DamageType)damageTypeOrdinal;
                                 int strength = troop.GetStrength(damageType);

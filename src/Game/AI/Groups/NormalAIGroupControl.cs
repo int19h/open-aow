@@ -4,7 +4,6 @@ using Aow.Engine.Nodes;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.World.Map;
-using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
@@ -125,7 +124,7 @@ public class NormalAIGroupControl(CustomNode owner) : BehaviorAIGroupControl(own
                 break;
             case 6:
                 Player player = StrategicMap.Current.Players.GetPlayers(Group.Player);
-                if (Set<PlayerType>.Of(PlayerType.Cpu3, PlayerType.Cpu4, PlayerType.Cpu5).Contains(player.PlayerType))
+                if (player.PlayerType is PlayerType.Cpu3 or PlayerType.Cpu4 or PlayerType.Cpu5)
                 {
                     State = 0;
                 }

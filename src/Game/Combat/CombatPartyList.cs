@@ -4,7 +4,6 @@ using Aow.Engine.Nodes;
 
 using Aow.Game.Units;
 using Aow.Game.World.Map;
-using Aow.Rtl;
 
 namespace Aow.Game.Combat;
 
@@ -19,7 +18,7 @@ public sealed class CombatPartyList(CustomNode owner) : OwningNode(owner), IChil
     int IChildSink<CombatParty>.AddChild(CombatParty child) => AddChild(child);
 
     // Combat2.pas:70
-    public override Set<ControlStyleElement> GetControlStyle() => Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.ArrayMode);
+    public override ControlStyles GetControlStyle() => ControlStyles.SaveLoad | ControlStyles.ArrayMode;
 
     // Combat2.pas:73
     public CombatParty CreateParty(Battle combat, byte position, byte combatPlayer, int X, int Y, int L, Army army)

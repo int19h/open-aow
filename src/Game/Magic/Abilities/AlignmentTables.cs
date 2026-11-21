@@ -1,7 +1,6 @@
 using System.Collections.Immutable;
 using Aow.Game.Session;
 using Aow.Game.Units;
-using Aow.Rtl;
 
 namespace Aow.Game.Magic.Abilities;
 
@@ -16,7 +15,7 @@ internal static class AlignmentTables
             Alignment.PureGood or Alignment.Good => -2,
             Alignment.Evil or Alignment.PureEvil => -4,
             Alignment.PureNeutral or Alignment.Neutral => -3,
-            Alignment.None or _ => -1,
+            Alignment.Unaligned or _ => -1,
         };
     }
 
@@ -26,16 +25,16 @@ internal static class AlignmentTables
 
     internal static DiplomaticRelation AlignmentToDiplomaticRelation(Alignment A, Alignment B)
     {
-        return Set<Alignment>.Of(Alignment.PureGood, Alignment.Good).Contains(A)
-            ? Set<Alignment>.Of(Alignment.PureGood, Alignment.Good).Contains(B)
+        return A is Alignment.PureGood or Alignment.Good
+            ? B is Alignment.PureGood or Alignment.Good
                 ? DiplomaticRelation.Peace
-                : Set<Alignment>.Of(Alignment.PureNeutral, Alignment.Neutral, Alignment.None).Contains(B)
+                : B is Alignment.PureNeutral or Alignment.Neutral or Alignment.Unaligned
                     ? DiplomaticRelation.Unknown
                     : DiplomaticRelation.War
-            : Set<Alignment>.Of(Alignment.Evil, Alignment.PureEvil).Contains(A)
-                ? Set<Alignment>.Of(Alignment.Evil, Alignment.PureEvil).Contains(B)
+            : A is Alignment.Evil or Alignment.PureEvil
+                ? B is Alignment.Evil or Alignment.PureEvil
                     ? DiplomaticRelation.Peace
-                    : Set<Alignment>.Of(Alignment.PureNeutral, Alignment.Neutral, Alignment.None).Contains(B)
+                    : B is Alignment.PureNeutral or Alignment.Neutral or Alignment.Unaligned
                         ? DiplomaticRelation.Unknown
                         : DiplomaticRelation.War
                 : A == Alignment.PureNeutral && B == Alignment.PureNeutral ? DiplomaticRelation.Peace : DiplomaticRelation.Unknown;
@@ -52,14 +51,14 @@ internal static class AlignmentTables
         };
     }
 
-    internal static Set<Alignment> PureGoodAlignments { get; } = Set<Alignment>.FromMask(67UL);
+    internal static Alignments PureGoodAlignments { get; } = Alignments.PureGood | Alignments.Good | Alignments.Unaligned;
 
-    internal static Set<Alignment> GoodAlignments { get; } = Set<Alignment>.FromMask(75UL);
+    internal static Alignments GoodAlignments { get; } = Alignments.PureGood | Alignments.Good | Alignments.Neutral | Alignments.Unaligned;
 
-    internal static Set<Alignment> NeutralAlignments { get; } = Set<Alignment>.FromMask(90UL);
+    internal static Alignments NeutralAlignments { get; } = Alignments.Good | Alignments.Neutral | Alignments.Evil | Alignments.Unaligned;
 
-    internal static Set<Alignment> EvilAlignments { get; } = Set<Alignment>.FromMask(120UL);
+    internal static Alignments EvilAlignments { get; } = Alignments.Neutral | Alignments.Evil | Alignments.PureEvil | Alignments.Unaligned;
 
-    internal static Set<Alignment> PureEvilAlignments { get; } = Set<Alignment>.FromMask(112UL);
+    internal static Alignments PureEvilAlignments { get; } = Alignments.Evil | Alignments.PureEvil | Alignments.Unaligned;
 
 }

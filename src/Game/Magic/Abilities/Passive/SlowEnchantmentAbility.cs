@@ -1,10 +1,7 @@
 // Translated from PassiveAb.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Combat;
-
 using Aow.Game.Units;
-
-using Aow.Rtl;
 
 namespace Aow.Game.Magic.Abilities.Passive;
 
@@ -17,7 +14,7 @@ public class SlowEnchantmentAbility : UnitEnchantmentAbility
         Holder = holder;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.SlowText);
         AbilityId = 132;
-        SelectionTypes = Set<AbilitySelectionType>.Of();
+        SelectionTypes = AbilitySelectionTypes.None;
     }
 
     // PassiveAb.pas:615

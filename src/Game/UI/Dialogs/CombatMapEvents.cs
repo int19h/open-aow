@@ -145,7 +145,7 @@ public sealed partial class CombatMapEvents(UIContext ui) : UIModule(ui)
                     UI.CombatUnitInfo.TargetDefenseLabel.Text = ((int)defense).ToString(CultureInfo.InvariantCulture);
                     sbyte resistance = u.GetResistance();
                     UI.CombatUnitInfo.TargetResistanceLabel.Text = ((int)resistance).ToString(CultureInfo.InvariantCulture);
-                    Set<MoveType> moveTypes = u.GetMoveTypes();
+                    MoveTypes moveTypes = u.GetMoveTypes();
                     int moveTypesToInt32 = UI.General.MoveTypesToInt32(moveTypes);
                     UI.CombatUnitInfo.TargetMovesIcon.SetCurrent(moveTypesToInt32);
                     u.ListAbilities(UI.CombatUnitInfo.TargetAbilityList.Items);
@@ -293,7 +293,7 @@ public sealed partial class CombatMapEvents(UIContext ui) : UIModule(ui)
                     window.UnitDefenseLabel.Text = ((int)defense).ToString(CultureInfo.InvariantCulture);
                     sbyte resistance = fTroop.GetResistance();
                     window.UnitResistanceLabel.Text = ((int)resistance).ToString(CultureInfo.InvariantCulture);
-                    Set<MoveType> moveTypes = fTroop.GetMoveTypes();
+                    MoveTypes moveTypes = fTroop.GetMoveTypes();
                     int current = window.UI.General.MoveTypesToInt32(moveTypes);
                     window.UnitMovesIcon.SetCurrent(current);
                     window.UI.General.CombatUnit.ListAbilities((DelphiStringCollection)(object)window.UnitAbilityList.Items, types: null, sources: null);
@@ -313,55 +313,55 @@ public sealed partial class CombatMapEvents(UIContext ui) : UIModule(ui)
                     window.AbilityAttackLabel.Text = info.Attack > 0 ? ((int)info.Attack).ToString(CultureInfo.InvariantCulture) : "-";
                     window.AbilityDamageLabel.Text = info.Damage > 0 ? ((int)info.Damage).ToString(CultureInfo.InvariantCulture) : "-";
                     window.AbilityStatisticsList.Items.Clear();
-                    if (info.DamageTypes.Contains(DamageType.Fire))
+                    if (info.DamageTypes.Contains(DamageTypes.Fire))
                     {
                         string text = window.UI.Engine.TranslateResourceString(GameTables.FireText);
                         string text2 = window.UI.Engine.TranslateResourceString(s_damageText);
                         _ = window.AbilityStatisticsList.Items.Add($"{text} {text2}");
                     }
-                    if (info.DamageTypes.Contains(DamageType.Cold))
+                    if (info.DamageTypes.Contains(DamageTypes.Cold))
                     {
                         string text3 = window.UI.Engine.TranslateResourceString(s_coldText);
                         string text4 = window.UI.Engine.TranslateResourceString(s_damageText);
                         _ = window.AbilityStatisticsList.Items.Add($"{text3} {text4}");
                     }
-                    if (info.DamageTypes.Contains(DamageType.Lightning))
+                    if (info.DamageTypes.Contains(DamageTypes.Lightning))
                     {
                         string text5 = window.UI.Engine.TranslateResourceString(s_lightningText);
                         string text6 = window.UI.Engine.TranslateResourceString(s_damageText);
                         _ = window.AbilityStatisticsList.Items.Add($"{text5} {text6}");
                     }
-                    if (info.DamageTypes.Contains(DamageType.Magic))
+                    if (info.DamageTypes.Contains(DamageTypes.Magic))
                     {
                         string text7 = window.UI.Engine.TranslateResourceString(s_magicText);
                         string text8 = window.UI.Engine.TranslateResourceString(s_damageText);
                         _ = window.AbilityStatisticsList.Items.Add($"{text7} {text8}");
                     }
-                    if (info.DamageTypes.Contains(DamageType.Poison))
+                    if (info.DamageTypes.Contains(DamageTypes.Poison))
                     {
                         string text9 = window.UI.Engine.TranslateResourceString(s_poisonText);
                         string text10 = window.UI.Engine.TranslateResourceString(s_damageText);
                         _ = window.AbilityStatisticsList.Items.Add($"{text9} {text10}");
                     }
-                    if (info.DamageTypes.Contains(DamageType.Death))
+                    if (info.DamageTypes.Contains(DamageTypes.Death))
                     {
                         string text11 = window.UI.Engine.TranslateResourceString(GameTables.DeathText);
                         string text12 = window.UI.Engine.TranslateResourceString(s_damageText);
                         _ = window.AbilityStatisticsList.Items.Add($"{text11} {text12}");
                     }
-                    if (info.DamageTypes.Contains(DamageType.Holy))
+                    if (info.DamageTypes.Contains(DamageTypes.Holy))
                     {
                         string text13 = window.UI.Engine.TranslateResourceString(s_holyText);
                         string text14 = window.UI.Engine.TranslateResourceString(s_damageText);
                         _ = window.AbilityStatisticsList.Items.Add($"{text13} {text14}");
                     }
-                    if (info.DamageTypes.Contains(DamageType.Physical))
+                    if (info.DamageTypes.Contains(DamageTypes.Physical))
                     {
                         string text15 = window.UI.Engine.TranslateResourceString(s_physicalText);
                         string text16 = window.UI.Engine.TranslateResourceString(s_damageText);
                         _ = window.AbilityStatisticsList.Items.Add($"{text15} {text16}");
                     }
-                    if (info.DamageTypes.Contains(DamageType.Wall))
+                    if (info.DamageTypes.Contains(DamageTypes.Wall))
                     {
                         string text17 = window.UI.Engine.TranslateResourceString(s_wallText);
                         string text18 = window.UI.Engine.TranslateResourceString(s_damageText);
@@ -380,55 +380,55 @@ public sealed partial class CombatMapEvents(UIContext ui) : UIModule(ui)
                     window.AbilityAttackLabel.Text = abilityCombatInfo.Attack > 0 ? ((int)abilityCombatInfo.Attack).ToString(CultureInfo.InvariantCulture) : "-";
                     window.AbilityDamageLabel.Text = abilityCombatInfo.Damage > 0 ? ((int)abilityCombatInfo.Damage).ToString(CultureInfo.InvariantCulture) : "-";
                     window.AbilityStatisticsList.Items.Clear();
-                    if (abilityCombatInfo.DamageTypes.Contains(DamageType.Fire))
+                    if (abilityCombatInfo.DamageTypes.Contains(DamageTypes.Fire))
                     {
                         string text19 = window.UI.Engine.TranslateResourceString(GameTables.FireText);
                         string text20 = window.UI.Engine.TranslateResourceString(s_damageText);
                         _ = window.AbilityStatisticsList.Items.Add($"{text19} {text20}");
                     }
-                    if (abilityCombatInfo.DamageTypes.Contains(DamageType.Cold))
+                    if (abilityCombatInfo.DamageTypes.Contains(DamageTypes.Cold))
                     {
                         string text21 = window.UI.Engine.TranslateResourceString(s_coldText);
                         string text22 = window.UI.Engine.TranslateResourceString(s_damageText);
                         _ = window.AbilityStatisticsList.Items.Add($"{text21} {text22}");
                     }
-                    if (abilityCombatInfo.DamageTypes.Contains(DamageType.Lightning))
+                    if (abilityCombatInfo.DamageTypes.Contains(DamageTypes.Lightning))
                     {
                         string text23 = window.UI.Engine.TranslateResourceString(s_lightningText);
                         string text24 = window.UI.Engine.TranslateResourceString(s_damageText);
                         _ = window.AbilityStatisticsList.Items.Add($"{text23} {text24}");
                     }
-                    if (abilityCombatInfo.DamageTypes.Contains(DamageType.Magic))
+                    if (abilityCombatInfo.DamageTypes.Contains(DamageTypes.Magic))
                     {
                         string text25 = window.UI.Engine.TranslateResourceString(s_magicText);
                         string text26 = window.UI.Engine.TranslateResourceString(s_damageText);
                         _ = window.AbilityStatisticsList.Items.Add($"{text25} {text26}");
                     }
-                    if (abilityCombatInfo.DamageTypes.Contains(DamageType.Poison))
+                    if (abilityCombatInfo.DamageTypes.Contains(DamageTypes.Poison))
                     {
                         string text27 = window.UI.Engine.TranslateResourceString(s_poisonText);
                         string text28 = window.UI.Engine.TranslateResourceString(s_damageText);
                         _ = window.AbilityStatisticsList.Items.Add($"{text27} {text28}");
                     }
-                    if (abilityCombatInfo.DamageTypes.Contains(DamageType.Death))
+                    if (abilityCombatInfo.DamageTypes.Contains(DamageTypes.Death))
                     {
                         string text29 = window.UI.Engine.TranslateResourceString(GameTables.DeathText);
                         string text30 = window.UI.Engine.TranslateResourceString(s_damageText);
                         _ = window.AbilityStatisticsList.Items.Add($"{text29} {text30}");
                     }
-                    if (abilityCombatInfo.DamageTypes.Contains(DamageType.Holy))
+                    if (abilityCombatInfo.DamageTypes.Contains(DamageTypes.Holy))
                     {
                         string text31 = window.UI.Engine.TranslateResourceString(s_holyText);
                         string text32 = window.UI.Engine.TranslateResourceString(s_damageText);
                         _ = window.AbilityStatisticsList.Items.Add($"{text31} {text32}");
                     }
-                    if (abilityCombatInfo.DamageTypes.Contains(DamageType.Physical))
+                    if (abilityCombatInfo.DamageTypes.Contains(DamageTypes.Physical))
                     {
                         string text33 = window.UI.Engine.TranslateResourceString(s_physicalText);
                         string text34 = window.UI.Engine.TranslateResourceString(s_damageText);
                         _ = window.AbilityStatisticsList.Items.Add($"{text33} {text34}");
                     }
-                    if (abilityCombatInfo.DamageTypes.Contains(DamageType.Wall))
+                    if (abilityCombatInfo.DamageTypes.Contains(DamageTypes.Wall))
                     {
                         string text35 = window.UI.Engine.TranslateResourceString(s_wallText);
                         string text36 = window.UI.Engine.TranslateResourceString(s_damageText);

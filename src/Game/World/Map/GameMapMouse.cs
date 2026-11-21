@@ -32,17 +32,17 @@ public class GameMapMouse : HexSpriteMapMouse
     }
 
     // AoWHSMap.PAS:1123
-    public override void Down(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public override void Down(MouseButton button, ShiftStates shift, int X, int Y)
     {
         base.Down(button, shift, X, Y);
-        if (Capture is null && !HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (Capture is null && !HexSpriteMap.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             StartRectangleSelection(HexSpriteMap.ViewPixelX + X - 2, HexSpriteMap.ViewPixelY + Y - 3);
         }
     }
 
     // AoWHSMap.PAS:1130
-    public override void Up(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public override void Up(MouseButton button, ShiftStates shift, int X, int Y)
     {
         base.Up(button, shift, X, Y);
         if (Capture is null && SelectionRectangle.Left != -1)
@@ -59,7 +59,7 @@ public class GameMapMouse : HexSpriteMapMouse
     }
 
     // AoWHSMap.PAS:1141
-    public override void Move(Set<ShiftState> shift, int X, int Y)
+    public override void Move(ShiftStates shift, int X, int Y)
     {
         base.Move(shift, X, Y);
         if (Capture is null)

@@ -11,7 +11,6 @@ using Aow.Game.Magic.Spells;
 
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
-using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.World.Hexes;
@@ -62,7 +61,7 @@ public class CombatTerrain(CustomNode owner) : TerrainMapObject(owner)
         base.MapFieldMessageProc(ref message);
         if (message.HexNumber == 0)
         {
-            if (Set<byte>.WithBounds(0, 255).WithRange(1, 3).Contains((byte)base.Resource.DecorationType))
+            if ((byte)base.Resource.DecorationType is >= 1 and <= 3)
             {
                 AbilityCombatInfo abilityInfo = default;
                 SpellCombatInfo spellInfo = default;
@@ -195,7 +194,7 @@ public class CombatTerrain(CustomNode owner) : TerrainMapObject(owner)
     public override void Activate()
     {
         base.Activate();
-        _hitPoints = Set<byte>.WithBounds(0, 255).WithRange(1, 3).Contains((byte)base.Resource.DecorationType) ? 3 : 0;
+        _hitPoints = (byte)base.Resource.DecorationType is >= 1 and <= 3 ? 3 : 0;
 
         _defense = -2;
         CreateShadow();
@@ -221,7 +220,7 @@ public class CombatTerrain(CustomNode owner) : TerrainMapObject(owner)
     // CombatTerrain.pas:124
     public override void MakeVisible(VisibilityList visibilityList)
     {
-        if (!Status.Contains(MapObjectStatusElement.Visible))
+        if (!Status.Contains(MapObjectStatuses.Visible))
         {
             base.MakeVisible(visibilityList);
             if (_shadow is not null)

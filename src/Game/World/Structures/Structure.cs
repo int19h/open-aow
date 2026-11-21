@@ -64,13 +64,13 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
             DestroyShadow();
         }
 
-        if (Owner is not null && Status.Contains(MapObjectStatusElement.ResourceLinked) && Resource.TerrainBound)
+        if (Owner is not null && Status.Contains(MapObjectStatuses.ResourceLinked) && Resource.TerrainBound)
         {
             _ = Owner.DestroyChildren(Pad.ClassId);
         }
 
         base.Dispose();
-        if (StrategicMap.Current is not null && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
+        if (StrategicMap.Current is not null && !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Destroying))
         {
             StrategicMap.Current.NotifyStructureDestroyed(this);
         }
@@ -330,7 +330,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
     public override void Select()
     {
         base.Select();
-        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             PlaySelectSample();
         }
@@ -588,7 +588,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
     {
         if (_shadow is not null)
         {
-            if (_shadow.ShadowStatus.Contains(StructureShadowStatusElement.Connected))
+            if (_shadow.ShadowStatus.Contains(StructureShadowStatuses.Connected))
             {
                 _shadow.Disconnect();
             }
@@ -678,7 +678,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
                 _ = indexes.Add(unitIndexListCollection.GetU(collection, index: i));
             }
 
-            _ = Int32List.FillWithRandomUnits(indexes, units.Units, level: 4, value: Resource.RazeDefenderBudget, types: Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
+            _ = Int32List.FillWithRandomUnits(indexes, units.Units, level: 4, value: Resource.RazeDefenderBudget, types: UnitTypes.Humanoid | UnitTypes.Creature | UnitTypes.Machine);
             while (units.Count > 8)
             {
                 _ = units.DeleteUnit(units.GetUnit(units.Count - 1));
@@ -706,7 +706,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
                 _ = placed.AddUnit(troop);
                 sbyte hexLevel = HexLevel;
                 sbyte hexY = HexY;
-                _ = troop.Place(HexX, hexY, L: hexLevel, player: 0, mode: Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
+                _ = troop.Place(HexX, hexY, L: hexLevel, player: 0, mode: UnitPlaceModes.ScanArea);
             }
 
             _ = ListUnits(attackers);
@@ -1025,7 +1025,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
             }
 
             _ = predictor.Execute();
-            result = Set<byte>.WithBounds(0, 255).With(3).With(4).With(6).Contains(predictor.Result) && predictor.GetSuperiority() > 50;
+            result = predictor.Result is 3 or 4 or 6 && predictor.GetSuperiority() > 50;
             if (!result)
             {
                 reason = AbilityRules.TranslateResourceString(GetEngine(), S: s_notEnoughForcesText);

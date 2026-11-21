@@ -5,8 +5,6 @@ using Aow.Game.Combat;
 
 using Aow.Game.Units;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Abilities;
 
 // WallType. HitPoints. Hits
@@ -27,7 +25,7 @@ public class WallCombatant(CustomNode owner) : Troop(owner)
     public override sbyte GetHitPoints() => HitPoints;
 
     // Unit.PAS:2503
-    public override Set<DamageType> GetImmunityTypes() => AbilityRules.AllDamageTypesForWallImmunity - AbilityRules.WallDamageTypes;
+    public override DamageTypes GetImmunityTypes() => AbilityRules.AllDamageTypesForWallImmunity & ~AbilityRules.WallDamageTypes;
 
     // Unit.PAS:2522
     public override string GetName()

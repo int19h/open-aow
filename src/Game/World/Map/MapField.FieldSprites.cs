@@ -56,8 +56,8 @@ public partial class MapField
         }
 
         int priority = sprite.GetShowPriority();
-        int index = Status.Contains(MapFieldStatusElement.Comparing) ? StoredCount : 0;
-        if (!Status.Contains(MapFieldStatusElement.Comparing))
+        int index = Status.Contains(MapFieldStatuses.Comparing) ? StoredCount : 0;
+        if (!Status.Contains(MapFieldStatuses.Comparing))
         {
             while (index < StoredCount && priority > _hexSpriteList[index].GetShowPriority())
             {
@@ -266,7 +266,7 @@ public partial class MapField
 
     public void UpdateTerrain()
     {
-        if (Status.Contains(MapFieldStatusElement.TerrainLocked))
+        if (Status.Contains(MapFieldStatuses.TerrainLocked))
         {
             return;
         }
@@ -284,7 +284,7 @@ public partial class MapField
 
     public void UpdateTerrainType()
     {
-        if (Status.Contains(MapFieldStatusElement.TerrainLocked))
+        if (Status.Contains(MapFieldStatuses.TerrainLocked))
         {
             return;
         }
@@ -307,7 +307,7 @@ public partial class MapField
 
     public void UpdateOverlayType()
     {
-        if (Status.Contains(MapFieldStatusElement.TerrainLocked))
+        if (Status.Contains(MapFieldStatuses.TerrainLocked))
         {
             return;
         }
@@ -330,13 +330,13 @@ public partial class MapField
 
     public void TerrainChanged()
     {
-        Set<MapFieldStatusElement> locked = Set<MapFieldStatusElement>.Of(MapFieldStatusElement.TerrainLocked);
-        if (Status.Contains(MapFieldStatusElement.TerrainLocked))
+        MapFieldStatuses locked = MapFieldStatuses.TerrainLocked;
+        if (Status.Contains(MapFieldStatuses.TerrainLocked))
         {
-            Status += locked;
+            Status |= locked;
             return;
         }
-        Status += locked;
+        Status |= locked;
         HexSpriteTerrainInfo info = new() { MapField = this, TerrainType = TerrainType, OverlayType = OverlayType };
         for (int i = StoredCount - 1; i >= 0; i--)
         {
@@ -346,7 +346,7 @@ public partial class MapField
         TerrainType = -1;
         OverlayType = -1;
         (TerrainType, OverlayType) = ReadTerrain();
-        Status -= locked;
+        Status &= ~locked;
         info.TerrainType = TerrainType;
         info.OverlayType = OverlayType;
         for (int i = StoredCount - 1; i >= 0; i--)
@@ -354,9 +354,9 @@ public partial class MapField
             info.HexNumber = (sbyte)_directions[i];
             _hexSpriteList[i].TerrainChanged(info);
         }
-        Status += locked;
+        Status |= locked;
         UpdateNeighbourTerrain();
-        Status -= locked;
+        Status &= ~locked;
     }
 
     public void NeighbourTerrainChanged(ref readonly HexSpriteTerrainInfo info)
@@ -369,7 +369,7 @@ public partial class MapField
 
     public bool CanChangeTerrain(EngineObject sender)
     {
-        if (Status.Contains(MapFieldStatusElement.TerrainLocked))
+        if (Status.Contains(MapFieldStatuses.TerrainLocked))
         {
             return false;
         }
@@ -388,7 +388,7 @@ public partial class MapField
 
     public bool CanChangeTerrain(EngineObject sender, sbyte terrain, sbyte overlay)
     {
-        if (Status.Contains(MapFieldStatusElement.TerrainLocked))
+        if (Status.Contains(MapFieldStatuses.TerrainLocked))
         {
             return false;
         }

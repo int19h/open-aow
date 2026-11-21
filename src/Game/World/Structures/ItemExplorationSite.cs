@@ -9,8 +9,6 @@ using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
-
-using Aow.Rtl;
 using static Aow.Rtl.DelphiFormat;
 using static Aow.Rtl.DelphiRandom;
 
@@ -81,7 +79,7 @@ public class ItemExplorationSite : ExplorationSite
     // ItemExpS.pas:152
     public override void ExecuteSearchDone(CombatType combatType, CombatResult combatResult)
     {
-        if (Set<CombatResult>.Of(CombatResult.Victory, CombatResult.NoDefenders).Contains(combatResult))
+        if (combatResult is CombatResult.Victory or CombatResult.NoDefenders)
         {
             ArmyHexSprite army = Owner.GetArmyHexSprite();
             ItemExplorationSiteEventLog log = new(null)
@@ -131,5 +129,5 @@ public class ItemExplorationSite : ExplorationSite
 
     private static readonly string s_itemsExploredFormat = "\"From the %s\",\"you recovered the following items:\"";
     private static readonly string s_itemsFoundText = "Items Found";
-    private static readonly Set<ItemType> s_itAll = Set<ItemType>.FromMask(127uL);
+    private static readonly ItemTypes s_itAll = ItemTypes.Head | ItemTypes.Torso | ItemTypes.Attack | ItemTypes.Defense | ItemTypes.Ring | ItemTypes.Scroll | ItemTypes.Use;
 }

@@ -287,7 +287,7 @@ public sealed partial class ComboBox : Control
     // AoWComboBox.pas:375
     // { CheckMouseDown opens or closes the list with a click on the edit field and closes it with a
     //   click outside the control }
-    public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
@@ -424,7 +424,7 @@ public sealed partial class ComboBox : Control
 
     // AoWComboBox.pas:476
     // { CheckMouseUp selects the item under the mouse in the open list and closes the list }
-    public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton button, ShiftStates shift, int X, int Y)
     {
         Handled = false;
         MouseDown = false;
@@ -489,7 +489,7 @@ public sealed partial class ComboBox : Control
 
     // AoWComboBox.pas:530
     // { CheckMouseMove tracks the item under the mouse in the open list }
-    public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseMove(ShiftStates shift, int X, int Y)
     {
         base.CheckMouseMove(shift, X, Y);
         Handled = false;

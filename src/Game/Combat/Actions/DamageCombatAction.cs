@@ -1,17 +1,10 @@
 // Translated from AoWE.pas.
 using Aow.Engine;
-
 using Aow.Engine.Nodes;
-
 using Aow.Formats.Tree;
-
 using Aow.Game.Draw;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.World.Map;
-
-using Aow.Rtl;
 
 namespace Aow.Game.Combat.Actions;
 
@@ -23,8 +16,8 @@ public class DamageCombatAction(CustomNode owner) : SingleTargetCombatAction(own
     public new const int ClassId = 131_761;
 
     public byte Damage { get; set; }
-    public Set<DamageType> DamageTypes { get; set; }
-    public Set<DamageType> Effects { get; set; }
+    public DamageTypes DamageTypes { get; set; }
+    public DamageTypes Effects { get; set; }
 
     public byte DamageDone { get; protected set; }
 
@@ -33,8 +26,8 @@ public class DamageCombatAction(CustomNode owner) : SingleTargetCombatAction(own
     {
         base.PersistFields(persister);
         Damage = persister.Byte("Damage", value: Damage);
-        Effects = persister.Record<PackedDamageTypes, Set<DamageType>>(name: "Effects", value: Effects);
-        DamageTypes = persister.Record<PackedDamageTypes, Set<DamageType>>(name: "DamageTypes", value: DamageTypes);
+        Effects = persister.Record<PackedDamageTypes, DamageTypes>(name: "Effects", value: Effects);
+        DamageTypes = persister.Record<PackedDamageTypes, DamageTypes>(name: "DamageTypes", value: DamageTypes);
     }
 
     // Combat2.pas:817
@@ -47,7 +40,7 @@ public class DamageCombatAction(CustomNode owner) : SingleTargetCombatAction(own
             DamageDone = (byte)source.DoDamage(target, Damage);
         }
 
-        if (Effects != Set<DamageType>.Of())
+        if (Effects != DamageTypes.None)
         {
             _ = target.ExecuteDamageEffects(Effects);
         }
@@ -64,7 +57,7 @@ public class DamageCombatAction(CustomNode owner) : SingleTargetCombatAction(own
             CombatObject target = viewer.Combat.CombatData.FindId(TargetId);
             if (DamageDone != 0)
             {
-                if (!target.Status.Contains(CombatObjectStatusElement.Destroyed))
+                if (!target.Status.Contains(CombatObjectStatuses.Destroyed))
                 {
                     target.PlaySfx(2);
                 }
@@ -76,7 +69,7 @@ public class DamageCombatAction(CustomNode owner) : SingleTargetCombatAction(own
         }
 
         int duration = viewer.Delay * 2;
-        if (Effects != Set<DamageType>.Of())
+        if (Effects != DamageTypes.None)
         {
             int effectFrames = DamageEffectsAnimationFrames(Effects) + viewer.Delay;
             hitFrame = viewer.Delay * 3;
@@ -108,7 +101,7 @@ public class DamageCombatAction(CustomNode owner) : SingleTargetCombatAction(own
             if (objectValue.Id == TargetId && DamageDone != 0 && hitFrame <= viewer.Time)
             {
                 objectValue.Show(frame, direction, X, Y, surface);
-                if (Effects != Set<DamageType>.Of())
+                if (Effects != DamageTypes.None)
                 {
                     _ = ShowDamageEffects(Effects, X, Y, frame: viewer.Time - hitFrame, surface);
                 }
@@ -122,7 +115,7 @@ public class DamageCombatAction(CustomNode owner) : SingleTargetCombatAction(own
     }
 
     // Combat2.pas:785
-    public virtual void Setup(byte sourceId, byte targetId, byte damage, Set<DamageType> effects, Set<DamageType> damageTypes, bool defensive)
+    public virtual void Setup(byte sourceId, byte targetId, byte damage, DamageTypes effects, DamageTypes damageTypes, bool defensive)
     {
         SourceId = sourceId;
         TargetId = targetId;
@@ -131,80 +124,80 @@ public class DamageCombatAction(CustomNode owner) : SingleTargetCombatAction(own
         DamageTypes = damageTypes;
         if (defensive)
         {
-            Mode += Set<SingleTargetModeElement>.Of(SingleTargetModeElement.Defensive);
+            Mode |= SingleTargetModes.Defensive;
         }
     }
 
     // Combat2.pas:795
-    public virtual void Generate(CombatObject source, CombatObject target, sbyte attack, sbyte damage, Set<DamageType> damageTypes)
+    public virtual void Generate(CombatObject source, CombatObject target, sbyte attack, sbyte damage, DamageTypes damageTypes)
     {
         SourceId = source.Id;
         TargetId = target.Id;
         Damage = (byte)target.ExecuteDamageRole(attack, damage, damageTypes);
         if (Damage != 0)
         {
-            Set<DamageType> executeDamageEffectsRole = target.ExecuteDamageEffectsRole(damageTypes);
+            DamageTypes executeDamageEffectsRole = target.ExecuteDamageEffectsRole(damageTypes);
             Effects = executeDamageEffectsRole;
         }
         else
         {
-            Effects = Set<DamageType>.Of();
+            Effects = DamageTypes.None;
         }
 
-        Set<DamageType> immunityTypes = target.GetImmunityTypes();
-        DamageTypes = damageTypes - immunityTypes;
+        DamageTypes immunityTypes = target.GetImmunityTypes();
+        DamageTypes = damageTypes & ~immunityTypes;
     }
 
     // Combat2.pas:806
-    public virtual void Generate(CombatObject source, CombatObject target, sbyte attack, sbyte damage, Set<DamageType> damageTypes, byte damageMode)
+    public virtual void Generate(CombatObject source, CombatObject target, sbyte attack, sbyte damage, DamageTypes damageTypes, byte damageMode)
     {
         SourceId = source.Id;
         TargetId = target.Id;
         Damage = (byte)target.ExecuteDamageRole(attack, damage, damageTypes, damageMode);
         if (Damage != 0)
         {
-            Set<DamageType> executeDamageEffectsRole = target.ExecuteDamageEffectsRole(damageTypes);
+            DamageTypes executeDamageEffectsRole = target.ExecuteDamageEffectsRole(damageTypes);
             Effects = executeDamageEffectsRole;
         }
         else
         {
-            Effects = Set<DamageType>.Of();
+            Effects = DamageTypes.None;
         }
 
-        Set<DamageType> immunityTypes = target.GetImmunityTypes();
-        DamageTypes = damageTypes - immunityTypes;
+        DamageTypes immunityTypes = target.GetImmunityTypes();
+        DamageTypes = damageTypes & ~immunityTypes;
     }
 
-    private static bool ShowDamageEffects(Set<DamageType> damageTypes, int X, int Y, int frame, in LockedSurface surface)
+    private static bool ShowDamageEffects(DamageTypes damageTypes, int X, int Y, int frame, in LockedSurface surface)
     {
         bool flag = false;
-        if (damageTypes.Contains(DamageType.Fire))
+        if (damageTypes.Contains(DamageTypes.Fire))
         {
             flag = flag || GamePack.Current.AbilityControl[127].ImageSequences.Show(0, X + 32, Y + 32, frame, lockedSurface: in surface);
         }
-        if (damageTypes.Contains(DamageType.Poison))
+        if (damageTypes.Contains(DamageTypes.Poison))
         {
             flag = flag || GamePack.Current.AbilityControl[96].ImageSequences.Show(0, X + 32, Y + 32, frame, lockedSurface: in surface);
         }
-        if (damageTypes.Contains(DamageType.Cold))
+        if (damageTypes.Contains(DamageTypes.Cold))
         {
             flag = flag || GamePack.Current.AbilityControl[95].ImageSequences.Show(1, X + 32, Y + 32, frame, lockedSurface: in surface);
         }
-        if (damageTypes.Contains(DamageType.Death))
+        if (damageTypes.Contains(DamageTypes.Death))
         {
             flag = flag || GamePack.Current.AbilityControl[93].ImageSequences.Show(0, X + 32, Y + 32, frame, lockedSurface: in surface);
         }
-        if (damageTypes.Contains(DamageType.Holy))
+        if (damageTypes.Contains(DamageTypes.Holy))
         {
             flag = flag || GamePack.Current.AbilityControl[98].ImageSequences.Show(0, X + 32, Y + 32, frame, lockedSurface: in surface);
         }
         return flag;
     }
 
-    private static int DamageEffectsAnimationFrames(Set<DamageType> damageTypes)
+    private static int DamageEffectsAnimationFrames(DamageTypes damageTypes)
     {
         int number = 0;
-        if (damageTypes.Contains(DamageType.Fire))
+        if (damageTypes.Contains(DamageTypes.Fire))
         {
             int framesCount = GamePack.Current.AbilityControl[127].ImageSequences.GetFramesCount(0);
             if (framesCount > number)
@@ -212,7 +205,7 @@ public class DamageCombatAction(CustomNode owner) : SingleTargetCombatAction(own
                 number = framesCount;
             }
         }
-        if (damageTypes.Contains(DamageType.Poison))
+        if (damageTypes.Contains(DamageTypes.Poison))
         {
             int framesCount = GamePack.Current.AbilityControl[96].ImageSequences.GetFramesCount(0);
             if (framesCount > number)
@@ -220,7 +213,7 @@ public class DamageCombatAction(CustomNode owner) : SingleTargetCombatAction(own
                 number = framesCount;
             }
         }
-        if (damageTypes.Contains(DamageType.Cold))
+        if (damageTypes.Contains(DamageTypes.Cold))
         {
             int framesCount = GamePack.Current.AbilityControl[95].ImageSequences.GetFramesCount(1);
             if (framesCount > number)
@@ -228,7 +221,7 @@ public class DamageCombatAction(CustomNode owner) : SingleTargetCombatAction(own
                 number = framesCount;
             }
         }
-        if (damageTypes.Contains(DamageType.Death))
+        if (damageTypes.Contains(DamageTypes.Death))
         {
             int framesCount = GamePack.Current.AbilityControl[93].ImageSequences.GetFramesCount(0);
             if (framesCount > number)
@@ -236,7 +229,7 @@ public class DamageCombatAction(CustomNode owner) : SingleTargetCombatAction(own
                 number = framesCount;
             }
         }
-        if (damageTypes.Contains(DamageType.Holy))
+        if (damageTypes.Contains(DamageTypes.Holy))
         {
             int framesCount = GamePack.Current.AbilityControl[98].ImageSequences.GetFramesCount(0);
             if (framesCount > number)
@@ -247,24 +240,24 @@ public class DamageCombatAction(CustomNode owner) : SingleTargetCombatAction(own
         return number;
     }
 
-    private static DamageType DamageTypesToDamageType(Set<DamageType> damageTypes)
+    private static DamageType DamageTypesToDamageType(DamageTypes damageTypes)
     {
-        return damageTypes != Set<DamageType>.Of([])
-            ? damageTypes.Contains(DamageType.Holy)
+        return damageTypes != DamageTypes.None
+            ? damageTypes.Contains(DamageTypes.Holy)
                 ? DamageType.Holy
-                : damageTypes.Contains(DamageType.Magic)
+                : damageTypes.Contains(DamageTypes.Magic)
                 ? DamageType.Magic
-                : damageTypes.Contains(DamageType.Death)
+                : damageTypes.Contains(DamageTypes.Death)
                 ? DamageType.Death
-                : damageTypes.Contains(DamageType.Cold)
+                : damageTypes.Contains(DamageTypes.Cold)
                 ? DamageType.Cold
-                : damageTypes.Contains(DamageType.Fire)
+                : damageTypes.Contains(DamageTypes.Fire)
                 ? DamageType.Fire
-                : damageTypes.Contains(DamageType.Poison)
+                : damageTypes.Contains(DamageTypes.Poison)
                 ? DamageType.Poison
-                : damageTypes.Contains(DamageType.Physical)
+                : damageTypes.Contains(DamageTypes.Physical)
                 ? DamageType.Physical
-                : damageTypes.Contains(DamageType.Wall) ? DamageType.Wall : DamageType.None
-            : DamageType.None;
+                : damageTypes.Contains(DamageTypes.Wall) ? DamageType.Wall : DamageType.NonSpecific
+            : DamageType.NonSpecific;
     }
 }

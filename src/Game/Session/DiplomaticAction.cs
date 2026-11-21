@@ -199,7 +199,7 @@ public partial class DiplomaticAction(CustomNode owner) : EngineObject(owner), I
         }
         else
         {
-            if (Set<DiplomaticActionReaction>.Of(DiplomaticActionReaction.Reject, DiplomaticActionReaction.Ignore).Contains(reaction))
+            if (reaction is DiplomaticActionReaction.Reject or DiplomaticActionReaction.Ignore)
             {
                 Proposal.RefusedAI(this);
             }
@@ -315,7 +315,7 @@ public partial class DiplomaticAction(CustomNode owner) : EngineObject(owner), I
     public void UpdateAIDiplomaticActionsLog(sbyte player)
     {
         Player players = StrategicMap.Current.Players.GetPlayers(player);
-        if (Set<PlayerType>.Of().WithRange(PlayerType.Cpu1, PlayerType.Cpu3).WithRange(PlayerType.Cpu4, PlayerType.Cpu5).Contains(players.PlayerType))
+        if (players.PlayerType is (>= PlayerType.Cpu1 and <= PlayerType.Cpu3) or PlayerType.Cpu4 or PlayerType.Cpu5)
         {
             DiplomaticAction action = Copy<DiplomaticAction>(GetEngine());
             action.Proposal = action.Proposal with { Message = [] };
@@ -347,15 +347,7 @@ public partial class DiplomaticAction(CustomNode owner) : EngineObject(owner), I
         }
         Player players4 = StrategicMap.Current.Players.GetPlayers(source);
         Alignment alignment = GamePack.Current.RaceResources.GetRaceResource(players4.PlayerRace).Alignment;
-        proposal.DefaultMessage(new DiplomaticMessageText(alignment: (!Set<Alignment>.Of(
-        [
-            Alignment.PureGood,
-            Alignment.Good
-        ]).Contains(alignment)) ? ((!Set<Alignment>.Of(
-        [
-            Alignment.Evil,
-            Alignment.PureEvil
-        ]).Contains(alignment))
+        proposal.DefaultMessage(new DiplomaticMessageText(alignment: (alignment is not (Alignment.PureGood or Alignment.Good)) ? ((alignment is not (Alignment.Evil or Alignment.PureEvil))
             ? 1
             : 2)
             : 0, textControl: fTextControl, sourceRace: sourceRace, targetRace: targetRace, otherRace: otherRace, text: text), reaction, relation: diplomaticRelation);

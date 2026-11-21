@@ -17,8 +17,6 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
-using Aow.Rtl;
-
 using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.World.Terrain;
@@ -30,7 +28,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
 
     public new const int ClassId = 132_990;
 
-    private Set<ModeElement> _mode = Set<ModeElement>.Of(ModeElement.Expandable);
+    private Modes _mode = Modes.Expandable;
 
     public sbyte TurnsLeft { get; set; } = 3;
     public byte Age { get; set; }
@@ -143,7 +141,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     // Structur.PAS:3589
     public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        if (message.MessageId != 16 || StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (message.MessageId != 16 || StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             base.MapFieldMessageProc(ref message);
         }
@@ -156,7 +154,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
 
         if (message.MessageId == 4384 && base.Resource.TerrainList.GetTerrain(message.HexNumber) >= 0)
         {
-            if (!message.Param[0].As<ArmyHexSprite>().Army.ImmunityTypes(255).Contains(DamageType.Fire))
+            if (!message.Param[0].As<ArmyHexSprite>().Army.ImmunityTypes(255).Contains(DamageTypes.Fire))
             {
                 message.Result = 1;
             }
@@ -183,7 +181,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     // Structur.PAS:3509
     public override void MakeVisible(VisibilityList visibilityList)
     {
-        if (!Status.Contains(MapObjectStatusElement.Visible) && _explosionFrame != 0 && StrategicMap.Current.Frame == _explosionFrame)
+        if (!Status.Contains(MapObjectStatuses.Visible) && _explosionFrame != 0 && StrategicMap.Current.Frame == _explosionFrame)
         {
             sbyte hexX = HexX;
             _ = AudioPlayback.PlaySample(AbilityRules.ExplosionSfx[(hexX + StrategicMap.Current.Frame) % 2]);
@@ -299,7 +297,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         {
             i -= 1;
             Troop troop = units.GetUnit(i);
-            result = !troop.GetImmunityTypes().Contains(DamageType.Fire);
+            result = !troop.GetImmunityTypes().Contains(DamageTypes.Fire);
         }
 
         return result;
@@ -308,7 +306,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     // Structur.PAS:3584
     public void ArmyPlaced(ArmyHexSprite armyHexSprite)
     {
-        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             armyHexSprite.Army.TriggerFireDamage();
         }
@@ -382,9 +380,11 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         }
     }
 
-    public enum ModeElement : byte
+    [Flags]
+    public enum Modes : byte
     {
-        Expandable = 0
+        None = 0,
+        Expandable = 1 << 0,
     }
 
     // FireType
@@ -398,7 +398,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         // FireType
         public override void Dispose()
         {
-            if (Engine is not null && !GamePack.Current.Status.Contains(HexSpriteSetStatusElement.Destroying))
+            if (Engine is not null && !GamePack.Current.Status.Contains(HexSpriteSetStatuses.Destroying))
             {
                 GamePack.Current.FireControl.UnregisterFireResource(this);
             }

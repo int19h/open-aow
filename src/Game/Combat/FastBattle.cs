@@ -5,8 +5,6 @@ using Aow.Engine.Nodes;
 
 using Aow.Game.Magic.Abilities;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Combat;
 
 // wall siege object count
@@ -115,7 +113,7 @@ public sealed class FastBattle(CustomNode owner) : Battle(owner)
         while (i != 0 && !canCrush)
         {
             i -= 1;
-            canCrush = !side.GetObjects(i).Status.Contains(CombatObjectStatusElement.Destroyed) && side.GetObjects(i).WallCombatFeatures().Contains(WallCombatFeaturesElement.WallBreaching);
+            canCrush = !side.GetObjects(i).Status.Contains(CombatObjectStatuses.Destroyed) && side.GetObjects(i).WallCombatFeatures().Contains(WallCombatFeatures.WallBreaching);
         }
 
         return canCrush;
@@ -128,7 +126,7 @@ public sealed class FastBattle(CustomNode owner) : Battle(owner)
         CombatSide side = Sides[(int)CombatSideIndex.Attacker];
         for (int i = 0, last = side.Count - 1; i <= last; i++)
         {
-            if (!side.GetObjects(i).Status.Contains(CombatObjectStatusElement.Destroyed) && side.GetObjects(i).SupportCombatMode(Set<CombatMode>.Of(CombatMode.MediumRange, CombatMode.LongRange)))
+            if (!side.GetObjects(i).Status.Contains(CombatObjectStatuses.Destroyed) && side.GetObjects(i).SupportCombatMode(CombatModes.MediumRange | CombatModes.LongRange))
             {
                 combatValue += side.GetObjects(i).CombatValue;
             }
@@ -144,7 +142,7 @@ public sealed class FastBattle(CustomNode owner) : Battle(owner)
         CombatSide side = Sides[(int)CombatSideIndex.Defender];
         for (int i = 0, last = side.Count - 1; i <= last; i++)
         {
-            if (!side.GetObjects(i).Status.Contains(CombatObjectStatusElement.Destroyed) && side.GetObjects(i).SupportCombatMode(Set<CombatMode>.Of(CombatMode.MediumRange, CombatMode.LongRange)))
+            if (!side.GetObjects(i).Status.Contains(CombatObjectStatuses.Destroyed) && side.GetObjects(i).SupportCombatMode(CombatModes.MediumRange | CombatModes.LongRange))
             {
                 combatValue += side.GetObjects(i).CombatValue;
             }
@@ -157,7 +155,7 @@ public sealed class FastBattle(CustomNode owner) : Battle(owner)
     public bool ValidateWallBreaching()
     {
         CombatWall wall = CombatData.Wall;
-        if (wall is not null && !wall.Status.Contains(CombatObjectStatusElement.Destroyed) && WallSiegeObjectCount == 0)
+        if (wall is not null && !wall.Status.Contains(CombatObjectStatuses.Destroyed) && WallSiegeObjectCount == 0)
         {
             CombatResult = CombatResult.CannotBreachWall;
             return false;
@@ -184,7 +182,7 @@ public sealed class FastBattle(CustomNode owner) : Battle(owner)
             for (; i >= 0; i -= 1)
             {
                 CombatObject objectValue = CombatData.GetObjects(i);
-                if (objectValue.CombatPlayer == (sbyte)CombatData.CurrentPlayer && objectValue.GetEnabled() && !objectValue.GetLocked() && !objectValue.Status.Contains(CombatObjectStatusElement.TurnDone))
+                if (objectValue.CombatPlayer == (sbyte)CombatData.CurrentPlayer && objectValue.GetEnabled() && !objectValue.GetLocked() && !objectValue.Status.Contains(CombatObjectStatuses.TurnDone))
                 {
                     _ = objects.Add(objectValue);
                 }

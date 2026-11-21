@@ -1,5 +1,4 @@
 // Translated from AoWE.pas.
-using Aow.Rtl;
 
 namespace Aow.Game.Combat;
 
@@ -16,13 +15,13 @@ public sealed class CombatPredictorSide : CombatPredictorUnitList
     public int GetStrength(DamageType damageType) => Strength[(int)damageType];
 
     // CombatPredictor.pas:284
-    public int GetStrengthMax(Set<DamageType> damageTypes)
+    public int GetStrengthMax(DamageTypes damageTypes)
     {
         int result = 0;
-        for (int dOrdinal = (int)DamageType.Fire; dOrdinal <= (int)DamageType.None; dOrdinal++)
+        for (int dOrdinal = (int)DamageType.Fire; dOrdinal <= (int)DamageType.NonSpecific; dOrdinal++)
         {
             DamageType d = (DamageType)dOrdinal;
-            if (damageTypes.Contains(d) && result < Strength[(int)d])
+            if (damageTypes.Contains(d.ToFlag()) && result < Strength[(int)d])
             {
                 result = Strength[(int)d];
             }

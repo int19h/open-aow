@@ -129,7 +129,7 @@ public sealed partial class ImageLibraryFont(Component owner) : CustomImageLibra
     }
 
     // ImageLib.pas:6433
-    public void SetText(int X, int Y, string text, in LockedSurface lockedSurface, Set<SetTextModeElement> mode, in ShowInfo showInfo)
+    public void SetText(int X, int Y, string text, in LockedSurface lockedSurface, SetTextModes mode, in ShowInfo showInfo)
     {
         string s = CharCase switch
         {
@@ -137,7 +137,7 @@ public sealed partial class ImageLibraryFont(Component owner) : CustomImageLibra
             EditCharCase.UpperCase => UpperCase(text),
             EditCharCase.Normal or _ => text,
         };
-        if (mode.Contains(SetTextModeElement.Center))
+        if (mode.Contains(SetTextModes.Center))
         {
             X -= TextWidth(s) >>> 1;
         }

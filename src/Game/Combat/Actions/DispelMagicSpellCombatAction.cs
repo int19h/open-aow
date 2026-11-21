@@ -27,7 +27,7 @@ public class DispelMagicSpellCombatAction(CustomNode owner) : DispelMagicCombatA
     public override void Execute(Battle combat)
     {
         base.Execute(combat);
-        if (ManaCost != 0 && combat.Status.Contains(CombatStatusElement.Executing))
+        if (ManaCost != 0 && combat.Status.Contains(CombatStatuses.Executing))
         {
             if (GamePack.Current.SpellControl[SpellId] is not null)
             {

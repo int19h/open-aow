@@ -12,8 +12,6 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
-using Aow.Rtl;
-
 using static Aow.Rtl.DelphiAssert;
 using static Aow.Rtl.DelphiRounding;
 
@@ -223,7 +221,7 @@ public sealed class CombatPredictor : IDisposable
                 i -= 1;
                 if (_allUnits.GetUnits(i).Troop is not null)
                 {
-                    result = _allUnits.GetUnits(i).Troop.GetWallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing);
+                    result = _allUnits.GetUnits(i).Troop.GetWallCombatFeatures().Contains(WallCombatFeatures.WallPassing);
                 }
             }
         }
@@ -244,7 +242,7 @@ public sealed class CombatPredictor : IDisposable
         {
             CombatPredictorUnit u = _allUnits.List[i];
             u.FinishCombat();
-            if (!u.Status.Contains(CombatPredictorUnitStatusElement.Destroyed))
+            if (!u.Status.Contains(CombatPredictorUnitStatuses.Destroyed))
             {
                 surviving[u.Side] += 1;
             }
@@ -330,7 +328,7 @@ public sealed class CombatPredictor : IDisposable
                 Sides[u.Side].Delete(j);
                 Sides[u.Side].UnitRemovedFlags[0] = 1;
                 // { Original adds strength when deleting a unit. }
-                for (int dOrdinal = (int)DamageType.Fire; dOrdinal <= (int)DamageType.None; dOrdinal++)
+                for (int dOrdinal = (int)DamageType.Fire; dOrdinal <= (int)DamageType.NonSpecific; dOrdinal++)
                 {
                     DamageType d = (DamageType)dOrdinal;
                     int strength = troop.GetStrength(d);
@@ -353,7 +351,7 @@ public sealed class CombatPredictor : IDisposable
         _ = _allUnits.Add(u);
         _ = Sides[side].Add(u);
         Sides[side].UnitRemovedFlags[0] = 1;
-        for (int dOrdinal = (int)DamageType.Fire; dOrdinal <= (int)DamageType.None; dOrdinal++)
+        for (int dOrdinal = (int)DamageType.Fire; dOrdinal <= (int)DamageType.NonSpecific; dOrdinal++)
         {
             DamageType d = (DamageType)dOrdinal;
             int strength = troop.GetStrength(d);
@@ -590,7 +588,7 @@ public sealed class CombatPredictor : IDisposable
             }
             else
             {
-                if (Set<byte>.WithBounds(0, 255).With(2).With(4).With(8).Contains(Result))
+                if (Result is 2 or 4 or 8)
                 {
                     total = 0;
                     left = 0;
@@ -630,7 +628,7 @@ public sealed class CombatPredictor : IDisposable
                 for (int i = Sides[side].Count - 1; i >= 0; i--)
                 {
                     CombatPredictorUnit u = Sides[side].List[i];
-                    if (u.Status.Contains(CombatPredictorUnitStatusElement.Destroyed))
+                    if (u.Status.Contains(CombatPredictorUnitStatuses.Destroyed))
                     {
                         int obtainValue = u.Troop.GetObtainValue();
                         lost[side] += obtainValue;
@@ -857,7 +855,7 @@ public sealed class CombatPredictor : IDisposable
             while (i != 0 && allDead)
             {
                 i -= 1;
-                allDead = Sides[0].GetUnits(i).Status.Contains(CombatPredictorUnitStatusElement.Destroyed);
+                allDead = Sides[0].GetUnits(i).Status.Contains(CombatPredictorUnitStatuses.Destroyed);
             }
 
             useful = false;

@@ -2,8 +2,6 @@
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Combat.Actions;
 
 public class FleeCombatAction(CustomNode owner) : CombatAction(owner)
@@ -24,7 +22,7 @@ public class FleeCombatAction(CustomNode owner) : CombatAction(owner)
     public override void Execute(Battle combat)
     {
         CombatObject objectValue = combat.CombatData.FindId(ObjectId);
-        objectValue.Status += Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Fled);
+        objectValue.Status |= CombatObjectStatuses.Fled;
     }
 
     // intf_P3_02.inc:38

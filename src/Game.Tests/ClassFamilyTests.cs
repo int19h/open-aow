@@ -71,14 +71,14 @@ public sealed class ClassFamilyTests
         Assert.Equal(EndTurnAIPlayerAction.Priority, endTurn.Priority);
         Assert.NotEqual(GroupControlLoopAIPlayerAction.Priority, endTurn.Priority);
         // the phases are inherited from TAIPlayerAction, the loop action declares its own
-        Assert.True(endTurn.SupportedPhases.Contains(AIPlayerProcessPhase.Main));
-        Assert.False(endTurn.SupportedPhases.Contains(AIPlayerProcessPhase.Loop));
+        Assert.True(endTurn.SupportedPhases.Contains(AIPlayerProcessPhases.Main));
+        Assert.False(endTurn.SupportedPhases.Contains(AIPlayerProcessPhases.Loop));
         AIPlayerActionClass loop = AIPlayerActionClass.Of<GroupControlLoopAIPlayerAction>();
-        Assert.True(loop.SupportedPhases.Contains(AIPlayerProcessPhase.Loop));
-        Assert.False(loop.SupportedPhases.Contains(AIPlayerProcessPhase.Main));
+        Assert.True(loop.SupportedPhases.Contains(AIPlayerProcessPhases.Loop));
+        Assert.False(loop.SupportedPhases.Contains(AIPlayerProcessPhases.Main));
         // the base statics are abstract and the default
         _ = Assert.Throws<AbstractErrorException>(() => AIPlayerAction.Priority);
-        Assert.True(AIPlayerAction.SupportedPhases.Contains(AIPlayerProcessPhase.Main));
+        Assert.True(AIPlayerAction.SupportedPhases.Contains(AIPlayerProcessPhases.Main));
         using EndTurnAIPlayerAction instance = new(null) { Holder = EngineFixture.Engine };
         Assert.Same(endTurn, instance.ActionClass);
         Assert.Same(instance.ActionClass, instance.ActionClass);

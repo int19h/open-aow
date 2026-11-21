@@ -86,17 +86,17 @@ public sealed class ClassesTests
     {
         public override void Notification(Component component, Operation operation)
         {
-            log.Add($"notify {Name} {component.Name} {operation} destroying={component.ComponentState.Contains(Rtl.ComponentState.Destroying)}");
+            log.Add($"notify {Name} {component.Name} {operation} destroying={component.ComponentState.Contains(ComponentStates.Destroying)}");
             base.Notification(component, operation);
         }
 
         public override void Dispose()
         {
-            log.Add($"destroy {Name} owner={Owner?.Name} state={ComponentState.Contains(Rtl.ComponentState.Destroying)}");
+            log.Add($"destroy {Name} owner={Owner?.Name} state={ComponentState.Contains(ComponentStates.Destroying)}");
             base.Dispose();
         }
 
-        internal void Loading() => ComponentState = ComponentState.With(Rtl.ComponentState.Loading);
+        internal void Loading() => ComponentState |= ComponentStates.Loading;
     }
 
     [Fact]
@@ -171,17 +171,17 @@ public sealed class ClassesTests
         log.Clear();
         root.Dispose();
         Assert.Equal(new[] { "destroy root owner= state=False", "notify observer root Remove destroying=False", "destroy b owner= state=True", "destroy a owner= state=True" }, log);
-        Assert.True(root.ComponentState.Contains(ComponentState.Destroying));
-        Assert.True(a.ComponentState.Contains(ComponentState.Destroying));
-        Assert.False(root.ComponentState.Contains(ComponentState.Designing));
+        Assert.True(root.ComponentState.Contains(ComponentStates.Destroying));
+        Assert.True(a.ComponentState.Contains(ComponentStates.Destroying));
+        Assert.False(root.ComponentState.Contains(ComponentStates.Designing));
         log.Clear();
         observer.Dispose();
         _ = Assert.Single(log);
         Watched loading = new(log);
         loading.Loading();
-        Assert.True(loading.ComponentState.Contains(ComponentState.Loading));
+        Assert.True(loading.ComponentState.Contains(ComponentStates.Loading));
         loading.Loaded();
-        Assert.False(loading.ComponentState.Contains(ComponentState.Loading));
+        Assert.False(loading.ComponentState.Contains(ComponentStates.Loading));
         Component owner = new(null);
         a = new Watched(log) { Name = "a" };
         b = new Watched(log) { Name = "b" };
@@ -197,7 +197,7 @@ public sealed class ClassesTests
         Component leaf = new(new Component(tree));
         tree.Destroying();
         tree.Destroying();
-        Assert.True(leaf.ComponentState.Contains(ComponentState.Destroying));
+        Assert.True(leaf.ComponentState.Contains(ComponentStates.Destroying));
     }
 
     [Fact]

@@ -5,8 +5,6 @@ using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Combat;
 
 // SideIndex. Opponent. Strength. ConquerCount
@@ -54,7 +52,7 @@ public sealed class CombatSide(CustomNode owner) : OwningNode(owner), IChildList
         int result = 0;
         for (int i = Count - 1; i >= 0; i--)
         {
-            if (this[i].Status.Contains(CombatObjectStatusElement.Destroyed))
+            if (this[i].Status.Contains(CombatObjectStatuses.Destroyed))
             {
                 result += 1;
             }
@@ -70,7 +68,7 @@ public sealed class CombatSide(CustomNode owner) : OwningNode(owner), IChildList
         for (int i = Count - 1; i >= 0; i--)
         {
             CombatObject objectValue = this[i];
-            if ((Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed, CombatObjectStatusElement.Fled) & objectValue.Status) == Set<CombatObjectStatusElement>.Of() && objectValue.ControlMode.Contains(CombatObjectControlModeElement.ConquerObject))
+            if (((CombatObjectStatuses.Destroyed | CombatObjectStatuses.Fled) & objectValue.Status) == CombatObjectStatuses.None && objectValue.ControlMode.Contains(CombatObjectControlModes.ConquerObject))
             {
                 result += 1;
             }

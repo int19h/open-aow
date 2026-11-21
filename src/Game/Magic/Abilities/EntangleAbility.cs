@@ -7,8 +7,6 @@ using Aow.Game.Combat.Actions;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiRounding;
 
@@ -22,7 +20,7 @@ public class EntangleAbility : TouchAbility
         Holder = holder;
         AbilityId = 40;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.EntangleText);
-        SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.UseItem);
+        SelectionTypes = AbilitySelectionTypes.Unit | AbilitySelectionTypes.UseItem;
     }
 
     // AoWAb.PAS:3058
@@ -49,7 +47,7 @@ public class EntangleAbility : TouchAbility
     // AoWAb.PAS:2999
     public override int GetDamageValue(Troop attacker, Troop defender)
     {
-        if (CanTouchUnit(attacker, target: defender) && !defender.GetImmunityTypes().Contains(DamageType.None))
+        if (CanTouchUnit(attacker, target: defender) && !defender.GetImmunityTypes().Contains(DamageTypes.NonSpecific))
         {
             float probability = TouchRoleProbability(attacker, target: defender);
             return Round((double)((double)defender.GetHitPoints() * probability) * 100);
@@ -63,7 +61,7 @@ public class EntangleAbility : TouchAbility
     // AoWAb.PAS:3012
     public override void GetDamageValues(Troop attacker, Troop defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
-        if (wallSituation == WallSituation.None && CanTouchUnit(attacker, target: defender) && !defender.GetImmunityTypes().Contains(DamageType.None))
+        if (wallSituation == WallSituation.None && CanTouchUnit(attacker, target: defender) && !defender.GetImmunityTypes().Contains(DamageTypes.NonSpecific))
         {
             float probability = TouchRoleProbability(attacker, target: defender);
             sbyte hitPoints = defender.GetHitPoints();
@@ -74,7 +72,7 @@ public class EntangleAbility : TouchAbility
             damageValues.TargetDamage = Round(unitStrikeDamageValue * ((double)1 - probability));
             sbyte damage = defender.GetDamage();
             damageValues.TargetCost = damage;
-            damageValues.DamageTypes = Set<DamageType>.Of();
+            damageValues.DamageTypes = DamageTypes.None;
         }
         else
         {
@@ -82,17 +80,17 @@ public class EntangleAbility : TouchAbility
             damageValues.SourceCost = 0;
             damageValues.TargetDamage = 0;
             damageValues.TargetCost = 0;
-            damageValues.DamageTypes = Set<DamageType>.Of();
+            damageValues.DamageTypes = DamageTypes.None;
         }
     }
 
     // AoWAb.PAS:2991
-    public override void GetOffensiveStrength(AbilityOwner owner, ref int strength, ref Set<DamageType> types)
+    public override void GetOffensiveStrength(AbilityOwner owner, ref int strength, ref DamageTypes types)
     {
         if (owner is Troop troop)
         {
             strength = Round(troop.GetAttack() * 7 * 5 * 0.1);
-            types = Set<DamageType>.Of(DamageType.None);
+            types = DamageTypes.NonSpecific;
         }
     }
 
@@ -110,7 +108,7 @@ public class EntangleAbility : TouchAbility
             damageValues.TargetDamage = Round(strikeDamageValue * ((double)1 - probability));
             int statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: attacker.GetProtectionTypes(), immunityTypes: attacker.GetImmunityTypes(), damageTypes: CombatObject.MeleeDamageTypes(defender), damage: defender.GetDamage());
             damageValues.TargetCost = statisticsToMaxDamage;
-            damageValues.DamageTypes = Set<DamageType>.Of();
+            damageValues.DamageTypes = DamageTypes.None;
         }
         else
         {
@@ -118,7 +116,7 @@ public class EntangleAbility : TouchAbility
             damageValues.SourceCost = 0;
             damageValues.TargetDamage = 0;
             damageValues.TargetCost = 0;
-            damageValues.DamageTypes = Set<DamageType>.Of();
+            damageValues.DamageTypes = DamageTypes.None;
         }
     }
 

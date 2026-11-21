@@ -37,7 +37,7 @@ public class GroupControlAIPlayerAction(CustomNode owner) : AIPlayerAction(owner
                 {
                     Control.Player.AIGroups.SortOnProcessPriority();
                     int i = 0;
-                    while (i < Control.Player.AIGroups.Count && Control.Player.AIGroups.GetGroups(i).Status.Contains(AIGroupStatusElement.Done))
+                    while (i < Control.Player.AIGroups.Count && Control.Player.AIGroups.GetGroups(i).Status.Contains(AIGroupStatuses.Done))
                     {
                         i += 1;
                     }

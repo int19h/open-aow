@@ -90,7 +90,7 @@ public class SmokeCloud : MultiHexMapObject
     // SmokeCloud.pas:300
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        if (_visibleForSeatedPlayer || StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (_visibleForSeatedPlayer || StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             base.Show(pixelXSurface, pixelYSurface, lockedSurface);
         }
@@ -119,14 +119,14 @@ public class SmokeCloud : MultiHexMapObject
     // SmokeCloud.pas:245
     public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        if (message.MessageId != 16 || StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (message.MessageId != 16 || StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             base.MapFieldMessageProc(ref message);
         }
 
         if (base.Resource.TerrainList.Terrain[message.HexNumber] >= -1)
         {
-            if (message.MessageId == 4392 && Status.Contains(MapObjectStatusElement.Activated))
+            if (message.MessageId == 4392 && Status.Contains(MapObjectStatuses.Activated))
             {
                 MapFieldMessageParameters param = message.Param;
                 param[0] = 1;
@@ -152,7 +152,7 @@ public class SmokeCloud : MultiHexMapObject
         }
 
         SmokeCloudEnchantment smokeCloudEnchantment = Enchantment;
-        if (smokeCloudEnchantment.PlayerIndex > 0 && !smokeCloudEnchantment.EnchantmentStatus.Contains(GlobalEnchantmentStatusElement.Activated))
+        if (smokeCloudEnchantment.PlayerIndex > 0 && !smokeCloudEnchantment.EnchantmentStatus.Contains(GlobalEnchantmentStatuses.Activated))
         {
             _ = smokeCloudEnchantment.Activate(smokeCloudEnchantment.PlayerIndex);
         }
@@ -183,7 +183,7 @@ public class SmokeCloud : MultiHexMapObject
     // SmokeCloud.pas:193
     public override bool CanSelect(int pixelX, int pixelY)
     {
-        if (base.Resource.Engine.HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (base.Resource.Engine.HexSpriteMap.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             HexGeometry.PixelToHex(pixelX, vertical: pixelY, out int hexX, out int hexY);
             int hexNumber = HexGeometry.DeltaHexToHexNumber(Owner.HexX, Owner.HexY, hexX, hexY);

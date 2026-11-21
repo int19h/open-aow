@@ -7,7 +7,6 @@ using Aow.Game.Draw.Images;
 using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Map;
-using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiRounding;
 
@@ -23,7 +22,7 @@ public sealed class TwinkleAnimation : Animation
     private int _radius;
     private int _duration;
     private int _startDelay;
-    private Set<TwinkleModeElement> _mode;
+    private TwinkleModes _mode;
 
     // Animation.pas:538
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
@@ -42,22 +41,22 @@ public sealed class TwinkleAnimation : Animation
             int delay = Random(_startDelay);
             if (FrameCounter - delay >= 0)
             {
-                if (_mode.Contains(TwinkleModeElement.Expand))
+                if (_mode.Contains(TwinkleModes.Expand))
                 {
                     radius = Round((double)(radius * FrameCounter) / _duration) + (radius / 2);
                 }
 
-                if (_mode.Contains(TwinkleModeElement.Explode))
+                if (_mode.Contains(TwinkleModes.Explode))
                 {
                     radius += Round((FrameCounter - delay) * (FrameCounter - delay));
                 }
 
-                if (_mode.Contains(TwinkleModeElement.Implode))
+                if (_mode.Contains(TwinkleModes.Implode))
                 {
                     radius += Round(_duration - (FrameCounter - delay));
                 }
 
-                if (_mode.Contains(TwinkleModeElement.Rotate))
+                if (_mode.Contains(TwinkleModes.Rotate))
                 {
                     angle += FrameCounter * 4;
                 }
@@ -85,7 +84,7 @@ public sealed class TwinkleAnimation : Animation
     }
 
     // Animation.pas:575
-    public void Setup(ImageSequence sequence, Set<TwinkleModeElement> mode, int count, int radius, int duration, int startDelay)
+    public void Setup(ImageSequence sequence, TwinkleModes mode, int count, int radius, int duration, int startDelay)
     {
         _imageSequence = sequence;
         _count = count;

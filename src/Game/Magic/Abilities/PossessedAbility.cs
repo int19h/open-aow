@@ -10,8 +10,6 @@ using Aow.Game.Units;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Abilities;
 
 public class PossessedAbility : PossessAbility
@@ -22,7 +20,7 @@ public class PossessedAbility : PossessAbility
         AbilityId = 107;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_possessedText);
         AbilityType = AbilityType.Enchantment;
-        SelectionTypes = Set<AbilitySelectionType>.Of();
+        SelectionTypes = AbilitySelectionTypes.None;
     }
 
     // AoWAb.PAS:2597
@@ -62,7 +60,7 @@ public class PossessedAbility : PossessAbility
     {
         if (combatObject is CombatUnit combatUnit)
         {
-            combatUnit.SetStatus(combatUnit.Status - Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed));
+            combatUnit.SetStatus(combatUnit.Status & ~CombatObjectStatuses.Destroyed);
             Unit newUnit = new(null) { Holder = CreationHolder() };
             newUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(152));
             PossessedAbilityData data = GetData(combatUnit.Troop);
@@ -71,9 +69,9 @@ public class PossessedAbility : PossessAbility
                 newUnit.SetExperience(data.SourceExperience);
             }
 
-            if (combatUnit.Troop.UnitStatus.Contains(UnitStatusElement.Moving))
+            if (combatUnit.Troop.UnitStatus.Contains(UnitStatuses.Moving))
             {
-                newUnit.UnitStatus = Set<UnitStatusElement>.Of(UnitStatusElement.Moving) + newUnit.UnitStatus;
+                newUnit.UnitStatus = UnitStatuses.Moving | newUnit.UnitStatus;
             }
 
             combatUnit.Troop.Killed();

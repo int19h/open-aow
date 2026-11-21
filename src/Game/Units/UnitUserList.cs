@@ -6,7 +6,6 @@ using Aow.Game.AI.Groups;
 using Aow.Game.Combat;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
-using Aow.Rtl;
 
 namespace Aow.Game.Units;
 
@@ -88,7 +87,7 @@ public sealed class UnitUserList(CustomNode owner) : ObservableNode(owner), IChi
     public int GetStrength(DamageType damageType) => Units.GetStrength(damageType);
 
     // Unit.PAS:2373
-    public int GetStrengthMax(Set<DamageType> damageTypes) => Units.GetStrengthMax(damageTypes);
+    public int GetStrengthMax(DamageTypes damageTypes) => Units.GetStrengthMax(damageTypes);
 
     // Unit.PAS:2356
     public MapCoordinate GetLocation() => MapCoordinate.None;

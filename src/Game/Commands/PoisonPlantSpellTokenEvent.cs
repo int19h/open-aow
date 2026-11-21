@@ -11,7 +11,6 @@ using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
 using Aow.Game.World.Terrain;
-using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
@@ -54,7 +53,7 @@ public class PoisonPlantSpellTokenEvent(CustomNode owner) : GlobalTargetSpellTok
                     StrategicMap.Current.ClearTerrain(walk.X, walk.Y, L: Location.MapLevel, radius: 0, terrainType: -1);
                     if (StrategicMap.Current.PlaceHex(plant, walk.X, walk.Y, L: Location.MapLevel))
                     {
-                        plant.PlantStatus = Set<PoisonPlantStatusElement>.Of(PoisonPlantStatusElement.Summoning);
+                        plant.PlantStatus = PoisonPlantStatuses.Summoning;
                         ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
                         animation.SetImageSequence(GamePack.Current.SpellControl[12].CastImages.ImageSequences[0]);
                         animation.SetShowHandler(plant.ShowSummonAnimation);
@@ -63,7 +62,7 @@ public class PoisonPlantSpellTokenEvent(CustomNode owner) : GlobalTargetSpellTok
                         animation.AnimationLevel = 27;
                         _ = StrategicMap.Current.PlaceHex(animation, walk.X, walk.Y, L: Location.MapLevel);
                         TwinkleAnimation twinkle = new(null) { Holder = CreationHolder() };
-                        twinkle.Setup(GamePack.Current.SpellControl[2].CastImages.ImageSequences[0], mode: Set<TwinkleModeElement>.Of(), count: 2, radius: 6, duration: Math.Abs(animation.FrameCounter + 5), startDelay: Math.Abs(animation.FrameCounter + 5) / 2);
+                        twinkle.Setup(GamePack.Current.SpellControl[2].CastImages.ImageSequences[0], mode: TwinkleModes.None, count: 2, radius: 6, duration: Math.Abs(animation.FrameCounter + 5), startDelay: Math.Abs(animation.FrameCounter + 5) / 2);
                         _ = StrategicMap.Current.PlaceHex(twinkle, walk.X, walk.Y, L: Location.MapLevel);
                     }
                     else

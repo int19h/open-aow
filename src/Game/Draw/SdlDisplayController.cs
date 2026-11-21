@@ -1,7 +1,7 @@
 #nullable disable
 using Aow.Game.Host;
 using Aow.Rtl;
-using static Aow.Game.Draw.DisplayControllerStatusElement;
+using static Aow.Game.Draw.DisplayControllerStatuses;
 
 namespace Aow.Game.Draw;
 
@@ -22,7 +22,7 @@ public sealed class SdlDisplayController(IDisplayHost host, Component owner = nu
             return result;
         }
 
-        Status = Status.With(Windowed).With(Visible);
+        Status = Status | Windowed | Visible;
         _surfaces[0] = new ScreenSurface(host);
         try
         {
@@ -103,13 +103,13 @@ public sealed class SdlDisplayController(IDisplayHost host, Component owner = nu
 
     public override DisplayControllerError Hide()
     {
-        Status = Status.Without(Visible);
+        Status &= ~Visible;
         return DisplayControllerError.Ok;
     }
 
     public override DisplayControllerError Show()
     {
-        Status = Status.With(Visible);
+        Status |= Visible;
         return DisplayControllerError.Ok;
     }
 

@@ -45,7 +45,7 @@ public sealed partial class TitleScene
         TitleSceneImages.ReleaseDiscardableImageData();
     }
 
-    public void WindowMouseUp(MouseButton button, Set<ShiftState> shift, int x, int y)
+    public void WindowMouseUp(MouseButton button, ShiftStates shift, int x, int y)
     {
         _mouseX = x;
         _mouseY = y;

@@ -50,7 +50,7 @@ public sealed class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner
     public int ItemId { get; set; }
     public string OwnerName { get; set; } = "";
 
-    public Set<ItemStatusElement> Status { get; set; }
+    public ItemStatuses Status { get; set; }
     public int RefCount { get; private set; }
 
     public int LibraryId { get; set; }
@@ -76,12 +76,12 @@ public sealed class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner
     public override void Dispose()
     {
         _ = AddRef();
-        if (Status.Contains(ItemStatusElement.Activated))
+        if (Status.Contains(ItemStatuses.Activated))
         {
             Deactivate();
         }
 
-        if (Status.Contains(ItemStatusElement.Registered))
+        if (Status.Contains(ItemStatuses.Registered))
         {
             StrategicMap.Current.ItemControl.UnregisterItem(this);
         }
@@ -205,24 +205,24 @@ public sealed class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner
     public override string GetOwnerName() => OwnerName;
 
     // Army.PAS:4402
-    public override Set<AbilitySelectionType> GetAbilitySelectionTypes()
+    public override AbilitySelectionTypes GetAbilitySelectionTypes()
     {
         return ItemType switch
         {
-            ItemType.Head => Set<AbilitySelectionType>.Of(AbilitySelectionType.HeadItem),
-            ItemType.Torso => Set<AbilitySelectionType>.Of(AbilitySelectionType.TorsoItem),
-            ItemType.Attack => Set<AbilitySelectionType>.Of(AbilitySelectionType.AttackItem),
-            ItemType.Defense => Set<AbilitySelectionType>.Of(AbilitySelectionType.DefenseItem),
-            ItemType.Ring => Set<AbilitySelectionType>.Of(AbilitySelectionType.RingItem),
-            ItemType.Use => Set<AbilitySelectionType>.Of(AbilitySelectionType.UseItem),
-            ItemType.Scroll or _ => Set<AbilitySelectionType>.Of(),
+            ItemType.Head => AbilitySelectionTypes.HeadItem,
+            ItemType.Torso => AbilitySelectionTypes.TorsoItem,
+            ItemType.Attack => AbilitySelectionTypes.AttackItem,
+            ItemType.Defense => AbilitySelectionTypes.DefenseItem,
+            ItemType.Ring => AbilitySelectionTypes.RingItem,
+            ItemType.Use => AbilitySelectionTypes.UseItem,
+            ItemType.Scroll or _ => AbilitySelectionTypes.None,
         };
     }
 
     // Army.PAS:4345
     public override void Changed()
     {
-        if (Status.Contains(ItemStatusElement.Registered))
+        if (Status.Contains(ItemStatuses.Registered))
         {
             StrategicMap.Current.ItemControl.NotifyItemChanged(this);
         }
@@ -327,23 +327,23 @@ public sealed class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner
     // Army.PAS:4331
     public void Activate()
     {
-        if (!Status.Contains(ItemStatusElement.Activated))
+        if (!Status.Contains(ItemStatuses.Activated))
         {
-            if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || StrategicMap.Current.Day == 0)
+            if (StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting) || StrategicMap.Current.Day == 0)
             {
                 UpdateFromLibrary();
             }
 
-            Status += Set<ItemStatusElement>.Of(ItemStatusElement.Activated);
+            Status |= ItemStatuses.Activated;
         }
     }
 
     // Army.PAS:4340
     public void Deactivate()
     {
-        if (Status.Contains(ItemStatusElement.Activated))
+        if (Status.Contains(ItemStatuses.Activated))
         {
-            Status -= Set<ItemStatusElement>.Of(ItemStatusElement.Activated);
+            Status &= ~ItemStatuses.Activated;
         }
     }
 

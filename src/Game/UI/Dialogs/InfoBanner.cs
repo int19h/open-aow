@@ -20,7 +20,7 @@ public sealed partial class InfoBanner(UIContext ui) : UIModule(ui)
     }
 
     // AoWInfoBanner.pas:41
-    public void BannerPopupMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public void BannerPopupMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
         if (button == MouseButton.Right)
         {

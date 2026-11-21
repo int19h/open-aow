@@ -8,8 +8,6 @@ using Aow.Game.Combat;
 
 using Aow.Game.Magic.Abilities;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Units;
 
 /// <summary>
@@ -91,7 +89,7 @@ public readonly struct UnitCollection : IReadOnlyList<Troop>
     }
 
     // Unit.PAS:2373
-    public int GetStrengthMax(Set<DamageType> damageTypes)
+    public int GetStrengthMax(DamageTypes damageTypes)
     {
         int result = 0;
         for (int i = Count - 1; i >= 0; i--)
@@ -250,9 +248,9 @@ public readonly struct UnitCollection : IReadOnlyList<Troop>
         int result = s2 - s1;
         if (result == 0)
         {
-            s1 = item1.UnitStatus.Contains(UnitStatusElement.Enchanted) ? 1 : 0;
+            s1 = item1.UnitStatus.Contains(UnitStatuses.Enchanted) ? 1 : 0;
 
-            s2 = item2.UnitStatus.Contains(UnitStatusElement.Enchanted) ? 1 : 0;
+            s2 = item2.UnitStatus.Contains(UnitStatuses.Enchanted) ? 1 : 0;
 
             result = s2 - s1;
         }

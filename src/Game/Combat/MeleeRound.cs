@@ -6,7 +6,6 @@ using Aow.Game.Combat.Actions;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
-using Aow.Rtl;
 
 namespace Aow.Game.Combat;
 
@@ -31,9 +30,9 @@ public sealed class MeleeRound(EngineObject creator) : IDisposable
     private int _attackerStrikes;
     private int _defenderStrikes;
 
-    public Set<DamageType> AttackerDamageTypes { get; private set; }
+    public DamageTypes AttackerDamageTypes { get; private set; }
 
-    private Set<DamageType> _defenderDamageTypes;
+    private DamageTypes _defenderDamageTypes;
 
     // AoWAb.PAS:1492
     public void Dispose() => SetCapacity(0);
@@ -124,7 +123,7 @@ public sealed class MeleeRound(EngineObject creator) : IDisposable
             if (condition)
             {
                 Alignment alignment = target.GetAlignment();
-                condition = Set<Alignment>.Of(Alignment.Evil, Alignment.PureEvil).Contains(alignment);
+                condition = alignment is Alignment.Evil or Alignment.PureEvil;
             }
 
             if (condition)
@@ -137,7 +136,7 @@ public sealed class MeleeRound(EngineObject creator) : IDisposable
             if (test)
             {
                 Alignment alignment = target.GetAlignment();
-                test = Set<Alignment>.Of(Alignment.PureGood, Alignment.Good).Contains(alignment);
+                test = alignment is Alignment.PureGood or Alignment.Good;
             }
 
             if (test)
@@ -155,8 +154,8 @@ public sealed class MeleeRound(EngineObject creator) : IDisposable
             // { Original uses the attacker's damage types for both sides. }
             sbyte defense = target.GetDefense();
             sbyte resistance = target.GetResistance();
-            Set<DamageType> immunityTypes = target.GetImmunityTypes();
-            Set<DamageType> protectionTypes = target.GetProtectionTypes();
+            DamageTypes immunityTypes = target.GetImmunityTypes();
+            DamageTypes protectionTypes = target.GetProtectionTypes();
             sbyte damage = source.GetDamage();
             int statisticsToDamageValue = StatisticsToDamageValue(source.GetAttack() + strike.AttackBonus, damage: damage + strike.DamageBonus, damageTypes: AttackerDamageTypes, defense, resistance, immunityTypes, protectionTypes);
             strike.DamageValue = statisticsToDamageValue;
@@ -192,8 +191,8 @@ public sealed class MeleeRound(EngineObject creator) : IDisposable
         _attackerUnit = attacker;
         _defenderUnit = defender;
         AttackerDamageTypes = GamePack.Current.AbilityControl.GetAbility<StrikeAbility>(21).GetDamageTypes(attacker);
-        _defenderDamageTypes = Set<DamageType>.Of();
-        if (AttackerDamageTypes != Set<DamageType>.Of())
+        _defenderDamageTypes = DamageTypes.None;
+        if (AttackerDamageTypes != DamageTypes.None)
         {
             _attackerStrikes = 1;
             CalculateUnitStrikes(CombatSideIndex.Attacker);
@@ -207,7 +206,7 @@ public sealed class MeleeRound(EngineObject creator) : IDisposable
         _attackerUnit = attacker;
         _defenderUnit = defender;
         AttackerDamageTypes = GamePack.Current.AbilityControl.GetAbility<StrikeAbility>(21).GetDamageTypes(attacker);
-        if (AttackerDamageTypes != Set<DamageType>.Of())
+        if (AttackerDamageTypes != DamageTypes.None)
         {
             _attackerStrikes = 2;
             if (_attackerUnit.GetAbilityEnabled(115))
@@ -221,7 +220,7 @@ public sealed class MeleeRound(EngineObject creator) : IDisposable
         }
 
         _defenderDamageTypes = GamePack.Current.AbilityControl.GetAbility<StrikeAbility>(21).GetDamageTypes(defender);
-        _defenderStrikes = _defenderDamageTypes != Set<DamageType>.Of() ? 2 : 0;
+        _defenderStrikes = _defenderDamageTypes != DamageTypes.None ? 2 : 0;
 
         CombatSideIndex side = _defenderUnit.GetAbilityEnabled(116) && !_attackerUnit.GetAbilityEnabled(116) && _defenderStrikes != 0
             ? CombatSideIndex.Defender
@@ -271,7 +270,7 @@ public sealed class MeleeRound(EngineObject creator) : IDisposable
             if (condition)
             {
                 Alignment alignment = target.GetAlignment();
-                condition = Set<Alignment>.Of(Alignment.Evil, Alignment.PureEvil).Contains(alignment);
+                condition = alignment is Alignment.Evil or Alignment.PureEvil;
             }
 
             if (condition)
@@ -284,7 +283,7 @@ public sealed class MeleeRound(EngineObject creator) : IDisposable
             if (test)
             {
                 Alignment alignment = target.GetAlignment();
-                test = Set<Alignment>.Of(Alignment.PureGood, Alignment.Good).Contains(alignment);
+                test = alignment is Alignment.PureGood or Alignment.Good;
             }
 
             if (test)
@@ -302,8 +301,8 @@ public sealed class MeleeRound(EngineObject creator) : IDisposable
             // { Original uses the attacker's damage types for both sides. }
             sbyte defense = target.GetDefense();
             sbyte resistance = target.GetResistance();
-            Set<DamageType> immunityTypes = target.GetImmunityTypes();
-            Set<DamageType> protectionTypes = target.GetProtectionTypes();
+            DamageTypes immunityTypes = target.GetImmunityTypes();
+            DamageTypes protectionTypes = target.GetProtectionTypes();
             sbyte damage = source.GetDamage();
             int statisticsToDamageValue = StatisticsToDamageValue(source.GetAttack() + strike.AttackBonus, damage: damage + strike.DamageBonus, damageTypes: AttackerDamageTypes, defense, resistance, immunityTypes, protectionTypes);
             strike.DamageValue = statisticsToDamageValue;
@@ -339,7 +338,7 @@ public sealed class MeleeRound(EngineObject creator) : IDisposable
         _attacker = attacker;
         _defender = defender;
         AttackerDamageTypes = CombatObject.MeleeDamageTypes(attacker);
-        if (AttackerDamageTypes != Set<DamageType>.Of() && !attacker.GetLocked())
+        if (AttackerDamageTypes != DamageTypes.None && !attacker.GetLocked())
         {
             _attackerStrikes = 2;
             if (_attacker.GetAbilityEnabled(115))
@@ -353,7 +352,7 @@ public sealed class MeleeRound(EngineObject creator) : IDisposable
         }
 
         _defenderDamageTypes = CombatObject.MeleeDamageTypes(defender);
-        _defenderStrikes = _defenderDamageTypes != Set<DamageType>.Of() && !defender.GetLocked() ? 2 : 0;
+        _defenderStrikes = _defenderDamageTypes != DamageTypes.None && !defender.GetLocked() ? 2 : 0;
 
         CombatSideIndex side = defender.GetAbilityEnabled(116) && !attacker.GetAbilityEnabled(116) && _defenderStrikes != 0
             ? CombatSideIndex.Defender
@@ -369,8 +368,8 @@ public sealed class MeleeRound(EngineObject creator) : IDisposable
         _attacker = attacker;
         _defender = defender;
         AttackerDamageTypes = CombatObject.MeleeDamageTypes(attacker);
-        _defenderDamageTypes = Set<DamageType>.Of();
-        if (AttackerDamageTypes != Set<DamageType>.Of() && !_attacker.GetLocked())
+        _defenderDamageTypes = DamageTypes.None;
+        if (AttackerDamageTypes != DamageTypes.None && !_attacker.GetLocked())
         {
             _attackerStrikes = 2;
             if (_attacker.GetAbilityEnabled(115))
@@ -400,7 +399,7 @@ public sealed class MeleeRound(EngineObject creator) : IDisposable
                         result.Generate(_attacker, target: _defender, attack: (sbyte)(attack + strike.AttackBonus), damage: (sbyte)(damage + strike.DamageBonus), damageTypes: AttackerDamageTypes);
                         if (_attacker.GetAbilityEnabled(118))
                         {
-                            result.StrikeMode += Set<StrikeModeElement>.Of(StrikeModeElement.LifeStealing);
+                            result.StrikeMode |= StrikeModes.LifeStealing;
                         }
                     }
 
@@ -506,13 +505,13 @@ public sealed class MeleeRound(EngineObject creator) : IDisposable
     }
 
     [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The Delphi damage calculation signature keeps resistance.")]
-    internal static int StatisticsToDamageValue(int attack, int damage, Set<DamageType> damageTypes, int defense, int resistance, Set<DamageType> immunityTypes, Set<DamageType> protectionTypes)
+    internal static int StatisticsToDamageValue(int attack, int damage, DamageTypes damageTypes, int defense, int resistance, DamageTypes immunityTypes, DamageTypes protectionTypes)
     {
-        damageTypes -= immunityTypes;
-        if (damageTypes != Set<DamageType>.Of([]))
+        damageTypes &= ~immunityTypes;
+        if (damageTypes != DamageTypes.None)
         {
             attack -= defense;
-            if (damageTypes - protectionTypes == Set<DamageType>.Of([]))
+            if ((damageTypes & ~protectionTypes) == DamageTypes.None)
             {
                 damage = damage + 1 >>> 1;
             }

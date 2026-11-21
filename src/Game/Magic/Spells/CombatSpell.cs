@@ -24,12 +24,12 @@ public class CombatSpell : Spell
     public CombatSpell(CustomNode owner) : base(owner)
     {
         SpellType = SpellType.Combat;
-        SpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Combat);
+        SpellControlTypes = SpellControlTypes.Combat;
         SpellCombatInfo combatInfo = CombatInfo;
         combatInfo.Radius = 1;
         CombatInfo = combatInfo;
         SpellCombatInfo combatInfo2 = CombatInfo;
-        combatInfo2.TargetTypes = Set<CombatTargetTypeElement>.Of(CombatTargetTypeElement.Enemy);
+        combatInfo2.TargetTypes = CombatTargetTypes.Enemy;
         CombatInfo = combatInfo2;
         CastDuration = 5;
         DamageMode = 0;
@@ -61,16 +61,16 @@ public class CombatSpell : Spell
         sbyte hitPoints = target.HitPoints;
         sbyte defense = target.GetDefense();
         sbyte resistance = target.GetResistance();
-        Set<DamageType> immunityTypes = target.GetImmunityTypes();
-        Set<DamageType> protectionTypes = target.GetProtectionTypes();
+        DamageTypes immunityTypes = target.GetImmunityTypes();
+        DamageTypes protectionTypes = target.GetProtectionTypes();
         return AbilityRules.StatisticsToLimitedDamageValue(CombatInfo.Attack, CombatInfo.Damage, CombatInfo.DamageTypes, maximum: hitPoints, defense, resistance, immunityTypes, protectionTypes) * CombatInfo.RepeatCount;
     }
 
     // CombatSpells.pas:668
     public override void GetCombatDamageValues(CombatObject source, CombatObject target, ref AbilityDamageValues values)
     {
-        Set<DamageType> protection = target.GetProtectionTypes();
-        Set<DamageType> immunity = target.GetImmunityTypes();
+        DamageTypes protection = target.GetProtectionTypes();
+        DamageTypes immunity = target.GetImmunityTypes();
         values.DamageTypes = CombatInfo.DamageTypes;
         sbyte hitPoints = target.HitPoints;
         sbyte defense = target.GetDefense();
@@ -158,7 +158,7 @@ public class CombatSpell : Spell
         CombatAction action;
         for (int i = 0, last = CombatInfo.RepeatCount - 1; i <= last; i++)
         {
-            if (!target.Status.Contains(CombatObjectStatusElement.Destroyed))
+            if (!target.Status.Contains(CombatObjectStatuses.Destroyed))
             {
                 action = CreateCombatAction(source, target, chargeMana: i == 0);
                 source.Combat.ExecuteCombatAction(action);
@@ -198,8 +198,8 @@ public class CombatSpell : Spell
                 bool condition = other != target && other.GetEnabled() && other.Position >>> 4 == target.Position >>> 4 && distance >= other.FastBattleRoundDistance();
                 if (condition)
                 {
-                    Set<DamageType> immunityTypes = other.GetImmunityTypes();
-                    condition = CombatInfo.DamageTypes - immunityTypes != Set<DamageType>.Of();
+                    DamageTypes immunityTypes = other.GetImmunityTypes();
+                    condition = (CombatInfo.DamageTypes & ~immunityTypes) != DamageTypes.None;
                 }
 
                 if (condition)
@@ -215,7 +215,7 @@ public class CombatSpell : Spell
                 other = targets[StrategicMap.Current.Random(targets.Count)];
                 for (int j = 0, last = CombatInfo.RepeatCount - 1; j <= last; j++)
                 {
-                    if (!other.Status.Contains(CombatObjectStatusElement.Destroyed))
+                    if (!other.Status.Contains(CombatObjectStatuses.Destroyed))
                     {
                         action = CreateCombatAction(source, target: other, chargeMana: false);
                         source.Combat.ExecuteCombatAction(action);
@@ -238,12 +238,12 @@ public class CombatSpell : Spell
     {
         if (wallSituation == WallSituation.None || CombatInfo.Range is -1 or >= 8)
         {
-            Set<DamageType> protection = target.GetProtectionTypes();
-            Set<DamageType> immunity = target.GetImmunityTypes();
-            Set<DamageType> damageTypes = CombatInfo.DamageTypes;
+            DamageTypes protection = target.GetProtectionTypes();
+            DamageTypes immunity = target.GetImmunityTypes();
+            DamageTypes damageTypes = CombatInfo.DamageTypes;
             int damage = CombatInfo.Damage;
             int defense = target.GetDefense();
-            if (wallSituation == WallSituation.Target && (Set<DamageType>.Of(DamageType.Magic, DamageType.Death, DamageType.Holy) & CombatInfo.DamageTypes) == Set<DamageType>.Of())
+            if (wallSituation == WallSituation.Target && ((DamageTypes.Magic | DamageTypes.Death | DamageTypes.Holy) & CombatInfo.DamageTypes) == DamageTypes.None)
             {
                 defense += 2;
             }
@@ -290,7 +290,7 @@ public class CombatSpell : Spell
                 {
                     CombatSideIndex side = target.Side;
                     CombatObject other = combat.Sides[(int)side].GetObjects(i);
-                    if (target != other && other.GetEnabled() && other.Position >>> 4 == target.Position >>> 4 && other.FastBattleRoundDistance() <= distance && damageTypes - other.GetImmunityTypes() != Set<DamageType>.Of())
+                    if (target != other && other.GetEnabled() && other.Position >>> 4 == target.Position >>> 4 && other.FastBattleRoundDistance() <= distance && (damageTypes & ~other.GetImmunityTypes()) != DamageTypes.None)
                     {
                         count += 1;
                     }
@@ -313,7 +313,7 @@ public class CombatSpell : Spell
             values.SourceCost = 0;
             values.TargetDamage = 0;
             values.TargetCost = 0;
-            values.DamageTypes = Set<DamageType>.Of();
+            values.DamageTypes = DamageTypes.None;
         }
     }
 }

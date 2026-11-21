@@ -21,17 +21,17 @@ public sealed partial class PersistEquivalenceTests
     {
         SchemaClass classValue = s_schema.Get("CombatWall");
         using CombatWall source = new(null) { Holder = EngineFixture.Engine, Id = 4, Position = 2 };
-        source.Status = Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Activated, CombatObjectStatusElement.Destroyed);
+        source.Status = CombatObjectStatuses.Activated | CombatObjectStatuses.Destroyed;
         byte[] image = Image(source);
         ObjectNode tree = TreeWriter.Write(source, factory: Factory);
-        source.Status = Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed);
+        source.Status = CombatObjectStatuses.Destroyed;
         EqualJson(PilotImage.Decode(image, className: "CombatWall"), actual: DocumentBackend.Write(tree, classValue: classValue, schema: s_schema, engine: "game"), label: "CombatWall write");
         EqualBytes(image, actual: OriginalBackend.Write(tree, classValue: classValue, schema: s_schema, engine: "game"), label: "CombatWall original");
         using CombatWall viaReadWrite = new(null) { Holder = EngineFixture.Engine };
         using CombatWall viaPersist = new(null) { Holder = EngineFixture.Engine };
         Load(viaReadWrite, image);
         TreeReader.Read(OriginalBackend.Read(image, classValue: classValue, schema: s_schema, engine: "game"), objectValue: viaPersist, factory: Factory);
-        Assert.Equal(Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed), viaReadWrite.Status);
+        Assert.Equal(CombatObjectStatuses.Destroyed, viaReadWrite.Status);
         Assert.Equal(viaReadWrite.Status, viaPersist.Status);
         EqualBytes(Image(viaReadWrite), actual: Image(viaPersist), label: "CombatWall read");
     }
@@ -79,7 +79,7 @@ public sealed partial class PersistEquivalenceTests
         using CombatUnit unit = new(null) { Holder = EngineFixture.Engine, Id = 3 };
         unit.SetUnit(hero);
         _ = hero.Release();
-        unit.Status = Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Activated, CombatObjectStatusElement.Destroyed);
+        unit.Status = CombatObjectStatuses.Activated | CombatObjectStatuses.Destroyed;
         using (DictionaryStream stream = new(dictionary))
         {
             stream.Object(unit, id: 0);
@@ -88,7 +88,7 @@ public sealed partial class PersistEquivalenceTests
         }
         Assert.Same(hero, unit.Troop);
         Assert.Equal("Bogenschütze", hero.HeroName);
-        Assert.Equal(Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed), unit.Status);
+        Assert.Equal(CombatObjectStatuses.Destroyed, unit.Status);
 
         using CombatData data = new(null) { Holder = EngineFixture.Engine, Header = "Siege", Round = 4 };
         UpdateHeaderCombatAction action = new(null) { Holder = EngineFixture.Engine, Header = "Ambush" };

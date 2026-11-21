@@ -90,8 +90,8 @@ public sealed class StructureViewTests(ITestOutputHelper output)
 
         if (structure is City city)
         {
-            Set<City.ModeElement> war = Set<City.ModeElement>.Of(City.ModeElement.WarMode);
-            city.Mode = state.War ? city.Mode + war : city.Mode - war;
+            City.Modes war = City.Modes.WarMode;
+            city.Mode = state.War ? city.Mode | war : city.Mode & ~war;
         }
         Assert.Equal(state.Razed, actual: structure.GetRazed());
         Assert.Equal(state.Building, actual: structure.Building);
@@ -102,13 +102,13 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     {
         switch (structure)
         {
-            case City city: city.Mode += Set<City.ModeElement>.Of(City.ModeElement.Razed); break;
-            case Farm farm: farm.Mode += Set<Farm.ModeElement>.Of(Farm.ModeElement.Razed); break;
+            case City city: city.Mode |= City.Modes.Razed; break;
+            case Farm farm: farm.Mode |= Farm.Modes.Razed; break;
             case Mine mine: mine.State |= 1; break;
-            case PowerNode node: node.State += Set<PowerNode.StateElement>.Of(PowerNode.StateElement.Razed); break;
+            case PowerNode node: node.State |= PowerNode.States.Razed; break;
             case ProductionPlace place: place.RazedState = 1; break;
-            case Teleport teleport: teleport.State += Set<Teleport.StateElement>.Of(Teleport.StateElement.Razed); break;
-            case Tower tower: tower.State += Set<Tower.StateElement>.Of(Tower.StateElement.Razed); break;
+            case Teleport teleport: teleport.State |= Teleport.States.Razed; break;
+            case Tower tower: tower.State |= Tower.States.Razed; break;
             case Altar altar: altar.Mode = AltarMode.Razed; break;
             default: throw new InvalidOperationException($"no razed state for {structure.GetType().Name}");
         }
@@ -124,7 +124,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
             : structure is PlayerStructure playerStructure
             ? playerStructure.Player == seated || EngineFixture.Engine.Debug
                 ? structure is City city
-                    ? city.Mode.Contains(City.ModeElement.WarMode) ? "WarCity" : "City"
+                    ? city.Mode.Contains(City.Modes.WarMode) ? "WarCity" : "City"
                     : structure is ProductionPlace productionPlace
                     ? productionPlace.GetMagicSphere() == MagicSphere.None ? "Production" : "ProductionIncome"
                     : structure is Mine
@@ -132,7 +132,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
                     : structure is PowerNode
                     ? "PowerNode"
                     : structure is Farm ? "Farm" : structure is Tower ? "WatchTower" : structure is Altar ? "Altar" : "Generic"
-                : structure is City otherCity && otherCity.Mode.Contains(City.ModeElement.WarMode) ? "WarCity" : "OtherPlayer"
+                : structure is City otherCity && otherCity.Mode.Contains(City.Modes.WarMode) ? "WarCity" : "OtherPlayer"
             : structure is Sign
             ? "Sign"
             : structure is Cave
@@ -350,13 +350,13 @@ public sealed class StructureViewTests(ITestOutputHelper output)
                 }
                 // Targeting under way from this structure, the state the altar arm tests first.
                 TargetSelectionControl selection = scene.Map.TargetSelection;
-                selection.Status = Set<TargetSelectionStatusElement>.Of(TargetSelectionStatusElement.Activated);
+                selection.Status = TargetSelectionStatuses.Activated;
                 selection.Source = structure;
                 int queries = owner.ArmyQueries;
                 string expected = OldInfoButton(structure);
                 StructureView view = structure.InfoButton(Viewer);
-                bool cancelled = !selection.Status.Contains(TargetSelectionStatusElement.Activated);
-                selection.Status = Set<TargetSelectionStatusElement>.Of();
+                bool cancelled = !selection.Status.Contains(TargetSelectionStatuses.Activated);
+                selection.Status = TargetSelectionStatuses.None;
                 selection.Source = null;
                 if (view != StructureView.None)
                 {

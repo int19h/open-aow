@@ -46,7 +46,7 @@ public class GamePack : EngineNode, IChildList<GamePackChild>
     private protected GamePack(ConstructionContext context, CustomNode owner, EngineObject holder) : base(context, owner)
     {
         Holder = holder;
-        SetControlStyle(GetControlStyle() + Set<ControlStyleElement>.Of(EngineServices.Reserved2));
+        SetControlStyle(GetControlStyle() | EngineServices.Reserved2);
         PluginControl = new PluginControl(null) { Holder = CreationHolder() };
         TerrainTypes = new DelphiStringList();
         OverlayTypes = new DelphiStringList();
@@ -60,14 +60,14 @@ public class GamePack : EngineNode, IChildList<GamePackChild>
             MapObjectClass = typeof(AbstractRoad)
         };
         MapObjectResourceList = new MapObjectResourceList(this);
-        MapObjectResourceList.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Stored, EngineServices.Shared));
+        MapObjectResourceList.SetControlStyle(EngineServices.Stored | EngineServices.Shared);
         ResourceEditSettings = new ResourceEditSettings(this);
-        ResourceEditSettings.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Stored, EngineServices.Shared));
+        ResourceEditSettings.SetControlStyle(EngineServices.Stored | EngineServices.Shared);
         ImageLibraryManager = new ImageLibraryManager(null);
         SfxManager = new SfxManager(null);
 
         CombatResources = new MapObjectResourceList(this);
-        CombatResources.SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild));
+        CombatResources.SetControlStyle(ControlStyles.SaveLoad | ControlStyles.FixedChild);
         CombatHexes = new HexControl(this)
         {
             MapObjectClass = typeof(AbstractHexagon)
@@ -165,9 +165,9 @@ public class GamePack : EngineNode, IChildList<GamePackChild>
         AbilityControl = new AbilityControl(null) { Holder = CreationHolder() };
         SpellControl = new SpellControl(null) { Holder = CreationHolder() };
         TextControl = new TextControl(null) { Holder = CreationHolder() };
-        GeneralImages = ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: "GENERAL.ILB");
-        CursorImages = ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: "CURSORS.ILB");
-        CombatImages = ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: "COMBAT.ILB");
+        GeneralImages = ImageLibraryManager.LinkToImageLibrary(ImageLibraryManagerCategories.Disk, fileName: "GENERAL.ILB");
+        CursorImages = ImageLibraryManager.LinkToImageLibrary(ImageLibraryManagerCategories.Disk, fileName: "CURSORS.ILB");
+        CombatImages = ImageLibraryManager.LinkToImageLibrary(ImageLibraryManagerCategories.Disk, fileName: "COMBAT.ILB");
     }
 
     public GameEngine ActivatedEngine { get; private set; }
@@ -182,7 +182,7 @@ public class GamePack : EngineNode, IChildList<GamePackChild>
         SpellControl.UnregisterAll();
         ItemLibraries?.Dispose();
         HeroLibraries?.Dispose();
-        Status += Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Destroying);
+        Status |= HexSpriteSetStatuses.Destroying;
         EngineMessage.InitializeMessage(out EngineMessage message, messageId: 66564, sender: this);
         if (ActivatedEngine is not null && ActivatedEngine.ControlNode is not null)
         {
@@ -207,7 +207,7 @@ public class GamePack : EngineNode, IChildList<GamePackChild>
             ActivatedEngine.ControlNode.MessageProc(ref message, sender: this);
         }
 
-        Status -= Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Destroying);
+        Status &= ~HexSpriteSetStatuses.Destroying;
 
         AbilityControl?.Dispose();
         SpellControl?.Dispose();
@@ -312,28 +312,28 @@ public class GamePack : EngineNode, IChildList<GamePackChild>
     {
         EngineMessage.InitializeMessage(out EngineMessage message, messageId: 66560, sender: this);
         GetEngine().ControlNode.MessageProc(ref message, sender: this);
-        Status += Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Activated);
+        Status |= HexSpriteSetStatuses.Activated;
         if (edit)
         {
             EngineMessage.InitializeMessage(out message, messageId: 66562, sender: this);
             GetEngine().ControlNode.MessageProc(ref message, sender: this);
-            Status += Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Editting);
+            Status |= HexSpriteSetStatuses.Editting;
         }
     }
 
     // HSEngine.pas:3436
     public void DeActivate()
     {
-        if (Status.Contains(HexSpriteSetStatusElement.Activated))
+        if (Status.Contains(HexSpriteSetStatuses.Activated))
         {
             EngineMessage.InitializeMessage(out EngineMessage message, messageId: 66561, sender: this);
             GetEngine().ControlNode.MessageProc(ref message, sender: this);
-            Status -= Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Activated);
-            if (Status.Contains(HexSpriteSetStatusElement.Editting))
+            Status &= ~HexSpriteSetStatuses.Activated;
+            if (Status.Contains(HexSpriteSetStatuses.Editting))
             {
                 EngineMessage.InitializeMessage(out message, messageId: 66563, sender: this);
                 GetEngine().ControlNode.MessageProc(ref message, sender: this);
-                Status -= Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Editting);
+                Status &= ~HexSpriteSetStatuses.Editting;
             }
         }
     }
@@ -341,22 +341,22 @@ public class GamePack : EngineNode, IChildList<GamePackChild>
     // HSEngine.pas:3454
     public void SetModified()
     {
-        if (Status.Contains(HexSpriteSetStatusElement.Editting))
+        if (Status.Contains(HexSpriteSetStatuses.Editting))
         {
-            Status += Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Modified);
+            Status |= HexSpriteSetStatuses.Modified;
         }
     }
 
     // HSEngine.pas:3459
-    public void ResetModified() => Status -= Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Modified);
+    public void ResetModified() => Status &= ~HexSpriteSetStatuses.Modified;
 
     // HSEngine.pas:3464
-    public void SetEditting() => Status += Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Editting);
+    public void SetEditting() => Status |= HexSpriteSetStatuses.Editting;
 
     // HSEngine.pas:3468
-    public void ResetEditting() => Status -= Set<HexSpriteSetStatusElement>.Of(HexSpriteSetStatusElement.Editting);
+    public void ResetEditting() => Status &= ~HexSpriteSetStatuses.Editting;
 
-    public Set<HexSpriteSetStatusElement> Status { get; private set; }
+    public HexSpriteSetStatuses Status { get; private set; }
     public HexControl HexControl { get; }
     public RoadControl RoadControl { get; }
     public MapObjectResourceList MapObjectResourceList { get; }

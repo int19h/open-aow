@@ -38,7 +38,7 @@ public sealed class ItemControl(CustomNode owner) : EngineObject(owner)
     }
 
     private int _lastId;
-    private Set<StatusElement> _status;
+    private Statuses _status;
 
     // Army.PAS:4647
     public override void Dispose()
@@ -82,7 +82,7 @@ public sealed class ItemControl(CustomNode owner) : EngineObject(owner)
                 {
                     ValidateItem(item);
                     _items.Add(item);
-                    item.Status += Set<ItemStatusElement>.Of(ItemStatusElement.Registered);
+                    item.Status |= ItemStatuses.Registered;
                 }
 
                 slot += 1;
@@ -195,7 +195,7 @@ public sealed class ItemControl(CustomNode owner) : EngineObject(owner)
     // Army.PAS:4779
     public void RegisterItem(Item item)
     {
-        if (!item.Status.Contains(ItemStatusElement.Registered))
+        if (!item.Status.Contains(ItemStatuses.Registered))
         {
             Item existing = FindItem(item.ItemId);
             if (existing is not null && existing.Compare(item, engine: GetEngine()) && existing.RefCount == 1)
@@ -204,10 +204,10 @@ public sealed class ItemControl(CustomNode owner) : EngineObject(owner)
             }
 
             ValidateItem(item);
-            item.Status += Set<ItemStatusElement>.Of(ItemStatusElement.Registered);
+            item.Status |= ItemStatuses.Registered;
             _items.Add(item);
             _ = item.AddRef();
-            if (_status.Contains(StatusElement.Activated) && !item.Status.Contains(ItemStatusElement.Activated))
+            if (_status.Contains(Statuses.Activated) && !item.Status.Contains(ItemStatuses.Activated))
             {
                 item.Activate();
             }
@@ -219,23 +219,23 @@ public sealed class ItemControl(CustomNode owner) : EngineObject(owner)
     // Army.PAS:4796
     public void UnregisterItem(Item item)
     {
-        if (item.Status.Contains(ItemStatusElement.Registered))
+        if (item.Status.Contains(ItemStatuses.Registered))
         {
             _ = _items.Remove(item);
-            item.Status -= Set<ItemStatusElement>.Of(ItemStatusElement.Registered);
+            item.Status &= ~ItemStatuses.Registered;
             _ = item.Release();
             NotifyChanged();
         }
     }
 
     // Army.PAS:4807
-    public Item GenerateItem(Set<ItemType> types, int minValue, int maxValue)
+    public Item GenerateItem(ItemTypes types, int minValue, int maxValue)
     {
         DoubleItemList<Item> list = new();
         for (int i = 0, last = GetCount() - 1; i <= last; i++)
         {
             Item item = _items[i];
-            if (item.RefCount == 1 && types.Contains(item.ItemType))
+            if (item.RefCount == 1 && types.Contains(item.ItemType.ToFlag()))
             {
                 int value = item.ObtainValue;
                 if (value >= minValue && value <= maxValue)
@@ -252,7 +252,7 @@ public sealed class ItemControl(CustomNode owner) : EngineObject(owner)
     }
 
     // Army.PAS:4826
-    public int GenerateItems(Set<ItemType> types, CustomNode owner, int value)
+    public int GenerateItems(ItemTypes types, CustomNode owner, int value)
     {
         int result = 0;
         DoubleItemList<Item> list = new();
@@ -260,7 +260,7 @@ public sealed class ItemControl(CustomNode owner) : EngineObject(owner)
         for (int i = 0, last = GetCount() - 1; i <= last; i++)
         {
             item = _items[i];
-            if (types.Contains(item.ItemType) && item.RefCount == 1)
+            if (types.Contains(item.ItemType.ToFlag()) && item.RefCount == 1)
             {
                 _ = list.AddAbility(item, (int)item.Availability);
             }
@@ -311,9 +311,9 @@ public sealed class ItemControl(CustomNode owner) : EngineObject(owner)
     // Army.PAS:4877
     public void Activate()
     {
-        if (!_status.Contains(StatusElement.Activated))
+        if (!_status.Contains(Statuses.Activated))
         {
-            _status += Set<StatusElement>.Of(StatusElement.Activated);
+            _status |= Statuses.Activated;
             for (int i = _items.Count - 1; i >= 0; i--)
             {
                 _items[i].Activate();
@@ -324,9 +324,9 @@ public sealed class ItemControl(CustomNode owner) : EngineObject(owner)
     // Army.PAS:4887
     public void Deactivate()
     {
-        if (_status.Contains(StatusElement.Activated))
+        if (_status.Contains(Statuses.Activated))
         {
-            _status -= Set<StatusElement>.Of(StatusElement.Activated);
+            _status &= ~Statuses.Activated;
             for (int i = _items.Count - 1; i >= 0; i--)
             {
                 _items[i].Deactivate();
@@ -334,8 +334,10 @@ public sealed class ItemControl(CustomNode owner) : EngineObject(owner)
         }
     }
 
-    public enum StatusElement : byte
+    [Flags]
+    public enum Statuses : byte
     {
-        Activated = 0
+        None = 0,
+        Activated = 1 << 0,
     }
 }

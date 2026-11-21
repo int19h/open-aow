@@ -59,16 +59,7 @@
       },
       "CombatMap.MoveControl": {
         "$type": "Aow.Game.Combat.CombatMoveControl",
-        "CombatMoveControl.MoveFlags": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatMoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        },
+        "CombatMoveControl.MoveFlags": 0,
         "CombatMoveControl.UnitHexSprite": null,
         "MoveControl.ArmyHexSprite": null,
         "MoveControl.Destination": {
@@ -103,16 +94,7 @@
         },
         "MoveControl.Map": "$ref:$",
         "MoveControl.MapLevel": null,
-        "MoveControl.Mode": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Movement.MoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        },
+        "MoveControl.Mode": 0,
         "MoveControl.MovePointTable": [
           [
             0,
@@ -474,16 +456,7 @@
         ],
         "MoveControl._processedCount": 0,
         "MoveControl._processedMapFields": null,
-        "MoveControl._status": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Movement.MoveControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        }
+        "MoveControl._status": 0
       },
       "CombatMap.PlaySounds": false,
       "CombatMap.Players": {
@@ -555,16 +528,7 @@
           "RangedPathHexSprite._miscellaneousImages": null,
           "RangedPathHexSprite._targetImages": {
             "$type": "Aow.Game.Draw.Images.ImageLibrary",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -580,16 +544,7 @@
               "PaletteManager.Palettes": []
             },
             "CustomImageLibrary.Reloading": false,
-            "CustomImageLibrary.Status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Images.ImageLibraryStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "CustomImageLibrary.Status": 0,
             "CustomImageLibrary._changeLock": 0,
             "CustomImageLibrary._count": 0,
             "CustomImageLibrary._fileName": "",
@@ -599,16 +554,7 @@
         "CombatUnitSelectionControl.TargetImages": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.RangedPathHexSprite.RangedPathHexSprite._targetImages",
         "CombatUnitSelectionControl._combatMoveSettings": {
           "$type": "Aow.Game.Combat.CombatMoveControlSettings",
-          "CombatMoveControlSettings.MoveFlags": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatMoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "CombatMoveControlSettings.MoveFlags": 0,
           "EngineObject._owner": null,
           "MoveControlSettings.ArmyHexSprite": null,
           "MoveControlSettings.Destination": {
@@ -627,16 +573,7 @@
             0,
             0
           ],
-          "MoveControlSettings.Mode": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Movement.MoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "MoveControlSettings.Mode": 0,
           "MoveControlSettings.MovePointTable": [
             [
               -1,
@@ -1001,16 +938,7 @@
         },
         "CombatUnitSelectionControl._cursorFrame": 0,
         "CombatUnitSelectionControl._cursorImage": 0,
-        "CombatUnitSelectionControl._pathInvalid": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatUnitSelectionControl\u002BPathKind, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        },
+        "CombatUnitSelectionControl._pathInvalid": 0,
         "CombatUnitSelectionControl._targetX": 0,
         "CombatUnitSelectionControl._targetY": 0,
         "MoveSelector.CurrentMove": -1,
@@ -1025,16 +953,7 @@
             "DelphiList\u00601.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl._combatMoveSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList\u00601.items"
           }
         },
-        "MoveSelector.Status": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Movement.MoveSelectorStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        }
+        "MoveSelector.Status": 0
       },
       "CombatMap.Walls": [],
       "CombatMap._playerChangedEventsStore": {
@@ -1056,16 +975,7 @@
       },
       "GameMap.DynamicFixedVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
-        "ControlStyleInverseSortedNode._controlStyle": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 2,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 3,
-          "Set\u00601.low": 0
-        },
+        "ControlStyleInverseSortedNode._controlStyle": 2,
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
         "SortedNode.Items": [],
@@ -1075,16 +985,7 @@
       "GameMap.DynamicSceneInvalid": false,
       "GameMap.DynamicVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
-        "ControlStyleInverseSortedNode._controlStyle": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 2,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 3,
-          "Set\u00601.low": 0
-        },
+        "ControlStyleInverseSortedNode._controlStyle": 2,
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
         "SortedNode.Items": "$ref:$.GameMap.DynamicFixedVisibleHexSprite.SortedNode.Items",
@@ -1162,30 +1063,12 @@
           "EventStore\u00601.Count": 0,
           "EventStore\u00601._items": null
         },
-        "HexSpriteMapMouse.Shift": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ShiftState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        },
+        "HexSpriteMapMouse.Shift": 0,
         "HexSpriteMapMouse.X": -2147483648,
         "HexSpriteMapMouse.Y": -2147483648,
         "HexSpriteMapMouse._capture": "$ref:$",
         "HexSpriteMapMouse._cursor": 0,
-        "HexSpriteMapMouse._status": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Map.HexSpriteMapMouse\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        }
+        "HexSpriteMapMouse._status": 0
       },
       "GameMap.NewFrameEventsStore": {
         "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -1199,16 +1082,7 @@
       "GameMap.SeatedPlayer": 1,
       "GameMap.Selection": {
         "$type": "Aow.Game.World.Map.HexSpriteSelection",
-        "ControlStyleNode._controlStyle": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 2,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 3,
-          "Set\u00601.low": 0
-        },
+        "ControlStyleNode._controlStyle": 2,
         "EngineObject._owner": "$owner",
         "HexSpriteSelection.EventHexSprite": null,
         "HexSpriteSelection.LocationHexSprite": [],
@@ -1231,16 +1105,7 @@
       "GameMap.ShowGrid": false,
       "GameMap.StaticFixedVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
-        "ControlStyleInverseSortedNode._controlStyle": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 2,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 3,
-          "Set\u00601.low": 0
-        },
+        "ControlStyleInverseSortedNode._controlStyle": 2,
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
         "SortedNode.Items": "$ref:$.GameMap.DynamicFixedVisibleHexSprite.SortedNode.Items",
@@ -1250,32 +1115,14 @@
       "GameMap.StaticSceneInvalid": false,
       "GameMap.StaticVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
-        "ControlStyleInverseSortedNode._controlStyle": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 2,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 3,
-          "Set\u00601.low": 0
-        },
+        "ControlStyleInverseSortedNode._controlStyle": 2,
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
         "SortedNode.Items": "$ref:$.GameMap.DynamicFixedVisibleHexSprite.SortedNode.Items",
         "SortedNode.Sorted": false,
         "SortedNode.StoredCount": 0
       },
-      "GameMap.Status": {
-        "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Map.HexSpriteMapStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "Set\u00601.a": 0,
-        "Set\u00601.b": 0,
-        "Set\u00601.bounded": false,
-        "Set\u00601.c": 0,
-        "Set\u00601.d": 0,
-        "Set\u00601.high": 0,
-        "Set\u00601.low": 0
-      },
+      "GameMap.Status": 0,
       "GameMap.TerrainChangedEventsStore": {
         "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore\u00601.Count": 0,
@@ -1413,16 +1260,7 @@
       },
       "CombatMap.MoveControl": {
         "$type": "Aow.Game.Combat.CombatMoveControl",
-        "CombatMoveControl.MoveFlags": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatMoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        },
+        "CombatMoveControl.MoveFlags": 0,
         "CombatMoveControl.UnitHexSprite": null,
         "MoveControl.ArmyHexSprite": null,
         "MoveControl.Destination": {
@@ -1457,16 +1295,7 @@
         },
         "MoveControl.Map": "$ref:$",
         "MoveControl.MapLevel": null,
-        "MoveControl.Mode": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Movement.MoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        },
+        "MoveControl.Mode": 0,
         "MoveControl.MovePointTable": [
           [
             0,
@@ -1828,16 +1657,7 @@
         ],
         "MoveControl._processedCount": 0,
         "MoveControl._processedMapFields": null,
-        "MoveControl._status": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Movement.MoveControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        }
+        "MoveControl._status": 0
       },
       "CombatMap.PlaySounds": false,
       "CombatMap.Players": {
@@ -1909,16 +1729,7 @@
           "RangedPathHexSprite._miscellaneousImages": null,
           "RangedPathHexSprite._targetImages": {
             "$type": "Aow.Game.Draw.Images.ImageLibrary",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -1934,16 +1745,7 @@
               "PaletteManager.Palettes": []
             },
             "CustomImageLibrary.Reloading": false,
-            "CustomImageLibrary.Status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Images.ImageLibraryStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "CustomImageLibrary.Status": 0,
             "CustomImageLibrary._changeLock": 0,
             "CustomImageLibrary._count": 0,
             "CustomImageLibrary._fileName": "",
@@ -1953,16 +1755,7 @@
         "CombatUnitSelectionControl.TargetImages": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.RangedPathHexSprite.RangedPathHexSprite._targetImages",
         "CombatUnitSelectionControl._combatMoveSettings": {
           "$type": "Aow.Game.Combat.CombatMoveControlSettings",
-          "CombatMoveControlSettings.MoveFlags": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatMoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "CombatMoveControlSettings.MoveFlags": 0,
           "EngineObject._owner": null,
           "MoveControlSettings.ArmyHexSprite": null,
           "MoveControlSettings.Destination": {
@@ -1981,16 +1774,7 @@
             0,
             0
           ],
-          "MoveControlSettings.Mode": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Movement.MoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "MoveControlSettings.Mode": 0,
           "MoveControlSettings.MovePointTable": [
             [
               -1,
@@ -2355,16 +2139,7 @@
         },
         "CombatUnitSelectionControl._cursorFrame": 0,
         "CombatUnitSelectionControl._cursorImage": 0,
-        "CombatUnitSelectionControl._pathInvalid": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatUnitSelectionControl\u002BPathKind, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        },
+        "CombatUnitSelectionControl._pathInvalid": 0,
         "CombatUnitSelectionControl._targetX": 0,
         "CombatUnitSelectionControl._targetY": 0,
         "MoveSelector.CurrentMove": -1,
@@ -2379,16 +2154,7 @@
             "DelphiList\u00601.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl._combatMoveSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList\u00601.items"
           }
         },
-        "MoveSelector.Status": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Movement.MoveSelectorStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        }
+        "MoveSelector.Status": 0
       },
       "CombatMap.Walls": [],
       "CombatMap._playerChangedEventsStore": {
@@ -2410,16 +2176,7 @@
       },
       "GameMap.DynamicFixedVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
-        "ControlStyleInverseSortedNode._controlStyle": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 2,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 3,
-          "Set\u00601.low": 0
-        },
+        "ControlStyleInverseSortedNode._controlStyle": 2,
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
         "SortedNode.Items": [],
@@ -2429,16 +2186,7 @@
       "GameMap.DynamicSceneInvalid": false,
       "GameMap.DynamicVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
-        "ControlStyleInverseSortedNode._controlStyle": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 2,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 3,
-          "Set\u00601.low": 0
-        },
+        "ControlStyleInverseSortedNode._controlStyle": 2,
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
         "SortedNode.Items": "$ref:$.GameMap.DynamicFixedVisibleHexSprite.SortedNode.Items",
@@ -2516,30 +2264,12 @@
           "EventStore\u00601.Count": 0,
           "EventStore\u00601._items": null
         },
-        "HexSpriteMapMouse.Shift": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ShiftState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        },
+        "HexSpriteMapMouse.Shift": 0,
         "HexSpriteMapMouse.X": -2147483648,
         "HexSpriteMapMouse.Y": -2147483648,
         "HexSpriteMapMouse._capture": "$ref:$",
         "HexSpriteMapMouse._cursor": 0,
-        "HexSpriteMapMouse._status": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Map.HexSpriteMapMouse\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        }
+        "HexSpriteMapMouse._status": 0
       },
       "GameMap.NewFrameEventsStore": {
         "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -2553,16 +2283,7 @@
       "GameMap.SeatedPlayer": 1,
       "GameMap.Selection": {
         "$type": "Aow.Game.World.Map.HexSpriteSelection",
-        "ControlStyleNode._controlStyle": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 2,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 3,
-          "Set\u00601.low": 0
-        },
+        "ControlStyleNode._controlStyle": 2,
         "EngineObject._owner": "$owner",
         "HexSpriteSelection.EventHexSprite": null,
         "HexSpriteSelection.LocationHexSprite": [],
@@ -2585,16 +2306,7 @@
       "GameMap.ShowGrid": false,
       "GameMap.StaticFixedVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
-        "ControlStyleInverseSortedNode._controlStyle": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 2,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 3,
-          "Set\u00601.low": 0
-        },
+        "ControlStyleInverseSortedNode._controlStyle": 2,
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
         "SortedNode.Items": "$ref:$.GameMap.DynamicFixedVisibleHexSprite.SortedNode.Items",
@@ -2604,32 +2316,14 @@
       "GameMap.StaticSceneInvalid": false,
       "GameMap.StaticVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
-        "ControlStyleInverseSortedNode._controlStyle": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 2,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 3,
-          "Set\u00601.low": 0
-        },
+        "ControlStyleInverseSortedNode._controlStyle": 2,
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
         "SortedNode.Items": "$ref:$.GameMap.DynamicFixedVisibleHexSprite.SortedNode.Items",
         "SortedNode.Sorted": false,
         "SortedNode.StoredCount": 0
       },
-      "GameMap.Status": {
-        "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Map.HexSpriteMapStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "Set\u00601.a": 0,
-        "Set\u00601.b": 0,
-        "Set\u00601.bounded": false,
-        "Set\u00601.c": 0,
-        "Set\u00601.d": 0,
-        "Set\u00601.high": 0,
-        "Set\u00601.low": 0
-      },
+      "GameMap.Status": 0,
       "GameMap.TerrainChangedEventsStore": {
         "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore\u00601.Count": 0,
@@ -2767,16 +2461,7 @@
       },
       "CombatMap.MoveControl": {
         "$type": "Aow.Game.Combat.CombatMoveControl",
-        "CombatMoveControl.MoveFlags": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatMoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        },
+        "CombatMoveControl.MoveFlags": 0,
         "CombatMoveControl.UnitHexSprite": null,
         "MoveControl.ArmyHexSprite": null,
         "MoveControl.Destination": {
@@ -2811,16 +2496,7 @@
         },
         "MoveControl.Map": "$ref:$",
         "MoveControl.MapLevel": null,
-        "MoveControl.Mode": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Movement.MoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        },
+        "MoveControl.Mode": 0,
         "MoveControl.MovePointTable": [
           [
             0,
@@ -3182,16 +2858,7 @@
         ],
         "MoveControl._processedCount": 0,
         "MoveControl._processedMapFields": null,
-        "MoveControl._status": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Movement.MoveControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        }
+        "MoveControl._status": 0
       },
       "CombatMap.PlaySounds": false,
       "CombatMap.Players": {
@@ -3263,16 +2930,7 @@
           "RangedPathHexSprite._miscellaneousImages": null,
           "RangedPathHexSprite._targetImages": {
             "$type": "Aow.Game.Draw.Images.ImageLibrary",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -3288,16 +2946,7 @@
               "PaletteManager.Palettes": []
             },
             "CustomImageLibrary.Reloading": false,
-            "CustomImageLibrary.Status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Images.ImageLibraryStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "CustomImageLibrary.Status": 0,
             "CustomImageLibrary._changeLock": 0,
             "CustomImageLibrary._count": 0,
             "CustomImageLibrary._fileName": "",
@@ -3307,16 +2956,7 @@
         "CombatUnitSelectionControl.TargetImages": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.RangedPathHexSprite.RangedPathHexSprite._targetImages",
         "CombatUnitSelectionControl._combatMoveSettings": {
           "$type": "Aow.Game.Combat.CombatMoveControlSettings",
-          "CombatMoveControlSettings.MoveFlags": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatMoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "CombatMoveControlSettings.MoveFlags": 0,
           "EngineObject._owner": null,
           "MoveControlSettings.ArmyHexSprite": null,
           "MoveControlSettings.Destination": {
@@ -3335,16 +2975,7 @@
             0,
             0
           ],
-          "MoveControlSettings.Mode": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Movement.MoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "MoveControlSettings.Mode": 0,
           "MoveControlSettings.MovePointTable": [
             [
               -1,
@@ -3709,16 +3340,7 @@
         },
         "CombatUnitSelectionControl._cursorFrame": 0,
         "CombatUnitSelectionControl._cursorImage": 0,
-        "CombatUnitSelectionControl._pathInvalid": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatUnitSelectionControl\u002BPathKind, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        },
+        "CombatUnitSelectionControl._pathInvalid": 0,
         "CombatUnitSelectionControl._targetX": 0,
         "CombatUnitSelectionControl._targetY": 0,
         "MoveSelector.CurrentMove": -1,
@@ -3733,16 +3355,7 @@
             "DelphiList\u00601.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl._combatMoveSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList\u00601.items"
           }
         },
-        "MoveSelector.Status": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Movement.MoveSelectorStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        }
+        "MoveSelector.Status": 0
       },
       "CombatMap.Walls": [],
       "CombatMap._playerChangedEventsStore": {
@@ -3764,16 +3377,7 @@
       },
       "GameMap.DynamicFixedVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
-        "ControlStyleInverseSortedNode._controlStyle": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 2,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 3,
-          "Set\u00601.low": 0
-        },
+        "ControlStyleInverseSortedNode._controlStyle": 2,
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
         "SortedNode.Items": [],
@@ -3783,16 +3387,7 @@
       "GameMap.DynamicSceneInvalid": false,
       "GameMap.DynamicVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
-        "ControlStyleInverseSortedNode._controlStyle": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 2,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 3,
-          "Set\u00601.low": 0
-        },
+        "ControlStyleInverseSortedNode._controlStyle": 2,
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
         "SortedNode.Items": "$ref:$.GameMap.DynamicFixedVisibleHexSprite.SortedNode.Items",
@@ -3870,30 +3465,12 @@
           "EventStore\u00601.Count": 0,
           "EventStore\u00601._items": null
         },
-        "HexSpriteMapMouse.Shift": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ShiftState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        },
+        "HexSpriteMapMouse.Shift": 0,
         "HexSpriteMapMouse.X": -2147483648,
         "HexSpriteMapMouse.Y": -2147483648,
         "HexSpriteMapMouse._capture": "$ref:$",
         "HexSpriteMapMouse._cursor": 0,
-        "HexSpriteMapMouse._status": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Map.HexSpriteMapMouse\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        }
+        "HexSpriteMapMouse._status": 0
       },
       "GameMap.NewFrameEventsStore": {
         "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3907,16 +3484,7 @@
       "GameMap.SeatedPlayer": 1,
       "GameMap.Selection": {
         "$type": "Aow.Game.World.Map.HexSpriteSelection",
-        "ControlStyleNode._controlStyle": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 2,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 3,
-          "Set\u00601.low": 0
-        },
+        "ControlStyleNode._controlStyle": 2,
         "EngineObject._owner": "$owner",
         "HexSpriteSelection.EventHexSprite": null,
         "HexSpriteSelection.LocationHexSprite": [],
@@ -3939,16 +3507,7 @@
       "GameMap.ShowGrid": false,
       "GameMap.StaticFixedVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
-        "ControlStyleInverseSortedNode._controlStyle": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 2,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 3,
-          "Set\u00601.low": 0
-        },
+        "ControlStyleInverseSortedNode._controlStyle": 2,
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
         "SortedNode.Items": "$ref:$.GameMap.DynamicFixedVisibleHexSprite.SortedNode.Items",
@@ -3958,32 +3517,14 @@
       "GameMap.StaticSceneInvalid": false,
       "GameMap.StaticVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
-        "ControlStyleInverseSortedNode._controlStyle": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 2,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 3,
-          "Set\u00601.low": 0
-        },
+        "ControlStyleInverseSortedNode._controlStyle": 2,
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
         "SortedNode.Items": "$ref:$.GameMap.DynamicFixedVisibleHexSprite.SortedNode.Items",
         "SortedNode.Sorted": false,
         "SortedNode.StoredCount": 0
       },
-      "GameMap.Status": {
-        "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Map.HexSpriteMapStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "Set\u00601.a": 0,
-        "Set\u00601.b": 0,
-        "Set\u00601.bounded": false,
-        "Set\u00601.c": 0,
-        "Set\u00601.d": 0,
-        "Set\u00601.high": 0,
-        "Set\u00601.low": 0
-      },
+      "GameMap.Status": 0,
       "GameMap.TerrainChangedEventsStore": {
         "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore\u00601.Count": 0,
@@ -4121,16 +3662,7 @@
       },
       "CombatMap.MoveControl": {
         "$type": "Aow.Game.Combat.CombatMoveControl",
-        "CombatMoveControl.MoveFlags": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatMoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        },
+        "CombatMoveControl.MoveFlags": 0,
         "CombatMoveControl.UnitHexSprite": null,
         "MoveControl.ArmyHexSprite": null,
         "MoveControl.Destination": {
@@ -4165,16 +3697,7 @@
         },
         "MoveControl.Map": "$ref:$",
         "MoveControl.MapLevel": null,
-        "MoveControl.Mode": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Movement.MoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        },
+        "MoveControl.Mode": 0,
         "MoveControl.MovePointTable": [
           [
             0,
@@ -4536,16 +4059,7 @@
         ],
         "MoveControl._processedCount": 0,
         "MoveControl._processedMapFields": null,
-        "MoveControl._status": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Movement.MoveControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        }
+        "MoveControl._status": 0
       },
       "CombatMap.PlaySounds": false,
       "CombatMap.Players": {
@@ -4617,16 +4131,7 @@
           "RangedPathHexSprite._miscellaneousImages": null,
           "RangedPathHexSprite._targetImages": {
             "$type": "Aow.Game.Draw.Images.ImageLibrary",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -4642,16 +4147,7 @@
               "PaletteManager.Palettes": []
             },
             "CustomImageLibrary.Reloading": false,
-            "CustomImageLibrary.Status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Images.ImageLibraryStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "CustomImageLibrary.Status": 0,
             "CustomImageLibrary._changeLock": 0,
             "CustomImageLibrary._count": 0,
             "CustomImageLibrary._fileName": "",
@@ -4661,16 +4157,7 @@
         "CombatUnitSelectionControl.TargetImages": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.RangedPathHexSprite.RangedPathHexSprite._targetImages",
         "CombatUnitSelectionControl._combatMoveSettings": {
           "$type": "Aow.Game.Combat.CombatMoveControlSettings",
-          "CombatMoveControlSettings.MoveFlags": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatMoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "CombatMoveControlSettings.MoveFlags": 0,
           "EngineObject._owner": null,
           "MoveControlSettings.ArmyHexSprite": null,
           "MoveControlSettings.Destination": {
@@ -4689,16 +4176,7 @@
             0,
             0
           ],
-          "MoveControlSettings.Mode": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Movement.MoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "MoveControlSettings.Mode": 0,
           "MoveControlSettings.MovePointTable": [
             [
               -1,
@@ -5063,16 +4541,7 @@
         },
         "CombatUnitSelectionControl._cursorFrame": 0,
         "CombatUnitSelectionControl._cursorImage": 0,
-        "CombatUnitSelectionControl._pathInvalid": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatUnitSelectionControl\u002BPathKind, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        },
+        "CombatUnitSelectionControl._pathInvalid": 0,
         "CombatUnitSelectionControl._targetX": 0,
         "CombatUnitSelectionControl._targetY": 0,
         "MoveSelector.CurrentMove": -1,
@@ -5087,16 +4556,7 @@
             "DelphiList\u00601.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl._combatMoveSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList\u00601.items"
           }
         },
-        "MoveSelector.Status": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Movement.MoveSelectorStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        }
+        "MoveSelector.Status": 0
       },
       "CombatMap.Walls": [],
       "CombatMap._playerChangedEventsStore": {
@@ -5118,16 +4578,7 @@
       },
       "GameMap.DynamicFixedVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
-        "ControlStyleInverseSortedNode._controlStyle": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 2,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 3,
-          "Set\u00601.low": 0
-        },
+        "ControlStyleInverseSortedNode._controlStyle": 2,
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
         "SortedNode.Items": [],
@@ -5137,16 +4588,7 @@
       "GameMap.DynamicSceneInvalid": false,
       "GameMap.DynamicVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
-        "ControlStyleInverseSortedNode._controlStyle": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 2,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 3,
-          "Set\u00601.low": 0
-        },
+        "ControlStyleInverseSortedNode._controlStyle": 2,
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
         "SortedNode.Items": "$ref:$.GameMap.DynamicFixedVisibleHexSprite.SortedNode.Items",
@@ -5224,30 +4666,12 @@
           "EventStore\u00601.Count": 0,
           "EventStore\u00601._items": null
         },
-        "HexSpriteMapMouse.Shift": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ShiftState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        },
+        "HexSpriteMapMouse.Shift": 0,
         "HexSpriteMapMouse.X": -2147483648,
         "HexSpriteMapMouse.Y": -2147483648,
         "HexSpriteMapMouse._capture": "$ref:$",
         "HexSpriteMapMouse._cursor": 0,
-        "HexSpriteMapMouse._status": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Map.HexSpriteMapMouse\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        }
+        "HexSpriteMapMouse._status": 0
       },
       "GameMap.NewFrameEventsStore": {
         "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -5261,16 +4685,7 @@
       "GameMap.SeatedPlayer": 1,
       "GameMap.Selection": {
         "$type": "Aow.Game.World.Map.HexSpriteSelection",
-        "ControlStyleNode._controlStyle": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 2,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 3,
-          "Set\u00601.low": 0
-        },
+        "ControlStyleNode._controlStyle": 2,
         "EngineObject._owner": "$owner",
         "HexSpriteSelection.EventHexSprite": null,
         "HexSpriteSelection.LocationHexSprite": [],
@@ -5293,16 +4708,7 @@
       "GameMap.ShowGrid": false,
       "GameMap.StaticFixedVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
-        "ControlStyleInverseSortedNode._controlStyle": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 2,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 3,
-          "Set\u00601.low": 0
-        },
+        "ControlStyleInverseSortedNode._controlStyle": 2,
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
         "SortedNode.Items": "$ref:$.GameMap.DynamicFixedVisibleHexSprite.SortedNode.Items",
@@ -5312,32 +4718,14 @@
       "GameMap.StaticSceneInvalid": false,
       "GameMap.StaticVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
-        "ControlStyleInverseSortedNode._controlStyle": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 2,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 3,
-          "Set\u00601.low": 0
-        },
+        "ControlStyleInverseSortedNode._controlStyle": 2,
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
         "SortedNode.Items": "$ref:$.GameMap.DynamicFixedVisibleHexSprite.SortedNode.Items",
         "SortedNode.Sorted": false,
         "SortedNode.StoredCount": 0
       },
-      "GameMap.Status": {
-        "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Map.HexSpriteMapStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "Set\u00601.a": 0,
-        "Set\u00601.b": 0,
-        "Set\u00601.bounded": false,
-        "Set\u00601.c": 0,
-        "Set\u00601.d": 0,
-        "Set\u00601.high": 0,
-        "Set\u00601.low": 0
-      },
+      "GameMap.Status": 0,
       "GameMap.TerrainChangedEventsStore": {
         "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore\u00601.Count": 0,
@@ -5477,16 +4865,7 @@
       },
       "CombatMap.MoveControl": {
         "$type": "Aow.Game.Combat.CombatMoveControl",
-        "CombatMoveControl.MoveFlags": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatMoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        },
+        "CombatMoveControl.MoveFlags": 0,
         "CombatMoveControl.UnitHexSprite": null,
         "MoveControl.ArmyHexSprite": null,
         "MoveControl.Destination": {
@@ -5521,16 +4900,7 @@
         },
         "MoveControl.Map": "$ref:$",
         "MoveControl.MapLevel": null,
-        "MoveControl.Mode": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Movement.MoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        },
+        "MoveControl.Mode": 0,
         "MoveControl.MovePointTable": [
           [
             0,
@@ -5892,16 +5262,7 @@
         ],
         "MoveControl._processedCount": 0,
         "MoveControl._processedMapFields": null,
-        "MoveControl._status": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Movement.MoveControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        }
+        "MoveControl._status": 0
       },
       "CombatMap.PlaySounds": false,
       "CombatMap.Players": {
@@ -5973,16 +5334,7 @@
           "RangedPathHexSprite._miscellaneousImages": null,
           "RangedPathHexSprite._targetImages": {
             "$type": "Aow.Game.Draw.Images.ImageLibrary",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -5998,16 +5350,7 @@
               "PaletteManager.Palettes": []
             },
             "CustomImageLibrary.Reloading": false,
-            "CustomImageLibrary.Status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Images.ImageLibraryStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "CustomImageLibrary.Status": 0,
             "CustomImageLibrary._changeLock": 0,
             "CustomImageLibrary._count": 0,
             "CustomImageLibrary._fileName": "",
@@ -6017,16 +5360,7 @@
         "CombatUnitSelectionControl.TargetImages": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.RangedPathHexSprite.RangedPathHexSprite._targetImages",
         "CombatUnitSelectionControl._combatMoveSettings": {
           "$type": "Aow.Game.Combat.CombatMoveControlSettings",
-          "CombatMoveControlSettings.MoveFlags": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatMoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "CombatMoveControlSettings.MoveFlags": 0,
           "EngineObject._owner": null,
           "MoveControlSettings.ArmyHexSprite": null,
           "MoveControlSettings.Destination": {
@@ -6045,16 +5379,7 @@
             0,
             0
           ],
-          "MoveControlSettings.Mode": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Movement.MoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "MoveControlSettings.Mode": 0,
           "MoveControlSettings.MovePointTable": [
             [
               -1,
@@ -6419,16 +5744,7 @@
         },
         "CombatUnitSelectionControl._cursorFrame": 0,
         "CombatUnitSelectionControl._cursorImage": 0,
-        "CombatUnitSelectionControl._pathInvalid": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatUnitSelectionControl\u002BPathKind, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        },
+        "CombatUnitSelectionControl._pathInvalid": 0,
         "CombatUnitSelectionControl._targetX": 0,
         "CombatUnitSelectionControl._targetY": 0,
         "MoveSelector.CurrentMove": -1,
@@ -6443,16 +5759,7 @@
             "DelphiList\u00601.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl._combatMoveSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList\u00601.items"
           }
         },
-        "MoveSelector.Status": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Movement.MoveSelectorStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        }
+        "MoveSelector.Status": 0
       },
       "CombatMap.Walls": [],
       "CombatMap._playerChangedEventsStore": {
@@ -6474,16 +5781,7 @@
       },
       "GameMap.DynamicFixedVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
-        "ControlStyleInverseSortedNode._controlStyle": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 2,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 3,
-          "Set\u00601.low": 0
-        },
+        "ControlStyleInverseSortedNode._controlStyle": 2,
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
         "SortedNode.Items": [],
@@ -6493,16 +5791,7 @@
       "GameMap.DynamicSceneInvalid": false,
       "GameMap.DynamicVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
-        "ControlStyleInverseSortedNode._controlStyle": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 2,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 3,
-          "Set\u00601.low": 0
-        },
+        "ControlStyleInverseSortedNode._controlStyle": 2,
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
         "SortedNode.Items": "$ref:$.GameMap.DynamicFixedVisibleHexSprite.SortedNode.Items",
@@ -6580,30 +5869,12 @@
           "EventStore\u00601.Count": 0,
           "EventStore\u00601._items": null
         },
-        "HexSpriteMapMouse.Shift": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ShiftState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        },
+        "HexSpriteMapMouse.Shift": 0,
         "HexSpriteMapMouse.X": -2147483648,
         "HexSpriteMapMouse.Y": -2147483648,
         "HexSpriteMapMouse._capture": "$ref:$",
         "HexSpriteMapMouse._cursor": 0,
-        "HexSpriteMapMouse._status": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Map.HexSpriteMapMouse\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        }
+        "HexSpriteMapMouse._status": 0
       },
       "GameMap.NewFrameEventsStore": {
         "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -6617,16 +5888,7 @@
       "GameMap.SeatedPlayer": 1,
       "GameMap.Selection": {
         "$type": "Aow.Game.World.Map.HexSpriteSelection",
-        "ControlStyleNode._controlStyle": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 2,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 3,
-          "Set\u00601.low": 0
-        },
+        "ControlStyleNode._controlStyle": 2,
         "EngineObject._owner": "$owner",
         "HexSpriteSelection.EventHexSprite": null,
         "HexSpriteSelection.LocationHexSprite": [],
@@ -6649,16 +5911,7 @@
       "GameMap.ShowGrid": false,
       "GameMap.StaticFixedVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
-        "ControlStyleInverseSortedNode._controlStyle": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 2,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 3,
-          "Set\u00601.low": 0
-        },
+        "ControlStyleInverseSortedNode._controlStyle": 2,
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
         "SortedNode.Items": "$ref:$.GameMap.DynamicFixedVisibleHexSprite.SortedNode.Items",
@@ -6668,32 +5921,14 @@
       "GameMap.StaticSceneInvalid": false,
       "GameMap.StaticVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
-        "ControlStyleInverseSortedNode._controlStyle": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 2,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 3,
-          "Set\u00601.low": 0
-        },
+        "ControlStyleInverseSortedNode._controlStyle": 2,
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
         "SortedNode.Items": "$ref:$.GameMap.DynamicFixedVisibleHexSprite.SortedNode.Items",
         "SortedNode.Sorted": false,
         "SortedNode.StoredCount": 0
       },
-      "GameMap.Status": {
-        "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Map.HexSpriteMapStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "Set\u00601.a": 0,
-        "Set\u00601.b": 0,
-        "Set\u00601.bounded": false,
-        "Set\u00601.c": 0,
-        "Set\u00601.d": 0,
-        "Set\u00601.high": 0,
-        "Set\u00601.low": 0
-      },
+      "GameMap.Status": 0,
       "GameMap.TerrainChangedEventsStore": {
         "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore\u00601.Count": 0,
@@ -6833,16 +6068,7 @@
       },
       "CombatMap.MoveControl": {
         "$type": "Aow.Game.Combat.CombatMoveControl",
-        "CombatMoveControl.MoveFlags": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatMoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        },
+        "CombatMoveControl.MoveFlags": 0,
         "CombatMoveControl.UnitHexSprite": null,
         "MoveControl.ArmyHexSprite": null,
         "MoveControl.Destination": {
@@ -6877,16 +6103,7 @@
         },
         "MoveControl.Map": "$ref:$",
         "MoveControl.MapLevel": null,
-        "MoveControl.Mode": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Movement.MoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        },
+        "MoveControl.Mode": 0,
         "MoveControl.MovePointTable": [
           [
             0,
@@ -7248,16 +6465,7 @@
         ],
         "MoveControl._processedCount": 0,
         "MoveControl._processedMapFields": null,
-        "MoveControl._status": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Movement.MoveControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        }
+        "MoveControl._status": 0
       },
       "CombatMap.PlaySounds": false,
       "CombatMap.Players": {
@@ -7329,16 +6537,7 @@
           "RangedPathHexSprite._miscellaneousImages": null,
           "RangedPathHexSprite._targetImages": {
             "$type": "Aow.Game.Draw.Images.ImageLibrary",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -7354,16 +6553,7 @@
               "PaletteManager.Palettes": []
             },
             "CustomImageLibrary.Reloading": false,
-            "CustomImageLibrary.Status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Images.ImageLibraryStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "CustomImageLibrary.Status": 0,
             "CustomImageLibrary._changeLock": 0,
             "CustomImageLibrary._count": 0,
             "CustomImageLibrary._fileName": "",
@@ -7373,16 +6563,7 @@
         "CombatUnitSelectionControl.TargetImages": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.RangedPathHexSprite.RangedPathHexSprite._targetImages",
         "CombatUnitSelectionControl._combatMoveSettings": {
           "$type": "Aow.Game.Combat.CombatMoveControlSettings",
-          "CombatMoveControlSettings.MoveFlags": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatMoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "CombatMoveControlSettings.MoveFlags": 0,
           "EngineObject._owner": null,
           "MoveControlSettings.ArmyHexSprite": null,
           "MoveControlSettings.Destination": {
@@ -7401,16 +6582,7 @@
             0,
             0
           ],
-          "MoveControlSettings.Mode": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Movement.MoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "MoveControlSettings.Mode": 0,
           "MoveControlSettings.MovePointTable": [
             [
               -1,
@@ -7775,16 +6947,7 @@
         },
         "CombatUnitSelectionControl._cursorFrame": 0,
         "CombatUnitSelectionControl._cursorImage": 0,
-        "CombatUnitSelectionControl._pathInvalid": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatUnitSelectionControl\u002BPathKind, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        },
+        "CombatUnitSelectionControl._pathInvalid": 0,
         "CombatUnitSelectionControl._targetX": 0,
         "CombatUnitSelectionControl._targetY": 0,
         "MoveSelector.CurrentMove": -1,
@@ -7799,16 +6962,7 @@
             "DelphiList\u00601.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl._combatMoveSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList\u00601.items"
           }
         },
-        "MoveSelector.Status": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Movement.MoveSelectorStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        }
+        "MoveSelector.Status": 0
       },
       "CombatMap.Walls": [],
       "CombatMap._playerChangedEventsStore": {
@@ -7830,16 +6984,7 @@
       },
       "GameMap.DynamicFixedVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
-        "ControlStyleInverseSortedNode._controlStyle": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 2,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 3,
-          "Set\u00601.low": 0
-        },
+        "ControlStyleInverseSortedNode._controlStyle": 2,
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
         "SortedNode.Items": [],
@@ -7849,16 +6994,7 @@
       "GameMap.DynamicSceneInvalid": false,
       "GameMap.DynamicVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
-        "ControlStyleInverseSortedNode._controlStyle": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 2,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 3,
-          "Set\u00601.low": 0
-        },
+        "ControlStyleInverseSortedNode._controlStyle": 2,
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
         "SortedNode.Items": "$ref:$.GameMap.DynamicFixedVisibleHexSprite.SortedNode.Items",
@@ -7936,30 +7072,12 @@
           "EventStore\u00601.Count": 0,
           "EventStore\u00601._items": null
         },
-        "HexSpriteMapMouse.Shift": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ShiftState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        },
+        "HexSpriteMapMouse.Shift": 0,
         "HexSpriteMapMouse.X": -2147483648,
         "HexSpriteMapMouse.Y": -2147483648,
         "HexSpriteMapMouse._capture": "$ref:$",
         "HexSpriteMapMouse._cursor": 0,
-        "HexSpriteMapMouse._status": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Map.HexSpriteMapMouse\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        }
+        "HexSpriteMapMouse._status": 0
       },
       "GameMap.NewFrameEventsStore": {
         "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -7973,16 +7091,7 @@
       "GameMap.SeatedPlayer": 1,
       "GameMap.Selection": {
         "$type": "Aow.Game.World.Map.HexSpriteSelection",
-        "ControlStyleNode._controlStyle": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 2,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 3,
-          "Set\u00601.low": 0
-        },
+        "ControlStyleNode._controlStyle": 2,
         "EngineObject._owner": "$owner",
         "HexSpriteSelection.EventHexSprite": null,
         "HexSpriteSelection.LocationHexSprite": [],
@@ -8005,16 +7114,7 @@
       "GameMap.ShowGrid": false,
       "GameMap.StaticFixedVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
-        "ControlStyleInverseSortedNode._controlStyle": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 2,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 3,
-          "Set\u00601.low": 0
-        },
+        "ControlStyleInverseSortedNode._controlStyle": 2,
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
         "SortedNode.Items": "$ref:$.GameMap.DynamicFixedVisibleHexSprite.SortedNode.Items",
@@ -8024,32 +7124,14 @@
       "GameMap.StaticSceneInvalid": false,
       "GameMap.StaticVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
-        "ControlStyleInverseSortedNode._controlStyle": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 2,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 3,
-          "Set\u00601.low": 0
-        },
+        "ControlStyleInverseSortedNode._controlStyle": 2,
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
         "SortedNode.Items": "$ref:$.GameMap.DynamicFixedVisibleHexSprite.SortedNode.Items",
         "SortedNode.Sorted": false,
         "SortedNode.StoredCount": 0
       },
-      "GameMap.Status": {
-        "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Map.HexSpriteMapStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "Set\u00601.a": 0,
-        "Set\u00601.b": 0,
-        "Set\u00601.bounded": false,
-        "Set\u00601.c": 0,
-        "Set\u00601.d": 0,
-        "Set\u00601.high": 0,
-        "Set\u00601.low": 0
-      },
+      "GameMap.Status": 0,
       "GameMap.TerrainChangedEventsStore": {
         "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore\u00601.Count": 0,
@@ -8189,16 +7271,7 @@
       },
       "CombatMap.MoveControl": {
         "$type": "Aow.Game.Combat.CombatMoveControl",
-        "CombatMoveControl.MoveFlags": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatMoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        },
+        "CombatMoveControl.MoveFlags": 0,
         "CombatMoveControl.UnitHexSprite": null,
         "MoveControl.ArmyHexSprite": null,
         "MoveControl.Destination": {
@@ -8233,16 +7306,7 @@
         },
         "MoveControl.Map": "$ref:$",
         "MoveControl.MapLevel": null,
-        "MoveControl.Mode": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Movement.MoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        },
+        "MoveControl.Mode": 0,
         "MoveControl.MovePointTable": [
           [
             0,
@@ -8604,16 +7668,7 @@
         ],
         "MoveControl._processedCount": 0,
         "MoveControl._processedMapFields": null,
-        "MoveControl._status": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Movement.MoveControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        }
+        "MoveControl._status": 0
       },
       "CombatMap.PlaySounds": false,
       "CombatMap.Players": {
@@ -8685,16 +7740,7 @@
           "RangedPathHexSprite._miscellaneousImages": null,
           "RangedPathHexSprite._targetImages": {
             "$type": "Aow.Game.Draw.Images.ImageLibrary",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -8710,16 +7756,7 @@
               "PaletteManager.Palettes": []
             },
             "CustomImageLibrary.Reloading": false,
-            "CustomImageLibrary.Status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Images.ImageLibraryStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "CustomImageLibrary.Status": 0,
             "CustomImageLibrary._changeLock": 0,
             "CustomImageLibrary._count": 0,
             "CustomImageLibrary._fileName": "",
@@ -8729,16 +7766,7 @@
         "CombatUnitSelectionControl.TargetImages": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.RangedPathHexSprite.RangedPathHexSprite._targetImages",
         "CombatUnitSelectionControl._combatMoveSettings": {
           "$type": "Aow.Game.Combat.CombatMoveControlSettings",
-          "CombatMoveControlSettings.MoveFlags": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatMoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "CombatMoveControlSettings.MoveFlags": 0,
           "EngineObject._owner": null,
           "MoveControlSettings.ArmyHexSprite": null,
           "MoveControlSettings.Destination": {
@@ -8757,16 +7785,7 @@
             0,
             0
           ],
-          "MoveControlSettings.Mode": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Movement.MoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "MoveControlSettings.Mode": 0,
           "MoveControlSettings.MovePointTable": [
             [
               -1,
@@ -9131,16 +8150,7 @@
         },
         "CombatUnitSelectionControl._cursorFrame": 0,
         "CombatUnitSelectionControl._cursorImage": 0,
-        "CombatUnitSelectionControl._pathInvalid": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatUnitSelectionControl\u002BPathKind, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        },
+        "CombatUnitSelectionControl._pathInvalid": 0,
         "CombatUnitSelectionControl._targetX": 0,
         "CombatUnitSelectionControl._targetY": 0,
         "MoveSelector.CurrentMove": -1,
@@ -9155,16 +8165,7 @@
             "DelphiList\u00601.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl._combatMoveSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList\u00601.items"
           }
         },
-        "MoveSelector.Status": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Movement.MoveSelectorStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        }
+        "MoveSelector.Status": 0
       },
       "CombatMap.Walls": [],
       "CombatMap._playerChangedEventsStore": {
@@ -9186,16 +8187,7 @@
       },
       "GameMap.DynamicFixedVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
-        "ControlStyleInverseSortedNode._controlStyle": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 2,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 3,
-          "Set\u00601.low": 0
-        },
+        "ControlStyleInverseSortedNode._controlStyle": 2,
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
         "SortedNode.Items": [],
@@ -9205,16 +8197,7 @@
       "GameMap.DynamicSceneInvalid": false,
       "GameMap.DynamicVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
-        "ControlStyleInverseSortedNode._controlStyle": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 2,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 3,
-          "Set\u00601.low": 0
-        },
+        "ControlStyleInverseSortedNode._controlStyle": 2,
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
         "SortedNode.Items": "$ref:$.GameMap.DynamicFixedVisibleHexSprite.SortedNode.Items",
@@ -9292,30 +8275,12 @@
           "EventStore\u00601.Count": 0,
           "EventStore\u00601._items": null
         },
-        "HexSpriteMapMouse.Shift": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ShiftState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        },
+        "HexSpriteMapMouse.Shift": 0,
         "HexSpriteMapMouse.X": -2147483648,
         "HexSpriteMapMouse.Y": -2147483648,
         "HexSpriteMapMouse._capture": "$ref:$",
         "HexSpriteMapMouse._cursor": 0,
-        "HexSpriteMapMouse._status": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Map.HexSpriteMapMouse\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        }
+        "HexSpriteMapMouse._status": 0
       },
       "GameMap.NewFrameEventsStore": {
         "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -9329,16 +8294,7 @@
       "GameMap.SeatedPlayer": 1,
       "GameMap.Selection": {
         "$type": "Aow.Game.World.Map.HexSpriteSelection",
-        "ControlStyleNode._controlStyle": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 2,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 3,
-          "Set\u00601.low": 0
-        },
+        "ControlStyleNode._controlStyle": 2,
         "EngineObject._owner": "$owner",
         "HexSpriteSelection.EventHexSprite": null,
         "HexSpriteSelection.LocationHexSprite": [],
@@ -9361,16 +8317,7 @@
       "GameMap.ShowGrid": false,
       "GameMap.StaticFixedVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
-        "ControlStyleInverseSortedNode._controlStyle": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 2,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 3,
-          "Set\u00601.low": 0
-        },
+        "ControlStyleInverseSortedNode._controlStyle": 2,
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
         "SortedNode.Items": "$ref:$.GameMap.DynamicFixedVisibleHexSprite.SortedNode.Items",
@@ -9380,32 +8327,14 @@
       "GameMap.StaticSceneInvalid": false,
       "GameMap.StaticVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
-        "ControlStyleInverseSortedNode._controlStyle": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 2,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 3,
-          "Set\u00601.low": 0
-        },
+        "ControlStyleInverseSortedNode._controlStyle": 2,
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
         "SortedNode.Items": "$ref:$.GameMap.DynamicFixedVisibleHexSprite.SortedNode.Items",
         "SortedNode.Sorted": false,
         "SortedNode.StoredCount": 0
       },
-      "GameMap.Status": {
-        "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Map.HexSpriteMapStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "Set\u00601.a": 0,
-        "Set\u00601.b": 0,
-        "Set\u00601.bounded": false,
-        "Set\u00601.c": 0,
-        "Set\u00601.d": 0,
-        "Set\u00601.high": 0,
-        "Set\u00601.low": 0
-      },
+      "GameMap.Status": 0,
       "GameMap.TerrainChangedEventsStore": {
         "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore\u00601.Count": 0,
@@ -9545,16 +8474,7 @@
       },
       "CombatMap.MoveControl": {
         "$type": "Aow.Game.Combat.CombatMoveControl",
-        "CombatMoveControl.MoveFlags": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatMoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        },
+        "CombatMoveControl.MoveFlags": 0,
         "CombatMoveControl.UnitHexSprite": null,
         "MoveControl.ArmyHexSprite": null,
         "MoveControl.Destination": {
@@ -9589,16 +8509,7 @@
         },
         "MoveControl.Map": "$ref:$",
         "MoveControl.MapLevel": null,
-        "MoveControl.Mode": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Movement.MoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        },
+        "MoveControl.Mode": 0,
         "MoveControl.MovePointTable": [
           [
             0,
@@ -9960,16 +8871,7 @@
         ],
         "MoveControl._processedCount": 0,
         "MoveControl._processedMapFields": null,
-        "MoveControl._status": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Movement.MoveControl\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        }
+        "MoveControl._status": 0
       },
       "CombatMap.PlaySounds": false,
       "CombatMap.Players": {
@@ -10041,16 +8943,7 @@
           "RangedPathHexSprite._miscellaneousImages": null,
           "RangedPathHexSprite._targetImages": {
             "$type": "Aow.Game.Draw.Images.ImageLibrary",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -10066,16 +8959,7 @@
               "PaletteManager.Palettes": []
             },
             "CustomImageLibrary.Reloading": false,
-            "CustomImageLibrary.Status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Images.ImageLibraryStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "CustomImageLibrary.Status": 0,
             "CustomImageLibrary._changeLock": 0,
             "CustomImageLibrary._count": 0,
             "CustomImageLibrary._fileName": "",
@@ -10085,16 +8969,7 @@
         "CombatUnitSelectionControl.TargetImages": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.RangedPathHexSprite.RangedPathHexSprite._targetImages",
         "CombatUnitSelectionControl._combatMoveSettings": {
           "$type": "Aow.Game.Combat.CombatMoveControlSettings",
-          "CombatMoveControlSettings.MoveFlags": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatMoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "CombatMoveControlSettings.MoveFlags": 0,
           "EngineObject._owner": null,
           "MoveControlSettings.ArmyHexSprite": null,
           "MoveControlSettings.Destination": {
@@ -10113,16 +8988,7 @@
             0,
             0
           ],
-          "MoveControlSettings.Mode": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Movement.MoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "MoveControlSettings.Mode": 0,
           "MoveControlSettings.MovePointTable": [
             [
               -1,
@@ -10487,16 +9353,7 @@
         },
         "CombatUnitSelectionControl._cursorFrame": 0,
         "CombatUnitSelectionControl._cursorImage": 0,
-        "CombatUnitSelectionControl._pathInvalid": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatUnitSelectionControl\u002BPathKind, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        },
+        "CombatUnitSelectionControl._pathInvalid": 0,
         "CombatUnitSelectionControl._targetX": 0,
         "CombatUnitSelectionControl._targetY": 0,
         "MoveSelector.CurrentMove": -1,
@@ -10511,16 +9368,7 @@
             "DelphiList\u00601.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl._combatMoveSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList\u00601.items"
           }
         },
-        "MoveSelector.Status": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Movement.MoveSelectorStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        }
+        "MoveSelector.Status": 0
       },
       "CombatMap.Walls": [],
       "CombatMap._playerChangedEventsStore": {
@@ -10542,16 +9390,7 @@
       },
       "GameMap.DynamicFixedVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
-        "ControlStyleInverseSortedNode._controlStyle": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 2,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 3,
-          "Set\u00601.low": 0
-        },
+        "ControlStyleInverseSortedNode._controlStyle": 2,
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
         "SortedNode.Items": [],
@@ -10561,16 +9400,7 @@
       "GameMap.DynamicSceneInvalid": false,
       "GameMap.DynamicVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
-        "ControlStyleInverseSortedNode._controlStyle": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 2,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 3,
-          "Set\u00601.low": 0
-        },
+        "ControlStyleInverseSortedNode._controlStyle": 2,
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
         "SortedNode.Items": "$ref:$.GameMap.DynamicFixedVisibleHexSprite.SortedNode.Items",
@@ -10648,30 +9478,12 @@
           "EventStore\u00601.Count": 0,
           "EventStore\u00601._items": null
         },
-        "HexSpriteMapMouse.Shift": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ShiftState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        },
+        "HexSpriteMapMouse.Shift": 0,
         "HexSpriteMapMouse.X": -2147483648,
         "HexSpriteMapMouse.Y": -2147483648,
         "HexSpriteMapMouse._capture": "$ref:$",
         "HexSpriteMapMouse._cursor": 0,
-        "HexSpriteMapMouse._status": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Map.HexSpriteMapMouse\u002BStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        }
+        "HexSpriteMapMouse._status": 0
       },
       "GameMap.NewFrameEventsStore": {
         "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.GameMap, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -10685,16 +9497,7 @@
       "GameMap.SeatedPlayer": 1,
       "GameMap.Selection": {
         "$type": "Aow.Game.World.Map.HexSpriteSelection",
-        "ControlStyleNode._controlStyle": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 2,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 3,
-          "Set\u00601.low": 0
-        },
+        "ControlStyleNode._controlStyle": 2,
         "EngineObject._owner": "$owner",
         "HexSpriteSelection.EventHexSprite": null,
         "HexSpriteSelection.LocationHexSprite": [],
@@ -10717,16 +9520,7 @@
       "GameMap.ShowGrid": false,
       "GameMap.StaticFixedVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
-        "ControlStyleInverseSortedNode._controlStyle": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 2,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 3,
-          "Set\u00601.low": 0
-        },
+        "ControlStyleInverseSortedNode._controlStyle": 2,
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
         "SortedNode.Items": "$ref:$.GameMap.DynamicFixedVisibleHexSprite.SortedNode.Items",
@@ -10736,32 +9530,14 @@
       "GameMap.StaticSceneInvalid": false,
       "GameMap.StaticVisibleHexSprite": {
         "$type": "Aow.Game.World.Map.VisibilityList",
-        "ControlStyleInverseSortedNode._controlStyle": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Engine.Nodes.ControlStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 2,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": true,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 3,
-          "Set\u00601.low": 0
-        },
+        "ControlStyleInverseSortedNode._controlStyle": 2,
         "EngineObject._owner": "$owner",
         "SortedNode.Capacity": 0,
         "SortedNode.Items": "$ref:$.GameMap.DynamicFixedVisibleHexSprite.SortedNode.Items",
         "SortedNode.Sorted": false,
         "SortedNode.StoredCount": 0
       },
-      "GameMap.Status": {
-        "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Map.HexSpriteMapStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "Set\u00601.a": 0,
-        "Set\u00601.b": 0,
-        "Set\u00601.bounded": false,
-        "Set\u00601.c": 0,
-        "Set\u00601.d": 0,
-        "Set\u00601.high": 0,
-        "Set\u00601.low": 0
-      },
+      "GameMap.Status": 0,
       "GameMap.TerrainChangedEventsStore": {
         "$type": "Aow.Engine.EventStore\u00601[[Aow.Game.World.Map.TerrainChangedNotification, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "EventStore\u00601.Count": 0,

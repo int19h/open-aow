@@ -15,6 +15,8 @@ namespace Aow.Game.Magic.Abilities;
 // (Abilities, AbilitiesByType,)
 public sealed class AbilityControl : EngineObject
 {
+    private const AbilitySelectionTypes AllAbilitySelectionTypes = AbilitySelectionTypes.Unit | AbilitySelectionTypes.HeadItem | AbilitySelectionTypes.TorsoItem | AbilitySelectionTypes.AttackItem | AbilitySelectionTypes.DefenseItem | AbilitySelectionTypes.RingItem | AbilitySelectionTypes.UseItem | AbilitySelectionTypes.CustomizeLeader | AbilitySelectionTypes.HeroUpgrade | AbilitySelectionTypes.Editor;
+
     // Ability.PAS:2035
     public AbilityControl(CustomNode owner) : base(owner)
     {
@@ -130,14 +132,14 @@ public sealed class AbilityControl : EngineObject
     }
 
     // Ability.PAS:2129
-    public void ListAbilities(DelphiStringCollection text, Set<AbilitySelectionType> types)
+    public void ListAbilities(DelphiStringCollection text, AbilitySelectionTypes types)
     {
         text.Clear();
         for (int i = 0, last = Abilities.Count - 1; i <= last; i++)
         {
             if (Abilities[i] is not null)
             {
-                if ((Abilities[i].SelectionTypes & types) != Set<AbilitySelectionType>.Of() || (types == Set<AbilitySelectionType>.Of().WithRange(0, (AbilitySelectionType)9) && Abilities[i].SelectionTypes == Set<AbilitySelectionType>.Of()))
+                if ((Abilities[i].SelectionTypes & types) != AbilitySelectionTypes.None || (types == AllAbilitySelectionTypes && Abilities[i].SelectionTypes == AbilitySelectionTypes.None))
                 {
                     _ = text.AddObject(Abilities[i].GetName(null), item: IntToObject(i));
                 }
@@ -146,7 +148,7 @@ public sealed class AbilityControl : EngineObject
     }
 
     // Ability.PAS:2148
-    public void ListAbilityInfo(DelphiStringCollection text, bool sortByName, Set<AbilityInfoModeElement> mode)
+    public void ListAbilityInfo(DelphiStringCollection text, bool sortByName, AbilityInfoModes mode)
     {
         DelphiList<Ability> list = new();
         for (int i = 0, last = Abilities.Count - 1; i <= last; i++)

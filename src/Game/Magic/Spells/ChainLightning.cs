@@ -5,8 +5,6 @@ using Aow.Game.Combat;
 
 using Aow.Game.Magic.Abilities;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Spells;
 
 // inherited combat statistics, damage mode
@@ -21,7 +19,7 @@ public class ChainLightning : CombatSpell
         SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 6;
         spellCombatInfo.Damage = 4;
-        spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Lightning);
+        spellCombatInfo.DamageTypes = DamageTypes.Lightning;
         spellCombatInfo.RepeatCount = 1;
         spellCombatInfo.Range = 12;
         spellCombatInfo.Radius = 3;

@@ -63,7 +63,7 @@ public sealed class ProductionOrderTests
     private static GameEngine CreateEngine()
     {
         GameEngine engine = new(null);
-        engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);
+        engine.Options &= ~GameEngine.VerifyClasses;
         engine.RegisterEngineClasses([EngineClass.Of<ProductionItem>(), EngineClass.Of<ProductionTokenEvent>()]);
         return engine;
     }

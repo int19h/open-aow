@@ -14,8 +14,6 @@ using Aow.Game.Units;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Combat;
 
 // Troop. Party. Disabled. WallCombatFeaturesValue. UnitGraphicsResourceIndex. Inherited: FID.
@@ -28,7 +26,7 @@ public class CombatUnit : CombatObject
     // Combat.pas:1071
     public CombatUnit(CustomNode owner) : base(owner)
     {
-        ControlMode = Set<CombatObjectControlModeElement>.Of(CombatObjectControlModeElement.ConquerObject);
+        ControlMode = CombatObjectControlModes.ConquerObject;
         _unitGraphicsResourceIndex = -1;
     }
 
@@ -38,7 +36,7 @@ public class CombatUnit : CombatObject
 
     public bool Disabled { get; set; }
 
-    public Set<WallCombatFeaturesElement> WallCombatFeaturesValue { get; private set; }
+    public WallCombatFeatures WallCombatFeaturesValue { get; private set; }
 
     private int _unitGraphicsResourceIndex;
 
@@ -71,7 +69,7 @@ public class CombatUnit : CombatObject
     // Combat.pas:1408
     public override void GetTargetCombatValueDamageValue(CombatObject target, out int combatValue, out int damageValue)
     {
-        if (!Status.Contains(CombatObjectStatusElement.Destroyed))
+        if (!Status.Contains(CombatObjectStatuses.Destroyed))
         {
             Troop u = Troop;
             combatValue = 0;
@@ -141,7 +139,7 @@ public class CombatUnit : CombatObject
     // Combat.pas:1450
     public override int GetTargetWallCombatValue(CombatObject target)
     {
-        return target is CombatUnit targetUnit && !target.Status.Contains(CombatObjectStatusElement.Destroyed)
+        return target is CombatUnit targetUnit && !target.Status.Contains(CombatObjectStatuses.Destroyed)
             ? Combat.CombatData.Players.GetPlayers(CombatPlayer).SideIndex == 1
                 ? Troop.GetCombatValue(targetUnit.Troop, mode: 1)
                 : Troop.GetCombatValue(targetUnit.Troop, mode: 2)
@@ -177,7 +175,7 @@ public class CombatUnit : CombatObject
     }
 
     // Combat.pas:1136
-    public override bool GetEnabled() => Troop is not null && (Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed, CombatObjectStatusElement.Fled) & Status) == Set<CombatObjectStatusElement>.Of() && !Disabled;
+    public override bool GetEnabled() => Troop is not null && ((CombatObjectStatuses.Destroyed | CombatObjectStatuses.Fled) & Status) == CombatObjectStatuses.None && !Disabled;
 
     // Combat.pas:1142
     public override bool GetLocked() => Troop.GetAbilityEnabled(95) || Troop.GetAbilityEnabled(97) || Troop.GetAbilityEnabled(92) || Troop.GetAbilityEnabled(94) || Troop.GetAbilityEnabled(34);
@@ -195,10 +193,10 @@ public class CombatUnit : CombatObject
     public override sbyte GetDamage() => Troop.GetDamage();
 
     // Combat.pas:1471
-    public override Set<DamageType> GetImmunityTypes() => Troop.GetImmunityTypes() + Combat.CombatData.ImmunityTypes;
+    public override DamageTypes GetImmunityTypes() => Troop.GetImmunityTypes() | Combat.CombatData.ImmunityTypes;
 
     // Combat.pas:1474
-    public override Set<DamageType> GetProtectionTypes() => Troop.GetProtectionTypes();
+    public override DamageTypes GetProtectionTypes() => Troop.GetProtectionTypes();
 
     // Combat.pas:1282
     public override sbyte GetHits() => Troop is not null ? Troop.GetHits() : (sbyte)0;// { Direct field test retains the receiver. }// { No cast temporary. }
@@ -309,7 +307,7 @@ public class CombatUnit : CombatObject
     // Combat.pas:1200
     public override void Finalize(FinalizeMode mode)
     {
-        if (!Status.Contains(CombatObjectStatusElement.Destroyed) && !Troop.GetAbilityEnabled(130) && !Troop.GetAbilityEnabled(131))
+        if (!Status.Contains(CombatObjectStatuses.Destroyed) && !Troop.GetAbilityEnabled(130) && !Troop.GetAbilityEnabled(131))
         {
             CombatParty party;
             if (mode != FinalizeMode.All)
@@ -323,12 +321,12 @@ public class CombatUnit : CombatObject
                         ArmyHexSprite placed;
                         if (StrategicMap.Current.Players.GetPlayers(player).GameOverStatus == GameOverStatus.Lost)
                         {
-                            placed = Troop.Place(party.Location.X, party.Location.Y, L: party.Location.MapLevel, player: 0, mode: Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.NeglectEmptyPlayerLocation));
+                            placed = Troop.Place(party.Location.X, party.Location.Y, L: party.Location.MapLevel, player: 0, mode: UnitPlaceModes.NeglectEmptyPlayerLocation);
                         }
                         else
                         {
                             sbyte player2 = GetPlayer();
-                            placed = Troop.Place(party.Location.X, party.Location.Y, L: party.Location.MapLevel, player: player2, mode: Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.NeglectEmptyPlayerLocation));
+                            placed = Troop.Place(party.Location.X, party.Location.Y, L: party.Location.MapLevel, player: player2, mode: UnitPlaceModes.NeglectEmptyPlayerLocation);
                         }
 
                         if (placed is not null)
@@ -347,12 +345,12 @@ public class CombatUnit : CombatObject
                     sbyte player = GetPlayer();
                     if (StrategicMap.Current.Players.GetPlayers(player).GameOverStatus == GameOverStatus.Lost)
                     {
-                        _ = Troop.Place(Combat.CombatData.Location.X, Combat.CombatData.Location.Y, L: Combat.CombatData.Location.MapLevel, player: 0, mode: Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
+                        _ = Troop.Place(Combat.CombatData.Location.X, Combat.CombatData.Location.Y, L: Combat.CombatData.Location.MapLevel, player: 0, mode: UnitPlaceModes.ScanArea);
                     }
                     else
                     {
                         sbyte player2 = GetPlayer();
-                        _ = Troop.Place(Combat.CombatData.Location.X, Combat.CombatData.Location.Y, L: Combat.CombatData.Location.MapLevel, player: player2, mode: Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
+                        _ = Troop.Place(Combat.CombatData.Location.X, Combat.CombatData.Location.Y, L: Combat.CombatData.Location.MapLevel, player: player2, mode: UnitPlaceModes.ScanArea);
                     }
 
                     Dispose();
@@ -362,7 +360,7 @@ public class CombatUnit : CombatObject
                     if (party is not null && (sbyte)party.PlayerIndex != CombatPlayer)
                     {
                         sbyte player = GetPlayer();
-                        _ = Troop.Place(Combat.CombatData.Location.X, Combat.CombatData.Location.Y, L: Combat.CombatData.Location.MapLevel, player, mode: Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
+                        _ = Troop.Place(Combat.CombatData.Location.X, Combat.CombatData.Location.Y, L: Combat.CombatData.Location.MapLevel, player, mode: UnitPlaceModes.ScanArea);
                     }
                 }
             }
@@ -374,7 +372,7 @@ public class CombatUnit : CombatObject
     }
 
     // Combat.pas:1494
-    public override bool SupportCombatMode(Set<CombatMode> modes)
+    public override bool SupportCombatMode(CombatModes modes)
     {
         Troop u = Troop;
         bool result;
@@ -385,7 +383,7 @@ public class CombatUnit : CombatObject
             while (i != 0 && !result)
             {
                 i -= 1;
-                result = Troop.GetAbilityEnabled(i) && modes.Contains(GamePack.Current.AbilityControl[i].GetCombatMode(Troop));
+                result = Troop.GetAbilityEnabled(i) && modes.Contains(GamePack.Current.AbilityControl[i].GetCombatMode(Troop).ToFlag());
             }
         }
         else
@@ -397,7 +395,7 @@ public class CombatUnit : CombatObject
     }
 
     // Combat.pas:1151
-    public override Set<WallCombatFeaturesElement> WallCombatFeatures() => WallCombatFeaturesValue;
+    public override WallCombatFeatures WallCombatFeatures() => WallCombatFeaturesValue;
 
     // Combat.pas:1247
     public override void PlaySfx(byte sound)
@@ -456,9 +454,9 @@ public class CombatUnit : CombatObject
         if (u is not null)
         {
             info.Direction = (byte)direction;
-            info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank, UnitOverlayModesElement.Combat);
+            info.Overlays = UnitOverlayModes.HitPoints | UnitOverlayModes.Rank | UnitOverlayModes.Combat;
             info.Animation = UnitAnimation.StandStill;
-            if ((Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed, CombatObjectStatusElement.Fled) & Status) != Set<CombatObjectStatusElement>.Of())
+            if (((CombatObjectStatuses.Destroyed | CombatObjectStatuses.Fled) & Status) != CombatObjectStatuses.None)
             {
                 info.Frame = 0;
                 info.Looped = false;
@@ -470,7 +468,7 @@ public class CombatUnit : CombatObject
             }
 
             _ = u.Show(X, Y, lockedSurface: surface, info);
-            if (Status.Contains(CombatObjectStatusElement.Fled))
+            if (Status.Contains(CombatObjectStatuses.Fled))
             {
                 GamePack.Current.CombatImages[7].Show(X + 18, Y + 10, lockedSurface: surface);
             }
@@ -485,7 +483,7 @@ public class CombatUnit : CombatObject
         if (Troop is not null)
         {
             info.Direction = (byte)direction;
-            info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank, UnitOverlayModesElement.Combat);
+            info.Overlays = UnitOverlayModes.HitPoints | UnitOverlayModes.Rank | UnitOverlayModes.Combat;
             info.Animation = UnitAnimation.Attack;
             info.Frame = frame;
             info.Looped = false;
@@ -505,7 +503,7 @@ public class CombatUnit : CombatObject
         if (Troop is not null)
         {
             info.Direction = (byte)direction;
-            info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank, UnitOverlayModesElement.Combat);
+            info.Overlays = UnitOverlayModes.HitPoints | UnitOverlayModes.Rank | UnitOverlayModes.Combat;
             info.Animation = UnitAnimation.Hit;
             info.Frame = frame;
             info.Looped = false;
@@ -518,7 +516,7 @@ public class CombatUnit : CombatObject
     }
 
     // Combat.pas:1159
-    public override Set<DamageType> ExecuteDamageEffectsRole(Set<DamageType> damageTypes) => Troop.ExecuteDamageEffectsRole(damageTypes);
+    public override DamageTypes ExecuteDamageEffectsRole(DamageTypes damageTypes) => Troop.ExecuteDamageEffectsRole(damageTypes);
 
     // Combat.pas:1544
     public override void Surrender()
@@ -528,7 +526,7 @@ public class CombatUnit : CombatObject
             SetHitPoints(0);
         }
 
-        Status += Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed);
+        Status |= CombatObjectStatuses.Destroyed;
         ResetTargets();
         if (Troop is Leader)
         {
@@ -550,7 +548,7 @@ public class CombatUnit : CombatObject
             SetHitPoints(0);
         }
 
-        Status += Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed);
+        Status |= CombatObjectStatuses.Destroyed;
         Troop u = Troop;
         if (u is not null)
         {
@@ -563,7 +561,7 @@ public class CombatUnit : CombatObject
             }
         }
 
-        if (Status.Contains(CombatObjectStatusElement.Destroyed))
+        if (Status.Contains(CombatObjectStatuses.Destroyed))
         {
             ResetTargets();
             if (Troop is Leader)
@@ -580,7 +578,7 @@ public class CombatUnit : CombatObject
     }
 
     // Combat.pas:1154
-    public override Set<DamageType> ExecuteDamageEffects(Set<DamageType> damageTypes) => Troop.ExecuteCombatDamageEffects(Combat, damageTypes);
+    public override DamageTypes ExecuteDamageEffects(DamageTypes damageTypes) => Troop.ExecuteCombatDamageEffects(Combat, damageTypes);
 
     // Combat.pas:1486
     public override string IdString()
@@ -621,14 +619,14 @@ public class CombatUnit : CombatObject
             {
                 _ = u.AddRef();
                 party = _party;
-                if (party is not null && !Status.Contains(CombatObjectStatusElement.Destroyed))
+                if (party is not null && !Status.Contains(CombatObjectStatuses.Destroyed))
                 {
                     _ = party.Army.AddUnit(Troop);
                 }
             }
         }
 
-        if (Status.Contains(CombatObjectStatusElement.Activated))
+        if (Status.Contains(CombatObjectStatuses.Activated))
         {
             UpdateUnitGraphicsResource();
         }
@@ -650,17 +648,17 @@ public class CombatUnit : CombatObject
     public void UpdateWallCombatFeatures()
     {
         Troop u = Troop;
-        if (u is not null && !Status.Contains(CombatObjectStatusElement.Destroyed))
+        if (u is not null && !Status.Contains(CombatObjectStatuses.Destroyed))
         {
             WallCombatFeaturesValue = u.GetWallCombatFeatures();
             if (Troop.GetAbilityEnabled(52) && GamePack.Current.AbilityControl.GetAbility<SpellCastingAbility>(52).CanCastBreachWallSpell(Troop))
             {
-                WallCombatFeaturesValue += Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallBreaching);
+                WallCombatFeaturesValue |= Game.Combat.WallCombatFeatures.WallBreaching;
             }
         }
         else
         {
-            WallCombatFeaturesValue = Set<WallCombatFeaturesElement>.Of();
+            WallCombatFeaturesValue = Game.Combat.WallCombatFeatures.None;
         }
     }
 
@@ -688,10 +686,10 @@ public class CombatUnit : CombatObject
     public void UpdateParty()
     {
         CombatParty party;
-        if (Status.Contains(CombatObjectStatusElement.Activated))
+        if (Status.Contains(CombatObjectStatuses.Activated))
         {
             party = Combat.CombatData.Parties.GetParty((byte)(Position >>> 4));
-            if ((byte)CombatPlayer != party.PlayerIndex || Status.Contains(CombatObjectStatusElement.Destroyed))
+            if ((byte)CombatPlayer != party.PlayerIndex || Status.Contains(CombatObjectStatuses.Destroyed))
             {
                 party = null;
             }
@@ -733,9 +731,9 @@ public class CombatUnit : CombatObject
     }
 
     // Combat.pas:1512
-    public void SetStatus(Set<CombatObjectStatusElement> status)
+    public void SetStatus(CombatObjectStatuses status)
     {
-        if (status.Contains(CombatObjectStatusElement.Fled) && !Status.Contains(CombatObjectStatusElement.Fled))
+        if (status.Contains(CombatObjectStatuses.Fled) && !Status.Contains(CombatObjectStatuses.Fled))
         {
             Status = status;
             Combat.CheckTerminate();

@@ -1,8 +1,8 @@
 
+using Aow.Game.Combat;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.World.Map;
-
 using Aow.Rtl;
 
 namespace Aow.Game.World.Structures;
@@ -67,10 +67,10 @@ public sealed record Fortify : ProductionOrder
         control.BeginUpdate();
         switch (city.WallType)
         {
-            case 0:
+            case (byte)WallType.None:
                 city.WallType = 1;
                 break;
-            case 1:
+            case (byte)WallType.Wood:
                 city.WallType = 2;
                 break;
             default:

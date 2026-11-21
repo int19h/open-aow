@@ -9,8 +9,6 @@ using Aow.Game.Units;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Commands;
 
 public class ArmyCombineMoveTokenEvent(CustomNode owner) : MoveArmyTokenEvent(owner)
@@ -31,7 +29,7 @@ public class ArmyCombineMoveTokenEvent(CustomNode owner) : MoveArmyTokenEvent(ow
                 if (combineResult != AddUnitsResult.Ok)
                 {
                     ShowCombineFailure(combineResult);
-                    Mode -= Set<ArmyMoveModeElement>.Of(ArmyMoveModeElement.SelectEndLocation);
+                    Mode &= ~ArmyMoveModes.SelectEndLocation;
                 }
             }
         }

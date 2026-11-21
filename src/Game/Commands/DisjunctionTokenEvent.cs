@@ -7,7 +7,6 @@ using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.World.Map;
-using Aow.Rtl;
 using static Aow.Rtl.DelphiFormat;
 using static Aow.Rtl.DelphiRounding;
 
@@ -60,7 +59,7 @@ public class DisjunctionTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
         sbyte layer = coordinate7.MapLevel;
         _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, layer, radius: 0);
         TwinkleAnimation twinkle = new(null) { Holder = CreationHolder() };
-        twinkle.Setup(GamePack.Current.SpellControl[51].CastImages.ImageSequences[0], mode: Set<TwinkleModeElement>.Of(TwinkleModeElement.Expand, TwinkleModeElement.Explode), count: EventMana + 50, radius: 192, duration: 50, startDelay: 30);
+        twinkle.Setup(GamePack.Current.SpellControl[51].CastImages.ImageSequences[0], mode: TwinkleModes.Expand | TwinkleModes.Explode, count: EventMana + 50, radius: 192, duration: 50, startDelay: 30);
         _ = StrategicMap.Current.PlaceHex(twinkle, x, y, L: layer);
         _ = GamePack.Current.SpellControl[EventSpellId].CastSounds.Play(0);
         int mana = Round((double)(enchantment.DispelMana * 0.02) * DispelChance);

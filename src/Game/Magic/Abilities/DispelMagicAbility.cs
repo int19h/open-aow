@@ -11,8 +11,6 @@ using Aow.Game.Units;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiTextCompare;
 
@@ -26,7 +24,7 @@ public class DispelMagicAbility : TouchAbility
         Holder = holder;
         AbilityId = 60;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.DispelMagicText);
-        SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.UseItem, AbilitySelectionType.Editor);
+        SelectionTypes = AbilitySelectionTypes.Unit | AbilitySelectionTypes.UseItem | AbilitySelectionTypes.Editor;
         AbilityType = AbilityType.Enhancement;
     }
 
@@ -81,7 +79,7 @@ public class DispelMagicAbility : TouchAbility
     }
 
     // AoWAb.PAS:4048
-    public override Set<AbilityControlTypeElement> GetControlType(AbilityOwner owner) => Set<AbilityControlTypeElement>.Of(AbilityControlTypeElement.Action, AbilityControlTypeElement.CombatAction);
+    public override AbilityControlTypes GetControlType(AbilityOwner owner) => AbilityControlTypes.Action | AbilityControlTypes.CombatAction;
 
     // AoWAb.PAS:4275
     public override void FastBattlePrefetchCombatCommands(FastBattleCommandList commands)
@@ -176,7 +174,7 @@ public class DispelMagicAbility : TouchAbility
     }
 
     // AoWAb.PAS:4139
-    public override bool CanExpand(AbilityOwner owner) => (owner.GetAbilitySelectionTypes() & SelectionTypes) != Set<AbilitySelectionType>.Of() && GetLevel(owner) < 3;
+    public override bool CanExpand(AbilityOwner owner) => (owner.GetAbilitySelectionTypes() & SelectionTypes) != AbilitySelectionTypes.None && GetLevel(owner) < 3;
 
     // AoWAb.PAS:4135
     public override int ExpandCost(AbilityOwner owner) => 5;
@@ -247,7 +245,7 @@ public class DispelMagicAbility : TouchAbility
     public override int GetDamageValue(Troop attacker, Troop defender)
     {
         // { Original evaluates dispelling with the healing hit-point formula. }
-        if (!defender.GetImmunityTypes().Contains(DamageType.None))
+        if (!defender.GetImmunityTypes().Contains(DamageTypes.NonSpecific))
         {
             int result = defender.GetHits() - defender.GetHitPoints();
             if (result > 5)
@@ -265,7 +263,7 @@ public class DispelMagicAbility : TouchAbility
     public override void GetDamageValues(Troop attacker, Troop defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
         // { Original evaluates dispelling with the healing hit-point formula. }
-        if (wallSituation == WallSituation.None && !defender.GetImmunityTypes().Contains(DamageType.None))
+        if (wallSituation == WallSituation.None && !defender.GetImmunityTypes().Contains(DamageTypes.NonSpecific))
         {
             sbyte hits = defender.GetHits();
             sbyte hitPoints = defender.GetHitPoints();
@@ -278,7 +276,7 @@ public class DispelMagicAbility : TouchAbility
             damageValues.SourceDamage = damageValues.SourceCost * 100;
             damageValues.TargetDamage = 0;
             damageValues.TargetCost = 0;
-            damageValues.DamageTypes = Set<DamageType>.Of(DamageType.None);
+            damageValues.DamageTypes = DamageTypes.NonSpecific;
         }
         else
         {
@@ -286,7 +284,7 @@ public class DispelMagicAbility : TouchAbility
             damageValues.SourceCost = 0;
             damageValues.TargetDamage = 0;
             damageValues.TargetCost = 0;
-            damageValues.DamageTypes = Set<DamageType>.Of();
+            damageValues.DamageTypes = DamageTypes.None;
         }
     }
 
@@ -300,7 +298,7 @@ public class DispelMagicAbility : TouchAbility
             damageValues.SourceDamage = damageValues.SourceCost * 100;
             damageValues.TargetDamage = 0;
             damageValues.TargetCost = 0;
-            damageValues.DamageTypes = Set<DamageType>.Of(DamageType.None);
+            damageValues.DamageTypes = DamageTypes.NonSpecific;
         }
         else
         {
@@ -308,7 +306,7 @@ public class DispelMagicAbility : TouchAbility
             damageValues.SourceCost = 0;
             damageValues.TargetDamage = 0;
             damageValues.TargetCost = 0;
-            damageValues.DamageTypes = Set<DamageType>.Of();
+            damageValues.DamageTypes = DamageTypes.None;
         }
     }
 
@@ -316,7 +314,7 @@ public class DispelMagicAbility : TouchAbility
     public override void GetCombatInfo(AbilityOwner owner, ref AbilityCombatInfo info)
     {
         base.GetCombatInfo(owner, ref info);
-        info.TargetTypes = Set<CombatTargetTypeElement>.Of(CombatTargetTypeElement.Friend, CombatTargetTypeElement.Enemy);
+        info.TargetTypes = CombatTargetTypes.Friend | CombatTargetTypes.Enemy;
     }
 
     // AoWAb.PAS:4202

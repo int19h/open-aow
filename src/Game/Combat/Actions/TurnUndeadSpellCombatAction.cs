@@ -20,7 +20,7 @@ public class TurnUndeadSpellCombatAction(CustomNode owner) : CombatSpellCombatAc
         {
             CombatObject source = combat.CombatData.FindId(SourceId);
             CombatUnit target = combat.CombatData.FindId<CombatUnit>(TargetId);
-            if (!target.Status.Contains(CombatObjectStatusElement.Destroyed))
+            if (!target.Status.Contains(CombatObjectStatuses.Destroyed))
             {
                 _ = GamePack.Current.AbilityControl[34].Expand(target.Troop);
                 UnitEnchantmentAbilityData data = target.Troop.GetAbilityData<UnitEnchantmentAbilityData>(34);

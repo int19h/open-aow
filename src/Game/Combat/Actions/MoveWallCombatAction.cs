@@ -2,8 +2,6 @@
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Combat.Actions;
 
 public class MoveWallCombatAction(CustomNode owner) : CombatAction(owner)
@@ -28,12 +26,12 @@ public class MoveWallCombatAction(CustomNode owner) : CombatAction(owner)
         FastBattleUnit objectValue = combat.CombatData.FindId<FastBattleUnit>(CombatObjectId);
         if (InsideWall == 0)
         {
-            objectValue.State += Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.OutsideWall);
+            objectValue.State |= FastBattleUnitStates.OutsideWall;
         }
 
         if (InsideWall == 1)
         {
-            objectValue.State -= Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.OutsideWall);
+            objectValue.State &= ~FastBattleUnitStates.OutsideWall;
         }
     }
 

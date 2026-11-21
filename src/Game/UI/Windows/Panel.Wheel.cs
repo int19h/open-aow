@@ -15,7 +15,7 @@ public sealed partial class Panel
 
     // Child hit tests read AbsoluteLeft and AbsoluteTop so the panel's coordinates stay fixed.
     // A wheel that nobody handles is not consumed, so a book page can still turn.
-    public override bool CheckMouseWheel(int steps, Set<ShiftState> shift, int X, int Y)
+    public override bool CheckMouseWheel(int steps, ShiftStates shift, int X, int Y)
     {
         if (steps == 0 || !Visible)
         {

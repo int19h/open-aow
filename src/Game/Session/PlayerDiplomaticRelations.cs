@@ -60,7 +60,7 @@ public sealed class PlayerDiplomaticRelations : EngineObject
                 Player.LegacyNewRelations.Clear();
             }
 
-            if (StrategicMap.Current.Day == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+            if (StrategicMap.Current.Day == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
             {
                 for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
                 {
@@ -92,7 +92,7 @@ public sealed class PlayerDiplomaticRelations : EngineObject
     public void SetDiplomaticRelation(sbyte player, DiplomaticRelation value)
     {
         _relations[player] = (byte)value;
-        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && StrategicMap.Current.Day > 0)
+        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting) && StrategicMap.Current.Day > 0)
         {
             GetHistory(player).Add(value, StrategicMap.Current.Day);
         }

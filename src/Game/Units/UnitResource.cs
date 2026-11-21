@@ -147,7 +147,7 @@ public class UnitResource : TroopResource
     public override bool DropUnit(int hexX, int hexY, int hexLevel)
     {
         sbyte player;
-        if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             player = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel).GetPlayer();
             if (player == -1)
@@ -162,7 +162,7 @@ public class UnitResource : TroopResource
 
         Unit unit = new(null) { Holder = CreationHolder() };
         unit.SetUnitResource(this);
-        bool result = unit.Place(hexX, hexY, L: hexLevel, player, mode: Set<UnitPlaceModeElement>.Of()) is not null;
+        bool result = unit.Place(hexX, hexY, L: hexLevel, player, mode: UnitPlaceModes.None) is not null;
         _ = unit.Release();
         return result;
     }
@@ -171,7 +171,7 @@ public class UnitResource : TroopResource
     public override int GetObtainValue() => ObtainValue;
 
     // UnitRes.PAS:102
-    public Set<MoveType> GetMoveTypes() => Abilities[(int)Unit.Rank.None].GetAbilityMoveTypesAll();
+    public MoveTypes GetMoveTypes() => Abilities[(int)Unit.Rank.None].GetAbilityMoveTypesAll();
 
     // UnitRes.PAS:111
     public byte GetTransportCapacity()

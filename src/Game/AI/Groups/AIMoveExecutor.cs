@@ -13,8 +13,6 @@ using Aow.Game.Units;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 using static Aow.Rtl.LegacyApplication;
 
 namespace Aow.Game.AI.Groups;
@@ -40,7 +38,7 @@ public sealed class AIMoveExecutor : EngineObject
     public AIMoveExecutorUnitList Units { get; private set; }
     public AIMoveExecutorUnit Transporter { get; private set; }
     public int MovePointsMax { get; private set; }
-    public Set<AIMoveExecutorModeElement> Mode { get; set; }
+    public AIMoveExecutorModes Mode { get; set; }
     public int State { get; private set; }
     public AIMoveExecutorStatus Status { get; set; }
 
@@ -82,7 +80,7 @@ public sealed class AIMoveExecutor : EngineObject
         }
 
         Units.Clear();
-        Mode = Set<AIMoveExecutorModeElement>.Of(AIMoveExecutorModeElement.Adjacent, AIMoveExecutorModeElement.Simultaneous);
+        Mode = AIMoveExecutorModes.Adjacent | AIMoveExecutorModes.Simultaneous;
     }
 
     // AIGroup.pas:5997
@@ -222,7 +220,7 @@ public sealed class AIMoveExecutor : EngineObject
     }
 
     // AIGroup.pas:6106
-    public AIMoveExecutorArmyList CreateArmies(Set<AIMoveExecutorUnitStatus> status)
+    public AIMoveExecutorArmyList CreateArmies(AIMoveExecutorUnitStatuses status)
     {
         Int32List used = new();
         AIMoveExecutorArmyList armies = new(null) { Holder = CreationHolder() };
@@ -231,7 +229,7 @@ public sealed class AIMoveExecutor : EngineObject
             if (used.IndexOf(i) == -1)
             {
                 AIMoveExecutorUnit unitEntry = Units.GetUnits(i);
-                if (status.Contains(unitEntry.Status))
+                if (status.Contains(unitEntry.Status.ToFlag()))
                 {
                     _ = used.Add(i);
                     AIMoveExecutorArmy army = new(null) { Holder = CreationHolder() };
@@ -241,7 +239,7 @@ public sealed class AIMoveExecutor : EngineObject
                         if (used.IndexOf(j) == -1)
                         {
                             unitEntry = Units.GetUnits(j);
-                            if (status.Contains(unitEntry.Status) && army.CanAdd(unitEntry))
+                            if (status.Contains(unitEntry.Status.ToFlag()) && army.CanAdd(unitEntry))
                             {
                                 _ = army.AddChild(unitEntry);
                                 _ = used.Add(j);
@@ -278,7 +276,7 @@ public sealed class AIMoveExecutor : EngineObject
             if (Units.GetUnits(i).Status != AIMoveExecutorUnitStatus.Lost)
             {
                 AIMoveExecutorUnit units = Units.GetUnits(i);
-                Units.GetUnits(i).Troop.UnitStatus = units.Troop.UnitStatus + Set<UnitStatusElement>.Of(UnitStatusElement.MoveDone);
+                Units.GetUnits(i).Troop.UnitStatus = units.Troop.UnitStatus | UnitStatuses.MoveDone;
             }
         }
     }
@@ -292,7 +290,7 @@ public sealed class AIMoveExecutor : EngineObject
         {
             i -= 1;
             AIMoveExecutorUnit units = Units.GetUnits(i);
-            transporting = Set<AIMoveExecutorTransportStatus>.Of(AIMoveExecutorTransportStatus.Boarding, AIMoveExecutorTransportStatus.Transporting).Contains(units.TransportStatus);
+            transporting = units.TransportStatus is AIMoveExecutorTransportStatus.Boarding or AIMoveExecutorTransportStatus.Transporting;
         }
 
         return transporting;
@@ -335,7 +333,7 @@ public sealed class AIMoveExecutor : EngineObject
         {
             byte selection;
             ArmyHexSprite army;
-            if (Moves.Count > 1 && Mode.Contains(AIMoveExecutorModeElement.Simultaneous))
+            if (Moves.Count > 1 && Mode.Contains(AIMoveExecutorModes.Simultaneous))
             {
                 MultiMoveTokenEvent multiMove = new(null)
                 {
@@ -348,7 +346,7 @@ public sealed class AIMoveExecutor : EngineObject
                     {
                         ArmyDefaultMoveTokenEvent move = new(null) { Holder = CreationHolder() };
                         AIMoveExecutorMove moves = Moves.GetMoves(i);
-                        if (!move.Setup(army, selection, moves.Path, mode: Set<ArmyMoveModeElement>.Of()))
+                        if (!move.Setup(army, selection, moves.Path, mode: ArmyMoveModes.None))
                         {
                             throw new InvalidOperationException("FAILURE: TAIMoveExecuter.ExecuteMoves");
                         }
@@ -546,7 +544,7 @@ public sealed class AIMoveExecutor : EngineObject
             State = 0;
             _processCycles = 0;
             Destination = new MapCoordinate(X, Y, L);
-            AIMoveExecutorArmyList aiMoveExecutorArmyList = CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Idle));
+            AIMoveExecutorArmyList aiMoveExecutorArmyList = CreateArmies(AIMoveExecutorUnitStatuses.Idle);
             for (int i = 0, last = aiMoveExecutorArmyList.Count - 1; i <= last; i++)
             {
                 aiMoveExecutorArmyList.GetArmies(i).SetStatus(255, status: AIMoveExecutorUnitStatus.Ready);
@@ -564,7 +562,7 @@ public sealed class AIMoveExecutor : EngineObject
                 if (condition)
                 {
                     Status = AIMoveExecutorStatus.Busy;
-                    _ = Mode.Contains(AIMoveExecutorModeElement.Adjacent) && aiMoveExecutorArmyList.Count > 1
+                    _ = Mode.Contains(AIMoveExecutorModes.Adjacent) && aiMoveExecutorArmyList.Count > 1
                         ? ControlQueue.Add(2)
                         : ControlQueue.Add(0);
 

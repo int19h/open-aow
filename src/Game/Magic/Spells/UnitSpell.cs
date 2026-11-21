@@ -10,7 +10,6 @@ using Aow.Game.Draw;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
-using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
@@ -140,12 +139,12 @@ public class UnitSpell : Spell
     }
 
     // Spells.PAS:1379
-    public override bool CanActivateCombat(Troop source, ref string reason) => SpellControlTypes.Contains(SpellControlTypeElement.Combat) && base.CanActivateCombat(source, ref reason);
+    public override bool CanActivateCombat(Troop source, ref string reason) => SpellControlTypes.Contains(SpellControlTypes.Combat) && base.CanActivateCombat(source, ref reason);
 
     // Spells.PAS:1385
     public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
-        if (SpellControlTypes.Contains(SpellControlTypeElement.Combat))
+        if (SpellControlTypes.Contains(SpellControlTypes.Combat))
         {
             UnitSpellCombatAction action = new(null)
             {
@@ -171,7 +170,7 @@ public class UnitSpell : Spell
     public override void GetCombatInfo(Troop source, ref SpellCombatInfo info)
     {
         base.GetCombatInfo(source, ref info);
-        info.TargetTypes = Set<CombatTargetTypeElement>.Of(CombatTargetTypeElement.Friend);
+        info.TargetTypes = CombatTargetTypes.Friend;
         info.Range = -1;
     }
 
@@ -243,7 +242,7 @@ public class UnitSpell : Spell
     }
 
     // Spells.PAS:1344
-    public virtual bool ValidTargetParty(Troop source, ArmyHexSprite party) => !party.Army.Status.Contains(ArmyStatusElement.FullyConcealed);
+    public virtual bool ValidTargetParty(Troop source, ArmyHexSprite party) => !party.Army.Status.Contains(ArmyStatuses.FullyConcealed);
 
     // Spells.PAS:1346
     public virtual void TargetPartySelected(Troop source, ArmyHexSprite party)
@@ -260,7 +259,7 @@ public class UnitSpell : Spell
     // Spells.PAS:1400
     public virtual UnitSpellCombatAction CreateCombatAction(CombatObject source, CombatObject target, int mana)
     {
-        return SpellControlTypes.Contains(SpellControlTypeElement.Combat)
+        return SpellControlTypes.Contains(SpellControlTypes.Combat)
             ? new UnitSpellCombatAction(null)
             {
                 Holder = CreationHolder(),
@@ -280,7 +279,7 @@ public class UnitSpell : Spell
         {
             if (ExecuteSpell(sourceUnit.Troop, target: targetUnit.Troop, action.Mana, data: action.SpellData))
             {
-                if (action.Mana != 0 && (((byte)combat.Status.Image) & 1) != 0)
+                if (action.Mana != 0 && (((byte)combat.Status) & 1) != 0)
                 {
                     GamePack.Current.SpellControl[SpellId].CombatCastingDone(source, action.Mana);
                 }
@@ -386,10 +385,10 @@ public class UnitSpell : Spell
     public void SetupTargetSelection(Troop source, TargetSelectionControl control)
     {
         control.Initialize(source);
-        control.TargetMode += Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ExternalFloater);
+        control.TargetMode |= TargetSelectionModes.ExternalFloater;
         if (TargetRange != -1)
         {
-            control.TargetMode += Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ValidateDistance);
+            control.TargetMode |= TargetSelectionModes.ValidateDistance;
             control.Range = TargetRange;
         }
         else

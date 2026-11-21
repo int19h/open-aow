@@ -84,7 +84,7 @@ public sealed partial class HeroJoinDialog(UIContext ui) : UIModule(ui)
 
             info = default;
             info.Direction = 3;
-            info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
+            info.Overlays = UnitOverlayModes.HitPoints | UnitOverlayModes.Rank;
             _ = _units.GetUnit(index).Show(x - 33, y - 35, lockedSurface: surface, info);
             if (((_selection >>> index) & 1) == 0)
             {
@@ -178,7 +178,7 @@ public sealed partial class HeroJoinDialog(UIContext ui) : UIModule(ui)
     }
 
     // AoWHeroJoinDlg.pas:196
-    public void U1MouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y, int slot)
+    public void U1MouseDown(MouseButton button, ShiftStates shift, int X, int Y, int slot)
     {
         if (ValidateJoin())
         {
@@ -201,7 +201,7 @@ public sealed partial class HeroJoinDialog(UIContext ui) : UIModule(ui)
     public void DlgHide() => FinishDialog();
 
     // AoWHeroJoinDlg.pas:216
-    public void DlgKeyDown(in ushort key, Set<ShiftState> shift)
+    public void DlgKeyDown(in ushort key, ShiftStates shift)
     {
         if (key == 27)
         {

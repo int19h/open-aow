@@ -10,8 +10,6 @@ using Aow.Game.Session;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.AI;
@@ -162,8 +160,8 @@ public class DiplomacyAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), 
                             if (action is null || StrategicMap.Current.Day - action.Day > 12)
                             {
                                 score = -i;
-                                score -= StrategicMap.Current.Players.GetDiplomaticRelationCount((sbyte)(byte)candidate, relations: Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace)) * 5;
-                                score -= StrategicMap.Current.Players.GetDiplomaticRelationCount((sbyte)(byte)candidate, relations: Set<DiplomaticRelation>.Of(DiplomaticRelation.Alliance)) * 10;
+                                score -= StrategicMap.Current.Players.GetDiplomaticRelationCount((sbyte)(byte)candidate, relations: DiplomaticRelations.Peace) * 5;
+                                score -= StrategicMap.Current.Players.GetDiplomaticRelationCount((sbyte)(byte)candidate, relations: DiplomaticRelations.Alliance) * 10;
                                 _ = candidates.AddAbility(candidate, score);
                             }
 
@@ -182,8 +180,8 @@ public class DiplomacyAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), 
                                 if (action is null || StrategicMap.Current.Day - action.Day > 12)
                                 {
                                     score = j;
-                                    score -= StrategicMap.Current.Players.GetDiplomaticRelationCount((sbyte)(byte)candidate, relations: Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace)) * 5;
-                                    score -= StrategicMap.Current.Players.GetDiplomaticRelationCount((sbyte)(byte)candidate, relations: Set<DiplomaticRelation>.Of(DiplomaticRelation.Alliance)) * 10;
+                                    score -= StrategicMap.Current.Players.GetDiplomaticRelationCount((sbyte)(byte)candidate, relations: DiplomaticRelations.Peace) * 5;
+                                    score -= StrategicMap.Current.Players.GetDiplomaticRelationCount((sbyte)(byte)candidate, relations: DiplomaticRelations.Alliance) * 10;
                                     _ = candidates.AddAbility(candidate, score);
                                 }
 

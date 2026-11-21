@@ -133,7 +133,7 @@ public partial class DisplayController(Component owner) : Component(owner)
     private int _lastFrameTime;
     private ushort _frameCount;
 
-    internal Set<DisplayControllerStatusElement> Status { get; private protected set; }
+    internal DisplayControllerStatuses Status { get; private protected set; }
 
     private CustomDisplay _display;
 
@@ -144,7 +144,7 @@ public partial class DisplayController(Component owner) : Component(owner)
     // DisplayC.pas:1031
     public override void Dispose()
     {
-        if (Status.Contains(DisplayControllerStatusElement.Activated))
+        if (Status.Contains(DisplayControllerStatuses.Activated))
         {
             _ = Deactivate();
         }
@@ -192,7 +192,7 @@ public partial class DisplayController(Component owner) : Component(owner)
     public virtual Rect? GetPrimarySurfaceRegion() => PrimarySurfaceRegion;
 
     // DisplayC.pas:685
-    public virtual Set<DisplayControllerStatusElement> GetStatus() => Status;
+    public virtual DisplayControllerStatuses GetStatus() => Status;
 
     // DisplayC.pas:690
     public virtual int HPalette => 0;
@@ -208,10 +208,10 @@ public partial class DisplayController(Component owner) : Component(owner)
     // DisplayC.pas:734
     public virtual DisplayControllerError Activate(CustomDisplay display)
     {
-        if (!Status.Contains(DisplayControllerStatusElement.Activated))
+        if (!Status.Contains(DisplayControllerStatuses.Activated))
         {
             _display = display;
-            Status += Set<DisplayControllerStatusElement>.Of(DisplayControllerStatusElement.Activated);
+            Status |= DisplayControllerStatuses.Activated;
             _display.CurrentFrameRate = _display.FrameRate;
             InvalidateAll();
             return DisplayControllerError.Ok;
@@ -225,9 +225,9 @@ public partial class DisplayController(Component owner) : Component(owner)
     // DisplayC.pas:748
     public virtual DisplayControllerError Deactivate()
     {
-        if (Status.Contains(DisplayControllerStatusElement.Activated))
+        if (Status.Contains(DisplayControllerStatuses.Activated))
         {
-            Status -= Set<DisplayControllerStatusElement>.Of(DisplayControllerStatusElement.Activated);
+            Status &= ~DisplayControllerStatuses.Activated;
             _ = (_display?.DeactivateDisplayController());
             _display = null;
         }
@@ -248,7 +248,7 @@ public partial class DisplayController(Component owner) : Component(owner)
     // DisplayC.pas:772
     public void RealizePalette()
     {
-        if (_display.Status.Contains(DisplayStatusElement.FrameLoopActive))
+        if (_display.Status.Contains(DisplayStatuses.FrameLoopActive))
         {
         }
         else
@@ -270,14 +270,14 @@ public partial class DisplayController(Component owner) : Component(owner)
     // DisplayC.pas:830
     public virtual DisplayControllerError Hide()
     {
-        Status -= Set<DisplayControllerStatusElement>.Of(DisplayControllerStatusElement.Visible);
+        Status &= ~DisplayControllerStatuses.Visible;
         return DisplayControllerError.Ok;
     }
 
     // DisplayC.pas:836
     public virtual DisplayControllerError Show()
     {
-        Status += Set<DisplayControllerStatusElement>.Of(DisplayControllerStatusElement.Visible);
+        Status |= DisplayControllerStatuses.Visible;
         return DisplayControllerError.Ok;
     }
 

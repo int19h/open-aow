@@ -28,10 +28,10 @@ public sealed class CombatUnitSelectionControl : MoveSelector
         Obstacles = new DelphiList<RangedObstacle>();
         RangedPathHexSprite = new RangedPathHexSprite(null) { Holder = Creator.CreationHolder() };
         RangedPathHexSprite.Activate();
-        TargetImages = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: "TargHex.ILB");
+        TargetImages = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(ImageLibraryManagerCategories.Disk, fileName: "TargHex.ILB");
     }
 
-    private Set<PathKind> _pathInvalid;
+    private PathKinds _pathInvalid;
 
     // CreateMoveControlSettings builds these settings, and the path writer reads them from here.
     private CombatMoveControlSettings _combatMoveSettings;
@@ -60,7 +60,7 @@ public sealed class CombatUnitSelectionControl : MoveSelector
         Obstacles?.Dispose();
         RangedPath?.Dispose();
         RangedPathHexSprite?.Dispose();
-        GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: "TargHex.ILB");
+        GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(ImageLibraryManagerCategories.Disk, fileName: "TargHex.ILB");
         base.Dispose();
     }
 
@@ -87,7 +87,7 @@ public sealed class CombatUnitSelectionControl : MoveSelector
                     int index;
                     int deltaX;
                     int deltaY;
-                    if (CombatMap.Current.Mouse.Shift.Contains(ShiftState.Shift))
+                    if (CombatMap.Current.Mouse.Shift.Contains(ShiftStates.Shift))
                     {
                         if (MoveSettingsList.GetCount() == 1 && MoveSettingsList.GetMoveSettings(0).Path.Count != 0)
                         {
@@ -148,7 +148,7 @@ public sealed class CombatUnitSelectionControl : MoveSelector
                     }
                     else
                     {
-                        if (CombatMap.Current.Mouse.Shift.Contains(ShiftState.Ctrl))
+                        if (CombatMap.Current.Mouse.Shift.Contains(ShiftStates.Ctrl))
                         {
                             if (MoveSettingsList.GetCount() > 0 && CombatMap.Current.Mouse.HexX != -1 && CombatMap.Current.Mouse.HexY != -1)
                             {
@@ -210,10 +210,10 @@ public sealed class CombatUnitSelectionControl : MoveSelector
                                     int hexY = CombatMap.Current.Mouse.HexY;
                                     int hexX = CombatMap.Current.Mouse.HexX;
                                     unitHexSprite = CombatMap.Current.MapContainer.GetField(hexX, hexY, CombatMap.Current.ViewMapLevel).FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
-                                    Set<CombatTargetTypeElement> targets;
+                                    CombatTargetTypes targets;
                                     if (TacticalBattleUnitHexSprite.SelectedAbility == -1)
                                     {
-                                        targets = Set<CombatTargetTypeElement>.Of(CombatTargetTypeElement.Enemy);
+                                        targets = CombatTargetTypes.Enemy;
                                     }
                                     else
                                     {
@@ -242,7 +242,7 @@ public sealed class CombatUnitSelectionControl : MoveSelector
                                     else
                                     {
                                         sbyte player = TacticalBattleUnitHexSprite.Unit.GetPlayer();
-                                        if (unitHexSprite.Unit.GetPlayer() == player && !targets.Contains(CombatTargetTypeElement.Friend))
+                                        if (unitHexSprite.Unit.GetPlayer() == player && !targets.Contains(CombatTargetTypes.Friend))
                                         {
                                             CombatMap.Current.Selection.UnselectLocation();
                                             CombatMap.Current.Selection.SelectLocationHexSprite(unitHexSprite);
@@ -250,11 +250,11 @@ public sealed class CombatUnitSelectionControl : MoveSelector
                                         else
                                         {
                                             sbyte fUnitPlayer = TacticalBattleUnitHexSprite.Unit.GetPlayer();
-                                            bool condition = unitHexSprite.Unit.GetPlayer() == fUnitPlayer && targets.Contains(CombatTargetTypeElement.Friend);
+                                            bool condition = unitHexSprite.Unit.GetPlayer() == fUnitPlayer && targets.Contains(CombatTargetTypes.Friend);
                                             if (!condition)
                                             {
                                                 sbyte player2 = TacticalBattleUnitHexSprite.Unit.GetPlayer();
-                                                condition = unitHexSprite.Unit.GetPlayer() != player2 && targets.Contains(CombatTargetTypeElement.Enemy);
+                                                condition = unitHexSprite.Unit.GetPlayer() != player2 && targets.Contains(CombatTargetTypes.Enemy);
                                             }
 
                                             if (condition)
@@ -322,8 +322,8 @@ public sealed class CombatUnitSelectionControl : MoveSelector
         moveSettings.PathMovePoints = 0;
         TacticalBattleUnitHexSprite unitHexSprite = (TacticalBattleUnitHexSprite)moveSettings.MoveObject;
         _combatMoveSettings.MoveFlags = TacticalBattleUnitHexSprite is not null && (TacticalBattleUnitHexSprite.SelectedAbility == 117 || TacticalBattleUnitHexSprite.SelectedAbility == 65)
-            ? Set<CombatMoveModeElement>.FromMask((byte)_pathInvalid.Image) + Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Climbing)
-            : Set<CombatMoveModeElement>.FromMask((byte)_pathInvalid.Image);
+            ? (CombatMoveModes)(byte)_pathInvalid | CombatMoveModes.Climbing
+            : (CombatMoveModes)(byte)_pathInvalid;
 
         MoveControlSettings.Reset();
         sbyte hexLevel = unitHexSprite.HexLevel;
@@ -395,7 +395,7 @@ public sealed class CombatUnitSelectionControl : MoveSelector
         int cost;
         TacticalBattleUnitHexSprite unitHexSprite;
         TacticalBattleUnitHexSprite targetHexSprite;
-        Set<CombatTargetTypeElement> targets;
+        CombatTargetTypes targets;
         CityWall wall;
         SpellCombatInfo spellInfo = default;
         AbilityCombatInfo abilityInfo = default;
@@ -456,7 +456,7 @@ public sealed class CombatUnitSelectionControl : MoveSelector
                 targets = abilityInfo.TargetTypes;
             }
 
-            if (targetHexSprite is null || (targetHexSprite == unitHexSprite && !targets.Contains(CombatTargetTypeElement.Friend)))
+            if (targetHexSprite is null || (targetHexSprite == unitHexSprite && !targets.Contains(CombatTargetTypes.Friend)))
             {
                 if (_cursorImage is < 85 or > 88)
                 {
@@ -467,7 +467,7 @@ public sealed class CombatUnitSelectionControl : MoveSelector
             {
                 if (GamePack.Current.AbilityControl[unitHexSprite.SelectedAbility].GetCombatMode(unitHexSprite.Unit.Troop) == CombatMode.Touch)
                 {
-                    if (((targets.Contains(CombatTargetTypeElement.Friend) && unitHexSprite.Unit.Side == targetHexSprite.Unit.Side) || (targets.Contains(CombatTargetTypeElement.Enemy) && unitHexSprite.Unit.Side != targetHexSprite.Unit.Side)) && GamePack.Current.AbilityControl.GetAbility<TouchAbility>(unitHexSprite.SelectedAbility).CanTouch(unitHexSprite.Unit, target: targetHexSprite.Unit))
+                    if (((targets.Contains(CombatTargetTypes.Friend) && unitHexSprite.Unit.Side == targetHexSprite.Unit.Side) || (targets.Contains(CombatTargetTypes.Enemy) && unitHexSprite.Unit.Side != targetHexSprite.Unit.Side)) && GamePack.Current.AbilityControl.GetAbility<TouchAbility>(unitHexSprite.SelectedAbility).CanTouch(unitHexSprite.Unit, target: targetHexSprite.Unit))
                     {
                         if (_cursorImage is < 105 or > 107)
                         {
@@ -481,7 +481,7 @@ public sealed class CombatUnitSelectionControl : MoveSelector
                 }
                 else
                 {
-                    if ((targets.Contains(CombatTargetTypeElement.Friend) && unitHexSprite.Unit.Side == targetHexSprite.Unit.Side) || (targets.Contains(CombatTargetTypeElement.Enemy) && unitHexSprite.Unit.Side != targetHexSprite.Unit.Side))
+                    if ((targets.Contains(CombatTargetTypes.Friend) && unitHexSprite.Unit.Side == targetHexSprite.Unit.Side) || (targets.Contains(CombatTargetTypes.Enemy) && unitHexSprite.Unit.Side != targetHexSprite.Unit.Side))
                     {
                         if (_cursorImage is < 80 or > 83)
                         {
@@ -530,19 +530,19 @@ public sealed class CombatUnitSelectionControl : MoveSelector
 
         if (unitHexSprite.Unit.GetPlayer() == CombatMap.Current.SeatedPlayer)
         {
-            if (GetMoveTypes().Contains(MoveType.Walking))
+            if (GetMoveTypes().Contains(MoveTypes.Walking))
             {
                 CombatMap.Current.Mouse.Cursor = 64;
             }
             else
             {
-                if (GetMoveTypes().Contains(MoveType.Swimming))
+                if (GetMoveTypes().Contains(MoveTypes.Swimming))
                 {
                     CombatMap.Current.Mouse.Cursor = 66;
                 }
                 else
                 {
-                    if (GetMoveTypes().Contains(MoveType.Flying))
+                    if (GetMoveTypes().Contains(MoveTypes.Flying))
                     {
                         CombatMap.Current.Mouse.Cursor = 68;
                     }
@@ -662,11 +662,11 @@ public sealed class CombatUnitSelectionControl : MoveSelector
         : null;
 
     // AoWTC.pas:2770
-    public Set<MoveType> GetMoveTypes()
+    public MoveTypes GetMoveTypes()
     {
         return CurrentMove != -1
             ? ((TacticalBattleUnitHexSprite)MoveSettingsList.GetMoveSettings(CurrentMove).MoveObject).Unit.Troop.GetMoveTypes()
-            : Set<MoveType>.Of();
+            : MoveTypes.None;
     }
 
     // AoWTC.pas:2777
@@ -1284,7 +1284,7 @@ public sealed class CombatUnitSelectionControl : MoveSelector
     // AoWTC.pas:3259
     public void ActivateMoveSelection()
     {
-        if (!Status.Contains(MoveSelectorStatusElement.Activated))
+        if (!Status.Contains(MoveSelectorStatuses.Activated))
         {
             Activate(CombatMap.Current);
         }
@@ -1293,7 +1293,7 @@ public sealed class CombatUnitSelectionControl : MoveSelector
     // AoWTC.pas:3264
     public void DeactivateMoveSelection()
     {
-        if (Status.Contains(MoveSelectorStatusElement.Activated))
+        if (Status.Contains(MoveSelectorStatuses.Activated))
         {
             Deactivate();
             RangedPath.Clear();
@@ -1312,7 +1312,7 @@ public sealed class CombatUnitSelectionControl : MoveSelector
             MoveControlSettings.MovePointTable = movePointTable;
         }
 
-        _pathInvalid = Set<PathKind>.Of(PathKind.Ranged);
+        _pathInvalid = PathKinds.Ranged;
     }
 
     // AoWTC.pas:3300
@@ -1464,8 +1464,11 @@ public sealed class CombatUnitSelectionControl : MoveSelector
         return flag;
     }
 
-    public enum PathKind : byte
+    [Flags]
+    public enum PathKinds : byte
     {
-        Move = 0, Ranged = 1
+        None = 0,
+        Move = 1 << 0,
+        Ranged = 1 << 1,
     }
 }

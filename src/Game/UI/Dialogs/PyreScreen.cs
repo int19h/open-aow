@@ -101,7 +101,7 @@ public sealed partial class PyreScreen(UIContext ui) : UIModule(ui)
     }
 
     // AOWPyreScrn.pas:51
-    public void DeadPnlMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y) => FinishScreen();
+    public void DeadPnlMouseDown(MouseButton button, ShiftStates shift, int X, int Y) => FinishScreen();
 
     // AOWPyreScrn.pas:54
     public void LeaderFaceFrPreDraw(LockedSurface lockedSurface)
@@ -172,7 +172,7 @@ public sealed partial class PyreScreen(UIContext ui) : UIModule(ui)
     }
 
     // AOWPyreScrn.pas:110
-    public void DeadPnlKeyDown(in ushort key, Set<ShiftState> shift)
+    public void DeadPnlKeyDown(in ushort key, ShiftStates shift)
     {
         switch (key)
         {

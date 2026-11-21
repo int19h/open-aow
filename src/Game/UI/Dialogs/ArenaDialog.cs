@@ -53,7 +53,7 @@ public sealed partial class ArenaDialog(UIContext ui) : UIModule(ui)
 
             info = default;
             info.Direction = 3;
-            info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
+            info.Overlays = UnitOverlayModes.HitPoints | UnitOverlayModes.Rank;
             _ = u.Show(X - 8, Y - 5, lockedSurface, info);
             if (((_event.Trainable >>> index) & 1) == 0)
             {
@@ -195,7 +195,7 @@ public sealed partial class ArenaDialog(UIContext ui) : UIModule(ui)
     }
 
     // AoWArenaDlg.pas:232
-    public void DlgKeyDown(in ushort key, Set<ShiftState> shift)
+    public void DlgKeyDown(in ushort key, ShiftStates shift)
     {
         if (key == 27)
         {

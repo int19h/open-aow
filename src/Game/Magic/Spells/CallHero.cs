@@ -11,8 +11,6 @@ using Aow.Game.Magic.Abilities;
 
 using Aow.Game.Units;
 using Aow.Game.World.Map;
-
-using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.Magic.Spells;
@@ -48,7 +46,7 @@ public class CallHero : Spell
                 hero.SetHitPoints(hero.GetHits());
             }
 
-            ArmyHexSprite army = hero.Place(x, y, L: layer, player: 0, mode: Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea, UnitPlaceModeElement.CreateNewArmy));
+            ArmyHexSprite army = hero.Place(x, y, L: layer, player: 0, mode: UnitPlaceModes.ScanArea | UnitPlaceModes.CreateNewArmy);
             bool showSource = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.VisibleForPlayer(x, y, layer, player: StrategicMap.Current.SeatedPlayer);
             bool condition = StrategicMap.Current.SeatedPlayer == source.Player;
             if (!condition)
@@ -165,7 +163,7 @@ public class CallHero : Spell
             for (int i = StrategicMap.Current.HeroControl.GetCount() - 1; i >= 0; i--)
             {
                 hero = StrategicMap.Current.HeroControl[i];
-                if (!hero.UnitStatus.Contains(UnitStatusElement.Killed) && hero.Player <= 0 && hero.Owner is null)
+                if (!hero.UnitStatus.Contains(UnitStatuses.Killed) && hero.Player <= 0 && hero.Owner is null)
                 {
                     _ = hero.OfferToJoin(source.Player) ? heroes.AddAbility(hero, 10) : heroes.AddAbility(hero, 1);
                 }

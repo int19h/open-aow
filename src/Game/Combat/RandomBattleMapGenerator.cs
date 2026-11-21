@@ -345,7 +345,7 @@ public sealed class RandomBattleMapGenerator : IDisposable
                                 break;
                         }
 
-                        if (Set<byte>.WithBounds(0, 255).WithRange(1, 7).Contains(shape))
+                        if (shape is >= 1 and <= 7)
                         {
                             if (_tags[shape - 1] != 127 && weights[shape - 1] == 4)
                             {

@@ -1,14 +1,9 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Units;
-
 using Aow.Game.World.Map;
-
-using Aow.Rtl;
 
 namespace Aow.Game.Combat.Actions;
 
@@ -17,7 +12,7 @@ public class StrikeCombatAction(CustomNode owner) : DamageCombatAction(owner)
 {
     public new const int ClassId = 131_754;
 
-    public Set<StrikeModeElement> StrikeMode { get; set; }
+    public StrikeModes StrikeMode { get; set; }
 
     // AoWAb.PAS:1157
     public override void PersistFields(IPersister persister)
@@ -32,22 +27,22 @@ public class StrikeCombatAction(CustomNode owner) : DamageCombatAction(owner)
         CombatObject source = combat.CombatData.FindId(SourceId);
         CombatObject target = combat.CombatData.FindId(TargetId);
         DamageDone = (byte)source.DoDamage(target, Damage);
-        if (Effects != Set<DamageType>.Of())
+        if (Effects != DamageTypes.None)
         {
             _ = target.ExecuteDamageEffects(Effects);
         }
 
-        if (DamageDone != 0 && StrikeMode.Contains(StrikeModeElement.LifeStealing) && target is CombatUnit targetUnit && targetUnit.Troop.GetUnitType() != UnitType.Machine)
+        if (DamageDone != 0 && StrikeMode.Contains(StrikeModes.LifeStealing) && target is CombatUnit targetUnit && targetUnit.Troop.GetUnitType() != UnitType.Machine)
         {
             source.SetHitPoints((byte)(source.HitPoints + 1));
         }
 
-        if (StrikeMode.Contains(StrikeModeElement.CausedFear) && target is CombatUnit fearTarget)
+        if (StrikeMode.Contains(StrikeModes.CausedFear) && target is CombatUnit fearTarget)
         {
             _ = GamePack.Current.AbilityControl[108].Expand(fearTarget.Troop);
         }
 
-        if (StrikeMode.Contains(StrikeModeElement.Entangled) && target is CombatUnit entangledTarget)
+        if (StrikeMode.Contains(StrikeModes.Entangled) && target is CombatUnit entangledTarget)
         {
             _ = GamePack.Current.AbilityControl[94].Expand(entangledTarget.Troop);
             UnitEnchantmentAbilityData data = entangledTarget.Troop.GetAbilityData<UnitEnchantmentAbilityData>(94);
@@ -74,19 +69,19 @@ public class StrikeCombatAction(CustomNode owner) : DamageCombatAction(owner)
     }
 
     // AoWAb.PAS:1197
-    public override void Generate(CombatObject source, CombatObject target, sbyte attack, sbyte damage, Set<DamageType> damageTypes)
+    public override void Generate(CombatObject source, CombatObject target, sbyte attack, sbyte damage, DamageTypes damageTypes)
     {
         base.Generate(source, target, attack, damage, damageTypes);
         if (Damage != 0)
         {
             if (source.GetAbilityEnabled(51) && !target.GetAbilityEnabled(67) && HitChance.HitRole(3 - target.GetResistance()))
             {
-                StrikeMode += Set<StrikeModeElement>.Of(StrikeModeElement.CausedFear);
+                StrikeMode |= StrikeModes.CausedFear;
             }
 
             if (source.GetAbilityEnabled(119) && HitChance.HitRole(7 - target.GetResistance()))
             {
-                StrikeMode += Set<StrikeModeElement>.Of(StrikeModeElement.Entangled);
+                StrikeMode |= StrikeModes.Entangled;
             }
         }
     }

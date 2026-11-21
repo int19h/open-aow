@@ -68,7 +68,7 @@ public sealed partial class ControlWindow
             MovesLabel.Text = ((int)army.MovePoints(255)).ToString(CultureInfo.InvariantCulture);
             UI.ControlWindow.CheckEnd();
             PartyControlPanel.Visible = true;
-            PartyGuardCheckBox.Checked = army.UserMode.Contains(ArmyUserModeElement.Guard);
+            PartyGuardCheckBox.Checked = army.UserMode.Contains(ArmyUserModes.Guard);
         }
         for (int i = 0; i < 8; i++)
         {

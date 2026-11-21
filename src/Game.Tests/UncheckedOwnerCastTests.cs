@@ -61,14 +61,14 @@ public sealed class UncheckedOwnerCastTests
         Item item = new(null) { Holder = EngineFixture.Engine };
         Troop troop = new(null) { Holder = EngineFixture.Engine };
         int strength = 7;
-        Set<DamageType> types = Set<DamageType>.Of(DamageType.Fire);
+        DamageTypes types = DamageTypes.Fire;
         ability.GetOffensiveStrength(item, ref strength, ref types);
         Assert.Equal(7, strength);
-        Assert.Equal(Set<DamageType>.Of(DamageType.Fire), types);
+        Assert.Equal(DamageTypes.Fire, types);
 
         ability.GetOffensiveStrength(troop, ref strength, ref types);
         Assert.Equal(0, strength);
-        Assert.Equal(Set<DamageType>.Of(DamageType.None), types);
+        Assert.Equal(DamageTypes.NonSpecific, types);
     }
 
     [Fact]
@@ -212,13 +212,13 @@ public sealed class UncheckedOwnerCastTests
             EnchantmentType = GlobalEnchantmentType.Flood,
         };
         _ = scope.Map.GlobalMagicControl.Enchantments.AddChild(enchantment);
-        scope.Map.GlobalMagicControl.ActiveEnchantments = Set<GlobalEnchantmentType>.Of(GlobalEnchantmentType.SpellWard);
+        scope.Map.GlobalMagicControl.ActiveEnchantments = GlobalEnchantmentTypes.SpellWard;
         DisjunctionSpellCaster caster = new(null) { Holder = EngineFixture.Engine, CasterSourceId = 42, EnchantmentId = 7 };
         string reason = "";
         Assert.False(caster.CanCast(ref reason));
         Assert.Equal(AbilityRules.TranslateResourceString(EngineFixture.Engine, S: DisjunctionSpellCaster.CannotDispelWhenSpellWardIsActiveText), reason);
 
-        scope.Map.GlobalMagicControl.ActiveEnchantments = Set<GlobalEnchantmentType>.Of();
+        scope.Map.GlobalMagicControl.ActiveEnchantments = GlobalEnchantmentTypes.None;
         Assert.True(caster.CanCast(ref reason));
         Assert.True(caster.GetEnoughMana());
     }

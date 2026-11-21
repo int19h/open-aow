@@ -768,7 +768,7 @@ public sealed partial class GameSettings : DelphiRegistry
         for (int i = 0; i <= number2 - 1; i++)
         {
             byte b = Cp1252.Byte(S[number2 - i - 1]);
-            int number3 = (!Set<byte>.WithBounds(0, 255).WithRange(48, 57).Contains(b)) ? ((!Set<byte>.WithBounds(0, 255).WithRange(65, 70).Contains(b)) ? (Set<byte>.WithBounds(0, 255).WithRange(97, 102).Contains(b) ? (b - 97 + 10) : 0) : (b - 65 + 10)) : (b - 48);
+            int number3 = (b is not (>= 48 and <= 57)) ? ((b is not (>= 65 and <= 70)) ? (b is >= 97 and <= 102 ? (b - 97 + 10) : 0) : (b - 65 + 10)) : (b - 48);
             number |= number3 << (i * 4);
         }
         return number;

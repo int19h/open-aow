@@ -286,7 +286,7 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
                     UnitHitsLabel.Text = ((int)hits).ToString(CultureInfo.InvariantCulture);
                     sbyte moves = u.Moves;
                     UnitMovesLabel.Text = ((int)moves).ToString(CultureInfo.InvariantCulture);
-                    Set<MoveType> moveTypes = u.GetMoveTypes();
+                    MoveTypes moveTypes = u.GetMoveTypes();
                     int moveTypesToInt32 = UI.General.MoveTypesToInt32(moveTypes);
                     UnitMovesIcon.CurrentImage = moveTypesToInt32;
                     Units.Alignment alignment = u.GetAlignment();
@@ -639,7 +639,7 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
                 if (u is not null)
                 {
                     info.Direction = 3;
-                    info.Overlays = Set<UnitOverlayModesElement>.Of();
+                    info.Overlays = UnitOverlayModes.None;
                     info.Animation = 0;
                     info.Frame = 0;
                     info.Looped = false;
@@ -940,7 +940,7 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
                     if (u is not null)
                     {
                         info.Direction = 3;
-                        info.Overlays = Set<UnitOverlayModesElement>.Of();
+                        info.Overlays = UnitOverlayModes.None;
                         info.Animation = 0;
                         info.Frame = 0;
                         info.Looped = false;
@@ -995,7 +995,7 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
     }
 
     // AoWProdScreen.pas:510
-    public void DlgKeyDown(in ushort key, Set<ShiftState> shift)
+    public void DlgKeyDown(in ushort key, ShiftStates shift)
     {
         switch (key)
         {
@@ -1036,7 +1036,7 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
     public void DlgHide() => ClosePlace();
 
     // AoWProdScreen.pas:535
-    public void UAbilitiesLBMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public void UAbilitiesLBMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
         if (button == MouseButton.Right && UnitAbilitiesList.Selected > -1)
         {

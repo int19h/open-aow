@@ -1671,7 +1671,7 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
                                     Target.UnitHexSprite.Busy = false;
                                 }
 
-                                if (Target is not null && Target.Troop.GetMoveTypes().Contains(MoveType.Flying))
+                                if (Target is not null && Target.Troop.GetMoveTypes().Contains(MoveTypes.Flying))
                                 {
                                     Target = null;
                                 }

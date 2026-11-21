@@ -48,7 +48,7 @@ public class Battle : EngineObject
         Clear();
     }
 
-    public Set<CombatStatusElement> Status { get; set; }
+    public CombatStatuses Status { get; set; }
     public CombatData CombatData { get; init; }
 
     private int _nextCombatObjectId;
@@ -86,12 +86,12 @@ public class Battle : EngineObject
     // Combat.pas:6082
     public override void Dispose()
     {
-        if (Status.Contains(CombatStatusElement.Activated))
+        if (Status.Contains(CombatStatuses.Activated))
         {
             Deactivate();
         }
 
-        if (Status.Contains(CombatStatusElement.Executing))
+        if (Status.Contains(CombatStatuses.Executing))
         {
             Finalize();
         }
@@ -121,7 +121,7 @@ public class Battle : EngineObject
         Logbook.Clear();
         _nextCombatObjectId = 1;
         CombatData.Clear();
-        Status = Set<CombatStatusElement>.Of();
+        Status = CombatStatuses.None;
     }
 
     // Combat.pas:6625
@@ -161,7 +161,7 @@ public class Battle : EngineObject
                 {
                     for (int i = CombatData.GetCount() - 1; i >= 0; i--)
                     {
-                        if (CombatData.GetObjects(i).Status.Contains(CombatObjectStatusElement.Fled))
+                        if (CombatData.GetObjects(i).Status.Contains(CombatObjectStatuses.Fled))
                         {
                             CombatResult = CombatResult.Fled;
                         }
@@ -191,7 +191,7 @@ public class Battle : EngineObject
     {
         for (int i = CombatData.GetCount() - 1; i >= 0; i--)
         {
-            if (!combatObject.Status.Contains(CombatObjectStatusElement.Destroyed))
+            if (!combatObject.Status.Contains(CombatObjectStatuses.Destroyed))
             {
                 CombatData.GetObjects(i).ObjectSideChanged(combatObject);
             }
@@ -218,8 +218,8 @@ public class Battle : EngineObject
     {
         Clear();
         Status = logActions
-            ? Status + Set<CombatStatusElement>.Of(CombatStatusElement.LogCombatActions)
-            : Status - Set<CombatStatusElement>.Of(CombatStatusElement.LogCombatActions);
+            ? Status | CombatStatuses.LogCombatActions
+            : Status & ~CombatStatuses.LogCombatActions;
 
         CombatData data = CombatData;
         data.Location = new MapCoordinate((sbyte)X, (sbyte)Y, (sbyte)L);
@@ -244,7 +244,7 @@ public class Battle : EngineObject
     public virtual void Initialize()
     {
         LockExecuted();
-        Status += Set<CombatStatusElement>.Of(CombatStatusElement.Executing);
+        Status |= CombatStatuses.Executing;
         byte wallType = 0;
         int j = 0;
         while (wallType == 0 && j != CombatData.Parties.Count)
@@ -303,7 +303,7 @@ public class Battle : EngineObject
     public virtual void Finalize()
     {
         MapFieldMessage message = default;
-        Assert((Status & Set<CombatStatusElement>.Of(CombatStatusElement.Executing, CombatStatusElement.Activated)) == Set<CombatStatusElement>.Of(CombatStatusElement.Executing), message: "Combat Finalize Failure", file: "Combat.pas", line: 6523);
+        Assert((Status & (CombatStatuses.Executing | CombatStatuses.Activated)) == CombatStatuses.Executing, message: "Combat Finalize Failure", file: "Combat.pas", line: 6523);
         CombatData data;
         for (int i = 0, last = CombatData.DefeatedLeaders.Count - 1; i <= last; i++)
         {
@@ -315,7 +315,7 @@ public class Battle : EngineObject
         }
 
         Logbook.SetFinalData(CombatData);
-        Status -= Set<CombatStatusElement>.Of(CombatStatusElement.Executing);
+        Status &= ~CombatStatuses.Executing;
         data = CombatData;
         for (int i = data.GetCount() - 1; i >= 0; i--)
         {
@@ -373,15 +373,15 @@ public class Battle : EngineObject
     // Combat.pas:6577
     public virtual void Activate()
     {
-        Assert(!Status.Contains(CombatStatusElement.Activated), message: "Combat already activated", file: "Combat.pas", line: 6595);
-        Status += Set<CombatStatusElement>.Of(CombatStatusElement.Activated);
+        Assert(!Status.Contains(CombatStatuses.Activated), message: "Combat already activated", file: "Combat.pas", line: 6595);
+        Status |= CombatStatuses.Activated;
         CombatData.Parties.Activate(this);
         for (int i = CombatData.GetCount() - 1; i >= 0; i--)
         {
             CombatData.GetObjects(i).Activate(this);
         }
 
-        if (Status.Contains(CombatStatusElement.Executing))
+        if (Status.Contains(CombatStatuses.Executing))
         {
             for (int i = CombatData.GetCount() - 1; i >= 0; i--)
             {
@@ -395,8 +395,8 @@ public class Battle : EngineObject
     // Combat.pas:6608
     public virtual void Deactivate()
     {
-        Assert(Status.Contains(CombatStatusElement.Activated), message: "Combat Failure during Deactivating", file: "Combat.pas", line: 6612);
-        Status -= Set<CombatStatusElement>.Of(CombatStatusElement.Activated);
+        Assert(Status.Contains(CombatStatuses.Activated), message: "Combat Failure during Deactivating", file: "Combat.pas", line: 6612);
+        Status &= ~CombatStatuses.Activated;
         for (int i = CombatData.GetCount() - 1; i >= 0; i--)
         {
             CombatData.GetObjects(i).Deactivate();
@@ -427,14 +427,14 @@ public class Battle : EngineObject
     }
 
     // Combat.pas:6094
-    public bool LogCombatActions => Status.Contains(CombatStatusElement.LogCombatActions);
+    public bool LogCombatActions => Status.Contains(CombatStatuses.LogCombatActions);
 
     // Combat.pas:6097
     public void SetLogCombatActions(byte value)
     {
         Status = value != 0
-            ? Status + Set<CombatStatusElement>.Of(CombatStatusElement.LogCombatActions)
-            : Status - Set<CombatStatusElement>.Of(CombatStatusElement.LogCombatActions);
+            ? Status | CombatStatuses.LogCombatActions
+            : Status & ~CombatStatuses.LogCombatActions;
     }
 
     // Combat.pas:6112
@@ -461,7 +461,7 @@ public class Battle : EngineObject
     // AIGroup.pas:7180
     public bool GetWallInBetween(byte source, byte target)
     {
-        if ((source & 0xF) <= 7 && (target & 0xF) <= 7 && CombatData.Wall is not null && !CombatData.Wall.Status.Contains(CombatObjectStatusElement.Destroyed))
+        if ((source & 0xF) <= 7 && (target & 0xF) <= 7 && CombatData.Wall is not null && !CombatData.Wall.Status.Contains(CombatObjectStatuses.Destroyed))
         {
             source = (byte)(source >>> 4);
             target = (byte)(target >>> 4);
@@ -492,7 +492,7 @@ public class Battle : EngineObject
 
     public void ExecuteCombatAction(CombatAction action)
     {
-        if (Status.Contains(CombatStatusElement.LogCombatActions))
+        if (Status.Contains(CombatStatuses.LogCombatActions))
         {
             _ = Logbook.Actions.AddChild(action);
         }
@@ -501,7 +501,7 @@ public class Battle : EngineObject
     }
 
     // Combat.pas:6121
-    public bool PlayerTypeInvolved(Set<PlayerType> types)
+    public bool PlayerTypeInvolved(PlayerTypes types)
     {
         bool result = false;
         for (int i = 0, last = CombatData.Parties.Count - 1; i <= last; i++)
@@ -510,7 +510,7 @@ public class Battle : EngineObject
             {
                 CombatParty party = CombatData.Parties.GetParty((byte)i);
                 CombatPlayer players = CombatData.Players.GetPlayers((sbyte)party.PlayerIndex);
-                if (types.Contains(StrategicMap.Current.Players.GetPlayers(players.Player).PlayerType))
+                if (types.Contains(StrategicMap.Current.Players.GetPlayers(players.Player).PlayerType.ToFlag()))
                 {
                     result = true;
                 }
@@ -677,7 +677,7 @@ public class Battle : EngineObject
                     if (!valid)
                     {
                         unitObject.Disabled = true;
-                        unitObject.ControlMode -= Set<CombatObjectControlModeElement>.Of(CombatObjectControlModeElement.ConquerObject);
+                        unitObject.ControlMode &= ~CombatObjectControlModes.ConquerObject;
                     }
 
                     CombatData.AddObject(unitObject);
@@ -839,7 +839,7 @@ public class Battle : EngineObject
         while (!result && i != CombatData.GetCount())
         {
             CombatObject objectValue = CombatData.GetObjects(i);
-            result = objectValue.CombatPlayer != -1 && CombatData.Players.GetPlayers(objectValue.CombatPlayer).SideIndex == 1 && !objectValue.Status.Contains(CombatObjectStatusElement.Destroyed);
+            result = objectValue.CombatPlayer != -1 && CombatData.Players.GetPlayers(objectValue.CombatPlayer).SideIndex == 1 && !objectValue.Status.Contains(CombatObjectStatuses.Destroyed);
             i += 1;
         }
 

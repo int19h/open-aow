@@ -7,8 +7,6 @@ using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Units;
 
 public sealed class HealingUnitSelector(EngineObject creator) : UnitSelector(creator)
@@ -18,7 +16,7 @@ public sealed class HealingUnitSelector(EngineObject creator) : UnitSelector(cre
     public override bool CanSelectUnit(Troop troop)
     {
         UnitType unitType = troop.GetUnitType();
-        return Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(unitType) && troop.GetHits() != troop.GetHitPoints();
+        return unitType is UnitType.Humanoid or UnitType.Creature && troop.GetHits() != troop.GetHitPoints();
     }
 
     // AoWAb.PAS:3904

@@ -12,16 +12,16 @@ namespace Aow.Game.Combat;
 /// </summary>
 [StoredLayout, StoredRecord("PackedDamageTypes")]
 [StructLayout(LayoutKind.Explicit, Size = 2)]
-public readonly struct PackedDamageTypes : IRecordImage<PackedDamageTypes, Set<DamageType>>
+public readonly struct PackedDamageTypes : IRecordImage<PackedDamageTypes, DamageTypes>
 {
     [FieldOffset(0)]
     public readonly ushort ValueImage;
 
     private PackedDamageTypes(ushort valueImage) => ValueImage = valueImage;
 
-    public Set<DamageType> Value => Set<DamageType>.FromMask(ValueImage);
+    public DamageTypes Value => (DamageTypes)ValueImage;
 
-    public static PackedDamageTypes From(Set<DamageType> value) => new((ushort)value.Image);
+    public static PackedDamageTypes From(DamageTypes value) => new((ushort)value);
 
-    public Set<DamageType> ToValue() => Value;
+    public DamageTypes ToValue() => Value;
 }

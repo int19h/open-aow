@@ -3,7 +3,6 @@ using Aow.Engine.Nodes;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.World.Map;
-using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.World.Hexes;
@@ -64,7 +63,7 @@ public class Hex(CustomNode owner) : AbstractHexagon(owner)
     // AoWHex.pas:139
     public override void TerrainChanged(in HexSpriteTerrainInfo message)
     {
-        if (Set<byte>.WithBounds(0, 255).With(0).With(6).With(14).Contains((byte)message.TerrainType))
+        if (message.TerrainType is (sbyte)TerrainType.Water or (sbyte)TerrainType.Ice or (sbyte)TerrainType.Cost)
         {
             if (message.TerrainType != 14)
             {
@@ -266,7 +265,7 @@ public class Hex(CustomNode owner) : AbstractHexagon(owner)
             if (message.MessageId == 65556)
             {
                 sbyte terrain = TerrainList.Terrain[0];
-                if (Set<byte>.WithBounds(0, 255).With(0).With(6).Contains((byte)terrain))
+                if ((byte)terrain is 0 or 6)
                 {
                     return;
                 }

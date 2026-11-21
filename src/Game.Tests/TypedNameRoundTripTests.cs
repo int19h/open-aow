@@ -65,15 +65,15 @@ public sealed class TypedNameRoundTripTests
     {
         public void KeyPress(byte value) => edit.CheckKeyPress(ref value);
 
-        public void KeyDown(ushort key, Set<ShiftState> shift) { }
+        public void KeyDown(ushort key, ShiftStates shift) { }
 
-        public void KeyUp(ushort key, Set<ShiftState> shift) { }
+        public void KeyUp(ushort key, ShiftStates shift) { }
 
-        public void MouseMove(Set<ShiftState> shift, int x, int y) { }
+        public void MouseMove(ShiftStates shift, int x, int y) { }
 
-        public void MouseDown(MouseButton button, Set<ShiftState> shift, int x, int y) { }
+        public void MouseDown(MouseButton button, ShiftStates shift, int x, int y) { }
 
-        public void MouseUp(MouseButton button, Set<ShiftState> shift, int x, int y) { }
+        public void MouseUp(MouseButton button, ShiftStates shift, int x, int y) { }
 
         public void DoubleClick() { }
     }

@@ -37,8 +37,8 @@ public class SpellCastEventLog(CustomNode owner) : EventLog(owner)
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
         bool show = trigger == ExecuteTrigger.User;
-        show = show || (StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.SpellReady));
-        show = show || (StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.SpellReady));
+        show = show || (StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvents.SpellReady));
+        show = show || (StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvents.SpellReady));
         if (show)
         {
             Hero hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(UnitId);

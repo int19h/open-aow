@@ -33,7 +33,7 @@ public class AirMasteryEnchantment : GlobalEnchantment
     {
         _ = base.Deactivate(player);
         Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
-        StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.AirMastery));
+        StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments & ~PlayerEnchantmentTypes.AirMastery);
         // { Original uses Earth. }
         StrategicMap.Current.GlobalMagicControl.DecrementDoubleSphereManaCount(MagicSphere.Earth);
         return true;
@@ -45,7 +45,7 @@ public class AirMasteryEnchantment : GlobalEnchantment
         bool result = base.CanActivate(player, ref reason);
         if (result)
         {
-            if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.AirMastery))
+            if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentTypes.AirMastery))
             {
                 string xIsAlreadyActive = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.IsAlreadyActiveFormat);
                 string name = GetName();
@@ -62,7 +62,7 @@ public class AirMasteryEnchantment : GlobalEnchantment
     {
         _ = base.Activate(player);
         Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
-        StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.AirMastery));
+        StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments | PlayerEnchantmentTypes.AirMastery);
         // { Original uses Earth. }
         StrategicMap.Current.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Earth);
         return true;

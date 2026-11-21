@@ -237,7 +237,7 @@ public class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>
     public virtual int GetBaseHex() => Owner.HexX + (Owner.HexY << 8) + (Owner.Owner.HexLevel << 16);
 
     // HXSPRITE.PAS:57
-    public virtual bool CanSelect(int pixelX, int pixelY) => Owner is not null && Owner.Owner.Engine.HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting);
+    public virtual bool CanSelect(int pixelX, int pixelY) => Owner is not null && Owner.Owner.Engine.HexSpriteMap.Status.Contains(HexSpriteMapStatuses.Editting);
 
     // HXSPRITE.PAS:107
     public virtual void Select()
@@ -799,6 +799,6 @@ public class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>
     public int ShowPriority => GetShowPriority();
 
     // HXSPRITE.PAS:77
-    public virtual Set<ControlModeElement> ControlMode() => Set<ControlModeElement>.Of();
+    public virtual ControlModes ControlMode() => ControlModes.None;
 
 }

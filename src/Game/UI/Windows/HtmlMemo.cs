@@ -307,7 +307,7 @@ public sealed partial class HtmlMemo : BaseWindow
 
                             break;
                         case IntegerParseMode.Font:
-                            if (Set<byte>.WithBounds(0, 255).With(32).With(62).Contains(c))
+                            if (c is 32 or 62)
                             {
                                 string line = _lines[lineIndex];
                                 ci.Position = line.Length;
@@ -336,7 +336,7 @@ public sealed partial class HtmlMemo : BaseWindow
 
                             break;
                         case IntegerParseMode.ItemHeight:
-                            if (Set<byte>.WithBounds(0, 255).With(32).With(62).Contains(c))
+                            if (c is 32 or 62)
                             {
                                 string line = _lines[lineIndex];
                                 ci.Position = line.Length;
@@ -364,7 +364,7 @@ public sealed partial class HtmlMemo : BaseWindow
 
                             break;
                         case IntegerParseMode.Color:
-                            if (Set<byte>.WithBounds(0, 255).With(32).With(62).Contains(c))
+                            if (c is 32 or 62)
                             {
                                 string line = _lines[lineIndex];
                                 ci.Position = line.Length;
@@ -397,7 +397,7 @@ public sealed partial class HtmlMemo : BaseWindow
 
                             break;
                         case IntegerParseMode.Space:
-                            if (Set<byte>.WithBounds(0, 255).With(32).With(62).Contains(c))
+                            if (c is 32 or 62)
                             {
                                 string line = _lines[lineIndex];
                                 ci.Position = line.Length;
@@ -426,7 +426,7 @@ public sealed partial class HtmlMemo : BaseWindow
 
                             break;
                         case IntegerParseMode.Align:
-                            if (Set<byte>.WithBounds(0, 255).With(32).With(62).Contains(c))
+                            if (c is 32 or 62)
                             {
                                 string s = UpperCase(Copy(item, index: tagStart + 1, count: j - tagStart));
                                 string line = _lines[lineIndex];
@@ -449,7 +449,7 @@ public sealed partial class HtmlMemo : BaseWindow
 
                             break;
                         case IntegerParseMode.Background:
-                            if (Set<byte>.WithBounds(0, 255).With(32).With(62).Contains(c))
+                            if (c is 32 or 62)
                             {
                                 if (Files.FileExists(ExtractFilePath(LegacyApplication.Application.ExeName) + Copy(item, index: tagStart + 1, count: j - tagStart)))
                                 {
@@ -472,7 +472,7 @@ public sealed partial class HtmlMemo : BaseWindow
 
                             break;
                         case IntegerParseMode.BackgroundIndex:
-                            if (Set<byte>.WithBounds(0, 255).With(32).With(62).Contains(c))
+                            if (c is 32 or 62)
                             {
                                 try
                                 {

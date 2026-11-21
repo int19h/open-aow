@@ -10,8 +10,6 @@ using Aow.Game.Draw.Images;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Draw;
 
 // Position. Index. ImageIndex. Images. Direction
@@ -50,11 +48,11 @@ public sealed class UnitPositionHexSprite(CustomNode owner) : SingleHexSprite(ow
     public override void Activate()
     {
         base.Activate();
-        if (CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && CombatMap.Current.UnitPositions.ValidatePosition(ref _position, ref _index))
+        if (CombatMap.Current.Status.Contains(HexSpriteMapStatuses.Editting) && CombatMap.Current.UnitPositions.ValidatePosition(ref _position, ref _index))
         {
             MapCoordinate packMapCoordinate = HexGeometry.PackMapCoordinate(y: HexY, x: HexX, mapLevel: 0);
             CombatMap.Current.UnitPositions.SetUnitPosition(_position, _index, value: new UnitPosition(Location: packMapCoordinate, Facing: 0));
-            _images = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: "TCUNITS.ILB");
+            _images = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(ImageLibraryManagerCategories.Disk, fileName: "TCUNITS.ILB");
             UpdateImageIndex();
         }
         else
@@ -68,9 +66,9 @@ public sealed class UnitPositionHexSprite(CustomNode owner) : SingleHexSprite(ow
     // AoWTC.pas:5049
     public override void Deactivate()
     {
-        if (Activated() && Owner.Owner.Map.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (Activated() && Owner.Owner.Map.Status.Contains(HexSpriteMapStatuses.Editting))
         {
-            GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: "TCUNITS.ILB");
+            GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(ImageLibraryManagerCategories.Disk, fileName: "TCUNITS.ILB");
             UnitPosition unitPosition = CombatMap.Current.UnitPositions.GetUnitPosition(_position, _index);
             sbyte hexX = HexX;
             bool condition = unitPosition.Location.X == hexX;

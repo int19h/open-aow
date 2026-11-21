@@ -27,14 +27,14 @@ public partial class MoveControl
 
     public bool Activate(MoveControlSettings settings)
     {
-        DelphiAssert.Assert(!_status.Contains(StatusElement.Activated), message: "Assertion failure", file: @"D:\AoWDev\AoWE\inc\MoveT.PAS", line: 0x7ea8);
+        DelphiAssert.Assert(!_status.Contains(Statuses.Activated), message: "Assertion failure", file: @"D:\AoWDev\AoWE\inc\MoveT.PAS", line: 0x7ea8);
         DelphiAssert.Assert(settings.Source.X != -1 && settings.Source.Y != -1 && settings.Source.MapLevel != -1, message: "Assertion failure", file: @"D:\AoWDev\AoWE\inc\MoveT.PAS", line: 0x7ea9);
         if (settings.Status == MoveControlSettingsStatus.Failed)
         {
             return false;
         }
 
-        _status += Set<StatusElement>.Of(StatusElement.Activated);
+        _status |= Statuses.Activated;
         Settings = settings;
         _ = Settings.AddRef();
         if (Settings.Status == MoveControlSettingsStatus.Idle)
@@ -63,7 +63,7 @@ public partial class MoveControl
         TransporterArmy = Settings.TransporterArmy;
         _processedMapFields = Settings.ProcessedMapFields;
         SetMapL(Map.MapContainer.GetMapLevel(Source.MapLevel));
-        if (Mode.Contains(MoveModeElement.ExploredTerrainOnly) && Player != -1)
+        if (Mode.Contains(MoveModes.ExploredTerrainOnly) && Player != -1)
         {
             _movePoint = ExploredOnlyMoveOnMovePointProc;
             _exploredMask = MapField.ExploredFlag(Player);

@@ -10,7 +10,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
-using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
@@ -51,7 +50,7 @@ public class SummonSpellTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
             Unit u = new(null) { Holder = CreationHolder() };
             int unitIndex = UnitIndices[i];
             u.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(unitIndex));
-            ArmyHexSprite army = u.Place(x, y, l, source.Player, mode: Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
+            ArmyHexSprite army = u.Place(x, y, l, source.Player, mode: UnitPlaceModes.ScanArea);
             if (army is not null)
             {
                 sbyte hexY = army.HexY;

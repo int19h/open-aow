@@ -157,7 +157,7 @@ public sealed class EventLogConstructionTests
                         Assert.NotNull(value);
                         actual.Add($"{name}.map{mapped}.owner{owned}.route{route}.fail0", JsonSerializer.Serialize(new { State = state, owner?.Observations, owner?.Changes, Count = owner?.GetCount(), owner?.DestroyEntries, (value ?? owner?.Last)?.RefCount }));
                         EngineFixture.Engine.Dictionary = fixture.Dictionary;
-                        StrategicMap.Current = EngineFixture.Configure(new StrategicMap(null!, holder: EngineFixture.Engine), value => { value.Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying); });
+                        StrategicMap.Current = EngineFixture.Configure(new StrategicMap(null!, holder: EngineFixture.Engine), value => { value.Status = HexSpriteMapStatuses.Destroying; });
                         if (owner is not null)
                         {
                             _ = (value?.AddRef());

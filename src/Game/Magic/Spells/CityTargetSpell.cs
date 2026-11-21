@@ -12,7 +12,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Game.World.Structures;
-using Aow.Rtl;
 using static Aow.Rtl.DelphiFormat;
 using static Aow.Rtl.DelphiRandom;
 
@@ -23,7 +22,7 @@ public class CityTargetSpell : Spell
 {
     private int _sourceId;
 
-    public Set<CityTargetModeElement> CityTargetMode { get; protected init; }
+    public CityTargetModes CityTargetMode { get; protected init; }
 
     // CitySpells.pas:209
     public CityTargetSpell(CustomNode owner) : base(owner) => SpellType = SpellType.Global;
@@ -139,7 +138,7 @@ public class CityTargetSpell : Spell
     public virtual void SetupTargetSelection(Troop source, TargetSelectionControl targetSelection)
     {
         targetSelection.Initialize(source);
-        targetSelection.TargetMode += Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
+        targetSelection.TargetMode |= TargetSelectionModes.ValidateDistance | TargetSelectionModes.ExternalFloater;
         string format = Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_selectTargetCityForOnMapFormat), args: [SpellName]);
         targetSelection.Text.Text = format;
         targetSelection.Title = SpellName;
@@ -193,9 +192,9 @@ public class CityTargetSpell : Spell
     // CitySpells.pas:248
     public virtual bool ValidTargetCity(Troop source, City targetCity)
     {
-        bool result = (CityTargetMode.Contains(CityTargetModeElement.Own) && targetCity.Player == source.Player) || (CityTargetMode.Contains(CityTargetModeElement.Enemy) && targetCity.Player != source.Player);
-        result = result && (!targetCity.GetRazed() || CityTargetMode.Contains(CityTargetModeElement.Razed));
-        if (result && CityTargetMode.Contains(CityTargetModeElement.SkipSource))
+        bool result = (CityTargetMode.Contains(CityTargetModes.Own) && targetCity.Player == source.Player) || (CityTargetMode.Contains(CityTargetModes.Enemy) && targetCity.Player != source.Player);
+        result = result && (!targetCity.GetRazed() || CityTargetMode.Contains(CityTargetModes.Razed));
+        if (result && CityTargetMode.Contains(CityTargetModes.SkipSource))
         {
             MapCoordinate coordinate59 = source.GetLocation();
             sbyte x = coordinate59.X;

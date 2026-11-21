@@ -39,7 +39,7 @@ public class Crop(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
             return;
         }
 
-        if (Status.Contains(MapObjectStatusElement.Activated))
+        if (Status.Contains(MapObjectStatuses.Activated))
         {
             if (ValidTerrainType(info.TerrainType))
             {
@@ -86,7 +86,7 @@ public class Crop(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     // Crops.pas:189
     public override void Deactivate()
     {
-        if (CropOwner is not null && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
+        if (CropOwner is not null && !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Destroying))
         {
             PlayerCropStructure playerCropStructure = CropOwner;
             CropOwner = null;

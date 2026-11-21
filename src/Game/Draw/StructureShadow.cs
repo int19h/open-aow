@@ -6,20 +6,18 @@ using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Game.World.Structures;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Draw;
 
 // connected/visible flags, structure
 public sealed class StructureShadow(CustomNode owner) : HexSprite(owner)
 {
-    public Set<StructureShadowStatusElement> ShadowStatus { get; private set; }
+    public StructureShadowStatuses ShadowStatus { get; private set; }
     public Structure Structure { get; init; }
 
     // Structur.PAS:934
     public override void Dispose()
     {
-        if (ShadowStatus.Contains(StructureShadowStatusElement.Visible))
+        if (ShadowStatus.Contains(StructureShadowStatuses.Visible))
         {
             _ = StrategicMap.Current.StaticVisibleHexSprite.RemoveChild(this);
         }
@@ -30,11 +28,11 @@ public sealed class StructureShadow(CustomNode owner) : HexSprite(owner)
     // Structur.PAS:946
     public override bool Visible
     {
-        get => ShadowStatus.Contains(StructureShadowStatusElement.Visible);
+        get => ShadowStatus.Contains(StructureShadowStatuses.Visible);
         // Structur.PAS:940
         set => ShadowStatus = value
-            ? ShadowStatus + Set<StructureShadowStatusElement>.Of(StructureShadowStatusElement.Visible)
-            : ShadowStatus - Set<StructureShadowStatusElement>.Of(StructureShadowStatusElement.Visible);
+            ? ShadowStatus | StructureShadowStatuses.Visible
+            : ShadowStatus & ~StructureShadowStatuses.Visible;
     }
 
     // Structur.PAS:995
@@ -43,9 +41,9 @@ public sealed class StructureShadow(CustomNode owner) : HexSprite(owner)
     // Structur.PAS:951
     public override void Connect()
     {
-        if (!ShadowStatus.Contains(StructureShadowStatusElement.Connected))
+        if (!ShadowStatus.Contains(StructureShadowStatuses.Connected))
         {
-            ShadowStatus += Set<StructureShadowStatusElement>.Of(StructureShadowStatusElement.Connected);
+            ShadowStatus |= StructureShadowStatuses.Connected;
             int count = Structure.TerrainCount;
             MapLevel level = Structure.Owner.Owner;
             HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, Structure.StoredHexX, Structure.StoredHexY, radius: 0);
@@ -64,10 +62,10 @@ public sealed class StructureShadow(CustomNode owner) : HexSprite(owner)
     // Structur.PAS:973
     public override void Disconnect()
     {
-        if (ShadowStatus.Contains(StructureShadowStatusElement.Connected))
+        if (ShadowStatus.Contains(StructureShadowStatuses.Connected))
         {
             int count = Structure.TerrainCount;
-            ShadowStatus -= Set<StructureShadowStatusElement>.Of(StructureShadowStatusElement.Connected);
+            ShadowStatus &= ~StructureShadowStatuses.Connected;
             MapLevel level = Structure.Owner.Owner;
             HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, Structure.StoredHexX, Structure.StoredHexY, radius: 0);
             while (walk.HexNumber < count)

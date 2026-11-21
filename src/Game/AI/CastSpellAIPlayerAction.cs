@@ -11,8 +11,6 @@ using Aow.Game.Session;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 namespace Aow.Game.AI;
 
 public class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
@@ -87,7 +85,7 @@ public class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
     public void PrefetchCastSpellActions(Hero hero)
     {
         SpellList spells = new();
-        Control.Player.MagicControl.ListSpells(spells, spellTypes: Set<SpellType>.Of(SpellType.Unit, SpellType.Global));
+        Control.Player.MagicControl.ListSpells(spells, spellTypes: SpellTypes.Unit | SpellTypes.Global);
         for (int i = 0, last = spells.GetCount() - 1; i <= last; i++)
         {
             if (hero.CastingTurns(spells[i]) < 8)
@@ -131,7 +129,7 @@ public class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
                     done = false;
                     int item = _pendingHeroes[0];
                     hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(item);
-                    if (hero is not null && hero.Owner is not null && (((byte)hero.UnitStatus.Image) & 16) == 0)
+                    if (hero is not null && hero.Owner is not null && (((byte)hero.UnitStatus) & 16) == 0)
                     {
                         if (hero.CastingSpellId != 0)
                         {
@@ -173,7 +171,7 @@ public class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
                 {
                     int item = _pendingHeroes[0];
                     hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(item);
-                    if (hero is not null && (((byte)hero.UnitStatus.Image) & 16) == 0)
+                    if (hero is not null && (((byte)hero.UnitStatus) & 16) == 0)
                     {
                         PrefetchCastSpellActions(hero);
                     }
@@ -215,7 +213,7 @@ public class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
                         int index = StrategicMap.Current.Random(i);
                         AICastSpellAction castSpellActions2 = _castSpellActions.GetCastSpellActions(index);
                         hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(castSpellActions2.SourceUnitId);
-                        if (hero is not null && (((byte)hero.UnitStatus.Image) & 16) == 0)
+                        if (hero is not null && (((byte)hero.UnitStatus) & 16) == 0)
                         {
                             AICastSpellAction castSpellActions = _castSpellActions.GetCastSpellActions(index);
                             if (GamePack.Current.SpellControl[castSpellActions.SpellId].AIExecuteCastSpellAction(hero))

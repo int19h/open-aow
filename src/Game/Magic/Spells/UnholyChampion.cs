@@ -5,7 +5,6 @@ using Aow.Game.Magic.Abilities;
 
 using Aow.Game.Units;
 using Aow.Game.World.Map;
-using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
@@ -22,7 +21,7 @@ public class UnholyChampion : UnitSpell
         MagicSphere = MagicSphere.Death;
         TargetRange = 12;
         UnitDispelResistance = 4;
-        SpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global, SpellControlTypeElement.Combat);
+        SpellControlTypes = SpellControlTypes.Global | SpellControlTypes.Combat;
     }
 
     // UnitSpells.pas:569

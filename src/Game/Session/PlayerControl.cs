@@ -238,7 +238,7 @@ public class PlayerControl(CustomNode owner) : EngineObject(owner)
     // PlayerC.PAS:19
     public virtual void Setup()
     {
-        if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Network && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Network && !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             if (StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl is null)
             {
@@ -251,7 +251,7 @@ public class PlayerControl(CustomNode owner) : EngineObject(owner)
         }
         else
         {
-            if ((StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || Set<PlayerConnectionType>.Of(PlayerConnectionType.Local, PlayerConnectionType.Email).Contains(StrategicMap.Current.ConnectionType)) && StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl is null)
+            if ((StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting) || StrategicMap.Current.ConnectionType is PlayerConnectionType.Local or PlayerConnectionType.Email) && StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl is null)
             {
                 LocalPlayerCommunicationControl playerCommunicationControl = new(this);
                 playerCommunicationControl.Setup(StrategicMap.Current.Players.Count);
@@ -401,7 +401,7 @@ public class PlayerControl(CustomNode owner) : EngineObject(owner)
             }
             else
             {
-                if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Modified) && StrategicMap.Current.GameStatus != StrategicMapGameStatus.Terminated && StrategicMap.Current.GameType != GameType.Tutorial)
+                if (StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Modified) && StrategicMap.Current.GameStatus != StrategicMapGameStatus.Terminated && StrategicMap.Current.GameType != GameType.Tutorial)
                 {
                     if (_exitCallback is null)
                     {

@@ -55,7 +55,7 @@ public sealed partial class UnitSelectionDialog(UIContext ui) : UIModule(ui)
 
             info = default;
             info.Direction = 3;
-            info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
+            info.Overlays = UnitOverlayModes.HitPoints | UnitOverlayModes.Rank;
             _ = Event.Units.GetUnit(index).Show(X - 8, Y - 5, lockedSurface, info);
             if (((Event.Selectable >>> index) & 1) == 0)
             {

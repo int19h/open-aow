@@ -1,7 +1,6 @@
 #nullable disable
 // Translated from AoWGamePlayDlg.pas.
 using System.Collections.Immutable;
-
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
@@ -9,7 +8,6 @@ using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-
 using static Aow.Rtl.DelphiStrings;
 using static Aow.Rtl.IntegerObjects;
 
@@ -86,7 +84,7 @@ public sealed partial class GamePlayDialog(UIContext ui) : UIModule(ui)
     }
 
     // AoWGamePlayDlg.pas:95
-    public void WindowKeyDown(in ushort key, Set<ShiftState> shift)
+    public void WindowKeyDown(in ushort key, ShiftStates shift)
     {
         switch (key)
         {
@@ -118,24 +116,24 @@ public sealed partial class GamePlayDialog(UIContext ui) : UIModule(ui)
         GameSettings.CombatResolveMode fRegistryCombatResolveMode = UI.Engine.Registry.GetCombatResolveMode();
         int indexOfObject = CombatResolveModeComboBox.Items.IndexOfObject(IntToObject((int)fRegistryCombatResolveMode));
         CombatResolveModeComboBox.Selected = indexOfObject;
-        Set<WindowPopupEvent> events = UI.Engine.Registry.GetClassicWindowPopupEvents();
-        Classic1CheckBox.Checked = events.Contains(WindowPopupEvent.Combat);
-        Classic2CheckBox.Checked = events.Contains(WindowPopupEvent.Diplomacy);
-        Classic3CheckBox.Checked = events.Contains(WindowPopupEvent.SpellResearched);
-        Classic4CheckBox.Checked = events.Contains(WindowPopupEvent.SpellReady);
-        Classic5CheckBox.Checked = events.Contains(WindowPopupEvent.Rebellion);
-        Classic6CheckBox.Checked = events.Contains(WindowPopupEvent.PartyDamage);
-        Classic7CheckBox.Checked = events.Contains(WindowPopupEvent.HeroUpgrade);
-        Classic8CheckBox.Checked = events.Contains(WindowPopupEvent.HeroJoin);
+        WindowPopupEvents events = UI.Engine.Registry.GetClassicWindowPopupEvents();
+        Classic1CheckBox.Checked = events.Contains(WindowPopupEvents.Combat);
+        Classic2CheckBox.Checked = events.Contains(WindowPopupEvents.Diplomacy);
+        Classic3CheckBox.Checked = events.Contains(WindowPopupEvents.SpellResearched);
+        Classic4CheckBox.Checked = events.Contains(WindowPopupEvents.SpellReady);
+        Classic5CheckBox.Checked = events.Contains(WindowPopupEvents.Rebellion);
+        Classic6CheckBox.Checked = events.Contains(WindowPopupEvents.PartyDamage);
+        Classic7CheckBox.Checked = events.Contains(WindowPopupEvents.HeroUpgrade);
+        Classic8CheckBox.Checked = events.Contains(WindowPopupEvents.HeroJoin);
         events = UI.Engine.Registry.GetSimultaneousWindowPopupEvents();
-        Simultaneous1CheckBox.Checked = events.Contains(WindowPopupEvent.Combat);
-        Simultaneous2CheckBox.Checked = events.Contains(WindowPopupEvent.Diplomacy);
-        Simultaneous3CheckBox.Checked = events.Contains(WindowPopupEvent.SpellResearched);
-        Simultaneous4CheckBox.Checked = events.Contains(WindowPopupEvent.SpellReady);
-        Simultaneous5CheckBox.Checked = events.Contains(WindowPopupEvent.Rebellion);
-        Simultaneous6CheckBox.Checked = events.Contains(WindowPopupEvent.PartyDamage);
-        Simultaneous7CheckBox.Checked = events.Contains(WindowPopupEvent.HeroUpgrade);
-        Simultaneous8CheckBox.Checked = events.Contains(WindowPopupEvent.HeroJoin);
+        Simultaneous1CheckBox.Checked = events.Contains(WindowPopupEvents.Combat);
+        Simultaneous2CheckBox.Checked = events.Contains(WindowPopupEvents.Diplomacy);
+        Simultaneous3CheckBox.Checked = events.Contains(WindowPopupEvents.SpellResearched);
+        Simultaneous4CheckBox.Checked = events.Contains(WindowPopupEvents.SpellReady);
+        Simultaneous5CheckBox.Checked = events.Contains(WindowPopupEvents.Rebellion);
+        Simultaneous6CheckBox.Checked = events.Contains(WindowPopupEvents.PartyDamage);
+        Simultaneous7CheckBox.Checked = events.Contains(WindowPopupEvents.HeroUpgrade);
+        Simultaneous8CheckBox.Checked = events.Contains(WindowPopupEvents.HeroJoin);
         Player player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
         PasswordEdit.Text = player.Settings;
     }
@@ -184,87 +182,87 @@ public sealed partial class GamePlayDialog(UIContext ui) : UIModule(ui)
         UI.Engine.Registry.SetMovementSpeed((GameSettings.MovementSpeed)MovementSpeedComboBox.Selected);
         object objectValue = CombatResolveModeComboBox.Items.Objects[CombatResolveModeComboBox.Selected];
         UI.Engine.Registry.SetCombatResolveMode((GameSettings.CombatResolveMode)ObjectToInt(objectValue));
-        Set<WindowPopupEvent> events = Set<WindowPopupEvent>.Of();
+        WindowPopupEvents events = WindowPopupEvents.None;
         if (Classic1CheckBox.Checked)
         {
-            events += Set<WindowPopupEvent>.Of(WindowPopupEvent.Combat);
+            events |= WindowPopupEvents.Combat;
         }
 
         if (Classic2CheckBox.Checked)
         {
-            events += Set<WindowPopupEvent>.Of(WindowPopupEvent.Diplomacy);
+            events |= WindowPopupEvents.Diplomacy;
         }
 
         if (Classic3CheckBox.Checked)
         {
-            events += Set<WindowPopupEvent>.Of(WindowPopupEvent.SpellResearched);
+            events |= WindowPopupEvents.SpellResearched;
         }
 
         if (Classic4CheckBox.Checked)
         {
-            events += Set<WindowPopupEvent>.Of(WindowPopupEvent.SpellReady);
+            events |= WindowPopupEvents.SpellReady;
         }
 
         if (Classic5CheckBox.Checked)
         {
-            events += Set<WindowPopupEvent>.Of(WindowPopupEvent.Rebellion);
+            events |= WindowPopupEvents.Rebellion;
         }
 
         if (Classic6CheckBox.Checked)
         {
-            events += Set<WindowPopupEvent>.Of(WindowPopupEvent.PartyDamage);
+            events |= WindowPopupEvents.PartyDamage;
         }
 
         if (Classic7CheckBox.Checked)
         {
-            events += Set<WindowPopupEvent>.Of(WindowPopupEvent.HeroUpgrade);
+            events |= WindowPopupEvents.HeroUpgrade;
         }
 
         if (Classic8CheckBox.Checked)
         {
-            events += Set<WindowPopupEvent>.Of(WindowPopupEvent.HeroJoin);
+            events |= WindowPopupEvents.HeroJoin;
         }
 
         UI.Engine.Registry.SetClassicWindowPopupEvents(events);
-        events = Set<WindowPopupEvent>.Of();
+        events = WindowPopupEvents.None;
         if (Simultaneous1CheckBox.Checked)
         {
-            events += Set<WindowPopupEvent>.Of(WindowPopupEvent.Combat);
+            events |= WindowPopupEvents.Combat;
         }
 
         if (Simultaneous2CheckBox.Checked)
         {
-            events += Set<WindowPopupEvent>.Of(WindowPopupEvent.Diplomacy);
+            events |= WindowPopupEvents.Diplomacy;
         }
 
         if (Simultaneous3CheckBox.Checked)
         {
-            events += Set<WindowPopupEvent>.Of(WindowPopupEvent.SpellResearched);
+            events |= WindowPopupEvents.SpellResearched;
         }
 
         if (Simultaneous4CheckBox.Checked)
         {
-            events += Set<WindowPopupEvent>.Of(WindowPopupEvent.SpellReady);
+            events |= WindowPopupEvents.SpellReady;
         }
 
         if (Simultaneous5CheckBox.Checked)
         {
-            events += Set<WindowPopupEvent>.Of(WindowPopupEvent.Rebellion);
+            events |= WindowPopupEvents.Rebellion;
         }
 
         if (Simultaneous6CheckBox.Checked)
         {
-            events += Set<WindowPopupEvent>.Of(WindowPopupEvent.PartyDamage);
+            events |= WindowPopupEvents.PartyDamage;
         }
 
         if (Simultaneous7CheckBox.Checked)
         {
-            events += Set<WindowPopupEvent>.Of(WindowPopupEvent.HeroUpgrade);
+            events |= WindowPopupEvents.HeroUpgrade;
         }
 
         if (Simultaneous8CheckBox.Checked)
         {
-            events += Set<WindowPopupEvent>.Of(WindowPopupEvent.HeroJoin);
+            events |= WindowPopupEvents.HeroJoin;
         }
 
         UI.Engine.Registry.SetSimultaneousWindowPopupEvents(events);

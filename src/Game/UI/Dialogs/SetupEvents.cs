@@ -209,12 +209,12 @@ public sealed partial class SetupEvents(UIContext ui) : UIModule(ui)
     // aowSetupEvents.pas:231
     public void DPlayMessage(object data, in int size, in int toId, in int fromId)
     {
-        if (SetupControl.Status.Contains(SetupStatusElement.Busy))
+        if (SetupControl.Status.Contains(SetupStatuses.Busy))
         {
             SetupControl.DataReceived(data, size, senderId: fromId);
         }
 
-        if (StrategicMap.Current is not null && StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated))
+        if (StrategicMap.Current is not null && StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Activated))
         {
             if (StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl is RemotePlayerCommunicationControl remote)
             {

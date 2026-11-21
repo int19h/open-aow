@@ -35,7 +35,7 @@ public sealed class SongPlayer : IDisposable
             }
         }
 
-        if (Status.Contains(StatusElement.Playing))
+        if (Status.Contains(Statuses.Playing))
         {
             if (Songs.Count != 0)
             {
@@ -52,7 +52,7 @@ public sealed class SongPlayer : IDisposable
                     }
                 }
 
-                if (CurrentIndex == -1 && !Status.Contains(StatusElement.Paused))
+                if (CurrentIndex == -1 && !Status.Contains(Statuses.Paused))
                 {
                     _ = Play(0);
                 }
@@ -89,7 +89,7 @@ public sealed class SongPlayer : IDisposable
     // { Called every tick (ProcessSound): starts the next song when the last one has ended. }
     public void Update()
     {
-        if (AudioHost.SoundSystem is not null && Status.Contains(StatusElement.Playing) && !Status.Contains(StatusElement.Paused) && !AudioHost.SoundSystem.PlayingSong && AudioHost.SoundSystem.MusicEnabled)
+        if (AudioHost.SoundSystem is not null && Status.Contains(Statuses.Playing) && !Status.Contains(Statuses.Paused) && !AudioHost.SoundSystem.PlayingSong && AudioHost.SoundSystem.MusicEnabled)
         {
             CurrentIndex += 1;
             if (Songs.Count <= CurrentIndex)
@@ -115,7 +115,7 @@ public sealed class SongPlayer : IDisposable
         bool result;
         if (AudioHost.SoundSystem is not null && index >= 0 && index < Songs.Count)
         {
-            Status += Set<StatusElement>.Of(StatusElement.Playing);
+            Status |= Statuses.Playing;
             string item = Songs[index];
             result = AudioHost.SoundSystem.PlaySong(item, fadeOut, fadeIn, loop: false);
             if (result)
@@ -144,7 +144,7 @@ public sealed class SongPlayer : IDisposable
         bool result;
         if (AudioHost.SoundSystem is not null && index >= 0 && index < Songs.Count)
         {
-            Status += Set<StatusElement>.Of(StatusElement.Playing);
+            Status |= Statuses.Playing;
             string item = Songs[index];
             result = AudioHost.SoundSystem.PlaySong(item, fadeOut: 2, fadeIn: 0, loop: false);
             if (result)
@@ -175,7 +175,7 @@ public sealed class SongPlayer : IDisposable
         {
             result = stopMusic && AudioHost.SoundSystem.StopSong();
 
-            Status -= Set<StatusElement>.Of(StatusElement.Playing);
+            Status &= ~Statuses.Playing;
         }
         else
         {
@@ -196,7 +196,7 @@ public sealed class SongPlayer : IDisposable
             }
 
             _backup = AudioPlayback.BackupSongStatus();
-            Status += Set<StatusElement>.Of(StatusElement.Paused);
+            Status |= Statuses.Paused;
             if (stopMusic)
             {
                 _ = AudioHost.SoundSystem.StopSong();
@@ -220,20 +220,23 @@ public sealed class SongPlayer : IDisposable
                 _backup = null;
             }
 
-            Status -= Set<StatusElement>.Of(StatusElement.Paused);
+            Status &= ~Statuses.Paused;
         }
 
         return true;
     }
 
     public string CurrentSong { get; private set; } = "";
-    public Set<StatusElement> Status { get; private set; }
+    public Statuses Status { get; private set; }
     public DelphiStringList Songs { get; }
     public DelphiStringList SongNames { get; }
     public int CurrentIndex { get; private set; }
 
-    public enum StatusElement : byte
+    [Flags]
+    public enum Statuses : byte
     {
-        Playing = 0, Paused = 1
+        None = 0,
+        Playing = 1 << 0,
+        Paused = 1 << 1,
     }
 }

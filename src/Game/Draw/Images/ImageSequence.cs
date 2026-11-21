@@ -39,7 +39,7 @@ public sealed class ImageSequence(ImageSequenceList owner) : IDisposable
     // ImageLib.pas:8613
     internal void SetSequenceMode(SequenceMode value)
     {
-        if (Set<SequenceMode>.Of(SequenceMode.FrameTable, SequenceMode.RandomFrameTable).Contains(value) && FrameTable is null)
+        if (value is SequenceMode.FrameTable or SequenceMode.RandomFrameTable && FrameTable is null)
         {
             FrameTable = new FrameTableList();
         }
@@ -343,7 +343,7 @@ public sealed class ImageSequence(ImageSequenceList owner) : IDisposable
         }
 
         ImageLibrary = !IsEmpty(_imageLibraryName)
-            ? Owner.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: _imageLibraryName)
+            ? Owner.ImageLibraryManager.LinkToImageLibrary(ImageLibraryManagerCategories.Disk, fileName: _imageLibraryName)
             : Owner.ImageLibrary;
     }
 
@@ -354,7 +354,7 @@ public sealed class ImageSequence(ImageSequenceList owner) : IDisposable
         {
             if (!IsEmpty(_imageLibraryName))
             {
-                Owner.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: _imageLibraryName);
+                Owner.ImageLibraryManager.ReleaseImageLibrary(ImageLibraryManagerCategories.Disk, fileName: _imageLibraryName);
             }
 
             ImageLibrary = null;
@@ -371,7 +371,7 @@ public sealed class ImageSequence(ImageSequenceList owner) : IDisposable
         stream.Write(Bytes.Of(ref _imageIndex));
         stream.Write(Bytes.Of(ref _offsetX));
         stream.Write(Bytes.Of(ref _offsetY));
-        if (Set<SequenceMode>.Of(SequenceMode.FrameTable, SequenceMode.RandomFrameTable).Contains(_sequenceMode))
+        if (_sequenceMode is SequenceMode.FrameTable or SequenceMode.RandomFrameTable)
         {
             FrameTable.SaveToStream(stream);
         }
@@ -396,7 +396,7 @@ public sealed class ImageSequence(ImageSequenceList owner) : IDisposable
         stream.ReadExactly(Bytes.Of(ref _imageIndex));
         stream.ReadExactly(Bytes.Of(ref _offsetX));
         stream.ReadExactly(Bytes.Of(ref _offsetY));
-        if (Set<SequenceMode>.Of(SequenceMode.FrameTable, SequenceMode.RandomFrameTable).Contains(_sequenceMode))
+        if (_sequenceMode is SequenceMode.FrameTable or SequenceMode.RandomFrameTable)
         {
             FrameTable ??= new FrameTableList();
 
@@ -419,7 +419,7 @@ public sealed class ImageSequence(ImageSequenceList owner) : IDisposable
         for (ImageSequence sequence = this; sequence is not null; sequence = sequence.Next)
         {
             FrameTable frames = null;
-            if (Set<SequenceMode>.Of(SequenceMode.FrameTable, SequenceMode.RandomFrameTable).Contains(sequence._sequenceMode))
+            if (sequence._sequenceMode is SequenceMode.FrameTable or SequenceMode.RandomFrameTable)
             {
                 frames = new FrameTable(Default: sequence.FrameTable.DefaultValue, Items: sequence.FrameTable.List.AsSpan(0, length: sequence.FrameTable.Count).ToArray());
             }
@@ -456,7 +456,7 @@ public sealed class ImageSequence(ImageSequenceList owner) : IDisposable
         _imageIndex = stored.ImageIndex;
         _offsetX = stored.OffsetX;
         _offsetY = stored.OffsetY;
-        if (Set<SequenceMode>.Of(SequenceMode.FrameTable, SequenceMode.RandomFrameTable).Contains(_sequenceMode))
+        if (_sequenceMode is SequenceMode.FrameTable or SequenceMode.RandomFrameTable)
         {
             FrameTable ??= new FrameTableList();
 

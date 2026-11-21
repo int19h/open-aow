@@ -1,8 +1,6 @@
 // Translated from PassiveAb.pas.
 using Aow.Engine.Nodes;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // (name, ID, selection types, ability type, duration mode.)
@@ -16,7 +14,7 @@ public class HighPrayerBlessingAbility : DurationAbility
         AbilityId = 100;
         AbilityType = AbilityType.Enhancement;
         DurationMode = DurationMode.EntireCombat;
-        SelectionTypes = Set<AbilitySelectionType>.Of();
+        SelectionTypes = AbilitySelectionTypes.None;
     }
 
     // PassiveAb.pas:1277

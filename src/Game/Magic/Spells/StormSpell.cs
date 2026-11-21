@@ -123,7 +123,7 @@ public class StormSpell : Spell
             TargetSelectionControl selection = StrategicMap.Current.TargetSelection;
             _targetStorm = CreateStorm();
             selection.Initialize(this);
-            selection.TargetMode += Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
+            selection.TargetMode |= TargetSelectionModes.ValidateDistance | TargetSelectionModes.ExternalFloater;
             selection.SourceLocation = new MapCoordinate(x, y, l);
             StrategicMap.Current.MakeVisible(x, y, l, radius: 5);
             string name = _targetStorm.Name();

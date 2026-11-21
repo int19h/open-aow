@@ -9,7 +9,7 @@ public partial class ListBox
 
     // A linked bar with room to move scrolls even when it is hidden, so shared columns stay together.
     // A bar with no room, or no bar when every item fits, leaves the wheel for the parent.
-    public override bool CheckMouseWheel(int steps, Set<ShiftState> shift, int X, int Y)
+    public override bool CheckMouseWheel(int steps, ShiftStates shift, int X, int Y)
     {
         if (steps == 0 || !ContainsPoint(X, Y))
         {

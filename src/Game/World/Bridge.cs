@@ -4,7 +4,6 @@ using Aow.Game.Draw;
 
 using Aow.Game.World.Hexes;
 using Aow.Game.World.Map;
-using Aow.Rtl;
 
 namespace Aow.Game.World;
 
@@ -37,7 +36,7 @@ public class Bridge(CustomNode owner) : AbstractRoad(owner)
 
         _ = Owner;
         Owner = mapField;
-        Status += Set<MapObjectStatusElement>.Of(MapObjectStatusElement.PlacedOnMap);
+        Status |= MapObjectStatuses.PlacedOnMap;
         // { The original refreshes the overlay of the previous field's owner, a map level read as a map field, which is undefined, so skipped.
         //   The owner of a field is always a map level, so the port has no call here. }
         mapField.UpdateOverlayType();

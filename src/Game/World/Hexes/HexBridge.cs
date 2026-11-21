@@ -6,7 +6,6 @@ using Aow.Game.Draw;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
-using Aow.Rtl;
 
 namespace Aow.Game.World.Hexes;
 
@@ -178,7 +177,7 @@ public class HexBridge(CustomNode owner) : AbstractRoad(owner)
 
         CustomNode previous = Owner;
         Owner = mapField;
-        Status += Set<MapObjectStatusElement>.Of(MapObjectStatusElement.PlacedOnMap);
+        Status |= MapObjectStatuses.PlacedOnMap;
         _terrain = mapField.TerrainType;
         // { Original bug: refresh the old owner's owner as a map field. }
         // FOwner lives on TEObject, so the old owner has it. A nil owner or a non-field owner is undefined in the original, so skip it.
@@ -216,7 +215,7 @@ public class HexBridge(CustomNode owner) : AbstractRoad(owner)
                     }
                     else
                     {
-                        if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+                        if (StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
                         {
                             Direction = -1;
                         }
@@ -349,14 +348,7 @@ public class HexBridge(CustomNode owner) : AbstractRoad(owner)
         }
     }
 
-    private static bool Land(sbyte terrain)
-    {
-        return !Set<byte>.WithBounds(0, 255).With(0).With(6)
-            .With(9)
-            .With(10)
-            .With(13)
-            .Contains((byte)terrain);
-    }
+    private static bool Land(sbyte terrain) => (byte)terrain is not (0 or 6 or 9 or 10 or 13);
 
     public new class Resource : AbstractRoadResource
     {

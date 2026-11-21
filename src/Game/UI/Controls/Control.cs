@@ -158,7 +158,7 @@ public partial class Control : UIComponent
     }
 
     // AoWControl.pas:190
-    public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
         if (ToolTip is not null)
         {
@@ -170,7 +170,7 @@ public partial class Control : UIComponent
     }
 
     // AoWControl.pas:201
-    public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseMove(ShiftStates shift, int X, int Y)
     {
         if (X < _window.WinLeft + WinLeft || X > _window.WinLeft + WinLeft + WinWidth - 1 || Y < _window.WinTop + WinTop || Y > _window.WinTop + WinTop + WinHeight - 1)
         {

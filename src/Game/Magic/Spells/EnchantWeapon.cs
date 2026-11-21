@@ -2,7 +2,6 @@
 using Aow.Engine.Nodes;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Units;
-using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
@@ -18,7 +17,7 @@ public class EnchantWeapon : UnitSpell
         SpellLevel = 1;
         MagicSphere = MagicSphere.Cosmos;
         TargetRange = 12;
-        SpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global, SpellControlTypeElement.Combat);
+        SpellControlTypes = SpellControlTypes.Global | SpellControlTypes.Combat;
         UnitDispelResistance = 3;
         AIValue = 225;
         CastDuration = 5;

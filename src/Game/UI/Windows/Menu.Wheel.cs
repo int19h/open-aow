@@ -8,7 +8,7 @@ public partial class Menu
 {
     public override bool ContainsPoint(int X, int Y) => PointInside(X, Y, WinLeft, WinTop, WinWidth, WinHeight);
 
-    public override bool CheckMouseWheel(int steps, Set<ShiftState> shift, int X, int Y)
+    public override bool CheckMouseWheel(int steps, ShiftStates shift, int X, int Y)
     {
         if (steps == 0 || !Visible || !ContainsPoint(X, Y))
         {

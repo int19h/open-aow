@@ -10,8 +10,8 @@ public partial class City
     {
         StructureView state = StatePanel();
         return state ?? (ShownToOwner(viewer)
-            ? Mode.Contains(ModeElement.WarMode) ? StructureView.WarCity : StructureView.City
-            : Mode.Contains(ModeElement.WarMode) ? StructureView.WarCity : StructureView.OtherPlayer);
+            ? Mode.Contains(Modes.WarMode) ? StructureView.WarCity : StructureView.City
+            : Mode.Contains(Modes.WarMode) ? StructureView.WarCity : StructureView.OtherPlayer);
     }
 
     public override StructureView InfoButton(sbyte viewer) => StructureView.CityScreen;

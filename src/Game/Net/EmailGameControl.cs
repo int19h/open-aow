@@ -146,7 +146,7 @@ public sealed class EmailGameControl : EngineObject
                 condition = map.CurrentPlayer < count;
             }
 
-            if (condition && map.Players.GetPlayers(map.CurrentPlayer).PbemSettings.Status.Contains(PbemPlayerStatusElement.NewTurn))
+            if (condition && map.Players.GetPlayers(map.CurrentPlayer).PbemSettings.Status.Contains(PbemPlayerStatuses.NewTurn))
             {
                 if (CompareText(b: GetEngine().Registry.GetLocalEmailAddress(), a: map.Players.GetPlayers(map.CurrentPlayer).PbemSettings.EmailGame.EmailAddress) == 0)
                 {

@@ -47,7 +47,7 @@ public sealed class SdlSoundSystem : SoundSystem
     protected internal override bool Activate(in SoundSettings value)
     {
         s_active = this;
-        Status = Set<SoundSystemStatusElement>.Of(SoundSystemStatusElement.Activated);
+        Status = SoundSystemStatuses.Activated;
         return SetSoundSettings(value);
     }
 

@@ -84,7 +84,7 @@ public class CombatMoveTokenEvent(CustomNode owner) : MoveTokenEvent(owner)
                     sbyte yhx = Unit.UnitHexSprite.HexY;
                     HexGeometry.CenterHexNumberToHex(Unit.UnitHexSprite.HexX, yhx, hexNumber, ref hexX, ref hexY);
                     TacticalBattleUnitHexSprite hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(hexX, hexY).FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
-                    if (hexSprite is not null && PreviousUnit != hexSprite.Unit && hexSprite.Unit.GetEnabled() && !hexSprite.Unit.GetLocked() && CombatObject.MeleeDamageTypes(hexSprite.Unit) != Set<DamageType>.Of() && hexSprite.Unit.Side != Unit.Side && hexSprite.Action == TacticalBattleUnitHexSprite.SpriteAction.Move && hexSprite.Unit.GetAbilityEnabled(1) == Unit.GetAbilityEnabled(1))
+                    if (hexSprite is not null && PreviousUnit != hexSprite.Unit && hexSprite.Unit.GetEnabled() && !hexSprite.Unit.GetLocked() && CombatObject.MeleeDamageTypes(hexSprite.Unit) != DamageTypes.None && hexSprite.Unit.Side != Unit.Side && hexSprite.Action == TacticalBattleUnitHexSprite.SpriteAction.Move && hexSprite.Unit.GetAbilityEnabled(1) == Unit.GetAbilityEnabled(1))
                     {
                         _neighbour = (sbyte)hexNumber;
                         _freeStrikeUnit = hexSprite.Unit;
@@ -185,12 +185,12 @@ public class CombatMoveTokenEvent(CustomNode owner) : MoveTokenEvent(owner)
 
                                 sbyte hexY = Unit.UnitHexSprite.HexY;
                                 HexGeometry.HexToPixel(Unit.UnitHexSprite.HexX, hexY, out int x, out int y);
-                                if (Strike.DamageTypes - Strike.Effects != Set<DamageType>.Of())
+                                if ((Strike.DamageTypes & ~Strike.Effects) != DamageTypes.None)
                                 {
-                                    CombatEvents.MakeDamageEffectHexSpriteList(x, y, damageTypes: Strike.DamageTypes - Strike.Effects, resisted: false);
+                                    CombatEvents.MakeDamageEffectHexSpriteList(x, y, damageTypes: Strike.DamageTypes & ~Strike.Effects, resisted: false);
                                 }
 
-                                if (Strike.Effects != Set<DamageType>.Of())
+                                if (Strike.Effects != DamageTypes.None)
                                 {
                                     CombatEvents.MakeDamageEffectHexSpriteList(x, y, damageTypes: Strike.Effects, resisted: true);
                                 }
@@ -395,7 +395,7 @@ public class CombatMoveTokenEvent(CustomNode owner) : MoveTokenEvent(owner)
             CombatMap.Current.TriggerMapChangedEvent(rectangle, L: 0);
             if (MoveIndex == 0 && newField.FindChild(World.FleeLocation.ClassId) is not null && Unit.CombatPlayer != CombatMap.Current.Combat.CombatData.DefenderPlayer)
             {
-                Unit.SetStatus(Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Fled));
+                Unit.SetStatus(CombatObjectStatuses.Fled);
                 sbyte hexY = Unit.UnitHexSprite.HexY;
                 sbyte hexX = Unit.UnitHexSprite.HexX;
                 sbyte fUnitHexSpriteHexY = Unit.UnitHexSprite.HexY;

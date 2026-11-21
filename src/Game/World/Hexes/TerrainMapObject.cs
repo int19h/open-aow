@@ -156,7 +156,7 @@ public partial class TerrainMapObject(CustomNode owner) : MultiHexMapObject(owne
             if (resources[i] is TerrainMapObjectResource terrain)
             {
                 TerrainMapObjectResource r = terrain;
-                if (r.EngineClass.ClassId == Resource.EngineClass.ClassId && r.TerrainType == Resource.TerrainType && r.DecorationType == decorationType && r != Resource && r.TerrainList.CompareTerrain(Resource.TerrainList, mode: Set<TerrainCompareModeElement>.Of(TerrainCompareModeElement.SameOverlayType)))
+                if (r.EngineClass.ClassId == Resource.EngineClass.ClassId && r.TerrainType == Resource.TerrainType && r.DecorationType == decorationType && r != Resource && r.TerrainList.CompareTerrain(Resource.TerrainList, mode: TerrainCompareModes.SameOverlayType))
                 {
                     _ = candidates.Add(r);
                 }

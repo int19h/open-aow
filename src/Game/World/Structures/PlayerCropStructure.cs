@@ -44,7 +44,7 @@ public class PlayerCropStructure : PlayerStructure
     // Crops.pas:528
     public override void NeighbourTerrainChanged(int hexNumber, in HexSpriteTerrainInfo info)
     {
-        if (Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Editting, HexSpriteMapStatusElement.Activated).IsSubsetOf(StrategicMap.Current.Status) && !_changingCrops)
+        if (((HexSpriteMapStatuses.Editting | HexSpriteMapStatuses.Activated) & ~StrategicMap.Current.Status) == HexSpriteMapStatuses.None && !_changingCrops)
         {
             UpdateCrops();
         }
@@ -186,7 +186,7 @@ public class PlayerCropStructure : PlayerStructure
 
             if (result)
             {
-                return Set<byte>.WithBounds(0, 255).With(12).WithRange(1, 4).Contains((byte)field.TerrainType) || (field.TerrainType == 5 && GetRace() == 11);
+                return field.TerrainType is (>= (sbyte)Map.TerrainType.Grass and <= (sbyte)Map.TerrainType.Steppe) or (sbyte)Map.TerrainType.Dirt || (field.TerrainType == 5 && GetRace() == 11);
             }
         }
         else
@@ -225,9 +225,9 @@ public class PlayerCropStructure : PlayerStructure
     // Crops.pas:401
     public virtual void UpdateCrops()
     {
-        if (!EditMode && Status.Contains(MapObjectStatusElement.Activated))
+        if (!EditMode && Status.Contains(MapObjectStatuses.Activated))
         {
-            if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+            if (StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
             {
                 if (CropsEnabled())
                 {
@@ -260,7 +260,7 @@ public class PlayerCropStructure : PlayerStructure
     // Crops.pas:302
     public void SetIncome(byte value)
     {
-        if (value != Income && Status.Contains(MapObjectStatusElement.Activated))
+        if (value != Income && Status.Contains(MapObjectStatuses.Activated))
         {
             Income = value;
             sbyte player = Player;
@@ -317,7 +317,7 @@ public class PlayerCropStructure : PlayerStructure
     // Crops.pas:463
     public void SetCropCount(int value)
     {
-        if (Status.Contains(MapObjectStatusElement.PlacedOnMap) && !_changingCrops)
+        if (Status.Contains(MapObjectStatuses.PlacedOnMap) && !_changingCrops)
         {
             _changingCrops = true;
             MapLevel mapLevel = Owner.Owner;

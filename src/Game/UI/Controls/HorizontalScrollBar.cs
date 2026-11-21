@@ -245,7 +245,7 @@ public sealed partial class HorizontalScrollBar(Component owner) : ScrollBar(own
     // { CheckMouseDown: as TAOWVScrollBar.CheckMouseDown across, but OnChange is called once at the end
     //   when the position changed. The track after the tab ends at the width of the decrement button
     //   (original) }
-    public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
@@ -386,7 +386,7 @@ public sealed partial class HorizontalScrollBar(Component owner) : ScrollBar(own
     }
 
     // AoWHScroll.pas:273
-    public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton button, ShiftStates shift, int X, int Y)
     {
         Handled = false;
         if (HeldPart is 1 or 4)
@@ -404,7 +404,7 @@ public sealed partial class HorizontalScrollBar(Component owner) : ScrollBar(own
     }
 
     // AoWHScroll.pas:291
-    public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseMove(ShiftStates shift, int X, int Y)
     {
         base.CheckMouseMove(shift, X, Y);
         Handled = false;

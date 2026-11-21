@@ -2,7 +2,6 @@
 using Aow.Engine.Nodes;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Units;
-using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
@@ -12,7 +11,7 @@ public class Haste : UnitSpell
     public Haste(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global, SpellControlTypeElement.Combat);
+        SpellControlTypes = SpellControlTypes.Global | SpellControlTypes.Combat;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.HasteText);
         SpellId = 15;
         BaseManaCost = 5;

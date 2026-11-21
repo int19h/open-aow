@@ -86,8 +86,8 @@ public partial class ArmyEventLog : EventLog
                 bool showEvent = false;
                 if (StrategicMap.Current.SeatedPlayer == Player || StrategicMap.Current.SeatedPlayer == ArmyView.Player)
                 {
-                    showEvent = showEvent || (StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.PartyDamage));
-                    showEvent = showEvent || (StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.PartyDamage));
+                    showEvent = showEvent || (StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvents.PartyDamage));
+                    showEvent = showEvent || (StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvents.PartyDamage));
                 }
 
                 showEvent = showEvent || _gameOver;

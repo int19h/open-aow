@@ -1,6 +1,5 @@
 
 using Aow.Game.AI;
-using Aow.Rtl;
 
 namespace Aow.Game.Session;
 
@@ -10,5 +9,5 @@ namespace Aow.Game.Session;
 public interface IAIPlayerActionClass
 {
     static abstract int Priority { get; }
-    static abstract Set<AIPlayerProcessPhase> SupportedPhases { get; }
+    static abstract AIPlayerProcessPhases SupportedPhases { get; }
 }

@@ -35,7 +35,7 @@ public class LifeMasteryEnchantment : GlobalEnchantment
         // { Original doubles Death. }
         StrategicMap.Current.GlobalMagicControl.DecrementDoubleSphereManaCount(MagicSphere.Death);
         Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
-        StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.LifeMastery));
+        StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments & ~PlayerEnchantmentTypes.LifeMastery);
         EngineMessage.InitializeMessage(out EngineMessage message, messageId: 537002240, sender: this);
         StrategicMap.Current.SendMessage(ref message, sender: this);
         return true;
@@ -47,7 +47,7 @@ public class LifeMasteryEnchantment : GlobalEnchantment
         bool result = base.CanActivate(player, ref reason);
         if (result)
         {
-            if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.LifeMastery))
+            if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentTypes.LifeMastery))
             {
                 string xIsAlreadyActive = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.IsAlreadyActiveFormat);
                 string name = GetName();
@@ -67,7 +67,7 @@ public class LifeMasteryEnchantment : GlobalEnchantment
         StrategicMap.Current.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Death);
         Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
         PlayerMagicControl playerMagicControl = playerLocal.MagicControl;
-        playerMagicControl.SetActiveEnchantments(playerMagicControl.ActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.LifeMastery));
+        playerMagicControl.SetActiveEnchantments(playerMagicControl.ActiveEnchantments | PlayerEnchantmentTypes.LifeMastery);
 
         for (int i = playerLocal.Armies.Count - 1; i >= 0; i--)
         {

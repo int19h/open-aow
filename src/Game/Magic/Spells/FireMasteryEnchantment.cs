@@ -8,7 +8,6 @@ using Aow.Game.Session;
 using Aow.Game.World.Map;
 
 using Aow.Game.World.Terrain;
-using Aow.Rtl;
 using static Aow.Rtl.DelphiFormat;
 using static Aow.Rtl.DelphiRandom;
 
@@ -36,7 +35,7 @@ public class FireMasteryEnchantment : GlobalEnchantment
         {
             if (message.Payload.Int != 0)
             {
-                if (StrategicMap.Current.Players.GetPlayers(message.Payload.Int).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.FireMastery))
+                if (StrategicMap.Current.Players.GetPlayers(message.Payload.Int).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentTypes.FireMastery))
                 {
                     UpdateFire(2, explosions: !StrategicMap.Current.RequestCombatType);
                 }
@@ -53,7 +52,7 @@ public class FireMasteryEnchantment : GlobalEnchantment
         _ = base.Deactivate(player);
         Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
         PlayerMagicControl playerMagicControl = playerLocal.MagicControl;
-        playerMagicControl.SetActiveEnchantments(playerMagicControl.ActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.FireMastery));
+        playerMagicControl.SetActiveEnchantments(playerMagicControl.ActiveEnchantments & ~PlayerEnchantmentTypes.FireMastery);
 
         for (int i = playerLocal.Armies.Count - 1; i >= 0; i--)
         {
@@ -71,7 +70,7 @@ public class FireMasteryEnchantment : GlobalEnchantment
     // GlobalEnchantmentSpells.pas:1653
     public override bool CanActivate(sbyte player, ref string reason)
     {
-        if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.FireMastery))
+        if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentTypes.FireMastery))
         {
             string xIsAlreadyActive = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.IsAlreadyActiveFormat);
             string name = GetName();
@@ -92,7 +91,7 @@ public class FireMasteryEnchantment : GlobalEnchantment
         StrategicMap.Current.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Water);
         Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
         PlayerMagicControl playerMagicControl = playerLocal.MagicControl;
-        playerMagicControl.SetActiveEnchantments(playerMagicControl.ActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.FireMastery));
+        playerMagicControl.SetActiveEnchantments(playerMagicControl.ActiveEnchantments | PlayerEnchantmentTypes.FireMastery);
 
         for (int i = playerLocal.Armies.Count - 1; i >= 0; i--)
         {

@@ -8,8 +8,6 @@ using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Units;
 
 // NextUnitId. UnitTable. Units
@@ -79,12 +77,12 @@ public sealed class UnitControl(CustomNode owner) : EngineObject(owner)
     // Unit.PAS:48
     public void RegisterUnit(Troop troop)
     {
-        if (!troop.UnitStatus.Contains(UnitStatusElement.Registered))
+        if (!troop.UnitStatus.Contains(UnitStatuses.Registered))
         {
             if (troop.UnitId == -1)
             {
                 troop.UnitId = GetFreeId();
-                troop.UnitStatus += Set<UnitStatusElement>.Of(UnitStatusElement.Registered);
+                troop.UnitStatus |= UnitStatuses.Registered;
                 HashTables.Add(UnitTable, key: troop.UnitId, value: troop);
                 Units.Add(troop);
             }
@@ -94,14 +92,14 @@ public sealed class UnitControl(CustomNode owner) : EngineObject(owner)
                 if (existingUnit != troop)
                 {
                     Units.Add(troop);
-                    troop.UnitStatus += Set<UnitStatusElement>.Of(UnitStatusElement.Registered);
+                    troop.UnitStatus |= UnitStatuses.Registered;
                     if (existingUnit is null)
                     {
                         HashTables.Add(UnitTable, key: troop.UnitId, value: troop);
                     }
                     else
                     {
-                        if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+                        if (StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
                         {
                             troop.UnitId = GetFreeId();
                             HashTables.Add(UnitTable, key: troop.UnitId, value: troop);
@@ -127,9 +125,9 @@ public sealed class UnitControl(CustomNode owner) : EngineObject(owner)
     // Unit.PAS:86
     public void UnregisterUnit(Troop troop)
     {
-        if (troop.UnitStatus.Contains(UnitStatusElement.Registered))
+        if (troop.UnitStatus.Contains(UnitStatuses.Registered))
         {
-            troop.UnitStatus -= Set<UnitStatusElement>.Of(UnitStatusElement.Registered);
+            troop.UnitStatus &= ~UnitStatuses.Registered;
             if (UnitTable.TryGetValue(troop.UnitId, out Troop stored) && stored == troop)
             {
                 _ = UnitTable.Remove(troop.UnitId);

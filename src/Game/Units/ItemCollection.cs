@@ -83,7 +83,7 @@ public readonly struct ItemCollection : IReadOnlyList<Item>
         for (int i = Count - 1; i >= 0; i--)
         {
             Item item = this[i];
-            if (item is not null && !item.Status.Contains(ItemStatusElement.Registered))
+            if (item is not null && !item.Status.Contains(ItemStatuses.Registered))
             {
                 StrategicMap.Current.ItemControl.RegisterItem(item);
             }

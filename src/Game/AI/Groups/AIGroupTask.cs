@@ -6,8 +6,6 @@ using Aow.Engine.Nodes;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 namespace Aow.Game.AI.Groups;
 
 // references, cycles, control, status, state
@@ -18,7 +16,7 @@ public class AIGroupTask(CustomNode owner) : EngineObject(owner)
     private int _processCycles;
 
     public AIGroupControl GroupControl { get; protected set; }
-    public Set<AIGroupTaskStatusElement> Status { get; private set; }
+    public AIGroupTaskStatuses Status { get; private set; }
     public int State { get; protected set; } = -1;
 
     // AIGroup.pas:1361
@@ -47,20 +45,20 @@ public class AIGroupTask(CustomNode owner) : EngineObject(owner)
     }
 
     // AIGroup.pas:1383
-    public virtual bool Busy => Status.Contains(AIGroupTaskStatusElement.Activated) && State != -1;
+    public virtual bool Busy => Status.Contains(AIGroupTaskStatuses.Activated) && State != -1;
 
     // AIGroup.pas:1388
     public virtual bool Activate(AIGroupControl control)
     {
         _processCycles = 0;
         GroupControl = control;
-        Status += Set<AIGroupTaskStatusElement>.Of(AIGroupTaskStatusElement.Activated);
+        Status |= AIGroupTaskStatuses.Activated;
         State = 0;
         return true;
     }
 
     // AIGroup.pas:1397
-    public virtual void Deactivate() => Status -= Set<AIGroupTaskStatusElement>.Of(AIGroupTaskStatusElement.Activated);
+    public virtual void Deactivate() => Status &= ~AIGroupTaskStatuses.Activated;
 
     // AIGroup.pas:1402
     public virtual bool Process()

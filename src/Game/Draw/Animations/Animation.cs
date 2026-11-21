@@ -24,7 +24,7 @@ public class Animation(CustomNode owner) : HexSprite(owner)
 
     public byte AnimationLevel { get; set; } = 26;
 
-    private Set<StateElement> _state;
+    private States _state;
 
     public int FrameCounter { get; set; }
 
@@ -42,11 +42,11 @@ public class Animation(CustomNode owner) : HexSprite(owner)
     public GameMap AnimationMap { get; set; }
 
     // Animation.pas:153
-    public override Set<ControlStyleElement> GetControlStyle()
+    public override ControlStyles GetControlStyle()
     {
-        return AnimationControlMode().Contains(AnimationControlModeElement.Saveable)
-            ? Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad)
-            : Set<ControlStyleElement>.Of();
+        return AnimationControlMode().Contains(AnimationControlModes.Saveable)
+            ? ControlStyles.SaveLoad
+            : ControlStyles.None;
     }
 
     // Animation.pas:276
@@ -64,15 +64,15 @@ public class Animation(CustomNode owner) : HexSprite(owner)
     // Animation.pas:213
     public override bool Visible
     {
-        get => _state.Contains(StateElement.Visible);
+        get => _state.Contains(States.Visible);
         // Animation.pas:207
         set => _state = value
-        ? _state + Set<StateElement>.Of(StateElement.Visible)
-        : _state - Set<StateElement>.Of(StateElement.Visible);
+        ? _state | States.Visible
+        : _state & ~States.Visible;
     }
 
     // Animation.pas:250
-    public override bool GetSelected() => _state.Contains(StateElement.Selected);
+    public override bool GetSelected() => _state.Contains(States.Selected);
 
     // Animation.pas:261
     public override sbyte HexX => Location.X;
@@ -86,11 +86,11 @@ public class Animation(CustomNode owner) : HexSprite(owner)
     // Animation.pas:227
     public override bool EditMode
     {
-        get => _state.Contains(StateElement.EditMode);
+        get => _state.Contains(States.EditMode);
         // Animation.pas:232
         set => _state = value
-        ? _state + Set<StateElement>.Of(StateElement.EditMode)
-        : _state - Set<StateElement>.Of(StateElement.EditMode);
+        ? _state | States.EditMode
+        : _state & ~States.EditMode;
     }
 
     // Animation.pas:199
@@ -103,24 +103,24 @@ public class Animation(CustomNode owner) : HexSprite(owner)
     // Animation.pas:315
     public override void Connect()
     {
-        if (!_state.Contains(StateElement.Placed))
+        if (!_state.Contains(States.Placed))
         {
             HexGeometry.HexToPixel(Location.X, Location.Y, out int x, out int y);
-            _ = AnimationControlMode().Contains(AnimationControlModeElement.OwnedByMap)
+            _ = AnimationControlMode().Contains(AnimationControlModes.OwnedByMap)
                 ? PlaceOnMap(AnimationMap.MapContainer, x + Dimensions.Left, y + Dimensions.Top, Location.MapLevel, x + Dimensions.Right, y + Dimensions.Bottom)
                 : PlaceUserOnMap(AnimationMap.MapContainer, x + Dimensions.Left, y + Dimensions.Top, Location.MapLevel, x + Dimensions.Right, y + Dimensions.Bottom);
 
-            _state += Set<StateElement>.Of(StateElement.Placed);
+            _state |= States.Placed;
         }
     }
 
     // Animation.pas:332
     public override void Disconnect()
     {
-        if (_state.Contains(StateElement.Placed))
+        if (_state.Contains(States.Placed))
         {
             HexGeometry.HexToPixel(Location.X, Location.Y, out int x, out int y);
-            if (AnimationControlMode().Contains(AnimationControlModeElement.OwnedByMap))
+            if (AnimationControlMode().Contains(AnimationControlModes.OwnedByMap))
             {
                 RemoveFromMap(x + Dimensions.Left, y + Dimensions.Top, x + Dimensions.Right, y + Dimensions.Bottom);
             }
@@ -129,7 +129,7 @@ public class Animation(CustomNode owner) : HexSprite(owner)
                 RemoveUserFromMap(AnimationMap.MapContainer, x + Dimensions.Left, y + Dimensions.Top, Location.MapLevel, x + Dimensions.Right, y + Dimensions.Bottom);
             }
 
-            _state -= Set<StateElement>.Of(StateElement.Placed);
+            _state &= ~States.Placed;
         }
     }
 
@@ -161,18 +161,18 @@ public class Animation(CustomNode owner) : HexSprite(owner)
     public override void Activate()
     {
         base.Activate();
-        _state += Set<StateElement>.Of(StateElement.Activated);
-        if (AnimationControlMode().Contains(AnimationControlModeElement.LinkToNewFrame))
+        _state |= States.Activated;
+        if (AnimationControlMode().Contains(AnimationControlModes.LinkToNewFrame))
         {
             AnimationMap.NewFrameEvents += NewFrameEvent;
         }
 
-        if (AnimationControlMode().Contains(AnimationControlModeElement.FixedVisible))
+        if (AnimationControlMode().Contains(AnimationControlModes.FixedVisible))
         {
             _ = AnimationMap.DynamicFixedVisibleHexSprite.AddChild(this);
         }
 
-        if (AnimationControlMode().Contains(AnimationControlModeElement.LinkToOnDestroy))
+        if (AnimationControlMode().Contains(AnimationControlModes.LinkToOnDestroy))
         {
             AnimationMap.DestroyEvents += DestroyEvent;
         }
@@ -182,21 +182,21 @@ public class Animation(CustomNode owner) : HexSprite(owner)
     public override void Deactivate()
     {
         base.Deactivate();
-        if (_state.Contains(StateElement.Activated))
+        if (_state.Contains(States.Activated))
         {
-            _state -= Set<StateElement>.Of(StateElement.Activated);
-            if (AnimationControlMode().Contains(AnimationControlModeElement.FixedVisible))
+            _state &= ~States.Activated;
+            if (AnimationControlMode().Contains(AnimationControlModes.FixedVisible))
             {
                 _ = AnimationMap.DynamicFixedVisibleHexSprite.RemoveChild(this);
                 _ = AnimationMap.DynamicVisibleHexSprite.RemoveChild(this);
             }
 
-            if (AnimationControlMode().Contains(AnimationControlModeElement.LinkToNewFrame))
+            if (AnimationControlMode().Contains(AnimationControlModes.LinkToNewFrame))
             {
                 AnimationMap.NewFrameEvents -= NewFrameEvent;
             }
 
-            if (AnimationControlMode().Contains(AnimationControlModeElement.LinkToOnDestroy))
+            if (AnimationControlMode().Contains(AnimationControlModes.LinkToOnDestroy))
             {
                 AnimationMap.DestroyEvents -= DestroyEvent;
             }
@@ -206,9 +206,9 @@ public class Animation(CustomNode owner) : HexSprite(owner)
     // Animation.pas:218
     public override void MakeVisible(VisibilityList visibilityList)
     {
-        if (!_state.Contains(StateElement.Visible))
+        if (!_state.Contains(States.Visible))
         {
-            _state += Set<StateElement>.Of(StateElement.Visible);
+            _state |= States.Visible;
             _ = visibilityList.AddSortChild(this, sortValue: GetShowPriority());
         }
     }
@@ -217,14 +217,14 @@ public class Animation(CustomNode owner) : HexSprite(owner)
     public override void Select()
     {
         base.Select();
-        _state += Set<StateElement>.Of(StateElement.Selected);
+        _state |= States.Selected;
     }
 
     // Animation.pas:244
     public override void Unselect()
     {
         base.Unselect();
-        _state -= Set<StateElement>.Of(StateElement.Selected);
+        _state &= ~States.Selected;
     }
 
     // Animation.pas:286
@@ -282,16 +282,23 @@ public class Animation(CustomNode owner) : HexSprite(owner)
     // Animation.pas:255
     public void SetDimensions(Rect R)
     {
-        Dimensions = !_state.Contains(StateElement.Placed)
+        Dimensions = !_state.Contains(States.Placed)
             ? R
             : throw new InvalidOperationException("Cannot change dimensions when object is places");
     }
 
     // Animation.pas:159
-    public virtual Set<AnimationControlModeElement> AnimationControlMode() => Set<AnimationControlModeElement>.Of(AnimationControlModeElement.LinkToNewFrame, AnimationControlModeElement.FixedVisible, AnimationControlModeElement.LinkToOnDestroy);
+    public virtual AnimationControlModes AnimationControlMode() => AnimationControlModes.LinkToNewFrame | AnimationControlModes.FixedVisible | AnimationControlModes.LinkToOnDestroy;
 
-    public enum StateElement : byte
+    [Flags]
+    public enum States : byte
     {
-        Visible = 0, EditMode = 1, Selected = 2, LinkedToTokenEvent = 3, Activated = 4, Placed = 5
+        None = 0,
+        Visible = 1 << 0,
+        EditMode = 1 << 1,
+        Selected = 1 << 2,
+        LinkedToTokenEvent = 1 << 3,
+        Activated = 1 << 4,
+        Placed = 1 << 5,
     }
 }

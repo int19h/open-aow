@@ -192,7 +192,7 @@ public sealed class HeroControl : EngineObject
         for (int i = _heroes.GetCount() - 1; i >= 0; i--)
         {
             Hero hero = _heroes[i];
-            if (!hero.UnitStatus.Contains(UnitStatusElement.Activated) && hero.Owner is null)
+            if (!hero.UnitStatus.Contains(UnitStatuses.Activated) && hero.Owner is null)
             {
                 hero.Activate();
             }
@@ -205,7 +205,7 @@ public sealed class HeroControl : EngineObject
         for (int i = _heroes.GetCount() - 1; i >= 0; i--)
         {
             Hero hero = _heroes[i];
-            if (hero.UnitStatus.Contains(UnitStatusElement.Activated) && hero.Owner is null)
+            if (hero.UnitStatus.Contains(UnitStatuses.Activated) && hero.Owner is null)
             {
                 hero.Deactivate();
             }
@@ -242,7 +242,7 @@ public sealed class HeroControl : EngineObject
     // Hero.PAS:2528
     public void NotifyHeroChanged(Hero hero)
     {
-        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
+        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Destroying))
         {
             _onHeroChangedStore.Raise(hero);
         }
@@ -256,7 +256,7 @@ public sealed class HeroControl : EngineObject
         for (int i = _heroes.Count - 1; i >= 0; i--)
         {
             Hero hero = _heroes[i];
-            if (!hero.HeroStatus.Contains(HeroStatusElement.Died) && hero.Player <= 0)
+            if (!hero.HeroStatus.Contains(HeroStatuses.Died) && hero.Player <= 0)
             {
                 result += hero.GetLevel();
                 count += 1;
@@ -273,7 +273,7 @@ public sealed class HeroControl : EngineObject
         for (int i = _heroes.Count - 1; i >= 0; i--)
         {
             Hero hero = _heroes[i];
-            if (!hero.HeroStatus.Contains(HeroStatusElement.Died) && hero.Player <= 0 && result > hero.GetLevel())
+            if (!hero.HeroStatus.Contains(HeroStatuses.Died) && hero.Player <= 0 && result > hero.GetLevel())
             {
                 result = hero.GetLevel();
             }
@@ -288,7 +288,7 @@ public sealed class HeroControl : EngineObject
         for (int i = _heroes.Count - 1; i >= 0; i--)
         {
             Hero hero = _heroes[i];
-            if (hero.HeroStatus.Contains(HeroStatusElement.Died))
+            if (hero.HeroStatus.Contains(HeroStatuses.Died))
             {
                 _ = list.AddChild(hero);
             }

@@ -114,7 +114,7 @@ internal static unsafe class SdlVerification
 
         public void Reset() => Keys = KeyUps = FocusChanges = CloseQueries = 0;
 
-        public void KeyDown(ushort key, Set<ShiftState> shift)
+        public void KeyDown(ushort key, ShiftStates shift)
         {
             if (key != 'A')
             {
@@ -124,7 +124,7 @@ internal static unsafe class SdlVerification
             Keys++;
         }
 
-        public void KeyUp(ushort key, Set<ShiftState> shift) => KeyUps++;
+        public void KeyUp(ushort key, ShiftStates shift) => KeyUps++;
         public void FocusChanged(bool active) => FocusChanges++;
 
         public bool CloseRequested()

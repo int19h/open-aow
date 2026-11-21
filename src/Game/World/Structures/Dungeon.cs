@@ -16,8 +16,6 @@ using Aow.Game.Net;
 using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
-
-using Aow.Rtl;
 using static Aow.Rtl.DelphiFormat;
 using static Aow.Rtl.DelphiRandom;
 
@@ -111,7 +109,7 @@ public partial class Dungeon : ExplorationSite
     // Dungeon.pas:127
     public override void ExecuteSearchDone(CombatType combatType, CombatResult combatResult)
     {
-        if (Set<CombatResult>.Of(CombatResult.Victory, CombatResult.NoDefenders).Contains(combatResult))
+        if (combatResult is CombatResult.Victory or CombatResult.NoDefenders)
         {
             ArmyHexSprite army = Owner.GetArmyHexSprite();
             PrisonersJoinEventLog log = new(null)
@@ -165,7 +163,7 @@ public partial class Dungeon : ExplorationSite
                 _ = list.Add(collections.GetU(collection, index: i));
             }
 
-            _ = Int32List.FillWithRandomUnits(list, Prisoners.Units, level: 4, value: (int)_prisonersMode * 50, types: Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
+            _ = Int32List.FillWithRandomUnits(list, Prisoners.Units, level: 4, value: (int)_prisonersMode * 50, types: UnitTypes.Humanoid | UnitTypes.Creature | UnitTypes.Machine);
             list?.Dispose();
         }
     }
@@ -195,7 +193,7 @@ public partial class Dungeon : ExplorationSite
         armyLog.Player = GetPlayer();
         armyLog.Title = AbilityRules.TranslateResourceString(GetEngine(), S: PrisonerLiberationText);
         armyLog.Description = "";
-        Hero hero = Prisoners.Hero(255, types: Set<HeroType>.Of(HeroType.Hero));
+        Hero hero = Prisoners.Hero(255, types: HeroTypes.Hero);
         if (hero is null)
         {
             if (Prisoners.Units.Count == 1)
@@ -229,7 +227,7 @@ public partial class Dungeon : ExplorationSite
         {
             army.Army.SetPlayer(player);
             _ = army.Army.AddUnits(Prisoners.Units);
-            _ = army.Place(mapLevel: HexLevel, y: HexY, x: HexX, mode: Set<ArmyPlaceModeElement>.Of(ArmyPlaceModeElement.Safe, ArmyPlaceModeElement.ScanArea));
+            _ = army.Place(mapLevel: HexLevel, y: HexY, x: HexX, mode: ArmyPlaceModes.Safe | ArmyPlaceModes.ScanArea);
             army.Activate();
         }
     }

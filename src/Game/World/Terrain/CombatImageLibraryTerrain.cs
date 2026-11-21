@@ -60,7 +60,7 @@ public class CombatImageLibraryTerrain(CustomNode owner) : ImageLibraryTerrainMa
     // CombatILTer.pas:141
     public override void MakeVisible(VisibilityList visibilityList)
     {
-        if (!Status.Contains(MapObjectStatusElement.Visible))
+        if (!Status.Contains(MapObjectStatuses.Visible))
         {
             base.MakeVisible(visibilityList);
             if (_shadow is not null)

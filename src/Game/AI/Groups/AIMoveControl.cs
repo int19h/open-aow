@@ -9,8 +9,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
-using Aow.Rtl;
-
 namespace Aow.Game.AI.Groups;
 
 // status, settings, cycles, army table, transporter table, multiple gaps, mode, search state,
@@ -57,7 +55,7 @@ public sealed class AIMoveControl : EngineObject
         Status = AIMoveControlStatus.Idle;
         _processCycles = 0;
         _pathSettings.Reset();
-        _pathSettings.Mode += Set<MoveModeElement>.Of(MoveModeElement.AI);
+        _pathSettings.Mode |= MoveModes.AI;
     }
 
     // AIGroup.pas:3941
@@ -78,7 +76,7 @@ public sealed class AIMoveControl : EngineObject
         {
             case 0:
                 _pathSettings.MovePointsMax = Settings.QuickMovePointsMax;
-                int points = StrategicMap.Current.MoveControl.CanMove(_pathSettings, mode: Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast));
+                int points = StrategicMap.Current.MoveControl.CanMove(_pathSettings, mode: CanMoveModes.Fast);
                 Settings.MovePoints = points;
                 if (points != -1)
                 {
@@ -96,7 +94,7 @@ public sealed class AIMoveControl : EngineObject
                 break;
             case 1:
                 _pathSettings.MovePointsMax = Settings.MovePointsMax;
-                int canMove = StrategicMap.Current.MoveControl.CanMove(_pathSettings, mode: Set<CanMoveModeElement>.Of(CanMoveModeElement.Exact));
+                int canMove = StrategicMap.Current.MoveControl.CanMove(_pathSettings, mode: CanMoveModes.Exact);
                 Settings.MovePoints = canMove;
                 Settings.TransportPath.Assign(_pathSettings.Path);
                 ProcessingDone(AIMoveControlStatus.Done);
@@ -201,7 +199,7 @@ public sealed class AIMoveControl : EngineObject
             case 0:
                 _pathSettings.MovePointTable = _movePointTable;
                 _pathSettings.MovePointsMax = Settings.QuickMovePointsMax;
-                points = StrategicMap.Current.MoveControl.CanMove(_pathSettings, mode: Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast));
+                points = StrategicMap.Current.MoveControl.CanMove(_pathSettings, mode: CanMoveModes.Fast);
                 Settings.MovePoints = points;
                 if (points == -1)
                 {
@@ -220,7 +218,7 @@ public sealed class AIMoveControl : EngineObject
             case 1:
                 SelectCombinedTransporterArmyMpT();
                 _pathSettings.MovePointsMax = Settings.MovePointsMax;
-                _pathSettings.Mode = Settings.MoveMode + Set<MoveModeElement>.Of(MoveModeElement.AvoidArmies);
+                _pathSettings.Mode = Settings.MoveMode | MoveModes.AvoidArmies;
                 StrategicMap.Current.MoveControl.ProcessMove(_pathSettings);
                 if (_pathSettings.Path.Count != 0)
                 {
@@ -261,7 +259,7 @@ public sealed class AIMoveControl : EngineObject
                 break;
             case 2:
                 _pathSettings.MovePointsMax = Settings.QuickMovePointsMax;
-                points = StrategicMap.Current.MoveControl.CanMove(_pathSettings, mode: Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast));
+                points = StrategicMap.Current.MoveControl.CanMove(_pathSettings, mode: CanMoveModes.Fast);
                 if (points == -1)
                 {
                     _state = 3;
@@ -295,7 +293,7 @@ public sealed class AIMoveControl : EngineObject
             case 3:
                 _pathSettings.MovePointTable = _transportMovePointTable;
                 _pathSettings.MovePointsMax = Settings.MovePointsMax;
-                points = StrategicMap.Current.MoveControl.CanMove(_pathSettings, mode: Set<CanMoveModeElement>.Of(CanMoveModeElement.Exact));
+                points = StrategicMap.Current.MoveControl.CanMove(_pathSettings, mode: CanMoveModes.Exact);
                 if (points == -1)
                 {
                     Settings.MovePoints = -1;
@@ -348,7 +346,7 @@ public sealed class AIMoveControl : EngineObject
             Troop transporter = Settings.Transporter;
             if (transporter is not null)
             {
-                int moveTypesToInt32 = (byte)transporter.GetMoveTypes().Image;
+                int moveTypesToInt32 = (byte)transporter.GetMoveTypes();
                 _transportMovePointTable = MovementTables.MovePointTables[moveTypesToInt32];
             }
         }

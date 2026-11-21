@@ -5,7 +5,7 @@ namespace Aow.Game.UI.Controls;
 public sealed partial class Memo
 {
     // AoWMemo.pas:511. The editable-byte comparison tests exactly one after the bounds checks.
-    public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int x, int y)
+    public override void CheckMouseUp(MouseButton button, ShiftStates shift, int x, int y)
     {
         Handled = false;
         MouseDown = false;

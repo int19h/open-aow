@@ -6,7 +6,7 @@ public sealed partial class ComboBox
 {
     // A closed list leaves the wheel for the parent. An open list scrolls with its bar and moves F12C
     // in the same call, which is what Update copies from the bar on the next frame.
-    public override bool CheckMouseWheel(int steps, Set<ShiftState> shift, int X, int Y)
+    public override bool CheckMouseWheel(int steps, ShiftStates shift, int X, int Y)
     {
         if (steps == 0 || !_open || _verticalScrollBar is null || !ContainsPoint(X, Y))
         {

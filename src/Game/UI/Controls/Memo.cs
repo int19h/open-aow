@@ -447,7 +447,7 @@ public sealed partial class Memo : Control
     }
 
     // AoWMemo.pas:497
-    public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
@@ -459,7 +459,7 @@ public sealed partial class Memo : Control
     }
 
     // AoWMemo.pas:610
-    public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseMove(ShiftStates shift, int X, int Y)
     {
         base.CheckMouseMove(shift, X, Y);
         Handled = false;
@@ -584,7 +584,7 @@ public sealed partial class Memo : Control
 
     // AoWMemo.pas:627
     // { CheckKeyDown moves the cursor with the arrow keys and deletes with Delete }
-    public override void CheckKeyDown(ref ushort key, Set<ShiftState> shift)
+    public override void CheckKeyDown(ref ushort key, ShiftStates shift)
     {
         Handled = Redraw;
         if (Editable && Redraw && Valid && Visible)

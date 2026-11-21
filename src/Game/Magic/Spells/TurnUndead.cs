@@ -9,8 +9,6 @@ using Aow.Game.Magic.Abilities;
 
 using Aow.Game.Units;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Spells;
 
 // inherited combat statistics, damage mode
@@ -26,7 +24,7 @@ public class TurnUndead : CombatSpell
         SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 6;
         spellCombatInfo.Damage = 5;
-        spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Holy);
+        spellCombatInfo.DamageTypes = DamageTypes.Holy;
         spellCombatInfo.RepeatCount = 1;
         spellCombatInfo.Range = 12;
 
@@ -48,7 +46,7 @@ public class TurnUndead : CombatSpell
             action.ManaCost = BaseManaCost;
         }
 
-        if (target is CombatUnit targetUnit && Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(targetUnit.Troop.GetUnitType()) && (targetUnit.Troop.GetRace() == 11 || targetUnit.Troop.GetAbilityEnabled(129)))
+        if (target is CombatUnit targetUnit && targetUnit.Troop.GetUnitType() is UnitType.Humanoid or UnitType.Creature && (targetUnit.Troop.GetRace() == 11 || targetUnit.Troop.GetAbilityEnabled(129)))
         {
             action.Generate(source, target, CombatInfo.Attack, CombatInfo.Damage, CombatInfo.DamageTypes, DamageMode);
         }
@@ -59,7 +57,7 @@ public class TurnUndead : CombatSpell
     // CombatSpells.pas:922
     public override void FastBattleGetDamageValues(CombatObject source, CombatObject target, WallSituation wallSituation, ref AbilityDamageValues values)
     {
-        if (target is CombatUnit targetUnit && Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(targetUnit.Troop.GetUnitType()) && (targetUnit.Troop.GetRace() == 11 || targetUnit.Troop.GetAbilityEnabled(129)))
+        if (target is CombatUnit targetUnit && targetUnit.Troop.GetUnitType() is UnitType.Humanoid or UnitType.Creature && (targetUnit.Troop.GetRace() == 11 || targetUnit.Troop.GetAbilityEnabled(129)))
         {
             base.FastBattleGetDamageValues(source, target, wallSituation, ref values);
         }
@@ -69,7 +67,7 @@ public class TurnUndead : CombatSpell
             values.SourceCost = 0;
             values.TargetDamage = 0;
             values.TargetCost = 0;
-            values.DamageTypes = Set<DamageType>.Of();
+            values.DamageTypes = DamageTypes.None;
         }
     }
 }

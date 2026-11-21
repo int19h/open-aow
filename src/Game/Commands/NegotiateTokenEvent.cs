@@ -10,7 +10,6 @@ using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
-using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
@@ -37,7 +36,7 @@ public class NegotiateTokenEvent(CustomNode owner) : TokenEvent(owner)
 
     private byte _selection;
 
-    public Set<NegotiateModeElement> Mode { get; set; } = Set<NegotiateModeElement>.Of(NegotiateModeElement.AttackOnReject, NegotiateModeElement.MoveOnAccept);
+    public NegotiateModes Mode { get; set; } = NegotiateModes.AttackOnReject | NegotiateModes.MoveOnAccept;
     public NegotiateResult Result { get; set; }
     public int EventLogId { get; set; } = -1;
 
@@ -122,13 +121,13 @@ public class NegotiateTokenEvent(CustomNode owner) : TokenEvent(owner)
                 }
             }
 
-            if (ArmyHexSprite is not null && Mode.Contains(NegotiateModeElement.MoveOnAccept))
+            if (ArmyHexSprite is not null && Mode.Contains(NegotiateModes.MoveOnAccept))
             {
                 MovePath path = new();
                 _ = path.AddMapCoordinate(Location.X, Location.Y, Location.MapLevel);
                 _ = path.AddMapCoordinate(y: ArmyHexSprite.HexY, x: ArmyHexSprite.HexX, mapLevel: ArmyHexSprite.HexLevel);
                 path.List[0] = path.List[0] with { MoveCost = (sbyte)MovePoints };
-                MoveArmyTokenEvent move = ArmyHexSprite.CreateArmyMoveTokenEvent(ArmyHexSprite, _selection, path, action: MoveAction.Combine, mode: Set<ArmyMoveModeElement>.Of(ArmyMoveModeElement.SelectEndLocation));
+                MoveArmyTokenEvent move = ArmyHexSprite.CreateArmyMoveTokenEvent(ArmyHexSprite, _selection, path, action: MoveAction.Combine, mode: ArmyMoveModes.SelectEndLocation);
                 _ = StrategicMap.Current.TokenManager.TokenExecutor.InsertExecuteEvent(move);
                 // { Original bug: no nil check after CreateArmyMoveTE can return nil. }
                 _ = move.Release();
@@ -140,13 +139,13 @@ public class NegotiateTokenEvent(CustomNode owner) : TokenEvent(owner)
     // Diplomacy.pas:226
     public virtual void Reject()
     {
-        if (Offer == NegotiateOffer.ForceOffer && ArmyHexSprite is not null && Mode.Contains(NegotiateModeElement.AttackOnReject))
+        if (Offer == NegotiateOffer.ForceOffer && ArmyHexSprite is not null && Mode.Contains(NegotiateModes.AttackOnReject))
         {
             MovePath path = new();
             _ = path.AddMapCoordinate(Location.X, Location.Y, Location.MapLevel);
             _ = path.AddMapCoordinate(y: ArmyHexSprite.HexY, x: ArmyHexSprite.HexX, mapLevel: ArmyHexSprite.HexLevel);
             path.List[0] = path.List[0] with { MoveCost = (sbyte)MovePoints };
-            MoveArmyTokenEvent move = ArmyHexSprite.CreateArmyMoveTokenEvent(ArmyHexSprite, _selection, path, action: MoveAction.Attack, mode: Set<ArmyMoveModeElement>.Of(ArmyMoveModeElement.SelectEndLocation));
+            MoveArmyTokenEvent move = ArmyHexSprite.CreateArmyMoveTokenEvent(ArmyHexSprite, _selection, path, action: MoveAction.Attack, mode: ArmyMoveModes.SelectEndLocation);
             _ = StrategicMap.Current.TokenManager.TokenExecutor.InsertExecuteEvent(move);
             // { Original bug: no nil check after CreateArmyMoveTE can return nil. }
             _ = move.Release();

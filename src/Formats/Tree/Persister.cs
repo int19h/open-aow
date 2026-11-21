@@ -1,4 +1,3 @@
-using Aow.Rtl;
 
 namespace Aow.Formats.Tree;
 
@@ -127,7 +126,7 @@ public interface IPersister
 
     TEnum Enum<TEnum>(string name, TEnum value, TEnum fallback = default) where TEnum : struct, Enum;
 
-    Set<E> Set<E>(string name, Set<E> value) where E : unmanaged, Enum;
+    F Set<F>(string name, F value) where F : unmanaged, Enum;
 
     bool Boolean(string name, bool value);
 

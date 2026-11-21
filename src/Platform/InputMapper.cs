@@ -25,35 +25,35 @@ public sealed class InputMapper
 
     public void SetModifiers(int value) => _modifiers = value;
 
-    private Set<ShiftState> Shift(bool twice = false)
+    private ShiftStates Shift(bool twice = false)
     {
-        Set<ShiftState> state = default;
+        ShiftStates state = default;
         if ((_modifiers & 3) != 0)
         {
-            state = state.With(ShiftState.Shift);
+            state |= ShiftStates.Shift;
         }
 
         if ((_modifiers & 192) != 0)
         {
-            state = state.With(ShiftState.Ctrl);
+            state |= ShiftStates.Ctrl;
         }
 
         if ((_modifiers & 768) != 0)
         {
-            state = state.With(ShiftState.Alt);
+            state |= ShiftStates.Alt;
         }
 
         if ((_buttons & 1) != 0)
         {
-            state = state.With(ShiftState.Left);
+            state |= ShiftStates.Left;
         }
 
         if ((_buttons & 4) != 0)
         {
-            state = state.With(ShiftState.Right);
+            state |= ShiftStates.Right;
         }
 
-        return twice ? state.With(ShiftState.Double) : state;
+        return twice ? state | ShiftStates.Double : state;
     }
 
     public void Motion(float x, float y, uint state, DisplayViewport viewport, IDisplayEvents sink)

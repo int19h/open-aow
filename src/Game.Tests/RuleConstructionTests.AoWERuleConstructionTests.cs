@@ -54,7 +54,7 @@ public sealed partial class RuleConstructionTests
             Map = new StrategicMap(null, holder: EngineFixture.Engine);
             GamePack set = EngineFixture.CreateGameSet(_manager);
             GamePack.Current = set;
-            Map.Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying);
+            Map.Status = HexSpriteMapStatuses.Destroying;
             Map.Races = new RaceList(null) { Holder = EngineFixture.Engine };
             Map.UnitControl = new UnitControl(null) { Holder = EngineFixture.Engine };
             Map.HeroControl = new HeroControl(null) { Holder = EngineFixture.Engine };
@@ -229,7 +229,7 @@ public sealed partial class RuleConstructionTests
         {
             using GameEngine engine = new(null!);
             EngineClass meta = EngineClass.Of(type);
-            engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);
+            engine.Options &= ~GameEngine.VerifyClasses;
             try
             {
                 engine.UnregisterEngineClasses([engine.GetEngineClass(meta.ClassId)]);

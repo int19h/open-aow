@@ -21,9 +21,9 @@ namespace Aow.Game.Magic.Abilities;
 public static class AbilityRules
 {
 
-    internal static Set<DamageType> AllDamageTypesForWallImmunity { get; } = Set<DamageType>.FromMask(1023UL);
+    internal static DamageTypes AllDamageTypesForWallImmunity { get; } = DamageTypes.Fire | DamageTypes.Cold | DamageTypes.Lightning | DamageTypes.Magic | DamageTypes.Poison | DamageTypes.Death | DamageTypes.Holy | DamageTypes.Physical | DamageTypes.Wall | DamageTypes.NonSpecific;
 
-    internal static Set<DamageType> WallDamageTypes { get; } = Set<DamageType>.FromMask(256UL);
+    internal static DamageTypes WallDamageTypes { get; } = DamageTypes.Wall;
 
     // The original reads the engine global and returns the text unchanged while it is nil. A bare
     // engine (no dictionary) returns it unchanged too, as GameEngine.TranslateText does.
@@ -141,24 +141,24 @@ public static class AbilityRules
         return result;
     }
 
-    internal static int StatisticsToMaxDamage(int damage, Set<DamageType> damageTypes, Set<DamageType> immunityTypes, Set<DamageType> protectionTypes)
+    internal static int StatisticsToMaxDamage(int damage, DamageTypes damageTypes, DamageTypes immunityTypes, DamageTypes protectionTypes)
     {
-        damageTypes -= immunityTypes;
-        return damageTypes != Set<DamageType>.Of()
-            ? damageTypes - protectionTypes == Set<DamageType>.Of() ? (damage + 1) >>> 1 : damage
+        damageTypes &= ~immunityTypes;
+        return damageTypes != DamageTypes.None
+            ? (damageTypes & ~protectionTypes) == DamageTypes.None ? (damage + 1) >>> 1 : damage
             : 0;
     }
 
     [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The Delphi damage calculation signature keeps resistance.")]
-    internal static int StatisticsToLimitedDamageValue(int attack, int damage, Set<DamageType> damageTypes, int maximum, int defense, int resistance, Set<DamageType> immunityTypes, Set<DamageType> protectionTypes)
+    internal static int StatisticsToLimitedDamageValue(int attack, int damage, DamageTypes damageTypes, int maximum, int defense, int resistance, DamageTypes immunityTypes, DamageTypes protectionTypes)
     {
         int limit = maximum;
-        damageTypes -= immunityTypes;
+        damageTypes &= ~immunityTypes;
         int result;
-        if (damageTypes != Set<DamageType>.Of())
+        if (damageTypes != DamageTypes.None)
         {
             attack -= defense;
-            if (damageTypes - protectionTypes == Set<DamageType>.Of())
+            if ((damageTypes & ~protectionTypes) == DamageTypes.None)
             {
                 damage = (damage + 1) >>> 1;
             }
@@ -215,10 +215,10 @@ public static class AbilityRules
 
     internal static void ShowDamageIcon(GameEngine engine, int x, int y, in LockedSurface surface, int damage, DamageType damageType)
     {
-        if (damageType != DamageType.None)
+        if (damageType != DamageType.NonSpecific)
         {
             GamePack.Current.CombatImages[(int)damageType + 10].Show(x + 15, y + 10, lockedSurface: surface);
-            engine.CombatFont.Color = Set<DamageType>.Of(DamageType.Cold, DamageType.Lightning, DamageType.Magic, DamageType.Holy).Contains(damageType)
+            engine.CombatFont.Color = damageType is (>= DamageType.Cold and <= DamageType.Magic) or DamageType.Holy
                 ? 0
                 : 16_777_215;
 
@@ -259,7 +259,7 @@ public static class AbilityRules
         return Troop.Morale.Ok;
     }
 
-    internal static int PlaceRandomUnits(int X, int Y, int L, sbyte player, UnitIndexList units, int level, int value, Set<UnitType> types, GameEngine engine)
+    internal static int PlaceRandomUnits(int X, int Y, int L, sbyte player, UnitIndexList units, int level, int value, UnitTypes types, GameEngine engine)
     {
         int result = 0;
         if (units.Count != 0)
@@ -269,7 +269,7 @@ public static class AbilityRules
             {
                 tries -= 1;
                 int index = units[Random(units.Count)];
-                if (index != -1 && types.Contains(GamePack.Current.UnitResources.GetUnitResource(index).UnitType) && GamePack.Current.UnitResources.GetUnitResource(index).GetObtainValue() + result > value && GamePack.Current.UnitResources.GetUnitResource(index).Level <= level)
+                if (index != -1 && types.Contains(GamePack.Current.UnitResources.GetUnitResource(index).UnitType.ToFlag()) && GamePack.Current.UnitResources.GetUnitResource(index).GetObtainValue() + result > value && GamePack.Current.UnitResources.GetUnitResource(index).Level <= level)
                 {
                     int bestIndex = index;
                     int i = 20;
@@ -277,7 +277,7 @@ public static class AbilityRules
                     do
                     {
                         index = units[Random(units.Count)];
-                        if (index != -1 && types.Contains(GamePack.Current.UnitResources.GetUnitResource(index).UnitType))
+                        if (index != -1 && types.Contains(GamePack.Current.UnitResources.GetUnitResource(index).UnitType.ToFlag()))
                         {
                             int delta = Math.Abs(GamePack.Current.UnitResources.GetUnitResource(index).GetObtainValue() - (value - result));
                             if (delta < difference)
@@ -293,11 +293,11 @@ public static class AbilityRules
                     index = bestIndex;
                 }
 
-                if (index != -1 && types.Contains(GamePack.Current.UnitResources.GetUnitResource(index).UnitType) && GamePack.Current.UnitResources.GetUnitResource(index).Level <= level)
+                if (index != -1 && types.Contains(GamePack.Current.UnitResources.GetUnitResource(index).UnitType.ToFlag()) && GamePack.Current.UnitResources.GetUnitResource(index).Level <= level)
                 {
                     Unit unit = new(null) { Holder = engine };
                     unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(index));
-                    if (unit.Place(X, Y, L, player, mode: Set<UnitPlaceModeElement>.Of()) is not null)
+                    if (unit.Place(X, Y, L, player, mode: UnitPlaceModes.None) is not null)
                     {
                         result += unit.GetObtainValue();
                         tries = 50;
@@ -368,7 +368,7 @@ public static class AbilityRules
             if (targetPlayer != 0)
             {
                 DiplomaticRelation relation = DiplomaticRelation(player, independentRelation, otherPlayer: targetPlayer, otherIndependentRelation: targetRace);
-                return Set<DiplomaticRelation>.Of(Session.DiplomaticRelation.War, Session.DiplomaticRelation.Unknown).Contains(relation);
+                return relation is Session.DiplomaticRelation.War or Session.DiplomaticRelation.Unknown;
             }
             else
             {
@@ -413,9 +413,9 @@ public static class AbilityRules
                 i = movePath.Count - targetRange;
             }
 
-            BattleFieldInfo.SetupBattleFieldInfo(out BattleFieldInfo info, player, relation: independentRelation, requests: Set<BattleFieldInfoRequestsElement>.Of(), damageTypes: s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
-            info.FriendlyRelations = Set<byte>.WithBounds(0, 7);
-            info.Requests += Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents, BattleFieldInfoRequestsElement.EffectiveStrength);
+            BattleFieldInfo.SetupBattleFieldInfo(out BattleFieldInfo info, player, relation: independentRelation, requests: BattleFieldInfoRequests.None, damageTypes: s_allDamageTypes & ~DamageTypes.Wall);
+            info.FriendlyRelations = DiplomaticRelations.None;
+            info.Requests |= BattleFieldInfoRequests.IgnorePassiveIndependents | BattleFieldInfoRequests.EffectiveStrength;
             if (step > 0)
             {
                 units = new UnitUserList(null) { Holder = engine };
@@ -515,7 +515,7 @@ public static class AbilityRules
         return result;
     }
 
-    internal static EnhancementAbility CreateEnhancementAbility(int id, string name, Set<AbilitySelectionType> selectionTypes, GameEngine engine)
+    internal static EnhancementAbility CreateEnhancementAbility(int id, string name, AbilitySelectionTypes selectionTypes, GameEngine engine)
     {
         EnhancementAbility ability = new(null)
         {
@@ -531,7 +531,7 @@ public static class AbilityRules
 
     internal static ReadOnlySpan<int> RaceColors => [14_693_424, 6_726_911, 11_520_812, 16_702_087, 6_352_705, 1_441_277, 10_863_076, 16_252_925, 11_759_804, 5_263_593, 4_351_675, 7_960_728, 11_053_224];
 
-    private static readonly Set<DamageType> s_allDamageTypes = Set<DamageType>.FromMask(1023UL);
+    private static readonly DamageTypes s_allDamageTypes = DamageTypes.Fire | DamageTypes.Cold | DamageTypes.Lightning | DamageTypes.Magic | DamageTypes.Poison | DamageTypes.Death | DamageTypes.Holy | DamageTypes.Physical | DamageTypes.Wall | DamageTypes.NonSpecific;
 
     internal static ImmutableArray<string> ExplosionSfx { get; } = ["SFX\\ATTACK\\STORM.WAV", "SFX\\ATTACK\\EXPLOD1.WAV"];
 
@@ -566,8 +566,8 @@ public static class AbilityRules
     internal static bool CanConstructRoad(sbyte player, MapField field)
     {
         bool result = player == field.GetPlayer() || field.GetPlayer() == -1;
-        result = result && Set<byte>.WithBounds(0, 255).WithRange(1, 5).Contains((byte)field.TerrainType);
-        result = result && !Set<byte>.WithBounds(0, 255).With(0).With(2).With(4).With(5).Contains((byte)field.OverlayType);
+        result = result && field.TerrainType is >= (sbyte)TerrainType.Grass and <= (sbyte)TerrainType.Wasteland;
+        result = result && (byte)field.OverlayType is not (0 or 2 or 4 or 5);
         // Original shared helper
         return result && field.FindNoneTransparentHexSprite(typeof(Structure)) is null;
     }
@@ -580,8 +580,8 @@ public static class AbilityRules
             Info = new()
             {
                 Player = player,
-                FriendlyRelations = Set<byte>.WithBounds(0, 7).With(0).With(2),
-                EnemyRelations = Set<byte>.WithBounds(0, 7).With(1).With(3)
+                FriendlyRelations = DiplomaticRelations.Peace | DiplomaticRelations.Alliance,
+                EnemyRelations = DiplomaticRelations.War | DiplomaticRelations.Unknown
             }
         };
         MapLevel mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(level);
@@ -613,7 +613,7 @@ public static class AbilityRules
         }
     }
 
-    internal static Set<DamageType> AllDamageTypes { get; } = Set<DamageType>.FromMask(1023UL);
+    internal static DamageTypes AllDamageTypes { get; } = DamageTypes.Fire | DamageTypes.Cold | DamageTypes.Lightning | DamageTypes.Magic | DamageTypes.Poison | DamageTypes.Death | DamageTypes.Holy | DamageTypes.Physical | DamageTypes.Wall | DamageTypes.NonSpecific;
 
     internal static void TriggerStormDamage(StormType storm, sbyte x, sbyte y, sbyte mapLevel, sbyte innerRadius, sbyte outerRadius, sbyte player)
     {

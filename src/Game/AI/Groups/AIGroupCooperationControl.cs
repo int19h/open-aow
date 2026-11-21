@@ -1,17 +1,11 @@
 #nullable disable
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-
 using Aow.Game.Combat;
-
 using Aow.Game.Magic.Abilities;
-
+using Aow.Game.Session;
 using Aow.Game.Units;
-
 using Aow.Game.World.Map;
-
-using Aow.Rtl;
-
 using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.AI.Groups;
@@ -37,7 +31,7 @@ public class AIGroupCooperationControl : AIGroupTask
 
     public int CooperateStrength { get; set; }
 
-    private Set<DamageType> _damageTypes;
+    private DamageTypes _damageTypes;
     private readonly int[] _cooperateStrengths = new int[10];
 
     public int Superiority { get; set; }
@@ -138,7 +132,7 @@ public class AIGroupCooperationControl : AIGroupTask
         Complete = _remainingStrength <= 0;
         if (Complete)
         {
-            for (int dOrdinal = (int)DamageType.Fire; dOrdinal <= (int)DamageType.None; dOrdinal++)
+            for (int dOrdinal = (int)DamageType.Fire; dOrdinal <= (int)DamageType.NonSpecific; dOrdinal++)
             {
                 DamageType d = (DamageType)dOrdinal;
                 if (_remainingStrengths[(int)d] > 0)
@@ -167,7 +161,7 @@ public class AIGroupCooperationControl : AIGroupTask
         Mode = CooperationMode.None;
         _target = null;
         CooperateStrength = 0;
-        _damageTypes = AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall);
+        _damageTypes = AbilityRules.AllDamageTypes & ~DamageTypes.Wall;
         Array.Clear(_cooperateStrengths);
         Superiority = 120;
         _pathStrengthFactor = (float)0.8;
@@ -183,7 +177,7 @@ public class AIGroupCooperationControl : AIGroupTask
             Troop troop = group.Group.Units.GetUnit(i);
             int strengthMax = troop.GetStrengthMax(_damageTypes);
             _remainingStrength -= strengthMax;
-            for (int dOrdinal = (int)DamageType.Fire; dOrdinal <= (int)DamageType.None; dOrdinal++)
+            for (int dOrdinal = (int)DamageType.Fire; dOrdinal <= (int)DamageType.NonSpecific; dOrdinal++)
             {
                 DamageType d = (DamageType)dOrdinal;
                 int strength = troop.GetStrength(d);
@@ -204,19 +198,19 @@ public class AIGroupCooperationControl : AIGroupTask
     {
         MapCoordinate[] locationCell = new MapCoordinate[1];
         ref MapCoordinate location = ref locationCell[0];
-        if (group.Group.TransporterId == -1 && ((group.Group.TargetLocation == _target.Location && group.Group.TargetType == AIGroupTargetStatus.Setup) || Set<AIGroupTargetStatus>.Of(AIGroupTargetStatus.None, AIGroupTargetStatus.Idle).Contains(group.Group.TargetType)) && group.Group.CooperateWithGroup(_control.Group, _target))
+        if (group.Group.TransporterId == -1 && ((group.Group.TargetLocation == _target.Location && group.Group.TargetType == AIGroupTargetStatus.Setup) || group.Group.TargetType is AIGroupTargetStatus.None or AIGroupTargetStatus.Idle) && group.Group.CooperateWithGroup(_control.Group, _target))
         {
             if (group.PathStrength != 0)
             {
                 location = group.Group.GetLocation();
-                int strength1 = group.Group.Units.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                int strength1 = group.Group.Units.GetStrengthMax(AbilityRules.AllDamageTypes & ~DamageTypes.Wall);
                 AIGroup group1 = group.Group;
-                int advantage1 = -GetBattleFieldStrengthAdvantage(location, group1.Player, relation: group1.IndependentRelation, group1.Units, friendlyRadius: 1, enemyRadius: 10, damageTypes: AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                int advantage1 = -GetBattleFieldStrengthAdvantage(location, group1.Player, relation: group1.IndependentRelation, group1.Units, friendlyRadius: 1, enemyRadius: 10, damageTypes: AbilityRules.AllDamageTypes & ~DamageTypes.Wall);
 
                 location = _control.Group.GetLocation();
-                int strength2 = _control.Group.Units.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                int strength2 = _control.Group.Units.GetStrengthMax(AbilityRules.AllDamageTypes & ~DamageTypes.Wall);
                 AIGroup group2 = _control.Group;
-                int advantage2 = -GetBattleFieldStrengthAdvantage(location, group2.Player, relation: group2.IndependentRelation, group2.Units, friendlyRadius: 1, enemyRadius: 10, damageTypes: AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                int advantage2 = -GetBattleFieldStrengthAdvantage(location, group2.Player, relation: group2.IndependentRelation, group2.Units, friendlyRadius: 1, enemyRadius: 10, damageTypes: AbilityRules.AllDamageTypes & ~DamageTypes.Wall);
 
                 int strength = strength1 < strength2 ? strength1 : strength2;
 
@@ -277,18 +271,18 @@ public class AIGroupCooperationControl : AIGroupTask
         }
     }
 
-    private static int GetBattleFieldStrengthAdvantage(MapCoordinate location, sbyte player, sbyte relation, UnitCollection units, int friendlyRadius, int enemyRadius, Set<DamageType> damageTypes)
+    private static int GetBattleFieldStrengthAdvantage(MapCoordinate location, sbyte player, sbyte relation, UnitCollection units, int friendlyRadius, int enemyRadius, DamageTypes damageTypes)
     {
-        BattleFieldInfo.SetupBattleFieldInfo(out BattleFieldInfo info, player, relation, requests: Set<BattleFieldInfoRequestsElement>.Of([]), damageTypes);
-        info.EnemyRelations = Set<byte>.WithBounds(0, 7);
+        BattleFieldInfo.SetupBattleFieldInfo(out BattleFieldInfo info, player, relation, requests: BattleFieldInfoRequests.None, damageTypes);
+        info.EnemyRelations = DiplomaticRelations.None;
         info.Units = units;
-        info.Requests += Set<BattleFieldInfoRequestsElement>.Of([BattleFieldInfoRequestsElement.IgnorePassiveIndependents]);
+        info.Requests |= BattleFieldInfoRequests.IgnorePassiveIndependents;
         StrategicMap.Current.RetrieveBattleFieldInfo(location.X, location.Y, location.MapLevel, radius: friendlyRadius, ref info);
         int friendlyStrength = info.FriendlyStrength;
-        BattleFieldInfo.SetupBattleFieldInfo(out info, player, relation, requests: Set<BattleFieldInfoRequestsElement>.Of([]), damageTypes);
-        info.FriendlyRelations = Set<byte>.WithBounds(0, 7);
+        BattleFieldInfo.SetupBattleFieldInfo(out info, player, relation, requests: BattleFieldInfoRequests.None, damageTypes);
+        info.FriendlyRelations = DiplomaticRelations.None;
         info.Units = units;
-        info.Requests += Set<BattleFieldInfoRequestsElement>.Of([BattleFieldInfoRequestsElement.IgnorePassiveIndependents]);
+        info.Requests |= BattleFieldInfoRequests.IgnorePassiveIndependents;
         StrategicMap.Current.RetrieveBattleFieldInfo(location.X, location.Y, location.MapLevel, radius: enemyRadius, ref info);
         int strength = info.Strength;
         return friendlyStrength - strength;

@@ -220,7 +220,7 @@ public class LibraryImage : Persistent, ILibraryImageClass
         ReadImageData(stream);
         if (_version >= 2)
         {
-            if (_loadMode == LoadMode.LoadAlways || _owner is null || !_owner.Reloading || !_owner.Status.Contains(ImageLibraryStatusElement.LoadingFromFile) || _dataPosition == -1)
+            if (_loadMode == LoadMode.LoadAlways || _owner is null || !_owner.Reloading || !_owner.Status.Contains(ImageLibraryStatuses.LoadingFromFile) || _dataPosition == -1)
             {
                 if (_dataPosition != -1)
                 {
@@ -343,7 +343,7 @@ public class LibraryImage : Persistent, ILibraryImageClass
         if (_version < 2)
         {
             _dataPosition = (int)stream.Position;
-            if (_loadMode == LoadMode.LoadAlways || _owner is null || !_owner.Reloading || !_owner.Status.Contains(ImageLibraryStatusElement.LoadingFromFile))
+            if (_loadMode == LoadMode.LoadAlways || _owner is null || !_owner.Reloading || !_owner.Status.Contains(ImageLibraryStatuses.LoadingFromFile))
             {
                 ReadDiscardableImageData(stream);
                 _reloadingEnabled = false;
@@ -356,7 +356,7 @@ public class LibraryImage : Persistent, ILibraryImageClass
         }
         else
         {
-            if (_loadMode == LoadMode.LoadAlways || _owner is null || !_owner.Reloading || !_owner.Status.Contains(ImageLibraryStatusElement.LoadingFromFile) || _dataPosition == -1)
+            if (_loadMode == LoadMode.LoadAlways || _owner is null || !_owner.Reloading || !_owner.Status.Contains(ImageLibraryStatuses.LoadingFromFile) || _dataPosition == -1)
             {
                 if (_dataPosition != -1)
                 {

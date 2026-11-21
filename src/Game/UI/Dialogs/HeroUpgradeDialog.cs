@@ -181,7 +181,7 @@ public sealed partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
         for (int i = 1, last = GamePack.Current.AbilityControl.GetCount() - 1; i <= last; i++)
         {
             ability = GamePack.Current.AbilityControl[i];
-            if (ability is not null && ability.CanExpand(_editedHero) && ability.SelectionTypes.Contains(AbilitySelectionType.HeroUpgrade))
+            if (ability is not null && ability.CanExpand(_editedHero) && ability.SelectionTypes.Contains(AbilitySelectionTypes.HeroUpgrade))
             {
                 string expandName = ability.ExpandName(_editedHero);
                 _ = AvailableAbilitiesList.Items.AddObject(expandName, item: IntToObject(i));
@@ -508,7 +508,7 @@ public sealed partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
     public void DlgHide() => ClearHero();
 
     // AoWHeroUpgradeDlg.pas:544
-    public void AvailableAbilitiesMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public void AvailableAbilitiesMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
         if (button == MouseButton.Right && AvailableAbilitiesList.Selected != -1)
         {
@@ -522,7 +522,7 @@ public sealed partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
     }
 
     // AoWHeroUpgradeDlg.pas:556
-    public void SelectedAbilitiesMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public void SelectedAbilitiesMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
         if (button == MouseButton.Right && SelectedAbilitiesList.Selected != -1)
         {
@@ -536,7 +536,7 @@ public sealed partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
     }
 
     // AoWHeroUpgradeDlg.pas:568
-    public void DlgKeyDown(in ushort key, Set<ShiftState> shift)
+    public void DlgKeyDown(in ushort key, ShiftStates shift)
     {
         if (key == 27)
         {

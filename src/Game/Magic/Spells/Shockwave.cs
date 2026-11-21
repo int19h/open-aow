@@ -5,8 +5,6 @@ using Aow.Game.Combat;
 
 using Aow.Game.Magic.Abilities;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Spells;
 
 // inherited spell ID, combat statistics, damage mode
@@ -21,7 +19,7 @@ public class Shockwave : CombatSpell
         SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 8;
         spellCombatInfo.Damage = 5;
-        spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Physical, DamageType.Wall);
+        spellCombatInfo.DamageTypes = DamageTypes.Physical | DamageTypes.Wall;
         spellCombatInfo.RepeatCount = 1;
         spellCombatInfo.Range = 12;
 

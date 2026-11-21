@@ -7,8 +7,6 @@ using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Session;
 
 // behaviors, race, status, leader, player, behavior, email
@@ -21,7 +19,7 @@ public sealed class PlayerSetupSettings : EngineObject
     public SetupPlayerBehavior OriginalBehavior { get; set; }
     public sbyte Race { get; set; }
     // AoW.exe
-    public Set<PlayerSetupStatusElement> Status { get; set; }
+    public PlayerSetupStatuses Status { get; set; }
 
     public Leader Leader { get; private set; }
 
@@ -54,7 +52,7 @@ public sealed class PlayerSetupSettings : EngineObject
     // AoWSetup.pas:296
     public PlayerSetupSettings(CustomNode owner) : base(owner)
     {
-        Status = Set<PlayerSetupStatusElement>.Of();
+        Status = PlayerSetupStatuses.None;
         Behavior = s_defaultBehavior;
         OriginalBehavior = s_defaultOriginalBehavior;
         Leader = new Leader(null) { Holder = CreationHolder() };

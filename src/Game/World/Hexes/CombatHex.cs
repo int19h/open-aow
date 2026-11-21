@@ -6,7 +6,6 @@ using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 
 using Aow.Game.World.Map;
-using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.World.Hexes;
@@ -21,7 +20,7 @@ public class CombatHex(CustomNode owner) : AbstractHexagon(owner)
     // CombatHex.pas:174
     public override void TerrainChanged(in HexSpriteTerrainInfo message)
     {
-        if (Set<byte>.WithBounds(0, 255).With(0).With(6).With(14).Contains((byte)message.TerrainType))
+        if (message.TerrainType is (sbyte)TerrainType.Water or (sbyte)TerrainType.Ice or (sbyte)TerrainType.Cost)
         {
             if (message.TerrainType != 14)
             {
@@ -215,7 +214,7 @@ public class CombatHex(CustomNode owner) : AbstractHexagon(owner)
             if (!condition)
             {
                 sbyte terrain = TerrainList.GetTerrain(0);
-                condition = !Set<byte>.WithBounds(0, 255).With(0).With(6).Contains((byte)terrain);
+                condition = (byte)terrain is not (0 or 6);
             }
 
             if (condition)
@@ -230,7 +229,7 @@ public class CombatHex(CustomNode owner) : AbstractHexagon(owner)
 
             if (message.MessageId == 536870920)
             {
-                TransitionLibrary = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: "TCombat\\Base_Hex\\CTransHx.ILB");
+                TransitionLibrary = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(ImageLibraryManagerCategories.Disk, fileName: "TCombat\\Base_Hex\\CTransHx.ILB");
             }
         }
 

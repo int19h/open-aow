@@ -1,5 +1,4 @@
 // Translated from AoWE.pas.
-using Aow.Rtl;
 
 namespace Aow.Game.Units;
 
@@ -9,7 +8,7 @@ public struct UnitShowInfo
 {
     public byte Direction { get; internal set; }
 
-    public Set<UnitOverlayModesElement> Overlays { get; set => field = Set<UnitOverlayModesElement>.FromMask((byte)value.Image); }
+    public UnitOverlayModes Overlays { get; set; }
 
     public UnitAnimation Animation { get; internal set; }
     public int Frame { get; internal set; }

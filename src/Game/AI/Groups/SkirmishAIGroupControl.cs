@@ -4,7 +4,6 @@ using Aow.Engine.Nodes;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.World.Map;
-using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
@@ -40,7 +39,7 @@ public class SkirmishAIGroupControl(CustomNode owner) : BehaviorAIGroupControl(o
                     _ = TargetSelector.Setup(this);
                     TargetSelector.Superiority = 3;
                     TargetSelector.NearSuperiority = 2;
-                    TargetSelector.Mode = TargetSelector.Mode - Set<AIGroupTargetingModes>.Of(AIGroupTargetingModes.Cooperate, AIGroupTargetingModes.Recruit, AIGroupTargetingModes.Produce);
+                    TargetSelector.Mode &= ~(AIGroupTargetingModes.Cooperate | AIGroupTargetingModes.Recruit | AIGroupTargetingModes.Produce);
                     ActivatePlugin(TargetSelector);
                     State += 1;
                 }
@@ -70,7 +69,7 @@ public class SkirmishAIGroupControl(CustomNode owner) : BehaviorAIGroupControl(o
                 break;
             case 5:
                 Player player = StrategicMap.Current.Players.GetPlayers(Group.Player);
-                if (Set<PlayerType>.Of(PlayerType.Cpu3, PlayerType.Cpu4, PlayerType.Cpu5).Contains(player.PlayerType))
+                if (player.PlayerType is PlayerType.Cpu3 or PlayerType.Cpu4 or PlayerType.Cpu5)
                 {
                     State = 0;
                 }

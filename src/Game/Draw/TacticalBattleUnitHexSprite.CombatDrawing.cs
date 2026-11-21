@@ -220,7 +220,7 @@ public partial class TacticalBattleUnitHexSprite
                     break;
             }
 
-            if (Unit.Troop.UnitStatus.Contains(UnitStatusElement.Enchanted))
+            if (Unit.Troop.UnitStatus.Contains(UnitStatuses.Enchanted))
             {
                 GamePack.Current.ImageSequences.ShowLooped(70, pixelXSurface + 16, pixelYSurface + 18 + flyingOffset, StrategicMap.Current.Frame, lockedSurface);
             }

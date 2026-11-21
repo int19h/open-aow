@@ -50,7 +50,7 @@ public sealed partial class RuleConstructionTests
         if (route == 2)
         {
             using GameEngine engine = new(null);
-            engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);
+            engine.Options &= ~GameEngine.VerifyClasses;
             try
             {
                 engine.UnregisterEngineClasses([engine.GetEngineClass(meta.ClassId)]);
@@ -132,7 +132,7 @@ public sealed partial class RuleConstructionTests
         using MemoryStream memory = new();
         try
         {
-            engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);
+            engine.Options &= ~GameEngine.VerifyClasses;
             try
             {
                 engine.UnregisterEngineClasses([engine.GetEngineClass(meta.ClassId)]);

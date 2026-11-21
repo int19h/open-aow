@@ -11,7 +11,6 @@ using Aow.Game.Draw;
 using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Map;
-using Aow.Rtl;
 using static Aow.Rtl.DelphiFormat;
 
 namespace Aow.Game.Magic.Spells;
@@ -30,7 +29,7 @@ public class DispelMagic : UnitSpell
         MagicSphere = MagicSphere.Cosmos;
         TargetRange = 4;
         AllowMultipleTargets = true;
-        SpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global, SpellControlTypeElement.Combat);
+        SpellControlTypes = SpellControlTypes.Global | SpellControlTypes.Combat;
     }
 
     // UnitSpells.pas:1023
@@ -59,7 +58,7 @@ public class DispelMagic : UnitSpell
     public override void GetCombatInfo(Troop source, ref SpellCombatInfo info)
     {
         base.GetCombatInfo(source, ref info);
-        info.TargetTypes = Set<CombatTargetTypeElement>.Of(CombatTargetTypeElement.Friend, CombatTargetTypeElement.Enemy);
+        info.TargetTypes = CombatTargetTypes.Friend | CombatTargetTypes.Enemy;
     }
 
     // UnitSpells.pas:1068

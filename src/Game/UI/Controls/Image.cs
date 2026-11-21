@@ -60,7 +60,7 @@ public sealed partial class Image(Component owner) : Control(owner)
     }
 
     // AoWImage.pas:163
-    public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
@@ -72,7 +72,7 @@ public sealed partial class Image(Component owner) : Control(owner)
     }
 
     // AoWImage.pas:177
-    public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton button, ShiftStates shift, int X, int Y)
     {
         Handled = false;
         Redraw = false;
@@ -84,7 +84,7 @@ public sealed partial class Image(Component owner) : Control(owner)
     }
 
     // AoWImage.pas:190
-    public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseMove(ShiftStates shift, int X, int Y)
     {
         base.CheckMouseMove(shift, X, Y);
         Handled = false;

@@ -2,7 +2,6 @@
 // Translated from AOWMWindow.pas.
 using Aow.Game.Combat;
 using Aow.Game.Draw;
-
 using Aow.Game.Host;
 using Aow.Game.Session;
 using Aow.Game.UI.Controls;
@@ -40,7 +39,7 @@ public sealed partial class MapWindow(UIContext ui) : UIModule(ui)
     }
 
     // AOWMWindow.pas:68
-    public void MapWindowMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public void MapWindowMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
         if (InsideMap(X, Y))
         {
@@ -55,7 +54,7 @@ public sealed partial class MapWindow(UIContext ui) : UIModule(ui)
     }
 
     // AOWMWindow.pas:74
-    public void MapWindowMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public void MapWindowMouseUp(MouseButton button, ShiftStates shift, int X, int Y)
     {
         if (InsideMap(X, Y))
         {
@@ -78,7 +77,7 @@ public sealed partial class MapWindow(UIContext ui) : UIModule(ui)
     }
 
     // AOWMWindow.pas:82
-    public void MapWindowMouseMove(Set<ShiftState> shift, int X, int Y)
+    public void MapWindowMouseMove(ShiftStates shift, int X, int Y)
     {
         Window window = MainWindow;
         if (X > window.WinLeft + 11 && X < MainWindow.WinLeft + window.WinWidth - 11 && Y > window.WinTop + 11 && Y < window.WinTop + window.WinHeight - 11)
@@ -127,12 +126,12 @@ public sealed partial class MapWindow(UIContext ui) : UIModule(ui)
         if (StrategicMap.Current.CombatMap is not null)
         {
             HexSpriteMapMouse hexSpriteMapMouse = StrategicMap.Current.CombatMap.Mouse;
-            hexSpriteMapMouse.Move(Set<ShiftState>.Of(), hexSpriteMapMouse.X, hexSpriteMapMouse.Y);
+            hexSpriteMapMouse.Move(ShiftStates.None, hexSpriteMapMouse.X, hexSpriteMapMouse.Y);
         }
         else
         {
             HexSpriteMapMouse hexSpriteMapMouse = StrategicMap.Current.Mouse;
-            hexSpriteMapMouse.Move(Set<ShiftState>.Of(), hexSpriteMapMouse.X, hexSpriteMapMouse.Y);
+            hexSpriteMapMouse.Move(ShiftStates.None, hexSpriteMapMouse.X, hexSpriteMapMouse.Y);
         }
     }
 
@@ -149,7 +148,7 @@ public sealed partial class MapWindow(UIContext ui) : UIModule(ui)
     }
 
     // AOWMWindow.pas:136
-    public void MapWindowExit() => StrategicMap.Current?.Mouse.Move(Set<ShiftState>.Of(), -1, -1);
+    public void MapWindowExit() => StrategicMap.Current?.Mouse.Move(ShiftStates.None, -1, -1);
 
     // AOWMWindow.pas:150
     public void MapWindowPreDrawSurface(Surface surface, int X, int Y)
@@ -170,7 +169,7 @@ public sealed partial class MapWindow(UIContext ui) : UIModule(ui)
     }
 
     // AOWMWindow.pas:163
-    public void MapWindowKeyDown(UIComponent sender, ref ushort key, Set<ShiftState> shift)
+    public void MapWindowKeyDown(UIComponent sender, ref ushort key, ShiftStates shift)
     {
         if (StrategicMap.Current is not null && CombatMap.Current is null)
         {
@@ -181,18 +180,18 @@ public sealed partial class MapWindow(UIContext ui) : UIModule(ui)
         ushort k = key;
         switch (UI.Engine.Language)
         {
-            case 4:
+            case (byte)GameSettings.Language.Spanish:
                 switch (key)
                 {
                     case 65:
-                        if (shift.Contains(ShiftState.Ctrl))
+                        if (shift.Contains(ShiftStates.Ctrl))
                         {
                             k = 79;
                         }
 
                         break;
                     case 71:
-                        if (shift.Contains(ShiftState.Ctrl))
+                        if (shift.Contains(ShiftStates.Ctrl))
                         {
                             k = 83;
                         }
@@ -250,7 +249,7 @@ public sealed partial class MapWindow(UIContext ui) : UIModule(ui)
                     break;
                 case 69:
                 case 13:
-                    if (shift.Contains(ShiftState.Ctrl) && CombatMap.Current is not null)
+                    if (shift.Contains(ShiftStates.Ctrl) && CombatMap.Current is not null)
                     {
                         _ = CombatMap.Current.EndTurn(false);
                         sender.Handled = true;
@@ -259,7 +258,7 @@ public sealed partial class MapWindow(UIContext ui) : UIModule(ui)
                     break;
                 case 79:
                 case 114:
-                    if (CombatMap.Current is null && (k == 114 || shift.Contains(ShiftState.Ctrl)))
+                    if (CombatMap.Current is null && (k == 114 || shift.Contains(ShiftStates.Ctrl)))
                     {
                         UI.FileDialogWindow.Mode = 0;
                         UI.FileDialogWindow.Window.Visible = true;
@@ -268,7 +267,7 @@ public sealed partial class MapWindow(UIContext ui) : UIModule(ui)
                     break;
                 case 83:
                 case 115:
-                    if (CombatMap.Current is null && (k == 115 || shift.Contains(ShiftState.Ctrl)))
+                    if (CombatMap.Current is null && (k == 115 || shift.Contains(ShiftStates.Ctrl)))
                     {
                         UI.FileDialogWindow.Mode = 1;
                         UI.FileDialogWindow.Window.Visible = true;

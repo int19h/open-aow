@@ -1,8 +1,6 @@
 // Translated from PassiveAb.pas.
 using Aow.Engine.Nodes;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // inherited name, ability ID, selection types, ability type, duration mode
@@ -14,7 +12,7 @@ public class CursedAbility : DurationAbility
         Holder = holder;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_cursedText);
         AbilityId = 93;
-        SelectionTypes = Set<AbilitySelectionType>.Of();
+        SelectionTypes = AbilitySelectionTypes.None;
         DurationMode = DurationMode.Day;
     }
 

@@ -12,8 +12,6 @@ using Aow.Game.Draw.Images;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Game.Units;
@@ -110,7 +108,7 @@ public sealed class UnitGraphicsResource : EngineResource
     public override int Release()
     {
         _refCount -= 1;
-        if (_refCount == 0 && !GamePack.Current.Status.Contains(HexSpriteSetStatusElement.Editting) && (StrategicMap.Current is null || !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting)))
+        if (_refCount == 0 && !GamePack.Current.Status.Contains(HexSpriteSetStatuses.Editting) && (StrategicMap.Current is null || !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting)))
         {
             ReleaseImageLibrary();
         }
@@ -143,7 +141,7 @@ public sealed class UnitGraphicsResource : EngineResource
         Sequences.LinkToImageLibrary();
         if (!IsEmpty(_faceImageLibraryName))
         {
-            _faceImageLibrary = Sequences.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: _faceImageLibraryName);
+            _faceImageLibrary = Sequences.ImageLibraryManager.LinkToImageLibrary(ImageLibraryManagerCategories.Disk, fileName: _faceImageLibraryName);
             return;
         }
 
@@ -158,7 +156,7 @@ public sealed class UnitGraphicsResource : EngineResource
         {
             if (!IsEmpty(_faceImageLibraryName))
             {
-                Sequences.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: _faceImageLibraryName);
+                Sequences.ImageLibraryManager.ReleaseImageLibrary(ImageLibraryManagerCategories.Disk, fileName: _faceImageLibraryName);
             }
 
             _faceImageLibrary = null;
@@ -170,14 +168,14 @@ public sealed class UnitGraphicsResource : EngineResource
     {
         if (!IsEmpty(_faceImageLibraryName))
         {
-            Sequences.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: _faceImageLibraryName);
+            Sequences.ImageLibraryManager.ReleaseImageLibrary(ImageLibraryManagerCategories.Disk, fileName: _faceImageLibraryName);
         }
 
         _faceImageLibraryName = value;
         // { Original releases the old library even when no reference is held. }
         if (!IsEmpty(_faceImageLibraryName) && _refCount != 0)
         {
-            _faceImageLibrary = Sequences.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: _faceImageLibraryName);
+            _faceImageLibrary = Sequences.ImageLibraryManager.LinkToImageLibrary(ImageLibraryManagerCategories.Disk, fileName: _faceImageLibraryName);
         }
     }
 

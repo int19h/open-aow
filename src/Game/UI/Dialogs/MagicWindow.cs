@@ -195,7 +195,7 @@ public sealed partial class MagicWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWMagic.pas:210
-    public void EnchantmentListMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public void EnchantmentListMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
         if (button == MouseButton.Right)
         {
@@ -323,7 +323,7 @@ public sealed partial class MagicWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWMagic.pas:323
-    public void PowerValueListMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public void PowerValueListMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
         if (button == MouseButton.Right)
         {
@@ -464,7 +464,7 @@ public sealed partial class MagicWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWMagic.pas:462
-    public void GlobalEnchantmentMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public void GlobalEnchantmentMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
         if (button == MouseButton.Right)
         {

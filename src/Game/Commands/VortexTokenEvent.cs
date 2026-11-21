@@ -11,7 +11,6 @@ using Aow.Game.Magic.Spells;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
-using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiRounding;
 
@@ -88,11 +87,11 @@ public class VortexTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(ow
                     {
                         Troop troopObject = army.Army.Units.GetUnit(i);
                         int damage;
-                        if (!troopObject.GetMoveTypes().Contains(MoveType.Flying))
+                        if (!troopObject.GetMoveTypes().Contains(MoveTypes.Flying))
                         {
                             damage = troopObject.GetAbilityEnabled(2) ? 7 : troopObject.GetAbilityEnabled(23) ? 10 : 0;
 
-                            damage = troopObject.ExecuteDamageRole(8, damage, damageTypes: Set<DamageType>.Of(DamageType.Physical));
+                            damage = troopObject.ExecuteDamageRole(8, damage, damageTypes: DamageTypes.Physical);
                             if (damage > troopObject.GetHitPoints())
                             {
                                 damage = troopObject.GetHitPoints();

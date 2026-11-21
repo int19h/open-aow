@@ -11,8 +11,6 @@ using Aow.Game.World.Hexes;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Game.World.Structures;
-
-using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.World.Terrain;
@@ -168,7 +166,7 @@ public class CombatStructure : CombatFixedImageLibraryTerrain
     public override void Activate()
     {
         base.Activate();
-        if (!CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (!CombatMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             _playSound = true;
             bool razed = false;
@@ -213,7 +211,7 @@ public class CombatStructure : CombatFixedImageLibraryTerrain
     public override bool ValidTerrainType(int terrainType) => true;
 
     // CombatStructure.pas:237
-    public override int GetTerrainTypeImage(int terrainType) => terrainType == 3 ? 20 : Set<byte>.WithBounds(0, 255).With(5).With(12).Contains((byte)terrainType) ? 40 : 0;
+    public override int GetTerrainTypeImage(int terrainType) => terrainType == 3 ? 20 : (byte)terrainType is (byte)Map.TerrainType.Wasteland or (byte)Map.TerrainType.Dirt ? 40 : 0;
 
     // CombatStructure.pas:244
     public override void ShowShadow(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)

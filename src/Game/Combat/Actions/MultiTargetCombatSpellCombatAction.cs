@@ -46,7 +46,7 @@ public class MultiTargetCombatSpellCombatAction(CustomNode owner) : CombatAction
     // CombatSpells.pas:579
     public override void Execute(Battle combat)
     {
-        if (ManaCost != 0 && combat.Status.Contains(CombatStatusElement.Executing))
+        if (ManaCost != 0 && combat.Status.Contains(CombatStatuses.Executing))
         {
             CombatObject source = combat.CombatData.FindId(SourceId);
             GamePack.Current.SpellControl[SpellId].CombatCastingDone(source, mana: ManaCost);

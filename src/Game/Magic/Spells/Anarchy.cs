@@ -15,7 +15,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
 
 using Aow.Game.World.Structures;
-using Aow.Rtl;
 using static Aow.Rtl.DelphiFormat;
 using static Aow.Rtl.DelphiRandom;
 
@@ -29,7 +28,7 @@ public class Anarchy : CityTargetSpell
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_anarchyText);
         SpellId = 72;
-        CityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Enemy);
+        CityTargetMode = CityTargetModes.Enemy;
     }
 
     // CitySpells.pas:875
@@ -87,7 +86,7 @@ public class Anarchy : CityTargetSpell
     public override bool ValidTargetCity(Troop source, City targetCity)
     {
         bool result = base.ValidTargetCity(source, targetCity);
-        return result && targetCity.Player != 0 && !targetCity.Enchantments.Contains(CityEnchantmentId.AntiMagicShell);
+        return result && targetCity.Player != 0 && !targetCity.Enchantments.Contains(CityEnchantmentIds.AntiMagicShell);
     }
 
     // CitySpells.pas:867

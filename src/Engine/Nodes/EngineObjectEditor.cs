@@ -15,8 +15,14 @@ public partial class EngineObjectEditor(CustomNode owner) : EngineObject(owner),
     // Engine.pas:3041
     public static void Edit(EngineObject objectValue, GameEngine engine, Action<EditResult, EngineObject> done) => done(EditResult.Cancel, objectValue);
 
-    public enum EditModeElement : byte
+    [Flags]
+    public enum EditModes : byte
     {
-        Edit = 0, Cut = 1, Copy = 2, Paste = 3, Delete = 4
+        None = 0,
+        Edit = 1 << 0,
+        Cut = 1 << 1,
+        Copy = 1 << 2,
+        Paste = 1 << 3,
+        Delete = 1 << 4,
     }
 }

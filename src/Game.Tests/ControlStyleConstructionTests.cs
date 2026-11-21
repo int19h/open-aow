@@ -55,7 +55,7 @@ public sealed class ControlStyleConstructionTests
                 _ = settings.Editors.AddObject("Editor", item: IntegerObjects.IntToObject(17));
             }
 
-            direct.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Stored, EngineServices.Shared));
+            direct.SetControlStyle(EngineServices.Stored | EngineServices.Shared);
             copy = direct.Copy(engine);
             Assert.IsType(type, @object: copy);
             Assert.Null(copy.Owner);

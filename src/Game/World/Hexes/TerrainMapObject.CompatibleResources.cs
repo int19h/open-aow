@@ -22,7 +22,7 @@ public partial class TerrainMapObject
             if (resource.DecorationType == Resource.DecorationType &&
                 resource.TerrainType == terrainType && resource != Resource &&
                 resource.TerrainList.CompareTerrain(Resource.TerrainList,
-                    mode: Set<TerrainCompareModeElement>.Of(TerrainCompareModeElement.SameOverlayType)))
+                    mode: TerrainCompareModes.SameOverlayType))
             {
                 _ = candidates.Add(resource);
             }

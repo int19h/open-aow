@@ -15,9 +15,9 @@ public sealed class MouseWheelTests
 {
     private sealed class Sink : IDisplayEvents
     {
-        internal List<(int Steps, Set<ShiftState> Shift, int X, int Y)> Rolls { get; } = [];
+        internal List<(int Steps, ShiftStates Shift, int X, int Y)> Rolls { get; } = [];
 
-        public void MouseWheel(int steps, Set<ShiftState> shift, int x, int y) => Rolls.Add((steps, shift, x, y));
+        public void MouseWheel(int steps, ShiftStates shift, int x, int y) => Rolls.Add((steps, shift, x, y));
     }
 
     private static void Place(UIComponent component, UIComponent owner, int left, int top, int width, int height, int priority = 0)
@@ -62,7 +62,7 @@ public sealed class MouseWheelTests
         // The margin around the image is still inside the output, so it lands on the nearest edge.
         mapper.Wheel(1, direction: 0, 0, 20, viewport: view, sink);
         mapper.Wheel(1, direction: 0, -1, 20, viewport: view, sink);
-        Assert.Equal([(2, true, 5, 7), (-2, true, 5, 7), (1, true, 0, 0)], sink.Rolls.Select(r => (r.Steps, r.Shift.Contains(ShiftState.Shift), r.X, r.Y)));
+        Assert.Equal([(2, true, 5, 7), (-2, true, 5, 7), (1, true, 0, 0)], sink.Rolls.Select(r => (r.Steps, r.Shift.Contains(ShiftStates.Shift), r.X, r.Y)));
     }
 
     [Fact]
@@ -111,7 +111,7 @@ public sealed class MouseWheelTests
         Place(list, owner: panel, 10, 15, 80, 40);
         Fill(list, count: 10, shown: 3);
         VerticalScrollBar bar = Bar(panel, 180, 10, 16, 80, max: 9, visible: 3);
-        Set<ShiftState> shift = default;
+        ShiftStates shift = default;
 
         Assert.True(manager.CheckMouseWheel(-1, shift, 140, 100));
         Assert.Equal(1, list.FirstShownItem);
@@ -155,7 +155,7 @@ public sealed class MouseWheelTests
         Place(panel, owner: window, 0, 0, 300, 200);
         VerticalScrollBar first = Bar(panel, 200, 0, 16, 40, max: 9, visible: 3);
         VerticalScrollBar second = Bar(panel, 200, 50, 16, 40, max: 9, visible: 3);
-        Set<ShiftState> shift = default;
+        ShiftStates shift = default;
 
         // The window contains the pointer, so the manager accepts the wheel. Two bars mean the panel scrolls neither.
         Assert.False(window.CheckMouseWheel(-1, shift, 20, 20));
@@ -188,7 +188,7 @@ public sealed class MouseWheelTests
         ListBox modalList = new(null);
         Place(modalList, owner: modal, 0, 0, 80, 40);
         Fill(modalList, count: 10, shown: 3);
-        Set<ShiftState> shift = default;
+        ShiftStates shift = default;
 
         Assert.True(manager.CheckMouseWheel(-1, shift, 20, 20));
         Assert.Equal(1, modalList.FirstShownItem);
@@ -220,7 +220,7 @@ public sealed class MouseWheelTests
             changes++;
             list.ListOffset = bar.Position;
         };
-        Set<ShiftState> shift = default;
+        ShiftStates shift = default;
 
         Assert.True(list.CheckMouseWheel(-4, shift, 10, 10));
         Assert.Equal(7, bar.Position);
@@ -255,7 +255,7 @@ public sealed class MouseWheelTests
         VerticalScrollBar bar = Bar(panel, 140, 10, 16, 40, max: 9, visible: 3);
         int changes = 0;
         list.OnChange += _ => changes++;
-        Set<ShiftState> shift = default;
+        ShiftStates shift = default;
 
         Assert.True(manager.CheckMouseWheel(-1, shift, 30, 30));
         Assert.Equal(1, list.FirstShownItem);
@@ -302,7 +302,7 @@ public sealed class MouseWheelTests
         ListBox list = new(null);
         Place(list, owner: book, 10, 10, 60, 30);
         Fill(list, count: 8, shown: 3);
-        Set<ShiftState> shift = default;
+        ShiftStates shift = default;
 
         Assert.True(manager.CheckMouseWheel(-5, shift, 120, 80));
         Assert.Equal(1, page);
@@ -350,7 +350,7 @@ public sealed class MouseWheelTests
         VerticalScrollBar memoBar = Bar(window, 140, 10, 16, 40, max: 0, visible: 1);
         memoBar.SetVisibleWithoutUpdate(false);
         memo.SetVerticalScrollBarWithoutLayout(memoBar);
-        Set<ShiftState> shift = default;
+        ShiftStates shift = default;
 
         Assert.False(list.CheckMouseWheel(-1, shift, 20, 20));
         Assert.True(window.CheckMouseWheel(-1, shift, 20, 20));

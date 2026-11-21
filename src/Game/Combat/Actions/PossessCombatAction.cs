@@ -11,8 +11,6 @@ using Aow.Game.Units;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Combat.Actions;
 
 // (possession succeeded)
@@ -57,9 +55,9 @@ public class PossessCombatAction(CustomNode owner) : SingleTargetCombatAction(ow
             oldUnit.Killed();
             oldUnit.SetOwner(null);
             source.SetUnit(newUnit);
-            if (oldUnit.UnitStatus.Contains(UnitStatusElement.Moving))
+            if (oldUnit.UnitStatus.Contains(UnitStatuses.Moving))
             {
-                source.Troop.UnitStatus = source.Troop.UnitStatus + Set<UnitStatusElement>.Of(UnitStatusElement.Moving);
+                source.Troop.UnitStatus |= UnitStatuses.Moving;
             }
 
             _ = GamePack.Current.AbilityControl[107].Expand(source.Troop);

@@ -4,8 +4,6 @@ using Aow.Engine.Nodes;
 
 using Aow.Game.Draw.Images;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Units;
 
 public sealed class FaceResourceList : ResourceCollection, IChildList<FaceResource>
@@ -19,7 +17,7 @@ public sealed class FaceResourceList : ResourceCollection, IChildList<FaceResour
     int IChildSink<FaceResource>.AddChild(FaceResource child) => AddChild(child);
 
     // Ability.PAS:520
-    public FaceResourceList(CustomNode owner) : base(owner) => SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, ControlStyleElement.ArrayMode));
+    public FaceResourceList(CustomNode owner) : base(owner) => SetControlStyle(ControlStyles.SaveLoad | ControlStyles.FixedChild | ControlStyles.ArrayMode);
 
     // Ability.PAS:526
     public int IndexOfFaceImage(LibraryImage image)

@@ -193,7 +193,7 @@ public class CombatMap : GameMap
     // AoWTC.pas:2249
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        if (message.MessageId == 536870920 && !Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (message.MessageId == 536870920 && !Status.Contains(HexSpriteMapStatuses.Editting))
         {
             // A combat map runs a tactical battle, so the current combat is that battle.
             SetCombat((TacticalBattle)StrategicMap.Current.Combat);
@@ -268,7 +268,7 @@ public class CombatMap : GameMap
     // AoWTC.pas:2429
     public override void NewFrame()
     {
-        if (!Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (!Status.Contains(HexSpriteMapStatuses.Editting))
         {
             int i = 0;
             while (i < Effects.Count)
@@ -289,7 +289,7 @@ public class CombatMap : GameMap
         }
 
         base.NewFrame();
-        if (!Status.Contains(HexSpriteMapStatusElement.Editting) && Combat is not null)
+        if (!Status.Contains(HexSpriteMapStatuses.Editting) && Combat is not null)
         {
             UpdateCursor();
             if (EndTurnPending && ((StrategicMap.Current.Players.GetPlayers(CurrentPlayer).PlayerType != PlayerType.Human && StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(Combat.HostPlayer).ConnectionMode != ConnectionMode.Remote) || (Players.GetPlayers(CurrentCombatPlayer).Auto && StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(CurrentPlayer).ConnectionMode != ConnectionMode.Remote)))
@@ -386,7 +386,7 @@ public class CombatMap : GameMap
     // AoWTC.pas:2256
     public void MouseMoveEvent(object sender)
     {
-        if (!Current.Status.Contains(HexSpriteMapStatusElement.Editting) && !Players.GetPlayers(CurrentCombatPlayer).Auto && Mouse.HexX != -1 && Mouse.HexY != -1 && Mouse.Capture is null)
+        if (!Current.Status.Contains(HexSpriteMapStatuses.Editting) && !Players.GetPlayers(CurrentCombatPlayer).Auto && Mouse.HexX != -1 && Mouse.HexY != -1 && Mouse.Capture is null)
         {
             Mouse.CursorMode = 0;
             int hexY = Mouse.HexY;

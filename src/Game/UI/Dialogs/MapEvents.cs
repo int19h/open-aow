@@ -176,7 +176,7 @@ public sealed partial class MapEvents(UIContext ui) : UIModule(ui)
     // aowMapEvents.pas:167
     public void TheMapDayChanged(int day)
     {
-        if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated))
+        if (StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Activated))
         {
             UI.TaskBar.WorldTurnButton.LastPlayer = -1;
         }
@@ -487,7 +487,7 @@ public sealed partial class MapEvents(UIContext ui) : UIModule(ui)
         {
             UI.General.ShowWindows();
             TurnButton turnButton = UI.TaskBar.WorldTurnButton;
-            if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated) && !turnButton.Animating)
+            if (StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Activated) && !turnButton.Animating)
             {
                 turnButton.CurrentPlayer = player > -1 ? StrategicMap.Current.Players.GetPlayers(player).PlayerRace : -2;
 
@@ -805,7 +805,7 @@ public sealed partial class MapEvents(UIContext ui) : UIModule(ui)
                     dialog.MainButton.Text = control.CancelText;
                     dialog.DefaultMemo.Items.Assign((Persistent)(object)control.Text);
                     dialog.Window.Visible = true;
-                    if (!control.TargetMode.Contains(TargetSelectionModeElement.ValidateDistance))
+                    if (!control.TargetMode.Contains(TargetSelectionModes.ValidateDistance))
                     {
                         string text = dialog.UI.Engine.TranslateResourceString(UnlimitedText);
                         dialog.TargetLabel.Text = LowerCase(text);

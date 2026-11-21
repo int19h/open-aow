@@ -1,5 +1,4 @@
 // Translated from Sound.pas.
-using Aow.Rtl;
 
 namespace Aow.Game.Audio;
 
@@ -9,7 +8,7 @@ namespace Aow.Game.Audio;
 // Each set keeps the width of its Delphi set: a value is cut to that width when it is assigned.
 public struct SoundSettings
 {
-    public Set<SoundOutputModeElement> OutputMode { get; set => field = Set<SoundOutputModeElement>.FromMask((byte)value.Image); }
+    public SoundOutputModes OutputMode { get; set; }
 
     public int SampleRate { get; set; }
     public bool MusicEnabled { get; set; }

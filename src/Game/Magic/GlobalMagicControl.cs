@@ -32,7 +32,7 @@ public sealed class GlobalMagicControl : EngineObject
 
     private int _updateCount;
 
-    public Set<GlobalEnchantmentType> ActiveEnchantments { get; set; }
+    public GlobalEnchantmentTypes ActiveEnchantments { get; set; }
     public GlobalEnchantmentList Enchantments { get; internal set; }
 
     public int[] DoubleSphereManaCount { get; } = new int[9];
@@ -176,11 +176,11 @@ public sealed class GlobalMagicControl : EngineObject
     // Spells.PAS:2702
     public void UpdateActiveEnchantments()
     {
-        ActiveEnchantments = Set<GlobalEnchantmentType>.Of();
+        ActiveEnchantments = GlobalEnchantmentTypes.None;
         for (int i = Enchantments.GetCount() - 1; i >= 0; i--)
         {
             GlobalEnchantment enchantments = Enchantments.GetEnchantments(i);
-            ActiveEnchantments += Set<GlobalEnchantmentType>.Of(enchantments.EnchantmentType);
+            ActiveEnchantments |= enchantments.EnchantmentType.ToFlag();
         }
     }
 

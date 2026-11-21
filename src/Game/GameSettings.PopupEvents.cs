@@ -1,32 +1,31 @@
-using Aow.Rtl;
 
 namespace Aow.Game;
 
 public sealed partial class GameSettings
 {
-    public Set<WindowPopupEvent> GetClassicWindowPopupEvents()
+    public WindowPopupEvents GetClassicWindowPopupEvents()
     {
         byte image = 0xff;
         Bytes("General", "Classic Window Popup Events", Rtl.Bytes.Of(ref image), size: 1, mode: ReadWriteMode.Read);
-        return Set<WindowPopupEvent>.FromMask(image);
+        return (WindowPopupEvents)image;
     }
 
-    public void SetClassicWindowPopupEvents(Set<WindowPopupEvent> value)
+    public void SetClassicWindowPopupEvents(WindowPopupEvents value)
     {
-        byte image = (byte)value.Mask;
+        byte image = (byte)value;
         Bytes("General", "Classic Window Popup Events", Rtl.Bytes.Of(ref image), size: 1, mode: ReadWriteMode.Write);
     }
 
-    public Set<WindowPopupEvent> GetSimultaneousWindowPopupEvents()
+    public WindowPopupEvents GetSimultaneousWindowPopupEvents()
     {
         byte image = 0xef;
         Bytes("General", "Simultaneous Window Popup Events", Rtl.Bytes.Of(ref image), size: 1, mode: ReadWriteMode.Read);
-        return Set<WindowPopupEvent>.FromMask(image);
+        return (WindowPopupEvents)image;
     }
 
-    public void SetSimultaneousWindowPopupEvents(Set<WindowPopupEvent> value)
+    public void SetSimultaneousWindowPopupEvents(WindowPopupEvents value)
     {
-        byte image = (byte)value.Mask;
+        byte image = (byte)value;
         Bytes("General", "Simultaneous Window Popup Events", Rtl.Bytes.Of(ref image), size: 1, mode: ReadWriteMode.Write);
     }
 }

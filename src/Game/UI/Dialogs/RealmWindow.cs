@@ -411,7 +411,7 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWRealm.pas:457
-    public void CityListMouseDown(ListBox sender, MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public void CityListMouseDown(ListBox sender, MouseButton button, ShiftStates shift, int X, int Y)
     {
         if (button == MouseButton.Right && sender.Selected != -1)
         {
@@ -471,7 +471,7 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWRealm.pas:501
-    public void PlacesListMouseDown(ListBox sender, MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public void PlacesListMouseDown(ListBox sender, MouseButton button, ShiftStates shift, int X, int Y)
     {
         if (button == MouseButton.Right && sender.Selected != -1)
         {
@@ -499,7 +499,7 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWRealm.pas:522
-    public void HeroListMouseDown(ListBox sender, MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public void HeroListMouseDown(ListBox sender, MouseButton button, ShiftStates shift, int X, int Y)
     {
         ListBox list = sender;
         if (list.Selected != -1)

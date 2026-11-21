@@ -11,7 +11,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
 
 using Aow.Game.World.Structures;
-using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiRounding;
 
@@ -25,14 +24,14 @@ public class FountainOfLife : CityEnchantmentSpell
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.FountainOfLifeText);
         SpellId = 52;
-        CityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Own);
+        CityTargetMode = CityTargetModes.Own;
         BaseManaCost = 1;
         SpellLevel = 4;
         MagicSphere = MagicSphere.Water;
         EnchantmentId = CityEnchantmentId.FountainOfLife;
         CastDuration = 20;
         AIPriority = 500;
-        AICastSituation = Set<CityEnchantmentCastSpellSituationElement>.Of(CityEnchantmentCastSpellSituationElement.LeaderInCity);
+        AICastSituation = CityEnchantmentCastSpellSituations.LeaderInCity;
         AIBudget = 600;
         EnchantmentSpellId = 50;
     }

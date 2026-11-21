@@ -7,8 +7,6 @@ using Aow.Game.Magic.Spells;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Draw.Animations;
 
 public class IceStorm(CustomNode owner) : BlastStorm(owner)
@@ -33,7 +31,7 @@ public class IceStorm(CustomNode owner) : BlastStorm(owner)
             }
             else
             {
-                if (Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)terrainType))
+                if (terrainType is (sbyte)TerrainType.Ice or (sbyte)TerrainType.UndergroundIce)
                 {
                     FrozenWaterHexSprite ice = mapField.FindOwnedHexSprite<FrozenWaterHexSprite>();
                     if (ice is not null)
@@ -49,7 +47,7 @@ public class IceStorm(CustomNode owner) : BlastStorm(owner)
     // Storms.pas:373
     public override void StormTerrainChanged(MapField mapField, sbyte originalTerrainType, sbyte originalOverlayType)
     {
-        if (Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)mapField.TerrainType) && !Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)originalTerrainType))
+        if (mapField.TerrainType is (sbyte)TerrainType.Ice or (sbyte)TerrainType.UndergroundIce && (byte)originalTerrainType is not (6 or 13))
         {
             FrozenWaterHexSprite ice = mapField.FindOwnedHexSprite<FrozenWaterHexSprite>();
             if (ice is null)

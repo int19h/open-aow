@@ -8,7 +8,6 @@ using Aow.Game.Magic.Abilities;
 
 using Aow.Game.Units;
 using Aow.Game.World.Map;
-using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
@@ -26,7 +25,7 @@ public class CosmeticSurgery : UnitSpell
         AllowMultipleTargets = false;
         UnitDispelResistance = 10;
         TargetRange = -1;
-        SpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global);
+        SpellControlTypes = SpellControlTypes.Global;
     }
 
     // UnitSpells.pas:968
@@ -34,14 +33,14 @@ public class CosmeticSurgery : UnitSpell
     {
         // { The original saves Self and Source as well as Info; this compiler saves only Info. }
         base.GetCombatInfo(source, ref info);
-        info.TargetTypes = Set<CombatTargetTypeElement>.Of(CombatTargetTypeElement.Enemy);
+        info.TargetTypes = CombatTargetTypes.Enemy;
     }
 
     // UnitSpells.pas:940
     public override bool ValidTargetUnit(Troop source, Troop target)
     {
         bool result = base.ValidTargetUnit(source, target);
-        return result && Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(target.GetUnitType());
+        return result && target.GetUnitType() is UnitType.Humanoid or UnitType.Creature;
     }
 
     // UnitSpells.pas:946

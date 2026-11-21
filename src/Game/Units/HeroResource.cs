@@ -58,7 +58,7 @@ public class HeroResource : TroopResource
         Race = persister.UnsignedByte(name: "Race", value: Race);
         HeroType = persister.Enum("HeroType", value: HeroType);
         Alignment = persister.Enum("Alignment", value: Alignment);
-        if (Alignment > Alignment.None)
+        if (Alignment > Alignment.Unaligned)
         {
             Alignment = Alignment.Neutral;
         }

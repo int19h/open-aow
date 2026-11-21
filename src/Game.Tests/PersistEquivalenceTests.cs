@@ -95,12 +95,12 @@ public sealed partial class PersistEquivalenceTests
     public void TokenEventResourceEditSettingsMatchesTheConverter()
     {
         Check("ControlStyleObject", new ControlStyleObject(null) { Holder = EngineFixture.Engine });
-        ControlStyleObject zeroStyle = new(null) { Holder = EngineFixture.Engine, ControlStyle = Set<ControlStyleElement>.FromMask(0) };
+        ControlStyleObject zeroStyle = new(null) { Holder = EngineFixture.Engine, ControlStyle = ControlStyles.None };
         Check("ControlStyleObject", zeroStyle);
-        ControlStyleObject bits = new(null) { Holder = EngineFixture.Engine, ControlStyle = Set<ControlStyleElement>.FromMask(0xA5) };
+        ControlStyleObject bits = new(null) { Holder = EngineFixture.Engine, ControlStyle = (ControlStyles)0xA5 };
         Check("ControlStyleObject", bits);
         Check("ResourceEditSettings", new ResourceEditSettings(null) { Holder = EngineFixture.Engine });
-        ResourceEditSettings editors = new(null) { Holder = EngineFixture.Engine, ControlStyle = Set<ControlStyleElement>.FromMask(0) };
+        ResourceEditSettings editors = new(null) { Holder = EngineFixture.Engine, ControlStyle = ControlStyles.None };
         _ = editors.Editors.AddObject("", item: IntegerObjects.IntToObject(0));
         _ = editors.Editors.AddObject("Gate", item: IntegerObjects.IntToObject(4));
         Check("ResourceEditSettings", editors);
@@ -530,10 +530,10 @@ public sealed partial class PersistEquivalenceTests
     [Fact]
     public void SetsCoverEmptyFullAndUnnamedBits()
     {
-        Check("ControlStyleObject", new ControlStyleObject(null) { Holder = EngineFixture.Engine, ControlStyle = Set<ControlStyleElement>.FromMask(0xFF) });
-        Check("SingleTargetCombatAction", new SingleTargetCombatAction(null) { Holder = EngineFixture.Engine, Mode = Set<SingleTargetModeElement>.FromMask(0), SourceId = 0, TargetId = 0 });
-        Check("SingleTargetCombatAction", new SingleTargetCombatAction(null) { Holder = EngineFixture.Engine, Mode = Set<SingleTargetModeElement>.Of(SingleTargetModeElement.Defensive), SourceId = 255, TargetId = 1 });
-        Check("SingleTargetCombatAction", new SingleTargetCombatAction(null) { Holder = EngineFixture.Engine, Mode = Set<SingleTargetModeElement>.FromMask(0xFF), SourceId = 4, TargetId = 5 });
+        Check("ControlStyleObject", new ControlStyleObject(null) { Holder = EngineFixture.Engine, ControlStyle = (ControlStyles)0xFF });
+        Check("SingleTargetCombatAction", new SingleTargetCombatAction(null) { Holder = EngineFixture.Engine, Mode = SingleTargetModes.None, SourceId = 0, TargetId = 0 });
+        Check("SingleTargetCombatAction", new SingleTargetCombatAction(null) { Holder = EngineFixture.Engine, Mode = SingleTargetModes.Defensive, SourceId = 255, TargetId = 1 });
+        Check("SingleTargetCombatAction", new SingleTargetCombatAction(null) { Holder = EngineFixture.Engine, Mode = (SingleTargetModes)0xFF, SourceId = 4, TargetId = 5 });
     }
 
     [Fact]
@@ -788,7 +788,7 @@ public sealed partial class PersistEquivalenceTests
         StrategicMap previous = StrategicMap.Current;
         StrategicMap map = new(null, holder: EngineFixture.Engine)
         {
-            Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying)
+            Status = HexSpriteMapStatuses.Destroying
         };
         StrategicMap.Current = map;
         try
@@ -801,16 +801,16 @@ public sealed partial class PersistEquivalenceTests
                     Holder = EngineFixture.Engine,
                     OldAIBehavior = value,
                     Player = -1,
-                    Mode = Set<ArmyModeElement>.Of(ArmyModeElement.FixedBehavior),
-                    UserMode = Set<ArmyUserModeElement>.FromMask(0)
+                    Mode = ArmyModes.FixedBehavior,
+                    UserMode = ArmyUserModes.None
                 };
                 Check("Army", army);
             });
             Army full = new(null)
             {
                 Holder = EngineFixture.Engine,
-                Mode = Set<ArmyModeElement>.FromMask(0xFF) - Set<ArmyModeElement>.Of(ArmyModeElement.Moving),
-                UserMode = Set<ArmyUserModeElement>.FromMask(0xFF)
+                Mode = (ArmyModes)0xFF & ~ArmyModes.Moving,
+                UserMode = (ArmyUserModes)0xFF
             };
             Check("Army", full);
             ArmyView view = new(null) { Holder = EngineFixture.Engine };
@@ -857,7 +857,7 @@ public sealed partial class PersistEquivalenceTests
             {
                 Holder = EngineFixture.Engine,
                 Destination = new MapCoordinate(3, 4, 1),
-                UserMode = Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard)
+                UserMode = ArmyUserModes.Guard
             };
             SchemaClass classValue = s_schema.Get("Army");
             JsonObject document = DocumentBackend.Write(TreeWriter.Write(army, Factory), classValue, s_schema, engine: "game");
@@ -870,7 +870,7 @@ public sealed partial class PersistEquivalenceTests
             {
                 Holder = EngineFixture.Engine,
                 Destination = new MapCoordinate(3, 4, 1),
-                UserMode = Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard)
+                UserMode = ArmyUserModes.Guard
             };
             byte[] image = Image(source);
             source.Dispose();
@@ -884,11 +884,11 @@ public sealed partial class PersistEquivalenceTests
                 Assert.Equal(3, viaPersist.Destination.X);
                 Assert.Equal(4, viaPersist.Destination.Y);
                 Assert.Equal(1, viaPersist.Destination.MapLevel);
-                Assert.True(viaPersist.UserMode.Contains(ArmyUserModeElement.Guard));
+                Assert.True(viaPersist.UserMode.Contains(ArmyUserModes.Guard));
                 Assert.Equal(3, viaReadWrite.Destination.X);
                 Assert.Equal(4, viaReadWrite.Destination.Y);
                 Assert.Equal(1, viaReadWrite.Destination.MapLevel);
-                Assert.True(viaReadWrite.UserMode.Contains(ArmyUserModeElement.Guard));
+                Assert.True(viaReadWrite.UserMode.Contains(ArmyUserModes.Guard));
                 EqualBytes(Image(viaPersist), Image(viaReadWrite), label: "Army network load");
             }
             finally
@@ -907,7 +907,7 @@ public sealed partial class PersistEquivalenceTests
             Army source = new(null)
             {
                 Holder = EngineFixture.Engine,
-                Mode = Set<ArmyModeElement>.Of(ArmyModeElement.Moving, ArmyModeElement.FixedBehavior)
+                Mode = ArmyModes.Moving | ArmyModes.FixedBehavior
             };
             byte[] image = Image(source);
             source.Dispose();
@@ -918,10 +918,10 @@ public sealed partial class PersistEquivalenceTests
             {
                 TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, engine: "game"), objectValue: viaPersist, Factory);
                 Load(viaReadWrite, image);
-                Assert.False(viaPersist.Mode.Contains(ArmyModeElement.Moving));
-                Assert.False(viaReadWrite.Mode.Contains(ArmyModeElement.Moving));
-                Assert.True(viaPersist.Mode.Contains(ArmyModeElement.FixedBehavior));
-                Assert.True(viaReadWrite.Mode.Contains(ArmyModeElement.FixedBehavior));
+                Assert.False(viaPersist.Mode.Contains(ArmyModes.Moving));
+                Assert.False(viaReadWrite.Mode.Contains(ArmyModes.Moving));
+                Assert.True(viaPersist.Mode.Contains(ArmyModes.FixedBehavior));
+                Assert.True(viaReadWrite.Mode.Contains(ArmyModes.FixedBehavior));
                 EqualBytes(Image(viaPersist), Image(viaReadWrite), label: "Army moving");
             }
             finally
@@ -956,8 +956,8 @@ public sealed partial class PersistEquivalenceTests
             Damage = 255,
             SourceId = 255,
             TargetId = 1,
-            Effects = Set<DamageType>.FromMask((1UL << 9) | (1UL << 15)),
-            DamageTypes = Set<DamageType>.Of(DamageType.Fire, DamageType.None),
+            Effects = (DamageTypes)((1UL << 9) | (1UL << 15)),
+            DamageTypes = DamageTypes.Fire | DamageTypes.NonSpecific,
         };
         Check("DamageCombatAction", edge);
     }
@@ -1400,7 +1400,7 @@ public sealed partial class PersistEquivalenceTests
     [Fact]
     public void CsSaveLoadIsTheStoredNameOfTheAlias()
     {
-        EnumTypeInfo info = EnumTypeInfo.Describe(typeof(ControlStyleElement));
+        EnumTypeInfo info = EnumTypeInfo.Describe(typeof(ControlStyles));
         Assert.Equal("SaveLoad", info.ByValue[0]);
         Assert.False(info.ByName.ContainsKey("csStored"));
         Assert.Equal(0, info.ByName["SaveLoad"]);
@@ -1411,7 +1411,7 @@ public sealed partial class PersistEquivalenceTests
         StrategicMap previous = StrategicMap.Current;
         StrategicMap map = new(null, holder: EngineFixture.Engine)
         {
-            Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying)
+            Status = HexSpriteMapStatuses.Destroying
         };
         StrategicMap.Current = map;
         try
@@ -1430,14 +1430,14 @@ public sealed partial class PersistEquivalenceTests
     {
         Check("ECustomOwner", new EngineNode(null) { Holder = EngineFixture.Engine });
         EngineNode owner = new(null) { Holder = EngineFixture.Engine };
-        owner.SetControlStyle(Set<ControlStyleElement>.FromMask(0xA5));
+        owner.SetControlStyle((ControlStyles)0xA5);
         Check("ECustomOwner", owner);
         ResourceCollection resources = new(null) { Holder = EngineFixture.Engine };
-        resources.SetControlStyle(Set<ControlStyleElement>.FromMask(0));
+        resources.SetControlStyle(ControlStyles.None);
         Check("EResourceList", resources);
         Check("EControlStyleNode", new ControlStyleNode(null) { Holder = EngineFixture.Engine });
         ControlStyleNode styled = new(null) { Holder = EngineFixture.Engine };
-        styled.SetControlStyle(Set<ControlStyleElement>.FromMask(0x81));
+        styled.SetControlStyle((ControlStyles)0x81);
         new AISavingsBudget(null) { Holder = EngineFixture.Engine, Priority = 7, Gold = -3 }.SetOwner(styled);
         new AITransporterBudget(null) { Holder = EngineFixture.Engine }.SetOwner(styled);
         Check("EControlStyleNode", styled);

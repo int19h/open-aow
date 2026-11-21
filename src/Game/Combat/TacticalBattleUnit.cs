@@ -213,12 +213,12 @@ public class TacticalBattleUnit(CustomNode owner) : CombatUnit(owner)
     public int GetPositionValue()
     {
         int result = GetAttack() + GetDamage() + GetDefense() + (Moves / 3);
-        if (SupportCombatMode(Set<CombatMode>.Of(CombatMode.MediumRange)))
+        if (SupportCombatMode(CombatModes.MediumRange))
         {
             result -= 100;
         }
 
-        if (SupportCombatMode(Set<CombatMode>.Of(CombatMode.LongRange)))
+        if (SupportCombatMode(CombatModes.LongRange))
         {
             result -= 200;
         }

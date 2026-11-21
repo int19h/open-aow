@@ -15,8 +15,6 @@ using Aow.Game.Magic.Spells;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
-
-using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.World.Terrain;
@@ -28,7 +26,7 @@ public class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     // PoisonP.pas:87
     public new const int ClassId = 131_998;
 
-    public Set<PoisonPlantStatusElement> PlantStatus { get; set; } = Set<PoisonPlantStatusElement>.Of();
+    public PoisonPlantStatuses PlantStatus { get; set; } = PoisonPlantStatuses.None;
 
     public sbyte CasterPlayer { get; set; } = -1;
     public sbyte DaysRemaining { get; set; } = -1;
@@ -56,7 +54,7 @@ public class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     // PoisonP.pas:261
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        if (!PlantStatus.Contains(PoisonPlantStatusElement.Summoning))
+        if (!PlantStatus.Contains(PoisonPlantStatuses.Summoning))
         {
             base.Show(pixelXSurface, pixelYSurface, lockedSurface);
         }
@@ -99,7 +97,7 @@ public class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         {
             if (message.MessageId == 4384)
             {
-                if (base.Resource.TerrainList.GetTerrain(message.HexNumber) >= 0 && !message.Param[0].As<ArmyHexSprite>().Army.ImmunityTypes(255).Contains(DamageType.Poison) && PoisonPlantActive())
+                if (base.Resource.TerrainList.GetTerrain(message.HexNumber) >= 0 && !message.Param[0].As<ArmyHexSprite>().Army.ImmunityTypes(255).Contains(DamageTypes.Poison) && PoisonPlantActive())
                 {
                     message.Result = 1;
                 }
@@ -136,7 +134,7 @@ public class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     }
 
     // PoisonP.pas:92
-    public bool PoisonPlantActive() => !Set<byte>.WithBounds(0, 255).With(3).With(5).Contains((byte)TerrainType);
+    public bool PoisonPlantActive() => TerrainType is not ((sbyte)Map.TerrainType.Snow or (sbyte)Map.TerrainType.Wasteland);
 
     // PoisonP.pas:105
     public bool CanDoDamage(UnitUserList units)
@@ -147,7 +145,7 @@ public class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         {
             i -= 1;
             Troop u = units.GetUnit(i);
-            result = !u.GetImmunityTypes().Contains(DamageType.Poison) && !u.GetAbilityEnabled(1);
+            result = !u.GetImmunityTypes().Contains(DamageTypes.Poison) && !u.GetAbilityEnabled(1);
         }
 
         return result;
@@ -173,9 +171,9 @@ public class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         {
             Troop u = units.GetUnit(i);
             _ = u.AddRef();
-            if (!u.GetImmunityTypes().Contains(DamageType.Poison) && !u.GetAbilityEnabled(1))
+            if (!u.GetImmunityTypes().Contains(DamageTypes.Poison) && !u.GetAbilityEnabled(1))
             {
-                int damage = u.ExecuteDamageRole(4, damage: 3, damageTypes: Set<DamageType>.Of(DamageType.Poison));
+                int damage = u.ExecuteDamageRole(4, damage: 3, damageTypes: DamageTypes.Poison);
                 if (damage > u.GetHitPoints())
                 {
                     damage = u.GetHitPoints();
@@ -186,7 +184,7 @@ public class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
                     u.SetHitPoints((sbyte)(u.GetHitPoints() - damage));
                     if (u.GetHitPoints() != 0)
                     {
-                        _ = u.ExecuteDamageEffects(Set<DamageType>.Of(DamageType.Poison));
+                        _ = u.ExecuteDamageEffects(DamageTypes.Poison);
                     }
 
                     count += 1;
@@ -198,7 +196,7 @@ public class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
             else
             {
                 _ = log.DamageValues.Add(0);
-                _ = log.DamageTypes.Add((int)DamageType.None);
+                _ = log.DamageTypes.Add((int)DamageType.NonSpecific);
             }
 
             _ = u.Release();
@@ -217,7 +215,7 @@ public class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     // PoisonP.pas:168
     public void ArmyPlaced(ArmyHexSprite armyHexSprite)
     {
-        if (PoisonPlantActive() && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (PoisonPlantActive() && !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             TriggerArmyDamage(armyHexSprite);
         }
@@ -291,7 +289,7 @@ public class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         if (this == field.FindOwnedChild(ClassId) && frameCounter == 9)
         {
-            PlantStatus -= Set<PoisonPlantStatusElement>.Of(PoisonPlantStatusElement.Summoning);
+            PlantStatus &= ~PoisonPlantStatuses.Summoning;
         }
     }
 

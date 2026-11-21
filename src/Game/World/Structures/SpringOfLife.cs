@@ -22,7 +22,7 @@ public partial class SpringOfLife(CustomNode owner) : Structure(owner)
     public override void ArmyPlaced(ArmyHexSprite placedArmy)
     {
         base.ArmyPlaced(placedArmy);
-        if (!Set<byte>.WithBounds(0, 255).With(3).With(5).Contains((byte)Owner.TerrainType))
+        if (Owner.TerrainType is not ((sbyte)Map.TerrainType.Snow or (sbyte)Map.TerrainType.Wasteland))
         {
             ExecuteNaturesBlessing(placedArmy);
         }

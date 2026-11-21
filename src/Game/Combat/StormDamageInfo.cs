@@ -1,5 +1,5 @@
 // Translated from AoWE.pas.
-using Aow.Rtl;
+using Aow.Game.Session;
 
 namespace Aow.Game.Combat;
 
@@ -11,9 +11,9 @@ public struct StormDamageInfo
     public sbyte Player { get; internal set; }
     public sbyte IndependentRelation { get; }
 
-    public readonly Set<byte> FriendlyRelations { get; init => field = Set<byte>.FromMask((byte)value.Image); }
+    public readonly DiplomaticRelations FriendlyRelations { get; init; }
 
-    public readonly Set<byte> EnemyRelations { get; init => field = Set<byte>.FromMask((byte)value.Image); }
+    public readonly DiplomaticRelations EnemyRelations { get; init; }
 
     public int FriendlyValue { get; internal set; }
     public int EnemyValue { get; internal set; }

@@ -55,7 +55,7 @@ public sealed partial class FactionSelectionWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWSelFactionWin.pas:82
-    public void LightPnlMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public void LightPnlMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
         if (!DarkNameLabel.Visible && !LightNameLabel.Visible)
         {
@@ -74,7 +74,7 @@ public sealed partial class FactionSelectionWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWSelFactionWin.pas:100
-    public void DarkPnlMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public void DarkPnlMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
         if (!LightNameLabel.Visible && !DarkNameLabel.Visible)
         {
@@ -115,7 +115,7 @@ public sealed partial class FactionSelectionWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWSelFactionWin.pas:138
-    public void FactionPnlMouseMove(Set<ShiftState> shift, int X, int Y)
+    public void FactionPnlMouseMove(ShiftStates shift, int X, int Y)
     {
         if (!LightPanel.Handled && !DarkNameLabel.Visible && !DarkPanel.Handled && !LightNameLabel.Visible)
         {
@@ -127,7 +127,7 @@ public sealed partial class FactionSelectionWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWSelFactionWin.pas:148
-    public void LightPnlMouseMove(Set<ShiftState> shift, int X, int Y)
+    public void LightPnlMouseMove(ShiftStates shift, int X, int Y)
     {
         if (!LightNameLabel.Visible && !DarkSphereImage.Visible)
         {
@@ -139,7 +139,7 @@ public sealed partial class FactionSelectionWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWSelFactionWin.pas:158
-    public void DarkPnlMouseMove(Set<ShiftState> shift, int X, int Y)
+    public void DarkPnlMouseMove(ShiftStates shift, int X, int Y)
     {
         if (!DarkNameLabel.Visible && !LightSphereImage.Visible)
         {
@@ -201,7 +201,7 @@ public sealed partial class FactionSelectionWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWSelFactionWin.pas:210
-    public void FactionPnlKeyDown(in ushort key, Set<ShiftState> shift)
+    public void FactionPnlKeyDown(in ushort key, ShiftStates shift)
     {
         switch (key)
         {
@@ -259,14 +259,11 @@ public sealed partial class FactionSelectionWindow(UIContext ui) : UIModule(ui)
         int j;
         for (int length = text.Length; i <= length; i += j)
         {
-            if (Set<byte>.WithBounds(0, 255).With(13).With(32)
-                .Contains(Cp1252.Byte(text[i - 1])))
+            if (Cp1252.Byte(text[i - 1]) is 13 or 32)
             {
                 i++;
             }
-            for (j = 0; i + j <= length && !Set<byte>.WithBounds(0, 255).With(10).With(13)
-                .With(32)
-                .Contains(Cp1252.Byte(text[i + j - 1])); j++)
+            for (j = 0; i + j <= length && Cp1252.Byte(text[i + j - 1]) is not (10 or 13 or 32); j++)
             {
             }
             string text2 = DelphiStrings.Copy(text, index: i, count: j);

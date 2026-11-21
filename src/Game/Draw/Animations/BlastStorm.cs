@@ -53,7 +53,7 @@ public class BlastStorm(CustomNode owner) : Storm(owner)
         Rect r = default;
         base.InitializeStorm(player, X, Y, L);
         string stormFileName = StormFileName();
-        _stormImages = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: stormFileName);
+        _stormImages = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(ImageLibraryManagerCategories.Disk, fileName: stormFileName);
         if (Visible)
         {
             _stormImages.LoadDiscardableImageData();
@@ -130,7 +130,7 @@ public class BlastStorm(CustomNode owner) : Storm(owner)
     {
         _stormImages.ReleaseDiscardableImageData();
         string stormFileName = StormFileName();
-        GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: stormFileName);
+        GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(ImageLibraryManagerCategories.Disk, fileName: stormFileName);
         base.FinalizeStorm();
     }
 

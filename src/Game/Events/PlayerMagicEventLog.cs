@@ -65,8 +65,8 @@ public partial class PlayerMagicEventLog(CustomNode owner) : EventLog(owner)
         {
             EventMode.OutOfMana => trigger == ExecuteTrigger.User,
             EventMode.SpellResearched => trigger == ExecuteTrigger.User || (StrategicMap.Current.PlayMode == PlayMode.Turn
-                                    ? GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.SpellResearched)
-                                    : GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.SpellResearched)),
+                                    ? GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvents.SpellResearched)
+                                    : GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvents.SpellResearched)),
             EventMode.StartResearch => true,
             _ => false,
         };

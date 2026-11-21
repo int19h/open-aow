@@ -4,7 +4,6 @@ using Aow.Engine.Nodes;
 
 using Aow.Game.Units;
 using Aow.Game.World.Map;
-using Aow.Rtl;
 
 namespace Aow.Game.Combat.Actions;
 
@@ -29,7 +28,7 @@ public class RecallSpiritCombatAction(CustomNode owner) : ExclusiveCombatSpellCo
             newUnit.Activate();
             target.SetUnit(newUnit);
             _ = newUnit.Release();
-            target.SetStatus(target.Status - Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed));
+            target.SetStatus(target.Status & ~CombatObjectStatuses.Destroyed);
             target.SetCombatPlayer((byte)source.CombatPlayer);
         }
     }

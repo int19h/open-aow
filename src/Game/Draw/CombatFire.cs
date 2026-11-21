@@ -29,7 +29,7 @@ public sealed class CombatFire(CustomNode owner) : SingleHexSprite(owner)
         base.MessageProc(ref message, sender);
         if (message.MessageId == 537006081)
         {
-            if (!CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+            if (!CombatMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
             {
                 NewTurn();
             }

@@ -1,9 +1,6 @@
 // Translated from PassiveAb.pas.
 using Aow.Engine.Nodes;
-
 using Aow.Game.Units;
-
-using Aow.Rtl;
 
 namespace Aow.Game.Magic.Abilities.Passive;
 
@@ -16,7 +13,7 @@ public class EntangledAbility : UnitEnchantmentAbility
         Holder = holder;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_entangledText);
         AbilityId = 94;
-        SelectionTypes = Set<AbilitySelectionType>.Of();
+        SelectionTypes = AbilitySelectionTypes.None;
     }
 
     // PassiveAb.pas:638

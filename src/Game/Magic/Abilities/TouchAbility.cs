@@ -5,8 +5,6 @@ using Aow.Engine.Nodes;
 using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Abilities;
 
 public class TouchAbility : AdjustableAbility
@@ -14,7 +12,7 @@ public class TouchAbility : AdjustableAbility
     // AoWAb.PAS:1843
     public TouchAbility(CustomNode owner) : base(owner)
     {
-        SelectionTypes += Set<AbilitySelectionType>.Of(AbilitySelectionType.UseItem);
+        SelectionTypes |= AbilitySelectionTypes.UseItem;
         AbilityType = AbilityType.Combat;
     }
 
@@ -22,7 +20,7 @@ public class TouchAbility : AdjustableAbility
     public override CombatMode GetCombatMode(AbilityOwner owner) => CombatMode.Touch;
 
     // AoWAb.PAS:1850
-    public override Set<AbilityControlTypeElement> GetControlType(AbilityOwner owner) => Set<AbilityControlTypeElement>.Of(AbilityControlTypeElement.CombatAction);
+    public override AbilityControlTypes GetControlType(AbilityOwner owner) => AbilityControlTypes.CombatAction;
 
     // AoWAb.PAS:1962
     public override void FastBattlePrefetchCombatCommands(FastBattleCommandList commands)
@@ -63,9 +61,9 @@ public class TouchAbility : AdjustableAbility
         }
 
         info.Damage = -1;
-        info.DamageTypes = Set<DamageType>.Of();
+        info.DamageTypes = DamageTypes.None;
         info.RepeatCount = 1;
-        info.TargetTypes = Set<CombatTargetTypeElement>.Of(CombatTargetTypeElement.Enemy);
+        info.TargetTypes = CombatTargetTypes.Enemy;
     }
 
     // AoWAb.PAS:1855
@@ -99,8 +97,8 @@ public class TouchAbility : AdjustableAbility
     public virtual bool CanTouch(CombatObject source, CombatObject target)
     {
         bool result = source.Side == CombatSideIndex.Defender
-            ? !source.FastBattleBehindWall() || !source.FastBattleWallInBetween(target.Position) || target.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing)
-            : !target.FastBattleBehindWall() || !source.FastBattleWallInBetween(target.Position) || source.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing);
+            ? !source.FastBattleBehindWall() || !source.FastBattleWallInBetween(target.Position) || target.WallCombatFeatures().Contains(WallCombatFeatures.WallPassing)
+            : !target.FastBattleBehindWall() || !source.FastBattleWallInBetween(target.Position) || source.WallCombatFeatures().Contains(WallCombatFeatures.WallPassing);
         return source.Side != target.Side ? result && (!target.GetAbilityEnabled(1) || source.GetAbilityEnabled(1)) : result;
     }
 
@@ -110,7 +108,7 @@ public class TouchAbility : AdjustableAbility
     // AoWAb.PAS:1947
     public void FastBattleValidateMoveOutsideWall(CombatObject source, CombatObject target)
     {
-        if (source.FastBattleBehindWall() && source.FastBattleWallInBetween(target.Position) && !target.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing))
+        if (source.FastBattleBehindWall() && source.FastBattleWallInBetween(target.Position) && !target.WallCombatFeatures().Contains(WallCombatFeatures.WallPassing))
         {
             MoveWallCombatAction action = new(null)
             {

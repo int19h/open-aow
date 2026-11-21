@@ -6,8 +6,6 @@ using Aow.Game.Combat;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 namespace Aow.Game.AI.Groups;
 
 public class ScoutAIGroupControl(CustomNode owner) : AIGroupControl(owner)
@@ -42,7 +40,7 @@ public class ScoutAIGroupControl(CustomNode owner) : AIGroupControl(owner)
     {
         SetupCP(target);
         CombatResult execute = CombatPredictor.Execute();
-        if (Set<CombatResult>.Of(CombatResult.Victory, CombatResult.NoDefenders).Contains(execute))
+        if (execute is CombatResult.Victory or CombatResult.NoDefenders)
         {
             if (CombatPredictor.GetEfficiency() > 50)
             {

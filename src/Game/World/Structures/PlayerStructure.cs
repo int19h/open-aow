@@ -461,7 +461,7 @@ public partial class PlayerStructure(CustomNode owner) : Structure(owner)
     // Structur.PAS:2159
     public virtual void UpdateFlagId()
     {
-        _flagId = !Status.Contains(MapObjectStatusElement.EditMode)
+        _flagId = !Status.Contains(MapObjectStatuses.EditMode)
             ? Player > 0
                 ? (byte)StrategicMap.Current.Players.GetPlayers(Player).PlayerRace
                 : Resource.Claimed ? (byte)32 : (byte)63
@@ -475,7 +475,7 @@ public partial class PlayerStructure(CustomNode owner) : Structure(owner)
         if (!Building)
         {
             result = 6;
-            if (HexLevel != 0 || (Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 8) != 0))
+            if (HexLevel != 0 || (Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments) & 8) != 0))
             {
                 return (result + 1) >>> 1;
             }
@@ -491,12 +491,12 @@ public partial class PlayerStructure(CustomNode owner) : Structure(owner)
     // Structur.PAS:2249
     public virtual void UpdateUnfog()
     {
-        if (!Status.Contains(MapObjectStatusElement.PlacedOnMap))
+        if (!Status.Contains(MapObjectStatuses.PlacedOnMap))
         {
             return;
         }
 
-        int range = Status.Contains(MapObjectStatusElement.Activated) && Player != -1 && StrategicMap.Current.SeatedPlayer != -1 && (StrategicMap.Current.SeatedPlayer == Player || StrategicMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation(StrategicMap.Current.SeatedPlayer) == DiplomaticRelation.Alliance)
+        int range = Status.Contains(MapObjectStatuses.Activated) && Player != -1 && StrategicMap.Current.SeatedPlayer != -1 && (StrategicMap.Current.SeatedPlayer == Player || StrategicMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation(StrategicMap.Current.SeatedPlayer) == DiplomaticRelation.Alliance)
             ? VisibilityRange()
             : 0;
 
@@ -534,7 +534,7 @@ public partial class PlayerStructure(CustomNode owner) : Structure(owner)
     // Structur.PAS:2233
     public virtual void UpdateExploration()
     {
-        if (Status.Contains(MapObjectStatusElement.PlacedOnMap) && Player > 0)
+        if (Status.Contains(MapObjectStatuses.PlacedOnMap) && Player > 0)
         {
             int x = default;
             int y = default;
@@ -588,7 +588,7 @@ public partial class PlayerStructure(CustomNode owner) : Structure(owner)
     // Structur.PAS:2094
     public virtual void StructureCaptured(sbyte oldPlayer, sbyte newPlayer)
     {
-        if (!GetRazed() && !Building && oldPlayer == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Status.Contains(MapObjectStatusElement.Activated) && !Resource.Claimed)
+        if (!GetRazed() && !Building && oldPlayer == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting) && Status.Contains(MapObjectStatuses.Activated) && !Resource.Claimed)
         {
             LocationTextEventLog log = new(null)
             {
@@ -717,7 +717,7 @@ public partial class PlayerStructure(CustomNode owner) : Structure(owner)
     // Structur.PAS:2220
     public void UpdatePlayerSeen()
     {
-        if (Status.Contains(MapObjectStatusElement.PlacedOnMap) && Player > 0)
+        if (Status.Contains(MapObjectStatuses.PlacedOnMap) && Player > 0)
         {
             int x = default;
             int y = default;

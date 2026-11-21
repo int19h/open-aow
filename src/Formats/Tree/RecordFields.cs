@@ -2,7 +2,6 @@ using System.Buffers.Binary;
 using System.Reflection;
 using Aow.Formats.Json;
 using Aow.Formats.Original;
-using Aow.Rtl;
 
 namespace Aow.Formats.Tree;
 
@@ -229,6 +228,7 @@ internal sealed class SetRecordField : RecordFieldInfo
     public required string ElementType { get; init; }
     public required int ElementWidth { get; init; }
     internal Type? ElementColor { get; init; }
+    internal Type? FlagsColor { get; init; }
     public override RecordFieldKind Kind => RecordFieldKind.Set;
     public override int Width => ElementWidth;
     public override string? TypeName => ElementType;
@@ -242,7 +242,7 @@ internal sealed class SetRecordField : RecordFieldInfo
     {
         object[] box = [image.ToArray()];
         _ = typeof(SetRecordField).GetMethod(nameof(Move), bindingAttr: BindingFlags.NonPublic | BindingFlags.Static)!
-            .MakeGenericMethod(ElementColor!)
+            .MakeGenericMethod(FlagsColor!)
             .Invoke(null, parameters: [persister, name, box]);
         if (persister.Loading)
         {
@@ -250,7 +250,7 @@ internal sealed class SetRecordField : RecordFieldInfo
         }
     }
 
-    private static void Move<E>(IPersister persister, string name, object[] box) where E : unmanaged, Enum
+    private static void Move<F>(IPersister persister, string name, object[] box) where F : unmanaged, Enum
     {
         byte[] image = (byte[])box[0];
         ulong mask = 0;
@@ -259,10 +259,14 @@ internal sealed class SetRecordField : RecordFieldInfo
             mask |= (ulong)image[i] << (8 * i);
         }
 
-        Set<E> set = Set<E>.FromMask(mask);
-        set = persister.Set(name, set);
+        F value = persister.Set(name, FlagsExtensions.FromBits<F>(mask));
+        ulong bits = FlagsExtensions.Bits(value);
         byte[] written = new byte[image.Length];
-        set.CopyImageTo(written);
+        for (int i = 0; i < written.Length; i++)
+        {
+            written[i] = (byte)(bits >> (8 * i));
+        }
+
         box[0] = written;
     }
 }

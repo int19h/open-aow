@@ -3,9 +3,7 @@
 using Aow.Engine.Nodes;
 using Aow.Game.AI;
 using Aow.Game.Commands;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.World.Map;
 
 namespace Aow.Game.Magic.Spells;
@@ -82,7 +80,7 @@ public class GlobalEnchantmentSpell(CustomNode owner) : Spell(owner)
         bool result = base.CanActivate(source, ref messageText);
         if (result)
         {
-            if (!StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.SpellWard))
+            if (!StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentTypes.SpellWard))
             {
                 GlobalEnchantment enchantment = CreateEnchantment();
                 if (enchantment is not null)

@@ -20,7 +20,7 @@ public sealed partial class HtmlMemo
         return PointInside(X, Y, left, top, WinWidth, WinHeight);
     }
 
-    public override bool CheckMouseWheel(int steps, Set<ShiftState> shift, int X, int Y)
+    public override bool CheckMouseWheel(int steps, ShiftStates shift, int X, int Y)
     {
         if (steps == 0 || !ContainsPoint(X, Y))
         {

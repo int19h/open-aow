@@ -363,7 +363,7 @@ public partial class ListBox : Control
     // { CheckMouseDown selects the item under the mouse unless the owner already handled the click;
     //   a double click calls OnDoubleClick, the right button opens the popup menu at the mouse, moved
     //   back inside the window manager when it would stick out }
-    public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
@@ -390,7 +390,7 @@ public partial class ListBox : Control
                     RaiseChange(this);
                 }
 
-                if (button == MouseButton.Left && (Set<ShiftState>.Of(ShiftState.Double) & shift) == Set<ShiftState>.Of(ShiftState.Double) && OnDoubleClick is not null)
+                if (button == MouseButton.Left && (ShiftStates.Double & shift) == ShiftStates.Double && OnDoubleClick is not null)
                 {
                     OnDoubleClick(this);
                 }
@@ -437,7 +437,7 @@ public partial class ListBox : Control
     }
 
     // AoWListBox.pas:460
-    public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton button, ShiftStates shift, int X, int Y)
     {
         Handled = false;
         if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth - _scrollWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
@@ -449,7 +449,7 @@ public partial class ListBox : Control
 
     // AoWListBox.pas:475
     // { CheckMouseMove tracks the item under the mouse }
-    public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseMove(ShiftStates shift, int X, int Y)
     {
         base.CheckMouseMove(shift, X, Y);
         Handled = false;

@@ -81,7 +81,7 @@ public sealed class TypedEventTests(TypedEventTests.Host host) : IClassFixture<T
 
         int runs = 0;
         UIComponent? mouseSender = null;
-        void Down(UIComponent sender, MouseButton mouseButton, Set<ShiftState> shift, int x, int y)
+        void Down(UIComponent sender, MouseButton mouseButton, ShiftStates shift, int x, int y)
         {
             runs++;
             mouseSender = sender;
@@ -97,7 +97,7 @@ public sealed class TypedEventTests(TypedEventTests.Host host) : IClassFixture<T
         Assert.Null(MouseDownHandler(button));
 
         Button? typedSender = null;
-        void typed(Button sender, MouseButton mouseButton, Set<ShiftState> shift, int x, int y) => typedSender = sender;
+        void typed(Button sender, MouseButton mouseButton, ShiftStates shift, int x, int y) => typedSender = sender;
         button.OnMouseDown += typed;
         Assert.NotNull(MouseDownHandler(button));
         button.OnMouseDown -= typed;
@@ -224,8 +224,8 @@ public sealed class TypedEventTests(TypedEventTests.Host host) : IClassFixture<T
         Button button = new(owner);
         Button other = new(owner);
         Button? seen = null;
-        void handler(Button sender, MouseButton mouseButton, Set<ShiftState> shift, int x, int y) => seen = sender;
-        void stranger(Button sender, MouseButton mouseButton, Set<ShiftState> shift, int x, int y)
+        void handler(Button sender, MouseButton mouseButton, ShiftStates shift, int x, int y) => seen = sender;
+        void stranger(Button sender, MouseButton mouseButton, ShiftStates shift, int x, int y)
         {
         }
         button.OnMouseDown += handler;

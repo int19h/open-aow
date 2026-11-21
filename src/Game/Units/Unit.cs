@@ -321,7 +321,7 @@ public class Unit(CustomNode owner) : Troop(owner)
     public override int Show(int X, int Y, in LockedSurface lockedSurface, in UnitShowInfo info)
     {
         int result = base.Show(X, Y, lockedSurface, info);
-        if (info.Overlays.Contains(UnitOverlayModesElement.Rank))
+        if (info.Overlays.Contains(UnitOverlayModes.Rank))
         {
             switch (GetRank())
             {

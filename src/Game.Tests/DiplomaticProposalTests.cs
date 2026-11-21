@@ -134,7 +134,7 @@ public sealed class DiplomaticProposalTests
     private static GameEngine CreateEngine()
     {
         GameEngine engine = new(null);
-        engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);
+        engine.Options &= ~GameEngine.VerifyClasses;
         engine.RegisterEngineClasses([EngineClass.Of<DiplomaticAction>(), EngineClass.Of<DiplomaticActionTokenEvent>(), EngineClass.Of<DiplomaticActionEventLog>()]);
         return engine;
     }

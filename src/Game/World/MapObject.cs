@@ -5,8 +5,6 @@ using Aow.Engine.Nodes;
 using Aow.Game.Draw;
 
 using Aow.Game.World.Map;
-
-using Aow.Rtl;
 using static Aow.Rtl.DelphiAssert;
 using static Aow.Rtl.DelphiStrings;
 
@@ -23,18 +21,18 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
     // MAPOBJ.PAS:88
     public bool ResourceLinked
     {
-        get => Status.Contains(MapObjectStatusElement.ResourceLinked);
+        get => Status.Contains(MapObjectStatuses.ResourceLinked);
         // MAPOBJ.PAS:93
         set => Status = value
-            ? Status + Set<MapObjectStatusElement>.Of(MapObjectStatusElement.ResourceLinked)
-            : Status - Set<MapObjectStatusElement>.Of(MapObjectStatusElement.ResourceLinked);
+            ? Status | MapObjectStatuses.ResourceLinked
+            : Status & ~MapObjectStatuses.ResourceLinked;
     }
 
     // MAPOBJ.PAS:138
     public override sbyte GetTerrain(int index)
     {
         sbyte result = _resource.TerrainList.GetTerrain(index);
-        return Status.Contains(MapObjectStatusElement.EditMode) && result >= 0 ? (sbyte)-1 : result;
+        return Status.Contains(MapObjectStatuses.EditMode) && result >= 0 ? (sbyte)-1 : result;
     }
 
     // MAPOBJ.PAS:145
@@ -47,7 +45,7 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
     public override sbyte GetOverlay(int index)
     {
         sbyte result = _resource.TerrainList.GetOverlay(index);
-        return Status.Contains(MapObjectStatusElement.EditMode) && result >= 0 ? (sbyte)-1 : result;
+        return Status.Contains(MapObjectStatuses.EditMode) && result >= 0 ? (sbyte)-1 : result;
     }
 
     // MAPOBJ.PAS:162
@@ -62,26 +60,26 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
     // MAPOBJ.PAS:29
     public override bool Visible
     {
-        get => Status.Contains(MapObjectStatusElement.Visible);
+        get => Status.Contains(MapObjectStatuses.Visible);
         // MAPOBJ.PAS:8
         set
         {
             if (value)
             {
-                Status += Set<MapObjectStatusElement>.Of(MapObjectStatusElement.Visible);
+                Status |= MapObjectStatuses.Visible;
             }
             else
             {
-                if (Status.Contains(MapObjectStatusElement.Visible))
+                if (Status.Contains(MapObjectStatuses.Visible))
                 {
-                    Status -= Set<MapObjectStatusElement>.Of(MapObjectStatusElement.Visible);
+                    Status &= ~MapObjectStatuses.Visible;
                 }
             }
         }
     }
 
     // MAPOBJ.PAS:133
-    public override bool GetSelected() => Status.Contains(MapObjectStatusElement.Selected);
+    public override bool GetSelected() => Status.Contains(MapObjectStatuses.Selected);
 
     // MAPOBJ.PAS:45
     public override sbyte HexX
@@ -116,10 +114,10 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
     // MAPOBJ.PAS:40
     public override bool EditMode
     {
-        get => Status.Contains(MapObjectStatusElement.EditMode);
+        get => Status.Contains(MapObjectStatuses.EditMode);
         // MAPOBJ.PAS:35
         // { Value is not used: the edit mode is only ever switched on }
-        set => Status += Set<MapObjectStatusElement>.Of(MapObjectStatusElement.EditMode);
+        set => Status |= MapObjectStatuses.EditMode;
     }
 
     // MAPOBJ.PAS:214
@@ -130,13 +128,13 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
     }
 
     // MAPOBJ.PAS:235
-    public override void Connect() => Status += Set<MapObjectStatusElement>.Of(MapObjectStatusElement.PlacedOnMap);
+    public override void Connect() => Status |= MapObjectStatuses.PlacedOnMap;
 
     // MAPOBJ.PAS:240
     public override void Disconnect()
     {
         Owner = null;
-        Status -= Set<MapObjectStatusElement>.Of(MapObjectStatusElement.PlacedOnMap);
+        Status &= ~MapObjectStatuses.PlacedOnMap;
     }
 
     // MAPOBJ.PAS:222
@@ -180,13 +178,13 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
     // MAPOBJ.PAS:266
     public override void RemoveFromMap()
     {
-        if (Status.Contains(MapObjectStatusElement.PlacedOnMap))
+        if (Status.Contains(MapObjectStatuses.PlacedOnMap))
         {
             if (Owner is not null)
             {
                 MapField mapField = Owner;
                 Disconnect();
-                if (!mapField.Owner.Map.Status.Contains(HexSpriteMapStatusElement.Destroying))
+                if (!mapField.Owner.Map.Status.Contains(HexSpriteMapStatuses.Destroying))
                 {
                     if (GetTerrain(0) >= 0 || GetOverlay(0) >= 0)
                     {
@@ -205,7 +203,7 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
                 }
             }
 
-            Status -= Set<MapObjectStatusElement>.Of(MapObjectStatusElement.PlacedOnMap);
+            Status &= ~MapObjectStatuses.PlacedOnMap;
         }
     }
 
@@ -213,7 +211,7 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
     public override bool MainPlace(MapContainer mapContainer, int pixelX, int pixelY, int hexLevel)
     {
         bool result;
-        if (!Status.Contains(MapObjectStatusElement.PlacedOnMap))
+        if (!Status.Contains(MapObjectStatuses.PlacedOnMap))
         {
             HexGeometry.PixelToHex(pixelX, vertical: pixelY, out int hexX, out int hexY);
             if (EditMode || CanPlace(mapContainer, (sbyte)hexX, (sbyte)hexY, (sbyte)hexLevel))
@@ -244,17 +242,17 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
     // MAPOBJ.PAS:363
     public override void MainRemove()
     {
-        if (Status.Contains(MapObjectStatusElement.Selected))
+        if (Status.Contains(MapObjectStatuses.Selected))
         {
             Unselect();
         }
 
-        if (Status.Contains(MapObjectStatusElement.Activated))
+        if (Status.Contains(MapObjectStatuses.Activated))
         {
             Deactivate();
         }
 
-        if (Status.Contains(MapObjectStatusElement.PlacedOnMap))
+        if (Status.Contains(MapObjectStatuses.PlacedOnMap))
         {
             Remove();
         }
@@ -303,36 +301,36 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
     }
 
     // MAPOBJ.PAS:330
-    public override void Activate() => Status += Set<MapObjectStatusElement>.Of(MapObjectStatusElement.Activated);
+    public override void Activate() => Status |= MapObjectStatuses.Activated;
 
     // MAPOBJ.PAS:335
     public override void Deactivate()
     {
         base.Deactivate();
-        Status -= Set<MapObjectStatusElement>.Of(MapObjectStatusElement.Activated);
+        Status &= ~MapObjectStatuses.Activated;
     }
 
     // MAPOBJ.PAS:117
     public override void MakeVisible(VisibilityList visibilityList)
     {
-        if (!Status.Contains(MapObjectStatusElement.Visible))
+        if (!Status.Contains(MapObjectStatuses.Visible))
         {
-            Status += Set<MapObjectStatusElement>.Of(MapObjectStatusElement.Visible);
+            Status |= MapObjectStatuses.Visible;
             _ = visibilityList.AddSortChild(this, sortValue: GetShowPriority());
         }
     }
 
     // MAPOBJ.PAS:126
-    public override bool CanSelect(int pixelX, int pixelY) => _resource.Engine.HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting) && _resource.TerrainList.Count != 0 && (_resource.TerrainList.GetTerrain(0) >= 0 || _resource.TerrainList.GetOverlay(0) >= 0);
+    public override bool CanSelect(int pixelX, int pixelY) => _resource.Engine.HexSpriteMap.Status.Contains(HexSpriteMapStatuses.Editting) && _resource.TerrainList.Count != 0 && (_resource.TerrainList.GetTerrain(0) >= 0 || _resource.TerrainList.GetOverlay(0) >= 0);
 
     // MAPOBJ.PAS:172
-    public override void Select() => Status += Set<MapObjectStatusElement>.Of(MapObjectStatusElement.Selected);
+    public override void Select() => Status |= MapObjectStatuses.Selected;
 
     // MAPOBJ.PAS:177
     public override void Unselect()
     {
         base.Unselect();
-        Status -= Set<MapObjectStatusElement>.Of(MapObjectStatusElement.Selected);
+        Status &= ~MapObjectStatuses.Selected;
     }
 
     // MAPOBJ.PAS:21
@@ -378,5 +376,5 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
 
     internal void SetResourceWithoutOverrides(MapObjectResource value) => _resource = value;
 
-    public Set<MapObjectStatusElement> Status { get; protected set; }
+    public MapObjectStatuses Status { get; protected set; }
 }

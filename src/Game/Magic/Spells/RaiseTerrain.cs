@@ -12,8 +12,6 @@ using Aow.Game.World.Map;
 
 using Aow.Game.World.Structures;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Spells;
 
 public class RaiseTerrain : GlobalTargetSpell
@@ -54,7 +52,7 @@ public class RaiseTerrain : GlobalTargetSpell
     // Mountain.pas:347
     public override bool ValidTargetSelectionMapField(MapField field)
     {
-        bool valid = base.ValidTargetSelectionMapField(field) && !Set<byte>.WithBounds(0, 255).With(0).With(6).With(10).With(13).Contains((byte)field.TerrainType) && !Set<byte>.WithBounds(0, 255).With(0).Contains((byte)field.OverlayType) && field.FindNoneTransparentHexSprite(typeof(Structure)) is null;
+        bool valid = base.ValidTargetSelectionMapField(field) && field.TerrainType is not ((sbyte)TerrainType.Water or (sbyte)TerrainType.Ice or (sbyte)TerrainType.UndergroundWater or (sbyte)TerrainType.UndergroundIce) && (byte)field.OverlayType != 0 && field.FindNoneTransparentHexSprite(typeof(Structure)) is null;
         if (valid)
         {
             ArmyHexSprite army = field.GetArmyHexSprite();
@@ -68,7 +66,7 @@ public class RaiseTerrain : GlobalTargetSpell
     }
 
     // Mountain.pas:338
-    public override bool ValidTargetMapField(MapField field) => base.ValidTargetMapField(field) && !Set<byte>.WithBounds(0, 255).With(0).With(6).With(10).With(13).Contains((byte)field.TerrainType) && !Set<byte>.WithBounds(0, 255).With(0).Contains((byte)field.OverlayType) && field.FindNoneTransparentHexSprite(typeof(Structure)) is null && field.GetArmyHexSprite() is null;
+    public override bool ValidTargetMapField(MapField field) => base.ValidTargetMapField(field) && field.TerrainType is not ((sbyte)TerrainType.Water or (sbyte)TerrainType.Ice or (sbyte)TerrainType.UndergroundWater or (sbyte)TerrainType.UndergroundIce) && (byte)field.OverlayType != 0 && field.FindNoneTransparentHexSprite(typeof(Structure)) is null && field.GetArmyHexSprite() is null;
 
     private static readonly string s_raiseTerrainText = "Raise Terrain";
 }

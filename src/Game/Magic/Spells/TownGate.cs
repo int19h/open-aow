@@ -13,8 +13,6 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Spells;
 
 public class TownGate : CityTargetSpell
@@ -25,7 +23,7 @@ public class TownGate : CityTargetSpell
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_townGateText);
         SpellId = 38;
-        CityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Own, CityTargetModeElement.SkipSource);
+        CityTargetMode = CityTargetModes.Own | CityTargetModes.SkipSource;
         BaseManaCost = 5;
         SpellLevel = 3;
         MagicSphere = MagicSphere.Cosmos;
@@ -120,7 +118,7 @@ public class TownGate : CityTargetSpell
     public override void SetupTargetSelection(Troop source, TargetSelectionControl targetSelection)
     {
         base.SetupTargetSelection(source, targetSelection);
-        targetSelection.TargetMode -= Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.FixedLevel, TargetSelectionModeElement.ValidateDistance);
+        targetSelection.TargetMode &= ~(TargetSelectionModes.FixedLevel | TargetSelectionModes.ValidateDistance);
     }
 
     // CitySpells.pas:445

@@ -6,8 +6,6 @@ using Aow.Game.World;
 
 using Aow.Game.World.Structures;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Abilities;
 
 // (construction controls)
@@ -20,7 +18,7 @@ public class ConstructAbility : AdjustableAbility
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_constructText);
         AbilityId = 125;
         AbilityType = AbilityType.Enhancement;
-        SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit);
+        SelectionTypes = AbilitySelectionTypes.Unit;
         ConstructionControls = new ConstructionControlList(null) { Holder = CreationHolder() };
         RegisterConstructionControl(new RebuildConstructionControl(null) { Holder = CreationHolder() });
         RegisterConstructionControl(new BuildRoadsControl(null) { Holder = CreationHolder() });
@@ -36,7 +34,7 @@ public class ConstructAbility : AdjustableAbility
     }
 
     // AoWAb.PAS:5553
-    public override Set<AbilityControlTypeElement> GetControlType(AbilityOwner owner) => Set<AbilityControlTypeElement>.Of(AbilityControlTypeElement.Action);
+    public override AbilityControlTypes GetControlType(AbilityOwner owner) => AbilityControlTypes.Action;
 
     // AoWAb.PAS:5555
     public override bool CanActivate(AbilityOwner owner, ref string reason) => owner is Troop;

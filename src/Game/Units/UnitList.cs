@@ -10,8 +10,6 @@ using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Units;
 
 // inherited FChildren, UpdateCount
@@ -94,7 +92,7 @@ public class UnitList(CustomNode owner) : ObservableNode(owner), IChildList<Troo
     public int GetStrength(DamageType damageType) => Units.GetStrength(damageType);
 
     // Unit.PAS:2373
-    public int GetStrengthMax(Set<DamageType> damageTypes) => Units.GetStrengthMax(damageTypes);
+    public int GetStrengthMax(DamageTypes damageTypes) => Units.GetStrengthMax(damageTypes);
 
     // Unit.PAS:2356
     public virtual MapCoordinate GetLocation() => MapCoordinate.None;
@@ -228,7 +226,7 @@ public class UnitList(CustomNode owner) : ObservableNode(owner), IChildList<Troo
             if (!condition)
             {
                 Alignment alignment = units[i].GetAlignment();
-                condition = GamePack.Current.RaceResources.GetRaceResource(relation).Alignments.Contains(alignment);
+                condition = GamePack.Current.RaceResources.GetRaceResource(relation).Alignments.Contains(alignment.ToFlag());
             }
 
             sameRace = condition;
@@ -244,9 +242,9 @@ public class UnitList(CustomNode owner) : ObservableNode(owner), IChildList<Troo
             {
                 Troop troop = units[i];
                 Alignment alignmentAlignment = troop.GetAlignment();
-                evil = evil && AlignmentTables.EvilAlignments.Contains(alignmentAlignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Alignment.Evil, Alignment.PureEvil).Contains(alignmentAlignment));
-                good = good && AlignmentTables.GoodAlignments.Contains(alignmentAlignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Alignment.PureGood, Alignment.Good).Contains(alignmentAlignment));
-                neutral = neutral && AlignmentTables.NeutralAlignments.Contains(alignmentAlignment);
+                evil = evil && AlignmentTables.EvilAlignments.Contains(alignmentAlignment.ToFlag()) && (troop.GetRace() == -1 || alignmentAlignment is Alignment.Evil or Alignment.PureEvil);
+                good = good && AlignmentTables.GoodAlignments.Contains(alignmentAlignment.ToFlag()) && (troop.GetRace() == -1 || alignmentAlignment is Alignment.PureGood or Alignment.Good);
+                neutral = neutral && AlignmentTables.NeutralAlignments.Contains(alignmentAlignment.ToFlag());
             }
 
             return good && !evil ? (sbyte)-2 : evil && !good ? (sbyte)-4 : (sbyte)-3;

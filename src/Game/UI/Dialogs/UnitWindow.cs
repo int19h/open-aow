@@ -183,7 +183,7 @@ public sealed partial class UnitWindow(UIContext ui) : UIModule(ui)
         bool enabled;
         if (StrategicMap.Current.CombatMap is null)
         {
-            enabled = a is not null && UI.General.SelectedUnit is not null && UI.General.SelectedUnit.Player == StrategicMap.Current.SeatedPlayer && a.GetControlType(UI.General.SelectedUnit).Contains(AbilityControlTypeElement.Action);
+            enabled = a is not null && UI.General.SelectedUnit is not null && UI.General.SelectedUnit.Player == StrategicMap.Current.SeatedPlayer && a.GetControlType(UI.General.SelectedUnit).Contains(AbilityControlTypes.Action);
         }
         else
         {
@@ -191,7 +191,7 @@ public sealed partial class UnitWindow(UIContext ui) : UIModule(ui)
             if (condition)
             {
                 object objectValue2 = AbilityAbilityList.Items.Objects[drawItem];
-                condition = GamePack.Current.AbilityControl[ObjectToInt(objectValue2)].GetControlType(UI.General.CombatUnit.Unit.Troop).Contains(AbilityControlTypeElement.CombatAction);
+                condition = GamePack.Current.AbilityControl[ObjectToInt(objectValue2)].GetControlType(UI.General.CombatUnit.Unit.Troop).Contains(AbilityControlTypes.CombatAction);
             }
 
             bool test = condition && UI.General.CombatUnit.Unit.GetPlayer() == CombatMap.Current.SeatedPlayer && UI.General.CombatUnit.Unit.MovePoints > 0;
@@ -199,7 +199,7 @@ public sealed partial class UnitWindow(UIContext ui) : UIModule(ui)
             {
                 object objectValue2 = AbilityAbilityList.Items.Objects[drawItem];
                 CombatMode combatMode = GamePack.Current.AbilityControl[ObjectToInt(objectValue2)].GetCombatMode(UI.General.CombatUnit.Unit.Troop);
-                test = !(Set<CombatMode>.Of(CombatMode.ShortRange, CombatMode.MediumRange, CombatMode.LongRange).Contains(combatMode) || ObjectToInt(AbilityAbilityList.Items.Objects[drawItem]) == 52) || UI.General.CombatUnit.Unit.Troop.Moves == UI.General.CombatUnit.Unit.MovePoints;
+                test = !(combatMode is >= CombatMode.ShortRange and <= CombatMode.LongRange || ObjectToInt(AbilityAbilityList.Items.Objects[drawItem]) == 52) || UI.General.CombatUnit.Unit.Troop.Moves == UI.General.CombatUnit.Unit.MovePoints;
             }
 
             enabled = test;
@@ -227,8 +227,8 @@ public sealed partial class UnitWindow(UIContext ui) : UIModule(ui)
                 {
                     if (StrategicMap.Current.CombatMap is null)
                     {
-                        Set<AbilityControlTypeElement> controlType = a.GetControlType(UI.General.SelectedUnit);
-                        AbilityUseButton.Visible = controlType.Contains(AbilityControlTypeElement.Action);
+                        AbilityControlTypes controlType = a.GetControlType(UI.General.SelectedUnit);
+                        AbilityUseButton.Visible = controlType.Contains(AbilityControlTypes.Action);
                     }
                     else
                     {
@@ -266,7 +266,7 @@ public sealed partial class UnitWindow(UIContext ui) : UIModule(ui)
             if (condition)
             {
                 object objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
-                condition = GamePack.Current.AbilityControl[ObjectToInt(objectValue)].GetControlType(UI.General.CombatUnit.Unit.Troop).Contains(AbilityControlTypeElement.CombatAction);
+                condition = GamePack.Current.AbilityControl[ObjectToInt(objectValue)].GetControlType(UI.General.CombatUnit.Unit.Troop).Contains(AbilityControlTypes.CombatAction);
             }
 
             bool test = condition && UI.General.CombatUnit.Unit.GetPlayer() == CombatMap.Current.SeatedPlayer && UI.General.CombatUnit.Unit.MovePoints > 0;
@@ -274,7 +274,7 @@ public sealed partial class UnitWindow(UIContext ui) : UIModule(ui)
             {
                 object objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
                 CombatMode combatMode = GamePack.Current.AbilityControl[ObjectToInt(objectValue)].GetCombatMode(UI.General.CombatUnit.Unit.Troop);
-                test = !(Set<CombatMode>.Of(CombatMode.ShortRange, CombatMode.MediumRange, CombatMode.LongRange).Contains(combatMode) || ObjectToInt(AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected]) == 52) || UI.General.CombatUnit.Unit.Troop.Moves == UI.General.CombatUnit.Unit.MovePoints;
+                test = !(combatMode is >= CombatMode.ShortRange and <= CombatMode.LongRange || ObjectToInt(AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected]) == 52) || UI.General.CombatUnit.Unit.Troop.Moves == UI.General.CombatUnit.Unit.MovePoints;
             }
 
             if (test)
@@ -300,7 +300,7 @@ public sealed partial class UnitWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWUnitWindow.pas:568
-    public void ItemRHMouseDown(CheckBox sender, MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public void ItemRHMouseDown(CheckBox sender, MouseButton button, ShiftStates shift, int X, int Y)
     {
         CheckBox check = sender;
         ItemBanner.ItemId = check.Tag;
@@ -464,7 +464,7 @@ public sealed partial class UnitWindow(UIContext ui) : UIModule(ui)
     public void UnitTabChange() => UI.General.PlayButtonSound(0);
 
     // AoWUnitWindow.pas:693
-    public void UnitWinMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public void UnitWinMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
         if (button == MouseButton.Right && s_selectedItem is not null)
         {
@@ -531,8 +531,8 @@ public sealed partial class UnitWindow(UIContext ui) : UIModule(ui)
         {
             _showInfo.Direction = 3;
             _showInfo.Overlays = UI.General.SelectedUnit is Hero
-                ? Set<UnitOverlayModesElement>.Of()
-                : Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.Rank);
+                ? UnitOverlayModes.None
+                : UnitOverlayModes.Rank;
 
             UIComponent image = sender;
             _ = UI.General.SelectedUnit.Show(image.WinLeft + 49, image.WinTop + 78, lockedSurface, info: _showInfo);
@@ -540,7 +540,7 @@ public sealed partial class UnitWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWUnitWindow.pas:855
-    public void Gnd3MouseDown(CheckBox sender, MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public void Gnd3MouseDown(CheckBox sender, MouseButton button, ShiftStates shift, int X, int Y)
     {
         if (UI.General.SelectedUnit is not null)
         {
@@ -647,7 +647,7 @@ public sealed partial class UnitWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWUnitWindow.pas:926
-    public void T1AbilityLBMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public void T1AbilityLBMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
         if (button == MouseButton.Right && UI.General.SelectedUnit is not null && AbilityAbilityList.Selected != -1)
         {
@@ -661,7 +661,7 @@ public sealed partial class UnitWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWUnitWindow.pas:937
-    public void UnitWinKeyDown(in ushort key, Set<ShiftState> shift)
+    public void UnitWinKeyDown(in ushort key, ShiftStates shift)
     {
         if (key is 27)
         {
@@ -745,8 +745,8 @@ public sealed partial class UnitWindow(UIContext ui) : UIModule(ui)
     {
         Ability ability = GamePack.Current.AbilityControl[ObjectToInt(o1)];
         Ability ability2 = GamePack.Current.AbilityControl[ObjectToInt(o2)];
-        int number = (ability.GetEnabled(UI.General.SelectedUnit) && ability.GetControlType(UI.General.SelectedUnit).Contains(AbilityControlTypeElement.Action)) ? 10 : 0;
-        int number2 = (ability2.GetEnabled(UI.General.SelectedUnit) && ability2.GetControlType(UI.General.SelectedUnit).Contains(AbilityControlTypeElement.Action)) ? 10 : 0;
+        int number = (ability.GetEnabled(UI.General.SelectedUnit) && ability.GetControlType(UI.General.SelectedUnit).Contains(AbilityControlTypes.Action)) ? 10 : 0;
+        int number2 = (ability2.GetEnabled(UI.General.SelectedUnit) && ability2.GetControlType(UI.General.SelectedUnit).Contains(AbilityControlTypes.Action)) ? 10 : 0;
         int number3 = number2 - number;
         if (number3 == 0)
         {

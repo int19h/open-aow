@@ -7,8 +7,6 @@ using Aow.Game.Draw.Images;
 using Aow.Game.Host;
 
 using Aow.Game.World.Map;
-
-using Aow.Rtl;
 using static Aow.Rtl.PCharStrings;
 using static Aow.Rtl.RtlHost;
 
@@ -495,7 +493,7 @@ public sealed partial class BattleEffectSprite
                         FinishPath();
                         break;
                     case BattleEffectType.SacredWrath:
-                        if (Set<byte>.WithBounds(0, 255).WithRange(5, 6).Contains((byte)Frame))
+                        if ((byte)Frame is 5 or 6)
                         {
                             SelectSequence(2);
                             while (sequence is not null)

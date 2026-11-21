@@ -37,7 +37,7 @@ public class AIMoveControlSettings : EngineObject
     public Troop Transporter { get; set; }
     public int MovePointsMax { get; private set; }
     public int QuickMovePointsMax { get; private set; }
-    public Set<MoveModeElement> MoveMode { get; set; }
+    public MoveModes MoveMode { get; set; }
     public ArmyHexSprite ArmyHexSprite { get; private set; }
     public int Selection { get; private set; }
     public AIMoveControlStatus Status { get; set; }

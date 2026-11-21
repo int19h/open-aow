@@ -23,7 +23,7 @@ public class CityWallDoor(CustomNode owner) : CityWall(owner)
     // CityWall.pas:431
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        if (CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || CombatMap.Current.Combat is null)
+        if (CombatMap.Current.Status.Contains(HexSpriteMapStatuses.Editting) || CombatMap.Current.Combat is null)
         {
             base.Show(pixelXSurface, pixelYSurface, lockedSurface);
         }
@@ -65,14 +65,14 @@ public class CityWallDoor(CustomNode owner) : CityWall(owner)
             }
             else
             {
-                if (((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.Wall))
+                if (((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModes.Wall))
                 {
                     moveResult.Code = 25;
                     moveResult.Done = true;
                 }
                 else
                 {
-                    moveResult.Code = ((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.WallCrushing) && HexX == ((MoveControl)info.Sender).Destination.X && HexY == ((MoveControl)info.Sender).Destination.Y
+                    moveResult.Code = ((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModes.WallCrushing) && HexX == ((MoveControl)info.Sender).Destination.X && HexY == ((MoveControl)info.Sender).Destination.Y
                         ? 0
                         : ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(1) || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(66) || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.Side == CombatSideIndex.Defender
                             ? ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][-1 - MovementTables.FirstOverlay]
@@ -90,7 +90,7 @@ public class CityWallDoor(CustomNode owner) : CityWall(owner)
     public override int CanMoveOver(in HexSpriteSenderInfo info)
     {
         return info.HexNumber == 0
-            ? HitPoints == 0 || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.Side == CombatSideIndex.Defender || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(66) || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(36) || ((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.Climbing) || ((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.Wall)
+            ? HitPoints == 0 || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.Side == CombatSideIndex.Defender || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(66) || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(36) || ((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModes.Climbing) || ((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModes.Wall)
                 ? 1
                 : ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(59)
                     ? 0

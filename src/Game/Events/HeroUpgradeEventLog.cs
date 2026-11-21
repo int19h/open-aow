@@ -61,8 +61,8 @@ public partial class HeroUpgradeEventLog(CustomNode owner) : EventLog(owner)
             if (hero.UpgradePending)
             {
                 bool executeNow = trigger == ExecuteTrigger.User;
-                executeNow = executeNow || (StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.HeroUpgrade));
-                executeNow = executeNow || (StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.HeroUpgrade));
+                executeNow = executeNow || (StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvents.HeroUpgrade));
+                executeNow = executeNow || (StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvents.HeroUpgrade));
                 return executeNow && base.Execute(mode, trigger, done);
             }
             else

@@ -158,14 +158,14 @@ public class CityWall(CustomNode owner) : CombatImageLibraryTerrain(owner)
             }
             else
             {
-                if (((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.Wall))
+                if (((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModes.Wall))
                 {
                     moveResult.Code = 25;
                     moveResult.Done = true;
                 }
                 else
                 {
-                    moveResult.Code = ((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.WallCrushing) && HexX == ((MoveControl)info.Sender).Destination.X && HexY == ((MoveControl)info.Sender).Destination.Y
+                    moveResult.Code = ((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModes.WallCrushing) && HexX == ((MoveControl)info.Sender).Destination.X && HexY == ((MoveControl)info.Sender).Destination.Y
                         ? 0
                         : ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(1) || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(66) || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(36)
                             ? ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][-1 - MovementTables.FirstOverlay]
@@ -183,7 +183,7 @@ public class CityWall(CustomNode owner) : CombatImageLibraryTerrain(owner)
     public override int CanMoveOver(in HexSpriteSenderInfo info)
     {
         return info.HexNumber == 0
-            ? HitPoints == 0 || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(66) || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(36) || ((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.Climbing) || ((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.Wall)
+            ? HitPoints == 0 || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(66) || ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(36) || ((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModes.Climbing) || ((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModes.Wall)
                 ? 1
                 : ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(59)
                     ? 0
@@ -195,7 +195,7 @@ public class CityWall(CustomNode owner) : CombatImageLibraryTerrain(owner)
     public override void Activate()
     {
         base.Activate();
-        if (!CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (!CombatMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             bool razed = false;
             _playSound = true;
@@ -353,7 +353,7 @@ public class CityWall(CustomNode owner) : CombatImageLibraryTerrain(owner)
                         imageIndex = sequence.GetFrameIndex(CombatMap.Current.Frame, offset: FrameFixtureInputs.AnimationOffset(this));
                         if (imageIndex != -1)
                         {
-                            if (!CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+                            if (!CombatMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
                             {
                                 sbyte hexX2 = HexX;
                                 sbyte hexY2 = HexY;

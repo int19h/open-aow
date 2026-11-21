@@ -9,8 +9,6 @@ using Aow.Game.Session;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Abilities;
 
 public class SpellCastingAbility : MultiLevelAbility
@@ -31,7 +29,7 @@ public class SpellCastingAbility : MultiLevelAbility
     }
 
     // AoWAb.PAS:4463
-    public override Set<AbilityControlTypeElement> GetControlType(AbilityOwner owner) => Set<AbilityControlTypeElement>.Of(AbilityControlTypeElement.Action, AbilityControlTypeElement.CombatAction);
+    public override AbilityControlTypes GetControlType(AbilityOwner owner) => AbilityControlTypes.Action | AbilityControlTypes.CombatAction;
 
     // AoWAb.PAS:4588
     public override void FastBattlePrefetchCombatCommands(FastBattleCommandList commands)
@@ -57,7 +55,7 @@ public class SpellCastingAbility : MultiLevelAbility
                         {
                             int item = magic.Spells[i];
                             spell = GamePack.Current.SpellControl[item];
-                            if (spell is not null && spell.SpellControlTypes.Contains(SpellControlTypeElement.Combat))
+                            if (spell is not null && spell.SpellControlTypes.Contains(SpellControlTypes.Combat))
                             {
                                 if (sourceUnit.Troop.CanCastSpellInstantly(spell.SpellId, mana: spell.BaseManaCost, reason: ref error))
                                 {
@@ -71,7 +69,7 @@ public class SpellCastingAbility : MultiLevelAbility
                         for (int i = 0, last = GamePack.Current.SpellControl.GetCount() - 1; i <= last; i++)
                         {
                             spell = GamePack.Current.SpellControl[i];
-                            if (spell is not null && spell.SpellControlTypes.Contains(SpellControlTypeElement.Combat))
+                            if (spell is not null && spell.SpellControlTypes.Contains(SpellControlTypes.Combat))
                             {
                                 spell.FastBattlePrefetchCombatCommands(commands);
                             }
@@ -138,7 +136,7 @@ public class SpellCastingAbility : MultiLevelAbility
             {
                 int item = magic.Spells[i];
                 Spell spell = GamePack.Current.SpellControl[item];
-                if (spell is not null && spell.SpellControlTypes.Contains(SpellControlTypeElement.Combat) && source.GetCastingPointsMax() >= spell.BaseManaCost)
+                if (spell is not null && spell.SpellControlTypes.Contains(SpellControlTypes.Combat) && source.GetCastingPointsMax() >= spell.BaseManaCost)
                 {
                     spell.FastBattleGetDamageValues(attacker, target: defender, wallSituation, ref values);
                     if (damageValues.SourceDamage < values.SourceDamage)
@@ -164,7 +162,7 @@ public class SpellCastingAbility : MultiLevelAbility
             {
                 int item = magic.Spells[i];
                 Spell spell = GamePack.Current.SpellControl[item];
-                if (spell is not null && spell.SpellControlTypes.Contains(SpellControlTypeElement.Combat) && source.GetCastingPoints() >= spell.BaseManaCost)
+                if (spell is not null && spell.SpellControlTypes.Contains(SpellControlTypes.Combat) && source.GetCastingPoints() >= spell.BaseManaCost)
                 {
                     spell.FastBattleGetDamageValues(attacker, target: defender, wallSituation: WallSituation.None, ref values);
                     if (damageValues.SourceDamage < values.SourceDamage)
@@ -210,7 +208,7 @@ public class SpellCastingAbility : MultiLevelAbility
                 if (spell is not null && spell.SpellType == SpellType.Combat)
                 {
                     spell.GetCombatInfo(troop, ref info);
-                    bool condition = info.DamageTypes.Contains(DamageType.Wall);
+                    bool condition = info.DamageTypes.Contains(DamageTypes.Wall);
                     if (condition)
                     {
                         condition = hero.CanCastCombatSpell(magic.Spells[i], reason: ref error);

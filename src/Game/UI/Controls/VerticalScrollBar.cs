@@ -249,7 +249,7 @@ public sealed partial class VerticalScrollBar(Component owner) : ScrollBar(owner
     // { CheckMouseDown: a click on a button steps the position, a click in the track pages towards
     //   the click, a click on the tab starts dragging it (F151 stays 5). The track before the tab ends
     //   at the height of the increment button (original) }
-    public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
@@ -387,7 +387,7 @@ public sealed partial class VerticalScrollBar(Component owner) : ScrollBar(owner
     }
 
     // AoWVScroll.pas:661
-    public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton button, ShiftStates shift, int X, int Y)
     {
         Handled = false;
         if (HeldPart != 0)
@@ -406,7 +406,7 @@ public sealed partial class VerticalScrollBar(Component owner) : ScrollBar(owner
 
     // AoWVScroll.pas:680
     // { CheckMouseMove drags the tab }
-    public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseMove(ShiftStates shift, int X, int Y)
     {
         base.CheckMouseMove(shift, X, Y);
         Handled = false;

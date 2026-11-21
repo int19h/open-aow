@@ -10,8 +10,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 
 using Aow.Game.World.Map;
-
-using Aow.Rtl;
 using static Aow.Rtl.DelphiFormat;
 
 namespace Aow.Game.World.Structures;
@@ -73,11 +71,11 @@ public partial class Mine : PlayerStructure
         if (value)
         {
             SetPlayer(-1);
-            State = (byte)(Set<byte>.FromMask(State) + Set<byte>.WithBounds(0, 7).With(0)).Image;
+            State = (byte)(State | 1);
         }
         else
         {
-            State = (byte)(Set<byte>.FromMask(State) - Set<byte>.WithBounds(0, 7).With(0)).Image;
+            State = (byte)(State & ~1);
         }
 
         ImageIndex = GetTerrainTypeImage(TerrainType);
@@ -155,7 +153,7 @@ public partial class Mine : PlayerStructure
     {
         if (player != Player)
         {
-            if (Status.Contains(MapObjectStatusElement.Activated))
+            if (Status.Contains(MapObjectStatuses.Activated))
             {
                 if (Player != -1)
                 {

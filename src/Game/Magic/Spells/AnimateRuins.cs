@@ -16,7 +16,6 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 
 using Aow.Game.World.Structures;
-using Aow.Rtl;
 using static Aow.Rtl.DelphiFormat;
 using static Aow.Rtl.DelphiRandom;
 
@@ -30,7 +29,7 @@ public class AnimateRuins : CityTargetSpell
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_animateRuinsText);
         SpellId = 76;
-        CityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Enemy, CityTargetModeElement.Razed);
+        CityTargetMode = CityTargetModes.Enemy | CityTargetModes.Razed;
     }
 
     // CitySpells.pas:938
@@ -83,7 +82,7 @@ public class AnimateRuins : CityTargetSpell
                     unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(UndeadUnitResourceIds[random]));
                     sbyte hexLevel = targetCity.HexLevel;
                     sbyte hexY = targetCity.HexY;
-                    _ = unit.Place(targetCity.HexX, hexY, L: hexLevel, source.Player, mode: Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
+                    _ = unit.Place(targetCity.HexX, hexY, L: hexLevel, source.Player, mode: UnitPlaceModes.ScanArea);
                     _ = unit.Release();
                 }
 

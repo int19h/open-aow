@@ -25,16 +25,7 @@
             "RangedPathHexSprite._miscellaneousImages": null,
             "RangedPathHexSprite._targetImages": {
               "$type": "Aow.Game.Draw.Images.ImageLibrary",
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": null,
               "Component.Tag": 0,
@@ -50,16 +41,7 @@
                 "PaletteManager.Palettes": []
               },
               "CustomImageLibrary.Reloading": false,
-              "CustomImageLibrary.Status": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Images.ImageLibraryStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "CustomImageLibrary.Status": 0,
               "CustomImageLibrary._changeLock": 0,
               "CustomImageLibrary._count": 0,
               "CustomImageLibrary._fileName": "",
@@ -69,16 +51,7 @@
           "CombatUnitSelectionControl.TargetImages": "$ref:$.CombatUnitSelectionControl.RangedPathHexSprite.RangedPathHexSprite._targetImages",
           "CombatUnitSelectionControl._combatMoveSettings": {
             "$type": "Aow.Game.Combat.CombatMoveControlSettings",
-            "CombatMoveControlSettings.MoveFlags": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatMoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "CombatMoveControlSettings.MoveFlags": 0,
             "EngineObject._owner": null,
             "MoveControlSettings.ArmyHexSprite": null,
             "MoveControlSettings.Destination": {
@@ -97,16 +70,7 @@
               0,
               0
             ],
-            "MoveControlSettings.Mode": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Movement.MoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "MoveControlSettings.Mode": 0,
             "MoveControlSettings.MovePointTable": [
               [
                 -1,
@@ -471,16 +435,7 @@
           },
           "CombatUnitSelectionControl._cursorFrame": 0,
           "CombatUnitSelectionControl._cursorImage": 0,
-          "CombatUnitSelectionControl._pathInvalid": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatUnitSelectionControl\u002BPathKind, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "CombatUnitSelectionControl._pathInvalid": 0,
           "CombatUnitSelectionControl._targetX": 0,
           "CombatUnitSelectionControl._targetY": 0,
           "MoveSelector.CurrentMove": -1,
@@ -495,16 +450,7 @@
               "DelphiList\u00601.items": "$ref:$.CombatUnitSelectionControl._combatMoveSettings.MoveControlSettings.SubMoves.OwningNode._children.DelphiList\u00601.items"
             }
           },
-          "MoveSelector.Status": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.World.Movement.MoveSelectorStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          }
+          "MoveSelector.Status": 0
         }
       },
       "Before": 0,

@@ -11,30 +11,21 @@ using Aow.Game.AI;
 using Aow.Game.AI.Groups;
 using Aow.Game.Audio;
 using Aow.Game.Combat;
-
 using Aow.Game.Commands;
 using Aow.Game.Draw;
-
 using Aow.Game.Draw.Images;
-
 using Aow.Game.Events;
-
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Magic.Spells;
-
 using Aow.Game.Net;
 using Aow.Game.Saves;
 using Aow.Game.Session;
 using Aow.Game.UI.Controls;
 using Aow.Game.Units;
-
 using Aow.Game.World.Movement;
 using Aow.Game.World.Structures;
-
 using Aow.Rtl;
-
 using static Aow.Rtl.DelphiAssert;
 using static Aow.Rtl.DelphiPaths;
 using static Aow.Rtl.DelphiRandom;
@@ -379,9 +370,9 @@ public sealed partial class StrategicMap : GameMap
         LockMapChangedEvent();
         SetViewLevelHandler(null);
         SetCenterViewHandler(null);
-        GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: "GENERAL.ILB");
-        GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: "CURSORS.ILB");
-        GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: "COMBAT.ILB");
+        GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(ImageLibraryManagerCategories.Disk, fileName: "GENERAL.ILB");
+        GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(ImageLibraryManagerCategories.Disk, fileName: "CURSORS.ILB");
+        GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(ImageLibraryManagerCategories.Disk, fileName: "COMBAT.ILB");
         MoveControl?.Dispose();
         for (int i = Effects.Count - 1; i >= 0; i--)
         {
@@ -511,7 +502,7 @@ public sealed partial class StrategicMap : GameMap
         }
 
         IgnoreStreamErrors = false;
-        if (translating && Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (translating && Status.Contains(HexSpriteMapStatuses.Editting))
         {
             // The original sets the editor's handler on every stream it runs on. A tree load takes the
             // handler its caller passes, and the translate stream still takes it here.
@@ -696,7 +687,7 @@ public sealed partial class StrategicMap : GameMap
         GameResult = StrategicMapGameResult.None;
         _sessionName = "";
         DetailLevel detailLevel = GetEngine().Registry.GetDetailLevel();
-        ShowUnitShadows = Set<DetailLevel>.Of(DetailLevel.Normal, DetailLevel.High).Contains(detailLevel);
+        ShowUnitShadows = detailLevel is DetailLevel.Normal or DetailLevel.High;
         HeroControl = new HeroControl(null) { Holder = CreationHolder() };
         UnitControl = new UnitControl(null) { Holder = CreationHolder() };
         StructureControl = new StructureControl(null) { Holder = CreationHolder() };
@@ -944,7 +935,7 @@ public sealed partial class StrategicMap : GameMap
 
         TokenManager.Initialize(PlayerCommunicator);
         base.Activate();
-        if (!Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (!Status.Contains(HexSpriteMapStatuses.Editting))
         {
             if (Day == 0)
             {
@@ -1005,7 +996,7 @@ public sealed partial class StrategicMap : GameMap
     public override void NewFrame()
     {
         base.NewFrame();
-        if (Status.Contains(HexSpriteMapStatusElement.Activated))
+        if (Status.Contains(HexSpriteMapStatuses.Activated))
         {
             PlayerControl.NewFrame();
             PlayerCommunicator.Process();
@@ -1142,7 +1133,7 @@ public sealed partial class StrategicMap : GameMap
     public void SynchronizeEnd() => _synchronizeCount -= 1;
 
     // AoWHSMap.PAS:1486
-    public bool Synchronized => _synchronizeCount != 0 || TokenManager.TokenExecutor.Executing || Status.Contains(HexSpriteMapStatusElement.Editting);
+    public bool Synchronized => _synchronizeCount != 0 || TokenManager.TokenExecutor.Executing || Status.Contains(HexSpriteMapStatuses.Editting);
 
     // AoWHSMap.PAS:1509
     public void PlayerDisconnected(sbyte player) => PlayerControl.PlayerDisconnected(player);
@@ -1156,7 +1147,7 @@ public sealed partial class StrategicMap : GameMap
         get
         {
             StrategicMapIndependentAIMode result = _independentAIMode;
-            return !Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.FireMastery)
+            return !Current.Status.Contains(HexSpriteMapStatuses.Editting) && Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentTypes.FireMastery)
                 ? result == StrategicMapIndependentAIMode.Off ? StrategicMapIndependentAIMode.Normal : StrategicMapIndependentAIMode.Aggressive
                 : result;
         }
@@ -1337,13 +1328,13 @@ public sealed partial class StrategicMap : GameMap
                     i = 0;
                 }
 
-                if (left == 0 || player.Armies.GetArmy(i).Hero(255, types: Set<HeroType>.Of(HeroType.Hero, HeroType.Leader, HeroType.HeroLeader, HeroType.Merchant)) is not null)
+                if (left == 0 || player.Armies.GetArmy(i).Hero(255, types: HeroTypes.Hero | HeroTypes.Leader | HeroTypes.HeroLeader | HeroTypes.Merchant) is not null)
                 {
                     break;
                 }
             }
 
-            if (player.Armies.GetArmy(i).Hero(255, types: Set<HeroType>.Of(HeroType.Hero, HeroType.Leader, HeroType.HeroLeader, HeroType.Merchant)) is not null)
+            if (player.Armies.GetArmy(i).Hero(255, types: HeroTypes.Hero | HeroTypes.Leader | HeroTypes.HeroLeader | HeroTypes.Merchant) is not null)
             {
                 Army army = Players.GetPlayers(SeatedPlayer).Armies.GetArmy(i);
                 CenterViewTo(army.Location.X, army.Location.Y, army.Location.MapLevel);
@@ -1383,13 +1374,13 @@ public sealed partial class StrategicMap : GameMap
                     i = 0;
                 }
 
-                if (left == 0 || (player.Armies.GetArmy(i).MovePoints(255) > 1 && (player.Armies.GetArmy(i).UserMode & Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard, ArmyUserModeElement.TurnDone)) == Set<ArmyUserModeElement>.Of()))
+                if (left == 0 || (player.Armies.GetArmy(i).MovePoints(255) > 1 && (player.Armies.GetArmy(i).UserMode & (ArmyUserModes.Guard | ArmyUserModes.TurnDone)) == ArmyUserModes.None))
                 {
                     break;
                 }
             }
 
-            if (player.Armies.GetArmy(i).MovePoints(255) > 1 && (player.Armies.GetArmy(i).UserMode & Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard, ArmyUserModeElement.TurnDone)) == Set<ArmyUserModeElement>.Of())
+            if (player.Armies.GetArmy(i).MovePoints(255) > 1 && (player.Armies.GetArmy(i).UserMode & (ArmyUserModes.Guard | ArmyUserModes.TurnDone)) == ArmyUserModes.None)
             {
                 Army army = Players.GetPlayers(SeatedPlayer).Armies.GetArmy(i);
                 CenterViewTo(army.Location.X, army.Location.Y, army.Location.MapLevel);
@@ -1429,13 +1420,13 @@ public sealed partial class StrategicMap : GameMap
                     i = player.Armies.Count - 1;
                 }
 
-                if (left == 0 || (player.Armies.GetArmy(i).MovePoints(255) > 1 && (player.Armies.GetArmy(i).UserMode & Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard, ArmyUserModeElement.TurnDone)) == Set<ArmyUserModeElement>.Of()))
+                if (left == 0 || (player.Armies.GetArmy(i).MovePoints(255) > 1 && (player.Armies.GetArmy(i).UserMode & (ArmyUserModes.Guard | ArmyUserModes.TurnDone)) == ArmyUserModes.None))
                 {
                     break;
                 }
             }
 
-            if (player.Armies.GetArmy(i).MovePoints(255) > 1 && (player.Armies.GetArmy(i).UserMode & Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard, ArmyUserModeElement.TurnDone)) == Set<ArmyUserModeElement>.Of())
+            if (player.Armies.GetArmy(i).MovePoints(255) > 1 && (player.Armies.GetArmy(i).UserMode & (ArmyUserModes.Guard | ArmyUserModes.TurnDone)) == ArmyUserModes.None)
             {
                 Army army = Players.GetPlayers(SeatedPlayer).Armies.GetArmy(i);
                 CenterViewTo(army.Location.X, army.Location.Y, army.Location.MapLevel);
@@ -1490,7 +1481,7 @@ public sealed partial class StrategicMap : GameMap
     // AoWHSMap.PAS:1838
     public void NotifyUnitDestroyed(Troop troop)
     {
-        if (!Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
+        if (!Current.Status.Contains(HexSpriteMapStatuses.Destroying))
         {
             _unitDestroyedEventsStore.Raise(troop);
         }
@@ -1733,7 +1724,7 @@ public sealed partial class StrategicMap : GameMap
     // AoWHSMap.PAS:2077
     public void GameOver(sbyte player, GameOverStatus status)
     {
-        if (player > 0 && Status.Contains(HexSpriteMapStatusElement.Activated) && !Status.Contains(HexSpriteMapStatusElement.Editting) && !Status.Contains(HexSpriteMapStatusElement.Destroying))
+        if (player > 0 && Status.Contains(HexSpriteMapStatuses.Activated) && !Status.Contains(HexSpriteMapStatuses.Editting) && !Status.Contains(HexSpriteMapStatuses.Destroying))
         {
             PlayerControl.GameOver(player, status);
         }
@@ -2144,7 +2135,7 @@ public sealed partial class StrategicMap : GameMap
             Races.ResetDefaultRelations();
         }
 
-        if (!Status.Contains(HexSpriteMapStatusElement.Editting) && Day == 0)
+        if (!Status.Contains(HexSpriteMapStatuses.Editting) && Day == 0)
         {
             ExplorationEnabled = true;
             FogEnabled = true;
@@ -2155,7 +2146,7 @@ public sealed partial class StrategicMap : GameMap
     public int Random(int range)
     {
         int result;
-        if (!Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
+        if (!Current.Status.Contains(HexSpriteMapStatuses.Destroying))
         {
             if (Synchronized)
             {
@@ -2223,7 +2214,7 @@ public sealed partial class StrategicMap : GameMap
     {
         if (_updateVisibilityLockCount == 0)
         {
-            if (!Status.Contains(HexSpriteMapStatusElement.Destroying))
+            if (!Status.Contains(HexSpriteMapStatuses.Destroying))
             {
                 LockMapChangedEvent();
                 EngineMessage.InitializeMessage(out EngineMessage message, messageId: 537001992, sender: this);
@@ -2330,12 +2321,12 @@ public sealed partial class StrategicMap : GameMap
         if (Combat is not null)
         {
             Current.LockGameOverEvent();
-            if (Combat.Status.Contains(CombatStatusElement.Activated))
+            if (Combat.Status.Contains(CombatStatuses.Activated))
             {
                 Combat.Deactivate();
             }
 
-            if (Combat.Status.Contains(CombatStatusElement.Executing))
+            if (Combat.Status.Contains(CombatStatuses.Executing))
             {
                 Combat.Finalize();
                 sbyte player = Combat.CombatData.Players.GetPlayers(Combat.CombatData.AttackerPlayer).Player;
@@ -2370,7 +2361,7 @@ public sealed partial class StrategicMap : GameMap
                     Holder = CreationHolder(),
                     TurnPlayer = CurrentPlayer,
                     Mode = NewTurnEventLogMode.Dialog,
-                    DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable),
+                    DialogStyle = NewTurnEventLogDialogStyles.Closeable,
                     Text = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.YourTurnContinuesText)
                 };
                 TriggerExecuteEventLog(log, immediate: false, done: ShowSeatedPlayerCallback);
@@ -2397,7 +2388,7 @@ public sealed partial class StrategicMap : GameMap
     // AoWHSMap.PAS:3026
     public void TriggerRelationsChanged()
     {
-        if (Status.Contains(HexSpriteMapStatusElement.Activated) && _relationsChangedLockCount == 0)
+        if (Status.Contains(HexSpriteMapStatuses.Activated) && _relationsChangedLockCount == 0)
         {
             BeginUnitUpdate();
             UnitControl.TriggerUnitsChanged();
@@ -2519,7 +2510,7 @@ public sealed partial class StrategicMap : GameMap
     {
         RandSeed = Current.Random(16777215);
         MapObjectResourceList resources = GamePack.Current.MapObjectResourceList;
-        if (!Set<byte>.WithBounds(0, 255).With(4).With(5).Contains((byte)overlayType))
+        if ((byte)overlayType is not (4 or 5))
         {
             DelphiList<MapObjectResource> candidates = new();
             candidates.Clear();
@@ -2548,7 +2539,7 @@ public sealed partial class StrategicMap : GameMap
     // AoWHSMap.PAS:3195
     public void UpdateEffects()
     {
-        if (!Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (!Status.Contains(HexSpriteMapStatuses.Editting))
         {
             int i = 0;
             while (i < Effects.Count)

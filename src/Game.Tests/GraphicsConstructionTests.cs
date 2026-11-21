@@ -249,11 +249,11 @@ public sealed class GraphicsConstructionTests
         ImageLibraryFont font = new(owner);
         session.BeginRead(font);
         Assert.Equal(2, owner.ComponentCount);
-        Assert.True(library.ComponentState.Contains(ComponentState.Loading));
-        Assert.True(library.ComponentState.Contains(ComponentState.Reading));
+        Assert.True(library.ComponentState.Contains(ComponentStates.Loading));
+        Assert.True(library.ComponentState.Contains(ComponentStates.Reading));
         session.EndRead(library);
-        Assert.False(library.ComponentState.Contains(ComponentState.Reading));
-        Assert.True(library.ComponentState.Contains(ComponentState.Loading));
+        Assert.False(library.ComponentState.Contains(ComponentStates.Reading));
+        Assert.True(library.ComponentState.Contains(ComponentStates.Loading));
         Assert.Equal(2, Field(font, name: "CharacterDistance"));
     }
 

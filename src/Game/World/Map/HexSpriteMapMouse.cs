@@ -64,7 +64,7 @@ public class HexSpriteMapMouse : IDisposable
     }
 
     private object _capture;
-    private Set<StatusElement> _status;
+    private Statuses _status;
     private int _cursor;
 
     // HSEngine.pas:3486
@@ -97,7 +97,7 @@ public class HexSpriteMapMouse : IDisposable
             }
             else
             {
-                if (Button == MouseButton.Right && !HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting))
+                if (Button == MouseButton.Right && !HexSpriteMap.Status.Contains(HexSpriteMapStatuses.Editting))
                 {
                     HexSpriteMap.Selection.UnselectLocation();
                     return false;
@@ -119,7 +119,7 @@ public class HexSpriteMapMouse : IDisposable
 
     // HSEngine.pas:3600
     // { Down and Up set FX twice when the position is outside (an original slip for FY). }
-    public virtual void Down(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public virtual void Down(MouseButton button, ShiftStates shift, int X, int Y)
     {
         if (!IgnoreDown)
         {
@@ -148,7 +148,7 @@ public class HexSpriteMapMouse : IDisposable
     }
 
     // HSEngine.pas:3628
-    public virtual void Up(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public virtual void Up(MouseButton button, ShiftStates shift, int X, int Y)
     {
         if (X >= 0 && Y >= 0)
         {
@@ -170,7 +170,7 @@ public class HexSpriteMapMouse : IDisposable
     }
 
     // HSEngine.pas:3651
-    public virtual void Move(Set<ShiftState> shift, int X, int Y)
+    public virtual void Move(ShiftStates shift, int X, int Y)
     {
         // Port extension: a view wider or taller than the map takes scene points past MaxXhp or MaxYhp.
         // GetXhp and GetYhp still test the map coordinates.
@@ -208,7 +208,7 @@ public class HexSpriteMapMouse : IDisposable
     {
         X = -2147483648;
         Y = -2147483648;
-        Shift = Set<ShiftState>.Of();
+        Shift = ShiftStates.None;
         _cursor = 0;
         SetCapture(null);
     }
@@ -309,9 +309,9 @@ public class HexSpriteMapMouse : IDisposable
     // HSEngine.pas:3570
     public void SetCapture(object value)
     {
-        if (!_status.Contains(StatusElement.ChangingCapture) && value != _capture)
+        if (!_status.Contains(Statuses.ChangingCapture) && value != _capture)
         {
-            _status += Set<StatusElement>.Of(StatusElement.ChangingCapture);
+            _status |= Statuses.ChangingCapture;
             _capture = value;
             if (value is null)
             {
@@ -319,7 +319,7 @@ public class HexSpriteMapMouse : IDisposable
             }
 
             OnCaptureChangedStore.Raise(this);
-            _status -= Set<StatusElement>.Of(StatusElement.ChangingCapture);
+            _status &= ~Statuses.ChangingCapture;
         }
     }
 
@@ -327,7 +327,7 @@ public class HexSpriteMapMouse : IDisposable
     public int X { get; private set; }
     public int Y { get; private set; }
     public MouseButton Button { get; private set; }
-    public Set<ShiftState> Shift { get; private set; }
+    public ShiftStates Shift { get; private set; }
 
     public event NotifyEvent<HexSpriteMapMouse> OnUp
     {
@@ -365,8 +365,10 @@ public class HexSpriteMapMouse : IDisposable
     public bool IgnoreDown { get; private set; }
     public bool CursorVisible { get; set; }
 
-    public enum StatusElement : byte
+    [Flags]
+    public enum Statuses : byte
     {
-        ChangingCapture = 0
+        None = 0,
+        ChangingCapture = 1 << 0,
     }
 }

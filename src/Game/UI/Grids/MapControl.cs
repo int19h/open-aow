@@ -751,7 +751,7 @@ public sealed class MapControl : Component
     {
         try
         {
-            if (OnTargetSelectionChange is not null && control is not null && (((int)StrategicMap.Current.TargetSelection.TargetMode.Image) & 8) != 0)
+            if (OnTargetSelectionChange is not null && control is not null && (((int)StrategicMap.Current.TargetSelection.TargetMode) & 8) != 0)
             {
                 OnTargetSelectionChange(control, control.Change);
             }

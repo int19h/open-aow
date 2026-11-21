@@ -110,7 +110,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
         _availableSort = 0;
         LeaderPanel.ImageLibraryTexture = UI.Graphics.TitleScreen;
         LeaderPanel.ImageLibraryIndexTexture = 4;
-        RaceComboBox.Visible = Setup.Items.Count != 0 && Setup.Mode.Contains(LeaderSetupModeElement.Campaign);
+        RaceComboBox.Visible = Setup.Items.Count != 0 && Setup.Mode.Contains(LeaderSetupModes.Campaign);
         RaceLabel.Visible = RaceComboBox.Visible;
         if (RaceComboBox.Visible)
         {
@@ -131,22 +131,22 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
         SideNameLabel.Text = raceNamesPlural;
         LeftShield.CurrentImage = Setup.OriginalLeader.Race + 13;
         RightShield.CurrentImage = Setup.OriginalLeader.Race + 13;
-        RightShield.Visible = !Setup.Mode.Contains(LeaderSetupModeElement.Campaign);
+        RightShield.Visible = !Setup.Mode.Contains(LeaderSetupModes.Campaign);
         LoadLeader();
         SaveLeader();
-        if (Setup.Mode.Contains(LeaderSetupModeElement.Look))
+        if (Setup.Mode.Contains(LeaderSetupModes.Look))
         {
             SetPhase(1);
         }
         else
         {
-            if (Setup.Mode.Contains(LeaderSetupModeElement.Settings))
+            if (Setup.Mode.Contains(LeaderSetupModes.Settings))
             {
                 SetPhase(2);
             }
             else
             {
-                if (Setup.Mode.Contains(LeaderSetupModeElement.Spheres))
+                if (Setup.Mode.Contains(LeaderSetupModes.Spheres))
                 {
                     SetPhase(3);
                 }
@@ -309,7 +309,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
         AvailableAbilitiesCostList.Items.Clear();
         for (int i = 0, last = GamePack.Current.AbilityControl.GetCount() - 1; i <= last; i++)
         {
-            if (GamePack.Current.AbilityControl[i] is not null && (GamePack.Current.AbilityControl[i].SelectionTypes & Set<AbilitySelectionType>.Of(AbilitySelectionType.CustomizeLeader, AbilitySelectionType.HeroUpgrade)) != Set<AbilitySelectionType>.Of())
+            if (GamePack.Current.AbilityControl[i] is not null && (GamePack.Current.AbilityControl[i].SelectionTypes & (AbilitySelectionTypes.CustomizeLeader | AbilitySelectionTypes.HeroUpgrade)) != AbilitySelectionTypes.None)
             {
                 if (GamePack.Current.AbilityControl[i].CanExpand(Leader))
                 {
@@ -326,7 +326,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
         for (int i = 0, last = Leader.OwnAbilityCount - 1; i <= last; i++)
         {
             Ability ability = GamePack.Current.AbilityControl[i];
-            if (Leader.GetAbilitySetAt(i) && (Leader.HeroResource.Abilities.GetAbilitySetAt(i) || (ability.SelectionTypes & Set<AbilitySelectionType>.Of(AbilitySelectionType.CustomizeLeader, AbilitySelectionType.HeroUpgrade)) != Set<AbilitySelectionType>.Of()))
+            if (Leader.GetAbilitySetAt(i) && (Leader.HeroResource.Abilities.GetAbilitySetAt(i) || (ability.SelectionTypes & (AbilitySelectionTypes.CustomizeLeader | AbilitySelectionTypes.HeroUpgrade)) != AbilitySelectionTypes.None))
             {
                 string name = GamePack.Current.AbilityControl[i].GetName(Leader);
                 string cost;
@@ -383,13 +383,13 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
         StatisticsPanel.Visible = value > 2;
         AbilityPanel.Visible = value > 2;
         LeaderNameLabel.Visible = value > 1;
-        LeaderLabel.Visible = !Setup.Mode.Contains(LeaderSetupModeElement.Campaign);
-        SideNameLabel.Visible = !Setup.Mode.Contains(LeaderSetupModeElement.Campaign);
-        LeftShield.Visible = !Setup.Mode.Contains(LeaderSetupModeElement.Campaign) || value > 1;
-        RightShield.Visible = !Setup.Mode.Contains(LeaderSetupModeElement.Campaign) || value > 1;
-        MainFaceFrame.Visible = !Setup.Mode.Contains(LeaderSetupModeElement.Campaign) || value > 1;
+        LeaderLabel.Visible = !Setup.Mode.Contains(LeaderSetupModes.Campaign);
+        SideNameLabel.Visible = !Setup.Mode.Contains(LeaderSetupModes.Campaign);
+        LeftShield.Visible = !Setup.Mode.Contains(LeaderSetupModes.Campaign) || value > 1;
+        RightShield.Visible = !Setup.Mode.Contains(LeaderSetupModes.Campaign) || value > 1;
+        MainFaceFrame.Visible = !Setup.Mode.Contains(LeaderSetupModes.Campaign) || value > 1;
         MainFace.Visible = MainFaceFrame.Visible;
-        if (value == 3 || (value == 2 && (Setup.Mode & Set<LeaderSetupModeElement>.Of(LeaderSetupModeElement.Spheres)) == Set<LeaderSetupModeElement>.Of()) || (value == 1 && (Setup.Mode & Set<LeaderSetupModeElement>.Of(LeaderSetupModeElement.Settings, LeaderSetupModeElement.Spheres)) == Set<LeaderSetupModeElement>.Of()))
+        if (value == 3 || (value == 2 && (Setup.Mode & LeaderSetupModes.Spheres) == LeaderSetupModes.None) || (value == 1 && (Setup.Mode & (LeaderSetupModes.Settings | LeaderSetupModes.Spheres)) == LeaderSetupModes.None))
         {
             string finish = UI.Engine.TranslateResourceString(s_finishText);
             NextButton.Text = finish;
@@ -681,7 +681,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
         switch (_phase)
         {
             case 1:
-                if (Setup.Mode.Contains(LeaderSetupModeElement.Campaign))
+                if (Setup.Mode.Contains(LeaderSetupModes.Campaign))
                 {
                     Cancel();
                 }
@@ -689,7 +689,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
                 break;
             case 2:
                 SaveLeader();
-                if (Setup.Mode.Contains(LeaderSetupModeElement.Look))
+                if (Setup.Mode.Contains(LeaderSetupModes.Look))
                 {
                     SetPhase(1);
                 }
@@ -697,13 +697,13 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
                 break;
             case 3:
                 SaveLeader();
-                if (Setup.Mode.Contains(LeaderSetupModeElement.Settings))
+                if (Setup.Mode.Contains(LeaderSetupModes.Settings))
                 {
                     SetPhase(2);
                 }
                 else
                 {
-                    if (Setup.Mode.Contains(LeaderSetupModeElement.Look))
+                    if (Setup.Mode.Contains(LeaderSetupModes.Look))
                     {
                         SetPhase(1);
                     }
@@ -723,13 +723,13 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
         {
             case 1:
                 SaveLeader();
-                if (Setup.Mode.Contains(LeaderSetupModeElement.Settings))
+                if (Setup.Mode.Contains(LeaderSetupModes.Settings))
                 {
                     SetPhase(2);
                 }
                 else
                 {
-                    if (Setup.Mode.Contains(LeaderSetupModeElement.Spheres))
+                    if (Setup.Mode.Contains(LeaderSetupModes.Spheres))
                     {
                         SetPhase(3);
                     }
@@ -743,7 +743,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
                 break;
             case 2:
                 SaveLeader();
-                if (Setup.Mode.Contains(LeaderSetupModeElement.Spheres))
+                if (Setup.Mode.Contains(LeaderSetupModes.Spheres))
                 {
                     SetPhase(3);
                 }
@@ -1134,7 +1134,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
     public void SFinalClick() => UI.General.PlayButtonSound(0);
 
     // AoWLeaderSetup.pas:725
-    public void SelectedAbilitiesCostMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public void SelectedAbilitiesCostMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
         if (button == MouseButton.Right && SelectedAbilitiesList.Selected != -1)
         {
@@ -1148,7 +1148,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWLeaderSetup.pas:737
-    public void AvailableAbilitiesMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public void AvailableAbilitiesMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
         if (button == MouseButton.Right && AvailableAbilitiesList.Selected != -1)
         {

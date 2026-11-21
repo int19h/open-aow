@@ -279,8 +279,8 @@ public sealed class EngineStartupTests
     private static JsonObject Snapshot(GameEngine engine, EngineFixture.RecordingHost fixture) => new()
     {
         ["Version"] = engine.Version,
-        ["User"] = engine.User.Mask,
-        ["Options"] = engine.Options.Mask,
+        ["User"] = (ulong)engine.User,
+        ["Options"] = (ulong)engine.Options,
         ["Debug"] = engine.Debug,
         ["Detail"] = engine.AnimationDetail,
         ["Language"] = engine.Language,

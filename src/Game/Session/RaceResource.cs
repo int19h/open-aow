@@ -36,7 +36,7 @@ public sealed class RaceResource(CustomNode owner) : EngineResource(owner)
 
     private string _description = "";
 
-    public Set<Alignment> Alignments { get; private set; }
+    public Alignments Alignments { get; private set; }
 
     private int _references;
 
@@ -160,10 +160,10 @@ public sealed class RaceResource(CustomNode owner) : EngineResource(owner)
         {
             if (!IsEmpty(_imageLibraryName))
             {
-                ImageLibrary = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: _imageLibraryName);
+                ImageLibrary = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(ImageLibraryManagerCategories.Disk, fileName: _imageLibraryName);
             }
 
-            _faceLibrary = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: "FACES\\R_FACES.ILB");
+            _faceLibrary = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(ImageLibraryManagerCategories.Disk, fileName: "FACES\\R_FACES.ILB");
         }
     }
 
@@ -175,10 +175,10 @@ public sealed class RaceResource(CustomNode owner) : EngineResource(owner)
         {
             if (!IsEmpty(_imageLibraryName))
             {
-                GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: _imageLibraryName);
+                GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(ImageLibraryManagerCategories.Disk, fileName: _imageLibraryName);
             }
 
-            GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: "FACES\\R_FACES.ILB");
+            GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(ImageLibraryManagerCategories.Disk, fileName: "FACES\\R_FACES.ILB");
             _faceLibrary = null;
             ImageLibrary = null;
         }
@@ -229,11 +229,11 @@ public sealed class RaceResource(CustomNode owner) : EngineResource(owner)
                 ? Alignment.Evil
                 : Alignments == AlignmentTables.PureEvilAlignments
                     ? Alignment.PureEvil
-                    : Alignments == s_pureNeutralAlignments ? Alignment.PureNeutral : Alignment.None;
+                    : Alignments == s_pureNeutralAlignments ? Alignment.PureNeutral : Alignment.Unaligned;
 
     // PlayerC.PAS:1815
     public override string ResourceEditName() => "Race";
 
-    private static readonly Set<Alignment> s_pureNeutralAlignments = Set<Alignment>.FromMask(72uL);
+    private static readonly Alignments s_pureNeutralAlignments = Alignments.Neutral | Alignments.Unaligned;
 
 }

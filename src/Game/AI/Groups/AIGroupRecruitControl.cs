@@ -12,8 +12,6 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
-using Aow.Rtl;
-
 using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.AI.Groups;
@@ -37,12 +35,12 @@ public class AIGroupRecruitControl : AIGroupTask
 
     public int RecruitStrength { get; internal set; }
 
-    private Set<DamageType> _damageTypes;
+    private DamageTypes _damageTypes;
     private readonly int[] _recruitStrengths = new int[10];
 
     public int Superiority { get; set; }
 
-    private Set<MoveType> _moveTypes;
+    private MoveTypes _moveTypes;
     private int _movesMin;
     private float _pathStrengthFactor;
 
@@ -84,7 +82,7 @@ public class AIGroupRecruitControl : AIGroupTask
                     i += 1;
                 }
 
-                if (Set<AIGroupRecruitControlMode>.Of(AIGroupRecruitControlMode.AutoRecruit, AIGroupRecruitControlMode.ForceRecruit).Contains(Mode) || (Mode == AIGroupRecruitControlMode.CompleteRecruitOnly && Complete))
+                if (Mode is AIGroupRecruitControlMode.AutoRecruit or AIGroupRecruitControlMode.ForceRecruit || (Mode == AIGroupRecruitControlMode.CompleteRecruitOnly && Complete))
                 {
                     ExecuteRecruitment();
                 }
@@ -140,13 +138,13 @@ public class AIGroupRecruitControl : AIGroupTask
     // AIGroup.pas:2119
     public bool UsefulRecruitUnit(Troop troop)
     {
-        bool result = troop.Moves > _movesMin && (troop.GetMoveTypes() & _moveTypes) != Set<MoveType>.Of();
+        bool result = troop.Moves > _movesMin && (troop.GetMoveTypes() & _moveTypes) != MoveTypes.None;
         if (result)
         {
             result = _remainingStrength > 0 && troop.GetStrengthMax(_damageTypes) > 0;
             if (!result)
             {
-                for (int dOrdinal = (int)DamageType.Fire; dOrdinal <= (int)DamageType.None; dOrdinal++)
+                for (int dOrdinal = (int)DamageType.Fire; dOrdinal <= (int)DamageType.NonSpecific; dOrdinal++)
                 {
                     DamageType d = (DamageType)dOrdinal;
                     result = _remainingStrengths[(int)d] > 0 && troop.GetStrength(d) > 0;
@@ -172,7 +170,7 @@ public class AIGroupRecruitControl : AIGroupTask
         Complete = _remainingStrength <= 0;
         if (Complete)
         {
-            for (int dOrdinal = (int)DamageType.Fire; dOrdinal <= (int)DamageType.None; dOrdinal++)
+            for (int dOrdinal = (int)DamageType.Fire; dOrdinal <= (int)DamageType.NonSpecific; dOrdinal++)
             {
                 DamageType d = (DamageType)dOrdinal;
                 if (_remainingStrengths[(int)d] > 0)
@@ -197,7 +195,7 @@ public class AIGroupRecruitControl : AIGroupTask
     public void AddRecruitUnit(Troop troop)
     {
         _ = Units.AddUnit(troop);
-        for (int dOrdinal = (int)DamageType.Fire; dOrdinal <= (int)DamageType.None; dOrdinal++)
+        for (int dOrdinal = (int)DamageType.Fire; dOrdinal <= (int)DamageType.NonSpecific; dOrdinal++)
         {
             DamageType d = (DamageType)dOrdinal;
             int strength = troop.GetStrength(d);
@@ -219,7 +217,7 @@ public class AIGroupRecruitControl : AIGroupTask
     {
         if (Units.IndexOf(troop) != -1)
         {
-            for (int dOrdinal = (int)DamageType.Fire; dOrdinal <= (int)DamageType.None; dOrdinal++)
+            for (int dOrdinal = (int)DamageType.Fire; dOrdinal <= (int)DamageType.NonSpecific; dOrdinal++)
             {
                 DamageType d = (DamageType)dOrdinal;
                 int strength = troop.GetStrength(d);
@@ -247,7 +245,7 @@ public class AIGroupRecruitControl : AIGroupTask
         bool result;
         if (group.PathStrength != 0)
         {
-            result = group.Group.Units.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall)) >= Round((double)group.PathStrength * _pathStrengthFactor);
+            result = group.Group.Units.GetStrengthMax(AbilityRules.AllDamageTypes & ~DamageTypes.Wall) >= Round((double)group.PathStrength * _pathStrengthFactor);
             if (!result)
             {
                 return Mode != AIGroupRecruitControlMode.ForceRecruit
@@ -312,10 +310,10 @@ public class AIGroupRecruitControl : AIGroupTask
         _movesMin = 0;
         Superiority = -1;
         RecruitStrength = 0;
-        _damageTypes = AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall);
+        _damageTypes = AbilityRules.AllDamageTypes & ~DamageTypes.Wall;
         // { Original bug: a second FillChar clears only the maximum strength again, not the per-type
         //   array. }
-        _moveTypes = Set<MoveType>.Of(MoveType.Walking, MoveType.Flying);
+        _moveTypes = MoveTypes.Walking | MoveTypes.Flying;
         _pathStrengthFactor = (float)0.8;
         Complete = false;
         Mode = AIGroupRecruitControlMode.AutoRecruit;

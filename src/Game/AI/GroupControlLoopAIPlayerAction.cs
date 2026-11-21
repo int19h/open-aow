@@ -7,8 +7,6 @@ using Aow.Game.Session;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 namespace Aow.Game.AI;
 
 // group cycles, group control
@@ -33,7 +31,7 @@ public class GroupControlLoopAIPlayerAction(CustomNode owner) : AIPlayerAction(o
         for (int i = player.AIGroups.Count - 1; i >= 0; i--)
         {
             AIGroup groups = player.AIGroups.GetGroups(i);
-            player.AIGroups.GetGroups(i).Status = groups.Status - Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Done);
+            player.AIGroups.GetGroups(i).Status = groups.Status & ~AIGroupStatuses.Done;
         }
 
         return result;
@@ -53,7 +51,7 @@ public class GroupControlLoopAIPlayerAction(CustomNode owner) : AIPlayerAction(o
                 {
                     Control.Player.AIGroups.SortOnProcessPriority();
                     int i = 0;
-                    while (i < Control.Player.AIGroups.Count && Control.Player.AIGroups.GetGroups(i).Status.Contains(AIGroupStatusElement.Done))
+                    while (i < Control.Player.AIGroups.Count && Control.Player.AIGroups.GetGroups(i).Status.Contains(AIGroupStatuses.Done))
                     {
                         i += 1;
                     }
@@ -115,6 +113,6 @@ public class GroupControlLoopAIPlayerAction(CustomNode owner) : AIPlayerAction(o
     public static new int Priority => 20;
 
     // AI.pas:1133
-    public static new Set<AIPlayerProcessPhase> SupportedPhases => Set<AIPlayerProcessPhase>.Of(AIPlayerProcessPhase.Loop);
+    public static new AIPlayerProcessPhases SupportedPhases => AIPlayerProcessPhases.Loop;
 
 }

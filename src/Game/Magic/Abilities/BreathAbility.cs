@@ -41,8 +41,8 @@ public class BreathAbility : RangedAttackAbility
                 bool condition = other != target && other.GetEnabled() && other.Position >>> 4 == target.Position >>> 4 && other.FastBattleRoundDistance() <= combat.RoundDistance;
                 if (condition)
                 {
-                    Set<DamageType> immunityTypes = other.GetImmunityTypes();
-                    condition = DamageTypesRangedAttack - immunityTypes != Set<DamageType>.Of();
+                    DamageTypes immunityTypes = other.GetImmunityTypes();
+                    condition = (DamageTypesRangedAttack & ~immunityTypes) != DamageTypes.None;
                 }
 
                 if (condition)
@@ -69,7 +69,7 @@ public class BreathAbility : RangedAttackAbility
     }
 
     // AoWAb.PAS:4860
-    public override void GetOffensiveStrength(AbilityOwner owner, ref int strength, ref Set<DamageType> types)
+    public override void GetOffensiveStrength(AbilityOwner owner, ref int strength, ref DamageTypes types)
     {
         sbyte attackRepeatRangedAttack = GetAttackRepeatRangedAttack(owner);
         sbyte damageRangedAttack = GetDamageRangedAttack(owner);
@@ -93,8 +93,8 @@ public class BreathAbility : RangedAttackAbility
                 bool condition = target != defender && target.GetEnabled() && target.Position >>> 4 == defender.Position >>> 4 && target.FastBattleRoundDistance() <= combat.RoundDistance;
                 if (condition)
                 {
-                    Set<DamageType> immunityTypes = target.GetImmunityTypes();
-                    condition = DamageTypesRangedAttack - immunityTypes != Set<DamageType>.Of();
+                    DamageTypes immunityTypes = target.GetImmunityTypes();
+                    condition = (DamageTypesRangedAttack & ~immunityTypes) != DamageTypes.None;
                 }
 
                 if (condition)

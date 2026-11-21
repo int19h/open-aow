@@ -271,7 +271,7 @@ public sealed class RemainingConstructionTests
         {
             using GameEngine engine = new(null!);
             EngineClass meta = EngineClass.Of(type);
-            engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);
+            engine.Options &= ~GameEngine.VerifyClasses;
             try
             {
                 engine.UnregisterEngineClasses([engine.GetEngineClass(meta.ClassId)]);

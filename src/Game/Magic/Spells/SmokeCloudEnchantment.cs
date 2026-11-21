@@ -1,11 +1,9 @@
 #nullable disable
 // Translated from SmokeCloud.pas.
 using Aow.Engine.Nodes;
-
 using Aow.Game.World;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
-using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
@@ -20,7 +18,7 @@ public class SmokeCloudEnchantment : GlobalEnchantment
     // SmokeCloud.pas:91
     public SmokeCloudEnchantment(CustomNode owner) : base(owner)
     {
-        EnchantmentMode = Set<GlobalEnchantmentModeElement>.FromMask((Set<OptionsElement>.FromMask(EnchantmentMode.Mask) - Set<OptionsElement>.Of(OptionsElement.Bit0, OptionsElement.Bit1)).Mask);
+        EnchantmentMode = (GlobalEnchantmentModes)(ulong)((Options)(ulong)EnchantmentMode & ~(Options.Bit0 | Options.Bit1));
         DispelMana = 25;
     }
 
@@ -50,13 +48,13 @@ public class SmokeCloudEnchantment : GlobalEnchantment
 
     public override bool Deactivate(byte player)
     {
-        if ((EnchantmentStatus.Image & 1) == 0)
+        if (((ulong)EnchantmentStatus & 1) == 0)
         {
             return false;
         }
 
         bool result = base.Deactivate(player);
-        if ((Cloud.Status.Image & 0x20) != 0)
+        if (((ulong)Cloud.Status & 0x20) != 0)
         {
             Cloud?.Dispose();
         }
@@ -64,8 +62,17 @@ public class SmokeCloudEnchantment : GlobalEnchantment
         return result;
     }
 
-    public enum OptionsElement : byte
+    [Flags]
+    public enum Options : byte
     {
-        Bit0 = 0, Bit1 = 1, Bit2 = 2, Bit3 = 3, Bit4 = 4, Bit5 = 5, Bit6 = 6, Bit7 = 7
+        None = 0,
+        Bit0 = 1 << 0,
+        Bit1 = 1 << 1,
+        Bit2 = 1 << 2,
+        Bit3 = 1 << 3,
+        Bit4 = 1 << 4,
+        Bit5 = 1 << 5,
+        Bit6 = 1 << 6,
+        Bit7 = 1 << 7,
     }
 }

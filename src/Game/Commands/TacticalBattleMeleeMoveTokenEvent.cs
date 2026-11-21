@@ -5,7 +5,6 @@ using Aow.Game.Combat;
 using Aow.Game.Draw;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
-using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.RtlHost;
 
@@ -121,12 +120,12 @@ public class TacticalBattleMeleeMoveTokenEvent(CustomNode owner) : CombatMoveTok
                                 TacticalBattleUnit.MakeHitBlood(Unit, Strike.Damage);
                                 sbyte hexY = Unit.UnitHexSprite.HexY;
                                 HexGeometry.HexToPixel(Unit.UnitHexSprite.HexX, hexY, out x, out y);
-                                if (Strike.DamageTypes - Strike.Effects != Set<DamageType>.Of())
+                                if ((Strike.DamageTypes & ~Strike.Effects) != DamageTypes.None)
                                 {
-                                    CombatEvents.MakeDamageEffectHexSpriteList(x + Unit.UnitHexSprite.OffsetX, y + Unit.UnitHexSprite.OffsetY, damageTypes: Strike.DamageTypes - Strike.Effects, resisted: false);
+                                    CombatEvents.MakeDamageEffectHexSpriteList(x + Unit.UnitHexSprite.OffsetX, y + Unit.UnitHexSprite.OffsetY, damageTypes: Strike.DamageTypes & ~Strike.Effects, resisted: false);
                                 }
 
-                                if (Strike.Effects != Set<DamageType>.Of())
+                                if (Strike.Effects != DamageTypes.None)
                                 {
                                     CombatEvents.MakeDamageEffectHexSpriteList(x + Unit.UnitHexSprite.OffsetX, y + Unit.UnitHexSprite.OffsetY, damageTypes: Strike.Effects, resisted: true);
                                 }
@@ -145,12 +144,12 @@ public class TacticalBattleMeleeMoveTokenEvent(CustomNode owner) : CombatMoveTok
                                     TacticalBattleUnit.MakeHitBlood(PreviousUnit, Strike.Damage);
                                     sbyte hexY = PreviousUnit.UnitHexSprite.HexY;
                                     HexGeometry.HexToPixel(PreviousUnit.UnitHexSprite.HexX, hexY, out x, out y);
-                                    if (Strike.DamageTypes - Strike.Effects != Set<DamageType>.Of())
+                                    if ((Strike.DamageTypes & ~Strike.Effects) != DamageTypes.None)
                                     {
-                                        CombatEvents.MakeDamageEffectHexSpriteList(x, y, damageTypes: Strike.DamageTypes - Strike.Effects, resisted: false);
+                                        CombatEvents.MakeDamageEffectHexSpriteList(x, y, damageTypes: Strike.DamageTypes & ~Strike.Effects, resisted: false);
                                     }
 
-                                    if (Strike.Effects != Set<DamageType>.Of())
+                                    if (Strike.Effects != DamageTypes.None)
                                     {
                                         CombatEvents.MakeDamageEffectHexSpriteList(x, y, damageTypes: Strike.Effects, resisted: true);
                                     }

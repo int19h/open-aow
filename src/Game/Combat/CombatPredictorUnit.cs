@@ -5,8 +5,6 @@ using Aow.Engine.Collections;
 
 using Aow.Game.Magic.Abilities;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Combat;
 
 // { Interface declaration run owned by P3. }
@@ -51,7 +49,7 @@ public sealed partial class CombatPredictorUnit : IDisposable
     private int _targetPriority;
 
     public int HitPoints { get; set; }
-    public Set<CombatPredictorUnitStatusElement> Status { get; private set; }
+    public CombatPredictorUnitStatuses Status { get; private set; }
 
     // CombatPredictor.pas:4
     public void Dispose()
@@ -152,7 +150,7 @@ public sealed partial class CombatPredictorUnit : IDisposable
     // CombatPredictor.pas:89
     public void UpdateWallTargets()
     {
-        bool passing = Troop.GetWallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing);
+        bool passing = Troop.GetWallCombatFeatures().Contains(WallCombatFeatures.WallPassing);
         WallTargets ??= new QuadItemList<CombatPredictorUnit>();
 
         int j;
@@ -228,7 +226,7 @@ public sealed partial class CombatPredictorUnit : IDisposable
     {
         HitPoints = InitialHitPoints;
         _combatRounds = 0;
-        Status = Set<CombatPredictorUnitStatusElement>.Of();
+        Status = CombatPredictorUnitStatuses.None;
     }
 
     // CombatPredictor.pas:155
@@ -355,7 +353,7 @@ public sealed partial class CombatPredictorUnit : IDisposable
     {
         if (HitPoints <= 0)
         {
-            Status += Set<CombatPredictorUnitStatusElement>.Of(CombatPredictorUnitStatusElement.Destroyed);
+            Status |= CombatPredictorUnitStatuses.Destroyed;
         }
     }
 }

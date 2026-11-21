@@ -34,7 +34,7 @@ public class EarthMasteryEnchantment : GlobalEnchantment
         _ = base.Deactivate(player);
         Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
         PlayerMagicControl playerMagicControl = playerLocal.MagicControl;
-        playerMagicControl.SetActiveEnchantments(playerMagicControl.ActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.EarthMastery));
+        playerMagicControl.SetActiveEnchantments(playerMagicControl.ActiveEnchantments & ~PlayerEnchantmentTypes.EarthMastery);
 
         for (int i = playerLocal.Armies.Count - 1; i >= 0; i--)
         {
@@ -55,7 +55,7 @@ public class EarthMasteryEnchantment : GlobalEnchantment
         bool result = base.CanActivate(player, ref reason);
         if (result)
         {
-            if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.EarthMastery))
+            if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentTypes.EarthMastery))
             {
                 reason = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.IsAlreadyActiveFormat), args: [Name]);
                 return false;
@@ -73,7 +73,7 @@ public class EarthMasteryEnchantment : GlobalEnchantment
         StrategicMap.Current.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Air);
         Player playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
         PlayerMagicControl playerMagicControl = playerLocal.MagicControl;
-        playerMagicControl.SetActiveEnchantments(playerMagicControl.ActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.EarthMastery));
+        playerMagicControl.SetActiveEnchantments(playerMagicControl.ActiveEnchantments | PlayerEnchantmentTypes.EarthMastery);
 
         for (int i = playerLocal.Armies.Count - 1; i >= 0; i--)
         {

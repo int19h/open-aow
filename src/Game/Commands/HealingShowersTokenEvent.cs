@@ -180,13 +180,13 @@ public class HealingShowersTokenEvent(CustomNode owner) : GlobalTargetSpellToken
     {
         switch (terrainType)
         {
-            case 5:
+            case (sbyte)TerrainType.Wasteland:
                 terrainType = 4;
                 break;
-            case 2:
+            case (sbyte)TerrainType.Desert:
                 terrainType = 4;
                 break;
-            case 4:
+            case (sbyte)TerrainType.Steppe:
                 terrainType = 1;
                 break;
             default:

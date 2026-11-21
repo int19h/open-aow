@@ -11,7 +11,7 @@ namespace Aow.Game.UI.Dialogs;
 // not have. Combat keeps its own Ctrl+E and Ctrl+Enter in MapWindowKeyDown.
 public sealed partial class MapWindow
 {
-    private void PressEndTurnShortcut(ushort key, Set<ShiftState> shift)
+    private void PressEndTurnShortcut(ushort key, ShiftStates shift)
     {
         if (StrategicMap.Current is null || CombatMap.Current is not null)
         {
@@ -24,7 +24,7 @@ public sealed partial class MapWindow
             return;
         }
 
-        if (!shift.Contains(ShiftState.Ctrl) || (key is not 69 and not 13))
+        if (!shift.Contains(ShiftStates.Ctrl) || (key is not 69 and not 13))
         {
             return;
         }

@@ -5,8 +5,6 @@ using Aow.Engine.Nodes;
 
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
-
-using Aow.Rtl;
 using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.AI.Groups;
@@ -47,7 +45,7 @@ public class AIGroupWanderControl : AIGroupTask
                 _moveSettings.Reset();
                 {
                     _moveSettings.Player = control.Group.Player;
-                    _moveSettings.Mode += Set<MoveModeElement>.Of(MoveModeElement.AI);
+                    _moveSettings.Mode |= MoveModes.AI;
                     _moveSettings.SetSourcePosition(control.Location);
                 }
 
@@ -57,7 +55,7 @@ public class AIGroupWanderControl : AIGroupTask
                     moveControlSettings.ArmyHexSprite = control.ArmyHexSprite;
                     moveControlSettings.Selection = control.Selection;
                     moveControlSettings.MovePointTable = control.MovePointTable;
-                    moveControlSettings.Mode += Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields);
+                    moveControlSettings.Mode |= MoveModes.LogProcessedMapFields;
                     StrategicMap.Current.MoveControl.ProcessMove(_moveSettings);
                 }
 

@@ -30,16 +30,7 @@
           "Hero.HeroName": "",
           "Hero.HeroResource": null,
           "Hero.HeroResourceIndex": -1,
-          "Hero.HeroStatus": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "Hero.HeroStatus": 0,
           "Hero.HitPoints": 0,
           "Hero.Inventory": {
             "$type": "Aow.Game.Units.HeroInventory",
@@ -57,16 +48,7 @@
           "Hero.Level": 1,
           "Hero.LibraryId": -1,
           "Hero.LibraryName": "",
-          "Hero.Mode": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "Hero.Mode": 0,
           "Hero.Nickname": "",
           "Hero.PowerSource": {
             "$type": "Aow.Game.Units.HeroPowerSource",
@@ -96,16 +78,7 @@
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
-          "Troop.UnitStatus": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "Troop.UnitStatus": 0,
           "Troop._defensiveStrength": 0,
           "Troop._offensiveStrength": [
             0,
@@ -151,16 +124,7 @@
           "Hero.HeroName": "",
           "Hero.HeroResource": null,
           "Hero.HeroResourceIndex": -1,
-          "Hero.HeroStatus": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "Hero.HeroStatus": 0,
           "Hero.HitPoints": 0,
           "Hero.Inventory": {
             "$type": "Aow.Game.Units.HeroInventory",
@@ -178,16 +142,7 @@
           "Hero.Level": 1,
           "Hero.LibraryId": -1,
           "Hero.LibraryName": "",
-          "Hero.Mode": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "Hero.Mode": 0,
           "Hero.Nickname": "",
           "Hero.PowerSource": {
             "$type": "Aow.Game.Units.HeroPowerSource",
@@ -217,16 +172,7 @@
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
-          "Troop.UnitStatus": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "Troop.UnitStatus": 0,
           "Troop._defensiveStrength": 0,
           "Troop._offensiveStrength": [
             0,
@@ -272,16 +218,7 @@
           "Hero.HeroName": "",
           "Hero.HeroResource": null,
           "Hero.HeroResourceIndex": -1,
-          "Hero.HeroStatus": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "Hero.HeroStatus": 0,
           "Hero.HitPoints": 0,
           "Hero.Inventory": {
             "$type": "Aow.Game.Units.HeroInventory",
@@ -299,16 +236,7 @@
           "Hero.Level": 1,
           "Hero.LibraryId": -1,
           "Hero.LibraryName": "",
-          "Hero.Mode": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "Hero.Mode": 0,
           "Hero.Nickname": "",
           "Hero.PowerSource": {
             "$type": "Aow.Game.Units.HeroPowerSource",
@@ -338,16 +266,7 @@
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
-          "Troop.UnitStatus": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "Troop.UnitStatus": 0,
           "Troop._defensiveStrength": 0,
           "Troop._offensiveStrength": [
             0,
@@ -384,26 +303,8 @@
           "HypotheticalUnit._defense": 2,
           "HypotheticalUnit._hitPoints": 5,
           "HypotheticalUnit._hits": 5,
-          "HypotheticalUnit._immunityTypes": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 256,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": true,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 9,
-            "Set\u00601.low": 0
-          },
-          "HypotheticalUnit._protectionTypes": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "HypotheticalUnit._immunityTypes": 256,
+          "HypotheticalUnit._protectionTypes": 0,
           "HypotheticalUnit._resistance": 3,
           "Troop.Group": null,
           "Troop.GroupId": 0,
@@ -413,16 +314,7 @@
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
-          "Troop.UnitStatus": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "Troop.UnitStatus": 0,
           "Troop._defensiveStrength": 0,
           "Troop._offensiveStrength": [
             0,
@@ -455,26 +347,8 @@
           "HypotheticalUnit._defense": 2,
           "HypotheticalUnit._hitPoints": 5,
           "HypotheticalUnit._hits": 5,
-          "HypotheticalUnit._immunityTypes": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 256,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": true,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 9,
-            "Set\u00601.low": 0
-          },
-          "HypotheticalUnit._protectionTypes": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "HypotheticalUnit._immunityTypes": 256,
+          "HypotheticalUnit._protectionTypes": 0,
           "HypotheticalUnit._resistance": 3,
           "Troop.Group": null,
           "Troop.GroupId": 0,
@@ -484,16 +358,7 @@
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
-          "Troop.UnitStatus": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "Troop.UnitStatus": 0,
           "Troop._defensiveStrength": 0,
           "Troop._offensiveStrength": [
             0,
@@ -526,26 +391,8 @@
           "HypotheticalUnit._defense": 2,
           "HypotheticalUnit._hitPoints": 5,
           "HypotheticalUnit._hits": 5,
-          "HypotheticalUnit._immunityTypes": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 256,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": true,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 9,
-            "Set\u00601.low": 0
-          },
-          "HypotheticalUnit._protectionTypes": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "HypotheticalUnit._immunityTypes": 256,
+          "HypotheticalUnit._protectionTypes": 0,
           "HypotheticalUnit._resistance": 3,
           "Troop.Group": null,
           "Troop.GroupId": 0,
@@ -555,16 +402,7 @@
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
-          "Troop.UnitStatus": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "Troop.UnitStatus": 0,
           "Troop._defensiveStrength": 0,
           "Troop._offensiveStrength": [
             0,
@@ -614,16 +452,7 @@
           "Hero.HeroName": "",
           "Hero.HeroResource": null,
           "Hero.HeroResourceIndex": -1,
-          "Hero.HeroStatus": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "Hero.HeroStatus": 0,
           "Hero.HitPoints": 0,
           "Hero.Inventory": {
             "$type": "Aow.Game.Units.HeroInventory",
@@ -641,16 +470,7 @@
           "Hero.Level": 1,
           "Hero.LibraryId": -1,
           "Hero.LibraryName": "",
-          "Hero.Mode": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "Hero.Mode": 0,
           "Hero.Nickname": "",
           "Hero.PowerSource": {
             "$type": "Aow.Game.Units.HeroPowerSource",
@@ -688,16 +508,7 @@
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
-          "Troop.UnitStatus": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "Troop.UnitStatus": 0,
           "Troop._defensiveStrength": 0,
           "Troop._offensiveStrength": [
             0,
@@ -743,16 +554,7 @@
           "Hero.HeroName": "",
           "Hero.HeroResource": null,
           "Hero.HeroResourceIndex": -1,
-          "Hero.HeroStatus": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "Hero.HeroStatus": 0,
           "Hero.HitPoints": 0,
           "Hero.Inventory": {
             "$type": "Aow.Game.Units.HeroInventory",
@@ -770,16 +572,7 @@
           "Hero.Level": 1,
           "Hero.LibraryId": -1,
           "Hero.LibraryName": "",
-          "Hero.Mode": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "Hero.Mode": 0,
           "Hero.Nickname": "",
           "Hero.PowerSource": {
             "$type": "Aow.Game.Units.HeroPowerSource",
@@ -817,16 +610,7 @@
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
-          "Troop.UnitStatus": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "Troop.UnitStatus": 0,
           "Troop._defensiveStrength": 0,
           "Troop._offensiveStrength": [
             0,
@@ -872,16 +656,7 @@
           "Hero.HeroName": "",
           "Hero.HeroResource": null,
           "Hero.HeroResourceIndex": -1,
-          "Hero.HeroStatus": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "Hero.HeroStatus": 0,
           "Hero.HitPoints": 0,
           "Hero.Inventory": {
             "$type": "Aow.Game.Units.HeroInventory",
@@ -899,16 +674,7 @@
           "Hero.Level": 1,
           "Hero.LibraryId": -1,
           "Hero.LibraryName": "",
-          "Hero.Mode": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "Hero.Mode": 0,
           "Hero.Nickname": "",
           "Hero.PowerSource": {
             "$type": "Aow.Game.Units.HeroPowerSource",
@@ -946,16 +712,7 @@
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
-          "Troop.UnitStatus": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "Troop.UnitStatus": 0,
           "Troop._defensiveStrength": 0,
           "Troop._offensiveStrength": [
             0,
@@ -991,16 +748,7 @@
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
-          "Troop.UnitStatus": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "Troop.UnitStatus": 0,
           "Troop._defensiveStrength": 0,
           "Troop._offensiveStrength": [
             0,
@@ -1032,16 +780,7 @@
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
-          "Troop.UnitStatus": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "Troop.UnitStatus": 0,
           "Troop._defensiveStrength": 0,
           "Troop._offensiveStrength": [
             0,
@@ -1073,16 +812,7 @@
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
-          "Troop.UnitStatus": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "Troop.UnitStatus": 0,
           "Troop._defensiveStrength": 0,
           "Troop._offensiveStrength": [
             0,
@@ -1118,16 +848,7 @@
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
-          "Troop.UnitStatus": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "Troop.UnitStatus": 0,
           "Troop._defensiveStrength": 0,
           "Troop._offensiveStrength": [
             0,
@@ -1167,16 +888,7 @@
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
-          "Troop.UnitStatus": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "Troop.UnitStatus": 0,
           "Troop._defensiveStrength": 0,
           "Troop._offensiveStrength": [
             0,
@@ -1216,16 +928,7 @@
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
-          "Troop.UnitStatus": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "Troop.UnitStatus": 0,
           "Troop._defensiveStrength": 0,
           "Troop._offensiveStrength": [
             0,
@@ -1269,16 +972,7 @@
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
-          "Troop.UnitStatus": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "Troop.UnitStatus": 0,
           "Troop._defensiveStrength": 0,
           "Troop._offensiveStrength": [
             0,
@@ -1313,16 +1007,7 @@
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
-          "Troop.UnitStatus": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "Troop.UnitStatus": 0,
           "Troop._defensiveStrength": 0,
           "Troop._offensiveStrength": [
             0,
@@ -1357,16 +1042,7 @@
           "Troop.Player": 0,
           "Troop.RefCount": 1,
           "Troop.UnitId": -1,
-          "Troop.UnitStatus": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "Troop.UnitStatus": 0,
           "Troop._defensiveStrength": 0,
           "Troop._offensiveStrength": [
             0,

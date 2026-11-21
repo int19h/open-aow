@@ -13,8 +13,6 @@ using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Game.World.Structures;
 
-using Aow.Rtl;
-
 using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.AI.Groups;
@@ -50,7 +48,7 @@ public class AIGroupProductionControl : AIGroupTask
 
     public int ProduceStrength { get; set; }
 
-    private Set<DamageType> _damageTypes;
+    private DamageTypes _damageTypes;
     private readonly int[] _produceStrengths = new int[10];
     private readonly int _priorityRange;
     private bool _multiple;
@@ -61,7 +59,7 @@ public class AIGroupProductionControl : AIGroupTask
     private int _movePointPriority;
     private bool _allowResearch;
     private int _researchPriority;
-    private Set<MoveType> _moveTypes;
+    private MoveTypes _moveTypes;
     private int _movesMin;
     private float _pathStrengthFactor;
 
@@ -201,7 +199,7 @@ public class AIGroupProductionControl : AIGroupTask
     public int UnitProductionPriority(Unit unit)
     {
         int result = -1;
-        bool useful = unit.Moves > _movesMin && (unit.GetMoveTypes() & _moveTypes) != Set<MoveType>.Of();
+        bool useful = unit.Moves > _movesMin && (unit.GetMoveTypes() & _moveTypes) != MoveTypes.None;
         useful = useful && unit.GetUnitMoraleValue(_control.Group.Player, _control.Group.IndependentRelation) >= 50;
         if (useful && _control.Group.Player == 0)
         {
@@ -213,7 +211,7 @@ public class AIGroupProductionControl : AIGroupTask
             useful = _remainingStrength > 0 && unit.GetStrengthMax(_damageTypes) > 0;
             if (!useful)
             {
-                for (int dOrdinal = (int)DamageType.Fire; dOrdinal <= (int)DamageType.None; dOrdinal++)
+                for (int dOrdinal = (int)DamageType.Fire; dOrdinal <= (int)DamageType.NonSpecific; dOrdinal++)
                 {
                     DamageType d = (DamageType)dOrdinal;
                     useful = _remainingStrengths[(int)d] > 0 && unit.GetStrength(d) > 0;
@@ -281,7 +279,7 @@ public class AIGroupProductionControl : AIGroupTask
         Complete = _remainingStrength <= 0;
         if (Complete)
         {
-            for (int dOrdinal = (int)DamageType.Fire; dOrdinal <= (int)DamageType.None; dOrdinal++)
+            for (int dOrdinal = (int)DamageType.Fire; dOrdinal <= (int)DamageType.NonSpecific; dOrdinal++)
             {
                 DamageType d = (DamageType)dOrdinal;
                 if (_remainingStrengths[(int)d] > 0)
@@ -344,7 +342,7 @@ public class AIGroupProductionControl : AIGroupTask
         // { Original bug: upkeep is based on total costs rather than accumulated upkeep. }
         _goldUpkeep = _gold + production.GoldUpkeep;
         _manaUpkeep = _mana + production.ManaUpkeep;
-        for (int dOrdinal = (int)DamageType.Fire; dOrdinal <= (int)DamageType.None; dOrdinal++)
+        for (int dOrdinal = (int)DamageType.Fire; dOrdinal <= (int)DamageType.NonSpecific; dOrdinal++)
         {
             DamageType d = (DamageType)dOrdinal;
             int strength = production.Unit.GetStrength(d);
@@ -371,7 +369,7 @@ public class AIGroupProductionControl : AIGroupTask
             _mana -= production.Mana;
             _goldUpkeep -= production.GoldUpkeep;
             _manaUpkeep -= production.ManaUpkeep;
-            for (int dOrdinal = (int)DamageType.Fire; dOrdinal <= (int)DamageType.None; dOrdinal++)
+            for (int dOrdinal = (int)DamageType.Fire; dOrdinal <= (int)DamageType.NonSpecific; dOrdinal++)
             {
                 DamageType d = (DamageType)dOrdinal;
                 int strength = production.Unit.GetStrength(d);
@@ -404,9 +402,9 @@ public class AIGroupProductionControl : AIGroupTask
         _goldUpkeep = 0;
         _manaUpkeep = 0;
         ProduceStrength = 0;
-        _damageTypes = AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall);
+        _damageTypes = AbilityRules.AllDamageTypes & ~DamageTypes.Wall;
         Array.Clear(_produceStrengths);
-        _moveTypes = Set<MoveType>.Of(MoveType.Walking, MoveType.Flying);
+        _moveTypes = MoveTypes.Walking | MoveTypes.Flying;
         Complete = false;
         Mode = AIGroupProductionControlMode.AutoProduce;
         _multiple = false;
@@ -507,7 +505,7 @@ public class AIGroupProductionControl : AIGroupTask
     }
 
     // AIGroup.pas:2743
-    public bool ValidProductionLocation(AIGroupProductionLocation location) => location.PathStrength == 0 || _control.Group.Units.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall)) >= Round((double)location.PathStrength * _pathStrengthFactor) || _control.Group.GetMovePointsMin() >= location.MovePoints;
+    public bool ValidProductionLocation(AIGroupProductionLocation location) => location.PathStrength == 0 || _control.Group.Units.GetStrengthMax(AbilityRules.AllDamageTypes & ~DamageTypes.Wall) >= Round((double)location.PathStrength * _pathStrengthFactor) || _control.Group.GetMovePointsMin() >= location.MovePoints;
 
     // AIGroup.pas:2761
     public void UpdateProducibleUnits()

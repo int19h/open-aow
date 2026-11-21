@@ -58,7 +58,7 @@ public partial class Sign(CustomNode owner) : Structure(owner)
     public override void Select()
     {
         base.Select();
-        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             TextSeen[StrategicMap.Current.SeatedPlayer] = true;
         }

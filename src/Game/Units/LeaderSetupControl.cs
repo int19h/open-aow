@@ -21,14 +21,14 @@ public class LeaderSetupControl : EngineObject
         OriginalLeader = new Leader(null) { Holder = CreationHolder() };
         Leader = new Leader(null) { Holder = CreationHolder() };
         _refCount = 1;
-        Mode = Set<LeaderSetupModeElement>.Of(LeaderSetupModeElement.Look, LeaderSetupModeElement.Settings, LeaderSetupModeElement.Spheres);
+        Mode = LeaderSetupModes.Look | LeaderSetupModes.Settings | LeaderSetupModes.Spheres;
         _done = null;
     }
 
     private int _refCount;
 
     public Leader Leader { get; }
-    public Set<LeaderSetupModeElement> Mode { get; set; }
+    public LeaderSetupModes Mode { get; set; }
     public Leader OriginalLeader { get; init; }
     public Int32List Items { get; }
     public LeaderSetupStatus Status { get; set; }

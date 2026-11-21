@@ -46,7 +46,7 @@ public class ResurrectHero : Spell
             layer = coordinate75.MapLevel;
             _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, layer, radius: 0);
             TwinkleAnimation animation = new(null) { Holder = CreationHolder() };
-            animation.Setup(CastImages.GetImageSequence(0), mode: Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), count: 50, radius: 64, duration: 50, startDelay: 30);
+            animation.Setup(CastImages.GetImageSequence(0), mode: TwinkleModes.Rotate, count: 50, radius: 64, duration: 50, startDelay: 30);
             _ = StrategicMap.Current.PlaceHex(animation, x, y, L: layer);
             if (source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(x, y, L: layer, radius: 0))
             {
@@ -74,7 +74,7 @@ public class ResurrectHero : Spell
                 int count = heroes.Count;
                 Hero hero = heroes.GetHero(StrategicMap.Current.Random(count));
                 hero.Resurrect();
-                ArmyHexSprite army = hero.Place(x, y, L: layer, player: 0, mode: Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea, UnitPlaceModeElement.CreateNewArmy));
+                ArmyHexSprite army = hero.Place(x, y, L: layer, player: 0, mode: UnitPlaceModes.ScanArea | UnitPlaceModes.CreateNewArmy);
                 LocationTextEventLog log = new(null)
                 {
                     Holder = CreationHolder(),
@@ -100,7 +100,7 @@ public class ResurrectHero : Spell
                     infoLog.Player = source.Player;
                     string noJoinResurrection = AbilityRules.TranslateResourceString(GetEngine(), S: s_noJoinResurrectionText);
                     infoLog.Messages.Text = noJoinResurrection;
-                    infoLog.Triggers = Set<ExecuteTrigger>.Of(ExecuteTrigger.Event);
+                    infoLog.Triggers = ExecuteTriggers.Event;
                     _ = infoLog.Execute(true, trigger: ExecuteTrigger.Event, done: null);
                     _ = infoLog.Release();
                 }

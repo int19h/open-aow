@@ -69,22 +69,22 @@ public partial class MapLevel
         return true;
     }
 
-    public Set<FogExplorationChangedElement> UnFogExploreArea(int x, int y, sbyte player, int radius)
+    public FogExplorationChanges UnFogExploreArea(int x, int y, sbyte player, int radius)
     {
         DelphiAssert.Assert(player >= 0, message: "Invalid Player Index", file: "AoWHSMap.PAS", line: 276);
-        Set<FogExplorationChangedElement> result = default;
+        FogExplorationChanges result = default;
         foreach (MapField field in Area(x, y, radius))
         {
             byte count = field.FogCount;
             if (count == 0)
             {
-                result += Set<FogExplorationChangedElement>.Of(FogExplorationChangedElement.Fog);
+                result |= FogExplorationChanges.Fog;
             }
 
             field.SetFogCount((byte)(count + 1));
             if (Explore(field, player))
             {
-                result += Set<FogExplorationChangedElement>.Of(FogExplorationChangedElement.Exploration);
+                result |= FogExplorationChanges.Exploration;
             }
         }
         return result;

@@ -2,10 +2,12 @@
 
 namespace Aow.Game.AI.Groups;
 
+[Flags]
 public enum AIGroupTargetingModes : byte
 {
-    MultiTargets = 0,
-    Cooperate = 1,
-    Recruit = 2,
-    Produce = 3
+    None = 0,
+    MultiTargets = 1 << 0,
+    Cooperate = 1 << 1,
+    Recruit = 1 << 2,
+    Produce = 1 << 3,
 }

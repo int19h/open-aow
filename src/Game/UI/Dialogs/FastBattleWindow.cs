@@ -97,7 +97,7 @@ public sealed partial class FastBattleWindow(UIContext ui) : UIModule(ui)
     // FastCombatWin.pas:244
     public void DrawParties(int X, int Y, in LockedSurface surface)
     {
-        if (_viewer.Status.Contains(CombatViewerStatusElement.Initialized))
+        if (_viewer.Status.Contains(CombatViewerStatuses.Initialized))
         {
             Battle combat = _viewer.Combat;
             int pixelX = default;
@@ -249,7 +249,7 @@ public sealed partial class FastBattleWindow(UIContext ui) : UIModule(ui)
                 {
                     if (combat.CombatData.Parties.GetParty((byte)i).Army.Units.Count == 0)
                     {
-                        if (!Set<byte>.WithBounds(0, 255).With(2).With(7).With(8).Contains(_viewer.Logbook.FinalData.CombatResult))
+                        if (_viewer.Logbook.FinalData.CombatResult is not ((byte)CombatResult.CannotInflictDamage or (byte)CombatResult.Undecided or (byte)CombatResult.CannotBreachWall))
                         {
                             int glow = _phaseFrame / 2;
                             glow = Math.Abs(((glow + 7) % 15) - 7);
@@ -357,7 +357,7 @@ public sealed partial class FastBattleWindow(UIContext ui) : UIModule(ui)
         LockedSurface lockedSurface = default;
         try
         {
-            if (!_viewer.Status.Contains(CombatViewerStatusElement.Paused))
+            if (!_viewer.Status.Contains(CombatViewerStatuses.Paused))
             {
                 _animationFrame += 1;
             }
@@ -492,7 +492,7 @@ public sealed partial class FastBattleWindow(UIContext ui) : UIModule(ui)
     {
         UI.General.PlayButtonSound(0);
         CombatViewer viewer = _viewer;
-        if (viewer is not null && viewer.Status.Contains(CombatViewerStatusElement.Initialized))
+        if (viewer is not null && viewer.Status.Contains(CombatViewerStatuses.Initialized))
         {
             viewer.SetPosition(0);
             SetPhase(1);
@@ -504,7 +504,7 @@ public sealed partial class FastBattleWindow(UIContext ui) : UIModule(ui)
     {
         UI.General.PlayButtonSound(0);
         CombatViewer viewer = _viewer;
-        if (viewer is not null && viewer.Status.Contains(CombatViewerStatusElement.Initialized))
+        if (viewer is not null && viewer.Status.Contains(CombatViewerStatuses.Initialized))
         {
             viewer.SetPosition(viewer.EndPosition + 1);
             SetPhase(3);
@@ -515,7 +515,7 @@ public sealed partial class FastBattleWindow(UIContext ui) : UIModule(ui)
     public void PauseBtnClick()
     {
         UI.General.PlayButtonSound(0);
-        if (_viewer is not null && _viewer.Status.Contains(CombatViewerStatusElement.Initialized))
+        if (_viewer is not null && _viewer.Status.Contains(CombatViewerStatuses.Initialized))
         {
             _viewer.Pause();
         }
@@ -525,7 +525,7 @@ public sealed partial class FastBattleWindow(UIContext ui) : UIModule(ui)
     public void PlayBtnClick()
     {
         UI.General.PlayButtonSound(0);
-        if (_viewer is not null && _viewer.Status.Contains(CombatViewerStatusElement.Initialized))
+        if (_viewer is not null && _viewer.Status.Contains(CombatViewerStatuses.Initialized))
         {
             _viewer.Play();
         }
@@ -535,7 +535,7 @@ public sealed partial class FastBattleWindow(UIContext ui) : UIModule(ui)
     public void SequencePositionSldChange()
     {
         CombatViewer viewer = _viewer;
-        if (viewer is not null && viewer.Status.Contains(CombatViewerStatusElement.Initialized))
+        if (viewer is not null && viewer.Status.Contains(CombatViewerStatuses.Initialized))
         {
             viewer.SetPosition(SequencePositionSlider.Position);
             SetPhase(1);
@@ -575,7 +575,7 @@ public sealed partial class FastBattleWindow(UIContext ui) : UIModule(ui)
     public void FCWinHide() => FinishDialog();
 
     // FastCombatWin.pas:544
-    public void FCWinKeyDown(in ushort key, Set<ShiftState> shift)
+    public void FCWinKeyDown(in ushort key, ShiftStates shift)
     {
         if (key is 27 or 32)
         {

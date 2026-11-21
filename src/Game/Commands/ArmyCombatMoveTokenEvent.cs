@@ -11,7 +11,6 @@ using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
-using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
@@ -161,7 +160,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
     }
 
     // MoveT.PAS:2504
-    public override bool Setup(ArmyHexSprite armyHexSprite, byte selection, MovePath path, Set<ArmyMoveModeElement> mode)
+    public override bool Setup(ArmyHexSprite armyHexSprite, byte selection, MovePath path, ArmyMoveModes mode)
     {
         bool result = base.Setup(armyHexSprite, selection, path, mode);
         if (result && armyHexSprite.Army.Player == TargetPlayer)
@@ -173,7 +172,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
         if (condition)
         {
             DiplomaticRelation diplomaticRelation = StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player).DiplomaticRelations.GetDiplomaticRelation(TargetPlayer);
-            condition = Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace, DiplomaticRelation.Alliance).Contains(diplomaticRelation);
+            condition = diplomaticRelation is DiplomaticRelation.Peace or DiplomaticRelation.Alliance;
         }
 
         return !condition && result;
@@ -191,11 +190,11 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
                 flow = new CombatFlowControlTokenEvent(null)
                 {
                     Holder = CreationHolder(),
-                    Mode = Set<CombatFlowControlModeElement>.Of(CombatFlowControlModeElement.UnlockAIExecutor, CombatFlowControlModeElement.ActivateTacticalBattle, CombatFlowControlModeElement.EnableTurnTimer)
+                    Mode = CombatFlowControlModes.UnlockAIExecutor | CombatFlowControlModes.ActivateTacticalBattle | CombatFlowControlModes.EnableTurnTimer
                 };
                 if (StrategicMap.Current.PlayMode == PlayMode.Simultaneous)
                 {
-                    flow.Mode += Set<CombatFlowControlModeElement>.Of(CombatFlowControlModeElement.SetAutoSwitch);
+                    flow.Mode |= CombatFlowControlModes.SetAutoSwitch;
                 }
 
                 flow.Player = request.AttackerPlayer;
@@ -218,7 +217,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
                         Path.List[1] = Path.List[1] with { MoveCost = 0 };
                     }
 
-                    ArmyCombatMoveTokenEvent move = ArmyHexSprite.CreateArmyCombatMoveTokenEvent(ArmyHexSprite, selection: Selection, path: Path, mode: Set<ArmyMoveModeElement>.Of());
+                    ArmyCombatMoveTokenEvent move = ArmyHexSprite.CreateArmyCombatMoveTokenEvent(ArmyHexSprite, selection: Selection, path: Path, mode: ArmyMoveModes.None);
                     if (move is not null)
                     {
                         // { created combat move }
@@ -239,7 +238,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
                     flow = new CombatFlowControlTokenEvent(null)
                     {
                         Holder = CreationHolder(),
-                        Mode = Set<CombatFlowControlModeElement>.Of(CombatFlowControlModeElement.SetAutoSwitch, CombatFlowControlModeElement.UnlockAIExecutor, CombatFlowControlModeElement.EnableTurnTimer)
+                        Mode = CombatFlowControlModes.SetAutoSwitch | CombatFlowControlModes.UnlockAIExecutor | CombatFlowControlModes.EnableTurnTimer
                     };
                     StrategicMap.Current.TokenManager.GetTokenControl(StrategicMap.Current.SeatedPlayer).AddEvent(flow);
                     _ = flow.Release();
@@ -261,7 +260,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
             Holder = CreationHolder(),
             TurnPlayer = StrategicMap.Current.CurrentPlayer,
             Mode = NewTurnEventLogMode.Dialog,
-            DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of()
+            DialogStyle = NewTurnEventLogDialogStyles.None
         };
         if (StrategicMap.Current.CurrentPlayer == 0)
         {
@@ -549,7 +548,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
                 combat.InitializeDefaultArmies(ArmyHexSprite.Army, fArmyHexSpriteHexX, fArmyHexSpriteHexY, L: fArmyHexSpriteHexLevel);
             }
 
-            if (!combat.DefendersAvailable() || !combat.PlayerTypeInvolved(Set<PlayerType>.Of(PlayerType.Human)))
+            if (!combat.DefendersAvailable() || !combat.PlayerTypeInvolved(PlayerTypes.Human))
             {
                 _combatType = CombatType.Fast;
                 _combatMode = ArmyCombatMoveTokenEventMode.SetupReady;
@@ -636,7 +635,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
                 Holder = CreationHolder(),
                 TurnPlayer = field.GetPlayer(),
                 Mode = NewTurnEventLogMode.Dialog,
-                DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable),
+                DialogStyle = NewTurnEventLogDialogStyles.Closeable,
                 Text = AbilityRules.TranslateResourceString(GetEngine(), S: s_youAreBeingAttackedText)
             };
             StrategicMap.Current.TriggerTypedExecuteEventLog(log, immediate: false, done: ShowHotSeatPlayerCallback);
@@ -652,7 +651,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
                     Holder = CreationHolder(),
                     TurnPlayer = field.GetPlayer(),
                     Mode = NewTurnEventLogMode.Dialog,
-                    DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable),
+                    DialogStyle = NewTurnEventLogDialogStyles.Closeable,
                     Text = AbilityRules.TranslateResourceString(GetEngine(), S: s_youAreBeingAttackedText)
                 };
                 StrategicMap.Current.TriggerTypedExecuteEventLog(log, immediate: false, done: ShowHotSeatPlayerCallback);
@@ -689,7 +688,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
         if (combat is not FastBattle)
         {
             ArmyHexSprite armyHexSprite;
-            if (Set<CombatResult>.Of(CombatResult.Victory).Contains(combat.CombatResult))
+            if (combat.CombatResult == CombatResult.Victory)
             {
                 armyHexSprite = StrategicMap.Current.MapContainer.GetField(combat.CombatData.AttackerLocation.X, combat.CombatData.AttackerLocation.Y, combat.CombatData.AttackerLocation.MapLevel).GetArmyHexSprite();
                 if (armyHexSprite is not null)
@@ -699,11 +698,11 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
                     for (int i = army.Units.Count - 1; i >= 0; i--)
                     {
                         selection = (byte)(selection << 1);
-                        if (army.Units.GetUnit(i).UnitStatus.Contains(UnitStatusElement.Moving))
+                        if (army.Units.GetUnit(i).UnitStatus.Contains(UnitStatuses.Moving))
                         {
                             selection = (byte)(selection | 1);
                             Troop troop = army.Units.GetUnit(i);
-                            army.Units.GetUnit(i).UnitStatus = troop.UnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Moving);
+                            army.Units.GetUnit(i).UnitStatus = troop.UnitStatus & ~UnitStatuses.Moving;
                         }
                     }
 
@@ -739,7 +738,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
                     for (int i = armyHexSprite.Army.Units.Count - 1; i >= 0; i--)
                     {
                         Troop troop = armyHexSprite.Army.Units.GetUnit(i);
-                        armyHexSprite.Army.Units.GetUnit(i).UnitStatus = troop.UnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Moving);
+                        armyHexSprite.Army.Units.GetUnit(i).UnitStatus = troop.UnitStatus & ~UnitStatuses.Moving;
                     }
 
                     if (armyHexSprite.Army.Player == StrategicMap.Current.SeatedPlayer)
@@ -805,7 +804,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
     private static MoveArmyTokenEvent CreateArmyMoveMapCoordinateTokenEvent(ArmyHexSprite army, byte selection, sbyte X, sbyte Y, sbyte L, MoveAction action)
     {
         MoveControlSettings moveControlSettings = CreateMoveControlSettings(army, selection: selection, x: X, y: Y, l: L);
-        MoveArmyTokenEvent result = (moveControlSettings.Path.Count == 0) ? null : ArmyHexSprite.CreateArmyMoveTokenEvent(army, selection: selection, path: moveControlSettings.Path, action: action, mode: Set<ArmyMoveModeElement>.Of([]));
+        MoveArmyTokenEvent result = (moveControlSettings.Path.Count == 0) ? null : ArmyHexSprite.CreateArmyMoveTokenEvent(army, selection: selection, path: moveControlSettings.Path, action: action, mode: ArmyMoveModes.None);
         _ = moveControlSettings.Release();
         return result;
     }
@@ -813,7 +812,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
     private static ArmyCombatMoveTokenEvent CreateCombatMoveMapCoordinateTokenEvent(ArmyHexSprite army, byte selection, sbyte x, sbyte y, sbyte l)
     {
         MoveControlSettings moveControlSettings = CreateMoveControlSettings(army, selection: selection, x: x, y: y, l: l);
-        ArmyCombatMoveTokenEvent result = (moveControlSettings.Path.Count == 0) ? null : ArmyHexSprite.CreateArmyCombatMoveTokenEvent(army, selection: selection, path: moveControlSettings.Path, mode: Set<ArmyMoveModeElement>.Of([]));
+        ArmyCombatMoveTokenEvent result = (moveControlSettings.Path.Count == 0) ? null : ArmyHexSprite.CreateArmyCombatMoveTokenEvent(army, selection: selection, path: moveControlSettings.Path, mode: ArmyMoveModes.None);
         _ = moveControlSettings.Release();
         return result;
     }

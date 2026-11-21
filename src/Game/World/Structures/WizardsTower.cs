@@ -28,7 +28,7 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
     public new const int ClassId = 133_278;
 
     private bool _generateSpell = true;
-    private Set<MagicSphere> _magicSpheres = s_allMagicSpheres;
+    private MagicSpheres _magicSpheres = s_allMagicSpheres;
     private byte _spellLevel = 2;
 
     public int SpellId { get; private set; }
@@ -80,7 +80,7 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
     {
         base.ArmyPlaced(placedArmy);
         Player player = StrategicMap.Current.Players.GetPlayers(placedArmy.Army.Player);
-        if (Set<PlayerType>.Of(PlayerType.Cpu1, PlayerType.Cpu2, PlayerType.Cpu3, PlayerType.Cpu4, PlayerType.Cpu5).Contains(player.PlayerType) && ValidAITarget(placedArmy.Army.Player))
+        if (player.PlayerType is (>= PlayerType.Cpu1 and <= PlayerType.Cpu3) or PlayerType.Cpu4 or PlayerType.Cpu5 && ValidAITarget(placedArmy.Army.Player))
         {
             Army army = placedArmy.Army;
             AIGroup group = null;
@@ -236,7 +236,7 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
 
     private static readonly string s_spellIsAlreadyResearchedText = "Spell already researched";
     private static readonly string s_theyTaughtYouSpellFormat = "They taught you the spell %s";
-    private static readonly Set<MagicSphere> s_allMagicSpheres = Set<MagicSphere>.FromMask(255uL);
+    private static readonly MagicSpheres s_allMagicSpheres = MagicSpheres.Cosmos | MagicSpheres.Life | MagicSpheres.Death | MagicSpheres.Earth | MagicSpheres.Air | MagicSpheres.Fire | MagicSpheres.Water | MagicSpheres.Secret;
 
     public new class Resource(CustomNode owner) : StructureResource(owner)
     {

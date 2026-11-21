@@ -38,8 +38,8 @@ public partial class CityRebellionEventLog(CustomNode owner) : EventLog(owner)
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
         bool showEvent = trigger == ExecuteTrigger.User;
-        showEvent = showEvent || (StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Rebellion));
-        showEvent = showEvent || (StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.Rebellion));
+        showEvent = showEvent || (StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvents.Rebellion));
+        showEvent = showEvent || (StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvents.Rebellion));
         return showEvent && base.Execute(mode, trigger, done);
     }
 

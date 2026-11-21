@@ -4,7 +4,6 @@ using Aow.Engine.Nodes;
 using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
 using Aow.Game.World.Map;
-using Aow.Rtl;
 
 namespace Aow.Game.Magic.Abilities;
 
@@ -16,7 +15,7 @@ public class StrikeAbility : AdjustableAbility
     public StrikeAbility(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem);
+        SelectionTypes = AbilitySelectionTypes.Unit | AbilitySelectionTypes.AttackItem;
         AbilityType = AbilityType.Combat;
         AbilityId = 21;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_strikeText);
@@ -36,7 +35,7 @@ public class StrikeAbility : AdjustableAbility
     public override CombatMode GetCombatMode(AbilityOwner owner) => CombatMode.Melee;
 
     // AoWAb.PAS:1226
-    public override Set<AbilityControlTypeElement> GetControlType(AbilityOwner owner) => Set<AbilityControlTypeElement>.Of();
+    public override AbilityControlTypes GetControlType(AbilityOwner owner) => AbilityControlTypes.None;
 
     // AoWAb.PAS:1445
     public override void FastBattlePrefetchCombatCommands(FastBattleCommandList commands)
@@ -76,8 +75,8 @@ public class StrikeAbility : AdjustableAbility
         int i = 0;
         if (source is FastBattleUnit fastUnit)
         {
-            fastUnit.State += Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.Vulnerable);
-            if (source.FastBattleBehindWall() && source.FastBattleWallInBetween(target.Position) && !target.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing))
+            fastUnit.State |= FastBattleUnitStates.Vulnerable;
+            if (source.FastBattleBehindWall() && source.FastBattleWallInBetween(target.Position) && !target.WallCombatFeatures().Contains(WallCombatFeatures.WallPassing))
             {
                 MoveWallCombatAction moveCombatAction = new(null)
                 {
@@ -149,20 +148,20 @@ public class StrikeAbility : AdjustableAbility
             int defenderDamageValue = MeleeRound.GetDefenderDamageValue();
             damageValues.TargetDamage = defenderDamageValue;
             damageValues.TargetCost = 0;
-            Set<DamageType> immunityTypes = defender.GetImmunityTypes();
-            damageValues.DamageTypes = MeleeRound.AttackerDamageTypes - immunityTypes;
+            DamageTypes immunityTypes = defender.GetImmunityTypes();
+            damageValues.DamageTypes = MeleeRound.AttackerDamageTypes & ~immunityTypes;
         }
         else
         {
             // { Original leaves the cost fields untouched on this path. }
             damageValues.SourceDamage = 0;
             damageValues.TargetDamage = 0;
-            damageValues.DamageTypes = Set<DamageType>.Of();
+            damageValues.DamageTypes = DamageTypes.None;
         }
     }
 
     // AoWAb.PAS:1274
-    public override void GetOffensiveStrength(AbilityOwner owner, ref int strength, ref Set<DamageType> types)
+    public override void GetOffensiveStrength(AbilityOwner owner, ref int strength, ref DamageTypes types)
     {
         if (owner is Troop troop)
         {
@@ -180,7 +179,7 @@ public class StrikeAbility : AdjustableAbility
         else
         {
             strength = 0;
-            types = Set<DamageType>.Of();
+            types = DamageTypes.None;
         }
     }
 
@@ -196,8 +195,8 @@ public class StrikeAbility : AdjustableAbility
             int defenderDamageValue = MeleeRound.GetDefenderDamageValue();
             damageValues.TargetDamage = defenderDamageValue;
             damageValues.TargetCost = 0;
-            Set<DamageType> immunityTypes = defender.GetImmunityTypes();
-            damageValues.DamageTypes = MeleeRound.AttackerDamageTypes - immunityTypes;
+            DamageTypes immunityTypes = defender.GetImmunityTypes();
+            damageValues.DamageTypes = MeleeRound.AttackerDamageTypes & ~immunityTypes;
         }
         else
         {
@@ -205,7 +204,7 @@ public class StrikeAbility : AdjustableAbility
             damageValues.SourceCost = 0;
             damageValues.TargetDamage = 0;
             damageValues.TargetCost = 0;
-            damageValues.DamageTypes = Set<DamageType>.Of();
+            damageValues.DamageTypes = DamageTypes.None;
         }
     }
 
@@ -219,7 +218,7 @@ public class StrikeAbility : AdjustableAbility
             sbyte damage = troop.GetDamage();
             info.Damage = damage;
 
-            Set<DamageType> damageTypes = GetDamageTypes(owner);
+            DamageTypes damageTypes = GetDamageTypes(owner);
             info.DamageTypes = damageTypes;
             info.RepeatCount = 2;
         }
@@ -227,7 +226,7 @@ public class StrikeAbility : AdjustableAbility
         {
             info.Attack = -1;
             info.Damage = -1;
-            info.DamageTypes = Set<DamageType>.Of(DamageType.Physical);
+            info.DamageTypes = DamageTypes.Physical;
             info.RepeatCount = 2;
         }
     }
@@ -236,56 +235,56 @@ public class StrikeAbility : AdjustableAbility
     public bool CanExecuteMelee(CombatObject source, CombatObject target)
     {
         bool result = source.Side == CombatSideIndex.Defender
-            ? !source.FastBattleBehindWall() || !source.FastBattleWallInBetween(target.Position) || target.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing)
-            : !target.FastBattleBehindWall() || !source.FastBattleWallInBetween(target.Position) || source.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing);
+            ? !source.FastBattleBehindWall() || !source.FastBattleWallInBetween(target.Position) || target.WallCombatFeatures().Contains(WallCombatFeatures.WallPassing)
+            : !target.FastBattleBehindWall() || !source.FastBattleWallInBetween(target.Position) || source.WallCombatFeatures().Contains(WallCombatFeatures.WallPassing);
         return result && (!target.GetAbilityEnabled(1) || source.GetAbilityEnabled(1));
     }
 
     // AoWAb.PAS:1354
-    public Set<DamageType> GetDamageTypes(AbilityOwner owner)
+    public DamageTypes GetDamageTypes(AbilityOwner owner)
     {
-        Set<DamageType> result;
+        DamageTypes result;
         if (owner is Troop troop && troop.GetAbilityEnabled(21))
         {
-            result = Set<DamageType>.Of(DamageType.Physical);
+            result = DamageTypes.Physical;
             if (troop.GetAbilityEnabled(14) || troop.GetAbilityEnabled(163))
             {
-                result += Set<DamageType>.Of(DamageType.Fire);
+                result |= DamageTypes.Fire;
             }
 
             if (troop.GetAbilityEnabled(15))
             {
-                result += Set<DamageType>.Of(DamageType.Cold);
+                result |= DamageTypes.Cold;
             }
 
             if (troop.GetAbilityEnabled(16))
             {
-                result += Set<DamageType>.Of(DamageType.Lightning);
+                result |= DamageTypes.Lightning;
             }
 
             if (troop.GetAbilityEnabled(17))
             {
-                result += Set<DamageType>.Of(DamageType.Poison);
+                result |= DamageTypes.Poison;
             }
 
             if (troop.GetAbilityEnabled(18) || troop.GetAbilityEnabled(169))
             {
-                result += Set<DamageType>.Of(DamageType.Death);
+                result |= DamageTypes.Death;
             }
 
             if (troop.GetAbilityEnabled(19))
             {
-                result += Set<DamageType>.Of(DamageType.Holy);
+                result |= DamageTypes.Holy;
             }
 
             if (troop.GetAbilityEnabled(20) || troop.GetAbilityEnabled(154))
             {
-                result += Set<DamageType>.Of(DamageType.Magic);
+                result |= DamageTypes.Magic;
             }
         }
         else
         {
-            return Set<DamageType>.Of();
+            return DamageTypes.None;
         }
 
         return result;

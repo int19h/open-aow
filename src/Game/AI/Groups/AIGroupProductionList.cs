@@ -7,8 +7,6 @@ using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Structures;
 
-using Aow.Rtl;
-
 namespace Aow.Game.AI.Groups;
 
 // { Interface declaration run owned by P5. }
@@ -27,7 +25,7 @@ public sealed class AIGroupProductionList(CustomNode owner) : OwningNode(owner),
     public AIGroupProduction GetProductions(int index) => this[index];
 
     // AIGroup.pas:6
-    public int GetStrengthMax(Set<DamageType> damageTypes)
+    public int GetStrengthMax(DamageTypes damageTypes)
     {
         int result = 0;
         for (int i = 0, last = Count - 1; i <= last; i++)

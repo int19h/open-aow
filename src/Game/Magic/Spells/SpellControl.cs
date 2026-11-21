@@ -4,11 +4,8 @@ using System.Globalization;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
-
 using Aow.Game.World.Map;
-
 using Aow.Rtl;
-
 using static Aow.Rtl.DelphiAssert;
 using static Aow.Rtl.IntegerObjects;
 
@@ -145,12 +142,12 @@ public sealed class SpellControl(CustomNode owner) : EngineObject(owner)
     }
 
     // Spells.PAS:659
-    public void ListSpells(DelphiStringCollection spellStrings, Set<MagicSphere> spheres)
+    public void ListSpells(DelphiStringCollection spellStrings, MagicSpheres spheres)
     {
         spellStrings.Clear();
         for (int i = 0, last = RegisteredSpells.Count - 1; i <= last; i++)
         {
-            if (RegisteredSpells[i] is not null && spheres.Contains(RegisteredSpells[i].MagicSphere))
+            if (RegisteredSpells[i] is not null && spheres.Contains(RegisteredSpells[i].MagicSphere.ToFlag()))
             {
                 _ = spellStrings.AddObject(RegisteredSpells[i].SpellName, item: IntToObject(i));
             }
@@ -158,13 +155,13 @@ public sealed class SpellControl(CustomNode owner) : EngineObject(owner)
     }
 
     // Spells.PAS:674
-    public int GetRandomSpell(int minLevel, int maxLevel, Set<MagicSphere> spheres)
+    public int GetRandomSpell(int minLevel, int maxLevel, MagicSpheres spheres)
     {
         Int32List candidates = new();
         for (int i = RegisteredSpells.Count - 1; i >= 0; i--)
         {
             Spell spell = RegisteredSpells[i];
-            if (spell is not null && spheres.Contains(spell.MagicSphere) && spell.SpellLevel >= minLevel && spell.SpellLevel <= maxLevel)
+            if (spell is not null && spheres.Contains(spell.MagicSphere.ToFlag()) && spell.SpellLevel >= minLevel && spell.SpellLevel <= maxLevel)
             {
                 _ = candidates.Add(i);
             }

@@ -85,12 +85,12 @@ public sealed class LayoutSessionTests
         Assert.Contains("Child", error.Message);
         Assert.Null(s_failingGlobal);
         Assert.Equal(0, module.ComponentCount);
-        Assert.True(module.ComponentState.Contains(ComponentState.Destroying));
+        Assert.True(module.ComponentState.Contains(ComponentStates.Destroying));
         Assert.True(module.First!.Destroyed);
         Assert.Null(module.First.Owner);
         Assert.NotNull(module.Second);
         Assert.Null(module.Second!.Owner);
-        Assert.True(module.Second.ComponentState.Contains(ComponentState.Destroying));
+        Assert.True(module.Second.ComponentState.Contains(ComponentStates.Destroying));
         Assert.Empty(session.Modules);
     }
 
@@ -123,7 +123,7 @@ public sealed class LayoutSessionTests
         Assert.Same(module, session.Modules["Good"]);
         Assert.Equal(1, module.ComponentCount);
         Assert.False(module.Child!.Destroyed);
-        Assert.True(module.ComponentState.IsEmpty);
+        Assert.True(module.ComponentState == ComponentStates.None);
     }
 
     [Fact]
@@ -132,20 +132,20 @@ public sealed class LayoutSessionTests
         LayoutSession session = new();
         using DataModule root = new(null);
         Label child = new(root);
-        Assert.True(child.ComponentState.IsEmpty);
+        Assert.True(child.ComponentState == ComponentStates.None);
         session.Begin(root);
-        Assert.True(root.ComponentState.Contains(ComponentState.Loading));
-        Assert.True(root.ComponentState.Contains(ComponentState.Reading));
+        Assert.True(root.ComponentState.Contains(ComponentStates.Loading));
+        Assert.True(root.ComponentState.Contains(ComponentStates.Reading));
         session.BeginRead(child);
-        Assert.True(child.ComponentState.Contains(ComponentState.Loading));
-        Assert.True(child.ComponentState.Contains(ComponentState.Reading));
+        Assert.True(child.ComponentState.Contains(ComponentStates.Loading));
+        Assert.True(child.ComponentState.Contains(ComponentStates.Reading));
         session.EndRead(child);
-        Assert.False(child.ComponentState.Contains(ComponentState.Reading));
-        Assert.True(child.ComponentState.Contains(ComponentState.Loading));
+        Assert.False(child.ComponentState.Contains(ComponentStates.Reading));
+        Assert.True(child.ComponentState.Contains(ComponentStates.Loading));
         child.Loaded();
-        Assert.True(child.ComponentState.IsEmpty);
+        Assert.True(child.ComponentState == ComponentStates.None);
         session.EndRead(root);
         root.Loaded();
-        Assert.True(root.ComponentState.IsEmpty);
+        Assert.True(root.ComponentState == ComponentStates.None);
     }
 }

@@ -4,7 +4,6 @@ using Aow.Engine.Nodes;
 using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Structures;
-using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
@@ -16,11 +15,11 @@ public class Warmonger : CityEnchantmentSpell
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.WarmongerText);
         SpellId = 58;
-        CityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Own);
+        CityTargetMode = CityTargetModes.Own;
         EnchantmentId = CityEnchantmentId.Warmonger;
         CastDuration = 30;
         AIPriority = 600;
-        AICastSituation = Set<CityEnchantmentCastSpellSituationElement>.Of(CityEnchantmentCastSpellSituationElement.Hex4City, CityEnchantmentCastSpellSituationElement.Hex3City);
+        AICastSituation = CityEnchantmentCastSpellSituations.Hex4City | CityEnchantmentCastSpellSituations.Hex3City;
         EnchantmentSpellId = 50;
     }
 }

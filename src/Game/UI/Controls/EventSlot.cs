@@ -140,7 +140,7 @@ internal static class EventSlot
         where TBase : class
         where TOwner : class, TBase
     {
-        internal void Invoke(TBase _, MouseButton button, Set<ShiftState> shift, int x, int y) => Typed(Owner, button, shift, x, y);
+        internal void Invoke(TBase _, MouseButton button, ShiftStates shift, int x, int y) => Typed(Owner, button, shift, x, y);
     }
 
     internal sealed class MouseMoveView<TBase, TOwner>(TOwner owner, string slot, MouseMoveEvent<TOwner> typed)
@@ -148,7 +148,7 @@ internal static class EventSlot
         where TBase : class
         where TOwner : class, TBase
     {
-        internal void Invoke(TBase _, Set<ShiftState> shift, int x, int y) => Typed(Owner, shift, x, y);
+        internal void Invoke(TBase _, ShiftStates shift, int x, int y) => Typed(Owner, shift, x, y);
     }
 
     internal sealed class KeyPressView<TBase, TOwner>(TOwner owner, string slot, KeyPressEvent<TOwner> typed)
@@ -164,7 +164,7 @@ internal static class EventSlot
         where TBase : class
         where TOwner : class, TBase
     {
-        internal void Invoke(TBase _, ref ushort key, Set<ShiftState> shift) => Typed(Owner, ref key, shift);
+        internal void Invoke(TBase _, ref ushort key, ShiftStates shift) => Typed(Owner, ref key, shift);
     }
 
     internal sealed class DrawView<TBase, TOwner>(TOwner owner, string slot, AoWOnDrawEvent<TOwner> typed)

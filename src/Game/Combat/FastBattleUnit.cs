@@ -11,8 +11,6 @@ using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.Combat;
@@ -29,7 +27,7 @@ public class FastBattleUnit(CustomNode owner) : CombatUnit(owner)
     // creates only this unit, so the battle is a fast battle. Null stays null. Another battle fails.
     private FastBattle FastCombat => (FastBattle)Combat;
 
-    public Set<FastBattleUnitStateElement> State { get; set; }
+    public FastBattleUnitStates State { get; set; }
 
     // AIGroup.pas:6797
     public override void PersistFields(IPersister persister)
@@ -41,7 +39,7 @@ public class FastBattleUnit(CustomNode owner) : CombatUnit(owner)
     // AIGroup.pas:6862
     public override void GetTargetCombatValueDamageValue(CombatObject target, out int combatValue, out int damageValue)
     {
-        if (!Status.Contains(CombatObjectStatusElement.Destroyed))
+        if (!Status.Contains(CombatObjectStatuses.Destroyed))
         {
             Troop troop = Troop;
             combatValue = 0;
@@ -264,7 +262,7 @@ public class FastBattleUnit(CustomNode owner) : CombatUnit(owner)
     public override int FastBattleRoundDistance()
     {
         int result = RoundDistance;
-        if (State.Contains(FastBattleUnitStateElement.Vulnerable))
+        if (State.Contains(FastBattleUnitStates.Vulnerable))
         {
             result -= 1;
         }
@@ -294,7 +292,7 @@ public class FastBattleUnit(CustomNode owner) : CombatUnit(owner)
             {
                 if (FastCombat.AttackerCanCrushWall() || FastCombat.GetAttackerBallisticCombatValue() > FastCombat.GetDefenderBallisticCombatValue() * 1.5)
                 {
-                    State += Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.OutsideWall);
+                    State |= FastBattleUnitStates.OutsideWall;
                     troop = Troop;
                     for (int i = troop.GetAbilityCount() - 1; i >= 0; i--)
                     {
@@ -305,7 +303,7 @@ public class FastBattleUnit(CustomNode owner) : CombatUnit(owner)
                         }
                     }
 
-                    State -= Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.OutsideWall);
+                    State &= ~FastBattleUnitStates.OutsideWall;
                 }
             }
         }
@@ -378,22 +376,22 @@ public class FastBattleUnit(CustomNode owner) : CombatUnit(owner)
     public override bool FastBattleBehindWall()
     {
         // { Inner failure shares the validated-position return. }
-        if (Side == CombatSideIndex.Defender && !State.Contains(FastBattleUnitStateElement.OutsideWall))
+        if (Side == CombatSideIndex.Defender && !State.Contains(FastBattleUnitStates.OutsideWall))
         {
             byte position = Position;
-            return (position & 0xF) <= 7 && position >>> 4 <= 7 && Combat.CombatData.Parties.GetParty((byte)(position >>> 4)).Wall != 0 && !Combat.CombatData.Wall.Status.Contains(CombatObjectStatusElement.Destroyed);
+            return (position & 0xF) <= 7 && position >>> 4 <= 7 && Combat.CombatData.Parties.GetParty((byte)(position >>> 4)).Wall != 0 && !Combat.CombatData.Wall.Status.Contains(CombatObjectStatuses.Destroyed);
         }
 
         return false;
     }
 
     // AIGroup.pas:7029
-    public override bool FastBattleWallInBetween(byte target) => !State.Contains(FastBattleUnitStateElement.OutsideWall) && Combat.GetWallInBetween(Position, target);
+    public override bool FastBattleWallInBetween(byte target) => !State.Contains(FastBattleUnitStates.OutsideWall) && Combat.GetWallInBetween(Position, target);
 
     // AIGroup.pas:6830
     public override void Show(int frame, int direction, int X, int Y, in LockedSurface surface)
     {
-        if (State.Contains(FastBattleUnitStateElement.OutsideWall))
+        if (State.Contains(FastBattleUnitStates.OutsideWall))
         {
             GamePack.Current.CombatImages[21].Show(X + 10, Y, lockedSurface: surface);
         }
@@ -404,7 +402,7 @@ public class FastBattleUnit(CustomNode owner) : CombatUnit(owner)
     // AIGroup.pas:6836
     public override int ShowAttackAnimation(int frame, int direction, int X, int Y, in LockedSurface surface)
     {
-        if (direction != 6 && State.Contains(FastBattleUnitStateElement.OutsideWall))
+        if (direction != 6 && State.Contains(FastBattleUnitStates.OutsideWall))
         {
             GamePack.Current.CombatImages[21].Show(X + 10, Y, lockedSurface: surface);
         }
@@ -415,7 +413,7 @@ public class FastBattleUnit(CustomNode owner) : CombatUnit(owner)
     // AIGroup.pas:6843
     public override int ShowHitAnimation(int frame, int direction, int X, int Y, in LockedSurface surface)
     {
-        if (State.Contains(FastBattleUnitStateElement.OutsideWall))
+        if (State.Contains(FastBattleUnitStates.OutsideWall))
         {
             GamePack.Current.CombatImages[21].Show(X + 10, Y, lockedSurface: surface);
         }
@@ -441,7 +439,7 @@ public class FastBattleUnit(CustomNode owner) : CombatUnit(owner)
     public override void KillUnit()
     {
         Troop troop = Troop;
-        if (troop is Hero hero && Combat.Status.Contains(CombatStatusElement.Executing))
+        if (troop is Hero hero && Combat.Status.Contains(CombatStatuses.Executing))
         {
             CombatData combatData = Combat.CombatData;
             hero.DropItemsOnMap(StrategicMap.Current, combatData.Location.X, combatData.Location.Y, L: combatData.Location.MapLevel);
@@ -456,21 +454,21 @@ public class FastBattleUnit(CustomNode owner) : CombatUnit(owner)
     // AIGroup.pas:6809
     public void UpdateWallSiegeObjectRegistration()
     {
-        bool registered = Status.Contains(CombatObjectStatusElement.Activated) && Side == CombatSideIndex.Attacker && !Status.Contains(CombatObjectStatusElement.Destroyed) && ((WallCombatFeaturesValue & Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallBreaching, WallCombatFeaturesElement.WallPassing)) != Set<WallCombatFeaturesElement>.Of() || CanCastWallSiegeSpell());
+        bool registered = Status.Contains(CombatObjectStatuses.Activated) && Side == CombatSideIndex.Attacker && !Status.Contains(CombatObjectStatuses.Destroyed) && ((WallCombatFeaturesValue & (Game.Combat.WallCombatFeatures.WallBreaching | Game.Combat.WallCombatFeatures.WallPassing)) != Game.Combat.WallCombatFeatures.None || CanCastWallSiegeSpell());
         if (registered)
         {
-            if (!State.Contains(FastBattleUnitStateElement.WallSiegeObjectRegistered))
+            if (!State.Contains(FastBattleUnitStates.WallSiegeObjectRegistered))
             {
                 FastCombat.WallSiegeObjectCount += 1;
-                State += Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.WallSiegeObjectRegistered);
+                State |= FastBattleUnitStates.WallSiegeObjectRegistered;
             }
         }
         else
         {
-            if (State.Contains(FastBattleUnitStateElement.WallSiegeObjectRegistered))
+            if (State.Contains(FastBattleUnitStates.WallSiegeObjectRegistered))
             {
                 FastCombat.WallSiegeObjectCount -= 1;
-                State -= Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.WallSiegeObjectRegistered);
+                State &= ~FastBattleUnitStates.WallSiegeObjectRegistered;
             }
         }
     }

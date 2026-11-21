@@ -5,8 +5,6 @@ using Aow.Game.Combat;
 
 using Aow.Game.Magic.Abilities;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Spells;
 
 // inherited combat statistics, damage mode
@@ -21,7 +19,7 @@ public class DeathRay : CombatSpell
         SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 8;
         spellCombatInfo.Damage = 4;
-        spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Death);
+        spellCombatInfo.DamageTypes = DamageTypes.Death;
         spellCombatInfo.RepeatCount = 1;
         spellCombatInfo.Range = 12;
 

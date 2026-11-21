@@ -32,7 +32,7 @@ public sealed partial class StrategicMap
 
     public void StartTokenEventLogging()
     {
-        if (TokenEventLogging || Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (TokenEventLogging || Current.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             return;
         }

@@ -223,7 +223,7 @@ public sealed partial class DisjunctionDialog(UIContext ui) : UIModule(ui)
     public void DlgHide() => ClearCaster();
 
     // AoWDisjunctionDlg.pas:142
-    public void DlgKeyDown(in ushort key, Set<ShiftState> shift)
+    public void DlgKeyDown(in ushort key, ShiftStates shift)
     {
         if (key == 27)
         {

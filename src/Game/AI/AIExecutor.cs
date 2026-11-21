@@ -8,8 +8,6 @@ using Aow.Game.Session;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 using static Aow.Rtl.DelphiAssert;
 using static Aow.Rtl.LegacyApplication;
 
@@ -28,7 +26,7 @@ public sealed partial class AIExecutor(CustomNode owner) : EngineObject(owner)
 
     private int _playerProcessCycles;
 
-    public Set<AIExecutorStatusElement> Status { get; private set; }
+    public AIExecutorStatuses Status { get; private set; }
 
     private bool _tokenControlDone;
     private readonly AIExecutorProcessTimeMode _processTimeMode = AIExecutorProcessTimeMode.Static;
@@ -95,7 +93,7 @@ public sealed partial class AIExecutor(CustomNode owner) : EngineObject(owner)
         if (_players.IndexOf((byte)player) == -1)
         {
             _ = _players.Add((byte)player);
-            Status += Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.Enabled);
+            Status |= AIExecutorStatuses.Enabled;
             StrategicMap.Current.Players.GetPlayers(player).AIControl.Activate(this);
             if (Player == -1)
             {
@@ -120,7 +118,7 @@ public sealed partial class AIExecutor(CustomNode owner) : EngineObject(owner)
             if (_players.Count == 0)
             {
                 Player = -1;
-                Status -= Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.Enabled);
+                Status &= ~AIExecutorStatuses.Enabled;
             }
         }
     }
@@ -128,7 +126,7 @@ public sealed partial class AIExecutor(CustomNode owner) : EngineObject(owner)
     // AI.pas:644
     public void TokenControlDoneEvent(object sender)
     {
-        if (Status.Contains(AIExecutorStatusElement.Enabled) && StrategicMap.Current.PlayMode == PlayMode.Simultaneous)
+        if (Status.Contains(AIExecutorStatuses.Enabled) && StrategicMap.Current.PlayMode == PlayMode.Simultaneous)
         {
             _tokenControlDone = true;
             if (StrategicMap.Current.CurrentPlayer == 0 && StrategicMap.Current.CombatMap is null)
@@ -151,8 +149,8 @@ public sealed partial class AIExecutor(CustomNode owner) : EngineObject(owner)
     // AI.pas:935
     public void CaptureTokenCycles(int cycles)
     {
-        Assert(!Status.Contains(AIExecutorStatusElement.TokenLocked), message: "", file: "AI.pas", line: 937);
-        Status += Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.TokenLocked);
+        Assert(!Status.Contains(AIExecutorStatuses.TokenLocked), message: "", file: "AI.pas", line: 937);
+        Status |= AIExecutorStatuses.TokenLocked;
         StrategicMap.Current.TokenManager.TokenExecutor.Lock();
         _tokenCycle = 0;
         _tokenCycles = cycles;
@@ -161,17 +159,17 @@ public sealed partial class AIExecutor(CustomNode owner) : EngineObject(owner)
     // AI.pas:944
     public void TokenCyclesCaptured()
     {
-        Assert(Status.Contains(AIExecutorStatusElement.TokenLocked), message: "", file: "AI.pas", line: 947);
-        Status -= Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.TokenLocked);
+        Assert(Status.Contains(AIExecutorStatuses.TokenLocked), message: "", file: "AI.pas", line: 947);
+        Status &= ~AIExecutorStatuses.TokenLocked;
         StrategicMap.Current.TokenManager.TokenExecutor.Unlock();
     }
 
     // AI.pas:952
     public void Process()
     {
-        if (Status.Contains(AIExecutorStatusElement.Enabled) && LockCount == 0)
+        if (Status.Contains(AIExecutorStatuses.Enabled) && LockCount == 0)
         {
-            Status += Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.Executing);
+            Status |= AIExecutorStatuses.Executing;
             StrategicMap.Current.SynchronizeBegin();
             _processTimeUsed = 0;
             _processStarted = _processTimeMode == AIExecutorProcessTimeMode.Dynamic ? PixelFormats.ElapsedMilliseconds : 0;
@@ -190,12 +188,12 @@ public sealed partial class AIExecutor(CustomNode owner) : EngineObject(owner)
 
                         break;
                     case PlayMode.Simultaneous:
-                        if (Status.Contains(AIExecutorStatusElement.TokenLocked))
+                        if (Status.Contains(AIExecutorStatuses.TokenLocked))
                         {
                             ProcessCycles += 1;
                             bool done = false;
                             int i = 0;
-                            while (!done && ProcessTimeLeft > 0 && Status.Contains(AIExecutorStatusElement.Enabled) && i < _players.Count)
+                            while (!done && ProcessTimeLeft > 0 && Status.Contains(AIExecutorStatuses.Enabled) && i < _players.Count)
                             {
                                 done = StrategicMap.Current.Players.GetPlayers(Player).AIControl.Process(this, _tokenControlDone);
                                 if (done)
@@ -243,7 +241,7 @@ public sealed partial class AIExecutor(CustomNode owner) : EngineObject(owner)
             }
 
             StrategicMap.Current.SynchronizeEnd();
-            Status -= Set<AIExecutorStatusElement>.Of(AIExecutorStatusElement.Executing);
+            Status &= ~AIExecutorStatuses.Executing;
         }
     }
 }

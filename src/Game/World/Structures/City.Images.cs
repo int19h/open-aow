@@ -20,7 +20,7 @@ public partial class City
             _ = map.Players.GetPlayers(Player).ProductionControls.Add(Production);
         }
 
-        if (map.Status.Contains(HexSpriteMapStatusElement.Editting) && map.Day == 0)
+        if (map.Status.Contains(HexSpriteMapStatuses.Editting) && map.Day == 0)
         {
             SetUpgradeLevel(UpgradeLevel);
         }

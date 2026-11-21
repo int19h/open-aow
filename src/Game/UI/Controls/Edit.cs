@@ -153,7 +153,7 @@ public sealed partial class Edit(Component owner) : Control(owner)
     }
 
     // AoWEdit.pas:197
-    public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
@@ -224,7 +224,7 @@ public sealed partial class Edit(Component owner) : Control(owner)
     }
 
     // AoWEdit.pas:261
-    public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton button, ShiftStates shift, int X, int Y)
     {
         Handled = false;
         if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
@@ -235,7 +235,7 @@ public sealed partial class Edit(Component owner) : Control(owner)
     }
 
     // AoWEdit.pas:273
-    public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseMove(ShiftStates shift, int X, int Y)
     {
         base.CheckMouseMove(shift, X, Y);
         Handled = false;
@@ -368,7 +368,7 @@ public sealed partial class Edit(Component owner) : Control(owner)
     public byte PassWordChar { get; set; }
 
     // AoWEdit.pas:350. Clipboard integration has no host in this port.
-    public override void CheckKeyDown(ref ushort key, Set<ShiftState> shift)
+    public override void CheckKeyDown(ref ushort key, ShiftStates shift)
     {
         Handled = Redraw;
         if (!Editable || !Redraw || !Valid || !Visible)

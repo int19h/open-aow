@@ -349,7 +349,7 @@ public sealed class LeftoverConstructionTests
     {
         using GameEngine engine = new(null) { Registry = EngineFixture.Engine.Registry, Dictionary = EngineFixture.Engine.Dictionary };
         EngineClass descriptor = EngineClass.Of(type);
-        engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);
+        engine.Options &= ~GameEngine.VerifyClasses;
         try
         {
             engine.UnregisterEngineClasses([engine.GetEngineClass(descriptor.ClassId)]);

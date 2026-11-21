@@ -9,7 +9,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
 
 using Aow.Game.World.Structures;
-using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
@@ -21,7 +20,7 @@ public class CityEnchantmentSpell(CustomNode owner) : CityTargetSpell(owner)
     public int EnchantmentSpellId { get; protected init; }
     public int AIPriority { get; protected init; } = -1;
     public int AIBudget { get; protected init; }
-    public Set<CityEnchantmentCastSpellSituationElement> AICastSituation { get; protected init; }
+    public CityEnchantmentCastSpellSituations AICastSituation { get; protected init; }
 
     // CitySpells.pas:576
     protected override bool ExecuteTokenEvent(CityTargetSpellTokenEvent eventValue, Troop source, int executeCount)
@@ -66,7 +65,7 @@ public class CityEnchantmentSpell(CustomNode owner) : CityTargetSpell(owner)
             valid = valid && source.CanCastSpell(SpellId, ref reason);
             if (valid)
             {
-                if ((AICastSituation.Contains(CityEnchantmentCastSpellSituationElement.LeaderInCity) && source is Leader) || (AICastSituation.Contains(CityEnchantmentCastSpellSituationElement.Hex4City) && targetCity.Size == 4) || (AICastSituation.Contains(CityEnchantmentCastSpellSituationElement.Hex3City) && targetCity.Size == 3))
+                if ((AICastSituation.Contains(CityEnchantmentCastSpellSituations.LeaderInCity) && source is Leader) || (AICastSituation.Contains(CityEnchantmentCastSpellSituations.Hex4City) && targetCity.Size == 4) || (AICastSituation.Contains(CityEnchantmentCastSpellSituations.Hex3City) && targetCity.Size == 3))
                 {
                     AICastSpellAction action = CreateCastSpellAction();
                     SetupCastSpellAction(source, action);
@@ -113,7 +112,7 @@ public class CityEnchantmentSpell(CustomNode owner) : CityTargetSpell(owner)
     }
 
     // CitySpells.pas:570
-    public override bool ValidTargetCity(Troop source, City targetCity) => base.ValidTargetCity(source, targetCity) && !targetCity.Enchantments.Contains(EnchantmentId);
+    public override bool ValidTargetCity(Troop source, City targetCity) => base.ValidTargetCity(source, targetCity) && !targetCity.Enchantments.Contains(EnchantmentId.ToFlag());
 
     // CitySpells.pas:560
     public override CityTargetSpellTokenEvent CreateTokenEvent() => new CityEnchantmentSpellTokenEvent(null) { Holder = CreationHolder() };

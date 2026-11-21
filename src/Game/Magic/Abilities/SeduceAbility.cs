@@ -5,8 +5,6 @@ using Aow.Game.Combat;
 
 using Aow.Game.Units;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Abilities;
 
 public class SeduceAbility : CommandAbility
@@ -18,7 +16,7 @@ public class SeduceAbility : CommandAbility
         AbilityId = 29;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_seduceText);
         CommandedAbilityId = 48;
-        SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit);
+        SelectionTypes = AbilitySelectionTypes.Unit;
     }
 
     // AoWAb.PAS:5380

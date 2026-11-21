@@ -557,7 +557,7 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
         control.Leader.Assign(campaign.TransferSettings.Leader, UI.Engine);
         control.Leader.SetSpherePicksMax((byte)(picks + 2));
         control.OriginalLeader.Assign(control.Leader, UI.Engine);
-        control.Mode = Set<LeaderSetupModeElement>.Of(LeaderSetupModeElement.Spheres);
+        control.Mode = LeaderSetupModes.Spheres;
         UI.LeaderSetupWindow.Execute(control);
         UI.LeaderSetupWindow.ClearButton.Visible = false;
         UI.LeaderSetupWindow.DefaultButton.Visible = false;
@@ -807,7 +807,7 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
     }
 
     // AoWWorldMap.pas:566
-    public void Path1MouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public void Path1MouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
         if (!Book.Visible)
         {
@@ -821,7 +821,7 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
     }
 
     // AoWWorldMap.pas:578
-    public void Path2MouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public void Path2MouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
         if (!Book.Visible)
         {
@@ -835,7 +835,7 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
     }
 
     // AoWWorldMap.pas:590
-    public void Path3MouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public void Path3MouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
         if (!Book.Visible)
         {
@@ -858,7 +858,7 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
     }
 
     // AoWWorldMap.pas:611. Bound to the player pawn.
-    public void PPawnMouseDown(Image sender, MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public void PPawnMouseDown(Image sender, MouseButton button, ShiftStates shift, int X, int Y)
     {
         if (X > 20)
         {
@@ -875,10 +875,10 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
     }
 
     // AoWWorldMap.pas:611. Bound to the enemy pawn.
-    public void EPawnMouseDown(Image sender, MouseButton button, Set<ShiftState> shift, int X, int Y) => sender.Handled = false;
+    public void EPawnMouseDown(Image sender, MouseButton button, ShiftStates shift, int X, int Y) => sender.Handled = false;
 
     // AoWWorldMap.pas:624. Bound to the player pawn.
-    public void PPawnMouseMove(Image sender, Set<ShiftState> shift, int X, int Y)
+    public void PPawnMouseMove(Image sender, ShiftStates shift, int X, int Y)
     {
         string description = "";
         // { Original hit test uses X. }
@@ -894,7 +894,7 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
     }
 
     // AoWWorldMap.pas:624. Bound to the enemy pawn.
-    public void EPawnMouseMove(Image sender, Set<ShiftState> shift, int X, int Y)
+    public void EPawnMouseMove(Image sender, ShiftStates shift, int X, int Y)
     {
         string description = "";
         // { Original hit test uses X. }
@@ -925,7 +925,7 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
     }
 
     // AoWWorldMap.pas:643
-    public void Path1MouseMove(Set<ShiftState> shift, int X, int Y)
+    public void Path1MouseMove(ShiftStates shift, int X, int Y)
     {
         if (Campaign.State == 1)
         {
@@ -945,7 +945,7 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
     }
 
     // AoWWorldMap.pas:661
-    public void Path2MouseMove(Set<ShiftState> shift, int X, int Y)
+    public void Path2MouseMove(ShiftStates shift, int X, int Y)
     {
         if (Campaign.State == 1)
         {
@@ -965,7 +965,7 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
     }
 
     // AoWWorldMap.pas:679
-    public void Path3MouseMove(Set<ShiftState> shift, int X, int Y)
+    public void Path3MouseMove(ShiftStates shift, int X, int Y)
     {
         if (Campaign.State == 1)
         {
@@ -985,7 +985,7 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
     }
 
     // AoWWorldMap.pas:697
-    public void WorldPnlMouseMove(Set<ShiftState> shift, int X, int Y)
+    public void WorldPnlMouseMove(ShiftStates shift, int X, int Y)
     {
         if (!_descriptionHandled)
         {

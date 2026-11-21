@@ -256,11 +256,11 @@ internal static class Program
                 if (frames <= 3 || frames % 1000000 == 0)
                 {
                     Player player = map.Players.GetPlayers(map.CurrentPlayer);
-                    Console.WriteLine($"frame {frames}, map {map.Status.Image:X}, player {map.CurrentPlayer}, busy {player.GetBusy()}, ready {map.TokenManager.PlayerReady(map.CurrentPlayer)}, AI locks {map.AILockCount}/{map.AIExecutor.LockCount}, AI {map.AIExecutor.Status.Image:X}, phase {player.AIControl.Phase}, actions {player.AIControl.Actions.Count}");
+                    Console.WriteLine($"frame {frames}, map {(ulong)map.Status:X}, player {map.CurrentPlayer}, busy {player.GetBusy()}, ready {map.TokenManager.PlayerReady(map.CurrentPlayer)}, AI locks {map.AILockCount}/{map.AIExecutor.LockCount}, AI {(ulong)map.AIExecutor.Status:X}, phase {player.AIControl.Phase}, actions {player.AIControl.Actions.Count}");
                 }
                 if (randomTrace is not null && frames % 100000 == 0 && map.CombatMap is CombatMap tacticalMap)
                 {
-                    Console.WriteLine($"combat frame {tacticalMap.Frame}, status {tacticalMap.Status.Image:X}, player {tacticalMap.CurrentCombatPlayer}, end pending {tacticalMap.EndTurnPending}, AI {tacticalMap.AI.Status}, effects {tacticalMap.Effects.Count}, result {tacticalMap.Combat.CombatResult}");
+                    Console.WriteLine($"combat frame {tacticalMap.Frame}, status {(ulong)tacticalMap.Status:X}, player {tacticalMap.CurrentCombatPlayer}, end pending {tacticalMap.EndTurnPending}, AI {tacticalMap.AI.Status}, effects {tacticalMap.Effects.Count}, result {tacticalMap.Combat.CombatResult}");
                 }
 
                 map.NewFrame();

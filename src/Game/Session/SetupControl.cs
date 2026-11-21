@@ -29,7 +29,7 @@ public sealed class SetupControl : Component
 {
     private readonly GameEngine _engine;
 
-    public Set<SetupStatusElement> Status { get; set; }
+    public SetupStatuses Status { get; set; }
 
     private SetupPhase _phase;
 
@@ -535,7 +535,7 @@ public sealed class SetupControl : Component
         if (GetHost())
         {
             PlayerSetupSettings setting = Settings.GetSettings(index);
-            Settings.GetSettings(index).Status = setting.Status + Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.Loaded);
+            Settings.GetSettings(index).Status = setting.Status | PlayerSetupStatuses.Loaded;
             if (!ValidateSetupMap())
             {
                 UpdateSettings();
@@ -574,7 +574,7 @@ public sealed class SetupControl : Component
                 if (Settings.GetSettings(i).Behavior.PlayerType == 0)
                 {
                     PlayerSetupSettings setting = Settings.GetSettings(i);
-                    Settings.GetSettings(i).Status = setting.Status + Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.Loaded);
+                    Settings.GetSettings(i).Status = setting.Status | PlayerSetupStatuses.Loaded;
                 }
             }
 
@@ -597,7 +597,7 @@ public sealed class SetupControl : Component
         {
             Settings.GetSettings(index).Leader.Assign(leader, _engine);
             PlayerSetupSettings setting = Settings.GetSettings(index);
-            Settings.GetSettings(index).Status = setting.Status + Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.LeaderCustomized);
+            Settings.GetSettings(index).Status = setting.Status | PlayerSetupStatuses.LeaderCustomized;
             if (!ValidateSetupMap())
             {
                 UpdateSettings();
@@ -614,7 +614,7 @@ public sealed class SetupControl : Component
         int i = 0;
         while (!found && i != Settings.Count)
         {
-            found = Settings.GetSettings(i).Behavior.PlayerType == 0 && (!GetRemote() || Settings.GetSettings(i).Behavior.Flags == RemotePlayer.RemoteId) && !Settings.GetSettings(i).Status.Contains(PlayerSetupStatusElement.LeaderCustomized);
+            found = Settings.GetSettings(i).Behavior.PlayerType == 0 && (!GetRemote() || Settings.GetSettings(i).Behavior.Flags == RemotePlayer.RemoteId) && !Settings.GetSettings(i).Status.Contains(PlayerSetupStatuses.LeaderCustomized);
             if (!found)
             {
                 i += 1;
@@ -643,7 +643,7 @@ public sealed class SetupControl : Component
 
             if (!Settings.LeadersOnMap)
             {
-                cLC.Mode = Set<LeaderSetupModeElement>.FromMask((cLC.Mode - Set<LeaderSetupModeElement>.Of(LeaderSetupModeElement.Settings)).Mask);
+                cLC.Mode = (LeaderSetupModes)(ulong)(cLC.Mode & ~LeaderSetupModes.Settings);
             }
 
             if (OnCustomizeLeader is not null)
@@ -676,10 +676,10 @@ public sealed class SetupControl : Component
             LeaderCustomized(control.PlayerIndex, leader: control.OriginalLeader);
         }
 
-        if (Status.Contains(SetupStatusElement.Busy))
+        if (Status.Contains(SetupStatuses.Busy))
         {
             PlayerSetupSettings setting = Settings.GetSettings(control.PlayerIndex);
-            Settings.GetSettings(control.PlayerIndex).Status = setting.Status + Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.LeaderCustomized);
+            Settings.GetSettings(control.PlayerIndex).Status = setting.Status | PlayerSetupStatuses.LeaderCustomized;
             _ = CustomizeLeaders();
         }
     }
@@ -893,7 +893,7 @@ public sealed class SetupControl : Component
                 i -= 1;
                 if (Settings.GetSettings(i).Behavior.PlayerType == 0)
                 {
-                    result = Settings.GetSettings(i).Status.Contains(PlayerSetupStatusElement.Loaded) && (!Settings.CustomizeLeaders || Settings.GetSettings(i).Status.Contains(PlayerSetupStatusElement.LeaderCustomized));
+                    result = Settings.GetSettings(i).Status.Contains(PlayerSetupStatuses.Loaded) && (!Settings.CustomizeLeaders || Settings.GetSettings(i).Status.Contains(PlayerSetupStatuses.LeaderCustomized));
                 }
             }
 
@@ -942,7 +942,7 @@ public sealed class SetupControl : Component
     }
 
     // AoWSetup.pas:898
-    public bool GetRemote() => Status.Contains(SetupStatusElement.Remote);
+    public bool GetRemote() => Status.Contains(SetupStatuses.Remote);
 
     // AoWSetup.pas:902
     public bool GetHost() => Settings.HostRemoteId == RemotePlayer.RemoteId;
@@ -951,7 +951,7 @@ public sealed class SetupControl : Component
     public void Reset()
     {
         _phase = SetupPhase.Idle;
-        Status = Set<SetupStatusElement>.Of();
+        Status = SetupStatuses.None;
         RemotePlayer.Name = "";
         RemotePlayer.MapValidation = MapValidationInfo.Unknown;
         RemotePlayer.PreferredRace = 255;
@@ -1010,7 +1010,7 @@ public sealed class SetupControl : Component
         }
 
         PlayerSetupSettings settingStatus = Settings.GetSettings(index);
-        Settings.GetSettings(index).Status = settingStatus.Status - Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.Forced);
+        Settings.GetSettings(index).Status = settingStatus.Status & ~PlayerSetupStatuses.Forced;
     }
 
     // AoWSetup.pas:1289
@@ -1029,11 +1029,11 @@ public sealed class SetupControl : Component
                 if (race != -1)
                 {
                     int target = Settings.IndexOfRace((byte)race);
-                    if (target != -1 && Settings.GetSettings(target).Behavior.Flags == 0 && (Settings.GetSettings(target).Status & Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.Fixed, PlayerSetupStatusElement.Forced)) == Set<PlayerSetupStatusElement>.Of())
+                    if (target != -1 && Settings.GetSettings(target).Behavior.Flags == 0 && (Settings.GetSettings(target).Status & (PlayerSetupStatuses.Fixed | PlayerSetupStatuses.Forced)) == PlayerSetupStatuses.None)
                     {
                         RemotePlayer playerRemoteId = Settings.RemotePlayers.GetPlayers(i);
                         old = Settings.IndexOfRemoteId(playerRemoteId.RemoteId);
-                        if (old == -1 || !Settings.GetSettings(old).Status.Contains(PlayerSetupStatusElement.Forced))
+                        if (old == -1 || !Settings.GetSettings(old).Status.Contains(PlayerSetupStatuses.Forced))
                         {
                             if (old != -1)
                             {
@@ -1052,7 +1052,7 @@ public sealed class SetupControl : Component
                 {
                     RemotePlayer player = Settings.RemotePlayers.GetPlayers(i);
                     old = Settings.IndexOfRemoteId(player.RemoteId);
-                    if (old != -1 && !Settings.GetSettings(old).Status.Contains(PlayerSetupStatusElement.Forced))
+                    if (old != -1 && !Settings.GetSettings(old).Status.Contains(PlayerSetupStatuses.Forced))
                     {
                         ResetPlayerSettings(old);
                         again = true;
@@ -1114,7 +1114,7 @@ public sealed class SetupControl : Component
             if (!unique)
             {
                 // { Original reads the last character without guarding an empty name. }
-                result = Set<byte>.WithBounds(0, 255).WithRange(49, 56).Contains(Cp1252.Byte(result[^1]))
+                result = Cp1252.Byte(result[^1]) is >= 49 and <= 56
                     ? Copy(result, index: 1, count: result.Length - 1) + (Cp1252.Byte(result[^1]) + 1 - 48).ToString(CultureInfo.InvariantCulture)
                     : $"{result}1";
             }
@@ -1181,7 +1181,7 @@ public sealed class SetupControl : Component
             i -= 1;
             result = Settings.GetSettings(i).Behavior.PlayerType != 5;
             PlayerSetupSettings settingBehavior = Settings.GetSettings(i);
-            if (Set<byte>.WithBounds(0, 255).With(6).With(7).WithRange(0, 3).Contains(settingBehavior.Behavior.PlayerType))
+            if (settingBehavior.Behavior.PlayerType is (>= (byte)PlayerType.Human and <= (byte)PlayerType.Cpu3) or (byte)PlayerType.Cpu4 or (byte)PlayerType.Cpu5)
             {
                 playerCount += 1;
             }
@@ -1195,7 +1195,7 @@ public sealed class SetupControl : Component
                 if (condition)
                 {
                     RemotePlayer player = Settings.RemotePlayers.GetPlayers(j);
-                    condition = Set<MapValidationInfo>.Of(MapValidationInfo.InvalidMap, MapValidationInfo.Valid).Contains(player.MapValidation);
+                    condition = player.MapValidation is MapValidationInfo.InvalidMap or MapValidationInfo.Valid;
                 }
 
                 result = condition;
@@ -1405,12 +1405,12 @@ public sealed class SetupControl : Component
             if (forced && behavior.PlayerType != 5)
             {
                 PlayerSetupSettings setting = Settings.GetSettings(playerIndex);
-                Settings.GetSettings(playerIndex).Status = setting.Status + Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.Forced);
+                Settings.GetSettings(playerIndex).Status = setting.Status | PlayerSetupStatuses.Forced;
             }
             else
             {
                 PlayerSetupSettings setting = Settings.GetSettings(playerIndex);
-                Settings.GetSettings(playerIndex).Status = setting.Status - Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.Forced);
+                Settings.GetSettings(playerIndex).Status = setting.Status & ~PlayerSetupStatuses.Forced;
             }
 
             _ = UpdatePreferredRaces();
@@ -1509,7 +1509,7 @@ public sealed class SetupControl : Component
                     settings.BehaviorMode = (byte)(int)player.Behavior;
                     if (player.Participating)
                     {
-                        settings.Status += Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.Fixed);
+                        settings.Status |= PlayerSetupStatuses.Fixed;
                     }
 
                     if (GetRemote() && !player.Participating)
@@ -1586,11 +1586,11 @@ public sealed class SetupControl : Component
         RemotePlayer.PreferredRace = 255;
         RemotePlayer.Version = _engine.Version;
 
-        Status += Set<SetupStatusElement>.Of(SetupStatusElement.Busy);
+        Status |= SetupStatuses.Busy;
         if (remoteId != 0)
         {
             ConnectPlayer(RemotePlayer);
-            Status += Set<SetupStatusElement>.Of(SetupStatusElement.Remote);
+            Status |= SetupStatuses.Remote;
         }
 
         return true;
@@ -1604,7 +1604,7 @@ public sealed class SetupControl : Component
         RemotePlayer.RemoteId = remoteId;
         RemotePlayer.PreferredRace = 255;
         RemotePlayer.Version = _engine.Version;
-        Status += Set<SetupStatusElement>.Of(SetupStatusElement.Busy, SetupStatusElement.Remote);
+        Status |= SetupStatuses.Busy | SetupStatuses.Remote;
         SendHostMessage(1, objectValue: RemotePlayer, 0, 0);
         _phase = SetupPhase.SetupPlayers;
         return true;

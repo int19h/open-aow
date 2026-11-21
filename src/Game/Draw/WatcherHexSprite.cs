@@ -12,8 +12,6 @@ using Aow.Game.Session;
 
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
-
-using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.Draw;
@@ -218,7 +216,7 @@ public sealed class WatcherHexSprite : SingleHexSprite
     public override void Activate()
     {
         base.Activate();
-        WatcherState = (byte)(Set<StateElement>.FromMask(WatcherState) + Set<StateElement>.Of(StateElement.Active)).Image;
+        WatcherState = (byte)((States)WatcherState | States.Active);
         _ = Enchantment.Activate(Enchantment.PlayerIndex);
         MapField mapField = Owner;
         StrategicMap.Current.NotifyPlayerChanged(mapField.HexX, mapField.HexY, L: mapField.HexLevel);
@@ -235,8 +233,8 @@ public sealed class WatcherHexSprite : SingleHexSprite
     public override void Deactivate()
     {
         base.Deactivate();
-        WatcherState = (byte)(Set<StateElement>.FromMask(WatcherState) - Set<StateElement>.Of(StateElement.Active)).Image;
-        if (Enchantment.EnchantmentStatus.Contains(GlobalEnchantmentStatusElement.Activated))
+        WatcherState = (byte)((States)WatcherState & ~States.Active);
+        if (Enchantment.EnchantmentStatus.Contains(GlobalEnchantmentStatuses.Activated))
         {
             _ = Enchantment.Deactivate((byte)Enchantment.PlayerIndex);
         }
@@ -342,7 +340,7 @@ public sealed class WatcherHexSprite : SingleHexSprite
     public int VisibilityRange()
     {
         int result = 8;
-        if (HexLevel != 0 || (Enchantment.PlayerIndex > 0 && StrategicMap.Current.Players.GetPlayers(Enchantment.PlayerIndex).MagicControl.EnemyEnchantments.Contains(PlayerEnchantmentType.WaterMastery)))
+        if (HexLevel != 0 || (Enchantment.PlayerIndex > 0 && StrategicMap.Current.Players.GetPlayers(Enchantment.PlayerIndex).MagicControl.EnemyEnchantments.Contains(PlayerEnchantmentTypes.WaterMastery)))
         {
             result += 1;
             return result >>> 1;
@@ -362,8 +360,10 @@ public sealed class WatcherHexSprite : SingleHexSprite
         }
     }
 
-    public enum StateElement : byte
+    [Flags]
+    public enum States : byte
     {
-        Active = 0
+        None = 0,
+        Active = 1 << 0,
     }
 }

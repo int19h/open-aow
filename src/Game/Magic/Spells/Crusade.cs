@@ -12,8 +12,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Spells;
 
 // inherited name, spell ID, mana, sphere, level, type, sounds, images
@@ -155,7 +153,7 @@ public class Crusade : Spell
         sbyte layer = coordinate62.MapLevel;
         int radiusToHexNumber = HexGeometry.RadiusToHexNumber(5);
         HexGeometry.CenterHexNumberToHex(hexNumber: StrategicMap.Current.Random(radiusToHexNumber), hexX: x, hexY: y, newHexX: ref targetX, newHexY: ref targetY);
-        if (party.Place((sbyte)targetX, (sbyte)targetY, layer, mode: Set<ArmyPlaceModeElement>.Of(ArmyPlaceModeElement.Safe, ArmyPlaceModeElement.ScanArea)))
+        if (party.Place((sbyte)targetX, (sbyte)targetY, layer, mode: ArmyPlaceModes.Safe | ArmyPlaceModes.ScanArea))
         {
             party.Activate();
             party.Army.SetBehavior(255, behavior: GroupBehavior.Suicidal);

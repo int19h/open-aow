@@ -337,12 +337,12 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                                             effect.CombatAction = damage;
                                             sbyte hexY = hexSprite.HexY;
                                             HexGeometry.HexToPixel(hexSprite.HexX, hexY, out i, out x);
-                                            if (damage.DamageTypes - damage.Effects != Set<DamageType>.Of())
+                                            if ((damage.DamageTypes & ~damage.Effects) != DamageTypes.None)
                                             {
-                                                CombatEvents.MakeDamageEffectHexSpriteList(i, x, damageTypes: damage.DamageTypes - damage.Effects, resisted: false);
+                                                CombatEvents.MakeDamageEffectHexSpriteList(i, x, damageTypes: damage.DamageTypes & ~damage.Effects, resisted: false);
                                             }
 
-                                            if (damage.Effects != Set<DamageType>.Of())
+                                            if (damage.Effects != DamageTypes.None)
                                             {
                                                 CombatEvents.MakeDamageEffectHexSpriteList(i, x, damageTypes: damage.Effects, resisted: true);
                                             }
@@ -654,12 +654,12 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                                                                             i = damage.Damage;
                                                                             sbyte hexY = effect.Target.UnitHexSprite.HexY;
                                                                             HexGeometry.HexToPixel(effect.Target.UnitHexSprite.HexX, hexY, out x, out y);
-                                                                            if (damage.DamageTypes - damage.Effects != Set<DamageType>.Of())
+                                                                            if ((damage.DamageTypes & ~damage.Effects) != DamageTypes.None)
                                                                             {
-                                                                                CombatEvents.MakeDamageEffectHexSpriteList(x, y, damageTypes: damage.DamageTypes - damage.Effects, resisted: false);
+                                                                                CombatEvents.MakeDamageEffectHexSpriteList(x, y, damageTypes: damage.DamageTypes & ~damage.Effects, resisted: false);
                                                                             }
 
-                                                                            if (damage.Effects != Set<DamageType>.Of())
+                                                                            if (damage.Effects != DamageTypes.None)
                                                                             {
                                                                                 CombatEvents.MakeDamageEffectHexSpriteList(x, y, damageTypes: damage.Effects, resisted: true);
                                                                             }
@@ -1906,7 +1906,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
             }
         }
 
-        if (Set<BattleEffectType>.Of(BattleEffectType.Rock, BattleEffectType.Comet, BattleEffectType.Breath, BattleEffectType.CometBall, BattleEffectType.ScreenNS).Contains(_effectType))
+        if (_effectType is BattleEffectType.Rock or BattleEffectType.Comet or BattleEffectType.Breath or BattleEffectType.CometBall or BattleEffectType.ScreenNS)
         {
             effect.Variant = 0;
         }

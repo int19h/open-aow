@@ -9,7 +9,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
 
 using Aow.Game.World.Structures;
-using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
@@ -21,14 +20,14 @@ public class AntiMagicShell : CityEnchantmentSpell
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.AntiMagicShellText);
         SpellId = 54;
-        CityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Own);
+        CityTargetMode = CityTargetModes.Own;
         BaseManaCost = 1;
         SpellLevel = 4;
         MagicSphere = MagicSphere.Cosmos;
         EnchantmentId = CityEnchantmentId.AntiMagicShell;
         CastDuration = 40;
         AIPriority = 500;
-        AICastSituation = Set<CityEnchantmentCastSpellSituationElement>.Of(CityEnchantmentCastSpellSituationElement.LeaderInCity);
+        AICastSituation = CityEnchantmentCastSpellSituations.LeaderInCity;
         EnchantmentSpellId = 100;
     }
 

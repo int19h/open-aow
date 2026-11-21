@@ -24,7 +24,7 @@ public class EngineNode : OwningNode
     }
 
     private GameEngine _engine;
-    private Set<ControlStyleElement> _controlStyle;
+    private ControlStyles _controlStyle;
 
     // Engine.pas:8262. Before the activation message the node reaches the engine as any node does.
     public override GameEngine GetEngine() => _engine ?? base.GetEngine();
@@ -33,10 +33,10 @@ public class EngineNode : OwningNode
     public void SetEngine(GameEngine engine) => _engine = engine;
 
     // Engine.pas:8272
-    public override Set<ControlStyleElement> GetControlStyle() => _controlStyle;
+    public override ControlStyles GetControlStyle() => _controlStyle;
 
     // Engine.pas:8277
-    public void SetControlStyle(Set<ControlStyleElement> value) => _controlStyle = value;
+    public void SetControlStyle(ControlStyles value) => _controlStyle = value;
 
     // Engine.pas:8282
     public override void PersistFields(IPersister persister)

@@ -50,7 +50,7 @@ public sealed class RecordShapeTests : FormatsTest
         Holder source = new()
         {
             Behavior = new SampleBehavior { PlayerType = 2, Flags = 9 },
-            Marks = new SamplePacked { Value = Set<SampleRank>.FromMask(0x81) },
+            Marks = new SamplePacked { Value = (SampleRanks)0x81 },
             AbilityCount = 4,
             Bits = [0x81],
             Raw = 0,
@@ -131,7 +131,7 @@ public sealed class RecordShapeTests : FormatsTest
     {
         FormatSchema schema = Sample;
         SchemaClass classValue = schema.Get("THolder");
-        Holder source = new() { AbilityCount = 8, Bits = new byte[1], Marks = new SamplePacked { Value = Set<SampleRank>.FromMask(0) } };
+        Holder source = new() { AbilityCount = 8, Bits = new byte[1], Marks = new SamplePacked { Value = SampleRanks.None } };
         JsonObject document = DocumentBackend.Write(TreeWriter.Write(source, s_factory), classValue, schema, engine: "game");
         Assert.Empty(((JsonObject)document["Behavior"]!).Members);
         Assert.Empty(((JsonArray)document["Marks"]!).Items);
@@ -411,7 +411,7 @@ public sealed class RecordShapeTests : FormatsTest
         ObjectNode damage = new(null, slot: null);
         damage.Add("Effects", effects);
         JsonObject damageDocument = RoundTrip(schema.Get("TDamageCA"), schema, node: damage);
-        Assert.Equal(["None", 15L], Items(damageDocument["Effects"]!));
+        Assert.Equal(["NonSpecific", 15L], Items(damageDocument["Effects"]!));
 
         RecordNode behavior = new();
         behavior.Add("PlayerType", new IntegerNode(1, signed: false, value: 2));
