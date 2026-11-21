@@ -49,7 +49,7 @@ public class FountainOfLife : CityEnchantmentSpell
                 Holder = CreationHolder(),
                 AnimationLevel = 27
             };
-            a.OnShow += ShowFountain;
+            a.SetShowHandler(ShowFountain);
             a.AnimationMap = StrategicMap.Current;
             a.Tag = (int)(((uint)(int)targetCity.HexX) | ((uint)(targetCity.HexY << 8)));
             a.Activate();

@@ -30,11 +30,13 @@ public class Animation(CustomNode owner) : HexSprite(owner)
 
     public Rect Dimensions { get; internal set; }
 
-    public event ShowAnimationEvent OnShow;
+    private ShowAnimationEvent _show;
 
-    internal void SetShowHandler(ShowAnimationEvent handler) => OnShow = handler;
+    internal void SetShowHandler(ShowAnimationEvent handler) => _show = handler;
 
-    public event NewFrameAnimationEvent OnNewFrame;
+    private Action<Animation, int> _newFrame;
+
+    internal void SetNewFrameHandler(Action<Animation, int> handler) => _newFrame = handler;
 
     public int Tag { get; set; }
     public GameMap AnimationMap { get; set; }
@@ -132,7 +134,7 @@ public class Animation(CustomNode owner) : HexSprite(owner)
     }
 
     // Animation.pas:383
-    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface) => OnShow?.Invoke(this, pixelXSurface, pixelYSurface, SurfaceDesc: lockedSurface);
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface) => _show?.Invoke(this, pixelXSurface, pixelYSurface, SurfaceDesc: lockedSurface);
 
     // Animation.pas:349
     public override bool Place(MapContainer map, int pixelX, int pixelY, int hexLevel)
@@ -262,7 +264,7 @@ public class Animation(CustomNode owner) : HexSprite(owner)
     public virtual void NewFrame()
     {
         FrameCounter += 1;
-        OnNewFrame?.Invoke(this, FrameCounter);
+        _newFrame?.Invoke(this, FrameCounter);
     }
 
     // Animation.pas:138
@@ -292,7 +294,4 @@ public class Animation(CustomNode owner) : HexSprite(owner)
     {
         Visible = 0, EditMode = 1, Selected = 2, LinkedToTokenEvent = 3, Activated = 4, Placed = 5
     }
-
-    public delegate void NewFrameAnimationEvent(Animation Animation, int FrameCounter);
-
 }

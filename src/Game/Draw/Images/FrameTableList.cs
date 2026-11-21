@@ -252,7 +252,7 @@ public class FrameTableList : Persistent
     }
 
     // ImageLib.pas:9554
-    public void Sort(FrameTableSortCompare compare)
+    public void Sort(Comparison<int> compare)
     {
         if (List is not null && Count > 0)
         {
@@ -359,7 +359,7 @@ public class FrameTableList : Persistent
     // ImageLib.pas:9401
     public static void Error(string message, int data) => throw new ArgumentOutOfRangeException(paramName: null, message: Format(message, args: [data]));
 
-    private static void FrameTableQuickSort(int[] sortList, int L, int R, FrameTableSortCompare sCompare)
+    private static void FrameTableQuickSort(int[] sortList, int L, int R, Comparison<int> sCompare)
     {
         int number2;
         do
@@ -397,7 +397,4 @@ public class FrameTableList : Persistent
         }
         while (number2 < R);
     }
-
-    public delegate int FrameTableSortCompare(int Item1, int Item2);
-
 }

@@ -132,7 +132,7 @@ public sealed class DelphiListGenericTests
         DelphiList<Keyed>.TraceSort = (_, compare) => traced = compare;
         try
         {
-            ListSortCompare<DerivedKeyed> compare = (a, b) => a!.Id - b!.Id;
+            Comparison<DerivedKeyed?> compare = (a, b) => a!.Id - b!.Id;
             DelphiList<Keyed> list = new();
             _ = list.Add(new DerivedKeyed(id: 1, key: 0));
             list.Sort(compare);

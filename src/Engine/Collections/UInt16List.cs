@@ -243,7 +243,7 @@ public class UInt16List : Persistent
     }
 
     // Engine.pas:4458
-    public void Sort(WordSortCompare compare)
+    public void Sort(Comparison<ushort> compare)
     {
         if (_list.Length != 0 && Count > 0)
         {
@@ -381,7 +381,7 @@ public class UInt16List : Persistent
     // Engine.pas:4303
     protected internal static void Error(string message, int data) => throw new ArgumentOutOfRangeException(paramName: null, message: Format(message, args: [data]));
 
-    private static void QuickSortWord(Span<ushort> sortList, int L, int R, WordSortCompare sCompare)
+    private static void QuickSortWord(Span<ushort> sortList, int L, int R, Comparison<ushort> sCompare)
     {
         int number2;
         do
@@ -421,7 +421,4 @@ public class UInt16List : Persistent
     }
 
     internal static void FillWord(Span<ushort> buffer, int count, ushort value) => buffer[..count].Fill(value);
-
-    public delegate int WordSortCompare(ushort Item1, ushort Item2);
-
 }

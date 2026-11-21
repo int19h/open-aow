@@ -141,18 +141,16 @@ internal sealed partial class MapFieldsCodec
         return new GridNode(width, height, fields);
     }
 
-    private delegate ConversionException GridFailure(string code, string message, string? value, string? constraint);
-
-    private static void CheckGrid(GridNode grid, int width, int height, GridFailure fail)
+    private static void CheckGrid(GridNode grid, int width, int height, Func<string, string, string?, string?, ConversionException> fail)
     {
         if (grid.Width != width || grid.Height != height)
         {
-            throw fail(Codes.Dimensions, message: $"Fields is a {grid.Width} by {grid.Height} grid and the level is {width} by {height}.", value: $"{grid.Width} by {grid.Height}", constraint: $"{width} by {height}");
+            throw fail(Codes.Dimensions, $"Fields is a {grid.Width} by {grid.Height} grid and the level is {width} by {height}.", $"{grid.Width} by {grid.Height}", $"{width} by {height}");
         }
 
         if (grid.Fields.Count != (long)width * height)
         {
-            throw fail(Codes.Dimensions, message: $"Fields holds {grid.Fields.Count} fields for a {width} by {height} level.", value: Text(grid.Fields.Count), constraint: Text((long)width * height));
+            throw fail(Codes.Dimensions, $"Fields holds {grid.Fields.Count} fields for a {width} by {height} level.", Text(grid.Fields.Count), Text((long)width * height));
         }
     }
 

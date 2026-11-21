@@ -235,7 +235,7 @@ public class AIGroupControl : EngineObject
     // AIGroup.pas:1222
     public virtual void Deactivate()
     {
-        MoveExecutor.ClearDoneHandler();
+        MoveExecutor.SetDoneHandler(null);
         _status -= Set<StatusElement>.Of(StatusElement.Activated);
     }
 

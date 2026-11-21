@@ -65,12 +65,12 @@ public partial class MoveControl
         SetMapL(Map.MapContainer.GetMapLevel(Source.MapLevel));
         if (Mode.Contains(MoveModeElement.ExploredTerrainOnly) && Player != -1)
         {
-            OnMovePoint = ExploredOnlyMoveOnMovePointProc;
+            _movePoint = ExploredOnlyMoveOnMovePointProc;
             _exploredMask = MapField.ExploredFlag(Player);
         }
         else
         {
-            OnMovePoint = DefaultMoveOnMovePointProc;
+            _movePoint = DefaultMoveOnMovePointProc;
         }
 
         return true;

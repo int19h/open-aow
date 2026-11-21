@@ -38,7 +38,7 @@ public sealed class MapCoordinateList : DefaultItemList<MapCoordinate>
     }
 
     // HSEngine.pas:1815
-    public void Sort(XYLSortCompare compare)
+    public void Sort(Comparison<MapCoordinate> compare)
     {
         if (List.Length != 0 && Count > 0)
         {
@@ -46,7 +46,7 @@ public sealed class MapCoordinateList : DefaultItemList<MapCoordinate>
         }
     }
 
-    private static void QuickSortMapCoordinate(Span<MapCoordinate> sortList, int L, int R, XYLSortCompare sCompare)
+    private static void QuickSortMapCoordinate(Span<MapCoordinate> sortList, int L, int R, Comparison<MapCoordinate> sCompare)
     {
         int i;
         do
@@ -153,6 +153,4 @@ public sealed class MapCoordinateList : DefaultItemList<MapCoordinate>
         locations?.Dispose();
         return result;
     }
-
-    public delegate int XYLSortCompare(MapCoordinate Item1, MapCoordinate Item2);
 }

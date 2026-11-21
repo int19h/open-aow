@@ -52,7 +52,7 @@ public sealed class TokenControl : IDisposable
             {
                 if (Local())
                 {
-                    if (executor.HasSyncErrorHandlers)
+                    if (executor.ChecksSync)
                     {
                         SyncTokenEvent syncEvent = new(null) { Holder = _tokenManager.Owner };
                         int syncValue = executor.GetSyncValue();

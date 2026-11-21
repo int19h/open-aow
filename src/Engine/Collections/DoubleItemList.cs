@@ -278,7 +278,7 @@ public class DoubleItemList : Persistent
     }
 
     // Engine.pas:5281
-    public void Sort(DoubleItemSortCompare compare)
+    public void Sort(Comparison<DoubleItem> compare)
     {
         if (_list.Length != 0 && Count > 0)
         {
@@ -398,7 +398,7 @@ public class DoubleItemList : Persistent
     // Engine.pas:5107
     protected internal static void Error(string message, int data) => throw new ArgumentOutOfRangeException(paramName: null, message: Format(message, args: [data]));
 
-    private static void QuickSortDoubleItem(Span<DoubleItem> sortList, int L, int R, DoubleItemSortCompare sCompare)
+    private static void QuickSortDoubleItem(Span<DoubleItem> sortList, int L, int R, Comparison<DoubleItem> sCompare)
     {
         int number;
         do
@@ -408,12 +408,12 @@ public class DoubleItemList : Persistent
             DoubleItem item = sortList[L + R >>> 1];
             while (true)
             {
-                if (sCompare(in sortList[number], in item) < 0)
+                if (sCompare(sortList[number], item) < 0)
                 {
                     number++;
                     continue;
                 }
-                while (sCompare(in sortList[number2], in item) > 0)
+                while (sCompare(sortList[number2], item) > 0)
                 {
                     number2--;
                 }
@@ -437,20 +437,17 @@ public class DoubleItemList : Persistent
         while (number < R);
     }
 
-    private static int CompareDoubleItemAAscending(in DoubleItem item1, in DoubleItem item2) => item1.First - item2.First;
+    private static int CompareDoubleItemAAscending(DoubleItem item1, DoubleItem item2) => item1.First - item2.First;
 
-    private static int CompareDoubleItemBAscending(in DoubleItem item1, in DoubleItem item2) => item1.Second - item2.Second;
+    private static int CompareDoubleItemBAscending(DoubleItem item1, DoubleItem item2) => item1.Second - item2.Second;
 
-    private static int CompareDoubleItemADescending(in DoubleItem item1, in DoubleItem item2) => item2.First - item1.First;
+    private static int CompareDoubleItemADescending(DoubleItem item1, DoubleItem item2) => item2.First - item1.First;
 
-    private static int CompareDoubleItemBDescending(in DoubleItem item1, in DoubleItem item2) => item2.Second - item1.Second;
+    private static int CompareDoubleItemBDescending(DoubleItem item1, DoubleItem item2) => item2.Second - item1.Second;
 
     private static void FillLargeInteger(Span<DoubleItem> buffer, int count, DoubleItem value) => buffer[..count].Fill(value);
 
     // Delphi TDoubleItem, two integers. Equality compares both, as the Delphi Comp compare of the
     // eight bytes does.
     public readonly record struct DoubleItem(int First, int Second);
-
-    public delegate int DoubleItemSortCompare(in DoubleItem Item1, in DoubleItem Item2);
-
 }

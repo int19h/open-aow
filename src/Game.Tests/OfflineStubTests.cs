@@ -130,7 +130,7 @@ public sealed class OfflineStubTests
         LeaderSetupWindow window = Populate(new LeaderSetupWindow(ui));
         LeaderSetupControl control = new(null) { Holder = EngineFixture.Engine, OriginalLeader = new Leader(null) { Holder = EngineFixture.Engine } };
         bool done = false;
-        control.OnDone += sender => done = ReferenceEquals(sender, control);
+        control.SetDoneHandler(sender => done = ReferenceEquals(sender, control));
         _ = control.AddRef();
         window.Setup = control;
         window.Leader = new Leader(null) { Holder = EngineFixture.Engine, HeroName = "Gorbag" };

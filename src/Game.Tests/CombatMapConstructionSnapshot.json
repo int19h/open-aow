@@ -404,7 +404,7 @@
           ]
         ],
         "MoveControl.MovePointsLimit": 0,
-        "MoveControl.OnMovePoint": null,
+        "MoveControl._movePoint": null,
         "MoveControl.Player": 0,
         "MoveControl.Selection": 0,
         "MoveControl.Settings": null,
@@ -1192,10 +1192,10 @@
         "EventStore\u00601.Count": 0,
         "EventStore\u00601._items": null
       },
-      "GameMap.OnCenterView": null,
-      "GameMap.OnChangeView": null,
-      "GameMap.OnProgress": null,
-      "GameMap.OnViewLevel": null,
+      "GameMap._centerView": null,
+      "GameMap._changeView": null,
+      "GameMap._progress": null,
+      "GameMap._viewLevel": null,
       "GameMap.SeatedPlayer": 1,
       "GameMap.Selection": {
         "$type": "Aow.Game.World.Map.HexSpriteSelection",
@@ -1298,7 +1298,7 @@
       "GameMap.ViewWidthHex": 0,
       "GameMap._backHexSelector": {
         "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-        "CustomFixedVisibleHexSprite.OnShow": [
+        "CustomFixedVisibleHexSprite._show": [
           "Aow.Game.World.Map.GameMap.ShowBackHexSelector"
         ],
         "CustomFixedVisibleHexSprite._showPriority": 0,
@@ -1307,7 +1307,7 @@
       },
       "GameMap._frontHexSelector": {
         "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-        "CustomFixedVisibleHexSprite.OnShow": [
+        "CustomFixedVisibleHexSprite._show": [
           "Aow.Game.World.Map.GameMap.ShowFrontHexSelector"
         ],
         "CustomFixedVisibleHexSprite._showPriority": 0,
@@ -1758,7 +1758,7 @@
           ]
         ],
         "MoveControl.MovePointsLimit": 0,
-        "MoveControl.OnMovePoint": null,
+        "MoveControl._movePoint": null,
         "MoveControl.Player": 0,
         "MoveControl.Selection": 0,
         "MoveControl.Settings": null,
@@ -2546,10 +2546,10 @@
         "EventStore\u00601.Count": 0,
         "EventStore\u00601._items": null
       },
-      "GameMap.OnCenterView": null,
-      "GameMap.OnChangeView": null,
-      "GameMap.OnProgress": null,
-      "GameMap.OnViewLevel": null,
+      "GameMap._centerView": null,
+      "GameMap._changeView": null,
+      "GameMap._progress": null,
+      "GameMap._viewLevel": null,
       "GameMap.SeatedPlayer": 1,
       "GameMap.Selection": {
         "$type": "Aow.Game.World.Map.HexSpriteSelection",
@@ -2652,7 +2652,7 @@
       "GameMap.ViewWidthHex": 0,
       "GameMap._backHexSelector": {
         "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-        "CustomFixedVisibleHexSprite.OnShow": [
+        "CustomFixedVisibleHexSprite._show": [
           "Aow.Game.World.Map.GameMap.ShowBackHexSelector"
         ],
         "CustomFixedVisibleHexSprite._showPriority": 0,
@@ -2661,7 +2661,7 @@
       },
       "GameMap._frontHexSelector": {
         "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-        "CustomFixedVisibleHexSprite.OnShow": [
+        "CustomFixedVisibleHexSprite._show": [
           "Aow.Game.World.Map.GameMap.ShowFrontHexSelector"
         ],
         "CustomFixedVisibleHexSprite._showPriority": 0,
@@ -3112,7 +3112,7 @@
           ]
         ],
         "MoveControl.MovePointsLimit": 0,
-        "MoveControl.OnMovePoint": null,
+        "MoveControl._movePoint": null,
         "MoveControl.Player": 0,
         "MoveControl.Selection": 0,
         "MoveControl.Settings": null,
@@ -3900,10 +3900,10 @@
         "EventStore\u00601.Count": 0,
         "EventStore\u00601._items": null
       },
-      "GameMap.OnCenterView": null,
-      "GameMap.OnChangeView": null,
-      "GameMap.OnProgress": null,
-      "GameMap.OnViewLevel": null,
+      "GameMap._centerView": null,
+      "GameMap._changeView": null,
+      "GameMap._progress": null,
+      "GameMap._viewLevel": null,
       "GameMap.SeatedPlayer": 1,
       "GameMap.Selection": {
         "$type": "Aow.Game.World.Map.HexSpriteSelection",
@@ -4006,7 +4006,7 @@
       "GameMap.ViewWidthHex": 0,
       "GameMap._backHexSelector": {
         "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-        "CustomFixedVisibleHexSprite.OnShow": [
+        "CustomFixedVisibleHexSprite._show": [
           "Aow.Game.World.Map.GameMap.ShowBackHexSelector"
         ],
         "CustomFixedVisibleHexSprite._showPriority": 0,
@@ -4015,7 +4015,7 @@
       },
       "GameMap._frontHexSelector": {
         "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-        "CustomFixedVisibleHexSprite.OnShow": [
+        "CustomFixedVisibleHexSprite._show": [
           "Aow.Game.World.Map.GameMap.ShowFrontHexSelector"
         ],
         "CustomFixedVisibleHexSprite._showPriority": 0,
@@ -4466,7 +4466,7 @@
           ]
         ],
         "MoveControl.MovePointsLimit": 0,
-        "MoveControl.OnMovePoint": null,
+        "MoveControl._movePoint": null,
         "MoveControl.Player": 0,
         "MoveControl.Selection": 0,
         "MoveControl.Settings": null,
@@ -5254,10 +5254,10 @@
         "EventStore\u00601.Count": 0,
         "EventStore\u00601._items": null
       },
-      "GameMap.OnCenterView": null,
-      "GameMap.OnChangeView": null,
-      "GameMap.OnProgress": null,
-      "GameMap.OnViewLevel": null,
+      "GameMap._centerView": null,
+      "GameMap._changeView": null,
+      "GameMap._progress": null,
+      "GameMap._viewLevel": null,
       "GameMap.SeatedPlayer": 1,
       "GameMap.Selection": {
         "$type": "Aow.Game.World.Map.HexSpriteSelection",
@@ -5360,7 +5360,7 @@
       "GameMap.ViewWidthHex": 0,
       "GameMap._backHexSelector": {
         "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-        "CustomFixedVisibleHexSprite.OnShow": [
+        "CustomFixedVisibleHexSprite._show": [
           "Aow.Game.World.Map.GameMap.ShowBackHexSelector"
         ],
         "CustomFixedVisibleHexSprite._showPriority": 0,
@@ -5369,7 +5369,7 @@
       },
       "GameMap._frontHexSelector": {
         "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-        "CustomFixedVisibleHexSprite.OnShow": [
+        "CustomFixedVisibleHexSprite._show": [
           "Aow.Game.World.Map.GameMap.ShowFrontHexSelector"
         ],
         "CustomFixedVisibleHexSprite._showPriority": 0,
@@ -5822,7 +5822,7 @@
           ]
         ],
         "MoveControl.MovePointsLimit": 0,
-        "MoveControl.OnMovePoint": null,
+        "MoveControl._movePoint": null,
         "MoveControl.Player": 0,
         "MoveControl.Selection": 0,
         "MoveControl.Settings": null,
@@ -6610,10 +6610,10 @@
         "EventStore\u00601.Count": 0,
         "EventStore\u00601._items": null
       },
-      "GameMap.OnCenterView": null,
-      "GameMap.OnChangeView": null,
-      "GameMap.OnProgress": null,
-      "GameMap.OnViewLevel": null,
+      "GameMap._centerView": null,
+      "GameMap._changeView": null,
+      "GameMap._progress": null,
+      "GameMap._viewLevel": null,
       "GameMap.SeatedPlayer": 1,
       "GameMap.Selection": {
         "$type": "Aow.Game.World.Map.HexSpriteSelection",
@@ -6716,7 +6716,7 @@
       "GameMap.ViewWidthHex": 0,
       "GameMap._backHexSelector": {
         "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-        "CustomFixedVisibleHexSprite.OnShow": [
+        "CustomFixedVisibleHexSprite._show": [
           "Aow.Game.World.Map.GameMap.ShowBackHexSelector"
         ],
         "CustomFixedVisibleHexSprite._showPriority": 0,
@@ -6725,7 +6725,7 @@
       },
       "GameMap._frontHexSelector": {
         "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-        "CustomFixedVisibleHexSprite.OnShow": [
+        "CustomFixedVisibleHexSprite._show": [
           "Aow.Game.World.Map.GameMap.ShowFrontHexSelector"
         ],
         "CustomFixedVisibleHexSprite._showPriority": 0,
@@ -7178,7 +7178,7 @@
           ]
         ],
         "MoveControl.MovePointsLimit": 0,
-        "MoveControl.OnMovePoint": null,
+        "MoveControl._movePoint": null,
         "MoveControl.Player": 0,
         "MoveControl.Selection": 0,
         "MoveControl.Settings": null,
@@ -7966,10 +7966,10 @@
         "EventStore\u00601.Count": 0,
         "EventStore\u00601._items": null
       },
-      "GameMap.OnCenterView": null,
-      "GameMap.OnChangeView": null,
-      "GameMap.OnProgress": null,
-      "GameMap.OnViewLevel": null,
+      "GameMap._centerView": null,
+      "GameMap._changeView": null,
+      "GameMap._progress": null,
+      "GameMap._viewLevel": null,
       "GameMap.SeatedPlayer": 1,
       "GameMap.Selection": {
         "$type": "Aow.Game.World.Map.HexSpriteSelection",
@@ -8072,7 +8072,7 @@
       "GameMap.ViewWidthHex": 0,
       "GameMap._backHexSelector": {
         "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-        "CustomFixedVisibleHexSprite.OnShow": [
+        "CustomFixedVisibleHexSprite._show": [
           "Aow.Game.World.Map.GameMap.ShowBackHexSelector"
         ],
         "CustomFixedVisibleHexSprite._showPriority": 0,
@@ -8081,7 +8081,7 @@
       },
       "GameMap._frontHexSelector": {
         "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-        "CustomFixedVisibleHexSprite.OnShow": [
+        "CustomFixedVisibleHexSprite._show": [
           "Aow.Game.World.Map.GameMap.ShowFrontHexSelector"
         ],
         "CustomFixedVisibleHexSprite._showPriority": 0,
@@ -8534,7 +8534,7 @@
           ]
         ],
         "MoveControl.MovePointsLimit": 0,
-        "MoveControl.OnMovePoint": null,
+        "MoveControl._movePoint": null,
         "MoveControl.Player": 0,
         "MoveControl.Selection": 0,
         "MoveControl.Settings": null,
@@ -9322,10 +9322,10 @@
         "EventStore\u00601.Count": 0,
         "EventStore\u00601._items": null
       },
-      "GameMap.OnCenterView": null,
-      "GameMap.OnChangeView": null,
-      "GameMap.OnProgress": null,
-      "GameMap.OnViewLevel": null,
+      "GameMap._centerView": null,
+      "GameMap._changeView": null,
+      "GameMap._progress": null,
+      "GameMap._viewLevel": null,
       "GameMap.SeatedPlayer": 1,
       "GameMap.Selection": {
         "$type": "Aow.Game.World.Map.HexSpriteSelection",
@@ -9428,7 +9428,7 @@
       "GameMap.ViewWidthHex": 0,
       "GameMap._backHexSelector": {
         "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-        "CustomFixedVisibleHexSprite.OnShow": [
+        "CustomFixedVisibleHexSprite._show": [
           "Aow.Game.World.Map.GameMap.ShowBackHexSelector"
         ],
         "CustomFixedVisibleHexSprite._showPriority": 0,
@@ -9437,7 +9437,7 @@
       },
       "GameMap._frontHexSelector": {
         "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-        "CustomFixedVisibleHexSprite.OnShow": [
+        "CustomFixedVisibleHexSprite._show": [
           "Aow.Game.World.Map.GameMap.ShowFrontHexSelector"
         ],
         "CustomFixedVisibleHexSprite._showPriority": 0,
@@ -9890,7 +9890,7 @@
           ]
         ],
         "MoveControl.MovePointsLimit": 0,
-        "MoveControl.OnMovePoint": null,
+        "MoveControl._movePoint": null,
         "MoveControl.Player": 0,
         "MoveControl.Selection": 0,
         "MoveControl.Settings": null,
@@ -10678,10 +10678,10 @@
         "EventStore\u00601.Count": 0,
         "EventStore\u00601._items": null
       },
-      "GameMap.OnCenterView": null,
-      "GameMap.OnChangeView": null,
-      "GameMap.OnProgress": null,
-      "GameMap.OnViewLevel": null,
+      "GameMap._centerView": null,
+      "GameMap._changeView": null,
+      "GameMap._progress": null,
+      "GameMap._viewLevel": null,
       "GameMap.SeatedPlayer": 1,
       "GameMap.Selection": {
         "$type": "Aow.Game.World.Map.HexSpriteSelection",
@@ -10784,7 +10784,7 @@
       "GameMap.ViewWidthHex": 0,
       "GameMap._backHexSelector": {
         "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-        "CustomFixedVisibleHexSprite.OnShow": [
+        "CustomFixedVisibleHexSprite._show": [
           "Aow.Game.World.Map.GameMap.ShowBackHexSelector"
         ],
         "CustomFixedVisibleHexSprite._showPriority": 0,
@@ -10793,7 +10793,7 @@
       },
       "GameMap._frontHexSelector": {
         "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-        "CustomFixedVisibleHexSprite.OnShow": [
+        "CustomFixedVisibleHexSprite._show": [
           "Aow.Game.World.Map.GameMap.ShowFrontHexSelector"
         ],
         "CustomFixedVisibleHexSprite._showPriority": 0,

@@ -29,8 +29,8 @@ public class UnitSelector : IDisposable
     public byte Selectable { get; private set; }
     public int SourceUnitId { get; private set; }
 
-    private event NotifyEvent OnSelect;
-    private event NotifyEvent OnCancel;
+    private event Action<UnitSelector> OnSelect;
+    private event Action<UnitSelector> OnCancel;
 
     // Ability.PAS:583
     public virtual void Dispose() => Units?.Dispose();
@@ -126,6 +126,4 @@ public class UnitSelector : IDisposable
         OnSelect?.Invoke(this);
         return true;
     }
-
-    public delegate void NotifyEvent(UnitSelector Selector);
 }

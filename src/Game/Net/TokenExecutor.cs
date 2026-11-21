@@ -33,25 +33,21 @@ public sealed class TokenExecutor : IDisposable
         remove => OnActivateTacticalBattleStore.Remove(value);
     }
 
-    public event NotifyEvent<object> OnSyncError;
+    private NotifyEvent<object> _syncError;
 
-    internal void RaiseSyncError(object sender) => OnSyncError?.Invoke(sender);
+    internal void ReportSyncError(object sender) => _syncError?.Invoke(sender);
 
-    internal bool HasSyncErrorHandlers => OnSyncError is not null;
+    internal bool ChecksSync => _syncError is not null;
 
-    internal void SetSyncErrorHandler(NotifyEvent<object> handler) => OnSyncError = handler;
+    internal void SetSyncErrorHandler(NotifyEvent<object> handler) => _syncError = handler;
 
-    internal void ClearSyncErrorHandler() => OnSyncError = null;
+    private GetSyncValueEvent _getSyncValue;
 
-    public event GetSyncValueEvent OnGetSyncValue;
+    internal void SetGetSyncValueHandler(GetSyncValueEvent handler) => _getSyncValue = handler;
 
-    internal void SetGetSyncValueHandler(GetSyncValueEvent handler) => OnGetSyncValue = handler;
+    private Action<TokenEvent> _executeTokenEvent;
 
-    internal void ClearGetSyncValueHandler() => OnGetSyncValue = null;
-
-    public event TokenEventEvent OnExecuteTokenEvent;
-
-    internal void SetExecuteTokenEventHandler(TokenEventEvent handler) => OnExecuteTokenEvent = handler;
+    internal void SetExecuteTokenEventHandler(Action<TokenEvent> handler) => _executeTokenEvent = handler;
 
     private int _lockCount;
 
@@ -63,7 +59,7 @@ public sealed class TokenExecutor : IDisposable
     public ExecuteResult ExecuteTokenEvent(TokenEvent tokenEvent)
     {
         Executing = true;
-        OnExecuteTokenEvent?.Invoke(tokenEvent);
+        _executeTokenEvent?.Invoke(tokenEvent);
 
         ExecuteResult result;
         try
@@ -108,9 +104,9 @@ public sealed class TokenExecutor : IDisposable
     public int GetSyncValue()
     {
         int result;
-        if (OnGetSyncValue is not null)
+        if (_getSyncValue is not null)
         {
-            OnGetSyncValue(out result);
+            _getSyncValue(out result);
         }
         else
         {
@@ -351,6 +347,4 @@ public sealed class TokenExecutor : IDisposable
     }
 
     public delegate void GetSyncValueEvent(out int Value);
-    public delegate void TokenEventEvent(TokenEvent TE);
-
 }

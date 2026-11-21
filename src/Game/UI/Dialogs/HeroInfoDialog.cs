@@ -23,7 +23,7 @@ public sealed partial class HeroInfoDialog(UIContext ui) : UIModule(ui)
     public Image FaceFrame { get; private set; }
     public Memo MessageMemo { get; private set; }
 
-    private event ExecuteDoneEvent Done;
+    private ExecuteDoneEvent _done;
     private ArmyInfoEventLog _armyInfo;
     private bool _detailsOpen;
 
@@ -37,9 +37,9 @@ public sealed partial class HeroInfoDialog(UIContext ui) : UIModule(ui)
             UI.UnitWindow.MainWindow.Visible = false;
         }
 
-        ExecuteDoneEvent done = Done;
+        ExecuteDoneEvent done = _done;
         EventLog eventValue = _armyInfo;
-        Done = null;
+        _done = null;
         _armyInfo = null;
         done?.Invoke(eventValue);
 
@@ -157,7 +157,7 @@ public sealed partial class HeroInfoDialog(UIContext ui) : UIModule(ui)
     internal static void ShowHeroInfo(HeroInfoDialog dialog, ArmyInfoEventLog eventValue, ExecuteDoneEvent done)
     {
         Assert(dialog._armyInfo is null, message: "", file: "AoWHeroInfoDlg.pas", line: 80);
-        dialog.Done = done;
+        dialog._done = done;
         dialog._armyInfo = eventValue;
         _ = dialog._armyInfo.AddRef();
         string text = eventValue.Messages.Text;

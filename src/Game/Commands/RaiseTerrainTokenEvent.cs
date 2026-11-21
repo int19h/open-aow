@@ -69,8 +69,8 @@ public class RaiseTerrainTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEv
                             mountain.Mode += Set<RaisedMountainMode>.Of(RaisedMountainMode.Raising);
                             ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
                             animation.SetImageSequence(GamePack.Current.SpellControl[19].CastImages.ImageSequences[0]);
-                            animation.OnShow += mountain.ShowRaiseTerrainAnimation;
-                            animation.OnNewFrame += mountain.NewFrameRaiseTerrainAnimation;
+                            animation.SetShowHandler(mountain.ShowRaiseTerrainAnimation);
+                            animation.SetNewFrameHandler(mountain.NewFrameRaiseTerrainAnimation);
                             animation.FrameCounter = -StrategicMap.Current.Random(15);
                             _ = StrategicMap.Current.PlaceHex(animation, walk.X, walk.Y, L: Location.MapLevel);
                         }

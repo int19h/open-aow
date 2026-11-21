@@ -9,5 +9,5 @@ public interface IEngineObjectEditorClass
 {
     static abstract int EditorClassId { get; }
 
-    static abstract void Edit(EngineObject objectValue, GameEngine engine, EditDoneEvent done);
+    static abstract void Edit(EngineObject objectValue, GameEngine engine, Action<EditResult, EngineObject> done);
 }

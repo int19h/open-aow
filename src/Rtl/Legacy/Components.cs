@@ -222,7 +222,7 @@ public class Component : Persistent
     public override string GetNamePath() => Name;
     public override Persistent? GetOwner() => Owner;
 
-    public virtual void GetChildren(GetChildProc action, Component root) { }
+    public virtual void GetChildren(Action<Component> action, Component root) { }
 
     public virtual Component? ParentComponent => null;
 
@@ -231,8 +231,6 @@ public class Component : Persistent
     public virtual void SetChildOrder(Component child, int order) { }
 
     public enum Operation : byte { Insert, Remove }
-
-    public delegate void GetChildProc(Component child);
 }
 
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Event)]

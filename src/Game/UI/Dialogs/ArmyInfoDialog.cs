@@ -24,7 +24,7 @@ public sealed partial class ArmyInfoDialog(UIContext ui) : UIModule(ui)
     public Label HeaderLabel { get; private set; }
 
     private bool _unitInfoShown;
-    private event ExecuteDoneEvent OnClose;
+    private ExecuteDoneEvent _close;
     private ArmyInfoEventLog _event;
 
     // AoWArmyInfoDlg.pas:63
@@ -70,9 +70,9 @@ public sealed partial class ArmyInfoDialog(UIContext ui) : UIModule(ui)
             UI.UnitWindow.MainWindow.Visible = false;
         }
 
-        ExecuteDoneEvent notify = OnClose;
+        ExecuteDoneEvent notify = _close;
         ArmyInfoEventLog eventValue = _event;
-        OnClose = null;
+        _close = null;
         _event = null;
         notify?.Invoke(eventValue);
 
@@ -156,7 +156,7 @@ public sealed partial class ArmyInfoDialog(UIContext ui) : UIModule(ui)
 
     internal static void ShowArmyInfo(ArmyInfoDialog dialog, ArmyInfoEventLog eventValue, ExecuteDoneEvent done)
     {
-        dialog.OnClose = done;
+        dialog._close = done;
         dialog._event = eventValue;
         _ = dialog._event.AddRef();
         string text = eventValue.Messages.Text;

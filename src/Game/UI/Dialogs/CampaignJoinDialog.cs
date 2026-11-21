@@ -59,7 +59,7 @@ public sealed partial class CampaignJoinDialog(UIContext ui) : UIModule(ui)
         }
 
         UI.LeaderSetupWindow.Execute(control);
-        control.OnDone += LeaderCustomized;
+        control.SetDoneHandler(LeaderCustomized);
         _ = control.Release();
         UI.LeaderSetupWindow.LeaderPanel.ImageLibraryTexture = UI.Graphics.FactionWindow;
         UI.LeaderSetupWindow.LeaderPanel.ImageLibraryIndexTexture = Faction + 10;

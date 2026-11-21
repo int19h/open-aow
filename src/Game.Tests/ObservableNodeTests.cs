@@ -165,7 +165,7 @@ public sealed class ObservableNodeTests
     {
         ItemList items = new(null) { Holder = EngineFixture.Engine };
         List<string> trace = [];
-        items.OnChanged += _ => trace.Add("on");
+        items.SetChangedHandler(_ => trace.Add("on"));
         items.CollectionChanged += (_, _) => trace.Add("collection");
         _ = items.AddChild(new Item(null) { Holder = EngineFixture.Engine });
         Assert.Equal(["on", "collection"], trace);

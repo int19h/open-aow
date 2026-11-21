@@ -3257,8 +3257,8 @@
               "CombatLogbook._refCount": 1,
               "EngineObject._owner": null
             },
-            "Battle.OnExecuted": null,
-            "Battle.OnTerminated": null,
+            "Battle._executed": null,
+            "Battle._terminated": null,
             "Battle.Sides": [
               {
                 "$type": "Aow.Game.Combat.CombatSide",
@@ -3608,8 +3608,8 @@
               "CombatLogbook._refCount": 1,
               "EngineObject._owner": null
             },
-            "Battle.OnExecuted": null,
-            "Battle.OnTerminated": null,
+            "Battle._executed": null,
+            "Battle._terminated": null,
             "Battle.Sides": [
               {
                 "$type": "Aow.Game.Combat.CombatSide",
@@ -3671,8 +3671,8 @@
               "Battle.ExplorationSite": 0,
               "Battle.Items": null,
               "Battle.Logbook": null,
-              "Battle.OnExecuted": null,
-              "Battle.OnTerminated": null,
+              "Battle._executed": null,
+              "Battle._terminated": null,
               "Battle.Sides": [
                 null,
                 null
@@ -11997,7 +11997,7 @@
               "CampaignTransferSettings.Items": {
                 "$type": "Aow.Game.Units.ItemList",
                 "EngineObject._owner": null,
-                "ItemList.OnChanged": null,
+                "ItemList._changed": null,
                 "ObservableNode.CollectionChanged": null,
                 "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
@@ -12148,7 +12148,7 @@
               "CampaignTransferSettings.Items": {
                 "$type": "Aow.Game.Units.ItemList",
                 "EngineObject._owner": null,
-                "ItemList.OnChanged": null,
+                "ItemList._changed": null,
                 "ObservableNode.CollectionChanged": null,
                 "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
@@ -12582,7 +12582,7 @@
               "Set\u00601.low": 0
             },
             "Army.OldAIBehavior": 0,
-            "Army.OnUpdate": null,
+            "Army._update": null,
             "Army.Player": 0,
             "Army.Status": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -12663,7 +12663,7 @@
               "Set\u00601.low": 0
             },
             "Army.OldAIBehavior": 0,
-            "Army.OnUpdate": null,
+            "Army._update": null,
             "Army.Player": 0,
             "Army.Status": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -12731,7 +12731,7 @@
                 "Set\u00601.low": 0
               },
               "Army.OldAIBehavior": 0,
-              "Army.OnUpdate": null,
+              "Army._update": null,
               "Army.Player": 0,
               "Army.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -12787,7 +12787,7 @@
           "$jsonText": {
             "$type": "Aow.Game.Units.ItemList",
             "EngineObject._owner": null,
-            "ItemList.OnChanged": null,
+            "ItemList._changed": null,
             "ObservableNode.CollectionChanged": null,
             "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
@@ -12818,7 +12818,7 @@
           "$jsonText": {
             "$type": "Aow.Game.Units.ItemList",
             "EngineObject._owner": "$owner",
-            "ItemList.OnChanged": null,
+            "ItemList._changed": null,
             "ObservableNode.CollectionChanged": null,
             "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
@@ -12836,7 +12836,7 @@
             "$jsonText": {
               "$type": "Aow.Game.Units.ItemList",
               "EngineObject._owner": "$owner",
-              "ItemList.OnChanged": null,
+              "ItemList._changed": null,
               "ObservableNode.CollectionChanged": null,
               "ObservableNode.UpdateCount": 0,
               "ObservableNode._children": {
@@ -13010,7 +13010,7 @@
               "Set\u00601.high": 3,
               "Set\u00601.low": 0
             },
-            "LeaderSetupControl.OnDone": null,
+            "LeaderSetupControl._done": null,
             "LeaderSetupControl.OriginalLeader": {
               "$type": "Aow.Game.Magic.Abilities.Leader",
               "AbilityOwner.AbilityData": null,
@@ -13305,7 +13305,7 @@
               "Set\u00601.high": 3,
               "Set\u00601.low": 0
             },
-            "LeaderSetupControl.OnDone": null,
+            "LeaderSetupControl._done": null,
             "LeaderSetupControl.OriginalLeader": {
               "$type": "Aow.Game.Magic.Abilities.Leader",
               "AbilityOwner.AbilityData": null,
@@ -13456,7 +13456,7 @@
                 "Set\u00601.high": 0,
                 "Set\u00601.low": 0
               },
-              "LeaderSetupControl.OnDone": null,
+              "LeaderSetupControl._done": null,
               "LeaderSetupControl.OriginalLeader": null,
               "LeaderSetupControl.Status": 0,
               "LeaderSetupControl._refCount": 0
@@ -15645,10 +15645,10 @@
               "EventStore\u00601.Count": 0,
               "EventStore\u00601._items": null
             },
-            "GameMap.OnCenterView": null,
-            "GameMap.OnChangeView": null,
-            "GameMap.OnProgress": null,
-            "GameMap.OnViewLevel": null,
+            "GameMap._centerView": null,
+            "GameMap._changeView": null,
+            "GameMap._progress": null,
+            "GameMap._viewLevel": null,
             "GameMap.SeatedPlayer": 1,
             "GameMap.Selection": {
               "$type": "Aow.Game.World.Map.HexSpriteSelection",
@@ -15751,7 +15751,7 @@
             "GameMap.ViewWidthHex": 0,
             "GameMap._backHexSelector": {
               "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-              "CustomFixedVisibleHexSprite.OnShow": [
+              "CustomFixedVisibleHexSprite._show": [
                 "Aow.Game.World.Map.GameMap.ShowBackHexSelector"
               ],
               "CustomFixedVisibleHexSprite._showPriority": 0,
@@ -15760,7 +15760,7 @@
             },
             "GameMap._frontHexSelector": {
               "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-              "CustomFixedVisibleHexSprite.OnShow": [
+              "CustomFixedVisibleHexSprite._show": [
                 "Aow.Game.World.Map.GameMap.ShowFrontHexSelector"
               ],
               "CustomFixedVisibleHexSprite._showPriority": 0,
@@ -16655,7 +16655,7 @@
                 ]
               ],
               "MoveControl.MovePointsLimit": 0,
-              "MoveControl.OnMovePoint": null,
+              "MoveControl._movePoint": null,
               "MoveControl.Player": 0,
               "MoveControl.Selection": 0,
               "MoveControl.Settings": null,
@@ -16902,7 +16902,7 @@
                             "DelphiList\u00601.items": "$ref:$.StrategicMap.AIGroupManager.OwningNode._children.DelphiList\u00601.items"
                           }
                         },
-                        "AIMoveExecutor.OnDone": null,
+                        "AIMoveExecutor._done": null,
                         "AIMoveExecutor.State": 0,
                         "AIMoveExecutor.Status": 0,
                         "AIMoveExecutor.Transporter": null,
@@ -17504,7 +17504,7 @@
                             "DelphiList\u00601.items": "$ref:$.StrategicMap.AIGroupManager.OwningNode._children.DelphiList\u00601.items"
                           }
                         },
-                        "AIMoveExecutor.OnDone": null,
+                        "AIMoveExecutor._done": null,
                         "AIMoveExecutor.State": 0,
                         "AIMoveExecutor.Status": 0,
                         "AIMoveExecutor.Transporter": null,
@@ -18106,7 +18106,7 @@
                             "DelphiList\u00601.items": "$ref:$.StrategicMap.AIGroupManager.OwningNode._children.DelphiList\u00601.items"
                           }
                         },
-                        "AIMoveExecutor.OnDone": null,
+                        "AIMoveExecutor._done": null,
                         "AIMoveExecutor.State": 0,
                         "AIMoveExecutor.Status": 0,
                         "AIMoveExecutor.Transporter": null,
@@ -19175,8 +19175,8 @@
                 "EventStore\u00601.Count": 0,
                 "EventStore\u00601._items": null
               },
-              "TargetSelectionControl.OnShow": null,
-              "TargetSelectionControl.OnValidateTarget": null,
+              "TargetSelectionControl._show": null,
+              "TargetSelectionControl._validateTarget": null,
               "TargetSelectionControl.Range": 0,
               "TargetSelectionControl.Source": null,
               "TargetSelectionControl.SourceImage": null,
@@ -19238,7 +19238,7 @@
             "StrategicMap.TokenEventLogging": false,
             "StrategicMap.TokenManager": {
               "$type": "Aow.Game.Net.TokenManager",
-              "TokenManager.OnMessage": [
+              "TokenManager._message": [
                 "Aow.Game.World.Map.StrategicMap.OnTokenManagerMessage"
               ],
               "TokenManager.Owner": "$owner",
@@ -19286,11 +19286,11 @@
                     null
                   ]
                 },
-                "TokenExecutor.OnExecuteTokenEvent": [
+                "TokenExecutor._executeTokenEvent": [
                   "Aow.Game.World.Map.StrategicMap.OnExecuteTokenEvent"
                 ],
-                "TokenExecutor.OnGetSyncValue": null,
-                "TokenExecutor.OnSyncError": null,
+                "TokenExecutor._getSyncValue": null,
+                "TokenExecutor._syncError": null,
                 "TokenExecutor.PrefetchTacticalBattle": null,
                 "TokenExecutor.Round": 0,
                 "TokenExecutor.State": {
@@ -19684,10 +19684,10 @@
               "EventStore\u00601.Count": 0,
               "EventStore\u00601._items": null
             },
-            "GameMap.OnCenterView": null,
-            "GameMap.OnChangeView": null,
-            "GameMap.OnProgress": null,
-            "GameMap.OnViewLevel": null,
+            "GameMap._centerView": null,
+            "GameMap._changeView": null,
+            "GameMap._progress": null,
+            "GameMap._viewLevel": null,
             "GameMap.SeatedPlayer": 1,
             "GameMap.Selection": {
               "$type": "Aow.Game.World.Map.HexSpriteSelection",
@@ -19790,7 +19790,7 @@
             "GameMap.ViewWidthHex": 0,
             "GameMap._backHexSelector": {
               "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-              "CustomFixedVisibleHexSprite.OnShow": [
+              "CustomFixedVisibleHexSprite._show": [
                 "Aow.Game.World.Map.GameMap.ShowBackHexSelector"
               ],
               "CustomFixedVisibleHexSprite._showPriority": 0,
@@ -19799,7 +19799,7 @@
             },
             "GameMap._frontHexSelector": {
               "$type": "Aow.Game.Draw.CustomFixedVisibleHexSprite",
-              "CustomFixedVisibleHexSprite.OnShow": [
+              "CustomFixedVisibleHexSprite._show": [
                 "Aow.Game.World.Map.GameMap.ShowFrontHexSelector"
               ],
               "CustomFixedVisibleHexSprite._showPriority": 0,
@@ -20694,7 +20694,7 @@
                 ]
               ],
               "MoveControl.MovePointsLimit": 0,
-              "MoveControl.OnMovePoint": null,
+              "MoveControl._movePoint": null,
               "MoveControl.Player": 0,
               "MoveControl.Selection": 0,
               "MoveControl.Settings": null,
@@ -20941,7 +20941,7 @@
                             "DelphiList\u00601.items": "$ref:$.StrategicMap.AIGroupManager.OwningNode._children.DelphiList\u00601.items"
                           }
                         },
-                        "AIMoveExecutor.OnDone": null,
+                        "AIMoveExecutor._done": null,
                         "AIMoveExecutor.State": 0,
                         "AIMoveExecutor.Status": 0,
                         "AIMoveExecutor.Transporter": null,
@@ -21543,7 +21543,7 @@
                             "DelphiList\u00601.items": "$ref:$.StrategicMap.AIGroupManager.OwningNode._children.DelphiList\u00601.items"
                           }
                         },
-                        "AIMoveExecutor.OnDone": null,
+                        "AIMoveExecutor._done": null,
                         "AIMoveExecutor.State": 0,
                         "AIMoveExecutor.Status": 0,
                         "AIMoveExecutor.Transporter": null,
@@ -22145,7 +22145,7 @@
                             "DelphiList\u00601.items": "$ref:$.StrategicMap.AIGroupManager.OwningNode._children.DelphiList\u00601.items"
                           }
                         },
-                        "AIMoveExecutor.OnDone": null,
+                        "AIMoveExecutor._done": null,
                         "AIMoveExecutor.State": 0,
                         "AIMoveExecutor.Status": 0,
                         "AIMoveExecutor.Transporter": null,
@@ -23214,8 +23214,8 @@
                 "EventStore\u00601.Count": 0,
                 "EventStore\u00601._items": null
               },
-              "TargetSelectionControl.OnShow": null,
-              "TargetSelectionControl.OnValidateTarget": null,
+              "TargetSelectionControl._show": null,
+              "TargetSelectionControl._validateTarget": null,
               "TargetSelectionControl.Range": 0,
               "TargetSelectionControl.Source": null,
               "TargetSelectionControl.SourceImage": null,
@@ -23277,7 +23277,7 @@
             "StrategicMap.TokenEventLogging": false,
             "StrategicMap.TokenManager": {
               "$type": "Aow.Game.Net.TokenManager",
-              "TokenManager.OnMessage": [
+              "TokenManager._message": [
                 "Aow.Game.World.Map.StrategicMap.OnTokenManagerMessage"
               ],
               "TokenManager.Owner": "$owner",
@@ -23325,11 +23325,11 @@
                     null
                   ]
                 },
-                "TokenExecutor.OnExecuteTokenEvent": [
+                "TokenExecutor._executeTokenEvent": [
                   "Aow.Game.World.Map.StrategicMap.OnExecuteTokenEvent"
                 ],
-                "TokenExecutor.OnGetSyncValue": null,
-                "TokenExecutor.OnSyncError": null,
+                "TokenExecutor._getSyncValue": null,
+                "TokenExecutor._syncError": null,
                 "TokenExecutor.PrefetchTacticalBattle": null,
                 "TokenExecutor.Round": 0,
                 "TokenExecutor.State": {
@@ -23582,10 +23582,10 @@
               "GameMap.MapContainer": null,
               "GameMap.Mouse": null,
               "GameMap.NewFrameEventsStore": null,
-              "GameMap.OnCenterView": null,
-              "GameMap.OnChangeView": null,
-              "GameMap.OnProgress": null,
-              "GameMap.OnViewLevel": null,
+              "GameMap._centerView": null,
+              "GameMap._changeView": null,
+              "GameMap._progress": null,
+              "GameMap._viewLevel": null,
               "GameMap.SeatedPlayer": 0,
               "GameMap.Selection": null,
               "GameMap.ShowGrid": false,

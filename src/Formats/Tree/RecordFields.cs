@@ -115,7 +115,7 @@ internal sealed class IntegerRecordField : RecordFieldInfo
         }
     }
 
-    private void Move<T>(IPersister persister, Span<byte> image, IntegerMove<T> move) where T : unmanaged
+    private void Move<T>(IPersister persister, Span<byte> image, Func<IPersister, string, T, T> move) where T : unmanaged
     {
         T value = move(persister, Name, persister.Loading ? default : ReadNumber<T>(image));
         if (persister.Loading)
@@ -168,8 +168,6 @@ internal sealed class IntegerRecordField : RecordFieldInfo
                 : throw new InvalidOperationException("An integer width is 1, 2 or 4 bytes.");
         }
     }
-
-    private delegate T IntegerMove<T>(IPersister persister, string name, T value);
 }
 
 internal sealed class BooleanRecordField : RecordFieldInfo
@@ -315,7 +313,7 @@ internal sealed class ArrayRecordField : RecordFieldInfo
         }
     }
 
-    private void Move<T>(IPersister persister, Span<byte> image, ItemTransfer<T> transfer)
+    private void Move<T>(IPersister persister, Span<byte> image, Func<IItemSlot, T, T> transfer)
     {
         List<T> items = [with(ElementCount)];
         for (int i = 0; i < ElementCount; i++)

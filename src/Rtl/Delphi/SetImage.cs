@@ -1,10 +1,8 @@
 namespace Aow.Rtl;
 
-public delegate void BytesTransfer(Span<byte> buffer, int size, int id);
-
 public static class SetImage
 {
-    public static Set<E> TransferSet<E>(Set<E> value, int size, int id, BytesTransfer transfer, int low = 0) where E : unmanaged
+    public static Set<E> TransferSet<E>(Set<E> value, int size, int id, Action<Span<byte>, int, int> transfer, int low = 0) where E : unmanaged
     {
         ulong image = value.Image;
         transfer(Bytes.Of(ref image, count: size), size, id);

@@ -46,7 +46,7 @@ public class DeathMastery : GlobalEnchantmentSpell
             Holder = CreationHolder(),
             AnimationLevel = 28
         };
-        animation.OnShow += ShowAnimation;
+        animation.SetShowHandler(ShowAnimation);
         animation.AnimationMap = StrategicMap.Current;
         animation.Tag = (StrategicMap.Current.ViewWidth & 0xFFFF) | (StrategicMap.Current.ViewHeight << 16);
         animation.Activate();

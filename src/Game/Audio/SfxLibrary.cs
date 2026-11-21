@@ -28,7 +28,7 @@ public sealed class SfxLibrary(CustomNode owner) : OwningNode(owner), IChildList
     }
 
     // Sound.pas:1107
-    public Sample Play(int id, int volume, bool looped, int delay, SamplePanning panning, SampleCallBack callback)
+    public Sample Play(int id, int volume, bool looped, int delay, SamplePanning panning, Action<Sample, SampleCallbackMode> callback)
     {
         SfxSequence s = Find(id);
         return s?.Play(volume, looped, delay, panning, callback);

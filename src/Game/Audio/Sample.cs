@@ -10,9 +10,9 @@ public class Sample : IDisposable
 {
     public static SampleClass Descriptor { get; } = new("Sample", Create);
 
-    public event SampleCallBack Callback;
+    private Action<Sample, SampleCallbackMode> _callback;
 
-    internal void SetCallbackHandler(SampleCallBack handler) => Callback = handler;
+    internal void SetCallbackHandler(Action<Sample, SampleCallbackMode> handler) => _callback = handler;
 
     // Sound.pas:746
     protected internal virtual bool GetPlaying() => Delay != 0;
@@ -88,7 +88,7 @@ public class Sample : IDisposable
     // Sound.pas:735
     public virtual void Dispose()
     {
-        Callback?.Invoke(this, Mode: SampleCallbackMode.Done);
+        _callback?.Invoke(this, SampleCallbackMode.Done);
 
         SampleData?.Release();
 

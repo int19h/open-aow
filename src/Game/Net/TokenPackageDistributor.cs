@@ -34,12 +34,12 @@ public sealed class TokenPackageDistributor(TokenManager manager)
                         }
                         else
                         {
-                            TokenManager.TriggerMessage("TokenEvent already exists");
+                            TokenManager.ReportMessage("TokenEvent already exists");
                         }
                     }
                     else
                     {
-                        TokenManager.TriggerMessage("TokenEvent already executed");
+                        TokenManager.ReportMessage("TokenEvent already executed");
                     }
                 }
             }

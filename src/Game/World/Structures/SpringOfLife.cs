@@ -69,7 +69,7 @@ public partial class SpringOfLife(CustomNode owner) : Structure(owner)
             Rect r = new(-16, -8, 32, 40);
             animation.SetDimensions(r);
             animation.AnimationLevel = 27;
-            animation.OnShow += ShowBlessingAnimation;
+            animation.SetShowHandler(ShowBlessingAnimation);
             sbyte hexLevel = HexLevel;
             sbyte hexY = HexY;
             sbyte hexX = HexX;

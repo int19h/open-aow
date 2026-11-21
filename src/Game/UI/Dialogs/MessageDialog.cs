@@ -23,16 +23,16 @@ public sealed partial class MessageDialog(UIContext ui) : UIModule(ui)
     public Memo HeaderMemo { get; private set; }
     public Label HeaderLabel { get; private set; }
 
-    private event ExecuteDoneEvent Done;
+    private ExecuteDoneEvent _done;
     private MessageEventLog _event;
 
     // AoWMessageDlg.pas:68
     public void FinishDialog()
     {
         Window.Visible = false;
-        ExecuteDoneEvent done = Done;
+        ExecuteDoneEvent done = _done;
         MessageEventLog log = _event;
-        Done = null;
+        _done = null;
         _event = null;
         done?.Invoke(log);
 
@@ -118,7 +118,7 @@ public sealed partial class MessageDialog(UIContext ui) : UIModule(ui)
     internal static void ShowMessageEvent(MessageDialog dialog, MessageEventLog eventValue, ExecuteDoneEvent done)
     {
         ResetMessageDialog(dialog);
-        dialog.Done = done;
+        dialog._done = done;
         dialog._event = eventValue;
         _ = dialog._event.AddRef();
         MessageEventLog log = dialog._event;

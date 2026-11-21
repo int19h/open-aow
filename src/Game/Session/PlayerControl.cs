@@ -40,8 +40,8 @@ public class PlayerControl(CustomNode owner) : EngineObject(owner)
         if (StrategicMap.Current is not null && StrategicMap.Current.TokenManager is not null)
         {
             TokenExecutor tokenExecutor = StrategicMap.Current.TokenManager.TokenExecutor;
-            tokenExecutor.ClearGetSyncValueHandler();
-            tokenExecutor.ClearSyncErrorHandler();
+            tokenExecutor.SetGetSyncValueHandler(null);
+            tokenExecutor.SetSyncErrorHandler(null);
         }
 
         _disconnectedPlayers?.Dispose();

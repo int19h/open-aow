@@ -135,7 +135,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     }
 
     // Army.PAS:5962. The HSEngine body closes the map, then the game body clears the current map.
-    public virtual void CloseHsm(Engine.ProgressEvent progress)
+    public virtual void CloseHsm(ProgressEvent progress)
     {
         try
         {
@@ -407,7 +407,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     }
 
     // Army.PAS:6059
-    public void LoadCampaignMap(Engine.ProgressEvent progress)
+    public void LoadCampaignMap(ProgressEvent progress)
     {
         if (Campaign is not null && Campaign.Stream is not null)
         {

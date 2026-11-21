@@ -28,9 +28,11 @@ public class AIMoveControlSettings : EngineObject
 
     public MovePointTable MovePointTable { get; private set; }
 
-    public event NotifyEvent<object> OnDone;
+    private NotifyEvent<object> _done;
 
-    internal void RaiseDone(object sender) => OnDone?.Invoke(sender);
+    internal void SetDoneHandler(NotifyEvent<object> handler) => _done = handler;
+
+    internal void Complete(object sender) => _done?.Invoke(sender);
 
     public Troop Transporter { get; set; }
     public int MovePointsMax { get; private set; }

@@ -44,7 +44,7 @@ public class EnchantedRoads : GlobalEnchantmentSpell
             Holder = CreationHolder(),
             AnimationLevel = 27
         };
-        animation.OnShow += ShowAnimation;
+        animation.SetShowHandler(ShowAnimation);
         animation.AnimationMap = StrategicMap.Current;
         animation.Activate();
         TwinkleAnimation twinkle = new(null) { Holder = CreationHolder() };

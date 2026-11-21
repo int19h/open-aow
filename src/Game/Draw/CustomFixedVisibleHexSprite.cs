@@ -9,13 +9,15 @@ namespace Aow.Game.Draw;
 public sealed class CustomFixedVisibleHexSprite(CustomNode owner) : FixedVisibleHexSprite(owner)
 {
     private int _showPriority;
-    public event OnShowHSEvent OnShow;
+    private OnShowHSEvent _show;
+
+    internal void SetShowHandler(OnShowHSEvent handler) => _show = handler;
 
     // HXSPRITE.PAS:800
     public override int GetShowPriority() => _showPriority;
 
     // HXSPRITE.PAS:805
-    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface) => OnShow?.Invoke(pixelXSurface, pixelYSurface, SurfaceDesc: lockedSurface);
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface) => _show?.Invoke(pixelXSurface, pixelYSurface, SurfaceDesc: lockedSurface);
 
     public new int ShowPriority { get => GetShowPriority(); set => _showPriority = value; }
 

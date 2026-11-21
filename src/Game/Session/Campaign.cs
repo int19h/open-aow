@@ -139,7 +139,7 @@ public class Campaign : EngineObject
     public virtual void ResetNextScenario() => NextScenarioId = -1;
 
     // Diplomacy.pas:2336
-    public virtual void StartScenario(int id, Draw.ProgressEvent progress)
+    public virtual void StartScenario(int id, Action<object, int, int> progress)
     {
         Stream.Clear();
         NextScenarioId = -1;

@@ -15,7 +15,9 @@ public sealed class RemotePlayerCommunicationControl(EngineObject creator) : Pla
 
     internal PackageDataList PackageDataList { get; } = new PackageDataList();
 
-    public event SendDataEvent OnSendData;
+    private SendDataEvent _sendData;
+
+    internal void SetSendDataHandler(SendDataEvent handler) => _sendData = handler;
 
     // NetworkE.pas:819
     public override int LocalSystemId => _localSystemId;
@@ -109,6 +111,6 @@ public sealed class RemotePlayerCommunicationControl(EngineObject creator) : Pla
     public void DataReceived(object data, int size, int systemId) => PackageDataList.AddData(data, size);
 
     // NetworkE.pas:842
-    public bool SendData(object data, int size, int systemId) => OnSendData is not null && OnSendData(data, size, systemId);
+    public bool SendData(object data, int size, int systemId) => _sendData is not null && _sendData(data, size, systemId);
 
 }

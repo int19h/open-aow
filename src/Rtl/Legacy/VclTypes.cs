@@ -11,8 +11,6 @@ public delegate void MouseMoveEvent<in TSender>(TSender sender, Set<ShiftState> 
 public delegate void KeyPressEvent<in TSender>(TSender sender, ref byte key);
 public delegate void KeyEvent<in TSender>(TSender sender, ref ushort key, Set<ShiftState> shift);
 
-public delegate void StreamProc(Stream stream);
-
 public enum ConnectionType : byte { None, Unknown, TCP, IPX, Modem, Serial }
 
 public enum StreamSoundMode : byte { Stop, Play, Stream }

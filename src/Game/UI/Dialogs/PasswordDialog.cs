@@ -14,16 +14,16 @@ public sealed partial class PasswordDialog(UIContext ui) : UIModule(ui)
     public Label PasswordLabel { get; private set; }
     public Edit PasswordEdit { get; private set; }
 
-    private event ExecuteDoneEvent Done;
+    private ExecuteDoneEvent _done;
     private PasswordEventLog _passwordEvent;
 
     // AoWPasswordDlg.pas:43
     public void Finish()
     {
         Window.Visible = false;
-        ExecuteDoneEvent done = Done;
+        ExecuteDoneEvent done = _done;
         PasswordEventLog eventValue = _passwordEvent;
-        Done = null;
+        _done = null;
         _passwordEvent = null;
         done?.Invoke(eventValue);
 
@@ -66,7 +66,7 @@ public sealed partial class PasswordDialog(UIContext ui) : UIModule(ui)
     internal static void ShowPasswordEvent(PasswordDialog dialog, PasswordEventLog eventValue, ExecuteDoneEvent done)
     {
         dialog.Reset();
-        dialog.Done = done;
+        dialog._done = done;
         dialog._passwordEvent = eventValue;
         _ = dialog._passwordEvent.AddRef();
         PasswordEventLog log = dialog._passwordEvent;

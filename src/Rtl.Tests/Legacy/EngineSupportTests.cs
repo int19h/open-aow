@@ -21,19 +21,17 @@ public sealed class EngineSupportTests
 
     private sealed class EventContext { }
 
-    private delegate void EventDone(EventContext context);
-
     [Fact]
     public void MethodPointerCastAdaptsTheContextAndPreservesMulticastOrder()
     {
         EventContext context = new();
         List<int> calls = [];
-        EventDone first = value =>
+        Action<EventContext> first = value =>
         {
             Assert.Same(context, value);
             calls.Add(1);
         };
-        EventDone second = value =>
+        Action<EventContext> second = value =>
         {
             Assert.Same(context, value);
             calls.Add(2);
@@ -42,7 +40,7 @@ public sealed class EngineSupportTests
         cast(context);
         Assert.Equal(new[] { 1, 2 }, calls);
         _ = Assert.Throws<InvalidCastException>(() => cast(new object()));
-        EventDone nullable = Assert.Null;
+        Action<EventContext> nullable = Assert.Null;
         DelegateRoutines.RebindDelegate<NotifyEvent<object>>(nullable)!(null!);
         Assert.Null(DelegateRoutines.RebindDelegate<NotifyEvent<object>>(null));
         Assert.Same(cast, DelegateRoutines.RebindDelegate<NotifyEvent<object>>(cast));

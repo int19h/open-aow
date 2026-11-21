@@ -27,7 +27,7 @@ public partial class MoveControl
         while (field is not null && (field.HexX != Source.X || field.HexY != Source.Y || field.HexLevel != Source.MapLevel) && !failed)
         {
             _ = path.AddMapCoordinate(field.HexX, field.HexY, field.HexLevel);
-            int cost = OnMovePoint(field, MoveOverCode: 1);
+            int cost = _movePoint(field, 1);
             bool found = false;
             for (int direction = 1; !found && direction <= 6; direction++)
             {
@@ -95,7 +95,7 @@ public partial class MoveControl
         while (continueMove)
         {
             field = NeighborField(field, direction);
-            int cost = OnMovePoint(field, moveOverCode);
+            int cost = _movePoint(field, moveOverCode);
             if (cost < 0)
             {
                 break;

@@ -15,15 +15,15 @@ public sealed partial class CityRebelDialog(UIContext ui) : UIModule(ui)
     public Window RebelWindow { get; private set; }
     public Label CityNameLabel { get; private set; }
 
-    private event ExecuteDoneEvent OnClose;
+    private ExecuteDoneEvent _close;
     private CityRebellionEventLog _event;
 
     // AoWCityRebelDlg.pas:49
     public void ClearEvent()
     {
-        ExecuteDoneEvent notify = OnClose;
+        ExecuteDoneEvent notify = _close;
         CityRebellionEventLog eventValue = _event;
-        OnClose = null;
+        _close = null;
         _event = null;
         notify?.Invoke(eventValue);
 
@@ -59,7 +59,7 @@ public sealed partial class CityRebelDialog(UIContext ui) : UIModule(ui)
 
     internal static void ShowRebellion(CityRebelDialog dialog, CityRebellionEventLog eventValue, ExecuteDoneEvent done)
     {
-        dialog.OnClose = done;
+        dialog._close = done;
         dialog._event = eventValue;
         _ = dialog._event.AddRef();
         dialog.CityNameLabel.Text = dialog._event.CityName;

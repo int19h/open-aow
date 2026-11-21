@@ -614,5 +614,5 @@ public sealed class CampaignTransferSettings : EngineObject
         }
     }
 
-    private static int CompareCampaignTransfer(in QuadItemList.QuadInteger item1, in QuadItemList.QuadInteger item2) => item2.Third - item1.Third;
+    private static int CompareCampaignTransfer(QuadItemList.QuadInteger item1, QuadItemList.QuadInteger item2) => item2.Third - item1.Third;
 }

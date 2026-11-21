@@ -377,8 +377,8 @@ public sealed partial class StrategicMap : GameMap
     {
         StopTokenEventLogging();
         LockMapChangedEvent();
-        ClearViewLevelHandler();
-        ClearCenterViewHandler();
+        SetViewLevelHandler(null);
+        SetCenterViewHandler(null);
         GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: "GENERAL.ILB");
         GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: "CURSORS.ILB");
         GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: "COMBAT.ILB");
@@ -648,7 +648,7 @@ public sealed partial class StrategicMap : GameMap
         TokenManager = new TokenManager(GetEngine());
         TokenManager.TokenExecutor.OnActivateTacticalBattle += TokenControlActivatedEvent;
         TokenManager.TokenExecutor.SetExecuteTokenEventHandler(OnExecuteTokenEvent);
-        TokenManager.OnMessage += OnTokenManagerMessage;
+        TokenManager.SetMessageHandler(OnTokenManagerMessage);
         PlayerCommunicator = new PlayerCommunicator(null)
         {
             Holder = CreationHolder(),

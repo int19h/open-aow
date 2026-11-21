@@ -21,16 +21,16 @@ public sealed partial class SendEmailGameDialog(UIContext ui) : UIModule(ui)
     public CheckBox AutomatedCheckBox { get; private set; }
     public Label RecipientNameLabel { get; private set; }
 
-    private event ExecuteDoneEvent Done;
+    private ExecuteDoneEvent _done;
     private SendEmailGameEventLog _sendEvent;
 
     // AoWSendEmailGameDlg.pas:63
     public void FinishDialog()
     {
         Window.Visible = false;
-        ExecuteDoneEvent done = Done;
+        ExecuteDoneEvent done = _done;
         EventLog eventValue = _sendEvent;
-        Done = null;
+        _done = null;
         _sendEvent = null;
         done?.Invoke(eventValue);
 
@@ -40,7 +40,7 @@ public sealed partial class SendEmailGameDialog(UIContext ui) : UIModule(ui)
     // AoWSendEmailGameDlg.pas:77
     public void ShowSendDialog(SendEmailGameEventLog eventValue, ExecuteDoneEvent done)
     {
-        Done = done;
+        _done = done;
         _sendEvent = eventValue;
         _ = _sendEvent.AddRef();
         SendEmailGameEventLog sendEmailGameEventLog = _sendEvent;

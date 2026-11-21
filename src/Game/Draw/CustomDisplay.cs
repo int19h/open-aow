@@ -15,26 +15,26 @@ namespace Aow.Game.Draw;
 public partial class CustomDisplay : Component
 {
     protected internal event NotifyEvent<object> OnBlitSurface;
-    protected internal event UpdateFrameEvent OnUpdateFrame;
+    private Action<object, DisplayController, int> _updateFrame;
 
-    internal void SetUpdateFrameHandler(UpdateFrameEvent handler) => OnUpdateFrame = handler;
+    internal void SetUpdateFrameHandler(Action<object, DisplayController, int> handler) => _updateFrame = handler;
 
-    protected internal event SurfaceDataLostEvent OnSurfaceDataLost;
+    private Action<DisplayController, int> _surfaceDataLost;
 
-    internal void SetSurfaceDataLostHandler(SurfaceDataLostEvent handler) => OnSurfaceDataLost = handler;
+    internal void SetSurfaceDataLostHandler(Action<DisplayController, int> handler) => _surfaceDataLost = handler;
 
     protected internal event NotifyEvent<object> OnResize;
-    protected internal event DCNotifyEvent OnActivateDisplayController;
-    protected internal event DCNotifyEvent OnDeactivateDisplayController;
+    protected internal event Action<object, DisplayController> OnActivateDisplayController;
+    protected internal event Action<object, DisplayController> OnDeactivateDisplayController;
     protected internal event NotifyEvent<object> OnHide;
     protected internal event NotifyEvent<object> OnShow;
-    protected internal event ResizeBackSurfaceEvent OnResizeBackSurface;
+    private Action<DisplayController, int, int> _resizeBackSurface;
 
-    internal void SetResizeBackSurfaceHandler(ResizeBackSurfaceEvent handler) => OnResizeBackSurface = handler;
+    internal void SetResizeBackSurfaceHandler(Action<DisplayController, int, int> handler) => _resizeBackSurface = handler;
 
-    protected internal event SwapDCEvent OnSwapDisplayController;
+    private Action<DisplayController> _swapDisplayController;
 
-    internal void SetSwapDisplayControllerHandler(SwapDCEvent handler) => OnSwapDisplayController = handler;
+    internal void SetSwapDisplayControllerHandler(Action<DisplayController> handler) => _swapDisplayController = handler;
 
     private int _frameRate;
 
@@ -181,11 +181,11 @@ public partial class CustomDisplay : Component
             }
         }
 
-        OnResizeBackSurface?.Invoke(ActiveDisplayController, width, height);
+        _resizeBackSurface?.Invoke(ActiveDisplayController, width, height);
     }
 
     // DisplayC.pas:1486
-    public virtual void SurfaceDataLost(int surfaceType) => OnSurfaceDataLost?.Invoke(ActiveDisplayController, surfaceType);
+    public virtual void SurfaceDataLost(int surfaceType) => _surfaceDataLost?.Invoke(ActiveDisplayController, surfaceType);
 
     // DisplayC.pas:1469
     public virtual void GetMousePosition(ref int X, ref int Y) => ActiveDisplayController?.GetMousePosition(ref X, ref Y);
@@ -265,7 +265,7 @@ public partial class CustomDisplay : Component
     {
         if (ActiveDisplayController is not null && ActiveDisplayController.GetStatus().Contains(DisplayControllerStatusElement.Activated))
         {
-            OnDeactivateDisplayController?.Invoke(this, DC: ActiveDisplayController);
+            OnDeactivateDisplayController?.Invoke(this, ActiveDisplayController);
 
             _ = ActiveDisplayController.Deactivate();
             ActiveDisplayController = null;
@@ -302,12 +302,4 @@ public partial class CustomDisplay : Component
     {
         AutoResizeBackSurface = 0, AutoSwapDisplayController = 1, AutoStartUpdateFrameLoop = 2, AutoActivatePrimaryDisplayController = 3, ShowFrameRate = 4, ShowErrors = 5, FocusAble = 6, RestoreSurfacesOnSwap = 7, BlitOnPaint = 8, AutoEnableDDraw = 9
     }
-
-    public delegate void UpdateFrameEvent(object Sender, DisplayController DC, int SurfaceType);
-    public delegate void DCNotifyEvent(object Sender, DisplayController DC);
-    public delegate void SurfaceDataLostEvent(DisplayController DC, int SurfaceType);
-
-    public delegate void ResizeBackSurfaceEvent(DisplayController DC, int Width, int Height);
-    public delegate void SwapDCEvent(DisplayController DC);
-
 }

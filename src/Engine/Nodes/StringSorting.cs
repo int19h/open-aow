@@ -10,7 +10,7 @@ namespace Aow.Engine.Nodes;
 
 internal static class StringSorting
 {
-    internal static void SortStrings(this DelphiStringCollection strings, StringsSortCompare compare, ReadOnlySpan<DelphiStringCollection> linkedStrings)
+    internal static void SortStrings(this DelphiStringCollection strings, Func<string, string, object, object, int> compare, ReadOnlySpan<DelphiStringCollection> linkedStrings)
     {
         SortStringsContext context = default;
         if (strings.Count != 0)

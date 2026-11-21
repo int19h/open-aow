@@ -8,9 +8,9 @@ namespace Aow.Engine.Nodes;
 public sealed class EditorClass
 {
     private static readonly Catalog<Type, EditorClass> s_catalog = new("editor class");
-    private readonly Action<EngineObject, GameEngine, EditDoneEvent> _edit;
+    private readonly Action<EngineObject, GameEngine, Action<EditResult, EngineObject>> _edit;
 
-    private EditorClass(EngineClass engineClass, int editorClassId, Action<EngineObject, GameEngine, EditDoneEvent> edit)
+    private EditorClass(EngineClass engineClass, int editorClassId, Action<EngineObject, GameEngine, Action<EditResult, EngineObject>> edit)
     {
         Class = engineClass;
         EditorClassId = editorClassId;
@@ -21,7 +21,7 @@ public sealed class EditorClass
     public string StorageKey => Class.StorageKey;
     public int EditorClassId { get; }
 
-    public void Edit(EngineObject objectValue, GameEngine engine, EditDoneEvent done) => _edit(objectValue, engine, done);
+    public void Edit(EngineObject objectValue, GameEngine engine, Action<EditResult, EngineObject> done) => _edit(objectValue, engine, done);
 
     public static EditorClass Register<T>() where T : EngineObjectEditor, IEngineObjectEditorClass
         => s_catalog.Add(typeof(T), new EditorClass(EngineClass.Of<T>(), T.EditorClassId, static (objectValue, engine, done) => T.Edit(objectValue, engine, done)));

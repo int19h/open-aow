@@ -41,7 +41,7 @@ public sealed class CombatMapControl : Component
     [Published]
     public event PlayerChangedEvent OnSeatedPlayerChanged;
     [Published]
-    public event OnExecuteEventLogEvent OnExecuteEventLog;
+    public event Action<EventLog, ExecuteDoneEvent> OnExecuteEventLog;
 
     internal void ClearExecuteEventLogHandler() => OnExecuteEventLog = null;
 
@@ -375,7 +375,7 @@ public sealed class CombatMapControl : Component
 
             ExecuteEventLogInfo info = sender is ExecuteEventLogNotification notification
                 ? notification.Info : ReadLegacyRecord<ExecuteEventLogInfo>(sender);
-            OnExecuteEventLog(info.Log, ExecuteDoneEvent: info.Done);
+            OnExecuteEventLog(info.Log, info.Done);
         }
         catch
         {
@@ -417,7 +417,6 @@ public sealed class CombatMapControl : Component
     public delegate void ShowMessageEvent(in ShowMessageInfo Info);
     public delegate void TurnChangedEvent(int Turn);
     public delegate void MapChangedEvent(in MapChangedInfo ChangedArea);
-    public delegate void OnExecuteEventLogEvent(EventLog EventLog, ExecuteDoneEvent ExecuteDoneEvent);
     public delegate void CastCombatSpellEvent(CombatSpellCaster SC);
     public delegate void ActivateCombatAbilityEvent(AbilityActivation AAI);
 }

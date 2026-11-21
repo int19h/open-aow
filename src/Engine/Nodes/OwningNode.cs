@@ -321,16 +321,16 @@ public class OwningNode : CustomNode
 
     // The members below reorder or drop child slots as the original's direct writes of FChildren
     // do: no change notification, no reference count, no release.
-    public void SortChildren(ListSortCompare<EngineObject> compare) => _children.Sort(compare);
+    public void SortChildren(Comparison<EngineObject> compare) => _children.Sort(compare);
 
     // Keeps the order of equal children.
-    public void SortChildrenStable(ListSortCompare<EngineObject> compare) => _children.SortStable(compare);
+    public void SortChildrenStable(Comparison<EngineObject> compare) => _children.SortStable(compare);
 
     // The same sorts with a comparer of the child type a typed list admits. Each slot is a T or empty.
-    public void SortChildren<T>(ListSortCompare<T> compare)
+    public void SortChildren<T>(Comparison<T> compare)
         where T : EngineObject => _children.Sort(compare);
 
-    public void SortChildrenStable<T>(ListSortCompare<T> compare)
+    public void SortChildrenStable<T>(Comparison<T> compare)
         where T : EngineObject => _children.SortStable(compare);
 
     public void MoveChild(int current, int target) => _children.Move(current, target: target);

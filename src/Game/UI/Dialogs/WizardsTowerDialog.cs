@@ -25,16 +25,16 @@ public sealed partial class WizardsTowerDialog(UIContext ui) : UIModule(ui)
     public Memo ResearchMemo { get; private set; }
     public Label PriceLabel { get; private set; }
 
-    private event ExecuteDoneEvent OnClose;
+    private ExecuteDoneEvent _close;
     private EnterWizardsTowerEventLog _event;
 
     // AoWWizardsTowerDlg.pas:54
     public void ClearEvent()
     {
         Window.Visible = false;
-        ExecuteDoneEvent notify = OnClose;
+        ExecuteDoneEvent notify = _close;
         EnterWizardsTowerEventLog eventValue = _event;
-        OnClose = null;
+        _close = null;
         _event = null;
         notify?.Invoke(eventValue);
 
@@ -97,7 +97,7 @@ public sealed partial class WizardsTowerDialog(UIContext ui) : UIModule(ui)
 
     internal static void ShowTower(WizardsTowerDialog dialog, EnterWizardsTowerEventLog eventValue, ExecuteDoneEvent done)
     {
-        dialog.OnClose = done;
+        dialog._close = done;
         dialog._event = eventValue;
         _ = dialog._event.AddRef();
         WizardsTower tower = dialog._event.Tower;

@@ -22,15 +22,15 @@ public sealed partial class CombatChoice(UIContext ui) : UIModule(ui)
     public UserDrawBox MapView { get; private set; }
 
     private CombatTypeRequestEventLog _request;
-    private event NotifyEvent<object> OnDone;
+    private NotifyEvent<object> _done;
 
     // TCFCDlg.pas:119
     public void Finish()
     {
         UI.General.Manager.OverlayPriority = 0;
-        NotifyEvent<object> done = OnDone;
+        NotifyEvent<object> done = _done;
         CombatTypeRequestEventLog request = _request;
-        OnDone = null;
+        _done = null;
         _request = null;
         done?.Invoke(request);
 
@@ -164,7 +164,7 @@ public sealed partial class CombatChoice(UIContext ui) : UIModule(ui)
         {
             dialog._request = eventValue;
             _ = dialog._request.AddRef();
-            dialog.OnDone = RebindDelegate<NotifyEvent<object>>(done);
+            dialog._done = RebindDelegate<NotifyEvent<object>>(done);
             dialog.UI.General.Manager.OverlayPriority = 49;
             if (dialog.TacticalCombatCheckBox.Checked)
             {

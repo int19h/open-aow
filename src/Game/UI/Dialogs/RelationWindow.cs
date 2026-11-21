@@ -131,7 +131,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
     public List<Image> FImages { get; private set; }
     public List<CheckBox> FChecks { get; private set; }
 
-    private event ExecuteDoneEvent Done;
+    private ExecuteDoneEvent _done;
     private DiplomaticActionEventLog _event;
     private int _glowIntensity;
     private bool _glowIncreasing;
@@ -542,9 +542,9 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
         DiplomaticActionEventLog pending = _event;
         if (pending is not null)
         {
-            ExecuteDoneEvent done = Done;
+            ExecuteDoneEvent done = _done;
             DiplomaticActionEventLog eventValue = pending;
-            Done = null;
+            _done = null;
             _event = null;
             done?.Invoke(eventValue);
 
@@ -1064,7 +1064,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
             DelphiAssert.Assert(false, message: "Assertion failure", file: "D:\\AoWDev\\AoWRelations.pas", line: 663);
         }
 
-        dialog.Done = done;
+        dialog._done = done;
         dialog._event = eventValue;
         _ = eventValue.AddRef();
 

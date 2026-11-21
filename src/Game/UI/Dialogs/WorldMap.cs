@@ -71,9 +71,9 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
 
     public EngineObject BookContext { get; set; }
 
-    public event NotifyEvent<object> OnBookClosed;
+    private NotifyEvent<object> _bookClosed;
 
-    internal void SetBookClosedHandler(NotifyEvent<object> handler) => OnBookClosed = handler;
+    internal void SetBookClosedHandler(NotifyEvent<object> handler) => _bookClosed = handler;
 
     public byte BookAction { get; set; }
 
@@ -565,7 +565,7 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
         UI.LeaderSetupWindow.SetFixedSpheres(picks);
         string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_assignNewSpheresFormat), arguments: [2.ToString(CultureInfo.InvariantCulture)]);
         UI.LeaderSetupWindow.Phase3Header.Text = format;
-        control.OnDone += SpheresDone;
+        control.SetDoneHandler(SpheresDone);
         _ = control.Release();
         UI.LeaderSetupWindow.LeaderPanel.ImageLibraryTexture = UI.Graphics.WorldMap;
         UI.LeaderSetupWindow.LeaderPanel.ImageLibraryIndexTexture = 0;
@@ -594,9 +594,9 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
     // AoWWorldMap.pas:428
     public void BookClosed()
     {
-        NotifyEvent<object> done = OnBookClosed;
+        NotifyEvent<object> done = _bookClosed;
         EngineObject context = BookContext;
-        OnBookClosed = null;
+        _bookClosed = null;
         BookContext = null;
         done?.Invoke(context);
 

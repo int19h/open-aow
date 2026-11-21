@@ -123,7 +123,7 @@ public partial class ItemHexSprite : SingleHexSprite
         if (_generateMode != ItemHexSpriteGenerateMode.UserDefined)
         {
             RandSeed = StrategicMap.Current.Random(16777215);
-            Items.ClearChangedHandler();
+            Items.SetChangedHandler(null);
             if (_generateMode == ItemHexSpriteGenerateMode.Random)
             {
                 _generateMode = (ItemHexSpriteGenerateMode)(StrategicMap.Current.Random(3) + 1);

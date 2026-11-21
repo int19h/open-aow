@@ -16,15 +16,15 @@ public sealed partial class TutorialWindow(UIContext ui) : UIModule(ui)
     public Memo HeaderMemo { get; private set; }
     public VerticalScrollBar AbilityScrollBar { get; private set; }
 
-    private event ExecuteDoneEvent Done;
+    private ExecuteDoneEvent _done;
     private EventLog _event;
 
     // AoWTutorialWin.pas:51
     public void FinishDialog()
     {
-        ExecuteDoneEvent done = Done;
+        ExecuteDoneEvent done = _done;
         EventLog log = _event;
-        Done = null;
+        _done = null;
         _event = null;
         done?.Invoke(log);
 
@@ -52,7 +52,7 @@ public sealed partial class TutorialWindow(UIContext ui) : UIModule(ui)
         dialog.FinishDialog();
         dialog._event = eventValue;
         _ = dialog._event.AddRef();
-        dialog.Done = done;
+        dialog._done = done;
         dialog.HeaderMemo.Items.Clear();
         if (eventValue.Message.Count > 0)
         {
@@ -82,7 +82,7 @@ public sealed partial class TutorialWindow(UIContext ui) : UIModule(ui)
         dialog.FinishDialog();
         dialog._event = eventValue;
         _ = dialog._event.AddRef();
-        dialog.Done = done;
+        dialog._done = done;
         dialog.HeaderMemo.Items.Clear();
         _ = dialog.HeaderMemo.Items.Add(eventValue.HelpFileName);
         dialog.MessageMemo.Items.Clear();

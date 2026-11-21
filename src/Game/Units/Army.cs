@@ -53,11 +53,9 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
     private byte _unfogRange;
     private byte _upkeep;
 
-    public event NotifyEvent<object> OnUpdate;
+    private NotifyEvent<object> _update;
 
-    internal void SetUpdateHandler(NotifyEvent<object> handler) => OnUpdate = handler;
-
-    internal void ClearUpdateHandler() => OnUpdate = null;
+    internal void SetUpdateHandler(NotifyEvent<object> handler) => _update = handler;
 
     public GroupBehavior OldAIBehavior { get; set; }
     public MapCoordinate Destination { get; set; } = new MapCoordinate(-1, -1, -1);
@@ -75,7 +73,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
             StrategicMap.Current.NotifyArmyDestroyed(this);
         }
 
-        OnUpdate = null;
+        _update = null;
         base.Dispose();
     }
 
@@ -1086,7 +1084,7 @@ public class Army(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, 
         if (UpdateCount == 0 && Status.Contains(ArmyStatusElement.Activated))
         {
             StrategicMap.Current.NotifyArmyChanged(this);
-            OnUpdate?.Invoke(this);
+            _update?.Invoke(this);
         }
     }
 

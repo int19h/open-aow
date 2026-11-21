@@ -43,7 +43,7 @@
               "Set\u00601.low": 0
             },
             "Army.OldAIBehavior": 0,
-            "Army.OnUpdate": null,
+            "Army._update": null,
             "Army.Player": 0,
             "Army.Status": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -180,7 +180,7 @@
               "Set\u00601.low": 0
             },
             "Army.OldAIBehavior": 0,
-            "Army.OnUpdate": null,
+            "Army._update": null,
             "Army.Player": 0,
             "Army.Status": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -346,7 +346,7 @@
               "Set\u00601.low": 0
             },
             "Army.OldAIBehavior": 0,
-            "Army.OnUpdate": null,
+            "Army._update": null,
             "Army.Player": 0,
             "Army.Status": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -483,7 +483,7 @@
               "Set\u00601.low": 0
             },
             "Army.OldAIBehavior": 0,
-            "Army.OnUpdate": null,
+            "Army._update": null,
             "Army.Player": 0,
             "Army.Status": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -637,7 +637,7 @@
               "Set\u00601.low": 0
             },
             "Army.OldAIBehavior": 0,
-            "Army.OnUpdate": null,
+            "Army._update": null,
             "Army.Player": 0,
             "Army.Status": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -771,7 +771,7 @@
               "Set\u00601.low": 0
             },
             "Army.OldAIBehavior": 0,
-            "Army.OnUpdate": null,
+            "Army._update": null,
             "Army.Player": 0,
             "Army.Status": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -943,7 +943,7 @@
               "Set\u00601.low": 0
             },
             "Army.OldAIBehavior": 0,
-            "Army.OnUpdate": null,
+            "Army._update": null,
             "Army.Player": 0,
             "Army.Status": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -1077,7 +1077,7 @@
               "Set\u00601.low": 0
             },
             "Army.OldAIBehavior": 0,
-            "Army.OnUpdate": null,
+            "Army._update": null,
             "Army.Player": 0,
             "Army.Status": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",

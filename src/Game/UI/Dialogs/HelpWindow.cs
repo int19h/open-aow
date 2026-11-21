@@ -16,15 +16,15 @@ public sealed partial class HelpWindow(UIContext ui) : UIModule(ui)
     public Memo HeaderMemo { get; private set; }
     public Memo HelpMemo { get; private set; }
 
-    private event ExecuteDoneEvent Done;
+    private ExecuteDoneEvent _done;
     private HelpMessageEventLog _helpEvent;
 
     // aowHelpWin.pas:53
     public void FinishDialog()
     {
-        ExecuteDoneEvent done = Done;
+        ExecuteDoneEvent done = _done;
         HelpMessageEventLog eventValue = _helpEvent;
-        Done = null;
+        _done = null;
         _helpEvent = null;
         done?.Invoke(eventValue);
 
@@ -58,7 +58,7 @@ public sealed partial class HelpWindow(UIContext ui) : UIModule(ui)
 
         if (eventValue.Mode != 0)
         {
-            Done = done;
+            _done = done;
         }
         else
         {
