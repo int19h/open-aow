@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Collections;
@@ -27,7 +27,7 @@ namespace Aow.Game.Session;
 public sealed class CampaignTransferSettings : EngineObject
 {
     // Diplomacy.pas:1736
-    public CampaignTransferSettings(CustomNode owner) : base(owner)
+    public CampaignTransferSettings(CustomNode? owner) : base(owner)
     {
         Heroes = new HeroList(null) { Holder = CreationHolder() };
         Items = new ItemList(null) { Holder = CreationHolder() };
@@ -40,7 +40,7 @@ public sealed class CampaignTransferSettings : EngineObject
         SelectedSpheres = new ByteList();
     }
 
-    public Leader Leader { get; private set; }
+    public Leader? Leader { get; private set; }
 
     public HeroList Heroes { get; }
     public ItemList Items { get; }
@@ -88,7 +88,7 @@ public sealed class CampaignTransferSettings : EngineObject
         _researchPercentage = persister.Int32("ResearchPercentage", value: _researchPercentage);
         if (persister.Loading)
         {
-            Leader leader = null;
+            Leader? leader = null;
             leader = persister.Created("Leader", objectValue: leader);
             SetLeader(leader);
             _ = (leader?.Release());
@@ -113,7 +113,7 @@ public sealed class CampaignTransferSettings : EngineObject
     }
 
     // Diplomacy.pas:1797
-    public void SetLeader(Leader leader)
+    public void SetLeader(Leader? leader)
     {
         _ = (Leader?.Release());
 
@@ -140,7 +140,7 @@ public sealed class CampaignTransferSettings : EngineObject
                 candidates.Clear();
                 for (int i = 0, last = units.Count - 1; i <= last; i++)
                 {
-                    Troop troop = units.GetUnit(i);
+                    Troop? troop = units.GetUnit(i);
                     if (troop.UnitLevel == level && Units.IndexOf(troop) == -1)
                     {
                         _ = candidates.Add(troop);
@@ -151,7 +151,7 @@ public sealed class CampaignTransferSettings : EngineObject
                 while (levelCounts[level - 1] != 0 && candidates.Count != 0 && Units.Count != maxUnits)
                 {
                     int index = Random(candidates.Count);
-                    Troop abstractUnit = candidates[index];
+                    Troop? abstractUnit = candidates[index];
                     _ = Units.AddUnit(abstractUnit);
                     candidates.Delete(index);
                 }
@@ -173,7 +173,7 @@ public sealed class CampaignTransferSettings : EngineObject
             Leader.RemoveEnchantments();
             Leader.RemoveHandicaps();
             _ = Leader.ExecuteCancelCasting();
-            Item item;
+            Item? item;
             Item copyItem;
             for (int j = Leader.Inventory.Items.Count - 1; j >= 0; j--)
             {
@@ -253,7 +253,7 @@ public sealed class CampaignTransferSettings : EngineObject
             }
 
             _researchPercentage = StrategicMap.Current.Players.GetPlayers(player).MagicControl.ResearchPercentage;
-            Player players = StrategicMap.Current.Players.GetPlayers(player);
+            Player? players = StrategicMap.Current.Players.GetPlayers(player);
             _spells.Assign(players.MagicControl.Spells);
             _researchSpellId = StrategicMap.Current.Players.GetPlayers(player).MagicControl.ResearchSpellId;
             _researchPointsLeft = StrategicMap.Current.Players.GetPlayers(player).MagicControl.ResearchPointsLeft;
@@ -522,16 +522,16 @@ public sealed class CampaignTransferSettings : EngineObject
             StrategicMap.Current.Players.GetPlayers(player).MagicControl.ResearchSpellId = _researchSpellId;
             StrategicMap.Current.Players.GetPlayers(player).MagicControl.ResearchPointsLeft = _researchPointsLeft;
             StrategicMap.Current.Players.GetPlayers(player).MagicControl.Spells.Assign(_spells);
-            Player players = StrategicMap.Current.Players.GetPlayers(player);
+            Player? players = StrategicMap.Current.Players.GetPlayers(player);
             players.InitialGold += SelectedTransferGold;
-            Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(player);
+            Player? fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(player);
             fPlayersPlayers.MagicControl.ExternalMana += SelectedTransferMana;
-            Leader leader = StrategicMap.Current.Players.GetPlayers(player).Leader;
+            Leader? leader = StrategicMap.Current.Players.GetPlayers(player).Leader;
             MapCoordinate coordinate23 = leader.GetLocation();
             sbyte x = coordinate23.X;
             sbyte y = coordinate23.Y;
             sbyte l = coordinate23.MapLevel;
-            Item itemItem;
+            Item? itemItem;
             if (Leader is not null)
             {
                 leader.Deactivate();

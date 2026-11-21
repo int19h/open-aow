@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from NetworkE.pas.
 using Aow.Engine.Nodes;
 
@@ -8,16 +8,16 @@ namespace Aow.Game.Net;
 
 // FLocalSystemID, FPackageDataList, FOnSendData. The control of a network game: the transport
 // sends through OnSendData and hands what arrives to DataReceived
-public sealed class RemotePlayerCommunicationControl(EngineObject creator) : PlayerCommunicationControl(creator)
+public sealed class RemotePlayerCommunicationControl(EngineObject? creator) : PlayerCommunicationControl(creator)
 {
 
     private int _localSystemId;
 
     internal PackageDataList PackageDataList { get; } = new PackageDataList();
 
-    private SendDataEvent _sendData;
+    private SendDataEvent? _sendData;
 
-    internal void SetSendDataHandler(SendDataEvent handler) => _sendData = handler;
+    internal void SetSendDataHandler(SendDataEvent? handler) => _sendData = handler;
 
     // NetworkE.pas:819
     public override int LocalSystemId => _localSystemId;

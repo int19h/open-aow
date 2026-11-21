@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from GlobalTargetSpells.pas.
 using Aow.Engine.Nodes;
 
@@ -11,7 +11,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Commands;
 
-public class FreezeWaterTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
+public class FreezeWaterTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenEvent(owner)
 {
     public new const int ClassId = 135_939;
 

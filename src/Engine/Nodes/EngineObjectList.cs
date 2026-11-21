@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Engine.pas.
 using Aow.Rtl;
 
@@ -10,7 +10,7 @@ namespace Aow.Engine.Nodes;
 public sealed class EngineObjectList : DelphiList<EngineObject>
 {
     // Engine.pas:7146
-    public EngineObject FindObject(int classId)
+    public EngineObject? FindObject(int classId)
     {
         int i = 0;
         bool found = false;

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
@@ -9,7 +9,7 @@ using Aow.Game.Units;
 namespace Aow.Game.Magic.Abilities;
 
 // (ability ID, duration, player, enchantment)
-public class UnitEnchantmentAbilityData(CustomNode owner) : AbilityData(owner)
+public class UnitEnchantmentAbilityData(CustomNode? owner) : AbilityData(owner)
 {
 
     public new const int ClassId = 131_756;
@@ -18,12 +18,12 @@ public class UnitEnchantmentAbilityData(CustomNode owner) : AbilityData(owner)
     public sbyte EnchantmentDuration { get; set; } = -1;
     // -1 is permanent
     public sbyte EnchantmentPlayerIndex { get; set; } = -1;
-    public UnitEnchantment Enchantment { get; set; }
+    public UnitEnchantment? Enchantment { get; set; }
 
     // AoWAb.PAS:567
     public override void Dispose()
     {
-        UnitEnchantment enchantment = Enchantment;
+        UnitEnchantment? enchantment = Enchantment;
         enchantment?.Dispose();
 
         base.Dispose();
@@ -45,7 +45,7 @@ public class UnitEnchantmentAbilityData(CustomNode owner) : AbilityData(owner)
     // AoWAb.PAS:582
     public void SetEnchantment(UnitEnchantment enchantment)
     {
-        UnitEnchantment oldEnchantment = Enchantment;
+        UnitEnchantment? oldEnchantment = Enchantment;
         oldEnchantment?.Dispose();
 
         Enchantment = enchantment;

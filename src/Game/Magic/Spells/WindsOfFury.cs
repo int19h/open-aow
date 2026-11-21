@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from CombatSpells.pas.
 using Aow.Engine.Nodes;
 
@@ -13,7 +13,7 @@ namespace Aow.Game.Magic.Spells;
 public class WindsOfFury : CombatSpell
 {
     // CombatSpells.pas:1889
-    public WindsOfFury(CustomNode owner, EngineObject holder) : base(owner)
+    public WindsOfFury(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_windsOfFuryText);
@@ -29,7 +29,7 @@ public class WindsOfFury : CombatSpell
     }
 
     // CombatSpells.pas:1904
-    public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
+    public override CombatAction CreateCombatAction(CombatObject? source, CombatObject target, bool chargeMana)
     {
         CombatSpellCombatAction action = new(null)
         {

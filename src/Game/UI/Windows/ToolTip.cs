@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AOWToolTip.pas.
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
@@ -18,7 +18,7 @@ namespace Aow.Game.UI.Windows;
 public sealed class ToolTip : GenericWindow
 {
     [Published]
-    public event NotifyEvent<ToolTip> DrawItem;
+    public event NotifyEvent<ToolTip>? DrawItem;
 
     public Rect ControlRectangle { get; set; }
 
@@ -82,21 +82,21 @@ public sealed class ToolTip : GenericWindow
             OwnerItem = WinWidth;
         }
 
-        LibraryImage imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame];
-        LibraryImage imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame + 5];
+        LibraryImage? imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame];
+        LibraryImage? imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame + 5];
         if (imageLibraryFrameHeight.Height + imageLibraryFrame.Height > WinHeight)
         {
-            LibraryImage imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame];
-            LibraryImage imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 5];
+            LibraryImage? imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame];
+            LibraryImage? imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 5];
             SetWinHeightWithoutInvalidate(imageLibraryFrame2.Height + imageLibraryFrame3.Height);
         }
 
-        LibraryImage imageLibraryFrameWidth = ImageLibraryFrame[ImageLibraryIndexFrame];
-        LibraryImage imageLibraryFrame4 = ImageLibraryFrame[ImageLibraryIndexFrame + 2];
+        LibraryImage? imageLibraryFrameWidth = ImageLibraryFrame[ImageLibraryIndexFrame];
+        LibraryImage? imageLibraryFrame4 = ImageLibraryFrame[ImageLibraryIndexFrame + 2];
         if (imageLibraryFrameWidth.Width + imageLibraryFrame4.Width > WinWidth)
         {
-            LibraryImage imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame];
-            LibraryImage imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame];
+            LibraryImage? imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame];
+            LibraryImage? imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame];
             SetWinWidthWithoutInvalidate(imageLibraryFrame2.Width + imageLibraryFrame3.Width);
         }
 
@@ -123,8 +123,8 @@ public sealed class ToolTip : GenericWindow
                     {
                         string line = _lines[i];
                         int textWidth = Font.GetTextWidth(line);
-                        LibraryImage imageLibraryFrame2 = ImageLibraryFrame[3];
-                        LibraryImage imageLibraryFrame3 = ImageLibraryFrame[4];
+                        LibraryImage? imageLibraryFrame2 = ImageLibraryFrame[3];
+                        LibraryImage? imageLibraryFrame3 = ImageLibraryFrame[4];
                         notDone = textWidth > WinWidth - imageLibraryFrame2.Width - imageLibraryFrame3.Width - (BorderWidth * 2);
                     }
 
@@ -171,18 +171,18 @@ public sealed class ToolTip : GenericWindow
                 i += 1;
             }
 
-            LibraryImage imageLibraryFrame5 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
-            LibraryImage imageLibraryFrame6 = ImageLibraryFrame[ImageLibraryIndexFrame + 6];
+            LibraryImage? imageLibraryFrame5 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
+            LibraryImage? imageLibraryFrame6 = ImageLibraryFrame[ImageLibraryIndexFrame + 6];
             int count = _lines.Count;
             SetWinHeightWithoutInvalidate(imageLibraryFrame5.Height + imageLibraryFrame6.Height + (BorderHeight * 2) + (count * ItemHeight));
             string line6 = _lines[0];
             int w = Font.GetTextWidth(line6);
-            LibraryImage imageLibraryFrame7 = ImageLibraryFrame[ImageLibraryIndexFrame];
-            LibraryImage imageLibraryFrame8 = ImageLibraryFrame[ImageLibraryIndexFrame + 2];
+            LibraryImage? imageLibraryFrame7 = ImageLibraryFrame[ImageLibraryIndexFrame];
+            LibraryImage? imageLibraryFrame8 = ImageLibraryFrame[ImageLibraryIndexFrame + 2];
             if (w < WinWidth - imageLibraryFrame7.Width - imageLibraryFrame8.Width - (BorderWidth * 2))
             {
-                LibraryImage imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame];
-                LibraryImage imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 2];
+                LibraryImage? imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame];
+                LibraryImage? imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 2];
                 SetWinWidthWithoutInvalidate(w + imageLibraryFrame2.Width + imageLibraryFrame3.Width + (BorderWidth * 2));
             }
         }
@@ -190,10 +190,10 @@ public sealed class ToolTip : GenericWindow
         if (Masked)
         {
             FrameLeft = ImageLibraryFrame[ImageLibraryIndexFrame + 3].Width;
-            LibraryImage imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame + 4];
+            LibraryImage? imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame + 4];
             FrameRight = WinWidth - imageLibraryFrame2.Width;
             FrameTop = ImageLibraryFrame[ImageLibraryIndexFrame + 1].Height;
-            LibraryImage imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 6];
+            LibraryImage? imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 6];
             FrameBottom = WinHeight - imageLibraryFrame3.Height;
         }
 
@@ -275,12 +275,12 @@ public sealed class ToolTip : GenericWindow
             {
                 SizedRectangle rectangle = new(WinLeft, WinTop, WinWidth, WinHeight);
                 ImageLibraryFrame.DrawFrame(ImageLibraryIndexFrame, area: rectangle, ref lockedSurface);
-                LibraryImage imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
-                LibraryImage imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame + 6];
-                LibraryImage imageLibraryFrameWidth = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
-                LibraryImage imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame + 4];
-                LibraryImage imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
-                LibraryImage imageLibraryFrame4 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
+                LibraryImage? imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
+                LibraryImage? imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame + 6];
+                LibraryImage? imageLibraryFrameWidth = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
+                LibraryImage? imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame + 4];
+                LibraryImage? imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
+                LibraryImage? imageLibraryFrame4 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
                 SizedRectangle rectangle2 = new(WinLeft + imageLibraryFrame4.Width, WinTop + imageLibraryFrame3.Height, WinWidth - imageLibraryFrameWidth.Width - imageLibraryFrame2.Width, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
                 ImageLibraryTexture.DrawTiled(ImageLibraryIndexTexture, area: rectangle2, ref lockedSurface);
                 Font.Color = Color;
@@ -289,10 +289,10 @@ public sealed class ToolTip : GenericWindow
                 {
                     for (int i = 0, last = _lines.Count - 1; i <= last; i++)
                     {
-                        LibraryImage imageLibraryFrame5 = ImageLibraryFrame[ImageLibraryIndexFrame + 4];
+                        LibraryImage? imageLibraryFrame5 = ImageLibraryFrame[ImageLibraryIndexFrame + 4];
                         if (WinLeft + WinWidth - imageLibraryFrame5.Width < oldClip.Right)
                         {
-                            LibraryImage imageLibraryFrame6 = ImageLibraryFrame[ImageLibraryIndexFrame + 4];
+                            LibraryImage? imageLibraryFrame6 = ImageLibraryFrame[ImageLibraryIndexFrame + 4];
                             Rect clipRectangle = lockedSurface.ClipRectangle;
                             clipRectangle.Right = WinLeft + WinWidth - imageLibraryFrame6.Width;
                             lockedSurface.ClipRectangle = clipRectangle;
@@ -301,12 +301,12 @@ public sealed class ToolTip : GenericWindow
                         if (i < _lines.Count && _lines.Count > 0)
                         {
                             string line = _lines[i];
-                            LibraryImage imageLibraryFrame6 = ImageLibraryFrame[ImageLibraryIndexFrame];
-                            LibraryImage imageLibraryFrame7 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
+                            LibraryImage? imageLibraryFrame6 = ImageLibraryFrame[ImageLibraryIndexFrame];
+                            LibraryImage? imageLibraryFrame7 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
                             Font.SetText(WinLeft + BorderWidth + imageLibraryFrame7.Width, WinTop + BorderHeight + imageLibraryFrame6.Height + (ItemHeight * i), text: line, lockedSurface);
-                            LibraryImage imageLibraryFrame8 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
-                            LibraryImage imageLibraryFrame9 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
-                            LibraryImage libraryImage = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
+                            LibraryImage? imageLibraryFrame8 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
+                            LibraryImage? imageLibraryFrame9 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
+                            LibraryImage? libraryImage = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
                             DrawItem?.Invoke(this);
                         }
 

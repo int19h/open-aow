@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWWinMan.pas.
 using System.Globalization;
 using Aow.Formats;
@@ -50,15 +50,15 @@ public sealed partial class General(UIContext ui) : UIModule(ui)
 
     public int[] SelectedUnits { get; } = new int[8];
 
-    public Army UnitList { get; set; }
-    public Structure Structure { get; set; }
-    public Structure PreviousStructure { get; set; }
-    public City City { get; set; }
-    public ProductionPlace ProductionPlace { get; set; }
-    public ProductionControl ProductionControl { get; set; }
-    public Sign Sign { get; set; }
-    public Troop SelectedUnit { get; set; }
-    public TacticalBattleUnitHexSprite CombatUnit { get; set; }
+    public Army? UnitList { get; set; }
+    public Structure? Structure { get; set; }
+    public Structure? PreviousStructure { get; set; }
+    public City? City { get; set; }
+    public ProductionPlace? ProductionPlace { get; set; }
+    public ProductionControl? ProductionControl { get; set; }
+    public Sign? Sign { get; set; }
+    public Troop? SelectedUnit { get; set; }
+    public TacticalBattleUnitHexSprite? CombatUnit { get; set; }
 
     // AoWWinMan.pas:503
     public void ReturnToTitle()
@@ -228,7 +228,7 @@ public sealed partial class General(UIContext ui) : UIModule(ui)
     // AoWWinMan.pas:123
     public void SortLists(DelphiList<ListBox> lists, byte order)
     {
-        ListBox l = lists[0];
+        ListBox? l = lists[0];
         for (int i = 1, last = l.Items.Count - 1; i <= last; i++)
         {
             int j = i - 1;
@@ -343,7 +343,7 @@ public sealed partial class General(UIContext ui) : UIModule(ui)
     }
 
     // AoWWinMan.pas:89
-    public int IndexOfUnit(Troop U)
+    public int IndexOfUnit(Troop? U)
     {
         int result = -1;
         if (SelectedUnits[0] > -1 && UnitList is not null)
@@ -641,7 +641,7 @@ public sealed partial class General(UIContext ui) : UIModule(ui)
             string s;
             if (StrategicMap.Current is not null && (StrategicMap.Current.PlayMode != PlayMode.Simultaneous || StrategicMap.Current.Players.LocalPlayers.Count == 1) && (byte)key is >= 49 and <= 57 && CombatMap.Current is null && StrategicMap.Current.Players.GetCount() > key - 48 && UI.Engine.Registry.GetDebugMode())
             {
-                Player player = StrategicMap.Current.Players.GetPlayers(key - 48);
+                Player? player = StrategicMap.Current.Players.GetPlayers(key - 48);
                 player.PlayerType = player.PlayerType == PlayerType.Cpu5 ? PlayerType.Human : (PlayerType)((int)player.PlayerType + 1);
 
                 string playerType = UI.Engine.TranslateResourceString(GameTables.PlayerTypeTexts[(int)player.PlayerType]);

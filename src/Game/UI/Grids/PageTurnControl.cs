@@ -1,3 +1,4 @@
+#nullable disable warnings // Enabled before the stage 1 annotations of issue 315.
 // Translated from PageTurnCtrl.pas.
 using System.Runtime.InteropServices;
 using Aow.Game.Draw;

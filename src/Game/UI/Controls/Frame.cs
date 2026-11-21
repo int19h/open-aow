@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWFrame.pas.
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
@@ -10,11 +10,11 @@ namespace Aow.Game.UI.Controls;
 
 // Fields: _frameType, _imageLibraryFrame, _imageLibraryTexture, _imageLibraryLine, _imageLibraryIndexFrame, _imageLibraryIndexLine,
 // _imageLibraryIndexTexture, _popupMenu
-public sealed class Frame(Component owner) : Control(owner)
+public sealed class Frame(Component? owner) : Control(owner)
 {
-    private InterfaceImageLibrary _imageLibraryFrame;
-    private InterfaceImageLibrary _imageLibraryTexture;
-    private InterfaceImageLibrary _imageLibraryLine;
+    private InterfaceImageLibrary? _imageLibraryFrame;
+    private InterfaceImageLibrary? _imageLibraryTexture;
+    private InterfaceImageLibrary? _imageLibraryLine;
     private int _imageLibraryIndexFrame;
     private int _imageLibraryIndexLine;
     private int _imageLibraryIndexTexture;
@@ -66,44 +66,44 @@ public sealed class Frame(Component owner) : Control(owner)
         {
             case FrameType.FilledBox:
             case FrameType.HollowBox:
-                LibraryImage imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame];
-                LibraryImage imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 5];
+                LibraryImage? imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame];
+                LibraryImage? imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 5];
                 if (imageLibraryFrameHeight.Height + imageLibraryFrame.Height > WinHeight)
                 {
-                    LibraryImage imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame];
-                    LibraryImage imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 5];
+                    LibraryImage? imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame];
+                    LibraryImage? imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 5];
                     SetWinHeightWithoutInvalidate(imageLibraryFrame2.Height + imageLibraryFrame3.Height);
                 }
 
-                LibraryImage imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame];
-                LibraryImage imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 2];
+                LibraryImage? imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame];
+                LibraryImage? imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 2];
                 if (imageLibraryFrameWidth.Width + imageLibraryFrame4.Width > WinWidth)
                 {
-                    LibraryImage imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame];
-                    LibraryImage imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 2];
+                    LibraryImage? imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame];
+                    LibraryImage? imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 2];
                     SetWinWidthWithoutInvalidate(imageLibraryFrame2.Width + imageLibraryFrame3.Width);
                 }
 
                 break;
             case FrameType.HorizontalLine:
                 SetWinHeightWithoutInvalidate(_imageLibraryLine[_imageLibraryIndexLine].Height);
-                LibraryImage imageLibraryLineWidth = _imageLibraryLine[_imageLibraryIndexLine];
-                LibraryImage imageLibraryLine = _imageLibraryLine[_imageLibraryIndexLine + 2];
+                LibraryImage? imageLibraryLineWidth = _imageLibraryLine[_imageLibraryIndexLine];
+                LibraryImage? imageLibraryLine = _imageLibraryLine[_imageLibraryIndexLine + 2];
                 if (imageLibraryLineWidth.Width + imageLibraryLine.Width > WinWidth)
                 {
-                    LibraryImage imageLibraryLine2 = _imageLibraryLine[_imageLibraryIndexLine];
-                    LibraryImage imageLibraryLine3 = _imageLibraryLine[_imageLibraryIndexLine + 2];
+                    LibraryImage? imageLibraryLine2 = _imageLibraryLine[_imageLibraryIndexLine];
+                    LibraryImage? imageLibraryLine3 = _imageLibraryLine[_imageLibraryIndexLine + 2];
                     SetWinWidthWithoutInvalidate(imageLibraryLine2.Width + imageLibraryLine3.Width);
                 }
 
                 break;
             case FrameType.VertLine:
-                LibraryImage imageLibraryLineHeight = _imageLibraryLine[_imageLibraryIndexLine];
-                LibraryImage imageLibraryLine4 = _imageLibraryLine[_imageLibraryIndexLine + 2];
+                LibraryImage? imageLibraryLineHeight = _imageLibraryLine[_imageLibraryIndexLine];
+                LibraryImage? imageLibraryLine4 = _imageLibraryLine[_imageLibraryIndexLine + 2];
                 if (imageLibraryLineHeight.Height + imageLibraryLine4.Height > WinHeight)
                 {
-                    LibraryImage imageLibraryLine2 = _imageLibraryLine[_imageLibraryIndexLine];
-                    LibraryImage imageLibraryLine3 = _imageLibraryLine[_imageLibraryIndexLine + 2];
+                    LibraryImage? imageLibraryLine2 = _imageLibraryLine[_imageLibraryIndexLine];
+                    LibraryImage? imageLibraryLine3 = _imageLibraryLine[_imageLibraryIndexLine + 2];
                     SetWinHeightWithoutInvalidate(imageLibraryLine2.Height + imageLibraryLine3.Height);
                 }
 
@@ -142,12 +142,12 @@ public sealed class Frame(Component owner) : Control(owner)
                     case FrameType.FilledBox:
                         SizedRectangle rectangle4 = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth, WinHeight);
                         _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, area: rectangle4, ref lockedSurface);
-                        LibraryImage imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
-                        LibraryImage imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
-                        LibraryImage imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                        LibraryImage imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
-                        LibraryImage imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
-                        LibraryImage imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                        LibraryImage? imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                        LibraryImage? imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
+                        LibraryImage? imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                        LibraryImage? imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
+                        LibraryImage? imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                        LibraryImage? imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
                         SizedRectangle rectangle5 = new(Window.AbsoluteLeft + WinLeft + imageLibraryFrame4.Width, Window.AbsoluteTop + WinTop + imageLibraryFrame3.Height, WinWidth - imageLibraryFrameWidth.Width - imageLibraryFrame2.Width, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
                         _imageLibraryTexture.DrawTiled(_imageLibraryIndexTexture, area: rectangle5, ref lockedSurface);
                         break;
@@ -236,7 +236,7 @@ public sealed class Frame(Component owner) : Control(owner)
     public override void CheckKeyPress(ref byte key) => Handled = false;
 
     // AoWFrame.pas:139
-    public void SetImageLibraryFrame(InterfaceImageLibrary value)
+    public void SetImageLibraryFrame(InterfaceImageLibrary? value)
     {
         if (value != _imageLibraryFrame)
         {
@@ -246,7 +246,7 @@ public sealed class Frame(Component owner) : Control(owner)
     }
 
     // AoWFrame.pas:148
-    public void SetImageLibraryTexture(InterfaceImageLibrary value)
+    public void SetImageLibraryTexture(InterfaceImageLibrary? value)
     {
         if (value != _imageLibraryTexture)
         {
@@ -256,7 +256,7 @@ public sealed class Frame(Component owner) : Control(owner)
     }
 
     // AoWFrame.pas:157
-    public void SetImageLibraryLine(InterfaceImageLibrary value)
+    public void SetImageLibraryLine(InterfaceImageLibrary? value)
     {
         if (value != _imageLibraryLine)
         {
@@ -299,7 +299,7 @@ public sealed class Frame(Component owner) : Control(owner)
     public FrameType FrameType { get; set; }
 
     [Published]
-    public InterfaceImageLibrary ImageLibraryFrame { get => _imageLibraryFrame; set => SetImageLibraryFrame(value); }
+    public InterfaceImageLibrary? ImageLibraryFrame { get => _imageLibraryFrame; set => SetImageLibraryFrame(value); }
 
     [Published]
     public int ImageLibraryIndexFrame { get => _imageLibraryIndexFrame; set => SetILFIndex(value); }
@@ -311,10 +311,10 @@ public sealed class Frame(Component owner) : Control(owner)
     public int ImageLibraryIndexTexture { get => _imageLibraryIndexTexture; set => SetImageLibraryTileIndex(value); }
 
     [Published]
-    public InterfaceImageLibrary ImageLibraryLine { get => _imageLibraryLine; set => SetImageLibraryLine(value); }
+    public InterfaceImageLibrary? ImageLibraryLine { get => _imageLibraryLine; set => SetImageLibraryLine(value); }
 
     [Published]
-    public InterfaceImageLibrary ImageLibraryTexture { get => _imageLibraryTexture; set => SetImageLibraryTexture(value); }
+    public InterfaceImageLibrary? ImageLibraryTexture { get => _imageLibraryTexture; set => SetImageLibraryTexture(value); }
 
     [Published]
     public Menu PopupMenu { get; set; }

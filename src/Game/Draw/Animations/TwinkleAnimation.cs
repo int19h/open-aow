@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Animation.pas.
 using Aow.Engine.Nodes;
 
@@ -15,9 +15,9 @@ namespace Aow.Game.Draw.Animations;
 // sequence, particle count, radius, lifetime, random start delay, mode
 public sealed class TwinkleAnimation : Animation
 {
-    public TwinkleAnimation(CustomNode owner) : base(owner) => AnimationLevel = 28;
+    public TwinkleAnimation(CustomNode? owner) : base(owner) => AnimationLevel = 28;
 
-    private ImageSequence _imageSequence;
+    private ImageSequence? _imageSequence;
     private int _count;
     private int _radius;
     private int _duration;
@@ -62,7 +62,7 @@ public sealed class TwinkleAnimation : Animation
                 }
 
                 AbilityRules.PolarToCartesian(angle, radius, out int deltaX, out int deltaY);
-                ImageSequence sequence = _imageSequence;
+                ImageSequence? sequence = _imageSequence;
                 while (sequence is not null)
                 {
                     int index = sequence.GetUnloopedFrameIndex(FrameCounter - delay);
@@ -84,7 +84,7 @@ public sealed class TwinkleAnimation : Animation
     }
 
     // Animation.pas:575
-    public void Setup(ImageSequence sequence, TwinkleModes mode, int count, int radius, int duration, int startDelay)
+    public void Setup(ImageSequence? sequence, TwinkleModes mode, int count, int radius, int duration, int startDelay)
     {
         _imageSequence = sequence;
         _count = count;

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from GlobalTargetSpells.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Draw;
@@ -12,7 +12,7 @@ public class WatcherEnchantment : GlobalEnchantment
     public WatcherHexSprite Watcher { get; init; }
 
     // GlobalTargetSpells.pas:1121
-    public WatcherEnchantment(CustomNode owner) : base(owner)
+    public WatcherEnchantment(CustomNode? owner) : base(owner)
     {
         EnchantmentMode = (GlobalEnchantmentModes)(ulong)EnchantmentMode & ~(GlobalEnchantmentModes.TrueGlobal | GlobalEnchantmentModes.Owned);
         DispelMana = 50;

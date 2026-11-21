@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from PassiveAb.pas.
 using Aow.Engine.Nodes;
 
@@ -11,7 +11,7 @@ namespace Aow.Game.Magic.Abilities.Passive;
 public class SummonedAbility : UnitEnchantmentAbility
 {
     // PassiveAb.pas:1100
-    public SummonedAbility(CustomNode owner, EngineObject holder) : base(owner)
+    public SummonedAbility(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_summonedText);
@@ -19,7 +19,7 @@ public class SummonedAbility : UnitEnchantmentAbility
     }
 
     // PassiveAb.pas:1122
-    public override bool Remove(AbilityOwner owner)
+    public override bool Remove(AbilityOwner? owner)
     {
         bool result = base.Remove(owner);
         if (result && owner is Troop troop)
@@ -52,7 +52,7 @@ public class SummonedAbility : UnitEnchantmentAbility
     public static int GetDefaultManaUpkeep(Troop troop) => troop is Unit ? (troop.UnitLevel + 1) * 2 : 0;
 
     // PassiveAb.pas:1115
-    public static int GetDefaultDispelResistance(Troop troop) => troop is Unit ? troop.UnitLevel + 3 : 0;
+    public static int GetDefaultDispelResistance(Troop? troop) => troop is Unit ? troop.UnitLevel + 3 : 0;
 
     // PassiveAb.pas:1147
     public int UnitIndexToAIUpkeepPriority(int unitIndex)

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
@@ -23,7 +23,7 @@ public class Spell : EngineObject
 {
 
     // Spells.PAS:10
-    public Spell(CustomNode owner) : base(owner)
+    public Spell(CustomNode? owner) : base(owner)
     {
         SpellText = new DelphiStringList();
         CastSounds = new SfxLibrary(null) { Holder = CreationHolder() };
@@ -207,17 +207,17 @@ public class Spell : EngineObject
     }
 
     // Spells.PAS:158
-    public virtual CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana) => default;
+    public virtual CombatAction? CreateCombatAction(CombatObject? source, CombatObject target, bool chargeMana) => default;
 
     // The caller names the action this spell builds. Another action class throws. Null stays null.
-    public TAction CreateCombatAction<TAction>(CombatObject source, CombatObject target, bool chargeMana) where TAction : CombatAction
+    public TAction CreateCombatAction<TAction>(CombatObject? source, CombatObject target, bool chargeMana) where TAction : CombatAction
         => (TAction)CreateCombatAction(source, target: target, chargeMana: chargeMana);
 
     // Spells.PAS:178
     public virtual int GetCombatDamageValue(CombatObject source, CombatObject target) => 0;
 
     // Spells.PAS:182
-    public virtual void GetCombatDamageValues(CombatObject source, CombatObject target, ref AbilityDamageValues values)
+    public virtual void GetCombatDamageValues(CombatObject? source, CombatObject? target, ref AbilityDamageValues values)
     {
         values.SourceDamage = 0;
         values.SourceCost = 0;
@@ -244,7 +244,7 @@ public class Spell : EngineObject
     public virtual void FastBattleGetDamageValues(CombatObject source, CombatObject target, WallSituation wallSituation, ref AbilityDamageValues values) => values = default;
 
     // Spells.PAS:193
-    public void CastingDone(Troop source, int mana)
+    public void CastingDone(Troop? source, int mana)
     {
         if (source is Hero hero)
         {
@@ -253,7 +253,7 @@ public class Spell : EngineObject
     }
 
     // Spells.PAS:198
-    public void CombatCastingDone(CombatObject source, int mana)
+    public void CombatCastingDone(CombatObject? source, int mana)
     {
         if (source is CombatUnit combatUnit && combatUnit.Troop is Hero hero)
         {
@@ -300,7 +300,7 @@ public class Spell : EngineObject
 
     public virtual bool CanActivateCombat(Troop source, ref string reason) => StrategicMap.Current.Combat is not null;
 
-    public virtual void GetCombatInfo(Troop source, ref SpellCombatInfo info)
+    public virtual void GetCombatInfo(Troop? source, ref SpellCombatInfo info)
     {
         info.Attack = 0;
         info.Damage = 0;

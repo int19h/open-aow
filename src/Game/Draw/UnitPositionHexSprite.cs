@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWTC.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
@@ -13,7 +13,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Draw;
 
 // Position. Index. ImageIndex. Images. Direction
-public sealed class UnitPositionHexSprite(CustomNode owner) : SingleHexSprite(owner)
+public sealed class UnitPositionHexSprite(CustomNode? owner) : SingleHexSprite(owner)
 {
 
     // AoWTC.pas:5016
@@ -22,7 +22,7 @@ public sealed class UnitPositionHexSprite(CustomNode owner) : SingleHexSprite(ow
     private sbyte _position;
     private sbyte _index;
     private int _imageIndex;
-    private CustomImageLibrary _images;
+    private CustomImageLibrary? _images;
     private byte _direction = 1;
 
     // AoWTC.pas:5060
@@ -89,7 +89,7 @@ public sealed class UnitPositionHexSprite(CustomNode owner) : SingleHexSprite(ow
     }
 
     // AoWTC.pas:5068
-    public override bool CanPlace(MapContainer map, sbyte hexX, sbyte hexY, sbyte hexLevel) => map.GetField(hexX, hexY, hexLevel).FindOwnedChild(ClassId) is null && CombatMap.Current.UnitPositions.ValidatePosition(ref _position, ref _index);
+    public override bool CanPlace(MapContainer? map, sbyte hexX, sbyte hexY, sbyte hexLevel) => map.GetField(hexX, hexY, hexLevel).FindOwnedChild(ClassId) is null && CombatMap.Current.UnitPositions.ValidatePosition(ref _position, ref _index);
 
     // AoWTC.pas:5026
     public void UpdateImageIndex() => _imageIndex = (_position * 8) + _index;

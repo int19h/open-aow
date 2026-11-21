@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from GlobalSpells.pas.
 
 using Aow.Engine.Nodes;
@@ -18,7 +18,7 @@ namespace Aow.Game.Magic.Spells;
 public class Crusade : Spell
 {
     // GlobalSpells.pas:1302
-    public Crusade(CustomNode owner, EngineObject holder) : base(owner)
+    public Crusade(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_crusadeText);

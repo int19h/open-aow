@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats;
@@ -147,7 +147,7 @@ public sealed class GamePathRoundTripTests : IDisposable
         // The game registers the combat classes when combat starts (CombatClasses.Register).
         EngineClass[] combat = [.. new[] { EngineClass.Of<CombatMap>(), EngineClass.Of<CombatMapLevel>() }.Where(c => !Engine.ClassTable.ContainsKey(c.ClassId))];
         Engine.RegisterEngineClasses(combat);
-        GameMap previous = Engine.HexSpriteMap;
+        GameMap? previous = Engine.HexSpriteMap;
         try
         {
             Engine.LoadHsm(source, edit: true, progress: null, profile: GameProfile.TacticalMap);

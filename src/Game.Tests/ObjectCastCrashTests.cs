@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using Aow.Game.Audio;
 using Aow.Game.Draw.Animations;
 using Aow.Game.Magic.Abilities;
@@ -25,7 +25,7 @@ public sealed class ObjectCastCrashTests
 {
     private sealed class MapScope : IDisposable
     {
-        private readonly StrategicMap _previous = StrategicMap.Current;
+        private readonly StrategicMap? _previous = StrategicMap.Current;
 
         public MapScope()
         {
@@ -89,7 +89,7 @@ public sealed class ObjectCastCrashTests
 
         public bool Destroyed { get; private set; }
 
-        public override MapObjectResourceList GetResourceList(GameEngine engine) => Resources;
+        public override MapObjectResourceList GetResourceList(GameEngine? engine) => Resources;
 
         public override void Dispose() => Destroyed = true;
     }
@@ -162,9 +162,9 @@ public sealed class ObjectCastCrashTests
             unit.SetFireMasteryProtection();
             unit.SetLifeMasteryBlessing();
 
-            UnitEnchantment earth = ((UnitEnchantmentAbilityData)unit.GetAbilityData(153)).Enchantment;
-            UnitEnchantment fire = ((UnitEnchantmentAbilityData)unit.GetAbilityData(167)).Enchantment;
-            UnitEnchantment life = ((UnitEnchantmentAbilityData)unit.GetAbilityData(158)).Enchantment;
+            UnitEnchantment? earth = ((UnitEnchantmentAbilityData)unit.GetAbilityData(153)).Enchantment;
+            UnitEnchantment? fire = ((UnitEnchantmentAbilityData)unit.GetAbilityData(167)).Enchantment;
+            UnitEnchantment? life = ((UnitEnchantmentAbilityData)unit.GetAbilityData(158)).Enchantment;
             Assert.Equal(0, earth.Upkeep);
             Assert.Equal(-2, earth.Source);
             Assert.Equal(3, earth.DispelResistance);
@@ -235,7 +235,7 @@ public sealed class ObjectCastCrashTests
     public void ShowRelationsSkipsAnImageAndChecksABox()
     {
         using MapScope scope = new();
-        SoundSystem previousSound = AudioHost.SoundSystem;
+        SoundSystem? previousSound = AudioHost.SoundSystem;
         AudioHost.SoundSystem = null;
         UIContext ui = new(EngineFixture.Engine);
         ui.Add(new General(ui)).Manager = new WindowManager(null);
@@ -319,7 +319,7 @@ public sealed class ObjectCastCrashTests
             Assert.False(window.MainWindow.Drawn);
             Assert.Equal(0, window.ShowCount);
 
-            Player player = scope.Map.Players.GetPlayers(1);
+            Player? player = scope.Map.Players.GetPlayers(1);
             player.PlayerIndex = 1;
             player.Status = PlayerStatus.Playing;
             scope.Map.SeatedPlayer = 1;
@@ -374,7 +374,7 @@ public sealed class ObjectCastCrashTests
     [Fact]
     public void MovingAPlacedBridgeSkipsTheLevelOverlay()
     {
-        StrategicMap previous = StrategicMap.Current;
+        StrategicMap? previous = StrategicMap.Current;
         try
         {
             StrategicMap map = new(null, holder: EngineFixture.Engine);

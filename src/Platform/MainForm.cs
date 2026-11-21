@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using Aow.Formats;
 using Aow.Game;
 using Aow.Game.Audio;
@@ -21,7 +21,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
     public SdlDisplayController WinDisplayController { get; }
     public SdlDisplayController DisplayController => WinDisplayController;
     public short FCursor { get; set; }
-    public LibraryImage FCursorImage { get; set; }
+    public LibraryImage? FCursorImage { get; set; }
     public Rect FLastCursorRectangle { get; private set; }
     public bool FCursorChanged { get; private set; }
     public bool IsClosed { get; private set; }
@@ -292,7 +292,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             return rectangle;
         }
 
-        void Include(LibraryImage image, int dx, int dy)
+        void Include(LibraryImage? image, int dx, int dy)
         {
             if (image is null)
             {
@@ -336,7 +336,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         if (StrategicMap.Current is not null && StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Activated))
         {
             FCursorImage?.Show(x - 15, y - 20, lockedSurface: surface);
-            LibraryImage image = CursorIndex != 1 ? GamePack.Current.CursorImages[CursorIndex] : null;
+            LibraryImage? image = CursorIndex != 1 ? GamePack.Current.CursorImages[CursorIndex] : null;
             if (image is null)
             {
                 return;
@@ -344,7 +344,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
 
             if (StrategicMap.Current.SeatedPlayer != -1 && StrategicMap.Current.CombatMap is null)
             {
-                Player player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
+                Player? player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
                 if (player.GetBusy() && player.GameOverStatus == GameOverStatus.None)
                 {
                     image.ShowBlended(x - 25, y - 25, lockedSurface: surface, table: GraphicsState.AlphaBlendTable.GetLookupTables(Math.Abs(((StrategicMap.Current.Frame << 2) % 100) - 50) + 30));

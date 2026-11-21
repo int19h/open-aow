@@ -27,10 +27,10 @@ public sealed class WheelLayoutTests(WheelLayoutTests.Host host) : IClassFixture
         private readonly DelphiStringList? _previousDrives = FileDialogWindow.Drives;
 
         internal UIContext UI { get; } = new(EngineFixture.Engine);
-        internal SpellBook Spell { get; } = null;
-        internal WorldMap World { get; } = null;
-        internal FileDialogWindow Files { get; } = null;
-        internal RealmWindow Realm { get; } = null;
+        internal SpellBook? Spell { get; } = null;
+        internal WorldMap? World { get; } = null;
+        internal FileDialogWindow? Files { get; } = null;
+        internal RealmWindow? Realm { get; } = null;
 
         public Host()
         {

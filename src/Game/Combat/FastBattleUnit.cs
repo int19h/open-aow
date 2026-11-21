@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -16,7 +16,7 @@ using static Aow.Rtl.DelphiRounding;
 namespace Aow.Game.Combat;
 
 // round distance, state
-public class FastBattleUnit(CustomNode owner) : CombatUnit(owner)
+public class FastBattleUnit(CustomNode? owner) : CombatUnit(owner)
 {
     // AIGroup.pas:6778
     public new const int ClassId = 131_791;
@@ -41,13 +41,13 @@ public class FastBattleUnit(CustomNode owner) : CombatUnit(owner)
     {
         if (!Status.Contains(CombatObjectStatuses.Destroyed))
         {
-            Troop troop = Troop;
+            Troop? troop = Troop;
             combatValue = 0;
             damageValue = 0;
             AbilityTypeList abilities = GamePack.Current.AbilityControl.AbilitiesByType[(int)AbilityType.Combat];
             AbilityDamageValues values = default;
             int value;
-            Ability ability;
+            Ability? ability;
             for (int i = abilities.Count - 1; i >= 0; i--)
             {
                 ability = abilities.GetAbility(i);
@@ -110,14 +110,14 @@ public class FastBattleUnit(CustomNode owner) : CombatUnit(owner)
     public override int GetTargetWallCombatValue(CombatObject target)
     {
         AbilityDamageValues values = default;
-        Troop troop = Troop;
+        Troop? troop = Troop;
         int best = 0;
         WallSituation wall = Combat.CombatData.Players.GetPlayers(CombatPlayer).SideIndex == 1 ? WallSituation.Source : WallSituation.Target;
 
         AbilityTypeList abilities = GamePack.Current.AbilityControl.AbilitiesByType[(int)AbilityType.Combat];
         for (int i = abilities.Count - 1; i >= 0; i--)
         {
-            Ability ability = abilities.GetAbility(i);
+            Ability? ability = abilities.GetAbility(i);
             if (troop.GetAbilityEnabled(ability.AbilityId))
             {
                 ability.FastBattleGetDamageValues(this, defender: target, wallSituation: wall, damageValues: ref values);
@@ -254,7 +254,7 @@ public class FastBattleUnit(CustomNode owner) : CombatUnit(owner)
     public override void Initialize(Battle combat)
     {
         base.Initialize(combat);
-        Troop troop = Troop;
+        Troop? troop = Troop;
         RoundDistance = troop is Leader or Hero ? 8 : 4;
     }
 
@@ -276,12 +276,12 @@ public class FastBattleUnit(CustomNode owner) : CombatUnit(owner)
         FastBattle combat = FastCombat;
         CombatSideIndex side = Side;
         FastBattleCommandList fastBattleCommandList = new(this, combat, side: combat.Sides[(int)side]);
-        Troop troop = Troop;
+        Troop? troop = Troop;
         for (int i = troop.GetAbilityCount() - 1; i >= 0; i--)
         {
             if (troop.GetAbilityEnabled(i))
             {
-                Ability ability = GamePack.Current.AbilityControl[i];
+                Ability? ability = GamePack.Current.AbilityControl[i];
                 ability.FastBattlePrefetchCombatCommands(fastBattleCommandList);
             }
         }
@@ -298,7 +298,7 @@ public class FastBattleUnit(CustomNode owner) : CombatUnit(owner)
                     {
                         if (troop.GetAbilityEnabled(i))
                         {
-                            Ability ability = GamePack.Current.AbilityControl[i];
+                            Ability? ability = GamePack.Current.AbilityControl[i];
                             ability.FastBattlePrefetchCombatCommands(fastBattleCommandList);
                         }
                     }
@@ -312,7 +312,7 @@ public class FastBattleUnit(CustomNode owner) : CombatUnit(owner)
         {
             for (int i = fastBattleCommandList.GetCount() - 1; i >= 0; i--)
             {
-                FastBattleCommand commands = fastBattleCommandList[i];
+                FastBattleCommand? commands = fastBattleCommandList[i];
                 sbyte hitPoints = HitPoints;
                 if (commands.TargetDamageValue >= hitPoints * 75)
                 {
@@ -327,8 +327,8 @@ public class FastBattleUnit(CustomNode owner) : CombatUnit(owner)
             fastBattleCommandList.Sort();
             if (fastBattleCommandList[0].MoveCost <= moveCost)
             {
-                FastBattleCommand commands = fastBattleCommandList[0];
-                FastBattleCommand commandsCommands = fastBattleCommandList[0];
+                FastBattleCommand? commands = fastBattleCommandList[0];
+                FastBattleCommand? commandsCommands = fastBattleCommandList[0];
                 executed = GamePack.Current.AbilityControl[commandsCommands.AbilityId].FastBattleExecuteCombatCommand(this, command: commands);
                 if (fastBattleCommandList[0].AbilityId == 52)
                 {
@@ -433,12 +433,12 @@ public class FastBattleUnit(CustomNode owner) : CombatUnit(owner)
     }
 
     // AIGroup.pas:6792
-    public override void SetUnit(Troop troop) => base.SetUnit(troop);
+    public override void SetUnit(Troop? troop) => base.SetUnit(troop);
 
     // AIGroup.pas:6783
     public override void KillUnit()
     {
-        Troop troop = Troop;
+        Troop? troop = Troop;
         if (troop is Hero hero && Combat.Status.Contains(CombatStatuses.Executing))
         {
             CombatData combatData = Combat.CombatData;

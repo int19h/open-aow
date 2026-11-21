@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Game.World.Map;
 
@@ -15,7 +15,7 @@ public record class FastBattleCommand
     public int TargetDamageValue { get; init; }
     public int ExpectedDamageValue { get; init; }
     public int MoveCost { get; init; }
-    public CombatObject Target { get; init; }
+    public CombatObject? Target { get; init; }
 
     // AIGroup.pas:6710
     public virtual string GetName()

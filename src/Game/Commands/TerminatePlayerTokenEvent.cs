@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
@@ -11,13 +11,13 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Commands;
 
-public class TerminatePlayerTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class TerminatePlayerTokenEvent(CustomNode? owner) : TokenEvent(owner)
 {
     public new const int ClassId = 131_836;
 
     public sbyte Player { get; set; }
 
-    public ExitGameCallBack ExitCallback { get; init; }
+    public ExitGameCallBack? ExitCallback { get; init; }
     public ExitGameMode ExitMode { get; init; }
 
     // MoveT.PAS:3249
@@ -31,7 +31,7 @@ public class TerminatePlayerTokenEvent(CustomNode owner) : TokenEvent(owner)
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
         StrategicMap.Current.Players.GetPlayers(Player).PlayerType = PlayerType.Cpu3;
-        RemotePlayerCommunicationControl remotePlayerCommunicationControl = (RemotePlayerCommunicationControl)StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl;
+        RemotePlayerCommunicationControl? remotePlayerCommunicationControl = (RemotePlayerCommunicationControl?)StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl;
         remotePlayerCommunicationControl.SetConnectionMode(Player, mode: ConnectionMode.Global);
         remotePlayerCommunicationControl.SetSystemId(Player, systemId: 0);
 

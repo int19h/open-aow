@@ -166,7 +166,7 @@ public sealed class DiplomaticProposalTests
         Proposal = Expected(c.Kind, c.Gold, c.Mana) with { Message = c.Message },
     };
 
-    private static void AssertCase(Case c, DiplomaticAction action)
+    private static void AssertCase(Case c, DiplomaticAction? action)
     {
         Assert.Equal(Expected(c.Kind, c.Gold, c.Mana) with { Message = c.Message }, action.Proposal);
         Assert.Equal((c.Source, c.Target, c.Other, c.Reaction), (action.Source, action.Target, action.OtherPlayer, (byte)action.Reaction));
@@ -504,7 +504,7 @@ public sealed class DiplomaticProposalTests
     [Fact]
     public void ProposalsAnswerAsTheOldSwitches()
     {
-        StrategicMap previousMap = StrategicMap.Current;
+        StrategicMap? previousMap = StrategicMap.Current;
         StrategicMap.Current = new StrategicMap(null, holder: EngineFixture.Engine);
         TextControl control = TextControl();
         try

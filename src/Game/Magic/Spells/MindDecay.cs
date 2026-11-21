@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from CombatSpells.pas.
 using Aow.Engine.Nodes;
 
@@ -15,7 +15,7 @@ namespace Aow.Game.Magic.Spells;
 public class MindDecay : CombatSpell
 {
     // CombatSpells.pas:1190
-    public MindDecay(CustomNode owner, EngineObject holder) : base(owner)
+    public MindDecay(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_mindDecayText);
@@ -32,7 +32,7 @@ public class MindDecay : CombatSpell
     }
 
     // CombatSpells.pas:1207
-    public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
+    public override CombatAction CreateCombatAction(CombatObject? source, CombatObject target, bool chargeMana)
     {
         MindDecayCombatAction action = new(null)
         {

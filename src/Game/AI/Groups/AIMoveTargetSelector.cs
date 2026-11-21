@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
@@ -14,7 +14,7 @@ namespace Aow.Game.AI.Groups;
 public sealed class AIMoveTargetSelector : EngineObject
 {
     // AIGroup.pas:6375
-    public AIMoveTargetSelector(CustomNode owner) : base(owner)
+    public AIMoveTargetSelector(CustomNode? owner) : base(owner)
     {
         _settings = new MoveControlSettings(null) { Holder = CreationHolder() };
         _targets = new MoveTargetList(null) { Holder = CreationHolder() };
@@ -33,7 +33,7 @@ public sealed class AIMoveTargetSelector : EngineObject
 
     private readonly MoveTargetList _bufferedTargets;
 
-    private MoveTargetFoundEvent _targetFound;
+    private MoveTargetFoundEvent? _targetFound;
 
     internal void SetTargetFoundHandler(MoveTargetFoundEvent handler) => _targetFound = handler;
 
@@ -46,7 +46,7 @@ public sealed class AIMoveTargetSelector : EngineObject
     public int MovePointsMax { get; set; }
     public int MovePointsMin { get; set; }
 
-    private Troop _transporter;
+    private Troop? _transporter;
 
     public UnitUserList Units { get; }
 
@@ -63,7 +63,7 @@ public sealed class AIMoveTargetSelector : EngineObject
     }
 
     // AIGroup.pas:6393
-    public void SetTransporter(Troop transporter)
+    public void SetTransporter(Troop? transporter)
     {
         if (transporter != _transporter)
         {
@@ -231,7 +231,7 @@ public sealed class AIMoveTargetSelector : EngineObject
         bool found;
         int i;
         MoveControlSettings settings;
-        MapField field;
+        MapField? field;
         MoveTarget target;
         switch (_state)
         {
@@ -469,7 +469,7 @@ public sealed class AIMoveTargetSelector : EngineObject
         }
     }
 
-    private static int ListMovementGaps(StrategicMap map, MovePath path, MovePointTable table, Int32List starts, Int32List ends)
+    private static int ListMovementGaps(StrategicMap? map, MovePath path, MovePointTable table, Int32List starts, Int32List? ends)
     {
         int number = path.Count - 1;
         int number2 = 0;

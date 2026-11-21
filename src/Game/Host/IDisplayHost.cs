@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using Aow.Game.Draw;
 
 namespace Aow.Game.Host;
@@ -8,7 +8,7 @@ public interface IDisplayHost
     (int Width, int Height) ClientSize { get; }
     (int Width, int Height) DesktopSize => ClientSize;
     /// <summary>The full screen sizes to offer, or null for the fixed list.</summary>
-    IReadOnlyList<(int Width, int Height)> FullscreenSizes => null;
+    IReadOnlyList<(int Width, int Height)>? FullscreenSizes => null;
 
     void ResizeImage(int width, int height) { }
 

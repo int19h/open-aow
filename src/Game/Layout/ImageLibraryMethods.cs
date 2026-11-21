@@ -1,5 +1,5 @@
 // Layout translated from recovered Delphi forms.
-#nullable disable
+#nullable disable warnings
 using System.Globalization;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
@@ -10,9 +10,9 @@ namespace Aow.Game.Layout;
 
 public static class ImageLibraryMethods
 {
-    public static ImageLibrary CheckImageLibrary(this ImageLibrary library, int index, int count, Component sender)
+    public static ImageLibrary? CheckImageLibrary(this ImageLibrary library, int index, int count, Component sender)
     {
-        ImageLibrary result = library;
+        ImageLibrary? result = library;
         if (index + count > library.Count)
         {
             result = null;
@@ -58,8 +58,8 @@ public static class ImageLibraryMethods
         {
             for (int i = 0, lastI = area.Width / library[index].Width; i <= lastI; i++)
             {
-                LibraryImage libraryImage = library[index];
-                LibraryImage item = library[index];
+                LibraryImage? libraryImage = library[index];
+                LibraryImage? item = library[index];
                 library[index].ShowClipped(area.Left + (item.Width * i), area.Top + (libraryImage.Height * j), lockedSurface);
             }
         }

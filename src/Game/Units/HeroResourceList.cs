@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 
@@ -21,10 +21,10 @@ public sealed class HeroResourceList : ResourceCollection, IChildList<HeroResour
     int IChildSink<HeroResource>.AddChild(HeroResource child) => AddChild(child);
 
     // Hero.PAS:2360
-    public HeroResourceList(CustomNode owner) : base(owner) => SetControlStyle(ControlStyles.SaveLoad | ControlStyles.FixedChild | ControlStyles.ArrayMode);
+    public HeroResourceList(CustomNode? owner) : base(owner) => SetControlStyle(ControlStyles.SaveLoad | ControlStyles.FixedChild | ControlStyles.ArrayMode);
 
     // Hero.PAS:2363
-    public HeroResource GetHeroResource(int index) => index >= 0 && index < Count ? this[index] : null;
+    public HeroResource? GetHeroResource(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // Hero.PAS:2369
     public DelphiStringList CreateHeroResourceStrings(HeroTypes heroTypes)

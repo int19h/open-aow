@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -8,20 +8,20 @@ using Aow.Game.Session;
 namespace Aow.Game.Commands;
 
 // Operation, Action
-public class DiplomaticActionTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class DiplomaticActionTokenEvent(CustomNode? owner) : TokenEvent(owner)
 {
 
     // Diplomacy.pas:1125
     public new const int ClassId = 135_432;
 
     public int Operation { get; set; }
-    public DiplomaticAction Action { get; set; }
+    public DiplomaticAction? Action { get; set; }
 
     // Diplomacy.pas:1117
     public override void Dispose()
     {
         base.Dispose();
-        DiplomaticAction action = Action;
+        DiplomaticAction? action = Action;
         _ = (action?.Release());
     }
 
@@ -73,7 +73,7 @@ public class DiplomaticActionTokenEvent(CustomNode owner) : TokenEvent(owner)
     // Diplomacy.pas:1128
     public void SetDiplomaticAction(DiplomaticAction action)
     {
-        DiplomaticAction old = Action;
+        DiplomaticAction? old = Action;
         if (old != action)
         {
             _ = (old?.Release());

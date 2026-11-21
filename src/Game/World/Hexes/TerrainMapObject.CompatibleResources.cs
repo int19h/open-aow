@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
@@ -7,7 +7,7 @@ namespace Aow.Game.World.Hexes;
 
 public partial class TerrainMapObject
 {
-    public virtual TerrainMapObjectResource FindTerrainResource(byte terrainType)
+    public virtual TerrainMapObjectResource? FindTerrainResource(byte terrainType)
     {
         DelphiList<TerrainMapObjectResource> candidates = new();
         MapObjectResourceList resources = GetResourceList(Resource.Engine);
@@ -27,12 +27,12 @@ public partial class TerrainMapObject
                 _ = candidates.Add(resource);
             }
         }
-        TerrainMapObjectResource result = candidates.Count == 0 ? null : candidates[DelphiRandom.Random(candidates.Count)];
+        TerrainMapObjectResource? result = candidates.Count == 0 ? null : candidates[DelphiRandom.Random(candidates.Count)];
         candidates?.Dispose();
         return result;
     }
 
-    public TerrainMapObjectResource FindCompatibleResource(byte terrainType, sbyte overlayType, int decorationType)
+    public TerrainMapObjectResource? FindCompatibleResource(byte terrainType, sbyte overlayType, int decorationType)
     {
         DelphiList<TerrainMapObjectResource> candidates = new();
         MapObjectResourceList resources = GetResourceList(Resource.Engine);
@@ -68,7 +68,7 @@ public partial class TerrainMapObject
                 _ = candidates.Add(resource);
             }
         }
-        TerrainMapObjectResource result = candidates.Count == 0 ? null : candidates[DelphiRandom.Random(candidates.Count)];
+        TerrainMapObjectResource? result = candidates.Count == 0 ? null : candidates[DelphiRandom.Random(candidates.Count)];
         candidates?.Dispose();
         return result;
     }

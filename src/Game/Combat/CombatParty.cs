@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
@@ -15,7 +15,7 @@ public sealed class CombatParty : EngineObject
     public new const int ClassId = 131_746;
 
     // Combat2.pas:37
-    public CombatParty(CustomNode owner) : base(owner) => Army = new Army(null) { Holder = CreationHolder() };
+    public CombatParty(CustomNode? owner) : base(owner) => Army = new Army(null) { Holder = CreationHolder() };
 
     public Army Army { get; }
 

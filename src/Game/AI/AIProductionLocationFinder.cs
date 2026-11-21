@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.AI.Groups;
@@ -14,7 +14,7 @@ namespace Aow.Game.AI;
 public class AIProductionLocationFinder : AIGroupTask
 {
     // AIGroup.pas:2303
-    public AIProductionLocationFinder(CustomNode owner) : base(owner) => Selector = new AIMoveTargetSelector(null) { Holder = CreationHolder() };
+    public AIProductionLocationFinder(CustomNode? owner) : base(owner) => Selector = new AIMoveTargetSelector(null) { Holder = CreationHolder() };
 
     private AIGroupControl _control;
 
@@ -93,7 +93,7 @@ public class AIProductionLocationFinder : AIGroupTask
     // AIGroup.pas:2320
     public void ProductionLocationFoundEvent(MoveTarget target, ref bool searchDone)
     {
-        ProductionControl control = StrategicMap.Current.MapContainer.GetField(target.Location.X, target.Location.Y, target.Location.MapLevel).GetProductionControl();
+        ProductionControl? control = StrategicMap.Current.MapContainer.GetField(target.Location.X, target.Location.Y, target.Location.MapLevel).GetProductionControl();
         if (_control.ProductionLocations.IndexOfPC(control) == -1)
         {
             AIGroupProductionLocation location = new(null)

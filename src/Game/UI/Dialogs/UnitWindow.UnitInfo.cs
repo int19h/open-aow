@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using System.Globalization;
 using Aow.Engine.Nodes;
 using Aow.Game.Combat;
@@ -26,7 +26,7 @@ public sealed partial class UnitWindow
                 StrategicMap.Current.TutorialControl.ShowMessage(64, immediate: true, onceOnly: true);
             }
 
-            Hero h = u is Hero heroUnit ? heroUnit : null;
+            Hero? h = u is Hero heroUnit ? heroUnit : null;
 
             if (CombatMap.Current is null && UI.General.UnitList is not null && UI.General.IndexOfUnit(u) > -1 && UI.General.SelectedUnits[1] > -1)
             {
@@ -124,7 +124,7 @@ public sealed partial class UnitWindow
                 UI.UnitWindow.LevelLabel.Text = $"{level} {((int)unitLevel).ToString(CultureInfo.InvariantCulture)}";
                 UI.UnitWindow.InfoLeaderPanel.Visible = false;
                 UI.UnitWindow.InfoTextPanel.Visible = true;
-                DelphiStringCollection description = u.Description;
+                DelphiStringCollection? description = u.Description;
                 UI.UnitWindow.InfoMemo.Items.Assign(description);
                 UI.UnitWindow.InfoScrollBar.Position = 0;
                 string name = u.GetName();
@@ -270,7 +270,7 @@ public sealed partial class UnitWindow
             {
                 if (h.Inventory.Items.GetItem(0) is not null)
                 {
-                    Item inventory = h.Inventory.Items.GetItem(0);
+                    Item? inventory = h.Inventory.Items.GetItem(0);
                     UI.UnitWindow.Backpack1CheckBox.Tag = inventory.ItemId;
                 }
                 else
@@ -280,7 +280,7 @@ public sealed partial class UnitWindow
 
                 if (h.Inventory.Items.GetItem(1) is not null)
                 {
-                    Item inventory = h.Inventory.Items.GetItem(1);
+                    Item? inventory = h.Inventory.Items.GetItem(1);
                     UI.UnitWindow.Backpack2CheckBox.Tag = inventory.ItemId;
                 }
                 else
@@ -290,7 +290,7 @@ public sealed partial class UnitWindow
 
                 if (h.Inventory.Items.GetItem(2) is not null)
                 {
-                    Item inventory = h.Inventory.Items.GetItem(2);
+                    Item? inventory = h.Inventory.Items.GetItem(2);
                     UI.UnitWindow.Backpack3CheckBox.Tag = inventory.ItemId;
                 }
                 else
@@ -300,7 +300,7 @@ public sealed partial class UnitWindow
 
                 if (h.Inventory.Items.GetItem(3) is not null)
                 {
-                    Item inventory = h.Inventory.Items.GetItem(3);
+                    Item? inventory = h.Inventory.Items.GetItem(3);
                     UI.UnitWindow.Backpack4CheckBox.Tag = inventory.ItemId;
                 }
                 else
@@ -310,7 +310,7 @@ public sealed partial class UnitWindow
 
                 if (h.Inventory.Items.GetItem(4) is not null)
                 {
-                    Item inventory = h.Inventory.Items.GetItem(4);
+                    Item? inventory = h.Inventory.Items.GetItem(4);
                     UI.UnitWindow.Backpack5CheckBox.Tag = inventory.ItemId;
                 }
                 else
@@ -320,7 +320,7 @@ public sealed partial class UnitWindow
 
                 if (h.Inventory.Items.GetItem(5) is not null)
                 {
-                    Item inventory = h.Inventory.Items.GetItem(5);
+                    Item? inventory = h.Inventory.Items.GetItem(5);
                     UI.UnitWindow.Backpack6CheckBox.Tag = inventory.ItemId;
                 }
                 else
@@ -330,7 +330,7 @@ public sealed partial class UnitWindow
 
                 if (h.Inventory.Items.GetItem(6) is not null)
                 {
-                    Item inventory = h.Inventory.Items.GetItem(6);
+                    Item? inventory = h.Inventory.Items.GetItem(6);
                     UI.UnitWindow.Backpack7CheckBox.Tag = inventory.ItemId;
                 }
                 else
@@ -340,7 +340,7 @@ public sealed partial class UnitWindow
 
                 if (h.Inventory.Items.GetItem(7) is not null)
                 {
-                    Item inventory = h.Inventory.Items.GetItem(7);
+                    Item? inventory = h.Inventory.Items.GetItem(7);
                     UI.UnitWindow.Backpack8CheckBox.Tag = inventory.ItemId;
                 }
                 else
@@ -350,7 +350,7 @@ public sealed partial class UnitWindow
 
                 if (h.HeroItems.GetPositionItem(HeroItemPosition.AttackSlot) is not null)
                 {
-                    Item positionItem = h.HeroItems.GetPositionItem(HeroItemPosition.AttackSlot);
+                    Item? positionItem = h.HeroItems.GetPositionItem(HeroItemPosition.AttackSlot);
                     UI.UnitWindow.AttackSlotCheckBox.Tag = positionItem.ItemId;
                 }
                 else
@@ -360,7 +360,7 @@ public sealed partial class UnitWindow
 
                 if (h.HeroItems.GetPositionItem(HeroItemPosition.DefenseSlot) is not null)
                 {
-                    Item positionItem = h.HeroItems.GetPositionItem(HeroItemPosition.DefenseSlot);
+                    Item? positionItem = h.HeroItems.GetPositionItem(HeroItemPosition.DefenseSlot);
                     UI.UnitWindow.DefendSlotCheckBox.Tag = positionItem.ItemId;
                 }
                 else
@@ -370,7 +370,7 @@ public sealed partial class UnitWindow
 
                 if (h.HeroItems.GetPositionItem(HeroItemPosition.HeadSlot) is not null)
                 {
-                    Item positionItem = h.HeroItems.GetPositionItem(HeroItemPosition.HeadSlot);
+                    Item? positionItem = h.HeroItems.GetPositionItem(HeroItemPosition.HeadSlot);
                     UI.UnitWindow.HeadSlotCheckBox.Tag = positionItem.ItemId;
                 }
                 else
@@ -380,7 +380,7 @@ public sealed partial class UnitWindow
 
                 if (h.HeroItems.GetPositionItem(HeroItemPosition.TorsoSlot) is not null)
                 {
-                    Item positionItem = h.HeroItems.GetPositionItem(HeroItemPosition.TorsoSlot);
+                    Item? positionItem = h.HeroItems.GetPositionItem(HeroItemPosition.TorsoSlot);
                     UI.UnitWindow.TorsoSlotCheckBox.Tag = positionItem.ItemId;
                 }
                 else
@@ -390,7 +390,7 @@ public sealed partial class UnitWindow
 
                 if (h.HeroItems.GetPositionItem(HeroItemPosition.LeftRingSlot) is not null)
                 {
-                    Item positionItem = h.HeroItems.GetPositionItem(HeroItemPosition.LeftRingSlot);
+                    Item? positionItem = h.HeroItems.GetPositionItem(HeroItemPosition.LeftRingSlot);
                     UI.UnitWindow.LeftRingCheckBox.Tag = positionItem.ItemId;
                 }
                 else
@@ -400,7 +400,7 @@ public sealed partial class UnitWindow
 
                 if (h.HeroItems.GetPositionItem(HeroItemPosition.RightRingSlot) is not null)
                 {
-                    Item positionItem = h.HeroItems.GetPositionItem(HeroItemPosition.RightRingSlot);
+                    Item? positionItem = h.HeroItems.GetPositionItem(HeroItemPosition.RightRingSlot);
                     UI.UnitWindow.RightRingCheckBox.Tag = positionItem.ItemId;
                 }
                 else

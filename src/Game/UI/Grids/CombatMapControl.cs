@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from CMapCtrl.pas.
 using Aow.Game.Combat;
 using Aow.Game.Draw;
@@ -16,51 +16,51 @@ namespace Aow.Game.UI.Grids;
 // event methods occupy
 public sealed class CombatMapControl : Component
 {
-    private readonly GameEngine _engine;
+    private readonly GameEngine? _engine;
 
     [Published]
-    public event SelectHSEvent Selected;
+    public event SelectHSEvent? Selected;
     [Published]
-    public event SelectHSEvent Deselected;
+    public event SelectHSEvent? Deselected;
     [Published]
-    public event NotifyEvent<object> ActivateHsm;
+    public event NotifyEvent<object>? ActivateHsm;
     [Published]
-    public event NotifyEvent<object> DeactivateHsm;
+    public event NotifyEvent<object>? DeactivateHsm;
     [Published]
-    public event PlayerChangedEvent IncomeChanged;
+    public event PlayerChangedEvent? IncomeChanged;
     [Published]
-    public event PlayerChangedEvent UpkeepChanged;
+    public event PlayerChangedEvent? UpkeepChanged;
     [Published]
-    public event PlayerChangedEvent GemsChanged;
+    public event PlayerChangedEvent? GemsChanged;
     [Published]
-    public event ShowMessageEvent ShowMessage;
+    public event ShowMessageEvent? ShowMessage;
     [Published]
-    public event TurnChangedEvent TurnChanged;
+    public event TurnChangedEvent? TurnChanged;
     [Published]
-    public event PlayerChangedEvent PlayerChanged;
+    public event PlayerChangedEvent? PlayerChanged;
     [Published]
-    public event PlayerChangedEvent SeatedPlayerChanged;
+    public event PlayerChangedEvent? SeatedPlayerChanged;
     [Published]
-    public event Action<EventLog, ExecuteDoneEvent> ExecuteEventLog;
+    public event Action<EventLog, ExecuteDoneEvent>? ExecuteEventLog;
 
     internal void ClearExecuteEventLogHandler() => ExecuteEventLog = null;
 
     [Published]
-    public event MapChangedEvent MapChanged;
+    public event MapChangedEvent? MapChanged;
     [Published]
-    public event PlayerChangedEvent LogbookChanged;
+    public event PlayerChangedEvent? LogbookChanged;
     [Published]
-    public event NotifyEvent<object> ActivateMap;
+    public event NotifyEvent<object>? ActivateMap;
     [Published]
-    public event NotifyEvent<object> DeActivateMap;
+    public event NotifyEvent<object>? DeActivateMap;
     [Published]
-    public event SelectHSEvent MouseOverTarget;
+    public event SelectHSEvent? MouseOverTarget;
     [Published]
-    public event SelectCombatUnitEvent UnitChanged;
+    public event SelectCombatUnitEvent? UnitChanged;
     [Published]
-    public event CastCombatSpellEvent OnCastSpell;
+    public event CastCombatSpellEvent? OnCastSpell;
     [Published]
-    public event ActivateCombatAbilityEvent ActivateAbility;
+    public event ActivateCombatAbilityEvent? ActivateAbility;
 
     // CMapCtrl.pas:117
     public override void Dispose()
@@ -210,7 +210,7 @@ public sealed class CombatMapControl : Component
         {
             if (UnitChanged is not null)
             {
-                TacticalBattleUnitHexSprite tacticalBattleUnitHexSprite = CombatMap.Current.UnitSelection.TacticalBattleUnitHexSprite;
+                TacticalBattleUnitHexSprite? tacticalBattleUnitHexSprite = CombatMap.Current.UnitSelection.TacticalBattleUnitHexSprite;
                 UnitChanged(tacticalBattleUnitHexSprite);
             }
         }
@@ -411,8 +411,8 @@ public sealed class CombatMapControl : Component
         }
     }
 
-    public delegate void SelectHSEvent(HexSprite HS);
-    public delegate void SelectCombatUnitEvent(TacticalBattleUnitHexSprite HS);
+    public delegate void SelectHSEvent(HexSprite? HS);
+    public delegate void SelectCombatUnitEvent(TacticalBattleUnitHexSprite? HS);
     public delegate void PlayerChangedEvent(sbyte Player);
     public delegate void ShowMessageEvent(in ShowMessageInfo Info);
     public delegate void TurnChangedEvent(int Turn);

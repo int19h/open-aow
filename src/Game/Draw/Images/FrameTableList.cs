@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from ImageLib.pas.
 using System.Globalization;
 using System.Runtime.InteropServices;
@@ -93,7 +93,7 @@ public class FrameTableList : Persistent
     public override void Dispose() => Clear();
 
     // ImageLib.pas:9365
-    public override void Assign(Persistent source)
+    public override void Assign(Persistent? source)
     {
         if (source is FrameTableList frameTableList)
         {
@@ -352,7 +352,7 @@ public class FrameTableList : Persistent
 
     public int this[int index] { get => Get(index); set => Put(index, item: value); }
 
-    public int[] List { get; private set; }
+    public int[]? List { get; private set; }
     public int DefaultValue { get => _defaultValue; init => _defaultValue = value; }
     public string ItemString => GetItemString();
 

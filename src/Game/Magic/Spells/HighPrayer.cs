@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from CombatSpells.pas.
 using Aow.Engine.Nodes;
 
@@ -13,7 +13,7 @@ namespace Aow.Game.Magic.Spells;
 public class HighPrayer : CombatSpell
 {
     // CombatSpells.pas:996
-    public HighPrayer(CustomNode owner, EngineObject holder) : base(owner)
+    public HighPrayer(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_highPrayerText);
@@ -30,7 +30,7 @@ public class HighPrayer : CombatSpell
     }
 
     // CombatSpells.pas:1013
-    public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
+    public override CombatAction CreateCombatAction(CombatObject? source, CombatObject target, bool chargeMana)
     {
         TacticalBattleHighPrayerCombatAction action = new(null)
         {

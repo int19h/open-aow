@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Commands;
@@ -13,17 +13,17 @@ public sealed class DispelMagicAbilityUnitSelector(EngineObject creator) : UnitS
 {
 
     // AoWAb.PAS:4403
-    public override bool CanSelectUnit(Troop troop) => troop.CanDispelEnchantment(Player);
+    public override bool CanSelectUnit(Troop? troop) => troop.CanDispelEnchantment(Player);
 
     // AoWAb.PAS:4407
     public override bool Select()
     {
         string error = "";
-        Troop source = StrategicMap.Current.UnitControl.FindUnit(SourceUnitId);
+        Troop? source = StrategicMap.Current.UnitControl.FindUnit(SourceUnitId);
         if (CanSelect(ref error) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             int i = 0;
-            Troop target = null;
+            Troop? target = null;
             while (target is null && i != Units.GetCount())
             {
                 if ((Selection & (1 << i)) != 0)

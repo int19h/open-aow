@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Animation.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -15,7 +15,7 @@ public class AnimationTokenEvent(CustomNode owner) : TokenEvent(owner)
     public new const int ClassId = 135_433;
 
     private AnimationTokenEventState _state;
-    private Animation _animation;
+    private Animation? _animation;
 
     // Animation.pas:399
     public override void PersistFields(IPersister persister)

@@ -88,7 +88,7 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
     [CorpusFact]
     public void CorpusInstancesMatchTheConverter()
     {
-        StrategicMap previous = StrategicMap.Current;
+        StrategicMap? previous = StrategicMap.Current;
         StrategicMap map = new(null, holder: EngineFixture.Engine)
         {
             Status = HexSpriteMapStatuses.Destroying
@@ -105,7 +105,7 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
         // A unit's load looks its resource up in the game set, so the walk reads the installed
         // unit resources into the fixture's game set and puts the empty list back after.
         int previousSeed = DelphiRandom.RandSeed;
-        GamePack gameSet = GamePack.Current;
+        GamePack? gameSet = GamePack.Current;
         UnitResourceList emptyResources = gameSet.UnitResources;
         UnitResourceList unitResources = UnitResources();
         gameSet.UnitResources = unitResources;
@@ -127,7 +127,7 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
 
                 ImportResult imported = GameFiles.Import(bytes, found.Profile, found.Kind, fileName: relative);
                 Assert.Equal(OwnFormat.CurrentVersion, ((JsonInteger)imported.Document["$version"]).Value);
-                JsonObject root = (JsonObject)imported.Document["root"];
+                JsonObject? root = (JsonObject?)imported.Document["root"];
                 SchemaClass classValue = found.Profile.RootHasClass
                     ? schema.Get(((JsonString)root["$class"]).Value)
                     : schema.Get(found.Profile.RootFamily);
@@ -144,7 +144,7 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
                 byte[] bytes = File.ReadAllBytes(path);
                 WrittenObjectProfile profile = new("pfs", kinds: ["pfs"], rootClass, engine);
                 ImportResult imported = GameFiles.Import(bytes[4..^4], profile, kind: "pfs", fileName: relative);
-                Walk((JsonObject)imported.Document["root"], classValue: schema.Get(rootClass), engine, file: relative, schema, factory, counts);
+                Walk((JsonObject?)imported.Document["root"], classValue: schema.Get(rootClass), engine, file: relative, schema, factory, counts);
             }
             SortedSet<string> printed = [with(StringComparer.Ordinal)];
             foreach (KeyValuePair<string, int> pair in counts)
@@ -207,7 +207,7 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
 
     private static EngineClass[] Enlist()
     {
-        Dictionary<int, EngineClass> table = EngineFixture.Engine.ClassTable;
+        Dictionary<int, EngineClass?> table = EngineFixture.Engine.ClassTable;
         Dictionary<int, EngineClass> added = [];
         foreach (EngineClass engineClass in EngineClass.All)
         {
@@ -243,7 +243,7 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
         return list;
     }
 
-    private static void Walk(JsonObject objectValue, SchemaClass classValue, string engine, string file, FormatSchema schema, EnginePersistableFactory factory, Dictionary<string, int> counts)
+    private static void Walk(JsonObject? objectValue, SchemaClass classValue, string engine, string file, FormatSchema schema, EnginePersistableFactory factory, Dictionary<string, int> counts)
     {
         if (IsMapLevel(classValue))
         {
@@ -261,7 +261,7 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
         }
         foreach (SchemaProperty prop in classValue.Properties)
         {
-            JsonMember member = objectValue.Find(prop.Name);
+            JsonMember? member = objectValue.Find(prop.Name);
             if (member is null)
             {
                 continue;
@@ -327,7 +327,7 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
         }
     }
 
-    private static bool Prove(JsonObject objectValue, SchemaClass classValue, string engine, string file, FormatSchema schema, EnginePersistableFactory factory)
+    private static bool Prove(JsonObject? objectValue, SchemaClass classValue, string engine, string file, FormatSchema schema, EnginePersistableFactory factory)
     {
         // MapContainer.ReadWrite makes its owner's map hold it, so a blank container with no map
         // cannot load. Its levels are proved on the direct path, and a constructed test proves it.
@@ -460,7 +460,7 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
 
     private static bool IsMapLevel(SchemaClass classValue) => classValue.Properties.Any(prop => prop.Codec is MapFieldsCodec);
 
-    private static void ProveLevel(JsonObject level, SchemaClass classValue, string engine, string file, FormatSchema schema)
+    private static void ProveLevel(JsonObject? level, SchemaClass classValue, string engine, string file, FormatSchema schema)
     {
         string label = $"{file} {classValue.Name}";
         byte[] image = PilotImage.Encode(level, className: classValue.Name, engine);
@@ -482,7 +482,7 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
         EqualBytes(direct, PilotImage.Encode(expected, className: classValue.Name, engine), label: $"{label} direct canonical");
         EqualJson(expected, DocumentBackend.Write(tree, classValue, schema, engine), label: $"{label} direct document");
         EqualBytes(direct, OriginalBackend.Write(DocumentBackend.Read(expected, classValue, schema, engine), classValue, schema, engine), label: $"{label} direct document read");
-        GridNode grid = (GridNode)tree.Find("Fields");
+        GridNode? grid = (GridNode?)tree.Find("Fields");
         long sprites = 0;
         foreach (ObjectNode field in grid.Fields)
         {
@@ -569,11 +569,11 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
         "EResourceList", "PlayerList",
     ];
 
-    private static readonly Dictionary<string, Type> s_engineTypes = BuildEngineTypes();
+    private static readonly Dictionary<string, Type?> s_engineTypes = BuildEngineTypes();
 
-    private static Dictionary<string, Type> BuildEngineTypes()
+    private static Dictionary<string, Type?> BuildEngineTypes()
     {
-        Dictionary<string, Type> types = [];
+        Dictionary<string, Type?> types = [];
         foreach (EngineClass engineClass in EngineClass.All)
         {
             if (engineClass.Type.Assembly != typeof(EngineObject).Assembly)
@@ -623,7 +623,7 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
 
     private static void Release(EngineObject objectValue)
     {
-        StrategicMap previous = StrategicMap.Current;
+        StrategicMap? previous = StrategicMap.Current;
         StrategicMap.Current = s_reaper;
         try
         {

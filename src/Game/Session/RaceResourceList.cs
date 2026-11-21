@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
@@ -18,7 +18,7 @@ public sealed class RaceResourceList : ResourceCollection, IChildList<RaceResour
     public RaceResourceList(CustomNode owner) : base(owner) => SetControlStyle(ControlStyles.SaveLoad | ControlStyles.FixedChild | ControlStyles.ArrayMode);
 
     // PlayerC.PAS:1896
-    public RaceResource GetRaceResource(int index) => index < GetCount() && index >= 0 ? this[index] : null;
+    public RaceResource? GetRaceResource(int index) => index < GetCount() && index >= 0 ? this[index] : null;
 
     // PlayerC.PAS:1903
     public int GetMaxRaceIndex()

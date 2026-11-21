@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 
 using static Aow.Rtl.DelphiPaths;
 using static Aow.Rtl.LegacyApplication;
@@ -9,15 +9,15 @@ public static class AudioHost
 {
     internal static string BaseSoundEnginePath { get; set; } = "";
 
-    public static SongPlayer SongPlayer { get; set; }
+    public static SongPlayer? SongPlayer { get; set; }
 
-    public static SoundSystem SoundSystem { get; set; } = default;
+    public static SoundSystem? SoundSystem { get; set; } = default;
 
-    internal static SoundSystemList SoundSystems { get; set; } = default;
+    internal static SoundSystemList? SoundSystems { get; set; } = default;
 
-    internal static SampleDataList SampleDataList { get; set; } = default;
+    internal static SampleDataList? SampleDataList { get; set; } = default;
 
-    internal static SampleList SampleList { get; set; } = default;
+    internal static SampleList? SampleList { get; set; } = default;
 
     internal static void Initialize()
     {

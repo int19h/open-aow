@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from GlobalTargetSpells.pas.
 using Aow.Engine.Nodes;
 
@@ -10,7 +10,7 @@ using Aow.Game.World.Movement;
 
 namespace Aow.Game.Commands;
 
-public class LevelTerrainTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
+public class LevelTerrainTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenEvent(owner)
 {
 
     // GlobalTargetSpells.pas:940
@@ -22,7 +22,7 @@ public class LevelTerrainTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEv
         _ = base.Process(source, value);
         PlayDefaultEffects(Location.X, Location.Y, layer: Location.MapLevel);
         LevelTerrain();
-        Spell spell = GamePack.Current.SpellControl[EventSpellId];
+        Spell? spell = GamePack.Current.SpellControl[EventSpellId];
         GamePack.Current.SpellControl[EventSpellId].CastingDone(source, mana: spell.BaseManaCost);
         return false;
     }
@@ -37,7 +37,7 @@ public class LevelTerrainTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEv
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
                 MapField mapField = level.Field[walk.X, walk.Y];
-                if (((GlobalTargetSpell)(object)GamePack.Current.SpellControl[18]).ValidTargetMapField(mapField) && mapField.GetArmyHexSprite() is null)
+                if (((GlobalTargetSpell)(object?)GamePack.Current.SpellControl[18]).ValidTargetMapField(mapField) && mapField.GetArmyHexSprite() is null)
                 {
                     StrategicMap.Current.ClearTerrain(walk.X, walk.Y, L: Location.MapLevel, radius: 0, terrainType: -1);
                     if (mapField.TerrainType == (int)TerrainType.Earth)

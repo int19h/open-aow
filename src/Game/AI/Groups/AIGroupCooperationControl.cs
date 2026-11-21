@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Combat;
@@ -15,7 +15,7 @@ namespace Aow.Game.AI.Groups;
 public class AIGroupCooperationControl : AIGroupTask
 {
     // AIGroup.pas:2839
-    public AIGroupCooperationControl(CustomNode owner) : base(owner) => Groups = new AIRecruitmentGroupList(null) { Holder = CreationHolder() };
+    public AIGroupCooperationControl(CustomNode? owner) : base(owner) => Groups = new AIRecruitmentGroupList(null) { Holder = CreationHolder() };
 
     public bool Complete { get; private set; }
 
@@ -27,7 +27,7 @@ public class AIGroupCooperationControl : AIGroupTask
     private int _remainingStrength;
     private readonly int[] _remainingStrengths = new int[10];
     private float _pathStrengthFactor;
-    private AIGroupControlTarget _target;
+    private AIGroupControlTarget? _target;
 
     public int CooperateStrength { get; set; }
 
@@ -174,7 +174,7 @@ public class AIGroupCooperationControl : AIGroupTask
         _ = Groups.AddChild(group);
         for (int i = group.Group.Units.Count - 1; i >= 0; i--)
         {
-            Troop troop = group.Group.Units.GetUnit(i);
+            Troop? troop = group.Group.Units.GetUnit(i);
             int strengthMax = troop.GetStrengthMax(_damageTypes);
             _remainingStrength -= strengthMax;
             for (int dOrdinal = (int)DamageType.Fire; dOrdinal <= (int)DamageType.NonSpecific; dOrdinal++)
@@ -256,8 +256,8 @@ public class AIGroupCooperationControl : AIGroupTask
     {
         for (int i = Groups.Count - 1; i >= 0; i--)
         {
-            AIGroup group = Groups.GetRecruitmentGroups(i).Group;
-            Troop leader = group.TargetType == AIGroupTargetStatus.Setup && _target.MovePoints > group.TargetMovePoints
+            AIGroup? group = Groups.GetRecruitmentGroups(i).Group;
+            Troop? leader = group.TargetType == AIGroupTargetStatus.Setup && _target.MovePoints > group.TargetMovePoints
                 ? group.Leader
                 : _control.Group.Leader;
 

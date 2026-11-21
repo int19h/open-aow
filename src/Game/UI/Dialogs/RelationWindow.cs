@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWRelations.pas.
 using System.Globalization;
 using Aow.Engine.Collections;
@@ -119,7 +119,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
 
     public int SelectedIndex { get; private set; }
 
-    private DiplomaticAction _action;
+    private DiplomaticAction? _action;
     private DiplomaticActionList _actions;
 
     public sbyte InfoPlayer { get; private set; }
@@ -131,8 +131,8 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
     public List<Image> FImages { get; private set; }
     public List<CheckBox> FChecks { get; private set; }
 
-    private ExecuteDoneEvent _done;
-    private DiplomaticActionEventLog _event;
+    private ExecuteDoneEvent? _done;
+    private DiplomaticActionEventLog? _event;
     private int _glowIntensity;
     private bool _glowIncreasing;
 
@@ -197,7 +197,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
                 check.Visible = true;
                 check.ToolTipText.Clear();
                 int race = Races[i];
-                Race fRacesRace = StrategicMap.Current.Races.GetRace(race);
+                Race? fRacesRace = StrategicMap.Current.Races.GetRace(race);
                 string raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[fRacesRace.RaceIndex]);
                 _ = check.ToolTipText.Add(raceNamesPlural);
             }
@@ -281,7 +281,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
         PlayerStatusLabel.Visible = true;
         PlayerInfoPanel.Visible = true;
         RaceInfoPanel.Visible = false;
-        Player playerPlayerRace = StrategicMap.Current.Players.GetPlayers(player);
+        Player? playerPlayerRace = StrategicMap.Current.Players.GetPlayers(player);
         LeftShield.CurrentImage = playerPlayerRace.PlayerRace + 26;
         LeftShield.Visible = true;
         RightShield.CurrentImage = LeftShield.CurrentImage;
@@ -317,10 +317,10 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
         string name = StrategicMap.Current.Players.GetPlayers(player).GetName();
         PlayerNameLabel.Text = name;
         OfTheLabel.Text = UI.PlayerInfoWindow.OfTheLabel.Text;
-        Player playerLocal = StrategicMap.Current.Players.GetPlayers(player);
+        Player? playerLocal = StrategicMap.Current.Players.GetPlayers(player);
         string raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[playerLocal.PlayerRace]);
         PlayerRaceLabel.Text = raceNamesPlural;
-        Player playerPlayerType = StrategicMap.Current.Players.GetPlayers(player);
+        Player? playerPlayerType = StrategicMap.Current.Players.GetPlayers(player);
         if (playerPlayerType.PlayerType is (>= PlayerType.Human and <= PlayerType.Cpu3) or PlayerType.Cpu4 or PlayerType.Cpu5)
         {
             PlayerTypeIcon.CurrentImage = StrategicMap.Current.Players.GetPlayers(player).PlayerType switch
@@ -339,7 +339,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
             PlayerTypeIcon.Visible = false;
         }
 
-        Player player2 = StrategicMap.Current.Players.GetPlayers(player);
+        Player? player2 = StrategicMap.Current.Players.GetPlayers(player);
         string playerType = UI.Engine.TranslateResourceString(GameTables.PlayerTypeTexts[(int)player2.PlayerType]);
         PlayerTypeLabel.Text = playerType;
     }
@@ -525,7 +525,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWRelations.pas:490
-    public void SetAction(DiplomaticAction action)
+    public void SetAction(DiplomaticAction? action)
     {
         if (action != _action)
         {
@@ -539,10 +539,10 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
     // AoWRelations.pas:500
     public void FinishEvent()
     {
-        DiplomaticActionEventLog pending = _event;
+        DiplomaticActionEventLog? pending = _event;
         if (pending is not null)
         {
-            ExecuteDoneEvent done = _done;
+            ExecuteDoneEvent? done = _done;
             DiplomaticActionEventLog eventValue = pending;
             _done = null;
             _event = null;
@@ -684,7 +684,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
                 StrategicMap.Current.Players.GetPlayers(player2).GetFace()?.ShowStretched(r, lockedSurface: surface);
             }
 
-            Player player = StrategicMap.Current.Players.GetPlayers(player2);
+            Player? player = StrategicMap.Current.Players.GetPlayers(player2);
             UI.Graphics.RelationWindow[player.PlayerRace + 16].ShowClipped(component.WinLeft, component.WinTop, lockedSurface: surface);
         }
     }
@@ -698,7 +698,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
             sbyte race = (sbyte)Races[slot - 20];
             Rect r = new(control.WinLeft + 1, control.WinTop + 1, control.WinLeft + control.WinWidth - 1, control.WinTop + control.WinHeight - 1);
             GamePack.Current.RaceResources.GetRaceResource(race).GetFace().ShowStretched(r, lockedSurface: surface);
-            DiplomaticAction action = _action;
+            DiplomaticAction? action = _action;
             if (action is null && NewActionPanel.Visible && ActionsList.Selected != -1)
             {
                 action = ActionsList.Items.Objects[ActionsList.Selected];
@@ -769,7 +769,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
     public void MAcceptBtnClick()
     {
         UI.General.PlayButtonSound(0);
-        DiplomaticAction action = _action;
+        DiplomaticAction? action = _action;
         if (action is not null)
         {
             string reason = "";
@@ -789,7 +789,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
     public void MRejectBtnClick()
     {
         UI.General.PlayButtonSound(0);
-        DiplomaticAction action = _action;
+        DiplomaticAction? action = _action;
         if (action is not null)
         {
             string reason = "";
@@ -911,9 +911,9 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
                 SendBribePanel.Visible = true;
                 BribeGoldSlider.Position = 0;
                 BribeManaSlider.Position = 0;
-                Player playerGems = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
+                Player? playerGems = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
                 BribeGoldSlider.Max = playerGems.Gems;
-                Player playerMagicControl = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
+                Player? playerMagicControl = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
                 BribeManaSlider.Max = playerMagicControl.MagicControl.Mana;
                 SBManaSlidChange();
                 SBGoldSlidChange();
@@ -981,7 +981,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
     // AoWRelations.pas:882
     public void SendActionButtonClick()
     {
-        DiplomaticAction action = _action;
+        DiplomaticAction? action = _action;
         if (action is not null)
         {
             action.Proposal = action.Proposal.WithOffer(BribeGoldSlider.Position, mana: BribeManaSlider.Position);
@@ -1007,7 +1007,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
     // AoWRelations.pas:901
     public void ReplyButtonClick()
     {
-        DiplomaticAction action = StrategicMap.Current.Players.GetPlayers(_action.Target).CreateDiplomaticAction(new SendMessage(), target: _action.Source, other: -1);
+        DiplomaticAction? action = StrategicMap.Current.Players.GetPlayers(_action.Target).CreateDiplomaticAction(new SendMessage(), target: _action.Source, other: -1);
         ClearActions();
         SetAction(action);
         NewActionPanel.Visible = false;

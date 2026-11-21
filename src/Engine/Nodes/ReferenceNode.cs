@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Engine.pas.
 using Aow.Formats.Tree;
 
@@ -6,7 +6,7 @@ namespace Aow.Engine.Nodes;
 
 // a TENode that holds references to objects owned elsewhere (AddRef on AddChild, Release on
 // removal)
-public class ReferenceNode(CustomNode owner) : OwningNode(owner)
+public class ReferenceNode(CustomNode? owner) : OwningNode(owner)
 {
 
     // Engine.pas:8144
@@ -41,7 +41,7 @@ public class ReferenceNode(CustomNode owner) : OwningNode(owner)
     public override void DestroyAllChildren() => Clear();
 
     // Engine.pas:8177
-    public override int RemoveChild(EngineObject child)
+    public override int RemoveChild(EngineObject? child)
     {
         int result = DropChild(child);
         if (result != -1)
@@ -53,7 +53,7 @@ public class ReferenceNode(CustomNode owner) : OwningNode(owner)
     }
 
     // Engine.pas:8183
-    public override int AddChild(EngineObject child)
+    public override int AddChild(EngineObject? child)
     {
         CheckChild(child);
         if (child.Owner == this)

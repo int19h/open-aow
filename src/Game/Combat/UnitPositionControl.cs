@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWTC.pas.
 using Aow.Engine.Nodes;
 
@@ -11,7 +11,7 @@ namespace Aow.Game.Combat;
 // Positions: the unit positions, eight per army position, each with the direction the unit faces
 public sealed class UnitPositionControl : EngineObject
 {
-    public DefaultItemList<UnitPosition> Positions { get; private set; }
+    public DefaultItemList<UnitPosition>? Positions { get; private set; }
 
     // AoWTC.pas:4943
     public override void Dispose()
@@ -22,10 +22,10 @@ public sealed class UnitPositionControl : EngineObject
     }
 
     // AoWTC.pas:4936
-    public UnitPositionControl(CustomNode owner) : base(owner) => Positions = new DefaultItemList<UnitPosition> { Default = UnitPosition.None };
+    public UnitPositionControl(CustomNode? owner) : base(owner) => Positions = new DefaultItemList<UnitPosition> { Default = UnitPosition.None };
 
     // AoWTC.pas:4990
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
         if (message.MessageId == 65541)
@@ -34,7 +34,7 @@ public sealed class UnitPositionControl : EngineObject
             HexGeometry.PixelToHex(message.Payload.Int, vertical: message.Data[0], out int x, out int y);
             if (CombatMap.Current.MapContainer.GetField(x, y, l).TerrainType != 15)
             {
-                UnitPositionHexSprite hexSprite = CombatMap.Current.MapContainer.GetField(x, y, l).FindOwnedChild<UnitPositionHexSprite>(UnitPositionHexSprite.ClassId);
+                UnitPositionHexSprite? hexSprite = CombatMap.Current.MapContainer.GetField(x, y, l).FindOwnedChild<UnitPositionHexSprite>(UnitPositionHexSprite.ClassId);
                 if (hexSprite is null)
                 {
                     hexSprite = new UnitPositionHexSprite(null) { Holder = CreationHolder() };

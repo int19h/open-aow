@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 
 using Aow.Formats;
 using Aow.Game.Draw.Images;
@@ -235,7 +235,7 @@ public sealed partial class FactionSelectionWindow(UIContext ui) : UIModule(ui)
                 break;
         }
         ParseFontText(value.Text, strings: (DelphiStringCollection)(object)dialog.ScrollText, font: dialog.UI.Fonts.Age15WhiteOnGrey, maxWidth: 300);
-        WorldMapCampaign campaign = dialog.UI.WorldMap.Campaign;
+        WorldMapCampaign? campaign = dialog.UI.WorldMap.Campaign;
         int id = WorldMapCampaign.GetCampaignScenario(campaign, index: 0).Paths[0];
         WorldMapCampaignScenario campaignScenario = WorldMapCampaign.GetCampaignScenario(index: campaign.Scenarios.IndexOfId(id), campaign: dialog.UI.WorldMap.Campaign);
         StrategicMap hexSpriteMap = dialog.UI.Engine.CreatePreviewHsm<StrategicMap>(FileBoundary.ReadName($"{dialog.UI.Engine.StartupDirectory}Scenario\\Campaign\\{campaignScenario.FileName}"), profile: GameProfile.WorldMap);
@@ -243,7 +243,7 @@ public sealed partial class FactionSelectionWindow(UIContext ui) : UIModule(ui)
         for (i = 0; i < hexSpriteMap.Count && hexSpriteMap.Players.GetPlayers(i).PlayerType != PlayerType.Human; i++)
         {
         }
-        Player players = hexSpriteMap.Players.GetPlayers(i);
+        Player? players = hexSpriteMap.Players.GetPlayers(i);
         dialog.Leader.Assign(players.LeaderSetup, dialog.UI.Engine);
         hexSpriteMap?.Dispose();
         value?.Dispose();

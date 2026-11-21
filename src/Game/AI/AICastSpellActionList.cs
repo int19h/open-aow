@@ -1,10 +1,10 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
 namespace Aow.Game.AI;
 
-public sealed class AICastSpellActionList(CustomNode owner) : OwningNode(owner), IChildList<AICastSpellAction>
+public sealed class AICastSpellActionList(CustomNode? owner) : OwningNode(owner), IChildList<AICastSpellAction>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AICastSpellAction.

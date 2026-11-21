@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Rtl;
 
@@ -16,7 +16,7 @@ public sealed class SpellList : IDisposable
     public void Dispose() => _spells?.Dispose();
 
     // Spells.PAS:705
-    public Spell this[int index] => index >= 0 && index < GetCount() ? _spells[index] : null;
+    public Spell? this[int index] => index >= 0 && index < GetCount() ? _spells[index] : null;
 
     // Spells.PAS:712
     public int GetCount() => _spells.Count;
@@ -36,7 +36,7 @@ public sealed class SpellList : IDisposable
     // Spells.PAS:744
     public void SortOnLevel() => _spells.Sort(CompareSpellLevels);
 
-    public static int CompareSpellNames(Spell item1, Spell item2)
+    public static int CompareSpellNames(Spell? item1, Spell? item2)
     {
         int number = DelphiTextCompare.CompareText(item1.SpellName, item2.SpellName);
         if (number == 0)
@@ -46,7 +46,7 @@ public sealed class SpellList : IDisposable
         return number;
     }
 
-    public static int CompareSpellLevels(Spell item1, Spell item2)
+    public static int CompareSpellLevels(Spell? item1, Spell? item2)
     {
         int number = item1.SpellLevel - item2.SpellLevel;
         if (number == 0)

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from CitySpells.pas.
 using Aow.Engine.Nodes;
 
@@ -25,7 +25,7 @@ public class CityTargetSpell : Spell
     public CityTargetModes CityTargetMode { get; protected init; }
 
     // CitySpells.pas:209
-    public CityTargetSpell(CustomNode owner) : base(owner) => SpellType = SpellType.Global;
+    public CityTargetSpell(CustomNode? owner) : base(owner) => SpellType = SpellType.Global;
 
     // CitySpells.pas:377
     public override bool Activate(Troop source)
@@ -47,7 +47,7 @@ public class CityTargetSpell : Spell
     // CitySpells.pas:288
     public virtual void OnTargetSelectionChange(TargetSelectionControl targetSelection)
     {
-        Troop source = StrategicMap.Current.UnitControl.FindUnit(_sourceId);
+        Troop? source = StrategicMap.Current.UnitControl.FindUnit(_sourceId);
         if (source is not null)
         {
             switch (targetSelection.Change)
@@ -190,7 +190,7 @@ public class CityTargetSpell : Spell
     }
 
     // CitySpells.pas:248
-    public virtual bool ValidTargetCity(Troop source, City targetCity)
+    public virtual bool ValidTargetCity(Troop source, City? targetCity)
     {
         bool result = (CityTargetMode.Contains(CityTargetModes.Own) && targetCity.Player == source.Player) || (CityTargetMode.Contains(CityTargetModes.Enemy) && targetCity.Player != source.Player);
         result = result && (!targetCity.GetRazed() || CityTargetMode.Contains(CityTargetModes.Razed));
@@ -229,7 +229,7 @@ public class CityTargetSpell : Spell
     public void ValidateTarget(TargetSelectionControl targetSelection, sbyte X, sbyte Y, sbyte L, ref bool valid)
     {
         MapLevel level = StrategicMap.Current.MapContainer.GetMapLevel(L);
-        Troop source = StrategicMap.Current.UnitControl.FindUnit(_sourceId);
+        Troop? source = StrategicMap.Current.UnitControl.FindUnit(_sourceId);
         if (source is not null && X >= 0 && Y >= 0 && X < level.Width && Y < level.Height)
         {
             MapField field = level.GetField(X, Y);

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 #nullable disable
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;

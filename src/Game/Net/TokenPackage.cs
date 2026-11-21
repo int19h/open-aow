@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from NetworkE.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -19,7 +19,7 @@ public sealed class TokenPackage : DataPackage
     }
 
     // NetworkE.pas:1088
-    public TokenPackage(CustomNode owner) : base(owner) => TokenEvents = new TokenEventList(null) { Holder = CreationHolder() };
+    public TokenPackage(CustomNode? owner) : base(owner) => TokenEvents = new TokenEventList(null) { Holder = CreationHolder() };
 
     // NetworkE.pas:1094
     public override void Dispose()

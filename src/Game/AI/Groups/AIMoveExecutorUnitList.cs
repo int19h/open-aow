@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
@@ -7,7 +7,7 @@ using Aow.Game.Magic.Abilities;
 namespace Aow.Game.AI.Groups;
 
 // children
-public class AIMoveExecutorUnitList(CustomNode owner) : OwningNode(owner), IChildList<AIMoveExecutorUnit>
+public class AIMoveExecutorUnitList(CustomNode? owner) : OwningNode(owner), IChildList<AIMoveExecutorUnit>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AIMoveExecutorUnit.
@@ -37,7 +37,7 @@ public class AIMoveExecutorUnitList(CustomNode owner) : OwningNode(owner), IChil
     }
 
     // AIGroup.pas:4344
-    public int IndexOfUnit(Troop troop)
+    public int IndexOfUnit(Troop? troop)
     {
         int result = Count;
         while (result != 0)
@@ -99,7 +99,7 @@ public class AIMoveExecutorUnitList(CustomNode owner) : OwningNode(owner), IChil
     }
 
     // AIGroup.pas:4386
-    public AIMoveExecutorUnit Transporter(byte selection)
+    public AIMoveExecutorUnit? Transporter(byte selection)
     {
         for (int i = 0, last = Count - 1; i <= last; i++)
         {

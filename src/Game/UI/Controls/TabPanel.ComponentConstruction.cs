@@ -1,5 +1,5 @@
 // Layout translated from recovered Delphi forms.
-#nullable disable
+#nullable disable warnings
 using Aow.Game.Layout;
 
 namespace Aow.Game.UI.Controls;

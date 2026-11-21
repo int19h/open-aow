@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWLeaderSetup.pas.
 using System.Globalization;
 using Aow.Engine.Nodes;
@@ -88,7 +88,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
     public Panel LeaderPanel { get; private set; }
     public ComboBox RaceComboBox { get; private set; }
 
-    public LeaderSetupControl Setup { get; set; }
+    public LeaderSetupControl? Setup { get; set; }
 
     private int _phase;
     private int _fixedSpheres;
@@ -160,7 +160,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
     public void Finish()
     {
         SaveLeader();
-        LeaderSetupControl control = Setup;
+        LeaderSetupControl? control = Setup;
         control.Status = LeaderSetupControl.LeaderSetupStatus.Done;
         Setup = null;
         LeaderPanel.Visible = false;
@@ -173,7 +173,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
     public void Cancel()
     {
         SaveLeader();
-        LeaderSetupControl control = Setup;
+        LeaderSetupControl? control = Setup;
         control.Status = LeaderSetupControl.LeaderSetupStatus.Canceled;
         Setup = null;
         LeaderPanel.Visible = false;
@@ -222,7 +222,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
     // AoWLeaderSetup.pas:781
     public void UpdateStatistics()
     {
-        HeroResource resource = Leader.HeroResource;
+        HeroResource? resource = Leader.HeroResource;
         AttackBaseLabel.Text = ((int)resource.Attack).ToString(CultureInfo.InvariantCulture);
         DefenseBaseLabel.Text = ((int)resource.Defense).ToString(CultureInfo.InvariantCulture);
         DamageBaseLabel.Text = ((int)resource.Damage).ToString(CultureInfo.InvariantCulture);
@@ -325,7 +325,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
         SelectedAbilitiesCostList.Items.Clear();
         for (int i = 0, last = Leader.OwnAbilityCount - 1; i <= last; i++)
         {
-            Ability ability = GamePack.Current.AbilityControl[i];
+            Ability? ability = GamePack.Current.AbilityControl[i];
             if (Leader.GetAbilitySetAt(i) && (Leader.HeroResource.Abilities.GetAbilitySetAt(i) || (ability.SelectionTypes & (AbilitySelectionTypes.CustomizeLeader | AbilitySelectionTypes.HeroUpgrade)) != AbilitySelectionTypes.None))
             {
                 string name = GamePack.Current.AbilityControl[i].GetName(Leader);
@@ -444,7 +444,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
     {
         for (int i = 0; i <= 6; i++)
         {
-            Button button = i switch
+            Button? button = i switch
             {
                 0 => SelectedSphere1Button,
                 1 => SelectedSphere2Button,
@@ -630,7 +630,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
     // AoWLeaderSetup.pas:312
     public void DrawSelectionFace(Frame sender, LockedSurface lockedSurface, int offset)
     {
-        LeaderSetupControl setup = Setup;
+        LeaderSetupControl? setup = Setup;
         int index = Leader.FaceIndex;
         while (offset < 0)
         {
@@ -649,7 +649,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
 
         if (setup.OriginalLeader.GetFace() is not null)
         {
-            FaceResource face = GamePack.Current.FaceResources.GetFaceResource(index);
+            FaceResource? face = GamePack.Current.FaceResources.GetFaceResource(index);
             _ = face.AddRef();
             face.FaceImage.ShowStretched(r, lockedSurface);
             _ = face.Release();
@@ -778,7 +778,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
     // AoWLeaderSetup.pas:405
     public void MainFaceFrPreDraw(Frame sender, LockedSurface lockedSurface)
     {
-        LeaderSetupControl setup = Setup;
+        LeaderSetupControl? setup = Setup;
         if (_phase > 1)
         {
             Frame frame = sender;
@@ -1084,7 +1084,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
     public void RaceCBChange()
     {
         UI.General.PlayButtonSound(0);
-        object objectValue = RaceComboBox.Items.Objects[RaceComboBox.Selected];
+        object? objectValue = RaceComboBox.Items.Objects[RaceComboBox.Selected];
         Leader.SetRace((sbyte)ObjectToInt(objectValue));
     }
 
@@ -1138,8 +1138,8 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
     {
         if (button == MouseButton.Right && SelectedAbilitiesList.Selected != -1)
         {
-            object objectValue = SelectedAbilitiesList.Items.Objects[SelectedAbilitiesList.Selected];
-            Ability ability = GamePack.Current.AbilityControl[ObjectToInt(objectValue)];
+            object? objectValue = SelectedAbilitiesList.Items.Objects[SelectedAbilitiesList.Selected];
+            Ability? ability = GamePack.Current.AbilityControl[ObjectToInt(objectValue)];
             if (ability is not null)
             {
                 InfoBanner.SetInfoBanner(caption: ability.GetName(null), banner: UI.InfoBanner, description: ability.Description);
@@ -1152,8 +1152,8 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
     {
         if (button == MouseButton.Right && AvailableAbilitiesList.Selected != -1)
         {
-            object objectValue = AvailableAbilitiesList.Items.Objects[AvailableAbilitiesList.Selected];
-            Ability ability = GamePack.Current.AbilityControl[ObjectToInt(objectValue)];
+            object? objectValue = AvailableAbilitiesList.Items.Objects[AvailableAbilitiesList.Selected];
+            Ability? ability = GamePack.Current.AbilityControl[ObjectToInt(objectValue)];
             if (ability is not null)
             {
                 InfoBanner.SetInfoBanner(caption: ability.GetName(null), banner: UI.InfoBanner, description: ability.Description);

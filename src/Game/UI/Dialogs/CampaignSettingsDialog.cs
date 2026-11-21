@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWCampaignSettings.pas.
 using System.Collections.Immutable;
 using Aow.Game.Magic.Abilities;
@@ -40,9 +40,9 @@ public sealed partial class CampaignSettingsDialog(UIContext ui) : UIModule(ui)
     // AoWCampaignSettings.pas:59
     public void OKBtnClick()
     {
-        object objectValue = DifficultyLevelComboBox.Items.Objects[DifficultyLevelComboBox.Selected];
+        object? objectValue = DifficultyLevelComboBox.Items.Objects[DifficultyLevelComboBox.Selected];
         UI.Engine.Campaign.DifficultyLevel = (CampaignDifficultyLevel)ObjectToInt(objectValue);
-        object objectValue2 = TurnModeComboBox.Items.Objects[TurnModeComboBox.Selected];
+        object? objectValue2 = TurnModeComboBox.Items.Objects[TurnModeComboBox.Selected];
         UI.Engine.Campaign.PlayMode = (PlayMode)ObjectToInt(objectValue2);
         Window.Visible = false;
     }

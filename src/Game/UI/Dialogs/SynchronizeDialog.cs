@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWSyncDlg.pas.
 using System.Globalization;
 using Aow.Game.Draw;
@@ -21,7 +21,7 @@ public sealed partial class SynchronizeDialog(UIContext ui) : UIModule(ui)
     public Image RightShield { get; private set; }
 
     // AoWSyncDlg.pas:45
-    public PlayerSetupSettings GetPlayerSetup()
+    public PlayerSetupSettings? GetPlayerSetup()
     {
         int index = UI.SetupEvents.SetupControl.Settings.IndexOfRemoteId(UI.SetupEvents.SetupControl.RemotePlayer.RemoteId);
         return index != -1 ? UI.SetupEvents.SetupControl.Settings.GetSettings(index) : null;
@@ -30,7 +30,7 @@ public sealed partial class SynchronizeDialog(UIContext ui) : UIModule(ui)
     // AoWSyncDlg.pas:54
     public void FaceFramePreDraw(LockedSurface surface)
     {
-        PlayerSetupSettings settings = GetPlayerSetup();
+        PlayerSetupSettings? settings = GetPlayerSetup();
         if (settings is not null)
         {
             Rect r = new(Window.WinLeft + 188, Window.WinTop + 40, Window.WinLeft + 188 + 103, Window.WinTop + 40 + 128);
@@ -41,7 +41,7 @@ public sealed partial class SynchronizeDialog(UIContext ui) : UIModule(ui)
     // AoWSyncDlg.pas:67
     public void DlgShow()
     {
-        PlayerSetupSettings settings = GetPlayerSetup();
+        PlayerSetupSettings? settings = GetPlayerSetup();
         if (settings is not null)
         {
             if (!UI.SetupEvents.SetupControl.Settings.CustomizeLeaders)

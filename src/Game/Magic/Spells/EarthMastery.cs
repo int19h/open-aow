@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from GlobalEnchantmentSpells.pas.
 using Aow.Engine.Nodes;
 
@@ -17,7 +17,7 @@ namespace Aow.Game.Magic.Spells;
 public class EarthMastery : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:1877
-    public EarthMastery(CustomNode owner, EngineObject holder) : base(owner)
+    public EarthMastery(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.EarthMasteryText);

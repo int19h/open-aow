@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
@@ -29,7 +29,7 @@ public partial class ProductionControl : EngineObject
 {
 
     // Structur.PAS:191
-    public ProductionControl(CustomNode owner) : base(owner)
+    public ProductionControl(CustomNode? owner) : base(owner)
     {
         Settings = new ProductionSettings(null) { Holder = CreationHolder() };
         UnitProductions = new UnitProductionList(null) { Holder = CreationHolder() };
@@ -42,7 +42,7 @@ public partial class ProductionControl : EngineObject
         Clear();
     }
 
-    private event NotifyEvent<object> Change;
+    private event NotifyEvent<object>? Change;
 
     public int UpdateCount { get; private set; }
     public ProductionQueue Queue { get; }
@@ -105,10 +105,10 @@ public partial class ProductionControl : EngineObject
             sbyte player = GetPlayer();
             if (player > -1)
             {
-                Player players = StrategicMap.Current.Players.GetPlayers(player);
+                Player? players = StrategicMap.Current.Players.GetPlayers(player);
                 int cancelProductionReturnGold = CancelProductionReturnGold();
                 StrategicMap.Current.Players.GetPlayers(player).SetGems(players.Gems + cancelProductionReturnGold);
-                Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(player);
+                Player? fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(player);
                 int cancelProductionReturnMana = CancelProductionReturnMana();
                 StrategicMap.Current.Players.GetPlayers(player).MagicControl.SetMana(fPlayersPlayers.MagicControl.Mana + cancelProductionReturnMana);
             }
@@ -155,7 +155,7 @@ public partial class ProductionControl : EngineObject
     }
 
     // Structur.PAS:392
-    public virtual bool ExecuteProduction(ProductionItem item)
+    public virtual bool ExecuteProduction(ProductionItem? item)
     {
         string reason = "";
         if (CanExecuteProduction(item, ref reason))
@@ -176,7 +176,7 @@ public partial class ProductionControl : EngineObject
     }
 
     // Structur.PAS:450
-    public virtual void ExecuteAddProduction(ProductionItem item)
+    public virtual void ExecuteAddProduction(ProductionItem? item)
     {
         BeginUpdate();
         ProductionItem newItem = item.Copy<ProductionItem>(GetEngine());
@@ -302,10 +302,10 @@ public partial class ProductionControl : EngineObject
     }
 
     // Structur.PAS:837
-    public virtual bool LoopableProduction(ProductionItem item) => item.Order.Loopable(this);
+    public virtual bool LoopableProduction(ProductionItem? item) => item.Order.Loopable(this);
 
     // Structur.PAS:834
-    public virtual bool LockQueueProduction(ProductionItem item) => item.Order.LocksQueue(this);
+    public virtual bool LockQueueProduction(ProductionItem? item) => item.Order.LocksQueue(this);
 
     // Structur.PAS:561
     public virtual bool UnitProduced() => false;
@@ -323,12 +323,12 @@ public partial class ProductionControl : EngineObject
     }
 
     // Structur.PAS:564
-    public virtual Unit CreateUnitProduction(int index)
+    public virtual Unit? CreateUnitProduction(int index)
     {
         if (UnitProductions.GetItem(index) is not null)
         {
             Unit unit = new(null) { Holder = CreationHolder() };
-            UnitProduction unitProduction = UnitProductions.GetItem(index);
+            UnitProduction? unitProduction = UnitProductions.GetItem(index);
             unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex));
             return unit;
         }
@@ -399,7 +399,7 @@ public partial class ProductionControl : EngineObject
     }
 
     // Structur.PAS:361
-    public virtual bool CanExecuteProduction(ProductionItem item, ref string reason) => item.Order.CanExecute(this, ref reason);
+    public virtual bool CanExecuteProduction(ProductionItem? item, ref string reason) => item.Order.CanExecute(this, ref reason);
 
     // Structur.PAS:710
     public virtual bool DeleteProduction(int index)
@@ -454,7 +454,7 @@ public partial class ProductionControl : EngineObject
     public virtual string GetProductionName(ProductionItem item) => item.Order.Name(this);
 
     // Structur.PAS:865
-    public virtual string GetProductionNameProgressive(ProductionItem item) => item.Order.NameProgressive(this);
+    public virtual string GetProductionNameProgressive(ProductionItem? item) => item.Order.NameProgressive(this);
 
     // Structur.PAS:577
     public virtual int UnitProductionGold(int index)
@@ -469,7 +469,7 @@ public partial class ProductionControl : EngineObject
     // Structur.PAS:585
     public virtual int UnitProductionGoldUpkeep(int index)
     {
-        UnitProduction unitProduction = UnitProductions.GetItem(index);
+        UnitProduction? unitProduction = UnitProductions.GetItem(index);
         return (GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).Level + 1) * 2;
     }
 
@@ -604,7 +604,7 @@ public partial class ProductionControl : EngineObject
     {
         if (Status == ProductionControlStatus.Producing && Settings.GroupId != 0)
         {
-            AIGroup group = StrategicMap.Current.AIGroupManager.Groups.FindId(Settings.GroupId);
+            AIGroup? group = StrategicMap.Current.AIGroupManager.Groups.FindId(Settings.GroupId);
             group?.Productions.Add(this, troop: Settings.Unit);
         }
     }
@@ -614,7 +614,7 @@ public partial class ProductionControl : EngineObject
     {
         if (Status == ProductionControlStatus.Producing && Settings.GroupId != 0)
         {
-            AIGroup group = StrategicMap.Current.AIGroupManager.Groups.FindId(Settings.GroupId);
+            AIGroup? group = StrategicMap.Current.AIGroupManager.Groups.FindId(Settings.GroupId);
             group?.Productions.DeleteUnit(Settings.Unit);
 
             Settings.GroupId = 0;
@@ -622,7 +622,7 @@ public partial class ProductionControl : EngineObject
     }
 
     // Structur.PAS:339
-    public void GroupProductionProduced(Troop troop, int groupId)
+    public void GroupProductionProduced(Troop? troop, int groupId)
     {
         sbyte player = GetPlayer();
         AIGroup group = StrategicMap.Current.Players.GetPlayers(player).AIGroups.FindId(groupId);
@@ -735,10 +735,10 @@ public partial class ProductionControl : EngineObject
     }
 
     // Structur.PAS:890
-    public int FindOptimalResearchProduction(CombatPredictor predictor, int gold)
+    public int FindOptimalResearchProduction(CombatPredictor? predictor, int gold)
     {
         sbyte player = GetPlayer();
-        Player playerPlayer = StrategicMap.Current.Players.GetPlayers(player);
+        Player? playerPlayer = StrategicMap.Current.Players.GetPlayers(player);
         Unit unit = new(null) { Holder = CreationHolder() };
         DoubleItemList productions = new();
         for (int i = UnitProductions.Count - 1; i >= 0; i--)
@@ -749,7 +749,7 @@ public partial class ProductionControl : EngineObject
                 int priority;
                 if (predictor is not null)
                 {
-                    UnitProduction unitProduction = UnitProductions.GetItem(i);
+                    UnitProduction? unitProduction = UnitProductions.GetItem(i);
                     unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex));
                     priority = predictor.Usefullness(unit);
                     // { Original replaces the affordability check here. }

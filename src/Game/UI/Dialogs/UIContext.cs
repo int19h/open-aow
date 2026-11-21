@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using Aow.Game.Layout;
 using Aow.Rtl;
 
@@ -18,7 +18,7 @@ namespace Aow.Game.UI.Dialogs;
 // The context carries the game engine the host owns, so the modules reach it as UI.Engine.
 public sealed class UIContext(GameEngine engine) : IDisposable
 {
-    private readonly Dictionary<Type, DataModule> _modules = [];
+    private readonly Dictionary<Type, DataModule?> _modules = [];
     private bool _disposed;
 
     public GameEngine Engine { get; } = engine;

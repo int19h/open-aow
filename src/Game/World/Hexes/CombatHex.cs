@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from CombatHex.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Combat;
@@ -69,7 +69,7 @@ public class CombatHex(CustomNode owner) : AbstractHexagon(owner)
             HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
             pixelX = pixelX - pixelXSurface - 8;
             pixelY -= pixelYSurface;
-            CustomImageLibrary images = base.Resource.ImageSequenceList.GetImageSequence(0).ImageLibrary;
+            CustomImageLibrary? images = base.Resource.ImageSequenceList.GetImageSequence(0).ImageLibrary;
             images[_imageVariant].Show(pixelX, pixelY, lockedSurface);
             images = GetResource<Resource>().TransitionLibrary;
             for (int side = 1; side <= 3; side++)
@@ -90,7 +90,7 @@ public class CombatHex(CustomNode owner) : AbstractHexagon(owner)
     }
 
     // CombatHex.pas:73
-    public override MapObjectResourceList GetResourceList(GameEngine engine) => GamePack.Current.CombatResources;
+    public override MapObjectResourceList GetResourceList(GameEngine? engine) => GamePack.Current.CombatResources;
 
     // CombatHex.pas:134
     public override void UpdateTransitions()
@@ -205,7 +205,7 @@ public class CombatHex(CustomNode owner) : AbstractHexagon(owner)
     {
         public new const int ClassId = 2_229_505;
 
-        public CustomImageLibrary TransitionLibrary { get; private set; }
+        public CustomImageLibrary? TransitionLibrary { get; private set; }
 
         // CombatHex.pas:194
         public override void MessageProc(ref EngineMessage message, EngineObject sender)
@@ -234,9 +234,9 @@ public class CombatHex(CustomNode owner) : AbstractHexagon(owner)
         }
 
         // CombatHex.pas:207
-        public override LibraryImage GetCellImage()
+        public override LibraryImage? GetCellImage()
         {
-            LibraryImage result = null;
+            LibraryImage? result = null;
             if (ImageSequenceList is not null && ImageSequenceList.Count > 0 && ImageSequenceList.GetImageSequence(0) is not null)
             {
                 result = ImageSequenceList.GetImageSequence(0).ImageLibrary[10];

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using System.Collections;
 
 namespace Aow.Game.Events;
@@ -36,10 +36,10 @@ public readonly struct EventLogCollection : IReadOnlyList<EventLog>
     public EventLog GetEvents(int index) => this[index];
 
     // EventLog.pas:514
-    public EventLog FindId(int id)
+    public EventLog? FindId(int id)
     {
         int index = Count;
-        EventLog result = null;
+        EventLog? result = null;
         while (index != 0 && result is null)
         {
             index -= 1;

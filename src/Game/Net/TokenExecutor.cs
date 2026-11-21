@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from NetworkE.pas.
 using Aow.Engine;
 
@@ -33,17 +33,17 @@ public sealed class TokenExecutor : IDisposable
         remove => OnActivateTacticalBattleStore.Remove(value);
     }
 
-    private NotifyEvent<object> _syncError;
+    private NotifyEvent<object>? _syncError;
 
     internal void ReportSyncError(object sender) => _syncError?.Invoke(sender);
 
     internal bool ChecksSync => _syncError is not null;
 
-    internal void SetSyncErrorHandler(NotifyEvent<object> handler) => _syncError = handler;
+    internal void SetSyncErrorHandler(NotifyEvent<object>? handler) => _syncError = handler;
 
-    private GetSyncValueEvent _getSyncValue;
+    private GetSyncValueEvent? _getSyncValue;
 
-    internal void SetGetSyncValueHandler(GetSyncValueEvent handler) => _getSyncValue = handler;
+    internal void SetGetSyncValueHandler(GetSyncValueEvent? handler) => _getSyncValue = handler;
 
     private Action<TokenEvent> _executeTokenEvent;
 
@@ -53,7 +53,7 @@ public sealed class TokenExecutor : IDisposable
 
     internal TokenEventList SystemEvents { get; }
 
-    internal TokenManager TokenManager { get; }
+    internal TokenManager? TokenManager { get; }
 
     // NetworkE.pas:1429
     public ExecuteResult ExecuteTokenEvent(TokenEvent tokenEvent)
@@ -78,7 +78,7 @@ public sealed class TokenExecutor : IDisposable
     }
 
     // NetworkE.pas:1350
-    public TokenExecutor(TokenManager manager)
+    public TokenExecutor(TokenManager? manager)
     {
         TokenManager = manager;
         // A construction test passes no manager.
@@ -159,10 +159,10 @@ public sealed class TokenExecutor : IDisposable
     }
 
     // NetworkE.pas:1444
-    public TokenEvent ExecutingTokenEvent => State.Contains(TokenExecutorStates.Executing) && Events.Count != 0 ? Events[0] : null;
+    public TokenEvent? ExecutingTokenEvent => State.Contains(TokenExecutorStates.Executing) && Events.Count != 0 ? Events[0] : null;
 
     // NetworkE.pas:1452
-    public bool InsertExecuteEvent(TokenEvent tokenEvent)
+    public bool InsertExecuteEvent(TokenEvent? tokenEvent)
     {
         if (State.Contains(TokenExecutorStates.Executing))
         {
@@ -324,8 +324,8 @@ public sealed class TokenExecutor : IDisposable
         }
     }
 
-    public TokenControl ActiveTacticalBattle { get; private set; }
-    public TokenControl PrefetchTacticalBattle { get; private set; }
+    public TokenControl? ActiveTacticalBattle { get; private set; }
+    public TokenControl? PrefetchTacticalBattle { get; private set; }
     public int ActiveTacticalBattleIndex { get; private set; }
     public int TokenCounter { get; private set; }
     public int Round { get; private set; }

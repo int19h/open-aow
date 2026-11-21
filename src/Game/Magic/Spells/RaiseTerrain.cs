@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Mountain.pas.
 using Aow.Engine.Nodes;
 
@@ -16,7 +16,7 @@ namespace Aow.Game.Magic.Spells;
 
 public class RaiseTerrain : GlobalTargetSpell
 {
-    public RaiseTerrain(CustomNode owner, EngineObject holder) : base(owner)
+    public RaiseTerrain(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_raiseTerrainText);

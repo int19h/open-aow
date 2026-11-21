@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 
@@ -15,7 +15,7 @@ namespace Aow.Game.Magic.Abilities;
 public class PossessedAbility : PossessAbility
 {
     // AoWAb.PAS:2562
-    public PossessedAbility(CustomNode owner, EngineObject holder) : base(owner, holder)
+    public PossessedAbility(CustomNode? owner, EngineObject holder) : base(owner, holder)
     {
         AbilityId = 107;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_possessedText);
@@ -24,7 +24,7 @@ public class PossessedAbility : PossessAbility
     }
 
     // AoWAb.PAS:2597
-    public override bool Expand(AbilityOwner owner)
+    public override bool Expand(AbilityOwner? owner)
     {
         PossessedAbilityData data = GetData(owner);
         if (data is null)
@@ -39,7 +39,7 @@ public class PossessedAbility : PossessAbility
     }
 
     // AoWAb.PAS:2612
-    public override bool Remove(AbilityOwner owner)
+    public override bool Remove(AbilityOwner? owner)
     {
         PossessedAbilityData data = GetData(owner);
         if (data is not null)
@@ -83,7 +83,7 @@ public class PossessedAbility : PossessAbility
     // AoWAb.PAS:2592
     public override EngineClass AbilityDataClass() => s_possessedDataClass;
 
-    public PossessedAbilityData GetData(AbilityOwner owner) => owner.GetAbilityData<PossessedAbilityData>(AbilityId);
+    public PossessedAbilityData GetData(AbilityOwner? owner) => owner.GetAbilityData<PossessedAbilityData>(AbilityId);
 
     private static readonly EngineClass s_possessedDataClass = EngineClass.Of<PossessedAbilityData>();
     private static readonly string s_possessedText = "Possessed";

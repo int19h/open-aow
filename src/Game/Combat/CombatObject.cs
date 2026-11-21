@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using System.Diagnostics.CodeAnalysis;
 using Aow.Engine;
@@ -24,7 +24,7 @@ namespace Aow.Game.Combat;
 // FCombat. FID. FTargets. FTargetedBy. outgoing CV/wall CV. incoming CV/wall CV. target counts.
 // attacker counts. target priority/cache flag. strength/cache flag. FCombatPlayer. FPosition.
 // Status. ControlMode
-public class CombatObject(CustomNode owner) : EngineObject(owner)
+public class CombatObject(CustomNode? owner) : EngineObject(owner)
 {
 
     public Battle Combat { get; set; }
@@ -282,7 +282,7 @@ public class CombatObject(CustomNode owner) : EngineObject(owner)
     public virtual int GetAbilityCount() => 0;
 
     // Combat.pas:5782
-    public virtual AbilityOwner AbilityOwner => null;
+    public virtual AbilityOwner? AbilityOwner => null;
 
     // Combat.pas:5672
     public virtual void Activate(Battle combat)
@@ -398,7 +398,7 @@ public class CombatObject(CustomNode owner) : EngineObject(owner)
     public virtual int ShowHitAnimation(int frame, int direction, int X, int Y, in LockedSurface surface) => 0;
 
     // Combat.pas:5868
-    public virtual int DoDamage(CombatObject target, int damage)
+    public virtual int DoDamage(CombatObject? target, int damage)
     {
         int result;
         if (damage != 0 && target.GetEnabled())
@@ -690,14 +690,14 @@ public class CombatObject(CustomNode owner) : EngineObject(owner)
         }
     }
 
-    internal static DamageTypes MeleeDamageTypes(CombatObject source)
+    internal static DamageTypes MeleeDamageTypes(CombatObject? source)
     {
         return source is CombatUnit sourceUnit
             ? GamePack.Current.AbilityControl.GetAbility<StrikeAbility>(21).GetDamageTypes(sourceUnit.Troop)
             : DamageTypes.None;
     }
 
-    internal static int StrikeDamageValue(CombatObject source, CombatObject target)
+    internal static int StrikeDamageValue(CombatObject? source, CombatObject? target)
     {
         if (source.GetAbilityEnabled(21))
         {
@@ -744,7 +744,7 @@ public class CombatObject(CustomNode owner) : EngineObject(owner)
         }
     }
 
-    internal static StrikeCombatAction CreateStrikeCombatAction(CombatObject source, CombatObject target, bool defensive)
+    internal static StrikeCombatAction? CreateStrikeCombatAction(CombatObject? source, CombatObject? target, bool defensive)
     {
         StrikeCombatAction result;
         if (source.GetAbilityEnabled(21))

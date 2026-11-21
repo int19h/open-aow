@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Engine.pas.
 using Aow.Engine.Nodes;
 
@@ -79,7 +79,7 @@ public class RecordList<TRecord> : Persistent where TRecord : struct
         base.Dispose();
     }
 
-    public override void Assign(Persistent source)
+    public override void Assign(Persistent? source)
     {
         if (source is RecordList<TRecord> list)
         {

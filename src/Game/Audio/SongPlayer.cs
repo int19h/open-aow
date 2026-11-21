@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Sound.pas.
 using Aow.Rtl;
 
@@ -12,7 +12,7 @@ public sealed class SongPlayer : IDisposable
 
     internal void SetSongChangeHandler(NotifyEvent<SongPlayer> handler) => _songChange = handler;
 
-    private SongStatus _backup;
+    private SongStatus? _backup;
     private int _pauseCount;
 
     // Sound.pas:870

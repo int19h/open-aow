@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from GlobalTargetSpells.pas.
 using Aow.Engine.Nodes;
 
@@ -16,7 +16,7 @@ namespace Aow.Game.Magic.Spells;
 public class FreezeWater : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:710
-    public FreezeWater(CustomNode owner, EngineObject holder) : base(owner)
+    public FreezeWater(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_freezeWaterText);

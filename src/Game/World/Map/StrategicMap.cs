@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using System.Globalization;
 using Aow.Engine;
@@ -53,10 +53,10 @@ public sealed partial class StrategicMap : GameMap
     public int SphereCount { get; private set; }
 
     public DelphiStringList Description { get; }
-    public ItemControl ItemControl { get; private set; }
-    public HeroControl HeroControl { get; set; }
-    public UnitControl UnitControl { get; set; }
-    public StructureControl StructureControl { get; private set; }
+    public ItemControl? ItemControl { get; private set; }
+    public HeroControl? HeroControl { get; set; }
+    public UnitControl? UnitControl { get; set; }
+    public StructureControl? StructureControl { get; private set; }
 
     private StrategicMapIndependentAIMode _independentAIMode;
     private readonly DelphiStringList _objectives;
@@ -70,12 +70,12 @@ public sealed partial class StrategicMap : GameMap
     public StrategicMapGameResult GameResult { get; set; }
     public GameType GameType { get; private set; }
 
-    public CombatMap CombatMap { get; set; }
-    public Battle Combat { get; private set; }
+    public CombatMap? CombatMap { get; set; }
+    public Battle? Combat { get; private set; }
     public TutorialControl TutorialControl { get; }
     public AIExecutor AIExecutor { get; internal set; }
     public AIPlayerActionManager AIPlayerActionManager { get; }
-    public AIGroupManager AIGroupManager { get; private set; }
+    public AIGroupManager? AIGroupManager { get; private set; }
     public HexSpriteMapKeyboard Keyboard { get; }
 
     public bool UnlimitedMoves { get; set; }
@@ -121,7 +121,7 @@ public sealed partial class StrategicMap : GameMap
 
     public bool ShowIndependentMoves { get; set; }
     public MoveControl MoveControl { get; }
-    public GlobalMagicControl GlobalMagicControl { get; set; }
+    public GlobalMagicControl? GlobalMagicControl { get; set; }
     public MapCampaignSettings CampaignSettings { get; }
     public sbyte EditorPlayer { get; }
 
@@ -169,7 +169,7 @@ public sealed partial class StrategicMap : GameMap
         remove => _currentPlayerChangedEventsStore.Remove(value);
     }
 
-    private readonly EventStore<StrategicMap> _seatedPlayerChangedEventsStore;
+    private readonly EventStore<StrategicMap?> _seatedPlayerChangedEventsStore;
 
     public event NotifyEvent<StrategicMap> SeatedPlayerChanged
     {
@@ -276,7 +276,7 @@ public sealed partial class StrategicMap : GameMap
     private int _structureUpdateCount;
     private int _unitUpdateCount;
 
-    private readonly EventStore<Troop> _unitChangedEventsStore;
+    private readonly EventStore<Troop?> _unitChangedEventsStore;
 
     public event NotifyEvent<Troop> UnitChanged
     {
@@ -284,7 +284,7 @@ public sealed partial class StrategicMap : GameMap
         remove => _unitChangedEventsStore.Remove(value);
     }
 
-    private readonly EventStore<Army> _armyChangedEventsStore;
+    private readonly EventStore<Army?> _armyChangedEventsStore;
 
     public event NotifyEvent<Army> ArmyChanged
     {
@@ -292,7 +292,7 @@ public sealed partial class StrategicMap : GameMap
         remove => _armyChangedEventsStore.Remove(value);
     }
 
-    private readonly EventStore<Structure> _structureChangedEventsStore;
+    private readonly EventStore<Structure?> _structureChangedEventsStore;
 
     public event NotifyEvent<Structure> StructureChanged
     {
@@ -357,7 +357,7 @@ public sealed partial class StrategicMap : GameMap
 
     public PlayMode PlayMode { get; private set; }
 
-    public TokenManager TokenManager { get; set; }
+    public TokenManager? TokenManager { get; set; }
     public PlayerCommunicator PlayerCommunicator { get; }
     public PlayerControl PlayerControl { get; private set; }
     public bool ShowUnitShadows { get; }
@@ -632,7 +632,7 @@ public sealed partial class StrategicMap : GameMap
     }
 
     // AoWHSMap.PAS:1238
-    public StrategicMap(CustomNode owner, EngineObject holder) : base(owner)
+    public StrategicMap(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         ItemControl = new ItemControl(null) { Holder = CreationHolder() };
@@ -727,7 +727,7 @@ public sealed partial class StrategicMap : GameMap
     }
 
     // AoWHSMap.PAS:2826
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         if (message.MessageId == 536870920)
         {
@@ -764,7 +764,7 @@ public sealed partial class StrategicMap : GameMap
     }
 
     // AoWHSMap.PAS:2853
-    public override void SendMessage(ref EngineMessage message, EngineObject sender)
+    public override void SendMessage(ref EngineMessage message, EngineObject? sender)
     {
         base.SendMessage(ref message, sender);
         GlobalMagicControl?.MessageProc(ref message, sender);
@@ -961,14 +961,14 @@ public sealed partial class StrategicMap : GameMap
     public override bool CreateNewMap(NewHexSpriteMapSettings settings) => base.CreateNewMap(settings);
 
     // AoWHSMap.PAS:3130
-    public override int ChangeTerrain(EngineObject mapObject, int X, int Y, int L, int radius, int terrainType)
+    public override int ChangeTerrain(EngineObject? mapObject, int X, int Y, int L, int radius, int terrainType)
     {
         RandSeed = Current.Random(16777215);
         return base.ChangeTerrain(mapObject, X, Y, L, radius, terrainType);
     }
 
     // AoWHSMap.PAS:3137
-    public override int ChangeTerrain(EngineObject mapObject, int X, int Y, int L, int radius, ChangeTerrainProc changeTerrainProc, TerrainChangedProc terrainChangedProc)
+    public override int ChangeTerrain(EngineObject? mapObject, int X, int Y, int L, int radius, ChangeTerrainProc changeTerrainProc, TerrainChangedProc? terrainChangedProc)
     {
         RandSeed = Current.Random(16777215);
         return base.ChangeTerrain(mapObject, X, Y, L, radius, changeTerrainProc, terrainChangedProc);
@@ -1010,7 +1010,7 @@ public sealed partial class StrategicMap : GameMap
             UpdateExecuteEventLogDelay();
             UpdateTurnTimeBeep();
             UpdateEffects();
-            CombatMap combatMap = CombatMap;
+            CombatMap? combatMap = CombatMap;
             combatMap?.NewFrame();
         }
     }
@@ -1050,22 +1050,22 @@ public sealed partial class StrategicMap : GameMap
 
         for (int i = 0, last = Players.Count - 1; i <= last; i++)
         {
-            Player players = Players.GetPlayers(i);
+            Player? players = Players.GetPlayers(i);
             Players.GetPlayers(i).SetGems(players.InitialGold);
-            Player fPlayersPlayers = Players.GetPlayers(i);
+            Player? fPlayersPlayers = Players.GetPlayers(i);
             Players.GetPlayers(i).MagicControl.SetMana(fPlayersPlayers.MagicControl.ExternalMana);
             switch (Players.GetPlayers(i).PlayerType)
             {
                 case PlayerType.Cpu4:
-                    Player players2 = Players.GetPlayers(i);
+                    Player? players2 = Players.GetPlayers(i);
                     Players.GetPlayers(i).SetGems(players2.Gems + 250);
-                    Player players3 = Players.GetPlayers(i);
+                    Player? players3 = Players.GetPlayers(i);
                     Players.GetPlayers(i).MagicControl.SetMana(players3.MagicControl.Mana + 250);
                     break;
                 case PlayerType.Cpu5:
-                    Player players4 = Players.GetPlayers(i);
+                    Player? players4 = Players.GetPlayers(i);
                     Players.GetPlayers(i).SetGems(players4.Gems + 500);
-                    Player players5 = Players.GetPlayers(i);
+                    Player? players5 = Players.GetPlayers(i);
                     Players.GetPlayers(i).MagicControl.SetMana(players5.MagicControl.Mana + 500);
                     break;
                 case PlayerType.Human:
@@ -1086,7 +1086,7 @@ public sealed partial class StrategicMap : GameMap
     public void StartLoadedMap() => PlayerControl.StartLoadedMap();
 
     // AoWHSMap.PAS:1996
-    public void TriggerExecuteEventLog(EventLog log, bool immediate, ExecuteDoneEvent done)
+    public void TriggerExecuteEventLog(EventLog log, bool immediate, ExecuteDoneEvent? done)
     {
         ExecuteEventLogNotification notification = new();
         ExecuteEventLogInfo info = notification.Info;
@@ -1115,7 +1115,7 @@ public sealed partial class StrategicMap : GameMap
     // from the log, so the callback and the log it is registered for have the same class.
     public void TriggerTypedExecuteEventLog<TLog>(TLog log, bool immediate, Action<TLog> done) where TLog : EventLog
     {
-        ExecuteDoneEvent callback = null;
+        ExecuteDoneEvent? callback = null;
         if (done is not null)
         {
             // ClearExecuteEventLogBuffer passes the next queued log to the first callback
@@ -1309,7 +1309,7 @@ public sealed partial class StrategicMap : GameMap
     // AoWHSMap.PAS:1709
     public bool SelectNextHero()
     {
-        Player player = Players.GetPlayers(SeatedPlayer);
+        Player? player = Players.GetPlayers(SeatedPlayer);
         if (player.Armies.Count != 0)
         {
             int left = player.Armies.Count;
@@ -1355,7 +1355,7 @@ public sealed partial class StrategicMap : GameMap
     // AoWHSMap.PAS:1741
     public bool SelectNextArmy()
     {
-        Player player = Players.GetPlayers(SeatedPlayer);
+        Player? player = Players.GetPlayers(SeatedPlayer);
         if (player.Armies.Count != 0)
         {
             int left = player.Armies.Count;
@@ -1401,7 +1401,7 @@ public sealed partial class StrategicMap : GameMap
     // AoWHSMap.PAS:1775
     public bool SelectPreviousArmy()
     {
-        Player player = Players.GetPlayers(SeatedPlayer);
+        Player? player = Players.GetPlayers(SeatedPlayer);
         if (player.Armies.Count != 0)
         {
             int i = player.BaseHeroJoinDay;
@@ -1470,7 +1470,7 @@ public sealed partial class StrategicMap : GameMap
     }
 
     // AoWHSMap.PAS:1833
-    public void NotifyUnitChanged(Troop troop)
+    public void NotifyUnitChanged(Troop? troop)
     {
         if (_unitUpdateCount == 0)
         {
@@ -1501,7 +1501,7 @@ public sealed partial class StrategicMap : GameMap
     }
 
     // AoWHSMap.PAS:1855
-    public void NotifyArmyChanged(Army army)
+    public void NotifyArmyChanged(Army? army)
     {
         if (_armyUpdateCount == 0)
         {
@@ -1529,7 +1529,7 @@ public sealed partial class StrategicMap : GameMap
     }
 
     // AoWHSMap.PAS:1877
-    public void NotifyStructureChanged(Structure structure)
+    public void NotifyStructureChanged(Structure? structure)
     {
         if (_structureUpdateCount == 0)
         {
@@ -1548,7 +1548,7 @@ public sealed partial class StrategicMap : GameMap
     }
 
     // AoWHSMap.PAS:1904
-    public void ExitGame(ExitGameMode mode, ExitGameCallBack done)
+    public void ExitGame(ExitGameMode mode, ExitGameCallBack? done)
     {
         if (!ExitPending)
         {
@@ -1670,7 +1670,7 @@ public sealed partial class StrategicMap : GameMap
     {
         for (int i = 1, last = Current.Players.Count - 1; i <= last; i++)
         {
-            Player player = Current.Players.GetPlayers(i);
+            Player? player = Current.Players.GetPlayers(i);
             if (i == eventValue.Player || player.GameOverStatus == GameOverStatus.None)
             {
                 GameOverEventLog log = eventValue.Copy<GameOverEventLog>(GetEngine());
@@ -2024,7 +2024,7 @@ public sealed partial class StrategicMap : GameMap
     {
         if (SeatedPlayer != -1)
         {
-            Player player = Players.GetPlayers(SeatedPlayer);
+            Player? player = Players.GetPlayers(SeatedPlayer);
             MapCoordinate location;
             if (player.View.X > 0)
             {
@@ -2053,7 +2053,7 @@ public sealed partial class StrategicMap : GameMap
     }
 
     // AoWHSMap.PAS:2538
-    public void Select(HexSprite sprite, bool center)
+    public void Select(HexSprite? sprite, bool center)
     {
         // { This eliminated copy preserves the original saved registers. }
         Selection.UnselectLocation();
@@ -2255,7 +2255,7 @@ public sealed partial class StrategicMap : GameMap
         {
             if (SeatedPlayer != -1)
             {
-                Player player = Players.GetPlayers(SeatedPlayer);
+                Player? player = Players.GetPlayers(SeatedPlayer);
                 GetViewCenter(out int x, out int y, out int l);
                 player.View = new MapCoordinate(unchecked((sbyte)(byte)x), unchecked((sbyte)(byte)y), unchecked((sbyte)(byte)l));
             }
@@ -2579,7 +2579,7 @@ public sealed partial class StrategicMap : GameMap
         }
 
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, x, y, radius: 0);
-        MapLevel mapLevel = null;
+        MapLevel? mapLevel = null;
         bool result = false;
         while (walk.Radius <= radius && !result)
         {
@@ -2649,11 +2649,11 @@ public sealed partial class StrategicMap : GameMap
 
     private static readonly string s_oneMomentPleaseText = "One moment please...";
 
-    public static StrategicMap Current { get; set; }
+    public static StrategicMap? Current { get; set; }
 
     // { Interface declaration run owned by P5. }
     // allied victory. . points. gold. mana. next scenario
-    public sealed class MapCampaignSettings(CustomNode owner) : EngineObject(owner)
+    public sealed class MapCampaignSettings(CustomNode? owner) : EngineObject(owner)
     {
 
         public bool AlliedVictory { get; private set; }

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWVideoDlg.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats;
@@ -66,6 +66,6 @@ public sealed class WorldMapCampaign(CustomNode owner) : Campaign(owner)
 
     private static readonly string s_wonText = "Won";
 
-    internal static WorldMapCampaignScenario GetCampaignScenario(WorldMapCampaign campaign, int index) => campaign.Scenarios.GetScenario<WorldMapCampaignScenario>(index);
+    internal static WorldMapCampaignScenario GetCampaignScenario(WorldMapCampaign? campaign, int index) => campaign.Scenarios.GetScenario<WorldMapCampaignScenario>(index);
 
 }

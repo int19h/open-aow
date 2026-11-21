@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from GlobalTargetSpells.pas.
 using Aow.Engine.Nodes;
 
@@ -15,7 +15,7 @@ namespace Aow.Game.Magic.Spells;
 public class SmokeCloudSpell : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:2325
-    public SmokeCloudSpell(CustomNode owner, EngineObject holder) : base(owner)
+    public SmokeCloudSpell(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.SmokeCloudText);

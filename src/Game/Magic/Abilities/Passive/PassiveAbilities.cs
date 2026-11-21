@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using Aow.Game.Combat;
 using Aow.Game.World.Movement;
 

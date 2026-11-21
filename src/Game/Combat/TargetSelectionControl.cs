@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 
@@ -33,22 +33,22 @@ public sealed class TargetSelectionControl : IDisposable
         Text = new DelphiStringList();
     }
 
-    public CustomImageLibrary ImageLibrary { get; private set; }
-    public SByteList HexNumbers { get; private set; }
+    public CustomImageLibrary? ImageLibrary { get; private set; }
+    public SByteList? HexNumbers { get; private set; }
     public TargetSelectionStatuses Status { get; set; }
     public TargetSelectionModes TargetMode { get; set; }
 
-    private ShowTargetSelectionEvent _show;
+    private ShowTargetSelectionEvent? _show;
 
     internal void SetShowHandler(ShowTargetSelectionEvent handler) => _show = handler;
 
-    private ValidateTargetEvent _validateTarget;
+    private ValidateTargetEvent? _validateTarget;
 
     internal void SetValidateTargetHandler(ValidateTargetEvent handler) => _validateTarget = handler;
 
     public int Range { get; set; }
     public MapCoordinate SourceLocation { get; set; }
-    public object Source { get; set; }
+    public object? Source { get; set; }
 
     internal EventStore<TargetSelectionControl> OnChangeStore { get; }
 
@@ -64,9 +64,9 @@ public sealed class TargetSelectionControl : IDisposable
     public string Title { get; set; } = "";
     public string CancelText { get; set; } = "";
     public int SourceUnitId { get; set; }
-    public LibraryImage SourceImage { get; set; }
-    public LibraryImage ValidTargetImage { get; set; }
-    public LibraryImage InvalidTargetImage { get; set; }
+    public LibraryImage? SourceImage { get; set; }
+    public LibraryImage? ValidTargetImage { get; set; }
+    public LibraryImage? InvalidTargetImage { get; set; }
 
     // Structur.PAS:3793
     public void Dispose()

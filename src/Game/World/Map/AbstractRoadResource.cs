@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from HSEngine.pas.
 using Aow.Engine.Nodes;
 
@@ -8,7 +8,7 @@ public class AbstractRoadResource(CustomNode owner) : MapObjectResource(owner)
 {
 
     // MAPOBJ.PAS:874
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
         if (message.MessageId == 65556)
@@ -23,9 +23,9 @@ public class AbstractRoadResource(CustomNode owner) : MapObjectResource(owner)
     }
 
     // MAPOBJ.PAS:883
-    public override MapObject PlaceResourceUser(GameMap hexSpriteMap, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override MapObject? PlaceResourceUser(GameMap? hexSpriteMap, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        MapObject result = CreateResourceUser();
+        MapObject? result = CreateResourceUser();
         HexGeometry.HexToPixel(hexX, hexY, out int pixelX, out int pixelY);
         pixelX += 16;
         pixelY += 16;

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from PoisonP.pas.
 using Aow.Engine.Nodes;
 
@@ -14,7 +14,7 @@ using Aow.Game.World.Terrain;
 
 namespace Aow.Game.Commands;
 
-public class PoisonPlantSpellTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
+public class PoisonPlantSpellTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenEvent(owner)
 {
 
     // PoisonP.pas:303

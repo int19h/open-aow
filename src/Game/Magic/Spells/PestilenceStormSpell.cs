@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Storms.pas.
 using Aow.Engine.Nodes;
 
@@ -11,7 +11,7 @@ namespace Aow.Game.Magic.Spells;
 public class PestilenceStormSpell : StormSpell
 {
     // Storms.pas:999
-    public PestilenceStormSpell(CustomNode owner, EngineObject holder) : base(owner)
+    public PestilenceStormSpell(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_pestilenceText);

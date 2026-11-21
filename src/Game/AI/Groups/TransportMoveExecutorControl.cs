@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Draw;
@@ -9,7 +9,7 @@ using Aow.Rtl;
 namespace Aow.Game.AI.Groups;
 
 // meeting point
-public class TransportMoveExecutorControl(CustomNode owner) : AIMoveExecutorControl(owner)
+public class TransportMoveExecutorControl(CustomNode? owner) : AIMoveExecutorControl(owner)
 {
 
     // A path step with its cost, copied to the units' arrival points (see AIMoveExecutorUnit).
@@ -24,7 +24,7 @@ public class TransportMoveExecutorControl(CustomNode owner) : AIMoveExecutorCont
         int index;
         byte selection;
         AIMoveExecutorArmy army;
-        AIMoveExecutorMove move;
+        AIMoveExecutorMove? move;
         switch (State)
         {
             case 0:
@@ -348,9 +348,9 @@ public class TransportMoveExecutorControl(CustomNode owner) : AIMoveExecutorCont
     }
 
     // AIGroup.pas:5465
-    public AIMoveExecutorMove CreateTransporterMove(sbyte X, sbyte Y, sbyte L, bool queue)
+    public AIMoveExecutorMove? CreateTransporterMove(sbyte X, sbyte Y, sbyte L, bool queue)
     {
-        AIMoveExecutorMove move = null;
+        AIMoveExecutorMove? move = null;
         AIMoveExecutorArmy army = new(null) { Holder = CreationHolder() };
         army.Setup(Executor.Transporter);
         for (int i = 0, last = Executor.Units.Count - 1; i <= last; i++)
@@ -362,7 +362,7 @@ public class TransportMoveExecutorControl(CustomNode owner) : AIMoveExecutorCont
             }
         }
 
-        AIMoveExecutorUnit aiMoveExecutorUnit = Executor.Transporter;
+        AIMoveExecutorUnit? aiMoveExecutorUnit = Executor.Transporter;
         ArmyHexSprite armyHexSprite = StrategicMap.Current.MapContainer.GetField(aiMoveExecutorUnit.Location.X, aiMoveExecutorUnit.Location.Y, aiMoveExecutorUnit.Location.MapLevel).GetArmyHexSprite();
 
         MoveControlSettings settings = new(null) { Holder = CreationHolder() };
@@ -462,7 +462,7 @@ public class TransportMoveExecutorControl(CustomNode owner) : AIMoveExecutorCont
         byte selection;
         ArmyHexSprite armyHexSprite;
         MoveControlSettings settings;
-        MapField field;
+        MapField? field;
         bool found;
         if (transporting != 0)
         {
@@ -642,7 +642,7 @@ public class TransportMoveExecutorControl(CustomNode owner) : AIMoveExecutorCont
     {
         AIMoveExecutorArmyList armies = Executor.CreateArmies(AIMoveExecutorUnitStatuses.Ready);
         int index = armies.IndexOf(MoveControl.Settings.ArmyHexSprite, selection: (byte)MoveControl.Settings.Selection);
-        AIMoveExecutorArmy army = index != -1 ? armies.GetArmies(index) : null;
+        AIMoveExecutorArmy? army = index != -1 ? armies.GetArmies(index) : null;
 
         if (army is not null && MoveControl.Settings.MovePoints != -1)
         {

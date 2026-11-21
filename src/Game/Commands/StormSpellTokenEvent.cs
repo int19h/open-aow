@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Storms.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
@@ -11,13 +11,13 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Commands;
 
 // storm, X, Y, layer
-public class StormSpellTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
+public class StormSpellTokenEvent(CustomNode? owner) : SpellTokenEvent(owner)
 {
 
     // Storms.pas:730
     public new const int ClassId = 135_937;
 
-    private Storm _storm;
+    private Storm? _storm;
 
     public MapCoordinate Location { get; set; }
 

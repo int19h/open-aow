@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from GFXE.pas.
 using Aow.Rtl;
 
@@ -8,7 +8,7 @@ namespace Aow.Game.Draw;
 public sealed class RectangleList : DelphiList<Rectangle>
 {
     // GFXE.pas:2458
-    internal Rectangle GetRectangle(int index) => List[index];
+    internal Rectangle? GetRectangle(int index) => List[index];
 
     // GFXE.pas:2447
     public override void Dispose()
@@ -22,7 +22,7 @@ public sealed class RectangleList : DelphiList<Rectangle>
 
     public sealed class RectanglesAccessor(RectangleList target)
     {
-        public Rectangle this[int index] => target.GetRectangle(index);
+        public Rectangle? this[int index] => target.GetRectangle(index);
     }
 
     public RectanglesAccessor Rectangles => new(this);

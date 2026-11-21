@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from aowMapEvents.pas.
 using System.Globalization;
 using Aow.Game.Combat;
@@ -23,12 +23,12 @@ using static Aow.Rtl.LegacyApplication;
 namespace Aow.Game.UI.Dialogs;
 
 // map control
-public sealed partial class MapEvents(UIContext ui) : UIModule(ui)
+public sealed partial class MapEvents(UIContext? ui) : UIModule(ui)
 {
 
     // Renderers of the DoubleClick keys of the structures (Structure.Views.cs). ClassRegistry adds
     // the original renderers.
-    public static Catalog<StructureView, Action<MapEvents, Structure>> StructureScreens { get; } = new("map structure screen");
+    public static Catalog<StructureView, Action<MapEvents, Structure>?> StructureScreens { get; } = new("map structure screen");
 
     // The view key names the kind. Another kind throws, and null stays null.
     internal static void AddScreen<TStructure>(StructureView view, Action<MapEvents, TStructure> open)
@@ -39,7 +39,7 @@ public sealed partial class MapEvents(UIContext ui) : UIModule(ui)
     // immediate mode and the done callback. The original renderers ignore the mode (the three that
     // take it name it Unused), it is there for a renderer that wants it. ClassRegistry adds the
     // original renderers.
-    public static Catalog<EventView, Action<MapEvents, EventLog, bool, ExecuteDoneEvent>> EventRenderers { get; } = new("map event view");
+    public static Catalog<EventView, Action<MapEvents, EventLog, bool, ExecuteDoneEvent>?> EventRenderers { get; } = new("map event view");
 
     // The view key names the kind. Another kind throws.
     internal static void AddRenderer<TLog>(EventView view, Action<MapEvents, TLog, bool, ExecuteDoneEvent> render)
@@ -272,7 +272,7 @@ public sealed partial class MapEvents(UIContext ui) : UIModule(ui)
             }
             else
             {
-                Player playerLocal = StrategicMap.Current.Players.GetPlayers(player);
+                Player? playerLocal = StrategicMap.Current.Players.GetPlayers(player);
                 UI.TaskBar.WorldGoldTotalLabel.Text = playerLocal.Gems.ToString(CultureInfo.InvariantCulture);
                 if (UI.RealmWindow.Window.Visible && UI.RealmWindow.HeaderTabs.Selected == 0)
                 {
@@ -417,7 +417,7 @@ public sealed partial class MapEvents(UIContext ui) : UIModule(ui)
             }
             else
             {
-                Player playerLocal = StrategicMap.Current.Players.GetPlayers(player);
+                Player? playerLocal = StrategicMap.Current.Players.GetPlayers(player);
                 UI.TaskBar.WorldManaTotalLabel.Text = playerLocal.MagicControl.Mana.ToString(CultureInfo.InvariantCulture);
                 int netIncome = StrategicMap.Current.Players.GetPlayers(player).MagicControl.GetManaIncome() - StrategicMap.Current.Players.GetPlayers(player).MagicControl.GetManaUpkeep();
                 if (netIncome >= 0)
@@ -694,7 +694,7 @@ public sealed partial class MapEvents(UIContext ui) : UIModule(ui)
         dialog.UI.TaskBar.StructureButton.Visible = true;
     }
 
-    private static void UpdateStructureInfo(InfoWindow dialog, Structure structure)
+    private static void UpdateStructureInfo(InfoWindow dialog, Structure? structure)
     {
         if (!dialog.MainWindow.Visible)
         {
@@ -723,17 +723,17 @@ public sealed partial class MapEvents(UIContext ui) : UIModule(ui)
         dialog.ItemPanel.Visible = true;
         dialog.MainWindow.Visible = true;
         dialog.StructureNameLabel.Text = "";
-        LibraryImage imageTop = dialog.UI.Graphics.MiscArt[35];
+        LibraryImage? imageTop = dialog.UI.Graphics.MiscArt[35];
         dialog.StructureLine.ImageTop = imageTop;
-        LibraryImage imageMiddle = dialog.UI.Graphics.MiscArt[36];
+        LibraryImage? imageMiddle = dialog.UI.Graphics.MiscArt[36];
         dialog.StructureLine.ImageMiddle = imageMiddle;
-        LibraryImage imageBottom = dialog.UI.Graphics.MiscArt[37];
+        LibraryImage? imageBottom = dialog.UI.Graphics.MiscArt[37];
         dialog.StructureLine.ImageBottom = imageBottom;
         ArmyHexSprite armyHexSprite = items.Owner.GetArmyHexSprite();
         if (armyHexSprite is not null && armyHexSprite.Army.Player == StrategicMap.Current.SeatedPlayer)
         {
             dialog.ItemBagMemo.Visible = false;
-            Hero hero = armyHexSprite.Army.Hero(255, types: RosterTables.AllHeroTypes);
+            Hero? hero = armyHexSprite.Army.Hero(255, types: RosterTables.AllHeroTypes);
             dialog.MainButton.Visible = hero is not null;
             string text2 = dialog.UI.Engine.TranslateResourceString(s_pickupText);
             dialog.MainButton.Text = text2;
@@ -860,7 +860,7 @@ public sealed partial class MapEvents(UIContext ui) : UIModule(ui)
                 ((int)castingPointsMax).ToString(CultureInfo.InvariantCulture)
             });
         }
-        Spell spell = GamePack.Current.SpellControl[dialog.Caster.CasterSpellId];
+        Spell? spell = GamePack.Current.SpellControl[dialog.Caster.CasterSpellId];
         dialog.SpellNameLabel.Text = spell.SpellName;
         int number = hero.CastingMana(spell);
         string text2 = dialog.UI.Engine.TranslateResourceString(GameText.CastingCostText);
@@ -883,7 +883,7 @@ public sealed partial class MapEvents(UIContext ui) : UIModule(ui)
             " ",
             text5
         });
-        Player players = StrategicMap.Current.Players.GetPlayers(hero.Player);
+        Player? players = StrategicMap.Current.Players.GetPlayers(hero.Player);
         string text6 = dialog.UI.Engine.TranslateResourceString(GameText.ManaText);
         dialog.CastingManaLabel.Text = $"{text6}: {players.MagicControl.Mana.ToString(CultureInfo.InvariantCulture)}";
         dialog.Unit1CheckBox.Checked = false;

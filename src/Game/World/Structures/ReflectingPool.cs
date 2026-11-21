@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from ReflectingPool.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -11,7 +11,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.World.Structures;
 
 // CenterFrame (-1 when inactive)
-public partial class ReflectingPool(CustomNode owner) : PlayerStructure(owner)
+public partial class ReflectingPool(CustomNode? owner) : PlayerStructure(owner)
 {
 
     // ReflectingPool.pas:58
@@ -246,7 +246,7 @@ public partial class ReflectingPool(CustomNode owner) : PlayerStructure(owner)
     {
         for (int p = StrategicMap.Current.Players.Count - 1; p >= 0; p--)
         {
-            Player player = StrategicMap.Current.Players.GetPlayers(p);
+            Player? player = StrategicMap.Current.Players.GetPlayers(p);
             for (int i = player.KnownStructures.Count - 1; i >= 0; i--)
             {
                 player.KnownStructures.GetStructure(i).UpdateExploration();
@@ -285,7 +285,7 @@ public partial class ReflectingPool(CustomNode owner) : PlayerStructure(owner)
         }
     }
 
-    internal static int ComparePools(object item1, object item2) => 0;
+    internal static int ComparePools(object? item1, object? item2) => 0;
 
     public new class Resource : PlayerStructureResource
     {

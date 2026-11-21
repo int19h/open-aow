@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using System.Globalization;
 using System.Reflection;
 using System.Text;
@@ -35,7 +35,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     {
         internal int ArmyQueries { get; private set; }
 
-        public override EngineObject FindOwnedChild(int classId)
+        public override EngineObject? FindOwnedChild(int classId)
         {
             if (classId == ArmyHexSprite.ClassId)
             {
@@ -248,7 +248,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
 
     private sealed class Scene : IDisposable
     {
-        private readonly StrategicMap _previousMap = StrategicMap.Current;
+        private readonly StrategicMap? _previousMap = StrategicMap.Current;
         private readonly bool _previousDebug = EngineFixture.Engine.Debug;
         private readonly List<Structure> _created = [];
 
@@ -492,9 +492,9 @@ public sealed class StructureViewTests(ITestOutputHelper output)
         StringBuilder resolved = new();
         foreach (Type type in StructureTypes())
         {
-            Type declaring = type.GetMethod(nameof(Structure.CombatMapName)).DeclaringType;
+            Type? declaring = type.GetMethod(nameof(Structure.CombatMapName)).DeclaringType;
             Assert.True(declaring == type || declaring == typeof(Structure), userMessage: $"{type.Name} inherits CombatMapName from {declaring.Name}");
-            MethodInfo owner = type.GetMethod("OwnerPanel", bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic);
+            MethodInfo? owner = type.GetMethod("OwnerPanel", bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic);
             _ = resolved.AppendLine($"{type.Name}: InfoPanel {Declaring(type, method: nameof(Structure.InfoPanel))}" +
                 (owner is null ? "" : $" (OwnerPanel {owner.DeclaringType.Name})") + ", " +
                 $"InfoButton {Declaring(type, method: nameof(Structure.InfoButton))}, DoubleClick {Declaring(type, method: nameof(Structure.DoubleClick))}, " +

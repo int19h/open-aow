@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Storms.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Audio;
@@ -12,11 +12,11 @@ using Aow.Rtl;
 namespace Aow.Game.Draw.Animations;
 
 // storm image library
-public class LightningStorm(CustomNode owner) : Storm(owner)
+public class LightningStorm(CustomNode? owner) : Storm(owner)
 {
     public new const int ClassId = 135_739;
 
-    private CustomImageLibrary _stormImages;
+    private CustomImageLibrary? _stormImages;
 
     // Storms.pas:429
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
@@ -26,9 +26,9 @@ public class LightningStorm(CustomNode owner) : Storm(owner)
         {
             sbyte hexY = HexY;
             HexGeometry.HexToPixel(HexX, hexY, out int x, out int y);
-            LibraryImage stormImageWidth = _stormImages[frame];
+            LibraryImage? stormImageWidth = _stormImages[frame];
             x = x - (stormImageWidth.Width >>> 1) + 20;
-            LibraryImage stormImageHeight = _stormImages[frame];
+            LibraryImage? stormImageHeight = _stormImages[frame];
             y = y - stormImageHeight.Height + 32 + 40;
             _stormImages[frame].Show(x - pixelXSurface, y - pixelYSurface, lockedSurface);
         }

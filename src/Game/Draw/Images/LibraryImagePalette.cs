@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from ImageLib.pas.
 using Aow.Rtl;
 
@@ -47,7 +47,7 @@ public sealed class LibraryImagePalette : Persistent
     }
 
     // ImageLib.pas:7124
-    public override void Assign(Persistent source)
+    public override void Assign(Persistent? source)
     {
         if (source is LibraryImagePalette palette)
         {

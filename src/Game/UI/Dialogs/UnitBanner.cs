@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWUnitBanner.pas.
 using System.Globalization;
 using Aow.Game.Combat;

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWConstructDlg.pas.
 using System.Globalization;
 using Aow.Game.Magic.Abilities;
@@ -18,7 +18,7 @@ public sealed partial class ConstructDialog(UIContext ui) : UIModule(ui)
     public ListBox ConstructionCostList { get; private set; }
     public ListBox ConstructionTurnsList { get; private set; }
 
-    private AbilityActivation _request;
+    private AbilityActivation? _request;
 
     // AoWConstructDlg.pas:117
     public void Execute(AbilityActivation request)
@@ -42,7 +42,7 @@ public sealed partial class ConstructDialog(UIContext ui) : UIModule(ui)
     public void UpdateConstructions()
     {
         Window.Drawn = false;
-        Troop u = StrategicMap.Current.UnitControl.FindUnit(_request.UnitId);
+        Troop? u = StrategicMap.Current.UnitControl.FindUnit(_request.UnitId);
         ConstructionList.Items.Clear();
         ConstructionCostList.Items.Clear();
         ConstructionTurnsList.Items.Clear();
@@ -104,8 +104,8 @@ public sealed partial class ConstructDialog(UIContext ui) : UIModule(ui)
 
         if (condition)
         {
-            Troop u = StrategicMap.Current.UnitControl.FindUnit(_request.UnitId);
-            ConstructionControl control = ConstructionList.Items.Objects[ConstructionList.Selected];
+            Troop? u = StrategicMap.Current.UnitControl.FindUnit(_request.UnitId);
+            ConstructionControl? control = ConstructionList.Items.Objects[ConstructionList.Selected];
             string reason = "";
             if (control.CanConstruct(u, ref reason))
             {

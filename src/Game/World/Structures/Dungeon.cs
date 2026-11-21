@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Dungeon.pas.
 using System.Globalization;
 using Aow.Engine;
@@ -53,7 +53,7 @@ public partial class Dungeon : ExplorationSite
     }
 
     // Dungeon.pas:249
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
         Prisoners.MessageProc(ref message, sender);
@@ -124,7 +124,7 @@ public partial class Dungeon : ExplorationSite
             };
             for (int i = 0, last = Prisoners.Units.Count - 1; i <= last; i++)
             {
-                Troop troop = Prisoners.Units.GetUnit(i);
+                Troop? troop = Prisoners.Units.GetUnit(i);
                 _ = log.UnitIds.Add(troop.UnitId);
             }
 
@@ -193,7 +193,7 @@ public partial class Dungeon : ExplorationSite
         armyLog.Player = GetPlayer();
         armyLog.Title = AbilityRules.TranslateResourceString(GetEngine(), S: PrisonerLiberationText);
         armyLog.Description = "";
-        Hero hero = Prisoners.Hero(255, types: HeroTypes.Hero);
+        Hero? hero = Prisoners.Hero(255, types: HeroTypes.Hero);
         if (hero is null)
         {
             if (Prisoners.Units.Count == 1)

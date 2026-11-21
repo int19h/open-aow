@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using Aow.Game.Combat;
 using Aow.Game.Draw;
 using Aow.Game.World.Map;
@@ -39,7 +39,7 @@ public partial class MoveControl
         _ = Settings.AddRef();
         if (Settings.Status == MoveControlSettingsStatus.Idle)
         {
-            MapContainer container = Map.MapContainer;
+            MapContainer? container = Map.MapContainer;
             Settings.SetupMovePointData(container.Width, container.Height, container.LevelCount);
             MovePointsLimit = Settings.MovePointsMax;
         }

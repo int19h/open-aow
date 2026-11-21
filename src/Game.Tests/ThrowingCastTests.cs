@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using Aow.Game.AI.Groups;
 using Aow.Game.Combat;
 using Aow.Game.Commands;
@@ -27,7 +27,7 @@ public sealed class ThrowingCastTests
 {
     private sealed class MapScope : IDisposable
     {
-        private readonly StrategicMap _previous = StrategicMap.Current;
+        private readonly StrategicMap? _previous = StrategicMap.Current;
 
         public MapScope()
         {
@@ -161,7 +161,7 @@ public sealed class ThrowingCastTests
     [Fact]
     public void SharedWallIdSkipsAStructureAndKeepsADoor()
     {
-        CombatMap previous = CombatMap.Current;
+        CombatMap? previous = CombatMap.Current;
         CombatMap map = new(null) { Holder = EngineFixture.Engine };
         try
         {
@@ -199,7 +199,7 @@ public sealed class ThrowingCastTests
     [Fact]
     public void PrisonersStayOffTheItemList()
     {
-        CombatMap previous = CombatMap.Current;
+        CombatMap? previous = CombatMap.Current;
         using MapScope scope = new();
         try
         {
@@ -275,7 +275,7 @@ public sealed class ThrowingCastTests
         Assert.True(scope.Map.MoveControl.Activate(world));
         Assert.Same(army, scope.Map.MoveControl.ArmyHexSprite);
 
-        CombatMap previous = CombatMap.Current;
+        CombatMap? previous = CombatMap.Current;
         CombatMap combatMap = new(null) { Holder = EngineFixture.Engine };
         try
         {
@@ -343,7 +343,7 @@ public sealed class ThrowingCastTests
         hero.SetOwnerWithoutNotify(units);
         scope.Map.UnitControl.RegisterUnit(hero);
         HeroEmergeEventLog emerge = new(null) { Holder = EngineFixture.Engine, UnitId = 42, Player = 1 };
-        HeroJoinEventLog log = null;
+        HeroJoinEventLog? log = null;
         Exception error = Record.Exception(() => log = emerge.CreateHeroJoinEventLog());
         Assert.Null(error);
         Assert.Null(log);

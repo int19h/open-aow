@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using System.Globalization;
 using Aow.Engine.Nodes;
@@ -12,7 +12,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Commands;
 
 // (source unit ID/player, target unit ID/player)
-public class DispelMagicAbilityTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class DispelMagicAbilityTokenEvent(CustomNode? owner) : TokenEvent(owner)
 {
     public new const int ClassId = 131_827;
 
@@ -36,8 +36,8 @@ public class DispelMagicAbilityTokenEvent(CustomNode owner) : TokenEvent(owner)
     {
         _ = base.Execute(tokenEvent);
         EnchantmentList enchantments = new(null) { Holder = CreationHolder() };
-        Troop source = StrategicMap.Current.UnitControl.FindUnit(SourceId);
-        Troop target = StrategicMap.Current.UnitControl.FindUnit(TargetId);
+        Troop? source = StrategicMap.Current.UnitControl.FindUnit(SourceId);
+        Troop? target = StrategicMap.Current.UnitControl.FindUnit(TargetId);
         DispelMagicAbility ability = GamePack.Current.AbilityControl.GetAbility<DispelMagicAbility>(60);
         bool success = source is not null && (byte)source.Player == SourcePlayer && target is not null && (byte)target.Player == TargetPlayer;
         success = success && ability.GetEnabled(source);

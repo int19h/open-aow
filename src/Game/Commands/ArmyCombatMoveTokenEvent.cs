@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 
 using Aow.Engine.Nodes;
@@ -15,7 +15,7 @@ using Aow.Game.World.Movement;
 namespace Aow.Game.Commands;
 
 // combat mode, combat type, ignore defenders
-public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenEvent(owner)
+public partial class ArmyCombatMoveTokenEvent(CustomNode? owner) : MoveArmyTokenEvent(owner)
 {
     public new const int ClassId = 135_426;
 
@@ -160,7 +160,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
     }
 
     // MoveT.PAS:2504
-    public override bool Setup(ArmyHexSprite armyHexSprite, byte selection, MovePath path, ArmyMoveModes mode)
+    public override bool Setup(ArmyHexSprite? armyHexSprite, byte selection, MovePath path, ArmyMoveModes mode)
     {
         bool result = base.Setup(armyHexSprite, selection, path, mode);
         if (result && armyHexSprite.Army.Player == TargetPlayer)
@@ -200,7 +200,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
                 flow.Player = request.AttackerPlayer;
                 StrategicMap.Current.TokenManager.GetTokenControl(StrategicMap.Current.SeatedPlayer).AddEvent(flow);
                 _ = flow.Release();
-                ArmyHexSprite armyHexSprite = ArmyHexSprite;
+                ArmyHexSprite? armyHexSprite = ArmyHexSprite;
                 byte selection = Selection;
                 bool stored = request.ArmyId.RetrieveArmy(ref armyHexSprite, ref selection);
                 ArmyHexSprite = armyHexSprite;
@@ -693,7 +693,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
                 armyHexSprite = StrategicMap.Current.MapContainer.GetField(combat.CombatData.AttackerLocation.X, combat.CombatData.AttackerLocation.Y, combat.CombatData.AttackerLocation.MapLevel).GetArmyHexSprite();
                 if (armyHexSprite is not null)
                 {
-                    Army army = armyHexSprite.Army;
+                    Army? army = armyHexSprite.Army;
                     byte selection = 0;
                     for (int i = army.Units.Count - 1; i >= 0; i--)
                     {
@@ -701,7 +701,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
                         if (army.Units.GetUnit(i).UnitStatus.Contains(UnitStatuses.Moving))
                         {
                             selection = (byte)(selection | 1);
-                            Troop troop = army.Units.GetUnit(i);
+                            Troop? troop = army.Units.GetUnit(i);
                             army.Units.GetUnit(i).UnitStatus = troop.UnitStatus & ~UnitStatuses.Moving;
                         }
                     }
@@ -709,14 +709,14 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
                     if (selection != 0)
                     {
                         MapField field = StrategicMap.Current.MapContainer.GetField(combat.CombatData.Location.X, combat.CombatData.Location.Y, combat.CombatData.Location.MapLevel);
-                        MoveArmyTokenEvent move;
+                        MoveArmyTokenEvent? move;
                         if (field.GetPlayer() == armyHexSprite.Army.Player)
                         {
                             move = CreateArmyMoveMapCoordinateTokenEvent(armyHexSprite, selection, combat.CombatData.Location.X, combat.CombatData.Location.Y, L: combat.CombatData.Location.MapLevel, action: MoveAction.Normal);
                         }
                         else
                         {
-                            ArmyCombatMoveTokenEvent combatMove = CreateCombatMoveMapCoordinateTokenEvent(armyHexSprite, selection: selection, x: combat.CombatData.Location.X, y: combat.CombatData.Location.Y, l: combat.CombatData.Location.MapLevel);
+                            ArmyCombatMoveTokenEvent? combatMove = CreateCombatMoveMapCoordinateTokenEvent(armyHexSprite, selection: selection, x: combat.CombatData.Location.X, y: combat.CombatData.Location.Y, l: combat.CombatData.Location.MapLevel);
                             combatMove?._ignoreDefenders = true;
 
                             move = combatMove;
@@ -737,7 +737,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
                 {
                     for (int i = armyHexSprite.Army.Units.Count - 1; i >= 0; i--)
                     {
-                        Troop troop = armyHexSprite.Army.Units.GetUnit(i);
+                        Troop? troop = armyHexSprite.Army.Units.GetUnit(i);
                         armyHexSprite.Army.Units.GetUnit(i).UnitStatus = troop.UnitStatus & ~UnitStatuses.Moving;
                     }
 
@@ -781,7 +781,7 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
     private static readonly string s_playerIsMovingFormat = "%s is moving";
     private static readonly string s_youAreBeingAttackedText = "You're being attacked!";
 
-    private static void DistributeCombatEvent(CombatLogbook logbook, bool execute)
+    private static void DistributeCombatEvent(CombatLogbook? logbook, bool execute)
     {
         CombatData fFinalData = logbook.FinalData;
         int i = 1;
@@ -801,18 +801,18 @@ public partial class ArmyCombatMoveTokenEvent(CustomNode owner) : MoveArmyTokenE
         }
     }
 
-    private static MoveArmyTokenEvent CreateArmyMoveMapCoordinateTokenEvent(ArmyHexSprite army, byte selection, sbyte X, sbyte Y, sbyte L, MoveAction action)
+    private static MoveArmyTokenEvent? CreateArmyMoveMapCoordinateTokenEvent(ArmyHexSprite army, byte selection, sbyte X, sbyte Y, sbyte L, MoveAction action)
     {
         MoveControlSettings moveControlSettings = CreateMoveControlSettings(army, selection: selection, x: X, y: Y, l: L);
-        MoveArmyTokenEvent result = (moveControlSettings.Path.Count == 0) ? null : ArmyHexSprite.CreateArmyMoveTokenEvent(army, selection: selection, path: moveControlSettings.Path, action: action, mode: ArmyMoveModes.None);
+        MoveArmyTokenEvent? result = (moveControlSettings.Path.Count == 0) ? null : ArmyHexSprite.CreateArmyMoveTokenEvent(army, selection: selection, path: moveControlSettings.Path, action: action, mode: ArmyMoveModes.None);
         _ = moveControlSettings.Release();
         return result;
     }
 
-    private static ArmyCombatMoveTokenEvent CreateCombatMoveMapCoordinateTokenEvent(ArmyHexSprite army, byte selection, sbyte x, sbyte y, sbyte l)
+    private static ArmyCombatMoveTokenEvent? CreateCombatMoveMapCoordinateTokenEvent(ArmyHexSprite army, byte selection, sbyte x, sbyte y, sbyte l)
     {
         MoveControlSettings moveControlSettings = CreateMoveControlSettings(army, selection: selection, x: x, y: y, l: l);
-        ArmyCombatMoveTokenEvent result = (moveControlSettings.Path.Count == 0) ? null : ArmyHexSprite.CreateArmyCombatMoveTokenEvent(army, selection: selection, path: moveControlSettings.Path, mode: ArmyMoveModes.None);
+        ArmyCombatMoveTokenEvent? result = (moveControlSettings.Path.Count == 0) ? null : ArmyHexSprite.CreateArmyCombatMoveTokenEvent(army, selection: selection, path: moveControlSettings.Path, mode: ArmyMoveModes.None);
         _ = moveControlSettings.Release();
         return result;
     }

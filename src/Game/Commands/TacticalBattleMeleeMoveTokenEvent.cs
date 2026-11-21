@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from CombatTE.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Combat;
@@ -10,7 +10,7 @@ using static Aow.Rtl.RtlHost;
 
 namespace Aow.Game.Commands;
 
-public class TacticalBattleMeleeMoveTokenEvent(CustomNode owner) : CombatMoveTokenEvent(owner)
+public class TacticalBattleMeleeMoveTokenEvent(CustomNode? owner) : CombatMoveTokenEvent(owner)
 {
     public new const int ClassId = 2_236_417;
 

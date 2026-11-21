@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from GlobalEnchantmentSpells.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -8,13 +8,13 @@ using Aow.Game.Magic.Abilities;
 namespace Aow.Game.Commands;
 
 // Enchantment
-public class GlobalEnchantmentSpellTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
+public class GlobalEnchantmentSpellTokenEvent(CustomNode? owner) : SpellTokenEvent(owner)
 {
 
     // GlobalEnchantmentSpells.pas:389
     public new const int ClassId = 135_954;
 
-    public GlobalEnchantment Enchantment { get; set; }
+    public GlobalEnchantment? Enchantment { get; set; }
 
     // GlobalEnchantmentSpells.pas:379
     public override void Dispose()

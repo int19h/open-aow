@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using System.Collections.Immutable;
 using System.Globalization;
@@ -16,7 +16,7 @@ namespace Aow.Game.World.Map;
 
 // TNotifyEvent target passed directly
 // cheat text, mode, lock count
-public sealed class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner)
+public sealed class HexSpriteMapKeyboard(CustomNode? owner) : EngineObject(owner)
 {
     private string _cheatText = "";
 

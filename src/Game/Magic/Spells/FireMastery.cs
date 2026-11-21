@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from GlobalEnchantmentSpells.pas.
 using Aow.Engine.Nodes;
 
@@ -18,7 +18,7 @@ namespace Aow.Game.Magic.Spells;
 public class FireMastery : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:1733
-    public FireMastery(CustomNode owner, EngineObject holder) : base(owner)
+    public FireMastery(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellType = SpellType.Global;
@@ -72,7 +72,7 @@ public class FireMastery : GlobalEnchantmentSpell
     public void ShowAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface surface)
     {
         int chance = GetEngine().AnimationDetail switch { 0 => 2, 2 => 5, _ => 3 };
-        StrategicMap map = StrategicMap.Current;
+        StrategicMap? map = StrategicMap.Current;
         MapLevel level = map.MapContainer.GetMapLevel(map.ViewMapLevel);
         int maxX = map.ViewHexX + map.ViewWidthHex - 1, maxY = map.ViewHexY + map.ViewHeightHex - 1;
         for (int x = map.ViewHexX; x <= maxX; x++)

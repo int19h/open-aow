@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from MainAG.pas.
 using Aow.Engine.Nodes;
 
@@ -25,10 +25,10 @@ public class PassiveAIGroupControl(CustomNode owner) : AIGroupControl(owner)
                 if (selector.Defenders.Count != Group.Units.Count && Group.Player != 0)
                 {
                     GroupBehavior randomGroupBehavior = StrategicMap.Current.Players.GetPlayers(Group.Player).AIControl.GetRandomGroupBehavior();
-                    AIGroup group = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, relation: Group.IndependentRelation, behavior: randomGroupBehavior);
+                    AIGroup? group = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, relation: Group.IndependentRelation, behavior: randomGroupBehavior);
                     for (int i = Group.Units.Count - 1; i >= 0; i--)
                     {
-                        Troop troop = Group.Units.GetUnit(i);
+                        Troop? troop = Group.Units.GetUnit(i);
                         if (selector.Defenders.IndexOf(troop) == -1)
                         {
                             _ = group.AddUnit(troop);
@@ -62,7 +62,7 @@ public class PassiveAIGroupControl(CustomNode owner) : AIGroupControl(owner)
     // MainAG.pas:176
     public void CombinePassiveGroups()
     {
-        Player player = StrategicMap.Current.Players.GetPlayers(Group.Player);
+        Player? player = StrategicMap.Current.Players.GetPlayers(Group.Player);
         MapCoordinate location = Group.GetLocation();
         for (int i = player.AIGroups.Count - 1; i >= 0; i--)
         {

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
@@ -10,7 +10,7 @@ namespace Aow.Game.Magic.Abilities;
 public partial class WallCrushingAbility : TouchAbility
 {
     // AoWAb.PAS:1991
-    public WallCrushingAbility(CustomNode owner, EngineObject holder) : base(owner)
+    public WallCrushingAbility(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         AbilityId = 117;
@@ -34,7 +34,7 @@ public partial class WallCrushingAbility : TouchAbility
     }
 
     // AoWAb.PAS:2006
-    public override void GetDamageValues(Troop attacker, Troop defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
+    public override void GetDamageValues(Troop attacker, Troop? defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
         if (wallSituation == WallSituation.None)
         {
@@ -62,7 +62,7 @@ public partial class WallCrushingAbility : TouchAbility
     }
 
     // AoWAb.PAS:2096
-    public override void GetOffensiveStrength(AbilityOwner owner, ref int strength, ref DamageTypes types)
+    public override void GetOffensiveStrength(AbilityOwner? owner, ref int strength, ref DamageTypes types)
     {
         if (owner is Troop troop)
         {
@@ -72,7 +72,7 @@ public partial class WallCrushingAbility : TouchAbility
     }
 
     // AoWAb.PAS:2027
-    public override void FastBattleGetDamageValues(CombatObject attacker, CombatObject defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
+    public override void FastBattleGetDamageValues(CombatObject? attacker, CombatObject? defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
         if (CanTouch(attacker, target: defender))
         {
@@ -99,7 +99,7 @@ public partial class WallCrushingAbility : TouchAbility
     }
 
     // AoWAb.PAS:2047
-    public override void TacticalBattleGetDamageValues(CombatObject attacker, CombatObject defender, ref AbilityDamageValues damageValues)
+    public override void TacticalBattleGetDamageValues(CombatObject? attacker, CombatObject? defender, ref AbilityDamageValues damageValues)
     {
         if (CanTouch(attacker, target: defender))
         {
@@ -126,7 +126,7 @@ public partial class WallCrushingAbility : TouchAbility
     }
 
     // AoWAb.PAS:2067
-    public override void GetCombatInfo(AbilityOwner owner, ref AbilityCombatInfo info)
+    public override void GetCombatInfo(AbilityOwner? owner, ref AbilityCombatInfo info)
     {
         info.Attack = 6;
         info.Damage = 6;
@@ -136,7 +136,7 @@ public partial class WallCrushingAbility : TouchAbility
     }
 
     // AoWAb.PAS:2105
-    public override bool CanTouch(CombatObject source, CombatObject target)
+    public override bool CanTouch(CombatObject? source, CombatObject? target)
     {
         bool result = base.CanTouch(source, target);
         return result && target is not CombatUnit;

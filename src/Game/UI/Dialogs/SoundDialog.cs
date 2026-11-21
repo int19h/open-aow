@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWSoundDlg.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Audio;

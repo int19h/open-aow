@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from FastCombatWin.pas.
 using Aow.Game.Combat;
 using Aow.Game.Draw;
@@ -46,14 +46,14 @@ public sealed partial class FastBattleWindow(UIContext ui) : UIModule(ui)
     private byte _phase;
     private int _phaseFrame;
     private int _animationFrame;
-    private CombatLogbook _logbook;
+    private CombatLogbook? _logbook;
     private int _leftShield;
     private byte _leftOpacity;
     private int _rightShield;
     private byte _rightOpacity;
     private CombatViewer _viewer;
-    private ExecuteDoneEvent _done;
-    private EventLog _event;
+    private ExecuteDoneEvent? _done;
+    private EventLog? _event;
 
     // FastCombatWin.pas:231
     public void GetPartyPosition(int index, ref int X, ref int Y)
@@ -129,8 +129,8 @@ public sealed partial class FastBattleWindow(UIContext ui) : UIModule(ui)
     {
         bool HasWall(int A, int B)
         {
-            CombatParty pa = _viewer.Combat.CombatData.Parties.GetParty((byte)A);
-            CombatParty pb = _viewer.Combat.CombatData.Parties.GetParty((byte)B);
+            CombatParty? pa = _viewer.Combat.CombatData.Parties.GetParty((byte)A);
+            CombatParty? pb = _viewer.Combat.CombatData.Parties.GetParty((byte)B);
             bool wa = pa is not null && pa.Wall != 0;
             bool wb = pb is not null && pb.Wall != 0;
             return wa ^ wb;
@@ -207,7 +207,7 @@ public sealed partial class FastBattleWindow(UIContext ui) : UIModule(ui)
         CombatData combatData = _viewer.Combat.CombatData;
         if (combatData.WallType != 0)
         {
-            CombatWall wall = combatData.Wall;
+            CombatWall? wall = combatData.Wall;
             if (wall is not null)
             {
                 if (HasWall(0, 4))
@@ -322,8 +322,8 @@ public sealed partial class FastBattleWindow(UIContext ui) : UIModule(ui)
     {
         _viewer.Finalize();
         UI.General.Manager.OverlayPriority = 0;
-        ExecuteDoneEvent done = _done;
-        EventLog log = _event;
+        ExecuteDoneEvent? done = _done;
+        EventLog? log = _event;
         _done = null;
         _event = null;
         done?.Invoke(log);
@@ -595,14 +595,14 @@ public sealed partial class FastBattleWindow(UIContext ui) : UIModule(ui)
         dialog.MainWindow.Visible = true;
     }
 
-    internal static void InitializeCombatDialog(FastBattleWindow dialog, CombatLogbook logbook)
+    internal static void InitializeCombatDialog(FastBattleWindow dialog, CombatLogbook? logbook)
     {
         dialog._viewer.Initialize(logbook);
         Battle combat = dialog._viewer.Combat;
         dialog._animationFrame = 0;
         for (int i = 0; i <= 7; i++)
         {
-            Image image = i switch
+            Image? image = i switch
             {
                 0 => dialog.Party1Background,
                 1 => dialog.Party2Background,
@@ -614,7 +614,7 @@ public sealed partial class FastBattleWindow(UIContext ui) : UIModule(ui)
                 7 => dialog.Party2Background,// { Original reuses the second background for the eighth party. }
                 _ => null,
             };
-            CombatParty party = combat.CombatData.Parties.GetParty((byte)i);
+            CombatParty? party = combat.CombatData.Parties.GetParty((byte)i);
             if (party is not null)
             {
                 sbyte playerIndex = combat.CombatData.Players.GetPlayers((sbyte)party.PlayerIndex).Player;
@@ -642,7 +642,7 @@ public sealed partial class FastBattleWindow(UIContext ui) : UIModule(ui)
             {
                 CombatPlayer player = combat.CombatData.Players.GetPlayers(combat.CombatData.AttackerPlayer);
                 raceIndex = StrategicMap.Current.Players.GetPlayers(player.Player).PlayerRace;
-                RaceResource raceResource = GamePack.Current.RaceResources.GetRaceResource(raceIndex);
+                RaceResource? raceResource = GamePack.Current.RaceResources.GetRaceResource(raceIndex);
                 dialog.LeftSideLabel.Text = raceResource.RaceName;
             }
 
@@ -655,7 +655,7 @@ public sealed partial class FastBattleWindow(UIContext ui) : UIModule(ui)
             {
                 CombatPlayer player = combat.CombatData.Players.GetPlayers(combat.CombatData.DefenderPlayer);
                 raceIndex = StrategicMap.Current.Players.GetPlayers(player.Player).PlayerRace;
-                RaceResource raceResource = GamePack.Current.RaceResources.GetRaceResource(raceIndex);
+                RaceResource? raceResource = GamePack.Current.RaceResources.GetRaceResource(raceIndex);
                 dialog.RightSideLabel.Text = raceResource.RaceName;
             }
         }

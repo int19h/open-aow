@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
@@ -7,7 +7,7 @@ using Aow.Game.World.Structures;
 namespace Aow.Game.Session;
 
 // { Interface declaration run owned by P1. }
-public sealed class PlayerStructureList(CustomNode owner) : ObservableEventList(owner), IChildList<PlayerStructure>
+public sealed class PlayerStructureList(CustomNode? owner) : ObservableEventList(owner), IChildList<PlayerStructure>
 {
     // The structure in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a player structure. Another class throws, the same way the cast did.

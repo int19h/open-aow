@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWWorldMap.pas.
 using System.Globalization;
 using Aow.Engine;
@@ -69,17 +69,17 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
     private int _enemyDelay;
     private bool _descriptionHandled;
 
-    public EngineObject BookContext { get; set; }
+    public EngineObject? BookContext { get; set; }
 
-    private NotifyEvent<object> _bookClosed;
+    private NotifyEvent<object>? _bookClosed;
 
-    internal void SetBookClosedHandler(NotifyEvent<object> handler) => _bookClosed = handler;
+    internal void SetBookClosedHandler(NotifyEvent<object>? handler) => _bookClosed = handler;
 
     public byte BookAction { get; set; }
 
     // The world map screen runs while the engine holds a world map campaign.
     // AoWWorldMap.pas:152
-    public WorldMapCampaign Campaign => UI.Engine.Campaign;
+    public WorldMapCampaign? Campaign => UI.Engine.Campaign;
 
     // AoWWorldMap.pas:157
     public void UpdateCampaignState()
@@ -392,7 +392,7 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
                         bool test = index != -1 && Campaign.RaceHistory.Count > 0;
                         if (test)
                         {
-                            Player player = preview.Players.GetPlayers(index);
+                            Player? player = preview.Players.GetPlayers(index);
                             test = Campaign.RaceHistory.IndexOf((byte)player.PlayerRace) == -1;
                         }
 
@@ -450,25 +450,25 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
     {
         _ = RtlHost.Files.SetCurrentDirectory($"{UI.Engine.StartupDirectory}Int\\Scenes");
         WorldMapCampaignScenario campaignScenario = WorldMapCampaign.GetCampaignScenario(Campaign, index);
-        WorldMapCampaign campaign = Campaign;
+        WorldMapCampaign? campaign = Campaign;
         CampaignScenarioPage campaignPage = GetCampaignPage(campaignScenario.IntroPages, index: campaign.Page);
         LeftPageLabel.Text = campaignPage.Heading;
         WorldMapCampaignScenario campaignScenario2 = WorldMapCampaign.GetCampaignScenario(Campaign, index);
-        WorldMapCampaign campaign2 = Campaign;
+        WorldMapCampaign? campaign2 = Campaign;
         CampaignScenarioPage worldMapCampaignPage = GetCampaignPage(campaignScenario2.IntroPages, index: campaign2.Page + 1);
         RightPageLabel.Text = worldMapCampaignPage.Heading;
         WorldMapCampaignScenario campaignScenario3 = WorldMapCampaign.GetCampaignScenario(Campaign, index);
-        WorldMapCampaign campaign3 = Campaign;
+        WorldMapCampaign? campaign3 = Campaign;
         CampaignScenarioPage campaignPage2 = GetCampaignPage(campaignScenario3.IntroPages, index: campaign3.Page);
         LeftPageMemo.Items.Assign(campaignPage2.Text);
         WorldMapCampaignScenario campaignScenario4 = WorldMapCampaign.GetCampaignScenario(Campaign, index);
-        WorldMapCampaign campaign4 = Campaign;
+        WorldMapCampaign? campaign4 = Campaign;
         CampaignScenarioPage campaignPage3 = GetCampaignPage(campaignScenario4.IntroPages, index: campaign4.Page + 1);
         RightPageMemo.Items.Assign(campaignPage3.Text);
         LeftPageScrollBar.Position = 0;
         RightPageScrollBar.Position = 0;
         WorldMapCampaignScenario campaignScenario5 = WorldMapCampaign.GetCampaignScenario(Campaign, index);
-        WorldMapCampaign campaign5 = Campaign;
+        WorldMapCampaign? campaign5 = Campaign;
         if (IsEmpty(GetCampaignPage(campaignScenario5.IntroPages, index: campaign5.Page).ImageLibrary))
         {
             LeftPagePicture.ImageLibrary = null;
@@ -476,12 +476,12 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
         else
         {
             WorldMapCampaignScenario campaignScenario6 = WorldMapCampaign.GetCampaignScenario(Campaign, index);
-            WorldMapCampaign campaign6 = Campaign;
+            WorldMapCampaign? campaign6 = Campaign;
             CampaignScenarioPage campaignPage4 = GetCampaignPage(campaignScenario6.IntroPages, index: campaign6.Page);
             UI.Graphics.BookLeftPage.LoadFromFile(campaignPage4.ImageLibrary);
             LeftPagePicture.ImageLibrary = UI.Graphics.BookLeftPage;
             WorldMapCampaignScenario campaignScenario7 = WorldMapCampaign.GetCampaignScenario(Campaign, index);
-            WorldMapCampaign campaign7 = Campaign;
+            WorldMapCampaign? campaign7 = Campaign;
             CampaignScenarioPage campaignPage5 = GetCampaignPage(campaignScenario7.IntroPages, index: campaign7.Page);
             LeftPagePicture.CurrentImage = campaignPage5.ImageIndex;
             LeftPagePicture.WinWidth = 0;
@@ -490,7 +490,7 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
         }
 
         WorldMapCampaignScenario campaignScenario8 = WorldMapCampaign.GetCampaignScenario(Campaign, index);
-        WorldMapCampaign campaign8 = Campaign;
+        WorldMapCampaign? campaign8 = Campaign;
         if (IsEmpty(GetCampaignPage(campaignScenario8.IntroPages, index: campaign8.Page + 1).ImageLibrary))
         {
             RightPagePicture.ImageLibrary = null;
@@ -498,12 +498,12 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
         else
         {
             WorldMapCampaignScenario campaignScenario6 = WorldMapCampaign.GetCampaignScenario(Campaign, index);
-            WorldMapCampaign campaign6 = Campaign;
+            WorldMapCampaign? campaign6 = Campaign;
             CampaignScenarioPage campaignPage4 = GetCampaignPage(campaignScenario6.IntroPages, index: campaign6.Page + 1);
             UI.Graphics.BookRightPage.LoadFromFile(campaignPage4.ImageLibrary);
             RightPagePicture.ImageLibrary = UI.Graphics.BookRightPage;
             WorldMapCampaignScenario campaignScenario7 = WorldMapCampaign.GetCampaignScenario(Campaign, index);
-            WorldMapCampaign campaign7 = Campaign;
+            WorldMapCampaign? campaign7 = Campaign;
             CampaignScenarioPage campaignPage5 = GetCampaignPage(campaignScenario7.IntroPages, index: campaign7.Page + 1);
             RightPagePicture.CurrentImage = campaignPage5.ImageIndex;
             RightPagePicture.WinWidth = 0;
@@ -511,7 +511,7 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
             RightPagePicture.Visible = true;
         }
 
-        WorldMapCampaign campaign9 = Campaign;
+        WorldMapCampaign? campaign9 = Campaign;
         BackButton.Visible = campaign9.Page > 0;
         if (Campaign.Page == 8)
         {
@@ -594,8 +594,8 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
     // AoWWorldMap.pas:428
     public void BookClosed()
     {
-        NotifyEvent<object> done = _bookClosed;
-        EngineObject context = BookContext;
+        NotifyEvent<object>? done = _bookClosed;
+        EngineObject? context = BookContext;
         _bookClosed = null;
         BookContext = null;
         done?.Invoke(context);
@@ -695,11 +695,11 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
                 _pathDelay = 5;
                 int frame = 1 - _pathFrame;
                 _pathFrame = frame;
-                WorldMapCampaign campaign = Campaign;
+                WorldMapCampaign? campaign = Campaign;
                 Path1Image.CurrentImage = (campaign.Faction * 3) + frame + 2;
-                WorldMapCampaign campaign2 = Campaign;
+                WorldMapCampaign? campaign2 = Campaign;
                 Path2Image.CurrentImage = (campaign2.Faction * 3) + _pathFrame + 2;
-                WorldMapCampaign campaign3 = Campaign;
+                WorldMapCampaign? campaign3 = Campaign;
                 Path3Image.CurrentImage = (campaign3.Faction * 3) + _pathFrame + 2;
             }
 
@@ -1014,7 +1014,7 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
         if (WorldPanel.Visible)
         {
             _pawnTicks = 20;
-            WorldMapCampaign campaign = Campaign;
+            WorldMapCampaign? campaign = Campaign;
             campaign.State += 1;
             UpdateCampaignState();
         }
@@ -1039,14 +1039,14 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
         {
             case 3:
                 Book.StartAnimation(PageTurnMode.Right);
-                WorldMapCampaign campaign = Campaign;
+                WorldMapCampaign? campaign = Campaign;
                 campaign.Page -= 2;
                 UpdateCampaignState();
                 BookAction = 0;
                 break;
             case 4:
                 Book.StartAnimation(0);
-                WorldMapCampaign campaign2 = Campaign;
+                WorldMapCampaign? campaign2 = Campaign;
                 campaign2.Page += 2;
                 UpdateCampaignState();
                 BookAction = 0;
@@ -1220,7 +1220,7 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
         dialog.UI.General.Manager.OverlayPriority = 249;
         _ = AudioHost.SongPlayer.Stop(false);
         _ = RtlHost.Files.SetCurrentDirectory(dialog.UI.Engine.StartupDirectory);
-        WorldMapCampaign campaign = dialog.Campaign;
+        WorldMapCampaign? campaign = dialog.Campaign;
         string song;
         if (IsEmpty(WorldMapCampaign.GetCampaignScenario(dialog.Campaign, index: campaign.CurrentScenarioId).ImageLibrary))
         {
@@ -1228,14 +1228,14 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
         }
         else
         {
-            WorldMapCampaign dialogCampaign = dialog.Campaign;
+            WorldMapCampaign? dialogCampaign = dialog.Campaign;
             song = $"Songs\\{WorldMapCampaign.GetCampaignScenario(dialog.Campaign, index: dialogCampaign.CurrentScenarioId).ImageLibrary}";
         }
 
         _ = AudioPlayback.PlaySong(song, fadeOut: 1, fadeIn: 0, loop: true);
-        WorldMapCampaign campaign2 = dialog.Campaign;
+        WorldMapCampaign? campaign2 = dialog.Campaign;
         dialog.PlayerPawnImage.CurrentImage = campaign2.Faction + 7;
-        WorldMapCampaign campaign3 = dialog.Campaign;
+        WorldMapCampaign? campaign3 = dialog.Campaign;
         dialog.EnemyPawnImage.CurrentImage = 8 - campaign3.Faction;
         dialog.UpdateCampaignState();
     }

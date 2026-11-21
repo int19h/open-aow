@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWCheckBox.pas.
 using Aow.Rtl;
 
@@ -9,10 +9,10 @@ namespace Aow.Game.UI.Controls;
 //   on, and its window turns off the other radio buttons of the group (RadioChange). A right
 //   click opens its PopupMenu at the mouse, kept inside the window manager. }
 // Fields: OnDoubleClick
-public sealed partial class CheckBox(Component owner) : BaseButton(owner)
+public sealed partial class CheckBox(Component? owner) : BaseButton(owner)
 {
     [Published]
-    public event NotifyEvent<CheckBox> DoubleClick;
+    public event NotifyEvent<CheckBox>? DoubleClick;
 
     // AoWCheckBox.pas:51
     public override void CheckMouseDown(MouseButton button, ShiftStates shift, int X, int Y)

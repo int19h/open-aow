@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using System.Diagnostics.CodeAnalysis;
 using Aow.Engine.Collections;
@@ -17,7 +17,7 @@ public sealed partial class CombatPredictorUnit : IDisposable
     // CombatPredictor.pas:1
     public CombatPredictorUnit() => RoundTargets = new QuadItemList<CombatPredictorUnit>();
 
-    public Troop Troop { get; private set; }
+    public Troop? Troop { get; private set; }
     public int CpuId { get; set; }
 
     private CombatPredictor _predictor;
@@ -29,9 +29,9 @@ public sealed partial class CombatPredictorUnit : IDisposable
 
     public byte Enabled { get; set; }
     public byte BehindWall { get; set; }
-    public QuadItemList<CombatPredictorUnit> Targets { get; set; }
+    public QuadItemList<CombatPredictorUnit>? Targets { get; set; }
     public int CombatValue { get; private set; }
-    public QuadItemList<CombatPredictorUnit> WallTargets { get; private set; }
+    public QuadItemList<CombatPredictorUnit>? WallTargets { get; private set; }
     public int WallCombatValue { get; private set; }
 
     private byte _targetsInvalid;
@@ -55,7 +55,7 @@ public sealed partial class CombatPredictorUnit : IDisposable
     public void Dispose()
     {
         RoundTargets?.Dispose();
-        object objectValue = Targets;
+        object? objectValue = Targets;
         if (objectValue is not null)
         {
             (objectValue as IDisposable)?.Dispose();
@@ -69,7 +69,7 @@ public sealed partial class CombatPredictorUnit : IDisposable
             WallTargets = null;
         }
 
-        Troop u = Troop;
+        Troop? u = Troop;
         if (u is not null)
         {
             _ = u.Release();
@@ -105,7 +105,7 @@ public sealed partial class CombatPredictorUnit : IDisposable
         }
 
         int v;
-        CombatPredictorUnit u;
+        CombatPredictorUnit? u;
         if (Targets.Count != 0)
         {
             for (int i = _opponents.Count - 1; i >= 0; i--)
@@ -166,7 +166,7 @@ public sealed partial class CombatPredictorUnit : IDisposable
         }
 
         int v;
-        CombatPredictorUnit u;
+        CombatPredictorUnit? u;
         byte mode;
         if (WallTargets.Count != 0)
         {

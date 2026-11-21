@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using System.Globalization;
 using Aow.Engine;
@@ -18,14 +18,14 @@ using Aow.Rtl;
 
 namespace Aow.Game.Units;
 
-public class Unit(CustomNode owner) : Troop(owner)
+public class Unit(CustomNode? owner) : Troop(owner)
 {
     public new const int ClassId = 131_603;
     private byte _experience;
     private sbyte _movePoints;
     private sbyte _hitPoints;
 
-    public UnitResource UnitResource { get; set; }
+    public UnitResource? UnitResource { get; set; }
     public sbyte AbilityAttack { get; set; }
 
     private sbyte _abilityDefense;
@@ -45,7 +45,7 @@ public class Unit(CustomNode owner) : Troop(owner)
         if (persister.Loading)
         {
             short resourceIndex = unchecked((short)persister.UInt16("UnitResourceIndex", value: 0));
-            UnitResource resource = GamePack.Current.UnitResources.GetUnitResource(resourceIndex);
+            UnitResource? resource = GamePack.Current.UnitResources.GetUnitResource(resourceIndex);
             UnitResource = resource;
             if (resource is null)
             {
@@ -203,14 +203,14 @@ public class Unit(CustomNode owner) : Troop(owner)
     }
 
     // Unit.PAS:1972
-    public override LibraryImage GetFace()
+    public override LibraryImage? GetFace()
     {
         if (!GetAbilityEnabled(126))
         {
             return GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(UnitResource.UnitGraphicsResourceIndex).GetFaceImage();
         }
 
-        int faceIndex = ((CosmeticSurgeryEnchantment)(object)GetAbilityData<UnitEnchantmentAbilityData>(126).Enchantment).FaceIndex;
+        int faceIndex = ((CosmeticSurgeryEnchantment)(object?)GetAbilityData<UnitEnchantmentAbilityData>(126).Enchantment).FaceIndex;
         return GamePack.Current.FaceResources.GetFaceResource(faceIndex)?.GetCellImage();
     }
 
@@ -221,7 +221,7 @@ public class Unit(CustomNode owner) : Troop(owner)
     public override Alignment GetAlignment() => GetAbilityEnabled(107) ? Alignment.PureEvil : UnitResource.Alignment;
 
     // Unit.PAS:2081
-    public override LibraryImage GetPreviewImage() => UnitResource.GetPreviewImage();
+    public override LibraryImage? GetPreviewImage() => UnitResource.GetPreviewImage();
 
     // Unit.PAS:2083
     public override byte GetTransportCapacity()
@@ -379,7 +379,7 @@ public class Unit(CustomNode owner) : Troop(owner)
     }
 
     // Unit.PAS:2090
-    public void SetUnitResource(UnitResource resource)
+    public void SetUnitResource(UnitResource? resource)
     {
         if (resource != UnitResource)
         {

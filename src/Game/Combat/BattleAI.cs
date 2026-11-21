@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWTC.pas.
 using System.Globalization;
 using Aow.Engine.Nodes;
@@ -72,7 +72,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
     public void ContinueTurn() => EvalBattle();
 
     // AoWTC.pas:790
-    public void CreateMove(BattleAIMoveType moveType, int x, int y, int value, int ability, int spell, TacticalBattleUnit unit, CombatObject target)
+    public void CreateMove(BattleAIMoveType moveType, int x, int y, int value, int ability, int spell, TacticalBattleUnit unit, CombatObject? target)
     {
         BattleAIMove m = new()
         {
@@ -89,7 +89,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
     }
 
     // AoWTC.pas:805
-    public int TacticalBattleDamageValueToDamageEvaluation(int damageValue1, int damageValue2, CombatObject source, CombatObject target)
+    public int TacticalBattleDamageValueToDamageEvaluation(int damageValue1, int damageValue2, CombatObject source, CombatObject? target)
     {
         int strength = target.GetTargetStrength();
         if (target is TacticalBattleUnit targetUnit)
@@ -245,7 +245,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
     // The tactical AI passes the wall as Ignore. The original casts that object to TTacticalCombatUnit
     // without a check and compares the reference with the sprite's unit. Ignore is a combat object so the
     // wall reaches the same comparison.
-    public int MakeTerrainPath(CombatMoveControlSettings moveControlSettings, MovePath path, ref int value, TacticalBattleUnit unit, CombatObject ignore, bool freeStrikes, bool findWalls, int cost)
+    public int MakeTerrainPath(CombatMoveControlSettings moveControlSettings, MovePath path, ref int value, TacticalBattleUnit unit, CombatObject? ignore, bool freeStrikes, bool findWalls, int cost)
     {
         int result = path.Count < 2 ? -1 : 0;
 
@@ -277,7 +277,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
 
                     if (i < path.Count - 1)
                     {
-                        CityWall wall;
+                        CityWall? wall;
                         if (CombatMap.Current.Combat.CombatData.WallType != 0)
                         {
                             PathStep pathY = path[i];
@@ -505,7 +505,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
     }
 
     // AoWTC.pas:1007
-    public void EvalHex(CombatObject ignore, int ability, int spell, int X, int Y, ref int value, bool hitWalls, bool friendly, TacticalBattleUnit U, object ignoreWall)
+    public void EvalHex(CombatObject? ignore, int ability, int spell, int X, int Y, ref int value, bool hitWalls, bool friendly, TacticalBattleUnit? U, object? ignoreWall)
     {
         AbilityDamageValues damageValue = default;
         TacticalBattleUnitHexSprite hexSprite = CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
@@ -595,7 +595,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
 
         if (hitWalls && CombatMap.Current.Combat.CombatData.WallType != 0)
         {
-            CityWall wall = CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild<CityWall>(CityWall.ClassId) ?? CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2_229_510) as CityWall;
+            CityWall? wall = CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild<CityWall>(CityWall.ClassId) ?? CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2_229_510) as CityWall;
             if (!CombatMap.Current.Combat.CombatData.WallBreached && ignoreWall is not null && wall is not null && (ignore is null or not CombatWall || (ignore is CombatWall && ignoreWall != wall)))
             {
                 if (ability == 52)
@@ -637,7 +637,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
     }
 
     // AoWTC.pas:1072
-    public void EvalArea(ref int value, CombatObject ignore, int ability, int spell, int x, int y, bool hitWalls, bool includeCenter, bool friendly, TacticalBattleUnit unit, object ignoreWall)
+    public void EvalArea(ref int value, CombatObject ignore, int ability, int spell, int x, int y, bool hitWalls, bool includeCenter, bool friendly, TacticalBattleUnit unit, object? ignoreWall)
     {
         int x1 = default;
         int y1 = default;
@@ -652,7 +652,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
     }
 
     // AoWTC.pas:1084
-    public int EvalPath(ref int value, CombatObject ignore, int ability, int spell, int x1, int y1, int x2, int y2, bool hitWalls, TacticalBattleUnit U, object ignoreWall)
+    public int EvalPath(ref int value, CombatObject ignore, int ability, int spell, int x1, int y1, int x2, int y2, bool hitWalls, TacticalBattleUnit U, object? ignoreWall)
     {
         BattleEffectType effect = ability == 52 ? TacticalTables.SpellTypes[spell] : TacticalTables.AbilityTypes[ability];
         switch (effect)
@@ -681,15 +681,15 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                 {
                     for (int i = 0, last = obstacles.Count - 1; i <= last; i++)
                     {
-                        RangedObstacle obstacle = obstacles[i];
-                        Point3D path = point3DList[obstacle.PathIndex];
-                        RangedObstacle obstacle2 = obstacles[i];
+                        RangedObstacle? obstacle = obstacles[i];
+                        Point3D? path = point3DList[obstacle.PathIndex];
+                        RangedObstacle? obstacle2 = obstacles[i];
                         HexGeometry.PixelToHex(point3DList[obstacle2.PathIndex].X, vertical: path.Y, out int x, out int y);
                         int v = 0;
                         EvalHex(ignore, ability, spell, x, y, value: ref v, hitWalls, friendly: true, U, ignoreWall);
                         try
                         {
-                            RangedObstacle obstacle3 = obstacles[i];
+                            RangedObstacle? obstacle3 = obstacles[i];
                             total += v * chance / 100 * obstacle3.Chance / 100;
                         }
                         catch
@@ -798,7 +798,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
     }
 
     // AoWTC.pas:1149
-    public void CheckUnit(int x2, int y2, int hits, int hitPoints, CombatMoveControlSettings settings, TacticalBattleUnit unit, CombatObject target, DelphiList<CombatAbilityRef> abilities, object wall)
+    public void CheckUnit(int x2, int y2, int hits, int hitPoints, CombatMoveControlSettings settings, TacticalBattleUnit unit, CombatObject? target, DelphiList<CombatAbilityRef> abilities, object? wall)
     {
         AbilityDamageValues values = default;
         MovePath pathStepList = new();
@@ -962,7 +962,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                 int bestValue;
                 int d;
                 int pathValue;
-                CityWall cityWall;
+                CityWall? cityWall;
                 switch (ability)
                 {
                     case 52:
@@ -1939,7 +1939,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
             string reason = "";
             AbilityCombatInfo aiInfo = default;
             SpellCombatInfo spellInfo = default;
-            CityWall cityWall;
+            CityWall? cityWall;
             switch (_currentMove)
             {
                 case 0:
@@ -1959,7 +1959,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
 
                         _moves.Clear();
                         _walls.Clear();
-                        TacticalBattle tacticalBattle = CombatMap.Current.Combat;
+                        TacticalBattle? tacticalBattle = CombatMap.Current.Combat;
                         _side = (CombatSideIndex)tacticalBattle.CombatData.Players.GetPlayers((sbyte)tacticalBattle.CombatData.CurrentPlayer).SideIndex;
                         _normalUnits = 0;
                         i = 0;
@@ -2057,7 +2057,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                                     bool condition = target.Troop.Player > 0 && TacticalTables.SpellTypes[n] != BattleEffectType.None && StrategicMap.Current.Players.GetPlayers(target.Troop.Player).MagicControl.Spells.IndexOf(n) != -1;
                                                     if (condition)
                                                     {
-                                                        Spell spell = GamePack.Current.SpellControl[n];
+                                                        Spell? spell = GamePack.Current.SpellControl[n];
                                                         condition = target.Troop.CanCastSpellInstantly(n, mana: spell.BaseManaCost, ref reason);
                                                     }
 
@@ -2174,7 +2174,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                                     bool condition = u.Troop.Player > 0 && TacticalTables.SpellTypes[k] != BattleEffectType.None && StrategicMap.Current.Players.GetPlayers(u.Troop.Player).MagicControl.Spells.IndexOf(k) != -1;
                                                     if (condition)
                                                     {
-                                                        Spell spell = GamePack.Current.SpellControl[k];
+                                                        Spell? spell = GamePack.Current.SpellControl[k];
                                                         condition = u.Troop.CanCastSpellInstantly(k, mana: spell.BaseManaCost, ref reason);
                                                     }
 
@@ -2265,7 +2265,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                                     bool condition = TacticalTables.SpellTypes[k] != BattleEffectType.None && StrategicMap.Current.Players.GetPlayers(u.Troop.Player).MagicControl.Spells.IndexOf(k) != -1;
                                                     if (condition)
                                                     {
-                                                        Spell spell = GamePack.Current.SpellControl[k];
+                                                        Spell? spell = GamePack.Current.SpellControl[k];
                                                         condition = u.Troop.CanCastSpellInstantly(k, mana: spell.BaseManaCost, ref reason);
                                                     }
 
@@ -2429,7 +2429,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                                     bool condition = TacticalTables.SpellTypes[k] != BattleEffectType.None && StrategicMap.Current.Players.GetPlayers(u.Troop.Player).MagicControl.Spells.IndexOf(k) != -1;
                                                     if (condition)
                                                     {
-                                                        Spell spell = GamePack.Current.SpellControl[k];
+                                                        Spell? spell = GamePack.Current.SpellControl[k];
                                                         condition = u.Troop.CanCastSpellInstantly(k, mana: spell.BaseManaCost, ref reason);
                                                     }
 
@@ -2802,7 +2802,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                 case BattleAIMoveType.Move:
                                 case BattleAIMoveType.MoveRanged:
                                     {
-                                        TacticalBattleUnitHexSprite tacticalBattleUnitHexSprite = move.UnitHexSprite;
+                                        TacticalBattleUnitHexSprite? tacticalBattleUnitHexSprite = move.UnitHexSprite;
                                         if ((move.UnitHexSprite.Unit.Troop is Hero || (_side == CombatSideIndex.Attacker && CombatMap.Current.Round == 1)) && move.UnitHexSprite.Unit.MovePoints > _minMoves)
                                         {
                                             move.UnitHexSprite.Unit.MovePoints = _minMoves;

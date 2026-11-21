@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Sound.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -8,7 +8,7 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Game.Audio;
 
 // FID. A sound effect: its children are TSFX, one of them plays (at random)
-public sealed class SfxSequence(CustomNode owner) : OwningNode(owner), IChildList<Sfx>
+public sealed class SfxSequence(CustomNode? owner) : OwningNode(owner), IChildList<Sfx>
 {
     // The sound effect in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a Sfx, so the read never fails.
@@ -31,10 +31,10 @@ public sealed class SfxSequence(CustomNode owner) : OwningNode(owner), IChildLis
     public Sfx GetSfx(int index) => this[index];
 
     // Sound.pas:1063
-    public Sample Play() => Count != 0 ? this[Random(Count)].Play() : null;
+    public Sample? Play() => Count != 0 ? this[Random(Count)].Play() : null;
 
     // Sound.pas:1071
-    public Sample Play(int volume, bool looped, int delay, SamplePanning panning, Action<Sample, SampleCallbackMode> callback) => Count != 0 ? this[Random(Count)].Play(volume, looped, delay, panning, callback) : null;
+    public Sample? Play(int volume, bool looped, int delay, SamplePanning panning, Action<Sample, SampleCallbackMode>? callback) => Count != 0 ? this[Random(Count)].Play(volume, looped, delay, panning, callback) : null;
 
     public int Id { get; private set; }
 }

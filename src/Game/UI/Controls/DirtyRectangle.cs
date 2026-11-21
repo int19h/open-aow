@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWComp.pas.
 using Aow.Rtl;
 
@@ -10,5 +10,5 @@ public sealed class DirtyRectangle
 {
     public Rect Rectangle { get; internal set; }
 
-    public UIComponent Owner { get; set; }
+    public UIComponent? Owner { get; set; }
 }

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.World.Movement;
@@ -6,14 +6,14 @@ using Aow.Game.World.Movement;
 namespace Aow.Game.AI.Groups;
 
 // inherited move control, executer and state
-public class DefaultMoveExecutorControl(CustomNode owner) : AIMoveExecutorControl(owner)
+public class DefaultMoveExecutorControl(CustomNode? owner) : AIMoveExecutorControl(owner)
 {
 
     // AIGroup.pas:4978
     public override void CalculateMoves()
     {
         AIMoveExecutorArmyList armies;
-        AIMoveExecutorMove move;
+        AIMoveExecutorMove? move;
         byte moveResult;
         switch (State)
         {

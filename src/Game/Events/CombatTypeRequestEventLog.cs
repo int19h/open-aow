@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
@@ -12,14 +12,14 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Events;
 
 // selection. location. TokenEvent. owned object
-public partial class CombatTypeRequestEventLog(CustomNode owner) : EventLog(owner)
+public partial class CombatTypeRequestEventLog(CustomNode? owner) : EventLog(owner)
 {
     public CombatType CombatType { get; private set; }
     public sbyte AttackerPlayer { get; set; }
     public sbyte DefenderPlayer { get; set; }
     public MapCoordinate Location { get; set; }
 
-    private EngineObject _tokenEvent;
+    private EngineObject? _tokenEvent;
 
     public bool CreateNewMove { get; set; }
     public ArmyId ArmyId { get; set; }
@@ -35,10 +35,10 @@ public partial class CombatTypeRequestEventLog(CustomNode owner) : EventLog(owne
     }
 
     // Combat2.pas:18
-    public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done) => base.Execute(mode, trigger, done);
+    public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent? done) => base.Execute(mode, trigger, done);
 
     // Combat2.pas:10
-    public void SetTokenEvent(TokenEvent tokenEvent)
+    public void SetTokenEvent(TokenEvent? tokenEvent)
     {
         // { Original releases the old token before retaining its replacement. }
         _ = (_tokenEvent?.Release());

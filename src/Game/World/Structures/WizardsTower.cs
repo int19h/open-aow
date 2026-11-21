@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from WizardsTower.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -50,13 +50,13 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
         ExecuteResult result = base.ExecuteTokenEvent(tokenEvent, executor);
         if (tokenEvent.Action == 1 && CanBuy((sbyte)tokenEvent.Param, ref reason))
         {
-            Player player = StrategicMap.Current.Players.GetPlayers(tokenEvent.Param);
+            Player? player = StrategicMap.Current.Players.GetPlayers(tokenEvent.Param);
             int buyCost = BuyCost();
             player.SetGems(player.Gems - buyCost);
             _ = player.MagicControl.Spells.Add(SpellId);
             if (StrategicMap.Current.SeatedPlayer == tokenEvent.Param)
             {
-                Spell spell = GamePack.Current.SpellControl[SpellId];
+                Spell? spell = GamePack.Current.SpellControl[SpellId];
                 string format = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_theyTaughtYouSpellFormat), args: [spell.SpellName]);
                 StrategicMap.Current.ShowMessage(format);
             }
@@ -76,14 +76,14 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
     }
 
     // WizardsTower.pas:126
-    public override void ArmyPlaced(ArmyHexSprite placedArmy)
+    public override void ArmyPlaced(ArmyHexSprite? placedArmy)
     {
         base.ArmyPlaced(placedArmy);
-        Player player = StrategicMap.Current.Players.GetPlayers(placedArmy.Army.Player);
+        Player? player = StrategicMap.Current.Players.GetPlayers(placedArmy.Army.Player);
         if (player.PlayerType is (>= PlayerType.Cpu1 and <= PlayerType.Cpu3) or PlayerType.Cpu4 or PlayerType.Cpu5 && ValidAITarget(placedArmy.Army.Player))
         {
             Army army = placedArmy.Army;
-            AIGroup group = null;
+            AIGroup? group = null;
             int i = 0;
             int cost = BuyCost();
             bool found = false;
@@ -99,7 +99,7 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
             if (found && CanBuy(army.Player, ref reason))
             {
                 group.ReturnTargetExpense();
-                Player playerGems = StrategicMap.Current.Players.GetPlayers(army.Player);
+                Player? playerGems = StrategicMap.Current.Players.GetPlayers(army.Player);
                 StrategicMap.Current.Players.GetPlayers(army.Player).SetGems(playerGems.Gems - cost);
                 _ = StrategicMap.Current.Players.GetPlayers(army.Player).MagicControl.Spells.Add(SpellId);
             }
@@ -188,7 +188,7 @@ public partial class WizardsTower(CustomNode owner) : Structure(owner)
         {
             if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.Spells.IndexOf(SpellId) == -1)
             {
-                Player playerLocal = StrategicMap.Current.Players.GetPlayers(player);
+                Player? playerLocal = StrategicMap.Current.Players.GetPlayers(player);
                 int buyCost = BuyCost();
                 if (playerLocal.Gems >= buyCost)
                 {

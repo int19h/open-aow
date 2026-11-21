@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWListBox.pas.
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
@@ -26,17 +26,17 @@ public partial class ListBox : Control
     private int _selected;
 
     [Published]
-    public event AoWOnDrawItemEvent<ListBox> PreDrawItem;
+    public event AoWOnDrawItemEvent<ListBox>? PreDrawItem;
     [Published]
-    public event AoWOnDrawItemEvent<ListBox> DrawItem;
+    public event AoWOnDrawItemEvent<ListBox>? DrawItem;
     private int _scrollWidth;
 
-    private InterfaceImageLibrary _imageLibraryFrame;
-    private InterfaceImageLibrary _imageLibraryTextureNormal;
-    private InterfaceImageLibrary _imageLibraryTextureSelected;
+    private InterfaceImageLibrary? _imageLibraryFrame;
+    private InterfaceImageLibrary? _imageLibraryTextureNormal;
+    private InterfaceImageLibrary? _imageLibraryTextureSelected;
 
     [Published]
-    public event NotifyEvent<ListBox> DoubleClick;
+    public event NotifyEvent<ListBox>? DoubleClick;
 
     public int FirstShownItem { get; private set; }
 
@@ -50,12 +50,12 @@ public partial class ListBox : Control
     public int HoverItem { get; set; }
 
     // AoWListBox.pas:107
-    public ListBox(Component owner) : this(owner, items: new DelphiStringList())
+    public ListBox(Component? owner) : this(owner, items: new DelphiStringList())
     {
     }
 
     // A list box whose items carry typed objects passes its own string list.
-    protected ListBox(Component owner, DelphiStringList items) : base(owner)
+    protected ListBox(Component? owner, DelphiStringList items) : base(owner)
     {
         _items = items;
         _items.OnChange = OnChangeText;
@@ -111,26 +111,26 @@ public partial class ListBox : Control
         switch (_textOnly)
         {
             case 0:
-                LibraryImage imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
-                LibraryImage imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
+                LibraryImage? imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                LibraryImage? imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
                 if (imageLibraryFrameHeight.Height + imageLibraryFrame.Height > WinHeight)
                 {
-                    LibraryImage imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
-                    LibraryImage imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
+                    LibraryImage? imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                    LibraryImage? imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
                     SetWinHeightWithoutInvalidate(imageLibraryFrame2.Height + imageLibraryFrame3.Height);
                 }
 
-                LibraryImage imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                LibraryImage imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
+                LibraryImage? imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                LibraryImage? imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
                 if (imageLibraryFrameWidth.Width + imageLibraryFrame4.Width > WinWidth)
                 {
-                    LibraryImage imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                    LibraryImage imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
+                    LibraryImage? imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                    LibraryImage? imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
                     SetWinWidthWithoutInvalidate(imageLibraryFrame2.Width + imageLibraryFrame3.Width);
                 }
 
-                LibraryImage imageLibraryFrame5 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
-                LibraryImage imageLibraryFrame6 = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
+                LibraryImage? imageLibraryFrame5 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                LibraryImage? imageLibraryFrame6 = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
                 VisibleRows = (WinHeight - imageLibraryFrame5.Height - imageLibraryFrame6.Height) / ItemHeight;
                 _scrollWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 4].Width;
                 Masked = false;
@@ -257,21 +257,21 @@ public partial class ListBox : Control
                     case 0:
                         SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth, WinHeight);
                         _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, area: rectangle, ref lockedSurface);
-                        LibraryImage imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
-                        LibraryImage imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
-                        LibraryImage imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                        LibraryImage imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
-                        LibraryImage imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                        LibraryImage? imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                        LibraryImage? imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
+                        LibraryImage? imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                        LibraryImage? imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                        LibraryImage? imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
                         SizedRectangle rectangle2 = new(Window.AbsoluteLeft + WinLeft + imageLibraryFrame3.Width, Window.AbsoluteTop + WinTop + imageLibraryFrame2.Height, WinWidth - imageLibraryFrameWidth.Width - _scrollWidth, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
                         _imageLibraryTextureNormal.DrawTiled(_imageLibraryIndexTNormal, area: rectangle2, ref lockedSurface);
-                        LibraryImage imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                        LibraryImage? imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
                         l = Window.AbsoluteLeft + WinLeft + imageLibraryFrame4.Width;
-                        LibraryImage imageLibraryFrame5 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                        LibraryImage? imageLibraryFrame5 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                         t = Window.AbsoluteTop + WinTop + imageLibraryFrame5.Height;
-                        LibraryImage imageLibraryFrame6 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
-                        LibraryImage imageLibraryFrame7 = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
+                        LibraryImage? imageLibraryFrame6 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                        LibraryImage? imageLibraryFrame7 = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
                         h = WinHeight - imageLibraryFrame6.Height - imageLibraryFrame7.Height;
-                        LibraryImage imageLibraryFrame8 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                        LibraryImage? imageLibraryFrame8 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
                         w = WinWidth - imageLibraryFrame8.Width - _scrollWidth;
                         break;
                     default:
@@ -373,7 +373,7 @@ public partial class ListBox : Control
             int i;
             if (_textOnly == 0)
             {
-                LibraryImage imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame];
+                LibraryImage? imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame];
                 i = ((Y - Window.AbsoluteTop - WinTop - imageLibraryFrame.Height) / ItemHeight) + FirstShownItem;
             }
             else
@@ -462,7 +462,7 @@ public partial class ListBox : Control
             Handled = true;
             if (_textOnly == 0)
             {
-                LibraryImage imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame];
+                LibraryImage? imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame];
                 HoverItem = ((Y - Window.AbsoluteTop - WinTop - imageLibraryFrame.Height) / ItemHeight) + FirstShownItem;
             }
             else
@@ -478,7 +478,7 @@ public partial class ListBox : Control
     public override void CheckKeyPress(ref byte key) => Handled = false;
 
     // AoWListBox.pas:275
-    public virtual void SetImageLibraryFrame(InterfaceImageLibrary value)
+    public virtual void SetImageLibraryFrame(InterfaceImageLibrary? value)
     {
         if (value != _imageLibraryFrame)
         {
@@ -488,7 +488,7 @@ public partial class ListBox : Control
     }
 
     // AoWListBox.pas:284
-    public virtual void SetImageLibraryTileNorm(InterfaceImageLibrary value)
+    public virtual void SetImageLibraryTileNorm(InterfaceImageLibrary? value)
     {
         if (value != _imageLibraryTextureNormal)
         {
@@ -498,7 +498,7 @@ public partial class ListBox : Control
     }
 
     // AoWListBox.pas:293
-    public virtual void SetImageLibraryTileSelected(InterfaceImageLibrary value)
+    public virtual void SetImageLibraryTileSelected(InterfaceImageLibrary? value)
     {
         if (value != _imageLibraryTextureSelected)
         {
@@ -603,13 +603,13 @@ public partial class ListBox : Control
     public int Selected { get => _selected; set => SetIndex(value); }
 
     [Published]
-    public InterfaceImageLibrary ImageLibraryFrame { get => _imageLibraryFrame; set => SetImageLibraryFrame(value); }
+    public InterfaceImageLibrary? ImageLibraryFrame { get => _imageLibraryFrame; set => SetImageLibraryFrame(value); }
 
     [Published]
-    public InterfaceImageLibrary ImageLibraryTextureNormal { get => _imageLibraryTextureNormal; set => SetImageLibraryTileNorm(value); }
+    public InterfaceImageLibrary? ImageLibraryTextureNormal { get => _imageLibraryTextureNormal; set => SetImageLibraryTileNorm(value); }
 
     [Published]
-    public InterfaceImageLibrary ImageLibraryTextureSelected { get => _imageLibraryTextureSelected; set => SetImageLibraryTileSelected(value); }
+    public InterfaceImageLibrary? ImageLibraryTextureSelected { get => _imageLibraryTextureSelected; set => SetImageLibraryTileSelected(value); }
 
     [Published]
     public int ImageLibraryIndexFrame { get => _imageLibraryIndexFrame; set => SetILFIndex(value); }
@@ -624,7 +624,7 @@ public partial class ListBox : Control
     public int ItemHeight { get; set; }
 
     [Published]
-    public Menu PopupMenu { get; set; }
+    public Menu? PopupMenu { get; set; }
 
     [Published]
     public TextAlignment TextAlign { get; set; }

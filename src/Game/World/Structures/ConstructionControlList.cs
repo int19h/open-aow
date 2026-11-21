@@ -1,10 +1,10 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
 namespace Aow.Game.World.Structures;
 
-public sealed class ConstructionControlList(CustomNode owner) : OwningNode(owner), IChildList<ConstructionControl>
+public sealed class ConstructionControlList(CustomNode? owner) : OwningNode(owner), IChildList<ConstructionControl>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a ConstructionControl, so the cast never fails.
@@ -18,9 +18,9 @@ public sealed class ConstructionControlList(CustomNode owner) : OwningNode(owner
     public ConstructionControl GetConstructionControl(int index) => this[index];
 
     // AoWAb.PAS:5523
-    public ConstructionControl FindId(int id)
+    public ConstructionControl? FindId(int id)
     {
-        ConstructionControl result = null;
+        ConstructionControl? result = null;
         int i = GetCount();
         while (result is null && i != 0)
         {

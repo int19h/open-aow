@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWPInfoWin.pas.
 using System.Globalization;
 using Aow.Game.Draw;
@@ -34,7 +34,7 @@ public sealed partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
             UI.PlayerInfoWindow.PlayerLabel.Text = name;
             if (StrategicMap.Current.SeatedPlayer != 0)
             {
-                Player player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
+                Player? player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
                 string raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[player.PlayerRace]);
                 UI.PlayerInfoWindow.RaceLabel.Text = raceNamesPlural;
             }
@@ -75,7 +75,7 @@ public sealed partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
     // AoWPInfoWin.pas:72
     public void EventListDoubleClick()
     {
-        object objectValue = EventList.Items.Objects[EventList.Selected];
+        object? objectValue = EventList.Items.Objects[EventList.Selected];
         _ = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook[ObjectToInt(objectValue)].Execute(true, trigger: ExecuteTrigger.User, done: null);
     }
 
@@ -84,7 +84,7 @@ public sealed partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
     {
         if (drawItem != EventList.Selected)
         {
-            object objectValue = EventList.Items.Objects[drawItem];
+            object? objectValue = EventList.Items.Objects[drawItem];
             int textColor = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook[ObjectToInt(objectValue)].GetTextColor();
             EventList.TextColor = textColor;
         }
@@ -93,17 +93,17 @@ public sealed partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
     // AoWPInfoWin.pas:85
     public void EventListDrawItem(in Rect drawRectangle, int drawItem, ref readonly LockedSurface lockedSurface)
     {
-        object objectValue = EventList.Items.Objects[drawItem];
+        object? objectValue = EventList.Items.Objects[drawItem];
         int leftIcon = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook[ObjectToInt(objectValue)].LeftIcon;
-        object objectValue2 = EventList.Items.Objects[drawItem];
+        object? objectValue2 = EventList.Items.Objects[drawItem];
         int middleIcon = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook[ObjectToInt(objectValue2)].MiddleIcon;
-        object objectValue3 = EventList.Items.Objects[drawItem];
+        object? objectValue3 = EventList.Items.Objects[drawItem];
         int rightIcon = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook[ObjectToInt(objectValue3)].RightIcon;
         if (leftIcon > -1)
         {
             if (middleIcon == -1)
             {
-                LibraryImage eventIcon = UI.Graphics.EventIcons[leftIcon];
+                LibraryImage? eventIcon = UI.Graphics.EventIcons[leftIcon];
                 UI.Graphics.EventIcons[leftIcon].ShowClipped(drawRectangle.Left + ((36 - eventIcon.Width) / 2), drawRectangle.Top + 1, lockedSurface);
             }
             else
@@ -135,7 +135,7 @@ public sealed partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
     {
         if (EventList.Selected > -1 && button == MouseButton.Right)
         {
-            object objectValue = EventList.Items.Objects[EventList.Selected];
+            object? objectValue = EventList.Items.Objects[EventList.Selected];
             StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).EventLogbook[ObjectToInt(objectValue)].ViewLocation();
         }
     }
@@ -176,7 +176,7 @@ public sealed partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
             StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetLeaderLocation(out sbyte hexX, out _, L: out _);
             if (hexX > -1)
             {
-                Player player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
+                Player? player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
                 UI.General.SelectedUnit = player.Leader;
                 switch (button)
                 {

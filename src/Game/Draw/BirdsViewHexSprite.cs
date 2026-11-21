@@ -1,3 +1,4 @@
+#nullable disable warnings // Enabled before the stage 1 annotations of issue 315.
 // Translated from GlobalSpells.pas.
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;

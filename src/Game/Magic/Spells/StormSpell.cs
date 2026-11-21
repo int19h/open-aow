@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Storms.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.AI;
@@ -18,11 +18,11 @@ namespace Aow.Game.Magic.Spells;
 // targeting storm, caster
 public class StormSpell : Spell
 {
-    private Storm _targetStorm;
+    private Storm? _targetStorm;
     private Troop _source;
 
     // Storms.pas:762
-    public StormSpell(CustomNode owner) : base(owner) => SpellType = SpellType.Global;
+    public StormSpell(CustomNode? owner) : base(owner) => SpellType = SpellType.Global;
 
     // Storms.pas:888
     public override void AIPrefetchCastSpellActions(Troop source, AICastSpellActionList actions)

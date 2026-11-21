@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from GlobalTargetSpells.pas.
 using Aow.Engine.Nodes;
 
@@ -16,7 +16,7 @@ using static Aow.Rtl.DelphiRounding;
 namespace Aow.Game.Commands;
 
 // animation
-public class HealingShowersTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
+public class HealingShowersTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenEvent(owner)
 {
 
     // GlobalTargetSpells.pas:2138
@@ -67,7 +67,7 @@ public class HealingShowersTokenEvent(CustomNode owner) : GlobalTargetSpellToken
                             bool healed2 = false;
                             for (int i = 0, last = army.Army.Units.Count - 1; i <= last; i++)
                             {
-                                Troop troopObject = army.Army.Units.GetUnit(i);
+                                Troop? troopObject = army.Army.Units.GetUnit(i);
                                 if (troopObject.GetHitPoints() < troopObject.GetHits())
                                 {
                                     troopObject.SetHitPoints((sbyte)(troopObject.GetHitPoints() + 5));

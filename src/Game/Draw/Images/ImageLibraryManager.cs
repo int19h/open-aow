@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from ImageLib.pas.
 using Aow.Rtl;
 using Aow.Rtl.Host;
@@ -13,7 +13,7 @@ public sealed class ImageLibraryManager : Component
 {
 
     // ImageLib.pas:8260
-    public ImageLibraryManager(Component owner) : base(owner)
+    public ImageLibraryManager(Component? owner) : base(owner)
     {
         DiskList = new ImageLibraryManagerList(this);
         OwnedList = new ImageLibraryManagerList(this);
@@ -93,9 +93,9 @@ public sealed class ImageLibraryManager : Component
     // ImageLib.pas:8331
     // { A missing owned library is created empty and added. The exception for a missing library is
     //   raised and swallowed at once (it only shows in the debugger), as in the original. }
-    public CustomImageLibrary LinkToImageLibrary(ImageLibraryManagerCategories category, string fileName)
+    public CustomImageLibrary? LinkToImageLibrary(ImageLibraryManagerCategories category, string fileName)
     {
-        CustomImageLibrary result = null;
+        CustomImageLibrary? result = null;
         if (category.Contains(ImageLibraryManagerCategories.Disk))
         {
             result = DiskList.LinkToImageLibrary(fileName);

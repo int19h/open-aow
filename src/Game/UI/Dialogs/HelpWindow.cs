@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from aowHelpWin.pas.
 using Aow.Game.Events;
 using Aow.Game.UI.Controls;
@@ -16,14 +16,14 @@ public sealed partial class HelpWindow(UIContext ui) : UIModule(ui)
     public Memo HeaderMemo { get; private set; }
     public Memo HelpMemo { get; private set; }
 
-    private ExecuteDoneEvent _done;
-    private HelpMessageEventLog _helpEvent;
+    private ExecuteDoneEvent? _done;
+    private HelpMessageEventLog? _helpEvent;
 
     // aowHelpWin.pas:53
     public void FinishDialog()
     {
-        ExecuteDoneEvent done = _done;
-        HelpMessageEventLog eventValue = _helpEvent;
+        ExecuteDoneEvent? done = _done;
+        HelpMessageEventLog? eventValue = _helpEvent;
         _done = null;
         _helpEvent = null;
         done?.Invoke(eventValue);

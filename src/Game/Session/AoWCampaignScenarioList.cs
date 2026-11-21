@@ -1,10 +1,10 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
 namespace Aow.Game.Session;
 
-public sealed class AoWCampaignScenarioList(CustomNode owner) : OwningNode(owner), IChildList<CampaignScenario>
+public sealed class AoWCampaignScenarioList(CustomNode? owner) : OwningNode(owner), IChildList<CampaignScenario>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a CampaignScenario, so the cast never fails.
@@ -18,7 +18,7 @@ public sealed class AoWCampaignScenarioList(CustomNode owner) : OwningNode(owner
     public T GetScenario<T>(int index) where T : CampaignScenario => index >= 0 && index < Count ? GetChild<T>(index) : null;
 
     // Diplomacy.pas:2214
-    public CampaignScenario GetScenario(int index) => index >= 0 && index < Count ? this[index] : null;
+    public CampaignScenario? GetScenario(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // Diplomacy.pas:2221
     public int CreateUniqueId()
@@ -49,7 +49,7 @@ public sealed class AoWCampaignScenarioList(CustomNode owner) : OwningNode(owner
     }
 
     // Diplomacy.pas:2238
-    public CampaignScenario FindId(int id)
+    public CampaignScenario? FindId(int id)
     {
         int index = IndexOfId(id);
         return index != -1 ? this[index] : null;

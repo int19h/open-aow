@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from ImageLib.pas.
 using Aow.Rtl;
 using static Aow.Rtl.DelphiMemory;
@@ -16,7 +16,7 @@ namespace Aow.Game.Draw.Images;
 // starts in the file), FCapacity, FCount, FImages, FPaletteManager
 public partial class CustomImageLibrary : Component
 {
-    public event NotifyEvent<object> Change;
+    public event NotifyEvent<object>? Change;
     private byte _changeLock;
     private bool _loadOnDemand;
     private string _fileName = "";
@@ -25,7 +25,7 @@ public partial class CustomImageLibrary : Component
 
     private int _count;
 
-    internal ImageItem[] Images { get; private set; }
+    internal ImageItem[]? Images { get; private set; }
 
     // ImageLib.pas:9699
     internal void SetCapacity(int newCapacity)
@@ -145,11 +145,11 @@ public partial class CustomImageLibrary : Component
     }
 
     // ImageLib.pas:9820
-    public override void DefineProperties(Filer filer)
+    public override void DefineProperties(Filer? filer)
         /* TODO: Implement Classes.DefineBinaryProperty in the platform or editor service. */
         => throw new NotImplementedException();
 
-    public CustomImageLibrary(Component owner) : base(owner)
+    public CustomImageLibrary(Component? owner) : base(owner)
     {
         PaletteManager = new PaletteManager();
         _loadOnDemand = true;
@@ -235,7 +235,7 @@ public partial class CustomImageLibrary : Component
                 while (index != -1)
                 {
                     int subIndex = 0;
-                    LibraryImage image = ImageStreams.ReadImageFromStream(stream, owner: this);
+                    LibraryImage? image = ImageStreams.ReadImageFromStream(stream, owner: this);
                     while (image is not null)
                     {
                         SetSubImage(index, subIndex, image);
@@ -445,7 +445,7 @@ public partial class CustomImageLibrary : Component
     // ImageLib.pas:9790
     public void UpdateImageItemSettings(int index)
     {
-        LibraryImage image = Images[index].Image;
+        LibraryImage? image = Images[index].Image;
         if (image is ImageNode node)
         {
             node.UpdateDimensions();
@@ -483,7 +483,7 @@ public partial class CustomImageLibrary : Component
         {
             for (int i = 0, last = _count - 1; i <= last; i++)
             {
-                LibraryImage image = Images[i].Image;
+                LibraryImage? image = Images[i].Image;
                 image?.ReleaseDiscardableImageData();
             }
         }
@@ -494,7 +494,7 @@ public partial class CustomImageLibrary : Component
     {
         for (int i = 0, last = _count - 1; i <= last; i++)
         {
-            LibraryImage image = Images[i].Image;
+            LibraryImage? image = Images[i].Image;
             image?.LoadDiscardableImageData();
         }
     }
@@ -573,7 +573,7 @@ public partial class CustomImageLibrary : Component
         => throw new NotImplementedException();
 
     // ImageLib.pas:10168
-    public override void Assign(Persistent source)
+    public override void Assign(Persistent? source)
     {
         if (source is CustomImageLibrary library)
         {
@@ -647,9 +647,9 @@ public partial class CustomImageLibrary : Component
     }
 
     // ImageLib.pas:10218
-    public LibraryImage GetImage(int index)
+    public LibraryImage? GetImage(int index)
     {
-        LibraryImage result;
+        LibraryImage? result;
         if (Images[index].Image is not null)
         {
             result = Images[index].Image;
@@ -670,7 +670,7 @@ public partial class CustomImageLibrary : Component
     }
 
     // ImageLib.pas:10232
-    public void SetImage(int index, LibraryImage image)
+    public void SetImage(int index, LibraryImage? image)
     {
         if (index >= _count)
         {
@@ -740,14 +740,14 @@ public partial class CustomImageLibrary : Component
     // ImageLib.pas:10275
     public int GetSubCount(int index)
     {
-        LibraryImage image = GetSafe(index);
+        LibraryImage? image = GetSafe(index);
         return image is ImageNode node ? node.Count : image is not null ? 1 : -1;
     }
 
     // ImageLib.pas:10291
-    public LibraryImage GetSub(int index, int subIndex)
+    public LibraryImage? GetSub(int index, int subIndex)
     {
-        LibraryImage image = Images[index].Image;
+        LibraryImage? image = Images[index].Image;
         if (image is null)
         {
             index = Images[index].Reference;
@@ -761,18 +761,18 @@ public partial class CustomImageLibrary : Component
     }
 
     // ImageLib.pas:10314
-    public LibraryImage GetSafeSub(int index, int subIndex)
+    public LibraryImage? GetSafeSub(int index, int subIndex)
     {
-        LibraryImage image = GetSafe(index);
+        LibraryImage? image = GetSafe(index);
         return image is ImageNode node
             ? node.GetSafeImage(subIndex)
             : image is not null && subIndex == 0 ? image : null;
     }
 
     // ImageLib.pas:10332
-    public LibraryImage GetSubImage(int index, int subIndex)
+    public LibraryImage? GetSubImage(int index, int subIndex)
     {
-        LibraryImage result = Images[index].Image;
+        LibraryImage? result = Images[index].Image;
         if (result is ImageNode node)
         {
             if (subIndex >= 0 && subIndex < node.Count)
@@ -815,7 +815,7 @@ public partial class CustomImageLibrary : Component
     // ImageLib.pas:10367
     public void SetSubImage(int index, int subIndex, LibraryImage image)
     {
-        LibraryImage old = index < _count ? Images[index].Image : null;
+        LibraryImage? old = index < _count ? Images[index].Image : null;
 
         if (old is ImageNode node)
         {
@@ -864,7 +864,7 @@ public partial class CustomImageLibrary : Component
     {
         // The cast stays: a single image throws here, as the port records the original inverted
         // node test, and a pattern test would silently skip it instead.
-        ImageNode node = (ImageNode)Images[index].Image;
+        ImageNode? node = (ImageNode?)Images[index].Image;
         if (node is not null)
         {
             if (node.ImageClass.ClassId != Engine.Nodes.OwningNode.ClassId)
@@ -894,7 +894,7 @@ public partial class CustomImageLibrary : Component
     // ImageLib.pas:10439
     public int RemoveSub(int index, LibraryImage image)
     {
-        LibraryImage old = Images[index].Image;
+        LibraryImage? old = Images[index].Image;
         int result;
         if (old is ImageNode node)
         {
@@ -929,14 +929,14 @@ public partial class CustomImageLibrary : Component
     // ImageLib.pas:10465
     public int IndexOfSub(int index, LibraryImage image)
     {
-        LibraryImage old = Images[index].Image;
+        LibraryImage? old = Images[index].Image;
         return old is ImageNode node ? node.IndexOf(image) : old is not null && old == image ? 0 : -1;
     }
 
     // ImageLib.pas:10483
     public void InsertSub(int index, int subIndex, LibraryImage image)
     {
-        LibraryImage old = Images[index].Image;
+        LibraryImage? old = Images[index].Image;
         if (old is ImageNode node)
         {
             node.Insert(subIndex, image);
@@ -961,7 +961,7 @@ public partial class CustomImageLibrary : Component
     // ImageLib.pas:10511
     public void AddSub(int index, LibraryImage image)
     {
-        LibraryImage old = Images[index].Image;
+        LibraryImage? old = Images[index].Image;
         if (old is ImageNode node)
         {
             _ = node.Add(image);
@@ -985,13 +985,13 @@ public partial class CustomImageLibrary : Component
     // ImageLib.pas:10538
     public bool SubImageExist(int index, int subIndex)
     {
-        LibraryImage image = Images[index].Image;
+        LibraryImage? image = Images[index].Image;
         return image is not null && subIndex >= 0 && (image is ImageNode node ? subIndex < node.Count : subIndex == 0);
     }
 
     public int Count { get => _count; set => SetCount(value); }
 
-    public LibraryImage this[int index] => Get(index);
+    public LibraryImage? this[int index] => Get(index);
     public ImageLibraryStatuses Status { get; private set; }
     public PaletteManager PaletteManager { get; }
     public string FullFileName => GetFullFileName();
@@ -1012,7 +1012,7 @@ public partial class CustomImageLibrary : Component
                 {
                     for (int j = 0, lastJ = imageLibrary.GetSubCount(i) - 1; j <= lastJ; j++)
                     {
-                        LibraryImage sub = imageLibrary.GetSub(i, subIndex: j);
+                        LibraryImage? sub = imageLibrary.GetSub(i, subIndex: j);
                         if (sub is not null && CompareText(sub.FileName, image.FileName) == 0 && sub.FileIndex == image.FileIndex)
                         {
                             LibraryImage newImage = image.Copy();
@@ -1031,7 +1031,7 @@ public partial class CustomImageLibrary : Component
 
     public struct ImageItem
     {
-        public LibraryImage Image { get; set; }
+        public LibraryImage? Image { get; set; }
 
         public int Reference { get; internal set; }
     }

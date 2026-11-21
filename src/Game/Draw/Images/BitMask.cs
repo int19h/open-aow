@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from ImageLib.pas.
 using System.Buffers.Binary;
 
@@ -20,7 +20,7 @@ public class BitMask(CustomImageLibrary owner) : LibraryImage(owner), ILibraryIm
 
     private int _pitch;
 
-    internal byte[] MaskData { get; private set; }
+    internal byte[]? MaskData { get; private set; }
 
     internal int MaskLeft { get; private set; }
     internal int MaskTop { get; private set; }

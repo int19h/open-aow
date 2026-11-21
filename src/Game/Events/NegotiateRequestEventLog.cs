@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
@@ -15,7 +15,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Events;
 
 // Hex, MovePoints, ArmyId, Object. inherited join fields
-public partial class NegotiateRequestEventLog(CustomNode owner) : JoinEventLog(owner)
+public partial class NegotiateRequestEventLog(CustomNode? owner) : JoinEventLog(owner)
 {
 
     // Diplomacy.pas:279
@@ -26,13 +26,13 @@ public partial class NegotiateRequestEventLog(CustomNode owner) : JoinEventLog(o
 
     public int MovePoints { get; init; }
 
-    public ArmyId ArmyId { get; set; }
+    public ArmyId? ArmyId { get; set; }
     public NegotiateObject Object { get; set; }
 
     // Diplomacy.pas:270
     public override void Dispose()
     {
-        ArmyId id = ArmyId;
+        ArmyId? id = ArmyId;
         id?.Dispose();
 
         base.Dispose();
@@ -109,7 +109,7 @@ public partial class NegotiateRequestEventLog(CustomNode owner) : JoinEventLog(o
             Object = Object,
             Location = new MapCoordinate(unchecked((sbyte)(byte)Hex.X), unchecked((sbyte)(byte)Hex.Y), unchecked((sbyte)(byte)Hex.MapLevel))
         };
-        ArmyId id = ArmyId;
+        ArmyId? id = ArmyId;
         if (id is not null)
         {
             eventValue.ArmyId = id.Copy<ArmyId>(GetEngine());
@@ -123,5 +123,5 @@ public partial class NegotiateRequestEventLog(CustomNode owner) : JoinEventLog(o
         return eventValue;
     }
 
-    public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done) => trigger == 0 && StrategicMap.Current.SeatedPlayer == Player && base.Execute(mode, trigger, done);
+    public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent? done) => trigger == 0 && StrategicMap.Current.SeatedPlayer == Player && base.Execute(mode, trigger, done);
 }

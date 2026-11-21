@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -22,12 +22,12 @@ public class RaceList : ControlStyleNode, IChildList<Race>
     int IChildSink<Race>.AddChild(Race child) => AddChild(child);
 
     // Ability.PAS:367
-    public RaceList(CustomNode owner) : base(owner) => SetControlStyle(ControlStyles.SaveLoad | ControlStyles.FixedChild | ControlStyles.ArrayMode);
+    public RaceList(CustomNode? owner) : base(owner) => SetControlStyle(ControlStyles.SaveLoad | ControlStyles.FixedChild | ControlStyles.ArrayMode);
 
     public int RelationOffset { get; set; }
 
     // Ability.PAS:379
-    public Race GetRace(int index) => index >= 0 && index < Count ? this[index] : null;
+    public Race? GetRace(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // Ability.PAS:385
     public int GetEnabledRaces()

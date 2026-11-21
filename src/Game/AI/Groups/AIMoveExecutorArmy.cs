@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
@@ -10,7 +10,7 @@ using Aow.Game.World.Movement;
 namespace Aow.Game.AI.Groups;
 
 // location, destination, transport status, transport points, player, grouped
-public sealed class AIMoveExecutorArmy(CustomNode owner) : AIMoveExecutorUnitList(owner)
+public sealed class AIMoveExecutorArmy(CustomNode? owner) : AIMoveExecutorUnitList(owner)
 {
     public MapCoordinate Location { get; private set; }
 
@@ -27,7 +27,7 @@ public sealed class AIMoveExecutorArmy(CustomNode owner) : AIMoveExecutorUnitLis
     public sbyte Player { get; private set; }
 
     // AIGroup.pas:4527
-    public void Setup(AIMoveExecutorUnit transporter)
+    public void Setup(AIMoveExecutorUnit? transporter)
     {
         Location = new MapCoordinate(X: transporter.Location.X, Y: transporter.Location.Y, MapLevel: transporter.Location.MapLevel);
         _destination = new MapCoordinate(X: transporter.Destination.X, Y: transporter.Destination.Y, MapLevel: transporter.Destination.MapLevel);
@@ -44,7 +44,7 @@ public sealed class AIMoveExecutorArmy(CustomNode owner) : AIMoveExecutorUnitLis
     public bool CanAdd(AIMoveExecutorUnit unitEntry) => Location == unitEntry.Location && _destination == unitEntry.Destination && TransportStatus == unitEntry.TransportStatus && (TransportStatus == AIMoveExecutorTransportStatus.Done || (BoardingPoint == unitEntry.BoardingPoint && ArrivalPoint == unitEntry.ArrivalPoint && TransportSource == unitEntry.TransportSource && TransportDestination == unitEntry.TransportDestination));
 
     // AIGroup.pas:4559
-    public void RetrieveArmy(byte selection, out ArmyHexSprite army, out byte armySelection)
+    public void RetrieveArmy(byte selection, out ArmyHexSprite? army, out byte armySelection)
     {
         army = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).GetArmyHexSprite();
         if (army is not null)

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using Aow.Game.Combat;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Animations;
@@ -24,7 +24,7 @@ public partial class ArmyCombatMoveTokenEvent
         MapFieldMessage message = default;
         MapField field = GetMapField(Path[0].Location);
         sbyte defender = field.GetPlayer();
-        MapField source = ArmyHexSprite.Owner;
+        MapField? source = ArmyHexSprite.Owner;
         ArmyHexSprite.SetOwner(null);
         ArmyHexSprite otherArmyHexSprite = source.GetArmyHexSprite();
         ArmyHexSprite.SetOwner(source);
@@ -32,12 +32,12 @@ public partial class ArmyCombatMoveTokenEvent
         {
             if ((Selection & 1) != 0)
             {
-                Troop unit = ArmyHexSprite.Army.Units.GetUnit(i);
+                Troop? unit = ArmyHexSprite.Army.Units.GetUnit(i);
                 ArmyHexSprite.Army.Units.GetUnit(i).UnitStatus = unit.UnitStatus | UnitStatuses.Moving;
             }
             else
             {
-                Troop unit = ArmyHexSprite.Army.Units.GetUnit(i);
+                Troop? unit = ArmyHexSprite.Army.Units.GetUnit(i);
                 ArmyHexSprite.Army.Units.GetUnit(i).UnitStatus = unit.UnitStatus & ~UnitStatuses.Moving;
             }
 
@@ -53,7 +53,7 @@ public partial class ArmyCombatMoveTokenEvent
                 ArmyHexSprite = armyHexSprite2;
                 for (int i = otherArmyHexSprite.Army.Units.Count - 1; i >= 0; i--)
                 {
-                    Troop troop = otherArmyHexSprite.Army.Units.GetUnit(i);
+                    Troop? troop = otherArmyHexSprite.Army.Units.GetUnit(i);
                     troop.UnitStatus &= ~UnitStatuses.Moving;
                     _ = ArmyHexSprite.Army.AddUnit(troop);
                 }
@@ -166,9 +166,9 @@ public partial class ArmyCombatMoveTokenEvent
                         {
                             if (ArmyHexSprite.Army.Units.GetUnit(i).UnitStatus.Contains(UnitStatuses.Moving))
                             {
-                                Troop unit = ArmyHexSprite.Army.Units.GetUnit(i);
+                                Troop? unit = ArmyHexSprite.Army.Units.GetUnit(i);
                                 ArmyHexSprite.Army.Units.GetUnit(i).UnitStatus = unit.UnitStatus & ~UnitStatuses.Moving;
-                                Troop fArmyUnit = ArmyHexSprite.Army.Units.GetUnit(i);
+                                Troop? fArmyUnit = ArmyHexSprite.Army.Units.GetUnit(i);
                                 _ = armyHexSprite.Army.AddUnit(fArmyUnit);
                             }
                         }

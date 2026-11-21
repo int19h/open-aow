@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from IsoHex.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Draw;
@@ -18,7 +18,7 @@ public partial class IsometricHex(CustomNode owner) : AbstractHexagon(owner)
     // IsoHex.pas:214
     public new const int ClassId = 131_437;
 
-    protected internal DynamicIsometricHex Dynamic { get; set; }
+    protected internal DynamicIsometricHex? Dynamic { get; set; }
     protected internal byte OpenSides { get; private set; }
     protected internal byte Sides { get; protected set; } = (byte)(Random(4) << 6);
 
@@ -55,7 +55,7 @@ public partial class IsometricHex(CustomNode owner) : AbstractHexagon(owner)
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         pixelX = pixelX - pixelXSurface - 8;
         pixelY -= pixelYSurface;
-        CustomImageLibrary imageLibrary = Resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
+        CustomImageLibrary? imageLibrary = Resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
         imageLibrary[(Sides >>> 6) + 40].Show(pixelX, pixelY, lockedSurface);
         pixelX -= 6;
         pixelY -= 9;

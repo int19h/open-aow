@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -27,10 +27,10 @@ public sealed partial class HeroItems : ObservableNode, IChildList<Item>, IItemH
 
     int IChildSink<Item>.AddChild(Item child) => AddChild(child);
 
-    public event NotifyEvent<object> OnChanged;
+    public event NotifyEvent<object>? OnChanged;
 
     // Hero.PAS:388
-    public HeroItems(CustomNode owner) : base(null) => SetOwnerWithoutNotify(owner);
+    public HeroItems(CustomNode? owner) : base(null) => SetOwnerWithoutNotify(owner);
 
     // Hero.PAS:394
     public override void Dispose()
@@ -92,7 +92,7 @@ public sealed partial class HeroItems : ObservableNode, IChildList<Item>, IItemH
     }
 
     // Army.PAS:4519
-    public override int RemoveChild(EngineObject child)
+    public override int RemoveChild(EngineObject? child)
     {
         int result = base.RemoveChild(child);
         if (result != -1)
@@ -104,7 +104,7 @@ public sealed partial class HeroItems : ObservableNode, IChildList<Item>, IItemH
     }
 
     // Army.PAS:4525
-    public override int AddChild(EngineObject child)
+    public override int AddChild(EngineObject? child)
     {
         int result = base.AddChild(child);
         if (result != -1)
@@ -251,9 +251,9 @@ public sealed partial class HeroItems : ObservableNode, IChildList<Item>, IItemH
     }
 
     // Hero.PAS:498
-    public AbilityOwner GetSuperlativeEnabledAbilityOwner(int abilityId)
+    public AbilityOwner? GetSuperlativeEnabledAbilityOwner(int abilityId)
     {
-        AbilityOwner result = null;
+        AbilityOwner? result = null;
         for (int i = 0, last = Items.Count - 1; i <= last; i++)
         {
             Item item = Items[i];
@@ -270,9 +270,9 @@ public sealed partial class HeroItems : ObservableNode, IChildList<Item>, IItemH
     }
 
     // Hero.PAS:511
-    public AbilityOwner GetSuperlativeAbilityOwner(int abilityId)
+    public AbilityOwner? GetSuperlativeAbilityOwner(int abilityId)
     {
-        AbilityOwner result = null;
+        AbilityOwner? result = null;
         for (int i = 0, last = Items.Count - 1; i <= last; i++)
         {
             Item item = Items[i];
@@ -319,7 +319,7 @@ public sealed partial class HeroItems : ObservableNode, IChildList<Item>, IItemH
     }
 
     // Hero.PAS:550
-    public Item GetPositionItem(HeroItemPosition position)
+    public Item? GetPositionItem(HeroItemPosition position)
     {
         int index = ((int)position) & 0b0111_1111;
         return index < Items.Count ? Items[index] : null;
@@ -332,10 +332,10 @@ public sealed partial class HeroItems : ObservableNode, IChildList<Item>, IItemH
     public HeroItemPosition GetItemTypePosition(ItemType itemType) => ItemTypePositions[(int)itemType];
 
     // Hero.PAS:571
-    public bool CanPlaceItem(Item item, HeroItemPosition position) => item is not null && (int)position < 6 && GetPositionItem(position) is null && GetPositionItemType(position) == item.ItemType;
+    public bool CanPlaceItem(Item? item, HeroItemPosition position) => item is not null && (int)position < 6 && GetPositionItem(position) is null && GetPositionItemType(position) == item.ItemType;
 
     // Hero.PAS:577
-    public bool PlaceItem(Item item, HeroItemPosition position)
+    public bool PlaceItem(Item? item, HeroItemPosition position)
     {
         if (CanPlaceItem(item, position))
         {

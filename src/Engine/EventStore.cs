@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Last-to-first notify lists. Engine.pas TEventList.Add, Remove, Delete, Clear and
 // TriggerNotifyEvents (4873, 4881, 4887, 4994, 5046).
 using System.Reflection;
@@ -15,7 +15,7 @@ namespace Aow.Engine;
 // the way a nil list did in the original.
 internal sealed class EventStore<TSender>
 {
-    private NotifyEvent<TSender>[] _items;
+    private NotifyEvent<TSender>[]? _items;
 
     public int Count { get; private set; }
 
@@ -51,7 +51,7 @@ internal sealed class EventStore<TSender>
         int upper = Count - 1;
         for (int i = upper; i >= 0; i--)
         {
-            NotifyEvent<TSender>[] list = _items;
+            NotifyEvent<TSender>[]? list = _items;
             list[i]?.Invoke(sender);
         }
     }
@@ -59,8 +59,8 @@ internal sealed class EventStore<TSender>
     // Engine.pas:4947. The scan starts at the bottom of the list.
     private int IndexOf(NotifyEvent<TSender> item)
     {
-        object target = ((Delegate)item)?.Target;
-        MethodInfo code = ((Delegate)item)?.Method;
+        object? target = ((Delegate)item)?.Target;
+        MethodInfo? code = ((Delegate)item)?.Method;
         for (int i = 0; i < Count; i++)
         {
             if ((((Delegate)_items[i])?.Target) == target && (((Delegate)_items[i])?.Method) == code)

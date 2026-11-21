@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using System.Globalization;
 using Aow.Engine;
@@ -19,14 +19,14 @@ public class UnitEnchantmentAbility : AdjustableAbility
 {
 
     // AoWAb.PAS:601
-    public UnitEnchantmentAbility(CustomNode owner) : base(owner)
+    public UnitEnchantmentAbility(CustomNode? owner) : base(owner)
     {
         AbilityType = AbilityType.Enchantment;
         SelectionTypes = AbilitySelectionTypes.None;
     }
 
     // AoWAb.PAS:613
-    public override string GetName(AbilityOwner owner)
+    public override string GetName(AbilityOwner? owner)
     {
         string result;
         if (owner is not null)
@@ -67,12 +67,12 @@ public class UnitEnchantmentAbility : AdjustableAbility
     }
 
     // AoWAb.PAS:637
-    public override string GetSourceName(AbilityOwner owner)
+    public override string GetSourceName(AbilityOwner? owner)
     {
         if (StrategicMap.Current is not null)
         {
             UnitEnchantmentAbilityData data = owner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
-            Troop source = StrategicMap.Current.UnitControl.FindUnit(data.Enchantment.UnitId);
+            Troop? source = StrategicMap.Current.UnitControl.FindUnit(data.Enchantment.UnitId);
             // { Original also reports player zero as unknown. }
             return data.Enchantment.Source <= 0
                 ? AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.UnknownText)
@@ -111,7 +111,7 @@ public class UnitEnchantmentAbility : AdjustableAbility
     }
 
     // AoWAb.PAS:668
-    public override bool Expand(AbilityOwner owner)
+    public override bool Expand(AbilityOwner? owner)
     {
         if (owner is not Troop troop)
         {
@@ -151,7 +151,7 @@ public class UnitEnchantmentAbility : AdjustableAbility
     }
 
     // AoWAb.PAS:694
-    public override bool Remove(AbilityOwner owner)
+    public override bool Remove(AbilityOwner? owner)
     {
         UnitEnchantmentAbilityData data = owner.GetAbilityData<UnitEnchantmentAbilityData>(AbilityId);
         if (data is not null)

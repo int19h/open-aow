@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWSetup.pas.
 using Aow.Engine;
 
@@ -21,7 +21,7 @@ public sealed class PlayerSetupSettings : EngineObject
     // AoW.exe
     public PlayerSetupStatuses Status { get; set; }
 
-    public Leader Leader { get; private set; }
+    public Leader? Leader { get; private set; }
 
     public byte PlayerId { get; set; }
     public byte BehaviorMode { get; set; }
@@ -50,7 +50,7 @@ public sealed class PlayerSetupSettings : EngineObject
     }
 
     // AoWSetup.pas:296
-    public PlayerSetupSettings(CustomNode owner) : base(owner)
+    public PlayerSetupSettings(CustomNode? owner) : base(owner)
     {
         Status = PlayerSetupStatuses.None;
         Behavior = s_defaultBehavior;

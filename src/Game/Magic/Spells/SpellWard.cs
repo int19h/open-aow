@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from GlobalEnchantmentSpells.pas.
 using Aow.Engine.Nodes;
 
@@ -14,7 +14,7 @@ namespace Aow.Game.Magic.Spells;
 public class SpellWard : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:1949
-    public SpellWard(CustomNode owner, EngineObject holder) : base(owner)
+    public SpellWard(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.SpellWardText);

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 
@@ -21,7 +21,7 @@ public sealed class GlobalMagicControl : EngineObject
 {
 
     // Spells.PAS:2673
-    public GlobalMagicControl(CustomNode owner) : base(owner)
+    public GlobalMagicControl(CustomNode? owner) : base(owner)
     {
         Enchantments = new GlobalEnchantmentList(null) { Holder = CreationHolder() };
         _changedEventsStore = new();
@@ -64,7 +64,7 @@ public sealed class GlobalMagicControl : EngineObject
     }
 
     // Spells.PAS:2690
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
         Enchantments.MessageProc(ref message, sender);
@@ -287,7 +287,7 @@ public sealed class GlobalMagicControl : EngineObject
     }
 
     // Spells.PAS:2716
-    public bool RemoveEnchantment(sbyte player, GlobalEnchantment enchantment)
+    public bool RemoveEnchantment(sbyte player, GlobalEnchantment? enchantment)
     {
         if (!StrategicMap.Current.Players.GetPlayers(player).GetBusy() && IndexOfId(enchantment.EnchantmentId) != -1)
         {

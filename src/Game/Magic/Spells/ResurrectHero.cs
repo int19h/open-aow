@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from GlobalSpells.pas.
 using Aow.Engine.Nodes;
 
@@ -21,7 +21,7 @@ namespace Aow.Game.Magic.Spells;
 public class ResurrectHero : Spell
 {
     // GlobalSpells.pas:980
-    public ResurrectHero(CustomNode owner, EngineObject holder) : base(owner)
+    public ResurrectHero(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_resurrectHeroText);
@@ -74,7 +74,7 @@ public class ResurrectHero : Spell
                 int count = heroes.Count;
                 Hero hero = heroes.GetHero(StrategicMap.Current.Random(count));
                 hero.Resurrect();
-                ArmyHexSprite army = hero.Place(x, y, L: layer, player: 0, mode: UnitPlaceModes.ScanArea | UnitPlaceModes.CreateNewArmy);
+                ArmyHexSprite? army = hero.Place(x, y, L: layer, player: 0, mode: UnitPlaceModes.ScanArea | UnitPlaceModes.CreateNewArmy);
                 LocationTextEventLog log = new(null)
                 {
                     Holder = CreationHolder(),

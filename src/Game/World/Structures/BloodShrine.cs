@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from BloodShrine.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Audio;
@@ -19,7 +19,7 @@ public class BloodShrine(CustomNode owner) : Structure(owner)
     public new const int ClassId = 131_376;
 
     // BloodShrine.pas:103
-    public override void ArmyPlaced(ArmyHexSprite placedArmy)
+    public override void ArmyPlaced(ArmyHexSprite? placedArmy)
     {
         base.ArmyPlaced(placedArmy);
         ExecuteBloodlust(placedArmy);
@@ -35,11 +35,11 @@ public class BloodShrine(CustomNode owner) : Structure(owner)
     }
 
     // BloodShrine.pas:77
-    public void ExecuteBloodlust(ArmyHexSprite armyHexSprite)
+    public void ExecuteBloodlust(ArmyHexSprite? armyHexSprite)
     {
         for (int i = 0, last = armyHexSprite.Army.Units.Count - 1; i <= last; i++)
         {
-            Troop troop = armyHexSprite.Army.Units.GetUnit(i);
+            Troop? troop = armyHexSprite.Army.Units.GetUnit(i);
             _ = GamePack.Current.AbilityControl[168].Expand(troop);
         }
 

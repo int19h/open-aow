@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Engine.pas.
 using System.Globalization;
 using Aow.Engine.Nodes;
@@ -54,7 +54,7 @@ public class TranslateVisit(GameEngine engine) : IDisposable
     {
         for (int i = 0, last = node.Count - 1; i <= last; i++)
         {
-            EngineObject child = node.Children[i];
+            EngineObject? child = node.Children[i];
             if (child is not null && child.Owner == node && !child.GetControlStyle().Contains(EngineServices.Shared) && child.GetControlStyle().Contains(EngineServices.Stored))
             {
                 Object(child, id: i);

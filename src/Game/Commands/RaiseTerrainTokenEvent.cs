@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Mountain.pas.
 using Aow.Engine.Nodes;
 
@@ -16,7 +16,7 @@ using Aow.Game.World.Terrain;
 
 namespace Aow.Game.Commands;
 
-public class RaiseTerrainTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
+public class RaiseTerrainTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenEvent(owner)
 {
 
     // Mountain.pas:258
@@ -47,7 +47,7 @@ public class RaiseTerrainTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEv
                 {
                     bool found = false;
                     int i = resources.Count;
-                    MapObjectResource resource = null;
+                    MapObjectResource? resource = null;
                     while (!found && i != 0)
                     {
                         i -= 1;

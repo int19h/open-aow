@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from ImageLib.pas.
 using System.Globalization;
 using Aow.Rtl;
@@ -23,7 +23,7 @@ public class LibraryImage : Persistent, ILibraryImageClass
     public virtual byte ClassVersion() => ImageClass.ClassVersion;
     public virtual string Name() => ImageClass.Name;
 
-    private CustomImageLibrary _owner;
+    private CustomImageLibrary? _owner;
     private int _dataPosition;
     private int _dataSize;
     private bool _reloadingEnabled;
@@ -41,7 +41,7 @@ public class LibraryImage : Persistent, ILibraryImageClass
     internal ShowInfo ShowInfoValue { get; set; }
 
     // ImageLib.pas:1613
-    public virtual void SetOwner(CustomImageLibrary owner)
+    public virtual void SetOwner(CustomImageLibrary? owner)
     {
         if (owner != _owner && _owner is not null && !DataLoaded)
         {
@@ -62,10 +62,10 @@ public class LibraryImage : Persistent, ILibraryImageClass
     }
 
     // ImageLib.pas:1883
-    public virtual Palette GetPalette() => null;
+    public virtual Palette? GetPalette() => null;
 
     // ImageLib.pas:1888
-    public virtual Palette RemapPalette => null;
+    public virtual Palette? RemapPalette => null;
 
     // ImageLib.pas:1893
     public virtual bool Transparent => false;
@@ -267,7 +267,7 @@ public class LibraryImage : Persistent, ILibraryImageClass
     }
 
     // ImageLib.pas:1596
-    public LibraryImage(CustomImageLibrary owner)
+    public LibraryImage(CustomImageLibrary? owner)
     {
         _dataPosition = -1;
         _reloadingEnabled = false;
@@ -297,7 +297,7 @@ public class LibraryImage : Persistent, ILibraryImageClass
     public virtual LibraryImage Copy()
     {
         MemoryStream stream = new();
-        LibraryImage result;
+        LibraryImage? result;
         try
         {
             WriteImageToStream(this, stream);
@@ -570,9 +570,9 @@ public class LibraryImage : Persistent, ILibraryImageClass
     // ImageLib.pas:2061
     public void ShowClipped(int X, int Y, in LockedSurface lockedSurface) => Show(X, Y, lockedSurface);
 
-    public CustomImageLibrary Owner { get => _owner; set => SetOwner(value); }
+    public CustomImageLibrary? Owner { get => _owner; set => SetOwner(value); }
 
-    protected void SetOwnerWithoutReloadCheck(CustomImageLibrary value) => _owner = value;
+    protected void SetOwnerWithoutReloadCheck(CustomImageLibrary? value) => _owner = value;
 
     public bool DataLoaded { get; protected set; }
     public int DataPosition => _dataPosition;
@@ -598,9 +598,9 @@ public class LibraryImage : Persistent, ILibraryImageClass
     public string FileName { get => _fileName; protected set => _fileName = value; }
     public int FileIndex { get => _fileIndex; protected set => _fileIndex = value; }
     public ShowInfo ShowInfo { get => ShowInfoValue; internal set => SetDefaultShowInfo(value); }
-    public Palette Palette => GetPalette();
+    public Palette? Palette => GetPalette();
 
-    public static void WriteImageToStream(LibraryImage image, Stream stream)
+    public static void WriteImageToStream(LibraryImage? image, Stream stream)
     {
         int id;
         if (image is not null)
@@ -616,7 +616,7 @@ public class LibraryImage : Persistent, ILibraryImageClass
         }
     }
 
-    internal static void WriteImageToStream(LibraryImage image, Stream stream, Stream dataStream)
+    internal static void WriteImageToStream(LibraryImage? image, Stream stream, Stream dataStream)
     {
         int id;
         if (image is not null)

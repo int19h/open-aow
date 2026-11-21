@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -15,18 +15,18 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Events;
 
 // Logbook
-public partial class CombatEventLog(CustomNode owner) : EventLog(owner)
+public partial class CombatEventLog(CustomNode? owner) : EventLog(owner)
 {
 
     // Combat2.pas:413
     public new const int ClassId = 131_810;
 
-    public CombatLogbook Logbook { get; private set; }
+    public CombatLogbook? Logbook { get; private set; }
 
     // Combat2.pas:405
     public override void Dispose()
     {
-        CombatLogbook l = Logbook;
+        CombatLogbook? l = Logbook;
         if (l is not null)
         {
             _ = l.Release();
@@ -53,7 +53,7 @@ public partial class CombatEventLog(CustomNode owner) : EventLog(owner)
         if (data.Players.GetPlayers(data.AttackerPlayer).Player != 0)
         {
             CombatPlayer players = data.Players.GetPlayers(data.AttackerPlayer);
-            Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(players.Player);
+            Player? fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(players.Player);
             return AbilityRules.RaceColors[fPlayersPlayers.PlayerRace];
         }
         else
@@ -110,7 +110,7 @@ public partial class CombatEventLog(CustomNode owner) : EventLog(owner)
     }
 
     // Combat2.pas:474
-    public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
+    public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent? done)
     {
         switch (trigger)
         {
@@ -154,7 +154,7 @@ public partial class CombatEventLog(CustomNode owner) : EventLog(owner)
     // Combat2.pas:416
     public void SetCombatLogbook(CombatLogbook logbook)
     {
-        CombatLogbook old = Logbook;
+        CombatLogbook? old = Logbook;
         if (old != logbook)
         {
             _ = (old?.Release());

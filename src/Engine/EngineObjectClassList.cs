@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Engine.pas.
 using System.Globalization;
 using Aow.Rtl;
@@ -9,10 +9,10 @@ namespace Aow.Engine;
 public class EngineObjectClassList : DelphiList<EngineClass>
 {
     // Engine.pas:8296
-    protected internal EngineClass GetEngineClass(int index) => this[index];
+    protected internal EngineClass? GetEngineClass(int index) => this[index];
 
     // Engine.pas:8301
-    public EngineClass FindClass(int classId)
+    public EngineClass? FindClass(int classId)
     {
         int i = 0;
         bool found = false;
@@ -42,7 +42,7 @@ public class EngineObjectClassList : DelphiList<EngineClass>
     // Engine.pas:8331
     public EngineClass GetClass(int classId)
     {
-        EngineClass result = FindClass(classId);
+        EngineClass? result = FindClass(classId);
         return result ?? throw new KeyNotFoundException($"Unregistered E-ClassID found ({classId.ToString(CultureInfo.InvariantCulture)})");
     }
 
@@ -66,7 +66,7 @@ public class EngineObjectClassList : DelphiList<EngineClass>
 
     public sealed class ClassesAccessor(EngineObjectClassList target)
     {
-        public EngineClass this[int index] => target.GetEngineClass(index);
+        public EngineClass? this[int index] => target.GetEngineClass(index);
     }
 
     public ClassesAccessor EngineClasses => new(this);

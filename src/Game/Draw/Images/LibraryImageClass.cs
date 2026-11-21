@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 
 using System.Globalization;
 using Aow.Graphics;
@@ -9,9 +9,9 @@ namespace Aow.Game.Draw.Images;
 public sealed class LibraryImageClass
 {
     private static readonly Catalog<Type, LibraryImageClass> s_catalog = new("library image class");
-    private readonly Func<CustomImageLibrary, LibraryImage> _create;
+    private readonly Func<CustomImageLibrary?, LibraryImage> _create;
 
-    private LibraryImageClass(Type type, int classId, byte classVersion, string name, Func<CustomImageLibrary, LibraryImage> create)
+    private LibraryImageClass(Type type, int classId, byte classVersion, string name, Func<CustomImageLibrary?, LibraryImage> create)
     {
         Type = type;
         ClassId = classId;
@@ -26,7 +26,7 @@ public sealed class LibraryImageClass
     public byte ClassVersion { get; }
     public string Name { get; } = "";
 
-    public LibraryImage CreateInstance(CustomImageLibrary owner) => _create(owner);
+    public LibraryImage CreateInstance(CustomImageLibrary? owner) => _create(owner);
 
     public static LibraryImageClass Register<T>() where T : LibraryImage, ILibraryImageClass
         => s_catalog.Add(typeof(T), new LibraryImageClass(typeof(T), T.ClassId, T.ClassVersion, T.Name, create: T.CreateInstance));
@@ -36,13 +36,13 @@ public sealed class LibraryImageClass
 
     public static IReadOnlyList<LibraryImageClass> All => s_catalog.All;
 
-    public GraphicsResult GrabImages(in LockedSurface lockedSurface, GrabInfo grabInfo, CustomImageLibrary imageLibrary, Action<object, int, string> onProgress)
+    public GraphicsResult GrabImages(in LockedSurface lockedSurface, GrabInfo grabInfo, CustomImageLibrary imageLibrary, Action<object, int, string>? onProgress)
     {
         void Progress(int percent, string message) => onProgress?.Invoke(null, percent, message);
 
         Progress(10, message: "Analyzing Image..");
-        LibraryImageClass imageClass = LibraryCatalog.FindLibraryImageClass(ClassId);
-        RectangleList rects;
+        LibraryImageClass? imageClass = LibraryCatalog.FindLibraryImageClass(ClassId);
+        RectangleList? rects;
         if (grabInfo.FindRectangles)
         {
             rects = GetSurfaceRectangles(lockedSurface, grabInfo.TransparentColor, onProgress: null);
@@ -69,7 +69,7 @@ public sealed class LibraryImageClass
 
                 LibraryImage image = imageClass.CreateInstance(null);
                 grabInfo.FileIndex = i;
-                Rectangle rectangle = rects.Rectangles[i];
+                Rectangle? rectangle = rects.Rectangles[i];
                 if (image.GrabImage(lockedSurface, R: rectangle.Bounds, grabInfo))
                 {
                     imageLibrary.Add(image);
@@ -91,7 +91,7 @@ public sealed class LibraryImageClass
         return result;
     }
 
-    internal static RectangleList GetSurfaceRectangles(LockedSurface lockedSurface, int transparentColor, Action<object, int, int> onProgress)
+    internal static RectangleList? GetSurfaceRectangles(LockedSurface lockedSurface, int transparentColor, Action<object?, int, int>? onProgress)
     {
         RectangleList rectangleList = new();
         int i = 0;
@@ -104,7 +104,7 @@ public sealed class LibraryImageClass
                 ushort x = (ushort)j;
                 if (GetPixel(x, number2) == transparentColor)
                 {
-                    Rectangle rectangle = FindRectangle(x, number2);
+                    Rectangle? rectangle = FindRectangle(x, number2);
                     if (rectangle is not null)
                     {
                         _ = rectangleList.Add(rectangle);
@@ -122,7 +122,7 @@ public sealed class LibraryImageClass
             return null;
         }
         return rectangleList;
-        Rectangle FindRectangle(int X, int Y)
+        Rectangle? FindRectangle(int X, int Y)
         {
             int k = 1;
             for (; GetPixel(X + k, Y) == transparentColor && GetPixel(X + k, Y + 1) != transparentColor && X + k < lockedSurface.Width - 1; k++)

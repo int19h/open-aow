@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Collections;
@@ -42,7 +42,7 @@ public class UnitSpellTokenEvent : SpellTokenEvent
     }
 
     // Spells.PAS:1120
-    public UnitSpellTokenEvent(CustomNode owner) : base(owner)
+    public UnitSpellTokenEvent(CustomNode? owner) : base(owner)
     {
         TargetUnitIds = new Int32List();
         _targetUnits = new UnitUserList(null) { Holder = CreationHolder() };
@@ -61,7 +61,7 @@ public class UnitSpellTokenEvent : SpellTokenEvent
         {
             i -= 1;
             int item = TargetUnitIds[i];
-            Troop target = StrategicMap.Current.UnitControl.FindUnit(item);
+            Troop? target = StrategicMap.Current.UnitControl.FindUnit(item);
             if (target is not null)
             {
                 MapCoordinate coordinate13 = target.GetLocation();
@@ -101,7 +101,7 @@ public class UnitSpellTokenEvent : SpellTokenEvent
             GamePack.Current.SpellControl[EventSpellId].PlayDefaultCastEffects(source.Player, x, y, layer: l);
             for (int i = 0, last = _targetUnits.GetCount() - 1; i <= last; i++)
             {
-                Troop target = _targetUnits.GetUnit(i);
+                Troop? target = _targetUnits.GetUnit(i);
                 _ = target.AddRef();
                 if (GamePack.Current.SpellControl.GetSpell<UnitSpell>(EventSpellId).ExecuteSpell(source, target, mana: EventMana, data: SpellData))
                 {
@@ -117,7 +117,7 @@ public class UnitSpellTokenEvent : SpellTokenEvent
     }
 
     // Spells.PAS:1143
-    public void Initialize(int spellId, Troop source, UnitUserList targets, int mana)
+    public void Initialize(int spellId, Troop source, UnitUserList? targets, int mana)
     {
         EventSpellId = spellId;
         EventPlayerIndex = (byte)source.Player;
@@ -128,7 +128,7 @@ public class UnitSpellTokenEvent : SpellTokenEvent
             TargetPlayer = (byte)targets.GetUnit(0).Player;
             for (int i = 0, last = targets.GetCount() - 1; i <= last; i++)
             {
-                Troop troop = targets.GetUnit(i);
+                Troop? troop = targets.GetUnit(i);
                 _ = TargetUnitIds.Add(troop.UnitId);
             }
         }

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using Aow.Game.Host;
 
 namespace Aow.Game.UI.Dialogs;

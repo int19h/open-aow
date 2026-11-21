@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from ImageLib.pas.
 using System.Buffers.Binary;
 using Aow.Graphics;
@@ -11,7 +11,7 @@ namespace Aow.Game.Draw.Images;
 // transparent pixels), FData (the encoded rows: per row a length dword, then the opaque pixels
 // and, for a transparent run, the transparent index and the run length), FRLELeft, FRLETop,
 // FRLEWidth, FRLEHeight (the rectangle of the encoded pixels in the data rectangle)
-public sealed class RleSprite08(CustomImageLibrary owner) : Image08(owner), ILibraryImageClass
+public sealed class RleSprite08(CustomImageLibrary? owner) : Image08(owner), ILibraryImageClass
 {
     static int ILibraryImageClass.ClassId => 2;
     static string ILibraryImageClass.Name => "RLE Sprite (08bpp)";
@@ -20,7 +20,7 @@ public sealed class RleSprite08(CustomImageLibrary owner) : Image08(owner), ILib
 
     private int _transparentColor;
 
-    internal byte[] Data { get; private set; }
+    internal byte[]? Data { get; private set; }
 
     internal int RleLeft { get; private set; }
     internal int RleTop { get; private set; }
@@ -343,7 +343,7 @@ public sealed class RleSprite08(CustomImageLibrary owner) : Image08(owner), ILib
                 }
                 finally
                 {
-                    object temporary = null;
+                    object? temporary = null;
                     if (temporary is not null)
                     {
                         ((temporary ?? throw new NullReferenceException()) as IDisposable)?.Dispose();

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from CitySpells.pas.
 using Aow.Engine.Nodes;
 
@@ -20,7 +20,7 @@ namespace Aow.Game.Magic.Spells;
 public class TownQuake : CityTargetSpell
 {
     // CitySpells.pas:764
-    public TownQuake(CustomNode owner, EngineObject holder) : base(owner)
+    public TownQuake(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_townQuakeText);
@@ -70,7 +70,7 @@ public class TownQuake : CityTargetSpell
     }
 
     // CitySpells.pas:812
-    public override bool ValidTargetCity(Troop source, City targetCity)
+    public override bool ValidTargetCity(Troop source, City? targetCity)
     {
         bool result = base.ValidTargetCity(source, targetCity);
         return result && !targetCity.Enchantments.Contains(CityEnchantmentIds.AntiMagicShell);
@@ -94,7 +94,7 @@ public class TownQuake : CityTargetSpell
             bool damaged = false;
             for (int i = 0, last = army.Army.Units.Count - 1; i <= last; i++)
             {
-                Troop troop = army.Army.Units.GetUnit(i);
+                Troop? troop = army.Army.Units.GetUnit(i);
                 int damage = troop.ExecuteDamageRole(7, damage: 5, damageTypes: DamageTypes.Physical);
                 if (damage > troop.GetHitPoints())
                 {

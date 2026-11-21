@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from GlobalSpells.pas.
 
 using Aow.Engine.Nodes;
@@ -17,7 +17,7 @@ namespace Aow.Game.Magic.Spells;
 public class WarpParty : Spell
 {
     // GlobalSpells.pas:632
-    public WarpParty(CustomNode owner, EngineObject holder) : base(owner)
+    public WarpParty(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_warpPartyText);
@@ -69,7 +69,7 @@ public class WarpParty : Spell
     }
 
     // GlobalSpells.pas:643
-    public bool ValidTarget(ArmyHexSprite army, sbyte X, sbyte Y, sbyte layer)
+    public bool ValidTarget(ArmyHexSprite? army, sbyte X, sbyte Y, sbyte layer)
     {
         MapFieldMessage message = default;
         MapField field = StrategicMap.Current.MapContainer.GetField(X, Y, layer);
@@ -89,7 +89,7 @@ public class WarpParty : Spell
     }
 
     // GlobalSpells.pas:660
-    public MapCoordinate CalculateWarpLocation(ArmyHexSprite army)
+    public MapCoordinate CalculateWarpLocation(ArmyHexSprite? army)
     {
         MapFieldMessage message = default;
         DelphiList<MapField> candidates = new();
@@ -98,7 +98,7 @@ public class WarpParty : Spell
         sbyte hexX = army.HexX;
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, radius: 10);
         MapLevel level = StrategicMap.Current.MapContainer.MapLevels[army.HexLevel];
-        MapField field;
+        MapField? field;
         while (walk.Radius < 20)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)

@@ -21,11 +21,11 @@ public sealed partial class RuleConstructionTests
     {
         internal List<string> Events { get; } = [];
 
-        internal List<EngineObject> Members { get; } = [];
+        internal List<EngineObject?> Members { get; } = [];
 
-        public override int AddChild(EngineObject child)
+        public override int AddChild(EngineObject? child)
         {
-            Troop troop = (Troop)child;
+            Troop? troop = (Troop?)child;
             Events.Add($"insert:{troop.RefCount}:{troop.UnitId}:{troop.GroupId}");
             if (reject)
             {
@@ -36,10 +36,10 @@ public sealed partial class RuleConstructionTests
             return Members.Count - 1;
         }
 
-        public override int RemoveChild(EngineObject child) => Members.Remove(child) ? 0 : -1;
+        public override int RemoveChild(EngineObject? child) => Members.Remove(child) ? 0 : -1;
     }
 
-    private static Troop CreateUnit(Type type, CustomNode owner, int route)
+    private static Troop? CreateUnit(Type type, CustomNode? owner, int route)
     {
         EngineClass meta = EngineClass.Of(type);
         if (route == 1)
@@ -61,11 +61,11 @@ public sealed partial class RuleConstructionTests
         }
         if (route == 3)
         {
-            return (Troop)Invoke(() => meta.GetType().GetMethod("CreateInstance", types: [typeof(CustomNode), typeof(EngineObject)]).Invoke(meta, parameters: [owner, EngineFixture.Engine]));
+            return (Troop?)Invoke(() => meta.GetType().GetMethod("CreateInstance", types: [typeof(CustomNode), typeof(EngineObject)]).Invoke(meta, parameters: [owner, EngineFixture.Engine]));
         }
 
-        ConstructorInfo constructor = EngineClassCreation.OwnerConstructor(type);
-        return (Troop)Invoke(() => constructor.Invoke(EngineClassCreation.OwnerArguments(constructor, owner)));
+        ConstructorInfo? constructor = EngineClassCreation.OwnerConstructor(type);
+        return (Troop?)Invoke(() => constructor.Invoke(EngineClassCreation.OwnerArguments(constructor, owner)));
     }
 
     [Theory]
@@ -73,7 +73,7 @@ public sealed partial class RuleConstructionTests
     public void UnitCreationMatchesTheBaseCommitThroughEveryFacade(string name)
     {
         Type type = TypeNamed(name);
-        StrategicMap previous = StrategicMap.Current;
+        StrategicMap? previous = StrategicMap.Current;
         StrategicMap.Current = null;
         try
         {
@@ -84,7 +84,7 @@ public sealed partial class RuleConstructionTests
                 for (int route = 0; route < 4; route++)
                 {
                     UnitOwner owner = new(ownerMode == 2);
-                    Troop value = CreateUnit(type, owner: ownerMode == 0 ? null : owner, route);
+                    Troop? value = CreateUnit(type, owner: ownerMode == 0 ? null : owner, route);
                     Assert.IsType(type, @object: value);
                     Assert.Equal(1, value.RefCount);
                     Assert.Equal(-1, value.UnitId);
@@ -114,8 +114,8 @@ public sealed partial class RuleConstructionTests
     [MemberData(nameof(UnitClasses))]
     public void BinarySavedClassIdLoadsTheExactUnitWithOneReference(string name)
     {
-        StrategicMap previousMap = StrategicMap.Current;
-        GamePack previousSet = GamePack.Current;
+        StrategicMap? previousMap = StrategicMap.Current;
+        GamePack? previousSet = GamePack.Current;
         StrategicMap.Current = null;
         GamePack set = EngineFixture.Configure(GamePack.Create(null, holder: EngineFixture.Engine), value =>
         {
@@ -127,8 +127,8 @@ public sealed partial class RuleConstructionTests
         Type type = TypeNamed(name);
         EngineClass meta = EngineClass.Of(type);
         GameEngine engine = new(null);
-        EngineObject source = CreateUnit(type, owner: null, route: 0);
-        EngineObject result = null;
+        EngineObject? source = CreateUnit(type, owner: null, route: 0);
+        EngineObject? result = null;
         using MemoryStream memory = new();
         try
         {
@@ -222,7 +222,7 @@ public sealed partial class RuleConstructionTests
     [InlineData(true, true)]
     public void UnitReferenceCountsKeepThePreBaseSequence(bool hero, bool reject)
     {
-        StrategicMap previous = StrategicMap.Current;
+        StrategicMap? previous = StrategicMap.Current;
         StrategicMap.Current = null;
         UnitOwner owner = new(reject);
         s_refcountOwner = owner;

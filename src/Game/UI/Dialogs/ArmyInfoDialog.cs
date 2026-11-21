@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWArmyInfoDlg.pas.
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
@@ -24,8 +24,8 @@ public sealed partial class ArmyInfoDialog(UIContext ui) : UIModule(ui)
     public Label HeaderLabel { get; private set; }
 
     private bool _unitInfoShown;
-    private ExecuteDoneEvent _close;
-    private ArmyInfoEventLog _event;
+    private ExecuteDoneEvent? _close;
+    private ArmyInfoEventLog? _event;
 
     // AoWArmyInfoDlg.pas:63
     public void DrawUnit(int index, in Rect R, ref LockedSurface lockedSurface)
@@ -38,7 +38,7 @@ public sealed partial class ArmyInfoDialog(UIContext ui) : UIModule(ui)
             int x = (R.Right + R.Left) / 2;
             int y = (R.Top + R.Bottom) / 2;
             Units.Alignment alignment = _event.ArmyView.Units.GetUnit(index).GetAlignment();
-            LibraryImage image;
+            LibraryImage? image;
             if ((int)alignment < UI.Graphics.UnitBackgrounds.Count)
             {
                 // { D3 masks the enum index after the original full-byte guard. }
@@ -70,8 +70,8 @@ public sealed partial class ArmyInfoDialog(UIContext ui) : UIModule(ui)
             UI.UnitWindow.MainWindow.Visible = false;
         }
 
-        ExecuteDoneEvent notify = _close;
-        ArmyInfoEventLog eventValue = _event;
+        ExecuteDoneEvent? notify = _close;
+        ArmyInfoEventLog? eventValue = _event;
         _close = null;
         _event = null;
         notify?.Invoke(eventValue);
@@ -99,7 +99,7 @@ public sealed partial class ArmyInfoDialog(UIContext ui) : UIModule(ui)
         int count = _event.ArmyView.Units.Count;
         if (slot < count)
         {
-            Troop troop = _event.ArmyView.Units.GetUnit(slot);
+            Troop? troop = _event.ArmyView.Units.GetUnit(slot);
             UI.General.SelectedUnit = troop;
             if (button == MouseButton.Left)
             {

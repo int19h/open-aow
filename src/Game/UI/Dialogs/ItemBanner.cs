@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWItemBanner.pas.
 using System.Globalization;
 using Aow.Game.Draw;
@@ -28,7 +28,7 @@ public sealed partial class ItemBanner(UIContext ui) : UIModule(ui)
     // AoWItemBanner.pas:46
     public void IBannerPopupShow()
     {
-        Item item = StrategicMap.Current.ItemControl.FindItem(ItemId);
+        Item? item = StrategicMap.Current.ItemControl.FindItem(ItemId);
         if (item is not null)
         {
             ItemNameLabel.Text = item.OwnerName;
@@ -148,7 +148,7 @@ public sealed partial class ItemBanner(UIContext ui) : UIModule(ui)
     // AoWItemBanner.pas:145
     public void DrawBoxPreDraw(LockedSurface lockedSurface)
     {
-        Item item = StrategicMap.Current.ItemControl.FindItem(ItemId);
+        Item? item = StrategicMap.Current.ItemControl.FindItem(ItemId);
         item?.Show(ItemView.WinLeft, ItemView.WinTop, surface: lockedSurface);
     }
 

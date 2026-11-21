@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 
 using Aow.Game.UI.Controls;
 using Aow.Rtl;
@@ -8,7 +8,7 @@ namespace Aow.Game.UI.Windows;
 // { The AoWWinGeneric unit of aowInt.dpl: TAOWGenericWindow, the base window class that publishes
 //   the window manager's settings (the ancestor of TAOWWindow, TAOWToolTip and TAOWMenu). }
 // no fields of its own
-public class GenericWindow(Component owner) : BaseWindow(owner)
+public class GenericWindow(Component? owner) : BaseWindow(owner)
 {
 
     // AoWWinGeneric.pas:39
@@ -19,11 +19,11 @@ public class GenericWindow(Component owner) : BaseWindow(owner)
     }
 
     // AoWWinGeneric.pas:45
-    public override void SetOwner(UIComponent value)
+    public override void SetOwner(UIComponent? value)
     {
         base.SetOwner(value);
         // The owner is a UIComponent. This window sits in a window manager, and the cast stays.
-        base.WindowManager = (WindowManager)OwnerComponent;
+        base.WindowManager = (WindowManager?)OwnerComponent;
     }
 
     // AoWWinGeneric.pas:51
@@ -56,7 +56,7 @@ public class GenericWindow(Component owner) : BaseWindow(owner)
     }
 
     [Published]
-    public override WindowManager WindowManager { get => base.WindowManager; set => SetManager(value); }
+    public override WindowManager? WindowManager { get => base.WindowManager; set => SetManager(value); }
 
     [Published]
     public override int Cursor { get => base.Cursor; set => SetCursor(value); }

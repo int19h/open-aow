@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 
 using Aow.Game.Draw.Images;
 using Aow.Game.Session;
@@ -14,7 +14,7 @@ public partial class City
         base.Activate();
         UpdateVisibleForSeatedPlayer();
         Production.Activate();
-        StrategicMap map = StrategicMap.Current;
+        StrategicMap? map = StrategicMap.Current;
         if (Player != -1)
         {
             _ = map.Players.GetPlayers(Player).ProductionControls.Add(Production);
@@ -31,15 +31,15 @@ public partial class City
     // City.pas:1944 reads FWallType again through PChar(Self)[$4C].
     public void UpdateImages()
     {
-        MapField field = Owner;
+        MapField? field = Owner;
         int terrain = field.TerrainType;
         int offset = terrain switch { 3 => 20, 5 or (>= 7 and <= 9) or 12 or 13 => 40, _ => 0 };
-        CustomImageLibrary images = Resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
+        CustomImageLibrary? images = Resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
         if (!GetRazed())
         {
             if (Race >= 0)
             {
-                RaceResource race = GamePack.Current.RaceResources.GetRaceResource(Race);
+                RaceResource? race = GamePack.Current.RaceResources.GetRaceResource(Race);
                 int size = GetResource<Resource>().Size;
                 if (race is not null)
                 {

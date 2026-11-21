@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
@@ -11,7 +11,7 @@ namespace Aow.Game.Magic.Abilities;
 public class RangedAttackAbility : AdjustableAbility
 {
     // AoWAb.PAS:4653
-    public RangedAttackAbility(CustomNode owner) : base(owner)
+    public RangedAttackAbility(CustomNode? owner) : base(owner)
     {
         SelectionTypes = AbilitySelectionTypes.Unit | AbilitySelectionTypes.UseItem;
         AbilityType = AbilityType.Combat;
@@ -26,7 +26,7 @@ public class RangedAttackAbility : AdjustableAbility
     public sbyte AttackRepeatRangedAttack { get; init; }
 
     // AoWAb.PAS:4694
-    public override CombatMode GetCombatMode(AbilityOwner owner) => CombatRangeToCombatMode(GetRangeRangedAttack(owner));
+    public override CombatMode GetCombatMode(AbilityOwner? owner) => CombatRangeToCombatMode(GetRangeRangedAttack(owner));
 
     // AoWAb.PAS:4698
     public override WallCombatFeatures GetWallCombatFeatures(AbilityOwner owner)
@@ -37,7 +37,7 @@ public class RangedAttackAbility : AdjustableAbility
     }
 
     // AoWAb.PAS:4659
-    public override AbilityControlTypes GetControlType(AbilityOwner owner) => AbilityControlTypes.CombatAction;
+    public override AbilityControlTypes GetControlType(AbilityOwner? owner) => AbilityControlTypes.CombatAction;
 
     // AoWAb.PAS:4832
     public override bool FastBattleValidRoundDistance(CombatObject source, CombatObject target)
@@ -91,9 +91,9 @@ public class RangedAttackAbility : AdjustableAbility
     }
 
     // AoWAb.PAS:4787
-    public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand command)
+    public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand? command)
     {
-        CombatObject target = command.Target;
+        CombatObject? target = command.Target;
         int penalty = source.Combat.GetWallSituation(source, target) == WallSituation.Target ? 2 : 0;
 
         if (target.GetEnabled())
@@ -130,7 +130,7 @@ public class RangedAttackAbility : AdjustableAbility
     }
 
     // AoWAb.PAS:4717
-    public override void GetDamageValues(Troop attacker, Troop defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
+    public override void GetDamageValues(Troop attacker, Troop? defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
         int defense = defender.GetDefense();
         if (wallSituation == WallSituation.Target)
@@ -154,7 +154,7 @@ public class RangedAttackAbility : AdjustableAbility
     }
 
     // AoWAb.PAS:4703
-    public override void GetOffensiveStrength(AbilityOwner owner, ref int strength, ref DamageTypes types)
+    public override void GetOffensiveStrength(AbilityOwner? owner, ref int strength, ref DamageTypes types)
     {
         sbyte attackRepeatRangedAttack = GetAttackRepeatRangedAttack(owner);
         sbyte damageRangedAttack = GetDamageRangedAttack(owner);
@@ -164,7 +164,7 @@ public class RangedAttackAbility : AdjustableAbility
 
     // AoWAb.PAS:4732
     // { Original leaves both cost fields untouched. }
-    public override void FastBattleGetDamageValues(CombatObject attacker, CombatObject defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
+    public override void FastBattleGetDamageValues(CombatObject? attacker, CombatObject? defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
         CombatRange range = GetRangeRangedAttack(attacker.AbilityOwner);
         if (wallSituation == WallSituation.None || range is CombatRange.Medium or CombatRange.Long || attacker.GetAbilityEnabled(1))
@@ -206,7 +206,7 @@ public class RangedAttackAbility : AdjustableAbility
     }
 
     // AoWAb.PAS:4769
-    public override void GetCombatInfo(AbilityOwner owner, ref AbilityCombatInfo info)
+    public override void GetCombatInfo(AbilityOwner? owner, ref AbilityCombatInfo info)
     {
         sbyte attackRangedAttack = GetAttackRangedAttack(owner);
         info.Attack = attackRangedAttack;
@@ -220,10 +220,10 @@ public class RangedAttackAbility : AdjustableAbility
     }
 
     // AoWAb.PAS:4661
-    public virtual CombatRange GetRangeRangedAttack(AbilityOwner owner) => RangeRangedAttack;
+    public virtual CombatRange GetRangeRangedAttack(AbilityOwner? owner) => RangeRangedAttack;
 
     // AoWAb.PAS:4665
-    public virtual sbyte GetDamageRangedAttack(AbilityOwner owner)
+    public virtual sbyte GetDamageRangedAttack(AbilityOwner? owner)
     {
         sbyte result = DamageRangedAttack;
         if (owner is not null && owner.GetOwnAbilityEnabled(32))
@@ -245,7 +245,7 @@ public class RangedAttackAbility : AdjustableAbility
     }
 
     // AoWAb.PAS:4675
-    public virtual sbyte GetAttackRangedAttack(AbilityOwner owner)
+    public virtual sbyte GetAttackRangedAttack(AbilityOwner? owner)
     {
         sbyte result = AttackRangedAttack;
         if (owner is not null && owner.GetOwnAbilityEnabled(32))
@@ -269,13 +269,13 @@ public class RangedAttackAbility : AdjustableAbility
     }
 
     // AoWAb.PAS:4686
-    public virtual sbyte GetAttackRepeatRangedAttack(AbilityOwner owner) => AttackRepeatRangedAttack;
+    public virtual sbyte GetAttackRepeatRangedAttack(AbilityOwner? owner) => AttackRepeatRangedAttack;
 
     // AoWAb.PAS:4690
-    public virtual DamageTypes GetDamageTypesRangedAttack(AbilityOwner owner) => DamageTypesRangedAttack;
+    public virtual DamageTypes GetDamageTypesRangedAttack(AbilityOwner? owner) => DamageTypesRangedAttack;
 
     // AoWAb.PAS:4777
-    public RangedAttackCombatAction CreateRangedAttackCombatAction(CombatObject source, CombatObject target, int attackPenalty)
+    public RangedAttackCombatAction CreateRangedAttackCombatAction(CombatObject? source, CombatObject? target, int attackPenalty)
     {
         RangedAttackCombatAction action = new(null) { Holder = CreationHolder() };
         action.Generate(damage: GetDamageRangedAttack(source.AbilityOwner), damageTypes: GetDamageTypesRangedAttack(source.AbilityOwner), source: source, target: target, attack: (sbyte)(GetAttackRangedAttack(source.AbilityOwner) - attackPenalty));

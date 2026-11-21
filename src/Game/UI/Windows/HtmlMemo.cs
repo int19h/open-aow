@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWHTMLMemo.pas.
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
@@ -30,12 +30,12 @@ public sealed partial class HtmlMemo : BaseWindow
     private readonly InterfaceImageLibrary _images;
     private int _topItem;
     private readonly List<ImageLibraryFont> _fonts;
-    private BaseWindow _window;
+    private BaseWindow? _window;
     private int _textWidth;
     private int _textHeight;
 
     // AoWHTMLMemo.pas:93
-    public HtmlMemo(Component owner) : base(owner)
+    public HtmlMemo(Component? owner) : base(owner)
     {
         _lines = new DelphiStringList();
         Items = new DelphiStringList
@@ -610,7 +610,7 @@ public sealed partial class HtmlMemo : BaseWindow
     }
 
     // AoWHTMLMemo.pas:122
-    public override void InvalidateRectangle(int index, ref Rect rectangle, UIComponent sender)
+    public override void InvalidateRectangle(int index, ref Rect rectangle, UIComponent? sender)
     {
         if (Valid && Visible)
         {
@@ -619,11 +619,11 @@ public sealed partial class HtmlMemo : BaseWindow
     }
 
     // AoWHTMLMemo.pas:128
-    public override void SetOwner(UIComponent value)
+    public override void SetOwner(UIComponent? value)
     {
         base.SetOwner(value);
         // The owner is a UIComponent. This memo sits in a window, and the cast stays.
-        _window = (BaseWindow)OwnerComponent;
+        _window = (BaseWindow?)OwnerComponent;
     }
 
     // AoWHTMLMemo.pas:584
@@ -867,7 +867,7 @@ public sealed partial class HtmlMemo : BaseWindow
     }
 
     // AoWHTMLMemo.pas:134
-    public void SetWindow(BaseWindow value) => SetOwner(value);
+    public void SetWindow(BaseWindow? value) => SetOwner(value);
 
     // AoWHTMLMemo.pas:139
     public void SetFStrings(DelphiStringList value)
@@ -914,7 +914,7 @@ public sealed partial class HtmlMemo : BaseWindow
     public bool LoadFont(string fileName)
     {
         fileName = ExtractFilePath(LegacyApplication.Application.ExeName) + fileName;
-        ImageLibraryFont font = null;
+        ImageLibraryFont? font = null;
         int i = 0;
         while (i < _fonts.Count && font is null)
         {
@@ -948,7 +948,7 @@ public sealed partial class HtmlMemo : BaseWindow
     public int ListOffset { get => _topItem; set => SetListOff(value); }
 
     [Published]
-    public BaseWindow Window { get => _window; set => SetWindow(value); }
+    public BaseWindow? Window { get => _window; set => SetWindow(value); }
 
     [Published]
     public VerticalScrollBar VerticalScrollBar { get => _verticalScrollBar; set => SetVScroll(value); }

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Crops.pas.
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
@@ -14,7 +14,7 @@ public class PlayerCropStructureResource(CustomNode owner) : PlayerStructureReso
     // Crops.pas:599
     public new const int ClassId = 131_919;
 
-    public UInt16List CropLocations { get; private set; }
+    public UInt16List? CropLocations { get; private set; }
 
     // Crops.pas:592
     public override void Dispose()
@@ -25,7 +25,7 @@ public class PlayerCropStructureResource(CustomNode owner) : PlayerStructureReso
     }
 
     // Crops.pas:605
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
         if (message.MessageId == 536870920)

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using System.Diagnostics.CodeAnalysis;
 using Aow.Engine.Nodes;
@@ -21,12 +21,12 @@ public sealed class MeleeRound(EngineObject creator) : IDisposable
 
     private int _capacity;
     private Strike[] _strikes = [];
-    private CombatObject _attacker;
-    private CombatObject _defender;
+    private CombatObject? _attacker;
+    private CombatObject? _defender;
     private int _attackerDamageValue;
     private int _defenderDamageValue;
-    private Troop _attackerUnit;
-    private Troop _defenderUnit;
+    private Troop? _attackerUnit;
+    private Troop? _defenderUnit;
     private int _attackerStrikes;
     private int _defenderStrikes;
 
@@ -91,8 +91,8 @@ public sealed class MeleeRound(EngineObject creator) : IDisposable
         SetCount(_attackerStrikes + _defenderStrikes);
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            Troop source;
-            Troop target;
+            Troop? source;
+            Troop? target;
             if (side == CombatSideIndex.Attacker)
             {
                 source = _attackerUnit;
@@ -185,7 +185,7 @@ public sealed class MeleeRound(EngineObject creator) : IDisposable
     }
 
     // AoWAb.PAS:1600
-    public void CalculateFreeUnitSwing(Troop attacker, Troop defender)
+    public void CalculateFreeUnitSwing(Troop attacker, Troop? defender)
     {
         Reset();
         _attackerUnit = attacker;
@@ -238,8 +238,8 @@ public sealed class MeleeRound(EngineObject creator) : IDisposable
         SetCount(_attackerStrikes + _defenderStrikes);
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            CombatObject source;
-            CombatObject target;
+            CombatObject? source;
+            CombatObject? target;
             if (side == CombatSideIndex.Attacker)
             {
                 source = _attacker;
@@ -332,7 +332,7 @@ public sealed class MeleeRound(EngineObject creator) : IDisposable
     }
 
     // AoWAb.PAS:1711
-    public void Calculate(CombatObject attacker, CombatObject defender)
+    public void Calculate(CombatObject? attacker, CombatObject? defender)
     {
         Reset();
         _attacker = attacker;
@@ -382,9 +382,9 @@ public sealed class MeleeRound(EngineObject creator) : IDisposable
     }
 
     // AoWAb.PAS:1754
-    public StrikeCombatAction CreateStrikeCombatAction(int index)
+    public StrikeCombatAction? CreateStrikeCombatAction(int index)
     {
-        StrikeCombatAction result = null;
+        StrikeCombatAction? result = null;
         if (index < Count)
         {
             ref Strike strike = ref _strikes[index];
@@ -431,7 +431,7 @@ public sealed class MeleeRound(EngineObject creator) : IDisposable
         _defenderDamageValue = 0;
         int i = 0;
         int lifeStealingDamageValue = 0;
-        CombatObject source = _attacker;
+        CombatObject? source = _attacker;
         bool lifeStealing;
         if (source is not null)
         {

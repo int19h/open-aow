@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Collections;
@@ -36,8 +36,8 @@ public class DispelMagicCombatAction(CustomNode owner) : SingleTargetCombatActio
     // AoWAb.PAS:3951
     public override void Execute(Battle combat)
     {
-        CombatObject source = combat.CombatData.FindId(SourceId);
-        CombatObject target = combat.CombatData.FindId(TargetId);
+        CombatObject? source = combat.CombatData.FindId(SourceId);
+        CombatObject? target = combat.CombatData.FindId(TargetId);
         if (source is CombatUnit && target is CombatUnit targetUnit)
         {
             EnchantmentList enchantments = new(null) { Holder = CreationHolder() };
@@ -46,7 +46,7 @@ public class DispelMagicCombatAction(CustomNode owner) : SingleTargetCombatActio
 
             for (int i = EnchantmentIds.Count - 1; i >= 0; i--)
             {
-                Enchantment enchantment = enchantments.FindId(EnchantmentIds[i]);
+                Enchantment? enchantment = enchantments.FindId(EnchantmentIds[i]);
                 _ = (enchantment?.Dispel());
             }
 
@@ -86,7 +86,7 @@ public class DispelMagicCombatAction(CustomNode owner) : SingleTargetCombatActio
     }
 
     // AoWAb.PAS:3994
-    public void Generate(CombatObject source, CombatObject target, int dispelMana)
+    public void Generate(CombatObject source, CombatObject? target, int dispelMana)
     {
         SourceId = source.Id;
         TargetId = target.Id;

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from GlobalTargetSpells.pas.
 using Aow.Engine.Nodes;
 
@@ -17,7 +17,7 @@ namespace Aow.Game.Magic.Spells;
 public class LevelTerrain : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:978
-    public LevelTerrain(CustomNode owner, EngineObject holder) : base(owner)
+    public LevelTerrain(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_levelTerrainText);

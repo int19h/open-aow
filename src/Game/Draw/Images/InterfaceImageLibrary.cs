@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AOWInterfaceImgLib.pas.
 using System.Globalization;
 using Aow.Rtl;
@@ -12,15 +12,15 @@ namespace Aow.Game.Draw.Images;
 //   SizedRectangle, clipped to the surface's clip rectangle, which they narrow while drawing and
 //   restore. }
 // no fields or virtual methods of its own
-public sealed partial class InterfaceImageLibrary(Component owner) : ImageLibrary(owner)
+public sealed partial class InterfaceImageLibrary(Component? owner) : ImageLibrary(owner)
 {
 
     // AOWInterfaceImgLib.pas:34
     // { CheckIL returns Self when the library holds the Count images from Index on, else nil after a
     //   message box that names the library and the component (Sender) that needs them }
-    public InterfaceImageLibrary CheckImageLibrary(int index, int count, Component sender)
+    public InterfaceImageLibrary? CheckImageLibrary(int index, int count, Component sender)
     {
-        InterfaceImageLibrary result = this;
+        InterfaceImageLibrary? result = this;
         if (index + count > Count)
         {
             result = null;
@@ -55,12 +55,12 @@ public sealed partial class InterfaceImageLibrary(Component owner) : ImageLibrar
         Rect rectangle = new(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, clipRight, clipBottom);
         lockedSurface.ClipRectangle = rectangle;
         this[index].ShowClipped(area.Left, area.Top, lockedSurface);
-        LibraryImage libraryImage = this[index + 5];
+        LibraryImage? libraryImage = this[index + 5];
         this[index + 5].ShowClipped(area.Left, area.Top + area.Height - libraryImage.Height, lockedSurface);
-        LibraryImage item = this[index + 4];
+        LibraryImage? item = this[index + 4];
         if (area.Left + area.Width - item.Width < oldClip.Right)
         {
-            LibraryImage item3 = this[index + 4];
+            LibraryImage? item3 = this[index + 4];
             Rect clipRectangle = lockedSurface.ClipRectangle;
             clipRectangle.Right = area.Left + area.Width - item3.Width;
             lockedSurface.ClipRectangle = clipRectangle;
@@ -68,21 +68,21 @@ public sealed partial class InterfaceImageLibrary(Component owner) : ImageLibrar
 
         for (int i = 0, last = (area.Width - this[index].Width - this[index + 2].Width) / this[index + 1].Width; i <= last; i++)
         {
-            LibraryImage item3 = this[index];
-            LibraryImage item4 = this[index + 1];
+            LibraryImage? item3 = this[index];
+            LibraryImage? item4 = this[index + 1];
             this[index + 1].ShowClipped(area.Left + item3.Width + (item4.Width * i), area.Top, lockedSurface);
-            LibraryImage item5 = this[index + 5];
-            LibraryImage item6 = this[index + 6];
-            LibraryImage item7 = this[index + 6];
+            LibraryImage? item5 = this[index + 5];
+            LibraryImage? item6 = this[index + 6];
+            LibraryImage? item7 = this[index + 6];
             this[index + 6].ShowClipped(area.Left + item5.Width + (item6.Width * i), area.Top + area.Height - item7.Height, lockedSurface);
         }
 
         Rect rectangle2 = new(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, clipRight, clipBottom);
         lockedSurface.ClipRectangle = rectangle2;
-        LibraryImage item8 = this[index + 6];
+        LibraryImage? item8 = this[index + 6];
         if (area.Top + area.Height - item8.Height < oldClip.Bottom)
         {
-            LibraryImage item3 = this[index + 6];
+            LibraryImage? item3 = this[index + 6];
             Rect clipRectangle2 = lockedSurface.ClipRectangle;
             clipRectangle2.Bottom = area.Top + area.Height - item3.Height;
             lockedSurface.ClipRectangle = clipRectangle2;
@@ -90,21 +90,21 @@ public sealed partial class InterfaceImageLibrary(Component owner) : ImageLibrar
 
         for (int i = 0, last = (area.Height - this[index].Height - this[index + 5].Height) / this[index + 3].Height; i <= last; i++)
         {
-            LibraryImage item3 = this[index];
-            LibraryImage item4 = this[index + 3];
+            LibraryImage? item3 = this[index];
+            LibraryImage? item4 = this[index + 3];
             this[index + 3].ShowClipped(area.Left, area.Top + item3.Height + (item4.Height * i), lockedSurface);
-            LibraryImage item5 = this[index + 2];
-            LibraryImage item6 = this[index + 4];
-            LibraryImage item7 = this[index + 4];
+            LibraryImage? item5 = this[index + 2];
+            LibraryImage? item6 = this[index + 4];
+            LibraryImage? item7 = this[index + 4];
             this[index + 4].ShowClipped(area.Left + area.Width - item7.Width, area.Top + item5.Height + (item6.Height * i), lockedSurface);
         }
 
         Rect rectangle3 = new(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, clipRight, clipBottom);
         lockedSurface.ClipRectangle = rectangle3;
-        LibraryImage item9 = this[index + 2];
+        LibraryImage? item9 = this[index + 2];
         this[index + 2].ShowClipped(area.Left + area.Width - item9.Width, area.Top, lockedSurface);
-        LibraryImage item10 = this[index + 7];
-        LibraryImage item11 = this[index + 7];
+        LibraryImage? item10 = this[index + 7];
+        LibraryImage? item11 = this[index + 7];
         this[index + 7].ShowClipped(area.Left + area.Width - item11.Width, area.Top + area.Height - item10.Height, lockedSurface);
         lockedSurface.ClipRectangle = oldClip;
     }
@@ -138,8 +138,8 @@ public sealed partial class InterfaceImageLibrary(Component owner) : ImageLibrar
         {
             for (int i = 0, lastI = area.Width / this[index].Width; i <= lastI; i++)
             {
-                LibraryImage libraryImage = this[index];
-                LibraryImage item = this[index];
+                LibraryImage? libraryImage = this[index];
+                LibraryImage? item = this[index];
                 this[index].ShowClipped(area.Left + (item.Width * i), area.Top + (libraryImage.Height * j), lockedSurface);
             }
         }
@@ -175,10 +175,10 @@ public sealed partial class InterfaceImageLibrary(Component owner) : ImageLibrar
         Rect rectangle = new(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, clipRight, clipBottom);
         lockedSurface.ClipRectangle = rectangle;
         this[index].ShowClipped(area.Left, area.Top, lockedSurface);
-        LibraryImage libraryImage = this[index + 2];
+        LibraryImage? libraryImage = this[index + 2];
         if (area.Left + area.Width - libraryImage.Width < oldClip.Right)
         {
-            LibraryImage item = this[index + 2];
+            LibraryImage? item = this[index + 2];
             Rect clipRectangle = lockedSurface.ClipRectangle;
             clipRectangle.Right = area.Left + area.Width - item.Width;
             lockedSurface.ClipRectangle = clipRectangle;
@@ -186,14 +186,14 @@ public sealed partial class InterfaceImageLibrary(Component owner) : ImageLibrar
 
         for (int i = 0, last = (area.Width - this[index].Width - this[index + 2].Width) / this[index + 1].Width; i <= last; i++)
         {
-            LibraryImage item2 = this[index];
-            LibraryImage item3 = this[index + 1];
+            LibraryImage? item2 = this[index];
+            LibraryImage? item3 = this[index + 1];
             this[index + 1].ShowClipped(area.Left + item2.Width + (item3.Width * i), area.Top, lockedSurface);
         }
 
         Rect rectangle2 = new(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, clipRight, clipBottom);
         lockedSurface.ClipRectangle = rectangle2;
-        LibraryImage item4 = this[index + 2];
+        LibraryImage? item4 = this[index + 2];
         this[index + 2].ShowClipped(area.Left + area.Width - item4.Width, area.Top, lockedSurface);
         lockedSurface.ClipRectangle = oldClip;
     }
@@ -211,10 +211,10 @@ public sealed partial class InterfaceImageLibrary(Component owner) : ImageLibrar
         Rect rectangle = new(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, clipRight, clipBottom);
         lockedSurface.ClipRectangle = rectangle;
         this[index].ShowClipped(area.Left, area.Top, lockedSurface);
-        LibraryImage libraryImage = this[index + 2];
+        LibraryImage? libraryImage = this[index + 2];
         if (area.Top + area.Height - libraryImage.Height < oldClip.Bottom)
         {
-            LibraryImage item = this[index + 2];
+            LibraryImage? item = this[index + 2];
             Rect clipRectangle = lockedSurface.ClipRectangle;
             clipRectangle.Bottom = area.Top + area.Height - item.Height;
             lockedSurface.ClipRectangle = clipRectangle;
@@ -222,14 +222,14 @@ public sealed partial class InterfaceImageLibrary(Component owner) : ImageLibrar
 
         for (int i = 0, last = (area.Height - this[index].Height - this[index + 2].Height) / this[index + 1].Height; i <= last; i++)
         {
-            LibraryImage item2 = this[index];
-            LibraryImage item3 = this[index + 1];
+            LibraryImage? item2 = this[index];
+            LibraryImage? item3 = this[index + 1];
             this[index + 1].ShowClipped(area.Left, area.Top + item2.Height + (item3.Height * i), lockedSurface);
         }
 
         Rect rectangle2 = new(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, clipRight, clipBottom);
         lockedSurface.ClipRectangle = rectangle2;
-        LibraryImage item4 = this[index + 2];
+        LibraryImage? item4 = this[index + 2];
         this[index + 2].ShowClipped(area.Left, area.Top + area.Height - item4.Height, lockedSurface);
         lockedSurface.ClipRectangle = oldClip;
     }

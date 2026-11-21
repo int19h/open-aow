@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from aowSetupEvents.pas.
 using System.Globalization;
 using Aow.Formats;
@@ -44,8 +44,8 @@ public sealed partial class SetupEvents(UIContext ui) : UIModule(ui)
             {
                 if (i != StrategicMap.Current.SeatedPlayer && StrategicMap.Current.Players.GetPlayers(i).Status != PlayerStatus.Terminated && StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.Players[i].ConnectionMode == ConnectionMode.Remote)
                 {
-                    PlayerCommunicationSettings player = StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.Players[i];
-                    Player playerLeader = StrategicMap.Current.Players.GetPlayers(i);
+                    PlayerCommunicationSettings? player = StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.Players[i];
+                    Player? playerLeader = StrategicMap.Current.Players.GetPlayers(i);
                     _ = UI.ChatWindow.PlayerList.Items.AddObject(playerLeader.Leader.HeroName, item: IntToObject(player.SystemId));
                     UI.ChatWindow.PlayerList.Selected = 0;
                 }

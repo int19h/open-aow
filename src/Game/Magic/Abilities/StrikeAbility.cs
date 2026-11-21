@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Combat;
@@ -12,7 +12,7 @@ public class StrikeAbility : AdjustableAbility
 {
 
     // AoWAb.PAS:1210
-    public StrikeAbility(CustomNode owner, EngineObject holder) : base(owner)
+    public StrikeAbility(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SelectionTypes = AbilitySelectionTypes.Unit | AbilitySelectionTypes.AttackItem;
@@ -32,10 +32,10 @@ public class StrikeAbility : AdjustableAbility
     }
 
     // AoWAb.PAS:1349
-    public override CombatMode GetCombatMode(AbilityOwner owner) => CombatMode.Melee;
+    public override CombatMode GetCombatMode(AbilityOwner? owner) => CombatMode.Melee;
 
     // AoWAb.PAS:1226
-    public override AbilityControlTypes GetControlType(AbilityOwner owner) => AbilityControlTypes.None;
+    public override AbilityControlTypes GetControlType(AbilityOwner? owner) => AbilityControlTypes.None;
 
     // AoWAb.PAS:1445
     public override void FastBattlePrefetchCombatCommands(FastBattleCommandList commands)
@@ -66,9 +66,9 @@ public class StrikeAbility : AdjustableAbility
     }
 
     // AoWAb.PAS:1399
-    public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand command)
+    public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand? command)
     {
-        CombatObject target = command.Target;
+        CombatObject? target = command.Target;
         MeleeRound round = new(this);
         round.Calculate(source, defender: target);
         bool stop = false;
@@ -93,7 +93,7 @@ public class StrikeAbility : AdjustableAbility
 
         while (i < round.Count && !stop)
         {
-            CombatAction action = round.CreateStrikeCombatAction(i);
+            CombatAction? action = round.CreateStrikeCombatAction(i);
             if (action is not null)
             {
                 source.Combat.ExecuteCombatAction(action);
@@ -137,7 +137,7 @@ public class StrikeAbility : AdjustableAbility
     }
 
     // AoWAb.PAS:1308
-    public override void GetDamageValues(Troop attacker, Troop defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
+    public override void GetDamageValues(Troop attacker, Troop? defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
         if (wallSituation == WallSituation.None && (!defender.GetAbilityEnabled(1) || attacker.GetAbilityEnabled(1)))
         {
@@ -161,7 +161,7 @@ public class StrikeAbility : AdjustableAbility
     }
 
     // AoWAb.PAS:1274
-    public override void GetOffensiveStrength(AbilityOwner owner, ref int strength, ref DamageTypes types)
+    public override void GetOffensiveStrength(AbilityOwner? owner, ref int strength, ref DamageTypes types)
     {
         if (owner is Troop troop)
         {
@@ -184,7 +184,7 @@ public class StrikeAbility : AdjustableAbility
     }
 
     // AoWAb.PAS:1328
-    public override void FastBattleGetDamageValues(CombatObject attacker, CombatObject defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
+    public override void FastBattleGetDamageValues(CombatObject? attacker, CombatObject? defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
         if (wallSituation == WallSituation.None && (!defender.GetAbilityEnabled(1) || attacker.GetAbilityEnabled(1)))
         {
@@ -209,7 +209,7 @@ public class StrikeAbility : AdjustableAbility
     }
 
     // AoWAb.PAS:1378
-    public override void GetCombatInfo(AbilityOwner owner, ref AbilityCombatInfo info)
+    public override void GetCombatInfo(AbilityOwner? owner, ref AbilityCombatInfo info)
     {
         if (owner is Troop troop)
         {
@@ -241,7 +241,7 @@ public class StrikeAbility : AdjustableAbility
     }
 
     // AoWAb.PAS:1354
-    public DamageTypes GetDamageTypes(AbilityOwner owner)
+    public DamageTypes GetDamageTypes(AbilityOwner? owner)
     {
         DamageTypes result;
         if (owner is Troop troop && troop.GetAbilityEnabled(21))
@@ -290,7 +290,7 @@ public class StrikeAbility : AdjustableAbility
         return result;
     }
 
-    public override bool Remove(AbilityOwner owner)
+    public override bool Remove(AbilityOwner? owner)
     {
         if (!owner.GetOwnAbilityEnabled(21))
         {

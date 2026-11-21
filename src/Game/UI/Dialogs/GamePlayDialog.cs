@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWGamePlayDlg.pas.
 using System.Collections.Immutable;
 using Aow.Game.Events;
@@ -134,7 +134,7 @@ public sealed partial class GamePlayDialog(UIContext ui) : UIModule(ui)
         Simultaneous6CheckBox.Checked = events.Contains(WindowPopupEvents.PartyDamage);
         Simultaneous7CheckBox.Checked = events.Contains(WindowPopupEvents.HeroUpgrade);
         Simultaneous8CheckBox.Checked = events.Contains(WindowPopupEvents.HeroJoin);
-        Player player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
+        Player? player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
         PasswordEdit.Text = player.Settings;
     }
 
@@ -180,7 +180,7 @@ public sealed partial class GamePlayDialog(UIContext ui) : UIModule(ui)
         UI.Engine.Registry.SetAutoSave(AutoSaveCheckBox.Checked);
         UI.Engine.Registry.SetSkipIntro(SkipIntroCheckBox.Checked);
         UI.Engine.Registry.SetMovementSpeed((GameSettings.MovementSpeed)MovementSpeedComboBox.Selected);
-        object objectValue = CombatResolveModeComboBox.Items.Objects[CombatResolveModeComboBox.Selected];
+        object? objectValue = CombatResolveModeComboBox.Items.Objects[CombatResolveModeComboBox.Selected];
         UI.Engine.Registry.SetCombatResolveMode((GameSettings.CombatResolveMode)ObjectToInt(objectValue));
         WindowPopupEvents events = WindowPopupEvents.None;
         if (Classic1CheckBox.Checked)

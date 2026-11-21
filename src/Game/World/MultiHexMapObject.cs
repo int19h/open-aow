@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from HSEngine.pas.
 using Aow.Engine;
 
@@ -14,7 +14,7 @@ namespace Aow.Game.World;
 
 // a map object that covers the hexagons of its terrain list around its main hexagon. FXhx, FYhx
 // (the main hexagon, ids 3 and 4)
-public class MultiHexMapObject(CustomNode owner) : MapObject(owner)
+public class MultiHexMapObject(CustomNode? owner) : MapObject(owner)
 {
     protected internal sbyte StoredHexX { get; protected set; }
     protected internal sbyte StoredHexY { get; protected set; }
@@ -196,7 +196,7 @@ public class MultiHexMapObject(CustomNode owner) : MapObject(owner)
     }
 
     // MAPOBJ.PAS:1096
-    public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override bool CanPlace(MapContainer? mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
         bool result = true;
         int count = Resource.TerrainList.Count;
@@ -207,7 +207,7 @@ public class MultiHexMapObject(CustomNode owner) : MapObject(owner)
             sbyte overlayType = GetOverlay(walk.HexNumber);
             if ((terrainType >= 0 || overlayType >= 0) && walk.X >= 0 && walk.Y >= 0 && walk.X < mapContainer.Width && walk.Y < mapContainer.Height)
             {
-                HexSprite hexSprite = mapContainer.GetField(walk.X, walk.Y, hexLevel).GetMaxLevelNoneTransparentHexSprite();
+                HexSprite? hexSprite = mapContainer.GetField(walk.X, walk.Y, hexLevel).GetMaxLevelNoneTransparentHexSprite();
                 result = hexSprite is null || CanPlaceOnHexSprite(hexSprite);
             }
 
@@ -218,7 +218,7 @@ public class MultiHexMapObject(CustomNode owner) : MapObject(owner)
     }
 
     // MAPOBJ.PAS:1138
-    public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override bool PlaceHex(MapContainer? mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
         StoredHexX = hexX;
         StoredHexY = hexY;

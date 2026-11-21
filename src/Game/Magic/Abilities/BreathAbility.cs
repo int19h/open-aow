@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
@@ -16,7 +16,7 @@ namespace Aow.Game.Magic.Abilities;
 public class BreathAbility : RangedAttackAbility
 {
     // AoWAb.PAS:4852
-    public BreathAbility(CustomNode owner) : base(owner)
+    public BreathAbility(CustomNode? owner) : base(owner)
     {
         RangeRangedAttack = CombatRange.Short;
         AttackRepeatRangedAttack = 1;
@@ -25,15 +25,15 @@ public class BreathAbility : RangedAttackAbility
     }
 
     // AoWAb.PAS:4894
-    public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand command)
+    public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand? command)
     {
         bool result = base.FastBattleExecuteCombatCommand(source, command);
         if (result)
         {
             Battle combat = source.Combat;
             DelphiList<CombatObject> targets = new();
-            CombatObject target = command.Target;
-            CombatObject other;
+            CombatObject? target = command.Target;
+            CombatObject? other;
             for (int i = combat.Sides[(int)target.Side].GetCount() - 1; i >= 0; i--)
             {
                 CombatSideIndex side = target.Side;
@@ -69,7 +69,7 @@ public class BreathAbility : RangedAttackAbility
     }
 
     // AoWAb.PAS:4860
-    public override void GetOffensiveStrength(AbilityOwner owner, ref int strength, ref DamageTypes types)
+    public override void GetOffensiveStrength(AbilityOwner? owner, ref int strength, ref DamageTypes types)
     {
         sbyte attackRepeatRangedAttack = GetAttackRepeatRangedAttack(owner);
         sbyte damageRangedAttack = GetDamageRangedAttack(owner);
@@ -79,7 +79,7 @@ public class BreathAbility : RangedAttackAbility
     }
 
     // AoWAb.PAS:4866
-    public override void FastBattleGetDamageValues(CombatObject attacker, CombatObject defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
+    public override void FastBattleGetDamageValues(CombatObject? attacker, CombatObject? defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
         base.FastBattleGetDamageValues(attacker, defender, wallSituation, ref damageValues);
         if (damageValues.SourceDamage != 0)
@@ -116,5 +116,5 @@ public class BreathAbility : RangedAttackAbility
     }
 
     // AoWAb.PAS:4930
-    public override void TacticalBattleGetDamageValues(CombatObject attacker, CombatObject defender, ref AbilityDamageValues damageValues) => base.FastBattleGetDamageValues(attacker, defender, wallSituation: WallSituation.None, ref damageValues);
+    public override void TacticalBattleGetDamageValues(CombatObject? attacker, CombatObject? defender, ref AbilityDamageValues damageValues) => base.FastBattleGetDamageValues(attacker, defender, wallSituation: WallSituation.None, ref damageValues);
 }

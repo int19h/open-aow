@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from GlobalSpells.pas.
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
@@ -19,7 +19,7 @@ namespace Aow.Game.Magic.Spells;
 public class CallHero : Spell
 {
     // GlobalSpells.pas:1184
-    public CallHero(CustomNode owner, EngineObject holder) : base(owner)
+    public CallHero(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_callHeroText);
@@ -38,7 +38,7 @@ public class CallHero : Spell
         sbyte x = coordinate55.X;
         sbyte y = coordinate55.Y;
         sbyte layer = coordinate55.MapLevel;
-        Hero hero = FindCallHero(source);
+        Hero? hero = FindCallHero(source);
         if (hero is not null)
         {
             if (hero.Owner is null)
@@ -46,7 +46,7 @@ public class CallHero : Spell
                 hero.SetHitPoints(hero.GetHits());
             }
 
-            ArmyHexSprite army = hero.Place(x, y, L: layer, player: 0, mode: UnitPlaceModes.ScanArea | UnitPlaceModes.CreateNewArmy);
+            ArmyHexSprite? army = hero.Place(x, y, L: layer, player: 0, mode: UnitPlaceModes.ScanArea | UnitPlaceModes.CreateNewArmy);
             bool showSource = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.VisibleForPlayer(x, y, layer, player: StrategicMap.Current.SeatedPlayer);
             bool condition = StrategicMap.Current.SeatedPlayer == source.Player;
             if (!condition)
@@ -121,7 +121,7 @@ public class CallHero : Spell
             }
         }
 
-        Spell spell = GamePack.Current.SpellControl[SpellId];
+        Spell? spell = GamePack.Current.SpellControl[SpellId];
         GamePack.Current.SpellControl[SpellId].CastingDone(source, mana: spell.BaseManaCost);
         return false;
     }
@@ -145,7 +145,7 @@ public class CallHero : Spell
     }
 
     // GlobalSpells.pas:1212
-    public Hero FindCallHero(Troop source)
+    public Hero? FindCallHero(Troop source)
     {
         DoubleItemList<Hero> heroes = new();
         Hero hero;
@@ -170,7 +170,7 @@ public class CallHero : Spell
             }
         }
 
-        Hero result;
+        Hero? result;
         if (heroes.Count != 0)
         {
             RandSeed = StrategicMap.Current.Random(16777215);

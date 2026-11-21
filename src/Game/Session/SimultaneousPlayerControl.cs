@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
@@ -17,7 +17,7 @@ using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Game.Session;
 
-public sealed class SimultaneousPlayerControl(CustomNode owner) : PlayerControl(owner)
+public sealed class SimultaneousPlayerControl(CustomNode? owner) : PlayerControl(owner)
 {
     public new const int ClassId = 131_665;
 
@@ -267,7 +267,7 @@ public sealed class SimultaneousPlayerControl(CustomNode owner) : PlayerControl(
         StrategicMap.Current.ResetSeatedPlayerView();
         for (int i = 0, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {
-            Player player = StrategicMap.Current.Players.GetPlayers(i);
+            Player? player = StrategicMap.Current.Players.GetPlayers(i);
             if (player.Status == PlayerStatus.Playing && player.PlayerType != PlayerType.Human)
             {
                 _ = StrategicMap.Current.AIExecutor.ActivatePlayer((sbyte)i);

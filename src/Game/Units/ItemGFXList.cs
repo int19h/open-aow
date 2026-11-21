@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
@@ -19,7 +19,7 @@ public sealed class ItemGFXList : ResourceCollection, IChildList<ItemGraphics>
     public ItemGFXList(CustomNode owner) : base(owner) => SetControlStyle(ControlStyles.SaveLoad | ControlStyles.FixedChild | ControlStyles.ArrayMode);
 
     // Army.PAS:5182
-    public ItemGraphics GetItemGraphics(int index) => index >= 0 && index < Count ? this[index] : null;
+    public ItemGraphics? GetItemGraphics(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // Army.PAS:5189
     public int FindItemTypeGraphics(ItemType itemType)

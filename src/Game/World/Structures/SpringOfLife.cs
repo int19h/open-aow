@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Spring.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Audio;
@@ -19,7 +19,7 @@ public partial class SpringOfLife(CustomNode owner) : Structure(owner)
     public new const int ClassId = 131_328;
 
     // Spring.pas:111
-    public override void ArmyPlaced(ArmyHexSprite placedArmy)
+    public override void ArmyPlaced(ArmyHexSprite? placedArmy)
     {
         base.ArmyPlaced(placedArmy);
         if (Owner.TerrainType is not ((sbyte)Map.TerrainType.Snow or (sbyte)Map.TerrainType.Wasteland))
@@ -38,7 +38,7 @@ public partial class SpringOfLife(CustomNode owner) : Structure(owner)
     }
 
     // Spring.pas:86
-    public void ExecuteNaturesBlessing(ArmyHexSprite armyHexSprite)
+    public void ExecuteNaturesBlessing(ArmyHexSprite? armyHexSprite)
     {
         // { Keep the parameter in its original stack slot. }
         for (int i = 0, last = armyHexSprite.Army.Units.Count - 1; i <= last; i++)

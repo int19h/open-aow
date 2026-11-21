@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Draw;
@@ -29,7 +29,7 @@ public sealed class CombatViewer : IDisposable
 
     public int Position { get; private set; }
     public int Time { get; private set; }
-    public CombatLogbook Logbook { get; private set; }
+    public CombatLogbook? Logbook { get; private set; }
 
     // Combat2.pas:555
     public void Dispose()
@@ -43,7 +43,7 @@ public sealed class CombatViewer : IDisposable
     }
 
     // Combat2.pas:562
-    public void Initialize(CombatLogbook logbook)
+    public void Initialize(CombatLogbook? logbook)
     {
         if (Status.Contains(CombatViewerStatuses.Initialized))
         {
@@ -240,7 +240,7 @@ public sealed class CombatViewer : IDisposable
     }
 
     // Combat2.pas:688
-    public void DefaultShowFightingObjects(CombatObject source, CombatObject target, int frame, int X, int Y, in LockedSurface surface)
+    public void DefaultShowFightingObjects(CombatObject? source, CombatObject? target, int frame, int X, int Y, in LockedSurface surface)
     {
         if (target is not null)
         {

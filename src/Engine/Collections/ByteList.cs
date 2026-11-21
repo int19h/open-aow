@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Engine.pas.
 using System.Globalization;
 using Aow.Engine.Nodes;
@@ -127,7 +127,7 @@ public class ByteList : Persistent
     public override void Dispose() => Clear();
 
     // Engine.pas:3608
-    public override void Assign(Persistent source)
+    public override void Assign(Persistent? source)
     {
         if (source is ByteList byteList)
         {

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from City.pas.
 using System.Globalization;
 using Aow.Engine;
@@ -70,16 +70,16 @@ public partial class City : PlayerCropStructure
     public CityProductionControl Production { get; }
 
     private byte _flagId;
-    private GlobalEnchantmentList _enchantmentList;
+    private GlobalEnchantmentList? _enchantmentList;
 
     public CityEnchantmentIds Enchantments { get; private set; }
 
     public CityOverlayHexSprite Overlay { get; }
 
     public bool EnchantmentsVisible { get; private set; }
-    public LibraryImage WallBackImage { get; private set; }
-    public LibraryImage WallFrontImage { get; private set; }
-    public LibraryImage CityImage { get; private set; }
+    public LibraryImage? WallBackImage { get; private set; }
+    public LibraryImage? WallFrontImage { get; private set; }
+    public LibraryImage? CityImage { get; private set; }
 
     private DefendersGenerateMode _defendersMode;
 
@@ -113,7 +113,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:2191
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
         if (message.MessageId == 537001989)
@@ -223,7 +223,7 @@ public partial class City : PlayerCropStructure
                     }
                     else
                     {
-                        Player player = StrategicMap.Current.Players.GetPlayers(Player);
+                        Player? player = StrategicMap.Current.Players.GetPlayers(Player);
                         MapFieldMessageParameters param2 = message.Param;
                         param2[0] = param2[0].Int + ((player.PlayerRace + 1) * 65_536);
                         message.Param = param2;
@@ -372,9 +372,9 @@ public partial class City : PlayerCropStructure
     public override sbyte GetValidTerrainType(MapLevel mapLevel, sbyte hexX, sbyte hexY) => GetMostFrequentMapFieldTerrainType(mapLevel, hexX, hexY, defaultValue: -1);
 
     // City.pas:2422
-    public override LibraryImage GetTopBorderImage()
+    public override LibraryImage? GetTopBorderImage()
     {
-        LibraryImage result = GetTopCityActionImage(ActiveOrder);
+        LibraryImage? result = GetTopCityActionImage(ActiveOrder);
         result ??= Race != -1
             ? HexLevel == 0
                 ? GamePack.Current.RaceResources.GetRaceResource(Race).ImageLibrary.GetSafe(40)
@@ -384,7 +384,7 @@ public partial class City : PlayerCropStructure
         if (Mode.Contains(Modes.Razed))
         {
             int index = 42;
-            ImageSequenceList sequences = Resource.ImageSequenceList;
+            ImageSequenceList? sequences = Resource.ImageSequenceList;
             return sequences is not null
                 ? sequences.GetImageSequence(index) is not null ? Resource.ImageSequenceList.GetImageSequence(index).GetPreviewImage() : null
                 : null;
@@ -394,9 +394,9 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:2449
-    public override LibraryImage GetMiddleBorderImage()
+    public override LibraryImage? GetMiddleBorderImage()
     {
-        LibraryImage result = GetMiddleCityActionImage(ActiveOrder);
+        LibraryImage? result = GetMiddleCityActionImage(ActiveOrder);
         result ??= Race != -1
             ? HexLevel == 0
                 ? GamePack.Current.RaceResources.GetRaceResource(Race).ImageLibrary.GetSafe(41)
@@ -406,7 +406,7 @@ public partial class City : PlayerCropStructure
         if (Mode.Contains(Modes.Razed))
         {
             int index = 43;
-            ImageSequenceList sequences = Resource.ImageSequenceList;
+            ImageSequenceList? sequences = Resource.ImageSequenceList;
             return sequences is not null
                 ? sequences.GetImageSequence(index) is not null ? Resource.ImageSequenceList.GetImageSequence(index).GetPreviewImage() : null
                 : null;
@@ -416,9 +416,9 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:2476
-    public override LibraryImage GetBottomBorderImage()
+    public override LibraryImage? GetBottomBorderImage()
     {
-        LibraryImage result = GetBottomCityActionImage(ActiveOrder);
+        LibraryImage? result = GetBottomCityActionImage(ActiveOrder);
         result ??= Race >= 0
             ? HexLevel == 0
                 ? GamePack.Current.RaceResources.GetRaceResource(Race).ImageLibrary.GetSafe(42)
@@ -428,7 +428,7 @@ public partial class City : PlayerCropStructure
         if (Mode.Contains(Modes.Razed))
         {
             int index = 44;
-            ImageSequenceList sequences = Resource.ImageSequenceList;
+            ImageSequenceList? sequences = Resource.ImageSequenceList;
             return sequences is not null
                 ? sequences.GetImageSequence(index) is not null ? Resource.ImageSequenceList.GetImageSequence(index).GetPreviewImage() : null
                 : null;
@@ -471,7 +471,7 @@ public partial class City : PlayerCropStructure
         if (StrategicMap.Current.Random(8) == 0)
         {
             sbyte unitsToIndependentRelation = UnitList.UnitsToIndependentRelation(units, defaultRelation: 5);
-            AIGroup group = StrategicMap.Current.AIGroupManager.CreateGroup(0, relation: unitsToIndependentRelation, behavior: GroupBehavior.Refuge);
+            AIGroup? group = StrategicMap.Current.AIGroupManager.CreateGroup(0, relation: unitsToIndependentRelation, behavior: GroupBehavior.Refuge);
             _ = group.AddUnits(units.Units);
             _ = group.Release();
         }
@@ -620,7 +620,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:1335
-    public override void ArmyPlaced(ArmyHexSprite placedArmy)
+    public override void ArmyPlaced(ArmyHexSprite? placedArmy)
     {
         base.ArmyPlaced(placedArmy);
         if (Enchantments.Contains(CityEnchantmentIds.FountainOfLife))
@@ -635,7 +635,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:1342
-    public override void ArmyRemoved(ArmyHexSprite army)
+    public override void ArmyRemoved(ArmyHexSprite? army)
     {
         base.ArmyRemoved(army);
         _ = UpdatePlayer();
@@ -679,7 +679,7 @@ public partial class City : PlayerCropStructure
         }
         else
         {
-            ProductionItem queue = Production.Queue.GetItem(0);
+            ProductionItem? queue = Production.Queue.GetItem(0);
             return Production.GetProductionNameProgressive(queue);
         }
     }
@@ -873,7 +873,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:2225
-    public override void FinalizeCombat(Battle combat)
+    public override void FinalizeCombat(Battle? combat)
     {
         if (combat.CombatResult is CombatResult.Victory or CombatResult.NoDefenders)
         {
@@ -885,7 +885,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:2214
-    public override string GetCombatEventText(Battle combat)
+    public override string GetCombatEventText(Battle? combat)
     {
         if (!GetRazed())
         {
@@ -1107,7 +1107,7 @@ public partial class City : PlayerCropStructure
     public CityAction ActiveAction => ActiveOrder?.CityAction ?? CityAction.None;
 
     // The order the city carries out, null when it produces nothing.
-    public ProductionOrder ActiveOrder => Production.Status == ProductionControlStatus.Producing ? Production.Queue.GetItem(0).Order : null;
+    public ProductionOrder? ActiveOrder => Production.Status == ProductionControlStatus.Producing ? Production.Queue.GetItem(0).Order : null;
 
     // City.pas:894
     public void UpdateActiveEnchantments()
@@ -1334,7 +1334,7 @@ public partial class City : PlayerCropStructure
                             if (!passed)
                             {
                                 MigrationItem migrationItem = selection.GetItems(i);
-                                Player player = StrategicMap.Current.Players.GetPlayers(Player);
+                                Player? player = StrategicMap.Current.Players.GetPlayers(Player);
                                 passed = migrationItem.Race == player.PlayerRace;
                             }
 
@@ -1493,7 +1493,7 @@ public partial class City : PlayerCropStructure
         {
             for (int i = 0, last = Production.Queue.Count - 1; i <= last; i++)
             {
-                ProductionItem queueLocal = Production.Queue.GetItem(i);
+                ProductionItem? queueLocal = Production.Queue.GetItem(i);
                 if (queueLocal.Order is Upgrade)
                 {
                     level += 1;
@@ -1560,7 +1560,7 @@ public partial class City : PlayerCropStructure
         {
             for (int i = 0, last = Production.Queue.Count - 1; i <= last; i++)
             {
-                ProductionItem queueLocal = Production.Queue.GetItem(i);
+                ProductionItem? queueLocal = Production.Queue.GetItem(i);
                 if (queueLocal.Order is Fortify)
                 {
                     level += 1;
@@ -1759,7 +1759,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:1577
-    public MigrationItem CreateMigrationItem(sbyte race)
+    public MigrationItem? CreateMigrationItem(sbyte race)
     {
         string reason = "";
         return CanMigrate(race, reason)
@@ -1781,7 +1781,7 @@ public partial class City : PlayerCropStructure
         {
             if (StrategicMap.Current.Races.GetRace(i).Enabled)
             {
-                MigrationItem item = CreateMigrationItem((sbyte)i);
+                MigrationItem? item = CreateMigrationItem((sbyte)i);
                 if (item is not null && item.Relation is >= Session.Status.Neutral and <= Session.Status.Friendly)
                 {
                     item.Owner = result;
@@ -1858,7 +1858,7 @@ public partial class City : PlayerCropStructure
             if (value > 0)
             {
                 RandSeed = StrategicMap.Current.Random(1_048_575);
-                RaceResource raceResource = GamePack.Current.RaceResources.GetRaceResource(Race);
+                RaceResource? raceResource = GamePack.Current.RaceResources.GetRaceResource(Race);
                 sbyte hexLevel = HexLevel;
                 sbyte hexY = HexY;
                 _ = AbilityRules.PlaceRandomUnits(HexX, hexY, L: hexLevel, player: 0, units: raceResource.UnitIndexes, level: UpgradeLevel, value, types: UnitTypes.Humanoid | UnitTypes.Creature, engine: GetEngine());
@@ -1931,7 +1931,7 @@ public partial class City : PlayerCropStructure
             {
                 for (int j = 0, lastJ = armies[i].Army.Units.Count - 1; j <= lastJ; j++)
                 {
-                    Troop u = armies[i].Army.Units.GetUnit(j);
+                    Troop? u = armies[i].Army.Units.GetUnit(j);
                     if (u.MoraleValue <= 40)
                     {
                         predictor.AddOpponent(u, behindWall: 0);
@@ -2014,7 +2014,7 @@ public partial class City : PlayerCropStructure
                 {
                     for (int j = 0, lastJ = armies[i].Army.Units.Count - 1; j <= lastJ; j++)
                     {
-                        Troop u = armies[i].Army.Units.GetUnit(j);
+                        Troop? u = armies[i].Army.Units.GetUnit(j);
                         if (u.MoraleValue <= 40)
                         {
                             predictor.AddOpponent(u, behindWall: 0);
@@ -2116,7 +2116,7 @@ public partial class City : PlayerCropStructure
         UpgradeLevel = level;
         if (Race >= 0)
         {
-            RaceResource raceResource = GamePack.Current.RaceResources.GetRaceResource(Race);
+            RaceResource? raceResource = GamePack.Current.RaceResources.GetRaceResource(Race);
             for (int i = raceResource.UnitIndexes.Count - 1; i >= 0; i--)
             {
                 if (raceResource.UnitIndexes[i] != -1)
@@ -2125,7 +2125,7 @@ public partial class City : PlayerCropStructure
                     if (Production.UnitProductions.IndexOf(unitIndex) == -1)
                     {
                         int unitIndex2 = raceResource.UnitIndexes[i];
-                        UnitResource unitResource = GamePack.Current.UnitResources.GetUnitResource(unitIndex2);
+                        UnitResource? unitResource = GamePack.Current.UnitResources.GetUnitResource(unitIndex2);
                         int unitLevel = UnitLevelToCityLevel(unitResource.Level);
                         if (unitLevel != -1 && unitLevel <= UpgradeLevel)
                         {
@@ -2157,7 +2157,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:2206
-    public void InitializeCombat(Battle combat, ArmyHexSprite army)
+    public void InitializeCombat(Battle? combat, ArmyHexSprite? army)
     {
         if (Player == 0)
         {
@@ -2205,7 +2205,7 @@ public partial class City : PlayerCropStructure
             while (i != 0 && canJoin)
             {
                 i -= 1;
-                Army army = armies[i].Army;
+                Army? army = armies[i].Army;
                 byte selection = army.GetCanJoinSelection(player);
                 canJoin = selection == army.ValidateSelection(255);
                 if (canJoin)
@@ -2236,7 +2236,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:2282
-    public bool IncomingNegotiateRequest(NegotiateRequestEventLog request)
+    public bool IncomingNegotiateRequest(NegotiateRequestEventLog? request)
     {
         if (Player == 0 && !Mode.Contains(Modes.WarMode))
         {
@@ -2272,7 +2272,7 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:2302
-    public bool IncomingNegotiateOffer(NegotiateTokenEvent offer)
+    public bool IncomingNegotiateOffer(NegotiateTokenEvent? offer)
     {
         if (offer.Object == NegotiateObject.City)
         {
@@ -2394,17 +2394,17 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:2503
-    public LibraryImage GetTopCityActionImage(ProductionOrder order) => GetCityActionImage(order, row: 0, hasRace: Race != -1, image: 40, undergroundImage: 43);
+    public LibraryImage? GetTopCityActionImage(ProductionOrder? order) => GetCityActionImage(order, row: 0, hasRace: Race != -1, image: 40, undergroundImage: 43);
 
     // City.pas:2539
-    public LibraryImage GetMiddleCityActionImage(ProductionOrder order) => GetCityActionImage(order, row: 1, hasRace: Race != -1, image: 41, undergroundImage: 44);
+    public LibraryImage? GetMiddleCityActionImage(ProductionOrder? order) => GetCityActionImage(order, row: 1, hasRace: Race != -1, image: 41, undergroundImage: 44);
 
     // City.pas:2575
-    public LibraryImage GetBottomCityActionImage(ProductionOrder order) => GetCityActionImage(order, row: 2, hasRace: Race >= 0, image: 42, undergroundImage: 45);
+    public LibraryImage? GetBottomCityActionImage(ProductionOrder? order) => GetCityActionImage(order, row: 2, hasRace: Race >= 0, image: 42, undergroundImage: 45);
 
     // Row 0 to 2 of the city's map image while Order runs: an image sequence of the city when the
     // order names one, else the race image (Image on the surface, UndergroundImage below it).
-    private LibraryImage GetCityActionImage(ProductionOrder order, int row, bool hasRace, int image, int undergroundImage)
+    private LibraryImage? GetCityActionImage(ProductionOrder? order, int row, bool hasRace, int image, int undergroundImage)
     {
         int? sequence = order?.CitySequence(this, row);
         return sequence is int index
@@ -2514,7 +2514,7 @@ public partial class City : PlayerCropStructure
     private static bool RaceInCity(sbyte race, sbyte player)
     {
         bool flag = false;
-        Player players = StrategicMap.Current.Players.GetPlayers(player);
+        Player? players = StrategicMap.Current.Players.GetPlayers(player);
         for (int i = 0; i != players.Structures.Count; i++)
         {
             if (flag)

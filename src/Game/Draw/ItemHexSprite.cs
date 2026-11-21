@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 
 using Aow.Engine.Nodes;
@@ -20,7 +20,7 @@ public partial class ItemHexSprite : SingleHexSprite
 
     public new const int ClassId = 131_697;
 
-    public ItemHSList Items { get; private set; }
+    public ItemHSList? Items { get; private set; }
 
     private ItemHexSpriteGenerateMode _generateMode;
 
@@ -44,7 +44,7 @@ public partial class ItemHexSprite : SingleHexSprite
     }
 
     // Army.PAS:5321
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
         if (message.MessageId == 537001985 && StrategicMap.Current.Day == 1)
@@ -61,7 +61,7 @@ public partial class ItemHexSprite : SingleHexSprite
     {
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         int result = 1_744_830_464 + ((pixelY + 33) << 13) + pixelX + 16;
-        HexSprite hexSprite = Owner.GetMaxLevelNoneTransparentHexSprite();
+        HexSprite? hexSprite = Owner.GetMaxLevelNoneTransparentHexSprite();
         if (hexSprite != this && hexSprite is not null)
         {
             if (result <= hexSprite.GetShowPriority())
@@ -100,7 +100,7 @@ public partial class ItemHexSprite : SingleHexSprite
     public override string EditName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_itemBagText);
 
     // Army.PAS:5297
-    public override bool CanPlace(MapContainer map, sbyte hexX, sbyte hexY, sbyte hexLevel) => base.CanPlace(map, hexX, hexY, hexLevel);
+    public override bool CanPlace(MapContainer? map, sbyte hexX, sbyte hexY, sbyte hexLevel) => base.CanPlace(map, hexX, hexY, hexLevel);
 
     // Army.PAS:5228
     public void ItemsChanged(object sender)
@@ -131,7 +131,7 @@ public partial class ItemHexSprite : SingleHexSprite
             for (int iOrdinal = 1, last = (int)_generateMode; iOrdinal <= last; iOrdinal++)
             {
                 byte i = (byte)iOrdinal;
-                Item item = StrategicMap.Current.ItemControl.GenerateItem(ItemTypes.Head | ItemTypes.Torso | ItemTypes.Attack | ItemTypes.Defense | ItemTypes.Ring | ItemTypes.Use, 0, 65535);
+                Item? item = StrategicMap.Current.ItemControl.GenerateItem(ItemTypes.Head | ItemTypes.Torso | ItemTypes.Attack | ItemTypes.Defense | ItemTypes.Ring | ItemTypes.Use, 0, 65535);
                 item?.SetOwner(Items);
             }
 

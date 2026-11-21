@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Engine.pas.
 using System.Runtime.InteropServices;
 
@@ -84,7 +84,7 @@ public class SByteList : Persistent
     public override void Dispose() => Clear();
 
     // Engine.pas:3955
-    public override void Assign(Persistent source)
+    public override void Assign(Persistent? source)
     {
         if (source is SByteList sByteList)
         {

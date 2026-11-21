@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using Aow.Engine.Nodes;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
@@ -14,7 +14,7 @@ namespace Aow.Game.Tests;
 [EngineState]
 public sealed class TacticalBattleWallCastTests
 {
-    private sealed class PlacedUnitHexSprite(CustomNode owner) : TacticalBattleUnitHexSprite(owner)
+    private sealed class PlacedUnitHexSprite(CustomNode? owner) : TacticalBattleUnitHexSprite(owner)
     {
         public override sbyte HexX => 4;
 
@@ -46,7 +46,7 @@ public sealed class TacticalBattleWallCastTests
     [Fact]
     public void UnitLocationSkipsTheCombatWallAndFindsTheUnit()
     {
-        CombatMap previous = CombatMap.Current;
+        CombatMap? previous = CombatMap.Current;
         CombatMap map = new(null) { Holder = EngineFixture.Engine };
         try
         {

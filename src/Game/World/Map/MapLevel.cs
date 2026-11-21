@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from HSEngine.pas and AoWE.pas.
 using Aow.Engine;
 
@@ -8,7 +8,7 @@ namespace Aow.Game.World.Map;
 
 // A map level owns its fields in row order. The fields are its children.
 // Field size and neighbour offsets keep the recovered layout values.
-public partial class MapLevel(CustomNode owner) : CustomNode(owner), IOwned<MapContainer>, IOwnedSink<MapContainer>
+public partial class MapLevel(CustomNode? owner) : CustomNode(owner), IOwned<MapContainer>, IOwnedSink<MapContainer>
 {
 
     // The container the level belongs to. AcceptsOwner admits only a container, so the cast never
@@ -23,17 +23,17 @@ public partial class MapLevel(CustomNode owner) : CustomNode(owner), IOwned<MapC
     public new const int ClassId = 131_091;
     private int _count;
 
-    protected internal GameEngine Engine { get; private set; }
+    protected internal GameEngine? Engine { get; private set; }
 
     // The index offset in the field array of each hex direction, per row parity. HSEngine.pas
     // stores byte offsets into its raw allocation, the managed array counts fields.
     public int[][] HexNumberOffsets { get; } = [new int[8], new int[8]];
 
     // HSEngine.pas:2925. Before the activation message the level reaches the engine as any node does.
-    public override GameEngine GetEngine() => Engine ?? base.GetEngine();
+    public override GameEngine? GetEngine() => Engine ?? base.GetEngine();
 
     // HSEngine.pas:2913
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         if (message.MessageId == 536870920)
         {
@@ -55,16 +55,16 @@ public partial class MapLevel(CustomNode owner) : CustomNode(owner), IOwned<MapC
     }
 
     // HSEngine.pas:2935
-    public override void SetChild(int index, EngineObject child) => throw new InvalidOperationException("Cannot set child in TMapLevel");
+    public override void SetChild(int index, EngineObject? child) => throw new InvalidOperationException("Cannot set child in TMapLevel");
 
     // HSEngine.pas:2950
     public override int GetCount() => _count;
 
     // HSEngine.pas:2945
-    public override int RemoveChild(EngineObject child) => throw new InvalidOperationException("Cannot remove from TMapLevel");
+    public override int RemoveChild(EngineObject? child) => throw new InvalidOperationException("Cannot remove from TMapLevel");
 
     // HSEngine.pas:2940
-    public override int AddChild(EngineObject child) => throw new InvalidOperationException("Cannot add child to TMapLevel");
+    public override int AddChild(EngineObject? child) => throw new InvalidOperationException("Cannot add child to TMapLevel");
 
     // HSEngine.pas:3140
     public virtual void New(NewHexSpriteMapSettings settings)

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWComboBox.pas.
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
@@ -31,18 +31,18 @@ public sealed partial class ComboBox : Control
     private int _hoverItem;
     private int _priorityBeforeOpen;
     [Published]
-    public event NotifyEvent<ComboBox> DrawItem;
+    public event NotifyEvent<ComboBox>? DrawItem;
     private int _scrollBarWidth;
 
-    private InterfaceImageLibrary _imageLibraryEdit;
-    private InterfaceImageLibrary _imageLibraryFrame;
-    private InterfaceImageLibrary _imageLibraryTextureNormal;
-    private InterfaceImageLibrary _imageLibraryTextureSelected;
+    private InterfaceImageLibrary? _imageLibraryEdit;
+    private InterfaceImageLibrary? _imageLibraryFrame;
+    private InterfaceImageLibrary? _imageLibraryTextureNormal;
+    private InterfaceImageLibrary? _imageLibraryTextureSelected;
 
     [Published]
-    public event NotifyEvent<ComboBox> Open;
+    public event NotifyEvent<ComboBox>? Open;
     [Published]
-    public event NotifyEvent<ComboBox> Close;
+    public event NotifyEvent<ComboBox>? Close;
     private int _ileIndex;
     private int _ilfIndex;
     private int _imageLibraryTnIndex;
@@ -102,12 +102,12 @@ public sealed partial class ComboBox : Control
     public override void SetSize()
     {
         _open = false;
-        LibraryImage imageLibraryEditWidth = _imageLibraryEdit[_ileIndex];
-        LibraryImage imageLibraryEdit = _imageLibraryEdit[_ileIndex + 2];
+        LibraryImage? imageLibraryEditWidth = _imageLibraryEdit[_ileIndex];
+        LibraryImage? imageLibraryEdit = _imageLibraryEdit[_ileIndex + 2];
         if (imageLibraryEditWidth.Width + imageLibraryEdit.Width > WinWidth)
         {
-            LibraryImage imageLibraryEdit2 = _imageLibraryEdit[_ileIndex];
-            LibraryImage imageLibraryEdit3 = _imageLibraryEdit[_ileIndex + 2];
+            LibraryImage? imageLibraryEdit2 = _imageLibraryEdit[_ileIndex];
+            LibraryImage? imageLibraryEdit3 = _imageLibraryEdit[_ileIndex + 2];
             SetWinWidthWithoutInvalidate(imageLibraryEdit2.Width + imageLibraryEdit3.Width);
         }
 
@@ -137,7 +137,7 @@ public sealed partial class ComboBox : Control
             _verticalScrollBar.SetFMax(fItemsCount - 2);
             _verticalScrollBar.SetFPosition(_firstShownItem);
             _verticalScrollBar.SetFNumber(_openListRows - 1);
-            LibraryImage imageLibraryFrame = _imageLibraryFrame[_ilfIndex + 6];
+            LibraryImage? imageLibraryFrame = _imageLibraryFrame[_ilfIndex + 6];
             _verticalScrollBar.WinHeight = imageLibraryFrame.Height + (ItemHeight * _openListRows) + BorderHeight;
             _verticalScrollBar.SetLarge(_openListRows - 1);
             _verticalScrollBar.Visible = _open;
@@ -148,7 +148,7 @@ public sealed partial class ComboBox : Control
 
             _verticalScrollBar.Sized = false;
             _verticalScrollBar.WinLeft = WinLeft + WinWidth - _verticalScrollBar.WinWidth;
-            LibraryImage imageLibraryEditHeight = _imageLibraryEdit[0];
+            LibraryImage? imageLibraryEditHeight = _imageLibraryEdit[0];
             _verticalScrollBar.WinTop = imageLibraryEditHeight.Height + WinTop;
         }
 
@@ -215,25 +215,25 @@ public sealed partial class ComboBox : Control
                 lockedSurface.ClipRectangle = oldClip;
                 if (_open)
                 {
-                    LibraryImage imageLibraryFrameHeight = _imageLibraryFrame[_ilfIndex + 1];
-                    LibraryImage imageLibraryFrame = _imageLibraryFrame[_ilfIndex + 6];
-                    LibraryImage imageLibraryEditHeight = _imageLibraryEdit[_ileIndex];
+                    LibraryImage? imageLibraryFrameHeight = _imageLibraryFrame[_ilfIndex + 1];
+                    LibraryImage? imageLibraryFrame = _imageLibraryFrame[_ilfIndex + 6];
+                    LibraryImage? imageLibraryEditHeight = _imageLibraryEdit[_ileIndex];
                     SizedRectangle rectangle2 = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop + imageLibraryEditHeight.Height, WinWidth, imageLibraryFrameHeight.Height + imageLibraryFrame.Height + (ItemHeight * _openListRows) + ListBorderHeight);
                     _imageLibraryFrame.DrawFrame(_ilfIndex, area: rectangle2, ref lockedSurface);
-                    LibraryImage imageLibraryFrameWidth = _imageLibraryFrame[_ilfIndex + 3];
-                    LibraryImage imageLibraryFrame2 = _imageLibraryFrame[_ilfIndex + 4];
-                    LibraryImage imageLibraryEdit = _imageLibraryEdit[_ileIndex];
-                    LibraryImage imageLibraryFrame3 = _imageLibraryFrame[_ilfIndex + 1];
-                    LibraryImage imageLibraryFrame4 = _imageLibraryFrame[_ilfIndex + 3];
+                    LibraryImage? imageLibraryFrameWidth = _imageLibraryFrame[_ilfIndex + 3];
+                    LibraryImage? imageLibraryFrame2 = _imageLibraryFrame[_ilfIndex + 4];
+                    LibraryImage? imageLibraryEdit = _imageLibraryEdit[_ileIndex];
+                    LibraryImage? imageLibraryFrame3 = _imageLibraryFrame[_ilfIndex + 1];
+                    LibraryImage? imageLibraryFrame4 = _imageLibraryFrame[_ilfIndex + 3];
                     SizedRectangle rectangle3 = new(Window.AbsoluteLeft + WinLeft + imageLibraryFrame4.Width, Window.AbsoluteTop + WinTop + imageLibraryEdit.Height + imageLibraryFrame3.Height, WinWidth - imageLibraryFrameWidth.Width - imageLibraryFrame2.Width, (ItemHeight * _openListRows) + ListBorderHeight);
                     _imageLibraryTextureNormal.DrawTiled(_imageLibraryTnIndex, area: rectangle3, ref lockedSurface);
                     if (_hoverItem >= _firstShownItem && _hoverItem < _openListRows + _firstShownItem)
                     {
-                        LibraryImage imageLibraryFrame5 = _imageLibraryFrame[_ilfIndex + 3];
-                        LibraryImage imageLibraryFrame6 = _imageLibraryFrame[_ilfIndex + 4];
-                        LibraryImage imageLibraryEdit2 = _imageLibraryEdit[_ileIndex];
-                        LibraryImage imageLibraryFrame7 = _imageLibraryFrame[_ilfIndex + 1];
-                        LibraryImage imageLibraryFrame8 = _imageLibraryFrame[_ilfIndex + 3];
+                        LibraryImage? imageLibraryFrame5 = _imageLibraryFrame[_ilfIndex + 3];
+                        LibraryImage? imageLibraryFrame6 = _imageLibraryFrame[_ilfIndex + 4];
+                        LibraryImage? imageLibraryEdit2 = _imageLibraryEdit[_ileIndex];
+                        LibraryImage? imageLibraryFrame7 = _imageLibraryFrame[_ilfIndex + 1];
+                        LibraryImage? imageLibraryFrame8 = _imageLibraryFrame[_ilfIndex + 3];
                         SizedRectangle rectangle4 = new(Window.AbsoluteLeft + WinLeft + imageLibraryFrame8.Width, Window.AbsoluteTop + WinTop + imageLibraryEdit2.Height + imageLibraryFrame7.Height + ((_hoverItem - _firstShownItem) * ItemHeight), WinWidth - imageLibraryFrame5.Width - imageLibraryFrame6.Width, ItemHeight);
                         _imageLibraryTextureSelected.DrawTiled(_imageLibraryTsIndex, area: rectangle4, ref lockedSurface);
                     }
@@ -254,20 +254,20 @@ public sealed partial class ComboBox : Control
                                 Font.Color = SelectedColor;
                             }
 
-                            LibraryImage imageLibraryEdit2 = _imageLibraryEdit[_ileIndex];
-                            LibraryImage imageLibraryFrame5 = _imageLibraryFrame[_ilfIndex + 1];
+                            LibraryImage? imageLibraryEdit2 = _imageLibraryEdit[_ileIndex];
+                            LibraryImage? imageLibraryFrame5 = _imageLibraryFrame[_ilfIndex + 1];
                             string item = _items[_firstShownItem + i];
                             Font.SetText(Window.AbsoluteLeft + WinLeft + ListBorderWidth, Window.AbsoluteTop + WinTop + imageLibraryEdit2.Height + imageLibraryFrame5.Height + ListBorderHeight + (ItemHeight * i), text: item, lockedSurface);
                             if (_firstShownItem + i == _hoverItem)
                             {
                                 Font.Color = Color;
                             }
-                            LibraryImage imageLibraryEdit3 = _imageLibraryEdit[_ileIndex + 1];
-                            LibraryImage imageLibraryFrame6 = _imageLibraryFrame[_ilfIndex + 1];
-                            LibraryImage imageLibraryEdit4 = _imageLibraryEdit[_ileIndex + 1];
-                            LibraryImage imageLibraryFrame7 = _imageLibraryFrame[_ilfIndex + 1];
-                            LibraryImage imageLibraryFrame8 = _imageLibraryFrame[_ilfIndex + 3];
-                            LibraryImage imageLibraryFrame9 = _imageLibraryFrame[_ilfIndex + 3];
+                            LibraryImage? imageLibraryEdit3 = _imageLibraryEdit[_ileIndex + 1];
+                            LibraryImage? imageLibraryFrame6 = _imageLibraryFrame[_ilfIndex + 1];
+                            LibraryImage? imageLibraryEdit4 = _imageLibraryEdit[_ileIndex + 1];
+                            LibraryImage? imageLibraryFrame7 = _imageLibraryFrame[_ilfIndex + 1];
+                            LibraryImage? imageLibraryFrame8 = _imageLibraryFrame[_ilfIndex + 3];
+                            LibraryImage? imageLibraryFrame9 = _imageLibraryFrame[_ilfIndex + 3];
                             DrawItem?.Invoke(this);
                         }
                     }
@@ -294,7 +294,7 @@ public sealed partial class ComboBox : Control
         bool condition = X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1;
         if (condition)
         {
-            LibraryImage imageLibraryEdit = _imageLibraryEdit[_ileIndex];
+            LibraryImage? imageLibraryEdit = _imageLibraryEdit[_ileIndex];
             condition = Y < Window.AbsoluteTop + WinTop + imageLibraryEdit.Height;
         }
 
@@ -333,9 +333,9 @@ public sealed partial class ComboBox : Control
                             _openListRows = _items.Count;
                         }
 
-                        LibraryImage imageLibraryEditHeight = _imageLibraryEdit[_ileIndex];
-                        LibraryImage imageLibraryFrame = _imageLibraryFrame[_ilfIndex + 1];
-                        LibraryImage imageLibraryFrameHeight = _imageLibraryFrame[_ilfIndex + 6];
+                        LibraryImage? imageLibraryEditHeight = _imageLibraryEdit[_ileIndex];
+                        LibraryImage? imageLibraryFrame = _imageLibraryFrame[_ilfIndex + 1];
+                        LibraryImage? imageLibraryFrameHeight = _imageLibraryFrame[_ilfIndex + 6];
                         SetWinHeightWithoutInvalidate(imageLibraryEditHeight.Height + ListBorderHeight + (ItemHeight * _openListRows) + imageLibraryFrame.Height + imageLibraryFrameHeight.Height);
                         if (_items.Count < _firstShownItem + _openListRows)
                         {
@@ -356,7 +356,7 @@ public sealed partial class ComboBox : Control
                             _verticalScrollBar.SetFMax(count - 1);
                             _verticalScrollBar.SetFPosition(_firstShownItem);
                             _verticalScrollBar.SetFNumber(_openListRows);
-                            LibraryImage imageLibraryFrame2 = _imageLibraryFrame[_ilfIndex + 6];
+                            LibraryImage? imageLibraryFrame2 = _imageLibraryFrame[_ilfIndex + 6];
                             _verticalScrollBar.WinHeight = imageLibraryFrame2.Height + (ItemHeight * _openListRows) + BorderHeight;
                             _verticalScrollBar.Visible = true;
                             if (_verticalScrollBar.VanishWhenFull && _items.Count - 1 < _openListRows)
@@ -369,7 +369,7 @@ public sealed partial class ComboBox : Control
                             }
                             _verticalScrollBar.Sized = false;
                             _verticalScrollBar.WinLeft = WinLeft + WinWidth - _verticalScrollBar.WinWidth;
-                            LibraryImage imageLibraryEdit = _imageLibraryEdit[_ileIndex];
+                            LibraryImage? imageLibraryEdit = _imageLibraryEdit[_ileIndex];
                             _verticalScrollBar.WinTop = imageLibraryEdit.Height + WinTop;
                             _verticalScrollBar.Drawn = false;
                         }
@@ -432,7 +432,7 @@ public sealed partial class ComboBox : Control
         bool condition = X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1;
         if (condition)
         {
-            LibraryImage imageLibraryEdit = _imageLibraryEdit[_ileIndex];
+            LibraryImage? imageLibraryEdit = _imageLibraryEdit[_ileIndex];
             condition = Y < Window.AbsoluteTop + WinTop + imageLibraryEdit.Height;
         }
 
@@ -448,7 +448,7 @@ public sealed partial class ComboBox : Control
                 bool test = X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth;
                 if (test)
                 {
-                    LibraryImage imageLibraryEdit = _imageLibraryEdit[_ileIndex];
+                    LibraryImage? imageLibraryEdit = _imageLibraryEdit[_ileIndex];
                     test = Y > Window.AbsoluteTop + WinTop + imageLibraryEdit.Height - 1;
                 }
 
@@ -456,7 +456,7 @@ public sealed partial class ComboBox : Control
                 {
                     if (X < Window.AbsoluteLeft + WinLeft + WinWidth - _scrollBarWidth)
                     {
-                        LibraryImage imageLibraryEdit = _imageLibraryEdit[_ileIndex];
+                        LibraryImage? imageLibraryEdit = _imageLibraryEdit[_ileIndex];
                         int i = ((Y - Window.AbsoluteTop - WinTop - BorderHeight - imageLibraryEdit.Height) / ItemHeight) + _firstShownItem;
                         if (i < _items.Count)
                         {
@@ -500,17 +500,17 @@ public sealed partial class ComboBox : Control
             Handled = true;
             if (_open)
             {
-                LibraryImage imageLibraryEditHeight = _imageLibraryEdit[_ileIndex];
+                LibraryImage? imageLibraryEditHeight = _imageLibraryEdit[_ileIndex];
                 bool condition = Y >= Window.AbsoluteTop + WinTop + BorderHeight + imageLibraryEditHeight.Height;
                 if (condition)
                 {
-                    LibraryImage imageLibraryEdit = _imageLibraryEdit[_ileIndex];
+                    LibraryImage? imageLibraryEdit = _imageLibraryEdit[_ileIndex];
                     condition = Y < Window.AbsoluteTop + WinTop + imageLibraryEdit.Height + BorderHeight + (ItemHeight * _openListRows);
                 }
 
                 if (condition)
                 {
-                    LibraryImage imageLibraryEdit = _imageLibraryEdit[_ileIndex];
+                    LibraryImage? imageLibraryEdit = _imageLibraryEdit[_ileIndex];
                     _hoverItem = ((Y - Window.AbsoluteTop - WinTop - BorderHeight - imageLibraryEdit.Height) / ItemHeight) + _firstShownItem;
                 }
             }
@@ -526,7 +526,7 @@ public sealed partial class ComboBox : Control
     }
 
     // AoWComboBox.pas:211
-    public void SetImageLibraryEdit(InterfaceImageLibrary value)
+    public void SetImageLibraryEdit(InterfaceImageLibrary? value)
     {
         if (value != _imageLibraryEdit)
         {
@@ -546,7 +546,7 @@ public sealed partial class ComboBox : Control
     }
 
     // AoWComboBox.pas:229
-    public void SetImageLibraryFrame(InterfaceImageLibrary value)
+    public void SetImageLibraryFrame(InterfaceImageLibrary? value)
     {
         if (value != _imageLibraryFrame)
         {
@@ -566,7 +566,7 @@ public sealed partial class ComboBox : Control
     }
 
     // AoWComboBox.pas:247
-    public void SetImageLibraryTileNorm(InterfaceImageLibrary value)
+    public void SetImageLibraryTileNorm(InterfaceImageLibrary? value)
     {
         if (value != _imageLibraryTextureNormal)
         {
@@ -586,7 +586,7 @@ public sealed partial class ComboBox : Control
     }
 
     // AoWComboBox.pas:265
-    public void SetImageLibraryTileSelected(InterfaceImageLibrary value)
+    public void SetImageLibraryTileSelected(InterfaceImageLibrary? value)
     {
         if (value != _imageLibraryTextureSelected)
         {
@@ -658,25 +658,25 @@ public sealed partial class ComboBox : Control
     public int PriorityOpened { get; set; }
 
     [Published]
-    public InterfaceImageLibrary ImageLibraryEdit { get => _imageLibraryEdit; set => SetImageLibraryEdit(value); }
+    public InterfaceImageLibrary? ImageLibraryEdit { get => _imageLibraryEdit; set => SetImageLibraryEdit(value); }
 
     [Published]
     public int ILEIndex { get => _ileIndex; set => SetILEIndex(value); }
 
     [Published]
-    public InterfaceImageLibrary ImageLibraryFrame { get => _imageLibraryFrame; set => SetImageLibraryFrame(value); }
+    public InterfaceImageLibrary? ImageLibraryFrame { get => _imageLibraryFrame; set => SetImageLibraryFrame(value); }
 
     [Published]
     public int ILFIndex { get => _ilfIndex; set => SetILFIndex(value); }
 
     [Published]
-    public InterfaceImageLibrary ImageLibraryTextureNormal { get => _imageLibraryTextureNormal; set => SetImageLibraryTileNorm(value); }
+    public InterfaceImageLibrary? ImageLibraryTextureNormal { get => _imageLibraryTextureNormal; set => SetImageLibraryTileNorm(value); }
 
     [Published]
     public int ImageLibraryTnIndex { get => _imageLibraryTnIndex; set => SetImageLibraryTnIndex(value); }
 
     [Published]
-    public InterfaceImageLibrary ImageLibraryTextureSelected { get => _imageLibraryTextureSelected; set => SetImageLibraryTileSelected(value); }
+    public InterfaceImageLibrary? ImageLibraryTextureSelected { get => _imageLibraryTextureSelected; set => SetImageLibraryTileSelected(value); }
 
     [Published]
     public int ImageLibraryTsIndex { get => _imageLibraryTsIndex; set => SetImageLibraryTsIndex(value); }

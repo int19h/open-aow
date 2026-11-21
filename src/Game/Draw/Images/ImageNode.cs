@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from ImageLib.pas.
 using Aow.Rtl;
 using static Aow.Rtl.DelphiMemory;
@@ -12,7 +12,7 @@ public sealed class ImageNode : LibraryImage, ILibraryImageClass
 
     static LibraryImage ILibraryImageClass.CreateInstance(CustomImageLibrary owner) => new ImageNode(owner);
 
-    internal LibraryImage[] Images { get; private set; }
+    internal LibraryImage[]? Images { get; private set; }
     internal int Capacity { get; private set; }
 
     // ImageLib.pas:1313
@@ -42,7 +42,7 @@ public sealed class ImageNode : LibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:1286
-    public ImageNode(CustomImageLibrary owner) : base(owner) => FileName = "(multi images)";
+    public ImageNode(CustomImageLibrary? owner) : base(owner) => FileName = "(multi images)";
 
     // ImageLib.pas:1292
     public override void Dispose()
@@ -58,7 +58,7 @@ public sealed class ImageNode : LibraryImage, ILibraryImageClass
     public LibraryImage GetImage(int index) => Images[index];
 
     // ImageLib.pas:1335
-    public LibraryImage GetSafeImage(int index) => index >= 0 && index < Count ? Images[index] : null;
+    public LibraryImage? GetSafeImage(int index) => index >= 0 && index < Count ? Images[index] : null;
 
     // ImageLib.pas:1343
     public void UpdateDimensions()
@@ -198,7 +198,7 @@ public sealed class ImageNode : LibraryImage, ILibraryImageClass
     public override void LoadFromStream(Stream stream)
     {
         Clear();
-        LibraryImage image = ImageStreams.ReadImageFromStream(stream, Owner);
+        LibraryImage? image = ImageStreams.ReadImageFromStream(stream, Owner);
         while (image is not null)
         {
             _ = Add(image);
@@ -209,7 +209,7 @@ public sealed class ImageNode : LibraryImage, ILibraryImageClass
     // ImageLib.pas:1437
     public override void LoadFromStream(Stream stream, Stream dataStream)
     {
-        LibraryImage image = ImageStreams.ReadImageFromStream(stream, dataStream, Owner);
+        LibraryImage? image = ImageStreams.ReadImageFromStream(stream, dataStream, Owner);
         while (image is not null)
         {
             _ = Add(image);
@@ -239,7 +239,7 @@ public sealed class ImageNode : LibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:1465
-    public override void SetOwner(CustomImageLibrary owner)
+    public override void SetOwner(CustomImageLibrary? owner)
     {
         for (int i = 0, last = Count - 1; i <= last; i++)
         {

@@ -1,3 +1,4 @@
+#nullable disable warnings // Enabled before the stage 1 annotations of issue 315.
 using Aow.Game.Combat;
 using Aow.Game.Commands;
 using Aow.Game.Magic;

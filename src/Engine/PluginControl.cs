@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Engine.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -41,7 +41,7 @@ public sealed class PluginControl : EngineObject
     }
 
     // Engine.pas:9252
-    public PluginControl(CustomNode owner) : base(owner)
+    public PluginControl(CustomNode? owner) : base(owner)
     {
         _usedPlugins = new DelphiStringList
         {
@@ -60,7 +60,7 @@ public sealed class PluginControl : EngineObject
     }
 
     // Engine.pas:9269. Before the engine is set the control reaches it as any node does.
-    public override GameEngine GetEngine() => Engine ?? base.GetEngine();
+    public override GameEngine? GetEngine() => Engine ?? base.GetEngine();
 
     // Engine.pas:9274
     public override ControlStyles GetControlStyle() => EngineServices.Stored | EngineServices.Shared;
@@ -77,5 +77,5 @@ public sealed class PluginControl : EngineObject
         }
     }
 
-    public GameEngine Engine { get; set; }
+    public GameEngine? Engine { get; set; }
 }

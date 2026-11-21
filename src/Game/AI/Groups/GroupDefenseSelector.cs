@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Buffers;
 using Aow.Engine.Nodes;
@@ -44,7 +44,7 @@ public sealed class GroupDefenseSelector : IDisposable
         bool result = false;
         MapCoordinate location = new(X, Y, L);
         DefensePriority priority = (DefensePriority)StrategicMap.Current.MapContainer.GetField(X, Y, L).GetDefensePriority();
-        Player p = StrategicMap.Current.Players.GetPlayers(player);
+        Player? p = StrategicMap.Current.Players.GetPlayers(player);
         for (int i = p.AIGroups.Count - 1; i >= 0; i--)
         {
             AIGroup group = p.AIGroups.GetGroups(i);
@@ -76,7 +76,7 @@ public sealed class GroupDefenseSelector : IDisposable
     }
 
     // AIGroup.pas:1687
-    public bool UsefulUnit(Troop troop, ReadOnlySpan<int> strengths)
+    public bool UsefulUnit(Troop? troop, ReadOnlySpan<int> strengths)
     {
         bool result = default;
         for (int damageTypeOrdinal = (int)DamageType.Fire; damageTypeOrdinal <= (int)DamageType.NonSpecific; damageTypeOrdinal++)
@@ -103,7 +103,7 @@ public sealed class GroupDefenseSelector : IDisposable
     }
 
     // AIGroup.pas:1728
-    public bool Execute(AIGroup group, sbyte X, sbyte Y, sbyte L, UnitUserList units)
+    public bool Execute(AIGroup group, sbyte X, sbyte Y, sbyte L, UnitUserList? units)
     {
         DefenseRequirements strengths = default;
         Defenders.Clear();
@@ -128,7 +128,7 @@ public sealed class GroupDefenseSelector : IDisposable
                     s_defenseSortUnits = units;
                     candidates.SortChildren<Troop>(CompareDefenseUnits);
                     i = 0;
-                    Troop troop;
+                    Troop? troop;
                     DamageType damageType;
                     while (candidates.Count != i && candidates.GetUnit(i).GroupId != group.GroupId)
                     {
@@ -201,7 +201,7 @@ public sealed class GroupDefenseSelector : IDisposable
             while (result && i != 0)
             {
                 i -= 1;
-                Troop unit = units.GetUnit(i);
+                Troop? unit = units.GetUnit(i);
                 if (Defenders.IndexOf(unit) != -1)
                 {
                     result = false;
@@ -218,7 +218,7 @@ public sealed class GroupDefenseSelector : IDisposable
     }
 
     private static int s_defenseSortGroupId;
-    private static UnitUserList s_defenseSortUnits;
+    private static UnitUserList? s_defenseSortUnits;
 
     private static int CompareDefenseUnits(Troop item1, Troop item2)
     {

@@ -1,12 +1,12 @@
-#nullable disable
+#nullable disable warnings
 namespace Aow.Game.Draw.Images;
 
 public partial class CustomImageLibrary
 {
     // ImageLib.pas:9890 uses Result as a temporary integer reference index.
-    public LibraryImage Get(int index)
+    public LibraryImage? Get(int index)
     {
-        LibraryImage image = Images[index].Image;
+        LibraryImage? image = Images[index].Image;
         if (image is not null)
         {
             return image;
@@ -16,14 +16,14 @@ public partial class CustomImageLibrary
         return reference == -1 ? null : Images[reference].Image;
     }
 
-    public LibraryImage GetSafe(int index)
+    public LibraryImage? GetSafe(int index)
     {
         if (index < 0 || index >= _count)
         {
             return null;
         }
 
-        LibraryImage image = Images[index].Image;
+        LibraryImage? image = Images[index].Image;
         if (image is not null)
         {
             return image;

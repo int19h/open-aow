@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 
 using Aow.Engine.Nodes;
@@ -24,7 +24,7 @@ namespace Aow.Game.AI.Groups;
 public class AIGroupProductionControl : AIGroupTask
 {
     // AIGroup.pas:2440
-    public AIGroupProductionControl(CustomNode owner) : base(owner)
+    public AIGroupProductionControl(CustomNode? owner) : base(owner)
     {
         Productions = new AIGroupUnitProductionList(null) { Holder = CreationHolder() };
         _producibleUnits = new AIGroupUnitProductionList(null) { Holder = CreationHolder() };
@@ -40,9 +40,9 @@ public class AIGroupProductionControl : AIGroupTask
     private int _goldUpkeep;
     private int _manaUpkeep;
 
-    public AIGroupUnitProductionList Productions { get; private set; }
+    public AIGroupUnitProductionList? Productions { get; private set; }
 
-    private AIGroupUnitProductionList _producibleUnits;
+    private AIGroupUnitProductionList? _producibleUnits;
     private readonly int[] _remainingStrengths = new int[10];
     private int _remainingStrength;
 
@@ -437,13 +437,13 @@ public class AIGroupProductionControl : AIGroupTask
                         int unitProductionGold = location.ProductionControl.UnitProductionGold(i);
                         if (StrategicMap.Current.Players.GetPlayers(_control.Group.Player).AIBudget.RequestProductionExpense(unitProductionGold + _gold, goldUpkeep: unitProductionGoldUpkeep + _goldUpkeep, mana: unitProductionMana + _mana, manaUpkeep: unitProductionManaUpkeep + _manaUpkeep))
                         {
-                            UnitProduction unitProduction = location.ProductionControl.UnitProductions.GetItem(i);
+                            UnitProduction? unitProduction = location.ProductionControl.UnitProductions.GetItem(i);
                             testUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex));
                             priority = UnitProductionPriority(testUnit);
                             if (priority != -1)
                             {
                                 newUnit = new Unit(null) { Holder = CreationHolder() };
-                                UnitProduction fUnitProductionsItem = location.ProductionControl.UnitProductions.GetItem(i);
+                                UnitProduction? fUnitProductionsItem = location.ProductionControl.UnitProductions.GetItem(i);
                                 newUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(fUnitProductionsItem.UnitIndex));
                                 production = new AIGroupUnitProduction(null) { Holder = CreationHolder() };
                                 production.SetU(newUnit);
@@ -470,13 +470,13 @@ public class AIGroupProductionControl : AIGroupTask
                             int unitResearchGold = location.ProductionControl.UnitResearchGold(i);
                             if (StrategicMap.Current.Players.GetPlayers(_control.Group.Player).AIBudget.RequestProductionExpense(unitResearchGold + _gold, _goldUpkeep, mana: unitResearchMana + _mana, _manaUpkeep))
                             {
-                                UnitProduction item = location.ProductionControl.UnitProductions.GetItem(i);
+                                UnitProduction? item = location.ProductionControl.UnitProductions.GetItem(i);
                                 testUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(item.UnitIndex));
                                 priority = UnitProductionPriority(testUnit);
                                 if (priority != -1)
                                 {
                                     newUnit = new Unit(null) { Holder = CreationHolder() };
-                                    UnitProduction fUnitProductionsItem = location.ProductionControl.UnitProductions.GetItem(i);
+                                    UnitProduction? fUnitProductionsItem = location.ProductionControl.UnitProductions.GetItem(i);
                                     newUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(fUnitProductionsItem.UnitIndex));
                                     production = new AIGroupUnitProduction(null) { Holder = CreationHolder() };
                                     production.SetU(newUnit);

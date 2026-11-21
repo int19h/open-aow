@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Crops.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Draw;
@@ -13,16 +13,16 @@ using Aow.Game.World.Structures;
 namespace Aow.Game.World.Terrain;
 
 // CropOwner
-public class Crop(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
+public class Crop(CustomNode? owner) : ImageLibraryTerrainMapObject(owner)
 {
 
     // Crops.pas:119
     public new const int ClassId = 131_946;
 
-    public PlayerCropStructure CropOwner { get; private set; }
+    public PlayerCropStructure? CropOwner { get; private set; }
 
     // Crops.pas:151
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
         if (message.MessageId == 537001991)
@@ -45,7 +45,7 @@ public class Crop(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
             {
                 TerrainType = info.TerrainType;
                 ImageIndex = GetTerrainTypeImage(info.TerrainType);
-                HexSprite hexSprite = info.MapField.GetMaxLevelNoneTransparentHexSprite();
+                HexSprite? hexSprite = info.MapField.GetMaxLevelNoneTransparentHexSprite();
                 if ((hexSprite is not null && hexSprite.Level > Level && hexSprite is not AbstractRoad) || (info.OverlayType is >= 0 and not 4))
                 {
                     Dispose();
@@ -103,7 +103,7 @@ public class Crop(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
         MapField field = mapContainer.GetField(hexX, hexY, hexLevel);
-        HexSprite hexSprite = field.GetMaxLevelNoneTransparentHexSprite();
+        HexSprite? hexSprite = field.GetMaxLevelNoneTransparentHexSprite();
         return field.FindOwnedHexSprite(typeof(Fire)) is null && (hexSprite is null || hexSprite.Level < 10 || hexSprite is AbstractRoad);
     }
 
@@ -120,7 +120,7 @@ public class Crop(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     }
 
     // Crops.pas:122
-    public void SetCropOwner(PlayerCropStructure value)
+    public void SetCropOwner(PlayerCropStructure? value)
     {
         CropOwner = value;
         UpdateSettings();
@@ -155,7 +155,7 @@ public class Crop(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     // Crops.pas:163
     public void LinkToCropOwner()
     {
-        PlayerCropStructure found = null;
+        PlayerCropStructure? found = null;
         MapLevel mapLevel = Owner.Owner;
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, StoredHexX, StoredHexY, radius: 1);
         while (walk.Radius <= 1 && found is null)
@@ -184,7 +184,7 @@ public class Crop(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         public override void SetLevel(byte value) => base.SetLevel(5);
 
         // Crops.pas:257
-        public Crop PlaceCrop(sbyte X, sbyte Y, sbyte L, PlayerCropStructure cropOwner)
+        public Crop? PlaceCrop(sbyte X, sbyte Y, sbyte L, PlayerCropStructure cropOwner)
         {
             Crop result = new(null) { Holder = CreationHolder() };
             result.SetResource(this);

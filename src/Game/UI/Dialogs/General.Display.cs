@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using Aow.Game.Draw;
 using Aow.Game.Host;
 using Aow.Game.UI.Windows;
@@ -46,7 +46,7 @@ public sealed partial class General
         progress.StatusLabel.Text = message;
         progress.ProgressBar.Position = progression;
         progress.Window.SurfaceValid = false;
-        Display display = GameHost.MainForm?.Display;
+        Display? display = GameHost.MainForm?.Display;
         if (display?.ActiveDisplayController is { } displayController)
         {
             Manager.DrawSurface(displayController.GetSurface(1));

@@ -1,13 +1,13 @@
 // Layout translated from recovered Delphi forms.
-#nullable disable
+#nullable disable warnings
 using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
 public sealed partial class CityScreen
 {
-    public event NotifyEvent<CityScreen> LayoutOnCreate;
-    public event NotifyEvent<CityScreen> LayoutOnDestroy;
+    public event NotifyEvent<CityScreen>? LayoutOnCreate;
+    public event NotifyEvent<CityScreen>? LayoutOnDestroy;
 
     public override void Dispose()
     {

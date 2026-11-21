@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from GFXE.pas.
 using Aow.Rtl;
 using static Aow.Rtl.DelphiRounding;
@@ -29,7 +29,7 @@ public class BlendTable
     // The bytes of the table in one span, as the blenders read them.
     public ReadOnlySpan<byte> Bytes => Table;
 
-    internal static void GenerateAlphaBlendTable(BlendTable table, float alpha)
+    internal static void GenerateAlphaBlendTable(BlendTable? table, float alpha)
     {
         if (table is BlendTable5Bit fiveBit)
         {
@@ -47,7 +47,7 @@ public class BlendTable
         }
     }
 
-    internal static void GenerateIntensityBlendTable(BlendTable table, float intensity)
+    internal static void GenerateIntensityBlendTable(BlendTable? table, float intensity)
     {
         if (table is BlendTable5Bit fiveBit)
         {
@@ -69,7 +69,7 @@ public class BlendTable
         }
     }
 
-    internal static void GenerateShadowBlendTable(BlendTable table, float shadow)
+    internal static void GenerateShadowBlendTable(BlendTable? table, float shadow)
     {
         if (table is BlendTable5Bit fiveBit)
         {
@@ -95,7 +95,7 @@ public class BlendTable
         }
     }
 
-    internal static void GenerateBrightenBlendTable(BlendTable table, float brighten)
+    internal static void GenerateBrightenBlendTable(BlendTable? table, float brighten)
     {
         if (table is BlendTable5Bit fiveBit)
         {
@@ -115,7 +115,7 @@ public class BlendTable
         }
     }
 
-    internal static void GenerateLinearAlphaBlendTable(BlendTable table, float alpha)
+    internal static void GenerateLinearAlphaBlendTable(BlendTable? table, float alpha)
     {
         if (table is BlendTable5Bit fiveBit)
         {

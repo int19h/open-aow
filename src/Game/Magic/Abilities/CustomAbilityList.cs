@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using System.Globalization;
 using Aow.Engine.Nodes;
@@ -16,7 +16,7 @@ using static Aow.Rtl.IntegerObjects;
 namespace Aow.Game.Magic.Abilities;
 
 // ability-bit buffer, bit count
-public class CustomAbilityList(CustomNode owner) : EngineObject(owner)
+public class CustomAbilityList(CustomNode? owner) : EngineObject(owner)
 {
     public byte[] AbilityBits { get; internal set; } = [];
 
@@ -74,7 +74,7 @@ public class CustomAbilityList(CustomNode owner) : EngineObject(owner)
         {
             if (GetAbilitySetAt(i))
             {
-                Ability ability = GamePack.Current.AbilityControl[i];
+                Ability? ability = GamePack.Current.AbilityControl[i];
                 if ((ability.SelectionTypes & types) != AbilitySelectionTypes.None)
                 {
                     _ = text.AddObject(ability.GetName(null), item: IntToObject(i));

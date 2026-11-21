@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 
 using System.Diagnostics.CodeAnalysis;
@@ -16,14 +16,14 @@ namespace Aow.Game.AI.Groups;
 public sealed class AIMoveControl : EngineObject
 {
     // AIGroup.pas:3911
-    public AIMoveControl(CustomNode owner) : base(owner)
+    public AIMoveControl(CustomNode? owner) : base(owner)
     {
         _pathSettings = new MoveControlSettings(null) { Holder = CreationHolder() };
         Clear();
     }
 
     public AIMoveControlStatus Status { get; private set; }
-    public AIMoveControlSettings Settings { get; private set; }
+    public AIMoveControlSettings? Settings { get; private set; }
 
     [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Construction snapshots record this field, and the Delphi field is only written.")]
     private int _processCycles;
@@ -45,7 +45,7 @@ public sealed class AIMoveControl : EngineObject
     // AIGroup.pas:3925
     public override void Clear()
     {
-        AIMoveControlSettings settings = Settings;
+        AIMoveControlSettings? settings = Settings;
         if (settings is not null)
         {
             _ = settings.Release();
@@ -329,7 +329,7 @@ public sealed class AIMoveControl : EngineObject
     // AIGroup.pas:4128
     public void Initialize(AIMoveControlSettings settings)
     {
-        AIMoveControlSettings oldSettings = Settings;
+        AIMoveControlSettings? oldSettings = Settings;
         _ = (oldSettings?.Release());
 
         Settings = settings;
@@ -343,7 +343,7 @@ public sealed class AIMoveControl : EngineObject
             Settings.ArrivalPoint = Settings.ArrivalPoint with { X = -1 };
             Settings.Status = AIMoveControlStatus.Processing;
             _movePointTable = Settings.MovePointTable;
-            Troop transporter = Settings.Transporter;
+            Troop? transporter = Settings.Transporter;
             if (transporter is not null)
             {
                 int moveTypesToInt32 = (byte)transporter.GetMoveTypes();
@@ -389,7 +389,7 @@ public sealed class AIMoveControl : EngineObject
         else
         {
             _mode = AIMoveControlMode.TransporterCanMove;
-            ArmyHexSprite armyHexSprite = Settings.Transporter.ArmyOwner?.GetArmyHexSprite();
+            ArmyHexSprite? armyHexSprite = Settings.Transporter.ArmyOwner?.GetArmyHexSprite();
             _pathSettings.TransporterArmy = armyHexSprite;
             if (Settings.Source.MapLevel == Settings.Destination.MapLevel)
             {

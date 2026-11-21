@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
@@ -45,7 +45,7 @@ public class StructureConstructionControl(CustomNode owner) : ConstructionContro
     public virtual bool ValidateLocation(Troop troop, ref string reason)
     {
         bool result = true;
-        StructureResource resource = StructureResource(troop);
+        StructureResource? resource = StructureResource(troop);
         MapCoordinate coordinate39 = troop.GetLocation();
         sbyte x = coordinate39.X;
         sbyte y = coordinate39.Y;
@@ -82,7 +82,7 @@ public class StructureConstructionControl(CustomNode owner) : ConstructionContro
     }
 
     // Structur.PAS:3158
-    public virtual StructureResource StructureResource(Troop troop) => null;
+    public virtual StructureResource? StructureResource(Troop troop) => null;
 
     private static readonly string s_cannotBuildOnCurrentLocationText = "Cannot build on current location";
 }

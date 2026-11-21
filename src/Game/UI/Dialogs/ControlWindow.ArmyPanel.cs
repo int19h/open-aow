@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using System.Globalization;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Controls;
@@ -28,7 +28,7 @@ public sealed partial class ControlWindow
             frames[i].ImageLibraryIndexFrame = 12;
         }
         PartyActionLabel1.Visible = PartyActionLabel2.Visible = false;
-        Army army = UI.General.UnitList;
+        Army? army = UI.General.UnitList;
         bool readOnly = army.Player != StrategicMap.Current.SeatedPlayer;
         if (army.Player == 0)
         {
@@ -80,7 +80,7 @@ public sealed partial class ControlWindow
 
             byte selection = (byte)(1 << index);
             icons[i].CurrentImage = UI.General.MoveTypesToInt32(army.MoveTypes(selection));
-            Troop troop = army.Units.GetUnit(index);
+            Troop? troop = army.Units.GetUnit(index);
             gauges[i].Max = troop.GetHits();
             gauges[i].Position = troop.GetHitPoints();
             checks[i].Text = UnitMoveText(army.MovePoints(selection));

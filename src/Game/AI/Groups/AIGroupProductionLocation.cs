@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
@@ -9,7 +9,7 @@ using Aow.Game.World.Structures;
 namespace Aow.Game.AI.Groups;
 
 // references, production control, location, moves, transporter, path strength
-public sealed class AIGroupProductionLocation(CustomNode owner) : EngineObject(owner), IOwned<AIGroupProductionLocationList>, IOwnedSink<AIGroupProductionLocationList>
+public sealed class AIGroupProductionLocation(CustomNode? owner) : EngineObject(owner), IOwned<AIGroupProductionLocationList>, IOwnedSink<AIGroupProductionLocationList>
 {
     // A reference list holds the location and owns it only while the list saves or loads it, and
     // nothing else owns it. AcceptsOwner admits only that list.

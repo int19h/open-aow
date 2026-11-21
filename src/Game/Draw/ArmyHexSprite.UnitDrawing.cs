@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 
 using Aow.Game.Draw.Images;
 using Aow.Game.Host;
@@ -23,7 +23,7 @@ public partial class ArmyHexSprite
             HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
             pixelXSurface = pixelX - pixelXSurface;
             pixelYSurface = pixelY - pixelYSurface;
-            ImageSequence sequence;
+            ImageSequence? sequence;
             if (MoveStep != -1)
             {
                 int deltaX = default;
@@ -193,7 +193,7 @@ public partial class ArmyHexSprite
                 }
             }
 
-            ImageSequence sequence = Direction == 0
+            ImageSequence? sequence = Direction == 0
                 ? UnitGraphicsResource.Sequences.GetImageSequence(27)
                 : UnitGraphicsResource.Sequences.GetImageSequence(Direction + 23);
 
@@ -210,7 +210,7 @@ public partial class ArmyHexSprite
     {
         if (MoveStep != -1 && (Status & 0b1000) == 0)
         {
-            ImageSequence sequence = Direction == 0 ? UnitGraphicsResource.Sequences.List[9] : UnitGraphicsResource.Sequences.List[Direction + 5];
+            ImageSequence? sequence = Direction == 0 ? UnitGraphicsResource.Sequences.List[9] : UnitGraphicsResource.Sequences.List[Direction + 5];
 
             if (sequence is not null)
             {

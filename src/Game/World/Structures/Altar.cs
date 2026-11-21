@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Altar.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -24,7 +24,7 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
     // Altar.pas:59
     public new const int ClassId = 132_081;
 
-    private Storm _storm;
+    private Storm? _storm;
 
     public AltarMode Mode { get; set; }
     public byte RechargeDays { get; private set; }
@@ -66,7 +66,7 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
             if (executor.ExecuteCount == 0 && CanTarget(ref reason))
             {
                 _storm = CreateStorm();
-                Player player = StrategicMap.Current.Players.GetPlayers(Player);
+                Player? player = StrategicMap.Current.Players.GetPlayers(Player);
                 int targetMana = TargetMana();
                 StrategicMap.Current.Players.GetPlayers(Player).MagicControl.SetMana(player.MagicControl.Mana - targetMana);
                 RechargeDays = 0;
@@ -126,7 +126,7 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
     {
         if (player == Player && (phase is 1 or 2))
         {
-            Storm storm = CreateStorm();
+            Storm? storm = CreateStorm();
             sbyte hexLevel = HexLevel;
             sbyte hexY = HexY;
             if (storm.GetBestTarget(player, HexX, hexY, L: hexLevel, range: 12, out MapCoordinate target, info: out StormDamageInfo damage))
@@ -134,7 +134,7 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
                 int value = damage.EnemyDamage - damage.FriendlyDamage;
                 if (value > TargetMana() * 0.75)
                 {
-                    Player playerAIBudget = StrategicMap.Current.Players.GetPlayers(player);
+                    Player? playerAIBudget = StrategicMap.Current.Players.GetPlayers(player);
                     int targetMana = TargetMana();
                     if (StrategicMap.Current.Players.GetPlayers(player).AIBudget.RequestBudgetExpense(0, mana: targetMana, budget: playerAIBudget.AIBudget.DefaultBudget, usePool: true))
                     {
@@ -153,7 +153,7 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
                         {
                             if (StormTargetSelected(target.X, target.Y, L: target.MapLevel))
                             {
-                                Player playerLocal = StrategicMap.Current.Players.GetPlayers(player);
+                                Player? playerLocal = StrategicMap.Current.Players.GetPlayers(player);
                                 int targetMana2 = TargetMana();
                                 _ = StrategicMap.Current.Players.GetPlayers(player).AIBudget.BudgetExpenseMade(0, mana: targetMana2, budget: playerLocal.AIBudget.DefaultBudget, mode: AIBudgetManager.ExpenseMode.PoolThenBudget);
                             }
@@ -185,7 +185,7 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
     public override int DefaultAITargetPriority => (RechargeDays * 10) + 10;
 
     // Altar.pas:62
-    public virtual Storm CreateStorm() => null;
+    public virtual Storm? CreateStorm() => null;
 
     // Altar.pas:110
     public virtual bool StormTargetSelected(sbyte X, sbyte Y, sbyte L)

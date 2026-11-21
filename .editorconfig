@@ -403,3 +403,14 @@ dotnet_diagnostic.IDE0080.severity = none
 # AOW0002. A test builds enum values from numbers on purpose, out-of-range ones included.
 [{src/*.Tests/*.cs,src/*.Tests/**/*.cs}]
 dotnet_diagnostic.AOW0002.severity = none
+
+# Begin of the stage 1 block of issue 315, written by tools/rewrite/nullable.
+# IDE0370. These files carry #nullable disable warnings after the annotations of stage 1, so a
+# null-forgiving operator in them reads as unnecessary. Stage 2 removes each file with its directive.
+[src/Aow/{FrameDiagnostics.cs,FrameFixture.cs,FrameVerification.cs}]
+dotnet_diagnostic.IDE0370.severity = none
+[src/Game.Tests/{ArmySpriteConstructionTests.cs,ClassFamilyTests.cs,CombatDataTests.cs,CombatMapConstructionTests.cs,CombatUnitSelectionConstructionTests.cs,ControlStyleConstructionTests.cs,EngineFixture.cs,EngineLeafConstructionTests.cs,EngineStartupTests.cs,EventLogConstructionTests.cs,EventLogViewTests.cs,GameSwitchTests.cs,GraphicsArrayTests.cs,GraphicsConstructionTests.cs,ImageClassTests.cs,ImageDecodeTests.cs,LeftoverConstructionTests.cs,MapNetSoundConstructionTests.cs,MapNetSoundDispatchTests.cs,MapViewerCenteringTests.cs,ObjectLifetimeTests.cs,ObservableNodeTests.cs,OfflineStubTests.cs,OrderingRecording.cs,PersistEquivalenceTests.Units.cs,PersistEquivalenceTests.cs,RemainingConstructionTests.cs,RuleConstructionTests.AoWERuleConstructionTests.cs,RuleConstructionTests.UnitConstructionTests.cs,ShowInfoTests.cs,SmallClassTargetTests.cs,SpellConstructionTests.SpellConstructionTests.cs,StoredNameBindingTests.cs,StructureBorderTests.cs,SweepConstructionTests.cs,SweepFailureFixture.cs,TypedEventTests.cs,UIConstructionTests.cs,UncheckedOwnerCastTests.cs}]
+dotnet_diagnostic.IDE0370.severity = none
+[src/Platform/SdlSoundSystem.cs]
+dotnet_diagnostic.IDE0370.severity = none
+# End of the stage 1 block of issue 315.

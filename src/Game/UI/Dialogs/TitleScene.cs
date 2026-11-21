@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWTitleScene.pas.
 using Aow.Formats;
 
@@ -176,37 +176,37 @@ public sealed partial class TitleScene(UIContext ui) : UIModule(ui)
                 case 0:
                     if (TitleSceneImages[4] is not null)
                     {
-                        LibraryImage titleSceneImageLibraryHeight = TitleSceneImages[4];
-                        LibraryImage titleSceneImageLibraryWidth = TitleSceneImages[4];
+                        LibraryImage? titleSceneImageLibraryHeight = TitleSceneImages[4];
+                        LibraryImage? titleSceneImageLibraryWidth = TitleSceneImages[4];
                         TitleSceneImages[4].Show(x - 75 - (titleSceneImageLibraryWidth.Width / 2), y - (titleSceneImageLibraryHeight.Height / 2), lockedSurface: surface);
                     }
 
                     if (TitleSceneImages[5] is not null)
                     {
-                        LibraryImage titleSceneImageLibraryHeight = TitleSceneImages[5];
-                        LibraryImage titleSceneImageLibraryWidth = TitleSceneImages[5];
+                        LibraryImage? titleSceneImageLibraryHeight = TitleSceneImages[5];
+                        LibraryImage? titleSceneImageLibraryWidth = TitleSceneImages[5];
                         TitleSceneImages[5].Show(x + 75 - (titleSceneImageLibraryWidth.Width / 2), y - (titleSceneImageLibraryHeight.Height / 2), lockedSurface: surface);
                     }
 
                     break;
                 case 1:
                     string northAmerica = UI.Engine.TranslateResourceString(s_northAmericaText);
-                    LibraryImage titleSceneImageLibrary = TitleSceneImages[6];
+                    LibraryImage? titleSceneImageLibrary = TitleSceneImages[6];
                     _creditsFont.SetTextCentered(x - 75, y - (titleSceneImageLibrary.Height / 2) - 20, text: northAmerica, lockedSurface: surface);
                     string europe = UI.Engine.TranslateResourceString(s_europeText);
-                    LibraryImage titleSceneImageLibrary2 = TitleSceneImages[6];
+                    LibraryImage? titleSceneImageLibrary2 = TitleSceneImages[6];
                     _creditsFont.SetTextCentered(x + 75 + 15, y - (titleSceneImageLibrary2.Height / 2) - 20, text: europe, lockedSurface: surface);
                     if (TitleSceneImages[6] is not null)
                     {
-                        LibraryImage titleSceneImageLibraryHeight = TitleSceneImages[6];
-                        LibraryImage titleSceneImageLibraryWidth = TitleSceneImages[6];
+                        LibraryImage? titleSceneImageLibraryHeight = TitleSceneImages[6];
+                        LibraryImage? titleSceneImageLibraryWidth = TitleSceneImages[6];
                         TitleSceneImages[6].Show(x - 75 - (titleSceneImageLibraryWidth.Width / 2), y - (titleSceneImageLibraryHeight.Height / 2) + 20, lockedSurface: surface);
                     }
 
                     if (TitleSceneImages[2] is not null)
                     {
-                        LibraryImage titleSceneImageLibraryHeight = TitleSceneImages[2];
-                        LibraryImage titleSceneImageLibraryWidth = TitleSceneImages[2];
+                        LibraryImage? titleSceneImageLibraryHeight = TitleSceneImages[2];
+                        LibraryImage? titleSceneImageLibraryWidth = TitleSceneImages[2];
                         TitleSceneImages[2].Show(x + 75 + 15 - (titleSceneImageLibraryWidth.Width / 2), y - (titleSceneImageLibraryHeight.Height / 2) + 20, lockedSurface: surface);
                     }
 
@@ -253,7 +253,7 @@ public sealed partial class TitleScene(UIContext ui) : UIModule(ui)
         if (_redrawBackground)
         {
             r = _sceneRectangle;
-            LibraryImage titleSceneImageLibrary = TitleSceneImages[0];
+            LibraryImage? titleSceneImageLibrary = TitleSceneImages[0];
             r.Top += titleSceneImageLibrary.Height;
             _ = PixelFormats.ColorFillSurfaceDescription(r, color: 0, lockedSurface: surface);
         }
@@ -267,14 +267,14 @@ public sealed partial class TitleScene(UIContext ui) : UIModule(ui)
 
         frame = -((frame + 490) % TitleSceneImages[0].Width);
         TitleSceneImages[0].Show(frame, y, lockedSurface: surface);
-        LibraryImage titleSceneImageLibraryWidth = TitleSceneImages[0];
+        LibraryImage? titleSceneImageLibraryWidth = TitleSceneImages[0];
         TitleSceneImages[0].Show(frame + titleSceneImageLibraryWidth.Width, y, lockedSurface: surface);
         int x;
         if (!_showCredits && _frame > 25)
         {
             frame = _frame < 75 ? (_frame - 25) * 2 : _totalFrame <= 730 ? 100 : (750 - _totalFrame) * 5;
 
-            LibraryImage titleSceneImageLibrary = TitleSceneImages[1];
+            LibraryImage? titleSceneImageLibrary = TitleSceneImages[1];
             x = (_sceneRectangle.Right - _sceneRectangle.Left - titleSceneImageLibrary.Width) / 2;
             if (frame < 100)
             {
@@ -298,7 +298,7 @@ public sealed partial class TitleScene(UIContext ui) : UIModule(ui)
             {
                 _font.Color = 0xFF_FF_FF;
                 string translatedText = UI.Engine.TranslateResourceString(TitleCaptions.TitleButtons[i]);
-                LibraryImage titleSceneImageLibrary = TitleSceneImages[10];
+                LibraryImage? titleSceneImageLibrary = TitleSceneImages[10];
                 _font.SetTextCentered(x + (spacing * i) + (titleSceneImageLibrary.Width / 2), y + 445, text: translatedText, lockedSurface: surface);
             }
 
@@ -383,7 +383,7 @@ public sealed partial class TitleScene(UIContext ui) : UIModule(ui)
     }
 
     // AoWTitleScene.pas:315
-    public void WindowDrawSurfaceEx(Surface surface, out bool drawn)
+    public void WindowDrawSurfaceEx(Surface? surface, out bool drawn)
     {
         try
         {

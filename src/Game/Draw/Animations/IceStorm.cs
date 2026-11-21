@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Storms.pas.
 using Aow.Engine.Nodes;
 
@@ -9,7 +9,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Draw.Animations;
 
-public class IceStorm(CustomNode owner) : BlastStorm(owner)
+public class IceStorm(CustomNode? owner) : BlastStorm(owner)
 {
 
     // Storms.pas:363

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Engine.pas.
 using Aow.Formats.Tree;
 
@@ -15,10 +15,10 @@ public class ControlStyleObject : EngineObject
     internal ControlStyles ControlStyle { get; set; }
 
     // Engine.pas:8222
-    public ControlStyleObject(CustomNode owner) : this(null, owner) { }
+    public ControlStyleObject(CustomNode? owner) : this(null, owner) { }
 
     // Engine.pas:8222
-    private protected ControlStyleObject(ConstructionContext context, CustomNode owner) : base(context, owner) => ControlStyle = base.GetControlStyle();
+    private protected ControlStyleObject(ConstructionContext? context, CustomNode? owner) : base(context, owner) => ControlStyle = base.GetControlStyle();
 
     // Engine.pas:8233
     public override ControlStyles GetControlStyle() => ControlStyle;

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using Aow.Game.Audio;
 using Aow.Game.Session;
 using Aow.Game.UI.Controls;
@@ -15,7 +15,7 @@ public sealed class RelationBandTests
 {
     private sealed class MapScope : IDisposable
     {
-        private readonly StrategicMap previous = StrategicMap.Current;
+        private readonly StrategicMap? previous = StrategicMap.Current;
 
         public MapScope()
         {
@@ -43,7 +43,7 @@ public sealed class RelationBandTests
 
     private sealed class DialogScope : IDisposable
     {
-        private readonly SoundSystem previousSound = AudioHost.SoundSystem;
+        private readonly SoundSystem? previousSound = AudioHost.SoundSystem;
 
         public DialogScope()
         {
@@ -149,10 +149,10 @@ public sealed class RelationBandTests
 
         scope.Map.Players.SetNumberOfPlayers(12);
         scope.Map.SeatedPlayer = 1;
-        Player seated = scope.Map.Players.GetPlayers(1);
+        Player? seated = scope.Map.Players.GetPlayers(1);
         for (int i = 1; i <= 12; i++)
         {
-            Player player = scope.Map.Players.GetPlayers(i);
+            Player? player = scope.Map.Players.GetPlayers(i);
             player.Status = PlayerStatus.Playing;
             player.Name = $"P{i}";
             if (i != 1)
@@ -205,10 +205,10 @@ public sealed class RelationBandTests
 
         scope.Map.Players.SetNumberOfPlayers(12);
         scope.Map.SeatedPlayer = 12;
-        Player seated = scope.Map.Players.GetPlayers(12);
+        Player? seated = scope.Map.Players.GetPlayers(12);
         for (int i = 1; i <= 12; i++)
         {
-            Player player = scope.Map.Players.GetPlayers(i);
+            Player? player = scope.Map.Players.GetPlayers(i);
             player.Status = PlayerStatus.Playing;
             player.Name = $"S{i}";
             if (i != 12)

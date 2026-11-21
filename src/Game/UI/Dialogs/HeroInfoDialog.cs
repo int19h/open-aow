@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWHeroInfoDlg.pas.
 using System.Globalization;
 using Aow.Game.Draw;
@@ -23,8 +23,8 @@ public sealed partial class HeroInfoDialog(UIContext ui) : UIModule(ui)
     public Image FaceFrame { get; private set; }
     public Memo MessageMemo { get; private set; }
 
-    private ExecuteDoneEvent _done;
-    private ArmyInfoEventLog _armyInfo;
+    private ExecuteDoneEvent? _done;
+    private ArmyInfoEventLog? _armyInfo;
     private bool _detailsOpen;
 
     // AoWHeroInfoDlg.pas:99
@@ -37,8 +37,8 @@ public sealed partial class HeroInfoDialog(UIContext ui) : UIModule(ui)
             UI.UnitWindow.MainWindow.Visible = false;
         }
 
-        ExecuteDoneEvent done = _done;
-        EventLog eventValue = _armyInfo;
+        ExecuteDoneEvent? done = _done;
+        EventLog? eventValue = _armyInfo;
         _done = null;
         _armyInfo = null;
         done?.Invoke(eventValue);
@@ -59,7 +59,7 @@ public sealed partial class HeroInfoDialog(UIContext ui) : UIModule(ui)
             Units.Alignment alignment = _armyInfo.ArmyView.Units.GetUnit(index).GetAlignment();
             if ((int)alignment < UI.Graphics.UnitBackgrounds.Count)
             {
-                LibraryImage image = UI.Graphics.UnitBackgrounds[(int)alignment];
+                LibraryImage? image = UI.Graphics.UnitBackgrounds[(int)alignment];
                 image.ShowClipped(x - (image.Width / 2), y - (image.Height / 2), lockedSurface: surface);
             }
 
@@ -69,7 +69,7 @@ public sealed partial class HeroInfoDialog(UIContext ui) : UIModule(ui)
             _ = _armyInfo.ArmyView.Units.GetUnit(index).Show(x - 33, y - 35, lockedSurface: surface, info);
             if (((_armyInfo.Selection >>> index) & 1) == 0)
             {
-                LibraryImage image = UI.Graphics.UnitBackgrounds[7];
+                LibraryImage? image = UI.Graphics.UnitBackgrounds[7];
                 image.ShowClipped(x - (image.Width / 2), y - (image.Height / 2), lockedSurface: surface);
             }
 
@@ -93,7 +93,7 @@ public sealed partial class HeroInfoDialog(UIContext ui) : UIModule(ui)
         r.Top = FaceFrame.WinTop + Window.WinTop;
         r.Bottom = FaceFrame.WinHeight + r.Top;
 
-        Hero hero = _armyInfo.ArmyView.Hero(_armyInfo.Selection, types: RosterTables.AllHeroTypes);
+        Hero? hero = _armyInfo.ArmyView.Hero(_armyInfo.Selection, types: RosterTables.AllHeroTypes);
         if (hero.GetFace() is not null)
         {
             hero.ShowFace(r, lockedSurface: surface);
@@ -131,7 +131,7 @@ public sealed partial class HeroInfoDialog(UIContext ui) : UIModule(ui)
         int count = _armyInfo.ArmyView.Units.Count;
         if (slot < count)
         {
-            Troop troop = _armyInfo.ArmyView.Units.GetUnit(slot);
+            Troop? troop = _armyInfo.ArmyView.Units.GetUnit(slot);
             UI.General.SelectedUnit = troop;
             if (button == MouseButton.Left)
             {
@@ -162,7 +162,7 @@ public sealed partial class HeroInfoDialog(UIContext ui) : UIModule(ui)
         _ = dialog._armyInfo.AddRef();
         string text = eventValue.Messages.Text;
         dialog.MessageMemo.Items.Text = text;
-        Hero hero = dialog._armyInfo.ArmyView.Hero(dialog._armyInfo.Selection, types: RosterTables.AllHeroTypes);
+        Hero? hero = dialog._armyInfo.ArmyView.Hero(dialog._armyInfo.Selection, types: RosterTables.AllHeroTypes);
         if (hero is not null)
         {
             dialog.HeroNameLabel.Text = hero.HeroName;

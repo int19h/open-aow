@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 
 using Aow.Rtl;
 using static Aow.Rtl.DelphiPaths;
@@ -15,7 +15,7 @@ public static class AudioPlayback
     {
         if (AudioHost.SoundSystem is not null)
         {
-            SampleData d = AudioHost.SampleDataList.Find(name);
+            SampleData? d = AudioHost.SampleDataList.Find(name);
             if (d is null)
             {
                 _ = AudioHost.SoundSystem.SampleDataClass().CreateInstance(name);
@@ -29,7 +29,7 @@ public static class AudioPlayback
 
     public static void UnlockSampleData(string name)
     {
-        SampleData d = AudioHost.SampleDataList.Find(name);
+        SampleData? d = AudioHost.SampleDataList.Find(name);
         d?.Release();
     }
 
@@ -39,7 +39,7 @@ public static class AudioPlayback
 
     public static bool InitializeSoundSystem(string name, in SoundSettings settings)
     {
-        SoundSystemClass c = IsEmpty(name) ? AudioHost.SoundSystems.Count != 0 ? AudioHost.SoundSystems[0] : null : AudioHost.SoundSystems.Find(name);
+        SoundSystemClass? c = IsEmpty(name) ? AudioHost.SoundSystems.Count != 0 ? AudioHost.SoundSystems[0] : null : AudioHost.SoundSystems.Find(name);
 
         if (c is not null)
         {
@@ -85,7 +85,7 @@ public static class AudioPlayback
 
     internal static SoundSettings SoundSettings => AudioHost.SoundSystem is not null ? AudioHost.SoundSystem.SoundSettings : default;
 
-    internal static SongStatus BackupSongStatus() => AudioHost.SoundSystem?.BackupSongStatus();
+    internal static SongStatus? BackupSongStatus() => AudioHost.SoundSystem?.BackupSongStatus();
 
     internal static string GetSongName(string fileName)
     {
@@ -149,14 +149,14 @@ public static class AudioPlayback
 
     internal static bool MusicEnabled => AudioHost.SoundSystem is not null && AudioHost.SoundSystem.MusicEnabled;
 
-    internal static Sample PlaySample(string name)
+    internal static Sample? PlaySample(string name)
     {
         Sample result;
         if (AudioHost.SoundSystem is not null && AudioHost.SoundSystem.SfxEnabled)
         {
             try
             {
-                SampleData d = AudioHost.SampleDataList.Find(name);
+                SampleData? d = AudioHost.SampleDataList.Find(name);
                 if (d is null)
                 {
                     d = AudioHost.SoundSystem.SampleDataClass().CreateInstance(name);
@@ -183,14 +183,14 @@ public static class AudioPlayback
         return result;
     }
 
-    public static Sample PlaySample(string name, int volume, bool looped, int delay, SamplePanning panning, Action<Sample, SampleCallbackMode> callback)
+    public static Sample? PlaySample(string name, int volume, bool looped, int delay, SamplePanning panning, Action<Sample, SampleCallbackMode>? callback)
     {
         Sample result;
         if (AudioHost.SoundSystem is not null && AudioHost.SoundSystem.SfxEnabled)
         {
             try
             {
-                SampleData d = AudioHost.SampleDataList.Find(name);
+                SampleData? d = AudioHost.SampleDataList.Find(name);
                 if (d is null)
                 {
                     d = AudioHost.SoundSystem.SampleDataClass().CreateInstance(name);
@@ -224,6 +224,6 @@ public static class AudioPlayback
 
     internal static bool PlaySong(string fileName, int fadeOut, int fadeIn, bool loop) => AudioHost.SoundSystem is not null && AudioHost.SoundSystem.PlaySong(fileName, fadeOut, fadeIn, loop);
 
-    public static SampleData CreateSampleData(ReadOnlySpan<WaveFormat> format, object data, int size) => AudioHost.SoundSystem?.SampleDataClass().CreateInstance(format[0], data, size);
+    public static SampleData? CreateSampleData(ReadOnlySpan<WaveFormat> format, object data, int size) => AudioHost.SoundSystem?.SampleDataClass().CreateInstance(format[0], data, size);
 
 }

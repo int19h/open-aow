@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 
@@ -34,7 +34,7 @@ public sealed class PlayerMagicControl : EngineObject
     // next enchantment ID, cheat, player, update count, external mana, external power, external
     // source, mana, spheres, research percentage, spells, research spell, points, enchantments,
     // power sources, active/enemy enchantments, change events
-    public PlayerMagicControl(CustomNode owner) : base(owner)
+    public PlayerMagicControl(CustomNode? owner) : base(owner)
     {
         Spells = new Int32List();
         _changedEventsStore = new();
@@ -135,7 +135,7 @@ public sealed class PlayerMagicControl : EngineObject
     }
 
     // Spells.PAS:2243
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
         if (message.MessageId == 537001986 && message.Payload.Int == Player.PlayerIndex)
@@ -337,7 +337,7 @@ public sealed class PlayerMagicControl : EngineObject
                 candidates.Clear();
                 for (int i = 0, last = GamePack.Current.SpellControl.GetCount() - 1; i <= last; i++)
                 {
-                    Spell spell = GamePack.Current.SpellControl[i];
+                    Spell? spell = GamePack.Current.SpellControl[i];
                     if (spell is not null && Spells.IndexOf(i) == -1 && spell.SpellType == kind && (spell.MagicSphere == MagicSphere.Cosmos || Player.Leader.GetSpherePicks(spell.MagicSphere) > 0) && spell.SpellLevel == 1)
                     {
                         _ = candidates.Add(i);
@@ -490,7 +490,7 @@ public sealed class PlayerMagicControl : EngineObject
             for (int i = Spells.Count - 1; i >= 0; i--)
             {
                 int item = Spells[i];
-                Spell known = GamePack.Current.SpellControl[item];
+                Spell? known = GamePack.Current.SpellControl[item];
                 if (known.SpellLevel > 0 && known.Enabled && spell.MagicSphere == known.MagicSphere)
                 {
                     counts[known.SpellLevel - 1] += 1;
@@ -521,7 +521,7 @@ public sealed class PlayerMagicControl : EngineObject
     {
         for (int i = 0, last = GamePack.Current.SpellControl.GetCount() - 1; i <= last; i++)
         {
-            Spell spell = GamePack.Current.SpellControl[i];
+            Spell? spell = GamePack.Current.SpellControl[i];
             if (spell is not null && spellTypes.Contains(spell.SpellType.ToFlag()) && ValidResearchSpell(spell))
             {
                 list.Add(spell);
@@ -532,7 +532,7 @@ public sealed class PlayerMagicControl : EngineObject
     // Spells.PAS:2211
     public void ListSpells(SpellList list, SpellTypes spellTypes)
     {
-        Spell spell;
+        Spell? spell;
         if (CheatEnabled && Player.PlayerType == PlayerType.Human)
         {
             for (int i = 0, last = GamePack.Current.SpellControl.GetCount() - 1; i <= last; i++)
@@ -697,7 +697,7 @@ public sealed class PlayerMagicControl : EngineObject
     public bool ExecuteDispelEnchantment(int index) => index < Enchantments.GetCount() && Enchantments.GetEnchantments(index).Dispel();
 
     // Spells.PAS:2316
-    public bool DispelEnchantment(Enchantment enchantment)
+    public bool DispelEnchantment(Enchantment? enchantment)
     {
         int index = Enchantments.IndexOfChild(enchantment);
         if (!Player.GetBusy() && index != -1)
@@ -793,7 +793,7 @@ public sealed class PlayerMagicControl : EngineObject
         }
 
         // { Original bug: this estimate also counts global enchantments owned by other players. }
-        GlobalMagicControl globalControl = StrategicMap.Current.GlobalMagicControl;
+        GlobalMagicControl? globalControl = StrategicMap.Current.GlobalMagicControl;
         for (int i = globalControl.Enchantments.GetCount() - 1; i >= 0; i--)
         {
             GlobalEnchantment enchantment = StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(i);
@@ -829,7 +829,7 @@ public sealed class PlayerMagicControl : EngineObject
                 _ = list.Add(new UpkeepCandidate { Order = order, Upkeep = enchantment.Upkeep, Enchantment = enchantment });
             }
         }
-        GlobalMagicControl global = StrategicMap.Current.GlobalMagicControl;
+        GlobalMagicControl? global = StrategicMap.Current.GlobalMagicControl;
         for (int i = global.Enchantments.GetCount() - 1; i >= 0; i--)
         {
             GlobalEnchantment enchantment = StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(i);

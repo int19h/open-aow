@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Animation.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
@@ -13,7 +13,7 @@ namespace Aow.Game.Draw.Animations;
 
 // { ot=1 }
 // hex position, display level, state, frame, dimensions, callbacks, tag, map
-public class Animation(CustomNode owner) : HexSprite(owner)
+public class Animation(CustomNode? owner) : HexSprite(owner)
 {
 
     // Animation.pas:143
@@ -39,7 +39,7 @@ public class Animation(CustomNode owner) : HexSprite(owner)
     internal void SetNewFrameHandler(Action<Animation, int> handler) => _newFrame = handler;
 
     public int Tag { get; set; }
-    public GameMap AnimationMap { get; set; }
+    public GameMap? AnimationMap { get; set; }
 
     // Animation.pas:153
     public override ControlStyles GetControlStyle()
@@ -137,7 +137,7 @@ public class Animation(CustomNode owner) : HexSprite(owner)
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface) => _show?.Invoke(this, pixelXSurface, pixelYSurface, SurfaceDesc: lockedSurface);
 
     // Animation.pas:349
-    public override bool Place(MapContainer map, int pixelX, int pixelY, int hexLevel)
+    public override bool Place(MapContainer? map, int pixelX, int pixelY, int hexLevel)
     {
         HexGeometry.PixelToHex(pixelX, vertical: pixelY, out int x, out int y);
         return PlaceHex(map, (sbyte)x, (sbyte)y, L: (sbyte)hexLevel);
@@ -241,10 +241,10 @@ public class Animation(CustomNode owner) : HexSprite(owner)
     public virtual bool ExecuteTokenEvent(AnimationTokenEvent eventValue, TokenExecutor executor) => false;
 
     // Animation.pas:308
-    public virtual bool CanPlace(MapContainer map, sbyte X, sbyte Y, sbyte L) => X >= 0 && Y >= 0 && L >= 0 && X < map.Width && Y < map.Height && L < map.LevelCount;
+    public virtual bool CanPlace(MapContainer? map, sbyte X, sbyte Y, sbyte L) => X >= 0 && Y >= 0 && L >= 0 && X < map.Width && Y < map.Height && L < map.LevelCount;
 
     // Animation.pas:357
-    public virtual bool PlaceHex(MapContainer map, sbyte X, sbyte Y, sbyte L)
+    public virtual bool PlaceHex(MapContainer? map, sbyte X, sbyte Y, sbyte L)
     {
         if (EditMode || CanPlace(map, X, Y, L))
         {

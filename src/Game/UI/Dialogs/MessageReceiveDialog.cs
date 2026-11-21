@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWMsgReceiveDlg.pas.
 using Aow.Game.Events;
 using Aow.Game.Session;
@@ -17,14 +17,14 @@ public sealed partial class MessageReceiveDialog(UIContext ui) : UIModule(ui)
     public Image RightShield { get; private set; }
     public Memo HeaderMemo { get; private set; }
 
-    private ExecuteDoneEvent _done;
-    private EventLog _event;
+    private ExecuteDoneEvent? _done;
+    private EventLog? _event;
 
     // AoWMsgReceiveDlg.pas:54
     public void FinishDialog()
     {
-        ExecuteDoneEvent done = _done;
-        EventLog log = _event;
+        ExecuteDoneEvent? done = _done;
+        EventLog? log = _event;
         _done = null;
         _event = null;
         done?.Invoke(log);
@@ -51,7 +51,7 @@ public sealed partial class MessageReceiveDialog(UIContext ui) : UIModule(ui)
         dialog.HeaderMemo.Items.Text = text;
         string fMessageText = eventValue.Message.Text;
         dialog.MessageMemo.Items.Text = fMessageText;
-        Player player = StrategicMap.Current.Players.GetPlayers(eventValue.Player);
+        Player? player = StrategicMap.Current.Players.GetPlayers(eventValue.Player);
         dialog.LeftShield.CurrentImage = player.PlayerRace + 13;
         dialog.RightShield.CurrentImage = dialog.LeftShield.CurrentImage;
         dialog.Window.Visible = true;

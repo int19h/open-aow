@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Magic.Abilities;
@@ -11,7 +11,7 @@ namespace Aow.Game.Units;
 public partial class UnitSpellCaster : SpellCaster
 {
     // Spells.PAS:859
-    public UnitSpellCaster(CustomNode owner) : base(owner) => TargetUnits = new UnitUserList(null) { Holder = CreationHolder() };
+    public UnitSpellCaster(CustomNode? owner) : base(owner) => TargetUnits = new UnitUserList(null) { Holder = CreationHolder() };
 
     public UnitUserList TargetUnits { get; }
     public byte SelectionMask { get; private set; }
@@ -86,7 +86,7 @@ public partial class UnitSpellCaster : SpellCaster
         string reason = "";
         if (CanCast(ref reason))
         {
-            Troop source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
+            Troop? source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
             if (source is not null)
             {
                 UnitUserList targets = new(null) { Holder = CreationHolder() };
@@ -143,7 +143,7 @@ public partial class UnitSpellCaster : SpellCaster
     public void SetSelection(byte selection)
     {
         byte value = selection;
-        Troop source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
+        Troop? source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
         value = GamePack.Current.SpellControl.GetSpell<UnitSpell>(CasterSpellId).ValidateUnitSelection(source, targets: TargetUnits, selection: value);
         SelectionMask = value;
     }

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Animation.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Draw.Images;
@@ -8,10 +8,10 @@ using Aow.Rtl;
 namespace Aow.Game.Draw.Animations;
 
 // sequence, pixel offsets, last frame, loop flag
-public sealed class ImageSequenceAnimation(CustomNode owner) : Animation(owner)
+public sealed class ImageSequenceAnimation(CustomNode? owner) : Animation(owner)
 {
 
-    public ImageSequence ImageSequence { get; private set; }
+    public ImageSequence? ImageSequence { get; private set; }
     public int PixelXOffset { get; private set; }
     public int PixelYOffset { get; private set; }
     public int FrameCount { get; set; } = -1;
@@ -26,7 +26,7 @@ public sealed class ImageSequenceAnimation(CustomNode owner) : Animation(owner)
             HexGeometry.HexToPixel(Location.X, Location.Y, out int x, out int y);
             pixelXSurface = x - pixelXSurface + 16 + PixelXOffset;
             pixelYSurface = y - pixelYSurface + 16 + PixelYOffset;
-            ImageSequence sequence;
+            ImageSequence? sequence;
             int index;
             if (!Looped)
             {
@@ -87,7 +87,7 @@ public sealed class ImageSequenceAnimation(CustomNode owner) : Animation(owner)
         Rect dimensions4 = Dimensions;
         dimensions4.Bottom = 0;
         Dimensions = dimensions4;
-        ImageSequence sequence = ImageSequence;
+        ImageSequence? sequence = ImageSequence;
         while (sequence is not null)
         {
             Rect r = sequence.GetDimensions();
@@ -112,13 +112,13 @@ public sealed class ImageSequenceAnimation(CustomNode owner) : Animation(owner)
     }
 
     // Animation.pas:454
-    public void SetImageSequence(ImageSequence sequence)
+    public void SetImageSequence(ImageSequence? sequence)
     {
         ImageSequence = sequence;
         UpdateDimensions();
         if (!Looped)
         {
-            ImageSequence current = ImageSequence;
+            ImageSequence? current = ImageSequence;
             FrameCount = -1;
             while (current is not null)
             {

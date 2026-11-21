@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Collections;
@@ -22,7 +22,7 @@ public class Campaign : EngineObject
 {
 
     // Diplomacy.pas:2246
-    public Campaign(CustomNode owner) : base(owner)
+    public Campaign(CustomNode? owner) : base(owner)
     {
         Stream = new MemoryStream();
         TransferSettings = new CampaignTransferSettings(null) { Holder = CreationHolder() };
@@ -139,7 +139,7 @@ public class Campaign : EngineObject
     public virtual void ResetNextScenario() => NextScenarioId = -1;
 
     // Diplomacy.pas:2336
-    public virtual void StartScenario(int id, Action<object, int, int> progress)
+    public virtual void StartScenario(int id, Action<object, int, int>? progress)
     {
         Stream.Clear();
         NextScenarioId = -1;
@@ -162,7 +162,7 @@ public class Campaign : EngineObject
             {
                 for (int j = 0, lastJ = GamePack.Current.SpellControl.GetCount() - 1; j <= lastJ; j++)
                 {
-                    Spell spell = GamePack.Current.SpellControl[j];
+                    Spell? spell = GamePack.Current.SpellControl[j];
                     bool condition = spell is not null && spell.SpellLevel <= level;
                     if (condition)
                     {
@@ -242,7 +242,7 @@ public class Campaign : EngineObject
         {
             if (StrategicMap.Current.Races.GetRace(r) is not null)
             {
-                Race race = StrategicMap.Current.Races.GetRace(r);
+                Race? race = StrategicMap.Current.Races.GetRace(r);
                 if (race is not null)
                 {
                     for (int i = 0; i <= 11; i++)
@@ -293,10 +293,10 @@ public class Campaign : EngineObject
             player = (sbyte)(player - 1);
         }
 
-        Player players = StrategicMap.Current.Players.GetPlayers(player);
+        Player? players = StrategicMap.Current.Players.GetPlayers(player);
         if (RaceHistory.IndexOf((byte)players.PlayerRace) == -1)
         {
-            Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(player);
+            Player? fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(player);
             _ = RaceHistory.Add((byte)fPlayersPlayers.PlayerRace);
         }
 

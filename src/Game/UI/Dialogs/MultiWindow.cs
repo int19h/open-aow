@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AOWMultiWin.pas.
 using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Controls;

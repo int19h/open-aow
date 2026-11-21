@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -12,7 +12,7 @@ public sealed class CombatLogbook : EngineObject
     public new const int ClassId = 131_749;
 
     // Combat2.pas:349
-    public CombatLogbook(CustomNode owner) : base(owner)
+    public CombatLogbook(CustomNode? owner) : base(owner)
     {
         _refCount = 1;
         Actions = new CombatActionList(null) { Holder = CreationHolder() };

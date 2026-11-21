@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWTC.pas.
 using Aow.Engine.Nodes;
 
@@ -14,7 +14,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Combat;
 
 // Inherited combat layout. HostPlayer
-public sealed partial class TacticalBattle(CustomNode owner) : Battle(owner)
+public sealed partial class TacticalBattle(CustomNode? owner) : Battle(owner)
 {
     // AoWTC.pas:5081
     public new const int ClassId = 2_228_496;
@@ -63,10 +63,10 @@ public sealed partial class TacticalBattle(CustomNode owner) : Battle(owner)
             {
                 if (StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl is RemotePlayerCommunicationControl remote)
                 {
-                    PlayerCommunicationSettings playerConnectionMode = StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(HostPlayer);
+                    PlayerCommunicationSettings? playerConnectionMode = StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(HostPlayer);
                     CombatPlayer player = CombatData.Players.GetPlayers((sbyte)i);
                     remote.SetConnectionMode(player.Player, mode: playerConnectionMode.ConnectionMode);
-                    PlayerCommunicationSettings playerSystemId = StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(HostPlayer);
+                    PlayerCommunicationSettings? playerSystemId = StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(HostPlayer);
                     CombatPlayer player2 = CombatData.Players.GetPlayers((sbyte)i);
                     remote.SetSystemId(player2.Player, playerSystemId.SystemId);
                 }

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWVScroll.pas.
 using System.ComponentModel;
 using Aow.Game.Draw.Images;
@@ -21,12 +21,12 @@ namespace Aow.Game.UI.Controls;
 public partial class ScrollBar(Rtl.Component owner) : Control(owner)
 {
 
-    private InterfaceImageLibrary _imageLibraryImageIncrement;
-    private InterfaceImageLibrary _imageLibraryIDecrement;
-    private InterfaceImageLibrary _imageLibraryTileBack;
-    private InterfaceImageLibrary _imageLibraryLineBack;
-    private InterfaceImageLibrary _thumbImage;
-    private InterfaceImageLibrary _thumbStrip;
+    private InterfaceImageLibrary? _imageLibraryImageIncrement;
+    private InterfaceImageLibrary? _imageLibraryIDecrement;
+    private InterfaceImageLibrary? _imageLibraryTileBack;
+    private InterfaceImageLibrary? _imageLibraryLineBack;
+    private InterfaceImageLibrary? _thumbImage;
+    private InterfaceImageLibrary? _thumbStrip;
 
     public int TrackLength { get; protected set; }
     public int ThumbLength { get; protected set; }
@@ -236,7 +236,7 @@ public partial class ScrollBar(Rtl.Component owner) : Control(owner)
     }
 
     // AoWVScroll.pas:140
-    public virtual void SetImageLibraryIncrement(InterfaceImageLibrary value)
+    public virtual void SetImageLibraryIncrement(InterfaceImageLibrary? value)
     {
         if (value != _imageLibraryImageIncrement)
         {
@@ -246,7 +246,7 @@ public partial class ScrollBar(Rtl.Component owner) : Control(owner)
     }
 
     // AoWVScroll.pas:149
-    public virtual void SetImageLibraryDecrement(InterfaceImageLibrary value)
+    public virtual void SetImageLibraryDecrement(InterfaceImageLibrary? value)
     {
         if (value != _imageLibraryIDecrement)
         {
@@ -256,7 +256,7 @@ public partial class ScrollBar(Rtl.Component owner) : Control(owner)
     }
 
     // AoWVScroll.pas:158
-    public virtual void SetImageLibraryBack(InterfaceImageLibrary value)
+    public virtual void SetImageLibraryBack(InterfaceImageLibrary? value)
     {
         if (value != _imageLibraryTileBack)
         {
@@ -266,7 +266,7 @@ public partial class ScrollBar(Rtl.Component owner) : Control(owner)
     }
 
     // AoWVScroll.pas:167
-    public virtual void SetImageLibraryLineBack(InterfaceImageLibrary value)
+    public virtual void SetImageLibraryLineBack(InterfaceImageLibrary? value)
     {
         if (value != _imageLibraryLineBack)
         {
@@ -276,7 +276,7 @@ public partial class ScrollBar(Rtl.Component owner) : Control(owner)
     }
 
     // AoWVScroll.pas:176
-    public virtual void SetThumbImage(InterfaceImageLibrary value)
+    public virtual void SetThumbImage(InterfaceImageLibrary? value)
     {
         if (value != _thumbImage)
         {
@@ -286,7 +286,7 @@ public partial class ScrollBar(Rtl.Component owner) : Control(owner)
     }
 
     // AoWVScroll.pas:185
-    public virtual void SetThumbStrip(InterfaceImageLibrary value)
+    public virtual void SetThumbStrip(InterfaceImageLibrary? value)
     {
         if (value != _thumbStrip)
         {
@@ -420,26 +420,26 @@ public partial class ScrollBar(Rtl.Component owner) : Control(owner)
     public bool VanishWhenFull { get; set; }
 
     [Published]
-    public InterfaceImageLibrary ImageLibraryImageIncrement { get => _imageLibraryImageIncrement; set => SetImageLibraryIncrement(value); }
+    public InterfaceImageLibrary? ImageLibraryImageIncrement { get => _imageLibraryImageIncrement; set => SetImageLibraryIncrement(value); }
 
     internal void SetImageLibraryImageIncrementWithoutInvalidate(InterfaceImageLibrary value) => _imageLibraryImageIncrement = value;
 
     [Published]
-    public InterfaceImageLibrary ImageLibraryIDecrement { get => _imageLibraryIDecrement; set => SetImageLibraryDecrement(value); }
+    public InterfaceImageLibrary? ImageLibraryIDecrement { get => _imageLibraryIDecrement; set => SetImageLibraryDecrement(value); }
 
     internal void SetImageLibraryIDecrementWithoutInvalidate(InterfaceImageLibrary value) => _imageLibraryIDecrement = value;
 
     [Published]
-    public InterfaceImageLibrary ImageLibraryTileBack { get => _imageLibraryTileBack; set => SetImageLibraryBack(value); }
+    public InterfaceImageLibrary? ImageLibraryTileBack { get => _imageLibraryTileBack; set => SetImageLibraryBack(value); }
 
     [Published]
-    public InterfaceImageLibrary ImageLibraryLineBack { get => _imageLibraryLineBack; set => SetImageLibraryLineBack(value); }
+    public InterfaceImageLibrary? ImageLibraryLineBack { get => _imageLibraryLineBack; set => SetImageLibraryLineBack(value); }
 
     [Published]
-    public InterfaceImageLibrary ThumbImage { get => _thumbImage; set => SetThumbImage(value); }
+    public InterfaceImageLibrary? ThumbImage { get => _thumbImage; set => SetThumbImage(value); }
 
     [Published]
-    public InterfaceImageLibrary ThumbStrip { get => _thumbStrip; set => SetThumbStrip(value); }
+    public InterfaceImageLibrary? ThumbStrip { get => _thumbStrip; set => SetThumbStrip(value); }
 
     [Published]
     public int ImageLibraryIndexIncrementUp { get => _imageLibraryIndexIncrementUp; set => SetImageLibraryImageUIndex(value); }

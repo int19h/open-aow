@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Collections;
@@ -21,7 +21,7 @@ namespace Aow.Game.Events;
 public partial class ArmyEventLog : EventLog
 {
     // Army.PAS:141
-    public ArmyEventLog(CustomNode owner) : base(owner)
+    public ArmyEventLog(CustomNode? owner) : base(owner)
     {
         ArmyMessages = new DelphiStringList();
         ArmyView = new ArmyView(null) { Holder = CreationHolder() };
@@ -74,7 +74,7 @@ public partial class ArmyEventLog : EventLog
     public override int LeftIcon => ArmyView.Player > 0 ? StrategicMap.Current.Players.GetPlayers(ArmyView.Player).PlayerRace : 12;
 
     // Army.PAS:218
-    public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
+    public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent? done)
     {
         switch (trigger)
         {

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from CombatObstacle.pas.
 using Aow.Engine.Nodes;
 
@@ -6,7 +6,7 @@ using Aow.Game.World;
 
 namespace Aow.Game.Draw;
 
-public sealed class CombatObstacleShadow(CustomNode owner) : HexSprite(owner)
+public sealed class CombatObstacleShadow(CustomNode? owner) : HexSprite(owner)
 {
     public CombatObstacle Obstacle { get; init; }
 

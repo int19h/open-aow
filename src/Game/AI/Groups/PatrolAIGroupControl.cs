@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from IndependentAG.pas.
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
@@ -227,7 +227,7 @@ public class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(owner)
         int x = group.PatrolFrom.X;
         int y = group.PatrolFrom.Y;
         int heading;
-        MapField mapField;
+        MapField? mapField;
         for (int i = fields.Count - 1; i >= 0; i--)
         {
             // { Original samples every fourth processed field. }

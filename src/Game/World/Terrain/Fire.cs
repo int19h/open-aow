@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 
@@ -50,7 +50,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     }
 
     // Structur.PAS:3672
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
         if (message.MessageId == 537001986 && message.Payload.Int == Player)
@@ -130,7 +130,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     // Structur.PAS:3484
     public override void RemoveFromMap()
     {
-        MapField mapField = Owner;
+        MapField? mapField = Owner;
         if (mapField is not null)
         {
             base.RemoveFromMap();
@@ -253,10 +253,10 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     }
 
     // Structur.PAS:3422
-    public void CalculateShowPriority(MapField mapField)
+    public void CalculateShowPriority(MapField? mapField)
     {
         HexGeometry.HexToPixel(mapField.HexX, mapField.HexY, out int x, out int y);
-        HexSprite hexSprite = mapField.GetMaxLevelNoneTransparentHexSprite();
+        HexSprite? hexSprite = mapField.GetMaxLevelNoneTransparentHexSprite();
         _showPriority = 1_744_830_464 + ((y + 36) << 13) + x + 16;
         if (hexSprite != this && hexSprite is not null)
         {
@@ -296,7 +296,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         while (!result && i != 0)
         {
             i -= 1;
-            Troop troop = units.GetUnit(i);
+            Troop? troop = units.GetUnit(i);
             result = !troop.GetImmunityTypes().Contains(DamageTypes.Fire);
         }
 
@@ -304,7 +304,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     }
 
     // Structur.PAS:3584
-    public void ArmyPlaced(ArmyHexSprite armyHexSprite)
+    public void ArmyPlaced(ArmyHexSprite? armyHexSprite)
     {
         if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
         {
@@ -340,7 +340,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
                     {
                         RandSeed = StrategicMap.Current.Random(16777215);
                         sbyte hexLevel = HexLevel;
-                        Fire fire = GamePack.Current.FireControl.PlaceFire(walk.X, walk.Y, L: hexLevel, fireType: FireType.Large);
+                        Fire? fire = GamePack.Current.FireControl.PlaceFire(walk.X, walk.Y, L: hexLevel, fireType: FireType.Large);
                         if (fire is not null)
                         {
                             fire.Player = Player;
@@ -414,7 +414,7 @@ public class Fire(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         }
 
         // Structur.PAS:3713
-        public override void MessageProc(ref EngineMessage message, EngineObject sender)
+        public override void MessageProc(ref EngineMessage message, EngineObject? sender)
         {
             base.MessageProc(ref message, sender);
             if (message.MessageId == 536870920)

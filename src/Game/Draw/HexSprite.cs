@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from HSEngine.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.World.Map;
@@ -10,11 +10,11 @@ namespace Aow.Game.Draw;
 
 // the base of everything placed on the map. Owner is the TMapField the sprite stands on (for
 // the multi-hex sprites the field of the base hexagon)
-public class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>, IOwnedSink<MapField>
+public class HexSprite(CustomNode? owner) : EngineObject(owner), IOwned<MapField>, IOwnedSink<MapField>
 {
 
     // The field the sprite stands on. AcceptsOwner admits only a field, so the read never fails.
-    public new MapField Owner { get => GetOwner<MapField>(); set => SetOwner(value); }
+    public new MapField? Owner { get => GetOwner<MapField>(); set => SetOwner(value); }
 
     protected sealed override bool AcceptsOwner(CustomNode owner) => owner is MapField;
 
@@ -136,7 +136,7 @@ public class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>
     public virtual void RemoveFromMap() => Disconnect();
 
     // HXSPRITE.PAS:573
-    public virtual bool MainPlace(MapContainer map, int pixelX, int pixelY, int hexLevel)
+    public virtual bool MainPlace(MapContainer? map, int pixelX, int pixelY, int hexLevel)
     {
         bool result = Place(map, pixelX, pixelY, hexLevel);
         if (result)
@@ -167,7 +167,7 @@ public class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>
     public virtual bool MainLoaded() => Loaded();
 
     // HXSPRITE.PAS:184
-    public virtual bool Place(MapContainer map, int pixelX, int pixelY, int hexLevel) => PlaceOnMap();
+    public virtual bool Place(MapContainer? map, int pixelX, int pixelY, int hexLevel) => PlaceOnMap();
 
     // HXSPRITE.PAS:208
     public virtual void Remove() => RemoveFromMap();
@@ -200,7 +200,7 @@ public class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>
     // HXSPRITE.PAS:63
     public virtual void Changed()
     {
-        MapField mapField = Owner;
+        MapField? mapField = Owner;
         mapField?.Owner.Engine.HexSpriteMap.HexSpriteChangedEventsStore.Raise(this);
     }
 
@@ -251,7 +251,7 @@ public class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>
     public virtual string EditName() => "Hexagon Sprite";
 
     // HXSPRITE.PAS:219
-    public bool PlaceOnMap(MapContainer map, int pixelX, int pixelY, int hexLevel, int width, int height)
+    public bool PlaceOnMap(MapContainer? map, int pixelX, int pixelY, int hexLevel, int width, int height)
     {
         HexGeometry.PixelToHex(pixelX - 8, vertical: pixelY, out int minX, out int minYOdd);
         HexGeometry.PixelToHex(pixelX - 8 + 32, vertical: pixelY, out _, out int y);
@@ -471,7 +471,7 @@ public class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>
     }
 
     // HXSPRITE.PAS:362
-    public bool PlaceUserOnMap(MapContainer map, int pixelX, int pixelY, int hexLevel, int width, int height)
+    public bool PlaceUserOnMap(MapContainer? map, int pixelX, int pixelY, int hexLevel, int width, int height)
     {
         HexGeometry.PixelToHex(pixelX - 8, vertical: pixelY, out int minX, out int minYOdd);
         HexGeometry.PixelToHex(pixelX - 8 + 32, vertical: pixelY, out _, out int y);
@@ -580,7 +580,7 @@ public class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>
     }
 
     // HXSPRITE.PAS:431
-    public void RemoveUserFromMap(MapContainer map, int pixelX, int pixelY, int hexLevel, int width, int height)
+    public void RemoveUserFromMap(MapContainer? map, int pixelX, int pixelY, int hexLevel, int width, int height)
     {
         MapLevel mapL = map.GetMapLevel(hexLevel);
         HexGeometry.PixelToHex(pixelX - 8, vertical: pixelY, out int minX, out int minYOdd);
@@ -684,7 +684,7 @@ public class HexSprite(CustomNode owner) : EngineObject(owner), IOwned<MapField>
     }
 
     // HXSPRITE.PAS:497
-    public void SortMapField(MapContainer map, int pixelX, int pixelY, int hexLevel, int width, int height)
+    public void SortMapField(MapContainer? map, int pixelX, int pixelY, int hexLevel, int width, int height)
     {
         MapLevel mapL = map.GetMapLevel(hexLevel);
         HexGeometry.PixelToHex(pixelX - 8, vertical: pixelY, out int minX, out int minYOdd);

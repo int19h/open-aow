@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using Aow.Game.Audio;
 using Aow.Game.Host;
 using Aow.Game.Magic.Abilities;
@@ -19,7 +19,7 @@ public sealed partial class UnitWindow
         }
 
         _cursorImage = null;
-        CheckBox selected = s_selectedItem;
+        CheckBox? selected = s_selectedItem;
         if (check != selected)
         {
             if (selected is not null)
@@ -50,7 +50,7 @@ public sealed partial class UnitWindow
                 s_selectedItem = check;
                 _highlight = 50;
                 _highlightStep = 10;
-                Item item = hero.Inventory.Items.FindItem(check.Tag) ?? hero.HeroItems.Items.FindItem(check.Tag) ?? hero.GetItemsOnGround()?.FindItem(check.Tag);
+                Item? item = hero.Inventory.Items.FindItem(check.Tag) ?? hero.HeroItems.Items.FindItem(check.Tag) ?? hero.GetItemsOnGround()?.FindItem(check.Tag);
                 if (item is not null)
                 {
                     _cursorImage = item.GetImage();

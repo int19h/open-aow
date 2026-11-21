@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
@@ -21,7 +21,7 @@ namespace Aow.Game.World.Structures;
 // selection Sfx, description, scanner icon. . other recovered resource fields below
 public class StructureResource : FixedImageLibraryTerrainMapObjectResource
 {
-    public StructureResource(CustomNode owner) : base(owner)
+    public StructureResource(CustomNode? owner) : base(owner)
     {
         SetLevel(26);
         ConnectRoads = true;
@@ -94,7 +94,7 @@ public class StructureResource : FixedImageLibraryTerrainMapObjectResource
             int offset = structure.Owner.HexX + (structure.Owner.HexY * 16);
             if (ImageSequenceList is not null)
             {
-                ImageSequence sequence = ImageSequenceList.List[index];
+                ImageSequence? sequence = ImageSequenceList.List[index];
                 while (sequence is not null)
                 {
                     int frameIndex = sequence.GetFrameIndex(StrategicMap.Current.Frame, offset);

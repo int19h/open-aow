@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
@@ -8,9 +8,9 @@ namespace Aow.Game.Magic.Abilities;
 
 // { Interface declaration run owned by P1. }
 // (Next,)
-public class AbilityData(CustomNode owner) : EngineObject(owner)
+public class AbilityData(CustomNode? owner) : EngineObject(owner)
 {
-    public AbilityData Next { get; set; }
+    public AbilityData? Next { get; set; }
 
     // Ability.PAS:1234
     public override void PersistFields(IPersister persister) => base.PersistFields(persister);

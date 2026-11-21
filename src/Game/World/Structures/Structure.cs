@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using System.Globalization;
 using Aow.Engine;
@@ -38,7 +38,7 @@ using static Aow.Rtl.DelphiStrings;
 namespace Aow.Game.World.Structures;
 
 // ID, update count, building player, days left, shadow, fogged
-public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapObject(owner)
+public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapObject(owner)
 {
 
     public new const int ClassId = 131_914;
@@ -52,7 +52,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
     public sbyte BuildingPlayer { get; set; } = -1;
     public byte BuildingDays { get; private set; }
 
-    private StructureShadow _shadow;
+    private StructureShadow? _shadow;
 
     public bool Fogged { get; private set; } = true;
 
@@ -86,7 +86,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
     }
 
     // Structur.PAS:1629
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
         if (message.MessageId == 537001985)
@@ -177,7 +177,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
     // Structur.PAS:1098
     public override void RemoveFromMap()
     {
-        MapField mapField = Owner;
+        MapField? mapField = Owner;
         base.RemoveFromMap();
         if (mapField is not null && !EditMode)
         {
@@ -354,7 +354,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
         {
             if (Resource.TerrainBound)
             {
-                ImageLibraryTerrainMapObject pad = !EditMode ? GamePack.Current.PadControl.PlacePad(hexX, hexY, L: hexLevel, size: Resource.FlagType) : null;
+                ImageLibraryTerrainMapObject? pad = !EditMode ? GamePack.Current.PadControl.PlacePad(hexX, hexY, L: hexLevel, size: Resource.FlagType) : null;
 
                 if (pad is not null || EditMode)
                 {
@@ -396,27 +396,27 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
     public override sbyte ForceTerrainType(MapLevel mapLevel, sbyte hexX, sbyte hexY) => mapLevel.HexLevel != 0 ? (sbyte)12 : (sbyte)-1;
 
     // Structur.PAS:1239
-    public virtual LibraryImage GetTopBorderImage()
+    public virtual LibraryImage? GetTopBorderImage()
     {
-        ImageSequenceList sequences = Resource.ImageSequenceList;
+        ImageSequenceList? sequences = Resource.ImageSequenceList;
         return sequences is not null
             ? sequences.GetImageSequence(30) is not null ? Resource.ImageSequenceList.GetImageSequence(30).GetPreviewImage() : null
             : Resource.ImageLibrary.GetSafe(30);
     }
 
     // Structur.PAS:1251
-    public virtual LibraryImage GetMiddleBorderImage()
+    public virtual LibraryImage? GetMiddleBorderImage()
     {
-        ImageSequenceList sequences = Resource.ImageSequenceList;
+        ImageSequenceList? sequences = Resource.ImageSequenceList;
         return sequences is not null
             ? sequences.GetImageSequence(31) is not null ? Resource.ImageSequenceList.GetImageSequence(31).GetPreviewImage() : null
             : Resource.ImageLibrary.GetSafe(31);
     }
 
     // Structur.PAS:1263
-    public virtual LibraryImage GetBottomBorderImage()
+    public virtual LibraryImage? GetBottomBorderImage()
     {
-        ImageSequenceList sequences = Resource.ImageSequenceList;
+        ImageSequenceList? sequences = Resource.ImageSequenceList;
         return sequences is not null
             ? sequences.GetImageSequence(32) is not null ? Resource.ImageSequenceList.GetImageSequence(32).GetPreviewImage() : null
             : Resource.ImageLibrary.GetSafe(32);
@@ -469,7 +469,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
         {
             if (attackers.GetUnit(i).Player != 0)
             {
-                Troop troop = attackers.GetUnit(i);
+                Troop? troop = attackers.GetUnit(i);
                 _ = group.TargetUnitIds.Add(troop.UnitId);
             }
         }
@@ -494,7 +494,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
         {
             if (tokenEvent.Action == -2)
             {
-                Troop troop = StrategicMap.Current.UnitControl.FindUnit(tokenEvent.Param);
+                Troop? troop = StrategicMap.Current.UnitControl.FindUnit(tokenEvent.Param);
                 if (troop is not null && ExecuteRebuild(troop))
                 {
                     troop.Killed();
@@ -544,17 +544,17 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
     public virtual void SeatedPlayerChanged() => FogChanged();
 
     // Structur.PAS:1488
-    public virtual void ArmyPlaced(ArmyHexSprite placedArmy)
+    public virtual void ArmyPlaced(ArmyHexSprite? placedArmy)
     {
     }
 
     // Structur.PAS:1491
-    public virtual void ArmyRemoved(ArmyHexSprite army)
+    public virtual void ArmyRemoved(ArmyHexSprite? army)
     {
     }
 
     // Structur.PAS:1494
-    public virtual void ArmyChanged(ArmyHexSprite army)
+    public virtual void ArmyChanged(ArmyHexSprite? army)
     {
     }
 
@@ -638,7 +638,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
         if (CanRebuild(troop, ref reason))
         {
             GetRebuildInfo(out int cost, out int time);
-            Player players = StrategicMap.Current.Players.GetPlayers(troop.Player);
+            Player? players = StrategicMap.Current.Players.GetPlayers(troop.Player);
             StrategicMap.Current.Players.GetPlayers(troop.Player).SetGems(players.Gems - cost);
             BuildingDays = (byte)time;
             BuildingPlayer = troop.Player;
@@ -702,7 +702,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
         {
             for (int i = defenders.Count - 1; i >= 0; i--)
             {
-                Troop troop = defenders.GetUnit(i);
+                Troop? troop = defenders.GetUnit(i);
                 _ = placed.AddUnit(troop);
                 sbyte hexLevel = HexLevel;
                 sbyte hexY = HexY;
@@ -788,7 +788,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
     public virtual bool ValidateMap(DelphiStringCollection messages) => true;
 
     // Structur.PAS:1569
-    public virtual bool MainValidateMap(DelphiStringCollection messages)
+    public virtual bool MainValidateMap(DelphiStringCollection? messages)
     {
         DelphiStringList errors = new();
         bool result = ValidateMap(errors);
@@ -896,7 +896,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
             {
                 if (Resource.TerrainList.Terrain[walk.HexNumber] >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                 {
-                    EngineObject army = level.GetField(walk.X, walk.Y).FindOwnedChild(ArmyHexSprite.ClassId);
+                    EngineObject? army = level.GetField(walk.X, walk.Y).FindOwnedChild(ArmyHexSprite.ClassId);
                     if (army is not null)
                     {
                         _ = list.AddChild(army);
@@ -1056,7 +1056,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
     }
 
     // Structur.PAS:1066
-    public void UpdateRoads(MapField mapField)
+    public void UpdateRoads(MapField? mapField)
     {
         int x = default;
         int y = default;
@@ -1150,9 +1150,9 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
             }
 
             int height = R.Bottom - R.Top;
-            LibraryImage topImage = GetTopBorderImage();
-            LibraryImage middleImage = GetMiddleBorderImage();
-            LibraryImage bottomImage = GetBottomBorderImage();
+            LibraryImage? topImage = GetTopBorderImage();
+            LibraryImage? middleImage = GetMiddleBorderImage();
+            LibraryImage? bottomImage = GetBottomBorderImage();
             if (bottomImage is not null && topImage is not null && middleImage is not null)
             {
                 // { Original uses the height, rather than R.Bottom, for the bottom image. }

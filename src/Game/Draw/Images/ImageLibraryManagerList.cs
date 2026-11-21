@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from ImageLib.pas.
 using Aow.Engine.Collections;
 
@@ -11,7 +11,7 @@ namespace Aow.Game.Draw.Images;
 // FHashTable (the objects by name), FOwner
 public sealed class ImageLibraryManagerList(ImageLibraryManager owner) : DelphiStringList<ImageLibraryManagerObject>
 {
-    internal Dictionary<string, ImageLibraryManagerObject> HashTable { get; } = [with(AnsiCompareComparer.Instance)];
+    internal Dictionary<string, ImageLibraryManagerObject?> HashTable { get; } = [with(AnsiCompareComparer.Instance)];
 
     private readonly ImageLibraryManager _owner = owner;
 
@@ -28,7 +28,7 @@ public sealed class ImageLibraryManagerList(ImageLibraryManager owner) : DelphiS
     {
         for (int i = Count - 1; i >= 0; i--)
         {
-            ImageLibraryManagerObject objectValue = Objects[i];
+            ImageLibraryManagerObject? objectValue = Objects[i];
             if (objectValue is not null && objectValue.ImageLibrary is not null)
             {
                 objectValue.ImageLibrary.ReleaseDiscardableImageData();
@@ -64,7 +64,7 @@ public sealed class ImageLibraryManagerList(ImageLibraryManager owner) : DelphiS
     // ImageLib.pas:8153
     public override void Delete(int index)
     {
-        ImageLibraryManagerObject objectValue = Objects[index];
+        ImageLibraryManagerObject? objectValue = Objects[index];
         objectValue?.ImageLibrary?.Dispose();
 
         string item = Strings[index];
@@ -78,7 +78,7 @@ public sealed class ImageLibraryManagerList(ImageLibraryManager owner) : DelphiS
         HashTable.Clear();
         for (int i = Count - 1; i >= 0; i--)
         {
-            ImageLibraryManagerObject objectValue = Objects[i];
+            ImageLibraryManagerObject? objectValue = Objects[i];
             objectValue?.ImageLibrary?.Dispose();
         }
 
@@ -88,7 +88,7 @@ public sealed class ImageLibraryManagerList(ImageLibraryManager owner) : DelphiS
     // ImageLib.pas:8187
     // { Links to the library of FileName (relative to the search path), loading it on the first link.
     //   The original clears FileName at the end (a second @LStrClr of the parameter). }
-    public CustomImageLibrary LinkToImageLibrary(string fileName)
+    public CustomImageLibrary? LinkToImageLibrary(string fileName)
     {
         fileName = UpperCase(fileName);
         _ = HashTable.TryGetValue(fileName, out ImageLibraryManagerObject objectValue);

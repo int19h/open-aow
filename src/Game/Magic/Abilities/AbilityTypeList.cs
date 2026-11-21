@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Rtl;
 
@@ -7,5 +7,5 @@ namespace Aow.Game.Magic.Abilities;
 public sealed class AbilityTypeList : DelphiList<Ability>
 {
     // Ability.PAS:2033
-    public Ability GetAbility(int index) => List[index];
+    public Ability? GetAbility(int index) => List[index];
 }

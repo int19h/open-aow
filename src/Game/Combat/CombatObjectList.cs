@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Rtl;
 
@@ -8,5 +8,5 @@ namespace Aow.Game.Combat;
 public sealed class CombatObjectList : DelphiList<CombatObject>
 {
     // AIGroup.pas:7352
-    public CombatObject GetObject(int index) => List[index];
+    public CombatObject? GetObject(int index) => List[index];
 }

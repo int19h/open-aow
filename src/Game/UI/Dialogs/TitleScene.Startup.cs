@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using Aow.Game.Audio;
 using Aow.Game.Host;
 using Aow.Game.Saves;
@@ -11,7 +11,7 @@ public sealed partial class TitleScene
 {
     public void ShowScene(bool playMusic)
     {
-        SongPlayer player = AudioHost.SongPlayer;
+        SongPlayer? player = AudioHost.SongPlayer;
         if (playMusic && !(player.CurrentIndex >= 0 && player.CurrentIndex < player.Songs.Count && player.Songs[player.CurrentIndex] == "SONGS\\TITLE.IT"))
         {
             player.Songs.Clear();

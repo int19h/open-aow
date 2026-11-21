@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWFileDialog.pas.
 using System.Globalization;
 using Aow.Engine.Nodes;
@@ -56,8 +56,8 @@ public sealed partial class FileDialogWindow(UIContext ui) : UIModule(ui)
     public string Directory { get; set; } = "";
     public string LastFileName { get; set; } = "";
 
-    private SaveGameEventLog _saveEvent;
-    private ExecuteDoneEvent _done;
+    private SaveGameEventLog? _saveEvent;
+    private ExecuteDoneEvent? _done;
 
     // is the data pointer of FDone
     public int Mode { get; set; }
@@ -66,8 +66,8 @@ public sealed partial class FileDialogWindow(UIContext ui) : UIModule(ui)
     // 0 load, 1 save, 2 select map
     public void FinishDialog()
     {
-        ExecuteDoneEvent done = _done;
-        SaveGameEventLog eventValue = _saveEvent;
+        ExecuteDoneEvent? done = _done;
+        SaveGameEventLog? eventValue = _saveEvent;
         _done = null;
         _saveEvent = null;
         done?.Invoke(eventValue);
@@ -95,7 +95,7 @@ public sealed partial class FileDialogWindow(UIContext ui) : UIModule(ui)
             if (!UI.Engine.Demo)
             {
                 // A refused campaign keeps the current map, which is not started again.
-                StrategicMap previous = StrategicMap.Current;
+                StrategicMap? previous = StrategicMap.Current;
                 LoadCampaign(UI.General, name);
                 if (StrategicMap.Current is not null && StrategicMap.Current != previous)
                 {
@@ -242,7 +242,7 @@ public sealed partial class FileDialogWindow(UIContext ui) : UIModule(ui)
         for (int i = 0, last = Files.Count - 1; i <= last; i++)
         {
             string dateTimeToString = DateTimeToStr(Files.Objects[i].Time);
-            FileTime objectValue = Files.Objects[i];
+            FileTime? objectValue = Files.Objects[i];
             _ = DateList.Items.AddObject(dateTimeToString, item: objectValue);
         }
 
@@ -674,7 +674,7 @@ public sealed partial class FileDialogWindow(UIContext ui) : UIModule(ui)
         {
             for (int i = 0, last = SaveList.Items.Count - 1; i <= last; i++)
             {
-                FileTime objectValue = DateList.Items.Objects[i];
+                FileTime? objectValue = DateList.Items.Objects[i];
                 SaveList.Items.Objects[i] = objectValue;
             }
 
@@ -686,7 +686,7 @@ public sealed partial class FileDialogWindow(UIContext ui) : UIModule(ui)
             {
                 for (int i = 0, last = FileList.Items.Count - 1; i <= last; i++)
                 {
-                    FileTime objectValue = DateList.Items.Objects[i];
+                    FileTime? objectValue = DateList.Items.Objects[i];
                     FileList.Items.Objects[i] = objectValue;
                 }
 
@@ -742,13 +742,13 @@ public sealed partial class FileDialogWindow(UIContext ui) : UIModule(ui)
 
     private static readonly string s_selectText = "Select";
 
-    internal static DelphiStringList Drives { get; set; }
+    internal static DelphiStringList? Drives { get; set; }
 
-    internal static DelphiStringList Directories { get; set; }
+    internal static DelphiStringList? Directories { get; set; }
 
-    internal static DelphiStringList<FileTime> Files { get; set; }
+    internal static DelphiStringList<FileTime>? Files { get; set; }
 
-    internal static int CompareFileDates(string s1, string s2, object o1, object o2)
+    internal static int CompareFileDates(string s1, string s2, object? o1, object? o2)
     {
         return o1 is null && o2 is null
             ? CompareText(s1, s2)
@@ -761,7 +761,7 @@ public sealed partial class FileDialogWindow(UIContext ui) : UIModule(ui)
 
     private static void LoadCampaign(General controller, string name)
     {
-        GameFileTree tree = FileBoundary.Open(name, profile: GameProfile.Campaign);
+        GameFileTree? tree = FileBoundary.Open(name, profile: GameProfile.Campaign);
         if (tree == null)
         {
             return;

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Engine.pas.
 using Aow.Rtl;
 
@@ -7,7 +7,7 @@ namespace Aow.Engine.Collections;
 public struct SortStringsContext
 {
     public DelphiStringCollection Strings { get; set; }
-    public Func<string, string, object, object, int> Compare { get; set; }
+    public Func<string, string, object?, object?, int> Compare { get; set; }
     public Action<DelphiList<DelphiStringCollection>, int, int> ExchangeProc { get; set; }
     public DelphiList<DelphiStringCollection> ExchangeData { get; set; }
 
@@ -20,12 +20,12 @@ public struct SortStringsContext
             int j = R;
             int m = (L + R) >>> 1;
             string p = context.Strings[m];
-            object po = context.Strings.Objects[m];
+            object? po = context.Strings.Objects[m];
             do
             {
                 while (true)
                 {
-                    object item = context.Strings.Objects[i];
+                    object? item = context.Strings.Objects[i];
                     string stringsItem = context.Strings[i];
                     if (!(context.Compare(stringsItem, p, item, po) < 0))
                     {
@@ -37,7 +37,7 @@ public struct SortStringsContext
 
                 while (true)
                 {
-                    object item = context.Strings.Objects[j];
+                    object? item = context.Strings.Objects[j];
                     string stringsItem = context.Strings[j];
                     if (!(context.Compare(stringsItem, p, item, po) > 0))
                     {

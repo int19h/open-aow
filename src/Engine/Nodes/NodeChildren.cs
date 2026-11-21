@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 
 using Aow.Formats.Tree;
 
@@ -8,11 +8,11 @@ public sealed class NodeChildren(CustomNode node) : IChildCollection
 {
     public int Count => node.GetCount();
 
-    public IPersistable Get(int index) => node.GetChild(index);
+    public IPersistable? Get(int index) => node.GetChild(index);
 
     public bool IsStored(int index)
     {
-        EngineObject child = node.GetChild(index);
+        EngineObject? child = node.GetChild(index);
         return child is not null && child.Owner == node
             && !child.GetControlStyle().Contains(EngineServices.Shared)
             && child.GetControlStyle().Contains(EngineServices.Stored);

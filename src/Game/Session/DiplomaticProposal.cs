@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using Aow.Engine.Collections;
 
 using Aow.Game.Events;
@@ -12,7 +12,7 @@ namespace Aow.Game.Session;
 
 public abstract record DiplomaticProposal
 {
-    private static readonly Catalog<byte, Func<int, int, DiplomaticProposal>> s_kinds = new("diplomatic proposal");
+    private static readonly Catalog<byte, Func<int, int, DiplomaticProposal>?> s_kinds = new("diplomatic proposal");
 
     // The message lines (property 27): the default text of the kind, the sender's text, or the
     // reply's text once the target answers. The copies in the players' action lists hold none.
@@ -59,7 +59,7 @@ public abstract record DiplomaticProposal
         return lines;
     }
 
-    public virtual bool Equals(DiplomaticProposal other)
+    public virtual bool Equals(DiplomaticProposal? other)
         => ReferenceEquals(this, other) || (other is not null && EqualityContract == other.EqualityContract && Message.SequenceEqual(other.Message));
 
     public override int GetHashCode() => HashCode.Combine(EqualityContract, Message.Count);
@@ -134,7 +134,7 @@ public abstract record DiplomaticProposal
     {
         if (StrategicMap.Current.Players.GetPlayers(other).PlayerRace != race)
         {
-            Player players = StrategicMap.Current.Players.GetPlayers(other);
+            Player? players = StrategicMap.Current.Players.GetPlayers(other);
             return Round((StrategicMap.Current.Races.GetRace(race).GetRelationValue(players.PlayerRace) - 50) * modifier * 0.01);
         }
 
@@ -207,7 +207,7 @@ public abstract record DiplomaticProposal
     };
 
     // The accepted line about Subject.
-    protected static string AcceptedLine(string subject, GameEngine engine) => AbilityRules.Format(AbilityRules.TranslateResourceString(engine, S: AcceptedFormat), arguments: [subject]);
+    protected static string AcceptedLine(string subject, GameEngine? engine) => AbilityRules.Format(AbilityRules.TranslateResourceString(engine, S: AcceptedFormat), arguments: [subject]);
 
     private static readonly string s_messageSentText = "Message sent";
 
@@ -220,7 +220,7 @@ public abstract record DiplomaticProposal
         int i = 0;
         for (int number = StrategicMap.Current.Players.Count - 1; i <= number; i++)
         {
-            Player players = StrategicMap.Current.Players.GetPlayers(i);
+            Player? players = StrategicMap.Current.Players.GetPlayers(i);
             if (players.Status == PlayerStatus.Playing && i != exclude && (i == log.Action.Source || i == log.Action.Target || (StrategicMap.Current.Players.GetPlayers(i).GetFirstDaySeen((sbyte)(byte)log.Action.Source) != -1 && StrategicMap.Current.Players.GetPlayers(i).GetFirstDaySeen((sbyte)(byte)log.Action.Target) != -1)))
             {
                 EventLog eventLog = log.Copy<EventLog>(log.GetEngine());

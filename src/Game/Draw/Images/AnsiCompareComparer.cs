@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using Aow.Rtl;
 
 namespace Aow.Game.Draw.Images;
@@ -12,7 +12,7 @@ internal sealed class AnsiCompareComparer : IEqualityComparer<string>
     {
     }
 
-    public bool Equals(string x, string y) => DelphiTextCompare.AnsiCompareStr(x, y) == 0;
+    public bool Equals(string? x, string? y) => DelphiTextCompare.AnsiCompareStr(x, y) == 0;
 
     public int GetHashCode(string value)
     {

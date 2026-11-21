@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from CombatILTer.pas.
 using Aow.Engine.Nodes;
 
@@ -6,7 +6,7 @@ using Aow.Game.World.Terrain;
 
 namespace Aow.Game.Draw;
 
-public sealed class CombatImageLibraryTerrainShadow(CustomNode owner) : HexSprite(owner)
+public sealed class CombatImageLibraryTerrainShadow(CustomNode? owner) : HexSprite(owner)
 {
     public CombatImageLibraryTerrain Terrain { get; init; }
 

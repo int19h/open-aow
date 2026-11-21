@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 
 using System.Diagnostics.CodeAnalysis;
@@ -14,18 +14,18 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Events;
 
 // Action
-public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner)
+public partial class DiplomaticActionEventLog(CustomNode? owner) : EventLog(owner)
 {
 
     // Diplomacy.pas:1199
     public new const int ClassId = 131_347;
 
-    public DiplomaticAction Action { get; set; }
+    public DiplomaticAction? Action { get; set; }
 
     // Diplomacy.pas:1170
     public override void Dispose()
     {
-        DiplomaticAction action = Action;
+        DiplomaticAction? action = Action;
         if (action is not null)
         {
             _ = action.Release();
@@ -43,7 +43,7 @@ public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner
     }
 
     // Diplomacy.pas:1182
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
         Action.MessageProc(ref message, sender);
@@ -121,7 +121,7 @@ public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner
     {
         get
         {
-            DiplomaticAction action = Action;
+            DiplomaticAction? action = Action;
             if (!action.Proposal.SignedAsOtherPlayer)
             {
                 bool condition = action.Source > 0;
@@ -153,7 +153,7 @@ public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner
     {
         get
         {
-            DiplomaticAction action = Action;
+            DiplomaticAction? action = Action;
             bool condition = action.Target > 0;
             if (condition)
             {
@@ -175,12 +175,12 @@ public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner
     public override void NotifyLogged(EventLogbook logbook)
     {
         base.NotifyLogged(logbook);
-        DiplomaticAction action = Action;
+        DiplomaticAction? action = Action;
         action?.EventLogId = Id;
     }
 
     // Diplomacy.pas:1414
-    public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
+    public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent? done)
     {
         bool show = trigger == ExecuteTrigger.User;
         if (StrategicMap.Current.SeatedPlayer == Action.Target || StrategicMap.Current.SeatedPlayer == Action.Source)
@@ -204,7 +204,7 @@ public partial class DiplomaticActionEventLog(CustomNode owner) : EventLog(owner
     // Diplomacy.pas:1188
     public void SetDiplomaticAction(DiplomaticAction action)
     {
-        DiplomaticAction old = Action;
+        DiplomaticAction? old = Action;
         if (old != action)
         {
             _ = (old?.Release());

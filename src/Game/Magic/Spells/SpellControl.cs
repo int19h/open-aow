@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using System.Globalization;
 using Aow.Engine.Collections;
@@ -12,10 +12,10 @@ using static Aow.Rtl.IntegerObjects;
 namespace Aow.Game.Magic.Spells;
 
 // (registered-spell list)
-public sealed class SpellControl(CustomNode owner) : EngineObject(owner)
+public sealed class SpellControl(CustomNode? owner) : EngineObject(owner)
 {
 
-    public List<Spell> RegisteredSpells { get; init; } = [];
+    public List<Spell?> RegisteredSpells { get; init; } = [];
 
     // Spells.PAS:582
     public override void Dispose()
@@ -45,7 +45,7 @@ public sealed class SpellControl(CustomNode owner) : EngineObject(owner)
     public int GetCount() => RegisteredSpells.Count;
 
     // Spells.PAS:601
-    public Spell this[int index]
+    public Spell? this[int index]
     {
         get
         {
@@ -56,7 +56,7 @@ public sealed class SpellControl(CustomNode owner) : EngineObject(owner)
             }
             if (index < RegisteredSpells.Count)
             {
-                Spell p = RegisteredSpells[index];
+                Spell? p = RegisteredSpells[index];
                 return p;
             }
             else
@@ -97,7 +97,7 @@ public sealed class SpellControl(CustomNode owner) : EngineObject(owner)
     }
 
     // Spells.PAS:627
-    public void UnregisterSpell(Spell spell)
+    public void UnregisterSpell(Spell? spell)
     {
         int id = spell.SpellId;
         if (id != 0)
@@ -160,7 +160,7 @@ public sealed class SpellControl(CustomNode owner) : EngineObject(owner)
         Int32List candidates = new();
         for (int i = RegisteredSpells.Count - 1; i >= 0; i--)
         {
-            Spell spell = RegisteredSpells[i];
+            Spell? spell = RegisteredSpells[i];
             if (spell is not null && spheres.Contains(spell.MagicSphere.ToFlag()) && spell.SpellLevel >= minLevel && spell.SpellLevel <= maxLevel)
             {
                 _ = candidates.Add(i);

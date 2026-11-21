@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWPWindows.pas.
 using System.Collections.Immutable;
 using System.Globalization;
@@ -188,7 +188,7 @@ public sealed partial class PopupWindows(UIContext ui) : UIModule(ui)
         dialog.Window.Visible = true;
     }
 
-    internal static void ShowInformationBook(WorldMap dialog, ShowBookEventLog eventValue, ExecuteDoneEvent done)
+    internal static void ShowInformationBook(WorldMap dialog, ShowBookEventLog? eventValue, ExecuteDoneEvent? done)
     {
         dialog.SetBookClosedHandler(DelegateRoutines.RebindDelegate<NotifyEvent<object>>(done));
         dialog.BookContext = eventValue;

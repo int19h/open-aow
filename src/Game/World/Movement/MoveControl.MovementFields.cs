@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 
 using Aow.Game.AI;
 using Aow.Game.Host;
@@ -20,10 +20,10 @@ public partial class MoveControl
         }
 
         SetMapL(Map.MapContainer.GetMapLevel(level));
-        MapField field = MapLevel.GetField(x, y);
+        MapField? field = MapLevel.GetField(x, y);
         int points = Settings.GetMovePoints(field.HexX, field.HexY, field.HexLevel);
         bool failed = points == 0xffffff;
-        MapField neighbor = null;
+        MapField? neighbor = null;
         while (field is not null && (field.HexX != Source.X || field.HexY != Source.Y || field.HexLevel != Source.MapLevel) && !failed)
         {
             _ = path.AddMapCoordinate(field.HexX, field.HexY, field.HexLevel);
@@ -41,7 +41,7 @@ public partial class MoveControl
                 int over = source || (neighbor.FieldFlags & MapField.MoveOverFlag) == 0 ? 1 : neighbor.CanMoveOver(this);
                 found = over != 0 && ((field.FieldFlags & MapField.MoveOnFlag) == 0 || field.CanMoveOn(this, defaultCode: cost, moveOverCode: over) != -1);
             }
-            MapField previous;
+            MapField? previous;
             if (found)
             {
                 points = Settings.GetMovePoints(neighbor.HexX, neighbor.HexY, neighbor.HexLevel);

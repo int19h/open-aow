@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from HSEngine.pas.
 using Aow.Engine;
 
@@ -63,7 +63,7 @@ public class HexSpriteMapMouse : IDisposable
         remove => OnCaptureChangedStore.Remove(value);
     }
 
-    private object _capture;
+    private object? _capture;
     private Statuses _status;
     private int _cursor;
 
@@ -307,7 +307,7 @@ public class HexSpriteMapMouse : IDisposable
     }
 
     // HSEngine.pas:3570
-    public void SetCapture(object value)
+    public void SetCapture(object? value)
     {
         if (!_status.Contains(Statuses.ChangingCapture) && value != _capture)
         {
@@ -359,7 +359,7 @@ public class HexSpriteMapMouse : IDisposable
         remove => OnCaptureChangedStore.Remove(value);
     }
 
-    public object Capture { get => _capture; set => SetCapture(value); }
+    public object? Capture { get => _capture; set => SetCapture(value); }
     public int Cursor { get => GetCursor(); set => SetCursor(value); }
     public int CursorMode { get; set; }
     public bool IgnoreDown { get; private set; }

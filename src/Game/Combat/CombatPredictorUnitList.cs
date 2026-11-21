@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Game.Magic.Abilities;
 
@@ -9,10 +9,10 @@ namespace Aow.Game.Combat;
 public class CombatPredictorUnitList : DelphiList<CombatPredictorUnit>
 {
     // CombatPredictor.pas:253
-    public CombatPredictorUnit GetUnits(int index) => List[index];
+    public CombatPredictorUnit? GetUnits(int index) => List[index];
 
     // CombatPredictor.pas:256
-    public int IndexOfUnit(Troop troop)
+    public int IndexOfUnit(Troop? troop)
     {
         int result = Count;
         while (result != 0)

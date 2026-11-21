@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
@@ -27,7 +27,7 @@ public static class AbilityRules
 
     // The original reads the engine global and returns the text unchanged while it is nil. A bare
     // engine (no dictionary) returns it unchanged too, as GameEngine.TranslateText does.
-    internal static string TranslateResourceString(GameEngine engine, string S) => engine?.Dictionary is not null ? engine.TranslateResourceString(S) : S;
+    internal static string TranslateResourceString(GameEngine? engine, string S) => engine?.Dictionary is not null ? engine.TranslateResourceString(S) : S;
 
     internal static int ExpectedDamageCapped(int damage, int attackDefense, int maximum)
     {
@@ -213,7 +213,7 @@ public static class AbilityRules
         }
     }
 
-    internal static void ShowDamageIcon(GameEngine engine, int x, int y, in LockedSurface surface, int damage, DamageType damageType)
+    internal static void ShowDamageIcon(GameEngine? engine, int x, int y, in LockedSurface surface, int damage, DamageType damageType)
     {
         if (damageType != DamageType.NonSpecific)
         {
@@ -259,7 +259,7 @@ public static class AbilityRules
         return Troop.Morale.Ok;
     }
 
-    internal static int PlaceRandomUnits(int X, int Y, int L, sbyte player, UnitIndexList units, int level, int value, UnitTypes types, GameEngine engine)
+    internal static int PlaceRandomUnits(int X, int Y, int L, sbyte player, UnitIndexList units, int level, int value, UnitTypes types, GameEngine? engine)
     {
         int result = 0;
         if (units.Count != 0)
@@ -399,7 +399,7 @@ public static class AbilityRules
         return result;
     }
 
-    internal static int GetMovePathBattleFieldStrength(sbyte player, sbyte independentRelation, MovePath movePath, int targetRange, int range, int step, GameEngine engine)
+    internal static int GetMovePathBattleFieldStrength(sbyte player, sbyte independentRelation, MovePath movePath, int targetRange, int range, int step, GameEngine? engine)
     {
         int result;
         if (movePath is not null && movePath.Count > 0)
@@ -407,7 +407,7 @@ public static class AbilityRules
             int distance = Round(range * 0.5);
             result = 0;
             int i = movePath.Count - 1;
-            UnitUserList units = null;
+            UnitUserList? units = null;
             if (movePath.Count - targetRange < i)
             {
                 i = movePath.Count - targetRange;
@@ -549,7 +549,7 @@ public static class AbilityRules
         return attack * defense * damage / 2;
     }
 
-    internal static bool EndPlayerTurn(sbyte player, GameEngine engine)
+    internal static bool EndPlayerTurn(sbyte player, GameEngine? engine)
     {
         EndTurnTokenEvent eventValue = new(null)
         {

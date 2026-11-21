@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
@@ -18,7 +18,7 @@ public class UnitSpell : Spell
 {
 
     // Spells.PAS:1210
-    public UnitSpell(CustomNode owner) : base(owner)
+    public UnitSpell(CustomNode? owner) : base(owner)
     {
         AIValue = -1;
         SpellType = SpellType.Unit;
@@ -41,7 +41,7 @@ public class UnitSpell : Spell
             string reason = "";
             valid = valid && source.CanCastSpell(SpellId, ref reason);
             int priority = default;
-            Troop target = default;
+            Troop? target = default;
             if (valid && AIRetrieveOptimalTargetUnit(source, targets: source.OwnerUnits, ref target, ref priority))
             {
                 AICastSpellAction action = CreateCastSpellAction();
@@ -62,7 +62,7 @@ public class UnitSpell : Spell
             if (source.CanCastSpellInstantly(SpellId, mana: BaseManaCost, ref reason))
             {
                 int priority = default;
-                Troop target = default;
+                Troop? target = default;
                 if (source.Owner is IHeroHolder)
                 {
                     return false;
@@ -142,7 +142,7 @@ public class UnitSpell : Spell
     public override bool CanActivateCombat(Troop source, ref string reason) => SpellControlTypes.Contains(SpellControlTypes.Combat) && base.CanActivateCombat(source, ref reason);
 
     // Spells.PAS:1385
-    public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
+    public override CombatAction? CreateCombatAction(CombatObject? source, CombatObject target, bool chargeMana)
     {
         if (SpellControlTypes.Contains(SpellControlTypes.Combat))
         {
@@ -167,7 +167,7 @@ public class UnitSpell : Spell
     }
 
     // Spells.PAS:1218
-    public override void GetCombatInfo(Troop source, ref SpellCombatInfo info)
+    public override void GetCombatInfo(Troop? source, ref SpellCombatInfo info)
     {
         base.GetCombatInfo(source, ref info);
         info.TargetTypes = CombatTargetTypes.Friend;
@@ -175,10 +175,10 @@ public class UnitSpell : Spell
     }
 
     // Spells.PAS:1226
-    public virtual bool ValidTargetUnit(Troop source, Troop target) => true;
+    public virtual bool ValidTargetUnit(Troop? source, Troop? target) => true;
 
     // Spells.PAS:1228
-    public virtual byte ValidateUnitSelection(Troop source, UnitUserList targets, byte selection)
+    public virtual byte ValidateUnitSelection(Troop? source, UnitUserList targets, byte selection)
     {
         int count = targets.GetCount();
         selection = (byte)(selection & SelectionMasks[count]);
@@ -206,7 +206,7 @@ public class UnitSpell : Spell
             // troops is concealed.
             if (targets.Holder is not Army holder || !holder.GetUnitConcealedForPlayer(i, source.Player))
             {
-                Troop troop = targets.GetUnit(i);
+                Troop? troop = targets.GetUnit(i);
                 _ = caster.TargetUnits.AddUnit(troop);
             }
         }
@@ -254,10 +254,10 @@ public class UnitSpell : Spell
     }
 
     // Spells.PAS:1224
-    public virtual bool ExecuteSpell(Troop source, Troop target, int mana, Span<int> data) => false;
+    public virtual bool ExecuteSpell(Troop? source, Troop? target, int mana, Span<int> data) => false;
 
     // Spells.PAS:1400
-    public virtual UnitSpellCombatAction CreateCombatAction(CombatObject source, CombatObject target, int mana)
+    public virtual UnitSpellCombatAction? CreateCombatAction(CombatObject source, CombatObject target, int mana)
     {
         return SpellControlTypes.Contains(SpellControlTypes.Combat)
             ? new UnitSpellCombatAction(null)
@@ -273,8 +273,8 @@ public class UnitSpell : Spell
     // Spells.PAS:1411
     public virtual void ExecuteCombatAction(Battle combat, UnitSpellCombatAction action)
     {
-        CombatObject source = combat.CombatData.FindId(action.SourceId);
-        CombatObject target = combat.CombatData.FindId(action.TargetId);
+        CombatObject? source = combat.CombatData.FindId(action.SourceId);
+        CombatObject? target = combat.CombatData.FindId(action.TargetId);
         if (source is CombatUnit sourceUnit && target is CombatUnit targetUnit)
         {
             if (ExecuteSpell(sourceUnit.Troop, target: targetUnit.Troop, action.Mana, data: action.SpellData))
@@ -288,9 +288,9 @@ public class UnitSpell : Spell
     }
 
     // Spells.PAS:1422
-    public virtual bool AIRetrieveOptimalTargetUnit(Troop source, UnitCollection targets, ref Troop target, ref int priority)
+    public virtual bool AIRetrieveOptimalTargetUnit(Troop source, UnitCollection targets, ref Troop? target, ref int priority)
     {
-        DoubleItemList<Troop> list = new();
+        DoubleItemList<Troop?> list = new();
         for (int i = 0, last = targets.Count - 1; i <= last; i++)
         {
             if (ValidTargetUnit(source, target: targets.GetUnit(i)) && targets.GetUnit(i).GetUnitType() != UnitType.Machine)
@@ -320,7 +320,7 @@ public class UnitSpell : Spell
     // Spells.PAS:1269
     public void OnValidateTarget(TargetSelectionControl control, sbyte X, sbyte Y, sbyte L, ref bool valid)
     {
-        Troop source = StrategicMap.Current.UnitControl.FindUnit(control.SourceUnitId);
+        Troop? source = StrategicMap.Current.UnitControl.FindUnit(control.SourceUnitId);
         if (source is not null)
         {
             if (StrategicMap.Current.Visible(X, Y, L, radius: 0))
@@ -342,7 +342,7 @@ public class UnitSpell : Spell
     // Spells.PAS:1289
     public void OnTargetSelectionChange(TargetSelectionControl control)
     {
-        Troop source = StrategicMap.Current.UnitControl.FindUnit(control.SourceUnitId);
+        Troop? source = StrategicMap.Current.UnitControl.FindUnit(control.SourceUnitId);
         if (source is not null)
         {
             switch (control.Change)

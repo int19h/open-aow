@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from HSEngine.pas.
 using Aow.Engine.Nodes;
 
@@ -27,10 +27,10 @@ public class AbstractHexagon(CustomNode owner) : MapObject(owner)
     {
         if (message.HexNumber == 0 && GetTerrain(0) != message.TerrainType)
         {
-            MapObjectResourceTerrainControl control = Resource.TerrainControl;
+            MapObjectResourceTerrainControl? control = Resource.TerrainControl;
             if (control is not null)
             {
-                MapObjectResource r = control.GetRandomResource(classId: Resource.EngineClass.ClassId, terrainType: message.TerrainType);
+                MapObjectResource? r = control.GetRandomResource(classId: Resource.EngineClass.ClassId, terrainType: message.TerrainType);
                 if (r is not null)
                 {
                     SetResource(r);
@@ -81,12 +81,12 @@ public class AbstractHexagon(CustomNode owner) : MapObject(owner)
     }
 
     // MAPOBJ.PAS:733
-    public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override bool CanPlace(MapContainer? mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
         if (hexX >= 0 && hexY >= 0 && hexLevel >= 0 && hexX < mapContainer.Width && hexY < mapContainer.Height && hexLevel < mapContainer.LevelCount)
         {
             MapField mapField = mapContainer.GetField(hexX, hexY, hexLevel);
-            HexSprite hexSprite = mapField.GetMaxLevelNoneTransparentHexSprite();
+            HexSprite? hexSprite = mapField.GetMaxLevelNoneTransparentHexSprite();
             bool condition = hexSprite is null;
             if (!condition)
             {
@@ -108,9 +108,9 @@ public class AbstractHexagon(CustomNode owner) : MapObject(owner)
     }
 
     // MAPOBJ.PAS:750
-    public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override bool PlaceHex(MapContainer? mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        HexSprite hexSprite = mapContainer.GetField(hexX, hexY, hexLevel).FindOwnedHexSprite(typeof(AbstractHexagon));
+        HexSprite? hexSprite = mapContainer.GetField(hexX, hexY, hexLevel).FindOwnedHexSprite(typeof(AbstractHexagon));
         hexSprite?.Dispose();
 
         bool result = base.PlaceHex(mapContainer, hexX, hexY, hexLevel);

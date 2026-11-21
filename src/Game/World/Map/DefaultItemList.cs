@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from HSEngine.pas.
 using Aow.Engine.Nodes;
 
@@ -81,7 +81,7 @@ public class DefaultItemList<TItem> : Persistent where TItem : struct, IEquatabl
     public override void Dispose() => Clear();
 
     // HSEngine.pas:1592
-    public override void Assign(Persistent source)
+    public override void Assign(Persistent? source)
     {
         if (source is DefaultItemList<TItem> list)
         {

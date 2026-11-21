@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from CombatTE.pas.
 using Aow.Engine.Nodes;
 
@@ -18,7 +18,7 @@ using static Aow.Rtl.RtlHost;
 
 namespace Aow.Game.Commands;
 
-public class CombatMoveTokenEvent(CustomNode owner) : MoveTokenEvent(owner)
+public class CombatMoveTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
 {
 
     // CombatTE.pas:206
@@ -29,13 +29,13 @@ public class CombatMoveTokenEvent(CustomNode owner) : MoveTokenEvent(owner)
 
     private List<TacticalBattleUnit> _objects;
 
-    public TacticalBattleUnit PreviousUnit { get; protected set; }
+    public TacticalBattleUnit? PreviousUnit { get; protected set; }
 
-    private TacticalBattleUnit _freeStrikeUnit;
+    private TacticalBattleUnit? _freeStrikeUnit;
     private sbyte _neighbour;
 
     public TokenStep Step { get; protected set; }
-    public StrikeCombatAction Strike { get; protected set; }
+    public StrikeCombatAction? Strike { get; protected set; }
 
     // CombatTE.pas:214
     public override void Dispose()
@@ -70,7 +70,7 @@ public class CombatMoveTokenEvent(CustomNode owner) : MoveTokenEvent(owner)
     // CombatTE.pas:299
     public override MoveStatus DefaultMove()
     {
-        MapField mapField;
+        MapField? mapField;
         void CheckFreeStrike()
         {
             if (Unit.GetEnabled() && _freeStrikeUnit is null)
@@ -382,7 +382,7 @@ public class CombatMoveTokenEvent(CustomNode owner) : MoveTokenEvent(owner)
     public MoveStatus ExecuteDefaultMove()
     {
         _ = Move();
-        MapField oldField = Unit.UnitHexSprite.Owner;
+        MapField? oldField = Unit.UnitHexSprite.Owner;
         MapField newField = GetMapField(Path[MoveIndex].Location);
         _ = Unit.UnitHexSprite.MoveTo(newField, moveCost: 0);
         MoveStatus result;

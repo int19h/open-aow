@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using System.Diagnostics.CodeAnalysis;
 using Aow.Engine.Collections;
@@ -49,7 +49,7 @@ public class AIGroupControl : EngineObject
     private Statuses _status;
 
     public MapCoordinate Location { get; private set; }
-    public Army Army { get; private set; }
+    public Army? Army { get; private set; }
 
     public ArmyHexSprite ArmyHexSprite { get; private set; }
 
@@ -66,11 +66,11 @@ public class AIGroupControl : EngineObject
     private DamageTypes _immunityTypes;
 
     public CombatPredictor CombatPredictor { get; }
-    public AIMoveExecutor MoveExecutor { get; private set; }
+    public AIMoveExecutor? MoveExecutor { get; private set; }
     public AIRecruitmentGroupList RecruitmentGroups { get; }
     public AIGroupProductionLocationList ProductionLocations { get; }
 
-    private AIGroupTask _aiGroupTask;
+    private AIGroupTask? _aiGroupTask;
 
     public int State { get; set; }
 
@@ -189,7 +189,7 @@ public class AIGroupControl : EngineObject
             if (found)
             {
                 GroupBehavior behavior = Group.GroupClass.Behavior;
-                AIGroup group = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, relation: Group.IndependentRelation, behavior);
+                AIGroup? group = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, relation: Group.IndependentRelation, behavior);
                 group.Status |= AIGroupStatuses.Split;
                 i = Group.Units.Count - 1;
                 for (; i >= 0; i -= 1)
@@ -248,7 +248,7 @@ public class AIGroupControl : EngineObject
     public virtual void SetupME()
     {
         ResetME();
-        Troop troop = Group.Leader;
+        Troop? troop = Group.Leader;
         if (troop is not null)
         {
             _ = MoveExecutor.AddUnit(troop);
@@ -258,7 +258,7 @@ public class AIGroupControl : EngineObject
         {
             if (Group.Units.GetUnit(i) != Group.Leader)
             {
-                Troop unit = Group.Units.GetUnit(i);
+                Troop? unit = Group.Units.GetUnit(i);
                 _ = MoveExecutor.AddUnit(unit);
             }
         }
@@ -333,7 +333,7 @@ public class AIGroupControl : EngineObject
 
             for (int i = Group.Units.Count - 1; i >= 0; i--)
             {
-                Troop troop = Group.Units.GetUnit(i);
+                Troop? troop = Group.Units.GetUnit(i);
                 _immunityTypes = troop.GetImmunityTypes() & _immunityTypes;
                 troop.CreateMovePointTable(out MovePointTable movePointTable);
                 MovePointTable movePointTable4 = MovePointTable;
@@ -355,7 +355,7 @@ public class AIGroupControl : EngineObject
     }
 
     // AIGroup.pas:1040
-    public bool RetrieveGroupArmy(sbyte X, sbyte Y, sbyte L, out Army army, out byte selection)
+    public bool RetrieveGroupArmy(sbyte X, sbyte Y, sbyte L, out Army? army, out byte selection)
     {
         ArmyHexSprite armyHexSprite = StrategicMap.Current.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
         if (armyHexSprite is not null)
@@ -375,7 +375,7 @@ public class AIGroupControl : EngineObject
     // AIGroup.pas:1059
     public void CombineIdleGroups()
     {
-        Player player = StrategicMap.Current.Players.GetPlayers(Group.Player);
+        Player? player = StrategicMap.Current.Players.GetPlayers(Group.Player);
         for (int i = player.AIGroups.Count - 1; i >= 0; i--)
         {
             AIGroup group = player.AIGroups.GetGroups(i);
@@ -407,20 +407,20 @@ public class AIGroupControl : EngineObject
         CombatPredictor.DeleteOpponents();
         for (int i = CombatPredictor.Sides[0].Count - 1; i >= 0; i--)
         {
-            CombatPredictorUnit units = CombatPredictor.Sides[0].GetUnits(i);
+            CombatPredictorUnit? units = CombatPredictor.Sides[0].GetUnits(i);
             if (Group.Units.IndexOf(units.Troop) == -1)
             {
-                CombatPredictorUnit units2 = CombatPredictor.Sides[0].GetUnits(i);
+                CombatPredictorUnit? units2 = CombatPredictor.Sides[0].GetUnits(i);
                 CombatPredictor.DeleteUnit(units2.Troop);
             }
         }
 
         for (int i = Group.Units.Count - 1; i >= 0; i--)
         {
-            Troop troop = Group.Units.GetUnit(i);
+            Troop? troop = Group.Units.GetUnit(i);
             if (CombatPredictor.Sides[0].IndexOfUnit(troop) == -1)
             {
-                Troop fGroupUnit = Group.Units.GetUnit(i);
+                Troop? fGroupUnit = Group.Units.GetUnit(i);
                 CombatPredictor.AddUnit(fGroupUnit);
             }
         }
@@ -517,13 +517,13 @@ public class AIGroupControl : EngineObject
     }
 
     // AIGroup.pas:1323
-    public Troop FindAvailableTransporter()
+    public Troop? FindAvailableTransporter()
     {
         DoubleItemList<Troop> list = new();
-        Player player = StrategicMap.Current.Players.GetPlayers(Group.Player);
+        Player? player = StrategicMap.Current.Players.GetPlayers(Group.Player);
         for (int i = 0, last = player.Armies.Count - 1; i <= last; i++)
         {
-            Troop troop = player.Armies.GetArmy(i).Transporter(255);
+            Troop? troop = player.Armies.GetArmy(i).Transporter(255);
             if (troop is not null && (troop.Group is null || troop.Group.EngineClass.ClassId == TransportAIGroup.ClassId))
             {
                 MapCoordinate coordinate100 = troop.GetLocation();
@@ -539,7 +539,7 @@ public class AIGroupControl : EngineObject
             }
         }
 
-        Troop result;
+        Troop? result;
         if (list.Count != 0)
         {
             list.SortAscendingItemB();

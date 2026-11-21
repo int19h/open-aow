@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 
 using Aow.Game.Combat;
 using Aow.Game.Session;
@@ -11,9 +11,9 @@ namespace Aow.Game.Magic.Abilities;
 internal static class RosterTables
 {
 
-    internal static int GetUnitIndexAIPriority(int unitIndex, sbyte player, sbyte relation, GameEngine engine)
+    internal static int GetUnitIndexAIPriority(int unitIndex, sbyte player, sbyte relation, GameEngine? engine)
     {
-        UnitResource resource = GamePack.Current.UnitResources.GetUnitResource(unitIndex);
+        UnitResource? resource = GamePack.Current.UnitResources.GetUnitResource(unitIndex);
         int result;
         if (resource is not null && resource.GetTransportCapacity() == 0)
         {
@@ -26,7 +26,7 @@ internal static class RosterTables
                 }
                 else
                 {
-                    Player players = StrategicMap.Current.Players.GetPlayers(player);
+                    Player? players = StrategicMap.Current.Players.GetPlayers(player);
                     Alignment alignment = GamePack.Current.RaceResources.GetRaceResource(players.PlayerRace).Alignment;
                     value = AlignmentTables.AlignmentStatusValues[(int)resource.Alignment][(int)alignment];
                 }

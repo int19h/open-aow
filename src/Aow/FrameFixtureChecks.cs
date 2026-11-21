@@ -55,8 +55,8 @@ internal static class FrameFixtureChecks
         Check(FrameFixture.FileStampUtc(displayedFileTime, offset: TimeSpan.FromHours(-8)) ==
             new DateTime(2000, 1, 1, 21, 0, 0, kind: DateTimeKind.Utc), label: "standard file stamp preserves captured 1 PM text");
 
-        StrategicMap oldMap = StrategicMap.Current;
-        ISettingsStore oldSettings = RtlHost.Settings;
+        StrategicMap? oldMap = StrategicMap.Current;
+        ISettingsStore? oldSettings = RtlHost.Settings;
         try
         {
             Window mapWindow = new(null) { Modal = true };

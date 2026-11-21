@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Game.World.Map;
 
@@ -19,7 +19,7 @@ public sealed class FireControl : IDisposable
     public void Dispose() => _resources?.Clear();
 
     // Structur.PAS:3732
-    public Fire.Resource GetRandomFireResource(FireType fireType)
+    public Fire.Resource? GetRandomFireResource(FireType fireType)
     {
         List<Fire.Resource> resources = [];
         for (int i = 0, last = _resources.Count - 1; i <= last; i++)
@@ -30,16 +30,16 @@ public sealed class FireControl : IDisposable
             }
         }
 
-        Fire.Resource result = resources.Count != 0 ? resources[Random(resources.Count)] : null;
+        Fire.Resource? result = resources.Count != 0 ? resources[Random(resources.Count)] : null;
 
         resources?.Clear();
         return result;
     }
 
     // Structur.PAS:3747
-    public Fire PlaceFire(int X, int Y, int L, FireType fireType)
+    public Fire? PlaceFire(int X, int Y, int L, FireType fireType)
     {
-        Fire.Resource resource = GetRandomFireResource(fireType);
+        Fire.Resource? resource = GetRandomFireResource(fireType);
         Fire result;
         if (resource is not null)
         {

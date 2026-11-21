@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using System.Globalization;
 using Aow.Engine;
@@ -22,7 +22,7 @@ namespace Aow.Game.AI.Groups;
 public class AIGroupTargetSelector : AIGroupTask
 {
     // AIGroup.pas:3041
-    public AIGroupTargetSelector(CustomNode owner) : base(owner)
+    public AIGroupTargetSelector(CustomNode? owner) : base(owner)
     {
         _recruitment = new AIGroupRecruitControl(null) { Holder = CreationHolder() };
         _production = new AIGroupProductionControl(null) { Holder = CreationHolder() };
@@ -33,7 +33,7 @@ public class AIGroupTargetSelector : AIGroupTask
 
     public AIGroupTargetingStatus TargetStatus { get; private set; }
 
-    private AIGroupTask _aiGroupTask;
+    private AIGroupTask? _aiGroupTask;
     private readonly AIGroupRecruitControl _recruitment;
     private readonly AIGroupProductionControl _production;
     private readonly AIGroupCooperationControl _cooperation;
@@ -41,10 +41,10 @@ public class AIGroupTargetSelector : AIGroupTask
     public AIGroupTargetingModes Mode { get; set; }
 
     private int _movesMin;
-    private AIGroupControlTarget _target;
+    private AIGroupControlTarget? _target;
     private int _priority;
     private readonly UnitUserList _spareUnits;
-    private AIGroupControlTarget _nextTarget;
+    private AIGroupControlTarget? _nextTarget;
 
     public float BattleFieldFactor { get; set; }
     public float CurrentBattleFieldFactor { get; set; }
@@ -83,7 +83,7 @@ public class AIGroupTargetSelector : AIGroupTask
     {
         for (int i = _spareUnits.Count - 1; i >= 0; i--)
         {
-            Troop troop = _spareUnits.GetUnit(i);
+            Troop? troop = _spareUnits.GetUnit(i);
             if (GroupControl.Group.Units.IndexOf(troop) == -1)
             {
                 _ = _spareUnits.DeleteUnit(troop);
@@ -151,7 +151,7 @@ public class AIGroupTargetSelector : AIGroupTask
                 bool test = target.TargetGold <= 0;
                 if (!test)
                 {
-                    Player players = StrategicMap.Current.Players.GetPlayers(GroupControl.Group.Player);
+                    Player? players = StrategicMap.Current.Players.GetPlayers(GroupControl.Group.Player);
                     int targetGold = target.TargetGold;
                     test = players.Gems >= targetGold;
                 }
@@ -166,7 +166,7 @@ public class AIGroupTargetSelector : AIGroupTask
                 bool test = target.TargetMana <= 0;
                 if (!test)
                 {
-                    Player players = StrategicMap.Current.Players.GetPlayers(GroupControl.Group.Player);
+                    Player? players = StrategicMap.Current.Players.GetPlayers(GroupControl.Group.Player);
                     int targetMana = target.TargetMana;
                     test = players.MagicControl.Mana >= targetMana;
                 }
@@ -200,7 +200,7 @@ public class AIGroupTargetSelector : AIGroupTask
     // AIGroup.pas:3487
     public override bool Process()
     {
-        AIGroupTask aiGroupTask = _aiGroupTask;
+        AIGroupTask? aiGroupTask = _aiGroupTask;
         bool busy;
         if (aiGroupTask is not null)
         {
@@ -537,7 +537,7 @@ public class AIGroupTargetSelector : AIGroupTask
                     {
                         if (_target.TransporterId != -1)
                         {
-                            Troop troop = StrategicMap.Current.UnitControl.FindUnit(_target.TransporterId);
+                            Troop? troop = StrategicMap.Current.UnitControl.FindUnit(_target.TransporterId);
                             GroupControl.Group.AddTransporter(troop);
                         }
                         else
@@ -649,7 +649,7 @@ public class AIGroupTargetSelector : AIGroupTask
                         {
                             AIGroup group = GroupControl.Group;
                             GroupBehavior behavior = group.GroupClass.Behavior;
-                            AIGroup aiGroup = StrategicMap.Current.AIGroupManager.CreateGroup(group.Player, relation: group.IndependentRelation, behavior);
+                            AIGroup? aiGroup = StrategicMap.Current.AIGroupManager.CreateGroup(group.Player, relation: group.IndependentRelation, behavior);
 
                             _ = aiGroup.AddUnits(required.Units);
                             _ = aiGroup.SetupTarget(_nextTarget, targetType: AIGroupTargetStatus.Execute, mode: 0);
@@ -695,9 +695,9 @@ public class AIGroupTargetSelector : AIGroupTask
     }
 
     // AIGroup.pas:3067
-    public bool TargetOverlapFound(AIGroupControlTarget target, AIGroup ignoreGroup)
+    public bool TargetOverlapFound(AIGroupControlTarget? target, AIGroup? ignoreGroup)
     {
-        Player player = StrategicMap.Current.Players.GetPlayers(GroupControl.Group.Player);
+        Player? player = StrategicMap.Current.Players.GetPlayers(GroupControl.Group.Player);
         int i = player.AIGroups.Count;
         bool result = false;
         while (i != 0 && !result)
@@ -714,7 +714,7 @@ public class AIGroupTargetSelector : AIGroupTask
     // AIGroup.pas:3088
     public bool ValidateTargetOverlap(AIGroup group, AIGroupControlTarget target)
     {
-        Player player = StrategicMap.Current.Players.GetPlayers(GroupControl.Group.Player);
+        Player? player = StrategicMap.Current.Players.GetPlayers(GroupControl.Group.Player);
         int i = player.AIGroups.Count;
         bool result = true;
         while (i != 0 && result)
@@ -899,7 +899,7 @@ public class AIGroupTargetSelector : AIGroupTask
     }
 
     // AIGroup.pas:3273
-    public float GetRequiredSuperiority(AIGroupControlTarget target)
+    public float GetRequiredSuperiority(AIGroupControlTarget? target)
     {
         float result;
         if (target.Data.TargetType != AITargetType.Negotiate)
@@ -925,10 +925,10 @@ public class AIGroupTargetSelector : AIGroupTask
     }
 
     // AIGroup.pas:3292
-    public int GetRequiredCombatPredictorSuperiority(AIGroupControlTarget target) => Round((double)GetRequiredSuperiority(target) * 100);
+    public int GetRequiredCombatPredictorSuperiority(AIGroupControlTarget? target) => Round((double)GetRequiredSuperiority(target) * 100);
 
     // AIGroup.pas:3297
-    public int GetRequiredTargetStrength(AIGroupControlTarget target)
+    public int GetRequiredTargetStrength(AIGroupControlTarget? target)
     {
         int result;
         if (target.Data.TargetType != AITargetType.Negotiate)
@@ -959,7 +959,7 @@ public class AIGroupTargetSelector : AIGroupTask
     }
 
     // AIGroup.pas:3325
-    public int GetRequiredBattleFieldStrength(AIGroupControlTarget target)
+    public int GetRequiredBattleFieldStrength(AIGroupControlTarget? target)
     {
         int result;
         if (((double)BattleFieldFactor > 0 || (double)CurrentBattleFieldFactor > 0) && target.Data.TargetType != AITargetType.Negotiate)
@@ -984,7 +984,7 @@ public class AIGroupTargetSelector : AIGroupTask
     }
 
     // AIGroup.pas:3349
-    public int GetRequiredStrength(AIGroupControlTarget target)
+    public int GetRequiredStrength(AIGroupControlTarget? target)
     {
         int result = GetRequiredTargetStrength(target);
         int battleFieldStrength = GetRequiredBattleFieldStrength(target);
@@ -998,7 +998,7 @@ public class AIGroupTargetSelector : AIGroupTask
     }
 
     // AIGroup.pas:3359
-    public bool ValidateTargetRequirements(UnitCollection units, AIGroupControlTarget target, UnitUserList required, UnitUserList optional, int minimumStrength)
+    public bool ValidateTargetRequirements(UnitCollection units, AIGroupControlTarget? target, UnitUserList? required, UnitUserList optional, int minimumStrength)
     {
         CombatPredictor predictor = new(this);
         UnitUserList requiredUnits = new(null) { Holder = CreationHolder() };
@@ -1035,7 +1035,7 @@ public class AIGroupTargetSelector : AIGroupTask
             strength -= requiredUnits.GetStrengthMax(_damageTypes);
             while (strength > 0 && optionalUnits.Count != 0)
             {
-                Troop troop = optionalUnits.GetUnit(optionalUnits.Count - 1);
+                Troop? troop = optionalUnits.GetUnit(optionalUnits.Count - 1);
                 strength -= troop.GetStrengthMax(_damageTypes);
                 _ = requiredUnits.AddUnit(troop);
                 _ = optionalUnits.DeleteUnit(troop);

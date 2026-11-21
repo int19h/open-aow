@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 
 using Aow.Rtl;
 
@@ -17,7 +17,7 @@ public sealed partial class WindowManager
 
         for (int i = Children.Count - 1; i >= 0; i--)
         {
-            UIComponent c = Children[i];
+            UIComponent? c = Children[i];
             if (c.Priority < _overlayPriority || !c.Visible)
             {
                 continue;

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWPowerDlg.pas.
 using System.Globalization;
 using Aow.Game.Draw;
@@ -48,7 +48,7 @@ public sealed partial class PowerDialog(UIContext ui) : UIModule(ui)
         if (spellId != 0)
         {
             int turns = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ResearchTurns(researchPower, points: pointsLeft);
-            Spell spell = GamePack.Current.SpellControl[spellId];
+            Spell? spell = GamePack.Current.SpellControl[spellId];
             SpellNameLabel.Text = spell.SpellName;
             string formatTurnsString = FormatTurnsString(UI.Engine, turns: turns);
             ResearchLeftLabel.Text = formatTurnsString;

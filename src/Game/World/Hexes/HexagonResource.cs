@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Hexagon.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Draw;
@@ -16,7 +16,7 @@ public class HexagonResource : AbstractHexagonResource
     // Hexagon.pas:89
     public new const int ClassId = 131_411;
 
-    protected internal CustomImageLibrary TransitionLibrary { get; private set; }
+    protected internal CustomImageLibrary? TransitionLibrary { get; private set; }
 
     // Hexagon.pas:99
     public override void MessageProc(ref EngineMessage message, EngineObject sender)
@@ -37,12 +37,12 @@ public class HexagonResource : AbstractHexagonResource
     public override int ResourceUserClassId() => Hex.ClassId;
 
     // Hexagon.pas:112
-    public override MapObject PlaceResourceUser(GameMap map, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override MapObject? PlaceResourceUser(GameMap? map, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
         MapField mapField = map.MapContainer.GetField(hexX, hexY, hexLevel);
         // The resource user class (131410) registers only Hex.
         Hex found = mapField.FindOwnedChild<Hex>(ResourceUserClassId());
-        MapObject result = found;
+        MapObject? result = found;
         if (found is not null)
         {
             if (found.GetTerrain(0) != TerrainList.GetTerrain(0))

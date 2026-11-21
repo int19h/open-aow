@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from CombatSpells.pas.
 using Aow.Engine.Nodes;
 
@@ -13,7 +13,7 @@ namespace Aow.Game.Magic.Spells;
 public class RecallSpirit : CombatSpell
 {
     // CombatSpells.pas:1975
-    public RecallSpirit(CustomNode owner, EngineObject holder) : base(owner)
+    public RecallSpirit(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_recallSpiritText);
@@ -29,7 +29,7 @@ public class RecallSpirit : CombatSpell
     }
 
     // CombatSpells.pas:2008
-    public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
+    public override CombatAction CreateCombatAction(CombatObject? source, CombatObject target, bool chargeMana)
     {
         RecallSpiritCombatAction action = new(null)
         {

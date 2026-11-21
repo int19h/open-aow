@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Cave.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -79,7 +79,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
     {
         if (info.HexNumber == 0)
         {
-            MapField field = Entrance switch
+            MapField? field = Entrance switch
             {
                 CaveEntrance.Up => StrategicMap.Current.MapContainer.GetField(StoredHexX, StoredHexY, Owner.HexLevel - 1),
                 CaveEntrance.Down => StrategicMap.Current.MapContainer.GetField(StoredHexX, StoredHexY, Owner.HexLevel + 1),
@@ -185,7 +185,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
     public override int GetTerrainTypeImage(int terrainType) => Entrance == CaveEntrance.Down ? terrainType : terrainType + 30;
 
     // Cave.pas:163
-    public override LibraryImage GetTopBorderImage()
+    public override LibraryImage? GetTopBorderImage()
     {
         return Entrance == CaveEntrance.Up
             ? base.Resource.ImageSequenceList is not null && base.Resource.ImageSequenceList.ImageSequences[33] is not null
@@ -195,7 +195,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
     }
 
     // Cave.pas:175
-    public override LibraryImage GetMiddleBorderImage()
+    public override LibraryImage? GetMiddleBorderImage()
     {
         return Entrance == CaveEntrance.Up
             ? base.Resource.ImageSequenceList is not null && base.Resource.ImageSequenceList.ImageSequences[34] is not null
@@ -205,7 +205,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
     }
 
     // Cave.pas:187
-    public override LibraryImage GetBottomBorderImage()
+    public override LibraryImage? GetBottomBorderImage()
     {
         return Entrance == CaveEntrance.Up
             ? base.Resource.ImageSequenceList is not null && base.Resource.ImageSequenceList.ImageSequences[35] is not null
@@ -215,10 +215,10 @@ public partial class Cave(CustomNode owner) : Structure(owner)
     }
 
     // Cave.pas:412
-    public override void ArmyPlaced(ArmyHexSprite placedArmy)
+    public override void ArmyPlaced(ArmyHexSprite? placedArmy)
     {
         base.ArmyPlaced(placedArmy);
-        ArmyHexSprite armyHexSprite = placedArmy;
+        ArmyHexSprite? armyHexSprite = placedArmy;
         if (armyHexSprite is not null)
         {
             int l = Entrance == CaveEntrance.Down ? HexLevel + 1 : HexLevel - 1;
@@ -251,7 +251,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
         byte result = 0;
         for (int i = 0, last = units.Count - 1; i <= last; i++)
         {
-            Troop troop = units.GetUnit(i);
+            Troop? troop = units.GetUnit(i);
             if (troop.MovePointCost(field.TerrainType, field.OverlayType) <= troop.GetMovePoints())
             {
                 result = (byte)(result + (1 << i));
@@ -312,7 +312,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
                     if (!StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player).GetBusy())
                     {
                         // { Original passes action before mode. }
-                        TokenEvent eventValue = ArmyHexSprite.CreateArmyMoveTokenEvent(armyHexSprite, selection, path, action: MoveAction.Attack, mode: ArmyMoveModes.None);
+                        TokenEvent? eventValue = ArmyHexSprite.CreateArmyMoveTokenEvent(armyHexSprite, selection, path, action: MoveAction.Attack, mode: ArmyMoveModes.None);
                         if (eventValue is not null)
                         {
                             StrategicMap.Current.TokenManager.GetTokenControl(armyHexSprite.Army.Player).AddEvent(eventValue);
@@ -346,7 +346,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
                 if (armyHexSprite.Army.Player == StrategicMap.Current.SeatedPlayer)
                 {
                     sbyte player = field.GetPlayer();
-                    Player playerPlayerRace = StrategicMap.Current.Players.GetPlayers(player);
+                    Player? playerPlayerRace = StrategicMap.Current.Players.GetPlayers(player);
                     string raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.RaceNamesPluralTexts[playerPlayerRace.PlayerRace]);
                     string messageText = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.NoWarDeclaredFormat), args: [raceNamesPlural]);
                     StrategicMap.Current.ShowMessage(messageText);

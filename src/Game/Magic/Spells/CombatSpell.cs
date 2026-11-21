@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from CombatSpells.pas.
 using Aow.Engine.Nodes;
 
@@ -21,7 +21,7 @@ public class CombatSpell : Spell
     public byte DamageMode { get; protected init; }
 
     // CombatSpells.pas:632
-    public CombatSpell(CustomNode owner) : base(owner)
+    public CombatSpell(CustomNode? owner) : base(owner)
     {
         SpellType = SpellType.Combat;
         SpellControlTypes = SpellControlTypes.Combat;
@@ -36,7 +36,7 @@ public class CombatSpell : Spell
     }
 
     // CombatSpells.pas:655
-    public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
+    public override CombatAction CreateCombatAction(CombatObject? source, CombatObject target, bool chargeMana)
     {
         CombatSpellCombatAction action = new(null)
         {
@@ -53,7 +53,7 @@ public class CombatSpell : Spell
     }
 
     // CombatSpells.pas:643
-    public override void GetCombatInfo(Troop source, ref SpellCombatInfo info) => info = CombatInfo;
+    public override void GetCombatInfo(Troop? source, ref SpellCombatInfo info) => info = CombatInfo;
 
     // CombatSpells.pas:648
     public override int GetCombatDamageValue(CombatObject source, CombatObject target)
@@ -67,7 +67,7 @@ public class CombatSpell : Spell
     }
 
     // CombatSpells.pas:668
-    public override void GetCombatDamageValues(CombatObject source, CombatObject target, ref AbilityDamageValues values)
+    public override void GetCombatDamageValues(CombatObject? source, CombatObject? target, ref AbilityDamageValues values)
     {
         DamageTypes protection = target.GetProtectionTypes();
         DamageTypes immunity = target.GetImmunityTypes();
@@ -105,7 +105,7 @@ public class CombatSpell : Spell
     public override void FastBattlePrefetchCombatCommands(FastBattleCommandList commands)
     {
         string reason = "";
-        Troop hero = commands.Source is CombatUnit sourceUnit ? sourceUnit.Troop : null;
+        Troop? hero = commands.Source is CombatUnit sourceUnit ? sourceUnit.Troop : null;
         if (hero is not null && hero.CanCastSpellInstantly(SpellId, mana: BaseManaCost, ref reason))
         {
             int distance = commands.Combat.RoundDistance;
@@ -154,7 +154,7 @@ public class CombatSpell : Spell
     // CombatSpells.pas:791
     public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand command)
     {
-        CombatObject target = command.Target;
+        CombatObject? target = command.Target;
         CombatAction action;
         for (int i = 0, last = CombatInfo.RepeatCount - 1; i <= last; i++)
         {
@@ -190,7 +190,7 @@ public class CombatSpell : Spell
                 }
             }
 
-            CombatObject other;
+            CombatObject? other;
             for (int i = combat.Sides[(int)target.Side].GetCount() - 1; i >= 0; i--)
             {
                 CombatSideIndex side = target.Side;

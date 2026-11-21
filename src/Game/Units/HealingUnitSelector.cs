@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Commands;
@@ -13,7 +13,7 @@ public sealed class HealingUnitSelector(EngineObject creator) : UnitSelector(cre
 {
 
     // AoWAb.PAS:3894
-    public override bool CanSelectUnit(Troop troop)
+    public override bool CanSelectUnit(Troop? troop)
     {
         UnitType unitType = troop.GetUnitType();
         return unitType is UnitType.Humanoid or UnitType.Creature && troop.GetHits() != troop.GetHitPoints();
@@ -23,11 +23,11 @@ public sealed class HealingUnitSelector(EngineObject creator) : UnitSelector(cre
     public override bool Select()
     {
         string error = "";
-        Troop source = StrategicMap.Current.UnitControl.FindUnit(SourceUnitId);
+        Troop? source = StrategicMap.Current.UnitControl.FindUnit(SourceUnitId);
         if (CanSelect(ref error) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             int i = 0;
-            Troop target = null;
+            Troop? target = null;
             while (target is null && i != Units.GetCount())
             {
                 if ((Selection & (1 << i)) != 0)

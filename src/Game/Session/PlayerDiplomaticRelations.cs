@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Collections;
@@ -14,7 +14,7 @@ namespace Aow.Game.Session;
 public sealed class PlayerDiplomaticRelations : EngineObject
 {
     // Player.PAS:78
-    public PlayerDiplomaticRelations(CustomNode owner) : base(owner)
+    public PlayerDiplomaticRelations(CustomNode? owner) : base(owner)
     {
         _relations = new ByteList();
         _history = new OwningNode(null) { Holder = CreationHolder() };
@@ -48,7 +48,7 @@ public sealed class PlayerDiplomaticRelations : EngineObject
     }
 
     // Player.PAS:127
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
         if (message.MessageId == 536870920)

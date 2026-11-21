@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 
@@ -14,7 +14,7 @@ public partial class UpperIsometricHex
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         pixelX = pixelX - pixelXSurface - 8;
         pixelY -= pixelYSurface;
-        CustomImageLibrary imageLibrary = base.Resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
+        CustomImageLibrary? imageLibrary = base.Resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
         int variant = FrameFixtureInputs.TextureVariant(this);
         if (variant == 3)
         {

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from NetworkE.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
@@ -8,7 +8,7 @@ using Aow.Rtl;
 namespace Aow.Game.Net;
 
 // _engine, Received, _receivedPackage, SendStream, ReceiveStream, _playerCommunicationControl, Processed
-public sealed class PlayerCommunicator(CustomNode owner) : EngineObject(owner)
+public sealed class PlayerCommunicator(CustomNode? owner) : EngineObject(owner)
 {
 
     internal EventStore<PlayerCommunicator> OnReceiveStore { get; } = new();
@@ -88,7 +88,7 @@ public sealed class PlayerCommunicator(CustomNode owner) : EngineObject(owner)
         {
             try
             {
-                EngineObject objectValue = Engine.RetrieveEngineObject(ReceiveStream, progress: null);
+                EngineObject? objectValue = Engine.RetrieveEngineObject(ReceiveStream, progress: null);
                 if (objectValue is DataPackage received)
                 {
                     ReceivedPackage = received;
@@ -124,7 +124,7 @@ public sealed class PlayerCommunicator(CustomNode owner) : EngineObject(owner)
         return PlayerCommunicationControl.SendPackageData(receiver, stream: SendStream);
     }
 
-    public GameEngine Engine { get; init; }
+    public GameEngine? Engine { get; init; }
 
     public event NotifyEvent<PlayerCommunicator> OnReceive
     {
@@ -132,8 +132,8 @@ public sealed class PlayerCommunicator(CustomNode owner) : EngineObject(owner)
         remove => OnReceiveStore.Remove(value);
     }
 
-    public DataPackage ReceivedPackage { get; private set; }
-    public PlayerCommunicationControl PlayerCommunicationControl { get; private set; }
+    public DataPackage? ReceivedPackage { get; private set; }
+    public PlayerCommunicationControl? PlayerCommunicationControl { get; private set; }
 
     public event NotifyEvent<PlayerCommunicator> OnProcess
     {

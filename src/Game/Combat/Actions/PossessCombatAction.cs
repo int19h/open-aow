@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -14,7 +14,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Combat.Actions;
 
 // (possession succeeded)
-public class PossessCombatAction(CustomNode owner) : SingleTargetCombatAction(owner)
+public class PossessCombatAction(CustomNode? owner) : SingleTargetCombatAction(owner)
 {
     public new const int ClassId = 131_765;
 
@@ -46,11 +46,11 @@ public class PossessCombatAction(CustomNode owner) : SingleTargetCombatAction(ow
                 GamePack.Current.AbilityControl.GetAbility<CommandAbility>(AbilityRules.CommandAbilityIds[i]).Uncommand(target);
             }
 
-            Troop newUnit = target.Troop;
+            Troop? newUnit = target.Troop;
             _ = newUnit.AddRef();
             target.SetUnit(null);
             target.DestroyObject();
-            Troop oldUnit = source.Troop;
+            Troop? oldUnit = source.Troop;
             _ = oldUnit.AddRef();
             oldUnit.Killed();
             oldUnit.SetOwner(null);

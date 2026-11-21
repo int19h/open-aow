@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
@@ -8,7 +8,7 @@ namespace Aow.Game.Magic.Abilities;
 public class LeadershipAbility : MultiLevelAbility
 {
     // AoWAb.PAS:965
-    public LeadershipAbility(CustomNode owner) : base(owner)
+    public LeadershipAbility(CustomNode? owner) : base(owner)
     {
         MaxLevel = 1;
         AbilityId = 46;
@@ -16,21 +16,21 @@ public class LeadershipAbility : MultiLevelAbility
     }
 
     // AoWAb.PAS:1002
-    public override sbyte GetAttack(AbilityOwner owner)
+    public override sbyte GetAttack(AbilityOwner? owner)
     {
         int level = GetLevel(owner);
         return level != 0 ? LeadershipAttack[level] : (sbyte)0;
     }
 
     // AoWAb.PAS:1013
-    public override sbyte GetDefense(AbilityOwner owner)
+    public override sbyte GetDefense(AbilityOwner? owner)
     {
         int level = GetLevel(owner);
         return level != 0 ? LeadershipDefense[level] : (sbyte)0;
     }
 
     // AoWAb.PAS:978
-    public override int GetLevel(AbilityOwner owner)
+    public override int GetLevel(AbilityOwner? owner)
     {
         if (owner is not null)
         {
@@ -44,7 +44,7 @@ public class LeadershipAbility : MultiLevelAbility
     }
 
     // AoWAb.PAS:1067
-    public override string GetSourceName(AbilityOwner owner)
+    public override string GetSourceName(AbilityOwner? owner)
     {
         LeadershipAbilityData data = GetData(owner);
         return data is not null && data.ExternalLevel > data.Level ? data.ExternalSource : owner.GetOwnerName();
@@ -58,7 +58,7 @@ public class LeadershipAbility : MultiLevelAbility
     }
 
     // AoWAb.PAS:1086
-    public override bool CanExpand(AbilityOwner owner)
+    public override bool CanExpand(AbilityOwner? owner)
     {
         LeadershipAbilityData data = GetData(owner);
         return data is null || data.Level < MaxLevel;
@@ -123,7 +123,7 @@ public class LeadershipAbility : MultiLevelAbility
     // AoWAb.PAS:973
     public override EngineClass AbilityDataClass() => EngineClass.Of<LeadershipAbilityData>();
 
-    public override LeadershipAbilityData GetData(AbilityOwner owner) => owner.GetAbilityData<LeadershipAbilityData>(AbilityId);
+    public override LeadershipAbilityData GetData(AbilityOwner? owner) => owner.GetAbilityData<LeadershipAbilityData>(AbilityId);
 
     private static ReadOnlySpan<sbyte> LeadershipAttack => [0, 1, 1, 2, 2];
     private static ReadOnlySpan<sbyte> LeadershipDefense => [2, 0, 1, 1, 2];

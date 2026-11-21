@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Sound.pas.
 using Aow.Rtl;
 
@@ -10,9 +10,9 @@ public class Sample : IDisposable
 {
     public static SampleClass Descriptor { get; } = new("Sample", Create);
 
-    private Action<Sample, SampleCallbackMode> _callback;
+    private Action<Sample, SampleCallbackMode>? _callback;
 
-    internal void SetCallbackHandler(Action<Sample, SampleCallbackMode> handler) => _callback = handler;
+    internal void SetCallbackHandler(Action<Sample, SampleCallbackMode>? handler) => _callback = handler;
 
     // Sound.pas:746
     protected internal virtual bool GetPlaying() => Delay != 0;
@@ -110,7 +110,7 @@ public class Sample : IDisposable
         }
     }
 
-    public SampleData SampleData { get; private set; }
+    public SampleData? SampleData { get; private set; }
     public int Delay { get; set; }
     public Statuses Status { get; private set; }
     public bool Playing => GetPlaying();

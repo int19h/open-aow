@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Storms.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Audio;
@@ -12,7 +12,7 @@ using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.Draw.Animations;
 
-public class FireStorm(CustomNode owner) : Storm(owner)
+public class FireStorm(CustomNode? owner) : Storm(owner)
 {
 
     // Storms.pas:517
@@ -25,7 +25,7 @@ public class FireStorm(CustomNode owner) : Storm(owner)
         HexGeometry.HexToPixel(HexX, hexY, out int x, out int y);
         x = x - pixelXSurface + 8;
         y -= pixelYSurface;
-        ImageSequence sequence = GamePack.Current.ImageSequences.ImageSequences[0];
+        ImageSequence? sequence = GamePack.Current.ImageSequences.ImageSequences[0];
         while (sequence is not null)
         {
             int frame = sequence.GetUnloopedFrameIndex(FrameCounter);
@@ -83,7 +83,7 @@ public class FireStorm(CustomNode owner) : Storm(owner)
             _ = StrategicMap.Current.ChangeTerrain(this, hexX, hexY2, L: hexLevel2, radius: 2, changeTerrainProc: ChangeStormTerrain, terrainChangedProc: null);
         }
 
-        ImageSequence sequence = GamePack.Current.ImageSequences.ImageSequences[0];
+        ImageSequence? sequence = GamePack.Current.ImageSequences.ImageSequences[0];
         int frame = -1;
         while (sequence is not null && frame == -1)
         {

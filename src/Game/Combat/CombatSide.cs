@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using System.Globalization;
 using Aow.Engine;
@@ -8,7 +8,7 @@ using Aow.Formats.Tree;
 namespace Aow.Game.Combat;
 
 // SideIndex. Opponent. Strength. ConquerCount
-public sealed class CombatSide(CustomNode owner) : OwningNode(owner), IChildList<CombatObject>
+public sealed class CombatSide(CustomNode? owner) : OwningNode(owner), IChildList<CombatObject>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a CombatObject, so the cast never fails.

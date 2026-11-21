@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -10,7 +10,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Combat.Actions;
 
 // (ability ID)
-public class RangedAttackCombatAction(CustomNode owner) : DamageCombatAction(owner)
+public class RangedAttackCombatAction(CustomNode? owner) : DamageCombatAction(owner)
 {
     public new const int ClassId = 131_753;
 

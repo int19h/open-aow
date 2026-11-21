@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
@@ -14,7 +14,7 @@ namespace Aow.Game.AI.Groups;
 public class AdjacentMoveExecutorControl : AIMoveExecutorControl
 {
     // AIGroup.pas:5117
-    public AdjacentMoveExecutorControl(CustomNode owner) : base(owner) => _adjacentArmies = new AdjacentArmyList(null) { Holder = CreationHolder() };
+    public AdjacentMoveExecutorControl(CustomNode? owner) : base(owner) => _adjacentArmies = new AdjacentArmyList(null) { Holder = CreationHolder() };
 
     // A path step with its cost: the meeting point is a step of a move path, and the comparison
     // with the destination covers the cost as the Delphi four-byte comparison did.
@@ -33,7 +33,7 @@ public class AdjacentMoveExecutorControl : AIMoveExecutorControl
     {
         int i;
         AIMoveExecutorArmyList aiMoveExecutorArmyList;
-        AIMoveExecutorMove move;
+        AIMoveExecutorMove? move;
         byte moveResult;
         switch (State)
         {
@@ -61,7 +61,7 @@ public class AdjacentMoveExecutorControl : AIMoveExecutorControl
                 {
                     MoveControlSettings settings = new(null) { Holder = CreationHolder() };
                     byte armySelection = default;
-                    ArmyHexSprite armyHexSprite = default;
+                    ArmyHexSprite? armyHexSprite = default;
                     try
                     {
                         aiMoveExecutorArmyList.GetArmies(i).RetrieveArmy(255, army: out armyHexSprite, out armySelection);

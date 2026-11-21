@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Collections;
@@ -19,9 +19,9 @@ using static Aow.Rtl.IntegerObjects;
 namespace Aow.Game.Magic.Abilities;
 
 // (AbilityData,)
-public class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
+public class AbilityOwner(CustomNode? owner) : CustomAbilityList(owner)
 {
-    public AbilityData AbilityData { get; set; }
+    public AbilityData? AbilityData { get; set; }
 
     // Ability.PAS:1762
     // The load follows AbilityDataIds, as the original ReadWrite does: one AbilityData per stored id, from the slot of
@@ -41,10 +41,10 @@ public class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
 
             Int32List ids = new();
             persister.Int32List(name: "AbilityDataIds", list: ids);
-            AbilityData previous = null;
+            AbilityData? previous = null;
             for (int i = 0; i < ids.Count; i++)
             {
-                AbilityData data = persister.CreatedSlot<AbilityData>("AbilityData", slot: ids[i], objectValue: null);
+                AbilityData? data = persister.CreatedSlot<AbilityData>("AbilityData", slot: ids[i], objectValue: null);
                 previous?.Next = data;
 
                 previous = data;
@@ -64,13 +64,13 @@ public class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
         }
 
         Int32List stored = new();
-        for (AbilityData data = AbilityData; data is not null; data = data.Next)
+        for (AbilityData? data = AbilityData; data is not null; data = data.Next)
         {
             _ = stored.Add(data.GetAbilityId());
         }
 
         persister.Int32List(name: "AbilityDataIds", list: stored);
-        for (AbilityData data = AbilityData; data is not null; data = data.Next)
+        for (AbilityData? data = AbilityData; data is not null; data = data.Next)
         {
             _ = persister.CreatedSlot("AbilityData", slot: data.GetAbilityId(), objectValue: data);
         }
@@ -89,7 +89,7 @@ public class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     }
 
     // Ability.PAS:1998
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
         if (message.MessageId == 537001985)
@@ -116,7 +116,7 @@ public class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
         {
             if (GetAbilitySetAt(i))
             {
-                Ability ability = GamePack.Current.AbilityControl[i];
+                Ability? ability = GamePack.Current.AbilityControl[i];
                 if ((ability.SelectionTypes & types) != AbilitySelectionTypes.None)
                 {
                     _ = text.AddObject(ability.GetName(this), item: IntToObject(i));
@@ -207,9 +207,9 @@ public class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     }
 
     // Ability.PAS:1688
-    public AbilityData GetAbilityData(int abilityId)
+    public AbilityData? GetAbilityData(int abilityId)
     {
-        AbilityData data = AbilityData;
+        AbilityData? data = AbilityData;
         while (data is not null && data.GetAbilityId() != abilityId)
         {
             data = data.Next;
@@ -239,7 +239,7 @@ public class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
             }
         }
 
-        AbilityData data = source.AbilityData;
+        AbilityData? data = source.AbilityData;
         while (data is not null)
         {
             AddAbilityData(data.Copy<AbilityData>(GetEngine()));
@@ -257,8 +257,8 @@ public class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     // Ability.PAS:1717
     public void RemoveAbilityData(AbilityData data)
     {
-        AbilityData current = AbilityData;
-        AbilityData previous = null;
+        AbilityData? current = AbilityData;
+        AbilityData? previous = null;
         while (current is not null && current != data)
         {
             previous = current;
@@ -284,8 +284,8 @@ public class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     // Ability.PAS:1736
     public void RemoveAbilityDataId(int abilityId)
     {
-        AbilityData current = AbilityData;
-        AbilityData previous = null;
+        AbilityData? current = AbilityData;
+        AbilityData? previous = null;
         while (current is not null && current.GetAbilityId() != abilityId)
         {
             previous = current;
@@ -314,7 +314,7 @@ public class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
         {
             if (source.GetAbilitySetAt(i) && (!GetAbilitySetAt(i) || source.GetOwnAbilityLevel(i) > GetOwnAbilityLevel(i)))
             {
-                AbilityData data = source.GetAbilityData(i);
+                AbilityData? data = source.GetAbilityData(i);
                 if (data is not null)
                 {
                     RemoveAbilityDataId(i);
@@ -608,7 +608,7 @@ public class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
         {
             if (GetAbilitySetAt(i))
             {
-                Ability ability = GamePack.Current.AbilityControl[i];
+                Ability? ability = GamePack.Current.AbilityControl[i];
                 string name = ability.GetName(this);
                 if (!IsEmpty(name))
                 {

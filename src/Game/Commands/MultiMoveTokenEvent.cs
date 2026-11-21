@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -31,7 +31,7 @@ public class MultiMoveTokenEvent : TokenEvent
     }
 
     // MoveT.PAS:3286
-    public MultiMoveTokenEvent(CustomNode owner) : base(owner)
+    public MultiMoveTokenEvent(CustomNode? owner) : base(owner)
     {
         Events = new TokenEventList(null) { Holder = CreationHolder() };
         Simultaneous = true;

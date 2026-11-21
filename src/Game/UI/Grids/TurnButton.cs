@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from TurnButton.pas.
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
@@ -11,16 +11,16 @@ namespace Aow.Game.UI.Grids;
 // { ot=1 }
 // library, current player, last player, animating, animation phase, frame offset, done event,
 // change event, checked, animation frame
-public sealed partial class TurnButton(Component owner) : Control(owner)
+public sealed partial class TurnButton(Component? owner) : Control(owner)
 {
 
-    private ImageLibrary _imageLibrary;
+    private ImageLibrary? _imageLibrary;
     private int _animationPhase;
     private int _frameOffset = 11;
     [Published]
-    public event NotifyEvent<TurnButton> AnimationDone;
+    public event NotifyEvent<TurnButton>? AnimationDone;
     [Published]
-    public new event NotifyEvent<TurnButton> Change;
+    public new event NotifyEvent<TurnButton>? Change;
 
     public bool ButtonChecked { get; set; }
     public int AnimationFrame { get; set; }
@@ -171,10 +171,10 @@ public sealed partial class TurnButton(Component owner) : Control(owner)
     }
 
     // TurnButton.pas:73
-    public void SetImageLibrary(ImageLibrary value) => _imageLibrary = value ?? null;
+    public void SetImageLibrary(ImageLibrary? value) => _imageLibrary = value ?? null;
 
     [Published]
-    public ImageLibrary ImageLibrary { get => _imageLibrary; set => SetImageLibrary(value); }
+    public ImageLibrary? ImageLibrary { get => _imageLibrary; set => SetImageLibrary(value); }
 
     [Published]
     public int CurrentPlayer { get; set; }

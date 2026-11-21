@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using System.Diagnostics.CodeAnalysis;
 using Aow.Engine.Nodes;
@@ -14,9 +14,9 @@ namespace Aow.Game.AI.Groups;
 
 // unit, ID, location, origin, destination, transporter ID, transport status, transport points,
 // status, move result
-public sealed class AIMoveExecutorUnit(CustomNode owner) : EngineObject(owner)
+public sealed class AIMoveExecutorUnit(CustomNode? owner) : EngineObject(owner)
 {
-    public Troop Troop { get; private set; }
+    public Troop? Troop { get; private set; }
     public int UnitId { get; private set; }
 
     public MapCoordinate Location { get; private set; }

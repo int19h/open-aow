@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -11,7 +11,7 @@ namespace Aow.Game.Session;
 public sealed class PbemPlayerSettings : EngineObject
 {
     // Player.PAS:236
-    public PbemPlayerSettings(CustomNode owner) : base(owner)
+    public PbemPlayerSettings(CustomNode? owner) : base(owner)
     {
         Status = PbemPlayerStatuses.None;
         EmailGame = new EmailGame(null) { Holder = CreationHolder() };

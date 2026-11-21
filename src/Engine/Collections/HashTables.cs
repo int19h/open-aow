@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 namespace Aow.Engine.Collections;
 
 // A duplicate key throws the original message and leaves the first value in place.

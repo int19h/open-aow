@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 
@@ -18,7 +18,7 @@ public partial class Troop
         _ = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(resourceIndex).AddRef();
         if (info.Animation != UnitAnimation.None)
         {
-            ImageSequence sequence = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(resourceIndex).Sequences.List[((int)info.Animation * 6) + info.Direction - 1];
+            ImageSequence? sequence = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(resourceIndex).Sequences.List[((int)info.Animation * 6) + info.Direction - 1];
             if (sequence is not null)
             {
                 int frame;

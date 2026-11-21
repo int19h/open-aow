@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from UnHolyG.pas.
 using Aow.Engine.Nodes;
 
@@ -14,7 +14,7 @@ using Aow.Game.World.Terrain;
 
 namespace Aow.Game.Commands;
 
-public class UnholyGroundSpellTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
+public class UnholyGroundSpellTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenEvent(owner)
 {
 
     // UnHolyG.pas:288

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
@@ -25,9 +25,9 @@ public sealed class RaceResource(CustomNode owner) : EngineResource(owner)
 {
 
     public new const int ClassId = 131_585;
-    private CustomImageLibrary _faceLibrary;
+    private CustomImageLibrary? _faceLibrary;
 
-    public CustomImageLibrary ImageLibrary { get; private set; }
+    public CustomImageLibrary? ImageLibrary { get; private set; }
 
     private string _imageLibraryName = "";
     private string _name = "";
@@ -106,7 +106,7 @@ public sealed class RaceResource(CustomNode owner) : EngineResource(owner)
     }
 
     // PlayerC.PAS:1855
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
         if (message.MessageId == 536870920)
@@ -116,10 +116,10 @@ public sealed class RaceResource(CustomNode owner) : EngineResource(owner)
     }
 
     // PlayerC.PAS:1818
-    public override LibraryImage GetCellImage()
+    public override LibraryImage? GetCellImage()
     {
         _ = AddRef();
-        LibraryImage result = null;
+        LibraryImage? result = null;
         if (ImageLibrary is not null)
         {
             int i = 0;
@@ -140,11 +140,11 @@ public sealed class RaceResource(CustomNode owner) : EngineResource(owner)
     }
 
     // PlayerC.PAS:1752
-    public LibraryImage GetFace()
+    public LibraryImage? GetFace()
     {
         _ = AddRef();
-        CustomImageLibrary images = _faceLibrary;
-        LibraryImage result = images?.GetSafe(RaceIndex);
+        CustomImageLibrary? images = _faceLibrary;
+        LibraryImage? result = images?.GetSafe(RaceIndex);
 
         _ = Release();
         return result;
@@ -199,11 +199,11 @@ public sealed class RaceResource(CustomNode owner) : EngineResource(owner)
     }
 
     // PlayerC.PAS:1839
-    public LibraryImage GetCityImage(int size, int terrain, int level)
+    public LibraryImage? GetCityImage(int size, int terrain, int level)
     {
         int index = terrain == 5 ? size + 60 - 1 : (terrain * 10) + 70 + (size - 1);
 
-        LibraryImage result = ImageLibrary.ImageExist(index) ? ImageLibrary[index] : null;
+        LibraryImage? result = ImageLibrary.ImageExist(index) ? ImageLibrary[index] : null;
 
         if (result is null)
         {

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from HSEngine.pas.
 using Aow.Engine.Nodes;
 
@@ -8,7 +8,7 @@ namespace Aow.Game.Draw;
 
 // a sprite on one hexagon. _status: bit 1 visible, 2 edit mode, 4 selected, 8 activated (a
 // Byte: the original sets the bits with or/and, which a set with Include does not give)
-public class SingleHexSprite(CustomNode owner) : HexSprite(owner)
+public class SingleHexSprite(CustomNode? owner) : HexSprite(owner)
 {
     private byte _status;
 
@@ -47,7 +47,7 @@ public class SingleHexSprite(CustomNode owner) : HexSprite(owner)
     public override void Disconnect() => SetOwner(null);
 
     // HXSPRITE.PAS:749
-    public override bool Place(MapContainer map, int pixelX, int pixelY, int hexLevel)
+    public override bool Place(MapContainer? map, int pixelX, int pixelY, int hexLevel)
     {
         HexGeometry.PixelToHex(pixelX, vertical: pixelY, out int hexX, out int hexY);
         return PlaceHex(map, (sbyte)hexX, (sbyte)hexY, (sbyte)hexLevel);
@@ -112,10 +112,10 @@ public class SingleHexSprite(CustomNode owner) : HexSprite(owner)
     }
 
     // HXSPRITE.PAS:743
-    public virtual bool CanPlace(MapContainer map, sbyte hexX, sbyte hexY, sbyte hexLevel) => hexX >= 0 && hexY >= 0 && hexLevel >= 0 && hexX < map.Width && hexY < map.Height && hexLevel < map.LevelCount;
+    public virtual bool CanPlace(MapContainer? map, sbyte hexX, sbyte hexY, sbyte hexLevel) => hexX >= 0 && hexY >= 0 && hexLevel >= 0 && hexX < map.Width && hexY < map.Height && hexLevel < map.LevelCount;
 
     // HXSPRITE.PAS:757
-    public virtual bool PlaceHex(MapContainer map, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public virtual bool PlaceHex(MapContainer? map, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
         if (EditMode || CanPlace(map, hexX, hexY, hexLevel))
         {

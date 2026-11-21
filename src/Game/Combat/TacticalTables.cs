@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 
 using System.Diagnostics.CodeAnalysis;
 using Aow.Game.Draw;
@@ -223,7 +223,7 @@ internal static class TacticalTables
             steps = 2;
         }
 
-        Point3D point;
+        Point3D? point;
         while (i <= steps)
         {
             point = new Point3D();
@@ -275,11 +275,11 @@ internal static class TacticalTables
                     else
                     {
                         a = HexGeometry.DeltaHexToRadius(x, y, startX, startY);
-                        TacticalBattleUnitHexSprite unitHexSprite = !includeUnits
+                        TacticalBattleUnitHexSprite? unitHexSprite = !includeUnits
                             ? null
                             : CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
 
-                        CityWall wall = CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild<CityWall>(CityWall.ClassId);
+                        CityWall? wall = CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild<CityWall>(CityWall.ClassId);
                         if (wall is null && side == CombatSideIndex.Attacker)
                         {
                             wall = CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild(2_229_510) as CityWall;
@@ -379,7 +379,7 @@ internal static class TacticalTables
 
                     if (a > 0)
                     {
-                        RangedObstacle obstacle;
+                        RangedObstacle? obstacle;
                         if (x != lastX || y != lastY)
                         {
                             obstacle = new RangedObstacle

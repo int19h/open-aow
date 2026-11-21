@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from CombatSpells.pas.
 using Aow.Engine.Nodes;
 
@@ -13,7 +13,7 @@ namespace Aow.Game.Magic.Spells;
 public class Slow : CombatSpell
 {
     // CombatSpells.pas:1284
-    public Slow(CustomNode owner, EngineObject holder) : base(owner)
+    public Slow(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.SlowText);
@@ -29,7 +29,7 @@ public class Slow : CombatSpell
     }
 
     // CombatSpells.pas:1313
-    public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
+    public override CombatAction CreateCombatAction(CombatObject? source, CombatObject target, bool chargeMana)
     {
         SlowCombatAction action = new(null)
         {
@@ -53,7 +53,7 @@ public class Slow : CombatSpell
     }
 
     // CombatSpells.pas:1300
-    public override void GetCombatDamageValues(CombatObject source, CombatObject target, ref AbilityDamageValues values)
+    public override void GetCombatDamageValues(CombatObject? source, CombatObject? target, ref AbilityDamageValues values)
     {
         ref AbilityDamageValues abilityDamageValues = ref values;
         abilityDamageValues.SourceDamage = 0;

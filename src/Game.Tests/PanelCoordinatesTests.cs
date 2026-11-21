@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using Aow.Game.Draw;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
@@ -7,7 +7,7 @@ namespace Aow.Game.Tests;
 
 public sealed class PanelCoordinatesTests
 {
-    private static void Place(UIComponent component, UIComponent owner, int left, int top, int width, int height, int priority = 0)
+    private static void Place(UIComponent component, UIComponent? owner, int left, int top, int width, int height, int priority = 0)
     {
         component.SetWinLeftWithoutInvalidate(left);
         component.SetWinTopWithoutInvalidate(top);

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
@@ -10,7 +10,7 @@ using Aow.Game.World.Structures;
 namespace Aow.Game.Commands;
 
 // location/player, command, item, queue, index
-public class ProductionTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class ProductionTokenEvent(CustomNode? owner) : TokenEvent(owner)
 {
     public new const int ClassId = 131_736;
 
@@ -18,7 +18,7 @@ public class ProductionTokenEvent(CustomNode owner) : TokenEvent(owner)
 
     public sbyte Player { get; set; }
     public int Command { get; set; }
-    public ProductionItem Item { get; set; }
+    public ProductionItem? Item { get; set; }
     public bool Queue { get; set; }
     public int Index { get; set; }
 
@@ -52,7 +52,7 @@ public class ProductionTokenEvent(CustomNode owner) : TokenEvent(owner)
     // Structur.PAS:182
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        ProductionControl control = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).GetProductionControl();
+        ProductionControl? control = StrategicMap.Current.MapContainer.GetField(Location.X, Location.Y, Location.MapLevel).GetProductionControl();
         return control is not null ? control.ExecuteProductionTokenEvent(this) : ExecuteResult.DoneHalt;
     }
 }

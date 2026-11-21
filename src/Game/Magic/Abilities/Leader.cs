@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Collections;
@@ -14,7 +14,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Magic.Abilities;
 
 // SpherePicksMax. Spheres
-public class Leader(CustomNode owner) : Hero(owner)
+public class Leader(CustomNode? owner) : Hero(owner)
 {
 
     public new const int ClassId = 131_634;
@@ -44,7 +44,7 @@ public class Leader(CustomNode owner) : Hero(owner)
     }
 
     // Hero.PAS:2845
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
         if (message.MessageId == 537001989)
@@ -55,7 +55,7 @@ public class Leader(CustomNode owner) : Hero(owner)
                 // { reload FPlayer }
                 if (StrategicMap.Current.Players.GetPlayers((sbyte)(byte)Player).PlayerRace != Race)
                 {
-                    Player players = StrategicMap.Current.Players.GetPlayers(Player);
+                    Player? players = StrategicMap.Current.Players.GetPlayers(Player);
                     SetHeroResourceIndex(GamePack.Current.HeroResources.Find(players.PlayerRace, heroType: HeroType.HeroLeader));
                     Changed();
                 }
@@ -109,7 +109,7 @@ public class Leader(CustomNode owner) : Hero(owner)
         bool result = base.CanActivate();
         if (result)
         {
-            Leader leader = StrategicMap.Current.Players.GetPlayers(Player).Leader;
+            Leader? leader = StrategicMap.Current.Players.GetPlayers(Player).Leader;
             if (leader is not null && !CompatibleHero(leader))
             {
                 return false;
@@ -131,7 +131,7 @@ public class Leader(CustomNode owner) : Hero(owner)
         base.Activate();
         if (StrategicMap.Current.Players.GetPlayers(Player) is not null)
         {
-            Leader leader = StrategicMap.Current.Players.GetPlayers(Player).Leader;
+            Leader? leader = StrategicMap.Current.Players.GetPlayers(Player).Leader;
             if (leader != this)
             {
                 if (leader is not null && leader.Owner is not null)
@@ -203,7 +203,7 @@ public class Leader(CustomNode owner) : Hero(owner)
     // Hero.PAS:2960
     public override void EditDropMessage(ref EngineMessage message)
     {
-        MapLevel level = message.Param[0].As<MapLevel>();
+        MapLevel? level = message.Param[0].As<MapLevel>();
         int l = message.Data[1];
         HexGeometry.PixelToHex(message.Payload.Int, vertical: message.Data[0], out int x, out int y);
         bool placed = x >= 0 && y >= 0 && x < level.Width && y < level.Height && Place(x, y, l, Player, mode: UnitPlaceModes.None) is not null;

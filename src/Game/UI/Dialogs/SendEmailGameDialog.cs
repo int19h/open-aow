@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWSendEmailGameDlg.pas.
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
@@ -21,15 +21,15 @@ public sealed partial class SendEmailGameDialog(UIContext ui) : UIModule(ui)
     public CheckBox AutomatedCheckBox { get; private set; }
     public Label RecipientNameLabel { get; private set; }
 
-    private ExecuteDoneEvent _done;
-    private SendEmailGameEventLog _sendEvent;
+    private ExecuteDoneEvent? _done;
+    private SendEmailGameEventLog? _sendEvent;
 
     // AoWSendEmailGameDlg.pas:63
     public void FinishDialog()
     {
         Window.Visible = false;
-        ExecuteDoneEvent done = _done;
-        EventLog eventValue = _sendEvent;
+        ExecuteDoneEvent? done = _done;
+        EventLog? eventValue = _sendEvent;
         _done = null;
         _sendEvent = null;
         done?.Invoke(eventValue);
@@ -44,7 +44,7 @@ public sealed partial class SendEmailGameDialog(UIContext ui) : UIModule(ui)
         _sendEvent = eventValue;
         _ = _sendEvent.AddRef();
         SendEmailGameEventLog sendEmailGameEventLog = _sendEvent;
-        Player player = StrategicMap.Current.Players.GetPlayers(_sendEvent.SendPlayer);
+        Player? player = StrategicMap.Current.Players.GetPlayers(_sendEvent.SendPlayer);
         EmailAddressEdit.Text = player.PbemSettings.EmailGame.EmailAddress;
         // { Original reuses the resource-string temporary for the formatted text. }
         string nameEx = StrategicMap.Current.Players.GetPlayers(_sendEvent.SendPlayer).GetNameWithRace();

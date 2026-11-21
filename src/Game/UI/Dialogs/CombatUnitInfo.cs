@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWTCUnit.pas.
 using Aow.Game.Combat;
 using Aow.Game.Draw;
@@ -103,7 +103,7 @@ public sealed partial class CombatUnitInfo(UIContext ui) : UIModule(ui)
         {
             if (button == MouseButton.Left)
             {
-                object objectValue = UnitAbilityList.Items.Objects[UnitAbilityList.Selected];
+                object? objectValue = UnitAbilityList.Items.Objects[UnitAbilityList.Selected];
                 int selectAbility = UI.General.CombatUnit.SelectAbility(ObjectToInt(objectValue));
                 UnitAbilityList.Selected = selectAbility;
             }
@@ -111,8 +111,8 @@ public sealed partial class CombatUnitInfo(UIContext ui) : UIModule(ui)
             {
                 if (button == MouseButton.Right && UI.General.CombatUnit is not null)
                 {
-                    object objectValue = UnitAbilityList.Items.Objects[UnitAbilityList.Selected];
-                    Ability ability = GamePack.Current.AbilityControl[ObjectToInt(objectValue)];
+                    object? objectValue = UnitAbilityList.Items.Objects[UnitAbilityList.Selected];
+                    Ability? ability = GamePack.Current.AbilityControl[ObjectToInt(objectValue)];
                     if (ability is not null)
                     {
                         InfoBanner.SetInfoBanner(caption: ability.GetName(UI.General.CombatUnit.Unit.Troop), banner: UI.InfoBanner, description: ability.Description);

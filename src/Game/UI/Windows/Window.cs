@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWWindow.pas.
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
@@ -17,7 +17,7 @@ namespace Aow.Game.UI.Windows;
 public partial class Window : GenericWindow
 {
     // AoWWindow.pas:54
-    public Window(Component owner) : base(owner) => UseManagerBorders = true;
+    public Window(Component? owner) : base(owner) => UseManagerBorders = true;
 
     // AoWWindow.pas:63
     // { SetSize: at least as large as the frame corners, between the minimum and maximum size, and
@@ -31,21 +31,21 @@ public partial class Window : GenericWindow
             case Style.Hollow:
                 if (ImageLibraryFrame is not null && (ImageLibraryTexture is not null || WindowStyle == Style.Hollow))
                 {
-                    LibraryImage imageLibraryFrameWidth = ImageLibraryFrame[ImageLibraryIndexFrame];
-                    LibraryImage imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame + 2];
+                    LibraryImage? imageLibraryFrameWidth = ImageLibraryFrame[ImageLibraryIndexFrame];
+                    LibraryImage? imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame + 2];
                     if (imageLibraryFrameWidth.Width + imageLibraryFrame.Width > WinWidth)
                     {
-                        LibraryImage imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame];
-                        LibraryImage imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 2];
+                        LibraryImage? imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame];
+                        LibraryImage? imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 2];
                         SetWinWidthWithoutInvalidate(imageLibraryFrame2.Width + imageLibraryFrame3.Width);
                     }
 
-                    LibraryImage imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame];
-                    LibraryImage imageLibraryFrame4 = ImageLibraryFrame[ImageLibraryIndexFrame + 5];
+                    LibraryImage? imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame];
+                    LibraryImage? imageLibraryFrame4 = ImageLibraryFrame[ImageLibraryIndexFrame + 5];
                     if (imageLibraryFrameHeight.Height + imageLibraryFrame4.Height > WinHeight)
                     {
-                        LibraryImage imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame];
-                        LibraryImage imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 5];
+                        LibraryImage? imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame];
+                        LibraryImage? imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 5];
                         SetWinHeightWithoutInvalidate(imageLibraryFrame2.Height + imageLibraryFrame3.Height);
                     }
 
@@ -145,10 +145,10 @@ public partial class Window : GenericWindow
                         else
                         {
                             FrameLeft = ImageLibraryFrame[ImageLibraryIndexFrame + 3].Width;
-                            LibraryImage imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame + 4];
+                            LibraryImage? imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame + 4];
                             FrameRight = WinWidth - imageLibraryFrame2.Width;
                             FrameTop = ImageLibraryFrame[ImageLibraryIndexFrame + 1].Height;
-                            LibraryImage imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 6];
+                            LibraryImage? imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 6];
                             FrameBottom = WinHeight - imageLibraryFrame3.Height;
                         }
                     }
@@ -303,12 +303,12 @@ public partial class Window : GenericWindow
                     case Style.Normal:
                         SizedRectangle rectangle = new(WinLeft, WinTop, WinWidth, WinHeight);
                         ImageLibraryFrame.DrawFrame(ImageLibraryIndexFrame, area: rectangle, ref lockedSurface);
-                        LibraryImage imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
-                        LibraryImage imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame + 6];
-                        LibraryImage imageLibraryFrameWidth = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
-                        LibraryImage imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame + 4];
-                        LibraryImage imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
-                        LibraryImage imageLibraryFrame4 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
+                        LibraryImage? imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
+                        LibraryImage? imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame + 6];
+                        LibraryImage? imageLibraryFrameWidth = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
+                        LibraryImage? imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame + 4];
+                        LibraryImage? imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
+                        LibraryImage? imageLibraryFrame4 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
                         SizedRectangle rectangle2 = new(WinLeft + imageLibraryFrame4.Width, WinTop + imageLibraryFrame3.Height, WinWidth - imageLibraryFrameWidth.Width - imageLibraryFrame2.Width, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
                         ImageLibraryTexture.DrawTiled(ImageLibraryIndexTexture, area: rectangle2, ref lockedSurface);
                         break;
@@ -353,7 +353,7 @@ public partial class Window : GenericWindow
 
             for (int i = Children.Count - 1; i >= 0; i--)
             {
-                UIComponent c = Children[i];
+                UIComponent? c = Children[i];
                 c.Handled = false;
                 if ((!Handled || c.Redraw) && c.Visible && c.CaptureInput)
                 {
@@ -491,7 +491,7 @@ public partial class Window : GenericWindow
             Dragging = 0;
             for (int i = Children.Count - 1; i >= 0; i--)
             {
-                UIComponent c = Children[i];
+                UIComponent? c = Children[i];
                 c.Handled = false;
                 if ((!Handled || c.Redraw) && c.Visible && c.CaptureInput)
                 {
@@ -704,7 +704,7 @@ public partial class Window : GenericWindow
             i = Children.Count - 1;
             for (; i >= 0; i -= 1)
             {
-                UIComponent c = Children[i];
+                UIComponent? c = Children[i];
                 c.Handled = false;
                 if ((!Handled || c.Redraw || c.ToolTipCount > 0) && c.Visible && c.CaptureInput)
                 {

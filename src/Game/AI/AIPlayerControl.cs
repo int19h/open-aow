@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using System.Collections.Immutable;
 using Aow.Engine.Collections;
@@ -22,7 +22,7 @@ namespace Aow.Game.AI;
 public sealed partial class AIPlayerControl : EngineObject
 {
     // AI.pas:84
-    public AIPlayerControl(CustomNode owner) : base(owner)
+    public AIPlayerControl(CustomNode? owner) : base(owner)
     {
         Actions = new AIPlayerActionList(null) { Holder = CreationHolder() };
         MoveExecutor = new AIMoveExecutor(null) { Holder = CreationHolder() };
@@ -30,13 +30,13 @@ public sealed partial class AIPlayerControl : EngineObject
     }
 
     public Player Player { get; init; }
-    public AIPlayerActionList Actions { get; private set; }
+    public AIPlayerActionList? Actions { get; private set; }
 
-    private AIPlayerAction _action;
+    private AIPlayerAction? _action;
     private int _actionIndex;
     private int _processCyclesMax;
 
-    public AIMoveExecutor MoveExecutor { get; private set; }
+    public AIMoveExecutor? MoveExecutor { get; private set; }
     public AIPlayerProcessPhase Phase { get; private set; }
 
     public float DefenseStrengthMultiplier { get; set; }
@@ -74,7 +74,7 @@ public sealed partial class AIPlayerControl : EngineObject
     }
 
     // AI.pas:114
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
         if (message.MessageId == 536936471)
@@ -90,10 +90,10 @@ public sealed partial class AIPlayerControl : EngineObject
         Player player = Player;
         for (int i = 0, last = player.Armies.Count - 1; i <= last; i++)
         {
-            Troop troop = player.Armies.GetArmy(i).Transporter(255);
+            Troop? troop = player.Armies.GetArmy(i).Transporter(255);
             if (troop is not null)
             {
-                AIGroup group = troop.Group;
+                AIGroup? group = troop.Group;
                 if (group is null || group.EngineClass.ClassId == TransportAIGroup.ClassId)
                 {
                     _ = units.AddUnit(troop);
@@ -123,7 +123,7 @@ public sealed partial class AIPlayerControl : EngineObject
         Actions.Clear();
         for (int i = 0, last = StrategicMap.Current.AIPlayerActionManager.GetCount() - 1; i <= last; i++)
         {
-            AIPlayerActionClass actionClass = StrategicMap.Current.AIPlayerActionManager.GetRegisteredClasses(i);
+            AIPlayerActionClass? actionClass = StrategicMap.Current.AIPlayerActionManager.GetRegisteredClasses(i);
             if (actionClass.SupportedPhases.Contains(phase.ToFlag()))
             {
                 AIPlayerAction action = actionClass.CreateInstance(null, holder: CreationHolder());
@@ -232,7 +232,7 @@ public sealed partial class AIPlayerControl : EngineObject
         if (skirmishCount < wantedCount)
         {
             DoubleItemList<Troop> units = new();
-            AIGroup group;
+            AIGroup? group;
             for (int i = Player.AIGroups.Count - 1; i >= 0; i--)
             {
                 group = Player.AIGroups.GetGroups(i);
@@ -241,7 +241,7 @@ public sealed partial class AIPlayerControl : EngineObject
                     int groupPriority = group.GetProcessPriority() * -10;
                     for (int j = group.Units.Count - 1; j >= 0; j--)
                     {
-                        Troop troop = group.Units.GetUnit(j);
+                        Troop? troop = group.Units.GetUnit(j);
                         if (troop is not Hero)
                         {
                             int unitPriority = troop.Moves;
@@ -288,7 +288,7 @@ public sealed partial class AIPlayerControl : EngineObject
     // AI.pas:278
     public void DeactivateAction()
     {
-        AIPlayerAction action = _action;
+        AIPlayerAction? action = _action;
         if (action is not null)
         {
             action.Deactivate();
@@ -349,8 +349,8 @@ public sealed partial class AIPlayerControl : EngineObject
             {
                 int priority = 0;
                 DiplomaticRelation relation = StrategicMap.Current.Players.GetDiplomaticRelation(Player.PlayerIndex, otherPlayer: (sbyte)i);
-                Player players = StrategicMap.Current.Players.GetPlayers(i);
-                Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Player.PlayerIndex);
+                Player? players = StrategicMap.Current.Players.GetPlayers(i);
+                Player? fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Player.PlayerIndex);
                 Status raceRelation = StrategicMap.Current.Races.GetRace(fPlayersPlayers.PlayerRace).GetDefaultRaceRelation(players.PlayerRace);
                 DiplomaticAction action = Player.DiplomaticActions.FindLastAction(DeclareWar.Kind, reaction: DiplomaticActionReaction.None, source: (sbyte)i, target: Player.PlayerIndex, other: -1);
                 if (action is not null)
@@ -419,8 +419,8 @@ public sealed partial class AIPlayerControl : EngineObject
             item = doubleItemList[doubleItemList.Count / 2];
             int middlePlayer = item.First;
             // { The middle player relation is evaluated directly below. }
-            Player players = StrategicMap.Current.Players.GetPlayers(middlePlayer);
-            Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Player.PlayerIndex);
+            Player? players = StrategicMap.Current.Players.GetPlayers(middlePlayer);
+            Player? fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Player.PlayerIndex);
             Status defaultRaceRelation = StrategicMap.Current.Races.GetRace(fPlayersPlayers.PlayerRace).GetDefaultRaceRelation(players.PlayerRace);
             _ = defaultRaceRelation is Status.Hostile or Status.Wary
                 ? war.Add((byte)middlePlayer)
@@ -482,8 +482,8 @@ public sealed partial class AIPlayerControl : EngineObject
             result = !(peaceCount > warCount && !(warCount == 0 && peaceCount == 1 && StrategicMap.Current.Players.ActivePlayers.Count > 2));
             if (Player.PlayerType is PlayerType.Cpu3 or PlayerType.Cpu4 or PlayerType.Cpu5)
             {
-                Player players = StrategicMap.Current.Players.GetPlayers((sbyte)player);
-                Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Player.PlayerIndex);
+                Player? players = StrategicMap.Current.Players.GetPlayers((sbyte)player);
+                Player? fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Player.PlayerIndex);
                 Status defaultRaceRelation = StrategicMap.Current.Races.GetRace(fPlayersPlayers.PlayerRace).GetDefaultRaceRelation(players.PlayerRace);
                 if (defaultRaceRelation is Status.Hostile or Status.Wary)
                 {
@@ -582,8 +582,8 @@ public sealed partial class AIPlayerControl : EngineObject
                 result = false;
             }
 
-            Player players = StrategicMap.Current.Players.GetPlayers((sbyte)player);
-            Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Player.PlayerIndex);
+            Player? players = StrategicMap.Current.Players.GetPlayers((sbyte)player);
+            Player? fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Player.PlayerIndex);
             Status defaultRaceRelation = StrategicMap.Current.Races.GetRace(fPlayersPlayers.PlayerRace).GetDefaultRaceRelation(players.PlayerRace);
             if (defaultRaceRelation is Status.Hostile or Status.Wary)
             {

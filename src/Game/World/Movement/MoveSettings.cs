@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
@@ -7,12 +7,12 @@ using Aow.Game.World.Map;
 namespace Aow.Game.World.Movement;
 
 // Path, PathMovePoints, MoveObject, MovePoints, Priority, Selection, MovePosition, Valid
-public sealed class MoveSettings(CustomNode owner) : EngineObject(owner)
+public sealed class MoveSettings(CustomNode? owner) : EngineObject(owner)
 {
 
     public MovePath Path { get; } = new MovePath();
     public int PathMovePoints { get; set; }
-    public object MoveObject { get; init; }
+    public object? MoveObject { get; init; }
     public int MovePoints { get; set; }
     public int Moves { get; set; }
 

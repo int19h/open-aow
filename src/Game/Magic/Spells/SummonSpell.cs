@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from SummonSpells.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.AI;
@@ -29,7 +29,7 @@ public class SummonSpell : Spell
     }
 
     // SummonSpells.pas:241
-    public SummonSpell(CustomNode owner) : base(owner)
+    public SummonSpell(CustomNode? owner) : base(owner)
     {
         UnitIndices = new UnitIndexList();
         SpellType = SpellType.Global;
@@ -122,5 +122,5 @@ public class SummonSpell : Spell
     }
 
     // SummonSpells.pas:255
-    public int GetDispelResistance(Troop troop) => SummonedAbility.GetDefaultDispelResistance(troop);
+    public int GetDispelResistance(Troop? troop) => SummonedAbility.GetDefaultDispelResistance(troop);
 }

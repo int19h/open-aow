@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Storms.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Combat;
@@ -12,7 +12,7 @@ using Aow.Rtl;
 namespace Aow.Game.Draw.Animations;
 
 // poison cloud resource
-public class PestilenceStorm(CustomNode owner) : Storm(owner)
+public class PestilenceStorm(CustomNode? owner) : Storm(owner)
 {
     public new const int ClassId = 135_745;
 
@@ -25,7 +25,7 @@ public class PestilenceStorm(CustomNode owner) : Storm(owner)
         HexGeometry.HexToPixel(HexX, hexY, out int x, out int y);
         x = x - pixelXSurface + 8;
         y -= pixelYSurface;
-        ImageSequence sequence = _cloudResource.ImageSequenceList.ImageSequences[0];
+        ImageSequence? sequence = _cloudResource.ImageSequenceList.ImageSequences[0];
         while (sequence is not null)
         {
             int frame = sequence.GetUnloopedFrameIndex(FrameCounter);
@@ -83,7 +83,7 @@ public class PestilenceStorm(CustomNode owner) : Storm(owner)
     public override bool UpdateStorm()
     {
         NewFrame();
-        ImageSequence sequence = _cloudResource.ImageSequenceList.ImageSequences[0];
+        ImageSequence? sequence = _cloudResource.ImageSequenceList.ImageSequences[0];
         int frame = -1;
         while (sequence is not null && frame == -1)
         {

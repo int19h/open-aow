@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using System.Collections;
 
 using Aow.Engine.Nodes;
@@ -47,12 +47,12 @@ public readonly struct ItemCollection : IReadOnlyList<Item>
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     // Army.PAS:4587
-    public Item GetItem(int index) => index >= 0 && index < Count ? this[index] : null;
+    public Item? GetItem(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // Army.PAS:4570
-    public Item FindItem(int itemId)
+    public Item? FindItem(int itemId)
     {
-        Item result = null;
+        Item? result = null;
         int i = 0;
         while (i != Count && result is null)
         {

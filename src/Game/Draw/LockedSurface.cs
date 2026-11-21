@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 
 using Aow.Graphics;
 using Aow.Rtl;
@@ -19,9 +19,9 @@ public struct LockedSurface
 
     public Rect ClipRectangle { get; set; }
 
-    public byte[] Data { get; set; }
+    public byte[]? Data { get; set; }
     public int DataIndex { get; set; }
-    public Palette Palette { get; init; }
+    public Palette? Palette { get; init; }
     public PixelFormat PixelFormatId { get; init; }
 
     public int RMask { get; internal set; }

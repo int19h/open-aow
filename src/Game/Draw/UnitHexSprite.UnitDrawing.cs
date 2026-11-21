@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using Aow.Game.Draw.Images;
 
 using Aow.Game.Host;
@@ -18,7 +18,7 @@ public partial class UnitHexSprite
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
         pixelXSurface = pixelX - pixelXSurface;
         pixelYSurface = pixelY - pixelYSurface;
-        ImageSequence sequence;
+        ImageSequence? sequence;
         int index;
         if (MoveStep != -1)
         {
@@ -87,7 +87,7 @@ public partial class UnitHexSprite
             Y += Round((double)deltaY * progress);
         }
 
-        ImageSequence sequence = Direction == 0
+        ImageSequence? sequence = Direction == 0
             ? UnitGraphicsResource.Sequences.GetImageSequence(27)
             : UnitGraphicsResource.Sequences.GetImageSequence(Direction + 23);
 

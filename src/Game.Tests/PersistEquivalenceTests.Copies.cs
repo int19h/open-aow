@@ -343,7 +343,7 @@ public sealed partial class PersistEquivalenceTests
             ("Release/ITEMS.PFS", "ItemLibrary", "game", false),
         ];
         EngineClass[] enlisted = EnlistCopiedClasses();
-        GamePack gameSet = GamePack.Current;
+        GamePack? gameSet = GamePack.Current;
         UnitResourceList previous = gameSet.UnitResources;
         UnitResourceList unitResources = new(null) { Holder = EngineFixture.Engine };
         try
@@ -454,7 +454,7 @@ public sealed partial class PersistEquivalenceTests
     // into a copy of other and the comparisons with the copy and with other. Each step starts from
     // the same random seed on both paths, as an image sequence draws on its load, and ends on the
     // same seed.
-    private static void SameCopies(EngineObject source, EngineObject other)
+    private static void SameCopies(EngineObject? source, EngineObject? other)
     {
         string label = source.GetType().Name;
         int seed = DelphiRandom.RandSeed;
@@ -531,7 +531,7 @@ public sealed partial class PersistEquivalenceTests
 
     // The images of two objects, or the same failure of both writes (a sort node refuses to be
     // written).
-    private static void SameImages(EngineObject expected, EngineObject actual, string label)
+    private static void SameImages(EngineObject? expected, EngineObject? actual, string label)
     {
         byte[]? left = null;
         byte[]? right = null;
@@ -579,7 +579,7 @@ public sealed partial class PersistEquivalenceTests
     // ObservableNode are part of the stream assignment below.
     private static bool AssignOverridden(Type type)
     {
-        Type declaring = type.GetMethod(nameof(EngineObject.Assign), types: [typeof(EngineObject), typeof(GameEngine)]).DeclaringType;
+        Type? declaring = type.GetMethod(nameof(EngineObject.Assign), types: [typeof(EngineObject), typeof(GameEngine)]).DeclaringType;
         return declaring != typeof(EngineObject) && declaring != typeof(CustomNode) && declaring != typeof(ObservableNode);
     }
 
@@ -596,7 +596,7 @@ public sealed partial class PersistEquivalenceTests
     // The stream assignment PE-3-h replaced (Engine.pas 2529), with the brackets of the node
     // overrides: ObservableNode calls BeginUpdate and EndUpdate around CustomNode's, which
     // clears the node first.
-    private static void StreamAssign(EngineObject target, EngineObject source)
+    private static void StreamAssign(EngineObject? target, EngineObject? source)
     {
         using ObservableNode.UpdateBatch batch = target is ObservableNode node ? node.BeginUpdate() : default;
         (target as CustomNode)?.Clear();
@@ -604,18 +604,18 @@ public sealed partial class PersistEquivalenceTests
     }
 
     // The stream comparison PE-3-h replaced (Engine.pas 2511): the same class and equal images.
-    private static bool StreamCompare(EngineObject left, EngineObject right)
+    private static bool StreamCompare(EngineObject? left, EngineObject? right)
         => left.EngineClass.ClassId == right.EngineClass.ClassId && WrittenImage(left).AsSpan().SequenceEqual(WrittenImage(right));
 
     // TEngine.WriteEObject: the object at id 0 of the outer table.
-    private static byte[] WrittenImage(EngineObject objectValue)
+    private static byte[] WrittenImage(EngineObject? objectValue)
     {
         string table = GameBoundary.PacketClassTable(s_schema.Get(Factory.ClassName(objectValue)));
         return EngineFixture.Engine.WriteObjectImage(objectValue, progress: null, classTable: table);
     }
 
     // TEngine.ReadEObject.
-    private static void ReadWritten(EngineObject objectValue, byte[] image)
+    private static void ReadWritten(EngineObject? objectValue, byte[]? image)
     {
         string table = GameBoundary.PacketClassTable(s_schema.Get(Factory.ClassName(objectValue)));
         EngineFixture.Engine.ReadObjectImage(image, objectValue: objectValue, progress: null, classTable: table);
@@ -662,7 +662,7 @@ public sealed partial class PersistEquivalenceTests
     // fixture engine holds only the classes of the engine's start. Each class id is enlisted once.
     private static EngineClass[] EnlistCopiedClasses()
     {
-        Dictionary<int, EngineClass> table = EngineFixture.Engine.ClassTable;
+        Dictionary<int, EngineClass?> table = EngineFixture.Engine.ClassTable;
         Dictionary<int, EngineClass> added = [];
         foreach (EngineClass engineClass in EngineClass.All)
         {

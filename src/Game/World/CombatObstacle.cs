@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from CombatObstacle.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Combat;
@@ -17,8 +17,8 @@ public class CombatObstacle(CustomNode owner) : MultiHexMapObject(owner)
     // CombatObstacle.pas:94
     public new const int ClassId = 2_229_546;
 
-    private CombatObstacleShadow _shadow;
-    private CombatObstacleOverlay _overlay;
+    private CombatObstacleShadow? _shadow;
+    private CombatObstacleOverlay? _overlay;
 
     // CombatObstacle.pas:97
     public override void Dispose()
@@ -108,13 +108,13 @@ public class CombatObstacle(CustomNode owner) : MultiHexMapObject(owner)
     }
 
     // CombatObstacle.pas:107
-    public override MapObjectResourceList GetResourceList(GameEngine engine) => GamePack.Current.CombatResources;
+    public override MapObjectResourceList GetResourceList(GameEngine? engine) => GamePack.Current.CombatResources;
 
     // CombatObstacle.pas:104
-    public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel) => true;
+    public override bool CanPlace(MapContainer? mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel) => true;
 
     // CombatObstacle.pas:203
-    public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel) => base.PlaceHex(mapContainer, hexX, hexY, hexLevel);
+    public override bool PlaceHex(MapContainer? mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel) => base.PlaceHex(mapContainer, hexX, hexY, hexLevel);
 
     // CombatObstacle.pas:125
     public void CreateShadow()

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using System.Globalization;
 using Aow.Engine;
@@ -18,7 +18,7 @@ namespace Aow.Game.AI;
 public sealed class AIBudgetManager : EngineObject
 {
     // AI.pas:1712
-    public AIBudgetManager(CustomNode owner) : base(owner)
+    public AIBudgetManager(CustomNode? owner) : base(owner)
     {
         Budgets = new AIBudgetList(null) { Holder = CreationHolder() };
         _goldIncomeFactor = (float)0.75;
@@ -65,7 +65,7 @@ public sealed class AIBudgetManager : EngineObject
     }
 
     // AI.pas:2166
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
         if (Player.PlayerType != PlayerType.Human && message.MessageId == 536870920)

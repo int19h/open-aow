@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWCastUnitSpellDlg.pas.
 using System.Globalization;
 using Aow.Game.Draw;
@@ -37,7 +37,7 @@ public sealed partial class CastUnitSpellDialog(UIContext ui) : UIModule(ui)
     public Image FaceFrame { get; private set; }
     public Label SelectionInfoLabel { get; private set; }
 
-    public UnitSpellCaster Caster { get; set; }
+    public UnitSpellCaster? Caster { get; set; }
 
     // AoWCastUnitSpellDlg.pas:79
     public void ClearCaster()
@@ -58,7 +58,7 @@ public sealed partial class CastUnitSpellDialog(UIContext ui) : UIModule(ui)
             Units.Alignment alignment = Caster.TargetUnits.GetUnit(index).GetAlignment();
             if ((int)alignment < UI.Graphics.UnitBackgrounds.Count)
             {
-                LibraryImage image = UI.Graphics.UnitBackgrounds[(int)alignment];
+                LibraryImage? image = UI.Graphics.UnitBackgrounds[(int)alignment];
                 image.ShowClipped(X + 25 - (image.Width / 2), Y + 30 - (image.Height / 2), lockedSurface: surface);
             }
 
@@ -68,7 +68,7 @@ public sealed partial class CastUnitSpellDialog(UIContext ui) : UIModule(ui)
             _ = Caster.TargetUnits.GetUnit(index).Show(X - 8, Y - 4, lockedSurface: surface, info);
             if (((Caster.ValidSelection >>> index) & 1) == 0)
             {
-                LibraryImage image = UI.Graphics.UnitBackgrounds[7];
+                LibraryImage? image = UI.Graphics.UnitBackgrounds[7];
                 image.ShowClipped(X + 25 - (image.Width / 2), Y + 30 - (image.Height / 2), lockedSurface: surface);
             }
 
@@ -103,7 +103,7 @@ public sealed partial class CastUnitSpellDialog(UIContext ui) : UIModule(ui)
     public void FaceFramePreDraw(LockedSurface surface)
     {
         Rect r = default;
-        Troop u = StrategicMap.Current.UnitControl.FindUnit(Caster.CasterSourceId);
+        Troop? u = StrategicMap.Current.UnitControl.FindUnit(Caster.CasterSourceId);
         if (u is not null)
         {
             if (u.GetFace() is not null)
@@ -129,7 +129,7 @@ public sealed partial class CastUnitSpellDialog(UIContext ui) : UIModule(ui)
         Rect r = default;
         if (Caster is not null)
         {
-            Spell spell = GamePack.Current.SpellControl[Caster.CasterSpellId];
+            Spell? spell = GamePack.Current.SpellControl[Caster.CasterSpellId];
             if (spell is not null)
             {
                 r.Left = SpellFrame.WinLeft + TopPanel.AbsoluteLeft;

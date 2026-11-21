@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
@@ -37,7 +37,7 @@ public sealed class FaceResourceList : ResourceCollection, IChildList<FaceResour
     }
 
     // Ability.PAS:540
-    public FaceResource GetFaceResource(int index) => index < Count && index >= 0 ? this[index] : null;
+    public FaceResource? GetFaceResource(int index) => index < Count && index >= 0 ? this[index] : null;
 
     // Ability.PAS:547
     public int PreviousFace(int index)

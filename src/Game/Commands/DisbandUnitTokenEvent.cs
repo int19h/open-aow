@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
@@ -14,7 +14,7 @@ using Aow.Game.World.Structures;
 namespace Aow.Game.Commands;
 
 // unit ID, player
-public class DisbandUnitTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class DisbandUnitTokenEvent(CustomNode? owner) : TokenEvent(owner)
 {
     public new const int ClassId = 135_447;
 
@@ -32,7 +32,7 @@ public class DisbandUnitTokenEvent(CustomNode owner) : TokenEvent(owner)
     // MoveT.PAS:3539
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        Troop troop = StrategicMap.Current.UnitControl.FindUnit(UnitId);
+        Troop? troop = StrategicMap.Current.UnitControl.FindUnit(UnitId);
         if (troop is not null && troop.Player == Player)
         {
             _ = troop.AddRef();
@@ -48,7 +48,7 @@ public class DisbandUnitTokenEvent(CustomNode owner) : TokenEvent(owner)
                 sbyte y = coordinate5.Y;
                 sbyte l = coordinate5.MapLevel;
                 PlayerStructure structure = StrategicMap.Current.MapContainer.GetField(x, y, l).FindNoneTransparentHexSprite<PlayerStructure>();
-                ArmyHexSprite armyHexSprite;
+                ArmyHexSprite? armyHexSprite;
                 if (troop.Owner is not Army || troop.Owner.Count > 1 || (structure is not null && structure.Player > 0))
                 {
                     MapCoordinate coordinate6 = troop.GetLocation();
@@ -77,7 +77,7 @@ public class DisbandUnitTokenEvent(CustomNode owner) : TokenEvent(owner)
                     }
                     else
                     {
-                        Troop unit = armyHexSprite.Army.Units.GetUnit(i);
+                        Troop? unit = armyHexSprite.Army.Units.GetUnit(i);
                         int indexOf = armyHexSprite.Army.Units.IndexOf(troop);
                         armyHexSprite.Army.SetGroup((byte)(1 << indexOf), unit.Group);
                     }

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AGCPlugins.pas.
 using Aow.Engine.Nodes;
 
@@ -15,7 +15,7 @@ namespace Aow.Game.AI.Groups;
 
 // { ot=1 }
 // fields control, mode, damage types, structure factor, city factor
-public class AIGroupRazeControl(CustomNode owner) : AIGroupTask(owner)
+public class AIGroupRazeControl(CustomNode? owner) : AIGroupTask(owner)
 {
     private AIGroupControl _control;
 

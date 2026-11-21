@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from SmokeCloud.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.World;
@@ -16,7 +16,7 @@ public class SmokeCloudEnchantment : GlobalEnchantment
     public SmokeCloud Cloud { get; init; }
 
     // SmokeCloud.pas:91
-    public SmokeCloudEnchantment(CustomNode owner) : base(owner)
+    public SmokeCloudEnchantment(CustomNode? owner) : base(owner)
     {
         EnchantmentMode = (GlobalEnchantmentModes)(ulong)((Options)(ulong)EnchantmentMode & ~(Options.Bit0 | Options.Bit1));
         DispelMana = 25;

@@ -1,10 +1,10 @@
 // Layout translated from recovered Delphi forms.
-#nullable disable
+#nullable disable warnings
 using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
 public sealed partial class WorldMap
 {
-    public event NotifyEvent<WorldMap> LayoutOnCreate;
+    public event NotifyEvent<WorldMap>? LayoutOnCreate;
 }

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Sound.pas.
 using Aow.Rtl;
 
@@ -56,6 +56,6 @@ public class SampleData : IDisposable
         => ConstructionContext.Create((format, data, size), static (context, value) =>
             new SampleData(context, value.format, value.data, value.size));
 
-    public static Sample CreateSample(SampleData sampleData) => AudioHost.SoundSystem?.SampleClass().CreateInstance(sampleData);
+    public static Sample? CreateSample(SampleData sampleData) => AudioHost.SoundSystem?.SampleClass().CreateInstance(sampleData);
 
 }

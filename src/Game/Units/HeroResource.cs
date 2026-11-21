@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
@@ -16,7 +16,7 @@ public class HeroResource : TroopResource
     public new const int ClassId = 131_633;
 
     // Hero.PAS:2308
-    public HeroResource(CustomNode owner) : base(owner)
+    public HeroResource(CustomNode? owner) : base(owner)
     {
         Abilities = new HeroResourceAbilityOwner(null) { Holder = CreationHolder() };
         Attack = 3;

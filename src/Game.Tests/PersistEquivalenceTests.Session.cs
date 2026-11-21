@@ -326,7 +326,7 @@ public sealed partial class PersistEquivalenceTests
     // class id is enlisted once.
     private static EngineClass[] EnlistSessionClasses()
     {
-        Dictionary<int, EngineClass> table = EngineFixture.Engine.ClassTable;
+        Dictionary<int, EngineClass?> table = EngineFixture.Engine.ClassTable;
         Dictionary<int, EngineClass> added = [];
         foreach (EngineClass engineClass in EngineClass.All)
         {
@@ -529,7 +529,7 @@ public sealed partial class PersistEquivalenceTests
     {
         FieldInfo field = MemberNames.Field(typeof(GameEngine), name: "Status")
             ?? throw new InvalidOperationException("GameEngine has no Status field.");
-        object previous = field.GetValue(EngineFixture.Engine);
+        object? previous = field.GetValue(EngineFixture.Engine);
         field.SetValue(EngineFixture.Engine, value: status);
         try
         {

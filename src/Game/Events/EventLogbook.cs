@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from EventLog.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -38,10 +38,10 @@ public sealed class EventLogbook : EngineObject
     }
 
     // EventLog.pas:526
-    public EventLogbook(CustomNode owner) : base(owner) => _events = new EventLogList(null) { Holder = CreationHolder() };
+    public EventLogbook(CustomNode? owner) : base(owner) => _events = new EventLogList(null) { Holder = CreationHolder() };
 
     // EventLog.pas:535
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
         _events.MessageProc(ref message, sender);
@@ -90,7 +90,7 @@ public sealed class EventLogbook : EngineObject
     }
 
     // EventLog.pas:572
-    public EventLog FindId(int id) => _events.FindId(id);
+    public EventLog? FindId(int id) => _events.FindId(id);
 
     // The kind is fixed by the call flow, not by the logbook. NotifyLogged writes the id when the
     // logbook adds the log, and the original asserts a DiplomaticActionEventLog (Diplomacy.pas:697).
@@ -122,7 +122,7 @@ public sealed class EventLogbook : EngineObject
     }
 
     // EventLog.pas:600
-    public void AddEvent(EventLog eventValue)
+    public void AddEvent(EventLog? eventValue)
     {
         Assert(StrategicMap.Current.Synchronized, message: "", file: "EventLog.pas", line: 704);
         eventValue.SetOwner(_events);
