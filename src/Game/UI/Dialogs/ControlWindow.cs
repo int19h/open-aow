@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AOWControlWin.pas.
 using System.Collections.Immutable;
 using System.Globalization;
@@ -91,12 +91,12 @@ public sealed partial class ControlWindow(UIContext ui) : UIModule(ui)
                 if ((int)UI.General.UnitList.Units.GetUnit(index).GetAlignment() < UI.Graphics.UnitBackgrounds.Count)
                 {
                     Units.Alignment alignment = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[index]).GetAlignment();
-                    LibraryImage unitBackground = UI.Graphics.UnitBackgrounds[(int)alignment];
+                    LibraryImage? unitBackground = UI.Graphics.UnitBackgrounds[(int)alignment];
                     unitBackground.ShowClipped(R.Left + ((R.Right - R.Left - unitBackground.Width) / 2), R.Top + ((R.Bottom - R.Top - unitBackground.Height) / 2), lockedSurface);
                 }
 
-                LibraryImage previewImage = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[index]).GetPreviewImage();
-                LibraryImage previewImage2 = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[index]).GetPreviewImage();
+                LibraryImage? previewImage = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[index]).GetPreviewImage();
+                LibraryImage? previewImage2 = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[index]).GetPreviewImage();
                 _ = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[index]).Show(R.Left + ((R.Right - R.Left - previewImage2.Width) / 2), R.Top + ((R.Bottom - R.Top - previewImage.Height) / 2), lockedSurface, info: UI.General.UnitShowInfo);
             }
         }
@@ -129,7 +129,7 @@ public sealed partial class ControlWindow(UIContext ui) : UIModule(ui)
     {
         if (UI.General.UnitList is not null && UI.General.SelectedUnits[slot] > -1 && UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[slot]) is not null)
         {
-            Troop troop = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[slot]);
+            Troop? troop = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[slot]);
             UI.General.SelectedUnit = troop;
             if (button == MouseButton.Left)
             {
@@ -255,10 +255,10 @@ public sealed partial class ControlWindow(UIContext ui) : UIModule(ui)
     public void CenterClick()
     {
         UI.General.PlayButtonSound(0);
-        Army army = UI.General.UnitList;
+        Army? army = UI.General.UnitList;
         StrategicMap.Current.CenterViewTo(army.Location.X, army.Location.Y, army.Location.MapLevel);
 
-        Army army2 = UI.General.UnitList;
+        Army? army2 = UI.General.UnitList;
         StrategicMap.Current.PlayCenterAnimation(army2.Location.X, army2.Location.Y, L: army2.Location.MapLevel);
     }
 

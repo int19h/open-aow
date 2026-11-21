@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using System.Globalization;
 using Aow.Engine.Nodes;
@@ -29,7 +29,7 @@ public class MoveSelector : IDisposable
     public MoveControlSettings MoveControlSettings { get; }
     public MoveSettingsList MoveSettingsList { get; }
     public int CurrentMove { get; protected set; }
-    public GameMap Map { get; private set; }
+    public GameMap? Map { get; private set; }
     public MoveSelectorStatuses Status { get; private set; }
 
     // Structur.PAS:4118
@@ -47,7 +47,7 @@ public class MoveSelector : IDisposable
     public virtual void MouseDownEvent(object sender)
     {
         HexSpriteMapMouse mouse = Map.Mouse;
-        object capture = mouse.Capture;
+        object? capture = mouse.Capture;
         if ((capture != this && capture != StrategicMap.Current.TargetSelection) || mouse.Button == MouseButton.Right)
         {
             Unselect();
@@ -119,7 +119,7 @@ public class MoveSelector : IDisposable
     }
 
     // Structur.PAS:4225
-    public virtual void Activate(GameMap map)
+    public virtual void Activate(GameMap? map)
     {
         if (Status.Contains(MoveSelectorStatuses.Activated))
         {
@@ -317,7 +317,7 @@ public class MoveSelector : IDisposable
     }
 
     // Structur.PAS:4157
-    public int AddMoveObject(HexSprite objectValue)
+    public int AddMoveObject(HexSprite? objectValue)
     {
         MoveSettings settings = new(null)
         {
@@ -331,7 +331,7 @@ public class MoveSelector : IDisposable
     // Structur.PAS:4167
     public void DeleteMoveObject(int index)
     {
-        object objectValue = CurrentMove != -1 ? MoveSettingsList.GetMoveSettings(CurrentMove).MoveObject : null;
+        object? objectValue = CurrentMove != -1 ? MoveSettingsList.GetMoveSettings(CurrentMove).MoveObject : null;
         (MoveSettingsList[index] as IDisposable)?.Dispose();
         if (objectValue is not null)
         {

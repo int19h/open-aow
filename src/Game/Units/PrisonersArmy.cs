@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Dungeon.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -10,7 +10,7 @@ namespace Aow.Game.Units;
 // { ot=1 } The prisoners of a dungeon, and the items its combat leaves on the battlefield.
 public sealed class PrisonersArmy : Army
 {
-    public PrisonersArmy(CustomNode owner) : base(owner) => Items = new ItemList(null) { Holder = CreationHolder() };
+    public PrisonersArmy(CustomNode? owner) : base(owner) => Items = new ItemList(null) { Holder = CreationHolder() };
 
     // The items left on the battlefield when a dungeon combat ends. The original hands them to
     // the prisoners' own unit list, where an item has no place (the port threw at the troop cast
@@ -27,7 +27,7 @@ public sealed class PrisonersArmy : Army
     }
 
     // Dungeon.pas:89
-    public override bool CanAddUnit(Troop troop)
+    public override bool CanAddUnit(Troop? troop)
     {
         bool result = base.CanAddUnit(troop);
         return result && !troop.GetTransporter() && troop.ValidTerrain(1, overlayType: 4);

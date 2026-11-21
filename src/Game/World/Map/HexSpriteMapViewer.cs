@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from HSEngine.pas.
 using Aow.Game.Draw;
 
@@ -20,14 +20,14 @@ public sealed class HexSpriteMapViewer : Component
     private int _sceneL;
 
     [Published]
-    public event NotifyEvent<object> SceneChanged;
-    private GameMap _hexSpriteMap;
+    public event NotifyEvent<object>? SceneChanged;
+    private GameMap? _hexSpriteMap;
 
     // Port extension: the scene drawn under the original clamp before ShowCenteredMap centers it.
-    internal Surface CenteredSurface { get; private set; }
+    internal Surface? CenteredSurface { get; private set; }
 
     // HSEngine.pas:4670
-    public HexSpriteMapViewer(Component owner) : base(owner)
+    public HexSpriteMapViewer(Component? owner) : base(owner)
     {
         StaticSurfaceValid = false;
         SceneChanged = null;
@@ -49,7 +49,7 @@ public sealed class HexSpriteMapViewer : Component
     }
 
     // HSEngine.pas:4718
-    public void SetHexSpriteMap(GameMap value)
+    public void SetHexSpriteMap(GameMap? value)
     {
         _hexSpriteMap = value;
         if (_hexSpriteMap is not null)
@@ -62,7 +62,7 @@ public sealed class HexSpriteMapViewer : Component
     }
 
     // HSEngine.pas:4794
-    public void VerifyStaticSurface(Surface surface)
+    public void VerifyStaticSurface(Surface? surface)
     {
         if (StaticSurface is not null && StaticSurface.GetPixelFormatId() != surface.GetPixelFormatId())
         {
@@ -168,7 +168,7 @@ public sealed class HexSpriteMapViewer : Component
     // HSEngine.pas:4770
     public void SetSceneWidth(int value)
     {
-        GameMap m = _hexSpriteMap;
+        GameMap? m = _hexSpriteMap;
         if (m is not null && value > 0)
         {
             _sceneWidth = value;
@@ -179,7 +179,7 @@ public sealed class HexSpriteMapViewer : Component
     // HSEngine.pas:4782
     public void SetSceneHeight(int value)
     {
-        GameMap m = _hexSpriteMap;
+        GameMap? m = _hexSpriteMap;
         if (m is not null && value > 0)
         {
             _sceneHeight = value;
@@ -195,15 +195,15 @@ public sealed class HexSpriteMapViewer : Component
     }
 
     // HSEngine.pas:4843
-    public void ShowScene(int X, int Y, Surface surface)
+    public void ShowScene(int X, int Y, Surface? surface)
     {
         Rect r = default;
-        Surface target = surface;
+        Surface? target = surface;
         int targetX = X;
         int targetY = Y;
         try
         {
-            object mp = _hexSpriteMap;
+            object? mp = _hexSpriteMap;
             if (mp is not null)
             {
                 // The field holds the map. The object-typed copy belongs to #150.
@@ -348,7 +348,7 @@ public sealed class HexSpriteMapViewer : Component
     }
 
     // Port extension: the scene-sized surface that ShowScene draws on when the scene exceeds the map.
-    public Surface VerifyCenteredSurface(Surface surface)
+    public Surface VerifyCenteredSurface(Surface? surface)
     {
         if (CenteredSurface is not null && CenteredSurface.GetPixelFormatId() != surface.GetPixelFormatId())
         {
@@ -370,7 +370,7 @@ public sealed class HexSpriteMapViewer : Component
 
     // Port extension: fills the scene outside the centered map black and copies the map part of
     // FCenteredSurface into the centered rectangle.
-    public void ShowCenteredMap(Surface target, int X, int Y)
+    public void ShowCenteredMap(Surface? target, int X, int Y)
     {
         LockedSurface lockedSurface = default;
         Rect source = GetMapSceneRectangle();
@@ -393,8 +393,8 @@ public sealed class HexSpriteMapViewer : Component
         _ = PixelFormats.ColorFillSurfaceDescription(new Rect(inside.Right, inside.Top, lockedSurface.Width, inside.Bottom), color: 0, lockedSurface);
     }
 
-    public GameMap HexSpriteMap { get => _hexSpriteMap; set => SetHexSpriteMap(value); }
-    public Surface StaticSurface { get; private set; }
+    public GameMap? HexSpriteMap { get => _hexSpriteMap; set => SetHexSpriteMap(value); }
+    public Surface? StaticSurface { get; private set; }
     public bool StaticSurfaceValid { get; private set; }
     public int SceneX { get => _sceneX; set => SetSceneX(value); }
     public int SceneY { get => _sceneY; set => SetSceneY(value); }

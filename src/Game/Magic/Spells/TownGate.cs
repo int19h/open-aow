@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from CitySpells.pas.
 using Aow.Engine.Nodes;
 
@@ -18,7 +18,7 @@ namespace Aow.Game.Magic.Spells;
 public class TownGate : CityTargetSpell
 {
     // CitySpells.pas:421
-    public TownGate(CustomNode owner, EngineObject holder) : base(owner)
+    public TownGate(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_townGateText);
@@ -35,7 +35,7 @@ public class TownGate : CityTargetSpell
         // TownGate.CreateTokenEvent constructs TownGateTokenEvent.
         TownGateTokenEvent townGateEvent = (TownGateTokenEvent)eventValue;
         byte selection = default;
-        ArmyHexSprite army = default;
+        ArmyHexSprite? army = default;
         MapCoordinate coordinate84 = source.GetLocation();
         sbyte x = coordinate84.X;
         sbyte y = coordinate84.Y;
@@ -136,7 +136,7 @@ public class TownGate : CityTargetSpell
                 return false;
             }
 
-            ArmyHexSprite army = armyOwner.GetArmyHexSprite();
+            ArmyHexSprite? army = armyOwner.GetArmyHexSprite();
             byte selection = army.Army.Player == StrategicMap.Current.SeatedPlayer && StrategicMap.Current.SelectedArmy.ArmyHexSprite == army
                 ? StrategicMap.Current.SelectedArmy.Selection
                 : (byte)255;
@@ -177,7 +177,7 @@ public class TownGate : CityTargetSpell
     }
 
     // CitySpells.pas:432
-    public bool ValidTeleportLocation(ArmyHexSprite army, byte selection, sbyte X, sbyte Y, sbyte L)
+    public bool ValidTeleportLocation(ArmyHexSprite? army, byte selection, sbyte X, sbyte Y, sbyte L)
     {
         MapField field = StrategicMap.Current.MapContainer.GetField(X, Y, L);
         bool result = field.GetPlayer() == -1 || field.GetPlayer() == army.Army.Player;

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using Aow.Game.Host;
 using Aow.Rtl;
 using static Aow.Game.Draw.DisplayControllerStatuses;
@@ -6,13 +6,13 @@ using static Aow.Game.Draw.DisplayControllerStatuses;
 namespace Aow.Game.Draw;
 
 // The primary constructor captures host before the base inserts this component.
-public sealed class SdlDisplayController(IDisplayHost host, Component owner = null) : DisplayController(owner)
+public sealed class SdlDisplayController(IDisplayHost host, Component? owner = null) : DisplayController(owner)
 {
-    private readonly Surface[] _surfaces = new Surface[3];
+    private readonly Surface?[] _surfaces = new Surface[3];
 
     public bool UseVerticalBlank { get; set; } = true;
 
-    public override Surface GetSurface(int index) => index >= 0 && index < _surfaces.Length ? _surfaces[index] : null;
+    public override Surface? GetSurface(int index) => index >= 0 && index < _surfaces.Length ? _surfaces[index] : null;
 
     public override DisplayControllerError Activate(CustomDisplay display)
     {
@@ -52,7 +52,7 @@ public sealed class SdlDisplayController(IDisplayHost host, Component owner = nu
 
     public override DisplayControllerError BlitSurface(int index)
     {
-        Surface surface = GetSurface(index);
+        Surface? surface = GetSurface(index);
         if (surface is null)
         {
             return DisplayControllerError.Failed;

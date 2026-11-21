@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from CombatSpells.pas.
 using Aow.Engine;
 using Aow.Engine.Collections;
@@ -48,7 +48,7 @@ public class MultiTargetCombatSpellCombatAction(CustomNode owner) : CombatAction
     {
         if (ManaCost != 0 && combat.Status.Contains(CombatStatuses.Executing))
         {
-            CombatObject source = combat.CombatData.FindId(SourceId);
+            CombatObject? source = combat.CombatData.FindId(SourceId);
             GamePack.Current.SpellControl[SpellId].CombatCastingDone(source, mana: ManaCost);
         }
     }
@@ -83,7 +83,7 @@ public class MultiTargetCombatSpellCombatAction(CustomNode owner) : CombatAction
 
         if (objectValue.Id == SourceId)
         {
-            Spell spell = GamePack.Current.SpellControl[SpellId];
+            Spell? spell = GamePack.Current.SpellControl[SpellId];
             GetEngine().CombatFont.SetTextCentered(X + 32, Y + 32 + 8, text: spell.SpellName, lockedSurface: surface);
         }
         else
@@ -102,7 +102,7 @@ public class MultiTargetCombatSpellCombatAction(CustomNode owner) : CombatAction
         base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
         if (objectValue.Id == SourceId)
         {
-            Spell spell = GamePack.Current.SpellControl[SpellId];
+            Spell? spell = GamePack.Current.SpellControl[SpellId];
             GetEngine().CombatFont.SetTextCentered(X + 32, Y + 32 + 8, text: spell.SpellName, lockedSurface: surface);
         }
         else
@@ -117,7 +117,7 @@ public class MultiTargetCombatSpellCombatAction(CustomNode owner) : CombatAction
     // CombatSpells.pas:624
     public override void ShowFightingObjects(CombatViewer viewer, int frame, int X, int Y, in LockedSurface surface)
     {
-        CombatObject source = viewer.Combat.CombatData.FindId(SourceId);
+        CombatObject? source = viewer.Combat.CombatData.FindId(SourceId);
         viewer.DefaultShowFightingObjects(null, target: source, frame, X, Y, surface);
     }
 }

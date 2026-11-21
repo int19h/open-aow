@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.AI.Groups;
@@ -15,7 +15,7 @@ namespace Aow.Game.AI;
 public class AIRecruitmentGroupFinder : AIGroupTask
 {
     // AIGroup.pas:1981
-    public AIRecruitmentGroupFinder(CustomNode owner) : base(owner) => _selector = new AIMoveTargetSelector(null) { Holder = CreationHolder() };
+    public AIRecruitmentGroupFinder(CustomNode? owner) : base(owner) => _selector = new AIMoveTargetSelector(null) { Holder = CreationHolder() };
 
     private AIGroupControl _control;
     private readonly AIMoveTargetSelector _selector;
@@ -88,7 +88,7 @@ public class AIRecruitmentGroupFinder : AIGroupTask
         {
             for (int i = armyHexSprite.Army.Units.Count - 1; i >= 0; i--)
             {
-                Troop troop = armyHexSprite.Army.Units.GetUnit(i);
+                Troop? troop = armyHexSprite.Army.Units.GetUnit(i);
                 if (troop.Group is not null && troop.Group.Leader == troop && troop.Group != _control.Group)
                 {
                     AIRecruitmentGroup group = new(null) { Holder = CreationHolder() };

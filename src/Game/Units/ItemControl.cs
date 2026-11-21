@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 
@@ -14,7 +14,7 @@ using Aow.Rtl;
 namespace Aow.Game.Units;
 
 // items, change events, update lock, item change events, last ID, status
-public sealed class ItemControl(CustomNode owner) : EngineObject(owner)
+public sealed class ItemControl(CustomNode? owner) : EngineObject(owner)
 {
 
     private readonly List<Item> _items = [];
@@ -74,7 +74,7 @@ public sealed class ItemControl(CustomNode owner) : EngineObject(owner)
         if (persister.Loading)
         {
             int slot = 0;
-            Item item;
+            Item? item;
             do
             {
                 item = persister.CreatedSlot<Item>("Items", slot: slot, objectValue: null);
@@ -109,7 +109,7 @@ public sealed class ItemControl(CustomNode owner) : EngineObject(owner)
     public int GetCount() => _items.Count;
 
     // Army.PAS:4717
-    public Item FindItem(int itemId)
+    public Item? FindItem(int itemId)
     {
         int i = _items.Count;
         while (i != 0)
@@ -197,7 +197,7 @@ public sealed class ItemControl(CustomNode owner) : EngineObject(owner)
     {
         if (!item.Status.Contains(ItemStatuses.Registered))
         {
-            Item existing = FindItem(item.ItemId);
+            Item? existing = FindItem(item.ItemId);
             if (existing is not null && existing.Compare(item, engine: GetEngine()) && existing.RefCount == 1)
             {
                 UnregisterItem(existing);
@@ -229,7 +229,7 @@ public sealed class ItemControl(CustomNode owner) : EngineObject(owner)
     }
 
     // Army.PAS:4807
-    public Item GenerateItem(ItemTypes types, int minValue, int maxValue)
+    public Item? GenerateItem(ItemTypes types, int minValue, int maxValue)
     {
         DoubleItemList<Item> list = new();
         for (int i = 0, last = GetCount() - 1; i <= last; i++)
@@ -245,7 +245,7 @@ public sealed class ItemControl(CustomNode owner) : EngineObject(owner)
             }
         }
 
-        Item result = list.Count != 0 ? list[list.RandomChanceItemB(1)].First : null;
+        Item? result = list.Count != 0 ? list[list.RandomChanceItemB(1)].First : null;
 
         list?.Dispose();
         return result;
@@ -269,7 +269,7 @@ public sealed class ItemControl(CustomNode owner) : EngineObject(owner)
         bool done = false;
         while (!done && list.Count != 0)
         {
-            Item candidate = list[list.RandomChanceItemB(1)].First;
+            Item? candidate = list[list.RandomChanceItemB(1)].First;
             int itemValue = candidate.ObtainValue;
             if (itemValue > value)
             {

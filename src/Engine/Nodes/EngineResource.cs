@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Engine.pas.
 using Aow.Formats.Tree;
 
@@ -10,12 +10,12 @@ namespace Aow.Engine.Nodes;
 
 // FResourceList, FResourceID, FEditID (the edit id of the resource grid that placed it),
 // FEditIndex (its cell in that grid). all three integers are persisted (ids 1.3)
-public class EngineResource(CustomNode owner) : EngineObject(owner)
+public class EngineResource(CustomNode? owner) : EngineObject(owner)
 {
     public new const int ClassId = 1_024;
 
     // Engine.pas:8513
-    public override void SetOwner(CustomNode owner)
+    public override void SetOwner(CustomNode? owner)
     {
         base.SetOwner(owner);
         ResourceList = owner;
@@ -38,7 +38,7 @@ public class EngineResource(CustomNode owner) : EngineObject(owner)
     }
 
     // Engine.pas:8533
-    public virtual LibraryImage GetCellImage() => null;
+    public virtual LibraryImage? GetCellImage() => null;
 
     // Engine.pas:8538
     public virtual void SetCellImage(LibraryImage value)
@@ -49,7 +49,7 @@ public class EngineResource(CustomNode owner) : EngineObject(owner)
     public virtual int ResourceUserClassId() => 0;
 
     // Engine.pas:8555
-    public virtual EngineObject CreateResourceUser()
+    public virtual EngineObject? CreateResourceUser()
     {
         int userClassId = ResourceUserClassId();
         return userClassId != 0 ? GetEngine().CreateEngineObject(userClassId, owner: null) : null;
@@ -66,11 +66,11 @@ public class EngineResource(CustomNode owner) : EngineObject(owner)
         LibraryDrawing.BlitLibraryImage(canvas, image: GetCellImage(), rectangle, mode, scaleX, scaleY, bkColor, color, selected: false, drawRectangle: in r);
     }
 
-    public CustomNode ResourceList { get; private set; }
+    public CustomNode? ResourceList { get; private set; }
     public int EditId { get; set; }
     public int EditIndex { get; set; }
     public int ResourceId { get; set; }
-    public LibraryImage CellImage => GetCellImage();
+    public LibraryImage? CellImage => GetCellImage();
 
     // Engine.pas:8508
     public virtual string ResourceEditName() => GetType().Name;

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
@@ -9,7 +9,7 @@ using Aow.Game.Session;
 namespace Aow.Game.World.Structures;
 
 // (external power control)
-public class ExternalPowerSource(CustomNode owner) : PowerSource(owner)
+public class ExternalPowerSource(CustomNode? owner) : PowerSource(owner)
 {
     public PlayerMagicControl ExternalPowerControl { get; set; }
 

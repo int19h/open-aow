@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AOWMWindow.pas.
 using Aow.Game.Combat;
 using Aow.Game.Draw;

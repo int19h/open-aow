@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
@@ -7,7 +7,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.AI.Groups;
 
 // children. group control
-public class AIGroupControlTargetList(CustomNode owner) : ReferenceNode(owner), IChildList<AIGroupControlTarget>
+public class AIGroupControlTargetList(CustomNode? owner) : ReferenceNode(owner), IChildList<AIGroupControlTarget>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an AIGroupControlTarget, so the cast never fails.

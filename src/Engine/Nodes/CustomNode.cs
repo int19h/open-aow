@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Engine.pas.
 using System.Collections;
 
@@ -15,9 +15,9 @@ public abstract class CustomNode : EngineObject, IOwner
 {
 
     // Engine.pas:2430
-    public CustomNode(CustomNode owner) : this(null, owner) { }
+    public CustomNode(CustomNode? owner) : this(null, owner) { }
 
-    private protected CustomNode(ConstructionContext context, CustomNode owner) : base(context, owner)
+    private protected CustomNode(ConstructionContext? context, CustomNode? owner) : base(context, owner)
     { }
 
     // Engine.pas:2666
@@ -37,7 +37,7 @@ public abstract class CustomNode : EngineObject, IOwner
     {
         if (Count != 0)
         {
-            EngineObject c;
+            EngineObject? c;
             for (int i = Count - 1; i >= 0; i--)
             {
                 c = Children[i];
@@ -69,14 +69,14 @@ public abstract class CustomNode : EngineObject, IOwner
     }
 
     // Engine.pas:2648
-    public override void Assign(EngineObject source, GameEngine engine)
+    public override void Assign(EngineObject? source, GameEngine? engine)
     {
         Clear();
         base.Assign(source, engine);
     }
 
     // Engine.pas:2720
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
         if (SendToChild(in message))
@@ -86,10 +86,10 @@ public abstract class CustomNode : EngineObject, IOwner
     }
 
     // Engine.pas:593
-    public abstract EngineObject GetChild(int index);
+    public abstract EngineObject? GetChild(int index);
 
     // Engine.pas:594
-    public abstract void SetChild(int index, EngineObject child);
+    public abstract void SetChild(int index, EngineObject? child);
 
     // Engine.pas:595
     public abstract int GetCount();
@@ -103,7 +103,7 @@ public abstract class CustomNode : EngineObject, IOwner
     // Engine.pas:2608
     public virtual void DestroyAllChildren()
     {
-        EngineObject c;
+        EngineObject? c;
         for (int i = Count - 1; i >= 0; i--)
         {
             c = Children[i];
@@ -136,9 +136,9 @@ public abstract class CustomNode : EngineObject, IOwner
     }
 
     // Engine.pas:2674
-    public virtual void SendMessage(ref EngineMessage message, EngineObject sender)
+    public virtual void SendMessage(ref EngineMessage message, EngineObject? sender)
     {
-        EngineObject c;
+        EngineObject? c;
         if ((message.MessageId & 0b0001_0000_0000_0000_0000_0000_0000_0000) != 0)
         {
             if ((message.MessageId & 0b0010_0000_0000_0000_0000_0000_0000_0000) == 0)
@@ -191,10 +191,10 @@ public abstract class CustomNode : EngineObject, IOwner
     }
 
     // Engine.pas:601
-    public abstract int RemoveChild(EngineObject child);
+    public abstract int RemoveChild(EngineObject? child);
 
     // Engine.pas:602
-    public abstract int AddChild(EngineObject child);
+    public abstract int AddChild(EngineObject? child);
 
     // Engine.pas:2786
     // { The original tests Result before the child-count call. }
@@ -203,7 +203,7 @@ public abstract class CustomNode : EngineObject, IOwner
         int n = 0;
         for (int i = Count - 1; i >= 0; i--)
         {
-            EngineObject c = Children[i];
+            EngineObject? c = Children[i];
             if (c is not null && c.EngineClass.ClassId == classId)
             {
                 c.Dispose();
@@ -215,9 +215,9 @@ public abstract class CustomNode : EngineObject, IOwner
     }
 
     // Engine.pas:2768
-    public virtual EngineObject FindChildInTree(int classId)
+    public virtual EngineObject? FindChildInTree(int classId)
     {
-        EngineObject result = FindChild(classId);
+        EngineObject? result = FindChild(classId);
         if (result is null)
         {
             int i = 0;
@@ -236,11 +236,11 @@ public abstract class CustomNode : EngineObject, IOwner
     }
 
     // Engine.pas:2726
-    public virtual EngineObject FindChild(int classId)
+    public virtual EngineObject? FindChild(int classId)
     {
         int i = 0;
         bool found = false;
-        EngineObject c = null;
+        EngineObject? c = null;
         while (!found && i < Count)
         {
             c = Children[i];
@@ -255,11 +255,11 @@ public abstract class CustomNode : EngineObject, IOwner
     public T FindChild<T>(int classId) where T : EngineObject => (T)FindChild(classId);
 
     // Engine.pas:2744
-    public virtual EngineObject FindOwnedChild(int classId)
+    public virtual EngineObject? FindOwnedChild(int classId)
     {
         int i = 0;
         bool found = false;
-        EngineObject c = null;
+        EngineObject? c = null;
         while (!found && i < Count)
         {
             c = Children[i];
@@ -277,7 +277,7 @@ public abstract class CustomNode : EngineObject, IOwner
     public T GetChild<T>(int index) where T : EngineObject => (T)GetChild(index);
 
     // Engine.pas:2762
-    public virtual int FindChildIndex(EngineObject child)
+    public virtual int FindChildIndex(EngineObject? child)
     {
         int result = Count - 1;
         while (result >= 0 && child != Children[result])
@@ -299,7 +299,7 @@ public abstract class CustomNode : EngineObject, IOwner
 
     public sealed class ChildrenAccessor(CustomNode target)
     {
-        public EngineObject this[int index] { get => target.GetChild(index); set => target.SetChild(index, child: value); }
+        public EngineObject? this[int index] { get => target.GetChild(index); set => target.SetChild(index, child: value); }
     }
 
     public ChildrenAccessor Children => new(this);
@@ -323,7 +323,7 @@ public abstract class CustomNode : EngineObject, IOwner
     /// </summary>
     protected virtual bool AcceptsChild(EngineObject child) => true;
 
-    protected void CheckChild(EngineObject child)
+    protected void CheckChild(EngineObject? child)
     {
         if (child is not null && !AcceptsChild(child))
         {

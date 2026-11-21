@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Magic.Abilities;
@@ -29,8 +29,8 @@ public class UnitSelector : IDisposable
     public byte Selectable { get; private set; }
     public int SourceUnitId { get; private set; }
 
-    private event Action<UnitSelector> Selected;
-    private event Action<UnitSelector> Cancel;
+    private event Action<UnitSelector>? Selected;
+    private event Action<UnitSelector>? Cancel;
 
     // Ability.PAS:583
     public virtual void Dispose() => Units?.Dispose();
@@ -39,10 +39,10 @@ public class UnitSelector : IDisposable
     public virtual void SetSelection(byte value) => Selection = (byte)(value & Selectable);
 
     // Ability.PAS:656
-    public virtual bool CanSelectUnit(Troop troop) => true;
+    public virtual bool CanSelectUnit(Troop? troop) => true;
 
     // Ability.PAS:662
-    public virtual void Setup(Troop source, UnitCollection units)
+    public virtual void Setup(Troop? source, UnitCollection units)
     {
         if (source is not null)
         {

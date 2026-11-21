@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AGCPlugins.pas.
 using Aow.Engine.Nodes;
 
@@ -33,7 +33,7 @@ public class AIGroupDefendTargetSelector : AIGroupTask
     }
 
     // AGCPlugins.pas:157
-    public AIGroupDefendTargetSelector(CustomNode owner) : base(owner)
+    public AIGroupDefendTargetSelector(CustomNode? owner) : base(owner)
     {
         _selector = new AIMoveTargetSelector(null) { Holder = CreationHolder() };
         _targets = new AIGroupControlTargetList(null) { Holder = CreationHolder() };
@@ -84,7 +84,7 @@ public class AIGroupDefendTargetSelector : AIGroupTask
                 else
                 {
                     _control.SetupME();
-                    AIMoveExecutor aiMoveExecutor = _control.MoveExecutor;
+                    AIMoveExecutor? aiMoveExecutor = _control.MoveExecutor;
                     aiMoveExecutor.Mode &= ~AIMoveExecutorModes.Adjacent;
 
                     AIGroupControl aiGroupControl = _control;

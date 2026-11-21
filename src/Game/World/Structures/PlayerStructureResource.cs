@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
@@ -33,7 +33,7 @@ public class PlayerStructureResource(CustomNode owner) : StructureResource(owner
     // (claimed, flag position, flag control)
 
     // Structur.PAS:2467
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
         if (message.MessageId == 536870920)
@@ -46,7 +46,7 @@ public class PlayerStructureResource(CustomNode owner) : StructureResource(owner
     public override int ResourceUserClassId() => PlayerStructure.ClassId;
 
     // Structur.PAS:2473
-    public override PlayerStructure PlaceResourceUser(GameMap hexSpriteMap, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override PlayerStructure? PlaceResourceUser(GameMap? hexSpriteMap, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
         // The user class is a player structure (131916) or one of its kinds. Another class throws.
         PlayerStructure result = PlaceCreatedUser<PlayerStructure>(hexSpriteMap, hexX, hexY, hexLevel);

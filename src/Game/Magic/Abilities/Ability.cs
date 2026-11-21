@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using System.Collections.Immutable;
 using System.Globalization;
@@ -29,7 +29,7 @@ public class Ability : EngineObject
 {
 
     // Ability.PAS:1238
-    public Ability(CustomNode owner) : base(owner)
+    public Ability(CustomNode? owner) : base(owner)
     {
         Description = new DelphiStringList();
         SfxLibrary = new SfxLibrary(null) { Holder = CreationHolder() };
@@ -79,25 +79,25 @@ public class Ability : EngineObject
     public virtual AbilityType GetAbilityType() => 0;
 
     // Ability.PAS:1449
-    public virtual string GetName(AbilityOwner owner) => AbilityName;
+    public virtual string GetName(AbilityOwner? owner) => AbilityName;
 
     // Ability.PAS:1453
-    public virtual sbyte GetAttack(AbilityOwner owner) => 0;
+    public virtual sbyte GetAttack(AbilityOwner? owner) => 0;
 
     // Ability.PAS:1457
-    public virtual sbyte GetDefense(AbilityOwner owner) => 0;
+    public virtual sbyte GetDefense(AbilityOwner? owner) => 0;
 
     // Ability.PAS:1462
-    public virtual sbyte GetResistance(AbilityOwner owner) => 0;
+    public virtual sbyte GetResistance(AbilityOwner? owner) => 0;
 
     // Ability.PAS:1467
-    public virtual sbyte GetDamage(AbilityOwner owner) => 0;
+    public virtual sbyte GetDamage(AbilityOwner? owner) => 0;
 
     // Ability.PAS:1472
     public virtual MoveTypes GetMoveTypes(AbilityOwner owner) => s_emptyMoveTypes;
 
     // Ability.PAS:1482
-    public virtual int GetLevel(AbilityOwner owner) => 0;
+    public virtual int GetLevel(AbilityOwner? owner) => 0;
 
     // Ability.PAS:1550
     public virtual DamageTypes GetImmunityTypes(AbilityOwner owner) => s_emptyDamageTypes;
@@ -106,19 +106,19 @@ public class Ability : EngineObject
     public virtual DamageTypes GetProtectionTypes(AbilityOwner owner) => s_emptyDamageTypes;
 
     // Ability.PAS:1268
-    public virtual CombatMode GetCombatMode(AbilityOwner owner) => 0;
+    public virtual CombatMode GetCombatMode(AbilityOwner? owner) => 0;
 
     // Ability.PAS:1341
     public virtual WallCombatFeatures GetWallCombatFeatures(AbilityOwner owner) => s_emptyWallFeatures;
 
     // Ability.PAS:1256
-    public virtual string GetSourceName(AbilityOwner owner) => owner.GetOwnerName();
+    public virtual string GetSourceName(AbilityOwner? owner) => owner.GetOwnerName();
 
     // Ability.PAS:1420
-    public virtual int GetInherentLevel(AbilityOwner owner) => 0;
+    public virtual int GetInherentLevel(AbilityOwner? owner) => 0;
 
     // Ability.PAS:1264
-    public virtual AbilityControlTypes GetControlType(AbilityOwner owner) => s_emptyControlType;
+    public virtual AbilityControlTypes GetControlType(AbilityOwner? owner) => s_emptyControlType;
 
     // Ability.PAS:1298
     // { Original leaves Reserved untouched. }
@@ -145,7 +145,7 @@ public class Ability : EngineObject
     }
 
     // Ability.PAS:1574. The one caller, FastBattleUnit.FastBattleExecute, passes that unit.
-    public virtual bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand command) => false;
+    public virtual bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand? command) => false;
 
     // The ranged event asks every ability it does not name. Healing, dispel and the ranged attack
     // family override this. The event's ability id names a ranged attack otherwise, and the type
@@ -156,7 +156,7 @@ public class Ability : EngineObject
 
     // A touch ability builds its action here and draws its random value where the touch event drew it.
     // Any other ability does nothing.
-    public virtual CombatAction CreateTouchMoveCombatAction(CombatUnit source, CombatUnit target) => null;
+    public virtual CombatAction? CreateTouchMoveCombatAction(CombatUnit source, CombatUnit? target) => null;
 
     // Ability.PAS:1582
     public virtual void NewDay(AbilityOwner owner)
@@ -233,10 +233,10 @@ public class Ability : EngineObject
     }
 
     // Ability.PAS:1374
-    public virtual string ExpandName(AbilityOwner owner) => AbilityName;
+    public virtual string ExpandName(AbilityOwner? owner) => AbilityName;
 
     // Ability.PAS:1382
-    public virtual bool Expand(AbilityOwner owner)
+    public virtual bool Expand(AbilityOwner? owner)
     {
         owner.SetAbilitySet(AbilityId, value: 1);
         return true;
@@ -246,7 +246,7 @@ public class Ability : EngineObject
     public virtual int GetDamageValue(Troop attacker, Troop defender) => 0;
 
     // Ability.PAS:1276
-    public virtual void GetDamageValues(Troop attacker, Troop defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
+    public virtual void GetDamageValues(Troop attacker, Troop? defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
         damageValues.SourceDamage = 0;
         damageValues.SourceCost = 0;
@@ -255,7 +255,7 @@ public class Ability : EngineObject
     }
 
     // Ability.PAS:1487
-    public virtual void GetOffensiveStrength(AbilityOwner owner, ref int strength, ref DamageTypes types)
+    public virtual void GetOffensiveStrength(AbilityOwner? owner, ref int strength, ref DamageTypes types)
     {
         strength = 0;
         types = s_emptyDamageTypes;
@@ -263,7 +263,7 @@ public class Ability : EngineObject
 
     // Ability.PAS:1287
     // { Original leaves the value at offset 16 untouched. }
-    public virtual void FastBattleGetDamageValues(CombatObject attacker, CombatObject defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
+    public virtual void FastBattleGetDamageValues(CombatObject? attacker, CombatObject? defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
         damageValues.SourceDamage = 0;
         damageValues.SourceCost = 0;
@@ -280,10 +280,10 @@ public class Ability : EngineObject
     }
 
     // Ability.PAS:1320
-    public virtual void TacticalBattleGetDamageValues(CombatObject attacker, CombatObject defender, ref AbilityDamageValues damageValues) => FastBattleGetDamageValues(attacker, defender, wallSituation: WallSituation.None, ref damageValues);
+    public virtual void TacticalBattleGetDamageValues(CombatObject? attacker, CombatObject? defender, ref AbilityDamageValues damageValues) => FastBattleGetDamageValues(attacker, defender, wallSituation: WallSituation.None, ref damageValues);
 
     // Ability.PAS:1324
-    public virtual int TacticalBattleGetDamageValue(CombatObject source, CombatObject target)
+    public virtual int TacticalBattleGetDamageValue(CombatObject source, CombatObject? target)
     {
         AbilityDamageValues values = default;
         TacticalBattleGetDamageValues(source, defender: target, damageValues: ref values);
@@ -402,7 +402,7 @@ public class Ability : EngineObject
     }
 
     // Ability.PAS:1331
-    public virtual void GetCombatInfo(AbilityOwner owner, ref AbilityCombatInfo info)
+    public virtual void GetCombatInfo(AbilityOwner? owner, ref AbilityCombatInfo info)
     {
         ref AbilityCombatInfo abilityCombatInfo = ref info;
         abilityCombatInfo.Attack = -1;
@@ -416,15 +416,15 @@ public class Ability : EngineObject
     public void ShowInfo(AbilityOwner owner, ImageLibraryFont font, int X, int Y, in LockedSurface surface) => font.SetText(X, Y, text: GetName(owner), lockedSurface: surface);
 
     // Ability.PAS:1260
-    public void SetAbility(AbilityOwner owner, int index, byte value) => owner.SetAbilitySet(index, value);
+    public void SetAbility(AbilityOwner? owner, int index, byte value) => owner.SetAbilitySet(index, value);
 
     // Ability.PAS:1445
-    public virtual EngineClass AbilityDataClass() => default;
+    public virtual EngineClass? AbilityDataClass() => default;
 
-    public virtual bool CanExpand(AbilityOwner owner) => !owner.GetAbilitySetAt(AbilityId) && (owner.GetAbilitySelectionTypes() & SelectionTypes) != default;
-    public virtual int ExpandCost(AbilityOwner owner) => SkillPointCost;
+    public virtual bool CanExpand(AbilityOwner? owner) => !owner.GetAbilitySetAt(AbilityId) && (owner.GetAbilitySelectionTypes() & SelectionTypes) != default;
+    public virtual int ExpandCost(AbilityOwner? owner) => SkillPointCost;
 
-    public virtual bool Remove(AbilityOwner owner)
+    public virtual bool Remove(AbilityOwner? owner)
     {
         if (!owner.GetAbilitySetAt(AbilityId))
         {
@@ -437,7 +437,7 @@ public class Ability : EngineObject
 
     public virtual bool GetInherent(AbilityOwner owner) => owner.GetAbilitySetAt(AbilityId);
     public virtual int GetSkillPoints(AbilityOwner owner) => owner.GetAbilitySetAt(AbilityId) ? SkillPointCost : 0;
-    public virtual bool GetEnabled(AbilityOwner owner) => owner.GetAbilitySetAt(AbilityId);
+    public virtual bool GetEnabled(AbilityOwner? owner) => owner.GetAbilitySetAt(AbilityId);
 
     private static readonly ImmutableArray<string> s_combatModeTexts = ["", "", "", "", "", ""];
     private static readonly ImmutableArray<string> s_damageTypeTexts = ["", "", "", "", "", "", "", "", "", ""];

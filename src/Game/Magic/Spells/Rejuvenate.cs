@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from GlobalTargetSpells.pas.
 using Aow.Engine.Nodes;
 
@@ -14,7 +14,7 @@ namespace Aow.Game.Magic.Spells;
 public class Rejuvenate : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:1074
-    public Rejuvenate(CustomNode owner, EngineObject holder) : base(owner)
+    public Rejuvenate(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_rejuvenateText);

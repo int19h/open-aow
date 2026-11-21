@@ -1,11 +1,11 @@
-#nullable disable
+#nullable disable warnings
 using Aow.Rtl;
 
 namespace Aow.Game.Draw.Images;
 
 public sealed partial class FastLoadFileStream(string name)
 {
-    private Stream _source = DelphiStreams.OpenFile(name, mode: FileOpenMode.Read | FileOpenMode.ShareDenyWrite);
+    private Stream? _source = DelphiStreams.OpenFile(name, mode: FileOpenMode.Read | FileOpenMode.ShareDenyWrite);
 
     public override bool CanRead => true;
 

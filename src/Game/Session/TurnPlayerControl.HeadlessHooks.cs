@@ -1,4 +1,4 @@
-#nullable enable
+#nullable disable warnings // Enabled before the stage 1 annotations of issue 315.
 using Aow.Game.Host;
 
 using Aow.Game.World.Map;

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
@@ -14,7 +14,7 @@ using static Aow.Rtl.DelphiStrings;
 namespace Aow.Game.Units;
 
 // library name, image index, item type, library, references, hidden
-public sealed class ItemGraphics(CustomNode owner) : EngineResource(owner)
+public sealed class ItemGraphics(CustomNode? owner) : EngineResource(owner)
 {
     public new const int ClassId = 131_689;
 
@@ -22,7 +22,7 @@ public sealed class ItemGraphics(CustomNode owner) : EngineResource(owner)
     public int ImageIndex { get; set; }
     public ItemType ItemType { get; set; }
 
-    private CustomImageLibrary _imageLibrary;
+    private CustomImageLibrary? _imageLibrary;
     private int _refCount;
 
     public bool Hidden { get; set; }
@@ -66,10 +66,10 @@ public sealed class ItemGraphics(CustomNode owner) : EngineResource(owner)
     }
 
     // Army.PAS:5152
-    public override LibraryImage GetCellImage()
+    public override LibraryImage? GetCellImage()
     {
         _ = AddRef();
-        LibraryImage image = _imageLibrary[ImageIndex];
+        LibraryImage? image = _imageLibrary[ImageIndex];
         _ = Release();
         return image;
     }
@@ -117,6 +117,6 @@ public sealed class ItemGraphics(CustomNode owner) : EngineResource(owner)
     }
 
     // Army.PAS:5161
-    public LibraryImage ItemImage => _imageLibrary?[ImageIndex];
+    public LibraryImage? ItemImage => _imageLibrary?[ImageIndex];
 
 }

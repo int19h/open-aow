@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from HSEngine.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
@@ -20,7 +20,7 @@ public class MapObjectResource : EngineResource
 {
     public new const int ClassId = 65_876;
 
-    public MapObjectResource(CustomNode owner) : base(owner)
+    public MapObjectResource(CustomNode? owner) : base(owner)
     {
         TerrainList = new TerrainList();
         ImageLibrary = new ImageLibrary(null);
@@ -43,7 +43,7 @@ public class MapObjectResource : EngineResource
     public override int ClassVersion() => 1;
 
     // MAPOBJ.PAS:400. Before the activation message the resource reaches the engine as any node does.
-    public override GameEngine GetEngine() => Engine ?? base.GetEngine();
+    public override GameEngine? GetEngine() => Engine ?? base.GetEngine();
 
     // MAPOBJ.PAS:470
     public override void PersistFields(IPersister persister)
@@ -82,7 +82,7 @@ public class MapObjectResource : EngineResource
     }
 
     // MAPOBJ.PAS:620
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
         if (message.MessageId == 536870920)
@@ -111,10 +111,10 @@ public class MapObjectResource : EngineResource
     }
 
     // MAPOBJ.PAS:450
-    public override LibraryImage GetCellImage()
+    public override LibraryImage? GetCellImage()
     {
         int i = 0;
-        LibraryImage result = null;
+        LibraryImage? result = null;
         while (i != ImageLibrary.Count && result is null)
         {
             result = ImageLibrary.Get(i);
@@ -129,7 +129,7 @@ public class MapObjectResource : EngineResource
 
     // MAPOBJ.PAS:525
     // The user class is a map object. Another class throws, and a class id of zero stays null.
-    public override MapObject CreateResourceUser()
+    public override MapObject? CreateResourceUser()
     {
         int id = ResourceUserClassId();
         if (id == 0)
@@ -152,7 +152,7 @@ public class MapObjectResource : EngineResource
     {
         Rect drawRectangle = default;
         int i = 0;
-        LibraryImage image = null;
+        LibraryImage? image = null;
         while (i != ImageLibrary.Count && image is null)
         {
             image = ImageLibrary.Get(i);
@@ -162,7 +162,7 @@ public class MapObjectResource : EngineResource
         if (image is null && ImageSequenceList is not null)
         {
             i = 0;
-            ImageSequence sequence = null;
+            ImageSequence? sequence = null;
             while (i != ImageSequenceList.Count && sequence is null)
             {
                 sequence = ImageSequenceList.GetImageSequence(i);
@@ -188,14 +188,14 @@ public class MapObjectResource : EngineResource
     }
 
     // MAPOBJ.PAS:556
-    public virtual MapObject PlaceResourceUser(GameMap hexSpriteMap, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public virtual MapObject? PlaceResourceUser(GameMap? hexSpriteMap, sbyte hexX, sbyte hexY, sbyte hexLevel)
         => PlaceCreatedUser(hexSpriteMap, hexX, hexY, hexLevel);
 
     // Places the object this resource creates. A subclass that adjusts the placed object calls this
     // and then the adjustment, so the typed form does not re-enter that override.
-    protected MapObject PlaceCreatedUser(GameMap hexSpriteMap, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    protected MapObject? PlaceCreatedUser(GameMap? hexSpriteMap, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        MapObject result = CreateResourceUser();
+        MapObject? result = CreateResourceUser();
         HexGeometry.HexToPixel(hexX, hexY, out int pixelX, out int pixelY);
         pixelX += 16;
         pixelY += 16;
@@ -209,12 +209,12 @@ public class MapObjectResource : EngineResource
     }
 
     // The created user has the caller's class. Another class throws, and null stays null.
-    protected T PlaceCreatedUser<T>(GameMap hexSpriteMap, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    protected T PlaceCreatedUser<T>(GameMap? hexSpriteMap, sbyte hexX, sbyte hexY, sbyte hexLevel)
         where T : MapObject
         => (T)PlaceCreatedUser(hexSpriteMap, hexX, hexY, hexLevel);
 
     // The resource's user class selects the map object. Another class throws, and null stays null.
-    public T PlaceResourceUser<T>(GameMap hexSpriteMap, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public T PlaceResourceUser<T>(GameMap? hexSpriteMap, sbyte hexX, sbyte hexY, sbyte hexLevel)
         where T : MapObject
         => (T)PlaceResourceUser(hexSpriteMap, hexX, hexY, hexLevel);
 
@@ -223,12 +223,12 @@ public class MapObjectResource : EngineResource
 
     // The control of this resource kind, null for a resource with none. Hexagon resources answer
     // the hexagon control, road resources the road control.
-    public virtual MapObjectResourceTerrainControl TerrainControl => null;
+    public virtual MapObjectResourceTerrainControl? TerrainControl => null;
 
     // MAPOBJ.PAS:507
     public void ShowComplexImage(int X, int Y, in LockedSurface lockedSurface, int index, uint offset)
     {
-        ImageSequence sequence = index < ImageSequenceList.Count ? ImageSequenceList.List[index] : null;
+        ImageSequence? sequence = index < ImageSequenceList.Count ? ImageSequenceList.List[index] : null;
 
         while (sequence is not null)
         {
@@ -263,7 +263,7 @@ public class MapObjectResource : EngineResource
     public void EditDropMessage(ref EngineMessage message)
     {
         bool placed = true;
-        MapLevel mapLevel = message.Param[0].As<MapLevel>();
+        MapLevel? mapLevel = message.Param[0].As<MapLevel>();
         int hexLevel = message.Data[1];
         int radius = message.Param[1].Int;
         HexGeometry.PixelToHex(message.Payload.Int, vertical: message.Data[0], out int hexX, out int hexY);
@@ -287,10 +287,10 @@ public class MapObjectResource : EngineResource
         message.Result = placed ? 0 : -1;
     }
 
-    public GameEngine Engine { get; private set; }
+    public GameEngine? Engine { get; private set; }
     public int ShowPriorityOffset { get; private set; }
     public ImageLibrary ImageLibrary { get; }
-    public ImageSequenceList ImageSequenceList { get; set; }
+    public ImageSequenceList? ImageSequenceList { get; set; }
     public TerrainList TerrainList { get; }
     public byte Level { get => _level; init => SetLevel(value); }
     public string Name { get; private set; } = "";
@@ -298,6 +298,6 @@ public class MapObjectResource : EngineResource
     // MAPOBJ.PAS:415
     public override string ResourceEditName() => "";
 
-    internal static void BlitImageSequence(Canvas canvas, ImageSequence sequence, int frame, Rect rectangle, BlitMode mode, int scaleX, int scaleY, int bkColor, int color, bool selected, ref readonly Rect drawRectangle) => throw new NotImplementedException();
+    internal static void BlitImageSequence(Canvas canvas, ImageSequence? sequence, int frame, Rect rectangle, BlitMode mode, int scaleX, int scaleY, int bkColor, int color, bool selected, ref readonly Rect drawRectangle) => throw new NotImplementedException();
 
 }

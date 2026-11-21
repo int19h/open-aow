@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWProdScreen.pas.
 using System.Globalization;
 using Aow.Engine.Collections;
@@ -83,11 +83,11 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
 
     private int _viewX;
     private int _viewY;
-    private ProductionPlace _place;
+    private ProductionPlace? _place;
     private int _productionIndex;
     private int _queueIndex;
     private byte _mode;
-    private CombatMap _preview;
+    private CombatMap? _preview;
     private Int32List _images;
 
     // AoWProdScreen.pas:590
@@ -270,7 +270,7 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
         switch (_productionIndex)
         {
             case >= 0 and <= 3:
-                Unit u = _place.ProductionControl.CreateUnitProduction(_productionIndex);
+                Unit? u = _place.ProductionControl.CreateUnitProduction(_productionIndex);
                 if (u is not null)
                 {
                     UnitPanel.Visible = true;
@@ -520,7 +520,7 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
                     string reason = "";
                     string nameProgressive = _place.ProductionControl.Queue.GetItem(0).GetNameProgressive();
                     ActiveActionLabel.Text = nameProgressive;
-                    ProductionItem queue = _place.ProductionControl.Queue.GetItem(0);
+                    ProductionItem? queue = _place.ProductionControl.Queue.GetItem(0);
                     _ = _place.ProductionControl.CanExecuteProduction(queue, ref reason);
                     ActiveActionTurnsLabel.Text = reason;
                     ActiveActionTurnsLabel.TextColor = 0x00_00_FF;
@@ -582,7 +582,7 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
 
         int baseIncome = _place.BaseIncome;
         Action5CheckBox.CaptureInput = baseIncome != 0;
-        HexSprite center = _preview.CenterViewLocation;
+        HexSprite? center = _preview.CenterViewLocation;
         if (center is not null)
         {
             sbyte fCenterViewLocationHexY = _preview.CenterViewLocation.HexY;
@@ -635,7 +635,7 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
         switch (slot)
         {
             case >= 0 and <= 3:
-                Unit u = _place.ProductionControl.CreateUnitProduction(slot);
+                Unit? u = _place.ProductionControl.CreateUnitProduction(slot);
                 if (u is not null)
                 {
                     info.Direction = 3;
@@ -853,7 +853,7 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
     // AoWProdScreen.pas:389
     public void UFaceDraw(UserDrawBox sender, LockedSurface lockedSurface)
     {
-        Unit u = _place.ProductionControl.CreateUnitProduction(_productionIndex);
+        Unit? u = _place.ProductionControl.CreateUnitProduction(_productionIndex);
         if (u is not null)
         {
             Rect r = new(UnitPictureFramePanel.AbsoluteLeft + sender.WinLeft + 2, UnitPictureFramePanel.AbsoluteTop + sender.WinTop + 2, UnitPictureFramePanel.AbsoluteLeft + sender.WinLeft + sender.WinWidth - 4, UnitPictureFramePanel.AbsoluteTop + sender.WinTop + sender.WinHeight - 2);
@@ -916,7 +916,7 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
     {
         if (slot <= 3)
         {
-            UnitProduction unitProduction = _place.ProductionControl.UnitProductions.GetItem(slot);
+            UnitProduction? unitProduction = _place.ProductionControl.UnitProductions.GetItem(slot);
             sender.CaptureInput = unitProduction is not null;
         }
     }
@@ -936,7 +936,7 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
                 ProductionPlaceControl productionPlaceControl = _place.ProductionControl;
                 if (productionPlaceControl.UnitProductions.GetItem(productionPlaceControl.Settings.UnitProductionIndex) is not null)
                 {
-                    Unit u = _place.ProductionControl.CreateUnitProduction(_place.ProductionControl.Settings.UnitProductionIndex);
+                    Unit? u = _place.ProductionControl.CreateUnitProduction(_place.ProductionControl.Settings.UnitProductionIndex);
                     if (u is not null)
                     {
                         info.Direction = 3;
@@ -1026,7 +1026,7 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
     // AoWProdScreen.pas:521
     public void MapViewUpdate()
     {
-        CombatMap preview = _preview;
+        CombatMap? preview = _preview;
         preview?.NewFrame();
 
         MapView.Drawn = MapView.Drawn && (StrategicMap.Current.Frame & 1) != 0;
@@ -1040,8 +1040,8 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
     {
         if (button == MouseButton.Right && UnitAbilitiesList.Selected > -1)
         {
-            object objectValue = UnitAbilitiesList.Items.Objects[UnitAbilitiesList.Selected];
-            Ability a = GamePack.Current.AbilityControl[ObjectToInt(objectValue)];
+            object? objectValue = UnitAbilitiesList.Items.Objects[UnitAbilitiesList.Selected];
+            Ability? a = GamePack.Current.AbilityControl[ObjectToInt(objectValue)];
             if (a is not null)
             {
                 InfoBanner.SetInfoBanner(caption: a.GetName(null), banner: UI.InfoBanner, description: a.Description);

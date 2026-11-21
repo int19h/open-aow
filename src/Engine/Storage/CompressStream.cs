@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Engine.pas.
 using System.IO.Compression;
 
@@ -27,7 +27,7 @@ public sealed class CompressStream : MemoryStream
 
         if (compressed)
         {
-            byte[] buffer = default;
+            byte[]? buffer = default;
             Array.Resize(ref buffer, newSize: 8_096);
             ZLibStream d = new(stream, mode: CompressionMode.Decompress, leaveOpen: true);
             try

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWTC.pas.
 using Aow.Engine.Nodes;
 
@@ -22,7 +22,7 @@ public sealed class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHexS
     public new const int ClassId = 2_228_488;
 
     public TacticalBattleUnit Unit { get; set; }
-    public UnitGraphicsResource UnitGraphics { get; init; }
+    public UnitGraphicsResource? UnitGraphics { get; init; }
     public int Frame { get; set; }
     public int OffsetX { get; set; }
     public int OffsetY { get; set; }
@@ -43,7 +43,7 @@ public sealed class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHexS
         pixelXSurface = x - pixelXSurface - 15;
         pixelYSurface = y - pixelYSurface - 25;
         int frame;
-        ImageSequence sequence;
+        ImageSequence? sequence;
         if (SequenceIndex > -1)
         {
             sequence = GamePack.Current.ImageSequences.ImageSequences[SequenceIndex];
@@ -150,13 +150,13 @@ public sealed class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHexS
                     {
                         case 130:
                             RandSeed = StrategicMap.Current.Random(16777215);
-                            CombatAction animateAction = GamePack.Current.SpellControl[130].CreateCombatAction(message.Param[0].As<CombatObject>(), target: Unit, chargeMana: false);
+                            CombatAction? animateAction = GamePack.Current.SpellControl[130].CreateCombatAction(message.Param[0].As<CombatObject>(), target: Unit, chargeMana: false);
                             CombatMap.Current.Combat.ExecuteCombatAction(animateAction);
                             _ = animateAction.Release();
                             break;
                         case 129:
                             RandSeed = StrategicMap.Current.Random(16777215);
-                            CombatAction raiseAction = GamePack.Current.SpellControl[129].CreateCombatAction(message.Param[0].As<CombatObject>(), target: Unit, chargeMana: false);
+                            CombatAction? raiseAction = GamePack.Current.SpellControl[129].CreateCombatAction(message.Param[0].As<CombatObject>(), target: Unit, chargeMana: false);
                             CombatMap.Current.Combat.ExecuteCombatAction(raiseAction);
                             _ = raiseAction.Release();
                             break;
@@ -204,7 +204,7 @@ public sealed class TacticalBattleCorpseHexSprite(CustomNode owner) : SingleHexS
     // AoWTC.pas:3978
     public void NewFrame(object sender)
     {
-        ImageSequence sequence = GamePack.Current.ImageSequences.ImageSequences[SequenceIndex];
+        ImageSequence? sequence = GamePack.Current.ImageSequences.ImageSequences[SequenceIndex];
         int totalSequenceFrames = sequence.TotalSequenceFrames;
         if (_sequenceFrame + 1 < totalSequenceFrames)
         {

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
@@ -12,7 +12,7 @@ namespace Aow.Game.AI.Groups;
 public class AIGroupDefenseControl : AIGroupTask
 {
     // AIGroup.pas:1807
-    public AIGroupDefenseControl(CustomNode owner) : base(owner)
+    public AIGroupDefenseControl(CustomNode? owner) : base(owner)
     {
         _selector = new GroupDefenseSelector(this);
         _mode = Modes.None;
@@ -69,7 +69,7 @@ public class AIGroupDefenseControl : AIGroupTask
                             }
 
                             int index = units.IndexOfBehavior(GroupBehavior.Passive);
-                            AIGroup group;
+                            AIGroup? group;
                             if (index == -1)
                             {
                                 group = StrategicMap.Current.AIGroupManager.CreateGroup(GroupControl.Group.Player, relation: GroupControl.Group.IndependentRelation, behavior: GroupBehavior.Passive);

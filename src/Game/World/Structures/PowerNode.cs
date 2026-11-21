@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from PowerNode.pas.
 using System.Globalization;
 using Aow.Engine.Nodes;
@@ -170,7 +170,7 @@ public partial class PowerNode : PlayerStructure
     public override int GetPower() => !GetRazed() && !Building ? 10 : 0;
 
     // PowerNode.pas:145
-    public override string GetCombatEventText(Battle combat)
+    public override string GetCombatEventText(Battle? combat)
     {
         return combat.CombatResult is CombatResult.Victory or CombatResult.NoDefenders
             ? AbilityRules.TranslateResourceString(GetEngine(), S: s_powerNodeBattleWonText)

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWHeroUpgradeDlg.pas.
 using System.Globalization;
 using Aow.Engine.Nodes;
@@ -52,18 +52,18 @@ public sealed partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
     public Label LevelLabel { get; private set; }
     public Label SkillPointsLabel { get; private set; }
 
-    private ExecuteDoneEvent _close;
-    private HeroUpgradeEventLog _referencedHero;
+    private ExecuteDoneEvent? _close;
+    private HeroUpgradeEventLog? _referencedHero;
     private int _selectedSort;
     private int _availableSort;
     private Hero _hero;
-    private Hero _editedHero;
+    private Hero? _editedHero;
 
     // AoWHeroUpgradeDlg.pas:287
     public void ClearHero()
     {
-        ExecuteDoneEvent onClose = _close;
-        HeroUpgradeEventLog hero = _referencedHero;
+        ExecuteDoneEvent? onClose = _close;
+        HeroUpgradeEventLog? hero = _referencedHero;
         _close = null;
         _referencedHero = null;
         onClose?.Invoke(hero);
@@ -177,7 +177,7 @@ public sealed partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
     {
         AvailableAbilitiesList.Items.Clear();
         AvailableAbilitiesCostList.Items.Clear();
-        Ability ability;
+        Ability? ability;
         for (int i = 1, last = GamePack.Current.AbilityControl.GetCount() - 1; i <= last; i++)
         {
             ability = GamePack.Current.AbilityControl[i];
@@ -512,8 +512,8 @@ public sealed partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
     {
         if (button == MouseButton.Right && AvailableAbilitiesList.Selected != -1)
         {
-            object objectValue = AvailableAbilitiesList.Items.Objects[AvailableAbilitiesList.Selected];
-            Ability ability = GamePack.Current.AbilityControl[ObjectToInt(objectValue)];
+            object? objectValue = AvailableAbilitiesList.Items.Objects[AvailableAbilitiesList.Selected];
+            Ability? ability = GamePack.Current.AbilityControl[ObjectToInt(objectValue)];
             if (ability is not null)
             {
                 InfoBanner.SetInfoBanner(caption: ability.GetName(null), banner: UI.InfoBanner, description: ability.Description);
@@ -526,8 +526,8 @@ public sealed partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
     {
         if (button == MouseButton.Right && SelectedAbilitiesList.Selected != -1)
         {
-            object objectValue = SelectedAbilitiesList.Items.Objects[SelectedAbilitiesList.Selected];
-            Ability ability = GamePack.Current.AbilityControl[ObjectToInt(objectValue)];
+            object? objectValue = SelectedAbilitiesList.Items.Objects[SelectedAbilitiesList.Selected];
+            Ability? ability = GamePack.Current.AbilityControl[ObjectToInt(objectValue)];
             if (ability is not null)
             {
                 InfoBanner.SetInfoBanner(caption: ability.GetName(null), banner: UI.InfoBanner, description: ability.Description);

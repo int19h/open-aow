@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -9,7 +9,7 @@ using Aow.Rtl;
 namespace Aow.Game.Units;
 
 // inherited children, update lock. change event
-public class ItemList(CustomNode owner) : ObservableNode(owner), IChildList<Item>, IItemHolder
+public class ItemList(CustomNode? owner) : ObservableNode(owner), IChildList<Item>, IItemHolder
 {
     /// <summary>The items of this list.</summary>
     public ItemCollection Items => new(this);
@@ -25,9 +25,9 @@ public class ItemList(CustomNode owner) : ObservableNode(owner), IChildList<Item
 
     int IChildSink<Item>.AddChild(Item child) => AddChild(child);
 
-    private NotifyEvent<object> _changed;
+    private NotifyEvent<object>? _changed;
 
-    internal void SetChangedHandler(NotifyEvent<object> handler) => _changed = handler;
+    internal void SetChangedHandler(NotifyEvent<object>? handler) => _changed = handler;
 
     public override void MainPersist(IPersister persister)
     {
@@ -78,7 +78,7 @@ public class ItemList(CustomNode owner) : ObservableNode(owner), IChildList<Item
     }
 
     // Army.PAS:4519
-    public override int RemoveChild(EngineObject child)
+    public override int RemoveChild(EngineObject? child)
     {
         int result = base.RemoveChild(child);
         if (result != -1)
@@ -90,7 +90,7 @@ public class ItemList(CustomNode owner) : ObservableNode(owner), IChildList<Item
     }
 
     // Army.PAS:4525
-    public override int AddChild(EngineObject child)
+    public override int AddChild(EngineObject? child)
     {
         int result = base.AddChild(child);
         if (result != -1)
@@ -109,13 +109,13 @@ public class ItemList(CustomNode owner) : ObservableNode(owner), IChildList<Item
     }
 
     // Army.PAS:4587
-    public virtual Item GetItem(int index) => Items.GetItem(index);
+    public virtual Item? GetItem(int index) => Items.GetItem(index);
 
     // Army.PAS:4596
     public virtual MapCoordinate GetLocation() => MapCoordinate.None;
 
     // Army.PAS:4570
-    public Item FindItem(int itemId) => Items.FindItem(itemId);
+    public Item? FindItem(int itemId) => Items.FindItem(itemId);
 
     // Army.PAS:4593
     public void Update() => Items.Update();

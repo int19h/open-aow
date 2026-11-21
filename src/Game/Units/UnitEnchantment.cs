@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
@@ -19,7 +19,7 @@ public class UnitEnchantment : Enchantment
     public new const int ClassId = 135_951;
 
     // AoWAb.PAS:785
-    public UnitEnchantment(CustomNode owner) : base(null)
+    public UnitEnchantment(CustomNode? owner) : base(null)
         // { Original ignores the supplied owner. }
 
         => Source = -1;
@@ -40,7 +40,7 @@ public class UnitEnchantment : Enchantment
     {
         if (StrategicMap.Current is not null)
         {
-            Troop source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
+            Troop? source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
             return source is not null
                 ? GamePack.Current.AbilityControl[EnchantmentAbilityId].GetName(source)
                 : GamePack.Current.AbilityControl[EnchantmentAbilityId].GetName(null);
@@ -54,7 +54,7 @@ public class UnitEnchantment : Enchantment
     // AoWAb.PAS:831
     public override string GetBinding()
     {
-        Troop source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
+        Troop? source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
         return source is not null ? source.GetName() : "";
     }
 
@@ -63,7 +63,7 @@ public class UnitEnchantment : Enchantment
     {
         get
         {
-            Troop source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
+            Troop? source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
             return source is not null
                 ? GamePack.Current.AbilityControl.GetAbility<UnitEnchantmentAbility>(EnchantmentAbilityId).GetAIUpkeepPriority(source)
                 : 0;
@@ -73,14 +73,14 @@ public class UnitEnchantment : Enchantment
     // AoWAb.PAS:859
     public override MapCoordinate GetLocation()
     {
-        Troop source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
+        Troop? source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
         return source is not null ? source.GetLocation() : MapCoordinate.None;
     }
 
     // AoWAb.PAS:874
     public override bool Dispel()
     {
-        Troop source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
+        Troop? source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
         return source is not null && source.RemoveAbility(EnchantmentAbilityId);
     }
 

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using System.Globalization;
 using Aow.Engine;
@@ -8,7 +8,7 @@ using Aow.Engine.Nodes;
 namespace Aow.Game.Magic.Abilities;
 
 // (max level, level costs)
-public class MultiLevelAbility(CustomNode owner) : AdjustableAbility(owner)
+public class MultiLevelAbility(CustomNode? owner) : AdjustableAbility(owner)
 {
 
     public int MaxLevel { get; protected init; } = 4;
@@ -28,22 +28,22 @@ public class MultiLevelAbility(CustomNode owner) : AdjustableAbility(owner)
     // { branch past the missing-data exit and nil-owner zero result }
     public override EngineClass AbilityDataClass() => AbilityRules.MultiLevelDataClass;
 
-    public virtual MultiLevelAbilityData GetData(AbilityOwner owner) => owner.GetAbilityData<MultiLevelAbilityData>(AbilityId);
+    public virtual MultiLevelAbilityData GetData(AbilityOwner? owner) => owner.GetAbilityData<MultiLevelAbilityData>(AbilityId);
 
     protected virtual MultiLevelAbilityData CreateData() => AbilityDataClass().Create<MultiLevelAbilityData>(null, holder: CreationHolder());
 
-    public override int GetLevel(AbilityOwner owner) => owner is null ? 0 : GetData(owner)?.Level ?? 0;
-    public override int GetInherentLevel(AbilityOwner owner) => owner is null ? 0 : GetData(owner)?.Level ?? 0;
-    public override string GetName(AbilityOwner owner) => GetLevelName(GetLevel(owner));
-    public override string ExpandName(AbilityOwner owner) => GetLevelName(GetLevel(owner) + 1);
+    public override int GetLevel(AbilityOwner? owner) => owner is null ? 0 : GetData(owner)?.Level ?? 0;
+    public override int GetInherentLevel(AbilityOwner? owner) => owner is null ? 0 : GetData(owner)?.Level ?? 0;
+    public override string GetName(AbilityOwner? owner) => GetLevelName(GetLevel(owner));
+    public override string ExpandName(AbilityOwner? owner) => GetLevelName(GetLevel(owner) + 1);
 
-    public override int ExpandCost(AbilityOwner owner)
+    public override int ExpandCost(AbilityOwner? owner)
     {
         int level = GetInherentLevel(owner);
         return level >= MaxLevel ? 0 : LevelCosts.Get(level + 1);
     }
 
-    public override bool CanExpand(AbilityOwner owner) => (owner.GetAbilitySelectionTypes() & SelectionTypes) != default && GetInherentLevel(owner) < MaxLevel;
+    public override bool CanExpand(AbilityOwner? owner) => (owner.GetAbilitySelectionTypes() & SelectionTypes) != default && GetInherentLevel(owner) < MaxLevel;
 
     public override int GetSkillPoints(AbilityOwner owner)
     {
@@ -57,7 +57,7 @@ public class MultiLevelAbility(CustomNode owner) : AdjustableAbility(owner)
         return sum;
     }
 
-    public override bool Expand(AbilityOwner owner)
+    public override bool Expand(AbilityOwner? owner)
     {
         MultiLevelAbilityData data = GetData(owner);
         if (data is null)
@@ -78,7 +78,7 @@ public class MultiLevelAbility(CustomNode owner) : AdjustableAbility(owner)
         return true;
     }
 
-    public override bool Remove(AbilityOwner owner)
+    public override bool Remove(AbilityOwner? owner)
     {
         MultiLevelAbilityData data = GetData(owner);
         if (data is null)

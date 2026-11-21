@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using System.Diagnostics.CodeAnalysis;
 using Aow.Engine.Nodes;
@@ -11,7 +11,7 @@ namespace Aow.Game.AI;
 
 // { Interface declaration run owned by P5. }
 // process cycles, player control, phase
-public partial class AIPlayerAction(CustomNode owner) : EngineObject(owner), IAIPlayerActionClass
+public partial class AIPlayerAction(CustomNode? owner) : EngineObject(owner), IAIPlayerActionClass
 {
     [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Construction snapshots record this field, and the Delphi field is only written.")]
     private int _processCycles;

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
@@ -12,10 +12,10 @@ using static Aow.Rtl.LegacyApplication;
 namespace Aow.Game.AI.Groups;
 
 // units, path, points, moves, source, destination
-public sealed class AIMoveExecutorMove(CustomNode owner) : AIMoveExecutorUnitList(owner)
+public sealed class AIMoveExecutorMove(CustomNode? owner) : AIMoveExecutorUnitList(owner)
 {
 
-    public MovePath Path { get; private set; } = new MovePath();
+    public MovePath? Path { get; private set; } = new MovePath();
     public int MovePoints { get; set; }
     public int Moves { get; set; }
     public MapCoordinate Source { get; set; }
@@ -69,7 +69,7 @@ public sealed class AIMoveExecutorMove(CustomNode owner) : AIMoveExecutorUnitLis
     }
 
     // AIGroup.pas:4484
-    public bool RetrieveArmy(out ArmyHexSprite army, out byte selection)
+    public bool RetrieveArmy(out ArmyHexSprite? army, out byte selection)
     {
         army = StrategicMap.Current.MapContainer.GetField(Source.X, Source.Y, Source.MapLevel).GetArmyHexSprite();
         if (army is not null)

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
@@ -18,7 +18,7 @@ public sealed class FaceResource(CustomNode owner) : EngineResource(owner)
     public new const int ClassId = 131_696;
     private string _imageLibraryName = "";
     private int _imageIndex;
-    private CustomImageLibrary _imageLibrary;
+    private CustomImageLibrary? _imageLibrary;
     private int _references;
 
     public bool DeveloperOnly { get; private set; }
@@ -61,10 +61,10 @@ public sealed class FaceResource(CustomNode owner) : EngineResource(owner)
     }
 
     // Ability.PAS:496
-    public override LibraryImage GetCellImage()
+    public override LibraryImage? GetCellImage()
     {
         _ = AddRef();
-        LibraryImage result = _imageLibrary[_imageIndex];
+        LibraryImage? result = _imageLibrary[_imageIndex];
         _ = Release();
         return result;
     }
@@ -113,11 +113,11 @@ public sealed class FaceResource(CustomNode owner) : EngineResource(owner)
     }
 
     // Ability.PAS:503
-    public LibraryImage FaceImage
+    public LibraryImage? FaceImage
     {
         get
         {
-            CustomImageLibrary images = _imageLibrary;
+            CustomImageLibrary? images = _imageLibrary;
             return images?[_imageIndex];
         }
     }

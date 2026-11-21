@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWTC.pas.
 
 using Aow.Engine.Nodes;
@@ -19,7 +19,7 @@ namespace Aow.Game.Combat;
 // samples. tag samples. resource lists. FHomePosition
 public sealed class RandomBattleMapGenerator : IDisposable
 {
-    public ItemList Items { get; private set; }
+    public ItemList? Items { get; private set; }
 
     // calls GetItem
     private bool _randomTerrain;
@@ -66,9 +66,9 @@ public sealed class RandomBattleMapGenerator : IDisposable
     public EngineObject Creator { get; }
 
     // AoWTC.pas:4156
-    public CombatMap RandomMap(TacticalBattle combat, int X, int Y, int L)
+    public CombatMap RandomMap(TacticalBattle? combat, int X, int Y, int L)
     {
-        byte[] terrainBuffer = [];
+        byte[]? terrainBuffer = [];
         int j = default;
         int k = default;
         byte[] shapeBuffer = [];
@@ -130,7 +130,7 @@ public sealed class RandomBattleMapGenerator : IDisposable
 
         string fileName = "TCMaps\\";
         Structure structure = StrategicMap.Current.MapContainer.MapLevels[L].Field[X, Y].FindNoneTransparentHexSprite<Structure>();
-        HexBridge bridge = null;
+        HexBridge? bridge = null;
         if (structure is null)
         {
             bridge = StrategicMap.Current.MapContainer.MapLevels[L].Field[X, Y].FindNoneTransparentHexSprite<HexBridge>();
@@ -674,7 +674,7 @@ public sealed class RandomBattleMapGenerator : IDisposable
             units.Clear();
             i = 0;
             int last = CombatMap.Current.Combat.CombatData.GetCount() - 1;
-            TacticalBattleUnit u;
+            TacticalBattleUnit? u;
             for (; i <= last; i += 1)
             {
                 if (CombatMap.Current.Combat.CombatData.GetObjects(i) is CombatUnit)
@@ -728,7 +728,7 @@ public sealed class RandomBattleMapGenerator : IDisposable
                 int last2 = units.Count - 1;
                 for (; j <= last2; j += 1)
                 {
-                    TacticalBattleUnit other = units[j];
+                    TacticalBattleUnit? other = units[j];
                     if (u.GetPositionValue() < other.GetPositionValue())
                     {
                         temporary = u.PositionIndex;

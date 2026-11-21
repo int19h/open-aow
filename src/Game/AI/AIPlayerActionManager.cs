@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
@@ -7,7 +7,7 @@ using Aow.Rtl;
 namespace Aow.Game.AI;
 
 // registered classes
-public sealed class AIPlayerActionManager(CustomNode owner) : EngineObject(owner)
+public sealed class AIPlayerActionManager(CustomNode? owner) : EngineObject(owner)
 {
 
     private readonly DelphiList<AIPlayerActionClass> _registeredClasses = new();
@@ -23,7 +23,7 @@ public sealed class AIPlayerActionManager(CustomNode owner) : EngineObject(owner
     public int GetCount() => _registeredClasses.Count;
 
     // AI.pas:53
-    public AIPlayerActionClass GetRegisteredClasses(int index) => _registeredClasses.List[index];
+    public AIPlayerActionClass? GetRegisteredClasses(int index) => _registeredClasses.List[index];
 
     // AI.pas:63
     public void RegisterClasses(ReadOnlySpan<AIPlayerActionClass> classes)
@@ -50,5 +50,5 @@ public sealed class AIPlayerActionManager(CustomNode owner) : EngineObject(owner
         }
     }
 
-    private static int CompareAIPlayerActionClasses(AIPlayerActionClass item1, AIPlayerActionClass item2) => item2.Priority - item1.Priority;
+    private static int CompareAIPlayerActionClasses(AIPlayerActionClass? item1, AIPlayerActionClass? item2) => item2.Priority - item1.Priority;
 }

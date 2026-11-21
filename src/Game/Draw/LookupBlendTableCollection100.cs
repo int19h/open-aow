@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from GFXE.pas.
 
 namespace Aow.Game.Draw;
@@ -31,14 +31,14 @@ public sealed class LookupBlendTableCollection100 : IDisposable
     }
 
     // GFXE.pas:9698
-    public bool GenerateLookupTables(int bits, Action<BlendTable, float> proc, int count)
+    public bool GenerateLookupTables(int bits, Action<BlendTable?, float> proc, int count)
     {
         Clear();
         if (bits == 5 && count > 0)
         {
             for (int i = 0; i <= count - 1; i++)
             {
-                BlendTable t = bits switch
+                BlendTable? t = bits switch
                 {
                     5 => new BlendTable5Bit(),
                     _ => null,

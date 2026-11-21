@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWCampaignTransferDlg.pas.
 using System.Globalization;
 using Aow.Game.Audio;
@@ -164,7 +164,7 @@ public sealed partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
     {
         Book.Visible = false;
         _ = AudioPlayback.PlaySample("Sfx\\Int\\BookClse.wav");
-        WorldMapCampaign campaign = UI.WorldMap.Campaign;
+        WorldMapCampaign? campaign = UI.WorldMap.Campaign;
         campaign.State += 1;
         UI.WorldMap.UpdateCampaignState();
     }
@@ -410,7 +410,7 @@ public sealed partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
         int count = s.Units.Count;
         if (_leftUnit + slot < count)
         {
-            Troop objectValue = s.Units.GetUnit(_leftUnit + slot);
+            Troop? objectValue = s.Units.GetUnit(_leftUnit + slot);
             if (objectValue is not null)
             {
                 CheckBox checkBox = sender;
@@ -449,7 +449,7 @@ public sealed partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
         if (_rightUnit + slot < s.SelectedUnits.Count)
         {
             int selectedUnit = s.SelectedUnits[_rightUnit + slot];
-            Troop objectValue = s.Units.GetUnit(selectedUnit);
+            Troop? objectValue = s.Units.GetUnit(selectedUnit);
             if (objectValue is not null)
             {
                 CheckBox checkBox = sender;
@@ -479,7 +479,7 @@ public sealed partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
     public void LItemsDraw(CheckBox sender, LockedSurface lockedSurface, int slot)
     {
         CampaignTransferSettings s = UI.Engine.Campaign.TransferSettings;
-        Item objectValue = s.Items.GetItem(_leftItem + slot);
+        Item? objectValue = s.Items.GetItem(_leftItem + slot);
         if (objectValue is not null)
         {
             CheckBox checkBox = sender;
@@ -511,7 +511,7 @@ public sealed partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
         if (_rightItem + slot < s.SelectedItems.Count)
         {
             int selectedItem = s.SelectedItems[_rightItem + slot];
-            Item objectValue = s.Items.GetItem(selectedItem);
+            Item? objectValue = s.Items.GetItem(selectedItem);
             if (objectValue is not null)
             {
                 CheckBox checkBox = sender;
@@ -748,7 +748,7 @@ public sealed partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
     // AoW.exe pushes "Scenario\Campaign\"
     public void Execute()
     {
-        Campaign campaign = UI.Engine.Campaign;
+        Campaign? campaign = UI.Engine.Campaign;
         ResetSelection();
         campaign.TransferSettings.SetupSelection(FileBoundary.ReadName($"{UI.Engine.StartupDirectory}Scenario\\Campaign\\{campaign.Scenarios.GetScenario(campaign.NextScenarioId).FileName}"));
         if (campaign.TransferSettings.TransferPointsMax > 0)

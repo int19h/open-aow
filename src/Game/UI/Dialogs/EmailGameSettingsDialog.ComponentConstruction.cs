@@ -1,13 +1,13 @@
 // Layout translated from recovered Delphi forms.
-#nullable disable
+#nullable disable warnings
 using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
 public sealed partial class EmailGameSettingsDialog
 {
-    public event NotifyEvent<EmailGameSettingsDialog> LayoutOnCreate;
-    public event NotifyEvent<EmailGameSettingsDialog> LayoutOnDestroy;
+    public event NotifyEvent<EmailGameSettingsDialog>? LayoutOnCreate;
+    public event NotifyEvent<EmailGameSettingsDialog>? LayoutOnDestroy;
 
     public override void Dispose()
     {

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Engine.pas.
 using Aow.Engine.Nodes;
 
@@ -81,7 +81,7 @@ public class DoubleItemList : Persistent
     public override void Dispose() => Clear();
 
     // Engine.pas:5061
-    public override void Assign(Persistent source)
+    public override void Assign(Persistent? source)
     {
         if (source is DoubleItemList doubleItemList)
         {

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AowUserWindow.pas.
 using Aow.Game.Draw;
 using Aow.Game.UI.Controls;
@@ -10,10 +10,10 @@ namespace Aow.Game.UI.Windows;
 public sealed class UserWindow(Component owner) : Window(owner)
 {
     [Published]
-    public event DrawSurfaceExEvent CustomDrawSurface;
+    public event DrawSurfaceExEvent? CustomDrawSurface;
 
     // AowUserWindow.pas:29
-    public override void DrawSurface(Surface surface)
+    public override void DrawSurface(Surface? surface)
     {
         bool handled = false;
         CustomDrawSurface?.Invoke(surface, out handled);
@@ -144,5 +144,5 @@ public sealed class UserWindow(Component owner) : Window(owner)
         remove => ((BaseWindow)this).Show -= EventSlot.Remove<BaseWindow, UserWindow>(this, slot: nameof(Show), value: value);
     }
 
-    public delegate void DrawSurfaceExEvent(Surface Surface, out bool Handled);
+    public delegate void DrawSurfaceExEvent(Surface? Surface, out bool Handled);
 }

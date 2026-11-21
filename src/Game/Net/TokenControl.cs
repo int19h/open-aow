@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from NetworkE.pas.
 using Aow.Game.Commands;
 
@@ -7,7 +7,7 @@ namespace Aow.Game.Net;
 // FEvents, FTokenManager, FPlayer, FActive. The token events of one player
 public sealed class TokenControl : IDisposable
 {
-    private readonly TokenManager _tokenManager;
+    private readonly TokenManager? _tokenManager;
 
     // NetworkE.pas:1189
     // { Keeps the events sorted on their token counters; an event without one goes to the end }
@@ -180,21 +180,21 @@ public sealed class TokenControl : IDisposable
     // NetworkE.pas:1246
     public bool Local()
     {
-        PlayerCommunicationControl playerCommunicationControl = _tokenManager.TokenPackageDistributor.Pc.PlayerCommunicationControl;
+        PlayerCommunicationControl? playerCommunicationControl = _tokenManager.TokenPackageDistributor.Pc.PlayerCommunicationControl;
         return playerCommunicationControl.GetPlayers(Player).ConnectionMode == ConnectionMode.Local;
     }
 
     // NetworkE.pas:1252
     public bool Global()
     {
-        PlayerCommunicationControl playerCommunicationControl = _tokenManager.TokenPackageDistributor.Pc.PlayerCommunicationControl;
+        PlayerCommunicationControl? playerCommunicationControl = _tokenManager.TokenPackageDistributor.Pc.PlayerCommunicationControl;
         return playerCommunicationControl.GetPlayers(Player).ConnectionMode == ConnectionMode.Global;
     }
 
     // NetworkE.pas:1258
     public bool Remote()
     {
-        PlayerCommunicationControl playerCommunicationControl = _tokenManager.TokenPackageDistributor.Pc.PlayerCommunicationControl;
+        PlayerCommunicationControl? playerCommunicationControl = _tokenManager.TokenPackageDistributor.Pc.PlayerCommunicationControl;
         return playerCommunicationControl.GetPlayers(Player).ConnectionMode == ConnectionMode.Remote;
     }
 

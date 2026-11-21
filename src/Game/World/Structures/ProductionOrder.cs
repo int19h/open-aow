@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 
 using Aow.Game.Events;
 
@@ -13,7 +13,7 @@ namespace Aow.Game.World.Structures;
 
 public abstract record ProductionOrder
 {
-    private static readonly Catalog<int, Func<int, int, int, ProductionOrder>> s_kinds = new("production order");
+    private static readonly Catalog<int, Func<int, int, int, ProductionOrder>?> s_kinds = new("production order");
 
     // The production id, parameter and group id the original format stores.
     public abstract (int Kind, int Parameter, int GroupId) ToFields();
@@ -129,7 +129,7 @@ public abstract record ProductionOrder
     // Charges the settings' costs to the settings' player.
     protected static void Pay(ProductionControl control)
     {
-        Player player = StrategicMap.Current.Players.GetPlayers(control.Settings.Player);
+        Player? player = StrategicMap.Current.Players.GetPlayers(control.Settings.Player);
         player.SetGems(player.Gems - control.Settings.Gold);
         player.MagicControl.SetMana(player.MagicControl.Mana - control.Settings.Mana);
     }

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
@@ -15,7 +15,7 @@ namespace Aow.Game.Magic.Abilities;
 public class EntangleAbility : TouchAbility
 {
     // AoWAb.PAS:2968
-    public EntangleAbility(CustomNode owner, EngineObject holder) : base(owner)
+    public EntangleAbility(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         AbilityId = 40;
@@ -24,15 +24,15 @@ public class EntangleAbility : TouchAbility
     }
 
     // AoWAb.PAS:3058
-    public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand command)
+    public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand? command)
     {
-        CombatObject target = command.Target;
+        CombatObject? target = command.Target;
         FastBattleValidateMoveOutsideWall(source, target);
         EntangleCombatAction action = CreateEntangleCombatAction(source, target);
         source.Combat.ExecuteCombatAction(action);
         if (!action.Successful)
         {
-            StrikeCombatAction strike = CombatObject.CreateStrikeCombatAction(target, target: source, defensive: true);
+            StrikeCombatAction? strike = CombatObject.CreateStrikeCombatAction(target, target: source, defensive: true);
             if (strike is not null)
             {
                 source.Combat.ExecuteCombatAction(strike);
@@ -59,7 +59,7 @@ public class EntangleAbility : TouchAbility
     }
 
     // AoWAb.PAS:3012
-    public override void GetDamageValues(Troop attacker, Troop defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
+    public override void GetDamageValues(Troop attacker, Troop? defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
         if (wallSituation == WallSituation.None && CanTouchUnit(attacker, target: defender) && !defender.GetImmunityTypes().Contains(DamageTypes.NonSpecific))
         {
@@ -85,7 +85,7 @@ public class EntangleAbility : TouchAbility
     }
 
     // AoWAb.PAS:2991
-    public override void GetOffensiveStrength(AbilityOwner owner, ref int strength, ref DamageTypes types)
+    public override void GetOffensiveStrength(AbilityOwner? owner, ref int strength, ref DamageTypes types)
     {
         if (owner is Troop troop)
         {
@@ -95,7 +95,7 @@ public class EntangleAbility : TouchAbility
     }
 
     // AoWAb.PAS:3035
-    public override void FastBattleGetDamageValues(CombatObject attacker, CombatObject defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
+    public override void FastBattleGetDamageValues(CombatObject? attacker, CombatObject? defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
         if (wallSituation == WallSituation.None && CanTouch(attacker, target: defender) && attacker is CombatUnit attackerUnit)
         {
@@ -124,16 +124,16 @@ public class EntangleAbility : TouchAbility
     public override sbyte GetTouchAttack(int level) => 7;
 
     // AoWAb.PAS:2984
-    public override bool CanTouch(CombatObject source, CombatObject target) => base.CanTouch(source, target) && source is CombatUnit && target is CombatUnit && !target.GetAbilityEnabled(94);
+    public override bool CanTouch(CombatObject? source, CombatObject? target) => base.CanTouch(source, target) && source is CombatUnit && target is CombatUnit && !target.GetAbilityEnabled(94);
 
     // AoWAb.PAS:2979. Draws the random value the touch event used to draw, then builds the action.
-    public override CombatAction CreateTouchMoveCombatAction(CombatUnit source, CombatUnit target)
+    public override CombatAction CreateTouchMoveCombatAction(CombatUnit source, CombatUnit? target)
     {
         RandSeed = StrategicMap.Current.Random(16777215);
         return CreateEntangleCombatAction(source, target: target);
     }
 
-    public EntangleCombatAction CreateEntangleCombatAction(CombatObject source, CombatObject target)
+    public EntangleCombatAction CreateEntangleCombatAction(CombatObject source, CombatObject? target)
     {
         EntangleCombatAction result = new(null) { Holder = CreationHolder() };
         result.Initialize(successful: source is CombatUnit sourceUnit && CombatTouchRole(sourceUnit, target), sourceId: source.Id, targetId: target.Id);

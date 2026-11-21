@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from ImageLib.pas.
 using Aow.Graphics;
 using Aow.Rtl;
@@ -17,7 +17,7 @@ public sealed class Picture08(CustomImageLibrary owner) : Image08(owner), ILibra
     static LibraryImage ILibraryImageClass.CreateInstance(CustomImageLibrary owner) => new Picture08(owner);
 
     private int _pitch;
-    private byte[] _buffer;
+    private byte[]? _buffer;
 
     // The rows of the picture: FBuffer from its first byte, FPitch bytes apart.
     internal SurfaceView View => new(_buffer, start: 0, _pitch);

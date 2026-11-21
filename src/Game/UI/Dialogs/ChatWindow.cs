@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AOWChatWin.pas.
 using Aow.Game.Draw;
 using Aow.Game.Magic.Abilities;
@@ -72,12 +72,12 @@ public sealed partial class ChatWindow(UIContext ui) : UIModule(ui)
     {
         if (drawItem != 0)
         {
-            object objectValue = PlayerList.Items.Objects[drawItem];
+            object? objectValue = PlayerList.Items.Objects[drawItem];
             sbyte player2 = (sbyte)StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.IndexOfSystemId(ObjectToInt(objectValue));
             // { Original leaves player zero without a race color. }
             if (player2 > 0 && player2 < StrategicMap.Current.Players.Count)
             {
-                Player player = StrategicMap.Current.Players.GetPlayers(player2);
+                Player? player = StrategicMap.Current.Players.GetPlayers(player2);
                 PlayerList.TextColor = AbilityRules.RaceColors[player.PlayerRace];
             }
         }

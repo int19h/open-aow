@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from GlobalEnchantmentSpells.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
@@ -44,7 +44,7 @@ public class FloodEnchantment : GlobalEnchantment
     }
 
     // GlobalEnchantmentSpells.pas:1224
-    public FloodEnchantment(CustomNode owner, EngineObject holder) : base(owner)
+    public FloodEnchantment(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         Name = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.FloodText);
@@ -55,7 +55,7 @@ public class FloodEnchantment : GlobalEnchantment
     }
 
     // GlobalEnchantmentSpells.pas:1302
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
         if (message.MessageId == 537001987)

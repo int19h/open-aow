@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using System.Diagnostics.CodeAnalysis;
 using Aow.Engine;
@@ -20,7 +20,7 @@ using Aow.Game.World.Movement;
 namespace Aow.Game.Commands;
 
 // mode, unit IDs, selection, army sprite, moving/target player, target, destination, animate
-public class MoveArmyTokenEvent(CustomNode owner) : MoveTokenEvent(owner)
+public class MoveArmyTokenEvent(CustomNode? owner) : MoveTokenEvent(owner)
 {
 
     public new const int ClassId = 135_424;
@@ -30,7 +30,7 @@ public class MoveArmyTokenEvent(CustomNode owner) : MoveTokenEvent(owner)
     private readonly Int32List _unitIds = new();
 
     public byte Selection { get; protected set; }
-    public ArmyHexSprite ArmyHexSprite { get; protected set; }
+    public ArmyHexSprite? ArmyHexSprite { get; protected set; }
 
     private sbyte _player;
 
@@ -178,9 +178,9 @@ public class MoveArmyTokenEvent(CustomNode owner) : MoveTokenEvent(owner)
         if (ArmyHexSprite is not null)
         {
             bool selected = ArmyHexSprite.GetSelected();
-            MapField field = ArmyHexSprite.Owner;
+            MapField? field = ArmyHexSprite.Owner;
             ArmyHexSprite.SetOwner(null);
-            ArmyHexSprite armyHexSprite = GetNoneMovingArmyHexSprite(field);
+            ArmyHexSprite? armyHexSprite = GetNoneMovingArmyHexSprite(field);
             ArmyHexSprite.SetOwner(field);
             if (armyHexSprite is not null)
             {
@@ -305,7 +305,7 @@ public class MoveArmyTokenEvent(CustomNode owner) : MoveTokenEvent(owner)
             result = field.GetPlayer() == -1;
             if (!result)
             {
-                ArmyHexSprite armyHexSprite = GetNoneMovingArmyHexSprite(field);
+                ArmyHexSprite? armyHexSprite = GetNoneMovingArmyHexSprite(field);
                 if (armyHexSprite is not null)
                 {
                     if (armyHexSprite.Army.Player == ArmyHexSprite.Army.Player)
@@ -375,7 +375,7 @@ public class MoveArmyTokenEvent(CustomNode owner) : MoveTokenEvent(owner)
     }
 
     // MoveT.PAS:2108
-    public virtual bool Setup(ArmyHexSprite armyHexSprite, byte selection, MovePath path, ArmyMoveModes mode)
+    public virtual bool Setup(ArmyHexSprite? armyHexSprite, byte selection, MovePath path, ArmyMoveModes mode)
     {
         Path.Clear();
         int first = path.MovePointsToPosition(armyHexSprite.Army.MovePoints(selection));
@@ -398,7 +398,7 @@ public class MoveArmyTokenEvent(CustomNode owner) : MoveTokenEvent(owner)
             {
                 if (((1 << i) & selection) != 0)
                 {
-                    Troop troop = armyHexSprite.Army.Units.GetUnit(i);
+                    Troop? troop = armyHexSprite.Army.Units.GetUnit(i);
                     _ = _unitIds.Add(troop.UnitId);
                 }
             }
@@ -450,11 +450,11 @@ public class MoveArmyTokenEvent(CustomNode owner) : MoveTokenEvent(owner)
     }
 
     // intf_P5_07.inc:816
-    public ArmyHexSprite GetNoneMovingArmyHexSprite(MapField field)
+    public ArmyHexSprite? GetNoneMovingArmyHexSprite(MapField? field)
     {
         for (int i = field.Count - 1; i >= 0; i--)
         {
-            HexSprite sprite = field.HexSpriteList[i];
+            HexSprite? sprite = field.HexSpriteList[i];
             // The list holds every hex sprite on the field. Only ArmyHexSprite registers 131607.
             if (sprite is ArmyHexSprite army && sprite.Owner == field)
             {

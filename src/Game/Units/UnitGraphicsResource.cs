@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
@@ -24,7 +24,7 @@ public sealed class UnitGraphicsResource : EngineResource
     public new const int ClassId = 131_600;
 
     // UnitHS.PAS:1
-    public UnitGraphicsResource(CustomNode owner) : base(owner)
+    public UnitGraphicsResource(CustomNode? owner) : base(owner)
     {
         Sequences = new ImageSequenceList(null, imageLibrary: null);
         _refCount = 0;
@@ -43,7 +43,7 @@ public sealed class UnitGraphicsResource : EngineResource
     public string Name { get; set; } = "";
 
     private int _faceIndex;
-    private CustomImageLibrary _faceImageLibrary;
+    private CustomImageLibrary? _faceImageLibrary;
     private string _faceImageLibraryName = "";
 
     public ImageSequenceList Sequences { get; }
@@ -117,7 +117,7 @@ public sealed class UnitGraphicsResource : EngineResource
     }
 
     // UnitHS.PAS:31
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
         if (message.MessageId == 536870920)
@@ -127,10 +127,10 @@ public sealed class UnitGraphicsResource : EngineResource
     }
 
     // UnitHS.PAS:88
-    public override LibraryImage GetCellImage()
+    public override LibraryImage? GetCellImage()
     {
         _ = AddRef();
-        LibraryImage result = Sequences.GetImageSequence(2)?.GetPreviewImage() ?? Sequences.GetPreviewImage();
+        LibraryImage? result = Sequences.GetImageSequence(2)?.GetPreviewImage() ?? Sequences.GetPreviewImage();
         _ = Release();
         return result;
     }
@@ -180,10 +180,10 @@ public sealed class UnitGraphicsResource : EngineResource
     }
 
     // UnitHS.PAS:80
-    public LibraryImage GetFaceImage()
+    public LibraryImage? GetFaceImage()
     {
         _ = AddRef();
-        LibraryImage result = _faceImageLibrary?.GetSafe(_faceIndex);
+        LibraryImage? result = _faceImageLibrary?.GetSafe(_faceIndex);
 
         _ = Release();
         return result;
@@ -193,7 +193,7 @@ public sealed class UnitGraphicsResource : EngineResource
     public void Show(int direction, int X, int Y, in LockedSurface lockedSurface)
     {
         _ = AddRef();
-        ImageSequence sequence = Sequences.List[direction - 1];
+        ImageSequence? sequence = Sequences.List[direction - 1];
         while (sequence is not null)
         {
             int index = sequence.GetFrameIndex(1, offset: 0);

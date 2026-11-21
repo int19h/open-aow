@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 
@@ -19,7 +19,7 @@ namespace Aow.Game.Units;
 public sealed class HeroControl : EngineObject
 {
     // Hero.PAS:2413
-    public HeroControl(CustomNode owner) : base(owner)
+    public HeroControl(CustomNode? owner) : base(owner)
     {
         _onChangedStore = new();
         _onHeroChangedStore = new();
@@ -76,7 +76,7 @@ public sealed class HeroControl : EngineObject
     }
 
     // Hero.PAS:2567
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
         if (message.MessageId == 536870920)

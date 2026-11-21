@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -10,7 +10,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Units;
 
 // UnitGraphicsResourceIndex
-public class TroopResource(CustomNode owner) : EngineResource(owner)
+public class TroopResource(CustomNode? owner) : EngineResource(owner)
 {
     public int UnitGraphicsResourceIndex { get; private set; }
 
@@ -22,7 +22,7 @@ public class TroopResource(CustomNode owner) : EngineResource(owner)
     }
 
     // UnitRes.PAS:66
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
         if (message.MessageId == 65541)
@@ -37,22 +37,22 @@ public class TroopResource(CustomNode owner) : EngineResource(owner)
     }
 
     // UnitRes.PAS:29
-    public override LibraryImage GetCellImage() => GetPreviewImage();
+    public override LibraryImage? GetCellImage() => GetPreviewImage();
 
     // UnitRes.PAS:44
     public virtual bool DropUnit(int hexX, int hexY, int hexLevel) => false;
 
     // UnitRes.PAS:19
-    public virtual LibraryImage GetPreviewImage()
+    public virtual LibraryImage? GetPreviewImage()
     {
-        UnitGraphicsResource resource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(UnitGraphicsResourceIndex);
+        UnitGraphicsResource? resource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(UnitGraphicsResourceIndex);
         return resource?.GetCellImage();
     }
 
     // UnitRes.PAS:9
-    public virtual LibraryImage GetFace()
+    public virtual LibraryImage? GetFace()
     {
-        UnitGraphicsResource resource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(UnitGraphicsResourceIndex);
+        UnitGraphicsResource? resource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(UnitGraphicsResourceIndex);
         return resource?.GetFaceImage();
     }
 
@@ -65,7 +65,7 @@ public class TroopResource(CustomNode owner) : EngineResource(owner)
     // UnitRes.PAS:48
     public void EditDropMessage(ref EngineMessage message)
     {
-        MapContainer map = message.Param[0].As<MapContainer>();
+        MapContainer? map = message.Param[0].As<MapContainer>();
         int hexLevel = message.Data[1];
         HexGeometry.PixelToHex(message.Payload.Int, vertical: message.Data[0], out int hexX, out int hexY);
         message.Result = hexX >= 0 && hexY >= 0 && hexX < map.Width && hexY < map.Height && DropUnit(hexX, hexY, hexLevel) ? 0 : -1;

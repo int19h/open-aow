@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from ImageLib.pas.
 using Aow.Rtl;
 
@@ -9,12 +9,12 @@ namespace Aow.Game.Draw.Images;
 // the pixels are shown with: the image palette, or the copy remapped to the pixel format of the
 // last surface). RegisterPalette (share the palette through the owner's palette manager) and
 // UnregisterPalette (make a private copy again)
-public class Image08(CustomImageLibrary owner) : LibraryImage(owner), ILibraryImageClass
+public class Image08(CustomImageLibrary? owner) : LibraryImage(owner), ILibraryImageClass
 {
     static LibraryImage ILibraryImageClass.CreateInstance(CustomImageLibrary owner) => new Image08(owner);
 
     private bool _ownPalette;
-    private LibraryImagePalette _imagePalette;
+    private LibraryImagePalette? _imagePalette;
 
     internal Palette RemapPaletteValue { get; private set; }
 
@@ -92,7 +92,7 @@ public class Image08(CustomImageLibrary owner) : LibraryImage(owner), ILibraryIm
     }
 
     // ImageLib.pas:7218
-    public void CreateLibraryImagePalette(Palette palette)
+    public void CreateLibraryImagePalette(Palette? palette)
     {
         UnregisterPalette();
         _imagePalette ??= new LibraryImagePalette();
@@ -103,7 +103,7 @@ public class Image08(CustomImageLibrary owner) : LibraryImage(owner), ILibraryIm
     }
 
     // ImageLib.pas:7227
-    public override void SetOwner(CustomImageLibrary owner)
+    public override void SetOwner(CustomImageLibrary? owner)
     {
         if (owner != Owner)
         {

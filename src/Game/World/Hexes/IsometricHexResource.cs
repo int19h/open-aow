@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from IsoHex.pas.
 using Aow.Engine.Nodes;
 
@@ -26,12 +26,12 @@ public class IsometricHexResource(CustomNode owner) : AbstractHexagonResource(ow
     }
 
     // IsoHex.pas:273
-    public override MapObject PlaceResourceUser(GameMap map, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override MapObject? PlaceResourceUser(GameMap? map, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
         MapField mapField = map.MapContainer.GetField(hexX, hexY, hexLevel);
         // The lookup finds only IsometricHex, including a hex that derives from it.
         IsometricHex found = mapField.FindOwnedHexSprite<IsometricHex>();
-        MapObject result = found;
+        MapObject? result = found;
         if (found is not null)
         {
             if (found.GetTerrain(0) != TerrainList.GetTerrain(0))

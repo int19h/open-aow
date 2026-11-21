@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from ImageLib.pas.
 using Aow.Formats.Tree;
 using Aow.Rtl;
@@ -13,7 +13,7 @@ namespace Aow.Game.Draw.Images;
 // image - 1), FSequenceMode, FFrameTable (the image indices of smFrameTable and
 // smRndFrameTable), FImageIndex (the image of smNone, the random start of smRandom and
 // smRndFrameTable), _offsetX, _offsetY, _lastFrame, _speedCount, _frameCounter
-public sealed class ImageSequence(ImageSequenceList owner) : IDisposable
+public sealed class ImageSequence(ImageSequenceList? owner) : IDisposable
 {
     private byte _layer;
     private string _imageLibraryName = "";
@@ -76,9 +76,9 @@ public sealed class ImageSequence(ImageSequenceList owner) : IDisposable
     }
 
     // ImageLib.pas:8582
-    public LibraryImage GetPreviewImage()
+    public LibraryImage? GetPreviewImage()
     {
-        LibraryImage result;
+        LibraryImage? result;
         if (this is not null)
         {
             result = null;
@@ -118,7 +118,7 @@ public sealed class ImageSequence(ImageSequenceList owner) : IDisposable
         if (ImageLibrary is not null)
         {
             Rect ir;
-            LibraryImage image;
+            LibraryImage? image;
             switch (_sequenceMode)
             {
                 case SequenceMode.FrameTable:
@@ -416,9 +416,9 @@ public sealed class ImageSequence(ImageSequenceList owner) : IDisposable
     internal List<SequenceLayer> SaveLayers()
     {
         List<SequenceLayer> layers = [];
-        for (ImageSequence sequence = this; sequence is not null; sequence = sequence.Next)
+        for (ImageSequence? sequence = this; sequence is not null; sequence = sequence.Next)
         {
-            FrameTable frames = null;
+            FrameTable? frames = null;
             if (sequence._sequenceMode is SequenceMode.FrameTable or SequenceMode.RandomFrameTable)
             {
                 frames = new FrameTable(Default: sequence.FrameTable.DefaultValue, Items: sequence.FrameTable.List.AsSpan(0, length: sequence.FrameTable.Count).ToArray());
@@ -481,10 +481,10 @@ public sealed class ImageSequence(ImageSequenceList owner) : IDisposable
         /* TODO: Implement IniFiles.ReadString in the platform or editor service. */
         => throw new NotImplementedException();
 
-    public ImageSequenceList Owner { get; } = owner;
+    public ImageSequenceList? Owner { get; } = owner;
     public byte Layer { get => _layer; set => _layer = value; }
-    public ImageSequence Next { get; set; }
-    public CustomImageLibrary ImageLibrary { get; private set; }
+    public ImageSequence? Next { get; set; }
+    public CustomImageLibrary? ImageLibrary { get; private set; }
     public string ImageLibraryName { get => _imageLibraryName; set => SetImageLibraryName(value); }
     public byte SequenceSpeed { get => _sequenceSpeed; set => _sequenceSpeed = value; }
     public byte SpeedCount { get; private set; }
@@ -494,7 +494,7 @@ public sealed class ImageSequence(ImageSequenceList owner) : IDisposable
     public int OffsetX { get => _offsetX; set => _offsetX = value; }
     public int OffsetY { get => _offsetY; set => _offsetY = value; }
 
-    internal static void BlitImageSequence(ImageSequence sequence, int X, int Y, in Rect R, int frame, int bkColor)
+    internal static void BlitImageSequence(ImageSequence? sequence, int X, int Y, in Rect R, int frame, int bkColor)
     {
         LockedSurface lockedSurface = default;
         Dib16Surface surface = new(R.Right - R.Left, R.Bottom - R.Top, pixelFormatId: PixelFormat.Rgb565);

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from ManaCrystals.pas.
 using System.Globalization;
 using Aow.Engine.Nodes;
@@ -33,7 +33,7 @@ public class ManaCrystals(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     }
 
     // ManaCrystals.pas:118
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
         if (message.MessageId == 537001985 && StrategicMap.Current.Day == 1)
@@ -56,7 +56,7 @@ public class ManaCrystals(CustomNode owner) : ImageLibraryTerrainMapObject(owner
         {
             if (base.Resource.TerrainList.Terrain[message.HexNumber] >= 0)
             {
-                AITargetQuery query = message.Param[0].As<AITargetQuery>();
+                AITargetQuery? query = message.Param[0].As<AITargetQuery>();
                 CrystalAIInfo info = new() { Player = query.Info.Player, OtherPlayer = query.Info.IndependentRelation, Kind = (byte)query.Info.Mode };
                 AITargetData data = query.Data;
                 int priority = data.Priority;
@@ -137,7 +137,7 @@ public class ManaCrystals(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     }
 
     // ManaCrystals.pas:125
-    public void ArmyEntered(ArmyHexSprite armyHexSprite)
+    public void ArmyEntered(ArmyHexSprite? armyHexSprite)
     {
         if ((byte)armyHexSprite.Army.Player == 0)
         {
@@ -158,7 +158,7 @@ public class ManaCrystals(CustomNode owner) : ImageLibraryTerrainMapObject(owner
             _ = AudioPlayback.PlaySample("SFX\\EVENTS\\MANA.WAV");
         }
 
-        Player player = StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player);
+        Player? player = StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player);
         player.MagicControl.SetMana(player.MagicControl.Mana + _amount);
 
         LocationTextEventLog log = new(null)

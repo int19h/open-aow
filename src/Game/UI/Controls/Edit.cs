@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWEdit.pas.
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
@@ -19,7 +19,7 @@ namespace Aow.Game.UI.Controls;
 // FShownChars (the characters from FFirstChar to the end), FFirstChar (the first character
 // shown), FEditable, FILEdit, FOnExit, FOnReturn, FILIndex, FCursorPos (the cursor position
 // counted from FFirstChar). FRedraw is the input focus
-public sealed partial class Edit(Component owner) : Control(owner)
+public sealed partial class Edit(Component? owner) : Control(owner)
 {
 
     private bool _cursorShown = true;
@@ -28,11 +28,11 @@ public sealed partial class Edit(Component owner) : Control(owner)
 
     public int FirstChar { get; set; }
 
-    private InterfaceImageLibrary _imageLibraryEdit;
+    private InterfaceImageLibrary? _imageLibraryEdit;
     [Published]
-    public event NotifyEvent<Edit> Exit;
+    public event NotifyEvent<Edit>? Exit;
     [Published]
-    public event NotifyEvent<Edit> Return;
+    public event NotifyEvent<Edit>? Return;
     private int _imageLibraryIndex;
     private int _cursorPosition;
 
@@ -55,12 +55,12 @@ public sealed partial class Edit(Component owner) : Control(owner)
     // AoWEdit.pas:96
     public override void SetSize()
     {
-        LibraryImage imageLibraryEditWidth = _imageLibraryEdit[_imageLibraryIndex];
-        LibraryImage imageLibraryEdit = _imageLibraryEdit[_imageLibraryIndex + 2];
+        LibraryImage? imageLibraryEditWidth = _imageLibraryEdit[_imageLibraryIndex];
+        LibraryImage? imageLibraryEdit = _imageLibraryEdit[_imageLibraryIndex + 2];
         if (imageLibraryEditWidth.Width + imageLibraryEdit.Width > WinWidth)
         {
-            LibraryImage imageLibraryEdit2 = _imageLibraryEdit[_imageLibraryIndex];
-            LibraryImage imageLibraryEdit3 = _imageLibraryEdit[_imageLibraryIndex + 2];
+            LibraryImage? imageLibraryEdit2 = _imageLibraryEdit[_imageLibraryIndex];
+            LibraryImage? imageLibraryEdit3 = _imageLibraryEdit[_imageLibraryIndex + 2];
             SetWinWidthWithoutInvalidate(imageLibraryEdit2.Width + imageLibraryEdit3.Width);
         }
 
@@ -111,10 +111,10 @@ public sealed partial class Edit(Component owner) : Control(owner)
                 SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth, WinHeight);
                 _imageLibraryEdit.DrawHorizontalStrip(_imageLibraryIndex, area: rectangle, ref lockedSurface);
                 Rect oldClip = lockedSurface.ClipRectangle;
-                LibraryImage imageLibraryEditWidth = _imageLibraryEdit[_imageLibraryIndex + 2];
+                LibraryImage? imageLibraryEditWidth = _imageLibraryEdit[_imageLibraryIndex + 2];
                 if (Window.AbsoluteLeft + WinLeft + WinWidth - imageLibraryEditWidth.Width < oldClip.Right)
                 {
-                    LibraryImage imageLibraryEdit = _imageLibraryEdit[_imageLibraryIndex + 2];
+                    LibraryImage? imageLibraryEdit = _imageLibraryEdit[_imageLibraryIndex + 2];
                     Rect clipRectangle = lockedSurface.ClipRectangle;
                     clipRectangle.Right = Window.AbsoluteLeft + WinLeft + WinWidth - imageLibraryEdit.Width;
                     lockedSurface.ClipRectangle = clipRectangle;
@@ -317,7 +317,7 @@ public sealed partial class Edit(Component owner) : Control(owner)
     }
 
     // AoWEdit.pas:119
-    public void SetImageLibraryEdit(InterfaceImageLibrary value)
+    public void SetImageLibraryEdit(InterfaceImageLibrary? value)
     {
         if (value != _imageLibraryEdit)
         {
@@ -359,7 +359,7 @@ public sealed partial class Edit(Component owner) : Control(owner)
     public bool Editable { get; set; } = true;
 
     [Published]
-    public InterfaceImageLibrary ImageLibraryEdit { get => _imageLibraryEdit; set => SetImageLibraryEdit(value); }
+    public InterfaceImageLibrary? ImageLibraryEdit { get => _imageLibraryEdit; set => SetImageLibraryEdit(value); }
 
     [Published]
     public int ImageLibraryIndex { get => _imageLibraryIndex; set => SetImageLibraryIndex(value); }

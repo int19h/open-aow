@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from CityWall.pas.
 using Aow.Engine.Nodes;
 
@@ -11,7 +11,7 @@ using Aow.Game.World.Movement;
 
 namespace Aow.Game.World.Terrain;
 
-public class CityWallDoor(CustomNode owner) : CityWall(owner)
+public class CityWallDoor(CustomNode? owner) : CityWall(owner)
 {
 
     // CityWall.pas:381
@@ -31,7 +31,7 @@ public class CityWallDoor(CustomNode owner) : CityWall(owner)
         {
             sbyte hexY = HexY;
             sbyte hexX = HexX;
-            TacticalBattleUnitHexSprite combatUnit = CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
+            TacticalBattleUnitHexSprite? combatUnit = CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
             if (combatUnit is not null)
             {
                 if (combatUnit.Unit.Side != CombatSideIndex.Defender)

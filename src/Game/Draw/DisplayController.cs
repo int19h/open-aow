@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from DisplayC.pas.
 using Aow.Rtl;
 using static Aow.Rtl.DelphiRounding;
@@ -9,11 +9,11 @@ namespace Aow.Game.Draw;
 // BlitInvalidatedSurface, and TDisplayCtrl implemented the other 33 as the common part of the
 // display controllers. FLastFrameTime, FFrameCount (Word), FStatus, FDisplay, FPrimarySurfaceRgn
 // (the output rectangle), FInvMatrix, FRealizePalet, FLastVBTime
-public partial class DisplayController(Component owner) : Component(owner)
+public partial class DisplayController(Component? owner) : Component(owner)
 {
 
     // DisplayC.pas:554
-    public virtual Surface GetSurface(int index) => null;
+    public virtual Surface? GetSurface(int index) => null;
 
     // DisplayC.pas:562
     // { Blits the invalidated blocks of back surface Index to the primary surface: every block the
@@ -106,7 +106,7 @@ public partial class DisplayController(Component owner) : Component(owner)
                                 destinationR.Bottom = destinationR.Top + blockHeight;
                             }
 
-                            Surface surface = GetSurface(0);
+                            Surface? surface = GetSurface(0);
                             result = (DisplayControllerError)GetSurface(index).BlitStretch(surface, sourceRectangle: sourceR, destinationRectangle: destinationR);
                             for (int x = 0, lastX = bw - 1; x <= lastX; x++)
                             {
@@ -135,11 +135,11 @@ public partial class DisplayController(Component owner) : Component(owner)
 
     internal DisplayControllerStatuses Status { get; private protected set; }
 
-    private CustomDisplay _display;
+    private CustomDisplay? _display;
 
     internal Rect PrimarySurfaceRegion { get; private set; }
 
-    private Matrix _inverseMatrix = new(4, 4);
+    private Matrix? _inverseMatrix = new(4, 4);
 
     // DisplayC.pas:1031
     public override void Dispose()
@@ -156,7 +156,7 @@ public partial class DisplayController(Component owner) : Component(owner)
     }
 
     // DisplayC.pas:634
-    public virtual Matrix InverseMatrix => _inverseMatrix;
+    public virtual Matrix? InverseMatrix => _inverseMatrix;
 
     // DisplayC.pas:639
     public virtual int SurfaceCount => Display is null ? 0 : (int)Display.BufferingScheme;
@@ -165,7 +165,7 @@ public partial class DisplayController(Component owner) : Component(owner)
     public virtual DisplayControllerError BlitSurface(int index)
     {
         Rect? primarySurfaceRegion = GetPrimarySurfaceRegion();
-        Surface surface = GetSurface(0);
+        Surface? surface = GetSurface(0);
         return (DisplayControllerError)GetSurface(index).BlitStretch(surface, sourceRectangle: default, destinationRectangle: primarySurfaceRegion);
     }
 
@@ -173,7 +173,7 @@ public partial class DisplayController(Component owner) : Component(owner)
     public virtual DisplayControllerError FlipSurface(int index)
     {
         Rect? primarySurfaceRegion = GetPrimarySurfaceRegion();
-        Surface surface = GetSurface(0);
+        Surface? surface = GetSurface(0);
         DisplayControllerError result = (DisplayControllerError)GetSurface(index).BlitStretch(surface, sourceRectangle: default, destinationRectangle: primarySurfaceRegion);
         return result.IsSuccess() ? DisplayControllerError.NoFlip : result;
     }
@@ -198,7 +198,7 @@ public partial class DisplayController(Component owner) : Component(owner)
     public virtual int HPalette => 0;
 
     // DisplayC.pas:710
-    public virtual CustomDisplay Display => _display;
+    public virtual CustomDisplay? Display => _display;
 
     // DisplayC.pas:720
     public virtual void WindowRecreated()
@@ -282,7 +282,7 @@ public partial class DisplayController(Component owner) : Component(owner)
     }
 
     // DisplayC.pas:842
-    public virtual Palette GetPalette() => null;
+    public virtual Palette? GetPalette() => null;
 
     // DisplayC.pas:873
     public virtual void InitializeInverseMatrix(byte width, byte height)

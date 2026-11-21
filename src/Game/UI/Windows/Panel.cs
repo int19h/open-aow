@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWPanel.pas.
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
@@ -16,11 +16,11 @@ namespace Aow.Game.UI.Windows;
 // Fields: _tabPanel, _window.
 public sealed partial class Panel : BaseWindow
 {
-    private TabPanel _tabPanel;
-    private BaseWindow _window;
+    private TabPanel? _tabPanel;
+    private BaseWindow? _window;
 
     // AoWPanel.pas:63
-    public Panel(Component owner) : base(owner) => CaptureInput = true;
+    public Panel(Component? owner) : base(owner) => CaptureInput = true;
 
     // AoWPanel.pas:69
     public override void Dispose()
@@ -48,21 +48,21 @@ public sealed partial class Panel : BaseWindow
         {
             case Style.Normal:
             case Style.Hollow:
-                LibraryImage imageLibraryFrameWidth = ImageLibraryFrame[ImageLibraryIndexFrame];
-                LibraryImage imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame + 2];
+                LibraryImage? imageLibraryFrameWidth = ImageLibraryFrame[ImageLibraryIndexFrame];
+                LibraryImage? imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame + 2];
                 if (imageLibraryFrameWidth.Width + imageLibraryFrame.Width > WinWidth)
                 {
-                    LibraryImage imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame];
-                    LibraryImage imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 2];
+                    LibraryImage? imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame];
+                    LibraryImage? imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 2];
                     SetWinWidthWithoutInvalidate(imageLibraryFrame2.Width + imageLibraryFrame3.Width);
                 }
 
-                LibraryImage imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame];
-                LibraryImage imageLibraryFrame4 = ImageLibraryFrame[ImageLibraryIndexFrame + 5];
+                LibraryImage? imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame];
+                LibraryImage? imageLibraryFrame4 = ImageLibraryFrame[ImageLibraryIndexFrame + 5];
                 if (imageLibraryFrameHeight.Height + imageLibraryFrame4.Height > WinHeight)
                 {
-                    LibraryImage imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame];
-                    LibraryImage imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 5];
+                    LibraryImage? imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame];
+                    LibraryImage? imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 5];
                     SetWinHeightWithoutInvalidate(imageLibraryFrame2.Height + imageLibraryFrame3.Height);
                 }
 
@@ -251,7 +251,7 @@ public sealed partial class Panel : BaseWindow
     // AoWPanel.pas:97
     // { InvalidateRect: the controls from Index on that ARect touches are redrawn (windows are asked to
     //   invalidate the rectangle themselves), then the windows above the panel in its owner }
-    public override void InvalidateRectangle(int index, ref Rect rectangle, UIComponent sender)
+    public override void InvalidateRectangle(int index, ref Rect rectangle, UIComponent? sender)
     {
         if (Valid && Visible && WindowStyle != Style.Blank)
         {
@@ -262,7 +262,7 @@ public sealed partial class Panel : BaseWindow
         int absTop = AbsoluteTop;
         for (int i = index, last = Children.Count - 1; i <= last; i++)
         {
-            UIComponent c = Children[i];
+            UIComponent? c = Children[i];
             if (c.Visible)
             {
                 if (((absLeft + c.WinLeft >= rectangle.Left && absLeft + c.WinLeft <= rectangle.Right) || (absLeft + c.WinLeft <= rectangle.Left && rectangle.Left <= absLeft + c.WinLeft + c.WinWidth)) && ((absTop + c.WinTop >= rectangle.Top && absTop + c.WinTop <= rectangle.Bottom) || (absTop + c.WinTop <= rectangle.Top && rectangle.Top <= absTop + c.WinTop + c.WinHeight)) && c != sender)
@@ -295,10 +295,10 @@ public sealed partial class Panel : BaseWindow
     }
 
     // AoWPanel.pas:82
-    public override void AddBlitRectangle(ref Rect rectangle, UIComponent sender) => OwnerComponent.AddBlitRectangle(ref rectangle, sender: this);
+    public override void AddBlitRectangle(ref Rect rectangle, UIComponent? sender) => OwnerComponent.AddBlitRectangle(ref rectangle, sender: this);
 
     // AoWPanel.pas:87
-    public override void AddDrawRectangle(ref Rect rectangle, UIComponent sender)
+    public override void AddDrawRectangle(ref Rect rectangle, UIComponent? sender)
     {
         if (Masked)
         {
@@ -312,11 +312,11 @@ public sealed partial class Panel : BaseWindow
     }
 
     // AoWPanel.pas:76
-    public override void SetOwner(UIComponent value)
+    public override void SetOwner(UIComponent? value)
     {
         base.SetOwner(value);
         // The owner is a UIComponent. This panel sits in a window, and the cast stays.
-        _window = (BaseWindow)OwnerComponent;
+        _window = (BaseWindow?)OwnerComponent;
     }
 
     // AoWPanel.pas:191
@@ -377,12 +377,12 @@ public sealed partial class Panel : BaseWindow
                     case Style.Normal:
                         SizedRectangle rectangle = new(absLeft, absTop, WinWidth, WinHeight);
                         ImageLibraryFrame.DrawFrame(ImageLibraryIndexFrame, area: rectangle, ref lockedSurface);
-                        LibraryImage imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
-                        LibraryImage imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame + 6];
-                        LibraryImage imageLibraryFrameWidth = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
-                        LibraryImage imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame + 4];
-                        LibraryImage imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
-                        LibraryImage imageLibraryFrame4 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
+                        LibraryImage? imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
+                        LibraryImage? imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame + 6];
+                        LibraryImage? imageLibraryFrameWidth = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
+                        LibraryImage? imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame + 4];
+                        LibraryImage? imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
+                        LibraryImage? imageLibraryFrame4 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
                         SizedRectangle rectangle2 = new(absLeft + imageLibraryFrame4.Width, absTop + imageLibraryFrame3.Height, WinWidth - imageLibraryFrameWidth.Width - imageLibraryFrame2.Width, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
                         ImageLibraryTexture.DrawTiled(ImageLibraryIndexTexture, area: rectangle2, ref lockedSurface);
                         break;
@@ -463,7 +463,7 @@ public sealed partial class Panel : BaseWindow
                 Drawn = SurfaceValid;
                 for (int i = 0, lastI = Children.Count - 1; i <= lastI; i++)
                 {
-                    UIComponent c = Children[i];
+                    UIComponent? c = Children[i];
                     if (c.Valid && c.Visible && (!Drawn || !c.Drawn))
                     {
                         c.Drawn = false;
@@ -526,7 +526,7 @@ public sealed partial class Panel : BaseWindow
 
             for (int i = Children.Count - 1; i >= 0; i--)
             {
-                UIComponent c = Children[i];
+                UIComponent? c = Children[i];
                 c.Handled = false;
                 if ((!Handled || c.Redraw) && c.Visible && c.CaptureInput)
                 {
@@ -567,7 +567,7 @@ public sealed partial class Panel : BaseWindow
 
             for (int i = Children.Count - 1; i >= 0; i--)
             {
-                UIComponent c = Children[i];
+                UIComponent? c = Children[i];
                 c.Handled = false;
                 if ((!Handled || c.Redraw) && c.Visible && c.CaptureInput)
                 {
@@ -602,7 +602,7 @@ public sealed partial class Panel : BaseWindow
 
             for (int i = Children.Count - 1; i >= 0; i--)
             {
-                UIComponent c = Children[i];
+                UIComponent? c = Children[i];
                 c.Handled = false;
                 if ((!Handled || c.Redraw || c.ToolTipCount > 0) && c.Visible && c.CaptureInput)
                 {
@@ -629,7 +629,7 @@ public sealed partial class Panel : BaseWindow
     // AoWPanel.pas:145
     // { SetTabPanel moves the panel from the panel list of its old tab panel to the list of the new
     //   one, in priority order }
-    public void SetTabPanel(TabPanel value)
+    public void SetTabPanel(TabPanel? value)
     {
         if (value != _tabPanel)
         {
@@ -681,13 +681,13 @@ public sealed partial class Panel : BaseWindow
     }
 
     // AoWPanel.pas:228
-    public void SetWindow(BaseWindow value) => SetOwner(value);
+    public void SetWindow(BaseWindow? value) => SetOwner(value);
 
     [Published]
-    public BaseWindow Window { get => _window; set => SetWindow(value); }
+    public BaseWindow? Window { get => _window; set => SetWindow(value); }
 
     [Published]
-    public TabPanel TabPanel { get => _tabPanel; set => SetTabPanel(value); }
+    public TabPanel? TabPanel { get => _tabPanel; set => SetTabPanel(value); }
 
     public new event NotifyEvent<Panel> Change
     {

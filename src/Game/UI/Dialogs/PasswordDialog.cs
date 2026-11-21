@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWPasswordDlg.pas.
 using Aow.Game.Events;
 using Aow.Game.UI.Controls;
@@ -14,15 +14,15 @@ public sealed partial class PasswordDialog(UIContext ui) : UIModule(ui)
     public Label PasswordLabel { get; private set; }
     public Edit PasswordEdit { get; private set; }
 
-    private ExecuteDoneEvent _done;
-    private PasswordEventLog _passwordEvent;
+    private ExecuteDoneEvent? _done;
+    private PasswordEventLog? _passwordEvent;
 
     // AoWPasswordDlg.pas:43
     public void Finish()
     {
         Window.Visible = false;
-        ExecuteDoneEvent done = _done;
-        PasswordEventLog eventValue = _passwordEvent;
+        ExecuteDoneEvent? done = _done;
+        PasswordEventLog? eventValue = _passwordEvent;
         _done = null;
         _passwordEvent = null;
         done?.Invoke(eventValue);

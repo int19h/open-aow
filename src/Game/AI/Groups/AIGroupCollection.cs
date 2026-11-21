@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using System.Collections;
 
 using Aow.Engine.Nodes;
@@ -39,7 +39,7 @@ public readonly struct AIGroupCollection : IReadOnlyList<AIGroup>
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     // AIGroup.pas:526
-    public AIGroup GetGroups(int index) => index >= 0 && index < Count ? this[index] : null;
+    public AIGroup? GetGroups(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // AIGroup.pas:533
     public int IndexOfId(int id)
@@ -58,7 +58,7 @@ public readonly struct AIGroupCollection : IReadOnlyList<AIGroup>
     }
 
     // AIGroup.pas:544
-    public AIGroup FindId(int id)
+    public AIGroup? FindId(int id)
     {
         int index = IndexOfId(id);
         return index != -1 ? this[index] : null;

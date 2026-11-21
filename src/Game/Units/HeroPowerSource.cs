@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
@@ -13,7 +13,7 @@ using Aow.Game.World.Structures;
 namespace Aow.Game.Units;
 
 // Hero
-public class HeroPowerSource(CustomNode owner) : PowerSource(owner)
+public class HeroPowerSource(CustomNode? owner) : PowerSource(owner)
 {
     public Hero Hero { get; init; }
 

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Engine.pas.
 
 namespace Aow.Engine.Nodes;
@@ -26,7 +26,7 @@ public sealed class EngineObjectEditorList
     }
 
     // Engine.pas:8364
-    public EditorClass FindEditor(int classId)
+    public EditorClass? FindEditor(int classId)
     {
         int i = 0;
         while (i != Count && classId != _list[i].EditorClassId)

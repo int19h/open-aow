@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWTC.pas.
 using Aow.Game.Draw;
 
@@ -12,8 +12,8 @@ public class BattleAIMove
     public short Spell { get; init; }
     public int Value { get; set; }
     public int GroupValue { get; set; }
-    public TacticalBattleUnitHexSprite UnitHexSprite { get; init; }
-    public CombatObject Target { get; init; }
+    public TacticalBattleUnitHexSprite? UnitHexSprite { get; init; }
+    public CombatObject? Target { get; init; }
     public ushort X { get; init; }
     public ushort Y { get; init; }
 }

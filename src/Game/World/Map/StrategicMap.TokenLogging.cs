@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using System.Globalization;
 using Aow.Game.Commands;
 using Aow.Game.Draw;
@@ -9,7 +9,7 @@ namespace Aow.Game.World.Map;
 
 public sealed partial class StrategicMap
 {
-    private Stream _tokenLog;
+    private Stream? _tokenLog;
 
     // Delphi I- suppresses file errors on these diagnostic writes.
     private void WriteTokenLog(string text, bool flush = false)

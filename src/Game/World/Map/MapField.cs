@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from HSEngine.pas and AoWE.pas.
 
 using Aow.Engine.Nodes;
@@ -21,7 +21,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     // AoWHSMap.PAS (TAoWMapField). HSEngine.pas:1933 gives the engine field 65793.
     public new const int ClassId = 131_090;
 
-    public MapField(CustomNode owner) : base(owner)
+    public MapField(CustomNode? owner) : base(owner)
     {
         TerrainType = -1;
         OverlayType = -1;
@@ -29,7 +29,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
         Resize(3);
     }
 
-    private HexSprite[] _hexSpriteList = [];
+    private HexSprite?[] _hexSpriteList = [];
 
     internal byte StoredCount { get; set; }
 
@@ -44,7 +44,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     public override ControlStyles GetControlStyle() => EngineServices.Stored | EngineServices.Shared;
 
     // HSEngine.pas:1923
-    public override void SetOwner(CustomNode owner) => SetOwnerWithoutNotify(owner);
+    public override void SetOwner(CustomNode? owner) => SetOwnerWithoutNotify(owner);
 
     // The level the field belongs to. AcceptsOwner admits only a level, so the cast never fails.
     public new MapLevel Owner => GetOwner<MapLevel>();
@@ -69,12 +69,12 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     }
 
     // HSEngine.pas:1943
-    public override EngineObject GetChild(int index) => index >= StoredCount
+    public override EngineObject? GetChild(int index) => index >= StoredCount
         ? throw new IndexOutOfRangeException("Index out of bounds")
         : (EngineObject)_hexSpriteList[index];
 
     // HSEngine.pas:1949
-    public override void SetChild(int index, EngineObject child)
+    public override void SetChild(int index, EngineObject? child)
     {
         if (index >= StoredCount)
         {
@@ -82,7 +82,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
         }
 
         // The list stores hex sprites, so the override's EngineObject child always is one.
-        _hexSpriteList[index] = (HexSprite)child;
+        _hexSpriteList[index] = (HexSprite?)child;
     }
 
     // HSEngine.pas:1972
@@ -90,14 +90,14 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
 
     // HSEngine.pas:2226
     // The list stores hex sprites, so the override's EngineObject child always is one.
-    public override int RemoveChild(EngineObject child) => RemoveHexSprite((HexSprite)child);
+    public override int RemoveChild(EngineObject? child) => RemoveHexSprite((HexSprite?)child);
 
     // HSEngine.pas:2221
     // The list stores hex sprites, so the override's EngineObject child always is one.
-    public override int AddChild(EngineObject child) => AddHexSprite((HexSprite)child, hexNumber: 0);
+    public override int AddChild(EngineObject? child) => AddHexSprite((HexSprite?)child, hexNumber: 0);
 
     // HSEngine.pas:2154
-    public override EngineObject FindChild(int classId)
+    public override EngineObject? FindChild(int classId)
     {
         int i = 0;
         while (i < StoredCount && _hexSpriteList[i].EngineClass.ClassId != classId)
@@ -109,7 +109,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     }
 
     // HSEngine.pas:2211
-    public override EngineObject FindOwnedChild(int classId)
+    public override EngineObject? FindOwnedChild(int classId)
     {
         int i = 0;
         while (i < StoredCount && !(_hexSpriteList[i].EngineClass.ClassId == classId && _hexSpriteList[i].Owner == this))
@@ -127,7 +127,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     public int HexSpriteListDataSize() => (Capacity << 2) + ((Capacity + 3) & 0b1111_1100);
 
     // HSEngine.pas:2163
-    public HexSprite FindHexSprite(Type classValue)
+    public HexSprite? FindHexSprite(Type classValue)
     {
         int i = 0;
         while (i < StoredCount && !classValue.IsInstanceOfType(_hexSpriteList[i]))
@@ -148,13 +148,13 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     public T FindOwnedHexSprite<T>(Type classValue) where T : HexSprite => (T)FindOwnedHexSprite(classValue);
 
     // HSEngine.pas:2172
-    public HexSprite FindOwnedHexSprite(Type classValue)
+    public HexSprite? FindOwnedHexSprite(Type classValue)
     {
         int i = 0;
-        HexSprite result = null;
+        HexSprite? result = null;
         while (i < StoredCount && result is null)
         {
-            HexSprite hexSprite = _hexSpriteList[i];
+            HexSprite? hexSprite = _hexSpriteList[i];
             if (classValue.IsInstanceOfType(hexSprite) && hexSprite.Owner == this)
             {
                 result = hexSprite;
@@ -296,7 +296,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
         }
     }
 
-    public HexSprite[] HexSpriteList { get => _hexSpriteList; internal set => _hexSpriteList = value; }
+    public HexSprite?[] HexSpriteList { get => _hexSpriteList; internal set => _hexSpriteList = value; }
     public byte Capacity { get; private set; }
     public byte StaticCount { get; private set; }
     public MapFieldStatuses Status { get; private set; }
@@ -307,13 +307,13 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     public sbyte TerrainType { get; set; }
     public sbyte OverlayType { get; set; }
 
-    public override void SendMessage(ref EngineMessage message, EngineObject sender)
+    public override void SendMessage(ref EngineMessage message, EngineObject? sender)
     {
         if ((message.MessageId & 0b0001_0000_0000_0000_0000_0000_0000_0000) != 0)
         {
             for (int i = StoredCount - 1; i >= 0; i--)
             {
-                HexSprite sprite = _hexSpriteList[i];
+                HexSprite? sprite = _hexSpriteList[i];
                 if (sprite.LastMessage == message.Sequence)
                 {
                     continue;
@@ -355,8 +355,8 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
 
     private static ReadOnlySpan<byte> OppositeHexDirectionTable => [4, 5, 6, 1, 2, 3];
 
-    private static readonly HexSprite[] s_sendMessageList = new HexSprite[256];
-    private static readonly HexSprite[] s_loadedList = new HexSprite[256];
+    private static readonly HexSprite?[] s_sendMessageList = new HexSprite[256];
+    private static readonly HexSprite?[] s_loadedList = new HexSprite[256];
 
     // TAoWMapField.FFieldFlags (intf_P1_03.inc:353). Bits 0 to 11 mark the field explored by
     // players 1 to 12, bits 12 to 15 and 24 to 27 tell which map field messages a sprite on the
@@ -500,7 +500,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     }
 
     // AoWHSMap.PAS:142
-    public ProductionControl GetProductionControl()
+    public ProductionControl? GetProductionControl()
     {
         MapFieldMessage message = default;
         message.MessageId = 4609;

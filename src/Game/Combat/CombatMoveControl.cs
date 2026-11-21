@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWTC.pas.
 using Aow.Game.Draw;
 
@@ -9,7 +9,7 @@ namespace Aow.Game.Combat;
 
 public class CombatMoveControl(GameMap owner) : MoveControl(owner)
 {
-    public TacticalBattleUnitHexSprite UnitHexSprite { get; set; }
+    public TacticalBattleUnitHexSprite? UnitHexSprite { get; set; }
     public CombatMoveModes MoveFlags { get; private set; }
 
     // AoWTC.pas:2716

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 
 using Aow.Rtl;
 
@@ -50,7 +50,7 @@ public sealed partial class Dib16Surface
     }
 
     public override GraphicsResult Unlock() => GraphicsResult.Ok;
-    public override GraphicsResult Blit(Surface destination, Rect? sourceRectangle, int X, int Y) => base.Blit(destination, sourceRectangle, X, Y);
+    public override GraphicsResult Blit(Surface? destination, Rect? sourceRectangle, int X, int Y) => base.Blit(destination, sourceRectangle, X, Y);
     public override GraphicsResult Clear(int color) => base.Clear(color);
     public override int BlitDisplayController(int displayController, Rect? sourceRectangle, Rect? destinationRectangle) => throw new NotSupportedException("Native device context");
 

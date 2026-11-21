@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
@@ -8,7 +8,7 @@ using Aow.Game.World.Structures;
 
 namespace Aow.Game.Session;
 
-public class PlayerStructurePowerSource(CustomNode owner) : PowerSource(owner)
+public class PlayerStructurePowerSource(CustomNode? owner) : PowerSource(owner)
 {
     private PlayerStructure _structure;
 

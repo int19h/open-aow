@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWTutorialWin.pas.
 using System.Diagnostics.CodeAnalysis;
 using Aow.Game.Events;
@@ -16,14 +16,14 @@ public sealed partial class TutorialWindow(UIContext ui) : UIModule(ui)
     public Memo HeaderMemo { get; private set; }
     public VerticalScrollBar AbilityScrollBar { get; private set; }
 
-    private ExecuteDoneEvent _done;
-    private EventLog _event;
+    private ExecuteDoneEvent? _done;
+    private EventLog? _event;
 
     // AoWTutorialWin.pas:51
     public void FinishDialog()
     {
-        ExecuteDoneEvent done = _done;
-        EventLog log = _event;
+        ExecuteDoneEvent? done = _done;
+        EventLog? log = _event;
         _done = null;
         _event = null;
         done?.Invoke(log);

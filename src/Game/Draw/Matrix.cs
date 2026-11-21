@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from DisplayC.pas.
 
 namespace Aow.Game.Draw;
@@ -8,7 +8,7 @@ namespace Aow.Game.Draw;
 // size 0 gives nil.
 public sealed class Matrix : IDisposable
 {
-    internal byte[] Data { get; private set; }
+    internal byte[]? Data { get; private set; }
 
     // DisplayC.pas:3145
     // { TMatrix (DCTypes in the original) }

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWCampaignJoin.pas.
 using Aow.Game.Draw;
 using Aow.Game.Magic.Abilities;

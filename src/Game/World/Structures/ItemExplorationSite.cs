@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from ItemExpS.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -28,7 +28,7 @@ public class ItemExplorationSite : ExplorationSite
 
     private byte _itemCount;
     // 0 user-defined, 4 random
-    private ExplorationSiteItemList _items;
+    private ExplorationSiteItemList? _items;
 
     // ItemExpS.pas:95
     public override void Dispose()
@@ -91,7 +91,7 @@ public class ItemExplorationSite : ExplorationSite
             };
             for (int i = _items.Count - 1; i >= 0; i--)
             {
-                Item item = _items.GetItem(i);
+                Item? item = _items.GetItem(i);
                 _ = log.ItemIds.Add(item.ItemId);
                 _ = item.PlaceOnMap(level: HexLevel, y: HexY, x: HexX, map: StrategicMap.Current);
             }
@@ -121,7 +121,7 @@ public class ItemExplorationSite : ExplorationSite
             _items.Clear();
             for (int itemOrdinal = 1, last = _itemCount; itemOrdinal <= last; itemOrdinal++)
             {
-                Item item = StrategicMap.Current.ItemControl.GenerateItem(s_itAll, 0, 65535);
+                Item? item = StrategicMap.Current.ItemControl.GenerateItem(s_itAll, 0, 65535);
                 item?.Owner = _items;
             }
         }

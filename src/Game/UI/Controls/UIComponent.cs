@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWComp.pas.
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
@@ -18,7 +18,7 @@ namespace Aow.Game.UI.Controls;
 // _ownerComponent, Children (sorted by _priority), _alignment, _masked, BlitList, DrawList
 // (DirtyRectangle), BlitCount, DrawCount, ToolTipLeft, OldRectangle, Hidden, _doubleBuffered,
 // SurfaceValid
-public partial class UIComponent(Rtl.Component owner) : Rtl.Component(owner)
+public partial class UIComponent(Rtl.Component? owner) : Rtl.Component(owner)
 {
 
     public int Color { get; private set; }
@@ -31,32 +31,32 @@ public partial class UIComponent(Rtl.Component owner) : Rtl.Component(owner)
     public virtual int Cursor { get; set; }
 
     [Published]
-    public event AoWOnDrawEvent<UIComponent> OnDraw;
+    public event AoWOnDrawEvent<UIComponent>? OnDraw;
 
     protected void RaiseDraw(UIComponent sender, LockedSurface surfDesc) => OnDraw?.Invoke(sender, surfDesc);
 
     [Published]
-    public event AoWOnDrawEvent<UIComponent> PreDraw;
+    public event AoWOnDrawEvent<UIComponent>? PreDraw;
 
     protected void RaisePreDraw(UIComponent sender, LockedSurface surfDesc) => PreDraw?.Invoke(sender, surfDesc);
 
     [Published]
-    public event MouseEvent<UIComponent> MouseDown;
+    public event MouseEvent<UIComponent>? MouseDown;
 
     protected void RaiseMouseDown(UIComponent sender, MouseButton button, ShiftStates shift, int x, int y) => MouseDown?.Invoke(sender, button, shift, x, y);
 
     [Published]
-    public event MouseEvent<UIComponent> MouseUp;
+    public event MouseEvent<UIComponent>? MouseUp;
 
     protected void RaiseMouseUp(UIComponent sender, MouseButton button, ShiftStates shift, int x, int y) => MouseUp?.Invoke(sender, button, shift, x, y);
 
     [Published]
-    public event MouseMoveEvent<UIComponent> MouseMove;
+    public event MouseMoveEvent<UIComponent>? MouseMove;
 
     protected void RaiseMouseMove(UIComponent sender, ShiftStates shift, int x, int y) => MouseMove?.Invoke(sender, shift, x, y);
 
     [Published]
-    public event KeyPressEvent<UIComponent> KeyPress;
+    public event KeyPressEvent<UIComponent>? KeyPress;
 
     protected void RaiseKeyPress(UIComponent sender, ref byte key) => KeyPress?.Invoke(sender, ref key);
 
@@ -65,13 +65,13 @@ public partial class UIComponent(Rtl.Component owner) : Rtl.Component(owner)
     protected void RaiseKeyPressUnchecked(UIComponent sender, ref byte key) => KeyPress(sender, ref key);
 
     [Published]
-    public event KeyEvent<UIComponent> KeyDown;
+    public event KeyEvent<UIComponent>? KeyDown;
 
     protected void RaiseKeyDown(UIComponent sender, ref ushort key, ShiftStates shift) => KeyDown?.Invoke(sender, ref key, shift);
 
     protected bool HasKeyDownHandlers => KeyDown is not null;
 
-    public event NotifyEvent<UIComponent> Change;
+    public event NotifyEvent<UIComponent>? Change;
 
     internal void RaiseChange(UIComponent sender) => Change?.Invoke(sender);
 
@@ -117,7 +117,7 @@ public partial class UIComponent(Rtl.Component owner) : Rtl.Component(owner)
     public int OwnerItem { get; set; }
 
     [Published]
-    public event NotifyEvent<UIComponent> Updated;
+    public event NotifyEvent<UIComponent>? Updated;
 
     protected void RaiseUpdate(UIComponent sender) => Updated?.Invoke(sender);
 
@@ -128,7 +128,7 @@ public partial class UIComponent(Rtl.Component owner) : Rtl.Component(owner)
     [Published]
     public event AoWOnDebugEvent DebugMessage { add => _onDebugMessage += value; remove => _onDebugMessage -= value; }
 
-    private UIComponent _ownerComponent;
+    private UIComponent? _ownerComponent;
 
     public DelphiList<UIComponent> Children { get; init; } = new DelphiList<UIComponent>();
 
@@ -400,7 +400,7 @@ public partial class UIComponent(Rtl.Component owner) : Rtl.Component(owner)
     }
 
     // AoWComp.pas:576
-    public virtual void InvalidateRectangle(int index, ref Rect rectangle, UIComponent sender)
+    public virtual void InvalidateRectangle(int index, ref Rect rectangle, UIComponent? sender)
     {
     }
 
@@ -409,7 +409,7 @@ public partial class UIComponent(Rtl.Component owner) : Rtl.Component(owner)
     //   list so that no two overlap: the parts of ARect that another rectangle covers are cut off (a
     //   cut that leaves two pieces adds one of them as a new rectangle), and an old rectangle that ARect
     //   covers on one side is trimmed or emptied. }
-    public virtual void AddBlitRectangle(ref Rect rectangle, UIComponent sender)
+    public virtual void AddBlitRectangle(ref Rect rectangle, UIComponent? sender)
     {
         if (Valid && _visible)
         {
@@ -630,7 +630,7 @@ public partial class UIComponent(Rtl.Component owner) : Rtl.Component(owner)
 
     // AoWComp.pas:445
     // { AddDrawRect: the same for the rectangles to redraw; the rectangle added last records Sender }
-    public virtual void AddDrawRectangle(ref Rect rectangle, UIComponent sender)
+    public virtual void AddDrawRectangle(ref Rect rectangle, UIComponent? sender)
     {
         if (Valid && _visible)
         {
@@ -851,7 +851,7 @@ public partial class UIComponent(Rtl.Component owner) : Rtl.Component(owner)
     }
 
     // AoWComp.pas:262
-    public virtual void SetOwner(UIComponent value)
+    public virtual void SetOwner(UIComponent? value)
     {
         int oldIndex;
         if (_ownerComponent is not null)
@@ -984,7 +984,7 @@ public partial class UIComponent(Rtl.Component owner) : Rtl.Component(owner)
     }
 
     // AoWComp.pas:641
-    public virtual void DrawSurface(Surface surface)
+    public virtual void DrawSurface(Surface? surface)
     {
     }
 
@@ -1050,7 +1050,7 @@ public partial class UIComponent(Rtl.Component owner) : Rtl.Component(owner)
 
     public int TextColor { get => Color; set => SetColor(value); }
     public int TextSelectedColor { get => SelectedColor; set => SetSelectedColor(value); }
-    public UIComponent OwnerComponent { get => _ownerComponent; set => SetOwner(value); }
+    public UIComponent? OwnerComponent { get => _ownerComponent; set => SetOwner(value); }
     public Alignment Alignment { get; } = new();
     public bool Masked { get; set; }
     public bool CaptureInput { get; set; }

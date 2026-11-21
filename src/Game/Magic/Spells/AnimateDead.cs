@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from CombatSpells.pas.
 using Aow.Engine.Nodes;
 
@@ -13,7 +13,7 @@ namespace Aow.Game.Magic.Spells;
 public class AnimateDead : CombatSpell
 {
     // CombatSpells.pas:2046
-    public AnimateDead(CustomNode owner, EngineObject holder) : base(owner)
+    public AnimateDead(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_animateDeadText);
@@ -29,7 +29,7 @@ public class AnimateDead : CombatSpell
     }
 
     // CombatSpells.pas:2079
-    public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
+    public override CombatAction CreateCombatAction(CombatObject? source, CombatObject target, bool chargeMana)
     {
         AnimateDeadCombatAction action = new(null)
         {

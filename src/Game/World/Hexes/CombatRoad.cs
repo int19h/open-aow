@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from CombatRoad.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Draw;
@@ -33,7 +33,7 @@ public class CombatRoad(CustomNode owner) : AbstractRoad(owner)
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int x, out int y);
         x = x - pixelXSurface - 8;
         y -= pixelYSurface;
-        CustomImageLibrary images = base.Resource.ImageSequenceList.GetImageSequence(0).ImageLibrary;
+        CustomImageLibrary? images = base.Resource.ImageSequenceList.GetImageSequence(0).ImageLibrary;
         images.Get(_images[0]).Show(x, y, lockedSurface);
         for (int i = 1; i <= 6; i++)
         {
@@ -53,16 +53,16 @@ public class CombatRoad(CustomNode owner) : AbstractRoad(owner)
     }
 
     // CombatRoad.pas:54
-    public override MapObjectResourceList GetResourceList(GameEngine engine) => GamePack.Current.CombatResources;
+    public override MapObjectResourceList GetResourceList(GameEngine? engine) => GamePack.Current.CombatResources;
 
     // CombatRoad.pas:57
     public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel) => hexX >= 0 && hexY >= 0 && hexLevel >= 0 && hexX < mapContainer.Width && hexY < mapContainer.Height && hexLevel < mapContainer.LevelCount && !(mapContainer.GetField(hexX, hexY, hexLevel).OverlayType == 4 || mapContainer.GetField(hexX, hexY, hexLevel).TerrainType == 15);
 
     // CombatRoad.pas:66
-    public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override bool PlaceHex(MapContainer? mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
         MapField mapField = mapContainer.GetField(hexX, hexY, hexLevel);
-        HexSprite oldRoad = mapField.FindHexSprite(typeof(AbstractRoad));
+        HexSprite? oldRoad = mapField.FindHexSprite(typeof(AbstractRoad));
         oldRoad?.Dispose();
 
         return base.PlaceHex(mapContainer, hexX, hexY, hexLevel);
@@ -130,7 +130,7 @@ public class CombatRoad(CustomNode owner) : AbstractRoad(owner)
         public new const int ClassId = 2_229_507;
 
         // CombatRoad.pas:144
-        public override void MessageProc(ref EngineMessage message, EngineObject sender)
+        public override void MessageProc(ref EngineMessage message, EngineObject? sender)
         {
             base.MessageProc(ref message, sender);
             if (message.MessageId == 65621)
@@ -140,9 +140,9 @@ public class CombatRoad(CustomNode owner) : AbstractRoad(owner)
         }
 
         // CombatRoad.pas:153
-        public override LibraryImage GetCellImage()
+        public override LibraryImage? GetCellImage()
         {
-            LibraryImage result = null;
+            LibraryImage? result = null;
             if (ImageSequenceList is not null && ImageSequenceList.Count > 0 && ImageSequenceList.GetImageSequence(0) is not null)
             {
                 result = ImageSequenceList.GetImageSequence(0).ImageLibrary.Get(10);

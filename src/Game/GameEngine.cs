@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
@@ -50,7 +50,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     public int Version { get; private set; }
     public GameSettings Registry { get; set; }
 
-    private StrategicMap _gameMap;
+    private StrategicMap? _gameMap;
 
     public GamePack GameSet { get; private set; }
     public ImageLibraryFont CombatFont { get; set; }
@@ -60,7 +60,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
 
     // Keepers.CAM and Storm.CAM store class id 2248704, and a save of those campaigns stores the
     // same class. The engine holds that world map campaign.
-    public WorldMapCampaign Campaign { get; private set; }
+    public WorldMapCampaign? Campaign { get; private set; }
 
     public EmailGameControl EmailGames { get; private set; }
     public IvBinaryDictionary Dictionary { get; set; }
@@ -124,7 +124,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     }
 
     // Army.PAS:5973. The HSEngine body assigns the map, then the game body records an AoW map.
-    public virtual void SetHexSpriteMap(GameMap value)
+    public virtual void SetHexSpriteMap(GameMap? value)
     {
         _hexSpriteMap = value;
         if (value is StrategicMap strategicMap)
@@ -135,7 +135,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     }
 
     // Army.PAS:5962. The HSEngine body closes the map, then the game body clears the current map.
-    public virtual void CloseHsm(ProgressEvent progress)
+    public virtual void CloseHsm(ProgressEvent? progress)
     {
         try
         {
@@ -407,7 +407,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     }
 
     // Army.PAS:6059
-    public void LoadCampaignMap(ProgressEvent progress)
+    public void LoadCampaignMap(ProgressEvent? progress)
     {
         if (Campaign is not null && Campaign.Stream is not null)
         {
@@ -454,7 +454,7 @@ public partial class GameEngine : OwningNode, IChildList<GameEngineChild>
     }
 
     // intf_P2_08.inc:29. The flag is set before construction and cleared when it returns.
-    public static GameEngine Create(CustomNode owner)
+    public static GameEngine Create(CustomNode? owner)
     {
         s_fullConstruction = true;
         try

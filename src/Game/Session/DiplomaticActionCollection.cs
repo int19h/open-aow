@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using System.Collections;
 
 namespace Aow.Game.Session;
@@ -35,9 +35,9 @@ public readonly struct DiplomaticActionCollection : IReadOnlyList<DiplomaticActi
     public DiplomaticAction GetDiplomaticActions(int index) => this[index];
 
     // Diplomacy.pas:1100
-    public DiplomaticAction FindLastAction(byte kind, DiplomaticActionReaction reaction, sbyte source, sbyte target, sbyte other)
+    public DiplomaticAction? FindLastAction(byte kind, DiplomaticActionReaction reaction, sbyte source, sbyte target, sbyte other)
     {
-        DiplomaticAction result = null;
+        DiplomaticAction? result = null;
         int index = Count;
         while (result is null && index != 0)
         {

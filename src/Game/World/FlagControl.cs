@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
@@ -21,7 +21,7 @@ public class FlagControl : ControlStyleObject
 
     private readonly RaceResourceList _raceResources;
 
-    public CustomImageLibrary Flags { get; set; }
+    public CustomImageLibrary? Flags { get; set; }
 
     // PlayerC.PAS:1920
     public override void Dispose()
@@ -111,6 +111,6 @@ public class FlagControl : ControlStyleObject
     }
 
     // PlayerC.PAS:1909
-    public static FlagControl Create(CustomNode owner)
+    public static FlagControl Create(CustomNode? owner)
         => ConstructionContext.Create(owner, static (context, owner) => new FlagControl(context, owner: owner ?? throw new NullReferenceException()));
 }

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from GlobalEnchantmentSpells.pas.
 using System.Runtime.InteropServices;
 using Aow.Engine;
@@ -14,7 +14,7 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Spells;
 
 // Width, Height, OriginalTerrain
-public sealed class FloodControl(CustomNode owner) : EngineObject(owner)
+public sealed class FloodControl(CustomNode? owner) : EngineObject(owner)
 {
 
     public int Width { get; set; }
@@ -99,7 +99,7 @@ public sealed class FloodControl(CustomNode owner) : EngineObject(owner)
 
                             if ((byte)mapField.OverlayType is 4 or 5)
                             {
-                                HexSprite roadHexSprite = mapField.FindOwnedHexSprite(typeof(AbstractRoad));
+                                HexSprite? roadHexSprite = mapField.FindOwnedHexSprite(typeof(AbstractRoad));
                                 roadHexSprite?.Dispose();
                             }
                         }

@@ -117,9 +117,9 @@ public sealed class FileDialogSortTests
         string root = Path.Combine(directory, "root");
         string user = Path.Combine(directory, "user");
         string settingsDirectory = Path.Combine(directory, "settings");
-        DelphiStringList previousDirectories = FileDialogWindow.Directories;
-        DelphiStringList<FileTime> previousFiles = FileDialogWindow.Files;
-        DelphiStringList previousDrives = FileDialogWindow.Drives;
+        DelphiStringList? previousDirectories = FileDialogWindow.Directories;
+        DelphiStringList<FileTime>? previousFiles = FileDialogWindow.Files;
+        DelphiStringList? previousDrives = FileDialogWindow.Drives;
         FileDialogWindow? dialog = null;
         try
         {

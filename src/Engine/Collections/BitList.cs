@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Engine.pas.
 using System.Globalization;
 using Aow.Engine.Nodes;
@@ -163,7 +163,7 @@ public partial class BitList : Persistent
     public override void Dispose() => Clear();
 
     // Engine.pas:4576
-    public override void Assign(Persistent source)
+    public override void Assign(Persistent? source)
     {
         if (source is BitList bitList)
         {

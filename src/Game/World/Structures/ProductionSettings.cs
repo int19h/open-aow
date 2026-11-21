@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
@@ -11,7 +11,7 @@ using Aow.Game.Units;
 namespace Aow.Game.World.Structures;
 
 // costs, turns left, upkeep, turns total, player, group, unit, unit production
-public sealed class ProductionSettings(CustomNode owner) : EngineObject(owner)
+public sealed class ProductionSettings(CustomNode? owner) : EngineObject(owner)
 {
     public int Gold { get; set; }
     public int Mana { get; set; }
@@ -21,7 +21,7 @@ public sealed class ProductionSettings(CustomNode owner) : EngineObject(owner)
     public sbyte TurnsTotal { get; set; }
     public sbyte Player { get; set; }
     public int GroupId { get; set; }
-    public Unit Unit { get; set; }
+    public Unit? Unit { get; set; }
     public int UnitProductionIndex { get; set; }
 
     // Structur.PAS:114
@@ -57,7 +57,7 @@ public sealed class ProductionSettings(CustomNode owner) : EngineObject(owner)
         Player = 0;
         GroupId = 0;
         UnitProductionIndex = -1;
-        Troop u = Unit;
+        Troop? u = Unit;
         if (u is not null)
         {
             _ = u.Release();

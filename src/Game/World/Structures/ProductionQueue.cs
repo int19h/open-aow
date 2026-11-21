@@ -1,11 +1,11 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
 namespace Aow.Game.World.Structures;
 
 // production control
-public class ProductionQueue(CustomNode owner) : OwningNode(owner), IChildList<ProductionItem>
+public class ProductionQueue(CustomNode? owner) : OwningNode(owner), IChildList<ProductionItem>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a ProductionItem, so the cast never fails.
@@ -18,7 +18,7 @@ public class ProductionQueue(CustomNode owner) : OwningNode(owner), IChildList<P
     public ProductionControl ProductionControl { get; init; }
 
     // Structur.PAS:83
-    public ProductionItem GetItem(int index) => index >= 0 && index < Count ? this[index] : null;
+    public ProductionItem? GetItem(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // Structur.PAS:89
     public int IndexOfId(int id)

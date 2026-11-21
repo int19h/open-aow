@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
@@ -14,7 +14,7 @@ namespace Aow.Game.AI.Groups;
 public partial class AIMoveExecutorControl : EngineObject
 {
     // AIGroup.pas:4726
-    public AIMoveExecutorControl(CustomNode owner) : base(owner) => MoveControl = new AIMoveControl(null) { Holder = CreationHolder() };
+    public AIMoveExecutorControl(CustomNode? owner) : base(owner) => MoveControl = new AIMoveControl(null) { Holder = CreationHolder() };
 
     public AIMoveControl MoveControl { get; }
 
@@ -36,7 +36,7 @@ public partial class AIMoveExecutorControl : EngineObject
     // AIGroup.pas:4738
     public virtual (AIMoveExecutorMove, byte MoveResult) CreateMove(AIMoveExecutorArmy army, byte selection, sbyte x, sbyte y, sbyte mapLevel, CreateMoveModes mode)
     {
-        AIMoveExecutorMove move = null;
+        AIMoveExecutorMove? move = null;
         army.RetrieveArmy(selection, army: out ArmyHexSprite armyHexSprite, out byte armySelection);
         MoveControlSettings settings = new(null) { Holder = CreationHolder() };
         int points;
@@ -181,7 +181,7 @@ public partial class AIMoveExecutorControl : EngineObject
             int last = existingArmy.Units.Count - 1;
             for (; i <= last; i += 1)
             {
-                Troop troop = armyHexSprite.Army.Units.GetUnit(i);
+                Troop? troop = armyHexSprite.Army.Units.GetUnit(i);
                 int index = Executor.Units.IndexOfUnitId(troop.UnitId);
                 if (index == -1 || Executor.Units.GetUnits(index).Status != AIMoveExecutorUnitStatus.Queued)
                 {
@@ -209,7 +209,7 @@ public partial class AIMoveExecutorControl : EngineObject
         {
             i = 0;
             int last = Executor.Moves.Count - 1;
-            AIMoveExecutorUnit transporter;
+            AIMoveExecutorUnit? transporter;
             for (; i <= last; i += 1)
             {
                 AIMoveExecutorMove move = Executor.Moves.GetMoves(i);

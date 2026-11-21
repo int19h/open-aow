@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWWinControl.pas.
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
@@ -14,19 +14,19 @@ namespace Aow.Game.UI.Controls;
 // FrameLeft, FrameTop, FrameRight, FrameBottom, _maskColor, _useVideoMemory, BackSurface,
 // (unused), BackRectangle, (unused), OnDrawBack, OnEnter, OnExit, MouseInside, _imageLibraryIndexFrame,
 // _imageLibraryIndexTexture, _dockable
-public class WindowControl(Component owner) : UIComponent(owner)
+public class WindowControl(Component? owner) : UIComponent(owner)
 {
 
     [Published]
     public bool Modal { get; set; }
 
-    public event AoWOnDrawSurface<WindowControl> SurfaceDrawn;
+    public event AoWOnDrawSurface<WindowControl>? SurfaceDrawn;
 
-    protected void RaiseDrawSurface(WindowControl sender, Surface surface, int left, int top) => SurfaceDrawn?.Invoke(sender, surface, left, top);
+    protected void RaiseDrawSurface(WindowControl sender, Surface? surface, int left, int top) => SurfaceDrawn?.Invoke(sender, surface, left, top);
 
-    public event AoWOnDrawSurface<WindowControl> PreDrawSurface;
+    public event AoWOnDrawSurface<WindowControl>? PreDrawSurface;
 
-    protected void RaisePreDrawSurface(WindowControl sender, Surface surface, int left, int top) => PreDrawSurface?.Invoke(sender, surface, left, top);
+    protected void RaisePreDrawSurface(WindowControl sender, Surface? surface, int left, int top) => PreDrawSurface?.Invoke(sender, surface, left, top);
 
     public byte Dragging { get; protected set; }
     public int DragX { get; protected set; }
@@ -41,11 +41,11 @@ public class WindowControl(Component owner) : UIComponent(owner)
     public byte ResizingX { get; protected set; }
     public byte ResizingY { get; protected set; }
 
-    public event NotifyEvent<WindowControl> Resize;
+    public event NotifyEvent<WindowControl>? Resize;
 
     protected void RaiseResize(WindowControl sender) => Resize?.Invoke(sender);
 
-    public event NotifyEvent<WindowControl> InternalResize;
+    public event NotifyEvent<WindowControl>? InternalResize;
 
     protected void RaiseInternalResize(WindowControl sender) => InternalResize?.Invoke(sender);
 
@@ -67,7 +67,7 @@ public class WindowControl(Component owner) : UIComponent(owner)
     public int OldCursor { get; protected set; } = -2;
     public int WindowCursor { get; protected set; } = -2;
 
-    public event NotifyEvent<WindowControl> ChangeCursor;
+    public event NotifyEvent<WindowControl>? ChangeCursor;
 
     protected void RaiseChangeCursor(WindowControl sender) => ChangeCursor?.Invoke(sender);
 
@@ -87,10 +87,10 @@ public class WindowControl(Component owner) : UIComponent(owner)
     public Style WindowStyle { get; private set; }
 
     [Published]
-    public virtual InterfaceImageLibrary ImageLibraryFrame { get; set; }
+    public virtual InterfaceImageLibrary? ImageLibraryFrame { get; set; }
 
     [Published]
-    public virtual InterfaceImageLibrary ImageLibraryTexture { get; set; }
+    public virtual InterfaceImageLibrary? ImageLibraryTexture { get; set; }
 
     [Published]
     public bool UseManagerBorders { get; set; }
@@ -106,22 +106,22 @@ public class WindowControl(Component owner) : UIComponent(owner)
     [Published]
     public bool UseVideoMemory { get; set; }
 
-    public Surface BackSurface { get; protected set; }
+    public Surface? BackSurface { get; protected set; }
 
     public SizedRectangle BackRectangle { get; internal set; }
 
     [Published]
-    public event AoWOnDrawBackEvent<WindowControl> DrawBack;
+    public event AoWOnDrawBackEvent<WindowControl>? DrawBack;
 
     protected void RaiseDrawBack(WindowControl sender, LockedSurface surfDesc) => DrawBack?.Invoke(sender, surfDesc);
 
     [Published]
-    public event NotifyEvent<WindowControl> Enter;
+    public event NotifyEvent<WindowControl>? Enter;
 
     internal void RaiseEnter(WindowControl sender) => Enter?.Invoke(sender);
 
     [Published]
-    public event NotifyEvent<WindowControl> Exit;
+    public event NotifyEvent<WindowControl>? Exit;
 
     internal void RaiseExit(WindowControl sender) => Exit?.Invoke(sender);
 
@@ -176,7 +176,7 @@ public class WindowControl(Component owner) : UIComponent(owner)
         {
             for (int i = Children.Count - 1; i >= 0; i--)
             {
-                UIComponent c = Children[i];
+                UIComponent? c = Children[i];
                 c.CheckKeyPress(ref key);
                 if (c.Handled)
                 {
@@ -204,7 +204,7 @@ public class WindowControl(Component owner) : UIComponent(owner)
         {
             for (int i = Children.Count - 1; i >= 0; i--)
             {
-                UIComponent c = Children[i];
+                UIComponent? c = Children[i];
                 c.CheckKeyDown(ref key, shift);
                 if (c.Handled)
                 {
@@ -227,7 +227,7 @@ public class WindowControl(Component owner) : UIComponent(owner)
     }
 
     // AoWWinControl.pas:208
-    public virtual void Blit(Surface surface)
+    public virtual void Blit(Surface? surface)
     {
         PreDrawSurface?.Invoke(this, surface, WinLeft, WinTop);
 
@@ -254,7 +254,7 @@ public class WindowControl(Component owner) : UIComponent(owner)
     {
         for (int i = 0, last = Children.Count - 1; i <= last; i++)
         {
-            UIComponent c = Children[i];
+            UIComponent? c = Children[i];
             if (sender.RadioIndex == c.RadioIndex && c != sender && c.Checked)
             {
                 c.Checked = false;
@@ -270,7 +270,7 @@ public class WindowControl(Component owner) : UIComponent(owner)
     //   again. }
     // The port draws on memory surfaces only, so the back surface is a data surface and is never
     // lost.
-    public bool VerifyBackSurface(Surface surface)
+    public bool VerifyBackSurface(Surface? surface)
     {
         if (DoubleBuffered)
         {

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Collections;
@@ -15,7 +15,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.UI.Controls;
 
 // list of shown message IDs
-public sealed class TutorialControl(CustomNode owner) : EngineObject(owner)
+public sealed class TutorialControl(CustomNode? owner) : EngineObject(owner)
 {
 
     private readonly Int32List _shownMessages = new();
@@ -45,7 +45,7 @@ public sealed class TutorialControl(CustomNode owner) : EngineObject(owner)
             }
 
             TutorialMessageEventLog log = new(null, holder: CreationHolder());
-            TextControlItem idLocal = StrategicMap.Current.TextControl.FindId(id);
+            TextControlItem? idLocal = StrategicMap.Current.TextControl.FindId(id);
             log.Message.Assign(idLocal.Text);
             StrategicMap.Current.TriggerExecuteEventLog(log, immediate, done: null);
             _ = log.Release();

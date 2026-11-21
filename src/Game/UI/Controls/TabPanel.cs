@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWTabPanel.pas.
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
@@ -16,7 +16,7 @@ namespace Aow.Game.UI.Controls;
 public sealed partial class TabPanel : Control
 {
     private int _selected;
-    private InterfaceImageLibrary _imageLibraryButton;
+    private InterfaceImageLibrary? _imageLibraryButton;
     private int _imageLibraryIndexUp;
     private int _imageLibraryIndexDown;
 
@@ -70,13 +70,13 @@ public sealed partial class TabPanel : Control
     // AoWTabPanel.pas:123
     public override void SetSize()
     {
-        LibraryImage imageLibraryButtonWidth = _imageLibraryButton[_imageLibraryIndexUp];
-        LibraryImage imageLibraryButton = _imageLibraryButton[_imageLibraryIndexUp + 2];
+        LibraryImage? imageLibraryButtonWidth = _imageLibraryButton[_imageLibraryIndexUp];
+        LibraryImage? imageLibraryButton = _imageLibraryButton[_imageLibraryIndexUp + 2];
         int count = Items.Count;
         if ((imageLibraryButtonWidth.Width + imageLibraryButton.Width) * count > WinWidth)
         {
-            LibraryImage imageLibraryButton2 = _imageLibraryButton[_imageLibraryIndexUp];
-            LibraryImage imageLibraryButton3 = _imageLibraryButton[_imageLibraryIndexUp + 2];
+            LibraryImage? imageLibraryButton2 = _imageLibraryButton[_imageLibraryIndexUp];
+            LibraryImage? imageLibraryButton3 = _imageLibraryButton[_imageLibraryIndexUp + 2];
             int fItemsCount = Items.Count;
             SetWinWidthWithoutInvalidate((imageLibraryButton2.Width + imageLibraryButton3.Width) * fItemsCount);
         }
@@ -193,7 +193,7 @@ public sealed partial class TabPanel : Control
     public override void CheckKeyPress(ref byte key) => Handled = false;
 
     // AoWTabPanel.pas:85
-    public void SetImageLibraryButton(InterfaceImageLibrary value)
+    public void SetImageLibraryButton(InterfaceImageLibrary? value)
     {
         if (value != _imageLibraryButton)
         {
@@ -266,7 +266,7 @@ public sealed partial class TabPanel : Control
     public int Selected { get => _selected; set => SetIndex(value); }
 
     [Published]
-    public InterfaceImageLibrary ImageLibraryButton { get => _imageLibraryButton; set => SetImageLibraryButton(value); }
+    public InterfaceImageLibrary? ImageLibraryButton { get => _imageLibraryButton; set => SetImageLibraryButton(value); }
 
     [Published]
     public int ImageLibraryIndexDown { get => _imageLibraryIndexDown; set => SetILDIndex(value); }

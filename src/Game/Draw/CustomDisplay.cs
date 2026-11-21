@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from DisplayC.pas.
 using Aow.Rtl;
 using static Aow.Rtl.DelphiRounding;
@@ -14,7 +14,7 @@ namespace Aow.Game.Draw;
 // show), _pauseCount, _mouseAboveSurface, _primaryDisplayController, _secondaryDisplayController, _activeDisplayController
 public partial class CustomDisplay : Component
 {
-    protected internal event NotifyEvent<object> BlitSurface;
+    protected internal event NotifyEvent<object>? BlitSurface;
     private Action<object, DisplayController, int> _updateFrame;
 
     internal void SetUpdateFrameHandler(Action<object, DisplayController, int> handler) => _updateFrame = handler;
@@ -23,11 +23,11 @@ public partial class CustomDisplay : Component
 
     internal void SetSurfaceDataLostHandler(Action<DisplayController, int> handler) => _surfaceDataLost = handler;
 
-    protected internal event NotifyEvent<object> Resized;
-    protected internal event Action<object, DisplayController> DisplayControllerActivated;
-    protected internal event Action<object, DisplayController> DisplayControllerDeactivated;
-    protected internal event NotifyEvent<object> Hidden;
-    protected internal event NotifyEvent<object> Shown;
+    protected internal event NotifyEvent<object>? Resized;
+    protected internal event Action<object, DisplayController>? DisplayControllerActivated;
+    protected internal event Action<object, DisplayController>? DisplayControllerDeactivated;
+    protected internal event NotifyEvent<object>? Hidden;
+    protected internal event NotifyEvent<object>? Shown;
     private Action<DisplayController, int, int> _resizeBackSurface;
 
     internal void SetResizeBackSurfaceHandler(Action<DisplayController, int, int> handler) => _resizeBackSurface = handler;
@@ -146,7 +146,7 @@ public partial class CustomDisplay : Component
     // - Host windowing, events, palette and focus belong to IDisplayHost and IDisplayEvents.
 
     // DisplayC.pas:1541
-    public virtual DisplayController GetDisplayController(int index)
+    public virtual DisplayController? GetDisplayController(int index)
     {
         return index switch
         {
@@ -275,7 +275,7 @@ public partial class CustomDisplay : Component
     }
 
     public int Cursor => GetCursor();
-    public DisplayController ActiveDisplayController { get; private set; }
+    public DisplayController? ActiveDisplayController { get; private set; }
     protected internal DisplayOptions Options { get; }
     protected internal BufferingScheme BufferingScheme { get => _bufferingScheme; set => SetBufferingScheme(value); }
     protected internal BackSurfaceControlMode BackSurfaceControlMode { get; }
@@ -286,7 +286,7 @@ public partial class CustomDisplay : Component
     protected internal DisplayController SecondaryDisplayController { get; set; }
     protected internal UpdateFrameMode UpdateFrameMode { get => _updateFrameMode; set => SetUpdateFrameMode(value); }
 
-    private static GraphicsResult RemapSurface(Surface source, Surface destination)
+    private static GraphicsResult RemapSurface(Surface source, Surface? destination)
     {
         LockedSurface lockedSurface = default;
         LockedSurface lockedSurface2 = default;

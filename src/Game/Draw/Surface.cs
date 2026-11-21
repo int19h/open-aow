@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from GFXE.pas.
 using Aow.Graphics;
 using Aow.Rtl;
@@ -130,7 +130,7 @@ public partial class Surface : IDisposable
     }
 
     // GFXE.pas:12007
-    public virtual GraphicsResult Blit(Surface destination, Rect? sourceRectangle, int X, int Y)
+    public virtual GraphicsResult Blit(Surface? destination, Rect? sourceRectangle, int X, int Y)
     {
         GraphicsResult result;
         Rect r = default;
@@ -382,7 +382,7 @@ public partial class Surface : IDisposable
     }
 
     // GFXE.pas:12102
-    public virtual GraphicsResult BlitStretch(Surface destination, Rect? sourceRectangle, Rect? destinationRectangle)
+    public virtual GraphicsResult BlitStretch(Surface? destination, Rect? sourceRectangle, Rect? destinationRectangle)
     {
         Rect r = default;
         Rect dr = default;

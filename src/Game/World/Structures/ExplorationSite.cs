@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from ExploreS.pas.
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
@@ -48,7 +48,7 @@ public partial class ExplorationSite : Structure
     }
 
     // ExploreS.pas:351
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
         _defenders.MessageProc(ref message, sender);
@@ -274,7 +274,7 @@ public partial class ExplorationSite : Structure
             CombatObject objectValue = data.GetObjects(i);
             if (objectValue is CombatUnit combatUnit && objectValue.GetPlayer() == 0)
             {
-                Troop troop = combatUnit.Troop;
+                Troop? troop = combatUnit.Troop;
                 _ = troop.AddRef();
                 combatUnit.SetUnit(null);
                 _ = _defenders.AddUnit(troop);

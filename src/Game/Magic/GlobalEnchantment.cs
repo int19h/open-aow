@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 
@@ -15,7 +15,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Magic;
 
 // (ID, references, status, mode, dispel mana, type, player, name, upkeep)
-public class GlobalEnchantment(CustomNode owner) : EngineObject(owner)
+public class GlobalEnchantment(CustomNode? owner) : EngineObject(owner)
 {
     public int EnchantmentId { get; set; }
 

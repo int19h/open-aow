@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from ImageLib.pas.
 using Aow.Rtl;
 

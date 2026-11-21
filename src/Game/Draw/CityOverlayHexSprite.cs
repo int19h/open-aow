@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from City.pas.
 using Aow.Engine.Nodes;
 
@@ -11,7 +11,7 @@ using Aow.Game.World.Structures;
 namespace Aow.Game.Draw;
 
 // City, ModeStartFrame, Mode, ShellAnimation, ShellEndFrame
-public sealed class CityOverlayHexSprite(CustomNode owner) : SingleHexSprite(owner)
+public sealed class CityOverlayHexSprite(CustomNode? owner) : SingleHexSprite(owner)
 {
     public City City { get; init; }
     public OverlayMode Mode { get; private set; }
@@ -32,7 +32,7 @@ public sealed class CityOverlayHexSprite(CustomNode owner) : SingleHexSprite(own
         {
             int intensity;
             int index;
-            ImageSequence sequence;
+            ImageSequence? sequence;
             if (City.Enchantments.Contains(CityEnchantmentIds.Warmonger))
             {
                 intensity = Math.Abs(((StrategicMap.Current.Frame >>> 1) % 20) - 10) + 50;

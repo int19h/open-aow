@@ -1,14 +1,14 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWButton.pas.
 using Aow.Rtl;
 
 namespace Aow.Game.UI.Controls;
 
 // Fields: OnClick
-public sealed partial class Button(Component owner) : BaseButton(owner)
+public sealed partial class Button(Component? owner) : BaseButton(owner)
 {
     [Published]
-    public event NotifyEvent<Button> Click;
+    public event NotifyEvent<Button>? Click;
 
     internal bool HasClickHandlers => Click is not null;
 

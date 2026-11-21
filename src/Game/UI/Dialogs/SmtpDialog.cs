@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWSMTPDlg.pas.
 using System.Diagnostics.CodeAnalysis;
 using Aow.Game.Events;

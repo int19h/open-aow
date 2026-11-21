@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWArnoLine.pas.
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
@@ -11,9 +11,9 @@ namespace Aow.Game.UI.Controls;
 // top, middle, bottom, copied line image library
 public sealed class ArnoLine : Control
 {
-    private LibraryImage _imageTop;
-    private LibraryImage _imageMiddle;
-    private LibraryImage _imageBottom;
+    private LibraryImage? _imageTop;
+    private LibraryImage? _imageMiddle;
+    private LibraryImage? _imageBottom;
     private readonly InterfaceImageLibrary _lineLibrary;
 
     // AoWArnoLine.pas:47
@@ -82,7 +82,7 @@ public sealed class ArnoLine : Control
     }
 
     // AoWArnoLine.pas:66
-    public void SetITop(LibraryImage value)
+    public void SetITop(LibraryImage? value)
     {
         if (value != _imageTop)
         {
@@ -92,7 +92,7 @@ public sealed class ArnoLine : Control
     }
 
     // AoWArnoLine.pas:75
-    public void SetIMiddle(LibraryImage value)
+    public void SetIMiddle(LibraryImage? value)
     {
         if (value != _imageMiddle)
         {
@@ -102,7 +102,7 @@ public sealed class ArnoLine : Control
     }
 
     // AoWArnoLine.pas:84
-    public void SetIBottom(LibraryImage value)
+    public void SetIBottom(LibraryImage? value)
     {
         if (value != _imageBottom)
         {
@@ -112,13 +112,13 @@ public sealed class ArnoLine : Control
     }
 
     [Published]
-    public LibraryImage ImageTop { get => _imageTop; set => SetITop(value); }
+    public LibraryImage? ImageTop { get => _imageTop; set => SetITop(value); }
 
     [Published]
-    public LibraryImage ImageMiddle { get => _imageMiddle; set => SetIMiddle(value); }
+    public LibraryImage? ImageMiddle { get => _imageMiddle; set => SetIMiddle(value); }
 
     [Published]
-    public LibraryImage ImageBottom { get => _imageBottom; set => SetIBottom(value); }
+    public LibraryImage? ImageBottom { get => _imageBottom; set => SetIBottom(value); }
 
     public new event NotifyEvent<ArnoLine> Change
     {

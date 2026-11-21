@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Engine.pas.
 using System.Globalization;
 using System.Runtime.InteropServices;
@@ -131,7 +131,7 @@ public class Int32List : Persistent
     public override void Dispose() => Clear();
 
     // Engine.pas:3273
-    public override void Assign(Persistent source)
+    public override void Assign(Persistent? source)
     {
         if (source is Int32List int32List)
         {

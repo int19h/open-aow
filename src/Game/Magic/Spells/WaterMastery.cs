@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from GlobalEnchantmentSpells.pas.
 using Aow.Engine.Nodes;
 
@@ -14,7 +14,7 @@ namespace Aow.Game.Magic.Spells;
 public class WaterMastery : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:806
-    public WaterMastery(CustomNode owner, EngineObject holder) : base(owner)
+    public WaterMastery(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.WaterMasteryText);

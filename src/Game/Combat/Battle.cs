@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 
@@ -32,7 +32,7 @@ public class Battle : EngineObject
 {
 
     // Combat.pas:6067
-    public Battle(CustomNode owner) : base(owner)
+    public Battle(CustomNode? owner) : base(owner)
     {
         _executedEventsStore = new();
         CombatSide combatSide = new(null) { Holder = CreationHolder() };
@@ -55,7 +55,7 @@ public class Battle : EngineObject
 
     public CombatResult CombatResult { get; protected set; }
 
-    public CombatLogbook Logbook { get; private set; }
+    public CombatLogbook? Logbook { get; private set; }
 
     public CombatSide[] Sides { get; } = new CombatSide[2];
 
@@ -80,7 +80,7 @@ public class Battle : EngineObject
     protected void SetTerminatedHandler(NotifyEvent<Battle> handler) => _terminated = handler;
 
     public byte ExplorationSite { get; set; }
-    public EngineObject Items { get; set; }
+    public EngineObject? Items { get; set; }
 
     // item list or prisoners army
     // Combat.pas:6082
@@ -266,7 +266,7 @@ public class Battle : EngineObject
 
         if (CombatData.Parties.GetParty(0) is not null)
         {
-            CombatParty party = CombatData.Parties.GetParty(0);
+            CombatParty? party = CombatData.Parties.GetParty(0);
             CombatData.WallType = party.Wall;
         }
 
@@ -339,7 +339,7 @@ public class Battle : EngineObject
         {
             playerIndex -= 1;
             CombatPlayer players = CombatData.Players.GetPlayers((sbyte)playerIndex);
-            Player player = StrategicMap.Current.Players.GetPlayers(players.Player);
+            Player? player = StrategicMap.Current.Players.GetPlayers(players.Player);
             int armyIndex = player.Armies.Count;
             bool alive = false;
             while (armyIndex != 0 && !alive)
@@ -467,8 +467,8 @@ public class Battle : EngineObject
             target = (byte)(target >>> 4);
             if (source < 7 && target < 7)
             {
-                CombatParty party = CombatData.Parties.GetParty(source);
-                CombatParty fPartiesParty = CombatData.Parties.GetParty(target);
+                CombatParty? party = CombatData.Parties.GetParty(source);
+                CombatParty? fPartiesParty = CombatData.Parties.GetParty(target);
                 return (party.Wall != 0) ^ (fPartiesParty.Wall != 0);
             }
             else
@@ -483,14 +483,14 @@ public class Battle : EngineObject
     }
 
     // AIGroup.pas:7195
-    public WallSituation GetWallSituation(CombatObject source, CombatObject target)
+    public WallSituation GetWallSituation(CombatObject source, CombatObject? target)
     {
         return GetWallInBetween(source.Position, target: target.Position)
             ? source.Side == CombatSideIndex.Defender ? WallSituation.Source : WallSituation.Target
             : WallSituation.None;
     }
 
-    public void ExecuteCombatAction(CombatAction action)
+    public void ExecuteCombatAction(CombatAction? action)
     {
         if (Status.Contains(CombatStatuses.LogCombatActions))
         {
@@ -508,7 +508,7 @@ public class Battle : EngineObject
         {
             if (CombatData.Parties.GetParty((byte)i) is not null)
             {
-                CombatParty party = CombatData.Parties.GetParty((byte)i);
+                CombatParty? party = CombatData.Parties.GetParty((byte)i);
                 CombatPlayer players = CombatData.Players.GetPlayers((sbyte)party.PlayerIndex);
                 if (types.Contains(StrategicMap.Current.Players.GetPlayers(players.Player).PlayerType.ToFlag()))
                 {
@@ -650,7 +650,7 @@ public class Battle : EngineObject
     }
 
     // Combat.pas:6303
-    public CombatParty AddArmy(Army army, CombatSideIndex side, int X, int Y, int L)
+    public CombatParty AddArmy(Army? army, CombatSideIndex side, int X, int Y, int L)
     {
         CombatParty party;
         MapFieldMessage message = default;
@@ -664,7 +664,7 @@ public class Battle : EngineObject
 
             byte position = GetPartyPosition(X, Y, layer: L);
             party = CombatData.Parties.CreateParty(this, position, combatPlayer: player, X, Y, L, army);
-            Troop transporter = army.Transporter(255);
+            Troop? transporter = army.Transporter(255);
             bool transport = transporter is not null && transporter.ValidTerrain((sbyte)CombatData.TerrainAndOverlayTypes[0], overlayType: (sbyte)CombatData.TerrainAndOverlayTypes[1]);
             int index = 0;
             for (int i = army.Units.Count - 1; i >= 0; i--)
@@ -760,7 +760,7 @@ public class Battle : EngineObject
     }
 
     // Combat.pas:6385
-    public void InitializeDefaultArmies(Army army, int X, int Y, int L)
+    public void InitializeDefaultArmies(Army? army, int X, int Y, int L)
     {
         CombatData data = CombatData;
         if (GetPartyPosition(X, Y, layer: L) == 7)

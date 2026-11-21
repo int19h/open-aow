@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using System.Globalization;
 using Aow.Engine.Nodes;
@@ -154,7 +154,7 @@ public sealed class FastBattle(CustomNode owner) : Battle(owner)
     // AIGroup.pas:7256
     public bool ValidateWallBreaching()
     {
-        CombatWall wall = CombatData.Wall;
+        CombatWall? wall = CombatData.Wall;
         if (wall is not null && !wall.Status.Contains(CombatObjectStatuses.Destroyed) && WallSiegeObjectCount == 0)
         {
             CombatResult = CombatResult.CannotBreachWall;

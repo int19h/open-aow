@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from BehaviorAG.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Magic.Abilities;
@@ -31,7 +31,7 @@ public class AggressorAIGroupControl(CustomNode owner) : BehaviorAIGroupControl(
                 _ = finder.Setup(this);
                 if (Group.Transporter is null)
                 {
-                    Troop availableTransporter = FindAvailableTransporter();
+                    Troop? availableTransporter = FindAvailableTransporter();
                     finder.Selector.SetTransporter(availableTransporter);
                 }
                 else
@@ -114,7 +114,7 @@ public class AggressorAIGroupControl(CustomNode owner) : BehaviorAIGroupControl(
 
                 break;
             case 6:
-                Player player = StrategicMap.Current.Players.GetPlayers(Group.Player);
+                Player? player = StrategicMap.Current.Players.GetPlayers(Group.Player);
                 if (player.PlayerType is PlayerType.Cpu3 or PlayerType.Cpu4 or PlayerType.Cpu5)
                 {
                     State = 0;

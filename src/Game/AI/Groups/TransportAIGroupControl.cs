@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from MainAG.pas.
 using Aow.Engine.Nodes;
 
@@ -105,22 +105,22 @@ public class TransportAIGroupControl(CustomNode owner) : AIGroupControl(owner)
     public override void SetupME()
     {
         base.SetupME();
-        Troop transporter = Group.Leader;
+        Troop? transporter = Group.Leader;
         if (transporter is not null && transporter.Owner is Army)
         {
-            Army army = transporter.ArmyOwner;
+            Army? army = transporter.ArmyOwner;
             for (int i = 0, last = army.Units.Count - 1; i <= last; i++)
             {
                 bool condition = transporter != army.Units.GetUnit(i);
                 if (condition)
                 {
-                    Troop troop = army.Units.GetUnit(i);
+                    Troop? troop = army.Units.GetUnit(i);
                     condition = MoveExecutor.Units.IndexOfUnit(troop) == -1;
                 }
 
                 if (condition)
                 {
-                    Troop troop = army.Units.GetUnit(i);
+                    Troop? troop = army.Units.GetUnit(i);
                     _ = MoveExecutor.AddUnit(troop);
                 }
             }

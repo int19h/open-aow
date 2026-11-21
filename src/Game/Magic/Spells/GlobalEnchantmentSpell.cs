@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from GlobalEnchantmentSpells.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.AI;
@@ -9,7 +9,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Magic.Spells;
 
 // AIBasePriority
-public class GlobalEnchantmentSpell(CustomNode owner) : Spell(owner)
+public class GlobalEnchantmentSpell(CustomNode? owner) : Spell(owner)
 {
 
     public int AIBasePriority { get; protected init; } = -1;
@@ -82,7 +82,7 @@ public class GlobalEnchantmentSpell(CustomNode owner) : Spell(owner)
         {
             if (!StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentTypes.SpellWard))
             {
-                GlobalEnchantment enchantment = CreateEnchantment();
+                GlobalEnchantment? enchantment = CreateEnchantment();
                 if (enchantment is not null)
                 {
                     SetupEnchantment(source, enchantment);
@@ -129,10 +129,10 @@ public class GlobalEnchantmentSpell(CustomNode owner) : Spell(owner)
     }
 
     // GlobalEnchantmentSpells.pas:419
-    public virtual GlobalEnchantment CreateEnchantment() => null;
+    public virtual GlobalEnchantment? CreateEnchantment() => null;
 
     // GlobalEnchantmentSpells.pas:424
-    public virtual void SetupEnchantment(Troop source, GlobalEnchantment enchantment) => enchantment.EnchantmentManaUpkeep = ManaUpkeep;
+    public virtual void SetupEnchantment(Troop source, GlobalEnchantment? enchantment) => enchantment.EnchantmentManaUpkeep = ManaUpkeep;
 
     // GlobalEnchantmentSpells.pas:484
     public int AIUpkeepPriority()

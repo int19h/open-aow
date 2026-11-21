@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWMagic.pas.
 using System.Globalization;
 using Aow.Engine.Nodes;
@@ -77,7 +77,7 @@ public sealed partial class MagicWindow(UIContext ui) : UIModule(ui)
         GlobalUpkeepList.Selected = index;
         if (index != -1)
         {
-            GlobalEnchantment enchantment = GlobalEnchantmentList.Items.Objects[index];
+            GlobalEnchantment? enchantment = GlobalEnchantmentList.Items.Objects[index];
             string reason = "";
             bool canRemove = enchantment.CanRemove(StrategicMap.Current.SeatedPlayer, ref reason);
             GlobalDispelButton.Visible = canRemove;
@@ -226,7 +226,7 @@ public sealed partial class MagicWindow(UIContext ui) : UIModule(ui)
 
         if (condition)
         {
-            Enchantment enchantment = EnchantmentList.Items.Objects[EnchantmentList.Selected];
+            Enchantment? enchantment = EnchantmentList.Items.Objects[EnchantmentList.Selected];
             _ = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.DispelEnchantment(enchantment);
         }
     }
@@ -253,7 +253,7 @@ public sealed partial class MagicWindow(UIContext ui) : UIModule(ui)
 
         if (condition)
         {
-            GlobalEnchantment globalEnchantment = GlobalEnchantmentList.Items.Objects[GlobalEnchantmentList.Selected];
+            GlobalEnchantment? globalEnchantment = GlobalEnchantmentList.Items.Objects[GlobalEnchantmentList.Selected];
             _ = StrategicMap.Current.GlobalMagicControl.RemoveEnchantment(StrategicMap.Current.SeatedPlayer, enchantment: globalEnchantment);
         }
     }
@@ -293,7 +293,7 @@ public sealed partial class MagicWindow(UIContext ui) : UIModule(ui)
         PlayerMagicControl magic = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl;
         if (magic.ResearchSpellId != 0)
         {
-            Spell spell = GamePack.Current.SpellControl[magic.ResearchSpellId];
+            Spell? spell = GamePack.Current.SpellControl[magic.ResearchSpellId];
             if (spell is not null)
             {
                 if (spell.CastImages.GetImageSequence(10) is not null)
@@ -545,7 +545,7 @@ public sealed partial class MagicWindow(UIContext ui) : UIModule(ui)
             window.ResearchPointsLabel.Text = netPowerToResearch.ToString(CultureInfo.InvariantCulture);
             if (control.ResearchSpellId != 0)
             {
-                Spell spell = GamePack.Current.SpellControl[control.ResearchSpellId];
+                Spell? spell = GamePack.Current.SpellControl[control.ResearchSpellId];
                 window.SpellNameLabel.Text = spell.SpellName;
                 string magicSphere = window.UI.Engine.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere]);
                 string level = window.UI.Engine.TranslateResourceString(GameText.LevelText);
@@ -581,7 +581,7 @@ public sealed partial class MagicWindow(UIContext ui) : UIModule(ui)
 
     internal static void RefreshGlobalMagic(MagicWindow window)
     {
-        GlobalMagicControl control = StrategicMap.Current.GlobalMagicControl;
+        GlobalMagicControl? control = StrategicMap.Current.GlobalMagicControl;
         window.GlobalEnchantmentList.Items.Clear();
         window.GlobalNameList.Items.Clear();
         window.GlobalUpkeepList.Items.Clear();
@@ -593,7 +593,7 @@ public sealed partial class MagicWindow(UIContext ui) : UIModule(ui)
                 GlobalEnchantment enchantment = control.Enchantments.GetEnchantments(i);
                 _ = window.GlobalEnchantmentList.Items.AddObject(name, item: enchantment);
                 GlobalEnchantment enchantmentPlayerIndex = control.Enchantments.GetEnchantments(i);
-                Player player = StrategicMap.Current.Players.GetPlayers(enchantmentPlayerIndex.PlayerIndex);
+                Player? player = StrategicMap.Current.Players.GetPlayers(enchantmentPlayerIndex.PlayerIndex);
                 _ = window.GlobalNameList.Items.Add(player.Leader.HeroName);
                 int upkeep = control.Enchantments.GetEnchantments(i).GetUpkeep();
                 _ = window.GlobalUpkeepList.Items.Add(upkeep.ToString(CultureInfo.InvariantCulture));

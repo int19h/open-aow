@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from GlobalTargetSpells.pas.
 using Aow.Engine.Nodes;
 
@@ -17,7 +17,7 @@ namespace Aow.Game.Magic.Spells;
 public class FireBarrier : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:882
-    public FireBarrier(CustomNode owner, EngineObject holder) : base(owner)
+    public FireBarrier(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_fireBarrierText);

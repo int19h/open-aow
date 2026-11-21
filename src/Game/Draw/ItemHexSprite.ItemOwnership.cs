@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using Aow.Engine.Nodes;
 
 using Aow.Game.Units;
@@ -7,7 +7,7 @@ namespace Aow.Game.Draw;
 
 public partial class ItemHexSprite
 {
-    public ItemHexSprite(CustomNode owner) : base(owner)
+    public ItemHexSprite(CustomNode? owner) : base(owner)
     {
         Items = new ItemHSList(null)
         {

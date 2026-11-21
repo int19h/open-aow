@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
@@ -13,7 +13,7 @@ namespace Aow.Game.World;
 // pad resources, terrain types
 public sealed class PadControl : ControlStyleObject
 {
-    public List<MapObjectResource> PadResources { get; }
+    public List<MapObjectResource?> PadResources { get; }
     public BitList TerrainTypes { get; }
 
     // MoveT.PAS:3622
@@ -33,10 +33,10 @@ public sealed class PadControl : ControlStyleObject
     }
 
     // MoveT.PAS:3629
-    public MapObjectResource GetPadResource(int size) => size < PadResources.Count ? PadResources[size] : null;
+    public MapObjectResource? GetPadResource(int size) => size < PadResources.Count ? PadResources[size] : null;
 
     // MoveT.PAS:3635
-    public void SetPadResource(int size, MapObjectResource resource)
+    public void SetPadResource(int size, MapObjectResource? resource)
     {
         while (PadResources.Count <= size)
         {
@@ -67,7 +67,7 @@ public sealed class PadControl : ControlStyleObject
     // MoveT.PAS:3651
     public bool CanPlacePad(sbyte X, sbyte Y, sbyte L, int size)
     {
-        MapObjectResource resource = GetPadResource(size);
+        MapObjectResource? resource = GetPadResource(size);
         bool result;
         if (resource is not null)
         {
@@ -84,9 +84,9 @@ public sealed class PadControl : ControlStyleObject
     }
 
     // MoveT.PAS:3666
-    public ImageLibraryTerrainMapObject PlacePad(sbyte X, sbyte Y, sbyte L, int size)
+    public ImageLibraryTerrainMapObject? PlacePad(sbyte X, sbyte Y, sbyte L, int size)
     {
-        MapObjectResource resource = GetPadResource(size);
+        MapObjectResource? resource = GetPadResource(size);
         return resource?.PlaceResourceUser<ImageLibraryTerrainMapObject>(StrategicMap.Current, X, Y, L);
     }
 }

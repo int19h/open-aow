@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
@@ -15,7 +15,7 @@ public class LeaderSetupControl : EngineObject
 
     // Player.PAS:1755
     // { Return the final search index. }
-    public LeaderSetupControl(CustomNode owner) : base(owner)
+    public LeaderSetupControl(CustomNode? owner) : base(owner)
     {
         Items = new Int32List();
         OriginalLeader = new Leader(null) { Holder = CreationHolder() };
@@ -33,7 +33,7 @@ public class LeaderSetupControl : EngineObject
     public Int32List Items { get; }
     public LeaderSetupStatus Status { get; set; }
 
-    private NotifyEvent<LeaderSetupControl> _done;
+    private NotifyEvent<LeaderSetupControl>? _done;
 
     internal void SetDoneHandler(NotifyEvent<LeaderSetupControl> handler) => _done = handler;
 

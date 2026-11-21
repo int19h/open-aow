@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from GlobalEnchantmentSpells.pas.
 using Aow.Engine.Nodes;
 
@@ -15,7 +15,7 @@ namespace Aow.Game.Magic.Spells;
 public class PowerLeak : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:1036
-    public PowerLeak(CustomNode owner, EngineObject holder) : base(owner)
+    public PowerLeak(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellType = SpellType.Global;

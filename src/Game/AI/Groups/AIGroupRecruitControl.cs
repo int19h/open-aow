@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 
 using Aow.Engine.Nodes;
@@ -21,7 +21,7 @@ namespace Aow.Game.AI.Groups;
 public class AIGroupRecruitControl : AIGroupTask
 {
     // AIGroup.pas:2070
-    public AIGroupRecruitControl(CustomNode owner) : base(owner) => Units = new UnitUserList(null) { Holder = CreationHolder() };
+    public AIGroupRecruitControl(CustomNode? owner) : base(owner) => Units = new UnitUserList(null) { Holder = CreationHolder() };
 
     public AIGroupRecruitControlMode Mode { get; set; }
 
@@ -119,7 +119,7 @@ public class AIGroupRecruitControl : AIGroupTask
         int result = -1;
         for (int i = 0, last = Units.Count - 1; i <= last; i++)
         {
-            Troop troop = Units.GetUnit(i);
+            Troop? troop = Units.GetUnit(i);
             AIRecruitmentGroup group = _control.RecruitmentGroups.FindUnit(troop);
             if (group is not null && Units.GetUnit(i).Moves != 0)
             {
@@ -136,7 +136,7 @@ public class AIGroupRecruitControl : AIGroupTask
     }
 
     // AIGroup.pas:2119
-    public bool UsefulRecruitUnit(Troop troop)
+    public bool UsefulRecruitUnit(Troop? troop)
     {
         bool result = troop.Moves > _movesMin && (troop.GetMoveTypes() & _moveTypes) != MoveTypes.None;
         if (result)
@@ -192,7 +192,7 @@ public class AIGroupRecruitControl : AIGroupTask
     }
 
     // AIGroup.pas:2162
-    public void AddRecruitUnit(Troop troop)
+    public void AddRecruitUnit(Troop? troop)
     {
         _ = Units.AddUnit(troop);
         for (int dOrdinal = (int)DamageType.Fire; dOrdinal <= (int)DamageType.NonSpecific; dOrdinal++)
@@ -285,7 +285,7 @@ public class AIGroupRecruitControl : AIGroupTask
             i = 0;
             while (i < recruitable.Count && !Complete)
             {
-                Troop troop = recruitable.GetUnit(i);
+                Troop? troop = recruitable.GetUnit(i);
                 if (UsefulRecruitUnit(troop))
                 {
                     AddRecruitUnit(troop);

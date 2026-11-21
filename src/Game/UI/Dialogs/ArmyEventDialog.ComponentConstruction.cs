@@ -1,13 +1,13 @@
 // Layout translated from recovered Delphi forms.
-#nullable disable
+#nullable disable warnings
 using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
 public sealed partial class ArmyEventDialog
 {
-    public event NotifyEvent<ArmyEventDialog> LayoutOnCreate;
-    public event NotifyEvent<ArmyEventDialog> LayoutOnDestroy;
+    public event NotifyEvent<ArmyEventDialog>? LayoutOnCreate;
+    public event NotifyEvent<ArmyEventDialog>? LayoutOnDestroy;
 
     public override void Dispose()
     {

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using Aow.Game.Audio;
 
 using Aow.Rtl;
@@ -9,7 +9,7 @@ public sealed partial class MultiWindow
 {
     public void Execute(string mapName)
     {
-        SongPlayer songs = AudioHost.SongPlayer;
+        SongPlayer? songs = AudioHost.SongPlayer;
         if (songs.CurrentIndex == -1 || songs.CurrentIndex >= songs.Songs.Count || songs.Songs[songs.CurrentIndex] != "SONGS\\TITLE.IT")
         {
             songs.Songs.Clear();

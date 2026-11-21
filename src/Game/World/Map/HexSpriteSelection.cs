@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from HSEngine.pas.
 using Aow.Engine;
 
@@ -65,7 +65,7 @@ public sealed partial class HexSpriteSelection(CustomNode owner) : ControlStyleN
     }
 
     // HSEngine.pas:3699
-    public void TriggerDeselectEvent(HexSprite hexSprite)
+    public void TriggerDeselectEvent(HexSprite? hexSprite)
     {
         EventHexSprite = hexSprite;
         OnDeselectStore.Raise(Owner);
@@ -79,7 +79,7 @@ public sealed partial class HexSpriteSelection(CustomNode owner) : ControlStyleN
     }
 
     // HSEngine.pas:3711
-    public void Unselect(HexSprite hexSprite)
+    public void Unselect(HexSprite? hexSprite)
     {
         int i = IndexOfChild(hexSprite);
         _ = LocationHexSprite.Remove(hexSprite);
@@ -99,7 +99,7 @@ public sealed partial class HexSpriteSelection(CustomNode owner) : ControlStyleN
     }
 
     // HSEngine.pas:3727
-    public void Select(HexSprite hexSprite)
+    public void Select(HexSprite? hexSprite)
     {
         _ = AddChild(hexSprite);
         hexSprite.Select();
@@ -116,9 +116,9 @@ public sealed partial class HexSpriteSelection(CustomNode owner) : ControlStyleN
     }
 
     // HSEngine.pas:3740
-    public HexSprite FindClass(Type classValue)
+    public HexSprite? FindClass(Type classValue)
     {
-        HexSprite result = null;
+        HexSprite? result = null;
         int i = 0;
         while (i != Count && result is null)
         {
@@ -138,7 +138,7 @@ public sealed partial class HexSpriteSelection(CustomNode owner) : ControlStyleN
     public HexSprite GetHexSprite(int index) => this[index];
 
     // HSEngine.pas:3790
-    public void SelectLocationHexSprite(HexSprite hexSprite)
+    public void SelectLocationHexSprite(HexSprite? hexSprite)
     {
         LocationHexSprite.Add(hexSprite);
         Select(hexSprite);
@@ -160,7 +160,7 @@ public sealed partial class HexSpriteSelection(CustomNode owner) : ControlStyleN
         }
     }
 
-    public List<HexSprite> LocationHexSprite { get; } = [];
+    public List<HexSprite?> LocationHexSprite { get; } = [];
 
     public event NotifyEvent<CustomNode> OnSelect
     {
@@ -174,5 +174,5 @@ public sealed partial class HexSpriteSelection(CustomNode owner) : ControlStyleN
         remove => OnDeselectStore.Remove(value);
     }
 
-    public HexSprite EventHexSprite { get; private set; }
+    public HexSprite? EventHexSprite { get; private set; }
 }

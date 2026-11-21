@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from aowTCMapEvents.pas.
 using System.Globalization;
 using Aow.Game.Audio;
@@ -90,7 +90,7 @@ public sealed partial class CombatMapEvents(UIContext ui) : UIModule(ui)
         UI.General.Manager.Aligned = false;
         UI.TaskBar.WorldPanel.Visible = true;
         UI.TaskBar.CombatPanel.Visible = false;
-        Player player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
+        Player? player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
         UI.TaskBar.WorldTurnButton.ButtonChecked = player.SingleProcessCycle;
         UI.CombatScanner.CombatScannerWindow.Visible = false;
         UI.CombatUnitInfo.MainWindow.Visible = false;
@@ -102,7 +102,7 @@ public sealed partial class CombatMapEvents(UIContext ui) : UIModule(ui)
     }
 
     // aowTCMapEvents.pas:157
-    public void TCMapDeselected(HexSprite hexSprite)
+    public void TCMapDeselected(HexSprite? hexSprite)
     {
         if (hexSprite is TacticalBattleUnitHexSprite)
         {
@@ -118,7 +118,7 @@ public sealed partial class CombatMapEvents(UIContext ui) : UIModule(ui)
     public void CombatMapMapChanged(in MapChangedInfo R) => UI.CombatScanner.Scanner.DrawMap(R.Bounds.Left - 8, R.Bounds.Top - 6, R.Bounds.Right - R.Bounds.Left, R.Bounds.Bottom - R.Bounds.Top);
 
     // aowTCMapEvents.pas:174
-    public void CombatMapMouseOverTarget(HexSprite hexSprite)
+    public void CombatMapMouseOverTarget(HexSprite? hexSprite)
     {
         if (UI.CombatUnitInfo.MainWindow.Visible)
         {
@@ -128,7 +128,7 @@ public sealed partial class CombatMapEvents(UIContext ui) : UIModule(ui)
             {
                 if (hexSprite is TacticalBattleUnitHexSprite unitHexSprite)
                 {
-                    Troop u = unitHexSprite.Unit.Troop;
+                    Troop? u = unitHexSprite.Unit.Troop;
                     string name = u.GetName();
                     UI.CombatUnitInfo.TargetUnitLabel.Text = name;
                     sbyte hitPoints = u.GetHitPoints();
@@ -175,7 +175,7 @@ public sealed partial class CombatMapEvents(UIContext ui) : UIModule(ui)
     }
 
     // aowTCMapEvents.pas:210
-    public void TCMapSelected(HexSprite hexSprite)
+    public void TCMapSelected(HexSprite? hexSprite)
     {
         if (hexSprite is TacticalBattleUnitHexSprite unitHexSprite)
         {
@@ -192,7 +192,7 @@ public sealed partial class CombatMapEvents(UIContext ui) : UIModule(ui)
     }
 
     // aowTCMapEvents.pas:225
-    public void CombatMapUnitChanged(TacticalBattleUnitHexSprite hexSprite)
+    public void CombatMapUnitChanged(TacticalBattleUnitHexSprite? hexSprite)
     {
         if (hexSprite == UI.General.CombatUnit && hexSprite is not null)
         {
@@ -219,7 +219,7 @@ public sealed partial class CombatMapEvents(UIContext ui) : UIModule(ui)
     // aowTCMapEvents.pas:240
     public void CombatMapTurnChanged()
     {
-        Player player = StrategicMap.Current.Players.GetPlayers(CombatMap.Current.CurrentPlayer);
+        Player? player = StrategicMap.Current.Players.GetPlayers(CombatMap.Current.CurrentPlayer);
         UI.TaskBar.CombatTurnButton.CurrentPlayer = player.PlayerRace;
         if (UI.TaskBar.CombatTurnButton.CurrentPlayer == -1)
         {
@@ -245,8 +245,8 @@ public sealed partial class CombatMapEvents(UIContext ui) : UIModule(ui)
     {
         if (window.UI.General.CombatUnit is not null)
         {
-            Troop fTroop = window.UI.General.CombatUnit.Unit.Troop;
-            Hero hero = fTroop is Hero faceTroop ? faceTroop : null;
+            Troop? fTroop = window.UI.General.CombatUnit.Unit.Troop;
+            Hero? hero = fTroop is Hero faceTroop ? faceTroop : null;
             if (!window.MainWindow.Visible)
             {
                 window.UnitManaGauge.Visible = false;
@@ -308,7 +308,7 @@ public sealed partial class CombatMapEvents(UIContext ui) : UIModule(ui)
                     window.TargetSelectPanel.Visible = false;
                     SpellCombatInfo info = default;
                     GamePack.Current.SpellControl[window.UI.General.CombatUnit.SelectedSpell].GetCombatInfo(window.UI.General.CombatUnit.Unit.Troop, ref info);
-                    Spell spell = GamePack.Current.SpellControl[window.UI.General.CombatUnit.SelectedSpell];
+                    Spell? spell = GamePack.Current.SpellControl[window.UI.General.CombatUnit.SelectedSpell];
                     window.AbilityNameLabel.Text = spell.SpellName;
                     window.AbilityAttackLabel.Text = info.Attack > 0 ? ((int)info.Attack).ToString(CultureInfo.InvariantCulture) : "-";
                     window.AbilityDamageLabel.Text = info.Damage > 0 ? ((int)info.Damage).ToString(CultureInfo.InvariantCulture) : "-";

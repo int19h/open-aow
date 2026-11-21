@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using System.Diagnostics.CodeAnalysis;
 using Aow.Engine.Nodes;
@@ -14,7 +14,7 @@ public class GroupControlLoopAIPlayerAction(CustomNode owner) : AIPlayerAction(o
 {
     [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Construction snapshots record this field, and the Delphi field is only written.")]
     private int _groupProcessCycles;
-    private AIGroupControl _groupControl;
+    private AIGroupControl? _groupControl;
 
     // AI.pas:1124
     public override void Dispose()
@@ -66,7 +66,7 @@ public class GroupControlLoopAIPlayerAction(CustomNode owner) : AIPlayerAction(o
                     }
                 }
 
-                AIGroupControl control = _groupControl;
+                AIGroupControl? control = _groupControl;
                 if (control is not null)
                 {
                     busy = control.Process(true);
@@ -100,7 +100,7 @@ public class GroupControlLoopAIPlayerAction(CustomNode owner) : AIPlayerAction(o
     // AI.pas:1143
     public void DeactivateGroupControl()
     {
-        AIGroupControl control = _groupControl;
+        AIGroupControl? control = _groupControl;
         if (control is not null)
         {
             control.Deactivate();

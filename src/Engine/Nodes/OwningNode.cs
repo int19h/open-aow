@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Engine.pas.
 using Aow.Rtl;
 
@@ -11,9 +11,9 @@ public class OwningNode : CustomNode
     public new const int ClassId = 256;
 
     // Engine.pas:2807
-    public OwningNode(CustomNode owner) : this(null, owner) { }
+    public OwningNode(CustomNode? owner) : this(null, owner) { }
 
-    private protected OwningNode(ConstructionContext context, CustomNode owner) : base(context, owner) => _children = new EngineObjectList();
+    private protected OwningNode(ConstructionContext? context, CustomNode? owner) : base(context, owner) => _children = new EngineObjectList();
 
     // The child slots. Every write of a child goes through AddChild, SetChild, InsertChild or the
     // members below, so the child check in CheckChild sees each child that enters.
@@ -23,7 +23,7 @@ public class OwningNode : CustomNode
     public override void Clear()
     {
         int i = Count - 1;
-        EngineObject c;
+        EngineObject? c;
         for (; i >= 0; i -= 1)
         {
             c = _children.List[i];
@@ -65,10 +65,10 @@ public class OwningNode : CustomNode
     }
 
     // Engine.pas:2866
-    public override EngineObject GetChild(int index) => _children.List[index];
+    public override EngineObject? GetChild(int index) => _children.List[index];
 
     // Engine.pas:2871
-    public override void SetChild(int index, EngineObject child)
+    public override void SetChild(int index, EngineObject? child)
     {
         CheckChild(child);
         while (index >= Count)
@@ -95,7 +95,7 @@ public class OwningNode : CustomNode
         {
             for (int i = _children.Count - 1; i >= 0; i--)
             {
-                EngineObject c = _children.List[i];
+                EngineObject? c = _children.List[i];
                 if (c is not null && c.Owner == this)
                 {
                     c.Dispose();
@@ -105,7 +105,7 @@ public class OwningNode : CustomNode
     }
 
     // Engine.pas:2884
-    public override void SendMessage(ref EngineMessage message, EngineObject sender)
+    public override void SendMessage(ref EngineMessage message, EngineObject? sender)
     {
         EngineObjectList children = _children;
         if (GetControlStyle().Contains(EngineServices.KeepIndex))
@@ -118,7 +118,7 @@ public class OwningNode : CustomNode
                     {
                         if (children.List[i] is not null)
                         {
-                            EngineObject node = children.List[i];
+                            EngineObject? node = children.List[i];
                             if (node.LastMessage != message.Sequence)
                             {
                                 node.LastMessage = message.Sequence;
@@ -133,7 +133,7 @@ public class OwningNode : CustomNode
                     {
                         if (children.List[i] is not null)
                         {
-                            EngineObject node = children[i];
+                            EngineObject? node = children[i];
                             if (node.LastMessage != message.Sequence && node.Owner == this)
                             {
                                 node.LastMessage = message.Sequence;
@@ -151,7 +151,7 @@ public class OwningNode : CustomNode
                     {
                         if (children.List[i] is not null)
                         {
-                            EngineObject node = children.List[i];
+                            EngineObject? node = children.List[i];
                             node.MessageProc(ref message, sender: this);
                         }
                     }
@@ -162,7 +162,7 @@ public class OwningNode : CustomNode
                     {
                         if (children.List[i] is not null)
                         {
-                            EngineObject node = children[i];
+                            EngineObject? node = children[i];
                             if (node.Owner == this)
                             {
                                 node.MessageProc(ref message, sender: this);
@@ -180,7 +180,7 @@ public class OwningNode : CustomNode
                 {
                     for (int i = children.Count - 1; i >= 0; i--)
                     {
-                        EngineObject node = children.List[i];
+                        EngineObject? node = children.List[i];
                         if (node.LastMessage != message.Sequence)
                         {
                             node.LastMessage = message.Sequence;
@@ -192,7 +192,7 @@ public class OwningNode : CustomNode
                 {
                     for (int i = children.Count - 1; i >= 0; i--)
                     {
-                        EngineObject node = children[i];
+                        EngineObject? node = children[i];
                         if (node.LastMessage != message.Sequence && node.Owner == this)
                         {
                             node.LastMessage = message.Sequence;
@@ -207,7 +207,7 @@ public class OwningNode : CustomNode
                 {
                     for (int i = children.Count - 1; i >= 0; i--)
                     {
-                        EngineObject node = children.List[i];
+                        EngineObject? node = children.List[i];
                         node.MessageProc(ref message, sender: this);
                     }
                 }
@@ -215,7 +215,7 @@ public class OwningNode : CustomNode
                 {
                     for (int i = children.Count - 1; i >= 0; i--)
                     {
-                        EngineObject node = children[i];
+                        EngineObject? node = children[i];
                         if (node.Owner == this)
                         {
                             node.MessageProc(ref message, sender: this);
@@ -227,7 +227,7 @@ public class OwningNode : CustomNode
     }
 
     // Engine.pas:2981
-    public override int RemoveChild(EngineObject child)
+    public override int RemoveChild(EngineObject? child)
     {
         int result;
         if (GetControlStyle().Contains(EngineServices.KeepIndex))
@@ -247,7 +247,7 @@ public class OwningNode : CustomNode
     }
 
     // Engine.pas:2992
-    public override int AddChild(EngineObject child)
+    public override int AddChild(EngineObject? child)
     {
         CheckChild(child);
         _ = _children.Add(child);
@@ -263,11 +263,11 @@ public class OwningNode : CustomNode
     }
 
     // Engine.pas:2998
-    public override EngineObject FindChild(int classId)
+    public override EngineObject? FindChild(int classId)
     {
         int i = 0;
         bool found = false;
-        EngineObject c = null;
+        EngineObject? c = null;
         while (!found && i < _children.Count)
         {
             c = _children.List[i];
@@ -279,7 +279,7 @@ public class OwningNode : CustomNode
     }
 
     // Engine.pas:3016
-    public override int FindChildIndex(EngineObject child)
+    public override int FindChildIndex(EngineObject? child)
     {
         int result = Count - 1;
         while (result >= 0 && child != _children.List[result])
@@ -302,7 +302,7 @@ public class OwningNode : CustomNode
     {
         for (int i = _children.Count - 1; i >= 0; i--)
         {
-            EngineObject c = _children.List[i];
+            EngineObject? c = _children.List[i];
             if (c is not null && classId == c.EngineClass.ClassId && c.Owner == this)
             {
                 c.Dispose();
@@ -311,20 +311,20 @@ public class OwningNode : CustomNode
     }
 
     // The child in slot index, with the range check of TList.Get. GetChild reads the slot without it.
-    public EngineObject GetChildInRange(int index) => _children[index];
+    public EngineObject? GetChildInRange(int index) => _children[index];
 
     // The index selects the child. A child of another class throws, the same way the call site did.
     public T GetChildInRange<T>(int index) where T : EngineObject => (T)GetChildInRange(index);
 
     // The first slot that holds the child, or -1. FindChildIndex searches from the last slot.
-    public int IndexOfChild(EngineObject child) => _children.IndexOf(child);
+    public int IndexOfChild(EngineObject? child) => _children.IndexOf(child);
 
     // The members below reorder or drop child slots as the original's direct writes of FChildren
     // do: no change notification, no reference count, no release.
-    public void SortChildren(Comparison<EngineObject> compare) => _children.Sort(compare);
+    public void SortChildren(Comparison<EngineObject?> compare) => _children.Sort(compare);
 
     // Keeps the order of equal children.
-    public void SortChildrenStable(Comparison<EngineObject> compare) => _children.SortStable(compare);
+    public void SortChildrenStable(Comparison<EngineObject?> compare) => _children.SortStable(compare);
 
     // The same sorts with a comparer of the child type a typed list admits. Each slot is a T or empty.
     public void SortChildren<T>(Comparison<T> compare)
@@ -338,7 +338,7 @@ public class OwningNode : CustomNode
     public void ExchangeChildren(int first, int second) => _children.Exchange(first, second: second);
 
     // Removes the first slot that holds the child and returns its index, or -1.
-    public int DropChild(EngineObject child) => _children.Remove(child);
+    public int DropChild(EngineObject? child) => _children.Remove(child);
 
     protected void DeleteChildAt(int index) => _children.Delete(index);
 
@@ -350,7 +350,7 @@ public class OwningNode : CustomNode
 
     // Appends the child after the check AddChild makes, for an AddChild override that keeps its
     // own bookkeeping.
-    protected int AppendChild(EngineObject child)
+    protected int AppendChild(EngineObject? child)
     {
         CheckChild(child);
         return _children.Add(child);

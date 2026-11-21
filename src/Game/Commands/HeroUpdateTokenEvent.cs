@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -10,7 +10,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Commands;
 
 // UnitId. Mode. ItemId (also spell ID). Parameter
-public class HeroUpdateTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class HeroUpdateTokenEvent(CustomNode? owner) : TokenEvent(owner)
 {
     public new const int ClassId = 135_429;
 
@@ -30,10 +30,10 @@ public class HeroUpdateTokenEvent(CustomNode owner) : TokenEvent(owner)
     }
 
     // Hero.PAS:2291
-    public override ExecuteResult Execute(TokenExecutor tokenEvent)
+    public override ExecuteResult Execute(TokenExecutor? tokenEvent)
     {
         bool success = false;
-        Troop troop = StrategicMap.Current.UnitControl.FindUnit(UnitId);
+        Troop? troop = StrategicMap.Current.UnitControl.FindUnit(UnitId);
         if (troop is null)
         {
             // A missing id is a nil hero. The original reads FPlayer and faults.

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using Aow.Game.Host;
 
 namespace Aow.Game.UI.Dialogs;
@@ -31,7 +31,7 @@ public sealed partial class VideoDialog
 
     public void ChangeResolution(int width, int height)
     {
-        IGameHost form = GameHost.MainForm;
+        IGameHost? form = GameHost.MainForm;
         if (form is null)
         {
             return;

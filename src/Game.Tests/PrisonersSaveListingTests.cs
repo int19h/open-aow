@@ -30,7 +30,7 @@ public sealed class PrisonersSaveListingTests
     public void APrisonersItemSurvivesTheLoadDialogListingAndTheOpen()
     {
         GameEngine engine = EngineFixture.Engine;
-        GameMap previous = engine.HexSpriteMap;
+        GameMap? previous = engine.HexSpriteMap;
         // LoadHsm disposes the engine's current map. Park it so this case can put it back.
         engine.SetHexSpriteMapWithoutCurrentMap(null);
         string directory = Path.Combine(EngineFixture.Root, "Save");
@@ -64,7 +64,7 @@ public sealed class PrisonersSaveListingTests
             _ = resources.AddChild(resource);
             File.WriteAllBytes(source, bytes: GameFiles.Write(Document()));
             engine.LoadHsm(source, edit: false, progress: null, profile: GameProfile.WorldMap);
-            StrategicMap live = engine.HexSpriteMap as StrategicMap;
+            StrategicMap? live = engine.HexSpriteMap as StrategicMap;
             if (live is null)
             {
                 Surface(engine, file: source);
@@ -93,7 +93,7 @@ public sealed class PrisonersSaveListingTests
             Assert.Equal(day, listedDay);
 
             engine.LoadHsm(saved, edit: false, progress: null, profile: GameProfile.WorldMap);
-            StrategicMap opened = engine.HexSpriteMap as StrategicMap;
+            StrategicMap? opened = engine.HexSpriteMap as StrategicMap;
             if (opened is null)
             {
                 Surface(engine, file: saved);
@@ -161,7 +161,7 @@ public sealed class PrisonersSaveListingTests
     public void ACampaignSaveKeepsAPrisonersItem()
     {
         GameEngine engine = EngineFixture.Engine;
-        GameMap previous = engine.HexSpriteMap;
+        GameMap? previous = engine.HexSpriteMap;
         engine.SetHexSpriteMapWithoutCurrentMap(null);
         string directory = Path.Combine(EngineFixture.Root, "Save");
         _ = Directory.CreateDirectory(directory);
@@ -198,7 +198,7 @@ public sealed class PrisonersSaveListingTests
             _ = resources.AddChild(resource);
             File.WriteAllBytes(source, bytes: GameFiles.Write(Document()));
             engine.LoadHsm(source, edit: false, progress: null, profile: GameProfile.WorldMap);
-            StrategicMap live = engine.HexSpriteMap as StrategicMap;
+            StrategicMap? live = engine.HexSpriteMap as StrategicMap;
             if (live is null)
             {
                 Surface(engine, file: source);
@@ -226,7 +226,7 @@ public sealed class PrisonersSaveListingTests
             engine.LoadCampaign(saved);
             Assert.True(GameFiles.IsJsonCandidate(engine.Campaign.Stream.GetBuffer().AsSpan(0, length: (int)engine.Campaign.Stream.Length)));
             engine.LoadCampaignMap(null);
-            StrategicMap opened = engine.HexSpriteMap as StrategicMap;
+            StrategicMap? opened = engine.HexSpriteMap as StrategicMap;
             Assert.NotNull(opened);
             Item item = PrisonerItem(opened);
             Assert.Equal("Blade", item.Name);
@@ -278,7 +278,7 @@ public sealed class PrisonersSaveListingTests
     // count minus the independent player, the size letter of the width, the city count and the day.
     private static (int Players, int Width, int Towns, int Day) ListLikeTheLoadDialog(GameEngine engine, string file)
     {
-        StrategicMap map = engine.CreatePreviewHsm(file, profile: GameProfile.WorldMap) as StrategicMap;
+        StrategicMap? map = engine.CreatePreviewHsm(file, profile: GameProfile.WorldMap) as StrategicMap;
         if (map is null)
         {
             Surface(engine, file);
@@ -298,7 +298,7 @@ public sealed class PrisonersSaveListingTests
     {
         GameFileTree tree = FileBoundary.OpenOrRaise(file, profile: GameProfile.WorldMap);
         StrategicMap map = (StrategicMap)engine.CreateEngineObject(tree.ClassId, owner: engine);
-        StrategicMap previous = StrategicMap.Current;
+        StrategicMap? previous = StrategicMap.Current;
         StrategicMap.Current = map;
         Exception? caught = null;
         try
@@ -326,7 +326,7 @@ public sealed class PrisonersSaveListingTests
     }
 
     // A hex sprite accepts only a field as its owner, so the dungeon stands on the one field.
-    private static Item PrisonerItem(StrategicMap map)
+    private static Item PrisonerItem(StrategicMap? map)
     {
         MapLevel level = map.MapContainer[0];
         for (int fieldIndex = 0; fieldIndex < level.GetCount(); fieldIndex++)

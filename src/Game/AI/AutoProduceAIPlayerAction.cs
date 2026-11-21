@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
@@ -18,7 +18,7 @@ using static Aow.Rtl.DelphiRounding;
 namespace Aow.Game.AI;
 
 // production index, state, gold upkeep, mana upkeep, productions
-public class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPlayerActionClass
+public class AutoProduceAIPlayerAction(CustomNode? owner) : AIPlayerAction(owner), IAIPlayerActionClass
 {
 
     private int _productionIndex;
@@ -231,7 +231,7 @@ public class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerAction(owner)
     // AI.pas:1290
     public int TransporterPriority(int unitIndex)
     {
-        UnitResource resource = GamePack.Current.UnitResources.GetUnitResource(unitIndex);
+        UnitResource? resource = GamePack.Current.UnitResources.GetUnitResource(unitIndex);
         int result;
         if (resource is not null && resource.GetTransportCapacity() != 0)
         {
@@ -271,8 +271,8 @@ public class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerAction(owner)
                     {
                         if (control.UnitProductions.GetItem(j).UnitIndex != -1 && !control.UnitProductions.GetItem(j).Researched)
                         {
-                            UnitProduction unitProduction = control.UnitProductions.GetItem(j);
-                            UnitResource resource = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex);
+                            UnitProduction? unitProduction = control.UnitProductions.GetItem(j);
+                            UnitResource? resource = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex);
                             if (resource.GetTransportCapacity() != 0)
                             {
                                 int unitResearchMana = control.UnitResearchMana(j);
@@ -346,8 +346,8 @@ public class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerAction(owner)
                     {
                         if (control.UnitProductions.GetItem(j).UnitIndex != -1 && control.UnitProductions.GetItem(j).Researched)
                         {
-                            UnitProduction unitProduction = control.UnitProductions.GetItem(j);
-                            UnitResource resource = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex);
+                            UnitProduction? unitProduction = control.UnitProductions.GetItem(j);
+                            UnitResource? resource = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex);
                             if (resource.GetTransportCapacity() != 0)
                             {
                                 int unitProductionMana = control.UnitProductionMana(j);
@@ -423,10 +423,10 @@ public class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerAction(owner)
     }
 
     // AI.pas:1444
-    public Troop FindAvailableTransporter()
+    public Troop? FindAvailableTransporter()
     {
         Player player = Control.Player;
-        Troop result = null;
+        Troop? result = null;
         int i = player.Armies.Count;
         while (i != 0 && result is null)
         {
@@ -456,8 +456,8 @@ public class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerAction(owner)
             {
                 if (control.UnitProductions.GetItem(j).UnitIndex != -1 && control.UnitProductions.GetItem(j).Researched)
                 {
-                    UnitProduction unitProduction = control.UnitProductions.GetItem(j);
-                    UnitResource resource = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex);
+                    UnitProduction? unitProduction = control.UnitProductions.GetItem(j);
+                    UnitResource? resource = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex);
                     result = result || resource.GetTransportCapacity() != 0;
                 }
             }
@@ -502,8 +502,8 @@ public class AutoProduceAIPlayerAction(CustomNode owner) : AIPlayerAction(owner)
             {
                 if (control.Queue.GetItem(0).Order is ResearchSpell)
                 {
-                    UnitProduction unitProduction = control.UnitProductions.GetItem(control.Settings.UnitProductionIndex);
-                    UnitResource resource = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex);
+                    UnitProduction? unitProduction = control.UnitProductions.GetItem(control.Settings.UnitProductionIndex);
+                    UnitResource? resource = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex);
                     if (resource is not null)
                     {
                         result = resource.GetTransportCapacity() != 0;

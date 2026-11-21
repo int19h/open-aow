@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
@@ -20,7 +20,7 @@ namespace Aow.Game.Units;
 public sealed class ItemLibraryManager : EngineObject
 {
     // Army.PAS:4967
-    public ItemLibraryManager(CustomNode owner) : base(owner)
+    public ItemLibraryManager(CustomNode? owner) : base(owner)
     {
         SystemLibrary = new ItemLibrary(null) { Holder = CreationHolder() };
         Libraries = new OwningNode(null) { Holder = CreationHolder() };
@@ -121,14 +121,14 @@ public sealed class ItemLibraryManager : EngineObject
     public int IndexOfLibrary(ItemLibrary itemLibrary) => Libraries.IndexOfChild(itemLibrary);
 
     // Army.PAS:5059
-    public Item FindItem(string libraryName, int libraryId)
+    public Item? FindItem(string libraryName, int libraryId)
     {
         int index = IndexOfLibraryName(libraryName);
         return index != -1 ? Libraries.GetChild<ItemLibrary>(index).FindLibraryId(libraryId) : null;
     }
 
     // Army.PAS:5068
-    public ItemLibrary CreateLibrary(string name)
+    public ItemLibrary? CreateLibrary(string name)
     {
         string libraryName = name;
         // { Original retains the period when stripping the extension. }

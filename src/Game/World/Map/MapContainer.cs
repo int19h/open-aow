@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from HSEngine.pas.
 using Aow.Engine;
 
@@ -8,7 +8,7 @@ using Aow.Formats.Tree;
 namespace Aow.Game.World.Map;
 
 // FWidth, FHeight, FLevelCount, FMap, FEngine. The levels of a map (the children, TMapLevel)
-public partial class MapContainer(CustomNode owner) : OwningNode(owner), IChildList<MapLevel>, IOwned<GameMap>, IOwnedSink<GameMap>
+public partial class MapContainer(CustomNode? owner) : OwningNode(owner), IChildList<MapLevel>, IOwned<GameMap>, IOwnedSink<GameMap>
 {
     // The level in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a level, so the cast never fails.
@@ -27,17 +27,17 @@ public partial class MapContainer(CustomNode owner) : OwningNode(owner), IChildL
 
     // HSEngine.pas:3208
     public new const int ClassId = 65_795;
-    private GameEngine _engine;
+    private GameEngine? _engine;
 
     // HSEngine.pas:3167
-    public override void SetOwner(CustomNode owner)
+    public override void SetOwner(CustomNode? owner)
     {
         base.SetOwner(owner);
         Map = Owner;
     }
 
     // HSEngine.pas:3203. Before the activation message or a load the map reaches the engine as any node does.
-    public override GameEngine GetEngine() => _engine ?? base.GetEngine();
+    public override GameEngine? GetEngine() => _engine ?? base.GetEngine();
 
     // HSEngine.pas:3173
     public override void PersistFields(IPersister persister)
@@ -87,7 +87,7 @@ public partial class MapContainer(CustomNode owner) : OwningNode(owner), IChildL
     }
 
     // HSEngine.pas:3213
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         if (message.MessageId == 536870920)
         {

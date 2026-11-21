@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from GlobalTargetSpells.pas.
 using Aow.Engine.Nodes;
 
@@ -14,7 +14,7 @@ namespace Aow.Game.Magic.Spells;
 public class Watcher : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:1498
-    public Watcher(CustomNode owner, EngineObject holder) : base(owner)
+    public Watcher(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_watcherText);

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from CombatSpells.pas.
 using Aow.Engine.Nodes;
 
@@ -15,7 +15,7 @@ namespace Aow.Game.Magic.Spells;
 public class TurnUndead : CombatSpell
 {
     // CombatSpells.pas:888
-    public TurnUndead(CustomNode owner, EngineObject holder) : base(owner)
+    public TurnUndead(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.TurnUndeadText);
@@ -32,7 +32,7 @@ public class TurnUndead : CombatSpell
     }
 
     // CombatSpells.pas:905
-    public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
+    public override CombatAction CreateCombatAction(CombatObject? source, CombatObject target, bool chargeMana)
     {
         TurnUndeadSpellCombatAction action = new(null)
         {

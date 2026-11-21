@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from SmokeCloud.pas.
 using Aow.Engine;
 using Aow.Engine.Collections;
@@ -62,7 +62,7 @@ public class SmokeCloud : MultiHexMapObject
     }
 
     // SmokeCloud.pas:373
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
         if (message.MessageId == 537001986 && message.Payload.Int == Player && !_updated)

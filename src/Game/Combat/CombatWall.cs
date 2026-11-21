@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -20,7 +20,7 @@ public class CombatWall : CombatObject
     public new const int ClassId = 131_759;
 
     // Combat.pas:1660
-    public CombatWall(CustomNode owner) : base(owner)
+    public CombatWall(CustomNode? owner) : base(owner)
     {
         Position = 128;
         ControlMode = CombatObjectControlModes.None;

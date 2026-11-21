@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from MagicSanctuary.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Draw;
@@ -60,7 +60,7 @@ public class MagicSanctuary : Structure
     }
 
     // MagicSanctuary.pas:143
-    public override void ArmyPlaced(ArmyHexSprite placedArmy)
+    public override void ArmyPlaced(ArmyHexSprite? placedArmy)
     {
         base.ArmyPlaced(placedArmy);
         _overlayHexSprite.FadeUp();

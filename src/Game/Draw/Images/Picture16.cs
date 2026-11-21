@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from ImageLib.pas.
 using System.Runtime.InteropServices;
 
@@ -19,7 +19,7 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
     static LibraryImage ILibraryImageClass.CreateInstance(CustomImageLibrary owner) => new Picture16(owner);
 
     private int _pitch;
-    private byte[] _buffer;
+    private byte[]? _buffer;
 
     // The rows of the picture: FBuffer from its first byte, FPitch bytes apart.
     internal SurfaceView View => new(_buffer, start: 0, _pitch);

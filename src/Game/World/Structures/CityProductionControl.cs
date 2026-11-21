@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from City.pas.
 using Aow.Engine.Nodes;
 
@@ -17,7 +17,7 @@ namespace Aow.Game.World.Structures;
 
 // { ot=1 }
 // City
-public sealed partial class CityProductionControl(CustomNode owner) : ProductionControl(owner)
+public sealed partial class CityProductionControl(CustomNode? owner) : ProductionControl(owner)
 {
     public City City { get; init; }
 
@@ -83,7 +83,7 @@ public sealed partial class CityProductionControl(CustomNode owner) : Production
             Holder = CreationHolder(),
             Player = city.Player
         };
-        UnitProduction unitProduction = UnitProductions.GetItem(Settings.UnitProductionIndex);
+        UnitProduction? unitProduction = UnitProductions.GetItem(Settings.UnitProductionIndex);
         string unitName = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).GetUnitName();
         string name = City.GetName();
         log.Text = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.InstalledFormat), args: [unitName, name]);
@@ -103,9 +103,9 @@ public sealed partial class CityProductionControl(CustomNode owner) : Production
     }
 
     // City.pas:652
-    public override Unit CreateUnitProduction(int index)
+    public override Unit? CreateUnitProduction(int index)
     {
-        Unit result = base.CreateUnitProduction(index);
+        Unit? result = base.CreateUnitProduction(index);
         if (result is not null && City.Enchantments.Contains(CityEnchantmentIds.Warmonger))
         {
             result.SetRank(Unit.Rank.Silver);
@@ -118,7 +118,7 @@ public sealed partial class CityProductionControl(CustomNode owner) : Production
     public override int UnitProductionTime(int index)
     {
         int unitIndex = UnitProductions.GetItem(index).UnitIndex;
-        UnitResource unitResource = GamePack.Current.UnitResources.GetUnitResource(unitIndex);
+        UnitResource? unitResource = GamePack.Current.UnitResources.GetUnitResource(unitIndex);
         int size = City.Size;
         int result = unitResource.Level - (size / 2) + 1;
         return result < 1 ? 1 : result;

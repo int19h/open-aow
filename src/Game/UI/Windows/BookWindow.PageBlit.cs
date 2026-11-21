@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using Aow.Game.Draw;
 using Aow.Rtl;
 using PageTurnMode = Aow.Game.UI.Grids.PageTurnMode;
@@ -7,7 +7,7 @@ namespace Aow.Game.UI.Windows;
 
 public sealed partial class BookWindow
 {
-    public override void Blit(Surface surface)
+    public override void Blit(Surface? surface)
     {
         if (_pageSurface is not null && (_pageSurface.PixelFormatId != BackSurface.PixelFormatId ||
             _pageSurface.Width != BackSurface.Width || _pageSurface.Height != BackSurface.Height))
@@ -29,7 +29,7 @@ public sealed partial class BookWindow
         if (_firstAnimationFrame || !_previousSurfaceValid)
         {
             area = new Rect(0, 0, WinWidth, WinHeight);
-            Surface initial = _pageTurnMode == PageTurnMode.Left ? BackSurface : _pageSurface;
+            Surface? initial = _pageTurnMode == PageTurnMode.Left ? BackSurface : _pageSurface;
             if (_pageTurnMode is PageTurnMode.Left or PageTurnMode.Right)
             {
                 _ = !Masked

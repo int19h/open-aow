@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWTC.pas.
 using Aow.Engine.Nodes;
 
@@ -18,17 +18,17 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Game.Combat;
 
 // MovePoints. UnitHexSprite. PositionIndex. PositionGroup. CanFlee. DeathMethod
-public class TacticalBattleUnit(CustomNode owner) : CombatUnit(owner)
+public class TacticalBattleUnit(CustomNode? owner) : CombatUnit(owner)
 {
     public int MovePoints { get; set; }
-    public TacticalBattleUnitHexSprite UnitHexSprite { get; set; }
+    public TacticalBattleUnitHexSprite? UnitHexSprite { get; set; }
     public byte PositionIndex { get; set; }
     public byte PositionGroup { get; set; }
     public bool CanFlee { get; set; }
     public TacticalBattleUnitDeathMethod DeathMethod { get; set; }
 
     // AoWTC.pas:2626
-    public override void MessageProc(ref EngineMessage message, EngineObject sender) => base.MessageProc(ref message, sender);
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender) => base.MessageProc(ref message, sender);
 
     // AoWTC.pas:2612
     public override void NewTurn(byte combatPlayer)
@@ -109,11 +109,11 @@ public class TacticalBattleUnit(CustomNode owner) : CombatUnit(owner)
                             float vz = (float)((Random(25) + 25) * 0.05);
                             float z = 0;
                             int count = effect.Path.Count;
-                            Point3D path = effect.Path[count - 1];
+                            Point3D? path = effect.Path[count - 1];
                             int fPathCount = effect.Path.Count;
-                            Point3D pathZ = effect.Path[fPathCount - 1];
+                            Point3D? pathZ = effect.Path[fPathCount - 1];
                             int count2 = effect.Path.Count;
-                            Point3D pathX = effect.Path[count2 - 1];
+                            Point3D? pathX = effect.Path[count2 - 1];
                             Point3DList path4 = effect.Path;
                             EffectPaths.MakeArcPath(angle: Random(360), x: pathX.X, y: path.Y - pathZ.Z, z: ref z, speed: speed, vz: ref vz, gravity: gravity, list: path4);
                             effect.Path = path4;
@@ -140,7 +140,7 @@ public class TacticalBattleUnit(CustomNode owner) : CombatUnit(owner)
                         {
                             UnitGraphics = UnitHexSprite.UnitGraphicsResource
                         };
-                        ImageSequence sequence = corpse.UnitGraphics.Sequences.ImageSequences[30];
+                        ImageSequence? sequence = corpse.UnitGraphics.Sequences.ImageSequences[30];
                         if (sequence is not null)
                         {
                             corpse.Frame = Random(sequence.TotalSequenceFrames);
@@ -227,7 +227,7 @@ public class TacticalBattleUnit(CustomNode owner) : CombatUnit(owner)
     }
 
     // AoWTC.pas:2618
-    public void MovedTo(MapField oldField, MapField newField, int moveCost)
+    public void MovedTo(MapField? oldField, MapField newField, int moveCost)
     {
         MovePoints -= moveCost;
         if (MovePoints < 0)
@@ -287,7 +287,7 @@ public class TacticalBattleUnit(CustomNode owner) : CombatUnit(owner)
         point.Y = Random(10) + point.Y + 9 - ((int)unitSize * 10);
     }
 
-    internal static CombatMoveTokenEvent CreateCombatMoveTokenEvent(TacticalBattleUnit unitObject, MovePath path)
+    internal static CombatMoveTokenEvent? CreateCombatMoveTokenEvent(TacticalBattleUnit unitObject, MovePath path)
     {
         CombatMoveTokenEvent result = new(null) { Holder = unitObject };
         _ = (result?.Setup(unitObject, path));
@@ -323,7 +323,7 @@ public class TacticalBattleUnit(CustomNode owner) : CombatUnit(owner)
                     _ = newPath.Add(path[i]);
                 }
 
-                CombatMoveTokenEvent eventValue = CreateCombatMoveTokenEvent(unitObject, path: newPath);
+                CombatMoveTokenEvent? eventValue = CreateCombatMoveTokenEvent(unitObject, path: newPath);
                 if (eventValue is not null)
                 {
                     sbyte unitObjectPlayer = unitObject.GetPlayer();

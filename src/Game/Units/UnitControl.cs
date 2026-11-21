@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
@@ -11,12 +11,12 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Units;
 
 // NextUnitId. UnitTable. Units
-public sealed class UnitControl(CustomNode owner) : EngineObject(owner)
+public sealed class UnitControl(CustomNode? owner) : EngineObject(owner)
 {
 
     private int _nextUnitId = 1;
 
-    public Dictionary<int, Troop> UnitTable { get; internal set; } = [];
+    public Dictionary<int, Troop?> UnitTable { get; internal set; } = [];
     public List<Troop> Units { get; } = [];
 
     // Unit.PAS:8
@@ -53,7 +53,7 @@ public sealed class UnitControl(CustomNode owner) : EngineObject(owner)
     public Troop this[int index] => Units[index];
 
     // Unit.PAS:35
-    public Troop FindUnit(int id) => UnitTable.TryGetValue(id, out Troop found) ? found : null;
+    public Troop? FindUnit(int id) => UnitTable.TryGetValue(id, out Troop found) ? found : null;
 
     // Null when the id is missing or the stored unit is not a T.
     public T FindUnit<T>(int id) where T : Troop
@@ -88,7 +88,7 @@ public sealed class UnitControl(CustomNode owner) : EngineObject(owner)
             }
             else
             {
-                Troop existingUnit = UnitTable.TryGetValue(troop.UnitId, out Troop found) ? found : null;
+                Troop? existingUnit = UnitTable.TryGetValue(troop.UnitId, out Troop found) ? found : null;
                 if (existingUnit != troop)
                 {
                     Units.Add(troop);

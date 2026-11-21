@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -12,7 +12,7 @@ using static Aow.Rtl.DelphiStrings;
 namespace Aow.Game.Events;
 
 // UnitId. _emergeDay. Text. Mode. LocationName
-public partial class HeroEmergeEventLog(CustomNode owner) : EventLog(owner)
+public partial class HeroEmergeEventLog(CustomNode? owner) : EventLog(owner)
 {
     public new const int ClassId = 131_832;
 
@@ -39,9 +39,9 @@ public partial class HeroEmergeEventLog(CustomNode owner) : EventLog(owner)
     public override string GetText() => _text;
 
     // Hero.PAS:254
-    public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
+    public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent? done)
     {
-        HeroJoinEventLog log = CreateHeroJoinEventLog();
+        HeroJoinEventLog? log = CreateHeroJoinEventLog();
         bool result;
         if (log is not null)
         {
@@ -74,7 +74,7 @@ public partial class HeroEmergeEventLog(CustomNode owner) : EventLog(owner)
     // Hero.PAS:203
     public override void ViewLocation()
     {
-        Troop u = StrategicMap.Current.UnitControl.FindUnit(UnitId);
+        Troop? u = StrategicMap.Current.UnitControl.FindUnit(UnitId);
         if (u is not null)
         {
             MapCoordinate coordinate17 = u.GetLocation();
@@ -106,7 +106,7 @@ public partial class HeroEmergeEventLog(CustomNode owner) : EventLog(owner)
     }
 
     // Hero.PAS:214
-    public HeroJoinEventLog CreateHeroJoinEventLog()
+    public HeroJoinEventLog? CreateHeroJoinEventLog()
     {
         Hero hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(UnitId);
         HeroJoinEventLog result;
@@ -146,7 +146,7 @@ public partial class HeroEmergeEventLog(CustomNode owner) : EventLog(owner)
     // Hero.PAS:242
     public bool ExecuteAI()
     {
-        HeroJoinEventLog log = CreateHeroJoinEventLog();
+        HeroJoinEventLog? log = CreateHeroJoinEventLog();
         bool result;
         if (log is not null)
         {

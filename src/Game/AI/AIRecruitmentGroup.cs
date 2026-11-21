@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.AI.Groups;
@@ -7,7 +7,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.AI;
 
 // references, location, group, moves, transporter, path strength
-public sealed class AIRecruitmentGroup(CustomNode owner) : EngineObject(owner), IOwned<AIRecruitmentGroupList>, IOwnedSink<AIRecruitmentGroupList>
+public sealed class AIRecruitmentGroup(CustomNode? owner) : EngineObject(owner), IOwned<AIRecruitmentGroupList>, IOwnedSink<AIRecruitmentGroupList>
 {
     // A reference list holds the recruitment group and owns it only while the list saves or loads it, and
     // nothing else owns it. AcceptsOwner admits only that list.
@@ -20,7 +20,7 @@ public sealed class AIRecruitmentGroup(CustomNode owner) : EngineObject(owner), 
     private int _refCount = 1;
 
     public MapCoordinate Location { get; set; }
-    public AIGroup Group { get; private set; }
+    public AIGroup? Group { get; private set; }
     public int MovePoints { get; set; }
     public int TransporterId { get; set; }
     public int PathStrength { get; set; }
@@ -67,9 +67,9 @@ public sealed class AIRecruitmentGroup(CustomNode owner) : EngineObject(owner), 
     }
 
     // AIGroup.pas:775
-    public void SetGroup(AIGroup group)
+    public void SetGroup(AIGroup? group)
     {
-        AIGroup oldGroup = Group;
+        AIGroup? oldGroup = Group;
         if (oldGroup != group)
         {
             _ = (oldGroup?.Release());

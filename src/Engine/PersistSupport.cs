@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
@@ -33,7 +33,7 @@ public static class PersistSupport
             ?? throw new InvalidOperationException("The load's factory names no engine.");
 
     /// <summary>The progress handler of a tree load, which <c>ReadWrite</c> reads as <c>Stream.ProgressHandler</c>. Null when the load has none.</summary>
-    public static ProgressEvent Progress(this IPersister persister) => (persister.Factory as IEnginePersistableFactory)?.Progress;
+    public static ProgressEvent? Progress(this IPersister persister) => (persister.Factory as IEnginePersistableFactory)?.Progress;
 
     /// <summary>Reports load progress the way <c>Stream.ShowProgress</c> does: to the load's handler, when it has one.</summary>
     public static void ShowProgress(this IPersister persister, EngineObject sender, string message, int percent)
@@ -220,7 +220,7 @@ public static class PersistSupport
     /// <c>LoadFromStream</c> does, and an absent member leaves the list as it was. A load returns
     /// the stored image, for <see cref="BitListOverRead"/>, and null when the member is absent.
     /// </summary>
-    public static BitListImage BitList(this IPersister persister, string name, BitList list)
+    public static BitListImage? BitList(this IPersister persister, string name, BitList? list)
     {
         if (persister.BitList(name, value: list.SaveImage()) is not { } stored || !persister.Loading)
         {
@@ -241,7 +241,7 @@ public static class PersistSupport
     /// and those bytes become the bits past the stored ones, as the stream load leaves them. A
     /// following datum shorter than the read leaves the rest of the bits at the default.
     /// </summary>
-    public static void BitListOverRead(this IPersister persister, BitList list, BitListImage stored, EngineObject owner, Action<IPersister> following)
+    public static void BitListOverRead(this IPersister persister, BitList? list, BitListImage stored, EngineObject owner, Action<IPersister> following)
     {
         int extra = ((list.Count + 7) >> 3) - stored.Bits.Length;
         if (extra <= 0)
@@ -274,7 +274,7 @@ public static class PersistSupport
     /// stream visits no payload (the original stream procedure does nothing there), so the
     /// list is not reduced either.
     /// </summary>
-    public static void ImageSequences(this IPersister persister, string name, ImageSequenceList list)
+    public static void ImageSequences(this IPersister persister, string name, ImageSequenceList? list)
     {
         if (persister.Translating())
         {
@@ -291,7 +291,7 @@ public static class PersistSupport
             return;
         }
 
-        List<IReadOnlyList<SequenceLayer>> entries = [];
+        List<IReadOnlyList<SequenceLayer>?> entries = [];
         persister.ImageSequences(name, entries: entries);
         LoadPayload(() => list.LoadLayers(entries));
     }
@@ -402,7 +402,7 @@ public static class PersistSupport
         }
     }
 
-    public static void Lines(this IPersister persister, string name, DelphiStringCollection lines)
+    public static void Lines(this IPersister persister, string name, DelphiStringCollection? lines)
     {
         if (persister is TranslatePersister translate)
         {

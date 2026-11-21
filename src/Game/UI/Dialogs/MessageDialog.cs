@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWMessageDlg.pas.
 using Aow.Game.Events;
 
@@ -23,15 +23,15 @@ public sealed partial class MessageDialog(UIContext ui) : UIModule(ui)
     public Memo HeaderMemo { get; private set; }
     public Label HeaderLabel { get; private set; }
 
-    private ExecuteDoneEvent _done;
-    private MessageEventLog _event;
+    private ExecuteDoneEvent? _done;
+    private MessageEventLog? _event;
 
     // AoWMessageDlg.pas:68
     public void FinishDialog()
     {
         Window.Visible = false;
-        ExecuteDoneEvent done = _done;
-        MessageEventLog log = _event;
+        ExecuteDoneEvent? done = _done;
+        MessageEventLog? log = _event;
         _done = null;
         _event = null;
         done?.Invoke(log);

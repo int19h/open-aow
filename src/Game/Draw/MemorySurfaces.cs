@@ -1,11 +1,11 @@
-#nullable disable
+#nullable disable warnings
 using Aow.Rtl;
 
 namespace Aow.Game.Draw;
 
 internal static class MemorySurfaces
 {
-    public static LockedSurface Describe(int w, int h, int pitch, PixelFormat format, byte[] bits, Palette palette = null)
+    public static LockedSurface Describe(int w, int h, int pitch, PixelFormat format, byte[]? bits, Palette? palette = null)
     {
         LockedSurface lockedSurface = new()
         {
@@ -40,7 +40,7 @@ internal static class MemorySurfaces
 
     // ReallocMem of a pixel buffer: size 0 frees it, otherwise the new array keeps the bytes the
     // two sizes share.
-    public static byte[] Reallocate(byte[] memory, int size)
+    public static byte[]? Reallocate(byte[]? memory, int size)
     {
         if (size == 0)
         {

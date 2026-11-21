@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from SummonSpells.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
@@ -14,7 +14,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Commands;
 
 // UnitIndices
-public class SummonSpellTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
+public class SummonSpellTokenEvent(CustomNode? owner) : SpellTokenEvent(owner)
 {
 
     // SummonSpells.pas:171
@@ -50,7 +50,7 @@ public class SummonSpellTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
             Unit u = new(null) { Holder = CreationHolder() };
             int unitIndex = UnitIndices[i];
             u.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(unitIndex));
-            ArmyHexSprite army = u.Place(x, y, l, source.Player, mode: UnitPlaceModes.ScanArea);
+            ArmyHexSprite? army = u.Place(x, y, l, source.Player, mode: UnitPlaceModes.ScanArea);
             if (army is not null)
             {
                 sbyte hexY = army.HexY;
@@ -59,11 +59,11 @@ public class SummonSpellTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
                 {
                     if (u.ExpandAbility(155))
                     {
-                        UnitEnchantment enchantment = u.GetAbilityData<UnitEnchantmentAbilityData>(155).Enchantment;
+                        UnitEnchantment? enchantment = u.GetAbilityData<UnitEnchantmentAbilityData>(155).Enchantment;
                         enchantment.SetUpkeep(GamePack.Current.SpellControl[EventSpellId].ManaUpkeep);
                         enchantment.SetSource(source.Player);
                         enchantment.DispelResistance = (sbyte)GamePack.Current.SpellControl.GetSpell<SummonSpell>(EventSpellId).GetDispelResistance(u);
-                        AIGroup group = source.Group;
+                        AIGroup? group = source.Group;
                         _ = (group?.AddUnit(u));
                     }
 
@@ -101,7 +101,7 @@ public class SummonSpellTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
                 }
             }
 
-            Spell spell = GamePack.Current.SpellControl[EventSpellId];
+            Spell? spell = GamePack.Current.SpellControl[EventSpellId];
             GamePack.Current.SpellControl[EventSpellId].CastingDone(source, mana: spell.BaseManaCost);
         }
         else

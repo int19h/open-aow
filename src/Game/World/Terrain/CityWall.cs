@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from CityWall.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -18,7 +18,7 @@ using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.World.Terrain;
 
-public class CityWall(CustomNode owner) : CombatImageLibraryTerrain(owner)
+public class CityWall(CustomNode? owner) : CombatImageLibraryTerrain(owner)
 {
 
     // CityWall.pas:78
@@ -341,7 +341,7 @@ public class CityWall(CustomNode owner) : CombatImageLibraryTerrain(owner)
             5 or 7 or 12 => 20,
             _ => 0,
         };
-        ImageSequence sequence = base.Resource.ImageSequenceList.GetImageSequence(WallIsIndex[WallType - 1] + terrainOffset + _damageImage);
+        ImageSequence? sequence = base.Resource.ImageSequenceList.GetImageSequence(WallIsIndex[WallType - 1] + terrainOffset + _damageImage);
         if (sequence is not null)
         {
             do

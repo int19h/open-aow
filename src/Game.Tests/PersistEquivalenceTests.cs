@@ -602,7 +602,7 @@ public sealed partial class PersistEquivalenceTests
         using CommandAbilityData source = Commanding(defaultValue: 0, items: [.. Enumerable.Repeat((byte)0, count: 300)]);
         byte[] image = OriginalBackend.Write(classValue: s_schema.Get("CommandAbilityData"), node: TreeWriter.Write(source, Factory), schema: s_schema, engine: "game");
         Assert.Equal(Image(source), image);
-        JsonObject stored = (JsonObject)PilotImage.Decode(image, className: "CommandAbilityData")["CommandedUnits"];
+        JsonObject? stored = (JsonObject?)PilotImage.Decode(image, className: "CommandAbilityData")["CommandedUnits"];
         Assert.Equal(300, ((JsonArray)stored["items"]).Items.Count);
         // The default, the count 300, then a run of 255 and a run of 45.
         byte[] runs = [0, 44, 1, 0, 0, 0, 255, 0, 45];
@@ -669,7 +669,7 @@ public sealed partial class PersistEquivalenceTests
         using Item source = AbilityItem(withData: true);
         JsonObject document = PilotImage.Decode(Image(source), className: "Item");
         // AbilityDataIds names slot 33 and an absent slot 99, and leaves the stored slot 47 unread.
-        JsonArray ids = (JsonArray)((JsonObject)document["AbilityDataIds"])["items"];
+        JsonArray? ids = (JsonArray?)((JsonObject)document["AbilityDataIds"])["items"];
         ids.Items.Clear();
         ids.Items.Add(new JsonInteger(33));
         ids.Items.Add(new JsonInteger(99));
@@ -699,12 +699,12 @@ public sealed partial class PersistEquivalenceTests
         control.RegisterItem(PlainItem(itemId: 9, name: "Shield"));
         control.RegisterItem(PlainItem(itemId: 11, name: "Ring"));
         JsonObject document = PilotImage.Decode(Image(control), className: "ItemControl");
-        JsonArray items = (JsonArray)document["Items"];
+        JsonArray? items = (JsonArray?)document["Items"];
         // Slots 0 and 2 stay. Both loads stop at the gap at slot 1.
         items.Items.RemoveAt(1);
         SameLoad("ItemControl", document);
         JsonObject nil = PilotImage.Decode(Image(control), className: "ItemControl");
-        JsonArray first = (JsonArray)nil["Items"];
+        JsonArray? first = (JsonArray?)nil["Items"];
         first.Items[0] = new JsonObject().Add("$class", new JsonNull()).Add("$slot", new JsonInteger(0));
         SameLoad("ItemControl", document: nil);
     }
@@ -785,7 +785,7 @@ public sealed partial class PersistEquivalenceTests
     [Fact]
     public void ArmyViewCoversBothArrayWidths()
     {
-        StrategicMap previous = StrategicMap.Current;
+        StrategicMap? previous = StrategicMap.Current;
         StrategicMap map = new(null, holder: EngineFixture.Engine)
         {
             Status = HexSpriteMapStatuses.Destroying
@@ -836,7 +836,7 @@ public sealed partial class PersistEquivalenceTests
         using UnitSpellCombatAction spell = new(null) { Holder = EngineFixture.Engine };
         SchemaClass classValue = s_schema.Get("UnitSpellCombatAction");
         ObjectNode tree = TreeWriter.Write(spell, Factory);
-        ListNode list = (ListNode)tree.Find("SpellData");
+        ListNode? list = (ListNode?)tree.Find("SpellData");
         list.Items.Add(new IntegerNode(4, signed: true, value: 1));
         JsonObject document = DocumentBackend.Write(tree, classValue, s_schema, engine: "game");
         Assert.Equal(3, ((JsonArray)document["SpellData"]).Items.Count);
@@ -1303,7 +1303,7 @@ public sealed partial class PersistEquivalenceTests
         BehaviorProbe probe = new() { Behavior = behavior };
         SchemaClass classValue = s_schema.Get("PlayerSetupSettings");
         ObjectNode tree = TreeWriter.Write(probe, Factory);
-        JsonObject stored = (JsonObject)DocumentBackend.Write(tree, classValue, s_schema, engine: "game")["Behavior"];
+        JsonObject? stored = (JsonObject?)DocumentBackend.Write(tree, classValue, s_schema, engine: "game")["Behavior"];
         Assert.Equal(["PlayerType", "Flags"], stored.Members.Select(member => member.Name).ToList());
         Assert.Equal(2, ((JsonInteger)stored["PlayerType"]).Value);
         Assert.Equal(9, ((JsonInteger)stored["Flags"]).Value);
@@ -1358,7 +1358,7 @@ public sealed partial class PersistEquivalenceTests
 
             SchemaClass classValue = s_schema.Get("CustomAbilityList");
             JsonObject document = DocumentBackend.Write(TreeWriter.Write(target, Factory), classValue, s_schema, engine: "game");
-            JsonArray storedBits = (JsonArray)document["AbilityBits"];
+            JsonArray? storedBits = (JsonArray?)document["AbilityBits"];
             Assert.Equal([0L, 7L], storedBits.Items.Select(item => ((JsonInteger)item).Value).ToList());
 
             using AbilityOwner reloaded = new(null) { Holder = EngineFixture.Engine };
@@ -1408,7 +1408,7 @@ public sealed partial class PersistEquivalenceTests
 
     private static void WithDestroyingMap(Action<StrategicMap> body)
     {
-        StrategicMap previous = StrategicMap.Current;
+        StrategicMap? previous = StrategicMap.Current;
         StrategicMap map = new(null, holder: EngineFixture.Engine)
         {
             Status = HexSpriteMapStatuses.Destroying
@@ -1648,7 +1648,7 @@ public sealed partial class PersistEquivalenceTests
             Holder = EngineFixture.Engine,
             AbilityId = id
         };
-        List<Ability> list = GamePack.Current.AbilityControl.Abilities;
+        List<Ability?> list = GamePack.Current.AbilityControl.Abilities;
         while (id >= list.Count)
         {
             list.Add(null);
@@ -1660,7 +1660,7 @@ public sealed partial class PersistEquivalenceTests
 
     private static void ReleaseAbility(Ability ability)
     {
-        List<Ability> list = GamePack.Current.AbilityControl.Abilities;
+        List<Ability?> list = GamePack.Current.AbilityControl.Abilities;
         int id = ability.AbilityId;
         if ((uint)id < (uint)list.Count && ReferenceEquals(list[id], ability))
         {
@@ -1675,7 +1675,7 @@ public sealed partial class PersistEquivalenceTests
         public override void PersistFields(IPersister persister) => throw new InvalidOperationException("hatred failed");
     }
 
-    private sealed class ThrowingEnchantments(CustomNode owner) : GlobalEnchantmentList(owner)
+    private sealed class ThrowingEnchantments(CustomNode? owner) : GlobalEnchantmentList(owner)
     {
         public override void PersistFields(IPersister persister) => throw new InvalidOperationException("enchantments failed");
     }
@@ -1695,7 +1695,7 @@ public sealed partial class PersistEquivalenceTests
         public void Persist(IPersister persister) => PersistSupport.UnitIndexList(persister, name: "ItemIds", list: Units);
     }
 
-    private static byte[] Image(EngineObject objectValue)
+    private static byte[] Image(EngineObject? objectValue)
     {
         ObjectNode root = TreeWriter.Write(objectValue, factory: Factory);
         SchemaClass classValue = s_schema.Get(Factory.ClassName(objectValue));
@@ -1714,7 +1714,7 @@ public sealed partial class PersistEquivalenceTests
         Assert.Fail($"{label}\n{Encoding.UTF8.GetString(right)}");
     }
 
-    private static void EqualBytes(byte[] expected, byte[] actual, string label)
+    private static void EqualBytes(byte[]? expected, byte[]? actual, string label)
     {
         if (expected.AsSpan().SequenceEqual(actual))
         {

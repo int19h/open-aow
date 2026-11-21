@@ -1,13 +1,13 @@
 // Layout translated from recovered Delphi forms.
-#nullable disable
+#nullable disable warnings
 using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
 public sealed partial class ProductionScreen
 {
-    public event NotifyEvent<ProductionScreen> LayoutOnCreate;
-    public event NotifyEvent<ProductionScreen> LayoutOnDestroy;
+    public event NotifyEvent<ProductionScreen>? LayoutOnCreate;
+    public event NotifyEvent<ProductionScreen>? LayoutOnDestroy;
 
     public override void Dispose()
     {

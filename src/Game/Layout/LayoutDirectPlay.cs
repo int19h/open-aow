@@ -1,5 +1,5 @@
 // Layout translated from recovered Delphi forms.
-#nullable disable
+#nullable disable warnings
 using System.Diagnostics.CodeAnalysis;
 using Aow.Rtl;
 

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using System.Collections.Immutable;
 
@@ -30,7 +30,7 @@ public partial class MoveControl(GameMap owner) : IDisposable
     private MapCoordinate Source { get; set; }
 
     public MapCoordinate Destination { get; set; }
-    public MapLevel MapLevel { get; set; }
+    public MapLevel? MapLevel { get; set; }
 
     private int _processedCount;
 
@@ -38,15 +38,15 @@ public partial class MoveControl(GameMap owner) : IDisposable
 
     public MovePointTable MovePointTable { get; private set; }
 
-    private DelphiList<MapField> _processedMapFields;
+    private DelphiList<MapField>? _processedMapFields;
 
-    public ArmyHexSprite ArmyHexSprite { get; private set; }
+    public ArmyHexSprite? ArmyHexSprite { get; private set; }
     public int Selection { get; private set; }
-    public ArmyHexSprite TransporterArmy { get; private set; }
+    public ArmyHexSprite? TransporterArmy { get; private set; }
 
-    private Func<MapField, int, int> _movePoint;
+    private Func<MapField?, int, int> _movePoint;
 
-    internal void SetMovePointHandler(Func<MapField, int, int> handler) => _movePoint = handler;
+    internal void SetMovePointHandler(Func<MapField?, int, int> handler) => _movePoint = handler;
 
     private readonly int[][] _fieldOffsets = [new int[8], new int[8]];
     private readonly int[][] _pointOffsets = [new int[8], new int[8]];
@@ -57,7 +57,7 @@ public partial class MoveControl(GameMap owner) : IDisposable
     private readonly MapCoordinateList _directRoute = new();
     private int _exploredMask;
 
-    public MoveControlSettings Settings { get; set; }
+    public MoveControlSettings? Settings { get; set; }
 
     // MoveT.PAS:266
     public virtual void Dispose()
@@ -179,7 +179,7 @@ public partial class MoveControl(GameMap owner) : IDisposable
     }
 
     // MoveT.PAS:299
-    public int DefaultMoveOnMovePointProc(MapField mapField, int moveOverCode)
+    public int DefaultMoveOnMovePointProc(MapField? mapField, int moveOverCode)
     {
         int overlay = mapField.OverlayType;
         int points = MovePointTable[mapField.TerrainType][overlay - MovementTables.FirstOverlay];
@@ -192,12 +192,12 @@ public partial class MoveControl(GameMap owner) : IDisposable
     }
 
     // MoveT.PAS:308
-    public MapField FindSubMoveOrigin(MapField mapField)
+    public MapField? FindSubMoveOrigin(MapField mapField)
     {
         int best = 16_777_215;
-        MapField result = null;
+        MapField? result = null;
         int i = 0;
-        MoveControlSettings settings = Settings;
+        MoveControlSettings? settings = Settings;
         while (i < settings.SubMoves.Count)
         {
             PathFindingStep pathFindingStep = settings.SubMoves.GetSubMove(i);
@@ -226,7 +226,7 @@ public partial class MoveControl(GameMap owner) : IDisposable
     }
 
     // MoveT.PAS:437
-    public void ExecuteExternalMove(MapField source, MapField target, int movePoints)
+    public void ExecuteExternalMove(MapField source, MapField? target, int movePoints)
     {
         int canMoveOver = source.CanMoveOver(this);
         int points = _movePoint(target, canMoveOver);
@@ -288,7 +288,7 @@ public partial class MoveControl(GameMap owner) : IDisposable
     }
 
     // MoveT.PAS:1257
-    public PathFindingStep SetupSubMove(MapField mapField, MapField origin)
+    public PathFindingStep SetupSubMove(MapField mapField, MapField? origin)
     {
         PathFindingStep pathFindingStep = new(null) { Holder = Map };
         MapCoordinate mapCoordinate = mapField.MapCoordinate;
@@ -414,7 +414,7 @@ public partial class MoveControl(GameMap owner) : IDisposable
     }
 
     // MoveT.PAS:1443
-    public int ExploredOnlyMoveOnMovePointProc(MapField mapField, int moveOverCode)
+    public int ExploredOnlyMoveOnMovePointProc(MapField? mapField, int moveOverCode)
     {
         int points;
         if ((mapField.FieldFlags & _exploredMask) != 0)

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWCityJoinDlg.pas.
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
@@ -22,14 +22,14 @@ public sealed partial class CityJoinDialog(UIContext ui) : UIModule(ui)
     public ArnoLine CityPictureLine { get; private set; }
 
     private sbyte _race;
-    private ExecuteDoneEvent _done;
-    private NegotiateRequestEventLog _event;
+    private ExecuteDoneEvent? _done;
+    private NegotiateRequestEventLog? _event;
 
     // AoWCityJoinDlg.pas:55
     public void FinishDialog()
     {
-        ExecuteDoneEvent done = _done;
-        NegotiateRequestEventLog log = _event;
+        ExecuteDoneEvent? done = _done;
+        NegotiateRequestEventLog? log = _event;
         _done = null;
         _event = null;
         done?.Invoke(log);
@@ -77,7 +77,7 @@ public sealed partial class CityJoinDialog(UIContext ui) : UIModule(ui)
     // AoWCityJoinDlg.pas:93
     public void DlgDrawBack(LockedSurface surface)
     {
-        LibraryImage face = GamePack.Current.RaceResources.GetRaceResource(_race).GetFace();
+        LibraryImage? face = GamePack.Current.RaceResources.GetRaceResource(_race).GetFace();
         face?.ShowClipped(CelticFrame.WinLeft + 10, CelticFrame.WinTop + 28, lockedSurface: surface);
     }
 
@@ -111,11 +111,11 @@ public sealed partial class CityJoinDialog(UIContext ui) : UIModule(ui)
         dialog.ApproachLabel.Text = log.Text;
         City town = StrategicMap.Current.MapContainer.GetField(log.Hex.X, log.Hex.Y, log.Hex.MapLevel).FindNoneTransparentHexSprite<City>();
         dialog._race = town.Race;
-        LibraryImage topCityActionImage = town.GetTopCityActionImage(null);
+        LibraryImage? topCityActionImage = town.GetTopCityActionImage(null);
         dialog.CityPictureLine.ImageTop = topCityActionImage;
-        LibraryImage middleCityActionImage = town.GetMiddleCityActionImage(null);
+        LibraryImage? middleCityActionImage = town.GetMiddleCityActionImage(null);
         dialog.CityPictureLine.ImageMiddle = middleCityActionImage;
-        LibraryImage bottomCityActionImage = town.GetBottomCityActionImage(null);
+        LibraryImage? bottomCityActionImage = town.GetBottomCityActionImage(null);
         dialog.CityPictureLine.ImageBottom = bottomCityActionImage;
         dialog.Window.Visible = true;
         StrategicMap.Current.TutorialControl.ShowMessage(62, immediate: true, onceOnly: true);

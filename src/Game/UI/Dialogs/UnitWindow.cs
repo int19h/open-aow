@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWUnitWindow.pas.
 using System.Collections.Immutable;
 
@@ -96,7 +96,7 @@ public sealed partial class UnitWindow(UIContext ui) : UIModule(ui)
     private int _highlightStep;
     private bool _itemVisible;
     private int _blinkDelay;
-    private LibraryImage _cursorImage;
+    private LibraryImage? _cursorImage;
     private int _groundOffset;
     private int _groundCount;
     private UnitShowInfo _showInfo;
@@ -114,7 +114,7 @@ public sealed partial class UnitWindow(UIContext ui) : UIModule(ui)
         Ground3CheckBox.Checked = false;
         Ground4CheckBox.Checked = false;
         Ground5CheckBox.Checked = false;
-        Troop u = UI.General.SelectedUnit;
+        Troop? u = UI.General.SelectedUnit;
         if (u is not null)
         {
             if (u is Hero hero)
@@ -139,35 +139,35 @@ public sealed partial class UnitWindow(UIContext ui) : UIModule(ui)
                     int count = hero.GetItemsOnGround().Count;
                     if (_groundOffset < count)
                     {
-                        Item item = hero.GetItemsOnGround().GetItem(_groundOffset);
+                        Item? item = hero.GetItemsOnGround().GetItem(_groundOffset);
                         Ground1CheckBox.Tag = item.ItemId;
                     }
 
                     int count2 = hero.GetItemsOnGround().Count;
                     if (_groundOffset + 1 < count2)
                     {
-                        Item item = hero.GetItemsOnGround().GetItem(_groundOffset + 1);
+                        Item? item = hero.GetItemsOnGround().GetItem(_groundOffset + 1);
                         Ground2CheckBox.Tag = item.ItemId;
                     }
 
                     int count3 = hero.GetItemsOnGround().Count;
                     if (_groundOffset + 2 < count3)
                     {
-                        Item item = hero.GetItemsOnGround().GetItem(_groundOffset + 2);
+                        Item? item = hero.GetItemsOnGround().GetItem(_groundOffset + 2);
                         Ground3CheckBox.Tag = item.ItemId;
                     }
 
                     int count4 = hero.GetItemsOnGround().Count;
                     if (_groundOffset + 3 < count4)
                     {
-                        Item item = hero.GetItemsOnGround().GetItem(_groundOffset + 3);
+                        Item? item = hero.GetItemsOnGround().GetItem(_groundOffset + 3);
                         Ground4CheckBox.Tag = item.ItemId;
                     }
 
                     int count5 = hero.GetItemsOnGround().Count;
                     if (_groundOffset + 4 < count5)
                     {
-                        Item item = hero.GetItemsOnGround().GetItem(_groundOffset + 4);
+                        Item? item = hero.GetItemsOnGround().GetItem(_groundOffset + 4);
                         Ground5CheckBox.Tag = item.ItemId;
                     }
                 }
@@ -178,8 +178,8 @@ public sealed partial class UnitWindow(UIContext ui) : UIModule(ui)
     // AoWUnitWindow.pas:472
     public void PreDrawAbilityItem(UIComponent sender, in Rect drawRectangle, int drawItem, ref LockedSurface lockedSurface)
     {
-        object objectValue = AbilityAbilityList.Items.Objects[drawItem];
-        Ability a = GamePack.Current.AbilityControl[ObjectToInt(objectValue)];
+        object? objectValue = AbilityAbilityList.Items.Objects[drawItem];
+        Ability? a = GamePack.Current.AbilityControl[ObjectToInt(objectValue)];
         bool enabled;
         if (StrategicMap.Current.CombatMap is null)
         {
@@ -190,14 +190,14 @@ public sealed partial class UnitWindow(UIContext ui) : UIModule(ui)
             bool condition = a is not null && UI.General.CombatUnit is not null;
             if (condition)
             {
-                object objectValue2 = AbilityAbilityList.Items.Objects[drawItem];
+                object? objectValue2 = AbilityAbilityList.Items.Objects[drawItem];
                 condition = GamePack.Current.AbilityControl[ObjectToInt(objectValue2)].GetControlType(UI.General.CombatUnit.Unit.Troop).Contains(AbilityControlTypes.CombatAction);
             }
 
             bool test = condition && UI.General.CombatUnit.Unit.GetPlayer() == CombatMap.Current.SeatedPlayer && UI.General.CombatUnit.Unit.MovePoints > 0;
             if (test)
             {
-                object objectValue2 = AbilityAbilityList.Items.Objects[drawItem];
+                object? objectValue2 = AbilityAbilityList.Items.Objects[drawItem];
                 CombatMode combatMode = GamePack.Current.AbilityControl[ObjectToInt(objectValue2)].GetCombatMode(UI.General.CombatUnit.Unit.Troop);
                 test = !(combatMode is >= CombatMode.ShortRange and <= CombatMode.LongRange || ObjectToInt(AbilityAbilityList.Items.Objects[drawItem]) == 52) || UI.General.CombatUnit.Unit.Troop.Moves == UI.General.CombatUnit.Unit.MovePoints;
             }
@@ -221,8 +221,8 @@ public sealed partial class UnitWindow(UIContext ui) : UIModule(ui)
         {
             if (UI.General.SelectedUnit.Player == StrategicMap.Current.SeatedPlayer && AbilityAbilityList.Selected > -1)
             {
-                object objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
-                Ability a = GamePack.Current.AbilityControl[ObjectToInt(objectValue)];
+                object? objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
+                Ability? a = GamePack.Current.AbilityControl[ObjectToInt(objectValue)];
                 if (a is not null && a.GetEnabled(UI.General.SelectedUnit))
                 {
                     if (StrategicMap.Current.CombatMap is null)
@@ -232,11 +232,11 @@ public sealed partial class UnitWindow(UIContext ui) : UIModule(ui)
                     }
                     else
                     {
-                        object objectValue2 = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
+                        object? objectValue2 = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
                         bool condition = GamePack.Current.AbilityControl[ObjectToInt(objectValue2)].GetCombatMode(UI.General.SelectedUnit) != CombatMode.None;
                         if (condition)
                         {
-                            object objectValue3 = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
+                            object? objectValue3 = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
                             condition = GamePack.Current.AbilityControl[ObjectToInt(objectValue3)].GetCombatMode(UI.General.SelectedUnit) != CombatMode.Melee;
                         }
 
@@ -265,14 +265,14 @@ public sealed partial class UnitWindow(UIContext ui) : UIModule(ui)
             bool condition = AbilityAbilityList.Selected > -1 && UI.General.CombatUnit is not null;
             if (condition)
             {
-                object objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
+                object? objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
                 condition = GamePack.Current.AbilityControl[ObjectToInt(objectValue)].GetControlType(UI.General.CombatUnit.Unit.Troop).Contains(AbilityControlTypes.CombatAction);
             }
 
             bool test = condition && UI.General.CombatUnit.Unit.GetPlayer() == CombatMap.Current.SeatedPlayer && UI.General.CombatUnit.Unit.MovePoints > 0;
             if (test)
             {
-                object objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
+                object? objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
                 CombatMode combatMode = GamePack.Current.AbilityControl[ObjectToInt(objectValue)].GetCombatMode(UI.General.CombatUnit.Unit.Troop);
                 test = !(combatMode is >= CombatMode.ShortRange and <= CombatMode.LongRange || ObjectToInt(AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected]) == 52) || UI.General.CombatUnit.Unit.Troop.Moves == UI.General.CombatUnit.Unit.MovePoints;
             }
@@ -280,7 +280,7 @@ public sealed partial class UnitWindow(UIContext ui) : UIModule(ui)
             if (test)
             {
                 AbilityUseButton.Visible = true;
-                object objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
+                object? objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
                 string name = GamePack.Current.AbilityControl[ObjectToInt(objectValue)].GetName(UI.General.CombatUnit.Unit.Troop);
                 string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_useFormat), arguments: [name]);
                 AbilityUseButton.Text = format;
@@ -406,8 +406,8 @@ public sealed partial class UnitWindow(UIContext ui) : UIModule(ui)
     public void UseAbility()
     {
         UI.General.PlayButtonSound(0);
-        object objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
-        Ability a = GamePack.Current.AbilityControl[ObjectToInt(objectValue)];
+        object? objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
+        Ability? a = GamePack.Current.AbilityControl[ObjectToInt(objectValue)];
         if (a is not null && a.GetEnabled(UI.General.SelectedUnit))
         {
             if (StrategicMap.Current.CombatMap is null)
@@ -432,7 +432,7 @@ public sealed partial class UnitWindow(UIContext ui) : UIModule(ui)
             {
                 if (UI.General.CombatUnit is not null && UI.General.CombatUnit.Unit.CombatPlayer == CombatMap.Current.SeatedCombatPlayer)
                 {
-                    object objectValue2 = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
+                    object? objectValue2 = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
                     if (UI.General.CombatUnit.SelectAbility(ObjectToInt(objectValue2)) > -1)
                     {
                         MainWindow.Visible = false;
@@ -492,7 +492,7 @@ public sealed partial class UnitWindow(UIContext ui) : UIModule(ui)
         if (component.Tag != -1 && UI.General.SelectedUnit is Hero heroUnit)
         {
             Hero u = heroUnit;
-            Item item = u.Inventory.Items.FindItem(component.Tag) ?? u.HeroItems.Items.FindItem(component.Tag);
+            Item? item = u.Inventory.Items.FindItem(component.Tag) ?? u.HeroItems.Items.FindItem(component.Tag);
             if (item is null)
             {
                 if (u.GetItemsOnGround() is not null)
@@ -651,8 +651,8 @@ public sealed partial class UnitWindow(UIContext ui) : UIModule(ui)
     {
         if (button == MouseButton.Right && UI.General.SelectedUnit is not null && AbilityAbilityList.Selected != -1)
         {
-            object objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
-            Ability a = GamePack.Current.AbilityControl[ObjectToInt(objectValue)];
+            object? objectValue = AbilityAbilityList.Items.Objects[AbilityAbilityList.Selected];
+            Ability? a = GamePack.Current.AbilityControl[ObjectToInt(objectValue)];
             if (a is not null)
             {
                 InfoBanner.SetInfoBanner(caption: a.GetName(null), banner: UI.InfoBanner, description: a.Description);
@@ -688,7 +688,7 @@ public sealed partial class UnitWindow(UIContext ui) : UIModule(ui)
                     }
                 }
 
-                Troop troop = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[i]);
+                Troop? troop = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[i]);
                 UI.General.SelectedUnit = troop;
                 ShowUnit();
             }
@@ -715,7 +715,7 @@ public sealed partial class UnitWindow(UIContext ui) : UIModule(ui)
                     i = 0;
                 }
 
-                Troop troop = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[i]);
+                Troop? troop = UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[i]);
                 UI.General.SelectedUnit = troop;
                 ShowUnit();
             }
@@ -725,7 +725,7 @@ public sealed partial class UnitWindow(UIContext ui) : UIModule(ui)
     private static readonly string s_moraleFormat = "Morale: %s";
     private static readonly string s_useFormat = "Use %s";
     private static readonly ImmutableArray<string> s_moraleTexts = ["Terrible", "Poor", "Okay", "Good", "High"];
-    private static CheckBox s_selectedItem;
+    private static CheckBox? s_selectedItem;
     private static readonly string s_abilitiesText = "Abilities";
     private static readonly string s_infoText = "Info";
     private static readonly string s_noneText = "None";
@@ -741,10 +741,10 @@ public sealed partial class UnitWindow(UIContext ui) : UIModule(ui)
     private static readonly string s_experienceText = "Exp";
     private static readonly string s_disbandUnitText = "Disband this unit?";
 
-    private int CompareUnitAbilities(string s1, string s2, object o1, object o2)
+    private int CompareUnitAbilities(string s1, string s2, object? o1, object? o2)
     {
-        Ability ability = GamePack.Current.AbilityControl[ObjectToInt(o1)];
-        Ability ability2 = GamePack.Current.AbilityControl[ObjectToInt(o2)];
+        Ability? ability = GamePack.Current.AbilityControl[ObjectToInt(o1)];
+        Ability? ability2 = GamePack.Current.AbilityControl[ObjectToInt(o2)];
         int number = (ability.GetEnabled(UI.General.SelectedUnit) && ability.GetControlType(UI.General.SelectedUnit).Contains(AbilityControlTypes.Action)) ? 10 : 0;
         int number2 = (ability2.GetEnabled(UI.General.SelectedUnit) && ability2.GetControlType(UI.General.SelectedUnit).Contains(AbilityControlTypes.Action)) ? 10 : 0;
         int number3 = number2 - number;

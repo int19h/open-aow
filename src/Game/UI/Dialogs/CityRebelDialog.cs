@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWCityRebelDlg.pas.
 using Aow.Game.Events;
 using Aow.Game.UI.Controls;
@@ -15,14 +15,14 @@ public sealed partial class CityRebelDialog(UIContext ui) : UIModule(ui)
     public Window RebelWindow { get; private set; }
     public Label CityNameLabel { get; private set; }
 
-    private ExecuteDoneEvent _close;
-    private CityRebellionEventLog _event;
+    private ExecuteDoneEvent? _close;
+    private CityRebellionEventLog? _event;
 
     // AoWCityRebelDlg.pas:49
     public void ClearEvent()
     {
-        ExecuteDoneEvent notify = _close;
-        CityRebellionEventLog eventValue = _event;
+        ExecuteDoneEvent? notify = _close;
+        CityRebellionEventLog? eventValue = _event;
         _close = null;
         _event = null;
         notify?.Invoke(eventValue);
@@ -41,7 +41,7 @@ public sealed partial class CityRebelDialog(UIContext ui) : UIModule(ui)
     public void CenterButClick()
     {
         UI.General.PlayButtonSound(0);
-        CityRebellionEventLog cityRebellionEventLog = _event;
+        CityRebellionEventLog? cityRebellionEventLog = _event;
         StrategicMap.Current.CenterViewTo(cityRebellionEventLog.Location.X, cityRebellionEventLog.Location.Y, cityRebellionEventLog.Location.MapLevel);
     }
 

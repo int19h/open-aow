@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWButton.pas.
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
@@ -17,11 +17,11 @@ namespace Aow.Game.UI.Controls;
 // FBorderHeight when it is up), ButtonType (btText: drawn from _imageLibraryButton, btIcon: from
 // _imageLibraryIcon. set by Validate), _imageLibraryButton, _imageLibraryIcon, _imageLibraryIndexUp, _imageLibraryIndexDown, _imageLibraryIndexLit,
 // FPopupMenu, FLit (the mouse is over the button). FChecked is the down state
-public class BaseButton(Component owner) : Control(owner)
+public class BaseButton(Component? owner) : Control(owner)
 {
     private UIComponentButtonType _buttonType;
-    private InterfaceImageLibrary _imageLibraryButton;
-    private InterfaceImageLibrary _imageLibraryIcon;
+    private InterfaceImageLibrary? _imageLibraryButton;
+    private InterfaceImageLibrary? _imageLibraryIcon;
     private int _imageLibraryIndexUp;
     private int _imageLibraryIndexDown;
     private int _imageLibraryIndexLit;
@@ -84,12 +84,12 @@ public class BaseButton(Component owner) : Control(owner)
         switch (_buttonType)
         {
             case UIComponentButtonType.Text:
-                LibraryImage imageLibraryButtonWidth = _imageLibraryButton[_imageLibraryIndexUp];
-                LibraryImage imageLibraryButton = _imageLibraryButton[_imageLibraryIndexUp + 2];
+                LibraryImage? imageLibraryButtonWidth = _imageLibraryButton[_imageLibraryIndexUp];
+                LibraryImage? imageLibraryButton = _imageLibraryButton[_imageLibraryIndexUp + 2];
                 if (imageLibraryButtonWidth.Width + imageLibraryButton.Width > WinWidth)
                 {
-                    LibraryImage imageLibraryButton2 = _imageLibraryButton[_imageLibraryIndexUp];
-                    LibraryImage imageLibraryButton3 = _imageLibraryButton[_imageLibraryIndexUp + 2];
+                    LibraryImage? imageLibraryButton2 = _imageLibraryButton[_imageLibraryIndexUp];
+                    LibraryImage? imageLibraryButton3 = _imageLibraryButton[_imageLibraryIndexUp + 2];
                     SetWinWidthWithoutInvalidate(imageLibraryButton2.Width + imageLibraryButton3.Width);
                 }
 
@@ -193,7 +193,7 @@ public class BaseButton(Component owner) : Control(owner)
     }
 
     // AoWButton.pas:136
-    public virtual void SetImageLibraryButton(InterfaceImageLibrary value)
+    public virtual void SetImageLibraryButton(InterfaceImageLibrary? value)
     {
         if (value != _imageLibraryButton)
         {
@@ -204,7 +204,7 @@ public class BaseButton(Component owner) : Control(owner)
     }
 
     // AoWButton.pas:146
-    public virtual void SetImageLibraryIcon(InterfaceImageLibrary value)
+    public virtual void SetImageLibraryIcon(InterfaceImageLibrary? value)
     {
         if (value != _imageLibraryIcon)
         {
@@ -255,10 +255,10 @@ public class BaseButton(Component owner) : Control(owner)
     public int BorderHeightSelected { get; set; }
 
     [Published]
-    public InterfaceImageLibrary ImageLibraryButton { get => _imageLibraryButton; set => SetImageLibraryButton(value); }
+    public InterfaceImageLibrary? ImageLibraryButton { get => _imageLibraryButton; set => SetImageLibraryButton(value); }
 
     [Published]
-    public InterfaceImageLibrary ImageLibraryIcon { get => _imageLibraryIcon; set => SetImageLibraryIcon(value); }
+    public InterfaceImageLibrary? ImageLibraryIcon { get => _imageLibraryIcon; set => SetImageLibraryIcon(value); }
 
     [Published]
     public int ImageLibraryIndexDown { get => _imageLibraryIndexDown; set => SetILDIndex(value); }
@@ -270,7 +270,7 @@ public class BaseButton(Component owner) : Control(owner)
     public int ImageLibraryIndexUp { get => _imageLibraryIndexUp; set => SetImageLibraryUIndex(value); }
 
     [Published]
-    public Menu PopupMenu { get; set; }
+    public Menu? PopupMenu { get; set; }
 
     [Published]
     public override string Text { get => base.Text; set => SetGText(value); }

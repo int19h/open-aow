@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from OverviewUnit.pas.
 using Aow.Engine.Nodes;
 
@@ -7,9 +7,9 @@ using Aow.Game.Magic.Abilities;
 namespace Aow.Game.Draw;
 
 // Troop
-public sealed class OverviewUnitHexSprite(CustomNode owner) : UnitHexSprite(owner)
+public sealed class OverviewUnitHexSprite(CustomNode? owner) : UnitHexSprite(owner)
 {
-    private Troop _troop;
+    private Troop? _troop;
 
     // OverviewUnit.pas:31
     public override void Dispose()
@@ -25,7 +25,7 @@ public sealed class OverviewUnitHexSprite(CustomNode owner) : UnitHexSprite(owne
     public override void ShowShadow(int X, int Y, in LockedSurface lockedSurface) => base.ShowShadow(X, Y, lockedSurface);
 
     // OverviewUnit.pas:37
-    public void SetU(Troop U)
+    public void SetU(Troop? U)
     {
         _ = (_troop?.Release());
 

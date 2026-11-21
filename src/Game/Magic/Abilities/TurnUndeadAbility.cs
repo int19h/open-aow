@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 
@@ -19,7 +19,7 @@ namespace Aow.Game.Magic.Abilities;
 public class TurnUndeadAbility : TouchAbility
 {
     // AoWAb.PAS:3121
-    public TurnUndeadAbility(CustomNode owner, EngineObject holder) : base(owner)
+    public TurnUndeadAbility(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         AbilityId = 38;
@@ -29,10 +29,10 @@ public class TurnUndeadAbility : TouchAbility
     }
 
     // AoWAb.PAS:3191
-    public override string GetName(AbilityOwner owner) => GetLevelName(GetLevel(owner));
+    public override string GetName(AbilityOwner? owner) => GetLevelName(GetLevel(owner));
 
     // AoWAb.PAS:3146
-    public override int GetLevel(AbilityOwner owner)
+    public override int GetLevel(AbilityOwner? owner)
     {
         if (owner is not null)
         {
@@ -53,15 +53,15 @@ public class TurnUndeadAbility : TouchAbility
     }
 
     // AoWAb.PAS:3374
-    public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand command)
+    public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand? command)
     {
-        CombatObject target = command.Target;
+        CombatObject? target = command.Target;
         FastBattleValidateMoveOutsideWall(source, target);
         TurnUndeadCombatAction action = CreateTurnUndeadCombatAction(source, target);
         source.Combat.ExecuteCombatAction(action);
         if (target.GetEnabled())
         {
-            StrikeCombatAction strike = CombatObject.CreateStrikeCombatAction(target, target: source, defensive: true);
+            StrikeCombatAction? strike = CombatObject.CreateStrikeCombatAction(target, target: source, defensive: true);
             if (strike is not null)
             {
                 source.Combat.ExecuteCombatAction(strike);
@@ -74,20 +74,20 @@ public class TurnUndeadAbility : TouchAbility
     }
 
     // AoWAb.PAS:3204
-    public override bool CanExpand(AbilityOwner owner) => (owner.GetAbilitySelectionTypes() & SelectionTypes) != AbilitySelectionTypes.None && GetLevel(owner) < 4;
+    public override bool CanExpand(AbilityOwner? owner) => (owner.GetAbilitySelectionTypes() & SelectionTypes) != AbilitySelectionTypes.None && GetLevel(owner) < 4;
 
     // AoWAb.PAS:3199
-    public override int ExpandCost(AbilityOwner owner)
+    public override int ExpandCost(AbilityOwner? owner)
     {
         int result = GetLevel(owner);
         return result < 4 ? 5 : 0;
     }
 
     // AoWAb.PAS:3195
-    public override string ExpandName(AbilityOwner owner) => GetLevelName(GetLevel(owner) + 1);
+    public override string ExpandName(AbilityOwner? owner) => GetLevelName(GetLevel(owner) + 1);
 
     // AoWAb.PAS:3217
-    public override bool Expand(AbilityOwner owner)
+    public override bool Expand(AbilityOwner? owner)
     {
         bool result = false;
         MultiLevelAbilityData data = GetData(owner);
@@ -116,7 +116,7 @@ public class TurnUndeadAbility : TouchAbility
     }
 
     // AoWAb.PAS:3238
-    public override bool Remove(AbilityOwner owner)
+    public override bool Remove(AbilityOwner? owner)
     {
         MultiLevelAbilityData data = GetData(owner);
         if (data is not null)
@@ -155,7 +155,7 @@ public class TurnUndeadAbility : TouchAbility
     }
 
     // AoWAb.PAS:3305
-    public override void GetDamageValues(Troop attacker, Troop defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
+    public override void GetDamageValues(Troop attacker, Troop? defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
         if (wallSituation == WallSituation.None && CanTouchUnit(attacker, target: defender) && !defender.GetImmunityTypes().Contains(DamageTypes.NonSpecific))
         {
@@ -180,7 +180,7 @@ public class TurnUndeadAbility : TouchAbility
     }
 
     // AoWAb.PAS:3168
-    public override void GetOffensiveStrength(AbilityOwner owner, ref int strength, ref DamageTypes types)
+    public override void GetOffensiveStrength(AbilityOwner? owner, ref int strength, ref DamageTypes types)
     {
         if (owner is Troop troop)
         {
@@ -197,7 +197,7 @@ public class TurnUndeadAbility : TouchAbility
     }
 
     // AoWAb.PAS:3331
-    public override void FastBattleGetDamageValues(CombatObject attacker, CombatObject defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
+    public override void FastBattleGetDamageValues(CombatObject? attacker, CombatObject? defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
         if (wallSituation == WallSituation.None && CanTouch(attacker, target: defender) && attacker is CombatUnit attackerUnit)
         {
@@ -222,7 +222,7 @@ public class TurnUndeadAbility : TouchAbility
     }
 
     // AoWAb.PAS:3282
-    public override void GetCombatInfo(AbilityOwner owner, ref AbilityCombatInfo info)
+    public override void GetCombatInfo(AbilityOwner? owner, ref AbilityCombatInfo info)
     {
         int level = GetLevel(owner);
         sbyte touchAttack = GetTouchAttack(level);
@@ -248,7 +248,7 @@ public class TurnUndeadAbility : TouchAbility
     }
 
     // AoWAb.PAS:3137
-    public override bool CanTouch(CombatObject source, CombatObject target)
+    public override bool CanTouch(CombatObject? source, CombatObject? target)
     {
         bool result = base.CanTouch(source, target);
         return result
@@ -257,7 +257,7 @@ public class TurnUndeadAbility : TouchAbility
     }
 
     // AoWAb.PAS:3130
-    public override bool CanTouchUnit(Troop source, Troop target)
+    public override bool CanTouchUnit(Troop source, Troop? target)
     {
         bool result = base.CanTouchUnit(source, target);
         if (result)
@@ -297,13 +297,13 @@ public class TurnUndeadAbility : TouchAbility
     }
 
     // AoWAb.PAS:3356. Draws the random value the touch event used to draw, then builds the action.
-    public override CombatAction CreateTouchMoveCombatAction(CombatUnit source, CombatUnit target)
+    public override CombatAction CreateTouchMoveCombatAction(CombatUnit source, CombatUnit? target)
     {
         RandSeed = StrategicMap.Current.Random(16777215);
         return CreateTurnUndeadCombatAction(source, target: target);
     }
 
-    public TurnUndeadCombatAction CreateTurnUndeadCombatAction(CombatObject source, CombatObject target)
+    public TurnUndeadCombatAction CreateTurnUndeadCombatAction(CombatObject source, CombatObject? target)
     {
         // { These eliminated copies preserve the original saved registers. }
         TurnUndeadCombatAction action = new(null) { Holder = CreationHolder() };
@@ -324,6 +324,6 @@ public class TurnUndeadAbility : TouchAbility
     // AoWAb.PAS:3164
     public override EngineClass AbilityDataClass() => AbilityRules.MultiLevelDataClass;
 
-    public MultiLevelAbilityData GetData(AbilityOwner owner) => owner.GetAbilityData<MultiLevelAbilityData>(AbilityId);
+    public MultiLevelAbilityData GetData(AbilityOwner? owner) => owner.GetAbilityData<MultiLevelAbilityData>(AbilityId);
 
 }

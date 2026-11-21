@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from CombatTerrain.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
@@ -21,7 +21,7 @@ public class CombatTerrain(CustomNode owner) : TerrainMapObject(owner)
     // CombatTerrain.pas:82
     public new const int ClassId = 2_228_582;
 
-    private CombatTerrainShadow _shadow;
+    private CombatTerrainShadow? _shadow;
     private int _hitPoints;
 
     private int _defense;
@@ -231,7 +231,7 @@ public class CombatTerrain(CustomNode owner) : TerrainMapObject(owner)
     }
 
     // CombatTerrain.pas:91
-    public override MapObjectResourceList GetResourceList(GameEngine engine) => GamePack.Current.CombatResources;
+    public override MapObjectResourceList GetResourceList(GameEngine? engine) => GamePack.Current.CombatResources;
 
     // CombatTerrain.pas:106
     public override bool CanPlaceOnHexSprite(HexSprite hexSprite) => base.CanPlaceOnHexSprite(hexSprite) || hexSprite is AbstractRoad;

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
@@ -9,7 +9,7 @@ using Aow.Game.World.Structures;
 namespace Aow.Game.Draw;
 
 // connected/visible flags, structure
-public sealed class StructureShadow(CustomNode owner) : HexSprite(owner)
+public sealed class StructureShadow(CustomNode? owner) : HexSprite(owner)
 {
     public StructureShadowStatuses ShadowStatus { get; private set; }
     public Structure Structure { get; init; }

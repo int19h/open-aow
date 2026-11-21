@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // The typed view of a component event that a derived class publishes. The base class declares
 // the event with its own sender type. A derived class redeclares it with its own type, and the
 // accessors subscribe a view to the base event: the view drops the base sender and calls the
@@ -16,84 +16,84 @@ namespace Aow.Game.UI.Controls;
 
 internal static class EventSlot
 {
-    private static readonly ConditionalWeakTable<object, List<SlotView>> s_views = [];
+    private static readonly ConditionalWeakTable<object, List<SlotView>?> s_views = [];
 
-    public static NotifyEvent<TBase> Add<TBase, TOwner>(TOwner owner, string slot, NotifyEvent<TOwner> value)
+    public static NotifyEvent<TBase>? Add<TBase, TOwner>(TOwner owner, string slot, NotifyEvent<TOwner> value)
         where TBase : class
         where TOwner : class, TBase
         => value is null ? null : Keep(owner, view: new NotifyView<TBase, TOwner>(owner, slot, typed: value)).Invoke;
 
-    public static NotifyEvent<TBase> Remove<TBase, TOwner>(TOwner owner, string slot, NotifyEvent<TOwner> value)
+    public static NotifyEvent<TBase>? Remove<TBase, TOwner>(TOwner owner, string slot, NotifyEvent<TOwner> value)
         where TBase : class
         where TOwner : class, TBase
         => Find<NotifyView<TBase, TOwner>>(owner, slot, value) is { } view ? view.Invoke : null;
 
-    public static MouseEvent<TBase> Add<TBase, TOwner>(TOwner owner, string slot, MouseEvent<TOwner> value)
+    public static MouseEvent<TBase>? Add<TBase, TOwner>(TOwner owner, string slot, MouseEvent<TOwner> value)
         where TBase : class
         where TOwner : class, TBase
         => value is null ? null : Keep(owner, view: new MouseView<TBase, TOwner>(owner, slot, typed: value)).Invoke;
 
-    public static MouseEvent<TBase> Remove<TBase, TOwner>(TOwner owner, string slot, MouseEvent<TOwner> value)
+    public static MouseEvent<TBase>? Remove<TBase, TOwner>(TOwner owner, string slot, MouseEvent<TOwner> value)
         where TBase : class
         where TOwner : class, TBase
         => Find<MouseView<TBase, TOwner>>(owner, slot, value) is { } view ? view.Invoke : null;
 
-    public static MouseMoveEvent<TBase> Add<TBase, TOwner>(TOwner owner, string slot, MouseMoveEvent<TOwner> value)
+    public static MouseMoveEvent<TBase>? Add<TBase, TOwner>(TOwner owner, string slot, MouseMoveEvent<TOwner> value)
         where TBase : class
         where TOwner : class, TBase
         => value is null ? null : Keep(owner, view: new MouseMoveView<TBase, TOwner>(owner, slot, typed: value)).Invoke;
 
-    public static MouseMoveEvent<TBase> Remove<TBase, TOwner>(TOwner owner, string slot, MouseMoveEvent<TOwner> value)
+    public static MouseMoveEvent<TBase>? Remove<TBase, TOwner>(TOwner owner, string slot, MouseMoveEvent<TOwner> value)
         where TBase : class
         where TOwner : class, TBase
         => Find<MouseMoveView<TBase, TOwner>>(owner, slot, value) is { } view ? view.Invoke : null;
 
-    public static KeyPressEvent<TBase> Add<TBase, TOwner>(TOwner owner, string slot, KeyPressEvent<TOwner> value)
+    public static KeyPressEvent<TBase>? Add<TBase, TOwner>(TOwner owner, string slot, KeyPressEvent<TOwner> value)
         where TBase : class
         where TOwner : class, TBase
         => value is null ? null : Keep(owner, view: new KeyPressView<TBase, TOwner>(owner, slot, typed: value)).Invoke;
 
-    public static KeyPressEvent<TBase> Remove<TBase, TOwner>(TOwner owner, string slot, KeyPressEvent<TOwner> value)
+    public static KeyPressEvent<TBase>? Remove<TBase, TOwner>(TOwner owner, string slot, KeyPressEvent<TOwner> value)
         where TBase : class
         where TOwner : class, TBase
         => Find<KeyPressView<TBase, TOwner>>(owner, slot, value) is { } view ? view.Invoke : null;
 
-    public static KeyEvent<TBase> Add<TBase, TOwner>(TOwner owner, string slot, KeyEvent<TOwner> value)
+    public static KeyEvent<TBase>? Add<TBase, TOwner>(TOwner owner, string slot, KeyEvent<TOwner> value)
         where TBase : class
         where TOwner : class, TBase
         => value is null ? null : Keep(owner, view: new KeyView<TBase, TOwner>(owner, slot, typed: value)).Invoke;
 
-    public static KeyEvent<TBase> Remove<TBase, TOwner>(TOwner owner, string slot, KeyEvent<TOwner> value)
+    public static KeyEvent<TBase>? Remove<TBase, TOwner>(TOwner owner, string slot, KeyEvent<TOwner> value)
         where TBase : class
         where TOwner : class, TBase
         => Find<KeyView<TBase, TOwner>>(owner, slot, value) is { } view ? view.Invoke : null;
 
-    public static AoWOnDrawEvent<TBase> Add<TBase, TOwner>(TOwner owner, string slot, AoWOnDrawEvent<TOwner> value)
+    public static AoWOnDrawEvent<TBase>? Add<TBase, TOwner>(TOwner owner, string slot, AoWOnDrawEvent<TOwner> value)
         where TBase : class
         where TOwner : class, TBase
         => value is null ? null : Keep(owner, view: new DrawView<TBase, TOwner>(owner, slot, typed: value)).Invoke;
 
-    public static AoWOnDrawEvent<TBase> Remove<TBase, TOwner>(TOwner owner, string slot, AoWOnDrawEvent<TOwner> value)
+    public static AoWOnDrawEvent<TBase>? Remove<TBase, TOwner>(TOwner owner, string slot, AoWOnDrawEvent<TOwner> value)
         where TBase : class
         where TOwner : class, TBase
         => Find<DrawView<TBase, TOwner>>(owner, slot, value) is { } view ? view.Invoke : null;
 
-    public static AoWOnDrawBackEvent<TBase> Add<TBase, TOwner>(TOwner owner, string slot, AoWOnDrawBackEvent<TOwner> value)
+    public static AoWOnDrawBackEvent<TBase>? Add<TBase, TOwner>(TOwner owner, string slot, AoWOnDrawBackEvent<TOwner> value)
         where TBase : class
         where TOwner : class, TBase
         => value is null ? null : Keep(owner, view: new DrawBackView<TBase, TOwner>(owner, slot, typed: value)).Invoke;
 
-    public static AoWOnDrawBackEvent<TBase> Remove<TBase, TOwner>(TOwner owner, string slot, AoWOnDrawBackEvent<TOwner> value)
+    public static AoWOnDrawBackEvent<TBase>? Remove<TBase, TOwner>(TOwner owner, string slot, AoWOnDrawBackEvent<TOwner> value)
         where TBase : class
         where TOwner : class, TBase
         => Find<DrawBackView<TBase, TOwner>>(owner, slot, value) is { } view ? view.Invoke : null;
 
-    public static AoWOnDrawSurface<TBase> Add<TBase, TOwner>(TOwner owner, string slot, AoWOnDrawSurface<TOwner> value)
+    public static AoWOnDrawSurface<TBase>? Add<TBase, TOwner>(TOwner owner, string slot, AoWOnDrawSurface<TOwner> value)
         where TBase : class
         where TOwner : class, TBase
         => value is null ? null : Keep(owner, view: new DrawSurfaceView<TBase, TOwner>(owner, slot, typed: value)).Invoke;
 
-    public static AoWOnDrawSurface<TBase> Remove<TBase, TOwner>(TOwner owner, string slot, AoWOnDrawSurface<TOwner> value)
+    public static AoWOnDrawSurface<TBase>? Remove<TBase, TOwner>(TOwner owner, string slot, AoWOnDrawSurface<TOwner> value)
         where TBase : class
         where TOwner : class, TBase
         => Find<DrawSurfaceView<TBase, TOwner>>(owner, slot, value) is { } view ? view.Invoke : null;

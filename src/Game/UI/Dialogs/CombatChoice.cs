@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from TCFCDlg.pas.
 using Aow.Game.Combat;
 using Aow.Game.Draw;
@@ -21,15 +21,15 @@ public sealed partial class CombatChoice(UIContext ui) : UIModule(ui)
     public CheckBox TacticalCombatCheckBox { get; private set; }
     public UserDrawBox MapView { get; private set; }
 
-    private CombatTypeRequestEventLog _request;
-    private NotifyEvent<object> _done;
+    private CombatTypeRequestEventLog? _request;
+    private NotifyEvent<object>? _done;
 
     // TCFCDlg.pas:119
     public void Finish()
     {
         UI.General.Manager.OverlayPriority = 0;
-        NotifyEvent<object> done = _done;
-        CombatTypeRequestEventLog request = _request;
+        NotifyEvent<object>? done = _done;
+        CombatTypeRequestEventLog? request = _request;
         _done = null;
         _request = null;
         done?.Invoke(request);

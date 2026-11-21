@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats;
@@ -11,7 +11,7 @@ using static Aow.Rtl.DelphiPaths;
 namespace Aow.Game.Commands;
 
 // save filename
-public class SaveGameTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class SaveGameTokenEvent(CustomNode? owner) : TokenEvent(owner)
 {
     public new const int ClassId = 135_444;
 

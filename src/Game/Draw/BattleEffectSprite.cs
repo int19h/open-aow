@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWTC.pas.
 using System.Globalization;
 using Aow.Engine.Nodes;
@@ -19,7 +19,7 @@ namespace Aow.Game.Draw;
 
 // Done. Cancelled. Frame. AbilityIndex. SpellIndex. Path. Variant. TargetX. TargetY.
 // Target. EffectType
-public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleHexSprite(owner)
+public sealed partial class BattleEffectSprite(CustomNode? owner) : FixedVisibleHexSprite(owner)
 {
 
     // AoWTC.pas:5227
@@ -39,8 +39,8 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
     public int TargetY { get; internal set; }
 
     // Every effect that names a target names a tactical battle unit or nothing.
-    public TacticalBattleUnit Target { get; set; }
-    public CombatAction CombatAction { get; set; }
+    public TacticalBattleUnit? Target { get; set; }
+    public CombatAction? CombatAction { get; set; }
     public BattleEffectType EffectType { get; set; }
 
     // AoWTC.pas:5221
@@ -71,7 +71,7 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
     // AoWTC.pas:5244
     public void NewFrame(object sender)
     {
-        BattleEffectSprite effect;
+        BattleEffectSprite? effect;
         int j = default;
         MapFieldMessage message = default;
         void MakeCloud(int count, int radius)
@@ -87,14 +87,14 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
                 double pi = Math.PI;
                 double cos = Math.Cos((double)(j * pi) / 180);
                 int random = Random(radius);
-                Point3D pathX = Path[0];
+                Point3D? pathX = Path[0];
                 Point3DList path12 = effect.Path;
                 path12[0].X = pathX.X + Round((double)cos * (random - (radius / 2)));
                 effect.Path = path12;
                 double mathPI = Math.PI;
                 double sin = Math.Sin((double)(j * mathPI) / 180);
                 int random2 = Random(radius);
-                Point3D pathY = Path[0];
+                Point3D? pathY = Path[0];
                 Point3DList path13 = effect.Path;
                 path13[0].Y = pathY.Y + (Round((double)sin * (random2 - (radius / 2))) / 2);
                 effect.Path = path13;
@@ -105,7 +105,7 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
         void MakeImpact()
         {
             effect = null;
-            Point3D pathY = Path[Frame];
+            Point3D? pathY = Path[Frame];
             HexGeometry.PixelToHex(Path[Frame].X, vertical: pathY.Y, out i, out j);
             if (CombatMap.Current.MapContainer.MapLevels[0].Field[i, j].TerrainType == 0)
             {
@@ -123,11 +123,11 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
             {
                 Point3D xyz = new();
                 effect.Path.Add(xyz);
-                Point3D pathX = Path[Frame];
+                Point3D? pathX = Path[Frame];
                 Point3DList path14 = effect.Path;
                 path14[0].X = pathX.X;
                 effect.Path = path14;
-                Point3D path = Path[Frame];
+                Point3D? path = Path[Frame];
                 Point3DList path15 = effect.Path;
                 path15[0].Y = path.Y;
                 effect.Path = path15;
@@ -145,7 +145,7 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
                 Frame += 1;
                 int x;
                 int y;
-                ImageSequence sequence;
+                ImageSequence? sequence;
                 int k = default;
                 float z;
                 float speed;
@@ -205,8 +205,8 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
                                 MakeImpact();
                             }
 
-                            Point3D pathY = Path[Frame];
-                            Point3D pathZ = Path[Frame];
+                            Point3D? pathY = Path[Frame];
+                            Point3D? pathZ = Path[Frame];
                             HexGeometry.PixelToHex(Path[Frame].X, vertical: pathY.Y - pathZ.Z, out i, out j);
                             CombatMap.Current.MakeVisible(i, j, 0, radius: 2);
                         }
@@ -257,8 +257,8 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
                                 MakeImpact();
                             }
 
-                            Point3D pathY = Path[Frame];
-                            Point3D pathZ = Path[Frame];
+                            Point3D? pathY = Path[Frame];
+                            Point3D? pathZ = Path[Frame];
                             HexGeometry.PixelToHex(Path[Frame].X, vertical: pathY.Y - pathZ.Z, out i, out j);
                             CombatMap.Current.MakeVisible(i, j, 0, radius: 2);
                         }
@@ -283,11 +283,11 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
                             effect.SpellIndex = SpellIndex;
                             Point3D xyz = new();
                             effect.Path.Add(xyz);
-                            Point3D pathX = Path[Frame];
+                            Point3D? pathX = Path[Frame];
                             Point3DList path16 = effect.Path;
                             path16[0].X = pathX.X;
                             effect.Path = path16;
-                            Point3D pathY = Path[Frame];
+                            Point3D? pathY = Path[Frame];
                             Point3DList path17 = effect.Path;
                             path17[0].Y = pathY.Y;
                             effect.Path = path17;
@@ -484,11 +484,11 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
                                         vz = (float)((double)(Random(50) + 20) / 10);
                                         z = 0;
                                         int count8 = Path.Count;
-                                        Point3D path = Path[count8 - 1];
+                                        Point3D? path = Path[count8 - 1];
                                         int count9 = Path.Count;
-                                        Point3D pathZ = Path[count9 - 1];
+                                        Point3D? pathZ = Path[count9 - 1];
                                         int count10 = Path.Count;
-                                        Point3D pathX = Path[count10 - 1];
+                                        Point3D? pathX = Path[count10 - 1];
                                         Point3DList path22 = effect.Path;
                                         EffectPaths.MakeArcPath(angle: Random(360), x: pathX.X, y: path.Y - pathZ.Z, z: ref z, speed: speed, vz: ref vz, gravity: gravity, list: path22);
                                         effect.Path = path22;
@@ -521,11 +521,11 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
                                         vz = (float)((double)(Random(50) + 20) / 10);
                                         z = 0;
                                         int count8 = Path.Count;
-                                        Point3D path = Path[count8 - 1];
+                                        Point3D? path = Path[count8 - 1];
                                         int count9 = Path.Count;
-                                        Point3D pathZ = Path[count9 - 1];
+                                        Point3D? pathZ = Path[count9 - 1];
                                         int count10 = Path.Count;
-                                        Point3D pathX = Path[count10 - 1];
+                                        Point3D? pathX = Path[count10 - 1];
                                         Point3DList path23 = effect.Path;
                                         EffectPaths.MakeArcPath(angle: Random(360), x: pathX.X, y: path.Y - pathZ.Z, z: ref z, speed: speed, vz: ref vz, gravity: gravity, list: path23);
                                         effect.Path = path23;
@@ -553,8 +553,8 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
                                         gravity = (float)0.5;
                                         vz = (float)((double)(Random(50) + 40) / 10);
                                         z = 0;
-                                        Point3D pathY = Path[i];
-                                        Point3D pathZ = Path[i];
+                                        Point3D? pathY = Path[i];
+                                        Point3D? pathZ = Path[i];
                                         Point3DList path24 = effect.Path;
                                         EffectPaths.MakeArcPath(angle: Random(360), x: Path[i].X, y: pathY.Y - pathZ.Z, z: ref z, speed: speed, vz: ref vz, gravity: gravity, list: path24);
                                         effect.Path = path24;
@@ -575,11 +575,11 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
                                         vz = (float)((double)(Random(5) + 5) / 10);
                                         z = 0;
                                         int count8 = Path.Count;
-                                        Point3D path = Path[count8 - 1];
+                                        Point3D? path = Path[count8 - 1];
                                         int count9 = Path.Count;
-                                        Point3D pathZ = Path[count9 - 1];
+                                        Point3D? pathZ = Path[count9 - 1];
                                         int count10 = Path.Count;
-                                        Point3D pathX = Path[count10 - 1];
+                                        Point3D? pathX = Path[count10 - 1];
                                         Point3DList path25 = effect.Path;
                                         EffectPaths.MakeArcPath(angle: Random(360), x: pathX.X, y: path.Y - pathZ.Z, z: ref z, speed: speed, vz: ref vz, gravity: gravity, list: path25);
                                         effect.Path = path25;
@@ -613,8 +613,8 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
                                         effect.AbilityIndex = AbilityIndex;
                                         effect.SpellIndex = SpellIndex;
                                         int random = Random(360);
-                                        Point3D pathX = Path[0];
-                                        Point3D pathY = Path[0];
+                                        Point3D? pathX = Path[0];
+                                        Point3D? pathY = Path[0];
                                         int random2 = Random(2);
                                         int random3 = Random(10);
                                         Point3DList path26 = effect.Path;
@@ -633,8 +633,8 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
                                         effect.AbilityIndex = AbilityIndex;
                                         effect.SpellIndex = SpellIndex;
                                         int random = Random(360);
-                                        Point3D pathX = Path[0];
-                                        Point3D pathY = Path[0];
+                                        Point3D? pathX = Path[0];
+                                        Point3D? pathY = Path[0];
                                         int random2 = Random(2);
                                         int random3 = Random(10);
                                         Point3DList path27 = effect.Path;
@@ -653,8 +653,8 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
                                         effect.AbilityIndex = AbilityIndex;
                                         effect.SpellIndex = SpellIndex;
                                         int random = Random(360);
-                                        Point3D pathX = Path[0];
-                                        Point3D pathY = Path[0];
+                                        Point3D? pathX = Path[0];
+                                        Point3D? pathY = Path[0];
                                         int random2 = Random(2);
                                         int random3 = Random(10);
                                         Point3DList path28 = effect.Path;
@@ -673,8 +673,8 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
                                         effect.AbilityIndex = AbilityIndex;
                                         effect.SpellIndex = SpellIndex;
                                         int random = Random(360);
-                                        Point3D pathX = Path[0];
-                                        Point3D pathY = Path[0];
+                                        Point3D? pathX = Path[0];
+                                        Point3D? pathY = Path[0];
                                         int random2 = Random(2);
                                         int random3 = Random(10);
                                         Point3DList path29 = effect.Path;
@@ -706,12 +706,12 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
                                         double pi = Math.PI;
                                         double sin = Math.Sin((double)((i + j) * pi) / 180);
                                         int random = Random(10);
-                                        Point3D pathY = Path[0];
+                                        Point3D? pathY = Path[0];
                                         double mathPI = Math.PI;
                                         double cos = Math.Cos((double)((i + j) * mathPI) / 180);
                                         int random2 = Random(10);
-                                        Point3D pathX = Path[0];
-                                        Point3D path = Path[0];
+                                        Point3D? pathX = Path[0];
+                                        Point3D? path = Path[0];
                                         Point3DList path30 = effect.Path;
                                         EffectPaths.MakeLinePath(Path[0].X, path.Y, pathX.X + Round((double)cos * (random2 + x)), pathY.Y + (Round((double)sin * (random + y)) / 2), steps: 75, list: path30);
                                         effect.Path = path30;
@@ -724,10 +724,10 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
                                                 effect2.AbilityIndex = AbilityIndex;
                                                 effect2.SpellIndex = SpellIndex;
                                                 int count7 = effect.Path.Count;
-                                                Point3D path2 = effect.Path[count7 - 1];
+                                                Point3D? path2 = effect.Path[count7 - 1];
                                                 int count8 = effect.Path.Count;
-                                                Point3D path3 = effect.Path[count8 - 1];
-                                                Point3D path4 = Path[0];
+                                                Point3D? path3 = effect.Path[count8 - 1];
+                                                Point3D? path4 = Path[0];
                                                 Point3DList path31 = effect2.Path;
                                                 EffectPaths.MakeLinePath(Path[0].X, path4.Y, path3.X, path2.Y, steps: (k * 5) + 75, list: path31);
                                                 effect2.Path = path31;
@@ -739,7 +739,7 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
                                 break;
                             case >= 151 and <= 169:
                             case >= 210 and <= 229:
-                                Point3D path5 = Path[0];
+                                Point3D? path5 = Path[0];
                                 HexGeometry.PixelToHex(Path[0].X, vertical: path5.Y, out x, out y);
                                 message.MessageId = 200720;
                                 MapFieldMessageParameters param = message.Param;
@@ -758,7 +758,7 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
                                 break;
                             case >= 170 and <= 184:
                             case >= 195 and <= 209:
-                                Point3D path6 = Path[0];
+                                Point3D? path6 = Path[0];
                                 HexGeometry.PixelToHex(Path[0].X, vertical: path6.Y, out x, out y);
                                 message.MessageId = 200720;
                                 MapFieldMessageParameters param2 = message.Param;
@@ -776,7 +776,7 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
 
                                 break;
                             case >= 185 and <= 194:
-                                Point3D path7 = Path[0];
+                                Point3D? path7 = Path[0];
                                 HexGeometry.PixelToHex(Path[0].X, vertical: path7.Y, out x, out y);
                                 message.MessageId = 200720;
                                 MapFieldMessageParameters param3 = message.Param;
@@ -794,7 +794,7 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
 
                                 break;
                             case 230:
-                                Point3D path8 = Path[0];
+                                Point3D? path8 = Path[0];
                                 HexGeometry.PixelToHex(Path[0].X, vertical: path8.Y, out x, out y);
                                 message.MessageId = 200721;
                                 message.Result = -1;
@@ -831,7 +831,7 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
                                         }
 
                                         int count8 = Path.Count;
-                                        Point3D path = Path[count8 - 1];
+                                        Point3D? path = Path[count8 - 1];
                                         int count9 = Path.Count;
                                         HexGeometry.PixelToHex(Path[count9 - 1].X, vertical: path.Y, out j, out k);
                                         MapField mapField = CombatMap.Current.MapContainer.MapLevels[0].Field[j, k];
@@ -857,12 +857,12 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
                                         int count8 = Path.Count;
                                         if (Frame - 20 < count8 && Frame >= 20)
                                         {
-                                            Point3D pathX = Path[Frame - 20];
-                                            Point3D path = Path[0];
+                                            Point3D? pathX = Path[Frame - 20];
+                                            Point3D? path = Path[0];
                                             Target.UnitHexSprite.OffsetX = pathX.X - path.X;
-                                            Point3D pathY = Path[Frame - 20];
-                                            Point3D pathZ = Path[Frame - 20];
-                                            Point3D path2 = Path[0];
+                                            Point3D? pathY = Path[Frame - 20];
+                                            Point3D? pathZ = Path[Frame - 20];
+                                            Point3D? path2 = Path[0];
                                             Target.UnitHexSprite.OffsetY = pathY.Y - pathZ.Z - path2.Y;
                                             Target.UnitHexSprite.SetDirection((byte)(Target.UnitHexSprite.Direction + 1));
                                             if (Target.UnitHexSprite.Direction > 6)
@@ -891,10 +891,10 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
                                             effect.AbilityIndex = AbilityIndex;
                                             effect.SpellIndex = SpellIndex;
                                             int random = Random(360);
-                                            Point3D pathX = Path[i];
+                                            Point3D? pathX = Path[i];
                                             int random2 = Random(10);
-                                            Point3D pathY = Path[i];
-                                            Point3D pathZ = Path[i];
+                                            Point3D? pathY = Path[i];
+                                            Point3D? pathZ = Path[i];
                                             int random3 = Random(10);
                                             int random4 = Random(2);
                                             int count8 = Path.Count;
@@ -990,7 +990,7 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
                             case >= 125 and <= 199:
                                 if (Frame == 125)
                                 {
-                                    Point3D path = Path[0];
+                                    Point3D? path = Path[0];
                                     HexGeometry.PixelToHex(Path[0].X, vertical: path.Y, out i, out j);
                                     CombatMap.Current.CenterViewTo(i, j - 3, 0);
                                 }
@@ -1003,10 +1003,10 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
                                 }
 
                                 j = Random(6) + 10;
-                                Point3D pathX = Path[0];
+                                Point3D? pathX = Path[0];
                                 int random2 = Random(160);
                                 k = pathX.X + random2 - 80;
-                                Point3D pathY = Path[0];
+                                Point3D? pathY = Path[0];
                                 int random3 = Random(80);
                                 x = pathY.Y + random3 - 40;
                                 {
@@ -1073,8 +1073,8 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
                                             effect.AbilityIndex = AbilityIndex;
                                             effect.SpellIndex = SpellIndex;
                                             int random = Random(360);
-                                            Point3D pathX = Path[0];
-                                            Point3D pathY = Path[0];
+                                            Point3D? pathX = Path[0];
+                                            Point3D? pathY = Path[0];
                                             int random2 = Random(2);
                                             Point3DList path37 = effect.Path;
                                             EffectPaths.MakeSwarmPath(Random(10) + 10, radius: i / 2, phase: 45, angle: random, pathX.X + 100 - i, pathY.Y - 200 - 50 + i, direction: (SwarmDirection)random2, list: path37);
@@ -1098,8 +1098,8 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
                                             effect.AbilityIndex = AbilityIndex;
                                             effect.SpellIndex = SpellIndex;
                                             int random = Random(360);
-                                            Point3D pathX = Path[0];
-                                            Point3D pathY = Path[0];
+                                            Point3D? pathX = Path[0];
+                                            Point3D? pathY = Path[0];
                                             int random2 = Random(2);
                                             Point3DList path38 = effect.Path;
                                             EffectPaths.MakeSwarmPath(Random(10) + 10, radius: i / 2, phase: 45, angle: random, pathX.X + 100 - i, pathY.Y - 200 - 50 + i, direction: (SwarmDirection)random2, list: path38);
@@ -1113,14 +1113,14 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
                                     effect = CombatMap.Current.AddEffect(BattleEffectType.DecayComet);
                                     effect.AbilityIndex = AbilityIndex;
                                     effect.SpellIndex = SpellIndex;
-                                    Point3D pathY = Path[0];
+                                    Point3D? pathY = Path[0];
                                     int random = Random(50);
                                     int random2 = Random(5);
-                                    Point3D pathX = Path[0];
+                                    Point3D? pathX = Path[0];
                                     int random3 = Random(50);
-                                    Point3D path = Path[0];
+                                    Point3D? path = Path[0];
                                     int random4 = Random(50);
-                                    Point3D path2 = Path[0];
+                                    Point3D? path2 = Path[0];
                                     int random5 = Random(50);
                                     Point3DList path39 = effect.Path;
                                     EffectPaths.MakeArcPathXY((short)(path2.X + random5 + 25), (short)(path.Y + random4 - 225), (short)(pathX.X + random3 - 25), (short)(pathY.Y + random - 25), stepSize: (short)(random2 + 5), height: 100, list: path39);
@@ -1133,11 +1133,11 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
                                         vz = (float)((double)(Random(25) + 25) / 10);
                                         z = 0;
                                         int count7 = effect.Path.Count;
-                                        Point3D path3 = effect.Path[count7 - 1];
+                                        Point3D? path3 = effect.Path[count7 - 1];
                                         int count8 = effect.Path.Count;
-                                        Point3D pathZ = effect.Path[count8 - 1];
+                                        Point3D? pathZ = effect.Path[count8 - 1];
                                         int count9 = effect.Path.Count;
-                                        Point3D path4 = effect.Path[count9 - 1];
+                                        Point3D? path4 = effect.Path[count9 - 1];
                                         Point3DList path40 = effect.Path;
                                         EffectPaths.MakeArcPath(angle: Random(360), x: path4.X, y: path3.Y - pathZ.Z, z: ref z, speed: speed, vz: ref vz, gravity: gravity, list: path40);
                                         effect.Path = path40;
@@ -1155,9 +1155,9 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
                                     {
                                         int random6 = Random(3);
                                         int count7 = effect.Path.Count;
-                                        Point3D path3 = effect.Path[count7 - 1];
+                                        Point3D? path3 = effect.Path[count7 - 1];
                                         int count8 = effect.Path.Count;
-                                        Point3D pathZ = effect.Path[count8 - 1];
+                                        Point3D? pathZ = effect.Path[count8 - 1];
                                         int count9 = effect.Path.Count;
                                         Point3DList path41 = effect.Path;
                                         EffectPaths.MakeArcPathXY((short)effect.Path[count9 - 1].X, (short)(path3.Y - pathZ.Z), (short)(x + 16), (short)(y - 8), stepSize: (short)(random6 + 6), height: 100, list: path41);
@@ -1167,29 +1167,29 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
                                         for (; i <= last; i += 1)
                                         {
                                             int count10 = effect.Path.Count;
-                                            Point3D path4 = effect.Path[count10 - 1];
+                                            Point3D? path4 = effect.Path[count10 - 1];
                                             int count11 = effect.Path.Count;
-                                            Point3D path5 = effect.Path[count11 - 1];
+                                            Point3D? path5 = effect.Path[count11 - 1];
                                             int count12 = effect.Path.Count;
-                                            Point3D path6 = effect.Path[count12 - 1];
+                                            Point3D? path6 = effect.Path[count12 - 1];
                                             int count13 = effect.Path.Count;
-                                            Point3D path7 = effect.Path[count13 - 1];
+                                            Point3D? path7 = effect.Path[count13 - 1];
                                             int count14 = effect.Path.Count;
-                                            Point3D path8 = effect.Path[count14 - 1];
+                                            Point3D? path8 = effect.Path[count14 - 1];
                                             int count15 = effect.Path.Count;
                                             Point3DList path42 = effect.Path;
                                             EffectPaths.MakeLinePath(effect.Path[count15 - 1].X, path6.Y - path7.Z, path8.X, path4.Y - path5.Z - 6, steps: 3, list: path42);
                                             effect.Path = path42;
                                             int count16 = effect.Path.Count;
-                                            Point3D path9 = effect.Path[count16 - 1];
+                                            Point3D? path9 = effect.Path[count16 - 1];
                                             int count17 = effect.Path.Count;
-                                            Point3D item = effect.Path[count17 - 1];
+                                            Point3D? item = effect.Path[count17 - 1];
                                             int count18 = effect.Path.Count;
-                                            Point3D fPathItem = effect.Path[count18 - 1];
+                                            Point3D? fPathItem = effect.Path[count18 - 1];
                                             int count19 = effect.Path.Count;
-                                            Point3D path10 = effect.Path[count19 - 1];
+                                            Point3D? path10 = effect.Path[count19 - 1];
                                             int count20 = effect.Path.Count;
-                                            Point3D path11 = effect.Path[count20 - 1];
+                                            Point3D? path11 = effect.Path[count20 - 1];
                                             int count21 = effect.Path.Count;
                                             Point3DList path43 = effect.Path;
                                             EffectPaths.MakeLinePath(effect.Path[count21 - 1].X, fPathItem.Y - path10.Z, path11.X, path9.Y - item.Z + 6, steps: 3, list: path43);
@@ -1228,9 +1228,9 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
                                     k = Path[i].Z;
                                 }
 
-                                Point3D pathY = Path[i];
-                                Point3D pathX = Path[i];
-                                Point3D path = Path[j];
+                                Point3D? pathY = Path[i];
+                                Point3D? pathX = Path[i];
+                                Point3D? path = Path[j];
                                 EffectPaths.MakeLightningPath(Path[j].X, path.Y, pathX.X, pathY.Y, list: newPath);
                                 switch (k)
                                 {
@@ -1278,8 +1278,8 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
                                     : GamePack.Current.AbilityControl[AbilityIndex].SfxLibrary.Play(1);
                             }
 
-                            Point3D pathY = Path[Frame];
-                            Point3D pathZ = Path[Frame];
+                            Point3D? pathY = Path[Frame];
+                            Point3D? pathZ = Path[Frame];
                             HexGeometry.PixelToHex(Path[Frame].X, vertical: pathY.Y - pathZ.Z, out i, out j);
                             CombatMap.Current.MakeVisible(i, j, 0, radius: 3);
                         }
@@ -1372,9 +1372,9 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
                         }
                         else
                         {
-                            Point3D pathX = Path[0];
+                            Point3D? pathX = Path[0];
                             pathX.X -= 3;
-                            Point3D pathY = Path[0];
+                            Point3D? pathY = Path[0];
                             pathY.Y += 3;
                             if (Path[0].X < 0)
                             {
@@ -1460,7 +1460,7 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
 
                         break;
                     case BattleEffectType.Blood:
-                        Point3D pathZ2 = Path[0];
+                        Point3D? pathZ2 = Path[0];
                         sequence = GamePack.Current.ImageSequences.ImageSequences[pathZ2.Z];
                         if (sequence is null)
                         {
@@ -1491,23 +1491,23 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
                                 Path = path49;
                                 break;
                             case >= 1 and <= 29:
-                                Point3D pathY = Path[0];
+                                Point3D? pathY = Path[0];
                                 int random = Random(Frame / 3);
-                                Point3D pathX = Path[0];
+                                Point3D? pathX = Path[0];
                                 int random2 = Random(Frame / 3);
                                 CombatMap.Current.ChangeViewTo(pathX.X + random2 - (Frame / 6), pathY.Y + random - (Frame / 6), lHitPoints: CombatMap.Current.ViewMapLevel);
                                 break;
                             case >= 30 and <= 89:
-                                Point3D path = Path[0];
+                                Point3D? path = Path[0];
                                 int random3 = Random(10);
-                                Point3D path2 = Path[0];
+                                Point3D? path2 = Path[0];
                                 int random4 = Random(10);
                                 CombatMap.Current.ChangeViewTo(path2.X + random4 - 5, path.Y + random3 - 5, lHitPoints: CombatMap.Current.ViewMapLevel);
                                 break;
                             case >= 90 and <= 119:
-                                Point3D path3 = Path[0];
+                                Point3D? path3 = Path[0];
                                 int random5 = Random((119 - Frame) / 3);
-                                Point3D path4 = Path[0];
+                                Point3D? path4 = Path[0];
                                 int random6 = Random((119 - Frame) / 3);
                                 CombatMap.Current.ChangeViewTo(path4.X + random6 - ((119 - Frame) / 6), path3.Y + random5 - ((119 - Frame) / 6), lHitPoints: CombatMap.Current.ViewMapLevel);
                                 break;
@@ -1705,7 +1705,7 @@ public sealed partial class BattleEffectSprite(CustomNode owner) : FixedVisibleH
                                         gravity = (float)0.5;
                                         vz = (float)((double)(Random(50) + (Frame * 3 * 0.5)) / 10);
                                         z = 0;
-                                        Point3D path = Path[0];
+                                        Point3D? path = Path[0];
                                         Point3DList path53 = effect.Path;
                                         EffectPaths.MakeArcPath(Path[0].X, path.Y, angle: i * 360 / j, ref z, speed, ref vz, gravity, list: path53);
                                         effect.Path = path53;

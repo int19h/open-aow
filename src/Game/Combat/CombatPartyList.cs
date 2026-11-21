@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
@@ -7,7 +7,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Combat;
 
-public sealed class CombatPartyList(CustomNode owner) : OwningNode(owner), IChildList<CombatParty>
+public sealed class CombatPartyList(CustomNode? owner) : OwningNode(owner), IChildList<CombatParty>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a CombatParty, so the cast never fails.
@@ -21,7 +21,7 @@ public sealed class CombatPartyList(CustomNode owner) : OwningNode(owner), IChil
     public override ControlStyles GetControlStyle() => ControlStyles.SaveLoad | ControlStyles.ArrayMode;
 
     // Combat2.pas:73
-    public CombatParty CreateParty(Battle combat, byte position, byte combatPlayer, int X, int Y, int L, Army army)
+    public CombatParty CreateParty(Battle combat, byte position, byte combatPlayer, int X, int Y, int L, Army? army)
     {
         CombatParty p;
         if (GetParty(position) is null)
@@ -53,7 +53,7 @@ public sealed class CombatPartyList(CustomNode owner) : OwningNode(owner), IChil
     }
 
     // Combat2.pas:96
-    public CombatParty GetParty(byte position) => position < Count ? this[position] : null;
+    public CombatParty? GetParty(byte position) => position < Count ? this[position] : null;
 
     // Combat2.pas:99
     public void Activate(Battle combat)

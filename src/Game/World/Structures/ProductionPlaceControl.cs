@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from PrdPlace.pas.
 using Aow.Engine.Nodes;
 
@@ -15,7 +15,7 @@ using Aow.Rtl;
 namespace Aow.Game.World.Structures;
 
 // production place
-public sealed partial class ProductionPlaceControl(CustomNode owner) : ProductionControl(owner)
+public sealed partial class ProductionPlaceControl(CustomNode? owner) : ProductionControl(owner)
 {
     public ProductionPlace ProductionPlace { get; set; }
 
@@ -37,7 +37,7 @@ public sealed partial class ProductionPlaceControl(CustomNode owner) : Productio
         bool result = Settings.Unit.Place(hexX, hexY, L: productionPlace.HexLevel, productionPlace.Player, mode: UnitPlaceModes.ScanArea) is not null;
         if (result && ProductionPlace.GetMagicSphere() != Magic.MagicSphere.None && Settings.Unit.ExpandAbility(155))
         {
-            UnitEnchantment enchantment = Settings.Unit.GetAbilityData<UnitEnchantmentAbilityData>(155).Enchantment;
+            UnitEnchantment? enchantment = Settings.Unit.GetAbilityData<UnitEnchantmentAbilityData>(155).Enchantment;
             enchantment.SetUpkeep((Settings.Unit.UnitLevel + 1) * 2);
             enchantment.SetSource(ProductionPlace.Player);
             enchantment.DispelResistance = (sbyte)(Settings.Unit.UnitLevel + 3);
@@ -68,7 +68,7 @@ public sealed partial class ProductionPlaceControl(CustomNode owner) : Productio
             Holder = CreationHolder(),
             Player = productionPlace.Player
         };
-        UnitProduction unitProduction = UnitProductions.GetItem(Settings.UnitProductionIndex);
+        UnitProduction? unitProduction = UnitProductions.GetItem(Settings.UnitProductionIndex);
         string unitName = GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).GetUnitName();
         string name = ProductionPlace.GetName();
         log.Text = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.InstalledFormat), args: [unitName, name]);
@@ -101,7 +101,7 @@ public sealed partial class ProductionPlaceControl(CustomNode owner) : Productio
     {
         if (ProductionPlace.GetMagicSphere() != Magic.MagicSphere.None)
         {
-            UnitProduction unitProduction = UnitProductions.GetItem(index);
+            UnitProduction? unitProduction = UnitProductions.GetItem(index);
             return GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).Level * 5;
         }
         else

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
@@ -14,7 +14,7 @@ public sealed partial class CombatData : EngineObject
     public new const int ClassId = 131_747;
 
     // Combat2.pas:162
-    public CombatData(CustomNode owner) : base(owner)
+    public CombatData(CustomNode? owner) : base(owner)
     {
         Players = new CombatPlayerList(null) { Holder = CreationHolder() };
         Parties = new CombatPartyList(null) { Holder = CreationHolder() };
@@ -49,7 +49,7 @@ public sealed partial class CombatData : EngineObject
     public byte WallType { get; set; }
     public bool WallBreached { get; set; }
 
-    public CombatWall Wall { get; set; }
+    public CombatWall? Wall { get; set; }
 
     // Combat2.pas:173
     public override void Dispose()
@@ -102,7 +102,7 @@ public sealed partial class CombatData : EngineObject
     }
 
     // Combat2.pas:253
-    public CombatObject FindId(int id)
+    public CombatObject? FindId(int id)
     {
         int i = CombatObjects.Count;
         while (i != 0)
@@ -121,9 +121,9 @@ public sealed partial class CombatData : EngineObject
     public T FindId<T>(int id) where T : CombatObject => (T)FindId(id);
 
     // Combat2.pas:269
-    public CombatObject FindPosition(byte position)
+    public CombatObject? FindPosition(byte position)
     {
-        CombatObject result = null;
+        CombatObject? result = null;
         int i = CombatObjects.Count;
         while (i != 0 && result is null)
         {

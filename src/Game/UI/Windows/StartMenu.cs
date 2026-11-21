@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from StartMenu.pas.
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
@@ -9,7 +9,7 @@ using static Aow.Rtl.RtlHost;
 namespace Aow.Game.UI.Windows;
 
 // whole-menu image library
-public sealed class StartMenu(Component owner) : Menu(owner)
+public sealed class StartMenu(Component? owner) : Menu(owner)
 {
 
     // StartMenu.pas:30
@@ -17,7 +17,7 @@ public sealed class StartMenu(Component owner) : Menu(owner)
     {
         base.SetSize();
         SetWinHeightWithoutInvalidate(377);
-        WindowManager m = WindowManager;
+        WindowManager? m = WindowManager;
         if (m is not null && OwnerMenuBar is not null)
         {
             SetWinTopWithoutInvalidate(m.WinHeight - 393);
@@ -36,7 +36,7 @@ public sealed class StartMenu(Component owner) : Menu(owner)
             {
                 Highlighted = -1;
                 SetWinHeightWithoutInvalidate(377);
-                WindowManager m = WindowManager;
+                WindowManager? m = WindowManager;
                 if (m is not null && OwnerMenuBar is not null)
                 {
                     SetWinTopWithoutInvalidate(m.WinHeight - 393);
@@ -53,7 +53,7 @@ public sealed class StartMenu(Component owner) : Menu(owner)
             }
             else
             {
-                MenuBar b = OwnerMenuBar;
+                MenuBar? b = OwnerMenuBar;
                 if (b is not null)
                 {
                     b.Selected = -1;
@@ -95,10 +95,10 @@ public sealed class StartMenu(Component owner) : Menu(owner)
                     {
                         if (Items.Count > 0)
                         {
-                            LibraryImage imageLibraryFrameWidth = ImageLibraryFrame[ImageLibraryIndexFrame + 2];
+                            LibraryImage? imageLibraryFrameWidth = ImageLibraryFrame[ImageLibraryIndexFrame + 2];
                             if (WinLeft + WinWidth - imageLibraryFrameWidth.Width < oldClip.Right)
                             {
-                                LibraryImage imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame + 2];
+                                LibraryImage? imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame + 2];
                                 Rect clipRectangle = lockedSurface.ClipRectangle;
                                 clipRectangle.Right = WinLeft + WinWidth - imageLibraryFrame.Width;
                                 lockedSurface.ClipRectangle = clipRectangle;
@@ -110,8 +110,8 @@ public sealed class StartMenu(Component owner) : Menu(owner)
                             }
 
                             string item = Items[i];
-                            LibraryImage imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame];
-                            LibraryImage imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
+                            LibraryImage? imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame];
+                            LibraryImage? imageLibraryFrame2 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
                             Font.SetText(WinLeft + BorderWidth + imageLibraryFrame2.Width, WinTop + BorderHeight + imageLibraryFrameHeight.Height + (ItemHeight * i), text: item, lockedSurface);
                             if (i == Highlighted)
                             {
@@ -119,9 +119,9 @@ public sealed class StartMenu(Component owner) : Menu(owner)
                             }
 
                             int drawItem = i;
-                            LibraryImage imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
-                            LibraryImage imageLibraryFrame4 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
-                            LibraryImage imageLibraryFrame5 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
+                            LibraryImage? imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
+                            LibraryImage? imageLibraryFrame4 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
+                            LibraryImage? imageLibraryFrame5 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
                             Rect drawItemRectangle = new(WinLeft + imageLibraryFrame5.Width, WinTop + imageLibraryFrame4.Height + (ItemHeight * i), WinLeft + WinWidth, WinTop + imageLibraryFrame3.Height + ((i + 1) * ItemHeight));
                             RaiseDrawItem(this, drawRectangle: drawItemRectangle, drawItem: drawItem, lockedSurface: ref lockedSurface);
 
@@ -144,10 +144,10 @@ public sealed class StartMenu(Component owner) : Menu(owner)
     {
         if (Valid)
         {
-            LibraryImage imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame + 6];
+            LibraryImage? imageLibraryFrameHeight = ImageLibraryFrame[ImageLibraryIndexFrame + 6];
             SetWinHeightWithoutInvalidate(WinHeight - imageLibraryFrameHeight.Height);
             base.CheckMouseDown(button, shift, X, Y);
-            LibraryImage imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame + 6];
+            LibraryImage? imageLibraryFrame = ImageLibraryFrame[ImageLibraryIndexFrame + 6];
             SetWinHeightWithoutInvalidate(WinHeight + imageLibraryFrame.Height);
         }
     }

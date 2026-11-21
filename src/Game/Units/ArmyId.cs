@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
@@ -10,7 +10,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Units;
 
 // UnitIds. Player. FX, FY, FL
-public sealed partial class ArmyId(CustomNode owner) : EngineObject(owner)
+public sealed partial class ArmyId(CustomNode? owner) : EngineObject(owner)
 {
 
     public new const int ClassId = 131_616;
@@ -60,7 +60,7 @@ public sealed partial class ArmyId(CustomNode owner) : EngineObject(owner)
     }
 
     // Army.PAS:45
-    public bool RetrieveArmy(ref ArmyHexSprite armyHexSprite, ref byte selection)
+    public bool RetrieveArmy(ref ArmyHexSprite? armyHexSprite, ref byte selection)
     {
         bool result;
         if (Location.X != -1)

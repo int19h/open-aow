@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AOWWinManager.pas.
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
@@ -19,19 +19,19 @@ namespace Aow.Game.UI.Controls;
 // (draw the foreground texture over the windows below the overlay priority)
 public sealed partial class WindowManager : UIComponent
 {
-    private InterfaceImageLibrary _foregroundTexture;
-    private InterfaceImageLibrary _backgroundTexture;
+    private InterfaceImageLibrary? _foregroundTexture;
+    private InterfaceImageLibrary? _backgroundTexture;
     private int _overlayPriority;
     private int _newOverlayPriority;
     private int _oldCursor;
     private readonly int _defaultCursor;
     [Published]
-    public event NotifyEvent<WindowManager> ChangeCursor;
+    public event NotifyEvent<WindowManager>? ChangeCursor;
     private int _imageLibraryIndexTBack;
     private int _imageLibraryIndexTFore;
 
     // AOWWinManager.pas:81
-    public WindowManager(Component owner) : base(owner)
+    public WindowManager(Component? owner) : base(owner)
     {
         SetWinHeightWithoutInvalidate(480);
         SetWinWidthWithoutInvalidate(640);
@@ -72,7 +72,7 @@ public sealed partial class WindowManager : UIComponent
 
                 for (int i = 0, last = Children.Count - 1; i <= last; i++)
                 {
-                    UIComponent c = Children[i];
+                    UIComponent? c = Children[i];
                     if (c.Visible && c.Priority >= _overlayPriority)
                     {
                         c.Update();
@@ -96,7 +96,7 @@ public sealed partial class WindowManager : UIComponent
     //   (a rectangle from a window only when that window is not below the overlay priority): a
     //   double-buffered window adds it, in its own coordinates, to its blit list, any other window adds
     //   it to its draw list. The window itself is passed as the Sender. }
-    public override void InvalidateRectangle(int index, ref Rect rectangle, UIComponent sender)
+    public override void InvalidateRectangle(int index, ref Rect rectangle, UIComponent? sender)
     {
         if (Valid && Visible)
         {
@@ -104,7 +104,7 @@ public sealed partial class WindowManager : UIComponent
             {
                 for (int i = index, last = Children.Count - 1; i <= last; i++)
                 {
-                    UIComponent c = Children[i];
+                    UIComponent? c = Children[i];
                     if (c.Valid && c.Visible && WinLeft + c.WinLeft <= rectangle.Right && WinLeft + c.WinLeft + c.WinWidth >= rectangle.Left && WinTop + c.WinTop <= rectangle.Bottom && WinTop + c.WinTop + c.WinHeight >= rectangle.Top && rectangle.Left <= rectangle.Right && rectangle.Top <= rectangle.Bottom)
                     {
                         if (c.DoubleBuffered)
@@ -130,14 +130,14 @@ public sealed partial class WindowManager : UIComponent
     //   on to the windows above it, and the foreground texture is drawn again over them when the window
     //   is below the overlay priority. FBackRect holds the window's last place as (Left, Top, Width,
     //   Height). }
-    public override void DrawSurface(Surface surface)
+    public override void DrawSurface(Surface? surface)
     {
         LockedSurface lockedSurface = default;
         try
         {
             Setup();
             Update();
-            WindowControl c;
+            WindowControl? c;
             Rect r;
             if (Valid)
             {
@@ -145,7 +145,7 @@ public sealed partial class WindowManager : UIComponent
                     for (int i = 0, last = Children.Count - 1; i <= last; i++)
                     {
                         // The child list is UIComponent. The manager shows windows, and the cast stays.
-                        c = (WindowControl)Children[i];
+                        c = (WindowControl?)Children[i];
                         if (c.Valid)
                         {
                             if (!Drawn)
@@ -332,7 +332,7 @@ public sealed partial class WindowManager : UIComponent
             for (int i = 0, last = Children.Count - 1; i <= last; i++)
             {
                 // The child list is UIComponent. The manager shows windows, and the cast stays.
-                c = (WindowControl)Children[i];
+                c = (WindowControl?)Children[i];
                 c.Hidden = false;
                 if (c.Valid && c.Visible)
                 {
@@ -431,7 +431,7 @@ public sealed partial class WindowManager : UIComponent
         {
             for (int i = 0, last = Children.Count - 1; i <= last; i++)
             {
-                UIComponent c = Children[i];
+                UIComponent? c = Children[i];
                 if (c.Priority >= _newOverlayPriority && c.Priority < _overlayPriority && c.Visible)
                 {
                     c.Drawn = false;
@@ -451,7 +451,7 @@ public sealed partial class WindowManager : UIComponent
         Handled = false;
         for (int i = Children.Count - 1; i >= 0; i--)
         {
-            UIComponent c = Children[i];
+            UIComponent? c = Children[i];
             if (c.Priority >= _overlayPriority)
             {
                 bool redraw = c.Redraw;
@@ -477,7 +477,7 @@ public sealed partial class WindowManager : UIComponent
         Handled = false;
         for (int i = Children.Count - 1; i >= 0; i--)
         {
-            UIComponent c = Children[i];
+            UIComponent? c = Children[i];
             if (c.Priority >= _overlayPriority)
             {
                 if (!Handled || c.Redraw)
@@ -524,7 +524,7 @@ public sealed partial class WindowManager : UIComponent
         for (int i = Children.Count - 1; i >= 0; i--)
         {
             // The child list is UIComponent. The manager shows windows, and the cast stays.
-            WindowControl c = (WindowControl)Children[i];
+            WindowControl? c = (WindowControl?)Children[i];
             if (c.Priority >= _overlayPriority)
             {
                 if (!Handled || c.Redraw)
@@ -586,7 +586,7 @@ public sealed partial class WindowManager : UIComponent
         Handled = false;
         for (int i = Children.Count - 1; i >= 0; i--)
         {
-            UIComponent c = Children[i];
+            UIComponent? c = Children[i];
             if (c.Priority >= _overlayPriority)
             {
                 c.CheckKeyPress(ref key);
@@ -606,7 +606,7 @@ public sealed partial class WindowManager : UIComponent
         Handled = false;
         for (int i = Children.Count - 1; i >= 0; i--)
         {
-            UIComponent c = Children[i];
+            UIComponent? c = Children[i];
             if (!Handled && c.Priority >= _overlayPriority && c.Visible)
             {
                 c.CheckKeyDown(ref key, shift);
@@ -624,7 +624,7 @@ public sealed partial class WindowManager : UIComponent
     }
 
     // AOWWinManager.pas:102
-    public void SetILTB(InterfaceImageLibrary value)
+    public void SetILTB(InterfaceImageLibrary? value)
     {
         if (value != _backgroundTexture)
         {
@@ -634,7 +634,7 @@ public sealed partial class WindowManager : UIComponent
     }
 
     // AOWWinManager.pas:111
-    public void SetILTF(InterfaceImageLibrary value)
+    public void SetILTF(InterfaceImageLibrary? value)
     {
         if (value != _foregroundTexture)
         {
@@ -687,10 +687,10 @@ public sealed partial class WindowManager : UIComponent
     public override int Cursor { get => base.Cursor; set => SetCursor(value); }
 
     [Published]
-    public InterfaceImageLibrary BackgroundTexture { get => _backgroundTexture; set => SetILTB(value); }
+    public InterfaceImageLibrary? BackgroundTexture { get => _backgroundTexture; set => SetILTB(value); }
 
     [Published]
-    public InterfaceImageLibrary ForegroundTexture { get => _foregroundTexture; set => SetILTF(value); }
+    public InterfaceImageLibrary? ForegroundTexture { get => _foregroundTexture; set => SetILTF(value); }
 
     [Published]
     public int ImageLibraryIndexTBack { get => _imageLibraryIndexTBack; set => SetImageLibraryIndex(value); }

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using System.Collections;
 using Aow.Game.World.Structures;
 
@@ -60,7 +60,7 @@ public readonly struct AIGroupProductionLocationCollection : IReadOnlyList<AIGro
     }
 
     // AIGroup.pas:945
-    public AIGroupProductionLocation FindPC(ProductionControl control)
+    public AIGroupProductionLocation? FindPC(ProductionControl control)
     {
         int index = IndexOfPC(control);
         return index != -1 ? this[index] : null;

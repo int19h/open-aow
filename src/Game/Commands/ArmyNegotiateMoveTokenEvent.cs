@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
@@ -15,7 +15,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
-public class ArmyNegotiateMoveTokenEvent(CustomNode owner) : MoveArmyTokenEvent(owner)
+public class ArmyNegotiateMoveTokenEvent(CustomNode? owner) : MoveArmyTokenEvent(owner)
 {
     public new const int ClassId = 135_430;
 

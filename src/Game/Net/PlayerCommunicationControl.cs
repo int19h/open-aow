@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from NetworkE.pas.
 using Aow.Engine.Nodes;
 
@@ -36,7 +36,7 @@ public class PlayerCommunicationControl : IDisposable
     public virtual bool SendPackageData(int player, MemoryStream stream) => false;
 
     // NetworkE.pas:468
-    public PlayerCommunicationControl(EngineObject creator)
+    public PlayerCommunicationControl(EngineObject? creator)
     {
         Creator = creator;
         RefCount = 1;
@@ -44,7 +44,7 @@ public class PlayerCommunicationControl : IDisposable
     }
 
     // The node that created this control. It and the nodes it creates reach the engine through it.
-    public EngineObject Creator { get; }
+    public EngineObject? Creator { get; }
 
     // NetworkE.pas:475
     public virtual void Dispose() => PlayerCommunicationSettingsList?.Dispose();
@@ -63,7 +63,7 @@ public class PlayerCommunicationControl : IDisposable
     }
 
     // NetworkE.pas:503
-    public PlayerCommunicationSettings GetPlayers(int index)
+    public PlayerCommunicationSettings? GetPlayers(int index)
     {
         return index >= 0 && index < PlayerCommunicationSettingsList.Count
             ? PlayerCommunicationSettingsList.Players[index]
@@ -105,7 +105,7 @@ public class PlayerCommunicationControl : IDisposable
 
     public sealed class PlayersAccessor(PlayerCommunicationControl target)
     {
-        public PlayerCommunicationSettings this[int index] => target.GetPlayers(index);
+        public PlayerCommunicationSettings? this[int index] => target.GetPlayers(index);
     }
 
     public PlayersAccessor Players => new(this);

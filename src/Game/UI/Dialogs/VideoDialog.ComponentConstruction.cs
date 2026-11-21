@@ -1,13 +1,13 @@
 // Layout translated from recovered Delphi forms.
-#nullable disable
+#nullable disable warnings
 using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
 public sealed partial class VideoDialog
 {
-    public event NotifyEvent<VideoDialog> LayoutOnCreate;
-    public event NotifyEvent<VideoDialog> LayoutOnDestroy;
+    public event NotifyEvent<VideoDialog>? LayoutOnCreate;
+    public event NotifyEvent<VideoDialog>? LayoutOnDestroy;
 
     public override void Dispose()
     {

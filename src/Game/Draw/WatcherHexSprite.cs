@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from GlobalTargetSpells.pas.
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
@@ -48,7 +48,7 @@ public sealed class WatcherHexSprite : SingleHexSprite
     }
 
     // GlobalTargetSpells.pas:1203
-    public WatcherHexSprite(CustomNode owner) : base(owner)
+    public WatcherHexSprite(CustomNode? owner) : base(owner)
     {
         Enchantment = new WatcherEnchantment(null)
         {
@@ -61,7 +61,7 @@ public sealed class WatcherHexSprite : SingleHexSprite
     }
 
     // GlobalTargetSpells.pas:1422
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
         int id = message.MessageId;
@@ -157,7 +157,7 @@ public sealed class WatcherHexSprite : SingleHexSprite
     // GlobalTargetSpells.pas:1394
     public override void RemoveFromMap()
     {
-        MapField mapField = Owner;
+        MapField? mapField = Owner;
         base.RemoveFromMap();
         mapField.UpdateMapField();
     }
@@ -218,10 +218,10 @@ public sealed class WatcherHexSprite : SingleHexSprite
         base.Activate();
         WatcherState = (byte)((States)WatcherState | States.Active);
         _ = Enchantment.Activate(Enchantment.PlayerIndex);
-        MapField mapField = Owner;
+        MapField? mapField = Owner;
         StrategicMap.Current.NotifyPlayerChanged(mapField.HexX, mapField.HexY, L: mapField.HexLevel);
 
-        MapField mapFieldLocal = Owner;
+        MapField? mapFieldLocal = Owner;
         int visibilityRange = VisibilityRange();
         int visibilityRange2 = VisibilityRange();
         StrategicMap.Current.UpdatePlayerSeen(Enchantment.PlayerIndex, mapFieldLocal.HexX, mapFieldLocal.HexY, L: mapFieldLocal.HexLevel, sightRadius: visibilityRange, radius: visibilityRange2);

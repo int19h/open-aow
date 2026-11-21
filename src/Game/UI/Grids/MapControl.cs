@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from MapCtrl.pas.
 using Aow.Game.Combat;
 using Aow.Game.Draw;
@@ -17,100 +17,100 @@ namespace Aow.Game.UI.Grids;
 
 public sealed class MapControl : Component
 {
-    private readonly GameEngine _engine;
+    private readonly GameEngine? _engine;
 
     [Published]
-    public event MapObjectEvent<Army> ArmySelected;
+    public event MapObjectEvent<Army>? ArmySelected;
     [Published]
-    public event MapObjectEvent<Army> ArmyDeselected;
+    public event MapObjectEvent<Army>? ArmyDeselected;
     [Published]
-    public event MapObjectEvent<Army> ArmyDoubleClick;
+    public event MapObjectEvent<Army>? ArmyDoubleClick;
     [Published]
-    public event MapObjectEvent<Army> ArmyChanged;
+    public event MapObjectEvent<Army>? ArmyChanged;
     [Published]
-    public event MapObjectEvent<Army> ArmyDestroyed;
+    public event MapObjectEvent<Army>? ArmyDestroyed;
     [Published]
-    public event MapObjectEvent<Structure> StructureSelected;
+    public event MapObjectEvent<Structure>? StructureSelected;
     [Published]
-    public event MapObjectEvent<Structure> StructureDeselected;
+    public event MapObjectEvent<Structure>? StructureDeselected;
     [Published]
-    public event MapObjectEvent<Structure> StructureDoubleClick;
+    public event MapObjectEvent<Structure>? StructureDoubleClick;
     [Published]
-    public event MapObjectEvent<Structure> StructureChanged;
+    public event MapObjectEvent<Structure>? StructureChanged;
     [Published]
-    public event MapObjectEvent<Structure> StructureDestroyed;
+    public event MapObjectEvent<Structure>? StructureDestroyed;
     [Published]
-    public event MapObjectEvent<ItemHexSprite> ItemsSelected;
+    public event MapObjectEvent<ItemHexSprite>? ItemsSelected;
     [Published]
-    public event MapObjectEvent<ItemHexSprite> ItemsDeselected;
+    public event MapObjectEvent<ItemHexSprite>? ItemsDeselected;
     [Published]
-    public event MapObjectEvent<Troop> UnitChanged;
+    public event MapObjectEvent<Troop>? UnitChanged;
     [Published]
-    public event MapObjectEvent<Troop> UnitDestroyed;
+    public event MapObjectEvent<Troop>? UnitDestroyed;
     [Published]
-    public event MapObjectEvent<AbilityActivation> ActivateAbility;
+    public event MapObjectEvent<AbilityActivation>? ActivateAbility;
     [Published]
-    public event NotifyEvent<object> DiplomaticChange;
+    public event NotifyEvent<object>? DiplomaticChange;
     [Published]
-    public event NotifyEvent<object> ActivateHsm;
+    public event NotifyEvent<object>? ActivateHsm;
     [Published]
-    public event NotifyEvent<object> DeactivateHsm;
+    public event NotifyEvent<object>? DeactivateHsm;
     [Published]
-    public event MapPlayerEvent IncomeChanged;
+    public event MapPlayerEvent? IncomeChanged;
     [Published]
-    public event MapPlayerEvent UpkeepChanged;
+    public event MapPlayerEvent? UpkeepChanged;
     [Published]
-    public event MapPlayerEvent GemsChanged;
+    public event MapPlayerEvent? GemsChanged;
     [Published]
-    public event MapPlayerEvent PlayerMagicChanged;
+    public event MapPlayerEvent? PlayerMagicChanged;
     [Published]
-    public event NotifyEvent<object> GlobalMagicChanged;
+    public event NotifyEvent<object>? GlobalMagicChanged;
     [Published]
-    public event MapRefEvent<ShowMessageInfo> ShowMessage;
+    public event MapRefEvent<ShowMessageInfo>? ShowMessage;
     [Published]
-    public event MapDayEvent DayChanged;
+    public event MapDayEvent? DayChanged;
     [Published]
-    public event NotifyEvent<sbyte> NewTurn;
+    public event NotifyEvent<sbyte>? NewTurn;
     [Published]
-    public event MapPlayerEvent PlayerChanged;
+    public event MapPlayerEvent? PlayerChanged;
     [Published]
-    public event MapPlayerEvent SeatedPlayerChanged;
+    public event MapPlayerEvent? SeatedPlayerChanged;
     [Published]
-    public event NotifyEvent<object> Combat;
+    public event NotifyEvent<object>? Combat;
     [Published]
-    public event MapExecuteLogEvent ExecuteEventLog;
+    public event MapExecuteLogEvent? ExecuteEventLog;
     [Published]
-    public event MapRefEvent<MapChangedInfo> MapChanged;
+    public event MapRefEvent<MapChangedInfo>? MapChanged;
     [Published]
-    public event MapRefEvent<MapChangedInfo> ScannerIconsChanged;
+    public event MapRefEvent<MapChangedInfo>? ScannerIconsChanged;
     [Published]
-    public event NotifyEvent<object> MapSettingsChanged;
+    public event NotifyEvent<object>? MapSettingsChanged;
     [Published]
-    public event MapPlayerEvent LogbookChanged;
+    public event MapPlayerEvent? LogbookChanged;
     [Published]
-    public event NotifyEvent<object> GameOver;
+    public event NotifyEvent<object>? GameOver;
     [Published]
-    public event MapPlayerEvent GameTerminated;
+    public event MapPlayerEvent? GameTerminated;
     [Published]
-    public event MapPlayerEvent PlayerTerminated;
+    public event MapPlayerEvent? PlayerTerminated;
     [Published]
-    public event NotifyEvent<object> ActivateCombatMap;
+    public event NotifyEvent<object>? ActivateCombatMap;
     [Published]
-    public event NotifyEvent<object> DeactivateCombatMap;
+    public event NotifyEvent<object>? DeactivateCombatMap;
     [Published]
-    public event MapTargetEvent TargetSelectionChange;
+    public event MapTargetEvent? TargetSelectionChange;
     [Published]
-    public event NotifyEvent<object> ViewPortChange;
+    public event NotifyEvent<object>? ViewPortChange;
     [Published]
-    public event MapObjectEvent<SpellCaster> OnCastSpell;
+    public event MapObjectEvent<SpellCaster>? OnCastSpell;
     [Published]
-    public event MapEndTurnEvent EndTurn;
+    public event MapEndTurnEvent? EndTurn;
     [Published]
-    public event NotifyEvent<object> RelationsChanged;
+    public event NotifyEvent<object>? RelationsChanged;
     [Published]
-    public event NotifyEvent<object> ExitGame;
+    public event NotifyEvent<object>? ExitGame;
     [Published]
-    public event MapObjectEvent<HexSprite> HexSpriteChanged;
+    public event MapObjectEvent<HexSprite>? HexSpriteChanged;
 
     // MapCtrl.pas:186
     public override void Dispose()
@@ -263,7 +263,7 @@ public sealed class MapControl : Component
     // MapCtrl.pas:309
     public void DoubleClick(object sender)
     {
-        HexSprite hexSprite;
+        HexSprite? hexSprite;
         if (ArmyDoubleClick is not null)
         {
             hexSprite = StrategicMap.Current.Selection.FindClass(typeof(ArmyHexSprite));
@@ -432,7 +432,7 @@ public sealed class MapControl : Component
         {
             if (EndTurn is not null)
             {
-                Player listed = StrategicMap.Current.Players.GetPlayers(player);
+                Player? listed = StrategicMap.Current.Players.GetPlayers(player);
                 EndTurn(player, Automatic: !listed.SingleProcessCycle);
             }
         }

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWSetup.pas.
 using Aow.Engine.Nodes;
 
@@ -80,7 +80,7 @@ public sealed class SetupSettings : OwningNode, IChildList<PlayerSetupSettings>
     }
 
     // AoWSetup.pas:327
-    public SetupSettings(CustomNode owner) : base(owner)
+    public SetupSettings(CustomNode? owner) : base(owner)
     {
         RemotePlayers = new RemotePlayerList(null) { Holder = CreationHolder() };
         Reset();
@@ -104,7 +104,7 @@ public sealed class SetupSettings : OwningNode, IChildList<PlayerSetupSettings>
     }
 
     // AoWSetup.pas:359
-    public PlayerSetupSettings GetSettings(int index) => index >= 0 && index < Count ? this[index] : null;
+    public PlayerSetupSettings? GetSettings(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // AoWSetup.pas:366
     public int IndexOfPlayer(byte player)

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWBaseWin.pas.
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
@@ -14,7 +14,7 @@ namespace Aow.Game.UI.Windows;
 //   windows above it and to its owner. }
 // Fields: FBuffer (freed by TAOWGenericWindow.Destroy), FFreeSurfaceOnHide, FWinManager,
 // OnShow, OnHide
-public class BaseWindow(Component owner) : WindowControl(owner)
+public class BaseWindow(Component? owner) : WindowControl(owner)
 {
     public object Buffer { get; }
 
@@ -22,26 +22,26 @@ public class BaseWindow(Component owner) : WindowControl(owner)
     public bool FreeSurfaceOnHide { get; set; }
 
     [Published]
-    public virtual WindowManager WindowManager { get; set; }
+    public virtual WindowManager? WindowManager { get; set; }
 
     [Published]
-    public event NotifyEvent<BaseWindow> Show;
+    public event NotifyEvent<BaseWindow>? Show;
 
     protected void RaiseShow(BaseWindow sender) => Show?.Invoke(sender);
 
     [Published]
-    public event NotifyEvent<BaseWindow> Hide;
+    public event NotifyEvent<BaseWindow>? Hide;
 
     protected void RaiseHide(BaseWindow sender) => Hide?.Invoke(sender);
 
     // AoWBaseWin.pas:56
-    public override void InvalidateRectangle(int index, ref Rect rectangle, UIComponent sender)
+    public override void InvalidateRectangle(int index, ref Rect rectangle, UIComponent? sender)
     {
         if (index > -1 && Valid && Visible)
         {
             for (int i = index, last = Children.Count - 1; i <= last; i++)
             {
-                UIComponent c = Children[i];
+                UIComponent? c = Children[i];
                 if (c.Valid && c.Visible && rectangle.Right >= c.WinLeft && c.WinLeft + c.WinWidth >= rectangle.Left && rectangle.Bottom >= c.WinTop && c.WinTop + c.WinHeight >= rectangle.Top && c != sender)
                 {
                     if (c is BaseWindow)
@@ -64,7 +64,7 @@ public class BaseWindow(Component owner) : WindowControl(owner)
     }
 
     // AoWBaseWin.pas:50
-    public override void AddBlitRectangle(ref Rect rectangle, UIComponent sender)
+    public override void AddBlitRectangle(ref Rect rectangle, UIComponent? sender)
     {
         if (DoubleBuffered && SurfaceValid)
         {
@@ -131,7 +131,7 @@ public class BaseWindow(Component owner) : WindowControl(owner)
     //   drawn or only the rectangles of its draw list, then lets the controls draw themselves and
     //   blits the dirty rectangles of its blit list to Surface, telling the window manager about each
     //   one. A window without a back surface draws itself and its controls straight into Surface. }
-    public override void DrawSurface(Surface surface)
+    public override void DrawSurface(Surface? surface)
     {
         LockedSurface lockedSurface = default;
         try
@@ -208,7 +208,7 @@ public class BaseWindow(Component owner) : WindowControl(owner)
                         _ = MessageBox(0, text: "Draw Error", caption: $"Error - {Name}", flags: 0);
                     }
 
-                    UIComponent c;
+                    UIComponent? c;
                     if (DoubleBuffered)
                     {
                         if (Priority >= WindowManager.OverlayPriority || !Drawn)
@@ -398,7 +398,7 @@ public class BaseWindow(Component owner) : WindowControl(owner)
                 Draw(lockedSurface);
                 for (int i = 0, last = Children.Count - 1; i <= last; i++)
                 {
-                    UIComponent c = Children[i];
+                    UIComponent? c = Children[i];
                     if (c.Valid && c.Visible && (!Drawn || !c.Drawn))
                     {
                         c.Draw(lockedSurface);
@@ -436,7 +436,7 @@ public class BaseWindow(Component owner) : WindowControl(owner)
     }
 
     // AoWBaseWin.pas:341
-    public virtual void SetImageLibraryFrame(InterfaceImageLibrary value)
+    public virtual void SetImageLibraryFrame(InterfaceImageLibrary? value)
     {
         if (value != base.ImageLibraryFrame)
         {
@@ -446,7 +446,7 @@ public class BaseWindow(Component owner) : WindowControl(owner)
     }
 
     // AoWBaseWin.pas:350
-    public virtual void SetImageLibraryTexture(InterfaceImageLibrary value)
+    public virtual void SetImageLibraryTexture(InterfaceImageLibrary? value)
     {
         if (value != base.ImageLibraryTexture)
         {
@@ -476,13 +476,13 @@ public class BaseWindow(Component owner) : WindowControl(owner)
     }
 
     // AoWBaseWin.pas:359
-    public void SetManager(WindowManager value) => SetOwner(value);
+    public void SetManager(WindowManager? value) => SetOwner(value);
 
     [Published]
-    public override InterfaceImageLibrary ImageLibraryFrame { get => base.ImageLibraryFrame; set => SetImageLibraryFrame(value); }
+    public override InterfaceImageLibrary? ImageLibraryFrame { get => base.ImageLibraryFrame; set => SetImageLibraryFrame(value); }
 
     [Published]
-    public override InterfaceImageLibrary ImageLibraryTexture { get => base.ImageLibraryTexture; set => SetImageLibraryTexture(value); }
+    public override InterfaceImageLibrary? ImageLibraryTexture { get => base.ImageLibraryTexture; set => SetImageLibraryTexture(value); }
 
     [Published]
     public override int ImageLibraryIndexFrame { get => base.ImageLibraryIndexFrame; set => SetILFIndex(value); }

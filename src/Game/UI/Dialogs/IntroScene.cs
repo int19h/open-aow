@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWIntroScene.pas.
 using Aow.Game.UI.Windows;
 using Aow.Rtl;

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from UnitSpells.pas.
 using System.Globalization;
 using Aow.Engine.Nodes;
@@ -19,7 +19,7 @@ namespace Aow.Game.Magic.Spells;
 public class DispelMagic : UnitSpell
 {
     // UnitSpells.pas:1000
-    public DispelMagic(CustomNode owner, EngineObject holder) : base(owner)
+    public DispelMagic(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.DispelMagicText);
@@ -33,7 +33,7 @@ public class DispelMagic : UnitSpell
     }
 
     // UnitSpells.pas:1023
-    public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
+    public override CombatAction CreateCombatAction(CombatObject? source, CombatObject target, bool chargeMana)
     {
         DispelMagicSpellCombatAction action = new(null)
         {
@@ -55,14 +55,14 @@ public class DispelMagic : UnitSpell
     }
 
     // UnitSpells.pas:1074
-    public override void GetCombatInfo(Troop source, ref SpellCombatInfo info)
+    public override void GetCombatInfo(Troop? source, ref SpellCombatInfo info)
     {
         base.GetCombatInfo(source, ref info);
         info.TargetTypes = CombatTargetTypes.Friend | CombatTargetTypes.Enemy;
     }
 
     // UnitSpells.pas:1068
-    public override bool ValidTargetUnit(Troop source, Troop target)
+    public override bool ValidTargetUnit(Troop? source, Troop? target)
     {
         bool result = base.ValidTargetUnit(source, target);
         return result && target.CanDispelEnchantment(source.Player);
@@ -72,7 +72,7 @@ public class DispelMagic : UnitSpell
     public override bool ValidTargetParty(Troop source, ArmyHexSprite party) => party.Army.Player == source.Player;
 
     // UnitSpells.pas:1036
-    public override bool ExecuteSpell(Troop source, Troop target, int mana, Span<int> data)
+    public override bool ExecuteSpell(Troop? source, Troop? target, int mana, Span<int> data)
     {
         bool result;
         if (ValidTargetUnit(source, target))
@@ -117,5 +117,5 @@ public class DispelMagic : UnitSpell
     }
 
     // UnitSpells.pas:1013
-    public int GetDispelMana(Troop source) => (source.GetOwnAbilityLevel(52) * 15) + 25;
+    public int GetDispelMana(Troop? source) => (source.GetOwnAbilityLevel(52) * 15) + 25;
 }

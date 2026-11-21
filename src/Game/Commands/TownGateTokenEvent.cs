@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from CitySpells.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -11,13 +11,13 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Commands;
 
 // army ID. destination coordinates
-public class TownGateTokenEvent(CustomNode owner) : CityTargetSpellTokenEvent(owner)
+public class TownGateTokenEvent(CustomNode? owner) : CityTargetSpellTokenEvent(owner)
 {
 
     // CitySpells.pas:397
     public new const int ClassId = 135_950;
 
-    public ArmyId ArmyId { get; set; }
+    public ArmyId? ArmyId { get; set; }
 
     public MapCoordinate TeleportLocation { get; internal set; }
 
@@ -44,7 +44,7 @@ public class TownGateTokenEvent(CustomNode owner) : CityTargetSpellTokenEvent(ow
         if (result)
         {
             byte selection = default;
-            ArmyHexSprite army = default;
+            ArmyHexSprite? army = default;
             _ = ArmyId.RetrieveArmy(ref army, ref selection);
             return GamePack.Current.SpellControl.GetSpell<TownGate>(EventSpellId).ValidTeleportLocation(army, selection, TeleportLocation.X, TeleportLocation.Y, L: TeleportLocation.MapLevel);
         }

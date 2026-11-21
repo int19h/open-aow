@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from GlobalSpells.pas.
 using Aow.Engine.Nodes;
 
@@ -21,7 +21,7 @@ namespace Aow.Game.Magic.Spells;
 public class ConcealArea : Spell
 {
     // GlobalSpells.pas:286
-    public ConcealArea(CustomNode owner, EngineObject holder) : base(owner)
+    public ConcealArea(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_concealAreaText);
@@ -50,7 +50,7 @@ public class ConcealArea : Spell
         for (int player = 1, last = StrategicMap.Current.Players.Count - 1; player <= last; player++)
         {
             MapLevel level = StrategicMap.Current.MapContainer.MapLevels[layer];
-            LocationTextEventLog log;
+            LocationTextEventLog? log;
             if (StrategicMap.Current.Players.GetDiplomaticRelation(source.Player, otherPlayer: (sbyte)player) == DiplomaticRelation.War && player != source.Player)
             {
                 log = null;

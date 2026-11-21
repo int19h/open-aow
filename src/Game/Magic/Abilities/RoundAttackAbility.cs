@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
@@ -16,7 +16,7 @@ namespace Aow.Game.Magic.Abilities;
 public class RoundAttackAbility : TouchAbility
 {
     // AoWAb.PAS:2262
-    public RoundAttackAbility(CustomNode owner, EngineObject holder) : base(owner)
+    public RoundAttackAbility(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         AbilityId = 114;
@@ -25,12 +25,12 @@ public class RoundAttackAbility : TouchAbility
     }
 
     // AoWAb.PAS:2404
-    public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand command)
+    public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand? command)
     {
         Battle combat = source.Combat;
         DelphiList<CombatObject> targets = new();
         DamageTypes damageTypes = CombatObject.MeleeDamageTypes(source);
-        CombatObject target = command.Target;
+        CombatObject? target = command.Target;
         FastBattleValidateMoveOutsideWall(source, target);
         if (source is FastBattleUnit fastUnit)
         {
@@ -48,14 +48,14 @@ public class RoundAttackAbility : TouchAbility
             }
         }
 
-        StrikeCombatAction action = CombatObject.CreateStrikeCombatAction(source, target, defensive: false);
+        StrikeCombatAction? action = CombatObject.CreateStrikeCombatAction(source, target, defensive: false);
         if (action is not null)
         {
             combat.ExecuteCombatAction(action);
             _ = action.Release();
         }
 
-        CombatObject other;
+        CombatObject? other;
         for (int i = combat.Sides[(int)target.Side].GetCount() - 1; i >= 0; i--)
         {
             CombatSideIndex side = target.Side;
@@ -89,7 +89,7 @@ public class RoundAttackAbility : TouchAbility
     public override int GetDamageValue(Troop attacker, Troop defender) => CanTouchUnit(attacker, target: defender) ? Troop.UnitStrikeDamageValue(attacker, target: defender) * 2 : 0;
 
     // AoWAb.PAS:2318
-    public override void GetDamageValues(Troop attacker, Troop defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
+    public override void GetDamageValues(Troop attacker, Troop? defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
         if (wallSituation == WallSituation.None && CanTouchUnit(attacker, target: defender))
         {
@@ -114,7 +114,7 @@ public class RoundAttackAbility : TouchAbility
     }
 
     // AoWAb.PAS:2270
-    public override void GetOffensiveStrength(AbilityOwner owner, ref int strength, ref DamageTypes types)
+    public override void GetOffensiveStrength(AbilityOwner? owner, ref int strength, ref DamageTypes types)
     {
         if (owner is Troop troop)
         {
@@ -127,7 +127,7 @@ public class RoundAttackAbility : TouchAbility
     }
 
     // AoWAb.PAS:2338
-    public override void FastBattleGetDamageValues(CombatObject attacker, CombatObject defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
+    public override void FastBattleGetDamageValues(CombatObject? attacker, CombatObject? defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
         if (wallSituation == WallSituation.None && CanTouch(attacker, target: defender))
         {
@@ -177,7 +177,7 @@ public class RoundAttackAbility : TouchAbility
     }
 
     // AoWAb.PAS:2383
-    public override void TacticalBattleGetDamageValues(CombatObject attacker, CombatObject defender, ref AbilityDamageValues damageValues)
+    public override void TacticalBattleGetDamageValues(CombatObject? attacker, CombatObject? defender, ref AbilityDamageValues damageValues)
     {
         if (CanTouch(attacker, target: defender))
         {
@@ -205,7 +205,7 @@ public class RoundAttackAbility : TouchAbility
     }
 
     // AoWAb.PAS:2294
-    public override void GetCombatInfo(AbilityOwner owner, ref AbilityCombatInfo info)
+    public override void GetCombatInfo(AbilityOwner? owner, ref AbilityCombatInfo info)
     {
         if (owner is Troop source)
         {

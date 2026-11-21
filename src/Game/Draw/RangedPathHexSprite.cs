@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWTC.pas.
 using System.Globalization;
 using Aow.Engine.Nodes;
@@ -12,18 +12,18 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Draw;
 
 // MiscellaneousImages. TargetImages. Frame. FrameCount. Selection. Range
-public sealed class RangedPathHexSprite(CustomNode owner) : FixedVisibleHexSprite(owner)
+public sealed class RangedPathHexSprite(CustomNode? owner) : FixedVisibleHexSprite(owner)
 {
 
     // AoWTC.pas:4846
     public new const int ClassId = 2_228_485;
 
-    private CustomImageLibrary _miscellaneousImages;
-    private CustomImageLibrary _targetImages;
+    private CustomImageLibrary? _miscellaneousImages;
+    private CustomImageLibrary? _targetImages;
     private ushort _frame;
     private ushort _frameCount;
 
-    public CombatUnitSelectionControl Selection { get; set; }
+    public CombatUnitSelectionControl? Selection { get; set; }
     public ushort Range { get; set; }
 
     // AoWTC.pas:4849
@@ -90,7 +90,7 @@ public sealed class RangedPathHexSprite(CustomNode owner) : FixedVisibleHexSprit
                 {
                     case BattleEffectType.Breath:
                         int count = Selection.RangedPath.Count;
-                        Point3D rangedPath = Selection.RangedPath[count - 1];
+                        Point3D? rangedPath = Selection.RangedPath[count - 1];
                         int fRangedPathCount = Selection.RangedPath.Count;
                         HexGeometry.PixelToHex(Selection.RangedPath[fRangedPathCount - 1].X, vertical: rangedPath.Y, out x, out y);
                         {
@@ -172,7 +172,7 @@ public sealed class RangedPathHexSprite(CustomNode owner) : FixedVisibleHexSprit
                                             for (int i = 0; i <= 18; i++)
                                             {
                                                 int count2 = Selection.RangedPath.Count;
-                                                Point3D rangedPathY = Selection.RangedPath[count2 - 1];
+                                                Point3D? rangedPathY = Selection.RangedPath[count2 - 1];
                                                 int count3 = Selection.RangedPath.Count;
                                                 HexGeometry.PixelToHex(Selection.RangedPath[count3 - 1].X, vertical: rangedPathY.Y, out x, out y);
                                                 HexGeometry.CenterHexNumberToHex(x, y, hexNumber: i, ref hexX, ref hexY);
@@ -188,7 +188,7 @@ public sealed class RangedPathHexSprite(CustomNode owner) : FixedVisibleHexSprit
                                             for (int i = 0; i <= 6; i++)
                                             {
                                                 int count2 = Selection.RangedPath.Count;
-                                                Point3D rangedPathY = Selection.RangedPath[count2 - 1];
+                                                Point3D? rangedPathY = Selection.RangedPath[count2 - 1];
                                                 int count3 = Selection.RangedPath.Count;
                                                 HexGeometry.PixelToHex(Selection.RangedPath[count3 - 1].X, vertical: rangedPathY.Y, out x, out y);
                                                 HexGeometry.CenterHexNumberToHex(x, y, hexNumber: i, ref hexX, ref hexY);
@@ -200,9 +200,9 @@ public sealed class RangedPathHexSprite(CustomNode owner) : FixedVisibleHexSprit
                                         break;
                                     default:
                                         int count4 = Selection.RangedPath.Count;
-                                        Point3D rangedPath2 = Selection.RangedPath[count4 - 1];
+                                        Point3D? rangedPath2 = Selection.RangedPath[count4 - 1];
                                         int count5 = Selection.RangedPath.Count;
-                                        Point3D rangedPathX = Selection.RangedPath[count5 - 1];
+                                        Point3D? rangedPathX = Selection.RangedPath[count5 - 1];
                                         _miscellaneousImages[_frame + 3].ShowClipped(rangedPathX.X - 21 - pixelXSurface, rangedPath2.Y - 20 - pixelYSurface, lockedSurface);
                                         break;
                                 }
@@ -210,9 +210,9 @@ public sealed class RangedPathHexSprite(CustomNode owner) : FixedVisibleHexSprit
                                 break;
                             default:
                                 int count6 = Selection.RangedPath.Count;
-                                Point3D rangedPath3 = Selection.RangedPath[count6 - 1];
+                                Point3D? rangedPath3 = Selection.RangedPath[count6 - 1];
                                 int count7 = Selection.RangedPath.Count;
-                                Point3D rangedPath4 = Selection.RangedPath[count7 - 1];
+                                Point3D? rangedPath4 = Selection.RangedPath[count7 - 1];
                                 _miscellaneousImages[_frame + 3].ShowClipped(rangedPath4.X - 21 - pixelXSurface, rangedPath3.Y - 20 - pixelYSurface, lockedSurface);
                                 break;
                         }
@@ -222,29 +222,29 @@ public sealed class RangedPathHexSprite(CustomNode owner) : FixedVisibleHexSprit
 
                 for (int i = 0, last = Selection.RangedPath.Count - 1; i <= last; i++)
                 {
-                    Point3D rangedPathY = Selection.RangedPath[i];
-                    Point3D rangedPathX = Selection.RangedPath[i];
+                    Point3D? rangedPathY = Selection.RangedPath[i];
+                    Point3D? rangedPathX = Selection.RangedPath[i];
                     _miscellaneousImages[2].Show(rangedPathX.X - pixelXSurface, rangedPathY.Y - pixelYSurface, lockedSurface);
                 }
 
                 for (int i = 0, last = Selection.RangedPath.Count - 1; i <= last; i++)
                 {
-                    Point3D rangedPathY = Selection.RangedPath[i];
-                    Point3D rangedPathZ = Selection.RangedPath[i];
-                    Point3D rangedPathX = Selection.RangedPath[i];
+                    Point3D? rangedPathY = Selection.RangedPath[i];
+                    Point3D? rangedPathZ = Selection.RangedPath[i];
+                    Point3D? rangedPathX = Selection.RangedPath[i];
                     _miscellaneousImages[0].Show(rangedPathX.X - pixelXSurface, rangedPathY.Y - rangedPathZ.Z - 8 - pixelYSurface, lockedSurface);
                 }
 
                 for (int i = 0, last = Selection.Obstacles.Count - 1; i <= last; i++)
                 {
-                    RangedObstacle obstacle = Selection.Obstacles[i];
-                    Point3D rangedPath = Selection.RangedPath[obstacle.PathIndex];
-                    RangedObstacle obstacle2 = Selection.Obstacles[i];
+                    RangedObstacle? obstacle = Selection.Obstacles[i];
+                    Point3D? rangedPath = Selection.RangedPath[obstacle.PathIndex];
+                    RangedObstacle? obstacle2 = Selection.Obstacles[i];
                     HexGeometry.PixelToHex(Selection.RangedPath[obstacle2.PathIndex].X, vertical: rangedPath.Y, out hexX, out hexY);
                     HexGeometry.HexToPixel(hexX, hexY, out pixelX, out pixelY);
                     _miscellaneousImages[1].Show(pixelX + 5 - pixelXSurface, pixelY + 5 - pixelYSurface, lockedSurface);
                     GetEngine().CombatFont.Color = 0;
-                    RangedObstacle obstacle3 = Selection.Obstacles[i];
+                    RangedObstacle? obstacle3 = Selection.Obstacles[i];
                     GetEngine().CombatFont.SetTextCentered(pixelX + 16 - pixelXSurface, pixelY + 12 - pixelYSurface, text: obstacle3.Chance.ToString(CultureInfo.InvariantCulture), lockedSurface);
                 }
             }

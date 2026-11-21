@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats;
@@ -12,7 +12,7 @@ namespace Aow.Game.Units;
 
 // The original's THeroLibrary derives from THeroList. The port's library holds its heroes as
 // references in its node children and reads them through Heroes.
-public sealed class HeroLibrary(CustomNode owner) : Engine.Nodes.ReferenceNode(owner), IChildList<Hero>, IHeroHolder
+public sealed class HeroLibrary(CustomNode? owner) : Engine.Nodes.ReferenceNode(owner), IChildList<Hero>, IHeroHolder
 {
     /// <summary>The heroes of this library, in their stored order.</summary>
     public HeroCollection Heroes => new(this);
@@ -37,11 +37,11 @@ public sealed class HeroLibrary(CustomNode owner) : Engine.Nodes.ReferenceNode(o
     }
 
     // Hero.PAS:2592
-    public override int AddChild(EngineObject child)
+    public override int AddChild(EngineObject? child)
     {
         CheckChild(child);
         // CheckChild refuses a non-hero. The cast names the child the library id is written on.
-        Hero hero = (Hero)child;
+        Hero? hero = (Hero?)child;
         // { Original checks unit IDs rather than library IDs for a collision. }
         if (hero.LibraryId == 0 || Heroes.FindHero(hero.LibraryId) is not null)
         {
@@ -94,7 +94,7 @@ public sealed class HeroLibrary(CustomNode owner) : Engine.Nodes.ReferenceNode(o
     }
 
     // Hero.PAS:2620
-    public Hero FindLibraryId(int id)
+    public Hero? FindLibraryId(int id)
     {
         int i = Heroes.Count;
         while (i != 0)

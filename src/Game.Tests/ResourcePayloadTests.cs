@@ -226,7 +226,7 @@ public sealed class ResourcePayloadTests
         stream.Write(BitConverter.GetBytes(list.Count));
         for (int i = 0; i < list.Count; i++)
         {
-            ImageSequence sequence = list.GetImageSequence(i);
+            ImageSequence? sequence = list.GetImageSequence(i);
             stream.WriteByte(sequence is null ? (byte)1 : (byte)0);
             sequence?.SaveToStream(stream);
         }
@@ -250,7 +250,7 @@ public sealed class ResourcePayloadTests
         List<int> indices = [];
         for (int i = 0; i < list.Count; i++)
         {
-            for (ImageSequence sequence = list.GetImageSequence(i); sequence is not null; sequence = sequence.Next)
+            for (ImageSequence? sequence = list.GetImageSequence(i); sequence is not null; sequence = sequence.Next)
             {
                 indices.Add(sequence.ImageIndex);
             }
@@ -269,7 +269,7 @@ public sealed class ResourcePayloadTests
     // The tree of one stored payload, read by the direct path from its bytes.
     private static ObjectNode Stored(string className, string property, byte[] payload)
     {
-        SchemaProperty prop = s_schema.Get(className).PropertyByName(property);
+        SchemaProperty? prop = s_schema.Get(className).PropertyByName(property);
         DecodeContext context = new(payload, s_schema, engine: "game", profile: "game", file: null, limits: FormatLimits.Default);
         ObjectNode node = new(null, slot: null);
         node.Add(property, prop.Codec.ReadImage(context, start: 0, end: payload.Length, frame: new ImageFrame { Property = prop, Id = prop.Id.Value, Path = DocumentNodePath.Root.Member(property) }));
@@ -279,7 +279,7 @@ public sealed class ResourcePayloadTests
     // The bytes the direct path writes for one member of a tree.
     private static byte[] Payload(string className, string property, ObjectNode tree)
     {
-        SchemaProperty prop = s_schema.Get(className).PropertyByName(property);
+        SchemaProperty? prop = s_schema.Get(className).PropertyByName(property);
         EncodeContext context = new(s_schema, engine: "game", profile: "game", file: null, limits: FormatLimits.Default);
         ByteBuffer data = new();
         prop.Codec.WriteImage(tree.Find(property), context, data, frame: new ImageFrame { Property = prop, Id = prop.Id.Value, Path = DocumentNodePath.Root.Member(property) });
@@ -377,7 +377,7 @@ public sealed class ResourcePayloadTests
         return memory.ToArray();
     }
 
-    private static string Compact(JsonValue value)
+    private static string Compact(JsonValue? value)
     {
         StringBuilder text = new();
         JsonWriter.WriteCompact(text, value);

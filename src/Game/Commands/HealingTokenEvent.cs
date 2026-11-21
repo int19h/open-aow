@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -10,7 +10,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Commands;
 
 // (unit IDs, players)
-public class HealingTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class HealingTokenEvent(CustomNode? owner) : TokenEvent(owner)
 {
     public new const int ClassId = 131_826;
 
@@ -33,8 +33,8 @@ public class HealingTokenEvent(CustomNode owner) : TokenEvent(owner)
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
         _ = base.Execute(tokenEvent);
-        Troop source = StrategicMap.Current.UnitControl.FindUnit(SourceId);
-        Troop target = StrategicMap.Current.UnitControl.FindUnit(TargetId);
+        Troop? source = StrategicMap.Current.UnitControl.FindUnit(SourceId);
+        Troop? target = StrategicMap.Current.UnitControl.FindUnit(TargetId);
         if (source is not null && (byte)source.Player == SourcePlayer && target is not null && (byte)target.Player == TargetPlayer)
         {
             HealingAbility ability = GamePack.Current.AbilityControl.GetAbility<HealingAbility>(47);

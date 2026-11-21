@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWSMTPDlg.pas.
 using Aow.Rtl;
 

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.AI;
@@ -13,14 +13,14 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Events;
 
 // { Interface declaration run owned by P2. }
-public partial class HeroJoinEventLog(CustomNode owner) : JoinEventLog(owner)
+public partial class HeroJoinEventLog(CustomNode? owner) : JoinEventLog(owner)
 {
     public new const int ClassId = 131_828;
 
     // Hero.PAS:116
-    public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
+    public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent? done)
     {
-        UnitControl unitControl = StrategicMap.Current.UnitControl;
+        UnitControl? unitControl = StrategicMap.Current.UnitControl;
         Hero hero = unitControl.FindUnit<Hero>(FirstUnitId);
         if (hero is not null && hero.Player == 0 && hero.OfferToJoin(Player))
         {
@@ -41,7 +41,7 @@ public partial class HeroJoinEventLog(CustomNode owner) : JoinEventLog(owner)
         bool result = base.Accept(ref errorText);
         if (result && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
-            Troop u = StrategicMap.Current.UnitControl.FindUnit(FirstUnitId);
+            Troop? u = StrategicMap.Current.UnitControl.FindUnit(FirstUnitId);
             MapCoordinate coordinate18 = u.GetLocation();
             sbyte locationX = coordinate18.X;
             sbyte locationY = coordinate18.Y;
@@ -75,13 +75,13 @@ public partial class HeroJoinEventLog(CustomNode owner) : JoinEventLog(owner)
         Hero hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(FirstUnitId);
         if (hero is not null && hero.Player == 0 && hero.OfferToJoin(Player))
         {
-            Player players = StrategicMap.Current.Players.GetPlayers(Player);
+            Player? players = StrategicMap.Current.Players.GetPlayers(Player);
             if (StrategicMap.Current.Players.GetPlayers(Player).AIBudget.RequestBudgetExpense(Gold, mana: 0, budget: players.AIBudget.DefaultBudget, usePool: true))
             {
                 string errorText = "";
                 if (Accept(ref errorText))
                 {
-                    Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Player);
+                    Player? fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Player);
                     _ = StrategicMap.Current.Players.GetPlayers(Player).AIBudget.BudgetExpenseMade(Gold, mana: 0, budget: fPlayersPlayers.AIBudget.DefaultBudget, mode: AIBudgetManager.ExpenseMode.BudgetThenPool);
                 }
 

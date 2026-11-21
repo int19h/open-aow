@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from GlobalTargetSpells.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Combat;
@@ -15,7 +15,7 @@ namespace Aow.Game.Magic.Spells;
 public class Tornado : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:1798
-    public Tornado(CustomNode owner, EngineObject holder) : base(owner)
+    public Tornado(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.TornadoText);
@@ -85,7 +85,7 @@ public class Tornado : GlobalTargetSpell
         sbyte hexX = army.HexX;
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, hexX, hexY, radius: 10);
         MapLevel mapLevel = StrategicMap.Current.MapContainer.MapLevels[army.HexLevel];
-        MapField mapField;
+        MapField? mapField;
         while (walk.Radius < 15)
         {
             int x = walk.X;

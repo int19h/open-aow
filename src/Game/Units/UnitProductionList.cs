@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
@@ -6,7 +6,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Units;
 
-public sealed class UnitProductionList(CustomNode owner) : OwningNode(owner), IChildList<UnitProduction>
+public sealed class UnitProductionList(CustomNode? owner) : OwningNode(owner), IChildList<UnitProduction>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an UnitProduction, so the cast never fails.
@@ -17,7 +17,7 @@ public sealed class UnitProductionList(CustomNode owner) : OwningNode(owner), IC
     int IChildSink<UnitProduction>.AddChild(UnitProduction child) => AddChild(child);
 
     // Structur.PAS:14
-    public UnitProduction GetItem(int index) => index >= 0 && index < Count ? this[index] : null;
+    public UnitProduction? GetItem(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // Structur.PAS:20
     public void Add(int unitIndex, bool researched)

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from GFXE.pas.
 using Aow.Graphics;
 using Aow.Rtl;
@@ -20,10 +20,10 @@ public sealed partial class DataSurface : Surface
     internal int X { get; private set; }
     internal int Y { get; private set; }
 
-    private Palette _palette;
+    private Palette? _palette;
 
     // GFXE.pas:12387
-    public DataSurface(int width, int height, PixelFormat pixelFormatId, Palette palette)
+    public DataSurface(int width, int height, PixelFormat pixelFormatId, Palette? palette)
     {
         _bitCount = (byte)pixelFormatId.BitCount();
         _pixelFormatId = pixelFormatId;
@@ -55,7 +55,7 @@ public sealed partial class DataSurface : Surface
     public override GraphicsResult Unlock() => GraphicsResult.Ok;
 
     // GFXE.pas:12446
-    public GraphicsResult CaptureSurface(Surface surface, Rect? R)
+    public GraphicsResult CaptureSurface(Surface? surface, Rect? R)
     {
         LockedSurface lockedSurface = default;
         Rect rr = default;
@@ -99,7 +99,7 @@ public sealed partial class DataSurface : Surface
     }
 
     // GFXE.pas:12485
-    public void SetPalette(Palette palette)
+    public void SetPalette(Palette? palette)
     {
         if (palette is not null)
         {
@@ -135,7 +135,7 @@ public sealed partial class DataSurface : Surface
         }
     }
 
-    public byte[] Data { get; private set; }
+    public byte[]? Data { get; private set; }
     public int Pitch { get; private set; }
-    public Palette Palette { get => _palette; set => SetPalette(value); }
+    public Palette? Palette { get => _palette; set => SetPalette(value); }
 }

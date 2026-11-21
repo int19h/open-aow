@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Storms.pas.
 using Aow.Engine.Nodes;
 
@@ -11,7 +11,7 @@ namespace Aow.Game.Magic.Spells;
 public class DivineStormSpell : StormSpell
 {
     // Storms.pas:954
-    public DivineStormSpell(CustomNode owner, EngineObject holder) : base(owner)
+    public DivineStormSpell(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.DivineStormText);

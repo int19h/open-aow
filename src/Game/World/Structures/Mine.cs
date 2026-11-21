@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Mine.pas.
 using System.Globalization;
 using Aow.Engine.Nodes;
@@ -17,7 +17,7 @@ namespace Aow.Game.World.Structures;
 // State (bit 0 razed), IncomeSource
 public partial class Mine : PlayerStructure
 {
-    public Mine(CustomNode owner) : base(owner)
+    public Mine(CustomNode? owner) : base(owner)
     {
         _incomeSource = new PlayerStructureIncomeSource(null) { Holder = CreationHolder() };
         _incomeSource.Setup(this);
@@ -177,7 +177,7 @@ public partial class Mine : PlayerStructure
     public override int GetIncome() => !GetRazed() && !Building ? 10 : 0;
 
     // Mine.pas:178
-    public override string GetCombatEventText(Battle combat)
+    public override string GetCombatEventText(Battle? combat)
     {
         return combat.CombatResult is CombatResult.Victory or CombatResult.NoDefenders
             ? AbilityRules.TranslateResourceString(GetEngine(), S: s_mineBattleWonText)

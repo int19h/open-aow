@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
@@ -12,7 +12,7 @@ namespace Aow.Game.Magic.Abilities;
 public class ConstructAbility : AdjustableAbility
 {
     // AoWAb.PAS:5537
-    public ConstructAbility(CustomNode owner, EngineObject holder) : base(owner)
+    public ConstructAbility(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_constructText);
@@ -34,7 +34,7 @@ public class ConstructAbility : AdjustableAbility
     }
 
     // AoWAb.PAS:5553
-    public override AbilityControlTypes GetControlType(AbilityOwner owner) => AbilityControlTypes.Action;
+    public override AbilityControlTypes GetControlType(AbilityOwner? owner) => AbilityControlTypes.Action;
 
     // AoWAb.PAS:5555
     public override bool CanActivate(AbilityOwner owner, ref string reason) => owner is Troop;

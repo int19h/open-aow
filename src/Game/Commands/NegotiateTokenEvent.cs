@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
@@ -15,7 +15,7 @@ namespace Aow.Game.Commands;
 
 // Gold, Offer, X/Y/L, ArmyId, Player, OwnerPlayer, ArmyHexSprite, Object, MovePoints, Selection, Mode,
 // Result, EventLogID
-public class NegotiateTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class NegotiateTokenEvent(CustomNode? owner) : TokenEvent(owner)
 {
 
     // Diplomacy.pas:133
@@ -24,12 +24,12 @@ public class NegotiateTokenEvent(CustomNode owner) : TokenEvent(owner)
     public int Gold { get; set; }
     public NegotiateOffer Offer { get; set; }
     public MapCoordinate Location { get; set; }
-    public ArmyId ArmyId { get; set; }
+    public ArmyId? ArmyId { get; set; }
     public sbyte Player { get; set; }
 
     private byte _ownerPlayer;
 
-    public ArmyHexSprite ArmyHexSprite { get; private set; }
+    public ArmyHexSprite? ArmyHexSprite { get; private set; }
 
     public NegotiateObject Object { get; set; }
     public int MovePoints { get; set; }
@@ -43,7 +43,7 @@ public class NegotiateTokenEvent(CustomNode owner) : TokenEvent(owner)
     // Diplomacy.pas:124
     public override void Dispose()
     {
-        ArmyId id = ArmyId;
+        ArmyId? id = ArmyId;
         id?.Dispose();
 
         base.Dispose();
@@ -89,11 +89,11 @@ public class NegotiateTokenEvent(CustomNode owner) : TokenEvent(owner)
     // Diplomacy.pas:158
     public override bool Validate()
     {
-        ArmyId id = ArmyId;
+        ArmyId? id = ArmyId;
         bool result;
         if (id is not null)
         {
-            ArmyHexSprite armyHexSprite = ArmyHexSprite;
+            ArmyHexSprite? armyHexSprite = ArmyHexSprite;
             result = id.RetrieveArmy(ref armyHexSprite, ref _selection);
             ArmyHexSprite = armyHexSprite;
         }
@@ -110,11 +110,11 @@ public class NegotiateTokenEvent(CustomNode owner) : TokenEvent(owner)
     {
         if (StrategicMap.Current.Players.GetPlayers(Player).Gems >= Gold)
         {
-            Player players = StrategicMap.Current.Players.GetPlayers(Player);
+            Player? players = StrategicMap.Current.Players.GetPlayers(Player);
             StrategicMap.Current.Players.GetPlayers(Player).SetGems(players.Gems - Gold);
             if (EventLogId != -1)
             {
-                EventLog log = StrategicMap.Current.Players.GetPlayers(Player).EventLogbook.FindId(EventLogId);
+                EventLog? log = StrategicMap.Current.Players.GetPlayers(Player).EventLogbook.FindId(EventLogId);
                 if (log is not null)
                 {
                     StrategicMap.Current.Players.GetPlayers(Player).EventLogbook.RemoveEvent(log);
@@ -127,7 +127,7 @@ public class NegotiateTokenEvent(CustomNode owner) : TokenEvent(owner)
                 _ = path.AddMapCoordinate(Location.X, Location.Y, Location.MapLevel);
                 _ = path.AddMapCoordinate(y: ArmyHexSprite.HexY, x: ArmyHexSprite.HexX, mapLevel: ArmyHexSprite.HexLevel);
                 path.List[0] = path.List[0] with { MoveCost = (sbyte)MovePoints };
-                MoveArmyTokenEvent move = ArmyHexSprite.CreateArmyMoveTokenEvent(ArmyHexSprite, _selection, path, action: MoveAction.Combine, mode: ArmyMoveModes.SelectEndLocation);
+                MoveArmyTokenEvent? move = ArmyHexSprite.CreateArmyMoveTokenEvent(ArmyHexSprite, _selection, path, action: MoveAction.Combine, mode: ArmyMoveModes.SelectEndLocation);
                 _ = StrategicMap.Current.TokenManager.TokenExecutor.InsertExecuteEvent(move);
                 // { Original bug: no nil check after CreateArmyMoveTE can return nil. }
                 _ = move.Release();
@@ -145,7 +145,7 @@ public class NegotiateTokenEvent(CustomNode owner) : TokenEvent(owner)
             _ = path.AddMapCoordinate(Location.X, Location.Y, Location.MapLevel);
             _ = path.AddMapCoordinate(y: ArmyHexSprite.HexY, x: ArmyHexSprite.HexX, mapLevel: ArmyHexSprite.HexLevel);
             path.List[0] = path.List[0] with { MoveCost = (sbyte)MovePoints };
-            MoveArmyTokenEvent move = ArmyHexSprite.CreateArmyMoveTokenEvent(ArmyHexSprite, _selection, path, action: MoveAction.Attack, mode: ArmyMoveModes.SelectEndLocation);
+            MoveArmyTokenEvent? move = ArmyHexSprite.CreateArmyMoveTokenEvent(ArmyHexSprite, _selection, path, action: MoveAction.Attack, mode: ArmyMoveModes.SelectEndLocation);
             _ = StrategicMap.Current.TokenManager.TokenExecutor.InsertExecuteEvent(move);
             // { Original bug: no nil check after CreateArmyMoveTE can return nil. }
             _ = move.Release();

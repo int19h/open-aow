@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 
 using Aow.Rtl;
 
@@ -18,7 +18,7 @@ public sealed partial class ImageLibraryFont
 
         foreach (char c in text)
         {
-            LibraryImage image = GetSafe(Cp1252.Byte(c));
+            LibraryImage? image = GetSafe(Cp1252.Byte(c));
             width += (image?.Width ?? 5) + CharacterDistance;
         }
         return width;
@@ -33,7 +33,7 @@ public sealed partial class ImageLibraryFont
 
         foreach (char c in text)
         {
-            LibraryImage image = GetSafe(Cp1252.Byte(c));
+            LibraryImage? image = GetSafe(Cp1252.Byte(c));
             image?.Show(x, y, lockedSurface);
 
             x += (image?.Width ?? 5) + CharacterDistance;

@@ -1,3 +1,4 @@
+#nullable disable warnings // Enabled before the stage 1 annotations of issue 315.
 // Translated from ImageLib.pas.
 using Aow.Rtl;
 using static Aow.Rtl.DelphiTextCompare;

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from NetworkE.pas.
 namespace Aow.Game.Net;
 
@@ -7,7 +7,7 @@ namespace Aow.Game.Net;
 public sealed class TokenManager : IDisposable
 {
 
-    public TokenManager(GameEngine owner)
+    public TokenManager(GameEngine? owner)
     {
         Owner = owner;
         _tokenControls = [];
@@ -15,7 +15,7 @@ public sealed class TokenManager : IDisposable
         TokenPackageDistributor = CreateTokenPackageDistributor();
     }
 
-    private readonly List<TokenControl> _tokenControls;
+    private readonly List<TokenControl?> _tokenControls;
     private Action<object, string> _message;
 
     internal void SetMessageHandler(Action<object, string> handler) => _message = handler;
@@ -58,7 +58,7 @@ public sealed class TokenManager : IDisposable
             bool condition = TokenExecutor.SystemEvents.Count != 0 || _tokenControls[player].GetCount() != 0;
             if (!condition)
             {
-                TokenControl item = _tokenControls[player];
+                TokenControl? item = _tokenControls[player];
                 condition = TokenExecutor.PrefetchTacticalBattle == item && TokenExecutor.State.Contains(TokenExecutorStates.Executing);
             }
 
@@ -124,19 +124,19 @@ public sealed class TokenManager : IDisposable
     public int GetCount() => _tokenControls.Count;
 
     // NetworkE.pas:1710
-    public TokenControl GetTokenControl(int player) => player < _tokenControls.Count ? _tokenControls[player] : null;
+    public TokenControl? GetTokenControl(int player) => player < _tokenControls.Count ? _tokenControls[player] : null;
 
     // NetworkE.pas:1718
     public void ReportMessage(string message) => _message?.Invoke(this, message);
 
     public TokenExecutor TokenExecutor { get; }
     public TokenPackageDistributor TokenPackageDistributor { get; }
-    public GameEngine Owner { get; }
+    public GameEngine? Owner { get; }
     public int Count => GetCount();
 
     public sealed class TokenControlsAccessor(TokenManager target)
     {
-        public TokenControl this[int player] => target.GetTokenControl(player);
+        public TokenControl? this[int player] => target.GetTokenControl(player);
     }
 
     public TokenControlsAccessor TokenControls => new(this);

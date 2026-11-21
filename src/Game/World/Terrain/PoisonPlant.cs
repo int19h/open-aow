@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from PoisonP.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -20,7 +20,7 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Game.World.Terrain;
 
 // summoning status. caster player. remaining turns. original overlay
-public class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
+public class PoisonPlant(CustomNode? owner) : ImageLibraryTerrainMapObject(owner)
 {
 
     // PoisonP.pas:87
@@ -42,7 +42,7 @@ public class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     }
 
     // PoisonP.pas:255
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
         if (message.MessageId == 537001986)
@@ -144,7 +144,7 @@ public class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         while (!result && i != 0)
         {
             i -= 1;
-            Troop u = units.GetUnit(i);
+            Troop? u = units.GetUnit(i);
             result = !u.GetImmunityTypes().Contains(DamageTypes.Poison) && !u.GetAbilityEnabled(1);
         }
 
@@ -152,7 +152,7 @@ public class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     }
 
     // PoisonP.pas:120
-    public void TriggerArmyDamage(ArmyHexSprite armyHexSprite)
+    public void TriggerArmyDamage(ArmyHexSprite? armyHexSprite)
     {
         int count = 0;
         RandSeed = StrategicMap.Current.Random(16777215);
@@ -169,7 +169,7 @@ public class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         UnitCollection units = armyHexSprite.Army.Units;
         for (int i = 0, last = units.Count - 1; i <= last; i++)
         {
-            Troop u = units.GetUnit(i);
+            Troop? u = units.GetUnit(i);
             _ = u.AddRef();
             if (!u.GetImmunityTypes().Contains(DamageTypes.Poison) && !u.GetAbilityEnabled(1))
             {
@@ -213,7 +213,7 @@ public class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     }
 
     // PoisonP.pas:168
-    public void ArmyPlaced(ArmyHexSprite armyHexSprite)
+    public void ArmyPlaced(ArmyHexSprite? armyHexSprite)
     {
         if (PoisonPlantActive() && !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
         {
@@ -224,7 +224,7 @@ public class PoisonPlant(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     // PoisonP.pas:174
     public void RestoreTerrain()
     {
-        MapField mapField = Owner;
+        MapField? mapField = Owner;
         sbyte originalOverlay = OriginalOverlay;
         Dispose();
         if (originalOverlay > 0)

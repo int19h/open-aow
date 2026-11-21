@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Terrain.pas.
 using Aow.Engine.Nodes;
 
@@ -9,7 +9,7 @@ using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.World.Hexes;
 
-public partial class TerrainMapObject(CustomNode owner) : MultiHexMapObject(owner)
+public partial class TerrainMapObject(CustomNode? owner) : MultiHexMapObject(owner)
 {
 
     // Terrain.pas:65
@@ -29,7 +29,7 @@ public partial class TerrainMapObject(CustomNode owner) : MultiHexMapObject(owne
             sbyte newTerrainType = GetMostFrequentMapFieldTerrainType(defaultValue: Resource.TerrainList.GetTerrain(info.HexNumber), mapLevel: Owner.Owner, hexX: StoredHexX, hexY: StoredHexY);
             if (newTerrainType != terrainType)
             {
-                TerrainMapObjectResource r = FindTerrainResource((byte)newTerrainType);
+                TerrainMapObjectResource? r = FindTerrainResource((byte)newTerrainType);
                 if (r is not null)
                 {
                     MapField oldOwner = Owner;
@@ -84,7 +84,7 @@ public partial class TerrainMapObject(CustomNode owner) : MultiHexMapObject(owne
     }
 
     // Terrain.pas:291
-    public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override bool PlaceHex(MapContainer? mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
         bool result = base.PlaceHex(mapContainer, hexX, hexY, hexLevel);
         if (result && !EditMode)
@@ -96,11 +96,11 @@ public partial class TerrainMapObject(CustomNode owner) : MultiHexMapObject(owne
     }
 
     // Terrain.pas:226
-    public virtual void ClearTerrain(MapField mapField, int hexNumber)
+    public virtual void ClearTerrain(MapField? mapField, int hexNumber)
     {
         if (Resource.TerrainList.UsedTerrain() > 1)
         {
-            TerrainMapObjectResource r = null;
+            TerrainMapObjectResource? r = null;
             MapObjectResourceList resources = GetResourceList(Resource.Engine);
             int i = resources.Count;
             bool found = false;
@@ -147,7 +147,7 @@ public partial class TerrainMapObject(CustomNode owner) : MultiHexMapObject(owne
     }
 
     // Terrain.pas:70
-    public virtual TerrainMapObjectResource FindDecorationResource(byte decorationType)
+    public virtual TerrainMapObjectResource? FindDecorationResource(byte decorationType)
     {
         DelphiList<TerrainMapObjectResource> candidates = new();
         MapObjectResourceList resources = GetResourceList(Resource.Engine);
@@ -163,7 +163,7 @@ public partial class TerrainMapObject(CustomNode owner) : MultiHexMapObject(owne
             }
         }
 
-        TerrainMapObjectResource result;
+        TerrainMapObjectResource? result;
         if (candidates.Count != 0)
         {
             int random = Random(candidates.Count);

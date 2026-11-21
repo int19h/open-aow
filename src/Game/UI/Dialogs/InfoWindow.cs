@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWInfoWin.pas.
 using System.Globalization;
 using Aow.Game.Draw;
@@ -76,11 +76,11 @@ public sealed partial class InfoWindow(UIContext ui) : UIModule(ui)
     public Label PopulationRaceLabel { get; private set; }
     public Label PopulationLabel { get; private set; }
 
-    public ItemHexSprite ItemBag { get; set; }
+    public ItemHexSprite? ItemBag { get; set; }
     // Renderers of the structure views (Structure.Views.cs): the panel of each InfoPanel key and the
     // screen of each InfoButton key. ClassRegistry adds the original renderers.
     public static Catalog<StructureView, Action<InfoWindow, Structure>> StructurePanels { get; } = new("structure info panel");
-    public static Catalog<StructureView, Action<InfoWindow, Structure>> StructureButtons { get; } = new("structure info button");
+    public static Catalog<StructureView, Action<InfoWindow, Structure>?> StructureButtons { get; } = new("structure info button");
 
     // The view key names the kind. Another kind throws, and null stays null.
     internal static void AddPanel<TStructure>(StructureView view, Action<InfoWindow, TStructure> fill)
@@ -189,7 +189,7 @@ public sealed partial class InfoWindow(UIContext ui) : UIModule(ui)
                 {
                     if (army.Army.Hero(255, types: RosterTables.AllHeroTypes) is not null)
                     {
-                        Hero hero = army.Army.Hero(255, types: RosterTables.AllHeroTypes);
+                        Hero? hero = army.Army.Hero(255, types: RosterTables.AllHeroTypes);
                         UI.General.SelectedUnit = hero;
                         UI.UnitWindow.ShowUnit();
                         UI.UnitWindow.UnitTabs.Selected = 2;
@@ -228,11 +228,11 @@ public sealed partial class InfoWindow(UIContext ui) : UIModule(ui)
         dialog.StructureNameLabel.Text = name;
         if (structure.GetBottomBorderImage() is not null)
         {
-            LibraryImage topBorderImage = structure.GetTopBorderImage();
+            LibraryImage? topBorderImage = structure.GetTopBorderImage();
             dialog.StructureLine.ImageTop = topBorderImage;
-            LibraryImage middleBorderImage = structure.GetMiddleBorderImage();
+            LibraryImage? middleBorderImage = structure.GetMiddleBorderImage();
             dialog.StructureLine.ImageMiddle = middleBorderImage;
-            LibraryImage bottomBorderImage = structure.GetBottomBorderImage();
+            LibraryImage? bottomBorderImage = structure.GetBottomBorderImage();
             dialog.StructureLine.ImageBottom = bottomBorderImage;
         }
 
@@ -489,7 +489,7 @@ public sealed partial class InfoWindow(UIContext ui) : UIModule(ui)
             {
                 if (structure.Production.Status == ProductionControlStatus.Waiting)
                 {
-                    ProductionItem queue = structure.Production.Queue.GetItem(0);
+                    ProductionItem? queue = structure.Production.Queue.GetItem(0);
                     string reason = "";
                     _ = structure.Production.CanExecuteProduction(queue, ref reason);
                     dialog.ProductionWarningLabel.Text = reason;
@@ -572,7 +572,7 @@ public sealed partial class InfoWindow(UIContext ui) : UIModule(ui)
             {
                 if (structure.ProductionControl.Status == ProductionControlStatus.Waiting)
                 {
-                    ProductionItem queue = structure.ProductionControl.Queue.GetItem(0);
+                    ProductionItem? queue = structure.ProductionControl.Queue.GetItem(0);
                     string reason = "";
                     _ = structure.ProductionControl.CanExecuteProduction(queue, ref reason);
                     dialog.CurrentActivityWarningLabel.Text = reason;

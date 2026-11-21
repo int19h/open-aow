@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWTC.pas.
 using Aow.Engine.Nodes;
 
@@ -9,7 +9,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Draw;
 
-public sealed class TacticalBattleItemHexSprite(CustomNode owner) : ItemHexSprite(owner)
+public sealed class TacticalBattleItemHexSprite(CustomNode? owner) : ItemHexSprite(owner)
 {
 
     // AoWTC.pas:2586
@@ -22,7 +22,7 @@ public sealed class TacticalBattleItemHexSprite(CustomNode owner) : ItemHexSprit
             // its prisoners there, and the items go to the prisoners' own item list.
             // An item site stores an item list. A dungeon stores a prisoners army.
             // Another object fails. Null stays null.
-            ItemList items = CombatMap.Current.Combat.Items switch
+            ItemList? items = CombatMap.Current.Combat.Items switch
             {
                 null => null,
                 PrisonersArmy prisoners => prisoners.Items,

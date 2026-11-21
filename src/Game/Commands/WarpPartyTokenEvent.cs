@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from GlobalSpells.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -12,13 +12,13 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Commands;
 
 // army ID, packed destination
-public class WarpPartyTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
+public class WarpPartyTokenEvent(CustomNode? owner) : SpellTokenEvent(owner)
 {
 
     // GlobalSpells.pas:564
     public new const int ClassId = 135_948;
 
-    public ArmyId ArmyId { get; set; }
+    public ArmyId? ArmyId { get; set; }
 
     public MapCoordinate WarpLocation { get; internal set; }
 
@@ -45,7 +45,7 @@ public class WarpPartyTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
         if (result)
         {
             byte selection = default;
-            ArmyHexSprite army = default;
+            ArmyHexSprite? army = default;
             _ = ArmyId.RetrieveArmy(ref army, ref selection);
             return GamePack.Current.SpellControl.GetSpell<WarpParty>(EventSpellId).ValidTarget(army, WarpLocation.X, WarpLocation.Y, layer: WarpLocation.MapLevel);
         }
@@ -57,7 +57,7 @@ public class WarpPartyTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
     public override bool Process(Troop source, int value)
     {
         byte selection = default;
-        ArmyHexSprite army = default;
+        ArmyHexSprite? army = default;
         _ = base.Process(source, value);
         MapCoordinate coordinate15 = source.GetLocation();
         sbyte x = coordinate15.X;
@@ -97,7 +97,7 @@ public class WarpPartyTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
             _ = GamePack.Current.SpellControl[EventSpellId].CastSounds.Play(0);
         }
 
-        Spell spell = GamePack.Current.SpellControl[EventSpellId];
+        Spell? spell = GamePack.Current.SpellControl[EventSpellId];
         GamePack.Current.SpellControl[EventSpellId].CastingDone(source, mana: spell.BaseManaCost);
         return false;
     }

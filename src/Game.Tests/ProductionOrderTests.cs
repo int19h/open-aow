@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Game.Commands;
@@ -283,7 +283,7 @@ public sealed class ProductionOrderTests
     [Fact]
     public void OrdersAnswerAsTheOldSwitches()
     {
-        StrategicMap previousMap = StrategicMap.Current;
+        StrategicMap? previousMap = StrategicMap.Current;
         StrategicMap map = new(null, holder: EngineFixture.Engine);
         StrategicMap.Current = map;
         EngineFixture.FieldOwner owner = new(new EngineFixture.Owner());

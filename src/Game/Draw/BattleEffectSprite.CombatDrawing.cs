@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using System.Globalization;
 using Aow.Game.Combat;
 
@@ -17,7 +17,7 @@ public sealed partial class BattleEffectSprite
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         LockedSurface lockedSurfaceValue = lockedSurface;
-        ImageSequence sequence;
+        ImageSequence? sequence;
         void SelectSequence(int number)
         {
             sequence = AbilityIndex == 52
@@ -26,7 +26,7 @@ public sealed partial class BattleEffectSprite
         }
 
         int index;
-        ImageSequence firstSequence;
+        ImageSequence? firstSequence;
         void SelectFrame()
         {
             if (sequence is not null)
@@ -59,9 +59,9 @@ public sealed partial class BattleEffectSprite
                 index = sequence.GetFrameIndex(StrategicMap.Current.Frame, offset: FrameFixtureInputs.AnimationOffset(this));
                 if (index != -1 && sequence.ImageLibrary.ImageExist(index))
                 {
-                    Point3D pathY = Path[Frame];
-                    Point3D pathZ = Path[Frame];
-                    Point3D pathX = Path[Frame];
+                    Point3D? pathY = Path[Frame];
+                    Point3D? pathZ = Path[Frame];
+                    Point3D? pathX = Path[Frame];
                     sequence.ImageLibrary[index].ShowClipped(pathX.X - pixelXSurface + sequence.OffsetX, pathY.Y - pathZ.Z - pixelYSurface + sequence.OffsetY, lockedSurface: lockedSurfaceValue);
                 }
 
@@ -76,9 +76,9 @@ public sealed partial class BattleEffectSprite
                 index = sequence.GetUnloopedFrameIndex(Variant);
                 if (index != -1 && sequence.ImageLibrary.ImageExist(index))
                 {
-                    Point3D pathY = Path[Frame];
-                    Point3D pathZ = Path[Frame];
-                    Point3D pathX = Path[Frame];
+                    Point3D? pathY = Path[Frame];
+                    Point3D? pathZ = Path[Frame];
+                    Point3D? pathX = Path[Frame];
                     sequence.ImageLibrary[index].ShowClipped(pathX.X - pixelXSurface + sequence.OffsetX, pathY.Y - pathZ.Z - pixelYSurface + sequence.OffsetY, lockedSurface: lockedSurfaceValue);
                 }
 
@@ -109,19 +109,19 @@ public sealed partial class BattleEffectSprite
                             int count = Path.Count;
                             if (Frame - 9 + half + 5 == count - 1 || half * 2 == n)
                             {
-                                Point3D pathY = Path[Frame - 9 + half + 5];
-                                Point3D pathZ = Path[Frame - 9 + half + 5];
-                                Point3D pathX = Path[Frame - 9 + half + 5];
+                                Point3D? pathY = Path[Frame - 9 + half + 5];
+                                Point3D? pathZ = Path[Frame - 9 + half + 5];
+                                Point3D? pathX = Path[Frame - 9 + half + 5];
                                 sequence.ImageLibrary[index].ShowClipped(pathX.X - pixelXSurface + sequence.OffsetX, pathY.Y - pathZ.Z - pixelYSurface + sequence.OffsetY, lockedSurface: lockedSurfaceValue);
                             }
                             else
                             {
-                                Point3D pathY = Path[Frame - 9 + half + 5];
-                                Point3D pathZ = Path[Frame - 9 + half + 5];
-                                Point3D path = Path[Frame - 9 + half + 6];
-                                Point3D path2 = Path[Frame - 9 + half + 6];
-                                Point3D pathX = Path[Frame - 9 + half + 5];
-                                Point3D path3 = Path[Frame - 9 + half + 6];
+                                Point3D? pathY = Path[Frame - 9 + half + 5];
+                                Point3D? pathZ = Path[Frame - 9 + half + 5];
+                                Point3D? path = Path[Frame - 9 + half + 6];
+                                Point3D? path2 = Path[Frame - 9 + half + 6];
+                                Point3D? pathX = Path[Frame - 9 + half + 5];
+                                Point3D? path3 = Path[Frame - 9 + half + 6];
                                 sequence.ImageLibrary[index].ShowClipped(((pathX.X + path3.X) / 2) - pixelXSurface + sequence.OffsetX, ((pathY.Y - pathZ.Z + path.Y - path2.Z) / 2) - pixelYSurface + sequence.OffsetY, lockedSurface: lockedSurfaceValue);
                             }
                         }
@@ -139,9 +139,9 @@ public sealed partial class BattleEffectSprite
                     index = sequence.GetUnloopedFrameIndex(0);
                     if (index != -1 && sequence.ImageLibrary.ImageExist(index))
                     {
-                        Point3D pathY = Path[n];
-                        Point3D pathZ = Path[n];
-                        Point3D pathX = Path[n];
+                        Point3D? pathY = Path[n];
+                        Point3D? pathZ = Path[n];
+                        Point3D? pathX = Path[n];
                         sequence.ImageLibrary[index].ShowClipped(pathX.X - pixelXSurface + sequence.OffsetX, pathY.Y - pathZ.Z - pixelYSurface + sequence.OffsetY, lockedSurface: lockedSurfaceValue);
                     }
                 }
@@ -203,9 +203,9 @@ public sealed partial class BattleEffectSprite
                     // { Stop at the path end in the loop condition. }
                     if (index != -1)
                     {
-                        Point3D pathY = Path[n];
-                        Point3D pathZ = Path[n];
-                        Point3D pathX = Path[n];
+                        Point3D? pathY = Path[n];
+                        Point3D? pathZ = Path[n];
+                        Point3D? pathX = Path[n];
                         sequence.ImageLibrary[index].ShowBlended(pathX.X - pixelXSurface + sequence.OffsetX, pathY.Y - pathZ.Z - pixelYSurface + sequence.OffsetY, lockedSurface: lockedSurfaceValue, table: GraphicsState.IntensityBlendTable.LookupTables[alpha]);
                     }
 
@@ -221,8 +221,8 @@ public sealed partial class BattleEffectSprite
                 index = sequence.GetUnloopedFrameIndex(Frame);
                 if (index != -1 && sequence.ImageLibrary.ImageExist(index))
                 {
-                    Point3D pathY = Path[0];
-                    Point3D pathX = Path[0];
+                    Point3D? pathY = Path[0];
+                    Point3D? pathX = Path[0];
                     sequence.ImageLibrary[index].ShowClipped(pathX.X - pixelXSurface + sequence.OffsetX, pathY.Y - pixelYSurface + sequence.OffsetY, lockedSurface: lockedSurfaceValue);
                 }
 
@@ -237,8 +237,8 @@ public sealed partial class BattleEffectSprite
                 index = sequence.GetFrameIndex(StrategicMap.Current.Frame, offset: FrameFixtureInputs.AnimationOffset(this));
                 if (index != -1 && sequence.ImageLibrary.ImageExist(index))
                 {
-                    Point3D pathY = Path[0];
-                    Point3D pathX = Path[0];
+                    Point3D? pathY = Path[0];
+                    Point3D? pathX = Path[0];
                     sequence.ImageLibrary[index].ShowClipped(pathX.X - pixelXSurface + sequence.OffsetX, pathY.Y - pixelYSurface + sequence.OffsetY, lockedSurface: lockedSurfaceValue);
                 }
 
@@ -252,12 +252,12 @@ public sealed partial class BattleEffectSprite
             {
                 if (index != -1 && sequence.ImageLibrary.ImageExist(index))
                 {
-                    LibraryImage imageLibraryHeight = sequence.ImageLibrary[index];
-                    Point3D pathY = Path[0];
-                    LibraryImage imageLibrary = sequence.ImageLibrary[index];
-                    LibraryImage imageLibraryWidth = sequence.ImageLibrary[index];
-                    Point3D pathX = Path[0];
-                    LibraryImage imageLibrary2 = sequence.ImageLibrary[index];
+                    LibraryImage? imageLibraryHeight = sequence.ImageLibrary[index];
+                    Point3D? pathY = Path[0];
+                    LibraryImage? imageLibrary = sequence.ImageLibrary[index];
+                    LibraryImage? imageLibraryWidth = sequence.ImageLibrary[index];
+                    Point3D? pathX = Path[0];
+                    LibraryImage? imageLibrary2 = sequence.ImageLibrary[index];
                     sequence.ImageLibrary[index].ShowClipped(((imageLibraryWidth.Width + lockedSurfaceValue.Width) * pathX.X / 100) - imageLibrary2.Width, ((imageLibraryHeight.Height + lockedSurfaceValue.Height) * pathY.Y / 100) - imageLibrary.Height, lockedSurface: lockedSurfaceValue);
                 }
 
@@ -278,13 +278,13 @@ public sealed partial class BattleEffectSprite
                 index = sequence.GetFrameIndex(StrategicMap.Current.Frame, offset: FrameFixtureInputs.AnimationOffset(this));
                 if (index != -1 && sequence.ImageLibrary.ImageExist(index))
                 {
-                    Point3D pathX = Path[0];
-                    Point3D pathZ = Path[Frame];
-                    Point3D path = Path[0];
-                    Point3D path2 = Path[Frame];
-                    Point3D pathY = Path[0];
-                    Point3D path3 = Path[Frame];
-                    Point3D path4 = Path[Frame];
+                    Point3D? pathX = Path[0];
+                    Point3D? pathZ = Path[Frame];
+                    Point3D? path = Path[0];
+                    Point3D? path2 = Path[Frame];
+                    Point3D? pathY = Path[0];
+                    Point3D? path3 = Path[Frame];
+                    Point3D? path4 = Path[Frame];
                     sequence.ImageLibrary[index].ShowBlended(((pixelXSurface + lockedSurfaceValue.Width - pathX.X + 100) * pathZ.Z / 100) + (path.X - pixelXSurface) + path2.X, ((pathY.Y - pixelYSurface + 100) * (100 - path3.Z) / 100) + path4.Y - 100, lockedSurface: lockedSurfaceValue, table: GraphicsState.IntensityBlendTable.LookupTables[alpha]);
                 }
 
@@ -321,9 +321,9 @@ public sealed partial class BattleEffectSprite
                     {
                         if (sequence.ImageLibrary.ImageExist(index))
                         {
-                            Point3D pathY = Path[Frame];
-                            Point3D pathZ = Path[Frame];
-                            Point3D pathX = Path[Frame];
+                            Point3D? pathY = Path[Frame];
+                            Point3D? pathZ = Path[Frame];
+                            Point3D? pathX = Path[Frame];
                             sequence.ImageLibrary[index].ShowBlended(pathX.X - pixelXSurface + sequence.OffsetX, pathY.Y - pathZ.Z - pixelYSurface + sequence.OffsetY, lockedSurface: lockedSurfaceValue, table: GraphicsState.ShadowBlendTable.LookupTables[alpha]);
                         }
                     }
@@ -331,9 +331,9 @@ public sealed partial class BattleEffectSprite
                     {
                         if (sequence.ImageLibrary.ImageExist(index))
                         {
-                            Point3D pathY = Path[Frame];
-                            Point3D pathZ = Path[Frame];
-                            Point3D pathX = Path[Frame];
+                            Point3D? pathY = Path[Frame];
+                            Point3D? pathZ = Path[Frame];
+                            Point3D? pathX = Path[Frame];
                             sequence.ImageLibrary[index].ShowBlended(pathX.X - pixelXSurface + sequence.OffsetX, pathY.Y - pathZ.Z - pixelYSurface + sequence.OffsetY, lockedSurface: lockedSurfaceValue, table: GraphicsState.IntensityBlendTable.LookupTables[alpha]);
                         }
                     }
@@ -509,8 +509,8 @@ public sealed partial class BattleEffectSprite
                                         int limit = lockedSurfaceValue.Height / sequence.ImageLibrary[index].Height;
                                         for (; j <= limit; j += 1)
                                         {
-                                            LibraryImage imageLibraryHeight = sequence.ImageLibrary[index];
-                                            LibraryImage imageLibraryWidth = sequence.ImageLibrary[index];
+                                            LibraryImage? imageLibraryHeight = sequence.ImageLibrary[index];
+                                            LibraryImage? imageLibraryWidth = sequence.ImageLibrary[index];
                                             sequence.ImageLibrary[index].ShowClipped(imageLibraryWidth.Width * i, imageLibraryHeight.Height * j, lockedSurface: lockedSurfaceValue);
                                         }
                                     }
@@ -558,7 +558,7 @@ public sealed partial class BattleEffectSprite
                         FinishSequence();
                         break;
                     case BattleEffectType.Blood:
-                        Point3D path = Path[0];
+                        Point3D? path = Path[0];
                         sequence = GamePack.Current.ImageSequences.ImageSequences[path.Z];
                         SelectFrame();
                         ShowAtStart();

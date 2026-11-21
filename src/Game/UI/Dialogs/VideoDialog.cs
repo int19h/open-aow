@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWVideoDlg.pas.
 using System.Globalization;
 using Aow.Game.Draw;

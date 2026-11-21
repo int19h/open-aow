@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from EventLog.pas.
 using System.Diagnostics.CodeAnalysis;
 using Aow.Engine;
@@ -17,7 +17,7 @@ namespace Aow.Game.Events;
 public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<EventLogList>
 {
     [SuppressMessage("Style", "IDE0290", Justification = "EventLogList.cs:87 calls AddRef during AddChild. Delphi sees a count of 0, SetOwner skips its own AddRef and Release, and the count after construction is 1.")]
-    public EventLog(CustomNode owner) : base(owner) => RefCount = 1;
+    public EventLog(CustomNode? owner) : base(owner) => RefCount = 1;
 
     // The list that holds the log. AcceptsOwner admits only that list, so the read never fails.
     public new EventLogList Owner => GetOwner<EventLogList>();
@@ -34,7 +34,7 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
     public int RefCount { get; private set; }
 
     // EventLog.pas:334
-    public override void SetOwner(CustomNode owner)
+    public override void SetOwner(CustomNode? owner)
     {
         if (RefCount != 0)
         {
@@ -136,7 +136,7 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
     }
 
     // EventLog.pas:403
-    public virtual bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
+    public virtual bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent? done)
     {
         if (trigger == ExecuteTrigger.User || ((trigger == ExecuteTrigger.Event || (trigger == ExecuteTrigger.NewTurn && StrategicMap.Current.RequestCombatType)) && StrategicMap.Current.SeatedPlayer == Player))
         {
@@ -179,7 +179,7 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
     {
         for (int i = 0, last = StrategicMap.Current.Players.GetCount() - 1; i <= last; i++)
         {
-            Player player = StrategicMap.Current.Players.GetPlayers(i);
+            Player? player = StrategicMap.Current.Players.GetPlayers(i);
             if (player.Status == PlayerStatus.Playing)
             {
                 EventLog copyLog = log.Copy<EventLog>(log.GetEngine());
@@ -198,7 +198,7 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
     {
         for (int i = 0, last = StrategicMap.Current.Players.GetCount() - 1; i <= last; i++)
         {
-            Player targetPlayer = StrategicMap.Current.Players.GetPlayers(i);
+            Player? targetPlayer = StrategicMap.Current.Players.GetPlayers(i);
             if (targetPlayer.Status == PlayerStatus.Playing && (i == player || !StrategicMap.Current.FoggedForPlayer(x, y, L: level, player: (sbyte)i)))
             {
                 EventLog copyLog = log.Copy<EventLog>(log.GetEngine());

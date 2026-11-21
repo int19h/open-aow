@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -7,7 +7,7 @@ namespace Aow.Game.AI.Groups;
 
 // The original's TAIGroupManager derives from TAIGroupList. The port's manager owns the groups
 // it creates and reads them through Groups. A player's AIGroups list is a separate index.
-public sealed class AIGroupManager(CustomNode owner) : OwningNode(owner), IChildList<AIGroup>
+public sealed class AIGroupManager(CustomNode? owner) : OwningNode(owner), IChildList<AIGroup>
 {
 
     /// <summary>The groups this manager owns, in their stored order.</summary>
@@ -60,7 +60,7 @@ public sealed class AIGroupManager(CustomNode owner) : OwningNode(owner), IChild
     }
 
     // AIGroup.pas:600
-    public AIGroup CreateGroup(sbyte player, sbyte relation, GroupBehavior behavior)
+    public AIGroup? CreateGroup(sbyte player, sbyte relation, GroupBehavior behavior)
     {
         bool found = false;
         int i = RegisteredClasses.Count;

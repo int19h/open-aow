@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
@@ -9,7 +9,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.AI.Groups;
 
 // references, cycles, control, status, state
-public class AIGroupTask(CustomNode owner) : EngineObject(owner)
+public class AIGroupTask(CustomNode? owner) : EngineObject(owner)
 {
     private int _refCount = 1;
     [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Construction snapshots record this field, and the Delphi field is only written.")]

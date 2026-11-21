@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from NetworkE.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -22,17 +22,17 @@ public sealed class TokenEventList : EngineObject
     }
 
     // NetworkE.pas:982
-    public TokenEventList(CustomNode owner) : base(owner) => List = new TokenEventReferenceList(null) { Holder = CreationHolder() };
+    public TokenEventList(CustomNode? owner) : base(owner) => List = new TokenEventReferenceList(null) { Holder = CreationHolder() };
 
     // NetworkE.pas:1046
     public override void Clear() => List.Clear();
 
     // NetworkE.pas:1006
-    public override void Assign(EngineObject source, GameEngine engine)
+    public override void Assign(EngineObject? source, GameEngine? engine)
     {
         List.Clear();
         // Assign's source is EngineObject. This override copies a token event list, and the cast stays.
-        AddEvents((TokenEventList)source);
+        AddEvents((TokenEventList?)source);
     }
 
     // NetworkE.pas:988
@@ -82,7 +82,7 @@ public sealed class TokenEventList : EngineObject
     public void SortOnTokenCounter() => List.SortChildren<TokenEvent>(CompareTokenCounter);
 
     // NetworkE.pas:1061
-    public void AddEvents(TokenEventList events)
+    public void AddEvents(TokenEventList? events)
     {
         for (int i = 0, last = events.Count - 1; i <= last; i++)
         {
@@ -92,12 +92,12 @@ public sealed class TokenEventList : EngineObject
     }
 
     // NetworkE.pas:1069
-    public void Add(TokenEvent tokenEvent) => List.AddChild(tokenEvent);
+    public void Add(TokenEvent? tokenEvent) => List.AddChild(tokenEvent);
 
     // NetworkE.pas:1074
     public void Delete(int index)
     {
-        EngineObject child = List.Children[index];
+        EngineObject? child = List.Children[index];
         _ = List.RemoveChild(child);
     }
 

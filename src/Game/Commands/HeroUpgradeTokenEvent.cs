@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
@@ -48,10 +48,10 @@ public class HeroUpgradeTokenEvent : TokenEvent
     }
 
     // Hero.PAS:1
-    public HeroUpgradeTokenEvent(CustomNode owner) : base(owner) => Abilities = new AbilityOwner(null) { Holder = CreationHolder() };
+    public HeroUpgradeTokenEvent(CustomNode? owner) : base(owner) => Abilities = new AbilityOwner(null) { Holder = CreationHolder() };
 
     // Hero.PAS:30
-    public override ExecuteResult Execute(TokenExecutor tokenEvent)
+    public override ExecuteResult Execute(TokenExecutor? tokenEvent)
     {
         ExecuteResult result = base.Execute(tokenEvent);
         Hero hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(UnitId);

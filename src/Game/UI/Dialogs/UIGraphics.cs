@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from aowIntGfxMod.pas.
 using Aow.Game.Draw.Images;
 using Aow.Rtl;

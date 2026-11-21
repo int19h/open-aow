@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWBookWindow.pas.
 using Aow.Game.Draw;
 using Aow.Game.UI.Controls;
@@ -9,24 +9,24 @@ namespace Aow.Game.UI.Windows;
 
 // completion event, first frame, previous surface validity, page turn, animating, saved page
 // surface, page-turn mode
-public sealed partial class BookWindow(Component owner) : Window(owner)
+public sealed partial class BookWindow(Component? owner) : Window(owner)
 {
 
     [Published]
-    public event NotifyEvent<BookWindow> AnimationDone;
+    public event NotifyEvent<BookWindow>? AnimationDone;
     private bool _firstAnimationFrame;
     private bool _previousSurfaceValid;
 
     public PageTurnControl PageTurn { get; } = new PageTurnControl();
     public bool Animating { get; set; }
 
-    private Surface _pageSurface;
+    private Surface? _pageSurface;
     private PageTurnMode _pageTurnMode;
 
     // AoWBookWindow.pas:50
     public override void Dispose()
     {
-        Surface s = _pageSurface;
+        Surface? s = _pageSurface;
         s?.Dispose();
 
         base.Dispose();
@@ -56,7 +56,7 @@ public sealed partial class BookWindow(Component owner) : Window(owner)
             Animating = false;
             if (FreeSurfaceOnHide)
             {
-                Surface s = _pageSurface;
+                Surface? s = _pageSurface;
                 if (s is not null)
                 {
                     s?.Dispose();
@@ -69,7 +69,7 @@ public sealed partial class BookWindow(Component owner) : Window(owner)
     }
 
     // AoWBookWindow.pas:113
-    public override void DrawSurface(Surface surface)
+    public override void DrawSurface(Surface? surface)
     {
         _previousSurfaceValid = SurfaceValid;
         base.DrawSurface(surface);

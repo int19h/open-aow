@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using Aow.Engine.Nodes;
 
 using Aow.Rtl;
@@ -31,7 +31,7 @@ public sealed class EngineClass
     public int ClassId { get; }
     public string StorageKey => NameTable.Stored(Type);
 
-    public EngineObject CreateInstance(CustomNode owner, EngineObject holder) => _create switch
+    public EngineObject CreateInstance(CustomNode? owner, EngineObject holder) => _create switch
     {
         Func<CustomNode, EngineObject, EngineObject> held => held(owner, holder),
         Func<CustomNode, EngineObject> plain => Held(plain(owner), holder),
@@ -39,7 +39,7 @@ public sealed class EngineClass
     };
 
     // The caller supplies the class's base type, so the cast preserves the single runtime check.
-    public T Create<T>(CustomNode owner, EngineObject holder) where T : EngineObject
+    public T Create<T>(CustomNode? owner, EngineObject holder) where T : EngineObject
         => (T)CreateInstance(owner, holder: holder);
 
     public override string ToString() => StorageKey;
@@ -52,7 +52,7 @@ public sealed class EngineClass
 
     public static EngineClass Of<T>() where T : EngineObject => Of(typeof(T));
 
-    public static EngineClass Of(Type type) => s_catalog[type];
+    public static EngineClass Of(Type? type) => s_catalog[type];
 
     // The base class registers first, so a walk up Type.BaseType finds a descriptor at every step.
     public static EngineClass Register<T>(int classId, Func<CustomNode, T> create)

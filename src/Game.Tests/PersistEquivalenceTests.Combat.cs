@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats.Original;
@@ -232,7 +232,7 @@ public sealed partial class PersistEquivalenceTests
     // holds only the classes of the engine's start. Each class id is enlisted once.
     private static EngineClass[] EnlistCombatClasses()
     {
-        Dictionary<int, EngineClass> table = EngineFixture.Engine.ClassTable;
+        Dictionary<int, EngineClass?> table = EngineFixture.Engine.ClassTable;
         Dictionary<int, EngineClass> added = [];
         foreach (EngineClass engineClass in EngineClass.All)
         {

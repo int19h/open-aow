@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWDeformFaceDlg.pas.
 using Aow.Game.Draw;
 using Aow.Game.Magic.Abilities;
@@ -17,14 +17,14 @@ public sealed partial class DeformFaceDialog(UIContext ui) : UIModule(ui)
     public Window Window { get; private set; }
     public Label UnitNameLabel { get; private set; }
 
-    private CosmeticSurgerySpellCaster _caster;
+    private CosmeticSurgerySpellCaster? _caster;
 
     // AoWDeformFaceDlg.pas:127
     public void Execute(CosmeticSurgerySpellCaster caster)
     {
         _caster = caster;
         _ = _caster.AddRef();
-        Troop u = StrategicMap.Current.UnitControl.FindUnit(_caster.TargetUnitId);
+        Troop? u = StrategicMap.Current.UnitControl.FindUnit(_caster.TargetUnitId);
         if (u is not null)
         {
             string name = u.GetName();
@@ -86,7 +86,7 @@ public sealed partial class DeformFaceDialog(UIContext ui) : UIModule(ui)
         Rect r = new(Window.WinLeft + sender.WinLeft + 2, Window.WinTop + sender.WinTop, Window.WinLeft + sender.WinLeft + sender.WinWidth - 2, Window.WinTop + sender.WinTop + sender.WinHeight - 2);
         if (face != -1)
         {
-            FaceResource resource = GamePack.Current.FaceResources.GetFaceResource(face);
+            FaceResource? resource = GamePack.Current.FaceResources.GetFaceResource(face);
             _ = resource.AddRef();
             resource.FaceImage.ShowStretched(r, lockedSurface);
             _ = resource.Release();

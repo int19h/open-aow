@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
@@ -19,7 +19,7 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     int IChildSink<Player>.AddChild(Player child) => AddChild(child);
 
     // Player.PAS:1414
-    public PlayerCollection(CustomNode owner) : base(owner)
+    public PlayerCollection(CustomNode? owner) : base(owner)
     {
         SetControlStyle(ControlStyles.SaveLoad | ControlStyles.FixedChild | ControlStyles.ArrayMode);
         SetNumberOfPlayers(2);
@@ -37,14 +37,14 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     public ByteList LocalHumanPlayers { get; init; }
 
     // Player.PAS:1543
-    public override void Assign(EngineObject source, GameEngine engine)
+    public override void Assign(EngineObject? source, GameEngine? engine)
     {
         // Assign's source is EngineObject. This override copies a player collection, and the cast stays.
-        PlayerCollection other = (PlayerCollection)source;
+        PlayerCollection? other = (PlayerCollection?)source;
         SetNumberOfPlayers(other.NumberOfPlayers);
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
-            Player players = other.GetPlayers(i);
+            Player? players = other.GetPlayers(i);
             this[i].Assign(players, engine);
         }
     }
@@ -158,7 +158,7 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     }
 
     // Player.PAS:1552
-    public Player GetPlayers(int index) => index >= 0 && index < Count ? this[index] : null;
+    public Player? GetPlayers(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // Player.PAS:1559
     public bool GetActivePlayersAllied()

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 
 using System.Runtime.CompilerServices;
 using Aow.Rtl;
@@ -11,12 +11,12 @@ public partial class UIComponent
 {
     private sealed class WheelLink
     {
-        public VerticalScrollBar Bar { get; set; }
-        public Button Back { get; set; }
-        public Button Forward { get; set; }
+        public VerticalScrollBar? Bar { get; set; }
+        public Button? Back { get; set; }
+        public Button? Forward { get; set; }
     }
 
-    private static readonly ConditionalWeakTable<UIComponent, WheelLink> s_wheelLinks = [];
+    private static readonly ConditionalWeakTable<UIComponent, WheelLink?> s_wheelLinks = [];
 
     internal static bool PointInside(int X, int Y, int left, int top, int width, int height)
         => X > left - 1 && X < left + width && Y > top - 1 && Y < top + height;
@@ -28,31 +28,31 @@ public partial class UIComponent
 
     public virtual bool CheckMouseWheel(int steps, ShiftStates shift, int X, int Y) => false;
 
-    internal VerticalScrollBar WheelScrollBar
+    internal VerticalScrollBar? WheelScrollBar
     {
         get => s_wheelLinks.TryGetValue(this, out WheelLink link) ? link.Bar : null;
         set => Link().Bar = value;
     }
 
-    internal Button PageBack
+    internal Button? PageBack
     {
         get => s_wheelLinks.TryGetValue(this, out WheelLink link) ? link.Back : null;
         set => Link().Back = value;
     }
 
-    internal Button PageForward
+    internal Button? PageForward
     {
         get => s_wheelLinks.TryGetValue(this, out WheelLink link) ? link.Forward : null;
         set => Link().Forward = value;
     }
 
-    private WheelLink Link() => s_wheelLinks.GetOrCreateValue(this);
+    private WheelLink? Link() => s_wheelLinks.GetOrCreateValue(this);
 
-    protected UIComponent TopWheelChild(int X, int Y)
+    protected UIComponent? TopWheelChild(int X, int Y)
     {
         for (int i = Children.Count - 1; i >= 0; i--)
         {
-            UIComponent child = Children[i];
+            UIComponent? child = Children[i];
             if (child.WantsMouseWheel && child.ContainsPoint(X, Y))
             {
                 return child;
@@ -77,7 +77,7 @@ public partial class UIComponent
             return true;
         }
 
-        VerticalScrollBar bar = null;
+        VerticalScrollBar? bar = null;
         for (int i = 0; i < Children.Count; i++)
         {
             if (Children[i] is VerticalScrollBar candidate && candidate._visible && candidate.CaptureInput)

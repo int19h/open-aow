@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Dungeon.pas.
 using Aow.Engine.Nodes;
 
@@ -14,7 +14,7 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Game.Events;
 
 // FX, FY, FL
-public partial class PrisonersJoinEventLog(CustomNode owner) : JoinEventLog(owner)
+public partial class PrisonersJoinEventLog(CustomNode? owner) : JoinEventLog(owner)
 {
     public MapCoordinate Location { get; init; }
 
@@ -53,7 +53,7 @@ public partial class PrisonersJoinEventLog(CustomNode owner) : JoinEventLog(owne
                     if (GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(index) is not null)
                     {
                         int random = Random(15);
-                        UnitGraphicsResource unitGraphicsResource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(index);
+                        UnitGraphicsResource? unitGraphicsResource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(index);
                         _ = unitGraphicsResource.SfxLibraries[3].Play(0, volume: 100, looped: false, delay: random, panning: SamplePanning.Center, callback: null);
                     }
                 }

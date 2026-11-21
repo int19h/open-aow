@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -14,7 +14,7 @@ namespace Aow.Game.Units;
 // reads them through Units. AddUnit does not set the owner. A troop's owner stays where the
 // caller left it, including this list when the caller sets that owner. The members below that
 // carry a Unit.PAS line are TUnitList's part, with the reference writes TUnitUserList overrides.
-public sealed class UnitUserList(CustomNode owner) : ObservableNode(owner), IChildList<Troop>, IUnitHolder
+public sealed class UnitUserList(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>, IUnitHolder
 {
     // The troop in slot index, without a range check.
     public Troop this[int index] => Units[index];
@@ -55,7 +55,7 @@ public sealed class UnitUserList(CustomNode owner) : ObservableNode(owner), IChi
     public override void DestroyAllChildren() => Clear();
 
     // Unit.PAS:2162
-    public override int RemoveChild(EngineObject child)
+    public override int RemoveChild(EngineObject? child)
     {
         int result = base.RemoveChild(child);
         if (result != -1)
@@ -67,11 +67,11 @@ public sealed class UnitUserList(CustomNode owner) : ObservableNode(owner), IChi
     }
 
     // Unit.PAS:2167
-    public override int AddChild(EngineObject child)
+    public override int AddChild(EngineObject? child)
     {
         // The check refuses a child that is not a troop before the troop is read.
         CheckChild(child);
-        if (CanAddUnit((Troop)child))
+        if (CanAddUnit((Troop?)child))
         {
             _ = child.AddRef();
             return base.AddChild(child);
@@ -99,13 +99,13 @@ public sealed class UnitUserList(CustomNode owner) : ObservableNode(owner), IChi
     public void SortOnMoves() => Units.SortOnMoves();
 
     // Unit.PAS:2188
-    public bool CanAddUnit(Troop troop) => troop.CanAddToList(Units);
+    public bool CanAddUnit(Troop? troop) => troop.CanAddToList(Units);
 
     // Unit.PAS:2192
-    public bool CanDeleteUnit(Troop troop) => true;
+    public bool CanDeleteUnit(Troop? troop) => true;
 
     // Unit.PAS:2386
-    public bool AddUnit(Troop troop)
+    public bool AddUnit(Troop? troop)
     {
         if (CanAddUnit(troop))
         {
@@ -117,7 +117,7 @@ public sealed class UnitUserList(CustomNode owner) : ObservableNode(owner), IChi
     }
 
     // Unit.PAS:2396
-    public bool DeleteUnit(Troop troop)
+    public bool DeleteUnit(Troop? troop)
     {
         if (CanDeleteUnit(troop))
         {
@@ -152,7 +152,7 @@ public sealed class UnitUserList(CustomNode owner) : ObservableNode(owner), IChi
     }
 
     // Unit.PAS:2217
-    public int IndexOf(Troop troop) => Units.IndexOf(troop);
+    public int IndexOf(Troop? troop) => Units.IndexOf(troop);
 
     // Unit.PAS:2221
     public int IndexOfId(int id) => Units.IndexOfId(id);
@@ -167,16 +167,16 @@ public sealed class UnitUserList(CustomNode owner) : ObservableNode(owner), IChi
     public int IndexOfGroupId(int id) => Units.IndexOfGroupId(id);
 
     // Unit.PAS:2265
-    public Troop FindId(int id) => Units.FindId(id);
+    public Troop? FindId(int id) => Units.FindId(id);
 
     // Unit.PAS:2277
-    public Troop GetUnit(int index) => Units.GetUnit(index);
+    public Troop? GetUnit(int index) => Units.GetUnit(index);
 
     // Unit.PAS:2287
     public void SetUnit(int index, Troop troop)
     {
         CheckChild(troop);
-        EngineObject previous = index < Count ? GetChild(index) : null;
+        EngineObject? previous = index < Count ? GetChild(index) : null;
         if (index >= Count)
         {
             // Pads the slots up to index with empty ones, as the original adds nil slots.

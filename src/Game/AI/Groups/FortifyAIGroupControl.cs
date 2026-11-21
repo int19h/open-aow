@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from MainAG.pas.
 using Aow.Engine.Nodes;
 
@@ -66,7 +66,7 @@ public class FortifyAIGroupControl : AIGroupControl
         AIGroupRecruitControl recruit;
         AIGroupDefenseControl defense;
         int i;
-        City city;
+        City? city;
         switch (State)
         {
             case 0:
@@ -103,9 +103,9 @@ public class FortifyAIGroupControl : AIGroupControl
                 break;
             case 2:
                 _ = Targets.Validate();
-                AIGroupControlTarget newTarget = null;
+                AIGroupControlTarget? newTarget = null;
                 i = Targets.IndexOfMapCoordinate(Location);
-                AIGroupControlTarget currentTarget = i == -1 ? null : Targets.GetTargets(i);
+                AIGroupControlTarget? currentTarget = i == -1 ? null : Targets.GetTargets(i);
 
                 {
                     i = 0;
@@ -495,7 +495,7 @@ public class FortifyAIGroupControl : AIGroupControl
     public override bool Split() => false;
 
     // MainAG.pas:268
-    public City FortifyCity()
+    public City? FortifyCity()
     {
         return _fortifyLocation != MapCoordinate.None
             ? StrategicMap.Current.MapContainer.GetFieldMapCoordinate(_fortifyLocation).FindNoneTransparentHexSprite<City>()
@@ -530,7 +530,7 @@ public class FortifyAIGroupControl : AIGroupControl
         message.Param = param;
         for (int i = settings.ProcessedMapFields.Count - 1; i >= 0; i--)
         {
-            MapField mapField = settings.ProcessedMapFields[i];
+            MapField? mapField = settings.ProcessedMapFields[i];
             if ((mapField.FieldFlags & MapField.BattleFieldInfoFlag) != 0)
             {
                 mapField.SendMapFieldMessage(ref message);
@@ -624,7 +624,7 @@ public class FortifyAIGroupControl : AIGroupControl
 
             if (passive.Count != 0)
             {
-                AIGroup group = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, relation: Group.IndependentRelation, behavior: GroupBehavior.Passive);
+                AIGroup? group = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, relation: Group.IndependentRelation, behavior: GroupBehavior.Passive);
                 _ = group.AddUnits(passive.Units);
                 _ = group.Release();
             }
@@ -642,7 +642,7 @@ public class FortifyAIGroupControl : AIGroupControl
         while (!result && i != 0)
         {
             i -= 1;
-            Troop troop = Group.Units.GetUnit(i);
+            Troop? troop = Group.Units.GetUnit(i);
             result = troop.GetAbilityEnabled(52) && GamePack.Current.AbilityControl.GetAbility<SpellCastingAbility>(52).CanCastBreachWallSpell(troop);
         }
 

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
@@ -10,7 +10,7 @@ namespace Aow.Game.Magic.Abilities;
 public class SelfDestructAbility : TouchAbility
 {
     // AoWAb.PAS:2136
-    public SelfDestructAbility(CustomNode owner, EngineObject holder) : base(owner)
+    public SelfDestructAbility(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         AbilityId = 65;
@@ -23,9 +23,9 @@ public class SelfDestructAbility : TouchAbility
     public override WallCombatFeatures GetWallCombatFeatures(AbilityOwner owner) => WallCombatFeatures.WallBreaching | WallCombatFeatures.Participate;
 
     // AoWAb.PAS:2222
-    public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand command)
+    public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand? command)
     {
-        CombatObject target = command.Target;
+        CombatObject? target = command.Target;
         FastBattleValidateMoveOutsideWall(source, target);
         SelfDestructCombatAction action = CreateSelfDestructCombatAction(source, target);
         source.Combat.ExecuteCombatAction(action);
@@ -52,7 +52,7 @@ public class SelfDestructAbility : TouchAbility
     }
 
     // AoWAb.PAS:2154
-    public override void GetDamageValues(Troop attacker, Troop defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
+    public override void GetDamageValues(Troop attacker, Troop? defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
         if (wallSituation == WallSituation.None && CanTouchUnit(attacker, target: defender))
         {
@@ -82,14 +82,14 @@ public class SelfDestructAbility : TouchAbility
     }
 
     // AoWAb.PAS:2205
-    public override void GetOffensiveStrength(AbilityOwner owner, ref int strength, ref DamageTypes types)
+    public override void GetOffensiveStrength(AbilityOwner? owner, ref int strength, ref DamageTypes types)
     {
         strength = AbilityRules.LimitedDamage(8, defense: 6, damage: 1);
         types = DamageTypes.Fire | DamageTypes.Wall;
     }
 
     // AoWAb.PAS:2175
-    public override void FastBattleGetDamageValues(CombatObject attacker, CombatObject defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
+    public override void FastBattleGetDamageValues(CombatObject? attacker, CombatObject? defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
         if (wallSituation == WallSituation.None && CanTouch(attacker, target: defender))
         {
@@ -119,7 +119,7 @@ public class SelfDestructAbility : TouchAbility
     }
 
     // AoWAb.PAS:2196
-    public override void GetCombatInfo(AbilityOwner owner, ref AbilityCombatInfo info)
+    public override void GetCombatInfo(AbilityOwner? owner, ref AbilityCombatInfo info)
     {
         info.Attack = 8;
         info.Damage = 6;
@@ -129,7 +129,7 @@ public class SelfDestructAbility : TouchAbility
     }
 
     // AoWAb.PAS:2235
-    public override bool CanTouch(CombatObject source, CombatObject target)
+    public override bool CanTouch(CombatObject? source, CombatObject? target)
     {
         return source.Side == CombatSideIndex.Defender
             ? !source.FastBattleBehindWall() || !source.FastBattleWallInBetween(target.Position) || target.WallCombatFeatures().Contains(WallCombatFeatures.WallPassing)
@@ -137,10 +137,10 @@ public class SelfDestructAbility : TouchAbility
     }
 
     // AoWAb.PAS:2257
-    public override bool CanTouchUnit(Troop source, Troop target) => true;
+    public override bool CanTouchUnit(Troop source, Troop? target) => true;
 
     // AoWAb.PAS:2216
-    public SelfDestructCombatAction CreateSelfDestructCombatAction(CombatObject source, CombatObject target)
+    public SelfDestructCombatAction CreateSelfDestructCombatAction(CombatObject? source, CombatObject? target)
     {
         SelfDestructCombatAction result = new(null) { Holder = CreationHolder() };
         result.Generate(source, target, attack: 8, damage: 6, damageTypes: DamageTypes.Fire | DamageTypes.Wall);

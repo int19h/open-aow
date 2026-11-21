@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWScenSetup.pas.
 using System.Collections.Immutable;
 using System.Globalization;
@@ -128,7 +128,7 @@ public sealed partial class ScenarioSetup(UIContext ui) : UIModule(ui)
     public CheckBox AlwaysViewTacticalCombatCheckBox { get; private set; }
     public Label AlwaysViewTacticalCombatLabel { get; private set; }
 
-    public SetupControl SetupControl { get; set; }
+    public SetupControl? SetupControl { get; set; }
     public bool ChatScrollPending { get; set; }
 
     // AoWScenSetup.pas:526
@@ -273,7 +273,7 @@ public sealed partial class ScenarioSetup(UIContext ui) : UIModule(ui)
     {
         if (drawItem < PlayerList.Items.Count)
         {
-            object objectValue = PlayerList.Items.Objects[drawItem];
+            object? objectValue = PlayerList.Items.Objects[drawItem];
             int i = SetupControl.Settings.RemotePlayers.IndexOfRemoteId(ObjectToInt(objectValue));
             if (i != -1)
             {
@@ -306,7 +306,7 @@ public sealed partial class ScenarioSetup(UIContext ui) : UIModule(ui)
     {
         if (PreferredRaceComboBox.Selected >= 0)
         {
-            object objectValue = PreferredRaceComboBox.Items.Objects[PreferredRaceComboBox.Selected];
+            object? objectValue = PreferredRaceComboBox.Items.Objects[PreferredRaceComboBox.Selected];
             SetupControl.SetPreferredRace((byte)ObjectToInt(objectValue));
         }
     }
@@ -331,7 +331,7 @@ public sealed partial class ScenarioSetup(UIContext ui) : UIModule(ui)
         UI.General.PlayButtonSound(0);
         if (PlayerList.Selected > -1)
         {
-            object objectValue = PlayerList.Items.Objects[PlayerList.Selected];
+            object? objectValue = PlayerList.Items.Objects[PlayerList.Selected];
             SetupControl.EjectPlayer(ObjectToInt(objectValue));
         }
     }
@@ -342,7 +342,7 @@ public sealed partial class ScenarioSetup(UIContext ui) : UIModule(ui)
         UI.General.PlayButtonSound(0);
         if (PlayerList.Selected > -1)
         {
-            object objectValue = PlayerList.Items.Objects[PlayerList.Selected];
+            object? objectValue = PlayerList.Items.Objects[PlayerList.Selected];
             SetupControl.SetHostRemoteId(ObjectToInt(objectValue));
         }
     }
@@ -397,7 +397,7 @@ public sealed partial class ScenarioSetup(UIContext ui) : UIModule(ui)
     // AoWScenSetup.pas:422
     public void PlayModeCBChange()
     {
-        object objectValue = PlayModeComboBox.Items.Objects[PlayModeComboBox.Selected];
+        object? objectValue = PlayModeComboBox.Items.Objects[PlayModeComboBox.Selected];
         SetupControl.SetPlayMode((byte)ObjectToInt(objectValue));
         UI.TitleWindow.MainWindow.Drawn = false;
     }
@@ -501,7 +501,7 @@ public sealed partial class ScenarioSetup(UIContext ui) : UIModule(ui)
     // AoWScenSetup.pas:492
     public void TacticalCombatCBChange()
     {
-        object objectValue = TacticalCombatComboBox.Items.Objects[TacticalCombatComboBox.Selected];
+        object? objectValue = TacticalCombatComboBox.Items.Objects[TacticalCombatComboBox.Selected];
         SetupControl.SetTacticalBattleAvailability((byte)ObjectToInt(objectValue));
     }
 
@@ -545,7 +545,7 @@ public sealed partial class ScenarioSetup(UIContext ui) : UIModule(ui)
             PreferredRaceList.Selected = index;
             bool condition = SetupControl.GetHost() && ObjectToInt(PlayerList.Items.Objects[PlayerList.Selected]) != SetupControl.RemotePlayer.RemoteId;
             EjectButton.Visible = condition;
-            object objectValue = PlayerList.Items.Objects[PlayerList.Selected];
+            object? objectValue = PlayerList.Items.Objects[PlayerList.Selected];
             bool canSetHostRemoteId = SetupControl.CanSetHostRemoteId(ObjectToInt(objectValue));
             MakeHostButton.Visible = canSetHostRemoteId;
         }
@@ -714,9 +714,9 @@ public sealed partial class ScenarioSetup(UIContext ui) : UIModule(ui)
                 {
                     if (!setup.SetupControl.Settings.GetSettings(i).Status.Contains(PlayerSetupStatuses.Fixed))
                     {
-                        PlayerSetupSettings settingRace = setup.SetupControl.Settings.GetSettings(i);
+                        PlayerSetupSettings? settingRace = setup.SetupControl.Settings.GetSettings(i);
                         string raceNamesPlural = setup.UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[settingRace.Race]);
-                        PlayerSetupSettings setting = setup.SetupControl.Settings.GetSettings(i);
+                        PlayerSetupSettings? setting = setup.SetupControl.Settings.GetSettings(i);
                         _ = setup.PreferredRaceComboBox.Items.AddObject(raceNamesPlural, item: IntToObject(setting.Race));
                     }
                 }
@@ -790,7 +790,7 @@ public sealed partial class ScenarioSetup(UIContext ui) : UIModule(ui)
         }
     }
 
-    internal static void UpdateScenarioRow(ScenarioSetup setup, PlayerSetupSettings settings, ComboBox playerBox, ComboBox behaviorBox, Image icon, Label playerName, Label info, Panel fog)
+    internal static void UpdateScenarioRow(ScenarioSetup setup, PlayerSetupSettings? settings, ComboBox playerBox, ComboBox behaviorBox, Image icon, Label playerName, Label info, Panel fog)
     {
         if (settings is not null)
         {

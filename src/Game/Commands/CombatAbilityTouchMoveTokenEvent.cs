@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from CombatTE.pas.
 using System.Globalization;
 using Aow.Engine.Nodes;
@@ -15,7 +15,7 @@ using static Aow.Rtl.RtlHost;
 
 namespace Aow.Game.Commands;
 
-public class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : CombatMoveTokenEvent(owner)
+public class CombatAbilityTouchMoveTokenEvent(CustomNode? owner) : CombatMoveTokenEvent(owner)
 {
 
     // CombatTE.pas:624
@@ -28,7 +28,7 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : CombatMoveToke
     private BattleEffectType _effectType;
     private bool _successful;
 
-    private CityWall _wall;
+    private CityWall? _wall;
 
     // CombatTE.pas:627
     public override void PersistFields(IPersister persister)
@@ -293,7 +293,7 @@ public class CombatAbilityTouchMoveTokenEvent(CustomNode owner) : CombatMoveToke
                                 else
                                 {
                                     // GetAbility asserts on a negative id. The touch switch did nothing for one, so a negative id stays off that lookup.
-                                    CombatAction touchAction = AbilityId >= 0
+                                    CombatAction? touchAction = AbilityId >= 0
                                         ? GamePack.Current.AbilityControl[AbilityId]?.CreateTouchMoveCombatAction(Unit, target: PreviousUnit)
                                         : null;
                                     if (touchAction is not null)

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Collections;
 
@@ -45,7 +45,7 @@ public sealed class CombatPredictor : IDisposable
 
     private int _superiority;
     private int _efficiency;
-    private CombatPredictorUnit _wall;
+    private CombatPredictorUnit? _wall;
     private int _round;
     private int _nextCpuId;
 
@@ -164,7 +164,7 @@ public sealed class CombatPredictor : IDisposable
 
         for (int i = _allUnits.Count - 1; i >= 0; i--)
         {
-            CombatPredictorUnit u = _allUnits.List[i];
+            CombatPredictorUnit? u = _allUnits.List[i];
             if (u.Enabled != 0 && u.RoundTargets.Count != 0)
             {
                 u.SortRoundTargets();
@@ -176,7 +176,7 @@ public sealed class CombatPredictor : IDisposable
     // CombatPredictor.pas:380
     public bool ExecuteCombatRound()
     {
-        CombatPredictorUnit u;
+        CombatPredictorUnit? u;
         bool result = false;
         for (int i = _activeUnits.Count - 1; i >= 0; i--)
         {
@@ -240,7 +240,7 @@ public sealed class CombatPredictor : IDisposable
         Span<int> hits = stackalloc int[2];
         for (int i = _allUnits.Count - 1; i >= 0; i--)
         {
-            CombatPredictorUnit u = _allUnits.List[i];
+            CombatPredictorUnit? u = _allUnits.List[i];
             u.FinishCombat();
             if (!u.Status.Contains(CombatPredictorUnitStatuses.Destroyed))
             {
@@ -262,7 +262,7 @@ public sealed class CombatPredictor : IDisposable
             }
             else
             {
-                CombatPredictorUnit wall = _wall;
+                CombatPredictorUnit? wall = _wall;
                 Result = wall is not null && wall.HitPoints > 0
                     ? surviving[1] == 1 && CanPassWall() ? (byte)3 : (byte)8
                     : surviving[0] == 0 ? (byte)4 : (byte)2;
@@ -311,12 +311,12 @@ public sealed class CombatPredictor : IDisposable
     }
 
     // CombatPredictor.pas:466
-    public void DeleteUnit(Troop troop)
+    public void DeleteUnit(Troop? troop)
     {
         int i = _allUnits.IndexOfUnit(troop);
         if (i != -1)
         {
-            CombatPredictorUnit u = _allUnits.GetUnits(i);
+            CombatPredictorUnit? u = _allUnits.GetUnits(i);
             int j = Sides[u.Side].IndexOfUnit(troop);
             if (j != -1)
             {
@@ -343,7 +343,7 @@ public sealed class CombatPredictor : IDisposable
     }
 
     // CombatPredictor.pas:489
-    public CombatPredictorUnit AddUnit(Troop troop, byte side, byte behindWall)
+    public CombatPredictorUnit AddUnit(Troop? troop, byte side, byte behindWall)
     {
         CombatPredictorUnit u = new();
         u.Setup(troop, predictor: (CombatPredictor)(object)this, side);
@@ -363,7 +363,7 @@ public sealed class CombatPredictor : IDisposable
     }
 
     // CombatPredictor.pas:504
-    public void AddUnit(Troop troop) => AddUnit(troop, side: 0, behindWall: 0);
+    public void AddUnit(Troop? troop) => AddUnit(troop, side: 0, behindWall: 0);
 
     // CombatPredictor.pas:507
     public void AddUnits(UnitCollection units)
@@ -375,7 +375,7 @@ public sealed class CombatPredictor : IDisposable
     }
 
     // CombatPredictor.pas:514
-    public void AddOpponent(Troop troop, byte behindWall) => AddUnit(troop, side: 1, behindWall);
+    public void AddOpponent(Troop? troop, byte behindWall) => AddUnit(troop, side: 1, behindWall);
 
     // CombatPredictor.pas:517
     public void AddOpponents(UnitList units, byte behindWall)
@@ -395,7 +395,7 @@ public sealed class CombatPredictor : IDisposable
             Assert(false, message: "Use DeleteWall instead!", file: "D:\\AoWDev\\AoWE\\inc\\CombatPredictor.pas", line: 18391);
         }
 
-        CombatPredictorUnit unitObject = _wall;
+        CombatPredictorUnit? unitObject = _wall;
         if (unitObject is null)
         {
             WallCombatant wall = new(null) { Holder = Creator.CreationHolder() };
@@ -415,7 +415,7 @@ public sealed class CombatPredictor : IDisposable
     // CombatPredictor.pas:714
     public void DeleteWall()
     {
-        CombatPredictorUnit wall = _wall;
+        CombatPredictorUnit? wall = _wall;
         if (wall is not null)
         {
             DeleteUnit(wall.Troop);
@@ -488,7 +488,7 @@ public sealed class CombatPredictor : IDisposable
                             field.SendMapFieldMessage(ref message);
                             for (int i = 0, last = armyHexSprite.Army.Units.Count - 1; i <= last; i++)
                             {
-                                Troop u = armyHexSprite.Army.Units.GetUnit(i);
+                                Troop? u = armyHexSprite.Army.Units.GetUnit(i);
                                 if (u.ValidTerrain(field.TerrainType, field.OverlayType))
                                 {
                                     _ = AddUnit(u, side: (byte)(int)side, behindWall: (byte)((WallType)message.Result.Int != WallType.None ? 1 : 0));
@@ -545,7 +545,7 @@ public sealed class CombatPredictor : IDisposable
                             field.SendMapFieldMessage(ref message);
                             for (int i = 0, last = armyHexSprite.Army.Units.Count - 1; i <= last; i++)
                             {
-                                Troop u = armyHexSprite.Army.Units.GetUnit(i);
+                                Troop? u = armyHexSprite.Army.Units.GetUnit(i);
                                 if (u.ValidTerrain(field.TerrainType, field.OverlayType))
                                 {
                                     _ = AddUnit(u, side: (byte)(int)side, behindWall: (byte)((WallType)message.Result.Int != WallType.None ? 1 : 0));
@@ -565,7 +565,7 @@ public sealed class CombatPredictor : IDisposable
     {
         if (_superiority == -1)
         {
-            CombatPredictorUnit u;
+            CombatPredictorUnit? u;
             int total;
             int left;
             int value;
@@ -627,7 +627,7 @@ public sealed class CombatPredictor : IDisposable
                 lost[side] = 0;
                 for (int i = Sides[side].Count - 1; i >= 0; i--)
                 {
-                    CombatPredictorUnit u = Sides[side].List[i];
+                    CombatPredictorUnit? u = Sides[side].List[i];
                     if (u.Status.Contains(CombatPredictorUnitStatuses.Destroyed))
                     {
                         int obtainValue = u.Troop.GetObtainValue();
@@ -651,11 +651,11 @@ public sealed class CombatPredictor : IDisposable
     }
 
     // CombatPredictor.pas:899
-    public void ListRequiredUnits(UnitUserList required, UnitUserList optional, UnitUserList useless, int superiority)
+    public void ListRequiredUnits(UnitUserList? required, UnitUserList? optional, UnitUserList? useless, int superiority)
     {
         EnableAllUnits();
         Validate();
-        CombatPredictorUnit u;
+        CombatPredictorUnit? u;
         if (GetSuperiority() > superiority && Sides[0].Count != 0)
         {
             DoubleItemList<CombatPredictorUnit> list = new();
@@ -805,7 +805,7 @@ public sealed class CombatPredictor : IDisposable
     {
         for (int i = Sides[0].Count - 1; i >= 0; i--)
         {
-            CombatPredictorUnit u = Sides[0].List[i];
+            CombatPredictorUnit? u = Sides[0].List[i];
             if (u.CombatValueTotal <= 0)
             {
                 _ = useless.AddUnit(u.Troop);
@@ -820,7 +820,7 @@ public sealed class CombatPredictor : IDisposable
         Validate();
         CombatPredictorUnit u = new();
         u.Setup(troop, predictor: (CombatPredictor)(object)this, side: 0);
-        CombatPredictorUnit wall = _wall;
+        CombatPredictorUnit? wall = _wall;
         int result;
         CombatPredictorUnit target;
         int i;

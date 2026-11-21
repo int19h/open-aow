@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from GlobalTargetSpells.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -8,7 +8,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Commands;
 
 // Location: packed X/Y/layer coordinates
-public class GlobalTargetSpellTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
+public class GlobalTargetSpellTokenEvent(CustomNode? owner) : SpellTokenEvent(owner)
 {
 
     // GlobalTargetSpells.pas:401

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from GlobalTargetSpells.pas.
 using Aow.Engine.Nodes;
 
@@ -10,7 +10,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Commands;
 
-public class RejuvenateTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
+public class RejuvenateTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenEvent(owner)
 {
 
     // GlobalTargetSpells.pas:1036
@@ -35,7 +35,7 @@ public class RejuvenateTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEven
         }
 
         _ = StrategicMap.Current.ChangeTerrain(null, Location.X, Location.Y, L: Location.MapLevel, radius: 2, changeTerrainProc: RejuvenateTerrain, terrainChangedProc: null);
-        Spell spell = GamePack.Current.SpellControl[EventSpellId];
+        Spell? spell = GamePack.Current.SpellControl[EventSpellId];
         GamePack.Current.SpellControl[EventSpellId].CastingDone(source, mana: spell.BaseManaCost);
         // The original event result is zero.
         return false;

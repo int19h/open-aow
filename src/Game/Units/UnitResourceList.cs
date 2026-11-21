@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
@@ -15,8 +15,8 @@ public sealed class UnitResourceList : ResourceCollection, IChildList<UnitResour
     int IChildSink<UnitResource>.AddChild(UnitResource child) => AddChild(child);
 
     // UnitRes.PAS:206
-    public UnitResourceList(CustomNode owner) : base(owner) => SetControlStyle(ControlStyles.SaveLoad | ControlStyles.FixedChild | ControlStyles.ArrayMode);
+    public UnitResourceList(CustomNode? owner) : base(owner) => SetControlStyle(ControlStyles.SaveLoad | ControlStyles.FixedChild | ControlStyles.ArrayMode);
 
     // UnitRes.PAS:212
-    public UnitResource GetUnitResource(int index) => index >= 0 && index < Count ? this[index] : null;
+    public UnitResource? GetUnitResource(int index) => index >= 0 && index < Count ? this[index] : null;
 }

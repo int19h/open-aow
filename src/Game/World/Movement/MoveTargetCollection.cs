@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using System.Collections;
 using Aow.Game.World.Map;
 

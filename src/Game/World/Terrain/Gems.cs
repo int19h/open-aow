@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Gems.pas.
 using System.Globalization;
 using Aow.Engine.Nodes;
@@ -34,7 +34,7 @@ public class Gems(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     }
 
     // Gems.pas:93
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
         if (message.MessageId == 537001985 && StrategicMap.Current.Day == 1)
@@ -135,7 +135,7 @@ public class Gems(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     }
 
     // Gems.pas:99
-    public void ArmyEntered(ArmyHexSprite armyHexSprite)
+    public void ArmyEntered(ArmyHexSprite? armyHexSprite)
     {
         if (armyHexSprite.Army.Player != 0)
         {
@@ -153,7 +153,7 @@ public class Gems(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
                 _ = AudioPlayback.PlaySample("SFX\\EVENTS\\GOLD.WAV");
             }
 
-            Player player = StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player);
+            Player? player = StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player);
             player.SetGems(player.Gems + _amount);
 
             LocationTextEventLog eventValue = new(null)

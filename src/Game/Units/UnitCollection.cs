@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using System.Collections;
 
 using Aow.Engine.Nodes;
@@ -121,7 +121,7 @@ public readonly struct UnitCollection : IReadOnlyList<Troop>
     }
 
     // Unit.PAS:2217
-    public int IndexOf(Troop troop) => Holder.IndexOfChild(troop);
+    public int IndexOf(Troop? troop) => Holder.IndexOfChild(troop);
 
     // Unit.PAS:2221
     public int IndexOfId(int id)
@@ -146,7 +146,7 @@ public readonly struct UnitCollection : IReadOnlyList<Troop>
         while (result != 0)
         {
             result -= 1;
-            AIGroup group = this[result].Group;
+            AIGroup? group = this[result].Group;
             if (group is not null && group.GroupClass.Behavior == behavior)
             {
                 return result;
@@ -179,7 +179,7 @@ public readonly struct UnitCollection : IReadOnlyList<Troop>
         while (result != 0)
         {
             result -= 1;
-            AIGroup group = this[result].Group;
+            AIGroup? group = this[result].Group;
             if (group is not null && group.GroupId == id)
             {
                 return result;
@@ -190,7 +190,7 @@ public readonly struct UnitCollection : IReadOnlyList<Troop>
     }
 
     // Unit.PAS:2265
-    public Troop FindId(int id)
+    public Troop? FindId(int id)
     {
         int i = Count;
         while (i != 0)
@@ -207,7 +207,7 @@ public readonly struct UnitCollection : IReadOnlyList<Troop>
     }
 
     // Unit.PAS:2277
-    public Troop GetUnit(int index)
+    public Troop? GetUnit(int index)
         // { Original accepts negative indexes and reads the backing array directly. }
         => index < Count ? this[index] : null;
 

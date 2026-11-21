@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from UnHolyG.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -20,7 +20,7 @@ using static Aow.Rtl.DelphiRandom;
 namespace Aow.Game.World.Terrain;
 
 // Mode, Player, Duration, OriginalOverlay
-public class UnholyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
+public class UnholyGround(CustomNode? owner) : ImageLibraryTerrainMapObject(owner)
 {
 
     // UnHolyG.pas:93
@@ -42,7 +42,7 @@ public class UnholyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     }
 
     // UnHolyG.pas:243
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
         if (message.MessageId == 537001986)
@@ -137,7 +137,7 @@ public class UnholyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     }
 
     // UnHolyG.pas:96
-    public void TriggerArmyDamage(ArmyHexSprite army)
+    public void TriggerArmyDamage(ArmyHexSprite? army)
     {
         int damaged = 0;
         RandSeed = StrategicMap.Current.Random(16777215);
@@ -149,10 +149,10 @@ public class UnholyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner
         string unholyGroundDamage = AbilityRules.TranslateResourceString(GetEngine(), S: s_unholyGroundDamageText);
         _ = log.ArmyMessages.Add(unholyGroundDamage);
         log.ArmyIcon = 2;
-        Army armyLocal = army.Army;
+        Army? armyLocal = army.Army;
         for (int i = 0, last = armyLocal.Units.Count - 1; i <= last; i++)
         {
-            Troop troop = armyLocal.Units.GetUnit(i);
+            Troop? troop = armyLocal.Units.GetUnit(i);
             bool condition = troop.GetAlignment() != Alignment.Unaligned;
             if (condition)
             {
@@ -185,7 +185,7 @@ public class UnholyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner
         }
 
         log.Player = armyLocal.Player;
-        ArmyHexSprite armyHexSprite = armyLocal.GetArmyHexSprite();
+        ArmyHexSprite? armyHexSprite = armyLocal.GetArmyHexSprite();
         log.ArmyView.Setup(armyHexSprite.Army, selection: 255);
 
         log.ValidateGameOver();
@@ -199,7 +199,7 @@ public class UnholyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     }
 
     // UnHolyG.pas:142
-    public void ArmyPlaced(ArmyHexSprite army)
+    public void ArmyPlaced(ArmyHexSprite? army)
     {
         if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
         {
@@ -210,7 +210,7 @@ public class UnholyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     // UnHolyG.pas:147
     public void RestoreTerrain()
     {
-        MapField field = Owner;
+        MapField? field = Owner;
         sbyte overlay = OriginalOverlay;
         Dispose();
         if (overlay > 0)
@@ -246,7 +246,7 @@ public class UnholyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner
         while (!result && i != 0)
         {
             i -= 1;
-            Troop troop = units.GetUnit(i);
+            Troop? troop = units.GetUnit(i);
             bool condition = !troop.GetImmunityTypes().Contains(DamageTypes.Death) && troop.GetAlignment() != Alignment.Unaligned;
             if (condition)
             {

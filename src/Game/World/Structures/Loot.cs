@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using System.Globalization;
 using Aow.Game.Draw;
 using Aow.Game.Events;
@@ -26,13 +26,13 @@ public sealed record Loot : ProductionOrder
 
     public override bool CanExecute(ProductionControl control, ref string reason)
     {
-        City city = control.ProductionCity();
+        City? city = control.ProductionCity();
         return city is not null ? city.CanLoot(reason) : base.CanExecute(control, ref reason);
     }
 
     public override void Executed(ProductionControl control)
     {
-        City city = control.ProductionCity();
+        City? city = control.ProductionCity();
         if (city is null)
         {
             return;
@@ -58,7 +58,7 @@ public sealed record Loot : ProductionOrder
 
     public override void Completed(ProductionControl control)
     {
-        City city = control.ProductionCity();
+        City? city = control.ProductionCity();
         if (city is null)
         {
             return;
@@ -66,7 +66,7 @@ public sealed record Loot : ProductionOrder
 
         control.BeginUpdate();
         Log(control, city, text: Format(AbilityRules.TranslateResourceString(control.GetEngine(), S: s_cityLootedFormat), args: [city.GetName(), (city.Income * 3).ToString(CultureInfo.InvariantCulture)]));
-        Player playerGems = StrategicMap.Current.Players.GetPlayers(control.GetPlayer());
+        Player? playerGems = StrategicMap.Current.Players.GetPlayers(control.GetPlayer());
         StrategicMap.Current.Players.GetPlayers(control.GetPlayer()).SetGems(playerGems.Gems + (city.Income * 3));
         city.Overlay.SetMode(CityOverlayHexSprite.OverlayMode.Idle);
         city.SetRazed(true);
@@ -75,7 +75,7 @@ public sealed record Loot : ProductionOrder
 
     public override void Cancel(ProductionControl control)
     {
-        City city = control.ProductionCity();
+        City? city = control.ProductionCity();
         if (city is not null)
         {
             ChangeRelation(control, city, change: control.Settings.TurnsLeft == control.Settings.TurnsTotal ? 30 : 20);

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Collections;
@@ -21,7 +21,7 @@ using Aow.Game.World.Movement;
 namespace Aow.Game.World.Structures;
 
 // player, turns owned (FProductionPriority), flag ID, victory-location bits, unfog range
-public partial class PlayerStructure(CustomNode owner) : Structure(owner)
+public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
 {
 
     public new const int ClassId = 131_916;
@@ -53,7 +53,7 @@ public partial class PlayerStructure(CustomNode owner) : Structure(owner)
     }
 
     // Structur.PAS:2328
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
         if (message.MessageId == 537001989)
@@ -108,7 +108,7 @@ public partial class PlayerStructure(CustomNode owner) : Structure(owner)
                 {
                     if (Player > 0)
                     {
-                        Player players = StrategicMap.Current.Players.GetPlayers(Player);
+                        Player? players = StrategicMap.Current.Players.GetPlayers(Player);
                         MapFieldMessageParameters param = message.Param;
                         param[0] = param[0].Int + ((players.PlayerRace + 1) * 256);
                         message.Param = param;
@@ -318,10 +318,10 @@ public partial class PlayerStructure(CustomNode owner) : Structure(owner)
     }
 
     // Structur.PAS:2168
-    public override void ArmyPlaced(ArmyHexSprite placedArmy) => UpdatePlayer();
+    public override void ArmyPlaced(ArmyHexSprite? placedArmy) => UpdatePlayer();
 
     // Structur.PAS:2171
-    public override void ArmyChanged(ArmyHexSprite army) => UpdatePlayer();
+    public override void ArmyChanged(ArmyHexSprite? army) => UpdatePlayer();
 
     // Structur.PAS:2022
     public override void BuildingDone()
@@ -558,7 +558,7 @@ public partial class PlayerStructure(CustomNode owner) : Structure(owner)
 
     // Structur.PAS:2124
     // { Original leaves the result unchanged for a razed structure. }
-    public virtual void FinalizeCombat(Battle combat)
+    public virtual void FinalizeCombat(Battle? combat)
     {
         if (combat.CombatResult is CombatResult.Victory or CombatResult.NoDefenders)
         {
@@ -567,7 +567,7 @@ public partial class PlayerStructure(CustomNode owner) : Structure(owner)
     }
 
     // Structur.PAS:2115
-    public virtual string GetCombatEventText(Battle combat)
+    public virtual string GetCombatEventText(Battle? combat)
     {
         if (!GetRazed())
         {

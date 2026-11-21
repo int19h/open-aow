@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
@@ -10,7 +10,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.AI;
 
-public class EndTurnAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPlayerActionClass
+public class EndTurnAIPlayerAction(CustomNode? owner) : AIPlayerAction(owner), IAIPlayerActionClass
 {
 
     // AI.pas:1032

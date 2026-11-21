@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AOWPyreScrn.pas.
 using Aow.Game.Audio;
 
@@ -23,22 +23,22 @@ public sealed partial class PyreScreen(UIContext ui) : UIModule(ui)
     public Image LeaderFaceFrame { get; private set; }
     public UserDrawBox PyreAnimationView { get; private set; }
 
-    private object _animation;
+    private object? _animation;
 
-    public SongStatus SavedSongStatus { get; set; }
+    public SongStatus? SavedSongStatus { get; set; }
 
-    private ExecuteDoneEvent _done;
+    private ExecuteDoneEvent? _done;
 
     // The results window ends the pyre screen: it takes the done handler, the slot is empty
     // before the handler runs, and the handler runs once.
-    internal ExecuteDoneEvent TakeDoneHandler()
+    internal ExecuteDoneEvent? TakeDoneHandler()
     {
-        ExecuteDoneEvent done = _done;
+        ExecuteDoneEvent? done = _done;
         _done = null;
         return done;
     }
 
-    public GameOverEventLog GameOverEvent { get; set; }
+    public GameOverEventLog? GameOverEvent { get; set; }
 
     private int _animationFrame;
 

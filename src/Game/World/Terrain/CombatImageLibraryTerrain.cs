@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from CombatILTer.pas.
 using Aow.Engine.Nodes;
 
@@ -8,13 +8,13 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Terrain;
 
-public class CombatImageLibraryTerrain(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
+public class CombatImageLibraryTerrain(CustomNode? owner) : ImageLibraryTerrainMapObject(owner)
 {
 
     // CombatILTer.pas:105
     public new const int ClassId = 2_228_534;
 
-    private CombatImageLibraryTerrainShadow _shadow;
+    private CombatImageLibraryTerrainShadow? _shadow;
 
     // CombatILTer.pas:99
     public override void Dispose()
@@ -71,7 +71,7 @@ public class CombatImageLibraryTerrain(CustomNode owner) : ImageLibraryTerrainMa
     }
 
     // CombatILTer.pas:163
-    public override MapObjectResourceList GetResourceList(GameEngine engine) => GamePack.Current.CombatResources;
+    public override MapObjectResourceList GetResourceList(GameEngine? engine) => GamePack.Current.CombatResources;
 
     // CombatILTer.pas:93
     public override bool CanPlaceOnHexSprite(HexSprite hexSprite) => base.CanPlaceOnHexSprite(hexSprite) || hexSprite is AbstractRoad;

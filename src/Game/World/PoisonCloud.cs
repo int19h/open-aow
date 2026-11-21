@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from PoisonC.pas.
 using Aow.Engine;
 using Aow.Engine.Collections;
@@ -41,7 +41,7 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
     }
 
     // PoisonC.pas:275
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
         if (message.MessageId == 537001986 && message.Payload.Int == Player && !_updated)
@@ -179,7 +179,7 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
         while (!result && i != 0)
         {
             i -= 1;
-            Troop troop = units.GetUnit(i);
+            Troop? troop = units.GetUnit(i);
             result = !troop.GetImmunityTypes().Contains(DamageTypes.Poison) && !troop.GetAbilityEnabled(1);
         }
 
@@ -187,7 +187,7 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
     }
 
     // PoisonC.pas:142
-    public void ArmyPlaced(ArmyHexSprite armyHexSprite)
+    public void ArmyPlaced(ArmyHexSprite? armyHexSprite)
     {
         if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting) && !armyHexSprite.Owner.GetMagicShieldActive())
         {

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from GlobalEnchantmentSpells.pas.
 using Aow.Engine.Nodes;
 
@@ -15,7 +15,7 @@ namespace Aow.Game.Magic.Spells;
 public class LifeMastery : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:1441
-    public LifeMastery(CustomNode owner, EngineObject holder) : base(owner)
+    public LifeMastery(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellType = SpellType.Global;

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using Aow.Game.Draw;
 using Aow.Game.UI.Windows;
 using Aow.Rtl;
@@ -12,10 +12,10 @@ namespace Aow.Game.UI.Controls;
 public partial class Control : UIComponent
 {
     private int _toolTipShown;
-    private BaseWindow _window;
+    private BaseWindow? _window;
 
     // AoWControl.pas:46
-    public Control(Component owner) : base(owner)
+    public Control(Component? owner) : base(owner)
     {
         ToolTipText = new DelphiStringList();
         CaptureInput = true;
@@ -150,11 +150,11 @@ public partial class Control : UIComponent
     }
 
     // AoWControl.pas:64
-    public override void SetOwner(UIComponent value)
+    public override void SetOwner(UIComponent? value)
     {
         base.SetOwner(value);
         // The owner is a UIComponent. This control sits in a window, and the cast stays.
-        _window = (BaseWindow)OwnerComponent;
+        _window = (BaseWindow?)OwnerComponent;
     }
 
     // AoWControl.pas:190
@@ -187,7 +187,7 @@ public partial class Control : UIComponent
     }
 
     // AoWControl.pas:59
-    public void SetWindow(BaseWindow value) => SetOwner(value);
+    public void SetWindow(BaseWindow? value) => SetOwner(value);
 
     // AoWControl.pas:70
     public void SetToolStrings(DelphiStringList value)
@@ -201,7 +201,7 @@ public partial class Control : UIComponent
     }
 
     [Published]
-    public BaseWindow Window { get => _window; set => SetWindow(value); }
+    public BaseWindow? Window { get => _window; set => SetWindow(value); }
 
     [Published]
     public ToolTip ToolTip { get; set; }

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 
 using System.Runtime.InteropServices;
 using Aow.Graphics;
@@ -29,7 +29,7 @@ public static class PixelFormats
         return sizes;
     }
 
-    internal static int Color2PixelInfo(int color, PixelFormat pixelFormatId, Palette palette)
+    internal static int Color2PixelInfo(int color, PixelFormat pixelFormatId, Palette? palette)
     {
         int r = color & 0xFF, g = (color >> 8) & 0xFF, b = (color >> 16) & 0xFF;
         return pixelFormatId switch

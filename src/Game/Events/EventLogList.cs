@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from EventLog.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
@@ -9,7 +9,7 @@ using Aow.Rtl;
 namespace Aow.Game.Events;
 
 // update count, changed callback
-public class EventLogList(CustomNode owner) : OwningNode(owner), IChildList<EventLog>
+public class EventLogList(CustomNode? owner) : OwningNode(owner), IChildList<EventLog>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only an EventLog, so the cast never fails.
@@ -24,7 +24,7 @@ public class EventLogList(CustomNode owner) : OwningNode(owner), IChildList<Even
 
     private int _updateCount;
 
-    public event NotifyEvent<object> Changed;
+    public event NotifyEvent<object>? Changed;
 
     // EventLog.pas:481
     public override void MainPersist(IPersister persister)
@@ -67,7 +67,7 @@ public class EventLogList(CustomNode owner) : OwningNode(owner), IChildList<Even
     public override void DestroyAllChildren() => Clear();
 
     // EventLog.pas:464
-    public override int RemoveChild(EngineObject child)
+    public override int RemoveChild(EngineObject? child)
     {
         int result = DropChild(child);
         if (result != -1)
@@ -81,7 +81,7 @@ public class EventLogList(CustomNode owner) : OwningNode(owner), IChildList<Even
     }
 
     // EventLog.pas:456
-    public override int AddChild(EngineObject child)
+    public override int AddChild(EngineObject? child)
     {
         _ = AppendChild(child);
         if (child.AddRef() == -1)
@@ -126,5 +126,5 @@ public class EventLogList(CustomNode owner) : OwningNode(owner), IChildList<Even
     public void RemoveEvent(EventLog eventValue) => RemoveChild(eventValue);
 
     // EventLog.pas:514
-    public EventLog FindId(int id) => Logs.FindId(id);
+    public EventLog? FindId(int id) => Logs.FindId(id);
 }

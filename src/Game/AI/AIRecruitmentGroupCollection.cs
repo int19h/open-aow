@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using System.Collections;
 using Aow.Game.Magic.Abilities;
 
@@ -57,9 +57,9 @@ public readonly struct AIRecruitmentGroupCollection : IReadOnlyList<AIRecruitmen
     }
 
     // AIGroup.pas:874
-    public AIRecruitmentGroup FindUnit(Troop troop)
+    public AIRecruitmentGroup? FindUnit(Troop troop)
     {
-        AIRecruitmentGroup result = null;
+        AIRecruitmentGroup? result = null;
         int index = Count;
         while (result is null && index != 0)
         {

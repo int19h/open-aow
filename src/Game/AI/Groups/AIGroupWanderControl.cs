@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AGCPlugins.pas.
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
@@ -25,7 +25,7 @@ public class AIGroupWanderControl : AIGroupTask
     }
 
     // AGCPlugins.pas:297
-    public AIGroupWanderControl(CustomNode owner) : base(owner) => _moveSettings = new MoveControlSettings(null) { Holder = CreationHolder() };
+    public AIGroupWanderControl(CustomNode? owner) : base(owner) => _moveSettings = new MoveControlSettings(null) { Holder = CreationHolder() };
 
     // AGCPlugins.pas:319
     public override bool Activate(AIGroupControl control)
@@ -72,7 +72,7 @@ public class AIGroupWanderControl : AIGroupTask
             case 1:
                 MoveControlSettings settings = _moveSettings;
                 DoubleItemList<MapField> fields = new();
-                MapField field;
+                MapField? field;
                 int i;
                 if (settings.ProcessedMapFields.Count > 40)
                 {

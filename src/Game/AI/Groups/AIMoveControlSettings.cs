@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Draw;
@@ -14,7 +14,7 @@ namespace Aow.Game.AI.Groups;
 public class AIMoveControlSettings : EngineObject
 {
     // AIGroup.pas:3841
-    public AIMoveControlSettings(CustomNode owner) : base(owner)
+    public AIMoveControlSettings(CustomNode? owner) : base(owner)
     {
         TransportPath = new MovePath();
         RefCount = 1;
@@ -34,7 +34,7 @@ public class AIMoveControlSettings : EngineObject
 
     internal void Complete(object sender) => _done?.Invoke(sender);
 
-    public Troop Transporter { get; set; }
+    public Troop? Transporter { get; set; }
     public int MovePointsMax { get; private set; }
     public int QuickMovePointsMax { get; private set; }
     public MoveModes MoveMode { get; set; }
@@ -106,7 +106,7 @@ public class AIMoveControlSettings : EngineObject
         => SetDestinationPosition(new MapCoordinate((sbyte)x, (sbyte)y, (sbyte)level));
 
     // AIGroup.pas:3901
-    public void Setup(ArmyHexSprite army, byte selection, int X, int Y, int L)
+    public void Setup(ArmyHexSprite? army, byte selection, int X, int Y, int L)
     {
         sbyte hexLevel = army.HexLevel;
         sbyte hexY = army.HexY;

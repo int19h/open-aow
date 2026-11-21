@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using System.Diagnostics.CodeAnalysis;
 using Aow.Engine;
@@ -28,7 +28,7 @@ namespace Aow.Game.Magic.Abilities;
 public sealed class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner>
 {
     [SuppressMessage("Style", "IDE0290", Justification = "Item.SetOwner calls AddRef and Release around AddChild. The count starts at 0, so Release reaches 0 and Dispose runs, and the constructor then stores 1. ItemLibrary.cs:51 reads LibraryId during that AddChild and stamps an id when the id is not positive, and the constructor then stores -1.")]
-    public Item(CustomNode owner) : base(owner)
+    public Item(CustomNode? owner) : base(owner)
     {
         _itemGraphicsIndex = -1;
         _description = new DelphiStringList();
@@ -91,7 +91,7 @@ public sealed class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner
     }
 
     // Army.PAS:4241
-    public override void SetOwner(CustomNode owner)
+    public override void SetOwner(CustomNode? owner)
     {
         if (owner != Owner)
         {
@@ -177,7 +177,7 @@ public sealed class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner
     }
 
     // Army.PAS:4510
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
         if (message.MessageId == 65541)
@@ -241,7 +241,7 @@ public sealed class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner
             else
             {
                 result = false;
-                Spell spell = GamePack.Current.SpellControl[_spellId];
+                Spell? spell = GamePack.Current.SpellControl[_spellId];
                 reason = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_itemSpellAlreadyResearchedFormat), arguments: [spell.SpellName]);
             }
         }
@@ -290,7 +290,7 @@ public sealed class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner
                     if (StrategicMap.Current.SeatedPlayer == hero.Player)
                     {
                         _ = AudioPlayback.PlaySample("SFX\\ATTACK\\MAGICB01.WAV");
-                        Spell spell = GamePack.Current.SpellControl[_spellId];
+                        Spell? spell = GamePack.Current.SpellControl[_spellId];
                         string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_itemSpellResearchedFormat), arguments: [spell.SpellName]);
                         StrategicMap.Current.ShowMessage(format);
                     }
@@ -315,7 +315,7 @@ public sealed class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner
     // Army.PAS:4418
     public void Show(int X, int Y, in LockedSurface surface)
     {
-        ItemGraphics graphics = GamePack.Current.ItemGraphicsResources.GetItemGraphics(_itemGraphicsIndex);
+        ItemGraphics? graphics = GamePack.Current.ItemGraphicsResources.GetItemGraphics(_itemGraphicsIndex);
         if (graphics is not null)
         {
             _ = graphics.AddRef();
@@ -354,10 +354,10 @@ public sealed class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner
     public int CampaignTransferPoints => ObtainValue;
 
     // Army.PAS:4356
-    public LibraryImage GetImage()
+    public LibraryImage? GetImage()
     {
-        ItemGraphics graphics = GamePack.Current.ItemGraphicsResources.GetItemGraphics(_itemGraphicsIndex);
-        LibraryImage result;
+        ItemGraphics? graphics = GamePack.Current.ItemGraphicsResources.GetItemGraphics(_itemGraphicsIndex);
+        LibraryImage? result;
         if (graphics is not null)
         {
             _ = graphics.AddRef();
@@ -396,7 +396,7 @@ public sealed class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner
     {
         if (LibraryId != -1)
         {
-            Item item = GamePack.Current.ItemLibraries.FindItem(LibraryName, LibraryId);
+            Item? item = GamePack.Current.ItemLibraries.FindItem(LibraryName, LibraryId);
             if (item is not null)
             {
                 int id = ItemId;
@@ -438,11 +438,11 @@ public sealed class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner
     public int ObtainValue => _obtainValue > 10 ? _obtainValue : 10;
 
     // Army.PAS:4474
-    public bool PlaceOnMap(GameMap map, sbyte x, sbyte y, sbyte level)
+    public bool PlaceOnMap(GameMap? map, sbyte x, sbyte y, sbyte level)
     {
         if (x >= 0 && y >= 0 && level >= 0 && x < map.MapContainer.Width && y < map.MapContainer.Height && level < map.MapContainer.LevelCount && map.MapContainer.GetField(x, y, level).TerrainType != 15)
         {
-            ItemHexSprite hexSprite = map.MapContainer.GetField(x, y, level).FindOwnedChild<ItemHexSprite>(ItemHexSprite.ClassId);
+            ItemHexSprite? hexSprite = map.MapContainer.GetField(x, y, level).FindOwnedChild<ItemHexSprite>(ItemHexSprite.ClassId);
             if (hexSprite is null)
             {
                 hexSprite = new ItemHexSprite(null) { Holder = CreationHolder() };

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -11,7 +11,7 @@ public sealed class StructureControl : EngineObject
 {
     // Structur.PAS:3220
     // (structures, next ID, city count)
-    public StructureControl(CustomNode owner) : base(owner)
+    public StructureControl(CustomNode? owner) : base(owner)
     {
         _structures = new OwningNode(null) { Holder = CreationHolder() };
         _nextId = 0;
@@ -38,7 +38,7 @@ public sealed class StructureControl : EngineObject
     }
 
     // Structur.PAS:3233
-    public Structure this[int index] => index >= 0 && index < GetCount() ? _structures.GetChild<Structure>(index) : null;
+    public Structure? this[int index] => index >= 0 && index < GetCount() ? _structures.GetChild<Structure>(index) : null;
 
     // Structur.PAS:3240
     public int GetCount() => _structures.GetCount();
@@ -84,7 +84,7 @@ public sealed class StructureControl : EngineObject
     }
 
     // Structur.PAS:3272
-    public Structure FindId(int id)
+    public Structure? FindId(int id)
     {
         int index = IndexOfId(id);
         return index != -1 ? _structures.GetChild<Structure>(index) : null;

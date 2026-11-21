@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
@@ -7,7 +7,7 @@ using Aow.Rtl;
 namespace Aow.Game.World.Map;
 
 // inherits the children list
-public sealed class TextControl(CustomNode owner) : OwningNode(owner), IChildList<TextControlItem>
+public sealed class TextControl(CustomNode? owner) : OwningNode(owner), IChildList<TextControlItem>
 {
     // The child in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a TextControlItem, so the cast never fails.
@@ -18,7 +18,7 @@ public sealed class TextControl(CustomNode owner) : OwningNode(owner), IChildLis
     int IChildSink<TextControlItem>.AddChild(TextControlItem child) => AddChild(child);
 
     // Structur.PAS:4419
-    public TextControlItem GetItem(int index) => index >= 0 && index < Count ? this[index] : null;
+    public TextControlItem? GetItem(int index) => index >= 0 && index < Count ? this[index] : null;
 
     // Structur.PAS:4426
     public void Delete(int index)
@@ -33,10 +33,10 @@ public sealed class TextControl(CustomNode owner) : OwningNode(owner), IChildLis
     public TextControlItem New() => new(this);
 
     // Structur.PAS:4436
-    public TextControlItem FindId(int id)
+    public TextControlItem? FindId(int id)
     {
         int i = Count;
-        TextControlItem result = null;
+        TextControlItem? result = null;
         while (result is null && i != 0)
         {
             i -= 1;
@@ -59,7 +59,7 @@ public sealed class TextControl(CustomNode owner) : OwningNode(owner), IChildLis
     public void RetrieveText(int id, DelphiStringCollection text)
     {
         text.Clear();
-        TextControlItem item = FindId(id);
+        TextControlItem? item = FindId(id);
         if (item is not null)
         {
             text.Text = item.Text.Text;

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from CombatSpells.pas.
 using Aow.Engine.Nodes;
 
@@ -14,7 +14,7 @@ namespace Aow.Game.Magic.Spells;
 public class Terror : CombatSpell
 {
     // CombatSpells.pas:1759
-    public Terror(CustomNode owner, EngineObject holder) : base(owner)
+    public Terror(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_terrorText);
@@ -30,7 +30,7 @@ public class Terror : CombatSpell
     }
 
     // CombatSpells.pas:1775
-    public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
+    public override CombatAction CreateCombatAction(CombatObject? source, CombatObject target, bool chargeMana)
     {
         TacticalBattleTerrorCombatAction action = new(null) { Holder = CreationHolder() };
         action.Generate(source, target);

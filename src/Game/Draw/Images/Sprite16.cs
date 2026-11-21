@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from ImageLib.pas.
 using Aow.Graphics;
 using Aow.Rtl;
@@ -19,7 +19,7 @@ public sealed class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibrar
     static LibraryImage ILibraryImageClass.CreateInstance(CustomImageLibrary owner) => new Sprite16(owner);
 
     private int _pitch;
-    private byte[] _buffer;
+    private byte[]? _buffer;
     private int _transparentColor;
     private int _colorKey;
     private int _spriteX;
@@ -464,7 +464,7 @@ public sealed class Sprite16(CustomImageLibrary owner) : Image16(owner), ILibrar
         // { Absolute views preserve frame slots and the separate GR coordinate reads. }
         try
         {
-            DataSurface surface = null;
+            DataSurface? surface = null;
             try
             {
                 LockedSurface lSD = default;

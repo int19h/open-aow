@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from ImageLib.pas.
 using System.Buffers.Binary;
 using Aow.Graphics;
@@ -20,7 +20,7 @@ public class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILibraryIma
     static LibraryImage ILibraryImageClass.CreateInstance(CustomImageLibrary owner) => new RleSprite16(owner);
 
     private int _colorKey;
-    private byte[] _data;
+    private byte[]? _data;
     private int _spriteX;
     private int _spriteY;
     private int _spriteWidth;
@@ -335,7 +335,7 @@ public class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILibraryIma
         }
         try
         {
-            DataSurface surface = null;
+            DataSurface? surface = null;
             try
             {
                 LockedSurface lSD = default;

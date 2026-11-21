@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -14,7 +14,7 @@ using static Aow.Rtl.DelphiRounding;
 namespace Aow.Game.Draw;
 
 // Status. _showPriority. UnitGraphicsResource. Direction. MoveStep. FlagId. Shadow
-public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
+public partial class UnitHexSprite(CustomNode? owner) : HexSprite(owner)
 {
 
     public new const int ClassId = 131_604;
@@ -24,7 +24,7 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     // visible, edit, selected, paused, instant move
     private int _showPriority = 1_744_830_464;
 
-    public UnitGraphicsResource UnitGraphicsResource { get; set; }
+    public UnitGraphicsResource? UnitGraphicsResource { get; set; }
 
     public byte Direction { get; set; } = 3;
 
@@ -32,7 +32,7 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     // -1 when idle
     public byte FlagId { get; protected set; }
 
-    private UnitShadowHexSprite _shadow;
+    private UnitShadowHexSprite? _shadow;
 
     // UnitHS.PAS:168
     public override void Dispose()
@@ -43,7 +43,7 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     }
 
     // UnitHS.PAS:219
-    public override void SetOwner(CustomNode owner)
+    public override void SetOwner(CustomNode? owner)
     {
         if (owner != Owner)
         {
@@ -110,7 +110,7 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     public override void Connect()
     {
         CalculateShowPriority();
-        MapField field = Owner;
+        MapField? field = Owner;
         _ = field.RemoveChild(this);
         MapLevel level = field.Owner;
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, field.HexX, field.HexY, radius: 0);
@@ -182,7 +182,7 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     }
 
     // UnitHS.PAS:809
-    public override bool Place(MapContainer map, int pixelX, int pixelY, int hexLevel)
+    public override bool Place(MapContainer? map, int pixelX, int pixelY, int hexLevel)
     {
         HexGeometry.PixelToHex(pixelX, vertical: pixelY, out int x, out int y);
         return PlaceHex(map, (sbyte)x, (sbyte)y, (sbyte)hexLevel);
@@ -191,7 +191,7 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     // UnitHS.PAS:779
     public override void Remove()
     {
-        MapField field = Owner;
+        MapField? field = Owner;
         RemoveFromMap();
         if (Visible)
         {
@@ -281,7 +281,7 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     {
         int x = default;
         int y = default;
-        MapField field = Owner;
+        MapField? field = Owner;
         if (Moving() && Direction is >= 3 and <= 5)
         {
             HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, hexNumber: Direction, ref x, ref y);
@@ -293,7 +293,7 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
             HexGeometry.HexToPixel(field.HexX, field.HexY, out x, out y);
         }
 
-        HexSprite hexSprite = field.GetMaxLevelNoneTransparentHexSprite();
+        HexSprite? hexSprite = field.GetMaxLevelNoneTransparentHexSprite();
         _showPriority = 1_744_830_464 + ((y + 34 + 6) << 13) + x + 16;
         if (hexSprite != this && hexSprite is not null && hexSprite.GetShowPriority() >= _showPriority)
         {
@@ -305,7 +305,7 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     }
 
     // UnitHS.PAS:766
-    public virtual bool MoveTo(MapField field, int moveCost)
+    public virtual bool MoveTo(MapField? field, int moveCost)
     {
         if (Owner is not null)
         {
@@ -322,7 +322,7 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     }
 
     // UnitHS.PAS:793
-    public virtual bool PlaceHex(MapContainer map, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public virtual bool PlaceHex(MapContainer? map, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
         MapField field = map.GetField(hexX, hexY, hexLevel);
         SetOwnerWithoutNotify(field);
@@ -410,10 +410,10 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     public void SetUnitGraphicsResourceIndex(int value)
     {
         // { This eliminated copy preserves the original saved registers. }
-        UnitGraphicsResource resource = UnitGraphicsResource;
+        UnitGraphicsResource? resource = UnitGraphicsResource;
         if (resource is null || value != resource.Index)
         {
-            UnitGraphicsResource old = UnitGraphicsResource;
+            UnitGraphicsResource? old = UnitGraphicsResource;
             _ = (old?.Release());
 
             resource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(value);

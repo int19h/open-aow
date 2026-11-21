@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Sound.pas.
 using Aow.Rtl;
 using static Aow.Rtl.DelphiTextCompare;
@@ -9,7 +9,7 @@ namespace Aow.Game.Audio;
 public sealed class SampleDataList : DelphiList<SampleData>
 {
     // Sound.pas:659
-    public SampleData Find(string name)
+    public SampleData? Find(string name)
     {
         int i = 0;
         while (i != Count && CompareText(name, List[i].Name) != 0)

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWDisjunctionDlg.pas.
 using System.Globalization;
 using Aow.Engine.Nodes;
@@ -26,7 +26,7 @@ public sealed partial class DisjunctionDialog(UIContext ui) : UIModule(ui)
     public HorizontalScrollBar ChanceSlider { get; private set; }
     public UserDrawBox MapView { get; private set; }
 
-    private DisjunctionSpellCaster _caster;
+    private DisjunctionSpellCaster? _caster;
     private int _sortOrder;
 
     private MapCoordinate Location { get; set; }
@@ -43,7 +43,7 @@ public sealed partial class DisjunctionDialog(UIContext ui) : UIModule(ui)
     public void UpdateEnchantments()
     {
         string reason = "";
-        GlobalMagicControl magic = StrategicMap.Current.GlobalMagicControl;
+        GlobalMagicControl? magic = StrategicMap.Current.GlobalMagicControl;
         EnchantmentList.Items.Clear();
         OwnerList.Items.Clear();
         for (int i = 0, last = magic.Enchantments.Count - 1; i <= last; i++)
@@ -59,7 +59,7 @@ public sealed partial class DisjunctionDialog(UIContext ui) : UIModule(ui)
                         GlobalEnchantment enchantmentEnchantmentId = magic.Enchantments.GetEnchantments(i);
                         _ = EnchantmentList.Items.AddObject(name, item: IntToObject(enchantmentEnchantmentId.EnchantmentId));
                         GlobalEnchantment enchantmentPlayerIndex = magic.Enchantments.GetEnchantments(i);
-                        Player player = StrategicMap.Current.Players.GetPlayers(enchantmentPlayerIndex.PlayerIndex);
+                        Player? player = StrategicMap.Current.Players.GetPlayers(enchantmentPlayerIndex.PlayerIndex);
                         _ = OwnerList.Items.Add(player.Leader.HeroName);
                     }
                 }
@@ -97,9 +97,9 @@ public sealed partial class DisjunctionDialog(UIContext ui) : UIModule(ui)
     {
         DisjunctionManaLabel.TextColor = _caster.GetEnoughMana() ? 12_632_256 : 255;
 
-        Spell spell = GamePack.Current.SpellControl[51];
+        Spell? spell = GamePack.Current.SpellControl[51];
         int mana = _caster.GetMana();
-        Spell fSpellControlSpell = GamePack.Current.SpellControl[51];
+        Spell? fSpellControlSpell = GamePack.Current.SpellControl[51];
         int fCasterMana = _caster.GetMana();
         DisjunctionManaLabel.Text = $"{spell.BaseManaCost.ToString(CultureInfo.InvariantCulture)}+{mana.ToString(CultureInfo.InvariantCulture)}={(fSpellControlSpell.BaseManaCost + fCasterMana).ToString(CultureInfo.InvariantCulture)}";
         DisjunctionChanceLabel.Text = $"{_caster.DispelChance.ToString(CultureInfo.InvariantCulture)}%";
@@ -115,9 +115,9 @@ public sealed partial class DisjunctionDialog(UIContext ui) : UIModule(ui)
         {
             EnchantmentList.Selected = index;
             OwnerList.Selected = index;
-            object objectValue = EnchantmentList.Items.Objects[index];
+            object? objectValue = EnchantmentList.Items.Objects[index];
             _caster.SetEnchantmentId(ObjectToInt(objectValue));
-            GlobalEnchantment enchantment = _caster.SelectedEnchantment();
+            GlobalEnchantment? enchantment = _caster.SelectedEnchantment();
             if (enchantment is not null)
             {
                 MapCoordinate location = enchantment.GetLocation();

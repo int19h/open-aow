@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using Aow.Game.Host;
 using Aow.Rtl;
 using static Aow.Game.Draw.CustomDisplay.DisplayOptions;
@@ -68,7 +68,7 @@ public partial class CustomDisplay
             return;
         }
 
-        Surface screen = ActiveDisplayController.GetSurface(0);
+        Surface? screen = ActiveDisplayController.GetSurface(0);
         if (Options.Contains(AutoResizeBackSurface))
         {
             ResizeBackSurfaces(screen.Width, screen.Height);
@@ -171,7 +171,7 @@ public partial class CustomDisplay
             return DisplayControllerError.Ok;
         }
 
-        DisplayController previous = ActiveDisplayController;
+        DisplayController? previous = ActiveDisplayController;
         DataSurface[] saved = new DataSurface[3];
         PauseFrameUpdateLoop();
         try

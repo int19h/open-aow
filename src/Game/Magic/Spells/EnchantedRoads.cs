@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from GlobalEnchantmentSpells.pas.
 using Aow.Engine.Nodes;
 
@@ -15,7 +15,7 @@ namespace Aow.Game.Magic.Spells;
 public class EnchantedRoads : GlobalEnchantmentSpell
 {
     // GlobalEnchantmentSpells.pas:571
-    public EnchantedRoads(CustomNode owner, EngineObject holder) : base(owner)
+    public EnchantedRoads(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.EnchantedRoadsText);
@@ -58,7 +58,7 @@ public class EnchantedRoads : GlobalEnchantmentSpell
 
     public void ShowAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface surface)
     {
-        StrategicMap map = StrategicMap.Current;
+        StrategicMap? map = StrategicMap.Current;
         MapLevel level = map.MapContainer.GetMapLevel(map.ViewMapLevel);
         int maxX = map.ViewHexX + map.ViewWidthHex - 1, maxY = map.ViewHexY + map.ViewHeightHex - 1;
         for (int x = map.ViewHexX; x <= maxX; x++)

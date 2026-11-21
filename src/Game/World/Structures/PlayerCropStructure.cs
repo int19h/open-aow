@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Crops.pas.
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
@@ -180,7 +180,7 @@ public class PlayerCropStructure : PlayerStructure
             result = army is null || StrategicMap.Current.Players.GetDiplomaticRelation(army.Army.Player, otherPlayer: Player) != DiplomaticRelation.War;
             if (result)
             {
-                HexSprite hexSprite = field.GetMaxLevelNoneTransparentHexSprite();
+                HexSprite? hexSprite = field.GetMaxLevelNoneTransparentHexSprite();
                 result = hexSprite is null || hexSprite.Level < 26;
             }
 
@@ -327,7 +327,7 @@ public class PlayerCropStructure : PlayerStructure
             int i = locations.Count - 1;
             int x = default;
             int y = default;
-            Crop crop;
+            Crop? crop;
             for (; i >= 0; i -= 1)
             {
                 HexGeometry.CenterHexNumberToHex(StoredHexX, StoredHexY, hexNumber: locations.List[i], ref x, ref y);

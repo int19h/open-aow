@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 
 using Aow.Engine;
 using Aow.Game.AI;

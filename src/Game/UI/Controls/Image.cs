@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWImage.pas.
 using Aow.Rtl;
 
@@ -10,7 +10,7 @@ namespace Aow.Game.UI.Controls;
 //   to the control. }
 // Fields: FAnimate, FAnimFrameDelay, FFrameCount (updates left until the next image),
 // _animationStart, _currentImage, _animationEnd, _imageLibrary
-public sealed partial class Image(Component owner) : Control(owner)
+public sealed partial class Image(Component? owner) : Control(owner)
 {
     private bool _animate;
     private int _frameCount;

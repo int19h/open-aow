@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from CitySpells.pas.
 using Aow.Engine.Nodes;
 
@@ -19,7 +19,7 @@ namespace Aow.Game.Magic.Spells;
 public class FountainOfLife : CityEnchantmentSpell
 {
     // CitySpells.pas:649
-    public FountainOfLife(CustomNode owner, EngineObject holder) : base(owner)
+    public FountainOfLife(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.FountainOfLifeText);

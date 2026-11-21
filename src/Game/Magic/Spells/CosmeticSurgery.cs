@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from UnitSpells.pas.
 using Aow.Engine.Nodes;
 
@@ -14,7 +14,7 @@ namespace Aow.Game.Magic.Spells;
 public class CosmeticSurgery : UnitSpell
 {
     // UnitSpells.pas:901
-    public CosmeticSurgery(CustomNode owner, EngineObject holder) : base(owner)
+    public CosmeticSurgery(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_deformFaceText);
@@ -29,7 +29,7 @@ public class CosmeticSurgery : UnitSpell
     }
 
     // UnitSpells.pas:968
-    public override void GetCombatInfo(Troop source, ref SpellCombatInfo info)
+    public override void GetCombatInfo(Troop? source, ref SpellCombatInfo info)
     {
         // { The original saves Self and Source as well as Info; this compiler saves only Info. }
         base.GetCombatInfo(source, ref info);
@@ -37,7 +37,7 @@ public class CosmeticSurgery : UnitSpell
     }
 
     // UnitSpells.pas:940
-    public override bool ValidTargetUnit(Troop source, Troop target)
+    public override bool ValidTargetUnit(Troop? source, Troop? target)
     {
         bool result = base.ValidTargetUnit(source, target);
         return result && target.GetUnitType() is UnitType.Humanoid or UnitType.Creature;
@@ -68,7 +68,7 @@ public class CosmeticSurgery : UnitSpell
     }
 
     // UnitSpells.pas:915
-    public override bool ExecuteSpell(Troop source, Troop target, int mana, Span<int> data)
+    public override bool ExecuteSpell(Troop? source, Troop? target, int mana, Span<int> data)
     {
         if (ValidTargetUnit(source, target))
         {
@@ -78,7 +78,7 @@ public class CosmeticSurgery : UnitSpell
             {
                 // Ability 126 stores the enchantment its ability builds. Another enchantment fails.
                 // Null stays null and the upkeep write fails on it.
-                CosmeticSurgeryEnchantment enchantment = (CosmeticSurgeryEnchantment)target.GetAbilityData<UnitEnchantmentAbilityData>(126).Enchantment;
+                CosmeticSurgeryEnchantment? enchantment = (CosmeticSurgeryEnchantment?)target.GetAbilityData<UnitEnchantmentAbilityData>(126).Enchantment;
                 enchantment.SetUpkeep(ManaUpkeep);
                 enchantment.FaceIndex = data[0];
                 enchantment.SetSource(source.Player);

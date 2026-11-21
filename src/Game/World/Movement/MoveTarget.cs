@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.AI;
@@ -7,7 +7,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.World.Movement;
 
 // references, target data, location, move points, transporter ID, path
-public sealed class MoveTarget(CustomNode owner) : EngineObject(owner), IOwned<MoveTargetList>, IOwnedSink<MoveTargetList>
+public sealed class MoveTarget(CustomNode? owner) : EngineObject(owner), IOwned<MoveTargetList>, IOwnedSink<MoveTargetList>
 {
     // A reference list holds the target and owns it only while the list saves or loads it, and
     // nothing else owns it. AcceptsOwner admits only that list, so the cast never fails.

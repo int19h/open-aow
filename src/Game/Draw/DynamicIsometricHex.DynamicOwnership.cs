@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 
 using Aow.Game.World.Hexes;
 using Aow.Game.World.Map;
@@ -7,9 +7,9 @@ namespace Aow.Game.Draw;
 
 public sealed partial class DynamicIsometricHex
 {
-    private IsometricHex _hex;
+    private IsometricHex? _hex;
 
-    private MapField Field => _hex.Owner;
+    private MapField? Field => _hex.Owner;
 
     // IsoHex.pas:109. The TEObject body runs with a null owner (the hexagon owns the sprite directly,
     // not as a child), then the sprite is attached and the field of the hexagon shows it.
@@ -19,7 +19,7 @@ public sealed partial class DynamicIsometricHex
         _ = Field.AddHexSprite(this, hexNumber: 0);
     }
 
-    public override GameEngine GetEngine() => _hex.GetEngine();
+    public override GameEngine? GetEngine() => _hex.GetEngine();
 
     public override byte Level => ((IsometricHexResource)_hex.Resource).DynamicLevel;
     public override sbyte HexX => Field.HexX;

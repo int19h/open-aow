@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 
@@ -38,10 +38,10 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     int IChildSink<Troop>.AddChild(Troop child) => AddChild(child);
 
     // Unit.PAS:2188
-    public virtual bool CanAddUnit(Troop troop) => troop.CanAddToList(Units);
+    public virtual bool CanAddUnit(Troop? troop) => troop.CanAddToList(Units);
 
     // AIGroup.pas:57
-    public AIGroup(CustomNode owner) : base(owner)
+    public AIGroup(CustomNode? owner) : base(owner)
     {
         _refCount = 1;
         Status = AIGroupStatuses.None;
@@ -59,8 +59,8 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
 
     private int _refCount;
 
-    public Troop Leader { get; private set; }
-    public Troop Transporter { get; private set; }
+    public Troop? Leader { get; private set; }
+    public Troop? Transporter { get; private set; }
     public AIGroupProductionList Productions { get; }
 
     public int GroupId { get; set; }
@@ -155,7 +155,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     public override void DestroyAllChildren() => Clear();
 
     // Unit.PAS:2162
-    public override int RemoveChild(EngineObject child)
+    public override int RemoveChild(EngineObject? child)
     {
         int result = base.RemoveChild(child);
         if (result != -1)
@@ -167,11 +167,11 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     }
 
     // Unit.PAS:2167
-    public override int AddChild(EngineObject child)
+    public override int AddChild(EngineObject? child)
     {
         // The check refuses a child that is not a troop before the troop is read.
         CheckChild(child);
-        if (CanAddUnit((Troop)child))
+        if (CanAddUnit((Troop?)child))
         {
             _ = child.AddRef();
             return base.AddChild(child);
@@ -208,7 +208,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
             _ = DeleteUnit(Units[^1]);
         }
 
-        Troop transporter = Transporter;
+        Troop? transporter = Transporter;
         if (transporter is not null)
         {
             _ = DeleteUnit(transporter);
@@ -219,7 +219,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     }
 
     // AIGroup.pas:515
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
         if (message.MessageId == 537001986)
@@ -237,12 +237,12 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     }
 
     // AIGroup.pas:365
-    public virtual bool AddUnit(Troop troop)
+    public virtual bool AddUnit(Troop? troop)
     {
         bool result;
         if (Units.IndexOf(troop) == -1)
         {
-            AIGroup group = troop.Group;
+            AIGroup? group = troop.Group;
             _ = (group?.DeleteUnit(troop));
 
             if (troop.UnitId != TransporterId || !troop.GetTransporter())
@@ -282,7 +282,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         {
             troop.GroupId = 0;
             troop.Group = null;
-            Troop leader = Leader;
+            Troop? leader = Leader;
             if (leader == troop)
             {
                 MapCoordinate coordinate91 = leader.GetLocation();
@@ -430,7 +430,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     }
 
     // AIGroup.pas:186
-    public void SetLeader(Troop troop)
+    public void SetLeader(Troop? troop)
     {
         if (Units.IndexOf(troop) != -1)
         {
@@ -492,7 +492,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     {
         int g = gold - GoldBudget;
         int m = mana - ManaBudget;
-        Player players = StrategicMap.Current.Players.GetPlayers(Player);
+        Player? players = StrategicMap.Current.Players.GetPlayers(Player);
         return StrategicMap.Current.Players.GetPlayers(Player).AIBudget.RequestBudgetExpense(g, mana: m, budget: players.AIBudget.DefaultBudget, usePool: true);
     }
 
@@ -503,7 +503,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         if (RequestTargetExpense(gold, mana))
         {
             ReturnTargetExpense();
-            Player players = StrategicMap.Current.Players.GetPlayers(Player);
+            Player? players = StrategicMap.Current.Players.GetPlayers(Player);
             result = StrategicMap.Current.Players.GetPlayers(Player).AIBudget.BudgetExpenseMade(gold, mana, budget: players.AIBudget.DefaultBudget, mode: AIBudgetManager.ExpenseMode.PoolThenBudget);
             if (result)
             {
@@ -553,7 +553,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         }
         else
         {
-            Troop transporter = Transporter;
+            Troop? transporter = Transporter;
             if (transporter is not null)
             {
                 _ = DeleteUnit(transporter);
@@ -564,7 +564,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     }
 
     // AIGroup.pas:290
-    public bool SetupTarget(AIGroupControlTarget target, AIGroupTargetStatus targetType, byte mode)
+    public bool SetupTarget(AIGroupControlTarget? target, AIGroupTargetStatus targetType, byte mode)
     {
         bool result;
         if (target is not null)
@@ -596,7 +596,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         }
         else
         {
-            Troop transporter = Transporter;
+            Troop? transporter = Transporter;
             if (transporter is not null)
             {
                 _ = DeleteUnit(transporter);
@@ -626,9 +626,9 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     }
 
     // AIGroup.pas:337
-    public void AddTransporter(Troop troop)
+    public void AddTransporter(Troop? troop)
     {
-        Troop oldTransporter = Transporter;
+        Troop? oldTransporter = Transporter;
         if (oldTransporter != troop)
         {
             if (oldTransporter is not null)
@@ -638,7 +638,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
                 _ = oldTransporter.Release();
             }
 
-            AIGroup group = troop.Group;
+            AIGroup? group = troop.Group;
             if (group is not null)
             {
                 _ = group.DeleteUnit(troop);
@@ -655,7 +655,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     }
 
     // AIGroup.pas:446
-    public void UnitProduced(ProductionControl control, Troop troop)
+    public void UnitProduced(ProductionControl control, Troop? troop)
     {
         if (Leader is not null)
         {

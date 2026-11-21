@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from NetworkE.pas.
 
 using Aow.Game.Commands;

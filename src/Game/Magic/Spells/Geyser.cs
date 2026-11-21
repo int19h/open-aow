@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from CombatSpells.pas.
 using Aow.Engine.Nodes;
 
@@ -13,7 +13,7 @@ namespace Aow.Game.Magic.Spells;
 public class Geyser : CombatSpell
 {
     // CombatSpells.pas:1505
-    public Geyser(CustomNode owner, EngineObject holder) : base(owner)
+    public Geyser(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_geyserText);
@@ -30,7 +30,7 @@ public class Geyser : CombatSpell
     }
 
     // CombatSpells.pas:1522
-    public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
+    public override CombatAction CreateCombatAction(CombatObject? source, CombatObject target, bool chargeMana)
     {
         CombatSpellCombatAction action = new(null)
         {

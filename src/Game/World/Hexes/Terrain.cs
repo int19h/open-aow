@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWTer.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -12,7 +12,7 @@ public class Terrain(CustomNode owner) : TerrainMapObject(owner)
 {
 
     // AoWTer.pas:89
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
         if (message.MessageId == 537001985)
@@ -62,7 +62,7 @@ public class Terrain(CustomNode owner) : TerrainMapObject(owner)
         {
             if (StrategicMap.Current.Random(20) == 0)
             {
-                TerrainMapObjectResource r = FindCompatibleResource(base.Resource.TerrainType, overlayType: 1, decorationType: 0);
+                TerrainMapObjectResource? r = FindCompatibleResource(base.Resource.TerrainType, overlayType: 1, decorationType: 0);
                 if (r is not null)
                 {
                     MapField oldOwner = Owner;
@@ -82,14 +82,14 @@ public class Terrain(CustomNode owner) : TerrainMapObject(owner)
     }
 
     // AoWTer.pas:45. Message $1105 carries a TFire whose byte $1E is FAge.
-    public void ValidateDenseVegetationBurned(Fire info)
+    public void ValidateDenseVegetationBurned(Fire? info)
     {
         if (info.Age < 2 || base.Resource.TerrainList.Overlay[0] != 1)
         {
             return;
         }
 
-        TerrainMapObjectResource resource = FindCompatibleResource(base.Resource.TerrainType, overlayType: 3, decorationType: 3);
+        TerrainMapObjectResource? resource = FindCompatibleResource(base.Resource.TerrainType, overlayType: 3, decorationType: 3);
         if (resource is null)
         {
             return;

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Teleport.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
@@ -20,7 +20,7 @@ using Aow.Rtl;
 namespace Aow.Game.World.Structures;
 
 // DestinationX, DestinationY, DestinationMapLevel, State (bit 0 razed)
-public partial class Teleport(CustomNode owner) : Structure(owner)
+public partial class Teleport(CustomNode? owner) : Structure(owner)
 {
 
     // Teleport.pas:105
@@ -186,7 +186,7 @@ public partial class Teleport(CustomNode owner) : Structure(owner)
                         if (!StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player).GetBusy())
                         {
                             // { Original passes action before mode. }
-                            TokenEvent eventValue = ArmyHexSprite.CreateArmyMoveTokenEvent(armyHexSprite, selection: 255, path, action: MoveAction.Attack, mode: ArmyMoveModes.None);
+                            TokenEvent? eventValue = ArmyHexSprite.CreateArmyMoveTokenEvent(armyHexSprite, selection: 255, path, action: MoveAction.Attack, mode: ArmyMoveModes.None);
                             if (eventValue is not null)
                             {
                                 StrategicMap.Current.TokenManager.GetTokenControl(armyHexSprite.Army.Player).AddEvent(eventValue);
@@ -217,7 +217,7 @@ public partial class Teleport(CustomNode owner) : Structure(owner)
                 else
                 {
                     sbyte playerLocal = field.GetPlayer();
-                    Player playerPlayerRace = StrategicMap.Current.Players.GetPlayers(playerLocal);
+                    Player? playerPlayerRace = StrategicMap.Current.Players.GetPlayers(playerLocal);
                     string raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.RaceNamesPluralTexts[playerPlayerRace.PlayerRace]);
                     string messageText = DelphiFormat.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.NoWarDeclaredFormat), args: [raceNamesPlural]);
                     StrategicMap.Current.ShowMessage(messageText);

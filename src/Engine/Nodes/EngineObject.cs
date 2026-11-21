@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Engine.pas.
 using Aow.Formats.Tree;
 using Aow.Game;
@@ -19,22 +19,22 @@ public class EngineObject : IDisposable, IPersistable, IOwned
     // The Delphi pre-inherited statements run after capture and before any inherited body.
     private protected virtual void InitializeBeforeInherited() { }
 
-    public EngineObject(CustomNode owner) : this(null, owner) { }
+    public EngineObject(CustomNode? owner) : this(null, owner) { }
 
-    private protected EngineObject(ConstructionContext context, CustomNode owner)
+    private protected EngineObject(ConstructionContext? context, CustomNode? owner)
     {
         context?.Capture(this);
         InitializeBeforeInherited();
         SetOwner(owner);
     }
 
-    private CustomNode _owner;
+    private CustomNode? _owner;
 
     // Engine.pas:2487. The walk reads each owner through IOwned.
     internal string GetEngineObjectPath()
     {
         string path = GetType().Name;
-        for (IOwner owner = ((IOwned)this).Owner; owner is not null; owner = (owner as IOwned)?.Owner)
+        for (IOwner? owner = ((IOwned)this).Owner; owner is not null; owner = (owner as IOwned)?.Owner)
         {
             path = owner.GetType().Name + path;
         }
@@ -49,7 +49,7 @@ public class EngineObject : IDisposable, IPersistable, IOwned
     public virtual ControlStyles GetControlStyle() => EngineServices.Stored;
 
     // Engine.pas:2568
-    public virtual void SetOwner(CustomNode owner)
+    public virtual void SetOwner(CustomNode? owner)
     {
         if (owner != _owner)
         {
@@ -64,17 +64,17 @@ public class EngineObject : IDisposable, IPersistable, IOwned
     // The node through which a node without an owner reaches its engine: the engine for what it
     // registers, creates, loads or copies, a node for the node its constructor keeps in a field.
     // A node reaches its engine through its owner, and without an owner through its holder.
-    public EngineObject Holder { get; set; }
+    public EngineObject? Holder { get; set; }
 
     // The holder for a node this node creates without an owner: the engine once this node reaches
     // it, else this node, through which the created node reaches the engine later. The engine
     // itself keeps a holder walk short and stops it from looping through a node that comes to own
     // its creator (a troop creates the army sprite that then holds it).
-    public EngineObject CreationHolder() => (EngineObject)GetEngine() ?? this;
+    public EngineObject CreationHolder() => (EngineObject?)GetEngine() ?? this;
 
     // Engine.pas:2558. The original walks the owners only and reads the engine global where a node
     // has no owner.
-    public virtual GameEngine GetEngine() => _owner is not null ? _owner.GetEngine() : Holder?.GetEngine();
+    public virtual GameEngine? GetEngine() => _owner is not null ? _owner.GetEngine() : Holder?.GetEngine();
 
     // Engine.pas:2502
     public virtual int LastMessage
@@ -105,7 +105,7 @@ public class EngineObject : IDisposable, IPersistable, IOwned
     /// <summary>
     /// Null when the class persists through the tree. Every engine class does (issue 185 PE-4-a).
     /// </summary>
-    public static string TreePersistenceRefusal(Type type)
+    public static string? TreePersistenceRefusal(Type? type)
     {
         ArgumentNullException.ThrowIfNull(type);
         return null;
@@ -136,7 +136,7 @@ public class EngineObject : IDisposable, IPersistable, IOwned
     // Engine.pas:2511
     // The original compares the images WriteEObject writes. Two objects of one class whose trees
     // are equal write equal images (persistence-tree.md 13).
-    public virtual bool Compare(EngineObject objectValue, GameEngine engine)
+    public virtual bool Compare(EngineObject? objectValue, GameEngine? engine)
     {
         if (EngineClass.ClassId != objectValue.EngineClass.ClassId)
         {
@@ -150,11 +150,11 @@ public class EngineObject : IDisposable, IPersistable, IOwned
     // Engine.pas:2466
     public virtual EditorClass Editor()
     {
-        EditorClass result = null;
-        GameEngine e = GetEngine();
+        EditorClass? result = null;
+        GameEngine? e = GetEngine();
         if (e is not null)
         {
-            for (Type type = GetType(); type != typeof(EngineObject) && result is null; type = type.BaseType)
+            for (Type? type = GetType(); type != typeof(EngineObject) && result is null; type = type.BaseType)
             {
                 result = e.Editors.FindEditor(EngineClass.Of(type).ClassId);
             }
@@ -170,14 +170,14 @@ public class EngineObject : IDisposable, IPersistable, IOwned
     // ReadEObject. The source's tree loads into this object the same way: the load clears it
     // first, a member the source leaves out takes its fallback, and a failure goes to the load's
     // handler, of which a copy has none (persistence-tree.md 13).
-    public virtual void Assign(EngineObject source, GameEngine engine)
+    public virtual void Assign(EngineObject? source, GameEngine? engine)
     {
         EnginePersistableFactory factory = new(engine);
         TreeReader.ReadObject(TreeWriter.WriteObject(source, factory: factory), objectValue: this, factory: factory);
     }
 
     // Engine.pas:2585
-    public virtual void MessageProc(ref EngineMessage message, EngineObject sender)
+    public virtual void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         if (message.MessageId == 1)
         {
@@ -200,7 +200,7 @@ public class EngineObject : IDisposable, IPersistable, IOwned
 
     // Engine.pas:2543
     // A new object of this class loads the tree of this one, as Assign loads it.
-    public EngineObject Copy(GameEngine engine)
+    public EngineObject Copy(GameEngine? engine)
     {
         EnginePersistableFactory factory = new(engine);
         ObjectNode tree = TreeWriter.WriteObject(this, factory: factory);
@@ -211,16 +211,16 @@ public class EngineObject : IDisposable, IPersistable, IOwned
 
     // A copy of this object, typed by the caller. Copy preserves the runtime
     // class, so the typed copy keeps the single cast.
-    public T Copy<T>(GameEngine engine) where T : EngineObject => (T)Copy(engine);
+    public T Copy<T>(GameEngine? engine) where T : EngineObject => (T)Copy(engine);
 
-    public CustomNode Owner { get => _owner; set => SetOwner(value); }
+    public CustomNode? Owner { get => _owner; set => SetOwner(value); }
 
     // AcceptsOwner admits only T, so the cast never fails.
     protected T GetOwner<T>() where T : CustomNode => (T)_owner;
 
-    IOwner IOwned.Owner => _owner;
+    IOwner? IOwned.Owner => _owner;
 
-    protected internal void SetOwnerWithoutNotify(CustomNode value)
+    protected internal void SetOwnerWithoutNotify(CustomNode? value)
     {
         CheckOwner(value);
         _owner = value;
@@ -234,7 +234,7 @@ public class EngineObject : IDisposable, IPersistable, IOwned
     /// </summary>
     protected virtual bool AcceptsOwner(CustomNode owner) => true;
 
-    private void CheckOwner(CustomNode owner)
+    private void CheckOwner(CustomNode? owner)
     {
         if (owner is not null && !AcceptsOwner(owner))
         {

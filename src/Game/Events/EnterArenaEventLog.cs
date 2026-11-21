@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Arena.pas.
 using System.Globalization;
 using Aow.Engine.Collections;
@@ -11,7 +11,7 @@ using static Aow.Rtl.DelphiFormat;
 namespace Aow.Game.Events;
 
 // Arena, Selection, Trainable, UnitIds
-public partial class EnterArenaEventLog(CustomNode owner) : EventLog(owner)
+public partial class EnterArenaEventLog(CustomNode? owner) : EventLog(owner)
 {
 
     public Arena Arena { get; init; }
@@ -30,7 +30,7 @@ public partial class EnterArenaEventLog(CustomNode owner) : EventLog(owner)
     public int GetCount() => UnitIds.Count;
 
     // Arena.pas:274
-    public Troop this[int index]
+    public Troop? this[int index]
     {
         get
         {
@@ -92,7 +92,7 @@ public partial class EnterArenaEventLog(CustomNode owner) : EventLog(owner)
             if (((1 << i) & Selection) != 0)
             {
                 int unitId = UnitIds[i];
-                Troop troop = StrategicMap.Current.UnitControl.FindUnit(unitId);
+                Troop? troop = StrategicMap.Current.UnitControl.FindUnit(unitId);
                 if (troop is not null)
                 {
                     total += Arena.UnitTrainCost(troop);

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
@@ -8,7 +8,7 @@ namespace Aow.Game.AI.Groups;
 
 // references, unit, production location, gold, mana, upkeep, production time, priority,
 // research
-public sealed class AIGroupUnitProduction(CustomNode owner) : EngineObject(owner), IOwned<AIGroupUnitProductionList>, IOwnedSink<AIGroupUnitProductionList>
+public sealed class AIGroupUnitProduction(CustomNode? owner) : EngineObject(owner), IOwned<AIGroupUnitProductionList>, IOwnedSink<AIGroupUnitProductionList>
 {
     // A reference list holds the production and owns it only while the list saves or loads it, and
     // nothing else owns it. AcceptsOwner admits only that list.
@@ -20,8 +20,8 @@ public sealed class AIGroupUnitProduction(CustomNode owner) : EngineObject(owner
 
     private int _refCount = 1;
 
-    public Unit Unit { get; private set; }
-    public AIGroupProductionLocation ProductionLocation { get; private set; }
+    public Unit? Unit { get; private set; }
+    public AIGroupProductionLocation? ProductionLocation { get; private set; }
     public int Gold { get; set; }
     public int Mana { get; set; }
     public int GoldUpkeep { get; set; }
@@ -60,7 +60,7 @@ public sealed class AIGroupUnitProduction(CustomNode owner) : EngineObject(owner
     }
 
     // AIGroup.pas:2415
-    public void SetU(Unit U)
+    public void SetU(Unit? U)
     {
         if (U != Unit)
         {
@@ -72,7 +72,7 @@ public sealed class AIGroupUnitProduction(CustomNode owner) : EngineObject(owner
     }
 
     // AIGroup.pas:2425
-    public void SetProductionLocation(AIGroupProductionLocation location)
+    public void SetProductionLocation(AIGroupProductionLocation? location)
     {
         if (location != ProductionLocation)
         {

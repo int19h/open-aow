@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from MainAG.pas.
 using Aow.Engine.Nodes;
 

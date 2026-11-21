@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from HSEngine.pas and AoWE.pas.
 using System.Runtime.InteropServices;
 using Aow.Engine;
@@ -41,9 +41,9 @@ public class GamePack : EngineNode, IChildList<GamePackChild>
 
     int IChildSink<GamePackChild>.AddChild(GamePackChild child) => AddChild(child.Node);
 
-    public GamePack(CustomNode owner, EngineObject holder) : this(null, owner, holder) { }
+    public GamePack(CustomNode? owner, EngineObject holder) : this(null, owner, holder) { }
 
-    private protected GamePack(ConstructionContext context, CustomNode owner, EngineObject holder) : base(context, owner)
+    private protected GamePack(ConstructionContext? context, CustomNode? owner, EngineObject holder) : base(context, owner)
     {
         Holder = holder;
         SetControlStyle(GetControlStyle() | EngineServices.Reserved2);
@@ -170,7 +170,7 @@ public class GamePack : EngineNode, IChildList<GamePackChild>
         CombatImages = ImageLibraryManager.LinkToImageLibrary(ImageLibraryManagerCategories.Disk, fileName: "COMBAT.ILB");
     }
 
-    public GameEngine ActivatedEngine { get; private set; }
+    public GameEngine? ActivatedEngine { get; private set; }
 
     // Ability.PAS:74 around HSEngine.pas:3368.
     public override void Dispose()
@@ -296,7 +296,7 @@ public class GamePack : EngineNode, IChildList<GamePackChild>
     public override void Clear() => base.Clear();
 
     // HSEngine.pas:3399, then Ability.PAS:206.
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
         if (message.MessageId == 536870920)
@@ -361,21 +361,21 @@ public class GamePack : EngineNode, IChildList<GamePackChild>
     public RoadControl RoadControl { get; }
     public MapObjectResourceList MapObjectResourceList { get; }
     public ResourceEditSettings ResourceEditSettings { get; }
-    public ImageLibraryManager ImageLibraryManager { get; private set; }
-    public SfxManager SfxManager { get; private set; }
+    public ImageLibraryManager? ImageLibraryManager { get; private set; }
+    public SfxManager? SfxManager { get; private set; }
     public PluginControl PluginControl { get; }
     public string Name { get; private set; } = "";
-    public DelphiStringList TerrainTypes { get; private set; }
-    public DelphiStringList OverlayTypes { get; private set; }
-    public DelphiStringList DecorationTypes { get; private set; }
+    public DelphiStringList? TerrainTypes { get; private set; }
+    public DelphiStringList? OverlayTypes { get; private set; }
+    public DelphiStringList? DecorationTypes { get; private set; }
 
-    public CustomImageLibrary GeneralImages { get; }
-    public CustomImageLibrary CursorImages { get; }
-    public CustomImageLibrary CombatImages { get; }
+    public CustomImageLibrary? GeneralImages { get; }
+    public CustomImageLibrary? CursorImages { get; }
+    public CustomImageLibrary? CombatImages { get; }
     public RaceResourceList RaceResources { get; }
     public PadControl PadControl { get; }
     public UnitResourceList UnitResources { get; internal set; }
-    public UnitGFXResourceList UnitGraphicsResources { get; internal set; }
+    public UnitGFXResourceList? UnitGraphicsResources { get; internal set; }
     public HeroResourceList HeroResources { get; internal set; }
     public ItemGFXList ItemGraphicsResources { get; }
     public ItemLibraryManager ItemLibraries { get; }
@@ -453,7 +453,7 @@ public class GamePack : EngineNode, IChildList<GamePackChild>
     }
 
     // intf_P1_10.inc:44
-    public static GamePack Create(CustomNode owner, EngineObject holder)
+    public static GamePack Create(CustomNode? owner, EngineObject holder)
         => ConstructionContext.Create((owner, holder), static (context, value) => new GamePack(context, value.owner, value.holder));
 
     private static readonly string s_grassText = "Grass";
@@ -512,5 +512,5 @@ public class GamePack : EngineNode, IChildList<GamePackChild>
 
     private static readonly string s_gamePackLoadedText = "Game Pack Loaded";
 
-    public static GamePack Current { get; set; }
+    public static GamePack? Current { get; set; }
 }

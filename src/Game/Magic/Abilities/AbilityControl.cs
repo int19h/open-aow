@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using System.Globalization;
 using Aow.Engine.Nodes;
@@ -18,7 +18,7 @@ public sealed class AbilityControl : EngineObject
     private const AbilitySelectionTypes AllAbilitySelectionTypes = AbilitySelectionTypes.Unit | AbilitySelectionTypes.HeadItem | AbilitySelectionTypes.TorsoItem | AbilitySelectionTypes.AttackItem | AbilitySelectionTypes.DefenseItem | AbilitySelectionTypes.RingItem | AbilitySelectionTypes.UseItem | AbilitySelectionTypes.CustomizeLeader | AbilitySelectionTypes.HeroUpgrade | AbilitySelectionTypes.Editor;
 
     // Ability.PAS:2035
-    public AbilityControl(CustomNode owner) : base(owner)
+    public AbilityControl(CustomNode? owner) : base(owner)
     {
         Abilities = [];
         for (int kindOrdinal = (int)AbilityType.Enhancement; kindOrdinal <= (int)AbilityType.Enchantment; kindOrdinal++)
@@ -29,7 +29,7 @@ public sealed class AbilityControl : EngineObject
         }
     }
 
-    public List<Ability> Abilities { get; }
+    public List<Ability?> Abilities { get; }
 
     public AbilityTypeList[] AbilitiesByType { get; } = new AbilityTypeList[5];
 
@@ -94,7 +94,7 @@ public sealed class AbilityControl : EngineObject
     }
 
     // Ability.PAS:2096
-    public void UnregisterAbility(Ability ability)
+    public void UnregisterAbility(Ability? ability)
     {
         int id = ability.AbilityId;
         if (id != -1)
@@ -184,7 +184,7 @@ public sealed class AbilityControl : EngineObject
         }
     }
 
-    public Ability this[int index]
+    public Ability? this[int index]
     {
         get
         {
@@ -198,7 +198,7 @@ public sealed class AbilityControl : EngineObject
     // null, as GetAbility does.
     public T GetAbility<T>(int id) where T : Ability => (T)this[id];
 
-    public static int CompareAbilityNames(Ability item1, Ability item2) => CompareStr(b: item2.GetName(null), a: item1.GetName(null));
+    public static int CompareAbilityNames(Ability? item1, Ability? item2) => CompareStr(b: item2.GetName(null), a: item1.GetName(null));
 
     internal static void UnregisterPassiveAbilities(AbilityControl control)
     {

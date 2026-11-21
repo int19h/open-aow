@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Storms.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Audio;
@@ -12,9 +12,9 @@ using Aow.Rtl;
 namespace Aow.Game.Draw.Animations;
 
 // storm image library
-public class BlastStorm(CustomNode owner) : Storm(owner)
+public class BlastStorm(CustomNode? owner) : Storm(owner)
 {
-    private CustomImageLibrary _stormImages;
+    private CustomImageLibrary? _stormImages;
 
     // Storms.pas:338
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
@@ -22,9 +22,9 @@ public class BlastStorm(CustomNode owner) : Storm(owner)
         int frame = FrameCounter % _stormImages.Count;
         sbyte hexY = HexY;
         HexGeometry.HexToPixel(HexX, hexY, out int x, out int y);
-        LibraryImage stormImageWidth = _stormImages[frame];
+        LibraryImage? stormImageWidth = _stormImages[frame];
         x = x - (stormImageWidth.Width >>> 1) + 10;
-        LibraryImage stormImageHeight = _stormImages[frame];
+        LibraryImage? stormImageHeight = _stormImages[frame];
         y = y - (stormImageHeight.Height >>> 1) - 42;
         _stormImages[frame].Show(x - pixelXSurface, y - pixelYSurface, lockedSurface);
     }

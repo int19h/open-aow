@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Draw;
@@ -13,7 +13,7 @@ public partial class MoveControlSettings : EngineObject
 {
 
     // MoveT.PAS:73
-    public MoveControlSettings(CustomNode owner) : base(owner)
+    public MoveControlSettings(CustomNode? owner) : base(owner)
     {
         _refCount = 1;
         ProcessedMapFields = new DelphiList<MapField>();
@@ -50,9 +50,9 @@ public partial class MoveControlSettings : EngineObject
     public MapCoordinate Source { get; private set; }
     public MapCoordinate Destination { get; private set; }
     public int MovePointsMax { get; set; }
-    public UnitHexSprite ArmyHexSprite { get; set; }
+    public UnitHexSprite? ArmyHexSprite { get; set; }
     public int Selection { get; set; }
-    public ArmyHexSprite TransporterArmy { get; set; }
+    public ArmyHexSprite? TransporterArmy { get; set; }
     public UnitUserList Units { get; }
 
     // AddUnitsEx
@@ -145,7 +145,7 @@ public partial class MoveControlSettings : EngineObject
         => SetDestinationPosition(new MapCoordinate((sbyte)x, (sbyte)y, (sbyte)level));
 
     // MoveT.PAS:162
-    public void SetupArmy(ArmyHexSprite army, byte selection)
+    public void SetupArmy(ArmyHexSprite? army, byte selection)
     {
         ArmyHexSprite = army;
         Selection = selection;

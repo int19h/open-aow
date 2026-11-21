@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWMemo.pas.
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
@@ -33,7 +33,7 @@ public sealed partial class Memo : Control
     private int _topItem;
     private bool _scrollSet;
     [Published]
-    public event NotifyEvent<Memo> DrawItem;
+    public event NotifyEvent<Memo>? DrawItem;
     private int _scrollWidth;
     private bool _blink;
     private byte _blinkCount;
@@ -41,8 +41,8 @@ public sealed partial class Memo : Control
     private int _currentLine;
     private int _realColumn;
     private int _realLine;
-    private InterfaceImageLibrary _imageLibraryFrame;
-    private InterfaceImageLibrary _imageLibraryTexture;
+    private InterfaceImageLibrary? _imageLibraryFrame;
+    private InterfaceImageLibrary? _imageLibraryTexture;
 
     public bool NoFrame { get; set; }
 
@@ -54,7 +54,7 @@ public sealed partial class Memo : Control
     public DelphiStringList Lines { get; }
 
     // AoWMemo.pas:126
-    public Memo(Component owner) : base(owner)
+    public Memo(Component? owner) : base(owner)
     {
         Lines = new DelphiStringList();
         _items = new DelphiStringList
@@ -116,12 +116,12 @@ public sealed partial class Memo : Control
         switch (NoFrame)
         {
             case false:
-                LibraryImage imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame];
-                LibraryImage imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 5];
+                LibraryImage? imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame];
+                LibraryImage? imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 5];
                 if (imageLibraryFrameHeight.Height + imageLibraryFrame.Height > WinHeight)
                 {
-                    LibraryImage imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame];
-                    LibraryImage imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 5];
+                    LibraryImage? imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame];
+                    LibraryImage? imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 5];
                     SetWinHeightWithoutInvalidate(imageLibraryFrame2.Height + imageLibraryFrame3.Height);
                 }
 
@@ -130,8 +130,8 @@ public sealed partial class Memo : Control
                     SetWinWidthWithoutInvalidate(_imageLibraryFrame[_imageLibraryIndexFrame].Width);
                 }
 
-                LibraryImage imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
-                LibraryImage imageLibraryFrame5 = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
+                LibraryImage? imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                LibraryImage? imageLibraryFrame5 = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
                 _numberVisible = (WinHeight - imageLibraryFrame4.Height - imageLibraryFrame5.Height) / ItemHeight;
                 _scrollWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 4].Width;
                 Masked = false;
@@ -342,21 +342,21 @@ public sealed partial class Memo : Control
                     case false:
                         SizedRectangle rectangle = new(Window.AbsoluteLeft + WinLeft, Window.AbsoluteTop + WinTop, WinWidth, WinHeight);
                         _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, area: rectangle, ref lockedSurface);
-                        LibraryImage imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
-                        LibraryImage imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
-                        LibraryImage imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                        LibraryImage imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
-                        LibraryImage imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                        LibraryImage? imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                        LibraryImage? imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
+                        LibraryImage? imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                        LibraryImage? imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                        LibraryImage? imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
                         SizedRectangle rectangle2 = new(Window.AbsoluteLeft + WinLeft + imageLibraryFrame3.Width, Window.AbsoluteTop + WinTop + imageLibraryFrame2.Height, WinWidth - imageLibraryFrameWidth.Width - _scrollWidth, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
                         _imageLibraryTexture.DrawTiled(_imageLibraryIndexTexture, area: rectangle2, ref lockedSurface);
-                        LibraryImage imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                        LibraryImage? imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
                         x = Window.AbsoluteLeft + WinLeft + imageLibraryFrame4.Width;
-                        LibraryImage imageLibraryFrame5 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                        LibraryImage? imageLibraryFrame5 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                         y = Window.AbsoluteTop + WinTop + imageLibraryFrame5.Height;
-                        LibraryImage imageLibraryFrame6 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
-                        LibraryImage imageLibraryFrame7 = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
+                        LibraryImage? imageLibraryFrame6 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                        LibraryImage? imageLibraryFrame7 = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
                         h = WinHeight - imageLibraryFrame6.Height - imageLibraryFrame7.Height;
-                        LibraryImage imageLibraryFrame8 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                        LibraryImage? imageLibraryFrame8 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
                         w = WinWidth - imageLibraryFrame8.Width - _scrollWidth;
                         break;
                     default:
@@ -719,7 +719,7 @@ public sealed partial class Memo : Control
     }
 
     // AoWMemo.pas:340
-    public void SetImageLibraryFrame(InterfaceImageLibrary value)
+    public void SetImageLibraryFrame(InterfaceImageLibrary? value)
     {
         if (value != _imageLibraryFrame)
         {
@@ -729,7 +729,7 @@ public sealed partial class Memo : Control
     }
 
     // AoWMemo.pas:349
-    public void SetImageLibraryTexture(InterfaceImageLibrary value)
+    public void SetImageLibraryTexture(InterfaceImageLibrary? value)
     {
         if (value != _imageLibraryTexture)
         {
@@ -914,10 +914,10 @@ public sealed partial class Memo : Control
     public bool Editable { get; set; }
 
     [Published]
-    public InterfaceImageLibrary ImageLibraryFrame { get => _imageLibraryFrame; set => SetImageLibraryFrame(value); }
+    public InterfaceImageLibrary? ImageLibraryFrame { get => _imageLibraryFrame; set => SetImageLibraryFrame(value); }
 
     [Published]
-    public InterfaceImageLibrary ImageLibraryTexture { get => _imageLibraryTexture; set => SetImageLibraryTexture(value); }
+    public InterfaceImageLibrary? ImageLibraryTexture { get => _imageLibraryTexture; set => SetImageLibraryTexture(value); }
 
     [Published]
     public int ImageLibraryIndexFrame { get => _imageLibraryIndexFrame; set => SetILFIndex(value); }

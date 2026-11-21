@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from CombatSpells.pas.
 using Aow.Engine.Nodes;
 
@@ -14,7 +14,7 @@ namespace Aow.Game.Magic.Spells;
 public class Entangle : CombatSpell
 {
     // CombatSpells.pas:1352
-    public Entangle(CustomNode owner, EngineObject holder) : base(owner)
+    public Entangle(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.EntangleText);
@@ -30,7 +30,7 @@ public class Entangle : CombatSpell
     }
 
     // CombatSpells.pas:1368
-    public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
+    public override CombatAction CreateCombatAction(CombatObject? source, CombatObject target, bool chargeMana)
     {
         EntangleSpellCombatAction action = new(null)
         {
@@ -54,7 +54,7 @@ public class Entangle : CombatSpell
     }
 
     // CombatSpells.pas:1383
-    public override void GetCombatDamageValues(CombatObject source, CombatObject target, ref AbilityDamageValues values)
+    public override void GetCombatDamageValues(CombatObject? source, CombatObject? target, ref AbilityDamageValues values)
     {
         if (!target.GetAbilityEnabled(1) && !target.GetAbilityEnabled(94))
         {

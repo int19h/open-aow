@@ -1,10 +1,10 @@
-#nullable disable
+#nullable disable warnings
 
 namespace Aow.Game.Draw.Images;
 
 internal static class LibraryCatalog
 {
-    internal static LibraryImageClass FindLibraryImageClass(int classId)
+    internal static LibraryImageClass? FindLibraryImageClass(int classId)
     {
         bool found = false;
         int i = 0;

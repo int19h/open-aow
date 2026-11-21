@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from CombatTE.pas.
 using System.Globalization;
 using Aow.Engine.Nodes;
@@ -18,7 +18,7 @@ using static Aow.Rtl.RtlHost;
 
 namespace Aow.Game.Commands;
 
-public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class CombatAbilityRangedTokenEvent(CustomNode? owner) : TokenEvent(owner)
 {
 
     // CombatTE.pas:917
@@ -35,7 +35,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
 
     private BattleEffectType _effectType;
     private int _strikeCount;
-    private object _sound;
+    private object? _sound;
     private int _delay;
     private int _strikeIndex;
     private int _state;
@@ -61,7 +61,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
         try
         {
             int i;
-            TacticalBattleUnitHexSprite hexSprite;
+            TacticalBattleUnitHexSprite? hexSprite;
             switch (_state)
             {
                 case 0:
@@ -302,7 +302,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                                             param[0] = _unit;
                                             message.Param = param;
                                             message.Result = -1;
-                                            Point3D path = effect.Path[0];
+                                            Point3D? path = effect.Path[0];
                                             HexGeometry.PixelToHex(effect.Path[0].X, vertical: path.Y, out endX, out endY);
                                             {
                                                 i = 0;
@@ -326,7 +326,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                                 {
                                     if (effect.Frame != -1 && effect.Path[effect.Frame].Z == 15)
                                     {
-                                        Point3D path = effect.Path[effect.Frame];
+                                        Point3D? path = effect.Path[effect.Frame];
                                         HexGeometry.PixelToHex(effect.Path[effect.Frame].X, vertical: path.Y, out x, out y);
                                         hexSprite = CombatMap.Current.MapContainer.MapLevels[0].GetField(x, y).FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
                                         if (hexSprite is not null)
@@ -690,7 +690,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                                                                     if (effect.Done)
                                                                     {
                                                                         int count = effect.Path.Count;
-                                                                        Point3D path = effect.Path[count - 1];
+                                                                        Point3D? path = effect.Path[count - 1];
                                                                         int fPathCount = effect.Path.Count;
                                                                         HexGeometry.PixelToHex(effect.Path[fPathCount - 1].X, vertical: path.Y, out endX, out endY);
                                                                         if (effect.CombatAction is not null && effect.Target is not null)
@@ -968,9 +968,9 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
         int deltaY = default;
         int j = default;
         int k = default;
-        TacticalBattleUnit FindTarget(int X, int Y)
+        TacticalBattleUnit? FindTarget(int X, int Y)
         {
-            TacticalBattleUnit result = null;
+            TacticalBattleUnit? result = null;
             int bestDistance = 6;
             for (int i2 = 0, last = CombatMap.Current.Combat.CombatData.GetCount() - 1; i2 <= last; i2++)
             {
@@ -1001,7 +1001,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
             return result;
         }
 
-        TacticalBattleUnit target;
+        TacticalBattleUnit? target;
         void ChooseTarget()
         {
             used = new DelphiList<TacticalBattleUnit>();
@@ -1279,13 +1279,13 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                     {
                         Point3D xyz = new();
                         effect.Path.Add(xyz);
-                        Point3D pathX = effect.Path[0];
+                        Point3D? pathX = effect.Path[0];
                         int random = Random(30);
                         int count = effect.Path.Count;
                         Point3DList path20 = effect.Path;
                         path20[count - 1].X = pathX.X + random - 15;
                         effect.Path = path20;
-                        Point3D pathY = effect.Path[0];
+                        Point3D? pathY = effect.Path[0];
                         int random2 = Random(30);
                         int fPathCount = effect.Path.Count;
                         Point3DList path21 = effect.Path;
@@ -1297,15 +1297,15 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                 j = Random(300);
                 k = Random(300);
                 int count2 = effect.Path.Count;
-                Point3D path = effect.Path[count2 - 1];
+                Point3D? path = effect.Path[count2 - 1];
                 int count3 = effect.Path.Count;
-                Point3D pathZ = effect.Path[count3 - 1];
+                Point3D? pathZ = effect.Path[count3 - 1];
                 int count4 = effect.Path.Count;
-                Point3D path2 = effect.Path[count4 - 1];
+                Point3D? path2 = effect.Path[count4 - 1];
                 int count5 = effect.Path.Count;
-                Point3D path3 = effect.Path[count5 - 1];
+                Point3D? path3 = effect.Path[count5 - 1];
                 int count6 = effect.Path.Count;
-                Point3D path4 = effect.Path[count6 - 1];
+                Point3D? path4 = effect.Path[count6 - 1];
                 int count7 = effect.Path.Count;
                 Point3DList path22 = effect.Path;
                 EffectPaths.MakeArcPathXY((short)effect.Path[count7 - 1].X, (short)(path2.Y - path3.Z), (short)(path4.X + j - 150), (short)(path.Y - pathZ.Z + k - 150), stepSize: (short)(((Math.Abs(j - 150) + Math.Abs(k - 150)) / 50) + 2), height: 100, list: path22);
@@ -1314,30 +1314,30 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                 j = Random(200);
                 k = Random(200);
                 int count8 = effect.Path.Count;
-                Point3D path5 = effect.Path[count8 - 1];
+                Point3D? path5 = effect.Path[count8 - 1];
                 int count9 = effect.Path.Count;
-                Point3D path6 = effect.Path[count9 - 1];
+                Point3D? path6 = effect.Path[count9 - 1];
                 int count10 = effect.Path.Count;
-                Point3D path7 = effect.Path[count10 - 1];
+                Point3D? path7 = effect.Path[count10 - 1];
                 int count11 = effect.Path.Count;
-                Point3D path8 = effect.Path[count11 - 1];
+                Point3D? path8 = effect.Path[count11 - 1];
                 int count12 = effect.Path.Count;
-                Point3D path9 = effect.Path[count12 - 1];
+                Point3D? path9 = effect.Path[count12 - 1];
                 int count13 = effect.Path.Count;
                 Point3DList path23 = effect.Path;
                 EffectPaths.MakeArcPathXY((short)effect.Path[count13 - 1].X, (short)(path7.Y - path8.Z), (short)(path9.X + j - 100), (short)(path5.Y - path6.Z + k - 100), stepSize: (short)(((Math.Abs(j - 100) + Math.Abs(k - 100)) / 50) + 3), height: 100, list: path23);
                 effect.Path = path23;
                 effect.TargetY = effect.Path.Count;
                 int count14 = effect.Path.Count;
-                Point3D item = effect.Path[count14 - 1];
+                Point3D? item = effect.Path[count14 - 1];
                 int count15 = effect.Path.Count;
-                Point3D fPathItem = effect.Path[count15 - 1];
+                Point3D? fPathItem = effect.Path[count15 - 1];
                 int count16 = effect.Path.Count;
-                Point3D path10 = effect.Path[count16 - 1];
+                Point3D? path10 = effect.Path[count16 - 1];
                 int count17 = effect.Path.Count;
-                Point3D path11 = effect.Path[count17 - 1];
+                Point3D? path11 = effect.Path[count17 - 1];
                 int count18 = effect.Path.Count;
-                Point3D path12 = effect.Path[count18 - 1];
+                Point3D? path12 = effect.Path[count18 - 1];
                 int count19 = effect.Path.Count;
                 Point3DList path24 = effect.Path;
                 EffectPaths.MakeArcPathXY((short)effect.Path[count19 - 1].X, (short)(path11.Y - path12.Z), (short)(deltaX + 16), (short)(deltaY + 16), stepSize: (short)(((Math.Abs(item.Y - fPathItem.Z - deltaY) + Math.Abs(path10.X - deltaX)) / 50) + 4), height: 100, list: path24);
@@ -1459,7 +1459,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
 
                 HexGeometry.HexToPixel(TargetX, TargetY, out x2, out y2);
                 int count21 = effect.Path.Count;
-                Point3D path13 = effect.Path[count21 - 1];
+                Point3D? path13 = effect.Path[count21 - 1];
                 int count22 = effect.Path.Count;
                 Point3DList path30 = effect.Path;
                 EffectPaths.MakeLinePath(effect.Path[count22 - 1].X, path13.Y, x2 + 16, y2, steps: 15, list: path30);
@@ -1467,19 +1467,19 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                 Point3DList point3DList = new();
                 int random9 = Random(360);
                 int count23 = effect.Path.Count;
-                Point3D path14 = effect.Path[count23 - 1];
+                Point3D? path14 = effect.Path[count23 - 1];
                 int count24 = effect.Path.Count;
-                Point3D path15 = effect.Path[count24 - 1];
+                Point3D? path15 = effect.Path[count24 - 1];
                 int random10 = Random(2);
                 int random11 = Random(90);
                 int random12 = Random(5);
                 EffectPaths.MakeSwarmPath(Random(10) + 10, radius: random12 + 20, phase: random11, angle: random9, path14.X, path15.Y, direction: (SwarmDirection)random10, list: point3DList);
-                Point3D pathItem = point3DList[0];
+                Point3D? pathItem = point3DList[0];
                 int count25 = effect.Path.Count;
-                Point3D path16 = effect.Path[count25 - 1];
+                Point3D? path16 = effect.Path[count25 - 1];
                 int count26 = effect.Path.Count;
-                Point3D path17 = effect.Path[count26 - 1];
-                Point3D pathX2 = point3DList[0];
+                Point3D? path17 = effect.Path[count26 - 1];
+                Point3D? pathX2 = point3DList[0];
                 Point3DList path31 = effect.Path;
                 EffectPaths.MakeLinePath(path17.X, path16.Y, pathX2.X, pathItem.Y, steps: 5, list: path31);
                 effect.Path = path31;
@@ -1489,7 +1489,7 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                     for (; i <= last; i += 1)
                     {
                         // { Original shares the points, then frees Path. }
-                        Point3D path18 = point3DList[i];
+                        Point3D? path18 = point3DList[i];
                         effect.Path.Add(path18);
                     }
                 }
@@ -1661,12 +1661,12 @@ public class CombatAbilityRangedTokenEvent(CustomNode owner) : TokenEvent(owner)
                 i = 0;
                 while (i < obstacles.Count)
                 {
-                    RangedObstacle obstacle = obstacles[i];
+                    RangedObstacle? obstacle = obstacles[i];
                     if (StrategicMap.Current.Random(100) < obstacle.Chance)
                     {
-                        Point3D path = effect.Path[obstacle.PathIndex];
+                        Point3D? path = effect.Path[obstacle.PathIndex];
                         HexGeometry.PixelToHex(effect.Path[obstacle.PathIndex].X, vertical: path.Y, out j, out k);
-                        HexSprite hitObject = effect.EffectType == BattleEffectType.Breath
+                        HexSprite? hitObject = effect.EffectType == BattleEffectType.Breath
                             ? null
                             : CombatMap.Current.MapContainer.MapLevels[0].GetField(j, k).FindOwnedChild<HexSprite>(TacticalBattleUnitHexSprite.ClassId);
 

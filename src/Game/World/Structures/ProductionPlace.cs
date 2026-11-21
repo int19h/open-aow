@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from PrdPlace.pas.
 using System.Globalization;
 using Aow.Engine.Nodes;
@@ -77,7 +77,7 @@ public partial class ProductionPlace : PlayerStructure
     }
 
     // PrdPlace.pas:352
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         base.MessageProc(ref message, sender);
         if (message.MessageId == 537002242)
@@ -213,7 +213,7 @@ public partial class ProductionPlace : PlayerStructure
         }
         else
         {
-            ProductionItem queue = ProductionControl.Queue.GetItem(0);
+            ProductionItem? queue = ProductionControl.Queue.GetItem(0);
             return ProductionControl.GetProductionNameProgressive(queue);
         }
     }
@@ -237,7 +237,7 @@ public partial class ProductionPlace : PlayerStructure
                         {
                             if (AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, targetPlayer: Player, targetRace: 0))
                             {
-                                Player player = StrategicMap.Current.Players.GetPlayers(info.Player);
+                                Player? player = StrategicMap.Current.Players.GetPlayers(info.Player);
                                 data.Priority = 50 + (player.Income / 2);
                                 if (data.Priority < 25)
                                 {
@@ -500,12 +500,12 @@ public partial class ProductionPlace : PlayerStructure
                 unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(unitIndex));
                 unit.SetPlayer(Player);
                 sbyte hexY = HexY;
-                ArmyHexSprite armyHexSprite = unit.Place(HexX, hexY, L: HexLevel, Player, mode: UnitPlaceModes.ScanArea);
+                ArmyHexSprite? armyHexSprite = unit.Place(HexX, hexY, L: HexLevel, Player, mode: UnitPlaceModes.ScanArea);
                 if (armyHexSprite is not null)
                 {
                     if (unit.ExpandAbility(155))
                     {
-                        UnitEnchantment enchantment = unit.GetAbilityData<UnitEnchantmentAbilityData>(155).Enchantment;
+                        UnitEnchantment? enchantment = unit.GetAbilityData<UnitEnchantmentAbilityData>(155).Enchantment;
                         enchantment.SetUpkeep(SummonedAbility.GetDefaultManaUpkeep(unit));
                         enchantment.SetSource(Player);
                         enchantment.DispelResistance = (sbyte)SummonedAbility.GetDefaultDispelResistance(unit);

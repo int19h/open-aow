@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from CitySpells.pas.
 using Aow.Engine.Nodes;
 
@@ -24,7 +24,7 @@ namespace Aow.Game.Magic.Spells;
 public class AnimateRuins : CityTargetSpell
 {
     // CitySpells.pas:915
-    public AnimateRuins(CustomNode owner, EngineObject holder) : base(owner)
+    public AnimateRuins(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_animateRuinsText);
@@ -97,7 +97,7 @@ public class AnimateRuins : CityTargetSpell
     }
 
     // CitySpells.pas:924
-    public override bool ValidTargetCity(Troop source, City targetCity)
+    public override bool ValidTargetCity(Troop source, City? targetCity)
     {
         bool result = base.ValidTargetCity(source, targetCity);
         return result && targetCity.GetRazed();

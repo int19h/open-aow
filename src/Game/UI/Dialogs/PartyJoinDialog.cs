@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWPartyJoin.pas.
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
@@ -25,12 +25,12 @@ public sealed partial class PartyJoinDialog(UIContext ui) : UIModule(ui)
     public Memo JoinMemo { get; private set; }
     public Image FaceFrame { get; private set; }
 
-    private ExecuteDoneEvent _done;
-    private JoinEventLog _joinEvent;
+    private ExecuteDoneEvent? _done;
+    private JoinEventLog? _joinEvent;
     private bool _detailsOpen;
     private byte _selection;
     private UnitUserList _units;
-    private Troop _faceUnit;
+    private Troop? _faceUnit;
 
     // AoWPartyJoin.pas:73
     public bool ValidateJoin()
@@ -55,8 +55,8 @@ public sealed partial class PartyJoinDialog(UIContext ui) : UIModule(ui)
             UI.UnitWindow.MainWindow.Visible = false;
         }
 
-        ExecuteDoneEvent done = _done;
-        EventLog eventValue = _joinEvent;
+        ExecuteDoneEvent? done = _done;
+        EventLog? eventValue = _joinEvent;
         _done = null;
         _joinEvent = null;
         done?.Invoke(eventValue);
@@ -77,7 +77,7 @@ public sealed partial class PartyJoinDialog(UIContext ui) : UIModule(ui)
             Units.Alignment alignment = _units.GetUnit(index).GetAlignment();
             if ((int)alignment < UI.Graphics.UnitBackgrounds.Count)
             {
-                LibraryImage image = UI.Graphics.UnitBackgrounds[(int)alignment];
+                LibraryImage? image = UI.Graphics.UnitBackgrounds[(int)alignment];
                 image.ShowClipped(x - (image.Width / 2), y - (image.Height / 2), lockedSurface: surface);
             }
 
@@ -87,7 +87,7 @@ public sealed partial class PartyJoinDialog(UIContext ui) : UIModule(ui)
             _ = _units.GetUnit(index).Show(x - 33, y - 35, lockedSurface: surface, info);
             if (((_selection >>> index) & 1) == 0)
             {
-                LibraryImage image = UI.Graphics.UnitBackgrounds[7];
+                LibraryImage? image = UI.Graphics.UnitBackgrounds[7];
                 image.ShowClipped(x - (image.Width / 2), y - (image.Height / 2), lockedSurface: surface);
             }
 
@@ -194,7 +194,7 @@ public sealed partial class PartyJoinDialog(UIContext ui) : UIModule(ui)
             int count = _units.GetCount();
             if (slot < count)
             {
-                Troop troop = _units.GetUnit(slot);
+                Troop? troop = _units.GetUnit(slot);
                 UI.General.SelectedUnit = troop;
                 if (button == MouseButton.Left)
                 {

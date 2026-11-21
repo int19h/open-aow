@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
@@ -17,7 +17,7 @@ namespace Aow.Game.Magic.Abilities;
 public class PossessAbility : TouchAbility
 {
     // AoWAb.PAS:2627
-    public PossessAbility(CustomNode owner, EngineObject holder) : base(owner)
+    public PossessAbility(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         AbilityId = 106;
@@ -26,15 +26,15 @@ public class PossessAbility : TouchAbility
     }
 
     // AoWAb.PAS:2737
-    public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand command)
+    public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand? command)
     {
-        CombatObject target = command.Target;
+        CombatObject? target = command.Target;
         FastBattleValidateMoveOutsideWall(source, target);
         PossessCombatAction action = CreatePossessCombatAction(source, target);
         source.Combat.ExecuteCombatAction(action);
         if (!action.Successful)
         {
-            StrikeCombatAction strike = CombatObject.CreateStrikeCombatAction(target, target: source, defensive: true);
+            StrikeCombatAction? strike = CombatObject.CreateStrikeCombatAction(target, target: source, defensive: true);
             if (strike is not null)
             {
                 source.Combat.ExecuteCombatAction(strike);
@@ -61,7 +61,7 @@ public class PossessAbility : TouchAbility
     }
 
     // AoWAb.PAS:2686
-    public override void GetDamageValues(Troop attacker, Troop defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
+    public override void GetDamageValues(Troop attacker, Troop? defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
         if (wallSituation == WallSituation.None && CanTouchUnit(attacker, target: defender) && !defender.GetImmunityTypes().Contains(DamageTypes.NonSpecific))
         {
@@ -92,7 +92,7 @@ public class PossessAbility : TouchAbility
     }
 
     // AoWAb.PAS:2664
-    public override void GetOffensiveStrength(AbilityOwner owner, ref int strength, ref DamageTypes types)
+    public override void GetOffensiveStrength(AbilityOwner? owner, ref int strength, ref DamageTypes types)
     {
         if (owner is Troop troop)
         {
@@ -102,7 +102,7 @@ public class PossessAbility : TouchAbility
     }
 
     // AoWAb.PAS:2711
-    public override void FastBattleGetDamageValues(CombatObject attacker, CombatObject defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
+    public override void FastBattleGetDamageValues(CombatObject? attacker, CombatObject? defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
         if (wallSituation == WallSituation.None && CanTouch(attacker, target: defender) && attacker is CombatUnit attackerUnit)
         {
@@ -139,10 +139,10 @@ public class PossessAbility : TouchAbility
     public override sbyte GetTouchAttack(int level) => 5;
 
     // AoWAb.PAS:2646
-    public override bool CanTouch(CombatObject source, CombatObject target) => base.CanTouch(source, target) && source is CombatUnit && target is CombatUnit targetUnit && !target.GetAbilityEnabled(106) && targetUnit.Troop.GetUnitType() != UnitType.Machine && targetUnit.Troop is not Leader;
+    public override bool CanTouch(CombatObject? source, CombatObject? target) => base.CanTouch(source, target) && source is CombatUnit && target is CombatUnit targetUnit && !target.GetAbilityEnabled(106) && targetUnit.Troop.GetUnitType() != UnitType.Machine && targetUnit.Troop is not Leader;
 
     // AoWAb.PAS:2656
-    public override bool CanTouchUnit(Troop source, Troop target)
+    public override bool CanTouchUnit(Troop source, Troop? target)
     {
         bool result = base.CanTouchUnit(source, target);
         // { Original excludes humanoids here, but machines in CanTouch. }
@@ -150,13 +150,13 @@ public class PossessAbility : TouchAbility
     }
 
     // AoWAb.PAS:2640. Draws the random value the touch event used to draw, then builds the action.
-    public override CombatAction CreateTouchMoveCombatAction(CombatUnit source, CombatUnit target)
+    public override CombatAction CreateTouchMoveCombatAction(CombatUnit source, CombatUnit? target)
     {
         RandSeed = StrategicMap.Current.Random(16777215);
         return CreatePossessCombatAction(source, target: target);
     }
 
-    public PossessCombatAction CreatePossessCombatAction(CombatObject source, CombatObject target)
+    public PossessCombatAction CreatePossessCombatAction(CombatObject source, CombatObject? target)
     {
         PossessCombatAction result = new(null) { Holder = CreationHolder() };
         result.Initialize(successful: source is CombatUnit sourceUnit && CombatTouchRole(sourceUnit, target), sourceId: source.Id, targetId: target.Id);

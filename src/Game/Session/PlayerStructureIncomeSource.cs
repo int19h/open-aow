@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.World.Map;
@@ -6,7 +6,7 @@ using Aow.Game.World.Structures;
 
 namespace Aow.Game.Session;
 
-public sealed class PlayerStructureIncomeSource(CustomNode owner) : IncomeSource(owner)
+public sealed class PlayerStructureIncomeSource(CustomNode? owner) : IncomeSource(owner)
 {
     private PlayerStructure _structure;
 

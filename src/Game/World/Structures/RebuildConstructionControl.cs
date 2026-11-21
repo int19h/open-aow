@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
@@ -9,11 +9,11 @@ using Aow.Game.World.Map;
 namespace Aow.Game.World.Structures;
 
 // { Interface declaration run owned by P4. }
-public class RebuildConstructionControl(CustomNode owner) : ConstructionControl(owner)
+public class RebuildConstructionControl(CustomNode? owner) : ConstructionControl(owner)
 {
 
     // AoWAb.PAS:5404
-    public Structure GetStructure(Troop troop)
+    public Structure? GetStructure(Troop troop)
     {
         MapCoordinate coordinate36 = troop.GetLocation();
         sbyte x = coordinate36.X;
@@ -34,7 +34,7 @@ public class RebuildConstructionControl(CustomNode owner) : ConstructionControl(
     // AoWAb.PAS:5413
     public override void GetInfo(Troop troop, out string text, out int gold, out int days)
     {
-        Structure structure = GetStructure(troop);
+        Structure? structure = GetStructure(troop);
         if (structure is not null)
         {
             string editName = structure.EditName();

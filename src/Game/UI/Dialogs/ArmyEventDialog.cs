@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWArmyEventDlg.pas.
 using Aow.Engine.Collections;
 using Aow.Game.Combat;
@@ -25,8 +25,8 @@ public sealed partial class ArmyEventDialog(UIContext ui) : UIModule(ui)
     public Label EventTextLabel { get; private set; }
     public Image DamagePicture { get; private set; }
 
-    private ExecuteDoneEvent _close;
-    private ArmyEventLog _event;
+    private ExecuteDoneEvent? _close;
+    private ArmyEventLog? _event;
     private int _frame;
     private ByteList _units;
 
@@ -45,13 +45,13 @@ public sealed partial class ArmyEventDialog(UIContext ui) : UIModule(ui)
     public void DrawUnit(int index, int X, int Y, LockedSurface lockedSurface)
     {
         UnitShowInfo info;
-        ArmyEventLog eventValue = _event;
+        ArmyEventLog? eventValue = _event;
         byte unit = _units[index];
         if (eventValue.DamageValues[unit] != 0)
         {
             // { The original staggers animation by bits of the unit object's address. }
             byte unit2 = _units[index];
-            Troop fArmyViewUnit = eventValue.ArmyView.Units.GetUnit(unit2);
+            Troop? fArmyViewUnit = eventValue.ArmyView.Units.GetUnit(unit2);
             int frame = _frame - FrameFixtureInputs.ArmyStagger(fArmyViewUnit);
             info = default;
             info.Frame = (frame >>> 1) - 1;
@@ -66,14 +66,14 @@ public sealed partial class ArmyEventDialog(UIContext ui) : UIModule(ui)
                 {
                     byte unit5 = _units[index];
                     int unitGraphicsResourceIndex = eventValue.ArmyView.Units.GetUnit(unit5).UnitGraphicsResourceIndex;
-                    UnitGraphicsResource unitGraphicsResource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex);
+                    UnitGraphicsResource? unitGraphicsResource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex);
                     _ = unitGraphicsResource.SfxLibraries[3].Play(0);
                 }
                 else
                 {
                     byte unit5 = _units[index];
                     int unitGraphicsResourceIndex = eventValue.ArmyView.Units.GetUnit(unit5).UnitGraphicsResourceIndex;
-                    UnitGraphicsResource unitGraphicsResource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex);
+                    UnitGraphicsResource? unitGraphicsResource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex);
                     _ = unitGraphicsResource.SfxLibraries[4].Play(0);
                 }
             }
@@ -121,8 +121,8 @@ public sealed partial class ArmyEventDialog(UIContext ui) : UIModule(ui)
             }
         }
 
-        ExecuteDoneEvent notify = _close;
-        ArmyEventLog eventValue = _event;
+        ExecuteDoneEvent? notify = _close;
+        ArmyEventLog? eventValue = _event;
         _close = null;
         _event = null;
         notify?.Invoke(eventValue);

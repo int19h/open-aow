@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using System.Globalization;
 using Aow.Engine;
@@ -17,7 +17,7 @@ public class DurationAbility(CustomNode owner) : AdjustableAbility(owner)
     public DurationMode DurationMode { get; protected init; }
 
     // AoWAb.PAS:96
-    public override string GetName(AbilityOwner owner)
+    public override string GetName(AbilityOwner? owner)
     {
         string result = "";
         if (owner is not null)
@@ -92,7 +92,7 @@ public class DurationAbility(CustomNode owner) : AdjustableAbility(owner)
     }
 
     // AoWAb.PAS:131
-    public override bool Expand(AbilityOwner owner)
+    public override bool Expand(AbilityOwner? owner)
     {
         bool result = false;
         DurationAbilityData data = GetData(owner);
@@ -173,11 +173,11 @@ public class DurationAbility(CustomNode owner) : AdjustableAbility(owner)
     // AoWAb.PAS:30
     public override EngineClass AbilityDataClass() => EngineClass.Of<DurationAbilityData>();
 
-    public DurationAbilityData GetData(AbilityOwner owner) => owner.GetAbilityData<DurationAbilityData>(AbilityId);
+    public DurationAbilityData GetData(AbilityOwner? owner) => owner.GetAbilityData<DurationAbilityData>(AbilityId);
 
-    public override bool Remove(AbilityOwner owner)
+    public override bool Remove(AbilityOwner? owner)
     {
-        AbilityData data = owner.GetAbilityData(AbilityId);
+        AbilityData? data = owner.GetAbilityData(AbilityId);
         SetAbility(owner, index: AbilityId, value: 0);
         if (data is null)
         {

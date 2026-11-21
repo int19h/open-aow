@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from CitySpells.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.AI;
@@ -13,7 +13,7 @@ using Aow.Game.World.Structures;
 namespace Aow.Game.Magic.Spells;
 
 // enchantment ID, enchantment setting, AI priority, AI budget, AI cast situations
-public class CityEnchantmentSpell(CustomNode owner) : CityTargetSpell(owner)
+public class CityEnchantmentSpell(CustomNode? owner) : CityTargetSpell(owner)
 {
 
     public CityEnchantmentId EnchantmentId { get; protected init; }
@@ -112,7 +112,7 @@ public class CityEnchantmentSpell(CustomNode owner) : CityTargetSpell(owner)
     }
 
     // CitySpells.pas:570
-    public override bool ValidTargetCity(Troop source, City targetCity) => base.ValidTargetCity(source, targetCity) && !targetCity.Enchantments.Contains(EnchantmentId.ToFlag());
+    public override bool ValidTargetCity(Troop source, City? targetCity) => base.ValidTargetCity(source, targetCity) && !targetCity.Enchantments.Contains(EnchantmentId.ToFlag());
 
     // CitySpells.pas:560
     public override CityTargetSpellTokenEvent CreateTokenEvent() => new CityEnchantmentSpellTokenEvent(null) { Holder = CreationHolder() };

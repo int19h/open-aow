@@ -1,11 +1,11 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Engine.pas.
 using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Engine.Nodes;
 
 // resources with unique ids
-public class ResourceCollection(CustomNode owner) : EngineNode(owner), IChildList<EngineResource>
+public class ResourceCollection(CustomNode? owner) : EngineNode(owner), IChildList<EngineResource>
 {
     public new const int ClassId = 1_025;
 
@@ -30,7 +30,7 @@ public class ResourceCollection(CustomNode owner) : EngineNode(owner), IChildLis
     }
 
     // Engine.pas:8582
-    public EngineResource FindResource(int id)
+    public EngineResource? FindResource(int id)
     {
         bool found = false;
         int i = 0;

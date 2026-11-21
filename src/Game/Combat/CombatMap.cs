@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas and AoWTC.pas.
 using System.Globalization;
 using Aow.Engine;
@@ -42,7 +42,7 @@ public class CombatMap : GameMap
     public new const int ClassId = 2_228_480;
 
     public TacticalBattlePlayerList Players { get; }
-    public TacticalBattle Combat { get; private set; }
+    public TacticalBattle? Combat { get; private set; }
     public UnitPositionControl UnitPositions { get; }
     public sbyte SeatedCombatPlayer { get; private set; }
     public sbyte CurrentCombatPlayer { get; private set; }
@@ -90,9 +90,9 @@ public class CombatMap : GameMap
         remove => DeselectEventsStore.Remove(value);
     }
 
-    public MapObject CenterViewLocation { get; set; }
+    public MapObject? CenterViewLocation { get; set; }
 
-    internal EventStore<HexSprite> MouseOverTargetEventsStore { get; }
+    internal EventStore<HexSprite?> MouseOverTargetEventsStore { get; }
 
     public event NotifyEvent<HexSprite> MouseOverTarget
     {
@@ -102,7 +102,7 @@ public class CombatMap : GameMap
 
     // CMapCtrl
 
-    internal EventStore<TacticalBattleUnitHexSprite> UnitChangedEventsStore { get; }
+    internal EventStore<TacticalBattleUnitHexSprite?> UnitChangedEventsStore { get; }
 
     public event NotifyEvent<TacticalBattleUnitHexSprite> UnitChanged
     {
@@ -160,7 +160,7 @@ public class CombatMap : GameMap
     private protected sealed override void InitializeBeforeInherited() => Current = this;
 
     // AoWHSMap.PAS:907, then AoWTC.pas:2186.
-    public CombatMap(CustomNode owner) : base(owner)
+    public CombatMap(CustomNode? owner) : base(owner)
     {
         CombatStartedEventsStore = new();
         AbilityActivatedEventsStore = new();
@@ -191,12 +191,12 @@ public class CombatMap : GameMap
     }
 
     // AoWTC.pas:2249
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         if (message.MessageId == 536870920 && !Status.Contains(HexSpriteMapStatuses.Editting))
         {
             // A combat map runs a tactical battle, so the current combat is that battle.
-            SetCombat((TacticalBattle)StrategicMap.Current.Combat);
+            SetCombat((TacticalBattle?)StrategicMap.Current.Combat);
         }
 
         base.MessageProc(ref message, sender);
@@ -319,7 +319,7 @@ public class CombatMap : GameMap
     }
 
     // AoWTC.pas:2515
-    public override void DropHeroItem(Hero hero, Item item)
+    public override void DropHeroItem(Hero hero, Item? item)
     {
         sbyte x = -1;
         sbyte y = -1;
@@ -356,7 +356,7 @@ public class CombatMap : GameMap
     }
 
     // AoWTC.pas:2544
-    public override ItemList GetHeroItemsOnGround(Hero hero)
+    public override ItemList? GetHeroItemsOnGround(Hero hero)
     {
         sbyte y = default;
         sbyte l = default;
@@ -374,7 +374,7 @@ public class CombatMap : GameMap
     }
 
     // AoWTC.pas:2243
-    public void SetCombat(TacticalBattle combat)
+    public void SetCombat(TacticalBattle? combat)
     {
         Combat = combat;
         if (Combat is not null)
@@ -437,7 +437,7 @@ public class CombatMap : GameMap
         else
         {
             TacticalBattlePlayer playerLocal = Players.GetPlayers(CurrentCombatPlayer);
-            Player playerPlayerRace = StrategicMap.Current.Players.GetPlayers(playerLocal.Player);
+            Player? playerPlayerRace = StrategicMap.Current.Players.GetPlayers(playerLocal.Player);
             string raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.RaceNamesPluralTexts[playerPlayerRace.PlayerRace]);
             string beginRound = AbilityRules.TranslateResourceString(GetEngine(), S: s_beginRoundText);
             ShowMessage($"{raceNamesPlural} {beginRound}");
@@ -452,7 +452,7 @@ public class CombatMap : GameMap
                 SetSeatedCombatPlayer(CurrentCombatPlayer);
                 if (Players.GetPlayers(CurrentCombatPlayer).LastX == 0)
                 {
-                    TacticalBattleUnit u = GetNextUnit(null, allUnits: true, forward: true);
+                    TacticalBattleUnit? u = GetNextUnit(null, allUnits: true, forward: true);
                     if (u is not null)
                     {
                         sbyte hexX = u.UnitHexSprite.HexX;
@@ -515,7 +515,7 @@ public class CombatMap : GameMap
 
         if (StrategicMap.Current.TokenManager.PlayerReady(CurrentPlayer))
         {
-            TacticalBattleEndTurnTokenEvent tokenEvent = CreateTacticalBattleEndTurnTokenEvent(CurrentPlayer);
+            TacticalBattleEndTurnTokenEvent? tokenEvent = CreateTacticalBattleEndTurnTokenEvent(CurrentPlayer);
             if (tokenEvent is not null)
             {
                 StrategicMap.Current.TokenManager.GetTokenControl(CurrentPlayer).AddEvent(tokenEvent);
@@ -547,14 +547,14 @@ public class CombatMap : GameMap
     }
 
     // AoWTC.pas:2381
-    public TacticalBattleUnit GetNextUnit(TacticalBattleUnit U, bool allUnits, bool forward)
+    public TacticalBattleUnit? GetNextUnit(TacticalBattleUnit? U, bool allUnits, bool forward)
     {
         if (U is not null && !U.GetEnabled())
         {
             U = null;
         }
 
-        TacticalBattleUnit result = U;
+        TacticalBattleUnit? result = U;
         int step = forward ? 1 : -1;
 
         int index = 0;
@@ -660,7 +660,7 @@ public class CombatMap : GameMap
     {
         if (SeatedCombatPlayer == CurrentCombatPlayer)
         {
-            TacticalBattleUnit u = GetNextUnit(Players.GetPlayers(SeatedCombatPlayer).LastUnit, allUnits: false, forward);
+            TacticalBattleUnit? u = GetNextUnit(Players.GetPlayers(SeatedCombatPlayer).LastUnit, allUnits: false, forward);
             if (u is not null)
             {
                 if (UnitSelection.TacticalBattleUnitHexSprite != u.UnitHexSprite)
@@ -723,14 +723,14 @@ public class CombatMap : GameMap
 
     private TacticalBattleEndCombatTokenEvent CreateTacticalBattleEndCombatTokenEvent() => new(null) { Holder = CreationHolder() };
 
-    private TacticalBattleEndTurnTokenEvent CreateTacticalBattleEndTurnTokenEvent(sbyte player)
+    private TacticalBattleEndTurnTokenEvent? CreateTacticalBattleEndTurnTokenEvent(sbyte player)
     {
         return player != -1 && StrategicMap.Current.TokenManager.PlayerReady(player)
             ? new TacticalBattleEndTurnTokenEvent(null) { Holder = CreationHolder() }
             : null;
     }
 
-    internal static void PlaceOverviewUnit(CombatMap map, Troop unit, int position, int index)
+    internal static void PlaceOverviewUnit(CombatMap map, Troop? unit, int position, int index)
     {
         int x = default;
         int y = default;
@@ -756,5 +756,5 @@ public class CombatMap : GameMap
         }
     }
 
-    internal static CombatMap Current { get; set; }
+    internal static CombatMap? Current { get; set; }
 }

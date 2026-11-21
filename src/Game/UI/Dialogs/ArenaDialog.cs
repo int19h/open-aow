@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWArenaDlg.pas.
 using System.Globalization;
 using Aow.Game.Draw;
@@ -30,8 +30,8 @@ public sealed partial class ArenaDialog(UIContext ui) : UIModule(ui)
     public Label SelectionInfoLabel { get; private set; }
     public UserDrawBox MapView { get; private set; }
 
-    private EnterArenaEventLog _event;
-    private ExecuteDoneEvent _close;
+    private EnterArenaEventLog? _event;
+    private ExecuteDoneEvent? _close;
 
     // AoWArenaDlg.pas:104
     public void DrawUnit(int index, int X, int Y, ref LockedSurface lockedSurface)
@@ -39,12 +39,12 @@ public sealed partial class ArenaDialog(UIContext ui) : UIModule(ui)
         UnitShowInfo info;
         if (index < _event.GetCount())
         {
-            Troop u = _event[index];
+            Troop? u = _event[index];
             Rect saveRectangle = lockedSurface.ClipRectangle;
             Rect rectangle = new(X + 5, Y + 4, X + 46, Y + 56);
             lockedSurface.ClipRectangle = rectangle;
             Units.Alignment alignment = u.GetAlignment();
-            LibraryImage image;
+            LibraryImage? image;
             if ((byte)alignment < UI.Graphics.UnitBackgrounds.Count)
             {
                 image = UI.Graphics.UnitBackgrounds[(int)alignment];
@@ -75,8 +75,8 @@ public sealed partial class ArenaDialog(UIContext ui) : UIModule(ui)
     public void ClearEvent()
     {
         UI.General.Manager.OverlayPriority = 0;
-        ExecuteDoneEvent notify = _close;
-        EnterArenaEventLog eventValue = _event;
+        ExecuteDoneEvent? notify = _close;
+        EnterArenaEventLog? eventValue = _event;
         _close = null;
         _event = null;
         notify?.Invoke(eventValue);

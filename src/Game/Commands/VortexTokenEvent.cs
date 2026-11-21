@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from GlobalTargetSpells.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -17,7 +17,7 @@ using static Aow.Rtl.DelphiRounding;
 namespace Aow.Game.Commands;
 
 // angle, animation, selected army identity
-public class VortexTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
+public class VortexTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenEvent(owner)
 {
 
     // GlobalTargetSpells.pas:1905
@@ -26,7 +26,7 @@ public class VortexTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(ow
     private int _angle;
     private Animation _animation;
 
-    public ArmyId ArmyId { get; set; }
+    public ArmyId? ArmyId { get; set; }
 
     // GlobalTargetSpells.pas:1899
     public override void Dispose()
@@ -48,7 +48,7 @@ public class VortexTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(ow
         if (value == 0)
         {
             _angle = 0;
-            Spell spell = GamePack.Current.SpellControl[EventSpellId];
+            Spell? spell = GamePack.Current.SpellControl[EventSpellId];
             GamePack.Current.SpellControl[EventSpellId].CastingDone(source, mana: spell.BaseManaCost);
             _ = StrategicMap.Current.ValidateObservation(source.Player, Location.X, Location.Y, Location.MapLevel, radius: 2);
             if (source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(Location.X, Location.Y, L: Location.MapLevel, radius: 2))
@@ -67,7 +67,7 @@ public class VortexTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(ow
         if (value == 80)
         {
             byte selection = default;
-            ArmyHexSprite army = default;
+            ArmyHexSprite? army = default;
             if (ArmyId is not null && ArmyId.RetrieveArmy(ref army, ref selection))
             {
                 ArmyEventLog log = new(null)
@@ -85,7 +85,7 @@ public class VortexTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(ow
                     bool damaged = false;
                     for (int i = 0, last = army.Army.Units.Count - 1; i <= last; i++)
                     {
-                        Troop troopObject = army.Army.Units.GetUnit(i);
+                        Troop? troopObject = army.Army.Units.GetUnit(i);
                         int damage;
                         if (!troopObject.GetMoveTypes().Contains(MoveTypes.Flying))
                         {

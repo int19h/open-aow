@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using System.Globalization;
 using Aow.Engine.Collections;
@@ -25,10 +25,10 @@ using static Aow.Rtl.DelphiStrings;
 namespace Aow.Game.Session;
 
 // exit callback, exit mode, password, disconnected-player list, sync warning shown
-public class PlayerControl(CustomNode owner) : EngineObject(owner)
+public class PlayerControl(CustomNode? owner) : EngineObject(owner)
 {
 
-    private ExitGameCallBack _exitCallback;
+    private ExitGameCallBack? _exitCallback;
     private ExitGameMode _exitMode;
     private string _password = "";
     private readonly DoubleItemList _disconnectedPlayers = new();
@@ -142,14 +142,14 @@ public class PlayerControl(CustomNode owner) : EngineObject(owner)
     {
         if (StrategicMap.Current.Day != 1)
         {
-            Player players = StrategicMap.Current.Players.GetPlayers(player);
-            Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(player);
+            Player? players = StrategicMap.Current.Players.GetPlayers(player);
+            Player? fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(player);
             int upkeep = StrategicMap.Current.Players.GetPlayers(player).GetUpkeep();
             StrategicMap.Current.Players.GetPlayers(player).SetGems(players.Gems + fPlayersPlayers.Income - upkeep);
             if (StrategicMap.Current.Players.GetPlayers(player).Gems < 0)
             {
                 StrategicMap.Current.Players.GetPlayers(player).SetGems(0);
-                Player players2 = StrategicMap.Current.Players.GetPlayers(player);
+                Player? players2 = StrategicMap.Current.Players.GetPlayers(player);
                 players2.MoraleValue = (sbyte)(players2.MoraleValue - 5);
                 if (StrategicMap.Current.Players.GetPlayers(player).MoraleValue < -50)
                 {
@@ -164,7 +164,7 @@ public class PlayerControl(CustomNode owner) : EngineObject(owner)
             StrategicMap.Current.Players.GetPlayers(player).SetEndTurn(false);
         }
 
-        Player players3 = StrategicMap.Current.Players.GetPlayers(player);
+        Player? players3 = StrategicMap.Current.Players.GetPlayers(player);
         players3.Day += 1;
         StrategicMap.Current.LockUpdateVisibility();
         EngineMessage.InitializeMessage(out EngineMessage message, messageId: 537001986, sender: this);
@@ -361,7 +361,7 @@ public class PlayerControl(CustomNode owner) : EngineObject(owner)
     public virtual void GameOverEventHandled(sbyte player) => StrategicMap.Current.Players.GetPlayers(player).Status = PlayerStatus.Terminated;
 
     // PlayerC.PAS:388
-    public virtual void ExitGame(ExitGameMode mode, ExitGameCallBack done)
+    public virtual void ExitGame(ExitGameMode mode, ExitGameCallBack? done)
     {
         if (StrategicMap.Current.Combat is null)
         {
@@ -471,7 +471,7 @@ public class PlayerControl(CustomNode owner) : EngineObject(owner)
         StrategicMap.Current.LockRelationsChanged();
         if (player == StrategicMap.Current.SeatedPlayer)
         {
-            Player p = StrategicMap.Current.Players.GetPlayers(player);
+            Player? p = StrategicMap.Current.Players.GetPlayers(player);
             p.SetEndTurn(true);
             if (p is not null)
             {
@@ -570,7 +570,7 @@ public class PlayerControl(CustomNode owner) : EngineObject(owner)
     // PlayerC.PAS:295
     public void ListPlayerInfo(DelphiStringCollection strings)
     {
-        PlayerCommunicationControl playerCommunicationControl = StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl;
+        PlayerCommunicationControl? playerCommunicationControl = StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl;
         for (int i = 0, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {
             string text = $"Player {i.ToString(CultureInfo.InvariantCulture)}";
@@ -640,7 +640,7 @@ public class PlayerControl(CustomNode owner) : EngineObject(owner)
             }
             else
             {
-                GameEngine engine = GetEngine();
+                GameEngine? engine = GetEngine();
                 // The save writes the own sibling of an original's name, which stays untouched
                 // (own-formats.md 4.2).
                 if (engine.Campaign is not null)

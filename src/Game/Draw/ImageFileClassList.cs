@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from GFXE.pas.
 using Aow.Rtl;
 using static Aow.Rtl.DelphiStrings;
@@ -10,10 +10,10 @@ namespace Aow.Game.Draw;
 public sealed class ImageFileClassList : DelphiList<ImageFileClass>
 {
     // GFXE.pas:941
-    internal ImageFileClass GetClasses(int index) => this[index];
+    internal ImageFileClass? GetClasses(int index) => this[index];
 
     // GFXE.pas:949
-    public ImageFileClass FindClass(string ext)
+    public ImageFileClass? FindClass(string ext)
     {
         int i = 0;
         if (!IsEmpty(ext) && ext[0] == 46)

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWVideoDlg.pas.
 using Aow.Engine;
 using Aow.Engine.Collections;
@@ -59,7 +59,7 @@ public sealed class WorldMapCampaignScenario : CampaignScenario
     }
 
     // AoWVideoDlg.pas:278
-    public WorldMapCampaignScenario(CustomNode owner) : base(owner)
+    public WorldMapCampaignScenario(CustomNode? owner) : base(owner)
     {
         IntroPages = new WMCampaignScenarioPageList(null) { Holder = CreationHolder() };
         OutroPages = new WMCampaignScenarioPageList(null) { Holder = CreationHolder() };

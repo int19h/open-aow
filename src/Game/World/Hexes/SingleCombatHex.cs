@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from SingleCombatHex.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Draw;
@@ -20,12 +20,12 @@ public class SingleCombatHex(CustomNode owner) : AbstractHexagon(owner)
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int x, out int y);
         x = x - pixelXSurface - 8;
         y -= pixelYSurface;
-        ImageSequence sequence = base.Resource.ImageSequenceList.GetImageSequence(0);
+        ImageSequence? sequence = base.Resource.ImageSequenceList.GetImageSequence(0);
         sequence.ImageLibrary.Get(sequence.ImageIndex).Show(x, y, lockedSurface);
     }
 
     // SingleCombatHex.pas:44
-    public override MapObjectResourceList GetResourceList(GameEngine engine) => GamePack.Current.CombatResources;
+    public override MapObjectResourceList GetResourceList(GameEngine? engine) => GamePack.Current.CombatResources;
 
     public new class Resource(CustomNode owner) : AbstractHexagonResource(owner)
     {
@@ -50,7 +50,7 @@ public class SingleCombatHex(CustomNode owner) : AbstractHexagon(owner)
         public override void SetLevel(byte value) => base.SetLevel(0);
 
         // SingleCombatHex.pas:70
-        public override HexControl HexControl => null;
+        public override HexControl? HexControl => null;
 
         // SingleCombatHex.pas:62
         public override string ResourceEditName() => "Combat Single Hexagon";

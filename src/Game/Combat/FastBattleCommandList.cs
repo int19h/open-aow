@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Rtl;
 
@@ -43,7 +43,7 @@ public sealed class FastBattleCommandList : IDisposable
     }
 
     // AIGroup.pas:6742
-    public FastBattleCommand this[int index] => _commands.List[index];
+    public FastBattleCommand? this[int index] => _commands.List[index];
 
     // AIGroup.pas:6747
     public int GetCount() => _commands.Count;
@@ -61,5 +61,5 @@ public sealed class FastBattleCommandList : IDisposable
     // AIGroup.pas:6768
     public void Sort() => _commands.Sort(CompareFastBattleCommands);
 
-    private static int CompareFastBattleCommands(FastBattleCommand item1, FastBattleCommand item2) => item2.ExpectedDamageValue - item1.ExpectedDamageValue;
+    private static int CompareFastBattleCommands(FastBattleCommand? item1, FastBattleCommand? item2) => item2.ExpectedDamageValue - item1.ExpectedDamageValue;
 }

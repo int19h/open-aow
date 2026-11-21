@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AOWMenuBar.pas.
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
@@ -16,7 +16,7 @@ namespace Aow.Game.UI.Controls;
 // a click on the item last selected then does nothing)
 public sealed partial class MenuBar : Control
 {
-    private InterfaceImageLibrary _imageLibraryButton;
+    private InterfaceImageLibrary? _imageLibraryButton;
     private int _lastSelected;
     private int _imageLibraryIndexUp;
     private int _imageLibraryIndexDown;
@@ -75,13 +75,13 @@ public sealed partial class MenuBar : Control
     // { The bar is at least as wide as one up and one down button per item }
     public override void SetSize()
     {
-        LibraryImage imageLibraryButtonWidth = _imageLibraryButton[_imageLibraryIndexUp];
-        LibraryImage imageLibraryButton = _imageLibraryButton[_imageLibraryIndexUp + 2];
+        LibraryImage? imageLibraryButtonWidth = _imageLibraryButton[_imageLibraryIndexUp];
+        LibraryImage? imageLibraryButton = _imageLibraryButton[_imageLibraryIndexUp + 2];
         int count = Items.Count;
         if ((imageLibraryButtonWidth.Width + imageLibraryButton.Width) * count > WinWidth)
         {
-            LibraryImage imageLibraryButton2 = _imageLibraryButton[_imageLibraryIndexUp];
-            LibraryImage imageLibraryButton3 = _imageLibraryButton[_imageLibraryIndexUp + 2];
+            LibraryImage? imageLibraryButton2 = _imageLibraryButton[_imageLibraryIndexUp];
+            LibraryImage? imageLibraryButton3 = _imageLibraryButton[_imageLibraryIndexUp + 2];
             int fItemsCount = Items.Count;
             SetWinWidthWithoutInvalidate((imageLibraryButton2.Width + imageLibraryButton3.Width) * fItemsCount);
         }
@@ -246,7 +246,7 @@ public sealed partial class MenuBar : Control
     public override void CheckKeyPress(ref byte key) => Handled = false;
 
     // AOWMenuBar.pas:89
-    public void SetImageLibraryButton(InterfaceImageLibrary value)
+    public void SetImageLibraryButton(InterfaceImageLibrary? value)
     {
         if (value != _imageLibraryButton)
         {
@@ -293,7 +293,7 @@ public sealed partial class MenuBar : Control
     public int Selected { get; set; }
 
     [Published]
-    public InterfaceImageLibrary ImageLibraryButton { get => _imageLibraryButton; set => SetImageLibraryButton(value); }
+    public InterfaceImageLibrary? ImageLibraryButton { get => _imageLibraryButton; set => SetImageLibraryButton(value); }
 
     [Published]
     public int ImageLibraryIndexDown { get => _imageLibraryIndexDown; set => SetILDIndex(value); }

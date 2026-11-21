@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWNewTurnDialog.pas.
 using System.Globalization;
 using Aow.Game.Combat;
@@ -25,8 +25,8 @@ public sealed partial class NewTurnDialog(UIContext ui) : UIModule(ui)
     public Label TurnLabel { get; private set; }
     public Image RightShield { get; private set; }
 
-    private ExecuteDoneEvent _done;
-    private NewTurnEventLog _newTurn;
+    private ExecuteDoneEvent? _done;
+    private NewTurnEventLog? _newTurn;
 
     // AoWNewTurnDialog.pas:50
     public void FinishDialog()
@@ -41,8 +41,8 @@ public sealed partial class NewTurnDialog(UIContext ui) : UIModule(ui)
             }
         }
 
-        ExecuteDoneEvent done = _done;
-        NewTurnEventLog eventValue = _newTurn;
+        ExecuteDoneEvent? done = _done;
+        NewTurnEventLog? eventValue = _newTurn;
         _done = null;
         _newTurn = null;
         done?.Invoke(eventValue);
@@ -67,7 +67,7 @@ public sealed partial class NewTurnDialog(UIContext ui) : UIModule(ui)
                 PlayerNameLabel.Text = name;
                 if (eventValue.TurnPlayer != 0)
                 {
-                    Player player = StrategicMap.Current.Players.GetPlayers(eventValue.TurnPlayer);
+                    Player? player = StrategicMap.Current.Players.GetPlayers(eventValue.TurnPlayer);
                     string raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[player.PlayerRace]);
                     PlayerRaceLabel.Text = raceNamesPlural;
                 }

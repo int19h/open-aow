@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Engine.pas.
 using Aow.Formats.Tree;
 using Aow.Game;
@@ -15,19 +15,19 @@ public class EngineNode : OwningNode
     public new const int ClassId = 259;
 
     // Engine.pas:8250
-    public EngineNode(CustomNode owner) : this(null, owner) { }
+    public EngineNode(CustomNode? owner) : this(null, owner) { }
 
-    private protected EngineNode(ConstructionContext context, CustomNode owner) : base(context, owner)
+    private protected EngineNode(ConstructionContext? context, CustomNode? owner) : base(context, owner)
     {
         SetOwnerWithoutNotify(owner);
         _controlStyle = base.GetControlStyle();
     }
 
-    private GameEngine _engine;
+    private GameEngine? _engine;
     private ControlStyles _controlStyle;
 
     // Engine.pas:8262. Before the activation message the node reaches the engine as any node does.
-    public override GameEngine GetEngine() => _engine ?? base.GetEngine();
+    public override GameEngine? GetEngine() => _engine ?? base.GetEngine();
 
     // Engine.pas:8267
     public void SetEngine(GameEngine engine) => _engine = engine;
@@ -46,7 +46,7 @@ public class EngineNode : OwningNode
     }
 
     // Engine.pas:8288
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         if (message.MessageId == 536870920)
         {

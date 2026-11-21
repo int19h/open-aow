@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from GlobalSpells.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
@@ -13,7 +13,7 @@ using static Aow.Rtl.DelphiRounding;
 namespace Aow.Game.Commands;
 
 // dispel chance, enchantment ID
-public class DisjunctionTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
+public class DisjunctionTokenEvent(CustomNode? owner) : SpellTokenEvent(owner)
 {
 
     // GlobalSpells.pas:745
@@ -63,7 +63,7 @@ public class DisjunctionTokenEvent(CustomNode owner) : SpellTokenEvent(owner)
         _ = StrategicMap.Current.PlaceHex(twinkle, x, y, L: layer);
         _ = GamePack.Current.SpellControl[EventSpellId].CastSounds.Play(0);
         int mana = Round((double)(enchantment.DispelMana * 0.02) * DispelChance);
-        Player player = StrategicMap.Current.Players.GetPlayers(source.Player);
+        Player? player = StrategicMap.Current.Players.GetPlayers(source.Player);
         StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.SetMana(player.MagicControl.Mana - mana);
         if (StrategicMap.Current.Random(100) < DispelChance)
         {

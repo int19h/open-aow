@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from HSEngine.pas.
 using System.Runtime.InteropServices;
 using Aow.Engine;
@@ -26,7 +26,7 @@ namespace Aow.Game;
 // compressed). the event lists are told when a map or a set is loaded or closed
 public partial class GameEngine : OwningNode
 {
-    private GameMap _hexSpriteMap;
+    private GameMap? _hexSpriteMap;
 
     internal EventStore<GameMap> OnHsmLoadedStore { get; set; }
 
@@ -65,9 +65,9 @@ public partial class GameEngine : OwningNode
     // file leaves the current game and the file as they were (own-formats.md 2.7 and 4.1). The map
     // loads through the tree of the validated document, with the editor's error handler when it
     // loads for editing (persistence-tree.md 7).
-    public virtual void LoadHsm(string fileName, bool edit, ProgressEvent progress, GameProfile profile)
+    public virtual void LoadHsm(string fileName, bool edit, ProgressEvent? progress, GameProfile profile)
     {
-        GameFileTree tree = FileBoundary.Open(fileName, profile: profile);
+        GameFileTree? tree = FileBoundary.Open(fileName, profile: profile);
         if (tree == null)
         {
             return;
@@ -114,7 +114,7 @@ public partial class GameEngine : OwningNode
     // TAoWHSMap.ReadWrite assigns OnStreamError as the stream's error handler when the map loads
     // for editing. The tree load takes it as the load's handler (persistence-tree.md 7). Another
     // load has none, so a failed nested object is dropped and the load goes on.
-    private static LoadErrorHandler EditorErrorHandler(GameMap map)
+    private static LoadErrorHandler? EditorErrorHandler(GameMap map)
     {
         return map is not StrategicMap strategicMap || !strategicMap.Status.Contains(HexSpriteMapStatuses.Editting)
             ? null
@@ -127,11 +127,11 @@ public partial class GameEngine : OwningNode
     }
 
     // HSEngine.pas:5137
-    public virtual GameMap CreatePreviewHsm(string fileName, GameProfile profile)
+    public virtual GameMap? CreatePreviewHsm(string fileName, GameProfile profile)
     {
-        GameMap result = null;
+        GameMap? result = null;
         string fullName = ExpandFileName(fileName);
-        GameFileTree tree = FileBoundary.Open(fullName, profile: profile, operation: "preview");
+        GameFileTree? tree = FileBoundary.Open(fullName, profile: profile, operation: "preview");
         if (tree == null)
         {
             return null;
@@ -169,7 +169,7 @@ public partial class GameEngine : OwningNode
     // The tree of the map goes to the file boundary, which writes the document, so a failed
     // conversion or write keeps the old file (own-formats.md 4.2). The header's class is the
     // stored class of the map.
-    public virtual void SaveHsm(string fileName, ProgressEvent progress, GameProfile profile)
+    public virtual void SaveHsm(string fileName, ProgressEvent? progress, GameProfile profile)
     {
         if (_hexSpriteMap is not null)
         {
@@ -242,7 +242,7 @@ public partial class GameEngine : OwningNode
     // The preflight raises before the current set is cleared (own-formats.md 2.7). It checked the
     // header and the CRC of an original, so the set loads through the tree of the validated
     // document.
-    public void LoadHss(string fileName, bool edit, ProgressEvent progress, GameProfile profile)
+    public void LoadHss(string fileName, bool edit, ProgressEvent? progress, GameProfile profile)
     {
         GameFileTree tree = FileBoundary.OpenOrRaise(ExpandFileName(fileName), profile: profile);
         HexSpriteSet.Clear();
@@ -266,7 +266,7 @@ public partial class GameEngine : OwningNode
     // HSEngine.pas:5060
     // The header names the set as the original header does, a short string of at most 40
     // characters. The file boundary writes the header and the tree of the set.
-    public void SaveHss(string fileName, ProgressEvent progress, GameProfile profile)
+    public void SaveHss(string fileName, ProgressEvent? progress, GameProfile profile)
     {
         HssHeader header = default;
         if (HexSpriteSet is not null)
@@ -288,7 +288,7 @@ public partial class GameEngine : OwningNode
     // HSEngine.pas:5100
     public void LoadPreviewHsm(string fileName, GameProfile profile)
     {
-        GameFileTree tree = FileBoundary.Open(fileName, profile: profile, operation: "preview");
+        GameFileTree? tree = FileBoundary.Open(fileName, profile: profile, operation: "preview");
         if (tree == null)
         {
             return;
@@ -325,11 +325,11 @@ public partial class GameEngine : OwningNode
     }
 
     // HSEngine.pas:5171
-    public GameMap LoadHsmMap(string fileName, bool edit, ProgressEvent progress, GameProfile profile)
+    public GameMap? LoadHsmMap(string fileName, bool edit, ProgressEvent? progress, GameProfile profile)
     {
-        GameMap result = null;
+        GameMap? result = null;
         string fullName = ExpandFileName(fileName);
-        GameFileTree tree = FileBoundary.Open(fullName, profile: profile);
+        GameFileTree? tree = FileBoundary.Open(fullName, profile: profile);
         if (tree == null)
         {
             return null;
@@ -369,7 +369,7 @@ public partial class GameEngine : OwningNode
     }
 
     // The file stores the map. A file that stores another map class throws, the same way the call site did.
-    public T LoadHsmMap<T>(string fileName, bool edit, ProgressEvent progress, GameProfile profile)
+    public T LoadHsmMap<T>(string fileName, bool edit, ProgressEvent? progress, GameProfile profile)
         where T : GameMap
         => (T)LoadHsmMap(fileName, edit: edit, progress: progress, profile: profile);
 
@@ -377,7 +377,7 @@ public partial class GameEngine : OwningNode
     // The stream holds an original map file (a campaign's map, a map a network host sent) or the
     // map's own document. An image inflates and the original backend reads its root. A document
     // is read through the document backend, which keeps port-only state. A network map is an image.
-    public void LoadHsmFromStream(Stream stream, bool edit, ProgressEvent progress)
+    public void LoadHsmFromStream(Stream stream, bool edit, ProgressEvent? progress)
     {
         if (_hexSpriteMap is not null)
         {
@@ -432,7 +432,7 @@ public partial class GameEngine : OwningNode
     // A map the original image can carry is written and compressed as before. A map it cannot
     // carry is stored as that map's own document, uncompressed, so the campaign document nests
     // the map and keeps the port-only members.
-    public void SaveHsmToStream(Stream stream, ProgressEvent progress)
+    public void SaveHsmToStream(Stream stream, ProgressEvent? progress)
     {
         if (_hexSpriteMap is null)
         {
@@ -486,7 +486,7 @@ public partial class GameEngine : OwningNode
     // HSEngine.pas:5341
     // Every caller derives the name (RELEASE.HSS, the set a map names), so the own sibling opens
     // first (own-formats.md 2.9).
-    public void InitializeHexSpriteSet(string fileName, ProgressEvent progress)
+    public void InitializeHexSpriteSet(string fileName, ProgressEvent? progress)
     {
         fileName = FileBoundary.ReadName(fileName);
         if (HexSpriteSet is null || CompareText(fileName, HssFileName) != 0)
@@ -518,9 +518,9 @@ public partial class GameEngine : OwningNode
 
     public HexSpriteEngineStatuses Status { get; private set; }
     public GamePack HexSpriteSet { get; private set; }
-    public GameMap HexSpriteMap { get => _hexSpriteMap; set => SetHexSpriteMap(value); }
+    public GameMap? HexSpriteMap { get => _hexSpriteMap; set => SetHexSpriteMap(value); }
 
-    internal void SetHexSpriteMapWithoutCurrentMap(GameMap value) => _hexSpriteMap = value;
+    internal void SetHexSpriteMapWithoutCurrentMap(GameMap? value) => _hexSpriteMap = value;
 
     public string HexSpriteSetSearchPath { get; } = "";
     public string HssFileName { get; private set; } = "";

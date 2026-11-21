@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
@@ -24,7 +24,7 @@ public class UnitResource : TroopResource
     public new const int ClassId = 131_602;
 
     // UnitRes.PAS:73
-    public UnitResource(CustomNode owner) : base(owner)
+    public UnitResource(CustomNode? owner) : base(owner)
     {
         Description = new DelphiStringList();
         for (int rankOrdinal = (int)Unit.Rank.None; rankOrdinal <= (int)Unit.Rank.Gold; rankOrdinal++)
@@ -130,9 +130,9 @@ public class UnitResource : TroopResource
 
     // UnitRes.PAS:134. The resource user class (131604) registers only UnitHexSprite, which the
     // factory builds. Another class fails. Null stays null.
-    public override EngineObject CreateResourceUser()
+    public override EngineObject? CreateResourceUser()
     {
-        EngineObject result = base.CreateResourceUser();
+        EngineObject? result = base.CreateResourceUser();
         if (result is not null)
         {
             // The resource user class registers only UnitHexSprite. Another class fails. Null stays

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWEmailGameSettingsDlg.pas.
 using Aow.Game.Draw;
 using Aow.Game.Host;
@@ -37,7 +37,7 @@ public sealed partial class EmailGameSettingsDialog(UIContext ui) : UIModule(ui)
 
     public DelphiStringList EmailAddresses { get; private set; }
 
-    private SetupControl _setupControl;
+    private SetupControl? _setupControl;
 
     // AoWEmailGameSettingsDlg.pas:85
     public void EmailGameSettingsDialogCreate() => EmailAddresses = new DelphiStringList();
@@ -67,7 +67,7 @@ public sealed partial class EmailGameSettingsDialog(UIContext ui) : UIModule(ui)
             {
                 for (int i = 0, last = EmailAddresses.Count - 1; i <= last; i++)
                 {
-                    object objectValue = EmailAddresses.Objects[i];
+                    object? objectValue = EmailAddresses.Objects[i];
                     int index = _setupControl.Settings.IndexOfRace((byte)ObjectToInt(objectValue));
                     string emailAddress = EmailAddresses[i];
                     _setupControl.Settings.GetSettings(index).EmailAddress = emailAddress;
@@ -112,8 +112,8 @@ public sealed partial class EmailGameSettingsDialog(UIContext ui) : UIModule(ui)
         int i = slot + PlayerScrollBar.Position;
         if (i < EmailAddresses.Count)
         {
-            object objectValue = EmailAddresses.Objects[i];
-            RaceResource r = GamePack.Current.RaceResources.GetRaceResource(ObjectToInt(objectValue));
+            object? objectValue = EmailAddresses.Objects[i];
+            RaceResource? r = GamePack.Current.RaceResources.GetRaceResource(ObjectToInt(objectValue));
             _ = r.AddRef();
             r.ImageLibrary[38].Show(panel.AbsoluteLeft, panel.AbsoluteTop, lockedSurface);
             _ = r.Release();
@@ -136,7 +136,7 @@ public sealed partial class EmailGameSettingsDialog(UIContext ui) : UIModule(ui)
         {
             emailEdit.CaptureInput = true;
             emailEdit.Text = EmailAddresses[index];
-            object objectValue = EmailAddresses.Objects[index];
+            object? objectValue = EmailAddresses.Objects[index];
             nameLabel.Text = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[ObjectToInt(objectValue)]);
         }
         else
@@ -198,7 +198,7 @@ public sealed partial class EmailGameSettingsDialog(UIContext ui) : UIModule(ui)
         {
             if (c.Settings.GetSettings(i).Behavior.PlayerType == 0)
             {
-                PlayerSetupSettings setting = c.Settings.GetSettings(i);
+                PlayerSetupSettings? setting = c.Settings.GetSettings(i);
                 string localEmailAddress = UI.Engine.Registry.GetLocalEmailAddress();
                 _ = EmailAddresses.AddObject(localEmailAddress, item: IntToObject(setting.Race));
             }

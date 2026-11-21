@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Arena.pas.
 using System.Globalization;
 using Aow.Engine.Collections;
@@ -38,10 +38,10 @@ public partial class Arena(CustomNode owner) : Structure(owner)
                 for (int i = 0, last = arenaTokenEvent.UnitIds.Count - 1; i <= last; i++)
                 {
                     int unitId = arenaTokenEvent.UnitIds[i];
-                    Troop troop = StrategicMap.Current.UnitControl.FindUnit(unitId);
+                    Troop? troop = StrategicMap.Current.UnitControl.FindUnit(unitId);
                     if (troop is not null)
                     {
-                        Player player = StrategicMap.Current.Players.GetPlayers(tokenEvent.Param);
+                        Player? player = StrategicMap.Current.Players.GetPlayers(tokenEvent.Param);
                         int unitTrainCost = UnitTrainCost(troop);
                         StrategicMap.Current.Players.GetPlayers(tokenEvent.Param).SetGems(player.Gems - unitTrainCost);
                         ExecuteTrainUnit(troop);
@@ -71,7 +71,7 @@ public partial class Arena(CustomNode owner) : Structure(owner)
     public override bool CanDoubleClick() => CanEnter(StrategicMap.Current.SeatedPlayer);
 
     // Arena.pas:101
-    public int UnitTrainCost(Troop troop)
+    public int UnitTrainCost(Troop? troop)
     {
         if (troop is Hero)
         {
@@ -115,7 +115,7 @@ public partial class Arena(CustomNode owner) : Structure(owner)
             {
                 i -= 1;
                 int unit = units[i];
-                Troop troop = StrategicMap.Current.UnitControl.FindUnit(unit);
+                Troop? troop = StrategicMap.Current.UnitControl.FindUnit(unit);
                 if (troop is not null)
                 {
                     int cost = UnitTrainCost(troop);
@@ -197,7 +197,7 @@ public partial class Arena(CustomNode owner) : Structure(owner)
             ArmyHexSprite army = Owner.GetArmyHexSprite();
             for (int i = 0, last = army.Army.Units.Count - 1; i <= last; i++)
             {
-                Troop troop = army.Army.Units.GetUnit(i);
+                Troop? troop = army.Army.Units.GetUnit(i);
                 _ = log.UnitIds.Add(troop.UnitId);
                 if (UnitTrainCost(army.Army.Units.GetUnit(i)) != -1)
                 {

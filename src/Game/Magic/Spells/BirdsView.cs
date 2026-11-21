@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from GlobalSpells.pas.
 using Aow.Engine.Nodes;
 
@@ -15,7 +15,7 @@ namespace Aow.Game.Magic.Spells;
 public class BirdsView : Spell
 {
     // GlobalSpells.pas:489
-    public BirdsView(CustomNode owner, EngineObject holder) : base(owner)
+    public BirdsView(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_birdsViewText);

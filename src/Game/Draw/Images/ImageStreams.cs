@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 
 using Aow.Rtl;
 
@@ -7,11 +7,11 @@ namespace Aow.Game.Draw.Images;
 public static class ImageStreams
 {
 
-    public static LibraryImage ReadImageFromStream(Stream stream, CustomImageLibrary owner)
+    public static LibraryImage? ReadImageFromStream(Stream stream, CustomImageLibrary? owner)
     {
         int id = default;
         stream.ReadExactly(Bytes.Of(ref id));
-        LibraryImageClass imageClass = LibraryCatalog.FindLibraryImageClass(id);
+        LibraryImageClass? imageClass = LibraryCatalog.FindLibraryImageClass(id);
         LibraryImage result;
         if (imageClass is not null)
         {
@@ -26,11 +26,11 @@ public static class ImageStreams
         return result;
     }
 
-    internal static LibraryImage ReadImageFromStream(Stream stream, Stream dataStream, CustomImageLibrary owner)
+    internal static LibraryImage? ReadImageFromStream(Stream stream, Stream dataStream, CustomImageLibrary? owner)
     {
         int id = default;
         stream.ReadExactly(Bytes.Of(ref id));
-        LibraryImageClass imageClass = LibraryCatalog.FindLibraryImageClass(id);
+        LibraryImageClass? imageClass = LibraryCatalog.FindLibraryImageClass(id);
         LibraryImage result;
         if (imageClass is not null)
         {

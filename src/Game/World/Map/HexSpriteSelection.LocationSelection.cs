@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using Aow.Game.Draw;
 
 namespace Aow.Game.World.Map;
@@ -33,7 +33,7 @@ public sealed partial class HexSpriteSelection
         HexGeometry.PixelToHex(pixelX, vertical: pixelY, out int hexX, out int hexY);
         MapField mapField = Owner.MapContainer.GetField(hexX, hexY, lHitPoints);
         int i = FindLocationHexSpriteIndex(mapField) - 1;
-        HexSprite hexSprite = null;
+        HexSprite? hexSprite = null;
         if (i < 0)
         {
             i = mapField.Count - 1;
@@ -75,7 +75,7 @@ public sealed partial class HexSpriteSelection
             HexGeometry.HexToPixel(mapField.HexX, mapField.HexY, out int pixelX, out int pixelY);
             while (result == -1 && i != mapField.Count)
             {
-                HexSprite hexSprite = mapField.HexSpriteList[i];
+                HexSprite? hexSprite = mapField.HexSpriteList[i];
                 if (hexSprite.CanSelect(pixelX, pixelY))
                 {
                     if (LocationHexSprite.IndexOf(hexSprite) != -1)

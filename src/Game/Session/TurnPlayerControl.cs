@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using System.Globalization;
 using Aow.Engine.Nodes;
@@ -16,7 +16,7 @@ using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Game.Session;
 
-public partial class TurnPlayerControl(CustomNode owner) : PlayerControl(owner)
+public partial class TurnPlayerControl(CustomNode? owner) : PlayerControl(owner)
 {
     public new const int ClassId = 131_664;
 
@@ -116,7 +116,7 @@ public partial class TurnPlayerControl(CustomNode owner) : PlayerControl(owner)
             }
             else
             {
-                Player players = StrategicMap.Current.Players.GetPlayers(player);
+                Player? players = StrategicMap.Current.Players.GetPlayers(player);
                 string raceNamesPlural = AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.RaceNamesPluralTexts[players.PlayerRace]);
                 string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: s_areMovingFormat), arguments: [raceNamesPlural]);
                 StrategicMap.Current.ShowMessage(format);

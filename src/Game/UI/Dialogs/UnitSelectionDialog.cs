@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWUnitSelDlg.pas.
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
@@ -31,9 +31,9 @@ public sealed partial class UnitSelectionDialog(UIContext ui) : UIModule(ui)
     public Label SelectionInfoLabel { get; private set; }
     public Label SelectionLabel { get; private set; }
 
-    public UnitSelector Event { get; set; }
+    public UnitSelector? Event { get; set; }
 
-    private UnitSelectionActivation _eventLog;
+    private UnitSelectionActivation? _eventLog;
 
     // AoWUnitSelDlg.pas:66
     public void DrawUnit(int index, int X, int Y, ref LockedSurface lockedSurface)
@@ -45,7 +45,7 @@ public sealed partial class UnitSelectionDialog(UIContext ui) : UIModule(ui)
             Rect rectangle = new(X + 5, Y + 4, X + 46, Y + 56);
             lockedSurface.ClipRectangle = rectangle;
             Units.Alignment alignment = Event.Units.GetUnit(index).GetAlignment();
-            LibraryImage image;
+            LibraryImage? image;
             if ((int)alignment < UI.Graphics.UnitBackgrounds.Count)
             {
                 // { D3 masks the enum index after the original full-byte guard. }
@@ -94,7 +94,7 @@ public sealed partial class UnitSelectionDialog(UIContext ui) : UIModule(ui)
         _ = _eventLog.AddRef();
         Event = request.UnitSelector;
         _ = Event.AddRef();
-        Troop u = StrategicMap.Current.UnitControl.FindUnit(Event.SourceUnitId);
+        Troop? u = StrategicMap.Current.UnitControl.FindUnit(Event.SourceUnitId);
         if (u is not null)
         {
             SourcePanel.Visible = true;
@@ -201,7 +201,7 @@ public sealed partial class UnitSelectionDialog(UIContext ui) : UIModule(ui)
         Rect r = default;
         if (Event is not null)
         {
-            Troop u = StrategicMap.Current.UnitControl.FindUnit(Event.SourceUnitId);
+            Troop? u = StrategicMap.Current.UnitControl.FindUnit(Event.SourceUnitId);
             if (u is not null)
             {
                 r.Left = SourceFace.WinLeft + SourcePanel.AbsoluteLeft;

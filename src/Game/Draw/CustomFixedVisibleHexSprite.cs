@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from HSEngine.pas.
 using Aow.Engine.Nodes;
 
@@ -6,7 +6,7 @@ namespace Aow.Game.Draw;
 
 // FShowPriority, FOnShow (Show calls it). TAbstractAoWHSMap (AoWEPACK) creates two and sets
 // OnShow and ShowPriority
-public sealed class CustomFixedVisibleHexSprite(CustomNode owner) : FixedVisibleHexSprite(owner)
+public sealed class CustomFixedVisibleHexSprite(CustomNode? owner) : FixedVisibleHexSprite(owner)
 {
     private int _showPriority;
     private OnShowHSEvent _show;

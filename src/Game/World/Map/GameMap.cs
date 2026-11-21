@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from HSEngine.pas and AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Collections;
@@ -35,7 +35,7 @@ public partial class GameMap : OwningNode
 {
     public new const int ClassId = 66_048;
 
-    public GameMap(CustomNode owner) : base(owner)
+    public GameMap(CustomNode? owner) : base(owner)
     {
         Mouse = CreateMouse();
         Mouse.HexSpriteMap = this;
@@ -79,25 +79,25 @@ public partial class GameMap : OwningNode
         remove => TerrainChangedEventsStore.Remove(value);
     }
 
-    private Action<int, int, int> _centerView;
+    private Action<int, int, int>? _centerView;
 
-    internal void SetCenterViewHandler(Action<int, int, int> handler) => _centerView = handler;
+    internal void SetCenterViewHandler(Action<int, int, int>? handler) => _centerView = handler;
 
     private Action<int, int, int> _changeView;
 
     internal void SetChangeViewHandler(Action<int, int, int> handler) => _changeView = handler;
 
-    private Action<int> _viewLevel;
+    private Action<int>? _viewLevel;
 
-    internal void SetViewLevelHandler(Action<int> handler) => _viewLevel = handler;
+    internal void SetViewLevelHandler(Action<int>? handler) => _viewLevel = handler;
 
-    private ProgressEvent _progress;
+    private ProgressEvent? _progress;
 
     protected void RaiseProgress(EngineObject sender, string message, int progression) => _progress?.Invoke(sender, message, progression);
 
     protected bool HasProgressHandlers => _progress is not null;
 
-    internal void SetProgressHandler(ProgressEvent handler) => _progress = handler;
+    internal void SetProgressHandler(ProgressEvent? handler) => _progress = handler;
 
     private int _terrainChangedLockCounter;
 
@@ -229,7 +229,7 @@ public partial class GameMap : OwningNode
 
         public int Count => _children.Count;
 
-        public IPersistable Get(int index) => _children.Get(index);
+        public IPersistable? Get(int index) => _children.Get(index);
 
         public bool IsStored(int index) => _children.IsStored(index);
 
@@ -254,7 +254,7 @@ public partial class GameMap : OwningNode
     }
 
     // HSMAP.PAS:189
-    public override void MessageProc(ref EngineMessage message, EngineObject sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject? sender)
     {
         if (message.MessageId == 536870920)
         {
@@ -432,7 +432,7 @@ public partial class GameMap : OwningNode
     // HSMAP.PAS:284
     // { ChangeTerrain, ChangeTerrainEx and ClearTerrain clip the right edge of the changed rectangle
     //   into its Left (original slip). }
-    public virtual int ChangeTerrain(EngineObject mapObject, int X, int Y, int L, int radius, int terrainType)
+    public virtual int ChangeTerrain(EngineObject? mapObject, int X, int Y, int L, int radius, int terrainType)
     {
         Rect r = default;
         LockTerrainChangedEvent();
@@ -517,7 +517,7 @@ public partial class GameMap : OwningNode
     }
 
     // HSMAP.PAS:357
-    public virtual int ChangeTerrain(EngineObject mapObject, int X, int Y, int L, int radius, ChangeTerrainProc changeTerrainProc, TerrainChangedProc terrainChangedProc)
+    public virtual int ChangeTerrain(EngineObject? mapObject, int X, int Y, int L, int radius, ChangeTerrainProc changeTerrainProc, TerrainChangedProc? terrainChangedProc)
     {
         Rect r = default;
         if (changeTerrainProc is not null)
@@ -937,14 +937,14 @@ public partial class GameMap : OwningNode
     }
 
     // HSMAP.PAS:561
-    public bool PlaceHex(HexSprite hexSprite, int hexX, int hexY, int L)
+    public bool PlaceHex(HexSprite? hexSprite, int hexX, int hexY, int L)
     {
         HexGeometry.HexToPixel(hexX, hexY, out int pixelX, out int pixelY);
         return hexSprite.MainPlace(MapContainer, pixelX, pixelY, L);
     }
 
     // HSMAP.PAS:569
-    public bool Place(HexSprite hexSprite, int pixelX, int pixelY, int L) => hexSprite.MainPlace(MapContainer, pixelX, pixelY, L);
+    public bool Place(HexSprite? hexSprite, int pixelX, int pixelY, int L) => hexSprite.MainPlace(MapContainer, pixelX, pixelY, L);
 
     // HSMAP.PAS:574
     public void Remove(HexSprite hexSprite) => hexSprite.MainRemove();
@@ -1057,8 +1057,8 @@ public partial class GameMap : OwningNode
     public void InvalidateStaticScene(int hexX, int hexY, int hexLevel) => StaticSceneInvalid = StaticSceneInvalid || (hexX >= ViewHexX && hexX < ViewHexX + ViewWidthHex && hexY >= ViewHexY && hexY < ViewHexY + ViewHeightHex && hexLevel == ViewMapLevel);
 
     public GameMapMouse Mouse { get; }
-    public MapContainer MapContainer { get; internal set; }
-    public GameEngine Engine { get; private set; }
+    public MapContainer? MapContainer { get; internal set; }
+    public GameEngine? Engine { get; private set; }
     public HexSpriteSelection Selection { get; }
     public VisibilityList StaticVisibleHexSprite { get; }
     public VisibilityList DynamicVisibleHexSprite { get; }
@@ -1193,7 +1193,7 @@ public partial class GameMap : OwningNode
             if (_selectorX != -1 && _selectorY != -1)
             {
                 HexGeometry.HexToPixel(_selectorX, _selectorY, out int pixelX, out int pixelY);
-                HexSprite hexSprite = MapContainer.GetField(_selectorX, _selectorY, ViewMapLevel).GetMaxLevelNoneTransparentHexSprite();
+                HexSprite? hexSprite = MapContainer.GetField(_selectorX, _selectorY, ViewMapLevel).GetMaxLevelNoneTransparentHexSprite();
                 if (hexSprite is not null)
                 {
                     if (hexSprite.GetShowPriority() > 1_744_830_464)
@@ -1248,7 +1248,7 @@ public partial class GameMap : OwningNode
     }
 
     // AoWHSMap.PAS:871
-    public virtual void DropHeroItem(Hero hero, Item item)
+    public virtual void DropHeroItem(Hero hero, Item? item)
     {
         MapCoordinate coordinate30 = hero.GetLocation();
         sbyte x = coordinate30.X;
@@ -1258,7 +1258,7 @@ public partial class GameMap : OwningNode
     }
 
     // AoWHSMap.PAS:878
-    public virtual ItemList GetHeroItemsOnGround(Hero hero)
+    public virtual ItemList? GetHeroItemsOnGround(Hero hero)
     {
         MapCoordinate coordinate31 = hero.GetLocation();
         sbyte x = coordinate31.X;

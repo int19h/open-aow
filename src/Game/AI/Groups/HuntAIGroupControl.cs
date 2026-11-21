@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
@@ -65,7 +65,7 @@ public class HuntAIGroupControl(CustomNode owner) : AIGroupControl(owner)
                     for (int i = group.TargetUnitIds.Count - 1; i >= 0; i--)
                     {
                         int item = group.TargetUnitIds[i];
-                        Troop troop = StrategicMap.Current.UnitControl.FindUnit(item);
+                        Troop? troop = StrategicMap.Current.UnitControl.FindUnit(item);
                         if (troop is null || troop.Player == 0)
                         {
                             group.TargetUnitIds.Delete(i);
@@ -86,7 +86,7 @@ public class HuntAIGroupControl(CustomNode owner) : AIGroupControl(owner)
                 }
                 else
                 {
-                    AIGroup newGroup = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, relation: Group.IndependentRelation, behavior: GroupBehavior.Patrol);
+                    AIGroup? newGroup = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, relation: Group.IndependentRelation, behavior: GroupBehavior.Patrol);
                     _ = newGroup.AddUnits(Group.Units);
                     _ = newGroup.Release();
                     Done();

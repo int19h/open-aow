@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;
@@ -13,7 +13,7 @@ using Aow.Game.World.Structures;
 
 namespace Aow.Game.Commands;
 
-public class ConstructStructureTokenEvent(CustomNode owner) : TokenEvent(owner)
+public class ConstructStructureTokenEvent(CustomNode? owner) : TokenEvent(owner)
 {
     public new const int ClassId = 135_962;
 
@@ -35,11 +35,11 @@ public class ConstructStructureTokenEvent(CustomNode owner) : TokenEvent(owner)
     {
         string reason = "";
         _ = base.Execute(tokenEvent);
-        Troop troop = StrategicMap.Current.UnitControl.FindUnit(UnitId);
+        Troop? troop = StrategicMap.Current.UnitControl.FindUnit(UnitId);
         StructureConstructionControl control = GamePack.Current.AbilityControl.GetAbility<ConstructAbility>(125).ConstructionControls.FindId<StructureConstructionControl>(ControlId);
         if (control is not null && troop is not null && troop.Player == Player && control.CanConstruct(troop, ref reason))
         {
-            StructureResource resource = control.StructureResource(troop);
+            StructureResource? resource = control.StructureResource(troop);
             if (resource is not null)
             {
                 MapCoordinate coordinate4 = troop.GetLocation();
@@ -59,14 +59,14 @@ public class ConstructStructureTokenEvent(CustomNode owner) : TokenEvent(owner)
                 }
 
                 bool locked = troop.Owner is not IHeroHolder;
-                ObservableNode owner = locked ? troop.OwnerUnits.Holder : null;
+                ObservableNode? owner = locked ? troop.OwnerUnits.Holder : null;
                 using ObservableNode.UpdateBatch batch = locked ? owner.BeginUpdate() : default;
                 Structure structure = resource.PlaceResourceUser<Structure>(StrategicMap.Current, hexX: x, hexY: y, hexLevel: l);
                 if (structure is not null)
                 {
                     control.GetInfo(troop, out string text, out int gold, out int days);
                     _ = structure.ExecuteBuild(troop, days);
-                    Player players = StrategicMap.Current.Players.GetPlayers(troop.Player);
+                    Player? players = StrategicMap.Current.Players.GetPlayers(troop.Player);
                     StrategicMap.Current.Players.GetPlayers(troop.Player).SetGems(players.Gems - gold);
                     troop.Killed();
                     return ExecuteResult.Done;

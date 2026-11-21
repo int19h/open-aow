@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from Sign.pas.
 using Aow.Engine;
 using Aow.Engine.Collections;
@@ -18,7 +18,7 @@ using Aow.Rtl;
 namespace Aow.Game.World.Structures;
 
 // Text, TextSeen
-public partial class Sign(CustomNode owner) : Structure(owner)
+public partial class Sign(CustomNode? owner) : Structure(owner)
 {
 
     // Sign.pas:99
@@ -125,7 +125,7 @@ public partial class Sign(CustomNode owner) : Structure(owner)
                 int offset = structure.Owner.HexX + (structure.Owner.HexY * 16);
                 // Show takes every structure. This resource draws a sign, and another kind fails here.
                 bool animate = StrategicMap.Current.SeatedPlayer < 0 || !((Sign)structure).GetTextSeen(StrategicMap.Current.SeatedPlayer);
-                ImageSequence sequence = index < ImageSequenceList.Count ? ImageSequenceList.List[index] : null;
+                ImageSequence? sequence = index < ImageSequenceList.Count ? ImageSequenceList.List[index] : null;
 
                 while (sequence is not null)
                 {

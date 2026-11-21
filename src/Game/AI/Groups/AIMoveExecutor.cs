@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using System.Diagnostics.CodeAnalysis;
 using Aow.Engine.Collections;
@@ -22,7 +22,7 @@ namespace Aow.Game.AI.Groups;
 public sealed class AIMoveExecutor : EngineObject
 {
     // AIGroup.pas:5976
-    public AIMoveExecutor(CustomNode owner) : base(owner)
+    public AIMoveExecutor(CustomNode? owner) : base(owner)
     {
         Units = new AIMoveExecutorUnitList(null) { Holder = CreationHolder() };
         Moves = new AIMoveExecutorMoveQueue(null) { Holder = CreationHolder() };
@@ -32,11 +32,11 @@ public sealed class AIMoveExecutor : EngineObject
 
     public MapCoordinate Destination { get; private set; }
 
-    public AIMoveExecutorControl Control { get; private set; }
-    public Int32List ControlQueue { get; private set; }
-    public AIMoveExecutorMoveQueue Moves { get; private set; }
-    public AIMoveExecutorUnitList Units { get; private set; }
-    public AIMoveExecutorUnit Transporter { get; private set; }
+    public AIMoveExecutorControl? Control { get; private set; }
+    public Int32List? ControlQueue { get; private set; }
+    public AIMoveExecutorMoveQueue? Moves { get; private set; }
+    public AIMoveExecutorUnitList? Units { get; private set; }
+    public AIMoveExecutorUnit? Transporter { get; private set; }
     public int MovePointsMax { get; private set; }
     public AIMoveExecutorModes Mode { get; set; }
     public int State { get; private set; }
@@ -46,9 +46,9 @@ public sealed class AIMoveExecutor : EngineObject
     [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Construction snapshots record this field, and the Delphi field is only written.")]
     private int _processCycles;
 
-    private Action<object> _done;
+    private Action<object>? _done;
 
-    internal void SetDoneHandler(Action<object> handler) => _done = handler;
+    internal void SetDoneHandler(Action<object>? handler) => _done = handler;
 
     // AIGroup.pas:5985
     public override void Dispose()
@@ -84,7 +84,7 @@ public sealed class AIMoveExecutor : EngineObject
     }
 
     // AIGroup.pas:5997
-    public void ActivateMoveExecutorControl(Func<AIMoveExecutorControl> createControl)
+    public void ActivateMoveExecutorControl(Func<AIMoveExecutorControl>? createControl)
     {
         DeactivateMoveExecutorControl();
         if (createControl is not null)
@@ -106,7 +106,7 @@ public sealed class AIMoveExecutor : EngineObject
     }
 
     // AIGroup.pas:6031
-    public AIMoveExecutorUnit AddUnit(Troop troop)
+    public AIMoveExecutorUnit AddUnit(Troop? troop)
     {
         if (_player == -1)
         {
@@ -183,7 +183,7 @@ public sealed class AIMoveExecutor : EngineObject
     }
 
     // AIGroup.pas:6077
-    public void InvalidateMove(ArmyHexSprite army, byte selection)
+    public void InvalidateMove(ArmyHexSprite? army, byte selection)
     {
         Status = AIMoveExecutorStatus.Invalidated;
         UpdateMoveResult();
@@ -487,7 +487,7 @@ public sealed class AIMoveExecutor : EngineObject
         ArmyHexSprite army = StrategicMap.Current.MapContainer.GetField(Transporter.Location.X, Transporter.Location.Y, Transporter.Location.MapLevel).GetArmyHexSprite();
 
         int i = 0;
-        Troop troop;
+        Troop? troop;
         AIMoveExecutorUnit unitEntry;
         while (capacity > 0 && i != army.Army.Units.Count)
         {

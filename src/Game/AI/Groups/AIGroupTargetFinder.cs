@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Magic.Abilities;
@@ -10,7 +10,7 @@ namespace Aow.Game.AI.Groups;
 public class AIGroupTargetFinder : AIGroupTask
 {
     // AIGroup.pas:1889
-    public AIGroupTargetFinder(CustomNode owner) : base(owner) => Selector = new AIMoveTargetSelector(null) { Holder = CreationHolder() };
+    public AIGroupTargetFinder(CustomNode? owner) : base(owner) => Selector = new AIMoveTargetSelector(null) { Holder = CreationHolder() };
 
     private AIGroupControl _control;
 

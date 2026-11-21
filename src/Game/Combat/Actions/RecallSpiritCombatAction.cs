@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from CombatSpells.pas.
 using Aow.Engine.Nodes;
 
@@ -8,7 +8,7 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Combat.Actions;
 
 // inherited source ID, target ID, mana, success, spell ID
-public class RecallSpiritCombatAction(CustomNode owner) : ExclusiveCombatSpellCombatAction(owner)
+public class RecallSpiritCombatAction(CustomNode? owner) : ExclusiveCombatSpellCombatAction(owner)
 {
     // CombatSpells.pas:1950
     public new const int ClassId = 131_781;

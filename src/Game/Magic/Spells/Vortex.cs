@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from GlobalTargetSpells.pas.
 using Aow.Engine.Nodes;
 
@@ -15,7 +15,7 @@ namespace Aow.Game.Magic.Spells;
 public class Vortex : GlobalTargetSpell
 {
     // GlobalTargetSpells.pas:2069
-    public Vortex(CustomNode owner, EngineObject holder) : base(owner)
+    public Vortex(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.VortexText);

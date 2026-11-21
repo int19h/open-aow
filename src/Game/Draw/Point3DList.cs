@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 
 using static Aow.Rtl.DelphiRandom;
 
@@ -8,7 +8,7 @@ namespace Aow.Game.Draw;
 public sealed class Point3DList : IDisposable
 {
 
-    private readonly List<Point3D> _list;
+    private readonly List<Point3D?> _list;
 
     // aowFX.pas:93
     public Point3DList() => _list = [];
@@ -36,20 +36,20 @@ public sealed class Point3DList : IDisposable
     }
 
     // aowFX.pas:117
-    public void Add(Point3D xYZ) => _list.Add(xYZ);
+    public void Add(Point3D? xYZ) => _list.Add(xYZ);
 
     // aowFX.pas:122
     public void Delete(int index) => _list.RemoveAt(index);
 
     // aowFX.pas:128
-    public Point3D GetXYZ(int index) => index >= 0 && index < _list.Count ? _list[index] : null;
+    public Point3D? GetXYZ(int index) => index >= 0 && index < _list.Count ? _list[index] : null;
 
     // aowFX.pas:136
     public int GetCount() => _list.Count;
 
     public int Count => GetCount();
 
-    public Point3D this[int index] => GetXYZ(index);
+    public Point3D? this[int index] => GetXYZ(index);
 
     internal static void ScatterPath(Point3DList list)
     {
@@ -57,7 +57,7 @@ public sealed class Point3DList : IDisposable
         int deltaY = 0;
         for (int i = 1, last = list.Count - 2; i <= last; i++)
         {
-            Point3D xYZ = list[i];
+            Point3D? xYZ = list[i];
             int rx = Random(3);
             int ry = Random(3);
             if (rx - deltaX > 1)

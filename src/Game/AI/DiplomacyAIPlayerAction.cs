@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using Aow.Engine;
 using Aow.Engine.Collections;
@@ -69,7 +69,7 @@ public class DiplomacyAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), 
     }
 
     // Diplomacy.pas:1552
-    public DiplomaticAction CreateDA(DiplomaticProposal action, sbyte target, sbyte other, int minDays)
+    public DiplomaticAction? CreateDA(DiplomaticProposal action, sbyte target, sbyte other, int minDays)
     {
         sbyte player = Control.Player.PlayerIndex;
         DiplomaticAction last = StrategicMap.Current.Players.GetPlayers(player).DiplomaticActions.FindLastAction(action.ToFields().Kind, reaction: DiplomaticActionReaction.None, source: player, target, other);
@@ -82,7 +82,7 @@ public class DiplomacyAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), 
     public bool ExecuteDiplomacy(sbyte player)
     {
         // { Original bug: the result remains False even when an action is sent. }
-        DiplomaticAction action = null;
+        DiplomaticAction? action = null;
         sbyte source = Control.Player.PlayerIndex;
         ByteList idealPeace = new();
         ByteList idealWar = new();
@@ -229,7 +229,7 @@ public class DiplomacyAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), 
         ByteList idealWar = new();
         Control.ListIdealPeaceWarPlayers(idealPeace, war: idealWar);
         int player = Control.Player.PlayerIndex;
-        Player players = StrategicMap.Current.Players.GetPlayers(player);
+        Player? players = StrategicMap.Current.Players.GetPlayers(player);
         string s = AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.RaceNamesPluralTexts[players.PlayerRace]);
         string name = StrategicMap.Current.Players.GetPlayers(player).GetName();
         s = $"{s}/{name}";
@@ -238,7 +238,7 @@ public class DiplomacyAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), 
         for (int i = 0, last = idealPeace.Count - 1; i <= last; i++)
         {
             byte item = idealPeace[i];
-            Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(item);
+            Player? fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(item);
             s = AbilityRules.TranslateResourceString(GetEngine(), S: GameTables.RaceNamesPluralTexts[fPlayersPlayers.PlayerRace]);
             byte idealPeaceItem = idealPeace[i];
             string name2 = StrategicMap.Current.Players.GetPlayers(idealPeaceItem).GetName();

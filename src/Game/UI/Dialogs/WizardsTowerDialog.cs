@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWWizardsTowerDlg.pas.
 using System.Globalization;
 using Aow.Game.Draw;
@@ -25,15 +25,15 @@ public sealed partial class WizardsTowerDialog(UIContext ui) : UIModule(ui)
     public Memo ResearchMemo { get; private set; }
     public Label PriceLabel { get; private set; }
 
-    private ExecuteDoneEvent _close;
-    private EnterWizardsTowerEventLog _event;
+    private ExecuteDoneEvent? _close;
+    private EnterWizardsTowerEventLog? _event;
 
     // AoWWizardsTowerDlg.pas:54
     public void ClearEvent()
     {
         Window.Visible = false;
-        ExecuteDoneEvent notify = _close;
-        EnterWizardsTowerEventLog eventValue = _event;
+        ExecuteDoneEvent? notify = _close;
+        EnterWizardsTowerEventLog? eventValue = _event;
         _close = null;
         _event = null;
         notify?.Invoke(eventValue);
@@ -73,7 +73,7 @@ public sealed partial class WizardsTowerDialog(UIContext ui) : UIModule(ui)
         WizardsTower wizardsTower = _event.Tower;
         if (wizardsTower.SpellId != 0)
         {
-            Spell s = GamePack.Current.SpellControl[wizardsTower.SpellId];
+            Spell? s = GamePack.Current.SpellControl[wizardsTower.SpellId];
             if (s is not null)
             {
                 if (s.CastImages.GetImageSequence(10) is not null)
@@ -106,7 +106,7 @@ public sealed partial class WizardsTowerDialog(UIContext ui) : UIModule(ui)
             int buyCost = dialog._event.Tower.BuyCost();
             string format = AbilityRules.Format(dialog.UI.Engine.TranslateResourceString(GameText.ForGoldFormat), arguments: [buyCost.ToString(CultureInfo.InvariantCulture)]);
             dialog.PriceLabel.Text = $"{format}.";
-            Spell spell = GamePack.Current.SpellControl[tower.SpellId];
+            Spell? spell = GamePack.Current.SpellControl[tower.SpellId];
             dialog.SpellNameLabel.Text = spell.SpellName;
             string magicSphere = dialog.UI.Engine.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere]);
             string level = dialog.UI.Engine.TranslateResourceString(GameText.LevelText);

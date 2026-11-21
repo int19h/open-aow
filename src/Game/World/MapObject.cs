@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from HSEngine.pas.
 using Aow.Engine.Nodes;
 
@@ -12,11 +12,11 @@ namespace Aow.Game.World;
 
 // a hexagon sprite drawn from a resource. FResource (the resource. until the object is linked
 // it holds the resource id, persisted as id 1), FStatus
-public partial class MapObject(CustomNode owner) : HexSprite(owner)
+public partial class MapObject(CustomNode? owner) : HexSprite(owner)
 {
     public new const int ClassId = 65_878;
 
-    private MapObjectResource _resource;
+    private MapObjectResource? _resource;
 
     // MAPOBJ.PAS:88
     public bool ResourceLinked
@@ -162,13 +162,13 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
 
         if (Level <= 15)
         {
-            MapField mapField = Owner;
+            MapField? mapField = Owner;
             mapField.Owner.Map.InvalidateStaticScene(mapField.HexX, mapField.HexY, mapField.HexLevel);
         }
 
         if (!EditMode)
         {
-            MapField mapField = Owner;
+            MapField? mapField = Owner;
             mapField.Owner.Map.TerrainChangedRadius(mapField.HexX, mapField.HexY, L: mapField.HexLevel, radius: 0);
         }
 
@@ -208,7 +208,7 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
     }
 
     // MAPOBJ.PAS:341
-    public override bool MainPlace(MapContainer mapContainer, int pixelX, int pixelY, int hexLevel)
+    public override bool MainPlace(MapContainer? mapContainer, int pixelX, int pixelY, int hexLevel)
     {
         bool result;
         if (!Status.Contains(MapObjectStatuses.PlacedOnMap))
@@ -259,7 +259,7 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
     }
 
     // MAPOBJ.PAS:206
-    public override bool Place(MapContainer mapContainer, int pixelX, int pixelY, int hexLevel)
+    public override bool Place(MapContainer? mapContainer, int pixelX, int pixelY, int hexLevel)
     {
         HexGeometry.PixelToHex(pixelX, vertical: pixelY, out int hexX, out int hexY);
         return PlaceHex(mapContainer, (sbyte)hexX, (sbyte)hexY, (sbyte)hexLevel);
@@ -268,7 +268,7 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
     // MAPOBJ.PAS:291
     public override void Remove()
     {
-        MapField mapField = Owner;
+        MapField? mapField = Owner;
         RemoveFromMap();
         if (Visible)
         {
@@ -337,18 +337,18 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
     public override string EditName() => IsEmpty(_resource.Name) ? _resource.ResourceEditName() : _resource.Name;
 
     // MAPOBJ.PAS:63
-    public virtual MapObjectResourceList GetResourceList(GameEngine engine) => engine.HexSpriteSet.MapObjectResourceList;
+    public virtual MapObjectResourceList GetResourceList(GameEngine? engine) => engine.HexSpriteSet.MapObjectResourceList;
 
     // MAPOBJ.PAS:68
     public virtual void SetResource(MapObjectResource value) => _resource = value;
 
     // MAPOBJ.PAS:307
-    public virtual bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public virtual bool CanPlace(MapContainer? mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
         if (hexX >= 0 && hexY >= 0 && hexLevel >= 0 && hexX < mapContainer.Width && hexY < mapContainer.Height && hexLevel < mapContainer.LevelCount)
         {
             MapField mapField = mapContainer.GetField(hexX, hexY, hexLevel);
-            HexSprite hexSprite = mapField.GetMaxLevelNoneTransparentHexSprite();
+            HexSprite? hexSprite = mapField.GetMaxLevelNoneTransparentHexSprite();
             bool condition = hexSprite is null || hexSprite.Level < 10;
             if (condition)
             {
@@ -364,13 +364,13 @@ public partial class MapObject(CustomNode owner) : HexSprite(owner)
     }
 
     // MAPOBJ.PAS:324
-    public virtual bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public virtual bool PlaceHex(MapContainer? mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
         Owner = mapContainer.GetField(hexX, hexY, hexLevel);
         return PlaceOnMap();
     }
 
-    public virtual MapObjectResource Resource => _resource;
+    public virtual MapObjectResource? Resource => _resource;
 
     protected T GetResource<T>() where T : MapObjectResource => (T)_resource;
 

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 using Aow.Engine.Nodes;
 using Aow.Game.Draw;
 
@@ -35,7 +35,7 @@ public partial class MapField
         _directions[index] = value;
     }
 
-    public int AddHexSprite(HexSprite sprite, int hexNumber)
+    public int AddHexSprite(HexSprite? sprite, int hexNumber)
     {
         try
         {
@@ -81,7 +81,7 @@ public partial class MapField
         return index;
     }
 
-    public int RemoveHexSprite(HexSprite sprite)
+    public int RemoveHexSprite(HexSprite? sprite)
     {
         int index = 0;
         while (index < StoredCount && sprite != _hexSpriteList[index])
@@ -229,7 +229,7 @@ public partial class MapField
         return index == -1 ? -1 : _directions[index];
     }
 
-    private HexSprite FindTop(Func<HexSprite, byte, bool> matches)
+    private HexSprite? FindTop(Func<HexSprite?, byte, bool> matches)
     {
         for (int i = StoredCount - 1; i >= 0; i--)
         {
@@ -242,9 +242,9 @@ public partial class MapField
         return null;
     }
 
-    public HexSprite GetMaxLevelNoneTransparentHexSprite() => FindTop((sprite, hexNumber) => sprite.GetTerrain(hexNumber) >= 0 || sprite.GetOverlay(hexNumber) >= 0);
-    public HexSprite GetMaxLevelTerrainHexSprite() => FindTop((sprite, hexNumber) => sprite.GetTerrain(hexNumber) >= 0);
-    public HexSprite GetMaxLevelOverlayHexSprite() => FindTop((sprite, hexNumber) => sprite.GetOverlay(hexNumber) >= 0);
+    public HexSprite? GetMaxLevelNoneTransparentHexSprite() => FindTop((sprite, hexNumber) => sprite.GetTerrain(hexNumber) >= 0 || sprite.GetOverlay(hexNumber) >= 0);
+    public HexSprite? GetMaxLevelTerrainHexSprite() => FindTop((sprite, hexNumber) => sprite.GetTerrain(hexNumber) >= 0);
+    public HexSprite? GetMaxLevelOverlayHexSprite() => FindTop((sprite, hexNumber) => sprite.GetOverlay(hexNumber) >= 0);
 
     private (sbyte Terrain, sbyte Overlay) ReadTerrain()
     {
@@ -367,7 +367,7 @@ public partial class MapField
         }
     }
 
-    public bool CanChangeTerrain(EngineObject sender)
+    public bool CanChangeTerrain(EngineObject? sender)
     {
         if (Status.Contains(MapFieldStatuses.TerrainLocked))
         {
@@ -477,7 +477,7 @@ public partial class MapField
         }
     }
 
-    public HexSprite FindNoneTransparentHexSprite(Type type)
+    public HexSprite? FindNoneTransparentHexSprite(Type type)
     {
         for (int i = 0; i < StoredCount; i++)
         {
@@ -493,7 +493,7 @@ public partial class MapField
     // The type selects the sprite, the same test typeof used. Another class throws, and null stays null.
     public T FindNoneTransparentHexSprite<T>() where T : HexSprite => (T)FindNoneTransparentHexSprite(typeof(T));
 
-    public HexSprite FindNoneTransparentHexSpriteClassId(int classId)
+    public HexSprite? FindNoneTransparentHexSpriteClassId(int classId)
     {
         for (int i = 0; i < StoredCount; i++)
         {

@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from CitySpells.pas.
 using Aow.Engine.Nodes;
 
@@ -23,7 +23,7 @@ namespace Aow.Game.Magic.Spells;
 public class Anarchy : CityTargetSpell
 {
     // CitySpells.pas:849
-    public Anarchy(CustomNode owner, EngineObject holder) : base(owner)
+    public Anarchy(CustomNode? owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_anarchyText);
@@ -83,7 +83,7 @@ public class Anarchy : CityTargetSpell
     }
 
     // CitySpells.pas:858
-    public override bool ValidTargetCity(Troop source, City targetCity)
+    public override bool ValidTargetCity(Troop source, City? targetCity)
     {
         bool result = base.ValidTargetCity(source, targetCity);
         return result && targetCity.Player != 0 && !targetCity.Enchantments.Contains(CityEnchantmentIds.AntiMagicShell);

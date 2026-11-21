@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from FlagEvents.pas.
 using Aow.Engine;
 using Aow.Engine.Nodes;

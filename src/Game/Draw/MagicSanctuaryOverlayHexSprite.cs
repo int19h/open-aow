@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from MagicSanctuary.pas.
 using Aow.Engine.Nodes;
 
@@ -10,7 +10,7 @@ using Aow.Game.World.Structures;
 namespace Aow.Game.Draw;
 
 // Structure. FadeEndFrame
-public sealed class MagicSanctuaryOverlayHexSprite(CustomNode owner) : SingleHexSprite(owner)
+public sealed class MagicSanctuaryOverlayHexSprite(CustomNode? owner) : SingleHexSprite(owner)
 {
 
     public MagicSanctuary Structure { get; init; }
@@ -26,7 +26,7 @@ public sealed class MagicSanctuaryOverlayHexSprite(CustomNode owner) : SingleHex
         HexGeometry.HexToPixel(Structure.StoredHexX, Structure.StoredHexY, out int pixelX, out int pixelY);
         pixelXSurface = pixelX - pixelXSurface;
         pixelYSurface = pixelY - pixelYSurface;
-        ImageSequence sequence = ((World.MapObject)Structure).Resource.ImageSequenceList.GetImageSequence(19);
+        ImageSequence? sequence = ((World.MapObject)Structure).Resource.ImageSequenceList.GetImageSequence(19);
         if (sequence is not null)
         {
             int blend = 50;

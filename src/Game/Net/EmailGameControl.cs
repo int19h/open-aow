@@ -1,4 +1,4 @@
-#nullable disable
+#nullable disable warnings
 // Translated from AoWE.pas.
 using System.Globalization;
 using Aow.Engine.Nodes;
@@ -18,7 +18,7 @@ namespace Aow.Game.Net;
 public sealed class EmailGameControl : EngineObject
 {
     // Diplomacy.pas:2489
-    public EmailGameControl(CustomNode owner) : base(owner) => _games = new EmailGameList(null) { Holder = CreationHolder() };
+    public EmailGameControl(CustomNode? owner) : base(owner) => _games = new EmailGameList(null) { Holder = CreationHolder() };
 
     private readonly EmailGameList _games;
 
@@ -71,7 +71,7 @@ public sealed class EmailGameControl : EngineObject
     }
 
     // Diplomacy.pas:2525
-    public EmailGame FindEmailGame(EmailGame game)
+    public EmailGame? FindEmailGame(EmailGame game)
     {
         int index = _games.IndexOfUniqueLocalId(game.UniqueLocalId);
         return index != -1 && game.UniqueId != 0 && _games.GetEmailGames(index).UniqueId == game.UniqueId
@@ -84,7 +84,7 @@ public sealed class EmailGameControl : EngineObject
     {
         if (game.SecurityId != 0)
         {
-            EmailGame localGame = FindEmailGame(game);
+            EmailGame? localGame = FindEmailGame(game);
             return localGame is null || game.SecurityId != localGame.SecurityId;
         }
         else
@@ -99,7 +99,7 @@ public sealed class EmailGameControl : EngineObject
     // Diplomacy.pas:2549
     public bool UpdateGame(EmailGame game)
     {
-        EmailGame localGame = FindEmailGame(game);
+        EmailGame? localGame = FindEmailGame(game);
         if (localGame is not null)
         {
             localGame.LastDay = game.LastDay;
@@ -150,7 +150,7 @@ public sealed class EmailGameControl : EngineObject
             {
                 if (CompareText(b: GetEngine().Registry.GetLocalEmailAddress(), a: map.Players.GetPlayers(map.CurrentPlayer).PbemSettings.EmailGame.EmailAddress) == 0)
                 {
-                    EmailGame localGame = FindEmailGame(map.Players.GetPlayers(map.CurrentPlayer).PbemSettings.EmailGame);
+                    EmailGame? localGame = FindEmailGame(map.Players.GetPlayers(map.CurrentPlayer).PbemSettings.EmailGame);
                     string name = "";
                     bool overwrite = false;
                     if (localGame is not null)
@@ -173,13 +173,13 @@ public sealed class EmailGameControl : EngineObject
 
                                     if (test)
                                     {
-                                        Player players = previousMap.Players.GetPlayers(previousMap.CurrentPlayer);
-                                        Player fPlayersPlayers = map.Players.GetPlayers(map.CurrentPlayer);
+                                        Player? players = previousMap.Players.GetPlayers(previousMap.CurrentPlayer);
+                                        Player? fPlayersPlayers = map.Players.GetPlayers(map.CurrentPlayer);
                                         bool passed = players.PbemSettings.EmailGame.UniqueLocalId == fPlayersPlayers.PbemSettings.EmailGame.UniqueLocalId;
                                         if (passed)
                                         {
-                                            Player players2 = previousMap.Players.GetPlayers(previousMap.CurrentPlayer);
-                                            Player players3 = map.Players.GetPlayers(map.CurrentPlayer);
+                                            Player? players2 = previousMap.Players.GetPlayers(previousMap.CurrentPlayer);
+                                            Player? players3 = map.Players.GetPlayers(map.CurrentPlayer);
                                             passed = players2.PbemSettings.EmailGame.UniqueId == players3.PbemSettings.EmailGame.UniqueId;
                                         }
 
