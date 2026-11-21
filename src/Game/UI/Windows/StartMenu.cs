@@ -118,12 +118,12 @@ public sealed class StartMenu(Component owner) : Menu(owner)
                                 Font.Color = Color;
                             }
 
-                            DrawItem = i;
+                            int drawItem = i;
                             LibraryImage imageLibraryFrame3 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
                             LibraryImage imageLibraryFrame4 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
                             LibraryImage imageLibraryFrame5 = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
-                            DrawItemRectangle = new Rect(WinLeft + imageLibraryFrame5.Width, WinTop + imageLibraryFrame4.Height + (ItemHeight * i), WinLeft + WinWidth, WinTop + imageLibraryFrame3.Height + ((i + 1) * ItemHeight));
-                            RaiseDrawItem(this);
+                            Rect drawItemRectangle = new(WinLeft + imageLibraryFrame5.Width, WinTop + imageLibraryFrame4.Height + (ItemHeight * i), WinLeft + WinWidth, WinTop + imageLibraryFrame3.Height + ((i + 1) * ItemHeight));
+                            RaiseDrawItem(this, drawRectangle: drawItemRectangle, drawItem: drawItem, lockedSurface: ref lockedSurface);
 
                             lockedSurface.ClipRectangle = oldClip;
                         }
@@ -155,46 +155,46 @@ public sealed class StartMenu(Component owner) : Menu(owner)
     [Published]
     public ImageLibrary ImageLibraryWholeMenu { get; set; }
 
-    public new event NotifyEvent<StartMenu> OnChange
+    public new event NotifyEvent<StartMenu> Change
     {
-        add => ((UIComponent)this).OnChange += EventSlot.Add<UIComponent, StartMenu>(this, slot: nameof(OnChange), value: value);
-        remove => ((UIComponent)this).OnChange -= EventSlot.Remove<UIComponent, StartMenu>(this, slot: nameof(OnChange), value: value);
+        add => ((UIComponent)this).Change += EventSlot.Add<UIComponent, StartMenu>(this, slot: nameof(Change), value: value);
+        remove => ((UIComponent)this).Change -= EventSlot.Remove<UIComponent, StartMenu>(this, slot: nameof(Change), value: value);
     }
 
-    public new event MouseEvent<StartMenu> OnMouseDown
+    public new event MouseEvent<StartMenu> MouseDown
     {
-        add => ((UIComponent)this).OnMouseDown += EventSlot.Add<UIComponent, StartMenu>(this, slot: nameof(OnMouseDown), value: value);
-        remove => ((UIComponent)this).OnMouseDown -= EventSlot.Remove<UIComponent, StartMenu>(this, slot: nameof(OnMouseDown), value: value);
+        add => ((UIComponent)this).MouseDown += EventSlot.Add<UIComponent, StartMenu>(this, slot: nameof(MouseDown), value: value);
+        remove => ((UIComponent)this).MouseDown -= EventSlot.Remove<UIComponent, StartMenu>(this, slot: nameof(MouseDown), value: value);
     }
 
-    public new event MouseEvent<StartMenu> OnMouseUp
+    public new event MouseEvent<StartMenu> MouseUp
     {
-        add => ((UIComponent)this).OnMouseUp += EventSlot.Add<UIComponent, StartMenu>(this, slot: nameof(OnMouseUp), value: value);
-        remove => ((UIComponent)this).OnMouseUp -= EventSlot.Remove<UIComponent, StartMenu>(this, slot: nameof(OnMouseUp), value: value);
+        add => ((UIComponent)this).MouseUp += EventSlot.Add<UIComponent, StartMenu>(this, slot: nameof(MouseUp), value: value);
+        remove => ((UIComponent)this).MouseUp -= EventSlot.Remove<UIComponent, StartMenu>(this, slot: nameof(MouseUp), value: value);
     }
 
-    public new event MouseMoveEvent<StartMenu> OnMouseMove
+    public new event MouseMoveEvent<StartMenu> MouseMove
     {
-        add => ((UIComponent)this).OnMouseMove += EventSlot.Add<UIComponent, StartMenu>(this, slot: nameof(OnMouseMove), value: value);
-        remove => ((UIComponent)this).OnMouseMove -= EventSlot.Remove<UIComponent, StartMenu>(this, slot: nameof(OnMouseMove), value: value);
+        add => ((UIComponent)this).MouseMove += EventSlot.Add<UIComponent, StartMenu>(this, slot: nameof(MouseMove), value: value);
+        remove => ((UIComponent)this).MouseMove -= EventSlot.Remove<UIComponent, StartMenu>(this, slot: nameof(MouseMove), value: value);
     }
 
-    public new event KeyPressEvent<StartMenu> OnKeyPress
+    public new event KeyPressEvent<StartMenu> KeyPress
     {
-        add => ((UIComponent)this).OnKeyPress += EventSlot.Add<UIComponent, StartMenu>(this, slot: nameof(OnKeyPress), value: value);
-        remove => ((UIComponent)this).OnKeyPress -= EventSlot.Remove<UIComponent, StartMenu>(this, slot: nameof(OnKeyPress), value: value);
+        add => ((UIComponent)this).KeyPress += EventSlot.Add<UIComponent, StartMenu>(this, slot: nameof(KeyPress), value: value);
+        remove => ((UIComponent)this).KeyPress -= EventSlot.Remove<UIComponent, StartMenu>(this, slot: nameof(KeyPress), value: value);
     }
 
-    public new event KeyEvent<StartMenu> OnKeyDown
+    public new event KeyEvent<StartMenu> KeyDown
     {
-        add => ((UIComponent)this).OnKeyDown += EventSlot.Add<UIComponent, StartMenu>(this, slot: nameof(OnKeyDown), value: value);
-        remove => ((UIComponent)this).OnKeyDown -= EventSlot.Remove<UIComponent, StartMenu>(this, slot: nameof(OnKeyDown), value: value);
+        add => ((UIComponent)this).KeyDown += EventSlot.Add<UIComponent, StartMenu>(this, slot: nameof(KeyDown), value: value);
+        remove => ((UIComponent)this).KeyDown -= EventSlot.Remove<UIComponent, StartMenu>(this, slot: nameof(KeyDown), value: value);
     }
 
-    public new event AoWOnDrawEvent<StartMenu> OnPreDraw
+    public new event AoWOnDrawEvent<StartMenu> PreDraw
     {
-        add => ((UIComponent)this).OnPreDraw += EventSlot.Add<UIComponent, StartMenu>(this, slot: nameof(OnPreDraw), value: value);
-        remove => ((UIComponent)this).OnPreDraw -= EventSlot.Remove<UIComponent, StartMenu>(this, slot: nameof(OnPreDraw), value: value);
+        add => ((UIComponent)this).PreDraw += EventSlot.Add<UIComponent, StartMenu>(this, slot: nameof(PreDraw), value: value);
+        remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, StartMenu>(this, slot: nameof(PreDraw), value: value);
     }
 
     public new event AoWOnDrawEvent<StartMenu> OnDraw
@@ -203,69 +203,63 @@ public sealed class StartMenu(Component owner) : Menu(owner)
         remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, StartMenu>(this, slot: nameof(OnDraw), value: value);
     }
 
-    public new event NotifyEvent<StartMenu> OnUpdate
+    public new event NotifyEvent<StartMenu> Updated
     {
-        add => ((UIComponent)this).OnUpdate += EventSlot.Add<UIComponent, StartMenu>(this, slot: nameof(OnUpdate), value: value);
-        remove => ((UIComponent)this).OnUpdate -= EventSlot.Remove<UIComponent, StartMenu>(this, slot: nameof(OnUpdate), value: value);
+        add => ((UIComponent)this).Updated += EventSlot.Add<UIComponent, StartMenu>(this, slot: nameof(Updated), value: value);
+        remove => ((UIComponent)this).Updated -= EventSlot.Remove<UIComponent, StartMenu>(this, slot: nameof(Updated), value: value);
     }
 
-    public new event AoWOnDrawBackEvent<StartMenu> OnDrawBack
+    public new event AoWOnDrawBackEvent<StartMenu> DrawBack
     {
-        add => ((WindowControl)this).OnDrawBack += EventSlot.Add<WindowControl, StartMenu>(this, slot: nameof(OnDrawBack), value: value);
-        remove => ((WindowControl)this).OnDrawBack -= EventSlot.Remove<WindowControl, StartMenu>(this, slot: nameof(OnDrawBack), value: value);
+        add => ((WindowControl)this).DrawBack += EventSlot.Add<WindowControl, StartMenu>(this, slot: nameof(DrawBack), value: value);
+        remove => ((WindowControl)this).DrawBack -= EventSlot.Remove<WindowControl, StartMenu>(this, slot: nameof(DrawBack), value: value);
     }
 
-    public new event NotifyEvent<StartMenu> OnEnter
+    public new event NotifyEvent<StartMenu> Enter
     {
-        add => ((WindowControl)this).OnEnter += EventSlot.Add<WindowControl, StartMenu>(this, slot: nameof(OnEnter), value: value);
-        remove => ((WindowControl)this).OnEnter -= EventSlot.Remove<WindowControl, StartMenu>(this, slot: nameof(OnEnter), value: value);
+        add => ((WindowControl)this).Enter += EventSlot.Add<WindowControl, StartMenu>(this, slot: nameof(Enter), value: value);
+        remove => ((WindowControl)this).Enter -= EventSlot.Remove<WindowControl, StartMenu>(this, slot: nameof(Enter), value: value);
     }
 
-    public new event NotifyEvent<StartMenu> OnExit
+    public new event NotifyEvent<StartMenu> Exit
     {
-        add => ((WindowControl)this).OnExit += EventSlot.Add<WindowControl, StartMenu>(this, slot: nameof(OnExit), value: value);
-        remove => ((WindowControl)this).OnExit -= EventSlot.Remove<WindowControl, StartMenu>(this, slot: nameof(OnExit), value: value);
+        add => ((WindowControl)this).Exit += EventSlot.Add<WindowControl, StartMenu>(this, slot: nameof(Exit), value: value);
+        remove => ((WindowControl)this).Exit -= EventSlot.Remove<WindowControl, StartMenu>(this, slot: nameof(Exit), value: value);
     }
 
-    public new event NotifyEvent<StartMenu> OnChangeCursor
+    public new event NotifyEvent<StartMenu> ChangeCursor
     {
-        add => ((WindowControl)this).OnChangeCursor += EventSlot.Add<WindowControl, StartMenu>(this, slot: nameof(OnChangeCursor), value: value);
-        remove => ((WindowControl)this).OnChangeCursor -= EventSlot.Remove<WindowControl, StartMenu>(this, slot: nameof(OnChangeCursor), value: value);
+        add => ((WindowControl)this).ChangeCursor += EventSlot.Add<WindowControl, StartMenu>(this, slot: nameof(ChangeCursor), value: value);
+        remove => ((WindowControl)this).ChangeCursor -= EventSlot.Remove<WindowControl, StartMenu>(this, slot: nameof(ChangeCursor), value: value);
     }
 
-    public new event AoWOnDrawSurface<StartMenu> OnDrawSurface
+    public new event AoWOnDrawSurface<StartMenu> SurfaceDrawn
     {
-        add => ((WindowControl)this).OnDrawSurface += EventSlot.Add<WindowControl, StartMenu>(this, slot: nameof(OnDrawSurface), value: value);
-        remove => ((WindowControl)this).OnDrawSurface -= EventSlot.Remove<WindowControl, StartMenu>(this, slot: nameof(OnDrawSurface), value: value);
+        add => ((WindowControl)this).SurfaceDrawn += EventSlot.Add<WindowControl, StartMenu>(this, slot: nameof(SurfaceDrawn), value: value);
+        remove => ((WindowControl)this).SurfaceDrawn -= EventSlot.Remove<WindowControl, StartMenu>(this, slot: nameof(SurfaceDrawn), value: value);
     }
 
-    public new event AoWOnDrawSurface<StartMenu> OnPreDrawSurface
+    public new event AoWOnDrawSurface<StartMenu> PreDrawSurface
     {
-        add => ((WindowControl)this).OnPreDrawSurface += EventSlot.Add<WindowControl, StartMenu>(this, slot: nameof(OnPreDrawSurface), value: value);
-        remove => ((WindowControl)this).OnPreDrawSurface -= EventSlot.Remove<WindowControl, StartMenu>(this, slot: nameof(OnPreDrawSurface), value: value);
+        add => ((WindowControl)this).PreDrawSurface += EventSlot.Add<WindowControl, StartMenu>(this, slot: nameof(PreDrawSurface), value: value);
+        remove => ((WindowControl)this).PreDrawSurface -= EventSlot.Remove<WindowControl, StartMenu>(this, slot: nameof(PreDrawSurface), value: value);
     }
 
-    public new event NotifyEvent<StartMenu> OnHide
+    public new event NotifyEvent<StartMenu> Hide
     {
-        add => ((BaseWindow)this).OnHide += EventSlot.Add<BaseWindow, StartMenu>(this, slot: nameof(OnHide), value: value);
-        remove => ((BaseWindow)this).OnHide -= EventSlot.Remove<BaseWindow, StartMenu>(this, slot: nameof(OnHide), value: value);
+        add => ((BaseWindow)this).Hide += EventSlot.Add<BaseWindow, StartMenu>(this, slot: nameof(Hide), value: value);
+        remove => ((BaseWindow)this).Hide -= EventSlot.Remove<BaseWindow, StartMenu>(this, slot: nameof(Hide), value: value);
     }
 
-    public new event NotifyEvent<StartMenu> OnShow
+    public new event NotifyEvent<StartMenu> Show
     {
-        add => ((BaseWindow)this).OnShow += EventSlot.Add<BaseWindow, StartMenu>(this, slot: nameof(OnShow), value: value);
-        remove => ((BaseWindow)this).OnShow -= EventSlot.Remove<BaseWindow, StartMenu>(this, slot: nameof(OnShow), value: value);
+        add => ((BaseWindow)this).Show += EventSlot.Add<BaseWindow, StartMenu>(this, slot: nameof(Show), value: value);
+        remove => ((BaseWindow)this).Show -= EventSlot.Remove<BaseWindow, StartMenu>(this, slot: nameof(Show), value: value);
     }
 
-    public new event NotifyEvent<StartMenu> OnDrawItem
+    public new event NotifyEvent<StartMenu> Select
     {
-        add => ((Menu)this).OnDrawItem += EventSlot.Add<Menu, StartMenu>(this, slot: nameof(OnDrawItem), value: value);
-        remove => ((Menu)this).OnDrawItem -= EventSlot.Remove<Menu, StartMenu>(this, slot: nameof(OnDrawItem), value: value);
-    }
-
-    public new event NotifyEvent<StartMenu> OnSelect
-    {
-        add => ((Menu)this).OnSelect += EventSlot.Add<Menu, StartMenu>(this, slot: nameof(OnSelect), value: value);
-        remove => ((Menu)this).OnSelect -= EventSlot.Remove<Menu, StartMenu>(this, slot: nameof(OnSelect), value: value);
+        add => ((Menu)this).Select += EventSlot.Add<Menu, StartMenu>(this, slot: nameof(Select), value: value);
+        remove => ((Menu)this).Select -= EventSlot.Remove<Menu, StartMenu>(this, slot: nameof(Select), value: value);
     }
 }

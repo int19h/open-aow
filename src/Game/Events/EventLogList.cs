@@ -24,7 +24,7 @@ public class EventLogList(CustomNode owner) : OwningNode(owner), IChildList<Even
 
     private int _updateCount;
 
-    public event NotifyEvent<object> OnChanged;
+    public event NotifyEvent<object> Changed;
 
     // EventLog.pas:481
     public override void MainPersist(IPersister persister)
@@ -74,7 +74,7 @@ public class EventLogList(CustomNode owner) : OwningNode(owner), IChildList<Even
         {
             child.SetOwner(null);
             _ = child.Release();
-            Changed();
+            OnChanged();
         }
 
         return result;
@@ -90,16 +90,16 @@ public class EventLogList(CustomNode owner) : OwningNode(owner), IChildList<Even
         }
 
         int result = Count - 1;
-        Changed();
+        OnChanged();
         return result;
     }
 
     // EventLog.pas:494
-    public void Changed()
+    public void OnChanged()
     {
-        if (_updateCount == 0 && OnChanged is not null)
+        if (_updateCount == 0 && Changed is not null)
         {
-            OnChanged(this);
+            Changed(this);
         }
     }
 
@@ -112,7 +112,7 @@ public class EventLogList(CustomNode owner) : OwningNode(owner), IChildList<Even
         _updateCount -= 1;
         if (_updateCount == 0)
         {
-            Changed();
+            OnChanged();
         }
     }
 

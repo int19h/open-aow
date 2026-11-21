@@ -8,7 +8,7 @@ public sealed partial class Memo
     public override void CheckMouseUp(MouseButton button, ShiftStates shift, int x, int y)
     {
         Handled = false;
-        MouseDown = false;
+        IsMouseDown = false;
         bool old = Redraw;
         Redraw = false;
         if (Editable && _items.Count == 0)

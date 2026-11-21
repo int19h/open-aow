@@ -91,7 +91,7 @@ public sealed partial class TaskBar : ILayoutModule
         tbNextButton.TextColor = 0;
         tbNextButton.TextSelectedColor = 0;
         tbNextButton.WinWidth = 26;
-        tbNextButton.OnClick += _ => TBNextButtonClick();
+        tbNextButton.Click += _ => TBNextButtonClick();
         session.EndRead(tbNextButton);
         WorldStartMenuBar = new MenuBar(this);
         session.BeginRead(WorldStartMenuBar);
@@ -123,7 +123,7 @@ public sealed partial class TaskBar : ILayoutModule
         ];
         WorldStartMenuBar.BorderWidth = 0;
         WorldStartMenuBar.BorderHeight = 0;
-        WorldStartMenuBar.OnChange += _ => StartMenuBarChange();
+        WorldStartMenuBar.Change += _ => StartMenuBarChange();
         WorldStartMenuBar.Selected = -1;
         WorldStartMenuBar.WinWidth = 40;
         WorldStartMenuBar.TextColor = 0;
@@ -245,8 +245,8 @@ public sealed partial class TaskBar : ILayoutModule
         WorldTurnButton.CurrentPlayer = 0;
         WorldTurnButton.LastPlayer = 0;
         WorldTurnButton.Animating = false;
-        WorldTurnButton.OnAnimationDone += _ => WorldTurnButtonAnimationDone();
-        WorldTurnButton.OnChange += _ => TurnButtonChange();
+        WorldTurnButton.AnimationDone += _ => WorldTurnButtonAnimationDone();
+        WorldTurnButton.Change += _ => TurnButtonChange();
         WorldTurnButton.Checked = false;
         session.EndRead(WorldTurnButton);
         Button wmButton = new(this);
@@ -282,7 +282,7 @@ public sealed partial class TaskBar : ILayoutModule
         wmButton.TextColor = 0;
         wmButton.TextSelectedColor = 0;
         wmButton.WinWidth = 70;
-        wmButton.OnClick += _ => WMButtonClick();
+        wmButton.Click += _ => WMButtonClick();
         session.EndRead(wmButton);
         Button ovButton = new(this);
         session.BeginRead(ovButton);
@@ -317,7 +317,7 @@ public sealed partial class TaskBar : ILayoutModule
         ovButton.TextColor = 0;
         ovButton.TextSelectedColor = 0;
         ovButton.WinWidth = 70;
-        ovButton.OnClick += _ => OVButtonClick();
+        ovButton.Click += _ => OVButtonClick();
         session.EndRead(ovButton);
         PartyButton = new Button(this);
         session.BeginRead(PartyButton);
@@ -353,7 +353,7 @@ public sealed partial class TaskBar : ILayoutModule
         PartyButton.TextColor = 0;
         PartyButton.TextSelectedColor = 0;
         PartyButton.WinWidth = 70;
-        PartyButton.OnClick += _ => ConButtonClick();
+        PartyButton.Click += _ => ConButtonClick();
         session.EndRead(PartyButton);
         StructureButton = new Button(this);
         session.BeginRead(StructureButton);
@@ -389,7 +389,7 @@ public sealed partial class TaskBar : ILayoutModule
         StructureButton.TextColor = 0;
         StructureButton.TextSelectedColor = 0;
         StructureButton.WinWidth = 70;
-        StructureButton.OnClick += _ => StructButtonClick();
+        StructureButton.Click += _ => StructButtonClick();
         session.EndRead(StructureButton);
         Button oV2Btn = new(this);
         session.BeginRead(oV2Btn);
@@ -424,7 +424,7 @@ public sealed partial class TaskBar : ILayoutModule
         oV2Btn.TextColor = 0;
         oV2Btn.TextSelectedColor = 0;
         oV2Btn.WinWidth = 70;
-        oV2Btn.OnClick += _ => OV2BtnClick();
+        oV2Btn.Click += _ => OV2BtnClick();
         session.EndRead(oV2Btn);
         Button infoBtn = new(this);
         session.BeginRead(infoBtn);
@@ -459,12 +459,12 @@ public sealed partial class TaskBar : ILayoutModule
         infoBtn.TextColor = 0;
         infoBtn.TextSelectedColor = 0;
         infoBtn.WinWidth = 70;
-        infoBtn.OnClick += _ => InfoBtnClick();
+        infoBtn.Click += _ => InfoBtnClick();
         session.EndRead(infoBtn);
         ChatButton = new Button(this);
         session.BeginRead(ChatButton);
         ChatButton.Name = "ChatBtn";
-        ChatButton.OnUpdate += ChatBtnUpdate;
+        ChatButton.Updated += ChatBtnUpdate;
         ChatButton.Visible = false;
         ChatButton.Priority = 0;
         ChatButton.WinLeft = 437;
@@ -496,7 +496,7 @@ public sealed partial class TaskBar : ILayoutModule
         ChatButton.TextColor = 0;
         ChatButton.TextSelectedColor = 0;
         ChatButton.WinWidth = 70;
-        ChatButton.OnClick += _ => ChatBtnClick();
+        ChatButton.Click += _ => ChatBtnClick();
         session.EndRead(ChatButton);
         Panel taskPanel = new(this);
         session.BeginRead(taskPanel);
@@ -692,7 +692,7 @@ public sealed partial class TaskBar : ILayoutModule
         CurrentPlayerImage = new Image(this);
         session.BeginRead(CurrentPlayerImage);
         CurrentPlayerImage.Name = "CurP";
-        CurrentPlayerImage.OnUpdate += _ => CurPUpdate();
+        CurrentPlayerImage.Updated += _ => CurPUpdate();
         CurrentPlayerImage.Priority = 15;
         CurrentPlayerImage.WinLeft = 0;
         CurrentPlayerImage.WinTop = 0;
@@ -725,7 +725,7 @@ public sealed partial class TaskBar : ILayoutModule
         WorldPanel = new Panel(this);
         session.BeginRead(WorldPanel);
         WorldPanel.Name = "TBWorld";
-        WorldPanel.OnUpdate += _ => TBWorldUpdate();
+        WorldPanel.Updated += _ => TBWorldUpdate();
         WorldPanel.Priority = 0;
         WorldPanel.WinLeft = 0;
         WorldPanel.WinTop = 0;
@@ -782,7 +782,7 @@ public sealed partial class TaskBar : ILayoutModule
         tcNextBtn.TextColor = 0;
         tcNextBtn.TextSelectedColor = 0;
         tcNextBtn.WinWidth = 26;
-        tcNextBtn.OnClick += _ => TCNextBtnClick();
+        tcNextBtn.Click += _ => TCNextBtnClick();
         session.EndRead(tcNextBtn);
         CombatStartMenuBar = new MenuBar(this);
         session.BeginRead(CombatStartMenuBar);
@@ -814,7 +814,7 @@ public sealed partial class TaskBar : ILayoutModule
         ];
         CombatStartMenuBar.BorderWidth = 0;
         CombatStartMenuBar.BorderHeight = 0;
-        CombatStartMenuBar.OnChange += _ => StartMenuBarChange();
+        CombatStartMenuBar.Change += _ => StartMenuBarChange();
         CombatStartMenuBar.Selected = -1;
         CombatStartMenuBar.WinWidth = 40;
         CombatStartMenuBar.TextColor = 0;
@@ -885,8 +885,8 @@ public sealed partial class TaskBar : ILayoutModule
         CombatTurnButton.CurrentPlayer = 0;
         CombatTurnButton.LastPlayer = 0;
         CombatTurnButton.Animating = false;
-        CombatTurnButton.OnAnimationDone += _ => CombatTurnButtonAnimationDone();
-        CombatTurnButton.OnChange += _ => TCTurnButtonChange();
+        CombatTurnButton.AnimationDone += _ => CombatTurnButtonAnimationDone();
+        CombatTurnButton.Change += _ => TCTurnButtonChange();
         CombatTurnButton.Checked = false;
         session.EndRead(CombatTurnButton);
         CombatScannerButton = new Button(this);
@@ -922,7 +922,7 @@ public sealed partial class TaskBar : ILayoutModule
         CombatScannerButton.TextColor = 0;
         CombatScannerButton.TextSelectedColor = 0;
         CombatScannerButton.WinWidth = 70;
-        CombatScannerButton.OnClick += _ => TCScannerBtnClick();
+        CombatScannerButton.Click += _ => TCScannerBtnClick();
         session.EndRead(CombatScannerButton);
         CombatUnitButton = new Button(this);
         session.BeginRead(CombatUnitButton);
@@ -958,7 +958,7 @@ public sealed partial class TaskBar : ILayoutModule
         CombatUnitButton.TextColor = 0;
         CombatUnitButton.TextSelectedColor = 0;
         CombatUnitButton.WinWidth = 70;
-        CombatUnitButton.OnClick += _ => TCUnitBtnClick();
+        CombatUnitButton.Click += _ => TCUnitBtnClick();
         session.EndRead(CombatUnitButton);
         Frame frame1 = new(this);
         session.BeginRead(frame1);
@@ -1100,7 +1100,7 @@ public sealed partial class TaskBar : ILayoutModule
         CombatCurrentPlayerImage = new Image(this);
         session.BeginRead(CombatCurrentPlayerImage);
         CombatCurrentPlayerImage.Name = "TCCurP";
-        CombatCurrentPlayerImage.OnUpdate += _ => TCCurPUpdate();
+        CombatCurrentPlayerImage.Updated += _ => TCCurPUpdate();
         CombatCurrentPlayerImage.Priority = 15;
         CombatCurrentPlayerImage.WinLeft = 0;
         CombatCurrentPlayerImage.WinTop = 0;
@@ -1133,7 +1133,7 @@ public sealed partial class TaskBar : ILayoutModule
         CombatPanel = new Panel(this);
         session.BeginRead(CombatPanel);
         CombatPanel.Name = "TBCombat";
-        CombatPanel.OnUpdate += _ => TBCombatUpdate();
+        CombatPanel.Updated += _ => TBCombatUpdate();
         CombatPanel.Visible = false;
         CombatPanel.Priority = 0;
         CombatPanel.WinLeft = 0;
@@ -1189,7 +1189,7 @@ public sealed partial class TaskBar : ILayoutModule
         CombatChatButton = new Button(this);
         session.BeginRead(CombatChatButton);
         CombatChatButton.Name = "TCChatBtn";
-        CombatChatButton.OnUpdate += ChatBtnUpdate;
+        CombatChatButton.Updated += ChatBtnUpdate;
         CombatChatButton.Visible = false;
         CombatChatButton.Priority = 0;
         CombatChatButton.WinLeft = 437;
@@ -1221,7 +1221,7 @@ public sealed partial class TaskBar : ILayoutModule
         CombatChatButton.TextColor = 0;
         CombatChatButton.TextSelectedColor = 0;
         CombatChatButton.WinWidth = 70;
-        CombatChatButton.OnClick += _ => ChatBtnClick();
+        CombatChatButton.Click += _ => ChatBtnClick();
         session.EndRead(CombatChatButton);
         Panel wGoldPnl = new(this);
         session.BeginRead(wGoldPnl);
@@ -1753,7 +1753,7 @@ public sealed partial class TaskBar : ILayoutModule
         relationsBtn.TextColor = 0;
         relationsBtn.TextSelectedColor = 0;
         relationsBtn.WinWidth = 70;
-        relationsBtn.OnClick += _ => RelationsBtnClick();
+        relationsBtn.Click += _ => RelationsBtnClick();
         session.EndRead(relationsBtn);
         AutoCombatCheckBox = new CheckBox(this);
         session.BeginRead(AutoCombatCheckBox);
@@ -1789,7 +1789,7 @@ public sealed partial class TaskBar : ILayoutModule
         AutoCombatCheckBox.TextSelectedColor = 0;
         AutoCombatCheckBox.WinWidth = 70;
         AutoCombatCheckBox.Checked = false;
-        AutoCombatCheckBox.OnChange += _ => AutoCombatCheckBoxChange();
+        AutoCombatCheckBox.Change += _ => AutoCombatCheckBoxChange();
         AutoCombatCheckBox.RadioIndex = 0;
         session.EndRead(AutoCombatCheckBox);
         LayoutIvTranslator translator = new(this);

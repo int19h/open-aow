@@ -18,7 +18,7 @@ public sealed partial class ConfirmationDialog : ILayoutModule
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "Dialog";
-        Window.OnKeyDown += (_, ref key, shift) => DialogKeyDown(key, shift);
+        Window.KeyDown += (_, ref key, shift) => DialogKeyDown(key, shift);
         Window.Visible = false;
         Window.Priority = 300;
         Window.WinLeft = 157;
@@ -132,7 +132,7 @@ public sealed partial class ConfirmationDialog : ILayoutModule
         dButton.TextColor = 7921903;
         dButton.TextSelectedColor = 16777215;
         dButton.WinWidth = 140;
-        dButton.OnClick += _ => DButtonClick();
+        dButton.Click += _ => DButtonClick();
         session.EndRead(dButton);
         Window debugWin = new(this);
         session.BeginRead(debugWin);
@@ -229,7 +229,7 @@ public sealed partial class ConfirmationDialog : ILayoutModule
         debugDOkBtn.TextColor = 0;
         debugDOkBtn.TextSelectedColor = 0;
         debugDOkBtn.WinWidth = 160;
-        debugDOkBtn.OnClick += _ => DebugDOkBtnClick();
+        debugDOkBtn.Click += _ => DebugDOkBtnClick();
         session.EndRead(debugDOkBtn);
         Label frameLbl = new(this);
         session.BeginRead(frameLbl);
@@ -430,7 +430,7 @@ public sealed partial class ConfirmationDialog : ILayoutModule
         yesBtn.TextColor = 0;
         yesBtn.TextSelectedColor = 16777215;
         yesBtn.WinWidth = 105;
-        yesBtn.OnClick += _ => yesBtnClick();
+        yesBtn.Click += _ => yesBtnClick();
         session.EndRead(yesBtn);
         Button noBtn = new(this);
         session.BeginRead(noBtn);
@@ -461,7 +461,7 @@ public sealed partial class ConfirmationDialog : ILayoutModule
         noBtn.TextColor = 0;
         noBtn.TextSelectedColor = 16777215;
         noBtn.WinWidth = 105;
-        noBtn.OnClick += _ => DButtonClick();
+        noBtn.Click += _ => DButtonClick();
         session.EndRead(noBtn);
         Frame bCeltL = new(this);
         session.BeginRead(bCeltL);

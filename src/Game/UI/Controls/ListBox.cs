@@ -26,9 +26,9 @@ public partial class ListBox : Control
     private int _selected;
 
     [Published]
-    public event AoWOnDrawItemEvent<ListBox> OnPreDrawItem;
+    public event AoWOnDrawItemEvent<ListBox> PreDrawItem;
     [Published]
-    public event AoWOnDrawItemEvent<ListBox> OnDrawItem;
+    public event AoWOnDrawItemEvent<ListBox> DrawItem;
     private int _scrollWidth;
 
     private InterfaceImageLibrary _imageLibraryFrame;
@@ -36,7 +36,7 @@ public partial class ListBox : Control
     private InterfaceImageLibrary _imageLibraryTextureSelected;
 
     [Published]
-    public event NotifyEvent<ListBox> OnDoubleClick;
+    public event NotifyEvent<ListBox> DoubleClick;
 
     public int FirstShownItem { get; private set; }
 
@@ -308,7 +308,7 @@ public partial class ListBox : Control
                             _drawItemRectangle.Bottom = lockedSurface.ClipRectangle.Bottom;
                         }
 
-                        OnPreDrawItem?.Invoke(this, DrawRect: _drawItemRectangle, _drawItem, SurfDesc: ref lockedSurface);
+                        PreDrawItem?.Invoke(this, DrawRect: _drawItemRectangle, _drawItem, SurfDesc: ref lockedSurface);
 
                         if (FirstShownItem + i == _selected)
                         {
@@ -345,7 +345,7 @@ public partial class ListBox : Control
                                 break;
                         }
 
-                        OnDrawItem?.Invoke(this, DrawRect: _drawItemRectangle, _drawItem, SurfDesc: ref lockedSurface);
+                        DrawItem?.Invoke(this, DrawRect: _drawItemRectangle, _drawItem, SurfDesc: ref lockedSurface);
                     }
                 }
 
@@ -390,9 +390,9 @@ public partial class ListBox : Control
                     RaiseChange(this);
                 }
 
-                if (button == MouseButton.Left && (ShiftStates.Double & shift) == ShiftStates.Double && OnDoubleClick is not null)
+                if (button == MouseButton.Left && (ShiftStates.Double & shift) == ShiftStates.Double && DoubleClick is not null)
                 {
-                    OnDoubleClick(this);
+                    DoubleClick(this);
                 }
 
                 if (_selected > -1 && button == MouseButton.Right && PopupMenu is not null)
@@ -629,46 +629,46 @@ public partial class ListBox : Control
     [Published]
     public TextAlignment TextAlign { get; set; }
 
-    public new event NotifyEvent<ListBox> OnChange
+    public new event NotifyEvent<ListBox> Change
     {
-        add => ((UIComponent)this).OnChange += EventSlot.Add<UIComponent, ListBox>(this, slot: nameof(OnChange), value: value);
-        remove => ((UIComponent)this).OnChange -= EventSlot.Remove<UIComponent, ListBox>(this, slot: nameof(OnChange), value: value);
+        add => ((UIComponent)this).Change += EventSlot.Add<UIComponent, ListBox>(this, slot: nameof(Change), value: value);
+        remove => ((UIComponent)this).Change -= EventSlot.Remove<UIComponent, ListBox>(this, slot: nameof(Change), value: value);
     }
 
-    public new event MouseEvent<ListBox> OnMouseDown
+    public new event MouseEvent<ListBox> MouseDown
     {
-        add => ((UIComponent)this).OnMouseDown += EventSlot.Add<UIComponent, ListBox>(this, slot: nameof(OnMouseDown), value: value);
-        remove => ((UIComponent)this).OnMouseDown -= EventSlot.Remove<UIComponent, ListBox>(this, slot: nameof(OnMouseDown), value: value);
+        add => ((UIComponent)this).MouseDown += EventSlot.Add<UIComponent, ListBox>(this, slot: nameof(MouseDown), value: value);
+        remove => ((UIComponent)this).MouseDown -= EventSlot.Remove<UIComponent, ListBox>(this, slot: nameof(MouseDown), value: value);
     }
 
-    public new event MouseEvent<ListBox> OnMouseUp
+    public new event MouseEvent<ListBox> MouseUp
     {
-        add => ((UIComponent)this).OnMouseUp += EventSlot.Add<UIComponent, ListBox>(this, slot: nameof(OnMouseUp), value: value);
-        remove => ((UIComponent)this).OnMouseUp -= EventSlot.Remove<UIComponent, ListBox>(this, slot: nameof(OnMouseUp), value: value);
+        add => ((UIComponent)this).MouseUp += EventSlot.Add<UIComponent, ListBox>(this, slot: nameof(MouseUp), value: value);
+        remove => ((UIComponent)this).MouseUp -= EventSlot.Remove<UIComponent, ListBox>(this, slot: nameof(MouseUp), value: value);
     }
 
-    public new event MouseMoveEvent<ListBox> OnMouseMove
+    public new event MouseMoveEvent<ListBox> MouseMove
     {
-        add => ((UIComponent)this).OnMouseMove += EventSlot.Add<UIComponent, ListBox>(this, slot: nameof(OnMouseMove), value: value);
-        remove => ((UIComponent)this).OnMouseMove -= EventSlot.Remove<UIComponent, ListBox>(this, slot: nameof(OnMouseMove), value: value);
+        add => ((UIComponent)this).MouseMove += EventSlot.Add<UIComponent, ListBox>(this, slot: nameof(MouseMove), value: value);
+        remove => ((UIComponent)this).MouseMove -= EventSlot.Remove<UIComponent, ListBox>(this, slot: nameof(MouseMove), value: value);
     }
 
-    public new event KeyPressEvent<ListBox> OnKeyPress
+    public new event KeyPressEvent<ListBox> KeyPress
     {
-        add => ((UIComponent)this).OnKeyPress += EventSlot.Add<UIComponent, ListBox>(this, slot: nameof(OnKeyPress), value: value);
-        remove => ((UIComponent)this).OnKeyPress -= EventSlot.Remove<UIComponent, ListBox>(this, slot: nameof(OnKeyPress), value: value);
+        add => ((UIComponent)this).KeyPress += EventSlot.Add<UIComponent, ListBox>(this, slot: nameof(KeyPress), value: value);
+        remove => ((UIComponent)this).KeyPress -= EventSlot.Remove<UIComponent, ListBox>(this, slot: nameof(KeyPress), value: value);
     }
 
-    public new event KeyEvent<ListBox> OnKeyDown
+    public new event KeyEvent<ListBox> KeyDown
     {
-        add => ((UIComponent)this).OnKeyDown += EventSlot.Add<UIComponent, ListBox>(this, slot: nameof(OnKeyDown), value: value);
-        remove => ((UIComponent)this).OnKeyDown -= EventSlot.Remove<UIComponent, ListBox>(this, slot: nameof(OnKeyDown), value: value);
+        add => ((UIComponent)this).KeyDown += EventSlot.Add<UIComponent, ListBox>(this, slot: nameof(KeyDown), value: value);
+        remove => ((UIComponent)this).KeyDown -= EventSlot.Remove<UIComponent, ListBox>(this, slot: nameof(KeyDown), value: value);
     }
 
-    public new event AoWOnDrawEvent<ListBox> OnPreDraw
+    public new event AoWOnDrawEvent<ListBox> PreDraw
     {
-        add => ((UIComponent)this).OnPreDraw += EventSlot.Add<UIComponent, ListBox>(this, slot: nameof(OnPreDraw), value: value);
-        remove => ((UIComponent)this).OnPreDraw -= EventSlot.Remove<UIComponent, ListBox>(this, slot: nameof(OnPreDraw), value: value);
+        add => ((UIComponent)this).PreDraw += EventSlot.Add<UIComponent, ListBox>(this, slot: nameof(PreDraw), value: value);
+        remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, ListBox>(this, slot: nameof(PreDraw), value: value);
     }
 
     public new event AoWOnDrawEvent<ListBox> OnDraw
@@ -677,9 +677,9 @@ public partial class ListBox : Control
         remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, ListBox>(this, slot: nameof(OnDraw), value: value);
     }
 
-    public new event NotifyEvent<ListBox> OnUpdate
+    public new event NotifyEvent<ListBox> Updated
     {
-        add => ((UIComponent)this).OnUpdate += EventSlot.Add<UIComponent, ListBox>(this, slot: nameof(OnUpdate), value: value);
-        remove => ((UIComponent)this).OnUpdate -= EventSlot.Remove<UIComponent, ListBox>(this, slot: nameof(OnUpdate), value: value);
+        add => ((UIComponent)this).Updated += EventSlot.Add<UIComponent, ListBox>(this, slot: nameof(Updated), value: value);
+        remove => ((UIComponent)this).Updated -= EventSlot.Remove<UIComponent, ListBox>(this, slot: nameof(Updated), value: value);
     }
 }

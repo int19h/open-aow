@@ -163,46 +163,46 @@ public sealed partial class Image(Component owner) : Control(owner)
     [Published]
     public int AnimationFrameDelay { get; set; }
 
-    public new event NotifyEvent<Image> OnChange
+    public new event NotifyEvent<Image> Change
     {
-        add => ((UIComponent)this).OnChange += EventSlot.Add<UIComponent, Image>(this, slot: nameof(OnChange), value: value);
-        remove => ((UIComponent)this).OnChange -= EventSlot.Remove<UIComponent, Image>(this, slot: nameof(OnChange), value: value);
+        add => ((UIComponent)this).Change += EventSlot.Add<UIComponent, Image>(this, slot: nameof(Change), value: value);
+        remove => ((UIComponent)this).Change -= EventSlot.Remove<UIComponent, Image>(this, slot: nameof(Change), value: value);
     }
 
-    public new event MouseEvent<Image> OnMouseDown
+    public new event MouseEvent<Image> MouseDown
     {
-        add => ((UIComponent)this).OnMouseDown += EventSlot.Add<UIComponent, Image>(this, slot: nameof(OnMouseDown), value: value);
-        remove => ((UIComponent)this).OnMouseDown -= EventSlot.Remove<UIComponent, Image>(this, slot: nameof(OnMouseDown), value: value);
+        add => ((UIComponent)this).MouseDown += EventSlot.Add<UIComponent, Image>(this, slot: nameof(MouseDown), value: value);
+        remove => ((UIComponent)this).MouseDown -= EventSlot.Remove<UIComponent, Image>(this, slot: nameof(MouseDown), value: value);
     }
 
-    public new event MouseEvent<Image> OnMouseUp
+    public new event MouseEvent<Image> MouseUp
     {
-        add => ((UIComponent)this).OnMouseUp += EventSlot.Add<UIComponent, Image>(this, slot: nameof(OnMouseUp), value: value);
-        remove => ((UIComponent)this).OnMouseUp -= EventSlot.Remove<UIComponent, Image>(this, slot: nameof(OnMouseUp), value: value);
+        add => ((UIComponent)this).MouseUp += EventSlot.Add<UIComponent, Image>(this, slot: nameof(MouseUp), value: value);
+        remove => ((UIComponent)this).MouseUp -= EventSlot.Remove<UIComponent, Image>(this, slot: nameof(MouseUp), value: value);
     }
 
-    public new event MouseMoveEvent<Image> OnMouseMove
+    public new event MouseMoveEvent<Image> MouseMove
     {
-        add => ((UIComponent)this).OnMouseMove += EventSlot.Add<UIComponent, Image>(this, slot: nameof(OnMouseMove), value: value);
-        remove => ((UIComponent)this).OnMouseMove -= EventSlot.Remove<UIComponent, Image>(this, slot: nameof(OnMouseMove), value: value);
+        add => ((UIComponent)this).MouseMove += EventSlot.Add<UIComponent, Image>(this, slot: nameof(MouseMove), value: value);
+        remove => ((UIComponent)this).MouseMove -= EventSlot.Remove<UIComponent, Image>(this, slot: nameof(MouseMove), value: value);
     }
 
-    public new event KeyPressEvent<Image> OnKeyPress
+    public new event KeyPressEvent<Image> KeyPress
     {
-        add => ((UIComponent)this).OnKeyPress += EventSlot.Add<UIComponent, Image>(this, slot: nameof(OnKeyPress), value: value);
-        remove => ((UIComponent)this).OnKeyPress -= EventSlot.Remove<UIComponent, Image>(this, slot: nameof(OnKeyPress), value: value);
+        add => ((UIComponent)this).KeyPress += EventSlot.Add<UIComponent, Image>(this, slot: nameof(KeyPress), value: value);
+        remove => ((UIComponent)this).KeyPress -= EventSlot.Remove<UIComponent, Image>(this, slot: nameof(KeyPress), value: value);
     }
 
-    public new event KeyEvent<Image> OnKeyDown
+    public new event KeyEvent<Image> KeyDown
     {
-        add => ((UIComponent)this).OnKeyDown += EventSlot.Add<UIComponent, Image>(this, slot: nameof(OnKeyDown), value: value);
-        remove => ((UIComponent)this).OnKeyDown -= EventSlot.Remove<UIComponent, Image>(this, slot: nameof(OnKeyDown), value: value);
+        add => ((UIComponent)this).KeyDown += EventSlot.Add<UIComponent, Image>(this, slot: nameof(KeyDown), value: value);
+        remove => ((UIComponent)this).KeyDown -= EventSlot.Remove<UIComponent, Image>(this, slot: nameof(KeyDown), value: value);
     }
 
-    public new event AoWOnDrawEvent<Image> OnPreDraw
+    public new event AoWOnDrawEvent<Image> PreDraw
     {
-        add => ((UIComponent)this).OnPreDraw += EventSlot.Add<UIComponent, Image>(this, slot: nameof(OnPreDraw), value: value);
-        remove => ((UIComponent)this).OnPreDraw -= EventSlot.Remove<UIComponent, Image>(this, slot: nameof(OnPreDraw), value: value);
+        add => ((UIComponent)this).PreDraw += EventSlot.Add<UIComponent, Image>(this, slot: nameof(PreDraw), value: value);
+        remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, Image>(this, slot: nameof(PreDraw), value: value);
     }
 
     public new event AoWOnDrawEvent<Image> OnDraw
@@ -211,9 +211,9 @@ public sealed partial class Image(Component owner) : Control(owner)
         remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, Image>(this, slot: nameof(OnDraw), value: value);
     }
 
-    public new event NotifyEvent<Image> OnUpdate
+    public new event NotifyEvent<Image> Updated
     {
-        add => ((UIComponent)this).OnUpdate += EventSlot.Add<UIComponent, Image>(this, slot: nameof(OnUpdate), value: value);
-        remove => ((UIComponent)this).OnUpdate -= EventSlot.Remove<UIComponent, Image>(this, slot: nameof(OnUpdate), value: value);
+        add => ((UIComponent)this).Updated += EventSlot.Add<UIComponent, Image>(this, slot: nameof(Updated), value: value);
+        remove => ((UIComponent)this).Updated -= EventSlot.Remove<UIComponent, Image>(this, slot: nameof(Updated), value: value);
     }
 }

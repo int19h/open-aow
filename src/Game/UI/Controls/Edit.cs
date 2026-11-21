@@ -30,9 +30,9 @@ public sealed partial class Edit(Component owner) : Control(owner)
 
     private InterfaceImageLibrary _imageLibraryEdit;
     [Published]
-    public event NotifyEvent<Edit> OnExit;
+    public event NotifyEvent<Edit> Exit;
     [Published]
-    public event NotifyEvent<Edit> OnReturn;
+    public event NotifyEvent<Edit> Return;
     private int _imageLibraryIndex;
     private int _cursorPosition;
 
@@ -157,7 +157,7 @@ public sealed partial class Edit(Component owner) : Control(owner)
     {
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
-        MouseDown = false;
+        IsMouseDown = false;
         bool oldRedraw = Redraw;
         if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
@@ -211,7 +211,7 @@ public sealed partial class Edit(Component owner) : Control(owner)
             if (_cursorShown)
             {
                 _cursorShown = false;
-                OnExit?.Invoke(this);
+                Exit?.Invoke(this);
             }
 
             Redraw = false;
@@ -272,7 +272,7 @@ public sealed partial class Edit(Component owner) : Control(owner)
                 case 13:
                     _cursorShown = false;
                     Redraw = false;
-                    OnReturn?.Invoke(this);
+                    Return?.Invoke(this);
 
                     break;
                 case >= 0 and <= 7:
@@ -421,46 +421,46 @@ public sealed partial class Edit(Component owner) : Control(owner)
         RaiseChange(this);
     }
 
-    public new event NotifyEvent<Edit> OnChange
+    public new event NotifyEvent<Edit> Change
     {
-        add => ((UIComponent)this).OnChange += EventSlot.Add<UIComponent, Edit>(this, slot: nameof(OnChange), value: value);
-        remove => ((UIComponent)this).OnChange -= EventSlot.Remove<UIComponent, Edit>(this, slot: nameof(OnChange), value: value);
+        add => ((UIComponent)this).Change += EventSlot.Add<UIComponent, Edit>(this, slot: nameof(Change), value: value);
+        remove => ((UIComponent)this).Change -= EventSlot.Remove<UIComponent, Edit>(this, slot: nameof(Change), value: value);
     }
 
-    public new event MouseEvent<Edit> OnMouseDown
+    public new event MouseEvent<Edit> MouseDown
     {
-        add => ((UIComponent)this).OnMouseDown += EventSlot.Add<UIComponent, Edit>(this, slot: nameof(OnMouseDown), value: value);
-        remove => ((UIComponent)this).OnMouseDown -= EventSlot.Remove<UIComponent, Edit>(this, slot: nameof(OnMouseDown), value: value);
+        add => ((UIComponent)this).MouseDown += EventSlot.Add<UIComponent, Edit>(this, slot: nameof(MouseDown), value: value);
+        remove => ((UIComponent)this).MouseDown -= EventSlot.Remove<UIComponent, Edit>(this, slot: nameof(MouseDown), value: value);
     }
 
-    public new event MouseEvent<Edit> OnMouseUp
+    public new event MouseEvent<Edit> MouseUp
     {
-        add => ((UIComponent)this).OnMouseUp += EventSlot.Add<UIComponent, Edit>(this, slot: nameof(OnMouseUp), value: value);
-        remove => ((UIComponent)this).OnMouseUp -= EventSlot.Remove<UIComponent, Edit>(this, slot: nameof(OnMouseUp), value: value);
+        add => ((UIComponent)this).MouseUp += EventSlot.Add<UIComponent, Edit>(this, slot: nameof(MouseUp), value: value);
+        remove => ((UIComponent)this).MouseUp -= EventSlot.Remove<UIComponent, Edit>(this, slot: nameof(MouseUp), value: value);
     }
 
-    public new event MouseMoveEvent<Edit> OnMouseMove
+    public new event MouseMoveEvent<Edit> MouseMove
     {
-        add => ((UIComponent)this).OnMouseMove += EventSlot.Add<UIComponent, Edit>(this, slot: nameof(OnMouseMove), value: value);
-        remove => ((UIComponent)this).OnMouseMove -= EventSlot.Remove<UIComponent, Edit>(this, slot: nameof(OnMouseMove), value: value);
+        add => ((UIComponent)this).MouseMove += EventSlot.Add<UIComponent, Edit>(this, slot: nameof(MouseMove), value: value);
+        remove => ((UIComponent)this).MouseMove -= EventSlot.Remove<UIComponent, Edit>(this, slot: nameof(MouseMove), value: value);
     }
 
-    public new event KeyPressEvent<Edit> OnKeyPress
+    public new event KeyPressEvent<Edit> KeyPress
     {
-        add => ((UIComponent)this).OnKeyPress += EventSlot.Add<UIComponent, Edit>(this, slot: nameof(OnKeyPress), value: value);
-        remove => ((UIComponent)this).OnKeyPress -= EventSlot.Remove<UIComponent, Edit>(this, slot: nameof(OnKeyPress), value: value);
+        add => ((UIComponent)this).KeyPress += EventSlot.Add<UIComponent, Edit>(this, slot: nameof(KeyPress), value: value);
+        remove => ((UIComponent)this).KeyPress -= EventSlot.Remove<UIComponent, Edit>(this, slot: nameof(KeyPress), value: value);
     }
 
-    public new event KeyEvent<Edit> OnKeyDown
+    public new event KeyEvent<Edit> KeyDown
     {
-        add => ((UIComponent)this).OnKeyDown += EventSlot.Add<UIComponent, Edit>(this, slot: nameof(OnKeyDown), value: value);
-        remove => ((UIComponent)this).OnKeyDown -= EventSlot.Remove<UIComponent, Edit>(this, slot: nameof(OnKeyDown), value: value);
+        add => ((UIComponent)this).KeyDown += EventSlot.Add<UIComponent, Edit>(this, slot: nameof(KeyDown), value: value);
+        remove => ((UIComponent)this).KeyDown -= EventSlot.Remove<UIComponent, Edit>(this, slot: nameof(KeyDown), value: value);
     }
 
-    public new event AoWOnDrawEvent<Edit> OnPreDraw
+    public new event AoWOnDrawEvent<Edit> PreDraw
     {
-        add => ((UIComponent)this).OnPreDraw += EventSlot.Add<UIComponent, Edit>(this, slot: nameof(OnPreDraw), value: value);
-        remove => ((UIComponent)this).OnPreDraw -= EventSlot.Remove<UIComponent, Edit>(this, slot: nameof(OnPreDraw), value: value);
+        add => ((UIComponent)this).PreDraw += EventSlot.Add<UIComponent, Edit>(this, slot: nameof(PreDraw), value: value);
+        remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, Edit>(this, slot: nameof(PreDraw), value: value);
     }
 
     public new event AoWOnDrawEvent<Edit> OnDraw
@@ -469,9 +469,9 @@ public sealed partial class Edit(Component owner) : Control(owner)
         remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, Edit>(this, slot: nameof(OnDraw), value: value);
     }
 
-    public new event NotifyEvent<Edit> OnUpdate
+    public new event NotifyEvent<Edit> Updated
     {
-        add => ((UIComponent)this).OnUpdate += EventSlot.Add<UIComponent, Edit>(this, slot: nameof(OnUpdate), value: value);
-        remove => ((UIComponent)this).OnUpdate -= EventSlot.Remove<UIComponent, Edit>(this, slot: nameof(OnUpdate), value: value);
+        add => ((UIComponent)this).Updated += EventSlot.Add<UIComponent, Edit>(this, slot: nameof(Updated), value: value);
+        remove => ((UIComponent)this).Updated -= EventSlot.Remove<UIComponent, Edit>(this, slot: nameof(Updated), value: value);
     }
 }

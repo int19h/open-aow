@@ -33,7 +33,7 @@ public sealed partial class Memo : Control
     private int _topItem;
     private bool _scrollSet;
     [Published]
-    public event NotifyEvent<Memo> OnDrawItem;
+    public event NotifyEvent<Memo> DrawItem;
     private int _scrollWidth;
     private bool _blink;
     private byte _blinkCount;
@@ -418,7 +418,7 @@ public sealed partial class Memo : Control
                             _itemRectangle.Bottom = lockedSurface.ClipRectangle.Bottom;
                         }
 
-                        OnDrawItem?.Invoke(this);
+                        DrawItem?.Invoke(this);
                     }
                 }
 
@@ -934,46 +934,46 @@ public sealed partial class Memo : Control
     [Published]
     public TextAlignment TextAlign { get; set; }
 
-    public new event NotifyEvent<Memo> OnChange
+    public new event NotifyEvent<Memo> Change
     {
-        add => ((UIComponent)this).OnChange += EventSlot.Add<UIComponent, Memo>(this, slot: nameof(OnChange), value: value);
-        remove => ((UIComponent)this).OnChange -= EventSlot.Remove<UIComponent, Memo>(this, slot: nameof(OnChange), value: value);
+        add => ((UIComponent)this).Change += EventSlot.Add<UIComponent, Memo>(this, slot: nameof(Change), value: value);
+        remove => ((UIComponent)this).Change -= EventSlot.Remove<UIComponent, Memo>(this, slot: nameof(Change), value: value);
     }
 
-    public new event MouseEvent<Memo> OnMouseDown
+    public new event MouseEvent<Memo> MouseDown
     {
-        add => ((UIComponent)this).OnMouseDown += EventSlot.Add<UIComponent, Memo>(this, slot: nameof(OnMouseDown), value: value);
-        remove => ((UIComponent)this).OnMouseDown -= EventSlot.Remove<UIComponent, Memo>(this, slot: nameof(OnMouseDown), value: value);
+        add => ((UIComponent)this).MouseDown += EventSlot.Add<UIComponent, Memo>(this, slot: nameof(MouseDown), value: value);
+        remove => ((UIComponent)this).MouseDown -= EventSlot.Remove<UIComponent, Memo>(this, slot: nameof(MouseDown), value: value);
     }
 
-    public new event MouseEvent<Memo> OnMouseUp
+    public new event MouseEvent<Memo> MouseUp
     {
-        add => ((UIComponent)this).OnMouseUp += EventSlot.Add<UIComponent, Memo>(this, slot: nameof(OnMouseUp), value: value);
-        remove => ((UIComponent)this).OnMouseUp -= EventSlot.Remove<UIComponent, Memo>(this, slot: nameof(OnMouseUp), value: value);
+        add => ((UIComponent)this).MouseUp += EventSlot.Add<UIComponent, Memo>(this, slot: nameof(MouseUp), value: value);
+        remove => ((UIComponent)this).MouseUp -= EventSlot.Remove<UIComponent, Memo>(this, slot: nameof(MouseUp), value: value);
     }
 
-    public new event MouseMoveEvent<Memo> OnMouseMove
+    public new event MouseMoveEvent<Memo> MouseMove
     {
-        add => ((UIComponent)this).OnMouseMove += EventSlot.Add<UIComponent, Memo>(this, slot: nameof(OnMouseMove), value: value);
-        remove => ((UIComponent)this).OnMouseMove -= EventSlot.Remove<UIComponent, Memo>(this, slot: nameof(OnMouseMove), value: value);
+        add => ((UIComponent)this).MouseMove += EventSlot.Add<UIComponent, Memo>(this, slot: nameof(MouseMove), value: value);
+        remove => ((UIComponent)this).MouseMove -= EventSlot.Remove<UIComponent, Memo>(this, slot: nameof(MouseMove), value: value);
     }
 
-    public new event KeyPressEvent<Memo> OnKeyPress
+    public new event KeyPressEvent<Memo> KeyPress
     {
-        add => ((UIComponent)this).OnKeyPress += EventSlot.Add<UIComponent, Memo>(this, slot: nameof(OnKeyPress), value: value);
-        remove => ((UIComponent)this).OnKeyPress -= EventSlot.Remove<UIComponent, Memo>(this, slot: nameof(OnKeyPress), value: value);
+        add => ((UIComponent)this).KeyPress += EventSlot.Add<UIComponent, Memo>(this, slot: nameof(KeyPress), value: value);
+        remove => ((UIComponent)this).KeyPress -= EventSlot.Remove<UIComponent, Memo>(this, slot: nameof(KeyPress), value: value);
     }
 
-    public new event KeyEvent<Memo> OnKeyDown
+    public new event KeyEvent<Memo> KeyDown
     {
-        add => ((UIComponent)this).OnKeyDown += EventSlot.Add<UIComponent, Memo>(this, slot: nameof(OnKeyDown), value: value);
-        remove => ((UIComponent)this).OnKeyDown -= EventSlot.Remove<UIComponent, Memo>(this, slot: nameof(OnKeyDown), value: value);
+        add => ((UIComponent)this).KeyDown += EventSlot.Add<UIComponent, Memo>(this, slot: nameof(KeyDown), value: value);
+        remove => ((UIComponent)this).KeyDown -= EventSlot.Remove<UIComponent, Memo>(this, slot: nameof(KeyDown), value: value);
     }
 
-    public new event AoWOnDrawEvent<Memo> OnPreDraw
+    public new event AoWOnDrawEvent<Memo> PreDraw
     {
-        add => ((UIComponent)this).OnPreDraw += EventSlot.Add<UIComponent, Memo>(this, slot: nameof(OnPreDraw), value: value);
-        remove => ((UIComponent)this).OnPreDraw -= EventSlot.Remove<UIComponent, Memo>(this, slot: nameof(OnPreDraw), value: value);
+        add => ((UIComponent)this).PreDraw += EventSlot.Add<UIComponent, Memo>(this, slot: nameof(PreDraw), value: value);
+        remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, Memo>(this, slot: nameof(PreDraw), value: value);
     }
 
     public new event AoWOnDrawEvent<Memo> OnDraw
@@ -982,9 +982,9 @@ public sealed partial class Memo : Control
         remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, Memo>(this, slot: nameof(OnDraw), value: value);
     }
 
-    public new event NotifyEvent<Memo> OnUpdate
+    public new event NotifyEvent<Memo> Updated
     {
-        add => ((UIComponent)this).OnUpdate += EventSlot.Add<UIComponent, Memo>(this, slot: nameof(OnUpdate), value: value);
-        remove => ((UIComponent)this).OnUpdate -= EventSlot.Remove<UIComponent, Memo>(this, slot: nameof(OnUpdate), value: value);
+        add => ((UIComponent)this).Updated += EventSlot.Add<UIComponent, Memo>(this, slot: nameof(Updated), value: value);
+        remove => ((UIComponent)this).Updated -= EventSlot.Remove<UIComponent, Memo>(this, slot: nameof(Updated), value: value);
     }
 }

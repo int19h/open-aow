@@ -16,7 +16,7 @@ namespace Aow.Game.Draw.Images;
 // starts in the file), FCapacity, FCount, FImages, FPaletteManager
 public partial class CustomImageLibrary : Component
 {
-    public event NotifyEvent<object> OnChange;
+    public event NotifyEvent<object> Change;
     private byte _changeLock;
     private bool _loadOnDemand;
     private string _fileName = "";
@@ -399,10 +399,10 @@ public partial class CustomImageLibrary : Component
     // ImageLib.pas:9798
     public virtual void CallOnChangeEvent()
     {
-        if (_changeLock == 0 && OnChange is not null && !ComponentState.Contains(ComponentStates.Destroying) && !ComponentState.Contains(ComponentStates.Reading))
+        if (_changeLock == 0 && Change is not null && !ComponentState.Contains(ComponentStates.Destroying) && !ComponentState.Contains(ComponentStates.Reading))
         {
             _changeLock = (byte)(_changeLock + 1);
-            OnChange(this);
+            Change(this);
             _changeLock = (byte)(_changeLock - 1);
         }
     }

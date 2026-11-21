@@ -956,46 +956,46 @@ public sealed partial class HtmlMemo : BaseWindow
     [Published]
     public string FileName { get => _fileName; set => SetFileName(value); }
 
-    public new event NotifyEvent<HtmlMemo> OnChange
+    public new event NotifyEvent<HtmlMemo> Change
     {
-        add => ((UIComponent)this).OnChange += EventSlot.Add<UIComponent, HtmlMemo>(this, slot: nameof(OnChange), value: value);
-        remove => ((UIComponent)this).OnChange -= EventSlot.Remove<UIComponent, HtmlMemo>(this, slot: nameof(OnChange), value: value);
+        add => ((UIComponent)this).Change += EventSlot.Add<UIComponent, HtmlMemo>(this, slot: nameof(Change), value: value);
+        remove => ((UIComponent)this).Change -= EventSlot.Remove<UIComponent, HtmlMemo>(this, slot: nameof(Change), value: value);
     }
 
-    public new event MouseEvent<HtmlMemo> OnMouseDown
+    public new event MouseEvent<HtmlMemo> MouseDown
     {
-        add => ((UIComponent)this).OnMouseDown += EventSlot.Add<UIComponent, HtmlMemo>(this, slot: nameof(OnMouseDown), value: value);
-        remove => ((UIComponent)this).OnMouseDown -= EventSlot.Remove<UIComponent, HtmlMemo>(this, slot: nameof(OnMouseDown), value: value);
+        add => ((UIComponent)this).MouseDown += EventSlot.Add<UIComponent, HtmlMemo>(this, slot: nameof(MouseDown), value: value);
+        remove => ((UIComponent)this).MouseDown -= EventSlot.Remove<UIComponent, HtmlMemo>(this, slot: nameof(MouseDown), value: value);
     }
 
-    public new event MouseEvent<HtmlMemo> OnMouseUp
+    public new event MouseEvent<HtmlMemo> MouseUp
     {
-        add => ((UIComponent)this).OnMouseUp += EventSlot.Add<UIComponent, HtmlMemo>(this, slot: nameof(OnMouseUp), value: value);
-        remove => ((UIComponent)this).OnMouseUp -= EventSlot.Remove<UIComponent, HtmlMemo>(this, slot: nameof(OnMouseUp), value: value);
+        add => ((UIComponent)this).MouseUp += EventSlot.Add<UIComponent, HtmlMemo>(this, slot: nameof(MouseUp), value: value);
+        remove => ((UIComponent)this).MouseUp -= EventSlot.Remove<UIComponent, HtmlMemo>(this, slot: nameof(MouseUp), value: value);
     }
 
-    public new event MouseMoveEvent<HtmlMemo> OnMouseMove
+    public new event MouseMoveEvent<HtmlMemo> MouseMove
     {
-        add => ((UIComponent)this).OnMouseMove += EventSlot.Add<UIComponent, HtmlMemo>(this, slot: nameof(OnMouseMove), value: value);
-        remove => ((UIComponent)this).OnMouseMove -= EventSlot.Remove<UIComponent, HtmlMemo>(this, slot: nameof(OnMouseMove), value: value);
+        add => ((UIComponent)this).MouseMove += EventSlot.Add<UIComponent, HtmlMemo>(this, slot: nameof(MouseMove), value: value);
+        remove => ((UIComponent)this).MouseMove -= EventSlot.Remove<UIComponent, HtmlMemo>(this, slot: nameof(MouseMove), value: value);
     }
 
-    public new event KeyPressEvent<HtmlMemo> OnKeyPress
+    public new event KeyPressEvent<HtmlMemo> KeyPress
     {
-        add => ((UIComponent)this).OnKeyPress += EventSlot.Add<UIComponent, HtmlMemo>(this, slot: nameof(OnKeyPress), value: value);
-        remove => ((UIComponent)this).OnKeyPress -= EventSlot.Remove<UIComponent, HtmlMemo>(this, slot: nameof(OnKeyPress), value: value);
+        add => ((UIComponent)this).KeyPress += EventSlot.Add<UIComponent, HtmlMemo>(this, slot: nameof(KeyPress), value: value);
+        remove => ((UIComponent)this).KeyPress -= EventSlot.Remove<UIComponent, HtmlMemo>(this, slot: nameof(KeyPress), value: value);
     }
 
-    public new event KeyEvent<HtmlMemo> OnKeyDown
+    public new event KeyEvent<HtmlMemo> KeyDown
     {
-        add => ((UIComponent)this).OnKeyDown += EventSlot.Add<UIComponent, HtmlMemo>(this, slot: nameof(OnKeyDown), value: value);
-        remove => ((UIComponent)this).OnKeyDown -= EventSlot.Remove<UIComponent, HtmlMemo>(this, slot: nameof(OnKeyDown), value: value);
+        add => ((UIComponent)this).KeyDown += EventSlot.Add<UIComponent, HtmlMemo>(this, slot: nameof(KeyDown), value: value);
+        remove => ((UIComponent)this).KeyDown -= EventSlot.Remove<UIComponent, HtmlMemo>(this, slot: nameof(KeyDown), value: value);
     }
 
-    public new event AoWOnDrawEvent<HtmlMemo> OnPreDraw
+    public new event AoWOnDrawEvent<HtmlMemo> PreDraw
     {
-        add => ((UIComponent)this).OnPreDraw += EventSlot.Add<UIComponent, HtmlMemo>(this, slot: nameof(OnPreDraw), value: value);
-        remove => ((UIComponent)this).OnPreDraw -= EventSlot.Remove<UIComponent, HtmlMemo>(this, slot: nameof(OnPreDraw), value: value);
+        add => ((UIComponent)this).PreDraw += EventSlot.Add<UIComponent, HtmlMemo>(this, slot: nameof(PreDraw), value: value);
+        remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, HtmlMemo>(this, slot: nameof(PreDraw), value: value);
     }
 
     public new event AoWOnDrawEvent<HtmlMemo> OnDraw
@@ -1004,40 +1004,40 @@ public sealed partial class HtmlMemo : BaseWindow
         remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, HtmlMemo>(this, slot: nameof(OnDraw), value: value);
     }
 
-    public new event NotifyEvent<HtmlMemo> OnUpdate
+    public new event NotifyEvent<HtmlMemo> Updated
     {
-        add => ((UIComponent)this).OnUpdate += EventSlot.Add<UIComponent, HtmlMemo>(this, slot: nameof(OnUpdate), value: value);
-        remove => ((UIComponent)this).OnUpdate -= EventSlot.Remove<UIComponent, HtmlMemo>(this, slot: nameof(OnUpdate), value: value);
+        add => ((UIComponent)this).Updated += EventSlot.Add<UIComponent, HtmlMemo>(this, slot: nameof(Updated), value: value);
+        remove => ((UIComponent)this).Updated -= EventSlot.Remove<UIComponent, HtmlMemo>(this, slot: nameof(Updated), value: value);
     }
 
-    public new event AoWOnDrawBackEvent<HtmlMemo> OnDrawBack
+    public new event AoWOnDrawBackEvent<HtmlMemo> DrawBack
     {
-        add => ((WindowControl)this).OnDrawBack += EventSlot.Add<WindowControl, HtmlMemo>(this, slot: nameof(OnDrawBack), value: value);
-        remove => ((WindowControl)this).OnDrawBack -= EventSlot.Remove<WindowControl, HtmlMemo>(this, slot: nameof(OnDrawBack), value: value);
+        add => ((WindowControl)this).DrawBack += EventSlot.Add<WindowControl, HtmlMemo>(this, slot: nameof(DrawBack), value: value);
+        remove => ((WindowControl)this).DrawBack -= EventSlot.Remove<WindowControl, HtmlMemo>(this, slot: nameof(DrawBack), value: value);
     }
 
-    public new event NotifyEvent<HtmlMemo> OnEnter
+    public new event NotifyEvent<HtmlMemo> Enter
     {
-        add => ((WindowControl)this).OnEnter += EventSlot.Add<WindowControl, HtmlMemo>(this, slot: nameof(OnEnter), value: value);
-        remove => ((WindowControl)this).OnEnter -= EventSlot.Remove<WindowControl, HtmlMemo>(this, slot: nameof(OnEnter), value: value);
+        add => ((WindowControl)this).Enter += EventSlot.Add<WindowControl, HtmlMemo>(this, slot: nameof(Enter), value: value);
+        remove => ((WindowControl)this).Enter -= EventSlot.Remove<WindowControl, HtmlMemo>(this, slot: nameof(Enter), value: value);
     }
 
-    public new event NotifyEvent<HtmlMemo> OnExit
+    public new event NotifyEvent<HtmlMemo> Exit
     {
-        add => ((WindowControl)this).OnExit += EventSlot.Add<WindowControl, HtmlMemo>(this, slot: nameof(OnExit), value: value);
-        remove => ((WindowControl)this).OnExit -= EventSlot.Remove<WindowControl, HtmlMemo>(this, slot: nameof(OnExit), value: value);
+        add => ((WindowControl)this).Exit += EventSlot.Add<WindowControl, HtmlMemo>(this, slot: nameof(Exit), value: value);
+        remove => ((WindowControl)this).Exit -= EventSlot.Remove<WindowControl, HtmlMemo>(this, slot: nameof(Exit), value: value);
     }
 
-    public new event NotifyEvent<HtmlMemo> OnHide
+    public new event NotifyEvent<HtmlMemo> Hide
     {
-        add => ((BaseWindow)this).OnHide += EventSlot.Add<BaseWindow, HtmlMemo>(this, slot: nameof(OnHide), value: value);
-        remove => ((BaseWindow)this).OnHide -= EventSlot.Remove<BaseWindow, HtmlMemo>(this, slot: nameof(OnHide), value: value);
+        add => ((BaseWindow)this).Hide += EventSlot.Add<BaseWindow, HtmlMemo>(this, slot: nameof(Hide), value: value);
+        remove => ((BaseWindow)this).Hide -= EventSlot.Remove<BaseWindow, HtmlMemo>(this, slot: nameof(Hide), value: value);
     }
 
-    public new event NotifyEvent<HtmlMemo> OnShow
+    public new event NotifyEvent<HtmlMemo> Show
     {
-        add => ((BaseWindow)this).OnShow += EventSlot.Add<BaseWindow, HtmlMemo>(this, slot: nameof(OnShow), value: value);
-        remove => ((BaseWindow)this).OnShow -= EventSlot.Remove<BaseWindow, HtmlMemo>(this, slot: nameof(OnShow), value: value);
+        add => ((BaseWindow)this).Show += EventSlot.Add<BaseWindow, HtmlMemo>(this, slot: nameof(Show), value: value);
+        remove => ((BaseWindow)this).Show -= EventSlot.Remove<BaseWindow, HtmlMemo>(this, slot: nameof(Show), value: value);
     }
 
     // a style change in the text. FHeight (the line height), FColor, FFont (the font file, '' for

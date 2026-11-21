@@ -24,7 +24,7 @@ public sealed partial class CombatChoice : ILayoutModule
         Window.WinTop = 41;
         Window.WinWidth = 421;
         Window.Masked = true;
-        Window.OnHide += _ => DlgHide();
+        Window.Hide += _ => DlgHide();
         Window.Alignment.AlignWidth = AlignWidth.Center;
         Window.Alignment.AlignHeight = AlignHeight.Center;
         Window.Alignment.HeightPercent = 0;
@@ -138,7 +138,7 @@ public sealed partial class CombatChoice : ILayoutModule
         FightButton.TextColor = 0;
         FightButton.TextSelectedColor = 16777215;
         FightButton.WinWidth = 130;
-        FightButton.OnClick += _ => FightBtnClick();
+        FightButton.Click += _ => FightBtnClick();
         session.EndRead(FightButton);
         CancelButton = new Button(this);
         session.BeginRead(CancelButton);
@@ -173,7 +173,7 @@ public sealed partial class CombatChoice : ILayoutModule
         CancelButton.TextColor = 0;
         CancelButton.TextSelectedColor = 16777215;
         CancelButton.WinWidth = 130;
-        CancelButton.OnClick += _ => CancelBtnClick();
+        CancelButton.Click += _ => CancelBtnClick();
         session.EndRead(CancelButton);
         Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
@@ -392,9 +392,9 @@ public sealed partial class CombatChoice : ILayoutModule
         TacticalCombatCheckBox.TextSelectedColor = 255;
         TacticalCombatCheckBox.WinWidth = 93;
         TacticalCombatCheckBox.Checked = false;
-        TacticalCombatCheckBox.OnChange += TCchkChange;
+        TacticalCombatCheckBox.Change += TCchkChange;
         TacticalCombatCheckBox.RadioIndex = 1;
-        TacticalCombatCheckBox.OnDoubleClick += TCchkDoubleClick;
+        TacticalCombatCheckBox.DoubleClick += TCchkDoubleClick;
         session.EndRead(TacticalCombatCheckBox);
         CheckBox fCchk = new(this);
         session.BeginRead(fCchk);
@@ -429,9 +429,9 @@ public sealed partial class CombatChoice : ILayoutModule
         fCchk.TextSelectedColor = 255;
         fCchk.WinWidth = 93;
         fCchk.Checked = true;
-        fCchk.OnChange += FCchkChange;
+        fCchk.Change += FCchkChange;
         fCchk.RadioIndex = 1;
-        fCchk.OnDoubleClick += FCchkDoubleClick;
+        fCchk.DoubleClick += FCchkDoubleClick;
         session.EndRead(fCchk);
         Panel mapViewPnl = new(this);
         session.BeginRead(mapViewPnl);
@@ -465,7 +465,7 @@ public sealed partial class CombatChoice : ILayoutModule
         session.BeginRead(MapView);
         MapView.Name = "MapView";
         MapView.OnDraw += MapViewDraw;
-        MapView.OnUpdate += _ => MapViewUpdate();
+        MapView.Updated += _ => MapViewUpdate();
         MapView.Priority = 50;
         MapView.WinLeft = 21;
         MapView.WinTop = 50;

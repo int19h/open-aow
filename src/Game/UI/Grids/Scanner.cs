@@ -33,7 +33,7 @@ public sealed class Scanner(Component owner) : Control(owner)
     private bool _armies;
     private bool _naturals;
     [Published]
-    public event NotifyEvent<Scanner> OnChangeTileBox;
+    public event NotifyEvent<Scanner> ChangeTileBox;
     private int _steps = 1;
     private GameMap _map;
     private InterfaceImageLibrary _imageLibraryFrame;
@@ -228,7 +228,7 @@ public sealed class Scanner(Component owner) : Control(owner)
     {
         if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
         {
-            MouseDown = true;
+            IsMouseDown = true;
             X = (X - Window.AbsoluteLeft - WinLeft) * _mapWidth / WinWidth;
             int mapY = (Y - Window.AbsoluteTop - WinTop) * _mapHeight / _drawableHeight;
             int oldLeft = TLeft;
@@ -238,7 +238,7 @@ public sealed class Scanner(Component owner) : Control(owner)
             if (TTop != oldTop || oldLeft != TLeft)
             {
                 Drawn = false;
-                OnChangeTileBox?.Invoke(this);
+                ChangeTileBox?.Invoke(this);
             }
         }
     }
@@ -253,7 +253,7 @@ public sealed class Scanner(Component owner) : Control(owner)
             RaiseMouseUp(this, button, shift, X, Y);
         }
 
-        MouseDown = false;
+        IsMouseDown = false;
     }
 
     // Scanner.pas:455
@@ -264,7 +264,7 @@ public sealed class Scanner(Component owner) : Control(owner)
         if (X >= Window.AbsoluteLeft + WinLeft && X <= Window.AbsoluteLeft + WinLeft + WinWidth - 1 && Y >= Window.AbsoluteTop + WinTop && Y <= Window.AbsoluteTop + WinTop + WinHeight - 1)
         {
             Handled = true;
-            if (MouseDown)
+            if (IsMouseDown)
             {
                 int oldLeft = TLeft;
                 int oldTop = TTop;
@@ -275,7 +275,7 @@ public sealed class Scanner(Component owner) : Control(owner)
                 if (TTop != oldTop || TLeft != oldLeft)
                 {
                     Drawn = false;
-                    OnChangeTileBox?.Invoke(this);
+                    ChangeTileBox?.Invoke(this);
                 }
             }
 
@@ -795,46 +795,46 @@ public sealed class Scanner(Component owner) : Control(owner)
     [Published]
     public int ImageLibraryIndexFrame { get => _imageLibraryIndexFrame; set => SetILFIndex(value); }
 
-    public new event NotifyEvent<Scanner> OnChange
+    public new event NotifyEvent<Scanner> Change
     {
-        add => ((UIComponent)this).OnChange += EventSlot.Add<UIComponent, Scanner>(this, slot: nameof(OnChange), value: value);
-        remove => ((UIComponent)this).OnChange -= EventSlot.Remove<UIComponent, Scanner>(this, slot: nameof(OnChange), value: value);
+        add => ((UIComponent)this).Change += EventSlot.Add<UIComponent, Scanner>(this, slot: nameof(Change), value: value);
+        remove => ((UIComponent)this).Change -= EventSlot.Remove<UIComponent, Scanner>(this, slot: nameof(Change), value: value);
     }
 
-    public new event MouseEvent<Scanner> OnMouseDown
+    public new event MouseEvent<Scanner> MouseDown
     {
-        add => ((UIComponent)this).OnMouseDown += EventSlot.Add<UIComponent, Scanner>(this, slot: nameof(OnMouseDown), value: value);
-        remove => ((UIComponent)this).OnMouseDown -= EventSlot.Remove<UIComponent, Scanner>(this, slot: nameof(OnMouseDown), value: value);
+        add => ((UIComponent)this).MouseDown += EventSlot.Add<UIComponent, Scanner>(this, slot: nameof(MouseDown), value: value);
+        remove => ((UIComponent)this).MouseDown -= EventSlot.Remove<UIComponent, Scanner>(this, slot: nameof(MouseDown), value: value);
     }
 
-    public new event MouseEvent<Scanner> OnMouseUp
+    public new event MouseEvent<Scanner> MouseUp
     {
-        add => ((UIComponent)this).OnMouseUp += EventSlot.Add<UIComponent, Scanner>(this, slot: nameof(OnMouseUp), value: value);
-        remove => ((UIComponent)this).OnMouseUp -= EventSlot.Remove<UIComponent, Scanner>(this, slot: nameof(OnMouseUp), value: value);
+        add => ((UIComponent)this).MouseUp += EventSlot.Add<UIComponent, Scanner>(this, slot: nameof(MouseUp), value: value);
+        remove => ((UIComponent)this).MouseUp -= EventSlot.Remove<UIComponent, Scanner>(this, slot: nameof(MouseUp), value: value);
     }
 
-    public new event MouseMoveEvent<Scanner> OnMouseMove
+    public new event MouseMoveEvent<Scanner> MouseMove
     {
-        add => ((UIComponent)this).OnMouseMove += EventSlot.Add<UIComponent, Scanner>(this, slot: nameof(OnMouseMove), value: value);
-        remove => ((UIComponent)this).OnMouseMove -= EventSlot.Remove<UIComponent, Scanner>(this, slot: nameof(OnMouseMove), value: value);
+        add => ((UIComponent)this).MouseMove += EventSlot.Add<UIComponent, Scanner>(this, slot: nameof(MouseMove), value: value);
+        remove => ((UIComponent)this).MouseMove -= EventSlot.Remove<UIComponent, Scanner>(this, slot: nameof(MouseMove), value: value);
     }
 
-    public new event KeyPressEvent<Scanner> OnKeyPress
+    public new event KeyPressEvent<Scanner> KeyPress
     {
-        add => ((UIComponent)this).OnKeyPress += EventSlot.Add<UIComponent, Scanner>(this, slot: nameof(OnKeyPress), value: value);
-        remove => ((UIComponent)this).OnKeyPress -= EventSlot.Remove<UIComponent, Scanner>(this, slot: nameof(OnKeyPress), value: value);
+        add => ((UIComponent)this).KeyPress += EventSlot.Add<UIComponent, Scanner>(this, slot: nameof(KeyPress), value: value);
+        remove => ((UIComponent)this).KeyPress -= EventSlot.Remove<UIComponent, Scanner>(this, slot: nameof(KeyPress), value: value);
     }
 
-    public new event KeyEvent<Scanner> OnKeyDown
+    public new event KeyEvent<Scanner> KeyDown
     {
-        add => ((UIComponent)this).OnKeyDown += EventSlot.Add<UIComponent, Scanner>(this, slot: nameof(OnKeyDown), value: value);
-        remove => ((UIComponent)this).OnKeyDown -= EventSlot.Remove<UIComponent, Scanner>(this, slot: nameof(OnKeyDown), value: value);
+        add => ((UIComponent)this).KeyDown += EventSlot.Add<UIComponent, Scanner>(this, slot: nameof(KeyDown), value: value);
+        remove => ((UIComponent)this).KeyDown -= EventSlot.Remove<UIComponent, Scanner>(this, slot: nameof(KeyDown), value: value);
     }
 
-    public new event AoWOnDrawEvent<Scanner> OnPreDraw
+    public new event AoWOnDrawEvent<Scanner> PreDraw
     {
-        add => ((UIComponent)this).OnPreDraw += EventSlot.Add<UIComponent, Scanner>(this, slot: nameof(OnPreDraw), value: value);
-        remove => ((UIComponent)this).OnPreDraw -= EventSlot.Remove<UIComponent, Scanner>(this, slot: nameof(OnPreDraw), value: value);
+        add => ((UIComponent)this).PreDraw += EventSlot.Add<UIComponent, Scanner>(this, slot: nameof(PreDraw), value: value);
+        remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, Scanner>(this, slot: nameof(PreDraw), value: value);
     }
 
     public new event AoWOnDrawEvent<Scanner> OnDraw
@@ -843,9 +843,9 @@ public sealed class Scanner(Component owner) : Control(owner)
         remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, Scanner>(this, slot: nameof(OnDraw), value: value);
     }
 
-    public new event NotifyEvent<Scanner> OnUpdate
+    public new event NotifyEvent<Scanner> Updated
     {
-        add => ((UIComponent)this).OnUpdate += EventSlot.Add<UIComponent, Scanner>(this, slot: nameof(OnUpdate), value: value);
-        remove => ((UIComponent)this).OnUpdate -= EventSlot.Remove<UIComponent, Scanner>(this, slot: nameof(OnUpdate), value: value);
+        add => ((UIComponent)this).Updated += EventSlot.Add<UIComponent, Scanner>(this, slot: nameof(Updated), value: value);
+        remove => ((UIComponent)this).Updated -= EventSlot.Remove<UIComponent, Scanner>(this, slot: nameof(Updated), value: value);
     }
 }

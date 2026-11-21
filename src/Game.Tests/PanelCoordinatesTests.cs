@@ -48,17 +48,17 @@ public sealed class PanelCoordinatesTests
 
         UserDrawBox box = new(null);
         Place(box, owner: panel, 7, 9, 40, 30, priority: 1);
-        box.OnMouseDown += (sender, _, _, x, y) =>
+        box.MouseDown += (sender, _, _, x, y) =>
         {
             observedPanelCoords.Add((panel.WinLeft, panel.WinTop));
             mouseDownLocal = (x, y);
         };
-        box.OnMouseMove += (sender, _, x, y) =>
+        box.MouseMove += (sender, _, x, y) =>
         {
             observedPanelCoords.Add((panel.WinLeft, panel.WinTop));
             mouseMoveLocal = (x, y);
         };
-        box.OnMouseUp += (sender, _, _, x, y) =>
+        box.MouseUp += (sender, _, _, x, y) =>
         {
             observedPanelCoords.Add((panel.WinLeft, panel.WinTop));
             mouseUpScreen = (x, y);

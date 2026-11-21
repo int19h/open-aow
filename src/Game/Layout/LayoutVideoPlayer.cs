@@ -13,7 +13,7 @@ public sealed class LayoutVideoPlayer(Component owner) : VideoPlayer(owner)
     [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Public event OnStreamSound keeps this backing field until the port raises it.")]
     private StreamSoundEvent _onStreamSound;
 
-    public event StreamSoundEvent OnStreamSound { add => _onStreamSound += value; remove => _onStreamSound -= value; }
+    public event StreamSoundEvent StreamSound { add => _onStreamSound += value; remove => _onStreamSound -= value; }
     public VideoPlayerOptions Options { get; set; }
 
     public enum VideoPlayerLoopMode

@@ -24,7 +24,7 @@ public sealed partial class TutorialWindow : ILayoutModule
         Window.WinTop = 85;
         Window.WinWidth = 390;
         Window.Masked = true;
-        Window.OnHide += _ => DlgHide();
+        Window.Hide += _ => DlgHide();
         Window.Alignment.AlignWidth = AlignWidth.Center;
         Window.Alignment.AlignHeight = AlignHeight.Center;
         Window.Alignment.HeightPercent = 0;
@@ -126,7 +126,7 @@ public sealed partial class TutorialWindow : ILayoutModule
         close.TextColor = 855324;
         close.TextSelectedColor = 16777215;
         close.WinWidth = 140;
-        close.OnClick += _ => CloseClick();
+        close.Click += _ => CloseClick();
         session.EndRead(close);
         HeaderMemo = new Memo(this);
         session.BeginRead(HeaderMemo);

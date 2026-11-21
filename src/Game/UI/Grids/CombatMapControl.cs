@@ -19,56 +19,56 @@ public sealed class CombatMapControl : Component
     private readonly GameEngine _engine;
 
     [Published]
-    public event SelectHSEvent OnSelected;
+    public event SelectHSEvent Selected;
     [Published]
-    public event SelectHSEvent OnDeselected;
+    public event SelectHSEvent Deselected;
     [Published]
-    public event NotifyEvent<object> OnActivateHsm;
+    public event NotifyEvent<object> ActivateHsm;
     [Published]
-    public event NotifyEvent<object> OnDeactivateHsm;
+    public event NotifyEvent<object> DeactivateHsm;
     [Published]
-    public event PlayerChangedEvent OnIncomeChanged;
+    public event PlayerChangedEvent IncomeChanged;
     [Published]
-    public event PlayerChangedEvent OnUpkeepChanged;
+    public event PlayerChangedEvent UpkeepChanged;
     [Published]
-    public event PlayerChangedEvent OnGemsChanged;
+    public event PlayerChangedEvent GemsChanged;
     [Published]
-    public event ShowMessageEvent OnShowMessage;
+    public event ShowMessageEvent ShowMessage;
     [Published]
-    public event TurnChangedEvent OnTurnChanged;
+    public event TurnChangedEvent TurnChanged;
     [Published]
-    public event PlayerChangedEvent OnPlayerChanged;
+    public event PlayerChangedEvent PlayerChanged;
     [Published]
-    public event PlayerChangedEvent OnSeatedPlayerChanged;
+    public event PlayerChangedEvent SeatedPlayerChanged;
     [Published]
-    public event Action<EventLog, ExecuteDoneEvent> OnExecuteEventLog;
+    public event Action<EventLog, ExecuteDoneEvent> ExecuteEventLog;
 
-    internal void ClearExecuteEventLogHandler() => OnExecuteEventLog = null;
+    internal void ClearExecuteEventLogHandler() => ExecuteEventLog = null;
 
     [Published]
-    public event MapChangedEvent OnMapChanged;
+    public event MapChangedEvent MapChanged;
     [Published]
-    public event PlayerChangedEvent OnLogbookChanged;
+    public event PlayerChangedEvent LogbookChanged;
     [Published]
-    public event NotifyEvent<object> OnActivateMap;
+    public event NotifyEvent<object> ActivateMap;
     [Published]
-    public event NotifyEvent<object> OnDeActivateMap;
+    public event NotifyEvent<object> DeActivateMap;
     [Published]
-    public event SelectHSEvent OnMouseOverTarget;
+    public event SelectHSEvent MouseOverTarget;
     [Published]
-    public event SelectCombatUnitEvent OnUnitChanged;
+    public event SelectCombatUnitEvent UnitChanged;
     [Published]
     public event CastCombatSpellEvent OnCastSpell;
     [Published]
-    public event ActivateCombatAbilityEvent OnActivateAbility;
+    public event ActivateCombatAbilityEvent ActivateAbility;
 
     // CMapCtrl.pas:117
     public override void Dispose()
     {
         if (_engine is not null)
         {
-            _engine.OnHsmLoaded -= ActivateHsm;
-            _engine.OnHsmClose -= DeactivateHsm;
+            _engine.OnHsmLoaded -= engine_HexSpriteMapLoaded;
+            _engine.OnHsmClose -= engine_HexSpriteMapClosing;
             if (CombatMap.Current is not null)
             {
                 ReleaseHsm();
@@ -86,8 +86,8 @@ public sealed class CombatMapControl : Component
         _engine = (owner as UIModule)?.UI.Engine;
         if (_engine is not null)
         {
-            _engine.OnHsmLoaded += ActivateHsm;
-            _engine.OnHsmClose += DeactivateHsm;
+            _engine.OnHsmLoaded += engine_HexSpriteMapLoaded;
+            _engine.OnHsmClose += engine_HexSpriteMapClosing;
         }
     }
 
@@ -95,25 +95,25 @@ public sealed class CombatMapControl : Component
     public void LinkToHsm()
     {
         CombatMap.Current.TurnChanged += ChangeTurn;
-        CombatMap.Current.PlayerChanged += PlayerChanged;
-        CombatMap.Current.SeatedPlayerChanged += SeatedPlayerChanged;
+        CombatMap.Current.PlayerChanged += CombatMap_PlayerChanged;
+        CombatMap.Current.SeatedPlayerChanged += CombatMap_SeatedPlayerChanged;
         CombatMap.Current.Selection.OnSelect += SelectHexSprite;
         CombatMap.Current.Selection.OnDeselect += DeselectHexSprite;
-        CombatMap.Current.ShowingMessage += ShowMessage;
-        CombatMap.Current.MapChanged += MapChanged;
-        CombatMap.Current.Deselected += ActivateMap;
+        CombatMap.Current.ShowingMessage += CombatMap_ShowingMessage;
+        CombatMap.Current.MapChanged += CombatMap_MapChanged;
+        CombatMap.Current.Deselected += CombatMap_Deselected;
         CombatMap.Current.Selected += DeactivateMap;
-        CombatMap.Current.MouseOverTarget += MouseOverTarget;
-        CombatMap.Current.UnitChanged += UnitChanged;
-        CombatMap.Current.AbilityActivated += ActivateAbility;
+        CombatMap.Current.MouseOverTarget += CombatMap_MouseOverTarget;
+        CombatMap.Current.UnitChanged += CombatMap_UnitChanged;
+        CombatMap.Current.AbilityActivated += CombatMap_AbilityActivated;
         CombatMap.Current.CombatStarted += CastSpell;
-        StrategicMap.Current.ExecutingEventLog += ExecuteEventLog;
+        StrategicMap.Current.ExecutingEventLog += StrategicMap_ExecutingEventLog;
         for (int i = 0, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {
-            StrategicMap.Current.Players.GetPlayers(i).GemsChanged += GemsChanged;
-            StrategicMap.Current.Players.GetPlayers(i).IncomeChanged += IncomeChanged;
-            StrategicMap.Current.Players.GetPlayers(i).UpkeepChanged += UpkeepChanged;
-            StrategicMap.Current.Players.GetPlayers(i).LogbookChanged += LogbookChanged;
+            StrategicMap.Current.Players.GetPlayers(i).GemsChanged += Player_GemsChanged;
+            StrategicMap.Current.Players.GetPlayers(i).IncomeChanged += Player_IncomeChanged;
+            StrategicMap.Current.Players.GetPlayers(i).UpkeepChanged += Player_UpkeepChanged;
+            StrategicMap.Current.Players.GetPlayers(i).LogbookChanged += Player_LogbookChanged;
         }
     }
 
@@ -121,44 +121,44 @@ public sealed class CombatMapControl : Component
     public void ReleaseHsm()
     {
         CombatMap.Current.TurnChanged -= ChangeTurn;
-        CombatMap.Current.PlayerChanged -= PlayerChanged;
-        CombatMap.Current.SeatedPlayerChanged -= SeatedPlayerChanged;
+        CombatMap.Current.PlayerChanged -= CombatMap_PlayerChanged;
+        CombatMap.Current.SeatedPlayerChanged -= CombatMap_SeatedPlayerChanged;
         CombatMap.Current.Selection.OnSelect -= SelectHexSprite;
         CombatMap.Current.Selection.OnDeselect -= DeselectHexSprite;
-        CombatMap.Current.ShowingMessage -= ShowMessage;
-        CombatMap.Current.MapChanged -= MapChanged;
-        StrategicMap.Current.ExecutingEventLog -= ExecuteEventLog;
-        CombatMap.Current.Deselected -= ActivateMap;
+        CombatMap.Current.ShowingMessage -= CombatMap_ShowingMessage;
+        CombatMap.Current.MapChanged -= CombatMap_MapChanged;
+        StrategicMap.Current.ExecutingEventLog -= StrategicMap_ExecutingEventLog;
+        CombatMap.Current.Deselected -= CombatMap_Deselected;
         CombatMap.Current.Selected -= DeactivateMap;
-        CombatMap.Current.MouseOverTarget -= MouseOverTarget;
-        CombatMap.Current.UnitChanged -= UnitChanged;
-        CombatMap.Current.AbilityActivated -= ActivateAbility;
+        CombatMap.Current.MouseOverTarget -= CombatMap_MouseOverTarget;
+        CombatMap.Current.UnitChanged -= CombatMap_UnitChanged;
+        CombatMap.Current.AbilityActivated -= CombatMap_AbilityActivated;
         CombatMap.Current.CombatStarted -= CastSpell;
         for (int i = 0, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
         {
-            StrategicMap.Current.Players.GetPlayers(i).GemsChanged -= GemsChanged;
-            StrategicMap.Current.Players.GetPlayers(i).IncomeChanged -= IncomeChanged;
-            StrategicMap.Current.Players.GetPlayers(i).UpkeepChanged -= UpkeepChanged;
-            StrategicMap.Current.Players.GetPlayers(i).LogbookChanged -= LogbookChanged;
+            StrategicMap.Current.Players.GetPlayers(i).GemsChanged -= Player_GemsChanged;
+            StrategicMap.Current.Players.GetPlayers(i).IncomeChanged -= Player_IncomeChanged;
+            StrategicMap.Current.Players.GetPlayers(i).UpkeepChanged -= Player_UpkeepChanged;
+            StrategicMap.Current.Players.GetPlayers(i).LogbookChanged -= Player_LogbookChanged;
         }
     }
 
     // CMapCtrl.pas:180
-    public void ActivateHsm(GameMap sender)
+    public void engine_HexSpriteMapLoaded(GameMap sender)
     {
         if (sender.EngineClass.ClassId == CombatMap.ClassId)
         {
             LinkToHsm();
-            OnActivateHsm?.Invoke(this);
+            ActivateHsm?.Invoke(this);
         }
     }
 
     // CMapCtrl.pas:189
-    public void DeactivateHsm(GameMap sender)
+    public void engine_HexSpriteMapClosing(GameMap sender)
     {
         if (sender.EngineClass.ClassId == CombatMap.ClassId)
         {
-            OnDeactivateHsm?.Invoke(this);
+            DeactivateHsm?.Invoke(this);
 
             ReleaseHsm();
         }
@@ -169,7 +169,7 @@ public sealed class CombatMapControl : Component
     {
         try
         {
-            OnSelected?.Invoke(CombatMap.Current.Selection.EventHexSprite);
+            Selected?.Invoke(CombatMap.Current.Selection.EventHexSprite);
         }
         catch
         {
@@ -182,7 +182,7 @@ public sealed class CombatMapControl : Component
     {
         try
         {
-            OnDeselected?.Invoke(CombatMap.Current.Selection.EventHexSprite);
+            Deselected?.Invoke(CombatMap.Current.Selection.EventHexSprite);
         }
         catch
         {
@@ -191,11 +191,11 @@ public sealed class CombatMapControl : Component
     }
 
     // CMapCtrl.pas:225
-    public void MouseOverTarget(object sender)
+    public void CombatMap_MouseOverTarget(object sender)
     {
         try
         {
-            OnMouseOverTarget?.Invoke(CombatMap.Current.UnitSelection.MouseOverTarget);
+            MouseOverTarget?.Invoke(CombatMap.Current.UnitSelection.MouseOverTarget);
         }
         catch
         {
@@ -204,14 +204,14 @@ public sealed class CombatMapControl : Component
     }
 
     // CMapCtrl.pas:234
-    public void UnitChanged(object sender)
+    public void CombatMap_UnitChanged(object sender)
     {
         try
         {
-            if (OnUnitChanged is not null)
+            if (UnitChanged is not null)
             {
                 TacticalBattleUnitHexSprite tacticalBattleUnitHexSprite = CombatMap.Current.UnitSelection.TacticalBattleUnitHexSprite;
-                OnUnitChanged(tacticalBattleUnitHexSprite);
+                UnitChanged(tacticalBattleUnitHexSprite);
             }
         }
         catch
@@ -221,11 +221,11 @@ public sealed class CombatMapControl : Component
     }
 
     // CMapCtrl.pas:243
-    public void PlayerChanged(object sender)
+    public void CombatMap_PlayerChanged(object sender)
     {
         try
         {
-            OnPlayerChanged?.Invoke(CombatMap.Current.CurrentPlayer);
+            PlayerChanged?.Invoke(CombatMap.Current.CurrentPlayer);
         }
         catch
         {
@@ -234,11 +234,11 @@ public sealed class CombatMapControl : Component
     }
 
     // CMapCtrl.pas:252
-    public void SeatedPlayerChanged(sbyte player)
+    public void CombatMap_SeatedPlayerChanged(sbyte player)
     {
         try
         {
-            OnSeatedPlayerChanged?.Invoke(CombatMap.Current.SeatedPlayer);
+            SeatedPlayerChanged?.Invoke(CombatMap.Current.SeatedPlayer);
         }
         catch
         {
@@ -247,11 +247,11 @@ public sealed class CombatMapControl : Component
     }
 
     // CMapCtrl.pas:261
-    public void GemsChanged(Player sender)
+    public void Player_GemsChanged(Player sender)
     {
         try
         {
-            OnGemsChanged?.Invoke(sender.PlayerIndex);
+            GemsChanged?.Invoke(sender.PlayerIndex);
         }
         catch
         {
@@ -260,11 +260,11 @@ public sealed class CombatMapControl : Component
     }
 
     // CMapCtrl.pas:270
-    public void IncomeChanged(Player sender)
+    public void Player_IncomeChanged(Player sender)
     {
         try
         {
-            OnIncomeChanged?.Invoke(sender.PlayerIndex);
+            IncomeChanged?.Invoke(sender.PlayerIndex);
         }
         catch
         {
@@ -273,11 +273,11 @@ public sealed class CombatMapControl : Component
     }
 
     // CMapCtrl.pas:279
-    public void UpkeepChanged(Player sender)
+    public void Player_UpkeepChanged(Player sender)
     {
         try
         {
-            OnUpkeepChanged?.Invoke(sender.PlayerIndex);
+            UpkeepChanged?.Invoke(sender.PlayerIndex);
         }
         catch
         {
@@ -291,7 +291,7 @@ public sealed class CombatMapControl : Component
         try
         {
             // { The original passes the seated player as the turn number. }
-            OnTurnChanged?.Invoke(CombatMap.Current.SeatedPlayer);
+            TurnChanged?.Invoke(CombatMap.Current.SeatedPlayer);
         }
         catch
         {
@@ -300,11 +300,11 @@ public sealed class CombatMapControl : Component
     }
 
     // CMapCtrl.pas:307
-    public void LogbookChanged(Player sender)
+    public void Player_LogbookChanged(Player sender)
     {
         try
         {
-            OnLogbookChanged?.Invoke(sender.PlayerIndex);
+            LogbookChanged?.Invoke(sender.PlayerIndex);
         }
         catch
         {
@@ -313,11 +313,11 @@ public sealed class CombatMapControl : Component
     }
 
     // CMapCtrl.pas:325
-    public void ActivateMap(object sender)
+    public void CombatMap_Deselected(object sender)
     {
         try
         {
-            OnActivateMap?.Invoke(this);
+            ActivateMap?.Invoke(this);
         }
         catch
         {
@@ -330,7 +330,7 @@ public sealed class CombatMapControl : Component
     {
         try
         {
-            OnDeActivateMap?.Invoke(this);
+            DeActivateMap?.Invoke(this);
         }
         catch
         {
@@ -352,11 +352,11 @@ public sealed class CombatMapControl : Component
     }
 
     // CMapCtrl.pas:352
-    public void ActivateAbility(AbilityActivation sender)
+    public void CombatMap_AbilityActivated(AbilityActivation sender)
     {
         try
         {
-            OnActivateAbility?.Invoke(sender);
+            ActivateAbility?.Invoke(sender);
         }
         catch
         {
@@ -364,18 +364,18 @@ public sealed class CombatMapControl : Component
         }
     }
 
-    public void ExecuteEventLog(object sender)
+    public void StrategicMap_ExecutingEventLog(object sender)
     {
         try
         {
-            if (OnExecuteEventLog is null)
+            if (ExecuteEventLog is null)
             {
                 return;
             }
 
             ExecuteEventLogInfo info = sender is ExecuteEventLogNotification notification
                 ? notification.Info : ReadLegacyRecord<ExecuteEventLogInfo>(sender);
-            OnExecuteEventLog(info.Log, info.Done);
+            ExecuteEventLog(info.Log, info.Done);
         }
         catch
         {
@@ -384,13 +384,13 @@ public sealed class CombatMapControl : Component
     }
 
     // CMapCtrl.pas:198. The notification carries the changed map area.
-    public void MapChanged(object sender)
+    public void CombatMap_MapChanged(object sender)
     {
         try
         {
-            if (OnMapChanged is not null)
+            if (MapChanged is not null)
             {
-                OnMapChanged(((MapChangedNotification)sender).Info);
+                MapChanged(((MapChangedNotification)sender).Info);
             }
         }
         catch
@@ -399,11 +399,11 @@ public sealed class CombatMapControl : Component
         }
     }
 
-    public void ShowMessage(object sender)
+    public void CombatMap_ShowingMessage(object sender)
     {
         try
         {
-            OnShowMessage?.Invoke(((ShowMessageNotification)sender).Info);
+            ShowMessage?.Invoke(((ShowMessageNotification)sender).Info);
         }
         catch
         {

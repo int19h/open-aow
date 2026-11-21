@@ -81,8 +81,8 @@ public sealed partial class WorldMap : ILayoutModule
         WorldPanel = new Panel(this);
         session.BeginRead(WorldPanel);
         WorldPanel.Name = "WorldPnl";
-        WorldPanel.OnMouseMove += (_, shift, x, y) => WorldPnlMouseMove(shift, x, y);
-        WorldPanel.OnUpdate += _ => WorldPnlUpdate();
+        WorldPanel.MouseMove += (_, shift, x, y) => WorldPnlMouseMove(shift, x, y);
+        WorldPanel.Updated += _ => WorldPnlUpdate();
         WorldPanel.Visible = false;
         WorldPanel.Priority = 10;
         WorldPanel.WinLeft = 0;
@@ -111,8 +111,8 @@ public sealed partial class WorldMap : ILayoutModule
         Path1Image = new Image(this);
         session.BeginRead(Path1Image);
         Path1Image.Name = "Path1";
-        Path1Image.OnMouseDown += (_, button, shift, x, y) => Path1MouseDown(button, shift, x, y);
-        Path1Image.OnMouseMove += (_, shift, x, y) => Path1MouseMove(shift, x, y);
+        Path1Image.MouseDown += (_, button, shift, x, y) => Path1MouseDown(button, shift, x, y);
+        Path1Image.MouseMove += (_, shift, x, y) => Path1MouseMove(shift, x, y);
         Path1Image.Visible = false;
         Path1Image.Priority = 0;
         Path1Image.WinLeft = 0;
@@ -142,8 +142,8 @@ public sealed partial class WorldMap : ILayoutModule
         Path2Image = new Image(this);
         session.BeginRead(Path2Image);
         Path2Image.Name = "Path2";
-        Path2Image.OnMouseDown += (_, button, shift, x, y) => Path2MouseDown(button, shift, x, y);
-        Path2Image.OnMouseMove += (_, shift, x, y) => Path2MouseMove(shift, x, y);
+        Path2Image.MouseDown += (_, button, shift, x, y) => Path2MouseDown(button, shift, x, y);
+        Path2Image.MouseMove += (_, shift, x, y) => Path2MouseMove(shift, x, y);
         Path2Image.Visible = false;
         Path2Image.Priority = 0;
         Path2Image.WinLeft = 0;
@@ -173,8 +173,8 @@ public sealed partial class WorldMap : ILayoutModule
         Path3Image = new Image(this);
         session.BeginRead(Path3Image);
         Path3Image.Name = "Path3";
-        Path3Image.OnMouseDown += (_, button, shift, x, y) => Path3MouseDown(button, shift, x, y);
-        Path3Image.OnMouseMove += (_, shift, x, y) => Path3MouseMove(shift, x, y);
+        Path3Image.MouseDown += (_, button, shift, x, y) => Path3MouseDown(button, shift, x, y);
+        Path3Image.MouseMove += (_, shift, x, y) => Path3MouseMove(shift, x, y);
         Path3Image.Visible = false;
         Path3Image.Priority = 0;
         Path3Image.WinLeft = 0;
@@ -204,8 +204,8 @@ public sealed partial class WorldMap : ILayoutModule
         PlayerPawnImage = new Image(this);
         session.BeginRead(PlayerPawnImage);
         PlayerPawnImage.Name = "PPawn";
-        PlayerPawnImage.OnMouseDown += PPawnMouseDown;
-        PlayerPawnImage.OnMouseMove += PPawnMouseMove;
+        PlayerPawnImage.MouseDown += PPawnMouseDown;
+        PlayerPawnImage.MouseMove += PPawnMouseMove;
         PlayerPawnImage.Visible = false;
         PlayerPawnImage.Priority = 1;
         PlayerPawnImage.WinLeft = 0;
@@ -235,8 +235,8 @@ public sealed partial class WorldMap : ILayoutModule
         EnemyPawnImage = new Image(this);
         session.BeginRead(EnemyPawnImage);
         EnemyPawnImage.Name = "EPawn";
-        EnemyPawnImage.OnMouseDown += EPawnMouseDown;
-        EnemyPawnImage.OnMouseMove += EPawnMouseMove;
+        EnemyPawnImage.MouseDown += EPawnMouseDown;
+        EnemyPawnImage.MouseMove += EPawnMouseMove;
         EnemyPawnImage.Visible = false;
         EnemyPawnImage.Priority = 0;
         EnemyPawnImage.WinLeft = 0;
@@ -317,7 +317,7 @@ public sealed partial class WorldMap : ILayoutModule
         BackButton.TextColor = 0;
         BackButton.TextSelectedColor = 0;
         BackButton.WinWidth = 55;
-        BackButton.OnClick += _ => BackClick();
+        BackButton.Click += _ => BackClick();
         session.EndRead(BackButton);
         NextButton = new Button(this);
         session.BeginRead(NextButton);
@@ -351,7 +351,7 @@ public sealed partial class WorldMap : ILayoutModule
         NextButton.TextColor = 0;
         NextButton.TextSelectedColor = 0;
         NextButton.WinWidth = 55;
-        NextButton.OnClick += _ => NextStartClick();
+        NextButton.Click += _ => NextStartClick();
         session.EndRead(NextButton);
         CancelButton = new Button(this);
         session.BeginRead(CancelButton);
@@ -385,7 +385,7 @@ public sealed partial class WorldMap : ILayoutModule
         CancelButton.TextColor = 0;
         CancelButton.TextSelectedColor = 0;
         CancelButton.WinWidth = 39;
-        CancelButton.OnClick += _ => CancelClick();
+        CancelButton.Click += _ => CancelClick();
         session.EndRead(CancelButton);
         BookStartButton = new Button(this);
         session.BeginRead(BookStartButton);
@@ -419,7 +419,7 @@ public sealed partial class WorldMap : ILayoutModule
         BookStartButton.TextColor = 0;
         BookStartButton.TextSelectedColor = 0;
         BookStartButton.WinWidth = 39;
-        BookStartButton.OnClick += _ => BookStartClick();
+        BookStartButton.Click += _ => BookStartClick();
         session.EndRead(BookStartButton);
         LeftPageLabel = new Label(this);
         session.BeginRead(LeftPageLabel);
@@ -530,15 +530,15 @@ public sealed partial class WorldMap : ILayoutModule
         Book = new BookWindow(this);
         session.BeginRead(Book);
         Book.Name = "BookWin";
-        Book.OnUpdate += _ => BookWinUpdate();
+        Book.Updated += _ => BookWinUpdate();
         Book.Visible = false;
         Book.Priority = 275;
         Book.WinLeft = 21;
         Book.WinTop = 8;
         Book.WinWidth = 599;
         Book.Masked = true;
-        Book.OnHide += _ => BookWinHide();
-        Book.OnShow += _ => BookWinShow();
+        Book.Hide += _ => BookWinHide();
+        Book.Show += _ => BookWinShow();
         Book.Alignment.AlignWidth = AlignWidth.Center;
         Book.Alignment.AlignHeight = AlignHeight.Center;
         Book.Alignment.HeightPercent = 0;
@@ -572,7 +572,7 @@ public sealed partial class WorldMap : ILayoutModule
         Book.Modal = true;
         Book.WinHeight = 465;
         Book.Dockable = false;
-        Book.OnAnimationDone += _ => BookAnimationDone();
+        Book.AnimationDone += _ => BookAnimationDone();
         session.EndRead(Book);
         InfoPanel = new Panel(this);
         session.BeginRead(InfoPanel);
@@ -1256,7 +1256,7 @@ public sealed partial class WorldMap : ILayoutModule
         QuitButton.TextColor = 0;
         QuitButton.TextSelectedColor = 16777215;
         QuitButton.WinWidth = 130;
-        QuitButton.OnClick += _ => QuitBtnClick();
+        QuitButton.Click += _ => QuitBtnClick();
         session.EndRead(QuitButton);
         ShowButton = new Button(this);
         session.BeginRead(ShowButton);
@@ -1291,7 +1291,7 @@ public sealed partial class WorldMap : ILayoutModule
         ShowButton.TextColor = 0;
         ShowButton.TextSelectedColor = 16777215;
         ShowButton.WinWidth = 130;
-        ShowButton.OnClick += _ => ShowBtnClick();
+        ShowButton.Click += _ => ShowBtnClick();
         session.EndRead(ShowButton);
         SelectLabel = new Label(this);
         session.BeginRead(SelectLabel);
@@ -1393,7 +1393,7 @@ public sealed partial class WorldMap : ILayoutModule
         session.BeginRead(StarImage);
         StarImage.Name = "StarImg";
         StarImage.OnDraw += (_, surface) => StarImgDraw(surface);
-        StarImage.OnUpdate += _ => StarImgUpdate();
+        StarImage.Updated += _ => StarImgUpdate();
         StarImage.Priority = 200;
         StarImage.WinLeft = 461;
         StarImage.WinTop = 193;
@@ -1445,7 +1445,7 @@ public sealed partial class WorldMap : ILayoutModule
         HeroFrame = new Frame(this);
         session.BeginRead(HeroFrame);
         HeroFrame.Name = "HeroPnl";
-        HeroFrame.OnPreDraw += (_, surface) => HeroPnlPreDraw(surface);
+        HeroFrame.PreDraw += (_, surface) => HeroPnlPreDraw(surface);
         HeroFrame.Priority = 0;
         HeroFrame.WinLeft = 0;
         HeroFrame.WinTop = 0;
@@ -1473,7 +1473,7 @@ public sealed partial class WorldMap : ILayoutModule
         Ally1Frame = new Frame(this);
         session.BeginRead(Ally1Frame);
         Ally1Frame.Name = "Ally1Pnl";
-        Ally1Frame.OnPreDraw += (_, surface) => Ally1PnlPreDraw(surface);
+        Ally1Frame.PreDraw += (_, surface) => Ally1PnlPreDraw(surface);
         Ally1Frame.Priority = 0;
         Ally1Frame.WinLeft = 0;
         Ally1Frame.WinTop = 0;
@@ -1501,7 +1501,7 @@ public sealed partial class WorldMap : ILayoutModule
         Ally2Frame = new Frame(this);
         session.BeginRead(Ally2Frame);
         Ally2Frame.Name = "Ally2Pnl";
-        Ally2Frame.OnPreDraw += (_, surface) => Ally2PnlPreDraw(surface);
+        Ally2Frame.PreDraw += (_, surface) => Ally2PnlPreDraw(surface);
         Ally2Frame.Priority = 0;
         Ally2Frame.WinLeft = 0;
         Ally2Frame.WinTop = 0;
@@ -1529,7 +1529,7 @@ public sealed partial class WorldMap : ILayoutModule
         Ally3Frame = new Frame(this);
         session.BeginRead(Ally3Frame);
         Ally3Frame.Name = "Ally3Pnl";
-        Ally3Frame.OnPreDraw += (_, surface) => Ally3PnlPreDraw(surface);
+        Ally3Frame.PreDraw += (_, surface) => Ally3PnlPreDraw(surface);
         Ally3Frame.Priority = 0;
         Ally3Frame.WinLeft = 0;
         Ally3Frame.WinTop = 0;
@@ -1587,7 +1587,7 @@ public sealed partial class WorldMap : ILayoutModule
         SetButton.TextColor = 0;
         SetButton.TextSelectedColor = 16777215;
         SetButton.WinWidth = 130;
-        SetButton.OnClick += _ => SetBtnClick();
+        SetButton.Click += _ => SetBtnClick();
         session.EndRead(SetButton);
         LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);
