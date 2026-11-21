@@ -11,7 +11,6 @@ using Aow.Game.Magic.Spells;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
-using Aow.Rtl;
 using static Aow.Rtl.DelphiFormat;
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiRounding;
@@ -77,7 +76,7 @@ public class TornadoTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(o
                 byte selection = default;
                 ArmyHexSprite army = default;
                 _ = ArmyId.RetrieveArmy(ref army, ref selection);
-                bool exposed = !(Set<byte>.WithBounds(0, 255).With(1).Contains((byte)mapField.OverlayType) || mapField.FindNoneTransparentHexSprite(typeof(Structure)) is not null);
+                bool exposed = !((byte)mapField.OverlayType == 1 || mapField.FindNoneTransparentHexSprite(typeof(Structure)) is not null);
                 Troop troopObject;
                 for (int i = 0, last = army.Army.Units.Count - 1; i <= last; i++)
                 {
@@ -164,7 +163,7 @@ public class TornadoTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(o
                                 {
                                     troopObject = army.Army.Units.GetUnit(i);
                                     _ = movedUnits.AddUnit(troopObject);
-                                    ArmyHexSprite placed = troopObject.Place(location.X, location.Y, L: location.MapLevel, player: (sbyte)(byte)army.Army.Player, mode: Set<UnitPlaceModeElement>.Of());
+                                    ArmyHexSprite placed = troopObject.Place(location.X, location.Y, L: location.MapLevel, player: (sbyte)(byte)army.Army.Player, mode: UnitPlaceModes.None);
                                     placed?.Army.UpdateExploration();
                                 }
                             }

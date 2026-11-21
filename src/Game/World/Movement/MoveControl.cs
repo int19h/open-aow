@@ -22,10 +22,10 @@ public partial class MoveControl(GameMap owner) : IDisposable
 {
     public GameMap Map { get; init; } = owner;
 
-    private Set<StatusElement> _status;
+    private Statuses _status;
 
     public sbyte Player { get; private set; }
-    public Set<MoveModeElement> Mode { get; private set; }
+    public MoveModes Mode { get; private set; }
 
     private MapCoordinate Source { get; set; }
 
@@ -75,7 +75,7 @@ public partial class MoveControl(GameMap owner) : IDisposable
         Settings.SubMoves.Clear();
         Settings.SubMoveIndex = 0;
         Settings.Path.Clear();
-        if (Mode.Contains(MoveModeElement.LogProcessedMapFields))
+        if (Mode.Contains(MoveModes.LogProcessedMapFields))
         {
             Settings.ProcessedMapFields.Count = 0;
             Settings.ProcessedMapFields.Capacity = 4_096;
@@ -109,7 +109,7 @@ public partial class MoveControl(GameMap owner) : IDisposable
 
             Settings.SetMovePoints(Source.X, Source.Y, Source.MapLevel, value: 0);
             MapField field = MapLevel.GetField(Source.X, Source.Y);
-            if (Mode.Contains(MoveModeElement.LogProcessedMapFields))
+            if (Mode.Contains(MoveModes.LogProcessedMapFields))
             {
                 _ = _processedMapFields.Add(field);
             }
@@ -252,7 +252,7 @@ public partial class MoveControl(GameMap owner) : IDisposable
                     Settings.SubMoves.Delete(index);
                 }
 
-                if (Mode.Contains(MoveModeElement.LogProcessedMapFields) && previous == 16_777_215)
+                if (Mode.Contains(MoveModes.LogProcessedMapFields) && previous == 16_777_215)
                 {
                     _ = _processedMapFields.Add(target);
                 }
@@ -372,7 +372,7 @@ public partial class MoveControl(GameMap owner) : IDisposable
     // MoveT.PAS:1315
     public bool Process()
     {
-        Assert(_status.Contains(StatusElement.Activated), message: "", file: "MoveT.PAS", line: 1339);
+        Assert(_status.Contains(Statuses.Activated), message: "", file: "MoveT.PAS", line: 1339);
         switch (Settings.Status)
         {
             case MoveControlSettingsStatus.Idle:
@@ -436,9 +436,9 @@ public partial class MoveControl(GameMap owner) : IDisposable
     // MoveT.PAS:1504
     public void Deactivate()
     {
-        if (_status.Contains(StatusElement.Activated))
+        if (_status.Contains(Statuses.Activated))
         {
-            _status -= Set<StatusElement>.Of(StatusElement.Activated);
+            _status &= ~Statuses.Activated;
             if (Settings.Status == MoveControlSettingsStatus.Processing)
             {
                 Settings.MovePointsLimit = MovePointsLimit;
@@ -450,7 +450,7 @@ public partial class MoveControl(GameMap owner) : IDisposable
     }
 
     // MoveT.PAS:1559
-    public int CanMove(MoveControlSettings settings, Set<CanMoveModeElement> mode)
+    public int CanMove(MoveControlSettings settings, CanMoveModes mode)
     {
         int points;
         if (settings.Source.X != settings.Destination.X || settings.Source.Y != settings.Destination.Y || settings.Source.MapLevel != settings.Destination.MapLevel)
@@ -461,12 +461,12 @@ public partial class MoveControl(GameMap owner) : IDisposable
                 points = -1;
                 if (Destination.X == -1 || ValidLocation(Destination.X, Destination.Y, L: Destination.MapLevel))
                 {
-                    if (Source.MapLevel == Destination.MapLevel && mode.Contains(CanMoveModeElement.Fast))
+                    if (Source.MapLevel == Destination.MapLevel && mode.Contains(CanMoveModes.Fast))
                     {
                         points = GetMovePointsCostFast(Source.X, Source.Y, Destination.X, Destination.Y);
                     }
 
-                    if (points == -1 && mode.Contains(CanMoveModeElement.Exact))
+                    if (points == -1 && mode.Contains(CanMoveModes.Exact))
                     {
                         do
                         {
@@ -709,8 +709,10 @@ public partial class MoveControl(GameMap owner) : IDisposable
     private static readonly ImmutableArray<ImmutableArray<byte>> s_oddDirections = [[1, 3, 5], [3, 1, 5], [3, 5, 1], [5, 3, 1], [5, 1, 3], [1, 5, 3]];
     private static readonly ImmutableArray<ImmutableArray<byte>> s_evenDirections = [[2, 4, 6], [4, 2, 6], [4, 6, 2], [6, 4, 2], [6, 2, 4], [2, 6, 4]];
 
-    public enum StatusElement : byte
+    [Flags]
+    public enum Statuses : byte
     {
-        Activated = 0
+        None = 0,
+        Activated = 1 << 0,
     }
 }

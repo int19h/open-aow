@@ -1,15 +1,13 @@
 #nullable disable
 using Aow.Game.Combat;
-
 using Aow.Game.World.Movement;
-using Aow.Rtl;
 
 namespace Aow.Game.Magic.Abilities.Passive;
 
 internal static class PassiveAbilities
 {
 
-    internal static MovementAbility CreateMovementAbility(int id, string name, Set<MoveType> moveTypes, GameEngine engine)
+    internal static MovementAbility CreateMovementAbility(int id, string name, MoveTypes moveTypes, GameEngine engine)
     {
         MovementAbility ability = new(null)
         {
@@ -18,15 +16,15 @@ internal static class PassiveAbilities
             AbilityName = name,
             MoveTypes = moveTypes
         };
-        if (moveTypes.Contains(MoveType.Mountaineering) || moveTypes.Contains(MoveType.Forestry) || moveTypes.Contains(MoveType.CaveCrawling))
+        if (moveTypes.Contains(MoveTypes.Mountaineering) || moveTypes.Contains(MoveTypes.Forestry) || moveTypes.Contains(MoveTypes.CaveCrawling))
         {
-            ability.SelectionTypes += Set<AbilitySelectionType>.Of(AbilitySelectionType.Editor);
+            ability.SelectionTypes |= AbilitySelectionTypes.Editor;
         }
 
         return ability;
     }
 
-    internal static ImmunityAbility CreateImmunityAbility(int id, string name, Set<DamageType> damageTypes, GameEngine engine)
+    internal static ImmunityAbility CreateImmunityAbility(int id, string name, DamageTypes damageTypes, GameEngine engine)
     {
         ImmunityAbility ability = new(null)
         {
@@ -34,22 +32,22 @@ internal static class PassiveAbilities
             AbilityId = id,
             AbilityName = name,
             ImmunityTypes = damageTypes,
-            SelectionTypes = (Set<DamageType>.Of(DamageType.Physical, DamageType.Death, DamageType.Holy, DamageType.Magic) & damageTypes) == Set<DamageType>.Of()
-                ? Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.RingItem)
-                : (Set<DamageType>.Of(DamageType.Death, DamageType.Holy, DamageType.Magic) & damageTypes) == Set<DamageType>.Of()
-                    ? Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.RingItem)
-                    : Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit)
+            SelectionTypes = ((DamageTypes.Physical | DamageTypes.Death | DamageTypes.Holy | DamageTypes.Magic) & damageTypes) == DamageTypes.None
+                ? AbilitySelectionTypes.Unit | AbilitySelectionTypes.RingItem
+                : ((DamageTypes.Death | DamageTypes.Holy | DamageTypes.Magic) & damageTypes) == DamageTypes.None
+                    ? AbilitySelectionTypes.Unit | AbilitySelectionTypes.RingItem
+                    : AbilitySelectionTypes.Unit
         };
 
-        if ((Set<DamageType>.Of(DamageType.Physical, DamageType.Magic) & damageTypes) == Set<DamageType>.Of())
+        if (((DamageTypes.Physical | DamageTypes.Magic) & damageTypes) == DamageTypes.None)
         {
-            ability.SelectionTypes += Set<AbilitySelectionType>.Of(AbilitySelectionType.TorsoItem);
+            ability.SelectionTypes |= AbilitySelectionTypes.TorsoItem;
         }
 
         return ability;
     }
 
-    internal static ProtectionAbility CreateProtectionAbility(int id, string name, Set<DamageType> damageTypes, Set<AbilitySelectionType> selectionTypes, GameEngine engine)
+    internal static ProtectionAbility CreateProtectionAbility(int id, string name, DamageTypes damageTypes, AbilitySelectionTypes selectionTypes, GameEngine engine)
     {
         ProtectionAbility ability = new(null)
         {

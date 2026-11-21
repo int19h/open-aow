@@ -38,7 +38,7 @@ public sealed class UserDrawBox(Component owner) : Control(owner)
     }
 
     // aowUserDrawBox.pas:55
-    public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
@@ -50,7 +50,7 @@ public sealed class UserDrawBox(Component owner) : Control(owner)
     }
 
     // aowUserDrawBox.pas:69
-    public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton button, ShiftStates shift, int X, int Y)
     {
         Handled = false;
         if (X > Window.AbsoluteLeft + WinLeft - 1 && X < Window.AbsoluteLeft + WinLeft + WinWidth && Y > Window.AbsoluteTop + WinTop - 1 && Y < Window.AbsoluteTop + WinTop + WinHeight)
@@ -61,7 +61,7 @@ public sealed class UserDrawBox(Component owner) : Control(owner)
     }
 
     // aowUserDrawBox.pas:81
-    public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseMove(ShiftStates shift, int X, int Y)
     {
         base.CheckMouseMove(shift, X, Y);
         Handled = false;

@@ -40,7 +40,7 @@ public sealed partial class HeroItems : ObservableNode, IChildList<Item>, IItemH
     }
 
     // Hero.PAS:400
-    public override Set<ControlStyleElement> GetControlStyle() => base.GetControlStyle() + Set<ControlStyleElement>.Of(ControlStyleElement.ArrayMode);
+    public override ControlStyles GetControlStyle() => base.GetControlStyle() | ControlStyles.ArrayMode;
 
     // Army.PAS:4516, the item list's release of each loaded child.
     public override void MainPersist(IPersister persister)
@@ -187,15 +187,15 @@ public sealed partial class HeroItems : ObservableNode, IChildList<Item>, IItemH
     }
 
     // Hero.PAS:454
-    public Set<MoveType> GetMoveTypes()
+    public MoveTypes GetMoveTypes()
     {
-        Set<MoveType> result = Set<MoveType>.Of();
+        MoveTypes result = MoveTypes.None;
         for (int i = 0, last = Items.Count - 1; i <= last; i++)
         {
             Item item = Items[i];
             if (item is not null)
             {
-                result += item.GetAbilityMoveTypesAll();
+                result |= item.GetAbilityMoveTypesAll();
             }
         }
 
@@ -203,15 +203,15 @@ public sealed partial class HeroItems : ObservableNode, IChildList<Item>, IItemH
     }
 
     // Hero.PAS:465
-    public Set<DamageType> GetImmunityTypes()
+    public DamageTypes GetImmunityTypes()
     {
-        Set<DamageType> result = Set<DamageType>.Of();
+        DamageTypes result = DamageTypes.None;
         for (int i = 0, last = Items.Count - 1; i <= last; i++)
         {
             Item item = Items[i];
             if (item is not null)
             {
-                result += item.GetAbilityImmunityTypesAll();
+                result |= item.GetAbilityImmunityTypesAll();
             }
         }
 
@@ -219,15 +219,15 @@ public sealed partial class HeroItems : ObservableNode, IChildList<Item>, IItemH
     }
 
     // Hero.PAS:476
-    public Set<DamageType> GetProtectionTypes()
+    public DamageTypes GetProtectionTypes()
     {
-        Set<DamageType> result = Set<DamageType>.Of();
+        DamageTypes result = DamageTypes.None;
         for (int i = 0, last = Items.Count - 1; i <= last; i++)
         {
             Item item = Items[i];
             if (item is not null)
             {
-                result += item.GetAbilityProtectionTypesAll();
+                result |= item.GetAbilityProtectionTypesAll();
             }
         }
 

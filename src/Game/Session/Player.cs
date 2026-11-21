@@ -261,7 +261,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
             _upkeepChangedEventsStore.Clear();
             try
             {
-                if (StrategicMap.Current is not null && StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
+                if (StrategicMap.Current is not null && StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Destroying))
                 {
                     Assert(_victoryLocations.Count == 0, message: "Victory Locations not correctly cleared (TPlayer)", file: "Player.PAS", line: 326);
                     Assert(Structures.Count == 0, message: "Registered Player Structures not correctly cleared (TPlayer)", file: "Player.PAS", line: 327);
@@ -424,7 +424,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
         _description = persister.String("Description", value: _description);
         Gems = persister.Int32("Gems", value: Gems);
         PlayerIndex = persister.UnsignedByte(name: "PlayerIndex", value: PlayerIndex);
-        if ((GetEngine().Status & Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm, HexSpriteEngineStatusElement.SavingHsm)) != Set<HexSpriteEngineStatusElement>.Of() || translating)
+        if ((GetEngine().Status & (HexSpriteEngineStatuses.LoadingHsm | HexSpriteEngineStatuses.SavingHsm)) != HexSpriteEngineStatuses.None || translating)
         {
             if (persister.Loading || translating)
             {
@@ -476,7 +476,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
         Behavior = persister.Enum("Behavior", value: Behavior);
         if (PlayerIndex != 0)
         {
-            if (!persister.Loading && !translating && StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Leader is not null)
+            if (!persister.Loading && !translating && StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting) && Leader is not null)
             {
                 persister.Object("LeaderSetup", objectValue: Leader);
             }
@@ -1135,7 +1135,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
             for (; i >= 0; i -= 1)
             {
                 hero = StrategicMap.Current.HeroControl[i];
-                if (!hero.HeroStatus.Contains(HeroStatusElement.Died) && hero.Player <= 0 && hero.Owner is null && hero.CanJoin(PlayerIndex))
+                if (!hero.HeroStatus.Contains(HeroStatuses.Died) && hero.Player <= 0 && hero.Owner is null && hero.CanJoin(PlayerIndex))
                 {
                     int chance = GetHeroJoinChance(hero.GetLevel());
                     if (chance > 0 && hero.JoinAmount(PlayerIndex) < Gems)
@@ -1153,10 +1153,10 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
                 for (; i >= 0; i -= 1)
                 {
                     hero = StrategicMap.Current.HeroControl[i];
-                    if (!hero.HeroStatus.Contains(HeroStatusElement.Died) && hero.Player <= 0 && hero.Owner is null && hero.GetAbilityEnabled(52) && hero.GetLevel() >= 2 && hero.GetLevel() <= 3)
+                    if (!hero.HeroStatus.Contains(HeroStatuses.Died) && hero.Player <= 0 && hero.Owner is null && hero.GetAbilityEnabled(52) && hero.GetLevel() >= 2 && hero.GetLevel() <= 3)
                     {
                         Status playerRelation = StrategicMap.Current.Races.GetRace(hero.Race).GetPlayerRelation(PlayerIndex);
-                        if (Set<Status>.Of(Session.Status.Polite, Session.Status.Friendly).Contains(playerRelation) && hero.JoinAmount(PlayerIndex) < Gems)
+                        if (playerRelation is Session.Status.Polite or Session.Status.Friendly && hero.JoinAmount(PlayerIndex) < Gems)
                         {
                             sbyte level = hero.GetLevel();
                             _ = heroes.AddAbility(hero, ((level - 2) * 1_000) + 1);
@@ -1192,7 +1192,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
                 hero.UpdateSettings();
                 MapCoordinate item = locations[i];
                 MapCoordinate locationsItem = locations[i];
-                _ = hero.Place(locations[i].X, locationsItem.Y, L: item.MapLevel, player: 0, mode: Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea, UnitPlaceModeElement.CreateNewArmy));
+                _ = hero.Place(locations[i].X, locationsItem.Y, L: item.MapLevel, player: 0, mode: UnitPlaceModes.ScanArea | UnitPlaceModes.CreateNewArmy);
                 MapCoordinate item2 = locations[i];
                 MapCoordinate item3 = locations[i];
                 MapCoordinate item4 = locations[i];
@@ -1339,7 +1339,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
                 }
                 else
                 {
-                    if (Leader is not null && !StrategicMap.Current.FixedLeaders && StrategicMap.Current.GameType != GameType.Campaign && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+                    if (Leader is not null && !StrategicMap.Current.FixedLeaders && StrategicMap.Current.GameType != GameType.Campaign && !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
                     {
                         Leader.Owner = null;
                     }
@@ -1404,7 +1404,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
                     Troop troop = army.Units.GetUnit(j);
                     if (info.ArmyStrength < 1_073_741_823)
                     {
-                        int strengthMax = troop.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                        int strengthMax = troop.GetStrengthMax(AbilityRules.AllDamageTypes & ~DamageTypes.Wall);
                         info.ArmyStrength += strengthMax;
                     }
                 }
@@ -1449,7 +1449,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
     // Player.PAS:1124
     public void PlayerSeen(sbyte player)
     {
-        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && (player >= _lastDaySeen.Count || _lastDaySeen[player] != StrategicMap.Current.Day))
+        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting) && (player >= _lastDaySeen.Count || _lastDaySeen[player] != StrategicMap.Current.Day))
         {
             _lastDaySeen[player] = StrategicMap.Current.Day;
             if (GetFirstDaySeen(player) == -1)
@@ -1484,7 +1484,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
         if (control is not null)
         {
             PlayerCommunicationSettings players = control.GetPlayers(PlayerIndex);
-            return Set<ConnectionMode>.Of(ConnectionMode.Local, ConnectionMode.Global).Contains(players.ConnectionMode);
+            return players.ConnectionMode is ConnectionMode.Local or ConnectionMode.Global;
         }
         else
         {
@@ -1600,7 +1600,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
                 }
             }
 
-            if (Set<DiplomaticRelation>.Of(DiplomaticRelation.War, DiplomaticRelation.Unknown).Contains(relation) && !DiplomaticActionAlreadySend(OfferPeace.Kind, target: player, other: -1))
+            if (relation is DiplomaticRelation.War or DiplomaticRelation.Unknown && !DiplomaticActionAlreadySend(OfferPeace.Kind, target: player, other: -1))
             {
                 action = CreateDiplomaticAction(new OfferPeace(), target: player, other: -1);
                 if (action is not null)
@@ -1620,7 +1620,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
                 }
             }
 
-            if (Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace).Contains(relation) && !DiplomaticActionAlreadySend(ProposeAlliance.Kind, target: player, other: -1))
+            if (relation == DiplomaticRelation.Peace && !DiplomaticActionAlreadySend(ProposeAlliance.Kind, target: player, other: -1))
             {
                 action = CreateDiplomaticAction(new ProposeAlliance(), target: player, other: -1);
                 if (action is not null)
@@ -1630,7 +1630,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
                 }
             }
 
-            if (Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace, DiplomaticRelation.Unknown).Contains(relation) && !DiplomaticActionAlreadySend(ThreatenToAttack.Kind, target: player, other: -1))
+            if (relation is DiplomaticRelation.Peace or DiplomaticRelation.Unknown && !DiplomaticActionAlreadySend(ThreatenToAttack.Kind, target: player, other: -1))
             {
                 action = CreateDiplomaticAction(new ThreatenToAttack(), target: player, other: -1);
                 if (action is not null)
@@ -1647,7 +1647,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
                 _ = action.Release();
             }
 
-            if (Set<DiplomaticRelation>.Of(DiplomaticRelation.Alliance).Contains(relation))
+            if (relation == DiplomaticRelation.Alliance)
             {
                 action = CreateDiplomaticAction(new BreakAlliance(), target: player, other: -1);
                 if (action is not null)
@@ -1665,7 +1665,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
                     if (condition)
                     {
                         DiplomaticRelation diplomaticRelation = StrategicMap.Current.Players.GetDiplomaticRelation(player, otherPlayer: (sbyte)i);
-                        condition = Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace, DiplomaticRelation.Unknown).Contains(diplomaticRelation);
+                        condition = diplomaticRelation is DiplomaticRelation.Peace or DiplomaticRelation.Unknown;
                     }
 
                     if (condition)
@@ -1729,14 +1729,14 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
     public bool ValidAttackRelation(sbyte player, sbyte independentRelation)
     {
         Assert(PlayerIndex != 0, message: "", file: "Player.PAS", line: 1390);
-        if (Set<PlayerType>.Of(PlayerType.Cpu1, PlayerType.Cpu2, PlayerType.Cpu3, PlayerType.Cpu4, PlayerType.Cpu5).Contains(PlayerType))
+        if (PlayerType is (>= PlayerType.Cpu1 and <= PlayerType.Cpu3) or PlayerType.Cpu4 or PlayerType.Cpu5)
         {
             return AIValidAttackPlayers[player];
         }
         else
         {
             DiplomaticRelation diplomaticRelation = AbilityRules.DiplomaticRelation(PlayerIndex, independentRelation: 0, otherPlayer: player, otherIndependentRelation: independentRelation);
-            return Set<DiplomaticRelation>.Of(DiplomaticRelation.War, DiplomaticRelation.Unknown).Contains(diplomaticRelation);
+            return diplomaticRelation is DiplomaticRelation.War or DiplomaticRelation.Unknown;
         }
     }
 
@@ -1841,7 +1841,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
         public override void AnswerAI(DiplomaticAction action, sbyte player, DiplomaticRelation relation, ByteList idealPeace, ByteList idealWar)
         {
             string errorText = "";
-            _ = Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace, DiplomaticRelation.Alliance).Contains(relation)
+            _ = relation is DiplomaticRelation.Peace or DiplomaticRelation.Alliance
                 ? action.Accept(errorText)
                 : StrategicMap.Current.Random(200) + 50 < Gold + Mana ? action.Accept(errorText) : action.Reject(errorText);
         }

@@ -84,7 +84,7 @@ public sealed class FloodControl(CustomNode owner) : EngineObject(owner)
                     while (walk.Radius == 1)
                     {
                         mapField = mapLevel.GetField(walk.X, walk.Y);
-                        if ((!Set<byte>.WithBounds(0, 255).With(0).With(6).With(15).Contains((byte)mapField.TerrainType) && !Set<byte>.WithBounds(0, 255).With(0).With(2).With(7).Contains((byte)mapField.OverlayType)) || (mapField.TerrainType == 0 && mapField.OverlayType == 5))
+                        if ((mapField.TerrainType is not ((sbyte)TerrainType.Water or (sbyte)TerrainType.Ice or (sbyte)TerrainType.Border) && (byte)mapField.OverlayType is not (0 or 2 or 7)) || (mapField.TerrainType == 0 && mapField.OverlayType == 5))
                         {
                             index = ((Width * walk.Y) + walk.X) * 2;
                             if (OriginalTerrain[index] == 0 && OriginalTerrain[index + 1] == 0 && mapField.FindNoneTransparentHexSprite(typeof(Structure)) is null)
@@ -97,7 +97,7 @@ public sealed class FloodControl(CustomNode owner) : EngineObject(owner)
                                 OriginalTerrain = originalTerrain2;
                             }
 
-                            if (Set<byte>.WithBounds(0, 255).With(4).With(5).Contains((byte)mapField.OverlayType))
+                            if ((byte)mapField.OverlayType is 4 or 5)
                             {
                                 HexSprite roadHexSprite = mapField.FindOwnedHexSprite(typeof(AbstractRoad));
                                 roadHexSprite?.Dispose();
@@ -149,7 +149,7 @@ public sealed class FloodControl(CustomNode owner) : EngineObject(owner)
                 if (OriginalTerrain[index] != 0)
                 {
                     mapField = mapLevel.GetField(x, y);
-                    if (Set<byte>.WithBounds(0, 255).With(0).With(6).Contains((byte)mapField.TerrainType))
+                    if (mapField.TerrainType is (sbyte)TerrainType.Water or (sbyte)TerrainType.Ice)
                     {
                         mapField.TerrainType = OriginalTerrain[index];
                         mapField.TerrainChanged();
@@ -171,7 +171,7 @@ public sealed class FloodControl(CustomNode owner) : EngineObject(owner)
                 if (overlay > 0)
                 {
                     mapField = mapLevel.GetField(x, y);
-                    if (Set<byte>.WithBounds(0, 255).With(4).With(5).Contains((byte)overlay))
+                    if ((byte)overlay is 4 or 5)
                     {
                         _ = GamePack.Current.RoadControl.Place(StrategicMap.Current.MapContainer, (sbyte)x, (sbyte)y, L: 0, mapField.TerrainType);
                     }

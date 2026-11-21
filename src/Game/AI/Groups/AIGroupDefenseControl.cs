@@ -6,8 +6,6 @@ using Aow.Game.Units;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 namespace Aow.Game.AI.Groups;
 
 // selector, custom state, mode, defend mode
@@ -17,7 +15,7 @@ public class AIGroupDefenseControl : AIGroupTask
     public AIGroupDefenseControl(CustomNode owner) : base(owner)
     {
         _selector = new GroupDefenseSelector(this);
-        _mode = Set<ModeElement>.Of();
+        _mode = Modes.None;
         DefendMode = GroupDefendMode.Wait;
         State = 0;
     }
@@ -26,7 +24,7 @@ public class AIGroupDefenseControl : AIGroupTask
 
     public int CustomState { get; init; }
 
-    private readonly Set<ModeElement> _mode;
+    private readonly Modes _mode;
 
     public GroupDefendMode DefendMode { get; init; }
 
@@ -38,7 +36,7 @@ public class AIGroupDefenseControl : AIGroupTask
     }
 
     // AIGroup.pas:1822
-    public override bool Busy => State != -1 && Status.Contains(AIGroupTaskStatusElement.Activated);
+    public override bool Busy => State != -1 && Status.Contains(AIGroupTaskStatuses.Activated);
 
     // AIGroup.pas:1827
     public override bool Activate(AIGroupControl control)
@@ -90,7 +88,7 @@ public class AIGroupDefenseControl : AIGroupTask
                             break;
                         case GroupDefendMode.Wait:
                             GroupControl.Done();
-                            if (_mode.Contains(ModeElement.Produce))
+                            if (_mode.Contains(Modes.Produce))
                             {
                                 State = 1;
                             }
@@ -120,9 +118,13 @@ public class AIGroupDefenseControl : AIGroupTask
         return false;
     }
 
-    public enum ModeElement : byte
+    [Flags]
+    public enum Modes : byte
     {
-        Produce = 0, Recruit = 1, OptimizeLocation = 2
+        None = 0,
+        Produce = 1 << 0,
+        Recruit = 1 << 1,
+        OptimizeLocation = 1 << 2,
     }
 
     public enum GroupDefendMode : byte

@@ -169,7 +169,7 @@ public sealed partial class SpellBook(UIContext ui) : UIModule(ui)
         if (_activation is not null)
         {
             _hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(_activation.UnitId);
-            return _hero is not null && !_hero.UnitStatus.Contains(UnitStatusElement.Killed);
+            return _hero is not null && !_hero.UnitStatus.Contains(UnitStatuses.Killed);
         }
         else
         {
@@ -234,7 +234,7 @@ public sealed partial class SpellBook(UIContext ui) : UIModule(ui)
                 case 2:
                 case 3:
                     _spells.Clear();
-                    StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ListResearchSpells(_spells, spellTypes: Set<SpellType>.Of(SpellType.Combat, SpellType.Unit, SpellType.Global));
+                    StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ListResearchSpells(_spells, spellTypes: SpellTypes.Combat | SpellTypes.Unit | SpellTypes.Global);
                     _spells.SortOnLevel();
                     string spellType = UI.Engine.TranslateResourceString(GameTables.SpellTypeTexts[(int)_spellType]);
                     string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_researchSpellFormat), arguments: [spellType]);
@@ -250,7 +250,7 @@ public sealed partial class SpellBook(UIContext ui) : UIModule(ui)
                     break;
                 case 0:
                     _spells.Clear();
-                    StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ListSpells(_spells, spellTypes: Set<SpellType>.Of(_spellType));
+                    StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ListSpells(_spells, spellTypes: _spellType.ToFlag());
                     _spells.SortOnLevel();
                     string spellType3 = UI.Engine.TranslateResourceString(GameTables.SpellTypeTexts[(int)_spellType]);
                     string format2 = AbilityRules.Format(UI.Engine.TranslateResourceString(s_castSpellFormat), arguments: [spellType3]);
@@ -261,7 +261,7 @@ public sealed partial class SpellBook(UIContext ui) : UIModule(ui)
                     break;
                 case 1:
                     _spells.Clear();
-                    StrategicMap.Current.Players.GetPlayers(CombatMap.Current.SeatedPlayer).MagicControl.ListSpells(_spells, spellTypes: Set<SpellType>.Of(_spellType));
+                    StrategicMap.Current.Players.GetPlayers(CombatMap.Current.SeatedPlayer).MagicControl.ListSpells(_spells, spellTypes: _spellType.ToFlag());
                     _spells.SortOnLevel();
                     string spellType5 = UI.Engine.TranslateResourceString(GameTables.SpellTypeTexts[(int)_spellType]);
                     string format4 = AbilityRules.Format(UI.Engine.TranslateResourceString(s_castSpellFormat), arguments: [spellType5]);
@@ -403,7 +403,7 @@ public sealed partial class SpellBook(UIContext ui) : UIModule(ui)
             string researchPoints = UI.Engine.TranslateResourceString(s_researchPointsText);
             ResearchPointsLabel.Text = $"{researchPoints}: {netPowerToResearch.ToString(CultureInfo.InvariantCulture)}";
             Spell spell;
-            if (Set<byte>.WithBounds(0, 255).With(2).With(3).Contains(Mode))
+            if (Mode is 2 or 3)
             {
                 CurrentPointsLabel.Text = "";
                 CastingPointsMaxLabel.Text = "";
@@ -478,7 +478,7 @@ public sealed partial class SpellBook(UIContext ui) : UIModule(ui)
             }
             else
             {
-                if (Set<byte>.WithBounds(0, 255).With(0).With(1).Contains(Mode))
+                if (Mode is 0 or 1)
                 {
                     sbyte fHeroCastingPoints = _hero.GetCastingPoints();
                     CurrentPointsLabel.Text = ((int)fHeroCastingPoints).ToString(CultureInfo.InvariantCulture);
@@ -540,21 +540,21 @@ public sealed partial class SpellBook(UIContext ui) : UIModule(ui)
             spellClass.Text = $"{UI.Engine.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere])}, {UI.Engine.TranslateResourceString(GameText.LevelText)} {((int)spell.SpellLevel).ToString(CultureInfo.InvariantCulture)}";
             if (Mode == 2)
             {
-                if (spell.SpellControlTypes == Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global))
+                if (spell.SpellControlTypes == SpellControlTypes.Global)
                 {
                     string global = UI.Engine.TranslateResourceString(GameTables.GlobalText);
                     spellClass.Text = $"{spellClass.Text}, {global}";
                 }
                 else
                 {
-                    if (spell.SpellControlTypes == Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Combat))
+                    if (spell.SpellControlTypes == SpellControlTypes.Combat)
                     {
                         string combat = UI.Engine.TranslateResourceString(GameTables.CombatText);
                         spellClass.Text = $"{spellClass.Text}, {combat}";
                     }
                     else
                     {
-                        if (spell.SpellControlTypes == Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global, SpellControlTypeElement.Combat))
+                        if (spell.SpellControlTypes == (SpellControlTypes.Global | SpellControlTypes.Combat))
                         {
                             string global = UI.Engine.TranslateResourceString(GameTables.GlobalText);
                             string combat = UI.Engine.TranslateResourceString(GameTables.CombatText);
@@ -576,7 +576,7 @@ public sealed partial class SpellBook(UIContext ui) : UIModule(ui)
             }
 
             string reason = "";
-            if ((Mode == 0 && (!spell.SpellControlTypes.Contains(SpellControlTypeElement.Global) || _hero.Casting())) || (Mode == 1 && (!spell.SpellControlTypes.Contains(SpellControlTypeElement.Combat) || _hero.Casting() || !_hero.CanCastSpellInstantly(spell.SpellId, mana: spell.BaseManaCost, ref reason))) || (Mode == 2 && StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ResearchSpellId != 0))
+            if ((Mode == 0 && (!spell.SpellControlTypes.Contains(SpellControlTypes.Global) || _hero.Casting())) || (Mode == 1 && (!spell.SpellControlTypes.Contains(SpellControlTypes.Combat) || _hero.Casting() || !_hero.CanCastSpellInstantly(spell.SpellId, mana: spell.BaseManaCost, ref reason))) || (Mode == 2 && StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ResearchSpellId != 0))
             {
                 memo.TextColor = 0x4C_4C_4C;
                 name.TextColor = 0x4C_4C_4C;
@@ -602,7 +602,7 @@ public sealed partial class SpellBook(UIContext ui) : UIModule(ui)
             }
 
             int turns;
-            if (Set<byte>.WithBounds(0, 255).With(0).With(1).Contains(Mode))
+            if (Mode is 0 or 1)
             {
                 turns = _hero.CastingTurns(spell);
                 reason = turns == 0
@@ -719,7 +719,7 @@ public sealed partial class SpellBook(UIContext ui) : UIModule(ui)
     // AoWSpellBook.pas:421
     public void UnitChanged(Troop U)
     {
-        if (Book.Visible && (U is null || (Set<byte>.WithBounds(0, 255).With(0).With(1).Contains(Mode) && U == _hero)))
+        if (Book.Visible && (U is null || (Mode is 0 or 1 && U == _hero)))
         {
             UpdateSpellPages();
             UpdateInfoPages();
@@ -830,7 +830,7 @@ public sealed partial class SpellBook(UIContext ui) : UIModule(ui)
             else
             {
                 _spells.Clear();
-                StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ListSpells(_spells, spellTypes: Set<SpellType>.Of(_spellType));
+                StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ListSpells(_spells, spellTypes: _spellType.ToFlag());
                 if (_spells.GetCount() == 0 || _spells.GetCount() <= Page * 8)
                 {
                     _spells.Clear();
@@ -838,7 +838,7 @@ public sealed partial class SpellBook(UIContext ui) : UIModule(ui)
                     while (_spells.GetCount() == 0 && (int)_spellType != 0)
                     {
                         _spellType = (SpellType)((int)_spellType - 1);
-                        StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ListSpells(_spells, spellTypes: Set<SpellType>.Of(_spellType));
+                        StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ListSpells(_spells, spellTypes: _spellType.ToFlag());
                     }
                 }
 
@@ -876,7 +876,7 @@ public sealed partial class SpellBook(UIContext ui) : UIModule(ui)
                 while (_spells.GetCount() == 0 && (int)_spellType != 0)
                 {
                     _spellType = (SpellType)((int)_spellType - 1);
-                    StrategicMap.Current.Players.GetPlayers(CombatMap.Current.SeatedPlayer).MagicControl.ListSpells(_spells, spellTypes: Set<SpellType>.Of(_spellType));
+                    StrategicMap.Current.Players.GetPlayers(CombatMap.Current.SeatedPlayer).MagicControl.ListSpells(_spells, spellTypes: _spellType.ToFlag());
                 }
 
                 SetPageKind(1);
@@ -1153,7 +1153,7 @@ public sealed partial class SpellBook(UIContext ui) : UIModule(ui)
     }
 
     // AoWSpellBook.pas:375
-    public void DlgKeyDown(in ushort key, Set<ShiftState> shift)
+    public void DlgKeyDown(in ushort key, ShiftStates shift)
     {
         if (key == 27)
         {

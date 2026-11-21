@@ -494,7 +494,7 @@ public partial class Menu : GenericWindow
     // AOWMenu.pas:555
     // { CheckMouseDown: the controls of the menu first; a click on an item selects it (OnSelect) and
     //   shows its submenus; a click outside hides the menu unless a submenu took it }
-    public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
         Handled = false;
         Redraw = false;
@@ -592,7 +592,7 @@ public partial class Menu : GenericWindow
     }
 
     // AOWMenu.pas:634
-    public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton button, ShiftStates shift, int X, int Y)
     {
         Handled = false;
         if (Visible)
@@ -622,7 +622,7 @@ public partial class Menu : GenericWindow
     // AOWMenu.pas:662
     // { CheckMouseMove highlights the item under the mouse; when the highlight moves, the submenus of
     //   the old item are hidden (by the item index into the submenu list: original bug) }
-    public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseMove(ShiftStates shift, int X, int Y)
     {
         // { Keep the child on the stack and I in a register. }
         Handled = false;
@@ -732,7 +732,7 @@ public partial class Menu : GenericWindow
     }
 
     // AOWMenu.pas:731
-    public override void CheckKeyDown(ref ushort key, Set<ShiftState> shift)
+    public override void CheckKeyDown(ref ushort key, ShiftStates shift)
     {
         Handled = false;
         for (int i = 0, last = Children.Count - 1; i <= last; i++)

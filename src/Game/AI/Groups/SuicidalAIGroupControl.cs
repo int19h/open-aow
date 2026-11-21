@@ -4,8 +4,6 @@ using Aow.Engine.Nodes;
 
 using Aow.Game.Combat;
 
-using Aow.Rtl;
-
 namespace Aow.Game.AI.Groups;
 
 public class SuicidalAIGroupControl(CustomNode owner) : AIGroupControl(owner)
@@ -40,7 +38,7 @@ public class SuicidalAIGroupControl(CustomNode owner) : AIGroupControl(owner)
     {
         SetupCP(target);
         CombatResult execute = CombatPredictor.Execute();
-        if (Set<CombatResult>.Of(CombatResult.Victory, CombatResult.Defeat, CombatResult.NoDefenders).Contains(execute))
+        if (execute is CombatResult.Victory or CombatResult.Defeat or CombatResult.NoDefenders)
         {
             if (CombatPredictor.GetEfficiency() > 0)
             {

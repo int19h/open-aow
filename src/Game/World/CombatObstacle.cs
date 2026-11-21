@@ -92,7 +92,7 @@ public class CombatObstacle(CustomNode owner) : MultiHexMapObject(owner)
     // CombatObstacle.pas:193
     public override void MakeVisible(VisibilityList visibilityList)
     {
-        if (!Status.Contains(MapObjectStatusElement.Visible))
+        if (!Status.Contains(MapObjectStatuses.Visible))
         {
             base.MakeVisible(visibilityList);
             if (_shadow is not null)

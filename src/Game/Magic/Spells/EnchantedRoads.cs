@@ -10,8 +10,6 @@ using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Spells;
 
 public class EnchantedRoads : GlobalEnchantmentSpell
@@ -48,7 +46,7 @@ public class EnchantedRoads : GlobalEnchantmentSpell
         animation.AnimationMap = StrategicMap.Current;
         animation.Activate();
         TwinkleAnimation twinkle = new(null) { Holder = CreationHolder() };
-        twinkle.Setup(GamePack.Current.SpellControl[44].CastImages.ImageSequences[0], mode: Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), count: 50, radius: 64, duration: 50, startDelay: 30);
+        twinkle.Setup(GamePack.Current.SpellControl[44].CastImages.ImageSequences[0], mode: TwinkleModes.Rotate, count: 50, radius: 64, duration: 50, startDelay: 30);
         _ = StrategicMap.Current.PlaceHex(twinkle, x, y, l);
         _ = CastSounds.Play(0);
         CastingDone(source, mana: eventValue.EventMana);

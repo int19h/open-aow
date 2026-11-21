@@ -109,7 +109,7 @@ public sealed class WheelLayoutTests(WheelLayoutTests.Host host) : IClassFixture
         Assert.Same(book.NextButton, book.Book.PageForward);
         int x = book.Book.WinLeft + 8;
         int y = book.Book.WinTop + 200;
-        Set<ShiftState> shift = default;
+        ShiftStates shift = default;
 
         Assert.True(_host.UI.General.Manager.CheckMouseWheel(-5, shift, x, y));
         Assert.Equal(1, book.Page);
@@ -145,7 +145,7 @@ public sealed class WheelLayoutTests(WheelLayoutTests.Host host) : IClassFixture
         Assert.Same(map.NextButton, map.Book.PageForward);
         int x = map.Book.WinLeft + map.LeftPageMemo.WinLeft + 20;
         int y = map.Book.WinTop + map.LeftPageMemo.WinTop + 40;
-        Set<ShiftState> shift = default;
+        ShiftStates shift = default;
 
         Assert.True(map.Book.CheckMouseWheel(-3, shift, x, y));
         Assert.Equal(3, map.LeftPageScrollBar.Position);
@@ -185,7 +185,7 @@ public sealed class WheelLayoutTests(WheelLayoutTests.Host host) : IClassFixture
         dialog.SaveScrollBar.SetPositionUnclamped(0);
         int x = dialog.Window.WinLeft + dialog.SavePanel.WinLeft + dialog.SaveListFrame.WinLeft + dialog.SaveList.WinLeft + 4;
         int y = dialog.Window.WinTop + dialog.SavePanel.WinTop + dialog.SaveListFrame.WinTop + dialog.SaveList.WinTop + 8;
-        Set<ShiftState> shift = default;
+        ShiftStates shift = default;
         Assert.True(dialog.Window.CheckMouseWheel(-1, shift, x, y));
         Assert.Equal(1, dialog.SaveScrollBar.Position);
         Assert.Equal(1, dialog.SaveList.ListOffset);

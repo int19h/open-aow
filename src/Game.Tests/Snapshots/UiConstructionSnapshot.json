@@ -6,16 +6,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.Draw.Images.InterfaceImageLibrary",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -31,16 +22,7 @@
               "PaletteManager.Palettes": []
             },
             "CustomImageLibrary.Reloading": false,
-            "CustomImageLibrary.Status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Images.ImageLibraryStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "CustomImageLibrary.Status": 0,
             "CustomImageLibrary._changeLock": 0,
             "CustomImageLibrary._count": 0,
             "CustomImageLibrary._fileName": "",
@@ -59,16 +41,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.Draw.Images.InterfaceImageLibrary",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
             "Component.Tag": 0,
@@ -84,16 +57,7 @@
               "PaletteManager.Palettes": []
             },
             "CustomImageLibrary.Reloading": false,
-            "CustomImageLibrary.Status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Images.ImageLibraryStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "CustomImageLibrary.Status": 0,
             "CustomImageLibrary._changeLock": 0,
             "CustomImageLibrary._count": 0,
             "CustomImageLibrary._fileName": "",
@@ -107,16 +71,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.Draw.Images.InterfaceImageLibrary",
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -129,16 +84,7 @@
               "CustomImageLibrary.OnChange": null,
               "CustomImageLibrary.PaletteManager": null,
               "CustomImageLibrary.Reloading": false,
-              "CustomImageLibrary.Status": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Images.ImageLibraryStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "CustomImageLibrary.Status": 0,
               "CustomImageLibrary._changeLock": 0,
               "CustomImageLibrary._count": 0,
               "CustomImageLibrary._fileName": "",
@@ -157,16 +103,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.Net.MailMessage",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -194,16 +131,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.Net.MailMessage",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
             "Component.Tag": 0,
@@ -226,16 +154,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.Net.MailMessage",
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -263,16 +182,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.Net.SmtpSender",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -297,16 +207,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.Net.SmtpSender",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
             "Component.Tag": 0,
@@ -326,16 +227,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.Net.SmtpSender",
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -360,16 +252,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.Session.SetupControl",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -434,16 +317,7 @@
               "SetupSettings.TurnTime": 0,
               "SetupSettings.VictoryCondition": 0
             },
-            "SetupControl.Status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Session.SetupStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "SetupControl.Status": 0,
             "SetupControl.Stream": {
               "$type": "System.IO.MemoryStream",
               "MemoryStream._buffer": [],
@@ -479,16 +353,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.Session.SetupControl",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
             "Component.Tag": 0,
@@ -553,16 +418,7 @@
               "SetupSettings.TurnTime": 0,
               "SetupSettings.VictoryCondition": 0
             },
-            "SetupControl.Status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Session.SetupStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "SetupControl.Status": 0,
             "SetupControl.Stream": {
               "$type": "System.IO.MemoryStream",
               "MemoryStream._buffer": [],
@@ -593,16 +449,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.Session.SetupControl",
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -622,16 +469,7 @@
               "SetupControl.OnSynchronize": null,
               "SetupControl.RemotePlayer": null,
               "SetupControl.Settings": null,
-              "SetupControl.Status": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Session.SetupStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "SetupControl.Status": 0,
               "SetupControl.Stream": null,
               "SetupControl._engine": null,
               "SetupControl._onAbort": null,
@@ -656,16 +494,7 @@
             "ArnoLine._imageTop": null,
             "ArnoLine._lineLibrary": {
               "$type": "Aow.Game.Draw.Images.InterfaceImageLibrary",
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -681,31 +510,13 @@
                 "PaletteManager.Palettes": []
               },
               "CustomImageLibrary.Reloading": false,
-              "CustomImageLibrary.Status": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Images.ImageLibraryStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "CustomImageLibrary.Status": 0,
               "CustomImageLibrary._changeLock": 0,
               "CustomImageLibrary._count": 0,
               "CustomImageLibrary._fileName": "",
               "CustomImageLibrary._loadOnDemand": true
             },
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -819,16 +630,7 @@
             "ArnoLine._imageTop": null,
             "ArnoLine._lineLibrary": {
               "$type": "Aow.Game.Draw.Images.InterfaceImageLibrary",
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -844,31 +646,13 @@
                 "PaletteManager.Palettes": []
               },
               "CustomImageLibrary.Reloading": false,
-              "CustomImageLibrary.Status": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Images.ImageLibraryStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "CustomImageLibrary.Status": 0,
               "CustomImageLibrary._changeLock": 0,
               "CustomImageLibrary._count": 0,
               "CustomImageLibrary._fileName": "",
               "CustomImageLibrary._loadOnDemand": true
             },
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
             "Component.Tag": 0,
@@ -976,16 +760,7 @@
               "ArnoLine._imageMiddle": null,
               "ArnoLine._imageTop": null,
               "ArnoLine._lineLibrary": null,
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -1092,16 +867,7 @@
             "BaseButton._imageLibraryIndexDown": 0,
             "BaseButton._imageLibraryIndexLit": 0,
             "BaseButton._imageLibraryIndexUp": 0,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -1217,16 +983,7 @@
             "BaseButton._imageLibraryIndexDown": 0,
             "BaseButton._imageLibraryIndexLit": 0,
             "BaseButton._imageLibraryIndexUp": 0,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
             "Component.Tag": 0,
@@ -1337,16 +1094,7 @@
               "BaseButton._imageLibraryIndexDown": 0,
               "BaseButton._imageLibraryIndexLit": 0,
               "BaseButton._imageLibraryIndexUp": 0,
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -1454,16 +1202,7 @@
             "BaseButton._imageLibraryIndexLit": 0,
             "BaseButton._imageLibraryIndexUp": 0,
             "Button.OnClick": null,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -1580,16 +1319,7 @@
             "BaseButton._imageLibraryIndexLit": 0,
             "BaseButton._imageLibraryIndexUp": 0,
             "Button.OnClick": null,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
             "Component.Tag": 0,
@@ -1701,16 +1431,7 @@
               "BaseButton._imageLibraryIndexLit": 0,
               "BaseButton._imageLibraryIndexUp": 0,
               "Button.OnClick": null,
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -1818,16 +1539,7 @@
             "BaseButton._imageLibraryIndexLit": 0,
             "BaseButton._imageLibraryIndexUp": 0,
             "CheckBox.OnDoubleClick": null,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -1944,16 +1656,7 @@
             "BaseButton._imageLibraryIndexLit": 0,
             "BaseButton._imageLibraryIndexUp": 0,
             "CheckBox.OnDoubleClick": null,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
             "Component.Tag": 0,
@@ -2065,16 +1768,7 @@
               "BaseButton._imageLibraryIndexLit": 0,
               "BaseButton._imageLibraryIndexUp": 0,
               "CheckBox.OnDoubleClick": null,
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -2208,16 +1902,7 @@
             "ComboBox._scrollBarWidth": 0,
             "ComboBox._selected": 0,
             "ComboBox._verticalScrollBar": null,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -2360,16 +2045,7 @@
             "ComboBox._scrollBarWidth": 0,
             "ComboBox._selected": 0,
             "ComboBox._verticalScrollBar": null,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
             "Component.Tag": 0,
@@ -2496,16 +2172,7 @@
               "ComboBox._scrollBarWidth": 0,
               "ComboBox._selected": 0,
               "ComboBox._verticalScrollBar": null,
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -2603,16 +2270,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Controls.Control",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -2719,16 +2377,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Controls.Control",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
             "Component.Tag": 0,
@@ -2830,16 +2479,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.UI.Controls.Control",
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -2937,16 +2577,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Controls.Edit",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -3067,16 +2698,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Controls.Edit",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
             "Component.Tag": 0,
@@ -3192,16 +2814,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.UI.Controls.Edit",
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -3313,16 +2926,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Controls.Frame",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -3437,16 +3041,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Controls.Frame",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
             "Component.Tag": 0,
@@ -3556,16 +3151,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.UI.Controls.Frame",
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -3671,16 +3257,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Controls.Gauge",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -3797,16 +3374,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Controls.Gauge",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
             "Component.Tag": 0,
@@ -3918,16 +3486,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.UI.Controls.Gauge",
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -4035,16 +3594,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Controls.HorizontalScrollBar",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -4179,16 +3729,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Controls.HorizontalScrollBar",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
             "Component.Tag": 0,
@@ -4318,16 +3859,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.UI.Controls.HorizontalScrollBar",
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -4453,16 +3985,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Controls.Image",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -4576,16 +4099,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Controls.Image",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
             "Component.Tag": 0,
@@ -4694,16 +4208,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.UI.Controls.Image",
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -4808,16 +4313,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Controls.Label",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -4924,16 +4420,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Controls.Label",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
             "Component.Tag": 0,
@@ -5035,16 +4522,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.UI.Controls.Label",
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -5142,16 +4620,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Controls.ListBox",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -5297,16 +4766,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Controls.ListBox",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
             "Component.Tag": 0,
@@ -5447,16 +4907,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.UI.Controls.ListBox",
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -5582,16 +5033,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Controls.Memo",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -5751,16 +5193,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Controls.Memo",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
             "Component.Tag": 0,
@@ -5915,16 +5348,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.UI.Controls.Memo",
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -6055,16 +5479,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Controls.MenuBar",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -6190,16 +5605,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Controls.MenuBar",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
             "Component.Tag": 0,
@@ -6320,16 +5726,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.UI.Controls.MenuBar",
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -6435,16 +5832,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Controls.ScrollBar",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -6579,16 +5967,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Controls.ScrollBar",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
             "Component.Tag": 0,
@@ -6718,16 +6097,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.UI.Controls.ScrollBar",
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -6853,16 +6223,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Controls.TabPanel",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -6987,16 +6348,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Controls.TabPanel",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
             "Component.Tag": 0,
@@ -7116,16 +6468,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.UI.Controls.TabPanel",
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -7230,16 +6573,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Controls.UIComponent",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -7333,16 +6667,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Controls.UIComponent",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
             "Component.Tag": 0,
@@ -7431,16 +6756,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.UI.Controls.UIComponent",
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -7534,16 +6850,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Controls.UserDrawBox",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -7650,16 +6957,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Controls.UserDrawBox",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
             "Component.Tag": 0,
@@ -7761,16 +7059,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.UI.Controls.UserDrawBox",
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -7868,16 +7157,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Controls.VerticalScrollBar",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -8012,16 +7292,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Controls.VerticalScrollBar",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
             "Component.Tag": 0,
@@ -8151,16 +7422,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.UI.Controls.VerticalScrollBar",
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -8286,16 +7548,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Controls.WindowControl",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -8436,16 +7689,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Controls.WindowControl",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
             "Component.Tag": 0,
@@ -8581,16 +7825,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.UI.Controls.WindowControl",
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -8731,16 +7966,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Controls.WindowManager",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -8848,16 +8074,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Controls.WindowManager",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
             "Component.Tag": 0,
@@ -8960,16 +8177,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.UI.Controls.WindowManager",
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -9091,16 +8299,7 @@
             "ArenaDialog.UnitPanel": null,
             "ArenaDialog.Window": null,
             "ArenaDialog._event": null,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -9141,16 +8340,7 @@
             "ArmyEventDialog._event": null,
             "ArmyEventDialog._frame": 0,
             "ArmyEventDialog._units": null,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -9190,16 +8380,7 @@
             "ArmyInfoDialog.Window": null,
             "ArmyInfoDialog._event": null,
             "ArmyInfoDialog._unitInfoShown": false,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -9242,16 +8423,7 @@
             "CampaignJoinDialog.Stage": 0,
             "CampaignJoinDialog._scrollDelay": 0,
             "CampaignJoinDialog._scrollPosition": 0,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -9285,16 +8457,7 @@
             "CampaignSettingsDialog.DifficultyLevelComboBox": null,
             "CampaignSettingsDialog.TurnModeComboBox": null,
             "CampaignSettingsDialog.Window": null,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -9386,16 +8549,7 @@
             "CampaignTransferDialog._rightKind": 0,
             "CampaignTransferDialog._rightSelection": 0,
             "CampaignTransferDialog._rightUnit": 0,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -9447,16 +8601,7 @@
             "CastUnitSpellDialog.Unit8CheckBox": null,
             "CastUnitSpellDialog.UnitPanel": null,
             "CastUnitSpellDialog.Window": null,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -9493,16 +8638,7 @@
             "ChatWindow.MainWindow": null,
             "ChatWindow.PlayerList": null,
             "ChatWindow.ScrollPending": false,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -9541,16 +8677,7 @@
             "CityJoinDialog.Window": null,
             "CityJoinDialog._event": null,
             "CityJoinDialog._race": 0,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -9585,16 +8712,7 @@
             "CityRebelDialog._close": null,
             "CityRebelDialog.RebelWindow": null,
             "CityRebelDialog._event": null,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -9721,16 +8839,7 @@
             "CityScreen._queueIndex": 0,
             "CityScreen._viewX": 0,
             "CityScreen._viewY": 0,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -9768,16 +8877,7 @@
             "CombatChoice.TacticalCombatCheckBox": null,
             "CombatChoice.Window": null,
             "CombatChoice._request": null,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -9809,16 +8909,7 @@
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.CombatMapEvents",
             "CombatMapEvents._chatHeight": 0,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -9851,16 +8942,7 @@
             "$type": "Aow.Game.UI.Dialogs.CombatScanner",
             "CombatScanner.CombatScannerWindow": null,
             "CombatScanner.Scanner": null,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -9921,16 +9003,7 @@
             "CombatUnitInfo.UnitMovesLabel": null,
             "CombatUnitInfo.UnitNameMemo": null,
             "CombatUnitInfo.UnitResistanceLabel": null,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -9961,16 +9034,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.ConfirmationDialog",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -10009,16 +9073,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.ConstructDialog",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -10054,16 +9109,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.ControlWindow",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -10154,16 +9200,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.DeformFaceDialog",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -10197,16 +9234,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.DisjunctionDialog",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -10253,16 +9281,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.EmailGameSettingsDialog",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -10314,16 +9333,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.EmailSettingsDialog",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -10358,16 +9368,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.FactionSelectionWindow",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -10421,16 +9422,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.FastBattleWindow",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -10497,16 +9489,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.FileDialogWindow",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -10565,16 +9548,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.GamePlayDialog",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -10628,16 +9602,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.General",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -10682,16 +9647,7 @@
               "UnitShowInfo.Direction": 0,
               "UnitShowInfo.Frame": 0,
               "UnitShowInfo.Looped": false,
-              "UnitShowInfo.Overlays": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitOverlayModesElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              }
+              "UnitShowInfo.Overlays": 0
             },
             "General.UnitVisible": false,
             "General.WindowsHidden": false,
@@ -10720,16 +9676,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.HelpWindow",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -10766,16 +9713,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.HeroInfoDialog",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -10815,16 +9753,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.HeroJoinDialog",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -10872,16 +9801,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.HeroUpgradeDialog",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -10948,16 +9868,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.InfoBanner",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -10991,16 +9902,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.InfoWindow",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -11088,16 +9990,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.IntroScene",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -11129,16 +10022,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.ItemBanner",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -11181,16 +10065,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.ItemsFoundDialog",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -11231,16 +10106,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.LeaderSetupWindow",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -11349,16 +10215,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.MagicWindow",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -11414,16 +10271,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.MapEvents",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -11454,16 +10302,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.MapWindow",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -11515,16 +10354,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.MessageDialog",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -11568,16 +10398,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.MessageReceiveDialog",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -11615,16 +10436,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.MultiWindow",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -11671,16 +10483,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.NewTurnDialog",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -11721,16 +10524,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.PartyJoinDialog",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -11777,16 +10571,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.PasswordDialog",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -11823,16 +10608,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.PlayerInfoWindow",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -11871,16 +10647,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.Pop3Dialog",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -11918,16 +10685,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.PopupWindows",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -11959,16 +10717,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.PowerDialog",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -12007,16 +10756,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.ProductionScreen",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -12115,16 +10855,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.ProgressDialog",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -12159,16 +10890,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.PyreScreen",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -12207,16 +10929,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.RealmWindow",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -12292,16 +11005,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.RelationWindow",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -12444,16 +11148,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.ResultsWindow",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -12521,16 +11216,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.ScannerWindow",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -12568,16 +11254,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.ScenarioSetup",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -12718,16 +11395,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.SendEmailGameDialog",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -12765,16 +11433,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.SetupEvents",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -12809,16 +11468,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.SmtpDialog",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -12861,16 +11511,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.SoundDialog",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -12893,16 +11534,7 @@
             "SoundDialog.Settings": {
               "$type": "Aow.Game.Audio.SoundSettings",
               "SoundSettings.MusicEnabled": false,
-              "SoundSettings.OutputMode": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Audio.SoundOutputModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "SoundSettings.OutputMode": 0,
               "SoundSettings.SampleRate": 0,
               "SoundSettings.SampleVoices": 0,
               "SoundSettings.SfxEnabled": false,
@@ -12942,16 +11574,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.SpellBook",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -13100,16 +11723,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.SynchronizeDialog",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -13146,16 +11760,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.TargetSelectionDialog",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -13192,16 +11797,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.TaskBar",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -13271,16 +11867,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.TitleScene",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -13342,16 +11929,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.TitleWindow",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -13387,16 +11965,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.TutorialWindow",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -13433,16 +12002,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.UIFonts",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -13484,16 +12044,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.UIGraphics",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -13567,16 +12118,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.UnitBanner",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -13617,16 +12159,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.UnitSelectionDialog",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -13674,16 +12207,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.UnitWindow",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -13773,16 +12297,7 @@
               "UnitShowInfo.Direction": 0,
               "UnitShowInfo.Frame": 0,
               "UnitShowInfo.Looped": false,
-              "UnitShowInfo.Overlays": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitOverlayModesElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              }
+              "UnitShowInfo.Overlays": 0
             }
           }
         }
@@ -13808,16 +12323,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.VideoDialog",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -13860,16 +12366,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.WizardsTowerDialog",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -13908,16 +12405,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Dialogs.WorldMap",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -14011,16 +12499,7 @@
             "CombatMapControl.OnUnitChanged": null,
             "CombatMapControl.OnUpkeepChanged": null,
             "CombatMapControl._engine": null,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -14061,16 +12540,7 @@
             "CombatMapControl.OnUnitChanged": null,
             "CombatMapControl.OnUpkeepChanged": null,
             "CombatMapControl._engine": null,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
             "Component.Tag": 0,
@@ -14106,16 +12576,7 @@
               "CombatMapControl.OnUnitChanged": null,
               "CombatMapControl.OnUpkeepChanged": null,
               "CombatMapControl._engine": null,
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -14135,16 +12596,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Grids.MapControl",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -14211,16 +12663,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Grids.MapControl",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
             "Component.Tag": 0,
@@ -14282,16 +12725,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.UI.Grids.MapControl",
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -14358,16 +12792,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Grids.Scanner",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -14503,16 +12928,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Grids.Scanner",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
             "Component.Tag": 0,
@@ -14643,16 +13059,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.UI.Grids.Scanner",
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -14779,16 +13186,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Grids.TurnButton",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -14905,16 +13303,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Grids.TurnButton",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
             "Component.Tag": 0,
@@ -15026,16 +13415,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.UI.Grids.TurnButton",
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -15148,16 +13528,7 @@
             "BaseWindow.OnHide": null,
             "BaseWindow.OnShow": null,
             "BaseWindow.WindowManager": null,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -15303,16 +13674,7 @@
             "BaseWindow.OnHide": null,
             "BaseWindow.OnShow": null,
             "BaseWindow.WindowManager": null,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
             "Component.Tag": 0,
@@ -15453,16 +13815,7 @@
               "BaseWindow.OnHide": null,
               "BaseWindow.OnShow": null,
               "BaseWindow.WindowManager": null,
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -16189,16 +14542,7 @@
             "BookWindow._pageSurface": null,
             "BookWindow._pageTurnMode": 0,
             "BookWindow._previousSurfaceValid": false,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -16925,16 +15269,7 @@
             "BookWindow._pageSurface": null,
             "BookWindow._pageTurnMode": 0,
             "BookWindow._previousSurfaceValid": false,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
             "Component.Tag": 0,
@@ -17656,16 +15991,7 @@
               "BookWindow._pageSurface": null,
               "BookWindow._pageTurnMode": 0,
               "BookWindow._previousSurfaceValid": false,
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -17811,16 +16137,7 @@
             "BaseWindow.OnHide": null,
             "BaseWindow.OnShow": null,
             "BaseWindow.WindowManager": null,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -17966,16 +16283,7 @@
             "BaseWindow.OnHide": null,
             "BaseWindow.OnShow": null,
             "BaseWindow.WindowManager": null,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
             "Component.Tag": 0,
@@ -18116,16 +16424,7 @@
               "BaseWindow.OnHide": null,
               "BaseWindow.OnShow": null,
               "BaseWindow.WindowManager": null,
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -18271,16 +16570,7 @@
             "BaseWindow.OnHide": null,
             "BaseWindow.OnShow": null,
             "BaseWindow.WindowManager": null,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -18306,16 +16596,7 @@
             "HtmlMemo._fonts": [],
             "HtmlMemo._images": {
               "$type": "Aow.Game.Draw.Images.InterfaceImageLibrary",
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -18331,16 +16612,7 @@
                 "PaletteManager.Palettes": []
               },
               "CustomImageLibrary.Reloading": false,
-              "CustomImageLibrary.Status": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Images.ImageLibraryStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "CustomImageLibrary.Status": 0,
               "CustomImageLibrary._changeLock": 0,
               "CustomImageLibrary._count": 0,
               "CustomImageLibrary._fileName": "",
@@ -18502,16 +16774,7 @@
             "BaseWindow.OnHide": null,
             "BaseWindow.OnShow": null,
             "BaseWindow.WindowManager": null,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
             "Component.Tag": 0,
@@ -18537,16 +16800,7 @@
             "HtmlMemo._fonts": [],
             "HtmlMemo._images": {
               "$type": "Aow.Game.Draw.Images.InterfaceImageLibrary",
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -18562,16 +16816,7 @@
                 "PaletteManager.Palettes": []
               },
               "CustomImageLibrary.Reloading": false,
-              "CustomImageLibrary.Status": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Images.ImageLibraryStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "CustomImageLibrary.Status": 0,
               "CustomImageLibrary._changeLock": 0,
               "CustomImageLibrary._count": 0,
               "CustomImageLibrary._fileName": "",
@@ -18728,16 +16973,7 @@
               "BaseWindow.OnHide": null,
               "BaseWindow.OnShow": null,
               "BaseWindow.WindowManager": null,
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -18896,16 +17132,7 @@
             "BaseWindow.OnHide": null,
             "BaseWindow.OnShow": null,
             "BaseWindow.WindowManager": null,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -19088,16 +17315,7 @@
             "BaseWindow.OnHide": null,
             "BaseWindow.OnShow": null,
             "BaseWindow.WindowManager": null,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
             "Component.Tag": 0,
@@ -19275,16 +17493,7 @@
               "BaseWindow.OnHide": null,
               "BaseWindow.OnShow": null,
               "BaseWindow.WindowManager": null,
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -19456,16 +17665,7 @@
             "BaseWindow.OnHide": null,
             "BaseWindow.OnShow": null,
             "BaseWindow.WindowManager": null,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -19613,16 +17813,7 @@
             "BaseWindow.OnHide": null,
             "BaseWindow.OnShow": null,
             "BaseWindow.WindowManager": null,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
             "Component.Tag": 0,
@@ -19765,16 +17956,7 @@
               "BaseWindow.OnHide": null,
               "BaseWindow.OnShow": null,
               "BaseWindow.WindowManager": null,
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -19922,16 +18104,7 @@
             "BaseWindow.OnHide": null,
             "BaseWindow.OnShow": null,
             "BaseWindow.WindowManager": null,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -20115,16 +18288,7 @@
             "BaseWindow.OnHide": null,
             "BaseWindow.OnShow": null,
             "BaseWindow.WindowManager": null,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
             "Component.Tag": 0,
@@ -20303,16 +18467,7 @@
               "BaseWindow.OnHide": null,
               "BaseWindow.OnShow": null,
               "BaseWindow.WindowManager": null,
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -20485,16 +18640,7 @@
             "BaseWindow.OnHide": null,
             "BaseWindow.OnShow": null,
             "BaseWindow.WindowManager": null,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -20674,16 +18820,7 @@
             "BaseWindow.OnHide": null,
             "BaseWindow.OnShow": null,
             "BaseWindow.WindowManager": null,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
             "Component.Tag": 0,
@@ -20858,16 +18995,7 @@
               "BaseWindow.OnHide": null,
               "BaseWindow.OnShow": null,
               "BaseWindow.WindowManager": null,
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -21027,16 +19155,7 @@
             "BaseWindow.OnHide": null,
             "BaseWindow.OnShow": null,
             "BaseWindow.WindowManager": null,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -21183,16 +19302,7 @@
             "BaseWindow.OnHide": null,
             "BaseWindow.OnShow": null,
             "BaseWindow.WindowManager": null,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
             "Component.Tag": 0,
@@ -21334,16 +19444,7 @@
               "BaseWindow.OnHide": null,
               "BaseWindow.OnShow": null,
               "BaseWindow.WindowManager": null,
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -21490,16 +19591,7 @@
             "BaseWindow.OnHide": null,
             "BaseWindow.OnShow": null,
             "BaseWindow.WindowManager": null,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -21645,16 +19737,7 @@
             "BaseWindow.OnHide": null,
             "BaseWindow.OnShow": null,
             "BaseWindow.WindowManager": null,
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
             "Component.Tag": 0,
@@ -21795,16 +19878,7 @@
               "BaseWindow.OnHide": null,
               "BaseWindow.OnShow": null,
               "BaseWindow.WindowManager": null,
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,
@@ -21945,16 +20019,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.World.Map.HexSpriteMapViewer",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": null,
             "Component.Tag": 0,
@@ -21984,16 +20049,7 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.World.Map.HexSpriteMapViewer",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Component.ComponentState": 0,
             "Component.Name": "",
             "Component.Owner": "$owner",
             "Component.Tag": 0,
@@ -22018,16 +20074,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.World.Map.HexSpriteMapViewer",
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
+              "Component.ComponentState": 0,
               "Component.Name": "",
               "Component.Owner": "$owner",
               "Component.Tag": 0,

@@ -10,8 +10,6 @@ using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Spells;
 
 public class PowerLeak : GlobalEnchantmentSpell
@@ -40,7 +38,7 @@ public class PowerLeak : GlobalEnchantmentSpell
         sbyte l = coordinate74.MapLevel;
         _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, radius: 0);
         TwinkleAnimation animation = new(null) { Holder = CreationHolder() };
-        animation.Setup(GamePack.Current.SpellControl[48].CastImages.ImageSequences[0], mode: Set<TwinkleModeElement>.Of(TwinkleModeElement.Implode), count: 100, radius: 64, duration: 50, startDelay: 30);
+        animation.Setup(GamePack.Current.SpellControl[48].CastImages.ImageSequences[0], mode: TwinkleModes.Implode, count: 100, radius: 64, duration: 50, startDelay: 30);
         _ = StrategicMap.Current.PlaceHex(animation, x, y, l);
         _ = CastSounds.Play(0);
         CastingDone(source, mana: eventValue.EventMana);

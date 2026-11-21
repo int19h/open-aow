@@ -10,5 +10,5 @@ public enum Alignment : byte
     Neutral = 3,
     Evil = 4,
     PureEvil = 5,
-    None = 6
+    Unaligned = 6
 }

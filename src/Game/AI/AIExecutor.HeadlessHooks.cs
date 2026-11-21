@@ -9,7 +9,7 @@ public sealed partial class AIExecutor
     public void UseProcessTime(int time)
     {
         HeadlessHooks.ProcessCost?.Invoke(time, _processTimeUsed);
-        if (Status.Contains(AIExecutorStatusElement.Executing))
+        if (Status.Contains(AIExecutorStatuses.Executing))
         {
             _processTimeUsed += time;
         }

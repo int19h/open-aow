@@ -59,7 +59,7 @@ public sealed class TokenManager : IDisposable
             if (!condition)
             {
                 TokenControl item = _tokenControls[player];
-                condition = TokenExecutor.PrefetchTacticalBattle == item && TokenExecutor.State.Contains(TokenExecutorState.Executing);
+                condition = TokenExecutor.PrefetchTacticalBattle == item && TokenExecutor.State.Contains(TokenExecutorStates.Executing);
             }
 
             return !condition;

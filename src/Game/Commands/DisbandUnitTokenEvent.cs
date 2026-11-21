@@ -10,7 +10,6 @@ using Aow.Game.Net;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
-using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
@@ -57,7 +56,7 @@ public class DisbandUnitTokenEvent(CustomNode owner) : TokenEvent(owner)
                     y = coordinate6.Y;
                     l = coordinate6.MapLevel;
                     troop.SetOwner(null);
-                    armyHexSprite = troop.Place(x, y, l, player: 0, mode: Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
+                    armyHexSprite = troop.Place(x, y, l, player: 0, mode: UnitPlaceModes.ScanArea);
                 }
                 else
                 {

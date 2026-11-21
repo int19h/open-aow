@@ -8,7 +8,6 @@ using Aow.Game.Draw;
 using Aow.Game.Magic;
 using Aow.Game.World.Movement;
 using Aow.Game.World.Structures;
-using Aow.Rtl;
 
 namespace Aow.Game.World.Map;
 
@@ -26,7 +25,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     {
         TerrainType = -1;
         OverlayType = -1;
-        Status = Set<MapFieldStatusElement>.Of();
+        Status = MapFieldStatuses.None;
         Resize(3);
     }
 
@@ -42,7 +41,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     }
 
     // HSEngine.pas:1928
-    public override Set<ControlStyleElement> GetControlStyle() => Set<ControlStyleElement>.Of(EngineServices.Stored, EngineServices.Shared);
+    public override ControlStyles GetControlStyle() => EngineServices.Stored | EngineServices.Shared;
 
     // HSEngine.pas:1923
     public override void SetOwner(CustomNode owner) => SetOwnerWithoutNotify(owner);
@@ -300,7 +299,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     public HexSprite[] HexSpriteList { get => _hexSpriteList; internal set => _hexSpriteList = value; }
     public byte Capacity { get; private set; }
     public byte StaticCount { get; private set; }
-    public Set<MapFieldStatusElement> Status { get; private set; }
+    public MapFieldStatuses Status { get; private set; }
     public sbyte HexX { get => Location.X; set => Location = Location with { X = value }; }
     public sbyte HexY { get => Location.Y; set => Location = Location with { Y = value }; }
     public sbyte HexLevel { get => Location.MapLevel; set => Location = Location with { MapLevel = value }; }
@@ -599,7 +598,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
     internal static int IgnitionChance(MapField mapField)
     {
         int result;
-        if (Set<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)mapField.TerrainType) && mapField.FindOwnedChild(Terrain.Fire.ClassId) is null && !mapField.GetMagicShieldActive())
+        if (mapField.TerrainType is (>= (sbyte)Map.TerrainType.Grass and <= (sbyte)Map.TerrainType.Wasteland) or (sbyte)Map.TerrainType.Dirt && mapField.FindOwnedChild(Terrain.Fire.ClassId) is null && !mapField.GetMagicShieldActive())
         {
             result = mapField.OverlayType == 1
                 ? mapField.TerrainType == 3 ? 40 : mapField.TerrainType == 2 ? 80 : 60
@@ -610,7 +609,7 @@ public partial class MapField : CustomNode, IOwned<MapLevel>, IOwnedSink<MapLeve
             if (mapField.FindNoneTransparentHexSprite(typeof(Structure)) is not null)
             {
                 result += 5;
-                if (StrategicMap.Current is not null && StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.FireMastery))
+                if (StrategicMap.Current is not null && StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentTypes.FireMastery))
                 {
                     result += 5;
                 }

@@ -14,7 +14,6 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 
 using Aow.Game.World.Structures;
-using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
@@ -26,7 +25,7 @@ public class TownQuake : CityTargetSpell
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: s_townQuakeText);
         SpellId = 71;
-        CityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Enemy);
+        CityTargetMode = CityTargetModes.Enemy;
     }
 
     // CitySpells.pas:820
@@ -74,7 +73,7 @@ public class TownQuake : CityTargetSpell
     public override bool ValidTargetCity(Troop source, City targetCity)
     {
         bool result = base.ValidTargetCity(source, targetCity);
-        return result && !targetCity.Enchantments.Contains(CityEnchantmentId.AntiMagicShell);
+        return result && !targetCity.Enchantments.Contains(CityEnchantmentIds.AntiMagicShell);
     }
 
     // CitySpells.pas:773
@@ -96,7 +95,7 @@ public class TownQuake : CityTargetSpell
             for (int i = 0, last = army.Army.Units.Count - 1; i <= last; i++)
             {
                 Troop troop = army.Army.Units.GetUnit(i);
-                int damage = troop.ExecuteDamageRole(7, damage: 5, damageTypes: Set<DamageType>.Of(DamageType.Physical));
+                int damage = troop.ExecuteDamageRole(7, damage: 5, damageTypes: DamageTypes.Physical);
                 if (damage > troop.GetHitPoints())
                 {
                     damage = troop.GetHitPoints();

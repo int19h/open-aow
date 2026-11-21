@@ -1,7 +1,6 @@
 // Translated from PassiveAb.pas.
 using Aow.Engine.Nodes;
-
-using Aow.Rtl;
+using Aow.Game.Units;
 
 namespace Aow.Game.Magic.Abilities.Passive;
 
@@ -14,13 +13,13 @@ public class HolyChampionAbility : EnhancementAbility
         Holder = holder;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.HolyChampionText);
         AbilityId = 146;
-        SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.HeadItem, AbilitySelectionType.TorsoItem, AbilitySelectionType.DefenseItem, AbilitySelectionType.RingItem, AbilitySelectionType.Editor);
+        SelectionTypes = AbilitySelectionTypes.Unit | AbilitySelectionTypes.HeadItem | AbilitySelectionTypes.TorsoItem | AbilitySelectionTypes.DefenseItem | AbilitySelectionTypes.RingItem | AbilitySelectionTypes.Editor;
     }
 
     // PassiveAb.pas:492
     public override bool CanExpand(AbilityOwner owner)
     {
         bool result = base.CanExpand(owner);
-        return result && owner is Troop troop ? AlignmentTables.PureGoodAlignments.Contains(troop.GetAlignment()) : result;
+        return result && owner is Troop troop ? AlignmentTables.PureGoodAlignments.Contains(troop.GetAlignment().ToFlag()) : result;
     }
 }

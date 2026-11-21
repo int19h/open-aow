@@ -226,7 +226,7 @@ public sealed partial class PersistEquivalenceTests
             }
             Assert.Equal("Turm", map.MapName);
             Assert.Equal("Willkommen", map.Description[0]);
-            Assert.True(map.Status.Contains(HexSpriteMapStatusElement.Modified));
+            Assert.True(map.Status.Contains(HexSpriteMapStatuses.Modified));
         });
     }
 

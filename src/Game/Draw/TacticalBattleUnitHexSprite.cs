@@ -272,7 +272,7 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
                                                                     {
                                                                         if (message.MessageId == 200708 && message.HexNumber == 0)
                                                                         {
-                                                                            if (!Unit.Troop.GetMoveTypes().Contains(MoveType.Flying) && Owner.TerrainType != 0 && Owner.TerrainType != 9)
+                                                                            if (!Unit.Troop.GetMoveTypes().Contains(MoveTypes.Flying) && Owner.TerrainType != 0 && Owner.TerrainType != 9)
                                                                             {
                                                                                 RandSeed = StrategicMap.Current.Random(16777215);
                                                                                 spellDamage = GamePack.Current.SpellControl[112].CreateCombatAction<DamageCombatAction>(message.Param[0].As<CombatObject>(), target: Unit, chargeMana: false);
@@ -338,19 +338,19 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
                 return;
             }
 
-            if (!((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.Move) && !((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.MoveRanged) && CombatMap.Current.UnitSelection.MoveSettingsList.GetCount() >= 2)
+            if (!((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModes.Move) && !((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModes.MoveRanged) && CombatMap.Current.UnitSelection.MoveSettingsList.GetCount() >= 2)
             {
                 return;
             }
 
-            if (((CombatMoveControl)info.Sender).UnitHexSprite.SelectedAbility <= -1 && (CombatObject.MeleeDamageTypes(((CombatMoveControl)info.Sender).UnitHexSprite.Unit) == Set<DamageType>.Of() || (Unit.GetAbilityEnabled(1) && !((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(1))) && !((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.MoveRanged) && !((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.Move))
+            if (((CombatMoveControl)info.Sender).UnitHexSprite.SelectedAbility <= -1 && (CombatObject.MeleeDamageTypes(((CombatMoveControl)info.Sender).UnitHexSprite.Unit) == DamageTypes.None || (Unit.GetAbilityEnabled(1) && !((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(1))) && !((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModes.MoveRanged) && !((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModes.Move))
             {
                 return;
             }
 
             if (((CombatMoveControl)info.Sender).UnitHexSprite.SelectedAbility == -1)
             {
-                if (!((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.Move) && !((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.MoveRanged))
+                if (!((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModes.Move) && !((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModes.MoveRanged))
                 {
                     if (Unit.Side == ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.Side)
                     {
@@ -363,13 +363,13 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
             }
 
             GamePack.Current.AbilityControl[((CombatMoveControl)info.Sender).UnitHexSprite.SelectedAbility].GetCombatInfo(((CombatMoveControl)info.Sender).UnitHexSprite.Unit.Troop, info: ref abilityInfo);
-            if (abilityInfo.TargetTypes.Contains(CombatTargetTypeElement.Friend) && Unit.Side == ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.Side)
+            if (abilityInfo.TargetTypes.Contains(CombatTargetTypes.Friend) && Unit.Side == ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.Side)
             {
                 goto Touch;
             }
 
             GamePack.Current.AbilityControl[((CombatMoveControl)info.Sender).UnitHexSprite.SelectedAbility].GetCombatInfo(((CombatMoveControl)info.Sender).UnitHexSprite.Unit.Troop, info: ref enemyInfo);
-            if (!enemyInfo.TargetTypes.Contains(CombatTargetTypeElement.Enemy))
+            if (!enemyInfo.TargetTypes.Contains(CombatTargetTypes.Enemy))
             {
                 return;
             }
@@ -414,7 +414,7 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
                 return;
             }
 
-            if (CombatObject.MeleeDamageTypes(Unit) == Set<DamageType>.Of())
+            if (CombatObject.MeleeDamageTypes(Unit) == DamageTypes.None)
             {
                 return;
             }
@@ -605,7 +605,7 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
                 else
                 {
                     CombatMode combatMode = GamePack.Current.AbilityControl[abilityId].GetCombatMode(Unit.Troop);
-                    if (Set<CombatMode>.Of(CombatMode.ShortRange, CombatMode.MediumRange, CombatMode.LongRange).Contains(combatMode))
+                    if (combatMode is >= CombatMode.ShortRange and <= CombatMode.LongRange)
                     {
                         if (Unit.Troop.Moves == Unit.MovePoints)
                         {
@@ -748,7 +748,7 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
                 {
                     Ability = i
                 };
-                if (GamePack.Current.AbilityControl[i].GetControlType(Unit.Troop).Contains(AbilityControlTypeElement.CombatAction) && GamePack.Current.AbilityControl[i].GetCombatMode(Unit.Troop) != CombatMode.Melee)
+                if (GamePack.Current.AbilityControl[i].GetControlType(Unit.Troop).Contains(AbilityControlTypes.CombatAction) && GamePack.Current.AbilityControl[i].GetCombatMode(Unit.Troop) != CombatMode.Melee)
                 {
                     Abilities.Insert(CombatAbilityCount, item: ability);
                     CombatAbilityCount += 1;
@@ -844,7 +844,7 @@ public partial class TacticalBattleUnitHexSprite(CustomNode owner) : UnitHexSpri
             {
                 AbilityCombatInfo buffer = default;
                 GamePack.Current.AbilityControl[SelectedAbility].GetCombatInfo(Unit.Troop, info: ref buffer);
-                if (buffer.TargetTypes.Contains(CombatTargetTypeElement.Friend))
+                if (buffer.TargetTypes.Contains(CombatTargetTypes.Friend))
                 {
                     PathStep pathLocal = path[0];
                     _ = AbilityRangedTacticalBattle((ushort)path[0].Location.X, (ushort)pathLocal.Location.Y);

@@ -318,7 +318,7 @@ public class FrameTableList : Persistent
         int i = value.Length;
         for (; i >= 1; i -= 1)
         {
-            if (!Set<byte>.WithBounds(0, 255).With(44).WithRange(48, 57).Contains(Cp1252.Byte(value[i - 1])))
+            if (Cp1252.Byte(value[i - 1]) is not (44 or (>= 48 and <= 57)))
             {
                 value = DelphiStrings.Delete(value, index: i, count: 1);
             }

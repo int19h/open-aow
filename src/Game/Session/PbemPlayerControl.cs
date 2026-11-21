@@ -28,11 +28,11 @@ public sealed class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(owne
     // PlayerC.PAS:984
     public override void NewTurn(sbyte player)
     {
-        if (StrategicMap.Current.Players.GetPlayers(player).PbemSettings.Status.Contains(PbemPlayerStatusElement.NewTurn) || StrategicMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human || StrategicMap.Current.Players.GetPlayers(player).Status == PlayerStatus.Terminated)
+        if (StrategicMap.Current.Players.GetPlayers(player).PbemSettings.Status.Contains(PbemPlayerStatuses.NewTurn) || StrategicMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human || StrategicMap.Current.Players.GetPlayers(player).Status == PlayerStatus.Terminated)
         {
             base.NewTurn(player);
             Player players = StrategicMap.Current.Players.GetPlayers(player);
-            StrategicMap.Current.Players.GetPlayers(player).PbemSettings.Status = players.PbemSettings.Status - Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.NewTurn, PbemPlayerStatusElement.TurnDone) + Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.Playing);
+            StrategicMap.Current.Players.GetPlayers(player).PbemSettings.Status = (players.PbemSettings.Status & ~(PbemPlayerStatuses.NewTurn | PbemPlayerStatuses.TurnDone)) | PbemPlayerStatuses.Playing;
         }
         else
         {
@@ -40,7 +40,7 @@ public sealed class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(owne
             {
                 StrategicMap.Current.SetCurrentPlayer(player);
                 Player players = StrategicMap.Current.Players.GetPlayers(player);
-                StrategicMap.Current.Players.GetPlayers(player).PbemSettings.Status = players.PbemSettings.Status + Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.NewTurn);
+                StrategicMap.Current.Players.GetPlayers(player).PbemSettings.Status = players.PbemSettings.Status | PbemPlayerStatuses.NewTurn;
                 SendEmailGameEventLog log = new(null)
                 {
                     Holder = CreationHolder(),
@@ -54,7 +54,7 @@ public sealed class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(owne
             {
                 base.NewTurn(player);
                 Player players = StrategicMap.Current.Players.GetPlayers(player);
-                StrategicMap.Current.Players.GetPlayers(player).PbemSettings.Status = players.PbemSettings.Status - Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.NewTurn, PbemPlayerStatusElement.TurnDone) + Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.Playing);
+                StrategicMap.Current.Players.GetPlayers(player).PbemSettings.Status = (players.PbemSettings.Status & ~(PbemPlayerStatuses.NewTurn | PbemPlayerStatuses.TurnDone)) | PbemPlayerStatuses.Playing;
             }
         }
     }
@@ -104,7 +104,7 @@ public sealed class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(owne
         {
             _localPlayer = (sbyte)player;
             Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(player);
-            StrategicMap.Current.Players.GetPlayers(player).PbemSettings.Status = fPlayersPlayers.PbemSettings.Status + Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.NewTurn);
+            StrategicMap.Current.Players.GetPlayers(player).PbemSettings.Status = fPlayersPlayers.PbemSettings.Status | PbemPlayerStatuses.NewTurn;
         }
         else
         {
@@ -133,7 +133,7 @@ public sealed class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(owne
     // PlayerC.PAS:1230
     public override void ExitGame(ExitGameMode mode, ExitGameCallBack done)
     {
-        if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PbemSettings.Status.Contains(PbemPlayerStatusElement.Playing))
+        if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PbemSettings.Status.Contains(PbemPlayerStatuses.Playing))
         {
             if (DocumentKind.Map.HasExtension(ExtractFileExt(StrategicMap.Current.FileName)))
             {
@@ -187,7 +187,7 @@ public sealed class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(owne
             else
             {
                 Player players = StrategicMap.Current.Players.GetPlayers(player);
-                StrategicMap.Current.Players.GetPlayers(player).PbemSettings.Status = players.PbemSettings.Status + Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.TurnDone) - Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.Playing);
+                StrategicMap.Current.Players.GetPlayers(player).PbemSettings.Status = (players.PbemSettings.Status | PbemPlayerStatuses.TurnDone) & ~PbemPlayerStatuses.Playing;
                 // A game file outside EmailIn takes the name the host writes (own-formats.md 4.2).
                 StrategicMap.Current.FileName = FileBoundary.WriteName(StrategicMap.Current.FileName);
                 bool saved;
@@ -321,7 +321,7 @@ public sealed class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(owne
             try
             {
                 Player players = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer);
-                StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PbemSettings.Status = players.PbemSettings.Status + Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.TurnDone) - Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.Playing);
+                StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PbemSettings.Status = (players.PbemSettings.Status | PbemPlayerStatuses.TurnDone) & ~PbemPlayerStatuses.Playing;
                 GetEngine().SaveHsm(log.FileName, progress: null, profile: GameProfile.WorldMap);
                 string format = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.GameSavedFormat), arguments: [log.FileName]);
                 StrategicMap.Current.ShowMessage(format);
@@ -355,8 +355,8 @@ public sealed class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(owne
         Player players = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer);
         _ = GetEngine().EmailGames.UpdateGame(players.PbemSettings.EmailGame);
         Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer);
-        StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PbemSettings.Status = fPlayersPlayers.PbemSettings.Status + Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.Playing);
-        if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PbemSettings.Status.Contains(PbemPlayerStatusElement.NewTurn))
+        StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PbemSettings.Status = fPlayersPlayers.PbemSettings.Status | PbemPlayerStatuses.Playing;
+        if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PbemSettings.Status.Contains(PbemPlayerStatuses.NewTurn))
         {
             StrategicMap.Current.SynchronizeBegin();
             DefaultStartMap();
@@ -446,7 +446,7 @@ public sealed class PbemPlayerControl(CustomNode owner) : TurnPlayerControl(owne
             else
             {
                 SetSeatedPlayer(-1);
-                if ((StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PbemSettings.Status & Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.NewTurn, PbemPlayerStatusElement.TurnDone)) == Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.TurnDone))
+                if ((StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.CurrentPlayer).PbemSettings.Status & (PbemPlayerStatuses.NewTurn | PbemPlayerStatuses.TurnDone)) == PbemPlayerStatuses.TurnDone)
                 {
                     log = new MessageEventLog(null, holder: CreationHolder())
                     {

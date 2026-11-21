@@ -46,7 +46,7 @@ public class EngineObject : IDisposable, IPersistable, IOwned
     public virtual int ClassVersion() => 0;
 
     // Engine.pas:2563
-    public virtual Set<ControlStyleElement> GetControlStyle() => Set<ControlStyleElement>.Of(EngineServices.Stored);
+    public virtual ControlStyles GetControlStyle() => EngineServices.Stored;
 
     // Engine.pas:2568
     public virtual void SetOwner(CustomNode owner)

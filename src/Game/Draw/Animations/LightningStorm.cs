@@ -57,7 +57,7 @@ public class LightningStorm(CustomNode owner) : Storm(owner)
     {
         Rect r = default;
         base.InitializeStorm(player, X, Y, L);
-        _stormImages = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: "EFFECTS\\LIGHTN.ILB");
+        _stormImages = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(ImageLibraryManagerCategories.Disk, fileName: "EFFECTS\\LIGHTN.ILB");
         if (Visible)
         {
             _stormImages.LoadDiscardableImageData();
@@ -95,7 +95,7 @@ public class LightningStorm(CustomNode owner) : Storm(owner)
     public override void FinalizeStorm()
     {
         _stormImages.ReleaseDiscardableImageData();
-        GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: "EFFECTS\\LIGHTN.ILB");
+        GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(ImageLibraryManagerCategories.Disk, fileName: "EFFECTS\\LIGHTN.ILB");
         base.FinalizeStorm();
     }
 

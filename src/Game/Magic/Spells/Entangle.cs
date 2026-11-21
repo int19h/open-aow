@@ -6,8 +6,6 @@ using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
 
 using Aow.Game.Magic.Abilities;
-
-using Aow.Rtl;
 using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.Magic.Spells;
@@ -24,7 +22,7 @@ public class Entangle : CombatSpell
         SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 7;
         spellCombatInfo.Damage = 0;
-        spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.None);
+        spellCombatInfo.DamageTypes = DamageTypes.NonSpecific;
         spellCombatInfo.RepeatCount = 1;
         spellCombatInfo.Range = 12;
 
@@ -68,7 +66,7 @@ public class Entangle : CombatSpell
             values.SourceCost = targetHitPoints;
             values.TargetDamage = 0;
             values.TargetCost = 0;
-            values.DamageTypes = Set<DamageType>.Of(DamageType.None);
+            values.DamageTypes = DamageTypes.NonSpecific;
         }
         else
         {
@@ -76,7 +74,7 @@ public class Entangle : CombatSpell
             values.SourceCost = 0;
             values.TargetDamage = 0;
             values.TargetCost = 0;
-            values.DamageTypes = Set<DamageType>.Of();
+            values.DamageTypes = DamageTypes.None;
         }
     }
 }

@@ -5,8 +5,6 @@ using Aow.Formats.Tree;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Draw;
 
 // signed days remaining, caster player
@@ -42,7 +40,7 @@ public class FrozenWaterHexSprite(CustomNode owner) : SingleHexSprite(owner)
     public override void TerrainChanged(in HexSpriteTerrainInfo info)
     {
         base.TerrainChanged(info);
-        if (info.HexNumber == 0 && !Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)info.TerrainType))
+        if (info.HexNumber == 0 && info.TerrainType is not ((sbyte)TerrainType.Ice or (sbyte)TerrainType.UndergroundIce))
         {
             Dispose();
         }

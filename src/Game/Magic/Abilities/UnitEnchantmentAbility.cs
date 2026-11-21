@@ -11,8 +11,6 @@ using Aow.Game.Units;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 using static Aow.Rtl.DelphiAssert;
 
 namespace Aow.Game.Magic.Abilities;
@@ -24,7 +22,7 @@ public class UnitEnchantmentAbility : AdjustableAbility
     public UnitEnchantmentAbility(CustomNode owner) : base(owner)
     {
         AbilityType = AbilityType.Enchantment;
-        SelectionTypes = Set<AbilitySelectionType>.Of();
+        SelectionTypes = AbilitySelectionTypes.None;
     }
 
     // AoWAb.PAS:613

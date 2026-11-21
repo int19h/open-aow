@@ -80,7 +80,7 @@ public sealed partial class BookWindow(Component owner) : Window(owner)
     }
 
     // AoWBookWindow.pas:186
-    public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
         Handled = Animating;
         if (!Animating)
@@ -99,7 +99,7 @@ public sealed partial class BookWindow(Component owner) : Window(owner)
     }
 
     // AoWBookWindow.pas:199
-    public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton button, ShiftStates shift, int X, int Y)
     {
         Handled = Animating;
         if (!Animating)
@@ -109,7 +109,7 @@ public sealed partial class BookWindow(Component owner) : Window(owner)
     }
 
     // AoWBookWindow.pas:205
-    public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseMove(ShiftStates shift, int X, int Y)
     {
         Handled = Animating;
         if (!Animating)

@@ -2,7 +2,6 @@
 using Aow.Engine.Nodes;
 
 using Aow.Game.World.Map;
-using Aow.Rtl;
 
 namespace Aow.Game.Draw;
 
@@ -14,7 +13,7 @@ public sealed partial class DynamicIsometricHex : HexSprite
     public new const int ClassId = 131_439;
 
     // IsoHex.pas:136
-    public override Set<ControlStyleElement> GetControlStyle() => Set<ControlStyleElement>.Of();
+    public override ControlStyles GetControlStyle() => ControlStyles.None;
 
     // IsoHex.pas:165
     public override bool Visible
@@ -30,6 +29,6 @@ public sealed partial class DynamicIsometricHex : HexSprite
     public override bool CanSelect(int pixelX, int pixelY) => false;
 
     // IsoHex.pas:141
-    public override Set<ControlModeElement> ControlMode() => Set<ControlModeElement>.Of();
+    public override ControlModes ControlMode() => ControlModes.None;
 
 }

@@ -12,8 +12,6 @@ using Aow.Game.World.Map;
 
 using Aow.Game.World.Structures;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Spells;
 
 public class UnholyGroundSpell : GlobalTargetSpell
@@ -54,9 +52,9 @@ public class UnholyGroundSpell : GlobalTargetSpell
     // UnHolyG.pas:368
     public override bool ValidTargetSelectionMapField(MapField field)
     {
-        bool result = base.ValidTargetMapField(field) && Set<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)field.TerrainType);
+        bool result = base.ValidTargetMapField(field) && field.TerrainType is (>= (sbyte)TerrainType.Grass and <= (sbyte)TerrainType.Wasteland) or (sbyte)TerrainType.Dirt;
         // { Original precedence accepts these overlays without the terrain test. }
-        result = (result && field.OverlayType == -1) || Set<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)field.OverlayType);
+        result = (result && field.OverlayType == -1) || (byte)field.OverlayType is (>= 1 and <= 4) or 9;
         result = result && field.FindNoneTransparentHexSprite(typeof(Structure)) is null;
         if (result)
         {
@@ -73,9 +71,9 @@ public class UnholyGroundSpell : GlobalTargetSpell
     // UnHolyG.pas:360
     public override bool ValidTargetMapField(MapField field)
     {
-        bool result = base.ValidTargetMapField(field) && Set<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)field.TerrainType);
+        bool result = base.ValidTargetMapField(field) && field.TerrainType is (>= (sbyte)TerrainType.Grass and <= (sbyte)TerrainType.Wasteland) or (sbyte)TerrainType.Dirt;
         // { Original precedence accepts these overlays without the terrain test. }
-        result = (result && field.OverlayType == -1) || Set<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)field.OverlayType);
+        result = (result && field.OverlayType == -1) || (byte)field.OverlayType is (>= 1 and <= 4) or 9;
         return result && field.FindNoneTransparentHexSprite(typeof(Structure)) is null && field.GetArmyHexSprite() is null;
     }
 

@@ -8,8 +8,6 @@ using Aow.Game.Session;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.AI;
@@ -24,7 +22,7 @@ public class ResearchSpellAIPlayerAction(CustomNode owner) : AIPlayerAction(owne
         {
             SpellList spells = new();
             DoubleItemList choices = new();
-            Control.Player.MagicControl.ListResearchSpells(spells, spellTypes: Set<SpellType>.Of(SpellType.Combat, SpellType.Unit, SpellType.Global));
+            Control.Player.MagicControl.ListResearchSpells(spells, spellTypes: SpellTypes.Combat | SpellTypes.Unit | SpellTypes.Global);
             for (int i = 0, last = spells.GetCount() - 1; i <= last; i++)
             {
                 int value = (spells[i].CastDuration * 100) + 100;

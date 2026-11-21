@@ -39,7 +39,7 @@ public partial class MoveControlSettings : EngineObject
     private bool _movePointsClear;
 
     public MoveControlSettingsStatus Status { get; set; }
-    public Set<MoveModeElement> Mode { get; set; }
+    public MoveModes Mode { get; set; }
     public MovePath Path { get; }
     public sbyte Player { get; set; }
 
@@ -124,7 +124,7 @@ public partial class MoveControlSettings : EngineObject
             _levelData[i]?.AsSpan(0, length: _width * _height).Fill(16_777_215);
         }
 
-        Mode = Set<MoveModeElement>.Of();
+        Mode = MoveModes.None;
         Player = -1;
         Source = new MapCoordinate(-1, -1, -1);
         Destination = new MapCoordinate(-1, -1, -1);
@@ -157,7 +157,7 @@ public partial class MoveControlSettings : EngineObject
         MovePointTable = movePointTable;
         if (StrategicMap.Current.Players.GetPlayers(Player).PlayerType != PlayerType.Human)
         {
-            Mode += Set<MoveModeElement>.Of(MoveModeElement.AI);
+            Mode |= MoveModes.AI;
         }
     }
 

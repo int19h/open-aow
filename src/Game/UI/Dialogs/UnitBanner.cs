@@ -46,7 +46,7 @@ public sealed partial class UnitBanner(UIContext ui) : UIModule(ui)
             DefenseLabel.Text = ((int)defense).ToString(CultureInfo.InvariantCulture);
             sbyte resistance = UI.General.SelectedUnit.GetResistance();
             ResistanceLabel.Text = ((int)resistance).ToString(CultureInfo.InvariantCulture);
-            Set<MoveType> moveTypes = UI.General.SelectedUnit.GetMoveTypes();
+            MoveTypes moveTypes = UI.General.SelectedUnit.GetMoveTypes();
             int moveTypesToInt32 = UI.General.MoveTypesToInt32(moveTypes);
             MovesIcon.CurrentImage = moveTypesToInt32;
             AbilityList.Items.Clear();
@@ -74,7 +74,7 @@ public sealed partial class UnitBanner(UIContext ui) : UIModule(ui)
     }
 
     // AoWUnitBanner.pas:85
-    public void AbLBMouseMove(Set<ShiftState> shift, int X, int Y)
+    public void AbLBMouseMove(ShiftStates shift, int X, int Y)
     {
         if (UI.General.SelectedUnit is not null && AbilityList.HoverItem >= UI.General.ActiveAbilityCount)
         {
@@ -92,7 +92,7 @@ public sealed partial class UnitBanner(UIContext ui) : UIModule(ui)
     }
 
     // AoWUnitBanner.pas:95
-    public void AbLBMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public void AbLBMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
         if (UI.General.SelectedUnit is not null)
         {

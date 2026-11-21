@@ -16,10 +16,10 @@ public struct SampleRecord
     [FieldOffset(1)] private ByteArray6 _name;
     [FieldOffset(8)] public int Value;
 
-    public Set<Flag> Flags
+    public Flags Flags
     {
-        readonly get => Set<Flag>.FromMask(_flags);
-        set => _flags = (byte)value.Image;
+        readonly get => (Flags)_flags;
+        set => _flags = (byte)value;
     }
 
     public string Name
@@ -78,6 +78,8 @@ public sealed class FailingSample : Sample
 
 public static class GeneratedStyleSample
 {
+    private const Flags SecondThroughThird = Flags.Second | Flags.Third;
+
     private static readonly int s_typedConstant = 7;
     private static readonly Func<int, Sample> s_classConstant = static value => new SampleChild(value);
 
@@ -94,7 +96,7 @@ public static class GeneratedStyleSample
                 pointer += 1;
             }
             ref SampleRecord sampleRecord = ref records[1];
-            sampleRecord.Flags = Set<Flag>.Of(Flag.First).WithRange(Flag.Second, Flag.Third);
+            sampleRecord.Flags = Flags.First | SecondThroughThird;
             sampleRecord.Name = "abcdef";
             sampleRecord.Value += instance.ClassId;
             return records[1];
@@ -103,5 +105,33 @@ public static class GeneratedStyleSample
         {
             instance?.Dispose();
         }
+    }
+}
+
+/// <summary>A set of <see cref="Flag"/> values: bit n is the member of ordinal n, as in the stored Delphi set.</summary>
+[Flags, FlagsOf(typeof(Flag))]
+public enum Flags : byte
+{
+    None = 0,
+    First = 1 << 0,
+    Second = 1 << 1,
+    Third = 1 << 2,
+}
+
+/// <summary>The conversions between a single <see cref="Flag"/> and its flag in <see cref="Flags"/>.</summary>
+public static class FlagConversions
+{
+    extension(Flag value)
+    {
+        /// <summary>The flag of the value. A value outside the members' ordinals has no flag, as it is in no Delphi set.</summary>
+        public Flags ToFlag() => (int)value is >= 0 and <= 2 ? (Flags)(1U << (int)value) : Flags.None;
+    }
+
+    extension(Flags flags)
+    {
+        /// <summary>The member of a value that holds exactly one member.</summary>
+        public Flag ToFlag() => System.Numerics.BitOperations.IsPow2((uint)flags)
+            ? (Flag)System.Numerics.BitOperations.TrailingZeroCount((uint)flags)
+            : throw new ArgumentOutOfRangeException(paramName: nameof(flags), message: "The value does not hold exactly one member.");
     }
 }

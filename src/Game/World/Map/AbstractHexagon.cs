@@ -74,7 +74,7 @@ public class AbstractHexagon(CustomNode owner) : MapObject(owner)
     public override void SetResource(MapObjectResource value)
     {
         base.SetResource(value);
-        if (Status.Contains(MapObjectStatusElement.Activated))
+        if (Status.Contains(MapObjectStatuses.Activated))
         {
             UpdateTransitions();
         }

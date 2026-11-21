@@ -5,8 +5,6 @@ using Aow.Formats.Tree;
 
 using Aow.Game.Net;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Session;
 
 // status, email game
@@ -15,11 +13,11 @@ public sealed class PbemPlayerSettings : EngineObject
     // Player.PAS:236
     public PbemPlayerSettings(CustomNode owner) : base(owner)
     {
-        Status = Set<PbemPlayerStatusElement>.Of();
+        Status = PbemPlayerStatuses.None;
         EmailGame = new EmailGame(null) { Holder = CreationHolder() };
     }
 
-    public Set<PbemPlayerStatusElement> Status { get; set; }
+    public PbemPlayerStatuses Status { get; set; }
 
     public EmailGame EmailGame { get; }
 

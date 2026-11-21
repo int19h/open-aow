@@ -4,7 +4,6 @@ using Aow.Formats.Tree;
 using Aow.Game.Combat;
 using Aow.Game.Net;
 using Aow.Game.World.Map;
-using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
@@ -13,7 +12,7 @@ public class CombatFlowControlTokenEvent(CustomNode owner) : TokenEvent(owner)
 {
     public new const int ClassId = 135_448;
 
-    public Set<CombatFlowControlModeElement> Mode { get; set; }
+    public CombatFlowControlModes Mode { get; set; }
     public int Player { get; set; }
 
     // MoveT.PAS:3596
@@ -27,32 +26,32 @@ public class CombatFlowControlTokenEvent(CustomNode owner) : TokenEvent(owner)
     // MoveT.PAS:3603
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        if (Mode.Contains(CombatFlowControlModeElement.SetAutoSwitch))
+        if (Mode.Contains(CombatFlowControlModes.SetAutoSwitch))
         {
             StrategicMap.Current.TokenManager.TokenExecutor.HoldTacticalBattle = false;
         }
 
-        if (Mode.Contains(CombatFlowControlModeElement.LockAIExecutor))
+        if (Mode.Contains(CombatFlowControlModes.LockAIExecutor))
         {
             StrategicMap.Current.AIExecutor.Lock();
         }
 
-        if (Mode.Contains(CombatFlowControlModeElement.UnlockAIExecutor))
+        if (Mode.Contains(CombatFlowControlModes.UnlockAIExecutor))
         {
             StrategicMap.Current.AIExecutor.Unlock();
         }
 
-        if (Mode.Contains(CombatFlowControlModeElement.ActivateTacticalBattle))
+        if (Mode.Contains(CombatFlowControlModes.ActivateTacticalBattle))
         {
             StrategicMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(Player);
         }
 
-        if (Mode.Contains(CombatFlowControlModeElement.EnableTurnTimer))
+        if (Mode.Contains(CombatFlowControlModes.EnableTurnTimer))
         {
             StrategicMap.Current.EnableTurnTimer();
         }
 
-        if (Mode.Contains(CombatFlowControlModeElement.DisableTurnTimer))
+        if (Mode.Contains(CombatFlowControlModes.DisableTurnTimer))
         {
             StrategicMap.Current.DisableTurnTimer();
         }

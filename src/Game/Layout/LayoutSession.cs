@@ -36,10 +36,10 @@ public sealed class LayoutSession
     // them right after construction. No constructor body reads ComponentState, so the order is
     // not observable. Loaded clears csLoading.
     public void BeginRead(Component component)
-        => component.ComponentState = component.ComponentState.With(ComponentState.Loading).With(ComponentState.Reading);
+        => component.ComponentState = component.ComponentState | ComponentStates.Loading | ComponentStates.Reading;
 
     public void EndRead(Component component)
-        => component.ComponentState = component.ComponentState.Without(ComponentState.Reading);
+        => component.ComponentState &= ~ComponentStates.Reading;
 
     // The module failure boundary. Application.CreateForm publishes the global before the
     // constructor runs and clears it when the constructor raises, and the failed module is

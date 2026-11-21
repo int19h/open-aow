@@ -2,8 +2,6 @@
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Combat.Actions;
 
 public class CombatObjectTurnDoneCombatAction(CustomNode owner) : CombatAction(owner)
@@ -24,7 +22,7 @@ public class CombatObjectTurnDoneCombatAction(CustomNode owner) : CombatAction(o
     public override void Execute(Battle combat)
     {
         CombatObject objectValue = combat.CombatData.FindId(CombatObjectId);
-        objectValue.Status += Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.TurnDone);
+        objectValue.Status |= CombatObjectStatuses.TurnDone;
     }
 
     // intf_P3_02.inc:38

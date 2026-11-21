@@ -2,8 +2,6 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Session;
 
 public sealed class RaceResourceList : ResourceCollection, IChildList<RaceResource>
@@ -17,7 +15,7 @@ public sealed class RaceResourceList : ResourceCollection, IChildList<RaceResour
     int IChildSink<RaceResource>.AddChild(RaceResource child) => AddChild(child);
 
     // PlayerC.PAS:1890
-    public RaceResourceList(CustomNode owner) : base(owner) => SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, ControlStyleElement.ArrayMode));
+    public RaceResourceList(CustomNode owner) : base(owner) => SetControlStyle(ControlStyles.SaveLoad | ControlStyles.FixedChild | ControlStyles.ArrayMode);
 
     // PlayerC.PAS:1896
     public RaceResource GetRaceResource(int index) => index < GetCount() && index >= 0 ? this[index] : null;

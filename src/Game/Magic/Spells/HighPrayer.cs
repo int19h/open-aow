@@ -7,8 +7,6 @@ using Aow.Game.Combat.Actions;
 
 using Aow.Game.Magic.Abilities;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Spells;
 
 // inherited combat statistics, damage mode
@@ -23,10 +21,10 @@ public class HighPrayer : CombatSpell
         SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 6;
         spellCombatInfo.Damage = 0;
-        spellCombatInfo.DamageTypes = Set<DamageType>.Of();
+        spellCombatInfo.DamageTypes = DamageTypes.None;
         spellCombatInfo.RepeatCount = 1;
         spellCombatInfo.Range = -1;
-        spellCombatInfo.TargetTypes = Set<CombatTargetTypeElement>.Of(CombatTargetTypeElement.Friend);
+        spellCombatInfo.TargetTypes = CombatTargetTypes.Friend;
 
         CombatInfo = spellCombatInfo;
     }
@@ -66,7 +64,7 @@ public class HighPrayer : CombatSpell
             values.SourceCost = value / 100;
             values.TargetDamage = 0;
             values.TargetCost = 0;
-            values.DamageTypes = Set<DamageType>.Of(DamageType.Death);
+            values.DamageTypes = DamageTypes.Death;
         }
         else
         {
@@ -74,7 +72,7 @@ public class HighPrayer : CombatSpell
             values.SourceCost = 0;
             values.TargetDamage = 0;
             values.TargetCost = 0;
-            values.DamageTypes = Set<DamageType>.Of();
+            values.DamageTypes = DamageTypes.None;
         }
     }
 
@@ -148,7 +146,7 @@ public class HighPrayer : CombatSpell
             values.SourceCost = value / 100;
             values.TargetDamage = 0;
             values.TargetCost = 0;
-            values.DamageTypes = Set<DamageType>.Of(DamageType.Death);
+            values.DamageTypes = DamageTypes.Death;
         }
         else
         {
@@ -156,7 +154,7 @@ public class HighPrayer : CombatSpell
             values.SourceCost = 0;
             values.TargetDamage = 0;
             values.TargetCost = 0;
-            values.DamageTypes = Set<DamageType>.Of();
+            values.DamageTypes = DamageTypes.None;
         }
     }
 

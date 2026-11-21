@@ -12,8 +12,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 
 using Aow.Game.World.Map;
-
-using Aow.Rtl;
 using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Game.Session;
@@ -42,7 +40,7 @@ public partial class TurnPlayerControl(CustomNode owner) : PlayerControl(owner)
                     Holder = CreationHolder(),
                     TurnPlayer = StrategicMap.Current.CurrentPlayer,
                     Mode = NewTurnEventLogMode.Dialog,
-                    DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable),
+                    DialogStyle = NewTurnEventLogDialogStyles.Closeable,
                     Text = AbilityRules.TranslateResourceString(GetEngine(), S: s_itsYourTurnText)
                 };
                 StrategicMap.Current.TriggerExecuteEventLog(log, immediate: false, done: ShowNewTurnCallback);
@@ -55,7 +53,7 @@ public partial class TurnPlayerControl(CustomNode owner) : PlayerControl(owner)
                     Holder = CreationHolder(),
                     TurnPlayer = StrategicMap.Current.CurrentPlayer,
                     Mode = NewTurnEventLogMode.Dialog,
-                    DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of()
+                    DialogStyle = NewTurnEventLogDialogStyles.None
                 };
                 if (player == 0)
                 {
@@ -85,7 +83,7 @@ public partial class TurnPlayerControl(CustomNode owner) : PlayerControl(owner)
                         Holder = CreationHolder(),
                         TurnPlayer = player,
                         Mode = NewTurnEventLogMode.Dialog,
-                        DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable),
+                        DialogStyle = NewTurnEventLogDialogStyles.Closeable,
                         Text = AbilityRules.TranslateResourceString(GetEngine(), S: s_itsYourTurnText)
                     };
                     StrategicMap.Current.TriggerExecuteEventLog(log, immediate: false, done: null);
@@ -129,7 +127,7 @@ public partial class TurnPlayerControl(CustomNode owner) : PlayerControl(owner)
             _ = AudioPlayback.PlaySample("SFX\\EVENTS\\NEWTURN.WAV");
             if (StrategicMap.Current.Day == 1 && (StrategicMap.Current.RequestCombatType || player == StrategicMap.Current.SeatedPlayer))
             {
-                if (Set<GameType>.Of(GameType.Custom, GameType.Tutorial).Contains(StrategicMap.Current.GameType))
+                if (StrategicMap.Current.GameType is GameType.Custom or GameType.Tutorial)
                 {
                     ShowBookEventLog bookLog = new(null) { Holder = CreationHolder() };
                     StrategicMap.Current.TriggerExecuteEventLog(bookLog, immediate: false, done: null);
@@ -139,7 +137,7 @@ public partial class TurnPlayerControl(CustomNode owner) : PlayerControl(owner)
                 if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.ResearchSpellId == 0)
                 {
                     SpellList spells = new();
-                    StrategicMap.Current.Players.GetPlayers(player).MagicControl.ListResearchSpells(spells, spellTypes: Set<SpellType>.Of(SpellType.Combat, SpellType.Unit, SpellType.Global));
+                    StrategicMap.Current.Players.GetPlayers(player).MagicControl.ListResearchSpells(spells, spellTypes: SpellTypes.Combat | SpellTypes.Unit | SpellTypes.Global);
                     if (spells.GetCount() > 0)
                     {
                         PlayerMagicEventLog magicLog = new(null)
@@ -348,7 +346,7 @@ public partial class TurnPlayerControl(CustomNode owner) : PlayerControl(owner)
                     Holder = CreationHolder(),
                     TurnPlayer = StrategicMap.Current.CurrentPlayer,
                     Mode = NewTurnEventLogMode.Dialog,
-                    DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable),
+                    DialogStyle = NewTurnEventLogDialogStyles.Closeable,
                     Text = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.YourTurnContinuesText)
                 };
                 StrategicMap.Current.TriggerExecuteEventLog(log, immediate: false, done: StartGameCallback);
@@ -361,7 +359,7 @@ public partial class TurnPlayerControl(CustomNode owner) : PlayerControl(owner)
                     Holder = CreationHolder(),
                     TurnPlayer = StrategicMap.Current.CurrentPlayer,
                     Mode = NewTurnEventLogMode.Dialog,
-                    DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of()
+                    DialogStyle = NewTurnEventLogDialogStyles.None
                 };
                 if (StrategicMap.Current.CurrentPlayer == 0)
                 {
@@ -389,7 +387,7 @@ public partial class TurnPlayerControl(CustomNode owner) : PlayerControl(owner)
                     Holder = CreationHolder(),
                     TurnPlayer = StrategicMap.Current.SeatedPlayer,
                     Mode = NewTurnEventLogMode.Dialog,
-                    DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable),
+                    DialogStyle = NewTurnEventLogDialogStyles.Closeable,
                     Text = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.YourTurnContinuesText)
                 };
                 StrategicMap.Current.TriggerExecuteEventLog(log, immediate: false, done: StartGameCallback);

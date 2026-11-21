@@ -3,7 +3,6 @@
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 using Aow.Game.Net;
-using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
@@ -78,7 +77,7 @@ public class MultiMoveTokenEvent : TokenEvent
             else
             {
                 moveResult = ExecuteResult.Done;
-                while (Set<ExecuteResult>.Of(ExecuteResult.Done, ExecuteResult.DoneHalt).Contains(moveResult) && Events.Count > 0)
+                while (moveResult is ExecuteResult.Done or ExecuteResult.DoneHalt && Events.Count > 0)
                 {
                     moveResult = events[0].Execute(tokenEvent);
                     if (moveResult is ExecuteResult.Done or ExecuteResult.DoneHalt)

@@ -30,7 +30,7 @@ public class MoveSelector : IDisposable
     public MoveSettingsList MoveSettingsList { get; }
     public int CurrentMove { get; protected set; }
     public GameMap Map { get; private set; }
-    public Set<MoveSelectorStatusElement> Status { get; private set; }
+    public MoveSelectorStatuses Status { get; private set; }
 
     // Structur.PAS:4118
     public virtual void Dispose()
@@ -121,7 +121,7 @@ public class MoveSelector : IDisposable
     // Structur.PAS:4225
     public virtual void Activate(GameMap map)
     {
-        if (Status.Contains(MoveSelectorStatusElement.Activated))
+        if (Status.Contains(MoveSelectorStatuses.Activated))
         {
             Deactivate();
         }
@@ -133,16 +133,16 @@ public class MoveSelector : IDisposable
         Map.Mouse.OnCaptureChanged += MouseDownEvent;
         Map.Mouse.CursorMode = 256;
         UpdateMoveCursor();
-        Status += Set<MoveSelectorStatusElement>.Of(MoveSelectorStatusElement.Activated);
+        Status |= MoveSelectorStatuses.Activated;
         Map.ShowHexSelector();
     }
 
     // Structur.PAS:4239
     public virtual void Deactivate()
     {
-        if (Status.Contains(MoveSelectorStatusElement.Activated))
+        if (Status.Contains(MoveSelectorStatuses.Activated))
         {
-            Status -= Set<MoveSelectorStatusElement>.Of(MoveSelectorStatusElement.Activated);
+            Status &= ~MoveSelectorStatuses.Activated;
             Map.Mouse.OnDown -= MouseDownEvent;
             Map.Mouse.OnMove -= MouseMoveEvent;
             Map.Mouse.OnCaptureChanged -= MouseDownEvent;
@@ -159,7 +159,7 @@ public class MoveSelector : IDisposable
     // Structur.PAS:4253
     public virtual void ShowMovePaths(in LockedSurface surface)
     {
-        if (Status.Contains(MoveSelectorStatusElement.Activated) && MoveSettingsList.Count != 0)
+        if (Status.Contains(MoveSelectorStatuses.Activated) && MoveSettingsList.Count != 0)
         {
             int maxX = Map.ViewHexX + Map.ViewWidthHex - 1;
             int maxY = Map.ViewHexY + Map.ViewHeightHex - 1;

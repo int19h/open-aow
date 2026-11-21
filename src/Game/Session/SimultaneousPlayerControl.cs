@@ -12,8 +12,6 @@ using Aow.Game.Magic.Spells;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 using static Aow.Rtl.DelphiAssert;
 using static Aow.Rtl.DelphiStrings;
 
@@ -59,7 +57,7 @@ public sealed class SimultaneousPlayerControl(CustomNode owner) : PlayerControl(
                     if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.ResearchSpellId == 0)
                     {
                         SpellList spells = new();
-                        StrategicMap.Current.Players.GetPlayers(player).MagicControl.ListResearchSpells(spells, spellTypes: Set<SpellType>.Of(SpellType.Combat, SpellType.Unit, SpellType.Global));
+                        StrategicMap.Current.Players.GetPlayers(player).MagicControl.ListResearchSpells(spells, spellTypes: SpellTypes.Combat | SpellTypes.Unit | SpellTypes.Global);
                         if (spells.GetCount() > 0)
                         {
                             PlayerMagicEventLog research = new(null)
@@ -140,7 +138,7 @@ public sealed class SimultaneousPlayerControl(CustomNode owner) : PlayerControl(
             Holder = CreationHolder(),
             TurnPlayer = StrategicMap.Current.SeatedPlayer,
             Mode = NewTurnEventLogMode.Dialog,
-            DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable),
+            DialogStyle = NewTurnEventLogDialogStyles.Closeable,
             Text = AbilityRules.TranslateResourceString(GetEngine(), S: s_letGameBeginText)
         };
         StrategicMap.Current.TriggerExecuteEventLog(log, immediate: false, done: StartGameCallback);
@@ -290,7 +288,7 @@ public sealed class SimultaneousPlayerControl(CustomNode owner) : PlayerControl(
             Holder = CreationHolder(),
             TurnPlayer = StrategicMap.Current.SeatedPlayer,
             Mode = NewTurnEventLogMode.Dialog,
-            DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable),
+            DialogStyle = NewTurnEventLogDialogStyles.Closeable,
             Text = AbilityRules.TranslateResourceString(GetEngine(), S: s_gameContinuesText)
         };
         StrategicMap.Current.TriggerExecuteEventLog(log, immediate: false, done: StartGameCallback);

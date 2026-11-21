@@ -89,7 +89,7 @@ public sealed class ThrowingCastTests
         Army army = new(null)
         {
             Holder = EngineFixture.Engine,
-            Status = Set<ArmyStatusElement>.Of(ArmyStatusElement.Activated),
+            Status = ArmyStatuses.Activated,
             Location = new MapCoordinate(4, 6, 1)
         };
         leader.SetOwnerWithoutNotify(army);

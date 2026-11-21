@@ -1,5 +1,4 @@
 // Translated from Engine.pas.
-using Aow.Rtl;
 
 namespace Aow.Engine.Nodes;
 
@@ -11,11 +10,11 @@ public class ControlStyleInverseSortedNode : InverseSortedNode
 
     public ControlStyleInverseSortedNode(CustomNode owner) : base(owner) => _controlStyle = base.GetControlStyle();
 
-    private Set<ControlStyleElement> _controlStyle;
+    private ControlStyles _controlStyle;
 
     // Engine.pas:1700
-    public override Set<ControlStyleElement> GetControlStyle() => _controlStyle;
+    public override ControlStyles GetControlStyle() => _controlStyle;
 
     // Engine.pas:1705
-    public void SetControlStyle(Set<ControlStyleElement> value) => _controlStyle = value;
+    public void SetControlStyle(ControlStyles value) => _controlStyle = value;
 }

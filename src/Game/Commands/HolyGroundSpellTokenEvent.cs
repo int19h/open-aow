@@ -11,7 +11,6 @@ using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
 using Aow.Game.World.Terrain;
-using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
@@ -54,7 +53,7 @@ public class HolyGroundSpellTokenEvent(CustomNode owner) : GlobalTargetSpellToke
                         StrategicMap.Current.ClearTerrain(walk.X, walk.Y, L: Location.MapLevel, radius: 0, terrainType: -1);
                         if (StrategicMap.Current.PlaceHex(ground, walk.X, walk.Y, L: Location.MapLevel))
                         {
-                            ground.Mode = Set<HolySummoning>.Of(HolySummoning.Summoning);
+                            ground.Mode = HolySummonings.Summoning;
                             ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
                             animation.SetImageSequence(GamePack.Current.SpellControl[13].CastImages.ImageSequences[0]);
                             animation.SetShowHandler(ground.ShowSummonAnimation);

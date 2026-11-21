@@ -1,13 +1,9 @@
 #nullable disable
 // Translated from GlobalSpells.pas.
 using Aow.Engine.Nodes;
-
 using Aow.Game.Commands;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.World.Map;
-
 using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.Magic.Spells;
@@ -27,7 +23,7 @@ public class DisjunctionSpellCaster(CustomNode owner) : SpellCaster(owner)
         Troop source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
         if (result && SelectedEnchantment() is not null)
         {
-            if (!StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.SpellWard) || SelectedEnchantment().EnchantmentType == GlobalEnchantmentType.SpellWard)
+            if (!StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentTypes.SpellWard) || SelectedEnchantment().EnchantmentType == GlobalEnchantmentType.SpellWard)
             {
                 if (!StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.GetCheatEnabled())
                 {

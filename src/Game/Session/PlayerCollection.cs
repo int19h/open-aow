@@ -5,8 +5,6 @@ using Aow.Engine.Nodes;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Session;
 
 // active, local, human, local human lists
@@ -23,7 +21,7 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     // Player.PAS:1414
     public PlayerCollection(CustomNode owner) : base(owner)
     {
-        SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, ControlStyleElement.ArrayMode));
+        SetControlStyle(ControlStyles.SaveLoad | ControlStyles.FixedChild | ControlStyles.ArrayMode);
         SetNumberOfPlayers(2);
         _localControlledPlayers = new ByteList();
         LocalHumanPlayers = new ByteList();
@@ -52,7 +50,7 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     }
 
     // Player.PAS:1434
-    public int GetDiplomaticRelationCount(sbyte player, Set<DiplomaticRelation> relations)
+    public int GetDiplomaticRelationCount(sbyte player, DiplomaticRelations relations)
     {
         int result = 0;
         for (int i = 1, last = StrategicMap.Current.Players.Count - 1; i <= last; i++)
@@ -61,7 +59,7 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
             {
                 if (GetPlayers(i).Status == PlayerStatus.Playing)
                 {
-                    if (relations.Contains(GetDiplomaticRelation(player, otherPlayer: (sbyte)i)))
+                    if (relations.Contains(GetDiplomaticRelation(player, otherPlayer: (sbyte)i).ToFlag()))
                     {
                         result += 1;
                     }
@@ -104,7 +102,7 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
                 this[otherPlayer].AIValidAttackPlayers[player] = true;
             }
 
-            if (Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace, DiplomaticRelation.Alliance).Contains(relation))
+            if (relation is DiplomaticRelation.Peace or DiplomaticRelation.Alliance)
             {
                 this[player].AIValidAttackPlayers[otherPlayer] = false;
                 this[otherPlayer].AIValidAttackPlayers[player] = false;

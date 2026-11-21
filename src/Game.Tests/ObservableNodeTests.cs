@@ -219,7 +219,7 @@ public sealed class ObservableNodeTests
 
     private sealed class KeepingNode : RecordingNode
     {
-        public override Set<ControlStyleElement> GetControlStyle()
-            => base.GetControlStyle() + Set<ControlStyleElement>.Of(EngineServices.KeepIndex);
+        public override ControlStyles GetControlStyle()
+            => base.GetControlStyle() | EngineServices.KeepIndex;
     }
 }

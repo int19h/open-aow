@@ -455,7 +455,7 @@ public sealed partial class UnitWindow
                 UI.UnitWindow.UnitDefenseLabel.Text = ((int)defense).ToString(CultureInfo.InvariantCulture);
                 sbyte resistance = u.GetResistance();
                 UI.UnitWindow.UnitResistanceLabel.Text = ((int)resistance).ToString(CultureInfo.InvariantCulture);
-                Set<MoveType> moveTypes = u.GetMoveTypes();
+                MoveTypes moveTypes = u.GetMoveTypes();
                 int moveTypesToInt32 = UI.General.MoveTypesToInt32(moveTypes);
                 UI.UnitWindow.UnitMovesIcon.CurrentImage = moveTypesToInt32;
                 if (u.GetManaUpkeep() > 0)
@@ -472,7 +472,7 @@ public sealed partial class UnitWindow
                 }
 
                 Units.Alignment alignment = u.GetAlignment();
-                AlignmentImage.Visible = alignment != Units.Alignment.None;
+                AlignmentImage.Visible = alignment != Units.Alignment.Unaligned;
                 switch (u.GetAlignment())
                 {
                     case Units.Alignment.PureGood:
@@ -491,7 +491,7 @@ public sealed partial class UnitWindow
                     case Units.Alignment.PureEvil:
                         AlignmentImage.CurrentImage = 35;
                         break;
-                    case Units.Alignment.None:
+                    case Units.Alignment.Unaligned:
                     default:
                         break;
                 }

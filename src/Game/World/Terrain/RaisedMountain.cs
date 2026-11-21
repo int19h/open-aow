@@ -10,8 +10,6 @@ using Aow.Game.Magic.Spells;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 namespace Aow.Game.World.Terrain;
 
 // Mode, Player, Duration, OriginalOverlay
@@ -21,7 +19,7 @@ public class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapObject(own
     // Mountain.pas:178
     public new const int ClassId = 131_434;
 
-    public Set<RaisedMountainMode> Mode { get; set; }
+    public RaisedMountainModes Mode { get; set; }
 
     public sbyte Player { get; set; }
     public sbyte Duration { get; set; }
@@ -49,7 +47,7 @@ public class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapObject(own
     // Mountain.pas:223
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        if (!Mode.Contains(RaisedMountainMode.Raising))
+        if (!Mode.Contains(RaisedMountainModes.Raising))
         {
             base.Show(pixelXSurface, pixelYSurface, lockedSurface);
         }
@@ -128,7 +126,7 @@ public class RaisedMountain(CustomNode owner) : ImageLibraryTerrainMapObject(own
         MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         if (field.FindOwnedChild(ClassId) == this && frameCounter == 9)
         {
-            Mode -= Set<RaisedMountainMode>.Of(RaisedMountainMode.Raising);
+            Mode &= ~RaisedMountainModes.Raising;
         }
     }
 

@@ -167,7 +167,7 @@ public class RleSprite16(CustomImageLibrary owner) : Image16(owner), ILibraryIma
     }
 
     // ImageLib.pas:3006
-    public override bool SupportShowMode(ShowMode showMode, PixelFormat pixelFormatId) => (pixelFormatId is PixelFormat.None or PixelFormat.Rgb565 or PixelFormat.Rgb555) && Set<ShowMode>.Of(ShowMode.Opaque, ShowMode.Transparent).Contains(showMode);
+    public override bool SupportShowMode(ShowMode showMode, PixelFormat pixelFormatId) => (pixelFormatId is PixelFormat.None or PixelFormat.Rgb565 or PixelFormat.Rgb555) && showMode is ShowMode.Opaque or ShowMode.Transparent;
 
     // ImageLib.pas:3012
     public override void ShowOpaque(int X, int Y, in LockedSurface lockedSurface)

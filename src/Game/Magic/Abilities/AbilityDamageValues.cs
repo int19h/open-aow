@@ -1,8 +1,6 @@
 // Translated from AoWE.pas.
 using Aow.Game.Combat;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Abilities;
 
 // { Interface declaration run owned by P4. }
@@ -14,5 +12,5 @@ public struct AbilityDamageValues
     public int TargetDamage { get; internal set; }
     public int TargetCost { get; internal set; }
 
-    public Set<DamageType> DamageTypes { get; set => field = Set<DamageType>.FromMask((ushort)value.Image); }
+    public DamageTypes DamageTypes { get; set; }
 }

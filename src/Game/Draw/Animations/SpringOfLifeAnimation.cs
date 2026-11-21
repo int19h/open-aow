@@ -1,8 +1,6 @@
 // Translated from Spring.pas.
 using Aow.Engine.Nodes;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Draw.Animations;
 
 public sealed class SpringOfLifeAnimation(CustomNode owner) : Animation(owner)
@@ -19,8 +17,8 @@ public sealed class SpringOfLifeAnimation(CustomNode owner) : Animation(owner)
     }
 
     // Spring.pas:59
-    public override Set<AnimationControlModeElement> AnimationControlMode() => s_springMode;
+    public override AnimationControlModes AnimationControlMode() => s_springMode;
 
-    private static readonly Set<AnimationControlModeElement> s_springMode = Set<AnimationControlModeElement>.FromMask(17uL);
+    private static readonly AnimationControlModes s_springMode = AnimationControlModes.LinkToNewFrame | AnimationControlModes.OwnedByMap;
 
 }

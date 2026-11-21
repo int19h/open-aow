@@ -204,7 +204,7 @@ public sealed class CampaignTransferSettings : EngineObject
             for (int i = 0, last = StrategicMap.Current.UnitControl.GetCount() - 1; i <= last; i++)
             {
                 Troop troop = StrategicMap.Current.UnitControl[i];
-                if (troop.Player == player && troop.GetUnitType() != UnitType.Machine && (troop.GetMoveTypes() & Set<MoveType>.Of(MoveType.Walking, MoveType.Flying)) != Set<MoveType>.Of() && troop is not Magic.Abilities.Leader && !troop.GetAbilityEnabled(155))
+                if (troop.Player == player && troop.GetUnitType() != UnitType.Machine && (troop.GetMoveTypes() & (MoveTypes.Walking | MoveTypes.Flying)) != MoveTypes.None && troop is not Magic.Abilities.Leader && !troop.GetAbilityEnabled(155))
                 {
                     if (troop is Hero)
                     {
@@ -569,7 +569,7 @@ public sealed class CampaignTransferSettings : EngineObject
                 int item = SelectedUnits[i];
                 Troop troop = Units.GetUnit(item).Copy<Troop>(GetEngine());
                 troop.UnitId = -1;
-                _ = troop.Place(x, y, l, player, mode: Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
+                _ = troop.Place(x, y, l, player, mode: UnitPlaceModes.ScanArea);
                 _ = troop.Release();
             }
 
@@ -595,9 +595,9 @@ public sealed class CampaignTransferSettings : EngineObject
                 }
 
                 hero.UnitId = -1;
-                hero.Mode += Set<HeroModeElement>.Of(HeroModeElement.SkipLibraryUpdate);
-                _ = hero.Place(x, y, l, player, mode: Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
-                hero.Mode -= Set<HeroModeElement>.Of(HeroModeElement.SkipLibraryUpdate);
+                hero.Mode |= HeroModes.SkipLibraryUpdate;
+                _ = hero.Place(x, y, l, player, mode: UnitPlaceModes.ScanArea);
+                hero.Mode &= ~HeroModes.SkipLibraryUpdate;
                 _ = hero.Release();
             }
 

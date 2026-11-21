@@ -5,8 +5,6 @@ using Aow.Engine.Nodes;
 using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Abilities;
 
 public class SelfDestructAbility : TouchAbility
@@ -18,11 +16,11 @@ public class SelfDestructAbility : TouchAbility
         AbilityId = 65;
         AbilityType = AbilityType.Combat;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_selfDestructText);
-        SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit);
+        SelectionTypes = AbilitySelectionTypes.Unit;
     }
 
     // AoWAb.PAS:2211
-    public override Set<WallCombatFeaturesElement> GetWallCombatFeatures(AbilityOwner owner) => Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallBreaching, WallCombatFeaturesElement.Participate);
+    public override WallCombatFeatures GetWallCombatFeatures(AbilityOwner owner) => WallCombatFeatures.WallBreaching | WallCombatFeatures.Participate;
 
     // AoWAb.PAS:2222
     public override bool FastBattleExecuteCombatCommand(FastBattleUnit source, FastBattleCommand command)
@@ -43,9 +41,9 @@ public class SelfDestructAbility : TouchAbility
             sbyte hitPoints = defender.GetHitPoints();
             sbyte defense = defender.GetDefense();
             sbyte resistance = defender.GetResistance();
-            Set<DamageType> immunityTypes = defender.GetImmunityTypes();
-            Set<DamageType> protectionTypes = defender.GetProtectionTypes();
-            return AbilityRules.StatisticsToLimitedDamageValue(8, damage: 6, damageTypes: Set<DamageType>.Of(DamageType.Fire, DamageType.Wall), maximum: hitPoints, defense, resistance, immunityTypes, protectionTypes);
+            DamageTypes immunityTypes = defender.GetImmunityTypes();
+            DamageTypes protectionTypes = defender.GetProtectionTypes();
+            return AbilityRules.StatisticsToLimitedDamageValue(8, damage: 6, damageTypes: DamageTypes.Fire | DamageTypes.Wall, maximum: hitPoints, defense, resistance, immunityTypes, protectionTypes);
         }
         else
         {
@@ -58,15 +56,15 @@ public class SelfDestructAbility : TouchAbility
     {
         if (wallSituation == WallSituation.None && CanTouchUnit(attacker, target: defender))
         {
-            damageValues.DamageTypes = Set<DamageType>.Of(DamageType.Fire, DamageType.Wall);
+            damageValues.DamageTypes = DamageTypes.Fire | DamageTypes.Wall;
             sbyte hitPoints = defender.GetHitPoints();
             sbyte defense = defender.GetDefense();
             sbyte resistance = defender.GetResistance();
-            Set<DamageType> immunityTypes = defender.GetImmunityTypes();
-            Set<DamageType> protectionTypes = defender.GetProtectionTypes();
-            int statisticsToLimitedDamageValue = AbilityRules.StatisticsToLimitedDamageValue(8, damage: 6, damageTypes: Set<DamageType>.Of(DamageType.Fire, DamageType.Wall), maximum: hitPoints, defense, resistance, immunityTypes, protectionTypes);
+            DamageTypes immunityTypes = defender.GetImmunityTypes();
+            DamageTypes protectionTypes = defender.GetProtectionTypes();
+            int statisticsToLimitedDamageValue = AbilityRules.StatisticsToLimitedDamageValue(8, damage: 6, damageTypes: DamageTypes.Fire | DamageTypes.Wall, maximum: hitPoints, defense, resistance, immunityTypes, protectionTypes);
             damageValues.SourceDamage = statisticsToLimitedDamageValue;
-            int statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: defender.GetProtectionTypes(), immunityTypes: defender.GetImmunityTypes(), damage: 6, damageTypes: Set<DamageType>.Of(DamageType.Fire, DamageType.Wall));
+            int statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: defender.GetProtectionTypes(), immunityTypes: defender.GetImmunityTypes(), damage: 6, damageTypes: DamageTypes.Fire | DamageTypes.Wall);
             damageValues.SourceCost = statisticsToMaxDamage;
             sbyte attackerHitPoints = attacker.GetHitPoints();
             damageValues.TargetDamage = attackerHitPoints * 100;
@@ -79,15 +77,15 @@ public class SelfDestructAbility : TouchAbility
             damageValues.SourceCost = 0;
             damageValues.TargetDamage = 0;
             damageValues.TargetCost = 0;
-            damageValues.DamageTypes = Set<DamageType>.Of();
+            damageValues.DamageTypes = DamageTypes.None;
         }
     }
 
     // AoWAb.PAS:2205
-    public override void GetOffensiveStrength(AbilityOwner owner, ref int strength, ref Set<DamageType> types)
+    public override void GetOffensiveStrength(AbilityOwner owner, ref int strength, ref DamageTypes types)
     {
         strength = AbilityRules.LimitedDamage(8, defense: 6, damage: 1);
-        types = Set<DamageType>.Of(DamageType.Fire, DamageType.Wall);
+        types = DamageTypes.Fire | DamageTypes.Wall;
     }
 
     // AoWAb.PAS:2175
@@ -95,15 +93,15 @@ public class SelfDestructAbility : TouchAbility
     {
         if (wallSituation == WallSituation.None && CanTouch(attacker, target: defender))
         {
-            damageValues.DamageTypes = Set<DamageType>.Of(DamageType.Fire, DamageType.Wall);
+            damageValues.DamageTypes = DamageTypes.Fire | DamageTypes.Wall;
             sbyte hitPoints = defender.HitPoints;
             sbyte defense = defender.GetDefense();
             sbyte resistance = defender.GetResistance();
-            Set<DamageType> immunityTypes = defender.GetImmunityTypes();
-            Set<DamageType> protectionTypes = defender.GetProtectionTypes();
-            int statisticsToLimitedDamageValue = AbilityRules.StatisticsToLimitedDamageValue(8, damage: 6, damageTypes: Set<DamageType>.Of(DamageType.Fire, DamageType.Wall), maximum: hitPoints, defense, resistance, immunityTypes, protectionTypes);
+            DamageTypes immunityTypes = defender.GetImmunityTypes();
+            DamageTypes protectionTypes = defender.GetProtectionTypes();
+            int statisticsToLimitedDamageValue = AbilityRules.StatisticsToLimitedDamageValue(8, damage: 6, damageTypes: DamageTypes.Fire | DamageTypes.Wall, maximum: hitPoints, defense, resistance, immunityTypes, protectionTypes);
             damageValues.SourceDamage = statisticsToLimitedDamageValue;
-            int statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: defender.GetProtectionTypes(), immunityTypes: defender.GetImmunityTypes(), damage: 6, damageTypes: Set<DamageType>.Of(DamageType.Fire, DamageType.Wall));
+            int statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: defender.GetProtectionTypes(), immunityTypes: defender.GetImmunityTypes(), damage: 6, damageTypes: DamageTypes.Fire | DamageTypes.Wall);
             damageValues.SourceCost = statisticsToMaxDamage;
             sbyte attackerHitPoints = attacker.HitPoints;
             damageValues.TargetDamage = attackerHitPoints * 100;
@@ -116,7 +114,7 @@ public class SelfDestructAbility : TouchAbility
             damageValues.SourceCost = 0;
             damageValues.TargetDamage = 0;
             damageValues.TargetCost = 0;
-            damageValues.DamageTypes = Set<DamageType>.Of();
+            damageValues.DamageTypes = DamageTypes.None;
         }
     }
 
@@ -125,17 +123,17 @@ public class SelfDestructAbility : TouchAbility
     {
         info.Attack = 8;
         info.Damage = 6;
-        info.DamageTypes = Set<DamageType>.Of(DamageType.Fire, DamageType.Wall);
+        info.DamageTypes = DamageTypes.Fire | DamageTypes.Wall;
         info.RepeatCount = -1;
-        info.TargetTypes = Set<CombatTargetTypeElement>.Of(CombatTargetTypeElement.Enemy);
+        info.TargetTypes = CombatTargetTypes.Enemy;
     }
 
     // AoWAb.PAS:2235
     public override bool CanTouch(CombatObject source, CombatObject target)
     {
         return source.Side == CombatSideIndex.Defender
-            ? !source.FastBattleBehindWall() || !source.FastBattleWallInBetween(target.Position) || target.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing)
-            : !target.FastBattleBehindWall() || !source.FastBattleWallInBetween(target.Position) || source.WallCombatFeatures().Contains(WallCombatFeaturesElement.WallPassing);
+            ? !source.FastBattleBehindWall() || !source.FastBattleWallInBetween(target.Position) || target.WallCombatFeatures().Contains(WallCombatFeatures.WallPassing)
+            : !target.FastBattleBehindWall() || !source.FastBattleWallInBetween(target.Position) || source.WallCombatFeatures().Contains(WallCombatFeatures.WallPassing);
     }
 
     // AoWAb.PAS:2257
@@ -145,7 +143,7 @@ public class SelfDestructAbility : TouchAbility
     public SelfDestructCombatAction CreateSelfDestructCombatAction(CombatObject source, CombatObject target)
     {
         SelfDestructCombatAction result = new(null) { Holder = CreationHolder() };
-        result.Generate(source, target, attack: 8, damage: 6, damageTypes: Set<DamageType>.Of(DamageType.Fire, DamageType.Wall));
+        result.Generate(source, target, attack: 8, damage: 6, damageTypes: DamageTypes.Fire | DamageTypes.Wall);
         return result;
     }
 

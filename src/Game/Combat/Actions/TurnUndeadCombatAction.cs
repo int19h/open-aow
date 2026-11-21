@@ -21,7 +21,7 @@ public class TurnUndeadCombatAction(CustomNode owner) : DamageCombatAction(owner
         {
             CombatUnit source = combat.CombatData.FindId<CombatUnit>(SourceId);
             CombatUnit target = combat.CombatData.FindId<CombatUnit>(TargetId);
-            if (!target.Status.Contains(CombatObjectStatusElement.Destroyed))
+            if (!target.Status.Contains(CombatObjectStatuses.Destroyed))
             {
                 _ = GamePack.Current.AbilityControl[34].Expand(target.Troop);
                 UnitEnchantmentAbilityData data = target.Troop.GetAbilityData<UnitEnchantmentAbilityData>(34);

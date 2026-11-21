@@ -35,7 +35,7 @@ public sealed partial class CampaignJoinDialog(UIContext ui) : UIModule(ui)
         LeaderSetupControl control = new(null) { Holder = UI.Engine };
         control.Leader.Assign(Leader, UI.Engine);
         control.OriginalLeader.Assign(Leader, UI.Engine);
-        control.Mode += Set<LeaderSetupModeElement>.Of(LeaderSetupModeElement.Campaign);
+        control.Mode |= LeaderSetupModes.Campaign;
         switch (Faction)
         {
             case 0:
@@ -125,7 +125,7 @@ public sealed partial class CampaignJoinDialog(UIContext ui) : UIModule(ui)
     }
 
     // AoWCampaignJoin.pas:71
-    public void CharGenPnlMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public void CharGenPnlMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
         if (Stage == 0)
         {

@@ -3,7 +3,6 @@
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Game.World.Map;
-using Aow.Rtl;
 using static Aow.Rtl.DelphiAssert;
 
 namespace Aow.Game.Combat;
@@ -30,7 +29,7 @@ public sealed partial class CombatData : EngineObject
 
     public byte[] TerrainAndOverlayTypes { get; } = new byte[2];
 
-    public Set<DamageType> ImmunityTypes { get; private set; }
+    public DamageTypes ImmunityTypes { get; private set; }
     public sbyte AttackerPlayer { get; set; }
     public sbyte DefenderPlayer { get; set; }
 

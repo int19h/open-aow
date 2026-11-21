@@ -6,8 +6,6 @@ using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
 
 using Aow.Game.Magic.Abilities;
-
-using Aow.Rtl;
 using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.Magic.Spells;
@@ -24,7 +22,7 @@ public class Terror : CombatSpell
         SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 6;
         spellCombatInfo.Damage = 0;
-        spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Death);
+        spellCombatInfo.DamageTypes = DamageTypes.Death;
         spellCombatInfo.RepeatCount = 1;
         spellCombatInfo.Range = -1;
 
@@ -47,7 +45,7 @@ public class Terror : CombatSpell
     // CombatSpells.pas:1862
     public override void TacticalBattleGetDamageValues(CombatObject source, CombatObject target, ref AbilityDamageValues values)
     {
-        int value = !target.GetAbilityEnabled(108) && target.CombatValue != 0 && target is CombatUnit && !target.GetImmunityTypes().Contains(DamageType.Death)
+        int value = !target.GetAbilityEnabled(108) && target.CombatValue != 0 && target is CombatUnit && !target.GetImmunityTypes().Contains(DamageTypes.Death)
             ? Round((double)HitChance.HitRoleProbability(6 - target.GetResistance()) * 100)
             : 0;
         if (value != 0)
@@ -56,7 +54,7 @@ public class Terror : CombatSpell
             values.SourceCost = value / 100;
             values.TargetDamage = 0;
             values.TargetCost = 0;
-            values.DamageTypes = Set<DamageType>.Of(DamageType.Death);
+            values.DamageTypes = DamageTypes.Death;
         }
         else
         {
@@ -64,7 +62,7 @@ public class Terror : CombatSpell
             values.SourceCost = 0;
             values.TargetDamage = 0;
             values.TargetCost = 0;
-            values.DamageTypes = Set<DamageType>.Of();
+            values.DamageTypes = DamageTypes.None;
         }
     }
 
@@ -77,7 +75,7 @@ public class Terror : CombatSpell
         for (int i = side.GetCount() - 1; i >= 0; i--)
         {
             CombatObject target = side.GetObjects(i);
-            if (!target.GetAbilityEnabled(108) && target.CombatValue != 0 && target is CombatUnit && !target.GetImmunityTypes().Contains(DamageType.Death))
+            if (!target.GetAbilityEnabled(108) && target.CombatValue != 0 && target is CombatUnit && !target.GetImmunityTypes().Contains(DamageTypes.Death))
             {
                 value += target.GetTargetPriority();
             }
@@ -120,7 +118,7 @@ public class Terror : CombatSpell
         for (int i = side.GetCount() - 1; i >= 0; i--)
         {
             CombatObject opponent = side.GetObjects(i);
-            if (!opponent.GetAbilityEnabled(108) && opponent.CombatValue != 0 && opponent is CombatUnit && !opponent.GetImmunityTypes().Contains(DamageType.Death))
+            if (!opponent.GetAbilityEnabled(108) && opponent.CombatValue != 0 && opponent is CombatUnit && !opponent.GetImmunityTypes().Contains(DamageTypes.Death))
             {
                 value += Round((double)HitChance.HitRoleProbability(6 - opponent.GetResistance()) * 100);
             }
@@ -132,7 +130,7 @@ public class Terror : CombatSpell
             values.SourceCost = value / 100;
             values.TargetDamage = 0;
             values.TargetCost = 0;
-            values.DamageTypes = Set<DamageType>.Of(DamageType.Death);
+            values.DamageTypes = DamageTypes.Death;
         }
         else
         {
@@ -140,7 +138,7 @@ public class Terror : CombatSpell
             values.SourceCost = 0;
             values.TargetDamage = 0;
             values.TargetCost = 0;
-            values.DamageTypes = Set<DamageType>.Of();
+            values.DamageTypes = DamageTypes.None;
         }
     }
 

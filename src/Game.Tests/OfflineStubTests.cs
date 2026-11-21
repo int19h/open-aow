@@ -146,7 +146,7 @@ public sealed class OfflineStubTests
         Assert.False(window.LeaderPanel.Visible);
         Assert.Equal("No Name", events.DirectPlay.PlayerName);
 
-        events.SetupControl.Status = Set<SetupStatusElement>.Of(SetupStatusElement.Remote);
+        events.SetupControl.Status = SetupStatuses.Remote;
         events.UpdatePlayerName("Remote");
         Assert.Equal("No Name", events.DirectPlay.PlayerName);
     }

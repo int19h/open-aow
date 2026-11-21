@@ -9,8 +9,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
-using Aow.Rtl;
-
 namespace Aow.Game.World.Structures;
 
 // { Interface declaration run owned by P1. }
@@ -63,8 +61,8 @@ public class StructureConstructionControl(CustomNode owner) : ConstructionContro
                     MapField mapField = level.GetField(walk.X, walk.Y);
                     result = mapField.GetPlayer() == -1 || mapField.GetPlayer() == troop.Player;
                     result = result && mapField.FindNoneTransparentHexSprite(typeof(Structure)) is null;
-                    result = result && !Set<byte>.WithBounds(0, 255).With(0).With(2).Contains((byte)mapField.OverlayType);
-                    result = result && Set<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)mapField.TerrainType);
+                    result = result && (byte)mapField.OverlayType is not (0 or 2);
+                    result = result && mapField.TerrainType is (>= (sbyte)TerrainType.Grass and <= (sbyte)TerrainType.Wasteland) or (sbyte)TerrainType.Dirt;
                 }
             }
             else

@@ -12,8 +12,6 @@ using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic;
 
 // (ID, references, status, mode, dispel mana, type, player, name, upkeep)
@@ -23,8 +21,8 @@ public class GlobalEnchantment(CustomNode owner) : EngineObject(owner)
 
     private int _refCount = 1;
 
-    public Set<GlobalEnchantmentStatusElement> EnchantmentStatus { get; private set; }
-    public Set<GlobalEnchantmentModeElement> EnchantmentMode { get; protected init; } = Set<GlobalEnchantmentModeElement>.Of(GlobalEnchantmentModeElement.TrueGlobal, GlobalEnchantmentModeElement.Owned);
+    public GlobalEnchantmentStatuses EnchantmentStatus { get; private set; }
+    public GlobalEnchantmentModes EnchantmentMode { get; protected init; } = GlobalEnchantmentModes.TrueGlobal | GlobalEnchantmentModes.Owned;
 
     public int DispelMana { get; set; }
     public GlobalEnchantmentType EnchantmentType { get; set; }
@@ -83,8 +81,8 @@ public class GlobalEnchantment(CustomNode owner) : EngineObject(owner)
     // Spells.PAS:2565
     public virtual bool Deactivate(byte player)
     {
-        EnchantmentStatus -= Set<GlobalEnchantmentStatusElement>.Of(GlobalEnchantmentStatusElement.Activated);
-        if (EnchantmentMode.Contains(GlobalEnchantmentModeElement.Owned))
+        EnchantmentStatus &= ~GlobalEnchantmentStatuses.Activated;
+        if (EnchantmentMode.Contains(GlobalEnchantmentModes.Owned))
         {
             Owner = null;
         }
@@ -106,7 +104,7 @@ public class GlobalEnchantment(CustomNode owner) : EngineObject(owner)
     // Spells.PAS:2536
     public virtual bool CanActivate(sbyte player, ref string reason)
     {
-        if (EnchantmentType != GlobalEnchantmentType.None && StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(EnchantmentType))
+        if (EnchantmentType != GlobalEnchantmentType.None && StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(EnchantmentType.ToFlag()))
         {
             reason = AbilityRules.Format(AbilityRules.TranslateResourceString(GetEngine(), S: GameText.IsAlreadyActiveFormat), arguments: [Name]);
             return false;
@@ -122,9 +120,9 @@ public class GlobalEnchantment(CustomNode owner) : EngineObject(owner)
     public virtual bool Activate(sbyte player)
     {
         PlayerIndex = player;
-        EnchantmentStatus += Set<GlobalEnchantmentStatusElement>.Of(GlobalEnchantmentStatusElement.Activated);
+        EnchantmentStatus |= GlobalEnchantmentStatuses.Activated;
         _ = StrategicMap.Current.GlobalMagicControl.ValidateEnchantmentId(this);
-        if (EnchantmentMode.Contains(GlobalEnchantmentModeElement.Owned))
+        if (EnchantmentMode.Contains(GlobalEnchantmentModes.Owned))
         {
             Owner = StrategicMap.Current.GlobalMagicControl.Enchantments;
         }
@@ -260,7 +258,7 @@ public class GlobalEnchantment(CustomNode owner) : EngineObject(owner)
     // Spells.PAS:2507
     public virtual bool VisibleForPlayer(sbyte player)
     {
-        if (!EnchantmentMode.Contains(GlobalEnchantmentModeElement.TrueGlobal) && player != PlayerIndex)
+        if (!EnchantmentMode.Contains(GlobalEnchantmentModes.TrueGlobal) && player != PlayerIndex)
         {
             MapCoordinate location = GetLocation();
             return location.X != -1 && StrategicMap.Current.VisibleForPlayer(location.X, location.Y, location.MapLevel, player);

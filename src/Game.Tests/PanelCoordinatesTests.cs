@@ -84,7 +84,7 @@ public sealed class PanelCoordinatesTests
             _ = list.Items.Add($"item{i}");
         }
 
-        Set<ShiftState> shift = default;
+        ShiftStates shift = default;
         manager.CheckMouseDown(MouseButton.Left, shift, 132, 94);
         Assert.Equal((20, 30), (panel.WinLeft, panel.WinTop));
         Assert.Equal((5, 5), mouseDownLocal);

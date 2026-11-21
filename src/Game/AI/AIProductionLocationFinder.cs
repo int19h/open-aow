@@ -8,8 +8,6 @@ using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Game.World.Structures;
 
-using Aow.Rtl;
-
 namespace Aow.Game.AI;
 
 // control, selector, mode, range, step, target range
@@ -22,7 +20,7 @@ public class AIProductionLocationFinder : AIGroupTask
 
     public AIMoveTargetSelector Selector { get; }
 
-    private Set<ModeElement> _mode;
+    private Modes _mode;
     private int _range;
     private int _step;
     private int _targetRange;
@@ -42,9 +40,9 @@ public class AIProductionLocationFinder : AIGroupTask
     {
         _ = base.Activate(control);
         _control = control;
-        if (_mode.Contains(ModeElement.CalculateMovePathBfs))
+        if (_mode.Contains(Modes.CalculateMovePathBfs))
         {
-            Selector.Mode = Selector.Mode + Set<AIMoveTargetSelectorModeElement>.Of(AIMoveTargetSelectorModeElement.CreateMovePaths);
+            Selector.Mode |= AIMoveTargetSelectorModes.CreateMovePaths;
         }
 
         _ = Selector.Search(control);
@@ -88,7 +86,7 @@ public class AIProductionLocationFinder : AIGroupTask
         targetInfo3.Mode = AITargetMode.Produce;
         Selector.TargetInfo = targetInfo3;
         Selector.MovePointsMax = 75;
-        _mode += Set<ModeElement>.Of(ModeElement.CalculateMovePathBfs);
+        _mode |= Modes.CalculateMovePathBfs;
         return true;
     }
 
@@ -106,7 +104,7 @@ public class AIProductionLocationFinder : AIGroupTask
                 MovePoints = target.MovePoints,
                 TransporterId = target.TransporterId
             };
-            if (_mode.Contains(ModeElement.CalculateMovePathBfs))
+            if (_mode.Contains(Modes.CalculateMovePathBfs))
             {
                 location.PathStrength = AbilityRules.GetMovePathBattleFieldStrength(_control.Group.Player, _control.Group.IndependentRelation, target.MovePath, _targetRange, _range, _step, engine: GetEngine());
             }
@@ -121,14 +119,16 @@ public class AIProductionLocationFinder : AIGroupTask
     {
         Selector.Clear();
         Selector.SetTargetFoundHandler(ProductionLocationFoundEvent);
-        _mode = Set<ModeElement>.Of();
+        _mode = Modes.None;
         _range = 8;
         _step = 1;
         _targetRange = 5;
     }
 
-    public enum ModeElement : byte
+    [Flags]
+    public enum Modes : byte
     {
-        CalculateMovePathBfs = 0
+        None = 0,
+        CalculateMovePathBfs = 1 << 0,
     }
 }

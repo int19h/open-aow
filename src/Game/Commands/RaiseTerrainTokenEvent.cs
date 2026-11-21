@@ -13,7 +13,6 @@ using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
 using Aow.Game.World.Terrain;
-using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
@@ -66,7 +65,7 @@ public class RaiseTerrainTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEv
                         StrategicMap.Current.ClearTerrain(walk.X, walk.Y, L: Location.MapLevel, radius: 0, terrainType: -1);
                         if (StrategicMap.Current.PlaceHex(mountain, walk.X, walk.Y, L: Location.MapLevel))
                         {
-                            mountain.Mode += Set<RaisedMountainMode>.Of(RaisedMountainMode.Raising);
+                            mountain.Mode |= RaisedMountainModes.Raising;
                             ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
                             animation.SetImageSequence(GamePack.Current.SpellControl[19].CastImages.ImageSequences[0]);
                             animation.SetShowHandler(mountain.ShowRaiseTerrainAnimation);

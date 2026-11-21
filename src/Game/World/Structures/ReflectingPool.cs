@@ -97,7 +97,7 @@ public partial class ReflectingPool(CustomNode owner) : PlayerStructure(owner)
     public override int VisibilityRange()
     {
         int result = 8;
-        return HexLevel != 0 || (Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 8) != 0)
+        return HexLevel != 0 || (Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments) & 8) != 0)
             ? (result + 1) >>> 1
             : result;
     }
@@ -105,9 +105,9 @@ public partial class ReflectingPool(CustomNode owner) : PlayerStructure(owner)
     // ReflectingPool.pas:185
     public override void UpdateUnfog()
     {
-        if (Status.Contains(MapObjectStatusElement.PlacedOnMap))
+        if (Status.Contains(MapObjectStatuses.PlacedOnMap))
         {
-            int range = Status.Contains(MapObjectStatusElement.Activated) && StrategicMap.Current.SeatedPlayer != -1
+            int range = Status.Contains(MapObjectStatuses.Activated) && StrategicMap.Current.SeatedPlayer != -1
                 ? PoolVisionPlayer(StrategicMap.Current.SeatedPlayer) ? VisibilityRange() : 0
                 : 0;
 
@@ -146,7 +146,7 @@ public partial class ReflectingPool(CustomNode owner) : PlayerStructure(owner)
     // ReflectingPool.pas:157
     public override void UpdateExploration()
     {
-        if (Status.Contains(MapObjectStatusElement.PlacedOnMap))
+        if (Status.Contains(MapObjectStatuses.PlacedOnMap))
         {
             int x = default;
             int y = default;

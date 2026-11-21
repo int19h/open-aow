@@ -211,7 +211,7 @@ public sealed class StoredNameBindingTests(ITestOutputHelper output)
         foreach (string name in enums)
         {
             Type type = NameTable.Find(name);
-            Assert.Equal(actual: EnumTypeInfo.Describe(type).ByName.Keys.Order(StringComparer.Ordinal).ToArray(), expected: [.. Enum.GetNames(type).Order(StringComparer.Ordinal)]);
+            Assert.Equal(actual: EnumTypeInfo.Describe(type).ByName.Keys.Order(StringComparer.Ordinal).ToArray(), expected: [.. (FlagsExtensions.IsFlags(type) ? FlagsExtensions.MemberBits(type).Select(m => m.Name) : Enum.GetNames(type)).Order(StringComparer.Ordinal)]);
         }
         output.WriteLine($"{records.Count} records and {enums.Count} enums checked");
         Assert.True(failures.Count == 0, userMessage: string.Join("\n", values: failures));

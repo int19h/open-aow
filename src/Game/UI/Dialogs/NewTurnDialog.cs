@@ -90,7 +90,7 @@ public sealed partial class NewTurnDialog(UIContext ui) : UIModule(ui)
                 RightShield.CurrentImage = race + 26;
                 Window.Drawn = false;
                 Window.Visible = true;
-                if (_newTurn.DialogStyle.Contains(NewTurnEventLogDialogStyleElement.Closeable))
+                if (_newTurn.DialogStyle.Contains(NewTurnEventLogDialogStyles.Closeable))
                 {
                     string clickToBegin = UI.Engine.TranslateResourceString(s_clickToBeginText);
                     ClickMessageLabel.Text = clickToBegin;
@@ -111,9 +111,9 @@ public sealed partial class NewTurnDialog(UIContext ui) : UIModule(ui)
     }
 
     // AoWNewTurnDialog.pas:106
-    public void NewTDlgMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public void NewTDlgMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
-        if (CombatMap.Current is null && _newTurn.DialogStyle.Contains(NewTurnEventLogDialogStyleElement.Closeable))
+        if (CombatMap.Current is null && _newTurn.DialogStyle.Contains(NewTurnEventLogDialogStyles.Closeable))
         {
             Window.Visible = false;
         }
@@ -122,7 +122,7 @@ public sealed partial class NewTurnDialog(UIContext ui) : UIModule(ui)
     // AoWNewTurnDialog.pas:111
     public void NewTDlgKeyPress(in byte key)
     {
-        if (_newTurn.DialogStyle.Contains(NewTurnEventLogDialogStyleElement.Closeable) && (key is 32 or 13 or 27))
+        if (_newTurn.DialogStyle.Contains(NewTurnEventLogDialogStyles.Closeable) && (key is 32 or 13 or 27))
         {
             Window.Visible = false;
         }

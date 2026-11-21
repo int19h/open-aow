@@ -26,7 +26,7 @@ public partial class UIComponent
     // Visible and willing to take a click. A wheel follows that, then bubbles to the parent.
     public virtual bool WantsMouseWheel => _visible && CaptureInput;
 
-    public virtual bool CheckMouseWheel(int steps, Set<ShiftState> shift, int X, int Y) => false;
+    public virtual bool CheckMouseWheel(int steps, ShiftStates shift, int X, int Y) => false;
 
     internal VerticalScrollBar WheelScrollBar
     {

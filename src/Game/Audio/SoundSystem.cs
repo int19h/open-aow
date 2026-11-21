@@ -107,13 +107,13 @@ public class SoundSystem : IDisposable
     // Sound.pas:1158
     public virtual void Dispose()
     {
-        if (Status.Contains(SoundSystemStatusElement.Activated))
+        if (Status.Contains(SoundSystemStatuses.Activated))
         {
             _ = Deactivate();
         }
     }
 
-    public Set<SoundSystemStatusElement> Status { get; protected set; }
+    public SoundSystemStatuses Status { get; protected set; }
     public int SfxVolume => GetSfxVolume();
     public bool PlayingSong => GetPlayingSong();
     public string PlayingSongFileName => GetPlayingSongFileName();

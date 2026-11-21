@@ -17,7 +17,7 @@ public class CenterViewLocation(CustomNode owner) : MapObject(owner)
     // CenterViewLoc.pas:80
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        if (CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (CombatMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             base.Show(pixelXSurface, pixelYSurface, lockedSurface);
         }

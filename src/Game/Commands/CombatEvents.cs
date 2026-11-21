@@ -3,15 +3,13 @@
 using Aow.Game.Combat;
 
 using Aow.Game.Draw;
-
-using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.Commands;
 
 internal static class CombatEvents
 {
-    internal static void MakeDamageEffectHexSpriteList(int X, int Y, Set<DamageType> damageTypes, bool resisted)
+    internal static void MakeDamageEffectHexSpriteList(int X, int Y, DamageTypes damageTypes, bool resisted)
     {
         void MakeEffect(BattleEffectType effectType)
         {
@@ -31,37 +29,37 @@ internal static class CombatEvents
         }
 
         X += 16;
-        if (damageTypes.Contains(DamageType.Lightning))
+        if (damageTypes.Contains(DamageTypes.Lightning))
         {
             MakeEffect(BattleEffectType.DamLightning);
         }
 
-        if (damageTypes.Contains(DamageType.Fire))
+        if (damageTypes.Contains(DamageTypes.Fire))
         {
             MakeEffect(BattleEffectType.DamFire);
         }
 
-        if (damageTypes.Contains(DamageType.Poison))
+        if (damageTypes.Contains(DamageTypes.Poison))
         {
             MakeEffect(BattleEffectType.DamPoison);
         }
 
-        if (damageTypes.Contains(DamageType.Magic))
+        if (damageTypes.Contains(DamageTypes.Magic))
         {
             MakeEffect(BattleEffectType.DamMagic);
         }
 
-        if (damageTypes.Contains(DamageType.Holy))
+        if (damageTypes.Contains(DamageTypes.Holy))
         {
             MakeEffect(BattleEffectType.DamHoly);
         }
 
-        if (damageTypes.Contains(DamageType.Death))
+        if (damageTypes.Contains(DamageTypes.Death))
         {
             MakeEffect(BattleEffectType.DamDeath);
         }
 
-        if (damageTypes.Contains(DamageType.Cold))
+        if (damageTypes.Contains(DamageTypes.Cold))
         {
             MakeEffect(BattleEffectType.DamCold);
         }

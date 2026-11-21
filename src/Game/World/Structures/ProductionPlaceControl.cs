@@ -34,7 +34,7 @@ public sealed partial class ProductionPlaceControl(CustomNode owner) : Productio
         ProductionPlace productionPlace = ProductionPlace;
         sbyte hexY = productionPlace.HexY;
         sbyte hexX = productionPlace.HexX;
-        bool result = Settings.Unit.Place(hexX, hexY, L: productionPlace.HexLevel, productionPlace.Player, mode: Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea)) is not null;
+        bool result = Settings.Unit.Place(hexX, hexY, L: productionPlace.HexLevel, productionPlace.Player, mode: UnitPlaceModes.ScanArea) is not null;
         if (result && ProductionPlace.GetMagicSphere() != Magic.MagicSphere.None && Settings.Unit.ExpandAbility(155))
         {
             UnitEnchantment enchantment = Settings.Unit.GetAbilityData<UnitEnchantmentAbilityData>(155).Enchantment;

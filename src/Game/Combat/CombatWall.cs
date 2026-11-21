@@ -9,13 +9,13 @@ using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Combat;
 
 // WallType. HitPoints. Locked
 public class CombatWall : CombatObject
 {
+    private const DamageTypes AllDamageTypes = DamageTypes.Fire | DamageTypes.Cold | DamageTypes.Lightning | DamageTypes.Magic | DamageTypes.Poison | DamageTypes.Death | DamageTypes.Holy | DamageTypes.Physical | DamageTypes.Wall | DamageTypes.NonSpecific;
+
     // Combat.pas:1670
     public new const int ClassId = 131_759;
 
@@ -23,7 +23,7 @@ public class CombatWall : CombatObject
     public CombatWall(CustomNode owner) : base(owner)
     {
         Position = 128;
-        ControlMode = Set<CombatObjectControlModeElement>.Of();
+        ControlMode = CombatObjectControlModes.None;
     }
 
     private byte _wallType;
@@ -79,10 +79,10 @@ public class CombatWall : CombatObject
     public override sbyte GetResistance() => 3;
 
     // Combat.pas:1746
-    public override Set<DamageType> GetImmunityTypes()
+    public override DamageTypes GetImmunityTypes()
     {
-        Set<DamageType> result = Set<DamageType>.Of(DamageType.Wall);
-        return Set<DamageType>.Of().WithRange(0, (DamageType)9) - result;
+        DamageTypes result = DamageTypes.Wall;
+        return AllDamageTypes & ~result;
     }
 
     // Combat.pas:1740

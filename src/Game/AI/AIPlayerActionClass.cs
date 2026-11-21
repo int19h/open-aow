@@ -12,7 +12,7 @@ public sealed class AIPlayerActionClass
     private static readonly Catalog<Type, AIPlayerActionClass> s_catalog = new("AI player action class");
     private readonly Func<int> _priority;
 
-    private AIPlayerActionClass(EngineClass engineClass, Func<int> priority, Set<AIPlayerProcessPhase> supportedPhases)
+    private AIPlayerActionClass(EngineClass engineClass, Func<int> priority, AIPlayerProcessPhases supportedPhases)
     {
         Class = engineClass;
         _priority = priority;
@@ -23,7 +23,7 @@ public sealed class AIPlayerActionClass
     public string StorageKey => Class.StorageKey;
     // Abstract base actions register without invoking their abstract priority getter.
     public int Priority => _priority();
-    public Set<AIPlayerProcessPhase> SupportedPhases { get; }
+    public AIPlayerProcessPhases SupportedPhases { get; }
 
     public AIPlayerAction CreateInstance(CustomNode owner, EngineObject holder) => Class.Create<AIPlayerAction>(owner, holder: holder);
 

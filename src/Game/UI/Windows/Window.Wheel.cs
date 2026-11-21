@@ -13,7 +13,7 @@ public partial class Window
 
     // Children first. A child that handles the wheel stops it. Otherwise the page buttons, then
     // one vertical scroll bar. Containing the pointer does not by itself consume the wheel.
-    public override bool CheckMouseWheel(int steps, Set<ShiftState> shift, int X, int Y)
+    public override bool CheckMouseWheel(int steps, ShiftStates shift, int X, int Y)
     {
         if (steps == 0 || WindowManager is null || !Visible || !ContainsPoint(X, Y))
         {

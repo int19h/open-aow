@@ -446,7 +446,7 @@ public sealed partial class WindowManager : UIComponent
     }
 
     // AOWWinManager.pas:449
-    public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int x, int y)
+    public override void CheckMouseDown(MouseButton button, ShiftStates shift, int x, int y)
     {
         Handled = false;
         for (int i = Children.Count - 1; i >= 0; i--)
@@ -472,7 +472,7 @@ public sealed partial class WindowManager : UIComponent
     }
 
     // AOWWinManager.pas:473
-    public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton button, ShiftStates shift, int X, int Y)
     {
         Handled = false;
         for (int i = Children.Count - 1; i >= 0; i--)
@@ -496,7 +496,7 @@ public sealed partial class WindowManager : UIComponent
     }
 
     // AOWWinManager.pas:494
-    public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseMove(ShiftStates shift, int X, int Y)
     {
         Handled = false;
         _oldCursor = base.Cursor;
@@ -601,7 +601,7 @@ public sealed partial class WindowManager : UIComponent
     }
 
     // AOWWinManager.pas:578
-    public override void CheckKeyDown(ref ushort key, Set<ShiftState> shift)
+    public override void CheckKeyDown(ref ushort key, ShiftStates shift)
     {
         Handled = false;
         for (int i = Children.Count - 1; i >= 0; i--)

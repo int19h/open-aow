@@ -51,7 +51,7 @@ public partial class GameEngine : OwningNode
 
     private string _startupDirectory = "";
 
-    public Set<EngineUserElement> User { get; private set; }
+    public EngineUsers User { get; private set; }
 
     // Create sets this before the instance exists. InitializeBeforeInherited reads it from the
     // base constructor, which runs before the body below.
@@ -68,13 +68,13 @@ public partial class GameEngine : OwningNode
     private protected GameEngine(ConstructionContext context, CustomNode owner) : base(context, owner)
     {
         UpdateStartupDirectory();
-        Options = Set<EngineModeElement>.Of(VerifyClasses);
+        Options = VerifyClasses;
         DebugEventsStore = new();
         EngineClasses = [];
         ClassTable = [];
         Editors = new EngineObjectEditorList();
         ControlNode = new ControlStyleNode(this);
-        ControlNode.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Shared));
+        ControlNode.SetControlStyle(EngineServices.Shared);
         RegisterEngineClasses([EngineClass.Of<ControlStyleObject>(), EngineClass.Of<ControlStyleNode>(), EngineClass.Of<EngineNode>(), EngineClass.Of<ResourceEditSettings>()]);
         if (!s_fullConstruction)
         {
@@ -94,7 +94,7 @@ public partial class GameEngine : OwningNode
         HssFileName = "noname.hss";
         CreateHexSpriteSet();
 
-        Options -= Set<EngineModeElement>.Of(EngineModeElement.VerifyEObjects);
+        Options &= ~EngineModes.VerifyEObjects;
         RegisterEngineClasses([EngineClass.Of<GamePack>(), EngineClass.Of<StrategicMap>(), EngineClass.Of<MapLevel>(), EngineClass.Of<Campaign>(), EngineClass.Of<CampaignScenario>()]);
         RegisterEngineClasses([EngineClass.Of<Player>(), EngineClass.Of<Race>(), EngineClass.Of<Unit>(), EngineClass.Of<RaceResource>(), EngineClass.Of<UnitGraphicsResource>(), EngineClass.Of<UnitResource>(), EngineClass.Of<UnitHexSprite>()]);
         RegisterEngineClasses([EngineClass.Of<Hero>(), EngineClass.Of<HeroResource>(), EngineClass.Of<HeroUpgradeTokenEvent>(), EngineClass.Of<HeroJoinEventLog>(), EngineClass.Of<HeroEmergeEventLog>(), EngineClass.Of<Leader>(), EngineClass.Of<ItemGraphics>(), EngineClass.Of<Item>(), EngineClass.Of<ItemTokenEvent>(), EngineClass.Of<ItemHexSprite>(), EngineClass.Of<FaceResource>()]);
@@ -521,7 +521,7 @@ public partial class GameEngine : OwningNode
     }
 
     public string StartupDirectory { get => _startupDirectory; set => SetStartupDirectory(value); }
-    public Set<EngineModeElement> Options { get; internal set; }
+    public EngineModes Options { get; internal set; }
 
     // Engine.pas:1126
     public bool VerifyEngineObjectClass(EngineClass type)
@@ -532,7 +532,7 @@ public partial class GameEngine : OwningNode
         return true;
     }
 
-    internal const EngineModeElement VerifyClasses = 0;
+    internal const EngineModes VerifyClasses = EngineModes.VerifyEObjects;
 
     private static void InitializeMessage(out EngineMessage message, int messageId, EngineObject sender, int sequence)
     {

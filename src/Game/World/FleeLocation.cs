@@ -50,7 +50,7 @@ public class FleeLocation(CustomNode owner) : MapObject(owner)
     {
         base.Activate();
         CombatMap.Current.NewFrameEvents += NewFrame;
-        _highlighted = CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting);
+        _highlighted = CombatMap.Current.Status.Contains(HexSpriteMapStatuses.Editting);
         _alpha = _highlighted ? 50 : 0;
 
         CombatMap.Current.FleeLocations.Add(this);
@@ -93,7 +93,7 @@ public class FleeLocation(CustomNode owner) : MapObject(owner)
     public void NewFrame(object sender)
     {
         bool highlight = false;
-        if (CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (CombatMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             highlight = true;
         }

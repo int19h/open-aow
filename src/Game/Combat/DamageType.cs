@@ -13,5 +13,5 @@ public enum DamageType : byte
     Holy = 6,
     Physical = 7,
     Wall = 8,
-    None = 9
+    NonSpecific = 9
 }

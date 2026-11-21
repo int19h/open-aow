@@ -13,8 +13,6 @@ using Aow.Game.Net;
 using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
-
-using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.World.Structures;
@@ -73,7 +71,7 @@ public partial class ExplorationSite : Structure
     // ExploreS.pas:217
     public override bool CanSelect(int pixelX, int pixelY)
     {
-        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             HexGeometry.PixelToHex(pixelX, vertical: pixelY, out int hexX, out int hexY);
             return Owner.HexX == hexX && Owner.HexY == hexY && base.CanSelect(pixelX, pixelY);
@@ -345,7 +343,7 @@ public partial class ExplorationSite : Structure
 
             try
             {
-                _ = Int32List.FillWithRandomUnits(list, _defenders.Units, level: 4, value: (int)_defendersMode * 50, types: Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
+                _ = Int32List.FillWithRandomUnits(list, _defenders.Units, level: 4, value: (int)_defendersMode * 50, types: UnitTypes.Humanoid | UnitTypes.Creature | UnitTypes.Machine);
             }
             catch
             {

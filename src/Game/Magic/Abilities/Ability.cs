@@ -45,7 +45,7 @@ public class Ability : EngineObject
     public SfxLibrary SfxLibrary { get; }
     public ImageSequenceList ImageSequences { get; init; }
 
-    public Set<AbilitySelectionType> SelectionTypes { get; set; }
+    public AbilitySelectionTypes SelectionTypes { get; set; }
 
     // Ability.PAS:1245
     public override void Dispose()
@@ -94,22 +94,22 @@ public class Ability : EngineObject
     public virtual sbyte GetDamage(AbilityOwner owner) => 0;
 
     // Ability.PAS:1472
-    public virtual Set<MoveType> GetMoveTypes(AbilityOwner owner) => s_emptyMoveTypes;
+    public virtual MoveTypes GetMoveTypes(AbilityOwner owner) => s_emptyMoveTypes;
 
     // Ability.PAS:1482
     public virtual int GetLevel(AbilityOwner owner) => 0;
 
     // Ability.PAS:1550
-    public virtual Set<DamageType> GetImmunityTypes(AbilityOwner owner) => s_emptyDamageTypes;
+    public virtual DamageTypes GetImmunityTypes(AbilityOwner owner) => s_emptyDamageTypes;
 
     // Ability.PAS:1555
-    public virtual Set<DamageType> GetProtectionTypes(AbilityOwner owner) => s_emptyDamageTypes;
+    public virtual DamageTypes GetProtectionTypes(AbilityOwner owner) => s_emptyDamageTypes;
 
     // Ability.PAS:1268
     public virtual CombatMode GetCombatMode(AbilityOwner owner) => 0;
 
     // Ability.PAS:1341
-    public virtual Set<WallCombatFeaturesElement> GetWallCombatFeatures(AbilityOwner owner) => s_emptyWallFeatures;
+    public virtual WallCombatFeatures GetWallCombatFeatures(AbilityOwner owner) => s_emptyWallFeatures;
 
     // Ability.PAS:1256
     public virtual string GetSourceName(AbilityOwner owner) => owner.GetOwnerName();
@@ -118,7 +118,7 @@ public class Ability : EngineObject
     public virtual int GetInherentLevel(AbilityOwner owner) => 0;
 
     // Ability.PAS:1264
-    public virtual Set<AbilityControlTypeElement> GetControlType(AbilityOwner owner) => s_emptyControlType;
+    public virtual AbilityControlTypes GetControlType(AbilityOwner owner) => s_emptyControlType;
 
     // Ability.PAS:1298
     // { Original leaves Reserved untouched. }
@@ -133,7 +133,7 @@ public class Ability : EngineObject
         bool value = distance >= target.FastBattleRoundDistance();
         if (value && source is CombatUnit sourceUnit && sourceUnit.Troop is Hero)
         {
-            value = value && ((((byte)source.Status.Image) & 16) != 0 || source.FastBattleRoundDistance() <= source.Combat.RoundDistance + 2);
+            value = value && ((((byte)source.Status) & 16) != 0 || source.FastBattleRoundDistance() <= source.Combat.RoundDistance + 2);
         }
 
         return value;
@@ -172,7 +172,7 @@ public class Ability : EngineObject
     public virtual bool CanActivate(AbilityOwner owner, ref string reason)
     {
         reason = "";
-        return GetControlType(owner).Contains(AbilityControlTypeElement.Action);
+        return GetControlType(owner).Contains(AbilityControlTypes.Action);
     }
 
     // Ability.PAS:1606
@@ -202,7 +202,7 @@ public class Ability : EngineObject
     public virtual bool CanActivateCombat(AbilityOwner owner, out string reason)
     {
         reason = "";
-        return GetControlType(owner).Contains(AbilityControlTypeElement.CombatAction);
+        return GetControlType(owner).Contains(AbilityControlTypes.CombatAction);
     }
 
     // Ability.PAS:1637
@@ -255,7 +255,7 @@ public class Ability : EngineObject
     }
 
     // Ability.PAS:1487
-    public virtual void GetOffensiveStrength(AbilityOwner owner, ref int strength, ref Set<DamageType> types)
+    public virtual void GetOffensiveStrength(AbilityOwner owner, ref int strength, ref DamageTypes types)
     {
         strength = 0;
         types = s_emptyDamageTypes;
@@ -306,11 +306,11 @@ public class Ability : EngineObject
     }
 
     // Ability.PAS:1492
-    public virtual void ListInfo(DelphiStringCollection text, Set<AbilityInfoModeElement> mode)
+    public virtual void ListInfo(DelphiStringCollection text, AbilityInfoModes mode)
     {
         _ = text.Add($"Name: {GetName(null)}");
         _ = text.Add("-------------------------------------------------");
-        if (mode.Contains(AbilityInfoModeElement.Id))
+        if (mode.Contains(AbilityInfoModes.Id))
         {
             _ = text.Add($"ID: {AbilityId.ToString(CultureInfo.InvariantCulture)}");
         }
@@ -337,7 +337,7 @@ public class Ability : EngineObject
             _ = text.Add($"Resistance modifier: {((int)GetResistance(null)).ToString(CultureInfo.InvariantCulture)}");
         }
 
-        if (mode.Contains(AbilityInfoModeElement.Description))
+        if (mode.Contains(AbilityInfoModes.Description))
         {
             _ = text.Add("Description: ");
             text.AddStrings(Description);
@@ -349,7 +349,7 @@ public class Ability : EngineObject
             _ = text.Add($"Combat mode: {AbilityRules.TranslateResourceString(GetEngine(), S: s_combatModeTexts[(int)combatMode])}");
         }
 
-        if (mode.Contains(AbilityInfoModeElement.Statistics))
+        if (mode.Contains(AbilityInfoModes.Statistics))
         {
             AbilityCombatInfo info = default;
             GetCombatInfo(null, ref info);
@@ -368,13 +368,13 @@ public class Ability : EngineObject
                 _ = text.Add($"Repeat: {((int)info.RepeatCount).ToString(CultureInfo.InvariantCulture)}");
             }
 
-            if (info.DamageTypes != Set<DamageType>.Of())
+            if (info.DamageTypes != DamageTypes.None)
             {
                 string damageNames = "";
-                for (int damageTypeOrdinal = (int)DamageType.Fire; damageTypeOrdinal <= (int)DamageType.None; damageTypeOrdinal++)
+                for (int damageTypeOrdinal = (int)DamageType.Fire; damageTypeOrdinal <= (int)DamageType.NonSpecific; damageTypeOrdinal++)
                 {
                     DamageType damageType = (DamageType)damageTypeOrdinal;
-                    if (info.DamageTypes.Contains(damageType))
+                    if (info.DamageTypes.Contains(damageType.ToFlag()))
                     {
                         if (!IsEmpty(damageNames))
                         {
@@ -389,9 +389,9 @@ public class Ability : EngineObject
             }
         }
 
-        if (mode.Contains(AbilityInfoModeElement.Strength))
+        if (mode.Contains(AbilityInfoModes.Strength))
         {
-            Set<DamageType> types = default;
+            DamageTypes types = default;
             int strength = default;
             GetOffensiveStrength(null, ref strength, ref types);
             if (strength != 0)
@@ -407,7 +407,7 @@ public class Ability : EngineObject
         ref AbilityCombatInfo abilityCombatInfo = ref info;
         abilityCombatInfo.Attack = -1;
         abilityCombatInfo.Damage = -1;
-        abilityCombatInfo.DamageTypes = Set<DamageType>.Of();
+        abilityCombatInfo.DamageTypes = DamageTypes.None;
         abilityCombatInfo.RepeatCount = -1;
     }
 
@@ -441,8 +441,8 @@ public class Ability : EngineObject
 
     private static readonly ImmutableArray<string> s_combatModeTexts = ["", "", "", "", "", ""];
     private static readonly ImmutableArray<string> s_damageTypeTexts = ["", "", "", "", "", "", "", "", "", ""];
-    private static readonly Set<MoveType> s_emptyMoveTypes = Set<MoveType>.FromMask(0uL);
-    private static readonly Set<DamageType> s_emptyDamageTypes = Set<DamageType>.FromMask(0uL);
-    private static readonly Set<WallCombatFeaturesElement> s_emptyWallFeatures = Set<WallCombatFeaturesElement>.FromMask(0uL);
-    private static readonly Set<AbilityControlTypeElement> s_emptyControlType = Set<AbilityControlTypeElement>.FromMask(0uL);
+    private static readonly MoveTypes s_emptyMoveTypes = MoveTypes.None;
+    private static readonly DamageTypes s_emptyDamageTypes = DamageTypes.None;
+    private static readonly WallCombatFeatures s_emptyWallFeatures = WallCombatFeatures.None;
+    private static readonly AbilityControlTypes s_emptyControlType = AbilityControlTypes.None;
 }

@@ -66,7 +66,7 @@ public partial class MapContainer(CustomNode owner) : OwningNode(owner), IChildL
     // original main visit does, so the load skips them.
     public override void MainPersist(IPersister persister)
     {
-        if (!Owner.Status.Contains(HexSpriteMapStatusElement.PreviewMode))
+        if (!Owner.Status.Contains(HexSpriteMapStatuses.PreviewMode))
         {
             base.MainPersist(persister);
         }

@@ -131,7 +131,7 @@ public sealed partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWPInfoWin.pas:109
-    public void EventListMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public void EventListMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
         if (EventList.Selected > -1 && button == MouseButton.Right)
         {
@@ -169,7 +169,7 @@ public sealed partial class PlayerInfoWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWPInfoWin.pas:149
-    public void FaceFrMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public void FaceFrMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
         if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Leader is not null)
         {

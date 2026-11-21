@@ -8,8 +8,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Commands;
 
 public class RejuvenateTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(owner)
@@ -26,7 +24,7 @@ public class RejuvenateTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEven
         if (StrategicMap.Current.TerrainVisible((sbyte)(byte)Location.X, (sbyte)(byte)Location.Y, L: (sbyte)(byte)Location.MapLevel, radius: 2))
         {
             TwinkleAnimation twinkle = new(null) { Holder = CreationHolder() };
-            twinkle.Setup(GamePack.Current.SpellControl[41].CastImages.ImageSequences[0], mode: Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), count: 100, radius: 64, duration: 50, startDelay: 30);
+            twinkle.Setup(GamePack.Current.SpellControl[41].CastImages.ImageSequences[0], mode: TwinkleModes.Rotate, count: 100, radius: 64, duration: 50, startDelay: 30);
             _ = StrategicMap.Current.PlaceHex(twinkle, Location.X, Location.Y, L: Location.MapLevel);
         }
 
@@ -46,7 +44,7 @@ public class RejuvenateTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEven
     // GlobalTargetSpells.pas:1039
     public void RejuvenateTerrain(MapField mapField, ref sbyte terrainType, in sbyte overlayType)
     {
-        if (Set<byte>.WithBounds(0, 255).WithRange((int)TerrainType.Desert, (int)TerrainType.Wasteland).Contains((byte)terrainType))
+        if (terrainType is >= (sbyte)TerrainType.Desert and <= (sbyte)TerrainType.Wasteland)
         {
             terrainType = (int)TerrainType.Grass;
         }

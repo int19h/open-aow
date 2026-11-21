@@ -5,14 +5,12 @@ using Aow.Game.Draw;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Combat;
 
 public class CombatMoveControl(GameMap owner) : MoveControl(owner)
 {
     public TacticalBattleUnitHexSprite UnitHexSprite { get; set; }
-    public Set<CombatMoveModeElement> MoveFlags { get; private set; }
+    public CombatMoveModes MoveFlags { get; private set; }
 
     // AoWTC.pas:2716
     public override void ProcessMove(MoveControlSettings settings)

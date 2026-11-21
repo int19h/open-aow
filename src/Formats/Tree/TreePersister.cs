@@ -235,10 +235,16 @@ internal sealed class MemberPersister : IPersister
         return value;
     }
 
-    public Set<E> Set<E>(string name, Set<E> value) where E : unmanaged, Enum
+    public F Set<F>(string name, F value) where F : unmanaged, Enum
     {
-        int width = default(Set<E>).StorageSize;
-        string typeName = NameTable.Stored(typeof(E));
+        if (!FlagsExtensions.IsFlags(typeof(F)))
+        {
+            throw new InvalidOperationException($"{typeof(F).Name} is not a flags enum.");
+        }
+
+        int width = FlagsExtensions.StorageSize(typeof(F));
+        Type element = FlagsExtensions.StoredElement(typeof(F));
+        string typeName = NameTable.Stored(element);
         if (width is < 1 or > 8)
         {
             throw new InvalidOperationException("A set image is 1 to 8 bytes.");
@@ -249,18 +255,12 @@ internal sealed class MemberPersister : IPersister
             TreeValue? found = Take(name);
             return found is null
                 ? value
-                : found is not SetNode node || !NameTable.Names(typeof(E), name: node.TypeName) || node.Width != width
+                : found is not SetNode node || !NameTable.Names(element, name: node.TypeName) || node.Width != width
                 ? throw Type(name, expected: $"a set of {typeName}")
-                : Rtl.Set<E>.FromMask(node.Mask);
-        }
-        Span<byte> image = stackalloc byte[width];
-        value.CopyImageTo(image);
-        ulong mask = 0;
-        for (int i = 0; i < width; i++)
-        {
-            mask |= (ulong)image[i] << (8 * i);
+                : FlagsExtensions.FromBits<F>(node.Mask);
         }
 
+        ulong mask = FlagsExtensions.Bits(value) & (width == 8 ? ulong.MaxValue : (1UL << (8 * width)) - 1);
         Store(name, new SetNode(typeName, width, mask));
         return value;
     }

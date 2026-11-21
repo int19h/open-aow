@@ -1,6 +1,5 @@
 // Translated from Engine.pas.
 using Aow.Formats.Tree;
-using Aow.Rtl;
 
 namespace Aow.Engine.Nodes;
 
@@ -12,13 +11,13 @@ public class ControlStyleNode : OwningNode
 
     public ControlStyleNode(CustomNode owner) : base(owner) => _controlStyle = base.GetControlStyle();
 
-    private Set<ControlStyleElement> _controlStyle;
+    private ControlStyles _controlStyle;
 
     // Engine.pas:8204
-    public override Set<ControlStyleElement> GetControlStyle() => _controlStyle;
+    public override ControlStyles GetControlStyle() => _controlStyle;
 
     // Engine.pas:8209
-    public void SetControlStyle(Set<ControlStyleElement> value) => _controlStyle = value;
+    public void SetControlStyle(ControlStyles value) => _controlStyle = value;
 
     // Engine.pas:8214
     public override void PersistFields(IPersister persister)

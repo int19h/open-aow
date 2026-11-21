@@ -61,7 +61,7 @@ public sealed partial class PersistEquivalenceTests
                 Holder = EngineFixture.Engine,
                 HeroName = "Updating",
                 Player = 2,
-                Mode = Set<HeroModeElement>.Of(HeroModeElement.UpdatingFromLibrary)
+                Mode = HeroModes.UpdatingFromLibrary
             };
             JsonObject written = DocumentBackend.Write(TreeWriter.Write(updating, Factory), classValue, s_schema, engine: "game");
             Assert.Null(written.Find("Inventory"));
@@ -95,7 +95,7 @@ public sealed partial class PersistEquivalenceTests
             {
                 Holder = EngineFixture.Engine,
                 Player = player,
-                Mode = Set<HeroModeElement>.Of(HeroModeElement.UpdatingFromLibrary)
+                Mode = HeroModes.UpdatingFromLibrary
             };
             return hero;
         }

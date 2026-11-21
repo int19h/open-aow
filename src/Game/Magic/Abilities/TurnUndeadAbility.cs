@@ -11,8 +11,6 @@ using Aow.Game.Units;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiRounding;
 
@@ -25,7 +23,7 @@ public class TurnUndeadAbility : TouchAbility
     {
         Holder = holder;
         AbilityId = 38;
-        SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.HeadItem, AbilitySelectionType.TorsoItem, AbilitySelectionType.DefenseItem, AbilitySelectionType.RingItem, AbilitySelectionType.UseItem, AbilitySelectionType.Editor);
+        SelectionTypes = AbilitySelectionTypes.Unit | AbilitySelectionTypes.HeadItem | AbilitySelectionTypes.TorsoItem | AbilitySelectionTypes.DefenseItem | AbilitySelectionTypes.RingItem | AbilitySelectionTypes.UseItem | AbilitySelectionTypes.Editor;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.TurnUndeadText);
         AbilityType = AbilityType.Combat;
     }
@@ -76,7 +74,7 @@ public class TurnUndeadAbility : TouchAbility
     }
 
     // AoWAb.PAS:3204
-    public override bool CanExpand(AbilityOwner owner) => (owner.GetAbilitySelectionTypes() & SelectionTypes) != Set<AbilitySelectionType>.Of() && GetLevel(owner) < 4;
+    public override bool CanExpand(AbilityOwner owner) => (owner.GetAbilitySelectionTypes() & SelectionTypes) != AbilitySelectionTypes.None && GetLevel(owner) < 4;
 
     // AoWAb.PAS:3199
     public override int ExpandCost(AbilityOwner owner)
@@ -145,7 +143,7 @@ public class TurnUndeadAbility : TouchAbility
     // AoWAb.PAS:3293
     public override int GetDamageValue(Troop attacker, Troop defender)
     {
-        if (CanTouchUnit(attacker, target: defender) && !defender.GetImmunityTypes().Contains(DamageType.None))
+        if (CanTouchUnit(attacker, target: defender) && !defender.GetImmunityTypes().Contains(DamageTypes.NonSpecific))
         {
             float probability = TouchRoleProbability(attacker, target: defender);
             return Round((double)((double)defender.GetHitPoints() * probability) * 100);
@@ -159,7 +157,7 @@ public class TurnUndeadAbility : TouchAbility
     // AoWAb.PAS:3305
     public override void GetDamageValues(Troop attacker, Troop defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
-        if (wallSituation == WallSituation.None && CanTouchUnit(attacker, target: defender) && !defender.GetImmunityTypes().Contains(DamageType.None))
+        if (wallSituation == WallSituation.None && CanTouchUnit(attacker, target: defender) && !defender.GetImmunityTypes().Contains(DamageTypes.NonSpecific))
         {
             float probability = TouchRoleProbability(attacker, target: defender);
             int hitPoints = defender.GetHitPoints();
@@ -169,7 +167,7 @@ public class TurnUndeadAbility : TouchAbility
             damageValues.TargetDamage = Round(unitStrikeDamageValue * ((double)1 - probability));
             int statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: attacker.GetProtectionTypes(), damageTypes: GamePack.Current.AbilityControl.GetAbility<StrikeAbility>(21).GetDamageTypes(defender), immunityTypes: attacker.GetImmunityTypes(), damage: defender.GetDamage());
             damageValues.TargetCost = statisticsToMaxDamage;
-            damageValues.DamageTypes = Set<DamageType>.Of(DamageType.Holy);
+            damageValues.DamageTypes = DamageTypes.Holy;
         }
         else
         {
@@ -177,12 +175,12 @@ public class TurnUndeadAbility : TouchAbility
             damageValues.SourceCost = 0;
             damageValues.TargetDamage = 0;
             damageValues.TargetCost = 0;
-            damageValues.DamageTypes = Set<DamageType>.Of();
+            damageValues.DamageTypes = DamageTypes.None;
         }
     }
 
     // AoWAb.PAS:3168
-    public override void GetOffensiveStrength(AbilityOwner owner, ref int strength, ref Set<DamageType> types)
+    public override void GetOffensiveStrength(AbilityOwner owner, ref int strength, ref DamageTypes types)
     {
         if (owner is Troop troop)
         {
@@ -194,7 +192,7 @@ public class TurnUndeadAbility : TouchAbility
 
             strength = Round(troop.GetAttack() * 4 * damage * 0.1);
             // { Original reports death damage here, although the attack deals holy damage. }
-            types = Set<DamageType>.Of(DamageType.Death);
+            types = DamageTypes.Death;
         }
     }
 
@@ -211,7 +209,7 @@ public class TurnUndeadAbility : TouchAbility
             damageValues.TargetDamage = Round(strikeDamageValue * ((double)1 - probability));
             int statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: attacker.GetProtectionTypes(), immunityTypes: attacker.GetImmunityTypes(), damageTypes: CombatObject.MeleeDamageTypes(defender), damage: defender.GetDamage());
             damageValues.TargetCost = statisticsToMaxDamage;
-            damageValues.DamageTypes = Set<DamageType>.Of(DamageType.Holy);
+            damageValues.DamageTypes = DamageTypes.Holy;
         }
         else
         {
@@ -219,7 +217,7 @@ public class TurnUndeadAbility : TouchAbility
             damageValues.SourceCost = 0;
             damageValues.TargetDamage = 0;
             damageValues.TargetCost = 0;
-            damageValues.DamageTypes = Set<DamageType>.Of();
+            damageValues.DamageTypes = DamageTypes.None;
         }
     }
 
@@ -231,9 +229,9 @@ public class TurnUndeadAbility : TouchAbility
         info.Attack = touchAttack;
         sbyte turnUndeadDamage = GetTurnUndeadDamage(level);
         info.Damage = turnUndeadDamage;
-        info.DamageTypes = Set<DamageType>.Of(DamageType.Holy);
+        info.DamageTypes = DamageTypes.Holy;
         info.RepeatCount = 1;
-        info.TargetTypes = Set<CombatTargetTypeElement>.Of(CombatTargetTypeElement.Enemy);
+        info.TargetTypes = CombatTargetTypes.Enemy;
     }
 
     // AoWAb.PAS:3260
@@ -254,7 +252,7 @@ public class TurnUndeadAbility : TouchAbility
     {
         bool result = base.CanTouch(source, target);
         return result
-            ? source is CombatUnit && target is CombatUnit targetUnit && Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(targetUnit.Troop.GetUnitType()) && ((ushort)targetUnit.Troop.GetRace() == 11 || targetUnit.Troop.GetAbilityEnabled(129))
+            ? source is CombatUnit && target is CombatUnit targetUnit && targetUnit.Troop.GetUnitType() is UnitType.Humanoid or UnitType.Creature && ((ushort)targetUnit.Troop.GetRace() == 11 || targetUnit.Troop.GetAbilityEnabled(129))
             : result;
     }
 
@@ -265,7 +263,7 @@ public class TurnUndeadAbility : TouchAbility
         if (result)
         {
             UnitType unitType = target.GetUnitType();
-            return Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(unitType) && ((ushort)target.GetRace() == 11 || target.GetAbilityEnabled(129));
+            return unitType is UnitType.Humanoid or UnitType.Creature && ((ushort)target.GetRace() == 11 || target.GetAbilityEnabled(129));
         }
 
         return result;
@@ -312,7 +310,7 @@ public class TurnUndeadAbility : TouchAbility
         if (HitChance.HitRole(source.GetAttack() - target.GetDefense()))
         {
             int level = source.GetAbilityLevel(AbilityId);
-            action.Generate(damage: GetTurnUndeadDamage(level), source: source, target: target, attack: GetTouchAttack(level), damageTypes: Set<DamageType>.Of(DamageType.Holy), damageMode: 1);
+            action.Generate(damage: GetTurnUndeadDamage(level), source: source, target: target, attack: GetTouchAttack(level), damageTypes: DamageTypes.Holy, damageMode: 1);
         }
         else
         {

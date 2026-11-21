@@ -22,7 +22,7 @@ public partial class AIPlayerAction(CustomNode owner) : EngineObject(owner), IAI
     public virtual bool Setup(AIPlayerControl control, AIPlayerProcessPhase phase)
     {
         Control = control;
-        return ActionClass.SupportedPhases.Contains(phase);
+        return ActionClass.SupportedPhases.Contains(phase.ToFlag());
     }
 
     // AI.pas:17
@@ -48,6 +48,6 @@ public partial class AIPlayerAction(CustomNode owner) : EngineObject(owner), IAI
     public static int Priority => throw AbstractErrorException.Create("Abstract Error");
 
     // AI.pas:1
-    public static Set<AIPlayerProcessPhase> SupportedPhases => Set<AIPlayerProcessPhase>.Of(AIPlayerProcessPhase.Main);
+    public static AIPlayerProcessPhases SupportedPhases => AIPlayerProcessPhases.Main;
 
 }

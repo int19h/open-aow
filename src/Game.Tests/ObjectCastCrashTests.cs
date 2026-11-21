@@ -1,7 +1,6 @@
 #nullable disable
 using Aow.Game.Audio;
 using Aow.Game.Draw.Animations;
-
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Abilities.Passive;
 using Aow.Game.Magic.Spells;
@@ -14,8 +13,8 @@ using Aow.Game.World;
 using Aow.Game.World.Hexes;
 using Aow.Game.World.Map;
 using Aow.Game.World.Terrain;
-using HolySummoning = Aow.Game.Magic.Spells.HolySummoning;
-using UnholySummoning = Aow.Game.Magic.Spells.UnholySummoning;
+using HolySummonings = Aow.Game.Magic.Spells.HolySummonings;
+using UnholySummonings = Aow.Game.Magic.Spells.UnholySummonings;
 
 namespace Aow.Game.Tests;
 
@@ -119,35 +118,35 @@ public sealed class ObjectCastCrashTests
 
         HolyGround holy = new(null) { Holder = EngineFixture.Engine };
         Own(holy, scope.Field);
-        holy.Mode = Set<HolySummoning>.Of(HolySummoning.Summoning);
+        holy.Mode = HolySummonings.Summoning;
         holy.NewFrameSummonAnimation(animation, frameCounter: 8);
-        Assert.True(holy.Mode.Contains(HolySummoning.Summoning));
+        Assert.True(holy.Mode.Contains(HolySummonings.Summoning));
         holy.NewFrameSummonAnimation(animation, frameCounter: 9);
-        Assert.False(holy.Mode.Contains(HolySummoning.Summoning));
+        Assert.False(holy.Mode.Contains(HolySummonings.Summoning));
 
         UnholyGround unholy = new(null) { Holder = EngineFixture.Engine };
         Own(unholy, scope.Field);
-        unholy.Mode = Set<UnholySummoning>.Of(UnholySummoning.Summoning);
+        unholy.Mode = UnholySummonings.Summoning;
         unholy.NewFrameSummonAnimation(animation, frameCounter: 8);
-        Assert.True(unholy.Mode.Contains(UnholySummoning.Summoning));
+        Assert.True(unholy.Mode.Contains(UnholySummonings.Summoning));
         unholy.NewFrameSummonAnimation(animation, frameCounter: 9);
-        Assert.False(unholy.Mode.Contains(UnholySummoning.Summoning));
+        Assert.False(unholy.Mode.Contains(UnholySummonings.Summoning));
 
         PoisonPlant plant = new(null) { Holder = EngineFixture.Engine };
         Own(plant, scope.Field);
-        plant.PlantStatus = Set<PoisonPlantStatusElement>.Of(PoisonPlantStatusElement.Summoning);
+        plant.PlantStatus = PoisonPlantStatuses.Summoning;
         plant.NewFrameSummonAnimation(animation, frameCounter: 8);
-        Assert.True(plant.PlantStatus.Contains(PoisonPlantStatusElement.Summoning));
+        Assert.True(plant.PlantStatus.Contains(PoisonPlantStatuses.Summoning));
         plant.NewFrameSummonAnimation(animation, frameCounter: 9);
-        Assert.False(plant.PlantStatus.Contains(PoisonPlantStatusElement.Summoning));
+        Assert.False(plant.PlantStatus.Contains(PoisonPlantStatuses.Summoning));
 
         RaisedMountain mountain = new(null) { Holder = EngineFixture.Engine };
         Own(mountain, scope.Field);
-        mountain.Mode = Set<RaisedMountainMode>.Of(RaisedMountainMode.Raising);
+        mountain.Mode = RaisedMountainModes.Raising;
         mountain.NewFrameRaiseTerrainAnimation(animation, frameCounter: 8);
-        Assert.True(mountain.Mode.Contains(RaisedMountainMode.Raising));
+        Assert.True(mountain.Mode.Contains(RaisedMountainModes.Raising));
         mountain.NewFrameRaiseTerrainAnimation(animation, frameCounter: 9);
-        Assert.False(mountain.Mode.Contains(RaisedMountainMode.Raising));
+        Assert.False(mountain.Mode.Contains(RaisedMountainModes.Raising));
     }
 
     [Fact]

@@ -10,8 +10,6 @@ using Aow.Game.Magic;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Session;
 
 // { Interface declaration run owned by P1. }
@@ -123,7 +121,7 @@ public sealed class Race(CustomNode owner) : EngineObject(owner), IOwned<RaceLis
     {
         if (StrategicMap.Current.Day != 1)
         {
-            if ((StrategicMap.Current.GlobalMagicControl.ActiveEnchantments & Set<GlobalEnchantmentType>.Of(GlobalEnchantmentType.Hatred, GlobalEnchantmentType.Harmony)) == Set<GlobalEnchantmentType>.Of())
+            if ((StrategicMap.Current.GlobalMagicControl.ActiveEnchantments & (GlobalEnchantmentTypes.Hatred | GlobalEnchantmentTypes.Harmony)) == GlobalEnchantmentTypes.None)
             {
                 for (int i = 0, last = _playerRelations.Count - 1; i <= last; i++)
                 {

@@ -54,7 +54,7 @@ public class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(owner)
         {
             SetupCP(target);
             CombatResult execute = CombatPredictor.Execute();
-            if (Set<CombatResult>.Of(CombatResult.Victory, CombatResult.Defeat, CombatResult.NoDefenders).Contains(execute))
+            if (execute is CombatResult.Victory or CombatResult.Defeat or CombatResult.NoDefenders)
             {
                 if (CombatPredictor.GetSuperiority() > 80)
                 {
@@ -171,11 +171,11 @@ public class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(owner)
                     Holder = CreationHolder(),
                     Player = Group.Player
                 };
-                settings.Mode += Set<MoveModeElement>.Of(MoveModeElement.AI);
+                settings.Mode |= MoveModes.AI;
                 settings.SetSourcePosition(Location);
                 settings.SetDestinationPosition(Group.PatrolFrom);
                 settings.MovePointsMax = 48;
-                settings.Mode += Set<MoveModeElement>.Of(MoveModeElement.IgnoreArmies);
+                settings.Mode |= MoveModes.IgnoreArmies;
                 settings.ArmyHexSprite = ArmyHexSprite;
                 settings.Selection = Selection;
                 settings.MovePointTable = MovePointTable;
@@ -209,10 +209,10 @@ public class PatrolAIGroupControl(CustomNode owner) : AIGroupControl(owner)
             Holder = CreationHolder(),
             Player = group.Player
         };
-        settings.Mode += Set<MoveModeElement>.Of(MoveModeElement.AI, MoveModeElement.IgnoreArmies);
+        settings.Mode |= MoveModes.AI | MoveModes.IgnoreArmies;
         settings.SetSourcePosition(group.PatrolFrom);
         settings.MovePointsMax = 48;
-        settings.Mode += Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields);
+        settings.Mode |= MoveModes.LogProcessedMapFields;
         settings.ArmyHexSprite = ArmyHexSprite;
         settings.Selection = Selection;
         settings.MovePointTable = MovePointTable;

@@ -9,8 +9,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
-using Aow.Rtl;
-
 namespace Aow.Game.AI;
 
 // control, selector, range, step, target range, mode
@@ -24,7 +22,7 @@ public class AIRecruitmentGroupFinder : AIGroupTask
     private int _range;
     private int _step;
     private int _targetRange;
-    private Set<ModeElement> _mode;
+    private Modes _mode;
 
     // AIGroup.pas:1987
     public override void Dispose()
@@ -41,9 +39,9 @@ public class AIRecruitmentGroupFinder : AIGroupTask
     {
         _ = base.Activate(control);
         _control = control;
-        if (_mode.Contains(ModeElement.CalculateMovePathBfs))
+        if (_mode.Contains(Modes.CalculateMovePathBfs))
         {
-            _selector.Mode += Set<AIMoveTargetSelectorModeElement>.Of(AIMoveTargetSelectorModeElement.CreateMovePaths);
+            _selector.Mode |= AIMoveTargetSelectorModes.CreateMovePaths;
         }
 
         _ = _selector.Search(control);
@@ -78,7 +76,7 @@ public class AIRecruitmentGroupFinder : AIGroupTask
         targetInfo3.Mode = AITargetMode.Recruit;
         _selector.TargetInfo = targetInfo3;
         _selector.MovePointsMax = 75;
-        _mode += Set<ModeElement>.Of(ModeElement.CalculateMovePathBfs);
+        _mode |= Modes.CalculateMovePathBfs;
         return true;
     }
 
@@ -98,7 +96,7 @@ public class AIRecruitmentGroupFinder : AIGroupTask
                     group.Location = target.Location;
                     group.MovePoints = target.MovePoints;
                     group.TransporterId = target.TransporterId;
-                    if (_mode.Contains(ModeElement.CalculateMovePathBfs))
+                    if (_mode.Contains(Modes.CalculateMovePathBfs))
                     {
                         group.PathStrength = AbilityRules.GetMovePathBattleFieldStrength(_control.Group.Player, _control.Group.IndependentRelation, target.MovePath, _targetRange, _range, _step, engine: GetEngine());
                     }
@@ -113,7 +111,7 @@ public class AIRecruitmentGroupFinder : AIGroupTask
     // AIGroup.pas:2028
     public void Reset()
     {
-        _mode = Set<ModeElement>.Of();
+        _mode = Modes.None;
         _selector.Reset();
         _selector.SetTargetFoundHandler(RecruitGroupFoundEvent);
         _range = 8;
@@ -121,8 +119,10 @@ public class AIRecruitmentGroupFinder : AIGroupTask
         _targetRange = 5;
     }
 
-    public enum ModeElement : byte
+    [Flags]
+    public enum Modes : byte
     {
-        CalculateMovePathBfs = 0
+        None = 0,
+        CalculateMovePathBfs = 1 << 0,
     }
 }

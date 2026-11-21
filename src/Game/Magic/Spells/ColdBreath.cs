@@ -5,8 +5,6 @@ using Aow.Game.Combat;
 
 using Aow.Game.Magic.Abilities;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Spells;
 
 // inherited combat statistics, damage mode
@@ -21,7 +19,7 @@ public class ColdBreath : CombatSpell
         SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 6;
         spellCombatInfo.Damage = 5;
-        spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Cold);
+        spellCombatInfo.DamageTypes = DamageTypes.Cold;
         spellCombatInfo.RepeatCount = 1;
         spellCombatInfo.Range = 4;
 

@@ -24,8 +24,8 @@ public sealed unsafe class SdlAudioOutput : IDisposable
     public SdlAudioOutput(AudioMixer mixer, in SoundSettings settings, bool muted)
     {
         _mixer = mixer;
-        _channels = settings.OutputMode.Contains(SoundOutputModeElement.Mono) ? 1 : 2;
-        _bytesPerSample = settings.OutputMode.Contains(SoundOutputModeElement.Bits8) ? 1 : 2;
+        _channels = settings.OutputMode.Contains(SoundOutputModes.Mono) ? 1 : 2;
+        _bytesPerSample = settings.OutputMode.Contains(SoundOutputModes.Bits8) ? 1 : 2;
         _pcm = new float[Math.Max(1, settings.SampleRate / 20) * 2];
         _encoded = new byte[_pcm.Length / 2 * _channels * _bytesPerSample];
         try

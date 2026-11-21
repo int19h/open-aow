@@ -45,7 +45,7 @@ internal sealed class TranslatePersister(TranslateVisit stream, EngineObject nod
 
     public TEnum Enum<TEnum>(string name, TEnum value, TEnum fallback = default) where TEnum : struct, Enum => value;
 
-    public Set<E> Set<E>(string name, Set<E> value) where E : unmanaged, Enum => value;
+    public F Set<F>(string name, F value) where F : unmanaged, Enum => value;
 
     public bool Boolean(string name, bool value) => value;
 

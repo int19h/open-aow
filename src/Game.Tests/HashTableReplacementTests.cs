@@ -39,7 +39,7 @@ public sealed class HashTableReplacementTests
         {
             Holder = EngineFixture.Engine,
             UnitId = 4,
-            UnitStatus = Set<UnitStatusElement>.Of(UnitStatusElement.Registered)
+            UnitStatus = UnitStatuses.Registered
         };
         control.UnregisterUnit(other);
         Assert.Same(first, control.FindUnit(4));

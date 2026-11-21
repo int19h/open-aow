@@ -109,7 +109,7 @@ public class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     public override void SetAbilitySet(int index, byte value) => base.SetAbilitySet(index, value);
 
     // Ability.PAS:2004
-    public override void ListAbilities(DelphiStringCollection text, Set<AbilitySelectionType> types)
+    public override void ListAbilities(DelphiStringCollection text, AbilitySelectionTypes types)
     {
         text.Clear();
         for (int i = 0, last = AbilityCount - 1; i <= last; i++)
@@ -117,7 +117,7 @@ public class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
             if (GetAbilitySetAt(i))
             {
                 Ability ability = GamePack.Current.AbilityControl[i];
-                if ((ability.SelectionTypes & types) != Set<AbilitySelectionType>.Of())
+                if ((ability.SelectionTypes & types) != AbilitySelectionTypes.None)
                 {
                     _ = text.AddObject(ability.GetName(this), item: IntToObject(i));
                 }
@@ -147,13 +147,13 @@ public class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     public virtual sbyte GetAbilityDamage(int abilityId) => GamePack.Current.AbilityControl[abilityId].GetDamage(this);
 
     // Ability.PAS:1947
-    public virtual Set<MoveType> GetAbilityMoveTypes(int abilityId) => GamePack.Current.AbilityControl[abilityId].GetMoveTypes(this);
+    public virtual MoveTypes GetAbilityMoveTypes(int abilityId) => GamePack.Current.AbilityControl[abilityId].GetMoveTypes(this);
 
     // Ability.PAS:1951
-    public virtual Set<DamageType> GetAbilityProtectionTypes(int abilityId) => GamePack.Current.AbilityControl[abilityId].GetProtectionTypes(this);
+    public virtual DamageTypes GetAbilityProtectionTypes(int abilityId) => GamePack.Current.AbilityControl[abilityId].GetProtectionTypes(this);
 
     // Ability.PAS:1955
-    public virtual Set<DamageType> GetAbilityImmunityTypes(int abilityId) => GamePack.Current.AbilityControl[abilityId].GetImmunityTypes(this);
+    public virtual DamageTypes GetAbilityImmunityTypes(int abilityId) => GamePack.Current.AbilityControl[abilityId].GetImmunityTypes(this);
 
     // Ability.PAS:1959
     public virtual int GetOwnAbilityLevel(int abilityId) => GamePack.Current.AbilityControl[abilityId].GetLevel(this);
@@ -162,7 +162,7 @@ public class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     public virtual bool GetOwnAbilityEnabled(int abilityId) => GetAbilitySetAt(abilityId) && GamePack.Current.AbilityControl[abilityId].GetEnabled(this);
 
     // Ability.PAS:1672
-    public virtual Set<AbilitySelectionType> GetAbilitySelectionTypes() => Set<AbilitySelectionType>.Of();
+    public virtual AbilitySelectionTypes GetAbilitySelectionTypes() => AbilitySelectionTypes.None;
 
     // Ability.PAS:1837
     public virtual void Changed()
@@ -196,10 +196,10 @@ public class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     // Ability.PAS:1678
     public void ValidateOwnerTypeAbilities()
     {
-        Set<AbilitySelectionType> types = GetAbilitySelectionTypes();
+        AbilitySelectionTypes types = GetAbilitySelectionTypes();
         for (int i = OwnAbilityCount - 1; i >= 0; i--)
         {
-            if (GetAbilitySetAt(i) && (GamePack.Current.AbilityControl[i].SelectionTypes & types) == Set<AbilitySelectionType>.Of())
+            if (GetAbilitySetAt(i) && (GamePack.Current.AbilityControl[i].SelectionTypes & types) == AbilitySelectionTypes.None)
             {
                 SetAbilitySet(i, value: 0);
             }
@@ -388,58 +388,58 @@ public class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     }
 
     // Ability.PAS:1882
-    public Set<MoveType> GetAbilityMoveTypesAll()
+    public MoveTypes GetAbilityMoveTypesAll()
     {
-        Set<MoveType> result = Set<MoveType>.Of();
+        MoveTypes result = MoveTypes.None;
         if (GetOwnAbilityEnabled(0))
         {
-            result += Set<MoveType>.Of(MoveType.Walking);
+            result |= MoveTypes.Walking;
         }
 
         if (GetOwnAbilityEnabled(1) || GetOwnAbilityEnabled(165) || GetOwnAbilityEnabled(59))
         {
-            result += Set<MoveType>.Of(MoveType.Flying);
+            result |= MoveTypes.Flying;
         }
 
         if (GetOwnAbilityEnabled(2) || GetOwnAbilityEnabled(23) || GetOwnAbilityEnabled(164) || GetOwnAbilityEnabled(166))
         {
-            result += Set<MoveType>.Of(MoveType.Swimming);
+            result |= MoveTypes.Swimming;
         }
 
         if (GetOwnAbilityEnabled(3) || GetOwnAbilityEnabled(157))
         {
-            result += Set<MoveType>.Of(MoveType.Forestry);
+            result |= MoveTypes.Forestry;
         }
 
         if (GetOwnAbilityEnabled(4) || GetOwnAbilityEnabled(157))
         {
-            result += Set<MoveType>.Of(MoveType.CaveCrawling);
+            result |= MoveTypes.CaveCrawling;
         }
 
         if (GetOwnAbilityEnabled(5) || GetOwnAbilityEnabled(157))
         {
-            result += Set<MoveType>.Of(MoveType.Mountaineering);
+            result |= MoveTypes.Mountaineering;
         }
 
         if (GetOwnAbilityEnabled(7) || GetOwnAbilityEnabled(163))
         {
             // The original set constant is $40.
-            result += Set<MoveType>.Of(MoveType.LavaCrossing);
+            result |= MoveTypes.LavaCrossing;
         }
 
         if (GetOwnAbilityEnabled(42))
         {
             // The original set constant is $80.
-            result += Set<MoveType>.Of(MoveType.Tunneling);
+            result |= MoveTypes.Tunneling;
         }
 
         return result;
     }
 
     // Ability.PAS:1894
-    public Set<WallCombatFeaturesElement> GetAbilityWallCombatFeatures()
+    public WallCombatFeatures GetAbilityWallCombatFeatures()
     {
-        Set<WallCombatFeaturesElement> result = Set<WallCombatFeaturesElement>.Of();
+        WallCombatFeatures result = WallCombatFeatures.None;
         // { Original intersects into an empty set, so the result is always empty. }
         for (int i = OwnAbilityCount - 1; i >= 0; i--)
         {
@@ -453,94 +453,94 @@ public class AbilityOwner(CustomNode owner) : CustomAbilityList(owner)
     }
 
     // Ability.PAS:1903
-    public Set<DamageType> GetAbilityProtectionTypesAll()
+    public DamageTypes GetAbilityProtectionTypesAll()
     {
-        Set<DamageType> result = Set<DamageType>.Of();
+        DamageTypes result = DamageTypes.None;
         if (GetOwnAbilityEnabled(77) || GetOwnAbilityEnabled(166))
         {
-            result += Set<DamageType>.Of(DamageType.Physical);
+            result |= DamageTypes.Physical;
         }
 
         if (GetOwnAbilityEnabled(71) || GetOwnAbilityEnabled(167))
         {
-            result += Set<DamageType>.Of(DamageType.Fire);
+            result |= DamageTypes.Fire;
         }
 
         if (GetOwnAbilityEnabled(75))
         {
-            result += Set<DamageType>.Of(DamageType.Magic);
+            result |= DamageTypes.Magic;
         }
 
         if (GetOwnAbilityEnabled(76))
         {
-            result += Set<DamageType>.Of(DamageType.Cold);
+            result |= DamageTypes.Cold;
         }
 
         if (GetOwnAbilityEnabled(74))
         {
-            result += Set<DamageType>.Of(DamageType.Lightning);
+            result |= DamageTypes.Lightning;
         }
 
         if (GetOwnAbilityEnabled(73))
         {
-            result += Set<DamageType>.Of(DamageType.Poison);
+            result |= DamageTypes.Poison;
         }
 
         if (GetOwnAbilityEnabled(70) || GetOwnAbilityEnabled(158))
         {
-            result += Set<DamageType>.Of(DamageType.Death);
+            result |= DamageTypes.Death;
         }
 
         if (GetOwnAbilityEnabled(72))
         {
-            result += Set<DamageType>.Of(DamageType.Holy);
+            result |= DamageTypes.Holy;
         }
 
         return result;
     }
 
     // Ability.PAS:1915
-    public Set<DamageType> GetAbilityImmunityTypesAll()
+    public DamageTypes GetAbilityImmunityTypesAll()
     {
-        Set<DamageType> result = Set<DamageType>.Of();
+        DamageTypes result = DamageTypes.None;
         if (GetOwnAbilityEnabled(13))
         {
-            result += Set<DamageType>.Of(DamageType.Physical);
+            result |= DamageTypes.Physical;
         }
 
         if (GetOwnAbilityEnabled(7) || GetOwnAbilityEnabled(163))
         {
-            result += Set<DamageType>.Of(DamageType.Fire);
+            result |= DamageTypes.Fire;
         }
 
         if (GetOwnAbilityEnabled(6))
         {
-            result += Set<DamageType>.Of(DamageType.Magic);
+            result |= DamageTypes.Magic;
         }
 
         if (GetOwnAbilityEnabled(8))
         {
-            result += Set<DamageType>.Of(DamageType.Cold);
+            result |= DamageTypes.Cold;
         }
 
         if (GetOwnAbilityEnabled(9))
         {
-            result += Set<DamageType>.Of(DamageType.Lightning);
+            result |= DamageTypes.Lightning;
         }
 
         if (GetOwnAbilityEnabled(10))
         {
-            result += Set<DamageType>.Of(DamageType.Poison);
+            result |= DamageTypes.Poison;
         }
 
         if (GetOwnAbilityEnabled(11))
         {
-            result += Set<DamageType>.Of(DamageType.Death);
+            result |= DamageTypes.Death;
         }
 
         if (GetOwnAbilityEnabled(12))
         {
-            result += Set<DamageType>.Of(DamageType.Holy);
+            result |= DamageTypes.Holy;
         }
 
         return result;

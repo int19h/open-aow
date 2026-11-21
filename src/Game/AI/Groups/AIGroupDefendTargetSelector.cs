@@ -8,8 +8,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
-
-using Aow.Rtl;
 using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.AI.Groups;
@@ -20,10 +18,10 @@ public class AIGroupDefendTargetSelector : AIGroupTask
     private AIGroupControl _control;
     private readonly AIMoveTargetSelector _selector;
     private readonly AIGroupControlTargetList _targets;
-    private Set<ModeElement> _mode;
+    private Modes _mode;
     private int _pathStep;
     private int _battleFieldRadius;
-    private Set<DamageType> _damageTypes;
+    private DamageTypes _damageTypes;
     private float _movePointsFactor;
 
     // AGCPlugins.pas:164
@@ -74,7 +72,7 @@ public class AIGroupDefendTargetSelector : AIGroupTask
                     AIGroupControlTarget targetLocation = _targets.GetTargets(0);
                     if (targetLocation.Location == _control.Location)
                     {
-                        _control.MoveExecutor.Mode = _control.MoveExecutor.Mode - Set<AIMoveExecutorModeElement>.Of(AIMoveExecutorModeElement.Adjacent);
+                        _control.MoveExecutor.Mode &= ~AIMoveExecutorModes.Adjacent;
                     }
 
                     AIGroupControlTarget target = _targets.GetTargets(0);
@@ -87,7 +85,7 @@ public class AIGroupDefendTargetSelector : AIGroupTask
                 {
                     _control.SetupME();
                     AIMoveExecutor aiMoveExecutor = _control.MoveExecutor;
-                    aiMoveExecutor.Mode -= Set<AIMoveExecutorModeElement>.Of(AIMoveExecutorModeElement.Adjacent);
+                    aiMoveExecutor.Mode &= ~AIMoveExecutorModes.Adjacent;
 
                     AIGroupControl aiGroupControl = _control;
                     aiGroupControl.ExecuteME(aiGroupControl.Location.X, aiGroupControl.Location.Y, L: aiGroupControl.Location.MapLevel);
@@ -119,10 +117,10 @@ public class AIGroupDefendTargetSelector : AIGroupTask
         _selector.TargetInfo = targetInfo;
 
         _pathStep = 7;
-        _damageTypes = AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall);
+        _damageTypes = AbilityRules.AllDamageTypes & ~DamageTypes.Wall;
         _battleFieldRadius = 10;
         _movePointsFactor = -1;
-        _mode = Set<ModeElement>.Of();
+        _mode = Modes.None;
     }
 
     // AGCPlugins.pas:188
@@ -133,9 +131,9 @@ public class AIGroupDefendTargetSelector : AIGroupTask
         {
             result = 0;
             int i = _pathStep;
-            BattleFieldInfo.SetupBattleFieldInfo(out BattleFieldInfo info, _control.Group.Player, relation: _control.Group.IndependentRelation, requests: Set<BattleFieldInfoRequestsElement>.Of(), _damageTypes);
-            info.FriendlyRelations = Set<byte>.WithBounds(0, 7);
-            info.Requests += Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents);
+            BattleFieldInfo.SetupBattleFieldInfo(out BattleFieldInfo info, _control.Group.Player, relation: _control.Group.IndependentRelation, requests: BattleFieldInfoRequests.None, _damageTypes);
+            info.FriendlyRelations = DiplomaticRelations.None;
+            info.Requests |= BattleFieldInfoRequests.IgnorePassiveIndependents;
             while (i < path.Count)
             {
                 info.Strength = 0;
@@ -174,7 +172,7 @@ public class AIGroupDefendTargetSelector : AIGroupTask
         AITargetData data = newTarget.Data;
         data.Priority += Round((double)target.MovePoints * _movePointsFactor);
         newTarget.Data = data;
-        if (_mode.Contains(ModeElement.CalculateMovePathBfs))
+        if (_mode.Contains(Modes.CalculateMovePathBfs))
         {
             newTarget.PathStrength = GetMovePathBattleFieldStrength(target.MovePath);
         }
@@ -207,16 +205,16 @@ public class AIGroupDefendTargetSelector : AIGroupTask
         switch (StrategicMap.Current.Players.GetPlayers(control.Group.Player).PlayerType)
         {
             case PlayerType.Cpu2:
-                _mode += Set<ModeElement>.Of(ModeElement.CalculateMovePathBfs);
+                _mode |= Modes.CalculateMovePathBfs;
                 break;
             case PlayerType.Cpu3:
-                _mode += Set<ModeElement>.Of(ModeElement.CalculateMovePathBfs);
+                _mode |= Modes.CalculateMovePathBfs;
                 break;
             case PlayerType.Cpu4:
-                _mode += Set<ModeElement>.Of(ModeElement.CalculateMovePathBfs);
+                _mode |= Modes.CalculateMovePathBfs;
                 break;
             case PlayerType.Cpu5:
-                _mode += Set<ModeElement>.Of(ModeElement.CalculateMovePathBfs);
+                _mode |= Modes.CalculateMovePathBfs;
                 break;
             case PlayerType.Human:
             case PlayerType.Cpu1:
@@ -229,8 +227,10 @@ public class AIGroupDefendTargetSelector : AIGroupTask
         return true;
     }
 
-    public enum ModeElement : byte
+    [Flags]
+    public enum Modes : byte
     {
-        CalculateMovePathBfs = 0
+        None = 0,
+        CalculateMovePathBfs = 1 << 0,
     }
 }

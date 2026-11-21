@@ -4,8 +4,6 @@ using Aow.Engine.Nodes;
 using Aow.Game.Combat;
 
 using Aow.Game.Magic.Abilities;
-
-using Aow.Rtl;
 using static Aow.Rtl.DelphiRounding;
 
 namespace Aow.Game.Magic.Spells;
@@ -22,7 +20,7 @@ public class Ooze : CombatSpell
         SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 0;
         spellCombatInfo.Damage = 0;
-        spellCombatInfo.DamageTypes = Set<DamageType>.Of();
+        spellCombatInfo.DamageTypes = DamageTypes.None;
         spellCombatInfo.RepeatCount = 0;
         spellCombatInfo.Range = 8;
 

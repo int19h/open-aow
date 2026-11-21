@@ -24,7 +24,7 @@ public partial class ArmyInfoEventLog : EventLog
     {
         Messages = new DelphiStringList();
         ArmyView = new ArmyView(null) { Holder = CreationHolder() };
-        Triggers = Set<ExecuteTrigger>.Of(ExecuteTrigger.Event, ExecuteTrigger.User, ExecuteTrigger.NewTurn);
+        Triggers = ExecuteTriggers.Event | ExecuteTriggers.User | ExecuteTriggers.NewTurn;
     }
 
     public new const int ClassId = 131_817;
@@ -39,7 +39,7 @@ public partial class ArmyInfoEventLog : EventLog
     public string Text { get; set; } = "";
     public string Description { get; set; } = "";
 
-    public Set<ExecuteTrigger> Triggers { get; set; }
+    public ExecuteTriggers Triggers { get; set; }
 
     // Army.PAS:263
     public override void Dispose()
@@ -67,7 +67,7 @@ public partial class ArmyInfoEventLog : EventLog
     // Army.PAS:297
     public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
-        if (Triggers.Contains(trigger))
+        if (Triggers.Contains(trigger.ToFlag()))
         {
             switch (trigger)
             {

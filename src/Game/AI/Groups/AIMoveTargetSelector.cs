@@ -7,7 +7,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
-using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
@@ -30,7 +29,7 @@ public sealed class AIMoveTargetSelector : EngineObject
 
     private readonly MoveControlSettings _settings;
 
-    public Set<AIMoveTargetSelectorModeElement> Mode { get; set; }
+    public AIMoveTargetSelectorModes Mode { get; set; }
 
     private readonly MoveTargetList _bufferedTargets;
 
@@ -93,7 +92,7 @@ public sealed class AIMoveTargetSelector : EngineObject
         SetTransporter(null);
         SourceLocation = MapCoordinate.None;
         _targets.Clear();
-        Mode = Set<AIMoveTargetSelectorModeElement>.Of();
+        Mode = AIMoveTargetSelectorModes.None;
         Units.Clear();
     }
 
@@ -185,7 +184,7 @@ public sealed class AIMoveTargetSelector : EngineObject
             {
                 _settings.Reset();
                 _settings.Player = TargetInfo.Player;
-                _settings.Mode += Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields, MoveModeElement.AI);
+                _settings.Mode |= MoveModes.LogProcessedMapFields | MoveModes.AI;
                 _settings.SetSourcePosition(location);
 
                 _settings.MovePointsMax = MovePointsMax;
@@ -203,7 +202,7 @@ public sealed class AIMoveTargetSelector : EngineObject
                     int item3 = gaps[i];
                     PathStep item4 = target.MovePath[item3];
                     _settings.SetDestinationPosition(item4.Location.X, item2.Location.Y, fMovePathItem.Location.MapLevel);
-                    valid = StrategicMap.Current.MoveControl.CanMove(_settings, mode: Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast)) != -1;
+                    valid = StrategicMap.Current.MoveControl.CanMove(_settings, mode: CanMoveModes.Fast) != -1;
                 }
             }
             else
@@ -242,7 +241,7 @@ public sealed class AIMoveTargetSelector : EngineObject
                     _bufferedTargets.Clear();
                     _settings.Reset();
                     _settings.Player = TargetInfo.Player;
-                    _settings.Mode += Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields, MoveModeElement.AI);
+                    _settings.Mode |= MoveModes.LogProcessedMapFields | MoveModes.AI;
                     _settings.SetSourcePosition(SourceLocation);
 
                     _settings.MovePointsMax = MovePointsMax;
@@ -292,7 +291,7 @@ public sealed class AIMoveTargetSelector : EngineObject
                             target.MovePoints = settings.GetMovePoints(field.HexX, field.HexY, field.HexLevel);
                             target.TransporterId = -1;
                             target.Data = data;
-                            if (Mode.Contains(AIMoveTargetSelectorModeElement.CreateMovePaths))
+                            if (Mode.Contains(AIMoveTargetSelectorModes.CreateMovePaths))
                             {
                                 target.MovePath = new MovePath();
                                 _ = StrategicMap.Current.MoveControl.Activate(_settings);
@@ -339,7 +338,7 @@ public sealed class AIMoveTargetSelector : EngineObject
                     _bufferedTargets.Clear();
                     _settings.Reset();
                     _settings.Player = TargetInfo.Player;
-                    _settings.Mode += Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields, MoveModeElement.AI, MoveModeElement.AvoidArmies);
+                    _settings.Mode |= MoveModes.LogProcessedMapFields | MoveModes.AI | MoveModes.AvoidArmies;
                     _settings.SetSourcePosition(SourceLocation);
 
                     _settings.MovePointsMax = MovePointsMin;

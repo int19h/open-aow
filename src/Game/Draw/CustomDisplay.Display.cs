@@ -1,8 +1,8 @@
 #nullable disable
 using Aow.Game.Host;
 using Aow.Rtl;
-using static Aow.Game.Draw.CustomDisplay.OptionsElement;
-using static Aow.Game.Draw.DisplayStatusElement;
+using static Aow.Game.Draw.CustomDisplay.DisplayOptions;
+using static Aow.Game.Draw.DisplayStatuses;
 
 namespace Aow.Game.Draw;
 
@@ -11,7 +11,7 @@ public partial class CustomDisplay
     public IDisplayHost Host { get; set; }
     public IDisplayEvents EventSink { get; set; }
     public Func<bool> Terminated { get; init; } = () => false;
-    public Set<ShiftState> MouseButtons { get; set; }
+    public ShiftStates MouseButtons { get; set; }
     public long PresentedFrames { get; private set; }
     public Action<long> FramePresented { get; set; }
 
@@ -33,8 +33,7 @@ public partial class CustomDisplay
 
     public CustomDisplay(Component owner) : base(owner)
     {
-        Options = Set<OptionsElement>.Of(AutoResizeBackSurface, AutoSwapDisplayController,
-            AutoStartUpdateFrameLoop, AutoActivatePrimaryDisplayController, RestoreSurfacesOnSwap, BlitOnPaint);
+        Options = AutoResizeBackSurface | AutoSwapDisplayController | AutoStartUpdateFrameLoop | AutoActivatePrimaryDisplayController | RestoreSurfacesOnSwap | BlitOnPaint;
         _bufferingScheme = BufferingScheme.Double;
         BackSurfaceControlMode = BackSurfaceControlMode.BlitSurface;
         _backSurfaceWidth = 640;
@@ -79,12 +78,12 @@ public partial class CustomDisplay
     }
 
     public virtual void ShowError(string message) => LegacyApplication.ShowMessage(message);
-    public virtual void StopUpdateFrameLoop() => Status = Status.Without(FrameLoopActive);
+    public virtual void StopUpdateFrameLoop() => Status &= ~FrameLoopActive;
 
     public virtual void PauseFrameUpdateLoop()
     {
         _pauseCount++;
-        Status = Status.With(FrameLoopPaused);
+        Status |= FrameLoopPaused;
     }
 
     public virtual void ResumeFrameUpdateLoop()
@@ -96,7 +95,7 @@ public partial class CustomDisplay
 
         if (_pauseCount == 0)
         {
-            Status = Status.Without(FrameLoopPaused);
+            Status &= ~FrameLoopPaused;
         }
     }
 
@@ -112,7 +111,7 @@ public partial class CustomDisplay
             throw new NotSupportedException("Asynchronous display loop");
         }
 
-        Status = Status.With(FrameLoopActive);
+        Status |= FrameLoopActive;
         try
         {
             while (Status.Contains(FrameLoopActive) && !Terminated())
@@ -135,7 +134,7 @@ public partial class CustomDisplay
         }
     }
 
-    public virtual int MouseButton => MouseButtons.Contains(ShiftState.Left) ? 1 : MouseButtons.Contains(ShiftState.Right) ? 2 : 0;
+    public virtual int MouseButton => MouseButtons.Contains(ShiftStates.Left) ? 1 : MouseButtons.Contains(ShiftStates.Right) ? 2 : 0;
 
     public virtual void UpdateFrame()
     {

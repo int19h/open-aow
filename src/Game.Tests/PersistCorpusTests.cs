@@ -91,7 +91,7 @@ public sealed class PersistCorpusTests(ITestOutputHelper output)
         StrategicMap previous = StrategicMap.Current;
         StrategicMap map = new(null, holder: EngineFixture.Engine)
         {
-            Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying)
+            Status = HexSpriteMapStatuses.Destroying
         };
         s_reaper = map;
         // A player's write reads the current map (its seat, its connection type and the view

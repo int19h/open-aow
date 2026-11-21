@@ -11,8 +11,6 @@ using Aow.Game.Units;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiTextCompare;
 
@@ -26,7 +24,7 @@ public class HealingAbility : TouchAbility
         Holder = holder;
         AbilityId = 47;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_healingText);
-        SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.UseItem, AbilitySelectionType.Editor);
+        SelectionTypes = AbilitySelectionTypes.Unit | AbilitySelectionTypes.UseItem | AbilitySelectionTypes.Editor;
         AbilityType = AbilityType.Enhancement;
     }
 
@@ -58,7 +56,7 @@ public class HealingAbility : TouchAbility
     }
 
     // AoWAb.PAS:3624
-    public override Set<AbilityControlTypeElement> GetControlType(AbilityOwner owner) => Set<AbilityControlTypeElement>.Of(AbilityControlTypeElement.Action, AbilityControlTypeElement.CombatAction);
+    public override AbilityControlTypes GetControlType(AbilityOwner owner) => AbilityControlTypes.Action | AbilityControlTypes.CombatAction;
 
     // AoWAb.PAS:3801
     public override void FastBattlePrefetchCombatCommands(FastBattleCommandList commands)
@@ -162,7 +160,7 @@ public class HealingAbility : TouchAbility
     // AoWAb.PAS:3707
     public override int GetDamageValue(Troop attacker, Troop defender)
     {
-        if (!defender.GetImmunityTypes().Contains(DamageType.None))
+        if (!defender.GetImmunityTypes().Contains(DamageTypes.NonSpecific))
         {
             int result = defender.GetHits() - defender.GetHitPoints();
             if (result > 5)
@@ -179,7 +177,7 @@ public class HealingAbility : TouchAbility
     // AoWAb.PAS:3718
     public override void GetDamageValues(Troop attacker, Troop defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
-        if (wallSituation == WallSituation.None && !defender.GetImmunityTypes().Contains(DamageType.None))
+        if (wallSituation == WallSituation.None && !defender.GetImmunityTypes().Contains(DamageTypes.NonSpecific))
         {
             sbyte hits = defender.GetHits();
             sbyte hitPoints = defender.GetHitPoints();
@@ -192,7 +190,7 @@ public class HealingAbility : TouchAbility
             damageValues.SourceDamage = damageValues.SourceCost * 100;
             damageValues.TargetDamage = 0;
             damageValues.TargetCost = 0;
-            damageValues.DamageTypes = Set<DamageType>.Of(DamageType.None);
+            damageValues.DamageTypes = DamageTypes.NonSpecific;
         }
         else
         {
@@ -200,7 +198,7 @@ public class HealingAbility : TouchAbility
             damageValues.SourceCost = 0;
             damageValues.TargetDamage = 0;
             damageValues.TargetCost = 0;
-            damageValues.DamageTypes = Set<DamageType>.Of();
+            damageValues.DamageTypes = DamageTypes.None;
         }
     }
 
@@ -214,7 +212,7 @@ public class HealingAbility : TouchAbility
             damageValues.SourceDamage = hitPoints * 100;
             damageValues.TargetDamage = 0;
             damageValues.TargetCost = 0;
-            damageValues.DamageTypes = Set<DamageType>.Of(DamageType.None);
+            damageValues.DamageTypes = DamageTypes.NonSpecific;
         }
         else
         {
@@ -222,7 +220,7 @@ public class HealingAbility : TouchAbility
             damageValues.SourceCost = 0;
             damageValues.TargetDamage = 0;
             damageValues.TargetCost = 0;
-            damageValues.DamageTypes = Set<DamageType>.Of();
+            damageValues.DamageTypes = DamageTypes.None;
         }
     }
 
@@ -230,7 +228,7 @@ public class HealingAbility : TouchAbility
     public override void GetCombatInfo(AbilityOwner owner, ref AbilityCombatInfo info)
     {
         base.GetCombatInfo(owner, ref info);
-        info.TargetTypes = Set<CombatTargetTypeElement>.Of(CombatTargetTypeElement.Friend);
+        info.TargetTypes = CombatTargetTypes.Friend;
     }
 
     // AoWAb.PAS:3693
@@ -238,7 +236,7 @@ public class HealingAbility : TouchAbility
     {
         bool result = base.CanTouch(source, target);
         return result
-            ? source is CombatUnit && target is CombatUnit targetUnit && Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(targetUnit.Troop.GetUnitType()) && (target.GetHits() != target.HitPoints || target.GetAbilityEnabled(96) || target.GetAbilityEnabled(53) || target.GetAbilityEnabled(108))
+            ? source is CombatUnit && target is CombatUnit targetUnit && targetUnit.Troop.GetUnitType() is UnitType.Humanoid or UnitType.Creature && (target.GetHits() != target.HitPoints || target.GetAbilityEnabled(96) || target.GetAbilityEnabled(53) || target.GetAbilityEnabled(108))
             : result;
     }
 
@@ -249,7 +247,7 @@ public class HealingAbility : TouchAbility
         if (result)
         {
             UnitType unitType = target.GetUnitType();
-            return Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(unitType) && (target.GetHits() != target.GetHitPoints() || target.GetAbilityEnabled(96) || target.GetAbilityEnabled(53) || target.GetAbilityEnabled(108));
+            return unitType is UnitType.Humanoid or UnitType.Creature && (target.GetHits() != target.GetHitPoints() || target.GetAbilityEnabled(96) || target.GetAbilityEnabled(53) || target.GetAbilityEnabled(108));
         }
 
         return result;

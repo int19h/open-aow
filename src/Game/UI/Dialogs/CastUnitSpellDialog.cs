@@ -64,7 +64,7 @@ public sealed partial class CastUnitSpellDialog(UIContext ui) : UIModule(ui)
 
             info = default;
             info.Direction = 3;
-            info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
+            info.Overlays = UnitOverlayModes.HitPoints | UnitOverlayModes.Rank;
             _ = Caster.TargetUnits.GetUnit(index).Show(X - 8, Y - 4, lockedSurface: surface, info);
             if (((Caster.ValidSelection >>> index) & 1) == 0)
             {

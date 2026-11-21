@@ -321,7 +321,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
         string raceNamesPlural = UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[playerLocal.PlayerRace]);
         PlayerRaceLabel.Text = raceNamesPlural;
         Player playerPlayerType = StrategicMap.Current.Players.GetPlayers(player);
-        if (Set<PlayerType>.Of(PlayerType.Human, PlayerType.Cpu1, PlayerType.Cpu2, PlayerType.Cpu3, PlayerType.Cpu4, PlayerType.Cpu5).Contains(playerPlayerType.PlayerType))
+        if (playerPlayerType.PlayerType is (>= PlayerType.Human and <= PlayerType.Cpu3) or PlayerType.Cpu4 or PlayerType.Cpu5)
         {
             PlayerTypeIcon.CurrentImage = StrategicMap.Current.Players.GetPlayers(player).PlayerType switch
             {
@@ -1040,7 +1040,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
     }
 
     // AoWRelations.pas:925
-    public void RelWinKeyDown(in ushort key, Set<ShiftState> shift)
+    public void RelWinKeyDown(in ushort key, ShiftStates shift)
     {
         if (key == 27)
         {

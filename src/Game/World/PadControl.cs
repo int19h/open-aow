@@ -7,8 +7,6 @@ using Aow.Game.World.Map;
 
 using Aow.Game.World.Terrain;
 
-using Aow.Rtl;
-
 namespace Aow.Game.World;
 
 // { Interface declaration run owned by P5. }
@@ -31,7 +29,7 @@ public sealed class PadControl : ControlStyleObject
     {
         TerrainTypes = new BitList();
         PadResources = [];
-        SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.FixedChild));
+        SetControlStyle(ControlStyles.FixedChild);
     }
 
     // MoveT.PAS:3629

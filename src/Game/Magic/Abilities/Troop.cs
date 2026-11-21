@@ -62,7 +62,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     // group
     public sbyte Player { get; set; }
 
-    public Set<UnitStatusElement> UnitStatus { get; set; }
+    public UnitStatuses UnitStatus { get; set; }
 
     public sbyte MoraleValue { get; set; }
 
@@ -77,7 +77,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     // Unit.PAS:108
     public override void Dispose()
     {
-        if (UnitStatus.Contains(UnitStatusElement.Activated))
+        if (UnitStatus.Contains(UnitStatuses.Activated))
         {
             Deactivate();
         }
@@ -199,12 +199,12 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     public override string GetOwnerName() => AbilityRules.TranslateResourceString(GetEngine(), S: GameText.InherentText);
 
     // Unit.PAS:171
-    public override Set<AbilitySelectionType> GetAbilitySelectionTypes() => TroopConstants.DefaultAbilitySelectionTypes;
+    public override AbilitySelectionTypes GetAbilitySelectionTypes() => TroopConstants.DefaultAbilitySelectionTypes;
 
     // Unit.PAS:1411
     public override void Changed()
     {
-        if (UnitStatus.Contains(UnitStatusElement.Activated))
+        if (UnitStatus.Contains(UnitStatuses.Activated))
         {
             _ = UpdateMoraleValue();
             UpdateOffensiveStrength();
@@ -281,13 +281,13 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     public virtual void SetHitPoints(sbyte value) => UpdateDefensiveStrength();
 
     // Unit.PAS:973
-    public virtual Set<MoveType> GetMoveTypes() => GetAbilityMoveTypesAll();
+    public virtual MoveTypes GetMoveTypes() => GetAbilityMoveTypesAll();
 
     // Unit.PAS:852
-    public virtual Set<DamageType> GetImmunityTypes() => GetAbilityImmunityTypesAll() + Set<DamageType>.Of(DamageType.Wall);
+    public virtual DamageTypes GetImmunityTypes() => GetAbilityImmunityTypesAll() | DamageTypes.Wall;
 
     // Unit.PAS:858
-    public virtual Set<DamageType> GetProtectionTypes() => GetAbilityProtectionTypesAll();
+    public virtual DamageTypes GetProtectionTypes() => GetAbilityProtectionTypesAll();
 
     // Unit.PAS:977
     public virtual LibraryImage GetFace() => null;
@@ -323,17 +323,17 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     public virtual bool CanAddToList(UnitCollection list) => true;
 
     // Unit.PAS:179
-    public virtual Set<WallCombatFeaturesElement> GetWallCombatFeatures()
+    public virtual WallCombatFeatures GetWallCombatFeatures()
     {
-        Set<WallCombatFeaturesElement> result = Set<WallCombatFeaturesElement>.Of();
+        WallCombatFeatures result = WallCombatFeatures.None;
         if (GetAbilityEnabled(1) || GetAbilityEnabled(165) || GetAbilityEnabled(36) || GetAbilityEnabled(66))
         {
-            result += Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallPassing, WallCombatFeaturesElement.Participate);
+            result |= WallCombatFeatures.WallPassing | WallCombatFeatures.Participate;
         }
 
         if (GetAbilityEnabled(117) || GetAbilityEnabled(24) || GetAbilityEnabled(65) || GetAbilityEnabled(44))
         {
-            result += Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallBreaching, WallCombatFeaturesElement.Participate);
+            result |= WallCombatFeatures.WallBreaching | WallCombatFeatures.Participate;
         }
 
         return result;
@@ -421,27 +421,27 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     {
         if (player == Player && Player > 0)
         {
-            if (StrategicMap.Current.Players.GetPlayers(Player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.FireMastery))
+            if (StrategicMap.Current.Players.GetPlayers(Player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentTypes.FireMastery))
             {
                 SetFireMasteryProtection();
             }
 
-            if (StrategicMap.Current.Players.GetPlayers(Player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.EarthMastery))
+            if (StrategicMap.Current.Players.GetPlayers(Player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentTypes.EarthMastery))
             {
                 SetEarthMasteryStoneSkin();
             }
 
-            if (StrategicMap.Current.Players.GetPlayers(Player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.LifeMastery))
+            if (StrategicMap.Current.Players.GetPlayers(Player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentTypes.LifeMastery))
             {
                 SetLifeMasteryBlessing();
             }
 
-            if ((((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 16) != 0)
+            if ((((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments) & 16) != 0)
             {
                 ExecuteLifeMasteryFearRole();
             }
 
-            if ((((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 32) != 0)
+            if ((((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments) & 32) != 0)
             {
                 ExecuteDeathMasteryCurseRole();
             }
@@ -508,7 +508,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     public virtual int GetUnitMoraleValue(sbyte player, sbyte independentRelation)
     {
         int morale;
-        if (player >= 0 && GetUnitType() != UnitType.Machine && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (player >= 0 && GetUnitType() != UnitType.Machine && !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             sbyte race = GetRace();
             morale = GetRelationValue(player, independentRelation);
@@ -523,13 +523,13 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
                     byte rawTerrain = (byte)StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel).TerrainType;
                     int raceIndex = race;
                     TerrainType terrainType = (TerrainType)rawTerrain;
-                    if (City.RaceTerrain[raceIndex].Penalty.Contains((byte)(int)terrainType))
+                    if (City.RaceTerrain[raceIndex].Penalty.Contains(terrainType.ToFlag()))
                     {
                         // { Read the original shared table, not the private copy. }
                         morale -= 10;
                     }
 
-                    if (City.RaceTerrain[raceIndex].Bonus.Contains((byte)(int)terrainType))
+                    if (City.RaceTerrain[raceIndex].Bonus.Contains(terrainType.ToFlag()))
                     {
                         morale += 10;
                     }
@@ -570,7 +570,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     // Unit.PAS:761
     public virtual void Activate()
     {
-        UnitStatus += Set<UnitStatusElement>.Of(UnitStatusElement.Activated);
+        UnitStatus |= UnitStatuses.Activated;
         StrategicMap.Current.UnitControl.RegisterUnit(this);
         if (GroupId != 0 && Player >= 0)
         {
@@ -600,7 +600,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         _ = (group?.DeleteUnit(this));
 
         StrategicMap.Current.UnitControl.UnregisterUnit(this);
-        UnitStatus -= Set<UnitStatusElement>.Of(UnitStatusElement.Activated);
+        UnitStatus &= ~UnitStatuses.Activated;
         UnregisterEnchantments();
     }
 
@@ -685,7 +685,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         if (!condition)
         {
             GroupBehavior behavior = Group.GroupClass.Behavior;
-            condition = !Set<GroupBehavior>.Of(GroupBehavior.Guard, GroupBehavior.GuardArea).Contains(behavior);
+            condition = behavior is not (GroupBehavior.Guard or GroupBehavior.GuardArea);
         }
 
         bool result;
@@ -695,7 +695,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             {
                 Player players = StrategicMap.Current.Players.GetPlayers(player);
                 Alignment alignment = GamePack.Current.RaceResources.GetRaceResource(players.PlayerRace).Alignment;
-                if (GetAlignment() != Alignment.None)
+                if (GetAlignment() != Alignment.Unaligned)
                 {
                     DiplomaticRelation relation = AlignmentTables.AlignmentToDiplomaticRelation(GetAlignment(), alignment);
                     if (relation == DiplomaticRelation.Unknown && this is Unit unit)
@@ -768,7 +768,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
                 {
                     Player players = StrategicMap.Current.Players.GetPlayers(player);
                     Alignment alignment = GamePack.Current.RaceResources.GetRaceResource(players.PlayerRace).Alignment;
-                    return (GetAlignment() == Alignment.None && GetUnitType() != UnitType.Machine) || AlignmentTables.AlignmentToDiplomaticRelation(GetAlignment(), alignment) == DiplomaticRelation.Peace;
+                    return (GetAlignment() == Alignment.Unaligned && GetUnitType() != UnitType.Machine) || AlignmentTables.AlignmentToDiplomaticRelation(GetAlignment(), alignment) == DiplomaticRelation.Peace;
                 }
                 else
                 {
@@ -812,7 +812,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     // Unit.PAS:1209
     public virtual void Killed()
     {
-        UnitStatus += Set<UnitStatusElement>.Of(UnitStatusElement.Killed);
+        UnitStatus |= UnitStatuses.Killed;
         ResetLifeMasteryBlessing();
         ResetLifeMasteryFear();
         ResetEarthMasteryStoneSkin();
@@ -829,7 +829,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     public virtual void Resurrect()
     {
         _ = ExpandAbility(128);
-        UnitStatus -= Set<UnitStatusElement>.Of(UnitStatusElement.Killed);
+        UnitStatus &= ~UnitStatuses.Killed;
         SetHitPoints(1);
         SetPlayer(0);
     }
@@ -838,14 +838,14 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     public virtual void Animate()
     {
         _ = ExpandAbility(129);
-        UnitStatus -= Set<UnitStatusElement>.Of(UnitStatusElement.Killed);
+        UnitStatus &= ~UnitStatuses.Killed;
         SetHitPoints(1);
         SetPlayer(0);
     }
 
     // Unit.PAS:152
     // { A stack-argument assembler routine gets an EBP frame; remove it before jumping. }
-    public void RetrieveDamageInfo(sbyte attack, sbyte damage, Set<DamageType> damageTypes, out int damageValue, out int obtainValue)
+    public void RetrieveDamageInfo(sbyte attack, sbyte damage, DamageTypes damageTypes, out int damageValue, out int obtainValue)
     {
         int maxDamage = GetHitPoints() * 100;
         damageValue = MeleeRound.StatisticsToDamageValue(attack, damage, damageTypes, defense: GetDefense(), resistance: GetResistance(), immunityTypes: GetImmunityTypes(), protectionTypes: GetProtectionTypes());
@@ -918,7 +918,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     {
         int player = Player;
         int value = GetUnitMoraleValue((sbyte)player, independentRelation: GetIndependentRelation());
-        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && GetUnitType() != UnitType.Machine && this is not Leader && Owner is Army)
+        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting) && GetUnitType() != UnitType.Machine && this is not Leader && Owner is Army)
         {
             if (GetUpkeep() != 0 && player > 0 && !GetAbilityEnabled(155))
             {
@@ -934,7 +934,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
                 }
                 else
                 {
-                    if (Set<Status>.Of(Status.Hostile, Status.Wary).Contains(UnitRelation(troop)))
+                    if (UnitRelation(troop) is Status.Hostile or Status.Wary)
                     {
                         value -= 10;
                     }
@@ -963,8 +963,8 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         }
 
         UnitStatus = enchanted
-            ? UnitStatus + Set<UnitStatusElement>.Of(UnitStatusElement.Enchanted)
-            : UnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Enchanted);
+            ? UnitStatus | UnitStatuses.Enchanted
+            : UnitStatus & ~UnitStatuses.Enchanted;
     }
 
     // Unit.PAS:375
@@ -1088,7 +1088,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     // Unit.PAS:657
     public int GetStrength(DamageType damageType)
     {
-        if (!UnitStatus.Contains(UnitStatusElement.Activated))
+        if (!UnitStatus.Contains(UnitStatuses.Activated))
         {
             UpdateDefensiveStrength();
             UpdateOffensiveStrength();
@@ -1099,9 +1099,9 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     }
 
     // Unit.PAS:664
-    public int GetStrengthMax(Set<DamageType> damageTypes)
+    public int GetStrengthMax(DamageTypes damageTypes)
     {
-        if (!UnitStatus.Contains(UnitStatusElement.Activated))
+        if (!UnitStatus.Contains(UnitStatuses.Activated))
         {
             UpdateDefensiveStrength();
             UpdateOffensiveStrength();
@@ -1111,10 +1111,10 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         if (damageTypes != TroopConstants.AllDamageTypes)
         {
             result = 0;
-            for (int damageTypeOrdinal = (int)DamageType.Fire; damageTypeOrdinal <= (int)DamageType.None; damageTypeOrdinal++)
+            for (int damageTypeOrdinal = (int)DamageType.Fire; damageTypeOrdinal <= (int)DamageType.NonSpecific; damageTypeOrdinal++)
             {
                 DamageType damageType = (DamageType)damageTypeOrdinal;
-                if (damageTypes.Contains(damageType))
+                if (damageTypes.Contains(damageType.ToFlag()))
                 {
                     if (result < _offensiveStrength[(int)damageType])
                     {
@@ -1202,17 +1202,17 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     // Unit.PAS:922
     public void CreateMovePointTable(out MovePointTable table)
     {
-        Set<MoveType> moves = GetMoveTypes();
+        MoveTypes moves = GetMoveTypes();
         if (StrategicMap.Current.Combat is not null)
         {
-            moves -= Set<MoveType>.Of(MoveType.Tunneling);
+            moves &= ~MoveTypes.Tunneling;
         }
 
-        int moveTypesToInt32 = (byte)moves.Image;
+        int moveTypesToInt32 = (byte)moves;
         table = MovementTables.MovePointTables[moveTypesToInt32];
         if (Player > 0)
         {
-            if (StrategicMap.Current.Players.GetPlayers(Player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.EnchantedRoads))
+            if (StrategicMap.Current.Players.GetPlayers(Player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentTypes.EnchantedRoads))
             {
                 for (int terrain = 0; terrain <= 15; terrain++)
                 {
@@ -1225,8 +1225,8 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
 
             if (GetAbilityEnabled(23) || GetAbilityEnabled(1) || GetAbilityEnabled(165))
             {
-                bool faster = StrategicMap.Current.Players.GetPlayers(Player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.AirMastery);
-                bool slower = (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 4) != 0;
+                bool faster = StrategicMap.Current.Players.GetPlayers(Player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentTypes.AirMastery);
+                bool slower = (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments) & 4) != 0;
                 if (faster && !slower)
                 {
                     for (int overlay = -1; overlay <= 11; overlay++)
@@ -1304,7 +1304,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     {
         // { Original retrieves the movement set twice and retains the first dead store. }
         _ = GetMoveTypes();
-        int moveTypesToInt32 = (byte)GetMoveTypes().Image;
+        int moveTypesToInt32 = (byte)GetMoveTypes();
         sbyte cost = MovementTables.MovePointTables[moveTypesToInt32][terrainType][overlayType - MovementTables.FirstOverlay];
         return cost != -1 && cost <= Moves;
     }
@@ -1364,7 +1364,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         }
         else
         {
-            if (Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)terrainType))
+            if (terrainType is (sbyte)TerrainType.Ice or (sbyte)TerrainType.UndergroundIce)
             {
                 FrozenWaterHexSprite ice = mapField.FindOwnedHexSprite<FrozenWaterHexSprite>();
                 if (ice is not null)
@@ -1375,7 +1375,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             }
             else
             {
-                if (Set<byte>.WithBounds(0, 255).With(1).With(2).With(4).With(5).Contains((byte)terrainType) && mapField.HexLevel == 0)
+                if (terrainType is (sbyte)TerrainType.Grass or (sbyte)TerrainType.Desert or (sbyte)TerrainType.Steppe or (sbyte)TerrainType.Wasteland && mapField.HexLevel == 0)
                 {
                     terrainType = (int)TerrainType.Snow;
                 }
@@ -1386,7 +1386,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     // Unit.PAS:1066
     public void PathOfFrostTerrainChanged(MapField mapField, sbyte originalTerrainType, sbyte originalOverlayType)
     {
-        if (Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)mapField.TerrainType) && !Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)originalTerrainType))
+        if (mapField.TerrainType is (sbyte)TerrainType.Ice or (sbyte)TerrainType.UndergroundIce && (byte)originalTerrainType is not (6 or 13))
         {
             FrozenWaterHexSprite ice = mapField.FindOwnedHexSprite<FrozenWaterHexSprite>();
             if (ice is null)
@@ -1410,7 +1410,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         if (hexX > -1)
         {
             MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
-            if (Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)field.TerrainType))
+            if (field.TerrainType is (sbyte)TerrainType.Ice or (sbyte)TerrainType.UndergroundIce)
             {
                 FrozenWaterHexSprite ice = field.FindOwnedHexSprite<FrozenWaterHexSprite>();
                 if (ice is not null)
@@ -1467,9 +1467,9 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     // Unit.PAS:1154
     public int ExecuteStormDamage(StormType storm, int distance)
     {
-        Set<MoveType> moves = GetMoveTypes();
+        MoveTypes moves = GetMoveTypes();
         bool doubleDamage = GetAbilityEnabled(23);
-        if (!doubleDamage && moves.Contains(MoveType.Flying))
+        if (!doubleDamage && moves.Contains(MoveTypes.Flying))
         {
             MapCoordinate coordinate48 = GetLocation();
             sbyte hexX = coordinate48.X;
@@ -1480,8 +1480,8 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
                 MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
                 sbyte terrain = field.TerrainType;
                 sbyte overlay = field.OverlayType;
-                moves -= Set<MoveType>.Of(MoveType.Flying);
-                int moveTypesToInt32 = (byte)moves.Image;
+                moves &= ~MoveTypes.Flying;
+                int moveTypesToInt32 = (byte)moves;
                 doubleDamage = MovementTables.MovePointTables[moveTypesToInt32][terrain][overlay - MovementTables.FirstOverlay] == 0;
             }
         }
@@ -1526,7 +1526,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             result *= 2;
         }
 
-        result = ExecuteDamageRole(attack, damage: result, damageTypes: Set<DamageType>.Of(Army.StormDamageType[(int)storm]));
+        result = ExecuteDamageRole(attack, damage: result, damageTypes: Army.StormDamageType[(int)storm].ToFlag());
         if (result > GetHitPoints())
         {
             result = GetHitPoints();
@@ -1537,10 +1537,10 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             switch (storm)
             {
                 case StormType.Death:
-                    _ = ExecuteDamageEffects(Set<DamageType>.Of(DamageType.Death));
+                    _ = ExecuteDamageEffects(DamageTypes.Death);
                     break;
                 case StormType.Pestilence:
-                    _ = ExecuteDamageEffects(Set<DamageType>.Of(DamageType.Poison));
+                    _ = ExecuteDamageEffects(DamageTypes.Poison);
                     break;
                 case StormType.None:
                 case StormType.Fire:
@@ -1651,7 +1651,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         if (condition)
         {
             Alignment alignment = GetAlignment();
-            condition = Set<Alignment>.Of(Alignment.Evil, Alignment.PureEvil).Contains(alignment);
+            condition = alignment is Alignment.Evil or Alignment.PureEvil;
         }
 
         if (condition && !GetAbilityEnabled(67) && !GetAbilityEnabled(46) && HitChance.HitRole(4 - GetResistance()))
@@ -1671,12 +1671,12 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         sbyte player = Player;
         if (player > 0)
         {
-            if (!StrategicMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.LifeMastery))
+            if (!StrategicMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentTypes.LifeMastery))
             {
                 ResetLifeMasteryBlessing();
             }
 
-            if ((((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 16) == 0)
+            if ((((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments) & 16) == 0)
             {
                 ResetLifeMasteryFear();
             }
@@ -1690,7 +1690,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         if (condition)
         {
             Alignment alignment = GetAlignment();
-            condition = Set<Alignment>.Of(Alignment.PureGood, Alignment.Good).Contains(alignment);
+            condition = alignment is Alignment.PureGood or Alignment.Good;
         }
 
         if (condition && HitChance.HitRole(6 - GetResistance()))
@@ -1709,7 +1709,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         sbyte player = Player;
         if (player > 0)
         {
-            if ((((byte)StrategicMap.Current.Players.GetPlayers(player).MagicControl.EnemyEnchantments.Image) & 32) == 0)
+            if ((((byte)StrategicMap.Current.Players.GetPlayers(player).MagicControl.EnemyEnchantments) & 32) == 0)
             {
                 if (GetAbilityEnabled(93))
                 {
@@ -1732,7 +1732,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
         _ = coordinate49.X;
         _ = coordinate49.Y;
         sbyte hexLevel = coordinate49.MapLevel;
-        return (hexLevel != 0 && !GetAbilityEnabled(39)) || (hexLevel == 0 && Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 8) != 0)
+        return (hexLevel != 0 && !GetAbilityEnabled(39)) || (hexLevel == 0 && Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments) & 8) != 0)
             ? (result + 1) >>> 1
             : result;
     }
@@ -1741,17 +1741,17 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     public int TrueVisionRange() => GetAbilityEnabled(41) ? VisibilityRange() : 1;
 
     // Unit.PAS:1428
-    public bool CanPlace(int X, int Y, int L, sbyte player, Set<UnitPlaceModeElement> mode)
+    public bool CanPlace(int X, int Y, int L, sbyte player, UnitPlaceModes mode)
     {
         if (X >= 0 && Y >= 0 && X < StrategicMap.Current.MapContainer.Width && Y < StrategicMap.Current.MapContainer.Height)
         {
             MapField field = StrategicMap.Current.MapContainer.GetField(X, Y, L);
             sbyte fieldPlayer = field.GetPlayer();
-            if (mode.Contains(UnitPlaceModeElement.NeglectEmptyPlayerLocation) || fieldPlayer == player || fieldPlayer == -1 || player == -1)
+            if (mode.Contains(UnitPlaceModes.NeglectEmptyPlayerLocation) || fieldPlayer == player || fieldPlayer == -1 || player == -1)
             {
                 ArmyHexSprite armyHexSprite = StrategicMap.Current.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
                 return armyHexSprite is not null
-                    ? !mode.Contains(UnitPlaceModeElement.CreateNewArmy) && (player == -1 || armyHexSprite.Army.Player == player) && armyHexSprite.Army.CanAddUnit(this)
+                    ? !mode.Contains(UnitPlaceModes.CreateNewArmy) && (player == -1 || armyHexSprite.Army.Player == player) && armyHexSprite.Army.CanAddUnit(this)
                     : ValidTerrain(field.TerrainType, field.OverlayType);
             }
             else
@@ -1766,11 +1766,11 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     }
 
     // Unit.PAS:1454
-    public ArmyHexSprite Place(int X, int Y, int L, sbyte player, Set<UnitPlaceModeElement> mode)
+    public ArmyHexSprite Place(int X, int Y, int L, sbyte player, UnitPlaceModes mode)
     {
         ArmyHexSprite result = null;
         HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, X, Y, radius: 0);
-        while (result is null && (walk.Radius == 0 || mode.Contains(UnitPlaceModeElement.ScanArea)) && walk.Radius < 30)
+        while (result is null && (walk.Radius == 0 || mode.Contains(UnitPlaceModes.ScanArea)) && walk.Radius < 30)
         {
             if (CanPlace(walk.X, walk.Y, L, player, mode))
             {
@@ -1824,7 +1824,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     {
         UnitShowInfo info = default;
         info.Direction = 3;
-        info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
+        info.Overlays = UnitOverlayModes.HitPoints | UnitOverlayModes.Rank;
         info.Animation = UnitAnimation.StandStill;
         info.Frame = 0;
         info.Looped = false;
@@ -1847,15 +1847,15 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     }
 
     // Unit.PAS:1623
-    public int ExecuteDamageRole(int attack, int damage, Set<DamageType> damageTypes)
+    public int ExecuteDamageRole(int attack, int damage, DamageTypes damageTypes)
     {
         int result = 0;
-        Set<DamageType> active = damageTypes - GetImmunityTypes();
-        if (active != Set<DamageType>.Of())
+        DamageTypes active = damageTypes & ~GetImmunityTypes();
+        if (active != DamageTypes.None)
         {
             int displayController = attack - GetDefense();
             result = AbilityRules.ExecuteDamageRole(damage, attackDefense: displayController);
-            if (active - GetProtectionTypes() == Set<DamageType>.Of())
+            if ((active & ~GetProtectionTypes()) == DamageTypes.None)
             {
                 return (result + 1) / 2;
             }
@@ -1867,9 +1867,9 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     // Unit.PAS:1635
     public bool ExecuteResistanceRole(int attack, DamageType damageType)
     {
-        if (!GetImmunityTypes().Contains(damageType))
+        if (!GetImmunityTypes().Contains(damageType.ToFlag()))
         {
-            if (GetProtectionTypes().Contains(damageType))
+            if (GetProtectionTypes().Contains(damageType.ToFlag()))
             {
                 attack -= 2;
             }
@@ -1883,72 +1883,72 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     }
 
     // Unit.PAS:1644
-    public Set<DamageType> ExecuteDamageEffectsRole(Set<DamageType> damageTypes)
+    public DamageTypes ExecuteDamageEffectsRole(DamageTypes damageTypes)
     {
-        Set<DamageType> result = Set<DamageType>.Of();
-        Set<DamageType> active = damageTypes - GetImmunityTypes();
-        if (active != Set<DamageType>.Of())
+        DamageTypes result = DamageTypes.None;
+        DamageTypes active = damageTypes & ~GetImmunityTypes();
+        if (active != DamageTypes.None)
         {
             int resistance = GetResistance();
-            Set<DamageType> protection = GetProtectionTypes();
+            DamageTypes protection = GetProtectionTypes();
             int effectiveResistance;
-            if (active.Contains(DamageType.Fire) && !GetAbilityEnabled(7))
+            if (active.Contains(DamageTypes.Fire) && !GetAbilityEnabled(7))
             {
-                effectiveResistance = protection.Contains(DamageType.Fire) ? resistance + 2 : GetResistance();
+                effectiveResistance = protection.Contains(DamageTypes.Fire) ? resistance + 2 : GetResistance();
 
                 if (HitChance.HitRole(4 - effectiveResistance))
                 {
-                    result += Set<DamageType>.Of(DamageType.Fire);
+                    result |= DamageTypes.Fire;
                 }
             }
 
-            if (active.Contains(DamageType.Lightning) && GetUnitType() != UnitType.Machine && !GetAbilityEnabled(9))
+            if (active.Contains(DamageTypes.Lightning) && GetUnitType() != UnitType.Machine && !GetAbilityEnabled(9))
             {
-                effectiveResistance = protection.Contains(DamageType.Lightning) ? resistance + 2 : GetResistance();
+                effectiveResistance = protection.Contains(DamageTypes.Lightning) ? resistance + 2 : GetResistance();
 
                 if (HitChance.HitRole(6 - effectiveResistance))
                 {
-                    result += Set<DamageType>.Of(DamageType.Lightning);
+                    result |= DamageTypes.Lightning;
                 }
             }
 
-            if (active.Contains(DamageType.Poison) && !GetAbilityEnabled(10))
+            if (active.Contains(DamageTypes.Poison) && !GetAbilityEnabled(10))
             {
-                effectiveResistance = protection.Contains(DamageType.Poison) ? resistance + 2 : GetResistance();
+                effectiveResistance = protection.Contains(DamageTypes.Poison) ? resistance + 2 : GetResistance();
 
                 if (HitChance.HitRole(3 - effectiveResistance))
                 {
-                    result += Set<DamageType>.Of(DamageType.Poison);
+                    result |= DamageTypes.Poison;
                 }
             }
 
-            if (active.Contains(DamageType.Death) && !GetAbilityEnabled(11))
+            if (active.Contains(DamageTypes.Death) && !GetAbilityEnabled(11))
             {
-                effectiveResistance = protection.Contains(DamageType.Death) ? resistance + 2 : GetResistance();
+                effectiveResistance = protection.Contains(DamageTypes.Death) ? resistance + 2 : GetResistance();
 
                 if (HitChance.HitRole(4 - effectiveResistance))
                 {
-                    result += Set<DamageType>.Of(DamageType.Death);
+                    result |= DamageTypes.Death;
                 }
             }
 
-            if (active.Contains(DamageType.Holy) && !GetAbilityEnabled(12))
+            if (active.Contains(DamageTypes.Holy) && !GetAbilityEnabled(12))
             {
-                effectiveResistance = protection.Contains(DamageType.Holy) ? resistance + 2 : GetResistance();
+                effectiveResistance = protection.Contains(DamageTypes.Holy) ? resistance + 2 : GetResistance();
 
                 if (HitChance.HitRole(3 - effectiveResistance) && GetUnitType() != UnitType.Machine)
                 {
-                    result += Set<DamageType>.Of(DamageType.Holy);
+                    result |= DamageTypes.Holy;
                 }
             }
 
-            if (active.Contains(DamageType.Cold) && !GetAbilityEnabled(8))
+            if (active.Contains(DamageTypes.Cold) && !GetAbilityEnabled(8))
             {
-                effectiveResistance = protection.Contains(DamageType.Cold) ? resistance + 2 : GetResistance();
+                effectiveResistance = protection.Contains(DamageTypes.Cold) ? resistance + 2 : GetResistance();
 
                 if (HitChance.HitRole(2 - effectiveResistance))
                 {
-                    result += Set<DamageType>.Of(DamageType.Cold);
+                    result |= DamageTypes.Cold;
                 }
             }
         }
@@ -1957,26 +1957,26 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     }
 
     // Unit.PAS:1699
-    public Set<DamageType> ExecuteDamageEffects(Set<DamageType> damageTypes)
+    public DamageTypes ExecuteDamageEffects(DamageTypes damageTypes)
     {
-        Set<DamageType> result = Set<DamageType>.Of();
-        Set<DamageType> active = damageTypes - GetImmunityTypes();
+        DamageTypes result = DamageTypes.None;
+        DamageTypes active = damageTypes & ~GetImmunityTypes();
         // { Preserve EBX allocation and byte membership tests. }
-        if (active != Set<DamageType>.Of())
+        if (active != DamageTypes.None)
         {
-            if (active.Contains(DamageType.Poison) && ExpandAbility(96))
+            if (active.Contains(DamageTypes.Poison) && ExpandAbility(96))
             {
-                result += Set<DamageType>.Of(DamageType.Poison);
+                result |= DamageTypes.Poison;
             }
 
-            if (active.Contains(DamageType.Death) && ExpandAbility(93))
+            if (active.Contains(DamageTypes.Death) && ExpandAbility(93))
             {
-                result += Set<DamageType>.Of(DamageType.Death);
+                result |= DamageTypes.Death;
             }
 
-            if (active.Contains(DamageType.Holy) && ExpandAbility(98))
+            if (active.Contains(DamageTypes.Holy) && ExpandAbility(98))
             {
-                result += Set<DamageType>.Of(DamageType.Holy);
+                result |= DamageTypes.Holy;
             }
         }
 
@@ -1984,23 +1984,23 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     }
 
     // Unit.PAS:1747
-    public DamageType OptimalDamageType(Set<DamageType> damageTypes)
+    public DamageType OptimalDamageType(DamageTypes damageTypes)
     {
-        DamageType result = DamageType.None;
-        Set<DamageType> active = damageTypes - GetImmunityTypes();
-        if (active != Set<DamageType>.Of())
+        DamageType result = DamageType.NonSpecific;
+        DamageTypes active = damageTypes & ~GetImmunityTypes();
+        if (active != DamageTypes.None)
         {
-            Set<DamageType> protection = GetProtectionTypes();
-            if (protection == Set<DamageType>.Of() || active - protection == Set<DamageType>.Of())
+            DamageTypes protection = GetProtectionTypes();
+            if (protection == DamageTypes.None || (active & ~protection) == DamageTypes.None)
             {
-                while (!active.Contains(result))
+                while (!active.Contains(result.ToFlag()))
                 {
                     result = (DamageType)((int)result - 1);
                 }
             }
             else
             {
-                while (!active.Contains(result) || protection.Contains(result))
+                while (!active.Contains(result.ToFlag()) || protection.Contains(result.ToFlag()))
                 {
                     result = (DamageType)((int)result - 1);
                 }
@@ -2078,48 +2078,48 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
     }
 
     // Unit.PAS:1715. Native hard casts retain identity across the intermediate local type.
-    public Set<DamageType> ExecuteCombatDamageEffects(Battle combat, Set<DamageType> damageTypes)
+    public DamageTypes ExecuteCombatDamageEffects(Battle combat, DamageTypes damageTypes)
     {
-        Set<DamageType> result = default;
-        Set<DamageType> active = damageTypes - GetImmunityTypes();
+        DamageTypes result = default;
+        DamageTypes active = damageTypes & ~GetImmunityTypes();
         if (active == default)
         {
             return result;
         }
 
-        if (active.Contains(DamageType.Fire) && ExpandAbility(127))
+        if (active.Contains(DamageTypes.Fire) && ExpandAbility(127))
         {
             _ = RemoveAbility(95);
-            result += Set<DamageType>.Of(DamageType.Fire);
+            result |= DamageTypes.Fire;
         }
-        if (active.Contains(DamageType.Cold) && ExpandAbility(95))
+        if (active.Contains(DamageTypes.Cold) && ExpandAbility(95))
         {
             UnitEnchantmentAbilityData data = GetAbilityData<UnitEnchantmentAbilityData>(95);
             data?.EnchantmentPlayerIndex = (sbyte)combat.CombatData.CurrentPlayer;
 
             _ = RemoveAbility(127);
-            result += Set<DamageType>.Of(DamageType.Cold);
+            result |= DamageTypes.Cold;
         }
-        if (active.Contains(DamageType.Lightning) && ExpandAbility(92))
+        if (active.Contains(DamageTypes.Lightning) && ExpandAbility(92))
         {
             DurationAbilityData data = GetAbilityData<DurationAbilityData>(92);
             data?.PlayerIndex = combat.CombatData.CurrentPlayer;
 
-            result += Set<DamageType>.Of(DamageType.Lightning);
+            result |= DamageTypes.Lightning;
         }
-        if (active.Contains(DamageType.Poison) && ExpandAbility(96))
+        if (active.Contains(DamageTypes.Poison) && ExpandAbility(96))
         {
-            result += Set<DamageType>.Of(DamageType.Poison);
-        }
-
-        if (active.Contains(DamageType.Death) && ExpandAbility(93))
-        {
-            result += Set<DamageType>.Of(DamageType.Death);
+            result |= DamageTypes.Poison;
         }
 
-        if (active.Contains(DamageType.Holy) && ExpandAbility(98))
+        if (active.Contains(DamageTypes.Death) && ExpandAbility(93))
         {
-            result += Set<DamageType>.Of(DamageType.Holy);
+            result |= DamageTypes.Death;
+        }
+
+        if (active.Contains(DamageTypes.Holy) && ExpandAbility(98))
+        {
+            result |= DamageTypes.Holy;
         }
 
         return result;
@@ -2139,7 +2139,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
             }
 
             int strength = 0;
-            Set<DamageType> types = default;
+            DamageTypes types = default;
             ability.GetOffensiveStrength(this, ref strength, ref types);
             if (strength > 255)
             {
@@ -2161,9 +2161,9 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
                 MaxOffensiveStrength = (byte)strength;
             }
 
-            for (int kind = (int)DamageType.Fire; kind <= (int)DamageType.None; kind++)
+            for (int kind = (int)DamageType.Fire; kind <= (int)DamageType.NonSpecific; kind++)
             {
-                if (types.Contains((DamageType)kind) && _offensiveStrength[kind] < strength)
+                if (types.Contains(((DamageType)kind).ToFlag()) && _offensiveStrength[kind] < strength)
                 {
                     _offensiveStrength[kind] = (byte)strength;
                 }

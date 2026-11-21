@@ -33,7 +33,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
     {
         CaveEntrance oldEntrance = Entrance;
         Entrance = CaveEntrance.Idle;
-        if (Status.Contains(MapObjectStatusElement.PlacedOnMap) && Owner is not null)
+        if (Status.Contains(MapObjectStatuses.PlacedOnMap) && Owner is not null)
         {
             if (!EditMode)
             {
@@ -102,7 +102,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
     public override void Deactivate()
     {
         base.Deactivate();
-        Status -= Set<MapObjectStatusElement>.Of(MapObjectStatusElement.Activated);
+        Status &= ~MapObjectStatuses.Activated;
         Owner.UpdateMapField();
     }
 
@@ -302,7 +302,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
             {
                 sbyte player = field.GetPlayer();
                 DiplomaticRelation diplomaticRelation = StrategicMap.Current.Players.GetDiplomaticRelation(armyHexSprite.Army.Player, otherPlayer: player);
-                condition = Set<byte>.WithBounds(0, 255).With(1).With(3).Contains((byte)(int)diplomaticRelation);
+                condition = diplomaticRelation is DiplomaticRelation.War or DiplomaticRelation.Unknown;
             }
 
             if (condition)
@@ -312,7 +312,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
                     if (!StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player).GetBusy())
                     {
                         // { Original passes action before mode. }
-                        TokenEvent eventValue = ArmyHexSprite.CreateArmyMoveTokenEvent(armyHexSprite, selection, path, action: MoveAction.Attack, mode: Set<ArmyMoveModeElement>.Of());
+                        TokenEvent eventValue = ArmyHexSprite.CreateArmyMoveTokenEvent(armyHexSprite, selection, path, action: MoveAction.Attack, mode: ArmyMoveModes.None);
                         if (eventValue is not null)
                         {
                             StrategicMap.Current.TokenManager.GetTokenControl(armyHexSprite.Army.Player).AddEvent(eventValue);
@@ -331,7 +331,7 @@ public partial class Cave(CustomNode owner) : Structure(owner)
                 }
                 else
                 {
-                    result = ArmyHexSprite.MoveArmy(armyHexSprite, selection, path, mode: Set<ArmyMoveModeElement>.Of(), force: false);
+                    result = ArmyHexSprite.MoveArmy(armyHexSprite, selection, path, mode: ArmyMoveModes.None, force: false);
                 }
 
                 if (result && (byte)StrategicMap.Current.SeatedPlayer == (byte)armyHexSprite.Army.Player)

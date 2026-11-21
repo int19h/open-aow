@@ -14,8 +14,6 @@ using Aow.Game.World.Map;
 
 using Aow.Game.World.Structures;
 
-using Aow.Rtl;
-
 using static Aow.Rtl.DelphiAssert;
 
 namespace Aow.Game.AI.Groups;
@@ -46,7 +44,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     public AIGroup(CustomNode owner) : base(owner)
     {
         _refCount = 1;
-        Status = Set<AIGroupStatusElement>.Of();
+        Status = AIGroupStatuses.None;
         Productions = new AIGroupProductionList(null) { Holder = CreationHolder() };
         GroupId = -1;
         Player = -1;
@@ -57,7 +55,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
         RecruitmentPriority = 10;
     }
 
-    public Set<AIGroupStatusElement> Status { get; set; }
+    public AIGroupStatuses Status { get; set; }
 
     private int _refCount;
 
@@ -98,7 +96,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
             }
         }
 
-        if (Status.Contains(AIGroupStatusElement.Activated))
+        if (Status.Contains(AIGroupStatuses.Activated))
         {
             Deactivate();
         }
@@ -263,7 +261,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
 
             troop.GroupId = GroupId;
             troop.Group = this;
-            Status += Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Changed);
+            Status |= AIGroupStatuses.Changed;
             result = true;
         }
         else
@@ -313,7 +311,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
                 }
             }
 
-            Status += Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Changed);
+            Status |= AIGroupStatuses.Changed;
             result = true;
         }
         else
@@ -325,7 +323,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
                 TransporterId = -1;
                 _ = Transporter.Release();
                 Transporter = null;
-                Status += Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Changed);
+                Status |= AIGroupStatuses.Changed;
                 result = true;
             }
             else
@@ -384,7 +382,7 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     {
         if (player == Player)
         {
-            Status -= Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Done);
+            Status &= ~AIGroupStatuses.Done;
         }
     }
 
@@ -612,16 +610,16 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     public void ValidateEmpty()
     {
         bool empty = Units.Count == 0 && TransporterId == -1;
-        if (empty && !Status.Contains(AIGroupStatusElement.Empty))
+        if (empty && !Status.Contains(AIGroupStatuses.Empty))
         {
-            Status += Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Empty);
+            Status |= AIGroupStatuses.Empty;
             _ = Release();
         }
         else
         {
-            if (!empty && Status.Contains(AIGroupStatusElement.Empty))
+            if (!empty && Status.Contains(AIGroupStatuses.Empty))
             {
-                Status -= Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Empty);
+                Status &= ~AIGroupStatuses.Empty;
                 _ = AddRef();
             }
         }
@@ -681,8 +679,8 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     // AIGroup.pas:475
     public void Activate()
     {
-        Assert(!Status.Contains(AIGroupStatusElement.Activated), message: "", file: "AIGroup.pas", line: 479);
-        Status += Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Activated);
+        Assert(!Status.Contains(AIGroupStatuses.Activated), message: "", file: "AIGroup.pas", line: 479);
+        Status |= AIGroupStatuses.Activated;
         sbyte player = Player;
         if (player != -1)
         {
@@ -696,13 +694,13 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     // AIGroup.pas:488
     public void Deactivate()
     {
-        if (!Status.Contains(AIGroupStatusElement.Activated))
+        if (!Status.Contains(AIGroupStatuses.Activated))
         {
             // { Preserve the original assertion diagnostic. }
             Assert(false, message: "Assertion failure", file: "D:\\AoWDev\\AoWE\\inc\\AIGroup.pas", line: 24094);
         }
 
-        Status -= Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Activated);
+        Status &= ~AIGroupStatuses.Activated;
         sbyte player = Player;
         if (player != -1)
         {
@@ -715,13 +713,13 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     {
         if (player != Player)
         {
-            if (Status.Contains(AIGroupStatusElement.Activated) && Player != -1)
+            if (Status.Contains(AIGroupStatuses.Activated) && Player != -1)
             {
                 _ = StrategicMap.Current.Players.GetPlayers(Player).AIGroups.RemoveChild(this);
             }
 
             Player = player;
-            if (Status.Contains(AIGroupStatusElement.Activated) && Player != -1)
+            if (Status.Contains(AIGroupStatuses.Activated) && Player != -1)
             {
                 _ = StrategicMap.Current.Players.GetPlayers(Player).AIGroups.AddChild(this);
             }

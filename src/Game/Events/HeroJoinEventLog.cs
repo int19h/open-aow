@@ -10,8 +10,6 @@ using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Events;
 
 // { Interface declaration run owned by P2. }
@@ -27,8 +25,8 @@ public partial class HeroJoinEventLog(CustomNode owner) : JoinEventLog(owner)
         if (hero is not null && hero.Player == 0 && hero.OfferToJoin(Player))
         {
             bool executeNow = trigger == ExecuteTrigger.User;
-            executeNow = executeNow || (StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.HeroJoin));
-            executeNow = executeNow || (StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.HeroJoin));
+            executeNow = executeNow || (StrategicMap.Current.PlayMode == PlayMode.Turn && GetEngine().Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvents.HeroJoin));
+            executeNow = executeNow || (StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GetEngine().Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvents.HeroJoin));
             return executeNow && base.Execute(mode, trigger, done);
         }
         else
@@ -57,7 +55,7 @@ public partial class HeroJoinEventLog(CustomNode owner) : JoinEventLog(owner)
                 Gold = Gold,
                 Offer = NegotiateTokenEvent.NegotiateOffer.OfferBribe,
                 Location = new MapCoordinate(unchecked((sbyte)(byte)location.X), unchecked((sbyte)(byte)location.Y), unchecked((sbyte)(byte)location.MapLevel)),
-                Mode = Set<NegotiateModeElement>.Of(),
+                Mode = NegotiateModes.None,
                 Result = NegotiateTokenEvent.NegotiateResult.Accept,
                 EventLogId = JoinIndex
             };

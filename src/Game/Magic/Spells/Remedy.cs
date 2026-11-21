@@ -1,7 +1,6 @@
 // Translated from UnitSpells.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Magic.Abilities;
-using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
@@ -17,7 +16,7 @@ public class Remedy : UnitSpell
         SpellLevel = 1;
         MagicSphere = MagicSphere.Cosmos;
         TargetRange = 12;
-        SpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global, SpellControlTypeElement.Combat);
+        SpellControlTypes = SpellControlTypes.Global | SpellControlTypes.Combat;
     }
 
     // UnitSpells.pas:458

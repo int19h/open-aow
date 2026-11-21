@@ -116,7 +116,7 @@ internal static class Verification
         }
 
         Check(sink.Characters.SequenceEqual(new byte[] { 13, 8, 27, 9 }), label: "synthesized WM_CHAR controls");
-        Check(sink.Shift.Contains(ShiftState.Shift) && sink.Shift.Contains(ShiftState.Ctrl) && sink.Shift.Contains(ShiftState.Alt), label: "key modifiers");
+        Check(sink.Shift.Contains(ShiftStates.Shift) && sink.Shift.Contains(ShiftStates.Ctrl) && sink.Shift.Contains(ShiftStates.Alt), label: "key modifiers");
         mapper.Key('a', scancode: 4, keyModifiers: 0, down: true, sink);
         mapper.Key('a', scancode: 4, keyModifiers: 0, down: true, sink);
         mapper.Key('a', scancode: 4, keyModifiers: 0, down: false, sink);
@@ -155,7 +155,7 @@ internal static class Verification
         mapper.Button(1, down: false, milliseconds: 150, 10, 10, viewport: one, sink);
         mapper.Button(1, down: true, milliseconds: 600, 14, 14, viewport: one, sink);
         Check(sink.ConstructionTrace.SequenceEqual(new[] { "down", "up", "double", "down" }), label: "VCL double before second down at threshold");
-        Check(sink.Shift.Contains(ShiftState.Double) && sink.Shift.Contains(ShiftState.Left), label: "double and button shift flags");
+        Check(sink.Shift.Contains(ShiftStates.Double) && sink.Shift.Contains(ShiftStates.Left), label: "double and button shift flags");
         mapper.Button(1, down: false, milliseconds: 601, 14, 14, viewport: one, sink);
         mapper.Button(1, down: true, milliseconds: 602, 14, 14, viewport: one, sink);
         Equal(1, sink.Doubles, label: "triple click starts a new pair");
@@ -174,7 +174,7 @@ internal static class Verification
         mapper.Button(3, down: false, milliseconds: 20, 10, 10, viewport: one, sink);
         mapper.Button(3, down: true, milliseconds: 30, 10, 10, viewport: one, sink);
         Equal(2, sink.Doubles, label: "right double click");
-        Check(sink.Shift.Contains(ShiftState.Right), label: "right shift state");
+        Check(sink.Shift.Contains(ShiftStates.Right), label: "right shift state");
         Console.WriteLine("P2 PASS: virtual keys, repeats, controls, CP1252, modifiers, buttons, double clicks and letterbox exits");
     }
 
@@ -186,14 +186,14 @@ internal static class Verification
         {
             RtlHost.Settings = new JsonSettingsStore(directory);
             GameSettings registry = new();
-            Equal(0xffUL, registry.GetClassicWindowPopupEvents().Mask, label: "classic popup default");
-            Equal(0xefUL, registry.GetSimultaneousWindowPopupEvents().Mask, label: "simultaneous popup default");
-            registry.SetClassicWindowPopupEvents(Set<WindowPopupEvent>.FromMask(0x81));
-            registry.SetSimultaneousWindowPopupEvents(Set<WindowPopupEvent>.FromMask(0x42));
+            Equal(0xffUL, (ulong)registry.GetClassicWindowPopupEvents(), label: "classic popup default");
+            Equal(0xefUL, (ulong)registry.GetSimultaneousWindowPopupEvents(), label: "simultaneous popup default");
+            registry.SetClassicWindowPopupEvents(WindowPopupEvents.Combat | WindowPopupEvents.HeroJoin);
+            registry.SetSimultaneousWindowPopupEvents(WindowPopupEvents.Diplomacy | WindowPopupEvents.HeroUpgrade);
             RtlHost.Settings = new JsonSettingsStore(directory);
             registry = new GameSettings();
-            Equal(0x81UL, registry.GetClassicWindowPopupEvents().Mask, label: "classic popup persisted byte");
-            Equal(0x42UL, registry.GetSimultaneousWindowPopupEvents().Mask, label: "simultaneous popup persisted byte");
+            Equal(0x81UL, (ulong)registry.GetClassicWindowPopupEvents(), label: "classic popup persisted byte");
+            Equal(0x42UL, (ulong)registry.GetSimultaneousWindowPopupEvents(), label: "simultaneous popup persisted byte");
             // Use a fresh store for the complete missing-value battery.
             directory = Path.Combine(s_scratch, "settings-defaults");
             RtlHost.Settings = new JsonSettingsStore(directory);
@@ -513,32 +513,32 @@ internal static class Verification
         public List<(int, int)> Moves { get; } = [];
         public List<string> ConstructionTrace { get; } = [];
 
-        public Set<ShiftState> Shift { get; private set; }
+        public ShiftStates Shift { get; private set; }
         public ushort ReleasedKey { get; private set; }
         public int Doubles { get; private set; }
 
-        public void KeyDown(ushort key, Set<ShiftState> shift)
+        public void KeyDown(ushort key, ShiftStates shift)
         {
             Keys.Add(key);
             Shift = shift;
         }
 
-        public void KeyUp(ushort key, Set<ShiftState> shift) => ReleasedKey = key;
+        public void KeyUp(ushort key, ShiftStates shift) => ReleasedKey = key;
         public void KeyPress(byte value) => Characters.Add(value);
 
-        public void MouseMove(Set<ShiftState> shift, int x, int y)
+        public void MouseMove(ShiftStates shift, int x, int y)
         {
             Moves.Add((x, y));
             Shift = shift;
         }
 
-        public void MouseDown(MouseButton button, Set<ShiftState> shift, int x, int y)
+        public void MouseDown(MouseButton button, ShiftStates shift, int x, int y)
         {
             ConstructionTrace.Add("down");
             Shift = shift;
         }
 
-        public void MouseUp(MouseButton button, Set<ShiftState> shift, int x, int y)
+        public void MouseUp(MouseButton button, ShiftStates shift, int x, int y)
         {
             ConstructionTrace.Add("up");
             Shift = shift;

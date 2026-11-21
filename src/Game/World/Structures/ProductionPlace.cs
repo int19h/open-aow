@@ -376,7 +376,7 @@ public partial class ProductionPlace : PlayerStructure
     // PrdPlace.pas:543
     public override void StructureCaptured(sbyte oldPlayer, sbyte newPlayer)
     {
-        if (!GetRazed() && !Building && oldPlayer == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Status.Contains(MapObjectStatusElement.Activated) && !Resource.Claimed)
+        if (!GetRazed() && !Building && oldPlayer == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting) && Status.Contains(MapObjectStatuses.Activated) && !Resource.Claimed)
         {
             ProductionPlaceEventLog log = new(null)
             {
@@ -425,7 +425,7 @@ public partial class ProductionPlace : PlayerStructure
                     }
 
                     sbyte hexY = HexY;
-                    _ = AbilityRules.PlaceRandomUnits(HexX, hexY, L: HexLevel, player: 0, units, level: 4, value: budget, types: Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature), engine: GetEngine());
+                    _ = AbilityRules.PlaceRandomUnits(HexX, hexY, L: HexLevel, player: 0, units, level: 4, value: budget, types: UnitTypes.Humanoid | UnitTypes.Creature, engine: GetEngine());
                     armyHexSprite = Owner.GetArmyHexSprite();
                     if (armyHexSprite is not null && armyHexSprite.Army.Player == 0)
                     {
@@ -500,7 +500,7 @@ public partial class ProductionPlace : PlayerStructure
                 unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(unitIndex));
                 unit.SetPlayer(Player);
                 sbyte hexY = HexY;
-                ArmyHexSprite armyHexSprite = unit.Place(HexX, hexY, L: HexLevel, Player, mode: Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
+                ArmyHexSprite armyHexSprite = unit.Place(HexX, hexY, L: HexLevel, Player, mode: UnitPlaceModes.ScanArea);
                 if (armyHexSprite is not null)
                 {
                     if (unit.ExpandAbility(155))

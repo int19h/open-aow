@@ -1,7 +1,7 @@
 // Translated from AoWE.pas.
 using System.Diagnostics.CodeAnalysis;
+using Aow.Game.Session;
 using Aow.Game.Units;
-using Aow.Rtl;
 
 namespace Aow.Game.Combat;
 
@@ -9,25 +9,25 @@ public struct BattleFieldInfo
 {
     public sbyte Player { get; private set; }
     public sbyte IndependentRelation { get; }
-    public Set<BattleFieldInfoRequestsElement> Requests { get; set; }
-    public Set<DamageType> DamageTypes { get; private set; }
+    public BattleFieldInfoRequests Requests { get; set; }
+    public DamageTypes DamageTypes { get; private set; }
 
     // The troops already counted. A default value has no holder and counts every troop.
     public UnitCollection Units { get; set; }
-    public Set<byte> FriendlyRelations { get; set; }
-    public Set<byte> EnemyRelations { get; set; }
+    public DiplomaticRelations FriendlyRelations { get; set; }
+    public DiplomaticRelations EnemyRelations { get; set; }
     public int FriendlyStrength { get; set; }
     public int Strength { get; set; }
 
     [SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "The Delphi signature keeps relation and the original ignores it.")]
-    internal static void SetupBattleFieldInfo(out BattleFieldInfo info, sbyte player, sbyte relation, Set<BattleFieldInfoRequestsElement> requests, Set<DamageType> damageTypes)
+    internal static void SetupBattleFieldInfo(out BattleFieldInfo info, sbyte player, sbyte relation, BattleFieldInfoRequests requests, DamageTypes damageTypes)
     {
         info = default;
         info.Player = player;
         // { Original ignores the independent relation parameter. }
         info.Requests = requests;
         info.DamageTypes = damageTypes;
-        info.FriendlyRelations = Set<byte>.WithBounds(0, 7).With(2);
-        info.EnemyRelations = Set<byte>.WithBounds(0, 7).With(1).With(3);
+        info.FriendlyRelations = DiplomaticRelations.Alliance;
+        info.EnemyRelations = DiplomaticRelations.War | DiplomaticRelations.Unknown;
     }
 }

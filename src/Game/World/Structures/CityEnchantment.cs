@@ -9,8 +9,6 @@ using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 namespace Aow.Game.World.Structures;
 
 // CityEnchantmentId, EnchantmentLocation
@@ -33,7 +31,7 @@ public class CityEnchantment : GlobalEnchantment
     }
 
     // City.pas:2716
-    public CityEnchantment(CustomNode owner) : base(owner) => EnchantmentMode -= Set<GlobalEnchantmentModeElement>.Of(GlobalEnchantmentModeElement.TrueGlobal, GlobalEnchantmentModeElement.Owned);
+    public CityEnchantment(CustomNode owner) : base(owner) => EnchantmentMode &= ~(GlobalEnchantmentModes.TrueGlobal | GlobalEnchantmentModes.Owned);
 
     // City.pas:2762
     public override string GetName() => AbilityRules.TranslateResourceString(GetEngine(), S: s_cityEnchantmentIdTexts[(int)CityEnchantmentId]);
@@ -52,7 +50,7 @@ public class CityEnchantment : GlobalEnchantment
     public override bool Deactivate(byte player)
     {
         bool result;
-        if (EnchantmentStatus.Contains(GlobalEnchantmentStatusElement.Activated))
+        if (EnchantmentStatus.Contains(GlobalEnchantmentStatuses.Activated))
         {
             result = base.Deactivate(player);
             GetCity().DeactivateEnchantment(this);

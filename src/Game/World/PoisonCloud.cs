@@ -84,7 +84,7 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
     // PoisonC.pas:182
     public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        if (message.MessageId != 16 || StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (message.MessageId != 16 || StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             base.MapFieldMessageProc(ref message);
         }
@@ -99,7 +99,7 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
             {
                 if (message.MessageId == 4384)
                 {
-                    if (!message.Param[0].As<ArmyHexSprite>().Army.ImmunityTypes(255).Contains(DamageType.Poison))
+                    if (!message.Param[0].As<ArmyHexSprite>().Army.ImmunityTypes(255).Contains(DamageTypes.Poison))
                     {
                         message.Result = 1;
                     }
@@ -143,7 +143,7 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
     // PoisonC.pas:70
     public override bool CanSelect(int pixelX, int pixelY)
     {
-        if (base.Resource.Engine.HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (base.Resource.Engine.HexSpriteMap.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             HexGeometry.PixelToHex(pixelX, vertical: pixelY, out int hexX, out int hexY);
             int hexNumber = HexGeometry.DeltaHexToHexNumber(Owner.HexX, Owner.HexY, hexX, hexY);
@@ -180,7 +180,7 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
         {
             i -= 1;
             Troop troop = units.GetUnit(i);
-            result = !troop.GetImmunityTypes().Contains(DamageType.Poison) && !troop.GetAbilityEnabled(1);
+            result = !troop.GetImmunityTypes().Contains(DamageTypes.Poison) && !troop.GetAbilityEnabled(1);
         }
 
         return result;
@@ -189,7 +189,7 @@ public class PoisonCloud(CustomNode owner) : MultiHexMapObject(owner)
     // PoisonC.pas:142
     public void ArmyPlaced(ArmyHexSprite armyHexSprite)
     {
-        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && !armyHexSprite.Owner.GetMagicShieldActive())
+        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting) && !armyHexSprite.Owner.GetMagicShieldActive())
         {
             armyHexSprite.Army.IncomingStorm(StormType.Pestilence, distance: 0, armyHexSprite.Army.Player);
         }

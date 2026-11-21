@@ -48,7 +48,7 @@ public sealed partial class ArmyInfoDialog(UIContext ui) : UIModule(ui)
 
             info = default;
             info.Direction = 3;
-            info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
+            info.Overlays = UnitOverlayModes.HitPoints | UnitOverlayModes.Rank;
             _ = _event.ArmyView.Units.GetUnit(index).Show(x - 33, y - 35, lockedSurface, info);
             if (((_event.Selection >>> index) & 1) == 0)
             {
@@ -94,7 +94,7 @@ public sealed partial class ArmyInfoDialog(UIContext ui) : UIModule(ui)
     }
 
     // AoWArmyInfoDlg.pas:121
-    public void U1MouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y, int slot)
+    public void U1MouseDown(MouseButton button, ShiftStates shift, int X, int Y, int slot)
     {
         int count = _event.ArmyView.Units.Count;
         if (slot < count)
@@ -146,7 +146,7 @@ public sealed partial class ArmyInfoDialog(UIContext ui) : UIModule(ui)
     public void DlgHide() => ClearEvent();
 
     // AoWArmyInfoDlg.pas:166
-    public void DlgKeyDown(in ushort key, Set<ShiftState> shift)
+    public void DlgKeyDown(in ushort key, ShiftStates shift)
     {
         if (key is 27 or 32)
         {

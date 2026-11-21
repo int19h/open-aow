@@ -28,7 +28,7 @@ public partial class Teleport(CustomNode owner) : Structure(owner)
 
     private MapCoordinate Destination { get; set; }
 
-    public Set<StateElement> State { get; set; }
+    public States State { get; set; }
 
     // Teleport.pas:122
     public override void PersistFields(IPersister persister)
@@ -65,7 +65,7 @@ public partial class Teleport(CustomNode owner) : Structure(owner)
     // Teleport.pas:138
     public override void MoveExclusive(in HexSpriteSenderInfo info)
     {
-        if (info.HexNumber == 0 && !State.Contains(StateElement.Razed))
+        if (info.HexNumber == 0 && !State.Contains(States.Razed))
         {
             MapField fieldValue = StrategicMap.Current.MapContainer.GetField(Destination.X, Destination.Y, Destination.MapLevel);
             ((MoveControl)info.Sender).ExecuteExternalMove(info.MapField, target: fieldValue, movePoints: 0);
@@ -83,7 +83,7 @@ public partial class Teleport(CustomNode owner) : Structure(owner)
     public override void Deactivate()
     {
         base.Deactivate();
-        Status -= Set<MapObjectStatusElement>.Of(MapObjectStatusElement.Activated);
+        Status &= ~MapObjectStatuses.Activated;
         Owner.UpdateMapField();
     }
 
@@ -99,7 +99,7 @@ public partial class Teleport(CustomNode owner) : Structure(owner)
     // Teleport.pas:115
     public override void SetRazed(bool value)
     {
-        State = value ? State + Set<StateElement>.Of(StateElement.Razed) : State - Set<StateElement>.Of(StateElement.Razed);
+        State = value ? State | States.Razed : State & ~States.Razed;
 
         ImageIndex = GetTerrainTypeImage(TerrainType);
     }
@@ -154,7 +154,7 @@ public partial class Teleport(CustomNode owner) : Structure(owner)
     {
         ArmyHexSprite armyHexSprite = Owner.GetArmyHexSprite();
         // { Original only checks destination X here; X=0 is rejected. }
-        return armyHexSprite is not null && player == armyHexSprite.Army.Player && !State.Contains(StateElement.Razed) && Destination.X > 0;
+        return armyHexSprite is not null && player == armyHexSprite.Army.Player && !State.Contains(States.Razed) && Destination.X > 0;
     }
 
     // Teleport.pas:218
@@ -176,7 +176,7 @@ public partial class Teleport(CustomNode owner) : Structure(owner)
                 {
                     sbyte playerLocal = field.GetPlayer();
                     DiplomaticRelation diplomaticRelation = StrategicMap.Current.Players.GetDiplomaticRelation(armyHexSprite.Army.Player, otherPlayer: playerLocal);
-                    condition = Set<DiplomaticRelation>.Of(DiplomaticRelation.War, DiplomaticRelation.Unknown).Contains(diplomaticRelation);
+                    condition = diplomaticRelation is DiplomaticRelation.War or DiplomaticRelation.Unknown;
                 }
 
                 if (condition)
@@ -186,7 +186,7 @@ public partial class Teleport(CustomNode owner) : Structure(owner)
                         if (!StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player).GetBusy())
                         {
                             // { Original passes action before mode. }
-                            TokenEvent eventValue = ArmyHexSprite.CreateArmyMoveTokenEvent(armyHexSprite, selection: 255, path, action: MoveAction.Attack, mode: Set<ArmyMoveModeElement>.Of());
+                            TokenEvent eventValue = ArmyHexSprite.CreateArmyMoveTokenEvent(armyHexSprite, selection: 255, path, action: MoveAction.Attack, mode: ArmyMoveModes.None);
                             if (eventValue is not null)
                             {
                                 StrategicMap.Current.TokenManager.GetTokenControl(armyHexSprite.Army.Player).AddEvent(eventValue);
@@ -205,7 +205,7 @@ public partial class Teleport(CustomNode owner) : Structure(owner)
                     }
                     else
                     {
-                        result = ArmyHexSprite.MoveArmy(armyHexSprite, selection: 255, path, mode: Set<ArmyMoveModeElement>.Of(), force: false);
+                        result = ArmyHexSprite.MoveArmy(armyHexSprite, selection: 255, path, mode: ArmyMoveModes.None, force: false);
                     }
 
                     if (result && (byte)StrategicMap.Current.SeatedPlayer == (byte)armyHexSprite.Army.Player)
@@ -241,13 +241,22 @@ public partial class Teleport(CustomNode owner) : Structure(owner)
     }
 
     // Teleport.pas:26
-    public override bool GetRazed() => (State.Image & 1) != 0;
+    public override bool GetRazed() => ((ulong)State & 1) != 0;
 
     private static readonly string s_invalidLocationSpecifiedText = "invalid location specified";
 
-    public enum StateElement : byte
+    [Flags]
+    public enum States : byte
     {
-        Razed = 0, Bit1 = 1, Bit2 = 2, Bit3 = 3, Bit4 = 4, Bit5 = 5, Bit6 = 6, Bit7 = 7
+        None = 0,
+        Razed = 1 << 0,
+        Bit1 = 1 << 1,
+        Bit2 = 1 << 2,
+        Bit3 = 1 << 3,
+        Bit4 = 1 << 4,
+        Bit5 = 1 << 5,
+        Bit6 = 1 << 6,
+        Bit7 = 1 << 7,
     }
 
     public new class Resource : StructureResource

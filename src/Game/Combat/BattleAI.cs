@@ -267,7 +267,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                         {
                             HexGeometry.CenterHexNumberToHex(path.List[i].Location.X, path.List[i].Location.Y, hexNumber: j, ref x, ref y);
                             hexSprite = CombatMap.Current.MapContainer.MapLevels[0].Field[x, y].FindOwnedChild<TacticalBattleUnitHexSprite>(TacticalBattleUnitHexSprite.ClassId);
-                            if (hexSprite is not null && hexSprite.Unit != ignore && hexSprite.Unit.Side != unit.Side && CombatObject.MeleeDamageTypes(hexSprite.Unit) != Set<DamageType>.Of() && !hexSprite.Unit.GetLocked() && hexSprite.Unit.GetAbilityEnabled(1) == unit.GetAbilityEnabled(1))
+                            if (hexSprite is not null && hexSprite.Unit != ignore && hexSprite.Unit.Side != unit.Side && CombatObject.MeleeDamageTypes(hexSprite.Unit) != DamageTypes.None && !hexSprite.Unit.GetLocked() && hexSprite.Unit.GetAbilityEnabled(1) == unit.GetAbilityEnabled(1))
                             {
                                 int tacticalBattleDamageValueToDamageEvaluation2 = TacticalBattleDamageValueToDamageEvaluation(CombatObject.StrikeDamageValue(hexSprite.Unit, target: unit), 0, source: hexSprite.Unit, target: unit);
                                 value -= tacticalBattleDamageValueToDamageEvaluation2 * 10;
@@ -839,7 +839,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
             bool adjacent;
             try
             {
-                if (target is CombatUnit && target.Side != unit.Side && CombatObject.MeleeDamageTypes(unit) != Set<DamageType>.Of() && (unit.GetAbilityEnabled(1) || !target.GetAbilityEnabled(1)))
+                if (target is CombatUnit && target.Side != unit.Side && CombatObject.MeleeDamageTypes(unit) != DamageTypes.None && (unit.GetAbilityEnabled(1) || !target.GetAbilityEnabled(1)))
                 {
                     ability = 0;
                     spell = 0;
@@ -1500,7 +1500,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                                 (>= 27 and <= 29) or 40 or 60 or 106 or 107 or 148 => TacticalBattleDamageValueToDamageEvaluation(values.SourceDamage, 0, source: unit, target),
                                                 _ => ScaleDamageEvaluation(TacticalBattleDamageValueToDamageEvaluation(values.SourceDamage, 0, source: unit, target), multiplier: hitPoints, divider: hits),
                                             };
-                                            if (ability == 117 && CombatObject.MeleeDamageTypes(unit) == Set<DamageType>.Of())
+                                            if (ability == 117 && CombatObject.MeleeDamageTypes(unit) == DamageTypes.None)
                                             {
                                                 value = ScaleDamageEvaluation(value, multiplier: 100, divider: 1);
                                             }
@@ -2064,12 +2064,12 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                                     if (condition)
                                                     {
                                                         GamePack.Current.SpellControl[n].GetCombatInfo(target.Troop, info: ref spellInfo);
-                                                        if (spellInfo.TargetTypes.Contains(CombatTargetTypeElement.Enemy) && (k <= spellInfo.Range || spellInfo.Range == -1))
+                                                        if (spellInfo.TargetTypes.Contains(CombatTargetTypes.Enemy) && (k <= spellInfo.Range || spellInfo.Range == -1))
                                                         {
                                                             value = GamePack.Current.SpellControl[n].GetCombatDamageValue(target, target: u);
                                                             if (value > 0)
                                                             {
-                                                                if (Set<BattleEffectType>.Of(BattleEffectType.Arrow, BattleEffectType.Rock, BattleEffectType.Comet, BattleEffectType.Breath, BattleEffectType.CometBall, BattleEffectType.Ray).Contains(TacticalTables.SpellTypes[n]))
+                                                                if (TacticalTables.SpellTypes[n] is (>= BattleEffectType.Arrow and <= BattleEffectType.Comet) or BattleEffectType.Breath or BattleEffectType.CometBall or BattleEffectType.Ray)
                                                                 {
                                                                     sbyte fUnitHexSpriteHexX = target.UnitHexSprite.HexX;
                                                                     sbyte hexY2 = target.UnitHexSprite.HexY;
@@ -2095,7 +2095,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                                 if (TacticalTables.AbilityTypes[l] is not BattleEffectType.None and not BattleEffectType.Touch)
                                                 {
                                                     GamePack.Current.AbilityControl[l].GetCombatInfo(target.Troop, info: ref aiInfo);
-                                                    if ((((byte)aiInfo.TargetTypes.Image) & 2) != 0)
+                                                    if ((((byte)aiInfo.TargetTypes) & 2) != 0)
                                                     {
                                                         n = GamePack.Current.AbilityControl[l].GetCombatMode(target.Troop) == CombatMode.LongRange
                                                             ? 12
@@ -2108,7 +2108,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                                             value = GamePack.Current.AbilityControl[l].TacticalBattleGetDamageValue(target, target: u);
                                                             if (value > 0)
                                                             {
-                                                                if (Set<BattleEffectType>.Of(BattleEffectType.Arrow, BattleEffectType.Rock, BattleEffectType.Comet, BattleEffectType.Breath, BattleEffectType.CometBall, BattleEffectType.Ray).Contains(TacticalTables.AbilityTypes[l]))
+                                                                if (TacticalTables.AbilityTypes[l] is (>= BattleEffectType.Arrow and <= BattleEffectType.Comet) or BattleEffectType.Breath or BattleEffectType.CometBall or BattleEffectType.Ray)
                                                                 {
                                                                     sbyte fUnitHexSpriteHexX = target.UnitHexSprite.HexX;
                                                                     sbyte hexY2 = target.UnitHexSprite.HexY;
@@ -2181,7 +2181,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                                     if (condition)
                                                     {
                                                         GamePack.Current.SpellControl[k].GetCombatInfo(u.Troop, info: ref spellInfo);
-                                                        if (spellInfo.TargetTypes.Contains(CombatTargetTypeElement.Enemy))
+                                                        if (spellInfo.TargetTypes.Contains(CombatTargetTypes.Enemy))
                                                         {
                                                             _ = abilities.Add(new CombatAbilityRef());
                                                             abilities[^1].Ability = j;
@@ -2195,7 +2195,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                                 if (TacticalTables.AbilityTypes[j] != BattleEffectType.None)
                                                 {
                                                     GamePack.Current.AbilityControl[j].GetCombatInfo(u.Troop, info: ref aiInfo);
-                                                    if ((((byte)aiInfo.TargetTypes.Image) & 2) != 0)
+                                                    if ((((byte)aiInfo.TargetTypes) & 2) != 0)
                                                     {
                                                         _ = abilities.Add(new CombatAbilityRef());
                                                         abilities[^1].Ability = j;
@@ -2216,7 +2216,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                     sbyte hexY = u.UnitHexSprite.HexY;
                                     settings.SetSourcePosition(u.UnitHexSprite.HexX, hexY, 0);
                                     settings.ArmyHexSprite = u.UnitHexSprite;
-                                    settings.MoveFlags = Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Melee, CombatMoveModeElement.Move, CombatMoveModeElement.Wall);
+                                    settings.MoveFlags = CombatMoveModes.Melee | CombatMoveModes.Move | CombatMoveModes.Wall;
                                     MovePointTable movePointTable = settings.MovePointTable;
                                     u.Troop.CreateMovePointTable(out movePointTable);
                                     settings.MovePointTable = movePointTable;
@@ -2225,7 +2225,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                     CombatMap.Current.MoveControl.ProcessMove(settings);
                                 }
 
-                                if (abilities.Count > 0 || CombatObject.MeleeDamageTypes(u) != Set<DamageType>.Of())
+                                if (abilities.Count > 0 || CombatObject.MeleeDamageTypes(u) != DamageTypes.None)
                                 {
                                     j = 0;
                                     int last = _enemies.Count - 1;
@@ -2272,7 +2272,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                                     if (condition)
                                                     {
                                                         GamePack.Current.SpellControl[k].GetCombatInfo(u.Troop, info: ref spellInfo);
-                                                        if (spellInfo.TargetTypes.Contains(CombatTargetTypeElement.Friend))
+                                                        if (spellInfo.TargetTypes.Contains(CombatTargetTypes.Friend))
                                                         {
                                                             _ = abilities.Add(new CombatAbilityRef());
                                                             abilities[^1].Ability = j;
@@ -2286,7 +2286,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                                 if (TacticalTables.AbilityTypes[j] != BattleEffectType.None)
                                                 {
                                                     GamePack.Current.AbilityControl[j].GetCombatInfo(u.Troop, info: ref aiInfo);
-                                                    if ((((byte)aiInfo.TargetTypes.Image) & 1) != 0)
+                                                    if ((((byte)aiInfo.TargetTypes) & 1) != 0)
                                                     {
                                                         _ = abilities.Add(new CombatAbilityRef());
                                                         abilities[^1].Ability = j;
@@ -2436,7 +2436,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                                     if (condition)
                                                     {
                                                         GamePack.Current.SpellControl[k].GetCombatInfo(u.Troop, info: ref spellInfo);
-                                                        if (spellInfo.DamageTypes.Contains(DamageType.Wall))
+                                                        if (spellInfo.DamageTypes.Contains(DamageTypes.Wall))
                                                         {
                                                             _flee = false;
                                                             _ = abilities.Add(new CombatAbilityRef());
@@ -2452,7 +2452,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                             if (TacticalTables.AbilityTypes[j] != BattleEffectType.None)
                                             {
                                                 GamePack.Current.AbilityControl[j].GetCombatInfo(u.Troop, info: ref aiInfo);
-                                                if (aiInfo.DamageTypes.Contains(DamageType.Wall))
+                                                if (aiInfo.DamageTypes.Contains(DamageTypes.Wall))
                                                 {
                                                     _flee = false;
                                                     _ = abilities.Add(new CombatAbilityRef());
@@ -2471,10 +2471,10 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                         sbyte hexY = u.UnitHexSprite.HexY;
                                         settings.SetSourcePosition(u.UnitHexSprite.HexX, hexY, 0);
                                         settings.ArmyHexSprite = u.UnitHexSprite;
-                                        settings.MoveFlags = Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Melee, CombatMoveModeElement.Move, CombatMoveModeElement.Wall);
+                                        settings.MoveFlags = CombatMoveModes.Melee | CombatMoveModes.Move | CombatMoveModes.Wall;
                                         if (u.GetAbilityEnabled(65) || u.GetAbilityEnabled(117))
                                         {
-                                            settings.MoveFlags += Set<CombatMoveModeElement>.Of(CombatMoveModeElement.WallCrushing);
+                                            settings.MoveFlags |= CombatMoveModes.WallCrushing;
                                         }
 
                                         MovePointTable movePointTable2 = settings.MovePointTable;
@@ -2669,7 +2669,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                     sbyte fUnitHexSpriteHexY = _units[n].UnitHexSprite.HexY;
                                     settings.SetDestinationPosition(_units[n].UnitHexSprite.HexX, fUnitHexSpriteHexY, 0);
                                     settings.ArmyHexSprite = u.UnitHexSprite;
-                                    settings.MoveFlags = Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Melee, CombatMoveModeElement.Move, CombatMoveModeElement.Wall);
+                                    settings.MoveFlags = CombatMoveModes.Melee | CombatMoveModes.Move | CombatMoveModes.Wall;
                                     MovePointTable movePointTable3 = settings.MovePointTable;
                                     u.Troop.CreateMovePointTable(out movePointTable3);
                                     settings.MovePointTable = movePointTable3;
@@ -2814,9 +2814,9 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                         settings.SetSourcePosition(tacticalBattleUnitHexSprite.HexX, hexY, hexLevel);
                                         settings.SetDestinationPosition(move.X, move.Y, 0);
                                         settings.ArmyHexSprite = move.UnitHexSprite;
-                                        settings.MoveFlags = move.MoveType == BattleAIMoveType.MoveRanged || CombatObject.MeleeDamageTypes(move.UnitHexSprite.Unit) == Set<DamageType>.Of()
-                                            ? Set<CombatMoveModeElement>.Of(CombatMoveModeElement.MoveRanged)
-                                            : Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Melee);
+                                        settings.MoveFlags = move.MoveType == BattleAIMoveType.MoveRanged || CombatObject.MeleeDamageTypes(move.UnitHexSprite.Unit) == DamageTypes.None
+                                            ? CombatMoveModes.MoveRanged
+                                            : CombatMoveModes.Melee;
 
                                         if (CombatMap.Current.Combat.CombatData.WallType != 0)
                                         {
@@ -2824,7 +2824,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                             {
                                                 if (!_ignoreWalls || !ChargeFromPosition(move.UnitHexSprite.Unit.Position >>> 4) || _side == CombatSideIndex.Attacker)
                                                 {
-                                                    settings.MoveFlags += Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Wall);
+                                                    settings.MoveFlags |= CombatMoveModes.Wall;
                                                 }
                                             }
                                         }
@@ -2834,9 +2834,9 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                         settings.MovePointTable = movePointTable4;
                                         settings.Player = move.UnitHexSprite.Unit.GetPlayer();
                                         CombatMap.Current.MoveControl.ProcessMove(settings);
-                                        if (settings.Path.Count < 2 && !settings.MoveFlags.Contains(CombatMoveModeElement.Wall))
+                                        if (settings.Path.Count < 2 && !settings.MoveFlags.Contains(CombatMoveModes.Wall))
                                         {
-                                            settings.MoveFlags += Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Wall);
+                                            settings.MoveFlags |= CombatMoveModes.Wall;
                                             CombatMap.Current.MoveControl.ProcessMove(settings);
                                         }
 
@@ -2899,7 +2899,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                     settings.SetSourcePosition(move.UnitHexSprite.HexX, hexY2, 0);
                                     settings.SetDestinationPosition(move.X, move.Y, 0);
                                     settings.ArmyHexSprite = move.UnitHexSprite;
-                                    settings.MoveFlags = Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Melee);
+                                    settings.MoveFlags = CombatMoveModes.Melee;
                                     MovePointTable movePointTable5 = settings.MovePointTable;
                                     move.UnitHexSprite.Unit.Troop.CreateMovePointTable(out movePointTable5);
                                     settings.MovePointTable = movePointTable5;
@@ -2935,10 +2935,10 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                     settings.SetSourcePosition(move.UnitHexSprite.HexX, hexY3, 0);
                                     settings.SetDestinationPosition(move.X, move.Y, 0);
                                     settings.ArmyHexSprite = move.UnitHexSprite;
-                                    settings.MoveFlags = Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Melee);
-                                    if (aiInfo.DamageTypes.Contains(DamageType.Wall))
+                                    settings.MoveFlags = CombatMoveModes.Melee;
+                                    if (aiInfo.DamageTypes.Contains(DamageTypes.Wall))
                                     {
-                                        settings.MoveFlags += Set<CombatMoveModeElement>.Of(CombatMoveModeElement.WallCrushing);
+                                        settings.MoveFlags |= CombatMoveModes.WallCrushing;
                                     }
 
                                     MovePointTable movePointTable6 = settings.MovePointTable;

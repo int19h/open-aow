@@ -22,7 +22,7 @@ public sealed class AowHexSpriteMapMouse : GameMapMouse
     }
 
     // AoWHSMap.PAS:1157
-    public override void Down(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public override void Down(MouseButton button, ShiftStates shift, int X, int Y)
     {
         if (StrategicMap.Current.CombatMap is not null)
         {
@@ -42,7 +42,7 @@ public sealed class AowHexSpriteMapMouse : GameMapMouse
     }
 
     // AoWHSMap.PAS:1167
-    public override void Up(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public override void Up(MouseButton button, ShiftStates shift, int X, int Y)
     {
         if (StrategicMap.Current.CombatMap is not null)
         {
@@ -55,7 +55,7 @@ public sealed class AowHexSpriteMapMouse : GameMapMouse
     }
 
     // AoWHSMap.PAS:1175
-    public override void Move(Set<ShiftState> shift, int X, int Y)
+    public override void Move(ShiftStates shift, int X, int Y)
     {
         CombatMap combatMap = StrategicMap.Current.CombatMap;
         if (combatMap is not null)

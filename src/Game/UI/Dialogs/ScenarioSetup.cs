@@ -712,7 +712,7 @@ public sealed partial class ScenarioSetup(UIContext ui) : UIModule(ui)
                 _ = setup.PreferredRaceComboBox.Items.AddObject(none, item: IntToObject(-1));
                 for (int i = 0, last = setup.SetupControl.Settings.Count - 1; i <= last; i++)
                 {
-                    if (!setup.SetupControl.Settings.GetSettings(i).Status.Contains(PlayerSetupStatusElement.Fixed))
+                    if (!setup.SetupControl.Settings.GetSettings(i).Status.Contains(PlayerSetupStatuses.Fixed))
                     {
                         PlayerSetupSettings settingRace = setup.SetupControl.Settings.GetSettings(i);
                         string raceNamesPlural = setup.UI.Engine.TranslateResourceString(GameTables.RaceNamesPluralTexts[settingRace.Race]);
@@ -794,7 +794,7 @@ public sealed partial class ScenarioSetup(UIContext ui) : UIModule(ui)
     {
         if (settings is not null)
         {
-            bool visible = setup.SetupControl.GetHost() && !settings.Status.Contains(PlayerSetupStatusElement.Fixed);
+            bool visible = setup.SetupControl.GetHost() && !settings.Status.Contains(PlayerSetupStatuses.Fixed);
             if (visible != playerBox.Visible)
             {
                 playerBox.Visible = visible;
@@ -841,16 +841,16 @@ public sealed partial class ScenarioSetup(UIContext ui) : UIModule(ui)
             }
 
             info.Text = "";
-            info.Visible = setup.SetupControl.GetRemote() || settings.Status.Contains(PlayerSetupStatusElement.Fixed);
+            info.Visible = setup.SetupControl.GetRemote() || settings.Status.Contains(PlayerSetupStatuses.Fixed);
             if (info.Visible)
             {
-                if (settings.Status.Contains(PlayerSetupStatusElement.Fixed))
+                if (settings.Status.Contains(PlayerSetupStatuses.Fixed))
                 {
                     info.Text = setup.UI.Engine.TranslateResourceString(GameText.FixedText);
                 }
                 else
                 {
-                    if (setup.SetupControl.GetRemote() && settings.Status.Contains(PlayerSetupStatusElement.Forced) && settings.Behavior.PlayerType == 0)
+                    if (setup.SetupControl.GetRemote() && settings.Status.Contains(PlayerSetupStatuses.Forced) && settings.Behavior.PlayerType == 0)
                     {
                         i = setup.SetupControl.Settings.RemotePlayers.IndexOfRemoteId(settings.Behavior.Flags);
                         if (i != -1)
@@ -869,7 +869,7 @@ public sealed partial class ScenarioSetup(UIContext ui) : UIModule(ui)
                         }
                         else
                         {
-                            if (Set<byte>.WithBounds(0, 255).WithRange(1, 3).WithRange(6, 7).Contains(settings.Behavior.PlayerType))
+                            if (settings.Behavior.PlayerType is (>= (byte)PlayerType.Cpu1 and <= (byte)PlayerType.Cpu3) or (byte)PlayerType.Cpu4 or (byte)PlayerType.Cpu5)
                             {
                                 info.Text = setup.UI.Engine.TranslateResourceString(GameTables.PlayerBehaviorTexts[(int)(PlayerBehavior)settings.BehaviorMode]);
                             }
@@ -878,7 +878,7 @@ public sealed partial class ScenarioSetup(UIContext ui) : UIModule(ui)
                 }
             }
 
-            behaviorBox.Visible = setup.SetupControl.GetHost() && Set<byte>.WithBounds(0, 255).WithRange(1, 3).WithRange(6, 7).Contains(settings.Behavior.PlayerType);
+            behaviorBox.Visible = setup.SetupControl.GetHost() && settings.Behavior.PlayerType is (>= (byte)PlayerType.Cpu1 and <= (byte)PlayerType.Cpu3) or (byte)PlayerType.Cpu4 or (byte)PlayerType.Cpu5;
             if (behaviorBox.Visible)
             {
                 behaviorBox.Items.BeginUpdate();
@@ -894,7 +894,7 @@ public sealed partial class ScenarioSetup(UIContext ui) : UIModule(ui)
                 behaviorBox.Selected = settings.BehaviorMode;
             }
 
-            icon.Visible = Set<byte>.WithBounds(0, 255).WithRange(0, 3).WithRange(6, 7).Contains(settings.Behavior.PlayerType);
+            icon.Visible = settings.Behavior.PlayerType is (>= (byte)PlayerType.Human and <= (byte)PlayerType.Cpu3) or (byte)PlayerType.Cpu4 or (byte)PlayerType.Cpu5;
             if (icon.Visible)
             {
                 icon.CurrentImage = settings.Behavior.PlayerType switch
@@ -908,7 +908,7 @@ public sealed partial class ScenarioSetup(UIContext ui) : UIModule(ui)
                 };
             }
 
-            fog.Visible = settings.Status.Contains(PlayerSetupStatusElement.Fixed);
+            fog.Visible = settings.Status.Contains(PlayerSetupStatuses.Fixed);
         }
         else
         {

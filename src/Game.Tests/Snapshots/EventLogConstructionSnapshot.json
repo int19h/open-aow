@@ -32,39 +32,12 @@
               "MapCoordinate.X": -1,
               "MapCoordinate.Y": -1
             },
-            "Army.Mode": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Army.Mode": 0,
             "Army.OldAIBehavior": 0,
             "Army._update": null,
             "Army.Player": 0,
-            "Army.Status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
-            "Army.UserMode": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyUserModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Army.Status": 0,
+            "Army.UserMode": 0,
             "Army._unfogRange": 0,
             "Army._upkeep": 0,
             "Army._visibilityRanges": 0,
@@ -169,39 +142,12 @@
               "MapCoordinate.X": -1,
               "MapCoordinate.Y": -1
             },
-            "Army.Mode": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Army.Mode": 0,
             "Army.OldAIBehavior": 0,
             "Army._update": null,
             "Army.Player": 0,
-            "Army.Status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
-            "Army.UserMode": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyUserModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Army.Status": 0,
+            "Army.UserMode": 0,
             "Army._unfogRange": 0,
             "Army._upkeep": 0,
             "Army._visibilityRanges": 0,
@@ -335,39 +281,12 @@
               "MapCoordinate.X": -1,
               "MapCoordinate.Y": -1
             },
-            "Army.Mode": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Army.Mode": 0,
             "Army.OldAIBehavior": 0,
             "Army._update": null,
             "Army.Player": 0,
-            "Army.Status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
-            "Army.UserMode": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyUserModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Army.Status": 0,
+            "Army.UserMode": 0,
             "Army._unfogRange": 0,
             "Army._upkeep": 0,
             "Army._visibilityRanges": 0,
@@ -472,39 +391,12 @@
               "MapCoordinate.X": -1,
               "MapCoordinate.Y": -1
             },
-            "Army.Mode": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Army.Mode": 0,
             "Army.OldAIBehavior": 0,
             "Army._update": null,
             "Army.Player": 0,
-            "Army.Status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
-            "Army.UserMode": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyUserModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Army.Status": 0,
+            "Army.UserMode": 0,
             "Army._unfogRange": 0,
             "Army._upkeep": 0,
             "Army._visibilityRanges": 0,
@@ -626,39 +518,12 @@
               "MapCoordinate.X": -1,
               "MapCoordinate.Y": -1
             },
-            "Army.Mode": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Army.Mode": 0,
             "Army.OldAIBehavior": 0,
             "Army._update": null,
             "Army.Player": 0,
-            "Army.Status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
-            "Army.UserMode": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyUserModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Army.Status": 0,
+            "Army.UserMode": 0,
             "Army._unfogRange": 0,
             "Army._upkeep": 0,
             "Army._visibilityRanges": 0,
@@ -706,16 +571,7 @@
           "ArmyInfoEventLog.Selection": 0,
           "ArmyInfoEventLog.Text": "",
           "ArmyInfoEventLog.Title": "",
-          "ArmyInfoEventLog.Triggers": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Events.ExecuteTrigger, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 7,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": true,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 2,
-            "Set\u00601.low": 0
-          },
+          "ArmyInfoEventLog.Triggers": 7,
           "EngineObject._owner": null,
           "EventLog.Day": 0,
           "EventLog.Id": 0,
@@ -760,39 +616,12 @@
               "MapCoordinate.X": -1,
               "MapCoordinate.Y": -1
             },
-            "Army.Mode": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Army.Mode": 0,
             "Army.OldAIBehavior": 0,
             "Army._update": null,
             "Army.Player": 0,
-            "Army.Status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
-            "Army.UserMode": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyUserModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Army.Status": 0,
+            "Army.UserMode": 0,
             "Army._unfogRange": 0,
             "Army._upkeep": 0,
             "Army._visibilityRanges": 0,
@@ -840,16 +669,7 @@
           "ArmyInfoEventLog.Selection": 0,
           "ArmyInfoEventLog.Text": "",
           "ArmyInfoEventLog.Title": "",
-          "ArmyInfoEventLog.Triggers": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Events.ExecuteTrigger, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 7,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": true,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 2,
-            "Set\u00601.low": 0
-          },
+          "ArmyInfoEventLog.Triggers": 7,
           "EngineObject._owner": "$owner",
           "EventLog.Day": 0,
           "EventLog.Id": 0,
@@ -876,16 +696,7 @@
                 "ArmyInfoEventLog.Selection": 0,
                 "ArmyInfoEventLog.Text": "",
                 "ArmyInfoEventLog.Title": "",
-                "ArmyInfoEventLog.Triggers": {
-                  "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Events.ExecuteTrigger, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                  "Set\u00601.a": 0,
-                  "Set\u00601.b": 0,
-                  "Set\u00601.bounded": false,
-                  "Set\u00601.c": 0,
-                  "Set\u00601.d": 0,
-                  "Set\u00601.high": 0,
-                  "Set\u00601.low": 0
-                },
+                "ArmyInfoEventLog.Triggers": 0,
                 "EngineObject._owner": "$owner",
                 "EventLog.Day": 0,
                 "EventLog.Id": 0,
@@ -932,39 +743,12 @@
               "MapCoordinate.X": -1,
               "MapCoordinate.Y": -1
             },
-            "Army.Mode": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Army.Mode": 0,
             "Army.OldAIBehavior": 0,
             "Army._update": null,
             "Army.Player": 0,
-            "Army.Status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
-            "Army.UserMode": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyUserModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Army.Status": 0,
+            "Army.UserMode": 0,
             "Army._unfogRange": 0,
             "Army._upkeep": 0,
             "Army._visibilityRanges": 0,
@@ -1012,16 +796,7 @@
           "ArmyInfoEventLog.Selection": 0,
           "ArmyInfoEventLog.Text": "",
           "ArmyInfoEventLog.Title": "",
-          "ArmyInfoEventLog.Triggers": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Events.ExecuteTrigger, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 7,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": true,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 2,
-            "Set\u00601.low": 0
-          },
+          "ArmyInfoEventLog.Triggers": 7,
           "EngineObject._owner": null,
           "EventLog.Day": 7,
           "EventLog.Id": 0,
@@ -1066,39 +841,12 @@
               "MapCoordinate.X": -1,
               "MapCoordinate.Y": -1
             },
-            "Army.Mode": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Army.Mode": 0,
             "Army.OldAIBehavior": 0,
             "Army._update": null,
             "Army.Player": 0,
-            "Army.Status": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
-            "Army.UserMode": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyUserModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
+            "Army.Status": 0,
+            "Army.UserMode": 0,
             "Army._unfogRange": 0,
             "Army._upkeep": 0,
             "Army._visibilityRanges": 0,
@@ -1146,16 +894,7 @@
           "ArmyInfoEventLog.Selection": 0,
           "ArmyInfoEventLog.Text": "",
           "ArmyInfoEventLog.Title": "",
-          "ArmyInfoEventLog.Triggers": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Events.ExecuteTrigger, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 7,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": true,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 2,
-            "Set\u00601.low": 0
-          },
+          "ArmyInfoEventLog.Triggers": 7,
           "EngineObject._owner": "$owner",
           "EventLog.Day": 7,
           "EventLog.Id": 0,
@@ -1182,16 +921,7 @@
                 "ArmyInfoEventLog.Selection": 0,
                 "ArmyInfoEventLog.Text": "",
                 "ArmyInfoEventLog.Title": "",
-                "ArmyInfoEventLog.Triggers": {
-                  "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Events.ExecuteTrigger, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                  "Set\u00601.a": 0,
-                  "Set\u00601.b": 0,
-                  "Set\u00601.bounded": false,
-                  "Set\u00601.c": 0,
-                  "Set\u00601.d": 0,
-                  "Set\u00601.high": 0,
-                  "Set\u00601.low": 0
-                },
+                "ArmyInfoEventLog.Triggers": 0,
                 "EngineObject._owner": "$owner",
                 "EventLog.Day": 7,
                 "EventLog.Id": 0,
@@ -6243,16 +5973,7 @@
           "EventLog.Id": 0,
           "EventLog.Player": 0,
           "EventLog.RefCount": 1,
-          "NewTurnEventLog.DialogStyle": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Events.NewTurnEventLogDialogStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "NewTurnEventLog.DialogStyle": 0,
           "NewTurnEventLog.Mode": 0,
           "NewTurnEventLog.Text": "",
           "NewTurnEventLog.TurnPlayer": 0
@@ -6284,16 +6005,7 @@
           "EventLog.Id": 0,
           "EventLog.Player": 0,
           "EventLog.RefCount": 1,
-          "NewTurnEventLog.DialogStyle": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Events.NewTurnEventLogDialogStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "NewTurnEventLog.DialogStyle": 0,
           "NewTurnEventLog.Mode": 0,
           "NewTurnEventLog.Text": "",
           "NewTurnEventLog.TurnPlayer": 0
@@ -6317,16 +6029,7 @@
                 "EventLog.Id": 0,
                 "EventLog.Player": 0,
                 "EventLog.RefCount": 1,
-                "NewTurnEventLog.DialogStyle": {
-                  "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Events.NewTurnEventLogDialogStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                  "Set\u00601.a": 0,
-                  "Set\u00601.b": 0,
-                  "Set\u00601.bounded": false,
-                  "Set\u00601.c": 0,
-                  "Set\u00601.d": 0,
-                  "Set\u00601.high": 0,
-                  "Set\u00601.low": 0
-                },
+                "NewTurnEventLog.DialogStyle": 0,
                 "NewTurnEventLog.Mode": 0,
                 "NewTurnEventLog.Text": "",
                 "NewTurnEventLog.TurnPlayer": 0
@@ -6360,16 +6063,7 @@
           "EventLog.Id": 0,
           "EventLog.Player": -56,
           "EventLog.RefCount": 1,
-          "NewTurnEventLog.DialogStyle": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Events.NewTurnEventLogDialogStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "NewTurnEventLog.DialogStyle": 0,
           "NewTurnEventLog.Mode": 0,
           "NewTurnEventLog.Text": "",
           "NewTurnEventLog.TurnPlayer": 0
@@ -6401,16 +6095,7 @@
           "EventLog.Id": 0,
           "EventLog.Player": -56,
           "EventLog.RefCount": 1,
-          "NewTurnEventLog.DialogStyle": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Events.NewTurnEventLogDialogStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "NewTurnEventLog.DialogStyle": 0,
           "NewTurnEventLog.Mode": 0,
           "NewTurnEventLog.Text": "",
           "NewTurnEventLog.TurnPlayer": 0
@@ -6434,16 +6119,7 @@
                 "EventLog.Id": 0,
                 "EventLog.Player": -56,
                 "EventLog.RefCount": 1,
-                "NewTurnEventLog.DialogStyle": {
-                  "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Events.NewTurnEventLogDialogStyleElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                  "Set\u00601.a": 0,
-                  "Set\u00601.b": 0,
-                  "Set\u00601.bounded": false,
-                  "Set\u00601.c": 0,
-                  "Set\u00601.d": 0,
-                  "Set\u00601.high": 0,
-                  "Set\u00601.low": 0
-                },
+                "NewTurnEventLog.DialogStyle": 0,
                 "NewTurnEventLog.Mode": 0,
                 "NewTurnEventLog.Text": "",
                 "NewTurnEventLog.TurnPlayer": 0
@@ -8340,16 +8016,7 @@
           "SaveGameEventLog.DefaultName": "",
           "SaveGameEventLog.Directory": "",
           "SaveGameEventLog.FileName": "",
-          "SaveGameEventLog.Mode": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Events.SaveGameEventLogModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "SaveGameEventLog.Mode": 0,
           "SaveGameEventLog.Title": "Save"
         }
       },
@@ -8382,16 +8049,7 @@
           "SaveGameEventLog.DefaultName": "",
           "SaveGameEventLog.Directory": "",
           "SaveGameEventLog.FileName": "",
-          "SaveGameEventLog.Mode": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Events.SaveGameEventLogModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "SaveGameEventLog.Mode": 0,
           "SaveGameEventLog.Title": "Save"
         }
       },
@@ -8416,16 +8074,7 @@
                 "SaveGameEventLog.DefaultName": "",
                 "SaveGameEventLog.Directory": "",
                 "SaveGameEventLog.FileName": "",
-                "SaveGameEventLog.Mode": {
-                  "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Events.SaveGameEventLogModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                  "Set\u00601.a": 0,
-                  "Set\u00601.b": 0,
-                  "Set\u00601.bounded": false,
-                  "Set\u00601.c": 0,
-                  "Set\u00601.d": 0,
-                  "Set\u00601.high": 0,
-                  "Set\u00601.low": 0
-                },
+                "SaveGameEventLog.Mode": 0,
                 "SaveGameEventLog.Title": ""
               }
             }
@@ -8460,16 +8109,7 @@
           "SaveGameEventLog.DefaultName": "",
           "SaveGameEventLog.Directory": "",
           "SaveGameEventLog.FileName": "",
-          "SaveGameEventLog.Mode": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Events.SaveGameEventLogModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "SaveGameEventLog.Mode": 0,
           "SaveGameEventLog.Title": "Save"
         }
       },
@@ -8502,16 +8142,7 @@
           "SaveGameEventLog.DefaultName": "",
           "SaveGameEventLog.Directory": "",
           "SaveGameEventLog.FileName": "",
-          "SaveGameEventLog.Mode": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Events.SaveGameEventLogModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set\u00601.a": 0,
-            "Set\u00601.b": 0,
-            "Set\u00601.bounded": false,
-            "Set\u00601.c": 0,
-            "Set\u00601.d": 0,
-            "Set\u00601.high": 0,
-            "Set\u00601.low": 0
-          },
+          "SaveGameEventLog.Mode": 0,
           "SaveGameEventLog.Title": "Save"
         }
       },
@@ -8536,16 +8167,7 @@
                 "SaveGameEventLog.DefaultName": "",
                 "SaveGameEventLog.Directory": "",
                 "SaveGameEventLog.FileName": "",
-                "SaveGameEventLog.Mode": {
-                  "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Events.SaveGameEventLogModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                  "Set\u00601.a": 0,
-                  "Set\u00601.b": 0,
-                  "Set\u00601.bounded": false,
-                  "Set\u00601.c": 0,
-                  "Set\u00601.d": 0,
-                  "Set\u00601.high": 0,
-                  "Set\u00601.low": 0
-                },
+                "SaveGameEventLog.Mode": 0,
                 "SaveGameEventLog.Title": ""
               }
             }

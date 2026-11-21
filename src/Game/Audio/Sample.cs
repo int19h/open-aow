@@ -46,7 +46,7 @@ public class Sample : IDisposable
     //   does not loop destroys itself. }
     public virtual void Update()
     {
-        if (Status.Contains(StatusElement.Running) && !GetPlaying())
+        if (Status.Contains(Statuses.Running) && !GetPlaying())
         {
             if (Delay != 0)
             {
@@ -99,28 +99,30 @@ public class Sample : IDisposable
     // Sound.pas:774
     public void Execute()
     {
-        if (!Status.Contains(StatusElement.Running))
+        if (!Status.Contains(Statuses.Running))
         {
             if (Delay == 0)
             {
                 Play();
             }
 
-            Status += Set<StatusElement>.Of(StatusElement.Running);
+            Status |= Statuses.Running;
         }
     }
 
     public SampleData SampleData { get; private set; }
     public int Delay { get; set; }
-    public Set<StatusElement> Status { get; private set; }
+    public Statuses Status { get; private set; }
     public bool Playing => GetPlaying();
 
     // Sound.pas:89
     public static Sample Create(SampleData data)
         => ConstructionContext.Create(data, static (context, value) => new Sample(context, sampleData: value));
 
-    public enum StatusElement : byte
+    [Flags]
+    public enum Statuses : byte
     {
-        Running = 0
+        None = 0,
+        Running = 1 << 0,
     }
 }

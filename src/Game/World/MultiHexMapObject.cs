@@ -9,7 +9,6 @@ using Aow.Game.Draw;
 
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
-using Aow.Rtl;
 
 namespace Aow.Game.World;
 
@@ -48,9 +47,9 @@ public class MultiHexMapObject(CustomNode owner) : MapObject(owner)
     // { Connect adds the object to the fields of its terrain list around the main hexagon }
     public override void Connect()
     {
-        if (!Status.Contains(MapObjectStatusElement.PlacedOnMap))
+        if (!Status.Contains(MapObjectStatuses.PlacedOnMap))
         {
-            Status += Set<MapObjectStatusElement>.Of(MapObjectStatusElement.PlacedOnMap);
+            Status |= MapObjectStatuses.PlacedOnMap;
             int count = TerrainCount;
             MapLevel mapLevel = Owner.Owner;
             HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, StoredHexX, StoredHexY, radius: 0);
@@ -75,11 +74,11 @@ public class MultiHexMapObject(CustomNode owner) : MapObject(owner)
     // MAPOBJ.PAS:972
     public override void Disconnect()
     {
-        if (Status.Contains(MapObjectStatusElement.PlacedOnMap))
+        if (Status.Contains(MapObjectStatuses.PlacedOnMap))
         {
             int count = TerrainCount;
             MapLevel mapLevel = Owner.Owner;
-            Status -= Set<MapObjectStatusElement>.Of(MapObjectStatusElement.PlacedOnMap);
+            Status &= ~MapObjectStatuses.PlacedOnMap;
             HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, StoredHexX, StoredHexY, radius: 0);
             while (walk.HexNumber < count)
             {
@@ -114,7 +113,7 @@ public class MultiHexMapObject(CustomNode owner) : MapObject(owner)
     // MAPOBJ.PAS:995
     public override bool PlaceOnMap()
     {
-        if (!Status.Contains(MapObjectStatusElement.PlacedOnMap))
+        if (!Status.Contains(MapObjectStatuses.PlacedOnMap))
         {
             Connect();
             int count = TerrainCount;
@@ -146,11 +145,11 @@ public class MultiHexMapObject(CustomNode owner) : MapObject(owner)
     // MAPOBJ.PAS:1023
     public override void RemoveFromMap()
     {
-        if (Status.Contains(MapObjectStatusElement.PlacedOnMap))
+        if (Status.Contains(MapObjectStatuses.PlacedOnMap))
         {
             MapLevel mapLevel = Owner.Owner;
             Disconnect();
-            if (!mapLevel.Map.Status.Contains(HexSpriteMapStatusElement.Destroying))
+            if (!mapLevel.Map.Status.Contains(HexSpriteMapStatuses.Destroying))
             {
                 int count = TerrainCount;
                 HexNumberWalkData.InitializeHexNumberWalk(out HexNumberWalkData walk, StoredHexX, StoredHexY, radius: 0);
@@ -184,7 +183,7 @@ public class MultiHexMapObject(CustomNode owner) : MapObject(owner)
     // MAPOBJ.PAS:1122
     public override bool CanSelect(int pixelX, int pixelY)
     {
-        if (Resource.Engine.HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (Resource.Engine.HexSpriteMap.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             HexGeometry.PixelToHex(pixelX, vertical: pixelY, out int hexX, out int hexY);
             int hexNumber = HexGeometry.DeltaHexToHexNumber(Owner.HexX, Owner.HexY, hexX, hexY);

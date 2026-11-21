@@ -81,7 +81,7 @@ public partial class Picture16(CustomImageLibrary owner) : Image16(owner), ILibr
     }
 
     // ImageLib.pas:2200
-    public override bool SupportShowMode(ShowMode showMode, PixelFormat pixelFormatId) => (pixelFormatId is PixelFormat.None or PixelFormat.Rgb565 or PixelFormat.Rgb555) && Set<ShowMode>.Of(ShowMode.Opaque, ShowMode.Transparent, ShowMode.Blended).Contains(showMode);
+    public override bool SupportShowMode(ShowMode showMode, PixelFormat pixelFormatId) => (pixelFormatId is PixelFormat.None or PixelFormat.Rgb565 or PixelFormat.Rgb555) && showMode is >= ShowMode.Opaque and <= ShowMode.Blended;
 
     // ImageLib.pas:2219
     public override void ReleaseDiscardableImageData()

@@ -5,8 +5,6 @@ using Aow.Game.Combat;
 
 using Aow.Game.Magic.Abilities;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Spells;
 
 // inherited combat statistics, damage mode
@@ -22,7 +20,7 @@ public class Vaporize : CombatSpell
         SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 7;
         spellCombatInfo.Damage = 5;
-        spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Physical);
+        spellCombatInfo.DamageTypes = DamageTypes.Physical;
         spellCombatInfo.RepeatCount = 1;
         spellCombatInfo.Range = 12;
 

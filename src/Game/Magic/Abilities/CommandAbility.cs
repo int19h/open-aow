@@ -11,8 +11,6 @@ using Aow.Game.Units;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiRounding;
 
@@ -22,7 +20,7 @@ namespace Aow.Game.Magic.Abilities;
 public class CommandAbility : TouchAbility
 {
     // AoWAb.PAS:5088
-    public CommandAbility(CustomNode owner) : base(owner) => SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.UseItem);
+    public CommandAbility(CustomNode owner) : base(owner) => SelectionTypes = AbilitySelectionTypes.Unit | AbilitySelectionTypes.UseItem;
 
     public int CommandedAbilityId { get; protected init; }
 
@@ -132,17 +130,17 @@ public class CommandAbility : TouchAbility
             damageValues.SourceCost = 0;
             damageValues.TargetDamage = 0;
             damageValues.TargetCost = 0;
-            damageValues.DamageTypes = Set<DamageType>.Of();
+            damageValues.DamageTypes = DamageTypes.None;
         }
     }
 
     // AoWAb.PAS:5205
-    public override void GetOffensiveStrength(AbilityOwner owner, ref int strength, ref Set<DamageType> types)
+    public override void GetOffensiveStrength(AbilityOwner owner, ref int strength, ref DamageTypes types)
     {
         if (owner is Troop troop)
         {
             strength = Round(GetTouchAttack(GetLevel(troop)) * (troop.GetAttack() * 5) * 0.1);
-            types = Set<DamageType>.Of(DamageType.None);
+            types = DamageTypes.NonSpecific;
         }
     }
 
@@ -168,7 +166,7 @@ public class CommandAbility : TouchAbility
             damageValues.SourceCost = 0;
             damageValues.TargetDamage = 0;
             damageValues.TargetCost = 0;
-            damageValues.DamageTypes = Set<DamageType>.Of();
+            damageValues.DamageTypes = DamageTypes.None;
         }
     }
 

@@ -3,8 +3,6 @@ using Aow.Engine.Nodes;
 
 using Aow.Game.Combat;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Abilities;
 
 public class FlameThrowingAbility : BreathAbility
@@ -17,11 +15,11 @@ public class FlameThrowingAbility : BreathAbility
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_flameThrowingText);
         AttackRangedAttack = 4;
         DamageRangedAttack = 3;
-        DamageTypesRangedAttack = Set<DamageType>.Of(DamageType.Fire);
+        DamageTypesRangedAttack = DamageTypes.Fire;
     }
 
     // AoWAb.PAS:4943
-    public override void GetOffensiveStrength(AbilityOwner owner, ref int strength, ref Set<DamageType> types)
+    public override void GetOffensiveStrength(AbilityOwner owner, ref int strength, ref DamageTypes types)
     {
         sbyte attackRepeatRangedAttack = GetAttackRepeatRangedAttack(owner);
         sbyte damageRangedAttack = GetDamageRangedAttack(owner);

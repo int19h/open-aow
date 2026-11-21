@@ -58,8 +58,8 @@ public sealed partial class PersistEquivalenceTests
         WithDestroyingMap(map =>
         {
             SchemaClass classValue = s_schema.Get("Player");
-            Set<HexSpriteMapStatusElement> editing = map.Status + Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Editting);
-            Set<HexSpriteMapStatusElement> plain = map.Status;
+            HexSpriteMapStatuses editing = map.Status | HexSpriteMapStatuses.Editting;
+            HexSpriteMapStatuses plain = map.Status;
             map.Status = editing;
             Player edited = NewPlayer(index: 1);
             Leader leader = new(null) { Holder = EngineFixture.Engine, HeroName = "Chosen" };
@@ -161,7 +161,7 @@ public sealed partial class PersistEquivalenceTests
             byte[] image = PilotImage.Encode(document, className: "Player");
             using Player viaReadWrite = NewPlayer(index: -1);
             using Player viaPersist = NewPlayer(index: -1);
-            WithEngineStatus(loadingMap ? Set<HexSpriteEngineStatusElement>.Of(HexSpriteEngineStatusElement.LoadingHsm) : default, body: () =>
+            WithEngineStatus(loadingMap ? HexSpriteEngineStatuses.LoadingHsm : default, body: () =>
             {
                 LoadPreview(viaReadWrite, image: image);
                 TreeReader.Read(OriginalBackend.Read(image, classValue: s_schema.Get("Player"), schema: s_schema, engine: "game"), objectValue: viaPersist, factory: Factory, preview: true);
@@ -525,7 +525,7 @@ public sealed partial class PersistEquivalenceTests
 
     // The engine status is private state of the engine's map loads. The test sets it around the
     // body and puts the previous status back.
-    private static void WithEngineStatus(Set<HexSpriteEngineStatusElement> status, Action body)
+    private static void WithEngineStatus(HexSpriteEngineStatuses status, Action body)
     {
         FieldInfo field = MemberNames.Field(typeof(GameEngine), name: "Status")
             ?? throw new InvalidOperationException("GameEngine has no Status field.");

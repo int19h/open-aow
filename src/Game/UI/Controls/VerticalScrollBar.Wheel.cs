@@ -4,7 +4,7 @@ namespace Aow.Game.UI.Controls;
 
 public sealed partial class VerticalScrollBar
 {
-    public override bool CheckMouseWheel(int steps, Set<ShiftState> shift, int X, int Y)
+    public override bool CheckMouseWheel(int steps, ShiftStates shift, int X, int Y)
     {
         if (steps == 0 || !ContainsPoint(X, Y))
         {

@@ -3,7 +3,6 @@ using Aow.Engine.Collections;
 using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Map;
-using Aow.Rtl;
 
 namespace Aow.Game.Session;
 
@@ -60,7 +59,7 @@ public sealed record OfferPeace(int Gold = 0, int Mana = 0) : OfferProposal(Gold
         {
             if (StrategicMap.Current.Players.GetPlayers(target).AIControl.CanOfferPeace((byte)source))
             {
-                if (StrategicMap.Current.Players.GetDiplomaticRelationCount((sbyte)(byte)source, relations: Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace, DiplomaticRelation.Alliance)) + 1 < StrategicMap.Current.Players.GetDiplomaticRelationCount((sbyte)(byte)source, relations: Set<DiplomaticRelation>.Of(DiplomaticRelation.War)))
+                if (StrategicMap.Current.Players.GetDiplomaticRelationCount((sbyte)(byte)source, relations: DiplomaticRelations.Peace | DiplomaticRelations.Alliance) + 1 < StrategicMap.Current.Players.GetDiplomaticRelationCount((sbyte)(byte)source, relations: DiplomaticRelations.War))
                 {
                     last = StrategicMap.Current.Players.GetPlayers(target).DiplomaticActions.FindLastAction(Kind, reaction: DiplomaticActionReaction.Reject, source, target, other: -1);
                     if (last is null || StrategicMap.Current.Day - last.Day > 8)
@@ -90,7 +89,7 @@ public sealed record OfferPeace(int Gold = 0, int Mana = 0) : OfferProposal(Gold
     public override void RefusedAI(DiplomaticAction action)
     {
         DiplomaticRelation diplomaticRelation = Relation(action.Source, second: action.Target);
-        if (!Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace, DiplomaticRelation.War).Contains(diplomaticRelation))
+        if (diplomaticRelation is not (DiplomaticRelation.Peace or DiplomaticRelation.War))
         {
             DiplomaticAction last = StrategicMap.Current.Players.GetPlayers(action.Source).CreateDiplomaticAction(new DeclareWar(), action.Target, other: -1);
             if (last is not null)

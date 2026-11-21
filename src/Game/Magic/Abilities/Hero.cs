@@ -52,12 +52,12 @@ public partial class Hero : Troop
     private int _usedSkillPoints;
 
     public bool UpgradePending { get; set; }
-    public Set<HeroStatusElement> HeroStatus { get; private set; }
+    public HeroStatuses HeroStatus { get; private set; }
 
     private int _deathDay;
     private sbyte _deathPlayer;
 
-    public Set<HeroModeElement> Mode { get; set; }
+    public HeroModes Mode { get; set; }
 
     public string HeroName { get; set; } = "";
     public string Nickname { get; private set; } = "";
@@ -118,7 +118,7 @@ public partial class Hero : Troop
     {
         _ = AddRef();
         base.SetOwner(owner);
-        if (UnitStatus.Contains(UnitStatusElement.Activated))
+        if (UnitStatus.Contains(UnitStatuses.Activated))
         {
             Changed();
         }
@@ -138,7 +138,7 @@ public partial class Hero : Troop
         }
 
         base.PersistFields(persister);
-        if (persister.Loading && Mode.Contains(HeroModeElement.UpdatingFromLibrary))
+        if (persister.Loading && Mode.Contains(HeroModes.UpdatingFromLibrary))
         {
             Player = player;
         }
@@ -175,7 +175,7 @@ public partial class Hero : Troop
         _castSpellInstantly = persister.Boolean("CastSpellInstantly", value: _castSpellInstantly);
         CastingProgress = persister.Int32("CastingProgress", value: CastingProgress);
         LibraryId = persister.Int32("LibraryId", value: LibraryId, fallback: -1);
-        if (!Mode.Contains(HeroModeElement.UpdatingFromLibrary))
+        if (!Mode.Contains(HeroModes.UpdatingFromLibrary))
         {
             persister.Object("Inventory", objectValue: Inventory);
             persister.Object("HeroItems", objectValue: HeroItems);
@@ -227,13 +227,13 @@ public partial class Hero : Troop
     public override void SetAbilitySet(int index, byte value) => base.SetAbilitySet(index, value);
 
     // Hero.PAS:697
-    public override Set<AbilitySelectionType> GetAbilitySelectionTypes() => Set<AbilitySelectionType>.Of(AbilitySelectionType.Editor);
+    public override AbilitySelectionTypes GetAbilitySelectionTypes() => AbilitySelectionTypes.Editor;
 
     // Hero.PAS:716
     public override void Changed()
     {
         base.Changed();
-        if (StrategicMap.Current is not null && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
+        if (StrategicMap.Current is not null && !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Destroying))
         {
             StrategicMap.Current.HeroControl.NotifyHeroChanged(this);
         }
@@ -422,24 +422,24 @@ public partial class Hero : Troop
     }
 
     // Hero.PAS:824
-    public override Set<MoveType> GetMoveTypes()
+    public override MoveTypes GetMoveTypes()
     {
-        Set<MoveType> result = base.GetMoveTypes();
-        return result + HeroItems.GetMoveTypes();
+        MoveTypes result = base.GetMoveTypes();
+        return result | HeroItems.GetMoveTypes();
     }
 
     // Hero.PAS:830
-    public override Set<DamageType> GetImmunityTypes()
+    public override DamageTypes GetImmunityTypes()
     {
-        Set<DamageType> result = base.GetImmunityTypes();
-        return result + HeroItems.GetImmunityTypes();
+        DamageTypes result = base.GetImmunityTypes();
+        return result | HeroItems.GetImmunityTypes();
     }
 
     // Hero.PAS:836
-    public override Set<DamageType> GetProtectionTypes()
+    public override DamageTypes GetProtectionTypes()
     {
-        Set<DamageType> result = base.GetProtectionTypes();
-        return result + HeroItems.GetProtectionTypes();
+        DamageTypes result = base.GetProtectionTypes();
+        return result | HeroItems.GetProtectionTypes();
     }
 
     // Hero.PAS:1596
@@ -691,7 +691,7 @@ public partial class Hero : Troop
             }
         }
 
-        if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             Level = (byte)GetLevel();
         }
@@ -714,7 +714,7 @@ public partial class Hero : Troop
         base.Activate();
         if (StrategicMap.Current is not null)
         {
-            if (!Mode.Contains(HeroModeElement.SkipLibraryUpdate) && (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || StrategicMap.Current.Day == 0))
+            if (!Mode.Contains(HeroModes.SkipLibraryUpdate) && (StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting) || StrategicMap.Current.Day == 0))
             {
                 UpdateFromLibrary();
             }
@@ -762,7 +762,7 @@ public partial class Hero : Troop
         {
             Player playerLocal = StrategicMap.Current.Players.GetPlayers(player);
             Status playerRelation = StrategicMap.Current.Races.GetRace(Race).GetPlayerRelation(player);
-            result = Set<Status>.Of(Status.Polite, Status.Friendly).Contains(playerRelation);
+            result = playerRelation is Status.Polite or Status.Friendly;
             if (result)
             {
                 bool condition = Group is null || Group.GroupClass.Behavior != GroupBehavior.Refuge;
@@ -831,7 +831,7 @@ public partial class Hero : Troop
     public override int Show(int X, int Y, in LockedSurface lockedSurface, in UnitShowInfo info)
     {
         int result = base.Show(X, Y, lockedSurface, info);
-        if (info.Overlays.Contains(UnitOverlayModesElement.Rank))
+        if (info.Overlays.Contains(UnitOverlayModes.Rank))
         {
             GetEngine().CombatFont.Color = 0xFF_FF_FF;
             sbyte level = GetLevel();
@@ -864,7 +864,7 @@ public partial class Hero : Troop
         _deathDay = StrategicMap.Current.Players.GetPlayers(Player).Day;
         _deathPlayer = Player;
         base.Killed();
-        HeroStatus += Set<HeroStatusElement>.Of(HeroStatusElement.Died);
+        HeroStatus |= HeroStatuses.Died;
         SetPlayer(-1);
         SetOwner(null);
     }
@@ -873,14 +873,14 @@ public partial class Hero : Troop
     public override void Resurrect()
     {
         base.Resurrect();
-        HeroStatus -= Set<HeroStatusElement>.Of(HeroStatusElement.Died);
+        HeroStatus &= ~HeroStatuses.Died;
     }
 
     // Hero.PAS:908
     public override void Animate()
     {
         base.Animate();
-        HeroStatus -= Set<HeroStatusElement>.Of(HeroStatusElement.Died);
+        HeroStatus &= ~HeroStatuses.Died;
     }
 
     // Hero.PAS:691
@@ -910,7 +910,7 @@ public partial class Hero : Troop
         if (x >= 0 && y >= 0 && x < level.Width && y < level.Height)
         {
             int player;
-            if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+            if (StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
             {
                 player = StrategicMap.Current.MapContainer.GetField(x, y, l).GetPlayer();
                 if (player == -1)
@@ -923,7 +923,7 @@ public partial class Hero : Troop
                 player = -1;
             }
 
-            placed = Place(x, y, l, player: (sbyte)player, mode: Set<UnitPlaceModeElement>.Of()) is not null;
+            placed = Place(x, y, l, player: (sbyte)player, mode: UnitPlaceModes.None) is not null;
         }
         else
         {
@@ -941,10 +941,10 @@ public partial class Hero : Troop
     }
 
     // Hero.PAS:656
-    public void UpdateFromLibraryBegin() => Mode += Set<HeroModeElement>.Of(HeroModeElement.UpdatingFromLibrary);
+    public void UpdateFromLibraryBegin() => Mode |= HeroModes.UpdatingFromLibrary;
 
     // Hero.PAS:659
-    public void UpdateFromLibraryEnd() => Mode -= Set<HeroModeElement>.Of(HeroModeElement.UpdatingFromLibrary);
+    public void UpdateFromLibraryEnd() => Mode &= ~HeroModes.UpdatingFromLibrary;
 
     // Hero.PAS:662
     public void UpdateFromLibrary()
@@ -955,9 +955,9 @@ public partial class Hero : Troop
             if (hero is not null)
             {
                 int id = UnitId;
-                Mode += Set<HeroModeElement>.Of(HeroModeElement.UpdatingFromLibrary);
+                Mode |= HeroModes.UpdatingFromLibrary;
                 Assign(hero, engine: GetEngine());
-                Mode -= Set<HeroModeElement>.Of(HeroModeElement.UpdatingFromLibrary);
+                Mode &= ~HeroModes.UpdatingFromLibrary;
                 UnitId = id;
                 Changed();
             }
@@ -1034,7 +1034,7 @@ public partial class Hero : Troop
     // Hero.PAS:1006
     public int GetSkillPoints()
     {
-        if (StrategicMap.Current is not null && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (StrategicMap.Current is not null && !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             int usedSkillPoints = UsedSkillPoints();
             return (Level * 10) + 15 - usedSkillPoints - _usedSkillPoints;
@@ -1328,7 +1328,7 @@ public partial class Hero : Troop
     }
 
     // Hero.PAS:1221
-    public void ListSpells(SpellList list) => StrategicMap.Current.Players.GetPlayers(Player).MagicControl.ListSpells(list, spellTypes: Set<SpellType>.Of(SpellType.Combat, SpellType.Unit, SpellType.Global));
+    public void ListSpells(SpellList list) => StrategicMap.Current.Players.GetPlayers(Player).MagicControl.ListSpells(list, spellTypes: SpellTypes.Combat | SpellTypes.Unit | SpellTypes.Global);
 
     // Hero.PAS:1226
     public void ExecuteUpgradeHeroAI()
@@ -1580,7 +1580,7 @@ public partial class Hero : Troop
         UnitResistance = 0;
         Experience = 0;
         Race = HeroResource.Race;
-        if (StrategicMap.Current is not null && StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (StrategicMap.Current is not null && StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             FaceIndex = HeroResource.FaceIndex;
         }
@@ -1678,9 +1678,9 @@ public partial class Hero : Troop
             sbyte imageLibrary = coordinate44.MapLevel;
             if (StrategicMap.Current.CombatMap is not null || (x == ix && y == iy && l == imageLibrary))
             {
-                return Set<HeroItemPosition>.Of().WithRange(HeroItemPosition.AttackSlot, HeroItemPosition.RightRingSlot).Contains(position)
+                return position is >= HeroItemPosition.AttackSlot and <= HeroItemPosition.RightRingSlot
                     ? HeroItems.CanPlaceItem(item, position)
-                    : !Set<HeroItemPosition>.Of().WithRange(HeroItemPosition.InventorySlot1, HeroItemPosition.InventorySlot8).Contains(position) || Inventory.GetSlot(position) is null;
+                    : position is not (>= HeroItemPosition.InventorySlot1 and <= HeroItemPosition.InventorySlot8) || Inventory.GetSlot(position) is null;
             }
         }
 
@@ -1763,7 +1763,7 @@ public partial class Hero : Troop
                 int index2 = item2.Owner.FindChildIndex(item2);
                 item1.SetOwner(null);
                 item2.SetOwner(null);
-                if (owner1.Observable.GetControlStyle().Contains(ControlStyleElement.ArrayMode))
+                if (owner1.Observable.GetControlStyle().Contains(ControlStyles.ArrayMode))
                 {
                     item2.SetArrayOwner(owner1.Observable, index: index1);
                 }
@@ -1772,7 +1772,7 @@ public partial class Hero : Troop
                     item2.SetOwner(owner1.Observable);
                 }
 
-                if (owner2.Observable.GetControlStyle().Contains(ControlStyleElement.ArrayMode))
+                if (owner2.Observable.GetControlStyle().Contains(ControlStyles.ArrayMode))
                 {
                     item1.SetArrayOwner(owner2.Observable, index: index2);
                 }
@@ -2171,7 +2171,7 @@ public partial class Hero : Troop
         else
         {
             spell = GamePack.Current.SpellControl[spellId];
-            return Set<SpellType>.Of(SpellType.Combat, SpellType.Unit).Contains(spell.SpellType) && CanCastSpellInstantly(spellId, mana: CastingMana(spell), ref reason);
+            return spell.SpellType is SpellType.Combat or SpellType.Unit && CanCastSpellInstantly(spellId, mana: CastingMana(spell), ref reason);
         }
 
         return result;

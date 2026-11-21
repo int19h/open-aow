@@ -19,10 +19,10 @@ public sealed partial class IntroScene(UIContext ui) : UIModule(ui)
     }
 
     // AoWIntroScene.pas:192
-    public void WindowMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y) => Finish();
+    public void WindowMouseDown(MouseButton button, ShiftStates shift, int X, int Y) => Finish();
 
     // AoWIntroScene.pas:197
-    public void WindowKeyDown(in ushort key, Set<ShiftState> shift)
+    public void WindowKeyDown(in ushort key, ShiftStates shift)
     {
         if (key is 27 or 32)
         {

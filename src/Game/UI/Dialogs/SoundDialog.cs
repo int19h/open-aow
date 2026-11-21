@@ -225,10 +225,10 @@ public sealed partial class SoundDialog(UIContext ui) : UIModule(ui)
         if (SoundQualityLowCheckBox.Checked)
         {
             SoundQuality = 1;
-            if (SoundSystemStatus().Contains(SoundSystemStatusElement.Activated))
+            if (SoundSystemStatus().Contains(SoundSystemStatuses.Activated))
             {
                 SoundSettings settings = Settings;
-                settings.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Mono, SoundOutputModeElement.Bits8);
+                settings.OutputMode = SoundOutputModes.Mono | SoundOutputModes.Bits8;
                 Settings = settings;
                 SoundSettings settings2 = Settings;
                 settings2.SampleRate = 22_050;
@@ -238,7 +238,7 @@ public sealed partial class SoundDialog(UIContext ui) : UIModule(ui)
             else
             {
                 SoundSettings settings3 = Settings;
-                settings3.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Mono, SoundOutputModeElement.Bits8);
+                settings3.OutputMode = SoundOutputModes.Mono | SoundOutputModes.Bits8;
                 Settings = settings3;
                 SoundSettings settings4 = Settings;
                 settings4.SampleRate = 22_050;
@@ -263,10 +263,10 @@ public sealed partial class SoundDialog(UIContext ui) : UIModule(ui)
         if (SoundQualityMediumCheckBox.Checked)
         {
             SoundQuality = 2;
-            if (SoundSystemStatus().Contains(SoundSystemStatusElement.Activated))
+            if (SoundSystemStatus().Contains(SoundSystemStatuses.Activated))
             {
                 SoundSettings settings = Settings;
-                settings.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Stereo, SoundOutputModeElement.Bits16);
+                settings.OutputMode = SoundOutputModes.Stereo | SoundOutputModes.Bits16;
                 Settings = settings;
                 SoundSettings settings2 = Settings;
                 settings2.SampleRate = 44_100;
@@ -276,7 +276,7 @@ public sealed partial class SoundDialog(UIContext ui) : UIModule(ui)
             else
             {
                 SoundSettings settings3 = Settings;
-                settings3.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Stereo, SoundOutputModeElement.Bits16);
+                settings3.OutputMode = SoundOutputModes.Stereo | SoundOutputModes.Bits16;
                 Settings = settings3;
                 SoundSettings settings4 = Settings;
                 settings4.SampleRate = 44_100;
@@ -301,10 +301,10 @@ public sealed partial class SoundDialog(UIContext ui) : UIModule(ui)
         if (SoundQualityHighCheckBox.Checked)
         {
             SoundQuality = 3;
-            if (SoundSystemStatus().Contains(SoundSystemStatusElement.Activated))
+            if (SoundSystemStatus().Contains(SoundSystemStatuses.Activated))
             {
                 SoundSettings settings = Settings;
-                settings.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Stereo, SoundOutputModeElement.Bits16, SoundOutputModeElement.HighQuality);
+                settings.OutputMode = SoundOutputModes.Stereo | SoundOutputModes.Bits16 | SoundOutputModes.HighQuality;
                 Settings = settings;
                 SoundSettings settings2 = Settings;
                 settings2.SampleRate = 44_100;
@@ -314,7 +314,7 @@ public sealed partial class SoundDialog(UIContext ui) : UIModule(ui)
             else
             {
                 SoundSettings settings3 = Settings;
-                settings3.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Stereo, SoundOutputModeElement.Bits16, SoundOutputModeElement.HighQuality);
+                settings3.OutputMode = SoundOutputModes.Stereo | SoundOutputModes.Bits16 | SoundOutputModes.HighQuality;
                 Settings = settings3;
                 SoundSettings settings4 = Settings;
                 settings4.SampleRate = 44_100;
@@ -387,7 +387,7 @@ public sealed partial class SoundDialog(UIContext ui) : UIModule(ui)
         SoundSettings settings = Settings;
         settings.UseDirectSound = DirectSoundEnabledCheckBox.Checked;
         Settings = settings;
-        if (SoundSystemStatus().Contains(SoundSystemStatusElement.Activated))
+        if (SoundSystemStatus().Contains(SoundSystemStatuses.Activated))
         {
             _ = SetSoundSettings(Settings);
         }
@@ -406,7 +406,7 @@ public sealed partial class SoundDialog(UIContext ui) : UIModule(ui)
     public void SoundTabChange() => UI.General.PlayButtonSound(0);
 
     // AoWSoundDlg.pas:352
-    public void DlgKeyDown(in ushort key, Set<ShiftState> shift)
+    public void DlgKeyDown(in ushort key, ShiftStates shift)
     {
         if (key == 27)
         {
@@ -416,11 +416,11 @@ public sealed partial class SoundDialog(UIContext ui) : UIModule(ui)
 
     private static DelphiStringList s_songFiles;
 
-    private static Set<SoundSystemStatusElement> SoundSystemStatus()
+    private static SoundSystemStatuses SoundSystemStatus()
     {
         return AudioHost.SoundSystem is not null
             ? AudioHost.SoundSystem.Status
-            : Set<SoundSystemStatusElement>.Of([]);
+            : SoundSystemStatuses.None;
     }
 
     private static bool SetMusicEnabled(bool value) => AudioHost.SoundSystem is not null && AudioHost.SoundSystem.SetMusicEnabled(value);

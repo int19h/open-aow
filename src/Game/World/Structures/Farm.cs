@@ -6,8 +6,6 @@ using Aow.Game.AI;
 using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Map;
-
-using Aow.Rtl;
 using static Aow.Rtl.DelphiFormat;
 
 namespace Aow.Game.World.Structures;
@@ -20,7 +18,7 @@ public partial class Farm(CustomNode owner) : PlayerCropStructure(owner)
     // Farm.pas:54
     public new const int ClassId = 131_950;
 
-    public Set<ModeElement> Mode { get; set; }
+    public Modes Mode { get; set; }
 
     // Farm.pas:81
     public override void PersistFields(IPersister persister)
@@ -45,11 +43,11 @@ public partial class Farm(CustomNode owner) : PlayerCropStructure(owner)
         if (value)
         {
             SetPlayer(-1);
-            Mode += Set<ModeElement>.Of(ModeElement.Razed);
+            Mode |= Modes.Razed;
         }
         else
         {
-            Mode -= Set<ModeElement>.Of(ModeElement.Razed);
+            Mode &= ~Modes.Razed;
         }
 
         UpdateCrops();
@@ -57,7 +55,7 @@ public partial class Farm(CustomNode owner) : PlayerCropStructure(owner)
     }
 
     // Farm.pas:59
-    public override bool GetRazed() => Mode.Contains(ModeElement.Razed);
+    public override bool GetRazed() => Mode.Contains(Modes.Razed);
 
     // Farm.pas:76
     public override string GetCurrentActivityText()
@@ -128,11 +126,11 @@ public partial class Farm(CustomNode owner) : PlayerCropStructure(owner)
     // Farm.pas:97
     public override void UpdateCrops()
     {
-        if (!EditMode && Status.Contains(MapObjectStatusElement.Activated))
+        if (!EditMode && Status.Contains(MapObjectStatuses.Activated))
         {
             int count = GetRazed() || TerrainType == 5
                 ? 0
-                : StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting)
+                : StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting)
                     ? base.Resource.CropLocations.Count
                     : -1;
 
@@ -146,9 +144,11 @@ public partial class Farm(CustomNode owner) : PlayerCropStructure(owner)
         }
     }
 
-    public enum ModeElement : byte
+    [Flags]
+    public enum Modes : byte
     {
-        Razed = 0
+        None = 0,
+        Razed = 1 << 0,
     }
 
     public new class Resource : PlayerCropStructureResource

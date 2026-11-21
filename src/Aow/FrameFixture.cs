@@ -307,7 +307,7 @@ internal sealed class FrameFixture
                             manager.CheckMouseMove(default, inputX, inputY);
                             if (!click.MoveOnly)
                             {
-                                manager.CheckMouseDown(shift: click.DoubleUI ? Set<ShiftState>.Of(ShiftState.Double) : default, button: (MouseButton)click.Button, x: inputX, y: inputY);
+                                manager.CheckMouseDown(shift: click.DoubleUI ? ShiftStates.Double : default, button: (MouseButton)click.Button, x: inputX, y: inputY);
                                 manager.CheckMouseUp((MouseButton)click.Button, shift: default, inputX, inputY);
                             }
                         }
@@ -442,7 +442,7 @@ internal sealed class FrameFixture
                             FID = unit.Id,
                             FCombatPlayer = unit.CombatPlayer,
                             FMovePoints = unit.MovePoints,
-                            status = unit.Status.Image,
+                            status = (ulong)unit.Status,
                             hits = unit.Troop.GetHits(),
                             hit_points = unit.Troop.GetHitPoints(),
                             hx = sprite.HexX,

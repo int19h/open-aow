@@ -1,5 +1,4 @@
 #nullable disable
-using Aow.Rtl;
 
 namespace Aow.Game.Audio;
 
@@ -26,7 +25,7 @@ public sealed class NullSoundSystem : SoundSystem
     protected internal override bool Activate(in SoundSettings value)
     {
         _settings = value;
-        Status = Set<SoundSystemStatusElement>.Of(SoundSystemStatusElement.Activated);
+        Status = SoundSystemStatuses.Activated;
         return true;
     }
 

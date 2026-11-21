@@ -46,9 +46,9 @@ public partial class ArmyHexSprite
             }
 
             int frame;
-            if (!Army.Status.Contains(ArmyStatusElement.Concealed))
+            if (!Army.Status.Contains(ArmyStatuses.Concealed))
             {
-                if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || StrategicMap.Current.SeatedPlayer != Army.Player || Army.Units.Count != Army.ConcealedUnitsCount())
+                if (StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting) || StrategicMap.Current.SeatedPlayer != Army.Player || Army.Units.Count != Army.ConcealedUnitsCount())
                 {
                     while (sequence is not null)
                     {
@@ -62,7 +62,7 @@ public partial class ArmyHexSprite
                     }
 
                     ShowEnchantments(pixelXSurface, pixelYSurface + _unitYOffset, lockedSurface);
-                    if (!Army.Status.Contains(ArmyStatusElement.Selected) || (StrategicMap.Current.Frame & 0b0110) != 0b0110)
+                    if (!Army.Status.Contains(ArmyStatuses.Selected) || (StrategicMap.Current.Frame & 0b0110) != 0b0110)
                     {
                         if (FlagId == 32)
                         {
@@ -73,7 +73,7 @@ public partial class ArmyHexSprite
                         {
                             int count = Army.Units.Count;
                             GamePack.Current.RaceResources.GetRaceResource(FlagId).ImageLibrary[count + 29].Show(pixelXSurface - 5, pixelYSurface - 12, lockedSurface);
-                            if (Army.Status.Contains(ArmyStatusElement.ShowCrown))
+                            if (Army.Status.Contains(ArmyStatuses.ShowCrown))
                             {
                                 GamePack.Current.FlagControl.Flags[FlagId + 80].Show(pixelXSurface - 5, pixelYSurface - 14, lockedSurface);
                             }
@@ -94,7 +94,7 @@ public partial class ArmyHexSprite
                     }
 
                     ShowEnchantments(pixelXSurface, pixelYSurface + _unitYOffset, lockedSurface);
-                    if (Army.Status.Contains(ArmyStatusElement.Selected))
+                    if (Army.Status.Contains(ArmyStatuses.Selected))
                     {
                         if ((StrategicMap.Current.Frame & 0b0110) != 0b0110)
                         {
@@ -102,7 +102,7 @@ public partial class ArmyHexSprite
                             {
                                 int count = Army.Units.Count;
                                 GamePack.Current.RaceResources.GetRaceResource(FlagId).ImageLibrary[count + 29].ShowBlended(pixelXSurface - 5, pixelYSurface - 12, lockedSurface, table: GraphicsState.AlphaBlendTable.LookupTables[50]);
-                                if (Army.Status.Contains(ArmyStatusElement.ShowCrown))
+                                if (Army.Status.Contains(ArmyStatuses.ShowCrown))
                                 {
                                     GamePack.Current.FlagControl.Flags[FlagId + 80].Show(pixelXSurface - 5, pixelYSurface - 14, lockedSurface);
                                 }
@@ -120,7 +120,7 @@ public partial class ArmyHexSprite
                         {
                             int count = Army.Units.Count;
                             GamePack.Current.RaceResources.GetRaceResource(FlagId).ImageLibrary[count + 29].ShowBlended(pixelXSurface - 5, pixelYSurface - 12, lockedSurface, table: GraphicsState.AlphaBlendTable.LookupTables[Math.Abs(((StrategicMap.Current.Frame << 2) % 60) - 30) + 40]);
-                            if (Army.Status.Contains(ArmyStatusElement.ShowCrown))
+                            if (Army.Status.Contains(ArmyStatuses.ShowCrown))
                             {
                                 GamePack.Current.FlagControl.Flags[FlagId + 80].Show(pixelXSurface - 5, pixelYSurface - 14, lockedSurface);
                             }
@@ -135,7 +135,7 @@ public partial class ArmyHexSprite
             }
             else
             {
-                if (!Army.Status.Contains(ArmyStatusElement.FullyConcealed))
+                if (!Army.Status.Contains(ArmyStatuses.FullyConcealed))
                 {
                     while (sequence is not null)
                     {
@@ -148,7 +148,7 @@ public partial class ArmyHexSprite
                         sequence = sequence.Next;
                     }
 
-                    if (!Army.Status.Contains(ArmyStatusElement.Selected) || (StrategicMap.Current.Frame & 0b0110) != 0b0110)
+                    if (!Army.Status.Contains(ArmyStatuses.Selected) || (StrategicMap.Current.Frame & 0b0110) != 0b0110)
                     {
                         if (FlagId == 32)
                         {
@@ -161,7 +161,7 @@ public partial class ArmyHexSprite
                             int count = Army.Units.Count;
                             int concealedUnitsCount = Army.ConcealedUnitsCount();
                             GamePack.Current.RaceResources.GetRaceResource(FlagId).ImageLibrary[count - concealedUnitsCount + 29].Show(pixelXSurface - 5, pixelYSurface - 12, lockedSurface);
-                            if (Army.Status.Contains(ArmyStatusElement.ShowCrown))
+                            if (Army.Status.Contains(ArmyStatuses.ShowCrown))
                             {
                                 GamePack.Current.FlagControl.Flags[FlagId + 80].Show(pixelXSurface - 5, pixelYSurface - 14, lockedSurface);
                             }
@@ -174,7 +174,7 @@ public partial class ArmyHexSprite
 
     public override void ShowShadow(int X, int Y, in LockedSurface lockedSurface)
     {
-        if ((Owner.FogCount != 0 || !StrategicMap.Current.FogEnabled) && !Army.Status.Contains(ArmyStatusElement.FullyConcealed))
+        if ((Owner.FogCount != 0 || !StrategicMap.Current.FogEnabled) && !Army.Status.Contains(ArmyStatuses.FullyConcealed))
         {
             HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, out int pixelX, out int pixelY);
             X = pixelX - X;

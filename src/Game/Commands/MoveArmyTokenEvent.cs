@@ -17,8 +17,6 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Commands;
 
 // mode, unit IDs, selection, army sprite, moving/target player, target, destination, animate
@@ -27,7 +25,7 @@ public class MoveArmyTokenEvent(CustomNode owner) : MoveTokenEvent(owner)
 
     public new const int ClassId = 135_424;
 
-    public Set<ArmyMoveModeElement> Mode { get; protected set; }
+    public ArmyMoveModes Mode { get; protected set; }
 
     private readonly Int32List _unitIds = new();
 
@@ -98,17 +96,17 @@ public class MoveArmyTokenEvent(CustomNode owner) : MoveTokenEvent(owner)
 
                 MoveControlSettings settings = new(null) { Holder = CreationHolder() };
                 settings.SetupArmy(ArmyHexSprite, Selection);
-                settings.Mode = settings.Mode.With(MoveModeElement.AI);
+                settings.Mode |= MoveModes.AI;
                 if (StrategicMap.Current.Players.GetPlayers(ArmyHexSprite.Army.Player).PlayerType == PlayerType.Human && StrategicMap.Current.ExplorationEnabled)
                 {
-                    settings.Mode = settings.Mode.With(MoveModeElement.ExploredTerrainOnly);
+                    settings.Mode |= MoveModes.ExploredTerrainOnly;
                 }
 
                 result = result && StrategicMap.Current.MoveControl.ValidPath(settings, Path);
                 result = result && ArmyHexSprite.Army.Player == _player;
                 sbyte targetPlayer = StrategicMap.Current.MapContainer.GetField(Target.X, Target.Y, Target.MapLevel).GetPlayer();
                 result = result && (targetPlayer == TargetPlayer || targetPlayer == ArmyHexSprite.Army.Player);
-                if (Mode.Contains(ArmyMoveModeElement.BuildRoads))
+                if (Mode.Contains(ArmyMoveModes.BuildRoads))
                 {
                     bool condition = result;
                     if (condition)
@@ -169,7 +167,7 @@ public class MoveArmyTokenEvent(CustomNode owner) : MoveTokenEvent(owner)
         }
 
         Army army = ArmyHexSprite.Army;
-        army.Mode = army.Mode.With(ArmyModeElement.Moving);
+        army.Mode |= ArmyModes.Moving;
         army.Destination = new MapCoordinate(Destination.X, Destination.Y, Destination.MapLevel);
     }
 
@@ -200,14 +198,14 @@ public class MoveArmyTokenEvent(CustomNode owner) : MoveTokenEvent(owner)
             }
 
             ArmyHexSprite armyHexSprite3 = ArmyHexSprite;
-            armyHexSprite3.Army.Mode = ArmyHexSprite.Army.Mode - Set<ArmyModeElement>.Of(ArmyModeElement.Moving);
+            armyHexSprite3.Army.Mode = ArmyHexSprite.Army.Mode & ~ArmyModes.Moving;
             ArmyHexSprite = armyHexSprite3;
             ArmyHexSprite.CancelMove();
             if (selected)
             {
                 StrategicMap.Current.SelectedArmy.ActivateMoveSelection();
                 StrategicMap.Current.SelectedArmy.Update();
-                if (Mode.Contains(ArmyMoveModeElement.SelectEndLocation))
+                if (Mode.Contains(ArmyMoveModes.SelectEndLocation))
                 {
                     sbyte hexLevel = ArmyHexSprite.HexLevel;
                     sbyte hexY = ArmyHexSprite.HexY;
@@ -336,7 +334,7 @@ public class MoveArmyTokenEvent(CustomNode owner) : MoveTokenEvent(owner)
     // MoveT.PAS:2279
     public virtual MoveStatus ExecuteMove()
     {
-        if (Mode.Contains(ArmyMoveModeElement.BuildRoads))
+        if (Mode.Contains(ArmyMoveModes.BuildRoads))
         {
             _ = ConstructRoad(field: GetMapField(Path[MoveIndex].Location), player: ArmyHexSprite.Army.Player);
         }
@@ -362,7 +360,7 @@ public class MoveArmyTokenEvent(CustomNode owner) : MoveTokenEvent(owner)
                 ArmyHexSprite.SetDirection(0);
             }
 
-            if (Mode.Contains(ArmyMoveModeElement.BuildRoads))
+            if (Mode.Contains(ArmyMoveModes.BuildRoads))
             {
                 _ = ConstructRoad(ArmyHexSprite.Army.Player, field);
             }
@@ -377,7 +375,7 @@ public class MoveArmyTokenEvent(CustomNode owner) : MoveTokenEvent(owner)
     }
 
     // MoveT.PAS:2108
-    public virtual bool Setup(ArmyHexSprite armyHexSprite, byte selection, MovePath path, Set<ArmyMoveModeElement> mode)
+    public virtual bool Setup(ArmyHexSprite armyHexSprite, byte selection, MovePath path, ArmyMoveModes mode)
     {
         Path.Clear();
         int first = path.MovePointsToPosition(armyHexSprite.Army.MovePoints(selection));
@@ -438,7 +436,7 @@ public class MoveArmyTokenEvent(CustomNode owner) : MoveTokenEvent(owner)
             PathStep fPathItem = Path[index];
             PathStep item2 = Path[index];
             result = StrategicMap.Current.Visible(item2.Location.X, fPathItem.Location.Y, L: item.Location.MapLevel, radius: 0);
-            if (result && ArmyHexSprite.Army.Status.Contains(ArmyStatusElement.FullyConcealed))
+            if (result && ArmyHexSprite.Army.Status.Contains(ArmyStatuses.FullyConcealed))
             {
                 return false;
             }
@@ -460,7 +458,7 @@ public class MoveArmyTokenEvent(CustomNode owner) : MoveTokenEvent(owner)
             // The list holds every hex sprite on the field. Only ArmyHexSprite registers 131607.
             if (sprite is ArmyHexSprite army && sprite.Owner == field)
             {
-                if (!army.Army.Mode.Contains(ArmyModeElement.Moving))
+                if (!army.Army.Mode.Contains(ArmyModes.Moving))
                 {
                     return army;
                 }

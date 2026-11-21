@@ -14,7 +14,7 @@ public sealed class LayoutVideoPlayer(Component owner) : VideoPlayer(owner)
     private StreamSoundEvent _onStreamSound;
 
     public event StreamSoundEvent OnStreamSound { add => _onStreamSound += value; remove => _onStreamSound -= value; }
-    public Set<VideoPlayerOptionsElement> Options { get; set; }
+    public VideoPlayerOptions Options { get; set; }
 
     public enum VideoPlayerLoopMode
     {

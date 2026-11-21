@@ -1,8 +1,6 @@
 // Translated from CombatSpells.pas.
 using Aow.Engine.Nodes;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 
@@ -37,7 +35,7 @@ public class FastBattleTerrorCombatAction(CustomNode owner) : MultiTargetCombatS
         for (int i = side.GetCount() - 1; i >= 0; i--)
         {
             CombatObject target = side.GetObjects(i);
-            if (!target.Status.Contains(CombatObjectStatusElement.Destroyed) && !target.GetAbilityEnabled(108) && !target.GetAbilityEnabled(67) && target is CombatUnit targetUnit && !target.GetImmunityTypes().Contains(DamageType.Death) && targetUnit.Troop.GetUnitType() != UnitType.Machine && HitChance.HitRole(6 - target.GetResistance()))
+            if (!target.Status.Contains(CombatObjectStatuses.Destroyed) && !target.GetAbilityEnabled(108) && !target.GetAbilityEnabled(67) && target is CombatUnit targetUnit && !target.GetImmunityTypes().Contains(DamageTypes.Death) && targetUnit.Troop.GetUnitType() != UnitType.Machine && HitChance.HitRole(6 - target.GetResistance()))
             {
                 _ = TargetIds.Add(target.Id);
             }

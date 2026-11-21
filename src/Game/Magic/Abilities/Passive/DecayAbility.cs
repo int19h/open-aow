@@ -2,8 +2,6 @@
 using Aow.Engine.Nodes;
 using Aow.Game.Combat;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // inherited name, ability ID, selection types, ability type, duration mode
@@ -17,7 +15,7 @@ public class DecayAbility : DurationAbility
         AbilityId = 131;
         AbilityType = AbilityType.Handicap;
         DurationMode = DurationMode.EntireCombat;
-        SelectionTypes = Set<AbilitySelectionType>.Of();
+        SelectionTypes = AbilitySelectionTypes.None;
     }
 
     // PassiveAb.pas:855

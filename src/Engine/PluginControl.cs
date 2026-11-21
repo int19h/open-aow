@@ -63,7 +63,7 @@ public sealed class PluginControl : EngineObject
     public override GameEngine GetEngine() => Engine ?? base.GetEngine();
 
     // Engine.pas:9274
-    public override Set<ControlStyleElement> GetControlStyle() => Set<ControlStyleElement>.Of(EngineServices.Stored, EngineServices.Shared);
+    public override ControlStyles GetControlStyle() => EngineServices.Stored | EngineServices.Shared;
 
     // Engine.pas:9331
     public override void PersistFields(IPersister persister)

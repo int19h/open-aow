@@ -1,20 +1,15 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
-
 using Aow.Formats.Tree;
-
 using Aow.Game.Draw;
-
 using Aow.Game.World.Map;
-
-using Aow.Rtl;
 
 namespace Aow.Game.Combat.Actions;
 
 // Mode. SourceId. TargetId
 public class SingleTargetCombatAction(CustomNode owner) : CombatAction(owner)
 {
-    public Set<SingleTargetModeElement> Mode { get; set; }
+    public SingleTargetModes Mode { get; set; }
     public byte SourceId { get; set; }
     public byte TargetId { get; set; }
 
@@ -30,7 +25,7 @@ public class SingleTargetCombatAction(CustomNode owner) : CombatAction(owner)
     // Combat2.pas:749
     public override void ShowFieldObject(CombatViewer viewer, CombatObject objectValue, int frame, int direction, int X, int Y, in LockedSurface surface)
     {
-        if (!Mode.Contains(SingleTargetModeElement.Defensive))
+        if (!Mode.Contains(SingleTargetModes.Defensive))
         {
             if (objectValue.Id == SourceId)
             {
@@ -46,7 +41,7 @@ public class SingleTargetCombatAction(CustomNode owner) : CombatAction(owner)
         }
 
         ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
-        if (!Mode.Contains(SingleTargetModeElement.Defensive))
+        if (!Mode.Contains(SingleTargetModes.Defensive))
         {
             if (objectValue.Id == TargetId)
             {
@@ -67,7 +62,7 @@ public class SingleTargetCombatAction(CustomNode owner) : CombatAction(owner)
     {
         CombatObject source = viewer.Combat.CombatData.FindId(SourceId);
         CombatObject target = viewer.Combat.CombatData.FindId(TargetId);
-        if (!Mode.Contains(SingleTargetModeElement.Defensive))
+        if (!Mode.Contains(SingleTargetModes.Defensive))
         {
             viewer.DefaultShowFightingObjects(source, target, frame, X, Y, surface);
         }
@@ -78,13 +73,13 @@ public class SingleTargetCombatAction(CustomNode owner) : CombatAction(owner)
     }
 
     // Combat2.pas:740
-    public bool Defensive => Mode.Contains(SingleTargetModeElement.Defensive);
+    public bool Defensive => Mode.Contains(SingleTargetModes.Defensive);
 
     // Combat2.pas:743
     public void SetDefensive(bool defensive)
     {
         Mode = defensive
-            ? Mode + Set<SingleTargetModeElement>.Of(SingleTargetModeElement.Defensive)
-            : Mode - Set<SingleTargetModeElement>.Of(SingleTargetModeElement.Defensive);
+            ? Mode | SingleTargetModes.Defensive
+            : Mode & ~SingleTargetModes.Defensive;
     }
 }

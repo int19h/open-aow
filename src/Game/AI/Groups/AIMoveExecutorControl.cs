@@ -7,7 +7,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
-using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
@@ -35,13 +34,13 @@ public partial class AIMoveExecutorControl : EngineObject
     }
 
     // AIGroup.pas:4738
-    public virtual (AIMoveExecutorMove, byte MoveResult) CreateMove(AIMoveExecutorArmy army, byte selection, sbyte x, sbyte y, sbyte mapLevel, Set<CreateMoveModeElement> mode)
+    public virtual (AIMoveExecutorMove, byte MoveResult) CreateMove(AIMoveExecutorArmy army, byte selection, sbyte x, sbyte y, sbyte mapLevel, CreateMoveModes mode)
     {
         AIMoveExecutorMove move = null;
         army.RetrieveArmy(selection, army: out ArmyHexSprite armyHexSprite, out byte armySelection);
         MoveControlSettings settings = new(null) { Holder = CreationHolder() };
         int points;
-        if (mode.Contains(CreateMoveModeElement.SurroundNearest))
+        if (mode.Contains(CreateMoveModes.SurroundNearest))
         {
             settings.MovePointsMax = army.MovePoints(255);
             settings.SetupArmy(armyHexSprite, selection: armySelection);
@@ -91,14 +90,14 @@ public partial class AIMoveExecutorControl : EngineObject
         {
             points = armyHexSprite.Army.MovePoints(armySelection);
             int position = settings.Path.MovePointsToPosition(points);
-            if (!mode.Contains(CreateMoveModeElement.Surround) && settings.Path[position].Location.X == Executor.Destination.X && settings.Path[position].Location.Y == Executor.Destination.Y && settings.Path[position].Location.MapLevel == Executor.Destination.MapLevel)
+            if (!mode.Contains(CreateMoveModes.Surround) && settings.Path[position].Location.X == Executor.Destination.X && settings.Path[position].Location.Y == Executor.Destination.Y && settings.Path[position].Location.MapLevel == Executor.Destination.MapLevel)
             {
                 army.SetMoveResult(selection, moveResult: 2);
             }
 
             moveResult = position == 0 ? (byte)2 : (byte)0;
 
-            if (mode.Contains(CreateMoveModeElement.Surround) && position == 0)
+            if (mode.Contains(CreateMoveModes.Surround) && position == 0)
             {
                 position += 1;
             }
@@ -141,7 +140,7 @@ public partial class AIMoveExecutorControl : EngineObject
                     move.Moves = armyHexSprite.Army.Moves(armySelection);
                     move.Source = new MapCoordinate(armyHexSprite.HexX, armyHexSprite.HexY, armyHexSprite.HexLevel);
                     move.Destination = new MapCoordinate(x, y, mapLevel);
-                    if (!mode.Contains(CreateMoveModeElement.DoNotQueue))
+                    if (!mode.Contains(CreateMoveModes.DoNotQueue))
                     {
                         move.SetOwner(Executor.Moves);
                         move.SetUnitStatus(AIMoveExecutorUnitStatus.Queued);

@@ -479,7 +479,7 @@ public sealed class SweepConstructionTests
     {
         using GameEngine engine = new(null);
         EngineClass descriptor = EngineClass.Of(type);
-        engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);
+        engine.Options &= ~GameEngine.VerifyClasses;
         try
         {
             engine.UnregisterEngineClasses([engine.GetEngineClass(descriptor.ClassId)]);

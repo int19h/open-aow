@@ -7,9 +7,6 @@ namespace Aow.Rtl.Tests;
 
 public sealed class EngineSupportTests
 {
-    private enum Flag : byte { First, Second, Third }
-
-    private enum OffsetFlag : byte { First = 8, Second, Third }
 
     [InlineArray(4)] private struct FourBytes { private byte _first; }
 
@@ -88,25 +85,6 @@ public sealed class EngineSupportTests
         Assert.NotSame(((Delegate?)first)?.Target, ((Delegate?)second)?.Target);
         Assert.Null(((Delegate?)null)?.Method);
         Assert.Null(((Delegate?)null)?.Target);
-    }
-
-    [Fact]
-    public void SetTransferUsesTheDelphiImageAndItsLowByte()
-    {
-        Set<Flag> value = default;
-        value = SetImage.TransferSet(value, size: 1, id: 17, (bytes, size, id) =>
-        {
-            Assert.Equal(1, size);
-            Assert.Equal(17, id);
-            bytes[0] = 5;
-        });
-        Assert.True(value.Contains(Flag.First));
-        Assert.True(value.Contains(Flag.Third));
-        Assert.False(value.Contains(Flag.Second));
-        Set<OffsetFlag> offset = default;
-        offset = SetImage.TransferSet(offset, size: 1, id: 0, transfer: (bytes, _, _) => bytes[0] = 5, low: 8);
-        Assert.True(offset.Contains(OffsetFlag.First));
-        Assert.True(offset.Contains(OffsetFlag.Third));
     }
 
     [Fact]

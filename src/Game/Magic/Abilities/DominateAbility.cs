@@ -1,8 +1,6 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Abilities;
 
 public class DominateAbility : CommandAbility
@@ -14,7 +12,7 @@ public class DominateAbility : CommandAbility
         AbilityId = 28;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_dominateText);
         CommandedAbilityId = 150;
-        SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit);
+        SelectionTypes = AbilitySelectionTypes.Unit;
     }
 
     // AoWAb.PAS:5329

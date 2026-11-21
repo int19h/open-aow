@@ -43,17 +43,17 @@ public partial class UIComponent(Rtl.Component owner) : Rtl.Component(owner)
     [Published]
     public event MouseEvent<UIComponent> OnMouseDown;
 
-    protected void RaiseMouseDown(UIComponent sender, MouseButton button, Set<ShiftState> shift, int x, int y) => OnMouseDown?.Invoke(sender, button, shift, x, y);
+    protected void RaiseMouseDown(UIComponent sender, MouseButton button, ShiftStates shift, int x, int y) => OnMouseDown?.Invoke(sender, button, shift, x, y);
 
     [Published]
     public event MouseEvent<UIComponent> OnMouseUp;
 
-    protected void RaiseMouseUp(UIComponent sender, MouseButton button, Set<ShiftState> shift, int x, int y) => OnMouseUp?.Invoke(sender, button, shift, x, y);
+    protected void RaiseMouseUp(UIComponent sender, MouseButton button, ShiftStates shift, int x, int y) => OnMouseUp?.Invoke(sender, button, shift, x, y);
 
     [Published]
     public event MouseMoveEvent<UIComponent> OnMouseMove;
 
-    protected void RaiseMouseMove(UIComponent sender, Set<ShiftState> shift, int x, int y) => OnMouseMove?.Invoke(sender, shift, x, y);
+    protected void RaiseMouseMove(UIComponent sender, ShiftStates shift, int x, int y) => OnMouseMove?.Invoke(sender, shift, x, y);
 
     [Published]
     public event KeyPressEvent<UIComponent> OnKeyPress;
@@ -67,7 +67,7 @@ public partial class UIComponent(Rtl.Component owner) : Rtl.Component(owner)
     [Published]
     public event KeyEvent<UIComponent> OnKeyDown;
 
-    protected void RaiseKeyDown(UIComponent sender, ref ushort key, Set<ShiftState> shift) => OnKeyDown?.Invoke(sender, ref key, shift);
+    protected void RaiseKeyDown(UIComponent sender, ref ushort key, ShiftStates shift) => OnKeyDown?.Invoke(sender, ref key, shift);
 
     protected bool HasKeyDownHandlers => OnKeyDown is not null;
 
@@ -999,19 +999,19 @@ public partial class UIComponent(Rtl.Component owner) : Rtl.Component(owner)
     }
 
     // AoWComp.pas:653
-    public virtual void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y) => Handled = false;
+    public virtual void CheckMouseDown(MouseButton button, ShiftStates shift, int X, int Y) => Handled = false;
 
     // AoWComp.pas:658
-    public virtual void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y) => Handled = false;
+    public virtual void CheckMouseUp(MouseButton button, ShiftStates shift, int X, int Y) => Handled = false;
 
     // AoWComp.pas:663
-    public virtual void CheckMouseMove(Set<ShiftState> shift, int X, int Y) => Handled = false;
+    public virtual void CheckMouseMove(ShiftStates shift, int X, int Y) => Handled = false;
 
     // AoWComp.pas:668
     public virtual void CheckKeyPress(ref byte key) => Handled = false;
 
     // AoWComp.pas:673
-    public virtual void CheckKeyDown(ref ushort key, Set<ShiftState> shift) => Handled = false;
+    public virtual void CheckKeyDown(ref ushort key, ShiftStates shift) => Handled = false;
 
     // AoWComp.pas:256
     public void SetAlign(Alignment value)

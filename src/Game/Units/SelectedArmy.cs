@@ -43,7 +43,7 @@ public sealed class SelectedArmy(EngineObject creator) : MoveSelector(creator)
         {
             ArmyHexSprite armyHexSprite;
             int index;
-            if (StrategicMap.Current.Mouse.Shift.Contains(ShiftState.Shift))
+            if (StrategicMap.Current.Mouse.Shift.Contains(ShiftStates.Shift))
             {
                 if (MoveSettingsList.Count == 1 && MoveSettingsList.GetMoveSettings(0).Path.Count != 0)
                 {
@@ -85,7 +85,7 @@ public sealed class SelectedArmy(EngineObject creator) : MoveSelector(creator)
             }
             else
             {
-                if (StrategicMap.Current.Mouse.Shift.Contains(ShiftState.Ctrl))
+                if (StrategicMap.Current.Mouse.Shift.Contains(ShiftStates.Ctrl))
                 {
                     if (MoveSettingsList.Count > 1 && StrategicMap.Current.Mouse.HexX != -1)
                     {
@@ -152,7 +152,7 @@ public sealed class SelectedArmy(EngineObject creator) : MoveSelector(creator)
             MoveControlSettings.Units.AddUnits(armyHexSprite.Army.Units, selection: (byte)settings.Selection);
             if (StrategicMap.Current.ExplorationEnabled)
             {
-                MoveControlSettings.Mode = MoveControlSettings.Mode + Set<MoveModeElement>.Of(MoveModeElement.ExploredTerrainOnly);
+                MoveControlSettings.Mode |= MoveModes.ExploredTerrainOnly;
             }
 
             _ = MoveControlSettings.MovePointTable;
@@ -310,7 +310,7 @@ public sealed class SelectedArmy(EngineObject creator) : MoveSelector(creator)
                 {
                     sbyte player = field.GetPlayer();
                     DiplomaticRelation diplomaticRelation = StrategicMap.Current.Players.GetDiplomaticRelation(armyHexSprite.Army.Player, otherPlayer: player);
-                    condition = Set<DiplomaticRelation>.Of(DiplomaticRelation.War, DiplomaticRelation.Unknown).Contains(diplomaticRelation);
+                    condition = diplomaticRelation is DiplomaticRelation.War or DiplomaticRelation.Unknown;
                 }
 
                 if (condition)
@@ -320,10 +320,10 @@ public sealed class SelectedArmy(EngineObject creator) : MoveSelector(creator)
                         int cost = AbilityRules.RoadConstructionCost(armyHexSprite.Army.Player, moveSettings.Path, moveSettings.MovePoints);
                         if (cost <= StrategicMap.Current.Players.GetPlayers(armyHexSprite.Army.Player).Gems)
                         {
-                            if (ArmyHexSprite.MoveArmy(armyHexSprite, Selection, moveSettings.Path, mode: Set<ArmyMoveModeElement>.Of(ArmyMoveModeElement.SelectEndLocation, ArmyMoveModeElement.BuildRoads), force: false))
+                            if (ArmyHexSprite.MoveArmy(armyHexSprite, Selection, moveSettings.Path, mode: ArmyMoveModes.SelectEndLocation | ArmyMoveModes.BuildRoads, force: false))
                             {
                                 moveSettings.Path.Clear();
-                                if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+                                if (StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
                                 {
                                     StrategicMap.Current.Selection.UnselectLocation();
                                 }
@@ -349,11 +349,11 @@ public sealed class SelectedArmy(EngineObject creator) : MoveSelector(creator)
                             if (moveSettings.Path.MovePointsToPosition(movePoints) > 0)
                             {
                                 Army army = armyHexSprite.Army;
-                                army.UserMode += Set<ArmyUserModeElement>.Of(ArmyUserModeElement.TurnDone);
+                                army.UserMode |= ArmyUserModes.TurnDone;
                             }
 
                             moveSettings.Path.Clear();
-                            if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+                            if (StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
                             {
                                 StrategicMap.Current.Selection.UnselectLocation();
                             }
@@ -456,7 +456,7 @@ public sealed class SelectedArmy(EngineObject creator) : MoveSelector(creator)
     }
 
     // Army.PAS:3634
-    public Set<MoveType> GetMoveTypes()
+    public MoveTypes GetMoveTypes()
     {
         if (CurrentMove != -1)
         {
@@ -465,7 +465,7 @@ public sealed class SelectedArmy(EngineObject creator) : MoveSelector(creator)
         }
         else
         {
-            return Set<MoveType>.Of();
+            return MoveTypes.None;
         }
     }
 
@@ -502,7 +502,7 @@ public sealed class SelectedArmy(EngineObject creator) : MoveSelector(creator)
     // Army.PAS:3673
     public void OnDestroyArmy(Army sender)
     {
-        if (Status.Contains(MoveSelectorStatusElement.Activated))
+        if (Status.Contains(MoveSelectorStatuses.Activated))
         {
             if (sender is not null)
             {
@@ -615,7 +615,7 @@ public sealed class SelectedArmy(EngineObject creator) : MoveSelector(creator)
             MoveSettingsList.GetMoveSettings(i).Moves = moves;
         }
 
-        if (Status.Contains(MoveSelectorStatusElement.Activated))
+        if (Status.Contains(MoveSelectorStatuses.Activated))
         {
             for (int i = 0, last = MoveSettingsList.Count - 1; i <= last; i++)
             {
@@ -684,14 +684,14 @@ public sealed class SelectedArmy(EngineObject creator) : MoveSelector(creator)
             Creator.GetEngine().OutputDebugString(text);
         }
 
-        int strengthMax = ArmyHexSprite.Army.Units.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.None));
+        int strengthMax = ArmyHexSprite.Army.Units.GetStrengthMax(AbilityRules.AllDamageTypes & ~DamageTypes.NonSpecific);
         Creator.GetEngine().OutputDebugString($"Army strength: {strengthMax.ToString(CultureInfo.InvariantCulture)}");
     }
 
     // Army.PAS:4090
     public void SetArmyHexSprite(ArmyHexSprite armyHexSprite)
     {
-        if (armyHexSprite != ArmyHexSprite && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && MoveSettingsList.Count <= 1)
+        if (armyHexSprite != ArmyHexSprite && !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting) && MoveSettingsList.Count <= 1)
         {
             Clear();
             IgnoreMouseDown = false;
@@ -776,7 +776,7 @@ public sealed class SelectedArmy(EngineObject creator) : MoveSelector(creator)
         if (ArmyHexSprite is not null && ArmyHexSprite.Army.Player == StrategicMap.Current.SeatedPlayer)
         {
             ArmyHexSprite armyHexSprite = ArmyHexSprite;
-            ArmyHexSprite.Army.UserMode = armyHexSprite.Army.UserMode + Set<ArmyUserModeElement>.Of(ArmyUserModeElement.TurnDone);
+            ArmyHexSprite.Army.UserMode = armyHexSprite.Army.UserMode | ArmyUserModes.TurnDone;
             _ = StrategicMap.Current.SelectNextArmy();
         }
     }
@@ -788,14 +788,14 @@ public sealed class SelectedArmy(EngineObject creator) : MoveSelector(creator)
         if (armyHexSprite is not null && armyHexSprite.Army.Player == StrategicMap.Current.SeatedPlayer)
         {
             Army army = armyHexSprite.Army;
-            if (armyHexSprite.Army.UserMode.Contains(ArmyUserModeElement.Guard))
+            if (armyHexSprite.Army.UserMode.Contains(ArmyUserModes.Guard))
             {
-                army.UserMode = armyHexSprite.Army.UserMode - Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard);
+                army.UserMode = armyHexSprite.Army.UserMode & ~ArmyUserModes.Guard;
                 army.Update();
             }
             else
             {
-                army.UserMode = armyHexSprite.Army.UserMode + Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard);
+                army.UserMode = armyHexSprite.Army.UserMode | ArmyUserModes.Guard;
                 _ = StrategicMap.Current.SelectNextArmy();
             }
         }
@@ -827,16 +827,16 @@ public sealed class SelectedArmy(EngineObject creator) : MoveSelector(creator)
             return;
         }
 
-        Set<MoveType> types = GetMoveTypes();
-        if (types.Contains(MoveType.Walking))
+        MoveTypes types = GetMoveTypes();
+        if (types.Contains(MoveTypes.Walking))
         {
             mouse.Cursor = 64;
         }
-        else if (types.Contains(MoveType.Swimming))
+        else if (types.Contains(MoveTypes.Swimming))
         {
             mouse.Cursor = 66;
         }
-        else if (types.Contains(MoveType.Flying))
+        else if (types.Contains(MoveTypes.Flying))
         {
             mouse.Cursor = 68;
         }
@@ -897,7 +897,7 @@ public sealed class SelectedArmy(EngineObject creator) : MoveSelector(creator)
                         ",",
                         ((int)mapCoordinate3.MapLevel).ToString(CultureInfo.InvariantCulture)
                     }));
-                    if (armyDefaultMoveTokenEvent.Setup((ArmyHexSprite)moveSettingsLocal.MoveObject, selection: (byte)moveSettingsLocal.Selection, path: movePath, mode: Set<ArmyMoveModeElement>.Of([])))
+                    if (armyDefaultMoveTokenEvent.Setup((ArmyHexSprite)moveSettingsLocal.MoveObject, selection: (byte)moveSettingsLocal.Selection, path: movePath, mode: ArmyMoveModes.None))
                     {
                         multiMoveTokenEvent.Events.Add(armyDefaultMoveTokenEvent);
                     }

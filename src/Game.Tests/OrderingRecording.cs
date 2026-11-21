@@ -82,7 +82,7 @@ internal static class OrderingRecording
             DelphiRandom.RandSeed = 123456789;
             // A bare engine has no settings and no dictionary. The nodes it creates read the fixture's.
             Engine = new GameEngine(null) { Registry = EngineFixture.Engine.Registry, Dictionary = EngineFixture.Engine.Dictionary };
-            Engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);
+            Engine.Options &= ~GameEngine.VerifyClasses;
             foreach (EngineClass? descriptor in EngineClass.All.Where(x => x.Type == type))
             {
                 try

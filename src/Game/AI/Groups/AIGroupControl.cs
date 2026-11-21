@@ -17,8 +17,6 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
-using Aow.Rtl;
-
 namespace Aow.Game.AI.Groups;
 
 // cycles, group, status, location, army, army sprite, selection, targets, strengths, max
@@ -48,7 +46,7 @@ public class AIGroupControl : EngineObject
     protected T GetGroup<T>() where T : AIGroup => (T)Group;
 
     [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Construction snapshots record this field, and the Delphi field is only written.")]
-    private Set<StatusElement> _status;
+    private Statuses _status;
 
     public MapCoordinate Location { get; private set; }
     public Army Army { get; private set; }
@@ -65,7 +63,7 @@ public class AIGroupControl : EngineObject
 
     public MovePointTable MovePointTable { get; private set; }
 
-    private Set<DamageType> _immunityTypes;
+    private DamageTypes _immunityTypes;
 
     public CombatPredictor CombatPredictor { get; }
     public AIMoveExecutor MoveExecutor { get; private set; }
@@ -104,7 +102,7 @@ public class AIGroupControl : EngineObject
         {
             if (MoveExecutor.Status == AIMoveExecutorStatus.Failed)
             {
-                if (!Group.Status.Contains(AIGroupStatusElement.Split))
+                if (!Group.Status.Contains(AIGroupStatuses.Split))
                 {
                     if (!Split())
                     {
@@ -131,7 +129,7 @@ public class AIGroupControl : EngineObject
     // AIGroup.pas:1266
     public virtual bool Validate()
     {
-        if (!Group.Status.Contains(AIGroupStatusElement.Done))
+        if (!Group.Status.Contains(AIGroupStatuses.Done))
         {
             MapCoordinate coordinate97 = Group.GetLocation();
             sbyte locationX = coordinate97.X;
@@ -192,7 +190,7 @@ public class AIGroupControl : EngineObject
             {
                 GroupBehavior behavior = Group.GroupClass.Behavior;
                 AIGroup group = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, relation: Group.IndependentRelation, behavior);
-                group.Status += Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Split);
+                group.Status |= AIGroupStatuses.Split;
                 i = Group.Units.Count - 1;
                 for (; i >= 0; i -= 1)
                 {
@@ -208,7 +206,7 @@ public class AIGroupControl : EngineObject
 
                 if (group.Units.Count != 0)
                 {
-                    Group.Status = Group.Status + Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Split);
+                    Group.Status |= AIGroupStatuses.Split;
                     result = true;
                 }
 
@@ -229,14 +227,14 @@ public class AIGroupControl : EngineObject
         State = 0;
         MoveExecutor = StrategicMap.Current.Players.GetPlayers(Group.Player).AIControl.MoveExecutor;
         StrategicMap.Current.AIExecutor.UseProcessTime(100);
-        _status += Set<StatusElement>.Of(StatusElement.Activated);
+        _status |= Statuses.Activated;
     }
 
     // AIGroup.pas:1222
     public virtual void Deactivate()
     {
         MoveExecutor.SetDoneHandler(null);
-        _status -= Set<StatusElement>.Of(StatusElement.Activated);
+        _status &= ~Statuses.Activated;
     }
 
     // AIGroup.pas:1101
@@ -267,7 +265,7 @@ public class AIGroupControl : EngineObject
 
         if (!Group.GetAdjacent())
         {
-            MoveExecutor.Mode = MoveExecutor.Mode - Set<AIMoveExecutorModeElement>.Of(AIMoveExecutorModeElement.Adjacent);
+            MoveExecutor.Mode &= ~AIMoveExecutorModes.Adjacent;
         }
 
         troop = Group.Transporter;
@@ -283,7 +281,7 @@ public class AIGroupControl : EngineObject
         MapField field = StrategicMap.Current.MapContainer.GetField(X, Y, L);
         if (field.GetPlayer() != -1 && field.GetPlayer() != Group.Player)
         {
-            MoveExecutor.Mode = MoveExecutor.Mode + Set<AIMoveExecutorModeElement>.Of(AIMoveExecutorModeElement.Adjacent, AIMoveExecutorModeElement.Attack);
+            MoveExecutor.Mode |= AIMoveExecutorModes.Adjacent | AIMoveExecutorModes.Attack;
         }
 
         _ = MoveExecutor.ExecuteMove(X, Y, L);
@@ -292,18 +290,18 @@ public class AIGroupControl : EngineObject
     // AIGroup.pas:994
     public void Done()
     {
-        Group.Status = Group.Status + Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Done);
+        Group.Status |= AIGroupStatuses.Done;
         State = -1;
     }
 
     // AIGroup.pas:1000
-    public int GetStrengthMax(Set<DamageType> damageTypes)
+    public int GetStrengthMax(DamageTypes damageTypes)
     {
         int result = 0;
-        for (int damageTypeOrdinal = (int)DamageType.Fire; damageTypeOrdinal <= (int)DamageType.None; damageTypeOrdinal++)
+        for (int damageTypeOrdinal = (int)DamageType.Fire; damageTypeOrdinal <= (int)DamageType.NonSpecific; damageTypeOrdinal++)
         {
             DamageType damageType = (DamageType)damageTypeOrdinal;
-            if (damageTypes.Contains(damageType) && result < _strength[(int)damageType])
+            if (damageTypes.Contains(damageType.ToFlag()) && result < _strength[(int)damageType])
             {
                 result = _strength[(int)damageType];
             }
@@ -315,7 +313,7 @@ public class AIGroupControl : EngineObject
     // AIGroup.pas:1010
     public void UpdateGroupChanges()
     {
-        if (Group.Status.Contains(AIGroupStatusElement.Changed) || _processCycles == 1)
+        if (Group.Status.Contains(AIGroupStatuses.Changed) || _processCycles == 1)
         {
             _immunityTypes = AbilityRules.AllDamageTypes;
             StrengthMax = 0;
@@ -341,7 +339,7 @@ public class AIGroupControl : EngineObject
                 MovePointTable movePointTable4 = MovePointTable;
                 movePointTable4.Maximize(movePointTable);
                 MovePointTable = movePointTable4;
-                for (int damageTypeOrdinal = (int)DamageType.Fire; damageTypeOrdinal <= (int)DamageType.None; damageTypeOrdinal++)
+                for (int damageTypeOrdinal = (int)DamageType.Fire; damageTypeOrdinal <= (int)DamageType.NonSpecific; damageTypeOrdinal++)
                 {
                     DamageType damageType = (DamageType)damageTypeOrdinal;
                     int strength = troop.GetStrength(damageType);
@@ -352,7 +350,7 @@ public class AIGroupControl : EngineObject
                 StrengthMax += strengthMax;
             }
 
-            Group.Status = Group.Status - Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Changed);
+            Group.Status &= ~AIGroupStatuses.Changed;
         }
     }
 
@@ -381,7 +379,7 @@ public class AIGroupControl : EngineObject
         for (int i = player.AIGroups.Count - 1; i >= 0; i--)
         {
             AIGroup group = player.AIGroups.GetGroups(i);
-            if (group != Group && group.EngineClass.ClassId == Group.EngineClass.ClassId && group.Status.Contains(AIGroupStatusElement.Done))
+            if (group != Group && group.EngineClass.ClassId == Group.EngineClass.ClassId && group.Status.Contains(AIGroupStatuses.Done))
             {
                 switch (group.TargetType)
                 {
@@ -484,7 +482,7 @@ public class AIGroupControl : EngineObject
             try
             {
                 bool busy = false;
-                while (!busy && !Group.Status.Contains(AIGroupStatusElement.Done) && StrategicMap.Current.AIExecutor.ProcessTimeLeft >= 0 && MoveExecutor.Status != AIMoveExecutorStatus.Busy)
+                while (!busy && !Group.Status.Contains(AIGroupStatuses.Done) && StrategicMap.Current.AIExecutor.ProcessTimeLeft >= 0 && MoveExecutor.Status != AIMoveExecutorStatus.Busy)
                 {
                     if (_aiGroupTask is not null)
                     {
@@ -492,7 +490,7 @@ public class AIGroupControl : EngineObject
                         if (!busy)
                         {
                             DeactivatePlugin();
-                            if (StrategicMap.Current.AIExecutor.ProcessTimeLeft >= 0 && !Group.Status.Contains(AIGroupStatusElement.Done))
+                            if (StrategicMap.Current.AIExecutor.ProcessTimeLeft >= 0 && !Group.Status.Contains(AIGroupStatuses.Done))
                             {
                                 MainProcessStates(looped);
                             }
@@ -509,7 +507,7 @@ public class AIGroupControl : EngineObject
                 Done();
             }
 
-            return !Group.Status.Contains(AIGroupStatusElement.Done);
+            return !Group.Status.Contains(AIGroupStatuses.Done);
         }
         else
         {
@@ -556,8 +554,11 @@ public class AIGroupControl : EngineObject
         return result;
     }
 
-    public enum StatusElement : byte
+    [Flags]
+    public enum Statuses : byte
     {
-        Activated = 0, Loop = 1
+        None = 0,
+        Activated = 1 << 0,
+        Loop = 1 << 1,
     }
 }

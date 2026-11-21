@@ -1,3 +1,4 @@
+using System.Numerics;
 using System.Runtime.InteropServices;
 using Aow.Rtl.Tests.Generated;
 using static Aow.Rtl.DelphiRandom;
@@ -8,6 +9,8 @@ namespace Aow.Rtl.Tests;
 
 public sealed class CoreTests
 {
+    private const Flags AllFlags = Flags.First | Flags.Second | Flags.Third;
+
     [Fact]
     public void FixtureRandomizeResetsAfterDrawsAndLeavesNormalSuppressionIntact()
     {
@@ -57,12 +60,12 @@ public sealed class CoreTests
         SampleRecord result = GeneratedStyleSample.Run();
         Assert.Equal(20, result.Value);
         Assert.Equal("abcde", result.Name);
-        Assert.Equal(Set<Flag>.Range(Flag.First, Flag.Third), result.Flags);
+        Assert.Equal(AllFlags, result.Flags);
         SampleRecord copy = result;
         copy.Name = "x";
         copy.Flags = default;
         Assert.Equal("abcde", result.Name);
-        Assert.Equal(3, result.Flags.Count);
+        Assert.Equal(3, BitOperations.PopCount((uint)result.Flags));
         Assert.Equal(12, Marshal.SizeOf<SampleRecord>());
         Span<byte> image = Bytes.Of(ref result);
         Assert.Equal(7, image[0]);
@@ -176,81 +179,5 @@ public sealed class CoreTests
         object payload = new PtrBox<SampleRecord>(Ptr<SampleRecord>.To(cell, index: 0));
         Ptr<SampleRecord>.Unbox(payload).Value.Value = 91;
         Assert.Equal(91, cell[0].Value);
-    }
-
-    private enum WideFlag : byte { Low = 0, High = 63 }
-
-    private enum ShiftedFlag : byte { Low = 8, High = 15 }
-
-    [Fact]
-    public void SetBoundariesAndImages()
-    {
-        Set<WideFlag> empty = default;
-        Assert.True(empty.IsEmpty);
-        Assert.Equal(0, empty.Count);
-        Set<WideFlag> set = Set<WideFlag>.Of(WideFlag.Low, WideFlag.High);
-        Assert.Equal(0x8000000000000001UL, set.Mask);
-        Assert.Equal(set, Set<WideFlag>.FromMask(set.Mask));
-        Assert.True(set.Equals((object)Set<WideFlag>.FromMask(set.Mask)));
-        Assert.False(set.Equals(3));
-        Assert.Equal(set.GetHashCode(), Set<WideFlag>.FromMask(set.Mask).GetHashCode());
-        Assert.Equal(64, Set<WideFlag>.Range(WideFlag.Low, WideFlag.High).Count);
-        Assert.True(Set<WideFlag>.Range(WideFlag.High, WideFlag.Low).IsEmpty);
-        _ = Assert.Throws<ArgumentOutOfRangeException>(() => Set<byte>.Of(64));
-        _ = Assert.Throws<ArgumentOutOfRangeException>(() => Set<byte>.Range(0, 64));
-        _ = Assert.Throws<ArgumentOutOfRangeException>(() => default(Set<byte>).With(255));
-        _ = Assert.Throws<ArgumentOutOfRangeException>(() => Set<byte>.WithBounds(-1, 2));
-        _ = Assert.Throws<ArgumentOutOfRangeException>(() => Set<byte>.WithBounds(0, 256));
-        _ = Assert.Throws<ArgumentOutOfRangeException>(() => Set<byte>.WithBounds(9, 8));
-        _ = Assert.Throws<ArgumentOutOfRangeException>(() => Set<byte>.WithBounds(8, 15).With(0));
-        Assert.False(Set<byte>.WithBounds(8, 15).Contains(0));
-        Assert.Equal(4, Set<byte>.WithBounds(20, 40).StorageSize);
-        Assert.Equal(4, Set<byte>.WithBounds(0, 23).StorageSize);
-        Set<ShiftedFlag> shifted = Set<ShiftedFlag>.Of(ShiftedFlag.Low, ShiftedFlag.High);
-        Assert.Equal(0x8100UL, shifted.Mask);
-        Assert.Equal(129UL, shifted.Image);
-        Assert.Equal(1, shifted.StorageSize);
-        byte[] image = new byte[1];
-        shifted.CopyImageTo(image);
-        Assert.Equal(129, image[0]);
-        _ = Assert.Throws<ArgumentOutOfRangeException>(() => shifted.CopyImageTo([]));
-        Set<byte> large = Set<byte>.WithBounds(0, 255).WithRange(0, 255);
-        Assert.Equal(large, Set<byte>.WithBounds(0, 255).WithRange(0, 255));
-        Assert.Equal(256, large.Count);
-        image = new byte[32];
-        large.CopyImageTo(image);
-        Assert.All(image, b => Assert.Equal(255, b));
-        large = large.Without(64).Without(128).Without(192);
-        large.CopyImageTo(image);
-        Assert.Equal(254, image[8]);
-        Assert.Equal(254, image[16]);
-        Assert.Equal(254, image[24]);
-        Assert.Equal(253, large.Count);
-        Set<byte> crossing = Set<byte>.WithBounds(60, 80).With(60).With(64).With(79);
-        image = new byte[crossing.StorageSize];
-        crossing.CopyImageTo(image);
-        Assert.Equal(new byte[] { 16, 1, 128, 0 }, image);
-        Assert.Equal(0x800110UL, crossing.Image);
-    }
-
-    [Fact]
-    public void AllEightBitSetPairsHaveBitwiseValueSemantics()
-    {
-        for (int a = 0; a < 256; a++)
-        {
-            Set<byte> left = Set<byte>.FromMask((ulong)a);
-            Set<byte> original = left;
-            for (int b = 0; b < 256; b++)
-            {
-                Set<byte> right = Set<byte>.FromMask((ulong)b);
-                Assert.Equal((ulong)(a | b), (left + right).Mask);
-                Assert.Equal((ulong)(a & ~b), (left - right).Mask);
-                Assert.Equal((ulong)(a & b), (left & right).Mask);
-                Assert.Equal((a & ~b) == 0, actual: left.IsSubsetOf(right));
-                Assert.Equal(a == b, actual: left == right);
-                Assert.Equal(a != b, actual: left != right);
-            }
-            Assert.Equal(original, left);
-        }
     }
 }

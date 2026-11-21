@@ -14,8 +14,6 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
-using Aow.Rtl;
-
 using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.AI;
@@ -126,7 +124,7 @@ public sealed partial class AIPlayerControl : EngineObject
         for (int i = 0, last = StrategicMap.Current.AIPlayerActionManager.GetCount() - 1; i <= last; i++)
         {
             AIPlayerActionClass actionClass = StrategicMap.Current.AIPlayerActionManager.GetRegisteredClasses(i);
-            if (actionClass.SupportedPhases.Contains(phase))
+            if (actionClass.SupportedPhases.Contains(phase.ToFlag()))
             {
                 AIPlayerAction action = actionClass.CreateInstance(null, holder: CreationHolder());
                 if (action.Setup(this, phase))
@@ -247,7 +245,7 @@ public sealed partial class AIPlayerControl : EngineObject
                         if (troop is not Hero)
                         {
                             int unitPriority = troop.Moves;
-                            if (troop.GetMoveTypes().Contains(MoveType.Flying))
+                            if (troop.GetMoveTypes().Contains(MoveTypes.Flying))
                             {
                                 unitPriority += 15;
                             }
@@ -311,7 +309,7 @@ public sealed partial class AIPlayerControl : EngineObject
                 if (StrategicMap.Current.Players.GetPlayers(i).Status == PlayerStatus.Playing)
                 {
                     DiplomaticRelation relation = StrategicMap.Current.Players.GetDiplomaticRelation(Player.PlayerIndex, otherPlayer: (sbyte)i);
-                    if (Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace, DiplomaticRelation.Alliance).Contains(relation))
+                    if (relation is DiplomaticRelation.Peace or DiplomaticRelation.Alliance)
                     {
                         _ = peace.Add((byte)i);
                     }
@@ -393,7 +391,7 @@ public sealed partial class AIPlayerControl : EngineObject
                     }
                 }
 
-                if (StrategicMap.Current.Players.GetPlayers(i).PlayerType == PlayerType.Human && Set<PlayerType>.Of(PlayerType.Cpu3, PlayerType.Cpu4, PlayerType.Cpu5).Contains(Player.PlayerType))
+                if (StrategicMap.Current.Players.GetPlayers(i).PlayerType == PlayerType.Human && Player.PlayerType is PlayerType.Cpu3 or PlayerType.Cpu4 or PlayerType.Cpu5)
                 {
                     priority -= 5;
                 }
@@ -424,7 +422,7 @@ public sealed partial class AIPlayerControl : EngineObject
             Player players = StrategicMap.Current.Players.GetPlayers(middlePlayer);
             Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Player.PlayerIndex);
             Status defaultRaceRelation = StrategicMap.Current.Races.GetRace(fPlayersPlayers.PlayerRace).GetDefaultRaceRelation(players.PlayerRace);
-            _ = Set<Status>.Of(Status.Hostile, Status.Wary).Contains(defaultRaceRelation)
+            _ = defaultRaceRelation is Status.Hostile or Status.Wary
                 ? war.Add((byte)middlePlayer)
                 : peace.Add((byte)middlePlayer);
         }
@@ -482,12 +480,12 @@ public sealed partial class AIPlayerControl : EngineObject
             }
 
             result = !(peaceCount > warCount && !(warCount == 0 && peaceCount == 1 && StrategicMap.Current.Players.ActivePlayers.Count > 2));
-            if (Set<PlayerType>.Of(PlayerType.Cpu3, PlayerType.Cpu4, PlayerType.Cpu5).Contains(Player.PlayerType))
+            if (Player.PlayerType is PlayerType.Cpu3 or PlayerType.Cpu4 or PlayerType.Cpu5)
             {
                 Player players = StrategicMap.Current.Players.GetPlayers((sbyte)player);
                 Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Player.PlayerIndex);
                 Status defaultRaceRelation = StrategicMap.Current.Races.GetRace(fPlayersPlayers.PlayerRace).GetDefaultRaceRelation(players.PlayerRace);
-                if (Set<Status>.Of(Status.Hostile, Status.Wary).Contains(defaultRaceRelation))
+                if (defaultRaceRelation is Status.Hostile or Status.Wary)
                 {
                     result = false;
                 }
@@ -587,7 +585,7 @@ public sealed partial class AIPlayerControl : EngineObject
             Player players = StrategicMap.Current.Players.GetPlayers((sbyte)player);
             Player fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Player.PlayerIndex);
             Status defaultRaceRelation = StrategicMap.Current.Races.GetRace(fPlayersPlayers.PlayerRace).GetDefaultRaceRelation(players.PlayerRace);
-            if (Set<Status>.Of(Status.Hostile, Status.Wary).Contains(defaultRaceRelation))
+            if (defaultRaceRelation is Status.Hostile or Status.Wary)
             {
                 return false;
             }

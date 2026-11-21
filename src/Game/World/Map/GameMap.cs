@@ -40,15 +40,15 @@ public partial class GameMap : OwningNode
         Mouse = CreateMouse();
         Mouse.HexSpriteMap = this;
         Selection = new HexSpriteSelection(this);
-        Selection.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Shared));
+        Selection.SetControlStyle(EngineServices.Shared);
         StaticVisibleHexSprite = new VisibilityList(this);
-        StaticVisibleHexSprite.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Shared));
+        StaticVisibleHexSprite.SetControlStyle(EngineServices.Shared);
         DynamicVisibleHexSprite = new VisibilityList(this);
-        DynamicVisibleHexSprite.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Shared));
+        DynamicVisibleHexSprite.SetControlStyle(EngineServices.Shared);
         StaticFixedVisibleHexSprite = new VisibilityList(this);
-        StaticFixedVisibleHexSprite.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Shared));
+        StaticFixedVisibleHexSprite.SetControlStyle(EngineServices.Shared);
         DynamicFixedVisibleHexSprite = new VisibilityList(this);
-        DynamicFixedVisibleHexSprite.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Shared));
+        DynamicFixedVisibleHexSprite.SetControlStyle(EngineServices.Shared);
         HexSpriteChangedEventsStore = new();
         TerrainChangedEventsStore = new();
         ViewPortChangedEventsStore = new();
@@ -143,10 +143,10 @@ public partial class GameMap : OwningNode
         _frontHexSelector?.Dispose();
         _scannerIconsChangedEventsStore.Clear();
         LockTerrainChangedEvent();
-        Status += Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying);
+        Status |= HexSpriteMapStatuses.Destroying;
         Selection.OnSelectStore.Clear();
         Selection.OnDeselectStore.Clear();
-        Selection.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Shared));
+        Selection.SetControlStyle(EngineServices.Shared);
         Selection.UnselectAll();
         DestroyEventsStore.Raise(this);
         HexSpriteChangedEventsStore.Clear();
@@ -171,7 +171,7 @@ public partial class GameMap : OwningNode
     }
 
     // HSMAP.PAS:76
-    public override Set<ControlStyleElement> GetControlStyle() => base.GetControlStyle() + Set<ControlStyleElement>.Of(EngineServices.Reserved2);
+    public override ControlStyles GetControlStyle() => base.GetControlStyle() | EngineServices.Reserved2;
 
     // HSMAP.PAS:240
     // The hex sprite set of a full load reports its progress to the load's handler, as the original
@@ -181,7 +181,7 @@ public partial class GameMap : OwningNode
         base.PersistFields(persister);
         if (persister.Loading && persister.Preview)
         {
-            Status += Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.PreviewMode);
+            Status |= HexSpriteMapStatuses.PreviewMode;
         }
 
         // The original leaves the file name out of a text stream. Under the translate stream's mode
@@ -208,7 +208,7 @@ public partial class GameMap : OwningNode
     public override void MainPersist(IPersister persister)
     {
         base.MainPersist(persister);
-        if (!Status.Contains(HexSpriteMapStatusElement.PreviewMode) && persister.Loading)
+        if (!Status.Contains(HexSpriteMapStatuses.PreviewMode) && persister.Loading)
         {
             MapContainer.Loaded();
         }
@@ -355,23 +355,23 @@ public partial class GameMap : OwningNode
     // HSMAP.PAS:101
     public virtual void Activate()
     {
-        if (Status.Contains(HexSpriteMapStatusElement.Activated))
+        if (Status.Contains(HexSpriteMapStatuses.Activated))
         {
             throw new InvalidOperationException("HSMap already activated");
         }
 
-        Status += Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Activated);
+        Status |= HexSpriteMapStatuses.Activated;
     }
 
     // HSMAP.PAS:108
     public virtual void Deactivate()
     {
-        if (!Status.Contains(HexSpriteMapStatusElement.Activated))
+        if (!Status.Contains(HexSpriteMapStatuses.Activated))
         {
             throw new InvalidOperationException("HSMap wasn't activated");
         }
 
-        Status -= Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Activated);
+        Status &= ~HexSpriteMapStatuses.Activated;
     }
 
     // HSMAP.PAS:128
@@ -635,7 +635,7 @@ public partial class GameMap : OwningNode
     // AoWHSMap.PAS:810 shows the explored fields only.
     public virtual void UpdateStaticScene()
     {
-        if (ExplorationEnabled && SeatedPlayer != -1 && !Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (ExplorationEnabled && SeatedPlayer != -1 && !Status.Contains(HexSpriteMapStatuses.Editting))
         {
             ResetVisibleStaticHexSprite();
             int maxX = ViewHexX + ViewWidthHex - 1;
@@ -689,7 +689,7 @@ public partial class GameMap : OwningNode
     // AoWHSMap.PAS:833 shows the explored fields only.
     public virtual void UpdateDynamicScene()
     {
-        if (ExplorationEnabled && !Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (ExplorationEnabled && !Status.Contains(HexSpriteMapStatuses.Editting))
         {
             ResetVisibleDynamicHexSprite();
             int maxX = ViewHexX + ViewWidthHex - 1;
@@ -840,10 +840,10 @@ public partial class GameMap : OwningNode
     }
 
     // HSMAP.PAS:198
-    public void SetModified() => Status += Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Modified);
+    public void SetModified() => Status |= HexSpriteMapStatuses.Modified;
 
     // HSMAP.PAS:203
-    public void ResetModified() => Status -= Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Modified);
+    public void ResetModified() => Status &= ~HexSpriteMapStatuses.Modified;
 
     // HSMAP.PAS:208
     public int MaxPixelX
@@ -1068,7 +1068,7 @@ public partial class GameMap : OwningNode
     public bool DynamicSceneInvalid { get; protected set; }
     public int Version { get; private set; }
     public string HssFileName { get => _hssFileName; set => SetHssFileName(value); }
-    public Set<HexSpriteMapStatusElement> Status { get; set; }
+    public HexSpriteMapStatuses Status { get; set; }
     public int Frame { get; private set; }
 
     public event NotifyEvent<TerrainChangedNotification> TerrainChangedEvents
@@ -1334,7 +1334,7 @@ public partial class GameMap : OwningNode
     // AoWHSMap.PAS:445
     public void NotifyMapChanged(in Rect R, int L)
     {
-        if (MapChangedLockCount == 0 && Status.Contains(HexSpriteMapStatusElement.Activated))
+        if (MapChangedLockCount == 0 && Status.Contains(HexSpriteMapStatuses.Activated))
         {
             TriggerTerrainChangedEvent(R, L: (sbyte)L);
         }
@@ -1412,7 +1412,7 @@ public partial class GameMap : OwningNode
     // AoWHSMap.PAS:500
     public void NotifyScannerIconsChanged(in Rect R, int L)
     {
-        if (_scannerIconsChangedLockCount == 0 && (Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Activated, HexSpriteMapStatusElement.Destroying) & Status) == Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Activated))
+        if (_scannerIconsChangedLockCount == 0 && ((HexSpriteMapStatuses.Activated | HexSpriteMapStatuses.Destroying) & Status) == HexSpriteMapStatuses.Activated)
         {
             TriggerScannerIconsChangedEvent(R, L);
         }
@@ -1545,7 +1545,7 @@ public partial class GameMap : OwningNode
     public bool ExploreArea(int X, int Y, int level, sbyte player, int range)
     {
         bool result;
-        if (!Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (!Status.Contains(HexSpriteMapStatuses.Editting))
         {
             result = MapContainer.GetMapLevel(level).ExploreArea(X, Y, player, radius: range);
             if (result && MapChangedLockCount == 0 && FogEnabled)
@@ -1562,9 +1562,9 @@ public partial class GameMap : OwningNode
     }
 
     // AoWHSMap.PAS:622
-    public Set<FogExplorationChangedElement> UnFogExploreArea(int X, int Y, int level, sbyte player, int range)
+    public FogExplorationChanges UnFogExploreArea(int X, int Y, int level, sbyte player, int range)
     {
-        Set<FogExplorationChangedElement> result = default;
+        FogExplorationChanges result = default;
         // { Preserve the original assertion diagnostic, independent of the build path. }
         int radius = range;
         if (radius > 15)
@@ -1574,7 +1574,7 @@ public partial class GameMap : OwningNode
         }
 
         // { Original leaves Result undefined when a fog-only operation changes nothing. }
-        if (!Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (!Status.Contains(HexSpriteMapStatuses.Editting))
         {
             if (player >= 0)
             {
@@ -1584,7 +1584,7 @@ public partial class GameMap : OwningNode
             {
                 if (MapContainer.GetMapLevel(level).UnFogArea(X, Y, radius))
                 {
-                    result = Set<FogExplorationChangedElement>.Of(FogExplorationChangedElement.Fog);
+                    result = FogExplorationChanges.Fog;
                 }
             }
         }
@@ -1592,11 +1592,11 @@ public partial class GameMap : OwningNode
         {
             if (MapContainer.GetMapLevel(level).UnFogArea(X, Y, radius))
             {
-                result = Set<FogExplorationChangedElement>.Of(FogExplorationChangedElement.Fog);
+                result = FogExplorationChanges.Fog;
             }
         }
 
-        if (MapChangedLockCount == 0 && ((result.Contains(FogExplorationChangedElement.Fog) && FogEnabled) || (result.Contains(FogExplorationChangedElement.Exploration) && ExplorationEnabled && player == SeatedPlayer)))
+        if (MapChangedLockCount == 0 && ((result.Contains(FogExplorationChanges.Fog) && FogEnabled) || (result.Contains(FogExplorationChanges.Exploration) && ExplorationEnabled && player == SeatedPlayer)))
         {
             MapChangedRadius(X, Y, L: level, radius);
         }

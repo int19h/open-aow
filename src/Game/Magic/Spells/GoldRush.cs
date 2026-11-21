@@ -4,7 +4,6 @@ using Aow.Engine.Nodes;
 using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Structures;
-using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
@@ -16,14 +15,14 @@ public class GoldRush : CityEnchantmentSpell
         Holder = holder;
         SpellName = AbilityRules.TranslateResourceString(GetEngine(), S: GameText.GoldRushText);
         SpellId = 53;
-        CityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Own);
+        CityTargetMode = CityTargetModes.Own;
         BaseManaCost = 1;
         SpellLevel = 4;
         MagicSphere = MagicSphere.Water;
         EnchantmentId = CityEnchantmentId.GoldRush;
         CastDuration = 20;
         AIPriority = 500;
-        AICastSituation = Set<CityEnchantmentCastSpellSituationElement>.Of(CityEnchantmentCastSpellSituationElement.Hex4City);
+        AICastSituation = CityEnchantmentCastSpellSituations.Hex4City;
         AIBudget = 600;
         EnchantmentSpellId = 25;
     }

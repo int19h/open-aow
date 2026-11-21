@@ -8,8 +8,6 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 
-using Aow.Rtl;
-
 using static Aow.Rtl.DelphiAssert;
 using static Aow.Rtl.DelphiRounding;
 
@@ -206,7 +204,7 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
     public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
         base.MapFieldMessageProc(ref message);
-        if (message.MessageId == 16 && message.HexNumber == 0 && StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (message.MessageId == 16 && message.HexNumber == 0 && StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             Dispose();
         }
@@ -284,7 +282,7 @@ public partial class UnitHexSprite(CustomNode owner) : HexSprite(owner)
         int x = default;
         int y = default;
         MapField field = Owner;
-        if (Moving() && Set<byte>.WithBounds(0, 255).WithRange(3, 5).Contains(Direction))
+        if (Moving() && Direction is >= 3 and <= 5)
         {
             HexGeometry.CenterHexNumberToHex(Owner.HexX, Owner.HexY, hexNumber: Direction, ref x, ref y);
             field = Owner.Owner.GetField(x, y);

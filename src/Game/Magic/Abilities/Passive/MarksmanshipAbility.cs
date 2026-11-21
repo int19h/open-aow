@@ -1,8 +1,6 @@
 // Translated from PassiveAb.pas.
 using Aow.Engine.Nodes;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // (maximum level, level costs.)
@@ -15,7 +13,7 @@ public class MarksmanshipAbility : MultiLevelAbility
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_marksmanshipText);
         AbilityType = AbilityType.Enhancement;
         AbilityId = 32;
-        SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.HeadItem, AbilitySelectionType.TorsoItem, AbilitySelectionType.DefenseItem, AbilitySelectionType.RingItem, AbilitySelectionType.Editor);
+        SelectionTypes = AbilitySelectionTypes.Unit | AbilitySelectionTypes.HeadItem | AbilitySelectionTypes.TorsoItem | AbilitySelectionTypes.DefenseItem | AbilitySelectionTypes.RingItem | AbilitySelectionTypes.Editor;
         MaxLevel = 4;
         LevelCosts[1] = 5;
         LevelCosts[2] = 5;

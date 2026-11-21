@@ -69,9 +69,12 @@ public sealed class EnumTypeInfo
         (int width, bool signed) = Layout(type);
         Dictionary<string, long> byName = [];
         Dictionary<long, string> byValue = [];
-        foreach (string name in Enum.GetNames(type))
+        // A flags enum is a set: a member's number is its bit, as a set codec reads it.
+        IEnumerable<(string Name, long Value)> members = FlagsExtensions.IsFlags(type)
+            ? FlagsExtensions.MemberBits(type).Select(m => (m.Name, (long)m.Bit))
+            : Enum.GetNames(type).Select(n => (n, ToInt64(value: Enum.Parse(type, value: n))));
+        foreach ((string name, long value) in members)
         {
-            long value = ToInt64(Enum.Parse(type, value: name));
             byName.Add(name, value);
             _ = byValue.TryAdd(value, name);
         }

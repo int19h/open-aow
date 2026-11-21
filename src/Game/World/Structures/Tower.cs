@@ -6,8 +6,6 @@ using Aow.Game.AI;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 namespace Aow.Game.World.Structures;
 
 // State, bit 0 razed
@@ -17,7 +15,7 @@ public partial class Tower(CustomNode owner) : PlayerStructure(owner)
     // Tower.pas:55
     public new const int ClassId = 132_158;
 
-    public Set<StateElement> State { get; set; }
+    public States State { get; set; }
 
     // Tower.pas:96
     public override void PersistFields(IPersister persister)
@@ -42,24 +40,24 @@ public partial class Tower(CustomNode owner) : PlayerStructure(owner)
         if (value)
         {
             SetPlayer(-1);
-            State += Set<StateElement>.Of(StateElement.Razed);
+            State |= States.Razed;
         }
         else
         {
-            State -= Set<StateElement>.Of(StateElement.Razed);
+            State &= ~States.Razed;
         }
 
         ImageIndex = GetTerrainTypeImage(TerrainType);
     }
 
     // Tower.pas:82
-    public override bool GetRazed() => State.Contains(StateElement.Razed);
+    public override bool GetRazed() => State.Contains(States.Razed);
 
     // Tower.pas:73
     public override void UpdateAITarget(in AITargetInfo info, ref AITargetData data)
     {
         base.UpdateAITarget(info, ref data);
-        if (!State.Contains(StateElement.Razed))
+        if (!State.Contains(States.Razed))
         {
             switch (info.Mode)
             {
@@ -91,7 +89,7 @@ public partial class Tower(CustomNode owner) : PlayerStructure(owner)
         if (!Building)
         {
             result = 12;
-            if (HexLevel != 0 || (Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 8) != 0))
+            if (HexLevel != 0 || (Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments) & 8) != 0))
             {
                 return (result + 1) >>> 1;
             }
@@ -107,9 +105,11 @@ public partial class Tower(CustomNode owner) : PlayerStructure(owner)
     // Tower.pas:70
     public override int DefaultAITargetPriority => 1;
 
-    public enum StateElement : byte
+    [Flags]
+    public enum States : byte
     {
-        Razed = 0
+        None = 0,
+        Razed = 1 << 0,
     }
 
     public new class Resource : PlayerStructureResource

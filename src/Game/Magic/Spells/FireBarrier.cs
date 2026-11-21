@@ -12,8 +12,6 @@ using Aow.Game.World.Map;
 
 using Aow.Game.World.Structures;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Spells;
 
 public class FireBarrier : GlobalTargetSpell
@@ -55,7 +53,7 @@ public class FireBarrier : GlobalTargetSpell
     // GlobalTargetSpells.pas:900
     public override bool ValidTargetSelectionMapField(MapField field)
     {
-        bool result = base.ValidTargetSelectionMapField(field) && !Set<byte>.WithBounds(0, 255).With(0).With(6).With(10).With(13).Contains((byte)field.TerrainType) && field.FindNoneTransparentHexSprite(typeof(Structure)) is null;
+        bool result = base.ValidTargetSelectionMapField(field) && field.TerrainType is not ((sbyte)TerrainType.Water or (sbyte)TerrainType.Ice or (sbyte)TerrainType.UndergroundWater or (sbyte)TerrainType.UndergroundIce) && field.FindNoneTransparentHexSprite(typeof(Structure)) is null;
         if (result)
         {
             ArmyHexSprite army = field.GetArmyHexSprite();
@@ -69,7 +67,7 @@ public class FireBarrier : GlobalTargetSpell
     }
 
     // GlobalTargetSpells.pas:892
-    public override bool ValidTargetMapField(MapField field) => base.ValidTargetMapField(field) && !Set<byte>.WithBounds(0, 255).With(0).With(6).With(10).With(13).Contains((byte)field.TerrainType) && field.FindNoneTransparentHexSprite(typeof(Structure)) is null && field.GetArmyHexSprite() is null;
+    public override bool ValidTargetMapField(MapField field) => base.ValidTargetMapField(field) && field.TerrainType is not ((sbyte)TerrainType.Water or (sbyte)TerrainType.Ice or (sbyte)TerrainType.UndergroundWater or (sbyte)TerrainType.UndergroundIce) && field.FindNoneTransparentHexSprite(typeof(Structure)) is null && field.GetArmyHexSprite() is null;
 
     private static readonly string s_fireBarrierText = "Fire Barrier";
 }

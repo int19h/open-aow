@@ -1,8 +1,6 @@
 // Translated from PassiveAb.pas.
 using Aow.Engine.Nodes;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // inherited name, ability ID, selection types, ability type, duration mode
@@ -15,7 +13,7 @@ public class HolyFear : DurationAbility
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_holyFearText);
         AbilityId = 53;
         AbilityType = AbilityType.Handicap;
-        SelectionTypes = Set<AbilitySelectionType>.Of();
+        SelectionTypes = AbilitySelectionTypes.None;
         DurationMode = DurationMode.Day;
     }
 

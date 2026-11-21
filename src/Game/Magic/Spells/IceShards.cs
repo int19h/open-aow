@@ -5,8 +5,6 @@ using Aow.Game.Combat;
 
 using Aow.Game.Magic.Abilities;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Spells;
 
 // inherited combat statistics, damage mode
@@ -21,7 +19,7 @@ public class IceShards : CombatSpell
         SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 6;
         spellCombatInfo.Damage = 4;
-        spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Physical);
+        spellCombatInfo.DamageTypes = DamageTypes.Physical;
         spellCombatInfo.RepeatCount = 3;
         spellCombatInfo.Range = 12;
 

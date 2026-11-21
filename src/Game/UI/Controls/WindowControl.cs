@@ -197,7 +197,7 @@ public class WindowControl(Component owner) : UIComponent(owner)
     }
 
     // AoWWinControl.pas:246
-    public override void CheckKeyDown(ref ushort key, Set<ShiftState> shift)
+    public override void CheckKeyDown(ref ushort key, ShiftStates shift)
     {
         Handled = false;
         if (Visible)

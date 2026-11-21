@@ -35,10 +35,10 @@ internal struct SamplePacked
 {
     [FieldOffset(0)] public byte ValueImage;
 
-    public Set<SampleRank> Value
+    public SampleRanks Value
     {
-        readonly get => Set<SampleRank>.FromMask(ValueImage);
-        init => ValueImage = (byte)value.Image;
+        readonly get => (SampleRanks)ValueImage;
+        init => ValueImage = (byte)value;
     }
 }
 
@@ -63,4 +63,30 @@ internal enum SampleRank : byte
 internal enum OtherRank : byte
 {
     Low = 0,
+}
+
+/// <summary>A set of <see cref="SampleRank"/> values: bit n is the member of ordinal n, as in the stored Delphi set.</summary>
+[Flags, FlagsOf(typeof(SampleRank))]
+internal enum SampleRanks : byte
+{
+    None = 0,
+    Gold = 1 << 1,
+}
+
+/// <summary>The conversions between a single <see cref="SampleRank"/> and its flag in <see cref="SampleRanks"/>.</summary>
+internal static class SampleRankConversions
+{
+    extension(SampleRank value)
+    {
+        /// <summary>The flag of the value. A value outside the members' ordinals has no flag, as it is in no Delphi set.</summary>
+        public SampleRanks ToFlag() => (int)value is >= 0 and <= 1 ? (SampleRanks)(1U << (int)value) : SampleRanks.None;
+    }
+
+    extension(SampleRanks flags)
+    {
+        /// <summary>The member of a value that holds exactly one member.</summary>
+        public SampleRank ToSampleRank() => System.Numerics.BitOperations.IsPow2((uint)flags)
+            ? (SampleRank)System.Numerics.BitOperations.TrailingZeroCount((uint)flags)
+            : throw new ArgumentOutOfRangeException(paramName: nameof(flags), message: "The value does not hold exactly one member.");
+    }
 }

@@ -75,9 +75,9 @@ public sealed class PlayerMagicControl : EngineObject
     public EnchantmentList Enchantments { get; init; }
     public PowerSourceList PowerSources { get; }
 
-    public Set<PlayerEnchantmentType> ActiveEnchantments { get; private set; }
+    public PlayerEnchantmentTypes ActiveEnchantments { get; private set; }
 
-    public Set<PlayerEnchantmentType> EnemyEnchantments { get; private set; }
+    public PlayerEnchantmentTypes EnemyEnchantments { get; private set; }
 
     private readonly EventStore<PlayerMagicControl> _changedEventsStore;
 
@@ -96,7 +96,7 @@ public sealed class PlayerMagicControl : EngineObject
             Enchantments?.Dispose();
             _changedEventsStore.Clear();
             _ = PowerSources.RemoveChild(_externalPowerSource);
-            if (PowerSources.GetCount() != 0 && StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
+            if (PowerSources.GetCount() != 0 && StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Destroying))
             {
                 try
                 {
@@ -150,7 +150,7 @@ public sealed class PlayerMagicControl : EngineObject
     public bool GetCheatEnabled() => Player.PlayerType == PlayerType.Human && CheatEnabled;
 
     // Spells.PAS:1967
-    public void SetActiveEnchantments(Set<PlayerEnchantmentType> value)
+    public void SetActiveEnchantments(PlayerEnchantmentTypes value)
     {
         ActiveEnchantments = value;
         for (int i = StrategicMap.Current.Players.GetCount() - 1; i >= 1; i--)
@@ -165,7 +165,7 @@ public sealed class PlayerMagicControl : EngineObject
     // Spells.PAS:1976
     public void UpdateEnemyEnchantments()
     {
-        EnemyEnchantments = Set<PlayerEnchantmentType>.Of();
+        EnemyEnchantments = PlayerEnchantmentTypes.None;
         for (int i = StrategicMap.Current.Players.GetCount() - 1; i >= 1; i--)
         {
             if (i != Player.PlayerIndex)
@@ -173,24 +173,24 @@ public sealed class PlayerMagicControl : EngineObject
                 if (StrategicMap.Current.Players.GetPlayers(i).DiplomaticRelations.GetDiplomaticRelation(Player.PlayerIndex) == DiplomaticRelation.War)
                 {
                     PlayerMagicControl magic = StrategicMap.Current.Players.GetPlayers(i).MagicControl;
-                    if (magic.ActiveEnchantments.Contains(PlayerEnchantmentType.WaterMastery))
+                    if (magic.ActiveEnchantments.Contains(PlayerEnchantmentTypes.WaterMastery))
                     {
-                        EnemyEnchantments += Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.WaterMastery);
+                        EnemyEnchantments |= PlayerEnchantmentTypes.WaterMastery;
                     }
 
-                    if (magic.ActiveEnchantments.Contains(PlayerEnchantmentType.LifeMastery))
+                    if (magic.ActiveEnchantments.Contains(PlayerEnchantmentTypes.LifeMastery))
                     {
-                        EnemyEnchantments += Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.LifeMastery);
+                        EnemyEnchantments |= PlayerEnchantmentTypes.LifeMastery;
                     }
 
-                    if (magic.ActiveEnchantments.Contains(PlayerEnchantmentType.DeathMastery))
+                    if (magic.ActiveEnchantments.Contains(PlayerEnchantmentTypes.DeathMastery))
                     {
-                        EnemyEnchantments += Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.DeathMastery);
+                        EnemyEnchantments |= PlayerEnchantmentTypes.DeathMastery;
                     }
 
-                    if (magic.ActiveEnchantments.Contains(PlayerEnchantmentType.AirMastery))
+                    if (magic.ActiveEnchantments.Contains(PlayerEnchantmentTypes.AirMastery))
                     {
-                        EnemyEnchantments += Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.AirMastery);
+                        EnemyEnchantments |= PlayerEnchantmentTypes.AirMastery;
                     }
                 }
             }
@@ -413,9 +413,9 @@ public sealed class PlayerMagicControl : EngineObject
     }
 
     // Spells.PAS:2140
-    public void SetSpheres(Set<MagicSphere> value)
+    public void SetSpheres(MagicSpheres value)
     {
-        if ((value & Set<MagicSphere>.Of(MagicSphere.Earth, MagicSphere.Air)) != Set<MagicSphere>.Of(MagicSphere.Earth, MagicSphere.Air) && (value & Set<MagicSphere>.Of(MagicSphere.Fire, MagicSphere.Water)) != Set<MagicSphere>.Of(MagicSphere.Fire, MagicSphere.Water) && (value & Set<MagicSphere>.Of(MagicSphere.Life, MagicSphere.Death)) != Set<MagicSphere>.Of(MagicSphere.Life, MagicSphere.Death))
+        if ((value & (MagicSpheres.Earth | MagicSpheres.Air)) != (MagicSpheres.Earth | MagicSpheres.Air) && (value & (MagicSpheres.Fire | MagicSpheres.Water)) != (MagicSpheres.Fire | MagicSpheres.Water) && (value & (MagicSpheres.Life | MagicSpheres.Death)) != (MagicSpheres.Life | MagicSpheres.Death))
         {
         }
     }
@@ -424,7 +424,7 @@ public sealed class PlayerMagicControl : EngineObject
     public int GetNetPower()
     {
         int result = GetPower();
-        return StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.PowerLeak)
+        return StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentTypes.PowerLeak)
             ? (result + 1) / 2
             : result;
     }
@@ -517,12 +517,12 @@ public sealed class PlayerMagicControl : EngineObject
     }
 
     // Spells.PAS:2199
-    public void ListResearchSpells(SpellList list, Set<SpellType> spellTypes)
+    public void ListResearchSpells(SpellList list, SpellTypes spellTypes)
     {
         for (int i = 0, last = GamePack.Current.SpellControl.GetCount() - 1; i <= last; i++)
         {
             Spell spell = GamePack.Current.SpellControl[i];
-            if (spell is not null && spellTypes.Contains(spell.SpellType) && ValidResearchSpell(spell))
+            if (spell is not null && spellTypes.Contains(spell.SpellType.ToFlag()) && ValidResearchSpell(spell))
             {
                 list.Add(spell);
             }
@@ -530,7 +530,7 @@ public sealed class PlayerMagicControl : EngineObject
     }
 
     // Spells.PAS:2211
-    public void ListSpells(SpellList list, Set<SpellType> spellTypes)
+    public void ListSpells(SpellList list, SpellTypes spellTypes)
     {
         Spell spell;
         if (CheatEnabled && Player.PlayerType == PlayerType.Human)
@@ -538,7 +538,7 @@ public sealed class PlayerMagicControl : EngineObject
             for (int i = 0, last = GamePack.Current.SpellControl.GetCount() - 1; i <= last; i++)
             {
                 spell = GamePack.Current.SpellControl[i];
-                if (spell is not null && spell.Enabled && spellTypes.Contains(spell.SpellType))
+                if (spell is not null && spell.Enabled && spellTypes.Contains(spell.SpellType.ToFlag()))
                 {
                     list.Add(spell);
                 }
@@ -550,7 +550,7 @@ public sealed class PlayerMagicControl : EngineObject
             {
                 int item = Spells[i];
                 spell = GamePack.Current.SpellControl[item];
-                if (spell is not null && spell.Enabled && spellTypes.Contains(spell.SpellType))
+                if (spell is not null && spell.Enabled && spellTypes.Contains(spell.SpellType.ToFlag()))
                 {
                     list.Add(spell);
                 }

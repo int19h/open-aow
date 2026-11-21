@@ -418,7 +418,7 @@ public sealed partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
 
                 UI.Graphics.CityWindow[4].Show(r.Left + 1, r.Top, lockedSurface);
                 info.Direction = 3;
-                info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.Rank);
+                info.Overlays = UnitOverlayModes.Rank;
                 info.Animation = UnitAnimation.StandStill;
                 info.Frame = 0;
                 info.Looped = false;
@@ -457,7 +457,7 @@ public sealed partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
 
                 UI.Graphics.CityWindow[4].Show(r.Left + 1, r.Top, lockedSurface);
                 info.Direction = 3;
-                info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.Rank);
+                info.Overlays = UnitOverlayModes.Rank;
                 info.Animation = UnitAnimation.StandStill;
                 info.Frame = 0;
                 info.Looped = false;

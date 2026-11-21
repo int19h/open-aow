@@ -35,7 +35,19 @@ public class Persistent : IDisposable
     }
 }
 
-public enum ComponentState : byte { Loading, Reading, Writing, Destroying, Designing, Ancestor, Updating, Fixups }
+[Flags]
+public enum ComponentStates : byte
+{
+    None = 0,
+    Loading = 1 << 0,
+    Reading = 1 << 1,
+    Writing = 1 << 2,
+    Destroying = 1 << 3,
+    Designing = 1 << 4,
+    Ancestor = 1 << 5,
+    Updating = 1 << 6,
+    Fixups = 1 << 7,
+}
 
 public delegate void NotifyEvent<in TSender>(TSender sender);
 
@@ -49,7 +61,7 @@ public class Component : Persistent
     public Component? Owner { get; private set; }
     public int Tag { get; set; }
     // The layout session sets the loading flags from outside the component.
-    public Set<ComponentState> ComponentState { get; protected internal set; }
+    public ComponentStates ComponentState { get; protected internal set; }
     public int ComponentCount => children.Count;
 
     // CLASSES.PAS TComponent.GetComponent uses TList's range error.
@@ -175,12 +187,12 @@ public class Component : Persistent
     // CLASSES.PAS TComponent.Destroying marks the complete ownership tree first.
     public void Destroying()
     {
-        if (ComponentState.Contains(Rtl.ComponentState.Destroying))
+        if (ComponentState.Contains(ComponentStates.Destroying))
         {
             return;
         }
 
-        ComponentState = ComponentState.With(Rtl.ComponentState.Destroying);
+        ComponentState |= ComponentStates.Destroying;
         foreach (Component child in children)
         {
             child.Destroying();
@@ -218,7 +230,7 @@ public class Component : Persistent
     }
 
     // CLASSES.PAS TComponent.Loaded, GetNamePath, GetOwner and parent hooks.
-    public virtual void Loaded() => ComponentState = ComponentState.Without(Rtl.ComponentState.Loading);
+    public virtual void Loaded() => ComponentState &= ~ComponentStates.Loading;
     public override string GetNamePath() => Name;
     public override Persistent? GetOwner() => Owner;
 

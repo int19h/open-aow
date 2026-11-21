@@ -138,13 +138,13 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
                     int targetMana = TargetMana();
                     if (StrategicMap.Current.Players.GetPlayers(player).AIBudget.RequestBudgetExpense(0, mana: targetMana, budget: playerAIBudget.AIBudget.DefaultBudget, usePool: true))
                     {
-                        BattleFieldInfo.SetupBattleFieldInfo(out BattleFieldInfo friendly, player, relation: 0, requests: Set<BattleFieldInfoRequestsElement>.Of(), damageTypes: AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
-                        friendly.EnemyRelations = Set<byte>.WithBounds(0, 7);
+                        BattleFieldInfo.SetupBattleFieldInfo(out BattleFieldInfo friendly, player, relation: 0, requests: BattleFieldInfoRequests.None, damageTypes: AbilityRules.AllDamageTypes & ~DamageTypes.Wall);
+                        friendly.EnemyRelations = DiplomaticRelations.None;
                         sbyte hexLevel2 = HexLevel;
                         sbyte hexY2 = HexY;
                         sbyte hexX = HexX;
                         StrategicMap.Current.RetrieveBattleFieldInfo(hexX, hexY2, hexLevel2, radius: 1, info: ref friendly);
-                        BattleFieldInfo.SetupBattleFieldInfo(out BattleFieldInfo enemy, player, relation: 0, requests: Set<BattleFieldInfoRequestsElement>.Of(), damageTypes: AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                        BattleFieldInfo.SetupBattleFieldInfo(out BattleFieldInfo enemy, player, relation: 0, requests: BattleFieldInfoRequests.None, damageTypes: AbilityRules.AllDamageTypes & ~DamageTypes.Wall);
                         sbyte hexLevel3 = HexLevel;
                         sbyte hexY3 = HexY;
                         sbyte hexX2 = HexX;
@@ -233,7 +233,7 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
         if (!GetRazed() && Player >= 0 && TargetMana() <= StrategicMap.Current.Players.GetPlayers(Player).MagicControl.Mana && CanTarget(ref reason) && _storm is null)
         {
             selection.Initialize(this);
-            selection.TargetMode += Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
+            selection.TargetMode |= TargetSelectionModes.ValidateDistance | TargetSelectionModes.ExternalFloater;
             selection.SourceLocation = new MapCoordinate(HexX, HexY, HexLevel);
             selection.Range = 12;
             selection.Changed += OnTargetSelectionChange;
@@ -306,7 +306,7 @@ public partial class Altar(CustomNode owner) : PlayerStructure(owner)
     }
 
     // Altar.pas:196
-    public bool Targeting => StrategicMap.Current.TargetSelection.Status.Contains(TargetSelectionStatusElement.Activated) && this == StrategicMap.Current.TargetSelection.Source;
+    public bool Targeting => StrategicMap.Current.TargetSelection.Status.Contains(TargetSelectionStatuses.Activated) && this == StrategicMap.Current.TargetSelection.Source;
 
     private static readonly string s_chargingText = "Charging";
     private static readonly string s_readyText = "Ready";

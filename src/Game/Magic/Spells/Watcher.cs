@@ -9,8 +9,6 @@ using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Spells;
 
 public class Watcher : GlobalTargetSpell
@@ -28,7 +26,7 @@ public class Watcher : GlobalTargetSpell
     public override void SetupTargetSelection(Troop source, TargetSelectionControl targetSelection)
     {
         base.SetupTargetSelection(source, targetSelection);
-        targetSelection.TargetMode = Set<TargetSelectionModeElement>.FromMask(targetSelection.TargetMode.Mask) - Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.FixedLevel, TargetSelectionModeElement.ValidateDistance);
+        targetSelection.TargetMode = (TargetSelectionModes)(ulong)targetSelection.TargetMode & ~(TargetSelectionModes.FixedLevel | TargetSelectionModes.ValidateDistance);
         targetSelection.HexNumbers.Clear();
     }
 

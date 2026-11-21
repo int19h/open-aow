@@ -6,8 +6,6 @@ using Aow.Game.Units;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Abilities;
 
 internal static class RosterTables
@@ -47,7 +45,7 @@ internal static class RosterTables
                 defaultUnit.MakeDefaultLevelUnit(1);
                 if (unit.GetCombatValue(defaultUnit, mode: 0) > 0)
                 {
-                    result = (unit.GetStrengthMax(AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall)) / 100) + (resource.Level * 100) + (resource.Moves * 10) + (value / 2);
+                    result = (unit.GetStrengthMax(AbilityRules.AllDamageTypes & ~DamageTypes.Wall) / 100) + (resource.Level * 100) + (resource.Moves * 10) + (value / 2);
                     if (resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(57) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(58))
                     {
                         result += 100;
@@ -94,6 +92,6 @@ internal static class RosterTables
         return result;
     }
 
-    internal static Set<HeroType> AllHeroTypes { get; } = Set<HeroType>.Of(HeroType.Hero, HeroType.Leader, HeroType.HeroLeader, HeroType.Merchant);
+    internal static HeroTypes AllHeroTypes { get; } = HeroTypes.Hero | HeroTypes.Leader | HeroTypes.HeroLeader | HeroTypes.Merchant;
 
 }

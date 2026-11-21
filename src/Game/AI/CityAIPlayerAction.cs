@@ -8,7 +8,6 @@ using Aow.Game.Session;
 using Aow.Game.World.Map;
 
 using Aow.Game.World.Structures;
-using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiRounding;
 
@@ -115,11 +114,11 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
         if (result)
         {
             CityAction activeAction = city.ActiveAction;
-            bool contains = Set<CityAction>.Of(CityAction.None, CityAction.Trade).Contains(activeAction);
+            bool contains = activeAction is CityAction.None or CityAction.Trade;
             if (!contains)
             {
                 CityAction cityActiveAction = city.ActiveAction;
-                contains = Set<CityAction>.Of(CityAction.Produce).Contains(cityActiveAction) && city.Production.Settings.TurnsLeft == city.Production.Settings.TurnsTotal;
+                contains = cityActiveAction == CityAction.Produce && city.Production.Settings.TurnsLeft == city.Production.Settings.TurnsTotal;
             }
 
             return contains;
@@ -261,11 +260,11 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
         if (result)
         {
             CityAction activeAction = city.ActiveAction;
-            bool contains = Set<CityAction>.Of(CityAction.None, CityAction.Trade).Contains(activeAction);
+            bool contains = activeAction is CityAction.None or CityAction.Trade;
             if (!contains)
             {
                 CityAction cityActiveAction = city.ActiveAction;
-                contains = Set<CityAction>.Of(CityAction.Produce).Contains(cityActiveAction) && city.Production.Settings.TurnsLeft == city.Production.Settings.TurnsTotal;
+                contains = cityActiveAction == CityAction.Produce && city.Production.Settings.TurnsLeft == city.Production.Settings.TurnsTotal;
             }
 
             return contains;
@@ -377,11 +376,11 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
         if (result)
         {
             CityAction activeAction = city.ActiveAction;
-            bool contains = Set<CityAction>.Of(CityAction.None, CityAction.Trade).Contains(activeAction);
+            bool contains = activeAction is CityAction.None or CityAction.Trade;
             if (!contains)
             {
                 CityAction cityActiveAction = city.ActiveAction;
-                contains = Set<CityAction>.Of(CityAction.Produce).Contains(cityActiveAction) && city.Production.Settings.TurnsLeft == city.Production.Settings.TurnsTotal;
+                contains = cityActiveAction == CityAction.Produce && city.Production.Settings.TurnsLeft == city.Production.Settings.TurnsTotal;
             }
 
             return contains;
@@ -518,7 +517,7 @@ public class CityAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), IAIPl
             {
                 _cityCount += 1;
                 City city = found;
-                if (Set<CityAction>.Of(CityAction.None, CityAction.Trade, CityAction.Produce).Contains(city.ActiveAction))
+                if (city.ActiveAction is CityAction.None or CityAction.Trade or CityAction.Produce)
                 {
                     available += (city.Size + 1) / 2;
                     int level = city.Production.GetProduceUnitLevelMax();

@@ -5,8 +5,6 @@ using Aow.Engine.Nodes;
 using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Abilities;
 
 public partial class WallCrushingAbility : TouchAbility
@@ -18,11 +16,11 @@ public partial class WallCrushingAbility : TouchAbility
         AbilityId = 117;
         AbilityType = AbilityType.Combat;
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_wallCrushingText);
-        SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem, AbilitySelectionType.UseItem);
+        SelectionTypes = AbilitySelectionTypes.Unit | AbilitySelectionTypes.AttackItem | AbilitySelectionTypes.UseItem;
     }
 
     // AoWAb.PAS:2076
-    public override Set<WallCombatFeaturesElement> GetWallCombatFeatures(AbilityOwner owner) => Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallBreaching, WallCombatFeaturesElement.Participate);
+    public override WallCombatFeatures GetWallCombatFeatures(AbilityOwner owner) => WallCombatFeatures.WallBreaching | WallCombatFeatures.Participate;
 
     // AoWAb.PAS:2000
     public override int GetDamageValue(Troop attacker, Troop defender)
@@ -30,9 +28,9 @@ public partial class WallCrushingAbility : TouchAbility
         sbyte hitPoints = defender.GetHitPoints();
         sbyte defense = defender.GetDefense();
         sbyte resistance = defender.GetResistance();
-        Set<DamageType> immunityTypes = defender.GetImmunityTypes();
-        Set<DamageType> protectionTypes = defender.GetProtectionTypes();
-        return AbilityRules.StatisticsToLimitedDamageValue(6, damage: 6, damageTypes: Set<DamageType>.Of(DamageType.Wall), maximum: hitPoints, defense, resistance, immunityTypes, protectionTypes);
+        DamageTypes immunityTypes = defender.GetImmunityTypes();
+        DamageTypes protectionTypes = defender.GetProtectionTypes();
+        return AbilityRules.StatisticsToLimitedDamageValue(6, damage: 6, damageTypes: DamageTypes.Wall, maximum: hitPoints, defense, resistance, immunityTypes, protectionTypes);
     }
 
     // AoWAb.PAS:2006
@@ -44,11 +42,11 @@ public partial class WallCrushingAbility : TouchAbility
             sbyte hitPoints = defender.GetHitPoints();
             sbyte defense = defender.GetDefense();
             sbyte resistance = defender.GetResistance();
-            Set<DamageType> immunityTypes = defender.GetImmunityTypes();
-            Set<DamageType> protectionTypes = defender.GetProtectionTypes();
-            int statisticsToLimitedDamageValue = AbilityRules.StatisticsToLimitedDamageValue(6, damage: 6, damageTypes: Set<DamageType>.Of(DamageType.Wall), maximum: hitPoints, defense, resistance, immunityTypes, protectionTypes);
+            DamageTypes immunityTypes = defender.GetImmunityTypes();
+            DamageTypes protectionTypes = defender.GetProtectionTypes();
+            int statisticsToLimitedDamageValue = AbilityRules.StatisticsToLimitedDamageValue(6, damage: 6, damageTypes: DamageTypes.Wall, maximum: hitPoints, defense, resistance, immunityTypes, protectionTypes);
             damageValues.SourceDamage = statisticsToLimitedDamageValue;
-            int statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: defender.GetProtectionTypes(), immunityTypes: defender.GetImmunityTypes(), damage: 6, damageTypes: Set<DamageType>.Of(DamageType.Wall));
+            int statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: defender.GetProtectionTypes(), immunityTypes: defender.GetImmunityTypes(), damage: 6, damageTypes: DamageTypes.Wall);
             damageValues.SourceCost = statisticsToMaxDamage;
             damageValues.TargetDamage = 0;
             damageValues.TargetCost = 0;
@@ -59,17 +57,17 @@ public partial class WallCrushingAbility : TouchAbility
             damageValues.SourceCost = 0;
             damageValues.TargetDamage = 0;
             damageValues.TargetCost = 0;
-            damageValues.DamageTypes = Set<DamageType>.Of();
+            damageValues.DamageTypes = DamageTypes.None;
         }
     }
 
     // AoWAb.PAS:2096
-    public override void GetOffensiveStrength(AbilityOwner owner, ref int strength, ref Set<DamageType> types)
+    public override void GetOffensiveStrength(AbilityOwner owner, ref int strength, ref DamageTypes types)
     {
         if (owner is Troop troop)
         {
             strength = AbilityRules.LimitedDamage(troop.GetAttack(), defense: 6, damage: 1);
-            types = Set<DamageType>.Of(DamageType.Wall);
+            types = DamageTypes.Wall;
         }
     }
 
@@ -81,11 +79,11 @@ public partial class WallCrushingAbility : TouchAbility
             sbyte hitPoints = defender.HitPoints;
             sbyte defense = defender.GetDefense();
             sbyte resistance = defender.GetResistance();
-            Set<DamageType> immunityTypes = defender.GetImmunityTypes();
-            Set<DamageType> protectionTypes = defender.GetProtectionTypes();
-            int statisticsToLimitedDamageValue = AbilityRules.StatisticsToLimitedDamageValue(6, damage: 6, damageTypes: Set<DamageType>.Of(DamageType.Wall), maximum: hitPoints, defense, resistance, immunityTypes, protectionTypes);
+            DamageTypes immunityTypes = defender.GetImmunityTypes();
+            DamageTypes protectionTypes = defender.GetProtectionTypes();
+            int statisticsToLimitedDamageValue = AbilityRules.StatisticsToLimitedDamageValue(6, damage: 6, damageTypes: DamageTypes.Wall, maximum: hitPoints, defense, resistance, immunityTypes, protectionTypes);
             damageValues.SourceDamage = statisticsToLimitedDamageValue;
-            int statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: defender.GetProtectionTypes(), immunityTypes: defender.GetImmunityTypes(), damage: 6, damageTypes: Set<DamageType>.Of(DamageType.Wall));
+            int statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: defender.GetProtectionTypes(), immunityTypes: defender.GetImmunityTypes(), damage: 6, damageTypes: DamageTypes.Wall);
             damageValues.SourceCost = statisticsToMaxDamage;
             damageValues.TargetDamage = 0;
             damageValues.TargetCost = 0;
@@ -96,7 +94,7 @@ public partial class WallCrushingAbility : TouchAbility
             damageValues.SourceCost = 0;
             damageValues.TargetDamage = 0;
             damageValues.TargetCost = 0;
-            damageValues.DamageTypes = Set<DamageType>.Of();
+            damageValues.DamageTypes = DamageTypes.None;
         }
     }
 
@@ -108,11 +106,11 @@ public partial class WallCrushingAbility : TouchAbility
             sbyte hitPoints = defender.HitPoints;
             sbyte defense = defender.GetDefense();
             sbyte resistance = defender.GetResistance();
-            Set<DamageType> immunityTypes = defender.GetImmunityTypes();
-            Set<DamageType> protectionTypes = defender.GetProtectionTypes();
-            int statisticsToLimitedDamageValue = AbilityRules.StatisticsToLimitedDamageValue(6, damage: 6, damageTypes: Set<DamageType>.Of(DamageType.Wall), maximum: hitPoints, defense, resistance, immunityTypes, protectionTypes);
+            DamageTypes immunityTypes = defender.GetImmunityTypes();
+            DamageTypes protectionTypes = defender.GetProtectionTypes();
+            int statisticsToLimitedDamageValue = AbilityRules.StatisticsToLimitedDamageValue(6, damage: 6, damageTypes: DamageTypes.Wall, maximum: hitPoints, defense, resistance, immunityTypes, protectionTypes);
             damageValues.SourceDamage = statisticsToLimitedDamageValue;
-            int statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: defender.GetProtectionTypes(), immunityTypes: defender.GetImmunityTypes(), damage: 6, damageTypes: Set<DamageType>.Of(DamageType.Wall));
+            int statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(protectionTypes: defender.GetProtectionTypes(), immunityTypes: defender.GetImmunityTypes(), damage: 6, damageTypes: DamageTypes.Wall);
             damageValues.SourceCost = statisticsToMaxDamage;
             damageValues.TargetDamage = 0;
             damageValues.TargetCost = 0;
@@ -123,7 +121,7 @@ public partial class WallCrushingAbility : TouchAbility
             damageValues.SourceCost = 0;
             damageValues.TargetDamage = 0;
             damageValues.TargetCost = 0;
-            damageValues.DamageTypes = Set<DamageType>.Of();
+            damageValues.DamageTypes = DamageTypes.None;
         }
     }
 
@@ -132,9 +130,9 @@ public partial class WallCrushingAbility : TouchAbility
     {
         info.Attack = 6;
         info.Damage = 6;
-        info.DamageTypes = Set<DamageType>.Of(DamageType.Wall);
+        info.DamageTypes = DamageTypes.Wall;
         info.RepeatCount = 1;
-        info.TargetTypes = Set<CombatTargetTypeElement>.Of();
+        info.TargetTypes = CombatTargetTypes.None;
     }
 
     // AoWAb.PAS:2105
@@ -146,7 +144,7 @@ public partial class WallCrushingAbility : TouchAbility
 
     private static readonly string s_wallCrushingText = "Wall Crushing";
 
-    private static DamageCombatAction CreateDamageCombatAction(CombatObject source, CombatObject target, int attack, int damage, Set<DamageType> damageTypes)
+    private static DamageCombatAction CreateDamageCombatAction(CombatObject source, CombatObject target, int attack, int damage, DamageTypes damageTypes)
     {
         DamageCombatAction damageCombatAction = new(null) { Holder = source };
         damageCombatAction.Generate(source, target, attack: (sbyte)attack, damage: (sbyte)damage, damageTypes);

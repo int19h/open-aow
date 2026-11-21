@@ -31,7 +31,7 @@ internal static class FrameVerification
             display.Host = host;
             display.EventSink = host;
             Check(display.ActivateDisplayController(controller) == 0, label: "activation");
-            Check(controller.GetStatus().Contains(DisplayControllerStatusElement.Activated) && controller.GetStatus().Contains(DisplayControllerStatusElement.Windowed), label: "controller status");
+            Check(controller.GetStatus().Contains(DisplayControllerStatuses.Activated) && controller.GetStatus().Contains(DisplayControllerStatuses.Windowed), label: "controller status");
             Surface screen = controller.GetSurface(0);
             Surface back = controller.GetSurface(1);
             Check(screen.Width == 640 && screen.Height == 480 && back.Width == 640 && back.Height == 480, label: "screen and back sizes");
@@ -72,9 +72,9 @@ internal static class FrameVerification
             display.PauseFrameUpdateLoop();
             display.PauseFrameUpdateLoop();
             display.ResumeFrameUpdateLoop();
-            Check(display.Status.Contains(DisplayStatusElement.FrameLoopPaused), label: "nested pause");
+            Check(display.Status.Contains(DisplayStatuses.FrameLoopPaused), label: "nested pause");
             display.ResumeFrameUpdateLoop();
-            Check(!display.Status.Contains(DisplayStatusElement.FrameLoopPaused), label: "balanced resume");
+            Check(!display.Status.Contains(DisplayStatuses.FrameLoopPaused), label: "balanced resume");
             Check(display.SwapDisplayController() == 0 && host.Fullscreen && ReferenceEquals(back, controller.GetSurface(1)), label: "fullscreen keeps surface pixels");
 
             HeadlessDisplayHost recorder = new(directory);

@@ -3,7 +3,6 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
-using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -68,7 +67,7 @@ public sealed partial class IntroScene : ILayoutModule
         videoPlayer.Name = "VideoPlayer";
         videoPlayer.OnStreamSound += VideoPlayerStreamSound;
         videoPlayer.LoopMode = LayoutVideoPlayer.VideoPlayerLoopMode.None;
-        videoPlayer.Options = Set<VideoPlayerOptionsElement>.Of(VideoPlayerOptionsElement.SoundEnabled, VideoPlayerOptionsElement.VideoEnabled);
+        videoPlayer.Options = VideoPlayerOptions.SoundEnabled | VideoPlayerOptions.VideoEnabled;
         session.EndRead(videoPlayer);
         session.EndRead(this);
         Loaded();

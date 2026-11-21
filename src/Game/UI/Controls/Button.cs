@@ -15,7 +15,7 @@ public sealed partial class Button(Component owner) : BaseButton(owner)
     internal void RaiseClick(Button sender) => OnClick?.Invoke(sender);
 
     // AoWButton.pas:239
-    public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
@@ -39,7 +39,7 @@ public sealed partial class Button(Component owner) : BaseButton(owner)
     }
 
     // AoWButton.pas:261
-    public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton button, ShiftStates shift, int X, int Y)
     {
         Handled = false;
         Checked = false;
@@ -69,7 +69,7 @@ public sealed partial class Button(Component owner) : BaseButton(owner)
     }
 
     // AoWButton.pas:284
-    public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseMove(ShiftStates shift, int X, int Y)
     {
         base.CheckMouseMove(shift, X, Y);
         Handled = false;

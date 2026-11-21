@@ -33,9 +33,9 @@ public sealed class WallCrushingFastBattleTests
 
     private sealed class RecordingWall(CustomNode owner) : CombatWall(owner)
     {
-        internal List<(int Attack, int Damage, Set<DamageType> Types)> Rolls { get; } = [];
+        internal List<(int Attack, int Damage, DamageTypes Types)> Rolls { get; } = [];
 
-        public override int ExecuteDamageRole(int attack, int damage, Set<DamageType> damageTypes)
+        public override int ExecuteDamageRole(int attack, int damage, DamageTypes damageTypes)
         {
             Rolls.Add((attack, damage, damageTypes));
             return base.ExecuteDamageRole(attack, damage, damageTypes);
@@ -45,7 +45,7 @@ public sealed class WallCrushingFastBattleTests
     private static (Battle Combat, Attacker Source, RecordingWall Wall) Build()
     {
         Battle combat = new(null) { Holder = EngineFixture.Engine };
-        combat.Status += Set<CombatStatusElement>.Of(CombatStatusElement.LogCombatActions);
+        combat.Status |= CombatStatuses.LogCombatActions;
         OwningNode objects = combat.CombatData.CombatObjects;
         Attacker source = new(objects) { Combat = combat, Id = 1 };
         RecordingWall wall = new(objects) { Combat = combat };
@@ -73,20 +73,20 @@ public sealed class WallCrushingFastBattleTests
             DelphiRandom.RandSeed = seed;
         }
 
-        (int attack, int damage, Set<DamageType> types) = Assert.Single(wall.Rolls);
+        (int attack, int damage, DamageTypes types) = Assert.Single(wall.Rolls);
         Assert.Equal(6, attack);
         Assert.Equal(6, damage);
-        Assert.Equal(Set<DamageType>.Of(DamageType.Wall), types);
+        Assert.Equal(DamageTypes.Wall, types);
         Assert.Equal(1, combat.Logbook.Actions.Count);
         DamageCombatAction action = Assert.IsType<DamageCombatAction>(combat.Logbook.Actions.GetCombatActions(0));
         Assert.Equal(1, action.SourceId);
         Assert.Equal(2, action.TargetId);
         Assert.Equal(4, action.Damage);
         Assert.Equal(4, action.DamageDone);
-        Assert.Equal(Set<DamageType>.Of(DamageType.Wall), action.DamageTypes);
-        Assert.Equal(Set<DamageType>.Of(), action.Effects);
+        Assert.Equal(DamageTypes.Wall, action.DamageTypes);
+        Assert.Equal(DamageTypes.None, action.Effects);
         Assert.Equal(6, wall.HitPoints);
-        Assert.True(wall.Status.Contains(CombatObjectStatusElement.Damaged));
+        Assert.True(wall.Status.Contains(CombatObjectStatuses.Damaged));
     }
 
     [Fact]
@@ -94,7 +94,7 @@ public sealed class WallCrushingFastBattleTests
     {
         using Fixture fixture = new();
         (Battle? combat, Attacker? source, RecordingWall? wall) = Build();
-        wall.Status += Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed);
+        wall.Status |= CombatObjectStatuses.Destroyed;
         WallCrushingAbility ability = new(null, holder: EngineFixture.Engine);
         Assert.True(ability.FastBattleExecuteCombatCommand(command: new FastBattleCommand(117) { Target = wall }, source: source));
         Assert.Empty(wall.Rolls);

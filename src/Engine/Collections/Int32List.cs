@@ -474,14 +474,14 @@ public class Int32List : Persistent
 
     internal static void FillInteger(Span<int> buffer, int count, int value) => buffer[..count].Fill(value);
 
-    internal static int FillWithRandomUnits(Int32List indexes, UnitCollection units, int level, int value, Set<UnitType> types)
+    internal static int FillWithRandomUnits(Int32List indexes, UnitCollection units, int level, int value, UnitTypes types)
     {
         bool CanUse(Unit unit)
         {
             bool condition = unit.UnitResource is not null;
             if (condition)
             {
-                condition = types.Contains(unit.GetUnitType());
+                condition = types.Contains(unit.GetUnitType().ToFlag());
             }
 
             return condition && unit.UnitLevel <= level && units.CanAddUnit(unit);
@@ -543,14 +543,14 @@ public class Int32List : Persistent
         return result;
     }
 
-    internal static int FillWithRandomUnitIndexes(Int32List indexes, Int32List units, int level, int value, Set<UnitType> types, GameEngine engine)
+    internal static int FillWithRandomUnitIndexes(Int32List indexes, Int32List units, int level, int value, UnitTypes types, GameEngine engine)
     {
         bool CanUse(Unit unit)
         {
             bool condition = unit.UnitResource is not null;
             if (condition)
             {
-                condition = types.Contains(unit.GetUnitType());
+                condition = types.Contains(unit.GetUnitType().ToFlag());
             }
 
             return condition && unit.UnitLevel <= level;

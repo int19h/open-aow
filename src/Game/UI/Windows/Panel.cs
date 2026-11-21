@@ -513,7 +513,7 @@ public sealed partial class Panel : BaseWindow
     // AoWPanel.pas:513
     // { CheckMouseDown: the controls first (from the top), with the panel's absolute origin read
     //   through AbsoluteLeft and AbsoluteTop. }
-    public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
         Handled = false;
         if (Visible)
@@ -554,7 +554,7 @@ public sealed partial class Panel : BaseWindow
     }
 
     // AoWPanel.pas:558
-    public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton button, ShiftStates shift, int X, int Y)
     {
         Handled = false;
         if (Visible)
@@ -589,7 +589,7 @@ public sealed partial class Panel : BaseWindow
     }
 
     // AoWPanel.pas:600
-    public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseMove(ShiftStates shift, int X, int Y)
     {
         Handled = false;
         if (Visible)

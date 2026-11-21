@@ -1,8 +1,6 @@
 // Translated from PassiveAb.pas.
 using Aow.Engine.Nodes;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // inherited name, ability ID, selection types, ability type
@@ -15,7 +13,7 @@ public class AnimatedAbility : AdjustableAbility
         AbilityName = AbilityRules.TranslateResourceString(GetEngine(), S: s_animatedText);
         AbilityId = 129;
         AbilityType = AbilityType.Handicap;
-        SelectionTypes = Set<AbilitySelectionType>.Of();
+        SelectionTypes = AbilitySelectionTypes.None;
     }
 
     private static readonly string s_animatedText = "Animated";

@@ -30,7 +30,7 @@ public partial class UnitSpellCaster : SpellCaster
     {
         Hero hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(CasterSourceId);
         bool result;
-        if (hero is not null && !hero.UnitStatus.Contains(UnitStatusElement.Killed))
+        if (hero is not null && !hero.UnitStatus.Contains(UnitStatuses.Killed))
         {
             if (SelectionMask != 0)
             {
@@ -136,7 +136,7 @@ public partial class UnitSpellCaster : SpellCaster
     public bool Valid()
     {
         Troop source = StrategicMap.Current.UnitControl.FindUnit<Troop>(CasterSourceId);
-        return source is not null && (((byte)source.UnitStatus.Image) & 16) == 0;
+        return source is not null && (((byte)source.UnitStatus) & 16) == 0;
     }
 
     // intf_P4_02.inc:1038

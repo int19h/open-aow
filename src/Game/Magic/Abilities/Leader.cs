@@ -11,8 +11,6 @@ using Aow.Game.Units;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Abilities;
 
 // SpherePicksMax. Spheres
@@ -73,7 +71,7 @@ public class Leader(CustomNode owner) : Hero(owner)
     public override void Changed()
     {
         base.Changed();
-        if (StrategicMap.Current is not null && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
+        if (StrategicMap.Current is not null && !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Destroying))
         {
             StrategicMap.Current.OnLeaderChangedStore.Raise(this);
         }
@@ -172,7 +170,7 @@ public class Leader(CustomNode owner) : Hero(owner)
     // Hero.PAS:2915
     public override void Killed()
     {
-        if (UnitStatus.Contains(UnitStatusElement.Activated) && StrategicMap.Current.Combat is null)
+        if (UnitStatus.Contains(UnitStatuses.Activated) && StrategicMap.Current.Combat is null)
         {
             StrategicMap.Current.GameOver(Player, status: GameOverStatus.Lost);
         }
@@ -196,7 +194,7 @@ public class Leader(CustomNode owner) : Hero(owner)
     public override void SetHeroResourceIndex(int value)
     {
         base.SetHeroResourceIndex(value);
-        if (HeroResource is not null && StrategicMap.Current is not null && StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (HeroResource is not null && StrategicMap.Current is not null && StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             HeroName = HeroResource.Name;
         }
@@ -208,7 +206,7 @@ public class Leader(CustomNode owner) : Hero(owner)
         MapLevel level = message.Param[0].As<MapLevel>();
         int l = message.Data[1];
         HexGeometry.PixelToHex(message.Payload.Int, vertical: message.Data[0], out int x, out int y);
-        bool placed = x >= 0 && y >= 0 && x < level.Width && y < level.Height && Place(x, y, l, Player, mode: Set<UnitPlaceModeElement>.Of()) is not null;
+        bool placed = x >= 0 && y >= 0 && x < level.Width && y < level.Height && Place(x, y, l, Player, mode: UnitPlaceModes.None) is not null;
 
         message.Result = placed ? 0 : -1;
     }

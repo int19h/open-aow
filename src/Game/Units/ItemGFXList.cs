@@ -2,8 +2,6 @@
 // Translated from AoWE.pas.
 using Aow.Engine.Nodes;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Units;
 
 // inherited children, engine, control style
@@ -18,7 +16,7 @@ public sealed class ItemGFXList : ResourceCollection, IChildList<ItemGraphics>
     int IChildSink<ItemGraphics>.AddChild(ItemGraphics child) => AddChild(child);
 
     // Army.PAS:5176
-    public ItemGFXList(CustomNode owner) : base(owner) => SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, ControlStyleElement.ArrayMode));
+    public ItemGFXList(CustomNode owner) : base(owner) => SetControlStyle(ControlStyles.SaveLoad | ControlStyles.FixedChild | ControlStyles.ArrayMode);
 
     // Army.PAS:5182
     public ItemGraphics GetItemGraphics(int index) => index >= 0 && index < Count ? this[index] : null;

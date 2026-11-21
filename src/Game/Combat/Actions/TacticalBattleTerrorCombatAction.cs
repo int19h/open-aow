@@ -1,9 +1,7 @@
 // Translated from CombatSpells.pas.
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 
@@ -40,7 +38,7 @@ public class TacticalBattleTerrorCombatAction(CustomNode owner) : CombatAction(o
             _ = GamePack.Current.AbilityControl[108].Expand(target.Troop);
         }
 
-        if (ManaCost != 0 && combat.Status.Contains(CombatStatusElement.Executing))
+        if (ManaCost != 0 && combat.Status.Contains(CombatStatuses.Executing))
         {
             CombatUnit source = combat.CombatData.FindId<CombatUnit>(_sourceId);
             GamePack.Current.SpellControl[105].CastingDone(source.Troop, mana: ManaCost);
@@ -60,7 +58,7 @@ public class TacticalBattleTerrorCombatAction(CustomNode owner) : CombatAction(o
         _succeeded = false;
         _sourceId = source.Id;
         _targetId = target.Id;
-        if (!target.GetAbilityEnabled(108) && !target.GetAbilityEnabled(67) && target is CombatUnit targetUnit && !target.GetImmunityTypes().Contains(DamageType.Death) && targetUnit.Troop.GetUnitType() != UnitType.Machine)
+        if (!target.GetAbilityEnabled(108) && !target.GetAbilityEnabled(67) && target is CombatUnit targetUnit && !target.GetImmunityTypes().Contains(DamageTypes.Death) && targetUnit.Troop.GetUnitType() != UnitType.Machine)
         {
             _succeeded = HitChance.HitRole(6 - target.GetResistance());
         }

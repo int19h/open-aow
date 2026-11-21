@@ -10,8 +10,6 @@ using Aow.Game.Units;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.Draw;
@@ -133,7 +131,7 @@ public partial class ItemHexSprite : SingleHexSprite
             for (int iOrdinal = 1, last = (int)_generateMode; iOrdinal <= last; iOrdinal++)
             {
                 byte i = (byte)iOrdinal;
-                Item item = StrategicMap.Current.ItemControl.GenerateItem(Set<ItemType>.Of(ItemType.Head, ItemType.Torso, ItemType.Attack, ItemType.Defense, ItemType.Ring, ItemType.Use), 0, 65535);
+                Item item = StrategicMap.Current.ItemControl.GenerateItem(ItemTypes.Head | ItemTypes.Torso | ItemTypes.Attack | ItemTypes.Defense | ItemTypes.Ring | ItemTypes.Use, 0, 65535);
                 item?.SetOwner(Items);
             }
 

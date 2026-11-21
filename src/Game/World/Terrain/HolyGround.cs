@@ -15,8 +15,6 @@ using Aow.Game.Magic.Spells;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
-
-using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.World.Terrain;
@@ -28,7 +26,7 @@ public class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     // HolyG.pas:92
     public new const int ClassId = 131_987;
 
-    public Set<HolySummoning> Mode { get; set; }
+    public HolySummonings Mode { get; set; }
 
     public sbyte Player { get; set; }
     public sbyte Duration { get; set; }
@@ -56,7 +54,7 @@ public class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     // HolyG.pas:249
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        if (!Mode.Contains(HolySummoning.Summoning))
+        if (!Mode.Contains(HolySummonings.Summoning))
         {
             base.Show(pixelXSurface, pixelYSurface, lockedSurface);
         }
@@ -90,7 +88,7 @@ public class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         base.MapFieldMessageProc(ref message);
         if (message.MessageId == 4418)
         {
-            if (base.Resource.TerrainList.Terrain[message.HexNumber] >= 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+            if (base.Resource.TerrainList.Terrain[message.HexNumber] >= 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
             {
                 ArmyPlaced(message.Param[0].As<ArmyHexSprite>());
                 return;
@@ -157,16 +155,16 @@ public class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         for (int i = 0, last = armyLocal.Units.Count - 1; i <= last; i++)
         {
             Troop troop = armyLocal.Units.GetUnit(i);
-            bool condition = troop.GetAlignment() != Alignment.None;
+            bool condition = troop.GetAlignment() != Alignment.Unaligned;
             if (condition)
             {
                 Alignment alignment = troop.GetAlignment();
-                condition = AlignmentTables.PureEvilAlignments.Contains(alignment);
+                condition = AlignmentTables.PureEvilAlignments.Contains(alignment.ToFlag());
             }
 
             if (condition && !troop.GetAbilityEnabled(1))
             {
-                int damage = troop.ExecuteDamageRole(3, damage: 4, damageTypes: Set<DamageType>.Of(DamageType.Holy));
+                int damage = troop.ExecuteDamageRole(3, damage: 4, damageTypes: DamageTypes.Holy);
                 if (damage > troop.GetHitPoints())
                 {
                     damage = troop.GetHitPoints();
@@ -184,7 +182,7 @@ public class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
             else
             {
                 _ = log.DamageValues.Add(0);
-                _ = log.DamageTypes.Add((int)DamageType.None);
+                _ = log.DamageTypes.Add((int)DamageType.NonSpecific);
             }
         }
 
@@ -201,7 +199,7 @@ public class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
     // HolyG.pas:139
     public void ArmyPlaced(ArmyHexSprite army)
     {
-        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             TriggerArmyDamage(army);
         }
@@ -247,11 +245,11 @@ public class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         {
             i -= 1;
             Troop troop = units.GetUnit(i);
-            bool condition = !troop.GetImmunityTypes().Contains(DamageType.Holy) && troop.GetAlignment() != Alignment.None;
+            bool condition = !troop.GetImmunityTypes().Contains(DamageTypes.Holy) && troop.GetAlignment() != Alignment.Unaligned;
             if (condition)
             {
                 Alignment alignment = troop.GetAlignment();
-                condition = AlignmentTables.PureEvilAlignments.Contains(alignment);
+                condition = AlignmentTables.PureEvilAlignments.Contains(alignment.ToFlag());
             }
 
             result = condition && !troop.GetAbilityEnabled(1);
@@ -294,7 +292,7 @@ public class HolyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner)
         MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         if (this == field.FindOwnedChild(ClassId) && frameCounter == 9)
         {
-            Mode -= Set<HolySummoning>.Of(HolySummoning.Summoning);
+            Mode &= ~HolySummonings.Summoning;
         }
     }
 

@@ -2,7 +2,6 @@
 using Aow.Engine.Nodes;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Units;
-using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
@@ -19,7 +18,7 @@ public class Concealment : UnitSpell
         MagicSphere = MagicSphere.Earth;
         TargetRange = 12;
         UnitDispelResistance = 5;
-        SpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global);
+        SpellControlTypes = SpellControlTypes.Global;
     }
 
     // UnitSpells.pas:609

@@ -36,7 +36,7 @@ public class MapObjectResourceTerrainControl(CustomNode owner) : EngineObject(ow
     }
 
     // HSEngine.pas:4505
-    public override Set<ControlStyleElement> GetControlStyle() => Set<ControlStyleElement>.Of(EngineServices.Shared);
+    public override ControlStyles GetControlStyle() => EngineServices.Shared;
 
     // HSEngine.pas:4510
     public override void Clear()

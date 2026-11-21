@@ -35,7 +35,7 @@ public class FastBattleHighPrayerCombatAction(CustomNode owner) : MultiTargetCom
         for (int i = combatSide.GetCount() - 1; i >= 0; i--)
         {
             CombatObject target = combatSide.GetObjects(i);
-            if (target is CombatUnit && !target.Status.Contains(CombatObjectStatusElement.Destroyed))
+            if (target is CombatUnit && !target.Status.Contains(CombatObjectStatuses.Destroyed))
             {
                 _ = TargetIds.Add(target.Id);
             }

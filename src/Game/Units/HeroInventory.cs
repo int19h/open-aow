@@ -36,7 +36,7 @@ public sealed partial class HeroInventory : ObservableNode, IChildList<Item>, II
     }
 
     // Hero.PAS:297
-    public override Set<ControlStyleElement> GetControlStyle() => base.GetControlStyle() + Set<ControlStyleElement>.Of(ControlStyleElement.ArrayMode);
+    public override ControlStyles GetControlStyle() => base.GetControlStyle() | ControlStyles.ArrayMode;
 
     // Army.PAS:4516, the item list's release of each loaded child.
     public override void MainPersist(IPersister persister)

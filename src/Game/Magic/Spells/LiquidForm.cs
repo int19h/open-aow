@@ -5,7 +5,6 @@ using Aow.Game.Magic.Abilities;
 
 using Aow.Game.Units;
 using Aow.Game.World.Map;
-using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
@@ -23,7 +22,7 @@ public class LiquidForm : UnitSpell
         AIValue = 300;
         TargetRange = 12;
         UnitDispelResistance = 5;
-        SpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global, SpellControlTypeElement.Combat);
+        SpellControlTypes = SpellControlTypes.Global | SpellControlTypes.Combat;
     }
 
     // UnitSpells.pas:783

@@ -339,7 +339,7 @@ public partial class Window : GenericWindow
     // AoWWindow.pas:253
     // { CheckMouseDown: a click brings the window to the front; the controls get it first; a left
     //   click in the title area starts dragging, one on a border (Resizable) starts resizing }
-    public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
         Handled = false;
         Redraw = false;
@@ -483,7 +483,7 @@ public partial class Window : GenericWindow
     }
 
     // AoWWindow.pas:376
-    public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton button, ShiftStates shift, int X, int Y)
     {
         Handled = false;
         if (Visible && Valid)
@@ -531,7 +531,7 @@ public partial class Window : GenericWindow
     // AoWWindow.pas:411
     // { CheckMouseMove drags or resizes the window, passes the move to the controls and sets the
     //   resize cursors over the borders }
-    public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseMove(ShiftStates shift, int X, int Y)
     {
         Handled = false;
         OldCursor = Cursor;

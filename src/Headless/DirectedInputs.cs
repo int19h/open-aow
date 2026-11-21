@@ -3,7 +3,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
-using Aow.Rtl;
 
 namespace Aow.Headless;
 
@@ -48,7 +47,7 @@ internal sealed class DirectedInputs(StrategicMap map, bool items, int spell)
     {
         Player player = map.Players.GetPlayers(_caster);
         Leader? hero = player.Leader;
-        if (hero is null || hero.HeroStatus.Contains(HeroStatusElement.Died))
+        if (hero is null || hero.HeroStatus.Contains(HeroStatuses.Died))
         {
             GlobalRequests.Add(new { dead = true });
             return;
@@ -89,7 +88,7 @@ internal sealed class DirectedInputs(StrategicMap map, bool items, int spell)
             int? firstRing = null;
             foreach (int kind in new[] { 0, 1, 2, 3, 4, 4, 5, 6 })
             {
-                Item? item = control.GenerateItem(Set<ItemType>.Of((ItemType)kind), 1, 100000);
+                Item? item = control.GenerateItem(((ItemType)kind).ToFlag(), 1, 100000);
                 if (item is null)
                 {
                     ItemActions.Add(new { player = index, type = kind, available = false });

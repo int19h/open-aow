@@ -208,7 +208,7 @@ internal sealed partial class RecordTypeInfo
         List<(int Offset, int Length)> padding = [];
         foreach (PropertyInfo property in type.GetProperties(BindingFlags.Instance | BindingFlags.Public))
         {
-            if (!property.PropertyType.IsGenericType || property.PropertyType.GetGenericTypeDefinition() != typeof(Set<>))
+            if (!FlagsExtensions.IsFlags(property.PropertyType))
             {
                 continue;
             }
@@ -218,13 +218,13 @@ internal sealed partial class RecordTypeInfo
             _ = consumed.Add(image);
             int offset = image.GetCustomAttribute<FieldOffsetAttribute>()!.Value;
             int fieldSize = FieldSize(image);
-            int storage = SetStorage(property.PropertyType);
+            int storage = FlagsExtensions.StorageSize(property.PropertyType);
             if (storage != fieldSize)
             {
                 throw new InvalidOperationException($"{type.Name}.{property.Name} stores {storage} bytes in a {fieldSize} byte field.");
             }
 
-            Type element = property.PropertyType.GetGenericArguments()[0];
+            Type element = FlagsExtensions.StoredElement(property.PropertyType);
             named.Add(new SetRecordField
             {
                 Name = property.Name,
@@ -233,6 +233,7 @@ internal sealed partial class RecordTypeInfo
                 ElementType = NameTable.Stored(element),
                 ElementWidth = fieldSize,
                 ElementColor = element,
+                FlagsColor = property.PropertyType,
             });
         }
         foreach ((FieldInfo? field, FieldOffsetAttribute? offset) in raw)
@@ -405,11 +406,5 @@ internal sealed partial class RecordTypeInfo
         return field.FieldType.IsEnum
             ? EnumTypeInfo.Layout(field.FieldType).Width
             : field.FieldType == typeof(bool) ? 1 : Marshal.SizeOf(field.FieldType);
-    }
-
-    private static int SetStorage(Type setType)
-    {
-        object value = Activator.CreateInstance(setType)!;
-        return (int)setType.GetProperty(nameof(Set<>.StorageSize))!.GetValue(value)!;
     }
 }

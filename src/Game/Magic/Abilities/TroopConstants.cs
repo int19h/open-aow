@@ -1,13 +1,12 @@
 using Aow.Game.Combat;
-using Aow.Rtl;
 
 namespace Aow.Game.Magic.Abilities;
 
 internal static class TroopConstants
 {
 
-    internal static Set<AbilitySelectionType> DefaultAbilitySelectionTypes { get; } = Set<AbilitySelectionType>.FromMask(1UL);
+    internal static AbilitySelectionTypes DefaultAbilitySelectionTypes { get; } = AbilitySelectionTypes.Unit;
 
-    internal static Set<DamageType> AllDamageTypes { get; } = Set<DamageType>.FromMask(1023UL);
+    internal static DamageTypes AllDamageTypes { get; } = DamageTypes.Fire | DamageTypes.Cold | DamageTypes.Lightning | DamageTypes.Magic | DamageTypes.Poison | DamageTypes.Death | DamageTypes.Holy | DamageTypes.Physical | DamageTypes.Wall | DamageTypes.NonSpecific;
 
 }

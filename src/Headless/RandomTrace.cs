@@ -53,7 +53,7 @@ internal sealed class RandomTrace(string path, Func<long> frame) : IDisposable
                     priority = target.Data.Priority,
                     a = target.DataA,
                     b = target.DataB,
-                    status = target.Status.Image
+                    status = (ulong)target.Status
                 };
             })
         }));

@@ -11,8 +11,6 @@ using Aow.Game.Session;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Combat;
 
 // Inherited combat layout. HostPlayer
@@ -118,7 +116,7 @@ public sealed partial class TacticalBattle(CustomNode owner) : Battle(owner)
         while (!result && i > 0)
         {
             i -= 1;
-            result = (side.GetObjects(i).WallCombatFeatures() & Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallBreaching, WallCombatFeaturesElement.WallPassing)) != Set<WallCombatFeaturesElement>.Of();
+            result = (side.GetObjects(i).WallCombatFeatures() & (WallCombatFeatures.WallBreaching | WallCombatFeatures.WallPassing)) != WallCombatFeatures.None;
         }
 
         return result;

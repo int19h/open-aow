@@ -7,8 +7,6 @@ using Aow.Game.Session;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 namespace Aow.Game.AI.Groups;
 
 public class PassiveAIGroupControl(CustomNode owner) : AIGroupControl(owner)
@@ -45,7 +43,7 @@ public class PassiveAIGroupControl(CustomNode owner) : AIGroupControl(owner)
                     Group.TargetLocation = selector.DefenseLocation;
                     Group.TargetMode = (byte)AIGroupDefenseControl.GroupDefendMode.Custom;
                     SetupME();
-                    MoveExecutor.Mode = MoveExecutor.Mode - Set<AIMoveExecutorModeElement>.Of(AIMoveExecutorModeElement.Adjacent);
+                    MoveExecutor.Mode &= ~AIMoveExecutorModes.Adjacent;
                     ExecuteME(selector.DefenseLocation.X, selector.DefenseLocation.Y, L: selector.DefenseLocation.MapLevel);
                     Done();
                 }

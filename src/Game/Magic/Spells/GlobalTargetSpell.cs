@@ -97,7 +97,7 @@ public class GlobalTargetSpell : Spell
     public virtual void SetupTargetSelection(Troop source, TargetSelectionControl targetSelection)
     {
         targetSelection.Initialize(source);
-        targetSelection.TargetMode += Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.OwnerDraw, TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
+        targetSelection.TargetMode |= TargetSelectionModes.OwnerDraw | TargetSelectionModes.ValidateDistance | TargetSelectionModes.ExternalFloater;
         MapCoordinate coordinate69 = source.GetLocation();
         sbyte unitX = coordinate69.X;
         sbyte unitY = coordinate69.Y;

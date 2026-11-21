@@ -77,7 +77,7 @@ public sealed partial class TitleScene(UIContext ui) : UIModule(ui)
                 if (alpha < 100)
                 {
                     string line = lines[0];
-                    _creditsFont.SetText(x, y, text: line, lockedSurface: surface, mode: Set<SetTextModeElement>.Of(SetTextModeElement.Center), showInfo: info);
+                    _creditsFont.SetText(x, y, text: line, lockedSurface: surface, mode: SetTextModes.Center, showInfo: info);
                 }
                 else
                 {
@@ -96,7 +96,7 @@ public sealed partial class TitleScene(UIContext ui) : UIModule(ui)
                     if (alpha < 100)
                     {
                         string line = lines[i];
-                        _creditsFont.SetText(x, y + (i * 25) + 5, text: line, lockedSurface: surface, mode: Set<SetTextModeElement>.Of(SetTextModeElement.Center), showInfo: info);
+                        _creditsFont.SetText(x, y + (i * 25) + 5, text: line, lockedSurface: surface, mode: SetTextModes.Center, showInfo: info);
                     }
                     else
                     {
@@ -161,7 +161,7 @@ public sealed partial class TitleScene(UIContext ui) : UIModule(ui)
                 info.ShowMode = ShowMode.Blended;
                 info.BlendMode = BlendMode.Alpha;
                 info.Blend = opacity;
-                _creditsFont.SetText(x, y - (_creditsFont.Height / 2), text, lockedSurface: surface, mode: Set<SetTextModeElement>.Of(SetTextModeElement.Center), showInfo: info);
+                _creditsFont.SetText(x, y - (_creditsFont.Height / 2), text, lockedSurface: surface, mode: SetTextModes.Center, showInfo: info);
             }
             else
             {
@@ -223,7 +223,7 @@ public sealed partial class TitleScene(UIContext ui) : UIModule(ui)
                         info.ShowMode = ShowMode.Blended;
                         info.BlendMode = BlendMode.Alpha;
                         info.Blend = opacity;
-                        _creditsFont.SetText(x, y - (_creditsFont.Height / 2), text: "Copyright (C) 1999,2000 Triumph Studios", lockedSurface: surface, mode: Set<SetTextModeElement>.Of(SetTextModeElement.Center), showInfo: info);
+                        _creditsFont.SetText(x, y - (_creditsFont.Height / 2), text: "Copyright (C) 1999,2000 Triumph Studios", lockedSurface: surface, mode: SetTextModes.Center, showInfo: info);
                     }
                     else
                     {
@@ -544,7 +544,7 @@ public sealed partial class TitleScene(UIContext ui) : UIModule(ui)
     }
 
     // AoWTitleScene.pas:462
-    public void WindowMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public void WindowMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
         _mouseX = X;
         _mouseY = Y;
@@ -552,7 +552,7 @@ public sealed partial class TitleScene(UIContext ui) : UIModule(ui)
     }
 
     // AoWTitleScene.pas:470
-    public void WindowMouseMove(Set<ShiftState> shift, int X, int Y)
+    public void WindowMouseMove(ShiftStates shift, int X, int Y)
     {
         _mouseX = X;
         _mouseY = Y;
@@ -773,7 +773,7 @@ public sealed partial class TitleScene(UIContext ui) : UIModule(ui)
         controller.UI.MapEvents.TheMapStructureDeselected();
         controller.UI.TaskBar.TBWorldUpdate();
         controller.UI.PlayerInfoWindow.UpdatePlayer();
-        if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated))
+        if (StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Activated))
         {
             TurnButton turnButton = controller.UI.TaskBar.WorldTurnButton;
             if (StrategicMap.Current.SeatedPlayer == -1)

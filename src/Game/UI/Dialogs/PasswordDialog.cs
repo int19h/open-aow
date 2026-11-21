@@ -55,7 +55,7 @@ public sealed partial class PasswordDialog(UIContext ui) : UIModule(ui)
     }
 
     // AoWPasswordDlg.pas:72
-    public void DlgKeyDown(in ushort key, Set<ShiftState> shift)
+    public void DlgKeyDown(in ushort key, ShiftStates shift)
     {
         if (key == 27)
         {

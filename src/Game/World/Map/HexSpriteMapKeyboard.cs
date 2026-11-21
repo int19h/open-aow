@@ -3,18 +3,12 @@
 using System.Collections.Immutable;
 using System.Globalization;
 using Aow.Engine.Nodes;
-
 using Aow.Formats;
-
 using Aow.Game.Audio;
-
 using Aow.Game.Commands;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Saves;
 using Aow.Game.Session;
-
 using Aow.Rtl;
 using static Aow.Rtl.DelphiTextCompare;
 
@@ -30,7 +24,7 @@ public sealed class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner)
     public int LockCount { get; private set; }
 
     // AoWHSMap.PAS:946
-    public void KeyDown(in ushort key, Set<ShiftState> shift)
+    public void KeyDown(in ushort key, ShiftStates shift)
     {
         if (LockCount != 0)
         {
@@ -45,7 +39,7 @@ public sealed class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner)
                 ushort translatedKey = key;
                 switch (GetEngine().Language)
                 {
-                    case 3:
+                    case (byte)GameSettings.Language.French:
                         switch (key)
                         {
                             case 83:
@@ -68,7 +62,7 @@ public sealed class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner)
                         }
 
                         break;
-                    case 5:
+                    case (byte)GameSettings.Language.Italian:
                         switch (key)
                         {
                             case 86:
@@ -94,7 +88,7 @@ public sealed class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner)
                         }
 
                         break;
-                    case 4:
+                    case (byte)GameSettings.Language.Spanish:
                         if (key is 65)
                         {
                             translatedKey = 68;
@@ -105,7 +99,7 @@ public sealed class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner)
                         break;
                 }
 
-                if (!shift.Contains(ShiftState.Ctrl))
+                if (!shift.Contains(ShiftStates.Ctrl))
                 {
                     switch (translatedKey)
                     {
@@ -147,7 +141,7 @@ public sealed class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner)
                             StrategicMap.Current.CenterOnLeader(StrategicMap.Current.SeatedPlayer, select: true, animate: false);
                             break;
                         case 67:
-                            if (!shift.Contains(ShiftState.Ctrl))
+                            if (!shift.Contains(ShiftStates.Ctrl))
                             {
                                 StrategicMap.Current.SelectedArmy.Center();
                             }
@@ -161,7 +155,7 @@ public sealed class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner)
 
                             break;
                         case 83:
-                            if (!shift.Contains(ShiftState.Ctrl) && GetEngine().Registry.GetDebugMode())
+                            if (!shift.Contains(ShiftStates.Ctrl) && GetEngine().Registry.GetDebugMode())
                             {
                                 RunDefaultTest();
                             }
@@ -232,7 +226,7 @@ public sealed class HexSpriteMapKeyboard(CustomNode owner) : EngineObject(owner)
         }
 
         string[] commandLine = Environment.GetCommandLineArgs();
-        if (key == 67 && (Set<ShiftState>.Of(ShiftState.Shift, ShiftState.Ctrl) & shift) == Set<ShiftState>.Of(ShiftState.Shift, ShiftState.Ctrl) && commandLine.Length > 1 && CompareText(commandLine[1], "beatrix") == 0 && StrategicMap.Current.ConnectionType is not PlayerConnectionType.Network and not PlayerConnectionType.Email && !GetEngine().Demo)
+        if (key == 67 && ((ShiftStates.Shift | ShiftStates.Ctrl) & shift) == (ShiftStates.Shift | ShiftStates.Ctrl) && commandLine.Length > 1 && CompareText(commandLine[1], "beatrix") == 0 && StrategicMap.Current.ConnectionType is not PlayerConnectionType.Network and not PlayerConnectionType.Email && !GetEngine().Demo)
         {
             _ = AudioPlayback.PlaySample("SFX\\ATTACK\\MAGICB02.WAV");
             Mode = HexSpriteMapKeyboardMode.Cheat;

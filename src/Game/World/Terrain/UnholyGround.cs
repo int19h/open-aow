@@ -15,8 +15,6 @@ using Aow.Game.Magic.Spells;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
-
-using Aow.Rtl;
 using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Game.World.Terrain;
@@ -28,7 +26,7 @@ public class UnholyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     // UnHolyG.pas:93
     public new const int ClassId = 131_985;
 
-    public Set<UnholySummoning> Mode { get; set; }
+    public UnholySummonings Mode { get; set; }
 
     public sbyte Player { get; set; }
     public sbyte Duration { get; set; }
@@ -56,7 +54,7 @@ public class UnholyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     // UnHolyG.pas:249
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        if (!Mode.Contains(UnholySummoning.Summoning))
+        if (!Mode.Contains(UnholySummonings.Summoning))
         {
             base.Show(pixelXSurface, pixelYSurface, lockedSurface);
         }
@@ -155,16 +153,16 @@ public class UnholyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner
         for (int i = 0, last = armyLocal.Units.Count - 1; i <= last; i++)
         {
             Troop troop = armyLocal.Units.GetUnit(i);
-            bool condition = troop.GetAlignment() != Alignment.None;
+            bool condition = troop.GetAlignment() != Alignment.Unaligned;
             if (condition)
             {
                 Alignment alignment = troop.GetAlignment();
-                condition = AlignmentTables.PureGoodAlignments.Contains(alignment);
+                condition = AlignmentTables.PureGoodAlignments.Contains(alignment.ToFlag());
             }
 
             if (condition && !troop.GetAbilityEnabled(1))
             {
-                int damage = troop.ExecuteDamageRole(4, damage: 3, damageTypes: Set<DamageType>.Of(DamageType.Death));
+                int damage = troop.ExecuteDamageRole(4, damage: 3, damageTypes: DamageTypes.Death);
                 if (damage > troop.GetHitPoints())
                 {
                     damage = troop.GetHitPoints();
@@ -203,7 +201,7 @@ public class UnholyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner
     // UnHolyG.pas:142
     public void ArmyPlaced(ArmyHexSprite army)
     {
-        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             TriggerArmyDamage(army);
         }
@@ -249,11 +247,11 @@ public class UnholyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner
         {
             i -= 1;
             Troop troop = units.GetUnit(i);
-            bool condition = !troop.GetImmunityTypes().Contains(DamageType.Death) && troop.GetAlignment() != Alignment.None;
+            bool condition = !troop.GetImmunityTypes().Contains(DamageTypes.Death) && troop.GetAlignment() != Alignment.Unaligned;
             if (condition)
             {
                 Alignment alignment = troop.GetAlignment();
-                condition = AlignmentTables.PureGoodAlignments.Contains(alignment);
+                condition = AlignmentTables.PureGoodAlignments.Contains(alignment.ToFlag());
             }
 
             result = condition && !troop.GetAbilityEnabled(1);
@@ -296,7 +294,7 @@ public class UnholyGround(CustomNode owner) : ImageLibraryTerrainMapObject(owner
         MapField field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         if (this == field.FindOwnedChild(ClassId) && frameCounter == 9)
         {
-            Mode -= Set<UnholySummoning>.Of(UnholySummoning.Summoning);
+            Mode &= ~UnholySummonings.Summoning;
         }
     }
 

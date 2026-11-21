@@ -1,7 +1,6 @@
 
 using Aow.Game.Combat;
 using Aow.Game.Combat.Actions;
-using Aow.Rtl;
 
 namespace Aow.Game.Magic.Abilities;
 
@@ -13,7 +12,7 @@ public partial class WallCrushingAbility
         CombatObject target = command.Target;
         if (target.GetEnabled())
         {
-            DamageCombatAction action = CreateDamageCombatAction(source, target, attack: 6, damage: 6, damageTypes: Set<DamageType>.Of(DamageType.Wall));
+            DamageCombatAction action = CreateDamageCombatAction(source, target, attack: 6, damage: 6, damageTypes: DamageTypes.Wall);
             source.Combat.ExecuteCombatAction(action);
             _ = action.Release();
         }

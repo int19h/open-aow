@@ -6,7 +6,6 @@ using Aow.Game.Combat;
 
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
-using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
@@ -56,7 +55,7 @@ public class GuardAreaAIGroupControl(CustomNode owner) : AIGroupControl(owner)
         SetupCP(target);
         // { Original also accepts crDefeat when the subsequent efficiency tests pass. }
         CombatResult execute = CombatPredictor.Execute();
-        if (Set<CombatResult>.Of(CombatResult.Victory, CombatResult.Defeat, CombatResult.NoDefenders).Contains(execute))
+        if (execute is CombatResult.Victory or CombatResult.Defeat or CombatResult.NoDefenders)
         {
             if (CombatPredictor.GetEfficiency() > 0)
             {
@@ -106,7 +105,7 @@ public class GuardAreaAIGroupControl(CustomNode owner) : AIGroupControl(owner)
                             Holder = CreationHolder(),
                             Player = Army.Player
                         };
-                        settings.Mode += Set<MoveModeElement>.Of(MoveModeElement.AI);
+                        settings.Mode |= MoveModes.AI;
                         settings.SetSourcePosition(Army.Location);
                         settings.MovePointsMax = Army.MovePoints(Selection);
                         settings.ArmyHexSprite = ArmyHexSprite;

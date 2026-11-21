@@ -1,8 +1,6 @@
 // Translated from PassiveAb.pas.
 using Aow.Engine.Nodes;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Abilities.Passive;
 
 // inherited name, ability ID, selection types, ability type, duration mode. duration data
@@ -17,7 +15,7 @@ public class CrusaderAbility : DurationAbility
         AbilityId = 101;
         AbilityType = AbilityType.Handicap;
         DurationMode = DurationMode.Day;
-        SelectionTypes = Set<AbilitySelectionType>.Of();
+        SelectionTypes = AbilitySelectionTypes.None;
     }
 
     // PassiveAb.pas:724

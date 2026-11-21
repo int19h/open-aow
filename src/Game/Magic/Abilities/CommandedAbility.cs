@@ -7,8 +7,6 @@ using Aow.Game.Combat;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Abilities;
 
 public class CommandedAbility : AdjustableAbility
@@ -17,7 +15,7 @@ public class CommandedAbility : AdjustableAbility
     public CommandedAbility(CustomNode owner) : base(owner)
     {
         AbilityType = AbilityType.Handicap;
-        SelectionTypes = Set<AbilitySelectionType>.Of();
+        SelectionTypes = AbilitySelectionTypes.None;
     }
 
     // AoWAb.PAS:5023

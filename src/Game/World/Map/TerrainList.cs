@@ -2,7 +2,6 @@
 using Aow.Engine.Collections;
 
 using Aow.Game.World.Movement;
-using Aow.Rtl;
 
 namespace Aow.Game.World.Map;
 
@@ -158,7 +157,7 @@ public sealed class TerrainList : IDisposable
     }
 
     // HSEngine.pas:1538
-    public bool CompareTerrain(TerrainList list, Set<TerrainCompareModeElement> mode)
+    public bool CompareTerrain(TerrainList list, TerrainCompareModes mode)
     {
         bool result = true;
         int i = 0;
@@ -170,7 +169,7 @@ public sealed class TerrainList : IDisposable
             int t2 = list.GetTerrain(i);
             if (!(t1 < 0 && t2 < 0))
             {
-                result = t1 >= 0 && t2 >= 0 && (!mode.Contains(TerrainCompareModeElement.SameTerrainType) || t1 == t2);
+                result = t1 >= 0 && t2 >= 0 && (!mode.Contains(TerrainCompareModes.SameTerrainType) || t1 == t2);
             }
 
             if (result)
@@ -179,7 +178,7 @@ public sealed class TerrainList : IDisposable
                 int o2 = list.GetOverlay(i);
                 if (!(o1 < 0 && o2 < 0))
                 {
-                    result = !mode.Contains(TerrainCompareModeElement.SameOverlayType) || o1 == o2;
+                    result = !mode.Contains(TerrainCompareModes.SameOverlayType) || o1 == o2;
                 }
             }
 

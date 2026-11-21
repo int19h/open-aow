@@ -7,8 +7,6 @@ using Aow.Game.Combat.Actions;
 
 using Aow.Game.Magic.Abilities;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Spells;
 
 // inherited spell ID, combat statistics, damage mode
@@ -23,7 +21,7 @@ public class WindsOfFury : CombatSpell
         SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 8;
         spellCombatInfo.Damage = 5;
-        spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Physical);
+        spellCombatInfo.DamageTypes = DamageTypes.Physical;
         spellCombatInfo.RepeatCount = 1;
         spellCombatInfo.Range = 12;
 

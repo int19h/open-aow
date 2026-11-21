@@ -3,7 +3,6 @@
 using Aow.Engine.Nodes;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Movement;
-using Aow.Rtl;
 
 namespace Aow.Game.AI.Groups;
 
@@ -16,7 +15,7 @@ public class AIGroupTargetFinder : AIGroupTask
     private AIGroupControl _control;
 
     public AIMoveTargetSelector Selector { get; }
-    public Set<AIGroupTargetFinderModeElement> Mode { get; set; }
+    public AIGroupTargetFinderModes Mode { get; set; }
     public int Range { get; set; }
 
     private int _targetRange;
@@ -37,9 +36,9 @@ public class AIGroupTargetFinder : AIGroupTask
     {
         _ = base.Activate(control);
         _control = control;
-        if (Mode.Contains(AIGroupTargetFinderModeElement.CalculateMovePathBfs))
+        if (Mode.Contains(AIGroupTargetFinderModes.CalculateMovePathBfs))
         {
-            Selector.Mode = Selector.Mode + Set<AIMoveTargetSelectorModeElement>.Of(AIMoveTargetSelectorModeElement.CreateMovePaths);
+            Selector.Mode |= AIMoveTargetSelectorModes.CreateMovePaths;
         }
 
         _ = Selector.Search(control);
@@ -78,7 +77,7 @@ public class AIGroupTargetFinder : AIGroupTask
         Range = 9;
         _targetRange = 9;
         _step = 4;
-        Mode = Set<AIGroupTargetFinderModeElement>.Of();
+        Mode = AIGroupTargetFinderModes.None;
     }
 
     // AIGroup.pas:1935
@@ -97,7 +96,7 @@ public class AIGroupTargetFinder : AIGroupTask
         targetInfo3.Mode = AITargetMode.Attack;
         Selector.TargetInfo = targetInfo3;
         _ = Selector.Units.AddUnits(control.Group.Units);
-        Mode += Set<AIGroupTargetFinderModeElement>.Of(AIGroupTargetFinderModeElement.CalculateMovePathBfs);
+        Mode |= AIGroupTargetFinderModes.CalculateMovePathBfs;
         return true;
     }
 
@@ -112,7 +111,7 @@ public class AIGroupTargetFinder : AIGroupTask
             Location = target.Location,
             MovePoints = target.MovePoints
         };
-        if (Mode.Contains(AIGroupTargetFinderModeElement.CalculateMovePathBfs))
+        if (Mode.Contains(AIGroupTargetFinderModes.CalculateMovePathBfs))
         {
             newTarget.PathStrength = AbilityRules.GetMovePathBattleFieldStrength(_control.Group.Player, _control.Group.IndependentRelation, target.MovePath, _targetRange, Range, _step, engine: GetEngine());
         }

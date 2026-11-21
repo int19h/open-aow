@@ -10,8 +10,6 @@ using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Map;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Spells;
 
 public class Vortex : GlobalTargetSpell
@@ -65,7 +63,7 @@ public class Vortex : GlobalTargetSpell
         if (targetSelection.Target.X != -1)
         {
             MapField mapField = StrategicMap.Current.MapContainer.MapLevels[targetSelection.Target.MapLevel].GetField(targetSelection.Target.X, targetSelection.Target.Y);
-            return Set<byte>.WithBounds(0, 255).With(0).With(10).Contains((byte)mapField.TerrainType);
+            return mapField.TerrainType is (sbyte)TerrainType.Water or (sbyte)TerrainType.UndergroundWater;
         }
         else
         {
@@ -80,7 +78,7 @@ public class Vortex : GlobalTargetSpell
         {
             MapLevel mapLevel = StrategicMap.Current.MapContainer.MapLevels[layer];
             MapField fieldValue = mapLevel.GetField(X, Y);
-            valid = Set<byte>.WithBounds(0, 255).With(0).With(10).Contains((byte)fieldValue.TerrainType);
+            valid = fieldValue.TerrainType is (sbyte)TerrainType.Water or (sbyte)TerrainType.UndergroundWater;
         }
         else
         {

@@ -7,8 +7,6 @@ using Aow.Game.Combat.Actions;
 
 using Aow.Game.Magic.Abilities;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Magic.Spells;
 
 // inherited spell ID, combat statistics, damage mode
@@ -23,7 +21,7 @@ public class AnimateDead : CombatSpell
         SpellCombatInfo spellCombatInfo = CombatInfo;
         spellCombatInfo.Attack = 0;
         spellCombatInfo.Damage = 0;
-        spellCombatInfo.DamageTypes = Set<DamageType>.Of();
+        spellCombatInfo.DamageTypes = DamageTypes.None;
         spellCombatInfo.RepeatCount = 1;
         spellCombatInfo.Range = -1;
 
@@ -38,7 +36,7 @@ public class AnimateDead : CombatSpell
             Holder = CreationHolder(),
             SourceId = source.Id,
             TargetId = target.Id,
-            Succeeded = target.Status.Contains(CombatObjectStatusElement.Destroyed),
+            Succeeded = target.Status.Contains(CombatObjectStatuses.Destroyed),
             SpellId = SpellId
         };
         if (chargeMana)
@@ -52,11 +50,11 @@ public class AnimateDead : CombatSpell
     // CombatSpells.pas:2061
     public override void FastBattleGetDamageValues(CombatObject source, CombatObject target, WallSituation wallSituation, ref AbilityDamageValues values)
     {
-        if (target.Status.Contains(CombatObjectStatusElement.Destroyed))
+        if (target.Status.Contains(CombatObjectStatuses.Destroyed))
         {
             // { Original leaves the other damage-value fields unchanged on success. }
             values.SourceDamage = 200;
-            values.DamageTypes = Set<DamageType>.Of();
+            values.DamageTypes = DamageTypes.None;
         }
         else
         {
@@ -64,7 +62,7 @@ public class AnimateDead : CombatSpell
             values.SourceCost = 0;
             values.TargetDamage = 0;
             values.TargetCost = 0;
-            values.DamageTypes = Set<DamageType>.Of();
+            values.DamageTypes = DamageTypes.None;
         }
     }
 

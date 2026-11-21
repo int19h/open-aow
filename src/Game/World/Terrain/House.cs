@@ -21,7 +21,7 @@ public class House(CustomNode owner) : CombatStructure(owner)
     public override void Activate()
     {
         base.Activate();
-        if (!CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (!CombatMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
         {
             PlayerStructure structure = StrategicMap.Current.MapContainer.GetMapLevel(CombatPlacement.CombatLLocation).GetField(CombatPlacement.CombatXLocation, CombatPlacement.CombatYLocation).FindNoneTransparentHexSprite<PlayerStructure>();
             if (structure is not null)
@@ -93,7 +93,7 @@ public class House(CustomNode owner) : CombatStructure(owner)
                             imageIndex = sequence.GetFrameIndex(CombatMap.Current.Frame, offset: FrameFixtureInputs.AnimationOffset(this));
                             if (imageIndex != -1)
                             {
-                                if (!CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+                                if (!CombatMap.Current.Status.Contains(HexSpriteMapStatuses.Editting))
                                 {
                                     sbyte hexX2 = HexX;
                                     sbyte hexY2 = HexY;

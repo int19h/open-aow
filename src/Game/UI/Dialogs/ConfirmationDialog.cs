@@ -53,7 +53,7 @@ public sealed partial class ConfirmationDialog(UIContext ui) : UIModule(ui)
     }
 
     // AOWDialogWin.pas:104
-    public void DialogKeyDown(in ushort key, Set<ShiftState> shift)
+    public void DialogKeyDown(in ushort key, ShiftStates shift)
     {
         switch (key)
         {

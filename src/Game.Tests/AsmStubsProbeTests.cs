@@ -335,7 +335,7 @@ public sealed class AsmStubsProbeTests
         for (int i = 0; i <= 255; i++)
         {
             mine.State = (byte)i;
-            teleport.State = Set<Teleport.StateElement>.FromMask((ulong)i);
+            teleport.State = (Teleport.States)(ulong)i;
             AddNumber(lines, label: $"Mine.TMine.GetRazed_{Decrement(i)}", value: mine.GetRazed() ? 1 : 0);
             AddNumber(lines, label: $"Teleport.TTeleport.GetRazed_{Decrement(i)}", value: teleport.GetRazed() ? 1 : 0);
         }

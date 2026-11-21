@@ -109,13 +109,13 @@ public partial class Troop
             }
         }
 
-        if (info.Overlays.Contains(UnitOverlayModesElement.HitPoints))
+        if (info.Overlays.Contains(UnitOverlayModes.HitPoints))
         {
             byte hitPointsToHitPercent = (byte)HitChance.HitPointsToHitPercent(hits: GetHits(), hitPoints: GetHitPoints());
             HitChance.ShowHitPercent(X, Y, surface: lockedSurface, percent: hitPointsToHitPercent);
         }
 
-        if (info.Overlays.Contains(UnitOverlayModesElement.Combat))
+        if (info.Overlays.Contains(UnitOverlayModes.Combat))
         {
             if (GetHitPoints() == 0)
             {
@@ -173,7 +173,7 @@ public partial class Troop
             }
         }
 
-        if (UnitStatus.Contains(UnitStatusElement.Enchanted))
+        if (UnitStatus.Contains(UnitStatuses.Enchanted))
         {
             if (info.Looped)
             {

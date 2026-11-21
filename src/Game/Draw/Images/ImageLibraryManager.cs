@@ -36,14 +36,14 @@ public sealed class ImageLibraryManager : Component
     }
 
     // ImageLib.pas:8281
-    public void UnloadImageLibrary(Set<ImageLibraryManagerCategoryElement> category)
+    public void UnloadImageLibrary(ImageLibraryManagerCategories category)
     {
-        if (category.Contains(ImageLibraryManagerCategoryElement.Disk))
+        if (category.Contains(ImageLibraryManagerCategories.Disk))
         {
             DiskList.UnloadImageLibrary();
         }
 
-        if (category.Contains(ImageLibraryManagerCategoryElement.Owned))
+        if (category.Contains(ImageLibraryManagerCategories.Owned))
         {
             OwnedList.UnloadImageLibrary();
         }
@@ -93,15 +93,15 @@ public sealed class ImageLibraryManager : Component
     // ImageLib.pas:8331
     // { A missing owned library is created empty and added. The exception for a missing library is
     //   raised and swallowed at once (it only shows in the debugger), as in the original. }
-    public CustomImageLibrary LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement> category, string fileName)
+    public CustomImageLibrary LinkToImageLibrary(ImageLibraryManagerCategories category, string fileName)
     {
         CustomImageLibrary result = null;
-        if (category.Contains(ImageLibraryManagerCategoryElement.Disk))
+        if (category.Contains(ImageLibraryManagerCategories.Disk))
         {
             result = DiskList.LinkToImageLibrary(fileName);
         }
 
-        if (category.Contains(ImageLibraryManagerCategoryElement.Owned) && result is null)
+        if (category.Contains(ImageLibraryManagerCategories.Owned) && result is null)
         {
             result = OwnedList.LinkToImageLibrary(fileName);
             if (result is null)
@@ -126,15 +126,15 @@ public sealed class ImageLibraryManager : Component
     }
 
     // ImageLib.pas:8352
-    public void ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement> category, string fileName)
+    public void ReleaseImageLibrary(ImageLibraryManagerCategories category, string fileName)
     {
         bool released = false;
-        if (category.Contains(ImageLibraryManagerCategoryElement.Disk))
+        if (category.Contains(ImageLibraryManagerCategories.Disk))
         {
             released = DiskList.ReleaseImageLibrary(fileName);
         }
 
-        if (category.Contains(ImageLibraryManagerCategoryElement.Owned) && !released)
+        if (category.Contains(ImageLibraryManagerCategories.Owned) && !released)
         {
             _ = OwnedList.ReleaseImageLibrary(fileName);
         }

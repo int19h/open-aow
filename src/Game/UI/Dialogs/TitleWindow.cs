@@ -98,7 +98,7 @@ public sealed partial class TitleWindow(UIContext ui) : UIModule(ui)
     }
 
     // AOWTitleWindow.pas:121
-    public void SplashPnlKeyDown(in ushort key, Set<ShiftState> shift)
+    public void SplashPnlKeyDown(in ushort key, ShiftStates shift)
     {
         if (key == 27)
         {
@@ -107,7 +107,7 @@ public sealed partial class TitleWindow(UIContext ui) : UIModule(ui)
         }
         else
         {
-            if (!shift.Contains(ShiftState.Alt))
+            if (!shift.Contains(ShiftStates.Alt))
             {
                 NextSplash();
             }
@@ -115,7 +115,7 @@ public sealed partial class TitleWindow(UIContext ui) : UIModule(ui)
     }
 
     // AOWTitleWindow.pas:131
-    public void SplashPnlMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y) => NextSplash();
+    public void SplashPnlMouseDown(MouseButton button, ShiftStates shift, int X, int Y) => NextSplash();
 
     internal static void ShowExitSplash(TitleWindow dialog)
     {

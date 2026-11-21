@@ -129,10 +129,10 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         SoundSettings settings6 = UI.SoundDialog.Settings;
         settings6.OutputMode = UI.SoundDialog.SoundQuality switch
         {
-            1 => Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Mono, SoundOutputModeElement.Bits8),
-            2 => Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Mono, SoundOutputModeElement.Bits16),
-            3 => Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Stereo, SoundOutputModeElement.Bits16),
-            _ => Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Stereo, SoundOutputModeElement.Bits16, SoundOutputModeElement.HighQuality)
+            1 => SoundOutputModes.Mono | SoundOutputModes.Bits8,
+            2 => SoundOutputModes.Mono | SoundOutputModes.Bits16,
+            3 => SoundOutputModes.Stereo | SoundOutputModes.Bits16,
+            _ => SoundOutputModes.Stereo | SoundOutputModes.Bits16 | SoundOutputModes.HighQuality
         };
         UI.SoundDialog.Settings = settings6;
         if (UI.SoundDialog.SoundQuality != 0)
@@ -333,7 +333,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             return;
         }
 
-        if (StrategicMap.Current is not null && StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated))
+        if (StrategicMap.Current is not null && StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Activated))
         {
             FCursorImage?.Show(x - 15, y - 20, lockedSurface: surface);
             LibraryImage image = CursorIndex != 1 ? GamePack.Current.CursorImages[CursorIndex] : null;
@@ -389,13 +389,13 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         }
     }
 
-    public void MouseDown(MouseButton button, Set<ShiftState> shift, int x, int y)
+    public void MouseDown(MouseButton button, ShiftStates shift, int x, int y)
     {
         Display.MouseButtons = shift;
         UI.General.Manager.CheckMouseDown(button, shift, x, y);
     }
 
-    public void MouseUp(MouseButton button, Set<ShiftState> shift, int x, int y)
+    public void MouseUp(MouseButton button, ShiftStates shift, int x, int y)
     {
         Display.MouseButtons = shift;
         UI.General.Manager.CheckMouseUp(button, shift, x, y);
@@ -405,17 +405,17 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         }
     }
 
-    public void MouseMove(Set<ShiftState> shift, int x, int y)
+    public void MouseMove(ShiftStates shift, int x, int y)
     {
         Display.MouseButtons = shift;
         UI.General.Manager.CheckMouseMove(shift, x, y);
     }
 
-    public void MouseWheel(int steps, Set<ShiftState> shift, int x, int y) => UI.General.Manager.CheckMouseWheel(steps, shift, x, y);
+    public void MouseWheel(int steps, ShiftStates shift, int x, int y) => UI.General.Manager.CheckMouseWheel(steps, shift, x, y);
 
-    public void KeyDown(ushort key, Set<ShiftState> shift)
+    public void KeyDown(ushort key, ShiftStates shift)
     {
-        if (key == 13 && shift.Contains(ShiftState.Alt))
+        if (key == 13 && shift.Contains(ShiftStates.Alt))
         {
             _ = Display.SwapDisplayController();
             return;

@@ -20,7 +20,7 @@ public class Storm(CustomNode owner) : Animation(owner)
     public virtual void UpdateTargetSelection(TargetSelectionControl selection)
     {
         selection.SetShowHandler(ShowTargetSelection);
-        selection.TargetMode += Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.OwnerDraw);
+        selection.TargetMode |= TargetSelectionModes.OwnerDraw;
     }
 
     // Storms.pas:209

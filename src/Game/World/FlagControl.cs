@@ -26,7 +26,7 @@ public class FlagControl : ControlStyleObject
     // PlayerC.PAS:1920
     public override void Dispose()
     {
-        GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: "Flags.ILB");
+        GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(ImageLibraryManagerCategories.Disk, fileName: "Flags.ILB");
         Flags = null;
         base.Dispose();
     }
@@ -36,10 +36,10 @@ public class FlagControl : ControlStyleObject
     {
         // Both creation paths pass the game set: GamePack.Create and a game set child load.
         GamePack gameSet = GetOwner<GamePack>();
-        Flags = gameSet.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), fileName: "Flags.ILB");
+        Flags = gameSet.ImageLibraryManager.LinkToImageLibrary(ImageLibraryManagerCategories.Disk, fileName: "Flags.ILB");
         _raceResources = gameSet.RaceResources;
 
-        SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.FixedChild));
+        SetControlStyle(ControlStyles.FixedChild);
     }
 
     // PlayerC.PAS:1927

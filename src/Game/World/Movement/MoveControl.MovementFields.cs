@@ -12,7 +12,7 @@ public partial class MoveControl
 {
     public void CalculatePath(MovePath path, sbyte x, sbyte y, sbyte level)
     {
-        DelphiAssert.Assert(_status.Contains(StatusElement.Activated), message: "Assertion failure", file: @"D:\AoWDev\AoWE\inc\MoveT.PAS", line: 0x7e4f);
+        DelphiAssert.Assert(_status.Contains(Statuses.Activated), message: "Assertion failure", file: @"D:\AoWDev\AoWE\inc\MoveT.PAS", line: 0x7e4f);
         path.Clear();
         if (level >= Map.MapContainer.LevelCount)
         {
@@ -74,7 +74,7 @@ public partial class MoveControl
             _ = path.AddMapCoordinate(field.HexX, field.HexY, field.HexLevel);
         }
 
-        if (StrategicMap.Current.AIExecutor.Status.Contains(AIExecutorStatusElement.Executing))
+        if (StrategicMap.Current.AIExecutor.Status.Contains(AIExecutorStatuses.Executing))
         {
             StrategicMap.Current.AIExecutor.UseProcessTime(path.Count);
         }
@@ -108,7 +108,7 @@ public partial class MoveControl
                 break;
             }
 
-            if (Mode.Contains(MoveModeElement.LogProcessedMapFields) && old == 0xff_ff_ff)
+            if (Mode.Contains(MoveModes.LogProcessedMapFields) && old == 0xff_ff_ff)
             {
                 _ = _processedMapFields.Add(field);
             }

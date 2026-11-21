@@ -3,8 +3,6 @@ using Aow.Engine.Nodes;
 
 using Aow.Game.Combat;
 
-using Aow.Rtl;
-
 namespace Aow.Game.AI.Groups;
 
 public class RaidAIGroupControl(CustomNode owner) : AIGroupControl(owner)
@@ -40,7 +38,7 @@ public class RaidAIGroupControl(CustomNode owner) : AIGroupControl(owner)
         SetupCP(target);
         // { Original also accepts crDefeat when the efficiency test passes. }
         CombatResult execute = CombatPredictor.Execute();
-        if (Set<CombatResult>.Of(CombatResult.Victory, CombatResult.Defeat, CombatResult.NoDefenders).Contains(execute))
+        if (execute is CombatResult.Victory or CombatResult.Defeat or CombatResult.NoDefenders)
         {
             if (CombatPredictor.GetEfficiency() > 0)
             {
@@ -89,7 +87,7 @@ public class RaidAIGroupControl(CustomNode owner) : AIGroupControl(owner)
                 AIGroupRazeControl raze = new(null!) { Holder = CreationHolder() };
                 _ = raze.Setup(this);
                 // loads the set byte 04 from in the original
-                raze.Mode = Set<AIGroupRazeControlModeElement>.Of(AIGroupRazeControlModeElement.Always);
+                raze.Mode = AIGroupRazeControlModes.Always;
                 ActivatePlugin(raze);
                 _ = raze.Release();
                 State = 1;

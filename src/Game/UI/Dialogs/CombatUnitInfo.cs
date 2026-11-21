@@ -70,7 +70,7 @@ public sealed partial class CombatUnitInfo(UIContext ui) : UIModule(ui)
             {
                 CombatAbilityRef ability = UI.General.CombatUnit.Abilities[drawItem];
                 CombatMode combatMode = GamePack.Current.AbilityControl[ability.Ability].GetCombatMode(UI.General.CombatUnit.Unit.Troop);
-                bool test = !Set<CombatMode>.Of().WithRange(CombatMode.ShortRange, CombatMode.LongRange).Contains(combatMode) && UI.General.CombatUnit.Abilities[drawItem].Ability != 52;
+                bool test = combatMode is not (>= CombatMode.ShortRange and <= CombatMode.LongRange) && UI.General.CombatUnit.Abilities[drawItem].Ability != 52;
                 if (!test)
                 {
                     sbyte moves = UI.General.CombatUnit.Unit.Troop.Moves;
@@ -97,7 +97,7 @@ public sealed partial class CombatUnitInfo(UIContext ui) : UIModule(ui)
     }
 
     // AoWTCUnit.pas:152
-    public void UAbilLBMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public void UAbilLBMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
         if (UnitAbilityList.Selected > -1)
         {
@@ -123,7 +123,7 @@ public sealed partial class CombatUnitInfo(UIContext ui) : UIModule(ui)
     }
 
     // AoWTCUnit.pas:168
-    public void UAbilLBMouseMove(Set<ShiftState> shift, int X, int Y)
+    public void UAbilLBMouseMove(ShiftStates shift, int X, int Y)
     {
         if (UI.General.CombatUnit is not null)
         {
@@ -131,7 +131,7 @@ public sealed partial class CombatUnitInfo(UIContext ui) : UIModule(ui)
             {
                 CombatAbilityRef ability = UI.General.CombatUnit.Abilities[UnitAbilityList.HoverItem];
                 CombatMode combatMode = GamePack.Current.AbilityControl[ability.Ability].GetCombatMode(UI.General.CombatUnit.Unit.Troop);
-                if (!Set<CombatMode>.Of().WithRange(CombatMode.ShortRange, CombatMode.LongRange).Contains(combatMode) && UI.General.CombatUnit.Abilities[UnitAbilityList.HoverItem].Ability != 52)
+                if (combatMode is not (>= CombatMode.ShortRange and <= CombatMode.LongRange) && UI.General.CombatUnit.Abilities[UnitAbilityList.HoverItem].Ability != 52)
                 {
                     return;
                 }
@@ -148,7 +148,7 @@ public sealed partial class CombatUnitInfo(UIContext ui) : UIModule(ui)
     }
 
     // AoWTCUnit.pas:187
-    public void HeroSMapMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public void HeroSMapMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
         UI.General.SelectedUnit = UI.General.CombatUnit.Unit.Troop;
         UI.UnitWindow.ShowUnit();

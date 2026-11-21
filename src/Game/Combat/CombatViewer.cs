@@ -3,8 +3,6 @@
 using Aow.Engine.Nodes;
 using Aow.Game.Draw;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Combat;
 
 // Status. Combat. Delay. Speed. Position. Time. Logbook
@@ -23,7 +21,7 @@ public sealed class CombatViewer : IDisposable
     // The node that created this viewer. It and the nodes it creates reach the engine through it.
     public EngineObject Creator { get; }
 
-    public Set<CombatViewerStatusElement> Status { get; private set; }
+    public CombatViewerStatuses Status { get; private set; }
     public Battle Combat { get; }
     public byte Delay { get; private set; }
 
@@ -36,7 +34,7 @@ public sealed class CombatViewer : IDisposable
     // Combat2.pas:555
     public void Dispose()
     {
-        if (Status.Contains(CombatViewerStatusElement.Initialized))
+        if (Status.Contains(CombatViewerStatuses.Initialized))
         {
             Finalize();
         }
@@ -47,12 +45,12 @@ public sealed class CombatViewer : IDisposable
     // Combat2.pas:562
     public void Initialize(CombatLogbook logbook)
     {
-        if (Status.Contains(CombatViewerStatusElement.Initialized))
+        if (Status.Contains(CombatViewerStatuses.Initialized))
         {
             Finalize();
         }
 
-        Status = Set<CombatViewerStatusElement>.Of(CombatViewerStatusElement.Initialized);
+        Status = CombatViewerStatuses.Initialized;
         Logbook = logbook;
         _ = Logbook.AddRef();
         Position = 0;
@@ -65,13 +63,13 @@ public sealed class CombatViewer : IDisposable
     // Combat2.pas:575
     public void Finalize()
     {
-        if (Status.Contains(CombatViewerStatusElement.Initialized))
+        if (Status.Contains(CombatViewerStatuses.Initialized))
         {
             Combat.Deactivate();
             Combat.Clear();
             _ = Logbook.Release();
             Logbook = null;
-            Status -= Set<CombatViewerStatusElement>.Of(CombatViewerStatusElement.Initialized);
+            Status &= ~CombatViewerStatuses.Initialized;
         }
     }
 
@@ -92,7 +90,7 @@ public sealed class CombatViewer : IDisposable
     // Combat2.pas:593
     public void SetPosition(int position)
     {
-        if (Status.Contains(CombatViewerStatusElement.Initialized))
+        if (Status.Contains(CombatViewerStatuses.Initialized))
         {
             Time = -1;
             if (position > EndPosition)
@@ -140,15 +138,15 @@ public sealed class CombatViewer : IDisposable
     }
 
     // Combat2.pas:629
-    public void Play() => Status = Status + Set<CombatViewerStatusElement>.Of(CombatViewerStatusElement.Playing) - Set<CombatViewerStatusElement>.Of(CombatViewerStatusElement.Paused);
+    public void Play() => Status = (Status | CombatViewerStatuses.Playing) & ~CombatViewerStatuses.Paused;
 
     // Combat2.pas:632
-    public void Pause() => Status += Set<CombatViewerStatusElement>.Of(CombatViewerStatusElement.Paused);
+    public void Pause() => Status |= CombatViewerStatuses.Paused;
 
     // Combat2.pas:635
     public void Update()
     {
-        if ((Status & Set<CombatViewerStatusElement>.Of(CombatViewerStatusElement.Initialized, CombatViewerStatusElement.Playing, CombatViewerStatusElement.Paused)) == Set<CombatViewerStatusElement>.Of(CombatViewerStatusElement.Initialized, CombatViewerStatusElement.Playing) && EndPosition != Position)
+        if ((Status & (CombatViewerStatuses.Initialized | CombatViewerStatuses.Playing | CombatViewerStatuses.Paused)) == (CombatViewerStatuses.Initialized | CombatViewerStatuses.Playing) && EndPosition != Position)
         {
             bool playing = false;
             if (Position == 0)

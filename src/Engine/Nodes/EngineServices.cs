@@ -10,13 +10,13 @@ public static class EngineServices
 {
     internal const int MaxListSize = 134_217_727;
 
-    internal const ControlStyleElement Stored = 0;
+    internal const ControlStyles Stored = ControlStyles.SaveLoad;
 
-    internal const ControlStyleElement Shared = ControlStyleElement.FixedChild;
+    internal const ControlStyles Shared = ControlStyles.FixedChild;
 
-    internal const ControlStyleElement Reserved2 = ControlStyleElement.VerifyFixedChildren;
+    internal const ControlStyles Reserved2 = ControlStyles.VerifyFixedChildren;
 
-    internal const ControlStyleElement KeepIndex = ControlStyleElement.ArrayMode;
+    internal const ControlStyles KeepIndex = ControlStyles.ArrayMode;
 
     // The CRC-32 table of the reflected polynomial 0xEDB88320, built once.
     private static readonly ImmutableArray<int> s_crc32Table = BuildCrc32Table();

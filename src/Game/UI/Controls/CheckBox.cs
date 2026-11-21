@@ -15,7 +15,7 @@ public sealed partial class CheckBox(Component owner) : BaseButton(owner)
     public event NotifyEvent<CheckBox> OnDoubleClick;
 
     // AoWCheckBox.pas:51
-    public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
         base.CheckMouseDown(button, shift, X, Y);
         Handled = false;
@@ -47,7 +47,7 @@ public sealed partial class CheckBox(Component owner) : BaseButton(owner)
                     Checked = !base.Checked;
                 }
 
-                if ((shift & Set<ShiftState>.Of(ShiftState.Double)) == Set<ShiftState>.Of(ShiftState.Double))
+                if ((shift & ShiftStates.Double) == ShiftStates.Double)
                 {
                     OnDoubleClick?.Invoke(this);
                 }
@@ -79,7 +79,7 @@ public sealed partial class CheckBox(Component owner) : BaseButton(owner)
     }
 
     // AoWCheckBox.pas:105
-    public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton button, ShiftStates shift, int X, int Y)
     {
         Handled = false;
         Lit = false;
@@ -91,7 +91,7 @@ public sealed partial class CheckBox(Component owner) : BaseButton(owner)
     }
 
     // AoWCheckBox.pas:119
-    public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
+    public override void CheckMouseMove(ShiftStates shift, int X, int Y)
     {
         base.CheckMouseMove(shift, X, Y);
         Handled = false;

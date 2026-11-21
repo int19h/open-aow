@@ -10,8 +10,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
 
 using Aow.Game.World.Map;
-
-using Aow.Rtl;
 using static Aow.Rtl.DelphiFormat;
 
 namespace Aow.Game.World.Structures;
@@ -28,7 +26,7 @@ public partial class PowerNode : PlayerStructure
     // PowerNode.pas:64
     public new const int ClassId = 131_482;
 
-    public Set<StateElement> State { get; set; }
+    public States State { get; set; }
 
     private readonly PlayerStructurePowerSource _powerSource;
 
@@ -73,18 +71,18 @@ public partial class PowerNode : PlayerStructure
         if (value)
         {
             SetPlayer(-1);
-            State += Set<StateElement>.Of(StateElement.Razed);
+            State |= States.Razed;
         }
         else
         {
-            State -= Set<StateElement>.Of(StateElement.Razed);
+            State &= ~States.Razed;
         }
 
         ImageIndex = GetTerrainTypeImage(TerrainType);
     }
 
     // PowerNode.pas:73
-    public override bool GetRazed() => State.Contains(StateElement.Razed);
+    public override bool GetRazed() => State.Contains(States.Razed);
 
     // PowerNode.pas:93
     public override string GetCurrentActivityText()
@@ -148,7 +146,7 @@ public partial class PowerNode : PlayerStructure
     {
         if (player != Player)
         {
-            if (Status.Contains(MapObjectStatusElement.Activated))
+            if (Status.Contains(MapObjectStatuses.Activated))
             {
                 if (Player != -1)
                 {
@@ -182,9 +180,11 @@ public partial class PowerNode : PlayerStructure
     private static readonly string s_generatingPowerFormat = "Generating %s power";
     private static readonly string s_powerNodeBattleWonText = "Power Node captured";
 
-    public enum StateElement : byte
+    [Flags]
+    public enum States : byte
     {
-        Razed = 0
+        None = 0,
+        Razed = 1 << 0,
     }
 
     public new class Resource : PlayerStructureResource

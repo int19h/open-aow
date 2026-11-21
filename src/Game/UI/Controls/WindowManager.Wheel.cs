@@ -8,7 +8,7 @@ public sealed partial class WindowManager
 {
     // The topmost visible window at or above the overlay that contains the pointer gets the wheel.
     // A window under it does not, including when the upper window handles nothing.
-    public override bool CheckMouseWheel(int steps, Set<ShiftState> shift, int x, int y)
+    public override bool CheckMouseWheel(int steps, ShiftStates shift, int x, int y)
     {
         if (steps == 0)
         {

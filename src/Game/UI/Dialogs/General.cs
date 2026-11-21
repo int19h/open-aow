@@ -381,7 +381,7 @@ public sealed partial class General(UIContext ui) : UIModule(ui)
                 {
                     Ability = i
                 };
-                if (UI.General.SelectedUnit.Player == StrategicMap.Current.SeatedPlayer && (GamePack.Current.AbilityControl[i].GetControlType(UI.General.SelectedUnit) & Set<AbilityControlTypeElement>.Of(AbilityControlTypeElement.Action)) != Set<AbilityControlTypeElement>.Of())
+                if (UI.General.SelectedUnit.Player == StrategicMap.Current.SeatedPlayer && (GamePack.Current.AbilityControl[i].GetControlType(UI.General.SelectedUnit) & AbilityControlTypes.Action) != AbilityControlTypes.None)
                 {
                     Abilities.Insert(ActiveAbilityCount, item: a);
                     ActiveAbilityCount += 1;
@@ -395,50 +395,50 @@ public sealed partial class General(UIContext ui) : UIModule(ui)
     }
 
     // AoWWinMan.pas:197
-    public int MoveTypesToInt32(Set<MoveType> moveTypes)
+    public int MoveTypesToInt32(MoveTypes moveTypes)
     {
         int result = 0;
-        if ((moveTypes & Set<MoveType>.Of(MoveType.Forestry)) == Set<MoveType>.Of(MoveType.Forestry))
+        if ((moveTypes & MoveTypes.Forestry) == MoveTypes.Forestry)
         {
             result = 2;
         }
 
-        if ((moveTypes & Set<MoveType>.Of(MoveType.Mountaineering)) == Set<MoveType>.Of(MoveType.Mountaineering))
+        if ((moveTypes & MoveTypes.Mountaineering) == MoveTypes.Mountaineering)
         {
             result = 4;
         }
 
-        if ((moveTypes & Set<MoveType>.Of(MoveType.Swimming)) == Set<MoveType>.Of(MoveType.Swimming))
+        if ((moveTypes & MoveTypes.Swimming) == MoveTypes.Swimming)
         {
             result = 6;
         }
 
-        if ((moveTypes & Set<MoveType>.Of(MoveType.Walking, MoveType.Swimming)) == Set<MoveType>.Of(MoveType.Walking, MoveType.Swimming))
+        if ((moveTypes & (MoveTypes.Walking | MoveTypes.Swimming)) == (MoveTypes.Walking | MoveTypes.Swimming))
         {
             result = 8;
         }
 
-        if ((moveTypes & Set<MoveType>.Of(MoveType.Swimming, MoveType.Forestry)) == Set<MoveType>.Of(MoveType.Swimming, MoveType.Forestry))
+        if ((moveTypes & (MoveTypes.Swimming | MoveTypes.Forestry)) == (MoveTypes.Swimming | MoveTypes.Forestry))
         {
             result = 10;
         }
 
-        if ((moveTypes & Set<MoveType>.Of(MoveType.Swimming, MoveType.Mountaineering)) == Set<MoveType>.Of(MoveType.Swimming, MoveType.Mountaineering))
+        if ((moveTypes & (MoveTypes.Swimming | MoveTypes.Mountaineering)) == (MoveTypes.Swimming | MoveTypes.Mountaineering))
         {
             result = 12;
         }
 
-        if ((moveTypes & Set<MoveType>.Of(MoveType.Forestry, MoveType.Mountaineering)) == Set<MoveType>.Of(MoveType.Forestry, MoveType.Mountaineering))
+        if ((moveTypes & (MoveTypes.Forestry | MoveTypes.Mountaineering)) == (MoveTypes.Forestry | MoveTypes.Mountaineering))
         {
             result = 14;
         }
 
-        if ((moveTypes & Set<MoveType>.Of(MoveType.Swimming, MoveType.Forestry, MoveType.Mountaineering)) == Set<MoveType>.Of(MoveType.Swimming, MoveType.Forestry, MoveType.Mountaineering))
+        if ((moveTypes & (MoveTypes.Swimming | MoveTypes.Forestry | MoveTypes.Mountaineering)) == (MoveTypes.Swimming | MoveTypes.Forestry | MoveTypes.Mountaineering))
         {
             result = 16;
         }
 
-        return (moveTypes & Set<MoveType>.Of(MoveType.Flying)) == Set<MoveType>.Of(MoveType.Flying) ? 18 : result;
+        return (moveTypes & MoveTypes.Flying) == MoveTypes.Flying ? 18 : result;
     }
 
     // AoWWinMan.pas:185
@@ -462,7 +462,7 @@ public sealed partial class General(UIContext ui) : UIModule(ui)
         unitShowInfo.Direction = 3;
         UnitShowInfo = unitShowInfo;
         UnitShowInfo unitShowInfo2 = UnitShowInfo;
-        unitShowInfo2.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.Rank);
+        unitShowInfo2.Overlays = UnitOverlayModes.Rank;
         UnitShowInfo = unitShowInfo2;
         Abilities = [];
     }
@@ -634,12 +634,12 @@ public sealed partial class General(UIContext ui) : UIModule(ui)
     public void ManagerDebugMessage(string text) => UI.DebugWindow.AddMessage(text);
 
     // AoWWinMan.pas:351
-    public void ManagerKeyDown(in ushort key, Set<ShiftState> shift)
+    public void ManagerKeyDown(in ushort key, ShiftStates shift)
     {
         if (UI.Engine.Debug)
         {
             string s;
-            if (StrategicMap.Current is not null && (StrategicMap.Current.PlayMode != PlayMode.Simultaneous || StrategicMap.Current.Players.LocalPlayers.Count == 1) && Set<byte>.WithBounds(0, 255).WithRange(49, 57).Contains((byte)key) && CombatMap.Current is null && StrategicMap.Current.Players.GetCount() > key - 48 && UI.Engine.Registry.GetDebugMode())
+            if (StrategicMap.Current is not null && (StrategicMap.Current.PlayMode != PlayMode.Simultaneous || StrategicMap.Current.Players.LocalPlayers.Count == 1) && (byte)key is >= 49 and <= 57 && CombatMap.Current is null && StrategicMap.Current.Players.GetCount() > key - 48 && UI.Engine.Registry.GetDebugMode())
             {
                 Player player = StrategicMap.Current.Players.GetPlayers(key - 48);
                 player.PlayerType = player.PlayerType == PlayerType.Cpu5 ? PlayerType.Human : (PlayerType)((int)player.PlayerType + 1);
@@ -967,7 +967,7 @@ public sealed partial class General(UIContext ui) : UIModule(ui)
         // The original call at targets the indicator sizing routine
         controller.UI.TaskBar.UpdatePlayerIndicator();
         controller.UI.PlayerInfoWindow.UpdatePlayer();
-        if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated))
+        if (StrategicMap.Current.Status.Contains(HexSpriteMapStatuses.Activated))
         {
             TurnButton turn = controller.UI.TaskBar.WorldTurnButton;
             if (StrategicMap.Current.SeatedPlayer != -1)

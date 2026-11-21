@@ -125,7 +125,7 @@ public sealed partial class ControlWindow(UIContext ui) : UIModule(ui)
     }
 
     // AOWControlWin.pas:333
-    public void Unit1FrameMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y, int slot)
+    public void Unit1FrameMouseDown(MouseButton button, ShiftStates shift, int X, int Y, int slot)
     {
         if (UI.General.UnitList is not null && UI.General.SelectedUnits[slot] > -1 && UI.General.UnitList.Units.GetUnit(UI.General.SelectedUnits[slot]) is not null)
         {
@@ -228,7 +228,7 @@ public sealed partial class ControlWindow(UIContext ui) : UIModule(ui)
         Unit8Frame.ImageLibraryIndexFrame = Unit8CheckBox.Checked ? 26 : 12;
 
         byte selection = StrategicMap.Current.SelectedArmy.Selection;
-        Set<MoveType> partyMove = UI.General.UnitList.GetPartyMoves(selection);
+        MoveTypes partyMove = UI.General.UnitList.GetPartyMoves(selection);
         int moveTypesToInt32 = UI.General.MoveTypesToInt32(partyMove);
         MoveIcon.CurrentImage = moveTypesToInt32;
         byte fSelectedArmySelection = StrategicMap.Current.SelectedArmy.Selection;
@@ -241,7 +241,7 @@ public sealed partial class ControlWindow(UIContext ui) : UIModule(ui)
     }
 
     // AOWControlWin.pas:407
-    public void Unit1ChkMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
+    public void Unit1ChkMouseDown(MouseButton button, ShiftStates shift, int X, int Y)
     {
         if (button == MouseButton.Right)
         {
@@ -292,16 +292,16 @@ public sealed partial class ControlWindow(UIContext ui) : UIModule(ui)
     {
         if (PartyGuardCheckBox.Checked)
         {
-            if (!UI.General.UnitList.UserMode.Contains(ArmyUserModeElement.Guard))
+            if (!UI.General.UnitList.UserMode.Contains(ArmyUserModes.Guard))
             {
-                UI.General.UnitList.UserMode = UI.General.UnitList.UserMode + Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard);
+                UI.General.UnitList.UserMode |= ArmyUserModes.Guard;
             }
         }
         else
         {
-            if (UI.General.UnitList.UserMode.Contains(ArmyUserModeElement.Guard))
+            if (UI.General.UnitList.UserMode.Contains(ArmyUserModes.Guard))
             {
-                UI.General.UnitList.UserMode = UI.General.UnitList.UserMode - Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard);
+                UI.General.UnitList.UserMode &= ~ArmyUserModes.Guard;
             }
         }
     }

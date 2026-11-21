@@ -52,7 +52,7 @@ public class MagicSanctuary : Structure
     // MagicSanctuary.pas:127
     public override void MakeVisible(VisibilityList visibilityList)
     {
-        if (!Status.Contains(MapObjectStatusElement.Visible))
+        if (!Status.Contains(MapObjectStatuses.Visible))
         {
             base.MakeVisible(visibilityList);
             _overlayHexSprite.MakeVisible(visibilityList);
