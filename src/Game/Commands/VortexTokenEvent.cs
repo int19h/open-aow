@@ -60,7 +60,7 @@ public class VortexTokenEvent(CustomNode owner) : GlobalTargetSpellTokenEvent(ow
             Animation animation = new(null) { Holder = CreationHolder() };
             _animation = animation;
             animation.AnimationLevel = 27;
-            animation.OnShow += ShowAnimation;
+            animation.SetShowHandler(ShowAnimation);
             animation.AnimationMap = StrategicMap.Current;
             animation.Tag = (StrategicMap.Current.ViewWidth & 0xFFFF) | (StrategicMap.Current.ViewHeight << 16);
             animation.Activate();

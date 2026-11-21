@@ -27,14 +27,12 @@ public sealed class GraphicsBoundaryTests
         Assert.Equal("X", Cp1252.Decode(((ReadOnlySpan<byte>)image).Slice(1, length: ((ReadOnlySpan<byte>)image)[0]).ToArray()));
     }
 
-    private delegate void OtherNotify(object sender);
-
     [Fact]
     public void ProceduralCastsPreserveMethodIdentity()
     {
         int count = 0;
         NotifyEvent<object> original = _ => count++;
-        OtherNotify converted = DelegateRoutines.RebindDelegate<OtherNotify>(original)!;
+        Action<object> converted = DelegateRoutines.RebindDelegate<Action<object>>(original)!;
         Assert.Same(original.Target, converted.Target);
         Assert.Equal(original.Method, converted.Method);
         converted(new object());

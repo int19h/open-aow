@@ -25,11 +25,9 @@ public class ItemList(CustomNode owner) : ObservableNode(owner), IChildList<Item
 
     int IChildSink<Item>.AddChild(Item child) => AddChild(child);
 
-    public event NotifyEvent<object> OnChanged;
+    private NotifyEvent<object> _changed;
 
-    internal void SetChangedHandler(NotifyEvent<object> handler) => OnChanged = handler;
-
-    internal void ClearChangedHandler() => OnChanged = null;
+    internal void SetChangedHandler(NotifyEvent<object> handler) => _changed = handler;
 
     public override void MainPersist(IPersister persister)
     {
@@ -107,7 +105,7 @@ public class ItemList(CustomNode owner) : ObservableNode(owner), IChildList<Item
     protected override void OnChange()
     {
         base.OnChange();
-        OnChanged?.Invoke(this);
+        _changed?.Invoke(this);
     }
 
     // Army.PAS:4587

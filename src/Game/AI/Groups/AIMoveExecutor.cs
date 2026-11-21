@@ -48,11 +48,9 @@ public sealed class AIMoveExecutor : EngineObject
     [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Construction snapshots record this field, and the Delphi field is only written.")]
     private int _processCycles;
 
-    public event DoneEvent OnDone;
+    private Action<object> _done;
 
-    internal void SetDoneHandler(DoneEvent handler) => OnDone = handler;
-
-    internal void ClearDoneHandler() => OnDone = null;
+    internal void SetDoneHandler(Action<object> handler) => _done = handler;
 
     // AIGroup.pas:5985
     public override void Dispose()
@@ -191,7 +189,7 @@ public sealed class AIMoveExecutor : EngineObject
     {
         Status = AIMoveExecutorStatus.Invalidated;
         UpdateMoveResult();
-        OnDone?.Invoke(this);
+        _done?.Invoke(this);
     }
 
     // AIGroup.pas:6084
@@ -200,7 +198,7 @@ public sealed class AIMoveExecutor : EngineObject
         Clear();
         Status = AIMoveExecutorStatus.Idle;
         State = 0;
-        OnDone = null;
+        _done = null;
         ControlQueue.Clear();
         _player = -1;
         MovePointsMax = 200;
@@ -470,7 +468,7 @@ public sealed class AIMoveExecutor : EngineObject
             UpdateMoveResult();
             try
             {
-                OnDone?.Invoke(this);
+                _done?.Invoke(this);
             }
             catch
             {
@@ -600,8 +598,6 @@ public sealed class AIMoveExecutor : EngineObject
 
         return started;
     }
-
-    public delegate void DoneEvent(object Sender);
 }
 
 public enum AIMoveExecutorStatus : byte

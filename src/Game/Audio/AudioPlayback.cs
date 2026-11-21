@@ -183,7 +183,7 @@ public static class AudioPlayback
         return result;
     }
 
-    public static Sample PlaySample(string name, int volume, bool looped, int delay, SamplePanning panning, SampleCallBack callback)
+    public static Sample PlaySample(string name, int volume, bool looped, int delay, SamplePanning panning, Action<Sample, SampleCallbackMode> callback)
     {
         Sample result;
         if (AudioHost.SoundSystem is not null && AudioHost.SoundSystem.SfxEnabled)

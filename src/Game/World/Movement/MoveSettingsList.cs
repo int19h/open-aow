@@ -58,7 +58,7 @@ public sealed class MoveSettingsList(CustomNode owner) : OwningNode(owner), IChi
     }
 
     // Structur.PAS:4075
-    public void CalculateMovePositions(ValidateMovePositionProc validate)
+    public void CalculateMovePositions(Func<MoveSettingsList, int, bool> validate)
     {
         for (int i = GetCount() - 1; i >= 0; i--)
         {
@@ -101,6 +101,4 @@ public sealed class MoveSettingsList(CustomNode owner) : OwningNode(owner), IChi
             index = GetNoneValidMove();
         }
     }
-
-    public delegate bool ValidateMovePositionProc(MoveSettingsList Moves, int Index);
 }

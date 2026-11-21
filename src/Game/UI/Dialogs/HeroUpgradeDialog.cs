@@ -52,7 +52,7 @@ public sealed partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
     public Label LevelLabel { get; private set; }
     public Label SkillPointsLabel { get; private set; }
 
-    private event ExecuteDoneEvent OnClose;
+    private ExecuteDoneEvent _close;
     private HeroUpgradeEventLog _referencedHero;
     private int _selectedSort;
     private int _availableSort;
@@ -62,9 +62,9 @@ public sealed partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
     // AoWHeroUpgradeDlg.pas:287
     public void ClearHero()
     {
-        ExecuteDoneEvent onClose = OnClose;
+        ExecuteDoneEvent onClose = _close;
         HeroUpgradeEventLog hero = _referencedHero;
-        OnClose = null;
+        _close = null;
         _referencedHero = null;
         onClose?.Invoke(hero);
 
@@ -548,7 +548,7 @@ public sealed partial class HeroUpgradeDialog(UIContext ui) : UIModule(ui)
     {
         dialog._referencedHero = eventValue;
         _ = dialog._referencedHero.AddRef();
-        dialog.OnClose = completed;
+        dialog._close = completed;
         if (dialog.ValidateHero())
         {
             dialog._editedHero = dialog._hero.Copy<Hero>(dialog.UI.Engine);

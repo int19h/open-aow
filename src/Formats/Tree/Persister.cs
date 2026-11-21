@@ -81,9 +81,6 @@ public interface IItemSlot
     IPersistable? Object(IPersistable? value);
 }
 
-/// <summary>Transfers one list item in either direction. It returns the item to keep.</summary>
-public delegate T ItemTransfer<T>(IItemSlot slot, T value);
-
 /// <summary>
 /// One symmetric serializer. A call names a member by its schema name and runs for both
 /// directions. A value call takes the value to save and returns the value loaded, or the same
@@ -278,5 +275,5 @@ public interface IPersister
 
     void Record(string name, Action<IPersister> body);
 
-    void List<T>(string name, IList<T> items, ItemTransfer<T> transfer);
+    void List<T>(string name, IList<T> items, Func<IItemSlot, T, T> transfer);
 }

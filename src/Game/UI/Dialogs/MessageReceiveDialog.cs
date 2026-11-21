@@ -17,15 +17,15 @@ public sealed partial class MessageReceiveDialog(UIContext ui) : UIModule(ui)
     public Image RightShield { get; private set; }
     public Memo HeaderMemo { get; private set; }
 
-    private event ExecuteDoneEvent Done;
+    private ExecuteDoneEvent _done;
     private EventLog _event;
 
     // AoWMsgReceiveDlg.pas:54
     public void FinishDialog()
     {
-        ExecuteDoneEvent done = Done;
+        ExecuteDoneEvent done = _done;
         EventLog log = _event;
-        Done = null;
+        _done = null;
         _event = null;
         done?.Invoke(log);
 
@@ -46,7 +46,7 @@ public sealed partial class MessageReceiveDialog(UIContext ui) : UIModule(ui)
     {
         dialog._event = eventValue;
         _ = dialog._event.AddRef();
-        dialog.Done = done;
+        dialog._done = done;
         string text = eventValue.GetText();
         dialog.HeaderMemo.Items.Text = text;
         string fMessageText = eventValue.Message.Text;

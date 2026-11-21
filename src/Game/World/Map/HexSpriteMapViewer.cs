@@ -39,8 +39,8 @@ public sealed class HexSpriteMapViewer : Component
     {
         if (_hexSpriteMap is not null)
         {
-            _hexSpriteMap.ClearCenterViewHandler();
-            _hexSpriteMap.ClearViewLevelHandler();
+            _hexSpriteMap.SetCenterViewHandler(null);
+            _hexSpriteMap.SetViewLevelHandler(null);
         }
 
         StaticSurface?.Dispose();

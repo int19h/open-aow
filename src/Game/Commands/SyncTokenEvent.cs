@@ -24,7 +24,7 @@ public class SyncTokenEvent(CustomNode owner) : TokenEvent(owner)
         ExecuteResult result = base.Execute(tokenEvent);
         if (tokenEvent.GetSyncValue() != SyncValue)
         {
-            tokenEvent.RaiseSyncError(tokenEvent);
+            tokenEvent.ReportSyncError(tokenEvent);
         }
 
         return result;

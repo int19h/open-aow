@@ -16,7 +16,9 @@ public sealed class TokenManager : IDisposable
     }
 
     private readonly List<TokenControl> _tokenControls;
-    public event NetworkMessageEvent OnMessage;
+    private Action<object, string> _message;
+
+    internal void SetMessageHandler(Action<object, string> handler) => _message = handler;
 
     // NetworkE.pas:1642
     public TokenExecutor CreateTokenExecutor() => new(this);
@@ -125,7 +127,7 @@ public sealed class TokenManager : IDisposable
     public TokenControl GetTokenControl(int player) => player < _tokenControls.Count ? _tokenControls[player] : null;
 
     // NetworkE.pas:1718
-    public void TriggerMessage(string message) => OnMessage?.Invoke(this, Msg: message);
+    public void ReportMessage(string message) => _message?.Invoke(this, message);
 
     public TokenExecutor TokenExecutor { get; }
     public TokenPackageDistributor TokenPackageDistributor { get; }
@@ -138,7 +140,4 @@ public sealed class TokenManager : IDisposable
     }
 
     public TokenControlsAccessor TokenControls => new(this);
-
-    public delegate void NetworkMessageEvent(object Sender, string Msg);
-
 }

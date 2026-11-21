@@ -7,8 +7,8 @@ namespace Aow.Engine.Collections;
 public struct SortStringsContext
 {
     public DelphiStringCollection Strings { get; set; }
-    public StringsSortCompare Compare { get; set; }
-    public ExchangeProc ExchangeProc { get; set; }
+    public Func<string, string, object, object, int> Compare { get; set; }
+    public Action<DelphiList<DelphiStringCollection>, int, int> ExchangeProc { get; set; }
     public DelphiList<DelphiStringCollection> ExchangeData { get; set; }
 
     internal static void QuickSortStrings(ref SortStringsContext context, int L, int R)

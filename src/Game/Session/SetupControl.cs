@@ -814,7 +814,7 @@ public sealed class SetupControl : Component
             }
 
             _ = StrategicMap.Current.PlayerCommunicator.ActivatePlayerCommunicationControl(remotePlayerCommunicationControl);
-            remotePlayerCommunicationControl.OnSendData += OnSendData;
+            remotePlayerCommunicationControl.SetSendDataHandler(OnSendData);
             ListPlayerCommunicationControlInfo(remotePlayerCommunicationControl);
             remotePlayerCommunicationControl.Release();
         }

@@ -36,9 +36,9 @@ public sealed class LibraryImageClass
 
     public static IReadOnlyList<LibraryImageClass> All => s_catalog.All;
 
-    public GraphicsResult GrabImages(in LockedSurface lockedSurface, GrabInfo grabInfo, CustomImageLibrary imageLibrary, GrabProgressEvent onProgress)
+    public GraphicsResult GrabImages(in LockedSurface lockedSurface, GrabInfo grabInfo, CustomImageLibrary imageLibrary, Action<object, int, string> onProgress)
     {
-        void Progress(int percent, string message) => onProgress?.Invoke(null, percent, Msg: message);
+        void Progress(int percent, string message) => onProgress?.Invoke(null, percent, message);
 
         Progress(10, message: "Analyzing Image..");
         LibraryImageClass imageClass = LibraryCatalog.FindLibraryImageClass(ClassId);
@@ -91,7 +91,7 @@ public sealed class LibraryImageClass
         return result;
     }
 
-    internal static RectangleList GetSurfaceRectangles(LockedSurface lockedSurface, int transparentColor, ProgressEvent onProgress)
+    internal static RectangleList GetSurfaceRectangles(LockedSurface lockedSurface, int transparentColor, Action<object, int, int> onProgress)
     {
         RectangleList rectangleList = new();
         int i = 0;
@@ -113,7 +113,7 @@ public sealed class LibraryImageClass
             }
             if (onProgress is not null && (number2 % 20 == 0 || number2 == lockedSurface.Height - 1))
             {
-                onProgress(null, Percent: DelphiRounding.Round(number2 * 100 / (double)(lockedSurface.Height - 1)), Param: 0);
+                onProgress(null, DelphiRounding.Round(number2 * 100 / (double)(lockedSurface.Height - 1)), 0);
             }
         }
         if (rectangleList.Count == 0)
@@ -183,6 +183,4 @@ public sealed class LibraryImageClass
             }
         }
     }
-
-    public delegate void GrabProgressEvent(object Sender, int Percent, string Msg);
 }

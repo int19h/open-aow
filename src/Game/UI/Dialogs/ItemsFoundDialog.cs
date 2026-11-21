@@ -27,7 +27,7 @@ public sealed partial class ItemsFoundDialog(UIContext ui) : UIModule(ui)
     public Button RightButton { get; private set; }
 
     private int _itemOffset;
-    private event ExecuteDoneEvent OnDone;
+    private ExecuteDoneEvent _done;
     private ItemExplorationSiteEventLog _event;
 
     // AoWItemsFoundDlg.pas:80
@@ -49,9 +49,9 @@ public sealed partial class ItemsFoundDialog(UIContext ui) : UIModule(ui)
     public void Finish()
     {
         Window.Visible = false;
-        ExecuteDoneEvent done = OnDone;
+        ExecuteDoneEvent done = _done;
         ItemExplorationSiteEventLog eventValue = _event;
-        OnDone = null;
+        _done = null;
         _event = null;
         done?.Invoke(eventValue);
 
@@ -168,7 +168,7 @@ public sealed partial class ItemsFoundDialog(UIContext ui) : UIModule(ui)
     internal static void ShowItemsFound(ItemsFoundDialog dialog, ItemExplorationSiteEventLog eventValue, ExecuteDoneEvent done)
     {
         dialog.Reset();
-        dialog.OnDone = done;
+        dialog._done = done;
         dialog._event = eventValue;
         _ = dialog._event.AddRef();
         ItemExplorationSiteEventLog log = dialog._event;

@@ -25,7 +25,7 @@ public sealed partial class NewTurnDialog(UIContext ui) : UIModule(ui)
     public Label TurnLabel { get; private set; }
     public Image RightShield { get; private set; }
 
-    private event ExecuteDoneEvent Done;
+    private ExecuteDoneEvent _done;
     private NewTurnEventLog _newTurn;
 
     // AoWNewTurnDialog.pas:50
@@ -41,9 +41,9 @@ public sealed partial class NewTurnDialog(UIContext ui) : UIModule(ui)
             }
         }
 
-        ExecuteDoneEvent done = Done;
+        ExecuteDoneEvent done = _done;
         NewTurnEventLog eventValue = _newTurn;
-        Done = null;
+        _done = null;
         _newTurn = null;
         done?.Invoke(eventValue);
 
@@ -59,7 +59,7 @@ public sealed partial class NewTurnDialog(UIContext ui) : UIModule(ui)
                 _ = (_newTurn?.Release());
                 _newTurn = null;
 
-                Done = done;
+                _done = done;
                 _newTurn = eventValue;
                 _ = _newTurn.AddRef();
                 TurnMessageLabel.Text = eventValue.Text;

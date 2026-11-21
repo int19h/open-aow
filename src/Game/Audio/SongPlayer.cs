@@ -8,9 +8,9 @@ namespace Aow.Game.Audio;
 // FPauseCount. Plays the songs in turn (Update starts the next one)
 public sealed class SongPlayer : IDisposable
 {
-    public event NotifyEvent<SongPlayer> OnSongChange;
+    private NotifyEvent<SongPlayer> _songChange;
 
-    internal void SetSongChangeHandler(NotifyEvent<SongPlayer> handler) => OnSongChange = handler;
+    internal void SetSongChangeHandler(NotifyEvent<SongPlayer> handler) => _songChange = handler;
 
     private SongStatus _backup;
     private int _pauseCount;
@@ -122,7 +122,7 @@ public sealed class SongPlayer : IDisposable
             {
                 CurrentIndex = index;
                 CurrentSong = Songs[index];
-                OnSongChange?.Invoke(this);
+                _songChange?.Invoke(this);
             }
             else
             {
@@ -151,7 +151,7 @@ public sealed class SongPlayer : IDisposable
             {
                 CurrentIndex = index;
                 CurrentSong = Songs[index];
-                OnSongChange?.Invoke(this);
+                _songChange?.Invoke(this);
             }
             else
             {

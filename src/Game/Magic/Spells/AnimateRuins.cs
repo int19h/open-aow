@@ -58,7 +58,7 @@ public class AnimateRuins : CityTargetSpell
                 a.SetImageSequence(targetCity.Resource.ImageSequenceList.ImageSequences[20]);
                 a.SetPixelXOffset(a.PixelXOffset - 16);
                 a.SetPixelYOffset(a.PixelYOffset - 16);
-                a.OnShow += ShowAnimation;
+                a.SetShowHandler(ShowAnimation);
                 sbyte hexLevel2 = targetCity.HexLevel;
                 sbyte hexY2 = targetCity.HexY;
                 sbyte targetCityHexX = targetCity.HexX;

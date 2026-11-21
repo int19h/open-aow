@@ -22,7 +22,7 @@ public class LeaderSetupControl : EngineObject
         Leader = new Leader(null) { Holder = CreationHolder() };
         _refCount = 1;
         Mode = Set<LeaderSetupModeElement>.Of(LeaderSetupModeElement.Look, LeaderSetupModeElement.Settings, LeaderSetupModeElement.Spheres);
-        OnDone = null;
+        _done = null;
     }
 
     private int _refCount;
@@ -33,7 +33,9 @@ public class LeaderSetupControl : EngineObject
     public Int32List Items { get; }
     public LeaderSetupStatus Status { get; set; }
 
-    public event NotifyEvent<LeaderSetupControl> OnDone;
+    private NotifyEvent<LeaderSetupControl> _done;
+
+    internal void SetDoneHandler(NotifyEvent<LeaderSetupControl> handler) => _done = handler;
 
     // Player.PAS:1766
     public override void Dispose()
@@ -67,7 +69,7 @@ public class LeaderSetupControl : EngineObject
     // Player.PAS:1787
     public virtual bool Done()
     {
-        OnDone?.Invoke(this);
+        _done?.Invoke(this);
 
         return true;
     }

@@ -302,7 +302,7 @@ public partial class GameEngine : OwningNode
     // Engine.pas:8947
     // rwCreateEObject at id 0. The original backend writes the object in its engine table, inside
     // the outer table, with the class id in front. A failure of the root stores an empty table.
-    public void StoreEngineObject(Stream stream, EngineObject objectValue, Engine.ProgressEvent progress)
+    public void StoreEngineObject(Stream stream, EngineObject objectValue, ProgressEvent progress)
     {
         if (objectValue is null || objectValue.EngineClass.ClassId == 0)
         {
@@ -326,7 +326,7 @@ public partial class GameEngine : OwningNode
     // Engine.pas:8960
     // The class id selects the class the engine table holds, and the original backend reads the
     // object. Class id 0 and an empty table return nil. A failure of the object returns nil.
-    public EngineObject RetrieveEngineObject(Stream stream, Engine.ProgressEvent progress)
+    public EngineObject RetrieveEngineObject(Stream stream, ProgressEvent progress)
     {
         int count = checked((int)(stream.Length - stream.Position));
         byte[] image = new byte[count];
@@ -346,24 +346,24 @@ public partial class GameEngine : OwningNode
     // Engine.pas:8973
     // The file goes through the game's file boundary with the caller's profile. A refused
     // preflight raises EGameFileError before an object is created (own-formats.md 4.1).
-    public EngineObject RetrieveFromFile(string fileName, Engine.ProgressEvent progress, GameProfile profile) => RetrieveFromTree(FileBoundary.OpenOrRaise(fileName, profile: profile), progress: progress);
+    public EngineObject RetrieveFromFile(string fileName, ProgressEvent progress, GameProfile profile) => RetrieveFromTree(FileBoundary.OpenOrRaise(fileName, profile: profile), progress: progress);
 
     // Retrieves the object of a tree whose preflight has passed, as RetrieveEObject retrieves the
     // object of a stream: the stored class is created and loaded, and a failure gives nil.
-    public EngineObject RetrieveFromTree(GameFileTree tree, Engine.ProgressEvent progress) => (EngineObject)TreeReader.ReadCreated(tree.Root, className: tree.ClassName, factory: new EnginePersistableFactory(this, progress: progress));
+    public EngineObject RetrieveFromTree(GameFileTree tree, ProgressEvent progress) => (EngineObject)TreeReader.ReadCreated(tree.Root, className: tree.ClassName, factory: new EnginePersistableFactory(this, progress: progress));
 
     // The stored class is the caller's class. An object of another class throws, the same way the call site did.
-    public T RetrieveFromTree<T>(GameFileTree tree, Engine.ProgressEvent progress) where T : EngineObject => (T)RetrieveFromTree(tree, progress: progress);
+    public T RetrieveFromTree<T>(GameFileTree tree, ProgressEvent progress) where T : EngineObject => (T)RetrieveFromTree(tree, progress: progress);
 
     // Loads the tree of a prepared file into an object the caller holds, as ReadEObject loads a
     // stream (persistence-tree.md 6 and 7). A failure of the object goes to the error handler as
     // rwEObject passes it to OnError. No handler continues.
-    public void ReadTree(GameFileTree tree, EngineObject objectValue, Engine.ProgressEvent progress, bool preview = false, LoadErrorHandler onError = null) => TreeReader.ReadObject(tree.Root, objectValue: objectValue, factory: new EnginePersistableFactory(this, progress: progress), onError: onError, preview: preview);
+    public void ReadTree(GameFileTree tree, EngineObject objectValue, ProgressEvent progress, bool preview = false, LoadErrorHandler onError = null) => TreeReader.ReadObject(tree.Root, objectValue: objectValue, factory: new EnginePersistableFactory(this, progress: progress), onError: onError, preview: preview);
 
     // Engine.pas:8985
     // The tree of the object goes to the file boundary, which converts, validates and replaces the
     // file only after the whole document is serialized.
-    public void StoreInFile(string fileName, EngineObject objectValue, Engine.ProgressEvent progress, GameProfile profile) => FileBoundary.Save(fileName, profile: profile, root: objectValue, progress: progress);
+    public void StoreInFile(string fileName, EngineObject objectValue, ProgressEvent progress, GameProfile profile) => FileBoundary.Save(fileName, profile: profile, root: objectValue, progress: progress);
 
     // An engine image in a memory stream at position 0, for the routines that read it.
     public static MemoryStream ImageStream(byte[] image)
@@ -376,16 +376,16 @@ public partial class GameEngine : OwningNode
 
     // The in-scope form of WriteToFile for the hero and item lists (own-formats.md 4.1). The
     // three-argument form below stays the original byte path of the excluded PFS callers.
-    public void WriteToFile(string fileName, EngineObject objectValue, Engine.ProgressEvent progress, GameProfile profile) => FileBoundary.Save(fileName, profile: profile, root: objectValue, progress: progress);
+    public void WriteToFile(string fileName, EngineObject objectValue, ProgressEvent progress, GameProfile profile) => FileBoundary.Save(fileName, profile: profile, root: objectValue, progress: progress);
 
     // The in-scope form of ReadFromFile. A refused preflight raises before Obj is read.
-    public void ReadFromFile(string fileName, EngineObject objectValue, Engine.ProgressEvent progress, GameProfile profile) => ReadTree(FileBoundary.OpenOrRaise(fileName, profile: profile), objectValue: objectValue, progress: progress);
+    public void ReadFromFile(string fileName, EngineObject objectValue, ProgressEvent progress, GameProfile profile) => ReadTree(FileBoundary.OpenOrRaise(fileName, profile: profile), objectValue: objectValue, progress: progress);
 
     // Engine.pas:8997
     // The original image of the object goes to the file: the tree through the original backend,
     // as WriteEObject wrote it (persistence-tree.md 13). The system hero and item libraries and
     // the e-mail game index stay original files.
-    public void WriteToFile(string fileName, EngineObject objectValue, Engine.ProgressEvent progress)
+    public void WriteToFile(string fileName, EngineObject objectValue, ProgressEvent progress)
     {
         byte[] image = WriteObjectImage(objectValue, progress: progress, classTable: "game");
         Stream f = OpenFile(fileName, mode: FileOpenMode.Create);
@@ -400,7 +400,7 @@ public partial class GameEngine : OwningNode
     }
 
     // Engine.pas:9017
-    public void ReadFromFile(string fileName, EngineObject objectValue, Engine.ProgressEvent progress)
+    public void ReadFromFile(string fileName, EngineObject objectValue, ProgressEvent progress)
     {
         MemoryStream m = new();
         Stream f = OpenFile(fileName, mode: FileOpenMode.Read | FileOpenMode.ShareDenyWrite);
@@ -426,7 +426,7 @@ public partial class GameEngine : OwningNode
     // Engine.pas:9037
     // A game set file: the object image between two CRC words. classTable names the engine table
     // of the classes the file holds ("tactical" for the combat resources).
-    public void WriteToFileCrc(string fileName, EngineObject objectValue, Engine.ProgressEvent progress, string classTable = "game")
+    public void WriteToFileCrc(string fileName, EngineObject objectValue, ProgressEvent progress, string classTable = "game")
     {
         MemoryStream m = new();
         try
@@ -453,7 +453,7 @@ public partial class GameEngine : OwningNode
     }
 
     // Engine.pas:9061
-    public bool ReadFromFileCrc(string fileName, EngineObject objectValue, Engine.ProgressEvent progress, string classTable = "game")
+    public bool ReadFromFileCrc(string fileName, EngineObject objectValue, ProgressEvent progress, string classTable = "game")
     {
         MemoryStream m = new();
         Stream f = OpenFile(fileName, mode: FileOpenMode.Read | FileOpenMode.ShareDenyWrite);
@@ -493,7 +493,7 @@ public partial class GameEngine : OwningNode
     // The image TEngine.WriteEObject writes for an object (Engine.pas:8895): the tree of the object
     // through the original backend under its class, inside the outer table of id 0. classTable
     // names the engine table of the class ids of the created objects inside.
-    public byte[] WriteObjectImage(EngineObject objectValue, Engine.ProgressEvent progress, string classTable)
+    public byte[] WriteObjectImage(EngineObject objectValue, ProgressEvent progress, string classTable)
     {
         EnginePersistableFactory factory = new(this, progress: progress);
         return GameBoundary.WriteWrittenObject(TreeWriter.Write(objectValue, factory: factory), className: factory.ClassName(objectValue), classTable: classTable);
@@ -503,7 +503,7 @@ public partial class GameEngine : OwningNode
     // reads the root under the class of the object, and the tree loads into the object. A failure
     // of the object goes to the load's handler as rwEObject passes it to OnError, and no handler
     // continues.
-    public void ReadObjectImage(byte[] image, EngineObject objectValue, Engine.ProgressEvent progress, string classTable)
+    public void ReadObjectImage(byte[] image, EngineObject objectValue, ProgressEvent progress, string classTable)
     {
         EnginePersistableFactory factory = new(this, progress: progress);
         TreeReader.ReadObject(GameBoundary.ReadWrittenObject(image, className: factory.ClassName(objectValue), classTable: classTable), objectValue: objectValue, factory: factory);

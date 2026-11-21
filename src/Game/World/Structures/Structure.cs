@@ -748,7 +748,7 @@ public partial class Structure(CustomNode owner) : FixedImageLibraryTerrainMapOb
                 animation.SetImageSequence(Resource.ImageSequenceList.GetImageSequence(20));
                 animation.SetPixelXOffset(animation.PixelXOffset - 16);
                 animation.SetPixelYOffset(animation.PixelYOffset - 16);
-                animation.OnShow += ShowRazeAnimation;
+                animation.SetShowHandler(ShowRazeAnimation);
                 sbyte hexLevel3 = HexLevel;
                 sbyte hexY3 = HexY;
                 sbyte hexX = HexX;

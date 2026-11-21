@@ -38,7 +38,7 @@ public partial class MoveControl
             do
             {
                 next = NeighborField(field, direction);
-                points = OnMovePoint(next, MoveOverCode: over);
+                points = _movePoint(next, over);
                 nextOver = 1;
                 if (points >= 0 && (next.FieldFlags & MapField.MoveOverFlag) != 0 &&
                     (next.HexX != Destination.X || next.HexY != Destination.Y))

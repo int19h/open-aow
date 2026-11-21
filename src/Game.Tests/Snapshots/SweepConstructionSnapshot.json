@@ -549,7 +549,7 @@
         ]
       ],
       "MoveControl.MovePointsLimit": 0,
-      "MoveControl.OnMovePoint": null,
+      "MoveControl._movePoint": null,
       "MoveControl.Player": 0,
       "MoveControl.Selection": 0,
       "MoveControl.Settings": null,
@@ -2218,8 +2218,8 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "Animation.OnNewFrame": null,
-            "Animation.OnShow": null,
+            "Animation._newFrame": null,
+            "Animation._show": null,
             "Animation.Tag": 0,
             "Animation._state": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation\u002BStateElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -2261,8 +2261,8 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "Animation.OnNewFrame": null,
-            "Animation.OnShow": null,
+            "Animation._newFrame": null,
+            "Animation._show": null,
             "Animation.Tag": 0,
             "Animation._state": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation\u002BStateElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -2300,8 +2300,8 @@
                 "MapCoordinate.X": 0,
                 "MapCoordinate.Y": 0
               },
-              "Animation.OnNewFrame": null,
-              "Animation.OnShow": null,
+              "Animation._newFrame": null,
+              "Animation._show": null,
               "Animation.Tag": 0,
               "Animation._state": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation\u002BStateElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -2343,8 +2343,8 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "Animation.OnNewFrame": null,
-            "Animation.OnShow": null,
+            "Animation._newFrame": null,
+            "Animation._show": null,
             "Animation.Tag": 0,
             "Animation._state": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation\u002BStateElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -2388,8 +2388,8 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "Animation.OnNewFrame": null,
-            "Animation.OnShow": null,
+            "Animation._newFrame": null,
+            "Animation._show": null,
             "Animation.Tag": 0,
             "Animation._state": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation\u002BStateElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -2429,8 +2429,8 @@
                 "MapCoordinate.X": 0,
                 "MapCoordinate.Y": 0
               },
-              "Animation.OnNewFrame": null,
-              "Animation.OnShow": null,
+              "Animation._newFrame": null,
+              "Animation._show": null,
               "Animation.Tag": 0,
               "Animation._state": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation\u002BStateElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -2474,8 +2474,8 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "Animation.OnNewFrame": null,
-            "Animation.OnShow": null,
+            "Animation._newFrame": null,
+            "Animation._show": null,
             "Animation.Tag": 0,
             "Animation._state": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation\u002BStateElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -2517,8 +2517,8 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "Animation.OnNewFrame": null,
-            "Animation.OnShow": null,
+            "Animation._newFrame": null,
+            "Animation._show": null,
             "Animation.Tag": 0,
             "Animation._state": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation\u002BStateElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -2556,8 +2556,8 @@
                 "MapCoordinate.X": 0,
                 "MapCoordinate.Y": 0
               },
-              "Animation.OnNewFrame": null,
-              "Animation.OnShow": null,
+              "Animation._newFrame": null,
+              "Animation._show": null,
               "Animation.Tag": 0,
               "Animation._state": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation\u002BStateElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -2599,8 +2599,8 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "Animation.OnNewFrame": null,
-            "Animation.OnShow": null,
+            "Animation._newFrame": null,
+            "Animation._show": null,
             "Animation.Tag": 0,
             "Animation._state": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation\u002BStateElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -2644,8 +2644,8 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "Animation.OnNewFrame": null,
-            "Animation.OnShow": null,
+            "Animation._newFrame": null,
+            "Animation._show": null,
             "Animation.Tag": 0,
             "Animation._state": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation\u002BStateElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -2685,8 +2685,8 @@
                 "MapCoordinate.X": 0,
                 "MapCoordinate.Y": 0
               },
-              "Animation.OnNewFrame": null,
-              "Animation.OnShow": null,
+              "Animation._newFrame": null,
+              "Animation._show": null,
               "Animation.Tag": 0,
               "Animation._state": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation\u002BStateElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -2730,8 +2730,8 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "Animation.OnNewFrame": null,
-            "Animation.OnShow": null,
+            "Animation._newFrame": null,
+            "Animation._show": null,
             "Animation.Tag": 0,
             "Animation._state": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation\u002BStateElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -2775,8 +2775,8 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "Animation.OnNewFrame": null,
-            "Animation.OnShow": null,
+            "Animation._newFrame": null,
+            "Animation._show": null,
             "Animation.Tag": 0,
             "Animation._state": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation\u002BStateElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -2816,8 +2816,8 @@
                 "MapCoordinate.X": 0,
                 "MapCoordinate.Y": 0
               },
-              "Animation.OnNewFrame": null,
-              "Animation.OnShow": null,
+              "Animation._newFrame": null,
+              "Animation._show": null,
               "Animation.Tag": 0,
               "Animation._state": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation\u002BStateElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -2861,8 +2861,8 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "Animation.OnNewFrame": null,
-            "Animation.OnShow": null,
+            "Animation._newFrame": null,
+            "Animation._show": null,
             "Animation.Tag": 0,
             "Animation._state": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation\u002BStateElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -2905,8 +2905,8 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "Animation.OnNewFrame": null,
-            "Animation.OnShow": null,
+            "Animation._newFrame": null,
+            "Animation._show": null,
             "Animation.Tag": 0,
             "Animation._state": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation\u002BStateElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -2945,8 +2945,8 @@
                 "MapCoordinate.X": 0,
                 "MapCoordinate.Y": 0
               },
-              "Animation.OnNewFrame": null,
-              "Animation.OnShow": null,
+              "Animation._newFrame": null,
+              "Animation._show": null,
               "Animation.Tag": 0,
               "Animation._state": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation\u002BStateElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -2989,8 +2989,8 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "Animation.OnNewFrame": null,
-            "Animation.OnShow": null,
+            "Animation._newFrame": null,
+            "Animation._show": null,
             "Animation.Tag": 0,
             "Animation._state": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation\u002BStateElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3034,8 +3034,8 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "Animation.OnNewFrame": null,
-            "Animation.OnShow": null,
+            "Animation._newFrame": null,
+            "Animation._show": null,
             "Animation.Tag": 0,
             "Animation._state": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation\u002BStateElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3075,8 +3075,8 @@
                 "MapCoordinate.X": 0,
                 "MapCoordinate.Y": 0
               },
-              "Animation.OnNewFrame": null,
-              "Animation.OnShow": null,
+              "Animation._newFrame": null,
+              "Animation._show": null,
               "Animation.Tag": 0,
               "Animation._state": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation\u002BStateElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3120,8 +3120,8 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "Animation.OnNewFrame": null,
-            "Animation.OnShow": null,
+            "Animation._newFrame": null,
+            "Animation._show": null,
             "Animation.Tag": 0,
             "Animation._state": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation\u002BStateElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3168,8 +3168,8 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "Animation.OnNewFrame": null,
-            "Animation.OnShow": null,
+            "Animation._newFrame": null,
+            "Animation._show": null,
             "Animation.Tag": 0,
             "Animation._state": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation\u002BStateElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3212,8 +3212,8 @@
                 "MapCoordinate.X": 0,
                 "MapCoordinate.Y": 0
               },
-              "Animation.OnNewFrame": null,
-              "Animation.OnShow": null,
+              "Animation._newFrame": null,
+              "Animation._show": null,
               "Animation.Tag": 0,
               "Animation._state": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation\u002BStateElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3260,8 +3260,8 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "Animation.OnNewFrame": null,
-            "Animation.OnShow": null,
+            "Animation._newFrame": null,
+            "Animation._show": null,
             "Animation.Tag": 0,
             "Animation._state": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation\u002BStateElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3305,8 +3305,8 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "Animation.OnNewFrame": null,
-            "Animation.OnShow": null,
+            "Animation._newFrame": null,
+            "Animation._show": null,
             "Animation.Tag": 0,
             "Animation._state": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation\u002BStateElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3346,8 +3346,8 @@
                 "MapCoordinate.X": 0,
                 "MapCoordinate.Y": 0
               },
-              "Animation.OnNewFrame": null,
-              "Animation.OnShow": null,
+              "Animation._newFrame": null,
+              "Animation._show": null,
               "Animation.Tag": 0,
               "Animation._state": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation\u002BStateElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3391,8 +3391,8 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "Animation.OnNewFrame": null,
-            "Animation.OnShow": null,
+            "Animation._newFrame": null,
+            "Animation._show": null,
             "Animation.Tag": 0,
             "Animation._state": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation\u002BStateElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3436,8 +3436,8 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "Animation.OnNewFrame": null,
-            "Animation.OnShow": null,
+            "Animation._newFrame": null,
+            "Animation._show": null,
             "Animation.Tag": 0,
             "Animation._state": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation\u002BStateElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3477,8 +3477,8 @@
                 "MapCoordinate.X": 0,
                 "MapCoordinate.Y": 0
               },
-              "Animation.OnNewFrame": null,
-              "Animation.OnShow": null,
+              "Animation._newFrame": null,
+              "Animation._show": null,
               "Animation.Tag": 0,
               "Animation._state": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation\u002BStateElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3522,8 +3522,8 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "Animation.OnNewFrame": null,
-            "Animation.OnShow": null,
+            "Animation._newFrame": null,
+            "Animation._show": null,
             "Animation.Tag": 0,
             "Animation._state": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation\u002BStateElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3565,8 +3565,8 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "Animation.OnNewFrame": null,
-            "Animation.OnShow": null,
+            "Animation._newFrame": null,
+            "Animation._show": null,
             "Animation.Tag": 0,
             "Animation._state": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation\u002BStateElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3604,8 +3604,8 @@
                 "MapCoordinate.X": 0,
                 "MapCoordinate.Y": 0
               },
-              "Animation.OnNewFrame": null,
-              "Animation.OnShow": null,
+              "Animation._newFrame": null,
+              "Animation._show": null,
               "Animation.Tag": 0,
               "Animation._state": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation\u002BStateElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3647,8 +3647,8 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "Animation.OnNewFrame": null,
-            "Animation.OnShow": null,
+            "Animation._newFrame": null,
+            "Animation._show": null,
             "Animation.Tag": 0,
             "Animation._state": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation\u002BStateElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3691,8 +3691,8 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "Animation.OnNewFrame": null,
-            "Animation.OnShow": null,
+            "Animation._newFrame": null,
+            "Animation._show": null,
             "Animation.Tag": 0,
             "Animation._state": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation\u002BStateElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3731,8 +3731,8 @@
                 "MapCoordinate.X": 0,
                 "MapCoordinate.Y": 0
               },
-              "Animation.OnNewFrame": null,
-              "Animation.OnShow": null,
+              "Animation._newFrame": null,
+              "Animation._show": null,
               "Animation.Tag": 0,
               "Animation._state": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation\u002BStateElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3775,8 +3775,8 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "Animation.OnNewFrame": null,
-            "Animation.OnShow": null,
+            "Animation._newFrame": null,
+            "Animation._show": null,
             "Animation.Tag": 0,
             "Animation._state": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation\u002BStateElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3833,8 +3833,8 @@
               "MapCoordinate.X": 0,
               "MapCoordinate.Y": 0
             },
-            "Animation.OnNewFrame": null,
-            "Animation.OnShow": null,
+            "Animation._newFrame": null,
+            "Animation._show": null,
             "Animation.Tag": 0,
             "Animation._state": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation\u002BStateElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3887,8 +3887,8 @@
                 "MapCoordinate.X": 0,
                 "MapCoordinate.Y": 0
               },
-              "Animation.OnNewFrame": null,
-              "Animation.OnShow": null,
+              "Animation._newFrame": null,
+              "Animation._show": null,
               "Animation.Tag": 0,
               "Animation._state": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Draw.Animations.Animation\u002BStateElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -4330,7 +4330,7 @@
               "$type": "Aow.Game.Units.ItemHSList",
               "EngineObject._owner": null,
               "ItemHSList.Sprite": "$ref:$",
-              "ItemList.OnChanged": [
+              "ItemList._changed": [
                 "Aow.Game.Draw.ItemHexSprite.ItemsChanged"
               ],
               "ObservableNode.CollectionChanged": null,
@@ -4361,7 +4361,7 @@
               "$type": "Aow.Game.Units.ItemHSList",
               "EngineObject._owner": null,
               "ItemHSList.Sprite": "$ref:$",
-              "ItemList.OnChanged": [
+              "ItemList._changed": [
                 "Aow.Game.Draw.ItemHexSprite.ItemsChanged"
               ],
               "ObservableNode.CollectionChanged": null,
@@ -4774,7 +4774,7 @@
               "$type": "Aow.Game.Units.ItemHSList",
               "EngineObject._owner": null,
               "ItemHSList.Sprite": "$ref:$",
-              "ItemList.OnChanged": [
+              "ItemList._changed": [
                 "Aow.Game.Draw.ItemHexSprite.ItemsChanged"
               ],
               "ObservableNode.CollectionChanged": null,
@@ -4806,7 +4806,7 @@
               "$type": "Aow.Game.Units.ItemHSList",
               "EngineObject._owner": null,
               "ItemHSList.Sprite": "$ref:$",
-              "ItemList.OnChanged": [
+              "ItemList._changed": [
                 "Aow.Game.Draw.ItemHexSprite.ItemsChanged"
               ],
               "ObservableNode.CollectionChanged": null,
@@ -21499,7 +21499,7 @@
                 "Set\u00601.low": 0
               },
               "Army.OldAIBehavior": 0,
-              "Army.OnUpdate": null,
+              "Army._update": null,
               "Army.Player": 0,
               "Army.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -21540,7 +21540,7 @@
             "ItemExplorationSite._items": {
               "$type": "Aow.Game.Units.ExplorationSiteItemList",
               "EngineObject._owner": null,
-              "ItemList.OnChanged": null,
+              "ItemList._changed": null,
               "ObservableNode.CollectionChanged": null,
               "ObservableNode.UpdateCount": 0,
               "ObservableNode._children": {
@@ -21611,7 +21611,7 @@
                 "Set\u00601.low": 0
               },
               "Army.OldAIBehavior": 0,
-              "Army.OnUpdate": null,
+              "Army._update": null,
               "Army.Player": 0,
               "Army.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -21652,7 +21652,7 @@
             "ItemExplorationSite._items": {
               "$type": "Aow.Game.Units.ExplorationSiteItemList",
               "EngineObject._owner": null,
-              "ItemList.OnChanged": null,
+              "ItemList._changed": null,
               "ObservableNode.CollectionChanged": null,
               "ObservableNode.UpdateCount": 0,
               "ObservableNode._children": {
@@ -22701,7 +22701,7 @@
                 "Set\u00601.low": 0
               },
               "Army.OldAIBehavior": 0,
-              "Army.OnUpdate": null,
+              "Army._update": null,
               "Army.Player": 0,
               "Army.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -22737,7 +22737,7 @@
               "PrisonersArmy.Items": {
                 "$type": "Aow.Game.Units.ItemList",
                 "EngineObject._owner": null,
-                "ItemList.OnChanged": null,
+                "ItemList._changed": null,
                 "ObservableNode.CollectionChanged": null,
                 "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
@@ -22776,7 +22776,7 @@
                 "Set\u00601.low": 0
               },
               "Army.OldAIBehavior": 0,
-              "Army.OnUpdate": null,
+              "Army._update": null,
               "Army.Player": 0,
               "Army.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -22874,7 +22874,7 @@
                 "Set\u00601.low": 0
               },
               "Army.OldAIBehavior": 0,
-              "Army.OnUpdate": null,
+              "Army._update": null,
               "Army.Player": 0,
               "Army.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -22910,7 +22910,7 @@
               "PrisonersArmy.Items": {
                 "$type": "Aow.Game.Units.ItemList",
                 "EngineObject._owner": null,
-                "ItemList.OnChanged": null,
+                "ItemList._changed": null,
                 "ObservableNode.CollectionChanged": null,
                 "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
@@ -22949,7 +22949,7 @@
                 "Set\u00601.low": 0
               },
               "Army.OldAIBehavior": 0,
-              "Army.OnUpdate": null,
+              "Army._update": null,
               "Army.Player": 0,
               "Army.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -23666,7 +23666,7 @@
                 "Set\u00601.low": 0
               },
               "Army.OldAIBehavior": 0,
-              "Army.OnUpdate": null,
+              "Army._update": null,
               "Army.Player": 0,
               "Army.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -23765,7 +23765,7 @@
                 "Set\u00601.low": 0
               },
               "Army.OldAIBehavior": 0,
-              "Army.OnUpdate": null,
+              "Army._update": null,
               "Army.Player": 0,
               "Army.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -25309,7 +25309,7 @@
                 "Set\u00601.low": 0
               },
               "Army.OldAIBehavior": 0,
-              "Army.OnUpdate": null,
+              "Army._update": null,
               "Army.Player": 0,
               "Army.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -25350,7 +25350,7 @@
             "ItemExplorationSite._items": {
               "$type": "Aow.Game.Units.ExplorationSiteItemList",
               "EngineObject._owner": null,
-              "ItemList.OnChanged": null,
+              "ItemList._changed": null,
               "ObservableNode.CollectionChanged": null,
               "ObservableNode.UpdateCount": 0,
               "ObservableNode._children": {
@@ -25421,7 +25421,7 @@
                 "Set\u00601.low": 0
               },
               "Army.OldAIBehavior": 0,
-              "Army.OnUpdate": null,
+              "Army._update": null,
               "Army.Player": 0,
               "Army.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -25462,7 +25462,7 @@
             "ItemExplorationSite._items": {
               "$type": "Aow.Game.Units.ExplorationSiteItemList",
               "EngineObject._owner": null,
-              "ItemList.OnChanged": null,
+              "ItemList._changed": null,
               "ObservableNode.CollectionChanged": null,
               "ObservableNode.UpdateCount": 0,
               "ObservableNode._children": {
@@ -27674,7 +27674,7 @@
                 "Set\u00601.low": 0
               },
               "Army.OldAIBehavior": 0,
-              "Army.OnUpdate": null,
+              "Army._update": null,
               "Army.Player": 0,
               "Army.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -27715,7 +27715,7 @@
             "ItemExplorationSite._items": {
               "$type": "Aow.Game.Units.ExplorationSiteItemList",
               "EngineObject._owner": null,
-              "ItemList.OnChanged": null,
+              "ItemList._changed": null,
               "ObservableNode.CollectionChanged": null,
               "ObservableNode.UpdateCount": 0,
               "ObservableNode._children": {
@@ -27786,7 +27786,7 @@
                 "Set\u00601.low": 0
               },
               "Army.OldAIBehavior": 0,
-              "Army.OnUpdate": null,
+              "Army._update": null,
               "Army.Player": 0,
               "Army.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -27827,7 +27827,7 @@
             "ItemExplorationSite._items": {
               "$type": "Aow.Game.Units.ExplorationSiteItemList",
               "EngineObject._owner": null,
-              "ItemList.OnChanged": null,
+              "ItemList._changed": null,
               "ObservableNode.CollectionChanged": null,
               "ObservableNode.UpdateCount": 0,
               "ObservableNode._children": {
@@ -30278,7 +30278,7 @@
                 "Set\u00601.low": 0
               },
               "Army.OldAIBehavior": 0,
-              "Army.OnUpdate": null,
+              "Army._update": null,
               "Army.Player": 0,
               "Army.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -30319,7 +30319,7 @@
             "ItemExplorationSite._items": {
               "$type": "Aow.Game.Units.ExplorationSiteItemList",
               "EngineObject._owner": null,
-              "ItemList.OnChanged": null,
+              "ItemList._changed": null,
               "ObservableNode.CollectionChanged": null,
               "ObservableNode.UpdateCount": 0,
               "ObservableNode._children": {
@@ -30390,7 +30390,7 @@
                 "Set\u00601.low": 0
               },
               "Army.OldAIBehavior": 0,
-              "Army.OnUpdate": null,
+              "Army._update": null,
               "Army.Player": 0,
               "Army.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -30431,7 +30431,7 @@
             "ItemExplorationSite._items": {
               "$type": "Aow.Game.Units.ExplorationSiteItemList",
               "EngineObject._owner": null,
-              "ItemList.OnChanged": null,
+              "ItemList._changed": null,
               "ObservableNode.CollectionChanged": null,
               "ObservableNode.UpdateCount": 0,
               "ObservableNode._children": {
@@ -31636,7 +31636,7 @@
                 "Set\u00601.low": 0
               },
               "Army.OldAIBehavior": 0,
-              "Army.OnUpdate": null,
+              "Army._update": null,
               "Army.Player": 0,
               "Army.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -31677,7 +31677,7 @@
             "ItemExplorationSite._items": {
               "$type": "Aow.Game.Units.ExplorationSiteItemList",
               "EngineObject._owner": null,
-              "ItemList.OnChanged": null,
+              "ItemList._changed": null,
               "ObservableNode.CollectionChanged": null,
               "ObservableNode.UpdateCount": 0,
               "ObservableNode._children": {
@@ -31748,7 +31748,7 @@
                 "Set\u00601.low": 0
               },
               "Army.OldAIBehavior": 0,
-              "Army.OnUpdate": null,
+              "Army._update": null,
               "Army.Player": 0,
               "Army.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -31789,7 +31789,7 @@
             "ItemExplorationSite._items": {
               "$type": "Aow.Game.Units.ExplorationSiteItemList",
               "EngineObject._owner": null,
-              "ItemList.OnChanged": null,
+              "ItemList._changed": null,
               "ObservableNode.CollectionChanged": null,
               "ObservableNode.UpdateCount": 0,
               "ObservableNode._children": {

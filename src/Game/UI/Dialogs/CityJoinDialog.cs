@@ -22,15 +22,15 @@ public sealed partial class CityJoinDialog(UIContext ui) : UIModule(ui)
     public ArnoLine CityPictureLine { get; private set; }
 
     private sbyte _race;
-    private event ExecuteDoneEvent Done;
+    private ExecuteDoneEvent _done;
     private NegotiateRequestEventLog _event;
 
     // AoWCityJoinDlg.pas:55
     public void FinishDialog()
     {
-        ExecuteDoneEvent done = Done;
+        ExecuteDoneEvent done = _done;
         NegotiateRequestEventLog log = _event;
-        Done = null;
+        _done = null;
         _event = null;
         done?.Invoke(log);
 
@@ -102,7 +102,7 @@ public sealed partial class CityJoinDialog(UIContext ui) : UIModule(ui)
 
     internal static void ShowCityNegotiation(CityJoinDialog dialog, NegotiateRequestEventLog eventValue, ExecuteDoneEvent done)
     {
-        dialog.Done = done;
+        dialog._done = done;
         dialog._event = eventValue;
         _ = dialog._event.AddRef();
         NegotiateRequestEventLog log = dialog._event;

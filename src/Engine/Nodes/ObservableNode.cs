@@ -2,9 +2,6 @@
 // Translated from Engine.pas.
 using Aow.Formats.Tree;
 using Aow.Game;
-
-using Aow.Rtl;
-
 using static Aow.Rtl.DelphiAssert;
 
 namespace Aow.Engine.Nodes;
@@ -112,7 +109,7 @@ public class ObservableNode(CustomNode owner) : CustomNode(owner)
     // Engine.pas:7280
     // Subclasses react in OnChange. Emit runs that reaction and then raises CollectionChanged,
     // so the event follows every call of Changed even when the reaction does not call the base method.
-    public event ObservableChangeHandler CollectionChanged;
+    public event Action<ObservableNode, ObservableChange> CollectionChanged;
 
     public void Changed() => Emit(ObservableChange.Reset());
 
@@ -829,14 +826,14 @@ public class ObservableNode(CustomNode owner) : CustomNode(owner)
     }
 
     // Engine.pas:7964
-    public void Sort(ListSortCompare<EngineObject> compare)
+    public void Sort(Comparison<EngineObject> compare)
     {
         using UpdateBatch batch = BeginUpdate();
         _children.Sort(compare);
     }
 
     // Keeps the order of equal items. Reflecting pool ordering is the only caller.
-    public void SortStable(ListSortCompare<EngineObject> compare)
+    public void SortStable(Comparison<EngineObject> compare)
     {
         using UpdateBatch batch = BeginUpdate();
         _children.SortStable(compare);
@@ -1053,16 +1050,16 @@ public class ObservableNode(CustomNode owner) : CustomNode(owner)
 
     // The members below reorder or drop child slots as the original's direct writes of FChildren
     // do: no change notification, no reference count, no release.
-    public void SortChildren(ListSortCompare<EngineObject> compare) => _children.Sort(compare);
+    public void SortChildren(Comparison<EngineObject> compare) => _children.Sort(compare);
 
     // Keeps the order of equal children.
-    public void SortChildrenStable(ListSortCompare<EngineObject> compare) => _children.SortStable(compare);
+    public void SortChildrenStable(Comparison<EngineObject> compare) => _children.SortStable(compare);
 
     // The same sorts with a comparer of the child type a typed list admits. Each slot is a T or empty.
-    public void SortChildren<T>(ListSortCompare<T> compare)
+    public void SortChildren<T>(Comparison<T> compare)
         where T : EngineObject => _children.Sort(compare);
 
-    public void SortChildrenStable<T>(ListSortCompare<T> compare)
+    public void SortChildrenStable<T>(Comparison<T> compare)
         where T : EngineObject => _children.SortStable(compare);
 
     public void MoveChild(int current, int target) => _children.Move(current, target: target);

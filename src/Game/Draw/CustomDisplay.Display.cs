@@ -152,7 +152,7 @@ public partial class CustomDisplay
         }
 
         _mouseAboveSurface = x != -1;
-        OnUpdateFrame?.Invoke(this, DC: ActiveDisplayController, SurfaceType: SurfaceIndex);
+        _updateFrame?.Invoke(this, ActiveDisplayController, SurfaceIndex);
         if (ActiveDisplayController is null)
         {
             return;
@@ -221,7 +221,7 @@ public partial class CustomDisplay
                 }
             }
 
-            OnActivateDisplayController?.Invoke(this, DC: ActiveDisplayController);
+            OnActivateDisplayController?.Invoke(this, ActiveDisplayController);
             return result;
         }
         finally
@@ -246,7 +246,7 @@ public partial class CustomDisplay
             }
 
             Host.Fullscreen = !Host.Fullscreen;
-            OnSwapDisplayController?.Invoke(ActiveDisplayController);
+            _swapDisplayController?.Invoke(ActiveDisplayController);
             Resize();
             return DisplayControllerError.Ok;
         }

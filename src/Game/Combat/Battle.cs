@@ -69,15 +69,15 @@ public class Battle : EngineObject
 
     private int _executedLock;
 
-    public event ExecutedEvent OnExecuted;
+    private Action<Battle> _executed;
 
-    internal void SetExecutedHandler(ExecutedEvent handler) => OnExecuted = handler;
+    internal void SetExecutedHandler(Action<Battle> handler) => _executed = handler;
 
     public bool Terminated { get; private set; }
 
-    public event NotifyEvent<Battle> OnTerminated;
+    private NotifyEvent<Battle> _terminated;
 
-    protected void SetTerminatedHandler(NotifyEvent<Battle> handler) => OnTerminated = handler;
+    protected void SetTerminatedHandler(NotifyEvent<Battle> handler) => _terminated = handler;
 
     public byte ExplorationSite { get; set; }
     public EngineObject Items { get; set; }
@@ -556,7 +556,7 @@ public class Battle : EngineObject
         if (!Terminated)
         {
             Terminated = true;
-            OnTerminated?.Invoke(this);
+            _terminated?.Invoke(this);
         }
     }
 
@@ -791,9 +791,9 @@ public class Battle : EngineObject
     public void UnlockExecuted()
     {
         _executedLock -= 1;
-        if (_executedLock == 0 && OnExecuted is not null)
+        if (_executedLock == 0 && _executed is not null)
         {
-            OnExecuted(this);
+            _executed(this);
         }
     }
 
@@ -849,6 +849,4 @@ public class Battle : EngineObject
     private static readonly string s_battleWonText = "Battle Won";
     private static readonly string s_battleLostText = "Battle Lost";
     private static readonly string s_battleDrawnText = "Battle Drawn";
-
-    public delegate void ExecutedEvent(Battle pCombat);
 }

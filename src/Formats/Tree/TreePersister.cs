@@ -1160,7 +1160,7 @@ internal sealed class MemberPersister : IPersister
         Store(name, written);
     }
 
-    public void List<T>(string name, IList<T> items, ItemTransfer<T> transfer)
+    public void List<T>(string name, IList<T> items, Func<IItemSlot, T, T> transfer)
     {
         if (Loading)
         {
@@ -1179,7 +1179,7 @@ internal sealed class MemberPersister : IPersister
             for (int i = 0; i < list.Items.Count; i++)
             {
                 ItemSlot slot = new(list.Items[i], loading: true, Factory, path: _path.Member(name).Item(i), _errors, preview: Preview);
-                T value = transfer(slot, value: default!);
+                T value = transfer(slot, default!);
                 _ = slot.Finish();
                 items.Add(value);
             }
@@ -1194,7 +1194,7 @@ internal sealed class MemberPersister : IPersister
         for (int i = 0; i < items.Count; i++)
         {
             ItemSlot slot = new(null, loading: false, Factory, path: _path.Member(name).Item(i), _errors, preview: Preview);
-            items[i] = transfer(slot, value: items[i]);
+            items[i] = transfer(slot, items[i]);
             written.Items.Add(slot.Finish());
         }
         Store(name, written);

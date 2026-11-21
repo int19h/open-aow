@@ -58,8 +58,8 @@ public class UnholyGroundSpellTokenEvent(CustomNode owner) : GlobalTargetSpellTo
                         ground.Mode = Set<UnholySummoning>.Of(UnholySummoning.Summoning);
                         ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
                         animation.SetImageSequence(GamePack.Current.SpellControl[14].CastImages.ImageSequences[0]);
-                        animation.OnShow += ground.ShowSummonAnimation;
-                        animation.OnNewFrame += ground.NewFrameSummonAnimation;
+                        animation.SetShowHandler(ground.ShowSummonAnimation);
+                        animation.SetNewFrameHandler(ground.NewFrameSummonAnimation);
                         animation.FrameCounter = -StrategicMap.Current.Random(15);
                         animation.Tag = source.Player;
                         _ = StrategicMap.Current.PlaceHex(animation, walk.X, walk.Y, L: Location.MapLevel);

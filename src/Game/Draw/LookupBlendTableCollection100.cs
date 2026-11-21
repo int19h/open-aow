@@ -31,7 +31,7 @@ public sealed class LookupBlendTableCollection100 : IDisposable
     }
 
     // GFXE.pas:9698
-    public bool GenerateLookupTables(int bits, GenerateBlendTableProc proc, int count)
+    public bool GenerateLookupTables(int bits, Action<BlendTable, float> proc, int count)
     {
         Clear();
         if (bits == 5 && count > 0)
@@ -45,7 +45,7 @@ public sealed class LookupBlendTableCollection100 : IDisposable
                 };
                 float v = count != 1 ? (float)((double)i / (count - 1)) : (float)0.5;
 
-                proc(t, Value: v);
+                proc(t, v);
                 Tables.Add(t);
             }
 
@@ -77,7 +77,4 @@ public sealed class LookupBlendTableCollection100 : IDisposable
     }
 
     public LookupTablesAccessor LookupTables => new(this);
-
-    public delegate void GenerateBlendTableProc(BlendTable Table, float Value);
-
 }

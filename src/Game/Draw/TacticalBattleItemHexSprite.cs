@@ -15,7 +15,7 @@ public sealed class TacticalBattleItemHexSprite(CustomNode owner) : ItemHexSprit
     // AoWTC.pas:2586
     public override void Deactivate()
     {
-        Items.ClearChangedHandler();
+        Items.SetChangedHandler(null);
         if (CombatMap.Current.Combat.ExplorationSite == 1)
         {
             // An item site's combat returns the items to the site's list. A dungeon's combat holds

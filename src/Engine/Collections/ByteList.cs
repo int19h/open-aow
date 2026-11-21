@@ -286,7 +286,7 @@ public class ByteList : Persistent
     }
 
     // Engine.pas:3800
-    public void Sort(ByteSortCompare compare)
+    public void Sort(Comparison<byte> compare)
     {
         if (_list.Length != 0 && Count > 0)
         {
@@ -351,7 +351,7 @@ public class ByteList : Persistent
     // Engine.pas:3645
     protected internal static void Error(string message, int data) => throw new ArgumentOutOfRangeException(paramName: null, message: Format(message, args: [data]));
 
-    private static void QuickSortByte(Span<byte> sortList, int L, int R, ByteSortCompare sCompare)
+    private static void QuickSortByte(Span<byte> sortList, int L, int R, Comparison<byte> sCompare)
     {
         int number;
         do
@@ -389,7 +389,4 @@ public class ByteList : Persistent
         }
         while (number < R);
     }
-
-    public delegate int ByteSortCompare(byte Item1, byte Item2);
-
 }

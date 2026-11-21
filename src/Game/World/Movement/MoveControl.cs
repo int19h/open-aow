@@ -44,9 +44,9 @@ public partial class MoveControl(GameMap owner) : IDisposable
     public int Selection { get; private set; }
     public ArmyHexSprite TransporterArmy { get; private set; }
 
-    public event MoveOnMovePointProc OnMovePoint;
+    private Func<MapField, int, int> _movePoint;
 
-    internal void SetMovePointHandler(MoveOnMovePointProc handler) => OnMovePoint = handler;
+    internal void SetMovePointHandler(Func<MapField, int, int> handler) => _movePoint = handler;
 
     private readonly int[][] _fieldOffsets = [new int[8], new int[8]];
     private readonly int[][] _pointOffsets = [new int[8], new int[8]];
@@ -174,7 +174,7 @@ public partial class MoveControl(GameMap owner) : IDisposable
         Source = new MapCoordinate(-1, -1, -1);
         Destination = new MapCoordinate(-1, -1, -1);
         _processedCount = 0;
-        OnMovePoint = DefaultMoveOnMovePointProc;
+        _movePoint = DefaultMoveOnMovePointProc;
         _processedMapFields = null;
     }
 
@@ -222,14 +222,14 @@ public partial class MoveControl(GameMap owner) : IDisposable
     public bool ValidLocation(int X, int Y, int L)
     {
         MapField field = Map.MapContainer.GetField(X, Y, L);
-        return OnMovePoint(field, MoveOverCode: 1) >= 0;
+        return _movePoint(field, 1) >= 0;
     }
 
     // MoveT.PAS:437
     public void ExecuteExternalMove(MapField source, MapField target, int movePoints)
     {
         int canMoveOver = source.CanMoveOver(this);
-        int points = OnMovePoint(target, MoveOverCode: canMoveOver);
+        int points = _movePoint(target, canMoveOver);
         if (points >= 0)
         {
             Settings.SetupLevel(target.HexLevel);
@@ -618,7 +618,7 @@ public partial class MoveControl(GameMap owner) : IDisposable
             }
 
             MapField field = MapLevel.GetField(x, y);
-            int points = OnMovePoint(field, MoveOverCode: overCode);
+            int points = _movePoint(field, overCode);
             if (points >= 0)
             {
                 if ((field.FieldFlags & MapField.MoveOverFlag) != 0 && (x != destinationX || y != destinationY))
@@ -713,6 +713,4 @@ public partial class MoveControl(GameMap owner) : IDisposable
     {
         Activated = 0
     }
-
-    public delegate int MoveOnMovePointProc(MapField MapF, int MoveOverCode);
 }

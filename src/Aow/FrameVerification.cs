@@ -98,7 +98,7 @@ internal static class FrameVerification
     {
         public TestDisplay() : base(null!) { }
 
-        public void SetUpdate(UpdateFrameEvent action) => SetUpdateFrameHandler(action);
+        public void SetUpdate(Action<object, DisplayController, int> action) => SetUpdateFrameHandler(action);
     }
 
     private sealed class TestHost : IDisplayHost, IDisplayEvents

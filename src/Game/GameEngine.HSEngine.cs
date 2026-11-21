@@ -95,7 +95,7 @@ public partial class GameEngine : OwningNode
                 _hexSpriteMap.SetProgressHandler(progress);
                 ReadTree(tree, objectValue: _hexSpriteMap, progress: progress, onError: EditorErrorHandler(_hexSpriteMap));
                 ActivateEngineObject(_hexSpriteMap);
-                _hexSpriteMap.ClearProgressHandler();
+                _hexSpriteMap.SetProgressHandler(null);
                 OnHsmLoadedStore.Raise(_hexSpriteMap);
             }
             catch
@@ -350,7 +350,7 @@ public partial class GameEngine : OwningNode
                 result.SetProgressHandler(progress);
                 ReadTree(tree, objectValue: result, progress: progress, onError: EditorErrorHandler(result));
                 ActivateEngineObject(result);
-                result.ClearProgressHandler();
+                result.SetProgressHandler(null);
                 OnHsmLoadedStore.Raise(result);
             }
             catch
@@ -407,7 +407,7 @@ public partial class GameEngine : OwningNode
                     _hexSpriteMap.SetProgressHandler(progress);
                     ReadTree(tree, objectValue: _hexSpriteMap, progress: progress, onError: EditorErrorHandler(_hexSpriteMap));
                     ActivateEngineObject(_hexSpriteMap);
-                    _hexSpriteMap.ClearProgressHandler();
+                    _hexSpriteMap.SetProgressHandler(null);
                     OnHsmLoadedStore.Raise(_hexSpriteMap);
                 }
                 catch

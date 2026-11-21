@@ -31,7 +31,7 @@ public sealed partial class ArenaDialog(UIContext ui) : UIModule(ui)
     public UserDrawBox MapView { get; private set; }
 
     private EnterArenaEventLog _event;
-    private event ExecuteDoneEvent OnClose;
+    private ExecuteDoneEvent _close;
 
     // AoWArenaDlg.pas:104
     public void DrawUnit(int index, int X, int Y, ref LockedSurface lockedSurface)
@@ -75,9 +75,9 @@ public sealed partial class ArenaDialog(UIContext ui) : UIModule(ui)
     public void ClearEvent()
     {
         UI.General.Manager.OverlayPriority = 0;
-        ExecuteDoneEvent notify = OnClose;
+        ExecuteDoneEvent notify = _close;
         EnterArenaEventLog eventValue = _event;
-        OnClose = null;
+        _close = null;
         _event = null;
         notify?.Invoke(eventValue);
 
@@ -207,7 +207,7 @@ public sealed partial class ArenaDialog(UIContext ui) : UIModule(ui)
     {
         Assert(dialog._event is null, message: "", file: "AoWArenaDlg.pas", line: 94);
         ResetArena(dialog);
-        dialog.OnClose = done;
+        dialog._close = done;
         dialog._event = eventValue;
         _ = dialog._event.AddRef();
         dialog.UI.General.Manager.OverlayPriority = 49;

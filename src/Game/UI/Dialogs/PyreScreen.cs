@@ -27,14 +27,14 @@ public sealed partial class PyreScreen(UIContext ui) : UIModule(ui)
 
     public SongStatus SavedSongStatus { get; set; }
 
-    public event ExecuteDoneEvent Done;
+    private ExecuteDoneEvent _done;
 
     // The results window ends the pyre screen: it takes the done handler, the slot is empty
     // before the handler runs, and the handler runs once.
     internal ExecuteDoneEvent TakeDoneHandler()
     {
-        ExecuteDoneEvent done = Done;
-        Done = null;
+        ExecuteDoneEvent done = _done;
+        _done = null;
         return done;
     }
 
@@ -67,7 +67,7 @@ public sealed partial class PyreScreen(UIContext ui) : UIModule(ui)
         _animationFrame = 0;
         GameOverEvent = eventValue;
         _ = GameOverEvent.AddRef();
-        Done = done;
+        _done = done;
         SavedSongStatus = AudioPlayback.BackupSongStatus();
         _ = (AudioHost.SoundSystem?.FadeMusicVolume(0, speed: 1));
         UI.General.Manager.OverlayPriority = 249;

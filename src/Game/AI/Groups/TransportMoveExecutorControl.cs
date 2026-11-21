@@ -39,7 +39,7 @@ public class TransportMoveExecutorControl(CustomNode owner) : AIMoveExecutorCont
                         aiMoveExecutorArmyList.GetArmies(i).RetrieveArmy(255, army: out ArmyHexSprite armyHexSprite, armySelection: out selection);
                         settings.Setup(armyHexSprite, selection, Executor.Destination.X, Executor.Destination.Y, L: Executor.Destination.MapLevel);
                         settings.Transporter = Executor.Transporter.Troop;
-                        settings.OnDone += CalculateTransportPathCallback;
+                        settings.SetDoneHandler(CalculateTransportPathCallback);
                         settings.MoveMode = Set<MoveModeElement>.Of(MoveModeElement.AI);
                         MoveControl.Reset();
                         _ = MoveControl.CanMove(settings);

@@ -290,7 +290,7 @@ public class Int32List : Persistent
     }
 
     // Engine.pas:3465
-    public void Sort(IntegerSortCompare compare)
+    public void Sort(Comparison<int> compare)
     {
         if (_list.Length != 0 && Count > 0)
         {
@@ -299,7 +299,7 @@ public class Int32List : Persistent
     }
 
     // Keeps the order of equal items. HeroGrid.SortHeroes is the only caller.
-    public void SortStable(IntegerSortCompare compare)
+    public void SortStable(Comparison<int> compare)
     {
         for (int i = 1; i < Count; i++)
         {
@@ -434,7 +434,7 @@ public class Int32List : Persistent
     // Engine.pas:3310
     protected internal static void Error(string message, int data) => throw new ArgumentOutOfRangeException(paramName: null, message: Format(message, args: [data]));
 
-    private static void QuickSortInteger(Span<int> sortList, int L, int R, IntegerSortCompare sCompare)
+    private static void QuickSortInteger(Span<int> sortList, int L, int R, Comparison<int> sCompare)
     {
         int i;
         do
@@ -608,7 +608,4 @@ public class Int32List : Persistent
     }
 
     internal static int LevelCost(Int32List costs, int level) => costs[level];
-
-    public delegate int IntegerSortCompare(int Item1, int Item2);
-
 }

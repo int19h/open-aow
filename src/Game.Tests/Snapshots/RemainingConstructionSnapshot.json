@@ -696,7 +696,7 @@
               ],
               "AIMoveTargetSelector.MovePointsMax": 0,
               "AIMoveTargetSelector.MovePointsMin": 0,
-              "AIMoveTargetSelector.OnTargetFound": null,
+              "AIMoveTargetSelector._targetFound": null,
               "AIMoveTargetSelector.SourceLocation": {
                 "$type": "Aow.Game.World.Map.MapCoordinate",
                 "MapCoordinate.MapLevel": 0,
@@ -1801,7 +1801,7 @@
               ],
               "AIMoveTargetSelector.MovePointsMax": 0,
               "AIMoveTargetSelector.MovePointsMin": 0,
-              "AIMoveTargetSelector.OnTargetFound": null,
+              "AIMoveTargetSelector._targetFound": null,
               "AIMoveTargetSelector.SourceLocation": {
                 "$type": "Aow.Game.World.Map.MapCoordinate",
                 "MapCoordinate.MapLevel": 0,
@@ -36390,8 +36390,8 @@
               "CombatLogbook._refCount": 1,
               "EngineObject._owner": null
             },
-            "Battle.OnExecuted": null,
-            "Battle.OnTerminated": null,
+            "Battle._executed": null,
+            "Battle._terminated": null,
             "Battle.Sides": [
               {
                 "$type": "Aow.Game.Combat.CombatSide",
@@ -36742,8 +36742,8 @@
               "CombatLogbook._refCount": 1,
               "EngineObject._owner": null
             },
-            "Battle.OnExecuted": null,
-            "Battle.OnTerminated": null,
+            "Battle._executed": null,
+            "Battle._terminated": null,
             "Battle.Sides": [
               {
                 "$type": "Aow.Game.Combat.CombatSide",
@@ -36806,8 +36806,8 @@
               "Battle.ExplorationSite": 0,
               "Battle.Items": null,
               "Battle.Logbook": null,
-              "Battle.OnExecuted": null,
-              "Battle.OnTerminated": null,
+              "Battle._executed": null,
+              "Battle._terminated": null,
               "Battle.Sides": [
                 null,
                 null
@@ -39968,7 +39968,7 @@
               "Set\u00601.high": 3,
               "Set\u00601.low": 0
             },
-            "LeaderSetupControl.OnDone": null,
+            "LeaderSetupControl._done": null,
             "LeaderSetupControl.OriginalLeader": {
               "$type": "Aow.Game.Magic.Abilities.Leader",
               "AbilityOwner.AbilityData": null,
@@ -40265,7 +40265,7 @@
               "Set\u00601.high": 3,
               "Set\u00601.low": 0
             },
-            "LeaderSetupControl.OnDone": null,
+            "LeaderSetupControl._done": null,
             "LeaderSetupControl.OriginalLeader": {
               "$type": "Aow.Game.Magic.Abilities.Leader",
               "AbilityOwner.AbilityData": null,
@@ -40418,7 +40418,7 @@
                 "Set\u00601.high": 0,
                 "Set\u00601.low": 0
               },
-              "LeaderSetupControl.OnDone": null,
+              "LeaderSetupControl._done": null,
               "LeaderSetupControl.OriginalLeader": null,
               "LeaderSetupControl.Status": 0,
               "LeaderSetupControl._refCount": 0
@@ -41237,7 +41237,7 @@
               "CampaignTransferSettings.Items": {
                 "$type": "Aow.Game.Units.ItemList",
                 "EngineObject._owner": null,
-                "ItemList.OnChanged": null,
+                "ItemList._changed": null,
                 "ObservableNode.CollectionChanged": null,
                 "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
@@ -41391,7 +41391,7 @@
               "CampaignTransferSettings.Items": {
                 "$type": "Aow.Game.Units.ItemList",
                 "EngineObject._owner": null,
-                "ItemList.OnChanged": null,
+                "ItemList._changed": null,
                 "ObservableNode.CollectionChanged": null,
                 "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
@@ -43181,7 +43181,7 @@
           "$jsonText": {
             "$type": "Aow.Game.Units.ExplorationSiteItemList",
             "EngineObject._owner": null,
-            "ItemList.OnChanged": null,
+            "ItemList._changed": null,
             "ObservableNode.CollectionChanged": null,
             "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
@@ -43212,7 +43212,7 @@
           "$jsonText": {
             "$type": "Aow.Game.Units.ExplorationSiteItemList",
             "EngineObject._owner": "$owner",
-            "ItemList.OnChanged": null,
+            "ItemList._changed": null,
             "ObservableNode.CollectionChanged": null,
             "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
@@ -43230,7 +43230,7 @@
             "$jsonText": {
               "$type": "Aow.Game.Units.ExplorationSiteItemList",
               "EngineObject._owner": "$owner",
-              "ItemList.OnChanged": null,
+              "ItemList._changed": null,
               "ObservableNode.CollectionChanged": null,
               "ObservableNode.UpdateCount": 0,
               "ObservableNode._children": {
@@ -43351,7 +43351,7 @@
               "Set\u00601.low": 0
             },
             "Army.OldAIBehavior": 0,
-            "Army.OnUpdate": null,
+            "Army._update": null,
             "Army.Player": 0,
             "Army.Status": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -43387,7 +43387,7 @@
             "PrisonersArmy.Items": {
               "$type": "Aow.Game.Units.ItemList",
               "EngineObject._owner": null,
-              "ItemList.OnChanged": null,
+              "ItemList._changed": null,
               "ObservableNode.CollectionChanged": null,
               "ObservableNode.UpdateCount": 0,
               "ObservableNode._children": {
@@ -43444,7 +43444,7 @@
               "Set\u00601.low": 0
             },
             "Army.OldAIBehavior": 0,
-            "Army.OnUpdate": null,
+            "Army._update": null,
             "Army.Player": 0,
             "Army.Status": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -43480,7 +43480,7 @@
             "PrisonersArmy.Items": {
               "$type": "Aow.Game.Units.ItemList",
               "EngineObject._owner": null,
-              "ItemList.OnChanged": null,
+              "ItemList._changed": null,
               "ObservableNode.CollectionChanged": null,
               "ObservableNode.UpdateCount": 0,
               "ObservableNode._children": {
@@ -43523,7 +43523,7 @@
                 "Set\u00601.low": 0
               },
               "Army.OldAIBehavior": 0,
-              "Army.OnUpdate": null,
+              "Army._update": null,
               "Army.Player": 0,
               "Army.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -43903,7 +43903,7 @@
               "Set\u00601.low": 0
             },
             "Army.OldAIBehavior": 0,
-            "Army.OnUpdate": null,
+            "Army._update": null,
             "Army.Player": 0,
             "Army.Status": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -43984,7 +43984,7 @@
               "Set\u00601.low": 0
             },
             "Army.OldAIBehavior": 0,
-            "Army.OnUpdate": null,
+            "Army._update": null,
             "Army.Player": 0,
             "Army.Status": {
               "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -44051,7 +44051,7 @@
                 "Set\u00601.low": 0
               },
               "Army.OldAIBehavior": 0,
-              "Army.OnUpdate": null,
+              "Army._update": null,
               "Army.Player": 0,
               "Army.Status": {
                 "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.ArmyStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",

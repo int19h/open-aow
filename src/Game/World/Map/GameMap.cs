@@ -59,9 +59,9 @@ public partial class GameMap : OwningNode
         _mapChangedEventsStore = new();
         _scannerIconsChangedEventsStore = new();
         _backHexSelector = new CustomFixedVisibleHexSprite(null) { Holder = CreationHolder() };
-        _backHexSelector.OnShow += ShowBackHexSelector;
+        _backHexSelector.SetShowHandler(ShowBackHexSelector);
         _frontHexSelector = new CustomFixedVisibleHexSprite(null) { Holder = CreationHolder() };
-        _frontHexSelector.OnShow += ShowFrontHexSelector;
+        _frontHexSelector.SetShowHandler(ShowFrontHexSelector);
         _hexSelectorVisible = false;
         ExplorationEnabled = true;
         FogEnabled = true;
@@ -79,31 +79,25 @@ public partial class GameMap : OwningNode
         remove => TerrainChangedEventsStore.Remove(value);
     }
 
-    public event CenterViewEvent OnCenterView;
+    private Action<int, int, int> _centerView;
 
-    internal void SetCenterViewHandler(CenterViewEvent handler) => OnCenterView = handler;
+    internal void SetCenterViewHandler(Action<int, int, int> handler) => _centerView = handler;
 
-    internal void ClearCenterViewHandler() => OnCenterView = null;
+    private Action<int, int, int> _changeView;
 
-    public event ChangeViewEvent OnChangeView;
+    internal void SetChangeViewHandler(Action<int, int, int> handler) => _changeView = handler;
 
-    internal void SetChangeViewHandler(ChangeViewEvent handler) => OnChangeView = handler;
+    private Action<int> _viewLevel;
 
-    public event ViewLevelEvent OnViewLevel;
+    internal void SetViewLevelHandler(Action<int> handler) => _viewLevel = handler;
 
-    internal void SetViewLevelHandler(ViewLevelEvent handler) => OnViewLevel = handler;
+    private ProgressEvent _progress;
 
-    internal void ClearViewLevelHandler() => OnViewLevel = null;
+    protected void RaiseProgress(EngineObject sender, string message, int progression) => _progress?.Invoke(sender, message, progression);
 
-    public event Engine.ProgressEvent OnProgress;
+    protected bool HasProgressHandlers => _progress is not null;
 
-    protected void RaiseProgress(EngineObject sender, string message, int progression) => OnProgress?.Invoke(sender, message, progression);
-
-    protected bool HasProgressHandlers => OnProgress is not null;
-
-    internal void SetProgressHandler(Engine.ProgressEvent handler) => OnProgress = handler;
-
-    internal void ClearProgressHandler() => OnProgress = null;
+    internal void SetProgressHandler(ProgressEvent handler) => _progress = handler;
 
     private int _terrainChangedLockCounter;
 
@@ -384,17 +378,17 @@ public partial class GameMap : OwningNode
     // { Tests OnCenterView instead of OnViewLevel (original slip). }
     public virtual void ViewLevel(int hexLevel)
     {
-        if (OnCenterView is not null && hexLevel < MapContainer.LevelCount)
+        if (_centerView is not null && hexLevel < MapContainer.LevelCount)
         {
-            OnViewLevel(hexLevel);
+            _viewLevel(hexLevel);
         }
     }
 
     // HSMAP.PAS:115
-    public virtual void CenterViewTo(int hexX, int hexY, int hexLevel) => OnCenterView?.Invoke(hexX, hexY, Lhx: hexLevel);
+    public virtual void CenterViewTo(int hexX, int hexY, int hexLevel) => _centerView?.Invoke(hexX, hexY, hexLevel);
 
     // HSMAP.PAS:121
-    public virtual void ChangeViewTo(int pixelX, int pixelY, int lHitPoints) => OnChangeView?.Invoke(pixelX, pixelY, Lhp: lHitPoints);
+    public virtual void ChangeViewTo(int pixelX, int pixelY, int lHitPoints) => _changeView?.Invoke(pixelX, pixelY, lHitPoints);
 
     // HSMAP.PAS:579
     public virtual void GetViewCenter(out int hexX, out int hexY, out int hexLevel)
@@ -1117,10 +1111,6 @@ public partial class GameMap : OwningNode
     public int ViewHexY { get; private set; }
     public int ViewWidthHex { get; private set; }
     public int ViewHeightHex { get; private set; }
-
-    public delegate void CenterViewEvent(int Xhx, int Yhx, int Lhx);
-    public delegate void ChangeViewEvent(int Xhp, int Yhp, int Lhp);
-    public delegate void ViewLevelEvent(int Lhx);
 
     public sbyte CurrentPlayer { get; set; }
 

@@ -243,7 +243,7 @@ public class SByteList : Persistent
     }
 
     // Engine.pas:4147
-    public void Sort(ShortIntSortCompare compare)
+    public void Sort(Comparison<sbyte> compare)
     {
         if (_list.Length != 0 && Count > 0)
         {
@@ -380,7 +380,7 @@ public class SByteList : Persistent
     // Engine.pas:3992
     protected internal static void Error(string message, int data) => throw new ArgumentOutOfRangeException(paramName: null, message: Format(message, args: [data]));
 
-    private static void QuickSortShortInteger(Span<sbyte> sortList, int L, int R, ShortIntSortCompare sCompare)
+    private static void QuickSortShortInteger(Span<sbyte> sortList, int L, int R, Comparison<sbyte> sCompare)
     {
         int number;
         do
@@ -418,7 +418,4 @@ public class SByteList : Persistent
         }
         while (number < R);
     }
-
-    public delegate int ShortIntSortCompare(sbyte Item1, sbyte Item2);
-
 }

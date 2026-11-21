@@ -57,7 +57,7 @@ public sealed partial class FileDialogWindow(UIContext ui) : UIModule(ui)
     public string LastFileName { get; set; } = "";
 
     private SaveGameEventLog _saveEvent;
-    private event ExecuteDoneEvent Done;
+    private ExecuteDoneEvent _done;
 
     // is the data pointer of FDone
     public int Mode { get; set; }
@@ -66,9 +66,9 @@ public sealed partial class FileDialogWindow(UIContext ui) : UIModule(ui)
     // 0 load, 1 save, 2 select map
     public void FinishDialog()
     {
-        ExecuteDoneEvent done = Done;
+        ExecuteDoneEvent done = _done;
         SaveGameEventLog eventValue = _saveEvent;
-        Done = null;
+        _done = null;
         _saveEvent = null;
         done?.Invoke(eventValue);
 
@@ -822,7 +822,7 @@ public sealed partial class FileDialogWindow(UIContext ui) : UIModule(ui)
 
     internal static void ShowSaveGameEvent(FileDialogWindow dialog, SaveGameEventLog eventValue, ExecuteDoneEvent done)
     {
-        dialog.Done = done;
+        dialog._done = done;
         dialog._saveEvent = eventValue;
         _ = dialog._saveEvent.AddRef();
         dialog.Mode = 1;

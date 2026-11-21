@@ -26,7 +26,7 @@ public sealed partial class HeroJoinDialog(UIContext ui) : UIModule(ui)
     public Image FaceFrame { get; private set; }
     public Memo JoinMemo { get; private set; }
 
-    private event ExecuteDoneEvent Done;
+    private ExecuteDoneEvent _done;
     private JoinEventLog _joinEvent;
     private bool _detailsOpen;
     private byte _selection;
@@ -56,9 +56,9 @@ public sealed partial class HeroJoinDialog(UIContext ui) : UIModule(ui)
             UI.UnitWindow.MainWindow.Visible = false;
         }
 
-        ExecuteDoneEvent done = Done;
+        ExecuteDoneEvent done = _done;
         EventLog eventValue = _joinEvent;
-        Done = null;
+        _done = null;
         _joinEvent = null;
         done?.Invoke(eventValue);
 
@@ -230,7 +230,7 @@ public sealed partial class HeroJoinDialog(UIContext ui) : UIModule(ui)
         ResetHeroJoin(dialog);
         dialog._joinEvent = eventValue;
         _ = dialog._joinEvent.AddRef();
-        dialog.Done = done;
+        dialog._done = done;
         string accept = dialog.UI.Engine.TranslateResourceString(GameText.AcceptText);
         dialog.LeftButton.Text = accept;
         dialog.MiddleButton.Visible = false;
@@ -245,7 +245,7 @@ public sealed partial class HeroJoinDialog(UIContext ui) : UIModule(ui)
         ResetHeroJoin(dialog);
         dialog._joinEvent = eventValue;
         _ = dialog._joinEvent.AddRef();
-        dialog.Done = done;
+        dialog._done = done;
         string accept = dialog.UI.Engine.TranslateResourceString(GameText.AcceptText);
         dialog.LeftButton.Text = accept;
         string attack = dialog.UI.Engine.TranslateResourceString(GameText.AttackText);
@@ -268,7 +268,7 @@ public sealed partial class HeroJoinDialog(UIContext ui) : UIModule(ui)
         ResetHeroJoin(dialog);
         dialog._joinEvent = eventValue;
         _ = dialog._joinEvent.AddRef();
-        dialog.Done = done;
+        dialog._done = done;
         string accept = dialog.UI.Engine.TranslateResourceString(GameText.AcceptText);
         dialog.LeftButton.Text = accept;
         dialog.MiddleButton.Visible = false;

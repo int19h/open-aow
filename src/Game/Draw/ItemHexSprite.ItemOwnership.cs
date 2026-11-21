@@ -14,6 +14,6 @@ public partial class ItemHexSprite
             Holder = CreationHolder(),
             Sprite = this
         };
-        Items.OnChanged += ItemsChanged;
+        Items.SetChangedHandler(ItemsChanged);
     }
 }

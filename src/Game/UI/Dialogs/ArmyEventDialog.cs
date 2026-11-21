@@ -25,7 +25,7 @@ public sealed partial class ArmyEventDialog(UIContext ui) : UIModule(ui)
     public Label EventTextLabel { get; private set; }
     public Image DamagePicture { get; private set; }
 
-    private event ExecuteDoneEvent OnClose;
+    private ExecuteDoneEvent _close;
     private ArmyEventLog _event;
     private int _frame;
     private ByteList _units;
@@ -121,9 +121,9 @@ public sealed partial class ArmyEventDialog(UIContext ui) : UIModule(ui)
             }
         }
 
-        ExecuteDoneEvent notify = OnClose;
+        ExecuteDoneEvent notify = _close;
         ArmyEventLog eventValue = _event;
-        OnClose = null;
+        _close = null;
         _event = null;
         notify?.Invoke(eventValue);
 
@@ -176,7 +176,7 @@ public sealed partial class ArmyEventDialog(UIContext ui) : UIModule(ui)
     internal static void ShowArmyEvent(ArmyEventDialog dialog, ArmyEventLog eventValue, ExecuteDoneEvent done)
     {
         Assert(dialog._event is null, message: "", file: "AoWArmyEventDlg.pas", line: 92);
-        dialog.OnClose = done;
+        dialog._close = done;
         dialog._event = eventValue;
         _ = dialog._event.AddRef();
         ArmyEventLog log = dialog._event;

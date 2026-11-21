@@ -38,13 +38,13 @@ public sealed class TargetSelectionControl : IDisposable
     public Set<TargetSelectionStatusElement> Status { get; set; }
     public Set<TargetSelectionModeElement> TargetMode { get; set; }
 
-    public event ShowTargetSelectionEvent OnShow;
+    private ShowTargetSelectionEvent _show;
 
-    internal void SetShowHandler(ShowTargetSelectionEvent handler) => OnShow = handler;
+    internal void SetShowHandler(ShowTargetSelectionEvent handler) => _show = handler;
 
-    public event ValidateTargetEvent OnValidateTarget;
+    private ValidateTargetEvent _validateTarget;
 
-    internal void SetValidateTargetHandler(ValidateTargetEvent handler) => OnValidateTarget = handler;
+    internal void SetValidateTargetHandler(ValidateTargetEvent handler) => _validateTarget = handler;
 
     public int Range { get; set; }
     public MapCoordinate SourceLocation { get; set; }
@@ -143,9 +143,9 @@ public sealed class TargetSelectionControl : IDisposable
 
             MapField mapField = StrategicMap.Current.MapContainer.GetField(X, Y, L);
             result = result && mapField.TerrainType != 15;
-            if (result && OnValidateTarget is not null)
+            if (result && _validateTarget is not null)
             {
-                OnValidateTarget(this, X, Y, Lt: L, Valid: ref result);
+                _validateTarget(this, X, Y, Lt: L, Valid: ref result);
             }
         }
         else
@@ -212,7 +212,7 @@ public sealed class TargetSelectionControl : IDisposable
                     int ys = y + deltaY;
                     if (TargetMode.Contains(TargetSelectionModeElement.OwnerDraw))
                     {
-                        OnShow?.Invoke(this, HN: i, xs, ys, SurfaceDesc: lockedSurface);
+                        _show?.Invoke(this, HN: i, xs, ys, SurfaceDesc: lockedSurface);
                     }
                     else
                     {
@@ -291,8 +291,8 @@ public sealed class TargetSelectionControl : IDisposable
             StrategicMap.Current.Keyboard.Unlock();
             TriggerOnChangeEvent(TargetSelectionChange.Deactivated);
             Source = null;
-            OnShow = null;
-            OnValidateTarget = null;
+            _show = null;
+            _validateTarget = null;
         }
     }
 

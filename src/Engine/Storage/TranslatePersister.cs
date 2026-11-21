@@ -154,7 +154,7 @@ internal sealed class TranslatePersister(TranslateVisit stream, EngineObject nod
     {
     }
 
-    public void List<T>(string name, IList<T> items, ItemTransfer<T> transfer)
+    public void List<T>(string name, IList<T> items, Func<IItemSlot, T, T> transfer)
     {
     }
 }

@@ -34,9 +34,9 @@ public sealed class AIMoveTargetSelector : EngineObject
 
     private readonly MoveTargetList _bufferedTargets;
 
-    public event MoveTargetFoundEvent OnTargetFound;
+    private MoveTargetFoundEvent _targetFound;
 
-    internal void SetTargetFoundHandler(MoveTargetFoundEvent handler) => OnTargetFound = handler;
+    internal void SetTargetFoundHandler(MoveTargetFoundEvent handler) => _targetFound = handler;
 
     private MovePointTable _transportMovePointTable;
 
@@ -80,7 +80,7 @@ public sealed class AIMoveTargetSelector : EngineObject
     {
         _state = 0;
         Status = AIMoveTargetSelectorStatus.Idle;
-        OnTargetFound = null;
+        _targetFound = null;
         MovePointTable movePointTable = MovePointTable;
         movePointTable.Fill(-1);
         MovePointTable = movePointTable;
@@ -142,10 +142,10 @@ public sealed class AIMoveTargetSelector : EngineObject
     // AIGroup.pas:6445
     public void TriggerTargetFound(MoveTarget target)
     {
-        if (OnTargetFound is not null)
+        if (_targetFound is not null)
         {
             bool searchDone = false;
-            OnTargetFound(target, ref searchDone);
+            _targetFound(target, ref searchDone);
             if (searchDone)
             {
                 Done();
@@ -457,7 +457,7 @@ public sealed class AIMoveTargetSelector : EngineObject
     // AIGroup.pas:6690
     public bool Search(AIGroupControl control)
     {
-        if (TargetInfo.Player != -1 && OnTargetFound is not null && SourceLocation != MapCoordinate.None && (MovePointsMax > 0 || (MovePointsMin > 0 && _transporter is not null)))
+        if (TargetInfo.Player != -1 && _targetFound is not null && SourceLocation != MapCoordinate.None && (MovePointsMax > 0 || (MovePointsMin > 0 && _transporter is not null)))
         {
             _state = MovePointsMax > 0 ? 0 : 10;
             _control = control;

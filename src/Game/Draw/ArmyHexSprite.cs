@@ -36,7 +36,7 @@ public partial class ArmyHexSprite : UnitHexSprite
     // Army.PAS:2654
     public override void Dispose()
     {
-        Army.ClearUpdateHandler();
+        Army.SetUpdateHandler(null);
         base.Dispose();
         Army?.Dispose();
         Army = null;

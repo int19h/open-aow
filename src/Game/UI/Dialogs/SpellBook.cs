@@ -142,7 +142,7 @@ public sealed partial class SpellBook(UIContext ui) : UIModule(ui)
     private Hero _hero;
     private AbilityActivation _activation;
     private int _researchedSpell;
-    private event ExecuteDoneEvent Done;
+    private ExecuteDoneEvent _done;
     private PlayerMagicEventLog _event;
     private DoubleItemList _playerPages;
 
@@ -150,9 +150,9 @@ public sealed partial class SpellBook(UIContext ui) : UIModule(ui)
     public void FinishDialog()
     {
         _ = AudioPlayback.PlaySample("SFX\\INT\\BOOKCLSE.WAV");
-        ExecuteDoneEvent done = Done;
+        ExecuteDoneEvent done = _done;
         PlayerMagicEventLog eventValue = _event;
-        Done = null;
+        _done = null;
         _event = null;
         done?.Invoke(eventValue);
 
@@ -761,7 +761,7 @@ public sealed partial class SpellBook(UIContext ui) : UIModule(ui)
     {
         _event = eventValue;
         _ = _event.AddRef();
-        Done = done;
+        _done = done;
         if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ResearchSpellId == 0)
         {
             Reset();
@@ -792,7 +792,7 @@ public sealed partial class SpellBook(UIContext ui) : UIModule(ui)
     {
         _event = eventValue;
         _ = _event.AddRef();
-        Done = done;
+        _done = done;
         if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ResearchSpellId == 0)
         {
             Reset();

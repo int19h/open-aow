@@ -8,7 +8,7 @@ internal static class DelphiListCore
         int Compare(T left, T right);
     }
 
-    private readonly struct TypedCompare<T>(ListSortCompare<T> compare) : ICompare<T?>
+    private readonly struct TypedCompare<T>(Comparison<T?> compare) : ICompare<T?>
         where T : class
     {
         public int Compare(T? left, T? right) => compare(left, right);
@@ -16,7 +16,7 @@ internal static class DelphiListCore
 
     // A comparer of a type derived from the element type, for a list whose owner admits only that
     // type. Each slot is such an item or empty, so the narrowing conversion holds.
-    private readonly struct NarrowCompare<T, TItem>(ListSortCompare<TItem> compare) : ICompare<T?>
+    private readonly struct NarrowCompare<T, TItem>(Comparison<TItem?> compare) : ICompare<T?>
         where T : class
         where TItem : class, T
     {
@@ -135,7 +135,7 @@ internal static class DelphiListCore
         }
     }
 
-    internal static void Sort<T>(T?[] items, int count, ListSortCompare<T> compare)
+    internal static void Sort<T>(T?[] items, int count, Comparison<T?> compare)
         where T : class
     {
         if (count > 0)
@@ -144,11 +144,11 @@ internal static class DelphiListCore
         }
     }
 
-    internal static void SortStable<T>(T?[] items, int count, ListSortCompare<T> compare)
+    internal static void SortStable<T>(T?[] items, int count, Comparison<T?> compare)
         where T : class
         => SortStable(items, count, compare: new TypedCompare<T>(compare));
 
-    internal static void SortAs<T, TItem>(T?[] items, int count, ListSortCompare<TItem> compare)
+    internal static void SortAs<T, TItem>(T?[] items, int count, Comparison<TItem?> compare)
         where T : class
         where TItem : class, T
     {
@@ -158,7 +158,7 @@ internal static class DelphiListCore
         }
     }
 
-    internal static void SortStableAs<T, TItem>(T?[] items, int count, ListSortCompare<TItem> compare)
+    internal static void SortStableAs<T, TItem>(T?[] items, int count, Comparison<TItem?> compare)
         where T : class
         where TItem : class, T
         => SortStable(items, count, compare: new NarrowCompare<T, TItem>(compare));

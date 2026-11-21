@@ -67,7 +67,7 @@ public sealed class AIMoveControl : EngineObject
         {
             Status = status;
             Settings.Status = status;
-            Settings.RaiseDone(this);
+            Settings.Complete(this);
         }
     }
 

@@ -34,5 +34,3 @@ public readonly record struct ObservableChange(
     public static ObservableChange Reset()
         => new(ObservableChangeKind.Reset, Index: -1, Item: null, Previous: null, NewIndex: -1);
 }
-
-public delegate void ObservableChangeHandler(ObservableNode sender, ObservableChange change);

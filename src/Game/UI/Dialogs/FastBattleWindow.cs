@@ -52,7 +52,7 @@ public sealed partial class FastBattleWindow(UIContext ui) : UIModule(ui)
     private int _rightShield;
     private byte _rightOpacity;
     private CombatViewer _viewer;
-    private event ExecuteDoneEvent Done;
+    private ExecuteDoneEvent _done;
     private EventLog _event;
 
     // FastCombatWin.pas:231
@@ -322,9 +322,9 @@ public sealed partial class FastBattleWindow(UIContext ui) : UIModule(ui)
     {
         _viewer.Finalize();
         UI.General.Manager.OverlayPriority = 0;
-        ExecuteDoneEvent done = Done;
+        ExecuteDoneEvent done = _done;
         EventLog log = _event;
-        Done = null;
+        _done = null;
         _event = null;
         done?.Invoke(log);
 
@@ -589,7 +589,7 @@ public sealed partial class FastBattleWindow(UIContext ui) : UIModule(ui)
         dialog.UI.General.Manager.OverlayPriority = 49;
         dialog._event = eventValue;
         _ = dialog._event.AddRef();
-        dialog.Done = done;
+        dialog._done = done;
         dialog._logbook = eventValue.Logbook;
         InitializeCombatDialog(dialog, dialog._logbook);
         dialog.MainWindow.Visible = true;

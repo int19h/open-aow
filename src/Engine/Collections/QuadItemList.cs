@@ -301,7 +301,7 @@ public class QuadItemList : Persistent
     }
 
     // Engine.pas:5691
-    public void Sort(QuadItemSortCompare compare)
+    public void Sort(Comparison<QuadInteger> compare)
     {
         if (_list.Length != 0 && Count > 0)
         {
@@ -347,7 +347,7 @@ public class QuadItemList : Persistent
     // Engine.pas:5505
     protected internal static void Error(string message, int data) => throw new ArgumentOutOfRangeException(paramName: null, message: Format(message, args: [data]));
 
-    private static void QuickSortQuadItem(Span<QuadInteger> sortList, int L, int R, QuadItemSortCompare sCompare)
+    private static void QuickSortQuadItem(Span<QuadInteger> sortList, int L, int R, Comparison<QuadInteger> sCompare)
     {
         int number;
         do
@@ -357,12 +357,12 @@ public class QuadItemList : Persistent
             QuadInteger item = sortList[L + R >>> 1];
             while (true)
             {
-                if (sCompare(in sortList[number], in item) < 0)
+                if (sCompare(sortList[number], item) < 0)
                 {
                     number++;
                     continue;
                 }
-                while (sCompare(in sortList[number2], in item) > 0)
+                while (sCompare(sortList[number2], item) > 0)
                 {
                     number2--;
                 }
@@ -386,27 +386,24 @@ public class QuadItemList : Persistent
         while (number < R);
     }
 
-    private static int CompareQuadItemAAscending(in QuadInteger item1, in QuadInteger item2) => item1.First - item2.First;
+    private static int CompareQuadItemAAscending(QuadInteger item1, QuadInteger item2) => item1.First - item2.First;
 
-    private static int CompareQuadItemBAscending(in QuadInteger item1, in QuadInteger item2) => item1.Second - item2.Second;
+    private static int CompareQuadItemBAscending(QuadInteger item1, QuadInteger item2) => item1.Second - item2.Second;
 
-    private static int CompareQuadItemCAscending(in QuadInteger item1, in QuadInteger item2) => item1.Third - item2.Third;
+    private static int CompareQuadItemCAscending(QuadInteger item1, QuadInteger item2) => item1.Third - item2.Third;
 
-    private static int CompareQuadItemDAscending(in QuadInteger item1, in QuadInteger item2) => item1.Fourth - item2.Fourth;
+    private static int CompareQuadItemDAscending(QuadInteger item1, QuadInteger item2) => item1.Fourth - item2.Fourth;
 
-    private static int CompareQuadItemADescending(in QuadInteger item1, in QuadInteger item2) => item2.First - item1.First;
+    private static int CompareQuadItemADescending(QuadInteger item1, QuadInteger item2) => item2.First - item1.First;
 
-    private static int CompareQuadItemBDescending(in QuadInteger item1, in QuadInteger item2) => item2.Second - item1.Second;
+    private static int CompareQuadItemBDescending(QuadInteger item1, QuadInteger item2) => item2.Second - item1.Second;
 
-    private static int CompareQuadItemCDescending(in QuadInteger item1, in QuadInteger item2) => item2.Third - item1.Third;
+    private static int CompareQuadItemCDescending(QuadInteger item1, QuadInteger item2) => item2.Third - item1.Third;
 
-    private static int CompareQuadItemDDescending(in QuadInteger item1, in QuadInteger item2) => item2.Fourth - item1.Fourth;
+    private static int CompareQuadItemDDescending(QuadInteger item1, QuadInteger item2) => item2.Fourth - item1.Fourth;
 
     internal static void FillQuadInteger(Span<QuadInteger> buffer, int count, in QuadInteger value) => EngineServices.Fill(value: value, buffer: buffer, count: count);
 
     // Delphi TQuadInteger, four integers. Equality compares all four.
     public readonly record struct QuadInteger(int First, int Second, int Third, int Fourth);
-
-    public delegate int QuadItemSortCompare(in QuadInteger Item1, in QuadInteger Item2);
-
 }
