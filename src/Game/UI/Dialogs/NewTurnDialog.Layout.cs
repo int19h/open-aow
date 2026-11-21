@@ -17,15 +17,15 @@ public sealed partial class NewTurnDialog : ILayoutModule
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "NewTDlg";
-        Window.OnMouseDown += (_, button, shift, x, y) => NewTDlgMouseDown(button, shift, x, y);
-        Window.OnKeyPress += (_, ref key) => NewTDlgKeyPress(key);
+        Window.MouseDown += (_, button, shift, x, y) => NewTDlgMouseDown(button, shift, x, y);
+        Window.KeyPress += (_, ref key) => NewTDlgKeyPress(key);
         Window.Visible = false;
         Window.Priority = 1000;
         Window.WinLeft = 80;
         Window.WinTop = 45;
         Window.WinWidth = 480;
         Window.Masked = true;
-        Window.OnHide += _ => NewTDlgHide();
+        Window.Hide += _ => NewTDlgHide();
         Window.Alignment.AlignWidth = AlignWidth.Center;
         Window.Alignment.AlignHeight = AlignHeight.Center;
         Window.Alignment.HeightPercent = 0;
@@ -344,7 +344,7 @@ public sealed partial class NewTurnDialog : ILayoutModule
         Image faceFrame = new(this);
         session.BeginRead(faceFrame);
         faceFrame.Name = "FaceFrame";
-        faceFrame.OnPreDraw += (_, surface) => FaceFramePreDraw(surface);
+        faceFrame.PreDraw += (_, surface) => FaceFramePreDraw(surface);
         faceFrame.Priority = 2000;
         faceFrame.WinLeft = 186;
         faceFrame.WinTop = 35;

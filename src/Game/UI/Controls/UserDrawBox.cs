@@ -75,46 +75,46 @@ public sealed class UserDrawBox(Component owner) : Control(owner)
     // aowUserDrawBox.pas:94
     public override void CheckKeyPress(ref byte key) => Handled = false;
 
-    public new event NotifyEvent<UserDrawBox> OnChange
+    public new event NotifyEvent<UserDrawBox> Change
     {
-        add => ((UIComponent)this).OnChange += EventSlot.Add<UIComponent, UserDrawBox>(this, slot: nameof(OnChange), value: value);
-        remove => ((UIComponent)this).OnChange -= EventSlot.Remove<UIComponent, UserDrawBox>(this, slot: nameof(OnChange), value: value);
+        add => ((UIComponent)this).Change += EventSlot.Add<UIComponent, UserDrawBox>(this, slot: nameof(Change), value: value);
+        remove => ((UIComponent)this).Change -= EventSlot.Remove<UIComponent, UserDrawBox>(this, slot: nameof(Change), value: value);
     }
 
-    public new event MouseEvent<UserDrawBox> OnMouseDown
+    public new event MouseEvent<UserDrawBox> MouseDown
     {
-        add => ((UIComponent)this).OnMouseDown += EventSlot.Add<UIComponent, UserDrawBox>(this, slot: nameof(OnMouseDown), value: value);
-        remove => ((UIComponent)this).OnMouseDown -= EventSlot.Remove<UIComponent, UserDrawBox>(this, slot: nameof(OnMouseDown), value: value);
+        add => ((UIComponent)this).MouseDown += EventSlot.Add<UIComponent, UserDrawBox>(this, slot: nameof(MouseDown), value: value);
+        remove => ((UIComponent)this).MouseDown -= EventSlot.Remove<UIComponent, UserDrawBox>(this, slot: nameof(MouseDown), value: value);
     }
 
-    public new event MouseEvent<UserDrawBox> OnMouseUp
+    public new event MouseEvent<UserDrawBox> MouseUp
     {
-        add => ((UIComponent)this).OnMouseUp += EventSlot.Add<UIComponent, UserDrawBox>(this, slot: nameof(OnMouseUp), value: value);
-        remove => ((UIComponent)this).OnMouseUp -= EventSlot.Remove<UIComponent, UserDrawBox>(this, slot: nameof(OnMouseUp), value: value);
+        add => ((UIComponent)this).MouseUp += EventSlot.Add<UIComponent, UserDrawBox>(this, slot: nameof(MouseUp), value: value);
+        remove => ((UIComponent)this).MouseUp -= EventSlot.Remove<UIComponent, UserDrawBox>(this, slot: nameof(MouseUp), value: value);
     }
 
-    public new event MouseMoveEvent<UserDrawBox> OnMouseMove
+    public new event MouseMoveEvent<UserDrawBox> MouseMove
     {
-        add => ((UIComponent)this).OnMouseMove += EventSlot.Add<UIComponent, UserDrawBox>(this, slot: nameof(OnMouseMove), value: value);
-        remove => ((UIComponent)this).OnMouseMove -= EventSlot.Remove<UIComponent, UserDrawBox>(this, slot: nameof(OnMouseMove), value: value);
+        add => ((UIComponent)this).MouseMove += EventSlot.Add<UIComponent, UserDrawBox>(this, slot: nameof(MouseMove), value: value);
+        remove => ((UIComponent)this).MouseMove -= EventSlot.Remove<UIComponent, UserDrawBox>(this, slot: nameof(MouseMove), value: value);
     }
 
-    public new event KeyPressEvent<UserDrawBox> OnKeyPress
+    public new event KeyPressEvent<UserDrawBox> KeyPress
     {
-        add => ((UIComponent)this).OnKeyPress += EventSlot.Add<UIComponent, UserDrawBox>(this, slot: nameof(OnKeyPress), value: value);
-        remove => ((UIComponent)this).OnKeyPress -= EventSlot.Remove<UIComponent, UserDrawBox>(this, slot: nameof(OnKeyPress), value: value);
+        add => ((UIComponent)this).KeyPress += EventSlot.Add<UIComponent, UserDrawBox>(this, slot: nameof(KeyPress), value: value);
+        remove => ((UIComponent)this).KeyPress -= EventSlot.Remove<UIComponent, UserDrawBox>(this, slot: nameof(KeyPress), value: value);
     }
 
-    public new event KeyEvent<UserDrawBox> OnKeyDown
+    public new event KeyEvent<UserDrawBox> KeyDown
     {
-        add => ((UIComponent)this).OnKeyDown += EventSlot.Add<UIComponent, UserDrawBox>(this, slot: nameof(OnKeyDown), value: value);
-        remove => ((UIComponent)this).OnKeyDown -= EventSlot.Remove<UIComponent, UserDrawBox>(this, slot: nameof(OnKeyDown), value: value);
+        add => ((UIComponent)this).KeyDown += EventSlot.Add<UIComponent, UserDrawBox>(this, slot: nameof(KeyDown), value: value);
+        remove => ((UIComponent)this).KeyDown -= EventSlot.Remove<UIComponent, UserDrawBox>(this, slot: nameof(KeyDown), value: value);
     }
 
-    public new event AoWOnDrawEvent<UserDrawBox> OnPreDraw
+    public new event AoWOnDrawEvent<UserDrawBox> PreDraw
     {
-        add => ((UIComponent)this).OnPreDraw += EventSlot.Add<UIComponent, UserDrawBox>(this, slot: nameof(OnPreDraw), value: value);
-        remove => ((UIComponent)this).OnPreDraw -= EventSlot.Remove<UIComponent, UserDrawBox>(this, slot: nameof(OnPreDraw), value: value);
+        add => ((UIComponent)this).PreDraw += EventSlot.Add<UIComponent, UserDrawBox>(this, slot: nameof(PreDraw), value: value);
+        remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, UserDrawBox>(this, slot: nameof(PreDraw), value: value);
     }
 
     public new event AoWOnDrawEvent<UserDrawBox> OnDraw
@@ -123,9 +123,9 @@ public sealed class UserDrawBox(Component owner) : Control(owner)
         remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, UserDrawBox>(this, slot: nameof(OnDraw), value: value);
     }
 
-    public new event NotifyEvent<UserDrawBox> OnUpdate
+    public new event NotifyEvent<UserDrawBox> Updated
     {
-        add => ((UIComponent)this).OnUpdate += EventSlot.Add<UIComponent, UserDrawBox>(this, slot: nameof(OnUpdate), value: value);
-        remove => ((UIComponent)this).OnUpdate -= EventSlot.Remove<UIComponent, UserDrawBox>(this, slot: nameof(OnUpdate), value: value);
+        add => ((UIComponent)this).Updated += EventSlot.Add<UIComponent, UserDrawBox>(this, slot: nameof(Updated), value: value);
+        remove => ((UIComponent)this).Updated -= EventSlot.Remove<UIComponent, UserDrawBox>(this, slot: nameof(Updated), value: value);
     }
 }

@@ -19,11 +19,11 @@ public sealed partial class General : ILayoutModule
         Manager = new WindowManager(this);
         session.BeginRead(Manager);
         Manager.Name = "Manager";
-        Manager.OnKeyDown += (_, ref key, shift) => ManagerKeyDown(key, shift);
-        Manager.OnUpdate += _ => ManagerUpdate();
-        Manager.OnDebugMessage += ManagerDebugMessage;
+        Manager.KeyDown += (_, ref key, shift) => ManagerKeyDown(key, shift);
+        Manager.Updated += _ => ManagerUpdate();
+        Manager.DebugMessage += ManagerDebugMessage;
         Manager.Cursor = 0;
-        Manager.OnChangeCursor += _ => ManagerChangeCursor();
+        Manager.ChangeCursor += _ => ManagerChangeCursor();
         Manager.WinLeft = 0;
         Manager.WinTop = 0;
         Manager.WinWidth = 640;

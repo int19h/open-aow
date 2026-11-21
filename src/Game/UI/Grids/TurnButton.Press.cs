@@ -15,7 +15,7 @@ public sealed partial class TurnButton
         ButtonChecked = !ButtonChecked;
 
         Drawn = false;
-        OnChange?.Invoke(this);
+        Change?.Invoke(this);
 
         return true;
     }

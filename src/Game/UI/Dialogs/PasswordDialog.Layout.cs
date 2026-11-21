@@ -18,14 +18,14 @@ public sealed partial class PasswordDialog : ILayoutModule
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "Dlg";
-        Window.OnKeyDown += (_, ref key, shift) => DlgKeyDown(key, shift);
+        Window.KeyDown += (_, ref key, shift) => DlgKeyDown(key, shift);
         Window.Visible = false;
         Window.Priority = 600;
         Window.WinLeft = 160;
         Window.WinTop = 129;
         Window.WinWidth = 320;
         Window.Masked = true;
-        Window.OnHide += _ => DlgHide();
+        Window.Hide += _ => DlgHide();
         Window.Alignment.AlignWidth = AlignWidth.Center;
         Window.Alignment.AlignHeight = AlignHeight.Center;
         Window.Alignment.HeightPercent = 0;
@@ -221,7 +221,7 @@ public sealed partial class PasswordDialog : ILayoutModule
         okBtn.TextColor = 0;
         okBtn.TextSelectedColor = 16777215;
         okBtn.WinWidth = 105;
-        okBtn.OnClick += _ => OKBtnClick();
+        okBtn.Click += _ => OKBtnClick();
         session.EndRead(okBtn);
         Button cancelBtn = new(this);
         session.BeginRead(cancelBtn);
@@ -252,7 +252,7 @@ public sealed partial class PasswordDialog : ILayoutModule
         cancelBtn.TextColor = 0;
         cancelBtn.TextSelectedColor = 16777215;
         cancelBtn.WinWidth = 105;
-        cancelBtn.OnClick += _ => CancelBtnClick();
+        cancelBtn.Click += _ => CancelBtnClick();
         session.EndRead(cancelBtn);
         PasswordLabel = new Label(this);
         session.BeginRead(PasswordLabel);

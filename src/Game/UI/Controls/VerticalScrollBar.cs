@@ -434,46 +434,46 @@ public sealed partial class VerticalScrollBar(Component owner) : ScrollBar(owner
         }
     }
 
-    public new event NotifyEvent<VerticalScrollBar> OnChange
+    public new event NotifyEvent<VerticalScrollBar> Change
     {
-        add => ((UIComponent)this).OnChange += EventSlot.Add<UIComponent, VerticalScrollBar>(this, slot: nameof(OnChange), value: value);
-        remove => ((UIComponent)this).OnChange -= EventSlot.Remove<UIComponent, VerticalScrollBar>(this, slot: nameof(OnChange), value: value);
+        add => ((UIComponent)this).Change += EventSlot.Add<UIComponent, VerticalScrollBar>(this, slot: nameof(Change), value: value);
+        remove => ((UIComponent)this).Change -= EventSlot.Remove<UIComponent, VerticalScrollBar>(this, slot: nameof(Change), value: value);
     }
 
-    public new event MouseEvent<VerticalScrollBar> OnMouseDown
+    public new event MouseEvent<VerticalScrollBar> MouseDown
     {
-        add => ((UIComponent)this).OnMouseDown += EventSlot.Add<UIComponent, VerticalScrollBar>(this, slot: nameof(OnMouseDown), value: value);
-        remove => ((UIComponent)this).OnMouseDown -= EventSlot.Remove<UIComponent, VerticalScrollBar>(this, slot: nameof(OnMouseDown), value: value);
+        add => ((UIComponent)this).MouseDown += EventSlot.Add<UIComponent, VerticalScrollBar>(this, slot: nameof(MouseDown), value: value);
+        remove => ((UIComponent)this).MouseDown -= EventSlot.Remove<UIComponent, VerticalScrollBar>(this, slot: nameof(MouseDown), value: value);
     }
 
-    public new event MouseEvent<VerticalScrollBar> OnMouseUp
+    public new event MouseEvent<VerticalScrollBar> MouseUp
     {
-        add => ((UIComponent)this).OnMouseUp += EventSlot.Add<UIComponent, VerticalScrollBar>(this, slot: nameof(OnMouseUp), value: value);
-        remove => ((UIComponent)this).OnMouseUp -= EventSlot.Remove<UIComponent, VerticalScrollBar>(this, slot: nameof(OnMouseUp), value: value);
+        add => ((UIComponent)this).MouseUp += EventSlot.Add<UIComponent, VerticalScrollBar>(this, slot: nameof(MouseUp), value: value);
+        remove => ((UIComponent)this).MouseUp -= EventSlot.Remove<UIComponent, VerticalScrollBar>(this, slot: nameof(MouseUp), value: value);
     }
 
-    public new event MouseMoveEvent<VerticalScrollBar> OnMouseMove
+    public new event MouseMoveEvent<VerticalScrollBar> MouseMove
     {
-        add => ((UIComponent)this).OnMouseMove += EventSlot.Add<UIComponent, VerticalScrollBar>(this, slot: nameof(OnMouseMove), value: value);
-        remove => ((UIComponent)this).OnMouseMove -= EventSlot.Remove<UIComponent, VerticalScrollBar>(this, slot: nameof(OnMouseMove), value: value);
+        add => ((UIComponent)this).MouseMove += EventSlot.Add<UIComponent, VerticalScrollBar>(this, slot: nameof(MouseMove), value: value);
+        remove => ((UIComponent)this).MouseMove -= EventSlot.Remove<UIComponent, VerticalScrollBar>(this, slot: nameof(MouseMove), value: value);
     }
 
-    public new event KeyPressEvent<VerticalScrollBar> OnKeyPress
+    public new event KeyPressEvent<VerticalScrollBar> KeyPress
     {
-        add => ((UIComponent)this).OnKeyPress += EventSlot.Add<UIComponent, VerticalScrollBar>(this, slot: nameof(OnKeyPress), value: value);
-        remove => ((UIComponent)this).OnKeyPress -= EventSlot.Remove<UIComponent, VerticalScrollBar>(this, slot: nameof(OnKeyPress), value: value);
+        add => ((UIComponent)this).KeyPress += EventSlot.Add<UIComponent, VerticalScrollBar>(this, slot: nameof(KeyPress), value: value);
+        remove => ((UIComponent)this).KeyPress -= EventSlot.Remove<UIComponent, VerticalScrollBar>(this, slot: nameof(KeyPress), value: value);
     }
 
-    public new event KeyEvent<VerticalScrollBar> OnKeyDown
+    public new event KeyEvent<VerticalScrollBar> KeyDown
     {
-        add => ((UIComponent)this).OnKeyDown += EventSlot.Add<UIComponent, VerticalScrollBar>(this, slot: nameof(OnKeyDown), value: value);
-        remove => ((UIComponent)this).OnKeyDown -= EventSlot.Remove<UIComponent, VerticalScrollBar>(this, slot: nameof(OnKeyDown), value: value);
+        add => ((UIComponent)this).KeyDown += EventSlot.Add<UIComponent, VerticalScrollBar>(this, slot: nameof(KeyDown), value: value);
+        remove => ((UIComponent)this).KeyDown -= EventSlot.Remove<UIComponent, VerticalScrollBar>(this, slot: nameof(KeyDown), value: value);
     }
 
-    public new event AoWOnDrawEvent<VerticalScrollBar> OnPreDraw
+    public new event AoWOnDrawEvent<VerticalScrollBar> PreDraw
     {
-        add => ((UIComponent)this).OnPreDraw += EventSlot.Add<UIComponent, VerticalScrollBar>(this, slot: nameof(OnPreDraw), value: value);
-        remove => ((UIComponent)this).OnPreDraw -= EventSlot.Remove<UIComponent, VerticalScrollBar>(this, slot: nameof(OnPreDraw), value: value);
+        add => ((UIComponent)this).PreDraw += EventSlot.Add<UIComponent, VerticalScrollBar>(this, slot: nameof(PreDraw), value: value);
+        remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, VerticalScrollBar>(this, slot: nameof(PreDraw), value: value);
     }
 
     public new event AoWOnDrawEvent<VerticalScrollBar> OnDraw
@@ -482,9 +482,9 @@ public sealed partial class VerticalScrollBar(Component owner) : ScrollBar(owner
         remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, VerticalScrollBar>(this, slot: nameof(OnDraw), value: value);
     }
 
-    public new event NotifyEvent<VerticalScrollBar> OnUpdate
+    public new event NotifyEvent<VerticalScrollBar> Updated
     {
-        add => ((UIComponent)this).OnUpdate += EventSlot.Add<UIComponent, VerticalScrollBar>(this, slot: nameof(OnUpdate), value: value);
-        remove => ((UIComponent)this).OnUpdate -= EventSlot.Remove<UIComponent, VerticalScrollBar>(this, slot: nameof(OnUpdate), value: value);
+        add => ((UIComponent)this).Updated += EventSlot.Add<UIComponent, VerticalScrollBar>(this, slot: nameof(Updated), value: value);
+        remove => ((UIComponent)this).Updated -= EventSlot.Remove<UIComponent, VerticalScrollBar>(this, slot: nameof(Updated), value: value);
     }
 }

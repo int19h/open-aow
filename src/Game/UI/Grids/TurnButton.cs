@@ -18,9 +18,9 @@ public sealed partial class TurnButton(Component owner) : Control(owner)
     private int _animationPhase;
     private int _frameOffset = 11;
     [Published]
-    public event NotifyEvent<TurnButton> OnAnimationDone;
+    public event NotifyEvent<TurnButton> AnimationDone;
     [Published]
-    public new event NotifyEvent<TurnButton> OnChange;
+    public new event NotifyEvent<TurnButton> Change;
 
     public bool ButtonChecked { get; set; }
     public int AnimationFrame { get; set; }
@@ -95,7 +95,7 @@ public sealed partial class TurnButton(Component owner) : Control(owner)
                         _frameOffset = 11;
                         LastPlayer = CurrentPlayer;
                         Animating = false;
-                        OnAnimationDone?.Invoke(this);
+                        AnimationDone?.Invoke(this);
                     }
 
                     break;
@@ -188,40 +188,40 @@ public sealed partial class TurnButton(Component owner) : Control(owner)
     [Published]
     public override bool Checked { get => ButtonChecked; set => ButtonChecked = value; }
 
-    public new event MouseEvent<TurnButton> OnMouseDown
+    public new event MouseEvent<TurnButton> MouseDown
     {
-        add => ((UIComponent)this).OnMouseDown += EventSlot.Add<UIComponent, TurnButton>(this, slot: nameof(OnMouseDown), value: value);
-        remove => ((UIComponent)this).OnMouseDown -= EventSlot.Remove<UIComponent, TurnButton>(this, slot: nameof(OnMouseDown), value: value);
+        add => ((UIComponent)this).MouseDown += EventSlot.Add<UIComponent, TurnButton>(this, slot: nameof(MouseDown), value: value);
+        remove => ((UIComponent)this).MouseDown -= EventSlot.Remove<UIComponent, TurnButton>(this, slot: nameof(MouseDown), value: value);
     }
 
-    public new event MouseEvent<TurnButton> OnMouseUp
+    public new event MouseEvent<TurnButton> MouseUp
     {
-        add => ((UIComponent)this).OnMouseUp += EventSlot.Add<UIComponent, TurnButton>(this, slot: nameof(OnMouseUp), value: value);
-        remove => ((UIComponent)this).OnMouseUp -= EventSlot.Remove<UIComponent, TurnButton>(this, slot: nameof(OnMouseUp), value: value);
+        add => ((UIComponent)this).MouseUp += EventSlot.Add<UIComponent, TurnButton>(this, slot: nameof(MouseUp), value: value);
+        remove => ((UIComponent)this).MouseUp -= EventSlot.Remove<UIComponent, TurnButton>(this, slot: nameof(MouseUp), value: value);
     }
 
-    public new event MouseMoveEvent<TurnButton> OnMouseMove
+    public new event MouseMoveEvent<TurnButton> MouseMove
     {
-        add => ((UIComponent)this).OnMouseMove += EventSlot.Add<UIComponent, TurnButton>(this, slot: nameof(OnMouseMove), value: value);
-        remove => ((UIComponent)this).OnMouseMove -= EventSlot.Remove<UIComponent, TurnButton>(this, slot: nameof(OnMouseMove), value: value);
+        add => ((UIComponent)this).MouseMove += EventSlot.Add<UIComponent, TurnButton>(this, slot: nameof(MouseMove), value: value);
+        remove => ((UIComponent)this).MouseMove -= EventSlot.Remove<UIComponent, TurnButton>(this, slot: nameof(MouseMove), value: value);
     }
 
-    public new event KeyPressEvent<TurnButton> OnKeyPress
+    public new event KeyPressEvent<TurnButton> KeyPress
     {
-        add => ((UIComponent)this).OnKeyPress += EventSlot.Add<UIComponent, TurnButton>(this, slot: nameof(OnKeyPress), value: value);
-        remove => ((UIComponent)this).OnKeyPress -= EventSlot.Remove<UIComponent, TurnButton>(this, slot: nameof(OnKeyPress), value: value);
+        add => ((UIComponent)this).KeyPress += EventSlot.Add<UIComponent, TurnButton>(this, slot: nameof(KeyPress), value: value);
+        remove => ((UIComponent)this).KeyPress -= EventSlot.Remove<UIComponent, TurnButton>(this, slot: nameof(KeyPress), value: value);
     }
 
-    public new event KeyEvent<TurnButton> OnKeyDown
+    public new event KeyEvent<TurnButton> KeyDown
     {
-        add => ((UIComponent)this).OnKeyDown += EventSlot.Add<UIComponent, TurnButton>(this, slot: nameof(OnKeyDown), value: value);
-        remove => ((UIComponent)this).OnKeyDown -= EventSlot.Remove<UIComponent, TurnButton>(this, slot: nameof(OnKeyDown), value: value);
+        add => ((UIComponent)this).KeyDown += EventSlot.Add<UIComponent, TurnButton>(this, slot: nameof(KeyDown), value: value);
+        remove => ((UIComponent)this).KeyDown -= EventSlot.Remove<UIComponent, TurnButton>(this, slot: nameof(KeyDown), value: value);
     }
 
-    public new event AoWOnDrawEvent<TurnButton> OnPreDraw
+    public new event AoWOnDrawEvent<TurnButton> PreDraw
     {
-        add => ((UIComponent)this).OnPreDraw += EventSlot.Add<UIComponent, TurnButton>(this, slot: nameof(OnPreDraw), value: value);
-        remove => ((UIComponent)this).OnPreDraw -= EventSlot.Remove<UIComponent, TurnButton>(this, slot: nameof(OnPreDraw), value: value);
+        add => ((UIComponent)this).PreDraw += EventSlot.Add<UIComponent, TurnButton>(this, slot: nameof(PreDraw), value: value);
+        remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, TurnButton>(this, slot: nameof(PreDraw), value: value);
     }
 
     public new event AoWOnDrawEvent<TurnButton> OnDraw
@@ -230,9 +230,9 @@ public sealed partial class TurnButton(Component owner) : Control(owner)
         remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, TurnButton>(this, slot: nameof(OnDraw), value: value);
     }
 
-    public new event NotifyEvent<TurnButton> OnUpdate
+    public new event NotifyEvent<TurnButton> Updated
     {
-        add => ((UIComponent)this).OnUpdate += EventSlot.Add<UIComponent, TurnButton>(this, slot: nameof(OnUpdate), value: value);
-        remove => ((UIComponent)this).OnUpdate -= EventSlot.Remove<UIComponent, TurnButton>(this, slot: nameof(OnUpdate), value: value);
+        add => ((UIComponent)this).Updated += EventSlot.Add<UIComponent, TurnButton>(this, slot: nameof(Updated), value: value);
+        remove => ((UIComponent)this).Updated -= EventSlot.Remove<UIComponent, TurnButton>(this, slot: nameof(Updated), value: value);
     }
 }

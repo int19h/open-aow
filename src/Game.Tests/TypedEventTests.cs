@@ -43,8 +43,8 @@ public sealed class TypedEventTests(TypedEventTests.Host host) : IClassFixture<T
         ListBox list = new(owner);
         int runs = 0;
         void Open() => runs++;
-        button.OnClick += _ => Open();
-        list.OnDoubleClick += _ => Open();
+        button.Click += _ => Open();
+        list.DoubleClick += _ => Open();
 
         Click(button);
         DoubleClick(list);
@@ -60,7 +60,7 @@ public sealed class TypedEventTests(TypedEventTests.Host host) : IClassFixture<T
         Button button = new(owner);
         object? seen = null;
         void Ignore(object sender) => seen = sender;
-        button.OnClick += Ignore;
+        button.Click += Ignore;
 
         Click(button);
 
@@ -75,7 +75,7 @@ public sealed class TypedEventTests(TypedEventTests.Host host) : IClassFixture<T
         Button button = new(owner);
         Button? seen = null;
         void click(Button sender) => seen = sender;
-        button.OnClick += click;
+        button.Click += click;
         Click(button);
         Assert.Same(button, seen);
 
@@ -88,19 +88,19 @@ public sealed class TypedEventTests(TypedEventTests.Host host) : IClassFixture<T
         }
 
         UIComponent component = button;
-        component.OnMouseDown += Down;
+        component.MouseDown += Down;
         MouseDown(button, sender: button);
         Assert.Equal(1, runs);
         Assert.Same(button, mouseSender);
 
-        component.OnMouseDown -= Down;
+        component.MouseDown -= Down;
         Assert.Null(MouseDownHandler(button));
 
         Button? typedSender = null;
         void typed(Button sender, MouseButton mouseButton, ShiftStates shift, int x, int y) => typedSender = sender;
-        button.OnMouseDown += typed;
+        button.MouseDown += typed;
         Assert.NotNull(MouseDownHandler(button));
-        button.OnMouseDown -= typed;
+        button.MouseDown -= typed;
         Assert.Null(MouseDownHandler(button));
         Assert.Null(typedSender);
         Assert.Equal(1, runs);
@@ -139,8 +139,8 @@ public sealed class TypedEventTests(TypedEventTests.Host host) : IClassFixture<T
         try
         {
             dialog = Load(new LayoutSession(), module: new FileDialogWindow(_host.UI), publish: static module => { _ = module; });
-            Assert.NotNull(EventFields.Handler<NotifyEvent<Button>>(dialog.OpenButton, declaring: typeof(Button), name: nameof(Button.OnClick)));
-            Assert.NotNull(EventFields.Handler<NotifyEvent<ListBox>>(dialog.FileList, declaring: typeof(ListBox), name: nameof(ListBox.OnDoubleClick)));
+            Assert.NotNull(EventFields.Handler<NotifyEvent<Button>>(dialog.OpenButton, declaring: typeof(Button), name: nameof(Button.Click)));
+            Assert.NotNull(EventFields.Handler<NotifyEvent<ListBox>>(dialog.FileList, declaring: typeof(ListBox), name: nameof(ListBox.DoubleClick)));
             FileDialogWindow.Directories = null!;
             NullReferenceException click = Assert.Throws<NullReferenceException>(() => Click(dialog.OpenButton));
             NullReferenceException doubleClick = Assert.Throws<NullReferenceException>(() => DoubleClick(dialog.FileList));
@@ -167,10 +167,10 @@ public sealed class TypedEventTests(TypedEventTests.Host host) : IClassFixture<T
         Button button = new(owner);
         Button other = new(owner);
         Button? seen = null;
-        button.OnMouseDown += (sender, mouseButton, shift, x, y) => seen = sender;
+        button.MouseDown += (sender, mouseButton, shift, x, y) => seen = sender;
         BaseButton? middleSeen = null;
         BaseButton middle = button;
-        middle.OnMouseDown += (sender, mouseButton, shift, x, y) => middleSeen = sender;
+        middle.MouseDown += (sender, mouseButton, shift, x, y) => middleSeen = sender;
 
         MouseDown(button, sender: other);
 
@@ -184,9 +184,9 @@ public sealed class TypedEventTests(TypedEventTests.Host host) : IClassFixture<T
         using Component owner = new(null);
         Button button = new(owner);
         List<string> runs = [];
-        button.OnMouseDown += (sender, mouseButton, shift, x, y) => runs.Add($"button {sender == button}");
+        button.MouseDown += (sender, mouseButton, shift, x, y) => runs.Add($"button {sender == button}");
         UIComponent component = button;
-        component.OnMouseDown += (sender, mouseButton, shift, x, y) => runs.Add($"component {sender == button}");
+        component.MouseDown += (sender, mouseButton, shift, x, y) => runs.Add($"component {sender == button}");
 
         MouseDown(button, sender: button);
 
@@ -206,10 +206,10 @@ public sealed class TypedEventTests(TypedEventTests.Host host) : IClassFixture<T
             seen = sender;
             pressed = 66;
         }
-        button.OnKeyPress += handler;
-        button.OnKeyPress -= handler;
+        button.KeyPress += handler;
+        button.KeyPress -= handler;
         Assert.Null(KeyPressHandler(button));
-        button.OnKeyPress += handler;
+        button.KeyPress += handler;
 
         KeyPressHandler(button)!(other, ref key);
 
@@ -228,9 +228,9 @@ public sealed class TypedEventTests(TypedEventTests.Host host) : IClassFixture<T
         void stranger(Button sender, MouseButton mouseButton, ShiftStates shift, int x, int y)
         {
         }
-        button.OnMouseDown += handler;
-        button.OnMouseDown -= stranger;
-        other.OnMouseDown -= handler;
+        button.MouseDown += handler;
+        button.MouseDown -= stranger;
+        other.MouseDown -= handler;
 
         MouseDown(button, sender: other);
 
@@ -239,22 +239,22 @@ public sealed class TypedEventTests(TypedEventTests.Host host) : IClassFixture<T
 
     // The base events, raised and read the way their declaring classes raise them.
     private static void Change(UIComponent component)
-        => EventFields.Handler<NotifyEvent<UIComponent>>(component, declaring: typeof(UIComponent), name: nameof(UIComponent.OnChange))!(component);
+        => EventFields.Handler<NotifyEvent<UIComponent>>(component, declaring: typeof(UIComponent), name: nameof(UIComponent.Change))!(component);
 
     private static void Click(Button button)
-        => EventFields.Handler<NotifyEvent<Button>>(button, declaring: typeof(Button), name: nameof(Button.OnClick))!(button);
+        => EventFields.Handler<NotifyEvent<Button>>(button, declaring: typeof(Button), name: nameof(Button.Click))!(button);
 
     private static void DoubleClick(ListBox list)
-        => EventFields.Handler<NotifyEvent<ListBox>>(list, declaring: typeof(ListBox), name: nameof(ListBox.OnDoubleClick))!(list);
+        => EventFields.Handler<NotifyEvent<ListBox>>(list, declaring: typeof(ListBox), name: nameof(ListBox.DoubleClick))!(list);
 
     private static MouseEvent<UIComponent>? MouseDownHandler(UIComponent component)
-        => EventFields.Handler<MouseEvent<UIComponent>>(component, declaring: typeof(UIComponent), name: nameof(UIComponent.OnMouseDown));
+        => EventFields.Handler<MouseEvent<UIComponent>>(component, declaring: typeof(UIComponent), name: nameof(UIComponent.MouseDown));
 
     private static void MouseDown(UIComponent component, UIComponent sender)
         => MouseDownHandler(component)!(sender, button: MouseButton.Left, shift: default, 1, 2);
 
     private static KeyPressEvent<UIComponent>? KeyPressHandler(UIComponent component)
-        => EventFields.Handler<KeyPressEvent<UIComponent>>(component, declaring: typeof(UIComponent), name: nameof(UIComponent.OnKeyPress));
+        => EventFields.Handler<KeyPressEvent<UIComponent>>(component, declaring: typeof(UIComponent), name: nameof(UIComponent.KeyPress));
 
     private static T Load<T>(LayoutSession session, T module, Action<T?> publish) where T : Component, ILayoutModule
     {

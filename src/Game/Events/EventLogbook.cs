@@ -52,10 +52,10 @@ public sealed class EventLogbook : EngineObject
 
     // EventLog.pas:541 and EventLog.pas:544, the OnChanged property of the logbook, which reads
     // and writes the handler of its event list. A handler joins and leaves the list's event.
-    public event NotifyEvent<object> OnChanged
+    public event NotifyEvent<object> Changed
     {
-        add => _events.OnChanged += value;
-        remove => _events.OnChanged -= value;
+        add => _events.Changed += value;
+        remove => _events.Changed -= value;
     }
 
     // EventLog.pas:550

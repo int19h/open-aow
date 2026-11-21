@@ -5707,7 +5707,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -5785,7 +5785,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -5908,7 +5908,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -5986,7 +5986,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -6106,7 +6106,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -6192,7 +6192,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -6385,7 +6385,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -6463,7 +6463,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -6536,7 +6536,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -6614,7 +6614,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -6773,7 +6773,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -6851,7 +6851,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -6980,7 +6980,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -7058,7 +7058,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -7178,7 +7178,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -7258,7 +7258,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -7398,7 +7398,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -7476,7 +7476,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -7623,7 +7623,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -7721,7 +7721,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -7877,7 +7877,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -7957,7 +7957,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -8096,7 +8096,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -8174,7 +8174,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -8343,7 +8343,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -8423,7 +8423,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -8498,7 +8498,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -8578,7 +8578,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -8765,7 +8765,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -8845,7 +8845,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -8920,7 +8920,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -9000,7 +9000,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -9130,7 +9130,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -9208,7 +9208,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -9331,7 +9331,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -9409,7 +9409,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -9529,7 +9529,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -9621,7 +9621,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -9814,7 +9814,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -9904,7 +9904,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -9990,7 +9990,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -10070,7 +10070,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -10201,7 +10201,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -10281,7 +10281,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -10442,7 +10442,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -10522,7 +10522,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -10682,7 +10682,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -10760,7 +10760,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -10833,7 +10833,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -10911,7 +10911,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -11031,7 +11031,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -11109,7 +11109,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -11490,7 +11490,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -11568,7 +11568,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -11694,7 +11694,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -11786,7 +11786,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -11926,7 +11926,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -12012,7 +12012,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -12093,7 +12093,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -12179,7 +12179,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -12328,7 +12328,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -12414,7 +12414,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -12595,7 +12595,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -12742,7 +12742,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -12894,7 +12894,7 @@
               "$type": "Aow.Game.World.Structures.ProductionPlaceControl",
               "EngineObject._owner": null,
               "ProductionControl.LoopQueue": false,
-              "ProductionControl.OnChange": null,
+              "ProductionControl.Change": null,
               "ProductionControl.Queue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "EngineObject._owner": null,
@@ -12987,7 +12987,7 @@
               "$type": "Aow.Game.World.Structures.ProductionPlaceControl",
               "EngineObject._owner": null,
               "ProductionControl.LoopQueue": false,
-              "ProductionControl.OnChange": null,
+              "ProductionControl.Change": null,
               "ProductionControl.Queue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "EngineObject._owner": null,
@@ -13248,7 +13248,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -13387,7 +13387,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -13655,7 +13655,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -13794,7 +13794,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -14062,7 +14062,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -14201,7 +14201,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -14469,7 +14469,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -14608,7 +14608,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -14876,7 +14876,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -15015,7 +15015,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -15283,7 +15283,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -15422,7 +15422,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -15690,7 +15690,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -15829,7 +15829,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -15963,7 +15963,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -16094,7 +16094,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -16297,7 +16297,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -16428,7 +16428,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -16631,7 +16631,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -16778,7 +16778,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -16930,7 +16930,7 @@
               "$type": "Aow.Game.World.Structures.ProductionPlaceControl",
               "EngineObject._owner": null,
               "ProductionControl.LoopQueue": false,
-              "ProductionControl.OnChange": null,
+              "ProductionControl.Change": null,
               "ProductionControl.Queue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "EngineObject._owner": null,
@@ -17023,7 +17023,7 @@
               "$type": "Aow.Game.World.Structures.ProductionPlaceControl",
               "EngineObject._owner": null,
               "ProductionControl.LoopQueue": false,
-              "ProductionControl.OnChange": null,
+              "ProductionControl.Change": null,
               "ProductionControl.Queue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "EngineObject._owner": null,
@@ -17150,7 +17150,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -17281,7 +17281,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -17488,7 +17488,7 @@
               "CityProductionControl.City": "$ref:$",
               "EngineObject._owner": null,
               "ProductionControl.LoopQueue": false,
-              "ProductionControl.OnChange": null,
+              "ProductionControl.Change": null,
               "ProductionControl.Queue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "EngineObject._owner": null,
@@ -17610,7 +17610,7 @@
               "CityProductionControl.City": "$ref:$",
               "EngineObject._owner": null,
               "ProductionControl.LoopQueue": false,
-              "ProductionControl.OnChange": null,
+              "ProductionControl.Change": null,
               "ProductionControl.Queue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "EngineObject._owner": null,
@@ -17799,7 +17799,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -17942,7 +17942,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -18248,7 +18248,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -18395,7 +18395,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -18547,7 +18547,7 @@
               "$type": "Aow.Game.World.Structures.ProductionPlaceControl",
               "EngineObject._owner": null,
               "ProductionControl.LoopQueue": false,
-              "ProductionControl.OnChange": null,
+              "ProductionControl.Change": null,
               "ProductionControl.Queue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "EngineObject._owner": null,
@@ -18640,7 +18640,7 @@
               "$type": "Aow.Game.World.Structures.ProductionPlaceControl",
               "EngineObject._owner": null,
               "ProductionControl.LoopQueue": false,
-              "ProductionControl.OnChange": null,
+              "ProductionControl.Change": null,
               "ProductionControl.Queue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "EngineObject._owner": null,
@@ -18778,7 +18778,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -18943,7 +18943,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -19339,7 +19339,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -19486,7 +19486,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -19638,7 +19638,7 @@
               "$type": "Aow.Game.World.Structures.ProductionPlaceControl",
               "EngineObject._owner": null,
               "ProductionControl.LoopQueue": false,
-              "ProductionControl.OnChange": null,
+              "ProductionControl.Change": null,
               "ProductionControl.Queue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "EngineObject._owner": null,
@@ -19731,7 +19731,7 @@
               "$type": "Aow.Game.World.Structures.ProductionPlaceControl",
               "EngineObject._owner": null,
               "ProductionControl.LoopQueue": false,
-              "ProductionControl.OnChange": null,
+              "ProductionControl.Change": null,
               "ProductionControl.Queue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "EngineObject._owner": null,
@@ -20020,7 +20020,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -20163,7 +20163,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -20290,7 +20290,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -20431,7 +20431,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -20712,7 +20712,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -20859,7 +20859,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -21011,7 +21011,7 @@
               "$type": "Aow.Game.World.Structures.ProductionPlaceControl",
               "EngineObject._owner": null,
               "ProductionControl.LoopQueue": false,
-              "ProductionControl.OnChange": null,
+              "ProductionControl.Change": null,
               "ProductionControl.Queue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "EngineObject._owner": null,
@@ -21104,7 +21104,7 @@
               "$type": "Aow.Game.World.Structures.ProductionPlaceControl",
               "EngineObject._owner": null,
               "ProductionControl.LoopQueue": false,
-              "ProductionControl.OnChange": null,
+              "ProductionControl.Change": null,
               "ProductionControl.Queue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "EngineObject._owner": null,
@@ -21421,7 +21421,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -21564,7 +21564,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -21691,7 +21691,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -21838,7 +21838,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -21990,7 +21990,7 @@
               "$type": "Aow.Game.World.Structures.ProductionPlaceControl",
               "EngineObject._owner": null,
               "ProductionControl.LoopQueue": false,
-              "ProductionControl.OnChange": null,
+              "ProductionControl.Change": null,
               "ProductionControl.Queue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "EngineObject._owner": null,
@@ -22083,7 +22083,7 @@
               "$type": "Aow.Game.World.Structures.ProductionPlaceControl",
               "EngineObject._owner": null,
               "ProductionControl.LoopQueue": false,
-              "ProductionControl.OnChange": null,
+              "ProductionControl.Change": null,
               "ProductionControl.Queue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "EngineObject._owner": null,
@@ -22210,7 +22210,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -22341,7 +22341,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -22561,7 +22561,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -22700,7 +22700,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -22984,7 +22984,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -23127,7 +23127,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -23575,7 +23575,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -23716,7 +23716,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -23977,7 +23977,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -24116,7 +24116,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -24250,7 +24250,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -24389,7 +24389,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -24672,7 +24672,7 @@
               "$type": "Aow.Game.World.Structures.ProductionPlaceControl",
               "EngineObject._owner": null,
               "ProductionControl.LoopQueue": false,
-              "ProductionControl.OnChange": null,
+              "ProductionControl.Change": null,
               "ProductionControl.Queue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "EngineObject._owner": null,
@@ -24765,7 +24765,7 @@
               "$type": "Aow.Game.World.Structures.ProductionPlaceControl",
               "EngineObject._owner": null,
               "ProductionControl.LoopQueue": false,
-              "ProductionControl.OnChange": null,
+              "ProductionControl.Change": null,
               "ProductionControl.Queue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "EngineObject._owner": null,
@@ -24892,7 +24892,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -25039,7 +25039,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -25192,7 +25192,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -25335,7 +25335,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -25641,7 +25641,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -25780,7 +25780,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -26042,7 +26042,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -26185,7 +26185,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -26334,7 +26334,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -26477,7 +26477,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -26783,7 +26783,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -26930,7 +26930,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -27082,7 +27082,7 @@
               "$type": "Aow.Game.World.Structures.ProductionPlaceControl",
               "EngineObject._owner": null,
               "ProductionControl.LoopQueue": false,
-              "ProductionControl.OnChange": null,
+              "ProductionControl.Change": null,
               "ProductionControl.Queue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "EngineObject._owner": null,
@@ -27175,7 +27175,7 @@
               "$type": "Aow.Game.World.Structures.ProductionPlaceControl",
               "EngineObject._owner": null,
               "ProductionControl.LoopQueue": false,
-              "ProductionControl.OnChange": null,
+              "ProductionControl.Change": null,
               "ProductionControl.Queue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "EngineObject._owner": null,
@@ -27302,7 +27302,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -27433,7 +27433,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -27702,7 +27702,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -27833,7 +27833,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -28113,7 +28113,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -28244,7 +28244,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -28370,7 +28370,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -28501,7 +28501,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -28725,7 +28725,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -28864,7 +28864,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -29126,7 +29126,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -29273,7 +29273,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -29425,7 +29425,7 @@
               "$type": "Aow.Game.World.Structures.ProductionPlaceControl",
               "EngineObject._owner": null,
               "ProductionControl.LoopQueue": false,
-              "ProductionControl.OnChange": null,
+              "ProductionControl.Change": null,
               "ProductionControl.Queue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "EngineObject._owner": null,
@@ -29518,7 +29518,7 @@
               "$type": "Aow.Game.World.Structures.ProductionPlaceControl",
               "EngineObject._owner": null,
               "ProductionControl.LoopQueue": false,
-              "ProductionControl.OnChange": null,
+              "ProductionControl.Change": null,
               "ProductionControl.Queue": {
                 "$type": "Aow.Game.World.Structures.ProductionQueue",
                 "EngineObject._owner": null,
@@ -29645,7 +29645,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -29776,7 +29776,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -29993,7 +29993,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -30085,7 +30085,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -30249,7 +30249,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -30341,7 +30341,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -30505,7 +30505,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -30595,7 +30595,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -30804,7 +30804,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -30894,7 +30894,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -31047,7 +31047,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -31137,7 +31137,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -31220,7 +31220,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -31306,7 +31306,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -31508,7 +31508,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -31594,7 +31594,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -31675,7 +31675,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -31761,7 +31761,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -31907,7 +31907,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -31993,7 +31993,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -32147,7 +32147,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -32237,7 +32237,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -32453,7 +32453,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -32539,7 +32539,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -32622,7 +32622,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -32712,7 +32712,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -32863,7 +32863,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -32949,7 +32949,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -33095,7 +33095,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -33183,7 +33183,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -33325,7 +33325,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -33413,7 +33413,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -33555,7 +33555,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -33641,7 +33641,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -33793,7 +33793,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -33879,7 +33879,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -34031,7 +34031,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -34117,7 +34117,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -34269,7 +34269,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -34347,7 +34347,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []

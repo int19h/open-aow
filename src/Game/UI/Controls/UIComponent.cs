@@ -36,46 +36,46 @@ public partial class UIComponent(Rtl.Component owner) : Rtl.Component(owner)
     protected void RaiseDraw(UIComponent sender, LockedSurface surfDesc) => OnDraw?.Invoke(sender, surfDesc);
 
     [Published]
-    public event AoWOnDrawEvent<UIComponent> OnPreDraw;
+    public event AoWOnDrawEvent<UIComponent> PreDraw;
 
-    protected void RaisePreDraw(UIComponent sender, LockedSurface surfDesc) => OnPreDraw?.Invoke(sender, surfDesc);
-
-    [Published]
-    public event MouseEvent<UIComponent> OnMouseDown;
-
-    protected void RaiseMouseDown(UIComponent sender, MouseButton button, ShiftStates shift, int x, int y) => OnMouseDown?.Invoke(sender, button, shift, x, y);
+    protected void RaisePreDraw(UIComponent sender, LockedSurface surfDesc) => PreDraw?.Invoke(sender, surfDesc);
 
     [Published]
-    public event MouseEvent<UIComponent> OnMouseUp;
+    public event MouseEvent<UIComponent> MouseDown;
 
-    protected void RaiseMouseUp(UIComponent sender, MouseButton button, ShiftStates shift, int x, int y) => OnMouseUp?.Invoke(sender, button, shift, x, y);
-
-    [Published]
-    public event MouseMoveEvent<UIComponent> OnMouseMove;
-
-    protected void RaiseMouseMove(UIComponent sender, ShiftStates shift, int x, int y) => OnMouseMove?.Invoke(sender, shift, x, y);
+    protected void RaiseMouseDown(UIComponent sender, MouseButton button, ShiftStates shift, int x, int y) => MouseDown?.Invoke(sender, button, shift, x, y);
 
     [Published]
-    public event KeyPressEvent<UIComponent> OnKeyPress;
+    public event MouseEvent<UIComponent> MouseUp;
 
-    protected void RaiseKeyPress(UIComponent sender, ref byte key) => OnKeyPress?.Invoke(sender, ref key);
+    protected void RaiseMouseUp(UIComponent sender, MouseButton button, ShiftStates shift, int x, int y) => MouseUp?.Invoke(sender, button, shift, x, y);
+
+    [Published]
+    public event MouseMoveEvent<UIComponent> MouseMove;
+
+    protected void RaiseMouseMove(UIComponent sender, ShiftStates shift, int x, int y) => MouseMove?.Invoke(sender, shift, x, y);
+
+    [Published]
+    public event KeyPressEvent<UIComponent> KeyPress;
+
+    protected void RaiseKeyPress(UIComponent sender, ref byte key) => KeyPress?.Invoke(sender, ref key);
 
     // Memo.CheckKeyPress (AoWMemo.pas) calls OnKeyPress after a test of OnKeyDown only. This call
     // keeps that: it has no null test of its own and throws when OnKeyPress has no handler.
-    protected void RaiseKeyPressUnchecked(UIComponent sender, ref byte key) => OnKeyPress(sender, ref key);
+    protected void RaiseKeyPressUnchecked(UIComponent sender, ref byte key) => KeyPress(sender, ref key);
 
     [Published]
-    public event KeyEvent<UIComponent> OnKeyDown;
+    public event KeyEvent<UIComponent> KeyDown;
 
-    protected void RaiseKeyDown(UIComponent sender, ref ushort key, ShiftStates shift) => OnKeyDown?.Invoke(sender, ref key, shift);
+    protected void RaiseKeyDown(UIComponent sender, ref ushort key, ShiftStates shift) => KeyDown?.Invoke(sender, ref key, shift);
 
-    protected bool HasKeyDownHandlers => OnKeyDown is not null;
+    protected bool HasKeyDownHandlers => KeyDown is not null;
 
-    public event NotifyEvent<UIComponent> OnChange;
+    public event NotifyEvent<UIComponent> Change;
 
-    internal void RaiseChange(UIComponent sender) => OnChange?.Invoke(sender);
+    internal void RaiseChange(UIComponent sender) => Change?.Invoke(sender);
 
-    public bool MouseDown { get; protected set; }
+    public bool IsMouseDown { get; protected set; }
 
     private bool _visible = true;
 
@@ -117,16 +117,16 @@ public partial class UIComponent(Rtl.Component owner) : Rtl.Component(owner)
     public int OwnerItem { get; set; }
 
     [Published]
-    public event NotifyEvent<UIComponent> OnUpdate;
+    public event NotifyEvent<UIComponent> Updated;
 
-    protected void RaiseUpdate(UIComponent sender) => OnUpdate?.Invoke(sender);
+    protected void RaiseUpdate(UIComponent sender) => Updated?.Invoke(sender);
 
     // Nothing in the port raises OnDebugMessage. The bound handler is kept.
     [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Public event OnDebugMessage keeps this backing field until the port raises it.")]
     private AoWOnDebugEvent _onDebugMessage;
 
     [Published]
-    public event AoWOnDebugEvent OnDebugMessage { add => _onDebugMessage += value; remove => _onDebugMessage -= value; }
+    public event AoWOnDebugEvent DebugMessage { add => _onDebugMessage += value; remove => _onDebugMessage -= value; }
 
     private UIComponent _ownerComponent;
 
@@ -354,7 +354,7 @@ public partial class UIComponent(Rtl.Component owner) : Rtl.Component(owner)
         {
             if (Valid && _visible)
             {
-                OnUpdate?.Invoke(this);
+                Updated?.Invoke(this);
 
                 for (int i = Children.Count - 1; i >= 0; i--)
                 {

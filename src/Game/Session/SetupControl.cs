@@ -41,36 +41,36 @@ public sealed class SetupControl : Component
     public RemotePlayer RemotePlayer { get; }
 
     [Published]
-    public event Event OnSettingChanged;
+    public event Event SettingChanged;
     [Published]
     public event LoadMapEvent OnLoadMap;
     [Published]
-    public event Event OnSetupMap;
+    public event Event MapSetUp;
     [Published]
-    public event Event OnStart;
+    public event Event Start;
     // Nothing in the port raises OnAbort. The bound handler is kept.
     [SuppressMessage("Style", "IDE0052:Remove unread private members", Justification = "Public event OnAbort keeps this backing field until the port raises it.")]
     private Event _onAbort;
 
     [Published]
-    public event Event OnAbort { add => _onAbort += value; remove => _onAbort -= value; }
+    public event Event Abort { add => _onAbort += value; remove => _onAbort -= value; }
 
     [Published]
-    public event CustomizeLeaderEvent OnCustomizeLeader;
+    public event CustomizeLeaderEvent CustomizeLeader;
     [Published]
-    public event Event OnSynchronize;
+    public event Event Synchronize;
     [Published]
     public event Event OnPlayerSetupDone;
     [Published]
-    public event EjectPlayerEvent OnEjectPlayer;
+    public event EjectPlayerEvent PlayerEjected;
     [Published]
-    public event IncompatibleVersionEvent OnIncompatibleVersion;
+    public event IncompatibleVersionEvent IncompatibleVersion;
     [Published]
-    public event SendDataEvent OnSendData;
+    public event SendDataEvent SendData;
     [Published]
-    public event SendMapEvent OnSendMap;
+    public event SendMapEvent MapSent;
     [Published]
-    public event Event OnSendingMaps;
+    public event Event SendingMaps;
 
     // AoWSetup.pas:448
     public override void Dispose()
@@ -98,7 +98,7 @@ public sealed class SetupControl : Component
     }
 
     // AoWSetup.pas:456
-    public void SendData(object data, int size, int recipient) => OnSendData?.Invoke(data, size, SystemID: recipient);
+    public void OnSendData(object data, int size, int recipient) => SendData?.Invoke(data, size, SystemID: recipient);
 
     // AoWSetup.pas:461
     public void SendPackage(SetupPackage package, int recipient)
@@ -107,7 +107,7 @@ public sealed class SetupControl : Component
         try
         {
             _engine.StoreEngineObject(stream, objectValue: package, progress: null);
-            SendData(size: (int)stream.Length, data: stream.GetBuffer(), recipient: recipient);
+            OnSendData(size: (int)stream.Length, data: stream.GetBuffer(), recipient: recipient);
             int streamSize = (int)stream.Length;
             _engine.OutputDebugMessage(DebugChannel.NetworkEngine, S: $"SetupPackage Send (ID:{package.MessageId.ToString(CultureInfo.InvariantCulture)}/Size:{streamSize.ToString(CultureInfo.InvariantCulture)}) to {recipient.ToString(CultureInfo.InvariantCulture)}");
         }
@@ -223,7 +223,7 @@ public sealed class SetupControl : Component
         {
             if (player.Version >>> 24 == 1 && ((player.Version >>> 16) & 0xFF) <= 10)
             {
-                OnEjectPlayer?.Invoke(this, player.RemoteId);
+                PlayerEjected?.Invoke(this, player.RemoteId);
             }
             else
             {
@@ -289,7 +289,7 @@ public sealed class SetupControl : Component
                 SendMessage(4, objectValue: Settings, 0, 0, recipient: 0);
             }
 
-            OnSettingChanged?.Invoke(this);
+            SettingChanged?.Invoke(this);
         }
     }
 
@@ -377,7 +377,7 @@ public sealed class SetupControl : Component
                         }
                     }
 
-                    OnSettingChanged?.Invoke(this);
+                    SettingChanged?.Invoke(this);
                 }
 
                 break;
@@ -399,7 +399,7 @@ public sealed class SetupControl : Component
                             ValidateMap();
                         }
 
-                        OnSettingChanged?.Invoke(this);
+                        SettingChanged?.Invoke(this);
 
                         LoadMap();
                     }
@@ -433,7 +433,7 @@ public sealed class SetupControl : Component
                 if (!GetHost())
                 {
                     _phase = SetupPhase.SendMap;
-                    OnSendingMaps?.Invoke(this);
+                    SendingMaps?.Invoke(this);
                 }
 
                 break;
@@ -448,7 +448,7 @@ public sealed class SetupControl : Component
             case 9:
                 if (!GetHost())
                 {
-                    OnIncompatibleVersion?.Invoke(this, MajorVersion: package.Param2, MinorVersion: package.Param1);
+                    IncompatibleVersion?.Invoke(this, MajorVersion: package.Param2, MinorVersion: package.Param1);
                 }
 
                 break;
@@ -488,10 +488,10 @@ public sealed class SetupControl : Component
             // reads (own-formats.md 4.1). A document the original image cannot carry has no image.
             // LoadOrRaise refuses it through the packet profile, and this sends nothing.
             MemoryStream stream = GameEngine.ImageStream(FileBoundary.LoadOrRaise(_engine.StartupDirectory + Settings.MapName, profile: GameProfile.WorldMap));
-            if (OnSendMap is not null)
+            if (MapSent is not null)
             {
                 int size = (int)stream.Length;
-                OnSendMap(this, Data: stream.GetBuffer(), size, Recipient: remoteId);
+                MapSent(this, Data: stream.GetBuffer(), size, Recipient: remoteId);
             }
 
             stream?.Dispose();
@@ -507,7 +507,7 @@ public sealed class SetupControl : Component
     public void SendMap()
     {
         _phase = SetupPhase.SendMap;
-        OnSendingMaps?.Invoke(this);
+        SendingMaps?.Invoke(this);
 
         SendMessage(10, objectValue: Settings, 0, 0, recipient: 0);
         if (ValidateSendMap())
@@ -549,7 +549,7 @@ public sealed class SetupControl : Component
         if (Settings.MapDay != 0 || !Settings.CustomizeLeaders)
         {
             _phase = SetupPhase.Synchronize;
-            OnSynchronize?.Invoke(this);
+            Synchronize?.Invoke(this);
         }
 
         int i;
@@ -646,9 +646,9 @@ public sealed class SetupControl : Component
                 cLC.Mode = (LeaderSetupModes)(ulong)(cLC.Mode & ~LeaderSetupModes.Settings);
             }
 
-            if (OnCustomizeLeader is not null)
+            if (CustomizeLeader is not null)
             {
-                OnCustomizeLeader(this, cLC);
+                CustomizeLeader(this, cLC);
                 result = true;
             }
 
@@ -657,7 +657,7 @@ public sealed class SetupControl : Component
         else
         {
             _phase = SetupPhase.Synchronize;
-            OnSynchronize?.Invoke(this);
+            Synchronize?.Invoke(this);
         }
 
         return result;
@@ -814,7 +814,7 @@ public sealed class SetupControl : Component
             }
 
             _ = StrategicMap.Current.PlayerCommunicator.ActivatePlayerCommunicationControl(remotePlayerCommunicationControl);
-            remotePlayerCommunicationControl.SetSendDataHandler(OnSendData);
+            remotePlayerCommunicationControl.SetSendDataHandler(SendData);
             ListPlayerCommunicationControlInfo(remotePlayerCommunicationControl);
             remotePlayerCommunicationControl.Release();
         }
@@ -856,11 +856,11 @@ public sealed class SetupControl : Component
         StrategicMap.Current.StartingGame = Settings.AlwaysViewTacticalBattle;
         RemoveIndependentPlayers();
         StrategicMap.Current.SetupPlayerControl((PlayMode)Settings.PlayMode, connection: (PlayerConnectionType)Settings.ConnectionType);
-        if (OnSetupMap is not null)
+        if (MapSetUp is not null)
         {
             try
             {
-                OnSetupMap(this);
+                MapSetUp(this);
             }
             catch
             {
@@ -868,11 +868,11 @@ public sealed class SetupControl : Component
         }
 
         Reset();
-        if (OnStart is not null)
+        if (Start is not null)
         {
             try
             {
-                OnStart(this);
+                Start(this);
             }
             catch
             {
@@ -922,7 +922,7 @@ public sealed class SetupControl : Component
                 SendMessage(4, objectValue: Settings, 0, 0, recipient: 0);
             }
 
-            OnSettingChanged?.Invoke(this);
+            SettingChanged?.Invoke(this);
 
             _updateCount -= 1;
         }
@@ -1242,10 +1242,10 @@ public sealed class SetupControl : Component
                     RemotePlayer playerRemoteId = Settings.RemotePlayers.GetPlayers(i);
                     if (Settings.IndexOfRemoteId(playerRemoteId.RemoteId) == -1)
                     {
-                        if (OnEjectPlayer is not null)
+                        if (PlayerEjected is not null)
                         {
                             RemotePlayer player = Settings.RemotePlayers.GetPlayers(i);
-                            OnEjectPlayer(this, player.RemoteId);
+                            PlayerEjected(this, player.RemoteId);
                         }
 
                         Settings.RemotePlayers.GetPlayers(i)?.Dispose();
@@ -1554,7 +1554,7 @@ public sealed class SetupControl : Component
             if (i != -1)
             {
                 Settings.RemotePlayers.GetPlayers(i)?.Dispose();
-                OnEjectPlayer?.Invoke(this, remoteId);
+                PlayerEjected?.Invoke(this, remoteId);
 
                 int j = Settings.IndexOfRemoteId(remoteId);
                 if (j != -1)

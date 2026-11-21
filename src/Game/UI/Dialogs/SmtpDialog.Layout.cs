@@ -19,14 +19,14 @@ public sealed partial class SmtpDialog : ILayoutModule
         Window = new Window(this);
         session.BeginRead(Window);
         Window.Name = "Dlg";
-        Window.OnUpdate += _ => DlgUpdate();
+        Window.Updated += _ => DlgUpdate();
         Window.Visible = false;
         Window.Priority = 300;
         Window.WinLeft = 127;
         Window.WinTop = 111;
         Window.WinWidth = 386;
         Window.Masked = true;
-        Window.OnHide += _ => DlgHide();
+        Window.Hide += _ => DlgHide();
         Window.Alignment.AlignWidth = AlignWidth.Center;
         Window.Alignment.AlignHeight = AlignHeight.Center;
         Window.Alignment.HeightPercent = 0;
@@ -229,7 +229,7 @@ public sealed partial class SmtpDialog : ILayoutModule
         ExitButton.TextColor = 0;
         ExitButton.TextSelectedColor = 16777215;
         ExitButton.WinWidth = 130;
-        ExitButton.OnClick += _ => ExitBtnClick();
+        ExitButton.Click += _ => ExitBtnClick();
         session.EndRead(ExitButton);
         SendingGameLabel = new Label(this);
         session.BeginRead(SendingGameLabel);
@@ -257,7 +257,7 @@ public sealed partial class SmtpDialog : ILayoutModule
         ProgressBar = new Gauge(this);
         session.BeginRead(ProgressBar);
         ProgressBar.Name = "ProgressBar";
-        ProgressBar.OnUpdate += _ => ProgressBarUpdate();
+        ProgressBar.Updated += _ => ProgressBarUpdate();
         ProgressBar.Priority = 0;
         ProgressBar.WinLeft = 0;
         ProgressBar.WinTop = 65;
@@ -430,7 +430,7 @@ public sealed partial class SmtpDialog : ILayoutModule
         settingsBtn.TextColor = 0;
         settingsBtn.TextSelectedColor = 16777215;
         settingsBtn.WinWidth = 110;
-        settingsBtn.OnClick += _ => SettingsBtnClick();
+        settingsBtn.Click += _ => SettingsBtnClick();
         session.EndRead(settingsBtn);
         Button retryBtn = new(this);
         session.BeginRead(retryBtn);
@@ -461,7 +461,7 @@ public sealed partial class SmtpDialog : ILayoutModule
         retryBtn.TextColor = 0;
         retryBtn.TextSelectedColor = 16777215;
         retryBtn.WinWidth = 110;
-        retryBtn.OnClick += _ => RetryBtnClick();
+        retryBtn.Click += _ => RetryBtnClick();
         session.EndRead(retryBtn);
         Button exitBtn2 = new(this);
         session.BeginRead(exitBtn2);
@@ -492,7 +492,7 @@ public sealed partial class SmtpDialog : ILayoutModule
         exitBtn2.TextColor = 0;
         exitBtn2.TextSelectedColor = 16777215;
         exitBtn2.WinWidth = 110;
-        exitBtn2.OnClick += _ => ExitBtnClick();
+        exitBtn2.Click += _ => ExitBtnClick();
         session.EndRead(exitBtn2);
         Label titleLbl = new(this);
         session.BeginRead(titleLbl);
@@ -588,8 +588,8 @@ public sealed partial class SmtpDialog : ILayoutModule
         session.BeginRead(SmtpSender);
         SmtpSender.Name = "IMSSMTP";
         SmtpSender.DefaultPort = 25;
-        SmtpSender.OnError += (_, error) => SmtpSenderError(error);
-        SmtpSender.OnProgress += (_, progress, total) => SmtpSenderProgress(progress, total);
+        SmtpSender.Error += (_, error) => SmtpSenderError(error);
+        SmtpSender.Progress += (_, progress, total) => SmtpSenderProgress(progress, total);
         session.EndRead(SmtpSender);
         LayoutIvTranslator translator = new(this);
         session.BeginRead(translator);

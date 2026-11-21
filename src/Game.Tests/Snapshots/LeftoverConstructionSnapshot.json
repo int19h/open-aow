@@ -15047,7 +15047,7 @@
                       "EventLogbook._events": {
                         "$type": "Aow.Game.Events.EventLogList",
                         "EngineObject._owner": null,
-                        "EventLogList.OnChanged": [
+                        "EventLogList.Changed": [
                           "Aow.Game.Session.Player.LogbookChangedEvent"
                         ],
                         "EventLogList._updateCount": 0,
@@ -15586,7 +15586,7 @@
                       "EventLogbook._events": {
                         "$type": "Aow.Game.Events.EventLogList",
                         "EngineObject._owner": null,
-                        "EventLogList.OnChanged": [
+                        "EventLogList.Changed": [
                           "Aow.Game.Session.Player.LogbookChangedEvent"
                         ],
                         "EventLogList._updateCount": 0,
@@ -16125,7 +16125,7 @@
                       "EventLogbook._events": {
                         "$type": "Aow.Game.Events.EventLogList",
                         "EngineObject._owner": null,
-                        "EventLogList.OnChanged": [
+                        "EventLogList.Changed": [
                           "Aow.Game.Session.Player.LogbookChangedEvent"
                         ],
                         "EventLogList._updateCount": 0,
@@ -17231,7 +17231,7 @@
             "StrategicMap._executeEventLogBuffer": {
               "$type": "Aow.Game.Events.EventLogList",
               "EngineObject._owner": null,
-              "EventLogList.OnChanged": null,
+              "EventLogList.Changed": null,
               "EventLogList._updateCount": 0,
               "OwningNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
@@ -18609,7 +18609,7 @@
                       "EventLogbook._events": {
                         "$type": "Aow.Game.Events.EventLogList",
                         "EngineObject._owner": null,
-                        "EventLogList.OnChanged": [
+                        "EventLogList.Changed": [
                           "Aow.Game.Session.Player.LogbookChangedEvent"
                         ],
                         "EventLogList._updateCount": 0,
@@ -19148,7 +19148,7 @@
                       "EventLogbook._events": {
                         "$type": "Aow.Game.Events.EventLogList",
                         "EngineObject._owner": null,
-                        "EventLogList.OnChanged": [
+                        "EventLogList.Changed": [
                           "Aow.Game.Session.Player.LogbookChangedEvent"
                         ],
                         "EventLogList._updateCount": 0,
@@ -19687,7 +19687,7 @@
                       "EventLogbook._events": {
                         "$type": "Aow.Game.Events.EventLogList",
                         "EngineObject._owner": null,
-                        "EventLogList.OnChanged": [
+                        "EventLogList.Changed": [
                           "Aow.Game.Session.Player.LogbookChangedEvent"
                         ],
                         "EventLogList._updateCount": 0,
@@ -20793,7 +20793,7 @@
             "StrategicMap._executeEventLogBuffer": {
               "$type": "Aow.Game.Events.EventLogList",
               "EngineObject._owner": null,
-              "EventLogList.OnChanged": null,
+              "EventLogList.Changed": null,
               "EventLogList._updateCount": 0,
               "OwningNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
@@ -21109,7 +21109,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -21196,7 +21196,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -22434,7 +22434,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -22529,7 +22529,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -22603,7 +22603,7 @@
             "$type": "Aow.Game.World.Structures.ProductionControl",
             "EngineObject._owner": null,
             "ProductionControl.LoopQueue": false,
-            "ProductionControl.OnChange": null,
+            "ProductionControl.Change": null,
             "ProductionControl.Queue": {
               "$type": "Aow.Game.World.Structures.ProductionQueue",
               "EngineObject._owner": null,
@@ -22663,7 +22663,7 @@
             "$type": "Aow.Game.World.Structures.ProductionControl",
             "EngineObject._owner": "$owner",
             "ProductionControl.LoopQueue": false,
-            "ProductionControl.OnChange": null,
+            "ProductionControl.Change": null,
             "ProductionControl.Queue": {
               "$type": "Aow.Game.World.Structures.ProductionQueue",
               "EngineObject._owner": null,
@@ -22710,7 +22710,7 @@
               "$type": "Aow.Game.World.Structures.ProductionControl",
               "EngineObject._owner": "$owner",
               "ProductionControl.LoopQueue": false,
-              "ProductionControl.OnChange": null,
+              "ProductionControl.Change": null,
               "ProductionControl.Queue": null,
               "ProductionControl.Settings": null,
               "ProductionControl.Status": 0,
@@ -22756,7 +22756,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []
@@ -22853,7 +22853,7 @@
               "CustomImageLibrary.DataOffset": 0,
               "CustomImageLibrary.Images": null,
               "CustomImageLibrary.LoadedFileName": "",
-              "CustomImageLibrary.OnChange": null,
+              "CustomImageLibrary.Change": null,
               "CustomImageLibrary.PaletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
                 "PaletteManager.Palettes": []

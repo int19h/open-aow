@@ -32,7 +32,7 @@ public sealed partial class CampaignSettingsDialog : ILayoutModule
         Window.WinTop = 126;
         Window.WinWidth = 325;
         Window.Masked = true;
-        Window.OnShow += _ => DlgShow();
+        Window.Show += _ => DlgShow();
         Window.Alignment.AlignWidth = AlignWidth.Center;
         Window.Alignment.AlignHeight = AlignHeight.Center;
         Window.Alignment.HeightPercent = 0;
@@ -96,7 +96,7 @@ public sealed partial class CampaignSettingsDialog : ILayoutModule
         okBtn.TextColor = 0;
         okBtn.TextSelectedColor = 16777215;
         okBtn.WinWidth = 120;
-        okBtn.OnClick += _ => OKBtnClick();
+        okBtn.Click += _ => OKBtnClick();
         session.EndRead(okBtn);
         Frame bCeltL = new(this);
         session.BeginRead(bCeltL);
@@ -180,7 +180,7 @@ public sealed partial class CampaignSettingsDialog : ILayoutModule
         close.TextColor = 0;
         close.TextSelectedColor = 0;
         close.WinWidth = 15;
-        close.OnClick += _ => CancelBtnClick();
+        close.Click += _ => CancelBtnClick();
         session.EndRead(close);
         Image titleIcon = new(this);
         session.BeginRead(titleIcon);
@@ -460,7 +460,7 @@ public sealed partial class CampaignSettingsDialog : ILayoutModule
         cancelBtn.TextColor = 0;
         cancelBtn.TextSelectedColor = 16777215;
         cancelBtn.WinWidth = 120;
-        cancelBtn.OnClick += _ => CancelBtnClick();
+        cancelBtn.Click += _ => CancelBtnClick();
         session.EndRead(cancelBtn);
         Image tCeltLineL = new(this);
         session.BeginRead(tCeltLineL);

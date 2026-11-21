@@ -20,7 +20,7 @@ public sealed class HexSpriteMapViewer : Component
     private int _sceneL;
 
     [Published]
-    public event NotifyEvent<object> OnSceneChanged;
+    public event NotifyEvent<object> SceneChanged;
     private GameMap _hexSpriteMap;
 
     // Port extension: the scene drawn under the original clamp before ShowCenteredMap centers it.
@@ -30,7 +30,7 @@ public sealed class HexSpriteMapViewer : Component
     public HexSpriteMapViewer(Component owner) : base(owner)
     {
         StaticSurfaceValid = false;
-        OnSceneChanged = null;
+        SceneChanged = null;
     }
 
     // HSEngine.pas:4678
@@ -95,9 +95,9 @@ public sealed class HexSpriteMapViewer : Component
             SetSceneX(pixelX);
             SetSceneY(pixelY);
             SetSceneL(lHitPoints);
-            if (_hexSpriteMap.SetViewPort(_sceneX, _sceneY, lHitPoints: _sceneL, _sceneWidth, _sceneHeight) && OnSceneChanged is not null)
+            if (_hexSpriteMap.SetViewPort(_sceneX, _sceneY, lHitPoints: _sceneL, _sceneWidth, _sceneHeight) && SceneChanged is not null)
             {
-                OnSceneChanged(this);
+                SceneChanged(this);
             }
         }
     }
@@ -111,9 +111,9 @@ public sealed class HexSpriteMapViewer : Component
             SetSceneX(pixelX + 16 - (_sceneWidth >>> 1));
             SetSceneY(pixelY + 16 - (_sceneHeight >>> 1));
             SetSceneL(hexLevel);
-            if (_hexSpriteMap.SetViewPort(_sceneX, _sceneY, lHitPoints: _sceneL, _sceneWidth, _sceneHeight) && OnSceneChanged is not null)
+            if (_hexSpriteMap.SetViewPort(_sceneX, _sceneY, lHitPoints: _sceneL, _sceneWidth, _sceneHeight) && SceneChanged is not null)
             {
-                OnSceneChanged(this);
+                SceneChanged(this);
             }
         }
     }
@@ -208,9 +208,9 @@ public sealed class HexSpriteMapViewer : Component
             {
                 // The field holds the map. The object-typed copy belongs to #150.
                 GameMap m = (GameMap)mp;
-                if (m.SetViewPort(_sceneX, _sceneY, lHitPoints: _sceneL, _sceneWidth, _sceneHeight) && OnSceneChanged is not null)
+                if (m.SetViewPort(_sceneX, _sceneY, lHitPoints: _sceneL, _sceneWidth, _sceneHeight) && SceneChanged is not null)
                 {
-                    OnSceneChanged(this);
+                    SceneChanged(this);
                 }
 
                 // Port extension: a scene larger than the map draws as the original does into

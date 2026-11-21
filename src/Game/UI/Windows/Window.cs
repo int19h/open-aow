@@ -814,66 +814,66 @@ public partial class Window : GenericWindow
     }
 
     [Published]
-    public event NotifyEvent<Window> OnDrag
+    public event NotifyEvent<Window> Drag
     {
-        add => ((UIComponent)this).OnChange += EventSlot.Add<UIComponent, Window>(this, slot: nameof(OnDrag), value: value);
-        remove => ((UIComponent)this).OnChange -= EventSlot.Remove<UIComponent, Window>(this, slot: nameof(OnDrag), value: value);
+        add => ((UIComponent)this).Change += EventSlot.Add<UIComponent, Window>(this, slot: nameof(Drag), value: value);
+        remove => ((UIComponent)this).Change -= EventSlot.Remove<UIComponent, Window>(this, slot: nameof(Drag), value: value);
     }
 
     [Published]
-    public new event NotifyEvent<Window> OnResize
+    public new event NotifyEvent<Window> Resize
     {
-        add => ((WindowControl)this).OnResize += EventSlot.Add<WindowControl, Window>(this, slot: nameof(OnResize), value: value);
-        remove => ((WindowControl)this).OnResize -= EventSlot.Remove<WindowControl, Window>(this, slot: nameof(OnResize), value: value);
+        add => ((WindowControl)this).Resize += EventSlot.Add<WindowControl, Window>(this, slot: nameof(Resize), value: value);
+        remove => ((WindowControl)this).Resize -= EventSlot.Remove<WindowControl, Window>(this, slot: nameof(Resize), value: value);
     }
 
     [Published]
-    public new event NotifyEvent<Window> OnInternalResize
+    public new event NotifyEvent<Window> InternalResize
     {
-        add => ((WindowControl)this).OnInternalResize += EventSlot.Add<WindowControl, Window>(this, slot: nameof(OnInternalResize), value: value);
-        remove => ((WindowControl)this).OnInternalResize -= EventSlot.Remove<WindowControl, Window>(this, slot: nameof(OnInternalResize), value: value);
+        add => ((WindowControl)this).InternalResize += EventSlot.Add<WindowControl, Window>(this, slot: nameof(InternalResize), value: value);
+        remove => ((WindowControl)this).InternalResize -= EventSlot.Remove<WindowControl, Window>(this, slot: nameof(InternalResize), value: value);
     }
 
-    public new event NotifyEvent<Window> OnChange
+    public new event NotifyEvent<Window> Change
     {
-        add => ((UIComponent)this).OnChange += EventSlot.Add<UIComponent, Window>(this, slot: nameof(OnChange), value: value);
-        remove => ((UIComponent)this).OnChange -= EventSlot.Remove<UIComponent, Window>(this, slot: nameof(OnChange), value: value);
+        add => ((UIComponent)this).Change += EventSlot.Add<UIComponent, Window>(this, slot: nameof(Change), value: value);
+        remove => ((UIComponent)this).Change -= EventSlot.Remove<UIComponent, Window>(this, slot: nameof(Change), value: value);
     }
 
-    public new event MouseEvent<Window> OnMouseDown
+    public new event MouseEvent<Window> MouseDown
     {
-        add => ((UIComponent)this).OnMouseDown += EventSlot.Add<UIComponent, Window>(this, slot: nameof(OnMouseDown), value: value);
-        remove => ((UIComponent)this).OnMouseDown -= EventSlot.Remove<UIComponent, Window>(this, slot: nameof(OnMouseDown), value: value);
+        add => ((UIComponent)this).MouseDown += EventSlot.Add<UIComponent, Window>(this, slot: nameof(MouseDown), value: value);
+        remove => ((UIComponent)this).MouseDown -= EventSlot.Remove<UIComponent, Window>(this, slot: nameof(MouseDown), value: value);
     }
 
-    public new event MouseEvent<Window> OnMouseUp
+    public new event MouseEvent<Window> MouseUp
     {
-        add => ((UIComponent)this).OnMouseUp += EventSlot.Add<UIComponent, Window>(this, slot: nameof(OnMouseUp), value: value);
-        remove => ((UIComponent)this).OnMouseUp -= EventSlot.Remove<UIComponent, Window>(this, slot: nameof(OnMouseUp), value: value);
+        add => ((UIComponent)this).MouseUp += EventSlot.Add<UIComponent, Window>(this, slot: nameof(MouseUp), value: value);
+        remove => ((UIComponent)this).MouseUp -= EventSlot.Remove<UIComponent, Window>(this, slot: nameof(MouseUp), value: value);
     }
 
-    public new event MouseMoveEvent<Window> OnMouseMove
+    public new event MouseMoveEvent<Window> MouseMove
     {
-        add => ((UIComponent)this).OnMouseMove += EventSlot.Add<UIComponent, Window>(this, slot: nameof(OnMouseMove), value: value);
-        remove => ((UIComponent)this).OnMouseMove -= EventSlot.Remove<UIComponent, Window>(this, slot: nameof(OnMouseMove), value: value);
+        add => ((UIComponent)this).MouseMove += EventSlot.Add<UIComponent, Window>(this, slot: nameof(MouseMove), value: value);
+        remove => ((UIComponent)this).MouseMove -= EventSlot.Remove<UIComponent, Window>(this, slot: nameof(MouseMove), value: value);
     }
 
-    public new event KeyPressEvent<Window> OnKeyPress
+    public new event KeyPressEvent<Window> KeyPress
     {
-        add => ((UIComponent)this).OnKeyPress += EventSlot.Add<UIComponent, Window>(this, slot: nameof(OnKeyPress), value: value);
-        remove => ((UIComponent)this).OnKeyPress -= EventSlot.Remove<UIComponent, Window>(this, slot: nameof(OnKeyPress), value: value);
+        add => ((UIComponent)this).KeyPress += EventSlot.Add<UIComponent, Window>(this, slot: nameof(KeyPress), value: value);
+        remove => ((UIComponent)this).KeyPress -= EventSlot.Remove<UIComponent, Window>(this, slot: nameof(KeyPress), value: value);
     }
 
-    public new event KeyEvent<Window> OnKeyDown
+    public new event KeyEvent<Window> KeyDown
     {
-        add => ((UIComponent)this).OnKeyDown += EventSlot.Add<UIComponent, Window>(this, slot: nameof(OnKeyDown), value: value);
-        remove => ((UIComponent)this).OnKeyDown -= EventSlot.Remove<UIComponent, Window>(this, slot: nameof(OnKeyDown), value: value);
+        add => ((UIComponent)this).KeyDown += EventSlot.Add<UIComponent, Window>(this, slot: nameof(KeyDown), value: value);
+        remove => ((UIComponent)this).KeyDown -= EventSlot.Remove<UIComponent, Window>(this, slot: nameof(KeyDown), value: value);
     }
 
-    public new event AoWOnDrawEvent<Window> OnPreDraw
+    public new event AoWOnDrawEvent<Window> PreDraw
     {
-        add => ((UIComponent)this).OnPreDraw += EventSlot.Add<UIComponent, Window>(this, slot: nameof(OnPreDraw), value: value);
-        remove => ((UIComponent)this).OnPreDraw -= EventSlot.Remove<UIComponent, Window>(this, slot: nameof(OnPreDraw), value: value);
+        add => ((UIComponent)this).PreDraw += EventSlot.Add<UIComponent, Window>(this, slot: nameof(PreDraw), value: value);
+        remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, Window>(this, slot: nameof(PreDraw), value: value);
     }
 
     public new event AoWOnDrawEvent<Window> OnDraw
@@ -882,57 +882,57 @@ public partial class Window : GenericWindow
         remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, Window>(this, slot: nameof(OnDraw), value: value);
     }
 
-    public new event NotifyEvent<Window> OnUpdate
+    public new event NotifyEvent<Window> Updated
     {
-        add => ((UIComponent)this).OnUpdate += EventSlot.Add<UIComponent, Window>(this, slot: nameof(OnUpdate), value: value);
-        remove => ((UIComponent)this).OnUpdate -= EventSlot.Remove<UIComponent, Window>(this, slot: nameof(OnUpdate), value: value);
+        add => ((UIComponent)this).Updated += EventSlot.Add<UIComponent, Window>(this, slot: nameof(Updated), value: value);
+        remove => ((UIComponent)this).Updated -= EventSlot.Remove<UIComponent, Window>(this, slot: nameof(Updated), value: value);
     }
 
-    public new event AoWOnDrawBackEvent<Window> OnDrawBack
+    public new event AoWOnDrawBackEvent<Window> DrawBack
     {
-        add => ((WindowControl)this).OnDrawBack += EventSlot.Add<WindowControl, Window>(this, slot: nameof(OnDrawBack), value: value);
-        remove => ((WindowControl)this).OnDrawBack -= EventSlot.Remove<WindowControl, Window>(this, slot: nameof(OnDrawBack), value: value);
+        add => ((WindowControl)this).DrawBack += EventSlot.Add<WindowControl, Window>(this, slot: nameof(DrawBack), value: value);
+        remove => ((WindowControl)this).DrawBack -= EventSlot.Remove<WindowControl, Window>(this, slot: nameof(DrawBack), value: value);
     }
 
-    public new event NotifyEvent<Window> OnEnter
+    public new event NotifyEvent<Window> Enter
     {
-        add => ((WindowControl)this).OnEnter += EventSlot.Add<WindowControl, Window>(this, slot: nameof(OnEnter), value: value);
-        remove => ((WindowControl)this).OnEnter -= EventSlot.Remove<WindowControl, Window>(this, slot: nameof(OnEnter), value: value);
+        add => ((WindowControl)this).Enter += EventSlot.Add<WindowControl, Window>(this, slot: nameof(Enter), value: value);
+        remove => ((WindowControl)this).Enter -= EventSlot.Remove<WindowControl, Window>(this, slot: nameof(Enter), value: value);
     }
 
-    public new event NotifyEvent<Window> OnExit
+    public new event NotifyEvent<Window> Exit
     {
-        add => ((WindowControl)this).OnExit += EventSlot.Add<WindowControl, Window>(this, slot: nameof(OnExit), value: value);
-        remove => ((WindowControl)this).OnExit -= EventSlot.Remove<WindowControl, Window>(this, slot: nameof(OnExit), value: value);
+        add => ((WindowControl)this).Exit += EventSlot.Add<WindowControl, Window>(this, slot: nameof(Exit), value: value);
+        remove => ((WindowControl)this).Exit -= EventSlot.Remove<WindowControl, Window>(this, slot: nameof(Exit), value: value);
     }
 
-    public new event NotifyEvent<Window> OnChangeCursor
+    public new event NotifyEvent<Window> ChangeCursor
     {
-        add => ((WindowControl)this).OnChangeCursor += EventSlot.Add<WindowControl, Window>(this, slot: nameof(OnChangeCursor), value: value);
-        remove => ((WindowControl)this).OnChangeCursor -= EventSlot.Remove<WindowControl, Window>(this, slot: nameof(OnChangeCursor), value: value);
+        add => ((WindowControl)this).ChangeCursor += EventSlot.Add<WindowControl, Window>(this, slot: nameof(ChangeCursor), value: value);
+        remove => ((WindowControl)this).ChangeCursor -= EventSlot.Remove<WindowControl, Window>(this, slot: nameof(ChangeCursor), value: value);
     }
 
-    public new event AoWOnDrawSurface<Window> OnDrawSurface
+    public new event AoWOnDrawSurface<Window> SurfaceDrawn
     {
-        add => ((WindowControl)this).OnDrawSurface += EventSlot.Add<WindowControl, Window>(this, slot: nameof(OnDrawSurface), value: value);
-        remove => ((WindowControl)this).OnDrawSurface -= EventSlot.Remove<WindowControl, Window>(this, slot: nameof(OnDrawSurface), value: value);
+        add => ((WindowControl)this).SurfaceDrawn += EventSlot.Add<WindowControl, Window>(this, slot: nameof(SurfaceDrawn), value: value);
+        remove => ((WindowControl)this).SurfaceDrawn -= EventSlot.Remove<WindowControl, Window>(this, slot: nameof(SurfaceDrawn), value: value);
     }
 
-    public new event AoWOnDrawSurface<Window> OnPreDrawSurface
+    public new event AoWOnDrawSurface<Window> PreDrawSurface
     {
-        add => ((WindowControl)this).OnPreDrawSurface += EventSlot.Add<WindowControl, Window>(this, slot: nameof(OnPreDrawSurface), value: value);
-        remove => ((WindowControl)this).OnPreDrawSurface -= EventSlot.Remove<WindowControl, Window>(this, slot: nameof(OnPreDrawSurface), value: value);
+        add => ((WindowControl)this).PreDrawSurface += EventSlot.Add<WindowControl, Window>(this, slot: nameof(PreDrawSurface), value: value);
+        remove => ((WindowControl)this).PreDrawSurface -= EventSlot.Remove<WindowControl, Window>(this, slot: nameof(PreDrawSurface), value: value);
     }
 
-    public new event NotifyEvent<Window> OnHide
+    public new event NotifyEvent<Window> Hide
     {
-        add => ((BaseWindow)this).OnHide += EventSlot.Add<BaseWindow, Window>(this, slot: nameof(OnHide), value: value);
-        remove => ((BaseWindow)this).OnHide -= EventSlot.Remove<BaseWindow, Window>(this, slot: nameof(OnHide), value: value);
+        add => ((BaseWindow)this).Hide += EventSlot.Add<BaseWindow, Window>(this, slot: nameof(Hide), value: value);
+        remove => ((BaseWindow)this).Hide -= EventSlot.Remove<BaseWindow, Window>(this, slot: nameof(Hide), value: value);
     }
 
-    public new event NotifyEvent<Window> OnShow
+    public new event NotifyEvent<Window> Show
     {
-        add => ((BaseWindow)this).OnShow += EventSlot.Add<BaseWindow, Window>(this, slot: nameof(OnShow), value: value);
-        remove => ((BaseWindow)this).OnShow -= EventSlot.Remove<BaseWindow, Window>(this, slot: nameof(OnShow), value: value);
+        add => ((BaseWindow)this).Show += EventSlot.Add<BaseWindow, Window>(this, slot: nameof(Show), value: value);
+        remove => ((BaseWindow)this).Show -= EventSlot.Remove<BaseWindow, Window>(this, slot: nameof(Show), value: value);
     }
 }
