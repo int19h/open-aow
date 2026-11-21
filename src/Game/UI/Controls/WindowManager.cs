@@ -148,7 +148,7 @@ public sealed partial class WindowManager : UIComponent
                         c = (WindowControl?)Children[i];
                         if (c.Valid)
                         {
-                            if (!Drawn)
+                            if (!IsDrawn)
                             {
                                 if (c.DoubleBuffered)
                                 {
@@ -156,7 +156,7 @@ public sealed partial class WindowManager : UIComponent
                                 }
                                 else
                                 {
-                                    c.Drawn = false;
+                                    c.IsDrawn = false;
                                 }
                             }
 
@@ -168,7 +168,7 @@ public sealed partial class WindowManager : UIComponent
                             }
                             else
                             {
-                                if (c.Visible && Drawn && c.BackRectangle.Width > 0 && c.BackRectangle.Height > 0)
+                                if (c.Visible && IsDrawn && c.BackRectangle.Width > 0 && c.BackRectangle.Height > 0)
                                 {
                                     // { the window moved: add the parts of its old place it no longer covers. For a
                                     //                 masked window the strips are off (original bugs): the third strip of the left
@@ -255,7 +255,7 @@ public sealed partial class WindowManager : UIComponent
             }
 
             DirtyRectangle d;
-            if (!Drawn)
+            if (!IsDrawn)
             {
                 if (surface.Lock(ref lockedSurface) >= 0)
                 {
@@ -337,7 +337,7 @@ public sealed partial class WindowManager : UIComponent
                 if (c.Valid && c.Visible)
                 {
                     bool wasValid = c.SurfaceValid;
-                    if (!c.Drawn)
+                    if (!c.IsDrawn)
                     {
                         wasValid = false;
                     }
@@ -349,7 +349,7 @@ public sealed partial class WindowManager : UIComponent
                         AddBlitRectangle(ref r, sender: c);
                     }
 
-                    c.Drawn = true;
+                    c.IsDrawn = true;
                     c.SurfaceValid = true;
                     for (int j = 0, lastJ = BlitCount - 1; j <= lastJ; j++)
                     {
@@ -414,7 +414,7 @@ public sealed partial class WindowManager : UIComponent
                 }
             }
 
-            Drawn = true;
+            IsDrawn = true;
             ClearDrawList();
             ClearBlitList();
         }
@@ -434,7 +434,7 @@ public sealed partial class WindowManager : UIComponent
                 UIComponent? c = Children[i];
                 if (c.Priority >= _newOverlayPriority && c.Priority < _overlayPriority && c.Visible)
                 {
-                    c.Drawn = false;
+                    c.IsDrawn = false;
                     c.SurfaceValid = false;
                 }
             }
@@ -669,7 +669,7 @@ public sealed partial class WindowManager : UIComponent
         if (value != _overlayPriority || value != _newOverlayPriority)
         {
             _newOverlayPriority = value;
-            Drawn = false;
+            IsDrawn = false;
         }
     }
 
@@ -760,10 +760,10 @@ public sealed partial class WindowManager : UIComponent
         remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, WindowManager>(this, slot: nameof(PreDraw), value: value);
     }
 
-    public new event AoWOnDrawEvent<WindowManager> OnDraw
+    public new event AoWOnDrawEvent<WindowManager> Drawn
     {
-        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, WindowManager>(this, slot: nameof(OnDraw), value: value);
-        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, WindowManager>(this, slot: nameof(OnDraw), value: value);
+        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, WindowManager>(this, slot: nameof(Drawn), value: value);
+        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, WindowManager>(this, slot: nameof(Drawn), value: value);
     }
 
     public new event NotifyEvent<WindowManager> Updated

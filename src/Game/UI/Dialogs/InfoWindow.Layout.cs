@@ -740,7 +740,7 @@ public sealed partial class InfoWindow : ILayoutModule
         ProductionOrb = new Image(this);
         session.BeginRead(ProductionOrb);
         ProductionOrb.Name = "ProdOrb";
-        ProductionOrb.OnDraw += (_, _) => ProdOrb2Draw();
+        ProductionOrb.Drawn += (_, _) => ProdOrb2Draw();
         ProductionOrb.Priority = 5;
         ProductionOrb.WinLeft = 20;
         ProductionOrb.WinTop = 102;

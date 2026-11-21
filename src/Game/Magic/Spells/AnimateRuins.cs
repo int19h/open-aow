@@ -53,11 +53,10 @@ public class AnimateRuins : CityTargetSpell
             _ = targetCity.ValidateObservation(source.Player);
             if (targetCity.Resource.ImageSequenceList.ImageSequences[20] is not null)
             {
-                ImageSequenceAnimation a = new(null) { Holder = CreationHolder() };
+                ImageSequenceAnimation a = new(null, show: ShowAnimation) { Holder = CreationHolder() };
                 a.SetImageSequence(targetCity.Resource.ImageSequenceList.ImageSequences[20]);
                 a.SetPixelXOffset(a.PixelXOffset - 16);
                 a.SetPixelYOffset(a.PixelYOffset - 16);
-                a.SetShowHandler(ShowAnimation);
                 sbyte hexLevel2 = targetCity.HexLevel;
                 sbyte hexY2 = targetCity.HexY;
                 sbyte targetCityHexX = targetCity.HexX;

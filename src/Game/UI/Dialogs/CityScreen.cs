@@ -735,7 +735,7 @@ public sealed partial class CityScreen(UIContext ui) : UIModule(ui)
             SelectAction(_action);
         }
 
-        Window.Drawn = false;
+        Window.IsDrawn = false;
     }
 
     // AoWCityScreen.pas:1200
@@ -1353,19 +1353,19 @@ public sealed partial class CityScreen(UIContext ui) : UIModule(ui)
         {
             case 37:
                 _viewX -= 16;
-                MapView.Drawn = false;
+                MapView.IsDrawn = false;
                 break;
             case 39:
                 _viewX += 16;
-                MapView.Drawn = false;
+                MapView.IsDrawn = false;
                 break;
             case 38:
                 _viewY -= 16;
-                MapView.Drawn = false;
+                MapView.IsDrawn = false;
                 break;
             case 40:
                 _viewY += 16;
-                MapView.Drawn = false;
+                MapView.IsDrawn = false;
                 break;
             case 27:
                 Window.Visible = false;
@@ -1381,7 +1381,7 @@ public sealed partial class CityScreen(UIContext ui) : UIModule(ui)
         CombatMap? preview = _preview;
         preview?.NewFrame();
 
-        MapView.Drawn = MapView.Drawn && (StrategicMap.Current.Frame & 1) != 0;
+        MapView.IsDrawn = MapView.IsDrawn && (StrategicMap.Current.Frame & 1) != 0;
     }
 
     // AoWCityScreen.pas:688

@@ -142,7 +142,7 @@ public sealed partial class ItemsFoundDialog(UIContext ui) : UIModule(ui)
         if (_itemOffset > 0)
         {
             _itemOffset -= 1;
-            Window.Drawn = false;
+            Window.IsDrawn = false;
         }
     }
 
@@ -152,7 +152,7 @@ public sealed partial class ItemsFoundDialog(UIContext ui) : UIModule(ui)
         if (_itemOffset + 5 < _event.ItemIds.Count)
         {
             _itemOffset += 1;
-            Window.Drawn = false;
+            Window.IsDrawn = false;
         }
     }
 
@@ -187,7 +187,7 @@ public sealed partial class ItemsFoundDialog(UIContext ui) : UIModule(ui)
         }
 
         StrategicMap.Current.TutorialControl.ShowMessage(54, immediate: true, onceOnly: true);
-        dialog.Window.Drawn = false;
+        dialog.Window.IsDrawn = false;
         dialog.Window.Visible = true;
     }
 }

@@ -9,8 +9,6 @@ using Aow.Game.Magic.Abilities;
 
 using Aow.Game.World.Movement;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Units;
 
 // The original's THeroItems derives from TItemList. The items a hero wears own the equipped
@@ -26,8 +24,6 @@ public sealed partial class HeroItems : ObservableNode, IChildList<Item>, IItemH
     protected sealed override bool AcceptsChild(EngineObject child) => child is Item;
 
     int IChildSink<Item>.AddChild(Item child) => AddChild(child);
-
-    public event NotifyEvent<object>? OnChanged;
 
     // Hero.PAS:388
     public HeroItems(CustomNode? owner) : base(null) => SetOwnerWithoutNotify(owner);
@@ -116,11 +112,7 @@ public sealed partial class HeroItems : ObservableNode, IChildList<Item>, IItemH
     }
 
     // Army.PAS:4564
-    protected override void OnChange()
-    {
-        base.OnChange();
-        OnChanged?.Invoke(this);
-    }
+    protected override void OnChange() => base.OnChange();
 
     // Hero.PAS:410
     public sbyte GetAttack()

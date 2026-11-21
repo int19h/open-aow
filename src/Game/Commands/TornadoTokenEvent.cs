@@ -58,14 +58,14 @@ public class TornadoTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenEvent(
             }
 
             // The original constructs a plain animation and stores it on the event. The later warp uses an image sequence.
-            _animation = new Animation(null)
+            _animation = new Animation(null, show: ShowAnimation)
             {
                 Holder = CreationHolder(),
                 AnimationLevel = 27
+,
+                AnimationMap = StrategicMap.Current,
+                Tag = (StrategicMap.Current.ViewWidth & 0xFFFF) | (StrategicMap.Current.ViewHeight << 16)
             };
-            _animation.SetShowHandler(ShowAnimation);
-            _animation.AnimationMap = StrategicMap.Current;
-            _animation.Tag = (StrategicMap.Current.ViewWidth & 0xFFFF) | (StrategicMap.Current.ViewHeight << 16);
             _animation.Activate();
         }
         if (value == 80)

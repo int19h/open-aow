@@ -54,10 +54,8 @@ public class PoisonPlantSpellTokenEvent(CustomNode? owner) : GlobalTargetSpellTo
                     if (StrategicMap.Current.PlaceHex(plant, walk.X, walk.Y, L: Location.MapLevel))
                     {
                         plant.PlantStatus = PoisonPlantStatuses.Summoning;
-                        ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
+                        ImageSequenceAnimation animation = new(null, show: plant.ShowSummonAnimation, newFrame: plant.NewFrameSummonAnimation) { Holder = CreationHolder() };
                         animation.SetImageSequence(GamePack.Current.SpellControl[12].CastImages.ImageSequences[0]);
-                        animation.SetShowHandler(plant.ShowSummonAnimation);
-                        animation.SetNewFrameHandler(plant.NewFrameSummonAnimation);
                         animation.FrameCounter = -StrategicMap.Current.Random(15);
                         animation.AnimationLevel = 27;
                         _ = StrategicMap.Current.PlaceHex(animation, walk.X, walk.Y, L: Location.MapLevel);

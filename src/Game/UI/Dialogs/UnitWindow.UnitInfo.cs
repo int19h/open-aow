@@ -524,7 +524,7 @@ public sealed partial class UnitWindow
 
                 UI.UnitWindow.AbilityAbilityList.Selected = -1;
                 UI.UnitWindow.T1AbilityLBChange(AbilityAbilityList);
-                MainWindow.Drawn = false;
+                MainWindow.IsDrawn = false;
             }
         }
     }

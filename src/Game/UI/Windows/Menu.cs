@@ -318,7 +318,7 @@ public partial class Menu : GenericWindow
             SetWinLeftWithoutInvalidate(value);
         }
 
-        Drawn = false;
+        IsDrawn = false;
     }
 
     // AOWMenu.pas:182
@@ -333,7 +333,7 @@ public partial class Menu : GenericWindow
             SetWinTopWithoutInvalidate(value);
         }
 
-        Drawn = false;
+        IsDrawn = false;
     }
 
     // AOWMenu.pas:203
@@ -374,7 +374,7 @@ public partial class Menu : GenericWindow
                         }
                     }
 
-                    Drawn = false;
+                    IsDrawn = false;
                     if (!Hidden)
                     {
                         BackRectangle = new SizedRectangle(WinLeft, WinTop, WinWidth, WinHeight);
@@ -390,7 +390,7 @@ public partial class Menu : GenericWindow
                     if (bar is not null)
                     {
                         bar.Selected = -1;
-                        bar.Drawn = false;
+                        bar.IsDrawn = false;
                     }
 
                     Hidden = true;
@@ -408,7 +408,7 @@ public partial class Menu : GenericWindow
 
             ClearBlitList();
             ClearDrawList();
-            Drawn = false;
+            IsDrawn = false;
             SetPriority(Priority);
         }
     }
@@ -705,7 +705,7 @@ public partial class Menu : GenericWindow
                     SubMenus[oldHighlighted].SetVisible(false);
                 }
 
-                Drawn = false;
+                IsDrawn = false;
                 RaiseChange(this);
             }
         }
@@ -977,10 +977,10 @@ public partial class Menu : GenericWindow
         remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, Menu>(this, slot: nameof(PreDraw), value: value);
     }
 
-    public new event AoWOnDrawEvent<Menu> OnDraw
+    public new event AoWOnDrawEvent<Menu> Drawn
     {
-        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, Menu>(this, slot: nameof(OnDraw), value: value);
-        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, Menu>(this, slot: nameof(OnDraw), value: value);
+        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, Menu>(this, slot: nameof(Drawn), value: value);
+        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, Menu>(this, slot: nameof(Drawn), value: value);
     }
 
     public new event NotifyEvent<Menu> Updated
@@ -1013,16 +1013,16 @@ public partial class Menu : GenericWindow
         remove => ((WindowControl)this).ChangeCursor -= EventSlot.Remove<WindowControl, Menu>(this, slot: nameof(ChangeCursor), value: value);
     }
 
-    public new event AoWOnDrawSurface<Menu> SurfaceDrawn
+    public new event AoWOnDrawSurface<Menu> Blitted
     {
-        add => ((WindowControl)this).SurfaceDrawn += EventSlot.Add<WindowControl, Menu>(this, slot: nameof(SurfaceDrawn), value: value);
-        remove => ((WindowControl)this).SurfaceDrawn -= EventSlot.Remove<WindowControl, Menu>(this, slot: nameof(SurfaceDrawn), value: value);
+        add => ((WindowControl)this).Blitted += EventSlot.Add<WindowControl, Menu>(this, slot: nameof(Blitted), value: value);
+        remove => ((WindowControl)this).Blitted -= EventSlot.Remove<WindowControl, Menu>(this, slot: nameof(Blitted), value: value);
     }
 
-    public new event AoWOnDrawSurface<Menu> PreDrawSurface
+    public new event AoWOnDrawSurface<Menu> Blitting
     {
-        add => ((WindowControl)this).PreDrawSurface += EventSlot.Add<WindowControl, Menu>(this, slot: nameof(PreDrawSurface), value: value);
-        remove => ((WindowControl)this).PreDrawSurface -= EventSlot.Remove<WindowControl, Menu>(this, slot: nameof(PreDrawSurface), value: value);
+        add => ((WindowControl)this).Blitting += EventSlot.Add<WindowControl, Menu>(this, slot: nameof(Blitting), value: value);
+        remove => ((WindowControl)this).Blitting -= EventSlot.Remove<WindowControl, Menu>(this, slot: nameof(Blitting), value: value);
     }
 
     public new event NotifyEvent<Menu> Hide

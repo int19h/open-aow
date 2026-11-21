@@ -408,7 +408,7 @@ public sealed partial class StrategicMap : GameMap
         _tokenControlActivatedEventsStore.Clear();
         _playerChangedEventsStore.Clear();
         _exitEventsStore.Clear();
-        Mouse.OnMove -= MouseMoved;
+        Mouse.Moved -= MouseMoved;
         if (Combat is not null)
         {
             DestroyCombat();
@@ -636,10 +636,9 @@ public sealed partial class StrategicMap : GameMap
     {
         Holder = holder;
         ItemControl = new ItemControl(null) { Holder = CreationHolder() };
-        TokenManager = new TokenManager(GetEngine());
-        TokenManager.TokenExecutor.OnActivateTacticalBattle += TokenControlActivatedEvent;
+        TokenManager = new TokenManager(GetEngine(), message: OnTokenManagerMessage);
+        TokenManager.TokenExecutor.TacticalBattleActivating += TokenControlActivatedEvent;
         TokenManager.TokenExecutor.SetExecuteTokenEventHandler(OnExecuteTokenEvent);
-        TokenManager.SetMessageHandler(OnTokenManagerMessage);
         PlayerCommunicator = new PlayerCommunicator(null)
         {
             Holder = CreationHolder(),
@@ -650,7 +649,7 @@ public sealed partial class StrategicMap : GameMap
         AIGroupManager = new AIGroupManager(null) { Holder = CreationHolder() };
         AIPlayerActionManager = new AIPlayerActionManager(null) { Holder = CreationHolder() };
         AIPlayerActionManager.RegisterClasses([AIPlayerActionClass.Of<EndTurnAIPlayerAction>(), AIPlayerActionClass.Of<GroupControlAIPlayerAction>(), AIPlayerActionClass.Of<GroupControlLoopAIPlayerAction>(), AIPlayerActionClass.Of<InitializeAIPlayerAction>(), AIPlayerActionClass.Of<BudgetManagerAIPlayerAction>(), AIPlayerActionClass.Of<AutoProduceAIPlayerAction>(), AIPlayerActionClass.Of<DiplomacyAIPlayerAction>(), AIPlayerActionClass.Of<ProcessEventLogAIPlayerAction>(), AIPlayerActionClass.Of<ResearchSpellAIPlayerAction>(), AIPlayerActionClass.Of<CastSpellAIPlayerAction>(), AIPlayerActionClass.Of<StructurePhase1AIPlayerAction>(), AIPlayerActionClass.Of<StructurePhase2AIPlayerAction>()]);
-        TokenManager.TokenExecutor.OnEventsExecuted += AIExecutor.TokenControlDoneEvent;
+        TokenManager.TokenExecutor.EventsExecuted += AIExecutor.TokenControlDoneEvent;
         AIGroupManager.RegisterAIGroupClasses([AIGroupClass.Of<HuntAIGroup>()]);
         PlayMode = PlayMode.None;
         Keyboard = new HexSpriteMapKeyboard(null) { Holder = CreationHolder() };
@@ -723,7 +722,7 @@ public sealed partial class StrategicMap : GameMap
         CombatMapDestroyedEventsStore = new();
         _exitEventsStore = new();
         CampaignSettings = new MapCampaignSettings(null) { Holder = CreationHolder() };
-        Mouse.OnMove += MouseMoved;
+        Mouse.Moved += MouseMoved;
     }
 
     // AoWHSMap.PAS:2826

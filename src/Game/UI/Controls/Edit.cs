@@ -30,7 +30,7 @@ public sealed partial class Edit(Component? owner) : Control(owner)
 
     private InterfaceImageLibrary? _imageLibraryEdit;
     [Published]
-    public event NotifyEvent<Edit>? Exit;
+    public event EventHandler? Exit;
     [Published]
     public event NotifyEvent<Edit>? Return;
     private int _imageLibraryIndex;
@@ -92,7 +92,7 @@ public sealed partial class Edit(Component? owner) : Control(owner)
             _blinkCount += 1;
             if (_blinkCount > BlinkDelay)
             {
-                Drawn = false;
+                IsDrawn = false;
                 _blinkCount = 0;
                 _cursorShown = !_cursorShown;
             }
@@ -200,7 +200,7 @@ public sealed partial class Edit(Component? owner) : Control(owner)
 
                     _cursorShown = Editable;
                     _blinkCount = 0;
-                    Drawn = false;
+                    IsDrawn = false;
                 }
 
                 RaiseMouseDown(this, button, shift, X, Y);
@@ -211,7 +211,7 @@ public sealed partial class Edit(Component? owner) : Control(owner)
             if (_cursorShown)
             {
                 _cursorShown = false;
-                Exit?.Invoke(this);
+                Exit?.Invoke(this, e: EventArgs.Empty);
             }
 
             Redraw = false;
@@ -219,7 +219,7 @@ public sealed partial class Edit(Component? owner) : Control(owner)
 
         if (Redraw != oldRedraw)
         {
-            Drawn = false;
+            IsDrawn = false;
         }
     }
 
@@ -309,7 +309,7 @@ public sealed partial class Edit(Component? owner) : Control(owner)
             }
 
             _blinkCount = 0;
-            Drawn = false;
+            IsDrawn = false;
             RaiseKeyPress(this, ref key);
 
             RaiseChange(this);
@@ -416,7 +416,7 @@ public sealed partial class Edit(Component? owner) : Control(owner)
         _cursorPosition = Math.Max(_cursorPosition, 0);
         _cursorShown = true;
         _blinkCount = 0;
-        Drawn = false;
+        IsDrawn = false;
         RaiseKeyDown(this, ref key, shift);
         RaiseChange(this);
     }
@@ -463,10 +463,10 @@ public sealed partial class Edit(Component? owner) : Control(owner)
         remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, Edit>(this, slot: nameof(PreDraw), value: value);
     }
 
-    public new event AoWOnDrawEvent<Edit> OnDraw
+    public new event AoWOnDrawEvent<Edit> Drawn
     {
-        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, Edit>(this, slot: nameof(OnDraw), value: value);
-        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, Edit>(this, slot: nameof(OnDraw), value: value);
+        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, Edit>(this, slot: nameof(Drawn), value: value);
+        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, Edit>(this, slot: nameof(Drawn), value: value);
     }
 
     public new event NotifyEvent<Edit> Updated

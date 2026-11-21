@@ -579,12 +579,12 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
             SelectAirButton.CaptureInput = false;
         }
 
-        SelectLifeButton.Drawn = false;
-        SelectDeathButton.Drawn = false;
-        SelectFireButton.Drawn = false;
-        SelectWaterButton.Drawn = false;
-        SelectEarthButton.Drawn = false;
-        SelectAirButton.Drawn = false;
+        SelectLifeButton.IsDrawn = false;
+        SelectDeathButton.IsDrawn = false;
+        SelectFireButton.IsDrawn = false;
+        SelectWaterButton.IsDrawn = false;
+        SelectEarthButton.IsDrawn = false;
+        SelectAirButton.IsDrawn = false;
     }
 
     // AoWLeaderSetup.pas:269
@@ -662,7 +662,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
         UI.General.PlayButtonSound(0);
         int previousFace = GamePack.Current.FaceResources.PreviousFace(Leader.FaceIndex);
         Leader.SetFaceIndex(previousFace);
-        UI.TitleWindow.MainWindow.Drawn = false;
+        UI.TitleWindow.MainWindow.IsDrawn = false;
     }
 
     // AoWLeaderSetup.pas:352
@@ -671,7 +671,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
         UI.General.PlayButtonSound(0);
         int nextFace = GamePack.Current.FaceResources.NextFace(Leader.FaceIndex);
         Leader.SetFaceIndex(nextFace);
-        UI.TitleWindow.MainWindow.Drawn = false;
+        UI.TitleWindow.MainWindow.IsDrawn = false;
     }
 
     // AoWLeaderSetup.pas:359
@@ -739,7 +739,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
                     }
                 }
 
-                UI.TitleWindow.MainWindow.Drawn = false;
+                UI.TitleWindow.MainWindow.IsDrawn = false;
                 break;
             case 2:
                 SaveLeader();
@@ -752,7 +752,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
                     Finish();
                 }
 
-                UI.TitleWindow.MainWindow.Drawn = false;
+                UI.TitleWindow.MainWindow.IsDrawn = false;
                 break;
             case 3:
                 if (Leader.SphereCount == Leader.SpherePicksMax)
@@ -955,7 +955,7 @@ public sealed partial class LeaderSetupWindow(UIContext ui) : UIModule(ui)
     public void DefaultBtnClick()
     {
         UI.General.PlayButtonSound(0);
-        UI.TitleWindow.MainWindow.Drawn = false;
+        UI.TitleWindow.MainWindow.IsDrawn = false;
         switch (_phase)
         {
             case 1:

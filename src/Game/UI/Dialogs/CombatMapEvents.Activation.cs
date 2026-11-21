@@ -95,7 +95,7 @@ public sealed partial class CombatMapEvents
         UI.TaskBar.AutoCombatCheckBox.Checked = false;
         UI.TaskBar.CombatChatButton.Visible = UI.TaskBar.ChatButton.Visible;
         UI.TaskBar.CombatUnitButton.Visible = false;
-        UI.TaskBar.TaskWindow.Drawn = false;
+        UI.TaskBar.TaskWindow.IsDrawn = false;
         UI.CombatScanner.CombatScannerWindow.Visible = CombatMap.Current.PlaySounds;
         UI.TaskBar.CombatScannerButton.Visible = CombatMap.Current.PlaySounds;
         UI.CombatUnitInfo.MainWindow.Visible = false;

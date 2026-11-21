@@ -590,12 +590,12 @@ public sealed partial class HtmlMemo : BaseWindow
                 }
             }
 
-            if (!Drawn)
+            if (!IsDrawn)
             {
                 SurfaceValid = false;
             }
 
-            Drawn = false;
+            IsDrawn = false;
         }
 
         base.Update();
@@ -998,10 +998,10 @@ public sealed partial class HtmlMemo : BaseWindow
         remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, HtmlMemo>(this, slot: nameof(PreDraw), value: value);
     }
 
-    public new event AoWOnDrawEvent<HtmlMemo> OnDraw
+    public new event AoWOnDrawEvent<HtmlMemo> Drawn
     {
-        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, HtmlMemo>(this, slot: nameof(OnDraw), value: value);
-        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, HtmlMemo>(this, slot: nameof(OnDraw), value: value);
+        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, HtmlMemo>(this, slot: nameof(Drawn), value: value);
+        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, HtmlMemo>(this, slot: nameof(Drawn), value: value);
     }
 
     public new event NotifyEvent<HtmlMemo> Updated

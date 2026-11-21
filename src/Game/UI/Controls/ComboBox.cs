@@ -31,7 +31,7 @@ public sealed partial class ComboBox : Control
     private int _hoverItem;
     private int _priorityBeforeOpen;
     [Published]
-    public event NotifyEvent<ComboBox>? DrawItem;
+    public event EventHandler? DrawItem;
     private int _scrollBarWidth;
 
     private InterfaceImageLibrary? _imageLibraryEdit;
@@ -40,9 +40,9 @@ public sealed partial class ComboBox : Control
     private InterfaceImageLibrary? _imageLibraryTextureSelected;
 
     [Published]
-    public event NotifyEvent<ComboBox>? Open;
+    public event EventHandler? Open;
     [Published]
-    public event NotifyEvent<ComboBox>? Close;
+    public event EventHandler? Close;
     private int _ileIndex;
     private int _ilfIndex;
     private int _imageLibraryTnIndex;
@@ -174,7 +174,7 @@ public sealed partial class ComboBox : Control
                         _firstShownItem = _items.Count - _openListRows;
                     }
 
-                    Drawn = false;
+                    IsDrawn = false;
                 }
             }
         }
@@ -268,7 +268,7 @@ public sealed partial class ComboBox : Control
                             LibraryImage? imageLibraryFrame7 = _imageLibraryFrame[_ilfIndex + 1];
                             LibraryImage? imageLibraryFrame8 = _imageLibraryFrame[_ilfIndex + 3];
                             LibraryImage? imageLibraryFrame9 = _imageLibraryFrame[_ilfIndex + 3];
-                            DrawItem?.Invoke(this);
+                            DrawItem?.Invoke(this, e: EventArgs.Empty);
                         }
                     }
 
@@ -317,7 +317,7 @@ public sealed partial class ComboBox : Control
                         SetWinHeightWithoutInvalidate(_imageLibraryEdit[_ileIndex].Height);
                         _verticalScrollBar?.Visible = false;
 
-                        Close?.Invoke(this);
+                        Close?.Invoke(this, e: EventArgs.Empty);
                     }
                     else
                     {
@@ -342,7 +342,7 @@ public sealed partial class ComboBox : Control
                             _firstShownItem = _items.Count - _openListRows;
                         }
 
-                        Drawn = false;
+                        IsDrawn = false;
                         _scrollBarWidth = _imageLibraryFrame[_ilfIndex + 4].Width;
                         if (_verticalScrollBar is not null && _openListRows > 0)
                         {
@@ -371,10 +371,10 @@ public sealed partial class ComboBox : Control
                             _verticalScrollBar.WinLeft = WinLeft + WinWidth - _verticalScrollBar.WinWidth;
                             LibraryImage? imageLibraryEdit = _imageLibraryEdit[_ileIndex];
                             _verticalScrollBar.WinTop = imageLibraryEdit.Height + WinTop;
-                            _verticalScrollBar.Drawn = false;
+                            _verticalScrollBar.IsDrawn = false;
                         }
 
-                        Open?.Invoke(this);
+                        Open?.Invoke(this, e: EventArgs.Empty);
                     }
                 }
                 else
@@ -390,7 +390,7 @@ public sealed partial class ComboBox : Control
                         SetWinHeightWithoutInvalidate(_imageLibraryEdit[_ileIndex].Height);
                         _verticalScrollBar?.Visible = false;
 
-                        Close?.Invoke(this);
+                        Close?.Invoke(this, e: EventArgs.Empty);
                     }
                 }
             }
@@ -416,7 +416,7 @@ public sealed partial class ComboBox : Control
                     SetWinHeightWithoutInvalidate(_imageLibraryEdit[_ileIndex].Height);
                     _verticalScrollBar?.Visible = false;
 
-                    Close?.Invoke(this);
+                    Close?.Invoke(this, e: EventArgs.Empty);
                 }
             }
         }
@@ -471,7 +471,7 @@ public sealed partial class ComboBox : Control
                         Handled = true;
                         RaiseChange(this);
 
-                        Close?.Invoke(this);
+                        Close?.Invoke(this, e: EventArgs.Empty);
                     }
                 }
                 else
@@ -481,7 +481,7 @@ public sealed partial class ComboBox : Control
                     SetWinHeightWithoutInvalidate(_imageLibraryEdit[_ileIndex].Height);
                     _verticalScrollBar?.Visible = false;
 
-                    Close?.Invoke(this);
+                    Close?.Invoke(this, e: EventArgs.Empty);
                 }
             }
         }
@@ -520,8 +520,8 @@ public sealed partial class ComboBox : Control
 
         if (_open && oldItem != _hoverItem)
         {
-            Drawn = false;
-            _verticalScrollBar?.Drawn = false;
+            IsDrawn = false;
+            _verticalScrollBar?.IsDrawn = false;
         }
     }
 
@@ -616,7 +616,7 @@ public sealed partial class ComboBox : Control
         if (value != _selected)
         {
             _selected = value;
-            Drawn = false;
+            IsDrawn = false;
         }
     }
 
@@ -726,10 +726,10 @@ public sealed partial class ComboBox : Control
         remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, ComboBox>(this, slot: nameof(PreDraw), value: value);
     }
 
-    public new event AoWOnDrawEvent<ComboBox> OnDraw
+    public new event AoWOnDrawEvent<ComboBox> Drawn
     {
-        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, ComboBox>(this, slot: nameof(OnDraw), value: value);
-        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, ComboBox>(this, slot: nameof(OnDraw), value: value);
+        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, ComboBox>(this, slot: nameof(Drawn), value: value);
+        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, ComboBox>(this, slot: nameof(Drawn), value: value);
     }
 
     public new event NotifyEvent<ComboBox> Updated

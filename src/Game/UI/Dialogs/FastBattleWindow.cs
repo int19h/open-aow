@@ -306,14 +306,14 @@ public sealed partial class FastBattleWindow(UIContext ui) : UIModule(ui)
         {
             _leftShield = left;
             _leftOpacity = (byte)leftOpacity;
-            LeftShieldView.Drawn = false;
+            LeftShieldView.IsDrawn = false;
         }
 
         if (right != _rightShield || rightOpacity != _rightOpacity)
         {
             _rightShield = right;
             _rightOpacity = (byte)rightOpacity;
-            RightShieldView.Drawn = false;
+            RightShieldView.IsDrawn = false;
         }
     }
 
@@ -470,7 +470,7 @@ public sealed partial class FastBattleWindow(UIContext ui) : UIModule(ui)
                     if (GlowImage.Visible)
                     {
                         GlowImage.Visible = false;
-                        MainWindow.Drawn = false;
+                        MainWindow.IsDrawn = false;
                     }
 
                     break;
@@ -661,7 +661,7 @@ public sealed partial class FastBattleWindow(UIContext ui) : UIModule(ui)
         }
 
         dialog._viewer.Play();
-        dialog.MainWindow.Drawn = false;
+        dialog.MainWindow.IsDrawn = false;
         int endPosition = dialog._viewer.EndPosition;
         dialog.SequencePositionSlider.Max = endPosition;
         dialog.SequenceSpeedSlider.Position = 20 - dialog._viewer.Delay;

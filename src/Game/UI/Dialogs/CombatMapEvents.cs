@@ -229,7 +229,7 @@ public sealed partial class CombatMapEvents(UIContext ui) : UIModule(ui)
         UI.TaskBar.CombatTurnButton.LastPlayer = -1;
 
         UI.General.Manager.OverlayPriority = 49;
-        UI.TaskBar.CombatPlayerIndicatorFrame.Drawn = false;
+        UI.TaskBar.CombatPlayerIndicatorFrame.IsDrawn = false;
     }
 
     private static readonly string s_coldText = "Cold";

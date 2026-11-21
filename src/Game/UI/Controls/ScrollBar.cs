@@ -150,7 +150,7 @@ public partial class ScrollBar(Rtl.Component owner) : Control(owner)
                             HeldUpdateCount = 0;
                         }
 
-                        Drawn = false;
+                        IsDrawn = false;
                         RaiseChange(this);
 
                         break;
@@ -162,7 +162,7 @@ public partial class ScrollBar(Rtl.Component owner) : Control(owner)
                             HeldUpdateCount = 0;
                         }
 
-                        Drawn = false;
+                        IsDrawn = false;
                         RaiseChange(this);
 
                         break;
@@ -381,7 +381,7 @@ public partial class ScrollBar(Rtl.Component owner) : Control(owner)
             _position = 0;
         }
 
-        Drawn = false;
+        IsDrawn = false;
     }
 
     [Published]
@@ -501,10 +501,10 @@ public partial class ScrollBar(Rtl.Component owner) : Control(owner)
         remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, ScrollBar>(this, slot: nameof(PreDraw), value: value);
     }
 
-    public new event AoWOnDrawEvent<ScrollBar> OnDraw
+    public new event AoWOnDrawEvent<ScrollBar> Drawn
     {
-        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, ScrollBar>(this, slot: nameof(OnDraw), value: value);
-        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, ScrollBar>(this, slot: nameof(OnDraw), value: value);
+        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, ScrollBar>(this, slot: nameof(Drawn), value: value);
+        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, ScrollBar>(this, slot: nameof(Drawn), value: value);
     }
 
     public new event NotifyEvent<ScrollBar> Updated

@@ -664,7 +664,7 @@ public sealed partial class TaskBar : ILayoutModule
         PlayerIndicatorFrame = new Frame(this);
         session.BeginRead(PlayerIndicatorFrame);
         PlayerIndicatorFrame.Name = "PInd";
-        PlayerIndicatorFrame.OnDraw += (_, surface) => PIndDraw(surface);
+        PlayerIndicatorFrame.Drawn += (_, surface) => PIndDraw(surface);
         PlayerIndicatorFrame.Priority = 10;
         PlayerIndicatorFrame.WinLeft = 290;
         PlayerIndicatorFrame.WinTop = 28;
@@ -1072,7 +1072,7 @@ public sealed partial class TaskBar : ILayoutModule
         CombatPlayerIndicatorFrame = new Frame(this);
         session.BeginRead(CombatPlayerIndicatorFrame);
         CombatPlayerIndicatorFrame.Name = "TCPInd";
-        CombatPlayerIndicatorFrame.OnDraw += (_, surface) => TCPIndDraw(surface);
+        CombatPlayerIndicatorFrame.Drawn += (_, surface) => TCPIndDraw(surface);
         CombatPlayerIndicatorFrame.Priority = 10;
         CombatPlayerIndicatorFrame.WinLeft = 290;
         CombatPlayerIndicatorFrame.WinTop = 28;

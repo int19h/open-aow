@@ -63,7 +63,7 @@ public sealed partial class PowerDialog(UIContext ui) : UIModule(ui)
         NetManaLabel.Text = $"{manaPower.ToString(CultureInfo.InvariantCulture)}-{upkeep.ToString(CultureInfo.InvariantCulture)}={(manaPower - upkeep).ToString(CultureInfo.InvariantCulture)}";
         ManaLabel.Text = manaPower.ToString(CultureInfo.InvariantCulture);
         ResearchLabel.Text = researchPower.ToString(CultureInfo.InvariantCulture);
-        Window.Drawn = false;
+        Window.IsDrawn = false;
     }
 
     // AoWPowerDlg.pas:61

@@ -182,7 +182,7 @@ public class CombatMap : GameMap
         FleeLocations = [];
         AI = new BattleAI(this);
         Mouse.SetCapture(this);
-        Mouse.OnMove += MouseMoveEvent;
+        Mouse.Moved += MouseMoveEvent;
         Mouse.CursorMode = 256;
         for (int i = 0; i <= 7; i++)
         {

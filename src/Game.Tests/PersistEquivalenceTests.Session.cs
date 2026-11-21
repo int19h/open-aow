@@ -393,7 +393,7 @@ public sealed partial class PersistEquivalenceTests
             TextEventLog log = new(null) { Holder = EngineFixture.Engine, Text = "First" };
             log.SetOwner(list);
             int changes = 0;
-            list.Changed += _ => changes++;
+            list.Changed += (_, _) => changes++;
             using (DictionaryStream stream = new(dictionary))
             {
                 stream.Object(list, id: 0);

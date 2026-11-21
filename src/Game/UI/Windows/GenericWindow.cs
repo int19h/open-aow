@@ -42,7 +42,7 @@ public class GenericWindow(Component? owner) : BaseWindow(owner)
     {
         if (value != base.DoubleBuffered)
         {
-            Drawn = false;
+            IsDrawn = false;
             base.DoubleBuffered = value;
             if (!base.DoubleBuffered)
             {
@@ -72,17 +72,17 @@ public class GenericWindow(Component? owner) : BaseWindow(owner)
     }
 
     [Published]
-    public new event AoWOnDrawSurface<GenericWindow> SurfaceDrawn
+    public new event AoWOnDrawSurface<GenericWindow> Blitted
     {
-        add => ((WindowControl)this).SurfaceDrawn += EventSlot.Add<WindowControl, GenericWindow>(this, slot: nameof(SurfaceDrawn), value: value);
-        remove => ((WindowControl)this).SurfaceDrawn -= EventSlot.Remove<WindowControl, GenericWindow>(this, slot: nameof(SurfaceDrawn), value: value);
+        add => ((WindowControl)this).Blitted += EventSlot.Add<WindowControl, GenericWindow>(this, slot: nameof(Blitted), value: value);
+        remove => ((WindowControl)this).Blitted -= EventSlot.Remove<WindowControl, GenericWindow>(this, slot: nameof(Blitted), value: value);
     }
 
     [Published]
-    public new event AoWOnDrawSurface<GenericWindow> PreDrawSurface
+    public new event AoWOnDrawSurface<GenericWindow> Blitting
     {
-        add => ((WindowControl)this).PreDrawSurface += EventSlot.Add<WindowControl, GenericWindow>(this, slot: nameof(PreDrawSurface), value: value);
-        remove => ((WindowControl)this).PreDrawSurface -= EventSlot.Remove<WindowControl, GenericWindow>(this, slot: nameof(PreDrawSurface), value: value);
+        add => ((WindowControl)this).Blitting += EventSlot.Add<WindowControl, GenericWindow>(this, slot: nameof(Blitting), value: value);
+        remove => ((WindowControl)this).Blitting -= EventSlot.Remove<WindowControl, GenericWindow>(this, slot: nameof(Blitting), value: value);
     }
 
     public new event NotifyEvent<GenericWindow> Change
@@ -127,10 +127,10 @@ public class GenericWindow(Component? owner) : BaseWindow(owner)
         remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, GenericWindow>(this, slot: nameof(PreDraw), value: value);
     }
 
-    public new event AoWOnDrawEvent<GenericWindow> OnDraw
+    public new event AoWOnDrawEvent<GenericWindow> Drawn
     {
-        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, GenericWindow>(this, slot: nameof(OnDraw), value: value);
-        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, GenericWindow>(this, slot: nameof(OnDraw), value: value);
+        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, GenericWindow>(this, slot: nameof(Drawn), value: value);
+        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, GenericWindow>(this, slot: nameof(Drawn), value: value);
     }
 
     public new event NotifyEvent<GenericWindow> Updated

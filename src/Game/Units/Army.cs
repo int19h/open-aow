@@ -273,6 +273,8 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     // Army.PAS:1874
     public virtual MapCoordinate GetLocation() => Status.Contains(ArmyStatuses.Activated) ? Location : MapCoordinate.None;
 
+    void IUnitHolder.NotifyChildChanged(Troop child) => NotifyChildChanged(child);
+
     // Army.PAS:1719
     public virtual bool CanAddUnit(Troop? troop)
     {

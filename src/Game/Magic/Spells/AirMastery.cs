@@ -41,14 +41,14 @@ public class AirMastery : GlobalEnchantmentSpell
         sbyte y = coordinate50.Y;
         sbyte l = coordinate50.MapLevel;
         _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, radius: 0);
-        Animation animation = new(null)
+        Animation animation = new(null, show: ShowAnimation)
         {
             Holder = CreationHolder(),
             AnimationLevel = 28
+,
+            AnimationMap = StrategicMap.Current,
+            Tag = (StrategicMap.Current.ViewWidth & 0xFFFF) | (StrategicMap.Current.ViewHeight << 16)
         };
-        animation.SetShowHandler(ShowAnimation);
-        animation.AnimationMap = StrategicMap.Current;
-        animation.Tag = (StrategicMap.Current.ViewWidth & 0xFFFF) | (StrategicMap.Current.ViewHeight << 16);
         animation.Activate();
         _ = GamePack.Current.SpellControl[60].CastSounds.Play(0);
         CastingDone(source, mana: eventValue.EventMana);

@@ -120,8 +120,8 @@ public sealed partial class PyreScreen(UIContext ui) : UIModule(ui)
     // AOWPyreScrn.pas:69
     public void PyreAnimationUpdate()
     {
-        PyreAnimationView.Drawn = false;
-        DeadPanel.Drawn = false;
+        PyreAnimationView.IsDrawn = false;
+        DeadPanel.IsDrawn = false;
         _animationFrame += 1;
         if (_animationFrame > 450)
         {

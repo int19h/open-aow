@@ -5,8 +5,6 @@ using Aow.Formats.Tree;
 
 using Aow.Game.Magic.Abilities;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Units;
 
 // The original's THeroInventory derives from TItemList. The port's inventory owns its items as
@@ -22,8 +20,6 @@ public sealed partial class HeroInventory : ObservableNode, IChildList<Item>, II
     protected sealed override bool AcceptsChild(EngineObject child) => child is Item;
 
     int IChildSink<Item>.AddChild(Item child) => AddChild(child);
-
-    public event NotifyEvent<object>? OnChanged;
 
     // Hero.PAS:274
     public HeroInventory(CustomNode? owner) : base(null) => SetOwnerWithoutNotify(owner);
@@ -112,11 +108,7 @@ public sealed partial class HeroInventory : ObservableNode, IChildList<Item>, II
     }
 
     // Army.PAS:4564
-    protected override void OnChange()
-    {
-        base.OnChange();
-        OnChanged?.Invoke(this);
-    }
+    protected override void OnChange() => base.OnChange();
 
     // Hero.PAS:286
     public int GetFreeSlot()

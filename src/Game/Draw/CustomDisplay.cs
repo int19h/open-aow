@@ -14,7 +14,7 @@ namespace Aow.Game.Draw;
 // show), _pauseCount, _mouseAboveSurface, _primaryDisplayController, _secondaryDisplayController, _activeDisplayController
 public partial class CustomDisplay : Component
 {
-    protected internal event NotifyEvent<object>? BlitSurface;
+    protected internal event EventHandler? BlitSurface;
     private Action<object, DisplayController, int> _updateFrame;
 
     internal void SetUpdateFrameHandler(Action<object, DisplayController, int> handler) => _updateFrame = handler;
@@ -23,11 +23,11 @@ public partial class CustomDisplay : Component
 
     internal void SetSurfaceDataLostHandler(Action<DisplayController, int> handler) => _surfaceDataLost = handler;
 
-    protected internal event NotifyEvent<object>? Resized;
-    protected internal event Action<object, DisplayController>? DisplayControllerActivated;
-    protected internal event Action<object, DisplayController>? DisplayControllerDeactivated;
-    protected internal event NotifyEvent<object>? Hidden;
-    protected internal event NotifyEvent<object>? Shown;
+    protected internal event EventHandler? Resized;
+    protected internal event EventHandler<DisplayControllerEventArgs>? DisplayControllerActivated;
+    protected internal event EventHandler<DisplayControllerEventArgs>? DisplayControllerDeactivated;
+    protected internal event EventHandler? Hidden;
+    protected internal event EventHandler? Shown;
     private Action<DisplayController, int, int> _resizeBackSurface;
 
     internal void SetResizeBackSurfaceHandler(Action<DisplayController, int, int> handler) => _resizeBackSurface = handler;
@@ -199,7 +199,7 @@ public partial class CustomDisplay : Component
             result = DisplayControllerError.Ok;
             if (ActiveDisplayController is not null && ActiveDisplayController.GetStatus().Contains(DisplayControllerStatuses.Visible))
             {
-                BlitSurface?.Invoke(this);
+                BlitSurface?.Invoke(this, e: EventArgs.Empty);
 
                 if (_bufferingScheme != BufferingScheme.Single)
                 {
@@ -238,7 +238,7 @@ public partial class CustomDisplay : Component
     // DisplayC.pas:1653
     public void Hide()
     {
-        Hidden?.Invoke(this);
+        Hidden?.Invoke(this, e: EventArgs.Empty);
 
         if (ActiveDisplayController is not null && !ComponentState.Contains(ComponentStates.Designing))
         {
@@ -254,7 +254,7 @@ public partial class CustomDisplay : Component
             _ = ActiveDisplayController.Show();
         }
 
-        Shown?.Invoke(this);
+        Shown?.Invoke(this, e: EventArgs.Empty);
     }
 
     // DisplayC.pas:1669
@@ -265,7 +265,7 @@ public partial class CustomDisplay : Component
     {
         if (ActiveDisplayController is not null && ActiveDisplayController.GetStatus().Contains(DisplayControllerStatuses.Activated))
         {
-            DisplayControllerDeactivated?.Invoke(this, ActiveDisplayController);
+            DisplayControllerDeactivated?.Invoke(this, e: new DisplayControllerEventArgs(ActiveDisplayController));
 
             _ = ActiveDisplayController.Deactivate();
             ActiveDisplayController = null;

@@ -378,7 +378,7 @@ public sealed partial class HorizontalScrollBar(Component owner) : ScrollBar(own
 
             if (oldPosition != Position)
             {
-                Drawn = false;
+                IsDrawn = false;
                 RaiseChange(this);
             }
 
@@ -392,7 +392,7 @@ public sealed partial class HorizontalScrollBar(Component owner) : ScrollBar(own
         Handled = false;
         if (HeldPart is 1 or 4)
         {
-            Drawn = false;
+            IsDrawn = false;
         }
 
         HeldUpdateCount = 0;
@@ -422,7 +422,7 @@ public sealed partial class HorizontalScrollBar(Component owner) : ScrollBar(own
                 SetPositionUnclamped(Max + 1 - NumberVisible);
             }
 
-            Drawn = false;
+            IsDrawn = false;
             RaiseChange(this);
         }
 
@@ -475,10 +475,10 @@ public sealed partial class HorizontalScrollBar(Component owner) : ScrollBar(own
         remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, HorizontalScrollBar>(this, slot: nameof(PreDraw), value: value);
     }
 
-    public new event AoWOnDrawEvent<HorizontalScrollBar> OnDraw
+    public new event AoWOnDrawEvent<HorizontalScrollBar> Drawn
     {
-        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, HorizontalScrollBar>(this, slot: nameof(OnDraw), value: value);
-        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, HorizontalScrollBar>(this, slot: nameof(OnDraw), value: value);
+        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, HorizontalScrollBar>(this, slot: nameof(Drawn), value: value);
+        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, HorizontalScrollBar>(this, slot: nameof(Drawn), value: value);
     }
 
     public new event NotifyEvent<HorizontalScrollBar> Updated

@@ -357,6 +357,8 @@ public partial class AIGroup : ObservableNode, IChildList<Troop>, IUnitHolder, I
     public virtual int GetManaBudget() => ManaBudget;
 
     // AIGroup.pas:148
+    void IUnitHolder.NotifyChildChanged(Troop child) => NotifyChildChanged(child);
+
     public virtual MapCoordinate GetLocation()
     {
         MapCoordinate location;

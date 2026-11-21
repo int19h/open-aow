@@ -53,7 +53,7 @@ public partial class ListBox
         if (next != FirstShownItem)
         {
             FirstShownItem = next;
-            Drawn = false;
+            IsDrawn = false;
         }
 
         return true;

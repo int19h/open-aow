@@ -1,6 +1,6 @@
 #nullable disable warnings
-// The change an ObservableNode reports. The original Changed call carries no arguments, so a
-// call site fills Index, Item and Previous only when it has them, and NewIndex only for a move.
+// The change an ObservableNode reports. A call site fills Index, Item and Previous only when it
+// has them, and NewIndex only for a move. ItemChanged names a child whose own state changed.
 namespace Aow.Engine.Nodes;
 
 public enum ObservableChangeKind
@@ -10,6 +10,7 @@ public enum ObservableChangeKind
     Replaced,
     Moved,
     Reset,
+    ItemChanged,
 }
 
 public readonly record struct ObservableChange(
@@ -33,4 +34,7 @@ public readonly record struct ObservableChange(
 
     public static ObservableChange Reset()
         => new(ObservableChangeKind.Reset, Index: -1, Item: null, Previous: null, NewIndex: -1);
+
+    public static ObservableChange ItemChanged(int index, EngineObject item)
+        => new(ObservableChangeKind.ItemChanged, Index: index, Item: item, Previous: null, NewIndex: -1);
 }

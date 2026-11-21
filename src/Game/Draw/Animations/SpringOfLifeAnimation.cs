@@ -3,8 +3,11 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.Draw.Animations;
 
-public sealed class SpringOfLifeAnimation(CustomNode owner) : Animation(owner)
+public sealed class SpringOfLifeAnimation(CustomNode owner, ShowAnimationEvent? show = null) : Animation(owner, show: show)
 {
+    public SpringOfLifeAnimation(CustomNode owner) : this(owner, show: null)
+    {
+    }
 
     // Spring.pas:64
     public override void NewFrame()

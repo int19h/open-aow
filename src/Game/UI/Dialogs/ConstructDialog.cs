@@ -41,7 +41,7 @@ public sealed partial class ConstructDialog(UIContext ui) : UIModule(ui)
     // AoWConstructDlg.pas:142
     public void UpdateConstructions()
     {
-        Window.Drawn = false;
+        Window.IsDrawn = false;
         Troop? u = StrategicMap.Current.UnitControl.FindUnit(_request.UnitId);
         ConstructionList.Items.Clear();
         ConstructionCostList.Items.Clear();

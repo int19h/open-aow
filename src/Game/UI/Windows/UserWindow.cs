@@ -66,10 +66,10 @@ public sealed class UserWindow(Component owner) : Window(owner)
         remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, UserWindow>(this, slot: nameof(PreDraw), value: value);
     }
 
-    public new event AoWOnDrawEvent<UserWindow> OnDraw
+    public new event AoWOnDrawEvent<UserWindow> Drawn
     {
-        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, UserWindow>(this, slot: nameof(OnDraw), value: value);
-        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, UserWindow>(this, slot: nameof(OnDraw), value: value);
+        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, UserWindow>(this, slot: nameof(Drawn), value: value);
+        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, UserWindow>(this, slot: nameof(Drawn), value: value);
     }
 
     public new event NotifyEvent<UserWindow> Updated
@@ -102,16 +102,16 @@ public sealed class UserWindow(Component owner) : Window(owner)
         remove => ((WindowControl)this).ChangeCursor -= EventSlot.Remove<WindowControl, UserWindow>(this, slot: nameof(ChangeCursor), value: value);
     }
 
-    public new event AoWOnDrawSurface<UserWindow> SurfaceDrawn
+    public new event AoWOnDrawSurface<UserWindow> Blitted
     {
-        add => ((WindowControl)this).SurfaceDrawn += EventSlot.Add<WindowControl, UserWindow>(this, slot: nameof(SurfaceDrawn), value: value);
-        remove => ((WindowControl)this).SurfaceDrawn -= EventSlot.Remove<WindowControl, UserWindow>(this, slot: nameof(SurfaceDrawn), value: value);
+        add => ((WindowControl)this).Blitted += EventSlot.Add<WindowControl, UserWindow>(this, slot: nameof(Blitted), value: value);
+        remove => ((WindowControl)this).Blitted -= EventSlot.Remove<WindowControl, UserWindow>(this, slot: nameof(Blitted), value: value);
     }
 
-    public new event AoWOnDrawSurface<UserWindow> PreDrawSurface
+    public new event AoWOnDrawSurface<UserWindow> Blitting
     {
-        add => ((WindowControl)this).PreDrawSurface += EventSlot.Add<WindowControl, UserWindow>(this, slot: nameof(PreDrawSurface), value: value);
-        remove => ((WindowControl)this).PreDrawSurface -= EventSlot.Remove<WindowControl, UserWindow>(this, slot: nameof(PreDrawSurface), value: value);
+        add => ((WindowControl)this).Blitting += EventSlot.Add<WindowControl, UserWindow>(this, slot: nameof(Blitting), value: value);
+        remove => ((WindowControl)this).Blitting -= EventSlot.Remove<WindowControl, UserWindow>(this, slot: nameof(Blitting), value: value);
     }
 
     public new event NotifyEvent<UserWindow> Drag

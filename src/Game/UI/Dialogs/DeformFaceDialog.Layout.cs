@@ -63,7 +63,7 @@ public sealed partial class DeformFaceDialog : ILayoutModule
         Frame faceFrame = new(this);
         session.BeginRead(faceFrame);
         faceFrame.Name = "FaceFrame";
-        faceFrame.OnDraw += (sender, surface) => DrawFace(sender, lockedSurface: surface, offset: 0);
+        faceFrame.Drawn += (sender, surface) => DrawFace(sender, lockedSurface: surface, offset: 0);
         faceFrame.Priority = 500;
         faceFrame.WinLeft = 152;
         faceFrame.WinTop = 75;
@@ -262,7 +262,7 @@ public sealed partial class DeformFaceDialog : ILayoutModule
         session.BeginRead(leftFace);
         leftFace.Name = "LeftFace";
         leftFace.Tag = -1;
-        leftFace.OnDraw += (sender, surface) => DrawFace(sender, lockedSurface: surface, offset: -1);
+        leftFace.Drawn += (sender, surface) => DrawFace(sender, lockedSurface: surface, offset: -1);
         leftFace.Priority = 500;
         leftFace.WinLeft = 60;
         leftFace.WinTop = 75;
@@ -291,7 +291,7 @@ public sealed partial class DeformFaceDialog : ILayoutModule
         session.BeginRead(rightFace);
         rightFace.Name = "RightFace";
         rightFace.Tag = 1;
-        rightFace.OnDraw += (sender, surface) => DrawFace(sender, lockedSurface: surface, offset: 1);
+        rightFace.Drawn += (sender, surface) => DrawFace(sender, lockedSurface: surface, offset: 1);
         rightFace.Priority = 500;
         rightFace.WinLeft = 266;
         rightFace.WinTop = 75;

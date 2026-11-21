@@ -201,7 +201,7 @@ public sealed partial class SpellBook : ILayoutModule
         Spell1Icon = new Image(this);
         session.BeginRead(Spell1Icon);
         Spell1Icon.Name = "S1Icn";
-        Spell1Icon.OnDraw += (sender, surface) => SpellIconDraw(sender, lockedSurface: surface, slot: 0);
+        Spell1Icon.Drawn += (sender, surface) => SpellIconDraw(sender, lockedSurface: surface, slot: 0);
         Spell1Icon.Priority = 0;
         Spell1Icon.WinLeft = 10;
         Spell1Icon.WinTop = 2;
@@ -366,7 +366,7 @@ public sealed partial class SpellBook : ILayoutModule
         session.BeginRead(Spell2Icon);
         Spell2Icon.Name = "S2Icn";
         Spell2Icon.Tag = 1;
-        Spell2Icon.OnDraw += (sender, surface) => SpellIconDraw(sender, lockedSurface: surface, slot: 1);
+        Spell2Icon.Drawn += (sender, surface) => SpellIconDraw(sender, lockedSurface: surface, slot: 1);
         Spell2Icon.Priority = 0;
         Spell2Icon.WinLeft = 10;
         Spell2Icon.WinTop = 2;
@@ -531,7 +531,7 @@ public sealed partial class SpellBook : ILayoutModule
         session.BeginRead(Spell3Icon);
         Spell3Icon.Name = "S3Icn";
         Spell3Icon.Tag = 2;
-        Spell3Icon.OnDraw += (sender, surface) => SpellIconDraw(sender, lockedSurface: surface, slot: 2);
+        Spell3Icon.Drawn += (sender, surface) => SpellIconDraw(sender, lockedSurface: surface, slot: 2);
         Spell3Icon.Priority = 0;
         Spell3Icon.WinLeft = 10;
         Spell3Icon.WinTop = 2;
@@ -696,7 +696,7 @@ public sealed partial class SpellBook : ILayoutModule
         session.BeginRead(Spell4Icon);
         Spell4Icon.Name = "S4Icn";
         Spell4Icon.Tag = 3;
-        Spell4Icon.OnDraw += (sender, surface) => SpellIconDraw(sender, lockedSurface: surface, slot: 3);
+        Spell4Icon.Drawn += (sender, surface) => SpellIconDraw(sender, lockedSurface: surface, slot: 3);
         Spell4Icon.Priority = 0;
         Spell4Icon.WinLeft = 10;
         Spell4Icon.WinTop = 2;
@@ -912,7 +912,7 @@ public sealed partial class SpellBook : ILayoutModule
         session.BeginRead(Spell5Icon);
         Spell5Icon.Name = "S5Icn";
         Spell5Icon.Tag = 4;
-        Spell5Icon.OnDraw += (sender, surface) => SpellIconDraw(sender, lockedSurface: surface, slot: 4);
+        Spell5Icon.Drawn += (sender, surface) => SpellIconDraw(sender, lockedSurface: surface, slot: 4);
         Spell5Icon.Priority = 0;
         Spell5Icon.WinLeft = 10;
         Spell5Icon.WinTop = 2;
@@ -1077,7 +1077,7 @@ public sealed partial class SpellBook : ILayoutModule
         session.BeginRead(Spell6Icon);
         Spell6Icon.Name = "S6Icn";
         Spell6Icon.Tag = 5;
-        Spell6Icon.OnDraw += (sender, surface) => SpellIconDraw(sender, lockedSurface: surface, slot: 5);
+        Spell6Icon.Drawn += (sender, surface) => SpellIconDraw(sender, lockedSurface: surface, slot: 5);
         Spell6Icon.Priority = 0;
         Spell6Icon.WinLeft = 10;
         Spell6Icon.WinTop = 2;
@@ -1242,7 +1242,7 @@ public sealed partial class SpellBook : ILayoutModule
         session.BeginRead(Spell7Icon);
         Spell7Icon.Name = "S7Icn";
         Spell7Icon.Tag = 6;
-        Spell7Icon.OnDraw += (sender, surface) => SpellIconDraw(sender, lockedSurface: surface, slot: 6);
+        Spell7Icon.Drawn += (sender, surface) => SpellIconDraw(sender, lockedSurface: surface, slot: 6);
         Spell7Icon.Priority = 0;
         Spell7Icon.WinLeft = 10;
         Spell7Icon.WinTop = 2;
@@ -1407,7 +1407,7 @@ public sealed partial class SpellBook : ILayoutModule
         session.BeginRead(Spell8Icon);
         Spell8Icon.Name = "S8Icn";
         Spell8Icon.Tag = 7;
-        Spell8Icon.OnDraw += (sender, surface) => SpellIconDraw(sender, lockedSurface: surface, slot: 7);
+        Spell8Icon.Drawn += (sender, surface) => SpellIconDraw(sender, lockedSurface: surface, slot: 7);
         Spell8Icon.Priority = 0;
         Spell8Icon.WinLeft = 10;
         Spell8Icon.WinTop = 2;
@@ -2121,7 +2121,7 @@ public sealed partial class SpellBook : ILayoutModule
         Image castingIcn = new(this);
         session.BeginRead(castingIcn);
         castingIcn.Name = "CastingIcn";
-        castingIcn.OnDraw += CastingIcnDraw;
+        castingIcn.Drawn += CastingIcnDraw;
         castingIcn.Priority = 0;
         castingIcn.WinLeft = 10;
         castingIcn.WinTop = 2;
@@ -2633,7 +2633,7 @@ public sealed partial class SpellBook : ILayoutModule
         Image face = new(this);
         session.BeginRead(face);
         face.Name = "Face";
-        face.OnDraw += FaceDraw;
+        face.Drawn += FaceDraw;
         face.Priority = 10;
         face.WinLeft = 85;
         face.WinTop = 61;
@@ -2861,7 +2861,7 @@ public sealed partial class SpellBook : ILayoutModule
         Image researchIcn = new(this);
         session.BeginRead(researchIcn);
         researchIcn.Name = "ResearchIcn";
-        researchIcn.OnDraw += ResearchIcnDraw;
+        researchIcn.Drawn += ResearchIcnDraw;
         researchIcn.Priority = 0;
         researchIcn.WinLeft = 10;
         researchIcn.WinTop = 2;

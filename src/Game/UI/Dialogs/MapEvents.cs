@@ -198,7 +198,7 @@ public sealed partial class MapEvents(UIContext? ui) : UIModule(ui)
         {
             if (cancelled)
             {
-                UI.TaskBar.WorldTurnButton.Drawn = false;
+                UI.TaskBar.WorldTurnButton.IsDrawn = false;
                 UI.TaskBar.WorldTurnButton.ButtonChecked = false;
             }
             else
@@ -207,7 +207,7 @@ public sealed partial class MapEvents(UIContext? ui) : UIModule(ui)
             }
         }
 
-        UI.TaskBar.PlayerIndicatorFrame.Drawn = false;
+        UI.TaskBar.PlayerIndicatorFrame.IsDrawn = false;
     }
 
     // aowMapEvents.pas:198
@@ -510,7 +510,7 @@ public sealed partial class MapEvents(UIContext? ui) : UIModule(ui)
         TheMapGemsChanged(player);
         TheMapIncomeChanged(player);
         TheMapPlayerMagicChanged(player);
-        UI.TaskBar.PlayerIndicatorFrame.Drawn = false;
+        UI.TaskBar.PlayerIndicatorFrame.IsDrawn = false;
         UI.PlayerInfoWindow.UpdateEvents();
     }
 
@@ -906,7 +906,7 @@ public sealed partial class MapEvents(UIContext? ui) : UIModule(ui)
         }
         dialog.FillPlayers();
         dialog.RelationPanel.Aligned = false;
-        dialog.MainWindow.Drawn = false;
+        dialog.MainWindow.IsDrawn = false;
         if (dialog.SelectedPlayer != -1)
         {
             dialog.HighlightPlayer(dialog.SelectedPlayer);

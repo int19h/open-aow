@@ -41,7 +41,7 @@ public sealed partial class SetupEvents : ILayoutModule
         SetupControl.Name = "SetupControl";
         SetupControl.MapSent += SetupControlSendMap;
         SetupControl.SendData += SetupControlSendData;
-        SetupControl.OnPlayerSetupDone += _ => SetupControlPlayerSetupDone();
+        SetupControl.PlayerSetupCompleted += _ => SetupControlPlayerSetupDone();
         SetupControl.SettingChanged += _ => SetupControlSettingChanged();
         SetupControl.CustomizeLeader += SetupControlCustomizeLeader;
         SetupControl.OnLoadMap += SetupControlLoadMap;

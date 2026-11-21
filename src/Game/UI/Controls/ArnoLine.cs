@@ -162,10 +162,10 @@ public sealed class ArnoLine : Control
         remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, ArnoLine>(this, slot: nameof(PreDraw), value: value);
     }
 
-    public new event AoWOnDrawEvent<ArnoLine> OnDraw
+    public new event AoWOnDrawEvent<ArnoLine> Drawn
     {
-        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, ArnoLine>(this, slot: nameof(OnDraw), value: value);
-        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, ArnoLine>(this, slot: nameof(OnDraw), value: value);
+        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, ArnoLine>(this, slot: nameof(Drawn), value: value);
+        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, ArnoLine>(this, slot: nameof(Drawn), value: value);
     }
 
     public new event NotifyEvent<ArnoLine> Updated

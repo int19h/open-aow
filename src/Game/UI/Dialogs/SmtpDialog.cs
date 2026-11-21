@@ -71,7 +71,7 @@ public sealed partial class SmtpDialog(UIContext ui) : UIModule(ui)
         if (ProgressBar.Position != _progress)
         {
             ProgressBar.Position = _progress;
-            ProgressBar.Drawn = false;
+            ProgressBar.IsDrawn = false;
         }
     }
 

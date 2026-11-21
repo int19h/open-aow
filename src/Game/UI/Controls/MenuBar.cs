@@ -179,7 +179,7 @@ public sealed partial class MenuBar : Control
                     Selected = -1;
                     RaiseChange(this);
 
-                    Drawn = false;
+                    IsDrawn = false;
                 }
                 else
                 {
@@ -200,7 +200,7 @@ public sealed partial class MenuBar : Control
 
                         RaiseChange(this);
 
-                        Drawn = false;
+                        IsDrawn = false;
                     }
                 }
             }
@@ -212,7 +212,7 @@ public sealed partial class MenuBar : Control
             if (Selected > -1)
             {
                 Selected = -1;
-                Drawn = false;
+                IsDrawn = false;
             }
         }
 
@@ -343,10 +343,10 @@ public sealed partial class MenuBar : Control
         remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, MenuBar>(this, slot: nameof(PreDraw), value: value);
     }
 
-    public new event AoWOnDrawEvent<MenuBar> OnDraw
+    public new event AoWOnDrawEvent<MenuBar> Drawn
     {
-        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, MenuBar>(this, slot: nameof(OnDraw), value: value);
-        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, MenuBar>(this, slot: nameof(OnDraw), value: value);
+        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, MenuBar>(this, slot: nameof(Drawn), value: value);
+        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, MenuBar>(this, slot: nameof(Drawn), value: value);
     }
 
     public new event NotifyEvent<MenuBar> Updated

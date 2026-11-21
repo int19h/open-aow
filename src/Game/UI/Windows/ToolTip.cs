@@ -18,7 +18,7 @@ namespace Aow.Game.UI.Windows;
 public sealed class ToolTip : GenericWindow
 {
     [Published]
-    public event NotifyEvent<ToolTip>? DrawItem;
+    public event EventHandler? DrawItem;
 
     public Rect ControlRectangle { get; set; }
 
@@ -245,7 +245,7 @@ public sealed class ToolTip : GenericWindow
                 }
                 else
                 {
-                    Drawn = false;
+                    IsDrawn = false;
                 }
 
                 if (!Hidden)
@@ -307,7 +307,7 @@ public sealed class ToolTip : GenericWindow
                             LibraryImage? imageLibraryFrame8 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
                             LibraryImage? imageLibraryFrame9 = ImageLibraryFrame[ImageLibraryIndexFrame + 1];
                             LibraryImage? libraryImage = ImageLibraryFrame[ImageLibraryIndexFrame + 3];
-                            DrawItem?.Invoke(this);
+                            DrawItem?.Invoke(this, e: EventArgs.Empty);
                         }
 
                         lockedSurface.ClipRectangle = oldClip;
@@ -399,10 +399,10 @@ public sealed class ToolTip : GenericWindow
         remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, ToolTip>(this, slot: nameof(PreDraw), value: value);
     }
 
-    public new event AoWOnDrawEvent<ToolTip> OnDraw
+    public new event AoWOnDrawEvent<ToolTip> Drawn
     {
-        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, ToolTip>(this, slot: nameof(OnDraw), value: value);
-        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, ToolTip>(this, slot: nameof(OnDraw), value: value);
+        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, ToolTip>(this, slot: nameof(Drawn), value: value);
+        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, ToolTip>(this, slot: nameof(Drawn), value: value);
     }
 
     public new event NotifyEvent<ToolTip> Updated
@@ -435,16 +435,16 @@ public sealed class ToolTip : GenericWindow
         remove => ((WindowControl)this).ChangeCursor -= EventSlot.Remove<WindowControl, ToolTip>(this, slot: nameof(ChangeCursor), value: value);
     }
 
-    public new event AoWOnDrawSurface<ToolTip> SurfaceDrawn
+    public new event AoWOnDrawSurface<ToolTip> Blitted
     {
-        add => ((WindowControl)this).SurfaceDrawn += EventSlot.Add<WindowControl, ToolTip>(this, slot: nameof(SurfaceDrawn), value: value);
-        remove => ((WindowControl)this).SurfaceDrawn -= EventSlot.Remove<WindowControl, ToolTip>(this, slot: nameof(SurfaceDrawn), value: value);
+        add => ((WindowControl)this).Blitted += EventSlot.Add<WindowControl, ToolTip>(this, slot: nameof(Blitted), value: value);
+        remove => ((WindowControl)this).Blitted -= EventSlot.Remove<WindowControl, ToolTip>(this, slot: nameof(Blitted), value: value);
     }
 
-    public new event AoWOnDrawSurface<ToolTip> PreDrawSurface
+    public new event AoWOnDrawSurface<ToolTip> Blitting
     {
-        add => ((WindowControl)this).PreDrawSurface += EventSlot.Add<WindowControl, ToolTip>(this, slot: nameof(PreDrawSurface), value: value);
-        remove => ((WindowControl)this).PreDrawSurface -= EventSlot.Remove<WindowControl, ToolTip>(this, slot: nameof(PreDrawSurface), value: value);
+        add => ((WindowControl)this).Blitting += EventSlot.Add<WindowControl, ToolTip>(this, slot: nameof(Blitting), value: value);
+        remove => ((WindowControl)this).Blitting -= EventSlot.Remove<WindowControl, ToolTip>(this, slot: nameof(Blitting), value: value);
     }
 
     public new event NotifyEvent<ToolTip> Hide

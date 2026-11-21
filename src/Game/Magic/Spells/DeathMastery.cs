@@ -41,14 +41,14 @@ public class DeathMastery : GlobalEnchantmentSpell
         sbyte y = coordinate63.Y;
         sbyte l = coordinate63.MapLevel;
         _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, radius: 0);
-        Animation animation = new(null)
+        Animation animation = new(null, show: ShowAnimation)
         {
             Holder = CreationHolder(),
             AnimationLevel = 28
+,
+            AnimationMap = StrategicMap.Current,
+            Tag = (StrategicMap.Current.ViewWidth & 0xFFFF) | (StrategicMap.Current.ViewHeight << 16)
         };
-        animation.SetShowHandler(ShowAnimation);
-        animation.AnimationMap = StrategicMap.Current;
-        animation.Tag = (StrategicMap.Current.ViewWidth & 0xFFFF) | (StrategicMap.Current.ViewHeight << 16);
         animation.Activate();
 
         _ = CastSounds.Play(0);

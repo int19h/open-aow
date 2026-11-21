@@ -29,8 +29,8 @@ public class UnitSelector : IDisposable
     public byte Selectable { get; private set; }
     public int SourceUnitId { get; private set; }
 
-    private event Action<UnitSelector>? Selected;
-    private event Action<UnitSelector>? Cancel;
+    private event EventHandler? Selected;
+    private event EventHandler? Cancel;
 
     // Ability.PAS:583
     public virtual void Dispose() => Units?.Dispose();
@@ -79,7 +79,7 @@ public class UnitSelector : IDisposable
     }
 
     // Ability.PAS:651
-    public virtual void OnCancel() => Cancel?.Invoke(this);
+    public virtual void OnCancel() => Cancel?.Invoke(this, e: EventArgs.Empty);
 
     // Ability.PAS:589
     public int AddRef()
@@ -123,7 +123,7 @@ public class UnitSelector : IDisposable
     // intf_P1_08.inc:65
     public virtual bool Select()
     {
-        Selected?.Invoke(this);
+        Selected?.Invoke(this, e: EventArgs.Empty);
         return true;
     }
 }

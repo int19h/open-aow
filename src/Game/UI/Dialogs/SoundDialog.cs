@@ -104,8 +104,8 @@ public sealed partial class SoundDialog(UIContext ui) : UIModule(ui)
             CurrentSongLabel.Text = songName;
         }
 
-        MainPanel.Drawn = false;
-        PlayListPanel.Drawn = false;
+        MainPanel.IsDrawn = false;
+        PlayListPanel.IsDrawn = false;
         MusicEnabledCheckBox.Checked = Settings.MusicEnabled;
         EffectsEnabledCheckBox.Checked = Settings.SfxEnabled;
         DirectSoundEnabledCheckBox.Checked = Settings.UseDirectSound;
@@ -119,7 +119,7 @@ public sealed partial class SoundDialog(UIContext ui) : UIModule(ui)
     public void PlayBtnClick()
     {
         UI.General.PlayButtonSound(0);
-        PlayList.Drawn = false;
+        PlayList.IsDrawn = false;
         _ = AudioHost.SongPlayer.Play(PlayList.Selected);
     }
 
@@ -128,8 +128,8 @@ public sealed partial class SoundDialog(UIContext ui) : UIModule(ui)
     {
         string songName = AudioHost.SongPlayer.SongNames[AudioHost.SongPlayer.CurrentIndex];
         CurrentSongLabel.Text = songName;
-        MainPanel.Drawn = false;
-        PlayList.Drawn = false;
+        MainPanel.IsDrawn = false;
+        PlayList.IsDrawn = false;
     }
 
     // AoWSoundDlg.pas:179
@@ -205,8 +205,8 @@ public sealed partial class SoundDialog(UIContext ui) : UIModule(ui)
             AudioPlayback.ReleaseSoundSystem();
             SoundQuality = 0;
             CurrentSongLabel.Text = "";
-            PlayList.Drawn = false;
-            MainPanel.Drawn = false;
+            PlayList.IsDrawn = false;
+            MainPanel.IsDrawn = false;
         }
 
         if (sender.Checked)

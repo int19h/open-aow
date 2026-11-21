@@ -23,32 +23,32 @@ public sealed class CombatMapControl : Component
     [Published]
     public event SelectHSEvent? Deselected;
     [Published]
-    public event NotifyEvent<object>? ActivateHsm;
+    public event EventHandler? HexSpriteMapLoaded;
     [Published]
-    public event NotifyEvent<object>? DeactivateHsm;
+    public event EventHandler? HexSpriteMapClosing;
     [Published]
-    public event PlayerChangedEvent? IncomeChanged;
+    public event EventHandler<PlayerEventArgs>? IncomeChanged;
     [Published]
-    public event PlayerChangedEvent? UpkeepChanged;
+    public event EventHandler<PlayerEventArgs>? UpkeepChanged;
     [Published]
-    public event PlayerChangedEvent? GemsChanged;
+    public event EventHandler<PlayerEventArgs>? GemsChanged;
     [Published]
-    public event ShowMessageEvent? ShowMessage;
+    public event ShowMessageEvent? ShowingMessage;
     [Published]
     public event TurnChangedEvent? TurnChanged;
     [Published]
-    public event PlayerChangedEvent? PlayerChanged;
+    public event EventHandler<PlayerEventArgs>? PlayerChanged;
     [Published]
     public event PlayerChangedEvent? SeatedPlayerChanged;
     [Published]
-    public event Action<EventLog, ExecuteDoneEvent>? ExecuteEventLog;
+    public event EventHandler<ExecutingEventLogEventArgs>? ExecutingEventLog;
 
-    internal void ClearExecuteEventLogHandler() => ExecuteEventLog = null;
+    internal void ClearExecuteEventLogHandler() => ExecutingEventLog = null;
 
     [Published]
     public event MapChangedEvent? MapChanged;
     [Published]
-    public event PlayerChangedEvent? LogbookChanged;
+    public event EventHandler<PlayerEventArgs>? LogbookChanged;
     [Published]
     public event NotifyEvent<object>? ActivateMap;
     [Published]
@@ -60,15 +60,15 @@ public sealed class CombatMapControl : Component
     [Published]
     public event CastCombatSpellEvent? OnCastSpell;
     [Published]
-    public event ActivateCombatAbilityEvent? ActivateAbility;
+    public event ActivateCombatAbilityEvent? AbilityActivated;
 
     // CMapCtrl.pas:117
     public override void Dispose()
     {
         if (_engine is not null)
         {
-            _engine.OnHsmLoaded -= engine_HexSpriteMapLoaded;
-            _engine.OnHsmClose -= engine_HexSpriteMapClosing;
+            _engine.HexSpriteMapLoaded -= engine_HexSpriteMapLoaded;
+            _engine.HexSpriteMapClosing -= engine_HexSpriteMapClosing;
             if (CombatMap.Current is not null)
             {
                 ReleaseHsm();
@@ -86,8 +86,8 @@ public sealed class CombatMapControl : Component
         _engine = (owner as UIModule)?.UI.Engine;
         if (_engine is not null)
         {
-            _engine.OnHsmLoaded += engine_HexSpriteMapLoaded;
-            _engine.OnHsmClose += engine_HexSpriteMapClosing;
+            _engine.HexSpriteMapLoaded += engine_HexSpriteMapLoaded;
+            _engine.HexSpriteMapClosing += engine_HexSpriteMapClosing;
         }
     }
 
@@ -97,8 +97,8 @@ public sealed class CombatMapControl : Component
         CombatMap.Current.TurnChanged += ChangeTurn;
         CombatMap.Current.PlayerChanged += CombatMap_PlayerChanged;
         CombatMap.Current.SeatedPlayerChanged += CombatMap_SeatedPlayerChanged;
-        CombatMap.Current.Selection.OnSelect += SelectHexSprite;
-        CombatMap.Current.Selection.OnDeselect += DeselectHexSprite;
+        CombatMap.Current.Selection.Selected += SelectHexSprite;
+        CombatMap.Current.Selection.Deselected += DeselectHexSprite;
         CombatMap.Current.ShowingMessage += CombatMap_ShowingMessage;
         CombatMap.Current.MapChanged += CombatMap_MapChanged;
         CombatMap.Current.Deselected += CombatMap_Deselected;
@@ -123,8 +123,8 @@ public sealed class CombatMapControl : Component
         CombatMap.Current.TurnChanged -= ChangeTurn;
         CombatMap.Current.PlayerChanged -= CombatMap_PlayerChanged;
         CombatMap.Current.SeatedPlayerChanged -= CombatMap_SeatedPlayerChanged;
-        CombatMap.Current.Selection.OnSelect -= SelectHexSprite;
-        CombatMap.Current.Selection.OnDeselect -= DeselectHexSprite;
+        CombatMap.Current.Selection.Selected -= SelectHexSprite;
+        CombatMap.Current.Selection.Deselected -= DeselectHexSprite;
         CombatMap.Current.ShowingMessage -= CombatMap_ShowingMessage;
         CombatMap.Current.MapChanged -= CombatMap_MapChanged;
         StrategicMap.Current.ExecutingEventLog -= StrategicMap_ExecutingEventLog;
@@ -149,7 +149,7 @@ public sealed class CombatMapControl : Component
         if (sender.EngineClass.ClassId == CombatMap.ClassId)
         {
             LinkToHsm();
-            ActivateHsm?.Invoke(this);
+            HexSpriteMapLoaded?.Invoke(this, e: EventArgs.Empty);
         }
     }
 
@@ -158,7 +158,7 @@ public sealed class CombatMapControl : Component
     {
         if (sender.EngineClass.ClassId == CombatMap.ClassId)
         {
-            DeactivateHsm?.Invoke(this);
+            HexSpriteMapClosing?.Invoke(this, e: EventArgs.Empty);
 
             ReleaseHsm();
         }
@@ -225,7 +225,7 @@ public sealed class CombatMapControl : Component
     {
         try
         {
-            PlayerChanged?.Invoke(CombatMap.Current.CurrentPlayer);
+            PlayerChanged?.Invoke(this, e: new PlayerEventArgs(CombatMap.Current.CurrentPlayer));
         }
         catch
         {
@@ -251,7 +251,7 @@ public sealed class CombatMapControl : Component
     {
         try
         {
-            GemsChanged?.Invoke(sender.PlayerIndex);
+            GemsChanged?.Invoke(this, e: new PlayerEventArgs(sender.PlayerIndex));
         }
         catch
         {
@@ -264,7 +264,7 @@ public sealed class CombatMapControl : Component
     {
         try
         {
-            IncomeChanged?.Invoke(sender.PlayerIndex);
+            IncomeChanged?.Invoke(this, e: new PlayerEventArgs(sender.PlayerIndex));
         }
         catch
         {
@@ -277,7 +277,7 @@ public sealed class CombatMapControl : Component
     {
         try
         {
-            UpkeepChanged?.Invoke(sender.PlayerIndex);
+            UpkeepChanged?.Invoke(this, e: new PlayerEventArgs(sender.PlayerIndex));
         }
         catch
         {
@@ -304,7 +304,7 @@ public sealed class CombatMapControl : Component
     {
         try
         {
-            LogbookChanged?.Invoke(sender.PlayerIndex);
+            LogbookChanged?.Invoke(this, e: new PlayerEventArgs(sender.PlayerIndex));
         }
         catch
         {
@@ -356,7 +356,7 @@ public sealed class CombatMapControl : Component
     {
         try
         {
-            ActivateAbility?.Invoke(sender);
+            AbilityActivated?.Invoke(sender);
         }
         catch
         {
@@ -368,14 +368,14 @@ public sealed class CombatMapControl : Component
     {
         try
         {
-            if (ExecuteEventLog is null)
+            if (ExecutingEventLog is null)
             {
                 return;
             }
 
             ExecuteEventLogInfo info = sender is ExecuteEventLogNotification notification
                 ? notification.Info : ReadLegacyRecord<ExecuteEventLogInfo>(sender);
-            ExecuteEventLog(info.Log, info.Done);
+            ExecutingEventLog(this, e: new ExecutingEventLogEventArgs(info.Log, done: info.Done));
         }
         catch
         {
@@ -403,7 +403,7 @@ public sealed class CombatMapControl : Component
     {
         try
         {
-            ShowMessage?.Invoke(((ShowMessageNotification)sender).Info);
+            ShowingMessage?.Invoke(((ShowMessageNotification)sender).Info);
         }
         catch
         {

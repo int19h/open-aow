@@ -18,5 +18,5 @@ internal interface IUnitHolder
 
     MapCoordinate GetLocation();
 
-    void Changed();
+    void NotifyChildChanged(Troop child);
 }

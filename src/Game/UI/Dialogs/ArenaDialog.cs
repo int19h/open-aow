@@ -187,7 +187,7 @@ public sealed partial class ArenaDialog(UIContext ui) : UIModule(ui)
     }
 
     // AoWArenaDlg.pas:224
-    public void MapViewUpdate() => MapView.Drawn = MapView.Drawn && (StrategicMap.Current.Frame & 1) != 0;
+    public void MapViewUpdate() => MapView.IsDrawn = MapView.IsDrawn && (StrategicMap.Current.Frame & 1) != 0;
 
     // AoWArenaDlg.pas:229
     public void DlgDrawBack()

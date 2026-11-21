@@ -638,7 +638,7 @@ public sealed partial class PowerDialog : ILayoutModule
         Image paMana = new(this);
         session.BeginRead(paMana);
         paMana.Name = "PAMana";
-        paMana.OnDraw += PAManaDraw;
+        paMana.Drawn += PAManaDraw;
         paMana.Priority = 0;
         paMana.WinLeft = 0;
         paMana.WinTop = 89;
@@ -667,7 +667,7 @@ public sealed partial class PowerDialog : ILayoutModule
         Image paRes = new(this);
         session.BeginRead(paRes);
         paRes.Name = "PARes";
-        paRes.OnDraw += PAResDraw;
+        paRes.Drawn += PAResDraw;
         paRes.Priority = 0;
         paRes.WinLeft = 141;
         paRes.WinTop = 89;

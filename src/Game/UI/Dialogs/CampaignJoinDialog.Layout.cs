@@ -178,7 +178,7 @@ public sealed partial class CampaignJoinDialog : ILayoutModule
         session.BeginRead(DefaultFacePanel);
         DefaultFacePanel.Name = "DefaultFacePnl";
         DefaultFacePanel.MouseDown += (_, _, _, _, _) => DefaultFacePnlMouseDown(default, button: default, shift: default, default, default);
-        DefaultFacePanel.OnDraw += (_, surface) => DefaultFacePnlDraw(surface);
+        DefaultFacePanel.Drawn += (_, surface) => DefaultFacePnlDraw(surface);
         DefaultFacePanel.Priority = 0;
         DefaultFacePanel.WinLeft = 62;
         DefaultFacePanel.WinTop = 103;
@@ -233,7 +233,7 @@ public sealed partial class CampaignJoinDialog : ILayoutModule
         ScrollTextView = new UserDrawBox(this);
         session.BeginRead(ScrollTextView);
         ScrollTextView.Name = "ScrollTextDB";
-        ScrollTextView.OnDraw += (_, surface) => ScrollTextDBDraw(surface);
+        ScrollTextView.Drawn += (_, surface) => ScrollTextDBDraw(surface);
         ScrollTextView.Updated += _ => ScrollTextDBUpdate();
         ScrollTextView.Priority = 0;
         ScrollTextView.WinLeft = 150;

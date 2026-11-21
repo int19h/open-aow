@@ -1392,7 +1392,7 @@ public sealed partial class WorldMap : ILayoutModule
         StarImage = new Image(this);
         session.BeginRead(StarImage);
         StarImage.Name = "StarImg";
-        StarImage.OnDraw += (_, surface) => StarImgDraw(surface);
+        StarImage.Drawn += (_, surface) => StarImgDraw(surface);
         StarImage.Updated += _ => StarImgUpdate();
         StarImage.Priority = 200;
         StarImage.WinLeft = 461;

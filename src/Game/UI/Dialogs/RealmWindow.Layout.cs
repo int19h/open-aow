@@ -1973,7 +1973,7 @@ public sealed partial class RealmWindow : ILayoutModule
         HeroHeroInfoPanel = new Panel(this);
         session.BeginRead(HeroHeroInfoPanel);
         HeroHeroInfoPanel.Name = "T5HeroInf";
-        HeroHeroInfoPanel.OnDraw += (_, surface) => T5HeroInfDraw(surface);
+        HeroHeroInfoPanel.Drawn += (_, surface) => T5HeroInfDraw(surface);
         HeroHeroInfoPanel.Priority = 10;
         HeroHeroInfoPanel.WinLeft = 1;
         HeroHeroInfoPanel.WinTop = 0;

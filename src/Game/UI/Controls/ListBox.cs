@@ -221,7 +221,7 @@ public partial class ListBox : Control
                     FirstShownItem = 0;
                 }
 
-                Drawn = false;
+                IsDrawn = false;
             }
         }
 
@@ -386,7 +386,7 @@ public partial class ListBox : Control
                 if (i != _selected)
                 {
                     _selected = i;
-                    Drawn = false;
+                    IsDrawn = false;
                     RaiseChange(this);
                 }
 
@@ -525,7 +525,7 @@ public partial class ListBox : Control
         if (value != _selected)
         {
             _selected = value;
-            Drawn = false;
+            IsDrawn = false;
         }
     }
 
@@ -545,7 +545,7 @@ public partial class ListBox : Control
         if (value != FirstShownItem)
         {
             FirstShownItem = value;
-            Drawn = false;
+            IsDrawn = false;
         }
     }
 
@@ -671,10 +671,10 @@ public partial class ListBox : Control
         remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, ListBox>(this, slot: nameof(PreDraw), value: value);
     }
 
-    public new event AoWOnDrawEvent<ListBox> OnDraw
+    public new event AoWOnDrawEvent<ListBox> Drawn
     {
-        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, ListBox>(this, slot: nameof(OnDraw), value: value);
-        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, ListBox>(this, slot: nameof(OnDraw), value: value);
+        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, ListBox>(this, slot: nameof(Drawn), value: value);
+        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, ListBox>(this, slot: nameof(Drawn), value: value);
     }
 
     public new event NotifyEvent<ListBox> Updated

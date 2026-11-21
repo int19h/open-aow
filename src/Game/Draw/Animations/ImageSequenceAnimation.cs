@@ -8,8 +8,11 @@ using Aow.Rtl;
 namespace Aow.Game.Draw.Animations;
 
 // sequence, pixel offsets, last frame, loop flag
-public sealed class ImageSequenceAnimation(CustomNode? owner) : Animation(owner)
+public sealed class ImageSequenceAnimation(CustomNode? owner, ShowAnimationEvent? show = null, Action<Animation, int>? newFrame = null) : Animation(owner, show: show, newFrame: newFrame)
 {
+    public ImageSequenceAnimation(CustomNode? owner) : this(owner, show: null)
+    {
+    }
 
     public ImageSequence? ImageSequence { get; private set; }
     public int PixelXOffset { get; private set; }

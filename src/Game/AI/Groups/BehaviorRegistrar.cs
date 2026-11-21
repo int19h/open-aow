@@ -16,5 +16,5 @@ public sealed class BehaviorRegistrar
         }
     }
 
-    internal static void SubscribeMapLoaded(GameEngine engine) => engine.OnHsmLoaded += MapLoaded;
+    internal static void SubscribeMapLoaded(GameEngine engine) => engine.HexSpriteMapLoaded += MapLoaded;
 }

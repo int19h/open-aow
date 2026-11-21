@@ -666,7 +666,7 @@ public sealed partial class CastUnitSpellDialog : ILayoutModule
         session.BeginRead(Unit1CheckBox);
         Unit1CheckBox.Name = "U1";
         Unit1CheckBox.PreDraw += (sender, surface) => U1PreDraw(sender, surface, slot: 0);
-        Unit1CheckBox.OnDraw += (_, _) => U1Draw();
+        Unit1CheckBox.Drawn += (_, _) => U1Draw();
         Unit1CheckBox.Priority = 0;
         Unit1CheckBox.WinLeft = 0;
         Unit1CheckBox.WinTop = 0;
@@ -701,7 +701,7 @@ public sealed partial class CastUnitSpellDialog : ILayoutModule
         Unit2CheckBox.Name = "U2";
         Unit2CheckBox.Tag = 1;
         Unit2CheckBox.PreDraw += (sender, surface) => U1PreDraw(sender, surface, slot: 1);
-        Unit2CheckBox.OnDraw += (_, _) => U1Draw();
+        Unit2CheckBox.Drawn += (_, _) => U1Draw();
         Unit2CheckBox.Priority = 0;
         Unit2CheckBox.WinLeft = 55;
         Unit2CheckBox.WinTop = 0;
@@ -736,7 +736,7 @@ public sealed partial class CastUnitSpellDialog : ILayoutModule
         Unit3CheckBox.Name = "U3";
         Unit3CheckBox.Tag = 2;
         Unit3CheckBox.PreDraw += (sender, surface) => U1PreDraw(sender, surface, slot: 2);
-        Unit3CheckBox.OnDraw += (_, _) => U1Draw();
+        Unit3CheckBox.Drawn += (_, _) => U1Draw();
         Unit3CheckBox.Priority = 0;
         Unit3CheckBox.WinLeft = 110;
         Unit3CheckBox.WinTop = 0;
@@ -771,7 +771,7 @@ public sealed partial class CastUnitSpellDialog : ILayoutModule
         Unit4CheckBox.Name = "U4";
         Unit4CheckBox.Tag = 3;
         Unit4CheckBox.PreDraw += (sender, surface) => U1PreDraw(sender, surface, slot: 3);
-        Unit4CheckBox.OnDraw += (_, _) => U1Draw();
+        Unit4CheckBox.Drawn += (_, _) => U1Draw();
         Unit4CheckBox.Priority = 0;
         Unit4CheckBox.WinLeft = 165;
         Unit4CheckBox.WinTop = 0;
@@ -806,7 +806,7 @@ public sealed partial class CastUnitSpellDialog : ILayoutModule
         Unit5CheckBox.Name = "U5";
         Unit5CheckBox.Tag = 4;
         Unit5CheckBox.PreDraw += (sender, surface) => U1PreDraw(sender, surface, slot: 4);
-        Unit5CheckBox.OnDraw += (_, _) => U1Draw();
+        Unit5CheckBox.Drawn += (_, _) => U1Draw();
         Unit5CheckBox.Priority = 0;
         Unit5CheckBox.WinLeft = 220;
         Unit5CheckBox.WinTop = 0;
@@ -841,7 +841,7 @@ public sealed partial class CastUnitSpellDialog : ILayoutModule
         Unit6CheckBox.Name = "U6";
         Unit6CheckBox.Tag = 5;
         Unit6CheckBox.PreDraw += (sender, surface) => U1PreDraw(sender, surface, slot: 5);
-        Unit6CheckBox.OnDraw += (_, _) => U1Draw();
+        Unit6CheckBox.Drawn += (_, _) => U1Draw();
         Unit6CheckBox.Priority = 0;
         Unit6CheckBox.WinLeft = 275;
         Unit6CheckBox.WinTop = 0;
@@ -876,7 +876,7 @@ public sealed partial class CastUnitSpellDialog : ILayoutModule
         Unit7CheckBox.Name = "U7";
         Unit7CheckBox.Tag = 6;
         Unit7CheckBox.PreDraw += (sender, surface) => U1PreDraw(sender, surface, slot: 6);
-        Unit7CheckBox.OnDraw += (_, _) => U1Draw();
+        Unit7CheckBox.Drawn += (_, _) => U1Draw();
         Unit7CheckBox.Priority = 0;
         Unit7CheckBox.WinLeft = 330;
         Unit7CheckBox.WinTop = 0;
@@ -911,7 +911,7 @@ public sealed partial class CastUnitSpellDialog : ILayoutModule
         Unit8CheckBox.Name = "U8";
         Unit8CheckBox.Tag = 7;
         Unit8CheckBox.PreDraw += (sender, surface) => U1PreDraw(sender, surface, slot: 7);
-        Unit8CheckBox.OnDraw += (_, _) => U1Draw();
+        Unit8CheckBox.Drawn += (_, _) => U1Draw();
         Unit8CheckBox.Priority = 0;
         Unit8CheckBox.WinLeft = 386;
         Unit8CheckBox.WinTop = 0;

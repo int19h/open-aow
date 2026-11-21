@@ -26,7 +26,7 @@ public sealed partial class ComboBox
             _firstShownItem = 0;
         }
 
-        Drawn = false;
+        IsDrawn = false;
         return true;
     }
 }

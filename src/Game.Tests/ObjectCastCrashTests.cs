@@ -316,7 +316,7 @@ public sealed class ObjectCastCrashTests
             Assert.False(window.Race12Image.Checked);
             Assert.True(window.Player1CheckBox.Checked);
             Assert.False(window.RelationPanel.Aligned);
-            Assert.False(window.MainWindow.Drawn);
+            Assert.False(window.MainWindow.IsDrawn);
             Assert.Equal(0, window.ShowCount);
 
             Player? player = scope.Map.Players.GetPlayers(1);

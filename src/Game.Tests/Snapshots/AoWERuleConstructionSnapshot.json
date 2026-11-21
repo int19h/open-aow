@@ -15292,7 +15292,6 @@
         "$type": "Aow.Game.Units.HeroInventory",
         "EngineObject._owner": "$owner",
         "HeroInventory.Hero": null,
-        "HeroInventory.OnChanged": null,
         "ObservableNode.CollectionChanged": null,
         "ObservableNode.UpdateCount": 0,
         "ObservableNode._children": {
@@ -15310,7 +15309,6 @@
         "$type": "Aow.Game.Units.HeroItems",
         "EngineObject._owner": "$owner",
         "HeroItems.Hero": null,
-        "HeroItems.OnChanged": null,
         "ObservableNode.CollectionChanged": null,
         "ObservableNode.UpdateCount": 0,
         "ObservableNode._children": {
@@ -16277,7 +16275,6 @@
         "$type": "Aow.Game.Units.ItemLibrary",
         "EngineObject._owner": "$owner",
         "ItemLibrary.Name": "",
-        "ItemLibrary.OnChanged": null,
         "ItemLibrary._lastId": 0,
         "ObservableNode.CollectionChanged": null,
         "ObservableNode.UpdateCount": 0,
@@ -16308,7 +16305,6 @@
           "$type": "Aow.Game.Units.ItemLibrary",
           "EngineObject._owner": null,
           "ItemLibrary.Name": "",
-          "ItemLibrary.OnChanged": null,
           "ItemLibrary._lastId": 0,
           "ObservableNode.CollectionChanged": null,
           "ObservableNode.UpdateCount": 0,
@@ -16367,7 +16363,6 @@
             "$type": "Aow.Game.Units.HeroItems",
             "EngineObject._owner": null,
             "HeroItems.Hero": "$ref:$.LeaderSetupControl.Leader",
-            "HeroItems.OnChanged": null,
             "ObservableNode.CollectionChanged": null,
             "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
@@ -16385,7 +16380,6 @@
             "$type": "Aow.Game.Units.HeroInventory",
             "EngineObject._owner": null,
             "HeroInventory.Hero": "$ref:$.LeaderSetupControl.Leader",
-            "HeroInventory.OnChanged": null,
             "ObservableNode.CollectionChanged": null,
             "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
@@ -16468,7 +16462,6 @@
             "$type": "Aow.Game.Units.HeroItems",
             "EngineObject._owner": null,
             "HeroItems.Hero": "$ref:$.LeaderSetupControl.OriginalLeader",
-            "HeroItems.OnChanged": null,
             "ObservableNode.CollectionChanged": null,
             "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
@@ -16486,7 +16479,6 @@
             "$type": "Aow.Game.Units.HeroInventory",
             "EngineObject._owner": null,
             "HeroInventory.Hero": "$ref:$.LeaderSetupControl.OriginalLeader",
-            "HeroInventory.OnChanged": null,
             "ObservableNode.CollectionChanged": null,
             "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
@@ -17029,7 +17021,7 @@
                   "EngineClass.ClassId": 136288,
                   "EngineClass.Type": "Aow.Game.AI.Groups.HuntAIGroup",
                   "EngineClass._create": [
-                    "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_782"
+                    "lambda in Aow.Game.ClassRegistry.Register"
                   ]
                 }
               }
@@ -17057,7 +17049,7 @@
                     "EngineClass.ClassId": 80,
                     "EngineClass.Type": "Aow.Game.AI.InitializeAIPlayerAction",
                     "EngineClass._create": [
-                      "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_168"
+                      "lambda in Aow.Game.ClassRegistry.Register"
                     ]
                   },
                   "AIPlayerActionClass.SupportedPhases": 2
@@ -17070,7 +17062,7 @@
                     "EngineClass.ClassId": 80,
                     "EngineClass.Type": "Aow.Game.AI.ProcessEventLogAIPlayerAction",
                     "EngineClass._create": [
-                      "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_185"
+                      "lambda in Aow.Game.ClassRegistry.Register"
                     ]
                   },
                   "AIPlayerActionClass.SupportedPhases": 2
@@ -17083,7 +17075,7 @@
                     "EngineClass.ClassId": 80,
                     "EngineClass.Type": "Aow.Game.AI.BudgetManagerAIPlayerAction",
                     "EngineClass._create": [
-                      "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_126"
+                      "lambda in Aow.Game.ClassRegistry.Register"
                     ]
                   },
                   "AIPlayerActionClass.SupportedPhases": 2
@@ -17096,7 +17088,7 @@
                     "EngineClass.ClassId": 80,
                     "EngineClass.Type": "Aow.Game.AI.CastSpellAIPlayerAction",
                     "EngineClass._create": [
-                      "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_128"
+                      "lambda in Aow.Game.ClassRegistry.Register"
                     ]
                   },
                   "AIPlayerActionClass.SupportedPhases": 2
@@ -17109,7 +17101,7 @@
                     "EngineClass.ClassId": 80,
                     "EngineClass.Type": "Aow.Game.AI.ResearchSpellAIPlayerAction",
                     "EngineClass._create": [
-                      "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_189"
+                      "lambda in Aow.Game.ClassRegistry.Register"
                     ]
                   },
                   "AIPlayerActionClass.SupportedPhases": 2
@@ -17122,7 +17114,7 @@
                     "EngineClass.ClassId": 80,
                     "EngineClass.Type": "Aow.Game.AI.StructurePhase1AIPlayerAction",
                     "EngineClass._create": [
-                      "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_367"
+                      "lambda in Aow.Game.ClassRegistry.Register"
                     ]
                   },
                   "AIPlayerActionClass.SupportedPhases": 2
@@ -17135,7 +17127,7 @@
                     "EngineClass.ClassId": 80,
                     "EngineClass.Type": "Aow.Game.AI.GroupControlLoopAIPlayerAction",
                     "EngineClass._create": [
-                      "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_159"
+                      "lambda in Aow.Game.ClassRegistry.Register"
                     ]
                   },
                   "AIPlayerActionClass.SupportedPhases": 4
@@ -17148,7 +17140,7 @@
                     "EngineClass.ClassId": 80,
                     "EngineClass.Type": "Aow.Game.AI.GroupControlAIPlayerAction",
                     "EngineClass._create": [
-                      "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_158"
+                      "lambda in Aow.Game.ClassRegistry.Register"
                     ]
                   },
                   "AIPlayerActionClass.SupportedPhases": 2
@@ -17161,7 +17153,7 @@
                     "EngineClass.ClassId": 80,
                     "EngineClass.Type": "Aow.Game.AI.StructurePhase2AIPlayerAction",
                     "EngineClass._create": [
-                      "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_368"
+                      "lambda in Aow.Game.ClassRegistry.Register"
                     ]
                   },
                   "AIPlayerActionClass.SupportedPhases": 2
@@ -17174,7 +17166,7 @@
                     "EngineClass.ClassId": 80,
                     "EngineClass.Type": "Aow.Game.AI.DiplomacyAIPlayerAction",
                     "EngineClass._create": [
-                      "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_143"
+                      "lambda in Aow.Game.ClassRegistry.Register"
                     ]
                   },
                   "AIPlayerActionClass.SupportedPhases": 2
@@ -17187,7 +17179,7 @@
                     "EngineClass.ClassId": 80,
                     "EngineClass.Type": "Aow.Game.AI.AutoProduceAIPlayerAction",
                     "EngineClass._create": [
-                      "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_125"
+                      "lambda in Aow.Game.ClassRegistry.Register"
                     ]
                   },
                   "AIPlayerActionClass.SupportedPhases": 2
@@ -17200,7 +17192,7 @@
                     "EngineClass.ClassId": 80,
                     "EngineClass.Type": "Aow.Game.AI.EndTurnAIPlayerAction",
                     "EngineClass._create": [
-                      "Aow.Game.ClassRegistry\u002B\u003C\u003Ec.\u003CRegister\u003Eb__0_150"
+                      "lambda in Aow.Game.ClassRegistry.Register"
                     ]
                   },
                   "AIPlayerActionClass.SupportedPhases": 2
@@ -18012,7 +18004,7 @@
                       "$type": "Aow.Game.Events.EventLogList",
                       "EngineObject._owner": null,
                       "EventLogList.Changed": [
-                        "Aow.Game.Session.Player.LogbookChangedEvent"
+                        "lambda in Aow.Game.Session.Player..ctor"
                       ],
                       "EventLogList._updateCount": 0,
                       "OwningNode._children": {
@@ -18079,7 +18071,6 @@
                       "$type": "Aow.Game.Units.HeroItems",
                       "EngineObject._owner": null,
                       "HeroItems.Hero": "$ref:$.MoveControl.Map.StrategicMap.Players.OwningNode._children.DelphiList\u00601.items[0].Player.LeaderSetup",
-                      "HeroItems.OnChanged": null,
                       "ObservableNode.CollectionChanged": null,
                       "ObservableNode.UpdateCount": 0,
                       "ObservableNode._children": {
@@ -18097,7 +18088,6 @@
                       "$type": "Aow.Game.Units.HeroInventory",
                       "EngineObject._owner": null,
                       "HeroInventory.Hero": "$ref:$.MoveControl.Map.StrategicMap.Players.OwningNode._children.DelphiList\u00601.items[0].Player.LeaderSetup",
-                      "HeroInventory.OnChanged": null,
                       "ObservableNode.CollectionChanged": null,
                       "ObservableNode.UpdateCount": 0,
                       "ObservableNode._children": {
@@ -18551,7 +18541,7 @@
                       "$type": "Aow.Game.Events.EventLogList",
                       "EngineObject._owner": null,
                       "EventLogList.Changed": [
-                        "Aow.Game.Session.Player.LogbookChangedEvent"
+                        "lambda in Aow.Game.Session.Player..ctor"
                       ],
                       "EventLogList._updateCount": 0,
                       "OwningNode._children": {
@@ -18618,7 +18608,6 @@
                       "$type": "Aow.Game.Units.HeroItems",
                       "EngineObject._owner": null,
                       "HeroItems.Hero": "$ref:$.MoveControl.Map.StrategicMap.Players.OwningNode._children.DelphiList\u00601.items[1].Player.LeaderSetup",
-                      "HeroItems.OnChanged": null,
                       "ObservableNode.CollectionChanged": null,
                       "ObservableNode.UpdateCount": 0,
                       "ObservableNode._children": {
@@ -18636,7 +18625,6 @@
                       "$type": "Aow.Game.Units.HeroInventory",
                       "EngineObject._owner": null,
                       "HeroInventory.Hero": "$ref:$.MoveControl.Map.StrategicMap.Players.OwningNode._children.DelphiList\u00601.items[1].Player.LeaderSetup",
-                      "HeroInventory.OnChanged": null,
                       "ObservableNode.CollectionChanged": null,
                       "ObservableNode.UpdateCount": 0,
                       "ObservableNode._children": {
@@ -19090,7 +19078,7 @@
                       "$type": "Aow.Game.Events.EventLogList",
                       "EngineObject._owner": null,
                       "EventLogList.Changed": [
-                        "Aow.Game.Session.Player.LogbookChangedEvent"
+                        "lambda in Aow.Game.Session.Player..ctor"
                       ],
                       "EventLogList._updateCount": 0,
                       "OwningNode._children": {
@@ -19157,7 +19145,6 @@
                       "$type": "Aow.Game.Units.HeroItems",
                       "EngineObject._owner": null,
                       "HeroItems.Hero": "$ref:$.MoveControl.Map.StrategicMap.Players.OwningNode._children.DelphiList\u00601.items[2].Player.LeaderSetup",
-                      "HeroItems.OnChanged": null,
                       "ObservableNode.CollectionChanged": null,
                       "ObservableNode.UpdateCount": 0,
                       "ObservableNode._children": {
@@ -19175,7 +19162,6 @@
                       "$type": "Aow.Game.Units.HeroInventory",
                       "EngineObject._owner": null,
                       "HeroInventory.Hero": "$ref:$.MoveControl.Map.StrategicMap.Players.OwningNode._children.DelphiList\u00601.items[2].Player.LeaderSetup",
-                      "HeroInventory.OnChanged": null,
                       "ObservableNode.CollectionChanged": null,
                       "ObservableNode.UpdateCount": 0,
                       "ObservableNode._children": {
@@ -21961,7 +21947,7 @@
             "$type": "Aow.Game.Events.EventLogList",
             "EngineObject._owner": null,
             "EventLogList.Changed": [
-              "Aow.Game.Session.Player.LogbookChangedEvent"
+              "lambda in Aow.Game.Session.Player..ctor"
             ],
             "EventLogList._updateCount": 0,
             "OwningNode._children": {
@@ -22028,7 +22014,6 @@
             "$type": "Aow.Game.Units.HeroItems",
             "EngineObject._owner": null,
             "HeroItems.Hero": "$ref:$.Player.LeaderSetup",
-            "HeroItems.OnChanged": null,
             "ObservableNode.CollectionChanged": null,
             "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
@@ -22046,7 +22031,6 @@
             "$type": "Aow.Game.Units.HeroInventory",
             "EngineObject._owner": null,
             "HeroInventory.Hero": "$ref:$.Player.LeaderSetup",
-            "HeroInventory.OnChanged": null,
             "ObservableNode.CollectionChanged": null,
             "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
@@ -22513,7 +22497,7 @@
                   "$type": "Aow.Game.Events.EventLogList",
                   "EngineObject._owner": null,
                   "EventLogList.Changed": [
-                    "Aow.Game.Session.Player.LogbookChangedEvent"
+                    "lambda in Aow.Game.Session.Player..ctor"
                   ],
                   "EventLogList._updateCount": 0,
                   "OwningNode._children": {
@@ -22580,7 +22564,6 @@
                   "$type": "Aow.Game.Units.HeroItems",
                   "EngineObject._owner": null,
                   "HeroItems.Hero": "$ref:$.OwningNode._children.DelphiList\u00601.items[0].Player.LeaderSetup",
-                  "HeroItems.OnChanged": null,
                   "ObservableNode.CollectionChanged": null,
                   "ObservableNode.UpdateCount": 0,
                   "ObservableNode._children": {
@@ -22598,7 +22581,6 @@
                   "$type": "Aow.Game.Units.HeroInventory",
                   "EngineObject._owner": null,
                   "HeroInventory.Hero": "$ref:$.OwningNode._children.DelphiList\u00601.items[0].Player.LeaderSetup",
-                  "HeroInventory.OnChanged": null,
                   "ObservableNode.CollectionChanged": null,
                   "ObservableNode.UpdateCount": 0,
                   "ObservableNode._children": {
@@ -23052,7 +23034,7 @@
                   "$type": "Aow.Game.Events.EventLogList",
                   "EngineObject._owner": null,
                   "EventLogList.Changed": [
-                    "Aow.Game.Session.Player.LogbookChangedEvent"
+                    "lambda in Aow.Game.Session.Player..ctor"
                   ],
                   "EventLogList._updateCount": 0,
                   "OwningNode._children": {
@@ -23119,7 +23101,6 @@
                   "$type": "Aow.Game.Units.HeroItems",
                   "EngineObject._owner": null,
                   "HeroItems.Hero": "$ref:$.OwningNode._children.DelphiList\u00601.items[1].Player.LeaderSetup",
-                  "HeroItems.OnChanged": null,
                   "ObservableNode.CollectionChanged": null,
                   "ObservableNode.UpdateCount": 0,
                   "ObservableNode._children": {
@@ -23137,7 +23118,6 @@
                   "$type": "Aow.Game.Units.HeroInventory",
                   "EngineObject._owner": null,
                   "HeroInventory.Hero": "$ref:$.OwningNode._children.DelphiList\u00601.items[1].Player.LeaderSetup",
-                  "HeroInventory.OnChanged": null,
                   "ObservableNode.CollectionChanged": null,
                   "ObservableNode.UpdateCount": 0,
                   "ObservableNode._children": {
@@ -23591,7 +23571,7 @@
                   "$type": "Aow.Game.Events.EventLogList",
                   "EngineObject._owner": null,
                   "EventLogList.Changed": [
-                    "Aow.Game.Session.Player.LogbookChangedEvent"
+                    "lambda in Aow.Game.Session.Player..ctor"
                   ],
                   "EventLogList._updateCount": 0,
                   "OwningNode._children": {
@@ -23658,7 +23638,6 @@
                   "$type": "Aow.Game.Units.HeroItems",
                   "EngineObject._owner": null,
                   "HeroItems.Hero": "$ref:$.OwningNode._children.DelphiList\u00601.items[2].Player.LeaderSetup",
-                  "HeroItems.OnChanged": null,
                   "ObservableNode.CollectionChanged": null,
                   "ObservableNode.UpdateCount": 0,
                   "ObservableNode._children": {
@@ -23676,7 +23655,6 @@
                   "$type": "Aow.Game.Units.HeroInventory",
                   "EngineObject._owner": null,
                   "HeroInventory.Hero": "$ref:$.OwningNode._children.DelphiList\u00601.items[2].Player.LeaderSetup",
-                  "HeroInventory.OnChanged": null,
                   "ObservableNode.CollectionChanged": null,
                   "ObservableNode.UpdateCount": 0,
                   "ObservableNode._children": {

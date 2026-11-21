@@ -55,10 +55,8 @@ public class UnholyGroundSpellTokenEvent(CustomNode? owner) : GlobalTargetSpellT
                     if (StrategicMap.Current.PlaceHex(ground, walk.X, walk.Y, L: Location.MapLevel))
                     {
                         ground.Mode = UnholySummonings.Summoning;
-                        ImageSequenceAnimation animation = new(null) { Holder = CreationHolder() };
+                        ImageSequenceAnimation animation = new(null, show: ground.ShowSummonAnimation, newFrame: ground.NewFrameSummonAnimation) { Holder = CreationHolder() };
                         animation.SetImageSequence(GamePack.Current.SpellControl[14].CastImages.ImageSequences[0]);
-                        animation.SetShowHandler(ground.ShowSummonAnimation);
-                        animation.SetNewFrameHandler(ground.NewFrameSummonAnimation);
                         animation.FrameCounter = -StrategicMap.Current.Random(15);
                         animation.Tag = source.Player;
                         _ = StrategicMap.Current.PlaceHex(animation, walk.X, walk.Y, L: Location.MapLevel);

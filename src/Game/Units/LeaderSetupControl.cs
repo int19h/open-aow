@@ -25,6 +25,8 @@ public class LeaderSetupControl : EngineObject
         _done = null;
     }
 
+    public LeaderSetupControl(CustomNode? owner, NotifyEvent<LeaderSetupControl>? done) : this(owner) => _done = done;
+
     private int _refCount;
 
     public Leader Leader { get; }
