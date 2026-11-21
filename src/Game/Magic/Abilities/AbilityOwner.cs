@@ -39,7 +39,7 @@ public class AbilityOwner(CustomNode? owner) : CustomAbilityList(owner)
                 return;
             }
 
-            Int32List ids = new();
+            Int32List ids = [];
             persister.Int32List(name: "AbilityDataIds", list: ids);
             AbilityData? previous = null;
             for (int i = 0; i < ids.Count; i++)
@@ -63,7 +63,7 @@ public class AbilityOwner(CustomNode? owner) : CustomAbilityList(owner)
             return;
         }
 
-        Int32List stored = new();
+        Int32List stored = [];
         for (AbilityData? data = AbilityData; data is not null; data = data.Next)
         {
             _ = stored.Add(data.GetAbilityId());

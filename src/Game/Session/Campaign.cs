@@ -27,8 +27,8 @@ public class Campaign : EngineObject
         Stream = new MemoryStream();
         TransferSettings = new CampaignTransferSettings(null) { Holder = CreationHolder() };
         Scenarios = new AoWCampaignScenarioList(null) { Holder = CreationHolder() };
-        CompletedScenarios = new Int32List();
-        RaceHistory = new ByteList();
+        CompletedScenarios = [];
+        RaceHistory = [];
         CurrentScenarioId = -1;
         NextScenarioId = -1;
         ScenarioStarted = false;

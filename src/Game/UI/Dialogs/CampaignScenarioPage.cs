@@ -18,7 +18,7 @@ public sealed class CampaignScenarioPage(CustomNode owner) : EngineObject(owner)
     public int ImageIndex { get; private set; }
     public string Heading { get; private set; } = "";
 
-    public DelphiStringList Text { get; } = new DelphiStringList();
+    public DelphiStringList Text { get; } = [];
 
     // AoWVideoDlg.pas:257
     public override void Dispose()

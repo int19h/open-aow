@@ -55,7 +55,7 @@ public sealed class WatcherHexSprite : SingleHexSprite
             Holder = CreationHolder(),
             Watcher = this
         };
-        _unexplored = new Int32List();
+        _unexplored = [];
         _visibleForSeatedPlayer = false;
         _animationFrame = -1;
     }

@@ -1,7 +1,7 @@
 namespace Aow.Rtl;
 
 // CLASSES.PAS TList with a typed element. The algorithms are DelphiListCore.
-public class DelphiList<T> : IDisposable where T : class
+public class DelphiList<T> : IDisposable, IReadOnlyList<T?> where T : class
 {
     private T?[] items = [];
     private int count;
@@ -150,4 +150,16 @@ public class DelphiList<T> : IDisposable where T : class
 
     // CLASSES.PAS TList.Destroy.
     public virtual void Dispose() => Clear();
+
+    // The items from the first to the last in index order, read through the indexer. Each step
+    // reads the count again, as the index loop over a live count does.
+    public IEnumerator<T?> GetEnumerator()
+    {
+        for (int i = 0; i < Count; i++)
+        {
+            yield return this[i];
+        }
+    }
+
+    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
 }

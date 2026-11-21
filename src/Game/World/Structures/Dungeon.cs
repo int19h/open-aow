@@ -122,9 +122,8 @@ public partial class Dungeon : ExplorationSite
                 JoinMode = JoinMode.Default,
                 FirstUnitId = Prisoners.Units.GetUnit(0).UnitId
             };
-            for (int i = 0, last = Prisoners.Units.Count - 1; i <= last; i++)
+            foreach (Troop? troop in Prisoners.Units)
             {
-                Troop? troop = Prisoners.Units.GetUnit(i);
                 _ = log.UnitIds.Add(troop.UnitId);
             }
 
@@ -156,7 +155,7 @@ public partial class Dungeon : ExplorationSite
         int collection = GetResource<Resource>().PrisonerCollections.GetRandomCollection();
         if (collection != -1)
         {
-            UnitIndexList list = new();
+            UnitIndexList list = [];
             UnitIndexListCollection collections = GetResource<Resource>().PrisonerCollections;
             for (int i = collections.GetCollectionCount(collection) - 1; i >= 0; i--)
             {

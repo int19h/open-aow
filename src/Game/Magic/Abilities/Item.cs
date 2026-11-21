@@ -31,7 +31,7 @@ public sealed class Item : AbilityOwner, IOwned<ItemOwner>, IOwnedSink<ItemOwner
     public Item(CustomNode? owner) : base(owner)
     {
         _itemGraphicsIndex = -1;
-        _description = new DelphiStringList();
+        _description = [];
         LibraryId = -1;
         RefCount = 1;
     }

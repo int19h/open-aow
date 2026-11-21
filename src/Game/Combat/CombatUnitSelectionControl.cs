@@ -25,7 +25,7 @@ public sealed class CombatUnitSelectionControl : MoveSelector
     public CombatUnitSelectionControl(EngineObject creator) : base(creator)
     {
         RangedPath = new Point3DList();
-        Obstacles = new DelphiList<RangedObstacle>();
+        Obstacles = [];
         RangedPathHexSprite = new RangedPathHexSprite(null) { Holder = Creator.CreationHolder() };
         RangedPathHexSprite.Activate();
         TargetImages = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(ImageLibraryManagerCategories.Disk, fileName: "TargHex.ILB");
@@ -291,7 +291,7 @@ public sealed class CombatUnitSelectionControl : MoveSelector
     public override void CalculateMovePath(int index, sbyte X, sbyte Y, sbyte L)
     {
         MoveSettings moveSettings = MoveSettingsList.GetMoveSettings(index);
-        DelphiList<MovementHexSprite> temporary = new();
+        DelphiList<MovementHexSprite> temporary = [];
         if (MoveSettingsList.GetCount() > 0)
         {
             for (int i = 0, last = MoveSettingsList.GetCount() - 1; i <= last; i++)
@@ -672,7 +672,7 @@ public sealed class CombatUnitSelectionControl : MoveSelector
     // AoWTC.pas:2777
     public void RectangleSelectEvent(GameMapMouse sender)
     {
-        DelphiList<TacticalBattleUnitHexSprite> units = new();
+        DelphiList<TacticalBattleUnitHexSprite> units = [];
         Rect r = sender.SelectionRectangle;
         MapLevel level = CombatMap.Current.MapContainer.MapLevels[CombatMap.Current.ViewMapLevel];
         HexGeometry.PixelToHex(r.Left, vertical: r.Top, out int x1, out int y1);

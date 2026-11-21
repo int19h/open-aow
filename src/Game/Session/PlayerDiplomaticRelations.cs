@@ -16,7 +16,7 @@ public sealed class PlayerDiplomaticRelations : EngineObject
     // Player.PAS:78
     public PlayerDiplomaticRelations(CustomNode? owner) : base(owner)
     {
-        _relations = new ByteList();
+        _relations = [];
         _history = new OwningNode(null) { Holder = CreationHolder() };
     }
 

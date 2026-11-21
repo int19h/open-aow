@@ -542,8 +542,8 @@ public sealed class DiplomaticProposalTests
                     {
                         foreach (int alignment in new[] { 0, 1, 2 })
                         {
-                            DelphiStringList expected = new();
-                            DelphiStringList actual = new();
+                            DelphiStringList expected = [];
+                            DelphiStringList actual = [];
                             OldDefaultMessage(control, alignment, sourceRace: "Elves", targetRace: "Orcs", otherRace: "Dwarves", action: kind, reaction: (DiplomaticActionReaction)reaction, relation, text: expected);
                             proposal.DefaultMessage(new DiplomaticMessageText(control, alignment, sourceRace: "Elves", targetRace: "Orcs", otherRace: "Dwarves", text: actual), reaction: (DiplomaticActionReaction)reaction, relation);
                             Assert.True(expected.Text == actual.Text, userMessage: $"{proposal} reaction {reaction} relation {relation} alignment {alignment}");

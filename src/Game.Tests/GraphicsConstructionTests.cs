@@ -149,7 +149,7 @@ public sealed class GraphicsConstructionTests
         Assert.NotNull(Field(list, name: "HashTable"));
         ImageSequenceList sequences = new(imageLibraryManager, imageLibrary: null);
         Assert.Same(imageLibraryManager, Field(sequences, name: "ImageLibraryManager"));
-        Assert.Equal(0, sequences.Count);
+        Assert.Empty(sequences);
         ImageSequence sequence = new(sequences);
         Assert.Same(sequences, Field(sequence, name: "Owner"));
         Matrix matrix = new(3, 2);

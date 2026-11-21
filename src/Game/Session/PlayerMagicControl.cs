@@ -36,7 +36,7 @@ public sealed class PlayerMagicControl : EngineObject
     // power sources, active/enemy enchantments, change events
     public PlayerMagicControl(CustomNode? owner) : base(owner)
     {
-        Spells = new Int32List();
+        Spells = [];
         _changedEventsStore = new();
         Enchantments = new EnchantmentList(null) { Holder = CreationHolder() };
         PowerSources = new PowerSourceList(null) { Holder = CreationHolder() };
@@ -330,7 +330,7 @@ public sealed class PlayerMagicControl : EngineObject
     {
         if (StrategicMap.Current.Day == 1 && Player.PlayerIndex != 0 && (StrategicMap.Current.GameType != GameType.Campaign || Spells.Count == 0))
         {
-            Int32List candidates = new();
+            Int32List candidates = [];
             for (int kindOrdinal = (int)SpellType.Combat; kindOrdinal <= (int)SpellType.Global; kindOrdinal++)
             {
                 SpellType kind = (SpellType)kindOrdinal;

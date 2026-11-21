@@ -90,7 +90,7 @@ public sealed partial class HelpWindow(UIContext ui) : UIModule(ui)
             UI.HelpWindow.FinishDialog();
         }
 
-        DelphiStringList lines = new();
+        DelphiStringList lines = [];
         GamePack.Current.TextControl.RetrieveText(helpId, text: lines);
         UI.HelpWindow.HelpScrollBar.Position = 0;
         UI.HelpWindow.HeaderMemo.Items.Clear();

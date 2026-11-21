@@ -10,7 +10,7 @@ public sealed class FastBattleCommandList : IDisposable
     // AIGroup.pas:6716
     public FastBattleCommandList(CombatObject source, FastBattle combat, CombatSide side)
     {
-        _commands = new DelphiList<FastBattleCommand>();
+        _commands = [];
         Source = source;
         Combat = combat;
         SourceSide = side;

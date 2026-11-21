@@ -27,7 +27,7 @@ public sealed class ToolTip : GenericWindow
     // AOWToolTip.pas:62
     public ToolTip(Component owner) : base(owner)
     {
-        _lines = new DelphiStringList();
+        _lines = [];
         Items = new DelphiStringList
         {
             OnChange = OnChangeText

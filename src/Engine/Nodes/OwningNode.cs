@@ -13,7 +13,7 @@ public class OwningNode : CustomNode
     // Engine.pas:2807
     public OwningNode(CustomNode? owner) : this(null, owner) { }
 
-    private protected OwningNode(ConstructionContext? context, CustomNode? owner) : base(context, owner) => _children = new EngineObjectList();
+    private protected OwningNode(ConstructionContext? context, CustomNode? owner) : base(context, owner) => _children = [];
 
     // The child slots. Every write of a child goes through AddChild, SetChild, InsertChild or the
     // members below, so the child check in CheckChild sees each child that enters.

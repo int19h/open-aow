@@ -209,7 +209,7 @@ public sealed class AsmStubsProbeTests
     private static List<string> BitListAccessLines()
     {
         List<string> lines = [];
-        BitList bits = new();
+        BitList bits = [];
         for (int j = 0; j <= 1; j++)
         {
             bits.Clear();
@@ -278,7 +278,7 @@ public sealed class AsmStubsProbeTests
         int[] sizes = [1, 3, 13, 31, 32, 33];
         foreach (int count in sizes)
         {
-            BitList list = new();
+            BitList list = [];
             byte[] data = new byte[(count + 7) >> 3];
             data.AsSpan().Fill(0xA5);
             list.LoadImage(new BitListImage(Default: 0, Count: count, Bits: data));

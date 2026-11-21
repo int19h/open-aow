@@ -84,11 +84,11 @@ public class DiplomacyAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), 
         // { Original bug: the result remains False even when an action is sent. }
         DiplomaticAction? action = null;
         sbyte source = Control.Player.PlayerIndex;
-        ByteList idealPeace = new();
-        ByteList idealWar = new();
-        ByteList peace = new();
-        ByteList war = new();
-        ByteList unknown = new();
+        ByteList idealPeace = [];
+        ByteList idealWar = [];
+        ByteList peace = [];
+        ByteList war = [];
+        ByteList unknown = [];
         Control.ListPeaceWarUnknownPlayers(peace, war, unknown);
         Control.ListIdealPeaceWarPlayers(idealPeace, war: idealWar);
         int index;
@@ -225,8 +225,8 @@ public class DiplomacyAIPlayerAction(CustomNode owner) : AIPlayerAction(owner), 
     // Diplomacy.pas:1670
     public void ListDebugInfo()
     {
-        ByteList idealPeace = new();
-        ByteList idealWar = new();
+        ByteList idealPeace = [];
+        ByteList idealWar = [];
         Control.ListIdealPeaceWarPlayers(idealPeace, war: idealWar);
         int player = Control.Player.PlayerIndex;
         Player? players = StrategicMap.Current.Players.GetPlayers(player);

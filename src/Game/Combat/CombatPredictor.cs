@@ -25,11 +25,11 @@ public sealed class CombatPredictor : IDisposable
     public CombatPredictor(EngineObject creator)
     {
         Creator = creator;
-        _allUnits = new CombatPredictorUnitList();
-        _activeUnits = new CombatPredictorUnitList();
-        CombatPredictorSide combatPredictorSide = new();
+        _allUnits = [];
+        _activeUnits = [];
+        CombatPredictorSide combatPredictorSide = [];
         Sides[0] = combatPredictorSide;
-        CombatPredictorSide combatPredictorSide2 = new();
+        CombatPredictorSide combatPredictorSide2 = [];
         Sides[1] = combatPredictorSide2;
     }
 

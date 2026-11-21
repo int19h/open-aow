@@ -19,9 +19,9 @@ public sealed partial class CombatData : EngineObject
         Players = new CombatPlayerList(null) { Holder = CreationHolder() };
         Parties = new CombatPartyList(null) { Holder = CreationHolder() };
         CombatObjects = new OwningNode(null) { Holder = CreationHolder() };
-        DefeatedLeaders = new ByteList();
-        TurnOrder = new ByteList();
-        InvolvedLeaders = new ByteList();
+        DefeatedLeaders = [];
+        TurnOrder = [];
+        InvolvedLeaders = [];
     }
 
     public MapCoordinate Location { get; set; }

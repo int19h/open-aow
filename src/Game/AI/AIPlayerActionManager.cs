@@ -10,7 +10,7 @@ namespace Aow.Game.AI;
 public sealed class AIPlayerActionManager(CustomNode? owner) : EngineObject(owner)
 {
 
-    private readonly DelphiList<AIPlayerActionClass> _registeredClasses = new();
+    private readonly DelphiList<AIPlayerActionClass> _registeredClasses = [];
 
     // AI.pas:42
     public override void Dispose()

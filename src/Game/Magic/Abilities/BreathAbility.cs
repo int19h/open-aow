@@ -31,7 +31,7 @@ public class BreathAbility : RangedAttackAbility
         if (result)
         {
             Battle combat = source.Combat;
-            DelphiList<CombatObject> targets = new();
+            DelphiList<CombatObject> targets = [];
             CombatObject? target = command.Target;
             CombatObject? other;
             for (int i = combat.Sides[(int)target.Side].GetCount() - 1; i >= 0; i--)

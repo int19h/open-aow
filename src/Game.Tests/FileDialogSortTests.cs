@@ -129,9 +129,9 @@ public sealed class FileDialogSortTests
             RtlHost.Files = new LayeredFileSystem(root, userDirectory: user);
             RtlHost.Settings = new JsonSettingsStore(settingsDirectory);
             EngineFixture.Engine.Registry = new GameSettings();
-            FileDialogWindow.Directories = new DelphiStringList();
-            FileDialogWindow.Files = new DelphiStringList<FileTime>();
-            FileDialogWindow.Drives = new DelphiStringList();
+            FileDialogWindow.Directories = [];
+            FileDialogWindow.Files = [];
+            FileDialogWindow.Drives = [];
             dialog = Dialog();
             body(dialog, settingsDirectory);
         }

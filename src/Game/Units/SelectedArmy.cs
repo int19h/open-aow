@@ -24,7 +24,7 @@ public sealed class SelectedArmy(EngineObject creator) : MoveSelector(creator)
 
     private SelectedArmyMode _mode;
     private int _roadBuilderId;
-    private readonly Int32List _selectedUnitGraphics = new();
+    private readonly Int32List _selectedUnitGraphics = [];
 
     public bool IgnoreMouseDown { get; set; }
 
@@ -483,7 +483,7 @@ public sealed class SelectedArmy(EngineObject creator) : MoveSelector(creator)
     // Army.PAS:3657
     public void UpdateSelectedUnitGraphics()
     {
-        Int32List list = new();
+        Int32List list = [];
         if (ArmyHexSprite is not null)
         {
             for (int i = 0, last = ArmyHexSprite.Army.Units.Count - 1; i <= last; i++)

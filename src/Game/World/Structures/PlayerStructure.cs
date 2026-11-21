@@ -32,7 +32,7 @@ public partial class PlayerStructure(CustomNode? owner) : Structure(owner)
     public byte ProductionPriority { get; private set; }
 
     private byte _flagId;
-    private readonly BitList _victoryLocations = new();
+    private readonly BitList _victoryLocations = [];
 
     public byte UnfogRange { get; protected set; }
 

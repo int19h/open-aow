@@ -40,13 +40,13 @@ public sealed class RaceResource(CustomNode owner) : EngineResource(owner)
 
     private int _references;
 
-    public UnitIndexList UnitIndexes { get; } = new UnitIndexList();
+    public UnitIndexList UnitIndexes { get; } = [];
 
     private int _heroUnitIndex;
 
-    public UnitIndexList SpecialUnitIndexes { get; } = new UnitIndexList();
+    public UnitIndexList SpecialUnitIndexes { get; } = [];
 
-    private readonly DelphiStringList _heroNames = new();
+    private readonly DelphiStringList _heroNames = [];
 
     // PlayerC.PAS:1740
     public override void Dispose()

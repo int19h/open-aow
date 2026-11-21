@@ -182,7 +182,7 @@ public sealed partial class SoundDialog(UIContext ui) : UIModule(ui)
     }
 
     // AoWSoundDlg.pas:218
-    public void SoundDialogCreate() => s_songFiles = new DelphiStringList();
+    public void SoundDialogCreate() => s_songFiles = [];
 
     // AoWSoundDlg.pas:223
     public void SoundDialogDestroy() => s_songFiles?.Dispose();

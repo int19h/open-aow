@@ -18,7 +18,7 @@ public partial class GameOverEventLog(CustomNode owner) : EventLog(owner)
     // EventLog.pas:777
     public new const int ClassId = 131_812;
 
-    public DelphiStringList Message { get; } = new DelphiStringList();
+    public DelphiStringList Message { get; } = [];
     public sbyte TargetPlayer { get; set; }
 
     // EventLog.pas:774

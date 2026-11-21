@@ -14,7 +14,7 @@ public class ProductionPlaceResource : PlayerStructureResource
     public ProductionPlaceResource(CustomNode owner) : base(owner)
     {
         Claimed = false;
-        Units = new UnitIndexList();
+        Units = [];
         Razeable = true;
     }
 

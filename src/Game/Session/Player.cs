@@ -9,25 +9,15 @@ using Aow.Formats.Tree;
 using Aow.Game.AI;
 using Aow.Game.AI.Groups;
 using Aow.Game.Combat;
-
 using Aow.Game.Commands;
-
 using Aow.Game.Draw.Images;
-
 using Aow.Game.Events;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Net;
-
 using Aow.Game.Units;
-
 using Aow.Game.World.Map;
-
 using Aow.Game.World.Structures;
-
 using Aow.Rtl;
-
 using static Aow.Rtl.DelphiAssert;
 using static Aow.Rtl.DelphiRandom;
 using static Aow.Rtl.DelphiRounding;
@@ -96,7 +86,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
             Holder = CreationHolder(),
             Player = this
         };
-        LegacyNewRelations = new DiplomaticRelationList();
+        LegacyNewRelations = [];
         ProductionControls = new ProductionControlList();
         _incomeSources = new IncomeSourceList(null) { Holder = CreationHolder() };
         LeaderSetup = new Leader(null) { Holder = CreationHolder() };
@@ -112,11 +102,11 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
         };
         _victoryLocations = new PlayerStructureList(null) { Holder = CreationHolder() };
         KnownStructures = new PlayerStructureList(null) { Holder = CreationHolder() };
-        _messages = new DelphiStringList();
+        _messages = [];
         DiplomaticActions = new DiplomaticActionList(null) { Holder = CreationHolder() };
-        AIValidAttackPlayers = new BitList();
+        AIValidAttackPlayers = [];
         PbemSettings = new PbemPlayerSettings(null) { Holder = CreationHolder() };
-        LegacyRelations = new DiplomaticRelationList();
+        LegacyRelations = [];
         HeroEmerging = false;
         BaseHeroJoinDay = -1;
         HeroJoinDay = -1;
@@ -650,9 +640,9 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
     public int GetUnitCount()
     {
         int result = 0;
-        for (int i = Armies.Count - 1; i >= 0; i--)
+        foreach (Army army in Armies.Reverse())
         {
-            result += Armies.GetArmy(i).Units.Count;
+            result += army.Units.Count;
         }
 
         return result;

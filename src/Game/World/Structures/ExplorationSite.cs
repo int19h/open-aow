@@ -334,7 +334,7 @@ public partial class ExplorationSite : Structure
         int collection = siteResource.DefenderCollections.GetRandomCollection();
         if (collection != -1)
         {
-            UnitIndexList list = new();
+            UnitIndexList list = [];
             UnitIndexListCollection collections = siteResource.DefenderCollections;
             for (int i = collections.GetCollectionCount(collection) - 1; i >= 0; i--)
             {

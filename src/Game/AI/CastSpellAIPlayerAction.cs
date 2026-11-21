@@ -19,9 +19,9 @@ public class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
     // state, casting heroes, idle heroes, pending hero IDs, candidate actions
     public CastSpellAIPlayerAction(CustomNode owner) : base(owner)
     {
-        _castingHeroes = new Int32List();
-        _idleHeroes = new Int32List();
-        _pendingHeroes = new Int32List();
+        _castingHeroes = [];
+        _idleHeroes = [];
+        _pendingHeroes = [];
         _castSpellActions = new AICastSpellActionList(null) { Holder = CreationHolder() };
     }
 

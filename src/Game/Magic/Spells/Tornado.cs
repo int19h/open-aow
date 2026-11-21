@@ -79,7 +79,7 @@ public class Tornado : GlobalTargetSpell
     // GlobalTargetSpells.pas:1823
     public MapCoordinate CalculateWarpLocation(ArmyHexSprite army, byte selection)
     {
-        DelphiList<MapField> locations = new();
+        DelphiList<MapField> locations = [];
         MovePointTable table = army.Army.CreateMovePointTable(selection);
         sbyte hexY = army.HexY;
         sbyte hexX = army.HexX;

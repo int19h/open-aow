@@ -665,7 +665,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
             case BattleEffectType.Ray:
             case BattleEffectType.AltArrow:
                 Point3DList point3DList = new();
-                DelphiList<RangedObstacle> obstacles = new();
+                DelphiList<RangedObstacle> obstacles = [];
                 if (effect == BattleEffectType.Breath)
                 {
                     TacticalTables.MakeRangedPath(U.Side, speed: 50, arc: 20, unusedHeight: 50, (short)x1, (short)y1, (short)x2, (short)y2, 0, 0, includeUnits: false, path: point3DList, obstacles);
@@ -2153,7 +2153,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                             u = _units[_unitIndex];
                             if (!u.GetLocked())
                             {
-                                abilities = new DelphiList<CombatAbilityRef>();
+                                abilities = [];
                                 try
                                 {
                                     j = 0;
@@ -2408,7 +2408,7 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                             u = _units[_unitIndex];
                             if (!u.GetLocked())
                             {
-                                abilities = new DelphiList<CombatAbilityRef>();
+                                abilities = [];
                                 j = 0;
                                 for (; j <= 169; j += 1)
                                 {
@@ -2501,16 +2501,14 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                     {
                                         l = 100;
                                         cityWall = null;
-                                        j = 0;
-                                        int limit = CombatMap.Current.Walls.Count - 1;
-                                        for (; j <= limit; j += 1)
+                                        foreach (CityWall item in CombatMap.Current.Walls)
                                         {
                                             sbyte hexY = u.UnitHexSprite.HexY;
-                                            sbyte hexY2 = CombatMap.Current.Walls[j].HexY;
-                                            n = HexGeometry.DeltaHexToRadius(CombatMap.Current.Walls[j].HexX, hexY2, u.UnitHexSprite.HexX, hexY);
-                                            if (CombatMap.Current.Walls[j].HitPoints > 0 && n < l)
+                                            sbyte hexY2 = item.HexY;
+                                            n = HexGeometry.DeltaHexToRadius(item.HexX, hexY2, u.UnitHexSprite.HexX, hexY);
+                                            if (item.HitPoints > 0 && n < l)
                                             {
-                                                cityWall = CombatMap.Current.Walls[j];
+                                                cityWall = item;
                                                 l = n;
                                             }
                                         }
@@ -2578,11 +2576,9 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                     bonuses[j] = 0;
                                 }
 
-                                j = 0;
-                                int last2 = _moves.Count - 1;
-                                for (; j <= last2; j += 1)
+                                foreach (BattleAIMove aiMove in _moves)
                                 {
-                                    otherMove = _moves[j];
+                                    otherMove = aiMove;
                                     if (move.UnitHexSprite.Unit != otherMove.UnitHexSprite.Unit)
                                     {
                                         k = (HexGeometry.DeltaHexToRadius(move.X, move.Y, otherMove.X, otherMove.Y) * 4) - otherMove.UnitHexSprite.Unit.MovePoints;
@@ -2703,15 +2699,13 @@ public sealed class BattleAI(EngineObject creator) : IDisposable
                                 u = _units[i];
                                 if ((u.Troop is not Hero || _heroMoves == 0 || (u.Troop is Hero && _units.Count == 1)) && u.GetEnabled() && !u.GetLocked() && u.MovePoints > 0 && (_flee || u.CanFlee))
                                 {
-                                    j = 0;
-                                    int last2 = CombatMap.Current.FleeLocations.Count - 1;
-                                    for (; j <= last2; j += 1)
+                                    foreach (World.FleeLocation location in CombatMap.Current.FleeLocations)
                                     {
                                         sbyte hexY = u.UnitHexSprite.HexY;
-                                        sbyte hexY2 = CombatMap.Current.FleeLocations[j].HexY;
-                                        int deltaHexToRadius2 = HexGeometry.DeltaHexToRadius(CombatMap.Current.FleeLocations[j].HexX, hexY2, u.UnitHexSprite.HexX, hexY);
-                                        sbyte hexY3 = CombatMap.Current.FleeLocations[j].HexY;
-                                        CreateMove(BattleAIMoveType.Move, CombatMap.Current.FleeLocations[j].HexX, hexY3, value: 110_000_000 - (deltaHexToRadius2 * 10), ability: 0, spell: 0, unit: u, target: null);
+                                        sbyte hexY2 = location.HexY;
+                                        int deltaHexToRadius2 = HexGeometry.DeltaHexToRadius(location.HexX, hexY2, u.UnitHexSprite.HexX, hexY);
+                                        sbyte hexY3 = location.HexY;
+                                        CreateMove(BattleAIMoveType.Move, location.HexX, hexY3, value: 110_000_000 - (deltaHexToRadius2 * 10), ability: 0, spell: 0, unit: u, target: null);
                                     }
                                 }
                             }

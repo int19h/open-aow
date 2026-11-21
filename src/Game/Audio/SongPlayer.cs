@@ -74,7 +74,7 @@ public sealed class SongPlayer : IDisposable
         {
             OnChange = SongsChanged
         };
-        SongNames = new DelphiStringList();
+        SongNames = [];
         CurrentIndex = -1;
     }
 

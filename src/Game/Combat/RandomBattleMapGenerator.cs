@@ -666,7 +666,7 @@ public sealed class RandomBattleMapGenerator : IDisposable
         Span<bool> used = stackalloc bool[8];
         int direction = 32;
         _homePosition = -1;
-        DelphiList<TacticalBattleUnit> units = new();
+        DelphiList<TacticalBattleUnit> units = [];
         int position = 0;
         int i;
         for (; position <= 7; position += 1)

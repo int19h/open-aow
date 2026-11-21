@@ -11,7 +11,7 @@ using static Aow.Rtl.DelphiRandom;
 
 namespace Aow.Engine.Collections;
 
-public class SByteList : Persistent
+public class SByteList : Persistent, IReadOnlyList<sbyte>
 {
     private sbyte[] _list = [];
     private int _count;
@@ -418,4 +418,16 @@ public class SByteList : Persistent
         }
         while (number < R);
     }
+
+    // The values from the first to the last in index order, read through the indexer. Each step
+    // reads the count again, as the index loop over a live count does.
+    public IEnumerator<sbyte> GetEnumerator()
+    {
+        for (int i = 0; i < Count; i++)
+        {
+            yield return this[i];
+        }
+    }
+
+    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
 }

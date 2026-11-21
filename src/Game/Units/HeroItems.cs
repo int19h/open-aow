@@ -118,9 +118,8 @@ public sealed partial class HeroItems : ObservableNode, IChildList<Item>, IItemH
     public sbyte GetAttack()
     {
         sbyte result = 0;
-        for (int i = 0, last = Items.Count - 1; i <= last; i++)
+        foreach (Item item in Items)
         {
-            Item item = Items[i];
             if (item is not null)
             {
                 result = (sbyte)(result + item.Attack);
@@ -134,9 +133,8 @@ public sealed partial class HeroItems : ObservableNode, IChildList<Item>, IItemH
     public sbyte GetDefense()
     {
         sbyte result = 0;
-        for (int i = 0, last = Items.Count - 1; i <= last; i++)
+        foreach (Item item in Items)
         {
-            Item item = Items[i];
             if (item is not null)
             {
                 result = (sbyte)(result + item.Defense);
@@ -150,9 +148,8 @@ public sealed partial class HeroItems : ObservableNode, IChildList<Item>, IItemH
     public sbyte GetDamage()
     {
         sbyte result = 0;
-        for (int i = 0, last = Items.Count - 1; i <= last; i++)
+        foreach (Item item in Items)
         {
-            Item item = Items[i];
             if (item is not null)
             {
                 result = (sbyte)(result + item.Damage);
@@ -166,9 +163,8 @@ public sealed partial class HeroItems : ObservableNode, IChildList<Item>, IItemH
     public sbyte GetResistance()
     {
         sbyte result = 0;
-        for (int i = 0, last = Items.Count - 1; i <= last; i++)
+        foreach (Item item in Items)
         {
-            Item item = Items[i];
             if (item is not null)
             {
                 result = (sbyte)(result + item.Resistance);
@@ -230,9 +226,8 @@ public sealed partial class HeroItems : ObservableNode, IChildList<Item>, IItemH
     public int GetAbilityCount()
     {
         int result = 0;
-        for (int i = 0, last = Items.Count - 1; i <= last; i++)
+        foreach (Item item in Items)
         {
-            Item item = Items[i];
             if (item is not null && result < item.OwnAbilityCount)
             {
                 result = item.OwnAbilityCount;

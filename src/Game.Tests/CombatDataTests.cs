@@ -71,8 +71,8 @@ public sealed class CombatDataTests
         Assert.Equal(1, child.DestroyCount);
         Assert.Null(child.Owner);
         Assert.Equal(0, node.Count);
-        Assert.Equal(0, defeated.Count);
-        Assert.Equal(0, involved.Count);
+        Assert.Empty(defeated);
+        Assert.Empty(involved);
         if (countCalls)
         {
             Assert.Equal(1, ((ObservedNode)node).DestroyCount);

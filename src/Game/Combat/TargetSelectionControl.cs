@@ -29,7 +29,7 @@ public sealed class TargetSelectionControl : IDisposable
     public TargetSelectionControl()
     {
         OnChangeStore = new();
-        HexNumbers = new SByteList();
+        HexNumbers = [];
         Text = new DelphiStringList();
     }
 

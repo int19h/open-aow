@@ -21,7 +21,7 @@ public sealed partial class AIExecutor(CustomNode owner) : EngineObject(owner)
 
     public int ProcessCycles { get; set; }
 
-    private readonly ByteList _players = new();
+    private readonly ByteList _players = [];
 
     public sbyte Player { get; private set; } = -1;
 

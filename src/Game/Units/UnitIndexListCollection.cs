@@ -9,7 +9,7 @@ public sealed class UnitIndexListCollection : IDisposable
     // Unit.PAS:2413
     public UnitIndexListCollection()
     {
-        Units = new UnitIndexList();
+        Units = [];
         _collectionSize = 8;
     }
 

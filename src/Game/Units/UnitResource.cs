@@ -26,7 +26,7 @@ public class UnitResource : TroopResource
     // UnitRes.PAS:73
     public UnitResource(CustomNode? owner) : base(owner)
     {
-        Description = new DelphiStringList();
+        Description = [];
         for (int rankOrdinal = (int)Unit.Rank.None; rankOrdinal <= (int)Unit.Rank.Gold; rankOrdinal++)
         {
             Unit.Rank rank = (Unit.Rank)rankOrdinal;

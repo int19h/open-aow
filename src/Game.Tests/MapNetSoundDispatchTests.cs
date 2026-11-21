@@ -99,9 +99,9 @@ public sealed class MapNetSoundDispatchTests
 
         internal SoundState()
         {
-            AudioHost.SampleList = new SampleList();
-            AudioHost.SampleDataList = new SampleDataList();
-            AudioHost.SoundSystems = new SoundSystemList();
+            AudioHost.SampleList = [];
+            AudioHost.SampleDataList = [];
+            AudioHost.SoundSystems = [];
             AudioHost.SoundSystem = null;
             AudioHost.SongPlayer = null;
             SdlSoundSystem.Install(mute: true, audioOutput: false);
@@ -155,8 +155,8 @@ public sealed class MapNetSoundDispatchTests
         Assert.Equal(1, dynamic.RefCount);
         direct.Release();
         dynamic.Release();
-        Assert.Equal(0, AudioHost.SampleList.Count);
-        Assert.Equal(0, AudioHost.SampleDataList.Count);
+        Assert.Empty(AudioHost.SampleList);
+        Assert.Empty(AudioHost.SampleDataList);
     }
 
     [Fact]
@@ -197,7 +197,7 @@ public sealed class MapNetSoundDispatchTests
         SampleData data = sampleDataMeta.CreateInstance(Format, data: new byte[] { 128 }, size: 1);
         Assert.Equal("SdlSampleData", data.GetType().Name);
         Assert.Equal(1, data.RefCount);
-        Assert.Equal(0, AudioHost.SampleDataList.Count);
+        Assert.Empty(AudioHost.SampleDataList);
         SampleClass sampleMeta = SdlSoundSystem.Samples;
         Sample sample = sampleMeta.CreateInstance(data);
         Assert.Equal("SdlSample", sample.GetType().Name);
@@ -206,11 +206,11 @@ public sealed class MapNetSoundDispatchTests
         Assert.False(sample.Looped);
         Assert.Equal(SamplePanning.Center, sample.Panning);
         Assert.Equal(2, data.RefCount);
-        Assert.Equal(1, AudioHost.SampleList.Count);
+        _ = Assert.Single(AudioHost.SampleList);
         sample.Dispose();
         Assert.Equal(1, data.RefCount);
         data.Release();
-        Assert.Equal(0, AudioHost.SampleList.Count);
+        Assert.Empty(AudioHost.SampleList);
     }
 
     [Fact]
@@ -219,8 +219,8 @@ public sealed class MapNetSoundDispatchTests
         using SoundState state = new();
         SampleDataClass meta = SdlSoundSystem.SampleData;
         _ = Assert.Throws<InvalidDataException>(() => meta.CreateInstance(default, data: new byte[1], size: 1));
-        Assert.Equal(0, AudioHost.SampleList.Count);
-        Assert.Equal(0, AudioHost.SampleDataList.Count);
+        Assert.Empty(AudioHost.SampleList);
+        Assert.Empty(AudioHost.SampleDataList);
     }
 
     [Fact]

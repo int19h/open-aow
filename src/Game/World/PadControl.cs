@@ -27,7 +27,7 @@ public sealed class PadControl : ControlStyleObject
     // MoveT.PAS:3614
     public PadControl(CustomNode owner) : base(owner)
     {
-        TerrainTypes = new BitList();
+        TerrainTypes = [];
         PadResources = [];
         SetControlStyle(ControlStyles.FixedChild);
     }

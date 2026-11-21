@@ -19,7 +19,7 @@ public class TutorialMessageEvent(CustomNode owner) : FlagEvent(owner)
     // FlagEvents.pas:245
     public new const int ClassId = 132_459;
 
-    private readonly DelphiStringList _message = new();
+    private readonly DelphiStringList _message = [];
 
     // FlagEvents.pas:239
     public override void Dispose()

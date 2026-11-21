@@ -19,7 +19,7 @@ using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Engine.Collections;
 
-public class Int32List : Persistent
+public class Int32List : Persistent, IReadOnlyList<int>
 {
     private int[] _list = [];
     private int _count;
@@ -608,4 +608,16 @@ public class Int32List : Persistent
     }
 
     internal static int LevelCost(Int32List costs, int level) => costs[level];
+
+    // The values from the first to the last in index order, read through the indexer. Each step
+    // reads the count again, as the index loop over a live count does.
+    public IEnumerator<int> GetEnumerator()
+    {
+        for (int i = 0; i < Count; i++)
+        {
+            yield return this[i];
+        }
+    }
+
+    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
 }

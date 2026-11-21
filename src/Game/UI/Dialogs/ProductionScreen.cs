@@ -601,7 +601,7 @@ public sealed partial class ProductionScreen(UIContext ui) : UIModule(ui)
     }
 
     // AoWProdScreen.pas:221
-    public void ProductionScreenCreate() => _images = new Int32List();
+    public void ProductionScreenCreate() => _images = [];
 
     // AoWProdScreen.pas:226
     public void ProductionScreenDestroy() => _images?.Dispose();

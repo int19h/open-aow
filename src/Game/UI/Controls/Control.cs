@@ -17,7 +17,7 @@ public partial class Control : UIComponent
     // AoWControl.pas:46
     public Control(Component? owner) : base(owner)
     {
-        ToolTipText = new DelphiStringList();
+        ToolTipText = [];
         CaptureInput = true;
     }
 

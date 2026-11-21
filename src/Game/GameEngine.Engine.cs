@@ -279,7 +279,7 @@ public partial class GameEngine : OwningNode
     // Engine.pas:8867
     public EngineObjectClassList GetDescendantClasses(Type classValue)
     {
-        EngineObjectClassList l = new();
+        EngineObjectClassList l = [];
         for (int i = 0, last = EngineClasses.Count - 1; i <= last; i++)
         {
             if (classValue.IsAssignableFrom(EngineClasses[i].Type))

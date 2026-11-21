@@ -117,11 +117,9 @@ public partial class Menu : GenericWindow
         }
 
         Items.Dispose();
-        i = 0;
-        int last = SubMenus.Count - 1;
-        for (; i <= last; i += 1)
+        foreach (Menu menu in SubMenus)
         {
-            SubMenus[i].DetachMenu();
+            menu.DetachMenu();
         }
 
         SubMenus.Clear();
@@ -553,9 +551,9 @@ public partial class Menu : GenericWindow
             {
                 show = false;
                 bool keep = true;
-                for (int i = 0, last = SubMenus.Count - 1; i <= last; i++)
+                foreach (Menu menu in SubMenus)
                 {
-                    m = SubMenus[i];
+                    m = menu;
                     if (m.Handled)
                     {
                         if (m.Visible)
@@ -684,11 +682,8 @@ public partial class Menu : GenericWindow
             {
                 if (_subMenuItem > -1)
                 {
-                    i = 0;
-                    int last = SubMenus.Count - 1;
-                    for (; i <= last; i += 1)
+                    foreach (Menu component in SubMenus)
                     {
-                        Menu component = SubMenus[i];
                         if (component.Handled)
                         {
                             Highlighted = component.OwnerItem;

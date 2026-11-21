@@ -582,8 +582,8 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
     public void RelationWindowCreate()
     {
         _actions = new DiplomaticActionList(null) { Holder = UI.Engine };
-        Races = new Int32List();
-        Players = new Int32List();
+        Races = [];
+        Players = [];
         FImages =
         [
             Player1Image, Player2Image, Player3Image, Player4Image, Player5Image, Player6Image, Player7Image, Player8Image, Player9Image, Player10Image, Player11Image, Player12Image,

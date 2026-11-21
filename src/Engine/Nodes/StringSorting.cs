@@ -22,7 +22,7 @@ internal static class StringSorting
             DelphiList<DelphiStringCollection>? lists;
             if ((uint)(linkedStrings.Length - 1) >= 0)
             {
-                lists = new DelphiList<DelphiStringCollection>();
+                lists = [];
                 for (int i = 0, last = linkedStrings.Length - 1; i <= last; i++)
                 {
                     linkedStrings[i].BeginUpdate();

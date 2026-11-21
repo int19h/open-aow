@@ -8,7 +8,7 @@ namespace Aow.Game.Magic.Spells;
 public sealed class SpellList : IDisposable
 {
     // Spells.PAS:695
-    public SpellList() => _spells = new DelphiList<Spell>();
+    public SpellList() => _spells = [];
 
     private readonly DelphiList<Spell> _spells;
 

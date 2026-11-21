@@ -161,7 +161,7 @@ public sealed class FloodControl(CustomNode? owner) : EngineObject(owner)
         }
 
         MapObjectResourceList resources = GamePack.Current.MapObjectResourceList;
-        DelphiList<MapObjectResource> candidates = new();
+        DelphiList<MapObjectResource> candidates = [];
         for (int y = 1, last = mapLevel.Height - 1; y <= last; y++)
         {
             index = ((Width * y) + 1) * 2;

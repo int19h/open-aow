@@ -417,7 +417,7 @@ public partial class ProductionPlace : PlayerStructure
                 int collection = Resource.Defenders.GetRandomCollection();
                 if (collection != -1)
                 {
-                    UnitIndexList units = new();
+                    UnitIndexList units = [];
                     UnitIndexListCollection unitIndexListCollection = Resource.Defenders;
                     for (int i = unitIndexListCollection.GetCollectionCount(collection) - 1; i >= 0; i--)
                     {

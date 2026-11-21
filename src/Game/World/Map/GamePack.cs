@@ -48,9 +48,9 @@ public class GamePack : EngineNode, IChildList<GamePackChild>
         Holder = holder;
         SetControlStyle(GetControlStyle() | EngineServices.Reserved2);
         PluginControl = new PluginControl(null) { Holder = CreationHolder() };
-        TerrainTypes = new DelphiStringList();
-        OverlayTypes = new DelphiStringList();
-        DecorationTypes = new DelphiStringList();
+        TerrainTypes = [];
+        OverlayTypes = [];
+        DecorationTypes = [];
         HexControl = new HexControl(this)
         {
             MapObjectClass = typeof(AbstractHexagon)
@@ -431,7 +431,7 @@ public class GamePack : EngineNode, IChildList<GamePackChild>
     // Ability.PAS:109
     public int RetrieveHssCrc()
     {
-        Int32List crCs = new();
+        Int32List crCs = [];
         string path = ExtractFilePath(GetEngine().HssFileName);
         // { Original includes ABILITY.PFS twice and does not free CRCs on a read error. }
         _ = crCs.Add(GetFileCrc($"{path}ABILITY.PFS", atEnd: false));

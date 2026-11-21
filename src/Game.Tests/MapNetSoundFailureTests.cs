@@ -37,7 +37,7 @@ public sealed class MapNetSoundFailureTests
         private FailingSample(ConstructionContext context, SampleData data) : base(context, sampleData: data)
         {
             Assert.Equal(2, data.RefCount);
-            Assert.Equal(1, AudioHost.SampleList.Count);
+            _ = Assert.Single(AudioHost.SampleList);
             throw new InvalidDataException("sample");
         }
 
@@ -131,8 +131,8 @@ public sealed class MapNetSoundFailureTests
     {
         SampleList oldSamples = AudioHost.SampleList;
         SampleDataList oldData = AudioHost.SampleDataList;
-        AudioHost.SampleList = new SampleList();
-        AudioHost.SampleDataList = new SampleDataList();
+        AudioHost.SampleList = [];
+        AudioHost.SampleDataList = [];
         try
         {
             SampleData data = SampleData.Create("reference");
@@ -142,7 +142,7 @@ public sealed class MapNetSoundFailureTests
             Assert.Equal(1, data.RefCount);
             Assert.Same(data, AudioHost.SampleDataList.Find("reference"));
             data.Release();
-            Assert.Equal(0, AudioHost.SampleDataList.Count);
+            Assert.Empty(AudioHost.SampleDataList);
         }
         finally
         {
@@ -161,9 +161,9 @@ public sealed class MapNetSoundFailureTests
         SoundSystemList oldSystems = AudioHost.SoundSystems;
         string oldPath = AudioHost.BaseSoundEnginePath;
         IFileSystem oldFiles = RtlHost.Files;
-        AudioHost.SampleList = new SampleList();
-        AudioHost.SampleDataList = new SampleDataList();
-        AudioHost.SoundSystems = new SoundSystemList();
+        AudioHost.SampleList = [];
+        AudioHost.SampleDataList = [];
+        AudioHost.SoundSystems = [];
         string path = Path.Combine(AppContext.BaseDirectory, "9.3b-8-corrupt.wav");
         if (corrupt)
         {
@@ -196,8 +196,8 @@ public sealed class MapNetSoundFailureTests
                 }
 
                 Assert.Null(AudioHost.SampleDataList.Find(path));
-                Assert.Equal(0, AudioHost.SampleDataList.Count);
-                Assert.Equal(0, AudioHost.SampleList.Count);
+                Assert.Empty(AudioHost.SampleDataList);
+                Assert.Empty(AudioHost.SampleList);
                 Assert.NotNull(files.Published);
                 Assert.Equal(1, files.Published.RefCount);
                 Assert.NotSame(previous, files.Published);

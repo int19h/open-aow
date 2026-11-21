@@ -5,7 +5,6 @@ using Aow.Formats;
 using Aow.Game.Audio;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
-
 using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Saves;
@@ -303,9 +302,9 @@ public sealed partial class General(UIContext ui) : UIModule(ui)
             }
         }
 
-        for (int i = 0, last = lists.Count - 1; i <= last; i++)
+        foreach (ListBox? box in lists)
         {
-            l = lists[i];
+            l = box;
             l.ListOffset = 0;
             l.Selected = -1;
             l.Sized = false;
@@ -843,9 +842,9 @@ public sealed partial class General(UIContext ui) : UIModule(ui)
 
     internal static bool HasModalWindow(General controller)
     {
-        for (int i = controller.Manager.Children.Count - 1; i >= 0; i--)
+        foreach (UIComponent? component in controller.Manager.Children.Reverse())
         {
-            if (controller.Manager.Children[i] is WindowControl window &&
+            if (component is WindowControl window &&
                 window != controller.UI.MapWindow.MainWindow && window.Modal && window.Visible)
             {
                 return true;

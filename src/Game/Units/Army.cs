@@ -551,10 +551,10 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     public byte GetGroupSelection(int groupId)
     {
         byte result = 0;
-        for (int i = Units.Count - 1; i >= 0; i--)
+        foreach (Troop troop in Units.Reverse())
         {
             result = (byte)(result << 1);
-            if (groupId == Units[i].GroupId)
+            if (groupId == troop.GroupId)
             {
                 result = (byte)(result | 1);
             }
@@ -698,11 +698,11 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
             Location = new MapCoordinate(Location.X, Location.Y, Location.MapLevel),
             Player = Player
         };
-        for (int i = 0, last = Units.Count - 1; i <= last; i++)
+        foreach (Troop troop in Units)
         {
             if ((selection & 1) != 0)
             {
-                _ = id.UnitIds.Add(Units[i].UnitId);
+                _ = id.UnitIds.Add(troop.UnitId);
             }
 
             selection = (byte)(selection >>> 1);
@@ -811,11 +811,11 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     {
         int result = -1;
         bool same = true;
-        for (int i = 0, last = Units.Count - 1; i <= last; i++)
+        foreach (Troop troop in Units)
         {
             if ((selection & 1) != 0)
             {
-                int race = Units[i].GetRace();
+                int race = troop.GetRace();
                 if (race != -1)
                 {
                     if (result != -1)
@@ -1293,11 +1293,11 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     public int ObtainValue(byte selection)
     {
         int result = 0;
-        for (int i = 0, last = Units.Count - 1; i <= last; i++)
+        foreach (Troop troop in Units)
         {
             if ((selection & 1) != 0)
             {
-                result += Units[i].GetObtainValue();
+                result += troop.GetObtainValue();
             }
 
             selection = (byte)(selection >>> 1);
@@ -1320,11 +1320,11 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
             if (selection != 0)
             {
                 result = 50;
-                for (int i = 0, last = Units.Count - 1; i <= last; i++)
+                foreach (Troop item in Units)
                 {
                     if ((selection & 1) != 0)
                     {
-                        Troop troop = Units[i];
+                        Troop troop = item;
                         if (troop.GetMovePoints() < result)
                         {
                             result = troop.GetMovePoints();
@@ -1357,11 +1357,11 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
             if (selection != 0)
             {
                 result = 50;
-                for (int i = 0, last = Units.Count - 1; i <= last; i++)
+                foreach (Troop item in Units)
                 {
                     if ((selection & 1) != 0)
                     {
-                        Troop troop = Units[i];
+                        Troop troop = item;
                         if (troop.Moves < result)
                         {
                             result = troop.Moves;
@@ -1920,7 +1920,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     // Army.PAS:1782
     public AddUnitsResult CanAddUnitSelection(UnitCollection units, byte selection)
     {
-        DelphiList<Troop> list = new();
+        DelphiList<Troop> list = [];
         int i = 0;
         int last = units.Count - 1;
         for (; i <= last; i += 1)
@@ -2103,8 +2103,8 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
         {
             goodArmy = null;
             evilArmy = null;
-            races = new DelphiList<Army>();
-            units = new DelphiList<Troop>();
+            races = [];
+            units = [];
             for (int i = 0, last = Units.Count - 1; i <= last; i++)
             {
                 if ((selection & 1) != 0)
@@ -2331,7 +2331,7 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     public void Desert(byte selection)
     {
         StrategicMap.Current.LockGameOverEvent();
-        DelphiList<Troop> units = new();
+        DelphiList<Troop> units = [];
         int count = SelectionCount(selection);
         ArmyInfoEventLog log = new(null) { Holder = CreationHolder() };
         log.ArmyView.Setup(this, selection: 255);
@@ -2499,10 +2499,10 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
                 if (chance > StrategicMap.Current.Random(100))
                 {
                     byte selection = 0;
-                    for (int i = Units.Count - 1; i >= 0; i--)
+                    foreach (Troop troop in Units.Reverse())
                     {
                         selection = (byte)(selection << 1);
-                        if (Units[i].MoraleValue <= 40)
+                        if (troop.MoraleValue <= 40)
                         {
                             selection = (byte)(selection | 1);
                         }
@@ -3096,9 +3096,8 @@ public class Army(CustomNode? owner) : ObservableNode(owner), IChildList<Troop>,
     // Army.PAS:2613
     public void ResetMoveDone()
     {
-        for (int i = Units.Count - 1; i >= 0; i--)
+        foreach (Troop troop in Units.Reverse())
         {
-            Troop troop = Units[i];
             troop.UnitStatus &= ~UnitStatuses.MoveDone;
         }
     }

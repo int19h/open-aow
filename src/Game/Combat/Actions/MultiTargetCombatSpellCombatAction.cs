@@ -17,7 +17,7 @@ public class MultiTargetCombatSpellCombatAction(CustomNode owner) : CombatAction
 
     public byte SourceId { get; protected set; }
 
-    public ByteList TargetIds { get; } = new ByteList();
+    public ByteList TargetIds { get; } = [];
 
     public int ManaCost { get; set; }
 

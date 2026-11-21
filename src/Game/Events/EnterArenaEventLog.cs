@@ -17,7 +17,7 @@ public partial class EnterArenaEventLog(CustomNode? owner) : EventLog(owner)
     public Arena Arena { get; init; }
     public byte Selection { get; private set; }
     public byte Trainable { get; set; }
-    public Int32List UnitIds { get; } = new Int32List();
+    public Int32List UnitIds { get; } = [];
 
     // Arena.pas:265
     public override void Dispose()
@@ -52,7 +52,7 @@ public partial class EnterArenaEventLog(CustomNode? owner) : EventLog(owner)
     // Arena.pas:284
     public bool Train(out string errorText)
     {
-        Int32List units = new();
+        Int32List units = [];
         for (int i = 0, last = UnitIds.Count - 1; i <= last; i++)
         {
             if (((1 << i) & Selection) != 0)
@@ -69,7 +69,7 @@ public partial class EnterArenaEventLog(CustomNode? owner) : EventLog(owner)
     // Arena.pas:294
     public bool CanTrain(ref string errorText)
     {
-        Int32List units = new();
+        Int32List units = [];
         for (int i = 0, last = UnitIds.Count - 1; i <= last; i++)
         {
             if (((1 << i) & Selection) != 0)

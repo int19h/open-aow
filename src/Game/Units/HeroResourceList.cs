@@ -29,7 +29,7 @@ public sealed class HeroResourceList : ResourceCollection, IChildList<HeroResour
     // Hero.PAS:2369
     public DelphiStringList CreateHeroResourceStrings(HeroTypes heroTypes)
     {
-        DelphiStringList list = new();
+        DelphiStringList list = [];
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
             HeroResource resource = this[i];

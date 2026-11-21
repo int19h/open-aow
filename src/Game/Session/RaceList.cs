@@ -47,7 +47,7 @@ public class RaceList : ControlStyleNode, IChildList<Race>
     // Ability.PAS:394
     public sbyte GetRandomRace()
     {
-        DelphiList<Race> races = new();
+        DelphiList<Race> races = [];
         for (int i = 0, last = Count - 1; i <= last; i++)
         {
             if (GetChild(i) is not null && this[i].Enabled)

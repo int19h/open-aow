@@ -19,7 +19,7 @@ public sealed class ConcealAreaHexSprite(CustomNode owner) : FixedVisibleHexSpri
     private sbyte _x;
     private sbyte _y;
     private sbyte _layer;
-    private readonly Int32List _hexes = new();
+    private readonly Int32List _hexes = [];
     private int _frame;
 
     // GlobalSpells.pas:205

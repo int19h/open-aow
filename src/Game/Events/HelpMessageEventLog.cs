@@ -14,7 +14,7 @@ public partial class HelpMessageEventLog : EventLog
     public HelpMessageEventLog(CustomNode owner, EngineObject holder) : base(owner)
     {
         Holder = holder;
-        Message = new DelphiStringList();
+        Message = [];
         HelpFileName = AbilityRules.TranslateResourceString(GetEngine(), S: s_helpText);
         Mode = 0;
     }

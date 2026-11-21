@@ -23,10 +23,10 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     {
         SetControlStyle(ControlStyles.SaveLoad | ControlStyles.FixedChild | ControlStyles.ArrayMode);
         SetNumberOfPlayers(2);
-        _localControlledPlayers = new ByteList();
-        LocalHumanPlayers = new ByteList();
-        ActivePlayers = new ByteList();
-        LocalPlayers = new ByteList();
+        _localControlledPlayers = [];
+        LocalHumanPlayers = [];
+        ActivePlayers = [];
+        LocalPlayers = [];
     }
 
     public ByteList ActivePlayers { get; }
@@ -287,8 +287,8 @@ public partial class PlayerCollection : ControlStyleNode, IChildList<Player>
     // Player.PAS:1657
     public void ValidateRaces(RaceList races)
     {
-        Int32List available = new();
-        Int32List invalid = new();
+        Int32List available = [];
+        Int32List invalid = [];
         int i = 0;
         int last = races.Count - 1;
         for (; i <= last; i += 1)

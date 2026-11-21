@@ -113,7 +113,7 @@ public sealed partial class CampaignJoinDialog(UIContext ui) : UIModule(ui)
     public void CampaignJoinDialogCreate()
     {
         Leader = new Leader(null) { Holder = UI.Engine };
-        ScrollText = new DelphiStringList();
+        ScrollText = [];
     }
 
     // AoWCampaignJoin.pas:64

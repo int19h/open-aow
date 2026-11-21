@@ -21,7 +21,7 @@ public sealed class IndexedProperty<TKey, TValue>(Func<TKey, TValue> get, Action
     }
 }
 
-public abstract class DelphiStringCollection : Persistent
+public abstract class DelphiStringCollection : Persistent, IReadOnlyList<string>
 {
     protected int UpdateCount { get; private set; }
 
@@ -434,6 +434,18 @@ public abstract class DelphiStringCollection : Persistent
 
         throw new ArgumentException(text);
     }
+
+    // The strings from the first to the last in index order, read through the indexer. Each step
+    // reads the count again, as the index loop over a live count does.
+    public IEnumerator<string> GetEnumerator()
+    {
+        for (int i = 0; i < Count; i++)
+        {
+            yield return this[i];
+        }
+    }
+
+    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
 }
 
 public enum Duplicates : byte { Ignore, Accept, Error }

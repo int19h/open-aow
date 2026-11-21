@@ -7,7 +7,7 @@ namespace Aow.Game.UI.Controls;
 public sealed class ListBox<T> : ListBox
     where T : class
 {
-    public ListBox(Component owner) : this(owner, items: new DelphiStringList<T>())
+    public ListBox(Component owner) : this(owner, items: [])
     {
     }
 

@@ -22,8 +22,8 @@ public class GDPlay(Component? owner = null) : Component(owner)
     public string PlayerName { get; set; } = "";
     public string TCPPort { get; set; } = "";
     // The service providers found by GetConnections: their names and their TGDConnection items.
-    public DelphiStringList Connections { get; } = new();
-    public DelphiList<GDConnection> ConnectionItems { get; } = new();
+    public DelphiStringList Connections { get; } = [];
+    public DelphiList<GDConnection> ConnectionItems { get; } = [];
 
     public void CheckMessages() { }
 

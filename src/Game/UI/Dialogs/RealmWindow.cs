@@ -617,7 +617,7 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
     public void T2SNameClick(int button)
     {
         UI.General.PlayButtonSound(0);
-        DelphiList<ListBox> lists = new();
+        DelphiList<ListBox> lists = [];
         _ = lists.Add(CityNameList);
         _ = lists.Add(CityRaceList);
         _ = lists.Add(CityIncomeList);
@@ -635,7 +635,7 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
     public void T2SRaceClick(int button)
     {
         UI.General.PlayButtonSound(0);
-        DelphiList<ListBox> lists = new();
+        DelphiList<ListBox> lists = [];
         _ = lists.Add(CityRaceList);
         _ = lists.Add(CityNameList);
         _ = lists.Add(CityIncomeList);
@@ -653,7 +653,7 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
     public void T2SInClick(int button)
     {
         UI.General.PlayButtonSound(0);
-        DelphiList<ListBox> lists = new();
+        DelphiList<ListBox> lists = [];
         _ = lists.Add(CityIncomeList);
         _ = lists.Add(CityNameList);
         _ = lists.Add(CityRaceList);
@@ -671,7 +671,7 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
     public void T2SLvlClick(int button)
     {
         UI.General.PlayButtonSound(0);
-        DelphiList<ListBox> lists = new();
+        DelphiList<ListBox> lists = [];
         _ = lists.Add(CityLevelList);
         _ = lists.Add(CityNameList);
         _ = lists.Add(CityRaceList);
@@ -689,7 +689,7 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
     public void T2SWallClick(int button)
     {
         UI.General.PlayButtonSound(0);
-        DelphiList<ListBox> lists = new();
+        DelphiList<ListBox> lists = [];
         _ = lists.Add(CityWallList);
         _ = lists.Add(CityNameList);
         _ = lists.Add(CityRaceList);
@@ -707,7 +707,7 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
     public void T2SSizeClick(int button)
     {
         UI.General.PlayButtonSound(0);
-        DelphiList<ListBox> lists = new();
+        DelphiList<ListBox> lists = [];
         _ = lists.Add(CitySizeList);
         _ = lists.Add(CityNameList);
         _ = lists.Add(CityRaceList);
@@ -725,7 +725,7 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
     public void T2SRelClick(int button)
     {
         UI.General.PlayButtonSound(0);
-        DelphiList<ListBox> lists = new();
+        DelphiList<ListBox> lists = [];
         _ = lists.Add(CityRelationList);
         _ = lists.Add(CityNameList);
         _ = lists.Add(CityRaceList);
@@ -743,7 +743,7 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
     public void T2SMorClick(int button)
     {
         UI.General.PlayButtonSound(0);
-        DelphiList<ListBox> lists = new();
+        DelphiList<ListBox> lists = [];
         _ = lists.Add(CityMoraleList);
         _ = lists.Add(CityNameList);
         _ = lists.Add(CityRaceList);
@@ -761,7 +761,7 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
     public void T2SActClick(int button)
     {
         UI.General.PlayButtonSound(0);
-        DelphiList<ListBox> lists = new();
+        DelphiList<ListBox> lists = [];
         _ = lists.Add(CityActionList);
         _ = lists.Add(CityNameList);
         _ = lists.Add(CityRaceList);
@@ -779,7 +779,7 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
     public void T2SEncClick(int button)
     {
         UI.General.PlayButtonSound(0);
-        DelphiList<ListBox> lists = new();
+        DelphiList<ListBox> lists = [];
         _ = lists.Add(CityEnchantmentList);
         _ = lists.Add(CityNameList);
         _ = lists.Add(CityRaceList);
@@ -797,7 +797,7 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
     public void T3SNameClick(int button)
     {
         UI.General.PlayButtonSound(0);
-        DelphiList<ListBox> lists = new();
+        DelphiList<ListBox> lists = [];
         _ = lists.Add(PlaceNameList);
         _ = lists.Add(PlaceActionList);
         UI.General.SortLists(lists, order: 0);
@@ -851,7 +851,7 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
     public void T5SNameClick(int button)
     {
         UI.General.PlayButtonSound(0);
-        DelphiList<ListBox> lists = new();
+        DelphiList<ListBox> lists = [];
         _ = lists.Add(HeroNameList);
         _ = lists.Add(HeroHealthList);
         _ = lists.Add(HeroLevelList);
@@ -862,7 +862,7 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
     public void T5SHealthClick(int button)
     {
         UI.General.PlayButtonSound(0);
-        DelphiList<ListBox> lists = new();
+        DelphiList<ListBox> lists = [];
         _ = lists.Add(HeroHealthList);
         _ = lists.Add(HeroNameList);
         _ = lists.Add(HeroLevelList);
@@ -873,7 +873,7 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
     public void T5SLevelClick(int button)
     {
         UI.General.PlayButtonSound(0);
-        DelphiList<ListBox> lists = new();
+        DelphiList<ListBox> lists = [];
         _ = lists.Add(HeroLevelList);
         _ = lists.Add(HeroNameList);
         _ = lists.Add(HeroHealthList);
@@ -934,7 +934,7 @@ public sealed partial class RealmWindow(UIContext ui) : UIModule(ui)
     public void T3ActivityClick(int button)
     {
         UI.General.PlayButtonSound(0);
-        DelphiList<ListBox> lists = new();
+        DelphiList<ListBox> lists = [];
         _ = lists.Add(PlaceActionList);
         _ = lists.Add(PlaceNameList);
         UI.General.SortLists(lists, order: 1);

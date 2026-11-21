@@ -667,8 +667,8 @@ public sealed partial class StrategicMap : GameMap
         SphereCount = 5;
         VictoryGold = 5_000;
         VictoryMana = 5_000;
-        Description = new DelphiStringList();
-        _objectives = new DelphiStringList();
+        Description = [];
+        _objectives = [];
         _independentAIMode = StrategicMapIndependentAIMode.Normal;
         Players = new PlayerCollection(null) { Holder = CreationHolder() };
         Races = new RaceList(null) { Holder = CreationHolder() };
@@ -680,7 +680,7 @@ public sealed partial class StrategicMap : GameMap
         DebugSave = false;
         TutorialControl = new TutorialControl(null) { Holder = CreationHolder() };
         TurnOrderMode = StrategicMapTurnOrderMode.Fixed;
-        TurnOrder = new ByteList();
+        TurnOrder = [];
         Day = 0;
         GameStatus = StrategicMapGameStatus.Idle;
         GameResult = StrategicMapGameResult.None;
@@ -2170,7 +2170,7 @@ public sealed partial class StrategicMap : GameMap
     // AoWHSMap.PAS:2723
     public void GenerateNewTurnOrder()
     {
-        ByteList list = new();
+        ByteList list = [];
         for (int i = 1, last = Players.Count - 1; i <= last; i++)
         {
             _ = list.Add((byte)i);
@@ -2511,7 +2511,7 @@ public sealed partial class StrategicMap : GameMap
         MapObjectResourceList resources = GamePack.Current.MapObjectResourceList;
         if ((byte)overlayType is not (4 or 5))
         {
-            DelphiList<MapObjectResource> candidates = new();
+            DelphiList<MapObjectResource> candidates = [];
             candidates.Clear();
             for (int i = 0, last = resources.Count - 1; i <= last; i++)
             {

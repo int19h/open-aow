@@ -127,7 +127,7 @@ public sealed class OwnershipTests
     [Fact]
     public void ClearListDisposesEachItemAndSkipsEmptySlots()
     {
-        EngineObjectList list = new();
+        EngineObjectList list = [];
         Disposable?[] items = [new Disposable(), null, new Disposable(), new Disposable()];
         foreach (Disposable? item in items)
         {
@@ -136,7 +136,7 @@ public sealed class OwnershipTests
 
         Assert.Equal(list.Capacity, list.Count);
         list.ClearList();
-        Assert.Equal(0, list.Count);
+        Assert.Empty(list);
         Assert.All(items.OfType<Disposable>(), item => Assert.Equal(1, item.Disposals));
     }
 }

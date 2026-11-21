@@ -21,8 +21,8 @@ public class HexBridge(CustomNode owner) : AbstractRoad(owner)
 
     public sbyte Direction { get; private set; } = -1;
 
-    private readonly ByteList _sideA = new();
-    private readonly ByteList _sideB = new();
+    private readonly ByteList _sideA = [];
+    private readonly ByteList _sideB = [];
 
     // HxBridge.pas:77
     public override void Dispose()

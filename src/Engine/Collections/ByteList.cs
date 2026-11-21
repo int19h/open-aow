@@ -12,7 +12,7 @@ using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Engine.Collections;
 
-public class ByteList : Persistent
+public class ByteList : Persistent, IReadOnlyList<byte>
 {
     private byte[] _list = [];
     private int _count;
@@ -389,4 +389,16 @@ public class ByteList : Persistent
         }
         while (number < R);
     }
+
+    // The values from the first to the last in index order, read through the indexer. Each step
+    // reads the count again, as the index loop over a live count does.
+    public IEnumerator<byte> GetEnumerator()
+    {
+        for (int i = 0; i < Count; i++)
+        {
+            yield return this[i];
+        }
+    }
+
+    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
 }

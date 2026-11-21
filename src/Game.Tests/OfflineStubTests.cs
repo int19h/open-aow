@@ -309,7 +309,7 @@ public sealed class OfflineStubTests
         { Holder = EngineFixture.Engine, HexX = (sbyte)(i % 2), HexY = (sbyte)(i / 2), OverlayType = (sbyte)(overlaid.Contains(i) ? 4 : 0) })];
         SetField(level, "_fields", fields);
         MapContainer container = new(null) { Holder = EngineFixture.Engine };
-        EngineObjectList levels = new();
+        EngineObjectList levels = [];
         _ = levels.Add(level);
         SetField(container, "_children", levels);
         StrategicMap map = new(null, holder: EngineFixture.Engine);

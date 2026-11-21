@@ -60,7 +60,7 @@ public sealed class ImageLibraryManager : Component
                 _ = DiskList.AddImageLibraryFile(subDirectory + UpperCase(entry.Name));
             }
 
-            DelphiStringList list = new();
+            DelphiStringList list = [];
             foreach (RtlFileEntry entry in Files.FindEntries($"{subDirectory}*.*", attributes: 16))
             {
                 if ((entry.Attribute & 0b0001_0000) != 0 && entry.Name != "." && entry.Name != "..")

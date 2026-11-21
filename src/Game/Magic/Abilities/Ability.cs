@@ -31,7 +31,7 @@ public class Ability : EngineObject
     // Ability.PAS:1238
     public Ability(CustomNode? owner) : base(owner)
     {
-        Description = new DelphiStringList();
+        Description = [];
         SfxLibrary = new SfxLibrary(null) { Holder = CreationHolder() };
         ImageSequences = new ImageSequenceList(GamePack.Current.ImageLibraryManager, imageLibrary: null);
     }
