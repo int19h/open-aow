@@ -111,7 +111,7 @@ public sealed partial class RuleConstructionTests
 
             if (item is Delegate handler)
             {
-                return handler.GetInvocationList().Select(x => $"{x.Method.DeclaringType!.FullName}.{x.Method.Name}").ToArray();
+                return HandlerNames.Of(handler);
             }
 
             if (!type.IsValueType)

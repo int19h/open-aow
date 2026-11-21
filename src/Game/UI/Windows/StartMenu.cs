@@ -43,7 +43,7 @@ public sealed class StartMenu(Component? owner) : Menu(owner)
                 }
 
                 SetWinLeftWithoutInvalidate(0);
-                Drawn = false;
+                IsDrawn = false;
                 if (!Hidden)
                 {
                     BackRectangle = new SizedRectangle(WinLeft, WinTop, WinWidth, WinHeight);
@@ -57,7 +57,7 @@ public sealed class StartMenu(Component? owner) : Menu(owner)
                 if (b is not null)
                 {
                     b.Selected = -1;
-                    b.Drawn = false;
+                    b.IsDrawn = false;
                 }
 
                 Hidden = true;
@@ -74,7 +74,7 @@ public sealed class StartMenu(Component? owner) : Menu(owner)
 
             ClearBlitList();
             ClearDrawList();
-            Drawn = false;
+            IsDrawn = false;
             SetPriority(Priority);
         }
     }
@@ -86,7 +86,7 @@ public sealed class StartMenu(Component? owner) : Menu(owner)
         {
             if (Valid && Visible)
             {
-                if (!Drawn)
+                if (!IsDrawn)
                 {
                     Rect oldClip = lockedSurface.ClipRectangle;
                     Font.Color = Color;
@@ -197,10 +197,10 @@ public sealed class StartMenu(Component? owner) : Menu(owner)
         remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, StartMenu>(this, slot: nameof(PreDraw), value: value);
     }
 
-    public new event AoWOnDrawEvent<StartMenu> OnDraw
+    public new event AoWOnDrawEvent<StartMenu> Drawn
     {
-        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, StartMenu>(this, slot: nameof(OnDraw), value: value);
-        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, StartMenu>(this, slot: nameof(OnDraw), value: value);
+        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, StartMenu>(this, slot: nameof(Drawn), value: value);
+        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, StartMenu>(this, slot: nameof(Drawn), value: value);
     }
 
     public new event NotifyEvent<StartMenu> Updated
@@ -233,16 +233,16 @@ public sealed class StartMenu(Component? owner) : Menu(owner)
         remove => ((WindowControl)this).ChangeCursor -= EventSlot.Remove<WindowControl, StartMenu>(this, slot: nameof(ChangeCursor), value: value);
     }
 
-    public new event AoWOnDrawSurface<StartMenu> SurfaceDrawn
+    public new event AoWOnDrawSurface<StartMenu> Blitted
     {
-        add => ((WindowControl)this).SurfaceDrawn += EventSlot.Add<WindowControl, StartMenu>(this, slot: nameof(SurfaceDrawn), value: value);
-        remove => ((WindowControl)this).SurfaceDrawn -= EventSlot.Remove<WindowControl, StartMenu>(this, slot: nameof(SurfaceDrawn), value: value);
+        add => ((WindowControl)this).Blitted += EventSlot.Add<WindowControl, StartMenu>(this, slot: nameof(Blitted), value: value);
+        remove => ((WindowControl)this).Blitted -= EventSlot.Remove<WindowControl, StartMenu>(this, slot: nameof(Blitted), value: value);
     }
 
-    public new event AoWOnDrawSurface<StartMenu> PreDrawSurface
+    public new event AoWOnDrawSurface<StartMenu> Blitting
     {
-        add => ((WindowControl)this).PreDrawSurface += EventSlot.Add<WindowControl, StartMenu>(this, slot: nameof(PreDrawSurface), value: value);
-        remove => ((WindowControl)this).PreDrawSurface -= EventSlot.Remove<WindowControl, StartMenu>(this, slot: nameof(PreDrawSurface), value: value);
+        add => ((WindowControl)this).Blitting += EventSlot.Add<WindowControl, StartMenu>(this, slot: nameof(Blitting), value: value);
+        remove => ((WindowControl)this).Blitting -= EventSlot.Remove<WindowControl, StartMenu>(this, slot: nameof(Blitting), value: value);
     }
 
     public new event NotifyEvent<StartMenu> Hide

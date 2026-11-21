@@ -1387,7 +1387,7 @@ public sealed partial class UnitWindow : ILayoutModule
         session.BeginRead(Backpack1CheckBox);
         Backpack1CheckBox.Name = "BP1";
         Backpack1CheckBox.MouseDown += Gnd3MouseDown;
-        Backpack1CheckBox.OnDraw += Gnd1Draw;
+        Backpack1CheckBox.Drawn += Gnd1Draw;
         Backpack1CheckBox.Priority = 1000;
         Backpack1CheckBox.WinLeft = 10;
         Backpack1CheckBox.WinTop = 29;
@@ -1449,7 +1449,7 @@ public sealed partial class UnitWindow : ILayoutModule
         session.BeginRead(Backpack2CheckBox);
         Backpack2CheckBox.Name = "BP2";
         Backpack2CheckBox.MouseDown += Gnd3MouseDown;
-        Backpack2CheckBox.OnDraw += Gnd1Draw;
+        Backpack2CheckBox.Drawn += Gnd1Draw;
         Backpack2CheckBox.Priority = 1000;
         Backpack2CheckBox.WinLeft = 10;
         Backpack2CheckBox.WinTop = 71;
@@ -1487,7 +1487,7 @@ public sealed partial class UnitWindow : ILayoutModule
         session.BeginRead(Backpack3CheckBox);
         Backpack3CheckBox.Name = "BP3";
         Backpack3CheckBox.MouseDown += Gnd3MouseDown;
-        Backpack3CheckBox.OnDraw += Gnd1Draw;
+        Backpack3CheckBox.Drawn += Gnd1Draw;
         Backpack3CheckBox.Priority = 1000;
         Backpack3CheckBox.WinLeft = 10;
         Backpack3CheckBox.WinTop = 113;
@@ -1525,7 +1525,7 @@ public sealed partial class UnitWindow : ILayoutModule
         session.BeginRead(Backpack4CheckBox);
         Backpack4CheckBox.Name = "BP4";
         Backpack4CheckBox.MouseDown += Gnd3MouseDown;
-        Backpack4CheckBox.OnDraw += Gnd1Draw;
+        Backpack4CheckBox.Drawn += Gnd1Draw;
         Backpack4CheckBox.Priority = 1000;
         Backpack4CheckBox.WinLeft = 10;
         Backpack4CheckBox.WinTop = 155;
@@ -1563,7 +1563,7 @@ public sealed partial class UnitWindow : ILayoutModule
         session.BeginRead(Backpack5CheckBox);
         Backpack5CheckBox.Name = "BP5";
         Backpack5CheckBox.MouseDown += Gnd3MouseDown;
-        Backpack5CheckBox.OnDraw += Gnd1Draw;
+        Backpack5CheckBox.Drawn += Gnd1Draw;
         Backpack5CheckBox.Priority = 1000;
         Backpack5CheckBox.WinLeft = 325;
         Backpack5CheckBox.WinTop = 29;
@@ -1601,7 +1601,7 @@ public sealed partial class UnitWindow : ILayoutModule
         session.BeginRead(Backpack6CheckBox);
         Backpack6CheckBox.Name = "BP6";
         Backpack6CheckBox.MouseDown += Gnd3MouseDown;
-        Backpack6CheckBox.OnDraw += Gnd1Draw;
+        Backpack6CheckBox.Drawn += Gnd1Draw;
         Backpack6CheckBox.Priority = 1000;
         Backpack6CheckBox.WinLeft = 325;
         Backpack6CheckBox.WinTop = 71;
@@ -1639,7 +1639,7 @@ public sealed partial class UnitWindow : ILayoutModule
         session.BeginRead(Backpack7CheckBox);
         Backpack7CheckBox.Name = "BP7";
         Backpack7CheckBox.MouseDown += Gnd3MouseDown;
-        Backpack7CheckBox.OnDraw += Gnd1Draw;
+        Backpack7CheckBox.Drawn += Gnd1Draw;
         Backpack7CheckBox.Priority = 1000;
         Backpack7CheckBox.WinLeft = 325;
         Backpack7CheckBox.WinTop = 113;
@@ -1677,7 +1677,7 @@ public sealed partial class UnitWindow : ILayoutModule
         session.BeginRead(Backpack8CheckBox);
         Backpack8CheckBox.Name = "BP8";
         Backpack8CheckBox.MouseDown += Gnd3MouseDown;
-        Backpack8CheckBox.OnDraw += Gnd1Draw;
+        Backpack8CheckBox.Drawn += Gnd1Draw;
         Backpack8CheckBox.Priority = 1000;
         Backpack8CheckBox.WinLeft = 325;
         Backpack8CheckBox.WinTop = 155;
@@ -1762,7 +1762,7 @@ public sealed partial class UnitWindow : ILayoutModule
         session.BeginRead(HeadSlotCheckBox);
         HeadSlotCheckBox.Name = "Head";
         HeadSlotCheckBox.MouseDown += Gnd3MouseDown;
-        HeadSlotCheckBox.OnDraw += HeadDraw;
+        HeadSlotCheckBox.Drawn += HeadDraw;
         HeadSlotCheckBox.Priority = 500;
         HeadSlotCheckBox.WinLeft = 168;
         HeadSlotCheckBox.WinTop = 25;
@@ -1801,7 +1801,7 @@ public sealed partial class UnitWindow : ILayoutModule
         session.BeginRead(TorsoSlotCheckBox);
         TorsoSlotCheckBox.Name = "Torso";
         TorsoSlotCheckBox.MouseDown += Gnd3MouseDown;
-        TorsoSlotCheckBox.OnDraw += TorsoDraw;
+        TorsoSlotCheckBox.Drawn += TorsoDraw;
         TorsoSlotCheckBox.Priority = 500;
         TorsoSlotCheckBox.WinLeft = 168;
         TorsoSlotCheckBox.WinTop = 84;
@@ -1839,7 +1839,7 @@ public sealed partial class UnitWindow : ILayoutModule
         session.BeginRead(AttackSlotCheckBox);
         AttackSlotCheckBox.Name = "Attack";
         AttackSlotCheckBox.MouseDown += Gnd3MouseDown;
-        AttackSlotCheckBox.OnDraw += AttackDraw;
+        AttackSlotCheckBox.Drawn += AttackDraw;
         AttackSlotCheckBox.Priority = 500;
         AttackSlotCheckBox.WinLeft = 78;
         AttackSlotCheckBox.WinTop = 46;
@@ -1877,7 +1877,7 @@ public sealed partial class UnitWindow : ILayoutModule
         session.BeginRead(DefendSlotCheckBox);
         DefendSlotCheckBox.Name = "Defend";
         DefendSlotCheckBox.MouseDown += Gnd3MouseDown;
-        DefendSlotCheckBox.OnDraw += DefendDraw;
+        DefendSlotCheckBox.Drawn += DefendDraw;
         DefendSlotCheckBox.Priority = 500;
         DefendSlotCheckBox.WinLeft = 256;
         DefendSlotCheckBox.WinTop = 46;
@@ -1915,7 +1915,7 @@ public sealed partial class UnitWindow : ILayoutModule
         session.BeginRead(LeftRingCheckBox);
         LeftRingCheckBox.Name = "RingL";
         LeftRingCheckBox.MouseDown += Gnd3MouseDown;
-        LeftRingCheckBox.OnDraw += RingLDraw;
+        LeftRingCheckBox.Drawn += RingLDraw;
         LeftRingCheckBox.Priority = 500;
         LeftRingCheckBox.WinLeft = 230;
         LeftRingCheckBox.WinTop = 95;
@@ -1953,7 +1953,7 @@ public sealed partial class UnitWindow : ILayoutModule
         session.BeginRead(RightRingCheckBox);
         RightRingCheckBox.Name = "RingR";
         RightRingCheckBox.MouseDown += Gnd3MouseDown;
-        RightRingCheckBox.OnDraw += RingLDraw;
+        RightRingCheckBox.Drawn += RingLDraw;
         RightRingCheckBox.Priority = 500;
         RightRingCheckBox.WinLeft = 105;
         RightRingCheckBox.WinTop = 95;
@@ -1992,7 +1992,7 @@ public sealed partial class UnitWindow : ILayoutModule
         session.BeginRead(Ground3CheckBox);
         Ground3CheckBox.Name = "Gnd3";
         Ground3CheckBox.MouseDown += Gnd3MouseDown;
-        Ground3CheckBox.OnDraw += Gnd1Draw;
+        Ground3CheckBox.Drawn += Gnd1Draw;
         Ground3CheckBox.Priority = 1000;
         Ground3CheckBox.WinLeft = 168;
         Ground3CheckBox.WinTop = 155;
@@ -2030,7 +2030,7 @@ public sealed partial class UnitWindow : ILayoutModule
         session.BeginRead(Ground2CheckBox);
         Ground2CheckBox.Name = "Gnd2";
         Ground2CheckBox.MouseDown += Gnd3MouseDown;
-        Ground2CheckBox.OnDraw += Gnd1Draw;
+        Ground2CheckBox.Drawn += Gnd1Draw;
         Ground2CheckBox.Priority = 1000;
         Ground2CheckBox.WinLeft = 124;
         Ground2CheckBox.WinTop = 155;
@@ -2068,7 +2068,7 @@ public sealed partial class UnitWindow : ILayoutModule
         session.BeginRead(Ground1CheckBox);
         Ground1CheckBox.Name = "Gnd1";
         Ground1CheckBox.MouseDown += Gnd3MouseDown;
-        Ground1CheckBox.OnDraw += Gnd1Draw;
+        Ground1CheckBox.Drawn += Gnd1Draw;
         Ground1CheckBox.Priority = 1000;
         Ground1CheckBox.WinLeft = 80;
         Ground1CheckBox.WinTop = 155;
@@ -2106,7 +2106,7 @@ public sealed partial class UnitWindow : ILayoutModule
         session.BeginRead(Ground4CheckBox);
         Ground4CheckBox.Name = "Gnd4";
         Ground4CheckBox.MouseDown += Gnd3MouseDown;
-        Ground4CheckBox.OnDraw += Gnd1Draw;
+        Ground4CheckBox.Drawn += Gnd1Draw;
         Ground4CheckBox.Priority = 1000;
         Ground4CheckBox.WinLeft = 212;
         Ground4CheckBox.WinTop = 155;
@@ -2144,7 +2144,7 @@ public sealed partial class UnitWindow : ILayoutModule
         session.BeginRead(Ground5CheckBox);
         Ground5CheckBox.Name = "Gnd5";
         Ground5CheckBox.MouseDown += Gnd3MouseDown;
-        Ground5CheckBox.OnDraw += Gnd1Draw;
+        Ground5CheckBox.Drawn += Gnd1Draw;
         Ground5CheckBox.Priority = 1000;
         Ground5CheckBox.WinLeft = 256;
         Ground5CheckBox.WinTop = 155;

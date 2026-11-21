@@ -287,7 +287,7 @@ public sealed partial class WizardsTowerDialog : ILayoutModule
         Image spellIcn = new(this);
         session.BeginRead(spellIcn);
         spellIcn.Name = "SpellIcn";
-        spellIcn.OnDraw += SpellIcnDraw;
+        spellIcn.Drawn += SpellIcnDraw;
         spellIcn.Priority = 100;
         spellIcn.WinLeft = 111;
         spellIcn.WinTop = 2;

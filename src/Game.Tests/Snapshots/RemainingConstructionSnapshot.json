@@ -36059,7 +36059,6 @@
                 "$type": "Aow.Game.Units.HeroItems",
                 "EngineObject._owner": null,
                 "HeroItems.Hero": "$ref:$.LeaderSetupControl.Leader",
-                "HeroItems.OnChanged": null,
                 "ObservableNode.CollectionChanged": null,
                 "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
@@ -36077,7 +36076,6 @@
                 "$type": "Aow.Game.Units.HeroInventory",
                 "EngineObject._owner": null,
                 "HeroInventory.Hero": "$ref:$.LeaderSetupControl.Leader",
-                "HeroInventory.OnChanged": null,
                 "ObservableNode.CollectionChanged": null,
                 "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
@@ -36160,7 +36158,6 @@
                 "$type": "Aow.Game.Units.HeroItems",
                 "EngineObject._owner": null,
                 "HeroItems.Hero": "$ref:$.LeaderSetupControl.OriginalLeader",
-                "HeroItems.OnChanged": null,
                 "ObservableNode.CollectionChanged": null,
                 "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
@@ -36178,7 +36175,6 @@
                 "$type": "Aow.Game.Units.HeroInventory",
                 "EngineObject._owner": null,
                 "HeroInventory.Hero": "$ref:$.LeaderSetupControl.OriginalLeader",
-                "HeroInventory.OnChanged": null,
                 "ObservableNode.CollectionChanged": null,
                 "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
@@ -36293,7 +36289,6 @@
                 "$type": "Aow.Game.Units.HeroItems",
                 "EngineObject._owner": null,
                 "HeroItems.Hero": "$ref:$.LeaderSetupControl.Leader",
-                "HeroItems.OnChanged": null,
                 "ObservableNode.CollectionChanged": null,
                 "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
@@ -36311,7 +36306,6 @@
                 "$type": "Aow.Game.Units.HeroInventory",
                 "EngineObject._owner": null,
                 "HeroInventory.Hero": "$ref:$.LeaderSetupControl.Leader",
-                "HeroInventory.OnChanged": null,
                 "ObservableNode.CollectionChanged": null,
                 "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
@@ -36394,7 +36388,6 @@
                 "$type": "Aow.Game.Units.HeroItems",
                 "EngineObject._owner": null,
                 "HeroItems.Hero": "$ref:$.LeaderSetupControl.OriginalLeader",
-                "HeroItems.OnChanged": null,
                 "ObservableNode.CollectionChanged": null,
                 "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
@@ -36412,7 +36405,6 @@
                 "$type": "Aow.Game.Units.HeroInventory",
                 "EngineObject._owner": null,
                 "HeroInventory.Hero": "$ref:$.LeaderSetupControl.OriginalLeader",
-                "HeroInventory.OnChanged": null,
                 "ObservableNode.CollectionChanged": null,
                 "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
@@ -36544,7 +36536,6 @@
                 "$type": "Aow.Game.Units.HeroItems",
                 "EngineObject._owner": null,
                 "HeroItems.Hero": "$ref:$.PlayerSetupSettings.Leader",
-                "HeroItems.OnChanged": null,
                 "ObservableNode.CollectionChanged": null,
                 "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
@@ -36562,7 +36553,6 @@
                 "$type": "Aow.Game.Units.HeroInventory",
                 "EngineObject._owner": null,
                 "HeroInventory.Hero": "$ref:$.PlayerSetupSettings.Leader",
-                "HeroInventory.OnChanged": null,
                 "ObservableNode.CollectionChanged": null,
                 "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
@@ -36681,7 +36671,6 @@
                 "$type": "Aow.Game.Units.HeroItems",
                 "EngineObject._owner": null,
                 "HeroItems.Hero": "$ref:$.PlayerSetupSettings.Leader",
-                "HeroItems.OnChanged": null,
                 "ObservableNode.CollectionChanged": null,
                 "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {
@@ -36699,7 +36688,6 @@
                 "$type": "Aow.Game.Units.HeroInventory",
                 "EngineObject._owner": null,
                 "HeroInventory.Hero": "$ref:$.PlayerSetupSettings.Leader",
-                "HeroInventory.OnChanged": null,
                 "ObservableNode.CollectionChanged": null,
                 "ObservableNode.UpdateCount": 0,
                 "ObservableNode._children": {

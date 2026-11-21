@@ -58,10 +58,8 @@ public partial class GameMap : OwningNode
         _showMessageEventsStore = new();
         _mapChangedEventsStore = new();
         _scannerIconsChangedEventsStore = new();
-        _backHexSelector = new CustomFixedVisibleHexSprite(null) { Holder = CreationHolder() };
-        _backHexSelector.SetShowHandler(ShowBackHexSelector);
-        _frontHexSelector = new CustomFixedVisibleHexSprite(null) { Holder = CreationHolder() };
-        _frontHexSelector.SetShowHandler(ShowFrontHexSelector);
+        _backHexSelector = new CustomFixedVisibleHexSprite(null, show: ShowBackHexSelector) { Holder = CreationHolder() };
+        _frontHexSelector = new CustomFixedVisibleHexSprite(null, show: ShowFrontHexSelector) { Holder = CreationHolder() };
         _hexSelectorVisible = false;
         ExplorationEnabled = true;
         FogEnabled = true;

@@ -13,8 +13,11 @@ namespace Aow.Game.Draw.Animations;
 
 // { ot=1 }
 // hex position, display level, state, frame, dimensions, callbacks, tag, map
-public class Animation(CustomNode? owner) : HexSprite(owner)
+public class Animation(CustomNode? owner, ShowAnimationEvent? show = null, Action<Animation, int>? newFrame = null) : HexSprite(owner)
 {
+    public Animation(CustomNode? owner) : this(owner, show: null)
+    {
+    }
 
     // Animation.pas:143
     public new const int ClassId = 131_815;
@@ -30,13 +33,9 @@ public class Animation(CustomNode? owner) : HexSprite(owner)
 
     public Rect Dimensions { get; internal set; }
 
-    private ShowAnimationEvent _show;
+    private readonly ShowAnimationEvent _show = show;
 
-    internal void SetShowHandler(ShowAnimationEvent handler) => _show = handler;
-
-    private Action<Animation, int> _newFrame;
-
-    internal void SetNewFrameHandler(Action<Animation, int> handler) => _newFrame = handler;
+    private readonly Action<Animation, int> _newFrame = newFrame;
 
     public int Tag { get; set; }
     public GameMap? AnimationMap { get; set; }

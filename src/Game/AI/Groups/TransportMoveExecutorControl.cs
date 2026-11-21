@@ -35,11 +35,10 @@ public class TransportMoveExecutorControl(CustomNode? owner) : AIMoveExecutorCon
                 {
                     if (aiMoveExecutorArmyList.GetArmies(i).TransportStatus == AIMoveExecutorTransportStatus.Idle)
                     {
-                        AIMoveControlSettings settings = new(null) { Holder = CreationHolder() };
+                        AIMoveControlSettings settings = new(null, done: CalculateTransportPathCallback) { Holder = CreationHolder() };
                         aiMoveExecutorArmyList.GetArmies(i).RetrieveArmy(255, army: out ArmyHexSprite armyHexSprite, armySelection: out selection);
                         settings.Setup(armyHexSprite, selection, Executor.Destination.X, Executor.Destination.Y, L: Executor.Destination.MapLevel);
                         settings.Transporter = Executor.Transporter.Troop;
-                        settings.SetDoneHandler(CalculateTransportPathCallback);
                         settings.MoveMode = MoveModes.AI;
                         MoveControl.Reset();
                         _ = MoveControl.CanMove(settings);

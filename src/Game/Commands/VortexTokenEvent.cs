@@ -56,10 +56,9 @@ public class VortexTokenEvent(CustomNode? owner) : GlobalTargetSpellTokenEvent(o
                 _ = GamePack.Current.SpellControl[EventSpellId].CastSounds.Play(0);
             }
 
-            Animation animation = new(null) { Holder = CreationHolder() };
+            Animation animation = new(null, show: ShowAnimation) { Holder = CreationHolder() };
             _animation = animation;
             animation.AnimationLevel = 27;
-            animation.SetShowHandler(ShowAnimation);
             animation.AnimationMap = StrategicMap.Current;
             animation.Tag = (StrategicMap.Current.ViewWidth & 0xFFFF) | (StrategicMap.Current.ViewHeight << 16);
             animation.Activate();

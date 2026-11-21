@@ -248,10 +248,10 @@ public sealed class TargetSelectionControl : IDisposable
         {
             Status |= TargetSelectionStatuses.Activated;
             StrategicMap.Current.Mouse.SetCapture(this);
-            StrategicMap.Current.Mouse.OnDown += MouseDownEvent;
-            StrategicMap.Current.Mouse.OnMove += MouseMoveEvent;
+            StrategicMap.Current.Mouse.ButtonDown += MouseDownEvent;
+            StrategicMap.Current.Mouse.Moved += MouseMoveEvent;
             StrategicMap.Current.NewFrameEvents += NewFrameEvent;
-            StrategicMap.Current.Selection.OnDeselect += DeselectHexSprite;
+            StrategicMap.Current.Selection.Deselected += DeselectHexSprite;
             StrategicMap.Current.Mouse.CursorMode = 256;
             StrategicMap.Current.Keyboard.Lock();
             TriggerOnChangeEvent(TargetSelectionChange.Activated);
@@ -269,10 +269,10 @@ public sealed class TargetSelectionControl : IDisposable
         if (Status.Contains(TargetSelectionStatuses.Activated))
         {
             Status &= ~TargetSelectionStatuses.Activated;
-            StrategicMap.Current.Mouse.OnDown -= MouseDownEvent;
-            StrategicMap.Current.Mouse.OnMove -= MouseMoveEvent;
+            StrategicMap.Current.Mouse.ButtonDown -= MouseDownEvent;
+            StrategicMap.Current.Mouse.Moved -= MouseMoveEvent;
             StrategicMap.Current.NewFrameEvents -= NewFrameEvent;
-            StrategicMap.Current.Selection.OnDeselect -= DeselectHexSprite;
+            StrategicMap.Current.Selection.Deselected -= DeselectHexSprite;
             if (StrategicMap.Current.Mouse.Capture == this)
             {
                 if (StrategicMap.Current.SelectedArmy.ArmyHexSprite is not null)

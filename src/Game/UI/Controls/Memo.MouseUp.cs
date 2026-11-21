@@ -42,10 +42,10 @@ public sealed partial class Memo
                     _blink = true;
                     _blinkCount = 0;
                     Handled = true;
-                    Drawn = false;
+                    IsDrawn = false;
                     if (NoFrame && Window is not null)
                     {
-                        Window.Drawn = false;
+                        Window.IsDrawn = false;
                     }
                 }
                 if (((Lines.Count - _topItem) * ItemHeight) + top < y)
@@ -97,7 +97,7 @@ public sealed partial class Memo
         }
         if (Redraw != old)
         {
-            Drawn = false;
+            IsDrawn = false;
         }
     }
 }

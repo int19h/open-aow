@@ -29,7 +29,7 @@ public sealed partial class Button(Component? owner) : BaseButton(owner)
                 {
                     IsMouseDown = true;
                     Checked = true;
-                    Drawn = false;
+                    IsDrawn = false;
                     Redraw = true;
                 }
 
@@ -54,7 +54,7 @@ public sealed partial class Button(Component? owner) : BaseButton(owner)
                     Click(this);
                 }
 
-                Drawn = false;
+                IsDrawn = false;
             }
 
             RaiseMouseUp(this, button, shift, X, Y);
@@ -62,7 +62,7 @@ public sealed partial class Button(Component? owner) : BaseButton(owner)
 
         if (IsMouseDown)
         {
-            Drawn = false;
+            IsDrawn = false;
         }
 
         IsMouseDown = false;
@@ -92,7 +92,7 @@ public sealed partial class Button(Component? owner) : BaseButton(owner)
 
         if (oldLit != Lit || oldChecked != Checked)
         {
-            Drawn = false;
+            IsDrawn = false;
         }
     }
 
@@ -138,10 +138,10 @@ public sealed partial class Button(Component? owner) : BaseButton(owner)
         remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, Button>(this, slot: nameof(PreDraw), value: value);
     }
 
-    public new event AoWOnDrawEvent<Button> OnDraw
+    public new event AoWOnDrawEvent<Button> Drawn
     {
-        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, Button>(this, slot: nameof(OnDraw), value: value);
-        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, Button>(this, slot: nameof(OnDraw), value: value);
+        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, Button>(this, slot: nameof(Drawn), value: value);
+        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, Button>(this, slot: nameof(Drawn), value: value);
     }
 
     public new event NotifyEvent<Button> Updated

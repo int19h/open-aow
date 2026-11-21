@@ -5,7 +5,6 @@ using Aow.Formats;
 using Aow.Formats.Tree;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
-using Aow.Rtl;
 using static Aow.Rtl.DelphiStrings;
 
 namespace Aow.Game.Units;
@@ -23,8 +22,6 @@ public sealed class ItemLibrary(CustomNode? owner) : ObservableNode(owner), IChi
     protected sealed override bool AcceptsChild(EngineObject child) => child is Item;
 
     int IChildSink<Item>.AddChild(Item child) => AddChild(child);
-
-    public event NotifyEvent<object>? OnChanged;
 
     // Army.PAS:4596
     public MapCoordinate GetLocation() => MapCoordinate.None;
@@ -124,11 +121,7 @@ public sealed class ItemLibrary(CustomNode? owner) : ObservableNode(owner), IChi
     }
 
     // Army.PAS:4564
-    protected override void OnChange()
-    {
-        base.OnChange();
-        OnChanged?.Invoke(this);
-    }
+    protected override void OnChange() => base.OnChange();
 
     // Army.PAS:4940
     public string GetName()

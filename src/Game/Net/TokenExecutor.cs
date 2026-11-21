@@ -334,17 +334,5 @@ public sealed class TokenExecutor : IDisposable
     public bool HoldTacticalBattle { get; set; }
     public bool Executing { get; private set; }
 
-    public event NotifyEvent<TokenExecutor> OnEventsExecuted
-    {
-        add => OnEventsExecutedStore.Add(value);
-        remove => OnEventsExecutedStore.Remove(value);
-    }
-
-    public event NotifyEvent<TokenExecutor> OnActivateTacticalBattle
-    {
-        add => OnActivateTacticalBattleStore.Add(value);
-        remove => OnActivateTacticalBattleStore.Remove(value);
-    }
-
     public delegate void GetSyncValueEvent(out int Value);
 }

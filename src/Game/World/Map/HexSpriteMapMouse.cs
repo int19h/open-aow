@@ -329,36 +329,6 @@ public class HexSpriteMapMouse : IDisposable
     public MouseButton Button { get; private set; }
     public ShiftStates Shift { get; private set; }
 
-    public event NotifyEvent<HexSpriteMapMouse> OnUp
-    {
-        add => OnUpStore.Add(value);
-        remove => OnUpStore.Remove(value);
-    }
-
-    public event NotifyEvent<HexSpriteMapMouse> OnDown
-    {
-        add => OnDownStore.Add(value);
-        remove => OnDownStore.Remove(value);
-    }
-
-    public event NotifyEvent<HexSpriteMapMouse> OnMove
-    {
-        add => OnMoveStore.Add(value);
-        remove => OnMoveStore.Remove(value);
-    }
-
-    public event NotifyEvent<HexSpriteMapMouse> OnDoubleClick
-    {
-        add => OnDoubleClickStore.Add(value);
-        remove => OnDoubleClickStore.Remove(value);
-    }
-
-    public event NotifyEvent<HexSpriteMapMouse> OnCaptureChanged
-    {
-        add => OnCaptureChangedStore.Add(value);
-        remove => OnCaptureChangedStore.Remove(value);
-    }
-
     public object? Capture { get => _capture; set => SetCapture(value); }
     public int Cursor { get => GetCursor(); set => SetCursor(value); }
     public int CursorMode { get; set; }

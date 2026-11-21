@@ -361,10 +361,10 @@ public sealed class Frame(Component? owner) : Control(owner)
         remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, Frame>(this, slot: nameof(PreDraw), value: value);
     }
 
-    public new event AoWOnDrawEvent<Frame> OnDraw
+    public new event AoWOnDrawEvent<Frame> Drawn
     {
-        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, Frame>(this, slot: nameof(OnDraw), value: value);
-        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, Frame>(this, slot: nameof(OnDraw), value: value);
+        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, Frame>(this, slot: nameof(Drawn), value: value);
+        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, Frame>(this, slot: nameof(Drawn), value: value);
     }
 
     public new event NotifyEvent<Frame> Updated

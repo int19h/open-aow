@@ -391,7 +391,7 @@ public sealed partial class PlayerInfoWindow : ILayoutModule
         session.BeginRead(FaceFrame);
         FaceFrame.Name = "FaceFr";
         FaceFrame.MouseDown += (_, button, shift, x, y) => FaceFrMouseDown(button, shift, x, y);
-        FaceFrame.OnDraw += (_, surface) => FaceFrDraw(surface);
+        FaceFrame.Drawn += (_, surface) => FaceFrDraw(surface);
         FaceFrame.Priority = 0;
         FaceFrame.WinLeft = 1;
         FaceFrame.WinTop = 1;

@@ -18,7 +18,7 @@ public sealed partial class CampaignTransferDialog : ILayoutModule
         AvailableHero1CheckBox = new CheckBox(this);
         session.BeginRead(AvailableHero1CheckBox);
         AvailableHero1CheckBox.Name = "LHero1";
-        AvailableHero1CheckBox.OnDraw += (sender, surface) => LHeroesDraw(sender, lockedSurface: surface, slot: 0);
+        AvailableHero1CheckBox.Drawn += (sender, surface) => LHeroesDraw(sender, lockedSurface: surface, slot: 0);
         AvailableHero1CheckBox.Updated += sender => LHeroesUpdate(sender, slot: 0);
         AvailableHero1CheckBox.Priority = 1500;
         AvailableHero1CheckBox.WinLeft = 26;
@@ -54,7 +54,7 @@ public sealed partial class CampaignTransferDialog : ILayoutModule
         session.BeginRead(AvailableHero2CheckBox);
         AvailableHero2CheckBox.Name = "LHero2";
         AvailableHero2CheckBox.Tag = 1;
-        AvailableHero2CheckBox.OnDraw += (sender, surface) => LHeroesDraw(sender, lockedSurface: surface, slot: 1);
+        AvailableHero2CheckBox.Drawn += (sender, surface) => LHeroesDraw(sender, lockedSurface: surface, slot: 1);
         AvailableHero2CheckBox.Updated += sender => LHeroesUpdate(sender, slot: 1);
         AvailableHero2CheckBox.Priority = 1600;
         AvailableHero2CheckBox.WinLeft = 77;
@@ -90,7 +90,7 @@ public sealed partial class CampaignTransferDialog : ILayoutModule
         session.BeginRead(AvailableHero3CheckBox);
         AvailableHero3CheckBox.Name = "LHero3";
         AvailableHero3CheckBox.Tag = 2;
-        AvailableHero3CheckBox.OnDraw += (sender, surface) => LHeroesDraw(sender, lockedSurface: surface, slot: 2);
+        AvailableHero3CheckBox.Drawn += (sender, surface) => LHeroesDraw(sender, lockedSurface: surface, slot: 2);
         AvailableHero3CheckBox.Updated += sender => LHeroesUpdate(sender, slot: 2);
         AvailableHero3CheckBox.Priority = 1700;
         AvailableHero3CheckBox.WinLeft = 128;
@@ -126,7 +126,7 @@ public sealed partial class CampaignTransferDialog : ILayoutModule
         session.BeginRead(AvailableHero4CheckBox);
         AvailableHero4CheckBox.Name = "LHero4";
         AvailableHero4CheckBox.Tag = 3;
-        AvailableHero4CheckBox.OnDraw += (sender, surface) => LHeroesDraw(sender, lockedSurface: surface, slot: 3);
+        AvailableHero4CheckBox.Drawn += (sender, surface) => LHeroesDraw(sender, lockedSurface: surface, slot: 3);
         AvailableHero4CheckBox.Updated += sender => LHeroesUpdate(sender, slot: 3);
         AvailableHero4CheckBox.Priority = 1800;
         AvailableHero4CheckBox.WinLeft = 179;
@@ -161,7 +161,7 @@ public sealed partial class CampaignTransferDialog : ILayoutModule
         AvailableItem1CheckBox = new CheckBox(this);
         session.BeginRead(AvailableItem1CheckBox);
         AvailableItem1CheckBox.Name = "LItem1";
-        AvailableItem1CheckBox.OnDraw += (sender, surface) => LItemsDraw(sender, lockedSurface: surface, slot: 0);
+        AvailableItem1CheckBox.Drawn += (sender, surface) => LItemsDraw(sender, lockedSurface: surface, slot: 0);
         AvailableItem1CheckBox.Updated += sender => LItemsUpdate(sender, slot: 0);
         AvailableItem1CheckBox.Priority = 3000;
         AvailableItem1CheckBox.WinLeft = 26;
@@ -224,7 +224,7 @@ public sealed partial class CampaignTransferDialog : ILayoutModule
         session.BeginRead(AvailableItem2CheckBox);
         AvailableItem2CheckBox.Name = "LItem2";
         AvailableItem2CheckBox.Tag = 1;
-        AvailableItem2CheckBox.OnDraw += (sender, surface) => LItemsDraw(sender, lockedSurface: surface, slot: 1);
+        AvailableItem2CheckBox.Drawn += (sender, surface) => LItemsDraw(sender, lockedSurface: surface, slot: 1);
         AvailableItem2CheckBox.Updated += sender => LItemsUpdate(sender, slot: 1);
         AvailableItem2CheckBox.Priority = 3000;
         AvailableItem2CheckBox.WinLeft = 77;
@@ -260,7 +260,7 @@ public sealed partial class CampaignTransferDialog : ILayoutModule
         session.BeginRead(AvailableItem3CheckBox);
         AvailableItem3CheckBox.Name = "LItem3";
         AvailableItem3CheckBox.Tag = 2;
-        AvailableItem3CheckBox.OnDraw += (sender, surface) => LItemsDraw(sender, lockedSurface: surface, slot: 2);
+        AvailableItem3CheckBox.Drawn += (sender, surface) => LItemsDraw(sender, lockedSurface: surface, slot: 2);
         AvailableItem3CheckBox.Updated += sender => LItemsUpdate(sender, slot: 2);
         AvailableItem3CheckBox.Priority = 3000;
         AvailableItem3CheckBox.WinLeft = 128;
@@ -296,7 +296,7 @@ public sealed partial class CampaignTransferDialog : ILayoutModule
         session.BeginRead(AvailableItem4CheckBox);
         AvailableItem4CheckBox.Name = "LItem4";
         AvailableItem4CheckBox.Tag = 3;
-        AvailableItem4CheckBox.OnDraw += (sender, surface) => LItemsDraw(sender, lockedSurface: surface, slot: 3);
+        AvailableItem4CheckBox.Drawn += (sender, surface) => LItemsDraw(sender, lockedSurface: surface, slot: 3);
         AvailableItem4CheckBox.Updated += sender => LItemsUpdate(sender, slot: 3);
         AvailableItem4CheckBox.Priority = 3000;
         AvailableItem4CheckBox.WinLeft = 179;
@@ -331,7 +331,7 @@ public sealed partial class CampaignTransferDialog : ILayoutModule
         AvailableUnit1CheckBox = new CheckBox(this);
         session.BeginRead(AvailableUnit1CheckBox);
         AvailableUnit1CheckBox.Name = "LUnit1";
-        AvailableUnit1CheckBox.OnDraw += (sender, surface) => LUnitsDraw(sender, lockedSurface: surface, slot: 0);
+        AvailableUnit1CheckBox.Drawn += (sender, surface) => LUnitsDraw(sender, lockedSurface: surface, slot: 0);
         AvailableUnit1CheckBox.Updated += sender => LUnitsUpdate(sender, slot: 0);
         AvailableUnit1CheckBox.Priority = 4500;
         AvailableUnit1CheckBox.WinLeft = 26;
@@ -394,7 +394,7 @@ public sealed partial class CampaignTransferDialog : ILayoutModule
         session.BeginRead(AvailableUnit2CheckBox);
         AvailableUnit2CheckBox.Name = "LUnit2";
         AvailableUnit2CheckBox.Tag = 1;
-        AvailableUnit2CheckBox.OnDraw += (sender, surface) => LUnitsDraw(sender, lockedSurface: surface, slot: 1);
+        AvailableUnit2CheckBox.Drawn += (sender, surface) => LUnitsDraw(sender, lockedSurface: surface, slot: 1);
         AvailableUnit2CheckBox.Updated += sender => LUnitsUpdate(sender, slot: 1);
         AvailableUnit2CheckBox.Priority = 4500;
         AvailableUnit2CheckBox.WinLeft = 77;
@@ -430,7 +430,7 @@ public sealed partial class CampaignTransferDialog : ILayoutModule
         session.BeginRead(AvailableUnit3CheckBox);
         AvailableUnit3CheckBox.Name = "LUnit3";
         AvailableUnit3CheckBox.Tag = 2;
-        AvailableUnit3CheckBox.OnDraw += (sender, surface) => LUnitsDraw(sender, lockedSurface: surface, slot: 2);
+        AvailableUnit3CheckBox.Drawn += (sender, surface) => LUnitsDraw(sender, lockedSurface: surface, slot: 2);
         AvailableUnit3CheckBox.Updated += sender => LUnitsUpdate(sender, slot: 2);
         AvailableUnit3CheckBox.Priority = 4500;
         AvailableUnit3CheckBox.WinLeft = 128;
@@ -466,7 +466,7 @@ public sealed partial class CampaignTransferDialog : ILayoutModule
         session.BeginRead(AvailableUnit4CheckBox);
         AvailableUnit4CheckBox.Name = "LUnit4";
         AvailableUnit4CheckBox.Tag = 3;
-        AvailableUnit4CheckBox.OnDraw += (sender, surface) => LUnitsDraw(sender, lockedSurface: surface, slot: 3);
+        AvailableUnit4CheckBox.Drawn += (sender, surface) => LUnitsDraw(sender, lockedSurface: surface, slot: 3);
         AvailableUnit4CheckBox.Updated += sender => LUnitsUpdate(sender, slot: 3);
         AvailableUnit4CheckBox.Priority = 4500;
         AvailableUnit4CheckBox.WinLeft = 179;
@@ -1114,7 +1114,7 @@ public sealed partial class CampaignTransferDialog : ILayoutModule
         TransferHero1CheckBox = new CheckBox(this);
         session.BeginRead(TransferHero1CheckBox);
         TransferHero1CheckBox.Name = "RHero1";
-        TransferHero1CheckBox.OnDraw += (sender, surface) => RHeroesDraw(sender, lockedSurface: surface, slot: 0);
+        TransferHero1CheckBox.Drawn += (sender, surface) => RHeroesDraw(sender, lockedSurface: surface, slot: 0);
         TransferHero1CheckBox.Updated += sender => RHeroesUpdate(sender, slot: 0);
         TransferHero1CheckBox.Priority = 1500;
         TransferHero1CheckBox.WinLeft = 26;
@@ -1150,7 +1150,7 @@ public sealed partial class CampaignTransferDialog : ILayoutModule
         session.BeginRead(TransferHero2CheckBox);
         TransferHero2CheckBox.Name = "RHero2";
         TransferHero2CheckBox.Tag = 1;
-        TransferHero2CheckBox.OnDraw += (sender, surface) => RHeroesDraw(sender, lockedSurface: surface, slot: 1);
+        TransferHero2CheckBox.Drawn += (sender, surface) => RHeroesDraw(sender, lockedSurface: surface, slot: 1);
         TransferHero2CheckBox.Updated += sender => RHeroesUpdate(sender, slot: 1);
         TransferHero2CheckBox.Priority = 1500;
         TransferHero2CheckBox.WinLeft = 77;
@@ -1186,7 +1186,7 @@ public sealed partial class CampaignTransferDialog : ILayoutModule
         session.BeginRead(TransferHero3CheckBox);
         TransferHero3CheckBox.Name = "RHero3";
         TransferHero3CheckBox.Tag = 2;
-        TransferHero3CheckBox.OnDraw += (sender, surface) => RHeroesDraw(sender, lockedSurface: surface, slot: 2);
+        TransferHero3CheckBox.Drawn += (sender, surface) => RHeroesDraw(sender, lockedSurface: surface, slot: 2);
         TransferHero3CheckBox.Updated += sender => RHeroesUpdate(sender, slot: 2);
         TransferHero3CheckBox.Priority = 1500;
         TransferHero3CheckBox.WinLeft = 128;
@@ -1222,7 +1222,7 @@ public sealed partial class CampaignTransferDialog : ILayoutModule
         session.BeginRead(TransferHero4CheckBox);
         TransferHero4CheckBox.Name = "RHero4";
         TransferHero4CheckBox.Tag = 3;
-        TransferHero4CheckBox.OnDraw += (sender, surface) => RHeroesDraw(sender, lockedSurface: surface, slot: 3);
+        TransferHero4CheckBox.Drawn += (sender, surface) => RHeroesDraw(sender, lockedSurface: surface, slot: 3);
         TransferHero4CheckBox.Updated += sender => RHeroesUpdate(sender, slot: 3);
         TransferHero4CheckBox.Priority = 1500;
         TransferHero4CheckBox.WinLeft = 179;
@@ -1257,7 +1257,7 @@ public sealed partial class CampaignTransferDialog : ILayoutModule
         TransferItem1CheckBox = new CheckBox(this);
         session.BeginRead(TransferItem1CheckBox);
         TransferItem1CheckBox.Name = "RItem1";
-        TransferItem1CheckBox.OnDraw += (sender, surface) => RItemsDraw(sender, lockedSurface: surface, slot: 0);
+        TransferItem1CheckBox.Drawn += (sender, surface) => RItemsDraw(sender, lockedSurface: surface, slot: 0);
         TransferItem1CheckBox.Updated += sender => RItemsUpdate(sender, slot: 0);
         TransferItem1CheckBox.Priority = 1500;
         TransferItem1CheckBox.WinLeft = 26;
@@ -1320,7 +1320,7 @@ public sealed partial class CampaignTransferDialog : ILayoutModule
         session.BeginRead(TransferItem2CheckBox);
         TransferItem2CheckBox.Name = "RItem2";
         TransferItem2CheckBox.Tag = 1;
-        TransferItem2CheckBox.OnDraw += (sender, surface) => RItemsDraw(sender, lockedSurface: surface, slot: 1);
+        TransferItem2CheckBox.Drawn += (sender, surface) => RItemsDraw(sender, lockedSurface: surface, slot: 1);
         TransferItem2CheckBox.Updated += sender => RItemsUpdate(sender, slot: 1);
         TransferItem2CheckBox.Priority = 1500;
         TransferItem2CheckBox.WinLeft = 77;
@@ -1356,7 +1356,7 @@ public sealed partial class CampaignTransferDialog : ILayoutModule
         session.BeginRead(TransferItem3CheckBox);
         TransferItem3CheckBox.Name = "RItem3";
         TransferItem3CheckBox.Tag = 2;
-        TransferItem3CheckBox.OnDraw += (sender, surface) => RItemsDraw(sender, lockedSurface: surface, slot: 2);
+        TransferItem3CheckBox.Drawn += (sender, surface) => RItemsDraw(sender, lockedSurface: surface, slot: 2);
         TransferItem3CheckBox.Updated += sender => RItemsUpdate(sender, slot: 2);
         TransferItem3CheckBox.Priority = 1500;
         TransferItem3CheckBox.WinLeft = 128;
@@ -1392,7 +1392,7 @@ public sealed partial class CampaignTransferDialog : ILayoutModule
         session.BeginRead(TransferItem4CheckBox);
         TransferItem4CheckBox.Name = "RItem4";
         TransferItem4CheckBox.Tag = 3;
-        TransferItem4CheckBox.OnDraw += (sender, surface) => RItemsDraw(sender, lockedSurface: surface, slot: 3);
+        TransferItem4CheckBox.Drawn += (sender, surface) => RItemsDraw(sender, lockedSurface: surface, slot: 3);
         TransferItem4CheckBox.Updated += sender => RItemsUpdate(sender, slot: 3);
         TransferItem4CheckBox.Priority = 1500;
         TransferItem4CheckBox.WinLeft = 179;
@@ -1427,7 +1427,7 @@ public sealed partial class CampaignTransferDialog : ILayoutModule
         TransferUnit1CheckBox = new CheckBox(this);
         session.BeginRead(TransferUnit1CheckBox);
         TransferUnit1CheckBox.Name = "RUnit1";
-        TransferUnit1CheckBox.OnDraw += (sender, surface) => RUnitsDraw(sender, lockedSurface: surface, slot: 0);
+        TransferUnit1CheckBox.Drawn += (sender, surface) => RUnitsDraw(sender, lockedSurface: surface, slot: 0);
         TransferUnit1CheckBox.Updated += sender => RUnitsUpdate(sender, slot: 0);
         TransferUnit1CheckBox.Priority = 1500;
         TransferUnit1CheckBox.WinLeft = 26;
@@ -1490,7 +1490,7 @@ public sealed partial class CampaignTransferDialog : ILayoutModule
         session.BeginRead(TransferUnit2CheckBox);
         TransferUnit2CheckBox.Name = "RUnit2";
         TransferUnit2CheckBox.Tag = 1;
-        TransferUnit2CheckBox.OnDraw += (sender, surface) => RUnitsDraw(sender, lockedSurface: surface, slot: 1);
+        TransferUnit2CheckBox.Drawn += (sender, surface) => RUnitsDraw(sender, lockedSurface: surface, slot: 1);
         TransferUnit2CheckBox.Updated += sender => RUnitsUpdate(sender, slot: 1);
         TransferUnit2CheckBox.Priority = 1500;
         TransferUnit2CheckBox.WinLeft = 77;
@@ -1526,7 +1526,7 @@ public sealed partial class CampaignTransferDialog : ILayoutModule
         session.BeginRead(TransferUnit3CheckBox);
         TransferUnit3CheckBox.Name = "RUnit3";
         TransferUnit3CheckBox.Tag = 2;
-        TransferUnit3CheckBox.OnDraw += (sender, surface) => RUnitsDraw(sender, lockedSurface: surface, slot: 2);
+        TransferUnit3CheckBox.Drawn += (sender, surface) => RUnitsDraw(sender, lockedSurface: surface, slot: 2);
         TransferUnit3CheckBox.Updated += sender => RUnitsUpdate(sender, slot: 2);
         TransferUnit3CheckBox.Priority = 1500;
         TransferUnit3CheckBox.WinLeft = 128;
@@ -1562,7 +1562,7 @@ public sealed partial class CampaignTransferDialog : ILayoutModule
         session.BeginRead(TransferUnit4CheckBox);
         TransferUnit4CheckBox.Name = "RUnit4";
         TransferUnit4CheckBox.Tag = 3;
-        TransferUnit4CheckBox.OnDraw += (sender, surface) => RUnitsDraw(sender, lockedSurface: surface, slot: 3);
+        TransferUnit4CheckBox.Drawn += (sender, surface) => RUnitsDraw(sender, lockedSurface: surface, slot: 3);
         TransferUnit4CheckBox.Updated += sender => RUnitsUpdate(sender, slot: 3);
         TransferUnit4CheckBox.Priority = 1500;
         TransferUnit4CheckBox.WinLeft = 179;

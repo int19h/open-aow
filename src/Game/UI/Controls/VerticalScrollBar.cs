@@ -308,7 +308,7 @@ public sealed partial class VerticalScrollBar(Component owner) : ScrollBar(owner
                                     SetPositionUnclamped(Min);
                                 }
 
-                                Drawn = false;
+                                IsDrawn = false;
                                 RaiseChange(this);
                             }
 
@@ -331,7 +331,7 @@ public sealed partial class VerticalScrollBar(Component owner) : ScrollBar(owner
                                     SetPositionUnclamped(Max + 1 - NumberVisible);
                                 }
 
-                                Drawn = false;
+                                IsDrawn = false;
                                 RaiseChange(this);
                             }
 
@@ -352,7 +352,7 @@ public sealed partial class VerticalScrollBar(Component owner) : ScrollBar(owner
                                     SetPositionUnclamped(Min);
                                 }
 
-                                Drawn = false;
+                                IsDrawn = false;
                                 RaiseChange(this);
                             }
 
@@ -366,7 +366,7 @@ public sealed partial class VerticalScrollBar(Component owner) : ScrollBar(owner
                                     SetPositionUnclamped(Max + 1 - NumberVisible);
                                 }
 
-                                Drawn = false;
+                                IsDrawn = false;
                                 RaiseChange(this);
                             }
 
@@ -393,7 +393,7 @@ public sealed partial class VerticalScrollBar(Component owner) : ScrollBar(owner
         Handled = false;
         if (HeldPart != 0)
         {
-            Drawn = false;
+            IsDrawn = false;
         }
 
         HeldUpdateCount = 0;
@@ -424,7 +424,7 @@ public sealed partial class VerticalScrollBar(Component owner) : ScrollBar(owner
                 SetPositionUnclamped(Max + 1 - NumberVisible);
             }
 
-            Drawn = false;
+            IsDrawn = false;
             RaiseChange(this);
         }
 
@@ -477,10 +477,10 @@ public sealed partial class VerticalScrollBar(Component owner) : ScrollBar(owner
         remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, VerticalScrollBar>(this, slot: nameof(PreDraw), value: value);
     }
 
-    public new event AoWOnDrawEvent<VerticalScrollBar> OnDraw
+    public new event AoWOnDrawEvent<VerticalScrollBar> Drawn
     {
-        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, VerticalScrollBar>(this, slot: nameof(OnDraw), value: value);
-        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, VerticalScrollBar>(this, slot: nameof(OnDraw), value: value);
+        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, VerticalScrollBar>(this, slot: nameof(Drawn), value: value);
+        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, VerticalScrollBar>(this, slot: nameof(Drawn), value: value);
     }
 
     public new event NotifyEvent<VerticalScrollBar> Updated

@@ -59,13 +59,13 @@ public sealed partial class TurnButton(Component? owner) : Control(owner)
                         _frameOffset = 11;
                         _animationPhase = 1;
                         Animating = true;
-                        Drawn = false;
+                        IsDrawn = false;
                     }
 
                     break;
                 case 1:
                     AnimationFrame += 1;
-                    Drawn = false;
+                    IsDrawn = false;
                     if ((LastPlayer * 7) + 5 < AnimationFrame)
                     {
                         AnimationFrame = 0;
@@ -76,7 +76,7 @@ public sealed partial class TurnButton(Component? owner) : Control(owner)
                     break;
                 case 2:
                     AnimationFrame += 1;
-                    Drawn = false;
+                    IsDrawn = false;
                     if (AnimationFrame > 10)
                     {
                         _animationPhase = 3;
@@ -87,7 +87,7 @@ public sealed partial class TurnButton(Component? owner) : Control(owner)
                     break;
                 case 3:
                     AnimationFrame -= 1;
-                    Drawn = false;
+                    IsDrawn = false;
                     if (CurrentPlayer * 7 > AnimationFrame)
                     {
                         AnimationFrame = CurrentPlayer * 7;
@@ -224,10 +224,10 @@ public sealed partial class TurnButton(Component? owner) : Control(owner)
         remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, TurnButton>(this, slot: nameof(PreDraw), value: value);
     }
 
-    public new event AoWOnDrawEvent<TurnButton> OnDraw
+    public new event AoWOnDrawEvent<TurnButton> Drawn
     {
-        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, TurnButton>(this, slot: nameof(OnDraw), value: value);
-        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, TurnButton>(this, slot: nameof(OnDraw), value: value);
+        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, TurnButton>(this, slot: nameof(Drawn), value: value);
+        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, TurnButton>(this, slot: nameof(Drawn), value: value);
     }
 
     public new event NotifyEvent<TurnButton> Updated

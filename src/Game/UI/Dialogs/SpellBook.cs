@@ -160,7 +160,7 @@ public sealed partial class SpellBook(UIContext ui) : UIModule(ui)
 
         UI.General.Manager.OverlayPriority = 0;
         UI.General.Manager.DrawOverlay = true;
-        UI.MagicWindow.Window.Drawn = false;
+        UI.MagicWindow.Window.IsDrawn = false;
     }
 
     // AoWSpellBook.pas:405

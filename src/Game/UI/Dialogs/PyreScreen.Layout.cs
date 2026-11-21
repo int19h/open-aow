@@ -105,7 +105,7 @@ public sealed partial class PyreScreen : ILayoutModule
         PyreAnimationView = new UserDrawBox(this);
         session.BeginRead(PyreAnimationView);
         PyreAnimationView.Name = "PyreAnimation";
-        PyreAnimationView.OnDraw += (_, surface) => PyreAnimationDraw(surface);
+        PyreAnimationView.Drawn += (_, surface) => PyreAnimationDraw(surface);
         PyreAnimationView.Updated += _ => PyreAnimationUpdate();
         PyreAnimationView.Priority = 10;
         PyreAnimationView.WinLeft = 0;

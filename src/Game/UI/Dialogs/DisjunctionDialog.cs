@@ -262,6 +262,6 @@ public sealed partial class DisjunctionDialog(UIContext ui) : UIModule(ui)
     public void MapViewUpdate()
     {
         UI.General.Manager.OverlayPriority = 49;
-        MapView.Drawn = MapView.Drawn && (StrategicMap.Current.Frame & 1) != 0;
+        MapView.IsDrawn = MapView.IsDrawn && (StrategicMap.Current.Frame & 1) != 0;
     }
 }

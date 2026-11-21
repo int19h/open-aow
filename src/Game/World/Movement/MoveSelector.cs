@@ -128,9 +128,9 @@ public class MoveSelector : IDisposable
 
         Map = map;
         Map.Mouse.SetCapture(this);
-        Map.Mouse.OnDown += MouseDownEvent;
-        Map.Mouse.OnMove += MouseMoveEvent;
-        Map.Mouse.OnCaptureChanged += MouseDownEvent;
+        Map.Mouse.ButtonDown += MouseDownEvent;
+        Map.Mouse.Moved += MouseMoveEvent;
+        Map.Mouse.CaptureChanged += MouseDownEvent;
         Map.Mouse.CursorMode = 256;
         UpdateMoveCursor();
         Status |= MoveSelectorStatuses.Activated;
@@ -143,9 +143,9 @@ public class MoveSelector : IDisposable
         if (Status.Contains(MoveSelectorStatuses.Activated))
         {
             Status &= ~MoveSelectorStatuses.Activated;
-            Map.Mouse.OnDown -= MouseDownEvent;
-            Map.Mouse.OnMove -= MouseMoveEvent;
-            Map.Mouse.OnCaptureChanged -= MouseDownEvent;
+            Map.Mouse.ButtonDown -= MouseDownEvent;
+            Map.Mouse.Moved -= MouseMoveEvent;
+            Map.Mouse.CaptureChanged -= MouseDownEvent;
             if (Map.Mouse.Capture == this)
             {
                 Map.Mouse.SetCapture(null);

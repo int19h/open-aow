@@ -284,7 +284,7 @@ public sealed partial class Gauge(Component owner) : Control(owner)
                 _position = Min;
             }
 
-            Drawn = false;
+            IsDrawn = false;
         }
     }
 
@@ -357,10 +357,10 @@ public sealed partial class Gauge(Component owner) : Control(owner)
         remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, Gauge>(this, slot: nameof(PreDraw), value: value);
     }
 
-    public new event AoWOnDrawEvent<Gauge> OnDraw
+    public new event AoWOnDrawEvent<Gauge> Drawn
     {
-        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, Gauge>(this, slot: nameof(OnDraw), value: value);
-        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, Gauge>(this, slot: nameof(OnDraw), value: value);
+        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, Gauge>(this, slot: nameof(Drawn), value: value);
+        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, Gauge>(this, slot: nameof(Drawn), value: value);
     }
 
     public new event NotifyEvent<Gauge> Updated

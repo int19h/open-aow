@@ -110,7 +110,7 @@ public sealed partial class CheckBox(Component? owner) : BaseButton(owner)
         Redraw = Lit;
         if (oldLit != Lit)
         {
-            Drawn = false;
+            IsDrawn = false;
         }
     }
 
@@ -120,7 +120,7 @@ public sealed partial class CheckBox(Component? owner) : BaseButton(owner)
         if (value != base.Checked)
         {
             base.Checked = value;
-            Drawn = false;
+            IsDrawn = false;
             if (RadioIndex > 0)
             {
                 if (Window is not null)
@@ -179,10 +179,10 @@ public sealed partial class CheckBox(Component? owner) : BaseButton(owner)
         remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, CheckBox>(this, slot: nameof(PreDraw), value: value);
     }
 
-    public new event AoWOnDrawEvent<CheckBox> OnDraw
+    public new event AoWOnDrawEvent<CheckBox> Drawn
     {
-        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, CheckBox>(this, slot: nameof(OnDraw), value: value);
-        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, CheckBox>(this, slot: nameof(OnDraw), value: value);
+        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, CheckBox>(this, slot: nameof(Drawn), value: value);
+        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, CheckBox>(this, slot: nameof(Drawn), value: value);
     }
 
     public new event NotifyEvent<CheckBox> Updated

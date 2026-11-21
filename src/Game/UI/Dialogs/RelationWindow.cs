@@ -232,7 +232,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
     {
         SelectedIndex = -1;
         RelationPanel.Aligned = false;
-        MainWindow.Drawn = false;
+        MainWindow.IsDrawn = false;
         PlayerGlow.Alignment.TopOffset = 10;
         for (int i = 0; i <= 11; i++)
         {
@@ -627,7 +627,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
         }
 
         RelationPanel.Aligned = false;
-        MainWindow.Drawn = false;
+        MainWindow.IsDrawn = false;
         if (sender.Checked && sender is CheckBox)
         {
             if (_action is null)
@@ -829,7 +829,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
             }
         }
 
-        PlayerGlow.Drawn = false;
+        PlayerGlow.IsDrawn = false;
     }
 
     // AoWRelations.pas:763
@@ -939,7 +939,7 @@ public partial class RelationWindow(UIContext ui) : UIModule(ui)
     // AoWRelations.pas:851
     public void ActionsLBChange()
     {
-        RelationPanel.Drawn = false;
+        RelationPanel.IsDrawn = false;
         if (ActionsList.Selected != -1)
         {
             SelectActionButton.ImageLibraryIndexDown = 37;

@@ -45,7 +45,7 @@ public sealed class SetupControl : Component
     [Published]
     public event LoadMapEvent? OnLoadMap;
     [Published]
-    public event Event? MapSetUp;
+    public event EventHandler? MapSetUp;
     [Published]
     public event Event? Start;
     // Nothing in the port raises OnAbort. The bound handler is kept.
@@ -60,7 +60,7 @@ public sealed class SetupControl : Component
     [Published]
     public event Event? Synchronize;
     [Published]
-    public event Event? OnPlayerSetupDone;
+    public event Event? PlayerSetupCompleted;
     [Published]
     public event EjectPlayerEvent? PlayerEjected;
     [Published]
@@ -860,7 +860,7 @@ public sealed class SetupControl : Component
         {
             try
             {
-                MapSetUp(this);
+                MapSetUp(this, e: EventArgs.Empty);
             }
             catch
             {
@@ -1233,7 +1233,7 @@ public sealed class SetupControl : Component
     {
         if (GetHost() && GetPlayerSetupValid())
         {
-            OnPlayerSetupDone?.Invoke(this);
+            PlayerSetupCompleted?.Invoke(this);
 
             if (GetRemote())
             {

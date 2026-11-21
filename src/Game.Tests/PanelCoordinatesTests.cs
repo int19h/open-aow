@@ -63,7 +63,7 @@ public sealed class PanelCoordinatesTests
             observedPanelCoords.Add((panel.WinLeft, panel.WinTop));
             mouseUpScreen = (x, y);
         };
-        box.OnDraw += (sender, lockedSurface) =>
+        box.Drawn += (sender, lockedSurface) =>
         {
             observedPanelCoords.Add((panel.WinLeft, panel.WinTop));
             drawObserved = (sender.Window.AbsoluteLeft, sender.Window.AbsoluteTop, lockedSurface.ClipRectangle);
@@ -71,7 +71,7 @@ public sealed class PanelCoordinatesTests
 
         UserDrawBox nestedBox = new(null);
         Place(nestedBox, owner: nested, 3, 4, 20, 20);
-        nestedBox.OnDraw += (sender, _) =>
+        nestedBox.Drawn += (sender, _) =>
         {
             observedNestedCoords.Add((nested.WinLeft, nested.WinTop));
             nestedDrawObserved = (sender.Window.AbsoluteLeft, sender.Window.AbsoluteTop);

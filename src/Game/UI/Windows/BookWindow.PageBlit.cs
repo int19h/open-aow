@@ -56,6 +56,6 @@ public sealed partial class BookWindow
         }
         BackRectangle = BackRectangle with { Top = top, Height = WinTop - area.Top + WinHeight };
         SurfaceValid = true;
-        RaiseDrawSurface(this, surface, WinLeft, WinTop);
+        RaiseBlitted(this, surface, WinLeft, WinTop);
     }
 }

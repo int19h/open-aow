@@ -92,6 +92,8 @@ public sealed class UnitUserList(CustomNode? owner) : ObservableNode(owner), ICh
     // Unit.PAS:2356
     public MapCoordinate GetLocation() => MapCoordinate.None;
 
+    void IUnitHolder.NotifyChildChanged(Troop child) => NotifyChildChanged(child);
+
     // Unit.PAS:2338
     public void SortUnits() => Units.Sort();
 

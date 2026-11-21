@@ -37,13 +37,13 @@ public class EnchantedRoads : GlobalEnchantmentSpell
         sbyte y = coordinate65.Y;
         sbyte l = coordinate65.MapLevel;
         _ = StrategicMap.Current.ValidateObservation(source.Player, x, y, l, radius: 0);
-        Animation animation = new(null)
+        Animation animation = new(null, show: ShowAnimation)
         {
             Holder = CreationHolder(),
             AnimationLevel = 27
+,
+            AnimationMap = StrategicMap.Current
         };
-        animation.SetShowHandler(ShowAnimation);
-        animation.AnimationMap = StrategicMap.Current;
         animation.Activate();
         TwinkleAnimation twinkle = new(null) { Holder = CreationHolder() };
         twinkle.Setup(GamePack.Current.SpellControl[44].CastImages.ImageSequences[0], mode: TwinkleModes.Rotate, count: 50, radius: 64, duration: 50, startDelay: 30);

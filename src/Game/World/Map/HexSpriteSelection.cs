@@ -162,17 +162,5 @@ public sealed partial class HexSpriteSelection(CustomNode owner) : ControlStyleN
 
     public List<HexSprite?> LocationHexSprite { get; } = [];
 
-    public event NotifyEvent<CustomNode> OnSelect
-    {
-        add => OnSelectStore.Add(value);
-        remove => OnSelectStore.Remove(value);
-    }
-
-    public event NotifyEvent<CustomNode> OnDeselect
-    {
-        add => OnDeselectStore.Add(value);
-        remove => OnDeselectStore.Remove(value);
-    }
-
     public HexSprite? EventHexSprite { get; private set; }
 }

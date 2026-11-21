@@ -4,8 +4,6 @@ using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Formats.Tree;
 
-using Aow.Rtl;
-
 namespace Aow.Game.Events;
 
 // update count, changed callback
@@ -24,7 +22,7 @@ public class EventLogList(CustomNode? owner) : OwningNode(owner), IChildList<Eve
 
     private int _updateCount;
 
-    public event NotifyEvent<object>? Changed;
+    public event EventHandler? Changed;
 
     // EventLog.pas:481
     public override void MainPersist(IPersister persister)
@@ -99,7 +97,7 @@ public class EventLogList(CustomNode? owner) : OwningNode(owner), IChildList<Eve
     {
         if (_updateCount == 0 && Changed is not null)
         {
-            Changed(this);
+            Changed(this, e: EventArgs.Empty);
         }
     }
 

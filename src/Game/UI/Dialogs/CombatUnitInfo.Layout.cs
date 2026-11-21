@@ -1909,7 +1909,7 @@ public sealed partial class CombatUnitInfo : ILayoutModule
         session.BeginRead(unitBox);
         unitBox.Name = "UnitBox";
         unitBox.MouseDown += (_, button, shift, x, y) => HeroSMapMouseDown(button, shift, x, y);
-        unitBox.OnDraw += (_, surface) => TCUnitPnlDrawBack(surface);
+        unitBox.Drawn += (_, surface) => TCUnitPnlDrawBack(surface);
         unitBox.Priority = 10;
         unitBox.WinLeft = 5;
         unitBox.WinTop = 0;

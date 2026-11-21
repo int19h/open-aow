@@ -613,7 +613,7 @@ public sealed partial class ResultsWindow : ILayoutModule
         AxisImage = new Image(this);
         session.BeginRead(AxisImage);
         AxisImage.Name = "Axis";
-        AxisImage.OnDraw += (_, surface) => AxisDraw(surface);
+        AxisImage.Drawn += (_, surface) => AxisDraw(surface);
         AxisImage.Priority = 200;
         AxisImage.WinLeft = 149;
         AxisImage.WinTop = 48;

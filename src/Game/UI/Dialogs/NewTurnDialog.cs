@@ -88,7 +88,7 @@ public sealed partial class NewTurnDialog(UIContext ui) : UIModule(ui)
 
                 LeftShield.CurrentImage = race + 26;
                 RightShield.CurrentImage = race + 26;
-                Window.Drawn = false;
+                Window.IsDrawn = false;
                 Window.Visible = true;
                 if (_newTurn.DialogStyle.Contains(NewTurnEventLogDialogStyles.Closeable))
                 {

@@ -135,7 +135,7 @@ public sealed partial class BookWindow(Component? owner) : Window(owner)
             PageTurn.Speed = 15;
             PageTurn.Start(mode);
             _pageTurnMode = mode;
-            Drawn = false;
+            IsDrawn = false;
             Animating = true;
             _firstAnimationFrame = true;
         }
@@ -183,10 +183,10 @@ public sealed partial class BookWindow(Component? owner) : Window(owner)
         remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, BookWindow>(this, slot: nameof(PreDraw), value: value);
     }
 
-    public new event AoWOnDrawEvent<BookWindow> OnDraw
+    public new event AoWOnDrawEvent<BookWindow> Drawn
     {
-        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, BookWindow>(this, slot: nameof(OnDraw), value: value);
-        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, BookWindow>(this, slot: nameof(OnDraw), value: value);
+        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, BookWindow>(this, slot: nameof(Drawn), value: value);
+        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, BookWindow>(this, slot: nameof(Drawn), value: value);
     }
 
     public new event NotifyEvent<BookWindow> Updated
@@ -219,16 +219,16 @@ public sealed partial class BookWindow(Component? owner) : Window(owner)
         remove => ((WindowControl)this).ChangeCursor -= EventSlot.Remove<WindowControl, BookWindow>(this, slot: nameof(ChangeCursor), value: value);
     }
 
-    public new event AoWOnDrawSurface<BookWindow> SurfaceDrawn
+    public new event AoWOnDrawSurface<BookWindow> Blitted
     {
-        add => ((WindowControl)this).SurfaceDrawn += EventSlot.Add<WindowControl, BookWindow>(this, slot: nameof(SurfaceDrawn), value: value);
-        remove => ((WindowControl)this).SurfaceDrawn -= EventSlot.Remove<WindowControl, BookWindow>(this, slot: nameof(SurfaceDrawn), value: value);
+        add => ((WindowControl)this).Blitted += EventSlot.Add<WindowControl, BookWindow>(this, slot: nameof(Blitted), value: value);
+        remove => ((WindowControl)this).Blitted -= EventSlot.Remove<WindowControl, BookWindow>(this, slot: nameof(Blitted), value: value);
     }
 
-    public new event AoWOnDrawSurface<BookWindow> PreDrawSurface
+    public new event AoWOnDrawSurface<BookWindow> Blitting
     {
-        add => ((WindowControl)this).PreDrawSurface += EventSlot.Add<WindowControl, BookWindow>(this, slot: nameof(PreDrawSurface), value: value);
-        remove => ((WindowControl)this).PreDrawSurface -= EventSlot.Remove<WindowControl, BookWindow>(this, slot: nameof(PreDrawSurface), value: value);
+        add => ((WindowControl)this).Blitting += EventSlot.Add<WindowControl, BookWindow>(this, slot: nameof(Blitting), value: value);
+        remove => ((WindowControl)this).Blitting -= EventSlot.Remove<WindowControl, BookWindow>(this, slot: nameof(Blitting), value: value);
     }
 
     public new event NotifyEvent<BookWindow> Drag

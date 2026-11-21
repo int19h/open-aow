@@ -248,7 +248,7 @@ public class BaseButton(Component? owner) : Control(owner)
     public void SetGText(string value)
     {
         base.Text = value;
-        Drawn = false;
+        IsDrawn = false;
     }
 
     [Published]
@@ -317,10 +317,10 @@ public class BaseButton(Component? owner) : Control(owner)
         remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, BaseButton>(this, slot: nameof(PreDraw), value: value);
     }
 
-    public new event AoWOnDrawEvent<BaseButton> OnDraw
+    public new event AoWOnDrawEvent<BaseButton> Drawn
     {
-        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, BaseButton>(this, slot: nameof(OnDraw), value: value);
-        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, BaseButton>(this, slot: nameof(OnDraw), value: value);
+        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, BaseButton>(this, slot: nameof(Drawn), value: value);
+        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, BaseButton>(this, slot: nameof(Drawn), value: value);
     }
 
     public new event NotifyEvent<BaseButton> Updated

@@ -576,7 +576,7 @@ public sealed partial class MagicWindow(UIContext ui) : UIModule(ui)
             window.SelectEnchantment(window.EnchantmentList.Selected);
         }
 
-        window.Window.Drawn = false;
+        window.Window.IsDrawn = false;
     }
 
     internal static void RefreshGlobalMagic(MagicWindow window)
@@ -602,7 +602,7 @@ public sealed partial class MagicWindow(UIContext ui) : UIModule(ui)
 
         window.SortGlobalEnchantments();
         window.SelectGlobalEnchantment(window.GlobalEnchantmentList.Selected);
-        window.Window.Drawn = false;
+        window.Window.IsDrawn = false;
     }
 
     internal static void ShowMagicEvent(MagicWindow window, PlayerMagicEventLog eventValue, ExecuteDoneEvent done)

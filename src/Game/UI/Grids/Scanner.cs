@@ -237,7 +237,7 @@ public sealed class Scanner(Component owner) : Control(owner)
             TTop = mapY - (_tHeight / 2);
             if (TTop != oldTop || oldLeft != TLeft)
             {
-                Drawn = false;
+                IsDrawn = false;
                 ChangeTileBox?.Invoke(this);
             }
         }
@@ -274,7 +274,7 @@ public sealed class Scanner(Component owner) : Control(owner)
                 TTop = mapY - (_tHeight / 2);
                 if (TTop != oldTop || TLeft != oldLeft)
                 {
-                    Drawn = false;
+                    IsDrawn = false;
                     ChangeTileBox?.Invoke(this);
                 }
             }
@@ -320,7 +320,7 @@ public sealed class Scanner(Component owner) : Control(owner)
         {
             _armies = value;
             SetObDrawn(false);
-            Drawn = false;
+            IsDrawn = false;
         }
     }
 
@@ -331,7 +331,7 @@ public sealed class Scanner(Component owner) : Control(owner)
         {
             _buildings = value;
             SetObDrawn(false);
-            Drawn = false;
+            IsDrawn = false;
         }
     }
 
@@ -342,7 +342,7 @@ public sealed class Scanner(Component owner) : Control(owner)
         {
             _naturals = value;
             SetObDrawn(false);
-            Drawn = false;
+            IsDrawn = false;
         }
     }
 
@@ -484,7 +484,7 @@ public sealed class Scanner(Component owner) : Control(owner)
         _objectsDrawn = value;
         if (!_objectsDrawn)
         {
-            Drawn = false;
+            IsDrawn = false;
         }
     }
 
@@ -493,7 +493,7 @@ public sealed class Scanner(Component owner) : Control(owner)
     {
         if (value != TLeft)
         {
-            Drawn = false;
+            IsDrawn = false;
             TLeft = value;
         }
     }
@@ -503,7 +503,7 @@ public sealed class Scanner(Component owner) : Control(owner)
     {
         if (value != TTop)
         {
-            Drawn = false;
+            IsDrawn = false;
             TTop = value;
         }
     }
@@ -513,7 +513,7 @@ public sealed class Scanner(Component owner) : Control(owner)
     {
         if (value != _tWidth)
         {
-            Drawn = false;
+            IsDrawn = false;
             _tWidth = value;
         }
     }
@@ -523,7 +523,7 @@ public sealed class Scanner(Component owner) : Control(owner)
     {
         if (value != _tHeight)
         {
-            Drawn = false;
+            IsDrawn = false;
             _tHeight = value;
         }
     }
@@ -669,7 +669,7 @@ public sealed class Scanner(Component owner) : Control(owner)
 
                     _ = _mapSurface.Unlock();
                     SetObDrawn(false);
-                    Drawn = false;
+                    IsDrawn = false;
                 }
             }
         }
@@ -744,7 +744,7 @@ public sealed class Scanner(Component owner) : Control(owner)
                 }
 
                 _ = _objectSurface.Unlock();
-                Drawn = false;
+                IsDrawn = false;
                 SetObDrawn(true);
             }
         }
@@ -837,10 +837,10 @@ public sealed class Scanner(Component owner) : Control(owner)
         remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, Scanner>(this, slot: nameof(PreDraw), value: value);
     }
 
-    public new event AoWOnDrawEvent<Scanner> OnDraw
+    public new event AoWOnDrawEvent<Scanner> Drawn
     {
-        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, Scanner>(this, slot: nameof(OnDraw), value: value);
-        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, Scanner>(this, slot: nameof(OnDraw), value: value);
+        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, Scanner>(this, slot: nameof(Drawn), value: value);
+        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, Scanner>(this, slot: nameof(Drawn), value: value);
     }
 
     public new event NotifyEvent<Scanner> Updated

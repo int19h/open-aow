@@ -65,11 +65,10 @@ public partial class SpringOfLife(CustomNode owner) : Structure(owner)
         sbyte hexX2 = HexX;
         if (StrategicMap.Current.Visible(hexX2, hexY2, L: hexLevel2, radius: 0))
         {
-            SpringOfLifeAnimation animation = new(null) { Holder = CreationHolder() };
+            SpringOfLifeAnimation animation = new(null, show: ShowBlessingAnimation) { Holder = CreationHolder() };
             Rect r = new(-16, -8, 32, 40);
             animation.SetDimensions(r);
             animation.AnimationLevel = 27;
-            animation.SetShowHandler(ShowBlessingAnimation);
             sbyte hexLevel = HexLevel;
             sbyte hexY = HexY;
             sbyte hexX = HexX;

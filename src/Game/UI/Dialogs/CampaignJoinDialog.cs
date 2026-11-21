@@ -32,7 +32,7 @@ public sealed partial class CampaignJoinDialog(UIContext ui) : UIModule(ui)
     {
         Stage = 2;
         CharacterGenerationPanel.Visible = false;
-        LeaderSetupControl control = new(null) { Holder = UI.Engine };
+        LeaderSetupControl control = new(null, done: LeaderCustomized) { Holder = UI.Engine };
         control.Leader.Assign(Leader, UI.Engine);
         control.OriginalLeader.Assign(Leader, UI.Engine);
         control.Mode |= LeaderSetupModes.Campaign;
@@ -59,7 +59,6 @@ public sealed partial class CampaignJoinDialog(UIContext ui) : UIModule(ui)
         }
 
         UI.LeaderSetupWindow.Execute(control);
-        control.SetDoneHandler(LeaderCustomized);
         _ = control.Release();
         UI.LeaderSetupWindow.LeaderPanel.ImageLibraryTexture = UI.Graphics.FactionWindow;
         UI.LeaderSetupWindow.LeaderPanel.ImageLibraryIndexTexture = Faction + 10;
@@ -162,7 +161,7 @@ public sealed partial class CampaignJoinDialog(UIContext ui) : UIModule(ui)
                 if (_scrollDelay <= 0)
                 {
                     _scrollPosition += 1;
-                    ScrollTextView.Drawn = false;
+                    ScrollTextView.IsDrawn = false;
                     _scrollDelay = 3;
                 }
             }

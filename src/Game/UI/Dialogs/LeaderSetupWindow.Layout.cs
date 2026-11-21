@@ -4246,7 +4246,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         session.BeginRead(fFr1);
         fFr1.Name = "FFr1";
         fFr1.Tag = -3;
-        fFr1.OnDraw += (sender, surface) => DrawSelectionFace(sender, lockedSurface: surface, offset: -3);
+        fFr1.Drawn += (sender, surface) => DrawSelectionFace(sender, lockedSurface: surface, offset: -3);
         fFr1.Priority = 10;
         fFr1.WinLeft = 28;
         fFr1.WinTop = 50;
@@ -4275,7 +4275,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         session.BeginRead(fFr7);
         fFr7.Name = "FFr7";
         fFr7.Tag = 3;
-        fFr7.OnDraw += (sender, surface) => DrawSelectionFace(sender, lockedSurface: surface, offset: 3);
+        fFr7.Drawn += (sender, surface) => DrawSelectionFace(sender, lockedSurface: surface, offset: 3);
         fFr7.Priority = 10;
         fFr7.WinLeft = 412;
         fFr7.WinTop = 50;
@@ -4304,7 +4304,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         session.BeginRead(fFr2);
         fFr2.Name = "FFr2";
         fFr2.Tag = -2;
-        fFr2.OnDraw += (sender, surface) => DrawSelectionFace(sender, lockedSurface: surface, offset: -2);
+        fFr2.Drawn += (sender, surface) => DrawSelectionFace(sender, lockedSurface: surface, offset: -2);
         fFr2.Priority = 10;
         fFr2.WinLeft = 55;
         fFr2.WinTop = 50;
@@ -4333,7 +4333,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         session.BeginRead(fFr6);
         fFr6.Name = "FFr6";
         fFr6.Tag = 2;
-        fFr6.OnDraw += (sender, surface) => DrawSelectionFace(sender, lockedSurface: surface, offset: 2);
+        fFr6.Drawn += (sender, surface) => DrawSelectionFace(sender, lockedSurface: surface, offset: 2);
         fFr6.Priority = 10;
         fFr6.WinLeft = 370;
         fFr6.WinTop = 50;
@@ -4362,7 +4362,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         session.BeginRead(fFr3);
         fFr3.Name = "FFr3";
         fFr3.Tag = -1;
-        fFr3.OnDraw += (sender, surface) => DrawSelectionFace(sender, lockedSurface: surface, offset: -1);
+        fFr3.Drawn += (sender, surface) => DrawSelectionFace(sender, lockedSurface: surface, offset: -1);
         fFr3.Priority = 10;
         fFr3.WinLeft = 98;
         fFr3.WinTop = 50;
@@ -4391,7 +4391,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         session.BeginRead(fFr5);
         fFr5.Name = "FFr5";
         fFr5.Tag = 1;
-        fFr5.OnDraw += (sender, surface) => DrawSelectionFace(sender, lockedSurface: surface, offset: 1);
+        fFr5.Drawn += (sender, surface) => DrawSelectionFace(sender, lockedSurface: surface, offset: 1);
         fFr5.Priority = 10;
         fFr5.WinLeft = 290;
         fFr5.WinTop = 50;
@@ -4419,7 +4419,7 @@ public sealed partial class LeaderSetupWindow : ILayoutModule
         Frame fFr4 = new(this);
         session.BeginRead(fFr4);
         fFr4.Name = "FFr4";
-        fFr4.OnDraw += (sender, surface) => DrawSelectionFace(sender, lockedSurface: surface, offset: 0);
+        fFr4.Drawn += (sender, surface) => DrawSelectionFace(sender, lockedSurface: surface, offset: 0);
         fFr4.Priority = 10;
         fFr4.WinLeft = 179;
         fFr4.WinTop = 50;

@@ -243,8 +243,8 @@ public sealed partial class Panel : BaseWindow
             }
         }
 
-        SurfaceValid = Drawn;
-        Drawn = false;
+        SurfaceValid = IsDrawn;
+        IsDrawn = false;
         Redraw = true;
     }
 
@@ -273,9 +273,9 @@ public sealed partial class Panel : BaseWindow
                     }
                     else
                     {
-                        if (c.Drawn)
+                        if (c.IsDrawn)
                         {
-                            c.Drawn = false;
+                            c.IsDrawn = false;
                             if (c.Masked)
                             {
                                 Rect r = new(absLeft + c.WinLeft, absTop + c.WinTop, absLeft + c.WinLeft + c.WinWidth, absTop + c.WinTop + c.WinHeight);
@@ -334,7 +334,7 @@ public sealed partial class Panel : BaseWindow
             }
             else
             {
-                Drawn = false;
+                IsDrawn = false;
                 if (!Hidden)
                 {
                     BackRectangle = new SizedRectangle(WinLeft, WinTop, WinWidth, WinHeight);
@@ -354,7 +354,7 @@ public sealed partial class Panel : BaseWindow
 
             ClearBlitList();
             ClearDrawList();
-            Drawn = false;
+            IsDrawn = false;
             SetPriority(Priority);
         }
     }
@@ -460,21 +460,21 @@ public sealed partial class Panel : BaseWindow
                 }
 
                 DrawCount = 0;
-                Drawn = SurfaceValid;
+                IsDrawn = SurfaceValid;
                 for (int i = 0, lastI = Children.Count - 1; i <= lastI; i++)
                 {
                     UIComponent? c = Children[i];
-                    if (c.Valid && c.Visible && (!Drawn || !c.Drawn))
+                    if (c.Valid && c.Visible && (!IsDrawn || !c.IsDrawn))
                     {
-                        c.Drawn = false;
-                        if (!Drawn && c is BaseWindow)
+                        c.IsDrawn = false;
+                        if (!IsDrawn && c is BaseWindow)
                         {
                             c.SurfaceValid = false;
                         }
 
                         c.Draw(lockedSurface);
-                        c.FirstDraw = c.Drawn;
-                        c.Drawn = true;
+                        c.FirstDraw = c.IsDrawn;
+                        c.IsDrawn = true;
                         for (int j = 0, last = DrawCount - 1; j <= last; j++)
                         {
                             d = DrawList[j];
@@ -484,7 +484,7 @@ public sealed partial class Panel : BaseWindow
                         }
 
                         DrawCount = 0;
-                        if (!Drawn || !c.FirstDraw)
+                        if (!IsDrawn || !c.FirstDraw)
                         {
                             blitRectangle = new Rect(absLeft + c.WinLeft, absTop + c.WinTop, absLeft + c.WinLeft + c.WinWidth, absTop + c.WinTop + c.WinHeight);
                             OwnerComponent.AddBlitRectangle(ref blitRectangle, sender: this);
@@ -496,7 +496,7 @@ public sealed partial class Panel : BaseWindow
 
                 RaiseDraw(this, surfDesc: lockedSurface);
 
-                Drawn = SurfaceValid;
+                IsDrawn = SurfaceValid;
                 lockedSurface.ClipRectangle = oldClip;
                 SurfaceValid = true;
             }
@@ -731,10 +731,10 @@ public sealed partial class Panel : BaseWindow
         remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, Panel>(this, slot: nameof(PreDraw), value: value);
     }
 
-    public new event AoWOnDrawEvent<Panel> OnDraw
+    public new event AoWOnDrawEvent<Panel> Drawn
     {
-        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, Panel>(this, slot: nameof(OnDraw), value: value);
-        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, Panel>(this, slot: nameof(OnDraw), value: value);
+        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, Panel>(this, slot: nameof(Drawn), value: value);
+        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, Panel>(this, slot: nameof(Drawn), value: value);
     }
 
     public new event NotifyEvent<Panel> Updated

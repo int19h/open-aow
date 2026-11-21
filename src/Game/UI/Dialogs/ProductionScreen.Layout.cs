@@ -2052,7 +2052,7 @@ public sealed partial class ProductionScreen : ILayoutModule
         CurrentActionImage = new Image(this);
         session.BeginRead(CurrentActionImage);
         CurrentActionImage.Name = "CurrentActionImage";
-        CurrentActionImage.OnDraw += CurrentActionImageDraw;
+        CurrentActionImage.Drawn += CurrentActionImageDraw;
         CurrentActionImage.Priority = 0;
         CurrentActionImage.WinLeft = 3;
         CurrentActionImage.WinTop = 3;
@@ -2731,7 +2731,7 @@ public sealed partial class ProductionScreen : ILayoutModule
         UserDrawBox uFace = new(this);
         session.BeginRead(uFace);
         uFace.Name = "UFace";
-        uFace.OnDraw += UFaceDraw;
+        uFace.Drawn += UFaceDraw;
         uFace.Priority = 0;
         uFace.WinLeft = 0;
         uFace.WinTop = 0;
@@ -2812,7 +2812,7 @@ public sealed partial class ProductionScreen : ILayoutModule
         MapView = new UserDrawBox(this);
         session.BeginRead(MapView);
         MapView.Name = "MapView";
-        MapView.OnDraw += MapViewDraw;
+        MapView.Drawn += MapViewDraw;
         MapView.Updated += _ => MapViewUpdate();
         MapView.Priority = 50;
         MapView.WinLeft = 11;

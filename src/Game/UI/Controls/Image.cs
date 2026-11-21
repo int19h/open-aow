@@ -134,7 +134,7 @@ public sealed partial class Image(Component? owner) : Control(owner)
         if (value != _currentImage)
         {
             _currentImage = value;
-            Drawn = false;
+            IsDrawn = false;
         }
     }
 
@@ -205,10 +205,10 @@ public sealed partial class Image(Component? owner) : Control(owner)
         remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, Image>(this, slot: nameof(PreDraw), value: value);
     }
 
-    public new event AoWOnDrawEvent<Image> OnDraw
+    public new event AoWOnDrawEvent<Image> Drawn
     {
-        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, Image>(this, slot: nameof(OnDraw), value: value);
-        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, Image>(this, slot: nameof(OnDraw), value: value);
+        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, Image>(this, slot: nameof(Drawn), value: value);
+        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, Image>(this, slot: nameof(Drawn), value: value);
     }
 
     public new event NotifyEvent<Image> Updated

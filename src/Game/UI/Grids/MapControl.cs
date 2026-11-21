@@ -24,7 +24,7 @@ public sealed class MapControl : Component
     [Published]
     public event MapObjectEvent<Army>? ArmyDeselected;
     [Published]
-    public event MapObjectEvent<Army>? ArmyDoubleClick;
+    public event EventHandler<MapObjectEventArgs>? ArmyDoubleClick;
     [Published]
     public event MapObjectEvent<Army>? ArmyChanged;
     [Published]
@@ -46,15 +46,15 @@ public sealed class MapControl : Component
     [Published]
     public event MapObjectEvent<Troop>? UnitChanged;
     [Published]
-    public event MapObjectEvent<Troop>? UnitDestroyed;
+    public event EventHandler<UnitDestroyedEventArgs>? UnitDestroyed;
     [Published]
-    public event MapObjectEvent<AbilityActivation>? ActivateAbility;
+    public event MapObjectEvent<AbilityActivation>? AbilityActivated;
     [Published]
-    public event NotifyEvent<object>? DiplomaticChange;
+    public event NotifyEvent<object>? DiplomaticRelationsChanged;
     [Published]
-    public event NotifyEvent<object>? ActivateHsm;
+    public event EventHandler? HexSpriteMapLoaded;
     [Published]
-    public event NotifyEvent<object>? DeactivateHsm;
+    public event NotifyEvent<object>? HexSpriteMapClosing;
     [Published]
     public event MapPlayerEvent? IncomeChanged;
     [Published]
@@ -66,49 +66,49 @@ public sealed class MapControl : Component
     [Published]
     public event NotifyEvent<object>? GlobalMagicChanged;
     [Published]
-    public event MapRefEvent<ShowMessageInfo>? ShowMessage;
+    public event MapRefEvent<ShowMessageInfo>? ShowingMessage;
     [Published]
     public event MapDayEvent? DayChanged;
     [Published]
-    public event NotifyEvent<sbyte>? NewTurn;
+    public event EventHandler<PlayerEventArgs>? TurnStarted;
     [Published]
-    public event MapPlayerEvent? PlayerChanged;
+    public event EventHandler<PlayerEventArgs>? CurrentPlayerChanged;
     [Published]
     public event MapPlayerEvent? SeatedPlayerChanged;
     [Published]
-    public event NotifyEvent<object>? Combat;
+    public event EventHandler<CombatEventArgs>? Combat;
     [Published]
-    public event MapExecuteLogEvent? ExecuteEventLog;
+    public event MapExecuteLogEvent? ExecutingEventLog;
     [Published]
     public event MapRefEvent<MapChangedInfo>? MapChanged;
     [Published]
     public event MapRefEvent<MapChangedInfo>? ScannerIconsChanged;
     [Published]
-    public event NotifyEvent<object>? MapSettingsChanged;
+    public event EventHandler? VisibilityUpdated;
     [Published]
     public event MapPlayerEvent? LogbookChanged;
     [Published]
-    public event NotifyEvent<object>? GameOver;
+    public event NotifyEvent<object>? GameTerminated;
     [Published]
-    public event MapPlayerEvent? GameTerminated;
+    public event EventHandler<PlayerEventArgs>? GameEnded;
     [Published]
     public event MapPlayerEvent? PlayerTerminated;
     [Published]
-    public event NotifyEvent<object>? ActivateCombatMap;
+    public event EventHandler? CombatMapCreated;
     [Published]
-    public event NotifyEvent<object>? DeactivateCombatMap;
+    public event EventHandler? CombatMapDestroyed;
     [Published]
     public event MapTargetEvent? TargetSelectionChange;
     [Published]
-    public event NotifyEvent<object>? ViewPortChange;
+    public event EventHandler? ViewPortChanged;
     [Published]
     public event MapObjectEvent<SpellCaster>? OnCastSpell;
     [Published]
-    public event MapEndTurnEvent? EndTurn;
+    public event MapEndTurnEvent? TurnEnded;
     [Published]
-    public event NotifyEvent<object>? RelationsChanged;
+    public event NotifyEvent<object>? PlayerChanged;
     [Published]
-    public event NotifyEvent<object>? ExitGame;
+    public event EventHandler? ExitGame;
     [Published]
     public event MapObjectEvent<HexSprite>? HexSpriteChanged;
 
@@ -245,7 +245,7 @@ public sealed class MapControl : Component
         if (map.EngineClass.ClassId == StrategicMap.ClassId)
         {
             LinkToHsm();
-            ActivateHsm?.Invoke(this);
+            HexSpriteMapLoaded?.Invoke(this, e: EventArgs.Empty);
         }
     }
 
@@ -254,7 +254,7 @@ public sealed class MapControl : Component
     {
         if (map.EngineClass.ClassId == StrategicMap.ClassId)
         {
-            DeactivateHsm?.Invoke(this);
+            HexSpriteMapClosing?.Invoke(this);
 
             ReleaseHsm();
         }
@@ -269,7 +269,7 @@ public sealed class MapControl : Component
             hexSprite = StrategicMap.Current.Selection.FindClass(typeof(ArmyHexSprite));
             if (hexSprite is ArmyHexSprite armyHexSprite)
             {
-                ArmyDoubleClick(armyHexSprite.Army);
+                ArmyDoubleClick(this, e: new MapObjectEventArgs(armyHexSprite.Army));
             }
         }
 
@@ -324,7 +324,7 @@ public sealed class MapControl : Component
     {
         try
         {
-            MapSettingsChanged?.Invoke(this);
+            VisibilityUpdated?.Invoke(this, e: EventArgs.Empty);
         }
         catch
         {
@@ -391,7 +391,7 @@ public sealed class MapControl : Component
     {
         try
         {
-            PlayerChanged?.Invoke(StrategicMap.Current.CurrentPlayer);
+            CurrentPlayerChanged?.Invoke(this, e: new PlayerEventArgs(StrategicMap.Current.CurrentPlayer));
         }
         catch
         {
@@ -404,7 +404,7 @@ public sealed class MapControl : Component
     {
         try
         {
-            ExitGame?.Invoke(this);
+            ExitGame?.Invoke(this, e: EventArgs.Empty);
         }
         catch
         {
@@ -417,7 +417,7 @@ public sealed class MapControl : Component
     {
         try
         {
-            NewTurn?.Invoke(player);
+            TurnStarted?.Invoke(this, e: new PlayerEventArgs(player));
         }
         catch
         {
@@ -430,10 +430,10 @@ public sealed class MapControl : Component
     {
         try
         {
-            if (EndTurn is not null)
+            if (TurnEnded is not null)
             {
                 Player? listed = StrategicMap.Current.Players.GetPlayers(player);
-                EndTurn(player, Automatic: !listed.SingleProcessCycle);
+                TurnEnded(player, Automatic: !listed.SingleProcessCycle);
             }
         }
         catch
@@ -525,10 +525,10 @@ public sealed class MapControl : Component
     {
         try
         {
-            if (ShowMessage is not null)
+            if (ShowingMessage is not null)
             {
                 ShowMessageInfo info = sender.Info;
-                ShowMessage(in info);
+                ShowingMessage(in info);
                 sender.Info = info;
             }
         }
@@ -556,7 +556,7 @@ public sealed class MapControl : Component
     {
         try
         {
-            Combat?.Invoke(sender);
+            Combat?.Invoke(this, e: new CombatEventArgs(sender));
         }
         catch
         {
@@ -660,7 +660,7 @@ public sealed class MapControl : Component
     {
         try
         {
-            UnitDestroyed?.Invoke(objectValue);
+            UnitDestroyed?.Invoke(this, e: new UnitDestroyedEventArgs(objectValue));
         }
         catch
         {
@@ -673,7 +673,7 @@ public sealed class MapControl : Component
     {
         try
         {
-            GameOver?.Invoke(sender);
+            GameTerminated?.Invoke(sender);
         }
         catch
         {
@@ -686,7 +686,7 @@ public sealed class MapControl : Component
     {
         try
         {
-            GameTerminated?.Invoke((sbyte)StrategicMap.Current.GameResult);
+            GameEnded?.Invoke(this, e: new PlayerEventArgs((sbyte)StrategicMap.Current.GameResult));
         }
         catch
         {
@@ -712,7 +712,7 @@ public sealed class MapControl : Component
     {
         try
         {
-            ExecuteEventLog?.Invoke(info.Info.Log, info.Info.Immediate, info.Info.Done);
+            ExecutingEventLog?.Invoke(info.Info.Log, info.Info.Immediate, info.Info.Done);
         }
         catch
         {
@@ -725,7 +725,7 @@ public sealed class MapControl : Component
     {
         try
         {
-            ActivateCombatMap?.Invoke(this);
+            CombatMapCreated?.Invoke(this, e: EventArgs.Empty);
         }
         catch
         {
@@ -738,7 +738,7 @@ public sealed class MapControl : Component
     {
         try
         {
-            DeactivateCombatMap?.Invoke(this);
+            CombatMapDestroyed?.Invoke(this, e: EventArgs.Empty);
         }
         catch
         {
@@ -780,7 +780,7 @@ public sealed class MapControl : Component
     {
         try
         {
-            ViewPortChange?.Invoke(this);
+            ViewPortChanged?.Invoke(this, e: EventArgs.Empty);
         }
         catch
         {
@@ -793,7 +793,7 @@ public sealed class MapControl : Component
     {
         try
         {
-            ActivateAbility?.Invoke(sender);
+            AbilityActivated?.Invoke(sender);
         }
         catch
         {
@@ -806,7 +806,7 @@ public sealed class MapControl : Component
     {
         try
         {
-            DiplomaticChange?.Invoke(this);
+            DiplomaticRelationsChanged?.Invoke(this);
         }
         catch
         {
@@ -819,7 +819,7 @@ public sealed class MapControl : Component
     {
         try
         {
-            RelationsChanged?.Invoke(this);
+            PlayerChanged?.Invoke(this);
         }
         catch
         {

@@ -218,8 +218,8 @@ public sealed partial class InfoWindow(UIContext ui) : UIModule(ui)
     // AoWInfoWin.pas:236
     public void ESSBChange()
     {
-        ExplorationSiteMemo.Drawn = false;
-        MainWindow.Drawn = false;
+        ExplorationSiteMemo.IsDrawn = false;
+        MainWindow.IsDrawn = false;
     }
 
     internal static void SetStructureHeader(InfoWindow dialog, Structure structure)

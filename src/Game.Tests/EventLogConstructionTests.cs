@@ -26,7 +26,7 @@ public sealed class EventLogConstructionTests
 
         internal EventListOwner() : base(null!)
         {
-            Changed += _ =>
+            Changed += (_, _) =>
             {
                 Changes++;
                 if (_removing != 0)

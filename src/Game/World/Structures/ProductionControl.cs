@@ -42,7 +42,7 @@ public partial class ProductionControl : EngineObject
         Clear();
     }
 
-    private event NotifyEvent<object>? Change;
+    private event EventHandler? Change;
 
     public int UpdateCount { get; private set; }
     public ProductionQueue Queue { get; }
@@ -318,7 +318,7 @@ public partial class ProductionControl : EngineObject
     {
         if (UpdateCount == 0)
         {
-            Change?.Invoke(this);
+            Change?.Invoke(this, e: EventArgs.Empty);
         }
     }
 

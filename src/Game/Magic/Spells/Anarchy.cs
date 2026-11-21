@@ -51,11 +51,10 @@ public class Anarchy : CityTargetSpell
             _ = targetCity.ValidateObservation(source.Player);
             if (targetCity.Resource.ImageSequenceList.ImageSequences[16] is not null)
             {
-                ImageSequenceAnimation a = new(null) { Holder = CreationHolder() };
+                ImageSequenceAnimation a = new(null, show: ShowAnimation) { Holder = CreationHolder() };
                 a.SetImageSequence(targetCity.Resource.ImageSequenceList.ImageSequences[16]);
                 a.SetPixelXOffset(a.PixelXOffset - 16);
                 a.SetPixelYOffset(a.PixelYOffset - 16);
-                a.SetShowHandler(ShowAnimation);
                 a.Looped = true;
                 a.FrameCount = 120;
                 sbyte targetCityHexLevel = targetCity.HexLevel;

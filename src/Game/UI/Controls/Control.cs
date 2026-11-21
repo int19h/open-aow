@@ -108,11 +108,11 @@ public partial class Control : UIComponent
                         : new Rect(OwnerComponent.WindowRelativeLeft + OldRectangle.Left, OwnerComponent.WindowRelativeTop + OldRectangle.Top, OwnerComponent.WindowRelativeLeft + OldRectangle.Left + OldRectangle.Width - 1, OwnerComponent.WindowRelativeTop + OldRectangle.Top + OldRectangle.Height - 1);
 
                     OwnerComponent.AddDrawRectangle(ref r, sender: this);
-                    Drawn = false;
+                    IsDrawn = false;
                 }
                 else
                 {
-                    if (Masked && !Drawn)
+                    if (Masked && !IsDrawn)
                     {
                         r = OwnerComponent.OwnerComponent.OwnerComponent is null
                             ? new Rect(WinLeft, WinTop, WinLeft + WinWidth - 1, WinTop + WinHeight - 1)
@@ -122,7 +122,7 @@ public partial class Control : UIComponent
                     }
                 }
 
-                if (!Drawn)
+                if (!IsDrawn)
                 {
                     r = OwnerComponent.OwnerComponent.OwnerComponent is null
                         ? new Rect(WinLeft, WinTop, WinLeft + WinWidth - 1, WinTop + WinHeight - 1)
@@ -251,10 +251,10 @@ public partial class Control : UIComponent
         remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, Control>(this, slot: nameof(PreDraw), value: value);
     }
 
-    public new event AoWOnDrawEvent<Control> OnDraw
+    public new event AoWOnDrawEvent<Control> Drawn
     {
-        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, Control>(this, slot: nameof(OnDraw), value: value);
-        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, Control>(this, slot: nameof(OnDraw), value: value);
+        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, Control>(this, slot: nameof(Drawn), value: value);
+        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, Control>(this, slot: nameof(Drawn), value: value);
     }
 
     public new event NotifyEvent<Control> Updated

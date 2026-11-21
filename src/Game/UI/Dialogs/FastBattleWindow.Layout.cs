@@ -49,7 +49,7 @@ public sealed partial class FastBattleWindow : ILayoutModule
         MainWindow.Cursor = 0;
         MainWindow.DoubleBuffered = true;
         MainWindow.MaskColor = 7346272;
-        MainWindow.SurfaceDrawn += (_, surface, left, top) => FCWinDrawSurface(surface, left, top);
+        MainWindow.Blitted += (_, surface, left, top) => FCWinDrawSurface(surface, left, top);
         MainWindow.FreeSurfaceOnHide = true;
         MainWindow.ImageLibraryIndexFrame = 0;
         MainWindow.ImageLibraryIndexTexture = 8;
@@ -1551,7 +1551,7 @@ public sealed partial class FastBattleWindow : ILayoutModule
         LeftShieldView = new UserDrawBox(this);
         session.BeginRead(LeftShieldView);
         LeftShieldView.Name = "LShieldUser";
-        LeftShieldView.OnDraw += LShieldUserDraw;
+        LeftShieldView.Drawn += LShieldUserDraw;
         LeftShieldView.Priority = 3000;
         LeftShieldView.WinLeft = 15;
         LeftShieldView.WinTop = 105;
@@ -1575,7 +1575,7 @@ public sealed partial class FastBattleWindow : ILayoutModule
         RightShieldView = new UserDrawBox(this);
         session.BeginRead(RightShieldView);
         RightShieldView.Name = "RShieldUser";
-        RightShieldView.OnDraw += RShieldUserDraw;
+        RightShieldView.Drawn += RShieldUserDraw;
         RightShieldView.Priority = 3000;
         RightShieldView.WinLeft = 525;
         RightShieldView.WinTop = 105;

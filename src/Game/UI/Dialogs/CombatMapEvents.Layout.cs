@@ -20,14 +20,14 @@ public sealed partial class CombatMapEvents : ILayoutModule
         tcMap.Deselected += TCMapDeselected;
         tcMap.MouseOverTarget += CombatMapMouseOverTarget;
         tcMap.UnitChanged += CombatMapUnitChanged;
-        tcMap.ShowMessage += CombatMapShowMessage;
+        tcMap.ShowingMessage += CombatMapShowMessage;
         tcMap.TurnChanged += _ => CombatMapTurnChanged();
         tcMap.SeatedPlayerChanged += CombatMapSeatedPlayerChanged;
         tcMap.MapChanged += CombatMapMapChanged;
         tcMap.ActivateMap += _ => CombatMapActivateMap();
         tcMap.DeActivateMap += _ => CombatMapDeactivateMap();
         tcMap.OnCastSpell += CombatMapCastSpell;
-        tcMap.ActivateAbility += CombatMapActivateAbility;
+        tcMap.AbilityActivated += CombatMapActivateAbility;
         session.EndRead(tcMap);
         session.EndRead(this);
         Loaded();

@@ -1137,7 +1137,7 @@ public sealed partial class MagicWindow : ILayoutModule
         Image spellIcn = new(this);
         session.BeginRead(spellIcn);
         spellIcn.Name = "SpellIcn";
-        spellIcn.OnDraw += SpellIcnDraw;
+        spellIcn.Drawn += SpellIcnDraw;
         spellIcn.Priority = 0;
         spellIcn.WinLeft = 8;
         spellIcn.WinTop = 8;

@@ -118,7 +118,7 @@ public sealed partial class CombatChoice(UIContext ui) : UIModule(ui)
     }
 
     // TCFCDlg.pas:113
-    public void MapViewUpdate() => MapView.Drawn = MapView.Drawn && (StrategicMap.Current.Frame & 1) != 0;
+    public void MapViewUpdate() => MapView.IsDrawn = MapView.IsDrawn && (StrategicMap.Current.Frame & 1) != 0;
 
     // TCFCDlg.pas:116
     public void DlgHide() => Finish();

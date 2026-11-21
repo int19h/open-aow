@@ -255,7 +255,7 @@ public sealed partial class TabPanel : Control
 
             RaiseChange(this);
 
-            Drawn = false;
+            IsDrawn = false;
         }
     }
 
@@ -319,10 +319,10 @@ public sealed partial class TabPanel : Control
         remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, TabPanel>(this, slot: nameof(PreDraw), value: value);
     }
 
-    public new event AoWOnDrawEvent<TabPanel> OnDraw
+    public new event AoWOnDrawEvent<TabPanel> Drawn
     {
-        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, TabPanel>(this, slot: nameof(OnDraw), value: value);
-        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, TabPanel>(this, slot: nameof(OnDraw), value: value);
+        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, TabPanel>(this, slot: nameof(Drawn), value: value);
+        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, TabPanel>(this, slot: nameof(Drawn), value: value);
     }
 
     public new event NotifyEvent<TabPanel> Updated

@@ -99,7 +99,7 @@ public sealed partial class DeformFaceDialog(UIContext ui) : UIModule(ui)
         UI.General.PlayButtonSound(0);
         int previousFace = GamePack.Current.FaceResources.PreviousFace(_caster.FaceIndex);
         _caster.FaceIndex = previousFace;
-        Window.Drawn = false;
+        Window.IsDrawn = false;
     }
 
     // AoWDeformFaceDlg.pas:111
@@ -108,7 +108,7 @@ public sealed partial class DeformFaceDialog(UIContext ui) : UIModule(ui)
         UI.General.PlayButtonSound(0);
         int nextFace = GamePack.Current.FaceResources.NextFace(_caster.FaceIndex);
         _caster.FaceIndex = nextFace;
-        Window.Drawn = false;
+        Window.IsDrawn = false;
     }
 
     // AoWDeformFaceDlg.pas:118

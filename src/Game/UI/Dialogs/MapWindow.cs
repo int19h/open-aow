@@ -377,6 +377,6 @@ public sealed partial class MapWindow(UIContext ui) : UIModule(ui)
         }
 
         StrategicMap.Current.UpdateFPS(FrameFixtureInputs.MeasuredFrameRate ?? GameHost.MainForm.Display.CurrentFrameRate);
-        MainWindow.Drawn &= MainWindow.DoubleBuffered;
+        MainWindow.IsDrawn &= MainWindow.DoubleBuffered;
     }
 }

@@ -50,7 +50,7 @@ public class BaseWindow(Component? owner) : WindowControl(owner)
                     }
                     else
                     {
-                        c.Drawn = false;
+                        c.IsDrawn = false;
                     }
                 }
             }
@@ -100,7 +100,7 @@ public class BaseWindow(Component? owner) : WindowControl(owner)
                 }
                 else
                 {
-                    Drawn = false;
+                    IsDrawn = false;
                 }
 
                 if (!Hidden)
@@ -145,7 +145,7 @@ public class BaseWindow(Component? owner) : WindowControl(owner)
                 {
                     if (DoubleBuffered)
                     {
-                        Drawn = !VerifyBackSurface(surface) && Drawn;
+                        IsDrawn = !VerifyBackSurface(surface) && IsDrawn;
                         SetWinLeftWithoutInvalidate(0);
                         SetWinTopWithoutInvalidate(0);
                         locked = BackSurface.Lock(ref lockedSurface) == 0;
@@ -167,7 +167,7 @@ public class BaseWindow(Component? owner) : WindowControl(owner)
                     Rect r;
                     try
                     {
-                        if (!Drawn)
+                        if (!IsDrawn)
                         {
                             SurfaceValid = false;
                             ClearDrawList();
@@ -178,7 +178,7 @@ public class BaseWindow(Component? owner) : WindowControl(owner)
                             ClearBlitList();
                         }
 
-                        if (!Drawn)
+                        if (!IsDrawn)
                         {
                             Draw(lockedSurface);
                         }
@@ -211,19 +211,19 @@ public class BaseWindow(Component? owner) : WindowControl(owner)
                     UIComponent? c;
                     if (DoubleBuffered)
                     {
-                        if (Priority >= WindowManager.OverlayPriority || !Drawn)
+                        if (Priority >= WindowManager.OverlayPriority || !IsDrawn)
                         {
                             for (int i = 0, lastI = Children.Count - 1; i <= lastI; i++)
                             {
                                 c = Children[i];
-                                if (c.Valid && c.Visible && (!Drawn || !c.Drawn))
+                                if (c.Valid && c.Visible && (!IsDrawn || !c.IsDrawn))
                                 {
-                                    if (!Drawn && c is BaseWindow)
+                                    if (!IsDrawn && c is BaseWindow)
                                     {
                                         c.SurfaceValid = false;
                                     }
 
-                                    c.Drawn = false;
+                                    c.IsDrawn = false;
                                     c.Draw(lockedSurface);
                                     for (int j = 0, last = DrawCount - 1; j <= last; j++)
                                     {
@@ -234,7 +234,7 @@ public class BaseWindow(Component? owner) : WindowControl(owner)
                                     }
 
                                     DrawCount = 0;
-                                    if (!c.Drawn || !Drawn)
+                                    if (!c.IsDrawn || !IsDrawn)
                                     {
                                         if (SurfaceValid)
                                         {
@@ -242,12 +242,12 @@ public class BaseWindow(Component? owner) : WindowControl(owner)
                                             AddBlitRectangle(ref r, sender: c);
                                         }
 
-                                        c.FirstDraw = c.Drawn;
+                                        c.FirstDraw = c.IsDrawn;
                                         r = new Rect(WinLeft + c.WinLeft, WinTop + c.WinTop, WinLeft + c.WinLeft + c.WinWidth - 1, WinTop + c.WinTop + c.WinHeight - 1);
                                         InvalidateRectangle(i + 1, rectangle: ref r, sender: c);
                                     }
 
-                                    c.Drawn = true;
+                                    c.IsDrawn = true;
                                 }
                             }
 
@@ -267,7 +267,7 @@ public class BaseWindow(Component? owner) : WindowControl(owner)
                             {
                                 if (BlitCount > 0)
                                 {
-                                    RaisePreDrawSurface(this, surface: BackSurface, 0, 0);
+                                    RaiseBlitting(this, surface: BackSurface, 0, 0);
 
                                     for (int j = 0, last = BlitCount - 1; j <= last; j++)
                                     {
@@ -287,7 +287,7 @@ public class BaseWindow(Component? owner) : WindowControl(owner)
                                         WindowManager.AddBlitRectangle(ref r, sender: this);
                                     }
 
-                                    RaiseDrawSurface(this, surface, 0, 0);
+                                    RaiseBlitted(this, surface, 0, 0);
                                 }
                             }
                             else
@@ -305,10 +305,10 @@ public class BaseWindow(Component? owner) : WindowControl(owner)
                         for (int i = 0, last = Children.Count - 1; i <= last; i++)
                         {
                             c = Children[i];
-                            if (!Drawn || !c.Drawn || c is BaseWindow)
+                            if (!IsDrawn || !c.IsDrawn || c is BaseWindow)
                             {
                                 c.Draw(lockedSurface);
-                                c.Drawn = true;
+                                c.IsDrawn = true;
                             }
                         }
 
@@ -321,9 +321,9 @@ public class BaseWindow(Component? owner) : WindowControl(owner)
 
                         try
                         {
-                            RaisePreDrawSurface(this, surface, WinLeft, WinTop);
+                            RaiseBlitting(this, surface, WinLeft, WinTop);
 
-                            RaiseDrawSurface(this, surface, WinLeft, WinTop);
+                            RaiseBlitted(this, surface, WinLeft, WinTop);
                         }
                         catch
                         {
@@ -331,7 +331,7 @@ public class BaseWindow(Component? owner) : WindowControl(owner)
                         }
                     }
 
-                    Drawn = true;
+                    IsDrawn = true;
                 }
             }
         }
@@ -399,10 +399,10 @@ public class BaseWindow(Component? owner) : WindowControl(owner)
                 for (int i = 0, last = Children.Count - 1; i <= last; i++)
                 {
                     UIComponent? c = Children[i];
-                    if (c.Valid && c.Visible && (!Drawn || !c.Drawn))
+                    if (c.Valid && c.Visible && (!IsDrawn || !c.IsDrawn))
                     {
                         c.Draw(lockedSurface);
-                        c.Drawn = true;
+                        c.IsDrawn = true;
                     }
                 }
 
@@ -532,10 +532,10 @@ public class BaseWindow(Component? owner) : WindowControl(owner)
         remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, BaseWindow>(this, slot: nameof(PreDraw), value: value);
     }
 
-    public new event AoWOnDrawEvent<BaseWindow> OnDraw
+    public new event AoWOnDrawEvent<BaseWindow> Drawn
     {
-        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, BaseWindow>(this, slot: nameof(OnDraw), value: value);
-        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, BaseWindow>(this, slot: nameof(OnDraw), value: value);
+        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, BaseWindow>(this, slot: nameof(Drawn), value: value);
+        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, BaseWindow>(this, slot: nameof(Drawn), value: value);
     }
 
     public new event NotifyEvent<BaseWindow> Updated

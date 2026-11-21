@@ -372,7 +372,7 @@ public sealed partial class ResultsWindow(UIContext ui) : UIModule(ui)
     public void AxisDraw(LockedSurface surface) => DrawGraphs(surface);
 
     // AoWResultsWin.pas:329
-    public void AgendaChange() => ResultsPanel.Drawn = false;
+    public void AgendaChange() => ResultsPanel.IsDrawn = false;
 
     // AoWResultsWin.pas:334
     public void ResultsPnlShow() => UpdateSelection();

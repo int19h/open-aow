@@ -97,6 +97,8 @@ public class UnitList(CustomNode? owner) : ObservableNode(owner), IChildList<Tro
     // Unit.PAS:2356
     public virtual MapCoordinate GetLocation() => MapCoordinate.None;
 
+    void IUnitHolder.NotifyChildChanged(Troop child) => NotifyChildChanged(child);
+
     // Unit.PAS:2338
     public void SortUnits() => Units.Sort();
 

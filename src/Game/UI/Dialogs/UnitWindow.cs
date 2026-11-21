@@ -333,20 +333,20 @@ public sealed partial class UnitWindow(UIContext ui) : UIModule(ui)
             switch (_itemType)
             {
                 case ItemType.Attack:
-                    AttackSlotCheckBox.Drawn = false;
+                    AttackSlotCheckBox.IsDrawn = false;
                     break;
                 case ItemType.Defense:
-                    DefendSlotCheckBox.Drawn = false;
+                    DefendSlotCheckBox.IsDrawn = false;
                     break;
                 case ItemType.Head:
-                    HeadSlotCheckBox.Drawn = false;
+                    HeadSlotCheckBox.IsDrawn = false;
                     break;
                 case ItemType.Torso:
-                    TorsoSlotCheckBox.Drawn = false;
+                    TorsoSlotCheckBox.IsDrawn = false;
                     break;
                 case ItemType.Ring:
-                    LeftRingCheckBox.Drawn = false;
-                    RightRingCheckBox.Drawn = false;
+                    LeftRingCheckBox.IsDrawn = false;
+                    RightRingCheckBox.IsDrawn = false;
                     break;
                 case ItemType.Scroll:
                 case ItemType.Use:

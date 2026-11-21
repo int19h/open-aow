@@ -18,7 +18,6 @@
             "$type": "Aow.Game.Units.HeroItems",
             "EngineObject._owner": null,
             "HeroItems.Hero": "$ref:$",
-            "HeroItems.OnChanged": null,
             "ObservableNode.CollectionChanged": null,
             "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
@@ -36,7 +35,6 @@
             "$type": "Aow.Game.Units.HeroInventory",
             "EngineObject._owner": null,
             "HeroInventory.Hero": "$ref:$",
-            "HeroInventory.OnChanged": null,
             "ObservableNode.CollectionChanged": null,
             "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
@@ -112,7 +110,6 @@
             "$type": "Aow.Game.Units.HeroItems",
             "EngineObject._owner": null,
             "HeroItems.Hero": "$ref:$",
-            "HeroItems.OnChanged": null,
             "ObservableNode.CollectionChanged": null,
             "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
@@ -130,7 +127,6 @@
             "$type": "Aow.Game.Units.HeroInventory",
             "EngineObject._owner": null,
             "HeroInventory.Hero": "$ref:$",
-            "HeroInventory.OnChanged": null,
             "ObservableNode.CollectionChanged": null,
             "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
@@ -206,7 +202,6 @@
             "$type": "Aow.Game.Units.HeroItems",
             "EngineObject._owner": null,
             "HeroItems.Hero": "$ref:$",
-            "HeroItems.OnChanged": null,
             "ObservableNode.CollectionChanged": null,
             "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
@@ -224,7 +219,6 @@
             "$type": "Aow.Game.Units.HeroInventory",
             "EngineObject._owner": null,
             "HeroInventory.Hero": "$ref:$",
-            "HeroInventory.OnChanged": null,
             "ObservableNode.CollectionChanged": null,
             "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
@@ -440,7 +434,6 @@
             "$type": "Aow.Game.Units.HeroItems",
             "EngineObject._owner": null,
             "HeroItems.Hero": "$ref:$",
-            "HeroItems.OnChanged": null,
             "ObservableNode.CollectionChanged": null,
             "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
@@ -458,7 +451,6 @@
             "$type": "Aow.Game.Units.HeroInventory",
             "EngineObject._owner": null,
             "HeroInventory.Hero": "$ref:$",
-            "HeroInventory.OnChanged": null,
             "ObservableNode.CollectionChanged": null,
             "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
@@ -542,7 +534,6 @@
             "$type": "Aow.Game.Units.HeroItems",
             "EngineObject._owner": null,
             "HeroItems.Hero": "$ref:$",
-            "HeroItems.OnChanged": null,
             "ObservableNode.CollectionChanged": null,
             "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
@@ -560,7 +551,6 @@
             "$type": "Aow.Game.Units.HeroInventory",
             "EngineObject._owner": null,
             "HeroInventory.Hero": "$ref:$",
-            "HeroInventory.OnChanged": null,
             "ObservableNode.CollectionChanged": null,
             "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
@@ -644,7 +634,6 @@
             "$type": "Aow.Game.Units.HeroItems",
             "EngineObject._owner": null,
             "HeroItems.Hero": "$ref:$",
-            "HeroItems.OnChanged": null,
             "ObservableNode.CollectionChanged": null,
             "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {
@@ -662,7 +651,6 @@
             "$type": "Aow.Game.Units.HeroInventory",
             "EngineObject._owner": null,
             "HeroInventory.Hero": "$ref:$",
-            "HeroInventory.OnChanged": null,
             "ObservableNode.CollectionChanged": null,
             "ObservableNode.UpdateCount": 0,
             "ObservableNode._children": {

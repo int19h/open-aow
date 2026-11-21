@@ -126,18 +126,6 @@ public sealed class PlayerCommunicator(CustomNode? owner) : EngineObject(owner)
 
     public GameEngine? Engine { get; init; }
 
-    public event NotifyEvent<PlayerCommunicator> OnReceive
-    {
-        add => OnReceiveStore.Add(value);
-        remove => OnReceiveStore.Remove(value);
-    }
-
     public DataPackage? ReceivedPackage { get; private set; }
     public PlayerCommunicationControl? PlayerCommunicationControl { get; private set; }
-
-    public event NotifyEvent<PlayerCommunicator> OnProcess
-    {
-        add => OnProcessStore.Add(value);
-        remove => OnProcessStore.Remove(value);
-    }
 }

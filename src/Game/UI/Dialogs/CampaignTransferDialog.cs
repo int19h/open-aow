@@ -105,7 +105,7 @@ public sealed partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
         TransferItemNextButton.Visible = _rightItem + 4 < s.SelectedItems.Count;
         TransferUnitPreviousButton.Visible = _rightUnit != 0;
         TransferUnitNextButton.Visible = _rightUnit + 4 < s.SelectedUnits.Count;
-        Book.Drawn = false;
+        Book.IsDrawn = false;
     }
 
     // AoWCampaignTransferDlg.pas:710
@@ -205,7 +205,7 @@ public sealed partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
             _leftHero -= 1;
         }
 
-        AvailableHeroPanel.Drawn = false;
+        AvailableHeroPanel.IsDrawn = false;
         UpdateControls();
     }
 
@@ -217,7 +217,7 @@ public sealed partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
             _leftHero += 1;
         }
 
-        AvailableHeroPanel.Drawn = false;
+        AvailableHeroPanel.IsDrawn = false;
         UpdateControls();
     }
 
@@ -229,7 +229,7 @@ public sealed partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
             _leftItem -= 1;
         }
 
-        AvailableItemPanel.Drawn = false;
+        AvailableItemPanel.IsDrawn = false;
         UpdateControls();
     }
 
@@ -241,7 +241,7 @@ public sealed partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
             _leftItem += 1;
         }
 
-        AvailableItemPanel.Drawn = false;
+        AvailableItemPanel.IsDrawn = false;
         UpdateControls();
     }
 
@@ -253,7 +253,7 @@ public sealed partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
             _leftUnit -= 1;
         }
 
-        AvailableUnitPanel.Drawn = false;
+        AvailableUnitPanel.IsDrawn = false;
         UpdateControls();
     }
 
@@ -265,7 +265,7 @@ public sealed partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
             _leftUnit += 1;
         }
 
-        AvailableUnitPanel.Drawn = false;
+        AvailableUnitPanel.IsDrawn = false;
         UpdateControls();
     }
 
@@ -277,7 +277,7 @@ public sealed partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
             _rightHero -= 1;
         }
 
-        TransferHeroPanel.Drawn = false;
+        TransferHeroPanel.IsDrawn = false;
         UpdateControls();
     }
 
@@ -289,7 +289,7 @@ public sealed partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
             _rightHero += 1;
         }
 
-        TransferHeroPanel.Drawn = false;
+        TransferHeroPanel.IsDrawn = false;
         UpdateControls();
     }
 
@@ -301,7 +301,7 @@ public sealed partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
             _rightItem -= 1;
         }
 
-        TransferItemPanel.Drawn = false;
+        TransferItemPanel.IsDrawn = false;
         UpdateControls();
     }
 
@@ -313,7 +313,7 @@ public sealed partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
             _rightItem += 1;
         }
 
-        TransferItemPanel.Drawn = false;
+        TransferItemPanel.IsDrawn = false;
         UpdateControls();
     }
 
@@ -325,7 +325,7 @@ public sealed partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
             _rightUnit -= 1;
         }
 
-        TransferUnitPanel.Drawn = false;
+        TransferUnitPanel.IsDrawn = false;
         UpdateControls();
     }
 
@@ -337,7 +337,7 @@ public sealed partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
             _rightUnit += 1;
         }
 
-        TransferUnitPanel.Drawn = false;
+        TransferUnitPanel.IsDrawn = false;
         UpdateControls();
     }
 
@@ -604,8 +604,8 @@ public sealed partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
             case 1:
                 if (s.AddHero(_leftSelection))
                 {
-                    AvailableHeroPanel.Drawn = false;
-                    TransferHeroPanel.Drawn = false;
+                    AvailableHeroPanel.IsDrawn = false;
+                    TransferHeroPanel.IsDrawn = false;
                     UpdateControls();
                     ClearLeftSelection();
                 }
@@ -614,8 +614,8 @@ public sealed partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
             case 2:
                 if (s.AddItem(_leftSelection))
                 {
-                    AvailableItemPanel.Drawn = false;
-                    TransferItemPanel.Drawn = false;
+                    AvailableItemPanel.IsDrawn = false;
+                    TransferItemPanel.IsDrawn = false;
                     UpdateControls();
                     ClearLeftSelection();
                 }
@@ -624,8 +624,8 @@ public sealed partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
             case 3:
                 if (s.AddUnit(_leftSelection))
                 {
-                    AvailableUnitPanel.Drawn = false;
-                    TransferUnitPanel.Drawn = false;
+                    AvailableUnitPanel.IsDrawn = false;
+                    TransferUnitPanel.IsDrawn = false;
                     UpdateControls();
                     ClearLeftSelection();
                 }
@@ -645,36 +645,36 @@ public sealed partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
             case 1:
                 if (s.DeleteHero(s.SelectedHeroes[_rightSelection]))
                 {
-                    AvailableHeroPanel.Drawn = false;
-                    TransferHeroPanel.Drawn = false;
-                    TransferPanel.Drawn = false;
+                    AvailableHeroPanel.IsDrawn = false;
+                    TransferHeroPanel.IsDrawn = false;
+                    TransferPanel.IsDrawn = false;
                     UpdateControls();
                     ClearRightSelection();
-                    Book.Drawn = false;
+                    Book.IsDrawn = false;
                 }
 
                 break;
             case 2:
                 if (s.DeleteItem(s.SelectedItems[_rightSelection]))
                 {
-                    AvailableItemPanel.Drawn = false;
-                    TransferItemPanel.Drawn = false;
-                    TransferPanel.Drawn = false;
+                    AvailableItemPanel.IsDrawn = false;
+                    TransferItemPanel.IsDrawn = false;
+                    TransferPanel.IsDrawn = false;
                     UpdateControls();
                     ClearRightSelection();
-                    Book.Drawn = false;
+                    Book.IsDrawn = false;
                 }
 
                 break;
             case 3:
                 if (s.DeleteUnit(s.SelectedUnits[_rightSelection]))
                 {
-                    AvailableUnitPanel.Drawn = false;
-                    TransferUnitPanel.Drawn = false;
-                    TransferPanel.Drawn = false;
+                    AvailableUnitPanel.IsDrawn = false;
+                    TransferUnitPanel.IsDrawn = false;
+                    TransferPanel.IsDrawn = false;
                     UpdateControls();
                     ClearRightSelection();
-                    Book.Drawn = false;
+                    Book.IsDrawn = false;
                 }
 
                 break;
@@ -742,7 +742,7 @@ public sealed partial class CampaignTransferDialog(UIContext ui) : UIModule(ui)
     {
         UI.Engine.Campaign.TransferSettings.AutoSelect();
         UpdateControls();
-        Book.Drawn = false;
+        Book.IsDrawn = false;
     }
 
     // AoW.exe pushes "Scenario\Campaign\"

@@ -23,7 +23,7 @@ public sealed class ObservableNodeTests
         node.SetChild(0, child: third);
         _ = node.RemoveChild(second);
         _ = node.RemoveChild(first);
-        node.Changed();
+        node.NotifyChildChanged(third);
         Assert.Equal(
             Calls(
                 "Added:0:-1:1:-",
@@ -31,7 +31,7 @@ public sealed class ObservableNodeTests
                 "Replaced:0:-1:3:1",
                 "Removed:1:-1:2:-",
                 "Removed:-1:-1:1:-",
-                "Reset:-1:-1:-:-"),
+                "ItemChanged:0:-1:3:-"),
             node.Trace);
         Assert.Equal([third], Children(node));
 
@@ -155,10 +155,11 @@ public sealed class ObservableNodeTests
         ObservableEventList list = new(null!) { Holder = EngineFixture.Engine };
         List<string> trace = [];
         list.Events += _ => trace.Add("events");
-        list.CollectionChanged += (_, change) => trace.Add(change.Kind.ToString());
-        _ = list.AddChild(new Leaf(1));
-        list.Changed();
-        Assert.Equal(["events", "Added", "events", "Reset"], trace);
+        list.CollectionChanged += (_, e) => trace.Add(e.Change.Kind.ToString());
+        Leaf leaf = new(1);
+        _ = list.AddChild(leaf);
+        list.NotifyChildChanged(leaf);
+        Assert.Equal(["events", "Added", "events", "ItemChanged"], trace);
     }
 
     [Fact]
@@ -205,7 +206,7 @@ public sealed class ObservableNodeTests
         public RecordingNode() : base(null)
         {
             Holder = EngineFixture.Engine;
-            CollectionChanged += (_, change) => Trace.Add(Format(change));
+            CollectionChanged += (_, e) => Trace.Add(Format(e.Change));
         }
 
         public List<string> Trace { get; } = [];

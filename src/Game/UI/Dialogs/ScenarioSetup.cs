@@ -399,7 +399,7 @@ public sealed partial class ScenarioSetup(UIContext ui) : UIModule(ui)
     {
         object? objectValue = PlayModeComboBox.Items.Objects[PlayModeComboBox.Selected];
         SetupControl.SetPlayMode((byte)ObjectToInt(objectValue));
-        UI.TitleWindow.MainWindow.Drawn = false;
+        UI.TitleWindow.MainWindow.IsDrawn = false;
     }
 
     // AoWScenSetup.pas:428
@@ -414,7 +414,7 @@ public sealed partial class ScenarioSetup(UIContext ui) : UIModule(ui)
             SetupControl.SetPlayerId(indexOfRace, behavior, forced: true);
         }
 
-        UI.TitleWindow.MainWindow.Drawn = false;
+        UI.TitleWindow.MainWindow.IsDrawn = false;
     }
 
     // AoWScenSetup.pas:437
@@ -423,7 +423,7 @@ public sealed partial class ScenarioSetup(UIContext ui) : UIModule(ui)
         ComboBox control = sender;
         int indexOfRace = SetupControl.Settings.IndexOfRace((byte)slot);
         SetupControl.SetPlayerBehavior(indexOfRace, value: (byte)control.Selected);
-        UI.TitleWindow.MainWindow.Drawn = false;
+        UI.TitleWindow.MainWindow.IsDrawn = false;
     }
 
     // AoWScenSetup.pas:444
@@ -786,7 +786,7 @@ public sealed partial class ScenarioSetup(UIContext ui) : UIModule(ui)
 
             string format3 = AbilityRules.Format(setup.UI.Engine.TranslateResourceString(GameText.ScenarioFormat), arguments: [setup.SetupControl.Settings.FileName]);
             setup.ScenarioLabel.Text = format3;
-            setup.UI.TitleWindow.MainWindow.Drawn = false;
+            setup.UI.TitleWindow.MainWindow.IsDrawn = false;
         }
     }
 

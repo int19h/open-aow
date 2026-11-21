@@ -319,7 +319,7 @@ public partial class RelationWindow : ILayoutModule
         Player1Image = new Image(this);
         session.BeginRead(Player1Image);
         Player1Image.Name = "P1I";
-        Player1Image.OnDraw += (sender, surface) => P1IDraw(sender, surface, slot: 0);
+        Player1Image.Drawn += (sender, surface) => P1IDraw(sender, surface, slot: 0);
         Player1Image.Priority = 600;
         Player1Image.WinLeft = 14;
         Player1Image.WinTop = 74;
@@ -349,7 +349,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Player2Image);
         Player2Image.Name = "P2I";
         Player2Image.Tag = 1;
-        Player2Image.OnDraw += (sender, surface) => P1IDraw(sender, surface, slot: 1);
+        Player2Image.Drawn += (sender, surface) => P1IDraw(sender, surface, slot: 1);
         Player2Image.Priority = 600;
         Player2Image.WinLeft = 65;
         Player2Image.WinTop = 74;
@@ -379,7 +379,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Player3Image);
         Player3Image.Name = "P3I";
         Player3Image.Tag = 2;
-        Player3Image.OnDraw += (sender, surface) => P1IDraw(sender, surface, slot: 2);
+        Player3Image.Drawn += (sender, surface) => P1IDraw(sender, surface, slot: 2);
         Player3Image.Priority = 600;
         Player3Image.WinLeft = 116;
         Player3Image.WinTop = 74;
@@ -409,7 +409,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Player4Image);
         Player4Image.Name = "P4I";
         Player4Image.Tag = 3;
-        Player4Image.OnDraw += (sender, surface) => P1IDraw(sender, surface, slot: 3);
+        Player4Image.Drawn += (sender, surface) => P1IDraw(sender, surface, slot: 3);
         Player4Image.Priority = 600;
         Player4Image.WinLeft = 167;
         Player4Image.WinTop = 74;
@@ -439,7 +439,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Player5Image);
         Player5Image.Name = "P5I";
         Player5Image.Tag = 4;
-        Player5Image.OnDraw += (sender, surface) => P1IDraw(sender, surface, slot: 4);
+        Player5Image.Drawn += (sender, surface) => P1IDraw(sender, surface, slot: 4);
         Player5Image.Priority = 600;
         Player5Image.WinLeft = 218;
         Player5Image.WinTop = 74;
@@ -469,7 +469,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Player6Image);
         Player6Image.Name = "P6I";
         Player6Image.Tag = 5;
-        Player6Image.OnDraw += (sender, surface) => P1IDraw(sender, surface, slot: 5);
+        Player6Image.Drawn += (sender, surface) => P1IDraw(sender, surface, slot: 5);
         Player6Image.Priority = 600;
         Player6Image.WinLeft = 269;
         Player6Image.WinTop = 74;
@@ -499,7 +499,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Player7Image);
         Player7Image.Name = "P7I";
         Player7Image.Tag = 6;
-        Player7Image.OnDraw += (sender, surface) => P1IDraw(sender, surface, slot: 6);
+        Player7Image.Drawn += (sender, surface) => P1IDraw(sender, surface, slot: 6);
         Player7Image.Priority = 600;
         Player7Image.WinLeft = 320;
         Player7Image.WinTop = 74;
@@ -529,7 +529,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Player8Image);
         Player8Image.Name = "P8I";
         Player8Image.Tag = 7;
-        Player8Image.OnDraw += (sender, surface) => P1IDraw(sender, surface, slot: 7);
+        Player8Image.Drawn += (sender, surface) => P1IDraw(sender, surface, slot: 7);
         Player8Image.Priority = 600;
         Player8Image.WinLeft = 371;
         Player8Image.WinTop = 74;
@@ -559,7 +559,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Player9Image);
         Player9Image.Name = "P9I";
         Player9Image.Tag = 8;
-        Player9Image.OnDraw += (sender, surface) => P1IDraw(sender, surface, slot: 8);
+        Player9Image.Drawn += (sender, surface) => P1IDraw(sender, surface, slot: 8);
         Player9Image.Priority = 600;
         Player9Image.WinLeft = 422;
         Player9Image.WinTop = 74;
@@ -589,7 +589,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Player10Image);
         Player10Image.Name = "P10I";
         Player10Image.Tag = 9;
-        Player10Image.OnDraw += (sender, surface) => P1IDraw(sender, surface, slot: 9);
+        Player10Image.Drawn += (sender, surface) => P1IDraw(sender, surface, slot: 9);
         Player10Image.Priority = 600;
         Player10Image.WinLeft = 473;
         Player10Image.WinTop = 74;
@@ -619,7 +619,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Player11Image);
         Player11Image.Name = "P11I";
         Player11Image.Tag = 10;
-        Player11Image.OnDraw += (sender, surface) => P1IDraw(sender, surface, slot: 10);
+        Player11Image.Drawn += (sender, surface) => P1IDraw(sender, surface, slot: 10);
         Player11Image.Priority = 600;
         Player11Image.WinLeft = 524;
         Player11Image.WinTop = 74;
@@ -649,7 +649,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Player12Image);
         Player12Image.Name = "P12I";
         Player12Image.Tag = 11;
-        Player12Image.OnDraw += (sender, surface) => P1IDraw(sender, surface, slot: 11);
+        Player12Image.Drawn += (sender, surface) => P1IDraw(sender, surface, slot: 11);
         Player12Image.Priority = 600;
         Player12Image.WinLeft = 575;
         Player12Image.WinTop = 74;
@@ -679,7 +679,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Race1Image);
         Race1Image.Name = "R1I";
         Race1Image.Tag = 20;
-        Race1Image.OnDraw += (sender, surface) => R1IDraw(sender, surface, slot: 20);
+        Race1Image.Drawn += (sender, surface) => R1IDraw(sender, surface, slot: 20);
         Race1Image.Priority = 500;
         Race1Image.WinLeft = 14;
         Race1Image.WinTop = 126;
@@ -709,7 +709,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Race2Image);
         Race2Image.Name = "R2I";
         Race2Image.Tag = 21;
-        Race2Image.OnDraw += (sender, surface) => R1IDraw(sender, surface, slot: 21);
+        Race2Image.Drawn += (sender, surface) => R1IDraw(sender, surface, slot: 21);
         Race2Image.Priority = 500;
         Race2Image.WinLeft = 65;
         Race2Image.WinTop = 126;
@@ -739,7 +739,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Race3Image);
         Race3Image.Name = "R3I";
         Race3Image.Tag = 22;
-        Race3Image.OnDraw += (sender, surface) => R1IDraw(sender, surface, slot: 22);
+        Race3Image.Drawn += (sender, surface) => R1IDraw(sender, surface, slot: 22);
         Race3Image.Priority = 500;
         Race3Image.WinLeft = 116;
         Race3Image.WinTop = 126;
@@ -769,7 +769,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Race4Image);
         Race4Image.Name = "R4I";
         Race4Image.Tag = 23;
-        Race4Image.OnDraw += (sender, surface) => R1IDraw(sender, surface, slot: 23);
+        Race4Image.Drawn += (sender, surface) => R1IDraw(sender, surface, slot: 23);
         Race4Image.Priority = 500;
         Race4Image.WinLeft = 167;
         Race4Image.WinTop = 126;
@@ -799,7 +799,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Race5Image);
         Race5Image.Name = "R5I";
         Race5Image.Tag = 24;
-        Race5Image.OnDraw += (sender, surface) => R1IDraw(sender, surface, slot: 24);
+        Race5Image.Drawn += (sender, surface) => R1IDraw(sender, surface, slot: 24);
         Race5Image.Priority = 500;
         Race5Image.WinLeft = 218;
         Race5Image.WinTop = 126;
@@ -829,7 +829,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Race6Image);
         Race6Image.Name = "R6I";
         Race6Image.Tag = 25;
-        Race6Image.OnDraw += (sender, surface) => R1IDraw(sender, surface, slot: 25);
+        Race6Image.Drawn += (sender, surface) => R1IDraw(sender, surface, slot: 25);
         Race6Image.Priority = 500;
         Race6Image.WinLeft = 269;
         Race6Image.WinTop = 126;
@@ -859,7 +859,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Race7Image);
         Race7Image.Name = "R7I";
         Race7Image.Tag = 26;
-        Race7Image.OnDraw += (sender, surface) => R1IDraw(sender, surface, slot: 26);
+        Race7Image.Drawn += (sender, surface) => R1IDraw(sender, surface, slot: 26);
         Race7Image.Priority = 500;
         Race7Image.WinLeft = 320;
         Race7Image.WinTop = 126;
@@ -889,7 +889,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Race8Image);
         Race8Image.Name = "R8I";
         Race8Image.Tag = 27;
-        Race8Image.OnDraw += (sender, surface) => R1IDraw(sender, surface, slot: 27);
+        Race8Image.Drawn += (sender, surface) => R1IDraw(sender, surface, slot: 27);
         Race8Image.Priority = 500;
         Race8Image.WinLeft = 371;
         Race8Image.WinTop = 126;
@@ -919,7 +919,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Race9Image);
         Race9Image.Name = "R9I";
         Race9Image.Tag = 28;
-        Race9Image.OnDraw += (sender, surface) => R1IDraw(sender, surface, slot: 28);
+        Race9Image.Drawn += (sender, surface) => R1IDraw(sender, surface, slot: 28);
         Race9Image.Priority = 500;
         Race9Image.WinLeft = 422;
         Race9Image.WinTop = 126;
@@ -949,7 +949,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Race10Image);
         Race10Image.Name = "R10I";
         Race10Image.Tag = 29;
-        Race10Image.OnDraw += (sender, surface) => R1IDraw(sender, surface, slot: 29);
+        Race10Image.Drawn += (sender, surface) => R1IDraw(sender, surface, slot: 29);
         Race10Image.Priority = 500;
         Race10Image.WinLeft = 473;
         Race10Image.WinTop = 126;
@@ -979,7 +979,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Race11Image);
         Race11Image.Name = "R11I";
         Race11Image.Tag = 30;
-        Race11Image.OnDraw += (sender, surface) => R1IDraw(sender, surface, slot: 30);
+        Race11Image.Drawn += (sender, surface) => R1IDraw(sender, surface, slot: 30);
         Race11Image.Priority = 500;
         Race11Image.WinLeft = 524;
         Race11Image.WinTop = 126;
@@ -1009,7 +1009,7 @@ public partial class RelationWindow : ILayoutModule
         session.BeginRead(Race12Image);
         Race12Image.Name = "R12I";
         Race12Image.Tag = 31;
-        Race12Image.OnDraw += (sender, surface) => R1IDraw(sender, surface, slot: 31);
+        Race12Image.Drawn += (sender, surface) => R1IDraw(sender, surface, slot: 31);
         Race12Image.Priority = 500;
         Race12Image.WinLeft = 575;
         Race12Image.WinTop = 126;
@@ -2513,7 +2513,7 @@ public partial class RelationWindow : ILayoutModule
         PlayerGlow = new Image(this);
         session.BeginRead(PlayerGlow);
         PlayerGlow.Name = "PlyrGlow";
-        PlayerGlow.OnDraw += (_, surface) => PlyrGlowDraw(surface);
+        PlayerGlow.Drawn += (_, surface) => PlyrGlowDraw(surface);
         PlayerGlow.Updated += _ => PlyrGlowUpdate();
         PlayerGlow.Priority = 1000;
         PlayerGlow.WinLeft = 14;

@@ -552,7 +552,7 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
     {
         WorldPanel.Visible = false;
         int picks = Campaign.TransferSettings.Leader.SpherePicksMax;
-        LeaderSetupControl control = new(null) { Holder = UI.Engine };
+        LeaderSetupControl control = new(null, done: SpheresDone) { Holder = UI.Engine };
         WorldMapCampaign campaign = Campaign;
         control.Leader.Assign(campaign.TransferSettings.Leader, UI.Engine);
         control.Leader.SetSpherePicksMax((byte)(picks + 2));
@@ -565,7 +565,6 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
         UI.LeaderSetupWindow.SetFixedSpheres(picks);
         string format = AbilityRules.Format(UI.Engine.TranslateResourceString(s_assignNewSpheresFormat), arguments: [2.ToString(CultureInfo.InvariantCulture)]);
         UI.LeaderSetupWindow.Phase3Header.Text = format;
-        control.SetDoneHandler(SpheresDone);
         _ = control.Release();
         UI.LeaderSetupWindow.LeaderPanel.ImageLibraryTexture = UI.Graphics.WorldMap;
         UI.LeaderSetupWindow.LeaderPanel.ImageLibraryIndexTexture = 0;
@@ -659,7 +658,7 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
         button.CaptureInput = false;
         button.Visible = false;
 
-        Book.Drawn = false;
+        Book.IsDrawn = false;
         _ = (Book.BackSurface?.Clear(Book.MaskColor));
 
         _ = AudioPlayback.PlaySample("Sfx\\Int\\Pagef1.wav");
@@ -684,11 +683,11 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
     {
         if (WorldPanel.Visible && !Book.Visible)
         {
-            Path1Image.Drawn = false;
-            Path2Image.Drawn = false;
-            Path3Image.Drawn = false;
-            PlayerPawnImage.Drawn = false;
-            EnemyPawnImage.Drawn = false;
+            Path1Image.IsDrawn = false;
+            Path2Image.IsDrawn = false;
+            Path3Image.IsDrawn = false;
+            PlayerPawnImage.IsDrawn = false;
+            EnemyPawnImage.IsDrawn = false;
             _pathDelay -= 1;
             if (_pathDelay < 1)
             {
@@ -1123,7 +1122,7 @@ public sealed partial class WorldMap(UIContext ui) : UIModule(ui)
             _starStep = 1;
         }
 
-        StarImage.Drawn = false;
+        StarImage.IsDrawn = false;
     }
 
     // AoWWorldMap.pas:800

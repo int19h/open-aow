@@ -208,7 +208,7 @@ public sealed partial class TaskBar(UIContext ui) : UIModule(ui)
         }
 
         CurrentPlayerImage.CurrentImage = _indicatorFrame + 45;
-        PlayerIndicatorFrame.Drawn = false;
+        PlayerIndicatorFrame.IsDrawn = false;
     }
 
     // AoWTBWindow.pas:231
@@ -273,7 +273,7 @@ public sealed partial class TaskBar(UIContext ui) : UIModule(ui)
         }
 
         CombatCurrentPlayerImage.CurrentImage = _indicatorFrame + 45;
-        CombatPlayerIndicatorFrame.Drawn = false;
+        CombatPlayerIndicatorFrame.IsDrawn = false;
     }
 
     // AoWTBWindow.pas:273
@@ -426,7 +426,7 @@ public sealed partial class TaskBar(UIContext ui) : UIModule(ui)
                 case 61:
                 case 91:
                 case 121:
-                    sender.Drawn = false;
+                    sender.IsDrawn = false;
                     sender.ImageLibraryIndexUp = 14;
                     break;
                 case 16:
@@ -434,7 +434,7 @@ public sealed partial class TaskBar(UIContext ui) : UIModule(ui)
                 case 76:
                 case 106:
                 case 136:
-                    sender.Drawn = false;
+                    sender.IsDrawn = false;
                     sender.ImageLibraryIndexUp = 20;
                     break;
                 default:

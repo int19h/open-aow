@@ -215,7 +215,7 @@ public partial class Troop : AbilityOwner, IOwned<TroopOwner>, IOwnedSink<TroopO
 
         if (UnitHolder is { } holder)
         {
-            holder.Changed();
+            holder.NotifyChildChanged(this);
         }
     }
 

@@ -682,7 +682,7 @@ public sealed partial class DisjunctionDialog : ILayoutModule
         MapView = new UserDrawBox(this);
         session.BeginRead(MapView);
         MapView.Name = "MapView";
-        MapView.OnDraw += MapViewDraw;
+        MapView.Drawn += MapViewDraw;
         MapView.Updated += _ => MapViewUpdate();
         MapView.Priority = 50;
         MapView.WinLeft = 31;

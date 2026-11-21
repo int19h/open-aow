@@ -157,8 +157,8 @@ public sealed partial class ArmyEventDialog(UIContext ui) : UIModule(ui)
     // AoWArmyEventDlg.pas:193
     public void UnitPnlUpdate()
     {
-        UnitPanel.Drawn = false;
-        ArmyEventWindow.Drawn = false;
+        UnitPanel.IsDrawn = false;
+        ArmyEventWindow.IsDrawn = false;
     }
 
     // AoWArmyEventDlg.pas:198

@@ -31,9 +31,9 @@ public partial class UIComponent(Rtl.Component? owner) : Rtl.Component(owner)
     public virtual int Cursor { get; set; }
 
     [Published]
-    public event AoWOnDrawEvent<UIComponent>? OnDraw;
+    public event AoWOnDrawEvent<UIComponent>? Drawn;
 
-    protected void RaiseDraw(UIComponent sender, LockedSurface surfDesc) => OnDraw?.Invoke(sender, surfDesc);
+    protected void RaiseDraw(UIComponent sender, LockedSurface surfDesc) => Drawn?.Invoke(sender, surfDesc);
 
     [Published]
     public event AoWOnDrawEvent<UIComponent>? PreDraw;
@@ -102,7 +102,7 @@ public partial class UIComponent(Rtl.Component? owner) : Rtl.Component(owner)
 
     private int _priority;
 
-    public bool Drawn { get; set; }
+    public bool IsDrawn { get; set; }
     public bool FirstDraw { get; set; } = true;
     public bool MouseIn { get; protected set; }
     public int ToolTipCount { get; protected set; }
@@ -189,7 +189,7 @@ public partial class UIComponent(Rtl.Component? owner) : Rtl.Component(owner)
     public virtual void SetSize()
     {
         Sized = true;
-        Drawn = false;
+        IsDrawn = false;
         BlitCount = 0;
         DrawCount = 0;
         for (int i = 0, last = Children.Count - 1; i <= last; i++)
@@ -905,7 +905,7 @@ public partial class UIComponent(Rtl.Component? owner) : Rtl.Component(owner)
             }
             else
             {
-                Drawn = false;
+                IsDrawn = false;
             }
         }
     }
@@ -914,14 +914,14 @@ public partial class UIComponent(Rtl.Component? owner) : Rtl.Component(owner)
     public virtual void SetWinLeft(int value)
     {
         _winLeft = value;
-        Drawn = false;
+        IsDrawn = false;
     }
 
     // AoWComp.pas:586
     public virtual void SetWinTop(int value)
     {
         _winTop = value;
-        Drawn = false;
+        IsDrawn = false;
     }
 
     // AoWComp.pas:592
@@ -951,7 +951,7 @@ public partial class UIComponent(Rtl.Component? owner) : Rtl.Component(owner)
         if (value != _visible)
         {
             _visible = value;
-            Drawn = false;
+            IsDrawn = false;
             if (_visible)
             {
                 Hidden = false;
@@ -973,14 +973,14 @@ public partial class UIComponent(Rtl.Component? owner) : Rtl.Component(owner)
     public virtual void SetColor(int value)
     {
         Color = value;
-        Drawn = false;
+        IsDrawn = false;
     }
 
     // AoWComp.pas:635
     public virtual void SetSelectedColor(int value)
     {
         SelectedColor = value;
-        Drawn = false;
+        IsDrawn = false;
     }
 
     // AoWComp.pas:641

@@ -186,7 +186,7 @@ public sealed class RelationBandTests
         Assert.True(window.Race12Image.Checked);
         Assert.Equal(0, window.ShowCount);
         Assert.False(window.RelationPanel.Aligned);
-        Assert.False(window.MainWindow.Drawn);
+        Assert.False(window.MainWindow.IsDrawn);
 
         window.ShowRelations(-23);
         Assert.False(window.Player1CheckBox.Checked);

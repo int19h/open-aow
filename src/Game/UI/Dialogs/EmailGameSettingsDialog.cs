@@ -154,7 +154,7 @@ public sealed partial class EmailGameSettingsDialog(UIContext ui) : UIModule(ui)
         int count = EmailAddresses.Count;
         PlayerScrollBar.Max = count - 1;
         PlayerScrollBar.NumberVisible = 6;
-        PlayerPanel.Drawn = false;
+        PlayerPanel.IsDrawn = false;
         UpdatePlayer(PlayerScrollBar.Position, nameLabel: PlayerLabel1, emailEdit: EmailAddressEdit1);
         UpdatePlayer(PlayerScrollBar.Position + 1, nameLabel: PlayerLabel2, emailEdit: EmailAddressEdit2);
         UpdatePlayer(PlayerScrollBar.Position + 2, nameLabel: PlayerLabel3, emailEdit: EmailAddressEdit3);

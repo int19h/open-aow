@@ -89,7 +89,7 @@ public sealed class Player : EngineObject, IOwned<PlayerCollection>, IOwnedSink<
         PlayerIndex = -1;
         Participating = false;
         EventLogbook = new EventLogbook(null) { Holder = CreationHolder() };
-        EventLogbook.Changed += LogbookChangedEvent;
+        EventLogbook.Changed += (sender, _) => LogbookChangedEvent(sender);
         _logbookChangedEventsStore = new();
         DiplomaticRelations = new PlayerDiplomaticRelations(null)
         {

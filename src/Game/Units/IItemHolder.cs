@@ -11,6 +11,4 @@ internal interface IItemHolder
     ItemCollection Items { get; }
 
     MapCoordinate GetLocation();
-
-    void Changed();
 }

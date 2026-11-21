@@ -26,7 +26,7 @@ public partial class ScrollBar
             }
         }
 
-        Drawn = false;
+        IsDrawn = false;
         RaiseChange(this);
     }
 

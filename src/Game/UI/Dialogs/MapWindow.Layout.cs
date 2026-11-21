@@ -50,7 +50,7 @@ public sealed partial class MapWindow : ILayoutModule
         MainWindow.Cursor = 0;
         MainWindow.DoubleBuffered = false;
         MainWindow.MaskColor = 0;
-        MainWindow.PreDrawSurface += (_, surface, left, top) => MapWindowPreDrawSurface(surface, left, top);
+        MainWindow.Blitting += (_, surface, left, top) => MapWindowPreDrawSurface(surface, left, top);
         MainWindow.FreeSurfaceOnHide = false;
         MainWindow.ImageLibraryIndexFrame = 8;
         MainWindow.ImageLibraryIndexTexture = 0;

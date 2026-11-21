@@ -74,7 +74,7 @@ public partial class CustomDisplay
             ResizeBackSurfaces(screen.Width, screen.Height);
         }
 
-        Resized?.Invoke(this);
+        Resized?.Invoke(this, e: EventArgs.Empty);
     }
 
     public virtual void ShowError(string message) => LegacyApplication.ShowMessage(message);
@@ -220,7 +220,7 @@ public partial class CustomDisplay
                 }
             }
 
-            DisplayControllerActivated?.Invoke(this, ActiveDisplayController);
+            DisplayControllerActivated?.Invoke(this, e: new DisplayControllerEventArgs(ActiveDisplayController));
             return result;
         }
         finally

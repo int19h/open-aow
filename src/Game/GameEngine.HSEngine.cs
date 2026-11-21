@@ -524,28 +524,4 @@ public partial class GameEngine : OwningNode
 
     public string HexSpriteSetSearchPath { get; } = "";
     public string HssFileName { get; private set; } = "";
-
-    public event NotifyEvent<GameMap> OnHsmLoaded
-    {
-        add => OnHsmLoadedStore.Add(value);
-        remove => OnHsmLoadedStore.Remove(value);
-    }
-
-    public event NotifyEvent<GameMap> OnHsmClose
-    {
-        add => OnHsmCloseStore.Add(value);
-        remove => OnHsmCloseStore.Remove(value);
-    }
-
-    public event NotifyEvent<GameEngine> OnHssLoaded
-    {
-        add => _onHssLoadedStore.Add(value);
-        remove => _onHssLoadedStore.Remove(value);
-    }
-
-    public event NotifyEvent<GameEngine> OnHssClose
-    {
-        add => _onHssCloseStore.Add(value);
-        remove => _onHssCloseStore.Remove(value);
-    }
 }

@@ -20,13 +20,13 @@ public class WindowControl(Component? owner) : UIComponent(owner)
     [Published]
     public bool Modal { get; set; }
 
-    public event AoWOnDrawSurface<WindowControl>? SurfaceDrawn;
+    public event AoWOnDrawSurface<WindowControl>? Blitted;
 
-    protected void RaiseDrawSurface(WindowControl sender, Surface? surface, int left, int top) => SurfaceDrawn?.Invoke(sender, surface, left, top);
+    protected void RaiseBlitted(WindowControl sender, Surface? surface, int left, int top) => Blitted?.Invoke(sender, surface, left, top);
 
-    public event AoWOnDrawSurface<WindowControl>? PreDrawSurface;
+    public event AoWOnDrawSurface<WindowControl>? Blitting;
 
-    protected void RaisePreDrawSurface(WindowControl sender, Surface? surface, int left, int top) => PreDrawSurface?.Invoke(sender, surface, left, top);
+    protected void RaiseBlitting(WindowControl sender, Surface? surface, int left, int top) => Blitting?.Invoke(sender, surface, left, top);
 
     public byte Dragging { get; protected set; }
     public int DragX { get; protected set; }
@@ -60,7 +60,7 @@ public class WindowControl(Component? owner) : UIComponent(owner)
         set
         {
             field = value;
-            Drawn = false;
+            IsDrawn = false;
         }
     }
 
@@ -229,7 +229,7 @@ public class WindowControl(Component? owner) : UIComponent(owner)
     // AoWWinControl.pas:208
     public virtual void Blit(Surface? surface)
     {
-        PreDrawSurface?.Invoke(this, surface, WinLeft, WinTop);
+        Blitting?.Invoke(this, surface, WinLeft, WinTop);
 
         Rect r = new(0, 0, WinWidth, WinHeight);
         if (!Masked)
@@ -242,7 +242,7 @@ public class WindowControl(Component? owner) : UIComponent(owner)
             _ = BackSurface.BlitAreaColorKeyClipped(surface, area: r, WinLeft, WinTop, colorKey: color2PixelInfo);
         }
 
-        SurfaceDrawn?.Invoke(this, surface, WinLeft, WinTop);
+        Blitted?.Invoke(this, surface, WinLeft, WinTop);
     }
 
     // AoWWinControl.pas:142
@@ -258,7 +258,7 @@ public class WindowControl(Component? owner) : UIComponent(owner)
             if (sender.RadioIndex == c.RadioIndex && c != sender && c.Checked)
             {
                 c.Checked = false;
-                c.Drawn = false;
+                c.IsDrawn = false;
                 c.RaiseChange(c);
             }
         }
@@ -341,10 +341,10 @@ public class WindowControl(Component? owner) : UIComponent(owner)
         remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, WindowControl>(this, slot: nameof(PreDraw), value: value);
     }
 
-    public new event AoWOnDrawEvent<WindowControl> OnDraw
+    public new event AoWOnDrawEvent<WindowControl> Drawn
     {
-        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, WindowControl>(this, slot: nameof(OnDraw), value: value);
-        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, WindowControl>(this, slot: nameof(OnDraw), value: value);
+        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, WindowControl>(this, slot: nameof(Drawn), value: value);
+        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, WindowControl>(this, slot: nameof(Drawn), value: value);
     }
 
     public new event NotifyEvent<WindowControl> Updated

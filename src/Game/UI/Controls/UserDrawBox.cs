@@ -118,10 +118,10 @@ public sealed class UserDrawBox(Component owner) : Control(owner)
         remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, UserDrawBox>(this, slot: nameof(PreDraw), value: value);
     }
 
-    public new event AoWOnDrawEvent<UserDrawBox> OnDraw
+    public new event AoWOnDrawEvent<UserDrawBox> Drawn
     {
-        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, UserDrawBox>(this, slot: nameof(OnDraw), value: value);
-        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, UserDrawBox>(this, slot: nameof(OnDraw), value: value);
+        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, UserDrawBox>(this, slot: nameof(Drawn), value: value);
+        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, UserDrawBox>(this, slot: nameof(Drawn), value: value);
     }
 
     public new event NotifyEvent<UserDrawBox> Updated

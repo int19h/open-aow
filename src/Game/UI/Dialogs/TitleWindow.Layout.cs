@@ -43,7 +43,7 @@ public sealed partial class TitleWindow : ILayoutModule
         MainWindow.Cursor = 0;
         MainWindow.DoubleBuffered = true;
         MainWindow.MaskColor = 0;
-        MainWindow.SurfaceDrawn += (_, surface, left, top) => TitleWinDrawSurface(surface, left, top);
+        MainWindow.Blitted += (_, surface, left, top) => TitleWinDrawSurface(surface, left, top);
         MainWindow.FreeSurfaceOnHide = true;
         MainWindow.ImageLibraryIndexFrame = 0;
         MainWindow.ImageLibraryIndexTexture = 18;

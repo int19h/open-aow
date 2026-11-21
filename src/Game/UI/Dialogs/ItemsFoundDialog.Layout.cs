@@ -486,7 +486,7 @@ public sealed partial class ItemsFoundDialog : ILayoutModule
         gnd3.Name = "Gnd3";
         gnd3.Tag = 2;
         gnd3.MouseDown += (sender, button, shift, x, y) => Gnd3MouseDown(sender, button, shift, x, y, slot: 2);
-        gnd3.OnDraw += (sender, surface) => Gnd3Draw(sender, lockedSurface: surface, slot: 2);
+        gnd3.Drawn += (sender, surface) => Gnd3Draw(sender, lockedSurface: surface, slot: 2);
         gnd3.Priority = 1000;
         gnd3.WinLeft = 172;
         gnd3.WinTop = 123;
@@ -520,7 +520,7 @@ public sealed partial class ItemsFoundDialog : ILayoutModule
         gnd2.Name = "Gnd2";
         gnd2.Tag = 1;
         gnd2.MouseDown += (sender, button, shift, x, y) => Gnd3MouseDown(sender, button, shift, x, y, slot: 1);
-        gnd2.OnDraw += (sender, surface) => Gnd3Draw(sender, lockedSurface: surface, slot: 1);
+        gnd2.Drawn += (sender, surface) => Gnd3Draw(sender, lockedSurface: surface, slot: 1);
         gnd2.Priority = 1000;
         gnd2.WinLeft = 124;
         gnd2.WinTop = 123;
@@ -553,7 +553,7 @@ public sealed partial class ItemsFoundDialog : ILayoutModule
         session.BeginRead(gnd1);
         gnd1.Name = "Gnd1";
         gnd1.MouseDown += (sender, button, shift, x, y) => Gnd3MouseDown(sender, button, shift, x, y, slot: 0);
-        gnd1.OnDraw += (sender, surface) => Gnd3Draw(sender, lockedSurface: surface, slot: 0);
+        gnd1.Drawn += (sender, surface) => Gnd3Draw(sender, lockedSurface: surface, slot: 0);
         gnd1.Priority = 1000;
         gnd1.WinLeft = 80;
         gnd1.WinTop = 123;
@@ -587,7 +587,7 @@ public sealed partial class ItemsFoundDialog : ILayoutModule
         gnd4.Name = "Gnd4";
         gnd4.Tag = 3;
         gnd4.MouseDown += (sender, button, shift, x, y) => Gnd3MouseDown(sender, button, shift, x, y, slot: 3);
-        gnd4.OnDraw += (sender, surface) => Gnd3Draw(sender, lockedSurface: surface, slot: 3);
+        gnd4.Drawn += (sender, surface) => Gnd3Draw(sender, lockedSurface: surface, slot: 3);
         gnd4.Priority = 1000;
         gnd4.WinLeft = 221;
         gnd4.WinTop = 123;
@@ -621,7 +621,7 @@ public sealed partial class ItemsFoundDialog : ILayoutModule
         gnd5.Name = "Gnd5";
         gnd5.Tag = 4;
         gnd5.MouseDown += (sender, button, shift, x, y) => Gnd3MouseDown(sender, button, shift, x, y, slot: 4);
-        gnd5.OnDraw += (sender, surface) => Gnd3Draw(sender, lockedSurface: surface, slot: 4);
+        gnd5.Drawn += (sender, surface) => Gnd3Draw(sender, lockedSurface: surface, slot: 4);
         gnd5.Priority = 1000;
         gnd5.WinLeft = 265;
         gnd5.WinTop = 123;

@@ -148,7 +148,7 @@ public sealed partial class SetupEvents(UIContext ui) : UIModule(ui)
     {
         if (UI.ScenarioSetup.ScenarioSetupPanel.Visible)
         {
-            UI.ScenarioSetup.PingList.Drawn = false;
+            UI.ScenarioSetup.PingList.IsDrawn = false;
         }
     }
 

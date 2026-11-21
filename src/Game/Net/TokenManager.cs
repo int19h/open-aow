@@ -15,10 +15,10 @@ public sealed class TokenManager : IDisposable
         TokenPackageDistributor = CreateTokenPackageDistributor();
     }
 
-    private readonly List<TokenControl?> _tokenControls;
-    private Action<object, string> _message;
+    public TokenManager(GameEngine? owner, Action<object, string>? message) : this(owner) => _message = message;
 
-    internal void SetMessageHandler(Action<object, string> handler) => _message = handler;
+    private readonly List<TokenControl?> _tokenControls;
+    private readonly Action<object, string> _message;
 
     // NetworkE.pas:1642
     public TokenExecutor CreateTokenExecutor() => new(this);

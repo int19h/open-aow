@@ -33,7 +33,7 @@ public sealed partial class Memo : Control
     private int _topItem;
     private bool _scrollSet;
     [Published]
-    public event NotifyEvent<Memo>? DrawItem;
+    public event EventHandler? DrawItem;
     private int _scrollWidth;
     private bool _blink;
     private byte _blinkCount;
@@ -287,10 +287,10 @@ public sealed partial class Memo : Control
                         _topItem = 0;
                     }
 
-                    Drawn = false;
+                    IsDrawn = false;
                     if (NoFrame)
                     {
-                        Window?.Drawn = false;
+                        Window?.IsDrawn = false;
                     }
                 }
             }
@@ -300,10 +300,10 @@ public sealed partial class Memo : Control
                 _blinkCount = (byte)(_blinkCount + 1);
                 if (_blinkCount > BlinkDelay)
                 {
-                    Drawn = false;
+                    IsDrawn = false;
                     if (NoFrame)
                     {
-                        Window?.Drawn = false;
+                        Window?.IsDrawn = false;
                     }
 
                     _blinkCount = 0;
@@ -418,7 +418,7 @@ public sealed partial class Memo : Control
                             _itemRectangle.Bottom = lockedSurface.ClipRectangle.Bottom;
                         }
 
-                        DrawItem?.Invoke(this);
+                        DrawItem?.Invoke(this, e: EventArgs.Empty);
                     }
                 }
 
@@ -775,7 +775,7 @@ public sealed partial class Memo : Control
         if (value != _topItem)
         {
             _topItem = value;
-            Drawn = false;
+            IsDrawn = false;
         }
     }
 
@@ -887,10 +887,10 @@ public sealed partial class Memo : Control
 
         _blink = true;
         _blinkCount = 0;
-        Drawn = false;
+        IsDrawn = false;
         if (NoFrame)
         {
-            Window?.Drawn = false;
+            Window?.IsDrawn = false;
         }
     }
 
@@ -976,10 +976,10 @@ public sealed partial class Memo : Control
         remove => ((UIComponent)this).PreDraw -= EventSlot.Remove<UIComponent, Memo>(this, slot: nameof(PreDraw), value: value);
     }
 
-    public new event AoWOnDrawEvent<Memo> OnDraw
+    public new event AoWOnDrawEvent<Memo> Drawn
     {
-        add => ((UIComponent)this).OnDraw += EventSlot.Add<UIComponent, Memo>(this, slot: nameof(OnDraw), value: value);
-        remove => ((UIComponent)this).OnDraw -= EventSlot.Remove<UIComponent, Memo>(this, slot: nameof(OnDraw), value: value);
+        add => ((UIComponent)this).Drawn += EventSlot.Add<UIComponent, Memo>(this, slot: nameof(Drawn), value: value);
+        remove => ((UIComponent)this).Drawn -= EventSlot.Remove<UIComponent, Memo>(this, slot: nameof(Drawn), value: value);
     }
 
     public new event NotifyEvent<Memo> Updated

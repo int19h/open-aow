@@ -21,6 +21,8 @@ public class AIMoveControlSettings : EngineObject
         Clear();
     }
 
+    public AIMoveControlSettings(CustomNode? owner, NotifyEvent<object>? done) : this(owner) => _done = done;
+
     public int RefCount { get; private set; }
     public sbyte Player { get; private set; }
     public MapCoordinate Source { get; private set; }
@@ -28,9 +30,7 @@ public class AIMoveControlSettings : EngineObject
 
     public MovePointTable MovePointTable { get; private set; }
 
-    private NotifyEvent<object> _done;
-
-    internal void SetDoneHandler(NotifyEvent<object> handler) => _done = handler;
+    private readonly NotifyEvent<object> _done;
 
     internal void Complete(object sender) => _done?.Invoke(sender);
 

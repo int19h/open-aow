@@ -744,11 +744,10 @@ public partial class Structure(CustomNode? owner) : FixedImageLibraryTerrainMapO
             ImageSequenceAnimation animation;
             if (Resource.ImageSequenceList.GetImageSequence(20) is not null)
             {
-                animation = new ImageSequenceAnimation(null) { Holder = CreationHolder() };
+                animation = new ImageSequenceAnimation(null, show: ShowRazeAnimation) { Holder = CreationHolder() };
                 animation.SetImageSequence(Resource.ImageSequenceList.GetImageSequence(20));
                 animation.SetPixelXOffset(animation.PixelXOffset - 16);
                 animation.SetPixelYOffset(animation.PixelYOffset - 16);
-                animation.SetShowHandler(ShowRazeAnimation);
                 sbyte hexLevel3 = HexLevel;
                 sbyte hexY3 = HexY;
                 sbyte hexX = HexX;
