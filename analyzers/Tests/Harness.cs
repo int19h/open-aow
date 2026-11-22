@@ -34,10 +34,10 @@ internal static partial class Harness
     [LibraryImport("kernel32.dll")]
     private static partial uint SetErrorMode(uint mode);
 
-    public static async Task<ImmutableArray<Diagnostic>> DiagnosticsAsync(string source, DiagnosticAnalyzer analyzer, string? namespaces = null)
+    public static async Task<ImmutableArray<Diagnostic>> DiagnosticsAsync(string source, DiagnosticAnalyzer analyzer, string? namespaces = null, string? allowList = null)
     {
         Document document = CreateDocument(source);
-        return await DiagnosticsAsync(document, analyzer: analyzer, namespaces: namespaces);
+        return await DiagnosticsAsync(document, analyzer: analyzer, namespaces: namespaces, allowList: allowList);
     }
 
     public static async Task<string> FixAsync(string source, DiagnosticAnalyzer analyzer, CodeFixProvider fix)
@@ -93,13 +93,16 @@ internal static partial class Harness
         return Assert.Single(actions).EquivalenceKey!;
     }
 
-    private static async Task<ImmutableArray<Diagnostic>> DiagnosticsAsync(Document document, DiagnosticAnalyzer analyzer, string? namespaces)
+    private static async Task<ImmutableArray<Diagnostic>> DiagnosticsAsync(Document document, DiagnosticAnalyzer analyzer, string? namespaces, string? allowList = null)
     {
         Compilation? compilation = await document.Project.GetCompilationAsync();
         Assert.NotNull(compilation);
         Assert.Empty(compilation.GetDiagnostics().Where(diagnostic => diagnostic.Severity == DiagnosticSeverity.Error));
         Dictionary<string, string> options = namespaces is null ? [] : new() { [EnumConversionRules.NamespacesOption] = namespaces };
-        AnalyzerOptions analyzerOptions = new([], optionsProvider: new OptionsProvider(options));
+        ImmutableArray<AdditionalText> files = allowList is null
+            ? []
+            : [new MemoryAdditionalText(EnumConversionRules.AllowListFileName, text: SourceText.From(allowList))];
+        AnalyzerOptions analyzerOptions = new(additionalFiles: files, optionsProvider: new OptionsProvider(options));
         CompilationWithAnalyzers withAnalyzers = compilation.WithAnalyzers([analyzer], options: analyzerOptions);
         ImmutableArray<Diagnostic> diagnostics = await withAnalyzers.GetAnalyzerDiagnosticsAsync();
         return [.. diagnostics.OrderBy(diagnostic => diagnostic.Location.SourceSpan.Start)];
@@ -144,6 +147,13 @@ internal static partial class Harness
         public override AnalyzerConfigOptions GetOptions(SyntaxTree tree) => _options;
 
         public override AnalyzerConfigOptions GetOptions(AdditionalText textFile) => _options;
+    }
+
+    private sealed class MemoryAdditionalText(string path, SourceText text) : AdditionalText
+    {
+        public override string Path => path;
+
+        public override SourceText? GetText(CancellationToken cancellationToken = default) => text;
     }
 
     private sealed class Options(Dictionary<string, string> values) : AnalyzerConfigOptions

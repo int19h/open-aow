@@ -5,8 +5,9 @@ using Microsoft.CodeAnalysis.Diagnostics;
 namespace Aow.Analyzers;
 
 /// <summary>
-/// AOW0002: an integer becomes an enum value only in read and write code (issue 333). The
-/// places that count as read and write code are those of <see cref="EnumConversionRules.Place"/>.
+/// AOW0002: an integer becomes an enum value only in read and write code or in a member the
+/// allow list names (issues 333 and 357). The places that count as read and write code are
+/// those of <see cref="EnumConversionRules.Place"/>.
 /// </summary>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class EnumConversionAnalyzer : DiagnosticAnalyzer
@@ -23,7 +24,7 @@ public sealed class EnumConversionAnalyzer : DiagnosticAnalyzer
         category: "Design",
         defaultSeverity: DiagnosticSeverity.Warning,
         isEnabledByDefault: true,
-        description: "An integer becomes an enum value only where a format is read or written: a stored image type, a member that takes a persister, a stream, a binary reader or a binary writer, a persister, or a namespace that aow_read_write_namespaces names (issue 333).");
+        description: "An integer becomes an enum value only where a format is read or written: a stored image type, a member that takes a persister, a stream, a binary reader or a binary writer, a persister, a namespace that aow_read_write_namespaces names, or a member that EnumCastAllowList.txt names (issues 333 and 357).");
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = [Rule];
 
@@ -37,6 +38,13 @@ public sealed class EnumConversionAnalyzer : DiagnosticAnalyzer
     private static void Analyze(OperationAnalysisContext context)
     {
         if (EnumConversionRules.Classify(context.Operation) is not EnumConversionKind kind)
+        {
+            return;
+        }
+        if (context.Operation.SemanticModel is SemanticModel model
+            && EnumConversionRules.DeclaringMember(model, node: context.Operation.Syntax) is ISymbol member
+            && DocumentationCommentId.CreateDeclarationId(member) is string id
+            && EnumConversionRules.ParseAllowList(context.Options.AdditionalFiles).Contains(id))
         {
             return;
         }

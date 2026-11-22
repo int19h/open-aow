@@ -9,5 +9,7 @@
                       OutputItemType="Analyzer"
                       ReferenceOutputAssembly="false"
                       PrivateAssets="all" />
+    <!-- The allow list of AOW0002 (EnumCastAllowList.txt beside this file). -->
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)EnumCastAllowList.txt" />
   </ItemGroup>
 </Project>

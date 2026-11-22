@@ -30,10 +30,10 @@ public sealed class EnumConversionTests
         }
         """;
 
-    private static async Task<string[]> ReportedAsync(string members, string space = "Game.Logic", string? namespaces = null)
+    private static async Task<string[]> ReportedAsync(string members, string space = "Game.Logic", string? namespaces = null, string? allowList = null)
     {
         string source = Library + "\nnamespace " + space + "\n{\n    using Game;\n    using Aow.Formats.Tree;\n" + members + "\n}\n";
-        ImmutableArray<Diagnostic> diagnostics = await Harness.DiagnosticsAsync(source, analyzer: new EnumConversionAnalyzer(), namespaces: namespaces);
+        ImmutableArray<Diagnostic> diagnostics = await Harness.DiagnosticsAsync(source, analyzer: new EnumConversionAnalyzer(), namespaces: namespaces, allowList: allowList);
         return [.. diagnostics.Select(diagnostic => diagnostic.Properties[EnumConversionAnalyzer.KindProperty]!)];
     }
 
@@ -113,6 +113,36 @@ public sealed class EnumConversionTests
         const string Members = "public static class Codec { public static Terrain Read(byte value) => (Terrain)value; }";
         Assert.Empty(await ReportedAsync(Members, space: "Game.Codecs", namespaces: "Game.Codecs, Game.Other"));
         Assert.Equal(["Cast"], await ReportedAsync(Members, space: "Game.Codecs", namespaces: "Game.Other"));
+    }
+
+    [Fact]
+    public async Task AllowListedMemberPasses()
+    {
+        const string Members = """
+            public static class Rules
+            {
+                public static Terrain Value(int index) => (Terrain)index;
+            }
+            """;
+        Assert.Equal(["Cast"], await ReportedAsync(Members));
+        Assert.Empty(await ReportedAsync(Members, allowList: """
+            # The members that keep a conversion for now.
+            M:Game.Logic.Rules.Value(System.Int32)~Game.Terrain
+
+            """));
+    }
+
+    [Fact]
+    public async Task OtherMembersStillReported()
+    {
+        const string Members = """
+            public static class Rules
+            {
+                public static Terrain Listed(int index) => (Terrain)index;
+                public static Terrain Missing(int index) => (Terrain)index;
+            }
+            """;
+        Assert.Equal(["Cast"], await ReportedAsync(Members, allowList: "M:Game.Logic.Rules.Listed(System.Int32)~Game.Terrain"));
     }
 
     [Fact]

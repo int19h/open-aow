@@ -1,6 +1,9 @@
 using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Operations;
+using Microsoft.CodeAnalysis.Text;
 
 namespace Aow.Analyzers;
 
@@ -61,6 +64,59 @@ public static class EnumConversionRules
 {
     /// <summary>The .editorconfig option that lists the read and write namespaces, separated by commas.</summary>
     public const string NamespacesOption = "aow_read_write_namespaces";
+
+    /// <summary>The name of the allow-list file the analyzer reads from the additional files.</summary>
+    public const string AllowListFileName = "EnumCastAllowList.txt";
+
+    /// <summary>
+    /// The allowed members from the additional files: every documentation id the allow-list file
+    /// names, with blank lines and <c>#</c> comments left out. Every other additional file is out.
+    /// </summary>
+    public static ImmutableHashSet<string> ParseAllowList(ImmutableArray<AdditionalText> files)
+    {
+        foreach (AdditionalText file in files)
+        {
+            if (string.Equals(Path.GetFileName(file.Path), AllowListFileName, comparisonType: StringComparison.OrdinalIgnoreCase)
+                && file.GetText() is SourceText text)
+            {
+                return [.. text.Lines.Select(line => line.ToString().Trim()).Where(line => line.Length > 0 && !line.StartsWith('#'))];
+            }
+        }
+        return [];
+    }
+
+    /// <summary>
+    /// The member a node belongs to, found from syntax: the innermost method, constructor,
+    /// property, field or type around the node. A conversion inside a lambda or a local function
+    /// belongs to the member around it, so the census and the analyzer name the same member.
+    /// </summary>
+    public static ISymbol? DeclaringMember(SemanticModel model, SyntaxNode node)
+        => Anchors(node)
+            .Select(anchor => anchor is BaseFieldDeclarationSyntax fields ? FieldSymbol(model, node, fields) : model.GetDeclaredSymbol(anchor))
+            .FirstOrDefault(symbol => symbol is not null);
+
+    private static IEnumerable<MemberDeclarationSyntax> Anchors(SyntaxNode node)
+    {
+        foreach (MemberDeclarationSyntax anchor in node.Ancestors().OfType<MemberDeclarationSyntax>())
+        {
+            if (anchor is not TypeDeclarationSyntax)
+            {
+                yield return anchor;
+            }
+        }
+        foreach (TypeDeclarationSyntax type in node.Ancestors().OfType<TypeDeclarationSyntax>())
+        {
+            yield return type;
+        }
+    }
+
+    private static ISymbol? FieldSymbol(SemanticModel model, SyntaxNode node, BaseFieldDeclarationSyntax fields)
+    {
+        VariableDeclaratorSyntax? declarator = node.Ancestors().OfType<VariableDeclaratorSyntax>().FirstOrDefault();
+        return declarator is not null && fields.Declaration.Variables.Contains(declarator)
+            ? model.GetDeclaredSymbol(declarator)
+            : fields.Declaration.Variables.Count == 1 ? model.GetDeclaredSymbol(fields) : null;
+    }
 
     private static readonly ImmutableHashSet<string> s_storedAttributes = ["StoredLayoutAttribute", "StoredRecordAttribute"];
 

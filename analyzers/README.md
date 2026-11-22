@@ -7,7 +7,7 @@ tests, which run with the product's `dotnet test OpenAow.slnx`.
 | Id | Rule | Severity | Fix |
 | --- | --- | --- | --- |
 | AOW0001 | Named arguments (issue 325) | warning | names the arguments of the call |
-| AOW0002 | Integer-to-enum conversions only in read and write code (issue 333) | suggestion | a constant cast becomes the enum member of that value |
+| AOW0002 | Integer-to-enum conversions only in read and write code (issues 333 and 357) | warning | a constant cast becomes the enum member of that value |
 
 ## Where the analyzers live and how builds load them
 
@@ -116,8 +116,8 @@ its place, which C# 7.2 and later accept.
 
 ## AOW0002: integer-to-enum conversions
 
-An integer becomes an enum value only in read and write code (issue 333). The analyzer reports
-these conversions elsewhere:
+An integer becomes an enum value only in read and write code or in a member the allow list
+names (issues 333 and 357). The analyzer reports these conversions elsewhere:
 
 - a cast of an integer (`(TerrainType)index`), and of a constant (`(TerrainType)6`), apart from
   the implicit conversion of constant zero,
@@ -143,8 +143,16 @@ types and namespaces:
 
 Tests are opted out in .editorconfig: a test builds enum values from numbers on purpose.
 
-The rule is at suggestion because game logic holds conversions today (the census of issue 325
-lists them in the report). It raises to warning in .editorconfig once that work has removed them,
-or once the sites that stay carry a `[SuppressMessage]` with the reason. The fix replaces a cast of
-a constant with the one member of that value. A value that no member or several members have keeps
-its cast.
+The allow list is `EnumCastAllowList.txt` beside the analyzer project. The product build passes
+it to the analyzer as an additional file (see `Aow.Analyzers.props`). Each line names one member
+that keeps a conversion, as a documentation id
+(`M:Aow.Game.Units.Army.GetPartyMoves(System.Int32)~Aow.Game.World.Movement.MoveTypes`),
+with blank lines and `#` comments left out. The census of issue 357 lists the members the file
+names today: the game-logic conversions the enum work has not removed yet, one member per line.
+A new kept conversion adds its member to the file. A removed conversion deletes its line with
+the conversion.
+
+The rule is at warning, so a new conversion outside read and write code fails the build until
+its member enters the allow list or the conversion goes. The fix replaces a cast of a constant
+with the one member of that value. A value that no member or several members have keeps its
+cast.

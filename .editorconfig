@@ -342,12 +342,12 @@ csharp_style_allow_blank_line_after_token_in_arrow_expression_clause_experimenta
 dotnet_diagnostic.IDE2006.severity = warning
 
 # The OpenAoW analyzers (analyzers/README.md). AOW0001 names arguments (issue 325).
-# AOW0002 keeps integer-to-enum conversions in read and write code (issue 333). It has
-# remaining sites in game logic and raises to warning when the enum work of issue 333 has
-# removed them. aow_read_write_namespaces names the namespaces, with the ones inside them, that
-# are read and write code as a whole: the format codecs and the SDL host's native records.
+# AOW0002 keeps integer-to-enum conversions in read and write code (issues 333 and 357).
+# aow_read_write_namespaces names the namespaces, with the ones inside them, that are read
+# and write code as a whole: the format codecs and the SDL host's native records. The allow
+# list (analyzers/EnumCastAllowList.txt) names the members that keep a conversion for now.
 dotnet_diagnostic.AOW0001.severity = warning
-dotnet_diagnostic.AOW0002.severity = suggestion
+dotnet_diagnostic.AOW0002.severity = warning
 aow_read_write_namespaces = Aow.Formats, Aow.Platform
 
 # Exclusions. Severity none. The reason for each one is in style1-status.md, as
